@@ -682,7 +682,7 @@ function App() {
             ? {
                 ...current,
                 message: config.available
-                  ? `DeepSeek V4 模型 ${config.model} 已配置；输入 UID 后会抓取发言、抽取中文关键词并写入本地词典。`
+                  ? `DeepSeek V4 模型 ${config.model}（${config.reasoningEffort || 'medium'}）已配置；输入 UID 后会抓取发言、抽取中文关键词并写入本地词典。`
                   : '未检测到 DEEPSEEK_API_KEY；输入 UID 后仍会用本地规则提取关键词并写入本地词典。',
               }
             : current,
@@ -743,7 +743,9 @@ function App() {
       const dynamicCount = data.dynamics?.length ?? 0;
       const postCount = data.authoredPosts?.length ?? 0;
       let learnedRuntimeLexicon = runtimeLexicon;
-      let learnedNote = deepSeekConfig?.available ? `DeepSeek V4 模型 ${deepSeekConfig.model} 未发现新关键词。` : 'DeepSeek 未配置，本地规则未发现新词。';
+      let learnedNote = deepSeekConfig?.available
+        ? `DeepSeek V4 模型 ${deepSeekConfig.model}（${deepSeekConfig.reasoningEffort || 'medium'}）未发现新关键词。`
+        : 'DeepSeek 未配置，本地规则未发现新词。';
       if (nextCommentText.trim()) {
         setFetchState({ status: 'loading', message: '正在用 DeepSeek V4 提取中文关键词并写入本地词典...' });
         try {
@@ -761,7 +763,7 @@ function App() {
             const nextCustomLexicon = mergeDictionaryFamilies(customLexicon, trainData.dictionary?.families || {});
             setCustomLexicon(nextCustomLexicon);
             learnedRuntimeLexicon = buildRuntimeLexicon(nextCustomLexicon);
-            learnedNote = `${trainData.available ? `DeepSeek V4 ${trainData.model}` : '本地规则'}学习 ${trainData.entries.length} 个中文关键词${trainData.usedFallback ? '（使用规则兜底）' : ''}。`;
+            learnedNote = `${trainData.available ? `DeepSeek V4 ${trainData.model}（${trainData.reasoningEffort || 'medium'}）` : '本地规则'}学习 ${trainData.entries.length} 个中文关键词${trainData.usedFallback ? '（使用规则兜底）' : ''}。`;
           } else {
             learnedNote = `DeepSeek 词典训练失败：${trainData.error || '未知错误'}。`;
           }

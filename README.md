@@ -23,7 +23,7 @@ Research-driven prototype for evaluating whether a selected Bilibili user's publ
   - Does not call AICU, third-party indexes, or external websites as a substitute for UID comment crawling.
 - DeepSeek V4 Chinese keyword training:
   - Uses the DeepSeek API for dictionary extraction, defaulting to `deepseek-v4-flash`.
-  - Current config reads `DEEPSEEK_API_KEY`, `DEEPSEEK_MODEL`, and `DEEPSEEK_BASE_URL`.
+  - Current config reads `DEEPSEEK_API_KEY`, `DEEPSEEK_MODEL`, `DEEPSEEK_REASONING_EFFORT`, and `DEEPSEEK_BASE_URL`.
   - Extracts Chinese internet terms, meanings, variants, and semantic families from crawled comments.
   - Writes learned terms to `server/deepseekKeywordDictionary.json` and merges them into the local analyzer.
 - Built-in public test samples from Bilibili video `BV19yGa61Ee6`.
@@ -48,9 +48,11 @@ Optional model configuration:
 ```bash
 set DEEPSEEK_BASE_URL=https://api.deepseek.com
 set DEEPSEEK_MODEL=deepseek-v4-flash
+set DEEPSEEK_REASONING_EFFORT=medium
 ```
 
 `DEEPSEEK_MODEL=deepseek-v4-pro` can be used when you want the stronger V4 model for dictionary extraction.
+DeepSeek's API accepts `medium` as a compatibility reasoning-effort value and maps it to its supported V4 thinking effort internally.
 
 ## Build
 

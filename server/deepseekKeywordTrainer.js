@@ -3,6 +3,7 @@ import { dirname, join } from 'node:path';
 
 const SUPPORTED_FAMILIES = ['attack', 'absolutes', 'evidence', 'evasion', 'cooperation', 'correction'];
 const DEEPSEEK_V4_MODELS = ['deepseek-v4-flash', 'deepseek-v4-pro'];
+const REASONING_EFFORTS = new Set(['low', 'medium', 'high', 'xhigh', 'max']);
 const STOP_TERMS = new Set([
   '变体1',
   '变体2',
@@ -139,6 +140,8 @@ export async function getDeepSeekConfig(options = {}) {
   const fetchImpl = options.fetch || fetch;
   const baseUrl = String(env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com').replace(/\/$/, '');
   const configuredModel = env.DEEPSEEK_MODEL || 'deepseek-v4-flash';
+  const configuredEffort = String(env.DEEPSEEK_REASONING_EFFORT || 'medium').trim().toLowerCase();
+  const reasoningEffort = REASONING_EFFORTS.has(configuredEffort) ? configuredEffort : 'medium';
   const apiKey = env.DEEPSEEK_API_KEY || '';
 
   if (!apiKey) {
@@ -147,6 +150,7 @@ export async function getDeepSeekConfig(options = {}) {
       provider: 'deepseek',
       baseUrl,
       model: configuredModel,
+      reasoningEffort,
       available: false,
       keyConfigured: false,
       models: DEEPSEEK_V4_MODELS,
@@ -168,6 +172,7 @@ export async function getDeepSeekConfig(options = {}) {
       baseUrl,
       model,
       configuredModel,
+      reasoningEffort,
       available: Boolean(model),
       keyConfigured: true,
       models,
@@ -179,6 +184,7 @@ export async function getDeepSeekConfig(options = {}) {
       baseUrl,
       model: configuredModel,
       configuredModel,
+      reasoningEffort,
       available: true,
       keyConfigured: true,
       models: DEEPSEEK_V4_MODELS,
@@ -254,8 +260,9 @@ async function generateKeywordEntries(payload, config, options = {}) {
       model: config.model,
       messages: buildKeywordMessages(payload),
       response_format: { type: 'json_object' },
+      thinking: { type: 'enabled' },
+      reasoning_effort: config.reasoningEffort || 'medium',
       stream: false,
-      temperature: 0.1,
       max_tokens: 900,
     }),
   });
@@ -285,6 +292,7 @@ export async function trainKeywordDictionary(payload, options = {}) {
     provider: config.provider,
     baseUrl: config.baseUrl,
     model: config.model || '',
+    reasoningEffort: config.reasoningEffort || 'medium',
     available: config.available,
     keyConfigured: config.keyConfigured,
     usedFallback: generated.usedFallback,

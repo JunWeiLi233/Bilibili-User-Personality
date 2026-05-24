@@ -17,7 +17,8 @@ test('selects configured DeepSeek V4 model when the key is present', async () =>
     env: {
       DEEPSEEK_API_KEY: 'test-key',
       DEEPSEEK_BASE_URL: 'https://api.deepseek.com',
-      DEEPSEEK_MODEL: 'deepseek-v4-pro',
+      DEEPSEEK_MODEL: 'deepseek-v4-flash',
+      DEEPSEEK_REASONING_EFFORT: 'medium',
     },
     fetch: async (url, options) => {
       assert.equal(String(url), 'https://api.deepseek.com/models');
@@ -32,7 +33,8 @@ test('selects configured DeepSeek V4 model when the key is present', async () =>
   });
 
   assert.equal(config.provider, 'deepseek');
-  assert.equal(config.model, 'deepseek-v4-pro');
+  assert.equal(config.model, 'deepseek-v4-flash');
+  assert.equal(config.reasoningEffort, 'medium');
   assert.equal(config.available, true);
   assert.equal(config.keyConfigured, true);
 });
@@ -42,6 +44,7 @@ test('reports DeepSeek API key missing without exposing secrets', async () => {
 
   assert.equal(config.provider, 'deepseek');
   assert.equal(config.model, 'deepseek-v4-flash');
+  assert.equal(config.reasoningEffort, 'medium');
   assert.equal(config.available, false);
   assert.equal(config.keyConfigured, false);
 });
@@ -103,6 +106,7 @@ test('trains dictionary through DeepSeek V4 chat output and persists learned ter
         env: {
           DEEPSEEK_API_KEY: 'test-key',
           DEEPSEEK_MODEL: 'deepseek-v4-flash',
+          DEEPSEEK_REASONING_EFFORT: 'medium',
         },
         fetch: async (url, options = {}) => {
           seen.push({ url: String(url), body: options.body ? JSON.parse(options.body) : null, headers: options.headers });
@@ -133,11 +137,14 @@ test('trains dictionary through DeepSeek V4 chat output and persists learned ter
     assert.equal(result.ok, true);
     assert.equal(result.provider, 'deepseek');
     assert.equal(result.model, 'deepseek-v4-flash');
+    assert.equal(result.reasoningEffort, 'medium');
     assert.equal(result.entries.length >= 2, true);
     assert.equal(result.dictionary.families.attack.includes('不会真有人'), true);
     assert.equal(result.dictionary.families.evasion.includes('懂的都懂'), true);
     assert.equal(seen.some((call) => call.url === 'https://api.deepseek.com/chat/completions'), true);
     assert.equal(seen.find((call) => call.body?.model)?.body.response_format.type, 'json_object');
+    assert.equal(seen.find((call) => call.body?.model)?.body.reasoning_effort, 'medium');
+    assert.deepEqual(seen.find((call) => call.body?.model)?.body.thinking, { type: 'enabled' });
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
