@@ -64,6 +64,13 @@ if (audit.familyGaps.length) {
   }
 }
 
+if (audit.coverage.unsourcedEvidenceSamples.length) {
+  console.log('Unsourced evidence terms to refresh:');
+  for (const entry of audit.coverage.unsourcedEvidenceSamples.slice(0, 12)) {
+    console.log(`- [${entry.family}] ${entry.term}: ${entry.evidenceCount} evidence hit(s), missing Bilibili source metadata`);
+  }
+}
+
 if (audit.nextActions.length) {
   console.log('Next coverage actions:');
   for (const item of audit.nextActions.slice(0, 12)) {
