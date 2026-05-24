@@ -76,6 +76,7 @@ function reportRound(round, index, total) {
   console.log(`Attempted dictionary terms: ${round.termAttemptSummary.attemptedTerms}`);
   console.log(`Successful dictionary terms: ${round.termAttemptSummary.successfulTerms}`);
   console.log(`Unattempted dictionary terms: ${round.termAttemptSummary.unattemptedTerms}`);
+  console.log(`Exhausted dictionary terms: ${round.termAttemptSummary.exhaustedTerms}`);
 }
 
 function serializeResult(result, statePath, reportPath) {
@@ -182,6 +183,14 @@ if (result.termAttemptSummary?.repeatedlyMissedTerms?.length) {
   }
 }
 
+if (result.termAttemptSummary?.exhaustedSamples?.length) {
+  console.log('Dictionary terms that exhausted built-in query variants:');
+  for (const entry of result.termAttemptSummary.exhaustedSamples.slice(0, 10)) {
+    const suffix = entry.lastError ? ` (${entry.lastError})` : '';
+    console.log(`- [${entry.family}] ${entry.term}: ${entry.variantsTried} variant(s), last query "${entry.lastQuery}"${suffix}`);
+  }
+}
+
 const warnings = result.rounds.flatMap((round) => round.warnings);
 if (warnings.length) {
   console.log('Warnings:');
@@ -202,5 +211,5 @@ if (!result.ok && result.rounds.some((round) => round.queries.length > 0)) {
   console.error('No Bilibili video searches completed successfully.');
   process.exitCode = 1;
 } else if (result.rounds.every((round) => round.queries.length === 0)) {
-  console.log('No new queries to run. Increase BILIBILI_HARVEST_MAX_QUERIES or set BILIBILI_HARVEST_RESET=1 to revisit prior queries.');
+  console.log('No new queries to run. Increase BILIBILI_HARVEST_MAX_QUERIES, add new query templates in code, or set BILIBILI_HARVEST_RESET=1 to revisit prior queries.');
 }

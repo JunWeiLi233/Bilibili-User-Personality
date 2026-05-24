@@ -57,6 +57,24 @@ function getTermAttempt(termAttempts, term) {
   return termAttempts[termAttemptKey(term)] || termAttempts[term] || null;
 }
 
+function queryVariantsForTerm(term, family, limit = TERM_QUERY_TEMPLATES.length) {
+  return TERM_QUERY_TEMPLATES.slice(0, limit).map((template, index) => ({
+    query: template(term, family),
+    variantIndex: index,
+  }));
+}
+
+function attemptedVariantQueries(attempt) {
+  return new Set((attempt?.queries || []).map((item) => item.query).filter(Boolean));
+}
+
+function isTermAttemptExhausted(term, family, attempt) {
+  if (!attempt || Number(attempt.successfulAttempts) > 0) return false;
+  const triedQueries = attemptedVariantQueries(attempt);
+  if (triedQueries.size === 0) return false;
+  return queryVariantsForTerm(term, family).every((item) => triedQueries.has(item.query));
+}
+
 function sortEntriesForCoverage(entries) {
   return [...entries].sort((a, b) => evidenceCount(a) - evidenceCount(b) || String(a.term || '').localeCompare(String(b.term || '')));
 }
@@ -83,15 +101,13 @@ export function buildKeywordHarvestQueryPlan(dictionary, options = {}) {
     const attempt = getTermAttempt(termAttempts, term);
     const attempts = Math.max(0, Number(attempt?.attempts) || 0);
     const successfulAttempts = Math.max(0, Number(attempt?.successfulAttempts) || 0);
-    const triedQueries = new Set((attempt?.queries || []).map((item) => item.query).filter(Boolean));
+    if (coverageMode === 'all-weak' && isTermAttemptExhausted(term, family, attempt)) continue;
+    const triedQueries = attemptedVariantQueries(attempt);
     const adaptiveVariantsPerTerm =
       coverageMode === 'all-weak' && attempts > 0 && successfulAttempts === 0
         ? Math.min(TERM_QUERY_TEMPLATES.length, Math.max(variantsPerTerm, attempts + variantsPerTerm))
         : variantsPerTerm;
-    const variants = TERM_QUERY_TEMPLATES.slice(0, adaptiveVariantsPerTerm).map((template, index) => ({
-      query: template(term, family),
-      variantIndex: index,
-    }));
+    const variants = queryVariantsForTerm(term, family, adaptiveVariantsPerTerm);
     const orderedVariants = coverageMode === 'all-weak' ? [...variants.filter((item) => !triedQueries.has(item.query)), ...variants.filter((item) => triedQueries.has(item.query))] : variants;
     for (const variant of orderedVariants) {
       dictionaryPlan.push({
@@ -233,12 +249,33 @@ export function summarizeTermAttempts(state = {}, dictionary = {}) {
       lastQuery: item.lastQuery || '',
       lastError: item.lastError || '',
     }));
+  const exhaustedTerms = entries
+    .map((entry) => {
+      const term = String(entry.term || '').trim();
+      const family = entry.family || 'attack';
+      const attempt = getTermAttempt(attempts, term);
+      return { entry, attempt, term, family };
+    })
+    .filter((item) => item.term && isTermAttemptExhausted(item.term, item.family, item.attempt))
+    .sort((a, b) => evidenceCount(a.entry) - evidenceCount(b.entry) || String(a.term).localeCompare(String(b.term)))
+    .slice(0, 20)
+    .map((item) => ({
+      term: item.term,
+      family: item.family,
+      evidenceCount: evidenceCount(item.entry),
+      attempts: Number(item.attempt?.attempts) || 0,
+      variantsTried: TERM_QUERY_TEMPLATES.length,
+      lastQuery: item.attempt?.lastQuery || '',
+      lastError: item.attempt?.lastError || '',
+    }));
   return {
     attemptedTerms: attemptedTerms.filter((item) => entryTerms.has(item.term)).length,
     successfulTerms: successfulTerms.filter((item) => entryTerms.has(item.term)).length,
     unattemptedTerms: unattemptedTerms.length,
     unattemptedSamples: sortEntriesForCoverage(unattemptedTerms).slice(0, 20),
     repeatedlyMissedTerms,
+    exhaustedTerms: exhaustedTerms.length,
+    exhaustedSamples: exhaustedTerms,
   };
 }
 
@@ -385,6 +422,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
         attemptedTerms: termAttemptSummary.attemptedTerms,
         successfulTerms: termAttemptSummary.successfulTerms,
         unattemptedTerms: termAttemptSummary.unattemptedTerms,
+        exhaustedTerms: termAttemptSummary.exhaustedTerms,
         weakTerms: coverage.weakTerms,
         zeroEvidenceTerms: coverage.zeroEvidenceTerms,
         warnings: warnings.length,

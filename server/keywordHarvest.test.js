@@ -166,6 +166,46 @@ test('buildKeywordHarvestQueryPlan expands to untried variants for repeatedly mi
   );
 });
 
+test('buildKeywordHarvestQueryPlan skips terms that exhausted every built-in query variant', () => {
+  const allQueries = [
+    'doge Bilibili discussion comments',
+    'doge Bilibili comments',
+    'doge B站 评论区',
+    'doge 哔哩哔哩 弹幕',
+    'doge 评论 梗',
+    'doge 评论区',
+    'doge 梗',
+    'doge 发言',
+    'doge 争议',
+    'doge',
+  ];
+  const plan = buildKeywordHarvestQueryPlan(
+    {
+      entries: [
+        { term: 'doge', family: 'cooperation', evidenceCount: 0 },
+        { term: 'yygq', family: 'attack', evidenceCount: 0 },
+      ],
+    },
+    {
+      seedQueries: [],
+      coverageMode: 'all-weak',
+      maxQueries: 2,
+      queryVariantsPerTerm: 2,
+      termAttempts: {
+        doge: {
+          term: 'doge',
+          attempts: allQueries.length,
+          successfulAttempts: 0,
+          queries: allQueries.map((query) => ({ query })),
+        },
+      },
+    },
+  );
+
+  assert.deepEqual(plan.map((item) => item.term), ['yygq', 'yygq']);
+});
+
+
 
 test('summarizeDictionaryGrowth reports new terms, families, and duplicates', () => {
   const summary = summarizeDictionaryGrowth(
@@ -251,6 +291,43 @@ test('summarizeTermAttempts reports attempted, successful, unattempted, and miss
   assert.equal(summary.unattemptedTerms, 1);
   assert.deepEqual(summary.unattemptedSamples.map((entry) => entry.term), ['懂的都懂']);
   assert.deepEqual(summary.repeatedlyMissedTerms.map((entry) => entry.term), ['yygq']);
+  assert.equal(summary.exhaustedTerms, 0);
+});
+
+test('summarizeTermAttempts reports exhausted terms after every built-in variant misses', () => {
+  const variants = [
+    'doge Bilibili discussion comments',
+    'doge Bilibili comments',
+    'doge B站 评论区',
+    'doge 哔哩哔哩 弹幕',
+    'doge 评论 梗',
+    'doge 评论区',
+    'doge 梗',
+    'doge 发言',
+    'doge 争议',
+    'doge',
+  ];
+  const summary = summarizeTermAttempts(
+    {
+      termAttempts: {
+        doge: {
+          term: 'doge',
+          family: 'cooperation',
+          attempts: variants.length,
+          successfulAttempts: 0,
+          lastQuery: 'doge',
+          queries: variants.map((query) => ({ query })),
+        },
+      },
+    },
+    {
+      entries: [{ term: 'doge', family: 'cooperation', evidenceCount: 0 }],
+    },
+  );
+
+  assert.equal(summary.exhaustedTerms, 1);
+  assert.deepEqual(summary.exhaustedSamples.map((entry) => entry.term), ['doge']);
+  assert.equal(summary.exhaustedSamples[0].variantsTried, 10);
 });
 
 
@@ -315,6 +392,7 @@ test('harvestKeywordDictionary runs dictionary-seeded searches and reports growt
     assert.equal(persisted.runs.length, 1);
     assert.equal(persisted.runs[0].videosScanned, 2);
     assert.equal(persisted.runs[0].attemptedTerms, 1);
+    assert.equal(persisted.runs[0].exhaustedTerms, 0);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
