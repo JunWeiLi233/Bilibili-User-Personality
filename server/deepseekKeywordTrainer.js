@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 
 const SUPPORTED_FAMILIES = ['attack', 'absolutes', 'evidence', 'evasion', 'cooperation', 'correction'];
+const DEEPSEEK_V4_MODELS = ['deepseek-v4-flash', 'deepseek-v4-pro'];
 const STOP_TERMS = new Set([
   '变体1',
   '变体2',
@@ -32,7 +33,7 @@ const FAMILY_ALIASES = {
   revision: 'correction',
 };
 
-export const DEFAULT_DICTIONARY_PATH = join(process.cwd(), 'server', 'localKeywordDictionary.json');
+export const DEFAULT_DICTIONARY_PATH = join(process.cwd(), 'server', 'deepseekKeywordDictionary.json');
 
 function unique(items) {
   return [...new Set(items.filter(Boolean))];
@@ -48,6 +49,13 @@ function cleanTerm(term) {
 function normalizeFamily(family) {
   const raw = String(family || '').trim();
   return SUPPORTED_FAMILIES.includes(raw) ? raw : FAMILY_ALIASES[raw] || 'attack';
+}
+
+function authHeaders(apiKey) {
+  return {
+    'content-type': 'application/json',
+    authorization: `Bearer ${apiKey}`,
+  };
 }
 
 export function extractJsonObject(raw) {
@@ -73,7 +81,7 @@ export function normalizeKeywordEntries(rawEntries = []) {
         family,
         meaning,
         risk: String(item.risk || '').trim() || (family === 'cooperation' || family === 'correction' ? 'positive' : 'medium'),
-        confidence: Number.isFinite(Number(item.confidence)) ? Math.max(0, Math.min(1, Number(item.confidence))) : 0.62,
+        confidence: Number.isFinite(Number(item.confidence)) ? Math.max(0, Math.min(1, Number(item.confidence))) : 0.68,
       });
     }
   }
@@ -126,48 +134,70 @@ export async function mergeEntriesIntoDictionary(entries, options = {}) {
   return next;
 }
 
-export async function getLocalLlmConfig(options = {}) {
+export async function getDeepSeekConfig(options = {}) {
   const env = options.env || process.env;
   const fetchImpl = options.fetch || fetch;
-  const host = String(env.OLLAMA_HOST || 'http://127.0.0.1:11434').replace(/\/$/, '');
-  const configuredModel = env.LOCAL_LLM_MODEL || env.OLLAMA_MODEL || '';
+  const baseUrl = String(env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com').replace(/\/$/, '');
+  const configuredModel = env.DEEPSEEK_MODEL || 'deepseek-v4-flash';
+  const apiKey = env.DEEPSEEK_API_KEY || '';
+
+  if (!apiKey) {
+    return {
+      ok: false,
+      provider: 'deepseek',
+      baseUrl,
+      model: configuredModel,
+      available: false,
+      keyConfigured: false,
+      models: DEEPSEEK_V4_MODELS,
+      error: 'DEEPSEEK_API_KEY is not configured.',
+    };
+  }
+
   try {
-    const response = await fetchImpl(`${host}/api/tags`);
+    const response = await fetchImpl(`${baseUrl}/models`, { headers: authHeaders(apiKey) });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const payload = await response.json();
-    const models = (payload.models || []).map((model) => model.name || model.model).filter(Boolean);
-    const preferred =
-      configuredModel && models.includes(configuredModel)
-        ? configuredModel
-        : models.find((model) => /qwen|deepseek|yi|glm/i.test(model)) || models.find((model) => /llama/i.test(model)) || models[0] || configuredModel;
+    const models = (payload.data || []).map((model) => model.id).filter(Boolean);
+    const model = models.includes(configuredModel)
+      ? configuredModel
+      : models.find((item) => item === 'deepseek-v4-flash') || models.find((item) => item === 'deepseek-v4-pro') || configuredModel;
     return {
       ok: true,
-      provider: 'ollama',
-      host,
-      model: preferred || '',
+      provider: 'deepseek',
+      baseUrl,
+      model,
       configuredModel,
+      available: Boolean(model),
+      keyConfigured: true,
       models,
-      available: Boolean(preferred),
     };
   } catch (error) {
     return {
-      ok: false,
-      provider: 'ollama',
-      host,
+      ok: true,
+      provider: 'deepseek',
+      baseUrl,
       model: configuredModel,
       configuredModel,
-      models: [],
-      available: false,
-      error: error.message,
+      available: true,
+      keyConfigured: true,
+      models: DEEPSEEK_V4_MODELS,
+      warning: `Could not list models: ${error.message}`,
     };
   }
 }
 
-function buildKeywordPrompt({ text, uid }) {
-  return `你是一个只在本机运行的中文互联网术语词典训练器。你的任务是从 B 站用户发言中发现值得加入本地词典的新词、梗、缩写、谐音或固定话术。
-
-只输出 JSON，不要解释。JSON 结构：
-{"keywords":[{"term":"词或短语","family":"attack|absolutes|evidence|evasion|cooperation|correction","meaning":"中文含义和语用功能","variants":["变体1"],"risk":"high|medium|positive|neutral","confidence":0.0}]}
+function buildKeywordMessages({ text, uid }) {
+  return [
+    {
+      role: 'system',
+      content:
+        '你是中文互联网术语词典训练器。只输出 JSON。你要从 B 站用户发言中发现值得加入本地词典的新词、梗、缩写、谐音或固定话术，并归入语义族。',
+    },
+    {
+      role: 'user',
+      content: `JSON 结构：
+{"keywords":[{"term":"词或短语","family":"attack|absolutes|evidence|evasion|cooperation|correction","meaning":"中文含义和语用功能","variants":["变体"],"risk":"high|medium|positive|neutral","confidence":0.0}]}
 
 分类规则：
 - attack: 讽刺、阴阳怪气、资格审查、阵营/动机攻击、侮辱性梗。
@@ -177,11 +207,13 @@ function buildKeywordPrompt({ text, uid }) {
 - cooperation: 可能、限定、澄清、愿意看来源、合作讨论。
 - correction: 我错了、说重了、更正、修正、降低结论强度。
 
-不要加入普通名词、视频标题、用户名、纯数字。优先选择 2 到 12 字的中文互联网表达。
+不要加入普通名词、视频标题、用户名、纯数字。优先选择 2 到 12 字的中文互联网表达。不要输出 markdown。
 
 UID: ${uid || 'unknown'}
 发言样本：
-${String(text || '').slice(0, 5000)}`;
+${String(text || '').slice(0, 6000)}`,
+    },
+  ];
 }
 
 function heuristicKeywordEntries(text) {
@@ -210,54 +242,55 @@ function heuristicKeywordEntries(text) {
 
 async function generateKeywordEntries(payload, config, options = {}) {
   const fetchImpl = options.fetch || fetch;
-  if (!config.available || !config.model) {
-    return { entries: heuristicKeywordEntries(payload.text), usedFallback: true, raw: '' };
+  const heuristicEntries = heuristicKeywordEntries(payload.text);
+  if (!config.available || !config.keyConfigured || !config.model) {
+    return { entries: heuristicEntries, usedFallback: true, raw: '' };
   }
-  const prompt = buildKeywordPrompt(payload);
-  const response = await fetchImpl(`${config.host}/api/generate`, {
+
+  const response = await fetchImpl(`${config.baseUrl}/chat/completions`, {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: authHeaders((options.env || process.env).DEEPSEEK_API_KEY),
     body: JSON.stringify({
       model: config.model,
-      prompt,
+      messages: buildKeywordMessages(payload),
+      response_format: { type: 'json_object' },
       stream: false,
-      options: {
-        temperature: 0.1,
-        num_predict: 700,
-      },
+      temperature: 0.1,
+      max_tokens: 900,
     }),
   });
-  if (!response.ok) throw new Error(`Ollama generate failed with HTTP ${response.status}`);
+  if (!response.ok) throw new Error(`DeepSeek generate failed with HTTP ${response.status}`);
   const data = await response.json();
-  const raw = data.response || '';
+  const raw = data.choices?.[0]?.message?.content || '';
   try {
     const parsed = extractJsonObject(raw);
-    const llmEntries = normalizeKeywordEntries(parsed.keywords || parsed.terms || []);
-    const heuristicEntries = heuristicKeywordEntries(payload.text);
-    const entries = normalizeKeywordEntries([...llmEntries, ...heuristicEntries]);
+    const deepseekEntries = normalizeKeywordEntries(parsed.keywords || parsed.terms || []);
+    const entries = normalizeKeywordEntries([...deepseekEntries, ...heuristicEntries]);
     return {
       entries,
-      usedFallback: llmEntries.length === 0,
+      usedFallback: deepseekEntries.length === 0,
       raw,
     };
   } catch {
-    return { entries: heuristicKeywordEntries(payload.text), usedFallback: true, raw };
+    return { entries: heuristicEntries, usedFallback: true, raw };
   }
 }
 
 export async function trainKeywordDictionary(payload, options = {}) {
-  const config = await getLocalLlmConfig(options);
+  const config = await getDeepSeekConfig(options);
   const generated = await generateKeywordEntries(payload, config, options);
   const dictionary = await mergeEntriesIntoDictionary(generated.entries, options);
   return {
     ok: true,
     provider: config.provider,
-    host: config.host,
+    baseUrl: config.baseUrl,
     model: config.model || '',
     available: config.available,
+    keyConfigured: config.keyConfigured,
     usedFallback: generated.usedFallback,
     entries: generated.entries,
     dictionary,
+    warning: config.warning,
   };
 }
 

@@ -21,11 +21,11 @@ Research-driven prototype for evaluating whether a selected Bilibili user's publ
   - Discovers public submissions and dynamic posts from Bilibili public endpoints.
   - Scans comments around those public objects and filters interactions by `mid`.
   - Does not call AICU, third-party indexes, or external websites as a substitute for UID comment crawling.
-- Local Chinese keyword training:
-  - Uses the locally running Ollama model when available.
-  - Current config auto-detects `OLLAMA_HOST` and `LOCAL_LLM_MODEL`; if unset it selects the first installed Ollama model.
+- DeepSeek V4 Chinese keyword training:
+  - Uses the DeepSeek API for dictionary extraction, defaulting to `deepseek-v4-flash`.
+  - Current config reads `DEEPSEEK_API_KEY`, `DEEPSEEK_MODEL`, and `DEEPSEEK_BASE_URL`.
   - Extracts Chinese internet terms, meanings, variants, and semantic families from crawled comments.
-  - Writes learned terms to `server/localKeywordDictionary.json` and merges them into the local analyzer.
+  - Writes learned terms to `server/deepseekKeywordDictionary.json` and merges them into the local analyzer.
 - Built-in public test samples from Bilibili video `BV19yGa61Ee6`.
 
 ## Run Locally
@@ -37,19 +37,20 @@ npm run server
 
 `npm run server` starts the API server and Vite dev server. The API listens on `http://127.0.0.1:8787`; Vite proxies `/api` to it in development.
 
-For local keyword training, run Ollama before starting the server:
+For DeepSeek V4 keyword training, configure an API key before starting the server:
 
 ```bash
-ollama serve
-ollama pull llama3.2:1b
+set DEEPSEEK_API_KEY=your_api_key
 ```
 
 Optional model configuration:
 
 ```bash
-set OLLAMA_HOST=http://127.0.0.1:11434
-set LOCAL_LLM_MODEL=llama3.2:1b
+set DEEPSEEK_BASE_URL=https://api.deepseek.com
+set DEEPSEEK_MODEL=deepseek-v4-flash
 ```
+
+`DEEPSEEK_MODEL=deepseek-v4-pro` can be used when you want the stronger V4 model for dictionary extraction.
 
 ## Build
 
@@ -61,6 +62,6 @@ npm run build
 
 The automatic collector uses Bilibili public endpoints directly. It does not use AICU, third-party comment indexes, scraping libraries, or external websites to replace UID crawling.
 
-The local keyword trainer is not cloud training and does not fine-tune model weights. It uses the installed open-source Ollama model as a local extractor, then persists learned Chinese terms into the local dictionary used by the rule/semantic analyzer.
+The DeepSeek keyword trainer does not fine-tune model weights. It uses DeepSeek V4 as a dictionary extractor, then persists learned Chinese terms into the local dictionary used by the rule/semantic analyzer. If `DEEPSEEK_API_KEY` is missing or the API call fails, the app keeps running with the local rule fallback and reports that in the UI.
 
 The scoring language is framed as behavior-risk analysis over a bounded public comment sample, not as a clinical diagnosis or definitive personality judgment.

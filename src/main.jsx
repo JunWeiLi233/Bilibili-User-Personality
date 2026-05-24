@@ -647,7 +647,7 @@ function App() {
     }
   });
   const [analysisState, setAnalysisState] = React.useState('ready');
-  const [localLlmConfig, setLocalLlmConfig] = React.useState(null);
+  const [deepSeekConfig, setDeepSeekConfig] = React.useState(null);
 
   const runtimeLexicon = React.useMemo(() => buildRuntimeLexicon(customLexicon), [customLexicon]);
   const selectedUser = profiles.find((user) => user.id === selectedId) || profiles[0];
@@ -664,16 +664,16 @@ function App() {
 
   React.useEffect(() => {
     let cancelled = false;
-    async function loadLocalLlm() {
+    async function loadDeepSeekDictionary() {
       try {
         const [configResponse, dictionaryResponse] = await Promise.all([
-          fetch('/api/local-llm/config'),
-          fetch('/api/local-llm/dictionary'),
+          fetch('/api/deepseek/config'),
+          fetch('/api/deepseek/dictionary'),
         ]);
         const config = await configResponse.json();
         const dictionaryPayload = await dictionaryResponse.json();
         if (cancelled) return;
-        setLocalLlmConfig(config);
+        setDeepSeekConfig(config);
         if (dictionaryPayload.ok && dictionaryPayload.dictionary?.families) {
           setCustomLexicon((current) => mergeDictionaryFamilies(current, dictionaryPayload.dictionary.families));
         }
@@ -682,8 +682,8 @@ function App() {
             ? {
                 ...current,
                 message: config.available
-                  ? `本地 Ollama 模型 ${config.model} 已连接；输入 UID 后会抓取发言、训练中文关键词并写入本地词典。`
-                  : '未检测到可用 Ollama 模型；输入 UID 后仍会用本地规则提取关键词并写入本地词典。',
+                  ? `DeepSeek V4 模型 ${config.model} 已配置；输入 UID 后会抓取发言、抽取中文关键词并写入本地词典。`
+                  : '未检测到 DEEPSEEK_API_KEY；输入 UID 后仍会用本地规则提取关键词并写入本地词典。',
               }
             : current,
         );
@@ -693,14 +693,14 @@ function App() {
             current.status === 'idle'
               ? {
                   ...current,
-                  message: '本地模型配置读取失败；请确认 npm run server 和 Ollama 服务已启动。',
+                  message: 'DeepSeek 配置读取失败；请确认 npm run server 和 DEEPSEEK_API_KEY。',
                 }
               : current,
           );
         }
       }
     }
-    loadLocalLlm();
+    loadDeepSeekDictionary();
     return () => {
       cancelled = true;
     };
@@ -743,11 +743,11 @@ function App() {
       const dynamicCount = data.dynamics?.length ?? 0;
       const postCount = data.authoredPosts?.length ?? 0;
       let learnedRuntimeLexicon = runtimeLexicon;
-      let learnedNote = localLlmConfig?.available ? `本地模型 ${localLlmConfig.model} 未发现新关键词。` : '本地关键词规则未发现新词。';
+      let learnedNote = deepSeekConfig?.available ? `DeepSeek V4 模型 ${deepSeekConfig.model} 未发现新关键词。` : 'DeepSeek 未配置，本地规则未发现新词。';
       if (nextCommentText.trim()) {
-        setFetchState({ status: 'loading', message: '正在用本地开源模型提取中文关键词并写入本地词典...' });
+        setFetchState({ status: 'loading', message: '正在用 DeepSeek V4 提取中文关键词并写入本地词典...' });
         try {
-          const trainResponse = await fetch('/api/local-llm/train-keywords', {
+          const trainResponse = await fetch('/api/deepseek/train-keywords', {
             method: 'POST',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify({
@@ -761,12 +761,12 @@ function App() {
             const nextCustomLexicon = mergeDictionaryFamilies(customLexicon, trainData.dictionary?.families || {});
             setCustomLexicon(nextCustomLexicon);
             learnedRuntimeLexicon = buildRuntimeLexicon(nextCustomLexicon);
-            learnedNote = `${trainData.available ? `本地模型 ${trainData.model}` : '本地规则'}学习 ${trainData.entries.length} 个中文关键词${trainData.usedFallback ? '（使用规则兜底）' : ''}。`;
+            learnedNote = `${trainData.available ? `DeepSeek V4 ${trainData.model}` : '本地规则'}学习 ${trainData.entries.length} 个中文关键词${trainData.usedFallback ? '（使用规则兜底）' : ''}。`;
           } else {
-            learnedNote = `本地模型训练失败：${trainData.error || '未知错误'}。`;
+            learnedNote = `DeepSeek 词典训练失败：${trainData.error || '未知错误'}。`;
           }
         } catch (error) {
-          learnedNote = `本地模型训练失败：${error.message}。`;
+          learnedNote = `DeepSeek 词典训练失败：${error.message}。`;
         }
       }
       if (statementCount > 0) {
