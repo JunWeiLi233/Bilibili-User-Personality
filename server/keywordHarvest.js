@@ -28,10 +28,18 @@ function unique(items) {
   return [...new Set(items.map((item) => String(item || '').trim()).filter(Boolean))];
 }
 
+function evidenceCount(entry) {
+  return Math.max(0, Number(entry?.evidenceCount) || 0);
+}
+
+function sortEntriesForCoverage(entries) {
+  return [...entries].sort((a, b) => evidenceCount(a) - evidenceCount(b) || String(a.term || '').localeCompare(String(b.term || '')));
+}
+
 export function buildKeywordHarvestQueries(dictionary, options = {}) {
   const maxQueries = asPositiveInt(options.maxQueries, 12, 100);
   const seedQueries = unique(options.seedQueries || DEFAULT_SEED_QUERIES);
-  const entries = Array.isArray(dictionary?.entries) ? dictionary.entries : [];
+  const entries = sortEntriesForCoverage(Array.isArray(dictionary?.entries) ? dictionary.entries : []);
   const familyCounts = new Map();
   const dictionaryQueries = [];
 
@@ -91,6 +99,37 @@ export function summarizeDictionaryGrowth(before, after) {
   };
 }
 
+export function summarizeEvidenceCoverage(dictionary, options = {}) {
+  const entries = Array.isArray(dictionary?.entries) ? dictionary.entries : [];
+  const targetEvidence = asPositiveInt(options.targetEvidence, 3, 1000);
+  const totalEvidence = entries.reduce((sum, entry) => sum + evidenceCount(entry), 0);
+  const weakEntries = entries.filter((entry) => evidenceCount(entry) < targetEvidence);
+  const zeroEvidence = entries.filter((entry) => evidenceCount(entry) === 0);
+  const byFamily = {};
+  for (const entry of entries) {
+    const family = entry.family || 'unknown';
+    if (!byFamily[family]) byFamily[family] = { terms: 0, evidence: 0, weak: 0, zero: 0 };
+    byFamily[family].terms += 1;
+    byFamily[family].evidence += evidenceCount(entry);
+    if (evidenceCount(entry) < targetEvidence) byFamily[family].weak += 1;
+    if (evidenceCount(entry) === 0) byFamily[family].zero += 1;
+  }
+  return {
+    targetEvidence,
+    terms: entries.length,
+    totalEvidence,
+    averageEvidence: entries.length ? Number((totalEvidence / entries.length).toFixed(2)) : 0,
+    weakTerms: weakEntries.length,
+    zeroEvidenceTerms: zeroEvidence.length,
+    weakSamples: sortEntriesForCoverage(weakEntries).slice(0, 20).map((entry) => ({
+      term: entry.term,
+      family: entry.family,
+      evidenceCount: evidenceCount(entry),
+    })),
+    byFamily,
+  };
+}
+
 export async function harvestKeywordDictionary(options = {}, deps = {}) {
   const readKeywordDictionary = deps.readKeywordDictionary || defaultReadKeywordDictionary;
   const searchVideoKeywords = deps.searchVideoKeywords || defaultSearchVideoKeywords;
@@ -133,6 +172,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
 
   const after = await readKeywordDictionary();
   const growth = summarizeDictionaryGrowth(before, after);
+  const coverage = summarizeEvidenceCoverage(after, { targetEvidence: options.targetEvidence });
   const finishedAt = new Date().toISOString();
   const nextState = {
     version: 1,
@@ -155,6 +195,8 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
         dictionaryBefore: growth.before,
         dictionaryAfter: growth.after,
         dictionaryAdded: growth.added,
+        weakTerms: coverage.weakTerms,
+        zeroEvidenceTerms: coverage.zeroEvidenceTerms,
         warnings: warnings.length,
       },
     ],
@@ -169,6 +211,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
     results,
     warnings,
     growth,
+    coverage,
     dictionary: after,
   };
 }

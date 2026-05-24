@@ -72,6 +72,9 @@ console.log(`Dictionary terms before: ${result.growth.before}`);
 console.log(`Dictionary terms after: ${result.growth.after}`);
 console.log(`New dictionary terms: ${result.growth.added}`);
 console.log(`Duplicate dictionary terms: ${result.growth.duplicates}`);
+console.log(`Weak evidence terms: ${result.coverage.weakTerms}`);
+console.log(`Zero evidence terms: ${result.coverage.zeroEvidenceTerms}`);
+console.log(`Average evidence per term: ${result.coverage.averageEvidence}`);
 
 if (Object.keys(result.growth.families).length) {
   console.log('Dictionary family coverage:');
@@ -97,6 +100,7 @@ await writeJson(reportPath, {
   queries: result.queries,
   candidateQueries: result.candidateQueries,
   growth: result.growth,
+  coverage: result.coverage,
   warnings: result.warnings,
   state: result.state,
   results: result.results.map((item) => ({

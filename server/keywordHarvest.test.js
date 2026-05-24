@@ -9,16 +9,17 @@ import {
   harvestKeywordDictionary,
   readKeywordHarvestState,
   summarizeDictionaryGrowth,
+  summarizeEvidenceCoverage,
 } from './keywordHarvest.js';
 
-test('buildKeywordHarvestQueries combines seed queries with dictionary terms by family', () => {
+test('buildKeywordHarvestQueries prioritizes weak-evidence dictionary terms by family', () => {
   const queries = buildKeywordHarvestQueries(
     {
       entries: [
-        { term: 'doge', family: 'cooperation' },
-        { term: 'yygq', family: 'attack' },
-        { term: '懂的都懂', family: 'evasion' },
-        { term: 'yygq', family: 'attack' },
+        { term: 'doge', family: 'cooperation', evidenceCount: 8 },
+        { term: 'yygq', family: 'attack', evidenceCount: 5 },
+        { term: '典中典', family: 'attack', evidenceCount: 0 },
+        { term: '懂的都懂', family: 'evasion', evidenceCount: 1 },
       ],
     },
     {
@@ -30,9 +31,10 @@ test('buildKeywordHarvestQueries combines seed queries with dictionary terms by 
 
   assert.deepEqual(queries, [
     'seed topic',
-    'doge Bilibili discussion comments',
-    'yygq Bilibili comment meme',
+    '典中典 Bilibili comment meme',
     '懂的都懂 Bilibili reply argument comments',
+    'yygq Bilibili comment meme',
+    'doge Bilibili discussion comments',
   ]);
 });
 
@@ -54,6 +56,27 @@ test('summarizeDictionaryGrowth reports new terms, families, and duplicates', ()
   assert.equal(summary.duplicates, 1);
   assert.deepEqual(summary.families, { cooperation: 1, attack: 2 });
   assert.deepEqual(summary.newTerms.map((entry) => entry.term), ['yygq', 'yygq']);
+});
+
+test('summarizeEvidenceCoverage reports weak terms and family coverage', () => {
+  const coverage = summarizeEvidenceCoverage(
+    {
+      entries: [
+        { term: 'doge', family: 'cooperation', evidenceCount: 4 },
+        { term: '典中典', family: 'attack', evidenceCount: 0 },
+        { term: '懂的都懂', family: 'evasion', evidenceCount: 2 },
+      ],
+    },
+    { targetEvidence: 3 },
+  );
+
+  assert.equal(coverage.terms, 3);
+  assert.equal(coverage.totalEvidence, 6);
+  assert.equal(coverage.averageEvidence, 2);
+  assert.equal(coverage.weakTerms, 2);
+  assert.equal(coverage.zeroEvidenceTerms, 1);
+  assert.deepEqual(coverage.weakSamples.map((entry) => entry.term), ['典中典', '懂的都懂']);
+  assert.deepEqual(coverage.byFamily.attack, { terms: 1, evidence: 0, weak: 1, zero: 1 });
 });
 
 test('harvestKeywordDictionary runs dictionary-seeded searches and reports growth', async () => {
@@ -98,6 +121,7 @@ test('harvestKeywordDictionary runs dictionary-seeded searches and reports growt
     assert.equal(searched.length, 2);
     assert.deepEqual(searched[0], { searchQueries: ['seed topic'], discoveryLimit: 1, pages: 1, excludeBvids: [] });
     assert.equal(result.growth.added, 1);
+    assert.equal(result.coverage.weakTerms, 2);
     assert.deepEqual(result.state.scannedBvids, ['BV1111111111', 'BV2222222222']);
     const persisted = JSON.parse(await readFile(statePath, 'utf8'));
     assert.equal(persisted.runs.length, 1);

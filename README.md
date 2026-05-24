@@ -144,4 +144,6 @@ The dictionary harvester is iterative. Run it repeatedly with different seed que
 
 To protect dictionary quality, model-generated keywords are accepted only when the cleaned term can be found in the crawled Bilibili comment text. Accepted entries include `evidenceCount` and `evidenceSamples` so each term can be audited against source comments. Terms without direct text evidence are counted as `evidenceRejected` in the harvest report and are not merged into the dictionary.
 
+Harvest query generation prioritizes weak-evidence dictionary entries first. The report includes `coverage.weakTerms`, `coverage.zeroEvidenceTerms`, and `coverage.averageEvidence`, which helps choose whether to keep harvesting broad seed queries or focus on under-supported terms.
+
 The scoring language is framed as behavior-risk analysis over a bounded public comment sample, not as a clinical diagnosis or definitive personality judgment.
