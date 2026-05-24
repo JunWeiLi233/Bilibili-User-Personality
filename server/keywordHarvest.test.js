@@ -37,13 +37,13 @@ test('buildKeywordHarvestQueries prioritizes weak-evidence dictionary terms by f
 
   assert.deepEqual(queries, [
     'seed topic',
-    '典中典 Bilibili comment meme',
-    '典中典 Bilibili comments',
-    '懂的都懂 Bilibili reply argument comments',
-    '懂的都懂 Bilibili comments',
-    'yygq Bilibili comment meme',
-    'yygq Bilibili comments',
-    'doge Bilibili discussion comments',
+    '典中典 B站 评论区 梗',
+    '典中典 评论区',
+    '懂的都懂 B站 回复 评论区',
+    '懂的都懂 评论区',
+    'yygq B站 评论区 梗',
+    'yygq 评论区',
+    'doge B站 讨论 评论区',
   ]);
 });
 
@@ -61,10 +61,10 @@ test('buildKeywordHarvestQueries can generate several Bilibili-oriented variants
   );
 
   assert.deepEqual(queries, [
-    'doge Bilibili discussion comments',
-    'doge Bilibili comments',
-    'doge B站 评论区',
-    'doge 哔哩哔哩 弹幕',
+    'doge B站 讨论 评论区',
+    'doge 评论区',
+    'doge 热评',
+    'doge B站',
   ]);
 });
 
@@ -89,9 +89,9 @@ test('buildKeywordHarvestQueries all-weak mode targets every weak term before br
   );
 
   assert.deepEqual(queries, [
-    'weakA Bilibili comment meme',
-    'weakB Bilibili comment meme',
-    'weakC Bilibili reply argument comments',
+    'weakA B站 评论区 梗',
+    'weakB B站 评论区 梗',
+    'weakC B站 回复 评论区',
     'seed topic',
   ]);
 });
@@ -111,7 +111,7 @@ test('buildKeywordHarvestQueryPlan keeps dictionary term metadata for state trac
 
   assert.deepEqual(plan, [
     {
-      query: 'doge Bilibili discussion comments',
+      query: 'doge B站 讨论 评论区',
       source: 'dictionary',
       term: 'doge',
       family: 'cooperation',
@@ -124,7 +124,7 @@ test('buildKeywordHarvestQueryPlan keeps dictionary term metadata for state trac
       previouslyTried: false,
     },
     {
-      query: 'doge Bilibili comments',
+      query: 'doge 评论区',
       source: 'dictionary',
       term: 'doge',
       family: 'cooperation',
@@ -155,7 +155,7 @@ test('buildKeywordHarvestQueryPlan expands to untried variants for repeatedly mi
           term: 'doge',
           attempts: 2,
           successfulAttempts: 0,
-          queries: [{ query: 'doge Bilibili discussion comments' }, { query: 'doge Bilibili comments' }],
+          queries: [{ query: 'doge B站 讨论 评论区' }, { query: 'doge 评论区' }],
         },
       },
     },
@@ -164,10 +164,10 @@ test('buildKeywordHarvestQueryPlan expands to untried variants for repeatedly mi
   assert.deepEqual(
     plan.map((item) => [item.query, item.variantIndex, item.previouslyTried]),
     [
-      ['doge B站 评论区', 2, false],
-      ['doge 哔哩哔哩 弹幕', 3, false],
-      ['doge Bilibili discussion comments', 0, true],
-      ['doge Bilibili comments', 1, true],
+      ['doge 热评', 2, false],
+      ['doge B站', 3, false],
+      ['doge B站 讨论 评论区', 0, true],
+      ['doge 评论区', 1, true],
     ],
   );
 });
@@ -190,14 +190,14 @@ test('buildKeywordHarvestQueryPlan prioritizes retry actions before fresh harves
           term: 'missed',
           attempts: 1,
           successfulAttempts: 0,
-          queries: [{ query: 'missed Bilibili comment meme' }],
+          queries: [{ query: 'missed B站 评论区 梗' }],
         },
       },
     },
   );
 
   assert.equal(plan[0].term, 'missed');
-  assert.equal(plan[0].query, 'missed Bilibili comments');
+  assert.equal(plan[0].query, 'missed 评论区');
   assert.equal(plan[0].previouslyTried, false);
   assert.equal(plan[1].term, 'missed');
 });
@@ -248,7 +248,7 @@ test('buildKeywordHarvestQueryPlan runs priority queries before automatic covera
 
   assert.deepEqual(plan.map((item) => [item.query, item.source]), [
     ['audit exported query', 'priority'],
-    ['weak Bilibili comment meme', 'dictionary'],
+    ['weak B站 评论区 梗', 'dictionary'],
     ['seed topic', 'seed'],
   ]);
 });
@@ -256,15 +256,15 @@ test('buildKeywordHarvestQueryPlan runs priority queries before automatic covera
 
 test('buildKeywordHarvestQueryPlan skips terms that exhausted every built-in query variant', () => {
   const allQueries = [
-    'doge Bilibili discussion comments',
-    'doge Bilibili comments',
-    'doge B站 评论区',
-    'doge 哔哩哔哩 弹幕',
-    'doge 评论 梗',
-    'doge 评论区',
-    'doge 梗',
-    'doge 发言',
-    'doge 争议',
+    'doge B\u7ad9 \u8ba8\u8bba \u8bc4\u8bba\u533a',
+    'doge \u8bc4\u8bba\u533a',
+    'doge \u70ed\u8bc4',
+    'doge B\u7ad9',
+    'doge \u54d4\u54e9\u54d4\u54e9',
+    'doge \u5f39\u5e55',
+    'doge \u8bc4\u8bba \u6897',
+    'doge \u53d1\u8a00',
+    'doge \u4e89\u8bae',
     'doge',
   ];
   const plan = buildKeywordHarvestQueryPlan(
@@ -295,15 +295,15 @@ test('buildKeywordHarvestQueryPlan skips terms that exhausted every built-in que
 
 test('buildKeywordHarvestQueryPlan can reopen exhausted terms with extra runtime templates', () => {
   const allQueries = [
-    'doge Bilibili discussion comments',
-    'doge Bilibili comments',
-    'doge B站 评论区',
-    'doge 哔哩哔哩 弹幕',
-    'doge 评论 梗',
-    'doge 评论区',
-    'doge 梗',
-    'doge 发言',
-    'doge 争议',
+    'doge B\u7ad9 \u8ba8\u8bba \u8bc4\u8bba\u533a',
+    'doge \u8bc4\u8bba\u533a',
+    'doge \u70ed\u8bc4',
+    'doge B\u7ad9',
+    'doge \u54d4\u54e9\u54d4\u54e9',
+    'doge \u5f39\u5e55',
+    'doge \u8bc4\u8bba \u6897',
+    'doge \u53d1\u8a00',
+    'doge \u4e89\u8bae',
     'doge',
   ];
   const plan = buildKeywordHarvestQueryPlan(
@@ -315,7 +315,7 @@ test('buildKeywordHarvestQueryPlan can reopen exhausted terms with extra runtime
       coverageMode: 'all-weak',
       maxQueries: 1,
       queryVariantsPerTerm: 2,
-      extraQueryTemplates: ['{term} 热评'],
+      extraQueryTemplates: ['{term} \u540d\u573a\u9762 \u8bc4\u8bba\u533a'],
       termAttempts: {
         doge: {
           term: 'doge',
@@ -327,7 +327,7 @@ test('buildKeywordHarvestQueryPlan can reopen exhausted terms with extra runtime
     },
   );
 
-  assert.equal(plan[0].query, 'doge 热评');
+  assert.equal(plan[0].query, 'doge \u540d\u573a\u9762 \u8bc4\u8bba\u533a');
   assert.equal(plan[0].builtInVariant, false);
   assert.equal(plan[0].previouslyTried, false);
 });
@@ -432,15 +432,15 @@ test('summarizeTermAttempts reports attempted, successful, unattempted, and miss
 
 test('summarizeTermAttempts reports exhausted terms after every built-in variant misses', () => {
   const variants = [
-    'doge Bilibili discussion comments',
-    'doge Bilibili comments',
-    'doge B站 评论区',
-    'doge 哔哩哔哩 弹幕',
-    'doge 评论 梗',
-    'doge 评论区',
-    'doge 梗',
-    'doge 发言',
-    'doge 争议',
+    'doge B\u7ad9 \u8ba8\u8bba \u8bc4\u8bba\u533a',
+    'doge \u8bc4\u8bba\u533a',
+    'doge \u70ed\u8bc4',
+    'doge B\u7ad9',
+    'doge \u54d4\u54e9\u54d4\u54e9',
+    'doge \u5f39\u5e55',
+    'doge \u8bc4\u8bba \u6897',
+    'doge \u53d1\u8a00',
+    'doge \u4e89\u8bae',
     'doge',
   ];
   const summary = summarizeTermAttempts(
@@ -464,20 +464,20 @@ test('summarizeTermAttempts reports exhausted terms after every built-in variant
   assert.equal(summary.exhaustedTerms, 1);
   assert.deepEqual(summary.exhaustedSamples.map((entry) => entry.term), ['doge']);
   assert.equal(summary.exhaustedSamples[0].variantsTried, 10);
-  assert.equal(summary.exhaustedSamples[0].suggestedQueries.includes('doge 热评'), true);
+  assert.equal(summary.exhaustedSamples[0].suggestedQueries.includes('doge \u56de\u590d'), true);
 });
 
 test('buildCoverageActions classifies covered, unattempted, missed, partial, and exhausted terms', () => {
   const variants = [
-    'doge Bilibili discussion comments',
-    'doge Bilibili comments',
-    'doge B站 评论区',
-    'doge 哔哩哔哩 弹幕',
-    'doge 评论 梗',
-    'doge 评论区',
-    'doge 梗',
-    'doge 发言',
-    'doge 争议',
+    'doge B\u7ad9 \u8ba8\u8bba \u8bc4\u8bba\u533a',
+    'doge \u8bc4\u8bba\u533a',
+    'doge \u70ed\u8bc4',
+    'doge B\u7ad9',
+    'doge \u54d4\u54e9\u54d4\u54e9',
+    'doge \u5f39\u5e55',
+    'doge \u8bc4\u8bba \u6897',
+    'doge \u53d1\u8a00',
+    'doge \u4e89\u8bae',
     'doge',
   ];
   const actions = buildCoverageActions(
@@ -508,14 +508,14 @@ test('buildCoverageActions classifies covered, unattempted, missed, partial, and
           term: 'missed',
           attempts: 1,
           successfulAttempts: 0,
-          queries: [{ query: 'missed Bilibili comment meme' }],
-          lastQuery: 'missed Bilibili comment meme',
+          queries: [{ query: 'missed B\u7ad9 \u8bc4\u8bba\u533a \u6897' }],
+          lastQuery: 'missed B\u7ad9 \u8bc4\u8bba\u533a \u6897',
         },
         partial: {
           term: 'partial',
           attempts: 1,
           successfulAttempts: 1,
-          queries: [{ query: 'partial Bilibili comment meme', hit: true }],
+          queries: [{ query: 'partial B\u7ad9 \u8bc4\u8bba\u533a \u6897', hit: true }],
         },
         doge: {
           term: 'doge',
@@ -533,14 +533,14 @@ test('buildCoverageActions classifies covered, unattempted, missed, partial, and
   assert.equal(byTerm.covered.action, 'none');
   assert.equal(byTerm.sourceGap.status, 'source_gap');
   assert.equal(byTerm.sourceGap.action, 'refresh_source_metadata');
-  assert.equal(byTerm.sourceGap.nextQuery, 'sourceGap Bilibili comment meme');
+  assert.equal(byTerm.sourceGap.nextQuery, 'sourceGap B\u7ad9 \u8bc4\u8bba\u533a \u6897');
   assert.equal(byTerm.newbie.action, 'harvest');
   assert.equal(byTerm.missed.action, 'retry_with_new_variant');
-  assert.equal(byTerm.missed.nextQuery, 'missed Bilibili comments');
+  assert.equal(byTerm.missed.nextQuery, 'missed \u8bc4\u8bba\u533a');
   assert.equal(byTerm.partial.action, 'harvest_more_evidence');
   assert.equal(byTerm.doge.status, 'exhausted');
   assert.equal(byTerm.doge.action, 'add_query_template');
-  assert.equal(byTerm.doge.suggestedQueries.includes('doge 热评'), true);
+  assert.equal(byTerm.doge.suggestedQueries.includes('doge \u56de\u590d'), true);
 });
 
 
@@ -571,15 +571,15 @@ test('buildDictionaryCoverageAudit reports gate status and next harvest actions'
           family: 'attack',
           attempts: 1,
           successfulAttempts: 0,
-          queries: [{ query: 'missed Bilibili comment meme' }],
-          lastQuery: 'missed Bilibili comment meme',
+          queries: [{ query: 'missed B\u7ad9 \u8bc4\u8bba\u533a \u6897' }],
+          lastQuery: 'missed B\u7ad9 \u8bc4\u8bba\u533a \u6897',
         },
         partial: {
           term: 'partial',
           family: 'evasion',
           attempts: 1,
           successfulAttempts: 1,
-          queries: [{ query: 'partial Bilibili reply argument comments', hit: true }],
+          queries: [{ query: 'partial B\u7ad9 \u56de\u590d \u8bc4\u8bba\u533a', hit: true }],
         },
       },
     },
@@ -592,7 +592,7 @@ test('buildDictionaryCoverageAudit reports gate status and next harvest actions'
   assert.equal(audit.actionSummary.retry_with_new_variant, 1);
   assert.equal(audit.actionSummary.harvest_more_evidence, 1);
   assert.deepEqual(audit.nextActions.map((item) => item.term), ['missed', 'partial']);
-  assert.equal(audit.recommendedQueries[0], 'missed Bilibili comments');
+  assert.equal(audit.recommendedQueries[0], 'missed \u8bc4\u8bba\u533a');
   assert.equal(audit.familyGaps[0].family, 'attack');
   assert.equal(audit.failureReasons.some((reason) => reason.includes('term(s) are below')), true);
 });
@@ -658,7 +658,7 @@ test('harvestKeywordDictionary runs dictionary-seeded searches and reports growt
     );
 
     assert.equal(result.ok, true);
-    assert.deepEqual(result.queries, ['seed topic', 'doge Bilibili discussion comments']);
+    assert.deepEqual(result.queries, ['seed topic', 'doge B\u7ad9 \u8ba8\u8bba \u8bc4\u8bba\u533a']);
     assert.equal(searched.length, 2);
     assert.deepEqual(searched[0], {
       searchQueries: ['seed topic'],
@@ -734,7 +734,7 @@ test('harvestKeywordDictionary uses untried query variants after prior missed at
       },
     );
 
-    assert.deepEqual(second.queries, ['doge Bilibili comments']);
+    assert.deepEqual(second.queries, ['doge \u8bc4\u8bba\u533a']);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
@@ -771,7 +771,7 @@ test('harvestKeywordDictionary writes ASCII-safe term attempt state for Chinese 
     const attempt = Object.values(state.termAttempts).find((item) => item.term === '典中典');
     assert.equal(attempt.attempts, 1);
     assert.equal(attempt.query, undefined);
-    assert.equal(attempt.lastQuery, '典中典 Bilibili comment meme');
+    assert.equal(attempt.lastQuery, '典中典 B\u7ad9 \u8bc4\u8bba\u533a \u6897');
   } finally {
     await rm(dir, { recursive: true, force: true });
   }

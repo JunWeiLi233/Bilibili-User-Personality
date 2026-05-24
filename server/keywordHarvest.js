@@ -5,26 +5,26 @@ import { readKeywordDictionary as defaultReadKeywordDictionary } from './deepsee
 import { searchVideoKeywords as defaultSearchVideoKeywords } from './videoKeywordSearch.js';
 
 const DEFAULT_SEED_QUERIES = [
-  'Chinese internet slang Bilibili comments',
-  'Bilibili comment memes',
-  'Bilibili argument comments',
+  '\u4e2d\u6587\u4e92\u8054\u7f51 \u6897 \u8bc4\u8bba\u533a',
+  'B\u7ad9 \u8bc4\u8bba\u533a \u6897',
+  'B\u7ad9 \u4e89\u8bae \u70ed\u8bc4',
 ];
 const FAMILY_CONTEXT = {
-  attack: 'Bilibili comment meme',
-  absolutes: 'Bilibili absolute claim comments',
-  evidence: 'Bilibili source evidence comments',
-  evasion: 'Bilibili reply argument comments',
-  cooperation: 'Bilibili discussion comments',
-  correction: 'Bilibili correction comments',
+  attack: 'B\u7ad9 \u8bc4\u8bba\u533a \u6897',
+  absolutes: 'B\u7ad9 \u7edd\u5bf9\u5316 \u8bc4\u8bba',
+  evidence: 'B\u7ad9 \u8bc1\u636e \u6765\u6e90 \u8bc4\u8bba',
+  evasion: 'B\u7ad9 \u56de\u590d \u8bc4\u8bba\u533a',
+  cooperation: 'B\u7ad9 \u8ba8\u8bba \u8bc4\u8bba\u533a',
+  correction: 'B\u7ad9 \u66f4\u6b63 \u8bc4\u8bba',
 };
 const TERM_QUERY_TEMPLATES = [
-  (term, family) => `${term} ${FAMILY_CONTEXT[family] || 'Bilibili comments'}`,
-  (term) => `${term} Bilibili comments`,
-  (term) => `${term} B\u7ad9 \u8bc4\u8bba\u533a`,
-  (term) => `${term} \u54d4\u54e9\u54d4\u54e9 \u5f39\u5e55`,
-  (term) => `${term} \u8bc4\u8bba \u6897`,
+  (term, family) => `${term} ${FAMILY_CONTEXT[family] || 'B\u7ad9 \u8bc4\u8bba\u533a'}`,
   (term) => `${term} \u8bc4\u8bba\u533a`,
-  (term) => `${term} \u6897`,
+  (term) => `${term} \u70ed\u8bc4`,
+  (term) => `${term} B\u7ad9`,
+  (term) => `${term} \u54d4\u54e9\u54d4\u54e9`,
+  (term) => `${term} \u5f39\u5e55`,
+  (term) => `${term} \u8bc4\u8bba \u6897`,
   (term) => `${term} \u53d1\u8a00`,
   (term) => `${term} \u4e89\u8bae`,
   (term) => term,
