@@ -149,3 +149,64 @@ test('trains dictionary through DeepSeek V4 chat output and persists learned ter
     await rm(dir, { recursive: true, force: true });
   }
 });
+
+test('retries DeepSeek keyword generation when JSON mode returns empty content', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-train-retry-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  const chatBodies = [];
+  try {
+    const result = await trainKeywordDictionary(
+      {
+        text: '单走一个6，谁是蹭概念，问百度有什么用。',
+        uid: 'BV19yGa61Ee6',
+      },
+      {
+        dictionaryPath,
+        env: {
+          DEEPSEEK_API_KEY: 'test-key',
+          DEEPSEEK_MODEL: 'deepseek-v4-flash',
+          DEEPSEEK_REASONING_EFFORT: 'medium',
+        },
+        fetch: async (url, options = {}) => {
+          if (String(url).endsWith('/models')) {
+            return { ok: true, json: async () => ({ data: [{ id: 'deepseek-v4-flash' }] }) };
+          }
+          const body = JSON.parse(options.body);
+          chatBodies.push(body);
+          return {
+            ok: true,
+            json: async () => ({
+              choices: [
+                {
+                  message: {
+                    content:
+                      chatBodies.length === 1
+                        ? ''
+                        : JSON.stringify({
+                            keywords: [
+                              { term: '单走一个6', family: 'attack', meaning: '弹幕式戏谑表达', variants: [] },
+                              { term: '问百度', family: 'evasion', meaning: '把解释责任转给搜索引擎', variants: [] },
+                            ],
+                          }),
+                  },
+                },
+              ],
+            }),
+          };
+        },
+      },
+    );
+
+    assert.equal(result.ok, true);
+    assert.equal(result.usedFallback, false);
+    assert.equal(chatBodies.length, 2);
+    assert.equal(chatBodies[0].response_format.type, 'json_object');
+    assert.equal(chatBodies[1].response_format, undefined);
+    assert.equal(chatBodies[1].reasoning_effort, 'medium');
+    assert.equal(chatBodies[1].max_tokens, 3200);
+    assert.equal(result.entries.some((entry) => entry.term === '单走一个6'), true);
+    assert.equal(result.entries.some((entry) => entry.term === '问百度'), true);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});

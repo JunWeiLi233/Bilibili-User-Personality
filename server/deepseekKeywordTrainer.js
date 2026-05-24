@@ -16,6 +16,10 @@ const STOP_TERMS = new Set([
   '数据',
   '报告',
   '论文',
+  '攻击',
+  '规避',
+  '关键词',
+  '分类',
 ]);
 const FAMILY_ALIASES = {
   sarcasm: 'attack',
@@ -194,15 +198,23 @@ export async function getDeepSeekConfig(options = {}) {
 }
 
 function buildKeywordMessages({ text, uid }) {
+  const candidates = buildCandidateTerms(text);
   return [
     {
       role: 'system',
       content:
-        '你是中文互联网术语词典训练器。只输出 JSON。你要从 B 站用户发言中发现值得加入本地词典的新词、梗、缩写、谐音或固定话术，并归入语义族。',
+        '你是中文互联网发言关键词抽取器。只输出合法 JSON，不要输出 markdown。你要从 B 站发言样本里抽取真实出现的网络表达、梗、缩写、谐音或固定话术，并归入语义族。',
     },
     {
       role: 'user',
-      content: `JSON 结构：
+      content: `任务：从发言样本中找出适合加入本地语库的关键词、梗、缩写、谐音或固定话术，并分类。
+
+硬性规则：
+1. term 必须是发言样本中连续出现的原文片段，或候选表达中的一项。
+2. 禁止输出类别词或普通说明词，例如：攻击、规避、证据、关键词、普通名词。
+3. 优先输出 2 到 12 字的中文互联网表达。
+4. 如果候选表达不为“无”，必须从候选或样本原文中选择 1 到 8 个最有语用价值的关键词；只有候选表达为“无”且样本没有网络表达时才输出 {"keywords":[]}。
+5. 输出 JSON，结构必须是：
 {"keywords":[{"term":"词或短语","family":"attack|absolutes|evidence|evasion|cooperation|correction","meaning":"中文含义和语用功能","variants":["变体"],"risk":"high|medium|positive|neutral","confidence":0.0}]}
 
 分类规则：
@@ -213,7 +225,11 @@ function buildKeywordMessages({ text, uid }) {
 - cooperation: 可能、限定、澄清、愿意看来源、合作讨论。
 - correction: 我错了、说重了、更正、修正、降低结论强度。
 
-不要加入普通名词、视频标题、用户名、纯数字。优先选择 2 到 12 字的中文互联网表达。不要输出 markdown。
+候选表达（可选，但不要被候选限制；也可以从样本中发现候选之外的真实连续短语）：
+${candidates.length ? candidates.join('、') : '无'}
+
+示例 JSON：
+{"keywords":[{"term":"懂的都懂","family":"evasion","meaning":"用圈内默契暗示代替举证","variants":[],"risk":"medium","confidence":0.82}]}
 
 UID: ${uid || 'unknown'}
 发言样本：
@@ -222,11 +238,33 @@ ${String(text || '').slice(0, 6000)}`,
   ];
 }
 
+function buildCandidateTerms(text) {
+  const value = String(text || '');
+  const fromHeuristics = heuristicKeywordEntries(value).map((entry) => entry.term);
+  const signalPatterns = [
+    /不会真有人[\u4e00-\u9fa5]{0,8}/g,
+    /单走(?:一个)?[0-9A-Za-z]+/g,
+    /[\u4e00-\u9fa5]{0,4}(?:典中典|赢麻了|绷不住|急了|阴阳怪气|蹭概念|懂哥|小丑|车家军|doge|滑稽)[\u4e00-\u9fa5]{0,4}/gi,
+    /[\u4e00-\u9fa5]{0,6}(?:懂的都懂|自己查|不会百度|问百度|懒得解释)[\u4e00-\u9fa5]{0,6}/g,
+    /[\u4e00-\u9fa5]{0,6}(?:全是|全都|根本没有|没有一个|必然|绝对|肯定是)[\u4e00-\u9fa5]{0,6}/g,
+    /[A-Za-z0-9]{2,12}/g,
+  ];
+  const matches = [];
+  for (const pattern of signalPatterns) {
+    for (const match of value.matchAll(pattern)) matches.push(match[0]);
+  }
+  return unique([...fromHeuristics, ...matches].map(cleanTerm))
+    .filter((term) => term.length >= 2 && term.length <= 12 && !STOP_TERMS.has(term) && !/^\d+$/.test(term))
+    .slice(0, 80);
+}
+
 function heuristicKeywordEntries(text) {
   const patterns = [
     { pattern: /(不会真有人(?:觉得|以为)?)/g, family: 'attack', meaning: '用反问包装资格审查或嘲讽' },
     { pattern: /(典中典|典|孝|急了|绷不住|赢麻了|乐|yygq|阴阳怪气|懂哥|小丑)/gi, family: 'attack', meaning: '中文互联网嘲讽或贬低性梗' },
+    { pattern: /(单走(?:一个)?[0-9A-Za-z]+|蹭概念|车家军|doge|滑稽)/gi, family: 'attack', meaning: '中文互联网弹幕式嘲讽、阵营指称或戏谑表达' },
     { pattern: /(懂的都懂|你自己搜|自己查|不会百度|这还用问|懒得解释)/g, family: 'evasion', meaning: '把举证责任转移给对方' },
+    { pattern: /(问百度|去问[^，。！？\s]{1,8})/g, family: 'evasion', meaning: '把解释责任转移到搜索或第三方身上' },
     { pattern: /(全是|全都|根本没有|没有一个|必然|绝对|肯定是)/g, family: 'absolutes', meaning: '缺少限定条件的强断言' },
     { pattern: /(数据|来源|报告|论文|链接|证据|出处)/g, family: 'evidence', meaning: '要求或提供可核验证据' },
     { pattern: /(可能|不一定|如果有|可以贴|我理解|补充一下)/g, family: 'cooperation', meaning: '合作讨论或条件化表达' },
@@ -253,22 +291,32 @@ async function generateKeywordEntries(payload, config, options = {}) {
     return { entries: heuristicEntries, usedFallback: true, raw: '' };
   }
 
-  const response = await fetchImpl(`${config.baseUrl}/chat/completions`, {
-    method: 'POST',
-    headers: authHeaders((options.env || process.env).DEEPSEEK_API_KEY),
-    body: JSON.stringify({
-      model: config.model,
-      messages: buildKeywordMessages(payload),
-      response_format: { type: 'json_object' },
-      thinking: { type: 'enabled' },
-      reasoning_effort: config.reasoningEffort || 'medium',
-      stream: false,
-      max_tokens: 900,
-    }),
-  });
-  if (!response.ok) throw new Error(`DeepSeek generate failed with HTTP ${response.status}`);
-  const data = await response.json();
-  const raw = data.choices?.[0]?.message?.content || '';
+  const requestBody = {
+    model: config.model,
+    messages: buildKeywordMessages(payload),
+    response_format: { type: 'json_object' },
+    thinking: { type: 'enabled' },
+    reasoning_effort: config.reasoningEffort || 'medium',
+    stream: false,
+    max_tokens: 900,
+  };
+  let raw = await requestDeepSeekKeywords(config, fetchImpl, options, requestBody);
+  if (!raw.trim()) {
+    const retryBody = {
+      ...requestBody,
+      response_format: undefined,
+      max_tokens: 3200,
+      messages: [
+        ...requestBody.messages,
+        {
+          role: 'user',
+          content: '如果 JSON 模式导致 content 为空，现在请只输出一个完整 JSON 对象，不要解释、不要 markdown。',
+        },
+      ],
+    };
+    raw = await requestDeepSeekKeywords(config, fetchImpl, options, retryBody);
+  }
+
   try {
     const parsed = extractJsonObject(raw);
     const deepseekEntries = normalizeKeywordEntries(parsed.keywords || parsed.terms || []);
@@ -281,6 +329,18 @@ async function generateKeywordEntries(payload, config, options = {}) {
   } catch {
     return { entries: heuristicEntries, usedFallback: true, raw };
   }
+}
+
+async function requestDeepSeekKeywords(config, fetchImpl, options, body) {
+  const cleanBody = Object.fromEntries(Object.entries(body).filter(([, value]) => value !== undefined));
+  const response = await fetchImpl(`${config.baseUrl}/chat/completions`, {
+    method: 'POST',
+    headers: authHeaders((options.env || process.env).DEEPSEEK_API_KEY),
+    body: JSON.stringify(cleanBody),
+  });
+  if (!response.ok) throw new Error(`DeepSeek generate failed with HTTP ${response.status}`);
+  const data = await response.json();
+  return data.choices?.[0]?.message?.content || '';
 }
 
 export async function trainKeywordDictionary(payload, options = {}) {
