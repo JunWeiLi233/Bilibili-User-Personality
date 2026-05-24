@@ -8,6 +8,7 @@
     "server": "node server/index.js",
     "video:keywords": "node server/runVideoKeywordDiscovery.js",
     "dictionary:harvest": "node server/runVideoKeywordDiscovery.js",
+    "dictionary:coverage": "node server/runDictionaryCoverageAudit.js",
     "dev:full": "node server/index.js",
     "test": "node --test",
     "build": "vite build",

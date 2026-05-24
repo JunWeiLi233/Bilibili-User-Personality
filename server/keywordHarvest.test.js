@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import test from 'node:test';
 
 import {
+  buildDictionaryCoverageAudit,
   buildCoverageActions,
   buildKeywordHarvestQueries,
   buildKeywordHarvestQueryPlan,
@@ -465,6 +466,47 @@ test('buildCoverageActions classifies covered, unattempted, missed, partial, and
   assert.equal(byTerm.doge.suggestedQueries.includes('doge 热评'), true);
 });
 
+
+test('buildDictionaryCoverageAudit reports gate status and next harvest actions', () => {
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [
+        { term: 'covered', family: 'attack', evidenceCount: 3 },
+        { term: 'missed', family: 'attack', evidenceCount: 0 },
+        { term: 'partial', family: 'evasion', evidenceCount: 1 },
+      ],
+    },
+    {
+      termAttempts: {
+        missed: {
+          term: 'missed',
+          family: 'attack',
+          attempts: 1,
+          successfulAttempts: 0,
+          queries: [{ query: 'missed Bilibili comment meme' }],
+          lastQuery: 'missed Bilibili comment meme',
+        },
+        partial: {
+          term: 'partial',
+          family: 'evasion',
+          attempts: 1,
+          successfulAttempts: 1,
+          queries: [{ query: 'partial Bilibili reply argument comments', hit: true }],
+        },
+      },
+    },
+    { targetEvidence: 3, maxActions: 2 },
+  );
+
+  assert.equal(audit.ok, false);
+  assert.equal(audit.coverage.coverageRatio, 0.3333);
+  assert.equal(audit.actionSummary.retry_with_new_variant, 1);
+  assert.equal(audit.actionSummary.harvest_more_evidence, 1);
+  assert.deepEqual(audit.nextActions.map((item) => item.term), ['missed', 'partial']);
+  assert.equal(audit.recommendedQueries[0], 'missed Bilibili comments');
+  assert.equal(audit.familyGaps[0].family, 'attack');
+  assert.equal(audit.failureReasons.some((reason) => reason.includes('term(s) are below')), true);
+});
 
 test('harvestKeywordDictionary runs dictionary-seeded searches and reports growth', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-'));

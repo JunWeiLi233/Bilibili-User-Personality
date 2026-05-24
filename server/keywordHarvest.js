@@ -397,6 +397,66 @@ export function buildCoverageActions(dictionary = {}, state = {}, options = {}) 
   });
 }
 
+export function buildDictionaryCoverageAudit(dictionary = {}, state = {}, options = {}) {
+  const targetEvidence = asPositiveInt(options.targetEvidence, 3, 1000);
+  const maxActions = asPositiveInt(options.maxActions, 20, 1000);
+  const minCoverageRatio = Math.min(1, Math.max(0, Number(options.minCoverageRatio ?? 1)));
+  const requireComplete = options.requireComplete !== false;
+  const coverage = summarizeEvidenceCoverage(dictionary, { targetEvidence });
+  const termAttemptSummary = summarizeTermAttempts(state, dictionary, options);
+  const coverageActions = buildCoverageActions(dictionary, state, options);
+  const actionSummary = coverageActions.reduce((summary, item) => {
+    summary[item.action] = (summary[item.action] || 0) + 1;
+    return summary;
+  }, {});
+  const nextActions = coverageActions
+    .filter((item) => item.action !== 'none')
+    .sort(
+      (a, b) =>
+        coverageActionRank(a.action) - coverageActionRank(b.action) ||
+        a.evidenceCount - b.evidenceCount ||
+        String(a.term || '').localeCompare(String(b.term || '')),
+    )
+    .slice(0, maxActions);
+  const recommendedQueries = unique(
+    nextActions.flatMap((item) => [item.nextQuery, ...(Array.isArray(item.suggestedQueries) ? item.suggestedQueries : [])]),
+  ).slice(0, maxActions);
+  const familyGaps = Object.entries(coverage.byFamily || {})
+    .map(([family, item]) => ({
+      family,
+      terms: item.terms,
+      weak: item.weak,
+      zero: item.zero,
+      evidence: item.evidence,
+      coverageRatio: item.terms ? Number(((item.terms - item.weak) / item.terms).toFixed(4)) : 1,
+    }))
+    .sort((a, b) => b.weak - a.weak || b.zero - a.zero || a.family.localeCompare(b.family));
+  const failureReasons = [];
+  if (coverage.coverageRatio < minCoverageRatio) {
+    failureReasons.push(`coverage ratio ${coverage.coverageRatio} is below ${minCoverageRatio}`);
+  }
+  if (requireComplete && !coverage.complete) {
+    failureReasons.push(`${coverage.weakTerms} term(s) are below ${targetEvidence} evidence hit(s)`);
+  }
+  if (termAttemptSummary.exhaustedTerms > 0) {
+    failureReasons.push(`${termAttemptSummary.exhaustedTerms} exhausted term(s) need extra query templates`);
+  }
+  return {
+    ok: failureReasons.length === 0,
+    generatedAt: new Date().toISOString(),
+    targetEvidence,
+    minCoverageRatio,
+    requireComplete,
+    coverage,
+    termAttemptSummary,
+    actionSummary,
+    familyGaps,
+    nextActions,
+    recommendedQueries,
+    failureReasons,
+  };
+}
+
 function summarizeCoverageProgress(beforeCoverage, afterCoverage) {
   return {
     weakTermsResolved: Math.max(0, (beforeCoverage?.weakTerms || 0) - (afterCoverage?.weakTerms || 0)),

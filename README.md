@@ -102,6 +102,14 @@ $env:BILIBILI_VIDEO_COMMENT_PAGES="2"
 npm run dictionary:harvest
 ```
 
+After a harvest, run a read-only coverage audit to see exactly which dictionary terms still need Bilibili evidence:
+
+```powershell
+npm run dictionary:coverage
+```
+
+The audit writes `server/keywordCoverageAudit.json` and prints weak terms, exhausted terms, family gaps, next coverage actions, and recommended next queries/templates. For a local or CI gate, set `BILIBILI_COVERAGE_AUDIT_STRICT=1`; the command exits non-zero until the configured coverage target is met. Tune the gate with `BILIBILI_COVERAGE_AUDIT_MIN_RATIO`, `BILIBILI_COVERAGE_AUDIT_REQUIRE_COMPLETE=0`, `BILIBILI_COVERAGE_AUDIT_MAX_ACTIONS`, and `BILIBILI_HARVEST_TARGET_EVIDENCE`.
+
 `npm run server` starts both services:
 
 - API backend: `http://127.0.0.1:8787`
