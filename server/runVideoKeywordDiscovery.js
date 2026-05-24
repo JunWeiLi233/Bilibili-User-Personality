@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 
 import { DEFAULT_HARVEST_STATE_PATH, harvestKeywordDictionaryRounds } from './keywordHarvest.js';
@@ -8,6 +8,16 @@ function parseList(value) {
     .split(/[\r\n,;|]+/)
     .map((item) => item.trim())
     .filter(Boolean);
+}
+
+async function readListFile(path) {
+  if (!path) return [];
+  try {
+    return parseList(await readFile(path, 'utf8'));
+  } catch (error) {
+    console.warn(`Could not read query file ${path}: ${error.message}`);
+    return [];
+  }
 }
 
 function numberFromEnv(name, fallback) {
@@ -126,7 +136,11 @@ function serializeResult(result, statePath, reportPath) {
   };
 }
 
-const seedQueries = parseList(process.env.BILIBILI_VIDEO_SEARCH_QUERIES || process.env.BILIBILI_VIDEO_SEARCH_QUERY);
+const priorityQueries = await readListFile(process.env.BILIBILI_HARVEST_PRIORITY_QUERY_FILE);
+const seedQueries = [
+  ...parseList(process.env.BILIBILI_VIDEO_SEARCH_QUERIES || process.env.BILIBILI_VIDEO_SEARCH_QUERY),
+  ...(await readListFile(process.env.BILIBILI_VIDEO_SEARCH_QUERY_FILE)),
+];
 const controversyQueries = parseList(process.env.BILIBILI_CONTROVERSY_SEARCH_QUERIES || process.env.BILIBILI_CONTROVERSY_SEARCH_QUERY);
 const extraQueryTemplates = parseList(process.env.BILIBILI_HARVEST_EXTRA_QUERY_TEMPLATES);
 const exhaustedSuggestionTemplates = parseList(process.env.BILIBILI_HARVEST_EXHAUSTED_SUGGESTION_TEMPLATES);
@@ -148,6 +162,7 @@ const resetState = process.env.BILIBILI_HARVEST_RESET === '1';
 const skipSeen = process.env.BILIBILI_HARVEST_SKIP_SEEN !== '0';
 
 const result = await harvestKeywordDictionaryRounds({
+  priorityQueries,
   seedQueries,
   controversyQueries,
   maxQueries,

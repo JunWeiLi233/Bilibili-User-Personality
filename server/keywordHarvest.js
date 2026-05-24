@@ -128,6 +128,7 @@ function coverageActionRank(action) {
 
 export function buildKeywordHarvestQueryPlan(dictionary, options = {}) {
   const maxQueries = asPositiveInt(options.maxQueries, 12, 10000);
+  const priorityQueries = unique(options.priorityQueries || []);
   const seedQueries = unique(options.seedQueries || DEFAULT_SEED_QUERIES);
   const coverageMode = String(options.coverageMode || 'balanced').trim().toLowerCase();
   const targetEvidence = asPositiveInt(options.targetEvidence, 3, 1000);
@@ -192,7 +193,11 @@ export function buildKeywordHarvestQueryPlan(dictionary, options = {}) {
   }
 
   const seedPlan = seedQueries.map((query) => ({ query, source: 'seed' }));
-  const orderedPlan = coverageMode === 'all-weak' ? [...dictionaryPlan, ...seedPlan] : [...seedPlan, ...dictionaryPlan];
+  const priorityPlan = priorityQueries.map((query) => ({ query, source: 'priority' }));
+  const orderedPlan =
+    coverageMode === 'all-weak'
+      ? [...priorityPlan, ...dictionaryPlan, ...seedPlan]
+      : [...priorityPlan, ...seedPlan, ...dictionaryPlan];
   const seenQueries = new Set();
   const plan = [];
   for (const item of orderedPlan) {
@@ -548,6 +553,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
   const scannedBvidSet = new Set(state.scannedBvids);
   const maxQueries = asPositiveInt(options.maxQueries, 12, 100);
   const candidatePlan = buildKeywordHarvestQueryPlan(before, {
+    priorityQueries: options.priorityQueries,
     seedQueries: options.seedQueries,
     maxQueries: skipSeen ? Math.min(10000, maxQueries + searchedQuerySet.size) : maxQueries,
     termsPerFamily: options.termsPerFamily,

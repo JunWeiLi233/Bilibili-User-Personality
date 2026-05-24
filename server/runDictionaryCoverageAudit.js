@@ -23,6 +23,7 @@ async function writeJson(path, payload) {
 const dictionaryPath = process.env.DEEPSEEK_KEYWORD_DICTIONARY_PATH;
 const statePath = process.env.BILIBILI_HARVEST_STATE_PATH || DEFAULT_HARVEST_STATE_PATH;
 const reportPath = process.env.BILIBILI_COVERAGE_AUDIT_REPORT_PATH || join(process.cwd(), 'server', 'keywordCoverageAudit.json');
+const queryFilePath = process.env.BILIBILI_COVERAGE_QUERY_FILE_PATH || join(process.cwd(), 'server', 'keywordCoverageQueries.txt');
 const targetEvidence = positiveIntFromEnv('BILIBILI_HARVEST_TARGET_EVIDENCE', 3);
 const maxActions = positiveIntFromEnv('BILIBILI_COVERAGE_AUDIT_MAX_ACTIONS', 20);
 const minCoverageRatio = numberFromEnv('BILIBILI_COVERAGE_AUDIT_MIN_RATIO', 1);
@@ -91,6 +92,11 @@ if (audit.failureReasons.length) {
 
 await writeJson(reportPath, audit);
 console.log(`Coverage audit report: ${reportPath}`);
+if (audit.recommendedQueries.length) {
+  await mkdir(dirname(queryFilePath), { recursive: true });
+  await writeFile(queryFilePath, `${audit.recommendedQueries.join('\n')}\n`, 'utf8');
+  console.log(`Recommended query file: ${queryFilePath}`);
+}
 
 if (strict && !audit.ok) {
   process.exitCode = 1;

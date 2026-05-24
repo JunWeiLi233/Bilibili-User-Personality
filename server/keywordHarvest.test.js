@@ -232,6 +232,27 @@ test('buildKeywordHarvestQueryPlan can prioritize source metadata gaps', () => {
   ]);
 });
 
+test('buildKeywordHarvestQueryPlan runs priority queries before automatic coverage plan', () => {
+  const plan = buildKeywordHarvestQueryPlan(
+    {
+      entries: [{ term: 'weak', family: 'attack', evidenceCount: 0 }],
+    },
+    {
+      priorityQueries: ['audit exported query'],
+      seedQueries: ['seed topic'],
+      coverageMode: 'all-weak',
+      maxQueries: 3,
+      queryVariantsPerTerm: 1,
+    },
+  );
+
+  assert.deepEqual(plan.map((item) => [item.query, item.source]), [
+    ['audit exported query', 'priority'],
+    ['weak Bilibili comment meme', 'dictionary'],
+    ['seed topic', 'seed'],
+  ]);
+});
+
 
 test('buildKeywordHarvestQueryPlan skips terms that exhausted every built-in query variant', () => {
   const allQueries = [

@@ -1,5 +1,7 @@
 param(
   [string[]]$SearchQuery = @(),
+  [string]$SearchQueryFile = "",
+  [string]$PriorityQueryFile = "",
   [string[]]$ControversyQuery = @(),
   [string[]]$ExtraQueryTemplate = @(),
   [int]$DiscoveryLimit = 6,
@@ -34,6 +36,16 @@ if ($SearchQuery.Count -gt 0) {
   $env:BILIBILI_VIDEO_SEARCH_QUERIES = ($SearchQuery -join "`n")
 } else {
   Remove-Item Env:\BILIBILI_VIDEO_SEARCH_QUERIES -ErrorAction SilentlyContinue
+}
+if ($SearchQueryFile) {
+  $env:BILIBILI_VIDEO_SEARCH_QUERY_FILE = $SearchQueryFile
+} else {
+  Remove-Item Env:\BILIBILI_VIDEO_SEARCH_QUERY_FILE -ErrorAction SilentlyContinue
+}
+if ($PriorityQueryFile) {
+  $env:BILIBILI_HARVEST_PRIORITY_QUERY_FILE = $PriorityQueryFile
+} else {
+  Remove-Item Env:\BILIBILI_HARVEST_PRIORITY_QUERY_FILE -ErrorAction SilentlyContinue
 }
 if ($ControversyQuery.Count -gt 0) {
   $env:BILIBILI_CONTROVERSY_SEARCH_QUERIES = ($ControversyQuery -join "`n")
@@ -72,6 +84,12 @@ if ($SearchQuery.Count -gt 0) {
   $SearchQuery | ForEach-Object { Write-Host " - $_" }
 } else {
   Write-Host " - using backend default search query"
+}
+if ($SearchQueryFile) {
+  Write-Host "Search query file: $SearchQueryFile"
+}
+if ($PriorityQueryFile) {
+  Write-Host "Priority query file: $PriorityQueryFile"
 }
 if ($DiscoveryMode -eq "controversial") {
   Write-Host "Controversy discovery queries:"
