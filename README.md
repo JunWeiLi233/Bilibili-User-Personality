@@ -21,10 +21,10 @@ Research-driven prototype for evaluating whether a selected Bilibili user's publ
   - Discovers public submissions and dynamic posts from Bilibili public endpoints.
   - Scans comments around those public objects and filters interactions by `mid`.
   - Does not call AICU, third-party indexes, or external websites as a substitute for UID comment crawling.
-- Video-link keyword search:
+- Video keyword search:
   - Accepts a Bilibili video URL or `BV` id in the same search box.
-  - Also supports a backend-owned default video link in `server/videoKeywordSearch.js`; override it with `BILIBILI_DEFAULT_VIDEO_LINK` if needed.
-  - Resolves the video through Bilibili public metadata, scans public top-level and nested comments, and sends the sampled text to the DeepSeek keyword trainer.
+  - If no video link is provided, backend code searches Bilibili by configured search terms, discovers videos, scans their public comments, and trains keywords from that sample.
+  - Still supports backend-owned explicit video links through `BILIBILI_DEFAULT_VIDEO_LINKS` or `BILIBILI_DEFAULT_VIDEO_LINK` when you want a fixed video set.
   - Shows the learned keywords in the UI and folds them into the local analyzer dictionary.
 - DeepSeek V4 Chinese keyword training:
   - Uses the DeepSeek API for dictionary extraction, defaulting to `deepseek-v4-flash`.
@@ -32,7 +32,6 @@ Research-driven prototype for evaluating whether a selected Bilibili user's publ
   - Extracts Chinese internet terms, meanings, variants, and semantic families from crawled comments.
   - Writes learned terms to `server/deepseekKeywordDictionary.json` and merges them into the local analyzer.
   - Marks dictionary hits inside analyzed comments, maps each semantic family to a radar axis, and shows the vocabulary markers under the radar chart.
-- Built-in public test samples from Bilibili video `BV19yGa61Ee6`.
 
 ## Run Locally
 
@@ -45,14 +44,29 @@ npm install
 npm run server
 ```
 
-To run backend-owned default Bilibili videos directly, edit the `$bilibiliVideoLinks` array in `run-bilibili-video.ps1`, then run:
+To run backend-owned Bilibili video discovery directly:
 
 ```powershell
 cd D:\Bilibili_User_Personality
 .\run-bilibili-video.ps1
 ```
 
-After the page opens, click `后端默认视频`. The backend will scan every link in that array and train one merged keyword dictionary pass.
+The script does not require video links. It passes search terms to backend code, discovers Bilibili videos, scans public comments, and trains one merged keyword dictionary pass.
+
+To change what videos are discovered:
+
+```powershell
+.\run-bilibili-video.ps1 -SearchQuery "A圣 评论区","中文互联网 梗" -DiscoveryLimit 8 -CommentPages 3
+```
+
+You can also run the same backend task through npm:
+
+```powershell
+$env:BILIBILI_VIDEO_SEARCH_QUERIES="中文互联网 阴阳怪气`n杠精 评论区"
+$env:BILIBILI_VIDEO_DISCOVERY_LIMIT="6"
+$env:BILIBILI_VIDEO_COMMENT_PAGES="2"
+npm run video:keywords
+```
 
 `npm run server` starts both services:
 
@@ -63,9 +77,9 @@ If `5191` is already in use, Vite prints the next available local URL, for examp
 
 In the app:
 
-- Click `后端默认视频` to run the Bilibili link stored in backend code.
+- Click `后端默认视频` to run backend video discovery or the configured backend video links.
 - Or paste a UID, Bilibili video URL, or `BV` id into the `B 站 UID / 视频链接` search box.
-- The backend-owned default video link lives in `server/videoKeywordSearch.js`.
+- If no explicit backend video link is configured, default video discovery uses `BILIBILI_VIDEO_SEARCH_QUERY` or `BILIBILI_VIDEO_SEARCH_QUERIES`.
 
 For DeepSeek V4 keyword training, configure an API key before starting the server:
 
@@ -75,13 +89,15 @@ $env:DEEPSEEK_API_KEY="your_api_key"
 
 This repo also supports a local helper file named `set-deepseek-env.ps1`. Keep that file uncommitted because it contains your private key.
 
-Optional model configuration:
+Optional model and discovery configuration:
 
 ```powershell
 $env:DEEPSEEK_BASE_URL="https://api.deepseek.com"
 $env:DEEPSEEK_MODEL="deepseek-v4-flash"
 $env:DEEPSEEK_REASONING_EFFORT="medium"
-$env:BILIBILI_DEFAULT_VIDEO_LINK="https://www.bilibili.com/video/BV..."
+$env:BILIBILI_VIDEO_SEARCH_QUERIES="中文互联网 阴阳怪气`n杠精 评论区"
+$env:BILIBILI_VIDEO_DISCOVERY_LIMIT="6"
+$env:BILIBILI_VIDEO_COMMENT_PAGES="2"
 ```
 
 `DEEPSEEK_MODEL=deepseek-v4-pro` can be used when you want the stronger V4 model for dictionary extraction.

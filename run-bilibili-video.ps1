@@ -1,28 +1,13 @@
-# Edit these links, then run this script from PowerShell:
-#   .\run-bilibili-video.ps1
-
-$bilibiliVideoLinks = @(
-  "https://www.bilibili.com/video/BV19yGa61Ee6/?vd_source=d3f6474bdf9e6de8d027785f1120afd4"
-  "https://www.bilibili.com/video/BV18SLt6qEp9/?vd_source=d3f6474bdf9e6de8d027785f1120afd4"
-  "https://www.bilibili.com/video/BV12MABzGEZq/"
-  "https://www.bilibili.com/video/BV1S1W1zQEcq/"
-  "https://www.bilibili.com/video/BV125nMzqEsM/"
-  "https://www.bilibili.com/video/BV1sKhRzdEBD/"
-  "https://www.bilibili.com/video/BV1cLbQzKEnu/"
-  "https://www.bilibili.com/video/BV1MZ421K7x8/?vd_source=d3f6474bdf9e6de8d027785f1120afd4"
-  "https://www.bilibili.com/video/BV1ECF8zvEUW?spm_id_from=333.788.recommend_more_video.0&trackid=web_related_0.router-related-2479604-fc7wt.1779601733788.445&vd_source=d3f6474bdf9e6de8d027785f1120afd4"
-  "https://www.bilibili.com/video/BV1K44y1z7iu/?vd_source=d3f6474bdf9e6de8d027785f1120afd4"
-  "https://www.bilibili.com/video/BV1ufLF6oEWT/?vd_source=d3f6474bdf9e6de8d027785f1120afd4"
-  "https://www.bilibili.com/video/BV1LtivBmEWT/?vd_source=d3f6474bdf9e6de8d027785f1120afd4"
-  "bilibili.com/video/BV1EkGV6NEAV/"
-  "https://www.bilibili.com/video/BV1xbLe6LE1o/"
-  "https://www.bilibili.com/video/BV1zpLW6zEXJ/"
-  "https://www.bilibili.com/video/BV11C5o6gEsZ/"
-  "https://www.bilibili.com/video/BV1y9FkzjE12/"
+param(
+  [string[]]$SearchQuery = @(),
+  [int]$DiscoveryLimit = 6,
+  [int]$CommentPages = 2
 )
 
-$env:BILIBILI_DEFAULT_VIDEO_LINKS = ($bilibiliVideoLinks -join "`n")
-$env:BILIBILI_DEFAULT_VIDEO_LINK = $bilibiliVideoLinks[0]
+# Runs backend video discovery and keyword training without manually entering Bilibili video links.
+# Example:
+#   .\run-bilibili-video.ps1
+#   .\run-bilibili-video.ps1 -SearchQuery "your search term 1","your search term 2" -DiscoveryLimit 8 -CommentPages 3
 
 if (Test-Path ".\set-deepseek-env.ps1") {
   . ".\set-deepseek-env.ps1"
@@ -30,9 +15,23 @@ if (Test-Path ".\set-deepseek-env.ps1") {
   Write-Warning "set-deepseek-env.ps1 was not found. DeepSeek extraction will use the local fallback unless DEEPSEEK_API_KEY is already set."
 }
 
-Write-Host "Backend default Bilibili videos:"
-$bilibiliVideoLinks | ForEach-Object { Write-Host " - $_" }
-Write-Host ""
-Write-Host "Starting API and frontend. Open the Vite URL printed below, then click 后端默认视频."
+if ($SearchQuery.Count -gt 0) {
+  $env:BILIBILI_VIDEO_SEARCH_QUERIES = ($SearchQuery -join "`n")
+} else {
+  Remove-Item Env:\BILIBILI_VIDEO_SEARCH_QUERIES -ErrorAction SilentlyContinue
+}
+$env:BILIBILI_VIDEO_DISCOVERY_LIMIT = [string]$DiscoveryLimit
+$env:BILIBILI_VIDEO_COMMENT_PAGES = [string]$CommentPages
 
-npm run server
+Write-Host "Backend Bilibili video discovery queries:"
+if ($SearchQuery.Count -gt 0) {
+  $SearchQuery | ForEach-Object { Write-Host " - $_" }
+} else {
+  Write-Host " - using backend default search query"
+}
+Write-Host "Discovery limit: $DiscoveryLimit"
+Write-Host "Comment pages per video: $CommentPages"
+Write-Host ""
+Write-Host "Discovering videos, scanning comments, and training the local keyword dictionary..."
+
+node .\server\runVideoKeywordDiscovery.js

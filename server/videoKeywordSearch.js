@@ -1,15 +1,19 @@
-import { fetchRepliesForVideo } from './bilibiliCrawler.js';
+import { discoverVideosByKeyword, fetchRepliesForVideo } from './bilibiliCrawler.js';
 import { trainKeywordDictionary as defaultTrainKeywordDictionary } from './deepseekKeywordTrainer.js';
 
 export const DEFAULT_VIDEO_LINK =
   process.env.BILIBILI_DEFAULT_VIDEO_LINKS ||
   process.env.BILIBILI_DEFAULT_VIDEO_LINK ||
-  'https://www.bilibili.com/video/BV19yGa61Ee6/?vd_source=d3f6474bdf9e6de8d027785f1120afd4';
+  '';
+export const DEFAULT_VIDEO_SEARCH_QUERY =
+  process.env.BILIBILI_VIDEO_SEARCH_QUERIES ||
+  process.env.BILIBILI_VIDEO_SEARCH_QUERY ||
+  '中文互联网 阴阳怪气';
 
-function parseVideoLinks(value) {
+function parseList(value) {
   if (Array.isArray(value)) return value.map((item) => String(item || '').trim()).filter(Boolean);
   return String(value || '')
-    .split(/[\r\n,，]+/)
+    .split(/[\r\n,，;；]+/)
     .map((item) => item.trim())
     .filter(Boolean);
 }
@@ -19,16 +23,55 @@ function uniqueByKey(items, keyFn) {
 }
 
 export async function searchVideoKeywords(payload = {}, deps = {}) {
-  const videoLinks = parseVideoLinks(
-    payload.videoLinks || payload.videoLink || payload.urls || payload.url || payload.bvids || payload.bvid || deps.defaultVideoLinks || deps.defaultVideoLink || DEFAULT_VIDEO_LINK,
+  const videoLinks = parseList(
+    payload.videoLinks ||
+      payload.videoLink ||
+      payload.urls ||
+      payload.url ||
+      payload.bvids ||
+      payload.bvid ||
+      deps.defaultVideoLinks ||
+      deps.defaultVideoLink ||
+      DEFAULT_VIDEO_LINK,
   );
+  const searchQueries = parseList(
+    payload.searchQueries ||
+      payload.searchQuery ||
+      payload.query ||
+      deps.defaultSearchQueries ||
+      deps.defaultSearchQuery ||
+      DEFAULT_VIDEO_SEARCH_QUERY,
+  );
+  const discoveryLimit = Math.max(
+    1,
+    Math.min(Number(payload.discoveryLimit || deps.discoveryLimit || process.env.BILIBILI_VIDEO_DISCOVERY_LIMIT || 6), 20),
+  );
+  const discoveryWarnings = [];
+  let discoveredVideos = [];
+
   if (videoLinks.length === 0) {
-    return { ok: false, error: 'Video link must contain a valid BV id.' };
+    const discoverVideos = deps.discoverVideosByKeyword || discoverVideosByKeyword;
+    for (const query of searchQueries) {
+      try {
+        discoveredVideos.push(...(await discoverVideos(query, discoveryLimit, deps)));
+      } catch (error) {
+        discoveryWarnings.push(`${query}: ${error.message}`);
+      }
+    }
+    discoveredVideos = uniqueByKey(discoveredVideos, (video) => video.bvid).slice(0, discoveryLimit);
+    if (discoveredVideos.length === 0) {
+      return {
+        ok: false,
+        error: discoveryWarnings[0] || 'No Bilibili videos were discovered from the backend search query.',
+        warnings: discoveryWarnings,
+      };
+    }
   }
 
   const scans = [];
-  const warnings = [];
-  for (const videoLink of videoLinks) {
+  const warnings = [...discoveryWarnings];
+  const scanTargets = videoLinks.length > 0 ? videoLinks : discoveredVideos.map((video) => video.bvid || video.sourceUrl);
+  for (const videoLink of scanTargets) {
     const scan = await fetchRepliesForVideo(videoLink, { pages: payload.pages }, deps);
     if (scan.ok) {
       scans.push(scan);
@@ -38,7 +81,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
   }
 
   if (scans.length === 0) {
-    return { ok: false, error: warnings[0] || 'No valid Bilibili video links were found.', warnings };
+    return { ok: false, error: warnings[0] || 'No valid Bilibili videos were found.', warnings };
   }
 
   const comments = uniqueByKey(
@@ -52,9 +95,16 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
     ok: true,
     video: primaryVideo,
     videos,
+    discoveredVideos,
+    searchQueries: videoLinks.length === 0 ? searchQueries : [],
     comments,
     commentText,
-    source: scans.length > 1 ? 'Bilibili public multi-video comment scan' : scans[0].source,
+    source:
+      videoLinks.length === 0
+        ? 'Bilibili public search-discovered video comment scan'
+        : scans.length > 1
+          ? 'Bilibili public multi-video comment scan'
+          : scans[0].source,
     confidenceHint:
       comments.length >= 80 ? 'large video comment sample' : comments.length >= 20 ? 'medium video comment sample' : 'small video comment sample',
     warnings,

@@ -1,13 +1,18 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { DEFAULT_VIDEO_LINK, searchVideoKeywords } from './videoKeywordSearch.js';
+import { DEFAULT_VIDEO_LINK, DEFAULT_VIDEO_SEARCH_QUERY, searchVideoKeywords } from './videoKeywordSearch.js';
 
-test('searchVideoKeywords uses the backend default Bilibili video link when none is provided', async () => {
+test('searchVideoKeywords discovers backend videos when no video link is provided', async () => {
   const requestedUrls = [];
   const result = await searchVideoKeywords(
-    { pages: 1 },
+    { pages: 1, discoveryLimit: 1 },
     {
+      discoverVideosByKeyword: async (query, limit) => {
+        assert.equal(query, DEFAULT_VIDEO_SEARCH_QUERY);
+        assert.equal(limit, 1);
+        return [{ bvid: 'BV19yGa61Ee6', sourceUrl: 'http://www.bilibili.com/video/av123' }];
+      },
       fetchJson: async (url) => {
         requestedUrls.push(String(url));
         if (String(url).includes('/x/web-interface/view')) {
@@ -26,9 +31,11 @@ test('searchVideoKeywords uses the backend default Bilibili video link when none
     },
   );
 
-  assert.equal(DEFAULT_VIDEO_LINK.includes('BV19yGa61Ee6'), true);
+  assert.equal(DEFAULT_VIDEO_LINK, '');
   assert.equal(result.ok, true);
   assert.equal(result.video.bvid, 'BV19yGa61Ee6');
+  assert.deepEqual(result.searchQueries, [DEFAULT_VIDEO_SEARCH_QUERY]);
+  assert.equal(result.discoveredVideos.length, 1);
   assert.equal(requestedUrls.some((url) => url.includes('bvid=BV19yGa61Ee6')), true);
 });
 

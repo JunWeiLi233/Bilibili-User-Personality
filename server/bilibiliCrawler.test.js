@@ -4,6 +4,7 @@ import test from 'node:test';
 import {
   collectReplyForUid,
   dedupePublicObjects,
+  discoverVideosByKeyword,
   extractBvid,
   extractDynamicRecords,
   fetchJson,
@@ -12,6 +13,38 @@ import {
   parseBvidPool,
   resetBilibiliRequestState,
 } from './bilibiliCrawler.js';
+
+test('discoverVideosByKeyword searches Bilibili and normalizes video objects', async () => {
+  const seenUrls = [];
+  const videos = await discoverVideosByKeyword('阴阳怪气', 2, {
+    fetchJson: async (url, referer) => {
+      seenUrls.push({ url: String(url), referer });
+      return {
+        code: 0,
+        data: {
+          result: [
+            {
+              aid: 123,
+              bvid: 'BV19yGa61Ee6',
+              title: '<em class="keyword">阴阳怪气</em> sample',
+              mid: 9,
+              arcurl: 'https://www.bilibili.com/video/BV19yGa61Ee6/',
+              review: 12,
+            },
+          ],
+        },
+      };
+    },
+  });
+
+  assert.equal(videos.length, 1);
+  assert.equal(videos[0].bvid, 'BV19yGa61Ee6');
+  assert.equal(videos[0].title, '阴阳怪气 sample');
+  assert.equal(videos[0].replyCount, 12);
+  assert.equal(seenUrls[0].url.includes('/x/web-interface/search/type'), true);
+  assert.equal(seenUrls[0].url.includes('search_type=video'), true);
+  assert.equal(seenUrls[0].referer.includes('search.bilibili.com'), true);
+});
 
 test('parseBvidPool accepts whitespace, comma, and Chinese comma separators', () => {
   assert.deepEqual(parseBvidPool('BV19yGa61Ee6, BV1xx411c7mD，BVabc1234567  bad-id'), [
@@ -65,6 +98,83 @@ test('fetchJson spaces requests and cools down after Bilibili block responses', 
   await fetchJson('https://api.bilibili.com/three', 'https://www.bilibili.com', options);
 
   assert.deepEqual(waits, [100, 1000]);
+  resetBilibiliRequestState();
+});
+
+test('fetchJson backs off exponentially when consecutive Bilibili block responses occur', async () => {
+  resetBilibiliRequestState();
+  let now = 0;
+  const waits = [];
+  const responses = [
+    { code: -352, message: '-352' },
+    { code: -352, message: '-352' },
+    { code: 0, data: {} },
+  ];
+  const options = {
+    env: {},
+    config: {
+      minDelayMs: 0,
+      jitterMs: 0,
+      blockCooldownMs: 100,
+      cacheTtlMs: 0,
+      longPauseProbability: 0,
+    },
+    nowFn: () => now,
+    randomFn: () => 0,
+    waitFn: async (ms) => {
+      waits.push(ms);
+      now += ms;
+    },
+    fetchImpl: async () => ({ ok: true, json: async () => responses.shift() }),
+  };
+
+  await fetchJson('https://api.bilibili.com/a', 'https://www.bilibili.com', options);
+  await fetchJson('https://api.bilibili.com/b', 'https://www.bilibili.com', options);
+  await fetchJson('https://api.bilibili.com/c', 'https://www.bilibili.com', options);
+
+  // First block: cooldown = 100. Second block: cooldown grows to 200 (2x). Third call waits 200ms.
+  assert.deepEqual(waits, [100, 200]);
+  resetBilibiliRequestState();
+});
+
+test('fetchJson sends a session-sticky user agent with Chrome client-hint headers and Bilibili cookies', async () => {
+  resetBilibiliRequestState();
+  const seenHeaders = [];
+  const options = {
+    env: {},
+    config: {
+      minDelayMs: 0,
+      jitterMs: 0,
+      blockCooldownMs: 0,
+      cacheTtlMs: 0,
+      longPauseProbability: 0,
+    },
+    nowFn: () => 1700000000000,
+    randomFn: () => 0,
+    waitFn: async () => {},
+    fetchImpl: async (url, init) => {
+      seenHeaders.push(init.headers);
+      return { ok: true, json: async () => ({ code: 0, data: {} }) };
+    },
+  };
+
+  await fetchJson('https://api.bilibili.com/x', 'https://www.bilibili.com/video/BVxxx/', options);
+  await fetchJson('https://api.bilibili.com/y', 'https://space.bilibili.com/123', options);
+
+  assert.equal(seenHeaders.length, 2);
+  assert.equal(seenHeaders[0]['user-agent'], seenHeaders[1]['user-agent']);
+  assert.match(seenHeaders[0]['user-agent'], /Chrome\/\d+/);
+  assert.equal(seenHeaders[0]['accept-language'], 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7');
+  assert.ok(seenHeaders[0]['sec-ch-ua']);
+  assert.equal(seenHeaders[0]['sec-ch-ua-mobile'], '?0');
+  assert.match(seenHeaders[0]['sec-ch-ua-platform'], /"\w+"/);
+  assert.equal(seenHeaders[0]['sec-fetch-mode'], 'cors');
+  assert.equal(seenHeaders[0]['sec-fetch-dest'], 'empty');
+  assert.equal(seenHeaders[0]['sec-fetch-site'], 'same-site');
+  assert.equal(seenHeaders[0].origin, 'https://www.bilibili.com');
+  assert.ok(seenHeaders[0].cookie.includes('buvid3='));
+  assert.ok(seenHeaders[0].cookie.includes('b_nut='));
+  assert.ok(seenHeaders[0].cookie.includes('_uuid='));
   resetBilibiliRequestState();
 });
 
