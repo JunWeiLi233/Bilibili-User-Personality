@@ -43,6 +43,17 @@ async function buildAudit(options) {
   return buildDictionaryCoverageAudit(dictionary, state, options);
 }
 
+function coverageDelta(before = {}, after = {}) {
+  return {
+    evidenceDeficitReduced: Math.max(0, Number(before.evidenceDeficit || 0) - Number(after.evidenceDeficit || 0)),
+    zeroEvidenceResolved: Math.max(0, Number(before.zeroEvidenceTerms || 0) - Number(after.zeroEvidenceTerms || 0)),
+    weakTermsResolved: Math.max(0, Number(before.weakTerms || 0) - Number(after.weakTerms || 0)),
+    sourceBackedTermsGained: Math.max(0, Number(after.sourcedEvidenceTerms || 0) - Number(before.sourcedEvidenceTerms || 0)),
+    totalEvidenceGained: Math.max(0, Number(after.totalEvidence || 0) - Number(before.totalEvidence || 0)),
+    coverageRatioDelta: Number((Number(after.coverageRatio || 0) - Number(before.coverageRatio || 0)).toFixed(4)),
+  };
+}
+
 const dictionaryPath = process.env.DEEPSEEK_KEYWORD_DICTIONARY_PATH;
 const statePath = process.env.BILIBILI_HARVEST_STATE_PATH || DEFAULT_HARVEST_STATE_PATH;
 const reportPath = process.env.BILIBILI_COVERAGE_LOOP_REPORT_PATH || join(process.cwd(), 'server', 'keywordCoverageLoopReport.json');
@@ -124,6 +135,7 @@ for (let cycle = 1; cycle <= maxCycles && !audit.ok; cycle += 1) {
   });
   const nextAudit = await buildAudit(auditOptions);
   const executedQueries = harvest.rounds.flatMap((round) => round.queries);
+  const delta = coverageDelta(audit.coverage, nextAudit.coverage);
   cycles.push({
     cycle,
     priorityQueries,
@@ -134,10 +146,14 @@ for (let cycle = 1; cycle <= maxCycles && !audit.ok; cycle += 1) {
       warnings: harvest.rounds.flatMap((round) => round.warnings || []),
       coverageProgress: harvest.rounds.map((round) => round.coverageProgress),
     },
+    coverageDelta: delta,
     coverageBefore: audit.coverage,
     coverageAfter: nextAudit.coverage,
   });
   console.log(`Coverage after cycle: ${(nextAudit.coverage.coverageRatio * 100).toFixed(2)}%, weak ${nextAudit.coverage.weakTerms}, zero ${nextAudit.coverage.zeroEvidenceTerms}`);
+  console.log(
+    `Delta: deficit -${delta.evidenceDeficitReduced}, zero -${delta.zeroEvidenceResolved}, source-backed +${delta.sourceBackedTermsGained}, evidence +${delta.totalEvidenceGained}`,
+  );
   if (executedQueries.length === 0) {
     stopReason = 'no_queries_run';
     audit = nextAudit;
