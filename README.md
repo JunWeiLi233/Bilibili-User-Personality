@@ -20,6 +20,7 @@ Research-driven frontend prototype for evaluating whether a selected Bilibili us
   - Hybrid mode: semantic speech-act judging with adaptive lexicon evidence.
   - Semantic judge mode: evaluates target, evidence burden, proposition response, and correction behavior.
   - Lexicon mode: transparent semantic-family matching for auditability.
+- Built-in public test samples from Bilibili video `BV19yGa61Ee6`, grouped from public top comments and replies for quick testing.
 
 ## Run Locally
 
@@ -36,4 +37,4 @@ npm run build
 
 ## Notes
 
-This prototype ships with mock Bilibili comment samples and also supports pasted local samples. The adaptive lexicon is stored locally in the browser so newly added slang variants can influence the next generated profile, but lexicon hits are treated as auxiliary evidence rather than final judgment. The scoring language is intentionally framed as behavior-risk analysis over a bounded comment sample, not as a clinical diagnosis or definitive personality judgment.
+This prototype ships with mock Bilibili comment samples, public video-derived test samples, and support for pasted local samples. The adaptive lexicon is stored locally in the browser so newly added slang variants can influence the next generated profile, but lexicon hits are treated as auxiliary evidence rather than final judgment. The scoring language is intentionally framed as behavior-risk analysis over a bounded comment sample, not as a clinical diagnosis or definitive personality judgment.
