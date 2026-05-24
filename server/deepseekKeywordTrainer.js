@@ -56,6 +56,28 @@ function normalizeFamily(family) {
   return SUPPORTED_FAMILIES.includes(raw) ? raw : FAMILY_ALIASES[raw] || 'attack';
 }
 
+function mergeKeywordEntry(existing, incoming, now) {
+  if (!existing) return { ...incoming, updatedAt: incoming.updatedAt || now };
+
+  const existingConfidence = Number(existing.confidence) || 0;
+  const incomingConfidence = Number(incoming.confidence) || 0;
+  const shouldReplaceFamily = existing.family !== incoming.family && incomingConfidence >= existingConfidence + 0.15;
+  const shouldReplaceDetails = shouldReplaceFamily || existing.family === incoming.family || !existing.meaning;
+  const base = shouldReplaceFamily ? incoming : existing;
+  const details = shouldReplaceDetails ? incoming : {};
+
+  return {
+    ...base,
+    ...details,
+    term: incoming.term,
+    family: shouldReplaceFamily ? incoming.family : existing.family,
+    meaning: details.meaning || existing.meaning || incoming.meaning,
+    risk: details.risk || existing.risk || incoming.risk,
+    confidence: Math.max(existingConfidence, incomingConfidence),
+    updatedAt: now,
+  };
+}
+
 function authHeaders(apiKey) {
   return {
     'content-type': 'application/json',
@@ -90,7 +112,12 @@ export function normalizeKeywordEntries(rawEntries = []) {
       });
     }
   }
-  return [...new Map(entries.map((entry) => [`${entry.family}:${entry.term}`, entry])).values()];
+  const now = new Date().toISOString();
+  const entryMap = new Map();
+  for (const entry of entries) {
+    entryMap.set(entry.term, mergeKeywordEntry(entryMap.get(entry.term), entry, now));
+  }
+  return [...entryMap.values()].map(({ updatedAt, ...entry }) => entry);
 }
 
 async function readDictionary(dictionaryPath) {
@@ -111,13 +138,17 @@ export async function mergeEntriesIntoDictionary(entries, options = {}) {
   const dictionaryPath = options.dictionaryPath || DEFAULT_DICTIONARY_PATH;
   const current = await readDictionary(dictionaryPath);
   const normalizedEntries = normalizeKeywordEntries(entries);
-  const entryMap = new Map(current.entries.map((entry) => [`${entry.family}:${entry.term}`, entry]));
-  for (const entry of normalizedEntries) {
-    entryMap.set(`${entry.family}:${entry.term}`, {
-      ...entryMap.get(`${entry.family}:${entry.term}`),
+  const now = new Date().toISOString();
+  const entryMap = new Map();
+  for (const entry of normalizeKeywordEntries(current.entries)) {
+    const existing = current.entries.find((item) => cleanTerm(item.term) === entry.term);
+    entryMap.set(entry.term, {
       ...entry,
-      updatedAt: new Date().toISOString(),
+      updatedAt: existing?.updatedAt || current.updatedAt || null,
     });
+  }
+  for (const entry of normalizedEntries) {
+    entryMap.set(entry.term, mergeKeywordEntry(entryMap.get(entry.term), entry, now));
   }
 
   const allEntries = [...entryMap.values()].sort((a, b) => a.family.localeCompare(b.family) || a.term.localeCompare(b.term));
@@ -130,7 +161,7 @@ export async function mergeEntriesIntoDictionary(entries, options = {}) {
 
   const next = {
     version: 1,
-    updatedAt: new Date().toISOString(),
+    updatedAt: now,
     entries: allEntries,
     families,
   };

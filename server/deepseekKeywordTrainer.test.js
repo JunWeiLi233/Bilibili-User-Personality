@@ -91,6 +91,37 @@ test('merges learned keyword entries into a persistent local dictionary', async 
   }
 });
 
+test('merges dictionary conflicts by term instead of family plus term', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-keywords-dedupe-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  try {
+    await mergeEntriesIntoDictionary(
+      [
+        { term: 'doge', family: 'attack', meaning: '嘲讽表情', confidence: 0.7 },
+        { term: '单走一个6', family: 'attack', meaning: '弹幕式嘲讽', confidence: 0.68 },
+      ],
+      { dictionaryPath },
+    );
+
+    const dictionary = await mergeEntriesIntoDictionary(
+      [
+        { term: 'doge', family: 'cooperation', meaning: '轻松玩梗', confidence: 0.72 },
+        { term: '单走一个6', family: 'cooperation', meaning: '认可或玩梗', confidence: 0.72 },
+      ],
+      { dictionaryPath },
+    );
+
+    assert.equal(dictionary.entries.filter((entry) => entry.term === 'doge').length, 1);
+    assert.equal(dictionary.entries.filter((entry) => entry.term === '单走一个6').length, 1);
+    assert.equal(dictionary.families.attack.includes('doge'), true);
+    assert.equal(dictionary.families.cooperation.includes('doge'), false);
+    assert.equal(dictionary.families.attack.includes('单走一个6'), true);
+    assert.equal(dictionary.families.cooperation.includes('单走一个6'), false);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('trains dictionary through DeepSeek V4 chat output and persists learned terms', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-train-'));
   const dictionaryPath = join(dir, 'dictionary.json');
