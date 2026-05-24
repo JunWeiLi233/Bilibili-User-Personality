@@ -46,6 +46,43 @@ test('searchVideoKeywords rejects an explicitly invalid video link', async () =>
   assert.match(result.error, /BV/);
 });
 
+test('searchVideoKeywords skips already harvested discovered videos', async () => {
+  const result = await searchVideoKeywords(
+    {
+      searchQuery: 'seed topic',
+      discoveryLimit: 2,
+      excludeBvids: ['BV19yGa61Ee6'],
+      pages: 1,
+    },
+    {
+      discoverVideosByKeyword: async () => [
+        { bvid: 'BV19yGa61Ee6', sourceUrl: 'https://www.bilibili.com/video/BV19yGa61Ee6/' },
+        { bvid: 'BV1xx411c7mD', sourceUrl: 'https://www.bilibili.com/video/BV1xx411c7mD/' },
+      ],
+      fetchJson: async (url) => {
+        const textUrl = String(url);
+        if (textUrl.includes('/x/web-interface/view')) {
+          const bvid = new URL(textUrl).searchParams.get('bvid');
+          return {
+            code: 0,
+            data: {
+              aid: 456,
+              title: bvid,
+              owner: { mid: 9, name: 'up' },
+              stat: { reply: 0 },
+            },
+          };
+        }
+        return { code: 0, data: { replies: [], cursor: { is_end: true, next: 0 } } };
+      },
+    },
+  );
+
+  assert.equal(result.ok, true);
+  assert.equal(result.video.bvid, 'BV1xx411c7mD');
+  assert.deepEqual(result.discoveredVideos.map((video) => video.bvid), ['BV1xx411c7mD']);
+});
+
 test('searchVideoKeywords scans video comments and trains keyword dictionary', async () => {
   const trainedPayloads = [];
   const result = await searchVideoKeywords(

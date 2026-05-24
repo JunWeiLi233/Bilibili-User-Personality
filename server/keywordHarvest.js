@@ -1,3 +1,6 @@
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
+
 import { readKeywordDictionary as defaultReadKeywordDictionary } from './deepseekKeywordTrainer.js';
 import { searchVideoKeywords as defaultSearchVideoKeywords } from './videoKeywordSearch.js';
 
@@ -45,6 +48,28 @@ export function buildKeywordHarvestQueries(dictionary, options = {}) {
   return unique([...seedQueries, ...dictionaryQueries]).slice(0, maxQueries);
 }
 
+export const DEFAULT_HARVEST_STATE_PATH = join(process.cwd(), 'server', 'keywordHarvestState.json');
+
+export async function readKeywordHarvestState(statePath = DEFAULT_HARVEST_STATE_PATH) {
+  try {
+    const state = JSON.parse(await readFile(statePath, 'utf8'));
+    return {
+      version: state.version || 1,
+      updatedAt: state.updatedAt || null,
+      searchedQueries: Array.isArray(state.searchedQueries) ? state.searchedQueries : [],
+      scannedBvids: Array.isArray(state.scannedBvids) ? state.scannedBvids : [],
+      runs: Array.isArray(state.runs) ? state.runs : [],
+    };
+  } catch {
+    return { version: 1, updatedAt: null, searchedQueries: [], scannedBvids: [], runs: [] };
+  }
+}
+
+async function writeKeywordHarvestState(state, statePath = DEFAULT_HARVEST_STATE_PATH) {
+  await mkdir(dirname(statePath), { recursive: true });
+  await writeFile(statePath, `${JSON.stringify(state, null, 2)}\n`, 'utf8');
+}
+
 export function summarizeDictionaryGrowth(before, after) {
   const beforeEntries = Array.isArray(before?.entries) ? before.entries : [];
   const afterEntries = Array.isArray(after?.entries) ? after.entries : [];
@@ -69,12 +94,18 @@ export function summarizeDictionaryGrowth(before, after) {
 export async function harvestKeywordDictionary(options = {}, deps = {}) {
   const readKeywordDictionary = deps.readKeywordDictionary || defaultReadKeywordDictionary;
   const searchVideoKeywords = deps.searchVideoKeywords || defaultSearchVideoKeywords;
+  const statePath = options.statePath || DEFAULT_HARVEST_STATE_PATH;
+  const skipSeen = options.skipSeen !== false;
+  const state = options.resetState ? { version: 1, updatedAt: null, searchedQueries: [], scannedBvids: [], runs: [] } : await readKeywordHarvestState(statePath);
   const before = await readKeywordDictionary();
-  const queries = buildKeywordHarvestQueries(before, {
+  const candidateQueries = buildKeywordHarvestQueries(before, {
     seedQueries: options.seedQueries,
     maxQueries: options.maxQueries,
     termsPerFamily: options.termsPerFamily,
   });
+  const searchedQuerySet = new Set(state.searchedQueries);
+  const scannedBvidSet = new Set(state.scannedBvids);
+  const queries = skipSeen ? candidateQueries.filter((query) => !searchedQuerySet.has(query)) : candidateQueries;
   const results = [];
   const warnings = [];
 
@@ -84,23 +115,55 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
         searchQueries: [query],
         discoveryLimit: options.discoveryLimit,
         pages: options.pages,
+        excludeBvids: skipSeen ? [...scannedBvidSet] : [],
       });
       results.push({ query, result });
       if (!result.ok) warnings.push(`${query}: ${result.error}`);
       for (const warning of result.warnings || []) warnings.push(`${query}: ${warning}`);
+      searchedQuerySet.add(query);
+      for (const video of result.videos || []) {
+        if (video.bvid) scannedBvidSet.add(video.bvid);
+      }
     } catch (error) {
       warnings.push(`${query}: ${error.message}`);
       results.push({ query, result: { ok: false, error: error.message } });
+      searchedQuerySet.add(query);
     }
   }
 
   const after = await readKeywordDictionary();
+  const growth = summarizeDictionaryGrowth(before, after);
+  const finishedAt = new Date().toISOString();
+  const nextState = {
+    version: 1,
+    updatedAt: finishedAt,
+    searchedQueries: [...searchedQuerySet].sort(),
+    scannedBvids: [...scannedBvidSet].sort(),
+    runs: [
+      ...state.runs.slice(-49),
+      {
+        at: finishedAt,
+        queries: queries.length,
+        successfulQueries: results.filter((item) => item.result?.ok).length,
+        videosScanned: results.reduce((sum, item) => sum + (item.result?.videos?.length || 0), 0),
+        commentsCollected: results.reduce((sum, item) => sum + (item.result?.comments?.length || 0), 0),
+        dictionaryBefore: growth.before,
+        dictionaryAfter: growth.after,
+        dictionaryAdded: growth.added,
+        warnings: warnings.length,
+      },
+    ],
+  };
+  await writeKeywordHarvestState(nextState, statePath);
+
   return {
     ok: results.some((item) => item.result?.ok),
+    state: nextState,
+    candidateQueries,
     queries,
     results,
     warnings,
-    growth: summarizeDictionaryGrowth(before, after),
+    growth,
     dictionary: after,
   };
 }

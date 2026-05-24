@@ -5,4 +5,6 @@ dist/
 *.log
 server/localKeywordDictionary.json
 server/deepseekKeywordDictionary.json
+server/keywordHarvestState.json
+server/keywordHarvestReport.json
 set-deepseek-env.ps1

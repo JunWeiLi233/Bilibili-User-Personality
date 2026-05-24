@@ -3,7 +3,8 @@ param(
   [int]$DiscoveryLimit = 6,
   [int]$CommentPages = 2,
   [int]$MaxQueries = 12,
-  [int]$TermsPerFamily = 4
+  [int]$TermsPerFamily = 4,
+  [switch]$ResetHarvestState
 )
 
 # Runs dictionary-seeded backend video discovery and keyword training without manually entering Bilibili video links.
@@ -26,6 +27,11 @@ $env:BILIBILI_VIDEO_DISCOVERY_LIMIT = [string]$DiscoveryLimit
 $env:BILIBILI_VIDEO_COMMENT_PAGES = [string]$CommentPages
 $env:BILIBILI_HARVEST_MAX_QUERIES = [string]$MaxQueries
 $env:BILIBILI_HARVEST_TERMS_PER_FAMILY = [string]$TermsPerFamily
+if ($ResetHarvestState) {
+  $env:BILIBILI_HARVEST_RESET = "1"
+} else {
+  Remove-Item Env:\BILIBILI_HARVEST_RESET -ErrorAction SilentlyContinue
+}
 
 Write-Host "Backend Bilibili video discovery queries:"
 if ($SearchQuery.Count -gt 0) {
@@ -37,6 +43,7 @@ Write-Host "Discovery limit: $DiscoveryLimit"
 Write-Host "Comment pages per video: $CommentPages"
 Write-Host "Max harvest queries: $MaxQueries"
 Write-Host "Dictionary terms per family: $TermsPerFamily"
+Write-Host "Reset harvest state: $ResetHarvestState"
 Write-Host ""
 Write-Host "Harvesting dictionary-seeded Bilibili videos, scanning comments, and training the local keyword dictionary..."
 

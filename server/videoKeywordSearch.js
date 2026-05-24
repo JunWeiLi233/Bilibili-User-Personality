@@ -8,18 +8,22 @@ export const DEFAULT_VIDEO_LINK =
 export const DEFAULT_VIDEO_SEARCH_QUERY =
   process.env.BILIBILI_VIDEO_SEARCH_QUERIES ||
   process.env.BILIBILI_VIDEO_SEARCH_QUERY ||
-  '中文互联网 阴阳怪气';
+  '\u4e2d\u6587\u4e92\u8054\u7f51 \u9634\u9633\u602a\u6c14';
 
 function parseList(value) {
   if (Array.isArray(value)) return value.map((item) => String(item || '').trim()).filter(Boolean);
   return String(value || '')
-    .split(/[\r\n,，;；]+/)
+    .split(/[\r\n,;|]+/)
     .map((item) => item.trim())
     .filter(Boolean);
 }
 
 function uniqueByKey(items, keyFn) {
   return [...new Map(items.filter(Boolean).map((item) => [keyFn(item), item])).values()];
+}
+
+function parseSet(value) {
+  return new Set(parseList(value));
 }
 
 export async function searchVideoKeywords(payload = {}, deps = {}) {
@@ -48,6 +52,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
   );
   const discoveryWarnings = [];
   let discoveredVideos = [];
+  const excludeBvids = parseSet(payload.excludeBvids || deps.excludeBvids);
 
   if (videoLinks.length === 0) {
     const discoverVideos = deps.discoverVideosByKeyword || discoverVideosByKeyword;
@@ -58,7 +63,9 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
         discoveryWarnings.push(`${query}: ${error.message}`);
       }
     }
-    discoveredVideos = uniqueByKey(discoveredVideos, (video) => video.bvid).slice(0, discoveryLimit);
+    discoveredVideos = uniqueByKey(discoveredVideos, (video) => video.bvid)
+      .filter((video) => !excludeBvids.has(video.bvid))
+      .slice(0, discoveryLimit);
     if (discoveredVideos.length === 0) {
       return {
         ok: false,
