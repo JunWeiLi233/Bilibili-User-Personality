@@ -121,6 +121,27 @@ test('findDictionaryEntriesWithTextEvidence refreshes existing dictionary term e
   assert.deepEqual(entries[0].evidenceSamples, ['first [doge] comment', 'second doge sample']);
 });
 
+test('findDictionaryEntriesWithTextEvidence can match stable internet aliases', () => {
+  const entries = findDictionaryEntriesWithTextEvidence(
+    {
+      entries: [
+        { term: 'dddd', family: 'evasion', meaning: 'abbreviation for \u61c2\u7684\u90fd\u61c2' },
+        { term: 'yygq', family: 'attack', meaning: 'abbreviation for \u9634\u9633\u602a\u6c14' },
+        { term: 'pink', family: 'attack', meaning: 'shorthand for \u7c89\u7ea2' },
+      ],
+    },
+    '\u61c2\u7684\u90fd\u61c2\uff0c\u4e0d\u89e3\u91ca\n\u8fd9\u6761\u8bc4\u8bba\u6709\u70b9\u9634\u9633\u602a\u6c14\n\u5c0f\u7c89\u7ea2\u53c8\u6765\u4e86',
+    {
+      source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-alias/',
+      uid: 'BV-alias',
+    },
+  );
+
+  assert.deepEqual(entries.map((entry) => entry.term), ['dddd', 'yygq', 'pink']);
+  assert.equal(entries.every((entry) => entry.evidenceCount === 1), true);
+  assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-alias'), true);
+});
+
 test('trainKeywordDictionary updates evidence for existing terms found in crawled comments', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-train-existing-evidence-'));
   const dictionaryPath = join(dir, 'dictionary.json');

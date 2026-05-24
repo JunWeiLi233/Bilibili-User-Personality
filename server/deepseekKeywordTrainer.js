@@ -37,6 +37,11 @@ const FAMILY_ALIASES = {
   hedge: 'cooperation',
   revision: 'correction',
 };
+const TERM_EVIDENCE_ALIASES = {
+  dddd: ['\u61c2\u7684\u90fd\u61c2'],
+  yygq: ['\u9634\u9633\u602a\u6c14'],
+  pink: ['\u7c89\u7ea2', '\u5c0f\u7c89\u7ea2'],
+};
 
 export const DEFAULT_DICTIONARY_PATH = process.env.DEEPSEEK_KEYWORD_DICTIONARY_PATH || join(process.cwd(), 'server', 'deepseekKeywordDictionary.json');
 
@@ -179,10 +184,29 @@ function countOccurrences(haystack, needle) {
   return count;
 }
 
+function countNonOverlappingNeedleOccurrences(haystack, needles = []) {
+  let remaining = String(haystack || '');
+  let count = 0;
+  for (const needle of [...needles].sort((a, b) => b.length - a.length)) {
+    let index = 0;
+    while (index <= remaining.length) {
+      const found = remaining.indexOf(needle, index);
+      if (found === -1) break;
+      count += 1;
+      remaining = `${remaining.slice(0, found)}${' '.repeat(needle.length)}${remaining.slice(found + needle.length)}`;
+      index = found + needle.length;
+    }
+  }
+  return count;
+}
+
 function evidenceForTerm(term, text, options = {}) {
-  const needle = cleanEvidenceText(term);
+  const needles = unique([term, ...(TERM_EVIDENCE_ALIASES[cleanTerm(term).toLowerCase()] || [])].map(cleanEvidenceText)).filter(Boolean);
   const evidenceText = cleanEvidenceText(text);
-  const evidenceCount = countOccurrences(evidenceText, needle);
+  const evidenceCount =
+    needles.length === 1
+      ? countOccurrences(evidenceText, needles[0])
+      : countNonOverlappingNeedleOccurrences(evidenceText, needles);
   const evidenceSamples = [];
   const evidenceSources = [];
   const source = String(options.source || '').trim();
@@ -190,7 +214,7 @@ function evidenceForTerm(term, text, options = {}) {
   if (evidenceCount > 0) {
     for (const line of String(text || '').split(/\r?\n/)) {
       const cleanLine = cleanEvidenceText(line);
-      if (cleanLine.includes(needle)) {
+      if (needles.some((needle) => cleanLine.includes(needle))) {
         const sample = line.replace(/\s+/g, ' ').trim();
         if (sample) {
           const clippedSample = sample.length > 120 ? `${sample.slice(0, 120)}...` : sample;
