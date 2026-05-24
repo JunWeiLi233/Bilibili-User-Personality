@@ -129,6 +129,16 @@ export function normalizeKeywordEntries(rawEntries = []) {
   return [...entryMap.values()].map(({ updatedAt, ...entry }) => entry);
 }
 
+function cleanEvidenceText(text) {
+  return cleanTerm(text).toLowerCase();
+}
+
+export function filterKeywordEntriesByEvidence(entries = [], text = '') {
+  const evidenceText = cleanEvidenceText(text);
+  if (!evidenceText) return [];
+  return normalizeKeywordEntries(entries).filter((entry) => evidenceText.includes(cleanEvidenceText(entry.term)));
+}
+
 async function readDictionary(dictionaryPath) {
   try {
     const current = JSON.parse(await readFile(dictionaryPath, 'utf8'));
@@ -328,7 +338,7 @@ async function generateKeywordEntries(payload, config, options = {}) {
   const fetchImpl = options.fetch || fetch;
   const heuristicEntries = heuristicKeywordEntries(payload.text);
   if (!config.available || !config.keyConfigured || !config.model) {
-    return { entries: heuristicEntries, usedFallback: true, raw: '' };
+    return { entries: filterKeywordEntriesByEvidence(heuristicEntries, payload.text), usedFallback: true, evidenceRejected: 0, raw: '' };
   }
 
   const requestBody = {
@@ -360,14 +370,17 @@ async function generateKeywordEntries(payload, config, options = {}) {
   try {
     const parsed = extractJsonObject(raw);
     const deepseekEntries = normalizeKeywordEntries(parsed.keywords || parsed.terms || []);
-    const entries = normalizeKeywordEntries([...deepseekEntries, ...heuristicEntries]);
+    const evidenceBackedDeepseekEntries = filterKeywordEntriesByEvidence(deepseekEntries, payload.text);
+    const evidenceBackedHeuristicEntries = filterKeywordEntriesByEvidence(heuristicEntries, payload.text);
+    const entries = normalizeKeywordEntries([...evidenceBackedDeepseekEntries, ...evidenceBackedHeuristicEntries]);
     return {
       entries,
-      usedFallback: deepseekEntries.length === 0,
+      usedFallback: evidenceBackedDeepseekEntries.length === 0,
+      evidenceRejected: Math.max(0, deepseekEntries.length - evidenceBackedDeepseekEntries.length),
       raw,
     };
   } catch {
-    return { entries: heuristicEntries, usedFallback: true, raw };
+    return { entries: filterKeywordEntriesByEvidence(heuristicEntries, payload.text), usedFallback: true, evidenceRejected: 0, raw };
   }
 }
 
@@ -396,6 +409,7 @@ export async function trainKeywordDictionary(payload, options = {}) {
     available: config.available,
     keyConfigured: config.keyConfigured,
     usedFallback: generated.usedFallback,
+    evidenceRejected: generated.evidenceRejected || 0,
     entries: generated.entries,
     dictionary,
     warning: config.warning,

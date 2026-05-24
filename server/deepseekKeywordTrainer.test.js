@@ -6,6 +6,7 @@ import test from 'node:test';
 
 import {
   extractJsonObject,
+  filterKeywordEntriesByEvidence,
   getDeepSeekConfig,
   mergeEntriesIntoDictionary,
   normalizeKeywordEntries,
@@ -81,6 +82,18 @@ test('normalizes noisy punctuation and rejects low-quality keyword terms', () =>
 test('extracts JSON object from verbose DeepSeek responses', () => {
   const parsed = extractJsonObject('```json\n{"keywords":[{"term":"典中典","family":"attack"}]}\n```');
   assert.deepEqual(parsed, { keywords: [{ term: '典中典', family: 'attack' }] });
+});
+
+test('filters keyword entries to terms with direct text evidence', () => {
+  const entries = filterKeywordEntriesByEvidence(
+    [
+      { term: '[doge]', family: 'cooperation', meaning: '表情梗' },
+      { term: 'notpresent', family: 'attack', meaning: 'model hallucination' },
+    ],
+    'this Bilibili comment uses [doge] only',
+  );
+
+  assert.deepEqual(entries.map((entry) => entry.term), ['doge']);
 });
 
 test('merges learned keyword entries into a persistent local dictionary', async () => {
@@ -189,6 +202,57 @@ test('trains dictionary through DeepSeek V4 chat output and persists learned ter
     assert.equal(seen.find((call) => call.body?.model)?.body.response_format.type, 'json_object');
     assert.equal(seen.find((call) => call.body?.model)?.body.reasoning_effort, 'medium');
     assert.deepEqual(seen.find((call) => call.body?.model)?.body.thinking, { type: 'enabled' });
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
+test('rejects DeepSeek keywords that are not evidenced in crawled text', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-train-evidence-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  try {
+    const result = await trainKeywordDictionary(
+      {
+        text: 'this Bilibili comment uses [doge] only',
+        uid: 'BV-evidence',
+      },
+      {
+        dictionaryPath,
+        env: {
+          DEEPSEEK_API_KEY: 'test-key',
+          DEEPSEEK_MODEL: 'deepseek-v4-flash',
+          DEEPSEEK_REASONING_EFFORT: 'medium',
+        },
+        fetch: async (url) => {
+          if (String(url).endsWith('/models')) {
+            return { ok: true, json: async () => ({ data: [{ id: 'deepseek-v4-flash' }] }) };
+          }
+          return {
+            ok: true,
+            json: async () => ({
+              choices: [
+                {
+                  message: {
+                    content: JSON.stringify({
+                      keywords: [
+                        { term: '[doge]', family: 'cooperation', meaning: '表情梗' },
+                        { term: 'notpresent', family: 'attack', meaning: 'not in source text' },
+                      ],
+                    }),
+                  },
+                },
+              ],
+            }),
+          };
+        },
+      },
+    );
+
+    assert.equal(result.usedFallback, false);
+    assert.equal(result.evidenceRejected, 1);
+    assert.deepEqual(result.entries.map((entry) => entry.term), ['doge']);
+    assert.deepEqual(result.dictionary.families.cooperation, ['doge']);
+    assert.deepEqual(result.dictionary.families.attack, []);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }

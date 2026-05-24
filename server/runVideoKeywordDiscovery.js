@@ -55,12 +55,14 @@ for (const query of result.queries) console.log(`- ${query}`);
 const okResults = result.results.filter((item) => item.result?.ok);
 const videosScanned = okResults.reduce((sum, item) => sum + (item.result.videos?.length || 0), 0);
 const commentsCollected = okResults.reduce((sum, item) => sum + (item.result.comments?.length || 0), 0);
+const evidenceRejected = okResults.reduce((sum, item) => sum + (item.result.keywordTraining?.evidenceRejected || 0), 0);
 
 console.log(`Successful searches: ${okResults.length}`);
 console.log(`Videos scanned this run: ${videosScanned}`);
 console.log(`Known scanned videos: ${result.state.scannedBvids.length}`);
 console.log(`Known searched queries: ${result.state.searchedQueries.length}`);
 console.log(`Comments collected: ${commentsCollected}`);
+console.log(`Model keywords rejected without text evidence: ${evidenceRejected}`);
 console.log(`Dictionary terms before: ${result.growth.before}`);
 console.log(`Dictionary terms after: ${result.growth.after}`);
 console.log(`New dictionary terms: ${result.growth.added}`);
@@ -102,6 +104,7 @@ await writeJson(reportPath, {
       sourceUrl: video.sourceUrl,
     })),
     comments: item.result?.comments?.length || 0,
+    evidenceRejected: item.result?.keywordTraining?.evidenceRejected || 0,
     entries: item.result?.entries || [],
   })),
 });

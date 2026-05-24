@@ -147,6 +147,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
         successfulQueries: results.filter((item) => item.result?.ok).length,
         videosScanned: results.reduce((sum, item) => sum + (item.result?.videos?.length || 0), 0),
         commentsCollected: results.reduce((sum, item) => sum + (item.result?.comments?.length || 0), 0),
+        evidenceRejected: results.reduce((sum, item) => sum + (item.result?.keywordTraining?.evidenceRejected || 0), 0),
         dictionaryBefore: growth.before,
         dictionaryAfter: growth.after,
         dictionaryAdded: growth.added,
