@@ -7,6 +7,7 @@ import test from 'node:test';
 import {
   extractJsonObject,
   filterKeywordEntriesByEvidence,
+  findDictionaryEntriesWithTextEvidence,
   getDeepSeekConfig,
   mergeEntriesIntoDictionary,
   normalizeKeywordEntries,
@@ -96,6 +97,52 @@ test('filters keyword entries to terms with direct text evidence', () => {
   assert.deepEqual(entries.map((entry) => entry.term), ['doge']);
   assert.equal(entries[0].evidenceCount, 2);
   assert.deepEqual(entries[0].evidenceSamples, ['this Bilibili comment uses [doge] only', 'second [doge] sample']);
+});
+
+test('findDictionaryEntriesWithTextEvidence refreshes existing dictionary term evidence', () => {
+  const entries = findDictionaryEntriesWithTextEvidence(
+    {
+      entries: [
+        { term: 'doge', family: 'cooperation', meaning: '琛ㄦ儏姊?', evidenceCount: 0 },
+        { term: 'missing', family: 'attack', meaning: 'not present', evidenceCount: 0 },
+      ],
+    },
+    'first [doge] comment\nsecond doge sample',
+  );
+
+  assert.deepEqual(entries.map((entry) => entry.term), ['doge']);
+  assert.equal(entries[0].evidenceCount, 2);
+  assert.deepEqual(entries[0].evidenceSamples, ['first [doge] comment', 'second doge sample']);
+});
+
+test('trainKeywordDictionary updates evidence for existing terms found in crawled comments', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-train-existing-evidence-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  try {
+    await mergeEntriesIntoDictionary(
+      [{ term: 'freshterm', family: 'cooperation', meaning: 'existing dictionary term', confidence: 0.7, evidenceCount: 0 }],
+      { dictionaryPath },
+    );
+
+    const result = await trainKeywordDictionary(
+      {
+        text: 'Bilibili comment has [freshterm]\nanother freshterm reply',
+        uid: 'BV-existing',
+      },
+      {
+        dictionaryPath,
+        env: {},
+      },
+    );
+
+    const existing = result.dictionary.entries.find((entry) => entry.term === 'freshterm');
+    assert.equal(result.generatedEntries.length, 0);
+    assert.deepEqual(result.dictionaryEvidenceEntries.map((entry) => entry.term), ['freshterm']);
+    assert.equal(existing.evidenceCount, 2);
+    assert.equal(existing.evidenceSamples.includes('Bilibili comment has [freshterm]'), true);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
 });
 
 test('merges learned keyword entries into a persistent local dictionary', async () => {

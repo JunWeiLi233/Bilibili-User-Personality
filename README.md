@@ -67,6 +67,8 @@ You can also combine your own dictionary-oriented search queries with the contro
 .\run-bilibili-video.ps1 -SearchQuery "阴阳怪气 评论区","杠精 评论区" -ControversyQuery "国际政治 评论区","原神 节奏","黑神话 争议" -DiscoveryMode controversial
 ```
 
+The script defaults to `-CoverageMode all-weak`, which means weak dictionary entries are searched term by term before broad seed topics. Use `-CoverageMode balanced` when you want a smaller mixed sample across families instead of chasing every under-evidenced term.
+
 Legacy `mixed` mode is still available when you only want dictionary/seed search plus public popular videos:
 
 ```powershell
@@ -90,6 +92,7 @@ $env:BILIBILI_HARVEST_TERMS_PER_FAMILY="4"
 $env:BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM="2"
 $env:BILIBILI_HARVEST_TARGET_EVIDENCE="3"
 $env:BILIBILI_HARVEST_ROUNDS="3"
+$env:BILIBILI_HARVEST_COVERAGE_MODE="all-weak"
 $env:BILIBILI_HARVEST_RESET="0"
 $env:BILIBILI_VIDEO_DISCOVERY_LIMIT="6"
 $env:BILIBILI_VIDEO_COMMENT_PAGES="2"
@@ -131,11 +134,13 @@ $env:BILIBILI_HARVEST_TERMS_PER_FAMILY="4"
 $env:BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM="2"
 $env:BILIBILI_HARVEST_TARGET_EVIDENCE="3"
 $env:BILIBILI_HARVEST_ROUNDS="3"
+$env:BILIBILI_HARVEST_COVERAGE_MODE="all-weak"
 $env:BILIBILI_HARVEST_STATE_PATH="server/keywordHarvestState.json"
 $env:BILIBILI_HARVEST_REPORT_PATH="server/keywordHarvestReport.json"
 $env:BILIBILI_HARVEST_SKIP_SEEN="1"
 $env:BILIBILI_VIDEO_DISCOVERY_LIMIT="6"
 $env:BILIBILI_VIDEO_COMMENT_PAGES="2"
+$env:DEEPSEEK_KEYWORD_DICTIONARY_PATH="server/deepseekKeywordDictionary.json"
 ```
 
 `DEEPSEEK_MODEL=deepseek-v4-pro` can be used when you want the stronger V4 model for dictionary extraction.
@@ -164,9 +169,9 @@ The DeepSeek keyword trainer does not fine-tune model weights. It uses DeepSeek 
 
 The dictionary harvester is iterative. Run it repeatedly with different seed queries, larger `BILIBILI_HARVEST_MAX_QUERIES` values, or `BILIBILI_HARVEST_ROUNDS` greater than `1` to expand coverage in one command. By default it skips queries and BV ids already recorded in the harvest state. No crawler can prove it has gathered every possible Bilibili slang term, so the practical target is continued growth with zero duplicate dictionary terms and broader family coverage.
 
-To protect dictionary quality, model-generated keywords are accepted only when the cleaned term can be found in the crawled Bilibili comment text. Accepted entries include `evidenceCount` and `evidenceSamples` so each term can be audited against source comments. Terms without direct text evidence are counted as `evidenceRejected` in the harvest report and are not merged into the dictionary.
+To protect dictionary quality, model-generated keywords are accepted only when the cleaned term can be found in the crawled Bilibili comment text. Accepted entries include `evidenceCount` and `evidenceSamples` so each term can be audited against source comments. Terms without direct text evidence are counted as `evidenceRejected` in the harvest report and are not merged into the dictionary. Each harvest also scans the crawled comments against the existing dictionary and refreshes evidence for any already-known term that appears, even if the model does not re-output that term.
 
-Harvest query generation prioritizes weak-evidence dictionary entries first and can generate multiple Bilibili-oriented query variants per term through `BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM`. The report includes `coverage.weakTerms`, `coverage.zeroEvidenceTerms`, and `coverage.averageEvidence`, which helps choose whether to keep harvesting broad seed queries or focus on under-supported terms.
+Harvest query generation prioritizes weak-evidence dictionary entries first and can generate multiple Bilibili-oriented query variants per term through `BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM`. `BILIBILI_HARVEST_COVERAGE_MODE=all-weak` targets every term below `BILIBILI_HARVEST_TARGET_EVIDENCE` before broad seed topics, while `balanced` keeps the older per-family sampling cap. The report includes `coverage.weakTerms`, `coverage.zeroEvidenceTerms`, and `coverage.averageEvidence`, which helps choose whether to keep harvesting broad seed queries or focus on under-supported terms.
 
 `BILIBILI_VIDEO_DISCOVERY_MODE` controls where videos come from: `search` uses dictionary/seed queries, `popular` scans Bilibili public popular videos, `mixed` combines both, and `controversial` rotates across controversy-topic searches, dictionary/seed queries, and public popular videos. `controversial` is the script default because it is better for finding fast-changing argument language from politics/current affairs, games, social issues, fandom disputes, and other debate-heavy areas. Override the default seeds with `BILIBILI_CONTROVERSY_SEARCH_QUERIES` or the PowerShell `-ControversyQuery` parameter.
 

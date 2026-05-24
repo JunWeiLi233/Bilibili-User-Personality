@@ -38,7 +38,7 @@ const FAMILY_ALIASES = {
   revision: 'correction',
 };
 
-export const DEFAULT_DICTIONARY_PATH = join(process.cwd(), 'server', 'deepseekKeywordDictionary.json');
+export const DEFAULT_DICTIONARY_PATH = process.env.DEEPSEEK_KEYWORD_DICTIONARY_PATH || join(process.cwd(), 'server', 'deepseekKeywordDictionary.json');
 
 function unique(items) {
   return [...new Set(items.filter(Boolean))];
@@ -178,6 +178,16 @@ export function filterKeywordEntriesByEvidence(entries = [], text = '') {
   const evidenceText = cleanEvidenceText(text);
   if (!evidenceText) return [];
   return normalizeKeywordEntries(entries)
+    .map((entry) => ({ ...entry, ...evidenceForTerm(entry.term, text) }))
+    .filter((entry) => entry.evidenceCount > 0);
+}
+
+export function findDictionaryEntriesWithTextEvidence(dictionary, text = '', options = {}) {
+  const evidenceText = cleanEvidenceText(text);
+  if (!evidenceText) return [];
+  const excludeTerms = new Set(Array.from(options.excludeTerms || []).map(cleanTerm).filter(Boolean));
+  return normalizeKeywordEntries(Array.isArray(dictionary?.entries) ? dictionary.entries : [])
+    .filter((entry) => !excludeTerms.has(entry.term))
     .map((entry) => ({ ...entry, ...evidenceForTerm(entry.term, text) }))
     .filter((entry) => entry.evidenceCount > 0);
 }
@@ -442,7 +452,11 @@ async function requestDeepSeekKeywords(config, fetchImpl, options, body) {
 export async function trainKeywordDictionary(payload, options = {}) {
   const config = await getDeepSeekConfig(options);
   const generated = await generateKeywordEntries(payload, config, options);
-  const dictionary = await mergeEntriesIntoDictionary(generated.entries, options);
+  const currentDictionary = await readDictionary(options.dictionaryPath || DEFAULT_DICTIONARY_PATH);
+  const generatedTerms = new Set(generated.entries.map((entry) => entry.term));
+  const dictionaryEvidenceEntries = findDictionaryEntriesWithTextEvidence(currentDictionary, payload.text, { excludeTerms: generatedTerms });
+  const acceptedEntries = normalizeKeywordEntries([...generated.entries, ...dictionaryEvidenceEntries]);
+  const dictionary = await mergeEntriesIntoDictionary(acceptedEntries, options);
   return {
     ok: true,
     provider: config.provider,
@@ -453,7 +467,9 @@ export async function trainKeywordDictionary(payload, options = {}) {
     keyConfigured: config.keyConfigured,
     usedFallback: generated.usedFallback,
     evidenceRejected: generated.evidenceRejected || 0,
-    entries: generated.entries,
+    entries: acceptedEntries,
+    generatedEntries: generated.entries,
+    dictionaryEvidenceEntries,
     dictionary,
     warning: config.warning,
   };

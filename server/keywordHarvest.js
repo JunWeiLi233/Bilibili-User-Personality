@@ -46,7 +46,10 @@ function sortEntriesForCoverage(entries) {
 export function buildKeywordHarvestQueries(dictionary, options = {}) {
   const maxQueries = asPositiveInt(options.maxQueries, 12, 100);
   const seedQueries = unique(options.seedQueries || DEFAULT_SEED_QUERIES);
-  const entries = sortEntriesForCoverage(Array.isArray(dictionary?.entries) ? dictionary.entries : []);
+  const coverageMode = String(options.coverageMode || 'balanced').trim().toLowerCase();
+  const targetEvidence = asPositiveInt(options.targetEvidence, 3, 1000);
+  const allEntries = sortEntriesForCoverage(Array.isArray(dictionary?.entries) ? dictionary.entries : []);
+  const entries = coverageMode === 'all-weak' ? allEntries.filter((entry) => evidenceCount(entry) < targetEvidence) : allEntries;
   const familyCounts = new Map();
   const dictionaryQueries = [];
   const variantsPerTerm = asPositiveInt(options.queryVariantsPerTerm, 2, TERM_QUERY_TEMPLATES.length);
@@ -56,14 +59,15 @@ export function buildKeywordHarvestQueries(dictionary, options = {}) {
     if (!term) continue;
     const family = String(entry.family || 'attack').trim();
     const count = familyCounts.get(family) || 0;
-    if (count >= asPositiveInt(options.termsPerFamily, 4, 20)) continue;
+    if (coverageMode !== 'all-weak' && count >= asPositiveInt(options.termsPerFamily, 4, 20)) continue;
     familyCounts.set(family, count + 1);
     for (const template of TERM_QUERY_TEMPLATES.slice(0, variantsPerTerm)) {
       dictionaryQueries.push(template(term, family));
     }
   }
 
-  return unique([...seedQueries, ...dictionaryQueries]).slice(0, maxQueries);
+  const orderedQueries = coverageMode === 'all-weak' ? [...dictionaryQueries, ...seedQueries] : [...seedQueries, ...dictionaryQueries];
+  return unique(orderedQueries).slice(0, maxQueries);
 }
 
 export const DEFAULT_HARVEST_STATE_PATH = join(process.cwd(), 'server', 'keywordHarvestState.json');
@@ -155,6 +159,8 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
     maxQueries: skipSeen ? Math.min(100, maxQueries + searchedQuerySet.size) : maxQueries,
     termsPerFamily: options.termsPerFamily,
     queryVariantsPerTerm: options.queryVariantsPerTerm,
+    targetEvidence: options.targetEvidence,
+    coverageMode: options.coverageMode,
   });
   const queries = (skipSeen ? candidateQueries.filter((query) => !searchedQuerySet.has(query)) : candidateQueries).slice(0, maxQueries);
   const results = [];

@@ -64,6 +64,35 @@ test('buildKeywordHarvestQueries can generate several Bilibili-oriented variants
   ]);
 });
 
+test('buildKeywordHarvestQueries all-weak mode targets every weak term before broad seeds', () => {
+  const queries = buildKeywordHarvestQueries(
+    {
+      entries: [
+        { term: 'strong', family: 'attack', evidenceCount: 4 },
+        { term: 'weakA', family: 'attack', evidenceCount: 0 },
+        { term: 'weakB', family: 'attack', evidenceCount: 1 },
+        { term: 'weakC', family: 'evasion', evidenceCount: 2 },
+      ],
+    },
+    {
+      seedQueries: ['seed topic'],
+      coverageMode: 'all-weak',
+      targetEvidence: 3,
+      maxQueries: 8,
+      termsPerFamily: 1,
+      queryVariantsPerTerm: 1,
+    },
+  );
+
+  assert.deepEqual(queries, [
+    'weakA Bilibili comment meme',
+    'weakB Bilibili comment meme',
+    'weakC Bilibili reply argument comments',
+    'seed topic',
+  ]);
+});
+
+
 test('summarizeDictionaryGrowth reports new terms, families, and duplicates', () => {
   const summary = summarizeDictionaryGrowth(
     { entries: [{ term: 'doge', family: 'cooperation' }] },

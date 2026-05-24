@@ -36,12 +36,14 @@ function summarizeRound(round) {
     (sum, item) => sum + (item.result.entries || []).reduce((entrySum, entry) => entrySum + (Number(entry.evidenceCount) || 0), 0),
     0,
   );
+  const existingDictionaryEvidenceTerms = okResults.reduce((sum, item) => sum + (item.result.keywordTraining?.dictionaryEvidenceEntries?.length || 0), 0);
   return {
     okResults,
     videosScanned,
     commentsCollected,
     evidenceRejected,
     acceptedEvidenceCount,
+    existingDictionaryEvidenceTerms,
   };
 }
 
@@ -55,6 +57,7 @@ function reportRound(round, index, total) {
   console.log(`Videos scanned this round: ${summary.videosScanned}`);
   console.log(`Comments collected: ${summary.commentsCollected}`);
   console.log(`Model keywords rejected without text evidence: ${summary.evidenceRejected}`);
+  console.log(`Existing dictionary terms refreshed from comments: ${summary.existingDictionaryEvidenceTerms}`);
   console.log(`Accepted keyword evidence hits: ${summary.acceptedEvidenceCount}`);
   console.log(`Dictionary terms before: ${round.growth.before}`);
   console.log(`Dictionary terms after: ${round.growth.after}`);
@@ -92,6 +95,7 @@ function serializeResult(result, statePath, reportPath) {
         })),
         comments: item.result?.comments?.length || 0,
         evidenceRejected: item.result?.keywordTraining?.evidenceRejected || 0,
+        existingDictionaryEvidence: item.result?.keywordTraining?.dictionaryEvidenceEntries || [],
         acceptedEvidenceCount: (item.result?.entries || []).reduce((sum, entry) => sum + (Number(entry.evidenceCount) || 0), 0),
         entries: item.result?.entries || [],
       })),
@@ -105,6 +109,7 @@ const maxQueries = numberFromEnv('BILIBILI_HARVEST_MAX_QUERIES', seedQueries.len
 const termsPerFamily = numberFromEnv('BILIBILI_HARVEST_TERMS_PER_FAMILY', 4);
 const queryVariantsPerTerm = numberFromEnv('BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM', 2);
 const targetEvidence = numberFromEnv('BILIBILI_HARVEST_TARGET_EVIDENCE', 3);
+const coverageMode = String(process.env.BILIBILI_HARVEST_COVERAGE_MODE || 'all-weak').trim().toLowerCase();
 const discoveryLimit = numberFromEnv('BILIBILI_VIDEO_DISCOVERY_LIMIT', 6);
 const pages = numberFromEnv('BILIBILI_VIDEO_COMMENT_PAGES', 2);
 const rounds = numberFromEnv('BILIBILI_HARVEST_ROUNDS', 1);
@@ -121,6 +126,7 @@ const result = await harvestKeywordDictionaryRounds({
   termsPerFamily,
   queryVariantsPerTerm,
   targetEvidence,
+  coverageMode,
   discoveryMode,
   discoveryLimit,
   pages,
