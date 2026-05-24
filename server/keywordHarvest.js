@@ -70,6 +70,13 @@ const TERM_SEARCH_ALIASES = {
   yygq: ['\u9634\u9633\u602a\u6c14'],
   pink: ['\u7c89\u7ea2', '\u5c0f\u7c89\u7ea2'],
 };
+const TERM_TOPIC_CONTEXTS = {
+  '\u8f66\u5bb6\u519b': ['\u5c0f\u7c73\u6c7d\u8f66', '\u7279\u65af\u62c9', '\u65b0\u80fd\u6e90\u8f66'],
+  '\u6ca1\u6709\u8f66\u5bb6\u519b': ['\u5c0f\u7c73\u6c7d\u8f66', '\u7279\u65af\u62c9', '\u65b0\u80fd\u6e90\u8f66'],
+  '\u8e6d\u6982\u5ff5': ['AI', '\u6e38\u620f', '\u79d1\u6280\u516c\u53f8'],
+  '\u8c01\u662f\u8e6d\u6982\u5ff5': ['AI', '\u6e38\u620f', '\u79d1\u6280\u516c\u53f8'],
+  '\u7cbe\u795e\u5916\u56fd\u4eba': ['\u56fd\u9645\u653f\u6cbb', '\u65f6\u653f', '\u7559\u5b66'],
+};
 
 function asPositiveInt(value, fallback, max = Number.MAX_SAFE_INTEGER) {
   const number = Number(value);
@@ -129,14 +136,40 @@ function searchTermsForTerm(term) {
   return unique([term, ...(TERM_SEARCH_ALIASES[String(term || '').trim()] || [])]);
 }
 
+function contextualQueriesForTerm(term) {
+  const normalizedTerm = String(term || '').trim();
+  const contexts = TERM_TOPIC_CONTEXTS[normalizedTerm] || [];
+  return unique(contexts.flatMap((context) => [`${normalizedTerm} ${context} \u8bc4\u8bba\u533a`, `${context} ${normalizedTerm} \u70ed\u8bc4`]));
+}
+
 function queryVariantCountForTerm(term, options = {}) {
-  return queryTemplatesFromOptions(options).length * searchTermsForTerm(term).length;
+  return queryTemplatesFromOptions(options).length * searchTermsForTerm(term).length + contextualQueriesForTerm(term).length;
 }
 
 function queryVariantsForTerm(term, family, limit = TERM_QUERY_TEMPLATES.length, options = {}) {
   const variants = [];
-  for (const item of queryTemplatesFromOptions(options)) {
-    for (const searchTerm of searchTermsForTerm(term)) {
+  const templateItems = queryTemplatesFromOptions(options);
+  const searchTerms = searchTermsForTerm(term);
+  const pushTemplateVariant = (item, searchTerm) => {
+    variants.push({
+      query: item.template(searchTerm, family),
+      variantIndex: variants.length,
+      builtIn: item.builtIn,
+    });
+  };
+  const [primaryTemplate, ...remainingTemplates] = templateItems;
+  if (primaryTemplate) {
+    for (const searchTerm of searchTerms) pushTemplateVariant(primaryTemplate, searchTerm);
+  }
+  for (const query of contextualQueriesForTerm(term)) {
+    variants.push({
+      query,
+      variantIndex: variants.length,
+      builtIn: true,
+    });
+  }
+  for (const item of remainingTemplates) {
+    for (const searchTerm of searchTerms) {
       variants.push({
         query: item.template(searchTerm, family),
         variantIndex: variants.length,

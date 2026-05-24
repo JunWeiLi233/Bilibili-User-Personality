@@ -136,6 +136,39 @@ test('buildKeywordHarvestQueries uses conversational aliases for repeatedly miss
   }
 });
 
+test('buildKeywordHarvestQueries uses topic contexts for hard zero-evidence terms', () => {
+  const cases = [
+    {
+      term: '\u8f66\u5bb6\u519b',
+      expectedContextQuery: '\u8f66\u5bb6\u519b \u5c0f\u7c73\u6c7d\u8f66 \u8bc4\u8bba\u533a',
+    },
+    {
+      term: '\u8e6d\u6982\u5ff5',
+      expectedContextQuery: '\u8e6d\u6982\u5ff5 AI \u8bc4\u8bba\u533a',
+    },
+    {
+      term: '\u7cbe\u795e\u5916\u56fd\u4eba',
+      expectedContextQuery: '\u7cbe\u795e\u5916\u56fd\u4eba \u56fd\u9645\u653f\u6cbb \u8bc4\u8bba\u533a',
+    },
+  ];
+
+  for (const item of cases) {
+    const queries = buildKeywordHarvestQueries(
+      {
+        entries: [{ term: item.term, family: 'attack', evidenceCount: 0 }],
+      },
+      {
+        seedQueries: [],
+        coverageMode: 'all-weak',
+        maxQueries: 32,
+        queryVariantsPerTerm: 32,
+      },
+    );
+
+    assert.equal(queries.includes(item.expectedContextQuery), true);
+  }
+});
+
 test('buildKeywordHarvestQueries all-weak mode targets every weak term before broad seeds', () => {
   const queries = buildKeywordHarvestQueries(
     {
