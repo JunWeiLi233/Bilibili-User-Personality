@@ -135,6 +135,7 @@ const termsPerFamily = numberFromEnv('BILIBILI_HARVEST_TERMS_PER_FAMILY', 4);
 const queryVariantsPerTerm = numberFromEnv('BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM', 2);
 const targetEvidence = numberFromEnv('BILIBILI_HARVEST_TARGET_EVIDENCE', 3);
 const coverageMode = String(process.env.BILIBILI_HARVEST_COVERAGE_MODE || 'all-weak').trim().toLowerCase();
+const requireSourceBackedEvidence = process.env.BILIBILI_HARVEST_REQUIRE_SOURCES === '1';
 const discoveryLimit = numberFromEnv('BILIBILI_VIDEO_DISCOVERY_LIMIT', 6);
 const pages = numberFromEnv('BILIBILI_VIDEO_COMMENT_PAGES', 2);
 const rounds = numberFromEnv('BILIBILI_HARVEST_ROUNDS', 1);
@@ -156,6 +157,7 @@ const result = await harvestKeywordDictionaryRounds({
   exhaustedSuggestionTemplates,
   targetEvidence,
   coverageMode,
+  requireSourceBackedEvidence,
   discoveryMode,
   discoveryLimit,
   controversialPopularQueryLimit,

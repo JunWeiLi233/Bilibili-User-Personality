@@ -118,8 +118,9 @@ function coverageActionRank(action) {
     {
       retry_with_new_variant: 0,
       harvest: 1,
-      harvest_more_evidence: 2,
-      add_query_template: 3,
+      refresh_source_metadata: 2,
+      harvest_more_evidence: 3,
+      add_query_template: 4,
       none: 9,
     }[action] ?? 8
   );
@@ -130,6 +131,7 @@ export function buildKeywordHarvestQueryPlan(dictionary, options = {}) {
   const seedQueries = unique(options.seedQueries || DEFAULT_SEED_QUERIES);
   const coverageMode = String(options.coverageMode || 'balanced').trim().toLowerCase();
   const targetEvidence = asPositiveInt(options.targetEvidence, 3, 1000);
+  const requireSourceBackedEvidence = options.requireSourceBackedEvidence === true;
   const allEntries = sortEntriesForCoverage(Array.isArray(dictionary?.entries) ? dictionary.entries : []);
   const termAttempts = options.termAttempts && typeof options.termAttempts === 'object' ? options.termAttempts : {};
   const actionMap = new Map(
@@ -138,7 +140,7 @@ export function buildKeywordHarvestQueryPlan(dictionary, options = {}) {
   const entries =
     coverageMode === 'all-weak'
       ? allEntries
-          .filter((entry) => evidenceCount(entry) < targetEvidence)
+          .filter((entry) => evidenceCount(entry) < targetEvidence || (requireSourceBackedEvidence && evidenceCount(entry) > 0 && !hasEvidenceSource(entry)))
           .sort((a, b) => {
             const actionA = actionMap.get(String(a.term || '').trim());
             const actionB = actionMap.get(String(b.term || '').trim());
@@ -179,6 +181,7 @@ export function buildKeywordHarvestQueryPlan(dictionary, options = {}) {
         term,
         family,
         evidenceCount: evidenceCount(entry),
+        sourcedEvidence: hasEvidenceSource(entry),
         priorAttempts: attempts,
         priorSuccessfulAttempts: successfulAttempts,
         variantIndex: variant.variantIndex,
@@ -380,7 +383,10 @@ export function buildCoverageActions(dictionary = {}, state = {}, options = {}) 
     const nextVariant = availableVariants.find((variant) => !triedQueries.has(variant.query)) || null;
     let status = 'covered';
     let action = 'none';
-    if (count < targetEvidence && exhausted) {
+    if (count >= targetEvidence && options.requireSourceBackedEvidence === true && count > 0 && !hasEvidenceSource(entry)) {
+      status = 'source_gap';
+      action = nextVariant ? 'refresh_source_metadata' : 'add_query_template';
+    } else if (count < targetEvidence && exhausted) {
       status = 'exhausted';
       action = 'add_query_template';
     } else if (count < targetEvidence && attemptsCount === 0) {
@@ -548,6 +554,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
     queryVariantsPerTerm: options.queryVariantsPerTerm,
     targetEvidence: options.targetEvidence,
     coverageMode: options.coverageMode,
+    requireSourceBackedEvidence: options.requireSourceBackedEvidence,
     termAttempts: state.termAttempts,
     extraQueryTemplates: options.extraQueryTemplates,
   });
@@ -604,6 +611,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
   });
   const coverageActions = buildCoverageActions(after, { termAttempts }, {
     targetEvidence: options.targetEvidence,
+    requireSourceBackedEvidence: options.requireSourceBackedEvidence,
     extraQueryTemplates: options.extraQueryTemplates,
     exhaustedSuggestionTemplates: options.exhaustedSuggestionTemplates,
   });

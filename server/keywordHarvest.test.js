@@ -118,6 +118,7 @@ test('buildKeywordHarvestQueryPlan keeps dictionary term metadata for state trac
       evidenceCount: 0,
       priorAttempts: 0,
       priorSuccessfulAttempts: 0,
+      sourcedEvidence: false,
       variantIndex: 0,
       builtInVariant: true,
       previouslyTried: false,
@@ -130,6 +131,7 @@ test('buildKeywordHarvestQueryPlan keeps dictionary term metadata for state trac
       evidenceCount: 0,
       priorAttempts: 0,
       priorSuccessfulAttempts: 0,
+      sourcedEvidence: false,
       variantIndex: 1,
       builtInVariant: true,
       previouslyTried: false,
@@ -198,6 +200,36 @@ test('buildKeywordHarvestQueryPlan prioritizes retry actions before fresh harves
   assert.equal(plan[0].query, 'missed Bilibili comments');
   assert.equal(plan[0].previouslyTried, false);
   assert.equal(plan[1].term, 'missed');
+});
+
+test('buildKeywordHarvestQueryPlan can prioritize source metadata gaps', () => {
+  const plan = buildKeywordHarvestQueryPlan(
+    {
+      entries: [
+        { term: 'coveredNoSource', family: 'attack', evidenceCount: 3, evidenceSamples: ['sample without source'] },
+        { term: 'weak', family: 'attack', evidenceCount: 0 },
+        {
+          term: 'coveredWithSource',
+          family: 'attack',
+          evidenceCount: 3,
+          evidenceSources: [{ source: 'Bilibili public video comment scan', uid: 'BV1source', sample: 'sample with source' }],
+        },
+      ],
+    },
+    {
+      seedQueries: [],
+      coverageMode: 'all-weak',
+      requireSourceBackedEvidence: true,
+      targetEvidence: 3,
+      maxQueries: 2,
+      queryVariantsPerTerm: 1,
+    },
+  );
+
+  assert.deepEqual(plan.map((item) => [item.term, item.evidenceCount, item.sourcedEvidence]), [
+    ['weak', 0, false],
+    ['coveredNoSource', 3, false],
+  ]);
 });
 
 
@@ -442,6 +474,7 @@ test('buildCoverageActions classifies covered, unattempted, missed, partial, and
             },
           ],
         },
+        { term: 'sourceGap', family: 'attack', evidenceCount: 3, evidenceSamples: ['sample without source'] },
         { term: 'newbie', family: 'attack', evidenceCount: 0 },
         { term: 'missed', family: 'attack', evidenceCount: 0 },
         { term: 'partial', family: 'attack', evidenceCount: 1 },
@@ -472,11 +505,14 @@ test('buildCoverageActions classifies covered, unattempted, missed, partial, and
         },
       },
     },
-    { targetEvidence: 3 },
+    { targetEvidence: 3, requireSourceBackedEvidence: true },
   );
   const byTerm = Object.fromEntries(actions.map((item) => [item.term, item]));
 
   assert.equal(byTerm.covered.action, 'none');
+  assert.equal(byTerm.sourceGap.status, 'source_gap');
+  assert.equal(byTerm.sourceGap.action, 'refresh_source_metadata');
+  assert.equal(byTerm.sourceGap.nextQuery, 'sourceGap Bilibili comment meme');
   assert.equal(byTerm.newbie.action, 'harvest');
   assert.equal(byTerm.missed.action, 'retry_with_new_variant');
   assert.equal(byTerm.missed.nextQuery, 'missed Bilibili comments');
