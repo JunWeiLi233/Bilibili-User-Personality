@@ -17,13 +17,11 @@ Research-driven prototype for evaluating whether a selected Bilibili user's publ
   - Semantic judge mode: evaluates target, evidence burden, proposition response, and correction behavior.
   - Lexicon mode: transparent semantic-family matching for auditability.
 - UID-based automatic sampling:
-  - Tries public UID video discovery.
-  - Falls back to a user-provided BV pool.
-  - Filters public comments by `mid`.
-- Local AICU-format research panel:
-  - Does not call AICU or use it as a comment source.
-  - Formats locally pasted, imported, or UID-collected public comments into a historical-comment research view.
-  - Keeps all judgment inside the local speech-act and adaptive-lexicon analyzer.
+  - Reads Bilibili public profile/card data for the UID.
+  - Discovers public submissions and dynamic posts from Bilibili public endpoints.
+  - Scans comments around those public objects and filters interactions by `mid`.
+  - Accepts an optional BV seed pool only as extra Bilibili public objects.
+  - Does not call AICU, third-party indexes, or external websites as a substitute for UID comment crawling.
 - Built-in public test samples from Bilibili video `BV19yGa61Ee6`.
 
 ## Run Locally
@@ -43,8 +41,6 @@ npm run build
 
 ## Notes
 
-The automatic collector uses public Bilibili endpoints. Some UID space APIs may be rate-limited or blocked by Bilibili risk control; in that case, provide a BV video pool and the tool will search those public comment areas for the target `mid`.
-
-The local AICU-format panel is a research interface over comments already present in this tool. It deliberately avoids using AICU as a data source so the collection path remains controlled by local pasted samples, UID public-object scanning, or future local importers.
+The automatic collector uses Bilibili public endpoints directly. It does not use AICU, third-party comment indexes, scraping libraries, or external websites to replace UID crawling. If Bilibili rate-limits a public endpoint, the optional BV seed pool can add more public Bilibili objects for the same local scanner.
 
 The scoring language is framed as behavior-risk analysis over a bounded public comment sample, not as a clinical diagnosis or definitive personality judgment.

@@ -626,10 +626,11 @@ function App() {
   const [uid, setUid] = React.useState('UID 349872641');
   const [commentText, setCommentText] = React.useState(sampleTextA);
   const [autoUid, setAutoUid] = React.useState('');
-  const [bvidPool, setBvidPool] = React.useState('BV19yGa61Ee6');
-  const [fetchState, setFetchState] = React.useState({ status: 'idle', message: '输入 UID 后可自动发现公开视频对象；若 B 站空间接口风控，请提供 BV 视频池。' });
-  const [researchKeyword, setResearchKeyword] = React.useState('');
-  const [researchFilter, setResearchFilter] = React.useState('all');
+  const [bvidPool, setBvidPool] = React.useState('');
+  const [fetchState, setFetchState] = React.useState({
+    status: 'idle',
+    message: '输入 UID 后会直接扫描 B 站公开资料、投稿、动态和可评论对象；BV 视频池只是可选补充种子。',
+  });
   const [analysisMode, setAnalysisMode] = React.useState('hybrid');
   const [customLexicon, setCustomLexicon] = React.useState(() => {
     try {
@@ -642,37 +643,6 @@ function App() {
 
   const runtimeLexicon = React.useMemo(() => buildRuntimeLexicon(customLexicon), [customLexicon]);
   const candidateTerms = React.useMemo(() => extractCandidateTerms(commentText, runtimeLexicon), [commentText, runtimeLexicon]);
-  const researchRows = React.useMemo(() => {
-    const comments = splitComments(commentText);
-    const total = Math.max(comments.length, 1);
-    return comments.map((message, index) => {
-      const acts = classifySpeechAct(message, index, total);
-      const lexiconEvidence = classifyLexiconError(message, index, total, runtimeLexicon);
-      const negativeActs = acts.filter((act) => !act.positive && !act.neutral);
-      const positiveActs = acts.filter((act) => act.positive);
-      return {
-        id: `local-${index}`,
-        index: index + 1,
-        message,
-        risk: negativeActs.length,
-        positive: positiveActs.length,
-        label: negativeActs[0]?.speechAct || lexiconEvidence?.speechAct || positiveActs[0]?.speechAct || '普通观点表达',
-        target: negativeActs[0]?.target || lexiconEvidence?.target || positiveActs[0]?.target || '观点',
-        source: lexiconEvidence ? '本地语义裁判 + 本地语库' : '本地语义裁判',
-      };
-    });
-  }, [commentText, runtimeLexicon]);
-  const filteredResearchRows = React.useMemo(() => {
-    return researchRows.filter((row) => {
-      const keywordMatched = !researchKeyword || row.message.includes(researchKeyword) || row.label.includes(researchKeyword);
-      const filterMatched =
-        researchFilter === 'all' ||
-        (researchFilter === 'risk' && row.risk > 0) ||
-        (researchFilter === 'positive' && row.positive > 0) ||
-        (researchFilter === 'neutral' && row.risk === 0 && row.positive === 0);
-      return keywordMatched && filterMatched;
-    });
-  }, [researchRows, researchKeyword, researchFilter]);
   const selectedUser = profiles.find((user) => user.id === selectedId) || profiles[0];
   const trollIndex = getTrollIndex(selectedUser);
   const errorTypes = ['全部', ...new Set(selectedUser.errors.map((error) => error.type))];
@@ -710,7 +680,7 @@ function App() {
   };
 
   const fetchUidComments = async () => {
-    setFetchState({ status: 'loading', message: '正在抓取公开对象并过滤该 UID 的评论...' });
+    setFetchState({ status: 'loading', message: '正在直接扫描该 UID 的公开投稿、动态与评论互动...' });
     try {
       const response = await fetch('/api/bilibili/analyze-uid', {
         method: 'POST',
@@ -718,8 +688,9 @@ function App() {
         body: JSON.stringify({
           uid: autoUid,
           bvidPool,
-          videoLimit: 8,
-          pagesPerVideo: 4,
+          objectLimit: 12,
+          dynamicLimit: 12,
+          pagesPerObject: 5,
         }),
       });
       const data = await response.json();
@@ -733,9 +704,12 @@ function App() {
       setQuery(data.uname || `UID ${data.uid}`);
       setUid(`mid ${data.uid}`);
       setCommentText(data.commentText || '');
+      const statementCount = data.statements?.length ?? data.comments.length;
+      const dynamicCount = data.dynamics?.length ?? 0;
+      const postCount = data.authoredPosts?.length ?? 0;
       setFetchState({
-        status: data.comments.length > 0 ? 'ready' : 'empty',
-        message: `扫描 ${data.videos.length} 个公开视频，命中 ${data.comments.length} 条该 UID 评论。${data.confidenceHint}。${data.warnings?.length ? `警告：${data.warnings.join('；')}` : ''}`,
+        status: statementCount > 0 ? 'ready' : 'empty',
+        message: `扫描 ${data.objects?.length ?? data.videos.length} 个公开对象（视频 ${data.videos.length} / 动态 ${dynamicCount}），采集 ${postCount} 条公开动态原文与 ${data.comments.length} 条该 UID 评论互动。${data.confidenceHint}。${data.warnings?.length ? `警告：${data.warnings.join('；')}` : ''}`,
       });
     } catch (error) {
       setFetchState({ status: 'error', message: `采集失败：${error.message}。请确认已运行 npm run server。` });
@@ -803,7 +777,7 @@ function App() {
           <div>
             <span className="eyebrow"><ClipboardText size={16} /> sample intake</span>
             <h2>输入 UID，自动围绕公开对象抓取发言</h2>
-            <p>系统会先尝试从 UID 的公开投稿发现视频对象；如果空间接口被风控，就使用你提供的 BV 视频池，在这些公开评论区中过滤该 UID 的发言。</p>
+            <p>系统会直接请求 B 站公开接口：读取 UID 的公开资料、投稿、动态，再围绕这些对象扫描评论区并过滤该 UID 的公开互动；额外 BV 只作为补充种子。</p>
             <div className="crawler-box">
               <label htmlFor="auto-uid">B 站 UID / mid</label>
               <input
@@ -812,12 +786,12 @@ function App() {
                 onChange={(event) => setAutoUid(event.target.value)}
                 placeholder="例如 1438219989"
               />
-              <label htmlFor="bvid-pool">BV 视频池，空格或逗号分隔</label>
+              <label htmlFor="bvid-pool">可选 BV 补充种子，空格或逗号分隔</label>
               <textarea
                 id="bvid-pool"
                 value={bvidPool}
                 onChange={(event) => setBvidPool(event.target.value)}
-                placeholder="例如 BV19yGa61Ee6 BVxxxx"
+                placeholder="可留空；例如 BV19yGa61Ee6 BVxxxx"
               />
               <button type="button" onClick={fetchUidComments} disabled={fetchState.status === 'loading'}>
                 {fetchState.status === 'loading' ? '抓取中' : '自动抓取公开发言'}
@@ -856,62 +830,6 @@ function App() {
                 </button>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="research-board-section">
-        <div className="research-board">
-          <div className="research-board-head">
-            <div>
-              <span className="eyebrow"><ClipboardText size={16} /> local research panel</span>
-              <h2>本地 AICU 格式评论研究面板</h2>
-              <p>不依赖 AICU 作为评论来源。这里仅把当前本地样本、UID 公开采集结果或手动导入文本整理成便于研究的历史评论索引视图。</p>
-            </div>
-            <div className="research-stats" aria-label="本地样本统计">
-              <span><strong>{researchRows.length}</strong> 本地评论</span>
-              <span><strong>{researchRows.filter((row) => row.risk > 0).length}</strong> 风险话语</span>
-              <span><strong>{filteredResearchRows.length}</strong> 当前筛选</span>
-            </div>
-          </div>
-
-          <div className="research-toolbar">
-            <label htmlFor="research-keyword">文本或话语行为匹配</label>
-            <input
-              id="research-keyword"
-              value={researchKeyword}
-              onChange={(event) => setResearchKeyword(event.target.value)}
-              placeholder="例如 抬杠 / 人身指向 / 修正"
-            />
-            <label htmlFor="research-filter">样本类型</label>
-            <select id="research-filter" value={researchFilter} onChange={(event) => setResearchFilter(event.target.value)}>
-              <option value="all">所有评论</option>
-              <option value="risk">高风险话语</option>
-              <option value="positive">合作/修正</option>
-              <option value="neutral">普通观点</option>
-            </select>
-          </div>
-
-          <div className="research-list" aria-label="本地 AICU 格式评论列表">
-            {filteredResearchRows.length === 0 ? (
-              <p className="research-empty">当前筛选没有命中。换一个关键词，或先抓取/粘贴更多公开评论。</p>
-            ) : (
-              filteredResearchRows.slice(0, 80).map((row) => (
-                <article className="research-card" key={row.id}>
-                  <div className="research-meta">
-                    <span>#{row.index}</span>
-                    <span>本地样本</span>
-                    <span>{uid || autoUid || '未指定 UID'}</span>
-                  </div>
-                  <p>{row.message}</p>
-                  <div className="research-tags">
-                    <span className={row.risk > 0 ? 'research-chip risk' : 'research-chip'}>{row.label}</span>
-                    <span className="research-chip">目标：{row.target}</span>
-                    <span className="research-chip muted">{row.source}</span>
-                  </div>
-                </article>
-              ))
-            )}
           </div>
         </div>
       </section>
