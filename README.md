@@ -45,6 +45,15 @@ npm install
 npm run server
 ```
 
+To run a backend-owned default Bilibili video directly, edit the link in `run-bilibili-video.ps1`, then run:
+
+```powershell
+cd D:\Bilibili_User_Personality
+.\run-bilibili-video.ps1
+```
+
+After the page opens, click `后端默认视频`.
+
 `npm run server` starts both services:
 
 - API backend: `http://127.0.0.1:8787`
