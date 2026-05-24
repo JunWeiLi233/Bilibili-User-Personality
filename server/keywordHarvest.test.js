@@ -942,6 +942,41 @@ test('harvestKeywordDictionary forwards controversial popular discovery options 
   }
 });
 
+test('harvestKeywordDictionary forwards existing-only training mode to video search', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-existing-only-'));
+  const statePath = join(dir, 'state.json');
+  try {
+    const payloads = [];
+    await harvestKeywordDictionary(
+      {
+        seedQueries: ['seed topic'],
+        maxQueries: 1,
+        existingTermsOnly: true,
+        discoveryLimit: 1,
+        pages: 1,
+        statePath,
+      },
+      {
+        readKeywordDictionary: async () => ({ entries: [] }),
+        searchVideoKeywords: async (payload) => {
+          payloads.push(payload);
+          return {
+            ok: true,
+            warnings: [],
+            videos: [{ bvid: 'BV1111111111' }],
+            comments: [],
+            entries: [],
+          };
+        },
+      },
+    );
+
+    assert.equal(payloads[0].existingTermsOnly, true);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('harvestKeywordDictionaryRounds keeps running new unseen queries across rounds', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-rounds-'));
   const statePath = join(dir, 'state.json');

@@ -304,6 +304,55 @@ test('searchVideoKeywords scans video comments and trains keyword dictionary', a
   assert.equal(trainedPayloads[0].text.includes('不会真有人'), true);
 });
 
+test('searchVideoKeywords forwards existing-only training mode', async () => {
+  const trainedPayloads = [];
+  const result = await searchVideoKeywords(
+    {
+      videoLink: 'https://www.bilibili.com/video/BV19yGa61Ee6/',
+      pages: 1,
+      existingTermsOnly: true,
+    },
+    {
+      fetchJson: async (url) => {
+        if (String(url).includes('/x/web-interface/view')) {
+          return {
+            code: 0,
+            data: {
+              aid: 123,
+              title: 'sample video',
+              owner: { mid: 9, name: 'up' },
+              stat: { reply: 1 },
+            },
+          };
+        }
+        return {
+          code: 0,
+          data: {
+            replies: [
+              {
+                rpid: 1,
+                mid: 100,
+                member: { mid: '100', uname: 'alice' },
+                content: { message: 'freshterm appears here' },
+                like: 1,
+                ctime: 1710000000,
+              },
+            ],
+            cursor: { is_end: true, next: 0 },
+          },
+        };
+      },
+      trainKeywordDictionary: async (payload) => {
+        trainedPayloads.push(payload);
+        return { ok: true, entries: [], dictionary: { entries: [] } };
+      },
+    },
+  );
+
+  assert.equal(result.ok, true);
+  assert.equal(trainedPayloads[0].existingTermsOnly, true);
+});
+
 test('searchVideoKeywords scans multiple backend video links and trains one merged dictionary pass', async () => {
   const trainedPayloads = [];
   const result = await searchVideoKeywords(

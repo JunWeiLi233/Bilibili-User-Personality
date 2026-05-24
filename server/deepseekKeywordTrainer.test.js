@@ -154,6 +154,40 @@ test('trainKeywordDictionary updates evidence for existing terms found in crawle
   }
 });
 
+test('trainKeywordDictionary can refresh only existing dictionary terms', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-train-existing-only-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  try {
+    await mergeEntriesIntoDictionary(
+      [{ term: 'freshterm', family: 'cooperation', meaning: 'existing dictionary term', confidence: 0.7, evidenceCount: 0 }],
+      { dictionaryPath },
+    );
+
+    const result = await trainKeywordDictionary(
+      {
+        text: 'freshterm appears here and brandnewterm appears too',
+        uid: 'BV-existing-only',
+        source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-existing-only/',
+        existingTermsOnly: true,
+      },
+      {
+        dictionaryPath,
+        env: { DEEPSEEK_API_KEY: 'test-key' },
+        fetch: async () => {
+          throw new Error('DeepSeek should not be called in existing-only mode');
+        },
+      },
+    );
+
+    assert.deepEqual(result.generatedEntries, []);
+    assert.deepEqual(result.entries.map((entry) => entry.term), ['freshterm']);
+    assert.equal(result.dictionary.entries.some((entry) => entry.term === 'brandnewterm'), false);
+    assert.equal(result.dictionary.entries.find((entry) => entry.term === 'freshterm').evidenceCount, 1);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('merges learned keyword entries into a persistent local dictionary', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-keywords-'));
   const dictionaryPath = join(dir, 'dictionary.json');

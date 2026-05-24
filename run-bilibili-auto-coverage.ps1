@@ -16,6 +16,7 @@ param(
   [string]$CoverageMode = "all-weak",
   [ValidateSet("search", "popular", "mixed", "controversial")]
   [string]$DiscoveryMode = "controversial",
+  [switch]$AllowNewTerms,
   [switch]$AllowUnsourcedEvidence,
   [switch]$StopOnNoProgress,
   [switch]$ResetHarvestState,
@@ -60,6 +61,11 @@ $env:BILIBILI_HARVEST_TARGET_EVIDENCE = [string]$TargetEvidence
 $env:BILIBILI_HARVEST_COVERAGE_MODE = $CoverageMode
 $env:BILIBILI_VIDEO_DISCOVERY_MODE = $DiscoveryMode
 
+if ($AllowNewTerms) {
+  Remove-Item Env:\BILIBILI_HARVEST_EXISTING_TERMS_ONLY -ErrorAction SilentlyContinue
+} else {
+  $env:BILIBILI_HARVEST_EXISTING_TERMS_ONLY = "1"
+}
 if ($AllowUnsourcedEvidence) {
   Remove-Item Env:\BILIBILI_HARVEST_REQUIRE_SOURCES -ErrorAction SilentlyContinue
   Remove-Item Env:\BILIBILI_COVERAGE_AUDIT_REQUIRE_SOURCES -ErrorAction SilentlyContinue
@@ -94,6 +100,7 @@ Write-Host "Discovery limit: $DiscoveryLimit"
 Write-Host "Comment pages per video: $CommentPages"
 Write-Host "Controversial popular query limit: $ControversialPopularQueryLimit"
 Write-Host "Controversial popular search order: $ControversialPopularSearchOrder"
+Write-Host "Existing dictionary terms only: $(!$AllowNewTerms)"
 Write-Host "Require Bilibili evidence sources: $(!$AllowUnsourcedEvidence)"
 Write-Host "Reset harvest state: $ResetHarvestState"
 Write-Host ""

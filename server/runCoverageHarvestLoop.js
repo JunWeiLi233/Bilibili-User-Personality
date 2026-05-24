@@ -67,6 +67,7 @@ const requireComplete = process.env.BILIBILI_COVERAGE_AUDIT_REQUIRE_COMPLETE !==
 const requireSourceBackedEvidence =
   process.env.BILIBILI_COVERAGE_AUDIT_REQUIRE_SOURCES === '1' ||
   process.env.BILIBILI_HARVEST_REQUIRE_SOURCES === '1';
+const existingTermsOnly = process.env.BILIBILI_HARVEST_EXISTING_TERMS_ONLY === '1';
 const coverageMode = String(process.env.BILIBILI_HARVEST_COVERAGE_MODE || 'all-weak').trim().toLowerCase();
 const seedQueries = parseList(process.env.BILIBILI_VIDEO_SEARCH_QUERIES || process.env.BILIBILI_VIDEO_SEARCH_QUERY);
 const controversyQueries = parseList(process.env.BILIBILI_CONTROVERSY_SEARCH_QUERIES || process.env.BILIBILI_CONTROVERSY_SEARCH_QUERY);
@@ -123,6 +124,7 @@ for (let cycle = 1; cycle <= maxCycles && !audit.ok; cycle += 1) {
     targetEvidence,
     coverageMode,
     requireSourceBackedEvidence,
+    existingTermsOnly,
     discoveryMode,
     discoveryLimit,
     controversialPopularQueryLimit,

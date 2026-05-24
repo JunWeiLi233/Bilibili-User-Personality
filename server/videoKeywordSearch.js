@@ -127,6 +127,11 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
   )
     .trim()
     .toLowerCase();
+  const existingTermsOnly =
+    payload.existingTermsOnly === true ||
+    payload.existingDictionaryTermsOnly === true ||
+    deps.existingTermsOnly === true ||
+    process.env.BILIBILI_HARVEST_EXISTING_TERMS_ONLY === '1';
   const discoveryWarnings = [];
   let discoveredVideos = [];
   const excludeBvids = parseSet(payload.excludeBvids || deps.excludeBvids);
@@ -264,6 +269,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
     uid: videos.map((video) => video.bvid).join(','),
     text: commentText,
     source: `${mergedScan.source}: ${videos.map((video) => video.sourceUrl).join(', ')}`,
+    existingTermsOnly,
   });
 
   return {

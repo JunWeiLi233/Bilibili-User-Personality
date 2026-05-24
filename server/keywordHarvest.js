@@ -583,6 +583,9 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
         pages: options.pages,
         excludeBvids: skipSeen ? [...scannedBvidSet] : [],
       };
+      if (options.existingTermsOnly !== undefined) {
+        searchPayload.existingTermsOnly = options.existingTermsOnly;
+      }
       if (options.controversialPopularQueryLimit !== undefined) {
         searchPayload.controversialPopularQueryLimit = options.controversialPopularQueryLimit;
       }

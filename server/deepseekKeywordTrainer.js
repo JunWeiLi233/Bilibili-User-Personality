@@ -485,9 +485,22 @@ async function requestDeepSeekKeywords(config, fetchImpl, options, body) {
 }
 
 export async function trainKeywordDictionary(payload, options = {}) {
-  const config = await getDeepSeekConfig(options);
-  const generated = await generateKeywordEntries(payload, config, options);
   const currentDictionary = await readDictionary(options.dictionaryPath || DEFAULT_DICTIONARY_PATH);
+  const existingTermsOnly = options.existingTermsOnly === true || payload.existingTermsOnly === true;
+  const config = existingTermsOnly
+    ? {
+        ok: true,
+        provider: 'deepseek',
+        baseUrl: String((options.env || process.env).DEEPSEEK_BASE_URL || 'https://api.deepseek.com').replace(/\/$/, ''),
+        model: (options.env || process.env).DEEPSEEK_MODEL || 'deepseek-v4-flash',
+        reasoningEffort: String((options.env || process.env).DEEPSEEK_REASONING_EFFORT || 'medium').trim().toLowerCase(),
+        available: false,
+        keyConfigured: Boolean((options.env || process.env).DEEPSEEK_API_KEY),
+      }
+    : await getDeepSeekConfig(options);
+  const generated = existingTermsOnly
+    ? { entries: [], usedFallback: true, evidenceRejected: 0, raw: '' }
+    : await generateKeywordEntries(payload, config, options);
   const generatedTerms = new Set(generated.entries.map((entry) => entry.term));
   const dictionaryEvidenceEntries = findDictionaryEntriesWithTextEvidence(currentDictionary, payload.text, {
     excludeTerms: generatedTerms,
