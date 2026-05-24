@@ -92,11 +92,17 @@ test('filters keyword entries to terms with direct text evidence', () => {
       { term: 'notpresent', family: 'attack', meaning: 'model hallucination' },
     ],
     'this Bilibili comment uses [doge] only\nsecond [doge] sample',
+    { source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV1source/', uid: 'BV1source' },
   );
 
   assert.deepEqual(entries.map((entry) => entry.term), ['doge']);
   assert.equal(entries[0].evidenceCount, 2);
   assert.deepEqual(entries[0].evidenceSamples, ['this Bilibili comment uses [doge] only', 'second [doge] sample']);
+  assert.deepEqual(entries[0].evidenceSources[0], {
+    source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV1source/',
+    uid: 'BV1source',
+    sample: 'this Bilibili comment uses [doge] only',
+  });
 });
 
 test('findDictionaryEntriesWithTextEvidence refreshes existing dictionary term evidence', () => {
@@ -128,6 +134,7 @@ test('trainKeywordDictionary updates evidence for existing terms found in crawle
       {
         text: 'Bilibili comment has [freshterm]\nanother freshterm reply',
         uid: 'BV-existing',
+        source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-existing/',
       },
       {
         dictionaryPath,
@@ -140,6 +147,8 @@ test('trainKeywordDictionary updates evidence for existing terms found in crawle
     assert.deepEqual(result.dictionaryEvidenceEntries.map((entry) => entry.term), ['freshterm']);
     assert.equal(existing.evidenceCount, 2);
     assert.equal(existing.evidenceSamples.includes('Bilibili comment has [freshterm]'), true);
+    assert.equal(existing.evidenceSources[0].uid, 'BV-existing');
+    assert.equal(existing.evidenceSources[0].source.includes('bilibili.com/video/BV-existing'), true);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
@@ -264,6 +273,7 @@ test('rejects DeepSeek keywords that are not evidenced in crawled text', async (
       {
         text: 'this Bilibili comment uses [doge] only',
         uid: 'BV-evidence',
+        source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-evidence/',
       },
       {
         dictionaryPath,
@@ -302,6 +312,7 @@ test('rejects DeepSeek keywords that are not evidenced in crawled text', async (
     assert.deepEqual(result.entries.map((entry) => entry.term), ['doge']);
     assert.equal(result.entries[0].evidenceCount, 1);
     assert.deepEqual(result.entries[0].evidenceSamples, ['this Bilibili comment uses [doge] only']);
+    assert.equal(result.entries[0].evidenceSources[0].uid, 'BV-evidence');
     assert.deepEqual(result.dictionary.families.cooperation, ['doge']);
     assert.deepEqual(result.dictionary.families.attack, []);
   } finally {

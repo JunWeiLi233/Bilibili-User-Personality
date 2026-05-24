@@ -44,6 +44,10 @@ function unique(items) {
   return [...new Set(items.filter(Boolean))];
 }
 
+function uniqueBy(items, keyFn) {
+  return [...new Map(items.filter(Boolean).map((item) => [keyFn(item), item])).values()];
+}
+
 function cleanTerm(term) {
   return String(term || '')
     .normalize('NFKC')
@@ -75,6 +79,9 @@ function mergeKeywordEntry(existing, incoming, now) {
   const base = shouldReplaceFamily ? incoming : existing;
   const details = shouldReplaceDetails ? incoming : {};
   const evidenceSamples = unique([...(existing.evidenceSamples || []), ...(incoming.evidenceSamples || [])]).slice(0, 5);
+  const evidenceSources = uniqueBy([...(existing.evidenceSources || []), ...(incoming.evidenceSources || [])], (item) =>
+    `${item.source || ''}\n${item.uid || ''}\n${item.sample || ''}`,
+  ).slice(0, 8);
   const existingEvidenceCount = Math.max(0, Number(existing.evidenceCount) || 0);
   const incomingEvidenceCount = Math.max(0, Number(incoming.evidenceCount) || 0);
 
@@ -91,8 +98,23 @@ function mergeKeywordEntry(existing, incoming, now) {
         ? Math.max(existingEvidenceCount, incomingEvidenceCount)
         : existingEvidenceCount + incomingEvidenceCount,
     evidenceSamples,
+    evidenceSources,
     updatedAt: now,
   };
+}
+
+function normalizeEvidenceSources(rawSources = []) {
+  if (!Array.isArray(rawSources)) return [];
+  return uniqueBy(
+    rawSources
+      .map((item) => ({
+        source: String(item?.source || '').trim(),
+        uid: String(item?.uid || '').trim(),
+        sample: String(item?.sample || '').trim(),
+      }))
+      .filter((item) => item.source || item.uid || item.sample),
+    (item) => `${item.source}\n${item.uid}\n${item.sample}`,
+  ).slice(0, 8);
 }
 
 function authHeaders(apiKey) {
@@ -128,6 +150,7 @@ export function normalizeKeywordEntries(rawEntries = []) {
         confidence: Number.isFinite(Number(item.confidence)) ? Math.max(0, Math.min(1, Number(item.confidence))) : 0.68,
         evidenceCount: Math.max(0, Number(item.evidenceCount) || 0),
         evidenceSamples: Array.isArray(item.evidenceSamples) ? unique(item.evidenceSamples.map((sample) => String(sample || '').trim())).slice(0, 5) : [],
+        evidenceSources: normalizeEvidenceSources(item.evidenceSources),
       });
     }
   }
@@ -156,29 +179,40 @@ function countOccurrences(haystack, needle) {
   return count;
 }
 
-function evidenceForTerm(term, text) {
+function evidenceForTerm(term, text, options = {}) {
   const needle = cleanEvidenceText(term);
   const evidenceText = cleanEvidenceText(text);
   const evidenceCount = countOccurrences(evidenceText, needle);
   const evidenceSamples = [];
+  const evidenceSources = [];
+  const source = String(options.source || '').trim();
+  const uid = String(options.uid || '').trim();
   if (evidenceCount > 0) {
     for (const line of String(text || '').split(/\r?\n/)) {
       const cleanLine = cleanEvidenceText(line);
       if (cleanLine.includes(needle)) {
         const sample = line.replace(/\s+/g, ' ').trim();
-        if (sample) evidenceSamples.push(sample.length > 120 ? `${sample.slice(0, 120)}...` : sample);
+        if (sample) {
+          const clippedSample = sample.length > 120 ? `${sample.slice(0, 120)}...` : sample;
+          evidenceSamples.push(clippedSample);
+          if (source || uid) evidenceSources.push({ source, uid, sample: clippedSample });
+        }
       }
       if (evidenceSamples.length >= 3) break;
     }
   }
-  return { evidenceCount, evidenceSamples: unique(evidenceSamples).slice(0, 3) };
+  return {
+    evidenceCount,
+    evidenceSamples: unique(evidenceSamples).slice(0, 3),
+    evidenceSources: normalizeEvidenceSources(evidenceSources).slice(0, 3),
+  };
 }
 
-export function filterKeywordEntriesByEvidence(entries = [], text = '') {
+export function filterKeywordEntriesByEvidence(entries = [], text = '', options = {}) {
   const evidenceText = cleanEvidenceText(text);
   if (!evidenceText) return [];
   return normalizeKeywordEntries(entries)
-    .map((entry) => ({ ...entry, ...evidenceForTerm(entry.term, text) }))
+    .map((entry) => ({ ...entry, ...evidenceForTerm(entry.term, text, options) }))
     .filter((entry) => entry.evidenceCount > 0);
 }
 
@@ -188,7 +222,7 @@ export function findDictionaryEntriesWithTextEvidence(dictionary, text = '', opt
   const excludeTerms = new Set(Array.from(options.excludeTerms || []).map(cleanTerm).filter(Boolean));
   return normalizeKeywordEntries(Array.isArray(dictionary?.entries) ? dictionary.entries : [])
     .filter((entry) => !excludeTerms.has(entry.term))
-    .map((entry) => ({ ...entry, ...evidenceForTerm(entry.term, text) }))
+    .map((entry) => ({ ...entry, ...evidenceForTerm(entry.term, text, options) }))
     .filter((entry) => entry.evidenceCount > 0);
 }
 
@@ -390,8 +424,9 @@ function heuristicKeywordEntries(text) {
 async function generateKeywordEntries(payload, config, options = {}) {
   const fetchImpl = options.fetch || fetch;
   const heuristicEntries = heuristicKeywordEntries(payload.text);
+  const evidenceOptions = { source: payload.source, uid: payload.uid };
   if (!config.available || !config.keyConfigured || !config.model) {
-    return { entries: filterKeywordEntriesByEvidence(heuristicEntries, payload.text), usedFallback: true, evidenceRejected: 0, raw: '' };
+    return { entries: filterKeywordEntriesByEvidence(heuristicEntries, payload.text, evidenceOptions), usedFallback: true, evidenceRejected: 0, raw: '' };
   }
 
   const requestBody = {
@@ -423,8 +458,8 @@ async function generateKeywordEntries(payload, config, options = {}) {
   try {
     const parsed = extractJsonObject(raw);
     const deepseekEntries = normalizeKeywordEntries(parsed.keywords || parsed.terms || []);
-    const evidenceBackedDeepseekEntries = filterKeywordEntriesByEvidence(deepseekEntries, payload.text);
-    const evidenceBackedHeuristicEntries = filterKeywordEntriesByEvidence(heuristicEntries, payload.text);
+    const evidenceBackedDeepseekEntries = filterKeywordEntriesByEvidence(deepseekEntries, payload.text, evidenceOptions);
+    const evidenceBackedHeuristicEntries = filterKeywordEntriesByEvidence(heuristicEntries, payload.text, evidenceOptions);
     const entries = normalizeKeywordEntries([...evidenceBackedDeepseekEntries, ...evidenceBackedHeuristicEntries]);
     return {
       entries,
@@ -433,7 +468,7 @@ async function generateKeywordEntries(payload, config, options = {}) {
       raw,
     };
   } catch {
-    return { entries: filterKeywordEntriesByEvidence(heuristicEntries, payload.text), usedFallback: true, evidenceRejected: 0, raw };
+    return { entries: filterKeywordEntriesByEvidence(heuristicEntries, payload.text, evidenceOptions), usedFallback: true, evidenceRejected: 0, raw };
   }
 }
 
@@ -454,7 +489,11 @@ export async function trainKeywordDictionary(payload, options = {}) {
   const generated = await generateKeywordEntries(payload, config, options);
   const currentDictionary = await readDictionary(options.dictionaryPath || DEFAULT_DICTIONARY_PATH);
   const generatedTerms = new Set(generated.entries.map((entry) => entry.term));
-  const dictionaryEvidenceEntries = findDictionaryEntriesWithTextEvidence(currentDictionary, payload.text, { excludeTerms: generatedTerms });
+  const dictionaryEvidenceEntries = findDictionaryEntriesWithTextEvidence(currentDictionary, payload.text, {
+    excludeTerms: generatedTerms,
+    source: payload.source,
+    uid: payload.uid,
+  });
   const acceptedEntries = normalizeKeywordEntries([...generated.entries, ...dictionaryEvidenceEntries]);
   const dictionary = await mergeEntriesIntoDictionary(acceptedEntries, options);
   return {

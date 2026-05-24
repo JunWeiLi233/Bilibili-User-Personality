@@ -305,7 +305,12 @@ test('summarizeEvidenceCoverage reports weak terms and family coverage', () => {
   const coverage = summarizeEvidenceCoverage(
     {
       entries: [
-        { term: 'doge', family: 'cooperation', evidenceCount: 4 },
+        {
+          term: 'doge',
+          family: 'cooperation',
+          evidenceCount: 4,
+          evidenceSources: [{ source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV1source/', uid: 'BV1source' }],
+        },
         { term: '典中典', family: 'attack', evidenceCount: 0 },
         { term: '懂的都懂', family: 'evasion', evidenceCount: 2 },
       ],
@@ -319,11 +324,15 @@ test('summarizeEvidenceCoverage reports weak terms and family coverage', () => {
   assert.equal(coverage.averageEvidence, 2);
   assert.equal(coverage.coverageRatio, 0.3333);
   assert.equal(coverage.evidenceDeficit, 4);
+  assert.equal(coverage.sourcedEvidenceTerms, 1);
+  assert.equal(coverage.unsourcedEvidenceTerms, 1);
+  assert.equal(coverage.sourceCoverageRatio, 0.3333);
   assert.equal(coverage.weakTerms, 2);
   assert.equal(coverage.zeroEvidenceTerms, 1);
   assert.deepEqual(coverage.weakSamples.map((entry) => entry.term), ['典中典', '懂的都懂']);
   assert.deepEqual(coverage.zeroEvidenceSamples.map((entry) => entry.term), ['典中典']);
-  assert.deepEqual(coverage.byFamily.attack, { terms: 1, evidence: 0, weak: 1, zero: 1 });
+  assert.deepEqual(coverage.unsourcedEvidenceSamples.map((entry) => entry.term), ['懂的都懂']);
+  assert.deepEqual(coverage.byFamily.attack, { terms: 1, evidence: 0, weak: 1, zero: 1, sourced: 0 });
 });
 
 test('summarizeEvidenceCoverage marks coverage complete when every term reaches target evidence', () => {
@@ -421,7 +430,18 @@ test('buildCoverageActions classifies covered, unattempted, missed, partial, and
   const actions = buildCoverageActions(
     {
       entries: [
-        { term: 'covered', family: 'attack', evidenceCount: 3 },
+        {
+          term: 'covered',
+          family: 'attack',
+          evidenceCount: 3,
+          evidenceSources: [
+            {
+              source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV1covered/',
+              uid: 'BV1covered',
+              sample: 'covered source-backed sample',
+            },
+          ],
+        },
         { term: 'newbie', family: 'attack', evidenceCount: 0 },
         { term: 'missed', family: 'attack', evidenceCount: 0 },
         { term: 'partial', family: 'attack', evidenceCount: 1 },
@@ -471,7 +491,18 @@ test('buildDictionaryCoverageAudit reports gate status and next harvest actions'
   const audit = buildDictionaryCoverageAudit(
     {
       entries: [
-        { term: 'covered', family: 'attack', evidenceCount: 3 },
+        {
+          term: 'covered',
+          family: 'attack',
+          evidenceCount: 3,
+          evidenceSources: [
+            {
+              source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV1covered/',
+              uid: 'BV1covered',
+              sample: 'covered source-backed sample',
+            },
+          ],
+        },
         { term: 'missed', family: 'attack', evidenceCount: 0 },
         { term: 'partial', family: 'evasion', evidenceCount: 1 },
       ],
@@ -500,12 +531,36 @@ test('buildDictionaryCoverageAudit reports gate status and next harvest actions'
 
   assert.equal(audit.ok, false);
   assert.equal(audit.coverage.coverageRatio, 0.3333);
+  assert.equal(audit.coverage.sourcedEvidenceTerms, 1);
   assert.equal(audit.actionSummary.retry_with_new_variant, 1);
   assert.equal(audit.actionSummary.harvest_more_evidence, 1);
   assert.deepEqual(audit.nextActions.map((item) => item.term), ['missed', 'partial']);
   assert.equal(audit.recommendedQueries[0], 'missed Bilibili comments');
   assert.equal(audit.familyGaps[0].family, 'attack');
   assert.equal(audit.failureReasons.some((reason) => reason.includes('term(s) are below')), true);
+});
+
+test('buildDictionaryCoverageAudit can require source-backed evidence metadata', () => {
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [
+        { term: 'unsourced', family: 'attack', evidenceCount: 3, evidenceSamples: ['unsourced sample'] },
+        {
+          term: 'sourced',
+          family: 'cooperation',
+          evidenceCount: 3,
+          evidenceSources: [{ source: 'Bilibili public video comment scan', uid: 'BVsourced', sample: 'sourced sample' }],
+        },
+      ],
+    },
+    { termAttempts: {} },
+    { targetEvidence: 3, requireSourceBackedEvidence: true },
+  );
+
+  assert.equal(audit.coverage.complete, true);
+  assert.equal(audit.coverage.unsourcedEvidenceTerms, 1);
+  assert.equal(audit.ok, false);
+  assert.equal(audit.failureReasons.some((reason) => reason.includes('missing Bilibili source metadata')), true);
 });
 
 test('harvestKeywordDictionary runs dictionary-seeded searches and reports growth', async () => {

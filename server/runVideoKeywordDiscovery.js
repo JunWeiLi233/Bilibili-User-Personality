@@ -76,6 +76,7 @@ function reportRound(round, index, total) {
   console.log(`Weak evidence terms: ${round.coverage.weakTerms}`);
   console.log(`Zero evidence terms: ${round.coverage.zeroEvidenceTerms}`);
   console.log(`Evidence deficit remaining: ${round.coverage.evidenceDeficit}`);
+  console.log(`Source-backed evidence terms: ${round.coverage.sourcedEvidenceTerms}`);
   console.log(`Coverage ratio: ${(round.coverage.coverageRatio * 100).toFixed(2)}%`);
   console.log(`Average evidence per term: ${round.coverage.averageEvidence}`);
   console.log(`Attempted dictionary terms: ${round.termAttemptSummary.attemptedTerms}`);

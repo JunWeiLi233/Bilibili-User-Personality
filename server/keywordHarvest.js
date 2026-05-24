@@ -56,6 +56,10 @@ function evidenceCount(entry) {
   return Math.max(0, Number(entry?.evidenceCount) || 0);
 }
 
+function hasEvidenceSource(entry) {
+  return evidenceCount(entry) > 0 && Array.isArray(entry?.evidenceSources) && entry.evidenceSources.length > 0;
+}
+
 function termAttemptKey(term) {
   return Buffer.from(String(term || ''), 'utf8').toString('base64url');
 }
@@ -252,15 +256,18 @@ export function summarizeEvidenceCoverage(dictionary, options = {}) {
   const totalEvidence = entries.reduce((sum, entry) => sum + evidenceCount(entry), 0);
   const weakEntries = entries.filter((entry) => evidenceCount(entry) < targetEvidence);
   const zeroEvidence = entries.filter((entry) => evidenceCount(entry) === 0);
+  const sourcedEvidence = entries.filter(hasEvidenceSource);
+  const unsourcedEvidence = entries.filter((entry) => evidenceCount(entry) > 0 && !hasEvidenceSource(entry));
   const evidenceDeficit = weakEntries.reduce((sum, entry) => sum + Math.max(0, targetEvidence - evidenceCount(entry)), 0);
   const byFamily = {};
   for (const entry of entries) {
     const family = entry.family || 'unknown';
-    if (!byFamily[family]) byFamily[family] = { terms: 0, evidence: 0, weak: 0, zero: 0 };
+    if (!byFamily[family]) byFamily[family] = { terms: 0, evidence: 0, weak: 0, zero: 0, sourced: 0 };
     byFamily[family].terms += 1;
     byFamily[family].evidence += evidenceCount(entry);
     if (evidenceCount(entry) < targetEvidence) byFamily[family].weak += 1;
     if (evidenceCount(entry) === 0) byFamily[family].zero += 1;
+    if (hasEvidenceSource(entry)) byFamily[family].sourced += 1;
   }
   return {
     complete: weakEntries.length === 0,
@@ -270,6 +277,9 @@ export function summarizeEvidenceCoverage(dictionary, options = {}) {
     averageEvidence: entries.length ? Number((totalEvidence / entries.length).toFixed(2)) : 0,
     coverageRatio: entries.length ? Number(((entries.length - weakEntries.length) / entries.length).toFixed(4)) : 1,
     evidenceDeficit,
+    sourcedEvidenceTerms: sourcedEvidence.length,
+    sourceCoverageRatio: entries.length ? Number((sourcedEvidence.length / entries.length).toFixed(4)) : 1,
+    unsourcedEvidenceTerms: unsourcedEvidence.length,
     weakTerms: weakEntries.length,
     zeroEvidenceTerms: zeroEvidence.length,
     weakSamples: sortEntriesForCoverage(weakEntries).slice(0, 20).map((entry) => ({
@@ -280,6 +290,11 @@ export function summarizeEvidenceCoverage(dictionary, options = {}) {
     zeroEvidenceSamples: sortEntriesForCoverage(zeroEvidence).slice(0, 20).map((entry) => ({
       term: entry.term,
       family: entry.family,
+    })),
+    unsourcedEvidenceSamples: sortEntriesForCoverage(unsourcedEvidence).slice(0, 20).map((entry) => ({
+      term: entry.term,
+      family: entry.family,
+      evidenceCount: evidenceCount(entry),
     })),
     byFamily,
   };
@@ -384,6 +399,7 @@ export function buildCoverageActions(dictionary = {}, state = {}, options = {}) 
       status,
       action,
       evidenceCount: count,
+      sourcedEvidence: hasEvidenceSource(entry),
       targetEvidence,
       evidenceNeeded: Math.max(0, targetEvidence - count),
       attempts: attemptsCount,
@@ -402,6 +418,7 @@ export function buildDictionaryCoverageAudit(dictionary = {}, state = {}, option
   const maxActions = asPositiveInt(options.maxActions, 20, 1000);
   const minCoverageRatio = Math.min(1, Math.max(0, Number(options.minCoverageRatio ?? 1)));
   const requireComplete = options.requireComplete !== false;
+  const requireSourceBackedEvidence = options.requireSourceBackedEvidence === true;
   const coverage = summarizeEvidenceCoverage(dictionary, { targetEvidence });
   const termAttemptSummary = summarizeTermAttempts(state, dictionary, options);
   const coverageActions = buildCoverageActions(dictionary, state, options);
@@ -438,6 +455,9 @@ export function buildDictionaryCoverageAudit(dictionary = {}, state = {}, option
   if (requireComplete && !coverage.complete) {
     failureReasons.push(`${coverage.weakTerms} term(s) are below ${targetEvidence} evidence hit(s)`);
   }
+  if (requireSourceBackedEvidence && coverage.unsourcedEvidenceTerms > 0) {
+    failureReasons.push(`${coverage.unsourcedEvidenceTerms} evidence-backed term(s) are missing Bilibili source metadata`);
+  }
   if (termAttemptSummary.exhaustedTerms > 0) {
     failureReasons.push(`${termAttemptSummary.exhaustedTerms} exhausted term(s) need extra query templates`);
   }
@@ -447,6 +467,7 @@ export function buildDictionaryCoverageAudit(dictionary = {}, state = {}, option
     targetEvidence,
     minCoverageRatio,
     requireComplete,
+    requireSourceBackedEvidence,
     coverage,
     termAttemptSummary,
     actionSummary,
