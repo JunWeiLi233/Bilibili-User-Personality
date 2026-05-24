@@ -1112,6 +1112,7 @@ test('harvestKeywordDictionary forwards controversial popular discovery options 
         discoveryMode: 'controversial',
         controversialPopularQueryLimit: 3,
         controversialPopularSearchOrder: 'click',
+        includeGenericPopular: true,
         discoveryLimit: 1,
         pages: 1,
         statePath,
@@ -1133,6 +1134,7 @@ test('harvestKeywordDictionary forwards controversial popular discovery options 
 
     assert.equal(payloads[0].controversialPopularQueryLimit, 3);
     assert.equal(payloads[0].controversialPopularSearchOrder, 'click');
+    assert.equal(payloads[0].includeGenericPopular, true);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }

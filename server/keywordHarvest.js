@@ -683,6 +683,9 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
       if (options.controversialPopularSearchOrder !== undefined) {
         searchPayload.controversialPopularSearchOrder = options.controversialPopularSearchOrder;
       }
+      if (options.includeGenericPopular !== undefined) {
+        searchPayload.includeGenericPopular = options.includeGenericPopular;
+      }
       const result = await searchVideoKeywords(searchPayload);
       results.push({ query, result });
       if (!result.ok) warnings.push(`${query}: ${result.error}`);

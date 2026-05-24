@@ -164,6 +164,7 @@ test('searchVideoKeywords controversial discovery mixes controversy seeds, searc
       controversyQueries: ['politics debate', 'game drama'],
       discoveryMode: 'controversial',
       discoveryLimit: 4,
+      includeGenericPopular: true,
       pages: 1,
     },
     {
@@ -213,6 +214,101 @@ test('searchVideoKeywords controversial discovery mixes controversy seeds, searc
   assert.deepEqual(result.videos.map((video) => video.bvid), ['BV1hotPolitics', 'BV1politics1', 'BV1dictionary', 'BV1popular01']);
 });
 
+test('searchVideoKeywords controversial discovery skips generic popular feed by default', async () => {
+  let popularCalls = 0;
+  const result = await searchVideoKeywords(
+    {
+      searchQuery: 'dictionary term comments',
+      controversyQueries: ['politics debate'],
+      discoveryMode: 'controversial',
+      discoveryLimit: 3,
+      pages: 1,
+    },
+    {
+      discoverVideosByKeyword: async (query, _limit, options = {}) => {
+        if (options.searchOrder === 'click') {
+          return [{ bvid: 'BV1hotPolitics', sourceUrl: 'https://www.bilibili.com/video/BV1hotPolitics/' }];
+        }
+        if (query === 'politics debate') {
+          return [{ bvid: 'BV1politics1', sourceUrl: 'https://www.bilibili.com/video/BV1politics1/' }];
+        }
+        return [{ bvid: 'BV1dictionary', sourceUrl: 'https://www.bilibili.com/video/BV1dictionary/' }];
+      },
+      discoverPopularVideos: async () => {
+        popularCalls += 1;
+        return [{ bvid: 'BV1popular01', sourceUrl: 'https://www.bilibili.com/video/BV1popular01/' }];
+      },
+      fetchJson: async (url) => {
+        const bvid = new URL(String(url)).searchParams.get('bvid');
+        if (String(url).includes('/x/web-interface/view')) {
+          return {
+            code: 0,
+            data: {
+              aid: bvid,
+              title: bvid,
+              owner: { mid: 9, name: 'up' },
+              stat: { reply: 0 },
+            },
+          };
+        }
+        return { code: 0, data: { replies: [], cursor: { is_end: true, next: 0 } } };
+      },
+    },
+  );
+
+  assert.equal(result.ok, true);
+  assert.equal(popularCalls, 0);
+  assert.deepEqual(result.videos.map((video) => video.bvid), ['BV1hotPolitics', 'BV1politics1', 'BV1dictionary']);
+});
+
+test('searchVideoKeywords can explicitly include generic popular videos in controversial discovery', async () => {
+  let popularCalls = 0;
+  const result = await searchVideoKeywords(
+    {
+      searchQuery: 'dictionary term comments',
+      controversyQueries: ['politics debate'],
+      discoveryMode: 'controversial',
+      discoveryLimit: 4,
+      includeGenericPopular: true,
+      pages: 1,
+    },
+    {
+      discoverVideosByKeyword: async (query, _limit, options = {}) => {
+        if (options.searchOrder === 'click') {
+          return [{ bvid: 'BV1hotPolitics', sourceUrl: 'https://www.bilibili.com/video/BV1hotPolitics/' }];
+        }
+        if (query === 'politics debate') {
+          return [{ bvid: 'BV1politics1', sourceUrl: 'https://www.bilibili.com/video/BV1politics1/' }];
+        }
+        return [{ bvid: 'BV1dictionary', sourceUrl: 'https://www.bilibili.com/video/BV1dictionary/' }];
+      },
+      discoverPopularVideos: async () => {
+        popularCalls += 1;
+        return [{ bvid: 'BV1popular01', sourceUrl: 'https://www.bilibili.com/video/BV1popular01/' }];
+      },
+      fetchJson: async (url) => {
+        const bvid = new URL(String(url)).searchParams.get('bvid');
+        if (String(url).includes('/x/web-interface/view')) {
+          return {
+            code: 0,
+            data: {
+              aid: bvid,
+              title: bvid,
+              owner: { mid: 9, name: 'up' },
+              stat: { reply: 0 },
+            },
+          };
+        }
+        return { code: 0, data: { replies: [], cursor: { is_end: true, next: 0 } } };
+      },
+    },
+  );
+
+  assert.equal(result.ok, true);
+  assert.equal(popularCalls, 1);
+  assert.deepEqual(result.videos.map((video) => video.bvid), ['BV1hotPolitics', 'BV1politics1', 'BV1dictionary', 'BV1popular01']);
+});
+
 test('searchVideoKeywords prioritizes dictionary search videos during existing-only coverage', async () => {
   const result = await searchVideoKeywords(
     {
@@ -253,7 +349,7 @@ test('searchVideoKeywords prioritizes dictionary search videos during existing-o
     },
   );
 
-  assert.deepEqual(result.videos.map((video) => video.bvid), ['BV1dictionary', 'BV1hotPolitics', 'BV1politics1', 'BV1popular01']);
+  assert.deepEqual(result.videos.map((video) => video.bvid), ['BV1dictionary', 'BV1hotPolitics', 'BV1politics1']);
 });
 
 test('default controversy seed list includes debate-heavy Bilibili topics', () => {

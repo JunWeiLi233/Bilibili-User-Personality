@@ -79,6 +79,11 @@ function parseSet(value) {
   return new Set(parseList(value));
 }
 
+function envFlag(value, fallback = false) {
+  if (value == null || value === '') return fallback;
+  return ['1', 'true', 'yes', 'on'].includes(String(value).trim().toLowerCase());
+}
+
 function buildVideoContextText(videos = []) {
   return videos
     .flatMap((video) => [video.title, video.desc, video.description])
@@ -151,6 +156,10 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
     deps.prioritizeSearchQueries === true ||
     process.env.BILIBILI_HARVEST_PRIORITIZE_SEARCH_QUERIES === '1' ||
     existingTermsOnly;
+  const includeGenericPopular =
+    payload.includeGenericPopular === true ||
+    deps.includeGenericPopular === true ||
+    envFlag(process.env.BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR, false);
   const discoveryWarnings = [];
   let discoveredVideos = [];
   const excludeBvids = parseSet(payload.excludeBvids || deps.excludeBvids);
@@ -206,7 +215,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
           : [controversialPopularGroup, controversyGroup, searchGroup]),
       );
     }
-    if (discoveryMode === 'popular' || discoveryMode === 'mixed' || discoveryMode === 'controversial') {
+    if (discoveryMode === 'popular' || discoveryMode === 'mixed' || (discoveryMode === 'controversial' && includeGenericPopular)) {
       const discoverPopular = deps.discoverPopularVideos || discoverPopularVideos;
       try {
         discoveryGroups.push(await discoverPopular(discoveryLimit, deps));

@@ -20,6 +20,7 @@ param(
   [string]$DiscoveryMode = "controversial",
   [switch]$RequireEvidenceSources,
   [switch]$ExistingTermsOnly,
+  [switch]$IncludeGenericPopular,
   [switch]$ResetHarvestState
 )
 
@@ -62,6 +63,11 @@ if ($ExtraQueryTemplate.Count -gt 0) {
 $env:BILIBILI_VIDEO_DISCOVERY_LIMIT = [string]$DiscoveryLimit
 $env:BILIBILI_CONTROVERSIAL_POPULAR_QUERY_LIMIT = [string]$ControversialPopularQueryLimit
 $env:BILIBILI_CONTROVERSIAL_POPULAR_SEARCH_ORDER = $ControversialPopularSearchOrder
+if ($IncludeGenericPopular) {
+  $env:BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR = "1"
+} else {
+  Remove-Item Env:\BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR -ErrorAction SilentlyContinue
+}
 $env:BILIBILI_VIDEO_COMMENT_PAGES = [string]$CommentPages
 $env:BILIBILI_HARVEST_MAX_QUERIES = [string]$MaxQueries
 $env:BILIBILI_HARVEST_TERMS_PER_FAMILY = [string]$TermsPerFamily
@@ -110,6 +116,7 @@ if ($DiscoveryMode -eq "controversial") {
 Write-Host "Discovery limit: $DiscoveryLimit"
 Write-Host "Controversial popular query limit: $ControversialPopularQueryLimit"
 Write-Host "Controversial popular search order: $ControversialPopularSearchOrder"
+Write-Host "Include generic popular feed in controversial mode: $IncludeGenericPopular"
 Write-Host "Comment pages per video: $CommentPages"
 Write-Host "Max harvest queries: $MaxQueries"
 Write-Host "Dictionary terms per family: $TermsPerFamily"

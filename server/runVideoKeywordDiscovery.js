@@ -30,6 +30,12 @@ function nonNegativeNumberFromEnv(name, fallback) {
   return Number.isFinite(value) && value >= 0 ? Math.floor(value) : fallback;
 }
 
+function flagFromEnv(name, fallback = false) {
+  const value = process.env[name];
+  if (value == null || value === '') return fallback;
+  return ['1', 'true', 'yes', 'on'].includes(String(value).trim().toLowerCase());
+}
+
 function printKeyword(entry) {
   const family = entry.family || 'unknown';
   const term = entry.term || '';
@@ -158,6 +164,7 @@ const rounds = numberFromEnv('BILIBILI_HARVEST_ROUNDS', 1);
 const discoveryMode = String(process.env.BILIBILI_VIDEO_DISCOVERY_MODE || 'controversial').trim().toLowerCase();
 const controversialPopularQueryLimit = nonNegativeNumberFromEnv('BILIBILI_CONTROVERSIAL_POPULAR_QUERY_LIMIT', 4);
 const controversialPopularSearchOrder = String(process.env.BILIBILI_CONTROVERSIAL_POPULAR_SEARCH_ORDER || 'click').trim().toLowerCase();
+const includeGenericPopular = flagFromEnv('BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR', false);
 const statePath = process.env.BILIBILI_HARVEST_STATE_PATH || DEFAULT_HARVEST_STATE_PATH;
 const reportPath = process.env.BILIBILI_HARVEST_REPORT_PATH || join(process.cwd(), 'server', 'keywordHarvestReport.json');
 const resetState = process.env.BILIBILI_HARVEST_RESET === '1';
@@ -181,6 +188,7 @@ const result = await harvestKeywordDictionaryRounds({
   discoveryLimit,
   controversialPopularQueryLimit,
   controversialPopularSearchOrder,
+  includeGenericPopular,
   pages,
   rounds,
   statePath,

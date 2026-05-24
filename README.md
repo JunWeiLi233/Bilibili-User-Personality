@@ -51,7 +51,7 @@ cd D:\Bilibili_User_Personality
 .\run-bilibili-video.ps1
 ```
 
-The script does not require video links. By default it uses backend `controversial` discovery: debate-heavy Bilibili search seeds such as politics/current affairs, games, social issues, fandom disputes, and tech-company disputes are searched first with a popularity-oriented Bilibili search order, then mixed with dictionary-generated queries and public popular videos. It then scans public comments, trains the keyword dictionary, and prints a coverage/growth report.
+The script does not require video links. By default it uses backend `controversial` discovery: debate-heavy Bilibili search seeds such as politics/current affairs, games, social issues, fandom disputes, and tech-company disputes are searched first with a popularity-oriented Bilibili search order, then mixed with dictionary-generated queries. Generic public popular videos are not included in `controversial` mode by default, because the goal is controversial popular videos, not ordinary popular videos. Add `-IncludeGenericPopular` only when you intentionally want to mix in the public popular feed. It then scans public comments, trains the keyword dictionary, and prints a coverage/growth report.
 
 It also persists harvest state in `server/keywordHarvestState.json` and writes the latest report to `server/keywordHarvestReport.json`. These local files are ignored by Git because they are run-specific data.
 
@@ -61,7 +61,7 @@ For the full dictionary coverage loop, use:
 .\run-bilibili-auto-coverage.ps1 -MaxCycles 5 -RoundsPerCycle 2 -MaxQueries 20 -DiscoveryLimit 8 -CommentPages 3
 ```
 
-That command audits the current dictionary, exports the next weak-term priority queries, harvests Bilibili comments from controversial popular topics plus dictionary queries, then repeats until the coverage gate passes or the cycle limit is reached. It requires source-backed Bilibili evidence and refreshes existing dictionary terms only by default, so coverage work does not keep lowering the pass ratio by adding fresh terms mid-loop. Add `-AllowNewTerms` when you want the same loop to expand the dictionary, and add `-AllowUnsourcedEvidence` only when you want a faster but less auditable run.
+That command audits the current dictionary, exports the next weak-term priority queries, harvests Bilibili comments from controversial popular topics plus dictionary queries, then repeats until the coverage gate passes or the cycle limit is reached. It does not use the generic popular feed unless you pass `-IncludeGenericPopular`. It requires source-backed Bilibili evidence and refreshes existing dictionary terms only by default, so coverage work does not keep lowering the pass ratio by adding fresh terms mid-loop. Add `-AllowNewTerms` when you want the same loop to expand the dictionary, and add `-AllowUnsourcedEvidence` only when you want a faster but less auditable run.
 
 To change what videos are discovered:
 
@@ -81,6 +81,13 @@ Legacy `mixed` mode is still available when you only want dictionary/seed search
 
 ```powershell
 .\run-bilibili-video.ps1 -SearchQuery "A圣 评论区","中文互联网 梗" -DiscoveryMode mixed -MaxQueries 20 -Rounds 3 -DiscoveryLimit 8 -CommentPages 3
+```
+
+If you explicitly want the old `controversial` plus generic popular feed behavior:
+
+```powershell
+.\run-bilibili-video.ps1 -IncludeGenericPopular
+.\run-bilibili-auto-coverage.ps1 -IncludeGenericPopular
 ```
 
 To revisit previously searched queries and videos:
@@ -106,6 +113,7 @@ $env:BILIBILI_HARVEST_RESET="0"
 $env:BILIBILI_VIDEO_DISCOVERY_LIMIT="6"
 $env:BILIBILI_CONTROVERSIAL_POPULAR_QUERY_LIMIT="4"
 $env:BILIBILI_CONTROVERSIAL_POPULAR_SEARCH_ORDER="click"
+$env:BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR="0"
 $env:BILIBILI_VIDEO_COMMENT_PAGES="2"
 npm run dictionary:harvest
 ```
@@ -212,6 +220,6 @@ To protect dictionary quality, model-generated keywords are accepted only when t
 
 Harvest query generation prioritizes weak-evidence dictionary entries first and can generate multiple Chinese Bilibili-oriented query variants per term through `BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM`, such as `评论区 梗 热评`, `评论区`, `热评`, `弹幕`, `争议 评论区`, `是什么梗`, `什么意思`, `出处`, `名梗`, `名场面 评论区`, `切片 评论`, and family-specific contexts. Plain `B站` is kept as a later fallback instead of the first search shape because Bilibili site search performs better when the query describes the comment context. `BILIBILI_HARVEST_COVERAGE_MODE=all-weak` targets every term below `BILIBILI_HARVEST_TARGET_EVIDENCE` before broad seed topics, while `balanced` keeps the older per-family sampling cap. When `BILIBILI_HARVEST_REQUIRE_SOURCES=1`, the planner also revisits terms that already have evidence counts but no `evidenceSources`, so older dictionary evidence can be refreshed with auditable Bilibili source metadata. `dictionary:coverage` also honors this same source requirement, so the exported query file targets source gaps when source-backed evidence is required. When a term has been tried without direct evidence, later runs automatically expand beyond the initial variant count and place untried variants first. After `BILIBILI_HARVEST_RETRY_BEFORE_UNATTEMPTED_LIMIT` misses for one term (`3` by default), the planner rotates that stale retry behind unattempted weak terms so small runs keep broadening coverage. The next query plan is ordered by `coverageActions`, so retryable missed terms are attempted before untouched weak terms until that retry limit is reached. In existing-only mode, video titles/descriptions from discovered public Bilibili videos are included as auditable context evidence by default; set `BILIBILI_HARVEST_INCLUDE_VIDEO_CONTEXT=1` to force the same behavior outside existing-only runs. Add runtime templates with `BILIBILI_HARVEST_EXTRA_QUERY_TEMPLATES`, using `{term}` and `{family}` placeholders, to reopen exhausted terms without editing source code. The report includes `coverage.complete`, `coverage.coverageRatio`, `coverage.evidenceDeficit`, `coverage.weakTerms`, `coverage.zeroEvidenceTerms`, per-round `coverageProgress`, `termAttemptSummary`, and `coverageActions`. `coverageActions` is a machine-readable per-term action list: `harvest`, `retry_with_new_variant`, `refresh_source_metadata`, `harvest_more_evidence`, `add_query_template`, or `none`.
 
-`BILIBILI_VIDEO_DISCOVERY_MODE` controls where videos come from: `search` uses dictionary/seed queries, `popular` scans Bilibili public popular videos, `mixed` combines both, and `controversial` rotates across controversy-topic searches, dictionary/seed queries, and public popular videos. `controversial` is the script default because it is better for finding fast-changing argument language from politics/current affairs, games, social issues, fandom disputes, and other debate-heavy areas. In `controversial` mode, the first `BILIBILI_CONTROVERSIAL_POPULAR_QUERY_LIMIT` controversy seeds are also searched with `BILIBILI_CONTROVERSIAL_POPULAR_SEARCH_ORDER` (`click` by default) so the run looks for popular videos inside controversial topics, not only generic popular videos. Override the default seeds with `BILIBILI_CONTROVERSY_SEARCH_QUERIES` or the PowerShell `-ControversyQuery` parameter.
+`BILIBILI_VIDEO_DISCOVERY_MODE` controls where videos come from: `search` uses dictionary/seed queries, `popular` scans Bilibili public popular videos, `mixed` combines both, and `controversial` rotates across controversy-topic searches and dictionary/seed queries. `controversial` is the script default because it is better for finding fast-changing argument language from politics/current affairs, games, social issues, fandom disputes, and other debate-heavy areas. In `controversial` mode, the first `BILIBILI_CONTROVERSIAL_POPULAR_QUERY_LIMIT` controversy seeds are also searched with `BILIBILI_CONTROVERSIAL_POPULAR_SEARCH_ORDER` (`click` by default) so the run looks for popular videos inside controversial topics, not generic popular videos. Set `BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR=1` or pass `-IncludeGenericPopular` only when you also want the public popular feed. Override the default seeds with `BILIBILI_CONTROVERSY_SEARCH_QUERIES` or the PowerShell `-ControversyQuery` parameter.
 
 The scoring language is framed as behavior-risk analysis over a bounded public comment sample, not as a clinical diagnosis or definitive personality judgment.
