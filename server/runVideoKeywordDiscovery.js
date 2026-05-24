@@ -155,6 +155,8 @@ const termsPerFamily = numberFromEnv('BILIBILI_HARVEST_TERMS_PER_FAMILY', 4);
 const queryVariantsPerTerm = numberFromEnv('BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM', 2);
 const targetEvidence = numberFromEnv('BILIBILI_HARVEST_TARGET_EVIDENCE', 3);
 const retryBeforeUnattemptedLimit = nonNegativeNumberFromEnv('BILIBILI_HARVEST_RETRY_BEFORE_UNATTEMPTED_LIMIT', 3);
+const staleMissedDiscoveryLimit = nonNegativeNumberFromEnv('BILIBILI_HARVEST_STALE_MISSED_DISCOVERY_LIMIT', 4);
+const staleMissedPages = nonNegativeNumberFromEnv('BILIBILI_HARVEST_STALE_MISSED_COMMENT_PAGES', 3);
 const coverageMode = String(process.env.BILIBILI_HARVEST_COVERAGE_MODE || 'all-weak').trim().toLowerCase();
 const requireSourceBackedEvidence = process.env.BILIBILI_HARVEST_REQUIRE_SOURCES === '1';
 const existingTermsOnly = process.env.BILIBILI_HARVEST_EXISTING_TERMS_ONLY === '1';
@@ -178,6 +180,8 @@ const result = await harvestKeywordDictionaryRounds({
   termsPerFamily,
   queryVariantsPerTerm,
   retryBeforeUnattemptedLimit,
+  staleMissedDiscoveryLimit,
+  staleMissedPages,
   extraQueryTemplates,
   exhaustedSuggestionTemplates,
   targetEvidence,

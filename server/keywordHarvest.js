@@ -147,6 +147,14 @@ function isTermAttemptExhausted(term, family, attempt, options = {}) {
   return queryVariantsForTerm(term, family, queryVariantCountForTerm(term, options), options).every((item) => triedQueries.has(item.query));
 }
 
+function isRepeatedlyMissedAttempt(attempt, threshold = 3) {
+  return (
+    attempt &&
+    Math.max(0, Number(attempt.attempts) || 0) >= Math.max(1, Number(threshold) || 1) &&
+    Math.max(0, Number(attempt.successfulAttempts) || 0) === 0
+  );
+}
+
 function sortEntriesForCoverage(entries) {
   return [...entries].sort((a, b) => evidenceCount(a) - evidenceCount(b) || String(a.term || '').localeCompare(String(b.term || '')));
 }
@@ -698,13 +706,21 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
   for (const planItem of plan) {
     const query = planItem.query;
     const attemptFinishedAt = new Date().toISOString();
+    const priorAttempt = planItem.term ? getTermAttempt(termAttempts, planItem.term) : null;
+    const deepenScan = isRepeatedlyMissedAttempt(priorAttempt, options.retryBeforeUnattemptedLimit);
+    const effectiveDiscoveryLimit =
+      deepenScan && options.staleMissedDiscoveryLimit
+        ? Math.max(Number(options.discoveryLimit) || 1, Number(options.staleMissedDiscoveryLimit) || 1)
+        : options.discoveryLimit;
+    const effectivePages =
+      deepenScan && options.staleMissedPages ? Math.max(Number(options.pages) || 1, Number(options.staleMissedPages) || 1) : options.pages;
     try {
       const searchPayload = {
         searchQueries: [query],
         controversyQueries: options.controversyQueries,
         discoveryMode: options.discoveryMode,
-        discoveryLimit: options.discoveryLimit,
-        pages: options.pages,
+        discoveryLimit: effectiveDiscoveryLimit,
+        pages: effectivePages,
         excludeBvids: skipSeen ? [...scannedBvidSet] : [],
       };
       if (options.existingTermsOnly !== undefined) {

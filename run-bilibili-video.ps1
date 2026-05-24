@@ -12,6 +12,8 @@ param(
   [int]$TermsPerFamily = 4,
   [int]$QueryVariantsPerTerm = 2,
   [int]$RetryBeforeUnattemptedLimit = 3,
+  [int]$StaleMissedDiscoveryLimit = 4,
+  [int]$StaleMissedCommentPages = 3,
   [int]$TargetEvidence = 3,
   [int]$Rounds = 1,
   [ValidateSet("balanced", "all-weak")]
@@ -73,6 +75,8 @@ $env:BILIBILI_HARVEST_MAX_QUERIES = [string]$MaxQueries
 $env:BILIBILI_HARVEST_TERMS_PER_FAMILY = [string]$TermsPerFamily
 $env:BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM = [string]$QueryVariantsPerTerm
 $env:BILIBILI_HARVEST_RETRY_BEFORE_UNATTEMPTED_LIMIT = [string]$RetryBeforeUnattemptedLimit
+$env:BILIBILI_HARVEST_STALE_MISSED_DISCOVERY_LIMIT = [string]$StaleMissedDiscoveryLimit
+$env:BILIBILI_HARVEST_STALE_MISSED_COMMENT_PAGES = [string]$StaleMissedCommentPages
 $env:BILIBILI_HARVEST_TARGET_EVIDENCE = [string]$TargetEvidence
 $env:BILIBILI_HARVEST_ROUNDS = [string]$Rounds
 $env:BILIBILI_HARVEST_COVERAGE_MODE = $CoverageMode
@@ -122,6 +126,8 @@ Write-Host "Max harvest queries: $MaxQueries"
 Write-Host "Dictionary terms per family: $TermsPerFamily"
 Write-Host "Query variants per term: $QueryVariantsPerTerm"
 Write-Host "Retry-before-unattempted limit: $RetryBeforeUnattemptedLimit"
+Write-Host "Stale missed discovery limit: $StaleMissedDiscoveryLimit"
+Write-Host "Stale missed comment pages: $StaleMissedCommentPages"
 Write-Host "Extra query templates: $($ExtraQueryTemplate.Count)"
 Write-Host "Target evidence per term: $TargetEvidence"
 Write-Host "Harvest rounds: $Rounds"

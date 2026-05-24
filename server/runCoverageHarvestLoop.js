@@ -88,6 +88,8 @@ const pages = positiveIntFromEnv('BILIBILI_VIDEO_COMMENT_PAGES', 2, 20);
 const queryVariantsPerTerm = positiveIntFromEnv('BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM', 2, 20);
 const termsPerFamily = positiveIntFromEnv('BILIBILI_HARVEST_TERMS_PER_FAMILY', 4, 20);
 const retryBeforeUnattemptedLimit = nonNegativeIntFromEnv('BILIBILI_HARVEST_RETRY_BEFORE_UNATTEMPTED_LIMIT', 3, 20);
+const staleMissedDiscoveryLimit = nonNegativeIntFromEnv('BILIBILI_HARVEST_STALE_MISSED_DISCOVERY_LIMIT', 4, 20);
+const staleMissedPages = nonNegativeIntFromEnv('BILIBILI_HARVEST_STALE_MISSED_COMMENT_PAGES', 3, 5);
 const skipSeen = process.env.BILIBILI_HARVEST_SKIP_SEEN !== '0';
 const resetState = process.env.BILIBILI_HARVEST_RESET === '1';
 const strict = process.env.BILIBILI_COVERAGE_LOOP_STRICT === '1';
@@ -131,6 +133,8 @@ for (let cycle = 1; cycle <= maxCycles && !audit.ok; cycle += 1) {
     extraQueryTemplates,
     exhaustedSuggestionTemplates,
     retryBeforeUnattemptedLimit,
+    staleMissedDiscoveryLimit,
+    staleMissedPages,
     targetEvidence,
     coverageMode,
     requireSourceBackedEvidence,
