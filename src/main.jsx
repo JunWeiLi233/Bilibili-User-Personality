@@ -769,19 +769,24 @@ function App() {
 
   const fetchVideoKeywords = async () => {
     const videoLink = query.trim();
-    if (!/BV[0-9A-Za-z]+|bilibili\.com\/video|b23\.tv/i.test(videoLink)) {
-      setFetchState({ status: 'error', message: '请输入包含 BV 号的 B 站视频链接。' });
+    if (videoLink && !/BV[0-9A-Za-z]+|bilibili\.com\/video|b23\.tv/i.test(videoLink)) {
+      setFetchState({ status: 'error', message: '留空使用后端默认视频；或输入包含 BV 号的 B 站视频链接。' });
       return;
     }
     setKeywordResults([]);
     setAnalysisState('loading');
-    setFetchState({ status: 'loading', message: '正在扫描该视频的公开评论，并用 DeepSeek V4 Flash medium 提取关键词...' });
+    setFetchState({
+      status: 'loading',
+      message: videoLink
+        ? '正在扫描该视频的公开评论，并用 DeepSeek V4 Flash medium 提取关键词...'
+        : '正在调用后端代码里的默认 B 站视频，并用 DeepSeek V4 Flash medium 提取关键词...',
+    });
     try {
       const response = await fetch('/api/bilibili/video-keywords', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          videoLink,
+          ...(videoLink ? { videoLink } : {}),
           pages: 5,
         }),
       });
@@ -958,6 +963,10 @@ function App() {
                 <button type="button" onClick={isVideoSearch ? fetchVideoKeywords : fetchUidComments} disabled={analysisState === 'loading'}>
                   <Lightning size={17} weight="fill" />
                   {analysisState === 'loading' ? '抓取中' : isVideoSearch ? '找视频关键词' : '搜索 UID'}
+                </button>
+                <button type="button" onClick={fetchVideoKeywords} disabled={analysisState === 'loading'}>
+                  <Lightning size={17} weight="fill" />
+                  后端默认视频
                 </button>
               </div>
               <p className={`fetch-status fetch-${fetchState.status}`}>{fetchState.message}</p>

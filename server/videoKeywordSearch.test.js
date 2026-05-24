@@ -1,9 +1,38 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { searchVideoKeywords } from './videoKeywordSearch.js';
+import { DEFAULT_VIDEO_LINK, searchVideoKeywords } from './videoKeywordSearch.js';
 
-test('searchVideoKeywords rejects input without a BV id', async () => {
+test('searchVideoKeywords uses the backend default Bilibili video link when none is provided', async () => {
+  const requestedUrls = [];
+  const result = await searchVideoKeywords(
+    { pages: 1 },
+    {
+      fetchJson: async (url) => {
+        requestedUrls.push(String(url));
+        if (String(url).includes('/x/web-interface/view')) {
+          return {
+            code: 0,
+            data: {
+              aid: 123,
+              title: 'backend default video',
+              owner: { mid: 9, name: 'up' },
+              stat: { reply: 0 },
+            },
+          };
+        }
+        return { code: 0, data: { replies: [], cursor: { is_end: true, next: 0 } } };
+      },
+    },
+  );
+
+  assert.equal(DEFAULT_VIDEO_LINK.includes('BV19yGa61Ee6'), true);
+  assert.equal(result.ok, true);
+  assert.equal(result.video.bvid, 'BV19yGa61Ee6');
+  assert.equal(requestedUrls.some((url) => url.includes('bvid=BV19yGa61Ee6')), true);
+});
+
+test('searchVideoKeywords rejects an explicitly invalid video link', async () => {
   const result = await searchVideoKeywords({ videoLink: 'not a bilibili video' });
 
   assert.equal(result.ok, false);

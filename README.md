@@ -23,6 +23,7 @@ Research-driven prototype for evaluating whether a selected Bilibili user's publ
   - Does not call AICU, third-party indexes, or external websites as a substitute for UID comment crawling.
 - Video-link keyword search:
   - Accepts a Bilibili video URL or `BV` id in the same search box.
+  - Also supports a backend-owned default video link in `server/videoKeywordSearch.js`; override it with `BILIBILI_DEFAULT_VIDEO_LINK` if needed.
   - Resolves the video through Bilibili public metadata, scans public top-level and nested comments, and sends the sampled text to the DeepSeek keyword trainer.
   - Shows the learned keywords in the UI and folds them into the local analyzer dictionary.
 - DeepSeek V4 Chinese keyword training:
