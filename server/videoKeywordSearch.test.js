@@ -217,6 +217,9 @@ test('default controversy seed list includes debate-heavy Bilibili topics', () =
   const seeds = DEFAULT_CONTROVERSY_SEARCH_QUERIES.split('\n');
   assert.equal(seeds.some((seed) => seed.includes('\u65f6\u653f')), true);
   assert.equal(seeds.some((seed) => seed.includes('\u6e38\u620f')), true);
+  assert.equal(seeds.some((seed) => seed.includes('\u738b\u8005\u8363\u8000') || seed.includes('\u539f\u795e')), true);
+  assert.equal(seeds.some((seed) => seed.includes('\u793e\u4f1a\u4e8b\u4ef6') || seed.includes('\u5f69\u793c')), true);
+  assert.equal(seeds.some((seed) => seed.includes('\u70ed\u8bc4')), true);
   assert.equal(seeds.some((seed) => seed.includes('\u4e89\u8bae') || seed.includes('\u8282\u594f')), true);
 });
 

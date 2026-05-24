@@ -6,27 +6,27 @@ import { searchVideoKeywords as defaultSearchVideoKeywords } from './videoKeywor
 
 const DEFAULT_SEED_QUERIES = [
   '\u4e2d\u6587\u4e92\u8054\u7f51 \u6897 \u8bc4\u8bba\u533a',
-  'B\u7ad9 \u8bc4\u8bba\u533a \u6897',
-  'B\u7ad9 \u4e89\u8bae \u70ed\u8bc4',
+  '\u8bc4\u8bba\u533a \u70ed\u8bc4 \u6897',
+  '\u4e89\u8bae \u70ed\u8bc4 \u8bc4\u8bba\u533a',
 ];
 const FAMILY_CONTEXT = {
-  attack: 'B\u7ad9 \u8bc4\u8bba\u533a \u6897',
-  absolutes: 'B\u7ad9 \u7edd\u5bf9\u5316 \u8bc4\u8bba',
-  evidence: 'B\u7ad9 \u8bc1\u636e \u6765\u6e90 \u8bc4\u8bba',
-  evasion: 'B\u7ad9 \u56de\u590d \u8bc4\u8bba\u533a',
-  cooperation: 'B\u7ad9 \u8ba8\u8bba \u8bc4\u8bba\u533a',
-  correction: 'B\u7ad9 \u66f4\u6b63 \u8bc4\u8bba',
+  attack: '\u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+  absolutes: '\u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4',
+  evidence: '\u8bc1\u636e \u6765\u6e90 \u8bc4\u8bba\u533a',
+  evasion: '\u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4',
+  cooperation: '\u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4',
+  correction: '\u66f4\u6b63 \u8bc4\u8bba\u533a',
 };
 const TERM_QUERY_TEMPLATES = [
-  (term, family) => `${term} ${FAMILY_CONTEXT[family] || 'B\u7ad9 \u8bc4\u8bba\u533a'}`,
+  (term, family) => `${term} ${FAMILY_CONTEXT[family] || '\u8bc4\u8bba\u533a \u70ed\u8bc4'}`,
   (term) => `${term} \u8bc4\u8bba\u533a`,
   (term) => `${term} \u70ed\u8bc4`,
-  (term) => `${term} B\u7ad9`,
-  (term) => `${term} \u54d4\u54e9\u54d4\u54e9`,
   (term) => `${term} \u5f39\u5e55`,
+  (term) => `${term} \u4e89\u8bae \u8bc4\u8bba\u533a`,
+  (term) => `${term} \u540d\u573a\u9762 \u8bc4\u8bba\u533a`,
+  (term) => `${term} \u5207\u7247 \u8bc4\u8bba`,
   (term) => `${term} \u8bc4\u8bba \u6897`,
-  (term) => `${term} \u53d1\u8a00`,
-  (term) => `${term} \u4e89\u8bae`,
+  (term) => `${term} B\u7ad9`,
   (term) => term,
 ];
 const DEFAULT_EXHAUSTED_SUGGESTION_TEMPLATES = [

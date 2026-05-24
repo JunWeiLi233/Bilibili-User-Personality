@@ -37,13 +37,13 @@ test('buildKeywordHarvestQueries prioritizes weak-evidence dictionary terms by f
 
   assert.deepEqual(queries, [
     'seed topic',
-    '典中典 B站 评论区 梗',
+    '典中典 评论区 梗 热评',
     '典中典 评论区',
-    '懂的都懂 B站 回复 评论区',
+    '懂的都懂 回复 评论区 热评',
     '懂的都懂 评论区',
-    'yygq B站 评论区 梗',
+    'yygq 评论区 梗 热评',
     'yygq 评论区',
-    'doge B站 讨论 评论区',
+    'doge 讨论 评论区 热评',
   ]);
 });
 
@@ -61,10 +61,10 @@ test('buildKeywordHarvestQueries can generate several Bilibili-oriented variants
   );
 
   assert.deepEqual(queries, [
-    'doge B站 讨论 评论区',
+    'doge 讨论 评论区 热评',
     'doge 评论区',
     'doge 热评',
-    'doge B站',
+    'doge 弹幕',
   ]);
 });
 
@@ -89,9 +89,9 @@ test('buildKeywordHarvestQueries all-weak mode targets every weak term before br
   );
 
   assert.deepEqual(queries, [
-    'weakA B站 评论区 梗',
-    'weakB B站 评论区 梗',
-    'weakC B站 回复 评论区',
+    'weakA 评论区 梗 热评',
+    'weakB 评论区 梗 热评',
+    'weakC 回复 评论区 热评',
     'seed topic',
   ]);
 });
@@ -111,7 +111,7 @@ test('buildKeywordHarvestQueryPlan keeps dictionary term metadata for state trac
 
   assert.deepEqual(plan, [
     {
-      query: 'doge B站 讨论 评论区',
+      query: 'doge 讨论 评论区 热评',
       source: 'dictionary',
       term: 'doge',
       family: 'cooperation',
@@ -155,7 +155,7 @@ test('buildKeywordHarvestQueryPlan expands to untried variants for repeatedly mi
           term: 'doge',
           attempts: 2,
           successfulAttempts: 0,
-          queries: [{ query: 'doge B站 讨论 评论区' }, { query: 'doge 评论区' }],
+          queries: [{ query: 'doge 讨论 评论区 热评' }, { query: 'doge 评论区' }],
         },
       },
     },
@@ -165,8 +165,8 @@ test('buildKeywordHarvestQueryPlan expands to untried variants for repeatedly mi
     plan.map((item) => [item.query, item.variantIndex, item.previouslyTried]),
     [
       ['doge 热评', 2, false],
-      ['doge B站', 3, false],
-      ['doge B站 讨论 评论区', 0, true],
+      ['doge 弹幕', 3, false],
+      ['doge 讨论 评论区 热评', 0, true],
       ['doge 评论区', 1, true],
     ],
   );
@@ -190,7 +190,7 @@ test('buildKeywordHarvestQueryPlan prioritizes retry actions before fresh harves
           term: 'missed',
           attempts: 1,
           successfulAttempts: 0,
-          queries: [{ query: 'missed B站 评论区 梗' }],
+          queries: [{ query: 'missed 评论区 梗 热评' }],
         },
       },
     },
@@ -248,7 +248,7 @@ test('buildKeywordHarvestQueryPlan runs priority queries before automatic covera
 
   assert.deepEqual(plan.map((item) => [item.query, item.source]), [
     ['audit exported query', 'priority'],
-    ['weak B站 评论区 梗', 'dictionary'],
+    ['weak 评论区 梗 热评', 'dictionary'],
     ['seed topic', 'seed'],
   ]);
 });
@@ -256,15 +256,15 @@ test('buildKeywordHarvestQueryPlan runs priority queries before automatic covera
 
 test('buildKeywordHarvestQueryPlan skips terms that exhausted every built-in query variant', () => {
   const allQueries = [
-    'doge B\u7ad9 \u8ba8\u8bba \u8bc4\u8bba\u533a',
+    'doge \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4',
     'doge \u8bc4\u8bba\u533a',
     'doge \u70ed\u8bc4',
-    'doge B\u7ad9',
-    'doge \u54d4\u54e9\u54d4\u54e9',
     'doge \u5f39\u5e55',
+    'doge \u4e89\u8bae \u8bc4\u8bba\u533a',
+    'doge \u540d\u573a\u9762 \u8bc4\u8bba\u533a',
+    'doge \u5207\u7247 \u8bc4\u8bba',
     'doge \u8bc4\u8bba \u6897',
-    'doge \u53d1\u8a00',
-    'doge \u4e89\u8bae',
+    'doge B\u7ad9',
     'doge',
   ];
   const plan = buildKeywordHarvestQueryPlan(
@@ -295,15 +295,15 @@ test('buildKeywordHarvestQueryPlan skips terms that exhausted every built-in que
 
 test('buildKeywordHarvestQueryPlan can reopen exhausted terms with extra runtime templates', () => {
   const allQueries = [
-    'doge B\u7ad9 \u8ba8\u8bba \u8bc4\u8bba\u533a',
+    'doge \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4',
     'doge \u8bc4\u8bba\u533a',
     'doge \u70ed\u8bc4',
-    'doge B\u7ad9',
-    'doge \u54d4\u54e9\u54d4\u54e9',
     'doge \u5f39\u5e55',
+    'doge \u4e89\u8bae \u8bc4\u8bba\u533a',
+    'doge \u540d\u573a\u9762 \u8bc4\u8bba\u533a',
+    'doge \u5207\u7247 \u8bc4\u8bba',
     'doge \u8bc4\u8bba \u6897',
-    'doge \u53d1\u8a00',
-    'doge \u4e89\u8bae',
+    'doge B\u7ad9',
     'doge',
   ];
   const plan = buildKeywordHarvestQueryPlan(
@@ -315,7 +315,7 @@ test('buildKeywordHarvestQueryPlan can reopen exhausted terms with extra runtime
       coverageMode: 'all-weak',
       maxQueries: 1,
       queryVariantsPerTerm: 2,
-      extraQueryTemplates: ['{term} \u540d\u573a\u9762 \u8bc4\u8bba\u533a'],
+      extraQueryTemplates: ['{term} \u9ad8\u80fd \u70ed\u8bc4'],
       termAttempts: {
         doge: {
           term: 'doge',
@@ -327,7 +327,7 @@ test('buildKeywordHarvestQueryPlan can reopen exhausted terms with extra runtime
     },
   );
 
-  assert.equal(plan[0].query, 'doge \u540d\u573a\u9762 \u8bc4\u8bba\u533a');
+  assert.equal(plan[0].query, 'doge \u9ad8\u80fd \u70ed\u8bc4');
   assert.equal(plan[0].builtInVariant, false);
   assert.equal(plan[0].previouslyTried, false);
 });
@@ -432,15 +432,15 @@ test('summarizeTermAttempts reports attempted, successful, unattempted, and miss
 
 test('summarizeTermAttempts reports exhausted terms after every built-in variant misses', () => {
   const variants = [
-    'doge B\u7ad9 \u8ba8\u8bba \u8bc4\u8bba\u533a',
+    'doge \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4',
     'doge \u8bc4\u8bba\u533a',
     'doge \u70ed\u8bc4',
-    'doge B\u7ad9',
-    'doge \u54d4\u54e9\u54d4\u54e9',
     'doge \u5f39\u5e55',
+    'doge \u4e89\u8bae \u8bc4\u8bba\u533a',
+    'doge \u540d\u573a\u9762 \u8bc4\u8bba\u533a',
+    'doge \u5207\u7247 \u8bc4\u8bba',
     'doge \u8bc4\u8bba \u6897',
-    'doge \u53d1\u8a00',
-    'doge \u4e89\u8bae',
+    'doge B\u7ad9',
     'doge',
   ];
   const summary = summarizeTermAttempts(
@@ -469,15 +469,15 @@ test('summarizeTermAttempts reports exhausted terms after every built-in variant
 
 test('buildCoverageActions classifies covered, unattempted, missed, partial, and exhausted terms', () => {
   const variants = [
-    'doge B\u7ad9 \u8ba8\u8bba \u8bc4\u8bba\u533a',
+    'doge \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4',
     'doge \u8bc4\u8bba\u533a',
     'doge \u70ed\u8bc4',
-    'doge B\u7ad9',
-    'doge \u54d4\u54e9\u54d4\u54e9',
     'doge \u5f39\u5e55',
+    'doge \u4e89\u8bae \u8bc4\u8bba\u533a',
+    'doge \u540d\u573a\u9762 \u8bc4\u8bba\u533a',
+    'doge \u5207\u7247 \u8bc4\u8bba',
     'doge \u8bc4\u8bba \u6897',
-    'doge \u53d1\u8a00',
-    'doge \u4e89\u8bae',
+    'doge B\u7ad9',
     'doge',
   ];
   const actions = buildCoverageActions(
@@ -533,10 +533,10 @@ test('buildCoverageActions classifies covered, unattempted, missed, partial, and
   assert.equal(byTerm.covered.action, 'none');
   assert.equal(byTerm.sourceGap.status, 'source_gap');
   assert.equal(byTerm.sourceGap.action, 'refresh_source_metadata');
-  assert.equal(byTerm.sourceGap.nextQuery, 'sourceGap B\u7ad9 \u8bc4\u8bba\u533a \u6897');
+  assert.equal(byTerm.sourceGap.nextQuery, 'sourceGap \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4');
   assert.equal(byTerm.newbie.action, 'harvest');
   assert.equal(byTerm.missed.action, 'retry_with_new_variant');
-  assert.equal(byTerm.missed.nextQuery, 'missed \u8bc4\u8bba\u533a');
+  assert.equal(byTerm.missed.nextQuery, 'missed \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4');
   assert.equal(byTerm.partial.action, 'harvest_more_evidence');
   assert.equal(byTerm.doge.status, 'exhausted');
   assert.equal(byTerm.doge.action, 'add_query_template');
@@ -592,7 +592,7 @@ test('buildDictionaryCoverageAudit reports gate status and next harvest actions'
   assert.equal(audit.actionSummary.retry_with_new_variant, 1);
   assert.equal(audit.actionSummary.harvest_more_evidence, 1);
   assert.deepEqual(audit.nextActions.map((item) => item.term), ['missed', 'partial']);
-  assert.equal(audit.recommendedQueries[0], 'missed \u8bc4\u8bba\u533a');
+  assert.equal(audit.recommendedQueries[0], 'missed \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4');
   assert.equal(audit.familyGaps[0].family, 'attack');
   assert.equal(audit.failureReasons.some((reason) => reason.includes('term(s) are below')), true);
 });
@@ -658,7 +658,7 @@ test('harvestKeywordDictionary runs dictionary-seeded searches and reports growt
     );
 
     assert.equal(result.ok, true);
-    assert.deepEqual(result.queries, ['seed topic', 'doge B\u7ad9 \u8ba8\u8bba \u8bc4\u8bba\u533a']);
+    assert.deepEqual(result.queries, ['seed topic', 'doge \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4']);
     assert.equal(searched.length, 2);
     assert.deepEqual(searched[0], {
       searchQueries: ['seed topic'],
@@ -771,7 +771,7 @@ test('harvestKeywordDictionary writes ASCII-safe term attempt state for Chinese 
     const attempt = Object.values(state.termAttempts).find((item) => item.term === '典中典');
     assert.equal(attempt.attempts, 1);
     assert.equal(attempt.query, undefined);
-    assert.equal(attempt.lastQuery, '典中典 B\u7ad9 \u8bc4\u8bba\u533a \u6897');
+    assert.equal(attempt.lastQuery, '典中典 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4');
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
