@@ -24,17 +24,42 @@ test('buildKeywordHarvestQueries prioritizes weak-evidence dictionary terms by f
     },
     {
       seedQueries: ['seed topic'],
-      maxQueries: 5,
+      maxQueries: 8,
       termsPerFamily: 2,
+      queryVariantsPerTerm: 2,
     },
   );
 
   assert.deepEqual(queries, [
     'seed topic',
     '典中典 Bilibili comment meme',
+    '典中典 Bilibili comments',
     '懂的都懂 Bilibili reply argument comments',
+    '懂的都懂 Bilibili comments',
     'yygq Bilibili comment meme',
+    'yygq Bilibili comments',
     'doge Bilibili discussion comments',
+  ]);
+});
+
+test('buildKeywordHarvestQueries can generate several Bilibili-oriented variants per weak term', () => {
+  const queries = buildKeywordHarvestQueries(
+    {
+      entries: [{ term: 'doge', family: 'cooperation', evidenceCount: 0 }],
+    },
+    {
+      seedQueries: [],
+      maxQueries: 4,
+      termsPerFamily: 1,
+      queryVariantsPerTerm: 4,
+    },
+  );
+
+  assert.deepEqual(queries, [
+    'doge Bilibili discussion comments',
+    'doge Bilibili comments',
+    'doge B站 评论区',
+    'doge 哔哩哔哩 弹幕',
   ]);
 });
 

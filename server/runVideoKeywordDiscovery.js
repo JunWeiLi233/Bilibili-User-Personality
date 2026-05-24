@@ -30,6 +30,8 @@ async function writeJson(path, payload) {
 const seedQueries = parseList(process.env.BILIBILI_VIDEO_SEARCH_QUERIES || process.env.BILIBILI_VIDEO_SEARCH_QUERY);
 const maxQueries = numberFromEnv('BILIBILI_HARVEST_MAX_QUERIES', seedQueries.length || 12);
 const termsPerFamily = numberFromEnv('BILIBILI_HARVEST_TERMS_PER_FAMILY', 4);
+const queryVariantsPerTerm = numberFromEnv('BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM', 2);
+const targetEvidence = numberFromEnv('BILIBILI_HARVEST_TARGET_EVIDENCE', 3);
 const discoveryLimit = numberFromEnv('BILIBILI_VIDEO_DISCOVERY_LIMIT', 6);
 const pages = numberFromEnv('BILIBILI_VIDEO_COMMENT_PAGES', 2);
 const statePath = process.env.BILIBILI_HARVEST_STATE_PATH || DEFAULT_HARVEST_STATE_PATH;
@@ -41,6 +43,8 @@ const result = await harvestKeywordDictionary({
   seedQueries,
   maxQueries,
   termsPerFamily,
+  queryVariantsPerTerm,
+  targetEvidence,
   discoveryLimit,
   pages,
   statePath,

@@ -17,6 +17,13 @@ const FAMILY_CONTEXT = {
   cooperation: 'Bilibili discussion comments',
   correction: 'Bilibili correction comments',
 };
+const TERM_QUERY_TEMPLATES = [
+  (term, family) => `${term} ${FAMILY_CONTEXT[family] || 'Bilibili comments'}`,
+  (term) => `${term} Bilibili comments`,
+  (term) => `${term} B\u7ad9 \u8bc4\u8bba\u533a`,
+  (term) => `${term} \u54d4\u54e9\u54d4\u54e9 \u5f39\u5e55`,
+  (term) => `${term} \u8bc4\u8bba \u6897`,
+];
 
 function asPositiveInt(value, fallback, max = Number.MAX_SAFE_INTEGER) {
   const number = Number(value);
@@ -42,6 +49,7 @@ export function buildKeywordHarvestQueries(dictionary, options = {}) {
   const entries = sortEntriesForCoverage(Array.isArray(dictionary?.entries) ? dictionary.entries : []);
   const familyCounts = new Map();
   const dictionaryQueries = [];
+  const variantsPerTerm = asPositiveInt(options.queryVariantsPerTerm, 2, TERM_QUERY_TEMPLATES.length);
 
   for (const entry of entries) {
     const term = String(entry.term || '').trim();
@@ -50,7 +58,9 @@ export function buildKeywordHarvestQueries(dictionary, options = {}) {
     const count = familyCounts.get(family) || 0;
     if (count >= asPositiveInt(options.termsPerFamily, 4, 20)) continue;
     familyCounts.set(family, count + 1);
-    dictionaryQueries.push(`${term} ${FAMILY_CONTEXT[family] || 'Bilibili comments'}`);
+    for (const template of TERM_QUERY_TEMPLATES.slice(0, variantsPerTerm)) {
+      dictionaryQueries.push(template(term, family));
+    }
   }
 
   return unique([...seedQueries, ...dictionaryQueries]).slice(0, maxQueries);
@@ -141,6 +151,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
     seedQueries: options.seedQueries,
     maxQueries: options.maxQueries,
     termsPerFamily: options.termsPerFamily,
+    queryVariantsPerTerm: options.queryVariantsPerTerm,
   });
   const searchedQuerySet = new Set(state.searchedQueries);
   const scannedBvidSet = new Set(state.scannedBvids);

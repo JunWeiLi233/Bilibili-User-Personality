@@ -73,6 +73,8 @@ You can also run the same backend task through npm:
 $env:BILIBILI_VIDEO_SEARCH_QUERIES="中文互联网 阴阳怪气`n杠精 评论区"
 $env:BILIBILI_HARVEST_MAX_QUERIES="12"
 $env:BILIBILI_HARVEST_TERMS_PER_FAMILY="4"
+$env:BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM="2"
+$env:BILIBILI_HARVEST_TARGET_EVIDENCE="3"
 $env:BILIBILI_HARVEST_RESET="0"
 $env:BILIBILI_VIDEO_DISCOVERY_LIMIT="6"
 $env:BILIBILI_VIDEO_COMMENT_PAGES="2"
@@ -109,6 +111,8 @@ $env:DEEPSEEK_REASONING_EFFORT="medium"
 $env:BILIBILI_VIDEO_SEARCH_QUERIES="中文互联网 阴阳怪气`n杠精 评论区"
 $env:BILIBILI_HARVEST_MAX_QUERIES="12"
 $env:BILIBILI_HARVEST_TERMS_PER_FAMILY="4"
+$env:BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM="2"
+$env:BILIBILI_HARVEST_TARGET_EVIDENCE="3"
 $env:BILIBILI_HARVEST_STATE_PATH="server/keywordHarvestState.json"
 $env:BILIBILI_HARVEST_REPORT_PATH="server/keywordHarvestReport.json"
 $env:BILIBILI_HARVEST_SKIP_SEEN="1"
@@ -144,6 +148,6 @@ The dictionary harvester is iterative. Run it repeatedly with different seed que
 
 To protect dictionary quality, model-generated keywords are accepted only when the cleaned term can be found in the crawled Bilibili comment text. Accepted entries include `evidenceCount` and `evidenceSamples` so each term can be audited against source comments. Terms without direct text evidence are counted as `evidenceRejected` in the harvest report and are not merged into the dictionary.
 
-Harvest query generation prioritizes weak-evidence dictionary entries first. The report includes `coverage.weakTerms`, `coverage.zeroEvidenceTerms`, and `coverage.averageEvidence`, which helps choose whether to keep harvesting broad seed queries or focus on under-supported terms.
+Harvest query generation prioritizes weak-evidence dictionary entries first and can generate multiple Bilibili-oriented query variants per term through `BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM`. The report includes `coverage.weakTerms`, `coverage.zeroEvidenceTerms`, and `coverage.averageEvidence`, which helps choose whether to keep harvesting broad seed queries or focus on under-supported terms.
 
 The scoring language is framed as behavior-risk analysis over a bounded public comment sample, not as a clinical diagnosis or definitive personality judgment.

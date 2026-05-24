@@ -4,6 +4,8 @@ param(
   [int]$CommentPages = 2,
   [int]$MaxQueries = 12,
   [int]$TermsPerFamily = 4,
+  [int]$QueryVariantsPerTerm = 2,
+  [int]$TargetEvidence = 3,
   [switch]$ResetHarvestState
 )
 
@@ -27,6 +29,8 @@ $env:BILIBILI_VIDEO_DISCOVERY_LIMIT = [string]$DiscoveryLimit
 $env:BILIBILI_VIDEO_COMMENT_PAGES = [string]$CommentPages
 $env:BILIBILI_HARVEST_MAX_QUERIES = [string]$MaxQueries
 $env:BILIBILI_HARVEST_TERMS_PER_FAMILY = [string]$TermsPerFamily
+$env:BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM = [string]$QueryVariantsPerTerm
+$env:BILIBILI_HARVEST_TARGET_EVIDENCE = [string]$TargetEvidence
 if ($ResetHarvestState) {
   $env:BILIBILI_HARVEST_RESET = "1"
 } else {
@@ -43,6 +47,8 @@ Write-Host "Discovery limit: $DiscoveryLimit"
 Write-Host "Comment pages per video: $CommentPages"
 Write-Host "Max harvest queries: $MaxQueries"
 Write-Host "Dictionary terms per family: $TermsPerFamily"
+Write-Host "Query variants per term: $QueryVariantsPerTerm"
+Write-Host "Target evidence per term: $TargetEvidence"
 Write-Host "Reset harvest state: $ResetHarvestState"
 Write-Host ""
 Write-Host "Harvesting dictionary-seeded Bilibili videos, scanning comments, and training the local keyword dictionary..."
