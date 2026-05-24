@@ -16,6 +16,10 @@ Research-driven frontend prototype for evaluating whether a selected Bilibili us
 - A research-first interface connecting online disinhibition, motivated reasoning, need for cognitive closure, and pragma-dialectical fallacy analysis to UI evidence.
 - A local sample intake area: paste one Bilibili comment per line, enter a UID or label, and generate a new radar profile with evidence-backed error highlights.
 - An adaptive lexicon panel that groups terms by semantic families and mines suspicious new slang or meme variants from the current sample.
+- Three analysis modes:
+  - Hybrid mode: semantic speech-act judging with adaptive lexicon evidence.
+  - Semantic judge mode: evaluates target, evidence burden, proposition response, and correction behavior.
+  - Lexicon mode: transparent semantic-family matching for auditability.
 
 ## Run Locally
 
@@ -32,4 +36,4 @@ npm run build
 
 ## Notes
 
-This prototype ships with mock Bilibili comment samples and also supports pasted local samples. The adaptive lexicon is stored locally in the browser so newly added slang variants can influence the next generated profile. The scoring language is intentionally framed as behavior-risk analysis over a bounded comment sample, not as a clinical diagnosis or definitive personality judgment.
+This prototype ships with mock Bilibili comment samples and also supports pasted local samples. The adaptive lexicon is stored locally in the browser so newly added slang variants can influence the next generated profile, but lexicon hits are treated as auxiliary evidence rather than final judgment. The scoring language is intentionally framed as behavior-risk analysis over a bounded comment sample, not as a clinical diagnosis or definitive personality judgment.

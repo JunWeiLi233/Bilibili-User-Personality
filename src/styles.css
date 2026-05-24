@@ -332,6 +332,43 @@ h1 {
   font-size: 13px;
 }
 
+.mode-selector {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.mode-selector button {
+  border: 1px solid rgba(23, 23, 23, 0.14);
+  background: rgba(255, 255, 255, 0.42);
+  color: #272522;
+  padding: 11px 12px;
+  text-align: left;
+  border-radius: 4px;
+}
+
+.mode-selector button.active {
+  border-color: #2f5d50;
+  background: #fffdf7;
+  box-shadow: inset 4px 0 0 #2f5d50;
+}
+
+.mode-selector strong,
+.mode-selector span {
+  display: block;
+}
+
+.mode-selector strong {
+  font-size: 14px;
+}
+
+.mode-selector span {
+  margin-top: 4px;
+  color: #655f55;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
 .lexicon-grid {
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) minmax(360px, 1fr) minmax(280px, 0.72fr);
@@ -715,6 +752,23 @@ h1 {
   color: #5e574d;
   font-size: 12px;
   font-weight: 760;
+}
+
+.source-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.source-row span {
+  padding: 5px 7px;
+  border: 1px solid rgba(47, 93, 80, 0.18);
+  color: #2f5d50;
+  background: rgba(47, 93, 80, 0.07);
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 720;
 }
 
 .severity {
