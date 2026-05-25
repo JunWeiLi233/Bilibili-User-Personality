@@ -1391,6 +1391,94 @@ test('buildDictionaryCoverageAudit falls back to exact terms after feedback quer
   assert.equal(audit.nextActions[0].nextQuery, term);
 });
 
+test('buildDictionaryCoverageAudit retries exact term after weak missed irrelevant query feedback', () => {
+  const term = '\u4e0d\u8bd7\u4eba';
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [{ term, family: 'absolutes', evidenceCount: 1 }],
+    },
+    {
+      termAttempts: {
+        [Buffer.from(term, 'utf8').toString('base64url')]: {
+          term,
+          family: 'absolutes',
+          evidenceAtPlanTime: 1,
+          attempts: 2,
+          successfulAttempts: 0,
+          lastEvidenceCount: 1,
+          queries: [
+            { query: '\u4e0d\u8bd7\u4eba \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4' },
+            { query: '\u4e0d\u8bd7\u4eba \u8bc4\u8bba\u533a' },
+          ],
+          lastQuery: '\u4e0d\u8bd7\u4eba \u8bc4\u8bba\u533a',
+        },
+      },
+      runs: [
+        {
+          queryDiagnostics: [
+            [
+              {
+                query: '\u4e0d\u8bd7\u4eba \u8bc4\u8bba\u533a',
+                commentsCollected: 7,
+                trainingTextChars: 1102,
+                targetExistingTerms: [term],
+                acceptedTerms: [],
+              },
+            ],
+          ],
+        },
+      ],
+    },
+    { targetEvidence: 3, maxActions: 1 },
+  );
+
+  assert.equal(audit.nextActions[0].nextQuery, term);
+});
+
+test('buildDictionaryCoverageAudit treats text-only misses as irrelevant query feedback', () => {
+  const term = '\u6807\u9898\u515a\u6253\u6cd5';
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [{ term, family: 'evidence', evidenceCount: 1 }],
+    },
+    {
+      termAttempts: {
+        [Buffer.from(term, 'utf8').toString('base64url')]: {
+          term,
+          family: 'evidence',
+          evidenceAtPlanTime: 1,
+          attempts: 2,
+          successfulAttempts: 0,
+          lastEvidenceCount: 1,
+          queries: [
+            { query: '\u6807\u9898\u515a\u6253\u6cd5 \u8bc1\u636e \u6765\u6e90 \u8bc4\u8bba\u533a' },
+            { query: '\u6807\u9898\u515a\u6253\u6cd5 \u8bc4\u8bba\u533a' },
+          ],
+          lastQuery: '\u6807\u9898\u515a\u6253\u6cd5 \u8bc4\u8bba\u533a',
+        },
+      },
+      runs: [
+        {
+          queryDiagnostics: [
+            [
+              {
+                query: '\u6807\u9898\u515a\u6253\u6cd5 \u8bc4\u8bba\u533a',
+                commentsCollected: 0,
+                trainingTextChars: 553,
+                targetExistingTerms: [term],
+                acceptedTerms: [],
+              },
+            ],
+          ],
+        },
+      ],
+    },
+    { targetEvidence: 3, maxActions: 1 },
+  );
+
+  assert.equal(audit.nextActions[0].nextQuery, term);
+});
+
 test('buildDictionaryCoverageAudit does not recommend globally searched feedback queries again', () => {
   const term = '\u8f66\u5bb6\u519b';
   const audit = buildDictionaryCoverageAudit(

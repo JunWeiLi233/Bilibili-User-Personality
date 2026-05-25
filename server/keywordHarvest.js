@@ -460,11 +460,12 @@ function hasIrrelevantQueryFeedback(state = {}, term) {
   return flattenQueryDiagnostics(state.runs || []).some((item) => {
     const targets = Array.isArray(item?.targetExistingTerms) ? item.targetExistingTerms.map((target) => String(target || '').trim()) : [];
     const accepted = Array.isArray(item?.acceptedTerms) ? item.acceptedTerms.map((target) => String(target || '').trim()).filter(Boolean) : [];
+    const commentsCollected = Math.max(0, Number(item?.commentsCollected) || 0);
+    const trainingTextChars = Math.max(0, Number(item?.trainingTextChars) || 0);
     return (
       targets.includes(cleanTerm) &&
       accepted.length === 0 &&
-      Math.max(0, Number(item?.commentsCollected) || 0) > 0 &&
-      Math.max(0, Number(item?.trainingTextChars) || 0) > 0
+      (commentsCollected > 0 || trainingTextChars > 0)
     );
   });
 }
@@ -781,12 +782,14 @@ export function buildCoverageActions(dictionary = {}, state = {}, options = {}) 
     const triedQueries = new Set([...attemptedVariantQueries(attempt), ...searchedQueries]);
     const availableVariants = queryVariantsForTerm(term, family, queryTemplatesFromOptions(options).length, options);
     const hardMissedZeroEvidence = isHardMissedZeroEvidenceAttempt(attempt, options.retryBeforeUnattemptedLimit);
+    const irrelevantFeedback = hasIrrelevantQueryFeedback(state, term);
+    const missedWithIrrelevantFeedback = attemptsCount > 0 && successfulAttempts === 0 && irrelevantFeedback;
     const feedbackQuery =
-      hardMissedZeroEvidence && hasIrrelevantQueryFeedback(state, term)
+      hardMissedZeroEvidence && irrelevantFeedback
         ? negativeFeedbackQueriesForTerm(term).find((query) => !triedQueries.has(query))
         : '';
     const exactFeedbackQuery =
-      hardMissedZeroEvidence && hasIrrelevantQueryFeedback(state, term)
+      missedWithIrrelevantFeedback
         ? exactFeedbackQueriesForTerm(term).find((query) => !currentStrategyTriedQueries.has(query))
         : '';
     const precisionQuery = hardMissedZeroEvidence ? precisionQueriesForTerm(term).find((query) => !triedQueries.has(query)) : '';
