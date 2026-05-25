@@ -2263,6 +2263,73 @@ test('harvestKeywordDictionary deepens scans for repeatedly missed terms', async
   }
 });
 
+test('harvestKeywordDictionary deepens scans after a current comment miss', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-comment-missed-'));
+  const statePath = join(dir, 'state.json');
+  try {
+    const searched = [];
+    const state = {
+      version: 1,
+      harvestStrategyVersion: 4,
+      updatedAt: null,
+      searchedQueries: [],
+      scannedBvids: ['BVprevious'],
+      termAttempts: {
+        doge: {
+          term: 'doge',
+          family: 'cooperation',
+          attempts: 1,
+          successfulAttempts: 0,
+          queries: [
+            {
+              query: 'doge \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4',
+              strategyVersion: 4,
+              ok: true,
+              hit: false,
+              comments: 12,
+            },
+          ],
+        },
+      },
+      runs: [],
+    };
+    await writeFile(statePath, JSON.stringify(state), 'utf8');
+
+    await harvestKeywordDictionary(
+      {
+        maxQueries: 1,
+        coverageMode: 'all-weak',
+        queryVariantsPerTerm: 2,
+        retryBeforeUnattemptedLimit: 3,
+        discoveryLimit: 2,
+        pages: 1,
+        staleMissedDiscoveryLimit: 5,
+        staleMissedPages: 4,
+        statePath,
+      },
+      {
+        readKeywordDictionary: async () => ({ entries: [{ term: 'doge', family: 'cooperation', evidenceCount: 1 }] }),
+        searchVideoKeywords: async (payload) => {
+          searched.push(payload);
+          return {
+            ok: true,
+            warnings: [],
+            videos: [{ bvid: 'BVcommentmiss' }],
+            comments: [],
+            entries: [],
+          };
+        },
+      },
+    );
+
+    assert.equal(searched[0].discoveryLimit, 5);
+    assert.equal(searched[0].pages, 4);
+    assert.deepEqual(searched[0].excludeBvids, []);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('harvestKeywordDictionary escalates zero-evidence repeatedly missed scans', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-hard-missed-'));
   const statePath = join(dir, 'state.json');
