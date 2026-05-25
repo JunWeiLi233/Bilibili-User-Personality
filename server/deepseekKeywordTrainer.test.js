@@ -663,6 +663,35 @@ test('findDictionaryEntriesWithTextEvidence maps repeated weak miss aliases back
   assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-repeat-miss-alias'), true);
 });
 
+test('findDictionaryEntriesWithTextEvidence maps fresh noisy-search aliases back to weak terms', () => {
+  const entries = findDictionaryEntriesWithTextEvidence(
+    {
+      entries: [
+        { term: '\u7092\u9e21\u597d\u7528', family: 'cooperation', meaning: 'colloquial praise for usability' },
+        { term: '\u4e0d\u53ef\u62b5\u6297\u529b', family: 'attack', meaning: 'force majeure sarcasm' },
+        { term: '\u4e0d\u770b\u5185\u5bb9\u8bc4\u8bba', family: 'attack', meaning: 'commenting without watching' },
+        { term: '\u62d4\u7fa4', family: 'cooperation', meaning: 'excellent effect wording' },
+        { term: '\u9f3b\u5c4e\u4e5f\u559d\u8fdb\u53bb\u4e86', family: 'attack', meaning: 'gross-out joke wording' },
+      ],
+    },
+    '\u8fd9\u5de5\u5177\u8d85\u7ea7\u597d\u7528\n\u8fd9\u5c5e\u4e8e\u4e0d\u53ef\u6297\u529b\u4e86\n\u7ecf\u5178\u4e0d\u770b\u5185\u5bb9\u5c31\u8bc4\u8bba\n\u8fd9\u4e2a\u6548\u679c\u62d4\u7fa4\n\u90a3\u4e0d\u662f\u9f3b\u5c4e\u4e5f\u559d\u8fdb\u53bb\u4e86',
+    {
+      source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-fresh-alias/',
+      uid: 'BV-fresh-alias',
+    },
+  );
+
+  assert.deepEqual(entries.map((entry) => entry.term), [
+    '\u7092\u9e21\u597d\u7528',
+    '\u4e0d\u53ef\u62b5\u6297\u529b',
+    '\u4e0d\u770b\u5185\u5bb9\u8bc4\u8bba',
+    '\u62d4\u7fa4',
+    '\u9f3b\u5c4e\u4e5f\u559d\u8fdb\u53bb\u4e86',
+  ]);
+  assert.equal(entries.every((entry) => entry.evidenceCount >= 1), true);
+  assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-fresh-alias'), true);
+});
+
 test('findDictionaryEntriesWithTextEvidence maps persistent zero-evidence attack aliases back to dictionary terms', () => {
   const entries = findDictionaryEntriesWithTextEvidence(
     {

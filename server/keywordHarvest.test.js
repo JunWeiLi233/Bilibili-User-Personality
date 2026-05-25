@@ -184,6 +184,47 @@ test('buildKeywordHarvestQueries uses conversational aliases for repeatedly miss
   }
 });
 
+test('buildKeywordHarvestQueries uses fresh aliases for noisy weak misses', () => {
+  const cases = [
+    {
+      term: '\u7092\u9e21\u597d\u7528',
+      family: 'cooperation',
+      expectedAliasQuery: '\u8d85\u7ea7\u597d\u7528 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+    {
+      term: '\u4e0d\u53ef\u62b5\u6297\u529b',
+      family: 'attack',
+      expectedAliasQuery: '\u4e0d\u53ef\u6297\u529b \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+    },
+    {
+      term: '\u4e0d\u770b\u5185\u5bb9\u8bc4\u8bba',
+      family: 'attack',
+      expectedAliasQuery: '\u7ecf\u5178\u4e0d\u770b\u5185\u5bb9\u8bc4\u8bba \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+    },
+    {
+      term: '\u62d4\u7fa4',
+      family: 'cooperation',
+      expectedAliasQuery: '\u6548\u679c\u62d4\u7fa4 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+  ];
+
+  for (const item of cases) {
+    const queries = buildKeywordHarvestQueries(
+      {
+        entries: [{ term: item.term, family: item.family, evidenceCount: 1 }],
+      },
+      {
+        seedQueries: [],
+        coverageMode: 'all-weak',
+        maxQueries: 4,
+        queryVariantsPerTerm: 4,
+      },
+    );
+
+    assert.equal(queries.includes(item.expectedAliasQuery), true, `${item.term} should include ${item.expectedAliasQuery}`);
+  }
+});
+
 test('buildKeywordHarvestQueries uses topic contexts for hard zero-evidence terms', () => {
   const cases = [
     {
