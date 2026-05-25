@@ -3,6 +3,7 @@ import { dirname } from 'node:path';
 
 import { withFileLock } from './fileLock.js';
 import { harvestKeywordDictionaryRounds } from './keywordHarvest.js';
+import { serializeVideoKeywordDiscoveryReport } from './runVideoKeywordDiscoveryReport.js';
 import { buildVideoKeywordDiscoveryOptions, parsePriorityQueryContent } from './runVideoKeywordDiscoveryOptions.js';
 
 function parseList(value) {
@@ -97,47 +98,6 @@ function reportRound(round, index, total) {
   console.log(`Exhausted dictionary terms: ${round.termAttemptSummary.exhaustedTerms}`);
 }
 
-function serializeResult(result, statePath, reportPath) {
-  return {
-    generatedAt: new Date().toISOString(),
-    statePath,
-    reportPath,
-    requestedRounds: result.requestedRounds,
-    growth: result.growth,
-    coverage: result.coverage,
-    coverageActions: result.coverageActions,
-    state: result.state,
-    rounds: result.rounds.map((round, index) => ({
-      round: index + 1,
-      queries: round.queries,
-      candidateQueries: round.candidateQueries,
-      growth: round.growth,
-      coverage: round.coverage,
-      coverageProgress: round.coverageProgress,
-      termAttemptSummary: round.termAttemptSummary,
-      warnings: round.warnings,
-      results: round.results.map((item) => ({
-        query: item.query,
-        ok: Boolean(item.result?.ok),
-        error: item.result?.error || '',
-        videos: (item.result?.videos || []).map((video) => ({
-          bvid: video.bvid,
-          title: video.title,
-          sourceUrl: video.sourceUrl,
-        })),
-        comments: item.result?.comments?.length || 0,
-        evidenceRejected: item.result?.keywordTraining?.evidenceRejected || 0,
-        existingDictionaryEvidence: item.result?.keywordTraining?.dictionaryEvidenceEntries || [],
-        acceptedEvidenceCount: (item.result?.entries || []).reduce((sum, entry) => sum + (Number(entry.evidenceCount) || 0), 0),
-        controversialPopularQueries: item.result?.controversialPopularQueries || [],
-        controversialPopularSearchOrder: item.result?.controversialPopularSearchOrder || null,
-        plan: round.plan?.find((planItem) => planItem.query === item.query) || null,
-        entries: item.result?.entries || [],
-      })),
-    })),
-  };
-}
-
 const priorityQueries = [
   ...(await readPriorityQueryFile(process.env.BILIBILI_HARVEST_PRIORITY_ACTION_FILE)),
   ...(await readPriorityQueryFile(process.env.BILIBILI_HARVEST_PRIORITY_QUERY_FILE)),
@@ -227,7 +187,7 @@ if (newTerms.length) {
   for (const entry of newTerms.slice(0, 40)) printKeyword(entry);
 }
 
-await writeJson(reportPath, serializeResult(result, statePath, reportPath));
+await writeJson(reportPath, serializeVideoKeywordDiscoveryReport(result, statePath, reportPath));
 console.log(`Harvest state: ${statePath}`);
 console.log(`Harvest report: ${reportPath}`);
 
