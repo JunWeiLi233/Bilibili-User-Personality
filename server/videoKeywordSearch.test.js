@@ -383,6 +383,82 @@ test('searchVideoKeywords avoids scanning zero-relevance videos for target cover
   assert.equal(trainedPayloads[0].text.includes('\u8e6d\u6982\u5ff5'), false);
 });
 
+test('searchVideoKeywords probes direct search results when comment-backed target coverage has only filtered context', async () => {
+  const scannedBvids = [];
+  const result = await searchVideoKeywords(
+    {
+      searchQuery: '\u5176\u4ed6\u4eba\u4e0d\u662f\u4eba\u4e86\u5457 \u8bc4\u8bba',
+      discoveryMode: 'search',
+      discoveryLimit: 2,
+      pages: 1,
+      existingTermsOnly: true,
+      includeVideoContext: false,
+      targetExistingTerms: ['\u4e0d\u662f\u4eba\u4e86\u5457'],
+    },
+    {
+      discoverVideosByKeyword: async () => [
+        {
+          bvid: 'BVdirectSearch1',
+          title: '\u70ed\u95e8\u4e89\u8bae\u8bdd\u9898\u8ba8\u8bba',
+          sourceUrl: 'https://www.bilibili.com/video/BVdirectSearch1/',
+        },
+        {
+          bvid: 'BVdirectSearch2',
+          title: '\u53e6\u4e00\u4e2a\u8bc4\u8bba\u533a\u8ba8\u8bba',
+          sourceUrl: 'https://www.bilibili.com/video/BVdirectSearch2/',
+        },
+      ],
+      fetchJson: async (url) => {
+        const parsed = new URL(String(url));
+        const bvid = parsed.searchParams.get('bvid');
+        if (String(url).includes('/x/web-interface/view')) {
+          scannedBvids.push(bvid);
+          return {
+            code: 0,
+            data: {
+              aid: bvid === 'BVdirectSearch1' ? 101 : 102,
+              title: bvid,
+              owner: { mid: 9, name: 'up' },
+              stat: { reply: 1 },
+            },
+          };
+        }
+        return {
+          code: 0,
+          data: {
+            replies: [
+              {
+                rpid: `${bvid}-1`,
+                mid: 1,
+                member: { uname: 'commenter' },
+                content: { message: '\u5176\u4ed6\u4eba\u4e0d\u662f\u4eba\u4e86\u5457' },
+              },
+            ],
+            cursor: { is_end: true, next: 0 },
+          },
+        };
+      },
+      trainKeywordDictionary: async (payload) => ({
+        ok: true,
+        entries: [],
+        dictionaryEvidenceEntries: [
+          {
+            term: '\u4e0d\u662f\u4eba\u4e86\u5457',
+            family: 'attack',
+            evidenceCount: payload.text.includes('\u5176\u4ed6\u4eba\u4e0d\u662f\u4eba\u4e86\u5457') ? 1 : 0,
+          },
+        ],
+        dictionary: { entries: [] },
+      }),
+    },
+  );
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(scannedBvids, ['BVdirectSearch1', 'BVdirectSearch2']);
+  assert.deepEqual(result.discoveredVideos.map((video) => video.bvid), ['BVdirectSearch1', 'BVdirectSearch2']);
+  assert.deepEqual(result.collectionDiagnostics.acceptedTerms, ['\u4e0d\u662f\u4eba\u4e86\u5457']);
+});
+
 test('searchVideoKeywords ignores generic query scaffolding when filtering target videos', async () => {
   const scannedBvids = [];
   const result = await searchVideoKeywords(

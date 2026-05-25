@@ -437,10 +437,17 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
       existingTermsOnly || targetExistingTerms.length > 0
         ? discoveryGroups.map((group) => sortVideosByRelevance(group, searchQueries, targetExistingTerms))
         : discoveryGroups;
-    const eligibleDiscoveryGroups =
+    let eligibleDiscoveryGroups =
       targetExistingTerms.length > 0
         ? rankedDiscoveryGroups.map((group) => filterRelevantVideos(group, searchQueries, targetExistingTerms))
         : rankedDiscoveryGroups;
+    if (
+      targetExistingTerms.length > 0 &&
+      includeVideoContext === false &&
+      eligibleDiscoveryGroups.every((group) => group.length === 0)
+    ) {
+      eligibleDiscoveryGroups = rankedDiscoveryGroups.map((group) => group.slice(0, discoveryLimit));
+    }
     discoveredVideos = roundRobinUnique(
       eligibleDiscoveryGroups.map((group) => group.filter((video) => !excludeBvids.has(video.bvid))),
       discoveryLimit,
