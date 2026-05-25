@@ -1170,11 +1170,16 @@ export function buildCoverageActions(dictionary = {}, state = {}, options = {}) 
         : '';
     const precisionQuery = !needsSourceRefresh && hardMissedZeroEvidence ? precisionQueriesForTerm(term).find((query) => !triedQueries.has(query)) : '';
     const relatedRetryVariant = preferRelatedSearchTerms ? availableVariants.find((variant) => !triedQueries.has(variant.query)) : null;
+    const sourceRefreshExactQuery =
+      needsSourceRefresh && options.requireCommentBackedEvidence === true
+        ? exactFeedbackQueriesForTerm(term).find((query) => !triedQueries.has(query) && isCommentEvidenceQuery(query))
+        : '';
     const sourceRefreshVariant =
       needsSourceRefresh && options.requireCommentBackedEvidence === true
         ? availableVariants.find((variant) => !triedQueries.has(variant.query) && isCommentEvidenceQuery(variant.query))
         : null;
     const nextVariant =
+      (sourceRefreshExactQuery ? { query: sourceRefreshExactQuery, variantIndex: null, builtIn: false } : null) ||
       sourceRefreshVariant ||
       (feedbackQuery ? { query: feedbackQuery, variantIndex: null, builtIn: false } : null) ||
       relatedRetryVariant ||

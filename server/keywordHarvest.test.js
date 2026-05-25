@@ -2028,7 +2028,7 @@ test('buildDictionaryCoverageAudit prioritizes context-only source gaps before o
 
   assert.equal(audit.nextActions[0].term, 'contextOnly');
   assert.equal(audit.nextActions[0].status, 'source_gap');
-  assert.equal(audit.recommendedQueries[0], 'contextOnly \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4');
+  assert.equal(audit.recommendedQueries[0], 'contextOnly \u8bc4\u8bba\u533a');
 });
 
 test('buildDictionaryCoverageAudit keeps comment-missed source gaps ahead of ordinary weak terms', () => {
@@ -2139,7 +2139,7 @@ test('buildDictionaryCoverageAudit keeps comment-backed source refreshes on comm
   );
 
   assert.equal(audit.nextActions[0].status, 'source_gap');
-  assert.equal(audit.nextActions[0].nextQuery, 'sourceGap \u4e89\u8bae \u8bc4\u8bba\u533a');
+  assert.equal(audit.nextActions[0].nextQuery, 'sourceGap \u56de\u590d');
   assert.equal(audit.recommendedQueries[0].includes('\u662f\u4ec0\u4e48\u6897'), false);
 });
 
