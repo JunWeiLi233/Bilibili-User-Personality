@@ -466,17 +466,17 @@ test('buildKeywordHarvestQueries uses follow-up weak aliases before exact stale 
     {
       term: '\u9ad8\u5983\u5e94\u5f97\u7684\u5f85\u9047',
       family: 'attack',
-      expectedAliasQuery: '\u9ad8\u5983\u5f85\u9047 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+      expectedAliasQuery: '\u9ad8\u5983\u5e94\u5f97\u7684\u5f85\u9047 \u8bc4\u8bba',
     },
     {
       term: '\u9ad8\u7ea7jn',
       family: 'attack',
-      expectedAliasQuery: '\u9ad8\u7ea7JN \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+      expectedAliasQuery: '\u660e\u661f \u9ad8\u7ea7JN \u8bc4\u8bba',
     },
     {
       term: '\u6401\u8fd9\u6401\u8fd9',
       family: 'attack',
-      expectedAliasQuery: '\u6401\u8fd9\u6401\u8fd9\u5462 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+      expectedAliasQuery: '\u4f60\u6401\u8fd9\u6401\u8fd9\u5462 \u8bc4\u8bba',
     },
   ];
 
@@ -614,7 +614,7 @@ test('buildKeywordHarvestQueries generates colloquial aliases for weak attack ph
     },
     {
       term: '\u6401\u8fd9\u5462',
-      expectedAliasQuery: '\u6401\u8fd9\u6401\u8fd9\u5462 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+      expectedAliasQuery: '\u4f60\u6401\u8fd9\u6401\u8fd9\u5462 \u8bc4\u8bba',
     },
     {
       term: '\u9ad8\u5b8c\u4e86',
@@ -821,6 +821,61 @@ test('buildKeywordHarvestQueries starts with priority weak action aliases', () =
       term: '\u6760\u7cbe',
       family: 'attack',
       expectedAliasQuery: '\u6760\u7cbe \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+    },
+    {
+      term: '\u9ad8\u5983\u5e94\u5f97\u7684\u5f85\u9047',
+      family: 'attack',
+      expectedAliasQuery: '\u9ad8\u5983\u5e94\u5f97\u7684\u5f85\u9047 \u8bc4\u8bba',
+    },
+    {
+      term: '\u9ad8\u7ea7jn',
+      family: 'attack',
+      expectedAliasQuery: '\u660e\u661f \u9ad8\u7ea7JN \u8bc4\u8bba',
+    },
+    {
+      term: '\u6401\u8fd9\u5462',
+      family: 'attack',
+      expectedAliasQuery: '\u4f60\u6401\u8fd9\u6401\u8fd9\u5462 \u8bc4\u8bba',
+    },
+    {
+      term: '\u4e2a\u7b7e',
+      family: 'cooperation',
+      expectedAliasQuery: '\u6211\u7684\u4e2a\u7b7e\u4e5f\u662f \u8bc4\u8bba',
+    },
+    {
+      term: '\u7ed9\u6839\u7f51\u7ebf\u5c31\u4e0a\u5929',
+      family: 'attack',
+      expectedAliasQuery: '\u7ed9\u6839\u7f51\u7ebf\u5c31\u4e0a\u5929 \u8bc4\u8bba',
+    },
+    {
+      term: '\u7ed9\u7b5b\u5b50\u91cc\u704c\u4e86\u94c5',
+      family: 'attack',
+      expectedAliasQuery: '\u6211\u4eec\u7ed9\u7b5b\u5b50\u91cc\u704c\u4e86\u94c5 \u8bc4\u8bba',
+    },
+    {
+      term: '\u7ed9\u9ab0\u5b50\u704c\u4e86\u94c5',
+      family: 'attack',
+      expectedAliasQuery: '\u6211\u4eec\u7ed9\u9ab0\u5b50\u704c\u4e86\u94c5 \u8bc4\u8bba',
+    },
+    {
+      term: '\u7ed9\u7237\u722c',
+      family: 'attack',
+      expectedAliasQuery: '\u7ed9\u7237\u722c \u8bc4\u8bba',
+    },
+    {
+      term: '\u7ed9\u7237\u6574\u5b5d\u4e86',
+      family: 'attack',
+      expectedAliasQuery: '\u7ed9\u7237\u6574\u5b5d\u4e86 \u8bc4\u8bba',
+    },
+    {
+      term: '\u6839\u672c\u6ca1\u6709\u53c2\u8003\u4ef7\u503c',
+      family: 'absolutes',
+      expectedAliasQuery: '\u6839\u672c\u6ca1\u6709\u53c2\u8003\u4ef7\u503c\u5440 \u8bc4\u8bba',
+    },
+    {
+      term: '\u6839\u672c\u6ca1\u6709\u8bf4\u4e0d\u5141\u8bb8',
+      family: 'absolutes',
+      expectedAliasQuery: '\u6839\u672c\u6ca1\u6709\u8bf4\u4e0d\u5141\u8bb8 \u8bc4\u8bba',
     },
   ];
 

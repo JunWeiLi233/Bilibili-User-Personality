@@ -1858,6 +1858,57 @@ test('findDictionaryEntriesWithTextEvidence maps priority weak action aliases ba
   assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-priority-action-alias'), true);
 });
 
+test('findDictionaryEntriesWithTextEvidence maps latest sample-backed weak aliases', () => {
+  const entries = findDictionaryEntriesWithTextEvidence(
+    {
+      entries: [
+        { term: '\u9ad8\u5983\u5e94\u5f97\u7684\u5f85\u9047', family: 'attack', meaning: 'sarcastic treatment meme' },
+        { term: '\u9ad8\u7ea7jn', family: 'attack', meaning: 'abusive shorthand label' },
+        { term: '\u6401\u8fd9\u5462', family: 'attack', meaning: 'mocking repetition phrase' },
+        { term: '\u4e2a\u7b7e', family: 'cooperation', meaning: 'profile signature reference' },
+        { term: '\u7ed9\u6839\u7f51\u7ebf\u5c31\u4e0a\u5929', family: 'attack', meaning: 'keyboard warrior insult' },
+        { term: '\u7ed9\u7b5b\u5b50\u91cc\u704c\u4e86\u94c5', family: 'attack', meaning: 'loaded dice metaphor' },
+        { term: '\u7ed9\u9ab0\u5b50\u704c\u4e86\u94c5', family: 'attack', meaning: 'loaded dice metaphor variant' },
+        { term: '\u7ed9\u7237\u722c', family: 'attack', meaning: 'dismissive insult' },
+        { term: '\u7ed9\u7237\u6574\u5b5d\u4e86', family: 'attack', meaning: 'mocking laughter phrase' },
+        { term: '\u6839\u672c\u6ca1\u6709\u53c2\u8003\u4ef7\u503c', family: 'absolutes', meaning: 'absolute dismissal of reference value' },
+        { term: '\u6839\u672c\u6ca1\u6709\u8bf4\u4e0d\u5141\u8bb8', family: 'absolutes', meaning: 'absolute denial wording' },
+      ],
+    },
+    [
+      '\u8fd9\u5c31\u662f\u9ad8\u5983\u5e94\u5f97\u7684\u5f85\u9047',
+      '\u660e\u661f=\u9ad8\u7ea7JN\uff0c\u5973\u4e3b\u64ad=\u6697\u95e8\u5b50',
+      '\u4f60\u6401\u8fd9\u6401\u8fd9\u5462',
+      '\u6211\u7684\u4e2a\u7b7e\u4e5f\u662f\u8fd9\u9996\u6b4c',
+      '\u952e\u76d8\u8bbe\u8ba1\u5e08\u5f53\u4e45\u4e86\uff0c\u7ed9\u6839\u7f51\u7ebf\u5c31\u4e0a\u5929',
+      '\u6211\u4eec\u7ed9\u7b5b\u5b50\u91cc\u704c\u4e86\u94c5',
+      '\u5f15\u5bfc\u786e\u5b9e\u8bf4\u8fc7\u201c\u6211\u4eec\u7ed9\u9ab0\u5b50\u704c\u4e86\u94c5\u201d',
+      '\u60a8\u914d\u5417\uff0c\u7ed9\u7237\u722c',
+      '\u771f\u7ed9\u7237\u6574\u5b5d\u4e86',
+      '\u6240\u4ee5\u82f1\u56fd\u8336\u5305\u6709\u4e24\u6761\u7ebf\u5bf9\u5427\uff1f\u6839\u672c\u6ca1\u6709\u53c2\u8003\u4ef7\u503c\u5440',
+      '\u56fd\u5185\u73b0\u5728\u53ea\u662f\u8981\u6c42\u660e\u786e\u6587\u5316\u6765\u6e90\uff0c\u6839\u672c\u6ca1\u6709\u8bf4\u4e0d\u5141\u8bb8\u5176\u4ed6\u6c11\u65cf\u4f7f\u7528',
+    ].join('\n'),
+    {
+      source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-sample-backed-alias/',
+      uid: 'BV-sample-backed-alias',
+    },
+  );
+
+  assert.deepEqual(entries.map((entry) => entry.term), [
+    '\u9ad8\u5983\u5e94\u5f97\u7684\u5f85\u9047',
+    '\u9ad8\u7ea7jn',
+    '\u6401\u8fd9\u5462',
+    '\u4e2a\u7b7e',
+    '\u7ed9\u6839\u7f51\u7ebf\u5c31\u4e0a\u5929',
+    '\u7ed9\u7b5b\u5b50\u91cc\u704c\u4e86\u94c5',
+    '\u7ed9\u9ab0\u5b50\u704c\u4e86\u94c5',
+    '\u7ed9\u7237\u722c',
+    '\u7ed9\u7237\u6574\u5b5d\u4e86',
+    '\u6839\u672c\u6ca1\u6709\u53c2\u8003\u4ef7\u503c',
+    '\u6839\u672c\u6ca1\u6709\u8bf4\u4e0d\u5141\u8bb8',
+  ]);
+});
+
 test('findDictionaryEntriesWithTextEvidence maps persistent zero-evidence attack aliases back to dictionary terms', () => {
   const entries = findDictionaryEntriesWithTextEvidence(
     {
