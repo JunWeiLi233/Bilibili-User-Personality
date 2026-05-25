@@ -4623,6 +4623,50 @@ test('harvestKeywordDictionary forwards controversy queries to video search', as
   }
 });
 
+test('harvestKeywordDictionary enables danmaku scans for danmaku priority queries', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-danmaku-query-'));
+  const statePath = join(dir, 'state.json');
+  try {
+    const payloads = [];
+    await harvestKeywordDictionary(
+      {
+        priorityQueries: [
+          {
+            term: '\u6401\u8fd9\u5462',
+            family: 'attack',
+            query: '\u6401\u8fd9\u5462 \u5f39\u5e55',
+          },
+        ],
+        maxQueries: 1,
+        existingTermsOnly: true,
+        statePath,
+      },
+      {
+        readKeywordDictionary: async () => ({
+          entries: [{ term: '\u6401\u8fd9\u5462', family: 'attack', evidenceCount: 1 }],
+        }),
+        searchVideoKeywords: async (payload) => {
+          payloads.push(payload);
+          return {
+            ok: true,
+            warnings: [],
+            videos: [{ bvid: 'BV1111111111' }],
+            comments: [],
+            entries: [],
+            keywordTraining: { dictionaryEvidenceEntries: [] },
+            dictionary: { entries: [{ term: '\u6401\u8fd9\u5462', family: 'attack', evidenceCount: 1 }] },
+          };
+        },
+      },
+    );
+
+    assert.equal(payloads[0].includeDanmaku, true);
+    assert.equal(payloads[0].allowNetworkDanmaku, true);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('harvestKeywordDictionary prefixes planned terms into controversial discovery queries', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-term-controversy-'));
   const statePath = join(dir, 'state.json');
