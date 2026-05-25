@@ -594,7 +594,30 @@ function generatedEvidenceAliasesForTerm(term) {
   if (/^\u7b2c\u4e00\u4e2a\u6295\u5e01\u80af\u5b9a\u662f\u6211\u7684?$/.test(clean)) {
     aliases.push('\u7b2c\u4e00\u4e2a\u6295\u5e01', '\u9996\u4e2a\u6295\u5e01', '\u6211\u7b2c\u4e00\u4e2a\u6295\u5e01', '\u6295\u5e01\u80af\u5b9a\u662f\u6211');
   }
+  if (/^(\u6839\u672c\u6ca1\u6709|\u7edd\u5bf9|\u80af\u5b9a|\u5168\u662f|\u5168\u90fd|\u5168\u90fd\u662f|\u6beb\u65e0|\u6ca1\u6709\u4e00\u4e2a|\u6ca1\u540a|\u6ca1\u5185\u5473)/.test(clean)) {
+    aliases.push(...generatedChineseTailAliases(clean));
+  }
+  if (clean.startsWith('\u6beb\u65e0')) {
+    const tail = clean.slice(2);
+    aliases.push(`\u6ca1${tail}`, `\u6ca1\u6709${tail}`);
+  }
+  if (clean.startsWith('\u6ca1\u540a\u7528')) aliases.push('\u6beb\u65e0\u540a\u7528');
+  if (clean.startsWith('\u7f57\u795e\u4f1f\u5927')) aliases.push('\u7f57\u795e\u4f1f\u5927\u65e0\u9700\u591a\u8a00', '\u7f57\u795e\u4f1f\u5927\uff0c\u65e0\u9700\u591a\u8a00');
   return unique(aliases.filter((alias) => alias && alias !== clean));
+}
+
+function generatedChineseTailAliases(clean) {
+  const aliases = [];
+  const shortTails = ['\u5440', '\u554a', '\u5427', '\u5462', '\u561b'];
+  for (const suffix of shortTails) {
+    if (clean.endsWith(suffix) && clean.length > suffix.length + 2) aliases.push(clean.slice(0, -suffix.length));
+    else aliases.push(`${clean}${suffix}`);
+  }
+  if (clean.endsWith('\u7684') && clean.length > 3) aliases.push(clean.slice(0, -1));
+  if (clean.endsWith('\u4e86') && clean.length > 3) aliases.push(clean.slice(0, -1));
+  if (clean.endsWith('\u4e00\u4e0b') && clean.length > 4) aliases.push(clean.slice(0, -2));
+  else if (clean.startsWith('\u7edd\u5bf9\u53ef\u4ee5')) aliases.push(`${clean}\u4e00\u4e0b`);
+  return aliases;
 }
 
 function evidenceNeedlesForTerm(term) {

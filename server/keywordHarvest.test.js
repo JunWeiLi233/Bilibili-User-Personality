@@ -514,6 +514,26 @@ test('buildKeywordHarvestQueries generates higher-signal sentence-form aliases f
       term: '\u7b2c\u4e00\u4e2a\u6295\u5e01\u80af\u5b9a\u662f\u6211',
       expectedAliasQuery: '\u7b2c\u4e00\u4e2a\u6295\u5e01 \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4',
     },
+    {
+      term: '\u6839\u672c\u6ca1\u6709\u53c2\u8003\u4ef7\u503c\u5440',
+      expectedAliasQuery: '\u6839\u672c\u6ca1\u6709\u53c2\u8003\u4ef7\u503c \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4',
+    },
+    {
+      term: '\u7edd\u5bf9\u53ef\u4ee5\u723d',
+      expectedAliasQuery: '\u7edd\u5bf9\u53ef\u4ee5\u723d\u4e00\u4e0b \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4',
+    },
+    {
+      term: '\u7edd\u5bf9\u53ef\u4ee5\u723d\u4e00\u4e0b',
+      expectedAliasQuery: '\u7edd\u5bf9\u53ef\u4ee5\u723d \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4',
+    },
+    {
+      term: '\u6beb\u65e0\u540a\u7528',
+      expectedAliasQuery: '\u6ca1\u540a\u7528 \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4',
+    },
+    {
+      term: '\u7f57\u795e\u4f1f\u5927',
+      expectedAliasQuery: '\u7f57\u795e\u4f1f\u5927\u65e0\u9700\u591a\u8a00 \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4',
+    },
   ];
 
   for (const item of cases) {

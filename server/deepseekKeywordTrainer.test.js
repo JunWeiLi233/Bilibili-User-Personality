@@ -1577,6 +1577,12 @@ test('findDictionaryEntriesWithTextEvidence maps generated sentence-form aliases
         { term: '\u767e\u5206\u767e\u597d\u8bc4\u7387', family: 'absolutes', meaning: 'perfect review rate claim' },
         { term: '100\u6ca1\u95ee\u9898', family: 'absolutes', meaning: 'absolute safety claim' },
         { term: '\u7b2c\u4e00\u4e2a\u6295\u5e01\u80af\u5b9a\u662f\u6211', family: 'absolutes', meaning: 'first coin certainty claim' },
+        { term: '\u6839\u672c\u6ca1\u6709\u53c2\u8003\u4ef7\u503c', family: 'absolutes', meaning: 'dismisses evidence value absolutely' },
+        { term: '\u7edd\u5bf9\u53ef\u4ee5\u723d', family: 'absolutes', meaning: 'absolute fun claim' },
+        { term: '\u7edd\u5bf9\u53ef\u4ee5\u723d\u4e00\u4e0b', family: 'absolutes', meaning: 'absolute fun claim with soft tail' },
+        { term: '\u6beb\u65e0\u540a\u7528', family: 'absolutes', meaning: 'absolute uselessness claim' },
+        { term: '\u6ca1\u540a\u7528', family: 'absolutes', meaning: 'absolute uselessness shorthand' },
+        { term: '\u7f57\u795e\u4f1f\u5927', family: 'absolutes', meaning: 'unquestioned idol praise' },
       ],
     },
     [
@@ -1584,6 +1590,12 @@ test('findDictionaryEntriesWithTextEvidence maps generated sentence-form aliases
       '\u4ed6\u4eec\u53ea\u8bf4\u767e\u5206\u767e\u597d\u8bc4\uff0c\u6ca1\u8bf4\u4e3a\u4ec0\u4e48\u80fd\u4fdd\u6301\u597d\u8bc4\u7387',
       '\u4f60\u600e\u4e48\u786e\u5b9a\u5bf9\u65b9100%\u6ca1\u95ee\u9898\uff1f',
       '\u8fd9\u671f\u89c6\u9891\u7b2c\u4e00\u4e2a\u6295\u5e01\u80af\u5b9a\u662f\u6211\u7684',
+      '\u6240\u4ee5\u82f1\u56fd\u8336\u5305\u6709\u4e24\u6761\u7ebf\u5bf9\u5427\uff1f\u6839\u672c\u6ca1\u6709\u53c2\u8003\u4ef7\u503c\u5440\u3002',
+      '\u8fd9\u4e2aBD\u7edd\u5bf9\u53ef\u4ee5\u723d\u4e00\u4e0b\uff0c\u4f46\u4e0d\u4e00\u5b9a\u9002\u5408\u6240\u6709\u4eba',
+      '\u5982\u679c\u5bb3\u6015\u7ffb\u8f66\uff0c\u8bf4\u7edd\u5bf9\u53ef\u4ee5\u723d\u5c31\u592a\u6b66\u65ad\u4e86',
+      '\u8fd9\u9053\u5177\u6ca1\u540a\u7528\uff0c\u7b80\u76f4\u6ca1\u6709\u540a\u7528',
+      '\u94bb\u77f3\u66f4\u6beb\u65e0\u540a\u7528[doge]',
+      '\u7f57\u795e\u4f1f\u5927\uff0c\u65e0\u9700\u591a\u8a00\u3002',
     ].join('\n'),
     {
       source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-generated-alias/',
@@ -1596,6 +1608,12 @@ test('findDictionaryEntriesWithTextEvidence maps generated sentence-form aliases
     '\u767e\u5206\u767e\u597d\u8bc4\u7387',
     '100\u6ca1\u95ee\u9898',
     '\u7b2c\u4e00\u4e2a\u6295\u5e01\u80af\u5b9a\u662f\u6211',
+    '\u6839\u672c\u6ca1\u6709\u53c2\u8003\u4ef7\u503c',
+    '\u7edd\u5bf9\u53ef\u4ee5\u723d',
+    '\u7edd\u5bf9\u53ef\u4ee5\u723d\u4e00\u4e0b',
+    '\u6beb\u65e0\u540a\u7528',
+    '\u6ca1\u540a\u7528',
+    '\u7f57\u795e\u4f1f\u5927',
   ]);
   assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-generated-alias'), true);
 });
