@@ -11,6 +11,7 @@ import {
   getDeepSeekConfig,
   mergeEntriesIntoDictionary,
   normalizeKeywordEntries,
+  readKeywordDictionary,
   trainKeywordDictionary,
 } from './deepseekKeywordTrainer.js';
 
@@ -167,6 +168,41 @@ test('mergeEntriesIntoDictionary compacts persisted Bilibili emote wrapper artif
     const dictionary = await mergeEntriesIntoDictionary([], { dictionaryPath });
 
     assert.deepEqual(dictionary.entries.map((entry) => entry.term), ['\u61c2\u4e86\u5427', '\u77e5\u8bc6\u76f2\u533a']);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
+test('readKeywordDictionary returns the normalized canonical dictionary view', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'deepseek-read-normalized-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  try {
+    await writeFile(
+      dictionaryPath,
+      JSON.stringify({
+        version: 1,
+        updatedAt: '2026-01-01T00:00:00.000Z',
+        entries: [
+          { term: 'Doge', family: 'cooperation', meaning: 'mixed-case emote shorthand', evidenceCount: 1, evidenceSamples: ['Doge appears'] },
+          { term: 'doge', family: 'cooperation', meaning: 'lowercase emote shorthand', evidenceCount: 1, evidenceSamples: ['doge appears'] },
+          {
+            term: '\u7edd\u5bf9\u56de\u5f52',
+            family: 'absolutes',
+            meaning: 'file-share advert title fragment',
+            evidenceCount: 1,
+            evidenceSamples: ['\u3010\u8d85\u7ea7\u4f1a\u5458V4\u3011\u901a\u8fc7\u767e\u5ea6\u7f51\u76d8\u5206\u4eab\u7684\u6587\u4ef6\uff1a\u7edd\u5bf9\u56de\u5f52\u3010\u8bd5\u770b\u3011\u2026'],
+          },
+        ],
+      }),
+      'utf8',
+    );
+
+    const dictionary = await readKeywordDictionary({ dictionaryPath });
+
+    assert.deepEqual(dictionary.entries.map((entry) => entry.term), ['doge']);
+    assert.equal(dictionary.entries[0].evidenceCount, 2);
+    assert.deepEqual(dictionary.families.cooperation, ['doge']);
+    assert.deepEqual(dictionary.families.absolutes, []);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }

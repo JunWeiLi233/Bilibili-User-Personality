@@ -514,21 +514,43 @@ async function readDictionary(dictionaryPath) {
   }
 }
 
+function buildCanonicalDictionarySnapshot(current, now = current?.updatedAt || new Date().toISOString()) {
+  const normalizedCurrentEntries = normalizeKeywordEntries(
+    (Array.isArray(current?.entries) ? current.entries : []).map(({ variants: _variants, ...entry }) => entry),
+  );
+  const entryMap = new Map();
+  for (const entry of normalizedCurrentEntries) {
+    const existing = (Array.isArray(current?.entries) ? current.entries : []).find((item) => cleanKeywordTerm(item.term) === entry.term);
+    entryMap.set(entry.term, {
+      ...entry,
+      updatedAt: existing?.updatedAt || current?.updatedAt || null,
+    });
+  }
+  propagateAliasEvidence(entryMap, now);
+  const allEntries = pruneSuffixOnlyFragments([...entryMap.values()]).sort((a, b) => a.family.localeCompare(b.family) || a.term.localeCompare(b.term));
+  const families = Object.fromEntries(SUPPORTED_FAMILIES.map((family) => [family, []]));
+  for (const entry of allEntries) {
+    if (!families[entry.family]) families[entry.family] = [];
+    families[entry.family].push(entry.term);
+  }
+  for (const family of Object.keys(families)) families[family] = unique(families[family]).sort();
+  return {
+    version: current?.version || 1,
+    updatedAt: current?.updatedAt || null,
+    entries: allEntries,
+    families,
+  };
+}
+
 export async function mergeEntriesIntoDictionary(entries, options = {}) {
   const dictionaryPath = options.dictionaryPath || DEFAULT_DICTIONARY_PATH;
   const current = await readDictionary(dictionaryPath);
   const normalizedEntries = normalizeKeywordEntries(entries);
-  const normalizedCurrentEntries = normalizeKeywordEntries(
-    current.entries.map(({ variants: _variants, ...entry }) => entry),
-  );
+  const canonicalCurrent = buildCanonicalDictionarySnapshot(current);
   const now = new Date().toISOString();
   const entryMap = new Map();
-  for (const entry of normalizedCurrentEntries) {
-    const existing = current.entries.find((item) => cleanTerm(item.term) === entry.term);
-    entryMap.set(entry.term, {
-      ...entry,
-      updatedAt: existing?.updatedAt || current.updatedAt || null,
-    });
+  for (const entry of canonicalCurrent.entries) {
+    entryMap.set(entry.term, { ...entry });
   }
   for (const entry of normalizedEntries) {
     entryMap.set(entry.term, mergeKeywordEntry(entryMap.get(entry.term), entry, now));
@@ -943,7 +965,7 @@ export async function trainKeywordDictionary(payload, options = {}) {
 }
 
 export async function readKeywordDictionary(options = {}) {
-  return readDictionary(options.dictionaryPath || DEFAULT_DICTIONARY_PATH);
+  return buildCanonicalDictionarySnapshot(await readDictionary(options.dictionaryPath || DEFAULT_DICTIONARY_PATH));
 }
 
 function buildAnalysisMessages({ text, uid, name }) {
