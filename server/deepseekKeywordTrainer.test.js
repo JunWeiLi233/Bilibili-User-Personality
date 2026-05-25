@@ -181,6 +181,28 @@ test('findDictionaryEntriesWithTextEvidence matches bidirectional short-form ali
   assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-short-alias'), true);
 });
 
+test('findDictionaryEntriesWithTextEvidence maps short sarcasm stems to long variants', () => {
+  const entries = findDictionaryEntriesWithTextEvidence(
+    {
+      entries: [
+        { term: '\u4e0d\u4f1a\u771f\u6709\u4eba\u89c9\u5f97\u5427', family: 'attack', meaning: 'long sarcasm variant' },
+        { term: '\u4e0d\u4f1a\u771f\u6709\u4eba\u89c9\u5f97\u8fd9\u53eb\u8bc1\u636e\u5427', family: 'attack', meaning: 'long evidence sarcasm variant' },
+      ],
+    },
+    '\u4e0d\u4f1a\u771f\u6709\u4eba\u8fd8\u5728\u62ff\u8fd9\u4e2a\u5f53\u8bc1\u636e\u5427',
+    {
+      source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-sarcasm-stem/',
+      uid: 'BV-sarcasm-stem',
+    },
+  );
+
+  assert.deepEqual(entries.map((entry) => entry.term), [
+    '\u4e0d\u4f1a\u771f\u6709\u4eba\u89c9\u5f97\u5427',
+    '\u4e0d\u4f1a\u771f\u6709\u4eba\u89c9\u5f97\u8fd9\u53eb\u8bc1\u636e\u5427',
+  ]);
+  assert.equal(entries.every((entry) => entry.evidenceCount === 1), true);
+});
+
 test('findDictionaryEntriesWithTextEvidence maps harvest aliases back to hard zero-evidence terms', () => {
   const entries = findDictionaryEntriesWithTextEvidence(
     {
