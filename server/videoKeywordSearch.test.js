@@ -339,6 +339,139 @@ test('searchVideoKeywords ranks query-token matches even when the target term sp
   assert.deepEqual(result.discoveredVideos.map((video) => video.bvid), ['BVtarget1']);
 });
 
+test('searchVideoKeywords prefers comment-use aliases over ambiguous exact title matches', async () => {
+  const result = await searchVideoKeywords(
+    {
+      searchQuery: '\u4e0d\u4f1a\u767e\u5ea6 \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      discoveryMode: 'search',
+      discoveryLimit: 1,
+      pages: 1,
+      existingTermsOnly: true,
+      targetExistingTerms: ['\u95ee\u767e\u5ea6'],
+    },
+    {
+      discoverVideosByKeyword: async () => [
+        {
+          bvid: 'BVsong1',
+          title: '\u9648\u745e\u6f14\u5531\u300a\u95ee\u767e\u5ea6\u300b\u592a\u597d\u542c\u4e86',
+          desc: '\u97f3\u4e50MV',
+          sourceUrl: 'https://www.bilibili.com/video/BVsong1/',
+        },
+        {
+          bvid: 'BValias1',
+          title: '\u8bc4\u8bba\u533a\u56de\u590d\uff1a\u4f60\u4e0d\u4f1a\u767e\u5ea6\u5417',
+          desc: '\u70ed\u8bc4\u4e89\u8bae\u590d\u76d8',
+          sourceUrl: 'https://www.bilibili.com/video/BValias1/',
+        },
+      ],
+      fetchJson: async (url) => {
+        const bvid = new URL(String(url)).searchParams.get('bvid');
+        if (String(url).includes('/x/web-interface/view')) {
+          return {
+            code: 0,
+            data: {
+              aid: bvid,
+              title: bvid,
+              owner: { mid: 9, name: 'up' },
+              stat: { reply: 0 },
+            },
+          };
+        }
+        return { code: 0, data: { replies: [], cursor: { is_end: true, next: 0 } } };
+      },
+      trainKeywordDictionary: async () => ({ ok: true, entries: [], dictionary: { entries: [] } }),
+    },
+  );
+
+  assert.deepEqual(result.discoveredVideos.map((video) => video.bvid), ['BValias1']);
+});
+
+test('searchVideoKeywords filters ambiguous exact title matches when alias queries miss', async () => {
+  let fetchCalls = 0;
+  const trainedPayloads = [];
+  const result = await searchVideoKeywords(
+    {
+      searchQuery: '\u767e\u5ea6\u4e00\u4e0b \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      discoveryMode: 'search',
+      discoveryLimit: 2,
+      pages: 1,
+      existingTermsOnly: true,
+      targetExistingTerms: ['\u95ee\u767e\u5ea6', '\u95ee\u767e\u5ea6\u6709\u4ec0\u4e48\u7528'],
+    },
+    {
+      discoverVideosByKeyword: async () => [
+        {
+          bvid: 'BVsong1',
+          title: '\u9648\u745e\u6f14\u5531\u300a\u95ee\u767e\u5ea6\u300b\u592a\u597d\u542c\u4e86',
+          desc: '\u97f3\u4e50MV',
+          sourceUrl: 'https://www.bilibili.com/video/BVsong1/',
+        },
+        {
+          bvid: 'BVask1',
+          title: '\u3010\u767e\u5ea6\u95ee\u4e00\u95ee\u3011\u7b54\u9898\u6559\u7a0b',
+          desc: '\u5de5\u5177\u6d4b\u8bd5',
+          sourceUrl: 'https://www.bilibili.com/video/BVask1/',
+        },
+      ],
+      fetchJson: async () => {
+        fetchCalls += 1;
+        throw new Error('should not scan ambiguous non-comment videos');
+      },
+      trainKeywordDictionary: async (payload) => {
+        trainedPayloads.push(payload);
+        return { ok: true, entries: [], dictionary: { entries: [] } };
+      },
+    },
+  );
+
+  assert.equal(result.ok, true);
+  assert.equal(fetchCalls, 0);
+  assert.deepEqual(result.discoveredVideos, []);
+  assert.equal(trainedPayloads.length, 1);
+});
+
+test('searchVideoKeywords does not treat reply and hot-comment scaffolding as target relevance', async () => {
+  let fetchCalls = 0;
+  const trainedPayloads = [];
+  const result = await searchVideoKeywords(
+    {
+      searchQuery: '\u81ea\u5df1\u767e\u5ea6 \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      discoveryMode: 'search',
+      discoveryLimit: 2,
+      pages: 1,
+      existingTermsOnly: true,
+      targetExistingTerms: ['\u95ee\u767e\u5ea6'],
+    },
+    {
+      discoverVideosByKeyword: async () => [
+        {
+          bvid: 'BVreply1',
+          title: '\u4e92\u5173\u4e00\u4e0b\u8bc4\u8bba\u4e00\u5b9a\u56de\u590d',
+          sourceUrl: 'https://www.bilibili.com/video/BVreply1/',
+        },
+        {
+          bvid: 'BVhot1',
+          title: 'B\u7ad9\u8bc4\u8bba\u533a\u6309\u70ed\u5ea6\u6392\u5e8f\u4e22\u70ed\u8bc4',
+          sourceUrl: 'https://www.bilibili.com/video/BVhot1/',
+        },
+      ],
+      fetchJson: async () => {
+        fetchCalls += 1;
+        throw new Error('should not scan generic reply/comment videos');
+      },
+      trainKeywordDictionary: async (payload) => {
+        trainedPayloads.push(payload);
+        return { ok: true, entries: [], dictionary: { entries: [] } };
+      },
+    },
+  );
+
+  assert.equal(result.ok, true);
+  assert.equal(fetchCalls, 0);
+  assert.deepEqual(result.discoveredVideos, []);
+  assert.equal(trainedPayloads.length, 1);
+});
+
 test('searchVideoKeywords avoids scanning zero-relevance videos for target coverage', async () => {
   let fetchCalls = 0;
   const trainedPayloads = [];

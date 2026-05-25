@@ -163,9 +163,51 @@ const GENERIC_TARGET_SEARCH_NEEDLES = new Set(
   ].map(cleanSearchText),
 );
 
+const CANONICAL_GENERIC_TARGET_SEARCH_NEEDLES = new Set(
+  [
+    'b\u7ad9',
+    'bilibili',
+    '\u89c6\u9891',
+    '\u6295\u7a3f',
+    '\u5408\u96c6',
+    '\u5168\u96c6',
+    '\u5b8c\u6574\u7248',
+    '\u514d\u8d39\u89c2\u770b',
+    '\u8bc4\u8bba',
+    '\u8bc4\u8bba\u533a',
+    '\u5f39\u5e55',
+    '\u70ed\u8bc4',
+    '\u56de\u590d',
+    '\u4e92\u52a8',
+    '\u8ba8\u8bba',
+    '\u4e89\u8bae',
+    '\u70ed\u70b9',
+    '\u70ed\u95e8',
+    '\u6897\u56fe',
+    '\u540d\u573a\u9762',
+    '\u5207\u7247',
+    '\u76d8\u70b9',
+    '\u590d\u76d8',
+    '\u94fe\u63a5',
+    '\u81ea\u53d6',
+    '\u51fa\u5904',
+    '\u6765\u6e90',
+    '\u662f\u4ec0\u4e48\u6897',
+    '\u4ec0\u4e48\u610f\u601d',
+  ].map(cleanSearchText),
+);
+
 function isGenericTargetSearchNeedle(needle) {
-  return GENERIC_TARGET_SEARCH_NEEDLES.has(cleanSearchText(needle));
+  const normalized = cleanSearchText(needle);
+  return GENERIC_TARGET_SEARCH_NEEDLES.has(normalized) || CANONICAL_GENERIC_TARGET_SEARCH_NEEDLES.has(normalized);
 }
+
+const AMBIGUOUS_ALIAS_ONLY_TARGET_NEEDLES = new Set(
+  [
+    '\u95ee\u767e\u5ea6',
+    '\u95ee\u767e\u5ea6\u6709\u4ec0\u4e48\u7528',
+  ].map(cleanSearchText),
+);
 
 function searchNeedlesForRelevance(searchQueries = [], targetExistingTerms = []) {
   const targetNeedles = uniqueByKey(
@@ -176,7 +218,17 @@ function searchNeedlesForRelevance(searchQueries = [], targetExistingTerms = [])
     .flatMap((query) => parseList(query).flatMap(searchQueryNeedles))
     .filter((item) => targetNeedles.length === 0 || !isGenericTargetSearchNeedle(item));
   const uniqueQueryNeedles = uniqueByKey(queryNeedles.map(cleanSearchText).filter((item) => item.length >= 2), (item) => item);
-  return targetNeedles.length > 0 ? [...targetNeedles, ...targetNeedles, ...uniqueQueryNeedles] : uniqueQueryNeedles;
+  if (targetNeedles.length === 0) return uniqueQueryNeedles;
+  const queryNeedleSet = new Set(uniqueQueryNeedles);
+  const targetInQuery = targetNeedles.some((needle) => queryNeedleSet.has(needle));
+  const aliasQueryNeedles = uniqueQueryNeedles.filter((needle) => !targetNeedles.includes(needle));
+  if (aliasQueryNeedles.length > 0 && !targetInQuery) {
+    if (targetNeedles.some((needle) => AMBIGUOUS_ALIAS_ONLY_TARGET_NEEDLES.has(needle))) {
+      return [...aliasQueryNeedles, ...aliasQueryNeedles, ...uniqueQueryNeedles];
+    }
+    return [...aliasQueryNeedles, ...aliasQueryNeedles, ...targetNeedles, ...uniqueQueryNeedles];
+  }
+  return [...targetNeedles, ...targetNeedles, ...uniqueQueryNeedles];
 }
 
 function relevanceScoreForVideo(video, needles = []) {
