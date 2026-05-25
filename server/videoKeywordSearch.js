@@ -1,5 +1,5 @@
-import { discoverPopularVideos, discoverVideosByKeyword, fetchRepliesForVideo } from './bilibiliCrawler.js';
-import { trainKeywordDictionary as defaultTrainKeywordDictionary } from './deepseekKeywordTrainer.js';
+import { discoverPopularVideos, discoverVideosByKeyword, extractBvid, fetchRepliesForVideo } from './bilibiliCrawler.js';
+import { readKeywordDictionary as defaultReadKeywordDictionary, trainKeywordDictionary as defaultTrainKeywordDictionary } from './deepseekKeywordTrainer.js';
 
 export const DEFAULT_VIDEO_LINK =
   process.env.BILIBILI_DEFAULT_VIDEO_LINKS ||
@@ -374,6 +374,36 @@ function buildCollectionDiagnostics({
   };
 }
 
+function evidenceSourceText(entry = {}) {
+  return (entry.evidenceSources || [])
+    .flatMap((source) => [source?.source, source?.uid])
+    .map((item) => String(item || ''))
+    .join('\n');
+}
+
+function evidenceSourceVideosForTerms(dictionary = {}, targetExistingTerms = [], limit = 6, excludeBvids = new Set()) {
+  const targetSet = new Set(targetExistingTerms.map((term) => String(term || '').trim()).filter(Boolean));
+  if (targetSet.size === 0) return [];
+  const videos = [];
+  const seen = new Set();
+  for (const entry of dictionary.entries || []) {
+    if (!targetSet.has(String(entry?.term || '').trim())) continue;
+    const text = evidenceSourceText(entry);
+    const candidates = [
+      ...text.matchAll(/https?:\/\/(?:www\.)?bilibili\.com\/video\/(BV[0-9A-Za-z]+)/g),
+      ...text.matchAll(/\b(BV[0-9A-Za-z]{8,})\b/g),
+    ];
+    for (const match of candidates) {
+      const bvid = extractBvid(match[0] || match[1]);
+      if (!bvid || excludeBvids.has(bvid) || seen.has(bvid)) continue;
+      seen.add(bvid);
+      videos.push({ bvid, sourceUrl: `https://www.bilibili.com/video/${bvid}/`, source: 'existing dictionary evidence source' });
+      if (videos.length >= limit) return videos;
+    }
+  }
+  return videos;
+}
+
 export async function searchVideoKeywords(payload = {}, deps = {}) {
   const videoLinks = parseList(
     payload.videoLinks ||
@@ -481,6 +511,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
   const discoveryWarnings = [];
   let discoveredVideos = [];
   let discoveryContextVideos = [];
+  let usedEvidenceSourceFallback = false;
   const excludeBvids = parseSet(payload.excludeBvids || deps.excludeBvids);
   if (videoLinks.length === 0) {
     const discoveryGroups = [];
@@ -570,6 +601,20 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
     );
     if ((existingTermsOnly || targetExistingTerms.length > 0) && (discoveryMode !== 'controversial' || prioritizeSearchQueries)) {
       discoveredVideos = sortVideosByRelevance(discoveredVideos, searchQueries, targetExistingTerms);
+    }
+    const evidenceSourceVideoFallback =
+      payload.evidenceSourceVideoFallback === true ||
+      payload.allowEvidenceSourceVideoFallback === true ||
+      deps.evidenceSourceVideoFallback === true ||
+      deps.allowEvidenceSourceVideoFallback === true;
+    if (discoveredVideos.length === 0 && evidenceSourceVideoFallback && existingTermsOnly && targetExistingTerms.length > 0) {
+      try {
+        const readKeywordDictionary = deps.readKeywordDictionary || defaultReadKeywordDictionary;
+        discoveredVideos = evidenceSourceVideosForTerms(await readKeywordDictionary(), targetExistingTerms, discoveryLimit, excludeBvids);
+        usedEvidenceSourceFallback = discoveredVideos.length > 0;
+      } catch (error) {
+        discoveryWarnings.push(`existing evidence-source fallback: ${error.message}`);
+      }
     }
     if (discoveredVideos.length === 0) {
       const videoContextText = includeVideoContext ? buildVideoContextText(discoveryContextVideos) : '';
@@ -735,7 +780,9 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
     videoContextText,
     source:
       videoLinks.length === 0
-        ? 'Bilibili public search-discovered video comment scan'
+        ? usedEvidenceSourceFallback
+          ? 'Bilibili public existing evidence-source video comment scan'
+          : 'Bilibili public search-discovered video comment scan'
         : scans.length > 1
           ? 'Bilibili public multi-video comment scan'
           : scans[0].source,

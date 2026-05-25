@@ -1913,6 +1913,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
       if (options.requireCommentBackedEvidence === true) {
         searchPayload.includeVideoContext = false;
         searchPayload.includeVideoObjectEvidence = false;
+        searchPayload.evidenceSourceVideoFallback = options.existingTermsOnly === true;
       }
       if (options.controversialPopularQueryLimit !== undefined) {
         searchPayload.controversialPopularQueryLimit = options.controversialPopularQueryLimit;

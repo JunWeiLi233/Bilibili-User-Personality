@@ -5781,6 +5781,7 @@ test('harvestKeywordDictionary disables video-title evidence during strict comme
 
     assert.equal(payloads[0].includeVideoContext, false);
     assert.equal(payloads[0].includeVideoObjectEvidence, false);
+    assert.equal(payloads[0].evidenceSourceVideoFallback, true);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }

@@ -67,6 +67,93 @@ test('searchVideoKeywords reports target diagnostics when no backend videos are 
   assert.deepEqual(result.searchQueries, ['\u9f3b\u5c4e\u4e5f\u559d\u8fdb\u53bb\u4e86 \u70ed\u8bc4']);
 });
 
+test('searchVideoKeywords scans existing evidence source videos when discovery finds no videos', async () => {
+  const scannedBvids = [];
+  const trainedPayloads = [];
+  const result = await searchVideoKeywords(
+    {
+      searchQuery: '\u5f88\u61c2\u561b\u8001\u94c1 \u8bc4\u8bba\u533a',
+      discoveryMode: 'search',
+      discoveryLimit: 2,
+      pages: 1,
+      existingTermsOnly: true,
+      evidenceSourceVideoFallback: true,
+      includeVideoContext: false,
+      includeVideoObjectEvidence: false,
+      targetExistingTerms: ['\u5f88\u61c2\u561b'],
+    },
+    {
+      discoverVideosByKeyword: async () => [],
+      readKeywordDictionary: async () => ({
+        entries: [
+          {
+            term: '\u5f88\u61c2\u561b',
+            family: 'attack',
+            evidenceSources: [
+              {
+                source:
+                  'Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BVsource001/, https://www.bilibili.com/video/BVsource002/',
+                uid: 'BVsource001,BVsource002',
+                sample: '\u5f88\u61c2\u561b\u8001\u94c1[doge]',
+              },
+            ],
+          },
+        ],
+      }),
+      fetchJson: async (url) => {
+        const textUrl = String(url);
+        if (textUrl.includes('/x/web-interface/view')) {
+          const bvid = new URL(textUrl).searchParams.get('bvid');
+          scannedBvids.push(bvid);
+          return {
+            code: 0,
+            data: {
+              aid: bvid === 'BVsource001' ? 101 : 102,
+              bvid,
+              title: bvid,
+              owner: { mid: 9, name: 'up' },
+              stat: { reply: 1 },
+            },
+          };
+        }
+        return {
+          code: 0,
+          data: {
+            replies: [
+              {
+                rpid: new URL(textUrl).searchParams.get('oid'),
+                mid: 100,
+                member: { mid: '100', uname: 'alice' },
+                content: { message: '\u5f88\u61c2\u561b\u8001\u94c1[doge]' },
+                like: 1,
+                ctime: 1710000000,
+              },
+            ],
+            cursor: { is_end: true, next: 0 },
+          },
+        };
+      },
+      trainKeywordDictionary: async (payload) => {
+        trainedPayloads.push(payload);
+        return {
+          ok: true,
+          entries: [],
+          dictionaryEvidenceEntries: [{ term: '\u5f88\u61c2\u561b', family: 'attack' }],
+          dictionary: { entries: [] },
+        };
+      },
+    },
+  );
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(scannedBvids, ['BVsource001', 'BVsource002']);
+  assert.equal(result.source, 'Bilibili public existing evidence-source video comment scan');
+  assert.equal(result.collectionDiagnostics.scannedVideos, 2);
+  assert.deepEqual(result.collectionDiagnostics.acceptedTerms, ['\u5f88\u61c2\u561b']);
+  assert.equal(trainedPayloads[0].text.includes('\u5f88\u61c2\u561b\u8001\u94c1'), true);
+  assert.deepEqual(trainedPayloads[0].targetExistingTerms, ['\u5f88\u61c2\u561b']);
+});
+
 test('searchVideoKeywords reports target diagnostics when discovered video scans fail', async () => {
   const result = await searchVideoKeywords(
     {
