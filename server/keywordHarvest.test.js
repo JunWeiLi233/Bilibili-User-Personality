@@ -2393,6 +2393,63 @@ test('harvestKeywordDictionary targets related weak aliases during existing-only
   }
 });
 
+test('harvestKeywordDictionary targets same-meaning contained phrase variants during existing-only training', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-contained-target-existing-'));
+  const statePath = join(dir, 'state.json');
+  try {
+    const payloads = [];
+    await harvestKeywordDictionary(
+      {
+        seedQueries: [],
+        maxQueries: 1,
+        existingTermsOnly: true,
+        coverageMode: 'all-weak',
+        discoveryLimit: 1,
+        pages: 1,
+        statePath,
+      },
+      {
+        readKeywordDictionary: async () => ({
+          entries: [
+            {
+              term: '\u903c\u6211\u5403\u4e86\u4e09\u5768\u7fd4',
+              family: 'attack',
+              meaning: 'same complaint phrase',
+              evidenceCount: 0,
+            },
+            {
+              term: '\u5403\u4e86\u4e09\u5768\u7fd4',
+              family: 'attack',
+              meaning: 'same complaint phrase',
+              evidenceCount: 0,
+            },
+            {
+              term: '\u4e0d\u76f8\u5173',
+              family: 'attack',
+              meaning: 'different attack phrase',
+              evidenceCount: 0,
+            },
+          ],
+        }),
+        searchVideoKeywords: async (payload) => {
+          payloads.push(payload);
+          return {
+            ok: true,
+            warnings: [],
+            videos: [{ bvid: 'BV1111111111' }],
+            comments: [],
+            entries: [],
+          };
+        },
+      },
+    );
+
+    assert.deepEqual(new Set(payloads[0].targetExistingTerms), new Set(['\u5403\u4e86\u4e09\u5768\u7fd4', '\u903c\u6211\u5403\u4e86\u4e09\u5768\u7fd4']));
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('harvestKeywordDictionary keeps target terms for feedback priority queries', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-feedback-priority-target-'));
   const statePath = join(dir, 'state.json');

@@ -229,12 +229,28 @@ function hasSharedSearchAlias(termA, termB) {
   return searchTermsForTerm(termB).some((term) => aliasesA.has(term));
 }
 
+function isRelatedContainedPhrase(entry, term, family, meaning = '') {
+  const entryTerm = String(entry?.term || '').trim();
+  const entryMeaning = String(entry?.meaning || '').trim();
+  return (
+    entryTerm &&
+    entryTerm !== term &&
+    String(entry?.family || '').trim() === family &&
+    meaning &&
+    entryMeaning === meaning &&
+    /\p{Script=Han}/u.test(entryTerm) &&
+    /\p{Script=Han}/u.test(term) &&
+    (entryTerm.includes(term) || term.includes(entryTerm))
+  );
+}
+
 function relatedTargetExistingTerms(dictionary, planItem, options = {}) {
   const term = String(planItem?.term || '').trim();
   if (!term) return [];
   const family = String(planItem?.family || '').trim();
   const targetEvidence = asPositiveInt(options.targetEvidence, 3, 100);
   const entries = Array.isArray(dictionary?.entries) ? dictionary.entries : [];
+  const meaning = String(planItem?.meaning || entries.find((entry) => String(entry?.term || '').trim() === term)?.meaning || '').trim();
   return unique(
     entries
       .filter((entry) => {
@@ -242,7 +258,7 @@ function relatedTargetExistingTerms(dictionary, planItem, options = {}) {
         if (!entryTerm) return false;
         if (family && String(entry?.family || '').trim() !== family) return false;
         if (evidenceCount(entry) >= targetEvidence) return false;
-        return entryTerm === term || hasSharedSearchAlias(term, entryTerm);
+        return entryTerm === term || hasSharedSearchAlias(term, entryTerm) || isRelatedContainedPhrase(entry, term, family, meaning);
       })
       .map((entry) => entry.term),
   ).slice(0, 8);
