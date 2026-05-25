@@ -692,6 +692,47 @@ test('findDictionaryEntriesWithTextEvidence maps fresh noisy-search aliases back
   assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-fresh-alias'), true);
 });
 
+test('findDictionaryEntriesWithTextEvidence maps controversy-search aliases back to weak terms', () => {
+  const entries = findDictionaryEntriesWithTextEvidence(
+    {
+      entries: [
+        { term: '\u5403\u4e8f\u662f\u798f', family: 'attack', meaning: 'sarcastic blessing about taking losses' },
+        { term: '\u51fa\u5904', family: 'evidence', meaning: 'request for source citation' },
+        { term: '\u963f\u7f8e\u8389\u5361', family: 'attack', meaning: 'mocking America wording' },
+        { term: '\u4e0d\u4e00\u4e00', family: 'evasion', meaning: 'avoid enumerating replies' },
+        { term: '\u5927\u9b54\u6cd5\u5e08', family: 'attack', meaning: 'internet wizard meme phrasing' },
+        { term: '\u5730\u56fe\u70ae', family: 'attack', meaning: 'attack a whole group or region' },
+        { term: '\u90fd\u662f\u4eba\u673a\u81ea\u52a8\u53d1\u7684', family: 'attack', meaning: 'accuse comments of bot automation' },
+      ],
+    },
+    [
+      '\u8fd9\u798f\u7ed9\u4f60\uff0c\u4f60\u53bb\u5403\u4e8f\u5427',
+      '\u6709\u51fa\u5904\u5417\uff0c\u53d1\u51fa\u5904\u770b\u770b',
+      '\u963f\u7f8e\u5229\u5361\u53c8\u5f00\u59cb\u4e86',
+      '\u5c31\u4e0d\u4e00\u4e00\u8bc4\u4ef7\u4e86',
+      '\u4e09\u5341\u5c81\u9b54\u6cd5\u5e08\u7b97\u662f\u8001\u6897\u4e86',
+      '\u522b\u5f00\u5730\u56fe\u70ae\uff0c\u8fd9\u5c31\u662f\u5730\u57df\u9ed1',
+      '\u8fd9\u4e9b\u90fd\u662f\u673a\u5668\u4eba\u53d1\u7684\uff0c\u50cf\u6c34\u519b\u63a7\u8bc4',
+    ].join('\n'),
+    {
+      source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-controversy-alias/',
+      uid: 'BV-controversy-alias',
+    },
+  );
+
+  assert.deepEqual(entries.map((entry) => entry.term), [
+    '\u5403\u4e8f\u662f\u798f',
+    '\u51fa\u5904',
+    '\u963f\u7f8e\u8389\u5361',
+    '\u4e0d\u4e00\u4e00',
+    '\u5927\u9b54\u6cd5\u5e08',
+    '\u5730\u56fe\u70ae',
+    '\u90fd\u662f\u4eba\u673a\u81ea\u52a8\u53d1\u7684',
+  ]);
+  assert.equal(entries.every((entry) => entry.evidenceCount >= 1), true);
+  assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-controversy-alias'), true);
+});
+
 test('findDictionaryEntriesWithTextEvidence maps persistent zero-evidence attack aliases back to dictionary terms', () => {
   const entries = findDictionaryEntriesWithTextEvidence(
     {

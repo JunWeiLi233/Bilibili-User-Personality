@@ -189,7 +189,7 @@ test('buildKeywordHarvestQueries uses fresh aliases for noisy weak misses', () =
     {
       term: '\u7092\u9e21\u597d\u7528',
       family: 'cooperation',
-      expectedAliasQuery: '\u8d85\u7ea7\u597d\u7528 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      expectedAliasQuery: '\u8d85\u7ea7\u597d\u7528 \u8f6f\u4ef6 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4',
     },
     {
       term: '\u4e0d\u53ef\u62b5\u6297\u529b',
@@ -223,6 +223,88 @@ test('buildKeywordHarvestQueries uses fresh aliases for noisy weak misses', () =
 
     assert.equal(queries.includes(item.expectedAliasQuery), true, `${item.term} should include ${item.expectedAliasQuery}`);
   }
+});
+
+test('buildKeywordHarvestQueries uses controversy-context aliases for weak search misses', () => {
+  const cases = [
+    {
+      term: '\u51fa\u5904',
+      family: 'evidence',
+      expectedAliasQuery: '\u6c42\u51fa\u5904 \u8bc1\u636e \u6765\u6e90 \u8bc4\u8bba\u533a',
+      expectedContextQuery: '\u6c42\u51fa\u5904 \u539f\u6587 \u8bc4\u8bba\u533a',
+    },
+    {
+      term: '\u963f\u7f8e\u8389\u5361',
+      family: 'attack',
+      expectedAliasQuery: '\u963f\u7f8e\u5229\u5361 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+      expectedContextQuery: '\u963f\u7f8e\u5229\u5361 \u56fd\u9645\u653f\u6cbb \u8bc4\u8bba\u533a',
+    },
+    {
+      term: '\u4e0d\u4e00\u4e00',
+      family: 'evasion',
+      expectedAliasQuery: '\u4e0d\u4e00\u4e00\u5217\u4e3e \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      expectedContextQuery: '\u4e0d\u4e00\u4e00 \u56de\u590d\u533a \u8bc4\u8bba\u533a',
+    },
+    {
+      term: '\u5927\u9b54\u6cd5\u5e08',
+      family: 'attack',
+      expectedAliasQuery: '\u9b54\u6cd5\u5e08 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+      expectedContextQuery: '\u9b54\u6cd5\u5e08 \u4e8c\u6b21\u5143 \u8bc4\u8bba\u533a',
+    },
+    {
+      term: '\u5730\u56fe\u70ae',
+      family: 'attack',
+      expectedAliasQuery: '\u5f00\u5730\u56fe\u70ae \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+      expectedContextQuery: '\u5730\u56fe\u70ae \u5730\u57df\u9ed1 \u8bc4\u8bba\u533a',
+    },
+    {
+      term: '\u90fd\u662f\u4eba\u673a\u81ea\u52a8\u53d1\u7684',
+      family: 'attack',
+      expectedAliasQuery: '\u4eba\u673a\u81ea\u52a8\u53d1 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+      expectedContextQuery: '\u4eba\u673a\u81ea\u52a8\u53d1 \u6c34\u519b \u8bc4\u8bba\u533a',
+    },
+  ];
+
+  for (const item of cases) {
+    const queries = buildKeywordHarvestQueries(
+      {
+        entries: [{ term: item.term, family: item.family, evidenceCount: 1 }],
+      },
+      {
+        seedQueries: [],
+        coverageMode: 'all-weak',
+        maxQueries: 48,
+        queryVariantsPerTerm: 48,
+      },
+    );
+
+    assert.equal(queries.includes(item.expectedAliasQuery), true, `${item.term} should include ${item.expectedAliasQuery}`);
+    assert.equal(queries.includes(item.expectedContextQuery), true, `${item.term} should include ${item.expectedContextQuery}`);
+  }
+});
+
+test('buildKeywordHarvestQueries starts with higher-signal aliases for ambiguous weak terms', () => {
+  const queries = buildKeywordHarvestQueries(
+    {
+      entries: [
+        { term: '\u963f\u7f8e\u8389\u5361', family: 'attack', evidenceCount: 1 },
+        { term: '\u4e0d\u4e00\u4e00', family: 'evasion', evidenceCount: 1 },
+      ],
+    },
+    {
+      seedQueries: [],
+      coverageMode: 'all-weak',
+      maxQueries: 4,
+      queryVariantsPerTerm: 2,
+    },
+  );
+
+  assert.deepEqual(queries, [
+    '\u963f\u7f8e\u5229\u5361 \u56fd\u9645\u653f\u6cbb \u8bc4\u8bba',
+    '\u7f8e\u5229\u575a \u4e2d\u7f8e \u70ed\u8bc4',
+    '\u4e0d\u4e00\u4e00\u5217\u4e3e \u56de\u590d',
+    '\u4e0d\u4e00\u4e00\u8bc4\u4ef7 \u8bc4\u8bba\u533a',
+  ]);
 });
 
 test('buildKeywordHarvestQueries uses topic contexts for hard zero-evidence terms', () => {
@@ -1913,6 +1995,46 @@ test('buildDictionaryCoverageAudit retries exact term after weak missed irreleva
   );
 
   assert.equal(audit.nextActions[0].nextQuery, '\u4e0d\u8bd7\u4eba \u70ed\u8bc4');
+});
+
+test('buildDictionaryCoverageAudit prefers precision feedback queries for ambiguous missed terms', () => {
+  const term = '\u51fa\u5904';
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [{ term, family: 'evidence', evidenceCount: 1 }],
+    },
+    {
+      termAttempts: {
+        [Buffer.from(term, 'utf8').toString('base64url')]: {
+          term,
+          family: 'evidence',
+          evidenceAtPlanTime: 1,
+          attempts: 1,
+          successfulAttempts: 0,
+          lastEvidenceCount: 1,
+          queries: [{ query: '\u6c42\u51fa\u5904 \u8bc1\u636e \u6765\u6e90 \u8bc4\u8bba\u533a' }],
+        },
+      },
+      runs: [
+        {
+          queryDiagnostics: [
+            [
+              {
+                query: '\u6c42\u51fa\u5904 \u8bc1\u636e \u6765\u6e90 \u8bc4\u8bba\u533a',
+                commentsCollected: 24,
+                trainingTextChars: 813,
+                targetExistingTerms: [term],
+                acceptedTerms: [],
+              },
+            ],
+          ],
+        },
+      ],
+    },
+    { targetEvidence: 3, maxActions: 1 },
+  );
+
+  assert.equal(audit.nextActions[0].nextQuery, '\u6c42\u51fa\u5904 \u8bc4\u8bba\u533a');
 });
 
 test('buildDictionaryCoverageAudit keeps exact feedback retries comment-bearing after a comment miss', () => {
