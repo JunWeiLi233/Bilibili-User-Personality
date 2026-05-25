@@ -1884,6 +1884,53 @@ test('harvestKeywordDictionary targets the planned weak term during existing-onl
   }
 });
 
+test('harvestKeywordDictionary targets related weak aliases during existing-only training', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-related-target-existing-'));
+  const statePath = join(dir, 'state.json');
+  try {
+    const payloads = [];
+    await harvestKeywordDictionary(
+      {
+        seedQueries: [],
+        maxQueries: 1,
+        existingTermsOnly: true,
+        coverageMode: 'all-weak',
+        discoveryLimit: 1,
+        pages: 1,
+        statePath,
+      },
+      {
+        readKeywordDictionary: async () => ({
+          entries: [
+            { term: '\u4e0d\u4f1a\u771f\u6709\u4eba\u89c9\u5f97', family: 'attack', evidenceCount: 0 },
+            { term: '\u4e0d\u4f1a\u771f\u6709\u4eba\u89c9\u5f97\u5427', family: 'attack', evidenceCount: 0 },
+            { term: '\u4e0d\u4f1a\u771f\u6709\u4eba\u89c9\u5f97\u8fd9\u53eb\u8bc1\u636e\u5427', family: 'attack', evidenceCount: 0 },
+            { term: '\u8f66\u5bb6\u519b', family: 'attack', evidenceCount: 0 },
+          ],
+        }),
+        searchVideoKeywords: async (payload) => {
+          payloads.push(payload);
+          return {
+            ok: true,
+            warnings: [],
+            videos: [{ bvid: 'BV1111111111' }],
+            comments: [],
+            entries: [],
+          };
+        },
+      },
+    );
+
+    assert.deepEqual(payloads[0].targetExistingTerms, [
+      '\u4e0d\u4f1a\u771f\u6709\u4eba\u89c9\u5f97',
+      '\u4e0d\u4f1a\u771f\u6709\u4eba\u89c9\u5f97\u5427',
+      '\u4e0d\u4f1a\u771f\u6709\u4eba\u89c9\u5f97\u8fd9\u53eb\u8bc1\u636e\u5427',
+    ]);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('harvestKeywordDictionaryRounds keeps running new unseen queries across rounds', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-rounds-'));
   const statePath = join(dir, 'state.json');

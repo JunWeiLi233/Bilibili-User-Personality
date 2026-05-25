@@ -178,6 +178,30 @@ function contextualQueriesForTerm(term) {
   );
 }
 
+function hasSharedSearchAlias(termA, termB) {
+  const aliasesA = new Set(searchTermsForTerm(termA));
+  return searchTermsForTerm(termB).some((term) => aliasesA.has(term));
+}
+
+function relatedTargetExistingTerms(dictionary, planItem, options = {}) {
+  const term = String(planItem?.term || '').trim();
+  if (!term) return [];
+  const family = String(planItem?.family || '').trim();
+  const targetEvidence = asPositiveInt(options.targetEvidence, 3, 100);
+  const entries = Array.isArray(dictionary?.entries) ? dictionary.entries : [];
+  return unique(
+    entries
+      .filter((entry) => {
+        const entryTerm = String(entry?.term || '').trim();
+        if (!entryTerm) return false;
+        if (family && String(entry?.family || '').trim() !== family) return false;
+        if (evidenceCount(entry) >= targetEvidence) return false;
+        return entryTerm === term || hasSharedSearchAlias(term, entryTerm);
+      })
+      .map((entry) => entry.term),
+  ).slice(0, 8);
+}
+
 function queryVariantCountForTerm(term, options = {}) {
   return queryTemplatesFromOptions(options).length * searchTermsForTerm(term).length + contextualQueriesForTerm(term).length;
 }
@@ -916,7 +940,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
         searchPayload.existingTermsOnly = options.existingTermsOnly;
       }
       if (options.existingTermsOnly === true && planItem.term) {
-        searchPayload.targetExistingTerms = [planItem.term];
+        searchPayload.targetExistingTerms = relatedTargetExistingTerms(before, planItem, options);
       }
       if (options.controversialPopularQueryLimit !== undefined) {
         searchPayload.controversialPopularQueryLimit = options.controversialPopularQueryLimit;
