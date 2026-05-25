@@ -752,6 +752,17 @@ function exactFeedbackQueriesForTerm(term) {
   ).slice(0, 16);
 }
 
+function sourceRefreshQueriesForTerm(term) {
+  const cleanTerm = String(term || '').trim();
+  return unique([
+    `${cleanTerm} \u8bc4\u8bba\u533a`,
+    `${cleanTerm} \u70ed\u8bc4`,
+    `${cleanTerm} \u56de\u590d`,
+    `${cleanTerm} \u5f39\u5e55`,
+    ...exactFeedbackQueriesForTerm(cleanTerm),
+  ]).slice(0, 16);
+}
+
 function bareFeedbackQueriesForTerm(term) {
   return unique(searchTermsForTerm(term)).slice(0, 16);
 }
@@ -1178,7 +1189,7 @@ export function buildCoverageActions(dictionary = {}, state = {}, options = {}) 
     const relatedRetryVariant = preferRelatedSearchTerms ? availableVariants.find((variant) => !triedQueries.has(variant.query)) : null;
     const sourceRefreshExactQuery =
       needsSourceRefresh && options.requireCommentBackedEvidence === true
-        ? exactFeedbackQueriesForTerm(term).find(
+        ? sourceRefreshQueriesForTerm(term).find(
             (query) => !triedQueries.has(query) && !usesTriedBareSearchQuery(query, term, triedQueries) && isCommentEvidenceQuery(query),
           )
         : '';

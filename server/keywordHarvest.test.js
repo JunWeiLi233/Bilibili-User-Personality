@@ -2188,6 +2188,39 @@ test('buildDictionaryCoverageAudit treats danmaku searches as comment-backed sou
   assert.equal(audit.nextActions[0].nextQuery, 'sourceGap 弹幕');
 });
 
+test('buildDictionaryCoverageAudit prefers literal source-gap comment queries before aliases', () => {
+  const term = '\u95ee\u767e\u5ea6';
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [
+        {
+          term,
+          family: 'evasion',
+          evidenceCount: 3,
+          evidenceSources: [
+            {
+              source: 'Bilibili public search-discovered video context: https://www.bilibili.com/video/BVcontext/',
+              uid: 'BVcontext',
+              sample: `Bilibili video context: ${term}`,
+            },
+          ],
+        },
+      ],
+    },
+    { termAttempts: {} },
+    {
+      targetEvidence: 3,
+      requireSourceBackedEvidence: true,
+      requireCommentBackedEvidence: true,
+      prioritizeSourceGaps: true,
+    },
+  );
+
+  assert.equal(audit.nextActions[0].status, 'source_gap');
+  assert.equal(audit.nextActions[0].nextQuery, '\u95ee\u767e\u5ea6 \u8bc4\u8bba\u533a');
+  assert.notEqual(audit.nextActions[0].nextQuery, '\u4e0d\u4f1a\u767e\u5ea6 \u8bc4\u8bba\u533a');
+});
+
 test('buildDictionaryCoverageAudit rotates source gaps behind fresh weak terms after a current comment miss', () => {
   const audit = buildDictionaryCoverageAudit(
     {
