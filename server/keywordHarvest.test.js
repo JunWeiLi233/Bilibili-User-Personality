@@ -1162,6 +1162,12 @@ test('buildKeywordHarvestQueries avoids noisy literal searches for obfuscated an
       expectedAliasQuery: '\u798f\u888b\u4e00\u505c\u8d35\u5bbe\u5f52\u96f6 \u76f4\u64ad \u8bc4\u8bba\u533a \u70ed\u8bc4',
       noisyFragment: 'Bitcoin',
     },
+    {
+      term: '\u56fd\u9645\u5b85\u7537\u8054\u76df',
+      family: 'attack',
+      expectedAliasQuery: '\u7ec4\u5efa\u4e00\u53ea\u56fd\u9645\u5b85\u7537\u8054\u76df \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+      noisyFragment: '\u5b85\u7537\u9996\u76f8',
+    },
   ];
 
   for (const item of cases) {

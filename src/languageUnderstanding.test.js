@@ -216,6 +216,23 @@ test('buildSentenceRadarMarks treats unquoted meme discussion as non-attack', ()
   assert.equal(marks.some((mark) => mark.axis === normalizeRadarAxis('cooperation') && mark.direction === 'positive'), true);
 });
 
+test('buildSentenceRadarMarks treats self-deprecating meme catchphrases as non-attack', () => {
+  const quote = '\u539f\u6765\u5c0f\u4e11\u7adf\u662f\u6211\u81ea\u5df1\uff0c\u8fd9\u4e00\u6bb5\u771f\u7684\u7ef7\u4e0d\u4f4f\u4e86\u3002';
+  const marks = buildSentenceRadarMarks([
+    {
+      quote,
+      speechAct: '\u60c5\u7eea\u8868\u8fbe',
+      target: '\u8bf4\u8bdd\u8005\u81ea\u6211\u8c03\u4f83',
+      risk: 'medium',
+      axisImpacts: [{ axis: 'attack', direction: 'risk', strength: 0.82, reasoning: '\u542b\u6709\u201c\u5c0f\u4e11\u201d\u7b49\u8d1f\u9762\u6807\u7b7e\u3002' }],
+    },
+  ]);
+
+  const attackMark = marks.find((mark) => mark.axis === normalizeRadarAxis('attack'));
+  assert.equal(attackMark?.strength, 0.25);
+  assert.equal(marks.some((mark) => mark.axis === normalizeRadarAxis('cooperation') && mark.direction === 'positive'), true);
+});
+
 test('buildSentenceRadarMarks keeps hostile targeted meme usage as attack evidence', () => {
   const quote = '\u4f60\u5c31\u662f\u4e2a\u5c0f\u4e11\uff0c\u522b\u62ff\u73a9\u6897\u5f53\u501f\u53e3\u3002';
   const marks = buildSentenceRadarMarks([

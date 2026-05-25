@@ -102,12 +102,17 @@ function hasMemeDiscussionFrame(text) {
   return /(?:\u8fd9\u4e2a|\u8fd9\u53e5|\u8fd9\u6bb5|\u8fd9\u4e2a\u8bcd).{0,16}(?:\u6897|\u53f0\u8bcd|\u540d\u573a\u9762|\u539f\u53e5)|(?:\u6897|\u53f0\u8bcd|\u540d\u573a\u9762|\u539f\u53e5).{0,20}(?:\u592a\u597d\u7b11|\u597d\u7b11|\u590d\u8bfb|\u51fa\u5904|\u5f39\u5e55|\u5237\u5c4f|meme|quote|catchphrase)/i.test(text);
 }
 
+function hasSelfDirectedMemeCatchphrase(text) {
+  return /(?:\u539f\u6765|\u7ed3\u679c|\u6700\u540e|\u5230\u5934\u6765)?.{0,8}\u5c0f\u4e11.{0,8}(?:\u7adf\u662f|\u662f|\u53ea\u6709)?.{0,6}(?:\u6211\u81ea\u5df1|\u6211)|(?:\u6211\u81ea\u5df1|\u6211).{0,8}(?:\u624d\u662f|\u5c31\u662f|\u53d8\u6210).{0,8}\u5c0f\u4e11/.test(text);
+}
+
 function hasDirectHostileTarget(text) {
   return /(?:\u4f60|\u4f60\u4eec|\u4ed6|\u4ed6\u4eec|\u5979|\u5979\u4eec|\u5b83|\u5b83\u4eec|\u8fd9\u4eba|\u8fd9\u7fa4|\u7c89\u4e1d|\u73a9\u5bb6|up\u4e3b|\u4f5c\u8005|\u5bf9\u9762).{0,10}(?:\u50bb|\u8822|\u6eda|\u5c0f\u4e11|\u6025\u4e86|\u7834\u9632|\u6760\u7cbe|\u6b96\u4eba|\u7c89\u7ea2|\u6c34\u519b|\u6d17\u5730|\u8111\u5b50|\u667a\u5546|\u6bd4\u515c|\u53bb\u722c|\u522b\u6765\u6cbe\u8fb9|idiot|stupid|moron|shill|hater)/i.test(text);
 }
 
 function isMemeOrQuotedNonAttack(sentence = {}) {
   const text = sentenceText(sentence);
+  if (hasSelfDirectedMemeCatchphrase(text) && !hasDirectHostileTarget(text)) return true;
   if (!hasMemeFrame(text)) return false;
   if (hasExplicitNonAttackFrame(text)) return true;
   if (hasMemeDiscussionFrame(text)) return true;

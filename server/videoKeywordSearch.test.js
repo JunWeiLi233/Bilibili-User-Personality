@@ -819,6 +819,108 @@ test('searchVideoKeywords ignores generic query scaffolding when filtering targe
   assert.deepEqual(scannedBvids, ['BVtarget1']);
 });
 
+test('searchVideoKeywords rejects partial suffix matches for compact weak target terms', async () => {
+  const scannedBvids = [];
+  const result = await searchVideoKeywords(
+    {
+      searchQuery: '\u76f4\u64ad\u95f4\u8d35\u5bbe\u5f52\u96f6 \u8bc4\u8bba',
+      discoveryMode: 'controversial',
+      controversyQueries: ['\u76f4\u64ad \u4e89\u8bae'],
+      controversialPopularQueryLimit: 0,
+      discoveryLimit: 2,
+      pages: 1,
+      existingTermsOnly: true,
+      targetExistingTerms: ['\u8d35\u5bbe\u5f52\u96f6'],
+    },
+    {
+      discoverVideosByKeyword: async () => [
+        {
+          bvid: 'BVbtc',
+          title: 'Bitcoin will be ZERO \uff01\u672a\u6765\u5341\u5e74\u6570\u5b57\u8d27\u5e01\u90fd\u5c06\u5f52\u96f6',
+          sourceUrl: 'https://www.bilibili.com/video/BVbtc/',
+        },
+        {
+          bvid: 'BVnoble',
+          title: '\u8d35\u65cf\u54e55\u5e74\u7684\u5fc3\u8840\u4e00\u591c\u5f52\u96f6',
+          sourceUrl: 'https://www.bilibili.com/video/BVnoble/',
+        },
+      ],
+      fetchJson: async (url) => {
+        const bvid = new URL(String(url)).searchParams.get('bvid');
+        if (String(url).includes('/x/web-interface/view')) {
+          scannedBvids.push(bvid);
+          return {
+            code: 0,
+            data: {
+              aid: bvid,
+              title: bvid,
+              owner: { mid: 9, name: 'up' },
+              stat: { reply: 0 },
+            },
+          };
+        }
+        return { code: 0, data: { replies: [], cursor: { is_end: true, next: 0 } } };
+      },
+      trainKeywordDictionary: async () => ({ ok: true, entries: [], dictionary: { entries: [] } }),
+    },
+  );
+
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.discoveredVideos.map((video) => video.bvid), []);
+  assert.deepEqual(scannedBvids, []);
+});
+
+test('searchVideoKeywords rejects generic head-word matches for alias-only weak targets', async () => {
+  const scannedBvids = [];
+  const result = await searchVideoKeywords(
+    {
+      searchQuery: '\u5b85\u7537\u8054\u76df \u8bc4\u8bba\u533a',
+      discoveryMode: 'controversial',
+      controversyQueries: ['\u5b85\u7537 \u4e89\u8bae'],
+      controversialPopularQueryLimit: 0,
+      discoveryLimit: 2,
+      pages: 1,
+      existingTermsOnly: true,
+      targetExistingTerms: ['\u56fd\u9645\u5b85\u7537\u8054\u76df', '\u5b85\u7537\u8054\u76df'],
+    },
+    {
+      discoverVideosByKeyword: async () => [
+        {
+          bvid: 'BVprime',
+          title: '\u8106\u5f31\u7684\u5b85\u7537\u9996\u76f8\u4e89\u8bae',
+          sourceUrl: 'https://www.bilibili.com/video/BVprime/',
+        },
+        {
+          bvid: 'BVstory',
+          title: '\u5b85\u7537\u88ab\u9ed1\u7c89\u8bc8\u9a97\u7684\u6545\u4e8b',
+          sourceUrl: 'https://www.bilibili.com/video/BVstory/',
+        },
+      ],
+      fetchJson: async (url) => {
+        const bvid = new URL(String(url)).searchParams.get('bvid');
+        if (String(url).includes('/x/web-interface/view')) {
+          scannedBvids.push(bvid);
+          return {
+            code: 0,
+            data: {
+              aid: bvid,
+              title: bvid,
+              owner: { mid: 9, name: 'up' },
+              stat: { reply: 0 },
+            },
+          };
+        }
+        return { code: 0, data: { replies: [], cursor: { is_end: true, next: 0 } } };
+      },
+      trainKeywordDictionary: async () => ({ ok: true, entries: [], dictionary: { entries: [] } }),
+    },
+  );
+
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.discoveredVideos.map((video) => video.bvid), []);
+  assert.deepEqual(scannedBvids, []);
+});
+
 test('searchVideoKeywords can discover popular videos without a search query', async () => {
   const requestedUrls = [];
   const result = await searchVideoKeywords(
