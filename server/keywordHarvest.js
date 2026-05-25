@@ -1015,6 +1015,14 @@ export function summarizeDictionaryGrowth(before, after) {
   };
 }
 
+function dictionaryRestrictedToTerms(dictionary = {}, allowedTerms = new Set()) {
+  if (!(allowedTerms instanceof Set) || allowedTerms.size === 0) return dictionary;
+  return {
+    ...dictionary,
+    entries: (Array.isArray(dictionary?.entries) ? dictionary.entries : []).filter((entry) => allowedTerms.has(String(entry?.term || '').trim())),
+  };
+}
+
 export function summarizeEvidenceCoverage(dictionary, options = {}) {
   const entries = Array.isArray(dictionary?.entries) ? dictionary.entries : [];
   const targetEvidence = asPositiveInt(options.targetEvidence, 3, 1000);
@@ -1644,7 +1652,19 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
     }
   }
 
-  const after = await readKeywordDictionary();
+  const rawAfter = await readKeywordDictionary();
+  const beforeTermSet = new Set((Array.isArray(before?.entries) ? before.entries : []).map((entry) => String(entry?.term || '').trim()).filter(Boolean));
+  const existingOnlyNewTerms =
+    options.existingTermsOnly === true
+      ? (Array.isArray(rawAfter?.entries) ? rawAfter.entries : []).filter((entry) => {
+          const term = String(entry?.term || '').trim();
+          return term && !beforeTermSet.has(term);
+        })
+      : [];
+  if (existingOnlyNewTerms.length > 0) {
+    warnings.push(`existing-only harvest ignored ${existingOnlyNewTerms.length} new dictionary term(s): ${existingOnlyNewTerms.map((entry) => entry.term).slice(0, 5).join(', ')}`);
+  }
+  const after = options.existingTermsOnly === true ? dictionaryRestrictedToTerms(rawAfter, beforeTermSet) : rawAfter;
   const growth = summarizeDictionaryGrowth(before, after);
   const coverage = summarizeEvidenceCoverage(after, coverageOptions);
   const coverageProgress = summarizeCoverageProgress(beforeCoverage, coverage);

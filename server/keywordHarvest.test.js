@@ -4243,6 +4243,47 @@ test('harvestKeywordDictionary forwards existing-only training mode to video sea
   }
 });
 
+test('harvestKeywordDictionary ignores new dictionary terms during existing-only runs', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-existing-only-no-growth-'));
+  const statePath = join(dir, 'state.json');
+  try {
+    let reads = 0;
+    const result = await harvestKeywordDictionary(
+      {
+        seedQueries: [],
+        maxQueries: 1,
+        existingTermsOnly: true,
+        coverageMode: 'all-weak',
+        targetEvidence: 3,
+        statePath,
+      },
+      {
+        readKeywordDictionary: async () => {
+          reads += 1;
+          return {
+            entries:
+              reads === 1
+                ? [{ term: 'existingWeak', family: 'attack', evidenceCount: 1 }]
+                : [
+                    { term: 'existingWeak', family: 'attack', evidenceCount: 1 },
+                    { term: 'newExternalTerm', family: 'attack', evidenceCount: 1 },
+                  ],
+          };
+        },
+        searchVideoKeywords: async () => ({ ok: true, videos: [], comments: [], entries: [] }),
+      },
+    );
+
+    assert.equal(result.growth.added, 0);
+    assert.deepEqual(result.growth.newTerms, []);
+    assert.equal(result.coverage.terms, 1);
+    assert.equal(result.dictionary.entries.some((entry) => entry.term === 'newExternalTerm'), false);
+    assert.match(result.warnings.join('\n'), /existing-only harvest ignored 1 new dictionary term/);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('harvestKeywordDictionary targets the planned weak term during existing-only training', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-target-existing-'));
   const statePath = join(dir, 'state.json');
