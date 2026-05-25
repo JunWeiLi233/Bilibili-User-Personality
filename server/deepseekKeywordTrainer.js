@@ -581,6 +581,30 @@ function cleanEvidenceText(text) {
   return cleanTerm(text).toLowerCase();
 }
 
+function generatedEvidenceAliasesForTerm(term) {
+  const clean = cleanTerm(term);
+  const aliases = [];
+  const percentMatch = clean.match(/^(100|100%|\u767e\u5206\u767e|\u767e\u5206\u4e4b\u767e)(.+)$/);
+  if (percentMatch) {
+    const tail = percentMatch[2];
+    aliases.push(`100${tail}`, `100%${tail}`, `\u767e\u5206\u767e${tail}`, `\u767e\u5206\u4e4b\u767e${tail}`);
+    if (tail.endsWith('\u7387')) aliases.push(`100${tail.slice(0, -1)}`, `100%${tail.slice(0, -1)}`, `\u767e\u5206\u767e${tail.slice(0, -1)}`);
+    else aliases.push(`100${tail}\u7387`, `100%${tail}\u7387`, `\u767e\u5206\u767e${tail}\u7387`);
+  }
+  if (/^\u7b2c\u4e00\u4e2a\u6295\u5e01\u80af\u5b9a\u662f\u6211\u7684?$/.test(clean)) {
+    aliases.push('\u7b2c\u4e00\u4e2a\u6295\u5e01', '\u9996\u4e2a\u6295\u5e01', '\u6211\u7b2c\u4e00\u4e2a\u6295\u5e01', '\u6295\u5e01\u80af\u5b9a\u662f\u6211');
+  }
+  return unique(aliases.filter((alias) => alias && alias !== clean));
+}
+
+function evidenceNeedlesForTerm(term) {
+  return unique([
+    term,
+    ...(TERM_EVIDENCE_ALIASES[cleanTerm(term).toLowerCase()] || []),
+    ...generatedEvidenceAliasesForTerm(term),
+  ].map(cleanEvidenceText)).filter(Boolean);
+}
+
 function countOccurrences(haystack, needle) {
   if (!haystack || !needle) return 0;
   let count = 0;
@@ -611,7 +635,7 @@ function countNonOverlappingNeedleOccurrences(haystack, needles = []) {
 }
 
 function evidenceForTerm(term, text, options = {}) {
-  const needles = unique([term, ...(TERM_EVIDENCE_ALIASES[cleanTerm(term).toLowerCase()] || [])].map(cleanEvidenceText)).filter(Boolean);
+  const needles = evidenceNeedlesForTerm(term);
   const evidenceText = cleanEvidenceText(text);
   const evidenceCount =
     needles.length === 1

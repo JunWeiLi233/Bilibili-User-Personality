@@ -496,6 +496,43 @@ test('buildKeywordHarvestQueries starts with higher-signal aliases for ambiguous
   ]);
 });
 
+test('buildKeywordHarvestQueries generates higher-signal sentence-form aliases for weak absolute terms', () => {
+  const cases = [
+    {
+      term: '100\u597d\u8bc4',
+      expectedAliasQuery: '100%\u597d\u8bc4 \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4',
+    },
+    {
+      term: '\u767e\u5206\u767e\u597d\u8bc4\u7387',
+      expectedAliasQuery: '100%\u597d\u8bc4\u7387 \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4',
+    },
+    {
+      term: '100\u6ca1\u95ee\u9898',
+      expectedAliasQuery: '100%\u6ca1\u95ee\u9898 \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4',
+    },
+    {
+      term: '\u7b2c\u4e00\u4e2a\u6295\u5e01\u80af\u5b9a\u662f\u6211',
+      expectedAliasQuery: '\u7b2c\u4e00\u4e2a\u6295\u5e01 \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4',
+    },
+  ];
+
+  for (const item of cases) {
+    const queries = buildKeywordHarvestQueries(
+      {
+        entries: [{ term: item.term, family: 'absolutes', evidenceCount: 1 }],
+      },
+      {
+        seedQueries: [],
+        coverageMode: 'all-weak',
+        maxQueries: 4,
+        queryVariantsPerTerm: 4,
+      },
+    );
+
+    assert.equal(queries[0], item.expectedAliasQuery, `${item.term} should start with ${item.expectedAliasQuery}`);
+  }
+});
+
 test('buildKeywordHarvestQueries starts with comment variants for short missed phrases', () => {
   const queries = buildKeywordHarvestQueries(
     {

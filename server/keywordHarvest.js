@@ -448,8 +448,25 @@ function controversyQueriesForPlanItem(planItem = {}, options = {}) {
 
 function searchTermsForTerm(term) {
   const cleanTerm = String(term || '').trim();
-  const aliases = TERM_SEARCH_ALIASES[cleanTerm] || [];
-  return ALIAS_FIRST_SEARCH_TERMS.has(cleanTerm) ? unique([...aliases, cleanTerm]) : unique([cleanTerm, ...aliases]);
+  const generatedAliases = generatedSearchAliasesForTerm(cleanTerm);
+  const aliases = unique([...(TERM_SEARCH_ALIASES[cleanTerm] || []), ...generatedAliases]);
+  return ALIAS_FIRST_SEARCH_TERMS.has(cleanTerm) || generatedAliases.length > 0 ? unique([...aliases, cleanTerm]) : unique([cleanTerm, ...aliases]);
+}
+
+function generatedSearchAliasesForTerm(term) {
+  const clean = String(term || '').trim();
+  const aliases = [];
+  const percentMatch = clean.match(/^(100|100%|\u767e\u5206\u767e|\u767e\u5206\u4e4b\u767e)(.+)$/);
+  if (percentMatch) {
+    const tail = percentMatch[2];
+    aliases.push(`100%${tail}`, `\u767e\u5206\u767e${tail}`, `\u767e\u5206\u4e4b\u767e${tail}`);
+    if (tail.endsWith('\u7387')) aliases.push(`100%${tail.slice(0, -1)}`, `\u767e\u5206\u767e${tail.slice(0, -1)}`);
+    else aliases.push(`100%${tail}\u7387`, `\u767e\u5206\u767e${tail}\u7387`);
+  }
+  if (/^\u7b2c\u4e00\u4e2a\u6295\u5e01\u80af\u5b9a\u662f\u6211\u7684?$/.test(clean)) {
+    aliases.push('\u7b2c\u4e00\u4e2a\u6295\u5e01', '\u9996\u4e2a\u6295\u5e01', '\u6211\u7b2c\u4e00\u4e2a\u6295\u5e01', '\u6295\u5e01\u80af\u5b9a\u662f\u6211');
+  }
+  return unique(aliases.filter((alias) => alias && alias !== clean));
 }
 
 function isCompactMetricSearchTerm(term) {

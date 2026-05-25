@@ -1569,6 +1569,37 @@ test('findDictionaryEntriesWithTextEvidence maps follow-up weak variants back to
   assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-follow-up-alias'), true);
 });
 
+test('findDictionaryEntriesWithTextEvidence maps generated sentence-form aliases back to weak absolute terms', () => {
+  const entries = findDictionaryEntriesWithTextEvidence(
+    {
+      entries: [
+        { term: '100\u597d\u8bc4', family: 'absolutes', meaning: 'absolute review score claim' },
+        { term: '\u767e\u5206\u767e\u597d\u8bc4\u7387', family: 'absolutes', meaning: 'perfect review rate claim' },
+        { term: '100\u6ca1\u95ee\u9898', family: 'absolutes', meaning: 'absolute safety claim' },
+        { term: '\u7b2c\u4e00\u4e2a\u6295\u5e01\u80af\u5b9a\u662f\u6211', family: 'absolutes', meaning: 'first coin certainty claim' },
+      ],
+    },
+    [
+      '\u95f2\u9c7c\u8fd9\u4e2a\u8d26\u53f7\u770b\u8d77\u6765\u662f100%\u597d\u8bc4\uff0c\u4f46\u5f97\u770b\u5dee\u8bc4\u5185\u5bb9',
+      '\u4ed6\u4eec\u53ea\u8bf4\u767e\u5206\u767e\u597d\u8bc4\uff0c\u6ca1\u8bf4\u4e3a\u4ec0\u4e48\u80fd\u4fdd\u6301\u597d\u8bc4\u7387',
+      '\u4f60\u600e\u4e48\u786e\u5b9a\u5bf9\u65b9100%\u6ca1\u95ee\u9898\uff1f',
+      '\u8fd9\u671f\u89c6\u9891\u7b2c\u4e00\u4e2a\u6295\u5e01\u80af\u5b9a\u662f\u6211\u7684',
+    ].join('\n'),
+    {
+      source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-generated-alias/',
+      uid: 'BV-generated-alias',
+    },
+  );
+
+  assert.deepEqual(entries.map((entry) => entry.term), [
+    '100\u597d\u8bc4',
+    '\u767e\u5206\u767e\u597d\u8bc4\u7387',
+    '100\u6ca1\u95ee\u9898',
+    '\u7b2c\u4e00\u4e2a\u6295\u5e01\u80af\u5b9a\u662f\u6211',
+  ]);
+  assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-generated-alias'), true);
+});
+
 test('findDictionaryEntriesWithTextEvidence maps long missed phrase anchors back to weak terms', () => {
   const entries = findDictionaryEntriesWithTextEvidence(
     {
