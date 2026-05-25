@@ -605,6 +605,7 @@ function generatedEvidenceAliasesForTerm(term) {
   if (clean.startsWith('\u6ca1\u540a\u7528')) aliases.push('\u6beb\u65e0\u540a\u7528');
   if (clean.startsWith('\u7f57\u795e\u4f1f\u5927')) aliases.push('\u7f57\u795e\u4f1f\u5927\u65e0\u9700\u591a\u8a00', '\u7f57\u795e\u4f1f\u5927\uff0c\u65e0\u9700\u591a\u8a00');
   if (isChineseColloquialAliasCandidate(clean)) aliases.push(...generatedColloquialPhraseAliases(clean));
+  aliases.push(...generatedFixedCommentSuffixAliases(clean));
   return unique(aliases.filter((alias) => alias && alias !== clean));
 }
 
@@ -665,6 +666,23 @@ function generatedColloquialPhraseAliases(clean) {
   if (clean === '\u6401\u8fd9\u5462') aliases.push('\u6401\u8fd9\u6401\u8fd9\u5462', '\u4f60\u6401\u8fd9\u6401\u8fd9\u5462');
   if (clean === '\u9ad8\u5b8c\u4e86') aliases.push('\u90fd\u8ba9\u4f60\u9ad8\u5b8c\u4e86');
   return aliases;
+}
+
+function generatedFixedCommentSuffixAliases(clean) {
+  const pairs = [
+    ['\u72d7\u5c41\u4e0d\u901a', '\u72d7\u5c41\u4e0d\u901a\u7684'],
+    ['\u5173\u4e86\u5427', '\u5173\u4e86\u5427\u6ca1\u610f\u601d'],
+    ['\u597d\u81ea\u4e3a\u4e4b', '\u597d\u81ea\u4e3a\u4e4b\u5427'],
+    ['\u5f88\u61c2\u561b', '\u5f88\u61c2\u561b\u8001\u94c1'],
+    ['\u8fd8\u6562\u53d1\u89c6\u9891', '\u8fd8\u6562\u53d1\u89c6\u9891\u5462'],
+    ['\u7b11\u5760\u673a', '\u7b11\u5760\u673a\u4e86'],
+    ['\u6401\u8fd9\u5462', '\u6401\u8fd9\u6401\u8fd9\u5462'],
+  ];
+  for (const [short, long] of pairs) {
+    if (clean === short) return [long];
+    if (clean === long) return [short];
+  }
+  return [];
 }
 
 function evidenceNeedlesForTerm(term) {

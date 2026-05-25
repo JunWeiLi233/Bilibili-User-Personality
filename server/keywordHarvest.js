@@ -480,6 +480,7 @@ function generatedSearchAliasesForTerm(term, options = {}) {
   if (clean.startsWith('\u6ca1\u540a\u7528')) aliases.push('\u6beb\u65e0\u540a\u7528');
   if (clean.startsWith('\u7f57\u795e\u4f1f\u5927')) aliases.push('\u7f57\u795e\u4f1f\u5927\u65e0\u9700\u591a\u8a00', '\u7f57\u795e\u4f1f\u5927 \u65e0\u9700\u591a\u8a00');
   if (!options.suppressColloquial && isChineseColloquialSearchAliasCandidate(clean)) aliases.push(...generatedColloquialSearchAliases(clean));
+  aliases.push(...generatedFixedCommentSuffixSearchAliases(clean));
   return unique(aliases.filter((alias) => alias && alias !== clean));
 }
 
@@ -538,6 +539,23 @@ function generatedColloquialSearchAliases(clean) {
     else aliases.push(`${clean}\u4e86`);
   }
   return aliases;
+}
+
+function generatedFixedCommentSuffixSearchAliases(clean) {
+  const pairs = [
+    ['\u72d7\u5c41\u4e0d\u901a', '\u72d7\u5c41\u4e0d\u901a\u7684'],
+    ['\u5173\u4e86\u5427', '\u5173\u4e86\u5427\u6ca1\u610f\u601d'],
+    ['\u597d\u81ea\u4e3a\u4e4b', '\u597d\u81ea\u4e3a\u4e4b\u5427'],
+    ['\u5f88\u61c2\u561b', '\u5f88\u61c2\u561b\u8001\u94c1'],
+    ['\u8fd8\u6562\u53d1\u89c6\u9891', '\u8fd8\u6562\u53d1\u89c6\u9891\u5462'],
+    ['\u7b11\u5760\u673a', '\u7b11\u5760\u673a\u4e86'],
+    ['\u6401\u8fd9\u5462', '\u6401\u8fd9\u6401\u8fd9\u5462'],
+  ];
+  for (const [short, long] of pairs) {
+    if (clean === short) return [long];
+    if (clean === long) return [short];
+  }
+  return [];
 }
 
 function isCompactMetricSearchTerm(term) {

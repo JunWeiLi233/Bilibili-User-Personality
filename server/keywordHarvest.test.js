@@ -595,6 +595,30 @@ test('buildKeywordHarvestQueries generates colloquial aliases for weak attack ph
       term: '\u9ad8\u5b8c\u4e86',
       expectedAliasQuery: '\u90fd\u8ba9\u4f60\u9ad8\u5b8c\u4e86 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
     },
+    {
+      term: '\u72d7\u5c41\u4e0d\u901a',
+      expectedAliasQuery: '\u72d7\u5c41\u4e0d\u901a\u7684 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+    },
+    {
+      term: '\u5173\u4e86\u5427',
+      expectedAliasQuery: '\u5173\u4e86\u5427\u6ca1\u610f\u601d \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+    },
+    {
+      term: '\u597d\u81ea\u4e3a\u4e4b',
+      expectedAliasQuery: '\u597d\u81ea\u4e3a\u4e4b\u5427 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+    },
+    {
+      term: '\u5f88\u61c2\u561b',
+      expectedAliasQuery: '\u5f88\u61c2\u561b\u8001\u94c1 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+    },
+    {
+      term: '\u8fd8\u6562\u53d1\u89c6\u9891',
+      expectedAliasQuery: '\u8fd8\u6562\u53d1\u89c6\u9891\u5462 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+    },
+    {
+      term: '\u7b11\u5760\u673a',
+      expectedAliasQuery: '\u7b11\u5760\u673a\u4e86 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+    },
   ];
 
   for (const item of cases) {

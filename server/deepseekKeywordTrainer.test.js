@@ -1644,6 +1644,12 @@ test('findDictionaryEntriesWithTextEvidence maps colloquial sentence tails back 
         { term: '\u5403\u76f8\u592a\u96be\u770b', family: 'attack', meaning: 'ugly monetization criticism' },
         { term: '\u6401\u8fd9\u5462', family: 'attack', meaning: 'mocking redundant speech' },
         { term: '\u9ad8\u5b8c\u4e86', family: 'attack', meaning: 'sarcastic one-upmanship' },
+        { term: '\u72d7\u5c41\u4e0d\u901a', family: 'attack', meaning: 'dismisses logic as nonsense' },
+        { term: '\u5173\u4e86\u5427', family: 'attack', meaning: 'dismissive shutdown request' },
+        { term: '\u597d\u81ea\u4e3a\u4e4b', family: 'attack', meaning: 'warning dismissal' },
+        { term: '\u5f88\u61c2\u561b', family: 'attack', meaning: 'sarcastic expertise jab' },
+        { term: '\u8fd8\u6562\u53d1\u89c6\u9891', family: 'attack', meaning: 'mocking posting again' },
+        { term: '\u7b11\u5760\u673a', family: 'attack', meaning: 'laughing crash hyperbole' },
       ],
     },
     [
@@ -1654,6 +1660,12 @@ test('findDictionaryEntriesWithTextEvidence maps colloquial sentence tails back 
       '\u8fd9\u6d3b\u52a8\u5403\u76f8\u4e5f\u592a\u96be\u770b\u4e86',
       '\u4f60\u6401\u8fd9\u6401\u8fd9\u5462\uff1f',
       '\u90fd\u8ba9\u4f60\u9ad8\u5b8c\u4e86',
+      '\u8fd9\u5927\u5c40\u89c2\u771f\u662f\u72d7\u5c41\u4e0d\u901a\u7684',
+      '\u5173\u4e86\u5427\u6ca1\u610f\u601d\uff0c\u770b\u4e0d\u4e0b\u53bb\u4e86',
+      '\u8fd8\u60f3\u7ee7\u7eed\u652f\u6301\u7684\u4f60\u4eec\u597d\u81ea\u4e3a\u4e4b\u5427',
+      '\u5f88\u61c2\u561b\u8001\u94c1[doge]',
+      '\u4f60\u8fd8\u6562\u53d1\u89c6\u9891\u5462',
+      '\u8fd9\u8bc4\u8bba\u533a\u771f\u7ed9\u6211\u7b11\u5760\u673a\u4e86',
     ].join('\n'),
     {
       source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-colloquial-alias/',
@@ -1669,6 +1681,12 @@ test('findDictionaryEntriesWithTextEvidence maps colloquial sentence tails back 
     '\u5403\u76f8\u592a\u96be\u770b',
     '\u6401\u8fd9\u5462',
     '\u9ad8\u5b8c\u4e86',
+    '\u72d7\u5c41\u4e0d\u901a',
+    '\u5173\u4e86\u5427',
+    '\u597d\u81ea\u4e3a\u4e4b',
+    '\u5f88\u61c2\u561b',
+    '\u8fd8\u6562\u53d1\u89c6\u9891',
+    '\u7b11\u5760\u673a',
   ]);
   assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-colloquial-alias'), true);
 });
