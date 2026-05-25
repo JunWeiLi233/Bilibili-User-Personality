@@ -307,6 +307,33 @@ test('buildKeywordHarvestQueries starts with higher-signal aliases for ambiguous
   ]);
 });
 
+test('buildKeywordHarvestQueries starts with comment variants for short missed phrases', () => {
+  const queries = buildKeywordHarvestQueries(
+    {
+      entries: [
+        { term: '\u522b\u55b7', family: 'attack', evidenceCount: 1 },
+        { term: '\u4e0d\u9ed1\u4e0d\u5439', family: 'cooperation', evidenceCount: 1 },
+        { term: '\u4e0d\u674e\u59d0', family: 'evasion', evidenceCount: 1 },
+      ],
+    },
+    {
+      seedQueries: [],
+      coverageMode: 'all-weak',
+      maxQueries: 6,
+      queryVariantsPerTerm: 2,
+    },
+  );
+
+  assert.deepEqual(queries, [
+    '\u522b\u55b7\u6211 \u8bc4\u8bba',
+    '\u8f7b\u70b9\u55b7 \u70ed\u8bc4',
+    '\u4e0d\u5439\u4e0d\u9ed1 \u8bc4\u8bba',
+    '\u6709\u4e00\u8bf4\u4e00 \u70ed\u8bc4',
+    '\u4e0d\u7406\u89e3 \u8bc4\u8bba',
+    '\u6211\u4e0d\u7406\u89e3 \u70ed\u8bc4',
+  ]);
+});
+
 test('buildKeywordHarvestQueries uses topic contexts for hard zero-evidence terms', () => {
   const cases = [
     {

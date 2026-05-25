@@ -733,6 +733,44 @@ test('findDictionaryEntriesWithTextEvidence maps controversy-search aliases back
   assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-controversy-alias'), true);
 });
 
+test('findDictionaryEntriesWithTextEvidence maps short missed phrase aliases back to weak terms', () => {
+  const entries = findDictionaryEntriesWithTextEvidence(
+    {
+      entries: [
+        { term: '\u522b\u55b7', family: 'attack', meaning: 'preemptively ask commenters not to attack' },
+        { term: '\u4e0d\u9ed1\u4e0d\u5439', family: 'cooperation', meaning: 'claim neutral evaluation' },
+        { term: '\u4e0d\u674e\u59d0', family: 'evasion', meaning: 'homophone for not understanding' },
+        { term: '\u4e0d\u662f\u4eba\u4e86', family: 'attack', meaning: 'accuse someone of inhuman behavior' },
+        { term: '\u4e0d\u4e3b\u52a8\u4e0d\u62d2\u7edd\u4e0d\u8d1f\u8d23', family: 'attack', meaning: 'criticize three no relationship stance' },
+        { term: '\u5f20\u5634\u903c\u903c\u53e8\u53e8', family: 'attack', meaning: 'mock someone for talking endlessly' },
+      ],
+    },
+    [
+      '\u8f7b\u70b9\u55b7\uff0c\u6211\u53ea\u662f\u4e2a\u65b0\u4eba',
+      '\u4e0d\u5439\u4e0d\u9ed1\uff0c\u8fd9\u6b21\u771f\u7684\u8fd8\u884c',
+      '\u6211\u4e0d\u7406\u89e3\uff0c\u8fd9\u4e5f\u80fd\u6d17',
+      '\u8fd9\u4eba\u771f\u4e0d\u662f\u4eba',
+      '\u8fd9\u5c31\u662f\u4e09\u4e0d\u539f\u5219\uff0c\u592a\u7ecf\u5178\u4e86',
+      '\u4ed6\u5c31\u4f1a\u903c\u903c\u53e8\u53e8',
+    ].join('\n'),
+    {
+      source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-short-miss-alias/',
+      uid: 'BV-short-miss-alias',
+    },
+  );
+
+  assert.deepEqual(entries.map((entry) => entry.term), [
+    '\u522b\u55b7',
+    '\u4e0d\u9ed1\u4e0d\u5439',
+    '\u4e0d\u674e\u59d0',
+    '\u4e0d\u662f\u4eba\u4e86',
+    '\u4e0d\u4e3b\u52a8\u4e0d\u62d2\u7edd\u4e0d\u8d1f\u8d23',
+    '\u5f20\u5634\u903c\u903c\u53e8\u53e8',
+  ]);
+  assert.equal(entries.every((entry) => entry.evidenceCount >= 1), true);
+  assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-short-miss-alias'), true);
+});
+
 test('findDictionaryEntriesWithTextEvidence maps persistent zero-evidence attack aliases back to dictionary terms', () => {
   const entries = findDictionaryEntriesWithTextEvidence(
     {

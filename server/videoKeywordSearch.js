@@ -349,6 +349,13 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
         deps.includeVideoContext === true ||
         process.env.BILIBILI_HARVEST_INCLUDE_VIDEO_CONTEXT === '1' ||
         existingTermsOnly;
+  const includeDanmaku =
+    payload.includeDanmaku === false
+      ? false
+      : payload.includeDanmaku === true ||
+        deps.includeDanmaku === true ||
+        (process.env.BILIBILI_HARVEST_INCLUDE_DANMAKU === '1' &&
+          (Boolean(deps.fetchText) || payload.allowNetworkDanmaku === true || deps.allowNetworkDanmaku === true));
   const prioritizeSearchQueries =
     payload.prioritizeSearchQueries === true ||
     deps.prioritizeSearchQueries === true ||
@@ -521,7 +528,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
   const scanTargets = videoLinks.length > 0 ? videoLinks : discoveredVideos.map((video) => video.bvid || video.sourceUrl);
   for (const videoLink of scanTargets) {
     try {
-      const scan = await fetchRepliesForVideo(videoLink, { pages: payload.pages }, deps);
+      const scan = await fetchRepliesForVideo(videoLink, { pages: payload.pages, includeDanmaku }, deps);
       if (scan.ok) {
         scans.push(scan);
       } else {

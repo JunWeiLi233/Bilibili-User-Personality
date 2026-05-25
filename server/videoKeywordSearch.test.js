@@ -800,6 +800,50 @@ test('searchVideoKeywords scans video comments and trains keyword dictionary', a
   assert.equal(trainedPayloads[0].text.includes('不会真有人'), true);
 });
 
+test('searchVideoKeywords can include public danmaku in keyword training text', async () => {
+  const trainedPayloads = [];
+  const result = await searchVideoKeywords(
+    {
+      videoLink: 'https://www.bilibili.com/video/BV19yGa61Ee6/',
+      pages: 1,
+      includeDanmaku: true,
+    },
+    {
+      fetchJson: async (url) => {
+        if (String(url).includes('/x/web-interface/view')) {
+          return {
+            code: 0,
+            data: {
+              aid: 123,
+              cid: 456,
+              title: 'sample video',
+              owner: { mid: 9, name: 'up' },
+              stat: { reply: 0 },
+            },
+          };
+        }
+        return { code: 0, data: { replies: [], cursor: { is_end: true, next: 0 } } };
+      },
+      fetchText: async () => '<i><d p="1,1,25,16777215,1710000000,0,12345,0">别喷我</d></i>',
+      trainKeywordDictionary: async (payload) => {
+        trainedPayloads.push(payload);
+        return {
+          ok: true,
+          available: true,
+          entries: [{ term: '\u522b\u55b7', family: 'attack', meaning: 'ask not to flame', variants: [] }],
+          dictionary: { families: { attack: ['\u522b\u55b7'] } },
+        };
+      },
+    },
+  );
+
+  assert.equal(result.ok, true);
+  assert.equal(result.comments.length, 1);
+  assert.equal(result.comments[0].kind, 'danmaku');
+  assert.equal(trainedPayloads.length, 1);
+  assert.equal(trainedPayloads[0].text.includes('\u522b\u55b7\u6211'), true);
+});
+
 test('searchVideoKeywords forwards existing-only training mode', async () => {
   const trainedPayloads = [];
   const result = await searchVideoKeywords(

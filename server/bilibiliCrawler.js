@@ -261,6 +261,26 @@ export async function fetchJson(url, referer = 'https://www.bilibili.com', optio
   return payload;
 }
 
+export async function fetchText(url, referer = 'https://www.bilibili.com', options = {}) {
+  const config = { ...readCrawlerConfig(options.env), ...(options.config || {}) };
+  const nowFn = options.nowFn || Date.now;
+  const randomFn = options.randomFn || Math.random;
+  await scheduleBilibiliRequest({ ...options, config });
+  const fetchImpl = options.fetchImpl || fetch;
+  const response = await fetchImpl(url, {
+    headers: buildHeaders(url, referer, randomFn, nowFn),
+  });
+  if (!response.ok) {
+    if ([403, 429, 503].includes(Number(response.status))) {
+      applyBlockCooldown(config, nowFn);
+    }
+    throw new Error(`HTTP ${response.status} from ${url}`);
+  }
+  captureSetCookies(response);
+  consecutiveBlocks = 0;
+  return response.text();
+}
+
 export function parseBvidPool(raw) {
   return String(raw || '')
     .split(/[\s,，]+/)
@@ -292,6 +312,7 @@ function videoObjectFromView(bvid, data) {
     authorMid: String(data.owner?.mid || ''),
     sourceUrl: `https://www.bilibili.com/video/${bvid}/`,
     replyCount: Number(data.stat?.reply || 0),
+    cid: String(data.cid || data.pages?.[0]?.cid || ''),
   };
 }
 
@@ -595,6 +616,54 @@ function collectPublicReply(reply, object, bucket) {
   }
 }
 
+function decodeXmlText(text) {
+  return String(text || '')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&#(\d+);/g, (_match, code) => String.fromCodePoint(Number(code) || 0))
+    .replace(/&#x([0-9a-f]+);/gi, (_match, code) => String.fromCodePoint(Number.parseInt(code, 16) || 0));
+}
+
+export function parseDanmakuXml(xml, video) {
+  const items = [];
+  const text = String(xml || '');
+  const pattern = /<d\b[^>]*p="([^"]*)"[^>]*>([\s\S]*?)<\/d>/gi;
+  let match;
+  let index = 0;
+  while ((match = pattern.exec(text))) {
+    const message = decodeXmlText(match[2]).replace(/\s+/g, ' ').trim();
+    if (!message) continue;
+    const meta = String(match[1] || '').split(',');
+    items.push({
+      bvid: video.bvid,
+      oid: String(video.oid || ''),
+      replyType: Number(video.replyType || 1),
+      sourceTitle: video.title || '',
+      sourceUrl: video.sourceUrl || '',
+      rpid: `danmaku-${video.cid || video.oid || video.bvid}-${index}`,
+      like: 0,
+      ctime: Number(meta[4] || 0),
+      uname: '',
+      mid: String(meta[6] || ''),
+      message,
+      kind: 'danmaku',
+    });
+    index += 1;
+  }
+  return items;
+}
+
+async function fetchDanmakuForVideo(video, deps = {}) {
+  const cid = String(video?.cid || '').trim();
+  if (!cid) return [];
+  const requestText = deps.fetchText || fetchText;
+  const xml = await requestText(`https://api.bilibili.com/x/v1/dm/list.so?oid=${encodeURIComponent(cid)}`, video.sourceUrl);
+  return parseDanmakuXml(xml, video);
+}
+
 export async function fetchRepliesForVideo(input, options = {}, deps = {}) {
   const bvid = extractBvid(input);
   if (!bvid) {
@@ -628,6 +697,14 @@ export async function fetchRepliesForVideo(input, options = {}, deps = {}) {
     if (!cursor || cursor.is_end || cursor.next == null) break;
     next = cursor.next;
     await humanPause(600, 1600);
+  }
+
+  if (options.includeDanmaku === true) {
+    try {
+      comments.push(...(await fetchDanmakuForVideo(video, deps)));
+    } catch {
+      // Danmaku is supplemental; keep comment crawling usable when the XML endpoint blocks.
+    }
   }
 
   const uniqueComments = uniqueByRpid(comments);

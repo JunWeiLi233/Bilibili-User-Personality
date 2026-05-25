@@ -26,6 +26,7 @@ param(
   [switch]$AllowContextOnlyEvidence,
   [switch]$StopOnNoProgress,
   [switch]$IncludeGenericPopular,
+  [switch]$NoDanmaku,
   [switch]$ResetHarvestState,
   [switch]$Strict
 )
@@ -65,6 +66,11 @@ if ($IncludeGenericPopular) {
   $env:BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR = "1"
 } else {
   Remove-Item Env:\BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR -ErrorAction SilentlyContinue
+}
+if ($NoDanmaku) {
+  Remove-Item Env:\BILIBILI_HARVEST_INCLUDE_DANMAKU -ErrorAction SilentlyContinue
+} else {
+  $env:BILIBILI_HARVEST_INCLUDE_DANMAKU = "1"
 }
 $env:BILIBILI_VIDEO_COMMENT_PAGES = [string]$CommentPages
 $env:BILIBILI_HARVEST_MAX_QUERIES = [string]$MaxQueries
@@ -133,6 +139,7 @@ Write-Host "Comment pages per video: $CommentPages"
 Write-Host "Controversial popular query limit: $ControversialPopularQueryLimit"
 Write-Host "Controversial popular search order: $ControversialPopularSearchOrder"
 Write-Host "Include generic popular feed in controversial mode: $IncludeGenericPopular"
+Write-Host "Include public danmaku in video scans: $(!$NoDanmaku)"
 Write-Host "Existing dictionary terms only: $(!$AllowNewTerms)"
 Write-Host "Require Bilibili evidence sources: $(!$AllowUnsourcedEvidence)"
 Write-Host "Require Bilibili comment evidence: $(!$AllowUnsourcedEvidence -and !$AllowContextOnlyEvidence)"

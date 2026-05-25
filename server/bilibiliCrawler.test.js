@@ -11,6 +11,7 @@ import {
   fetchJson,
   fetchRepliesForVideo,
   isBilibiliBlockResponse,
+  parseDanmakuXml,
   parseBvidPool,
   resetBilibiliRequestState,
 } from './bilibiliCrawler.js';
@@ -470,6 +471,58 @@ test('fetchRepliesForVideo collects public top-level and nested video comments',
   assert.equal(result.comments.length, 2);
   assert.equal(result.commentText.includes('不会真有人'), true);
   assert.equal(result.commentText.includes('懂的都懂'), true);
+});
+
+test('parseDanmakuXml extracts public danmaku messages', () => {
+  const items = parseDanmakuXml(
+    '<i><d p="1,1,25,16777215,1710000000,0,12345,0">别喷我 &amp; 不吹不黑</d></i>',
+    {
+      bvid: 'BV1danmaku',
+      oid: '123',
+      replyType: 1,
+      title: 'danmaku video',
+      sourceUrl: 'https://www.bilibili.com/video/BV1danmaku/',
+      cid: '456',
+    },
+  );
+
+  assert.equal(items.length, 1);
+  assert.equal(items[0].message, '别喷我 & 不吹不黑');
+  assert.equal(items[0].kind, 'danmaku');
+  assert.equal(items[0].rpid, 'danmaku-456-0');
+});
+
+test('fetchRepliesForVideo can include public danmaku as interaction text', async () => {
+  const result = await fetchRepliesForVideo(
+    'BV19yGa61Ee6',
+    { pages: 1, includeDanmaku: true },
+    {
+      fetchJson: async (url) => {
+        if (String(url).includes('/x/web-interface/view')) {
+          return {
+            code: 0,
+            data: {
+              aid: 123,
+              cid: 456,
+              title: 'danmaku source',
+              owner: { mid: 9, name: 'up' },
+              stat: { reply: 0 },
+            },
+          };
+        }
+        return { code: 0, data: { replies: [], cursor: { is_end: true, next: 0 } } };
+      },
+      fetchText: async (url) => {
+        assert.equal(String(url), 'https://api.bilibili.com/x/v1/dm/list.so?oid=456');
+        return '<i><d p="1,1,25,16777215,1710000000,0,12345,0">轻点喷</d></i>';
+      },
+    },
+  );
+
+  assert.equal(result.ok, true);
+  assert.equal(result.comments.length, 1);
+  assert.equal(result.comments[0].kind, 'danmaku');
+  assert.equal(result.commentText.includes('轻点喷'), true);
 });
 
 test('fetchRepliesForVideo falls back to legacy reply pages when main cursor API is blocked', async () => {

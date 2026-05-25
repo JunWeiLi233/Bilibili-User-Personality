@@ -86,6 +86,7 @@ const discoveryPages = positiveIntFromEnv('BILIBILI_VIDEO_DISCOVERY_PAGES', 1, 5
 const controversialPopularQueryLimit = nonNegativeIntFromEnv('BILIBILI_CONTROVERSIAL_POPULAR_QUERY_LIMIT', 4, 20);
 const controversialPopularSearchOrder = String(process.env.BILIBILI_CONTROVERSIAL_POPULAR_SEARCH_ORDER || 'click').trim().toLowerCase();
 const includeGenericPopular = flagFromEnv('BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR', false);
+const includeDanmaku = flagFromEnv('BILIBILI_HARVEST_INCLUDE_DANMAKU', false);
 const pages = positiveIntFromEnv('BILIBILI_VIDEO_COMMENT_PAGES', 2, 20);
 const queryVariantsPerTerm = positiveIntFromEnv('BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM', 2, 20);
 const termsPerFamily = positiveIntFromEnv('BILIBILI_HARVEST_TERMS_PER_FAMILY', 4, 20);
@@ -153,6 +154,7 @@ for (let cycle = 1; cycle <= maxCycles && !audit.ok; cycle += 1) {
     controversialPopularQueryLimit,
     controversialPopularSearchOrder,
     includeGenericPopular,
+    includeDanmaku,
     pages,
     rounds: roundsPerCycle,
     statePath,
