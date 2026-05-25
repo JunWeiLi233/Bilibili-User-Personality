@@ -604,7 +604,12 @@ function generatedEvidenceAliasesForTerm(term) {
   }
   if (clean.startsWith('\u6ca1\u540a\u7528')) aliases.push('\u6beb\u65e0\u540a\u7528');
   if (clean.startsWith('\u7f57\u795e\u4f1f\u5927')) aliases.push('\u7f57\u795e\u4f1f\u5927\u65e0\u9700\u591a\u8a00', '\u7f57\u795e\u4f1f\u5927\uff0c\u65e0\u9700\u591a\u8a00');
+  if (isChineseColloquialAliasCandidate(clean)) aliases.push(...generatedColloquialPhraseAliases(clean));
   return unique(aliases.filter((alias) => alias && alias !== clean));
+}
+
+function isChineseColloquialAliasCandidate(clean) {
+  return /^[\u4e00-\u9fa5]+$/.test(clean) && clean.length >= 4;
 }
 
 function generatedChineseTailAliases(clean) {
@@ -641,6 +646,24 @@ function generatedUniversalQuantifierAliases(clean) {
     const tail = clean.slice(2);
     aliases.push(`\u6240\u6709\u4eba\u90fd${tail}`, `\u5168\u4f53${tail}`);
   }
+  return aliases;
+}
+
+function generatedColloquialPhraseAliases(clean) {
+  const aliases = [];
+  if (clean.length >= 4) {
+    for (const suffix of ['\u554a', '\u5427', '\u5462', '\u561b', '\u5457']) {
+      if (clean.endsWith(suffix)) aliases.push(clean.slice(0, -suffix.length));
+      else aliases.push(`${clean}${suffix}`);
+    }
+    if (clean.endsWith('\u4e86') && clean.length > 4) aliases.push(clean.slice(0, -1));
+    else aliases.push(`${clean}\u4e86`);
+  }
+  if (clean.startsWith('\u9f3b\u5c4e')) aliases.push(`\u628a${clean}`);
+  if (clean.startsWith('\u5403\u4e86')) aliases.push(`\u903c\u6211${clean}`, `\u8ba9\u6211${clean}`);
+  if (clean === '\u5403\u76f8\u592a\u96be\u770b') aliases.push('\u5403\u76f8\u4e5f\u592a\u96be\u770b\u4e86', '\u5403\u76f8\u96be\u770b');
+  if (clean === '\u6401\u8fd9\u5462') aliases.push('\u6401\u8fd9\u6401\u8fd9\u5462', '\u4f60\u6401\u8fd9\u6401\u8fd9\u5462');
+  if (clean === '\u9ad8\u5b8c\u4e86') aliases.push('\u90fd\u8ba9\u4f60\u9ad8\u5b8c\u4e86');
   return aliases;
 }
 

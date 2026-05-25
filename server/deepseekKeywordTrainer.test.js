@@ -1633,6 +1633,46 @@ test('findDictionaryEntriesWithTextEvidence maps generated sentence-form aliases
   assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-generated-alias'), true);
 });
 
+test('findDictionaryEntriesWithTextEvidence maps colloquial sentence tails back to weak attack terms', () => {
+  const entries = findDictionaryEntriesWithTextEvidence(
+    {
+      entries: [
+        { term: '\u8e29\u4e2d\u4f60\u5bb6\u5730\u96f7', family: 'attack', meaning: 'accuses sensitive overreaction' },
+        { term: '\u4e0d\u662f\u4eba\u4e86', family: 'attack', meaning: 'dehumanizing rhetorical attack' },
+        { term: '\u9f3b\u5c4e\u4e5f\u559d\u8fdb\u53bb\u4e86', family: 'attack', meaning: 'gross-out mockery' },
+        { term: '\u5403\u4e86\u4e09\u5768\u7fd4', family: 'attack', meaning: 'strong disgust metaphor' },
+        { term: '\u5403\u76f8\u592a\u96be\u770b', family: 'attack', meaning: 'ugly monetization criticism' },
+        { term: '\u6401\u8fd9\u5462', family: 'attack', meaning: 'mocking redundant speech' },
+        { term: '\u9ad8\u5b8c\u4e86', family: 'attack', meaning: 'sarcastic one-upmanship' },
+      ],
+    },
+    [
+      '\u516d\u516d\u516d\uff0c\u8e29\u4e2d\u4f60\u5bb6\u5730\u96f7\u4e86\uff1f',
+      '\u5176\u4ed6rapper\u4e0d\u662f\u4eba\u4e86\u5457[doge]',
+      '\u90a3\u4e0d\u662f\u628a\u9f3b\u5c4e\u4e5f\u559d\u8fdb\u53bb\u4e86\u5417',
+      '\u8fd9\u7535\u6e90\u611f\u89c9\u662f\u903c\u6211\u5403\u4e86\u4e09\u5768\u7fd4',
+      '\u8fd9\u6d3b\u52a8\u5403\u76f8\u4e5f\u592a\u96be\u770b\u4e86',
+      '\u4f60\u6401\u8fd9\u6401\u8fd9\u5462\uff1f',
+      '\u90fd\u8ba9\u4f60\u9ad8\u5b8c\u4e86',
+    ].join('\n'),
+    {
+      source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-colloquial-alias/',
+      uid: 'BV-colloquial-alias',
+    },
+  );
+
+  assert.deepEqual(entries.map((entry) => entry.term), [
+    '\u8e29\u4e2d\u4f60\u5bb6\u5730\u96f7',
+    '\u4e0d\u662f\u4eba\u4e86',
+    '\u9f3b\u5c4e\u4e5f\u559d\u8fdb\u53bb\u4e86',
+    '\u5403\u4e86\u4e09\u5768\u7fd4',
+    '\u5403\u76f8\u592a\u96be\u770b',
+    '\u6401\u8fd9\u5462',
+    '\u9ad8\u5b8c\u4e86',
+  ]);
+  assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-colloquial-alias'), true);
+});
+
 test('findDictionaryEntriesWithTextEvidence maps long missed phrase anchors back to weak terms', () => {
   const entries = findDictionaryEntriesWithTextEvidence(
     {

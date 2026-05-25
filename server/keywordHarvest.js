@@ -195,6 +195,8 @@ const ALIAS_FIRST_SEARCH_TERMS = new Set([
   '\u5dee\u8bc4\u591a\u7684\u4e1c\u897f\u4e00\u5b9a\u4e0d\u597d',
   '\u8f66\u8f71\u8f98',
   '\u5b58\u7591\u7f57\u9a6c\u4eba',
+  '\u9f3b\u5c4e\u4e5f\u559d\u8fdb\u53bb\u4e86',
+  '\u628a\u9f3b\u5c4e\u4e5f\u559d\u8fdb\u53bb\u4e86',
   '\u4e0d\u8981\u80e1\u8bf4',
   '\u8fbe\u7edd\u5bc6\u5168\u662f\u6302',
   '\u51fa\u751f',
@@ -448,12 +450,13 @@ function controversyQueriesForPlanItem(planItem = {}, options = {}) {
 
 function searchTermsForTerm(term) {
   const cleanTerm = String(term || '').trim();
-  const generatedAliases = generatedSearchAliasesForTerm(cleanTerm);
-  const aliases = unique([...(TERM_SEARCH_ALIASES[cleanTerm] || []), ...generatedAliases]);
+  const configuredAliases = TERM_SEARCH_ALIASES[cleanTerm] || [];
+  const generatedAliases = generatedSearchAliasesForTerm(cleanTerm, { suppressColloquial: configuredAliases.length > 0 });
+  const aliases = unique([...configuredAliases, ...generatedAliases]);
   return ALIAS_FIRST_SEARCH_TERMS.has(cleanTerm) || generatedAliases.length > 0 ? unique([...aliases, cleanTerm]) : unique([cleanTerm, ...aliases]);
 }
 
-function generatedSearchAliasesForTerm(term) {
+function generatedSearchAliasesForTerm(term, options = {}) {
   const clean = String(term || '').trim();
   const aliases = [];
   const percentMatch = clean.match(/^(100|100%|\u767e\u5206\u767e|\u767e\u5206\u4e4b\u767e)(.+)$/);
@@ -476,7 +479,12 @@ function generatedSearchAliasesForTerm(term) {
   }
   if (clean.startsWith('\u6ca1\u540a\u7528')) aliases.push('\u6beb\u65e0\u540a\u7528');
   if (clean.startsWith('\u7f57\u795e\u4f1f\u5927')) aliases.push('\u7f57\u795e\u4f1f\u5927\u65e0\u9700\u591a\u8a00', '\u7f57\u795e\u4f1f\u5927 \u65e0\u9700\u591a\u8a00');
+  if (!options.suppressColloquial && isChineseColloquialSearchAliasCandidate(clean)) aliases.push(...generatedColloquialSearchAliases(clean));
   return unique(aliases.filter((alias) => alias && alias !== clean));
+}
+
+function isChineseColloquialSearchAliasCandidate(clean) {
+  return /^[\u4e00-\u9fa5]+$/.test(clean) && /^(?:\u8e29\u4e2d|\u9f3b\u5c4e|\u5403\u4e86|\u5403\u76f8|\u6401\u8fd9|\u9ad8\u5b8c)/.test(clean);
 }
 
 function generatedChineseTailSearchAliases(clean) {
@@ -511,6 +519,23 @@ function generatedUniversalQuantifierSearchAliases(clean) {
   if (clean.startsWith('\u5168\u5458') && clean.length > 2) {
     const tail = clean.slice(2);
     aliases.push(`\u6240\u6709\u4eba\u90fd${tail}`, `\u5168\u4f53${tail}`);
+  }
+  return aliases;
+}
+
+function generatedColloquialSearchAliases(clean) {
+  const aliases = [];
+  if (clean.startsWith('\u9f3b\u5c4e')) aliases.push(`\u628a${clean}`);
+  if (clean.startsWith('\u5403\u4e86')) aliases.push(`\u903c\u6211${clean}`, `\u8ba9\u6211${clean}`);
+  if (clean === '\u5403\u76f8\u592a\u96be\u770b') aliases.push('\u5403\u76f8\u4e5f\u592a\u96be\u770b\u4e86', '\u5403\u76f8\u96be\u770b');
+  if (clean === '\u6401\u8fd9\u5462') aliases.push('\u6401\u8fd9\u6401\u8fd9\u5462', '\u4f60\u6401\u8fd9\u6401\u8fd9\u5462');
+  if (clean === '\u9ad8\u5b8c\u4e86') aliases.push('\u90fd\u8ba9\u4f60\u9ad8\u5b8c\u4e86');
+  if (clean.length >= 4) {
+    for (const suffix of ['\u554a', '\u5427', '\u5462', '\u561b', '\u5457']) {
+      if (clean.endsWith(suffix)) aliases.push(clean.slice(0, -suffix.length));
+    }
+    if (clean.endsWith('\u4e86') && clean.length > 4) aliases.push(clean.slice(0, -1));
+    else aliases.push(`${clean}\u4e86`);
   }
   return aliases;
 }
