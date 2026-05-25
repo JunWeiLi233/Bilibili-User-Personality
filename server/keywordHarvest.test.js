@@ -750,6 +750,67 @@ test('buildKeywordHarvestQueries starts with comment anchors for evidence-backed
   ]);
 });
 
+test('buildKeywordHarvestQueries starts with priority weak action aliases', () => {
+  const cases = [
+    {
+      term: '\u4fdd\u62a4\u6211\u65b9',
+      family: 'cooperation',
+      expectedAliasQuery: '\u4fdd\u62a4\u6211\u65b9up \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+    {
+      term: '\u6bd4\u515c',
+      family: 'attack',
+      expectedAliasQuery: '\u6247\u4f60\u6bd4\u515c \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+    },
+    {
+      term: '\u5927\u6bd4\u515c',
+      family: 'attack',
+      expectedAliasQuery: '\u6bd4\u515c \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+    },
+    {
+      term: '\u88ab\u62e7\u75bc\u4e86',
+      family: 'attack',
+      expectedAliasQuery: '\u62e7\u75bc\u4e86 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+    },
+    {
+      term: '\u611f\u89c9\u81ea\u5df1\u5f88\u5c4c',
+      family: 'attack',
+      expectedAliasQuery: '\u89c9\u5f97\u81ea\u5df1\u5f88\u5c4c \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+    },
+    {
+      term: '\u94a2\u94c1\u516c\u53f8\u8463\u4e8b\u957f',
+      family: 'attack',
+      expectedAliasQuery: '\u94a2\u94c1\u8463\u4e8b\u957f \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+    },
+    {
+      term: '\u6e2f\u6ef4\u5bf9',
+      family: 'cooperation',
+      expectedAliasQuery: '\u6e2f\u6ef4\u5bf9\u6ca1\u6bdb\u75c5 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+    {
+      term: '\u6760\u7cbe',
+      family: 'attack',
+      expectedAliasQuery: '\u6760\u7cbe \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+    },
+  ];
+
+  for (const item of cases) {
+    const queries = buildKeywordHarvestQueries(
+      {
+        entries: [{ term: item.term, family: item.family, evidenceCount: 1 }],
+      },
+      {
+        seedQueries: [],
+        coverageMode: 'all-weak',
+        maxQueries: 8,
+        queryVariantsPerTerm: 4,
+      },
+    );
+
+    assert.equal(queries[0], item.expectedAliasQuery, `${item.term} should start with ${item.expectedAliasQuery}`);
+  }
+});
+
 test('buildKeywordHarvestQueries uses topic contexts for hard zero-evidence terms', () => {
   const cases = [
     {

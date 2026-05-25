@@ -1797,6 +1797,50 @@ test('findDictionaryEntriesWithTextEvidence maps evidence-backed weak anchors ba
   assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-evidence-backed-alias'), true);
 });
 
+test('findDictionaryEntriesWithTextEvidence maps priority weak action aliases back to target terms', () => {
+  const entries = findDictionaryEntriesWithTextEvidence(
+    {
+      entries: [
+        { term: '\u4fdd\u62a4\u6211\u65b9', family: 'cooperation', meaning: 'defend a participant in discussion' },
+        { term: '\u6bd4\u515c', family: 'attack', meaning: 'slap threat meme' },
+        { term: '\u5927\u6bd4\u515c', family: 'attack', meaning: 'big slap threat meme' },
+        { term: '\u88ab\u62e7\u75bc\u4e86', family: 'attack', meaning: 'being pinched pain meme' },
+        { term: '\u611f\u89c9\u81ea\u5df1\u5f88\u5c4c', family: 'attack', meaning: 'mock arrogant self-image' },
+        { term: '\u94a2\u94c1\u516c\u53f8\u8463\u4e8b\u957f', family: 'attack', meaning: 'bossy steel chairman label' },
+        { term: '\u6e2f\u6ef4\u5bf9', family: 'cooperation', meaning: 'homophone agreement marker' },
+        { term: '\u6760\u7cbe', family: 'attack', meaning: 'contrarian label' },
+      ],
+    },
+    [
+      '\u4fdd\u62a4\u6211\u65b9up\uff0c\u5148\u522b\u55b7',
+      '\u8fd9\u79cd\u53d1\u8a00\u771f\u60f3\u6247\u4f60\u6bd4\u515c',
+      '\u7ed9\u4f60\u4e00\u4e2a\u5927\u6bd4\u515c\u6e05\u9192\u4e00\u4e0b',
+      '\u8fd9\u4e0b\u53c8\u88ab\u62e7\u75bc\u4e86\u5427',
+      '\u4f60\u662f\u4e0d\u662f\u771f\u89c9\u5f97\u81ea\u5df1\u5f88\u5c4c',
+      '\u67d0\u94a2\u94c1\u516c\u53f8\u8463\u4e8b\u957f\u53c8\u6765\u6307\u70b9\u4e86',
+      '\u8fd9\u53e5\u8bb2\u5f97\u5bf9\u6ca1\u6bdb\u75c5',
+      '\u8001\u6760\u7cbe\u53c8\u5f00\u59cb\u62ac\u6760\u4e86',
+    ].join('\n'),
+    {
+      source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-priority-action-alias/',
+      uid: 'BV-priority-action-alias',
+    },
+  );
+
+  assert.deepEqual(entries.map((entry) => entry.term), [
+    '\u4fdd\u62a4\u6211\u65b9',
+    '\u6bd4\u515c',
+    '\u5927\u6bd4\u515c',
+    '\u88ab\u62e7\u75bc\u4e86',
+    '\u611f\u89c9\u81ea\u5df1\u5f88\u5c4c',
+    '\u94a2\u94c1\u516c\u53f8\u8463\u4e8b\u957f',
+    '\u6e2f\u6ef4\u5bf9',
+    '\u6760\u7cbe',
+  ]);
+  assert.equal(entries.every((entry) => entry.evidenceCount >= 1), true);
+  assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-priority-action-alias'), true);
+});
+
 test('findDictionaryEntriesWithTextEvidence maps persistent zero-evidence attack aliases back to dictionary terms', () => {
   const entries = findDictionaryEntriesWithTextEvidence(
     {
