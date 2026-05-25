@@ -1800,6 +1800,35 @@ test('buildDictionaryCoverageAudit counts only comment-backed evidence in strict
   assert.equal(action.evidenceNeeded, 3);
 });
 
+test('buildDictionaryCoverageAudit treats comment-backed mode as source-backed mode', () => {
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [
+        {
+          term: 'contextOnly',
+          family: 'attack',
+          evidenceCount: 2,
+          evidenceSources: [
+            {
+              source: 'Bilibili public search-discovered video context: https://www.bilibili.com/video/BVcontext/',
+              uid: 'BVcontext',
+              sample: 'Bilibili video context: contextOnly from a video title',
+            },
+          ],
+        },
+      ],
+    },
+    { termAttempts: {} },
+    { targetEvidence: 3, requireCommentBackedEvidence: true },
+  );
+
+  assert.equal(audit.requireSourceBackedEvidence, true);
+  assert.equal(audit.coverage.unsourcedEvidenceTerms, 1);
+  assert.equal(audit.nextActions[0].status, 'source_gap');
+  assert.equal(audit.nextActions[0].action, 'refresh_source_metadata');
+  assert.equal(audit.nextActions[0].evidenceNeeded, 3);
+});
+
 test('buildDictionaryCoverageAudit prioritizes weak context-only evidence for comment refresh', () => {
   const audit = buildDictionaryCoverageAudit(
     {

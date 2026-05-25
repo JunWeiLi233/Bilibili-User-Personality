@@ -345,6 +345,10 @@ function coverageEvidenceCount(entry, options = {}) {
   return evidenceCount(entry);
 }
 
+function requiresCoverageEvidenceSource(options = {}) {
+  return options.requireSourceBackedEvidence === true || options.requireCommentBackedEvidence === true;
+}
+
 function termAttemptKey(term) {
   return Buffer.from(String(term || ''), 'utf8').toString('base64url');
 }
@@ -464,7 +468,7 @@ function relatedTargetExistingTerms(dictionary, planItem, options = {}) {
         if (family && String(entry?.family || '').trim() !== family) return false;
         if (
           coverageEvidenceCount(entry, options) >= targetEvidence &&
-          !(options.requireSourceBackedEvidence === true && evidenceCount(entry) > 0 && !hasCoverageEvidenceSource(entry, options))
+          !(requiresCoverageEvidenceSource(options) && evidenceCount(entry) > 0 && !hasCoverageEvidenceSource(entry, options))
         ) {
           return false;
         }
@@ -851,7 +855,7 @@ export function buildKeywordHarvestQueryPlan(dictionary, options = {}) {
   const seedQueries = unique(options.seedQueries || DEFAULT_SEED_QUERIES);
   const coverageMode = String(options.coverageMode || 'balanced').trim().toLowerCase();
   const targetEvidence = asPositiveInt(options.targetEvidence, 3, 1000);
-  const requireSourceBackedEvidence = options.requireSourceBackedEvidence === true;
+  const requireSourceBackedEvidence = requiresCoverageEvidenceSource(options);
   const allEntries = sortEntriesForCoverage(Array.isArray(dictionary?.entries) ? dictionary.entries : []);
   const termAttempts = options.termAttempts && typeof options.termAttempts === 'object' ? options.termAttempts : {};
   const actionMap = new Map(
@@ -1138,7 +1142,7 @@ export function buildCoverageActions(dictionary = {}, state = {}, options = {}) 
     const filteredSearchContextFeedback = hasFilteredSearchContextFeedback(state, term);
     const missedWithIrrelevantFeedback = attemptsCount > 0 && successfulAttempts === 0 && irrelevantFeedback;
     const needsSourceRefresh =
-      options.requireSourceBackedEvidence === true && count > 0 && !hasCoverageEvidenceSource(entry, options);
+      requiresCoverageEvidenceSource(options) && count > 0 && !hasCoverageEvidenceSource(entry, options);
     const feedbackQuery =
       !needsSourceRefresh && hardMissedZeroEvidence && irrelevantFeedback
         ? negativeFeedbackQueriesForTerm(term).find((query) => !triedQueries.has(query))
@@ -1211,7 +1215,7 @@ export function buildDictionaryCoverageAudit(dictionary = {}, state = {}, option
   const maxActions = asPositiveInt(options.maxActions, 20, 1000);
   const minCoverageRatio = Math.min(1, Math.max(0, Number(options.minCoverageRatio ?? 1)));
   const requireComplete = options.requireComplete !== false;
-  const requireSourceBackedEvidence = options.requireSourceBackedEvidence === true;
+  const requireSourceBackedEvidence = requiresCoverageEvidenceSource(options);
   const coverage = summarizeEvidenceCoverage(dictionary, {
     targetEvidence,
     requireCommentBackedEvidence: options.requireCommentBackedEvidence === true,
