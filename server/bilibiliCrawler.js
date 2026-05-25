@@ -78,6 +78,20 @@ function ensureSessionUserAgent(randomFn) {
 function ensureCookies(randomFn, nowFn) {
   if (cookiesInitialized) return;
   cookiesInitialized = true;
+
+  const envCookie = (process.env.BILIBILI_COOKIE || '').trim();
+  if (envCookie) {
+    for (const part of envCookie.split(/;\s*/)) {
+      const eq = part.indexOf('=');
+      if (eq > 0) {
+        const name = part.slice(0, eq).trim();
+        const value = part.slice(eq + 1).trim();
+        if (name && value) cookieJar.set(name, value);
+      }
+    }
+    return;
+  }
+
   const r = randomFn || Math.random;
   const epochSec = Math.floor((nowFn ? nowFn() : Date.now()) / 1000);
   cookieJar.set(

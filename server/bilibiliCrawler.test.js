@@ -255,6 +255,41 @@ test('fetchJson sends a session-sticky user agent with Chrome client-hint header
   resetBilibiliRequestState();
 });
 
+test('fetchJson uses configured Bilibili cookie when provided', async () => {
+  resetBilibiliRequestState();
+  const previousCookie = process.env.BILIBILI_COOKIE;
+  process.env.BILIBILI_COOKIE = 'SESSDATA=session-value; bili_jct=csrf-value';
+  try {
+    const seenHeaders = [];
+    await fetchJson('https://api.bilibili.com/x', 'https://www.bilibili.com/video/BVxxx/', {
+      env: {},
+      config: {
+        minDelayMs: 0,
+        jitterMs: 0,
+        blockCooldownMs: 0,
+        cacheTtlMs: 0,
+        longPauseProbability: 0,
+      },
+      nowFn: () => 1700000000000,
+      randomFn: () => 0,
+      waitFn: async () => {},
+      fetchImpl: async (_url, init) => {
+        seenHeaders.push(init.headers);
+        return { ok: true, json: async () => ({ code: 0, data: {} }) };
+      },
+    });
+
+    assert.equal(seenHeaders[0].cookie, 'SESSDATA=session-value; bili_jct=csrf-value');
+  } finally {
+    if (previousCookie === undefined) {
+      delete process.env.BILIBILI_COOKIE;
+    } else {
+      process.env.BILIBILI_COOKIE = previousCookie;
+    }
+    resetBilibiliRequestState();
+  }
+});
+
 test('fetchJson caches successful Bilibili JSON responses for repeated reads', async () => {
   resetBilibiliRequestState();
   let calls = 0;

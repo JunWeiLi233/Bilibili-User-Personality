@@ -68,6 +68,22 @@ test('buildKeywordHarvestQueries can generate several Bilibili-oriented variants
   ]);
 });
 
+test('buildKeywordHarvestQueries prioritizes exact searches for compact metric terms', () => {
+  const queries = buildKeywordHarvestQueries(
+    {
+      entries: [{ term: '10w', family: 'evidence', evidenceCount: 1 }],
+    },
+    {
+      seedQueries: [],
+      coverageMode: 'all-weak',
+      maxQueries: 4,
+      queryVariantsPerTerm: 4,
+    },
+  );
+
+  assert.deepEqual(queries.slice(0, 3), ['10w', '10w \u70ed\u8bc4', '10w \u8bc4\u8bba\u533a']);
+});
+
 test('buildKeywordHarvestQueries uses stable search aliases for hard-to-find terms', () => {
   const queries = buildKeywordHarvestQueries(
     {

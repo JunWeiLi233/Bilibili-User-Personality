@@ -200,6 +200,10 @@ function searchTermsForTerm(term) {
   return unique([term, ...(TERM_SEARCH_ALIASES[String(term || '').trim()] || [])]);
 }
 
+function isCompactMetricSearchTerm(term) {
+  return /^[0-9]+(?:\.[0-9]+)?(?:[wW万kK秒sS])?$/.test(String(term || '').trim());
+}
+
 function contextualQueriesForTerm(term) {
   return unique(
     searchTermsForTerm(term).flatMap((searchTerm) => {
@@ -244,6 +248,13 @@ function queryVariantsForTerm(term, family, limit = TERM_QUERY_TEMPLATES.length,
   const variants = [];
   const templateItems = queryTemplatesFromOptions(options);
   const searchTerms = searchTermsForTerm(term);
+  const pushManualVariant = (query, builtIn = true) => {
+    variants.push({
+      query: normalizeQueryText(query),
+      variantIndex: variants.length,
+      builtIn,
+    });
+  };
   const pushTemplateVariant = (item, searchTerm) => {
     variants.push({
       query: normalizeQueryText(item.template(searchTerm, family)),
@@ -251,6 +262,11 @@ function queryVariantsForTerm(term, family, limit = TERM_QUERY_TEMPLATES.length,
       builtIn: item.builtIn,
     });
   };
+  for (const searchTerm of searchTerms.filter(isCompactMetricSearchTerm)) {
+    pushManualVariant(searchTerm);
+    pushManualVariant(`${searchTerm} \u70ed\u8bc4`);
+    pushManualVariant(`${searchTerm} \u8bc4\u8bba\u533a`);
+  }
   const [primaryTemplate, ...remainingTemplates] = templateItems;
   if (primaryTemplate) {
     for (const searchTerm of searchTerms) pushTemplateVariant(primaryTemplate, searchTerm);
