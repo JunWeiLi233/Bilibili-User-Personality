@@ -1958,6 +1958,9 @@ test('findDictionaryEntriesWithTextEvidence maps obfuscated and corrected wordin
         { term: '\u516c\u5f0f\u5957\u53cd\u4e86', family: 'correction', meaning: 'formula applied backwards correction' },
         { term: '\u516c\u5b50\u4eec\u53ef\u4ee5\u5f00\u59cb\u63d2\u79e7\u54af', family: 'attack', meaning: 'fandom sarcasm harvest meme' },
         { term: '\u653b\u51fb\u4ed6\u4eba\u6d6e\u6728', family: 'attack', meaning: 'weaponized floating-log criticism' },
+        { term: '\u72d7\u5c4e\u673a\u5236', family: 'attack', meaning: 'bad game mechanism complaint' },
+        { term: '\u82df\u76841b', family: 'attack', meaning: 'overly passive play insult' },
+        { term: '\u53e4\u5c38\u7ea7', family: 'attack', meaning: 'old fossil level insult variant' },
       ],
     },
     [
@@ -1965,6 +1968,9 @@ test('findDictionaryEntriesWithTextEvidence maps obfuscated and corrected wordin
       '\u8fd9\u516c\u5f0f\u7528\u53cd\u4e86\uff0c\u4e0d\u662f\u8fd9\u4e48\u5957\u7684',
       '\u6211\u5bb6\u516c\u5b50\u4f1a\u63d2\u79e7\u4e86\u54e6\uff0c\u8fd8\u771f\u5f00\u59cb\u63d2\u79e7\u4e86',
       '\u6bcf\u4e2a\u6d6e\u6728\u4fa0\u7684\u80cc\u540e\u90fd\u662f\u88ab\u903c\u65e0\u5948\uff0c\u62ff\u8d77\u8f6e\u6905\u53cd\u51fb',
+      '\u738b\u8005\u8fd9\u72d7\u5c4e\u5339\u914d\u673a\u5236\u771f\u5e26\u4e0d\u52a8',
+      '\u8fd9\u4eba\u6253\u6cd5\u592a\u82df\u4e86\uff0c\u82df\u52301b',
+      '\u9aa8\u7070\u7ea7\u8001\u73a9\u5bb6\u90fd\u770b\u4e0d\u4e0b\u53bb\u4e86',
     ].join('\n'),
     {
       source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-obfuscated-correction/',
@@ -1977,6 +1983,9 @@ test('findDictionaryEntriesWithTextEvidence maps obfuscated and corrected wordin
     '\u516c\u5f0f\u5957\u53cd\u4e86',
     '\u516c\u5b50\u4eec\u53ef\u4ee5\u5f00\u59cb\u63d2\u79e7\u54af',
     '\u653b\u51fb\u4ed6\u4eba\u6d6e\u6728',
+    '\u72d7\u5c4e\u673a\u5236',
+    '\u82df\u76841b',
+    '\u53e4\u5c38\u7ea7',
   ]);
   assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-obfuscated-correction'), true);
 });
