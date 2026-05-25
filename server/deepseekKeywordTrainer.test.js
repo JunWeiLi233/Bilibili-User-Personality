@@ -1766,6 +1766,32 @@ test('mergeEntriesIntoDictionary respects the dictionary write lock', async () =
   }
 });
 
+test('mergeEntriesIntoDictionary existing-only mode refuses new terms', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-keywords-existing-only-merge-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  try {
+    await mergeEntriesIntoDictionary(
+      [{ term: 'existingTerm', family: 'attack', meaning: 'current term', confidence: 0.7, evidenceCount: 1 }],
+      { dictionaryPath },
+    );
+
+    const dictionary = await mergeEntriesIntoDictionary(
+      [
+        { term: 'existingTerm', family: 'attack', meaning: 'current term', confidence: 0.7, evidenceCount: 2, evidenceSamples: ['existingTerm sample'] },
+        { term: 'newTerm', family: 'attack', meaning: 'should not be added', confidence: 0.7, evidenceCount: 1 },
+      ],
+      { dictionaryPath, existingTermsOnly: true },
+    );
+
+    assert.equal(dictionary.entries.some((entry) => entry.term === 'newterm'), false);
+    assert.equal(dictionary.entries.find((entry) => entry.term === 'existingterm').evidenceCount, 2);
+    const persisted = JSON.parse(await readFile(dictionaryPath, 'utf8'));
+    assert.equal(persisted.entries.some((entry) => entry.term === 'newterm'), false);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('merges dictionary conflicts by term instead of family plus term', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-keywords-dedupe-'));
   const dictionaryPath = join(dir, 'dictionary.json');

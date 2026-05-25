@@ -597,12 +597,14 @@ export async function mergeEntriesIntoDictionary(entries, options = {}) {
     const current = await readDictionary(dictionaryPath);
     const normalizedEntries = normalizeKeywordEntries(entries);
     const canonicalCurrent = buildCanonicalDictionarySnapshot(current);
+    const currentTerms = new Set(canonicalCurrent.entries.map((entry) => entry.term));
+    const mergeableEntries = options.existingTermsOnly === true ? normalizedEntries.filter((entry) => currentTerms.has(entry.term)) : normalizedEntries;
     const now = new Date().toISOString();
     const entryMap = new Map();
     for (const entry of canonicalCurrent.entries) {
       entryMap.set(entry.term, { ...entry });
     }
-    for (const entry of normalizedEntries) {
+    for (const entry of mergeableEntries) {
       entryMap.set(entry.term, mergeKeywordEntry(entryMap.get(entry.term), entry, now));
     }
     propagateAliasEvidence(entryMap, now);
