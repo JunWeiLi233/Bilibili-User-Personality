@@ -785,7 +785,7 @@ function hasIrrelevantQueryFeedback(state = {}, term) {
     const trainingTextChars = Math.max(0, Number(item?.trainingTextChars) || 0);
     return (
       targets.includes(cleanTerm) &&
-      accepted.length === 0 &&
+      !accepted.includes(cleanTerm) &&
       (commentsCollected > 0 || trainingTextChars > 0 || isFilteredSearchContextMiss(item))
     );
   });

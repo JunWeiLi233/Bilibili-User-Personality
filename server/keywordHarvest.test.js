@@ -2374,6 +2374,49 @@ test('buildDictionaryCoverageAudit rewrites hard misses after irrelevant query d
   assert.equal(audit.nextActions.find((item) => item.term === '\u8c01\u662f\u8e6d\u6982\u5ff5').nextQuery, '\u8c01\u662f\u8e6d\u6982\u5ff5 \u539f\u8bdd');
 });
 
+test('buildDictionaryCoverageAudit rewrites hard misses when only unrelated terms were accepted', () => {
+  const term = '\u8f66\u5bb6\u519b';
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [{ term, family: 'attack', evidenceCount: 0 }],
+    },
+    {
+      termAttempts: {
+        [Buffer.from(term, 'utf8').toString('base64url')]: {
+          term,
+          family: 'attack',
+          evidenceAtPlanTime: 0,
+          attempts: 8,
+          successfulAttempts: 0,
+          lastEvidenceCount: 0,
+          queries: [
+            { query: '\u5c0f\u7c73\u6c34\u519b \u63a7\u8bc4' },
+            { query: '\u7c73\u7c89\u63a7\u8bc4 SU7' },
+          ],
+        },
+      },
+      runs: [
+        {
+          queryDiagnostics: [
+            [
+              {
+                query: '\u5c0f\u7c73\u6c34\u519b \u63a7\u8bc4',
+                commentsCollected: 26,
+                trainingTextChars: 1746,
+                targetExistingTerms: [term],
+                acceptedTerms: ['doge', '\u786e\u5b9e', '\u54c8\u54c8'],
+              },
+            ],
+          ],
+        },
+      ],
+    },
+    { targetEvidence: 3, maxActions: 1, retryBeforeUnattemptedLimit: 3 },
+  );
+
+  assert.equal(audit.nextActions[0].nextQuery, '\u8f66\u5bb6\u519b \u5c0f\u7c73SU7 \u8bc4\u8bba\u533a');
+});
+
 test('buildDictionaryCoverageAudit falls back to exact terms after feedback queries miss', () => {
   const term = '\u8f66\u5bb6\u519b';
   const audit = buildDictionaryCoverageAudit(
@@ -2450,6 +2493,50 @@ test('buildDictionaryCoverageAudit retries exact term after weak missed irreleva
                 trainingTextChars: 1102,
                 targetExistingTerms: [term],
                 acceptedTerms: [],
+              },
+            ],
+          ],
+        },
+      ],
+    },
+    { targetEvidence: 3, maxActions: 1 },
+  );
+
+  assert.equal(audit.nextActions[0].nextQuery, '\u4e0d\u8bd7\u4eba \u70ed\u8bc4');
+});
+
+test('buildDictionaryCoverageAudit treats unrelated accepted terms as target miss feedback', () => {
+  const term = '\u4e0d\u8bd7\u4eba';
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [{ term, family: 'absolutes', evidenceCount: 1 }],
+    },
+    {
+      termAttempts: {
+        [Buffer.from(term, 'utf8').toString('base64url')]: {
+          term,
+          family: 'absolutes',
+          evidenceAtPlanTime: 1,
+          attempts: 2,
+          successfulAttempts: 0,
+          lastEvidenceCount: 1,
+          queries: [
+            { query: '\u4e0d\u8bd7\u4eba \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4' },
+            { query: '\u4e0d\u8bd7\u4eba \u8bc4\u8bba\u533a' },
+          ],
+          lastQuery: '\u4e0d\u8bd7\u4eba \u8bc4\u8bba\u533a',
+        },
+      },
+      runs: [
+        {
+          queryDiagnostics: [
+            [
+              {
+                query: '\u4e0d\u8bd7\u4eba \u8bc4\u8bba\u533a',
+                commentsCollected: 22,
+                trainingTextChars: 2048,
+                targetExistingTerms: [term],
+                acceptedTerms: ['doge', '\u786e\u5b9e', '\u54c8\u54c8'],
               },
             ],
           ],
