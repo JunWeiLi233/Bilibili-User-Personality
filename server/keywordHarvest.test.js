@@ -143,6 +143,21 @@ test('buildKeywordHarvestQueries uses stable search aliases for hard-to-find ter
   ]);
 });
 
+test('buildKeywordHarvestQueries uses comment-use aliases before ambiguous media titles', () => {
+  const queries = buildKeywordHarvestQueries(
+    {
+      entries: [{ term: '\u95ee\u767e\u5ea6', family: 'evasion', evidenceCount: 1 }],
+    },
+    { maxQueries: 4, coverageMode: 'all-weak', queryVariantsPerTerm: 3 },
+  );
+
+  assert.deepEqual(queries.slice(0, 3), [
+    '\u4e0d\u4f1a\u767e\u5ea6 \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    '\u767e\u5ea6\u4e00\u4e0b \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    '\u81ea\u5df1\u767e\u5ea6 \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4',
+  ]);
+});
+
 test('buildKeywordHarvestQueries uses conversational aliases for repeatedly missed terms', () => {
   const cases = [
     {
@@ -1680,6 +1695,58 @@ test('buildDictionaryCoverageAudit prioritizes context-only source gaps before o
   assert.equal(audit.nextActions[0].term, 'contextOnly');
   assert.equal(audit.nextActions[0].status, 'source_gap');
   assert.equal(audit.recommendedQueries[0], 'contextOnly \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4');
+});
+
+test('buildDictionaryCoverageAudit keeps comment-missed source gaps ahead of ordinary weak terms', () => {
+  const contextSource = {
+    source: 'Bilibili public search-discovered video context: https://www.bilibili.com/video/BVcontext/',
+    uid: 'BVcontext',
+    sample: 'Bilibili video context: title-only source',
+  };
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [
+        { term: '\u8f66\u5bb6\u519b', family: 'attack', evidenceCount: 2, evidenceSources: [contextSource] },
+        { term: '\u95ee\u767e\u5ea6', family: 'evasion', evidenceCount: 2, evidenceSources: [contextSource] },
+        {
+          term: '\u666e\u901a\u5f31\u8bcd',
+          family: 'attack',
+          evidenceCount: 1,
+          evidenceSources: [{ source: 'Bilibili public video comment scan', uid: 'BVweak', sample: '\u666e\u901a\u5f31\u8bcd' }],
+        },
+      ],
+    },
+    {
+      termAttempts: {
+        [Buffer.from('\u8f66\u5bb6\u519b', 'utf8').toString('base64url')]: {
+          term: '\u8f66\u5bb6\u519b',
+          family: 'attack',
+          attempts: 1,
+          successfulAttempts: 0,
+          queries: [{ query: '\u8f66\u5bb6\u519b \u8bc4\u8bba\u533a', strategyVersion: 4, ok: true, hit: false, videos: 4, comments: 20 }],
+        },
+        [Buffer.from('\u95ee\u767e\u5ea6', 'utf8').toString('base64url')]: {
+          term: '\u95ee\u767e\u5ea6',
+          family: 'evasion',
+          attempts: 1,
+          successfulAttempts: 0,
+          queries: [{ query: '\u95ee\u767e\u5ea6 \u8bc4\u8bba\u533a', strategyVersion: 4, ok: true, hit: false, videos: 2, comments: 7 }],
+        },
+      },
+    },
+    {
+      targetEvidence: 3,
+      maxActions: 3,
+      requireSourceBackedEvidence: true,
+      requireCommentBackedEvidence: true,
+      prioritizeSourceGaps: true,
+    },
+  );
+
+  assert.deepEqual(
+    audit.nextActions.slice(0, 2).map((item) => item.status),
+    ['source_gap', 'source_gap'],
+  );
 });
 
 test('buildDictionaryCoverageAudit keeps comment-backed source refreshes on comment evidence queries', () => {

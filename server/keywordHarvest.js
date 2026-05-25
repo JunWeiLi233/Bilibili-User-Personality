@@ -86,7 +86,8 @@ const TERM_SEARCH_ALIASES = {
   '\u81ea\u5df1\u67e5': ['\u81ea\u5df1\u641c', '\u4f60\u81ea\u5df1\u641c', '\u81ea\u5df1\u67e5\u53bb'],
   '\u81ea\u5df1\u67e5\u53bb': ['\u81ea\u5df1\u67e5', '\u81ea\u5df1\u641c'],
   '\u81ea\u5df1\u641c': ['\u81ea\u5df1\u67e5'],
-  '\u95ee\u767e\u5ea6\u6709\u4ec0\u4e48\u7528': ['\u95ee\u767e\u5ea6'],
+  '\u95ee\u767e\u5ea6': ['\u4e0d\u4f1a\u767e\u5ea6', '\u767e\u5ea6\u4e00\u4e0b', '\u81ea\u5df1\u767e\u5ea6', '\u4f60\u4e0d\u4f1a\u767e\u5ea6\u5417'],
+  '\u95ee\u767e\u5ea6\u6709\u4ec0\u4e48\u7528': ['\u4e0d\u4f1a\u767e\u5ea6', '\u767e\u5ea6\u4e00\u4e0b', '\u81ea\u5df1\u767e\u5ea6', '\u95ee\u767e\u5ea6'],
   '\u9ad8\u4f4e\u5f97\u7ed9\u4f60\u9001\u4e0a\u53bb': ['\u9ad8\u4f4e\u7ed9\u4f60\u9001\u4e0a\u53bb', '\u7ed9\u4f60\u9001\u4e0a\u53bb', '\u9001\u4e0a\u53bb', '\u9876\u4e0a\u53bb'],
   '\u6ca1\u6d3b\u8fc7\u4e24\u4e2a\u6708': ['\u6d3b\u4e0d\u8fc7\u4e24\u4e2a\u6708', '\u6d3b\u4e0d\u8fc7\u4fe9\u6708', '\u6ca1\u6d3b\u8fc7\u4fe9\u6708'],
   '\u54ea\u90fd\u6709\u4f60': ['\u54ea\u513f\u90fd\u6709\u4f60', '\u600e\u4e48\u54ea\u90fd\u6709\u4f60', '\u5230\u54ea\u90fd\u6709\u4f60'],
@@ -174,6 +175,8 @@ const ALIAS_FIRST_SEARCH_TERMS = new Set([
   '\u4f4e\u60c5\u5546',
   '\u7b2c\u4e00\u6b21\u5c31\u770b\u61c2\u4e86',
   '\u90fd\u662f\u4eba\u673a\u81ea\u52a8\u53d1\u7684',
+  '\u95ee\u767e\u5ea6',
+  '\u95ee\u767e\u5ea6\u6709\u4ec0\u4e48\u7528',
 ]);
 const TERM_PRIORITY_QUERIES = {
   '\u5403\u4e8f\u662f\u798f': ['\u8fd9\u798f\u7ed9\u4f60 \u56de\u590d', '\u4f60\u53bb\u5403\u4e8f \u8bc4\u8bba\u533a', '\u8c01\u5403\u4e8f\u8c01\u6709\u798f \u70ed\u8bc4'],
@@ -662,7 +665,6 @@ function actionSortRank(action, options = {}) {
     return coverageActionRank('harvest') - 0.5 + priorityPenalty;
   }
   if (options.prioritizeSourceGaps === true && action?.action === 'refresh_source_metadata') {
-    if (currentCommentMisses > 0) return coverageActionRank('harvest') + 0.75 + priorityPenalty;
     return coverageActionRank('retry_with_new_variant') - 0.25 + priorityPenalty;
   }
   if (action?.action === 'retry_with_new_variant' && retryLimit > 0 && attempts >= retryLimit) {

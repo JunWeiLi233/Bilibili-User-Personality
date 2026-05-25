@@ -844,6 +844,25 @@ test('findDictionaryEntriesWithTextEvidence maps harvest aliases back to hard ze
   assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-hard-alias'), true);
 });
 
+test('findDictionaryEntriesWithTextEvidence maps search-dismissal wording back to ask-baidu terms', () => {
+  const entries = findDictionaryEntriesWithTextEvidence(
+    {
+      entries: [
+        { term: '\u95ee\u767e\u5ea6', family: 'evasion', meaning: 'dismiss the other side by telling them to search' },
+        { term: '\u95ee\u767e\u5ea6\u6709\u4ec0\u4e48\u7528', family: 'evasion', meaning: 'dismiss Baidu searching as useless' },
+      ],
+    },
+    '\u8fd9\u4e2a\u4f60\u4e0d\u4f1a\u767e\u5ea6\u5417\uff1f\n\u81ea\u5df1\u767e\u5ea6\u4e00\u4e0b\u4e0d\u5c31\u884c\u4e86\uff1f\n\u767e\u5ea6\u4e00\u4e0b\u554a',
+    {
+      source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-baidu-dismissal/',
+      uid: 'BV-baidu-dismissal',
+    },
+  );
+
+  assert.deepEqual(entries.map((entry) => entry.term), ['\u95ee\u767e\u5ea6', '\u95ee\u767e\u5ea6\u6709\u4ec0\u4e48\u7528']);
+  assert.equal(entries.every((entry) => entry.evidenceCount > 0), true);
+});
+
 test('findDictionaryEntriesWithTextEvidence maps newer controversy aliases back to weak dictionary terms', () => {
   const entries = findDictionaryEntriesWithTextEvidence(
     {
