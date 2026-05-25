@@ -1042,6 +1042,9 @@ function buildAnalysisMessages({ text, uid, name }) {
 - 如果某轴的证据不足（评论中缺少相关语言），给出中性分数（40-60）并说明"证据不足"
 - 注意区分反讽、玩梗和真诚表达
 - 如果评论数很少或样本不具代表性，在 overall 中注明
+- 逐句分析每条完整发言：先看整句的命题、攻击对象、语气、证据关系和前后让步，再判断风险
+- 不要只按单个关键词或梗词定性；例如“不是我杠”可能是证据边界提醒，也可能是攻击开场，必须结合完整句子判断
+- sentenceAnalyses 必须保留原句 quote，并说明 speechAct、target、stance、contextRole、risk 和 reasoning
 
 输出 JSON 结构：
 {
@@ -1052,6 +1055,9 @@ function buildAnalysisMessages({ text, uid, name }) {
     {"axis": "逻辑一致", "score": 0-100, "evidence": ["原文引用..."], "reasoning": "判断依据..."},
     {"axis": "合作讨论", "score": 0-100, "evidence": ["原文引用..."], "reasoning": "判断依据..."},
     {"axis": "修正意愿", "score": 0-100, "evidence": ["原文引用..."], "reasoning": "判断依据..."}
+  ],
+  "sentenceAnalyses": [
+    {"quote": "完整原句...", "speechAct": "话语行为", "target": "命题/对象", "stance": "立场和语气", "contextRole": "这句话在上下文中的作用", "risk": "high|medium|low|positive|neutral", "reasoning": "为什么不能只按关键词判断..."}
   ],
   "overall": {"riskBand": "高风险对抗型|混合争辩型|低风险讨论型", "summary": "一句话总结..."},
   "confidence": 0.0
@@ -1121,6 +1127,18 @@ export async function analyzeCommentsWithDeepSeek(payload, options = {}) {
       if (found) Object.assign(item, found);
     }
 
+    const sentenceAnalyses = (Array.isArray(parsed.sentenceAnalyses) ? parsed.sentenceAnalyses : [])
+      .map((item) => ({
+        quote: String(item.quote || '').trim().slice(0, 300),
+        speechAct: String(item.speechAct || '').trim().slice(0, 80),
+        target: String(item.target || '').trim().slice(0, 120),
+        stance: String(item.stance || '').trim().slice(0, 120),
+        contextRole: String(item.contextRole || '').trim().slice(0, 180),
+        risk: String(item.risk || 'neutral').trim().slice(0, 20),
+        reasoning: String(item.reasoning || '').trim().slice(0, 500),
+      }))
+      .filter((item) => item.quote);
+
     const overall = {
       riskBand: String(parsed.overall?.riskBand || '混合争辩型').trim(),
       summary: String(parsed.overall?.summary || '').trim(),
@@ -1132,6 +1150,7 @@ export async function analyzeCommentsWithDeepSeek(payload, options = {}) {
       model: config.model || '',
       reasoningEffort: config.reasoningEffort || 'medium',
       axes: validAxes,
+      sentenceAnalyses,
       overall,
       confidence: Math.max(0.45, Math.min(0.92, Number(parsed.confidence) || 0.7)),
       raw,

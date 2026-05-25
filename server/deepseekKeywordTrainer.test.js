@@ -8,6 +8,7 @@ import {
   extractJsonObject,
   filterKeywordEntriesByEvidence,
   findDictionaryEntriesWithTextEvidence,
+  analyzeCommentsWithDeepSeek,
   getDeepSeekConfig,
   mergeEntriesIntoDictionary,
   normalizeKeywordEntries,
@@ -50,6 +51,81 @@ test('reports DeepSeek API key missing without exposing secrets', async () => {
   assert.equal(config.reasoningEffort, 'medium');
   assert.equal(config.available, false);
   assert.equal(config.keyConfigured, false);
+});
+
+test('analyzeCommentsWithDeepSeek asks DeepSeek to analyze full sentence context', async () => {
+  const requests = [];
+  const result = await analyzeCommentsWithDeepSeek(
+    {
+      uid: 'mid 1',
+      name: 'sentence tester',
+      text: [
+        '不是我杠，你这个证据链只覆盖一个样本，先别急着扣帽子。',
+        '如果有原始数据我愿意改结论。',
+      ].join('\n'),
+    },
+    {
+      env: {
+        DEEPSEEK_API_KEY: 'test-key',
+        DEEPSEEK_BASE_URL: 'https://api.deepseek.com',
+        DEEPSEEK_MODEL: 'deepseek-v4-flash',
+      },
+      fetch: async (url, options = {}) => {
+        requests.push({ url: String(url), body: options.body ? JSON.parse(options.body) : null });
+        if (String(url).endsWith('/models')) {
+          return { ok: true, json: async () => ({ data: [{ id: 'deepseek-v4-flash' }] }) };
+        }
+        return {
+          ok: true,
+          json: async () => ({
+            choices: [
+              {
+                message: {
+                  content: JSON.stringify({
+                    axes: [
+                      { axis: '对抗性动机', score: 45, evidence: ['先别急着扣帽子'], reasoning: '提醒对方不要贴标签，但没有转向人身攻击。' },
+                    ],
+                    sentenceAnalyses: [
+                      {
+                        quote: '不是我杠，你这个证据链只覆盖一个样本，先别急着扣帽子。',
+                        speechAct: '证据边界提醒',
+                        target: '证据链覆盖范围',
+                        stance: '反驳但保留合作空间',
+                        contextRole: '要求对方回到证据充分性',
+                        risk: 'low',
+                        reasoning: '完整句表达的是证据不足和反贴标签，不应按“杠”字单独判定。',
+                      },
+                    ],
+                    overall: { riskBand: '低风险讨论型', summary: '样本偏证据讨论。' },
+                    confidence: 0.82,
+                  }),
+                },
+              },
+            ],
+          }),
+        };
+      },
+    },
+  );
+
+  const analyzeRequest = requests.find((request) => request.url.endsWith('/chat/completions'));
+  const userPrompt = analyzeRequest.body.messages.find((message) => message.role === 'user').content;
+
+  assert.equal(result.ok, true);
+  assert.equal(userPrompt.includes('逐句分析'), true);
+  assert.equal(userPrompt.includes('不要只按单个关键词或梗词定性'), true);
+  assert.equal(userPrompt.includes('不是我杠，你这个证据链只覆盖一个样本，先别急着扣帽子。'), true);
+  assert.deepEqual(result.sentenceAnalyses, [
+    {
+      quote: '不是我杠，你这个证据链只覆盖一个样本，先别急着扣帽子。',
+      speechAct: '证据边界提醒',
+      target: '证据链覆盖范围',
+      stance: '反驳但保留合作空间',
+      contextRole: '要求对方回到证据充分性',
+      risk: 'low',
+      reasoning: '完整句表达的是证据不足和反贴标签，不应按“杠”字单独判定。',
+    },
+  ]);
 });
 
 test('normalizes DeepSeek keyword output into supported dictionary families', () => {

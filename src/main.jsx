@@ -991,6 +991,20 @@ function App() {
         confidence: result.confidence || 0.7,
       }));
     });
+    const sentenceErrors = (result.sentenceAnalyses || []).map((item, index) => ({
+      id: `deepseek-sentence-${index}`,
+      source: 'DeepSeek V4 逐句分析',
+      speechAct: item.speechAct || '完整句判断',
+      target: item.target || '整句语境',
+      type: item.risk === 'high' ? '高风险话语' : item.risk === 'medium' ? '中性话语' : '低风险话语',
+      severity: item.risk === 'high' ? '高' : item.risk === 'medium' ? '中' : '低',
+      comment: item.quote || '',
+      highlight: (item.quote || '').slice(0, 40),
+      diagnosis: [item.stance, item.contextRole, item.reasoning].filter(Boolean).join('；'),
+      evidence: 'DeepSeek V4 按完整句子的命题、对象、语气、证据关系和上下文作用判断，不只按单个关键词定性。',
+      confidence: result.confidence || 0.7,
+    }));
+    const combinedErrors = [...sentenceErrors, ...errors];
 
     return {
       id: `generated-${Date.now()}-deepseek`,
@@ -1011,7 +1025,7 @@ function App() {
       },
       vocabularyMarks: [],
       scores,
-      errors: errors.length > 0 ? errors : [{
+      errors: combinedErrors.length > 0 ? combinedErrors : [{
         id: 'deepseek-empty',
         source: 'DeepSeek V4 直析',
         speechAct: '综合分析',
