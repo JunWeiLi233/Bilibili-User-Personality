@@ -1771,22 +1771,22 @@ test('mergeEntriesIntoDictionary existing-only mode refuses new terms', async ()
   const dictionaryPath = join(dir, 'dictionary.json');
   try {
     await mergeEntriesIntoDictionary(
-      [{ term: 'existingTerm', family: 'attack', meaning: 'current term', confidence: 0.7, evidenceCount: 1 }],
+      [{ term: '已有词', family: 'attack', meaning: 'current term', confidence: 0.7, evidenceCount: 1 }],
       { dictionaryPath },
     );
 
     const dictionary = await mergeEntriesIntoDictionary(
       [
-        { term: 'existingTerm', family: 'attack', meaning: 'current term', confidence: 0.7, evidenceCount: 2, evidenceSamples: ['existingTerm sample'] },
-        { term: 'newTerm', family: 'attack', meaning: 'should not be added', confidence: 0.7, evidenceCount: 1 },
+        { term: '已有词', family: 'attack', meaning: 'current term', confidence: 0.7, evidenceCount: 2, evidenceSamples: ['已有词 sample'] },
+        { term: '新增词', family: 'attack', meaning: 'should not be added', confidence: 0.7, evidenceCount: 1 },
       ],
       { dictionaryPath, existingTermsOnly: true },
     );
 
-    assert.equal(dictionary.entries.some((entry) => entry.term === 'newterm'), false);
-    assert.equal(dictionary.entries.find((entry) => entry.term === 'existingterm').evidenceCount, 2);
+    assert.equal(dictionary.entries.some((entry) => entry.term === '新增词'), false);
+    assert.equal(dictionary.entries.find((entry) => entry.term === '已有词').evidenceCount, 2);
     const persisted = JSON.parse(await readFile(dictionaryPath, 'utf8'));
-    assert.equal(persisted.entries.some((entry) => entry.term === 'newterm'), false);
+    assert.equal(persisted.entries.some((entry) => entry.term === '新增词'), false);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
