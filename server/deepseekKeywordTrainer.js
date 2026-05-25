@@ -176,9 +176,32 @@ function aliasEvidenceEntriesForEntry(entryMap, entry) {
     }));
 }
 
+function caseFoldEvidenceEntriesForEntry(entryMap, entry) {
+  const term = cleanTerm(entry?.term);
+  if (!/^[A-Za-z0-9]+$/.test(term)) return [];
+  const foldedTerm = term.toLowerCase();
+  return [...entryMap.values()]
+    .filter((candidate) => {
+      const candidateTerm = cleanTerm(candidate?.term);
+      return (
+        candidateTerm !== term &&
+        candidate.family === entry.family &&
+        /^[A-Za-z0-9]+$/.test(candidateTerm) &&
+        candidateTerm.toLowerCase() === foldedTerm &&
+        Number(candidate.evidenceCount || 0) > 0
+      );
+    })
+    .map((candidate) => ({
+      ...entry,
+      evidenceCount: Math.max(0, Number(candidate.evidenceCount) || 0),
+      evidenceSamples: candidate.evidenceSamples || [],
+      evidenceSources: candidate.evidenceSources || [],
+    }));
+}
+
 function propagateAliasEvidence(entryMap, now) {
   for (const entry of [...entryMap.values()]) {
-    for (const aliasEvidenceEntry of aliasEvidenceEntriesForEntry(entryMap, entry)) {
+    for (const aliasEvidenceEntry of [...aliasEvidenceEntriesForEntry(entryMap, entry), ...caseFoldEvidenceEntriesForEntry(entryMap, entry)]) {
       entryMap.set(entry.term, mergeKeywordEntry(entryMap.get(entry.term), aliasEvidenceEntry, now));
     }
   }

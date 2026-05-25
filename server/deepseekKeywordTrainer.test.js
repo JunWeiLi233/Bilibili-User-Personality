@@ -148,6 +148,89 @@ test('mergeEntriesIntoDictionary shares existing alias evidence with longer dict
   }
 });
 
+test('mergeEntriesIntoDictionary shares evidence across same-family ASCII case variants', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'deepseek-casefold-evidence-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  try {
+    await writeFile(
+      dictionaryPath,
+      JSON.stringify({
+        version: 1,
+        updatedAt: '2026-01-01T00:00:00.000Z',
+        entries: [
+          {
+            term: 'bug',
+            family: 'evidence',
+            meaning: 'lowercase issue marker',
+            evidenceCount: 1,
+            evidenceSamples: ['this bug can be reproduced'],
+            evidenceSources: [{ source: 'Bilibili public video comment scan', uid: 'BV-lower', sample: 'this bug can be reproduced' }],
+          },
+          {
+            term: 'BUG',
+            family: 'evidence',
+            meaning: 'uppercase issue marker',
+            evidenceCount: 1,
+            evidenceSamples: ['BUG is still there'],
+            evidenceSources: [{ source: 'Bilibili public video comment scan', uid: 'BV-upper', sample: 'BUG is still there' }],
+          },
+        ],
+      }),
+      'utf8',
+    );
+
+    const dictionary = await mergeEntriesIntoDictionary([], { dictionaryPath });
+    const lower = dictionary.entries.find((entry) => entry.term === 'bug');
+    const upper = dictionary.entries.find((entry) => entry.term === 'BUG');
+
+    assert.equal(lower.evidenceCount, 2);
+    assert.equal(upper.evidenceCount, 2);
+    assert.deepEqual(lower.evidenceSamples, ['this bug can be reproduced', 'BUG is still there']);
+    assert.deepEqual(upper.evidenceSamples, ['BUG is still there', 'this bug can be reproduced']);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
+test('mergeEntriesIntoDictionary does not share case-fold evidence across different families', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'deepseek-casefold-family-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  try {
+    await writeFile(
+      dictionaryPath,
+      JSON.stringify({
+        version: 1,
+        updatedAt: '2026-01-01T00:00:00.000Z',
+        entries: [
+          {
+            term: 'doge',
+            family: 'cooperation',
+            meaning: 'Bilibili emote marker',
+            evidenceCount: 2,
+            evidenceSamples: ['nice one doge'],
+          },
+          {
+            term: 'Doge',
+            family: 'attack',
+            meaning: 'unrelated brand or topic marker',
+            evidenceCount: 0,
+            evidenceSamples: [],
+          },
+        ],
+      }),
+      'utf8',
+    );
+
+    const dictionary = await mergeEntriesIntoDictionary([], { dictionaryPath });
+    const upper = dictionary.entries.find((entry) => entry.term === 'Doge');
+
+    assert.equal(upper.evidenceCount, 0);
+    assert.deepEqual(upper.evidenceSamples, []);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('normalizes away promotional commerce artifacts from keyword terms', () => {
   const entries = normalizeKeywordEntries([
     { term: '最高领26618元', family: 'absolutes', meaning: 'promotional ad copy copied from comments' },

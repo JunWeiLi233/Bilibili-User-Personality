@@ -4,7 +4,7 @@ import { dirname, join } from 'node:path';
 import { readKeywordDictionary as defaultReadKeywordDictionary } from './deepseekKeywordTrainer.js';
 import { searchVideoKeywords as defaultSearchVideoKeywords } from './videoKeywordSearch.js';
 
-const HARVEST_STRATEGY_VERSION = 2;
+const HARVEST_STRATEGY_VERSION = 3;
 const DEFAULT_SEED_QUERIES = [
   '\u4e2d\u6587\u4e92\u8054\u7f51 \u6897 \u8bc4\u8bba\u533a',
   '\u8bc4\u8bba\u533a \u70ed\u8bc4 \u6897',
@@ -204,6 +204,14 @@ function isCompactMetricSearchTerm(term) {
   return /^[0-9]+(?:\.[0-9]+)?(?:[wW\u4e07kK\u79d2sSrR][0-9]*(?:\.[0-9]+)?)?$/.test(String(term || '').trim());
 }
 
+function coveragePriorityPenalty(item = {}) {
+  const term = String(item.term || '').trim();
+  if (!term) return 0;
+  if (isCompactMetricSearchTerm(term)) return 3;
+  if (/^[A-Za-z0-9]+$/.test(term) && /\d/.test(term)) return 2;
+  return 0;
+}
+
 function contextualQueriesForTerm(term) {
   return unique(
     searchTermsForTerm(term).flatMap((searchTerm) => {
@@ -361,7 +369,12 @@ function selectHarvestPlan(candidatePlan, options = {}) {
 }
 
 function sortEntriesForCoverage(entries) {
-  return [...entries].sort((a, b) => evidenceCount(a) - evidenceCount(b) || String(a.term || '').localeCompare(String(b.term || '')));
+  return [...entries].sort(
+    (a, b) =>
+      coveragePriorityPenalty(a) - coveragePriorityPenalty(b) ||
+      evidenceCount(a) - evidenceCount(b) ||
+      String(a.term || '').localeCompare(String(b.term || '')),
+  );
 }
 
 function coverageActionRank(action) {
@@ -504,6 +517,7 @@ export function buildKeywordHarvestQueryPlan(dictionary, options = {}) {
             const actionB = actionMap.get(String(b.term || '').trim());
             return (
               actionSortRank(actionA, options) - actionSortRank(actionB, options) ||
+              coveragePriorityPenalty(a) - coveragePriorityPenalty(b) ||
               evidenceCount(a) - evidenceCount(b) ||
               String(a.term || '').localeCompare(String(b.term || ''))
             );
@@ -822,6 +836,7 @@ export function buildDictionaryCoverageAudit(dictionary = {}, state = {}, option
     .sort(
       (a, b) =>
         actionSortRank(a, { ...options, prioritizeHardZeroEvidence: true }) - actionSortRank(b, { ...options, prioritizeHardZeroEvidence: true }) ||
+        coveragePriorityPenalty(a) - coveragePriorityPenalty(b) ||
         a.evidenceCount - b.evidenceCount ||
         String(a.term || '').localeCompare(String(b.term || '')),
     );

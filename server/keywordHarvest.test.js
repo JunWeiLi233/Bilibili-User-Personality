@@ -1085,6 +1085,24 @@ test('buildDictionaryCoverageAudit rotates stale retries after unattempted harve
   assert.deepEqual(audit.recommendedQueries, ['fresh 评论区 梗 热评', 'missed 弹幕']);
 });
 
+test('buildDictionaryCoverageAudit defers compact metric fragments behind discourse terms', () => {
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [
+        { term: '10r', family: 'evidence', evidenceCount: 0 },
+        { term: '3TP', family: 'evidence', evidenceCount: 0 },
+        { term: '\u6760\u7cbe', family: 'attack', evidenceCount: 0 },
+        { term: '\u6d17\u5730', family: 'evasion', evidenceCount: 0 },
+      ],
+    },
+    { termAttempts: {} },
+    { targetEvidence: 3, maxActions: 4 },
+  );
+
+  assert.deepEqual(audit.nextActions.map((item) => item.term), ['\u6760\u7cbe', '\u6d17\u5730', '3TP', '10r']);
+  assert.equal(audit.recommendedQueries[0], '\u6760\u7cbe \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4');
+});
+
 test('buildDictionaryCoverageAudit keeps hard zero-evidence misses visible among weak sourced terms', () => {
   const audit = buildDictionaryCoverageAudit(
     {
