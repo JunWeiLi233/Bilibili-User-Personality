@@ -14,9 +14,12 @@ export const DEFAULT_CONTROVERSY_SEARCH_QUERIES =
   [
     '\u65f6\u653f \u70ed\u8bc4 \u8bc4\u8bba\u533a',
     '\u56fd\u9645\u653f\u6cbb \u70ed\u8bc4 \u8bc4\u8bba\u533a',
+    '\u56fd\u9645\u5173\u7cfb \u4e2d\u7f8e \u70ed\u8bc4',
     '\u6e38\u620f \u8282\u594f \u70ed\u8bc4',
+    '\u6e38\u620f\u5382\u5546 \u8282\u594f \u70ed\u8bc4',
     '\u793e\u4f1a\u4e8b\u4ef6 \u4e89\u8bae \u70ed\u8bc4',
     '\u539f\u795e \u8282\u594f \u70ed\u8bc4',
+    '\u7c73\u54c8\u6e38 \u8282\u594f \u70ed\u8bc4',
     '\u9ed1\u795e\u8bdd \u4e89\u8bae',
     '\u738b\u8005\u8363\u8000 \u8282\u594f',
     '\u660e\u65e5\u65b9\u821f \u8282\u594f',
@@ -27,6 +30,9 @@ export const DEFAULT_CONTROVERSY_SEARCH_QUERIES =
     '\u5f71\u89c6 \u4e89\u8bae \u70ed\u8bc4',
     '\u5386\u53f2\u4e89\u8bae \u8bc4\u8bba\u533a',
     '\u79d1\u6280\u516c\u53f8 \u4e89\u8bae',
+    '\u65b0\u80fd\u6e90\u8f66 \u4e89\u8bae \u70ed\u8bc4',
+    '\u5c0f\u7c73\u6c7d\u8f66 \u7279\u65af\u62c9 \u8bc4\u8bba\u533a',
+    'AI \u4e89\u8bae \u8bc4\u8bba\u533a',
   ].join('\n');
 export const DEFAULT_CONTROVERSIAL_POPULAR_SEARCH_ORDER =
   process.env.BILIBILI_CONTROVERSIAL_POPULAR_SEARCH_ORDER || 'click';

@@ -362,6 +362,15 @@ test('default controversy seed list includes debate-heavy Bilibili topics', () =
   assert.equal(seeds.some((seed) => seed.includes('\u4e89\u8bae') || seed.includes('\u8282\u594f')), true);
 });
 
+test('default controversy seed list targets popular controversial verticals beyond generic hot videos', () => {
+  const seeds = DEFAULT_CONTROVERSY_SEARCH_QUERIES.split('\n');
+  assert.equal(seeds.some((seed) => seed.includes('\u56fd\u9645\u5173\u7cfb') || seed.includes('\u4e2d\u7f8e')), true);
+  assert.equal(seeds.some((seed) => seed.includes('\u6e38\u620f\u5382\u5546') || seed.includes('\u7c73\u54c8\u6e38')), true);
+  assert.equal(seeds.some((seed) => seed.includes('\u65b0\u80fd\u6e90\u8f66') || seed.includes('\u5c0f\u7c73\u6c7d\u8f66')), true);
+  assert.equal(seeds.some((seed) => seed.includes('AI') && seed.includes('\u4e89\u8bae')), true);
+  assert.equal(seeds.every((seed) => !/^\s*\u70ed\u95e8\s*$|^\s*\u70ed\u699c\s*$/.test(seed)), true);
+});
+
 test('searchVideoKeywords scans video comments and trains keyword dictionary', async () => {
   const trainedPayloads = [];
   const result = await searchVideoKeywords(
