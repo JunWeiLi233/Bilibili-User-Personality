@@ -255,6 +255,21 @@ function isVideoContextSource(source = {}) {
   return isVideoContextSample(source?.sample) || sourceText.includes('search-discovered video context');
 }
 
+function hasVideoContextOnlyEvidence(evidenceSamples = [], evidenceSources = []) {
+  const samples = unique([
+    ...evidenceSamples.map((sample) => String(sample || '').trim()),
+    ...evidenceSources.map((source) => String(source?.sample || '').trim()),
+  ]).filter(Boolean);
+  return samples.length > 0 && samples.every(isVideoContextSample);
+}
+
+function isTitleSplicedVideoContextOnlyTerm(term, evidenceSamples = [], evidenceSources = []) {
+  const clean = cleanTerm(term);
+  if (!hasVideoContextOnlyEvidence(evidenceSamples, evidenceSources)) return false;
+  if (clean === '\u5361\u8116\u5b50') return false;
+  return /^\u5361\p{Script=Han}{2,8}\u8116\u5b50$/u.test(clean);
+}
+
 function evidenceSourceSortKey(source = {}) {
   return isVideoContextSource(source) ? 1 : 0;
 }
@@ -421,6 +436,7 @@ export function normalizeKeywordEntries(rawEntries = []) {
     if (rawEvidenceCount > 0 && rawEvidenceSamples.length > 0 && evidenceSamples.length === 0) continue;
     for (const term of terms) {
       if (isNoisyTerm(term)) continue;
+      if (isTitleSplicedVideoContextOnlyTerm(term, evidenceSamples, evidenceSources)) continue;
       entries.push({
         term,
         family,

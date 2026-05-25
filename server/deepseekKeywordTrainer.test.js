@@ -146,6 +146,78 @@ test('normalizes away keyword entries backed only by file-share ad evidence', ()
   assert.deepEqual(entries.map((entry) => entry.term), ['\u7edd\u5bf9\u4e0d\u591f\u7684']);
 });
 
+test('normalizes away title-spliced video-context-only keyword terms', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u5361\u9a6c\u65af\u514b\u8116\u5b50',
+      family: 'attack',
+      meaning: '\u4ece\u89c6\u9891\u6807\u9898\u62fc\u63a5\u51fa\u7684\u4e13\u540d\u548c\u5361\u8116\u5b50\u7247\u6bb5',
+      evidenceCount: 1,
+      evidenceSamples: ['Bilibili video context: \u3010\u7b2c186\u671f\u3011\u53c8\u53c8\u53c8\u5361\u9a6c\u65af\u514b\u8116\u5b50\u4e86\uff01'],
+      evidenceSources: [
+        {
+          source: 'Bilibili public search-discovered video comment scan plus video context: https://www.bilibili.com/video/BV1EyDBBeE8a/',
+          uid: 'BV1EyDBBeE8a',
+          sample: 'Bilibili video context: \u3010\u7b2c186\u671f\u3011\u53c8\u53c8\u53c8\u5361\u9a6c\u65af\u514b\u8116\u5b50\u4e86\uff01',
+        },
+      ],
+    },
+    {
+      term: '\u5361\u8116\u5b50',
+      family: 'attack',
+      meaning: '\u4e92\u8054\u7f51\u8ba8\u8bba\u91cc\u5bf9\u88ab\u9650\u5236\u6216\u5236\u88c1\u7684\u6bd4\u55bb',
+      evidenceCount: 1,
+      evidenceSamples: ['\u8fd9\u4e0d\u5c31\u662f\u88ab\u5361\u8116\u5b50\u4e86\u5417'],
+    },
+  ]);
+
+  assert.deepEqual(entries.map((entry) => entry.term), ['\u5361\u8116\u5b50']);
+});
+
+test('mergeEntriesIntoDictionary prunes persisted title-spliced video-context-only terms', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'deepseek-prune-title-splice-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  try {
+    await writeFile(
+      dictionaryPath,
+      JSON.stringify({
+        version: 1,
+        updatedAt: '2026-01-01T00:00:00.000Z',
+        entries: [
+          {
+            term: '\u5361\u9a6c\u65af\u514b\u8116\u5b50',
+            family: 'attack',
+            meaning: '\u4ece\u89c6\u9891\u6807\u9898\u62fc\u63a5\u51fa\u7684\u4e13\u540d\u548c\u5361\u8116\u5b50\u7247\u6bb5',
+            evidenceCount: 1,
+            evidenceSamples: ['Bilibili video context: \u3010\u7b2c186\u671f\u3011\u53c8\u53c8\u53c8\u5361\u9a6c\u65af\u514b\u8116\u5b50\u4e86\uff01'],
+            evidenceSources: [
+              {
+                source: 'Bilibili public search-discovered video comment scan plus video context: https://www.bilibili.com/video/BV1EyDBBeE8a/',
+                uid: 'BV1EyDBBeE8a',
+                sample: 'Bilibili video context: \u3010\u7b2c186\u671f\u3011\u53c8\u53c8\u53c8\u5361\u9a6c\u65af\u514b\u8116\u5b50\u4e86\uff01',
+              },
+            ],
+          },
+          {
+            term: '\u5361\u8116\u5b50',
+            family: 'attack',
+            meaning: '\u4e92\u8054\u7f51\u8ba8\u8bba\u91cc\u5bf9\u88ab\u9650\u5236\u6216\u5236\u88c1\u7684\u6bd4\u55bb',
+            evidenceCount: 1,
+            evidenceSamples: ['\u8fd9\u4e0d\u5c31\u662f\u88ab\u5361\u8116\u5b50\u4e86\u5417'],
+          },
+        ],
+      }),
+      'utf8',
+    );
+
+    const dictionary = await mergeEntriesIntoDictionary([], { dictionaryPath });
+
+    assert.deepEqual(dictionary.entries.map((entry) => entry.term), ['\u5361\u8116\u5b50']);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('mergeEntriesIntoDictionary compacts persisted Bilibili emote wrapper artifacts', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'deepseek-prune-emote-wrapper-'));
   const dictionaryPath = join(dir, 'dictionary.json');
