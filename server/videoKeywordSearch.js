@@ -477,6 +477,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
     payload.includeGenericPopular === true ||
     deps.includeGenericPopular === true ||
     envFlag(process.env.BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR, false);
+  const allowFilteredDiscoveryFallback = payload.allowFilteredDiscoveryFallback === true || deps.allowFilteredDiscoveryFallback === true;
   const discoveryWarnings = [];
   let discoveredVideos = [];
   let discoveryContextVideos = [];
@@ -555,6 +556,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
     if (
       targetExistingTerms.length > 0 &&
       includeVideoContext === false &&
+      allowFilteredDiscoveryFallback &&
       !targetsAskBaiduTerm(targetExistingTerms) &&
       !targetsRequireStrictRelevance(targetExistingTerms) &&
       eligibleDiscoveryGroups.every((group) => group.length === 0)

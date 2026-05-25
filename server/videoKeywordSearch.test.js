@@ -704,6 +704,7 @@ test('searchVideoKeywords probes direct search results when comment-backed targe
       pages: 1,
       existingTermsOnly: true,
       includeVideoContext: false,
+      allowFilteredDiscoveryFallback: true,
       targetExistingTerms: ['\u4e0d\u662f\u4eba\u4e86\u5457'],
     },
     {
@@ -768,6 +769,44 @@ test('searchVideoKeywords probes direct search results when comment-backed targe
   assert.deepEqual(scannedBvids, ['BVdirectSearch1', 'BVdirectSearch2']);
   assert.deepEqual(result.discoveredVideos.map((video) => video.bvid), ['BVdirectSearch1', 'BVdirectSearch2']);
   assert.deepEqual(result.collectionDiagnostics.acceptedTerms, ['\u4e0d\u662f\u4eba\u4e86\u5457']);
+});
+
+test('searchVideoKeywords does not scan zero-relevance filtered results by default', async () => {
+  let fetchCalls = 0;
+  const result = await searchVideoKeywords(
+    {
+      searchQuery: '\u5f88\u68d2\u5148\u751f \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      discoveryMode: 'search',
+      discoveryLimit: 2,
+      pages: 1,
+      existingTermsOnly: true,
+      includeVideoContext: false,
+      targetExistingTerms: ['\u5f88\u68d2\u5148\u751f'],
+    },
+    {
+      discoverVideosByKeyword: async () => [
+        {
+          bvid: 'BVgeneric1',
+          title: '\u86cb\u5148\u751f\u56e0\u4e3a\u6ca1\u8d34\u7eb8\u7834\u9632\uff0c\u8868\u793a\u81ea\u5df1\u5df2\u7ecf\u5f88\u68d2\u4e86',
+          sourceUrl: 'https://www.bilibili.com/video/BVgeneric1/',
+        },
+        {
+          bvid: 'BVgeneric2',
+          title: '\u91ce\u4eba\u5148\u751f\u51ed\u4ec0\u4e48\u8ba9\u5e74\u8f7b\u4eba\u75af\u72c2',
+          sourceUrl: 'https://www.bilibili.com/video/BVgeneric2/',
+        },
+      ],
+      fetchJson: async () => {
+        fetchCalls += 1;
+        throw new Error('should not scan zero-relevance filtered search results');
+      },
+      trainKeywordDictionary: async () => ({ ok: true, entries: [], dictionary: { entries: [] } }),
+    },
+  );
+
+  assert.equal(result.ok, false);
+  assert.equal(fetchCalls, 0);
+  assert.deepEqual(result.discoveredVideos, []);
 });
 
 test('searchVideoKeywords ignores generic query scaffolding when filtering target videos', async () => {
