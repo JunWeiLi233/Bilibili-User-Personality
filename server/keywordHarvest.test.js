@@ -441,7 +441,7 @@ test('buildKeywordHarvestQueries uses follow-up weak aliases before exact stale 
     {
       term: '\u5e72\u5d29\u963f',
       family: 'attack',
-      expectedAliasQuery: '\u5e72\u5d29\u963fB \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+      expectedAliasQuery: '\u5e72\u5d29\u963fB \u8bc4\u8bba\u533a',
     },
     {
       term: '\u5e72\u8d27',
@@ -795,12 +795,12 @@ test('buildKeywordHarvestQueries starts with priority weak action aliases', () =
     {
       term: '\u88ab\u62e7\u75bc\u4e86',
       family: 'attack',
-      expectedAliasQuery: '\u62e7\u75bc\u4e86 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+      expectedAliasQuery: '\u88ab\u62e7\u75bc\u4e86 \u8bc4\u8bba\u533a',
     },
     {
       term: '\u611f\u89c9\u81ea\u5df1\u5f88\u5c4c',
       family: 'attack',
-      expectedAliasQuery: '\u89c9\u5f97\u81ea\u5df1\u5f88\u5c4c \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+      expectedAliasQuery: '\u611f\u89c9\u81ea\u5df1\u5f88\u5c4c \u8bc4\u8bba\u533a',
     },
     {
       term: '\u94a2\u94c1\u516c\u53f8\u8463\u4e8b\u957f',
