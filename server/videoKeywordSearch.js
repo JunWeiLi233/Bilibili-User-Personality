@@ -159,6 +159,10 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
     1,
     Math.min(Number(payload.discoveryLimit || deps.discoveryLimit || process.env.BILIBILI_VIDEO_DISCOVERY_LIMIT || 6), 20),
   );
+  const discoveryPages = Math.max(
+    1,
+    Math.min(Number(payload.discoveryPages || deps.discoveryPages || process.env.BILIBILI_VIDEO_DISCOVERY_PAGES || 1), 5),
+  );
   const controversialPopularQueryLimit = boundedInt(
     payload.controversialPopularQueryLimit ??
       deps.controversialPopularQueryLimit ??
@@ -210,7 +214,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
       const group = [];
       for (const query of searchQueries) {
         try {
-          group.push(...(await discoverVideos(query, discoveryLimit, deps)));
+          group.push(...(await discoverVideos(query, discoveryLimit, { ...deps, discoveryPages })));
         } catch (error) {
           discoveryWarnings.push(`${query}: ${error.message}`);
         }
@@ -225,7 +229,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
       for (const query of controversyQueries.slice(0, controversialPopularQueryLimit)) {
         try {
           controversialPopularGroup.push(
-            ...(await discoverVideos(query, discoveryLimit, { ...deps, searchOrder: controversialPopularSearchOrder })),
+            ...(await discoverVideos(query, discoveryLimit, { ...deps, discoveryPages, searchOrder: controversialPopularSearchOrder })),
           );
         } catch (error) {
           discoveryWarnings.push(`${query} (${controversialPopularSearchOrder || 'popular'}): ${error.message}`);
@@ -233,14 +237,14 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
       }
       for (const query of controversyQueries) {
         try {
-          controversyGroup.push(...(await discoverVideos(query, discoveryLimit, deps)));
+          controversyGroup.push(...(await discoverVideos(query, discoveryLimit, { ...deps, discoveryPages })));
         } catch (error) {
           discoveryWarnings.push(`${query}: ${error.message}`);
         }
       }
       for (const query of searchQueries) {
         try {
-          searchGroup.push(...(await discoverVideos(query, discoveryLimit, deps)));
+          searchGroup.push(...(await discoverVideos(query, discoveryLimit, { ...deps, discoveryPages })));
         } catch (error) {
           discoveryWarnings.push(`${query}: ${error.message}`);
         }

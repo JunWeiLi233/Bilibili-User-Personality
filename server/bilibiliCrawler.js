@@ -347,20 +347,28 @@ export async function discoverVideosByKeyword(query, limit = 6, deps = {}) {
   const requestJson = deps.fetchJson || fetchJson;
   const pageSize = Math.max(1, Math.min(Number(limit || 6), 20));
   const order = String(deps.searchOrder || '').trim();
-  const url = new URL('https://api.bilibili.com/x/web-interface/search/type');
-  url.searchParams.set('search_type', 'video');
-  url.searchParams.set('keyword', keyword);
-  url.searchParams.set('page', '1');
-  url.searchParams.set('page_size', String(pageSize));
-  if (order) url.searchParams.set('order', order);
-  const data = await requestJson(url.toString(), `https://search.bilibili.com/all?keyword=${encodeURIComponent(keyword)}`);
-  if (data.code !== 0) {
-    throw new Error(data.message || `video search failed with code ${data.code}`);
+  const searchPages = Math.max(1, Math.min(Number(deps.searchPages || deps.discoveryPages || 1), 5));
+  const videos = [];
+  const seen = new Set();
+  for (let page = 1; page <= searchPages && videos.length < pageSize; page += 1) {
+    const url = new URL('https://api.bilibili.com/x/web-interface/search/type');
+    url.searchParams.set('search_type', 'video');
+    url.searchParams.set('keyword', keyword);
+    url.searchParams.set('page', String(page));
+    url.searchParams.set('page_size', String(pageSize));
+    if (order) url.searchParams.set('order', order);
+    const data = await requestJson(url.toString(), `https://search.bilibili.com/all?keyword=${encodeURIComponent(keyword)}`);
+    if (data.code !== 0) {
+      throw new Error(data.message || `video search failed with code ${data.code}`);
+    }
+    for (const item of data.data?.result || []) {
+      if (!item?.bvid || seen.has(item.bvid)) continue;
+      seen.add(item.bvid);
+      videos.push(videoObjectFromSearchItem(item));
+      if (videos.length >= pageSize) break;
+    }
   }
-  return (data.data?.result || [])
-    .filter((item) => item?.bvid)
-    .slice(0, pageSize)
-    .map(videoObjectFromSearchItem);
+  return videos;
 }
 
 export async function discoverPopularVideos(limit = 6, deps = {}) {

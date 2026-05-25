@@ -863,6 +863,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
     const hardMissedZeroEvidence = isHardMissedZeroEvidenceAttempt(priorAttempt, options.retryBeforeUnattemptedLimit);
     const hardMissedDiscoveryLimit =
       options.hardMissedDiscoveryLimit ?? Math.max(Number(options.staleMissedDiscoveryLimit) || 1, (Number(options.discoveryLimit) || 1) * 4);
+    const hardMissedDiscoveryPages = options.hardMissedDiscoveryPages ?? Math.max(3, Number(options.discoveryPages) || 1);
     const hardMissedPages = options.hardMissedPages ?? Math.max(Number(options.staleMissedPages) || 1, (Number(options.pages) || 1) + 4);
     const effectiveDiscoveryLimit =
       hardMissedZeroEvidence
@@ -885,6 +886,9 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
         pages: effectivePages,
         excludeBvids: skipSeen && !deepenScan ? [...scannedBvidSet] : [],
       };
+      if (hardMissedZeroEvidence || options.discoveryPages !== undefined) {
+        searchPayload.discoveryPages = hardMissedZeroEvidence ? hardMissedDiscoveryPages : options.discoveryPages;
+      }
       if (options.existingTermsOnly !== undefined) {
         searchPayload.existingTermsOnly = options.existingTermsOnly;
       }

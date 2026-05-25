@@ -62,6 +62,37 @@ test('discoverVideosByKeyword can request a search order for popular controversi
   assert.equal(parsed.searchParams.get('order'), 'click');
 });
 
+test('discoverVideosByKeyword can scan multiple search result pages', async () => {
+  const seenPages = [];
+  const videos = await discoverVideosByKeyword('hard term', 2, {
+    searchPages: 2,
+    fetchJson: async (url) => {
+      const parsed = new URL(String(url));
+      const page = parsed.searchParams.get('page');
+      seenPages.push(page);
+      if (page === '1') return { code: 0, data: { result: [] } };
+      return {
+        code: 0,
+        data: {
+          result: [
+            {
+              aid: 456,
+              bvid: 'BV1pageTwo',
+              title: 'page two result',
+              mid: 9,
+              arcurl: 'https://www.bilibili.com/video/BV1pageTwo/',
+              review: 3,
+            },
+          ],
+        },
+      };
+    },
+  });
+
+  assert.deepEqual(seenPages, ['1', '2']);
+  assert.deepEqual(videos.map((video) => video.bvid), ['BV1pageTwo']);
+});
+
 test('discoverPopularVideos reads public popular videos and normalizes video objects', async () => {
   const seenUrls = [];
   const videos = await discoverPopularVideos(2, {

@@ -5,6 +5,7 @@ param(
   [int]$MaxCycles = 3,
   [int]$RoundsPerCycle = 1,
   [int]$DiscoveryLimit = 6,
+  [int]$DiscoveryPages = 1,
   [int]$ControversialPopularQueryLimit = 4,
   [string]$ControversialPopularSearchOrder = "click",
   [int]$CommentPages = 2,
@@ -56,6 +57,7 @@ if ($ExtraQueryTemplate.Count -gt 0) {
 $env:BILIBILI_COVERAGE_LOOP_MAX_CYCLES = [string]$MaxCycles
 $env:BILIBILI_COVERAGE_LOOP_ROUNDS_PER_CYCLE = [string]$RoundsPerCycle
 $env:BILIBILI_VIDEO_DISCOVERY_LIMIT = [string]$DiscoveryLimit
+$env:BILIBILI_VIDEO_DISCOVERY_PAGES = [string]$DiscoveryPages
 $env:BILIBILI_CONTROVERSIAL_POPULAR_QUERY_LIMIT = [string]$ControversialPopularQueryLimit
 $env:BILIBILI_CONTROVERSIAL_POPULAR_SEARCH_ORDER = $ControversialPopularSearchOrder
 if ($IncludeGenericPopular) {
@@ -119,6 +121,7 @@ Write-Host "Target evidence per term: $TargetEvidence"
 Write-Host "Coverage mode: $CoverageMode"
 Write-Host "Discovery mode: $DiscoveryMode"
 Write-Host "Discovery limit: $DiscoveryLimit"
+Write-Host "Discovery pages: $DiscoveryPages"
 Write-Host "Comment pages per video: $CommentPages"
 Write-Host "Controversial popular query limit: $ControversialPopularQueryLimit"
 Write-Host "Controversial popular search order: $ControversialPopularSearchOrder"

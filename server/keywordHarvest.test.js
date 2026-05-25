@@ -1305,6 +1305,7 @@ test('harvestKeywordDictionary escalates zero-evidence repeatedly missed scans',
     );
 
     assert.equal(searched[0].discoveryLimit, 8);
+    assert.equal(searched[0].discoveryPages, 3);
     assert.equal(searched[0].pages, 5);
     assert.deepEqual(searched[0].excludeBvids, []);
   } finally {

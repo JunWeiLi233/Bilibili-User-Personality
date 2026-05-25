@@ -81,6 +81,7 @@ const extraQueryTemplates = parseList(process.env.BILIBILI_HARVEST_EXTRA_QUERY_T
 const exhaustedSuggestionTemplates = parseList(process.env.BILIBILI_HARVEST_EXHAUSTED_SUGGESTION_TEMPLATES);
 const discoveryMode = String(process.env.BILIBILI_VIDEO_DISCOVERY_MODE || 'controversial').trim().toLowerCase();
 const discoveryLimit = positiveIntFromEnv('BILIBILI_VIDEO_DISCOVERY_LIMIT', 6, 20);
+const discoveryPages = positiveIntFromEnv('BILIBILI_VIDEO_DISCOVERY_PAGES', 1, 5);
 const controversialPopularQueryLimit = nonNegativeIntFromEnv('BILIBILI_CONTROVERSIAL_POPULAR_QUERY_LIMIT', 4, 20);
 const controversialPopularSearchOrder = String(process.env.BILIBILI_CONTROVERSIAL_POPULAR_SEARCH_ORDER || 'click').trim().toLowerCase();
 const includeGenericPopular = flagFromEnv('BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR', false);
@@ -143,6 +144,7 @@ for (let cycle = 1; cycle <= maxCycles && !audit.ok; cycle += 1) {
     existingTermsOnly,
     discoveryMode,
     discoveryLimit,
+    discoveryPages,
     controversialPopularQueryLimit,
     controversialPopularSearchOrder,
     includeGenericPopular,
