@@ -457,6 +457,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
         deps.includeVideoContext === true ||
         process.env.BILIBILI_HARVEST_INCLUDE_VIDEO_CONTEXT === '1' ||
         existingTermsOnly;
+  const includeVideoObjectEvidence = payload.includeVideoObjectEvidence !== false && deps.includeVideoObjectEvidence !== false;
   const includeDanmaku =
     payload.includeDanmaku === false
       ? false
@@ -571,7 +572,9 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
     if (discoveredVideos.length === 0) {
       const videoContextText = includeVideoContext ? buildVideoContextText(discoveryContextVideos) : '';
       const videoObjectEvidenceText =
-        includeVideoContext || !existingTermsOnly ? '' : buildTargetVideoObjectEvidenceText(discoveryContextVideos, searchQueries, targetExistingTerms);
+        includeVideoContext || !existingTermsOnly || !includeVideoObjectEvidence
+          ? ''
+          : buildTargetVideoObjectEvidenceText(discoveryContextVideos, searchQueries, targetExistingTerms);
       const trainingText = [videoObjectEvidenceText, videoContextText].filter((item) => item.trim()).join('\n');
       if (trainingText) {
         const trainKeywordDictionary = deps.trainKeywordDictionary || defaultTrainKeywordDictionary;
@@ -704,7 +707,9 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
   const contextVideos = videoContextSources(videos, discoveryContextVideos.length ? discoveryContextVideos : discoveredVideos);
   const videoContextText = includeVideoContext ? buildVideoContextText(contextVideos) : '';
   const videoObjectEvidenceText =
-    includeVideoContext || !existingTermsOnly ? '' : buildTargetVideoObjectEvidenceText(contextVideos, searchQueries, targetExistingTerms);
+    includeVideoContext || !existingTermsOnly || !includeVideoObjectEvidence
+      ? ''
+      : buildTargetVideoObjectEvidenceText(contextVideos, searchQueries, targetExistingTerms);
   const trainingText = [commentText, videoObjectEvidenceText, videoContextText].filter((item) => item.trim()).join('\n');
   const primaryVideo = videos[0];
   const mergedScan = {

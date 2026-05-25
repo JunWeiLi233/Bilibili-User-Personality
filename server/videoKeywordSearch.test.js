@@ -1737,6 +1737,51 @@ test('searchVideoKeywords uses matching public video titles as existing-term obj
   assert.equal(trainedPayloads[0].source.includes('plus video object evidence'), true);
 });
 
+test('searchVideoKeywords can disable public video titles as existing-term object evidence', async () => {
+  const trainedPayloads = [];
+  const result = await searchVideoKeywords(
+    {
+      videoLink: 'https://www.bilibili.com/video/BV19yGa61Ee6/',
+      pages: 1,
+      existingTermsOnly: true,
+      includeVideoContext: false,
+      includeVideoObjectEvidence: false,
+      targetExistingTerms: ['\u6401\u8fd9\u6401\u8fd9'],
+    },
+    {
+      fetchJson: async (url) => {
+        if (String(url).includes('/x/web-interface/view')) {
+          return {
+            code: 0,
+            data: {
+              aid: 123,
+              title: '\u4f60\u6401\u8fd9\u6401\u8fd9\u5462\uff1f\u3010\u54d4\u54e9\u70ed\u8bc4003\u3011',
+              owner: { mid: 9, name: 'up' },
+              stat: { reply: 0 },
+            },
+          };
+        }
+        return {
+          code: 0,
+          data: {
+            replies: [],
+            cursor: { is_end: true, next: 0 },
+          },
+        };
+      },
+      trainKeywordDictionary: async (payload) => {
+        trainedPayloads.push(payload);
+        return { ok: true, entries: [], dictionary: { entries: [] } };
+      },
+    },
+  );
+
+  assert.equal(result.ok, true);
+  assert.equal(result.videoContextText, '');
+  assert.equal(result.videoObjectEvidenceText, '');
+  assert.equal(trainedPayloads.length, 0);
+});
+
 test('searchVideoKeywords includes discovered search-result video context for existing terms', async () => {
   const trainedPayloads = [];
   const result = await searchVideoKeywords(

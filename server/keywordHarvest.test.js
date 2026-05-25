@@ -5704,6 +5704,48 @@ test('harvestKeywordDictionary does not record strict comment success from conte
   }
 });
 
+test('harvestKeywordDictionary disables video-title evidence during strict comment refreshes', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-strict-no-title-evidence-'));
+  const statePath = join(dir, 'state.json');
+  try {
+    const payloads = [];
+    await harvestKeywordDictionary(
+      {
+        priorityQueries: ['contextOnly \u8bc4\u8bba\u533a'],
+        seedQueries: [],
+        maxQueries: 1,
+        existingTermsOnly: true,
+        requireCommentBackedEvidence: true,
+        discoveryLimit: 1,
+        pages: 1,
+        statePath,
+      },
+      {
+        readKeywordDictionary: async () => ({
+          entries: [{ term: 'contextOnly', family: 'attack', evidenceCount: 1 }],
+        }),
+        searchVideoKeywords: async (payload) => {
+          payloads.push(payload);
+          return {
+            ok: true,
+            warnings: [],
+            videos: [{ bvid: 'BV1111111111' }],
+            comments: [],
+            entries: [],
+            keywordTraining: { dictionaryEvidenceEntries: [] },
+            dictionary: { entries: [{ term: 'contextOnly', family: 'attack', evidenceCount: 1 }] },
+          };
+        },
+      },
+    );
+
+    assert.equal(payloads[0].includeVideoContext, false);
+    assert.equal(payloads[0].includeVideoObjectEvidence, false);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('harvestKeywordDictionary targets exact source-gap priority terms', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-exact-source-gap-target-'));
   const statePath = join(dir, 'state.json');

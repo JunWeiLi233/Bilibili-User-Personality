@@ -1903,6 +1903,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
       }
       if (options.requireCommentBackedEvidence === true) {
         searchPayload.includeVideoContext = false;
+        searchPayload.includeVideoObjectEvidence = false;
       }
       if (options.controversialPopularQueryLimit !== undefined) {
         searchPayload.controversialPopularQueryLimit = options.controversialPopularQueryLimit;
