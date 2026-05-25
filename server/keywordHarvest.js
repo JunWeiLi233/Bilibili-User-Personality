@@ -379,7 +379,20 @@ function coverageActionRank(action) {
 function actionSortRank(action, options = {}) {
   const baseRank = coverageActionRank(action?.action);
   const retryLimit = Math.max(0, Number(options.retryBeforeUnattemptedLimit ?? 3) || 0);
-  if (action?.action === 'retry_with_new_variant' && retryLimit > 0 && Number(action?.attempts || 0) >= retryLimit) {
+  const attempts = Math.max(0, Number(action?.attempts) || 0);
+  const successfulAttempts = Math.max(0, Number(action?.successfulAttempts) || 0);
+  const evidence = Math.max(0, Number(action?.evidenceCount) || 0);
+  if (
+    options.prioritizeHardZeroEvidence === true &&
+    action?.action === 'retry_with_new_variant' &&
+    retryLimit > 0 &&
+    attempts >= retryLimit * 2 &&
+    successfulAttempts === 0 &&
+    evidence === 0
+  ) {
+    return coverageActionRank('harvest') - 0.5;
+  }
+  if (action?.action === 'retry_with_new_variant' && retryLimit > 0 && attempts >= retryLimit) {
     return coverageActionRank('harvest') + 0.5;
   }
   return baseRank;
@@ -803,7 +816,7 @@ export function buildDictionaryCoverageAudit(dictionary = {}, state = {}, option
     .filter((item) => item.action !== 'none')
     .sort(
       (a, b) =>
-        actionSortRank(a, options) - actionSortRank(b, options) ||
+        actionSortRank(a, { ...options, prioritizeHardZeroEvidence: true }) - actionSortRank(b, { ...options, prioritizeHardZeroEvidence: true }) ||
         a.evidenceCount - b.evidenceCount ||
         String(a.term || '').localeCompare(String(b.term || '')),
     );

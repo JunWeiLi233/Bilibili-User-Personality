@@ -1053,6 +1053,43 @@ test('buildDictionaryCoverageAudit rotates stale retries after unattempted harve
   assert.deepEqual(audit.recommendedQueries, ['fresh 评论区 梗 热评', 'missed 弹幕']);
 });
 
+test('buildDictionaryCoverageAudit keeps hard zero-evidence misses visible among weak sourced terms', () => {
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [
+        { term: 'zeroMiss', family: 'attack', evidenceCount: 0 },
+        { term: 'weakA', family: 'attack', evidenceCount: 1 },
+        { term: 'weakB', family: 'attack', evidenceCount: 1 },
+      ],
+    },
+    {
+      termAttempts: {
+        zeroMiss: {
+          term: 'zeroMiss',
+          family: 'attack',
+          evidenceAtPlanTime: 0,
+          lastEvidenceCount: 0,
+          attempts: 6,
+          successfulAttempts: 0,
+          queries: [
+            { query: 'zeroMiss 评论区 梗 热评' },
+            { query: 'zeroMiss 评论区' },
+            { query: 'zeroMiss 热评' },
+            { query: 'zeroMiss B站 评论区 梗' },
+            { query: 'zeroMiss B站 回复 评论区' },
+            { query: 'zeroMiss 弹幕' },
+          ],
+        },
+      },
+    },
+    { targetEvidence: 3, maxActions: 2, retryBeforeUnattemptedLimit: 3 },
+  );
+
+  assert.equal(audit.nextActions[0].term, 'zeroMiss');
+  assert.equal(audit.nextActions[0].status, 'weak_missed');
+  assert.equal(audit.recommendedQueries[0], audit.nextActions[0].nextQuery);
+});
+
 test('buildDictionaryCoverageAudit can require source-backed evidence metadata', () => {
   const audit = buildDictionaryCoverageAudit(
     {
