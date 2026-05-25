@@ -230,6 +230,33 @@ test('findDictionaryEntriesWithTextEvidence maps harvest aliases back to hard ze
   assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-hard-alias'), true);
 });
 
+test('findDictionaryEntriesWithTextEvidence maps newer controversy aliases back to weak dictionary terms', () => {
+  const entries = findDictionaryEntriesWithTextEvidence(
+    {
+      entries: [
+        { term: '\u524d\u9762\u8bf4\u91cd\u4e86', family: 'correction', meaning: 'self correction phrase' },
+        { term: '\u95ee\u8001\u9a6c\u672c\u4eba', family: 'evasion', meaning: 'ask the principal actor' },
+        { term: '\u8e6d\u6982\u5ff5', family: 'attack', meaning: 'accuse concept riding' },
+        { term: '\u8f66\u5bb6\u519b', family: 'attack', meaning: 'car fandom label' },
+      ],
+    },
+    '\u521a\u624d\u8bf4\u9519\u4e86\uff0c\u8fd9\u53e5\u6211\u6536\u56de\n\u8fd9\u4e2a\u4f60\u5f97\u95ee\u9a6c\u65af\u514b\u53bb\nAI\u6982\u5ff5\u4e5f\u80fd\u8e6d\u4e0a\n\u96f7\u519b\u7c89\u4e1d\u53c8\u5728\u51b2\u8bc4\u8bba\u533a',
+    {
+      source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-current-alias/',
+      uid: 'BV-current-alias',
+    },
+  );
+
+  assert.deepEqual(entries.map((entry) => entry.term), [
+    '\u524d\u9762\u8bf4\u91cd\u4e86',
+    '\u95ee\u8001\u9a6c\u672c\u4eba',
+    '\u8e6d\u6982\u5ff5',
+    '\u8f66\u5bb6\u519b',
+  ]);
+  assert.equal(entries.every((entry) => entry.evidenceCount >= 1), true);
+  assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-current-alias'), true);
+});
+
 test('trainKeywordDictionary updates evidence for existing terms found in crawled comments', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-train-existing-evidence-'));
   const dictionaryPath = join(dir, 'dictionary.json');

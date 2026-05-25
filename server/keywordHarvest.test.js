@@ -205,6 +205,47 @@ test('buildKeywordHarvestQueries applies topic contexts to search aliases', () =
   }
 });
 
+test('buildKeywordHarvestQueries broadens hard zero-evidence terms with fresher controversy wording', () => {
+  const cases = [
+    {
+      term: '\u524d\u9762\u8bf4\u91cd\u4e86',
+      family: 'correction',
+      expectedQuery: '\u8bf4\u9519\u4e86 \u66f4\u6b63 \u8bc4\u8bba\u533a',
+    },
+    {
+      term: '\u95ee\u8001\u9a6c\u672c\u4eba',
+      family: 'evasion',
+      expectedQuery: '\u95ee\u9a6c\u65af\u514b \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+    {
+      term: '\u8e6d\u6982\u5ff5',
+      family: 'attack',
+      expectedQuery: 'AI\u6982\u5ff5 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+    },
+    {
+      term: '\u8f66\u5bb6\u519b',
+      family: 'attack',
+      expectedQuery: '\u96f7\u519b\u7c89\u4e1d \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+    },
+  ];
+
+  for (const item of cases) {
+    const queries = buildKeywordHarvestQueries(
+      {
+        entries: [{ term: item.term, family: item.family, evidenceCount: 0 }],
+      },
+      {
+        seedQueries: [],
+        coverageMode: 'all-weak',
+        maxQueries: 48,
+        queryVariantsPerTerm: 48,
+      },
+    );
+
+    assert.equal(queries.includes(item.expectedQuery), true);
+  }
+});
+
 test('buildKeywordHarvestQueries all-weak mode targets every weak term before broad seeds', () => {
   const queries = buildKeywordHarvestQueries(
     {
