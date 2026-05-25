@@ -1086,6 +1086,54 @@ test('harvestKeywordDictionary runs dictionary-seeded searches and reports growt
   }
 });
 
+test('harvestKeywordDictionary reports DeepSeek training diagnostics per run', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-diagnostics-'));
+  const statePath = join(dir, 'state.json');
+  try {
+    const result = await harvestKeywordDictionary(
+      {
+        seedQueries: ['seed topic'],
+        maxQueries: 1,
+        discoveryLimit: 1,
+        pages: 1,
+        statePath,
+      },
+      {
+        readKeywordDictionary: async () => ({ entries: [{ term: 'doge', family: 'cooperation', evidenceCount: 0 }] }),
+        searchVideoKeywords: async () => ({
+          ok: true,
+          warnings: [],
+          videos: [{ bvid: 'BV1111111111' }],
+          comments: [{ rpid: '1', message: 'comment' }],
+          entries: [],
+          keywordTraining: {
+            available: true,
+            keyConfigured: true,
+            usedFallback: false,
+            evidenceRejected: 2,
+            dictionaryEvidenceEntries: [
+              { term: 'doge', family: 'cooperation', evidenceCount: 1 },
+            ],
+          },
+        }),
+      },
+    );
+
+    assert.deepEqual(result.trainingDiagnostics, {
+      deepseekCalls: 1,
+      fallbackCalls: 0,
+      evidenceRejected: 2,
+      dictionaryEvidenceTerms: 1,
+      dictionaryEvidenceCount: 1,
+      generatedTerms: 0,
+    });
+    const persisted = JSON.parse(await readFile(statePath, 'utf8'));
+    assert.deepEqual(persisted.runs[0].trainingDiagnostics, result.trainingDiagnostics);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('harvestKeywordDictionary uses untried query variants after prior missed attempts', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-retry-variant-'));
   const statePath = join(dir, 'state.json');

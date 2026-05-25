@@ -704,6 +704,33 @@ function collectEvidenceTerms(result) {
   );
 }
 
+function summarizeTrainingDiagnostics(results = []) {
+  const diagnostics = {
+    deepseekCalls: 0,
+    fallbackCalls: 0,
+    evidenceRejected: 0,
+    dictionaryEvidenceTerms: 0,
+    dictionaryEvidenceCount: 0,
+    generatedTerms: 0,
+  };
+  for (const item of results) {
+    const training = item?.result?.keywordTraining;
+    if (!training) continue;
+    if (training.available && training.keyConfigured) diagnostics.deepseekCalls += 1;
+    if (training.usedFallback) diagnostics.fallbackCalls += 1;
+    diagnostics.evidenceRejected += Math.max(0, Number(training.evidenceRejected) || 0);
+    const dictionaryEvidenceEntries = Array.isArray(training.dictionaryEvidenceEntries) ? training.dictionaryEvidenceEntries : [];
+    diagnostics.dictionaryEvidenceTerms += dictionaryEvidenceEntries.length;
+    diagnostics.dictionaryEvidenceCount += dictionaryEvidenceEntries.reduce((sum, entry) => sum + (Math.max(0, Number(entry?.evidenceCount) || 0)), 0);
+    diagnostics.generatedTerms += Array.isArray(training.generatedEntries)
+      ? training.generatedEntries.length
+      : Array.isArray(item?.result?.entries)
+        ? item.result.entries.length
+        : 0;
+  }
+  return diagnostics;
+}
+
 function updateTermAttempt(termAttempts, planItem, result, finishedAt) {
   if (!planItem?.term) return;
   const term = String(planItem.term).trim();
@@ -902,6 +929,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
     extraQueryTemplates: options.extraQueryTemplates,
     exhaustedSuggestionTemplates: options.exhaustedSuggestionTemplates,
   });
+  const trainingDiagnostics = summarizeTrainingDiagnostics(results);
   const finishedAt = new Date().toISOString();
   const nextState = {
     version: 1,
@@ -917,7 +945,8 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
         successfulQueries: results.filter((item) => item.result?.ok).length,
         videosScanned: results.reduce((sum, item) => sum + (item.result?.videos?.length || 0), 0),
         commentsCollected: results.reduce((sum, item) => sum + (item.result?.comments?.length || 0), 0),
-        evidenceRejected: results.reduce((sum, item) => sum + (item.result?.keywordTraining?.evidenceRejected || 0), 0),
+        evidenceRejected: trainingDiagnostics.evidenceRejected,
+        trainingDiagnostics,
         acceptedEvidenceCount: results.reduce(
           (sum, item) => sum + (item.result?.entries || []).reduce((entrySum, entry) => entrySum + (Number(entry.evidenceCount) || 0), 0),
           0,
@@ -954,6 +983,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
     growth,
     coverage,
     coverageProgress,
+    trainingDiagnostics,
     termAttemptSummary,
     coverageActions,
     dictionary: after,
