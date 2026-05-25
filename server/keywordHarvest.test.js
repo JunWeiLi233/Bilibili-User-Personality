@@ -1243,6 +1243,50 @@ test('buildDictionaryCoverageAudit can require comment-backed evidence instead o
   assert.equal(audit.failureReasons.some((reason) => reason.includes('missing Bilibili comment evidence')), true);
 });
 
+test('buildDictionaryCoverageAudit prioritizes context-only source gaps before ordinary weak retries', () => {
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [
+        {
+          term: 'contextOnly',
+          family: 'attack',
+          evidenceCount: 3,
+          evidenceSources: [
+            {
+              source: 'Bilibili public search-discovered video context: https://www.bilibili.com/video/BVcontext/',
+              uid: 'BVcontext',
+              sample: 'Bilibili video context: contextOnly from a video title',
+            },
+          ],
+        },
+        { term: 'weakRetry', family: 'attack', evidenceCount: 1 },
+      ],
+    },
+    {
+      termAttempts: {
+        weakRetry: {
+          term: 'weakRetry',
+          family: 'attack',
+          attempts: 1,
+          successfulAttempts: 0,
+          queries: [{ query: 'weakRetry \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4' }],
+        },
+      },
+    },
+    {
+      targetEvidence: 3,
+      maxActions: 2,
+      requireSourceBackedEvidence: true,
+      requireCommentBackedEvidence: true,
+      prioritizeSourceGaps: true,
+    },
+  );
+
+  assert.equal(audit.nextActions[0].term, 'contextOnly');
+  assert.equal(audit.nextActions[0].status, 'source_gap');
+  assert.equal(audit.recommendedQueries[0], 'contextOnly \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4');
+});
+
 test('buildDictionaryCoverageAudit diversifies recommendations across related weak term groups', () => {
   const audit = buildDictionaryCoverageAudit(
     {

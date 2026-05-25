@@ -51,6 +51,7 @@ const audit = buildDictionaryCoverageAudit(dictionary, state, {
   requireComplete,
   requireSourceBackedEvidence,
   requireCommentBackedEvidence,
+  prioritizeSourceGaps: requireCommentBackedEvidence,
   extraQueryTemplates,
   exhaustedSuggestionTemplates,
   retryBeforeUnattemptedLimit,

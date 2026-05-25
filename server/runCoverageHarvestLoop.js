@@ -106,6 +106,7 @@ const auditOptions = {
   requireComplete,
   requireSourceBackedEvidence,
   requireCommentBackedEvidence,
+  prioritizeSourceGaps: requireCommentBackedEvidence,
   extraQueryTemplates,
   exhaustedSuggestionTemplates,
   retryBeforeUnattemptedLimit,
