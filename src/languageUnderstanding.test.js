@@ -79,7 +79,54 @@ test('buildSentenceRadarMarks infers radar axis when model omits axisImpacts', (
     },
   ]);
 
-  assert.equal(marks.length, 1);
+  assert.equal(marks.length, 3);
   assert.equal(marks[0].axis, '修正意愿');
   assert.equal(marks[0].direction, 'positive');
+  assert.deepEqual(marks.slice(1).map((mark) => mark.axis), ['证据敏感', '合作讨论']);
+});
+
+test('buildSentenceRadarMarks infers multiple sentence-level radar marks from full context', () => {
+  const marks = buildSentenceRadarMarks([
+    {
+      quote: '不是我杠，你这个证据链只覆盖一个样本，先别急着扣帽子。',
+      speechAct: '证据边界提醒',
+      target: '样本覆盖范围',
+      risk: 'low',
+      reasoning: '先要求回到证据范围，同时提醒对方不要贴标签。',
+    },
+  ]);
+
+  assert.deepEqual(
+    marks.map((mark) => ({ axis: mark.axis, direction: mark.direction })),
+    [
+      { axis: '证据敏感', direction: 'positive' },
+      { axis: '合作讨论', direction: 'positive' },
+      { axis: '对抗性动机', direction: 'risk' },
+    ],
+  );
+  assert.equal(marks[0].quote, '不是我杠，你这个证据链只覆盖一个样本，先别急着扣帽子。');
+  assert.equal(marks[2].strength <= 0.3, true);
+});
+
+test('buildSentenceRadarMarks normalizes model axis aliases before rendering radar marks', () => {
+  const marks = buildSentenceRadarMarks([
+    {
+      quote: '所有支持这个观点的人都一个样，根本不是讨论问题。',
+      speechAct: '阵营泛化',
+      target: '支持者群体',
+      risk: 'high',
+      axisImpacts: [
+        { axis: 'absolutes', direction: 'negative', strength: 0.92, reasoning: '全称化判断。' },
+        { axis: 'person_attack', direction: 'risk', strength: 0.66, reasoning: '把讨论对象转向人群标签。' },
+      ],
+    },
+  ]);
+
+  assert.deepEqual(
+    marks.map((mark) => ({ axis: mark.axis, direction: mark.direction, strength: mark.strength })),
+    [
+      { axis: '认知闭合', direction: 'risk', strength: 0.92 },
+      { axis: '对抗性动机', direction: 'risk', strength: 0.66 },
+    ],
+  );
 });
