@@ -115,6 +115,11 @@ const TERM_PRECISION_QUERIES = {
   '\u8f66\u5bb6\u519b': ['\u5c0f\u7c73\u6c7d\u8f66 \u8f66\u5bb6\u519b \u63a7\u8bc4', '\u96f7\u519b \u8f66\u5bb6\u519b \u70ed\u8bc4', '\u7c73\u7c89\u63a7\u8bc4 SU7', '\u5c0f\u7c73\u6c34\u519b \u63a7\u8bc4'],
   '\u8e6d\u6982\u5ff5': ['\u8e6d\u6982\u5ff5\u662f\u8c01 AI', '\u8c01\u5728\u8e6d\u6982\u5ff5 AI', '\u786c\u8e6dAI\u6982\u5ff5', '\u8e6d\u6982\u5ff5 \u6e38\u620f\u516c\u53f8'],
 };
+const TERM_NEGATIVE_FEEDBACK_QUERIES = {
+  '\u4e0d\u4f1a\u771f\u6709\u4eba': ['\u4e0d\u4f1a\u771f\u6709\u4eba\u89c9\u5f97 \u539f\u8bdd', '\u4e0d\u4f1a\u771f\u6709\u4eba\u89c9\u5f97\u5427 \u8bc4\u8bba', '\u8fd9\u53eb\u8bc1\u636e\u5427 \u4e0d\u4f1a\u771f\u6709\u4eba'],
+  '\u8f66\u5bb6\u519b': ['\u8f66\u5bb6\u519b \u5c0f\u7c73SU7 \u8bc4\u8bba\u533a', '\u6ca1\u6709\u8f66\u5bb6\u519b \u5c0f\u7c73SU7', '\u8f66\u5bb6\u519b \u96f7\u519b \u539f\u8bdd'],
+  '\u8e6d\u6982\u5ff5': ['\u8c01\u662f\u8e6d\u6982\u5ff5 \u539f\u8bdd', '\u8c01\u662f\u8e6d\u6982\u5ff5 \u8bc4\u8bba', '\u8e6d\u6982\u5ff5\u662f\u8c01 \u539f\u8bdd'],
+};
 
 function asPositiveInt(value, fallback, max = Number.MAX_SAFE_INTEGER) {
   const number = Number(value);
@@ -340,6 +345,29 @@ function precisionQueriesForTerm(term) {
   return TERM_PRECISION_QUERIES[recommendationGroupForTerm(term)] || [];
 }
 
+function negativeFeedbackQueriesForTerm(term) {
+  return TERM_NEGATIVE_FEEDBACK_QUERIES[recommendationGroupForTerm(term)] || [];
+}
+
+function flattenQueryDiagnostics(runs = []) {
+  return runs.flatMap((run) => (Array.isArray(run?.queryDiagnostics) ? run.queryDiagnostics.flat() : []));
+}
+
+function hasIrrelevantQueryFeedback(state = {}, term) {
+  const cleanTerm = String(term || '').trim();
+  if (!cleanTerm) return false;
+  return flattenQueryDiagnostics(state.runs || []).some((item) => {
+    const targets = Array.isArray(item?.targetExistingTerms) ? item.targetExistingTerms.map((target) => String(target || '').trim()) : [];
+    const accepted = Array.isArray(item?.acceptedTerms) ? item.acceptedTerms.map((target) => String(target || '').trim()).filter(Boolean) : [];
+    return (
+      targets.includes(cleanTerm) &&
+      accepted.length === 0 &&
+      Math.max(0, Number(item?.commentsCollected) || 0) > 0 &&
+      Math.max(0, Number(item?.trainingTextChars) || 0) > 0
+    );
+  });
+}
+
 function diversifyCoverageActions(actions, limit) {
   const selected = [];
   const selectedGroups = new Set();
@@ -390,7 +418,7 @@ export function buildKeywordHarvestQueryPlan(dictionary, options = {}) {
   const allEntries = sortEntriesForCoverage(Array.isArray(dictionary?.entries) ? dictionary.entries : []);
   const termAttempts = options.termAttempts && typeof options.termAttempts === 'object' ? options.termAttempts : {};
   const actionMap = new Map(
-    buildCoverageActions(dictionary, { termAttempts }, { ...options, targetEvidence }).map((item) => [item.term, item]),
+    buildCoverageActions(dictionary, { ...options.state, termAttempts }, { ...options, targetEvidence }).map((item) => [item.term, item]),
   );
   const entries =
     coverageMode === 'all-weak'
@@ -639,8 +667,13 @@ export function buildCoverageActions(dictionary = {}, state = {}, options = {}) 
     const triedQueries = attemptedVariantQueries(attempt);
     const availableVariants = queryVariantsForTerm(term, family, queryTemplatesFromOptions(options).length, options);
     const hardMissedZeroEvidence = isHardMissedZeroEvidenceAttempt(attempt, options.retryBeforeUnattemptedLimit);
+    const feedbackQuery =
+      hardMissedZeroEvidence && hasIrrelevantQueryFeedback(state, term)
+        ? negativeFeedbackQueriesForTerm(term).find((query) => !triedQueries.has(query))
+        : '';
     const precisionQuery = hardMissedZeroEvidence ? precisionQueriesForTerm(term).find((query) => !triedQueries.has(query)) : '';
     const nextVariant =
+      (feedbackQuery ? { query: feedbackQuery, variantIndex: null, builtIn: false } : null) ||
       (precisionQuery ? { query: precisionQuery, variantIndex: null, builtIn: false } : null) ||
       availableVariants.find((variant) => !triedQueries.has(variant.query)) ||
       null;
@@ -912,6 +945,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
     backfilledAt: state.updatedAt || new Date().toISOString(),
   });
   const candidatePlan = buildKeywordHarvestQueryPlan(before, {
+    state,
     priorityQueries: options.priorityQueries,
     seedQueries: options.seedQueries,
     maxQueries: skipSeen ? Math.min(10000, maxQueries + searchedQuerySet.size + 100) : Math.min(10000, maxQueries + 100),

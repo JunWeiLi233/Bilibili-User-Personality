@@ -1127,6 +1127,71 @@ test('buildDictionaryCoverageAudit recommends precision queries for hard zero-ev
   assert.equal(audit.nextActions.find((item) => item.term === '\u4e0d\u4f1a\u771f\u6709\u4eba\u89c9\u5f97').nextQuery, '\u4e0d\u4f1a\u771f\u6709\u4eba \u8bc1\u636e \u56de\u590d');
 });
 
+test('buildDictionaryCoverageAudit rewrites hard misses after irrelevant query diagnostics', () => {
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [
+        { term: '\u8f66\u5bb6\u519b', family: 'attack', evidenceCount: 0 },
+        { term: '\u8c01\u662f\u8e6d\u6982\u5ff5', family: 'attack', evidenceCount: 0 },
+      ],
+    },
+    {
+      termAttempts: {
+        [Buffer.from('\u8f66\u5bb6\u519b', 'utf8').toString('base64url')]: {
+          term: '\u8f66\u5bb6\u519b',
+          family: 'attack',
+          evidenceAtPlanTime: 0,
+          attempts: 8,
+          successfulAttempts: 0,
+          lastEvidenceCount: 0,
+          queries: [
+            { query: '\u5c0f\u7c73\u6c34\u519b \u63a7\u8bc4' },
+            { query: '\u7c73\u7c89\u63a7\u8bc4 SU7' },
+          ],
+        },
+        [Buffer.from('\u8c01\u662f\u8e6d\u6982\u5ff5', 'utf8').toString('base64url')]: {
+          term: '\u8c01\u662f\u8e6d\u6982\u5ff5',
+          family: 'attack',
+          evidenceAtPlanTime: 0,
+          attempts: 8,
+          successfulAttempts: 0,
+          lastEvidenceCount: 0,
+          queries: [
+            { query: '\u8e6d\u6982\u5ff5 \u6e38\u620f\u516c\u53f8' },
+            { query: '\u786c\u8e6dAI\u6982\u5ff5' },
+          ],
+        },
+      },
+      runs: [
+        {
+          queryDiagnostics: [
+            [
+              {
+                query: '\u5c0f\u7c73\u6c34\u519b \u63a7\u8bc4',
+                commentsCollected: 26,
+                trainingTextChars: 1746,
+                targetExistingTerms: ['\u8f66\u5bb6\u519b', '\u6ca1\u6709\u8f66\u5bb6\u519b'],
+                acceptedTerms: [],
+              },
+              {
+                query: '\u8e6d\u6982\u5ff5 \u6e38\u620f\u516c\u53f8',
+                commentsCollected: 18,
+                trainingTextChars: 557,
+                targetExistingTerms: ['\u8e6d\u6982\u5ff5', '\u8c01\u662f\u8e6d\u6982\u5ff5'],
+                acceptedTerms: [],
+              },
+            ],
+          ],
+        },
+      ],
+    },
+    { targetEvidence: 3, maxActions: 2, retryBeforeUnattemptedLimit: 3 },
+  );
+
+  assert.equal(audit.nextActions.find((item) => item.term === '\u8f66\u5bb6\u519b').nextQuery, '\u8f66\u5bb6\u519b \u5c0f\u7c73SU7 \u8bc4\u8bba\u533a');
+  assert.equal(audit.nextActions.find((item) => item.term === '\u8c01\u662f\u8e6d\u6982\u5ff5').nextQuery, '\u8c01\u662f\u8e6d\u6982\u5ff5 \u539f\u8bdd');
+});
+
 test('harvestKeywordDictionary runs dictionary-seeded searches and reports growth', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-'));
   const statePath = join(dir, 'state.json');
@@ -2031,6 +2096,84 @@ test('harvestKeywordDictionary targets related weak aliases during existing-only
       '\u4e0d\u4f1a\u771f\u6709\u4eba\u89c9\u5f97\u5427',
       '\u4e0d\u4f1a\u771f\u6709\u4eba\u89c9\u5f97\u8fd9\u53eb\u8bc1\u636e\u5427',
     ]);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
+test('harvestKeywordDictionary keeps target terms for feedback priority queries', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-feedback-priority-target-'));
+  const statePath = join(dir, 'state.json');
+  try {
+    await writeFile(
+      statePath,
+      JSON.stringify({
+        version: 1,
+        updatedAt: '2026-01-01T00:00:00.000Z',
+        searchedQueries: [],
+        scannedBvids: [],
+        termAttempts: {
+          [Buffer.from('\u8f66\u5bb6\u519b', 'utf8').toString('base64url')]: {
+            term: '\u8f66\u5bb6\u519b',
+            family: 'attack',
+            evidenceAtPlanTime: 0,
+            attempts: 8,
+            successfulAttempts: 0,
+            lastEvidenceCount: 0,
+            queries: [{ query: '\u5c0f\u7c73\u6c34\u519b \u63a7\u8bc4' }],
+          },
+        },
+        runs: [
+          {
+            queryDiagnostics: [
+              [
+                {
+                  query: '\u5c0f\u7c73\u6c34\u519b \u63a7\u8bc4',
+                  commentsCollected: 20,
+                  trainingTextChars: 500,
+                  targetExistingTerms: ['\u8f66\u5bb6\u519b', '\u6ca1\u6709\u8f66\u5bb6\u519b'],
+                  acceptedTerms: [],
+                },
+              ],
+            ],
+          },
+        ],
+      }),
+      'utf8',
+    );
+    const payloads = [];
+    await harvestKeywordDictionary(
+      {
+        priorityQueries: ['\u8f66\u5bb6\u519b \u5c0f\u7c73SU7 \u8bc4\u8bba\u533a'],
+        seedQueries: [],
+        maxQueries: 1,
+        existingTermsOnly: true,
+        coverageMode: 'all-weak',
+        discoveryLimit: 1,
+        pages: 1,
+        statePath,
+      },
+      {
+        readKeywordDictionary: async () => ({
+          entries: [
+            { term: '\u8f66\u5bb6\u519b', family: 'attack', evidenceCount: 0 },
+            { term: '\u6ca1\u6709\u8f66\u5bb6\u519b', family: 'attack', evidenceCount: 0 },
+          ],
+        }),
+        searchVideoKeywords: async (payload) => {
+          payloads.push(payload);
+          return {
+            ok: true,
+            warnings: [],
+            videos: [{ bvid: 'BV1111111111' }],
+            comments: [],
+            entries: [],
+          };
+        },
+      },
+    );
+
+    assert.deepEqual(payloads[0].targetExistingTerms, ['\u8f66\u5bb6\u519b', '\u6ca1\u6709\u8f66\u5bb6\u519b']);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
