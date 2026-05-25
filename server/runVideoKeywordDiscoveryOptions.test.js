@@ -34,6 +34,27 @@ test('buildVideoKeywordDiscoveryOptions treats comment evidence as source-backed
   assert.equal(options.prioritizeSourceGaps, true);
 });
 
+test('buildVideoKeywordDiscoveryOptions moves to unattempted terms sooner in strict comment mode', () => {
+  const options = buildVideoKeywordDiscoveryOptions({
+    env: {
+      BILIBILI_COVERAGE_AUDIT_REQUIRE_COMMENTS: '1',
+    },
+  });
+
+  assert.equal(options.retryBeforeUnattemptedLimit, 1);
+});
+
+test('buildVideoKeywordDiscoveryOptions lets direct harvest retry override strict comment default', () => {
+  const options = buildVideoKeywordDiscoveryOptions({
+    env: {
+      BILIBILI_COVERAGE_AUDIT_REQUIRE_COMMENTS: '1',
+      BILIBILI_HARVEST_RETRY_BEFORE_UNATTEMPTED_LIMIT: '4',
+    },
+  });
+
+  assert.equal(options.retryBeforeUnattemptedLimit, 4);
+});
+
 test('parsePriorityQueryContent preserves structured audit action targets', () => {
   const priorityQueries = parsePriorityQueryContent(
     JSON.stringify([

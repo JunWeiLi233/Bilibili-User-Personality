@@ -80,6 +80,7 @@ export function buildVideoKeywordDiscoveryOptions({
     requireCommentBackedEvidence ||
     env.BILIBILI_HARVEST_REQUIRE_SOURCES === '1' ||
     env.BILIBILI_COVERAGE_AUDIT_REQUIRE_SOURCES === '1';
+  const retryBeforeUnattemptedFallback = requireCommentBackedEvidence ? 1 : 3;
   return {
     priorityQueries,
     seedQueries,
@@ -87,7 +88,11 @@ export function buildVideoKeywordDiscoveryOptions({
     maxQueries,
     termsPerFamily: numberFromEnv(env, 'BILIBILI_HARVEST_TERMS_PER_FAMILY', 4),
     queryVariantsPerTerm: numberFromEnv(env, 'BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM', 2),
-    retryBeforeUnattemptedLimit: nonNegativeNumberFromEnv(env, 'BILIBILI_HARVEST_RETRY_BEFORE_UNATTEMPTED_LIMIT', 3),
+    retryBeforeUnattemptedLimit: nonNegativeNumberFromEnv(
+      env,
+      'BILIBILI_HARVEST_RETRY_BEFORE_UNATTEMPTED_LIMIT',
+      retryBeforeUnattemptedFallback,
+    ),
     staleMissedDiscoveryLimit: nonNegativeNumberFromEnv(env, 'BILIBILI_HARVEST_STALE_MISSED_DISCOVERY_LIMIT', 4),
     staleMissedPages: nonNegativeNumberFromEnv(env, 'BILIBILI_HARVEST_STALE_MISSED_COMMENT_PAGES', 3),
     extraQueryTemplates,
