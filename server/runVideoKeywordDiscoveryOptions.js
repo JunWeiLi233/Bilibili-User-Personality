@@ -18,6 +18,54 @@ function flagFromEnv(env, name, fallback = false) {
   return ['1', 'true', 'yes', 'on'].includes(String(value).trim().toLowerCase());
 }
 
+function parseList(value) {
+  return String(value || '')
+    .split(/[\r\n,;|]+/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function normalizePriorityQueryItem(item) {
+  if (!item || typeof item !== 'object' || Array.isArray(item)) return null;
+  const query = String(item.query || item.nextQuery || '').trim();
+  const nextQuery = String(item.nextQuery || item.query || '').trim();
+  const term = String(item.term || '').trim();
+  if (!query && !nextQuery) return null;
+  return {
+    ...item,
+    ...(term ? { term } : {}),
+    query: query || nextQuery,
+    nextQuery: nextQuery || query,
+  };
+}
+
+export function parsePriorityQueryContent(value) {
+  const content = String(value || '').trim();
+  if (!content) return [];
+  try {
+    const parsed = JSON.parse(content);
+    const items = Array.isArray(parsed) ? parsed : [parsed];
+    const normalized = items.map(normalizePriorityQueryItem).filter(Boolean);
+    if (normalized.length) return normalized;
+  } catch {
+    // Fall through to legacy text parsing.
+  }
+  const lines = content
+    .split(/[\r\n]+/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+  if (lines.every((line) => line.startsWith('{'))) {
+    return lines.map((line) => {
+      try {
+        return normalizePriorityQueryItem(JSON.parse(line)) || line;
+      } catch {
+        return line;
+      }
+    });
+  }
+  return parseList(content);
+}
+
 export function buildVideoKeywordDiscoveryOptions({
   env = process.env,
   priorityQueries = [],

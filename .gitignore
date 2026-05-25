@@ -8,6 +8,7 @@ server/deepseekKeywordDictionary.json
 server/keywordHarvestState.json
 server/keywordHarvestReport.json
 server/keywordCoverageAudit.json
+server/keywordCoverageActions.json
 server/keywordCoverageQueries.txt
 server/keywordCoverageLoopReport.json
 set-deepseek-env.ps1

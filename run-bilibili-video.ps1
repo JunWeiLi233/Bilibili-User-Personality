@@ -2,6 +2,7 @@ param(
   [string[]]$SearchQuery = @(),
   [string]$SearchQueryFile = "",
   [string]$PriorityQueryFile = "",
+  [string]$PriorityActionFile = "",
   [string[]]$ControversyQuery = @(),
   [string[]]$ExtraQueryTemplate = @(),
   [int]$DiscoveryLimit = 6,
@@ -52,6 +53,11 @@ if ($PriorityQueryFile) {
   $env:BILIBILI_HARVEST_PRIORITY_QUERY_FILE = $PriorityQueryFile
 } else {
   Remove-Item Env:\BILIBILI_HARVEST_PRIORITY_QUERY_FILE -ErrorAction SilentlyContinue
+}
+if ($PriorityActionFile) {
+  $env:BILIBILI_HARVEST_PRIORITY_ACTION_FILE = $PriorityActionFile
+} else {
+  Remove-Item Env:\BILIBILI_HARVEST_PRIORITY_ACTION_FILE -ErrorAction SilentlyContinue
 }
 if ($ControversyQuery.Count -gt 0) {
   $env:BILIBILI_CONTROVERSY_SEARCH_QUERIES = ($ControversyQuery -join "`n")
@@ -114,6 +120,9 @@ if ($SearchQueryFile) {
 }
 if ($PriorityQueryFile) {
   Write-Host "Priority query file: $PriorityQueryFile"
+}
+if ($PriorityActionFile) {
+  Write-Host "Priority action file: $PriorityActionFile"
 }
 if ($DiscoveryMode -eq "controversial") {
   Write-Host "Controversy discovery queries:"

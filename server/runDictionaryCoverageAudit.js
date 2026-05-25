@@ -25,10 +25,20 @@ async function writeJson(path, payload) {
   await writeFile(path, `${json}\n`, 'utf8');
 }
 
+function priorityActionItemsFromAudit(audit) {
+  return (audit.nextActions || []).flatMap((item) => {
+    const queries = [item.nextQuery, ...(Array.isArray(item.suggestedQueries) ? item.suggestedQueries : [])]
+      .map((query) => String(query || '').trim())
+      .filter(Boolean);
+    return queries.map((query) => ({ ...item, query, nextQuery: query }));
+  });
+}
+
 const dictionaryPath = process.env.DEEPSEEK_KEYWORD_DICTIONARY_PATH;
 const statePath = process.env.BILIBILI_HARVEST_STATE_PATH || DEFAULT_HARVEST_STATE_PATH;
 const reportPath = process.env.BILIBILI_COVERAGE_AUDIT_REPORT_PATH || join(process.cwd(), 'server', 'keywordCoverageAudit.json');
 const queryFilePath = process.env.BILIBILI_COVERAGE_QUERY_FILE_PATH || join(process.cwd(), 'server', 'keywordCoverageQueries.txt');
+const actionFilePath = process.env.BILIBILI_COVERAGE_ACTION_FILE_PATH || join(process.cwd(), 'server', 'keywordCoverageActions.json');
 const targetEvidence = positiveIntFromEnv('BILIBILI_HARVEST_TARGET_EVIDENCE', 3);
 const maxActions = positiveIntFromEnv('BILIBILI_COVERAGE_AUDIT_MAX_ACTIONS', 20);
 const minCoverageRatio = numberFromEnv('BILIBILI_COVERAGE_AUDIT_MIN_RATIO', 1);
@@ -112,6 +122,11 @@ if (audit.recommendedQueries.length) {
   await mkdir(dirname(queryFilePath), { recursive: true });
   await writeFile(queryFilePath, `${audit.recommendedQueries.join('\n')}\n`, 'utf8');
   console.log(`Recommended query file: ${queryFilePath}`);
+}
+const priorityActionItems = priorityActionItemsFromAudit(audit);
+if (priorityActionItems.length) {
+  await writeJson(actionFilePath, priorityActionItems);
+  console.log(`Recommended action file: ${actionFilePath}`);
 }
 
 if (strict && !audit.ok) {

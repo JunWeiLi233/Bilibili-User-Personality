@@ -125,7 +125,7 @@ After a harvest, run a read-only coverage audit to see exactly which dictionary 
 npm run dictionary:coverage
 ```
 
-The audit writes `server/keywordCoverageAudit.json`, exports recommended queries to `server/keywordCoverageQueries.txt`, and prints weak terms, exhausted terms, family gaps, source-backed evidence counts, unsourced evidence terms to refresh, next coverage actions, and recommended next queries/templates. For a local or CI gate, set `BILIBILI_COVERAGE_AUDIT_STRICT=1`; the command exits non-zero until the configured coverage target is met. Tune the gate with `BILIBILI_COVERAGE_AUDIT_MIN_RATIO`, `BILIBILI_COVERAGE_AUDIT_REQUIRE_COMPLETE=0`, `BILIBILI_COVERAGE_AUDIT_REQUIRE_SOURCES=1`, `BILIBILI_COVERAGE_AUDIT_REQUIRE_COMMENTS=1`, `BILIBILI_COVERAGE_AUDIT_MAX_ACTIONS`, and `BILIBILI_HARVEST_TARGET_EVIDENCE`. `BILIBILI_COVERAGE_AUDIT_REQUIRE_COMMENTS=1` is stricter: search-result video titles/descriptions can help discovery, but they do not satisfy the coverage gate until the term has non-context Bilibili comment evidence.
+The audit writes `server/keywordCoverageAudit.json`, exports human-readable recommended queries to `server/keywordCoverageQueries.txt`, exports structured action objects to `server/keywordCoverageActions.json`, and prints weak terms, exhausted terms, family gaps, source-backed evidence counts, unsourced evidence terms to refresh, next coverage actions, and recommended next queries/templates. The structured action file preserves the target dictionary term behind each query, so duplicate queries such as one comment search that can refresh several related weak terms are not collapsed into a single unscoped search. For a local or CI gate, set `BILIBILI_COVERAGE_AUDIT_STRICT=1`; the command exits non-zero until the configured coverage target is met. Tune the gate with `BILIBILI_COVERAGE_AUDIT_MIN_RATIO`, `BILIBILI_COVERAGE_AUDIT_REQUIRE_COMPLETE=0`, `BILIBILI_COVERAGE_AUDIT_REQUIRE_SOURCES=1`, `BILIBILI_COVERAGE_AUDIT_REQUIRE_COMMENTS=1`, `BILIBILI_COVERAGE_AUDIT_MAX_ACTIONS`, and `BILIBILI_HARVEST_TARGET_EVIDENCE`. `BILIBILI_COVERAGE_AUDIT_REQUIRE_COMMENTS=1` is stricter: search-result video titles/descriptions can help discovery, but they do not satisfy the coverage gate until the term has non-context Bilibili comment evidence.
 
 If older DeepSeek harvest runs added generic ASCII fragments such as `API`, `BUG`, `MVP`, short ids, or uploader tags, compact the local generated dictionary through the current backend normalizer:
 
@@ -136,8 +136,10 @@ npm run dictionary:prune
 To run the next audit-recommended queries first:
 
 ```powershell
-.\run-bilibili-video.ps1 -PriorityQueryFile server\keywordCoverageQueries.txt -RequireCommentEvidence -ExistingTermsOnly
+.\run-bilibili-video.ps1 -PriorityActionFile server\keywordCoverageActions.json -RequireCommentEvidence -ExistingTermsOnly
 ```
+
+`-PriorityQueryFile server\keywordCoverageQueries.txt` still works for plain one-query-per-line runs, but `-PriorityActionFile` is better for coverage work because it keeps the backend target-term metadata from the audit.
 
 To run a bounded audit-harvest loop without manually copying query files:
 

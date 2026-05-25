@@ -2,7 +2,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 
 import { harvestKeywordDictionaryRounds } from './keywordHarvest.js';
-import { buildVideoKeywordDiscoveryOptions } from './runVideoKeywordDiscoveryOptions.js';
+import { buildVideoKeywordDiscoveryOptions, parsePriorityQueryContent } from './runVideoKeywordDiscoveryOptions.js';
 
 function parseList(value) {
   return String(value || '')
@@ -17,6 +17,16 @@ async function readListFile(path) {
     return parseList(await readFile(path, 'utf8'));
   } catch (error) {
     console.warn(`Could not read query file ${path}: ${error.message}`);
+    return [];
+  }
+}
+
+async function readPriorityQueryFile(path) {
+  if (!path) return [];
+  try {
+    return parsePriorityQueryContent(await readFile(path, 'utf8'));
+  } catch (error) {
+    console.warn(`Could not read priority query file ${path}: ${error.message}`);
     return [];
   }
 }
@@ -127,7 +137,10 @@ function serializeResult(result, statePath, reportPath) {
   };
 }
 
-const priorityQueries = await readListFile(process.env.BILIBILI_HARVEST_PRIORITY_QUERY_FILE);
+const priorityQueries = [
+  ...(await readPriorityQueryFile(process.env.BILIBILI_HARVEST_PRIORITY_ACTION_FILE)),
+  ...(await readPriorityQueryFile(process.env.BILIBILI_HARVEST_PRIORITY_QUERY_FILE)),
+];
 const seedQueries = [
   ...parseList(process.env.BILIBILI_VIDEO_SEARCH_QUERIES || process.env.BILIBILI_VIDEO_SEARCH_QUERY),
   ...(await readListFile(process.env.BILIBILI_VIDEO_SEARCH_QUERY_FILE)),
