@@ -118,6 +118,41 @@ function videoContextSourceUrls(videos = [], discoveredVideos = []) {
   );
 }
 
+function sampleVideosForDiagnostics(videos = []) {
+  return videos.slice(0, 5).map((video) => ({
+    bvid: String(video?.bvid || '').trim(),
+    title: String(video?.title || '').replace(/\s+/g, ' ').trim().slice(0, 120),
+    sourceUrl: String(video?.sourceUrl || '').trim(),
+  }));
+}
+
+function buildCollectionDiagnostics({
+  discoveredVideos = [],
+  discoveryContextVideos = [],
+  videos = [],
+  comments = [],
+  trainingText = '',
+  targetExistingTerms = [],
+  keywordTraining = null,
+}) {
+  return {
+    discoveredVideos: discoveredVideos.length,
+    discoveryContextVideos: discoveryContextVideos.length,
+    scannedVideos: videos.length,
+    commentsCollected: comments.length,
+    trainingTextChars: String(trainingText || '').length,
+    targetExistingTerms,
+    acceptedTerms: uniqueByKey(
+      [...(keywordTraining?.entries || []), ...(keywordTraining?.dictionaryEvidenceEntries || [])]
+        .map((entry) => String(entry?.term || '').trim())
+        .filter(Boolean),
+      (term) => term,
+    ),
+    evidenceRejected: Math.max(0, Number(keywordTraining?.evidenceRejected) || 0),
+    sampleVideos: sampleVideosForDiagnostics(videos.length ? videos : discoveryContextVideos.length ? discoveryContextVideos : discoveredVideos),
+  };
+}
+
 export async function searchVideoKeywords(payload = {}, deps = {}) {
   const videoLinks = parseList(
     payload.videoLinks ||
@@ -305,6 +340,15 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
           entries: keywordTraining.entries || [],
           keywordTraining,
           dictionary: keywordTraining.dictionary || null,
+          collectionDiagnostics: buildCollectionDiagnostics({
+            discoveredVideos,
+            discoveryContextVideos,
+            videos: [],
+            comments: [],
+            trainingText,
+            targetExistingTerms,
+            keywordTraining,
+          }),
         };
       }
       return {
@@ -376,6 +420,14 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
       entries: [],
       keywordTraining: null,
       dictionary: null,
+      collectionDiagnostics: buildCollectionDiagnostics({
+        discoveredVideos,
+        discoveryContextVideos,
+        videos,
+        comments,
+        trainingText,
+        targetExistingTerms,
+      }),
     };
   }
 
@@ -394,5 +446,14 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
     entries: keywordTraining.entries || [],
     keywordTraining,
     dictionary: keywordTraining.dictionary || null,
+    collectionDiagnostics: buildCollectionDiagnostics({
+      discoveredVideos,
+      discoveryContextVideos,
+      videos,
+      comments,
+      trainingText,
+      targetExistingTerms,
+      keywordTraining,
+    }),
   };
 }

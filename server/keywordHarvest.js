@@ -792,6 +792,26 @@ function summarizeTrainingDiagnostics(results = []) {
   return diagnostics;
 }
 
+function summarizeQueryDiagnostics(results = []) {
+  return results.map((item) => {
+    const diagnostics = item?.result?.collectionDiagnostics || {};
+    return {
+      query: item.query,
+      ok: Boolean(item?.result?.ok),
+      error: item?.result?.error || '',
+      discoveredVideos: Math.max(0, Number(diagnostics.discoveredVideos) || 0),
+      discoveryContextVideos: Math.max(0, Number(diagnostics.discoveryContextVideos) || 0),
+      scannedVideos: Math.max(0, Number(diagnostics.scannedVideos) || 0),
+      commentsCollected: Math.max(0, Number(diagnostics.commentsCollected) || 0),
+      trainingTextChars: Math.max(0, Number(diagnostics.trainingTextChars) || 0),
+      targetExistingTerms: Array.isArray(diagnostics.targetExistingTerms) ? diagnostics.targetExistingTerms : [],
+      acceptedTerms: Array.isArray(diagnostics.acceptedTerms) ? diagnostics.acceptedTerms : [],
+      evidenceRejected: Math.max(0, Number(diagnostics.evidenceRejected) || 0),
+      sampleVideos: Array.isArray(diagnostics.sampleVideos) ? diagnostics.sampleVideos.slice(0, 5) : [],
+    };
+  });
+}
+
 function updateTermAttempt(termAttempts, planItem, result, finishedAt) {
   if (!planItem?.term) return;
   const term = String(planItem.term).trim();
@@ -998,6 +1018,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
     exhaustedSuggestionTemplates: options.exhaustedSuggestionTemplates,
   });
   const trainingDiagnostics = summarizeTrainingDiagnostics(results);
+  const queryDiagnostics = summarizeQueryDiagnostics(results);
   const finishedAt = new Date().toISOString();
   const nextState = {
     version: 1,
@@ -1015,6 +1036,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
         commentsCollected: results.reduce((sum, item) => sum + (item.result?.comments?.length || 0), 0),
         evidenceRejected: trainingDiagnostics.evidenceRejected,
         trainingDiagnostics,
+        queryDiagnostics,
         acceptedEvidenceCount: results.reduce(
           (sum, item) => sum + (item.result?.entries || []).reduce((entrySum, entry) => entrySum + (Number(entry.evidenceCount) || 0), 0),
           0,
@@ -1052,6 +1074,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
     coverage,
     coverageProgress,
     trainingDiagnostics,
+    queryDiagnostics,
     termAttemptSummary,
     coverageActions,
     dictionary: after,

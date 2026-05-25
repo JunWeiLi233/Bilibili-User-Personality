@@ -1243,6 +1243,53 @@ test('harvestKeywordDictionary reports DeepSeek training diagnostics per run', a
   }
 });
 
+test('harvestKeywordDictionary persists per-query collection diagnostics', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-query-diagnostics-'));
+  const statePath = join(dir, 'state.json');
+  try {
+    const result = await harvestKeywordDictionary(
+      {
+        seedQueries: ['seed topic'],
+        maxQueries: 1,
+        discoveryLimit: 1,
+        pages: 1,
+        statePath,
+      },
+      {
+        readKeywordDictionary: async () => ({ entries: [{ term: 'doge', family: 'cooperation', evidenceCount: 0 }] }),
+        searchVideoKeywords: async () => ({
+          ok: true,
+          warnings: [],
+          videos: [{ bvid: 'BV1111111111', title: 'diagnostic title' }],
+          comments: [{ rpid: '1', message: 'comment' }],
+          entries: [],
+          collectionDiagnostics: {
+            discoveredVideos: 2,
+            discoveryContextVideos: 3,
+            scannedVideos: 1,
+            commentsCollected: 1,
+            trainingTextChars: 42,
+            targetExistingTerms: ['doge'],
+            acceptedTerms: [],
+            evidenceRejected: 2,
+            sampleVideos: [{ bvid: 'BV1111111111', title: 'diagnostic title' }],
+          },
+        }),
+      },
+    );
+
+    assert.equal(result.queryDiagnostics.length, 1);
+    assert.equal(result.queryDiagnostics[0].query, 'seed topic');
+    assert.equal(result.queryDiagnostics[0].commentsCollected, 1);
+    assert.equal(result.queryDiagnostics[0].trainingTextChars, 42);
+    assert.deepEqual(result.queryDiagnostics[0].targetExistingTerms, ['doge']);
+    const persisted = JSON.parse(await readFile(statePath, 'utf8'));
+    assert.deepEqual(persisted.runs[0].queryDiagnostics, result.queryDiagnostics);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('harvestKeywordDictionary uses untried query variants after prior missed attempts', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-retry-variant-'));
   const statePath = join(dir, 'state.json');

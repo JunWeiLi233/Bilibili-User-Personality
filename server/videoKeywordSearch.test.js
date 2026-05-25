@@ -728,6 +728,74 @@ test('searchVideoKeywords can train from excluded search-result context when no 
   assert.equal(trainedPayloads[0].source.includes('BV1excluded'), true);
 });
 
+test('searchVideoKeywords reports per-query collection diagnostics', async () => {
+  const result = await searchVideoKeywords(
+    {
+      searchQuery: '\u5c0f\u7c73\u6c7d\u8f66 \u8f66\u5bb6\u519b \u63a7\u8bc4',
+      discoveryMode: 'search',
+      discoveryLimit: 1,
+      pages: 1,
+      existingTermsOnly: true,
+      targetExistingTerms: ['\u8f66\u5bb6\u519b'],
+    },
+    {
+      discoverVideosByKeyword: async () => [
+        {
+          bvid: 'BVdiagnostic',
+          title: '\u5c0f\u7c73\u6c7d\u8f66 \u63a7\u8bc4 \u70ed\u8bae',
+          desc: '\u8bc4\u8bba\u533a\u5728\u8ba8\u8bba\u8f66\u5bb6\u519b',
+          sourceUrl: 'https://www.bilibili.com/video/BVdiagnostic/',
+        },
+      ],
+      fetchJson: async (url) => {
+        const textUrl = String(url);
+        if (textUrl.includes('/x/web-interface/view')) {
+          return {
+            code: 0,
+            data: {
+              aid: 456,
+              title: '\u5c0f\u7c73\u6c7d\u8f66 \u63a7\u8bc4 \u70ed\u8bae',
+              desc: '\u8bc4\u8bba\u533a\u5728\u8ba8\u8bba\u8f66\u5bb6\u519b',
+              owner: { mid: 9, name: 'up' },
+              stat: { reply: 1 },
+            },
+          };
+        }
+        return {
+          code: 0,
+          data: {
+            replies: [
+              {
+                rpid: 1,
+                mid: 100,
+                member: { uname: 'viewer' },
+                content: { message: '\u8fd9\u91cc\u6ca1\u770b\u5230\u8bcd\u5178\u8bcd' },
+              },
+            ],
+            cursor: { is_end: true, next: 0 },
+          },
+        };
+      },
+      trainKeywordDictionary: async () => ({
+        ok: true,
+        entries: [],
+        evidenceRejected: 1,
+        dictionaryEvidenceEntries: [],
+        dictionary: { entries: [] },
+      }),
+    },
+  );
+
+  assert.equal(result.collectionDiagnostics.discoveredVideos, 1);
+  assert.equal(result.collectionDiagnostics.scannedVideos, 1);
+  assert.equal(result.collectionDiagnostics.commentsCollected, 1);
+  assert.equal(result.collectionDiagnostics.trainingTextChars > 0, true);
+  assert.deepEqual(result.collectionDiagnostics.targetExistingTerms, ['\u8f66\u5bb6\u519b']);
+  assert.deepEqual(result.collectionDiagnostics.acceptedTerms, []);
+  assert.equal(result.collectionDiagnostics.evidenceRejected, 1);
+  assert.equal(result.collectionDiagnostics.sampleVideos[0].bvid, 'BVdiagnostic');
+});
+
 test('searchVideoKeywords scans multiple backend video links and trains one merged dictionary pass', async () => {
   const trainedPayloads = [];
   const result = await searchVideoKeywords(

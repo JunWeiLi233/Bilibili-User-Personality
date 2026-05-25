@@ -167,6 +167,7 @@ for (let cycle = 1; cycle <= maxCycles && !audit.ok; cycle += 1) {
       warnings: harvest.rounds.flatMap((round) => round.warnings || []),
       coverageProgress: harvest.rounds.map((round) => round.coverageProgress),
       trainingDiagnostics: harvest.rounds.map((round) => round.trainingDiagnostics),
+      queryDiagnostics: harvest.rounds.map((round) => round.queryDiagnostics || []),
     },
     coverageDelta: delta,
     coverageBefore: audit.coverage,
