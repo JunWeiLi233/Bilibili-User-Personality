@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { buildSentenceRadarMarks } from './languageUnderstanding.js';
+import { buildSentenceRadarMarks, normalizeRadarAxis } from './languageUnderstanding.js';
 
 test('buildSentenceRadarMarks maps full sentence impacts onto radar axes', () => {
   const marks = buildSentenceRadarMarks(
@@ -129,4 +129,23 @@ test('buildSentenceRadarMarks normalizes model axis aliases before rendering rad
       { axis: '对抗性动机', direction: 'risk', strength: 0.66 },
     ],
   );
+});
+
+test('buildSentenceRadarMarks supplements sparse model impacts with full-sentence semantic hints', () => {
+  const marks = buildSentenceRadarMarks([
+    {
+      quote: 'Everyone in that camp is a shill, but show the source and I will revise my conclusion.',
+      speechAct: 'mixed evidence request and motive labeling',
+      target: 'camp identity and source quality',
+      risk: 'medium',
+      axisImpacts: [{ axis: 'attack', direction: 'risk', strength: 0.62, reasoning: 'Targets faction identity.' }],
+      reasoning: 'The sentence combines camp labeling with an evidence request and willingness to revise.',
+    },
+  ]);
+
+  assert.equal(marks.length, 3);
+  assert.equal(marks.some((mark) => mark.axis === normalizeRadarAxis('attack') && mark.direction === 'risk'), true);
+  assert.equal(marks.some((mark) => mark.axis === normalizeRadarAxis('correction') && mark.direction === 'positive'), true);
+  assert.equal(marks.some((mark) => mark.axis === normalizeRadarAxis('evidence') && mark.direction === 'risk'), true);
+  assert.equal(marks[0].quote, 'Everyone in that camp is a shill, but show the source and I will revise my conclusion.');
 });

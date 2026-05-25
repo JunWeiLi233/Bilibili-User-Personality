@@ -126,6 +126,25 @@ function inferSentenceImpacts(sentence = {}) {
     });
   }
 
+  if (/\b(correct|correction|revise|revision|self[-_ ]?correct|admit|update conclusion|change my mind|thanks for correcting)\b/i.test(text)) {
+    addImpact(impacts, { axis: 'correction', direction: 'positive', strength: 0.76, reasoning: 'The full sentence signals willingness to revise or accept correction.' });
+  }
+  if (/\b(evidence|source|proof|data|sample|citation|reference|link|verifiable|burden of proof|show receipts)\b/i.test(text)) {
+    addImpact(impacts, { axis: 'evidence', direction: defaultDirection, strength: 0.7, reasoning: 'The full sentence is organized around evidence, sourcing, or verification.' });
+  }
+  if (/\b(cooperate|cooperation|clarify|clarification|condition|conditional|maybe|possibly|open to|willing to discuss|common ground)\b/i.test(text)) {
+    addImpact(impacts, { axis: 'cooperation', direction: 'positive', strength: 0.66, reasoning: 'The full sentence keeps room for clarification, conditions, or continued discussion.' });
+  }
+  if (/\b(logic|logical|reasoning|causal|causation|analogy|contradiction|inconsistent|straw ?man|false equivalence|non sequitur)\b/i.test(text)) {
+    addImpact(impacts, { axis: 'logic', direction: defaultDirection, strength: 0.66, reasoning: 'The full sentence evaluates the reasoning relation instead of only naming a topic.' });
+  }
+  if (/\b(always|never|everyone|nobody|all of them|none of them|absolute|certainly|must be|no exception|百分百)\b/i.test(text)) {
+    addImpact(impacts, { axis: 'closure', direction: 'risk', strength: risk === 'high' ? 0.84 : 0.7, reasoning: 'The full sentence uses absolute or closed-category judgment.' });
+  }
+  if (/\b(insult|ad hominem|personal attack|labeling|motive guessing|camp attack|fandom attack|brigading|shill|hater)\b/i.test(text)) {
+    addImpact(impacts, { axis: 'attack', direction: 'risk', strength: RISK_RISKS.has(risk) ? 0.76 : 0.58, reasoning: 'The full sentence targets identity, motive, or faction rather than only the proposition.' });
+  }
+
   if (impacts.length === 0) {
     addImpact(impacts, {
       axis: '对抗性动机',
@@ -151,13 +170,25 @@ function normalizeAxisImpact(impact = {}, sentence = {}) {
   };
 }
 
+function hasAsciiSemanticHints(sentence = {}) {
+  return /\b(correct|correction|revise|revision|self[-_ ]?correct|admit|update conclusion|change my mind|thanks for correcting|evidence|source|proof|data|sample|citation|reference|link|verifiable|burden of proof|show receipts|cooperate|cooperation|clarify|clarification|condition|conditional|maybe|possibly|open to|willing to discuss|common ground|logic|logical|reasoning|causal|causation|analogy|contradiction|inconsistent|straw ?man|false equivalence|non sequitur|always|never|everyone|nobody|all of them|none of them|absolute|certainly|must be|no exception|insult|ad hominem|personal attack|labeling|motive guessing|camp attack|fandom attack|brigading|shill|hater)\b/i.test(sentenceText(sentence));
+}
+
+function composeSentenceImpacts(modelImpacts, sentence) {
+  if (!hasAsciiSemanticHints(sentence)) return modelImpacts;
+  const impacts = [];
+  for (const impact of modelImpacts) addImpact(impacts, impact);
+  for (const impact of inferSentenceImpacts(sentence)) addImpact(impacts, impact);
+  return impacts.sort((a, b) => b.strength - a.strength).slice(0, 3);
+}
+
 export function buildSentenceRadarMarks(sentenceAnalyses = [], options = {}) {
   const confidence = clamp01(options.confidence, 0.7);
   return sentenceAnalyses.flatMap((sentence, sentenceIndex) => {
     const quote = String(sentence?.quote || '').trim();
     if (!quote) return [];
     const modelImpacts = Array.isArray(sentence.axisImpacts) ? sentence.axisImpacts.map((impact) => normalizeAxisImpact(impact, sentence)).filter(Boolean) : [];
-    const rawImpacts = modelImpacts.length > 0 ? modelImpacts : inferSentenceImpacts(sentence);
+    const rawImpacts = modelImpacts.length > 0 ? composeSentenceImpacts(modelImpacts, sentence) : inferSentenceImpacts(sentence);
     return rawImpacts
       .map((impact, impactIndex) => normalizeAxisImpact(impact, sentence))
       .filter(Boolean)
