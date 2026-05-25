@@ -30,3 +30,21 @@ test('buildCoverageRuntimeOptions lets CLI flags override environment values', (
   assert.equal(options.maxActions, 5);
   assert.equal(options.minCoverageRatio, 0.75);
 });
+
+test('buildCoverageRuntimeOptions broadens strict comment coverage after one comment miss by default', () => {
+  const options = buildCoverageRuntimeOptions({
+    argv: ['--strict-comment-backed'],
+    env: {},
+  });
+
+  assert.equal(options.retryBeforeUnattemptedLimit, 1);
+});
+
+test('buildCoverageRuntimeOptions lets retry CLI flag override strict comment default', () => {
+  const options = buildCoverageRuntimeOptions({
+    argv: ['--strict-comment-backed', '--retry-before-unattempted', '4'],
+    env: {},
+  });
+
+  assert.equal(options.retryBeforeUnattemptedLimit, 4);
+});

@@ -57,6 +57,7 @@ export function buildCoverageRuntimeOptions({ argv = process.argv.slice(2), env 
     flagValue(flags.get('require-sources'), false) ||
     env.BILIBILI_COVERAGE_AUDIT_REQUIRE_SOURCES === '1' ||
     env.BILIBILI_HARVEST_REQUIRE_SOURCES === '1';
+  const retryFallback = requireCommentBackedEvidence ? 1 : 3;
 
   return {
     targetEvidence: positiveInt(optionValue(flags, env, 'target-evidence', 'BILIBILI_HARVEST_TARGET_EVIDENCE', 3), 3, 1000),
@@ -67,8 +68,8 @@ export function buildCoverageRuntimeOptions({ argv = process.argv.slice(2), env 
     requireCommentBackedEvidence,
     prioritizeSourceGaps: requireCommentBackedEvidence,
     retryBeforeUnattemptedLimit: nonNegativeInt(
-      optionValue(flags, env, 'retry-before-unattempted', 'BILIBILI_HARVEST_RETRY_BEFORE_UNATTEMPTED_LIMIT', 3),
-      3,
+      optionValue(flags, env, 'retry-before-unattempted', 'BILIBILI_HARVEST_RETRY_BEFORE_UNATTEMPTED_LIMIT', retryFallback),
+      retryFallback,
       20,
     ),
     strict: flagValue(flags.get('strict'), false) || env.BILIBILI_COVERAGE_AUDIT_STRICT === '1' || env.BILIBILI_COVERAGE_LOOP_STRICT === '1',
