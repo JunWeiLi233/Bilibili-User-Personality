@@ -372,6 +372,69 @@ test('mergeEntriesIntoDictionary does not expand variants from persisted entries
   }
 });
 
+test('mergeEntriesIntoDictionary keeps fresh comment evidence when context samples are already capped', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'deepseek-comment-evidence-priority-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  try {
+    await writeFile(
+      dictionaryPath,
+      JSON.stringify({
+        version: 1,
+        updatedAt: '2026-01-01T00:00:00.000Z',
+        entries: [
+          {
+            term: '\u5178\u4e2d\u5178',
+            family: 'attack',
+            meaning: 'classic repeated meme pattern',
+            evidenceCount: 5,
+            evidenceSamples: [
+              'Bilibili video context: context sample 1 \u5178\u4e2d\u5178',
+              'Bilibili video context: context sample 2 \u5178\u4e2d\u5178',
+              'Bilibili video context: context sample 3 \u5178\u4e2d\u5178',
+              'Bilibili video context: context sample 4 \u5178\u4e2d\u5178',
+              'Bilibili video context: context sample 5 \u5178\u4e2d\u5178',
+            ],
+            evidenceSources: [
+              { source: 'Bilibili public search-discovered video context', uid: 'BVcontext1', sample: 'Bilibili video context: context sample 1 \u5178\u4e2d\u5178' },
+              { source: 'Bilibili public search-discovered video context', uid: 'BVcontext2', sample: 'Bilibili video context: context sample 2 \u5178\u4e2d\u5178' },
+              { source: 'Bilibili public search-discovered video context', uid: 'BVcontext3', sample: 'Bilibili video context: context sample 3 \u5178\u4e2d\u5178' },
+              { source: 'Bilibili public search-discovered video context', uid: 'BVcontext4', sample: 'Bilibili video context: context sample 4 \u5178\u4e2d\u5178' },
+              { source: 'Bilibili public search-discovered video context', uid: 'BVcontext5', sample: 'Bilibili video context: context sample 5 \u5178\u4e2d\u5178' },
+            ],
+          },
+        ],
+      }),
+      'utf8',
+    );
+
+    const dictionary = await mergeEntriesIntoDictionary(
+      [
+        {
+          term: '\u5178\u4e2d\u5178',
+          family: 'attack',
+          meaning: 'classic repeated meme pattern',
+          evidenceCount: 1,
+          evidenceSamples: ['\u8fd9\u53d1\u8a00\u771f\u662f\u5178\u4e2d\u5178'],
+          evidenceSources: [
+            {
+              source: 'Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BVcomment/',
+              uid: 'BVcomment',
+              sample: '\u8fd9\u53d1\u8a00\u771f\u662f\u5178\u4e2d\u5178',
+            },
+          ],
+        },
+      ],
+      { dictionaryPath },
+    );
+
+    const entry = dictionary.entries.find((item) => item.term === '\u5178\u4e2d\u5178');
+    assert.equal(entry.evidenceSamples.includes('\u8fd9\u53d1\u8a00\u771f\u662f\u5178\u4e2d\u5178'), true);
+    assert.equal(entry.evidenceSources.some((source) => source.uid === 'BVcomment'), true);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('mergeEntriesIntoDictionary shares existing alias evidence with longer dictionary variants', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'deepseek-alias-evidence-'));
   const dictionaryPath = join(dir, 'dictionary.json');

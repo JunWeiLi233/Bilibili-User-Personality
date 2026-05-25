@@ -1092,7 +1092,7 @@ export function buildCoverageActions(dictionary = {}, state = {}, options = {}) 
     const filteredSearchContextFeedback = hasFilteredSearchContextFeedback(state, term);
     const missedWithIrrelevantFeedback = attemptsCount > 0 && successfulAttempts === 0 && irrelevantFeedback;
     const needsSourceRefresh =
-      count >= targetEvidence && options.requireSourceBackedEvidence === true && count > 0 && !hasCoverageEvidenceSource(entry, options);
+      options.requireSourceBackedEvidence === true && count > 0 && !hasCoverageEvidenceSource(entry, options);
     const feedbackQuery =
       !needsSourceRefresh && hardMissedZeroEvidence && irrelevantFeedback
         ? negativeFeedbackQueriesForTerm(term).find((query) => !triedQueries.has(query))

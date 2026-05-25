@@ -1166,7 +1166,12 @@ test('buildCoverageActions classifies covered, unattempted, missed, partial, and
         { term: 'sourceGap', family: 'attack', evidenceCount: 3, evidenceSamples: ['sample without source'] },
         { term: 'newbie', family: 'attack', evidenceCount: 0 },
         { term: 'missed', family: 'attack', evidenceCount: 0 },
-        { term: 'partial', family: 'attack', evidenceCount: 1 },
+        {
+          term: 'partial',
+          family: 'attack',
+          evidenceCount: 1,
+          evidenceSources: [{ source: 'Bilibili public video comment scan', uid: 'BVpartial', sample: 'partial' }],
+        },
         { term: 'doge', family: 'cooperation', evidenceCount: 0 },
       ],
     },
@@ -1539,6 +1544,40 @@ test('buildDictionaryCoverageAudit can require comment-backed evidence instead o
   assert.equal(audit.failureReasons.some((reason) => reason.includes('missing Bilibili comment evidence')), true);
 });
 
+test('buildDictionaryCoverageAudit prioritizes weak context-only evidence for comment refresh', () => {
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [
+        {
+          term: '\u8f66\u5bb6\u519b',
+          family: 'attack',
+          evidenceCount: 2,
+          evidenceSources: [
+            {
+              source: 'Bilibili public search-discovered video comment scan plus video context: https://www.bilibili.com/video/BVcontext/',
+              uid: 'BVcontext',
+              sample: 'Bilibili video context: \u822a\u5929\u8f66\u5bb6\u519b',
+            },
+          ],
+        },
+        {
+          term: '\u666e\u901a\u5f31\u8bcd',
+          family: 'attack',
+          evidenceCount: 1,
+          evidenceSources: [{ source: 'Bilibili public video comment scan', uid: 'BVcomment', sample: '\u666e\u901a\u5f31\u8bcd' }],
+        },
+      ],
+    },
+    { termAttempts: {} },
+    { targetEvidence: 3, requireSourceBackedEvidence: true, requireCommentBackedEvidence: true },
+  );
+
+  const byTerm = Object.fromEntries(audit.nextActions.map((item) => [item.term, item]));
+  assert.equal(byTerm['\u8f66\u5bb6\u519b'].status, 'source_gap');
+  assert.equal(byTerm['\u8f66\u5bb6\u519b'].action, 'refresh_source_metadata');
+  assert.equal(audit.nextActions[0].term, '\u8f66\u5bb6\u519b');
+});
+
 test('buildDictionaryCoverageAudit treats comment samples from mixed context scans as comment-backed evidence', () => {
   const audit = buildDictionaryCoverageAudit(
     {
@@ -1610,7 +1649,12 @@ test('buildDictionaryCoverageAudit prioritizes context-only source gaps before o
             },
           ],
         },
-        { term: 'weakRetry', family: 'attack', evidenceCount: 1 },
+        {
+          term: 'weakRetry',
+          family: 'attack',
+          evidenceCount: 1,
+          evidenceSources: [{ source: 'Bilibili public video comment scan', uid: 'BVweak', sample: 'weakRetry' }],
+        },
       ],
     },
     {

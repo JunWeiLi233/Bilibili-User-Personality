@@ -241,6 +241,23 @@ function normalizeFamily(family) {
   return SUPPORTED_FAMILIES.includes(raw) ? raw : FAMILY_ALIASES[raw] || 'attack';
 }
 
+function isVideoContextSample(sample) {
+  return String(sample || '').trim().startsWith('Bilibili video context:');
+}
+
+function evidenceSampleSortKey(sample) {
+  return isVideoContextSample(sample) ? 1 : 0;
+}
+
+function isVideoContextSource(source = {}) {
+  const sourceText = String(source?.source || '').trim();
+  return isVideoContextSample(source?.sample) || sourceText.includes('search-discovered video context');
+}
+
+function evidenceSourceSortKey(source = {}) {
+  return isVideoContextSource(source) ? 1 : 0;
+}
+
 function mergeKeywordEntry(existing, incoming, now) {
   if (!existing) return { ...incoming, updatedAt: incoming.updatedAt || now };
 
@@ -250,9 +267,14 @@ function mergeKeywordEntry(existing, incoming, now) {
   const shouldReplaceDetails = shouldReplaceFamily || existing.family === incoming.family || !existing.meaning;
   const base = shouldReplaceFamily ? incoming : existing;
   const details = shouldReplaceDetails ? incoming : {};
-  const evidenceSamples = unique([...(existing.evidenceSamples || []), ...(incoming.evidenceSamples || [])]).slice(0, 5);
-  const evidenceSources = uniqueBy([...(existing.evidenceSources || []), ...(incoming.evidenceSources || [])], (item) =>
-    `${item.source || ''}\n${item.uid || ''}\n${item.sample || ''}`,
+  const evidenceSamples = unique([...(existing.evidenceSamples || []), ...(incoming.evidenceSamples || [])])
+    .sort((a, b) => evidenceSampleSortKey(a) - evidenceSampleSortKey(b))
+    .slice(0, 5);
+  const evidenceSources = uniqueBy(
+    [...(existing.evidenceSources || []), ...(incoming.evidenceSources || [])].sort(
+      (a, b) => evidenceSourceSortKey(a) - evidenceSourceSortKey(b),
+    ),
+    (item) => `${item.source || ''}\n${item.uid || ''}\n${item.sample || ''}`,
   ).slice(0, 8);
   const existingEvidenceCount = Math.max(0, Number(existing.evidenceCount) || 0);
   const incomingEvidenceCount = Math.max(0, Number(incoming.evidenceCount) || 0);
