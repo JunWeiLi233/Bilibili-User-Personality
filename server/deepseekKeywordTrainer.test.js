@@ -5619,6 +5619,91 @@ test('findDictionaryEntriesWithTextEvidence rejects latest harvested alias and p
   ]);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects latest harvested literal and generic praise false positives', () => {
+  const dictionary = {
+    entries: [
+      { term: '\u5f00\u5408', family: 'attack', meaning: 'doxxing or privacy exposure slang' },
+      { term: '\u8f7b\u5feb\u7ef7\u4f4f', family: 'cooperation', meaning: 'calmly hold back a reaction' },
+      { term: '\u8f7b\u677e\u7ef7\u4f4f', family: 'cooperation', meaning: 'calmly hold back a reaction' },
+      { term: '\u610f\u6ee1\u79bb', family: 'cooperation', meaning: 'leave satisfied after useful context' },
+      { term: '\u4e0b\u996d', family: 'cooperation', meaning: 'watchable with a meal' },
+      { term: '\u53ef\u4ee5\u8d34', family: 'cooperation', meaning: 'ask someone to post evidence or context' },
+      { term: '\u795e\u795e', family: 'attack', meaning: 'hostile ideological label' },
+      { term: '\u5854\u83f2', family: 'cooperation', meaning: 'friendly Taffy community reference' },
+      { term: '\u8054\u540d\u6b3e', family: 'cooperation', meaning: 'collaborative model or shared reference' },
+      { term: '\u6e7f\u6e7f', family: 'attack', meaning: 'mocking homophone nickname' },
+    ],
+  };
+  const falsePositiveText = [
+    '\u51b7\u77e5\u8bc6\uff0c\u4f60\u4e0d\u7528\u8ddf\u7740\u5f00\u5408\u9f3b\u5b54',
+    '\u5389\u5bb3\uff0c\u80fd\u63a7\u5236\u9f3b\u5b54\u5f00\u5408',
+    '\u8f7b\u5feb\u7ef7\u4f4f\uff0c\u677e\u5f1b\u7ef7\u4f4f\uff0c\u8212\u7f13\u7ef7\u4f4f\uff0c\u5b89\u9038\u7ef7\u4f4f\uff0c\u81ea\u5728\u7ef7\u4f4f',
+    '\u8f7b\u677e\u7ef7\u4f4f',
+    '\u610f\u6ee1\u79bb',
+    '\u6211\u73b0\u5728\u5c31\u7ecf\u5e38\u5c0f\u7c73\u6912\u4e0b\u996d\uff0c\u4e00\u9910\u4fe9\u6839',
+    '\u5c0f\u7c73\u6912\u4e0b\u996d',
+    '\u6211\u559c\u6b22\u751f\u5403\u5c0f\u7c73\u8fa3\uff0c\u4e0b\u996d',
+    '\u6211\u52a8\u6001\u6709\u53d1\u51fa\u6765\u8fc7',
+    '\u5df2\u56db\u8fde\uff0c\u8bf7\u95ee\u5e08\u5085\uff0c\u8fd9\u4e2a\u5973\u751f\u4ec0\u4e48\u65f6\u5019\u53ef\u4ee5\u53d1\u8d22',
+    '\u8fd8\u6709\u8138\u81ea\u5df1\u53d1\u51fa\u6765',
+    'k\u795e\u795e\u4e86',
+    '\u5854\u83f2\u7684\u804a\u5929\u8bb0\u5f55\u6839\u672c\u4e0d\u662f\u4ed6\u672c\u4eba\u653e\u51fa\u53bb\u7684',
+    '\u9020\u8c23\u8fd9\u4e2a\u786e\u5b9e\u6ca1\u5f97\u6d17\uff0c\u4f46\u90e8\u5206\u6296\u53cb\u6068\u4e0d\u5f97\u628a\u5854\u83f2\u6367\u6210\u5723\u4eba',
+    '\u9020\u8c23\u8fd9\u4e2a\u786e\u5b9e\u6ca1\u5f97\u6d17\uff0c\u4f46\u90e8\u5206\u6296\u53cb\u6068\u4e0d\u5f97\u628a\u5979\u6367\u6210\u5723\u4eba\uff0c\u8fd9\u6837\u6367\u6740\u53ea\u4f1a\u8ba9\u77e5\u9053\u8fd9\u4ef6\u4e8b\u4e14\u5bf9\u5854\u83f2\u672c\u6765\u5c31\u53cd\u611f\u7684\u4eba\u8d8a\u6765\u8d8a\u538c\u6076\u5c31\u4f1a\u4e0d\u65ad\u7684\u65e7\u4e8b\u5728\u63d0',
+    'up\u4e3b\u8054\u540d\u6b3e[doge]',
+    '\u8fd9\u8f66\u673a\u68b0\u5e08Mmax2\u660e\u65e5\u9999\u8054\u540d\u6b3e\u672c\u6765\u5c31\u662f\u7535\u81ea\u554a',
+    '\u6211\u559c\u6b22\u4ed6\u6e7f\u6e7f\u7684',
+    '\u6211\u559c\u6b22\u6e7f\u6e7f\u7684\u9c8d\u9c7c',
+    '\u6240\u4ee5\u6e7f\u6e7f\u4e86\u7684\u66f4\u597d\u5403',
+  ].join('\n');
+
+  const entries = findDictionaryEntriesWithTextEvidence(dictionary, falsePositiveText);
+
+  assert.deepEqual(entries.map((entry) => entry.term), []);
+
+  const realEntries = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    [
+      '\u5f00\u5408\u7f51\u66b4\u5c31\u662f\u62ff\u9690\u79c1\u5e26\u8282\u594f',
+      '\u8fd9\u6bb5\u89e3\u91ca\u8ba9\u5927\u5bb6\u8f7b\u677e\u7ef7\u4f4f\u60c5\u7eea\u7ee7\u7eed\u8ba8\u8bba',
+      '\u770b\u5b8c\u8d44\u6599\u610f\u6ee1\u79bb\uff0c\u611f\u8c22\u6574\u7406',
+      '\u4f60\u628a\u8bc1\u636e\u622a\u56fe\u53ef\u4ee5\u8d34\u4e00\u4e0b\u5417',
+      '\u522b\u518d\u7528\u795e\u795e\u90a3\u5957\u8bdd\u672f\u6263\u5e3d\u5b50\u4e86',
+      '\u8bf4\u5218\u8bd7\u8bd7\u201c\u6e7f\u6e7f\u201d\u8fd9\u79cd\u8c10\u97f3\u662f\u5728\u6076\u610f\u8c03\u4f83\u5427',
+    ].join('\n'),
+  );
+
+  assert.deepEqual(realEntries.map((entry) => entry.term), [
+    '\u5f00\u5408',
+    '\u8f7b\u677e\u7ef7\u4f4f',
+    '\u610f\u6ee1\u79bb',
+    '\u53ef\u4ee5\u8d34',
+    '\u795e\u795e',
+    '\u6e7f\u6e7f',
+  ]);
+});
+
+test('normalizeKeywordEntries prunes persisted Taffy proper-name drama evidence', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u5854\u83f2',
+      family: 'cooperation',
+      meaning: 'friendly Taffy community reference',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u9020\u8c23\u8fd9\u4e2a\u786e\u5b9e\u6ca1\u5f97\u6d17\uff0c\u4f46\u5728\u6296\u6d77\u5c31\u662f\u5c0f\u5deb\u89c1\u5927\u5deb\u4e86\uff0c\u4f46\u90e8\u5206\u6296\u53cb\u6068\u4e0d\u5f97\u628a\u5979\u6367\u6210\u5723\u4eba\u5c31\u4e0d\u5bf9\u4e86\uff0c\u8fd9\u6837\u6367\u6740\u53ea\u4f1a\u8ba9\u77e5\u9053\u8fd9\u4ef6\u4e8b\u4e14\u5bf9\u5854\u83f2\u672c\u6765\u5c31\u53cd\u611f\u7684\u4eba\uff0c\u8d8a\u6765\u8d8a\u538c\u6076\u5c31\u4f1a\u4e0d\u65ad\u7684\u65e7\u4e8b\u5728\u63d0[\u5403\u74dc]',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u9020\u8c23\u8fd9\u4e2a\u786e\u5b9e\u6ca1\u5f97\u6d17\uff0c\u4f46\u5728\u6296\u6d77\u5c31\u662f\u5c0f\u5deb\u89c1\u5927\u5deb\u4e86\uff0c\u4f46\u90e8\u5206\u6296\u53cb\u6068\u4e0d\u5f97\u628a\u5979\u6367\u6210\u5723\u4eba\u5c31\u4e0d\u5bf9\u4e86\uff0c\u8fd9\u6837\u6367\u6740\u53ea\u4f1a\u8ba9\u77e5\u9053\u8fd9\u4ef6\u4e8b\u4e14\u5bf9\u5854\u83f2\u672c\u6765\u5c31\u53cd\u611f\u7684\u4eba\uff0c\u8d8a\u6765\u8d8a\u538c\u6076\u5c31\u4f1a\u4e0d\u65ad\u7684\u65e7\u4e8b\u5728\u63d0[\u5403\u74dc]' },
+      ],
+    },
+  ]);
+
+  assert.equal(entries[0].evidenceCount, 0);
+  assert.deepEqual(entries[0].evidenceSamples, []);
+  assert.deepEqual(entries[0].evidenceSources, []);
+});
+
 test('normalizeKeywordEntries prunes persisted literal traditional-character samples for video-language attack terms', () => {
   const entries = normalizeKeywordEntries([
     {
