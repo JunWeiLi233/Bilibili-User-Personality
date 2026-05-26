@@ -780,6 +780,11 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const attackContext = /(?:\u6253\u7684|\u6253\u5f97|\u4f24\u5bb3|\u8f93\u51fa|\u7834\u9632|\u6389\u8840|\u8840\u6761|\u4f4e\u4f24|\u96be\u6253|\u6253\u4e0d\u52a8|\u5e08\u5085\u522b\u522e|\u8ddf\u522e\u75e7\u4e00\u6837|\u50cf\u522e\u75e7|\u6307\u4f24\u5bb3)/u.test(cleanSample);
     return therapyContext && !attackContext;
   }
+  if (term === '\u9ec4\u9cdd' && family === 'attack') {
+    const literalFoodOrBiologyContext = /(?:\u600e\u4e48\u505a|\u505a\u597d\u5403|\u597d\u5403|\u751f\u7269\u79d1\u666e|\u79d1\u666e|\u98df\u6750|\u6c34\u4ea7|\u517b\u6b96|\u70f9\u996a|\u7ea2\u70e7|\u7206\u7092|\u9910\u684c|\u83dc\u5e02\u573a|\u6ce5\u9cc5)/u.test(cleanSample);
+    const controversyContext = /(?:\u9ec4\u9cdd\u95e8|\u5b50\u5bab|\u9634\u9053|\u585e|\u7a7f\u6765\u7a7f\u53bb|\u65e0\u8f9c|\u4e8b\u4ef6|\u74dc)/u.test(cleanSample);
+    return literalFoodOrBiologyContext && !controversyContext;
+  }
   if (term === '腐乳' && family === 'attack') {
     return /(?:潮汕|大排档|豆酱|通菜|炒|好吃|美味|蘸料|调味|下饭|白粥|酱|菜)/u.test(cleanSample) && !/(?:叛徒|出列|黑|喷|骂|攻击|孝|急|破防)/u.test(cleanSample);
   }

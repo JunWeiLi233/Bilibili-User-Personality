@@ -1480,6 +1480,27 @@ test('findDictionaryEntriesWithTextEvidence rejects literal gua sha therapy evid
   ]);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects literal eel food and biology evidence for attack terms', () => {
+  const entries = findDictionaryEntriesWithTextEvidence(
+    {
+      entries: [{ term: '\u9ec4\u9cdd', family: 'attack', meaning: '\u4e89\u8bae\u4e8b\u4ef6\u6216\u653b\u51fb\u8bed\u5883\u91cc\u7684\u9ec4\u9cdd\u6897', evidenceCount: 0 }],
+    },
+    [
+      '\u8c01\u61c2\u60f3\u641c\u4e00\u4e0b\u9ec4\u9cdd\u600e\u4e48\u505a\u597d\u5403\u4ee5\u53ca\u751f\u7269\u79d1\u666e\u7684\u65f6\u5019\u641c\u51fa\u6765\u4e00\u5806\u8fd9\u4e2a\u7684\u65e0\u529b\u611f[\u7b11\u54ed]',
+      '\u9ec4\u9cdd\u600e\u4e48\u53ef\u80fd\u585e\u5f97\u8fdb\u5b50\u5bab\uff0c\u9ec4\u9cdd\u95e8\u6211\u90fd\u770b\u4e86\uff0c\u5c31\u5728\u9634\u9053\u91cc\u7a7f\u6765\u7a7f\u53bb',
+      '\u9ec4\u9cdd\uff0c\u6211\u662f\u65e0\u8f9c\u7684\u554a',
+    ].join('\n'),
+    { source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-eel-context/', uid: 'BV-eel-context' },
+  );
+
+  assert.equal(entries.length, 1);
+  assert.equal(entries[0].evidenceCount, 3);
+  assert.deepEqual(entries[0].evidenceSamples, [
+    '\u9ec4\u9cdd\u600e\u4e48\u53ef\u80fd\u585e\u5f97\u8fdb\u5b50\u5bab\uff0c\u9ec4\u9cdd\u95e8\u6211\u90fd\u770b\u4e86\uff0c\u5c31\u5728\u9634\u9053\u91cc\u7a7f\u6765\u7a7f\u53bb',
+    '\u9ec4\u9cdd\uff0c\u6211\u662f\u65e0\u8f9c\u7684\u554a',
+  ]);
+});
+
 test('findDictionaryEntriesWithTextEvidence can match stable internet aliases', () => {
   const entries = findDictionaryEntriesWithTextEvidence(
     {
