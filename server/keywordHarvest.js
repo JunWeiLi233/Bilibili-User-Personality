@@ -991,7 +991,8 @@ function actionSortRank(action, options = {}) {
     retryLimit > 0 &&
     attempts >= retryLimit * 2 &&
     successfulAttempts === 0 &&
-    evidence === 0
+    evidence === 0 &&
+    currentCommentMisses === 0
   ) {
     return coverageActionRank('harvest') - 0.5 + priorityPenalty;
   }

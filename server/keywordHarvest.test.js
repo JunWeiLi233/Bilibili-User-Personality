@@ -2487,6 +2487,46 @@ test('buildDictionaryCoverageAudit rotates repeated no-video zero-evidence misse
   assert.deepEqual(audit.nextActions.map((item) => item.term), ['freshWeak', missed]);
 });
 
+test('buildDictionaryCoverageAudit rotates hard zero-evidence comment misses behind fresh weak terms', () => {
+  const missed = 'commentScannedNoHit';
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [
+        { term: missed, family: 'attack', evidenceCount: 0 },
+        { term: 'freshWeak', family: 'attack', evidenceCount: 1 },
+      ],
+    },
+    {
+      termAttempts: {
+        [missed]: {
+          term: missed,
+          family: 'attack',
+          evidenceAtPlanTime: 0,
+          attempts: 8,
+          successfulAttempts: 0,
+          lastEvidenceCount: 0,
+          queries: [
+            {
+              query: 'commentScannedNoHit \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+              strategyVersion: 4,
+              ok: true,
+              hit: false,
+              videos: 6,
+              comments: 1469,
+              error: '',
+            },
+          ],
+          lastQuery: 'commentScannedNoHit \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+          lastError: '',
+        },
+      },
+    },
+    { targetEvidence: 3, maxActions: 2, retryBeforeUnattemptedLimit: 3 },
+  );
+
+  assert.deepEqual(audit.nextActions.map((item) => item.term), ['freshWeak', missed]);
+});
+
 test('buildDictionaryCoverageAudit treats stale duplicate-evidence successes as misses', () => {
   const audit = buildDictionaryCoverageAudit(
     {
