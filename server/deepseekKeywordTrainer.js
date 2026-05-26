@@ -45,7 +45,7 @@ const ALLOWED_ASCII_KEYWORD_TERMS = new Set([
 ]);
 const FAMILY_ALIASES = {
   sarcasm: 'attack',
-  meme: 'attack',
+  meme: 'cooperation',
   insult: 'attack',
   stanceAttack: 'attack',
   evidenceShift: 'evasion',

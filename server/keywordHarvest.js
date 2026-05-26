@@ -865,17 +865,28 @@ function attemptedVariantQueries(attempt, options = {}) {
 }
 
 function isTermAttemptExhausted(term, family, attempt, options = {}) {
-  if (!attempt || Number(attempt.successfulAttempts) > 0) return false;
+  if (!attempt || effectiveSuccessfulAttempts(attempt) > 0) return false;
   const triedQueries = attemptedVariantQueries(attempt);
   if (triedQueries.size === 0) return false;
   return queryVariantsForTerm(term, family, queryVariantCountForTerm(term, options), options).every((item) => triedQueries.has(item.query));
+}
+
+function effectiveSuccessfulAttempts(attempt) {
+  const successfulAttempts = Math.max(0, Number(attempt?.successfulAttempts) || 0);
+  if (successfulAttempts === 0) return 0;
+  const hasLastEvidenceCount = Object.prototype.hasOwnProperty.call(attempt || {}, 'lastEvidenceCount');
+  if (!hasLastEvidenceCount) return successfulAttempts;
+  const evidenceAtPlanTime = Math.max(0, Number(attempt?.evidenceAtPlanTime) || 0);
+  const lastEvidenceCount = Math.max(0, Number(attempt?.lastEvidenceCount) || 0);
+  if (lastEvidenceCount === evidenceAtPlanTime) return 0;
+  return successfulAttempts;
 }
 
 function isRepeatedlyMissedAttempt(attempt, threshold = 3) {
   return (
     attempt &&
     Math.max(0, Number(attempt.attempts) || 0) >= Math.max(1, Number(threshold) || 1) &&
-    Math.max(0, Number(attempt.successfulAttempts) || 0) === 0
+    effectiveSuccessfulAttempts(attempt) === 0
   );
 }
 
@@ -1202,7 +1213,7 @@ export function buildKeywordHarvestQueryPlan(dictionary, options = {}) {
     familyCounts.set(family, count + 1);
     const attempt = getTermAttempt(termAttempts, term);
     const attempts = Math.max(0, Number(attempt?.attempts) || 0);
-    const successfulAttempts = Math.max(0, Number(attempt?.successfulAttempts) || 0);
+    const successfulAttempts = effectiveSuccessfulAttempts(attempt);
     if (coverageMode === 'all-weak' && isTermAttemptExhausted(term, family, attempt, options)) continue;
     const triedQueries = attemptedVariantQueries(attempt);
     const adaptiveVariantsPerTerm =
@@ -1369,7 +1380,7 @@ export function summarizeTermAttempts(state = {}, dictionary = {}, options = {})
   const entries = Array.isArray(dictionary?.entries) ? dictionary.entries : [];
   const attempts = state.termAttempts && typeof state.termAttempts === 'object' ? state.termAttempts : {};
   const attemptedTerms = Object.values(attempts).filter((item) => Number(item?.attempts) > 0);
-  const successfulTerms = attemptedTerms.filter((item) => Number(item?.successfulAttempts) > 0);
+  const successfulTerms = attemptedTerms.filter((item) => effectiveSuccessfulAttempts(item) > 0);
   const entryTerms = new Set(entries.map((entry) => String(entry.term || '').trim()).filter(Boolean));
   const unattemptedTerms = entries
     .filter((entry) => entry.term && !getTermAttempt(attempts, entry.term))
@@ -1379,7 +1390,7 @@ export function summarizeTermAttempts(state = {}, dictionary = {}, options = {})
       evidenceCount: evidenceCount(entry),
     }));
   const repeatedlyMissedTerms = attemptedTerms
-    .filter((item) => Number(item.successfulAttempts) === 0)
+    .filter((item) => effectiveSuccessfulAttempts(item) === 0)
     .sort((a, b) => Number(b.attempts) - Number(a.attempts) || String(a.term || '').localeCompare(String(b.term || '')))
     .slice(0, 20)
     .map((item) => ({
@@ -1435,7 +1446,7 @@ export function buildCoverageActions(dictionary = {}, state = {}, options = {}) 
     const count = evidenceCount(entry);
     const coverageCount = coverageEvidenceCount(entry, options);
     const exhausted = isTermAttemptExhausted(term, family, attempt, options);
-    const successfulAttempts = Number(attempt?.successfulAttempts) || 0;
+    const successfulAttempts = effectiveSuccessfulAttempts(attempt);
     const attemptsCount = Number(attempt?.attempts) || 0;
     const currentStrategyTriedQueries = attemptedVariantQueries(attempt, {
       requireCurrentStrategyVersion: true,
@@ -1453,7 +1464,7 @@ export function buildCoverageActions(dictionary = {}, state = {}, options = {}) 
       const relatedMissed =
         relatedAttempt &&
         Math.max(0, Number(relatedAttempt.attempts) || 0) > 0 &&
-        Math.max(0, Number(relatedAttempt.successfulAttempts) || 0) === 0;
+        effectiveSuccessfulAttempts(relatedAttempt) === 0;
       return !(cleanRelatedTerm.length < term.length && (relatedMissed || hasIrrelevantQueryFeedback(state, cleanRelatedTerm)));
     });
     const hasUntriedOwnVariant = ownVariants.some((variant) => !triedQueries.has(variant.query));
@@ -1633,15 +1644,6 @@ function summarizeCoverageProgress(beforeCoverage, afterCoverage) {
   };
 }
 
-function collectEvidenceTerms(result, options = {}) {
-  return new Set(
-    [...(result?.entries || []), ...(result?.keywordTraining?.dictionaryEvidenceEntries || [])]
-      .filter((entry) => coverageEvidenceCount(entry, options) > 0)
-      .map((entry) => String(entry.term || '').trim())
-      .filter(Boolean),
-  );
-}
-
 function findResultDictionaryEntry(result, term) {
   return (Array.isArray(result?.dictionary?.entries) ? result.dictionary.entries : []).find((entry) => String(entry?.term || '').trim() === term);
 }
@@ -1698,13 +1700,14 @@ function updateTermAttempt(termAttempts, planItem, result, finishedAt, options =
   const term = String(planItem.term).trim();
   const key = termAttemptKey(term);
   const current = getTermAttempt(termAttempts, term) || {};
-  const evidenceTerms = collectEvidenceTerms(result, options);
   const evidenceEntry = [...(result?.entries || []), ...(result?.keywordTraining?.dictionaryEvidenceEntries || [])].find((entry) => entry?.term === term);
   const dictionaryEntry = findResultDictionaryEntry(result, term);
   const plannedEvidenceCount = Number(planItem.coverageEvidenceCount ?? planItem.evidenceCount ?? current.evidenceAtPlanTime ?? 0) || 0;
+  const evidenceEntryCoverageCount = coverageEvidenceCount(evidenceEntry, options);
   const dictionaryEvidenceCount = coverageEvidenceCount(dictionaryEntry, options);
+  const evidenceEntryGained = Boolean(result?.ok) && evidenceEntryCoverageCount > plannedEvidenceCount;
   const dictionaryEvidenceGained = Boolean(result?.ok) && dictionaryEvidenceCount > plannedEvidenceCount;
-  const hit = evidenceTerms.has(term) || dictionaryEvidenceGained;
+  const hit = evidenceEntryGained || dictionaryEvidenceGained;
   const hitEvidenceCount = Number(evidenceEntry?.evidenceCount) || dictionaryEvidenceCount;
   const queryRecord = {
     at: finishedAt,

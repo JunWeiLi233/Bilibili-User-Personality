@@ -2628,6 +2628,54 @@ test('rejects DeepSeek keywords that are not evidenced in crawled text', async (
   }
 });
 
+test('maps DeepSeek meme family output to non-attack dictionary evidence', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-train-meme-family-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  try {
+    const result = await trainKeywordDictionary(
+      {
+        text: '\u8fd9\u91cc\u5237doge\u53ea\u662f\u5f39\u5e55\u73a9\u6897\uff0c\u4e0d\u662f\u5728\u9a82\u4eba\u3002',
+        uid: 'BV-meme-family',
+        source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-meme-family/',
+      },
+      {
+        dictionaryPath,
+        env: {
+          DEEPSEEK_API_KEY: 'test-key',
+          DEEPSEEK_MODEL: 'deepseek-v4-flash',
+          DEEPSEEK_REASONING_EFFORT: 'medium',
+        },
+        fetch: async (url) => {
+          if (String(url).endsWith('/models')) {
+            return { ok: true, json: async () => ({ data: [{ id: 'deepseek-v4-flash' }] }) };
+          }
+          return {
+            ok: true,
+            json: async () => ({
+              choices: [
+                {
+                  message: {
+                    content: JSON.stringify({
+                      keywords: [{ term: 'doge', family: 'meme', meaning: 'danmaku meme marker, not an attack', risk: 'neutral', confidence: 0.86 }],
+                    }),
+                  },
+                },
+              ],
+            }),
+          };
+        },
+      },
+    );
+
+    assert.equal(result.ok, true);
+    assert.deepEqual(result.entries.map((entry) => [entry.term, entry.family]), [['doge', 'cooperation']]);
+    assert.deepEqual(result.dictionary.families.attack, []);
+    assert.deepEqual(result.dictionary.families.cooperation, ['doge']);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('retries DeepSeek keyword generation when JSON mode returns empty content', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-train-retry-'));
   const dictionaryPath = join(dir, 'dictionary.json');

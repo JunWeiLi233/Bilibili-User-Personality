@@ -2326,6 +2326,43 @@ test('buildDictionaryCoverageAudit retries no-video discovery misses before fres
   assert.equal(audit.nextActions[0].nextQuery, 'noVideoMiss \u8bc4\u8bba\u533a');
 });
 
+test('buildDictionaryCoverageAudit treats stale duplicate-evidence successes as misses', () => {
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [{ term: 'duplicateHit', family: 'attack', evidenceCount: 1 }],
+    },
+    {
+      termAttempts: {
+        duplicateHit: {
+          term: 'duplicateHit',
+          family: 'attack',
+          evidenceAtPlanTime: 1,
+          attempts: 1,
+          successfulAttempts: 1,
+          lastEvidenceCount: 1,
+          queries: [
+            {
+              query: 'duplicateHit \u70ed\u8bc4',
+              strategyVersion: 4,
+              ok: true,
+              hit: true,
+              videos: 10,
+              comments: 100,
+              error: '',
+            },
+          ],
+        },
+      },
+    },
+    { targetEvidence: 3, maxActions: 1 },
+  );
+
+  assert.equal(audit.termAttemptSummary.successfulTerms, 0);
+  assert.equal(audit.nextActions[0].term, 'duplicateHit');
+  assert.equal(audit.nextActions[0].status, 'weak_missed');
+  assert.equal(audit.nextActions[0].successfulAttempts, 0);
+});
+
 test('buildDictionaryCoverageAudit defers compact metric fragments behind discourse terms', () => {
   const audit = buildDictionaryCoverageAudit(
     {
@@ -5357,6 +5394,85 @@ test('harvestKeywordDictionary records a hit when the returned dictionary gained
     assert.equal(attempt.successfulAttempts, 1);
     assert.equal(attempt.lastEvidenceCount, 2);
     assert.equal(attempt.queries[0].hit, true);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
+test('harvestKeywordDictionary does not record duplicate accepted evidence as a successful attempt', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-duplicate-accepted-attempt-'));
+  const statePath = join(dir, 'state.json');
+  const term = '\u5f88\u61c2\u561b';
+  try {
+    await harvestKeywordDictionary(
+      {
+        priorityQueries: [`${term} \u70ed\u8bc4`],
+        seedQueries: [],
+        maxQueries: 1,
+        existingTermsOnly: true,
+        requireCommentBackedEvidence: true,
+        coverageMode: 'all-weak',
+        discoveryLimit: 1,
+        pages: 1,
+        statePath,
+      },
+      {
+        readKeywordDictionary: async () => ({
+          entries: [
+            {
+              term,
+              family: 'attack',
+              evidenceCount: 1,
+              evidenceSources: [
+                {
+                  source: 'Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BVold/',
+                  uid: 'BVold',
+                  sample: '\u5f88\u61c2\u561b\u8001\u94c1[doge]',
+                },
+              ],
+            },
+          ],
+        }),
+        searchVideoKeywords: async () => ({
+          ok: true,
+          warnings: [],
+          videos: [{ bvid: 'BVold' }],
+          comments: [{ rpid: '1', message: '\u5f88\u61c2\u561b\u8001\u94c1[doge]' }],
+          entries: [],
+          keywordTraining: {
+            dictionaryEvidenceEntries: [
+              {
+                term,
+                family: 'attack',
+                evidenceCount: 1,
+                evidenceSources: [
+                  {
+                    source: 'Bilibili public existing evidence-source video comment scan: https://www.bilibili.com/video/BVold/',
+                    uid: 'BVold',
+                    sample: '\u5f88\u61c2\u561b\u8001\u94c1[doge]',
+                  },
+                ],
+              },
+            ],
+          },
+          dictionary: {
+            entries: [{ term, family: 'attack', evidenceCount: 1 }],
+          },
+          collectionDiagnostics: {
+            targetExistingTerms: [term],
+            acceptedTerms: [term],
+          },
+        }),
+      },
+    );
+
+    const state = JSON.parse(await readFile(statePath, 'utf8'));
+    const attempt = state.termAttempts[Buffer.from(term, 'utf8').toString('base64url')];
+
+    assert.equal(attempt.attempts, 1);
+    assert.equal(attempt.successfulAttempts, 0);
+    assert.equal(attempt.lastEvidenceCount, 0);
+    assert.equal(attempt.queries[0].hit, false);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
