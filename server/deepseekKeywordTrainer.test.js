@@ -1075,6 +1075,24 @@ test('normalizes away mojibake Chinese-looking keyword terms', () => {
   assert.deepEqual(entries.map((entry) => entry.term), ['\u7537\u76d7\u5973\u5a3c', 'doge']);
 });
 
+test('normalizes away pipe-delimited mojibake axis terms', () => {
+  const mojibakeAxisTerms = [
+    String.fromCodePoint(0x7035, 0x89c4, 0x59c9),
+    String.fromCodePoint(0x7481, 0x3087, 0x7161),
+    String.fromCodePoint(0x7487, 0x4f79, 0x5d41),
+    String.fromCodePoint(0x95ab, 0x660f, 0x7ddb),
+    String.fromCodePoint(0x935a, 0x581c, 0x7d94),
+    String.fromCodePoint(0x6dc7, 0xe1bd, 0xe11c),
+  ];
+  const entries = normalizeKeywordEntries([
+    ...mojibakeAxisTerms.map((term) => ({ term, family: 'attack', meaning: 'mojibake radar axis label' })),
+    { term: `${mojibakeAxisTerms.join('|')}|`, family: 'attack', meaning: 'pipe-delimited mojibake axis labels' },
+    { term: '\u5bf9\u6297', family: 'attack', meaning: 'real Chinese discussion term' },
+  ]);
+
+  assert.deepEqual(entries.map((entry) => entry.term), ['\u5bf9\u6297']);
+});
+
 test('mergeEntriesIntoDictionary prunes persisted non Chinese or Latin noise terms', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'deepseek-prune-noise-'));
   const dictionaryPath = join(dir, 'dictionary.json');
