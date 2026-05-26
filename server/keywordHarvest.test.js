@@ -1209,9 +1209,9 @@ test('buildKeywordHarvestQueries all-weak mode targets every weak term before br
   );
 
   assert.deepEqual(queries, [
-    'weakA 评论区 梗 热评',
-    'weakB 评论区 梗 热评',
     'weakC 回复 评论区 热评',
+    'weakB 评论区 梗 热评',
+    'weakA 评论区 梗 热评',
     'seed topic',
   ]);
 });
@@ -2171,6 +2171,54 @@ test('buildCoverageActions retries alias comment queries earlier after scaffold 
   assert.equal(action.nextQuery, '\u4fdd\u62a4\u6211\u65b9up \u8bc4\u8bba\u533a');
 });
 
+test('buildDictionaryCoverageAudit prioritizes near-complete weak terms within the same action class', () => {
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [
+        {
+          term: '\u4e00\u6761\u8bc1\u636e\u8bcd',
+          family: 'attack',
+          evidenceCount: 1,
+          evidenceSources: [{ source: 'Bilibili public video comment scan', uid: 'BVone', sample: '\u4e00\u6761\u8bc1\u636e\u8bcd' }],
+        },
+        {
+          term: '\u4e24\u6761\u8bc1\u636e\u8bcd',
+          family: 'attack',
+          evidenceCount: 2,
+          evidenceSources: [
+            { source: 'Bilibili public video comment scan', uid: 'BVtwo1', sample: '\u4e24\u6761\u8bc1\u636e\u8bcd sample 1' },
+            { source: 'Bilibili public video comment scan', uid: 'BVtwo2', sample: '\u4e24\u6761\u8bc1\u636e\u8bcd sample 2' },
+          ],
+        },
+      ],
+    },
+    { termAttempts: {} },
+    { targetEvidence: 3, requireSourceBackedEvidence: true, requireCommentBackedEvidence: true },
+  );
+
+  assert.equal(audit.nextActions[0].term, '\u4e24\u6761\u8bc1\u636e\u8bcd');
+  assert.equal(audit.nextActions[0].evidenceNeeded, 1);
+});
+
+test('buildKeywordHarvestQueries starts with near-complete weak terms in all-weak mode', () => {
+  const queries = buildKeywordHarvestQueries(
+    {
+      entries: [
+        { term: '\u4e00\u6761\u8bc1\u636e\u8bcd', family: 'attack', evidenceCount: 1 },
+        { term: '\u4e24\u6761\u8bc1\u636e\u8bcd', family: 'attack', evidenceCount: 2 },
+      ],
+    },
+    {
+      seedQueries: [],
+      coverageMode: 'all-weak',
+      maxQueries: 2,
+      queryVariantsPerTerm: 1,
+      targetEvidence: 3,
+    },
+  );
+
+  assert.equal(queries[0], '\u4e24\u6761\u8bc1\u636e\u8bcd \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4');
+});
 
 test('buildDictionaryCoverageAudit reports gate status and next harvest actions', () => {
   const audit = buildDictionaryCoverageAudit(

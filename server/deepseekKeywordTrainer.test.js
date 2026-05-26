@@ -297,6 +297,67 @@ test('analyzeCommentsWithDeepSeek retries with compact comments when model retur
   assert.deepEqual(result.sentenceAnalyses.map((item) => item.quote), [originalSentence]);
 });
 
+test('analyzeCommentsWithDeepSeek retries with compact comments when model returns invalid JSON', async () => {
+  const originalSentence = '\u8bdd\u867d\u5982\u6b64 \u53ef\u8bc4\u8bba\u533a\u600e\u4e48\u6ca1\u89c1\u51e0\u4e2a\u5fc3\u5e73\u6c14\u548c\u7684\u8bc4\u8bba';
+  const requests = [];
+  const result = await analyzeCommentsWithDeepSeek(
+    {
+      uid: 'video:BV19yGa61Ee6',
+      name: 'live parse retry',
+      text: originalSentence,
+    },
+    {
+      env: {
+        DEEPSEEK_API_KEY: 'test-key',
+        DEEPSEEK_BASE_URL: 'https://api.deepseek.com',
+        DEEPSEEK_MODEL: 'deepseek-v4-flash',
+      },
+      fetch: async (url, options = {}) => {
+        if (String(url).endsWith('/models')) {
+          return { ok: true, json: async () => ({ data: [{ id: 'deepseek-v4-flash' }] }) };
+        }
+        const body = JSON.parse(options.body);
+        requests.push(body);
+        return {
+          ok: true,
+          json: async () => ({
+            choices: [
+              {
+                message: {
+                  content:
+                    requests.length === 1
+                      ? '{"axes":[{"axis":"\u5bf9\u6297\u6027\u52a8\u673a","score":70,"evidence":["broken"]}'
+                      : JSON.stringify({
+                          axes: [{ axis: '\u5bf9\u6297\u6027\u52a8\u673a', score: 66, evidence: [originalSentence], reasoning: '\u5bf9\u8bc4\u8bba\u533a\u7684\u5bf9\u7acb\u6027\u6982\u62ec\u3002' }],
+                          sentenceAnalyses: [
+                            {
+                              quote: originalSentence,
+                              speechAct: '\u8bc4\u8bba\u533a\u5143\u6279\u8bc4',
+                              target: '\u8bc4\u8bba\u533a\u8bed\u6c14',
+                              risk: 'medium',
+                              axisImpacts: [{ axis: '\u5bf9\u6297\u6027\u52a8\u673a', direction: 'risk', strength: 0.66 }],
+                            },
+                          ],
+                          overall: { riskBand: '\u6df7\u5408\u4e89\u8fa9\u578b', summary: '\u542b\u6709\u5bf9\u7acb\u6027\u5143\u8bc4\u8bba\u3002' },
+                          confidence: 0.76,
+                        }),
+                },
+              },
+            ],
+          }),
+        };
+      },
+    },
+  );
+
+  assert.equal(requests.length, 2);
+  assert.equal(result.ok, true);
+  assert.equal(result.retriedCompactPrompt, true);
+  assert.equal(requests[1].messages.some((message) => String(message.content).includes('"comments"')), true);
+  assert.equal(result.axes[0].score, 66);
+  assert.deepEqual(result.sentenceAnalyses.map((item) => item.quote), [originalSentence]);
+});
+
 test('analyzeCommentsWithDeepSeek retries when Chinese analysis is empty but syntactically valid', async () => {
   const originalSentence = '\u8bdd\u867d\u5982\u6b64 \u53ef\u8bc4\u8bba\u533a\u600e\u4e48\u6ca1\u89c1\u51e0\u4e2a\u5fc3\u5e73\u6c14\u548c\u7684\u8bc4\u8bba\uff0c\u5168\u662f\u9634\u9633\u602a\u6c14\u865a\u7a7a\u7d22\u654c\u57fa\u672c\u76d8\u548c\u5404\u79cd\u7c89\u7ea2\u7684\u3002';
   const requests = [];

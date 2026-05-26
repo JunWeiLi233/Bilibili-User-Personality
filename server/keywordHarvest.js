@@ -988,6 +988,12 @@ function actionSortRank(action, options = {}) {
     return coverageActionRank('harvest') - 0.5 + priorityPenalty;
   }
   if (options.prioritizeSourceGaps === true && action?.action === 'refresh_source_metadata') {
+    if (currentCommentMisses > 0) {
+      return (
+        (successfulAttempts > 0 ? coverageActionRank('harvest') + 0.75 : coverageActionRank('retry_with_new_variant') + 0.75) +
+        priorityPenalty
+      );
+    }
     return coverageActionRank('retry_with_new_variant') - 0.25 + priorityPenalty;
   }
   if (noVideoDiscoveryMiss) {
@@ -1194,7 +1200,7 @@ export function buildKeywordHarvestQueryPlan(dictionary, options = {}) {
             const actionB = actionMap.get(String(b.term || '').trim());
             return (
               actionSortRank(actionA, options) - actionSortRank(actionB, options) ||
-              coverageEvidenceCount(a, options) - coverageEvidenceCount(b, options) ||
+              Math.max(0, targetEvidence - coverageEvidenceCount(a, options)) - Math.max(0, targetEvidence - coverageEvidenceCount(b, options)) ||
               sameRecommendationGroupSort(actionA, actionB) ||
               String(a.term || '').localeCompare(String(b.term || ''))
             );
@@ -1583,7 +1589,7 @@ export function buildDictionaryCoverageAudit(dictionary = {}, state = {}, option
       (a, b) =>
         actionSortRank(a, { ...options, prioritizeHardZeroEvidence: true, prioritizeSourceGaps: true }) -
           actionSortRank(b, { ...options, prioritizeHardZeroEvidence: true, prioritizeSourceGaps: true }) ||
-        a.evidenceCount - b.evidenceCount ||
+        a.evidenceNeeded - b.evidenceNeeded ||
         sameRecommendationGroupSort(a, b) ||
         String(a.term || '').localeCompare(String(b.term || '')),
     );

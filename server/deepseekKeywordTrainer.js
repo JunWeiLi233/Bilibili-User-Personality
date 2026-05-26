@@ -1476,8 +1476,16 @@ export async function analyzeCommentsWithDeepSeek(payload, options = {}) {
   }
 
   try {
-    let { raw, parsed } = await requestDeepSeekAnalysis({ config, fetchImpl, payload, options });
     let retriedCompactPrompt = false;
+    let raw = '';
+    let parsed = null;
+    try {
+      ({ raw, parsed } = await requestDeepSeekAnalysis({ config, fetchImpl, payload, options }));
+    } catch (error) {
+      if (!(error instanceof SyntaxError)) throw error;
+      ({ raw, parsed } = await requestDeepSeekAnalysis({ config, fetchImpl, payload, options, compact: true }));
+      retriedCompactPrompt = true;
+    }
     if (parsedAnalysisLooksGarbled(parsed, raw, payload?.text)) {
       ({ raw, parsed } = await requestDeepSeekAnalysis({ config, fetchImpl, payload, options, compact: true }));
       retriedCompactPrompt = true;
