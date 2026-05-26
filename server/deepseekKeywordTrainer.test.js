@@ -4975,6 +4975,82 @@ test('findDictionaryEntriesWithTextEvidence rejects latest harvested literal and
   ]);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects latest harvested tool and generic job false positives', () => {
+  const dictionary = {
+    entries: [
+      { term: '找个班上', family: 'attack', meaning: 'dismissively tell someone to get a job instead of posting' },
+      { term: '截图', family: 'evidence', meaning: 'ask for or provide screenshot evidence' },
+      { term: '浏览器搜', family: 'evidence', meaning: 'ask someone to verify a claim by searching in a browser' },
+      { term: '怪我咯', family: 'correction', meaning: 'accept blame or correct a previous mistake' },
+    ],
+  };
+
+  const falsePositiveText = [
+    '找2500的前台被拒了，感觉现在符合“随便找个班上”这个词的只有进厂了，服务员要有经验，摇奶茶卡年龄并且也要经验',
+    '工具自带的api免费使用，界面还挺好看，适用于对界面有一定要求，并且此类工具不多的用户，截图+OCR+翻译，好像就这三个功能',
+    '感谢~~vivo x2oo pro 搭配华为运动健康也能截图。：）',
+    '打开图片，里面有个screenshots文件夹，屏幕截图在那里面',
+    '浏览器搜索Ttime，免费获取，不花钱',
+    '整天靠着在影视剧里贬低亚裔男性，搞得自己都信了，这会儿接受不了现实也只能无能狂怒[怪我咯]',
+    '说起来容易，实际上很难的。当你看着自己的钱来得这么容易的时候，总是希望自己可以多赚一点，人贪婪的的本性也就显现了，慢慢的，一开始可能还赢点钱，后面全部输回去，而且是有八九会倒贴，我就是，所以说很多道理看起来简单，做起来的时候才知道有多难[怪...',
+  ].join('\n');
+
+  const entries = findDictionaryEntriesWithTextEvidence(dictionary, falsePositiveText);
+
+  assert.deepEqual(entries.map((entry) => entry.term), []);
+
+  const realEntries = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    [
+      '没活就找个班上，别天天在评论区发癫',
+      '把聊天截图和来源贴一下',
+      '你用浏览器搜一下原文来源，别只发截图',
+      '怪我咯，前面看错了我收回',
+    ].join('\n'),
+  );
+
+  assert.deepEqual(realEntries.map((entry) => entry.term), [
+    '找个班上',
+    '截图',
+    '浏览器搜',
+    '怪我咯',
+  ]);
+});
+
+test('mergeEntriesIntoDictionary prunes persisted truncated emote reaction evidence', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'deepseek-prune-truncated-emote-reaction-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  try {
+    await writeFile(
+      dictionaryPath,
+      JSON.stringify({
+        version: 1,
+        updatedAt: '2026-01-01T00:00:00.000Z',
+        entries: [
+          {
+            term: '怪我咯',
+            family: 'correction',
+            meaning: 'accept blame or correct a previous mistake',
+            evidenceCount: 1,
+            evidenceSamples: [
+              '说起来容易，实际上很难的。当你看着自己的钱来得这么容易的时候，总是希望自己可以多赚一点，人贪婪的的本性也就显现了，慢慢的，一开始可能还赢点钱，后面全部输回去，而且是有八九会倒贴，我就是，所以说很多道理看起来简单，做起来的时候才知道有多难[怪...',
+            ],
+          },
+        ],
+      }),
+      'utf8',
+    );
+
+    const dictionary = await mergeEntriesIntoDictionary([], { dictionaryPath });
+    const entry = dictionary.entries.find((item) => item.term === '怪我咯');
+
+    assert.deepEqual(entry.evidenceSamples, []);
+    assert.equal(entry.evidenceCount, 0);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('normalizeKeywordEntries prunes persisted literal traditional-character samples for video-language attack terms', () => {
   const entries = normalizeKeywordEntries([
     {
