@@ -977,6 +977,9 @@ function actionSortRank(action, options = {}) {
     successfulAttempts === 0 &&
     currentCommentMisses === 0 &&
     /No Bilibili videos were discovered/u.test(String(action?.lastError || ''));
+  if (noVideoDiscoveryMiss && retryLimit > 0 && attempts > retryLimit) {
+    return coverageActionRank('harvest') + 0.5 + priorityPenalty;
+  }
   if (
     options.prioritizeHardZeroEvidence === true &&
     action?.action === 'retry_with_new_variant' &&
