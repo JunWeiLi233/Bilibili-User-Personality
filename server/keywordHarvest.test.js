@@ -2460,6 +2460,56 @@ test('buildDictionaryCoverageAudit rotates no-video discovery misses after retry
   assert.equal(audit.nextActions[1].nextQuery, 'noVideoMiss \u8bc4\u8bba\u533a');
 });
 
+test('buildDictionaryCoverageAudit rotates timeout-heavy retries behind partial evidence refreshes', () => {
+  const timeoutTerm = 'timeoutHeavy';
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [
+        { term: timeoutTerm, family: 'attack', evidenceCount: 0 },
+        { term: 'partialEvidence', family: 'attack', evidenceCount: 1, evidenceSamples: ['partialEvidence sample'] },
+      ],
+    },
+    {
+      termAttempts: {
+        [timeoutTerm]: {
+          term: timeoutTerm,
+          family: 'attack',
+          evidenceAtPlanTime: 0,
+          attempts: 2,
+          successfulAttempts: 0,
+          queries: [
+            {
+              query: 'timeoutHeavy \u8bc4\u8bba\u533a',
+              strategyVersion: 4,
+              ok: false,
+              hit: false,
+              videos: 0,
+              comments: 0,
+              error: 'Bilibili harvest query "timeoutHeavy \u8bc4\u8bba\u533a" timed out after 35000ms',
+            },
+          ],
+          lastQuery: 'timeoutHeavy \u8bc4\u8bba\u533a',
+          lastError: 'Bilibili harvest query "timeoutHeavy \u8bc4\u8bba\u533a" timed out after 35000ms',
+        },
+        partialEvidence: {
+          term: 'partialEvidence',
+          family: 'attack',
+          evidenceAtPlanTime: 1,
+          attempts: 1,
+          successfulAttempts: 1,
+          lastEvidenceCount: 1,
+          queries: [{ query: 'partialEvidence \u8bc4\u8bba\u533a', strategyVersion: 4, ok: true, hit: true, videos: 1, comments: 24 }],
+          lastQuery: 'partialEvidence \u8bc4\u8bba\u533a',
+          lastError: '',
+        },
+      },
+    },
+    { targetEvidence: 3, maxActions: 2, retryBeforeUnattemptedLimit: 1 },
+  );
+
+  assert.deepEqual(audit.nextActions.map((item) => item.term), ['partialEvidence', timeoutTerm]);
+});
+
 test('buildDictionaryCoverageAudit rotates repeated no-video zero-evidence misses behind fresh weak terms', () => {
   const missed = 'repeatedNoVideo';
   const audit = buildDictionaryCoverageAudit(

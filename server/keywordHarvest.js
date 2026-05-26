@@ -987,8 +987,16 @@ function actionSortRank(action, options = {}) {
     successfulAttempts === 0 &&
     currentCommentMisses === 0 &&
     /No Bilibili videos were discovered/u.test(String(action?.lastError || ''));
+  const timeoutDiscoveryMiss =
+    action?.action === 'retry_with_new_variant' &&
+    attempts > 0 &&
+    successfulAttempts === 0 &&
+    /(?:timed out after|Operation timed out)/iu.test(String(action?.lastError || ''));
   if (noVideoDiscoveryMiss && retryLimit > 0 && attempts >= retryLimit) {
     return coverageActionRank('harvest') + 0.5 + priorityPenalty;
+  }
+  if (timeoutDiscoveryMiss && retryLimit > 0 && attempts >= retryLimit) {
+    return coverageActionRank('harvest_more_evidence') + 0.5 + priorityPenalty;
   }
   if (
     options.prioritizeHardZeroEvidence === true &&
