@@ -2,7 +2,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 
 import { withFileLock } from './fileLock.js';
-import { harvestKeywordDictionaryRounds } from './keywordHarvest.js';
+import { countAcceptedEvidenceHits, harvestKeywordDictionaryRounds } from './keywordHarvest.js';
 import { serializeVideoKeywordDiscoveryReport } from './runVideoKeywordDiscoveryReport.js';
 import { buildVideoKeywordDiscoveryOptions, parsePriorityQueryContent } from './runVideoKeywordDiscoveryOptions.js';
 
@@ -51,10 +51,7 @@ function summarizeRound(round) {
   const videosScanned = okResults.reduce((sum, item) => sum + (item.result.videos?.length || 0), 0);
   const commentsCollected = okResults.reduce((sum, item) => sum + (item.result.comments?.length || 0), 0);
   const evidenceRejected = okResults.reduce((sum, item) => sum + (item.result.keywordTraining?.evidenceRejected || 0), 0);
-  const acceptedEvidenceCount = okResults.reduce(
-    (sum, item) => sum + (item.result.entries || []).reduce((entrySum, entry) => entrySum + (Number(entry.evidenceCount) || 0), 0),
-    0,
-  );
+  const acceptedEvidenceCount = okResults.reduce((sum, item) => sum + countAcceptedEvidenceHits(item.result.entries || []), 0);
   const existingDictionaryEvidenceTerms = okResults.reduce((sum, item) => sum + (item.result.keywordTraining?.dictionaryEvidenceEntries?.length || 0), 0);
   return {
     okResults,

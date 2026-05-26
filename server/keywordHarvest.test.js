@@ -5991,6 +5991,62 @@ test('harvestKeywordDictionary disables video-title evidence during strict comme
   }
 });
 
+test('harvestKeywordDictionary reports accepted evidence by unique comment samples', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-unique-evidence-count-'));
+  const statePath = join(dir, 'state.json');
+  try {
+    const evidenceEntry = {
+      term: 'sampleTerm',
+      family: 'attack',
+      evidenceCount: 3,
+      evidenceSamples: ['sampleTerm first comment', 'sampleTerm second comment'],
+      evidenceSources: [
+        {
+          source: 'Bilibili public existing evidence-source video comment scan: https://www.bilibili.com/video/BV1111111111/',
+          uid: 'BV1111111111',
+          sample: 'sampleTerm first comment',
+        },
+        {
+          source: 'Bilibili public existing evidence-source video comment scan: https://www.bilibili.com/video/BV1111111111/',
+          uid: 'BV1111111111',
+          sample: 'sampleTerm second comment',
+        },
+      ],
+    };
+    const result = await harvestKeywordDictionary(
+      {
+        priorityQueries: ['sampleTerm comment'],
+        seedQueries: [],
+        maxQueries: 1,
+        existingTermsOnly: true,
+        requireCommentBackedEvidence: true,
+        discoveryLimit: 1,
+        pages: 1,
+        statePath,
+      },
+      {
+        readKeywordDictionary: async () => ({
+          entries: [{ term: 'sampleTerm', family: 'attack', evidenceCount: 2 }],
+        }),
+        searchVideoKeywords: async () => ({
+          ok: true,
+          warnings: [],
+          videos: [{ bvid: 'BV1111111111' }],
+          comments: [{ message: 'sampleTerm first comment' }, { message: 'sampleTerm second comment' }],
+          entries: [evidenceEntry],
+          keywordTraining: { dictionaryEvidenceEntries: [evidenceEntry] },
+          dictionary: { entries: [evidenceEntry] },
+        }),
+      },
+    );
+
+    assert.equal(result.trainingDiagnostics.dictionaryEvidenceCount, 2);
+    assert.equal(result.state.runs[0].acceptedEvidenceCount, 2);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('harvestKeywordDictionary targets exact source-gap priority terms', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-exact-source-gap-target-'));
   const statePath = join(dir, 'state.json');

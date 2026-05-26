@@ -1674,6 +1674,21 @@ async function withTimeout(promise, timeoutMs, message, controller = null) {
   }
 }
 
+export function countAcceptedEvidenceHits(entries = []) {
+  return (Array.isArray(entries) ? entries : []).reduce((sum, entry) => {
+    const samples = new Set();
+    for (const sample of entry?.evidenceSamples || []) {
+      const clean = String(sample || '').trim();
+      if (clean) samples.add(clean);
+    }
+    for (const source of entry?.evidenceSources || []) {
+      const clean = String(source?.sample || '').trim();
+      if (clean) samples.add(clean);
+    }
+    return sum + (samples.size || Math.max(0, Number(entry?.evidenceCount) || 0));
+  }, 0);
+}
+
 function summarizeTrainingDiagnostics(results = []) {
   const diagnostics = {
     deepseekCalls: 0,
@@ -1691,7 +1706,7 @@ function summarizeTrainingDiagnostics(results = []) {
     diagnostics.evidenceRejected += Math.max(0, Number(training.evidenceRejected) || 0);
     const dictionaryEvidenceEntries = Array.isArray(training.dictionaryEvidenceEntries) ? training.dictionaryEvidenceEntries : [];
     diagnostics.dictionaryEvidenceTerms += dictionaryEvidenceEntries.length;
-    diagnostics.dictionaryEvidenceCount += dictionaryEvidenceEntries.reduce((sum, entry) => sum + (Math.max(0, Number(entry?.evidenceCount) || 0)), 0);
+    diagnostics.dictionaryEvidenceCount += countAcceptedEvidenceHits(dictionaryEvidenceEntries);
     diagnostics.generatedTerms += Array.isArray(training.generatedEntries)
       ? training.generatedEntries.length
       : Array.isArray(item?.result?.entries)
@@ -2040,10 +2055,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
         evidenceRejected: trainingDiagnostics.evidenceRejected,
         trainingDiagnostics,
         queryDiagnostics,
-        acceptedEvidenceCount: results.reduce(
-          (sum, item) => sum + (item.result?.entries || []).reduce((entrySum, entry) => entrySum + (Number(entry.evidenceCount) || 0), 0),
-          0,
-        ),
+        acceptedEvidenceCount: results.reduce((sum, item) => sum + countAcceptedEvidenceHits(item.result?.entries || []), 0),
         dictionaryBefore: growth.before,
         dictionaryAfter: growth.after,
         dictionaryAdded: growth.added,
