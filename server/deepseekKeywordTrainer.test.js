@@ -2593,6 +2593,48 @@ test('findDictionaryEntriesWithTextEvidence rejects harvested title and reaction
   assert.deepEqual(realEntries.map((entry) => entry.term), ['xswl', '\u6cea\u76ee']);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects harvested fandom, title, and literal belief evidence', () => {
+  const dictionary = {
+    entries: [
+      { term: '\u523b\u8fdbdna', family: 'attack', meaning: 'claim a bad habit is ingrained' },
+      { term: '\u523b\u8fdbdna\u7684', family: 'attack', meaning: 'ingrained negative trait variant' },
+      { term: '\u5168\u662f\u4e2d\u56fd', family: 'attack', meaning: 'mock overbroad national claim' },
+      { term: '\u4fe1\u4ef0', family: 'attack', meaning: 'mock ideological shield' },
+      { term: '\u90fd\u662f\u5bb6\u4eba', family: 'cooperation', meaning: 'community solidarity address' },
+      { term: '\u5c01\u795e', family: 'cooperation', meaning: 'strong praise for a useful contribution' },
+      { term: '\u795e\u4ed6\u5988', family: 'attack', meaning: 'mocking absurd expression' },
+      { term: '\u4e2d\u7cfb', family: 'cooperation', meaning: 'cooperative classification term' },
+      { term: '\u8c01\u61c2', family: 'evasion', meaning: 'appeal to insiders instead of explaining' },
+    ],
+  };
+  const text = [
+    '\u771f\u2022\u523b\u8fdbDNA\u7684\u6280\u80fd',
+    '\u5012\u4e5f\u4e0d\u5168\u662f\uff0c\u4e2d\u56fd\u4e5f\u6709\u7389\u7687\u5927\u5e1d\u8fd9\u4e00\u8109\u7684\u795e\u8bdd',
+    '\u6211\u4eec\u7684\u4fe1\u4ef0\uff0c\u5c31\u662f\u6211\u4eec\u81ea\u5df1\uff01',
+    '\u5bb6\u4eba\u4eec\uff0c\u5168\u7403\u901a\u53f2\uff0c\u6211\u6c42\u6c42\u4f60\u4eec\u63a8\u8350\u8bfb\u6df1\u4e00\u70b9',
+    '\u770b\u5230\u300a\u5c01\u795e\u6f14\u4e49\u300b\u4e86',
+    '\u56de\u590d @\u54b8\u9c7cnini616 :\u54c8\u54c8\u54c8\u54c8\u54c8\u54c8\u795e\u4ed6\u5988\u548c\u5f20\u7ff0\u642d\u5c31\u6709\u516b\u5206\u50cf',
+    '\u611f\u89c9\u6cf0\u5bb9\u662f\u5728\u4e2d\u7cfb\uff0c\u5728\u73b9\u662fkangta\u7cfb\uff0c\u4e5f\u662f\u53f8\u9a6c\u7537\u4e24\u5927\u5206\u7c7b',
+    '\u6709\u8c01\u61c2\uff01\u8fd9\u4e2a\u8dd1\u6b65\u771f\u7684\u5f88\u90d1\u723d',
+    '\u8c01\u61c2\u554a\uff0c\u5f39\u5e55\u6863\u7684\u82e5\u9690\u82e5\u73b0\uff0c\u66f4\u50cf\u4e86',
+  ].join('\n');
+
+  const entries = findDictionaryEntriesWithTextEvidence(dictionary, text);
+
+  assert.deepEqual(entries.map((entry) => entry.term), []);
+
+  const realEntries = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    [
+      '\u4f60\u8fd9\u5c31\u662f\u628a\u4fe1\u4ef0\u5f53\u514d\u6b7b\u91d1\u724c\uff0c\u4e0d\u56de\u5e94\u8bc1\u636e',
+      '\u8fd9\u6761\u8865\u5145\u628a\u65f6\u95f4\u7ebf\u8bf4\u6e05\u695a\u4e86\uff0c\u5c01\u795e',
+      '\u522b\u53ea\u8bf4\u8c01\u61c2\uff0c\u5148\u628a\u8bc1\u636e\u8d34\u51fa\u6765',
+    ].join('\n'),
+  );
+
+  assert.deepEqual(realEntries.map((entry) => entry.term), ['\u4fe1\u4ef0', '\u5c01\u795e', '\u8c01\u61c2']);
+});
+
 test('findDictionaryEntriesWithTextEvidence can match stable internet aliases', () => {
   const entries = findDictionaryEntriesWithTextEvidence(
     {
