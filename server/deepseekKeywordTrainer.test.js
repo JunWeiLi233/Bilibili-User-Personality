@@ -5646,6 +5646,7 @@ test('findDictionaryEntriesWithTextEvidence rejects latest harvested literal and
     '\u6211\u52a8\u6001\u6709\u53d1\u51fa\u6765\u8fc7',
     '\u5df2\u56db\u8fde\uff0c\u8bf7\u95ee\u5e08\u5085\uff0c\u8fd9\u4e2a\u5973\u751f\u4ec0\u4e48\u65f6\u5019\u53ef\u4ee5\u53d1\u8d22',
     '\u8fd8\u6709\u8138\u81ea\u5df1\u53d1\u51fa\u6765',
+    '\u53bb\u63a8\u4e0a\u4e00\u770b\u5c31\u77e5\u9053\u8fd9\u79cd\u4eba\u7684\u672a\u6765\u4e86\uff0c\u57fa\u672c\u4e0a\u51fa\u53bb\u5c31\u53ef\u4ee5\u8d34\u4e0a\u88ab\u8feb\u5bb3\u7684\u5934\u8854',
     'k\u795e\u795e\u4e86',
     '\u5854\u83f2\u7684\u804a\u5929\u8bb0\u5f55\u6839\u672c\u4e0d\u662f\u4ed6\u672c\u4eba\u653e\u51fa\u53bb\u7684',
     '\u9020\u8c23\u8fd9\u4e2a\u786e\u5b9e\u6ca1\u5f97\u6d17\uff0c\u4f46\u90e8\u5206\u6296\u53cb\u6068\u4e0d\u5f97\u628a\u5854\u83f2\u6367\u6210\u5723\u4eba',
@@ -5680,6 +5681,58 @@ test('findDictionaryEntriesWithTextEvidence rejects latest harvested literal and
     '\u53ef\u4ee5\u8d34',
     '\u795e\u795e',
     '\u6e7f\u6e7f',
+  ]);
+});
+
+test('normalizeKeywordEntries prunes latest harvested label-attachment evidence for post-source terms', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u53ef\u4ee5\u8d34',
+      family: 'cooperation',
+      meaning: 'ask someone to post evidence or context',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u53bb\u63a8\u4e0a\u4e00\u770b\u5c31\u77e5\u9053\u8fd9\u79cd\u4eba\u7684\u672a\u6765\u4e86\uff0c\u57fa\u672c\u4e0a\u51fa\u53bb\u5c31\u53ef\u4ee5\u8d34\u4e0a\u88ab\u8feb\u5bb3\u7684\u5934\u8854\uff0c\u66f4\u65b9\u4fbf\u62ff\u653f\u6cbb\u907f\u96be\uff0c',
+        '\u4f60\u628a\u8bc1\u636e\u622a\u56fe\u53ef\u4ee5\u8d34\u4e00\u4e0b\u5417',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u53bb\u63a8\u4e0a\u4e00\u770b\u5c31\u77e5\u9053\u8fd9\u79cd\u4eba\u7684\u672a\u6765\u4e86\uff0c\u57fa\u672c\u4e0a\u51fa\u53bb\u5c31\u53ef\u4ee5\u8d34\u4e0a\u88ab\u8feb\u5bb3\u7684\u5934\u8854\uff0c\u66f4\u65b9\u4fbf\u62ff\u653f\u6cbb\u907f\u96be\uff0c' },
+        { source: 'Bilibili public video comment scan', sample: '\u4f60\u628a\u8bc1\u636e\u622a\u56fe\u53ef\u4ee5\u8d34\u4e00\u4e0b\u5417' },
+      ],
+    },
+  ]);
+
+  assert.equal(entries[0].evidenceCount, 1);
+  assert.deepEqual(entries[0].evidenceSamples, ['\u4f60\u628a\u8bc1\u636e\u622a\u56fe\u53ef\u4ee5\u8d34\u4e00\u4e0b\u5417']);
+  assert.deepEqual(entries[0].evidenceSources.map((source) => source.sample), ['\u4f60\u628a\u8bc1\u636e\u622a\u56fe\u53ef\u4ee5\u8d34\u4e00\u4e0b\u5417']);
+});
+
+test('normalizeKeywordEntries prunes body-state narrative evidence for not-human attack terms', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u4e0d\u662f\u4eba\u4e86',
+      family: 'attack',
+      meaning: 'attack that frames someone as not human',
+      evidenceCount: 3,
+      evidenceSamples: [
+        '\u4e4b\u540e\u8fd9\u4e2a\u59d0\u59d0\u7684\u8eab\u4f53\u53ef\u5c31\u4e0d\u5f53\u4eba\u4e86',
+        '\u4e0d\u5f53\u4eba\u4e86',
+        '\u8f6c\u79fb\u4f24\u5bb3\uff0c\u7b56\u5212j\u771f\u4e0d\u662f\u4eba',
+        '\u5c0f\u56e2\u4f53\u7684\u7ed3\u6676\u7c89\u4e5f\u592a\u79bb\u8c31\u4e86\uff0c\u4e32\u4e5f\u5c31\u4e32\u4e86\uff0c\u8fd8\u5e26\u4eba\u5bb6\u5b69\u5b50\u7684\u8282\u594f\uff0c\u8fd9\u624d\u771f\u4e0d\u662f\u4eba',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u4e4b\u540e\u8fd9\u4e2a\u59d0\u59d0\u7684\u8eab\u4f53\u53ef\u5c31\u4e0d\u5f53\u4eba\u4e86' },
+        { source: 'Bilibili public video comment scan', sample: '\u4e0d\u5f53\u4eba\u4e86' },
+        { source: 'Bilibili public video comment scan', sample: '\u8f6c\u79fb\u4f24\u5bb3\uff0c\u7b56\u5212j\u771f\u4e0d\u662f\u4eba' },
+        { source: 'Bilibili public video comment scan', sample: '\u5c0f\u56e2\u4f53\u7684\u7ed3\u6676\u7c89\u4e5f\u592a\u79bb\u8c31\u4e86\uff0c\u4e32\u4e5f\u5c31\u4e32\u4e86\uff0c\u8fd8\u5e26\u4eba\u5bb6\u5b69\u5b50\u7684\u8282\u594f\uff0c\u8fd9\u624d\u771f\u4e0d\u662f\u4eba' },
+      ],
+    },
+  ]);
+
+  assert.equal(entries[0].evidenceCount, 2);
+  assert.deepEqual(entries[0].evidenceSamples, [
+    '\u8f6c\u79fb\u4f24\u5bb3\uff0c\u7b56\u5212j\u771f\u4e0d\u662f\u4eba',
+    '\u5c0f\u56e2\u4f53\u7684\u7ed3\u6676\u7c89\u4e5f\u592a\u79bb\u8c31\u4e86\uff0c\u4e32\u4e5f\u5c31\u4e32\u4e86\uff0c\u8fd8\u5e26\u4eba\u5bb6\u5b69\u5b50\u7684\u8282\u594f\uff0c\u8fd9\u624d\u771f\u4e0d\u662f\u4eba',
   ]);
 });
 

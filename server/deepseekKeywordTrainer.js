@@ -960,8 +960,9 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
   if (term === '\u53ef\u4ee5\u8d34' && family === 'cooperation') {
     const hostileDareContext = /(?:\u8001\u50bb\u5b50|\u6709\u672c\u4e8b).*(?:\u53d1\u51fa\u6765|\u8d34\u51fa\u6765|\u628a.*\u56fe\u7247\u53d1)/u.test(cleanSample);
     const genericDiscoveryContext = !cleanSample.includes('\u53ef\u4ee5\u8d34') && /(?:\u53ef\u4ee5\u53d1\u73b0|\u5c31\u53ef\u4ee5\u53d1\u73b0|\u53ef\u4ee5\u770b\u51fa|\u53ef\u4ee5\u770b\u5230)/u.test(cleanSample);
+    const labelAttachmentContext = /\u53ef\u4ee5\u8d34\u4e0a.{0,12}(?:\u5934\u8854|\u6807\u7b7e|\u5e3d\u5b50|\u540d\u53f7)|(?:\u5934\u8854|\u6807\u7b7e|\u5e3d\u5b50|\u540d\u53f7).{0,12}\u53ef\u4ee5\u8d34\u4e0a/u.test(cleanSample);
     const cooperativeSourceContext = /(?:\u53ef\u4ee5\u8d34|\u5efa\u8bae\u8d34|\u9ebb\u70e6\u8d34).*(?:\u6765\u6e90|\u8bc1\u636e|\u622a\u56fe|\u94fe\u63a5|\u5bf9\u7167)/u.test(cleanSample);
-    if ((hostileDareContext || genericDiscoveryContext) && !cooperativeSourceContext) return true;
+    if ((hostileDareContext || genericDiscoveryContext || labelAttachmentContext) && !cooperativeSourceContext) return true;
   }
   if (term === '\u627e\u4e2a\u73ed\u4e0a' && family === 'attack') {
     const genericEmploymentContext = /(?:\u627e\d+\u7684|\u524d\u53f0\u88ab\u62d2|\u8fdb\u5382|\u670d\u52a1\u5458|\u6447\u5976\u8336|\u5361\u5e74\u9f84|\u8981\u7ecf\u9a8c|\u968f\u4fbf\u627e\u4e2a\u73ed\u4e0a.*\u8fd9\u4e2a\u8bcd)/u.test(cleanSample);
@@ -1143,6 +1144,12 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const literalIdentityContext = /(?:\u82b1\u94b1)?\u5b9e\u540d\u5236.{0,12}(?:\u8ba4(?:\u8dcc|\u7239)|\u8ba4\u8bc1|\u767b\u8bb0|\u767b\u5f55|\u4fe1\u606f|\u624b\u673a\u53f7|\u8eab\u4efd)|(?:\u8eab\u4efd|\u8ba4\u8bc1|\u767b\u8bb0|\u767b\u5f55|\u624b\u673a\u53f7).{0,12}\u5b9e\u540d\u5236/u.test(cleanSample);
     const supportContext = /(?:\u6211|\u672c\u4eba).{0,8}\u5b9e\u540d\u5236(?:\u89c2\u770b|\u652f\u6301|\u4e09\u8fde|\u5938|\u63a8\u8350)|\u5b9e\u540d\u5236\u89c2\u770b.{0,12}(?:\u4e09\u8fde|\u652f\u6301|\u63a8\u8350)/u.test(cleanSample);
     if (literalIdentityContext && !supportContext) return true;
+  }
+  if (['\u4e0d\u662f\u4eba\u4e86', '\u4e0d\u662f\u4eba\u4e86\u5457'].includes(term) && family === 'attack') {
+    const bodyStateNarrativeContext = /(?:\u8eab\u4f53|\u8089\u8eab|\u673a\u4f53|\u5f62\u6001|\u8eaf\u4f53).{0,12}(?:\u4e0d\u5f53\u4eba|\u4e0d\u662f\u4eba)|(?:\u4e0d\u5f53\u4eba|\u4e0d\u662f\u4eba).{0,12}(?:\u8eab\u4f53|\u8089\u8eab|\u673a\u4f53|\u5f62\u6001|\u8eaf\u4f53)/u.test(cleanSample);
+    const standaloneNotHumanContext = /^(?:\u4e0d\u5f53\u4eba\u4e86|\u4e0d\u662f\u4eba\u4e86|\u771f\u4e0d\u662f\u4eba)$/u.test(cleanSample);
+    const hostileNotHumanContext = /(?:\u4f60|\u4f60\u4eec|\u4ed6|\u5979|\u7b56\u5212|up|\u7c89|\u5c0f\u56e2\u4f53|\u5e26\u8282\u594f|\u8f6c\u79fb\u4f24\u5bb3|\u771f).{0,18}(?:\u4e0d\u662f\u4eba|\u4e0d\u5f53\u4eba)|(?:\u4e0d\u662f\u4eba|\u4e0d\u5f53\u4eba).{0,18}(?:\u4f60|\u4f60\u4eec|\u4ed6|\u5979|\u7b56\u5212|up|\u7c89|\u5c0f\u56e2\u4f53|\u5e26\u8282\u594f|\u79bb\u8c31|\u771f)/iu.test(cleanSample);
+    if ((bodyStateNarrativeContext || standaloneNotHumanContext) && !hostileNotHumanContext) return true;
   }
   if (term === '\u4e00\u6761\u9f99' && family === 'cooperation') {
     const literalPersonOrServiceContext = /\u4e00\u6761\u9f99\u7684\u8fd8\u662f\u4e2a|(?:\u7ef4\u65cf\u5927\u53d4|\u6d17\u526a\u5439|\u5957\u9910|\u4ea7\u4e1a\u94fe).{0,12}\u4e00\u6761\u9f99|\u4e00\u6761\u9f99.{0,12}(?:\u7ef4\u65cf\u5927\u53d4|\u6d17\u526a\u5439|\u5957\u9910|\u4ea7\u4e1a\u94fe)/u.test(cleanSample);
