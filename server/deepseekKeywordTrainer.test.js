@@ -1925,6 +1925,30 @@ test('findDictionaryEntriesWithTextEvidence rejects standalone dumpling insult e
   assert.deepEqual(entries[0].evidenceSamples, ['\u4f60\u8fd9\u79cd\u6d17\u767d\u8bdd\u672f\u5c31\u662f\u997a\u5b50\u8001\u516b\uff0c\u522b\u88c5\u4e86']);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects standalone short attack evidence without a target', () => {
+  const entries = findDictionaryEntriesWithTextEvidence(
+    {
+      entries: [
+        { term: '\u997a\u5b50\u738b\u516b', family: 'attack', meaning: '\u7528\u738b\u516b\u4fae\u8fb1\u5bf9\u65b9\uff0c\u7ed3\u5408\u997a\u5b50\u6897\u7684\u653b\u51fb\u6027\u8868\u8fbe', evidenceCount: 0 },
+        { term: '\u53eb\u8fd9\u4e48\u723d', family: 'attack', meaning: '\u5bf9\u4ed6\u4eba\u5174\u594b\u8868\u73b0\u7684\u5632\u8bbd\uff0c\u6697\u793a\u5176\u8fc7\u5ea6\u6216\u505a\u4f5c', evidenceCount: 0 },
+      ],
+    },
+    [
+      '\u997a\u5b50\u738b\u516b\uff01',
+      '\u53eb\u8fd9\u4e48\u723d',
+      '\u4f60\u522b\u88c5\u4e86\uff0c\u8fd9\u79cd\u997a\u5b50\u738b\u516b\u8bdd\u672f\u5c31\u662f\u5728\u9a82\u4eba',
+      '\u521a\u88ab\u53cd\u9a73\u5c31\u53eb\u8fd9\u4e48\u723d\uff0c\u4f60\u662f\u6025\u4e86\u5417',
+    ].join('\n'),
+    { source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-short-attack/', uid: 'BV-short-attack' },
+  );
+
+  assert.deepEqual(entries.map((entry) => entry.term), ['\u997a\u5b50\u738b\u516b', '\u53eb\u8fd9\u4e48\u723d']);
+  assert.equal(entries[0].evidenceCount, 1);
+  assert.deepEqual(entries[0].evidenceSamples, ['\u4f60\u522b\u88c5\u4e86\uff0c\u8fd9\u79cd\u997a\u5b50\u738b\u516b\u8bdd\u672f\u5c31\u662f\u5728\u9a82\u4eba']);
+  assert.equal(entries[1].evidenceCount, 1);
+  assert.deepEqual(entries[1].evidenceSamples, ['\u521a\u88ab\u53cd\u9a73\u5c31\u53eb\u8fd9\u4e48\u723d\uff0c\u4f60\u662f\u6025\u4e86\u5417']);
+});
+
 test('findDictionaryEntriesWithTextEvidence rejects source-meme insults and literal complaint evidence', () => {
   const entries = findDictionaryEntriesWithTextEvidence(
     {

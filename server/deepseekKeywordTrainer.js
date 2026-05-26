@@ -965,6 +965,16 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const directedAttackContext = /(?:\u4f60|\u4f60\u4eec|\u4ed6|\u5979|\u8fd9\u79cd|\u6d17\u767d|\u522b\u88c5|\u9a82|\u4fae\u8fb1|\u738b\u516b|\u8001\u516b)/u.test(cleanSample) && !standaloneEmoteContext;
     return standaloneEmoteContext && !directedAttackContext;
   }
+  if (term === '\u997a\u5b50\u738b\u516b' && family === 'attack') {
+    const standaloneEmoteContext = /^(?:\u997a\u5b50\u738b\u516b)(?:doge|\u6ed1\u7a3d|\u7b11\u54ed|\u5403\u74dc)*$/iu.test(cleanSample);
+    const directedAttackContext = /(?:\u4f60|\u4f60\u4eec|\u4ed6|\u5979|\u8fd9\u79cd|\u6d17\u767d|\u522b\u88c5|\u8bdd\u672f|\u9a82|\u4fae\u8fb1|\u738b\u516b)/u.test(cleanSample) && !standaloneEmoteContext;
+    return standaloneEmoteContext && !directedAttackContext;
+  }
+  if (term === '\u53eb\u8fd9\u4e48\u723d' && family === 'attack') {
+    const standalonePhraseContext = cleanSample === '\u53eb\u8fd9\u4e48\u723d';
+    const directedMockContext = /(?:\u4f60|\u4f60\u4eec|\u4ed6|\u5979|\u88ab\u53cd\u9a73|\u6025\u4e86|\u7834\u9632|\u521a.*\u5c31|\u53eb\u8fd9\u4e48\u723d.*\u5417)/u.test(cleanSample) && !standalonePhraseContext;
+    return standalonePhraseContext && !directedMockContext;
+  }
   if (term === 'wdnmd' && family === 'attack') {
     const sourceOrStandaloneMemeContext = /(?:wdnmd\u8fd9\u4e2a\u90fd\u4e0d\u706b|\u70ed\u8bcd\u7cfb\u5217|\u4ec0\u4e48\u6897|\u6897\u6307\u5357|\u662f\u4ec0\u4e48\u6897|^wdnmd$)/iu.test(cleanSample);
     const directedInsultContext = /(?:\u4f60|\u4f60\u4eec|\u8fd9\u64cd\u4f5c|\u522b\u9a82|\u9a82\u4eba|\u771f\u83dc|\u5f00\u53e3|wdnmd.*\u4f60)/iu.test(cleanSample);
