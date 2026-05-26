@@ -1165,6 +1165,19 @@ test('normalizes away pipe-delimited mojibake axis terms', () => {
   assert.deepEqual(entries.map((entry) => entry.term), ['\u5bf9\u6297']);
 });
 
+test('normalizes away mixed mojibake axis labels with Chinese suffixes', () => {
+  const entries = normalizeKeywordEntries([
+    { term: String.fromCodePoint(0x7035, 0x89c4, 0x59c9, 0x6027, 0x52a8, 0x673a), family: 'attack', meaning: 'mojibake axis label with a readable suffix' },
+    { term: String.fromCodePoint(0x7487, 0x4f79, 0x5d41, 0x654f, 0x611f), family: 'evidence', meaning: 'mojibake axis label with a readable suffix' },
+    { term: String.fromCodePoint(0x95ab, 0x660f, 0x7ddb, 0x4e00, 0x81f4), family: 'absolutes', meaning: 'mojibake axis label with a readable suffix' },
+    { term: String.fromCodePoint(0x935a, 0x581c, 0x7d94, 0x8ba8, 0x8bba), family: 'cooperation', meaning: 'mojibake axis label with a readable suffix' },
+    { term: String.fromCodePoint(0x6dc7, 0xe1bd, 0xe11c, 0x610f, 0x613f), family: 'correction', meaning: 'mojibake axis label with a readable suffix' },
+    { term: '\u8bc1\u636e\u654f\u611f', family: 'evidence', meaning: 'readable Chinese discussion phrase' },
+  ]);
+
+  assert.deepEqual(entries.map((entry) => entry.term), ['\u8bc1\u636e\u654f\u611f']);
+});
+
 test('normalizes away isolated enlightenment meme fragments while keeping the full meme phrase', () => {
   const entries = normalizeKeywordEntries([
     {

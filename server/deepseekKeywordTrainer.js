@@ -54,6 +54,15 @@ const KNOWN_MOJIBAKE_CHINESE_TERMS = new Set([
   String.fromCodePoint(0x935a, 0x581c, 0x7d94),
   String.fromCodePoint(0x6dc7, 0xe1bd, 0xe11c),
 ]);
+const KNOWN_MOJIBAKE_CHINESE_PREFIXES = [
+  '\u7035\u89c4\u59c9',
+  '\u9422\u98ce\u6d0d\u6fc2\u51b2',
+  String.fromCodePoint(0x7481, 0x3087, 0x7161),
+  String.fromCodePoint(0x7487, 0x4f79, 0x5d41),
+  String.fromCodePoint(0x95ab, 0x660f, 0x7ddb),
+  String.fromCodePoint(0x935a, 0x581c, 0x7d94),
+  String.fromCodePoint(0x6dc7),
+];
 const MOJIBAKE_MARKER_CHARS = new Set([
   '\u7035',
   '\u59c9',
@@ -336,6 +345,7 @@ function looksLikeMojibakeChinese(term) {
   const text = String(term || '').trim();
   if (!text || !/[\p{Script=Han}]/u.test(text)) return false;
   if (KNOWN_MOJIBAKE_CHINESE_TERMS.has(text)) return true;
+  if (KNOWN_MOJIBAKE_CHINESE_PREFIXES.some((prefix) => text.startsWith(prefix) && text.length > prefix.length)) return true;
   if (/[�]|\?{2,}/u.test(text)) return true;
 
   const chars = [...text];
