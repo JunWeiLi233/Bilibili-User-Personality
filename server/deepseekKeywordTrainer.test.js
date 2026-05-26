@@ -1905,6 +1905,32 @@ test('findDictionaryEntriesWithTextEvidence rejects retirement-dance and standal
   assert.deepEqual(entries[1].evidenceSamples, ['\u7ed9\u5976\u8336\u6362\u4e2a\u5973\u88c5\u4e5f\u6beb\u65e0\u8fdd\u548c\u611f\u4e86\u73b0\u5728[doge-\u5723\u8bde]']);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects source-meme insults and literal complaint evidence', () => {
+  const entries = findDictionaryEntriesWithTextEvidence(
+    {
+      entries: [
+        { term: 'wdnmd', family: 'attack', meaning: '\u201c\u6211\u5e26\u4f60\u5417\u7684\u201d\u7f29\u5199\uff0c\u8fb1\u9a82\u6027\u653b\u51fb\u8868\u8fbe', evidenceCount: 0 },
+        { term: '\u5de5\u4fe1\u90e8\u6295\u8bc9', family: 'evidence', meaning: '\u5a01\u80c1\u901a\u8fc7\u5b98\u65b9\u6295\u8bc9\u6e20\u9053\u7ef4\u6743\uff0c\u6697\u793a\u5bf9\u65b9\u865a\u5047\u5ba3\u4f20', evidenceCount: 0 },
+      ],
+    },
+    [
+      'wdnmd\u8fd9\u4e2a\u90fd\u4e0d\u706b\uff1f[\u70ed\u8bcd\u7cfb\u5217_\u77e5\u8bc6\u589e\u52a0]',
+      '\ud83c\udf46\uff1aWDNMD',
+      '\u4f60\u8fd9\u64cd\u4f5cwdnmd\uff0c\u522b\u518d\u9a82\u4eba\u4e86',
+      '\u6211\u5de5\u4fe1\u90e8\u6295\u8bc9\u4e86\uff0c\u4e2d\u56fd\u79fb\u52a8\u7535\u4fe1\u5957\u9910\u6d88\u8d39\u6b3a\u8bc8\uff0c\u8981\u6c42\u8d54\u507f',
+      '\u627e\u5de5\u4fe1\u90e8\u6295\u8bc9\u5305\u6709\u7528\u7684\uff0c\u621124\u5e74\u5347\u7ea7\u7684129\u5957\u9910\u6bcf\u6708\u4f18\u60e040',
+      '\u4f60\u8fd9\u865a\u5047\u5ba3\u4f20\u518d\u4e0d\u6539\uff0c\u6211\u5c31\u5de5\u4fe1\u90e8\u6295\u8bc9\u4e86',
+    ].join('\n'),
+    { source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-wdnmd-complaint/', uid: 'BV-wdnmd-complaint' },
+  );
+
+  assert.deepEqual(entries.map((entry) => entry.term), ['wdnmd', '\u5de5\u4fe1\u90e8\u6295\u8bc9']);
+  assert.equal(entries[0].evidenceCount, 1);
+  assert.deepEqual(entries[0].evidenceSamples, ['\u4f60\u8fd9\u64cd\u4f5cwdnmd\uff0c\u522b\u518d\u9a82\u4eba\u4e86']);
+  assert.equal(entries[1].evidenceCount, 1);
+  assert.deepEqual(entries[1].evidenceSamples, ['\u4f60\u8fd9\u865a\u5047\u5ba3\u4f20\u518d\u4e0d\u6539\uff0c\u6211\u5c31\u5de5\u4fe1\u90e8\u6295\u8bc9\u4e86']);
+});
+
 test('findDictionaryEntriesWithTextEvidence can match stable internet aliases', () => {
   const entries = findDictionaryEntriesWithTextEvidence(
     {

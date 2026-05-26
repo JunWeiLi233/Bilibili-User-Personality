@@ -960,6 +960,16 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
   if (term === '腐乳' && family === 'attack') {
     return /(?:潮汕|大排档|豆酱|通菜|炒|好吃|美味|蘸料|调味|下饭|白粥|酱|菜)/u.test(cleanSample) && !/(?:叛徒|出列|黑|喷|骂|攻击|孝|急|破防)/u.test(cleanSample);
   }
+  if (term === 'wdnmd' && family === 'attack') {
+    const sourceOrStandaloneMemeContext = /(?:wdnmd\u8fd9\u4e2a\u90fd\u4e0d\u706b|\u70ed\u8bcd\u7cfb\u5217|\u4ec0\u4e48\u6897|\u6897\u6307\u5357|\u662f\u4ec0\u4e48\u6897|^wdnmd$)/iu.test(cleanSample);
+    const directedInsultContext = /(?:\u4f60|\u4f60\u4eec|\u8fd9\u64cd\u4f5c|\u522b\u9a82|\u9a82\u4eba|\u771f\u83dc|\u5f00\u53e3|wdnmd.*\u4f60)/iu.test(cleanSample);
+    return sourceOrStandaloneMemeContext && !directedInsultContext;
+  }
+  if (term === '\u5de5\u4fe1\u90e8\u6295\u8bc9' && family === 'evidence') {
+    const literalConsumerRightsContext = /(?:\u6211\u5de5\u4fe1\u90e8\u6295\u8bc9\u4e86|\u627e\u5de5\u4fe1\u90e8\u6295\u8bc9|\u5305\u6709\u7528|\u4e2d\u56fd\u79fb\u52a8|\u4e2d\u56fd\u7535\u4fe1|\u5957\u9910|\u6d41\u91cf|\u8d44\u8d39|\u5ba2\u670d|\u8fd0\u8425\u5546|\u8865\u507f|\u8d54\u507f|\u4fdd\u53f7\u5957\u9910|\u643a\u8f6c|\u9000\u8d39|\u12315)/u.test(cleanSample);
+    const threatContext = /(?:\u4f60|\u4f60\u4eec|\u518d\u4e0d|\u4e0d\u6539|\u865a\u5047\u5ba3\u4f20|\u6211\u5c31|\u7acb\u9a6c|\u76f4\u63a5|\u7b49\u7740|\u53bb\u6295\u8bc9\u4f60)/u.test(cleanSample);
+    return literalConsumerRightsContext && !threatContext;
+  }
   return false;
 }
 
