@@ -2988,6 +2988,59 @@ test('findDictionaryEntriesWithTextEvidence rejects harvested overbroad alias an
   ]);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects harvested literal coin, expression, and image-reference evidence', () => {
+  const dictionary = {
+    entries: [
+      { term: '\u7ef7\u4e0d\u4f4f\u4e86', family: 'attack', meaning: 'mocking laughter at another person' },
+      { term: '\u5fae\u8868\u60c5', family: 'attack', meaning: 'accuse someone through micro-expression reading' },
+      { term: '\u5ddd\u5efa\u56fd', family: 'attack', meaning: 'political nickname used as attack' },
+      { term: '\u5ddd\u666e', family: 'attack', meaning: 'Trump-related political attack shorthand' },
+      { term: '\u94f8\u5e01', family: 'attack', meaning: 'homophone insult for stupid behavior' },
+      { term: '\u5730\u72f1\u7b11\u8bdd', family: 'attack', meaning: 'hostile dark-humor attack' },
+      { term: '\u53d1\u56fe', family: 'evidence', meaning: 'ask user to post image evidence' },
+    ],
+  };
+  const text = [
+    '\u8fd9\u8868\u60c5\u6ca1\u7ef7\u4f4f\uff0c\u597d\u61a8\u554a',
+    '\u8fbe\u59ae\u5a05\u7684\u5267\u60c5\u4e5f\u5c31\u5e93\u6d1b\u80fd\u5199\u4e86\uff0c\u56e0\u4e3a\u5267\u60c5\u63d0\u73b0\u5168\u5728\u8fd9\u4e9b\u5fae\u8868\u60c5\u91cc\u4e86',
+    '\u8fd9\u79bb\u7279\u6717\u666e\u5934\u50cf\u5370\u4e0a\u7f8e\u56fd\u56fd\u65d7\u4e0d\u8fdc\u4e86[doge]',
+    '\u5218\u5df4:\u6211\u76f4\u63a5\u94f8\u5e01',
+    '\u94f8\u5e01\u5e73\u5e02\uff0c\u767e\u8d27\u53ef\u5c45',
+    '\u672c\u6765\u5c31\u662f\u5730\u72f1\u7b11\u8bdd\uff0c\u6211\u5c31\u56e0\u4e3a\u5f88\u5730\u72f1\u6240\u4ee5\u624d\u559c\u6b22',
+    '\u4e0a\u56fe\u54ea\u4e2a\u662f\u54f2\u868c',
+    '\u5bf9\u4e0d\u8d77\u6211\u6ca1\u7ef7\u4f4f',
+    '\u6211\u53d1\u4e2a\u5206p\u89c6\u9891\u8fd8\u5f97100\u7c89\u624d\u914d\uff0c\u7ef7\u4e0d\u4f4f\u4e86',
+    '\u5730\u72f1\u7b11\u8bdd\u554a',
+  ].join('\n');
+
+  const entries = findDictionaryEntriesWithTextEvidence(dictionary, text);
+
+  assert.deepEqual(entries.map((entry) => entry.term), []);
+
+  const realEntries = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    [
+      '\u4f60\u8fd9\u903b\u8f91\u6211\u771f\u7ef7\u4e0d\u4f4f\u4e86',
+      '\u522b\u62ff\u5fae\u8868\u60c5\u7ed9\u4eba\u6263\u5e3d\u5b50\uff0c\u8bc1\u636e\u5462',
+      '\u5ddd\u5efa\u56fd\u8fd9\u5957\u8bdd\u672f\u53c8\u6765\u4e86',
+      '\u5ddd\u666e\u7c89\u4e1d\u53c8\u5f00\u59cb\u590d\u8bfb',
+      '\u8fd9\u64cd\u4f5c\u771f\u94f8\u5e01\uff0c\u8bc1\u636e\u90fd\u4e0d\u770b',
+      '\u62ff\u53d7\u5bb3\u8005\u5f00\u5730\u72f1\u7b11\u8bdd\u5c31\u662f\u6076\u5fc3',
+      '\u4f60\u628a\u622a\u56fe\u53d1\u56fe\u770b\u770b',
+    ].join('\n'),
+  );
+
+  assert.deepEqual(realEntries.map((entry) => entry.term), [
+    '\u7ef7\u4e0d\u4f4f\u4e86',
+    '\u5fae\u8868\u60c5',
+    '\u5ddd\u5efa\u56fd',
+    '\u5ddd\u666e',
+    '\u94f8\u5e01',
+    '\u5730\u72f1\u7b11\u8bdd',
+    '\u53d1\u56fe',
+  ]);
+});
+
 test('findDictionaryEntriesWithTextEvidence can match stable internet aliases', () => {
   const entries = findDictionaryEntriesWithTextEvidence(
     {
