@@ -5462,6 +5462,69 @@ test('mergeEntriesIntoDictionary prunes latest harvested explanation and reactio
   }
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects latest harvested username literal and list false positives', () => {
+  const dictionary = {
+    entries: [
+      { term: '\u5c0f\u7c89\u7ea2', family: 'attack', meaning: 'hostile pink label' },
+      { term: 'pink', family: 'attack', meaning: 'alias for hostile pink label' },
+      { term: '\u5982\u679c\u6709', family: 'cooperation', meaning: 'conditional openness to evidence' },
+      { term: '\u827e\u6ecb\u5200', family: 'attack', meaning: 'hostile KPL nickname' },
+      { term: '\u827e\u6ecb\u91ce', family: 'attack', meaning: 'hostile KPL nickname' },
+      { term: 'kda\u5927\u5e1d', family: 'attack', meaning: 'hostile KPL nickname' },
+      { term: '\u5b9e\u540d\u5236', family: 'cooperation', meaning: 'explicitly identify or support a stance' },
+      { term: '\u5b9e\u540d\u5236\u89c2\u770b', family: 'cooperation', meaning: 'explicit support by named viewing' },
+      { term: '\u4e00\u6761\u9f99', family: 'cooperation', meaning: 'organized full-process help' },
+      { term: '\u4e3b\u5305', family: 'cooperation', meaning: 'friendly host address or request' },
+      { term: '\u8bb0\u9519\u4e86', family: 'correction', meaning: 'self correction for a remembered fact' },
+    ],
+  };
+  const falsePositiveText = [
+    '\u56de\u590d @\u9ec4\u8272\u65b9\u5757\u548c\u7c89\u7ea2\u6076\u9b54 :\u90fd\u8bf4\u4e86\u662f\u8f85\u52a9\uff0c\u539f\u672c\u5341\u5f71\u672f\u4f7f\u7528\u8005\u5c31\u6ca1\u6709\u80fd\u529b\u79d2\u6389\u9b54\u865a\u7f57',
+    '\u8fd9\u4e2a\u955c\u5934\u8fd8\u7528\u4e86\u7ea2\u706f\u533a\u7684\u7ecf\u5178\u7c89\u7ea2\u6253\u5149',
+    '\u5982\u679c\u6709\u5929\u4e0e\u66b4\u541b\u5e2e\u5fd9\u662f\u4e0d\u7b97\u5916\u4eba\u7684',
+    '\u5c11\u5c7f\uff0c\u6d41\u91cf\uff0c\u5927\u5927\u9634\uff0ckda\u5927\u5e1d\uff0c\u827e\u6ecb\u5200\uff0c\u827e\u6ecb\u91ce\uff0cpcg\uff0c\u90fd\u662f\u4ec0\u4e48\u610f\u601d\u554a\uff0c\u4ece\u6765\u4e0d\u770bkpl',
+    '\u76f4\u64ad\u95f4\u5c3c\u5b5d\u53ef\u662f\u771f\u7684\u82b1\u94b1\u5b9e\u540d\u5236\u7ed9\u81ea\u5df1\u8ba4\u8dcc\uff0c\u6bd4jee\u9006\u5929\u591a\u4e86',
+    '\u4e00\u6761\u9f99\u7684\u8fd8\u662f\u4e2a\u7ef4\u65cf\u5927\u53d4[\u7b11\u54ed]',
+    '\u4e3b\u5305\u662f\u4e0d\u6709\u70b9\u3002\u3002\u3002',
+    '\u4e5f\u8bb8\u4ed9\u8349\u8bb0\u9519\u4e86\u5462',
+  ].join('\n');
+
+  const entries = findDictionaryEntriesWithTextEvidence(dictionary, falsePositiveText);
+
+  assert.deepEqual(entries.map((entry) => entry.term), []);
+
+  const realEntries = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    [
+      '\u522b\u518d\u7528\u5c0f\u7c89\u7ea2\u8bdd\u672f\u6263\u5e3d\u5b50\u4e86',
+      'pink\u90fd\u662f\u5728\u6821\u5b66\u751f\u8fd9\u8bdd\u7ffb\u6765\u8986\u53bb',
+      '\u5982\u679c\u6709\u539f\u59cb\u8bc1\u636e\u6211\u613f\u610f\u6539\u7ed3\u8bba',
+      '\u827e\u6ecb\u5200\u8fd9\u79cd\u9ed1\u79f0\u662f\u5728\u9a82\u4eba\u5427',
+      '\u827e\u6ecb\u91ce\u8fd9\u4e2a\u8bcd\u522b\u4e71\u62ff\u6765\u653b\u51fb\u9009\u624b',
+      '\u522b\u62ffkda\u5927\u5e1d\u5f53\u9ed1\u79f0\u590d\u8bfb',
+      '\u6211\u5b9e\u540d\u5236\u652f\u6301\u8fd9\u4e2a\u5206\u6790',
+      '\u8fd9\u4e2a\u89c6\u9891\u6211\u5b9e\u540d\u5236\u89c2\u770b\u5e76\u4e14\u4e09\u8fde',
+      '\u8bc1\u636e\u94fe\u63a5\u548c\u6574\u7406\u4e00\u6761\u9f99\u90fd\u53ef\u4ee5\u8d34\u51fa\u6765',
+      '\u4e3b\u5305\u80fd\u4e0d\u80fd\u8bb2\u4e00\u4e0b\u6765\u6e90',
+      '\u6211\u8bb0\u9519\u4e86\uff0c\u521a\u624d\u90a3\u53e5\u6536\u56de',
+    ].join('\n'),
+  );
+
+  assert.deepEqual(realEntries.map((entry) => entry.term), [
+    '\u5c0f\u7c89\u7ea2',
+    'pink',
+    '\u5982\u679c\u6709',
+    '\u827e\u6ecb\u5200',
+    '\u827e\u6ecb\u91ce',
+    'kda\u5927\u5e1d',
+    '\u5b9e\u540d\u5236',
+    '\u5b9e\u540d\u5236\u89c2\u770b',
+    '\u4e00\u6761\u9f99',
+    '\u4e3b\u5305',
+    '\u8bb0\u9519\u4e86',
+  ]);
+});
+
 test('normalizeKeywordEntries prunes persisted literal traditional-character samples for video-language attack terms', () => {
   const entries = normalizeKeywordEntries([
     {
