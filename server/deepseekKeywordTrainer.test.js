@@ -4503,6 +4503,51 @@ test('normalizeKeywordEntries keeps zhubi as momentary dumb-action criticism', (
   ]);
 });
 
+test('normalizeKeywordEntries prunes latest harvested platform redirect, selected-comment, and reaction evidence', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u5c0f\u67d0\u4e66',
+      family: 'evasion',
+      meaning: 'redirects argument to another platform instead of explaining',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u542c\u58f0\u8bbe\u7f6e\uff1f\u53bb\u5c0f\u67d0\u4e66\u641c\u3010\u548c\u5e73\u7cbe\u82f1\u5b98\u65b9\u798f\u5229\u3011\uff0c\u6709\u66f4\u5168\u8bbe\u7f6e\u53c2\u8003~',
+        '\u522b\u53ea\u8ba9\u4eba\u53bb\u5c0f\u67d0\u4e66\u641c\uff0c\u8bc1\u636e\u548c\u6765\u6e90\u5728\u8fd9\u91cc\u8bf4\u6e05\u695a',
+      ],
+      evidenceSources: [],
+    },
+    {
+      term: '\u7cbe\u9009',
+      family: 'evasion',
+      meaning: 'selectively filters comments or evidence to avoid criticism',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u5f00\u4e86\u7cbe\u9009\uff0c\u4e0d\u7136\u89c6\u9891\u4f1a\u88ab\u5c01[doge]',
+        '\u522b\u53ea\u7cbe\u9009\u5bf9\u4f60\u6709\u5229\u7684\u8bc1\u636e\uff0c\u53cd\u4f8b\u4e5f\u8d34\u51fa\u6765',
+      ],
+      evidenceSources: [],
+    },
+    {
+      term: '\u4eca\u65e5\u9996\u7ef7\u4e86',
+      family: 'cooperation',
+      meaning: 'reaction that someone finally cannot hold back laughter',
+      evidenceCount: 3,
+      evidenceSamples: [
+        '\u4eca\u65e5\u9996\u7ef7\u4e86',
+        '\u4eca\u65e5\u9996\u7ef7\u7ed9\u4f60\u4e86',
+        '\u4eca\u65e5\u9996\u7ef7\u4e86\uff0c\u4f46\u4f60\u524d\u9762\u7684\u65f6\u95f4\u7ebf\u786e\u5b9e\u8bb2\u6e05\u695a\u4e86',
+      ],
+      evidenceSources: [],
+    },
+  ]);
+
+  assert.deepEqual(entries.map((entry) => [entry.term, entry.evidenceSamples]), [
+    ['\u5c0f\u67d0\u4e66', ['\u522b\u53ea\u8ba9\u4eba\u53bb\u5c0f\u67d0\u4e66\u641c\uff0c\u8bc1\u636e\u548c\u6765\u6e90\u5728\u8fd9\u91cc\u8bf4\u6e05\u695a']],
+    ['\u7cbe\u9009', ['\u522b\u53ea\u7cbe\u9009\u5bf9\u4f60\u6709\u5229\u7684\u8bc1\u636e\uff0c\u53cd\u4f8b\u4e5f\u8d34\u51fa\u6765']],
+    ['\u4eca\u65e5\u9996\u7ef7\u4e86', ['\u4eca\u65e5\u9996\u7ef7\u4e86\uff0c\u4f46\u4f60\u524d\u9762\u7684\u65f6\u95f4\u7ebf\u786e\u5b9e\u8bb2\u6e05\u695a\u4e86']],
+  ]);
+});
+
 test('normalizeKeywordEntries prunes latest harvested proper-name and literal setup evidence', () => {
   const entries = normalizeKeywordEntries([
     {
