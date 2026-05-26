@@ -3522,6 +3522,72 @@ test('findDictionaryEntriesWithTextEvidence rejects harvested shopping links, em
   assert.deepEqual(realEntries.map((entry) => entry.term), ['\u94fe\u63a5', '\u77e5\u8bc6\u589e\u52a0', '\u8d34\u5427']);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects harvested narration, joke reveal, emote suffix, and literal office evidence', () => {
+  const dictionary = {
+    entries: [
+      { term: '\u81ea\u5df1\u770b', family: 'evasion', meaning: 'dismissively tell others to look it up or inspect it themselves' },
+      { term: '\u6ca1\u60f3\u5230\u5427', family: 'attack', meaning: 'sarcastic reveal after refuting someone' },
+      { term: '\u8131\u5355', family: 'cooperation', meaning: 'relationship-status meme or supportive teasing' },
+      { term: '\u516d\u6247\u95e8', family: 'cooperation', meaning: 'playful old-style reference for reporting a problem' },
+    ],
+  };
+  const text = [
+    '\u62ff\u7740\u81ea\u5df1\u534a\u8f88\u5b50\u7684\u79ef\u84c4\uff0c\u4ece\u521a\u521a\u53c2\u52a0\u8fd9\u4e2a\u8282\u76ee\u62b1\u7740\u5de8\u5927\u7684\u671f\u671b\u548c\u559c\u60a6\uff0c\u518d\u5230\u65bd\u5de5\u8fc7\u7a0b\u4e2d\u81ea\u5df1\u770b\u7740\u90a3\u4e9b\u7ea2\u7816\u6c34\u6ce5',
+    '\u54c8\u54c8\u54c8 \u6ca1\u60f3\u5230\u5427\uff01\u6211\u62ff\u5251\u4e5f\u8df3\u4e86\u4e00\u6bb5\uff5e',
+    '\u8fd9\u5f88\u6cb3\u91cc[\u8131\u5355doge]',
+    '\u201c\u5f53\u65f6\u76f4\u63a5\u7ed9\u6211\u53fc\u4e0a\u4e86\uff0c\u6211\u5dee\u70b9\u62a5\u516d\u6247\u95e8\u270b\u201d',
+  ].join('\n');
+
+  const entries = findDictionaryEntriesWithTextEvidence(dictionary, text);
+
+  assert.deepEqual(entries.map((entry) => entry.term), []);
+
+  const realEntries = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    [
+      '\u522b\u95ee\u6211\uff0c\u8bc1\u636e\u90fd\u5728\u56fe\u91cc\uff0c\u4f60\u81ea\u5df1\u770b',
+      '\u8bc1\u636e\u8d34\u51fa\u6765\u4e86\uff0c\u6ca1\u60f3\u5230\u5427\uff0c\u524d\u9762\u90a3\u4e2a\u8bf4\u6211\u9020\u8c23\u7684\u5462',
+      '\u795d\u4f60\u65e9\u65e5\u8131\u5355\uff0c\u522b\u518d\u5728\u8bc4\u8bba\u533a\u7834\u9632\u4e86',
+      '\u8fd9\u4e2abug\u5efa\u8bae\u62a5\u516d\u6247\u95e8\uff0c\u8ba9up\u4fee\u4e00\u4e0b',
+    ].join('\n'),
+  );
+
+  assert.deepEqual(realEntries.map((entry) => entry.term), ['\u81ea\u5df1\u770b', '\u6ca1\u60f3\u5230\u5427', '\u8131\u5355', '\u516d\u6247\u95e8']);
+});
+
+test('findDictionaryEntriesWithTextEvidence rejects apology reactions, standalone emotes, and bare bug labels', () => {
+  const dictionary = {
+    entries: [
+      { term: '\u5bf9\u4e0d\u8d77', family: 'correction', meaning: 'apologize or walk back a statement' },
+      { term: '\u5999\u554a', family: 'cooperation', meaning: 'praise a useful or clever explanation' },
+      { term: '\u65e0\u8bed', family: 'cooperation', meaning: 'de-escalating expression of speechlessness' },
+      { term: '\u5361bug', family: 'evidence', meaning: 'point to a bug or exploit as evidence for a claim' },
+    ],
+  };
+  const text = [
+    '\u5bf9\u4e0d\u8d77\u6211\u6ca1\u7ef7\u4f4f',
+    '\u563f\uff0c\u6211\u65e9\u6709\u610f\u6599\uff0c\u65e9\u5c31\u7528\u9910\u5dfe\u7eb8\u64e6\u5e72\u51c0\u4e86[\u5999\u554a]',
+    '\u7b2c\u4e00\u6b21\u662f\u90d1\u79c0\u598d\u548c\u4e8e\u6587\u6587\uff0c\u5269\u4e0b\u7684\u90fd\u6ca1\u6709\uff0c\u73b0\u5728[\u65e0\u8bed]',
+    '\u5361BUG',
+  ].join('\n');
+
+  const entries = findDictionaryEntriesWithTextEvidence(dictionary, text);
+
+  assert.deepEqual(entries.map((entry) => entry.term), []);
+
+  const realEntries = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    [
+      '\u5bf9\u4e0d\u8d77\uff0c\u524d\u9762\u8bf4\u9519\u4e86\uff0c\u6211\u6536\u56de',
+      '\u8fd9\u4e2a\u8865\u5145\u8bc1\u636e\u771f\u5999\u554a\uff0c\u601d\u8def\u6e05\u695a',
+      '\u6211\u771f\u7684\u65e0\u8bed\uff0c\u4f46\u8fd8\u662f\u5148\u628a\u8bc1\u636e\u8d34\u51fa\u6765',
+      '\u8fd9\u4e2a\u89c6\u9891\u5c31\u662f\u5361bug\u7684\u8bc1\u636e\uff0c\u4e0d\u662f\u6b63\u5e38\u73a9\u6cd5',
+    ].join('\n'),
+  );
+
+  assert.deepEqual(realEntries.map((entry) => entry.term), ['\u5bf9\u4e0d\u8d77', '\u5999\u554a', '\u65e0\u8bed', '\u5361bug']);
+});
+
 test('normalizeKeywordEntries prunes persisted loose reaction evidence for bengbuzhu variants', () => {
   const entries = normalizeKeywordEntries([
     {
