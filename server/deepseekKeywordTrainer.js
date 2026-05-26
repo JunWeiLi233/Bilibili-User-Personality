@@ -1733,6 +1733,22 @@ function removeDuplicateEmptySentenceAnalyses(sentenceAnalyses = []) {
   });
 }
 
+function hasExplicitCorrectionEvidence(text) {
+  text = String(text || '').replace(/\u4fee\u6b63\u610f\u613f|\u4fee\u6b63\u8f74|\u4fee\u6b63\u5206/gu, '');
+  const negatedCorrection = /(?:\u6ca1\u6709|\u672a|\u65e0|\u4e0d)(?:.{0,8})(?:\u627f\u8ba4|\u8ba4\u9519|\u4fee\u6b63|\u66f4\u6b63|\u6539\u7ed3\u8bba|\u63a5\u53d7\u7ea0\u6b63|\u613f\u610f\u6539)/.test(text);
+  if (negatedCorrection) return false;
+  return /(?:\u627f\u8ba4(?:\u9519\u8bef|\u95ee\u9898|\u8bf4\u9519)?|\u8ba4\u9519|\u9519\u4e86|\u8bf4\u9519|\u8bf4\u91cd|\u6211\u6536\u56de|\u6536\u56de|\u4fee\u6b63|\u66f4\u6b63|\u6539\u7ed3\u8bba|\u6539\u53e3|\u6539\u89c2\u70b9|\u964d\u4f4e\u7ed3\u8bba|\u8865\u5145\u4e00\u4e0b|\u8c22\u8c22\u6307\u6b63|\u611f\u8c22\u6307\u6b63|\u613f\u610f\u6539|\u53ef\u4ee5\u6539|\u63a5\u53d7\u7ea0\u6b63|\u88ab\u6307\u51fa)|\b(?:admit|admitted|mistake|wrong|correct(?:ed|ion)?|revise|revision|update conclusion|change my mind|thanks for correcting)\b/i.test(text);
+}
+
+function axisHasUsableEvidence(axis, sourceText) {
+  const evidence = Array.isArray(axis?.evidence) ? axis.evidence : [];
+  const evidenceText = [axis?.reasoning, ...evidence].map((item) => String(item || '')).join('\n');
+  if (String(axis?.axis || '').trim() === '\u4fee\u6b63\u610f\u613f') {
+    return evidence.some((item) => String(item || '').trim()) && hasExplicitCorrectionEvidence(`${evidenceText}\n${sourceText || ''}`);
+  }
+  return evidence.some((item) => String(item || '').trim());
+}
+
 async function requestDeepSeekAnalysis({ config, fetchImpl, payload, options, compact = false }) {
   const requestBody = {
     model: config.model,
@@ -1785,10 +1801,13 @@ export async function analyzeCommentsWithDeepSeek(payload, options = {}) {
       ({ raw, parsed } = await requestDeepSeekAnalysis({ config, fetchImpl, payload, options, compact: true }));
       retriedCompactPrompt = true;
     }
+    if (parsedAnalysisLooksGarbled(parsed, raw, payload?.text)) {
+      throw new Error('DeepSeek returned garbled Chinese analysis after compact retry.');
+    }
 
     const axes = (Array.isArray(parsed.axes) ? parsed.axes : []).map((axis) => {
       const evidence = Array.isArray(axis.evidence) ? axis.evidence.slice(0, 5) : [];
-      const hasEvidence = evidence.some((item) => String(item || '').trim());
+      const hasEvidence = axisHasUsableEvidence({ ...axis, evidence }, payload?.text);
       const score = Math.max(0, Math.min(100, Number(axis.score) || 50));
       const reasoning = String(axis.reasoning || '').slice(0, 500);
       return {

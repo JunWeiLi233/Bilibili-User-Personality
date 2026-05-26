@@ -78,6 +78,13 @@ function sentenceText(sentence = {}) {
     .join(' ');
 }
 
+function hasExplicitCorrectionEvidence(text) {
+  text = String(text || '').replace(/\u4fee\u6b63\u610f\u613f|\u4fee\u6b63\u8f74|\u4fee\u6b63\u5206/gu, '');
+  const negatedCorrection = /(?:\u6ca1\u6709|\u672a|\u65e0|\u4e0d)(?:.{0,8})(?:\u627f\u8ba4|\u8ba4\u9519|\u4fee\u6b63|\u66f4\u6b63|\u6539\u7ed3\u8bba|\u63a5\u53d7\u7ea0\u6b63|\u613f\u610f\u6539)/.test(text);
+  if (negatedCorrection) return false;
+  return /(?:\u627f\u8ba4(?:\u9519\u8bef|\u95ee\u9898|\u8bf4\u9519)?|\u8ba4\u9519|\u9519\u4e86|\u8bf4\u9519|\u8bf4\u91cd|\u6211\u6536\u56de|\u6536\u56de|\u4fee\u6b63|\u66f4\u6b63|\u6539\u7ed3\u8bba|\u6539\u53e3|\u6539\u89c2\u70b9|\u964d\u4f4e\u7ed3\u8bba|\u8865\u5145\u4e00\u4e0b|\u8c22\u8c22\u6307\u6b63|\u611f\u8c22\u6307\u6b63|\u613f\u610f\u6539|\u53ef\u4ee5\u6539|\u63a5\u53d7\u7ea0\u6b63|\u88ab\u6307\u51fa)|\b(?:admit|admitted|mistake|wrong|correct(?:ed|ion)?|revise|revision|update conclusion|change my mind|thanks for correcting)\b/i.test(text);
+}
+
 function hasMemeFrame(text) {
   return /(?:\u6897|\u73a9\u6897|\u70ed\u6897|\u8001\u6897|\u70c2\u6897|\u6897\u56fe|\u540d\u573a\u9762|\u53f0\u8bcd|\u5f15\u7528|\u590d\u8ff0|\u590d\u8bfb|\u8f6c\u8ff0|\u8868\u60c5\u5305|\u539f\u8bdd|\u6bb5\u5b50|\u8c10\u97f3|\u5f39\u5e55|\u5237\u5c4f|\u8282\u76ee\u6548\u679c|\u7f51\u7edc\u7528\u8bed|\u6d41\u884c\u8bed|\u62bd\u8c61|\u6574\u6d3b|\u53e3\u5934\u7985|meme|quote|quoted|copypasta|catchphrase|inside joke|internet slang|running joke)/i.test(text);
 }
@@ -231,6 +238,7 @@ function normalizeAxisImpact(impact = {}, sentence = {}) {
   const axis = normalizeRadarAxis(impact.axis);
   if (!axis) return null;
   const direction = normalizeDirection(impact.direction, sentence.risk);
+  if (axis === normalizeRadarAxis('correction') && direction === 'positive' && !hasExplicitCorrectionEvidence(sentenceText(sentence))) return null;
   const memeCappedAttack = isMemeOrQuotedNonAttack(sentence) && axis === normalizeRadarAxis('attack') && direction === 'risk';
   return {
     axis,

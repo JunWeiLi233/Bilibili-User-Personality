@@ -297,6 +297,49 @@ test('analyzeCommentsWithDeepSeek retries with compact comments when model retur
   assert.deepEqual(result.sentenceAnalyses.map((item) => item.quote), [originalSentence]);
 });
 
+test('analyzeCommentsWithDeepSeek rejects analysis when compact retry is still garbled', async () => {
+  const originalSentence = '\u5df1\u6240\u4e0d\u6b32\u52ff\u65bd\u4e8e\u4eba';
+  const result = await analyzeCommentsWithDeepSeek(
+    {
+      uid: 'video:BV19yGa61Ee6',
+      name: 'garbled final sample',
+      text: originalSentence,
+    },
+    {
+      env: {
+        DEEPSEEK_API_KEY: 'test-key',
+        DEEPSEEK_BASE_URL: 'https://api.deepseek.com',
+        DEEPSEEK_MODEL: 'deepseek-v4-flash',
+      },
+      fetch: async (url) => {
+        if (String(url).endsWith('/models')) {
+          return { ok: true, json: async () => ({ data: [{ id: 'deepseek-v4-flash' }] }) };
+        }
+        return {
+          ok: true,
+          json: async () => ({
+            choices: [
+              {
+                message: {
+                  content: JSON.stringify({
+                    axes: [{ axis: '\u5bf9\u6297\u6027\u52a8\u673a', score: 50, evidence: ['????????'], reasoning: '\u6837\u672c\u4e0d\u53ef\u89e3\u6790\u3002' }],
+                    sentenceAnalyses: [],
+                    overall: { riskBand: '\u4f4e\u98ce\u9669\u8ba8\u8bba\u578b', summary: '\u4e71\u7801\u6837\u672c\u3002' },
+                    confidence: 0.7,
+                  }),
+                },
+              },
+            ],
+          }),
+        };
+      },
+    },
+  );
+
+  assert.equal(result.ok, false);
+  assert.match(result.error, /\u4e71\u7801|garbled/i);
+});
+
 test('analyzeCommentsWithDeepSeek retries with compact comments when model returns invalid JSON', async () => {
   const originalSentence = '\u8bdd\u867d\u5982\u6b64 \u53ef\u8bc4\u8bba\u533a\u600e\u4e48\u6ca1\u89c1\u51e0\u4e2a\u5fc3\u5e73\u6c14\u548c\u7684\u8bc4\u8bba';
   const requests = [];
@@ -442,6 +485,61 @@ test('analyzeCommentsWithDeepSeek neutralizes unsupported axis scores when evide
                       },
                     ],
                     overall: { riskBand: '\u4f4e\u98ce\u9669\u8ba8\u8bba\u578b', summary: '\u6837\u672c\u4f4e\u98ce\u9669\u3002' },
+                    confidence: 0.7,
+                  }),
+                },
+              },
+            ],
+          }),
+        };
+      },
+    },
+  );
+
+  const correction = result.axes.find((axis) => axis.axis === '\u4fee\u6b63\u610f\u613f');
+  assert.equal(correction.score, 50);
+  assert.match(correction.reasoning, /\u8bc1\u636e\u4e0d\u8db3/);
+});
+
+test('analyzeCommentsWithDeepSeek neutralizes correction scores without explicit correction evidence', async () => {
+  const proverb = '\u5df1\u6240\u4e0d\u6b32\u52ff\u65bd\u4e8e\u4eba';
+  const result = await analyzeCommentsWithDeepSeek(
+    { text: proverb },
+    {
+      env: {
+        DEEPSEEK_API_KEY: 'test-key',
+        DEEPSEEK_BASE_URL: 'https://api.deepseek.com',
+        DEEPSEEK_MODEL: 'deepseek-v4-flash',
+      },
+      fetch: async (url) => {
+        if (String(url).endsWith('/models')) {
+          return { ok: true, json: async () => ({ data: [{ id: 'deepseek-v4-flash' }] }) };
+        }
+        return {
+          ok: true,
+          json: async () => ({
+            choices: [
+              {
+                message: {
+                  content: JSON.stringify({
+                    axes: [
+                      {
+                        axis: '\u4fee\u6b63\u610f\u613f',
+                        score: 30,
+                        evidence: [proverb],
+                        reasoning: '\u683c\u8a00\u6697\u793a\u53cd\u601d\uff0c\u6240\u4ee5\u4fee\u6b63\u610f\u613f\u504f\u4f4e\u3002',
+                      },
+                    ],
+                    sentenceAnalyses: [
+                      {
+                        quote: proverb,
+                        speechAct: '\u5f15\u7528\u683c\u8a00',
+                        target: '\u666e\u904d\u9053\u5fb7\u539f\u5219',
+                        risk: 'low',
+                        axisImpacts: [{ axis: '\u4fee\u6b63\u610f\u613f', direction: 'positive', strength: 0.8 }],
+                      },
+                    ],
+                    overall: { riskBand: '\u4f4e\u98ce\u9669\u8ba8\u8bba\u578b', summary: '\u6837\u672c\u662f\u9053\u5fb7\u529d\u8beb\u3002' },
                     confidence: 0.7,
                   }),
                 },

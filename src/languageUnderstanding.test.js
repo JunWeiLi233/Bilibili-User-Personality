@@ -68,6 +68,21 @@ test('buildSentenceRadarMarks maps full sentence impacts onto radar axes', () =>
   assert.equal(marks[0].target, '证据链覆盖范围');
 });
 
+test('buildSentenceRadarMarks does not infer correction willingness from generic moral advice', () => {
+  const marks = buildSentenceRadarMarks([
+    {
+      quote: '\u5df1\u6240\u4e0d\u6b32\u52ff\u65bd\u4e8e\u4eba',
+      speechAct: '\u5f15\u7528\u683c\u8a00',
+      target: '\u666e\u904d\u9053\u5fb7\u539f\u5219',
+      risk: 'low',
+      axisImpacts: [{ axis: '\u4fee\u6b63\u610f\u613f', direction: 'positive', strength: 0.8 }],
+      reasoning: '\u529d\u8beb\u522b\u4eba\u6362\u4f4d\u601d\u8003\uff0c\u4f46\u6ca1\u6709\u627f\u8ba4\u9519\u8bef\u6216\u8868\u8fbe\u613f\u610f\u6539\u7ed3\u8bba\u3002',
+    },
+  ]);
+
+  assert.equal(marks.some((mark) => mark.axis === '\u4fee\u6b63\u610f\u613f'), false);
+});
+
 test('buildSentenceRadarMarks infers radar axis when model omits axisImpacts', () => {
   const marks = buildSentenceRadarMarks([
     {
