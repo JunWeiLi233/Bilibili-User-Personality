@@ -923,7 +923,7 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const ruthlessContext = /(?:\u5e72\u6389|\u6485|\u529b|\u5904\u51b3|\u6740|\u8d76\u5c3d\u6740\u7edd|\u88c5\u840c\u65b0|\u51b7\u9177|\u4e0d\u7559\u60c5)/u.test(cleanSample);
     return titleOrRequestContext && !ruthlessContext;
   }
-  if (term === '\u543e\u547d\u4f11\u77e3' && family === 'attack') {
+  if ((term === '\u543e\u547d\u4f11\u77e3' || term === '\u65e0\u547d\u4fee\u77e3') && family === 'attack') {
     const gameLocationContext = /(?:\u8681\u7a74|\u51b0\u5c01\u738b\u5ea7|\u7f8e\u4eba\u9c7c\u5c9b|\u7814\u7a76\u6240|\u516b\u89d2\u7b3c|\u5237\u65e0\u547d\u4fee\u77e3|\u4e0d\u52a0)/u.test(cleanSample);
     const despairContext = /(?:\u88ab\u56f4|\u771f\u7684\u543e\u547d\u4f11\u77e3|\u5b8c\u4e86|\u8981\u6b7b|\u6253\u4e0d\u8fc7|\u6551\u547d|\u4f11\u77e3[\u7b11\u54ed\[])/u.test(cleanSample);
     return gameLocationContext && !despairContext;

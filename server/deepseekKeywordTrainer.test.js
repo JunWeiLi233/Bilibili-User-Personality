@@ -3252,6 +3252,24 @@ test('findDictionaryEntriesWithTextEvidence maps persistent zero-evidence attack
   assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-zero-attack-alias'), true);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects homophone typo game-location evidence for despair attack terms', () => {
+  const entries = findDictionaryEntriesWithTextEvidence(
+    {
+      entries: [
+        { term: '\u543e\u547d\u4f11\u77e3', family: 'attack', meaning: 'despair catchphrase used as sarcastic attack' },
+        { term: '\u65e0\u547d\u4fee\u77e3', family: 'attack', meaning: 'homophone typo for the same despair catchphrase' },
+      ],
+    },
+    '\u543e\u547d\u4f11\u77e3\uff0c\u4e00\u4e2a\u5728\u8681\u7a74\uff0c\u4e00\u4e2a\u5728\u51b0\u5c01\u738b\u5ea7\uff0c\u8fd8\u6709\u4e00\u4e2a\u5728\u7f8e\u4eba\u9c7c\u5c9b\u7684\u7814\u7a76\u6240\u91cc\uff0c\u7814\u7a76\u6240\u91cc\u9762\u6709\u4e00\u4e2a\u516b\u89d2\u7b3c\uff0c\u90a3\u4f1a\u5237\u65e0\u547d\u4fee\u77e3[\u6253call][\u6253call][\u6253call]',
+    {
+      source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-homophone-attack/',
+      uid: 'BV-homophone-attack',
+    },
+  );
+
+  assert.deepEqual(entries.map((entry) => entry.term), []);
+});
+
 test('trainKeywordDictionary updates evidence for existing terms found in crawled comments', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-train-existing-evidence-'));
   const dictionaryPath = join(dir, 'dictionary.json');
