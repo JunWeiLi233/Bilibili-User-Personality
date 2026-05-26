@@ -3707,6 +3707,27 @@ test('findDictionaryEntriesWithTextEvidence rejects harvested emote suffix and l
   assert.deepEqual(realEntries.map((entry) => entry.term), ['\u55d1\u74dc\u5b50', '\u516d\u516d\u516d', '\u540a\u6253', '\u65e0\u8bed']);
 });
 
+test('normalizeKeywordEntries prunes generic support evidence for support-force term', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u652f\u6301\u529b',
+      family: 'cooperation',
+      meaning: 'support-force meme wording rather than generic support comments',
+      evidenceCount: 3,
+      evidenceSamples: ['\u652f\u6301', '\u652f\u6301\u4f60', '\u8fd9\u6ce2\u652f\u6301\u529b\u62c9\u6ee1'],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u652f\u6301' },
+        { source: 'Bilibili public video comment scan', sample: '\u652f\u6301\u4f60' },
+        { source: 'Bilibili public video comment scan', sample: '\u8fd9\u6ce2\u652f\u6301\u529b\u62c9\u6ee1' },
+      ],
+    },
+  ]);
+
+  assert.equal(entries[0].evidenceCount, 1);
+  assert.deepEqual(entries[0].evidenceSamples, ['\u8fd9\u6ce2\u652f\u6301\u529b\u62c9\u6ee1']);
+  assert.deepEqual(entries[0].evidenceSources.map((source) => source.sample), ['\u8fd9\u6ce2\u652f\u6301\u529b\u62c9\u6ee1']);
+});
+
 test('normalizeKeywordEntries prunes persisted loose reaction evidence for bengbuzhu variants', () => {
   const entries = normalizeKeywordEntries([
     {
