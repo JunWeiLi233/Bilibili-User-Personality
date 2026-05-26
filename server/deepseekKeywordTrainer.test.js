@@ -1536,6 +1536,23 @@ test('findDictionaryEntriesWithTextEvidence rejects benign laoliu praise and tit
   assert.deepEqual(entries[0].evidenceSamples, ['\u8fd9\u4eba\u53c8\u8e72\u8349\u9634\u4eba\uff0c\u771f\u8001\u516d']);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects literal powerhouse-country evidence for attack terms', () => {
+  const entries = findDictionaryEntriesWithTextEvidence(
+    {
+      entries: [{ term: '\u5f3a\u56fd', family: 'attack', meaning: '\u4e89\u8bae\u8bed\u5883\u91cc\u5bf9\u6c11\u65cf\u6216\u56fd\u5bb6\u4f18\u8d8a\u611f\u7684\u8bbd\u523a', evidenceCount: 0 }],
+    },
+    [
+      '\u4f60\u4eec\u731c\u731c\u97e9\u56fd\u68d2\u5b50\u4f1a\u4e0d\u4f1a\u8df3\u51fa\u6765\u547c\u5401\u68d2\u5b50\u624d\u662f\u4e16\u754c\u7b2c\u4e00\u5f3a\u56fd\uff1f',
+      '\u83f2\u5f8b\u5bbe\u88ab\u89c6\u4e3a\u4e9a\u6d32\u9009\u7f8e\u5f3a\u56fd\uff0c\u66fe\u56db\u6b21\u8d62\u5f97\u73af\u7403\u5c0f\u59d0\u51a0\u519b\u3002',
+    ].join('\n'),
+    { source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-powerhouse-context/', uid: 'BV-powerhouse-context' },
+  );
+
+  assert.equal(entries.length, 1);
+  assert.equal(entries[0].evidenceCount, 1);
+  assert.deepEqual(entries[0].evidenceSamples, ['\u4f60\u4eec\u731c\u731c\u97e9\u56fd\u68d2\u5b50\u4f1a\u4e0d\u4f1a\u8df3\u51fa\u6765\u547c\u5401\u68d2\u5b50\u624d\u662f\u4e16\u754c\u7b2c\u4e00\u5f3a\u56fd\uff1f']);
+});
+
 test('findDictionaryEntriesWithTextEvidence can match stable internet aliases', () => {
   const entries = findDictionaryEntriesWithTextEvidence(
     {
