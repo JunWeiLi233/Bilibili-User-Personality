@@ -24,6 +24,8 @@ const STOP_TERMS = new Set([
   '分类',
 ]);
 const URL_HOST_FRAGMENT_TERMS = new Set(['http', 'https', 'www', 'com', 'cn', 'net', 'org', 'gov', 'mps']);
+STOP_TERMS.add('\u6211\u609f\u4e86');
+STOP_TERMS.add('\u609f\u4e86');
 const ALLOWED_ASCII_KEYWORD_TERMS = new Set([
   'allin',
   'catconfuse',

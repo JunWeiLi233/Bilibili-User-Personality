@@ -1165,6 +1165,34 @@ test('normalizes away pipe-delimited mojibake axis terms', () => {
   assert.deepEqual(entries.map((entry) => entry.term), ['\u5bf9\u6297']);
 });
 
+test('normalizes away isolated enlightenment meme fragments while keeping the full meme phrase', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u6211\u609f\u4e86',
+      family: 'attack',
+      meaning: '\u88ab\u4ece\u666e\u901a\u987f\u609f\u8bed\u5883\u91cc\u5207\u51fa\u6765\u7684\u6cdb\u5316\u7247\u6bb5',
+      evidenceCount: 1,
+      evidenceSamples: ['\u4e00\u5f00\u59cb\u6211\u4e5f\u770b\u5404\u79cd\u6559\u5b66\u89c6\u9891\uff0c\u7a81\u7136\u6211\u609f\u4e86\u3002'],
+    },
+    {
+      term: '\u609f\u4e86',
+      family: 'attack',
+      meaning: '\u88ab\u4ece\u666e\u901a\u987f\u609f\u8bed\u5883\u91cc\u5207\u51fa\u6765\u7684\u6cdb\u5316\u7247\u6bb5',
+      evidenceCount: 1,
+      evidenceSamples: ['\u4f60\u609f\u4e86'],
+    },
+    {
+      term: '\u5927\u5e08\u6211\u609f\u4e86',
+      family: 'cooperation',
+      meaning: '\u7528\u609f\u4e86\u6897\u8868\u793a\u63a5\u53d7\u6216\u8ddf\u4e0a\u5bf9\u65b9\u89e3\u91ca',
+      evidenceCount: 1,
+      evidenceSamples: ['\u5927\u5e08\uff0c\u6211\u609f\u4e86'],
+    },
+  ]);
+
+  assert.deepEqual(entries.map((entry) => entry.term), ['\u5927\u5e08\u6211\u609f\u4e86']);
+});
+
 test('mergeEntriesIntoDictionary prunes persisted non Chinese or Latin noise terms', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'deepseek-prune-noise-'));
   const dictionaryPath = join(dir, 'dictionary.json');
@@ -1185,6 +1213,50 @@ test('mergeEntriesIntoDictionary prunes persisted non Chinese or Latin noise ter
     const dictionary = await mergeEntriesIntoDictionary([], { dictionaryPath });
 
     assert.deepEqual(dictionary.entries.map((entry) => entry.term), ['doge']);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
+test('mergeEntriesIntoDictionary prunes persisted isolated enlightenment attack fragments', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'deepseek-prune-enlightenment-fragments-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  try {
+    await writeFile(
+      dictionaryPath,
+      JSON.stringify({
+        version: 1,
+        updatedAt: '2026-01-01T00:00:00.000Z',
+        entries: [
+          {
+            term: '\u6211\u609f\u4e86',
+            family: 'attack',
+            meaning: '\u88ab\u4ece\u666e\u901a\u987f\u609f\u8bed\u5883\u91cc\u5207\u51fa\u6765\u7684\u6cdb\u5316\u7247\u6bb5',
+            evidenceCount: 2,
+            evidenceSamples: ['\u6211\u609f\u4e86', '\u4f60\u609f\u4e86'],
+          },
+          {
+            term: '\u609f\u4e86',
+            family: 'attack',
+            meaning: '\u88ab\u4ece\u666e\u901a\u987f\u609f\u8bed\u5883\u91cc\u5207\u51fa\u6765\u7684\u6cdb\u5316\u7247\u6bb5',
+            evidenceCount: 2,
+            evidenceSamples: ['\u6211\u609f\u4e86', '\u4f60\u609f\u4e86'],
+          },
+          {
+            term: '\u5927\u5e08\u6211\u609f\u4e86',
+            family: 'cooperation',
+            meaning: '\u7528\u609f\u4e86\u6897\u8868\u793a\u63a5\u53d7\u6216\u8ddf\u4e0a\u5bf9\u65b9\u89e3\u91ca',
+            evidenceCount: 1,
+            evidenceSamples: ['\u5927\u5e08\uff0c\u6211\u609f\u4e86'],
+          },
+        ],
+      }),
+      'utf8',
+    );
+
+    const dictionary = await mergeEntriesIntoDictionary([], { dictionaryPath });
+
+    assert.deepEqual(dictionary.entries.map((entry) => entry.term), ['\u5927\u5e08\u6211\u609f\u4e86']);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
