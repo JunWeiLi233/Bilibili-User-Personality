@@ -4080,6 +4080,52 @@ test('normalizeKeywordEntries prunes trump username mention evidence for chuan-j
   ]);
 });
 
+test('normalizeKeywordEntries prunes emote and expression evidence for tv-huaixiao attack term', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: 'tv\u574f\u7b11',
+      family: 'attack',
+      meaning: 'mischievous emote used sarcastically',
+      evidenceCount: 3,
+      evidenceSamples: [
+        '\u5f00\u670d\u4e4b\u524d\u8fd8\u627e\u8fc7\u4e59\u6e38\u7537\u8054\u52a8\u8fc7\u5462[tv_\u574f\u7b11]https://mp.weixin.qq.com/s/AHcSCzagZ0fvpJBisYGfGw',
+        '\u545c\u545c\u545c\uff0c\u6211\u7684\u574f\u7b11[\u5927\u54ed]',
+        '\u8fd1\u51e0\u5929\u6765\u770b\u5230\u7f51\u4e0a\u9b54\u6cd5\u5bf9\u8f70\uff0c\u4e00\u4e9bup\u4e3b\u5728\u90a3\u91cc\u80e1\u8bb2\uff0c\u5c31\u662f\u975e\u8822\u65e2\u574f[\u7b11\u54ed]',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u5f00\u670d\u4e4b\u524d\u8fd8\u627e\u8fc7\u4e59\u6e38\u7537\u8054\u52a8\u8fc7\u5462[tv_\u574f\u7b11]https://mp.weixin.qq.com/s/AHcSCzagZ0fvpJBisYGfGw' },
+        { source: 'Bilibili public video comment scan', sample: '\u545c\u545c\u545c\uff0c\u6211\u7684\u574f\u7b11[\u5927\u54ed]' },
+        { source: 'Bilibili public video comment scan', sample: '\u8fd1\u51e0\u5929\u6765\u770b\u5230\u7f51\u4e0a\u9b54\u6cd5\u5bf9\u8f70\uff0c\u4e00\u4e9bup\u4e3b\u5728\u90a3\u91cc\u80e1\u8bb2\uff0c\u5c31\u662f\u975e\u8822\u65e2\u574f[\u7b11\u54ed]' },
+      ],
+    },
+  ]);
+
+  assert.equal(entries[0].evidenceCount, 0);
+  assert.deepEqual(entries[0].evidenceSources, []);
+});
+
+test('normalizeKeywordEntries prunes game-reaction evidence for lived-to-the-end cooperation term', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u6211\u6d3b\u5230\u5934\u4e86',
+      family: 'cooperation',
+      meaning: 'exaggerated reaction that one has seen enough',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u6d1b\u514b\u738b\u56fd\u51fa\u5927\u53d8\u4e86\uff0c\u770b\u89c1\u8fd9\u4e00\u5730\u9e2d\u795e\u611f\u89c9\u6211\u6d3b\u5230\u5934\u4e86[\u7b11\u54ed]',
+        '\u6211\u6d3b\u5230\u5934\u4e86\uff0c\u8c22\u8c22\u4f60\u628a\u6765\u9f99\u53bb\u8109\u8bb2\u6e05\u695a',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u6d1b\u514b\u738b\u56fd\u51fa\u5927\u53d8\u4e86\uff0c\u770b\u89c1\u8fd9\u4e00\u5730\u9e2d\u795e\u611f\u89c9\u6211\u6d3b\u5230\u5934\u4e86[\u7b11\u54ed]' },
+        { source: 'Bilibili public video comment scan', sample: '\u6211\u6d3b\u5230\u5934\u4e86\uff0c\u8c22\u8c22\u4f60\u628a\u6765\u9f99\u53bb\u8109\u8bb2\u6e05\u695a' },
+      ],
+    },
+  ]);
+
+  assert.equal(entries[0].evidenceCount, 1);
+  assert.deepEqual(entries[0].evidenceSamples, ['\u6211\u6d3b\u5230\u5934\u4e86\uff0c\u8c22\u8c22\u4f60\u628a\u6765\u9f99\u53bb\u8109\u8bb2\u6e05\u695a']);
+});
+
 test('normalizeKeywordEntries prunes persisted loose reaction evidence for bengbuzhu variants', () => {
   const entries = normalizeKeywordEntries([
     {

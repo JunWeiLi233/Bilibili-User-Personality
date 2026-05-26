@@ -1138,6 +1138,19 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const satireContext = /(?:\u62a5\u544a\u7ec4\u7ec7|\u6253\u51fb\u5b8c\u6bd5|\u5fc3\u91cc\u6ca1\u70b9b\u6570|\u6cbb\u4e0d\u4e86|\u602a\u6e38\u620f|\u9b3c\u755c\u4e4b\u738b|\u7279\u6717\u666e).{0,24}(?:\u5ddd\u5efa\u56fd|\u5ddd\u666e)|(?:\u5ddd\u5efa\u56fd|\u5ddd\u666e).{0,24}(?:\u62a5\u544a\u7ec4\u7ec7|\u6253\u51fb\u5b8c\u6bd5|\u5fc3\u91cc\u6ca1\u70b9b\u6570|\u6cbb\u4e0d\u4e86|\u602a\u6e38\u620f|\u9b3c\u755c\u4e4b\u738b|\u7279\u6717\u666e)/iu.test(cleanSample);
     if ((usernameMentionOnlyContext || metaNameDiscussionContext || creatorTrafficContext || neutralTrumpAliasContext) && !satireContext) return true;
   }
+  if (term === 'tv\u574f\u7b11' && family === 'attack') {
+    const rawSample = String(sample || '');
+    const emoteContext = /\[(?:tv_|[^\]]*_)?\u574f\u7b11\]/u.test(rawSample);
+    const expressionContext = /(?:\u6211\u7684\u574f\u7b11|\u574f\u7b11(?:\u602a\u602a\u7684|\u4e5f\u5f88\u602a)|\u6539\u5b8c\u4e4b\u540e\u7684\u574f\u7b11)/u.test(cleanSample);
+    const looseBadContext = !cleanSample.includes('tv\u574f\u7b11') && !cleanSample.includes('tv_\u574f\u7b11') && /\u975e\u8822\u65e2\u574f|\u574f\[\u7b11/u.test(cleanSample);
+    const attackEmoteContext = /(?:\u4f60|\u4f60\u8fd9|\u4ed6|\u5979).{0,20}(?:tv_?\u574f\u7b11|\u574f\u7b11).{0,20}(?:\u9634\u9633|\u5632\u8bbd|\u6076\u610f)|(?:tv_?\u574f\u7b11|\u574f\u7b11).{0,20}(?:\u9634\u9633|\u5632\u8bbd|\u6076\u610f)/iu.test(cleanSample);
+    if ((emoteContext || expressionContext || looseBadContext) && !attackEmoteContext) return true;
+  }
+  if (term === '\u6211\u6d3b\u5230\u5934\u4e86' && family === 'cooperation') {
+    const gameReactionContext = /(?:\u6d1b\u514b\u738b\u56fd|\u51fa\u5927\u53d8|\u770b\u89c1|\u9e2d\u795e|\u611f\u89c9).{0,30}\u6211\u6d3b\u5230\u5934\u4e86|\u6211\u6d3b\u5230\u5934\u4e86.{0,20}(?:\u7b11\u54ed|\u5927\u53d8|\u9e2d\u795e)/u.test(cleanSample);
+    const cooperativeContext = /\u6211\u6d3b\u5230\u5934\u4e86.{0,24}(?:\u8c22\u8c22|\u8bb2\u6e05\u695a|\u660e\u767d|\u7ec8\u4e8e\u61c2)|(?:\u8c22\u8c22|\u8bb2\u6e05\u695a|\u660e\u767d).{0,24}\u6211\u6d3b\u5230\u5934\u4e86/u.test(cleanSample);
+    if (gameReactionContext && !cooperativeContext) return true;
+  }
   if (term === '\u55d1\u74dc\u5b50' && family === 'evasion') {
     const rawSample = String(sample || '').trim();
     const emoteSuffixContext = /\[\u55d1\u74dc\u5b50\]/u.test(rawSample) && !rawSample.replace(/\[[^\]]+\]/g, '').includes('\u55d1\u74dc\u5b50');
