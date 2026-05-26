@@ -3860,6 +3860,52 @@ test('normalizeKeywordEntries prunes meta-question evidence for evade-main-point
   assert.deepEqual(entries[0].evidenceSamples, ['\u51e0\u4e2a\u6c34\u519b\u4e5f\u662f\u907f\u91cd\u5c31\u8f7b\uff0c\u95ee\u9898\u4e0d\u662f\u51fa\u5728\u9884\u5236\u83dc\u4e0a']);
 });
 
+test('normalizeKeywordEntries prunes public-title evidence for discipline-customer attack term', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u89c4\u8bad\u987e\u5ba2',
+      family: 'attack',
+      meaning: 'criticizes a business or speaker for disciplining customers',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u8fd8\u662f\u5728\u89c4\u8bad\u987e\u5ba2',
+        'Bilibili public video title: \u62c9\u9762\u4ed9\u4eba\u89c4\u8bad\u987e\u5ba2\u7981\u6b62\u5403\u9762\u65f6\u770b\u624b\u673a',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u8fd8\u662f\u5728\u89c4\u8bad\u987e\u5ba2' },
+        { source: 'Bilibili public video title', sample: 'Bilibili public video title: \u62c9\u9762\u4ed9\u4eba\u89c4\u8bad\u987e\u5ba2\u7981\u6b62\u5403\u9762\u65f6\u770b\u624b\u673a' },
+      ],
+    },
+  ]);
+
+  assert.equal(entries[0].evidenceCount, 1);
+  assert.deepEqual(entries[0].evidenceSamples, ['\u8fd8\u662f\u5728\u89c4\u8bad\u987e\u5ba2']);
+});
+
+test('normalizeKeywordEntries prunes public-title evidence for haojiahuo reaction term', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u597d\u5609\u4f19',
+      family: 'attack',
+      meaning: 'variant of good grief used for surprise or complaint',
+      evidenceCount: 4,
+      evidenceSamples: [
+        '\u597d\u5609\u4f19\u6211\u5c31\u50bb\u76ef\u7740\u8fd9\u5f39\u5e55\u53d8\u8272[\u5fae\u7b11]',
+        'Bilibili public video title: \u597d\u5609\u4f19',
+        'Bilibili public video title: \u597d\u5609\u4f19\uff0c\u7ec8\u4e8e\u753b\u597d\u4e86',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u597d\u5609\u4f19\u6211\u5c31\u50bb\u76ef\u7740\u8fd9\u5f39\u5e55\u53d8\u8272[\u5fae\u7b11]' },
+        { source: 'Bilibili public video title', sample: 'Bilibili public video title: \u597d\u5609\u4f19' },
+        { source: 'Bilibili public video title', sample: 'Bilibili public video title: \u597d\u5609\u4f19\uff0c\u7ec8\u4e8e\u753b\u597d\u4e86' },
+      ],
+    },
+  ]);
+
+  assert.equal(entries[0].evidenceCount, 1);
+  assert.deepEqual(entries[0].evidenceSamples, ['\u597d\u5609\u4f19\u6211\u5c31\u50bb\u76ef\u7740\u8fd9\u5f39\u5e55\u53d8\u8272[\u5fae\u7b11]']);
+});
+
 test('normalizeKeywordEntries prunes persisted loose reaction evidence for bengbuzhu variants', () => {
   const entries = normalizeKeywordEntries([
     {

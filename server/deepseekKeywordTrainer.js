@@ -1101,6 +1101,9 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const evasionAccusationContext = /(?:\u4ed6|\u4f60|\u4ed6\u4eec|\u4f60\u4eec|\u6c34\u519b|\u56de\u7b54|\u8bf4\u6cd5|\u95ee\u9898).{0,18}\u907f\u91cd\u5c31\u8f7b|\u907f\u91cd\u5c31\u8f7b.{0,18}(?:\u95ee\u9898|\u4e0d\u8c08|\u4e0d\u56de\u7b54|\u8f6c\u79fb|\u91cd\u70b9)/u.test(cleanSample);
     if (metaQuestionContext && !evasionAccusationContext) return true;
   }
+  if (['\u89c4\u8bad\u987e\u5ba2', '\u597d\u5609\u4f19'].includes(term) && family === 'attack') {
+    if (isVideoContextSample(sample)) return true;
+  }
   if (term === '\u55d1\u74dc\u5b50' && family === 'evasion') {
     const rawSample = String(sample || '').trim();
     const emoteSuffixContext = /\[\u55d1\u74dc\u5b50\]/u.test(rawSample) && !rawSample.replace(/\[[^\]]+\]/g, '').includes('\u55d1\u74dc\u5b50');
