@@ -2363,6 +2363,35 @@ test('findDictionaryEntriesWithTextEvidence rejects passive publish context for 
   assert.deepEqual(entries[0].evidenceSamples, ['\u4f60\u6562\u53d1\u51fa\u6765\u4ed6\u8c03\u4f83\u4e86\u5417']);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects harvested platform-action evidence for cooperation and correction terms', () => {
+  const dictionary = {
+    entries: [
+      { term: '\u6211\u9519\u4e86', family: 'correction', meaning: 'self correction phrase' },
+      { term: '\u5c4f\u853d', family: 'cooperation', meaning: 'moderate discussion by reducing noise' },
+      { term: '\u4e09\u89d2\u8d38\u6613', family: 'cooperation', meaning: 'cooperative exchange metaphor' },
+      { term: '\u4e09\u8fde\u9001\u4e0a', family: 'cooperation', meaning: 'supportive Bilibili engagement' },
+      { term: '\u7981\u6b62\u81ea\u5a31\u81ea\u4e50', family: 'correction', meaning: 'stop self-indulgent discussion' },
+    ],
+  };
+  const text = [
+    '\u201c\u5973\u6743\u201d\u548c\u5b83\u7684\u62e5\u8d38\u8005\uff0c\u5c31\u662f\u4e00\u7fa4\u4e0d\u6298\u4e0d\u6263\u7684\u755c\u7272\uff0c\u793e\u4f1a\u7684\u5783\u573e\u3001\u86c0\u866b\uff01\u5982\u679c\u6211\u9519\u4e86\u4f60\u6765\u6253\u6211\u3002',
+    '\u8bbe\u7f6e\u8bc4\u8bba\u533a\u5c4f\u853d\u8bcd\uff1f',
+    '\u5c4f\u853d\u5173\u952e\u5b57',
+    '\u81ea\u52a8\u5316\u5c4f\u853d\u811a\u672c\u52a0\u8bc4\u8bba\u533a\u7cbe\u9009',
+    '\u4ec0\u4e48\u8d5b\u535a\u4e09\u89d2\u8d38\u6613',
+    '\u4e09\u8fde\u9001\u4e0a~',
+    '\u7981\u6b62\u81ea\u5a31\u81ea\u4e50',
+  ].join('\n');
+
+  const entries = findDictionaryEntriesWithTextEvidence(dictionary, text);
+
+  assert.deepEqual(entries.map((entry) => entry.term), []);
+
+  const realCorrection = findDictionaryEntriesWithTextEvidence(dictionary, '\u521a\u624d\u770b\u9519\u4e86\uff0c\u6211\u9519\u4e86\uff0c\u8fd9\u91cc\u786e\u5b9e\u5e94\u8be5\u6539\u7ed3\u8bba\u3002');
+
+  assert.deepEqual(realCorrection.map((entry) => entry.term), ['\u6211\u9519\u4e86']);
+});
+
 test('normalizeKeywordEntries drops passive publish source evidence for request-to-post terms', () => {
   const entries = normalizeKeywordEntries([
     {

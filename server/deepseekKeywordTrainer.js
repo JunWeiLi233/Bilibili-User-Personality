@@ -1137,6 +1137,31 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const rationalClarificationContext = /(?:\u65f6\u95f4\u7ebf|\u8bf4\u660e|\u8bc1\u636e|\u89e3\u91ca|\u5927\u5bb6\u518d\u8ba8\u8bba|\u6765\u9f99\u53bb\u8109|\u8be6\u7ec6|\u8865\u5145|\u539f\u56e0)/u.test(cleanSample);
     return coerciveThreatContext && !rationalClarificationContext;
   }
+  if (term === '\u6211\u9519\u4e86' && family === 'correction') {
+    const hypotheticalOrAggressiveContext = /(?:\u5982\u679c\u6211\u9519\u4e86|\u8981\u662f\u6211\u9519\u4e86|\u4f60\u6765\u6253\u6211|\u4f60\u6765\u9a82\u6211|\u5973\u6743|\u62e5\u8d38\u8005|\u755c\u7272|\u5783\u573e|\u86c0\u866b|\u4e3a\u864e\u4f5c\u4f25|\u98a0\u5012\u9ed1\u767d)/u.test(cleanSample);
+    const explicitCorrectionContext = /(?:\u770b\u9519|\u8bf4\u9519|\u641e\u9519|\u5f04\u9519|\u8bb0\u9519|\u6211\u9519\u4e86.*(?:\u6539\u7ed3\u8bba|\u6536\u56de|\u4fee\u6b63|\u66f4\u6b63|\u8865\u5145)|(?:\u6539\u7ed3\u8bba|\u6536\u56de|\u4fee\u6b63|\u66f4\u6b63|\u8865\u5145).*\u6211\u9519\u4e86)/u.test(cleanSample);
+    return hypotheticalOrAggressiveContext && !explicitCorrectionContext;
+  }
+  if (term === '\u5c4f\u853d' && family === 'cooperation') {
+    const platformModerationContext = /(?:\u8bc4\u8bba\u533a\u5c4f\u853d|\u5c4f\u853d\u8bcd|\u5c4f\u853d\u5173\u952e\u5b57|\u5c4f\u853d\u811a\u672c|\u81ea\u52a8\u5316\u5c4f\u853d|\u5c4f\u853d\u8bc4\u8bba|\u5c4f\u853d\u7528\u6237|\u5c4f\u853d\u5217\u8868)/u.test(cleanSample);
+    const discussionDeescalationContext = /(?:\u5148\u5c4f\u853d.*(?:\u8c29\u9a82|\u4eba\u8eab\u653b\u51fb|\u5783\u573e\u4fe1\u606f|\u5e7f\u544a).*(?:\u518d\u8ba8\u8bba|\u597d\u597d\u8ba8\u8bba|\u7406\u6027\u8ba8\u8bba)|\u5c4f\u853d.*(?:\u964d\u4f4e\u5bf9\u7acb|\u907f\u514d\u5435\u67b6|\u51cf\u5c11\u5e72\u6270))/u.test(cleanSample);
+    return platformModerationContext && !discussionDeescalationContext;
+  }
+  if (term === '\u4e09\u89d2\u8d38\u6613' && family === 'cooperation') {
+    const cyberOrLiteralMemeContext = /(?:\u8d5b\u535a\u4e09\u89d2\u8d38\u6613|\u4ec0\u4e48.*\u4e09\u89d2\u8d38\u6613|\u4e09\u89d2\u8d38\u6613[\u7b11\u54eddoge]*$|\u5386\u53f2|\u8d38\u6613\u8def\u7ebf|\u4e70\u5356|\u5012\u5356)/u.test(cleanSample);
+    const cooperativeExchangeContext = /(?:\u4e92\u6362|\u4ea4\u6362\u8d44\u6599|\u4f60\u7ed9\u6211|\u6211\u7ed9\u4f60|\u5408\u4f5c|\u4e92\u76f8\u63d0\u4f9b)/u.test(cleanSample);
+    return cyberOrLiteralMemeContext && !cooperativeExchangeContext;
+  }
+  if (term === '\u4e09\u8fde\u9001\u4e0a' && family === 'cooperation') {
+    const engagementOnlyContext = /(?:^\u4e09\u8fde\u9001\u4e0a[~\uff5e!！]*$|\u4e09\u8fde\u9001\u4e0a[\u7b11\u54eddoge]*$|\u5df2\u4e09\u8fde|\u6c42\u4e09\u8fde|\u4e00\u952e\u4e09\u8fde)/iu.test(cleanSample);
+    const discussionSupportContext = /(?:\u8bf4\u5f97\u6709\u7406|\u8865\u5145|\u8bc1\u636e|\u5206\u6790|\u8ba8\u8bba|\u5b66\u5230).*\u4e09\u8fde\u9001\u4e0a/u.test(cleanSample);
+    return engagementOnlyContext && !discussionSupportContext;
+  }
+  if (term === '\u7981\u6b62\u81ea\u5a31\u81ea\u4e50' && family === 'correction') {
+    const standaloneImperativeContext = cleanSample === '\u7981\u6b62\u81ea\u5a31\u81ea\u4e50' || /(?:^\u7981\u6b62\u81ea\u5a31\u81ea\u4e50[!！。]*$|\u7981\u6b62\u81ea\u5a31\u81ea\u4e50[\u7b11\u54eddoge]*$)/iu.test(cleanSample);
+    const selfCorrectionContext = /(?:\u6211|\u6211\u4eec).*(?:\u7981\u6b62\u81ea\u5a31\u81ea\u4e50|\u522b\u81ea\u5a31\u81ea\u4e50).*(?:\u56de\u5230|\u6539|\u4fee\u6b63|\u8865\u5145|\u8ba8\u8bba)/u.test(cleanSample);
+    return standaloneImperativeContext && !selfCorrectionContext;
+  }
   return false;
 }
 
