@@ -2679,6 +2679,57 @@ test('findDictionaryEntriesWithTextEvidence rejects harvested quote, literal gam
   ]);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects harvested suffix, address, and embedded-learning evidence', () => {
+  const dictionary = {
+    entries: [
+      { term: '\u4e0d\u674e\u59d0', family: 'attack', meaning: 'homophone for not understanding used as mockery' },
+      { term: '\u6211\u4e0d\u674e\u59d0', family: 'attack', meaning: 'homophone for not understanding used as mockery' },
+      { term: '\u5355\u8d706', family: 'attack', meaning: 'send a single 6 as sarcastic response' },
+      { term: '\u5355\u8d70\u4e00\u4e2a6', family: 'cooperation', meaning: 'send a 6 as playful approval' },
+      { term: '\u8d70\u4e00\u4e2a6', family: 'attack', meaning: 'sarcastic six meme' },
+      { term: '\u90fd\u662f\u5bb6\u4eba', family: 'cooperation', meaning: 'solidarity or friendly in-group address' },
+      { term: '\u9633\u5bff', family: 'cooperation', meaning: 'luck-cost meme' },
+      { term: '\u81ea\u5df1\u5b66', family: 'evasion', meaning: 'pushes learning burden onto the other person' },
+    ],
+  };
+  const text = [
+    '\u4e3e\u8bc1\u56f0\u96be\uff1f\u6211\u4e0d\u7406\u89e3',
+    '\u5355\u8d70\u4e00\u4e2a6a',
+    '\u554a\uff0c\u8fd9\u5bb6\u4eba\u4eec\u5c5e\u5b9e\u662f\u4e00\u628a\u5b50\u65e0\u8bed\u4f4f\u4e86\u3002',
+    '\u76f4\u64ad\u95f4\u4e00\u53e3\u4e00\u4e2a\u5bb6\u4eba\u4eec\u5e26\u504f\uff0c\u4f60\u771f\u7684\u9700\u8981\u8fd9\u4e9b\u5417',
+    '\u6b63\u5e38\u5f00\u4e0d\u662f24\u5c0f\u65f6\u4e0d\u95f4\u65ad\u7535\u8bdd\u77ed\u4fe1\u9a9a\u6270\u5417\uff0c\u800c\u4e14\u8fd8\u4e0d\u662f\u4f60\u4e00\u4e2a\u4eba\uff0c\u662f\u4f60\u4e00\u5bb6\u4eba[doge]',
+    '\u4e0d\u662f\u6211\u5c31\u5bfb\u601d\u7740\u5973\u751f\u6253\u6e38\u620f\u4e0d\u662f\u5f88\u6b63\u5e38\u4e48\uff0c\u548b\u7684\u5973\u751f\u6253\u6e38\u620f\u6d6a\u8d39\u4f60\u9633\u5bff\u4e86\u5457',
+    '\u4f1a\u7ed9\u5973\u751f\u5fc3\u7406\u6697\u793a\u7684\uff0c\u89c9\u5f97\u81ea\u5df1\u5b66\u4e0d\u597d\u3002',
+    '\u75db\u82e6\u5230\u4f60\u81ea\u5df1\u65e0\u6cd5\u627f\u53d7\uff0c\u81ea\u5df1\u5b66\u4f1a\u653e\u5f03',
+  ].join('\n');
+
+  const entries = findDictionaryEntriesWithTextEvidence(dictionary, text);
+
+  assert.deepEqual(entries.map((entry) => entry.term), []);
+
+  const realEntries = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    [
+      '\u6211\u4e0d\u7406\u89e3\uff0c\u8fd9\u4e5f\u80fd\u6d17\uff1f',
+      '\u8fd9\u6ce2\u8865\u5145\u5355\u8d70\u4e00\u4e2a6',
+      '\u5927\u5bb6\u90fd\u662f\u5bb6\u4eba\uff0c\u522b\u5435\u4e86\u597d\u597d\u8ba8\u8bba',
+      '\u4f60\u9700\u8981\u4ebf\u70b9\u70b9\u9633\u5bff[doge]',
+      '\u522b\u95ee\u6211\u4e86\uff0c\u4f60\u81ea\u5df1\u5b66\u81ea\u5df1\u641c',
+    ].join('\n'),
+  );
+
+  assert.deepEqual(realEntries.map((entry) => entry.term), [
+    '\u4e0d\u674e\u59d0',
+    '\u6211\u4e0d\u674e\u59d0',
+    '\u5355\u8d706',
+    '\u5355\u8d70\u4e00\u4e2a6',
+    '\u8d70\u4e00\u4e2a6',
+    '\u90fd\u662f\u5bb6\u4eba',
+    '\u9633\u5bff',
+    '\u81ea\u5df1\u5b66',
+  ]);
+});
+
 test('findDictionaryEntriesWithTextEvidence can match stable internet aliases', () => {
   const entries = findDictionaryEntriesWithTextEvidence(
     {
