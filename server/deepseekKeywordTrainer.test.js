@@ -3097,6 +3097,74 @@ test('findDictionaryEntriesWithTextEvidence rejects harvested mechanic, fandom, 
   ]);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects harvested loose reaction and audience-count evidence', () => {
+  const dictionary = {
+    entries: [
+      { term: '\u7ef7\u4e0d\u4f4f\u4e86', family: 'attack', meaning: 'mocking laughter at another person' },
+      { term: '800\u4e07', family: 'evidence', meaning: '800\u4e07\u6e38\u620f\u5e01\uff0c\u6e38\u620f\u5185\u623f\u4ea7\u4ef7\u683c\uff0c\u7528\u4e8e\u8ba8\u8bba\u4ef7\u503c' },
+    ],
+  };
+  const text = [
+    '\u5f00\u5c40\u5c31\u6ca1\u7ef7\u4f4f',
+    '\u62b9\u8336\u6ca1\u7ef7\u4f4f',
+    '\u60f3\u5230\u4e00\u4e2a\u7b11\u8bdd\uff1a\u4eba\u4e00\u751f\u7ef7\u4e0d\u4f4f\u7684\u6b21\u6570\u662f\u6709\u9650\u7684',
+    '\u8f7b\u677e\u7ef7\u4e0d\u4f4f[\u559c\u6b22]',
+    '\u5434\u4eac\u8fd9\u52a8\u4f5c\u6ca1\u7ef7\u4f4f',
+    '\u7ea6\u6389\u5fae\u5206\u7b26\u53f7\u6ca1\u7ef7\u4f4f',
+    '\u8d85800\u4e07\u4eba',
+  ].join('\n');
+
+  const entries = findDictionaryEntriesWithTextEvidence(dictionary, text);
+
+  assert.deepEqual(entries.map((entry) => entry.term), []);
+
+  const realEntries = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    [
+      '\u4f60\u8fd9\u903b\u8f91\u771f\u7ef7\u4e0d\u4f4f\u4e86\uff0c\u8bc1\u636e\u90fd\u4e0d\u770b',
+      '\u73b0\u5728\u4f4f\u5b85\u6709\u4e2a\u95ee\u9898\uff0c\u4e00\u773c\u5c31\u611f\u89c9800\u4e07\u4e0d\u662f\u6bd5\u4e1a\u7ea7\u522b\u7684\u3002',
+    ].join('\n'),
+  );
+
+  assert.deepEqual(realEntries.map((entry) => entry.term), ['\u7ef7\u4e0d\u4f4f\u4e86', '800\u4e07']);
+});
+
+test('normalizeKeywordEntries prunes persisted loose reaction evidence for bengbuzhu variants', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u7ef7\u4e0d\u4f4f\u4e86',
+      family: 'attack',
+      meaning: '\u5f62\u5bb9\u770b\u5230\u5bf9\u65b9\u56de\u5e94\u540e\u5fcd\u4e0d\u4f4f\u7b11\u6216\u5d29\u6e83\uff0c\u5e38\u7528\u4e8e\u5632\u8bbd\u6216\u81ea\u5632',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u60f3\u5230\u4e00\u4e2a\u7b11\u8bdd\uff1a\u4eba\u4e00\u751f\u7ef7\u4e0d\u4f4f\u7684\u6b21\u6570\u662f\u6709\u9650\u7684\uff0c\u5982\u679c\u4f60\u4ee5\u524d\u7ef7\u4f4f\u4e86\uff0c\u4f60\u8001\u4e86\u4e4b\u540e\u5c31\u4f1a\u53d8\u6210\u7ef7\u7ef7\u70b8\u5f39',
+        'Bilibili video context: \u8fd9\u4e0b\u771f\u7206\u4e86\uff01\u73a9\u673a\u5668\u5f39\u5e55\u96be\u7ef7\u9006\u5929\u89e3\u8bf4\u5f53\u573a\u6ca1\u7ef7\u4f4f',
+        '\u4f60\u8fd9\u903b\u8f91\u771f\u7ef7\u4e0d\u4f4f\u4e86\uff0c\u8bc1\u636e\u90fd\u4e0d\u770b',
+      ],
+      evidenceSources: [
+        {
+          source: 'Bilibili public video comment scan',
+          sample: '\u60f3\u5230\u4e00\u4e2a\u7b11\u8bdd\uff1a\u4eba\u4e00\u751f\u7ef7\u4e0d\u4f4f\u7684\u6b21\u6570\u662f\u6709\u9650\u7684\uff0c\u5982\u679c\u4f60\u4ee5\u524d\u7ef7\u4f4f\u4e86\uff0c\u4f60\u8001\u4e86\u4e4b\u540e\u5c31\u4f1a\u53d8\u6210\u7ef7\u7ef7\u70b8\u5f39',
+        },
+        {
+          source: 'Bilibili public video context',
+          sample: 'Bilibili video context: \u8fd9\u4e0b\u771f\u7206\u4e86\uff01\u73a9\u673a\u5668\u5f39\u5e55\u96be\u7ef7\u9006\u5929\u89e3\u8bf4\u5f53\u573a\u6ca1\u7ef7\u4f4f',
+        },
+        {
+          source: 'Bilibili public video comment scan',
+          sample: '\u4f60\u8fd9\u903b\u8f91\u771f\u7ef7\u4e0d\u4f4f\u4e86\uff0c\u8bc1\u636e\u90fd\u4e0d\u770b',
+        },
+      ],
+    },
+  ]);
+
+  assert.deepEqual(entries.map((entry) => entry.evidenceSamples), [['\u4f60\u8fd9\u903b\u8f91\u771f\u7ef7\u4e0d\u4f4f\u4e86\uff0c\u8bc1\u636e\u90fd\u4e0d\u770b']]);
+  assert.deepEqual(entries.map((entry) => entry.evidenceSources.map((source) => source.sample)), [
+    ['\u4f60\u8fd9\u903b\u8f91\u771f\u7ef7\u4e0d\u4f4f\u4e86\uff0c\u8bc1\u636e\u90fd\u4e0d\u770b'],
+  ]);
+  assert.equal(entries[0].evidenceCount, 1);
+});
+
 test('findDictionaryEntriesWithTextEvidence can match stable internet aliases', () => {
   const entries = findDictionaryEntriesWithTextEvidence(
     {
