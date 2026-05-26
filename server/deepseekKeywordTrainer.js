@@ -866,6 +866,46 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const summaryContext = /(?:\u7701\u6d41(?:\u4fa0)?(?:\u6765\u4e86)?[:：]\S{6,}|\u76f4\u63a5\u770b|\u7ed3\u8bba\u662f|\u603b\u7ed3|tl;?dr)/iu.test(rawSample);
     return terseMarkerContext && !summaryContext;
   }
+  if (term === 'doge\u91d1\u7b8d' && family === 'cooperation') {
+    const rawSample = String(sample || '').trim();
+    const textOutsideEmotes = rawSample.replace(/\[[^\]]+\]/g, '');
+    if (/\[doge[_-]\u91d1\u7b8d\]/iu.test(rawSample) && !/doge\u91d1\u7b8d/iu.test(textOutsideEmotes)) return true;
+  }
+  if (term === '\u53d7\u6559' && (family === 'cooperation' || family === 'correction')) {
+    const negatedTitleContext = /\u4e0d\u53d7\u6559/u.test(cleanSample);
+    const learnedContext = /(?:\u53d7\u6559\u4e86|\u771f(?:\u7684)?\u53d7\u6559|\u5341\u5206\u53d7\u6559|\u611f\u8c22.*\u53d7\u6559|\u53d7\u6559.*(?:\u611f\u8c22|\u8c22\u8c22|\u5b66\u5230))/u.test(cleanSample);
+    if (negatedTitleContext && !learnedContext) return true;
+  }
+  if (term === '\u826f\u4f5c\u65e0\u4eba' && family === 'cooperation') {
+    const standaloneLabelContext = cleanSample === '\u826f\u4f5c\u65e0\u4eba';
+    const recommendationContext = /(?:\u826f\u4f5c\u65e0\u4eba.*(?:\u770b|\u63a8|\u5b89\u5229|\u53ef\u60dc|\u503c\u5f97)|(?:\u8fd9\u7247|\u8fd9\u4e2a|\u771f\u662f).*\u826f\u4f5c\u65e0\u4eba)/u.test(cleanSample);
+    if (standaloneLabelContext && !recommendationContext) return true;
+  }
+  if (term === '\u516d\u516d\u516d' && family === 'attack') {
+    const neutralPraiseContext = /^(?:\u54c8+[\s\uff0c,]*)?\u516d\u516d\u516d(?:[!！。~\s]|(?:\[doge\]))*$/u.test(cleanSample);
+    const sarcasticContext = /(?:\u8fd9\u64cd\u4f5c|\u8fd9\u903b\u8f91|\u4f60|\u4f60\u4eec).*(?:\u516d\u516d\u516d|666).*?(?:\u8bc1\u636e|\u79bb\u8c31|\u4e0d\u770b|\u65e0\u8bed)|(?:\u516d\u516d\u516d|666).*?(?:\u8bc1\u636e|\u79bb\u8c31|\u4e0d\u770b|\u65e0\u8bed)/u.test(cleanSample);
+    if (neutralPraiseContext && !sarcasticContext) return true;
+  }
+  if (term === '\u5bf9\u4e0d\u8d77' && family === 'correction') {
+    const negatedApologyContext = /(?:\u4ece\u6ca1\u6709|\u6ca1\u6709|\u6ca1)\u5bf9\u4e0d\u8d77/u.test(cleanSample);
+    const correctionApologyContext = /\u5bf9\u4e0d\u8d77.*(?:\u8bf4\u9519|\u641e\u9519|\u770b\u9519|\u8bb0\u9519|\u6536\u56de|\u662f\u6211)/u.test(cleanSample);
+    if (negatedApologyContext && !correctionApologyContext) return true;
+  }
+  if (term === '\u622a\u56fe' && family === 'evidence') {
+    const collectionOnlyContext = /(?:\u8868\u60c5\u5305|\u58c1\u7eb8|\u5934\u50cf|\u53ef\u7231).*\u622a\u56fe(?:\u62ff\u8d70|\u4fdd\u5b58|\u7559\u5ff5)|\u622a\u56fe(?:\u62ff\u8d70|\u4fdd\u5b58|\u7559\u5ff5)/u.test(cleanSample);
+    const evidenceContext = /\u622a\u56fe.*(?:\u8bc1\u636e|\u8d34\u51fa\u6765|\u53d1\u51fa\u6765|\u6765\u6e90|\u5bf9\u7167)|(?:\u8bc1\u636e|\u6765\u6e90).*\u622a\u56fe/u.test(cleanSample);
+    if (collectionOnlyContext && !evidenceContext) return true;
+  }
+  if (term === '\u53ef\u4ee5\u8d34' && family === 'cooperation') {
+    const hostileDareContext = /(?:\u8001\u50bb\u5b50|\u6709\u672c\u4e8b).*(?:\u53d1\u51fa\u6765|\u8d34\u51fa\u6765|\u628a.*\u56fe\u7247\u53d1)/u.test(cleanSample);
+    const cooperativeSourceContext = /(?:\u53ef\u4ee5\u8d34|\u5efa\u8bae\u8d34|\u9ebb\u70e6\u8d34).*(?:\u6765\u6e90|\u8bc1\u636e|\u622a\u56fe|\u94fe\u63a5|\u5bf9\u7167)/u.test(cleanSample);
+    if (hostileDareContext && !cooperativeSourceContext) return true;
+  }
+  if (term === '\u8c01\u61c2' && family === 'evasion') {
+    const audienceCountContext = /^[0-9\uff10-\uff19]+\u4eba\u6b63\u5728\u89c2\u770b[\uff0c,]?\u8c01\u61c2$/u.test(cleanSample);
+    const evasionContext = /(?:\u522b\u53ea\u8bf4\u8c01\u61c2|\u8c01\u61c2.*(?:\u4e0d\u89e3\u91ca|\u61c2\u7684\u90fd\u61c2|\u8bc1\u636e\u8d34\u51fa\u6765|\u81ea\u5df1\u641c))/u.test(cleanSample);
+    if (audienceCountContext && !evasionContext) return true;
+  }
   if (term === '0\u4eba' && family === 'attack') {
     const numericAudienceContext = /(?:\d+\+?\u4eba|[一二三四五六七八九十百千万]+(?:\u4e2a)?\u4eba|\u51cc\u6668|\u5728\u7ebf|\u89c2\u770b|\u76f4\u64ad\u95f4|\u6392\u961f)/u.test(cleanSample);
     const zeroPersonMockContext = /(?:0\u4eba\u652f\u6301|0\u4eba\u7406\u4f60|0\u4eba\u5728\u4e4e|0\u4eba\u8ba4\u540c|\u6ca1\u4eba\u652f\u6301|\u6ca1\u4eba\u7406)/u.test(cleanSample);

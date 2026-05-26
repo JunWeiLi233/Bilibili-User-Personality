@@ -16,6 +16,8 @@ function runScript(args = []) {
         'echo RETRY_BEFORE_UNATTEMPTED=%BILIBILI_HARVEST_RETRY_BEFORE_UNATTEMPTED_LIMIT%',
         'echo BLOCK_COOLDOWN=%BILIBILI_CRAWLER_BLOCK_COOLDOWN_MS%',
         'echo REQUEST_TIMEOUT=%BILIBILI_CRAWLER_REQUEST_TIMEOUT_MS%',
+        'echo MIN_DELAY=%BILIBILI_CRAWLER_MIN_DELAY_MS%',
+        'echo JITTER=%BILIBILI_CRAWLER_JITTER_MS%',
       ].join('\r\n'),
     );
     const result = spawnSync(
@@ -72,4 +74,16 @@ test('run-bilibili-video.ps1 caps crawler block cooldown for quick strict commen
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /BLOCK_COOLDOWN=2500/);
   assert.match(result.stdout, /REQUEST_TIMEOUT=12500/);
+});
+
+test('run-bilibili-video.ps1 uses fast crawler pacing for strict comment harvests', (t) => {
+  const result = runScript(['-RequireCommentEvidence', '-ExistingTermsOnly', '-QueryTimeoutMs', '25000']);
+  if (!result) {
+    t.skip('PowerShell is unavailable in this environment');
+    return;
+  }
+
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /MIN_DELAY=250/);
+  assert.match(result.stdout, /JITTER=125/);
 });

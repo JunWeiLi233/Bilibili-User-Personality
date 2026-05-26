@@ -106,6 +106,14 @@ if ($RequireCommentEvidence -and $ExistingTermsOnly -and -not $env:BILIBILI_CRAW
   $strictRequestTimeoutMs = [Math]::Max(5000, [Math]::Floor($QueryTimeoutMs / 2))
   $env:BILIBILI_CRAWLER_REQUEST_TIMEOUT_MS = [string]$strictRequestTimeoutMs
 }
+if ($RequireCommentEvidence -and $ExistingTermsOnly -and -not $env:BILIBILI_CRAWLER_MIN_DELAY_MS) {
+  $strictMinDelayMs = [Math]::Max(200, [Math]::Floor($QueryTimeoutMs / 100))
+  $env:BILIBILI_CRAWLER_MIN_DELAY_MS = [string]$strictMinDelayMs
+}
+if ($RequireCommentEvidence -and $ExistingTermsOnly -and -not $env:BILIBILI_CRAWLER_JITTER_MS) {
+  $strictJitterMs = [Math]::Max(100, [Math]::Floor($QueryTimeoutMs / 200))
+  $env:BILIBILI_CRAWLER_JITTER_MS = [string]$strictJitterMs
+}
 $env:BILIBILI_HARVEST_ROUNDS = [string]$Rounds
 $env:BILIBILI_HARVEST_COVERAGE_MODE = $CoverageMode
 $env:BILIBILI_VIDEO_DISCOVERY_MODE = $DiscoveryMode

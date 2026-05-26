@@ -3397,6 +3397,78 @@ test('findDictionaryEntriesWithTextEvidence rejects harvested terse label marker
   assert.deepEqual(realEntries.map((entry) => entry.term), ['\u7701\u6d41', '\u7701\u6d41\u4fa0', '\u8bf4\u767d\u4e86']);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects harvested emote, negated, and standalone label evidence', () => {
+  const dictionary = {
+    entries: [
+      { term: 'doge\u91d1\u7b8d', family: 'cooperation', meaning: 'Bilibili emote marker with playful tone' },
+      { term: '\u53d7\u6559', family: 'cooperation', meaning: 'acknowledge learning from a reply' },
+      { term: '\u826f\u4f5c\u65e0\u4eba', family: 'cooperation', meaning: 'recommend an underwatched good work' },
+    ],
+  };
+  const text = [
+    '\u7ec6\u8282\u56db\u5dddip[doge_\u91d1\u7b8d][\u7b11\u54ed]',
+    '\u7f51\u6613\u4e91\u97f3\u9891\u8bf7\u641c\u4e0d\u53d7\u6559',
+    '\u826f\u4f5c\u65e0\u4eba',
+  ].join('\n');
+
+  const entries = findDictionaryEntriesWithTextEvidence(dictionary, text);
+
+  assert.deepEqual(entries.map((entry) => entry.term), []);
+
+  const realEntries = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    [
+      '\u8fd9\u6761\u89e3\u91ca\u5f88\u6e05\u695a\uff0c\u771f\u7684\u53d7\u6559\u4e86',
+      '\u8fd9\u7247\u771f\u662f\u826f\u4f5c\u65e0\u4eba\u770b\uff0c\u503c\u5f97\u63a8\u4e00\u4e0b',
+      '\u8fd9\u91cc\u624b\u52a8doge\u91d1\u7b8d\u662f\u5728\u73a9\u6897\uff0c\u4e0d\u662f\u653b\u51fb',
+    ].join('\n'),
+  );
+
+  assert.deepEqual(realEntries.map((entry) => entry.term), ['doge\u91d1\u7b8d', '\u53d7\u6559', '\u826f\u4f5c\u65e0\u4eba']);
+});
+
+test('findDictionaryEntriesWithTextEvidence rejects harvested praise, apology-negation, and non-evidence screenshots', () => {
+  const dictionary = {
+    entries: [
+      { term: '\u516d\u516d\u516d', family: 'attack', meaning: 'sarcastic praise used to mock an argument' },
+      { term: '\u5bf9\u4e0d\u8d77', family: 'correction', meaning: 'apologize or walk back a statement' },
+      { term: '\u622a\u56fe', family: 'evidence', meaning: 'ask for or provide screenshot evidence' },
+      { term: '\u53ef\u4ee5\u8d34', family: 'cooperation', meaning: 'invite posting evidence or source material' },
+      { term: '\u8c01\u61c2', family: 'evasion', meaning: 'vague appeal to shared understanding' },
+    ],
+  };
+  const text = [
+    '\u54c8\u54c8\u54c8\u54c8\u54c8 \u516d\u516d\u516d',
+    '\u6211\u4ece\u6ca1\u6709\u5bf9\u4e0d\u8d77\u4efb\u4f55\u4eba\u54c8\u54c8\u54c8',
+    '\u8868\u60c5\u5305\u53ef\u7231\uff0c\u622a\u56fe\u62ff\u8d70\u4e86',
+    '\u8001\u50bb\u5b50\uff0c\u6709\u672c\u4e8b\u628a\u5403\u86cb\u7cd5\u7684\u56fe\u7247\u53d1\u51fa\u6765',
+    '300\u4eba\u6b63\u5728\u89c2\u770b\uff0c\u8c01\u61c2',
+  ].join('\n');
+
+  const entries = findDictionaryEntriesWithTextEvidence(dictionary, text);
+
+  assert.deepEqual(entries.map((entry) => entry.term), []);
+
+  const realEntries = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    [
+      '\u8fd9\u64cd\u4f5c\u516d\u516d\u516d\uff0c\u8fde\u57fa\u672c\u8bc1\u636e\u90fd\u4e0d\u770b',
+      '\u5bf9\u4e0d\u8d77\uff0c\u524d\u9762\u90a3\u53e5\u662f\u6211\u8bf4\u9519\u4e86',
+      '\u6709\u622a\u56fe\u5c31\u8d34\u51fa\u6765\u5f53\u8bc1\u636e',
+      '\u4f60\u53ef\u4ee5\u8d34\u4e00\u4e0b\u6765\u6e90\uff0c\u8fd9\u6837\u5927\u5bb6\u597d\u5bf9\u7167',
+      '\u522b\u53ea\u8bf4\u8c01\u61c2\uff0c\u8bc1\u636e\u8d34\u51fa\u6765',
+    ].join('\n'),
+  );
+
+  assert.deepEqual(realEntries.map((entry) => entry.term), [
+    '\u516d\u516d\u516d',
+    '\u5bf9\u4e0d\u8d77',
+    '\u622a\u56fe',
+    '\u53ef\u4ee5\u8d34',
+    '\u8c01\u61c2',
+  ]);
+});
+
 test('normalizeKeywordEntries prunes persisted loose reaction evidence for bengbuzhu variants', () => {
   const entries = normalizeKeywordEntries([
     {
