@@ -895,8 +895,9 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
   }
   if (term === '\u516d\u516d\u516d' && family === 'attack') {
     const standalonePraiseContext = /^(?:\u516d\u516d\u516d|666|6{3,})$/iu.test(cleanSample);
+    const literalNumberContext = /(?:\u82f1\u8bed\u8001\u5e08|\u6570\u5b66|\u5b66\u8fc7|\u5c0f\u65f6|\u5206\u949f|\u79d2|\u7b2c?\u516d).*(?:\u516d\u516d\u516d|666)|(?:\u516d\u516d\u516d|666).*(?:\u82f1\u8bed\u8001\u5e08|\u6570\u5b66|\u5b66\u8fc7|\u5c0f\u65f6|\u5206\u949f|\u79d2)/iu.test(cleanSample);
     const sarcasticContext = /(?:\u771f\u516d\u516d\u516d|\u8fd9\u64cd\u4f5c.*(?:\u516d\u516d\u516d|666)|(?:\u516d\u516d\u516d|666).*(?:\u65e0\u8bed|\u79bb\u8c31|\u4e0d\u4f1a\u5427))/iu.test(cleanSample);
-    return standalonePraiseContext && !sarcasticContext;
+    return (standalonePraiseContext || literalNumberContext) && !sarcasticContext;
   }
   if (term === '\u6ca1\u60f3\u5230\u5427' && family === 'attack') {
     const hasExactRevealPhrase = cleanSample.includes('\u6ca1\u60f3\u5230\u5427');
@@ -946,6 +947,11 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const fandomEmpathyContext = /(?:\u6709\u8c01\u61c2|\u8c01\u61c2\u554a).*(?:\u8dd1\u6b65|\u5f39\u5e55|\u66f4\u50cf|\u89d2\u5ea6|\u82e5\u9690\u82e5\u73b0|\u90d1\u723d|\u50cf\u4e86)/u.test(cleanSample);
     const evasionContext = /(?:\u522b\u53ea\u8bf4\u8c01\u61c2|\u8c01\u61c2.*(?:\u4e0d\u89e3\u91ca|\u61c2\u7684\u90fd\u61c2|\u8bc1\u636e\u8d34\u51fa\u6765|\u81ea\u5df1\u641c))/u.test(cleanSample);
     return fandomEmpathyContext && !evasionContext;
+  }
+  if (term === '\u767e\u53d8\u9a6c\u4e01' && family === 'cooperation') {
+    const nameOnlyContext = !cleanSample.includes('\u767e\u53d8\u9a6c\u4e01') && cleanSample.includes('\u9a6c\u4e01');
+    const memeContext = /(?:\u767e\u53d8\u9a6c\u4e01|\u9a6c\u4e01).*(?:\u68d7|\u540d\u573a\u9762|\u7b11|\u592a\u5999|\u597d\u6d3b)/u.test(cleanSample);
+    return nameOnlyContext && !memeContext;
   }
   if (['\u6211\u547d\u7531\u6211', '\u6211\u547d\u7531\u6211\u4e0d\u7531\u5929'].includes(term) && family === 'attack') {
     const standaloneSloganContext = /^\u6211\u547d\u7531\u6211(?:\u4e0d\u7531\u5929)?(?:doge)?$/iu.test(cleanSample);
@@ -1138,7 +1144,7 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
   }
   if (term === '\u53ef\u4ee5\u8d34' && family === 'cooperation') {
     const passivePublishContext = /(?:\u5ba1\u6838|\u5e7f\u544a\u5546|\u53d1\u51fa\u6765\u7684\u8bc4\u8bba|\u53d1\u51fa\u6765\u7684\u89c6\u9891|\u80fd\u53d1\u51fa\u6765\u624d|\u624d\u80fd\u53d1\u51fa\u6765|\u53d1\u51fa\u6765\u5c31\u662f)/u.test(cleanSample);
-    const genericPublishContext = /(?:\u53ef\u4ee5\u53d1\u8bed\u97f3|\u53ef\u4ee5\u53d1\u4e2a\u5fae\u535a|\u53ef\u4ee5\u53d1\u5fae\u535a|\u53ef\u4ee5\u53d1\u5f39\u5e55\u53d1\u8bc4\u8bba|\u53ef\u4ee5\u53d1\u660e|\u4e00\u53d1\u51fa\u6765|\u53d1\u6b63\u7ecf.*\u79d1\u666e|\u76f4\u63a5\u8d34\u51fa\u6765\u5ba3\u4f20|\u52a8\u9759.*\u53d1\u51fa\u6765|\u58f0\u97f3.*\u53d1\u51fa\u6765|\u9e1f\u53d1\u51fa\u6765)/u.test(cleanSample);
+    const genericPublishContext = /(?:\u53ef\u4ee5\u53d1\u8bed\u97f3|\u53ef\u4ee5\u53d1(?:\u7bc7|\u4e00\u7bc7|\u4e2a)?(?:\u6b63\u5f53\u7684)?(?:\u6587\u7ae0|\u5fae\u535a|\u5e16\u5b50)|\u53ef\u4ee5\u53d1\u5fae\u535a|\u53ef\u4ee5\u53d1\u5f39\u5e55\u53d1\u8bc4\u8bba|\u53ef\u4ee5\u53d1\u660e|\u4e00\u53d1\u51fa\u6765|\u53d1\u6b63\u7ecf.*\u79d1\u666e|\u76f4\u63a5\u8d34\u51fa\u6765\u5ba3\u4f20|\u52a8\u9759.*\u53d1\u51fa\u6765|\u58f0\u97f3.*\u53d1\u51fa\u6765|\u9e1f\u53d1\u51fa\u6765)/u.test(cleanSample);
     const shamingPublishContext = /(?:\u597d\u610f\u601d\u53d1\u51fa\u6765|\u8fd8\u6562\u53d1\u51fa\u6765|\u8fd9\u4e5f\u53d1\u51fa\u6765|\u600e\u4e48\u597d\u610f\u601d\u53d1)/u.test(cleanSample);
     const requestToPostContext = /(?:\u4f60|\u4f60\u4eec|\u8c01|\u6562|\u9ebb\u70e6|\u6c42|\u53d1\u4e00\u4e0b|\u8d34\u4e00\u4e0b|\u8d34\u51fa\u6765|\u53ef\u4ee5(?:\u8d34|\u53d1)|\u53d1\u51fa\u6765.*(?:\u5417|\u4e48|\uff1f|\?|\u770b\u770b)|\u8bc1\u636e|\u622a\u56fe|\u539f\u56fe|\u94fe\u63a5)/u.test(cleanSample);
     return genericPublishContext || shamingPublishContext || (passivePublishContext && !requestToPostContext);

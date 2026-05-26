@@ -2901,6 +2901,43 @@ test('findDictionaryEntriesWithTextEvidence rejects harvested self-label, litera
   ]);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects harvested numeric, name-only, and generic publish evidence', () => {
+  const dictionary = {
+    entries: [
+      { term: '\u516d\u516d\u516d', family: 'attack', meaning: 'sarcastic 666 toward bad logic or behavior' },
+      { term: '\u767e\u53d8\u9a6c\u4e01', family: 'cooperation', meaning: 'playful Bilibili meme reference' },
+      { term: '\u53ef\u4ee5\u8d34', family: 'cooperation', meaning: 'ask another user to post evidence or context' },
+    ],
+  };
+  const text = [
+    '\u516d\u516d\u516d\uff0c\u82f1\u8bed\u8001\u5e08\u8ba9\u5b66\u8fc7',
+    '\u516b\u5c0f\u65f6\u516d\u516d\u516d',
+    '\u9a6c\u4e01\u6211\u559c\u6b22\u4f60',
+    '\u4e3b\u4efb\u662f\u4e0d\u662f\u5bf9\u9a6c\u4e01\u7684\u8eab\u9ad8\u6709\u4ec0\u4e48\u8bef\u89e3',
+    '\u9a6c\u4e01\u5bb6\u306e\u9f99\u5973\u4ec6',
+    '\u660e\u660e\u53ef\u4ee5\u53d1\u7bc7\u6b63\u5f53\u7684\u6587\u7ae0 \u975e\u7684\u6765\u4e94\u8fde\u95ee \u4f60\u662f\u771f\u7684\u60f3\u7ef4\u62a4\u6b63\u4e49 \u8fd8\u662f\u66fe\u70ed\u5ea6\u5462\uff1f',
+  ].join('\n');
+
+  const entries = findDictionaryEntriesWithTextEvidence(dictionary, text);
+
+  assert.deepEqual(entries.map((entry) => entry.term), []);
+
+  const realEntries = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    [
+      '\u516d\u516d\u516d\uff0c\u4f60\u8fd9\u64cd\u4f5c\u771f\u79bb\u8c31',
+      '\u8fd9\u671f\u767e\u53d8\u9a6c\u4e01\u7684\u68d7\u592a\u5999\u4e86',
+      '\u4f60\u628a\u8bc1\u636e\u94fe\u63a5\u53ef\u4ee5\u8d34\u4e00\u4e0b\u5417',
+    ].join('\n'),
+  );
+
+  assert.deepEqual(realEntries.map((entry) => entry.term), [
+    '\u516d\u516d\u516d',
+    '\u767e\u53d8\u9a6c\u4e01',
+    '\u53ef\u4ee5\u8d34',
+  ]);
+});
+
 test('findDictionaryEntriesWithTextEvidence can match stable internet aliases', () => {
   const entries = findDictionaryEntriesWithTextEvidence(
     {
