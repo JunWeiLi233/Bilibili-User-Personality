@@ -5568,6 +5568,57 @@ test('findDictionaryEntriesWithTextEvidence rejects latest harvested emote and b
   ]);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects latest harvested alias and proper-name false positives', () => {
+  const dictionary = {
+    entries: [
+      { term: '\u6263\u4e86\u51e0\u6b21\u5e3d\u5b50', family: 'attack', meaning: 'accuse someone of repeatedly labeling others' },
+      { term: '\u5999\u554a\u5999\u554a', family: 'attack', meaning: 'sarcastic praise for absurd logic' },
+      { term: '\u6e05\u4e00\u8272', family: 'absolutes', meaning: 'overgeneralize a group as all the same' },
+      { term: '\u5708\u7c73\u4e0d\u8d56', family: 'attack', meaning: 'sarcastic criticism that monetization is effective' },
+      { term: '\u9f99\u54e5\u7684\u5144\u5f1f', family: 'attack', meaning: 'hostile meme nickname' },
+      { term: '\u7f57\u4e0d\u6cfc', family: 'attack', meaning: 'hostile pun nickname' },
+    ],
+  };
+  const falsePositiveText = [
+    '\u95ee:\u5976\u916a\u88ab\u6263\u4e86\u51e0\u6b21\u5e3d\u5b50\uff1f',
+    '\u56de\u590d @\u5c0f\u8c4c\u8c46\u68a6\u9b47 :\u90a3\u7070\u7070\u88ab\u6263\u4e86\u51e0\u6b21\u5e3d\u5b50[\u55d1\u74dc\u5b50]',
+    '\u6211\u4eec\u6708\u5f71\u5b97\u4e00\u4e2a\u53a8\u623f\u7684\u4f19\u592b\u90fd\u80fd\u628a\u4f60\u4eec\u638c\u95e8\u6309\u5728\u5730\u4e0a\u63cd[\u5999\u554a][\u5999\u554a]',
+    '\u6709\u914d\u53d7\u7684\u6f5c\u529b[\u5999\u554a][\u5999\u554a][doge]',
+    '\u6e05\u4e00\u8272\u662f\u5973\u8131\u53e3\u79c0\u6f14\u5458\u7684\u5929\u82b1\u677f\u4e86\uff0c\u793e\u4f1a\u9605\u5386\u4e30\u5bcc',
+    '\u5708\u7c73\u4e0d\u8d56',
+    '\u7c73\u54c8\u6e38\u7684\u8fd0\u8425\u601d\u8def\u5c31\u8fd9\u6837\uff0c\u5404\u79cd\u5708\u7c73\u6d3b\u52a8\uff0c\u7136\u540e\u8001\u6e38\u620f\u81ea\u751f\u81ea\u706d',
+    '\u7f57\u54e5\u7684\u4e0d\u662f\u554a\u5df2\u7ecf\u8ddf\u9f99\u54e5\u7684\u5144\u5f1f\u4e00\u6837\uff0c\u53ea\u4e0d\u8fc7\u4e00\u4e2a\u662f\u9017\u53f7\uff0c\u4e00\u4e2a\u662f\u5192\u53f7',
+    '\u9f99\u54e5\u7684\u5144\u5f1f\uff0c\u8f69\u59b9\u7684\u5575\uff0c\u7f57\u54e5\u7684\u4e0d\u662f\u554a[doge]',
+    '\u7f57\u4e0d\u6cfc\uff0c\u6307\u7684\u662f\u7f57\u54e5\u7684\u4e0d\u662f\u554a\u50cf\u6cfc\u51fa\u53bb\u7684\u6c34\u4e00\u6837\u5bf9',
+    '\u80fd\u60f3\u51fa\u7f57\u4e0d\u6cfc\u7684\u52a0\u91cc\u5f97\u8bf7\u4e2a\u9ad8\u4eba\u4e86',
+  ].join('\n');
+
+  const entries = findDictionaryEntriesWithTextEvidence(dictionary, falsePositiveText);
+
+  assert.deepEqual(entries.map((entry) => entry.term), []);
+
+  const realEntries = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    [
+      '\u4f60\u8fd9\u4e0d\u662f\u8ba8\u8bba\uff0c\u5c31\u662f\u7ed9\u5bf9\u65b9\u6263\u4e86\u51e0\u6b21\u5e3d\u5b50\u8fd8\u4e0d\u7ed9\u8bc1\u636e',
+      '\u4f60\u8fd9\u903b\u8f91\u771f\u662f\u5999\u554a\u5999\u554a\uff0c\u8bc1\u636e\u5462',
+      '\u8bc4\u8bba\u533a\u6e05\u4e00\u8272\u90fd\u5728\u9a82\u4eba\uff0c\u522b\u8bf4\u6ca1\u6709\u5e26\u8282\u594f',
+      '\u7c73\u54c8\u6e38\u8fd9\u6ce2\u5708\u7c73\u4e0d\u8d56\uff0c\u8001\u73a9\u5bb6\u53c8\u88ab\u5272',
+      '\u522b\u518d\u62ff\u9f99\u54e5\u7684\u5144\u5f1f\u8fd9\u79cd\u9ed1\u79f0\u590d\u8bfb\u4e86',
+      '\u4ed6\u4eec\u7528\u7f57\u4e0d\u6cfc\u5f53\u9ed1\u79f0\u5e26\u8282\u594f\uff0c\u4e0d\u662f\u8ba8\u8bba',
+    ].join('\n'),
+  );
+
+  assert.deepEqual(realEntries.map((entry) => entry.term), [
+    '\u6263\u4e86\u51e0\u6b21\u5e3d\u5b50',
+    '\u5999\u554a\u5999\u554a',
+    '\u6e05\u4e00\u8272',
+    '\u5708\u7c73\u4e0d\u8d56',
+    '\u9f99\u54e5\u7684\u5144\u5f1f',
+    '\u7f57\u4e0d\u6cfc',
+  ]);
+});
+
 test('normalizeKeywordEntries prunes persisted literal traditional-character samples for video-language attack terms', () => {
   const entries = normalizeKeywordEntries([
     {
