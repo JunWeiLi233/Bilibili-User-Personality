@@ -2560,6 +2560,39 @@ test('normalizeKeywordEntries drops passive publish source evidence for request-
   ]);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects harvested title and reaction-only evidence', () => {
+  const dictionary = {
+    entries: [
+      { term: '\u5154\u5154\u5c9b', family: 'cooperation', meaning: 'friendly community topic label' },
+      { term: '\u56e2\u706d\u590d\u4ec7\u8005\u8054\u76df', family: 'cooperation', meaning: 'shared pop-culture reference' },
+      { term: 'xswl', family: 'attack', meaning: 'mocking laughter shorthand' },
+      { term: '\u6cea\u76ee', family: 'cooperation', meaning: 'empathetic agreement' },
+    ],
+  };
+  const text = [
+    '\u6211\u8fd8\u5728\u60f3\u5154\u5154\u5c9b\u662f\u54ea\u4e2a\u65b0up\u4e3b\uff0c\u8fd9\u4e2a\u5c01\u9762\u660e\u660e\u5c31\u5f88\u4e00\u6668\u554a',
+    '\u4ed6\u56e2\u706d\u590d\u4ec7\u8005\u8054\u76df\u7684\u4e3b\u8981\u539f\u56e0\u8fd8\u662f\u590d\u4ec7\u8005\u4eec\u660e\u660e\u77e5\u9053\u81ea\u5df1\u8fd9\u8fb9\u7684\u60c5\u51b5\u8fd8\u8d2a\u4e8e\u4eab\u4e50',
+    'xswl\u5b9d\u77f3\u6d88\u5931\u90a3\u7f8e\u961f\u4e3a\u4ec0\u4e48\u8981\u53bb\u8fd8\uff1f\uff01',
+    '\u8fd9\u662f\u6881\u9f99\u628a\u54c8\u54c8\u54c8\u54c8\u54c8\u54c8\u54c8\uff0c\u4e0d\u662f\u8bf4\u97f3\u4e50\u8282\u7528\u5417\uff0c\u600e\u4e48\u653e\u8fd9\u513f\u4e86xswl\u54c8\u54c8\u54c8\u54c8\u54c8',
+    '\u6cea\u76ee\uff0c\u8fd9\u6bb5\u4e3a\u4ec0\u4e48\u4e0d\u653e\u8fdb\u6b63\u7247',
+    '\u6cea\u76ee',
+  ].join('\n');
+
+  const entries = findDictionaryEntriesWithTextEvidence(dictionary, text);
+
+  assert.deepEqual(entries.map((entry) => entry.term), []);
+
+  const realEntries = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    [
+      '\u4f60\u8fd9\u5957\u903b\u8f91xswl\uff0c\u8bc1\u636e\u90fd\u88ab\u53cd\u9a73\u4e86\u8fd8\u786c\u62ac',
+      '\u4f60\u613f\u610f\u8865\u5145\u6570\u636e\u518d\u6539\u7ed3\u8bba\uff0c\u771f\u6cea\u76ee',
+    ].join('\n'),
+  );
+
+  assert.deepEqual(realEntries.map((entry) => entry.term), ['xswl', '\u6cea\u76ee']);
+});
+
 test('findDictionaryEntriesWithTextEvidence can match stable internet aliases', () => {
   const entries = findDictionaryEntriesWithTextEvidence(
     {

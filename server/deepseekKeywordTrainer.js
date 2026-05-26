@@ -889,6 +889,24 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const lowStakesContext = /(?:\u5176\u5b9e\u6ca1\u4eba\u5728\u4e4e|\u522b\u5435\u4e86.*\u6ca1\u4eba\u5728\u4e4e|\u8fd9\u4e8b\u6ca1\u4eba\u5728\u4e4e.*(?:\u597d\u597d\u8ba8\u8bba|\u56de\u5230\u95ee\u9898))/u.test(cleanSample);
     return dismissiveContext && !lowStakesContext;
   }
+  if (term === '\u5154\u5154\u5c9b' && family === 'cooperation') {
+    const titleOrCreatorContext = /(?:\u5154\u5154\u5c9b\u662f\u54ea\u4e2a\u65b0up\u4e3b|\u5c01\u9762|\u65b0up\u4e3b|\u54ea\u4e2aup|\u89c6\u9891|\u6807\u9898)/iu.test(cleanSample);
+    return titleOrCreatorContext;
+  }
+  if (term === '\u56e2\u706d\u590d\u4ec7\u8005\u8054\u76df' && family === 'cooperation') {
+    const plotSummaryContext = /(?:\u590d\u4ec7\u8005|\u7f8e\u961f|\u5b9d\u77f3|\u6b63\u7247|\u5267\u60c5|\u4e3b\u8981\u539f\u56e0|\u8d2a\u4e8e\u4eab\u4e50|\u77e5\u9053\u81ea\u5df1\u8fd9\u8fb9\u7684\u60c5\u51b5)/u.test(cleanSample);
+    return plotSummaryContext;
+  }
+  if (term === 'xswl' && family === 'attack') {
+    const mediaReactionContext = /(?:xswl(?:\u5b9d\u77f3|\u7f8e\u961f|\u4e3a\u4ec0\u4e48|\u6d88\u5931)|(?:\u5b9d\u77f3|\u7f8e\u961f|\u590d\u4ec7\u8005|剧情|正片).*xswl)/iu.test(cleanSample);
+    const directedMockContext = /(?:\u4f60|\u4f60\u4eec|\u8fd9\u903b\u8f91|\u8fd9\u8bdd|\u8bc1\u636e|\u53cd\u9a73|\u786c\u62ac|xswl.*(?:\u4f60|\u903b\u8f91|\u8bc1\u636e))/iu.test(cleanSample);
+    return !directedMockContext || mediaReactionContext;
+  }
+  if (term === '\u6cea\u76ee' && family === 'cooperation') {
+    const mediaReactionContext = cleanSample === '\u6cea\u76ee' || /(?:\u6cea\u76ee.*(?:\u6b63\u7247|\u8fd9\u6bb5|\u5267\u60c5|\u7247\u6bb5|\u89c6\u9891|\u7535\u5f71|\u89d2\u8272)|(?:\u6b63\u7247|\u8fd9\u6bb5|\u5267\u60c5|\u7247\u6bb5|\u89c6\u9891|\u7535\u5f71|\u89d2\u8272).*\u6cea\u76ee)/u.test(cleanSample);
+    const supportiveContext = /(?:\u613f\u610f|\u8865\u5145|\u6570\u636e|\u8bc1\u636e|\u6539\u7ed3\u8bba|\u8ba4\u9519|\u4fee\u6b63|\u8c22\u8c22|\u7406\u6027).*?\u6cea\u76ee|\u6cea\u76ee.*(?:\u613f\u610f|\u8865\u5145|\u6570\u636e|\u8bc1\u636e|\u6539\u7ed3\u8bba|\u8ba4\u9519|\u4fee\u6b63|\u8c22\u8c22|\u7406\u6027)/u.test(cleanSample);
+    return mediaReactionContext && !supportiveContext;
+  }
   if (term === '\u57c3\u53ca\u5427' && family === 'evasion') {
     const literalEgyptContext = /(?:\u57c3\u53ca\u5427(?:\u56de\u4e0d\u56de\u5f52|\u56de\u5f52)|\u57c3\u53ca\u5427.*\u6709\u9aa8\u6c14|\u57c3\u53ca|\u56de\u5f52)/u.test(cleanSample);
     const dismissiveSearchContext = /(?:\u81ea\u5df1\u53bb\u57c3\u53ca\u5427|\u95ee\u57c3\u53ca\u5427|\u53bb\u57c3\u53ca\u5427\u627e|\u4e0d\u89e3\u91ca.*\u57c3\u53ca\u5427)/u.test(cleanSample);
