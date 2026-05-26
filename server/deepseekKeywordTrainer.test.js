@@ -3170,6 +3170,46 @@ test('findDictionaryEntriesWithTextEvidence rejects harvested title, standalone,
   ]);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects harvested loose meme and semantic-neighbor evidence', () => {
+  const dictionary = {
+    entries: [
+      { term: '\u751f\u8349', family: 'attack', meaning: 'mock absurd hostile behavior' },
+      { term: '\u592a\u61c2\u4e86', family: 'attack', meaning: 'sarcastically accuse someone of pretending to understand' },
+      { term: '\u540a\u6253', family: 'attack', meaning: 'comparison that humiliates the other side' },
+      { term: '\u5403\u4e8f\u662f\u798f', family: 'attack', meaning: 'sarcastic criticism of telling others to accept losses' },
+    ],
+  };
+  const text = [
+    '\u54c8\u54c8\u54c8\u54c8\uff0c\u8fc7\u4e8e\u751f\u8349',
+    '\u592a\u61c2\u4e86\uff01',
+    '\u6211\u592a\u61c2\u4e86',
+    '\u6211\u61c2\u4e86\uff0c\u592a\u61c2\u4e86\uff01',
+    '\u7426\u7389\u8001\u5e08\u4e00\u62f3\u6253\u7206\u4f60\u7684\u5934',
+    '\u4eba\u4eec\u8bf4\uff0c\u5403\u4e8f\u662f\u798f\uff0c\u6211\u60f3\u5403\u5403\u4e8f[\u5472\u7259]',
+  ].join('\n');
+
+  const entries = findDictionaryEntriesWithTextEvidence(dictionary, text);
+
+  assert.deepEqual(entries.map((entry) => entry.term), []);
+
+  const realEntries = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    [
+      '\u4f60\u8fd9\u4e2a\u903b\u8f91\u592a\u751f\u8349\u4e86\uff0c\u8bc1\u636e\u90fd\u4e0d\u770b',
+      '\u53c8\u5f00\u59cb\u6559\u5927\u5bb6\u600e\u4e48\u7ad9\u961f\uff0c\u4f60\u592a\u61c2\u4e86',
+      '\u8fd9\u6bb5\u6f14\u6280\u540a\u6253\u6d41\u91cf',
+      '\u522b\u518d\u62ff\u5403\u4e8f\u662f\u798f\u7ed9\u522b\u4eba\u753b\u997c\u4e86',
+    ].join('\n'),
+  );
+
+  assert.deepEqual(realEntries.map((entry) => entry.term), [
+    '\u751f\u8349',
+    '\u592a\u61c2\u4e86',
+    '\u540a\u6253',
+    '\u5403\u4e8f\u662f\u798f',
+  ]);
+});
+
 test('normalizeKeywordEntries prunes persisted loose reaction evidence for bengbuzhu variants', () => {
   const entries = normalizeKeywordEntries([
     {
@@ -4387,6 +4427,67 @@ test('trainKeywordDictionary uses DeepSeek V4 to map exact source phrases to exi
     const userMessage = chatBodies[0].messages.find((message) => message.role === 'user')?.content || '';
     assert.equal(userMessage.includes('Read the full comment sentence'), true);
     assert.equal(userMessage.includes('not just isolated keyword hits'), true);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
+test('trainKeywordDictionary rejects DeepSeek existing-term evidence that lacks the matched term surface', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-train-existing-deepseek-surface-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  try {
+    await mergeEntriesIntoDictionary(
+      [
+        { term: '\u5173\u4e86\u5427\u6ca1\u610f\u601d', family: 'attack', meaning: 'dismissive command to stop watching because it is pointless', confidence: 0.7 },
+      ],
+      { dictionaryPath },
+    );
+
+    const result = await trainKeywordDictionary(
+      {
+        text: '\u4f60\u770b\u5f39\u5e55\u91cc\u8ba9\u4f60\u770b\u5f39\u5e55\u7684\u5c31\u77e5\u9053\u4ec0\u4e48\u53eb\u9ed1\u516c\u5173\u4e86\u5427',
+        uid: 'BV-existing-deepseek-surface',
+        source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-existing-deepseek-surface/',
+        existingTermsOnly: true,
+        targetExistingTerms: ['\u5173\u4e86\u5427\u6ca1\u610f\u601d'],
+      },
+      {
+        dictionaryPath,
+        env: {
+          DEEPSEEK_API_KEY: 'test-key',
+          DEEPSEEK_MODEL: 'deepseek-v4-flash',
+          DEEPSEEK_REASONING_EFFORT: 'medium',
+        },
+        fetch: async (url) => {
+          if (String(url).endsWith('/models')) {
+            return { ok: true, json: async () => ({ data: [{ id: 'deepseek-v4-flash' }] }) };
+          }
+          return {
+            ok: true,
+            json: async () => ({
+              choices: [
+                {
+                  message: {
+                    content: JSON.stringify({
+                      matches: [
+                        {
+                          term: '\u5173\u4e86\u5427\u6ca1\u610f\u601d',
+                          evidence: '\u4f60\u770b\u5f39\u5e55\u91cc\u8ba9\u4f60\u770b\u5f39\u5e55\u7684\u5c31\u77e5\u9053\u4ec0\u4e48\u53eb\u9ed1\u516c\u5173\u4e86\u5427',
+                          confidence: 0.9,
+                        },
+                      ],
+                    }),
+                  },
+                },
+              ],
+            }),
+          };
+        },
+      },
+    );
+
+    assert.deepEqual(result.dictionaryEvidenceEntries, []);
+    assert.equal(result.dictionary.entries.find((entry) => entry.term === '\u5173\u4e86\u5427\u6ca1\u610f\u601d').evidenceCount || 0, 0);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
