@@ -1280,6 +1280,11 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const hostileReasoningContext = /(?:\u5178\u578b|\u8fd9\u5c31\u662f|\u4f60|\u4f60\u4eec|\u4ed6|\u5979|\u4ed6\u4eec|\u5979\u4eec|\u6d17\u5730|\u903b\u8f91|\u5f3a\u76d7|\u72e1\u8fa9|\u8fa9\u62a4|\u53cd\u566c|\u5c48\u670d|\u8f93\u4e86|\u8d62\u4e86).{0,16}\u8d4c\u5f92\u5fc3\u7406|\u8d4c\u5f92\u5fc3\u7406.{0,20}(?:\u6d17\u5730|\u903b\u8f91|\u5f3a\u76d7|\u72e1\u8fa9|\u8fa9\u62a4|\u53cd\u566c|\u5c48\u670d|\u8f93\u4e86|\u8d62\u4e86)/u.test(cleanSample);
     return selfGachaContext && !hostileReasoningContext;
   }
+  if (['\u5927\u610f\u4e86', '\u5927\u610f\u4e86\u6ca1\u6709\u95ea'].includes(term) && family === 'attack') {
+    const selfQuoteMemeContext = /(?:\u6211\u5f53\u65f6|\u6211\u90a3\u65f6|\u5f53\u65f6\u6211).{0,8}\u5927\u610f\u4e86.{0,8}(?:\u6ca1\u6709|\u6ca1|\u6ca1\u5e26)?\u95ea|(?:\u6ca1\u5e26\u95ea|\u6ca1\u6709\u95ea).{0,8}(?:doge|\u6253call|\u7b11\u54ed|\u5403\u74dc)/iu.test(cleanSample);
+    const hostileCarelessContext = /(?:\u4f60|\u4f60\u4eec|\u4ed6|\u5979|\u4ed6\u4eec|\u5979\u4eec|\u8fd9\u6ce2|\u5c31\u662f).{0,12}\u5927\u610f\u4e86|\u5927\u610f\u4e86.{0,18}(?:\u6253\u7206|\u786c\u6d17|\u7ffb\u8f66|\u88ab\u4eba|\u8f93\u4e86|\u522b\u6d17)/u.test(cleanSample);
+    return selfQuoteMemeContext && !hostileCarelessContext;
+  }
   if (term === '\u5f3a\u56fd' && family === 'attack') {
     const literalPowerhouseContext = /(?:\u9009\u7f8e\u5f3a\u56fd|\u4f53\u80b2\u5f3a\u56fd|\u79d1\u6280\u5f3a\u56fd|\u5236\u9020\u5f3a\u56fd|\u5de5\u4e1a\u5f3a\u56fd|\u519b\u4e8b\u5f3a\u56fd|\u88ab\u89c6\u4e3a|\u66fe\u56db\u6b21|\u51a0\u519b|\u73af\u7403\u5c0f\u59d0)/u.test(cleanSample);
     const attackContext = /(?:\u68d2\u5b50|\u4e16\u754c\u7b2c\u4e00|\u8df3\u51fa\u6765|\u4f60\u4eec|\u5439|\u6025|\u7834\u9632|\u5c31\u8fd9|\u4e0d\u4f1a\u5427|\u7b11\u6b7b|\u8d62\u9ebb)/u.test(cleanSample);
@@ -1319,6 +1324,11 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const wordExplanationContext = /(?:\u6211\u4ee5\u4e3a.*\u53eb\u745e\u601d\u62dc|\u6709\u4eba\u59d3\u745e|\u6768\u601d\u745e|\u73b0\u5728\u624d\u77e5\u9053\u8fd9\u4e2a\u6897|\u8fd9\u4e2a\u6897|\u5199\u745e\u601d\u62dc)/u.test(cleanSample);
     const praiseContext = /(?:\u5320\u4eba\u7cbe\u795e|\u9760\u81ea\u5df1\u52aa\u529b|\u5f97\u5230\u4e86\u745e\u601d\u62dc|\u771f\u745e\u601d\u62dc|\u503c\u5f97\u745e\u601d\u62dc|\u592a\u5f3a\u4e86|\u4f69\u670d|\u5c0a\u91cd|respect)/iu.test(cleanSample);
     return wordExplanationContext && !praiseContext;
+  }
+  if (term === '\u5173\u6ce8\u529b' && family === 'cooperation') {
+    const nameSubstringContext = /\u5173\u6ce8\u529b\u5143\u541b/u.test(cleanSample);
+    const supportContext = /\u5173\u6ce8\u529b(?:$|[\s\[\uff0c,。！？!?:：])/u.test(cleanSample);
+    return nameSubstringContext && !supportContext;
   }
   if (term === '\u4e0a\u6811' && family === 'cooperation') {
     const literalTreeContext = /(?:\u5154\u5b50\u4e0a\u6811|\u7f8a\u4e3a\u4ec0\u4e48\u4f1a\u4e0a\u6811|\u88ab.*\u521b\u4e0a\u6811|\u722c\u4e0a\u6811|\u5728\u6811\u4e0a|\u6751\u957f\u4e0a\u6811\d*)/u.test(cleanSample);

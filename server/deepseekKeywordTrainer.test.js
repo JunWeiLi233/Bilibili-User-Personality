@@ -4788,6 +4788,51 @@ test('findDictionaryEntriesWithTextEvidence rejects literal self gacha context f
   assert.deepEqual(hostileMatches.map((entry) => entry.term), ['\u8d4c\u5f92\u5fc3\u7406']);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects self-quoted meme context for careless-no-flash attack terms', () => {
+  const dictionary = {
+    entries: [
+      { term: '\u5927\u610f\u4e86', family: 'attack', meaning: '\u501f\u68d7\u6307\u8d23\u5bf9\u65b9\u8f7b\u654c\u6216\u7ffb\u8f66' },
+      { term: '\u5927\u610f\u4e86\u6ca1\u6709\u95ea', family: 'attack', meaning: '\u501f\u68d7\u6307\u8d23\u5bf9\u65b9\u8f7b\u654c\u6216\u7ffb\u8f66' },
+    ],
+  };
+
+  const memeMatches = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    '\u6211\u5f53\u65f6\u5927\u610f\u4e86\uff0c\u6ca1\u6709\u5e26\u95ea[doge][doge]',
+    { source: 'Bilibili public video comment scan', uid: 'BVmeme' },
+  );
+  const hostileMatches = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    '\u4f60\u8fd9\u6ce2\u5c31\u662f\u5927\u610f\u4e86\uff0c\u88ab\u4eba\u6253\u7206\u8fd8\u786c\u6d17\u3002',
+    { source: 'Bilibili public video comment scan', uid: 'BVhostile' },
+  );
+
+  assert.deepEqual(memeMatches.map((entry) => entry.term), []);
+  assert.deepEqual(hostileMatches.map((entry) => entry.term), ['\u5927\u610f\u4e86']);
+});
+
+test('findDictionaryEntriesWithTextEvidence rejects name-substring evidence for follow-power cooperation terms', () => {
+  const dictionary = {
+    entries: [
+      { term: '\u5173\u6ce8\u529b', family: 'cooperation', meaning: '\u8868\u793a\u5173\u6ce8\u6216\u652f\u6301UP\u4e3b\u7684\u53e3\u8bed\u8868\u8fbe' },
+    ],
+  };
+
+  const nameMatches = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    '\u5f88\u65e9\u5c31\u5173\u6ce8\u529b\u5143\u541b\u4e86\uff0c\u6ca1\u60f3\u5230\u80fd\u6709\u97f3\u4e50\u65b9\u9762\u7684\u78b0\u649e\u3002',
+    { source: 'Bilibili public video comment scan', uid: 'BVname' },
+  );
+  const supportMatches = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    '\u4f18\u8d28up\uff0c\u5173\u6ce8\u529b[\u5999\u554a]',
+    { source: 'Bilibili public video comment scan', uid: 'BVsupport' },
+  );
+
+  assert.deepEqual(nameMatches.map((entry) => entry.term), []);
+  assert.deepEqual(supportMatches.map((entry) => entry.term), ['\u5173\u6ce8\u529b']);
+});
+
 test('trainKeywordDictionary updates evidence for existing terms found in crawled comments', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-train-existing-evidence-'));
   const dictionaryPath = join(dir, 'dictionary.json');
