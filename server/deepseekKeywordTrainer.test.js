@@ -3794,6 +3794,72 @@ test('normalizeKeywordEntries prunes video-title context evidence for dark-door 
   assert.deepEqual(entries[0].evidenceSources.map((source) => source.sample), ['\u660e\u661f=\u9ad8\u7ea7jn\uff0c\u5973\u4e3b\u64ad=\u6697\u95e8\u5b50']);
 });
 
+test('normalizeKeywordEntries prunes public-title evidence for outdated-meme term', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u6897out\u4e86',
+      family: 'absolutes',
+      meaning: 'dismisses a meme as outdated',
+      evidenceCount: 3,
+      evidenceSamples: [
+        '\u90a3\u4eca\u5929\u770b\u7684\u6897out\u4e86\uff01',
+        'Bilibili public video title: \u518d\u4e5f\u4e0d\u6015\u88about\u4e86\uff01-1',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u90a3\u4eca\u5929\u770b\u7684\u6897out\u4e86\uff01' },
+        { source: 'Bilibili public video title', sample: 'Bilibili public video title: \u518d\u4e5f\u4e0d\u6015\u88about\u4e86\uff01-1' },
+      ],
+    },
+  ]);
+
+  assert.equal(entries[0].evidenceCount, 1);
+  assert.deepEqual(entries[0].evidenceSamples, ['\u90a3\u4eca\u5929\u770b\u7684\u6897out\u4e86\uff01']);
+});
+
+test('normalizeKeywordEntries prunes rhetorical accusation evidence for correction mistake term', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u641e\u9519\u4e86',
+      family: 'correction',
+      meaning: 'acknowledges a mistake and corrects it',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u90fd\u73a9\u79c1\u670d\u4e86\u8fd8\u6c2a\u91d1\u662f\u4e0d\u662f\u641e\u9519\u4e86\u4ec0\u4e48',
+        '\u6211\u524d\u9762\u641e\u9519\u4e86\uff0c\u8fd9\u91cc\u66f4\u6b63\u4e00\u4e0b',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u90fd\u73a9\u79c1\u670d\u4e86\u8fd8\u6c2a\u91d1\u662f\u4e0d\u662f\u641e\u9519\u4e86\u4ec0\u4e48' },
+        { source: 'Bilibili public video comment scan', sample: '\u6211\u524d\u9762\u641e\u9519\u4e86\uff0c\u8fd9\u91cc\u66f4\u6b63\u4e00\u4e0b' },
+      ],
+    },
+  ]);
+
+  assert.equal(entries[0].evidenceCount, 1);
+  assert.deepEqual(entries[0].evidenceSamples, ['\u6211\u524d\u9762\u641e\u9519\u4e86\uff0c\u8fd9\u91cc\u66f4\u6b63\u4e00\u4e0b']);
+});
+
+test('normalizeKeywordEntries prunes meta-question evidence for evade-main-point term', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u907f\u91cd\u5c31\u8f7b',
+      family: 'evasion',
+      meaning: 'accuses someone of avoiding the main issue',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u51e0\u4e2a\u6c34\u519b\u4e5f\u662f\u907f\u91cd\u5c31\u8f7b\uff0c\u95ee\u9898\u4e0d\u662f\u51fa\u5728\u9884\u5236\u83dc\u4e0a',
+        '\u4e3a\u4ec0\u4e48\u53eb\u907f\u91cd\u5c31\u8f7b\u5462',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u51e0\u4e2a\u6c34\u519b\u4e5f\u662f\u907f\u91cd\u5c31\u8f7b\uff0c\u95ee\u9898\u4e0d\u662f\u51fa\u5728\u9884\u5236\u83dc\u4e0a' },
+        { source: 'Bilibili public video comment scan', sample: '\u4e3a\u4ec0\u4e48\u53eb\u907f\u91cd\u5c31\u8f7b\u5462' },
+      ],
+    },
+  ]);
+
+  assert.equal(entries[0].evidenceCount, 1);
+  assert.deepEqual(entries[0].evidenceSamples, ['\u51e0\u4e2a\u6c34\u519b\u4e5f\u662f\u907f\u91cd\u5c31\u8f7b\uff0c\u95ee\u9898\u4e0d\u662f\u51fa\u5728\u9884\u5236\u83dc\u4e0a']);
+});
+
 test('normalizeKeywordEntries prunes persisted loose reaction evidence for bengbuzhu variants', () => {
   const entries = normalizeKeywordEntries([
     {
