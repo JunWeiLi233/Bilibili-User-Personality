@@ -4833,6 +4833,76 @@ test('findDictionaryEntriesWithTextEvidence rejects name-substring evidence for 
   assert.deepEqual(supportMatches.map((entry) => entry.term), ['\u5173\u6ce8\u529b']);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects literal traditional-character descriptions for video-language attack terms', () => {
+  const dictionary = {
+    entries: [
+      { term: '\u53d1\u7684\u89c6\u9891\u5168\u662f\u7e41\u4f53\u5b57', family: 'attack', meaning: '\u7528\u7e41\u4f53\u5b57\u6307\u8d23UP\u4e3b\u6216\u8d34\u6807\u7b7e' },
+    ],
+  };
+
+  const literalMatches = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    '\u533b\u53e4\u6587 \u4e00\u672c\u6559\u6750\u9664\u4e86\u5e8f\u8a00\u5168\u662f\u7e41\u4f53\u5b57\u3002\u54ed\u8fbd',
+    { source: 'Bilibili public video comment scan', uid: 'BVliteral' },
+  );
+  const attackMatches = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    'UP\u662f\u9999\u6e2f\u4eba\u5417\uff1f\u53d1\u7684\u89c6\u9891\u5168\u662f\u7e41\u4f53\u5b57\u3002\u53bb\u77ed\u89c6\u9891\u5e73\u53f0\u53d1\u5427\uff0c\u963fB\u8fd9\u8fb9\u4e0d\u592a\u597d\u9a97',
+    { source: 'Bilibili public video comment scan', uid: 'BVattack' },
+  );
+
+  assert.deepEqual(literalMatches.map((entry) => entry.term), []);
+  assert.deepEqual(attackMatches.map((entry) => entry.term), ['\u53d1\u7684\u89c6\u9891\u5168\u662f\u7e41\u4f53\u5b57']);
+});
+
+test('findDictionaryEntriesWithTextEvidence rejects negated conversion evidence for reform cooperation terms', () => {
+  const dictionary = {
+    entries: [
+      { term: '\u6539\u90aa\u5f52\u6b63', family: 'cooperation', meaning: '\u8868\u793a\u5bf9\u65b9\u6216\u81ea\u5df1\u884c\u4e3a\u8f6c\u5411\u66f4\u597d\u7684\u8ba4\u53ef' },
+    ],
+  };
+
+  const negatedMatches = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    '\u5e76\u975e\u6539\u90aa\u5f52\u6b63',
+    { source: 'Bilibili public video comment scan', uid: 'BVnegated' },
+  );
+  const positiveMatches = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    '\u90fd\u662f\u8fc7\u6765\u4eba\uff0c\u54e5\u6df1\u6709\u4f53\u4f1a\u3002\u73b0\u5df2\u6539\u90aa\u5f52\u6b63',
+    { source: 'Bilibili public video comment scan', uid: 'BVpositive' },
+  );
+
+  assert.deepEqual(negatedMatches.map((entry) => entry.term), []);
+  assert.deepEqual(positiveMatches.map((entry) => entry.term), ['\u6539\u90aa\u5f52\u6b63']);
+});
+
+test('normalizeKeywordEntries prunes persisted literal traditional-character samples for video-language attack terms', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u53d1\u7684\u89c6\u9891\u5168\u662f\u7e41\u4f53\u5b57',
+      family: 'attack',
+      meaning: '\u7528\u7e41\u4f53\u5b57\u6307\u8d23UP\u4e3b\u6216\u8d34\u6807\u7b7e',
+      evidenceCount: 5,
+      evidenceSamples: [
+        'UP\u662f\u9999\u6e2f\u4eba\u5417\uff1f\u53d1\u7684\u89c6\u9891\u5168\u662f\u7e41\u4f53\u5b57\u3002\u53bb\u77ed\u89c6\u9891\u5e73\u53f0\u53d1\u5427\uff0c\u963fB\u8fd9\u8fb9\u4e0d\u592a\u597d\u9a97',
+        '\u533b\u53e4\u6587 \u4e00\u672c\u6559\u6750\u9664\u4e86\u5e8f\u8a00\u5168\u662f\u7e41\u4f53\u5b57\u3002\u54ed\u8fbd',
+        '\u6f2b\u753b\u5168\u662f\u7e41\u4f53\u5b57',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', uid: 'BVattack', sample: 'UP\u662f\u9999\u6e2f\u4eba\u5417\uff1f\u53d1\u7684\u89c6\u9891\u5168\u662f\u7e41\u4f53\u5b57\u3002\u53bb\u77ed\u89c6\u9891\u5e73\u53f0\u53d1\u5427\uff0c\u963fB\u8fd9\u8fb9\u4e0d\u592a\u597d\u9a97' },
+        { source: 'Bilibili public video comment scan', uid: 'BVliteral1', sample: '\u533b\u53e4\u6587 \u4e00\u672c\u6559\u6750\u9664\u4e86\u5e8f\u8a00\u5168\u662f\u7e41\u4f53\u5b57\u3002\u54ed\u8fbd' },
+        { source: 'Bilibili public video comment scan', uid: 'BVliteral2', sample: '\u6f2b\u753b\u5168\u662f\u7e41\u4f53\u5b57' },
+      ],
+    },
+  ]);
+
+  assert.equal(entries[0].evidenceCount, 1);
+  assert.deepEqual(entries[0].evidenceSamples, [
+    'UP\u662f\u9999\u6e2f\u4eba\u5417\uff1f\u53d1\u7684\u89c6\u9891\u5168\u662f\u7e41\u4f53\u5b57\u3002\u53bb\u77ed\u89c6\u9891\u5e73\u53f0\u53d1\u5427\uff0c\u963fB\u8fd9\u8fb9\u4e0d\u592a\u597d\u9a97',
+  ]);
+});
+
 test('trainKeywordDictionary updates evidence for existing terms found in crawled comments', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-train-existing-evidence-'));
   const dictionaryPath = join(dir, 'dictionary.json');
