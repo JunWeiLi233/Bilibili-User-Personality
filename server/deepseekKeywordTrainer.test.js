@@ -4514,6 +4514,73 @@ test('normalizeKeywordEntries prunes standalone and emote-only elegant evidence'
   ]);
 });
 
+test('normalizeKeywordEntries prunes latest harvested celebrity, negated get, and military unit evidence', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u6731\u4e00\u9f99',
+      family: 'attack',
+      meaning: 'negative celebrity object used in fan-war attacks',
+      evidenceCount: 5,
+      evidenceSamples: [
+        '\u7b80\u76f4\u79bb\u8c31\uff0c\u6731\u4e00\u9f99\u8fd8\u4e11\uff1f\u592e\u89c6\u7684\u955c\u5934\u4e0b\u90fd\u5e05\u6210\u90a3\u4e2a\u6837\u5b50\uff0c\u8fd9\u4e16\u754c\u771f\u662f\u766b\u7684\u96be\u4ee5\u60f3\u8c61\u3002',
+        '\u5218\u5b87\u5b81\u7684\u8138\u90fd\u80fd\u5938\uff0c\u90a3\u96be\u602a\u89c9\u5f97\u6731\u4e00\u9f99\u4e11\uff0c\u5ba1\u7f8e\uff08\uff1f\uff09\u5dee\u5f02\u592a\u5927\u4e86\u7406\u89e3\u4e00\u4e0b\u5979\u5427[\u5472\u7259]',
+        '\u989d\uff01\u6731\u4e00\u9f99\u7684\u5c0f\u516c\u7237\u53ef\u662f\u7f8e\u51fa\u5708\u7684\uff0c\u4f60\u8bf4\u4ed6\u4e11[\u7b11\u54ed][\u7b11\u54ed][\u7b11\u54ed]',
+        '\u6731\u4e00\u9f99\u4e0d\u641e\u7b11\u548c\u4ed6\u5f88\u597d\u7b11\u4e0d\u51b2\u7a81\u54c8\u54c8\u54c8',
+        '\u6211\u5949\u529d\u6731\u4e00\u9f99\u7c89\u4e1d\u4e00\u53e5\uff0c\u8fd9\u4ef6\u4e8b\u95f9\u5230\u73b0\u5728\u4f60\u5bb6\u88ab\u7fa4\u5632\u5b8c\u5168\u662f\u4f60\u5bb6\u7c89\u4e1d\u81ea\u4f5c\u81ea\u53d7',
+      ],
+      evidenceSources: [],
+    },
+    {
+      term: 'get\u5230',
+      family: 'cooperation',
+      meaning: 'expresses understanding or appreciation',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u53d1\u73b0\u6211get\u4e0d\u5230\u4ed6\u7684\u989c\uff01\u5c45\u7136\u5165\u5751\u4eba\u54c1\uff01',
+        '\u8fd9\u4e2a\u89e3\u91ca\u6211get\u5230\u4e86\uff0c\u8c22\u8c22up',
+      ],
+      evidenceSources: [],
+    },
+    {
+      term: '\u6b65\u5175',
+      family: 'evasion',
+      meaning: 'uses foot-soldier metaphor to avoid addressing evidence',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u8fd8\u6709\u6700\u91cd\u8981\u7684\u4e00\u70b9\uff0c\u666e\u9c81\u58eb18\u53f7\u6b65\u5175\u8fd8\u79bb\u5f00\u4e86\u6211\u4eec[tv_\u601d\u8003]',
+        '\u522b\u62ff\u6b65\u5175\u5f53\u501f\u53e3\uff0c\u8bc1\u636e\u8bf4\u6e05\u695a',
+      ],
+      evidenceSources: [],
+    },
+  ]);
+
+  assert.deepEqual(entries.map((entry) => [entry.term, entry.evidenceSamples]), [
+    ['\u6731\u4e00\u9f99', ['\u6211\u5949\u529d\u6731\u4e00\u9f99\u7c89\u4e1d\u4e00\u53e5\uff0c\u8fd9\u4ef6\u4e8b\u95f9\u5230\u73b0\u5728\u4f60\u5bb6\u88ab\u7fa4\u5632\u5b8c\u5168\u662f\u4f60\u5bb6\u7c89\u4e1d\u81ea\u4f5c\u81ea\u53d7']],
+    ['get\u5230', ['\u8fd9\u4e2a\u89e3\u91ca\u6211get\u5230\u4e86\uff0c\u8c22\u8c22up']],
+    ['\u6b65\u5175', ['\u522b\u62ff\u6b65\u5175\u5f53\u501f\u53e3\uff0c\u8bc1\u636e\u8bf4\u6e05\u695a']],
+  ]);
+});
+
+test('normalizeKeywordEntries prunes empty signpost evidence for direction terms', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u6307\u8def',
+      family: 'cooperation',
+      meaning: 'points readers to a source or reference',
+      evidenceCount: 2,
+      evidenceSamples: [
+        'PS\uff1a\u5728\u672c\u89c6\u9891\u8bc4\u8bba\u533a\u6216\u4e0b\u534a\u90e8\u5206\u8bfe\u7a0b\u8bc4\u8bba\u533a\uff08\u6307\u8defhttps://www.bilibili.com/video/BV1Wq4y1S7Rn\uff09\u6253\u5361\u7686\u53ef',
+        '\u5982\u679c\u6709\u540c\u5b66\u60f3\u7ee7\u7eed\u89c2\u770b\u66f4\u65b0\u524d\u7684\u65e7\u7248\u8bfe\u7a0b\uff0c\u6307\u8def\uff1a',
+      ],
+      evidenceSources: [],
+    },
+  ]);
+
+  assert.deepEqual(entries.map((entry) => [entry.term, entry.evidenceSamples]), [
+    ['\u6307\u8def', ['PS\uff1a\u5728\u672c\u89c6\u9891\u8bc4\u8bba\u533a\u6216\u4e0b\u534a\u90e8\u5206\u8bfe\u7a0b\u8bc4\u8bba\u533a\uff08\u6307\u8defhttps://www.bilibili.com/video/BV1Wq4y1S7Rn\uff09\u6253\u5361\u7686\u53ef']],
+  ]);
+});
+
 test('normalizeKeywordEntries prunes trump username mention evidence for chuan-jianguo attack term', () => {
   const entries = normalizeKeywordEntries([
     {
