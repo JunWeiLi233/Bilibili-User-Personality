@@ -990,6 +990,22 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const cooperativeSourceContext = /(?:\u53ef\u4ee5\u8d34|\u5efa\u8bae\u8d34|\u9ebb\u70e6\u8d34).*(?:\u6765\u6e90|\u8bc1\u636e|\u622a\u56fe|\u94fe\u63a5|\u5bf9\u7167)/u.test(cleanSample);
     if ((hostileDareContext || genericDiscoveryContext || labelAttachmentContext) && !cooperativeSourceContext) return true;
   }
+  if (term === '\u7b11\u70b9\u89e3\u6790' && family === 'cooperation') {
+    const weakJokeLabelContext = /^\u7b11\u70b9\u89e3\u6790[:\uff1a]?\s*[a-z0-9!！\s]+$/iu.test(cleanSample)
+      || /^\u7b11\u70b9\u89e3\u6790(?:\u4e4b)?/u.test(cleanSample);
+    const explanationContext = /\u7b11\u70b9\u89e3\u6790.{0,48}(?:\u56e0\u4e3a|\u6240\u4ee5|\u53cd\u8bdd|\u81ea\u5632|\u524d\u9762|\u8fd9\u91cc|\u6897|\u610f\u601d|\u7b11\u70b9)/u.test(cleanSample);
+    if (weakJokeLabelContext && !explanationContext) return true;
+  }
+  if (term === '\u7cbe\u9009' && family === 'evasion') {
+    const platformModerationContext = /(?:\u8bc4\u8bba\u53d1\u4e0d\u51fa\u53bb|up\u7cbe\u9009|\u8bc4\u8bba\u533a.{0,12}\u7cbe\u9009|\u8bc4\u8bba.{0,12}\u662f\u4e0d\u662f\u7cbe\u9009|\u8981.{0,4}\u7cbe\u9009)/iu.test(cleanSample);
+    const selectiveEvidenceContext = /\u7cbe\u9009.{0,18}(?:\u8bc1\u636e|\u6709\u5229|\u53cd\u4f8b)|(?:\u53ea\u653e|\u53ea\u9009|\u53ea\u6311|\u53cd\u4f8b).{0,18}\u7cbe\u9009/u.test(cleanSample);
+    if (platformModerationContext && !selectiveEvidenceContext) return true;
+  }
+  if (term === '\u91ce\u6392' && family === 'cooperation') {
+    const literalQueueContext = /(?:\u4e0d\u662f\u91ce\u6392|\u4ece\u4e0d\u91ce\u6392|\u670b\u53cb\u4e0d\u662f\u91ce\u6392|\u597d\u53cb|\u5355\u4e09|\u4e09\u6392|\u533b\u751f|\u96f7\u65af|\u76d2\u5b50|\u51fa\u5fc3).{0,36}\u91ce\u6392|\u91ce\u6392.{0,36}(?:\u4e0d\u662f|\u4ece\u4e0d|\u597d\u53cb|\u5355\u4e09|\u4e09\u6392|\u670b\u53cb|\u533b\u751f|\u96f7\u65af|\u76d2\u5b50|\u51fa\u5fc3)/u.test(cleanSample);
+    const coordinationContext = /\u91ce\u6392.{0,24}(?:\u914d\u5408|\u6c9f\u901a|\u6307\u6325|\u961f\u53cb\u613f\u610f)|(?:\u961f\u53cb|\u4e00\u8d77).{0,24}(?:\u914d\u5408|\u6c9f\u901a|\u6307\u6325).{0,12}\u91ce\u6392/u.test(cleanSample);
+    if (literalQueueContext && !coordinationContext) return true;
+  }
   if (term === '\u627e\u4e2a\u73ed\u4e0a' && family === 'attack') {
     const genericEmploymentContext = /(?:\u627e\d+\u7684|\u524d\u53f0\u88ab\u62d2|\u8fdb\u5382|\u670d\u52a1\u5458|\u6447\u5976\u8336|\u5361\u5e74\u9f84|\u8981\u7ecf\u9a8c|\u968f\u4fbf\u627e\u4e2a\u73ed\u4e0a.*\u8fd9\u4e2a\u8bcd)/u.test(cleanSample);
     const dismissiveEmploymentContext = /(?:\u6ca1\u6d3b|\u5bc2\u5bde|\u592a\u95f2|\u95f2\u7684|\u53d1\u766b|\u522b).{0,12}\u627e\u4e2a\u73ed\u4e0a|\u627e\u4e2a\u73ed\u4e0a.{0,12}(?:\u522b|\u6ca1\u6d3b|\u5bc2\u5bde|\u53d1\u766b|\u8bc4\u8bba\u533a|\u95ed\u5634|\u5c11\u8bf4)/u.test(cleanSample);
@@ -2567,7 +2583,7 @@ function buildCandidateTerms(text) {
 function heuristicKeywordEntries(text) {
   const patterns = [
     { pattern: /(不会真有人(?:觉得|以为)?)/g, family: 'attack', meaning: '用反问包装资格审查或嘲讽' },
-    { pattern: /(典中典|典|孝|急了|绷不住|赢麻了|乐|yygq|阴阳怪气|懂哥|小丑|逆天|闹麻了|唐|破防|急成这样|这就破防)/gi, family: 'attack', meaning: '中文互联网嘲讽或贬低性梗' },
+    { pattern: /(典中典|典|孝|急了|绷不住|赢麻了|乐|yygq|阴阳怪气|懂哥|小丑|逆天|闹麻了|唐|猪鼻|破防|急成这样|这就破防)/gi, family: 'attack', meaning: '中文互联网嘲讽或贬低性梗；猪鼻用于批评某人当下行为犯蠢' },
     { pattern: /(单走(?:一个)?[0-9A-Za-z]+|蹭概念|车家军|doge|滑稽|粉红|小粉红|精外|洋奴|殖人|水军|五毛|美分|1450|来电了|你国|贵国|神神|兔兔)/gi, family: 'attack', meaning: '中文互联网弹幕式嘲讽、阵营指称或戏谑表达' },
     { pattern: /(懂的都懂|你自己搜|自己查|不会百度|这还用问|懒得解释|问百度|去百度|百度一下|自己去找|不会搜|这都不知道|常识|不用我教|自己学|去看书|多读书|这还用说|这都不懂)/g, family: 'evasion', meaning: '把举证责任转移给对方' },
     { pattern: /(问百度|去问[^，。！？\s]{1,8})/g, family: 'evasion', meaning: '把解释责任转移到搜索或第三方身上' },

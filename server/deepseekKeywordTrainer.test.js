@@ -4430,6 +4430,79 @@ test('normalizeKeywordEntries prunes latest harvested medical, game, and generic
   ]);
 });
 
+test('normalizeKeywordEntries prunes latest harvested platform selection, joke-label, and queue evidence', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u7b11\u70b9\u89e3\u6790',
+      family: 'cooperation',
+      meaning: 'explains why a joke is funny',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u7b11\u70b9\u89e3\u6790\uff1awoaaa\uff01',
+        '\u7b11\u70b9\u89e3\u6790\uff1awin7',
+        '\u7b11\u70b9\u89e3\u6790\u4e4b\u5e16\u5b50\u70ed\u5ea6\u5f88\u4f4e \u5427\u4e5f\u662f\u6ca1\u5565\u70ed\u5ea6\u7684 \u80fd\u52a0\u6743\u662f\u5b66\u957f\u7684\u53e3\u53e3\u76f8\u4f20\u548c\u5fae\u4fe1\u7fa4\u8f6c\u53d1',
+        '\u7b11\u70b9\u89e3\u6790\uff1a\u4ed6\u524d\u9762\u8bf4\u7684\u662f\u53cd\u8bdd\uff0c\u6240\u4ee5\u8fd9\u91cc\u662f\u5728\u81ea\u5632',
+      ],
+      evidenceSources: [],
+    },
+    {
+      term: '\u7cbe\u9009',
+      family: 'evasion',
+      meaning: 'selectively filters comments or evidence to avoid criticism',
+      evidenceCount: 3,
+      evidenceSamples: [
+        '\u89c1\u8fc7\u51e0\u4e2a\uff0c\u65e9\u5c31\u5f00\u9a82\u4e86\uff0c\u4f46\u662f\u597d\u50cf\u6709\u4e00\u4e9b\u8bc4\u8bba\u53d1\u4e0d\u51fa\u53bb\uff0c\u8bf4\u662f\u8981up\u7cbe\u9009\uff0c\u8bc4\u8bba\u533a\u4e00\u5806\u6f14\u5458\uff0c\u4f46\u4e5f\u4e3e\u62a5\u4e86[OK][OK][OK]',
+        '\u5176\u5b9e\u4f60\u53ea\u8981\u770b\u4e00\u4e0b\u8bc4\u8bba\u533a\u7684\u8bc4\u8bba\u662f\u4e0d\u662f\u7cbe\u9009\u5c31\u5927\u62b5\u77e5\u9053\u4e86[\u8fa3\u773c\u775b]',
+        '\u522b\u53ea\u7cbe\u9009\u5bf9\u4f60\u6709\u5229\u7684\u8bc1\u636e\uff0c\u53cd\u4f8b\u4e5f\u8d34\u51fa\u6765',
+      ],
+      evidenceSources: [],
+    },
+    {
+      term: '\u91ce\u6392',
+      family: 'cooperation',
+      meaning: 'cooperative discussion about random matchmaking or team coordination',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u6211\u73a9\u7684\u533b\u751f\u6253\u6b7b\u96f7\u65af\u5c31\u53bb\u6551\u4fe9\u88ab\u96f7\u65af\u4e00\u811a\u8e22\u5012\u7684\u961f\u53cb\u4e86 \u7136\u540e\u5148\u6551\u8d77\u7684\u53bb\u8214\u96f7\u65af\u76d2\u5b50\u51fa\u5fc3\u4e86[\u7b11\u54ed]\u4e0d\u8fc7\u6211\u4eec\u4e09\u4e2a\u662f\u670b\u53cb\u4e0d\u662f\u91ce\u6392',
+        '\u83ab\u540d\u5176\u5999\u5c01\u4eba \u6211\u548c\u597d\u53cb\u65b0\u52a0\u5761\u4e09\u6392\u4ece\u4e0d\u91ce\u6392 \u8981\u4e0d\u5c31\u662f\u5355\u4e09 \u665a\u4e0a\u4e00\u767b\u8fd9\u4e2a\u6837\u5b50',
+        '\u91ce\u6392\u961f\u53cb\u613f\u610f\u914d\u5408\uff0c\u8fd9\u5c40\u624d\u6253\u5f97\u8d77\u6765',
+      ],
+      evidenceSources: [],
+    },
+  ]);
+
+  assert.deepEqual(entries.map((entry) => [entry.term, entry.evidenceSamples]), [
+    ['\u7b11\u70b9\u89e3\u6790', ['\u7b11\u70b9\u89e3\u6790\uff1a\u4ed6\u524d\u9762\u8bf4\u7684\u662f\u53cd\u8bdd\uff0c\u6240\u4ee5\u8fd9\u91cc\u662f\u5728\u81ea\u5632']],
+    ['\u7cbe\u9009', ['\u522b\u53ea\u7cbe\u9009\u5bf9\u4f60\u6709\u5229\u7684\u8bc1\u636e\uff0c\u53cd\u4f8b\u4e5f\u8d34\u51fa\u6765']],
+    ['\u91ce\u6392', ['\u91ce\u6392\u961f\u53cb\u613f\u610f\u914d\u5408\uff0c\u8fd9\u5c40\u624d\u6253\u5f97\u8d77\u6765']],
+  ]);
+});
+
+test('normalizeKeywordEntries keeps zhubi as momentary dumb-action criticism', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u732a\u9f3b',
+      family: 'attack',
+      meaning: 'criticizes someone for acting dumb in the moment',
+      evidenceCount: 4,
+      evidenceSamples: [
+        '\u732a\u9f3b\u5b50\u662f\u4e2a\u9053\u5177',
+        '\u8fd9\u4e2a\u9762\u5177\u50cf\u732a\u9f3b\u5b50',
+        '\u4f60\u521a\u624d\u8fd9\u6ce2\u732a\u9f3b\u64cd\u4f5c\uff0c\u628a\u961f\u53cb\u90fd\u770b\u61f5\u4e86',
+        '\u4ed6\u8fd9\u4e00\u624b\u771f\u732a\u9f3b\uff0c\u522b\u518d\u786c\u62ac\u4e86',
+      ],
+      evidenceSources: [],
+    },
+  ]);
+
+  assert.deepEqual(entries.map((entry) => [entry.term, entry.evidenceSamples]), [
+    ['\u732a\u9f3b', [
+      '\u4f60\u521a\u624d\u8fd9\u6ce2\u732a\u9f3b\u64cd\u4f5c\uff0c\u628a\u961f\u53cb\u90fd\u770b\u61f5\u4e86',
+      '\u4ed6\u8fd9\u4e00\u624b\u771f\u732a\u9f3b\uff0c\u522b\u518d\u786c\u62ac\u4e86',
+    ]],
+  ]);
+});
+
 test('normalizeKeywordEntries prunes latest harvested proper-name and literal setup evidence', () => {
   const entries = normalizeKeywordEntries([
     {
@@ -7116,6 +7189,32 @@ test('trainKeywordDictionary updates evidence for existing terms found in crawle
     assert.equal(existing.evidenceSamples.includes('Bilibili comment has [\u65b0\u9c9c\u8bcd]'), true);
     assert.equal(existing.evidenceSources[0].uid, 'BV-existing');
     assert.equal(existing.evidenceSources[0].source.includes('bilibili.com/video/BV-existing'), true);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
+test('trainKeywordDictionary fallback treats zhubi as dumb-action criticism', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-train-zhubi-fallback-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  try {
+    const result = await trainKeywordDictionary(
+      {
+        text: '\u4f60\u521a\u624d\u8fd9\u6ce2\u732a\u9f3b\u64cd\u4f5c\uff0c\u628a\u961f\u53cb\u90fd\u770b\u61f5\u4e86',
+        uid: 'BV-zhubi',
+        source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-zhubi/',
+      },
+      {
+        dictionaryPath,
+        env: {},
+      },
+    );
+
+    const entry = result.dictionary.entries.find((item) => item.term === '\u732a\u9f3b');
+    assert.equal(result.usedFallback, true);
+    assert.equal(entry.family, 'attack');
+    assert.equal(entry.meaning.includes('\u5f53\u4e0b\u884c\u4e3a\u72af\u8822'), true);
+    assert.deepEqual(entry.evidenceSamples, ['\u4f60\u521a\u624d\u8fd9\u6ce2\u732a\u9f3b\u64cd\u4f5c\uff0c\u628a\u961f\u53cb\u90fd\u770b\u61f5\u4e86']);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
