@@ -46,6 +46,9 @@ const ALLOWED_ASCII_KEYWORD_TERMS = new Set([
 const KNOWN_MOJIBAKE_CHINESE_TERMS = new Set([
   '\u7035\u89c4\u59c9',
   '\u9422\u98ce\u6d0d\u6fc2\u51b2',
+  String.fromCodePoint(0x7487, 0x4f79, 0x5d41),
+  String.fromCodePoint(0x95ab, 0x660f, 0x7ddb),
+  String.fromCodePoint(0x935a, 0x581c, 0x7d94),
 ]);
 const MOJIBAKE_MARKER_CHARS = new Set([
   '\u7035',
@@ -58,6 +61,45 @@ const MOJIBAKE_MARKER_CHARS = new Set([
   '\u6d94',
   '\u95ab',
   '\u7ddf',
+]);
+const ANALYSIS_AXIS_LABELS = ['对抗性动机', '认知闭合', '证据敏感', '逻辑一致', '合作讨论', '修正意愿'];
+const ANALYSIS_AXIS_ALIASES = new Map([
+  ['attack', '对抗性动机'],
+  ['antagonism', '对抗性动机'],
+  ['对抗', '对抗性动机'],
+  ['攻击', '对抗性动机'],
+  ['人身攻击', '对抗性动机'],
+  [String.fromCodePoint(0x7035, 0x89c4, 0x59c9, 0x6027, 0x52a8, 0x673a), '对抗性动机'],
+  [String.fromCodePoint(0x7035, 0x89c4, 0x59c9), '对抗性动机'],
+  ['closure', '认知闭合'],
+  ['cognitive_closure', '认知闭合'],
+  ['认知封闭', '认知闭合'],
+  ['绝对化', '认知闭合'],
+  [String.fromCodePoint(0x7481, 0x3087, 0x7161, 0x95ee, 0x95ed, 0x609d), '认知闭合'],
+  [String.fromCodePoint(0x7481, 0x3087, 0x7161), '认知闭合'],
+  ['evidence', '证据敏感'],
+  ['evidence_sensitivity', '证据敏感'],
+  ['证据', '证据敏感'],
+  ['来源', '证据敏感'],
+  [String.fromCodePoint(0x7487, 0x4f79, 0x5d41, 0x654f, 0x611f), '证据敏感'],
+  [String.fromCodePoint(0x7487, 0x4f79, 0x5d41), '证据敏感'],
+  ['logic', '逻辑一致'],
+  ['logical_consistency', '逻辑一致'],
+  ['逻辑', '逻辑一致'],
+  ['论证', '逻辑一致'],
+  [String.fromCodePoint(0x95ab, 0x660f, 0x7ddb, 0x7e3d), '逻辑一致'],
+  [String.fromCodePoint(0x95ab, 0x660f, 0x7ddb), '逻辑一致'],
+  ['cooperation', '合作讨论'],
+  ['collaboration', '合作讨论'],
+  ['合作', '合作讨论'],
+  ['澄清', '合作讨论'],
+  [String.fromCodePoint(0x935a, 0x581c, 0x7d94), '合作讨论'],
+  ['correction', '修正意愿'],
+  ['self_correction', '修正意愿'],
+  ['revision', '修正意愿'],
+  ['修正', '修正意愿'],
+  ['更正', '修正意愿'],
+  [String.fromCodePoint(0x6dc7), '修正意愿'],
 ]);
 const FAMILY_ALIASES = {
   sarcasm: 'attack',
@@ -1732,6 +1774,22 @@ function hasQuestionMarkMojibake(value) {
   return /\?{4,}/.test(String(value || ''));
 }
 
+function normalizeAnalysisAxisLabel(axis) {
+  const text = String(axis || '').trim();
+  if (!text) return '';
+  if (ANALYSIS_AXIS_LABELS.includes(text)) return text;
+  if (ANALYSIS_AXIS_ALIASES.has(text)) return ANALYSIS_AXIS_ALIASES.get(text);
+  const lower = text.toLowerCase();
+  if (ANALYSIS_AXIS_ALIASES.has(lower)) return ANALYSIS_AXIS_ALIASES.get(lower);
+  for (const label of ANALYSIS_AXIS_LABELS) {
+    if (text.includes(label)) return label;
+  }
+  for (const [alias, label] of ANALYSIS_AXIS_ALIASES) {
+    if (alias && text.includes(alias)) return label;
+  }
+  return '';
+}
+
 function parsedAnalysisLooksGarbled(parsed, raw, sourceText) {
   if (!sourceHasChinese(sourceText)) return false;
   if (/乱码|不可解读|无法识别/.test(String(raw || '')) && hasQuestionMarkMojibake(raw)) return true;
@@ -1841,16 +1899,18 @@ export async function analyzeCommentsWithDeepSeek(payload, options = {}) {
 
     const axes = (Array.isArray(parsed.axes) ? parsed.axes : []).map((axis) => {
       const evidence = Array.isArray(axis.evidence) ? axis.evidence.slice(0, 5) : [];
-      const hasEvidence = axisHasUsableEvidence({ ...axis, evidence }, payload?.text);
+      const normalizedAxis = normalizeAnalysisAxisLabel(axis.axis);
+      if (!normalizedAxis) return null;
+      const hasEvidence = axisHasUsableEvidence({ ...axis, axis: normalizedAxis, evidence }, payload?.text);
       const score = Math.max(0, Math.min(100, Number(axis.score) || 50));
       const reasoning = String(axis.reasoning || '').slice(0, 500);
       return {
-        axis: String(axis.axis || ''),
+        axis: normalizedAxis,
         score: hasEvidence ? score : 50,
         evidence,
         reasoning: hasEvidence || /证据不足/.test(reasoning) ? reasoning : `${reasoning}${reasoning ? ' ' : ''}证据不足，按中性分处理。`,
       };
-    });
+    }).filter(Boolean);
 
     const validAxes = [
       { axis: '对抗性动机', score: 50, evidence: [], reasoning: '' },
@@ -1878,8 +1938,9 @@ export async function analyzeCommentsWithDeepSeek(payload, options = {}) {
         axisImpacts: (Array.isArray(item.axisImpacts) ? item.axisImpacts : [])
           .map((impact) => {
             const strength = Number(impact.strength);
+            const normalizedAxis = normalizeAnalysisAxisLabel(impact.axis);
             return {
-              axis: String(impact.axis || '').trim().slice(0, 20),
+              axis: normalizedAxis,
               direction: String(impact.direction || '').trim().slice(0, 20),
               strength: Number.isFinite(strength) ? Math.max(0, Math.min(1, strength)) : 0.5,
               reasoning: String(impact.reasoning || '').trim().slice(0, 240),

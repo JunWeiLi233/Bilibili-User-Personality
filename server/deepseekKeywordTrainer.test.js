@@ -217,6 +217,64 @@ test('analyzeCommentsWithDeepSeek grounds sentence radar quotes to original comm
   assert.deepEqual(result.sentenceAnalyses.map((item) => item.quote), [originalSentence]);
 });
 
+test('analyzeCommentsWithDeepSeek maps mojibake axis labels to real Chinese labels', async () => {
+  const originalSentence = '\u4f60\u522b\u7ed9\u4eba\u4e71\u6263\u5e3d\u5b50\uff0c\u5148\u62ff\u51fa\u539f\u59cb\u6765\u6e90\u3002';
+  const badAttackAxis = String.fromCodePoint(0x7035, 0x89c4, 0x59c9, 0x6027, 0x52a8, 0x673a);
+  const badEvidenceAxis = String.fromCodePoint(0x7487, 0x4f79, 0x5d41, 0x654f, 0x611f);
+
+  const result = await analyzeCommentsWithDeepSeek(
+    { text: originalSentence },
+    {
+      env: {
+        DEEPSEEK_API_KEY: 'test-key',
+        DEEPSEEK_BASE_URL: 'https://api.deepseek.com',
+        DEEPSEEK_MODEL: 'deepseek-v4-flash',
+      },
+      fetch: async (url) => {
+        if (String(url).endsWith('/models')) {
+          return { ok: true, json: async () => ({ data: [{ id: 'deepseek-v4-flash' }] }) };
+        }
+        return {
+          ok: true,
+          json: async () => ({
+            choices: [
+              {
+                message: {
+                  content: JSON.stringify({
+                    axes: [
+                      { axis: badAttackAxis, score: 64, evidence: [originalSentence], reasoning: '\u5b58\u5728\u6263\u5e3d\u5b50\u7684\u5bf9\u6297\u8868\u8fbe\u3002' },
+                      { axis: badEvidenceAxis, score: 76, evidence: [originalSentence], reasoning: '\u8981\u6c42\u63d0\u4f9b\u539f\u59cb\u6765\u6e90\u3002' },
+                    ],
+                    sentenceAnalyses: [
+                      {
+                        quote: originalSentence,
+                        speechAct: '\u8981\u6c42\u8bc1\u636e',
+                        target: '\u5bf9\u65b9\u7684\u65ad\u8a00',
+                        risk: 'low',
+                        axisImpacts: [
+                          { axis: badEvidenceAxis, direction: 'positive', strength: 0.8, reasoning: '\u6574\u53e5\u8981\u6c42\u56de\u5230\u6765\u6e90\u3002' },
+                          { axis: badAttackAxis, direction: 'risk', strength: 0.35, reasoning: '\u6709\u8f7b\u5fae\u53cd\u9a73\u8bed\u6c14\u3002' },
+                        ],
+                      },
+                    ],
+                    overall: { riskBand: '\u4f4e\u98ce\u9669\u8ba8\u8bba\u578b', summary: '\u504f\u8bc1\u636e\u8ba8\u8bba\u3002' },
+                    confidence: 0.8,
+                  }),
+                },
+              },
+            ],
+          }),
+        };
+      },
+    },
+  );
+
+  assert.equal(result.ok, true);
+  assert.equal(result.axes.find((axis) => axis.axis === '\u5bf9\u6297\u6027\u52a8\u673a').score, 64);
+  assert.equal(result.axes.find((axis) => axis.axis === '\u8bc1\u636e\u654f\u611f').score, 76);
+  assert.deepEqual(result.sentenceAnalyses[0].axisImpacts.map((impact) => impact.axis), ['\u8bc1\u636e\u654f\u611f', '\u5bf9\u6297\u6027\u52a8\u673a']);
+});
+
 test('analyzeCommentsWithDeepSeek retries with compact comments when model returns garbled Chinese evidence', async () => {
   const originalSentence = '\u6ca1\u6709\u8f66\u5bb6\u519b\uff0c\u8fd9\u4e9b\u5c31\u662f\u5e9f\u94dc\u70c2\u94c1[doge]';
   const requests = [];
@@ -999,8 +1057,17 @@ test('normalizes away weak ASCII technical and id fragments while keeping known 
 });
 
 test('normalizes away mojibake Chinese-looking keyword terms', () => {
+  const mojibakeAxisLabels = [
+    String.fromCodePoint(0x7035, 0x89c4, 0x59c9),
+    String.fromCodePoint(0x7481, 0x3087, 0x7161),
+    String.fromCodePoint(0x7487, 0x4f79, 0x5d41),
+    String.fromCodePoint(0x95ab, 0x660f, 0x7ddb),
+    String.fromCodePoint(0x935a, 0x581c, 0x7d94),
+    String.fromCodePoint(0x6dc7, 0xe1bd, 0xe11c),
+  ];
   const entries = normalizeKeywordEntries([
     { term: '\u7035\u89c4\u59c9', family: 'attack', meaning: 'UTF-8/GBK mojibake for a Chinese category label' },
+    ...mojibakeAxisLabels.map((term) => ({ term, family: 'attack', meaning: 'mojibake radar axis label' })),
     { term: '\u7537\u76d7\u5973\u5a3c', family: 'attack', meaning: 'real Chinese attack phrase' },
     { term: 'doge', family: 'cooperation', meaning: 'allowed Bilibili ASCII meme shorthand' },
   ]);
