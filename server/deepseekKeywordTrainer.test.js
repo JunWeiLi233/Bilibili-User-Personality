@@ -5335,6 +5335,52 @@ test('mergeEntriesIntoDictionary prunes latest harvested loose alias false posit
   }
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects latest harvested Taffy emote-only evidence', () => {
+  const dictionary = {
+    entries: [
+      { term: '\u5854\u83f2', family: 'cooperation', meaning: 'Taffy-related cooperative context' },
+    ],
+  };
+
+  const entries = findDictionaryEntriesWithTextEvidence(dictionary, '@_SayaKa [\u6c38\u96cf\u5854\u83f2_\u563b\u563b\u55b5]');
+
+  assert.deepEqual(entries.map((entry) => entry.term), []);
+
+  const realEntries = findDictionaryEntriesWithTextEvidence(dictionary, '\u5854\u83f2\u76f8\u5173\u8d44\u6599\u53ef\u4ee5\u53c2\u8003\u8fd9\u4e2a\u94fe\u63a5');
+
+  assert.deepEqual(realEntries.map((entry) => entry.term), ['\u5854\u83f2']);
+});
+
+test('mergeEntriesIntoDictionary prunes persisted Taffy emote-only evidence', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'deepseek-prune-taffy-emote-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  try {
+    await writeFile(
+      dictionaryPath,
+      JSON.stringify({
+        version: 1,
+        updatedAt: '2026-01-01T00:00:00.000Z',
+        entries: [
+          {
+            term: '\u5854\u83f2',
+            family: 'cooperation',
+            meaning: 'Taffy-related cooperative context',
+            evidenceCount: 1,
+            evidenceSamples: ['@_SayaKa [\u6c38\u96cf\u5854\u83f2_\u563b\u563b\u55b5]'],
+          },
+        ],
+      }),
+      'utf8',
+    );
+
+    const dictionary = await mergeEntriesIntoDictionary([], { dictionaryPath });
+
+    assert.equal(dictionary.entries.find((item) => item.term === '\u5854\u83f2').evidenceCount, 0);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('normalizeKeywordEntries prunes persisted literal traditional-character samples for video-language attack terms', () => {
   const entries = normalizeKeywordEntries([
     {

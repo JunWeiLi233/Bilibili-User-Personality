@@ -903,6 +903,15 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const textOutsideEmotes = rawSample.replace(/\[[^\]]+\]/g, '');
     if (/\[doge[_-]\u91d1\u7b8d\]/iu.test(rawSample) && !/doge\u91d1\u7b8d/iu.test(textOutsideEmotes)) return true;
   }
+  if (term === '\u5854\u83f2' && family === 'cooperation') {
+    const rawSample = String(sample || '').trim();
+    const textOutsideEmotesAndMentions = rawSample
+      .replace(/\[[^\]]+\]/g, '')
+      .replace(/@\S+/g, '')
+      .trim();
+    const emoteOnlyContext = /\[[^\]]*\u5854\u83f2[^\]]*\]/u.test(rawSample) && !textOutsideEmotesAndMentions.includes('\u5854\u83f2');
+    if (emoteOnlyContext) return true;
+  }
   if (term === '\u53d7\u6559' && (family === 'cooperation' || family === 'correction')) {
     const negatedTitleContext = /\u4e0d\u53d7\u6559/u.test(cleanSample);
     const learnedContext = /(?:\u53d7\u6559\u4e86|\u771f(?:\u7684)?\u53d7\u6559|\u5341\u5206\u53d7\u6559|\u611f\u8c22.*\u53d7\u6559|\u53d7\u6559.*(?:\u611f\u8c22|\u8c22\u8c22|\u5b66\u5230))/u.test(cleanSample);
