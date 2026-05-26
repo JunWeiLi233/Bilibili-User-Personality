@@ -3588,6 +3588,40 @@ test('findDictionaryEntriesWithTextEvidence rejects apology reactions, standalon
   assert.deepEqual(realEntries.map((entry) => entry.term), ['\u5bf9\u4e0d\u8d77', '\u5999\u554a', '\u65e0\u8bed', '\u5361bug']);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects harvested emote suffix and loose synonym evidence', () => {
+  const dictionary = {
+    entries: [
+      { term: '\u55d1\u74dc\u5b50', family: 'evasion', meaning: 'spectator popcorn-style stance instead of engaging' },
+      { term: '\u516d\u516d\u516d', family: 'attack', meaning: 'sarcastic praise used as mockery' },
+      { term: '\u540a\u6253', family: 'attack', meaning: 'claim one side crushes another in a hostile comparison' },
+      { term: '\u65e0\u8bed', family: 'cooperation', meaning: 'de-escalating expression of speechlessness' },
+    ],
+  };
+  const text = [
+    '\u6211\u59d0\u592e\u8d22\u91d1\u878d\uff0c\u73b0\u5728\u5728\u5317\u4eac\uff0c\u60a8\u5728\u54ea\u9ad8\u5c31[\u55d1\u74dc\u5b50]',
+    '\u8c46\u5305\u53f2 gemini \u795e[\u55d1\u74dc\u5b50]',
+    '\u56de\u590d @\u5f00\u6717\u7684\u72d7\u5934\u6539\u9020 :\u516d\u516d\u516d',
+    '\u7136\u540e\u9020\u4e2a\u9a71\u9010\u8230\u6253\u7206\u86cb\u86cb\u8272\u6cb9\u7530\u5c31\u9000[\u70ed\u8bcd\u7cfb\u5217_\u593a\u7b0b\u5450]',
+    '[\u70ed\u8bcd\u7cfb\u5217_\u516d\u5230\u65e0\u8bed][\u70ed\u8bcd\u7cfb\u5217_\u516d\u5230\u65e0\u8bed]',
+  ].join('\n');
+
+  const entries = findDictionaryEntriesWithTextEvidence(dictionary, text);
+
+  assert.deepEqual(entries.map((entry) => entry.term), []);
+
+  const realEntries = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    [
+      '\u522b\u53ea\u5728\u65c1\u8fb9\u55d1\u74dc\u5b50\uff0c\u8981\u53cd\u9a73\u5c31\u628a\u8bc1\u636e\u8d34\u51fa\u6765',
+      '\u8fd9\u64cd\u4f5c\u516d\u516d\u516d\uff0c\u8fde\u57fa\u672c\u8bc1\u636e\u90fd\u4e0d\u770b',
+      '\u522b\u52a8\u4e0d\u52a8\u5c31\u8bf4\u540a\u6253\uff0c\u5148\u628a\u5bf9\u6bd4\u6570\u636e\u653e\u51fa\u6765',
+      '\u6211\u771f\u7684\u65e0\u8bed\uff0c\u4f46\u8fd8\u662f\u5148\u628a\u8bc1\u636e\u8d34\u51fa\u6765',
+    ].join('\n'),
+  );
+
+  assert.deepEqual(realEntries.map((entry) => entry.term), ['\u55d1\u74dc\u5b50', '\u516d\u516d\u516d', '\u540a\u6253', '\u65e0\u8bed']);
+});
+
 test('normalizeKeywordEntries prunes persisted loose reaction evidence for bengbuzhu variants', () => {
   const entries = normalizeKeywordEntries([
     {
