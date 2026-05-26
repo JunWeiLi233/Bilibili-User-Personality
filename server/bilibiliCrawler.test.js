@@ -349,6 +349,63 @@ test('fetchJson passes an abort signal so stalled Bilibili requests can time out
   resetBilibiliRequestState();
 });
 
+test('fetchJson forwards caller abort signal to Bilibili requests', async () => {
+  resetBilibiliRequestState();
+  const controller = new AbortController();
+  await fetchJson('https://api.bilibili.com/external-abort', 'https://www.bilibili.com', {
+    env: {},
+    signal: controller.signal,
+    config: {
+      minDelayMs: 0,
+      jitterMs: 0,
+      blockCooldownMs: 0,
+      cacheTtlMs: 0,
+      longPauseProbability: 0,
+      requestTimeoutMs: 0,
+    },
+    nowFn: () => 1000,
+    randomFn: () => 0,
+    waitFn: async () => {},
+    fetchImpl: async (_url, init) => {
+      assert.equal(init.signal, controller.signal);
+      return {
+        ok: true,
+        json: async () => ({ code: 0, data: { ok: true } }),
+      };
+    },
+  });
+  resetBilibiliRequestState();
+});
+
+test('fetchJson preserves caller abort state when request timeout is also enabled', async () => {
+  resetBilibiliRequestState();
+  const controller = new AbortController();
+  controller.abort();
+  await fetchJson('https://api.bilibili.com/external-and-timeout-abort', 'https://www.bilibili.com', {
+    env: {},
+    signal: controller.signal,
+    config: {
+      minDelayMs: 0,
+      jitterMs: 0,
+      blockCooldownMs: 0,
+      cacheTtlMs: 0,
+      longPauseProbability: 0,
+      requestTimeoutMs: 500,
+    },
+    nowFn: () => 1000,
+    randomFn: () => 0,
+    waitFn: async () => {},
+    fetchImpl: async (_url, init) => {
+      assert.equal(init.signal.aborted, true);
+      return {
+        ok: true,
+        json: async () => ({ code: 0, data: { ok: true } }),
+      };
+    },
+  });
+  resetBilibiliRequestState();
+});
+
 test('extractDynamicRecords returns commentable dynamic objects and authored text', () => {
   const records = extractDynamicRecords(
     [

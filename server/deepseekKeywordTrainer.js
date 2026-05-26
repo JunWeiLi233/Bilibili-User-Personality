@@ -1229,6 +1229,7 @@ async function requestDeepSeekKeywords(config, fetchImpl, options, body) {
     method: 'POST',
     headers: authHeaders((options.env || process.env).DEEPSEEK_API_KEY),
     body: JSON.stringify(cleanBody),
+    ...(options.signal ? { signal: options.signal } : {}),
   });
   if (!response.ok) throw new Error(`DeepSeek generate failed with HTTP ${response.status}`);
   const data = await response.json();
@@ -1354,6 +1355,114 @@ ${String(text || '').slice(0, 8000)}`,
   ];
 }
 
+function buildCompactAnalysisMessages({ text, uid, name }) {
+  const comments = splitAnalysisSourceSentences(text).slice(0, 40);
+  return [
+    {
+      role: 'system',
+      content:
+        'You analyze Chinese Bilibili comments. Return valid JSON only. Preserve every Chinese quote exactly from the input comments.',
+    },
+    {
+      role: 'user',
+      content: `Analyze the Bilibili comments below by full-sentence speech act, not by isolated keywords.
+
+Input JSON:
+${JSON.stringify({ uid: uid || 'unknown', name: name || 'unknown', comments }, null, 2)}
+
+Return this exact JSON shape:
+{
+  "axes": [
+    {"axis": "对抗性动机", "score": 0, "evidence": ["原文 quote"], "reasoning": "why"},
+    {"axis": "认知闭合", "score": 0, "evidence": ["原文 quote"], "reasoning": "why"},
+    {"axis": "证据敏感", "score": 0, "evidence": ["原文 quote"], "reasoning": "why"},
+    {"axis": "逻辑一致", "score": 0, "evidence": ["原文 quote"], "reasoning": "why"},
+    {"axis": "合作讨论", "score": 0, "evidence": ["原文 quote"], "reasoning": "why"},
+    {"axis": "修正意愿", "score": 0, "evidence": ["原文 quote"], "reasoning": "why"}
+  ],
+  "sentenceAnalyses": [
+    {"quote": "完整原句", "speechAct": "话语行为", "target": "对象/命题", "stance": "立场语气", "contextRole": "上下文作用", "risk": "high|medium|low|positive|neutral", "axisImpacts": [{"axis": "对抗性动机|认知闭合|证据敏感|逻辑一致|合作讨论|修正意愿", "direction": "risk|positive", "strength": 0.0, "reasoning": "full sentence reason"}], "reasoning": "why keyword-only judgment would be wrong"}
+  ],
+  "overall": {"riskBand": "高风险对抗型|混合争辩型|低风险讨论型", "summary": "summary"},
+  "confidence": 0.0
+}
+
+Rules:
+- If a hostile-looking word is only a meme, quote, copypasta, title, self-reference, or playful marker, keep risk neutral/low unless the complete sentence attacks a concrete target.
+- If evidence is insufficient for an axis, use a neutral 40-60 score and say evidence is insufficient.
+- Evidence and sentenceAnalyses.quote must be copied from the input comments, not paraphrased and not replaced with question marks.`,
+    },
+  ];
+}
+
+function sourceHasChinese(text) {
+  return /[\p{Script=Han}]/u.test(String(text || ''));
+}
+
+function hasQuestionMarkMojibake(value) {
+  return /\?{4,}/.test(String(value || ''));
+}
+
+function parsedAnalysisLooksGarbled(parsed, raw, sourceText) {
+  if (!sourceHasChinese(sourceText)) return false;
+  if (/乱码|不可解读|无法识别/.test(String(raw || '')) && hasQuestionMarkMojibake(raw)) return true;
+  const axes = Array.isArray(parsed?.axes) ? parsed.axes : [];
+  const sentences = Array.isArray(parsed?.sentenceAnalyses) ? parsed.sentenceAnalyses : [];
+  if (
+    splitAnalysisSourceSentences(sourceText).length > 0 &&
+    sentences.length === 0 &&
+    (axes.length === 0 || axes.every((axis) => !(Array.isArray(axis?.evidence) && axis.evidence.length > 0) && !String(axis?.reasoning || '').trim()))
+  ) {
+    return true;
+  }
+  const evidenceText = axes.flatMap((axis) => (Array.isArray(axis.evidence) ? axis.evidence : [])).join('\n');
+  const quoteText = sentences.map((sentence) => sentence?.quote || '').join('\n');
+  if (hasQuestionMarkMojibake(evidenceText) || hasQuestionMarkMojibake(quoteText)) return true;
+  return sentences.length === 0 && axes.some((axis) => hasQuestionMarkMojibake(axis?.reasoning) || hasQuestionMarkMojibake(axis?.evidence?.join?.('\n')));
+}
+
+function removeDuplicateEmptySentenceAnalyses(sentenceAnalyses = []) {
+  const substantiveQuotes = new Set(
+    sentenceAnalyses
+      .filter((item) => Array.isArray(item.axisImpacts) && item.axisImpacts.length > 0)
+      .map((item) => item.quote),
+  );
+  const seenEmptyQuotes = new Set();
+  return sentenceAnalyses.filter((item) => {
+    const hasImpacts = Array.isArray(item.axisImpacts) && item.axisImpacts.length > 0;
+    if (hasImpacts) return true;
+    if (substantiveQuotes.has(item.quote)) return false;
+    if (seenEmptyQuotes.has(item.quote)) return false;
+    seenEmptyQuotes.add(item.quote);
+    return true;
+  });
+}
+
+async function requestDeepSeekAnalysis({ config, fetchImpl, payload, options, compact = false }) {
+  const requestBody = {
+    model: config.model,
+    messages: compact ? buildCompactAnalysisMessages(payload) : buildAnalysisMessages(payload),
+    response_format: { type: 'json_object' },
+    thinking: { type: 'enabled' },
+    reasoning_effort: config.reasoningEffort || 'medium',
+    stream: false,
+    max_tokens: compact ? 6000 : 2000,
+  };
+
+  const response = await fetchImpl(`${config.baseUrl}/chat/completions`, {
+    method: 'POST',
+    headers: authHeaders((options.env || process.env).DEEPSEEK_API_KEY),
+    body: JSON.stringify(requestBody),
+    ...(options.signal ? { signal: options.signal } : {}),
+  });
+  if (!response.ok) {
+    throw new Error(`DeepSeek analyze failed with HTTP ${response.status}`);
+  }
+  const data = await response.json();
+  const raw = data.choices?.[0]?.message?.content || '';
+  return { raw, parsed: extractJsonObject(raw) };
+}
+
 export async function analyzeCommentsWithDeepSeek(payload, options = {}) {
   const config = await getDeepSeekConfig(options);
   const fetchImpl = options.fetch || fetch;
@@ -1366,35 +1475,26 @@ export async function analyzeCommentsWithDeepSeek(payload, options = {}) {
     };
   }
 
-  const requestBody = {
-    model: config.model,
-    messages: buildAnalysisMessages(payload),
-    response_format: { type: 'json_object' },
-    thinking: { type: 'enabled' },
-    reasoning_effort: config.reasoningEffort || 'medium',
-    stream: false,
-    max_tokens: 2000,
-  };
-
   try {
-    const response = await fetchImpl(`${config.baseUrl}/chat/completions`, {
-      method: 'POST',
-      headers: authHeaders((options.env || process.env).DEEPSEEK_API_KEY),
-      body: JSON.stringify(requestBody),
-    });
-    if (!response.ok) {
-      throw new Error(`DeepSeek analyze failed with HTTP ${response.status}`);
+    let { raw, parsed } = await requestDeepSeekAnalysis({ config, fetchImpl, payload, options });
+    let retriedCompactPrompt = false;
+    if (parsedAnalysisLooksGarbled(parsed, raw, payload?.text)) {
+      ({ raw, parsed } = await requestDeepSeekAnalysis({ config, fetchImpl, payload, options, compact: true }));
+      retriedCompactPrompt = true;
     }
-    const data = await response.json();
-    const raw = data.choices?.[0]?.message?.content || '';
-    const parsed = extractJsonObject(raw);
 
-    const axes = (Array.isArray(parsed.axes) ? parsed.axes : []).map((axis) => ({
-      axis: String(axis.axis || ''),
-      score: Math.max(0, Math.min(100, Number(axis.score) || 50)),
-      evidence: Array.isArray(axis.evidence) ? axis.evidence.slice(0, 5) : [],
-      reasoning: String(axis.reasoning || '').slice(0, 500),
-    }));
+    const axes = (Array.isArray(parsed.axes) ? parsed.axes : []).map((axis) => {
+      const evidence = Array.isArray(axis.evidence) ? axis.evidence.slice(0, 5) : [];
+      const hasEvidence = evidence.some((item) => String(item || '').trim());
+      const score = Math.max(0, Math.min(100, Number(axis.score) || 50));
+      const reasoning = String(axis.reasoning || '').slice(0, 500);
+      return {
+        axis: String(axis.axis || ''),
+        score: hasEvidence ? score : 50,
+        evidence,
+        reasoning: hasEvidence || /证据不足/.test(reasoning) ? reasoning : `${reasoning}${reasoning ? ' ' : ''}证据不足，按中性分处理。`,
+      };
+    });
 
     const validAxes = [
       { axis: '对抗性动机', score: 50, evidence: [], reasoning: '' },
@@ -1411,7 +1511,7 @@ export async function analyzeCommentsWithDeepSeek(payload, options = {}) {
     }
 
     const sourceSentences = splitAnalysisSourceSentences(payload?.text);
-    const sentenceAnalyses = (Array.isArray(parsed.sentenceAnalyses) ? parsed.sentenceAnalyses : [])
+    const sentenceAnalyses = removeDuplicateEmptySentenceAnalyses((Array.isArray(parsed.sentenceAnalyses) ? parsed.sentenceAnalyses : [])
       .map((item) => ({
         quote: groundSentenceQuote(item.quote, sourceSentences).slice(0, 300),
         speechAct: String(item.speechAct || '').trim().slice(0, 80),
@@ -1433,7 +1533,7 @@ export async function analyzeCommentsWithDeepSeek(payload, options = {}) {
           .slice(0, 3),
         reasoning: String(item.reasoning || '').trim().slice(0, 500),
       }))
-      .filter((item) => item.quote);
+      .filter((item) => item.quote));
 
     const overall = {
       riskBand: String(parsed.overall?.riskBand || '混合争辩型').trim(),
@@ -1445,6 +1545,7 @@ export async function analyzeCommentsWithDeepSeek(payload, options = {}) {
       provider: config.provider,
       model: config.model || '',
       reasoningEffort: config.reasoningEffort || 'medium',
+      retriedCompactPrompt,
       axes: validAxes,
       sentenceAnalyses,
       overall,

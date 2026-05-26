@@ -217,6 +217,239 @@ test('analyzeCommentsWithDeepSeek grounds sentence radar quotes to original comm
   assert.deepEqual(result.sentenceAnalyses.map((item) => item.quote), [originalSentence]);
 });
 
+test('analyzeCommentsWithDeepSeek retries with compact comments when model returns garbled Chinese evidence', async () => {
+  const originalSentence = '\u6ca1\u6709\u8f66\u5bb6\u519b\uff0c\u8fd9\u4e9b\u5c31\u662f\u5e9f\u94dc\u70c2\u94c1[doge]';
+  const requests = [];
+  const result = await analyzeCommentsWithDeepSeek(
+    {
+      uid: 'video:BV19yGa61Ee6',
+      name: 'live sample',
+      text: originalSentence,
+    },
+    {
+      env: {
+        DEEPSEEK_API_KEY: 'test-key',
+        DEEPSEEK_BASE_URL: 'https://api.deepseek.com',
+        DEEPSEEK_MODEL: 'deepseek-v4-flash',
+      },
+      fetch: async (url, options = {}) => {
+        if (String(url).endsWith('/models')) {
+          return { ok: true, json: async () => ({ data: [{ id: 'deepseek-v4-flash' }] }) };
+        }
+        const body = JSON.parse(options.body);
+        requests.push(body);
+        if (requests.length === 1) {
+          return {
+            ok: true,
+            json: async () => ({
+              choices: [
+                {
+                  message: {
+                    content: JSON.stringify({
+                      axes: [{ axis: '\u5bf9\u6297\u6027\u52a8\u673a', score: 50, evidence: ['??????????[doge]'], reasoning: '\u8bc4\u8bba\u4e3a\u4e71\u7801\uff0c\u8bc1\u636e\u4e0d\u8db3\u3002' }],
+                      sentenceAnalyses: [],
+                      overall: { riskBand: '\u6df7\u5408\u4e89\u8fa9\u578b', summary: '' },
+                      confidence: 0.7,
+                    }),
+                  },
+                },
+              ],
+            }),
+          };
+        }
+        return {
+          ok: true,
+          json: async () => ({
+            choices: [
+              {
+                message: {
+                  content: JSON.stringify({
+                    axes: [{ axis: '\u5bf9\u6297\u6027\u52a8\u673a', score: 62, evidence: [originalSentence], reasoning: '\u5bf9\u7fa4\u4f53\u548c\u7269\u54c1\u8fdb\u884c\u8d2c\u635f\u5f0f\u8868\u8fbe\u3002' }],
+                    sentenceAnalyses: [
+                      {
+                        quote: originalSentence,
+                        speechAct: '\u8d2c\u635f\u5f0f\u8bc4\u4ef7',
+                        target: '\u8f66\u5bb6\u519b\u53ca\u76f8\u5173\u5bf9\u8c61',
+                        stance: '\u8c03\u4f83\u4f46\u5e26\u8d1f\u9762\u6807\u7b7e',
+                        contextRole: '\u7528\u6897\u548c\u8d2c\u4e49\u8bcd\u8868\u8fbe\u7acb\u573a',
+                        risk: 'medium',
+                        axisImpacts: [{ axis: '\u5bf9\u6297\u6027\u52a8\u673a', direction: 'risk', strength: 0.62 }],
+                        reasoning: '\u4e0d\u80fd\u53ea\u770b doge\uff0c\u6574\u53e5\u4ecd\u7136\u6709\u660e\u786e\u8d2c\u635f\u5bf9\u8c61\u3002',
+                      },
+                    ],
+                    overall: { riskBand: '\u6df7\u5408\u4e89\u8fa9\u578b', summary: '\u6837\u672c\u542b\u6709\u8c03\u4f83\u5f0f\u5bf9\u6297\u8868\u8fbe\u3002' },
+                    confidence: 0.78,
+                  }),
+                },
+              },
+            ],
+          }),
+        };
+      },
+    },
+  );
+
+  assert.equal(requests.length, 2);
+  assert.equal(requests[1].max_tokens >= 6000, true);
+  assert.equal(requests[1].messages.some((message) => String(message.content).includes('"comments"')), true);
+  assert.equal(requests[1].messages.some((message) => String(message.content).includes(originalSentence)), true);
+  assert.equal(result.axes[0].score, 62);
+  assert.deepEqual(result.sentenceAnalyses.map((item) => item.quote), [originalSentence]);
+});
+
+test('analyzeCommentsWithDeepSeek retries when Chinese analysis is empty but syntactically valid', async () => {
+  const originalSentence = '\u8bdd\u867d\u5982\u6b64 \u53ef\u8bc4\u8bba\u533a\u600e\u4e48\u6ca1\u89c1\u51e0\u4e2a\u5fc3\u5e73\u6c14\u548c\u7684\u8bc4\u8bba\uff0c\u5168\u662f\u9634\u9633\u602a\u6c14\u865a\u7a7a\u7d22\u654c\u57fa\u672c\u76d8\u548c\u5404\u79cd\u7c89\u7ea2\u7684\u3002';
+  const requests = [];
+  const result = await analyzeCommentsWithDeepSeek(
+    { text: originalSentence },
+    {
+      env: {
+        DEEPSEEK_API_KEY: 'test-key',
+        DEEPSEEK_BASE_URL: 'https://api.deepseek.com',
+        DEEPSEEK_MODEL: 'deepseek-v4-flash',
+      },
+      fetch: async (url, options = {}) => {
+        if (String(url).endsWith('/models')) {
+          return { ok: true, json: async () => ({ data: [{ id: 'deepseek-v4-flash' }] }) };
+        }
+        requests.push(JSON.parse(options.body));
+        return {
+          ok: true,
+          json: async () => ({
+            choices: [
+              {
+                message: {
+                  content:
+                    requests.length === 1
+                      ? JSON.stringify({ axes: [], sentenceAnalyses: [], overall: { riskBand: '\u6df7\u5408\u4e89\u8fa9\u578b', summary: '' }, confidence: 0.7 })
+                      : JSON.stringify({
+                          axes: [{ axis: '\u5bf9\u6297\u6027\u52a8\u673a', score: 70, evidence: [originalSentence], reasoning: '\u6709\u9635\u8425\u6807\u7b7e\u548c\u5bf9\u7acb\u6307\u5411\u3002' }],
+                          sentenceAnalyses: [
+                            {
+                              quote: originalSentence,
+                              speechAct: '\u8bc4\u8bba\u533a\u5143\u6279\u8bc4',
+                              target: '\u8bc4\u8bba\u533a\u53d1\u8a00\u8005',
+                              risk: 'medium',
+                              axisImpacts: [{ axis: '\u5bf9\u6297\u6027\u52a8\u673a', direction: 'risk', strength: 0.7 }],
+                            },
+                          ],
+                          overall: { riskBand: '\u6df7\u5408\u4e89\u8fa9\u578b', summary: '\u6837\u672c\u542b\u9635\u8425\u5316\u6279\u8bc4\u3002' },
+                          confidence: 0.78,
+                        }),
+                },
+              },
+            ],
+          }),
+        };
+      },
+    },
+  );
+
+  assert.equal(requests.length, 2);
+  assert.equal(result.axes[0].score, 70);
+  assert.deepEqual(result.sentenceAnalyses.map((item) => item.quote), [originalSentence]);
+});
+
+test('analyzeCommentsWithDeepSeek neutralizes unsupported axis scores when evidence is missing', async () => {
+  const result = await analyzeCommentsWithDeepSeek(
+    { text: '\u5df1\u6240\u4e0d\u6b32\u52ff\u65bd\u4e8e\u4eba' },
+    {
+      env: {
+        DEEPSEEK_API_KEY: 'test-key',
+        DEEPSEEK_BASE_URL: 'https://api.deepseek.com',
+        DEEPSEEK_MODEL: 'deepseek-v4-flash',
+      },
+      fetch: async (url) => {
+        if (String(url).endsWith('/models')) {
+          return { ok: true, json: async () => ({ data: [{ id: 'deepseek-v4-flash' }] }) };
+        }
+        return {
+          ok: true,
+          json: async () => ({
+            choices: [
+              {
+                message: {
+                  content: JSON.stringify({
+                    axes: [{ axis: '\u4fee\u6b63\u610f\u613f', score: 20, evidence: [], reasoning: '\u672a\u51fa\u73b0\u4fee\u6b63\u8bed\u5883\u3002' }],
+                    sentenceAnalyses: [
+                      {
+                        quote: '\u5df1\u6240\u4e0d\u6b32\u52ff\u65bd\u4e8e\u4eba',
+                        speechAct: '\u5f15\u7528\u683c\u8a00',
+                        target: '\u666e\u904d\u9053\u5fb7\u539f\u5219',
+                        risk: 'low',
+                        axisImpacts: [{ axis: '\u5408\u4f5c\u8ba8\u8bba', direction: 'positive', strength: 0.6 }],
+                      },
+                    ],
+                    overall: { riskBand: '\u4f4e\u98ce\u9669\u8ba8\u8bba\u578b', summary: '\u6837\u672c\u4f4e\u98ce\u9669\u3002' },
+                    confidence: 0.7,
+                  }),
+                },
+              },
+            ],
+          }),
+        };
+      },
+    },
+  );
+
+  const correction = result.axes.find((axis) => axis.axis === '\u4fee\u6b63\u610f\u613f');
+  assert.equal(correction.score, 50);
+  assert.match(correction.reasoning, /\u8bc1\u636e\u4e0d\u8db3/);
+});
+
+test('analyzeCommentsWithDeepSeek drops duplicate empty sentence analyses when a substantive quote exists', async () => {
+  const quote = '\u8bdd\u867d\u5982\u6b64 \u53ef\u8bc4\u8bba\u533a\u600e\u4e48\u6ca1\u89c1\u51e0\u4e2a\u5fc3\u5e73\u6c14\u548c\u7684\u8bc4\u8bba\uff0c\u5168\u662f\u9634\u9633\u602a\u6c14\u865a\u7a7a\u7d22\u654c\u57fa\u672c\u76d8\u548c\u5404\u79cd\u7c89\u7ea2\u7684\u3002';
+  const result = await analyzeCommentsWithDeepSeek(
+    { text: quote },
+    {
+      env: {
+        DEEPSEEK_API_KEY: 'test-key',
+        DEEPSEEK_BASE_URL: 'https://api.deepseek.com',
+        DEEPSEEK_MODEL: 'deepseek-v4-flash',
+      },
+      fetch: async (url) => {
+        if (String(url).endsWith('/models')) {
+          return { ok: true, json: async () => ({ data: [{ id: 'deepseek-v4-flash' }] }) };
+        }
+        return {
+          ok: true,
+          json: async () => ({
+            choices: [
+              {
+                message: {
+                  content: JSON.stringify({
+                    axes: [{ axis: '\u5bf9\u6297\u6027\u52a8\u673a', score: 55, evidence: [quote], reasoning: '\u6709\u6807\u7b7e\u5316\u6279\u8bc4\u3002' }],
+                    sentenceAnalyses: [
+                      {
+                        quote,
+                        speechAct: '\u5143\u8bc4\u8bba',
+                        target: '\u8bc4\u8bba\u533a',
+                        risk: 'medium',
+                        axisImpacts: [{ axis: '\u5bf9\u6297\u6027\u52a8\u673a', direction: 'risk', strength: 0.4 }],
+                      },
+                      {
+                        quote,
+                        speechAct: '\u6c89\u9ed8/\u5360\u4f4d',
+                        target: '\u65e0',
+                        risk: 'low',
+                        axisImpacts: [],
+                      },
+                    ],
+                    overall: { riskBand: '\u6df7\u5408\u4e89\u8fa9\u578b', summary: '\u542b\u6807\u7b7e\u5316\u6279\u8bc4\u3002' },
+                    confidence: 0.7,
+                  }),
+                },
+              },
+            ],
+          }),
+        };
+      },
+    },
+  );
+
+  assert.deepEqual(result.sentenceAnalyses.map((item) => item.speechAct), ['\u5143\u8bc4\u8bba']);
+});
+
 test('normalizes DeepSeek keyword output into supported dictionary families', () => {
   const entries = normalizeKeywordEntries([
     { term: '不会真有人', family: 'sarcasm', meaning: '反讽式资格审查', variants: ['不会真有人觉得'] },
@@ -2568,6 +2801,55 @@ test('trains dictionary through DeepSeek V4 chat output and persists learned ter
     assert.equal(seen.find((call) => call.body?.model)?.body.response_format.type, 'json_object');
     assert.equal(seen.find((call) => call.body?.model)?.body.reasoning_effort, 'medium');
     assert.deepEqual(seen.find((call) => call.body?.model)?.body.thinking, { type: 'enabled' });
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
+test('trainKeywordDictionary forwards abort signal to DeepSeek keyword requests', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-train-abort-signal-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  const controller = new AbortController();
+  const seenSignals = [];
+  try {
+    const result = await trainKeywordDictionary(
+      {
+        text: '\u4e0d\u4f1a\u771f\u6709\u4eba\u89c9\u5f97\u8fd9\u53eb\u8bc1\u636e\u5427',
+        uid: 'BV-abort-signal',
+      },
+      {
+        dictionaryPath,
+        signal: controller.signal,
+        env: {
+          DEEPSEEK_API_KEY: 'test-key',
+          DEEPSEEK_MODEL: 'deepseek-v4-flash',
+          DEEPSEEK_REASONING_EFFORT: 'medium',
+        },
+        fetch: async (url, options = {}) => {
+          if (String(url).endsWith('/models')) {
+            return { ok: true, json: async () => ({ data: [{ id: 'deepseek-v4-flash' }] }) };
+          }
+          seenSignals.push(options.signal);
+          return {
+            ok: true,
+            json: async () => ({
+              choices: [
+                {
+                  message: {
+                    content: JSON.stringify({
+                      keywords: [{ term: '\u4e0d\u4f1a\u771f\u6709\u4eba', family: 'attack', meaning: 'sarcastic challenge' }],
+                    }),
+                  },
+                },
+              ],
+            }),
+          };
+        },
+      },
+    );
+
+    assert.equal(result.ok, true);
+    assert.deepEqual(seenSignals, [controller.signal]);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }

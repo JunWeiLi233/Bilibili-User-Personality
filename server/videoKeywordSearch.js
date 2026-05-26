@@ -1,4 +1,4 @@
-import { discoverPopularVideos, discoverVideosByKeyword, extractBvid, fetchRepliesForVideo } from './bilibiliCrawler.js';
+import { discoverPopularVideos, discoverVideosByKeyword, extractBvid, fetchJson, fetchRepliesForVideo, fetchText } from './bilibiliCrawler.js';
 import { readKeywordDictionary as defaultReadKeywordDictionary, trainKeywordDictionary as defaultTrainKeywordDictionary } from './deepseekKeywordTrainer.js';
 
 export const DEFAULT_VIDEO_LINK =
@@ -71,6 +71,22 @@ function boundedInt(value, fallback, min, max) {
   const number = Number(value);
   if (!Number.isFinite(number)) return fallback;
   return Math.max(min, Math.min(Math.floor(number), max));
+}
+
+function depsWithAbortSignal(deps = {}, signal = null) {
+  if (!signal) return deps;
+  const requestJson = deps.fetchJson || fetchJson;
+  const requestText = deps.fetchText || fetchText;
+  return {
+    ...deps,
+    fetchJson: (url, referer, options = {}) => requestJson(url, referer, { ...options, signal }),
+    fetchText: (url, referer, options = {}) => requestText(url, referer, { ...options, signal }),
+  };
+}
+
+function throwIfAborted(signal) {
+  if (!signal?.aborted) return;
+  throw new Error('Bilibili video keyword search aborted.');
 }
 
 export const DEFAULT_CONTROVERSIAL_POPULAR_QUERY_LIMIT = boundedInt(
@@ -405,6 +421,7 @@ function evidenceSourceVideosForTerms(dictionary = {}, targetExistingTerms = [],
 }
 
 export async function searchVideoKeywords(payload = {}, deps = {}) {
+  deps = depsWithAbortSignal(deps, payload.abortSignal);
   const videoLinks = parseList(
     payload.videoLinks ||
       payload.videoLink ||
@@ -520,9 +537,12 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
       const group = [];
       for (const query of searchQueries) {
         try {
+          throwIfAborted(payload.abortSignal);
           group.push(...(await discoverVideos(query, discoveryCandidateLimit, { ...deps, discoveryPages })));
+          throwIfAborted(payload.abortSignal);
         } catch (error) {
           discoveryWarnings.push(`${query}: ${error.message}`);
+          if (payload.abortSignal?.aborted) break;
         }
       }
       discoveryGroups.push(group);
@@ -534,25 +554,34 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
       const searchGroup = [];
       for (const query of controversyQueries.slice(0, controversialPopularQueryLimit)) {
         try {
+          throwIfAborted(payload.abortSignal);
           controversialPopularGroup.push(
             ...(await discoverVideos(query, discoveryCandidateLimit, { ...deps, discoveryPages, searchOrder: controversialPopularSearchOrder })),
           );
+          throwIfAborted(payload.abortSignal);
         } catch (error) {
           discoveryWarnings.push(`${query} (${controversialPopularSearchOrder || 'popular'}): ${error.message}`);
+          if (payload.abortSignal?.aborted) break;
         }
       }
       for (const query of controversyQueries) {
         try {
+          throwIfAborted(payload.abortSignal);
           controversyGroup.push(...(await discoverVideos(query, discoveryCandidateLimit, { ...deps, discoveryPages })));
+          throwIfAborted(payload.abortSignal);
         } catch (error) {
           discoveryWarnings.push(`${query}: ${error.message}`);
+          if (payload.abortSignal?.aborted) break;
         }
       }
       for (const query of searchQueries) {
         try {
+          throwIfAborted(payload.abortSignal);
           searchGroup.push(...(await discoverVideos(query, discoveryCandidateLimit, { ...deps, discoveryPages })));
+          throwIfAborted(payload.abortSignal);
         } catch (error) {
           discoveryWarnings.push(`${query}: ${error.message}`);
+          if (payload.abortSignal?.aborted) break;
         }
       }
       discoveryGroups.push(
@@ -564,7 +593,9 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
     if (discoveryMode === 'popular' || discoveryMode === 'mixed' || (discoveryMode === 'controversial' && includeGenericPopular)) {
       const discoverPopular = deps.discoverPopularVideos || discoverPopularVideos;
       try {
+        throwIfAborted(payload.abortSignal);
         discoveryGroups.push(await discoverPopular(discoveryLimit, deps));
+        throwIfAborted(payload.abortSignal);
       } catch (error) {
         discoveryWarnings.push(`popular: ${error.message}`);
       }
@@ -816,13 +847,16 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
 
   const trainKeywordDictionary = deps.trainKeywordDictionary || defaultTrainKeywordDictionary;
   const contextSourceUrls = videoContextSourceUrls(contextVideos);
-  const keywordTraining = await trainKeywordDictionary({
-    uid: videos.map((video) => video.bvid).join(','),
-    text: trainingText,
-    source: `${mergedScan.source}${videoObjectEvidenceText ? ' plus video object evidence' : ''}${videoContextText ? ' plus video context' : ''}: ${contextSourceUrls.join(', ')}`,
-    existingTermsOnly,
-    ...(targetExistingTerms.length ? { targetExistingTerms } : {}),
-  });
+  const keywordTraining = await trainKeywordDictionary(
+    {
+      uid: videos.map((video) => video.bvid).join(','),
+      text: trainingText,
+      source: `${mergedScan.source}${videoObjectEvidenceText ? ' plus video object evidence' : ''}${videoContextText ? ' plus video context' : ''}: ${contextSourceUrls.join(', ')}`,
+      existingTermsOnly,
+      ...(targetExistingTerms.length ? { targetExistingTerms } : {}),
+    },
+    payload.abortSignal ? { signal: payload.abortSignal } : {},
+  );
 
   return {
     ...mergedScan,

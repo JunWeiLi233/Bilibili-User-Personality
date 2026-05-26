@@ -39,6 +39,59 @@ test('searchVideoKeywords discovers backend videos when no video link is provide
   assert.equal(requestedUrls.some((url) => url.includes('bvid=BV19yGa61Ee6')), true);
 });
 
+test('searchVideoKeywords forwards abort signal to Bilibili fetches', async () => {
+  const controller = new AbortController();
+  const seenSignals = [];
+  await searchVideoKeywords(
+    { pages: 1, discoveryLimit: 1, discoveryMode: 'search', abortSignal: controller.signal },
+    {
+      discoverVideosByKeyword: async () => [{ bvid: 'BV19yGa61Ee6', sourceUrl: 'http://www.bilibili.com/video/av123' }],
+      fetchJson: async (url, referer, options = {}) => {
+        seenSignals.push(options.signal);
+        if (String(url).includes('/x/web-interface/view')) {
+          return {
+            code: 0,
+            data: {
+              aid: 123,
+              title: 'backend default video',
+              owner: { mid: 9, name: 'up' },
+              stat: { reply: 0 },
+            },
+          };
+        }
+        return { code: 0, data: { replies: [], cursor: { is_end: true, next: 0 } } };
+      },
+    },
+  );
+
+  assert.equal(seenSignals.length > 0, true);
+  assert.equal(seenSignals.every((signal) => signal === controller.signal), true);
+});
+
+test('searchVideoKeywords stops discovery loops after abort signal fires', async () => {
+  const controller = new AbortController();
+  const seenQueries = [];
+  const result = await searchVideoKeywords(
+    {
+      searchQueries: ['first query', 'second query'],
+      discoveryMode: 'search',
+      discoveryLimit: 1,
+      abortSignal: controller.signal,
+    },
+    {
+      discoverVideosByKeyword: async (query) => {
+        seenQueries.push(query);
+        controller.abort();
+        return [];
+      },
+    },
+  );
+
+  assert.deepEqual(seenQueries, ['first query']);
+  assert.equal(result.ok, false);
+  assert.match(result.error, /aborted/i);
+});
+
 test('searchVideoKeywords rejects an explicitly invalid video link', async () => {
   const result = await searchVideoKeywords({ videoLink: 'not a bilibili video' });
 
@@ -1633,6 +1686,54 @@ test('searchVideoKeywords scans video comments and trains keyword dictionary', a
   assert.equal(trainedPayloads.length, 1);
   assert.equal(trainedPayloads[0].uid, 'BV19yGa61Ee6');
   assert.equal(trainedPayloads[0].text.includes('不会真有人'), true);
+});
+
+test('searchVideoKeywords forwards abort signal to keyword training', async () => {
+  const controller = new AbortController();
+  const seenSignals = [];
+  await searchVideoKeywords(
+    {
+      videoLink: 'https://www.bilibili.com/video/BV19yGa61Ee6/',
+      pages: 1,
+      abortSignal: controller.signal,
+    },
+    {
+      fetchJson: async (url) => {
+        if (String(url).includes('/x/web-interface/view')) {
+          return {
+            code: 0,
+            data: {
+              aid: 123,
+              title: 'sample video',
+              owner: { mid: 9, name: 'up' },
+              stat: { reply: 1 },
+            },
+          };
+        }
+        return {
+          code: 0,
+          data: {
+            replies: [
+              {
+                rpid: 1,
+                mid: 100,
+                member: { mid: '100', uname: 'alice' },
+                content: { message: 'test comment' },
+                ctime: 1710000000,
+              },
+            ],
+            cursor: { is_end: true, next: 0 },
+          },
+        };
+      },
+      trainKeywordDictionary: async (_payload, options = {}) => {
+        seenSignals.push(options.signal);
+        return { ok: true, available: true, entries: [], dictionary: { families: {} } };
+      },
+    },
+  );
+
+  assert.deepEqual(seenSignals, [controller.signal]);
 });
 
 test('searchVideoKeywords can include public danmaku in keyword training text', async () => {

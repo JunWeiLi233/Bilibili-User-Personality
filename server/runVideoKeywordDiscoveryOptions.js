@@ -110,6 +110,7 @@ export function buildVideoKeywordDiscoveryOptions({
     includeGenericPopular: flagFromEnv(env, 'BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR', false),
     includeDanmaku: flagFromEnv(env, 'BILIBILI_HARVEST_INCLUDE_DANMAKU', false),
     pages: numberFromEnv(env, 'BILIBILI_VIDEO_COMMENT_PAGES', 2),
+    perQueryTimeoutMs: numberFromEnv(env, 'BILIBILI_HARVEST_QUERY_TIMEOUT_MS', 180000),
     rounds: numberFromEnv(env, 'BILIBILI_HARVEST_ROUNDS', 1),
     statePath: env.BILIBILI_HARVEST_STATE_PATH || DEFAULT_HARVEST_STATE_PATH,
     reportPath: env.BILIBILI_HARVEST_REPORT_PATH || join(process.cwd(), 'server', 'keywordHarvestReport.json'),

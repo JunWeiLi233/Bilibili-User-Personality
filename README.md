@@ -109,6 +109,7 @@ $env:BILIBILI_HARVEST_TERMS_PER_FAMILY="4"
 $env:BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM="2"
 $env:BILIBILI_HARVEST_EXTRA_QUERY_TEMPLATES="{term} 热评`n{term} 名场面 评论区"
 $env:BILIBILI_HARVEST_TARGET_EVIDENCE="3"
+$env:BILIBILI_HARVEST_QUERY_TIMEOUT_MS="180000"
 $env:BILIBILI_HARVEST_ROUNDS="3"
 $env:BILIBILI_HARVEST_COVERAGE_MODE="all-weak"
 $env:BILIBILI_HARVEST_RESET="0"
@@ -140,6 +141,8 @@ To run the next audit-recommended queries first:
 ```powershell
 .\run-bilibili-video.ps1 -PriorityActionFile server\keywordCoverageActions.json -RequireCommentEvidence -ExistingTermsOnly
 ```
+
+Each priority query has a per-query timeout so one slow Bilibili or DeepSeek call cannot hold the harvest lock forever. The default is `-QueryTimeoutMs 180000`; lower it for quick triage runs, for example `-QueryTimeoutMs 60000`.
 
 `-PriorityQueryFile server\keywordCoverageQueries.txt` still works for plain one-query-per-line runs, but `-PriorityActionFile` is better for coverage work because it keeps the backend target-term metadata from the audit.
 The direct harvest script includes public danmaku by default because many short meme phrases appear in弹幕 before they appear in replies. Pass `-NoDanmaku` when you intentionally want reply comments only:

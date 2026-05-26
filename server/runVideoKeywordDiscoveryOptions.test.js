@@ -55,6 +55,16 @@ test('buildVideoKeywordDiscoveryOptions lets direct harvest retry override stric
   assert.equal(options.retryBeforeUnattemptedLimit, 4);
 });
 
+test('buildVideoKeywordDiscoveryOptions forwards per-query harvest timeout', () => {
+  const options = buildVideoKeywordDiscoveryOptions({
+    env: {
+      BILIBILI_HARVEST_QUERY_TIMEOUT_MS: '45000',
+    },
+  });
+
+  assert.equal(options.perQueryTimeoutMs, 45000);
+});
+
 test('parsePriorityQueryContent preserves structured audit action targets', () => {
   const priorityQueries = parsePriorityQueryContent(
     JSON.stringify([

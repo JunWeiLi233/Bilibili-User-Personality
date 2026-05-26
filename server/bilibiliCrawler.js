@@ -188,18 +188,32 @@ async function fetchWithTimeout(fetchImpl, url, init, config) {
   }
 
   const controller = new AbortController();
+  const callerSignal = init?.signal;
+  const signal =
+    callerSignal && typeof AbortSignal !== 'undefined' && typeof AbortSignal.any === 'function'
+      ? AbortSignal.any([callerSignal, controller.signal])
+      : callerSignal || controller.signal;
+  if (callerSignal && typeof callerSignal.addEventListener === 'function' && signal === controller.signal) {
+    if (callerSignal.aborted) controller.abort();
+    else callerSignal.addEventListener('abort', () => controller.abort(), { once: true });
+  }
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   if (typeof timer.unref === 'function') timer.unref();
   try {
-    return await fetchImpl(url, { ...init, signal: controller.signal });
+    return await fetchImpl(url, { ...init, signal });
   } catch (error) {
-    if (controller.signal.aborted) {
+    if (controller.signal.aborted && !(callerSignal?.aborted)) {
       throw new Error(`Bilibili request timed out after ${timeoutMs}ms: ${url}`);
     }
     throw error;
   } finally {
     clearTimeout(timer);
   }
+}
+
+function fetchConfigWithSignal(config, signal) {
+  if (!signal) return config;
+  return { ...config, signal };
 }
 
 function pickRange(randomFn, minMs, maxMs) {
@@ -214,7 +228,7 @@ export function humanPause(minMs, maxMs, options = {}) {
 }
 
 async function scheduleBilibiliRequest(options = {}) {
-  const config = { ...readCrawlerConfig(options.env), ...(options.config || {}) };
+  const config = fetchConfigWithSignal({ ...readCrawlerConfig(options.env), ...(options.config || {}) }, options.signal);
   const nowFn = options.nowFn || Date.now;
   const waitFn = options.waitFn || wait;
   const randomFn = options.randomFn || Math.random;
@@ -247,7 +261,7 @@ function applyBlockCooldown(config, nowFn) {
 }
 
 export async function fetchJson(url, referer = 'https://www.bilibili.com', options = {}) {
-  const config = { ...readCrawlerConfig(options.env), ...(options.config || {}) };
+  const config = fetchConfigWithSignal({ ...readCrawlerConfig(options.env), ...(options.config || {}) }, options.signal);
   const key = cacheKey(url, referer);
   const nowFn = options.nowFn || Date.now;
   const randomFn = options.randomFn || Math.random;
@@ -258,9 +272,15 @@ export async function fetchJson(url, referer = 'https://www.bilibili.com', optio
 
   await scheduleBilibiliRequest({ ...options, config });
   const fetchImpl = options.fetchImpl || fetch;
-  const response = await fetchWithTimeout(fetchImpl, url, {
-    headers: buildHeaders(url, referer, randomFn, nowFn),
-  }, config);
+  const response = await fetchWithTimeout(
+    fetchImpl,
+    url,
+    {
+      headers: buildHeaders(url, referer, randomFn, nowFn),
+      ...(config.signal ? { signal: config.signal } : {}),
+    },
+    config,
+  );
   if (!response.ok) {
     if ([403, 429, 503].includes(Number(response.status))) {
       applyBlockCooldown(config, nowFn);
@@ -284,14 +304,20 @@ export async function fetchJson(url, referer = 'https://www.bilibili.com', optio
 }
 
 export async function fetchText(url, referer = 'https://www.bilibili.com', options = {}) {
-  const config = { ...readCrawlerConfig(options.env), ...(options.config || {}) };
+  const config = fetchConfigWithSignal({ ...readCrawlerConfig(options.env), ...(options.config || {}) }, options.signal);
   const nowFn = options.nowFn || Date.now;
   const randomFn = options.randomFn || Math.random;
   await scheduleBilibiliRequest({ ...options, config });
   const fetchImpl = options.fetchImpl || fetch;
-  const response = await fetchWithTimeout(fetchImpl, url, {
-    headers: buildHeaders(url, referer, randomFn, nowFn),
-  }, config);
+  const response = await fetchWithTimeout(
+    fetchImpl,
+    url,
+    {
+      headers: buildHeaders(url, referer, randomFn, nowFn),
+      ...(config.signal ? { signal: config.signal } : {}),
+    },
+    config,
+  );
   if (!response.ok) {
     if ([403, 429, 503].includes(Number(response.status))) {
       applyBlockCooldown(config, nowFn);

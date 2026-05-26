@@ -4042,6 +4042,46 @@ test('harvestKeywordDictionary preserves target diagnostics for failed discovery
   }
 });
 
+test('harvestKeywordDictionary records a failed attempt when a search exceeds the per-query timeout', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-query-timeout-'));
+  const statePath = join(dir, 'state.json');
+  try {
+    let capturedSignal = null;
+    const result = await harvestKeywordDictionary(
+      {
+        priorityQueries: ['slowTerm \u8bc4\u8bba\u533a'],
+        seedQueries: [],
+        maxQueries: 1,
+        perQueryTimeoutMs: 1,
+        statePath,
+      },
+      {
+        readKeywordDictionary: async () => ({
+          entries: [{ term: 'slowTerm', family: 'attack', evidenceCount: 0 }],
+        }),
+        searchVideoKeywords: async (payload) =>
+          new Promise((resolve) => {
+            capturedSignal = payload.abortSignal;
+            setTimeout(() => resolve({ ok: true, warnings: [], videos: [], comments: [], entries: [] }), 50);
+          }),
+      },
+    );
+
+    assert.equal(capturedSignal?.aborted, true);
+    assert.equal(result.ok, false);
+    assert.match(result.warnings.join('\n'), /timed out after 1ms/);
+    assert.equal(result.results[0].result.ok, false);
+    assert.match(result.results[0].result.error, /timed out after 1ms/);
+    const state = JSON.parse(await readFile(statePath, 'utf8'));
+    const attempt = state.termAttempts[Buffer.from('slowTerm', 'utf8').toString('base64url')];
+    assert.equal(attempt.attempts, 1);
+    assert.equal(attempt.successfulAttempts, 0);
+    assert.match(attempt.lastError, /timed out after 1ms/);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('harvestKeywordDictionary uses untried query variants after prior missed attempts', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-retry-variant-'));
   const statePath = join(dir, 'state.json');

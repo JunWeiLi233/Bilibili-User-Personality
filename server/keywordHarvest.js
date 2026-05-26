@@ -1648,6 +1648,26 @@ function findResultDictionaryEntry(result, term) {
   return (Array.isArray(result?.dictionary?.entries) ? result.dictionary.entries : []).find((entry) => String(entry?.term || '').trim() === term);
 }
 
+async function withTimeout(promise, timeoutMs, message, controller = null) {
+  const ms = Math.max(0, Number(timeoutMs) || 0);
+  if (!ms) return promise;
+  let timer = null;
+  try {
+    return await Promise.race([
+      promise,
+      new Promise((_, reject) => {
+        timer = setTimeout(() => {
+          if (controller && !controller.signal.aborted) controller.abort();
+          reject(new Error(message || `Operation timed out after ${ms}ms`));
+        }, ms);
+        if (typeof timer.unref === 'function') timer.unref();
+      }),
+    ]);
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
+}
+
 function summarizeTrainingDiagnostics(results = []) {
   const diagnostics = {
     deepseekCalls: 0,
@@ -1873,6 +1893,8 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
     const query = planItem.query;
     const attemptFinishedAt = new Date().toISOString();
     const priorAttempt = planItem.term ? getTermAttempt(termAttempts, planItem.term) : null;
+    const timeoutMs = Math.max(0, Number(options.perQueryTimeoutMs) || 0);
+    const timeoutController = timeoutMs > 0 && typeof AbortController !== 'undefined' ? new AbortController() : null;
     const commentMisses = currentStrategyCommentMisses(priorAttempt);
     const deepenScan = isRepeatedlyMissedAttempt(priorAttempt, options.retryBeforeUnattemptedLimit) || commentMisses > 0;
     const hardMissedZeroEvidence = isHardMissedZeroEvidenceAttempt(priorAttempt, options.retryBeforeUnattemptedLimit);
@@ -1901,6 +1923,9 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
         pages: effectivePages,
         excludeBvids: skipSeen && !deepenScan ? [...scannedBvidSet] : [],
       };
+      if (timeoutController) {
+        searchPayload.abortSignal = timeoutController.signal;
+      }
       if (hardMissedZeroEvidence || options.discoveryPages !== undefined) {
         searchPayload.discoveryPages = hardMissedZeroEvidence ? hardMissedDiscoveryPages : options.discoveryPages;
       }
@@ -1937,7 +1962,12 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
         searchPayload.includeDanmaku = options.includeDanmaku;
         searchPayload.allowNetworkDanmaku = options.includeDanmaku === true;
       }
-      const result = await searchVideoKeywords(searchPayload);
+      const result = await withTimeout(
+        searchVideoKeywords(searchPayload),
+        timeoutMs,
+        `Bilibili harvest query "${query}" timed out after ${timeoutMs}ms`,
+        timeoutController,
+      );
       results.push({ query, result });
       if (!result.ok) warnings.push(`${query}: ${result.error}`);
       for (const warning of result.warnings || []) warnings.push(`${query}: ${warning}`);
