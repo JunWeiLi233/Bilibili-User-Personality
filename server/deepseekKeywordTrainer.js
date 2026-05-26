@@ -1000,6 +1000,11 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const directSisterAddressContext = /(?:\u96c6\u7f8e|\u59d0\u59b9|\u59d0\u4eec|\u96c6\u7f8e\u4eec)/u.test(cleanSample);
     return adLikeBestieContext && !directSisterAddressContext;
   }
+  if (term === '\u4ea4\u4ee3\u6e05\u695a' && family === 'cooperation') {
+    const coerciveThreatContext = /(?:\u8111\u888b\u5f00\u82b1|\u4e0d\u5f00\u82b1|\u7b49\u7740|\u4e0d\u4ea4\u4ee3|\u6328\u6253|\u62b1\u5934|\u6b20\u6253|\u5f00\u76d2|\u5a01\u80c1)/u.test(cleanSample);
+    const rationalClarificationContext = /(?:\u65f6\u95f4\u7ebf|\u8bf4\u660e|\u8bc1\u636e|\u89e3\u91ca|\u5927\u5bb6\u518d\u8ba8\u8bba|\u6765\u9f99\u53bb\u8109|\u8be6\u7ec6|\u8865\u5145|\u539f\u56e0)/u.test(cleanSample);
+    return coerciveThreatContext && !rationalClarificationContext;
+  }
   return false;
 }
 

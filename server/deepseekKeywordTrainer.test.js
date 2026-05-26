@@ -1995,6 +1995,26 @@ test('findDictionaryEntriesWithTextEvidence rejects literal game-mode and self-e
   assert.deepEqual(entries[3].evidenceSamples, ['\u5982\u679c\u96c6\u7f8e\u4eec\u771f\u7684\u548c\u5979\u8bf4\u7684\u4e00\u6837\uff0c\u4e0d\u73a9\u4e86\uff0c\u8fd9\u53cd\u800c\u4e0d\u662f\u4ef6\u597d\u4e8b\u5417\uff1f']);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects violent coercion for cooperative clarification evidence', () => {
+  const entries = findDictionaryEntriesWithTextEvidence(
+    {
+      entries: [
+        { term: '\u4ea4\u4ee3\u6e05\u695a', family: 'cooperation', meaning: '\u8981\u6c42\u5bf9\u65b9\u7ed9\u51fa\u660e\u786e\u89e3\u91ca\uff0c\u4f53\u73b0\u7406\u6027\u8bc9\u6c42', evidenceCount: 0 },
+      ],
+    },
+    [
+      '\u4ea4\u4ee3\u6e05\u695a\u4e86\u8111\u888b\u4e0d\u5f00\u82b1\u5417doge',
+      '\u4e0d\u4ea4\u4ee3\u6e05\u695a\u5c31\u7b49\u7740\u8111\u888b\u5f00\u82b1',
+      '\u8fd9\u4ef6\u4e8b\u5efa\u8bae\u5148\u628a\u65f6\u95f4\u7ebf\u4ea4\u4ee3\u6e05\u695a\uff0c\u5927\u5bb6\u518d\u8ba8\u8bba',
+    ].join('\n'),
+    { source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-clarify/', uid: 'BV-clarify' },
+  );
+
+  assert.deepEqual(entries.map((entry) => entry.term), ['\u4ea4\u4ee3\u6e05\u695a']);
+  assert.equal(entries[0].evidenceCount, 1);
+  assert.deepEqual(entries[0].evidenceSamples, ['\u8fd9\u4ef6\u4e8b\u5efa\u8bae\u5148\u628a\u65f6\u95f4\u7ebf\u4ea4\u4ee3\u6e05\u695a\uff0c\u5927\u5bb6\u518d\u8ba8\u8bba']);
+});
+
 test('findDictionaryEntriesWithTextEvidence can match stable internet aliases', () => {
   const entries = findDictionaryEntriesWithTextEvidence(
     {
