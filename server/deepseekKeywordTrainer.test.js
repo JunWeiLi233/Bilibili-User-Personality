@@ -1843,13 +1843,11 @@ test('findDictionaryEntriesWithTextEvidence rejects literal tree, missing-person
     { source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-literal-tree-missing-shenshen/', uid: 'BV-literal-tree-missing-shenshen' },
   );
 
-  assert.deepEqual(entries.map((entry) => entry.term), ['\u4e0a\u6811', '\u5931\u8e2a\u4eba\u53e3', '\u795e\u795e']);
+  assert.deepEqual(entries.map((entry) => entry.term), ['\u4e0a\u6811', '\u795e\u795e']);
   assert.equal(entries[0].evidenceCount, 1);
   assert.deepEqual(entries[0].evidenceSamples, ['\u8f6c\u4f1a\u7a97\u8fd8\u6ca1\u5b98\u5ba3\uff0c\u7403\u8ff7\u53c8\u8981\u4e0a\u6811\u7b49\u6d88\u606f\u4e86']);
   assert.equal(entries[1].evidenceCount, 1);
-  assert.deepEqual(entries[1].evidenceSamples, ['\u5931\u8e2a\u4eba\u53e3\u56de\u5f52\u4e86']);
-  assert.equal(entries[2].evidenceCount, 1);
-  assert.deepEqual(entries[2].evidenceSamples, ['\u8fd9\u7fa4\u795e\u795e\u53c8\u5f00\u59cb\u8df3\u4e86']);
+  assert.deepEqual(entries[1].evidenceSamples, ['\u8fd9\u7fa4\u795e\u795e\u53c8\u5f00\u59cb\u8df3\u4e86']);
 });
 
 test('findDictionaryEntriesWithTextEvidence rejects username, source-discussion, and standalone all-in evidence', () => {
@@ -2396,6 +2394,10 @@ test('findDictionaryEntriesWithTextEvidence rejects harvested platform-action ev
     '\u8bbe\u7f6e\u8bc4\u8bba\u533a\u5c4f\u853d\u8bcd\uff1f',
     '\u5c4f\u853d\u5173\u952e\u5b57',
     '\u81ea\u52a8\u5316\u5c4f\u853d\u811a\u672c\u52a0\u8bc4\u8bba\u533a\u7cbe\u9009',
+    '\u53ea\u8981\u5c4f\u853d\u90a3\u51e0\u4e2a\u9aa1\u5b50up\u5c31\u884c\u4e86',
+    '\u8fd9\u4e2a\u53f7\u6839\u672c\u4e0d\u6562\u5f00\uff0c\u7f51\u9875\u7aef\u4e5f\u7528\u4e86\u5c4f\u853d\u5668',
+    '\u6e29\u99a8\u63d0\u793a\u628a\u4eba\u7ed9\u5c4f\u853d\u4e86\u5c31\u884c\u4e86\uff0c\u4e00\u6574\u5c40\u90fd\u770b\u4e0d\u5230\u4ed6\u7684\u4fe1\u606f\uff0c\u5c4f\u853d\u6309\u952e\u5c31\u5728\u8fd9\u91cc',
+    '\u8fd9\u4eba\u5f88\u70e6\uff0c\u5c4f\u853d\u4e86\u8fd8\u51fa\u6765',
     '\u4ec0\u4e48\u8d5b\u535a\u4e09\u89d2\u8d38\u6613',
     '\u4e09\u8fde\u9001\u4e0a~',
     '\u7981\u6b62\u81ea\u5a31\u81ea\u4e50',
@@ -2445,11 +2447,47 @@ test('findDictionaryEntriesWithTextEvidence rejects harvested literal food and d
   assert.deepEqual(realEntries.map((entry) => entry.term), ['\u624b\u6495', '\u53ef\u4ee5\u8d34']);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects harvested comeback, username, and standalone praise evidence', () => {
+  const dictionary = {
+    entries: [
+      { term: '\u5931\u8e2a\u4eba\u53e3', family: 'attack', meaning: 'mock someone as missing from discussion' },
+      { term: '\u76f4\u8a00\u4e0d\u8bb3', family: 'attack', meaning: 'sarcastic label for a rude direct statement' },
+      { term: '\u751c\u83dc', family: 'cooperation', meaning: 'friendly nickname or positive metaphor' },
+    ],
+  };
+  const text = [
+    '\u7ec8\u4e8e\u56de\u6765\u4e86\u5931\u8e2a\u4eba\u53e3',
+    '\u5931\u8e2a\u4eba\u53e3\u56de\u5f52',
+    '\u76f4\u8a00\u4e0d\u8bb3',
+    '\u300a\u76f4\u8a00\u4e0d\u8bb3\u300b',
+    '\u76f4\u8a00\u4e0d\u8bb3\u7684\u79c0\u54e5',
+    '\u6211\u662f\u8fb2\u6c11\uff0c\u9019\u5c31\u662f\u751c\u83dc',
+    '\u56de\u590d @\u514d\u8d39\u751c\u83dc\u997c :\ud83d\ude0b',
+    '\u751c\u83dc',
+  ].join('\n');
+
+  const entries = findDictionaryEntriesWithTextEvidence(dictionary, text);
+
+  assert.deepEqual(entries.map((entry) => entry.term), []);
+
+  const realEntries = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    [
+      '\u4f60\u6bcf\u6b21\u88ab\u8981\u6c42\u7ed9\u8bc1\u636e\u5c31\u88c5\u5931\u8e2a\u4eba\u53e3',
+      '\u522b\u62ff\u76f4\u8a00\u4e0d\u8bb3\u5f53\u501f\u53e3\uff0c\u8fd9\u5c31\u662f\u4eba\u8eab\u653b\u51fb',
+    ].join('\n'),
+  );
+
+  assert.deepEqual(realEntries.map((entry) => entry.term), ['\u5931\u8e2a\u4eba\u53e3', '\u76f4\u8a00\u4e0d\u8bb3']);
+});
+
 test('findDictionaryEntriesWithTextEvidence rejects harvested numeric count, literal belief, and standalone reaction evidence', () => {
   const dictionary = {
     entries: [
       { term: '0\u4eba', family: 'attack', meaning: 'mocking no-one count' },
+      { term: '0\u63d0\u5347', family: 'cooperation', meaning: 'concede that something offers no improvement' },
       { term: '\u4fe1\u4ef0', family: 'attack', meaning: 'mocking ideological belief' },
+      { term: '\u4fe1\u606f\u8327\u623f', family: 'attack', meaning: 'accuse another side of living in an information bubble' },
       { term: '\u88c5\u5230', family: 'attack', meaning: 'accuse someone of posturing' },
       { term: '\u516d\u516d\u516d', family: 'attack', meaning: 'sarcastic praise' },
       { term: '\u6ca1\u60f3\u5230\u5427', family: 'attack', meaning: 'sarcastic reveal' },
@@ -2460,7 +2498,11 @@ test('findDictionaryEntriesWithTextEvidence rejects harvested numeric count, lit
   const text = [
     '\u73b0\u5728\u51cc\u6668\u4e09\u70b9\uff0c1000+\u4eba',
     '2000\u4eba',
+    '\u7b49\u7ea7\u8d85\u9650\u7b49\u4e8e0\u63d0\u5347\uff0c80\u7ea7\u7a81\u7834\u540e\u62c9\u9ad8\u7b49\u7ea7\u4ec5\u4ec5\u53ea\u662f\u63d0\u9ad8\u751f\u5b58',
+    '\u66f4\u6b63\u4e00\u4e0b\uff0c\u7259\u818f\u53825\u5e74\u662f\u5b8c\u5168\u76840\u63d0\u5347',
     '\u5176\u5b9e\u5f88\u65e9\u524d\u5c31\u6709\u6697\u793a\u4e86\uff0c\u59ae\u9732\u4fe1\u4ef0\u82b1\u795e\uff0c\u6563\u5175\u4e13\u6b66\u5c31\u6765\u6e90\u745c\u82b1\u795e',
+    '\u8981\u5b66\u4f1a\u5f00\u4e2a\u5c0f\u53f7\u4e3a\u81ea\u5df1\u5236\u9020\u4fe1\u606f\u8327\u623f\uff0c\u4f1a\u6e05\u51c0\u5f88\u591a',
+    '\u7537\u5973\u770b\u5230\u7684\u8bc4\u8bba\u533a\u7adf\u7136\u4e0d\u4e00\u6837\uff0c\u4fe1\u606f\u8327\u623f\u6b63\u5728\u64cd\u7eb5\u7740\u6211\u4eec',
     '\u56fd\u670d\uff08\u817e\u8baf\uff09\u662f\u8fd9\u6837\u7684\u5566\u3002\u770b\u770b\u5251\u7075\u3002\u6c38\u4e45\u7684\u526f\u672c\u65f6\u88c5\u5230\u56fd\u670d\u53d8\u621030\u5929\u3002',
     '\u516d\u516d\u516d',
     '\u6211\u4ee5\u4e3a\u662f\u60ac\u7591\u7247\u2026\u2026\u6ca1\u60f3\u5230\u4e0d\u662f\u554a\u2026\u2026',
@@ -2478,11 +2520,12 @@ test('findDictionaryEntriesWithTextEvidence rejects harvested numeric count, lit
     [
       '\u771f\u6ca1\u60f3\u5230\u5427\uff0c\u4f60\u524d\u9762\u8bf4\u7684\u8bc1\u636e\u5168\u90fd\u88ab\u53cd\u9a73\u4e86',
       '\u4ed6\u62ff\u4fe1\u4ef0\u5f53\u514d\u6b7b\u91d1\u724c\uff0c\u5c31\u662f\u4e0d\u56de\u5e94\u95ee\u9898',
+      '\u4f60\u8fd9\u5c31\u662f\u4fe1\u606f\u8327\u623f\uff0c\u53ea\u770b\u81ea\u5df1\u60f3\u770b\u7684\u8bc1\u636e',
       '\u4e0d\u8981\u518d\u88c5\u5230\u81ea\u5df1\u5f88\u61c2\u4e86',
     ].join('\n'),
   );
 
-  assert.deepEqual(realEntries.map((entry) => entry.term), ['\u4fe1\u4ef0', '\u88c5\u5230', '\u6ca1\u60f3\u5230\u5427']);
+  assert.deepEqual(realEntries.map((entry) => entry.term), ['\u4fe1\u4ef0', '\u4fe1\u606f\u8327\u623f', '\u88c5\u5230', '\u6ca1\u60f3\u5230\u5427']);
 });
 
 test('normalizeKeywordEntries drops passive publish source evidence for request-to-post terms', () => {
