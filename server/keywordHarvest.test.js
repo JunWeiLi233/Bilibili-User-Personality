@@ -5877,6 +5877,57 @@ test('harvestKeywordDictionary records a hit when the returned dictionary gained
   }
 });
 
+test('harvestKeywordDictionary stores merged dictionary evidence count after a hit', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-merged-count-attempt-'));
+  const statePath = join(dir, 'state.json');
+  const term = '\u5408\u5e76\u540e\u4e09\u6761\u8bc1\u636e';
+  try {
+    await harvestKeywordDictionary(
+      {
+        seedQueries: [],
+        maxQueries: 1,
+        existingTermsOnly: true,
+        coverageMode: 'all-weak',
+        targetEvidence: 3,
+        discoveryLimit: 1,
+        pages: 1,
+        statePath,
+      },
+      {
+        readKeywordDictionary: async () => ({
+          entries: [{ term, family: 'attack', evidenceCount: 2 }],
+        }),
+        searchVideoKeywords: async () => ({
+          ok: true,
+          warnings: [],
+          videos: [{ bvid: 'BV1111111111' }],
+          comments: [],
+          entries: [],
+          keywordTraining: {
+            dictionaryEvidenceEntries: [{ term, family: 'attack', evidenceCount: 1, evidenceSamples: [term] }],
+          },
+          dictionary: {
+            entries: [{ term, family: 'attack', evidenceCount: 3 }],
+          },
+          collectionDiagnostics: {
+            targetExistingTerms: [term],
+            acceptedTerms: [term],
+          },
+        }),
+      },
+    );
+
+    const state = JSON.parse(await readFile(statePath, 'utf8'));
+    const attempt = state.termAttempts[Buffer.from(term, 'utf8').toString('base64url')];
+
+    assert.equal(attempt.successfulAttempts, 1);
+    assert.equal(attempt.lastEvidenceCount, 3);
+    assert.equal(attempt.queries[0].hit, true);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('harvestKeywordDictionary does not record duplicate accepted evidence as a successful attempt', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-duplicate-accepted-attempt-'));
   const statePath = join(dir, 'state.json');

@@ -1791,7 +1791,7 @@ function updateTermAttempt(termAttempts, planItem, result, finishedAt, options =
   const evidenceEntryGained = Boolean(result?.ok) && evidenceEntryCoverageCount > plannedEvidenceCount;
   const dictionaryEvidenceGained = Boolean(result?.ok) && dictionaryEvidenceCount > plannedEvidenceCount;
   const hit = evidenceEntryGained || dictionaryEvidenceGained;
-  const hitEvidenceCount = Number(evidenceEntry?.evidenceCount) || dictionaryEvidenceCount;
+  const hitEvidenceCount = Math.max(evidenceEntryCoverageCount, dictionaryEvidenceCount);
   const priorSuccessfulAttempts = Math.max(0, Number(current.successfulAttempts) || 0);
   const evidenceAtPlanTime =
     !hit && priorSuccessfulAttempts > 0 && Object.prototype.hasOwnProperty.call(current, 'evidenceAtPlanTime')
