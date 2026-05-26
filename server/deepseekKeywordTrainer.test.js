@@ -4042,6 +4042,50 @@ test('normalizeKeywordEntries prunes loose bengbuzhu reaction evidence for attac
   assert.deepEqual(entries[0].evidenceSamples, ['\u4f60\u8fd9\u4e2a\u6211\u662f\u771f\u7ef7\u4e0d\u4f4f[\u7b11\u54ed]']);
 });
 
+test('normalizeKeywordEntries prunes numeric praise bengbuzhu reaction evidence for attack term', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u7ef7\u4e0d\u4f4f\u4e86',
+      family: 'attack',
+      meaning: 'mocking that something is laughably absurd',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '666\uff0c\u6ca1\u7ef7\u4f4f',
+        '\u4f60\u8fd9\u903b\u8f91\u771f\u7ef7\u4e0d\u4f4f\u4e86\uff0c\u8bc1\u636e\u90fd\u4e0d\u770b',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '666\uff0c\u6ca1\u7ef7\u4f4f' },
+        { source: 'Bilibili public video comment scan', sample: '\u4f60\u8fd9\u903b\u8f91\u771f\u7ef7\u4e0d\u4f4f\u4e86\uff0c\u8bc1\u636e\u90fd\u4e0d\u770b' },
+      ],
+    },
+  ]);
+
+  assert.equal(entries[0].evidenceCount, 1);
+  assert.deepEqual(entries[0].evidenceSamples, ['\u4f60\u8fd9\u903b\u8f91\u771f\u7ef7\u4e0d\u4f4f\u4e86\uff0c\u8bc1\u636e\u90fd\u4e0d\u770b']);
+});
+
+test('normalizeKeywordEntries prunes standalone logic-gift labels without a target', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u903b\u8f91\u9b3c\u624d',
+      family: 'attack',
+      meaning: 'sarcastically mocks absurd logic',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u903b\u8f91\u9b3c\u624d',
+        '\u4f60\u8fd9\u903b\u8f91\u9b3c\u624d\uff0c\u524d\u540e\u77db\u76fe\u8fd8\u8bf4\u81ea\u5df1\u6709\u8bc1\u636e',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u903b\u8f91\u9b3c\u624d' },
+        { source: 'Bilibili public video comment scan', sample: '\u4f60\u8fd9\u903b\u8f91\u9b3c\u624d\uff0c\u524d\u540e\u77db\u76fe\u8fd8\u8bf4\u81ea\u5df1\u6709\u8bc1\u636e' },
+      ],
+    },
+  ]);
+
+  assert.equal(entries[0].evidenceCount, 1);
+  assert.deepEqual(entries[0].evidenceSamples, ['\u4f60\u8fd9\u903b\u8f91\u9b3c\u624d\uff0c\u524d\u540e\u77db\u76fe\u8fd8\u8bf4\u81ea\u5df1\u6709\u8bc1\u636e']);
+});
+
 test('normalizeKeywordEntries prunes trump username mention evidence for chuan-jianguo attack term', () => {
   const entries = normalizeKeywordEntries([
     {
