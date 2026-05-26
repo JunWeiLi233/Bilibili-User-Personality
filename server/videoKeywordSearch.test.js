@@ -1588,6 +1588,38 @@ test('searchVideoKeywords keeps controversial popular videos first during existi
   assert.deepEqual(result.videos.map((video) => video.bvid), ['BV1hotPolitics', 'BV1politics1', 'BV1dictionary']);
 });
 
+test('searchVideoKeywords can run only target searches for strict dictionary refreshes', async () => {
+  const queried = [];
+  const result = await searchVideoKeywords(
+    {
+      searchQuery: 'target phrase comments',
+      controversyQueries: ['politics debate', 'game drama'],
+      discoveryMode: 'controversial',
+      discoveryLimit: 2,
+      pages: 1,
+      existingTermsOnly: true,
+      targetExistingTerms: ['target phrase'],
+      prioritizeSearchQueries: true,
+      targetSearchOnly: true,
+      includeVideoContext: false,
+      includeVideoObjectEvidence: false,
+    },
+    {
+      discoverVideosByKeyword: async (query, _limit, options = {}) => {
+        queried.push({ query, order: options.searchOrder || '' });
+        return [];
+      },
+      fetchJson: async () => {
+        throw new Error('no videos should be scanned when target search misses');
+      },
+      trainKeywordDictionary: async () => ({ ok: true, entries: [], dictionary: { entries: [] } }),
+    },
+  );
+
+  assert.equal(result.ok, false);
+  assert.deepEqual(queried, [{ query: 'target phrase comments', order: '' }]);
+});
+
 test('searchVideoKeywords can prefer broad controversy pools for strict comment-backed refreshes', async () => {
   const result = await searchVideoKeywords(
     {

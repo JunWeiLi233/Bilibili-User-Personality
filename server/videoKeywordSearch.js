@@ -583,6 +583,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
     payload.includeGenericPopular === true ||
     deps.includeGenericPopular === true ||
     envFlag(process.env.BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR, false);
+  const targetSearchOnly = payload.targetSearchOnly === true || deps.targetSearchOnly === true;
   const allowFilteredDiscoveryFallback = payload.allowFilteredDiscoveryFallback === true || deps.allowFilteredDiscoveryFallback === true;
   const preferFilteredDiscoveryFallback = payload.preferFilteredDiscoveryFallback === true || deps.preferFilteredDiscoveryFallback === true;
   const discoveryWarnings = [];
@@ -612,43 +613,57 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
       const controversialPopularGroup = [];
       const controversyGroup = [];
       const searchGroup = [];
-      for (const query of controversyQueries.slice(0, controversialPopularQueryLimit)) {
-        try {
-          throwIfAborted(payload.abortSignal);
-          controversialPopularGroup.push(
-            ...(await discoverVideos(query, discoveryCandidateLimit, { ...deps, discoveryPages, searchOrder: controversialPopularSearchOrder })),
-          );
-          throwIfAborted(payload.abortSignal);
-        } catch (error) {
-          discoveryWarnings.push(`${query} (${controversialPopularSearchOrder || 'popular'}): ${error.message}`);
-          if (payload.abortSignal?.aborted) break;
+      if (targetSearchOnly) {
+        for (const query of searchQueries) {
+          try {
+            throwIfAborted(payload.abortSignal);
+            searchGroup.push(...(await discoverVideos(query, discoveryCandidateLimit, { ...deps, discoveryPages })));
+            throwIfAborted(payload.abortSignal);
+          } catch (error) {
+            discoveryWarnings.push(`${query}: ${error.message}`);
+            if (payload.abortSignal?.aborted) break;
+          }
         }
-      }
-      for (const query of controversyQueries) {
-        try {
-          throwIfAborted(payload.abortSignal);
-          controversyGroup.push(...(await discoverVideos(query, discoveryCandidateLimit, { ...deps, discoveryPages })));
-          throwIfAborted(payload.abortSignal);
-        } catch (error) {
-          discoveryWarnings.push(`${query}: ${error.message}`);
-          if (payload.abortSignal?.aborted) break;
+        discoveryGroups.push(searchGroup);
+      } else {
+        for (const query of controversyQueries.slice(0, controversialPopularQueryLimit)) {
+          try {
+            throwIfAborted(payload.abortSignal);
+            controversialPopularGroup.push(
+              ...(await discoverVideos(query, discoveryCandidateLimit, { ...deps, discoveryPages, searchOrder: controversialPopularSearchOrder })),
+            );
+            throwIfAborted(payload.abortSignal);
+          } catch (error) {
+            discoveryWarnings.push(`${query} (${controversialPopularSearchOrder || 'popular'}): ${error.message}`);
+            if (payload.abortSignal?.aborted) break;
+          }
         }
-      }
-      for (const query of searchQueries) {
-        try {
-          throwIfAborted(payload.abortSignal);
-          searchGroup.push(...(await discoverVideos(query, discoveryCandidateLimit, { ...deps, discoveryPages })));
-          throwIfAborted(payload.abortSignal);
-        } catch (error) {
-          discoveryWarnings.push(`${query}: ${error.message}`);
-          if (payload.abortSignal?.aborted) break;
+        for (const query of controversyQueries) {
+          try {
+            throwIfAborted(payload.abortSignal);
+            controversyGroup.push(...(await discoverVideos(query, discoveryCandidateLimit, { ...deps, discoveryPages })));
+            throwIfAborted(payload.abortSignal);
+          } catch (error) {
+            discoveryWarnings.push(`${query}: ${error.message}`);
+            if (payload.abortSignal?.aborted) break;
+          }
         }
+        for (const query of searchQueries) {
+          try {
+            throwIfAborted(payload.abortSignal);
+            searchGroup.push(...(await discoverVideos(query, discoveryCandidateLimit, { ...deps, discoveryPages })));
+            throwIfAborted(payload.abortSignal);
+          } catch (error) {
+            discoveryWarnings.push(`${query}: ${error.message}`);
+            if (payload.abortSignal?.aborted) break;
+          }
+        }
+        discoveryGroups.push(
+          ...(prioritizeSearchQueries
+            ? [searchGroup, controversialPopularGroup, controversyGroup]
+            : [controversialPopularGroup, controversyGroup, searchGroup]),
+        );
       }
-      discoveryGroups.push(
-        ...(prioritizeSearchQueries
-          ? [searchGroup, controversialPopularGroup, controversyGroup]
-          : [controversialPopularGroup, controversyGroup, searchGroup]),
-      );
     }
     if (discoveryMode === 'popular' || discoveryMode === 'mixed' || (discoveryMode === 'controversial' && includeGenericPopular)) {
       const discoverPopular = deps.discoverPopularVideos || discoverPopularVideos;

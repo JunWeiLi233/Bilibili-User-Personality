@@ -2027,6 +2027,10 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
         searchPayload.allowFilteredDiscoveryFallback = options.allowFilteredDiscoveryFallback !== false;
         searchPayload.preferFilteredDiscoveryFallback = options.preferFilteredDiscoveryFallback !== false;
         searchPayload.expandTargetsFromComments = options.expandTargetsFromComments !== false;
+        if (options.existingTermsOnly === true && options.prioritizeSearchQueries !== false) {
+          searchPayload.prioritizeSearchQueries = true;
+          searchPayload.targetSearchOnly = options.targetSearchOnly !== false;
+        }
       }
       if (options.controversialPopularQueryLimit !== undefined) {
         searchPayload.controversialPopularQueryLimit = options.controversialPopularQueryLimit;

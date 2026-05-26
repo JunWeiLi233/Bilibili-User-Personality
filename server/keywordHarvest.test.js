@@ -5588,6 +5588,46 @@ test('harvestKeywordDictionary enables filtered discovery fallback for strict co
   }
 });
 
+test('harvestKeywordDictionary prioritizes target search during strict comment-backed refreshes', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-comment-prioritize-search-'));
+  const statePath = join(dir, 'state.json');
+  try {
+    const payloads = [];
+    await harvestKeywordDictionary(
+      {
+        seedQueries: [],
+        maxQueries: 1,
+        existingTermsOnly: true,
+        requireCommentBackedEvidence: true,
+        discoveryMode: 'controversial',
+        discoveryLimit: 1,
+        pages: 1,
+        statePath,
+      },
+      {
+        readKeywordDictionary: async () => ({
+          entries: [{ term: '\u76ee\u6807\u5f31\u8bcd', family: 'attack', evidenceCount: 1 }],
+        }),
+        searchVideoKeywords: async (payload) => {
+          payloads.push(payload);
+          return {
+            ok: true,
+            warnings: [],
+            videos: [{ bvid: 'BVtarget11111' }],
+            comments: [{ message: '\u76ee\u6807\u5f31\u8bcd \u8bc4\u8bba\u8bc1\u636e', rpid: '1' }],
+            entries: [],
+          };
+        },
+      },
+    );
+
+    assert.equal(payloads[0].prioritizeSearchQueries, true);
+    assert.equal(payloads[0].targetSearchOnly, true);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('harvestKeywordDictionary sends a weak-term batch to strict comment-pool refreshes', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-comment-pool-targets-'));
   const statePath = join(dir, 'state.json');
