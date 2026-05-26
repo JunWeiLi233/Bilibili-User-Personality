@@ -1577,6 +1577,30 @@ test('findDictionaryEntriesWithTextEvidence rejects literal ASMR and game-item e
   assert.deepEqual(entries[1].evidenceSamples, ['\u4e0d\u8981\u628a\u8001\u7c89\u8eab\u4efd\u5f53\u514d\u6b7b\u91d1\u724c\uff0c\u8be5\u9a82\u8fd8\u662f\u8981\u9a82']);
 });
 
+test('findDictionaryEntriesWithTextEvidence rejects literal beggar and game bait-shot evidence', () => {
+  const entries = findDictionaryEntriesWithTextEvidence(
+    {
+      entries: [
+        { term: '\u4e5e\u4e10', family: 'attack', meaning: '\u628a\u4eba\u8d2c\u4f4e\u4e3a\u8ba8\u8981\u5229\u76ca\u7684\u653b\u51fb\u8bed', evidenceCount: 0 },
+        { term: '\u9a97\u70ae', family: 'evasion', meaning: '\u4ee5\u865a\u5047\u60c5\u611f\u6216\u627f\u8bfa\u8fdb\u884c\u6027\u6b3a\u9a97\u7684\u6307\u63a7', evidenceCount: 0 },
+      ],
+    },
+    [
+      '\u770b\u4e00\u4e2a\u4e5e\u4e10\u7528\u4e8c\u7ef4\u7801\u4e5e\u8ba8\uff0c\u5f88\u96be\u8ba9\u4eba\u6709\u540c\u60c5\u611f',
+      '\u522b\u518d\u50cf\u4e5e\u4e10\u4e00\u6837\u5230\u5904\u8ba8\u798f\u5229\u4e86',
+      '\u4fa7\u540e\u9a97\u70ae\u6700\u5f3a\u7684\u8fd8\u5f97\u662f\u8c22\u91cc\u767b\u4fe9\u5144\u5f1f',
+      '\u56de\u590d @\u82c7\u540d\u4e00\u7978 :\u9a97\u70ae\uff1f\u90a3\u5c31\u662f\u81ea\u613f\u7684\u4e86',
+    ].join('\n'),
+    { source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-literal-beggar-shot/', uid: 'BV-literal-beggar-shot' },
+  );
+
+  assert.deepEqual(entries.map((entry) => entry.term), ['\u4e5e\u4e10', '\u9a97\u70ae']);
+  assert.equal(entries[0].evidenceCount, 1);
+  assert.deepEqual(entries[0].evidenceSamples, ['\u522b\u518d\u50cf\u4e5e\u4e10\u4e00\u6837\u5230\u5904\u8ba8\u798f\u5229\u4e86']);
+  assert.equal(entries[1].evidenceCount, 1);
+  assert.deepEqual(entries[1].evidenceSamples, ['\u56de\u590d @\u82c7\u540d\u4e00\u7978 :\u9a97\u70ae\uff1f\u90a3\u5c31\u662f\u81ea\u613f\u7684\u4e86']);
+});
+
 test('findDictionaryEntriesWithTextEvidence can match stable internet aliases', () => {
   const entries = findDictionaryEntriesWithTextEvidence(
     {
