@@ -5820,6 +5820,28 @@ test('findDictionaryEntriesWithTextEvidence keeps pig-nose insult for momentary 
   assert.deepEqual(entries.map((entry) => entry.term), ['\u732a\u9f3b']);
 });
 
+test('findDictionaryEntriesWithTextEvidence maps pig-nose insult homophones to the same criticism term', () => {
+  const dictionary = {
+    entries: [
+      {
+        term: '\u732a\u9f3b',
+        family: 'attack',
+        meaning: 'criticizes someone as acting dumb or making a stupid move in the moment',
+      },
+    ],
+  };
+
+  const entries = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    [
+      '\u4f60\u8fd9\u6ce2\u771f\u732a\u903c\uff0c\u660e\u660e\u53ef\u4ee5\u5148\u770b\u5730\u56fe\u518d\u4e0a',
+      '\u522b\u518d\u732a\u6bd4\u64cd\u4f5c\u4e86\uff0c\u521a\u624d\u90a3\u4e00\u4e0b\u5c31\u662f\u5728\u72af\u8822',
+    ].join('\n'),
+  );
+
+  assert.deepEqual(entries.map((entry) => [entry.term, entry.evidenceCount]), [['\u732a\u9f3b', 2]]);
+});
+
 test('normalizeKeywordEntries prunes persisted literal traditional-character samples for video-language attack terms', () => {
   const entries = normalizeKeywordEntries([
     {
