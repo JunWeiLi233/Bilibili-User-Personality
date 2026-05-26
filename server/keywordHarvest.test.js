@@ -5956,6 +5956,87 @@ test('harvestKeywordDictionary does not record duplicate accepted evidence as a 
   }
 });
 
+test('harvestKeywordDictionary preserves prior successful attempts after a duplicate retry', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-preserve-prior-success-'));
+  const statePath = join(dir, 'state.json');
+  const term = '\u5df2\u7ecf\u8865\u8fc7\u8bc1\u636e';
+  const key = Buffer.from(term, 'utf8').toString('base64url');
+  try {
+    await writeFile(
+      statePath,
+      JSON.stringify({
+        version: 1,
+        harvestStrategyVersion: 4,
+        updatedAt: '2026-01-01T00:00:00.000Z',
+        searchedQueries: [],
+        scannedBvids: [],
+        termAttempts: {
+          [key]: {
+            key,
+            term,
+            family: 'attack',
+            evidenceAtPlanTime: 1,
+            lastEvidenceCount: 2,
+            attempts: 1,
+            successfulAttempts: 1,
+            lastQuery: `${term} \u8bc4\u8bba\u533a`,
+            queries: [{ query: `${term} \u8bc4\u8bba\u533a`, hit: true, strategyVersion: 4 }],
+          },
+        },
+        runs: [],
+      }),
+      'utf8',
+    );
+
+    const result = await harvestKeywordDictionary(
+      {
+        priorityQueries: [`${term} \u70ed\u8bc4`],
+        seedQueries: [],
+        maxQueries: 1,
+        existingTermsOnly: true,
+        coverageMode: 'all-weak',
+        targetEvidence: 3,
+        discoveryLimit: 1,
+        pages: 1,
+        statePath,
+      },
+      {
+        readKeywordDictionary: async () => ({
+          entries: [{ term, family: 'attack', evidenceCount: 2 }],
+        }),
+        searchVideoKeywords: async () => ({
+          ok: true,
+          warnings: [],
+          videos: [{ bvid: 'BVduplicate' }],
+          comments: [{ rpid: '1', message: term }],
+          entries: [],
+          keywordTraining: {
+            dictionaryEvidenceEntries: [{ term, family: 'attack', evidenceCount: 2, evidenceSamples: [term] }],
+          },
+          dictionary: {
+            entries: [{ term, family: 'attack', evidenceCount: 2 }],
+          },
+          collectionDiagnostics: {
+            targetExistingTerms: [term],
+            acceptedTerms: [term],
+          },
+        }),
+      },
+    );
+
+    const state = JSON.parse(await readFile(statePath, 'utf8'));
+    const attempt = state.termAttempts[key];
+    const action = result.coverageActions.find((item) => item.term === term);
+
+    assert.equal(attempt.attempts, 2);
+    assert.equal(attempt.successfulAttempts, 1);
+    assert.equal(action.successfulAttempts, 1);
+    assert.equal(action.status, 'weak_partial');
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('harvestKeywordDictionary backfills shorter-anchor searched queries for related contained terms', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-contained-backfill-'));
   const statePath = join(dir, 'state.json');

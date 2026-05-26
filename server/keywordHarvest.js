@@ -1792,6 +1792,11 @@ function updateTermAttempt(termAttempts, planItem, result, finishedAt, options =
   const dictionaryEvidenceGained = Boolean(result?.ok) && dictionaryEvidenceCount > plannedEvidenceCount;
   const hit = evidenceEntryGained || dictionaryEvidenceGained;
   const hitEvidenceCount = Number(evidenceEntry?.evidenceCount) || dictionaryEvidenceCount;
+  const priorSuccessfulAttempts = Math.max(0, Number(current.successfulAttempts) || 0);
+  const evidenceAtPlanTime =
+    !hit && priorSuccessfulAttempts > 0 && Object.prototype.hasOwnProperty.call(current, 'evidenceAtPlanTime')
+      ? current.evidenceAtPlanTime
+      : planItem.evidenceCount ?? current.evidenceAtPlanTime ?? 0;
   const queryRecord = {
     at: finishedAt,
     query: planItem.query,
@@ -1806,10 +1811,10 @@ function updateTermAttempt(termAttempts, planItem, result, finishedAt, options =
     key,
     term,
     family: planItem.family || current.family || 'unknown',
-    evidenceAtPlanTime: planItem.evidenceCount ?? current.evidenceAtPlanTime ?? 0,
+    evidenceAtPlanTime,
     lastVariantIndex: planItem.variantIndex ?? current.lastVariantIndex ?? null,
     attempts: Math.max(0, Number(current.attempts) || 0) + 1,
-    successfulAttempts: Math.max(0, Number(current.successfulAttempts) || 0) + (hit ? 1 : 0),
+    successfulAttempts: priorSuccessfulAttempts + (hit ? 1 : 0),
     lastAttemptAt: finishedAt,
     lastSuccessfulAt: hit ? finishedAt : current.lastSuccessfulAt || null,
     lastQuery: planItem.query,
