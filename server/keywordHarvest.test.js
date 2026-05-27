@@ -4096,6 +4096,23 @@ test('buildDictionaryCoverageAudit does not recommend globally searched feedback
   assert.equal(audit.nextActions[0].nextQuery, `${term} \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4`);
 });
 
+test('buildDictionaryCoverageAudit ignores globally searched queries from stale harvest strategy state', () => {
+  const term = 'doge';
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [{ term, family: 'attack', evidenceCount: 0 }],
+    },
+    {
+      harvestStrategyVersion: 4,
+      searchedQueries: [`${term} \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4`],
+      termAttempts: {},
+    },
+    { targetEvidence: 3, maxActions: 1 },
+  );
+
+  assert.equal(audit.nextActions[0].nextQuery, `${term} \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4`);
+});
+
 test('buildDictionaryCoverageAudit can retry exact queries from older harvest strategy state', () => {
   const term = '\u8f66\u5bb6\u519b';
   const audit = buildDictionaryCoverageAudit(

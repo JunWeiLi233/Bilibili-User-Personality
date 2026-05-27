@@ -1488,7 +1488,7 @@ export function buildCoverageActions(dictionary = {}, state = {}, options = {}) 
   const entries = sortEntriesForCoverage(Array.isArray(dictionary?.entries) ? dictionary.entries : []);
   const stateStrategyIsCurrent = hasCurrentHarvestStrategyState(state);
   const attempts = stateStrategyIsCurrent && state.termAttempts && typeof state.termAttempts === 'object' ? state.termAttempts : {};
-  const searchedQueries = new Set(Array.isArray(state.searchedQueries) ? state.searchedQueries : []);
+  const searchedQueries = new Set(stateStrategyIsCurrent && Array.isArray(state.searchedQueries) ? state.searchedQueries : []);
   const assumeLegacyQueriesCurrent = stateStrategyIsCurrent;
   const targetEvidence = asPositiveInt(options.targetEvidence, 3, 1000);
   return entries.map((entry) => {
