@@ -848,6 +848,66 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for follow-up 
   ]);
 });
 
+test('buildKeywordHarvestQueries uses high-signal comment queries for later weak queue', () => {
+  const queries = buildKeywordHarvestQueries(
+    {
+      entries: [
+        { term: '\u5bf9\u51b2\u5947\u624d', family: 'attack', evidenceCount: 1 },
+        { term: '\u591a\u5c11\u6709\u70b9\u5c0f\u4e11', family: 'attack', evidenceCount: 1 },
+        { term: '\u6076\u81ed\u6897', family: 'attack', evidenceCount: 1 },
+        { term: '\u53d1\u56fe', family: 'evidence', evidenceCount: 1 },
+        { term: '\u53d1\u73b0\u5168\u662f\u7f3a', family: 'absolutes', evidenceCount: 1 },
+        { term: '\u9632\u6760\u6211\u5148\u8bf4', family: 'cooperation', evidenceCount: 1 },
+        { term: '\u653eppt', family: 'attack', evidenceCount: 1 },
+        { term: '\u975e\u5e38\u70c2', family: 'attack', evidenceCount: 1 },
+      ],
+    },
+    {
+      seedQueries: [],
+      coverageMode: 'all-weak',
+      maxQueries: 8,
+      queryVariantsPerTerm: 1,
+    },
+  );
+
+  assert.deepEqual(queries, [
+    '\u5bf9\u51b2\u5947\u624d \u70ed\u8bc4',
+    '\u591a\u5c11\u6709\u70b9\u5c0f\u4e11 \u70ed\u8bc4',
+    '\u6076\u81ed\u6897 \u70ed\u8bc4',
+    '\u53d1\u56fe \u622a\u56fe \u56de\u590d',
+    '\u53d1\u73b0\u5168\u662f\u7f3a \u70ed\u8bc4',
+    '\u9632\u6760\u6211\u5148\u8bf4 \u70ed\u8bc4',
+    '\u653ePPT\u4e00\u6837 \u70ed\u8bc4',
+    '\u975e\u5e38\u70c2 \u70ed\u8bc4',
+  ]);
+});
+
+test('buildKeywordHarvestQueries uses high-signal comment queries for next later weak queue', () => {
+  const queries = buildKeywordHarvestQueries(
+    {
+      entries: [
+        { term: '\u80a5\u7f8e\u5976\u9f99', family: 'attack', evidenceCount: 1 },
+        { term: '\u80ba\u7269', family: 'attack', evidenceCount: 1 },
+        { term: '\u5206\u8d43\u4e0d\u5747', family: 'attack', evidenceCount: 1 },
+        { term: '\u798f\u745e\u63a7', family: 'cooperation', evidenceCount: 1 },
+      ],
+    },
+    {
+      seedQueries: [],
+      coverageMode: 'all-weak',
+      maxQueries: 4,
+      queryVariantsPerTerm: 1,
+    },
+  );
+
+  assert.deepEqual(queries, [
+    '\u80a5\u7f8e\u5976\u9f99 \u70ed\u8bc4',
+    '\u592a\u80ba\u7269\u4e86 \u70ed\u8bc4',
+    '\u5206\u8d43\u4e0d\u5747 \u70ed\u8bc4',
+    'furry\u63a7 \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4',
+  ]);
+});
+
 test('buildKeywordHarvestQueries prioritizes exact searches for compact metric terms', () => {
   const queries = buildKeywordHarvestQueries(
     {
