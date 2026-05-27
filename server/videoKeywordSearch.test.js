@@ -1301,6 +1301,56 @@ test('searchVideoKeywords rejects noisy direct probes for compact mixed-script w
   assert.deepEqual(scannedBvids, []);
 });
 
+test('searchVideoKeywords requires ASCII anchor matches for mixed-script weak probes', async () => {
+  const scannedBvids = [];
+  const result = await searchVideoKeywords(
+    {
+      searchQuery: '3pp\u5927\u795e\u6765\u4e86 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      discoveryMode: 'search',
+      discoveryLimit: 4,
+      pages: 1,
+      existingTermsOnly: true,
+      includeVideoContext: false,
+      targetExistingTerms: ['3pp\u5927\u795e'],
+    },
+    {
+      discoverVideosByKeyword: async () => [
+        {
+          bvid: 'BVgenericGod',
+          title: '\u3010\u70b9\u70b9\u5927\u795e\u6765\u4e86\u3011\u66f4\u65b0\u5566\uff0c\u8d76\u7d27\u6765\u56f4\u89c2\u5427\uff01',
+          sourceUrl: 'https://www.bilibili.com/video/BVgenericGod/',
+        },
+        {
+          bvid: 'BV3ppTarget',
+          title: '3pp\u5927\u795e\u6765\u4e86\uff0c\u8fd9\u6ce2\u8bc4\u8bba\u533a\u771f\u7cbe\u5f69',
+          sourceUrl: 'https://www.bilibili.com/video/BV3ppTarget/',
+        },
+      ],
+      fetchJson: async (url) => {
+        const bvid = new URL(String(url)).searchParams.get('bvid');
+        if (String(url).includes('/x/web-interface/view')) {
+          scannedBvids.push(bvid);
+          return {
+            code: 0,
+            data: {
+              aid: bvid,
+              title: bvid,
+              owner: { mid: 9, name: 'up' },
+              stat: { reply: 0 },
+            },
+          };
+        }
+        return { code: 0, data: { replies: [], cursor: { is_end: true, next: 0 } } };
+      },
+      trainKeywordDictionary: async () => ({ ok: true, entries: [], dictionary: { entries: [] } }),
+    },
+  );
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.discoveredVideos.map((video) => video.bvid), ['BV3ppTarget']);
+  assert.deepEqual(scannedBvids, ['BV3ppTarget']);
+});
+
 test('searchVideoKeywords can discover popular videos without a search query', async () => {
   const requestedUrls = [];
   const result = await searchVideoKeywords(

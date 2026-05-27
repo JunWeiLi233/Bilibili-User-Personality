@@ -149,6 +149,22 @@ function searchQueryNeedles(query) {
   return [raw, ...raw.split(/\s+/)].map(cleanSearchText).filter((item) => item.length >= 2);
 }
 
+function mixedScriptAsciiAnchors(value) {
+  const text = cleanSearchText(value);
+  if (!/[\p{Script=Han}]/u.test(text)) return [];
+  return Array.from(text.matchAll(/[a-z0-9]{2,}/giu), (match) => match[0].toLowerCase());
+}
+
+function requiredAsciiAnchorsForSearch(searchQueries = []) {
+  return uniqueByKey(
+    searchQueries
+      .flatMap((query) => parseList(query).flatMap((item) => String(item || '').split(/\s+/)))
+      .filter((item) => item && !isGenericTargetSearchNeedle(item))
+      .flatMap(mixedScriptAsciiAnchors),
+    (item) => item,
+  );
+}
+
 const GENERIC_TARGET_SEARCH_NEEDLES = new Set(
   [
     'b站',
@@ -329,8 +345,11 @@ function filterRelevantVideos(videos = [], searchQueries = [], targetExistingTer
   const needles = searchNeedlesForRelevance(searchQueries, targetExistingTerms);
   if (needles.length === 0) return videos;
   const rejectAskBaiduProductNoise = targetsAskBaiduTerm(targetExistingTerms);
+  const requiredAsciiAnchors = requiredAsciiAnchorsForSearch(searchQueries);
   return videos.filter((video) => {
     if (rejectAskBaiduProductNoise && isAskBaiduProductNoiseVideo(video)) return false;
+    const text = videoSearchText(video);
+    if (requiredAsciiAnchors.length > 0 && !requiredAsciiAnchors.some((anchor) => text.includes(anchor))) return false;
     return relevanceScoreForVideo(video, needles) > 0;
   });
 }
