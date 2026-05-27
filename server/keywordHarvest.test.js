@@ -970,6 +970,44 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for next resum
   ]);
 });
 
+test('buildKeywordHarvestQueries uses high-signal comment queries for media and fandom weak queue', () => {
+  const queries = buildKeywordHarvestQueries(
+    {
+      entries: [
+        { term: '\u90ed\u8299\u84c9\u540c\u6b3e', family: 'attack', evidenceCount: 1 },
+        { term: '\u679c\u8747play', family: 'attack', evidenceCount: 1 },
+        { term: '\u6d77\u738b', family: 'attack', evidenceCount: 1 },
+        { term: '\u542b\u7b11\u534a\u6b65\u98a0', family: 'attack', evidenceCount: 1 },
+        { term: '\u7f55\u89c1ip', family: 'attack', evidenceCount: 1 },
+        { term: '\u6c49\u5b50\u8336', family: 'attack', evidenceCount: 1 },
+        { term: '\u6beb\u65e0\u540a\u7528', family: 'absolutes', evidenceCount: 1 },
+        { term: '\u597d\u5609\u4f19', family: 'attack', evidenceCount: 1 },
+        { term: '\u597d\u78d5\u7684\u5f88', family: 'cooperation', evidenceCount: 1 },
+        { term: '\u597d\u62fc\u622a\u56fe', family: 'attack', evidenceCount: 1 },
+      ],
+    },
+    {
+      seedQueries: [],
+      coverageMode: 'all-weak',
+      maxQueries: 10,
+      queryVariantsPerTerm: 1,
+    },
+  );
+
+  assert.deepEqual(queries, [
+    '\u90ed\u8299\u84c9\u540c\u6b3e \u6392\u5c71\u5012\u6d77 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    '\u679c\u8747play \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    '\u6d77\u738b \u517b\u9c7c \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    '\u542b\u7b11\u534a\u6b65\u98a0 \u5510\u4f2f\u864e \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    '\u7f55\u89c1ip \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    '\u6c49\u5b50\u8336 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    '\u6ca1\u540a\u7528 \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4',
+    '\u597d\u5609\u4f19 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    '\u597d\u78d5\u7684\u5f88 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    '\u597d\u62fc\u622a\u56fe \u8bc4\u8bba\u533a \u70ed\u8bc4',
+  ]);
+});
+
 test('buildKeywordHarvestQueries prioritizes exact searches for compact metric terms', () => {
   const queries = buildKeywordHarvestQueries(
     {
