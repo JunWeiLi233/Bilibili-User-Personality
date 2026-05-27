@@ -37,8 +37,8 @@ test('buildKeywordHarvestQueries prioritizes weak-evidence dictionary terms by f
 
   assert.deepEqual(queries, [
     'seed topic',
-    '典中典 评论区 梗 热评',
-    '典中典 评论区',
+    '典中典 套路 评论区 热评',
+    '典中典 评论',
     '懂的都懂 回复 评论区 热评',
     'dddd 回复 评论区 热评',
     'yygq 评论区 梗 热评',
@@ -3695,6 +3695,28 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for near-compl
     '\u5403\u53f2 \u6e38\u620f \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u5f73\u4e8e \u884c \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u5927\u8868\u732a faze \u8bc4\u8bba\u533a \u70ed\u8bc4',
+  ]);
+});
+
+test('buildKeywordHarvestQueries uses high-signal comment queries for next near-complete retry queue', () => {
+  const queries = buildKeywordHarvestQueries(
+    {
+      entries: [
+        { term: '\u5927\u75c5\u4eba', family: 'attack', evidenceCount: 2 },
+        { term: '\u5178\u4e2d\u5178', family: 'attack', evidenceCount: 2 },
+      ],
+    },
+    {
+      seedQueries: [],
+      coverageMode: 'all-weak',
+      maxQueries: 2,
+      queryVariantsPerTerm: 1,
+    },
+  );
+
+  assert.deepEqual(queries, [
+    '\u5927\u75c5\u4eba \u7cbe\u795e\u72b6\u6001 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    '\u5178\u4e2d\u5178 \u5957\u8def \u8bc4\u8bba\u533a \u70ed\u8bc4',
   ]);
 });
 
@@ -7647,6 +7669,54 @@ test('buildDictionaryCoverageAudit treats filtered search-context misses as irre
   assert.equal(audit.nextActions[0].nextQuery, term);
 });
 
+test('buildDictionaryCoverageAudit keeps priority aliases after filtered misses for known retry terms', () => {
+  const term = '\u5927\u75c5\u4eba';
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [{ term, family: 'attack', evidenceCount: 2 }],
+    },
+    {
+      termAttempts: {
+        [Buffer.from(term, 'utf8').toString('base64url')]: {
+          term,
+          family: 'attack',
+          evidenceAtPlanTime: 2,
+          attempts: 2,
+          successfulAttempts: 0,
+          lastEvidenceCount: 0,
+          queries: [
+            { query: `${term} \u8bc4\u8bba\u533a`, strategyVersion: 6, ok: true, hit: false },
+            { query: `${term} \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4`, strategyVersion: 6, ok: true, hit: false },
+          ],
+          lastQuery: `${term} \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4`,
+        },
+      },
+      runs: [
+        {
+          queryDiagnostics: [
+            [
+              {
+                query: `${term} \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4`,
+                discoveredVideos: 4,
+                discoveryContextVideos: 8,
+                scannedVideos: 4,
+                commentsCollected: 24,
+                trainingTextChars: 500,
+                targetExistingTerms: [term],
+                acceptedTerms: [],
+                sampleVideos: [{ title: '\u7cbe\u795e\u72b6\u6001\u5927\u75c5\u4eba' }],
+              },
+            ],
+          ],
+        },
+      ],
+    },
+    { targetEvidence: 3, maxActions: 1 },
+  );
+
+  assert.equal(audit.nextActions[0].nextQuery, '\u5927\u75c5\u4eba \u7cbe\u795e\u72b6\u6001 \u8bc4\u8bba\u533a \u70ed\u8bc4');
+});
+
 test('buildDictionaryCoverageAudit tries bare aliases after scaffolded search results filter out', () => {
   const term = '\u4f60\u88c5\u4ec0\u4e48';
   const audit = buildDictionaryCoverageAudit(
@@ -8897,7 +8967,7 @@ test('harvestKeywordDictionary writes ASCII-safe term attempt state for Chinese 
     const attempt = Object.values(state.termAttempts).find((item) => item.term === '典中典');
     assert.equal(attempt.attempts, 1);
     assert.equal(attempt.query, undefined);
-    assert.equal(attempt.lastQuery, '典中典 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4');
+    assert.equal(attempt.lastQuery, '典中典 \u5957\u8def \u8bc4\u8bba\u533a \u70ed\u8bc4');
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
