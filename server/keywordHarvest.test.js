@@ -7816,6 +7816,94 @@ test('buildDictionaryCoverageAudit keeps high-signal follow-up priority aliases 
   }
 });
 
+test('buildDictionaryCoverageAudit keeps high-signal follow-up aliases for current zero-evidence misses', () => {
+  const cases = [
+    {
+      term: '\u6389\u5c0f\u73cd\u73e0',
+      family: 'cooperation',
+      triedQuery: '\u6389\u5c0f\u73cd\u73e0 \u7834\u9632 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      nextQuery: '\u770b\u54ed\u4e86\u6389\u5c0f\u73cd\u73e0 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+    {
+      term: '\u61c2\u5f97\u81ea\u7136\u61c2',
+      family: 'evasion',
+      triedQuery: '\u61c2\u5f97\u81ea\u7136\u61c2 \u8c1c\u8bed\u4eba \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      nextQuery: '\u61c2\u7684\u81ea\u7136\u61c2 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+    {
+      term: '\u61c2\u4e86\u5427',
+      family: 'evasion',
+      triedQuery: '\u61c2\u4e86\u5427 \u8c1c\u8bed\u4eba \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      nextQuery: '\u8fd9\u4e0b\u61c2\u4e86\u5427 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+    {
+      term: '\u611f\u8c22\u6307\u6b63',
+      family: 'correction',
+      triedQuery: '\u611f\u8c22\u6307\u6b63 \u66f4\u6b63 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      nextQuery: '\u8c22\u8c22\u6307\u6b63 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+    {
+      term: '\u5de5\u91cdhao',
+      family: 'evasion',
+      triedQuery: '\u5de5\u91cd\u53f7 \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      nextQuery: '\u516c\u4f17\u53f7 \u5f15\u6d41 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+    {
+      term: '\u5bab\u9888\u7cdc\u70c2',
+      family: 'attack',
+      triedQuery: '\u5bab\u9888\u7cdc\u70c2 \u79d1\u666e \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      nextQuery: '\u5bab\u9888\u7cdc\u70c2\u4e0d\u662f\u75c5 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+    {
+      term: '\u62d0\u53cb\u5546',
+      family: 'attack',
+      triedQuery: '\u62ffDNF\u6765\u62d0 \u53cb\u5546 \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      nextQuery: '\u62ff\u53cb\u5546\u6765\u62d0 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+    {
+      term: '\u602a\u6211\u54af',
+      family: 'evasion',
+      triedQuery: '\u602a\u6211\u54af \u9634\u9633\u602a\u6c14 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      nextQuery: '\u8fd9\u4e5f\u602a\u6211\u54af \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+  ];
+  const state = { termAttempts: {}, runs: [{ queryDiagnostics: [] }] };
+  const entries = [];
+  for (const item of cases) {
+    entries.push({ term: item.term, family: item.family, evidenceCount: 0 });
+    state.termAttempts[Buffer.from(item.term, 'utf8').toString('base64url')] = {
+      term: item.term,
+      family: item.family,
+      evidenceAtPlanTime: 0,
+      attempts: 1,
+      successfulAttempts: 0,
+      queries: [{ query: item.triedQuery, strategyVersion: 6, ok: true, hit: false, comments: 20 }],
+      lastQuery: item.triedQuery,
+    };
+    state.runs[0].queryDiagnostics.push([
+      {
+        query: item.triedQuery,
+        discoveredVideos: 4,
+        scannedVideos: 4,
+        commentsCollected: 20,
+        trainingTextChars: 500,
+        targetExistingTerms: [item.term],
+        acceptedTerms: [],
+      },
+    ]);
+  }
+
+  const audit = buildDictionaryCoverageAudit(
+    { entries },
+    state,
+    { targetEvidence: 3, maxActions: cases.length, retryBeforeUnattemptedLimit: 1, requireCommentBackedEvidence: true },
+  );
+  const byTerm = Object.fromEntries(audit.nextActions.map((action) => [action.term, action]));
+  for (const item of cases) {
+    assert.equal(byTerm[item.term].nextQuery, item.nextQuery);
+  }
+});
+
 test('buildDictionaryCoverageAudit tries bare aliases after scaffolded search results filter out', () => {
   const term = '\u4f60\u88c5\u4ec0\u4e48';
   const audit = buildDictionaryCoverageAudit(
