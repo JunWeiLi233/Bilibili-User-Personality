@@ -1351,6 +1351,58 @@ test('searchVideoKeywords requires ASCII anchor matches for mixed-script weak pr
   assert.deepEqual(scannedBvids, ['BV3ppTarget']);
 });
 
+test('searchVideoKeywords keeps strict phrase-order probes out of generic fallback scans', async () => {
+  const scannedBvids = [];
+  const result = await searchVideoKeywords(
+    {
+      searchQuery: '\u4e0d\u4e00\u4e00\u8bc4\u4ef7 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      discoveryMode: 'controversial',
+      controversyQueries: ['\u8bc4\u4ef7\u4e0d\u4e00 \u4e89\u8bae', '\u53d1\u56fe \u8bc4\u8bba'],
+      controversialPopularQueryLimit: 0,
+      discoveryLimit: 4,
+      pages: 1,
+      existingTermsOnly: true,
+      includeVideoContext: false,
+      targetExistingTerms: ['\u4e0d\u4e00\u4e00\u8bc4\u4ef7', '\u6015\u88ab\u5220\u8bc4\u6545\u53d1\u56fe'],
+    },
+    {
+      discoverVideosByKeyword: async () => [
+        {
+          bvid: 'BVreversed',
+          title: '\u8fd9\u4e2a\u90e8\u4f4d\u5403\u8fc7\u7684\u4eba\u8bc4\u4ef7\u4e0d\u4e00',
+          sourceUrl: 'https://www.bilibili.com/video/BVreversed/',
+        },
+        {
+          bvid: 'BVpicture',
+          title: '\u628a\u4f60\u8ba4\u4e3a\u6700\u6da9\u7684\u56fe\u53d1\u51fa\u6765',
+          sourceUrl: 'https://www.bilibili.com/video/BVpicture/',
+        },
+      ],
+      fetchJson: async (url) => {
+        const bvid = new URL(String(url)).searchParams.get('bvid');
+        if (String(url).includes('/x/web-interface/view')) {
+          scannedBvids.push(bvid);
+          return {
+            code: 0,
+            data: {
+              aid: bvid,
+              title: bvid,
+              owner: { mid: 9, name: 'up' },
+              stat: { reply: 0 },
+            },
+          };
+        }
+        return { code: 0, data: { replies: [], cursor: { is_end: true, next: 0 } } };
+      },
+      trainKeywordDictionary: async () => ({ ok: true, entries: [], dictionary: { entries: [] } }),
+    },
+  );
+
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.discoveredVideos.map((video) => video.bvid), []);
+  assert.deepEqual(scannedBvids, []);
+});
+
 test('searchVideoKeywords can discover popular videos without a search query', async () => {
   const requestedUrls = [];
   const result = await searchVideoKeywords(
