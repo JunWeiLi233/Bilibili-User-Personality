@@ -6022,6 +6022,59 @@ test('normalizeKeywordEntries prunes literal pig-nose fetish evidence for pig-no
   assert.deepEqual(entries[0].evidenceSamples, ['\u4f60\u8fd9\u64cd\u4f5c\u771f\u732a\u9f3b\uff0c\u521a\u624d\u90a3\u6ce2\u5c31\u662f\u5728\u72af\u8822']);
 });
 
+test('normalizeKeywordEntries prunes bare labels and literal academic examples for attack terms', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u5e76\u975e\u5076\u9047',
+      family: 'attack',
+      meaning: '\u8bbd\u523a\u770b\u4f3c\u5076\u7136\u5b9e\u4e3a\u523b\u610f\u7684\u884c\u4e3a\u6216\u5b89\u6392',
+      evidenceCount: 2,
+      evidenceSamples: ['\u5e76\u975e\u5076\u9047', '\u56de\u590d @\u732b\u54aa\u60d1\u4eba\u5fc3 :[doge_\u91d1\u7b8d]\u7ec8\u4e8e\u78b0\u4e0a\u4e2a\u771f\u6b63\u7684\u5e76\u975e\u5076\u9047\u4e86'],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u5e76\u975e\u5076\u9047' },
+        { source: 'Bilibili public video comment scan', sample: '\u56de\u590d @\u732b\u54aa\u60d1\u4eba\u5fc3 :[doge_\u91d1\u7b8d]\u7ec8\u4e8e\u78b0\u4e0a\u4e2a\u771f\u6b63\u7684\u5e76\u975e\u5076\u9047\u4e86' },
+      ],
+    },
+    {
+      term: '\u53c2\u8003\u6587\u732e',
+      family: 'attack',
+      meaning: '\u7528\u4e8e\u8bbd\u523a\u6284\u88ad\u6216\u9644\u4e0a\u6765\u6e90',
+      evidenceCount: 3,
+      evidenceSamples: [
+        '\u53c2\u8003\u6587\u732e',
+        '\u4e00\u3001\u53c2\u8003\u6587\u732e\u7684\u4e66\u5199\u683c\u5f0f\uff0c\u5305\u62ec\u987a\u5e8f\u7f16\u7801\u5236\u3001\u5f15\u7528\u6587\u732e\u7684\u7f16\u53f7\u6807\u6ce8',
+        '\u8fd9\u4e0d\u6284\u7684\u5417\uff0c\u53c2\u8003\u6587\u732e\u90fd\u4e0d\u653e',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u53c2\u8003\u6587\u732e' },
+        { source: 'Bilibili public video comment scan', sample: '\u4e00\u3001\u53c2\u8003\u6587\u732e\u7684\u4e66\u5199\u683c\u5f0f\uff0c\u5305\u62ec\u987a\u5e8f\u7f16\u7801\u5236\u3001\u5f15\u7528\u6587\u732e\u7684\u7f16\u53f7\u6807\u6ce8' },
+        { source: 'Bilibili public video comment scan', sample: '\u8fd9\u4e0d\u6284\u7684\u5417\uff0c\u53c2\u8003\u6587\u732e\u90fd\u4e0d\u653e' },
+      ],
+    },
+    {
+      term: '\u5e03\u4ec0\u6208\u95e8',
+      family: 'attack',
+      meaning: '\u4e0d\u662f\u54e5\u4eec\u7684\u8c10\u97f3\u6897',
+      evidenceCount: 3,
+      evidenceSamples: [
+        '\u5e03\u4ec0\u6208\u95e8',
+        '\u5e03\u4ec0-\u6208\u95e8\u7406\u8bba\uff08bush-gorman theory\uff09\u7528\u4e8e\u89e3\u51b3\u590d\u6742\u7cfb\u7edf\u4e2d\u7684\u975e\u7ebf\u6027\u95ee\u9898',
+        '\u5e03\u4ec0\u6208\u95e8\u554a\uff0c\u8fd9\u64cd\u4f5c\u771f\u79bb\u8c31',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u5e03\u4ec0\u6208\u95e8' },
+        { source: 'Bilibili public video comment scan', sample: '\u5e03\u4ec0-\u6208\u95e8\u7406\u8bba\uff08bush-gorman theory\uff09\u7528\u4e8e\u89e3\u51b3\u590d\u6742\u7cfb\u7edf\u4e2d\u7684\u975e\u7ebf\u6027\u95ee\u9898' },
+        { source: 'Bilibili public video comment scan', sample: '\u5e03\u4ec0\u6208\u95e8\u554a\uff0c\u8fd9\u64cd\u4f5c\u771f\u79bb\u8c31' },
+      ],
+    },
+  ]);
+
+  const byTerm = Object.fromEntries(entries.map((entry) => [entry.term, entry]));
+  assert.deepEqual(byTerm['\u5e76\u975e\u5076\u9047'].evidenceSamples, ['\u56de\u590d @\u732b\u54aa\u60d1\u4eba\u5fc3 :[doge_\u91d1\u7b8d]\u7ec8\u4e8e\u78b0\u4e0a\u4e2a\u771f\u6b63\u7684\u5e76\u975e\u5076\u9047\u4e86']);
+  assert.deepEqual(byTerm['\u53c2\u8003\u6587\u732e'].evidenceSamples, ['\u8fd9\u4e0d\u6284\u7684\u5417\uff0c\u53c2\u8003\u6587\u732e\u90fd\u4e0d\u653e']);
+  assert.deepEqual(byTerm['\u5e03\u4ec0\u6208\u95e8'].evidenceSamples, ['\u5e03\u4ec0\u6208\u95e8\u554a\uff0c\u8fd9\u64cd\u4f5c\u771f\u79bb\u8c31']);
+});
+
 test('normalizeKeywordEntries prunes persisted loose reaction evidence for bengbuzhu variants', () => {
   const entries = normalizeKeywordEntries([
     {
