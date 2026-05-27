@@ -6238,6 +6238,46 @@ test('normalizeKeywordEntries prunes relationship ambiguity evidence for evasion
   assert.equal(entries[0].evidenceCount, 1);
 });
 
+test('normalizeKeywordEntries prunes naixiong resource and literal cute evidence', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u5976\u51f6',
+      family: 'cooperation',
+      meaning: '\u5f62\u5bb9\u8f7b\u677e\u53ef\u7231\u7684\u51f6\u5df4\u5df4\u8bed\u6c14',
+      evidenceCount: 4,
+      evidenceSamples: [
+        '\u627e\u4e0d\u5230\u4f5c\u54c1[\u7b11\u54ed]\uff0c\u5c31\u53eb\u5976\u51f6\u8001\u5e08\u4e48\uff1f',
+        '\u5976\u51f6\u4f5c\u54c1\u4e0d\u597d\u627e',
+        '\u8fd9\u53e5\u56de\u590d\u5976\u51f6\u5976\u51f6\u7684\uff0c\u6c14\u6c1b\u7f13\u548c\u4e86',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u627e\u4e0d\u5230\u4f5c\u54c1[\u7b11\u54ed]\uff0c\u5c31\u53eb\u5976\u51f6\u8001\u5e08\u4e48\uff1f' },
+        { source: 'Bilibili public video comment scan', sample: '\u5976\u51f6\u4f5c\u54c1\u4e0d\u597d\u627e' },
+        { source: 'Bilibili public video comment scan', sample: '\u8fd9\u53e5\u56de\u590d\u5976\u51f6\u5976\u51f6\u7684\uff0c\u6c14\u6c1b\u7f13\u548c\u4e86' },
+      ],
+    },
+    {
+      term: '\u5976\u51f6\u5976\u51f6',
+      family: 'cooperation',
+      meaning: '\u5f62\u5bb9\u8f7b\u677e\u53ef\u7231\u7684\u51f6\u5df4\u5df4\u8bed\u6c14',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u5f00\u59cb\u89c9\u5f97\u5976\u51f6\u5976\u51f6\u7684\uff0c\u6ca1\u5565\u5a01\u6151\u529b\uff0c\u76f4\u5230\u8f66\u5b50\u53d1\u52a8\u628a\u5c0f\u8c61\u5413\u9000',
+        '\u8fd9\u6761\u5f39\u5e55\u5976\u51f6\u5976\u51f6\u7684\uff0c\u8ba9\u4e92\u52a8\u6c14\u6c1b\u8f7b\u677e\u4e86',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u5f00\u59cb\u89c9\u5f97\u5976\u51f6\u5976\u51f6\u7684\uff0c\u6ca1\u5565\u5a01\u6151\u529b\uff0c\u76f4\u5230\u8f66\u5b50\u53d1\u52a8\u628a\u5c0f\u8c61\u5413\u9000' },
+        { source: 'Bilibili public video comment scan', sample: '\u8fd9\u6761\u5f39\u5e55\u5976\u51f6\u5976\u51f6\u7684\uff0c\u8ba9\u4e92\u52a8\u6c14\u6c1b\u8f7b\u677e\u4e86' },
+      ],
+    },
+  ]);
+
+  assert.deepEqual(entries.map((entry) => entry.evidenceSamples), [
+    ['\u8fd9\u53e5\u56de\u590d\u5976\u51f6\u5976\u51f6\u7684\uff0c\u6c14\u6c1b\u7f13\u548c\u4e86'],
+    ['\u8fd9\u6761\u5f39\u5e55\u5976\u51f6\u5976\u51f6\u7684\uff0c\u8ba9\u4e92\u52a8\u6c14\u6c1b\u8f7b\u677e\u4e86'],
+  ]);
+});
+
 test('normalizeKeywordEntries prunes persisted loose reaction evidence for bengbuzhu variants', () => {
   const entries = normalizeKeywordEntries([
     {
