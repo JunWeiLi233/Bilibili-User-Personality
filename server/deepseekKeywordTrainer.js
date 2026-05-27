@@ -715,6 +715,23 @@ export function extractJsonObject(raw) {
   return JSON.parse(jsonText);
 }
 
+function isRecoveredPlaceholderMeaning(meaning) {
+  return /Recovered term metadata after an interrupted local dictionary write/i.test(String(meaning || ''));
+}
+
+function recoveredMeaningForTerm(term, family) {
+  const cleanTerm = String(term || '').trim();
+  const familyMeanings = {
+    attack: `\u201c${cleanTerm}\u201d\u7528\u4e8e\u5632\u8bbd\u3001\u8d2c\u4f4e\u6216\u5bf9\u67d0\u4eba\u3001\u7fa4\u4f53\u3001\u52a8\u673a\u3001\u8bf4\u6cd5\u4f5c\u654c\u610f\u8bc4\u4ef7`,
+    absolutes: `\u201c${cleanTerm}\u201d\u7528\u4e8e\u7f3a\u5c11\u9650\u5b9a\u7684\u5f3a\u65ad\u8a00\u3001\u5168\u79f0\u5316\u6216\u7edd\u5bf9\u5316\u8868\u8fbe`,
+    evidence: `\u201c${cleanTerm}\u201d\u7528\u4e8e\u8bf7\u6c42\u3001\u8865\u5145\u6216\u6307\u5411\u53ef\u6838\u9a8c\u7684\u6765\u6e90\u3001\u8bc1\u636e\u6216\u539f\u59cb\u6750\u6599`,
+    evasion: `\u201c${cleanTerm}\u201d\u7528\u4e8e\u6697\u793a\u3001\u8f6c\u79fb\u89e3\u91ca\u8d23\u4efb\u6216\u4ee5\u5708\u5185\u9ed8\u5951\u4ee3\u66ff\u76f4\u63a5\u8bf4\u660e`,
+    cooperation: `\u201c${cleanTerm}\u201d\u7528\u4e8e\u8868\u793a\u652f\u6301\u3001\u8865\u5145\u3001\u8f7b\u677e\u4e92\u52a8\u6216\u5408\u4f5c\u5f0f\u8ba8\u8bba`,
+    correction: `\u201c${cleanTerm}\u201d\u7528\u4e8e\u627f\u8ba4\u4fe1\u606f\u4e0d\u51c6\u3001\u4fee\u6b63\u8bf4\u6cd5\u6216\u964d\u4f4e\u539f\u5148\u7ed3\u8bba\u5f3a\u5ea6`,
+  };
+  return familyMeanings[family] || `\u201c${cleanTerm}\u201d\u7684\u4e2d\u6587\u4e92\u8054\u7f51\u8bed\u7528\u4e49\uff0c\u9700\u7ed3\u5408\u5b8c\u6574\u53d1\u8a00\u4e0a\u4e0b\u6587\u5224\u65ad`;
+}
+
 export function normalizeKeywordEntries(rawEntries = []) {
   const entries = [];
   for (const item of rawEntries) {
@@ -722,7 +739,8 @@ export function normalizeKeywordEntries(rawEntries = []) {
     const variants = Array.isArray(item.variants) ? item.variants : [];
     const cleanedTerms = unique([item.term, ...variants].map(cleanKeywordTerm)).filter((term) => term.length >= 2 && term.length <= 12);
     const terms = cleanedTerms.filter((term) => !cleanedTerms.some((candidate) => candidate !== term && isAsciiSuffixFragmentOf(term, candidate)));
-    const meaning = String(item.meaning || item.reason || '').trim();
+    const rawMeaning = String(item.meaning || item.reason || '').trim();
+    const meaning = isRecoveredPlaceholderMeaning(rawMeaning) ? recoveredMeaningForTerm(terms[0] || item.term, family) : rawMeaning;
     if (!meaning || /中文含义|语用功能|^含义$|^解释$/.test(meaning)) continue;
     const rawEvidenceSamples = Array.isArray(item.evidenceSamples)
       ? unique(item.evidenceSamples.map((sample) => String(sample || '').trim()).filter(Boolean))

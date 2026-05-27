@@ -1171,6 +1171,22 @@ test('normalizes away pipe-delimited mojibake axis terms', () => {
   assert.deepEqual(entries.map((entry) => entry.term), ['\u5bf9\u6297']);
 });
 
+test('normalizeKeywordEntries replaces recovered placeholder meanings with family-aware semantics', () => {
+  const [entry] = normalizeKeywordEntries([
+    {
+      term: '\u61c2\u5f97\u81ea\u7136\u61c2',
+      family: 'evasion',
+      meaning: 'Recovered term metadata after an interrupted local dictionary write; refresh with Bilibili comment evidence.',
+      evidenceCount: 1,
+      evidenceSamples: ['\u8fd9\u4e2a\u68d7\u61c2\u5f97\u81ea\u7136\u61c2'],
+    },
+  ]);
+
+  assert.equal(entry.term, '\u61c2\u5f97\u81ea\u7136\u61c2');
+  assert.equal(entry.meaning.includes('Recovered term metadata'), false);
+  assert.equal(entry.meaning.includes('\u8f6c\u79fb\u89e3\u91ca\u8d23\u4efb'), true);
+});
+
 test('normalizes away mixed mojibake axis labels with Chinese suffixes', () => {
   const entries = normalizeKeywordEntries([
     { term: String.fromCodePoint(0x7035, 0x89c4, 0x59c9, 0x6027, 0x52a8, 0x673a), family: 'attack', meaning: 'mojibake axis label with a readable suffix' },
