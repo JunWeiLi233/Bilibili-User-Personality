@@ -1995,6 +1995,7 @@ function actionSortRank(action, options = {}) {
   const successfulAttempts = Math.max(0, Number(action?.successfulAttempts) || 0);
   const evidence = Math.max(0, Number(action?.evidenceCount) || 0);
   const currentCommentMisses = Math.max(0, Number(action?.currentCommentMisses) || 0);
+  const duplicateAcceptedNoProgress = action?.duplicateAcceptedNoProgress === true;
   const noVideoDiscoveryMiss =
     action?.action === 'retry_with_new_variant' &&
     attempts > 0 &&
@@ -2011,6 +2012,9 @@ function actionSortRank(action, options = {}) {
   }
   if (timeoutDiscoveryMiss && retryLimit > 0 && attempts >= retryLimit) {
     return coverageActionRank('harvest_more_evidence') + 0.5 + priorityPenalty;
+  }
+  if (duplicateAcceptedNoProgress && action?.action === 'retry_with_new_variant' && retryLimit > 0 && attempts >= retryLimit) {
+    return coverageActionRank('harvest') + 0.75 + priorityPenalty;
   }
   if (
     options.prioritizeHardZeroEvidence === true &&
@@ -2162,6 +2166,21 @@ function hasIrrelevantQueryFeedback(state = {}, term) {
       !accepted.includes(cleanTerm) &&
       (commentsCollected > 0 || trainingTextChars > 0 || isFilteredSearchContextMiss(item))
     );
+  });
+}
+
+function hasDuplicateAcceptedNoProgressFeedback(state = {}, term) {
+  const cleanTerm = String(term || '').trim();
+  if (!cleanTerm) return false;
+  return (Array.isArray(state.runs) ? state.runs : []).some((run) => {
+    const acceptedCount = Math.max(0, Number(run?.acceptedEvidenceCount) || 0);
+    const increasingCount = Math.max(0, Number(run?.coverageIncreasingAcceptedEvidenceCount) || 0);
+    if (acceptedCount === 0 || increasingCount > 0) return false;
+    return (Array.isArray(run?.queryDiagnostics) ? run.queryDiagnostics.flat() : []).some((item) => {
+      const targets = Array.isArray(item?.targetExistingTerms) ? item.targetExistingTerms.map((target) => String(target || '').trim()) : [];
+      const accepted = Array.isArray(item?.acceptedTerms) ? item.acceptedTerms.map((target) => String(target || '').trim()).filter(Boolean) : [];
+      return targets.includes(cleanTerm) && accepted.includes(cleanTerm);
+    });
   });
 }
 
@@ -2559,6 +2578,7 @@ export function buildCoverageActions(dictionary = {}, state = {}, options = {}) 
     const hardMissedZeroEvidence = isHardMissedZeroEvidenceAttempt(attempt, options.retryBeforeUnattemptedLimit);
     const irrelevantFeedback = hasIrrelevantQueryFeedback(state, term);
     const filteredSearchContextFeedback = hasFilteredSearchContextFeedback(state, term);
+    const duplicateAcceptedNoProgress = hasDuplicateAcceptedNoProgressFeedback(state, term);
     const missedWithIrrelevantFeedback = attemptsCount > 0 && successfulAttempts === 0 && irrelevantFeedback;
     const needsSourceRefresh =
       requiresCoverageEvidenceSource(options) && count > 0 && !hasCoverageEvidenceSource(entry, options);
@@ -2635,6 +2655,7 @@ export function buildCoverageActions(dictionary = {}, state = {}, options = {}) 
       evidenceNeeded: Math.max(0, targetEvidence - coverageCount),
       attempts: attemptsCount,
       successfulAttempts,
+      duplicateAcceptedNoProgress,
       currentCommentMisses: currentStrategyCommentMisses(attempt),
       exhausted,
       nextQuery: nextVariant?.query || '',

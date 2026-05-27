@@ -6373,6 +6373,60 @@ test('buildDictionaryCoverageAudit treats stale duplicate-evidence successes as 
   assert.equal(audit.nextActions[0].successfulAttempts, 0);
 });
 
+test('buildDictionaryCoverageAudit defers duplicate accepted no-progress retries behind fresh weak terms', () => {
+  const duplicateTerm = 'duplicateAccepted';
+  const freshTerm = 'freshWeak';
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [
+        { term: duplicateTerm, family: 'attack', evidenceCount: 2 },
+        { term: freshTerm, family: 'attack', evidenceCount: 1 },
+      ],
+    },
+    {
+      termAttempts: {
+        [duplicateTerm]: {
+          term: duplicateTerm,
+          family: 'attack',
+          evidenceAtPlanTime: 2,
+          attempts: 3,
+          successfulAttempts: 0,
+          lastEvidenceCount: 0,
+          queries: [
+            {
+              query: 'duplicateAccepted \u70ed\u8bc4',
+              strategyVersion: 6,
+              ok: true,
+              hit: false,
+              videos: 8,
+              comments: 120,
+              error: '',
+            },
+          ],
+        },
+      },
+      runs: [
+        {
+          acceptedEvidenceCount: 1,
+          coverageIncreasingAcceptedEvidenceCount: 0,
+          queryDiagnostics: [
+            {
+              query: 'duplicateAccepted \u70ed\u8bc4',
+              targetExistingTerms: [duplicateTerm],
+              acceptedTerms: [duplicateTerm],
+              commentsCollected: 120,
+            },
+          ],
+        },
+      ],
+    },
+    { targetEvidence: 3, maxActions: 2, retryBeforeUnattemptedLimit: 3 },
+  );
+
+  assert.deepEqual(audit.nextActions.map((item) => item.term), [freshTerm, duplicateTerm]);
+  assert.equal(audit.nextActions[1].duplicateAcceptedNoProgress, true);
+});
+
 test('buildDictionaryCoverageAudit defers compact metric fragments behind discourse terms', () => {
   const audit = buildDictionaryCoverageAudit(
     {
