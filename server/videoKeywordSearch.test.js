@@ -1057,6 +1057,41 @@ test('searchVideoKeywords ignores generic query scaffolding when filtering targe
   assert.deepEqual(scannedBvids, ['BVtarget1']);
 });
 
+test('searchVideoKeywords strips generic scaffolding before target discovery searches', async () => {
+  const searchedQueries = [];
+  await searchVideoKeywords(
+    {
+      searchQuery: '\u5f88\u7239\u5473 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      discoveryMode: 'search',
+      discoveryLimit: 1,
+      pages: 1,
+      existingTermsOnly: true,
+      targetExistingTerms: ['\u5f88\u7239\u5473'],
+    },
+    {
+      discoverVideosByKeyword: async (query) => {
+        searchedQueries.push(query);
+        return [
+          {
+            bvid: 'BVtargetquery1',
+            title: '\u8fd9\u4e2a\u8bf4\u6cd5\u5f88\u7239\u5473',
+            sourceUrl: 'https://www.bilibili.com/video/BVtargetquery1/',
+          },
+        ];
+      },
+      fetchJson: async (url) => {
+        if (String(url).includes('/x/web-interface/view')) {
+          return { code: 0, data: { aid: 'BVtargetquery1', title: 'target', owner: { mid: 9, name: 'up' }, stat: { reply: 0 } } };
+        }
+        return { code: 0, data: { replies: [], cursor: { is_end: true, next: 0 } } };
+      },
+      trainKeywordDictionary: async () => ({ ok: true, entries: [], dictionaryEvidenceEntries: [], dictionary: { entries: [] } }),
+    },
+  );
+
+  assert.deepEqual(searchedQueries, ['\u5f88\u7239\u5473']);
+});
+
 test('searchVideoKeywords rejects partial suffix matches for compact weak target terms', async () => {
   const scannedBvids = [];
   const result = await searchVideoKeywords(

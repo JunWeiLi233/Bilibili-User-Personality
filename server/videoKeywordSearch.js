@@ -288,6 +288,25 @@ function searchNeedlesForRelevance(searchQueries = [], targetExistingTerms = [])
   return [...targetNeedles, ...targetNeedles, ...uniqueQueryNeedles];
 }
 
+function discoveryQueriesForSearch(searchQueries = [], targetExistingTerms = []) {
+  if (!targetExistingTerms.length) return searchQueries;
+  return uniqueByKey(
+    searchQueries
+      .map((query) => {
+        const cleanQuery = String(query || '').trim();
+        const focused = cleanQuery
+          .split(/\s+/)
+          .map((token) => token.trim())
+          .filter((token) => token && !isGenericTargetSearchNeedle(token))
+          .join(' ')
+          .trim();
+        return focused || cleanQuery;
+      })
+      .filter(Boolean),
+    (item) => item,
+  );
+}
+
 function relevanceScoreForVideo(video, needles = []) {
   const text = videoSearchText(video);
   if (!text) return 0;
@@ -517,6 +536,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
       deps.targetTerms ||
       deps.targetTerm,
   );
+  const discoverySearchQueries = discoveryQueriesForSearch(searchQueries, targetExistingTerms);
   const discoveryLimit = Math.max(
     1,
     Math.min(Number(payload.discoveryLimit || deps.discoveryLimit || process.env.BILIBILI_VIDEO_DISCOVERY_LIMIT || 6), 20),
@@ -596,7 +616,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
     if (discoveryMode === 'search' || discoveryMode === 'mixed') {
       const discoverVideos = deps.discoverVideosByKeyword || discoverVideosByKeyword;
       const group = [];
-      for (const query of searchQueries) {
+      for (const query of discoverySearchQueries) {
         try {
           throwIfAborted(payload.abortSignal);
           group.push(...(await discoverVideos(query, discoveryCandidateLimit, { ...deps, discoveryPages })));
@@ -614,7 +634,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
       const controversyGroup = [];
       const searchGroup = [];
       if (targetSearchOnly) {
-        for (const query of searchQueries) {
+        for (const query of discoverySearchQueries) {
           try {
             throwIfAborted(payload.abortSignal);
             searchGroup.push(...(await discoverVideos(query, discoveryCandidateLimit, { ...deps, discoveryPages })));
@@ -672,7 +692,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
             if (payload.abortSignal?.aborted) break;
           }
         }
-        for (const query of searchQueries) {
+        for (const query of discoverySearchQueries) {
           try {
             throwIfAborted(payload.abortSignal);
             searchGroup.push(...(await discoverVideos(query, discoveryCandidateLimit, { ...deps, discoveryPages })));
