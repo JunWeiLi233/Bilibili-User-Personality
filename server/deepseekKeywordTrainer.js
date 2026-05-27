@@ -48,6 +48,7 @@ const ALLOWED_ASCII_KEYWORD_TERMS = new Set([
 const KNOWN_MOJIBAKE_CHINESE_TERMS = new Set([
   '\u7035\u89c4\u59c9',
   '\u9422\u98ce\u6d0d\u6fc2\u51b2',
+  String.fromCodePoint(0x9411, 0xe161, 0x760e),
   String.fromCodePoint(0x7481, 0x3087, 0x7161),
   String.fromCodePoint(0x7487, 0x4f79, 0x5d41),
   String.fromCodePoint(0x95ab, 0x660f, 0x7ddb),

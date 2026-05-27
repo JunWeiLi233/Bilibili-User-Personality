@@ -1138,9 +1138,13 @@ test('normalizes away mojibake Chinese-looking keyword terms', () => {
     String.fromCodePoint(0x935a, 0x581c, 0x7d94),
     String.fromCodePoint(0x6dc7, 0xe1bd, 0xe11c),
   ];
+  const mojibakeQueryTerms = [
+    String.fromCodePoint(0x9411, 0xe161, 0x760e),
+  ];
   const entries = normalizeKeywordEntries([
     { term: '\u7035\u89c4\u59c9', family: 'attack', meaning: 'UTF-8/GBK mojibake for a Chinese category label' },
     ...mojibakeAxisLabels.map((term) => ({ term, family: 'attack', meaning: 'mojibake radar axis label' })),
+    ...mojibakeQueryTerms.map((term) => ({ term, family: 'evidence', meaning: 'mojibake for a Bilibili query helper word' })),
     { term: '\u7537\u76d7\u5973\u5a3c', family: 'attack', meaning: 'real Chinese attack phrase' },
     { term: 'doge', family: 'cooperation', meaning: 'allowed Bilibili ASCII meme shorthand' },
   ]);
