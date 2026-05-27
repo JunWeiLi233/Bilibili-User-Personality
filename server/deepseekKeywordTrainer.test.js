@@ -6278,6 +6278,32 @@ test('normalizeKeywordEntries prunes naixiong resource and literal cute evidence
   ]);
 });
 
+test('normalizeKeywordEntries prunes meta classic compilation evidence for dianzhongdian', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u5178\u4e2d\u5178',
+      family: 'attack',
+      meaning: '\u4e2d\u6587\u4e92\u8054\u7f51\u5632\u8bbd\u6216\u8d2c\u4f4e\u6027\u6897',
+      evidenceCount: 5,
+      evidenceSamples: [
+        '\u5178\u4e2d\u5178',
+        '\u8fd9\u662f\u4e00\u90e8\u4f18\u79c0\u7684\u5178\u4e2d\u5178\u5408\u8ba2\u672c\uff0c\u4f46\u662f\u6ca1\u6709\u76d6\u4f26\u53d1\u53d1\u662f\u672c\u89c6\u9891\u7684\u4e00\u5927\u8d25\u7b14',
+        'Bilibili video context: \u89e3\u6897\u4e4b\u5178\u4e2d\u5178\uff0c\u4f60\u77e5\u9053\u4ec0\u4e48\u60c5\u51b5\u4e0b\u7528\u5178\u4e2d\u5178\u8fd9\u4e2a\u8bcd\uff1f',
+        '\u5178\u4e2d\u5178\u8d77\u624b\u70e7\u5e72\u6807\u70b9\u7b26\u53f7\u6253\u6c49\u5b57\u5c0f\u5faa\u73af',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u5178\u4e2d\u5178' },
+        { source: 'Bilibili public video comment scan', sample: '\u8fd9\u662f\u4e00\u90e8\u4f18\u79c0\u7684\u5178\u4e2d\u5178\u5408\u8ba2\u672c\uff0c\u4f46\u662f\u6ca1\u6709\u76d6\u4f26\u53d1\u53d1\u662f\u672c\u89c6\u9891\u7684\u4e00\u5927\u8d25\u7b14' },
+        { source: 'Bilibili public video context', sample: 'Bilibili video context: \u89e3\u6897\u4e4b\u5178\u4e2d\u5178\uff0c\u4f60\u77e5\u9053\u4ec0\u4e48\u60c5\u51b5\u4e0b\u7528\u5178\u4e2d\u5178\u8fd9\u4e2a\u8bcd\uff1f' },
+        { source: 'Bilibili public video comment scan', sample: '\u5178\u4e2d\u5178\u8d77\u624b\u70e7\u5e72\u6807\u70b9\u7b26\u53f7\u6253\u6c49\u5b57\u5c0f\u5faa\u73af' },
+      ],
+    },
+  ]);
+
+  assert.deepEqual(entries[0].evidenceSamples, ['\u5178\u4e2d\u5178\u8d77\u624b\u70e7\u5e72\u6807\u70b9\u7b26\u53f7\u6253\u6c49\u5b57\u5c0f\u5faa\u73af']);
+  assert.equal(entries[0].evidenceCount, 1);
+});
+
 test('normalizeKeywordEntries prunes persisted loose reaction evidence for bengbuzhu variants', () => {
   const entries = normalizeKeywordEntries([
     {
