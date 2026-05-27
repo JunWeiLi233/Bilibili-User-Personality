@@ -5566,6 +5566,122 @@ test('normalizeKeywordEntries prunes latest harvested bare slogan, school identi
   ]);
 });
 
+test('normalizeKeywordEntries prunes latest harvested neutral mentions, bare reactions, and literal food evidence', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u6ca1\u6bdb\u75c5\u554a',
+      family: 'cooperation',
+      meaning: 'agreement with a reasoned point',
+      evidenceCount: 2,
+      evidenceSamples: ['\u4e5f\u6ca1\u6bdb\u75c5', '\u5c0f\u5218\u8bf4\u7684\u8bdd\u6ca1\u6bdb\u75c5'],
+      evidenceSources: [],
+    },
+    {
+      term: '\u4e0d\u5c2c',
+      family: 'cooperation',
+      meaning: 'reassurance that a reply is not awkward',
+      evidenceCount: 2,
+      evidenceSamples: ['\u4e0d\u5c2c', '\u8fd9\u6bb5\u56de\u5e94\u4e0d\u5c2c\uff0c\u8bb2\u5f97\u5f88\u6e05\u695a'],
+      evidenceSources: [],
+    },
+    {
+      term: '\u60f3\u5200\u4eba',
+      family: 'attack',
+      meaning: 'directed hostile frustration',
+      evidenceCount: 2,
+      evidenceSamples: ['\u6211\u771f\u4e0d\u77e5\u9053\u6211\u8be5\u600e\u4e48\u529e\u4e86\uff0c\u8fd9\u51e0\u5929\u53c8\u60f3\u5200\u4eba\uff0c\u597d\u7126\u8651', '\u4f60\u8fd9\u641e\u7b11\u64cd\u4f5c\u770b\u5f97\u6211\u60f3\u5200\u4eba\uff0c\u592a\u4e0d\u6ee1\u4e86'],
+      evidenceSources: [],
+    },
+    {
+      term: '\u5931\u8e2a\u4eba\u53e3\u56de\u5f52',
+      family: 'cooperation',
+      meaning: 'warm creator comeback greeting',
+      evidenceCount: 2,
+      evidenceSamples: ['\u5931\u8e2a\u4eba\u53e3\u56de\u5f52', '\u7ec8\u4e8e\u56de\u6765\u4e86\uff0c\u5931\u8e2a\u4eba\u53e3\u56de\u5f52\uff0c\u6b22\u8fce'],
+      evidenceSources: [],
+    },
+    {
+      term: '\u5931\u8e2a\u4eba\u53e3\u56de\u5f52\u4e86',
+      family: 'cooperation',
+      meaning: 'warm creator comeback greeting',
+      evidenceCount: 2,
+      evidenceSamples: ['\u5931\u8e2a\u4eba\u53e3\u56de\u5f52', '\u597d\u4e45\u4e0d\u89c1\uff0c\u5931\u8e2a\u4eba\u53e3\u56de\u5f52\u4e86\uff0c\u60f3\u4f60'],
+      evidenceSources: [],
+    },
+    {
+      term: '\u5ddd\u5efa\u56fd',
+      family: 'attack',
+      meaning: 'mocking Trump nickname',
+      evidenceCount: 2,
+      evidenceSamples: ['\u90a3\u662f\uff0c\u7279\u6717\u666e\uff1f[\u54e6\u547c]', '\u5ddd\u5efa\u56fd\uff1a\u62a5\u544a\u7ec4\u7ec7\uff01\u6253\u51fb\u5b8c\u6bd5'],
+      evidenceSources: [],
+    },
+    {
+      term: '\u5ddd\u666e',
+      family: 'attack',
+      meaning: 'mocking Trump nickname',
+      evidenceCount: 2,
+      evidenceSamples: ['\u90a3\u662f\uff0c\u7279\u6717\u666e\uff1f[\u54e6\u547c]', '\u5ddd\u666e\u5fc3\u91cc\u6ca1\u70b9b\u6570\u561b\uff0c\u81ea\u5df1\u6cbb\u4e0d\u4e86\u5c31\u602a\u6e38\u620f'],
+      evidenceSources: [],
+    },
+    {
+      term: '\u8349\u751f',
+      family: 'cooperation',
+      meaning: 'playful laugh reaction',
+      evidenceCount: 2,
+      evidenceSamples: ['\u8349\u4e86', '\u8fd9\u4e2a\u8f6c\u573a\u592a\u8349\u751f\u4e86'],
+      evidenceSources: [],
+    },
+    {
+      term: '\u7a7a\u8033',
+      family: 'cooperation',
+      meaning: 'asks for clarification around misheard audio',
+      evidenceCount: 2,
+      evidenceSamples: ['\u7a7a\u8033\uff1aiPhone 2 iPhone 3', '\u914d\u4e2a\u5b57\u5e55\u5427\u3002\u672c\u6765\u5c31\u53e3\u9f7f\u4e0d\u6e05\u3002\u8fd8\u8ba9\u6211\u4eec\u7a7a\u8033'],
+      evidenceSources: [],
+    },
+    {
+      term: '\u7edd\u5bf9\u4e0d\u591f\u7684',
+      family: 'absolutes',
+      meaning: 'rigid insufficiency claim',
+      evidenceCount: 2,
+      evidenceSamples: ['\u5c31\u8fd9\u4e00\u7897\u996d\u7edd\u5bf9\u4e0d\u591f\u9971', '\u4f60\u8fd9\u8010\u529b\u662f\u771f\u7684\u5077\uff0c\u7edd\u5bf9\u4e0d\u591f\u7684'],
+      evidenceSources: [],
+    },
+    {
+      term: '\u753b\u997c',
+      family: 'attack',
+      meaning: 'empty promise criticism',
+      evidenceCount: 4,
+      evidenceSamples: ['\u7b2c\u4e00\u6b21\u770b\u89c1\u753b\u997c\u5f62\u5403\u64ad', '\u753b\u997c\u5145\u9965\u8fd9\u4e00\u5757', '\u753b\u997c\u5145\u9965', '\u4f60\u8fd8\u662f\u6ca1\u61c2\uff0c\u5c31\u662f\u5229\u7528\u4f60\u57fa\u56e0\u6765\u753b\u997c'],
+      evidenceSources: [],
+    },
+    {
+      term: '\u4f18\u96c5',
+      family: 'cooperation',
+      meaning: 'polished reply praise',
+      evidenceCount: 2,
+      evidenceSamples: ['\u597d\u6b79\u662f\u8364\u7d20\u642d\u914d\u8fd8\u6709\u6c64 \u4f18\u96c5', '\u8fd9\u4e2a\u8868\u8fbe\u786e\u5b9e\u5f88\u4f18\u96c5'],
+      evidenceSources: [],
+    },
+  ]);
+
+  assert.deepEqual(entries.map((entry) => [entry.term, entry.evidenceSamples]), [
+    ['\u6ca1\u6bdb\u75c5\u554a', ['\u5c0f\u5218\u8bf4\u7684\u8bdd\u6ca1\u6bdb\u75c5']],
+    ['\u4e0d\u5c2c', ['\u8fd9\u6bb5\u56de\u5e94\u4e0d\u5c2c\uff0c\u8bb2\u5f97\u5f88\u6e05\u695a']],
+    ['\u60f3\u5200\u4eba', ['\u4f60\u8fd9\u641e\u7b11\u64cd\u4f5c\u770b\u5f97\u6211\u60f3\u5200\u4eba\uff0c\u592a\u4e0d\u6ee1\u4e86']],
+    ['\u5931\u8e2a\u4eba\u53e3\u56de\u5f52', ['\u7ec8\u4e8e\u56de\u6765\u4e86\uff0c\u5931\u8e2a\u4eba\u53e3\u56de\u5f52\uff0c\u6b22\u8fce']],
+    ['\u5931\u8e2a\u4eba\u53e3\u56de\u5f52\u4e86', ['\u597d\u4e45\u4e0d\u89c1\uff0c\u5931\u8e2a\u4eba\u53e3\u56de\u5f52\u4e86\uff0c\u60f3\u4f60']],
+    ['\u5ddd\u5efa\u56fd', ['\u5ddd\u5efa\u56fd\uff1a\u62a5\u544a\u7ec4\u7ec7\uff01\u6253\u51fb\u5b8c\u6bd5']],
+    ['\u5ddd\u666e', ['\u5ddd\u666e\u5fc3\u91cc\u6ca1\u70b9b\u6570\u561b\uff0c\u81ea\u5df1\u6cbb\u4e0d\u4e86\u5c31\u602a\u6e38\u620f']],
+    ['\u8349\u751f', ['\u8fd9\u4e2a\u8f6c\u573a\u592a\u8349\u751f\u4e86']],
+    ['\u7a7a\u8033', ['\u914d\u4e2a\u5b57\u5e55\u5427\u3002\u672c\u6765\u5c31\u53e3\u9f7f\u4e0d\u6e05\u3002\u8fd8\u8ba9\u6211\u4eec\u7a7a\u8033']],
+    ['\u7edd\u5bf9\u4e0d\u591f\u7684', ['\u4f60\u8fd9\u8010\u529b\u662f\u771f\u7684\u5077\uff0c\u7edd\u5bf9\u4e0d\u591f\u7684']],
+    ['\u753b\u997c', ['\u4f60\u8fd8\u662f\u6ca1\u61c2\uff0c\u5c31\u662f\u5229\u7528\u4f60\u57fa\u56e0\u6765\u753b\u997c']],
+    ['\u4f18\u96c5', ['\u8fd9\u4e2a\u8868\u8fbe\u786e\u5b9e\u5f88\u4f18\u96c5']],
+  ]);
+});
+
 test('normalizeKeywordEntries prunes weak literal ear-misheard notes without request context', () => {
   const entries = normalizeKeywordEntries([
     {
