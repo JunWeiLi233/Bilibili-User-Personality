@@ -8489,6 +8489,78 @@ test('buildDictionaryCoverageAudit prefers semantic aliases over generic comment
       triedQuery: '\u5154\u5154\u5c9b\u7761\u89c9 \u865a\u62df\u4e3b\u64ad \u8bc4\u8bba\u533a \u70ed\u8bc4',
       nextQuery: '\u5154\u5154\u5c9b \u7761\u89c9 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     },
+    {
+      term: '\u5fd8\u8bb0\u4e86\u5f53\u5c0f\u4e11\u7684\u6765\u65f6\u8def',
+      family: 'correction',
+      triedQuery: '\u5fd8\u8bb0\u4e86\u5f53\u5c0f\u4e11\u7684\u6765\u65f6\u8def \u5c0f\u4e11 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      nextQuery: '\u5fd8\u4e86\u81ea\u5df1\u5f53\u5c0f\u4e11\u7684\u6765\u65f6\u8def \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+    {
+      term: '\u5371\u9669\u53d1\u8a00',
+      family: 'evasion',
+      triedQuery: '\u5371\u9669\u53d1\u8a00 \u5f39\u5e55 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      nextQuery: '\u8fd9\u662f\u4ec0\u4e48\u5371\u9669\u53d1\u8a00 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+    {
+      term: '\u4e3a\u53d1\u70e7\u800c\u751f',
+      family: 'cooperation',
+      triedQuery: '\u4e3a\u53d1\u70e7\u800c\u751f \u5c0f\u7c73 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      nextQuery: '\u5c0f\u7c73\u4e3a\u53d1\u70e7\u800c\u751f \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+    {
+      term: '\u543b\u9888\u4e4b\u4ea4',
+      family: 'cooperation',
+      triedQuery: '\u543b\u9888\u4e4b\u4ea4 \u6bb5\u5b50 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      nextQuery: '\u520e\u9888\u4e4b\u4ea4 \u543b\u9888\u4e4b\u4ea4 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+    {
+      term: '\u95ee\u8001\u9a6c\u672c\u4eba',
+      family: 'correction',
+      triedQuery: '\u95ee\u8001\u9a6c\u672c\u4eba \u539f\u795e \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      nextQuery: '\u95ee\u672c\u4eba \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+    {
+      term: '\u6211\u6ef4\u5b69\u6765',
+      family: 'cooperation',
+      triedQuery: '\u6211\u6ef4\u5b69\u6765 \u8868\u60c5\u5305 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      nextQuery: '\u6211\u7684\u5b69\u6765 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+    {
+      term: '\u6211\u5c06\u652f\u4ed8\u60a8\u753b\u753b\u7684\u8d39\u7528',
+      family: 'cooperation',
+      triedQuery: '\u6211\u5c06\u652f\u4ed8\u60a8\u753b\u753b\u7684\u8d39\u7528 \u7ea6\u7a3f \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      nextQuery: '\u6211\u5c06\u652f\u4ed8\u4f60\u753b\u753b\u7684\u8d39\u7528 \u7ea6\u7a3f \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+    {
+      term: '\u6211\u63a8\u8d5b\u9ad8',
+      family: 'cooperation',
+      triedQuery: '\u6211\u63a8\u8d5b\u9ad8 \u4e8c\u6b21\u5143 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      nextQuery: '\u6211\u63a8\u6700\u68d2\u4e86 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+    {
+      term: '\u65e0\u7aef\u8054\u60f3',
+      family: 'evasion',
+      triedQuery: '\u65e0\u7aef\u8054\u60f3 \u4e0d\u8981\u8054\u60f3 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      nextQuery: '\u4e0d\u8981\u65e0\u7aef\u8054\u60f3 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+    {
+      term: '\u65e0\u547d\u4fee\u77e3',
+      family: 'attack',
+      triedQuery: '\u65e0\u547d\u4fee\u77e3 \u543e\u547d\u4f11\u77e3 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      nextQuery: '\u543e\u547d\u4f11\u77e3 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+    {
+      term: '\u819d\u8df3\u53cd\u5c04\u5f0f\u559c\u5267',
+      family: 'evasion',
+      triedQuery: '\u819d\u8df3\u53cd\u5c04\u5f0f\u559c\u5267 \u559c\u5267 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      nextQuery: '\u819d\u8df3\u53cd\u5c04\u5f0f \u559c\u5267 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
+    {
+      term: '\u5c0f\u9ec4\u9c7c',
+      family: 'evidence',
+      triedQuery: '\u5c0f\u9ec4\u9c7c \u95f2\u9c7c \u8bc4\u8bba\u533a \u70ed\u8bc4',
+      nextQuery: '\u5c0f\u9ec4\u9c7c \u4e8c\u624b \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    },
   ];
   const state = { termAttempts: {}, runs: [{ queryDiagnostics: [] }] };
   const entries = [];
