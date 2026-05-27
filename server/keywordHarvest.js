@@ -3193,7 +3193,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
         searchPayload.expandTargetsFromComments = options.expandTargetsFromComments === true;
         if (options.existingTermsOnly === true && options.prioritizeSearchQueries !== false) {
           searchPayload.prioritizeSearchQueries = true;
-          searchPayload.targetSearchOnly = options.targetSearchOnly !== false;
+          searchPayload.targetSearchOnly = options.targetSearchOnly === true ? true : commentMisses === 0 && options.targetSearchOnly !== false;
         }
       }
       if (options.controversialPopularQueryLimit !== undefined) {

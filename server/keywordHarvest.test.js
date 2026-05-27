@@ -10522,6 +10522,71 @@ test('harvestKeywordDictionary prioritizes target search during strict comment-b
   }
 });
 
+test('harvestKeywordDictionary broadens strict comment discovery after a comment miss', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-comment-broaden-after-miss-'));
+  const statePath = join(dir, 'state.json');
+  try {
+    await writeFile(
+      statePath,
+      JSON.stringify({
+        harvestStrategyVersion: 6,
+        termAttempts: {
+          '\u76ee\u6807\u5f31\u8bcd': {
+            term: '\u76ee\u6807\u5f31\u8bcd',
+            family: 'attack',
+            attempts: 1,
+            successfulAttempts: 0,
+            queries: [
+              {
+                query: '\u76ee\u6807\u5f31\u8bcd \u8bc4\u8bba\u533a',
+                strategyVersion: 6,
+                ok: true,
+                hit: false,
+                videos: 4,
+                comments: 18,
+              },
+            ],
+          },
+        },
+      }),
+    );
+    const payloads = [];
+    await harvestKeywordDictionary(
+      {
+        seedQueries: [],
+        maxQueries: 1,
+        existingTermsOnly: true,
+        requireCommentBackedEvidence: true,
+        discoveryMode: 'controversial',
+        discoveryLimit: 1,
+        pages: 1,
+        statePath,
+      },
+      {
+        readKeywordDictionary: async () => ({
+          entries: [{ term: '\u76ee\u6807\u5f31\u8bcd', family: 'attack', evidenceCount: 1 }],
+        }),
+        searchVideoKeywords: async (payload) => {
+          payloads.push(payload);
+          return {
+            ok: true,
+            warnings: [],
+            videos: [{ bvid: 'BVbroad11111' }],
+            comments: [],
+            entries: [],
+          };
+        },
+      },
+    );
+
+    assert.equal(payloads[0].prioritizeSearchQueries, true);
+    assert.equal(payloads[0].targetSearchOnly, false);
+    assert.equal(payloads[0].includeDanmaku, true);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('harvestKeywordDictionary sends a weak-term batch to strict comment-pool refreshes', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-comment-pool-targets-'));
   const statePath = join(dir, 'state.json');
