@@ -373,6 +373,7 @@ function isNoisyTerm(term) {
 function isNoisyEvidenceSample(sample) {
   const text = String(sample || '').trim();
   if (!text) return true;
+  if (/^\u5f02\u8bae(?:[\u0021\uff01\u3002\s]|\[doge\]|\uff08\u5e7b\u542c\uff09)*$/u.test(text)) return true;
   if (/百度网盘分享的文件|通过百度网盘分享|超级会员v?\d+/i.test(text)) return true;
   return false;
 }
@@ -1354,6 +1355,28 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const comparisonContext = /\u540a\u6253.*(?:\u6570\u636e|\u5bf9\u6bd4|\u8bc1\u636e|\u522b\u52a8\u4e0d\u52a8)|(?:\u6570\u636e|\u5bf9\u6bd4|\u8bc1\u636e|\u522b\u52a8\u4e0d\u52a8).*\u540a\u6253|(?:\u5b8c\u7206|\u78be\u538b).*(?:\u5bf9\u9762|\u5bf9\u624b|\u540c\u7c7b)|(?:\u5bf9\u9762|\u5bf9\u624b|\u540c\u7c7b).*(?:\u5b8c\u7206|\u78be\u538b)/u.test(cleanSample);
     if (looseSynonymContext && !comparisonContext) return true;
   }
+  if (term === '\u5f02\u8bae' && family === 'attack') {
+    const strippedObjection = cleanSample
+      .replace(/\[doge\]/giu, '')
+      .replace(/\uff08\u5e7b\u542c\uff09/gu, '')
+      .replace(/[!！。\s]/gu, '');
+    const looseStandaloneObjectionContext = /^\u5f02\u8bae(?:[\u0021\uff01\u3002\s]|\[doge\]|\uff08\u5e7b\u542c\uff09)*$/u.test(cleanSample);
+    const standaloneOrConsentContext = strippedObjection === '\u5f02\u8bae'
+      || looseStandaloneObjectionContext
+      || /\u6ca1\u5f02\u8bae\u5427/u.test(cleanSample);
+    const disputeContext = /\u5f02\u8bae.{0,18}(?:\u8bc1\u636e|\u8bf4\u6cd5|\u53cd\u5bf9|\u95ee\u9898)|(?:\u8bc1\u636e|\u8bf4\u6cd5|\u53cd\u5bf9|\u6211\u6709).{0,18}\u5f02\u8bae/u.test(cleanSample);
+    if (standaloneOrConsentContext && !disputeContext) return true;
+  }
+  if (term === '\u5fcf\u6094' && family === 'correction') {
+    const narrativeConfessionContext = /(?:\u795e\u7236|\u6740\u4eba\u72c2|\u542c\u5230).{0,24}\u5fcf\u6094|\u5fcf\u6094.{0,24}(?:\u795e\u7236|\u6740\u4eba\u72c2)/u.test(cleanSample);
+    const selfCorrectionContext = /(?:\u6211|\u672c\u4eba|\u516c\u5f00|\u9053\u6b49).{0,12}\u5fcf\u6094|\u5fcf\u6094.{0,12}(?:\u9053\u6b49|\u6539\u6b63|\u627f\u8ba4)/u.test(cleanSample);
+    if (narrativeConfessionContext && !selfCorrectionContext) return true;
+  }
+  if (term === '\u5764\u5df4' && family === 'attack') {
+    const mentionQuestionContext = /\u8fd9\u662f\u5764\u5df4\u561b/u.test(cleanSample);
+    const insultContext = /(?:\u7d20\u8d28|\u4eba|\u4f60|\u4ed6|\u5979).{0,12}\u5764\u5df4|\u5764\u5df4.{0,12}(?:\u5dee|\u70c2|\u6076\u5fc3|\u79bb\u8c31)/u.test(cleanSample);
+    if (mentionQuestionContext && !insultContext) return true;
+  }
   if (term === '\u65e0\u8bed' && family === 'cooperation') {
     const hotWordWrapperContext = /\[\u70ed\u8bcd\u7cfb\u5217[_-]\u516d\u5230\u65e0\u8bed\]/u.test(String(sample || ''));
     const textOutsideEmotes = String(sample || '').replace(/\[[^\]]+\]/g, '');
@@ -1653,7 +1676,8 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const standaloneLaughContext = /^(?:\u592a)?\u751f\u8349\u4e86?(?:[!！。~\s]|(?:\[doge\]))*$/u.test(cleanSample);
     const looseLaughContext = /^(?:\u54c8)+[\uff0c,]?(?:\u8fc7\u4e8e|\u592a)?\u751f\u8349\u4e86?(?:[!！。~\s]|(?:\[doge\]))*$/u.test(cleanSample);
     const hostileLaughContext = /(?:\u4f60|\u4f60\u4eec|\u903b\u8f91|\u89c2\u70b9|\u8bf4\u6cd5|\u8fd9\u4e2a|\u8fd9\u79cd).*\u751f\u8349|\u751f\u8349.*(?:\u4e0d\u770b\u8bc1\u636e|\u79bb\u8c31|\u903b\u8f91|\u8bc1\u636e)/u.test(cleanSample);
-    return (standaloneLaughContext || looseLaughContext) && !hostileLaughContext;
+    const playfulMediaContext = /(?:\u6f14\u5f97\u4e0d\u9519|\u738b\u8005\u8363\u8000\u4e16\u754c|\u5f39\u5e55\u90fd\u7b11|\u6280\u672f\u529b\u8fc7\u9ad8).{0,24}\u751f\u8349|\u751f\u8349.{0,24}(?:\u6f14\u5f97\u4e0d\u9519|\u7b11\u75af|\u6280\u672f\u529b)/u.test(cleanSample);
+    return (standaloneLaughContext || looseLaughContext || playfulMediaContext) && !hostileLaughContext;
   }
   if (term === '\u65e0\u63a9\u4f53\u5e72\u62c9' && family === 'attack') {
     const literalGameContext = /^(?:\u65e0\u63a9\u4f53\u5e72\u62c9|.*(?:\u73a9\u6e38\u620f|\u4ec0\u4e48\u64cd\u4f5c|\u63a9\u4f53|\u5f00\u706b|\u67aa|fps).*\u65e0\u63a9\u4f53\u5e72\u62c9|.*\u65e0\u63a9\u4f53\u5e72\u62c9.*(?:\u73a9\u6e38\u620f|\u4ec0\u4e48\u64cd\u4f5c|\u63a9\u4f53|\u5f00\u706b|\u67aa|fps))/iu.test(cleanSample);
@@ -1731,7 +1755,16 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const literalGrassContext = /(?:\u62cd|\u5272|\u79cd|\u957f|\u8e29|\u770b|\u90a3\u4e2a).{0,6}\u8349(?:\u554a|\u5730|\u576a|\u4e1b|\u539f)?/u.test(cleanSample);
     const hostileComplaintContext = /(?:\u4e0d\u770bVAR|\u5fc5\u987b\u5f97\u770b|\u771f\u8349\u4e86|\u6211\u8349\u4e86|\u7ed9\u6211\u5c01\u4e86|\u4e0d\u957f\u8111\u5b50)/iu.test(cleanSample);
     const playfulLaughContext = /(?:\u8349\u751f|\u592a\u8349\u751f|\u8f6c\u573a|\u70ed\u8bcd|\u54c8\u54c8|\u7b11)/u.test(cleanSample);
-    return (literalGrassContext || hostileComplaintContext) && !playfulLaughContext;
+    const standaloneContext = cleanSample === '\u8349\u751f';
+    const looseAliasContext = /(?:\u6f14\u5f97\u4e0d\u9519|\u738b\u8005\u8363\u8000\u4e16\u754c).{0,24}\u751f\u8349|\u63e1\u8349/u.test(cleanSample);
+    const usefulPlayfulContext = /\u8f6c\u573a.{0,12}\u8349\u751f|\u8349\u751f.{0,12}\u8f6c\u573a/u.test(cleanSample);
+    return ((literalGrassContext || hostileComplaintContext) && !playfulLaughContext)
+      || ((standaloneContext || looseAliasContext) && !usefulPlayfulContext);
+  }
+  if (term === 'up\u597d\u725b' && family === 'cooperation') {
+    const genericPraiseContext = /^\u54c7\s*up\u597d\u725b(?:\s*\u52a0\u6cb9\u52a0\u6cb9)?$/iu.test(cleanSample);
+    const usefulCreatorContext = /(?:\u8d44\u6599|\u6574\u7406|\u6559\u7a0b|\u5206\u4eab|\u8bc1\u636e|\u6765\u6e90|\u5206\u6790).{0,18}up\u597d\u725b|up\u597d\u725b.{0,18}(?:\u8d44\u6599|\u6574\u7406|\u6559\u7a0b|\u5206\u4eab|\u8bc1\u636e|\u6765\u6e90|\u5206\u6790)/iu.test(cleanSample);
+    if (genericPraiseContext && !usefulCreatorContext) return true;
   }
   if (term === '\u6ca1\u6d3b\u8fc7\u4e24\u4e2a\u6708' && family === 'attack') {
     const videoTitleContext = isVideoContextSample(sample);

@@ -4971,6 +4971,91 @@ test('normalizeKeywordEntries prunes latest harvested resource-share, definition
   ]);
 });
 
+test('normalizeKeywordEntries prunes latest harvested standalone objection, literal confession, and light praise evidence', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u5f02\u8bae',
+      family: 'attack',
+      meaning: 'hostile objection or challenge',
+      evidenceCount: 3,
+      evidenceSamples: [
+        '\u5f02\u8bae\uff01[doge]',
+        '\u6211\u5bb6\u547c\u5438\u6211\u62b1\u8d70\u4e86\u54c8\u6ca1\u5f02\u8bae\u5427',
+        '\u5f02\u8bae\uff01\uff08\u5e7b\u542c\uff09',
+        '\u4f60\u8fd9\u4e2a\u8bf4\u6cd5\u6211\u6709\u5f02\u8bae\uff0c\u8bc1\u636e\u4e0d\u5bf9',
+      ],
+      evidenceSources: [],
+    },
+    {
+      term: '\u5fcf\u6094',
+      family: 'correction',
+      meaning: 'publicly admit fault and repent',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u795e\u7236\u542c\u5230\u6740\u4eba\u72c2\u7684\u5fcf\u6094\u540e',
+        '\u6211\u9648\u7267\u6e90\u516c\u5f00\u5fcf\u6094',
+      ],
+      evidenceSources: [],
+    },
+    {
+      term: '\u5764\u5df4',
+      family: 'attack',
+      meaning: 'vulgar insult or hostile label',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u54c8\u54c8\u54c8\u54c8\u8fd9\u662f\u5764\u5df4\u561b',
+        '\u8fd9\u4eba\u7d20\u8d28\u771f\u5764\u5df4\u5dee',
+      ],
+      evidenceSources: [],
+    },
+    {
+      term: '\u751f\u8349',
+      family: 'attack',
+      meaning: 'mock absurd hostile behavior',
+      evidenceCount: 3,
+      evidenceSamples: [
+        '\u5176\u5b9e\u6f14\u5f97\u4e0d\u9519\uff0c\u5c31\u662f\u6709\u70b9\u751f\u8349\u4e86',
+        '\u738b\u8005\u8363\u8000\u4e16\u754c\u751f\u8349',
+        '\u4f60\u8fd9\u4e2a\u903b\u8f91\u592a\u751f\u8349\u4e86\uff0c\u8bc1\u636e\u90fd\u4e0d\u770b',
+      ],
+      evidenceSources: [],
+    },
+    {
+      term: '\u8349\u751f',
+      family: 'cooperation',
+      meaning: 'playful meme laughter',
+      evidenceCount: 3,
+      evidenceSamples: [
+        '\u8349\u751f',
+        '\u5176\u5b9e\u6f14\u5f97\u4e0d\u9519\uff0c\u5c31\u662f\u6709\u70b9\u751f\u8349\u4e86',
+        '\u8fd9\u4e2a\u8f6c\u573a\u592a\u8349\u751f\u4e86',
+      ],
+      evidenceSources: [],
+    },
+    {
+      term: 'up\u597d\u725b',
+      family: 'cooperation',
+      meaning: 'useful praise for creator contribution',
+      evidenceCount: 3,
+      evidenceSamples: [
+        '\u54c7 UP\u597d\u725b',
+        '\u54c7 UP\u597d\u725b \u52a0\u6cb9\u52a0\u6cb9',
+        'up\u597d\u725b\uff0c\u8d44\u6599\u6574\u7406\u5f97\u5f88\u5168',
+      ],
+      evidenceSources: [],
+    },
+  ]);
+
+  assert.deepEqual(entries.map((entry) => [entry.term, entry.evidenceSamples]), [
+    ['\u5f02\u8bae', ['\u4f60\u8fd9\u4e2a\u8bf4\u6cd5\u6211\u6709\u5f02\u8bae\uff0c\u8bc1\u636e\u4e0d\u5bf9']],
+    ['\u5fcf\u6094', ['\u6211\u9648\u7267\u6e90\u516c\u5f00\u5fcf\u6094']],
+    ['\u5764\u5df4', ['\u8fd9\u4eba\u7d20\u8d28\u771f\u5764\u5df4\u5dee']],
+    ['\u751f\u8349', ['\u4f60\u8fd9\u4e2a\u903b\u8f91\u592a\u751f\u8349\u4e86\uff0c\u8bc1\u636e\u90fd\u4e0d\u770b']],
+    ['\u8349\u751f', ['\u8fd9\u4e2a\u8f6c\u573a\u592a\u8349\u751f\u4e86']],
+    ['up\u597d\u725b', ['up\u597d\u725b\uff0c\u8d44\u6599\u6574\u7406\u5f97\u5f88\u5168']],
+  ]);
+});
+
 test('normalizeKeywordEntries prunes latest harvested proper-name and literal setup evidence', () => {
   const entries = normalizeKeywordEntries([
     {
