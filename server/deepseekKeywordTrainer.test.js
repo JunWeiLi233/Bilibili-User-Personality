@@ -6304,6 +6304,59 @@ test('normalizeKeywordEntries prunes niesao fandom drama evidence', () => {
   assert.equal(entries[0].evidenceCount, 1);
 });
 
+test('normalizeKeywordEntries prunes pai-zhang rank and queue evidence', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u6392\u957f',
+      family: 'cooperation',
+      meaning: '\u7528\u4e8e\u8868\u793a\u652f\u6301\u3001\u8865\u5145\u6216\u8f7b\u677e\u4e92\u52a8',
+      evidenceCount: 4,
+      evidenceSamples: [
+        '\u6392\u957f\uff0c\u6211\u6e34\u4e86\uff0c\u4f60\u53ef\u4e0d\u53ef\u4ee5[doge]',
+        '\u6392\u9664\u4e00\u5207\u56f0\u96be\u6210\u4e3a\u6392\u957f[\u5403\u74dc]',
+        '\u6392\u957f\uff01\u6211\u8981\u5f53\u65c5\u957f\uff01[doge]',
+        '\u6392\u957f\u80fd\u5e2e\u5fd9\u7edf\u8ba1\u4e00\u4e0b\u524d\u9762\u51e0\u6761\u7684\u8bc1\u636e\u5417',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u6392\u957f\uff0c\u6211\u6e34\u4e86\uff0c\u4f60\u53ef\u4e0d\u53ef\u4ee5[doge]' },
+        { source: 'Bilibili public video comment scan', sample: '\u6392\u9664\u4e00\u5207\u56f0\u96be\u6210\u4e3a\u6392\u957f[\u5403\u74dc]' },
+        { source: 'Bilibili public video comment scan', sample: '\u6392\u957f\uff01\u6211\u8981\u5f53\u65c5\u957f\uff01[doge]' },
+        { source: 'Bilibili public video comment scan', sample: '\u6392\u957f\u80fd\u5e2e\u5fd9\u7edf\u8ba1\u4e00\u4e0b\u524d\u9762\u51e0\u6761\u7684\u8bc1\u636e\u5417' },
+      ],
+    },
+  ]);
+
+  assert.deepEqual(entries[0].evidenceSamples, ['\u6392\u957f\u80fd\u5e2e\u5fd9\u7edf\u8ba1\u4e00\u4e0b\u524d\u9762\u51e0\u6761\u7684\u8bc1\u636e\u5417']);
+  assert.equal(entries[0].evidenceCount, 1);
+});
+
+test('normalizeKeywordEntries prunes concept-reflection evidence for absolute-correct claim', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u7edd\u5bf9\u6b63\u786e',
+      family: 'absolutes',
+      meaning: '\u5f3a\u70c8\u80af\u5b9a\uff0c\u4e0d\u5bb9\u8d28\u7591\uff0c\u7528\u4e8e\u52a0\u5f3a\u65ad\u8a00\u6743\u5a01\u6027',
+      evidenceCount: 3,
+      evidenceSamples: [
+        '\u8fd9\u4e48\u5e72\u7edd\u5bf9\u6b63\u786e\uff0c\u6ca1\u4ec0\u4e48\u597d\u8d28\u7591\u7684',
+        '\u5979\u8bf4\u7684\u5185\u5bb9\u672c\u8eab\u7edd\u5bf9\u6b63\u786e\u3002\u4f46\u662f\u5979\u62a2\u59d0\u59b9\u98ce\u5934\u4e0d\u662f\u69fd\u70b9\u5417',
+        '\u5eb7\u5fb7\u5e2e\u52a9\u6211\u4eec\u6446\u8131\u5bfb\u6c42\u7edd\u5bf9\u6b63\u786e\u7684\u5984\u5ff5',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u8fd9\u4e48\u5e72\u7edd\u5bf9\u6b63\u786e\uff0c\u6ca1\u4ec0\u4e48\u597d\u8d28\u7591\u7684' },
+        { source: 'Bilibili public video comment scan', sample: '\u5979\u8bf4\u7684\u5185\u5bb9\u672c\u8eab\u7edd\u5bf9\u6b63\u786e\u3002\u4f46\u662f\u5979\u62a2\u59d0\u59b9\u98ce\u5934\u4e0d\u662f\u69fd\u70b9\u5417' },
+        { source: 'Bilibili public video comment scan', sample: '\u5eb7\u5fb7\u5e2e\u52a9\u6211\u4eec\u6446\u8131\u5bfb\u6c42\u7edd\u5bf9\u6b63\u786e\u7684\u5984\u5ff5' },
+      ],
+    },
+  ]);
+
+  assert.deepEqual(entries[0].evidenceSamples, [
+    '\u8fd9\u4e48\u5e72\u7edd\u5bf9\u6b63\u786e\uff0c\u6ca1\u4ec0\u4e48\u597d\u8d28\u7591\u7684',
+    '\u5979\u8bf4\u7684\u5185\u5bb9\u672c\u8eab\u7edd\u5bf9\u6b63\u786e\u3002\u4f46\u662f\u5979\u62a2\u59d0\u59b9\u98ce\u5934\u4e0d\u662f\u69fd\u70b9\u5417',
+  ]);
+  assert.equal(entries[0].evidenceCount, 2);
+});
+
 test('normalizeKeywordEntries prunes meta classic compilation evidence for dianzhongdian', () => {
   const entries = normalizeKeywordEntries([
     {

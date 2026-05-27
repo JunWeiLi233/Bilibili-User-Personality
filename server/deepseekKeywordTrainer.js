@@ -1030,6 +1030,11 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const collaborativeContext = /(?:\u8865\u5145|\u6307\u8def|\u7ed9\u4e2a\u8bf4\u6cd5|\u89e3\u91ca|\u8ba8\u8bba|\u8bf4\u660e|\u4e00\u8d77).{0,18}\u634f\u5ac2|\u634f\u5ac2.{0,18}(?:\u8865\u5145|\u6307\u8def|\u7ed9\u4e2a\u8bf4\u6cd5|\u89e3\u91ca|\u8ba8\u8bba|\u8bf4\u660e|\u4e00\u8d77)/u.test(cleanSample);
     if (fandomDramaContext && !collaborativeContext) return true;
   }
+  if (term === '\u6392\u957f' && family === 'cooperation') {
+    const rankOrQueueContext = /(?:\u524d\u6392|\u6392\u9664\u4e00\u5207\u56f0\u96be|\u6211\u6e34\u4e86|\u6211\u8981\u5f53|\u6210\u4e3a|\u5f53).{0,18}\u6392\u957f|\u6392\u957f.{0,18}(?:\u6211\u6e34\u4e86|\u6211\u8981\u5f53|\u65c5\u957f|\u8fde\u957f|\u8425\u957f|\u5e08\u957f|\u6210\u4e3a|\u5f53)/u.test(cleanSample);
+    const collaborativeContext = /(?:\u8865\u5145|\u6307\u8def|\u89e3\u91ca|\u8ba8\u8bba|\u8bf4\u660e|\u5e2e\u5fd9|\u7edf\u8ba1).{0,18}\u6392\u957f|\u6392\u957f.{0,18}(?:\u8865\u5145|\u6307\u8def|\u89e3\u91ca|\u8ba8\u8bba|\u8bf4\u660e|\u5e2e\u5fd9|\u7edf\u8ba1)/u.test(cleanSample);
+    if (rankOrQueueContext && !collaborativeContext) return true;
+  }
   if (['\u7701\u6d41', '\u7701\u6d41\u4fa0'].includes(term) && family === 'cooperation') {
     const rawSample = String(sample || '').trim();
     const terseMarkerContext = /^(?:\u7701\u6d41|\u7701\u6d41\u4fa0)(?:[\s:：,，.。!！?？~\-_\u00d7xX√✓]*)$/u.test(rawSample);
@@ -1178,6 +1183,11 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const foodAmountContext = /(?:\u4e00\u7897\u996d|\u4e0d\u591f\u9971|\u996d).{0,18}\u7edd\u5bf9\u4e0d\u591f|\u7edd\u5bf9\u4e0d\u591f.{0,18}(?:\u9971|\u996d)/u.test(cleanSample);
     const argumentativeContext = /(?:\u4f60|\u8010\u529b|\u8bc1\u636e|\u6839\u636e|\u4e0d\u591f).{0,18}\u7edd\u5bf9\u4e0d\u591f|\u7edd\u5bf9\u4e0d\u591f.{0,18}(?:\u8bc1\u636e|\u7406\u7531|\u6570\u636e|\u8010\u529b)/u.test(cleanSample);
     if (foodAmountContext && !argumentativeContext) return true;
+  }
+  if (term === '\u7edd\u5bf9\u6b63\u786e' && family === 'absolutes') {
+    const conceptReflectionContext = /(?:\u5bfb\u6c42|\u8ffd\u6c42|\u5b58\u5728|\u4e0d\u5b58\u5728|\u6446\u8131|\u53cd\u601d|\u8ba8\u8bba|\u5224\u65ad).{0,18}\u7edd\u5bf9\u6b63\u786e|\u7edd\u5bf9\u6b63\u786e.{0,18}(?:\u5984\u5ff5|\u6982\u5ff5|\u6807\u51c6|\u8fb9\u754c|\u95ee\u9898|\u4e0d\u5b58\u5728|\u5b58\u5728\u5417)/u.test(cleanSample);
+    const assertionContext = /(?:\u8bf4\u7684|\u5185\u5bb9|\u8fd9\u6837|\u8fd9\u4e48\u5e72|\u5c31\u5f97|\u5fc5\u987b).{0,18}\u7edd\u5bf9\u6b63\u786e|\u7edd\u5bf9\u6b63\u786e.{0,18}(?:\uff0c|\u3002|\uff01|\u4f46\u662f|\u5c31\u5f97|\u5fc5\u987b|\u6ca1\u6bdb\u75c5|\u5bf9)/u.test(cleanSample);
+    if (conceptReflectionContext && !assertionContext) return true;
   }
   if (['\u753b\u997c', '\u7537\u7684\u90fd\u7231\u753b\u997c'].includes(term) && family === 'attack') {
     const rawSample = String(sample || '').trim();
