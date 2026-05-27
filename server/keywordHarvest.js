@@ -2020,6 +2020,7 @@ function actionSortRank(action, options = {}) {
   const evidence = Math.max(0, Number(action?.evidenceCount) || 0);
   const currentCommentMisses = Math.max(0, Number(action?.currentCommentMisses) || 0);
   const duplicateAcceptedNoProgress = action?.duplicateAcceptedNoProgress === true;
+  const staleHardZeroRetryCap = Math.max(12, retryLimit * 4);
   const noVideoDiscoveryMiss =
     action?.action === 'retry_with_new_variant' &&
     attempts > 0 &&
@@ -2056,6 +2057,15 @@ function actionSortRank(action, options = {}) {
     options.requireCommentBackedEvidence === true
   ) {
     return coverageActionRank('harvest') + 0.75 + priorityPenalty;
+  }
+  if (
+    action?.action === 'retry_with_new_variant' &&
+    retryLimit > 0 &&
+    attempts >= staleHardZeroRetryCap &&
+    successfulAttempts === 0 &&
+    evidence === 0
+  ) {
+    return coverageActionRank('harvest') + 1 + priorityPenalty;
   }
   if (
     options.prioritizeHardZeroEvidence === true &&

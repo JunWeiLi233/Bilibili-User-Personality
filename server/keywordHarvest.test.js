@@ -6686,6 +6686,43 @@ test('buildDictionaryCoverageAudit keeps hard zero-evidence misses visible among
   assert.equal(audit.recommendedQueries[0], audit.nextActions[0].nextQuery);
 });
 
+test('buildDictionaryCoverageAudit rotates very stale hard zero misses behind fresh zero terms', () => {
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [
+        { term: 'veryStaleZeroMiss', family: 'attack', evidenceCount: 0 },
+        { term: 'freshZero', family: 'attack', evidenceCount: 0 },
+      ],
+    },
+    {
+      termAttempts: {
+        veryStaleZeroMiss: {
+          term: 'veryStaleZeroMiss',
+          family: 'attack',
+          evidenceAtPlanTime: 0,
+          lastEvidenceCount: 0,
+          attempts: 13,
+          successfulAttempts: 0,
+          queries: Array.from({ length: 13 }, (_, index) => ({
+            query: `veryStaleZeroMiss variant ${index + 1}`,
+            strategyVersion: 6,
+            ok: true,
+            hit: false,
+            videos: 4,
+            comments: 24,
+            error: '',
+          })),
+          lastQuery: 'veryStaleZeroMiss variant 13',
+          lastError: '',
+        },
+      },
+    },
+    { targetEvidence: 3, maxActions: 2, retryBeforeUnattemptedLimit: 3 },
+  );
+
+  assert.deepEqual(audit.nextActions.map((item) => item.term), ['freshZero', 'veryStaleZeroMiss']);
+});
+
 test('buildDictionaryCoverageAudit can require source-backed evidence metadata', () => {
   const audit = buildDictionaryCoverageAudit(
     {
