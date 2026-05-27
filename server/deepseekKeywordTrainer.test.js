@@ -5509,6 +5509,63 @@ test('normalizeKeywordEntries prunes latest harvested literal mode, commerce, an
   ]);
 });
 
+test('normalizeKeywordEntries prunes latest harvested bare slogan, school identity, and tool-help evidence', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u4e3a\u53d1\u70e7\u800c\u751f',
+      family: 'cooperation',
+      meaning: 'enthusiast slogan used as constructive praise',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u4e3a\u53d1\u70e7\u800c\u751f',
+        '\u8fd9\u6b21\u4e3a\u53d1\u70e7\u800c\u751f\u7684\u8bbe\u8ba1\u601d\u8def\u8bb2\u5f97\u5f88\u6e05\u695a',
+      ],
+      evidenceSources: [],
+    },
+    {
+      term: '\u5b9e\u540d\u5236',
+      family: 'cooperation',
+      meaning: 'explicitly identify or support a stance',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u5e73\u5e84\u77ff\u533a\u7b2c\u4e00\u4e2d\u5b66xx\u5b9e\u540d\u5236\u89c2\u770b',
+        '\u6211\u5b9e\u540d\u5236\u652f\u6301\u8fd9\u4e2a\u5206\u6790',
+      ],
+      evidenceSources: [],
+    },
+    {
+      term: '\u5b9e\u540d\u5236\u89c2\u770b',
+      family: 'cooperation',
+      meaning: 'explicit support by named viewing',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u5b9e\u540d\u5236\u7684\u91cd\u8981\u6027\u3002',
+        '\u5e73\u5e84\u77ff\u533a\u7b2c\u4e00\u4e2d\u5b66xx\u5b9e\u540d\u5236\u89c2\u770b',
+        '\u8fd9\u4e2a\u89c6\u9891\u6211\u5b9e\u540d\u5236\u89c2\u770b\u5e76\u4e14\u4e09\u8fde',
+      ],
+      evidenceSources: [],
+    },
+    {
+      term: '\u79d1\u5b66\u4e0a\u7f51',
+      family: 'evasion',
+      meaning: 'dodge evidence by telling others to use circumvention tools',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u56fd\u5185\u6709\u4e00\u4e9b\u4e86\uff0c\u79d1\u5b66\u4e0a\u7f51\u53ef\u4ee5\u7528app[doge]',
+        '\u522b\u53ea\u8bf4\u79d1\u5b66\u4e0a\u7f51\u81ea\u5df1\u641c\uff0c\u8bc1\u636e\u94fe\u63a5\u5462',
+      ],
+      evidenceSources: [],
+    },
+  ]);
+
+  assert.deepEqual(entries.map((entry) => [entry.term, entry.evidenceSamples]), [
+    ['\u4e3a\u53d1\u70e7\u800c\u751f', ['\u8fd9\u6b21\u4e3a\u53d1\u70e7\u800c\u751f\u7684\u8bbe\u8ba1\u601d\u8def\u8bb2\u5f97\u5f88\u6e05\u695a']],
+    ['\u5b9e\u540d\u5236', ['\u6211\u5b9e\u540d\u5236\u652f\u6301\u8fd9\u4e2a\u5206\u6790']],
+    ['\u5b9e\u540d\u5236\u89c2\u770b', ['\u8fd9\u4e2a\u89c6\u9891\u6211\u5b9e\u540d\u5236\u89c2\u770b\u5e76\u4e14\u4e09\u8fde']],
+    ['\u79d1\u5b66\u4e0a\u7f51', ['\u522b\u53ea\u8bf4\u79d1\u5b66\u4e0a\u7f51\u81ea\u5df1\u641c\uff0c\u8bc1\u636e\u94fe\u63a5\u5462']],
+  ]);
+});
+
 test('normalizeKeywordEntries prunes weak literal ear-misheard notes without request context', () => {
   const entries = normalizeKeywordEntries([
     {
