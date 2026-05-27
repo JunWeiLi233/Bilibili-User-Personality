@@ -2062,13 +2062,18 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
   if (term === '\u798f\u745e\u63a7' && family === 'cooperation') {
     const antiFurryContext = /(?:\u626b\u798f\u745e|\u53cd\u798f\u745e|\u4e0d\u7406\u667a\u53cd\u798f\u745e|\u9a9a\u798f\u745e|\u798f\u745e.*(?:\u9ebb\u75f9|\u4e71|\u523b\u677f))/u.test(cleanSample);
     const weakMentionContext = /(?:\u8981\u6c42\u4e0d\u8ba9\u8bf4\u798f\u745e|\u5fc5\u987b\u8bf4\u798f\u745e|^\u798f\u745e$|\u798f.{0,4}\u798f\u745e\u63a7[\uff1f?]?)/u.test(cleanSample);
+    const neutralMentionContext = /(?:\u90a3\u4e2a)?\u798f\u745e\u63a7\u554a.{0,18}(?:\u540c\u5b66|\u53d1\u7ed9|\u597d\u50cf)|(?:\u4ec0\u4e48|\u5565).{0,10}\u8ddf\u798f\u745e.{0,10}\u6709\u4ec0\u4e48\u5173\u7cfb/u.test(cleanSample);
     const furryFanContext = /(?:\u798f\u745e\u63a7).*(?:\u770b\u5f97\u5f88\u723d|\u559c\u6b22|\u5236\u4f5c|\u7231\u770b)|(?:\u559c\u6b22|\u7231\u770b).*\u798f\u745e/u.test(cleanSample);
-    return (antiFurryContext || weakMentionContext) && !furryFanContext;
+    return (antiFurryContext || weakMentionContext || neutralMentionContext) && !furryFanContext;
   }
   if (term === '\u7a7a\u8033' && family === 'cooperation') {
     const weakNoteContext = /(?:\u6307\u7a7a\u8033|\uff08\u7a7a\u8033\uff09|\(\u7a7a\u8033\)|\S{1,12}.{0,2}\u7a7a\u8033[\uff09)]?$)/u.test(cleanSample);
     const clarificationRequestContext = /(?:\u5b57\u5e55|\u542c\u4e0d\u6e05|\u53e3\u9f7f\u4e0d\u6e05|\u6c42\u539f\u53e5|\u539f\u8bcd|\u7a7a\u8033).{0,18}(?:\u5427|\u6c42|\u8bf7|\u539f\u53e5|\u5b57\u5e55)|(?:\u5b57\u5e55|\u542c\u4e0d\u6e05|\u53e3\u9f7f\u4e0d\u6e05).{0,18}\u7a7a\u8033/u.test(cleanSample);
     if (weakNoteContext && !clarificationRequestContext) return true;
+  }
+  if (term === 'cos\u8def\u6613\u5341\u516d' && family === 'cooperation') {
+    const directCosContext = /(?:cos|cosp?lay|仿|妆造|扮).{0,12}(?:\u8def\u6613\u5341\u516d|\u56fd\u738b)|(?:\u8def\u6613\u5341\u516d|\u56fd\u738b).{0,12}(?:cos|cosp?lay|仿|妆造|扮)/iu.test(cleanSample);
+    if (!directCosContext) return true;
   }
   if (term === '\u7cef\u4e86' && family === 'correction') {
     const cowardiceContext = /\u7cef\u4e86.{0,12}(?:\u4e0d\u6562|\u627epp|\u6709\u611f\u89c9)|(?:\u4e0d\u6562|\u627epp|\u9ed1\u55d3).{0,18}\u7cef\u4e86/u.test(cleanSample);
