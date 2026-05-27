@@ -3624,6 +3624,38 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for mixed asci
   ]);
 });
 
+test('buildKeywordHarvestQueries uses high-signal comment queries for platform and acronym weak queue', () => {
+  const queries = buildKeywordHarvestQueries(
+    {
+      entries: [
+        { term: 'kda\u5927\u5e1d', family: 'attack', evidenceCount: 0 },
+        { term: 'nat\u7c7b\u578b', family: 'evidence', evidenceCount: 0 },
+        { term: 'tv\u70b9\u8d5e', family: 'cooperation', evidenceCount: 0 },
+        { term: 'tv\u574f\u7b11', family: 'attack', evidenceCount: 0 },
+        { term: 'up\u597d\u725b', family: 'cooperation', evidenceCount: 0 },
+        { term: 'windowxp\u542f\u52a8', family: 'evasion', evidenceCount: 0 },
+        { term: 'xswl', family: 'attack', evidenceCount: 0 },
+      ],
+    },
+    {
+      seedQueries: [],
+      coverageMode: 'all-weak',
+      maxQueries: 7,
+      queryVariantsPerTerm: 1,
+    },
+  );
+
+  assert.deepEqual(queries, [
+    'kda\u5927\u5e1d \u82f1\u96c4\u8054\u76df \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    'nat\u7c7b\u578b \u8054\u673a \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    'tv\u70b9\u8d5e B\u7ad9\u8868\u60c5 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    'tv\u574f\u7b11 B\u7ad9\u8868\u60c5 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    'up\u597d\u725b UP\u4e3b \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    'windowxp\u542f\u52a8 \u97f3\u6548 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    'xswl \u7b11\u6b7b\u6211\u4e86 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+  ]);
+});
+
 test('buildKeywordHarvestQueries prioritizes exact searches for mixed compact metric terms', () => {
   const queries = buildKeywordHarvestQueries(
     {
