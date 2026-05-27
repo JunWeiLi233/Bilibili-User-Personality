@@ -2662,6 +2662,48 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for fresh zero
   ]);
 });
 
+test('buildKeywordHarvestQueries uses high-signal comment queries for current B and evidence weak queue', () => {
+  const queries = buildKeywordHarvestQueries(
+    {
+      entries: [
+        { term: '\u4fddkdi', family: 'cooperation', evidenceCount: 0 },
+        { term: '\u676f\u53cb\u9171', family: 'cooperation', evidenceCount: 0 },
+        { term: '\u6807\u9898\u515a\u6253\u6cd5', family: 'attack', evidenceCount: 0 },
+        { term: '\u6807\u51c6\u7ed3\u5c40', family: 'absolutes', evidenceCount: 0 },
+        { term: '\u4e0d\u52a8\u5982\u5c71', family: 'evasion', evidenceCount: 0 },
+        { term: '\u4e0d\u591abb', family: 'evasion', evidenceCount: 0 },
+        { term: '\u4e0d\u5c2c', family: 'cooperation', evidenceCount: 0 },
+        { term: '\u4e0d\u4f1a\u771f\u6709\u4eba\u89c9\u5f97\u8fd9\u53eb\u8bc1\u636e\u5427', family: 'evidence', evidenceCount: 0 },
+        { term: '\u4e0d\u53ef\u62b5\u6297\u529b', family: 'attack', evidenceCount: 0 },
+        { term: '\u4e0d\u4e00\u4e00', family: 'evasion', evidenceCount: 0 },
+        { term: '\u4e0d\u4e00\u4e00\u8bc4\u4ef7', family: 'evasion', evidenceCount: 0 },
+        { term: '\u4e0d\u7528\u6211\u591a\u8bf4\u4e86\u5427', family: 'evasion', evidenceCount: 0 },
+      ],
+    },
+    {
+      seedQueries: [],
+      coverageMode: 'all-weak',
+      maxQueries: 12,
+      queryVariantsPerTerm: 1,
+    },
+  );
+
+  assert.deepEqual(queries, [
+    '\u4fddkdi \u8bc4\u5206 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    '\u676f\u53cb\u9171 \u865a\u62df\u4e3b\u64ad \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    '\u6807\u9898\u515a\u6253\u6cd5 \u89c6\u9891\u6807\u9898 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    '\u6807\u51c6\u7ed3\u5c40 \u5267\u60c5 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    '\u4e0d\u52a8\u5982\u5c71 \u8fa9\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    '\u4e0d\u591abb \u76f4\u63a5\u5f00\u55b7 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    '\u4e0d\u5c2c \u5c34\u5c2c \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    '\u4e0d\u4f1a\u771f\u6709\u4eba\u89c9\u5f97\u8fd9\u53eb\u8bc1\u636e\u5427 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    '\u4e0d\u53ef\u62b5\u6297\u529b \u4e0d\u53ef\u6297\u529b \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    '\u4e0d\u4e00\u4e00\u5217\u4e3e \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    '\u4e0d\u4e00\u4e00\u8bc4\u4ef7 \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    '\u4e0d\u7528\u6211\u591a\u8bf4\u4e86\u5427 \u61c2\u7684\u90fd\u61c2 \u8bc4\u8bba\u533a \u70ed\u8bc4',
+  ]);
+});
+
 test('buildKeywordHarvestQueries prioritizes exact searches for mixed compact metric terms', () => {
   const queries = buildKeywordHarvestQueries(
     {
@@ -2788,7 +2830,7 @@ test('buildKeywordHarvestQueries uses fresh aliases for noisy weak misses', () =
     {
       term: '\u4e0d\u53ef\u62b5\u6297\u529b',
       family: 'attack',
-      expectedAliasQuery: '\u4e0d\u53ef\u6297\u529b \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
+      expectedAliasQuery: '\u4e0d\u53ef\u62b5\u6297\u529b \u4e0d\u53ef\u6297\u529b \u8bc4\u8bba\u533a \u70ed\u8bc4',
     },
     {
       term: '\u4e0d\u770b\u5185\u5bb9\u8bc4\u8bba',
@@ -3110,8 +3152,8 @@ test('buildKeywordHarvestQueries starts with higher-signal aliases for ambiguous
   assert.deepEqual(queries, [
     '\u963f\u7f8e\u5229\u5361 \u56fd\u9645\u653f\u6cbb \u8bc4\u8bba',
     '\u7f8e\u5229\u575a \u4e2d\u7f8e \u70ed\u8bc4',
-    '\u4e0d\u4e00\u4e00\u5217\u4e3e \u56de\u590d',
-    '\u4e0d\u4e00\u4e00\u8bc4\u4ef7 \u8bc4\u8bba\u533a',
+    '\u4e0d\u4e00\u4e00\u5217\u4e3e \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4',
+    '\u4e0d\u4e00\u4e00 \u8bc4\u8bba',
   ]);
 });
 
@@ -6557,7 +6599,7 @@ test('buildDictionaryCoverageAudit treats text-only misses as irrelevant query f
     { targetEvidence: 3, maxActions: 1 },
   );
 
-  assert.equal(audit.nextActions[0].nextQuery, `${term} \u70ed\u8bc4`);
+  assert.equal(audit.nextActions[0].nextQuery, `${term} \u89c6\u9891\u6807\u9898 \u8bc4\u8bba\u533a \u70ed\u8bc4`);
 });
 
 test('buildDictionaryCoverageAudit treats filtered search-context misses as irrelevant query feedback', () => {
