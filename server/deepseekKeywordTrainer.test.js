@@ -6171,6 +6171,29 @@ test('normalizeKeywordEntries prunes proper-name roster and praise evidence', ()
   assert.deepEqual(byTerm['\u8001\u53ae'].evidenceSamples, ['\u8001\u53ae\u4f60\u8fd9\u4e2a\u8bc1\u636e\u6765\u6e90\u80fd\u4e0d\u80fd\u8d34\u4e00\u4e0b']);
 });
 
+test('normalizeKeywordEntries prunes title-like xing-fa evidence while keeping xing approval', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u5f73\u4e8e',
+      family: 'cooperation',
+      meaning: '\u8868\u793a\u80af\u5b9a\u6216\u8c03\u4f83\uff0c\u610f\u4e3a\u884c\u3001\u53ef\u4ee5',
+      evidenceCount: 3,
+      evidenceSamples: [
+        '\u300a\u5f73\u4e8e\u6cd5\u6559\u5b66\u5df2\u7ecf\u88ab\u6dd8\u6c70\u4e86\u300b[doge]\u61c2\u7684\u5144\u5f1f\u70b9\u4e2a\u8d5e',
+        '\u5f73\u4e8e',
+        '\u90a3\u5c31\u5f73\u4e8e\u5427\uff0c\u8fd9\u4e2a\u65b9\u6848\u80fd\u63a5\u53d7',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u300a\u5f73\u4e8e\u6cd5\u6559\u5b66\u5df2\u7ecf\u88ab\u6dd8\u6c70\u4e86\u300b[doge]\u61c2\u7684\u5144\u5f1f\u70b9\u4e2a\u8d5e' },
+        { source: 'Bilibili public video comment scan', sample: '\u5f73\u4e8e' },
+        { source: 'Bilibili public video comment scan', sample: '\u90a3\u5c31\u5f73\u4e8e\u5427\uff0c\u8fd9\u4e2a\u65b9\u6848\u80fd\u63a5\u53d7' },
+      ],
+    },
+  ]);
+
+  assert.deepEqual(entries[0].evidenceSamples, ['\u5f73\u4e8e', '\u90a3\u5c31\u5f73\u4e8e\u5427\uff0c\u8fd9\u4e2a\u65b9\u6848\u80fd\u63a5\u53d7']);
+});
+
 test('normalizeKeywordEntries prunes persisted loose reaction evidence for bengbuzhu variants', () => {
   const entries = normalizeKeywordEntries([
     {

@@ -990,6 +990,11 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const usefulDesignContext = /\u4e3a\u53d1\u70e7\u800c\u751f.{0,24}(?:\u8bbe\u8ba1|\u601d\u8def|\u8bb2\u5f97|\u5206\u6790|\u4f18\u5316)|(?:\u8bbe\u8ba1|\u601d\u8def|\u8bb2\u5f97|\u5206\u6790|\u4f18\u5316).{0,24}\u4e3a\u53d1\u70e7\u800c\u751f/u.test(cleanSample);
     if (bareSloganContext && !usefulDesignContext) return true;
   }
+  if (term === '\u5f73\u4e8e' && family === 'cooperation') {
+    const titleOrCourseContext = /(?:\u300a|\u300c|\u201c)?\u5f73\u4e8e\u6cd5.{0,18}(?:\u6559\u5b66|\u6559\u7a0b|\u5df2\u7ecf\u88ab\u6dd8\u6c70|\u61c2\u7684\u5144\u5f1f)|(?:\u6559\u5b66|\u6559\u7a0b).{0,12}\u5f73\u4e8e\u6cd5/u.test(cleanSample);
+    const approvalContext = /^(?:\u5f73\u4e8e|[\u5f73\u4e8e\s]+)$/u.test(cleanSample) || /\u5f73\u4e8e.{0,8}(?:\u5427|\u53ef\u4ee5|\u884c|\u90a3\u5c31)|(?:\u53ef\u4ee5|\u884c|\u90a3\u5c31).{0,8}\u5f73\u4e8e/u.test(cleanSample);
+    if (titleOrCourseContext && !approvalContext) return true;
+  }
   if (['\u7701\u6d41', '\u7701\u6d41\u4fa0'].includes(term) && family === 'cooperation') {
     const rawSample = String(sample || '').trim();
     const terseMarkerContext = /^(?:\u7701\u6d41|\u7701\u6d41\u4fa0)(?:[\s:：,，.。!！?？~\-_\u00d7xX√✓]*)$/u.test(rawSample);
