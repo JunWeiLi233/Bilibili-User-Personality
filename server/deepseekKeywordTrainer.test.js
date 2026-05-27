@@ -6194,6 +6194,28 @@ test('normalizeKeywordEntries prunes title-like xing-fa evidence while keeping x
   assert.deepEqual(entries[0].evidenceSamples, ['\u5f73\u4e8e', '\u90a3\u5c31\u5f73\u4e8e\u5427\uff0c\u8fd9\u4e2a\u65b9\u6848\u80fd\u63a5\u53d7']);
 });
 
+test('normalizeKeywordEntries prunes short negated attack mentions while keeping contextual attacks', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u5927\u8868\u732a',
+      family: 'attack',
+      meaning: '\u8bbd\u523a\u6027\u79f0\u547c\uff0c\u6307\u6218\u672f\u6216\u6307\u6325\u611a\u8822',
+      evidenceCount: 3,
+      evidenceSamples: [
+        '\u6ca1\u6709\u5927\u8868\u732a',
+        '\u8fd9\u6218\u672f\u592a\u5927\u8868\u732a\u4e86\uff0c\u65e0\u4fe1\u606f\u76f2\u6253\u5bb3\u4e86\u591a\u5c11\u6b21',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u6ca1\u6709\u5927\u8868\u732a' },
+        { source: 'Bilibili public video comment scan', sample: '\u8fd9\u6218\u672f\u592a\u5927\u8868\u732a\u4e86\uff0c\u65e0\u4fe1\u606f\u76f2\u6253\u5bb3\u4e86\u591a\u5c11\u6b21' },
+      ],
+    },
+  ]);
+
+  assert.deepEqual(entries[0].evidenceSamples, ['\u8fd9\u6218\u672f\u592a\u5927\u8868\u732a\u4e86\uff0c\u65e0\u4fe1\u606f\u76f2\u6253\u5bb3\u4e86\u591a\u5c11\u6b21']);
+  assert.equal(entries[0].evidenceCount, 1);
+});
+
 test('normalizeKeywordEntries prunes persisted loose reaction evidence for bengbuzhu variants', () => {
   const entries = normalizeKeywordEntries([
     {

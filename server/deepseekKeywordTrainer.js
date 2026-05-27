@@ -938,11 +938,26 @@ function countNonOverlappingNeedleOccurrences(haystack, needles = []) {
   return count;
 }
 
+function isShortNegatedAttackMention(term, sample) {
+  const cleanSample = cleanEvidenceText(sample);
+  if (!cleanSample || cleanSample.length > Math.max(cleanKeywordTerm(term).length + 4, 12)) return false;
+  if (/^(?:\u6ca1|\u6ca1\u6709|\u65e0|\u4e0d\u662f)/u.test(cleanKeywordTerm(term))) return false;
+  const softTails = /^(?:\u554a|\u5440|\u5427|\u5462|\u54e6|\u54c8|\u4e86|\u5417|\u554a\u554a|\u54c8\u54c8)?$/u;
+  return evidenceNeedlesForTerm(term).some((needle) => {
+    if (!needle || needle.length < 2) return false;
+    return ['\u6ca1\u6709', '\u6ca1', '\u65e0', '\u4e0d\u662f'].some((prefix) => {
+      if (!cleanSample.startsWith(`${prefix}${needle}`)) return false;
+      return softTails.test(cleanSample.slice(prefix.length + needle.length));
+    });
+  });
+}
+
 function isAmbiguousBenignEvidenceSample(term, family, sample) {
   const cleanSample = cleanEvidenceText(sample);
   const rawContextSample = String(sample || '');
   const contextSample = `${cleanSample}\n${rawContextSample}`;
   if (family === 'attack') {
+    if (isShortNegatedAttackMention(term, sample)) return true;
     const glossaryQuestionContext = /(?:\u4e0d\u61c2\u5c31\u95ee|\u90fd(?:\u662f)?\u4ec0\u4e48(?:\u610f\u601d|\u6897)|\u662f\u4ec0\u4e48\u610f\u601d|\u662f\u4ec0\u4e48\u6897|\u4ece\u6765\u4e0d\u770b)/u.test(contextSample)
       && /[\u3001\uff0c,].*[\u3001\uff0c,]/u.test(contextSample);
     const hostileExplanationContext = /(?:\u9ed1\u79f0|\u9a82\u4eba|\u653b\u51fb|\u522b\u62ff|\u522b\u590d\u8bfb|\u522b\u4e71\u7528)/u.test(contextSample);
