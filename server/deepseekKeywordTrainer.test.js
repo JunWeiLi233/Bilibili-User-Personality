@@ -5905,8 +5905,7 @@ test('normalizeKeywordEntries prunes emote and expression evidence for tv-huaixi
     },
   ]);
 
-  assert.equal(entries[0].evidenceCount, 0);
-  assert.deepEqual(entries[0].evidenceSources, []);
+  assert.deepEqual(entries, []);
 });
 
 test('normalizeKeywordEntries prunes game-reaction evidence for lived-to-the-end cooperation term', () => {
@@ -7025,7 +7024,6 @@ test('findDictionaryEntriesWithTextEvidence maps repeatedly missed conversationa
     '\u9ad8\u4f4e\u5f97\u7ed9\u4f60\u9001\u4e0a\u53bb',
     '\u6ca1\u6d3b\u8fc7\u4e24\u4e2a\u6708',
     '\u54ea\u90fd\u6709\u4f60',
-    'tv\u574f\u7b11',
   ]);
   assert.equal(entries.every((entry) => entry.evidenceCount >= 1), true);
   assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-missed-alias'), true);
@@ -10754,6 +10752,73 @@ test('normalizeKeywordEntries prunes latest coverage batch proper-name, generic-
     ['\u4e49\u52a1\u6559\u80b2\u6ca1\u4e0a\u5b8c', ['\u864e\u6251\u8fd9\u8bc4\u5206\u7684\u4eba\u611f\u89c9\u662f\u4e49\u52a1\u6559\u80b2\u6ca1\u4e0a\u5b8c\u7684\u90a3\u79cd[\u7b11\u54ed][\u7b11\u54ed]']],
     ['\u5f88\u61c2\u561b', ['\u5f88\u61c2\u561b\u8001\u94c1[doge]']],
     ['\u6d17\u94b1\u7247', ['\u6d17\u94b1\u7247']],
+  ]);
+});
+
+test('normalizeKeywordEntries prunes current low-yield coverage batch emote, device, and narrow remix noise', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u7ea2\u83b2\u4e1a\u706b\u711a\u6211\u8eab',
+      family: 'attack',
+      meaning: 'over-specific religion and DJ remix line',
+      evidenceCount: 1,
+      evidenceSamples: ['\u7ea2\u83b2\u4e1a\u706b\u711a\u6211\u8eab\uff0cDJ\u5982\u6765\u5165\u6211\u5fc3[doge][doge][doge]'],
+    },
+    {
+      term: 'dj\u5982\u6765',
+      family: 'attack',
+      meaning: 'over-specific DJ and religious figure remix',
+      evidenceCount: 1,
+      evidenceSamples: ['\u7ea2\u83b2\u4e1a\u706b\u711a\u6211\u8eab\uff0cDJ\u5982\u6765\u5165\u6211\u5fc3[doge][doge][doge]'],
+    },
+    {
+      term: '\u4f60\u609f\u4e86',
+      family: 'cooperation',
+      meaning: 'generic realization reaction',
+      evidenceCount: 2,
+      evidenceSamples: ['\u4f60\u609f\u4e86', '\u4f60\u609f\u4e86\u5417'],
+    },
+    {
+      term: '\u6bc1\u4e8e48v',
+      family: 'attack',
+      meaning: 'over-specific vehicle electrical-system complaint',
+      evidenceCount: 1,
+      evidenceSamples: ['\u6c83\u5c14\u6c83\u6bc1\u4e8e48v[doge]'],
+    },
+    {
+      term: 'tv\u574f\u7b11',
+      family: 'attack',
+      meaning: 'Bilibili emote label',
+      evidenceCount: 1,
+      evidenceSamples: ['\u53ef\u80fd\u771f\u7684\u662f\u56e0\u4e3a\u8c03\u97f3\u5e08\u6839\u672c\u4e0d\u5b66\u7535\u5b66[tv_\u574f\u7b11]'],
+    },
+    {
+      term: '\u795e\u79d8\u7684\u5927\u624b',
+      family: 'attack',
+      meaning: 'sarcastic hidden-hand manipulation metaphor',
+      evidenceCount: 1,
+      evidenceSamples: ['\u67d0\u53ea\u795e\u79d8\u7684\u5927\u624b\u7ed9\u81ea\u5df1\u66b4\u9732\u4e86[\u7b11\u54ed]\u4e0d\u6253\u81ea\u62db\u662f\u6ca1\u60f3\u5230\u7684[doge]'],
+    },
+    {
+      term: '\u88c5\u9ad8\u624b',
+      family: 'attack',
+      meaning: 'mocking someone as pretending to be expert',
+      evidenceCount: 1,
+      evidenceSamples: ['\u90fd\u4e0d\u8bc4\u8bba\u88c5\u9ad8\u624b\u662f\u5417[doge]'],
+    },
+    {
+      term: '\u5403\u76f8\u592a\u96be\u770b',
+      family: 'attack',
+      meaning: 'criticizes greedy or shameless behavior',
+      evidenceCount: 6,
+      evidenceSamples: ['\u4ee5\u524d\u4e0d\u8981\u94b1\uff0c\u73b0\u5728\u739b\u5fb7\u5403\u76f8\u592a\u96be\u770b\u4e86'],
+    },
+  ]);
+
+  assert.deepEqual(entries.map((entry) => [entry.term, entry.evidenceSamples]), [
+    ['\u795e\u79d8\u7684\u5927\u624b', ['\u67d0\u53ea\u795e\u79d8\u7684\u5927\u624b\u7ed9\u81ea\u5df1\u66b4\u9732\u4e86[\u7b11\u54ed]\u4e0d\u6253\u81ea\u62db\u662f\u6ca1\u60f3\u5230\u7684[doge]']],
+    ['\u88c5\u9ad8\u624b', ['\u90fd\u4e0d\u8bc4\u8bba\u88c5\u9ad8\u624b\u662f\u5417[doge]']],
+    ['\u5403\u76f8\u592a\u96be\u770b', ['\u4ee5\u524d\u4e0d\u8981\u94b1\uff0c\u73b0\u5728\u739b\u5fb7\u5403\u76f8\u592a\u96be\u770b\u4e86']],
   ]);
 });
 
