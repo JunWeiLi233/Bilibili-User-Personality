@@ -4,7 +4,7 @@ import { dirname, join } from 'node:path';
 import { readKeywordDictionary as defaultReadKeywordDictionary } from './deepseekKeywordTrainer.js';
 import { searchVideoKeywords as defaultSearchVideoKeywords } from './videoKeywordSearch.js';
 
-const HARVEST_STRATEGY_VERSION = 6;
+const HARVEST_STRATEGY_VERSION = 7;
 const DEFAULT_SEED_QUERIES = [
   '\u4e2d\u6587\u4e92\u8054\u7f51 \u6897 \u8bc4\u8bba\u533a',
   '\u8bc4\u8bba\u533a \u70ed\u8bc4 \u6897',
@@ -2585,6 +2585,7 @@ export function summarizeTermAttempts(state = {}, dictionary = {}, options = {})
 export function buildCoverageActions(dictionary = {}, state = {}, options = {}) {
   const entries = sortEntriesForCoverage(Array.isArray(dictionary?.entries) ? dictionary.entries : []);
   const stateStrategyIsCurrent = hasCurrentHarvestStrategyState(state);
+  const feedbackState = stateStrategyIsCurrent ? state : { ...state, runs: [] };
   const attempts = stateStrategyIsCurrent && state.termAttempts && typeof state.termAttempts === 'object' ? state.termAttempts : {};
   const searchedQueries = new Set(stateStrategyIsCurrent && Array.isArray(state.searchedQueries) ? state.searchedQueries : []);
   const assumeLegacyQueriesCurrent = stateStrategyIsCurrent;
@@ -2619,7 +2620,7 @@ export function buildCoverageActions(dictionary = {}, state = {}, options = {}) 
         relatedAttempt &&
         Math.max(0, Number(relatedAttempt.attempts) || 0) > 0 &&
         effectiveSuccessfulAttempts(relatedAttempt) === 0;
-      return !(cleanRelatedTerm.length < term.length && (relatedMissed || hasIrrelevantQueryFeedback(state, cleanRelatedTerm)));
+      return !(cleanRelatedTerm.length < term.length && (relatedMissed || hasIrrelevantQueryFeedback(feedbackState, cleanRelatedTerm)));
     });
     const hasUntriedOwnVariant = ownVariants.some((variant) => !triedQueries.has(variant.query));
     const relatedAnchorAlreadyTried = relatedSearchTerms.some((relatedTerm) => {
@@ -2636,9 +2637,9 @@ export function buildCoverageActions(dictionary = {}, state = {}, options = {}) 
       onlySearchTerms: preferRelatedSearchTerms,
     }) : ownVariants;
     const hardMissedZeroEvidence = isHardMissedZeroEvidenceAttempt(attempt, options.retryBeforeUnattemptedLimit);
-    const irrelevantFeedback = hasIrrelevantQueryFeedback(state, term);
-    const filteredSearchContextFeedback = hasFilteredSearchContextFeedback(state, term);
-    const duplicateAcceptedNoProgress = hasDuplicateAcceptedNoProgressFeedback(state, term);
+    const irrelevantFeedback = hasIrrelevantQueryFeedback(feedbackState, term);
+    const filteredSearchContextFeedback = hasFilteredSearchContextFeedback(feedbackState, term);
+    const duplicateAcceptedNoProgress = hasDuplicateAcceptedNoProgressFeedback(feedbackState, term);
     const missedWithIrrelevantFeedback = attemptsCount > 0 && successfulAttempts === 0 && irrelevantFeedback;
     const needsSourceRefresh =
       requiresCoverageEvidenceSource(options) && count > 0 && !hasCoverageEvidenceSource(entry, options);
@@ -3139,7 +3140,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
   const stateStrategyIsCurrent = hasCurrentHarvestStrategyState(state);
   const searchedQuerySet = new Set(stateStrategyIsCurrent && Array.isArray(state.searchedQueries) ? state.searchedQueries : []);
   const skipSearchedQuerySet = new Set(searchedQuerySet);
-  const scannedBvidSet = new Set(state.scannedBvids);
+  const scannedBvidSet = new Set(stateStrategyIsCurrent && Array.isArray(state.scannedBvids) ? state.scannedBvids : []);
   const maxQueries = asPositiveInt(options.maxQueries, 12, 100);
   const termAttempts = stateStrategyIsCurrent ? { ...state.termAttempts } : {};
   const backfilledAttempts = backfillTermAttemptsFromSearchedQueries(termAttempts, before, searchedQuerySet, {
@@ -3355,6 +3356,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
   const acceptedEvidenceCount = results.reduce((sum, item) => sum + countAcceptedEvidenceHitsForResult(item.result || {}), 0);
   const coverageIncreasingAcceptedEvidenceCount = countCoverageIncreasingAcceptedEvidence(results, before, coverageOptions);
   const finishedAt = new Date().toISOString();
+  const priorRuns = stateStrategyIsCurrent && Array.isArray(state.runs) ? state.runs : [];
   const nextState = {
     version: 1,
     harvestStrategyVersion: HARVEST_STRATEGY_VERSION,
@@ -3363,7 +3365,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
     scannedBvids: [...scannedBvidSet].sort(),
     termAttempts,
     runs: [
-      ...state.runs.slice(-49),
+      ...priorRuns.slice(-49),
       {
         at: finishedAt,
         queries: queries.length,
