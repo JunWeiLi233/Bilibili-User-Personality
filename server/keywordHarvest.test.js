@@ -12349,6 +12349,8 @@ test('harvestKeywordDictionary skips evidence-source fallback after duplicate ac
     assert.equal(payloads[0].includeVideoContext, false);
     assert.equal(payloads[0].includeVideoObjectEvidence, false);
     assert.equal(payloads[0].evidenceSourceVideoFallback, false);
+    assert.equal(payloads[0].allowFilteredDiscoveryFallback, false);
+    assert.equal(payloads[0].preferFilteredDiscoveryFallback, false);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }

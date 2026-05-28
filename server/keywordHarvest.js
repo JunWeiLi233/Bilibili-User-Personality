@@ -3240,8 +3240,8 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
         searchPayload.includeVideoContext = false;
         searchPayload.includeVideoObjectEvidence = false;
         searchPayload.evidenceSourceVideoFallback = options.existingTermsOnly === true && !duplicateAcceptedNoProgress;
-        searchPayload.allowFilteredDiscoveryFallback = options.allowFilteredDiscoveryFallback !== false;
-        searchPayload.preferFilteredDiscoveryFallback = options.preferFilteredDiscoveryFallback !== false;
+        searchPayload.allowFilteredDiscoveryFallback = !duplicateAcceptedNoProgress && options.allowFilteredDiscoveryFallback !== false;
+        searchPayload.preferFilteredDiscoveryFallback = !duplicateAcceptedNoProgress && options.preferFilteredDiscoveryFallback !== false;
         searchPayload.expandTargetsFromComments = options.expandTargetsFromComments === true;
         if (options.existingTermsOnly === true && options.prioritizeSearchQueries !== false) {
           searchPayload.prioritizeSearchQueries = true;
