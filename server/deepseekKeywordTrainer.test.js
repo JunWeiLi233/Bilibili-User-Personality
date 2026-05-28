@@ -4941,7 +4941,6 @@ test('normalizeKeywordEntries prunes latest harvested bare agreement, self-state
   assert.deepEqual(entries.map((entry) => [entry.term, entry.evidenceSamples]), [
     ['\u6ca1\u6bdb\u75c5\u554a', ['\u90d1\u5973\u58eb\u8bf4\u7684\u6ca1\u6bdb\u75c5']],
     ['\u6ca1\u6551\u4e86', ['\u524d\u9762\u90a3\u4e2a\u8bf4\u6cd5\u6ca1\u6551\u4e86\uff0c\u6211\u6536\u56de\u91cd\u8bf4']],
-    ['ai\u8bc6\u7247\u9171', ['@AI\u8bc6\u7247\u9171 \u8bf7\u5e2e\u5fd9\u8bc6\u522b\u8fd9\u6bb5\u89c6\u9891\u6765\u6e90']],
     ['tv\u70b9\u8d5e', ['\u8fd9\u4e2a\u8865\u5145\u5f88\u6709\u7528[tv_\u70b9\u8d5e]\uff0c\u5efa\u8bae\u7f6e\u9876']],
   ]);
 });
@@ -9410,6 +9409,54 @@ test('normalizeKeywordEntries prunes latest harvested proper-name and sentence-f
   ]);
 
   assert.deepEqual(entries.map((entry) => entry.term), ['正义开盒']);
+});
+
+test('normalizeKeywordEntries prunes current flash harvest bot-name, location-fragment, and loose publish evidence', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '可以贴',
+      family: 'cooperation',
+      meaning: 'ask another user to post evidence or context',
+      evidenceCount: 4,
+      evidenceSamples: [
+        '直接把评论贴出来不行吗？在怕什么？',
+        '我去理发店剪短发，出来的那一瞬间我就想到了她',
+        '爱看不看？三观不正的作品发出来干什么，不删才怪',
+      ],
+    },
+    {
+      term: 'ai识片酱',
+      family: 'cooperation',
+      meaning: 'AI bot account name',
+      evidenceCount: 5,
+      evidenceSamples: [
+        'AI课代表的笔记：视频《AI识片酱竟然不识片了》讲述了一个情景',
+        '回复 @AI识片酱 :你不是机器人吗？[哦呼]',
+        '我才发现这是AI识片酱',
+      ],
+    },
+    {
+      term: '岛上完全是幻境',
+      family: 'absolutes',
+      meaning: 'over-specific movie plot explanation fragment',
+      evidenceCount: 1,
+      evidenceSamples: [
+        '那结尾的精神病院是什么？不是现实吗？如果你设定他根本没有到岛上，岛上完全是幻境，那很多镜头就解释不通。',
+      ],
+    },
+    {
+      term: '砖家叫兽',
+      family: 'attack',
+      meaning: 'mocking experts as pseudo-experts',
+      evidenceCount: 1,
+      evidenceSamples: ['只好让砖家叫兽出来给平民洗脑汇率贬值好处'],
+    },
+  ]);
+
+  assert.deepEqual(entries.map((entry) => entry.term), ['可以贴', '砖家叫兽']);
+  assert.deepEqual(entries.find((entry) => entry.term === '可以贴').evidenceSamples, [
+    '直接把评论贴出来不行吗？在怕什么？',
+  ]);
 });
 
 test('findDictionaryEntriesWithTextEvidence keeps directed probability manipulation use of loaded-dice phrase', () => {

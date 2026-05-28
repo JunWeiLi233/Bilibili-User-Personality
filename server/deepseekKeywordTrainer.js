@@ -27,6 +27,7 @@ const URL_HOST_FRAGMENT_TERMS = new Set(['http', 'https', 'www', 'com', 'cn', 'n
 STOP_TERMS.add('\u6211\u609f\u4e86');
 STOP_TERMS.add('\u609f\u4e86');
 STOP_TERMS.add('\u6218\u4e59\u5973');
+STOP_TERMS.add('ai\u8bc6\u7247\u9171');
 const ALLOWED_ASCII_KEYWORD_TERMS = new Set([
   'giegie',
   'lsp',
@@ -364,6 +365,7 @@ function isNoisyTerm(term) {
   if (/^去问(?!百度|谷歌|Google|搜索|老师|客服)/i.test(term)) return true;
   if (term === '\u4f46\u6211\u7edd\u5bf9\u4e0d\u4f1a\u53bb\u7978\u5bb3\u522b') return true;
   if (/^(?:\u90a3\u6bb5\u65f6\u95f4)?\u5f39\u5e55\u5168\u662f(?:\u8282\u594f)?\u590d\u5236$/u.test(term)) return true;
+  if (/^\u5c9b\u4e0a(?:\u5b8c\u5168)?\u662f\u5e7b\u5883$/u.test(term)) return true;
   return false;
 }
 
@@ -1251,7 +1253,7 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const hostileDareContext = /(?:\u8001\u50bb\u5b50|\u6709\u672c\u4e8b).*(?:\u53d1\u51fa\u6765|\u8d34\u51fa\u6765|\u628a.*\u56fe\u7247\u53d1)|(?:\u4f60\u6562|\u4f60\u81ea\u5df1\u6562|\u4f60\u53d1\u7684\u4ec0\u4e48\u4e1c\u897f).{0,16}(?:\u53d1\u51fa\u6765|\u516c\u5f00\u53d1\u51fa\u6765)/u.test(cleanSample);
     const genericDiscoveryContext = !cleanSample.includes('\u53ef\u4ee5\u8d34') && /(?:\u53ef\u4ee5\u53d1\u73b0|\u5c31\u53ef\u4ee5\u53d1\u73b0|\u53ef\u4ee5\u770b\u51fa|\u53ef\u4ee5\u770b\u5230)/u.test(cleanSample);
     const genericAdviceContext = !cleanSample.includes('\u53ef\u4ee5\u8d34') && /(?:\u5efa\u8bae\u5927\u5bb6|\u706b\u9505\u5e95\u6599|\u5148\u7092\u5316\u5f00|\u518d\u52a0\u70ed\u6c34)/u.test(cleanSample);
-    const loosePublishContext = !cleanSample.includes('\u53ef\u4ee5\u8d34') && /(?:\u83ab\u540d\u5176\u5999\u53d1\u51fa\u6765\u4e86|\u73b0\u5728\u624d\u662f\u5b8c\u6574\u7248|\u8fd9\u80fd\u53d1\u51fa\u6765\u5417|\u8c03\u8bd5.{0,18}\u53d1\u51fa\u6765|\u4e0d\u8981\u53d1\u51fa\u6765|\u53d1\u51fa\u6765.{0,18}\u5fae\u535a\u5347\u5802|\u53d1\u51fa\u6765.{0,18}\u8206\u8bba)/u.test(cleanSample);
+    const loosePublishContext = !cleanSample.includes('\u53ef\u4ee5\u8d34') && /(?:\u83ab\u540d\u5176\u5999\u53d1\u51fa\u6765\u4e86|\u73b0\u5728\u624d\u662f\u5b8c\u6574\u7248|\u8fd9\u80fd\u53d1\u51fa\u6765\u5417|\u8c03\u8bd5.{0,18}\u53d1\u51fa\u6765|\u4e0d\u8981\u53d1\u51fa\u6765|\u51fa\u6765\u7684\u90a3\u4e00\u77ac\u95f4|\u53d1\u51fa\u6765.{0,18}(?:\u5fae\u535a\u5347\u5802|\u8206\u8bba|\u5e72\u4ec0\u4e48))/u.test(cleanSample);
     const looseCapabilityContext = !cleanSample.includes('\u53ef\u4ee5\u8d34') && /\u53ef\u4ee5\u53d1\u6325/u.test(cleanSample);
     const genericPublishCapabilityContext =
       !cleanSample.includes('\u53ef\u4ee5\u8d34') &&

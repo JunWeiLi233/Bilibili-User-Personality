@@ -42,16 +42,16 @@ Latest verified update: current `main` HEAD after this update.
 
 Current audited dictionary state:
 
-- Dictionary terms: `2146`
+- Dictionary terms: `2144`
 - Target evidence per term: `3`
-- Coverage ratio: `56.34%`
-- Weak terms below target: `937`
-- Zero-evidence terms: `221`
-- Evidence deficit: `1991`
-- Source-backed terms: `1925`
+- Coverage ratio: `56.86%`
+- Weak terms below target: `925`
+- Zero-evidence terms: `220`
+- Evidence deficit: `1963`
+- Source-backed terms: `1924`
 - Unsourced evidence terms: `0`
-- Attempted terms: `172`
-- Successful terms: `57`
+- Attempted terms: `207`
+- Successful terms: `80`
 
 The dictionary coverage target is not complete yet. Continue running `.\run-bilibili-auto-coverage.ps1` or `npm run dictionary:auto` until weak and zero-evidence terms are eliminated, then re-run `npm run dictionary:coverage`.
 
@@ -74,6 +74,7 @@ Recent dictionary-cleaning updates:
 - Pruned the latest harvested product/game false positives: game-mechanic `五毒俱全`, literal product-review `100好评` / `百分百好评率`, and commerce-only `差评连天`.
 - Pruned the latest loose comment false positives: generic `发出来` publish contexts for `可以贴`, affection-only `小馋猫[doge]`, nickname-list explanations for `小孩射`, and literal dating-app / emote-only `脱单` samples.
 - Pruned the latest flash-harvest noise: proper-name `战乙女` and over-specific sentence fragments `弹幕全是节奏复制` / `那段时间弹幕全是节奏复制`, while keeping valid `正义开盒` attack evidence.
+- Pruned current flash-harvest bot/name and plot-fragment noise: `ai识片酱`, `岛上完全是幻境`, and loose non-evidence `出来` / `发出来干什么` samples under `可以贴`.
 - Kept valid hostile or argumentative uses, for example direct `您配吗` challenges, targeted `梦男` mockery, and attack-context `猪鼻` usage.
 
 ## Run Locally
