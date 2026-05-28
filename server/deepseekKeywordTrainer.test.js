@@ -7304,7 +7304,6 @@ test('findDictionaryEntriesWithTextEvidence maps latest sample-backed weak alias
     '\u9ad8\u5983\u5e94\u5f97\u7684\u5f85\u9047',
     '\u9ad8\u7ea7jn',
     '\u6401\u8fd9\u5462',
-    '\u4e2a\u7b7e',
     '\u7ed9\u6839\u7f51\u7ebf\u5c31\u4e0a\u5929',
     '\u7ed9\u7b5b\u5b50\u91cc\u704c\u4e86\u94c5',
     '\u7ed9\u9ab0\u5b50\u704c\u4e86\u94c5',
@@ -8729,6 +8728,72 @@ test('normalizeKeywordEntries prunes persisted literal traditional-character sam
   assert.deepEqual(entries[0].evidenceSamples, [
     'UP\u662f\u9999\u6e2f\u4eba\u5417\uff1f\u53d1\u7684\u89c6\u9891\u5168\u662f\u7e41\u4f53\u5b57\u3002\u53bb\u77ed\u89c6\u9891\u5e73\u53f0\u53d1\u5427\uff0c\u963fB\u8fd9\u8fb9\u4e0d\u592a\u597d\u9a97',
   ]);
+});
+
+test('normalizeKeywordEntries prunes profile-signature and game-mechanic evidence from latest harvest', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u4e2a\u7b7e',
+      family: 'cooperation',
+      meaning: 'short form for profile signature',
+      evidenceCount: 4,
+      evidenceSamples: [
+        '\u6211\u7684\u4e2a\u7b7e\u4e5f\u662f\u8fd9\u9996\u6b4c[\u7ed9\u5fc3\u5fc3]\uff0c\u4e0d\u8fc7\u662f\u201c\u811a\u4e0b\u7684\u843d\u53f6\u201d\u90a3\u4e24\u53e5',
+        '\u4e0a\u4e00\u6b21\u6362\u4e2a\u7b7e\u8fd8\u662f\u5728\u4e09\u5e74\u524d[\u7b11\u54ed]\u90a3\u65f6\u7684\u4e2a\u7b7e\u662f\u201c\u6211\u5c06\u5760\u5165\u9ed1\u6697\u201d\u90a3\u53e5',
+        'Bilibili public video title: 2023\u5e744\u6708\u4efd\u6700\u503c\u5f97\u63a8\u8350\u7684\u5361\u724c\u624b\u6e38\u3002\u559c\u6b22\u5361\u724c\u624b\u6e38\u7684\u770b\u6211\u4e2a\u7b7e\u6709\u94fe\u63a5\u590d\u5236\u5c31\u884c\u4e86\u3002',
+        'Bilibili public video title: \u4e00\u4e2a\u7b7e\u7ed8\u677f\u7684\u4ea7\u51fa\u8fc7\u7a0b\uff01',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u6211\u7684\u4e2a\u7b7e\u4e5f\u662f\u8fd9\u9996\u6b4c[\u7ed9\u5fc3\u5fc3]\uff0c\u4e0d\u8fc7\u662f\u201c\u811a\u4e0b\u7684\u843d\u53f6\u201d\u90a3\u4e24\u53e5' },
+        { source: 'Bilibili public video comment scan', sample: '\u4e0a\u4e00\u6b21\u6362\u4e2a\u7b7e\u8fd8\u662f\u5728\u4e09\u5e74\u524d[\u7b11\u54ed]\u90a3\u65f6\u7684\u4e2a\u7b7e\u662f\u201c\u6211\u5c06\u5760\u5165\u9ed1\u6697\u201d\u90a3\u53e5' },
+        { source: 'Bilibili public video title', sample: 'Bilibili public video title: 2023\u5e744\u6708\u4efd\u6700\u503c\u5f97\u63a8\u8350\u7684\u5361\u724c\u624b\u6e38\u3002\u559c\u6b22\u5361\u724c\u624b\u6e38\u7684\u770b\u6211\u4e2a\u7b7e\u6709\u94fe\u63a5\u590d\u5236\u5c31\u884c\u4e86\u3002' },
+        { source: 'Bilibili public video title', sample: 'Bilibili public video title: \u4e00\u4e2a\u7b7e\u7ed8\u677f\u7684\u4ea7\u51fa\u8fc7\u7a0b\uff01' },
+      ],
+    },
+    {
+      term: '\u7ed9\u7b5b\u5b50\u91cc\u704c\u4e86\u94c5',
+      family: 'attack',
+      meaning: 'mock probability manipulation',
+      evidenceCount: 4,
+      evidenceSamples: [
+        '\u300a\u6211\u4eec\u7ed9\u7b5b\u5b50\u91cc\u704c\u4e86\u94c5\u300b',
+        '\u4e91\u9876\u4e4b\u5f08\u704c\u94c5\u7b5b\u5b50\u724c\u5e93\u6ca1\u6709\u724c\u4e86\u8fd8\u4f1a\u51fa\u724c\u5417\uff1f',
+        'Bilibili public video title: \u3010\u65e0\u9650\u706b\u529b\u3011\u5f53\u5361\u724c\u5927\u5e08\u7684\u704c\u94c5\u7b5b\u5b50\u9047\u5230\u865a\u7a7a\u866b\u738b',
+        'Bilibili public video title: \u4e91\u9876s6.5: 7\u8d4f\u91d1 \u4e09\u4e2a\u59ae\u853b 3\u4e2a\u704c\u94c5\u7b5b\u5b50 \u4e09\u661f\u6cfd\u4e3d\u4e00\u6ef4\u8840\u6781\u9650\u7ffb\u76d8',
+      ],
+      evidenceSources: [
+        { source: 'Bilibili public video comment scan', sample: '\u300a\u6211\u4eec\u7ed9\u7b5b\u5b50\u91cc\u704c\u4e86\u94c5\u300b' },
+        { source: 'Bilibili public video comment scan', sample: '\u4e91\u9876\u4e4b\u5f08\u704c\u94c5\u7b5b\u5b50\u724c\u5e93\u6ca1\u6709\u724c\u4e86\u8fd8\u4f1a\u51fa\u724c\u5417\uff1f' },
+        { source: 'Bilibili public video title', sample: 'Bilibili public video title: \u3010\u65e0\u9650\u706b\u529b\u3011\u5f53\u5361\u724c\u5927\u5e08\u7684\u704c\u94c5\u7b5b\u5b50\u9047\u5230\u865a\u7a7a\u866b\u738b' },
+        { source: 'Bilibili public video title', sample: 'Bilibili public video title: \u4e91\u9876s6.5: 7\u8d4f\u91d1 \u4e09\u4e2a\u59ae\u853b 3\u4e2a\u704c\u94c5\u7b5b\u5b50 \u4e09\u661f\u6cfd\u4e3d\u4e00\u6ef4\u8840\u6781\u9650\u7ffb\u76d8' },
+      ],
+    },
+  ]);
+
+  assert.deepEqual(entries.map((entry) => [entry.term, entry.evidenceCount, entry.evidenceSamples]), [
+    ['\u4e2a\u7b7e', 0, []],
+    ['\u7ed9\u7b5b\u5b50\u91cc\u704c\u4e86\u94c5', 0, []],
+  ]);
+});
+
+test('findDictionaryEntriesWithTextEvidence keeps directed probability manipulation use of loaded-dice phrase', () => {
+  const dictionary = {
+    entries: [
+      { term: '\u7ed9\u7b5b\u5b50\u91cc\u704c\u4e86\u94c5', family: 'attack', meaning: 'mock probability manipulation' },
+      { term: '\u4e2a\u7b7e', family: 'cooperation', meaning: 'short form for profile signature' },
+    ],
+  };
+  const entries = findDictionaryEntriesWithTextEvidence(
+    dictionary,
+    [
+      '\u6211\u7684\u4e2a\u7b7e\u4e5f\u662f\u8fd9\u9996\u6b4c\uff0c\u4e0d\u662f\u4ec0\u4e48\u8bc1\u636e',
+      '\u8fd9\u6e38\u620f\u6982\u7387\u5c31\u662f\u7ed9\u7b5b\u5b50\u91cc\u704c\u4e86\u94c5\uff0c\u5b98\u65b9\u6697\u6539\u5f97\u592a\u660e\u663e',
+    ].join('\n'),
+    { source: 'Bilibili public video comment scan', uid: 'BV-loaded-dice' },
+  );
+
+  assert.deepEqual(entries.map((entry) => entry.term), ['\u7ed9\u7b5b\u5b50\u91cc\u704c\u4e86\u94c5']);
+  assert.deepEqual(entries[0].evidenceSamples, ['\u8fd9\u6e38\u620f\u6982\u7387\u5c31\u662f\u7ed9\u7b5b\u5b50\u91cc\u704c\u4e86\u94c5\uff0c\u5b98\u65b9\u6697\u6539\u5f97\u592a\u660e\u663e']);
 });
 
 test('trainKeywordDictionary updates evidence for existing terms found in crawled comments', async () => {
