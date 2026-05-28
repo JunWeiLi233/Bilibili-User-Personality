@@ -42,16 +42,16 @@ Latest verified update: current `main` HEAD after this update.
 
 Current audited dictionary state:
 
-- Dictionary terms: `2129`
+- Dictionary terms: `2120`
 - Target evidence per term: `3`
-- Coverage ratio: `57.35%`
-- Weak terms below target: `908`
-- Zero-evidence terms: `215`
-- Evidence deficit: `1924`
-- Source-backed terms: `1914`
+- Coverage ratio: `57.55%`
+- Weak terms below target: `900`
+- Zero-evidence terms: `210`
+- Evidence deficit: `1902`
+- Source-backed terms: `1910`
 - Unsourced evidence terms: `0`
-- Attempted terms: `269`
-- Successful terms: `85`
+- Attempted terms: `287`
+- Successful terms: `87`
 
 The dictionary coverage target is not complete yet. Continue running `.\run-bilibili-auto-coverage.ps1` or `npm run dictionary:auto` until weak and zero-evidence terms are eliminated, then re-run `npm run dictionary:coverage`.
 
@@ -79,6 +79,7 @@ Recent dictionary-cleaning updates:
 - Pruned current flash-harvest slogan/game/body-state noise: removed `零提升` / `0提升`, bare `态度决定一切`, body-state `奖励的有点多`, and one-off `核武器函数乐`, while keeping real accusation evidence such as `资敌`.
 - Pruned current flash-harvest negated/platform/meta-label noise: removed typo `爱咋咋的`, mutual-follow `偷偷取关`, generic platform `贴吧`, and meta-question `脱子` samples; kept directed `爆破你`, `恋丑癖`, and valid `紧和` evidence.
 - Pruned current flash-harvest game-skill, game-economy, and roster-name noise: removed game-skill `不动如山`, game-economy `血赚`, and thin roster nicknames `病大郎` / `病弯钩`, while keeping valid `自慰队` attack evidence.
+- Pruned latest flash-harvest genre/platform/reaction noise: removed generic embarrassment `尬到抠脚`, broad celebrity-industry hedge `不绝对但韩国不少`, game item `赛季蛋`, fiction praise `睡前小甜饼` / `小甜饼`, romance fragment `直男不管对方叫老婆`, platform complaint `不知道ai审核`, and bare meme handoff `压力来到了小猴这边`; kept directed belittling evidence such as `哪根葱`.
 - Kept valid hostile or argumentative uses, for example direct `您配吗` challenges, targeted `梦男` mockery, and attack-context `猪鼻` usage.
 
 ## Run Locally
