@@ -760,6 +760,7 @@ export function normalizeKeywordEntries(rawEntries = []) {
       if (isAskBaiduSongVideoContextOnlyTerm(term, termEvidenceSamples, termEvidenceSources)) continue;
       if (isMisleadingCarArmyVideoContextOnlyTerm(term, termEvidenceSamples, termEvidenceSources)) continue;
       const sampleBackedEvidenceCount = evidenceUnitCount(termEvidenceSamples, termEvidenceSources);
+      if (term === '\u6b27\u9633\u5a1c\u5a1c' && family === 'evidence' && sampleBackedEvidenceCount === 0) continue;
       const evidenceCount =
         sampleBackedEvidenceCount > 0
           ? Math.min(rawEvidenceCount || sampleBackedEvidenceCount, sampleBackedEvidenceCount)
@@ -981,6 +982,11 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const hostileOrScatologicalContext = /(?:\u80e1\u6b4c|\u8f66\u91cc|\u4e22\u6389|\u6076\u5fc3|\u5c4e|\u7caa).{0,24}\u5965[\u5229\u529b]\u7ed9|\u5965[\u5229\u529b]\u7ed9.{0,24}(?:\u76f2\u76d2|\u6076\u5fc3|\u5c4e|\u7caa|\u4e22\u6389|\u9a82|\u653b\u51fb|\u4fae\u8fb1)/u.test(cleanSample);
     if (genericMemeOrNameContext && !hostileOrScatologicalContext) return true;
   }
+  if (term === '\u68a6\u7537' && family === 'attack') {
+    const selfOrNeutralFandomContext = /(?:\u6211\u4e5f\u662f|\u81ea\u5df1\u662f|\u68a6\u7537\u8fd8\u55d1cp\u7684\u5417|\u68a6\u7537.*(?:\u5417|\uff1f|\?))|(?:\u5999\u754c\u68a6\u7537|\u68a6\u5973)/u.test(cleanSample);
+    const hostileFandomContext = /(?:\u4e0d\u6127\u662f|\u5632|\u9ed1|\u63a7\u8bc4|\u6025|\u6076\u5fc3|\u610f\u6deb|\u5e7b\u60f3).{0,18}\u68a6\u7537|\u68a6\u7537.{0,18}(?:\u4e0d\u6127\u662f|\u63a7\u8bc4|\u6025|\u6076\u5fc3|\u610f\u6deb|\u5e7b\u60f3|\u7834\u9632)/u.test(cleanSample);
+    if (selfOrNeutralFandomContext && !hostileFandomContext) return true;
+  }
   if (term === '\u8282\u594f\u72d7' && family === 'attack') {
     const rhythmGameOrTitleContext = /(?:\u8282\u594f\u72d7\u751f|\u72d7\u72d7\u4e4b\u6b4c|\u4e25\u5224\u5b8c\u7f8e\u65e0\u7455|\u8282\u594f\u76d2\u5b50|\u6e29\u8fbe\u72d7)/u.test(cleanSample);
     const hostileBandwagonContext = /(?:\u6b63\u4e3b\u4e0b\u573a|\u4f4e\u521b|\u5e26\u8282\u594f|\u5237\u8282\u594f|\u653b\u51fb|\u9ed1\u5b50|\u80fd\u4e0d\u80fd\u4f3c).{0,24}\u8282\u594f\u72d7|\u8282\u594f\u72d7.{0,24}(?:\u6b63\u4e3b\u4e0b\u573a|\u4f4e\u521b|\u5e26\u8282\u594f|\u5237\u8282\u594f|\u653b\u51fb|\u9ed1\u5b50|\u80fd\u4e0d\u80fd\u4f3c)/u.test(cleanSample);
@@ -1075,6 +1081,26 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const terseMarkerContext = /^(?:\u7701\u6d41|\u7701\u6d41\u4fa0)(?:[\s:：,，.。!！?？~\-_\u00d7xX√✓]*)$/u.test(rawSample);
     const summaryContext = /(?:\u7701\u6d41(?:\u4fa0)?(?:\u6765\u4e86)?[:：]\S{6,}|\u76f4\u63a5\u770b|\u7ed3\u8bba\u662f|\u603b\u7ed3|tl;?dr)/iu.test(rawSample);
     return terseMarkerContext && !summaryContext;
+  }
+  if (term === '\u8499\u9f13\u4eba' && family === 'cooperation') {
+    const explanationContext = /(?:\u89e3\u91ca|\u4ec0\u4e48\u53eb|\u8bb2|\u8fd9\u4e2aUP\u4e3b|\u6897\u767e\u79d1|\u5982[:\uff1a]).{0,24}\u8499\u9f13\u4eba|\u8499\u9f13\u4eba.{0,24}(?:\u7684\u6897|\u800c\u4e0d\u662f\u8499\u53e4\u4eba|\u4ec0\u4e48\u6897|\u4ec0\u4e48\u53eb)/u.test(cleanSample);
+    const thanksContext = /(?:\u8c22\u8c22|\u611f\u8c22|\u591a\u8c22).{0,8}\u8499\u9f13\u4eba|\u8499\u9f13\u4eba.{0,8}(?:\u8c22\u8c22|\u611f\u8c22|\u591a\u8c22)/u.test(cleanSample);
+    if (explanationContext && !thanksContext) return true;
+  }
+  if (term === '\u8fd9\u91cc\u6709\u4e2a\u8001\u5b9e\u4eba' && family === 'cooperation') {
+    const explanationContext = /(?:\u8fd9\u4e2a\u6897|\u524d\u8eab|\u4e00\u822c\u90fd\u662f\u8bf4|\u4ec0\u4e48\u6897).{0,24}\u8fd9\u91cc\u6709\u4e2a\u8001\u5b9e\u4eba|\u8fd9\u91cc\u6709\u4e2a\u8001\u5b9e\u4eba.{0,24}(?:\u524d\u8eab|\u4ec0\u4e48\u6897|\u4e00\u822c)/u.test(cleanSample);
+    const playfulCalloutContext = /(?:\u5feb\u6765\u770b|\u5feb\u770b|\u6293\u5230|\u54c8\u54c8).{0,18}\u8fd9\u91cc\u6709\u4e2a\u8001\u5b9e\u4eba|\u8fd9\u91cc\u6709\u4e2a\u8001\u5b9e\u4eba.{0,18}(?:\u54c8\u54c8|\u4e86)/u.test(cleanSample);
+    if (explanationContext && !playfulCalloutContext) return true;
+  }
+  if (term === '\u60a8\u914d\u5417' && family === 'attack') {
+    const memeOriginContext = /(?:\u836f\u6c34\u54e5|\u56e0\u4e3a|\u77e5\u9053|\u706b\u8d77\u6765|\u540d\u573a\u9762|\u4e4b\u4e89).{0,24}\u60a8\u914d\u5417|\u60a8\u914d\u5417.{0,24}(?:\u836f\u6c34\u54e5|\u706b\u8d77\u6765|\u77e5\u9053|\u540d\u573a\u9762|\u4e4b\u4e89)/u.test(cleanSample);
+    const directChallengeContext = /(?:\u4f60|\u4f60\u4eec|\u4ed6|\u5979|\u81ea\u5df1|\u771f\u628a\u81ea\u5df1|\u9053\u5fb7\u5236\u9ad8\u70b9|\u5723\u4eba).{0,36}\u60a8\u914d\u5417|\u60a8\u914d\u5417.{0,24}(?:\u7ad9\u5728|\u4f60|\u4f60\u4eec|\u4ed6|\u5979|\u914d\u5417)/u.test(cleanSample);
+    if (memeOriginContext && !directChallengeContext) return true;
+  }
+  if (term === '\u6b27\u9633\u5a1c\u5a1c' && family === 'evidence') {
+    const celebrityMentionContext = /\u6b27\u9633\u5a1c\u5a1c/u.test(cleanSample);
+    const evidenceRequestContext = /(?:\u6765\u6e90|\u8bc1\u636e|\u94fe\u63a5|\u539f\u6587|\u91c7\u8bbf|\u8c01\u8bf4\u7684|\u51fa\u5904|\u8d34).{0,24}\u6b27\u9633\u5a1c\u5a1c|\u6b27\u9633\u5a1c\u5a1c.{0,24}(?:\u6765\u6e90|\u8bc1\u636e|\u94fe\u63a5|\u539f\u6587|\u91c7\u8bbf|\u8c01\u8bf4\u7684|\u51fa\u5904|\u8d34)/u.test(cleanSample);
+    if (celebrityMentionContext && !evidenceRequestContext) return true;
   }
   if (term === 'doge\u91d1\u7b8d' && family === 'cooperation') {
     const rawSample = String(sample || '').trim();
