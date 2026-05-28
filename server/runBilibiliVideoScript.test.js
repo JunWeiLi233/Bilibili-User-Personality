@@ -100,3 +100,18 @@ test('run-bilibili-auto-coverage.ps1 forwards per-query timeout seconds', (t) =>
   assert.match(result.stdout, /HARVEST_QUERY_TIMEOUT=45000/);
   assert.match(result.stdout, /Per-query timeout: 45s/);
 });
+
+test('run-bilibili-auto-coverage.ps1 caps crawler pacing from timeout seconds', (t) => {
+  const result = runScript(['-MaxCycles', '1', '-MaxQueries', '1', '-QueryTimeoutSeconds', '20'], '.\\run-bilibili-auto-coverage.ps1');
+  if (!result) {
+    t.skip('PowerShell is unavailable in this environment');
+    return;
+  }
+
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /HARVEST_QUERY_TIMEOUT=20000/);
+  assert.match(result.stdout, /BLOCK_COOLDOWN=2000/);
+  assert.match(result.stdout, /REQUEST_TIMEOUT=10000/);
+  assert.match(result.stdout, /MIN_DELAY=200/);
+  assert.match(result.stdout, /JITTER=100/);
+});

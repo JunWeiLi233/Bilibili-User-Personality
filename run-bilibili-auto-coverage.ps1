@@ -75,6 +75,23 @@ if ($NoDanmaku) {
 }
 $env:BILIBILI_VIDEO_COMMENT_PAGES = [string]$CommentPages
 $env:BILIBILI_HARVEST_QUERY_TIMEOUT_MS = [string]($QueryTimeoutSeconds * 1000)
+$queryTimeoutMs = $QueryTimeoutSeconds * 1000
+if (-not $env:BILIBILI_CRAWLER_BLOCK_COOLDOWN_MS) {
+  $strictCooldownMs = [Math]::Max(1000, [Math]::Floor($queryTimeoutMs / 10))
+  $env:BILIBILI_CRAWLER_BLOCK_COOLDOWN_MS = [string]$strictCooldownMs
+}
+if (-not $env:BILIBILI_CRAWLER_REQUEST_TIMEOUT_MS) {
+  $strictRequestTimeoutMs = [Math]::Max(5000, [Math]::Floor($queryTimeoutMs / 2))
+  $env:BILIBILI_CRAWLER_REQUEST_TIMEOUT_MS = [string]$strictRequestTimeoutMs
+}
+if (-not $env:BILIBILI_CRAWLER_MIN_DELAY_MS) {
+  $strictMinDelayMs = [Math]::Max(200, [Math]::Floor($queryTimeoutMs / 100))
+  $env:BILIBILI_CRAWLER_MIN_DELAY_MS = [string]$strictMinDelayMs
+}
+if (-not $env:BILIBILI_CRAWLER_JITTER_MS) {
+  $strictJitterMs = [Math]::Max(100, [Math]::Floor($queryTimeoutMs / 200))
+  $env:BILIBILI_CRAWLER_JITTER_MS = [string]$strictJitterMs
+}
 $env:BILIBILI_HARVEST_MAX_QUERIES = [string]$MaxQueries
 $env:BILIBILI_HARVEST_TERMS_PER_FAMILY = [string]$TermsPerFamily
 $env:BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM = [string]$QueryVariantsPerTerm
