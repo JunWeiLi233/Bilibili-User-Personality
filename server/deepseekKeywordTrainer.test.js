@@ -3882,7 +3882,7 @@ test('normalizeKeywordEntries prunes video-title context evidence for dark-door 
   assert.deepEqual(entries[0].evidenceSources.map((source) => source.sample), ['\u660e\u661f=\u9ad8\u7ea7jn\uff0c\u5973\u4e3b\u64ad=\u6697\u95e8\u5b50']);
 });
 
-test('normalizeKeywordEntries prunes public-title evidence for outdated-meme term', () => {
+test('normalizeKeywordEntries prunes outdated-meme term and public-title evidence', () => {
   const entries = normalizeKeywordEntries([
     {
       term: '\u6897out\u4e86',
@@ -3900,8 +3900,7 @@ test('normalizeKeywordEntries prunes public-title evidence for outdated-meme ter
     },
   ]);
 
-  assert.equal(entries[0].evidenceCount, 1);
-  assert.deepEqual(entries[0].evidenceSamples, ['\u90a3\u4eca\u5929\u770b\u7684\u6897out\u4e86\uff01']);
+  assert.deepEqual(entries, []);
 });
 
 test('normalizeKeywordEntries prunes rhetorical accusation evidence for correction mistake term', () => {
@@ -10412,6 +10411,94 @@ test('normalizeKeywordEntries prunes latest auto-coverage fandom, title, platfor
     ['\u5e72\u5d29\u963f', ['\u9053\u53cb\u4eec\uff0c\u54b1\u4eec\u76f8\u7ea6613\u5e72\u5d29\u963fB']],
     ['\u6839\u672c\u6ca1\u6709\u8bf4\u4e0d\u5141\u8bb8', ['\u56de\u590d @\u732b\u732b\u7a81\u7a81\u961f :\u5bf9\u65b9\u6839\u672c\u6ca1\u6709\u8bf4\u4e0d\u5141\u8bb8\u5176\u4ed6\u6c11\u65cf\u4f7f\u7528']],
     ['td\u5c0f\u9752\u86d9', ['\u56de\u590d @1mk\u7684\u897f\u74dc :\u90a3\u4e9b\u4eba\u5341\u6709\u516b\u4e5d\u90fd\u662ftd\u5c0f\u9752\u86d9\uff0c\u6076\u5fc3\u5410\u4e86']],
+  ]);
+});
+
+test('normalizeKeywordEntries prunes latest coverage batch over-specific title, creator, and meme noise', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u6897out\u4e86',
+      family: 'absolutes',
+      meaning: 'generic statement that a meme is outdated',
+      evidenceCount: 1,
+      evidenceSamples: ['\u90a3\u4eca\u5929\u770b\u7684\u6897out\u4e86\uff01'],
+    },
+    {
+      term: 'out\u4e86',
+      family: 'absolutes',
+      meaning: 'generic outdated description, not stable closed-thinking language',
+      evidenceCount: 4,
+      evidenceSamples: [
+        '\u90a3\u4eca\u5929\u770b\u7684\u6897out\u4e86\uff01',
+        'Bilibili public video title: \u518d\u4e5f\u4e0d\u6015\u88about\u4e86\uff01-1',
+      ],
+    },
+    {
+      term: '\u76d1\u72f1\u6765\u7684\u5988\u5988',
+      family: 'attack',
+      meaning: 'over-specific film-title controversy phrase',
+      evidenceCount: 3,
+      evidenceSamples: [
+        '\u8ddf\u8292\u679c\u8d85\u5a92\u4e00\u4e2a\u51fa\u54c1\u516c\u53f8\uff0c\u5c31\u662f\u8ddf\u76d1\u72f1\u6765\u7684\u5988\u5988\u4e00\u4e2a',
+        'Bilibili video context: \u56fd\u5bb6\u7535\u5f71\u5c40\u56de\u5e94\u76d1\u72f1\u6765\u7684\u5988\u5988\u4e89\u8bae',
+      ],
+    },
+    {
+      term: '\u5c0fup',
+      family: 'cooperation',
+      meaning: 'generic small creator self-description',
+      evidenceCount: 1,
+      evidenceSamples: ['\u6211\u6ca1\u600e\u4e48\u5389\u5bb3\u4e86\uff0c\u53ea\u80fd\u662f\u4e00\u4e2a\u5c0f\u5c0f\u5c0f\u5c0fup\u4e86'],
+    },
+    {
+      term: '\u5343\u5e74\u662f\u54ee\u5929\u72ac',
+      family: 'attack',
+      meaning: 'over-specific character or user-name dog joke',
+      evidenceCount: 1,
+      evidenceSamples: ['\u5343\u5e74\u662f\u54ee\u5929\u72ac[doge]'],
+    },
+    {
+      term: '\u539f\u6765\u4f60\u4e5f\u73a9\u539f\u795e',
+      family: 'cooperation',
+      meaning: 'standalone game meme recognition phrase',
+      evidenceCount: 2,
+      evidenceSamples: ['\u539f\u6765\u4f60\u4e5f\u73a9\u539f\u795e[tv_doge]', '\u300a\u539f\u6765\u4f60\u4e5f\u73a9\u539f\u795e\u300b[\u5403\u74dc]'],
+    },
+    {
+      term: '\u516c\u77e5\u8bdd\u672f',
+      family: 'attack',
+      meaning: 'criticizes a political discourse frame',
+      evidenceCount: 4,
+      evidenceSamples: ['\u5bb6\u91cc\u6709\u4e2a\u957f\u8f88\u662f\u90a3\u79cd\u516c\u77e5\u8bdd\u672f\u6d17\u8fc7\u8111\u7684'],
+    },
+    {
+      term: '\u7cbe\u795e\u7f8e\u56fd\u4eba',
+      family: 'attack',
+      meaning: 'hostile identity label',
+      evidenceCount: 1,
+      evidenceSamples: ['\u7cbe\u795e\u7f8e\u56fd\u4eba\uff0c\u6c38\u8fdc\u53eb\u4e0d\u9192[\u65e0\u8bed]'],
+    },
+    {
+      term: '\u72d7\u5c4e\u673a\u5236',
+      family: 'attack',
+      meaning: 'strongly criticizes a system or mechanism',
+      evidenceCount: 3,
+      evidenceSamples: ['\u6211\u731c\u662f\u8fd9\u79cd\u72d7\u5c4e\u673a\u5236\u662f\u4e3a\u4e86\u907f\u514d\u5435\u67b6'],
+    },
+    {
+      term: '\u4e0d\u9ed1\u4e0d\u5439',
+      family: 'cooperation',
+      meaning: 'claims neutral evaluation before giving a view',
+      evidenceCount: 8,
+      evidenceSamples: ['\u4e0d\u9ed1\u4e0d\u5439\uff0c\u4e0d\u767d\u4e0d\u8214\uff0c\u4e0d\u9ec4\u4e0d\u9493[doge]'],
+    },
+  ]);
+
+  assert.deepEqual(entries.map((entry) => [entry.term, entry.evidenceSamples]), [
+    ['\u516c\u77e5\u8bdd\u672f', ['\u5bb6\u91cc\u6709\u4e2a\u957f\u8f88\u662f\u90a3\u79cd\u516c\u77e5\u8bdd\u672f\u6d17\u8fc7\u8111\u7684']],
+    ['\u7cbe\u795e\u7f8e\u56fd\u4eba', ['\u7cbe\u795e\u7f8e\u56fd\u4eba\uff0c\u6c38\u8fdc\u53eb\u4e0d\u9192[\u65e0\u8bed]']],
+    ['\u72d7\u5c4e\u673a\u5236', ['\u6211\u731c\u662f\u8fd9\u79cd\u72d7\u5c4e\u673a\u5236\u662f\u4e3a\u4e86\u907f\u514d\u5435\u67b6']],
+    ['\u4e0d\u9ed1\u4e0d\u5439', ['\u4e0d\u9ed1\u4e0d\u5439\uff0c\u4e0d\u767d\u4e0d\u8214\uff0c\u4e0d\u9ec4\u4e0d\u9493[doge]']],
   ]);
 });
 

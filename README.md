@@ -42,16 +42,16 @@ Latest verified update: current `main` HEAD after this update.
 
 Current audited dictionary state:
 
-- Dictionary terms: `2057`
+- Dictionary terms: `2051`
 - Target evidence per term: `3`
-- Coverage ratio: `59.60%`
-- Weak terms below target: `831`
-- Zero-evidence terms: `196`
-- Evidence deficit: `1755`
-- Source-backed terms: `1861`
+- Coverage ratio: `59.73%`
+- Weak terms below target: `826`
+- Zero-evidence terms: `195`
+- Evidence deficit: `1745`
+- Source-backed terms: `1856`
 - Unsourced evidence terms: `0`
-- Attempted terms: `368`
-- Successful terms: `103`
+- Attempted terms: `375`
+- Successful terms: `102`
 
 The dictionary coverage target is not complete yet. Continue running `.\run-bilibili-auto-coverage.ps1` or `npm run dictionary:auto` until weak and zero-evidence terms are eliminated, then re-run `npm run dictionary:coverage`.
 
@@ -88,6 +88,7 @@ Recent dictionary-cleaning updates:
 - Pruned the next flash/max coverage batch after it reduced weak and zero-evidence gaps: removed short fragment `高完了`, generic praise/emote `妙啊`, proper-name political labels `川建国` / `川普`, poetry ranking phrases `杜甫第一李白不参与排名` / `李白不参与排名`, fandom/person reaction `全是我们马哥`, entertainment pun `会云多云`, and fiction trope `小叔文学`; kept directed argument markers such as `都让你高完了`, `堵住人民嘴`, and `多少有点小丑`.
 - Pruned the current flash/max coverage batch after it reduced weak and zero-evidence gaps: removed game-completion sentence `发现全是缺`, mine/rank pun `排长`, stale game nickname `牢祖冲之`, generic luck phrase `运气真好`, and generic product/game praise `炒鸡好用`; kept argument-use terms such as `防杠我先说`, `不要胡说`, and object-dismissal `废铜烂铁`.
 - Pruned the latest flash/max coverage-batch fandom/title/platform/emote noise: removed generic family address `都是家人`, entertainment ranking `恐怖童谣绝对第一`, bare `PY现场`, creator-follow/platform actions `关注力` / `三联`, fandom-specific `高妃应得的待遇`, slogan `正道的光`, and emote labels `斜眼笑` / `tv斜眼笑`; kept valid argumentative uses such as `感谢指正`, `干崩阿`, `根本没有说不允许`, and `td小青蛙`.
+- Ran another `deepseek-v4-flash` max-effort auto-coverage pass over controversial Bilibili searches; kept useful discourse evidence such as `公知话术`, `精神美国人`, `狗屎机制`, and `不黑不吹`, while pruning generic/outdated/title or creator-noise terms `梗out了` / `out了`, `监狱来的妈妈`, `小up`, `千年是哮天犬`, and `原来你也玩原神`.
 - Kept valid hostile or argumentative uses, for example direct `您配吗` challenges, targeted `梦男` mockery, and attack-context `猪鼻` usage.
 
 ## Run Locally
