@@ -2032,14 +2032,22 @@ function actionSortRank(action, options = {}) {
     attempts > 0 &&
     successfulAttempts === 0 &&
     /(?:timed out after|Operation timed out)/iu.test(String(action?.lastError || ''));
+  const blockedDiscoveryMiss =
+    action?.action === 'retry_with_new_variant' &&
+    attempts > 0 &&
+    successfulAttempts === 0 &&
+    /\bHTTP\s+(?:403|412|429)\b/iu.test(String(action?.lastError || ''));
+  if (blockedDiscoveryMiss && retryLimit > 0 && attempts >= retryLimit) {
+    return coverageActionRank('add_query_template') + 0.5 + priorityPenalty;
+  }
   if (noVideoDiscoveryMiss && retryLimit > 0 && attempts >= retryLimit) {
-    return coverageActionRank('harvest') + 0.5 + priorityPenalty;
+    return (evidence > 0 ? coverageActionRank('harvest_more_evidence') + 0.25 : coverageActionRank('harvest') + 0.5) + priorityPenalty;
   }
   if (timeoutDiscoveryMiss && retryLimit > 0 && attempts >= retryLimit) {
     return coverageActionRank('harvest_more_evidence') + 0.5 + priorityPenalty;
   }
   if (duplicateAcceptedNoProgress && action?.action === 'retry_with_new_variant' && retryLimit > 0 && attempts >= retryLimit) {
-    return coverageActionRank('harvest') + 0.75 + priorityPenalty;
+    return (evidence > 0 ? coverageActionRank('harvest_more_evidence') + 0.5 : coverageActionRank('harvest') + 0.75) + priorityPenalty;
   }
   if (
     action?.action === 'retry_with_new_variant' &&
@@ -2047,7 +2055,7 @@ function actionSortRank(action, options = {}) {
     evidence > 0 &&
     options.requireCommentBackedEvidence === true
   ) {
-    return coverageActionRank('harvest') + 0.75 + priorityPenalty;
+    return coverageActionRank('harvest_more_evidence') + 0.25 + priorityPenalty;
   }
   if (
     action?.action === 'retry_with_new_variant' &&
@@ -2106,10 +2114,10 @@ function actionSortRank(action, options = {}) {
     return coverageActionRank('retry_with_new_variant') - 0.25 + priorityPenalty;
   }
   if (noVideoDiscoveryMiss) {
-    return coverageActionRank('harvest') - 0.25 + priorityPenalty;
+    return (evidence > 0 ? coverageActionRank('harvest_more_evidence') + 0.25 : coverageActionRank('harvest') - 0.25) + priorityPenalty;
   }
   if (action?.action === 'retry_with_new_variant' && retryLimit > 0 && attempts >= retryLimit) {
-    return coverageActionRank('harvest') + 0.5 + priorityPenalty;
+    return (evidence > 0 ? coverageActionRank('harvest_more_evidence') + 0.25 : coverageActionRank('harvest') + 0.5) + priorityPenalty;
   }
   return baseRank + priorityPenalty;
 }

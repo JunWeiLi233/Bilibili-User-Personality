@@ -6635,6 +6635,118 @@ test('buildDictionaryCoverageAudit defers duplicate accepted no-progress retries
   assert.equal(audit.nextActions[1].duplicateAcceptedNoProgress, true);
 });
 
+test('buildDictionaryCoverageAudit defers duplicate partial refreshes behind hard zero retries', () => {
+  const duplicateTerm = 'partialDuplicateAccepted';
+  const zeroTerm = 'hardZeroRetry';
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [
+        {
+          term: duplicateTerm,
+          family: 'attack',
+          evidenceCount: 2,
+          evidenceSources: [
+            { source: 'Bilibili public video comment scan', uid: 'BVpartial1', sample: 'partialDuplicateAccepted sample 1' },
+            { source: 'Bilibili public video comment scan', uid: 'BVpartial2', sample: 'partialDuplicateAccepted sample 2' },
+          ],
+        },
+        { term: zeroTerm, family: 'attack', evidenceCount: 0 },
+      ],
+    },
+    {
+      termAttempts: {
+        [duplicateTerm]: {
+          term: duplicateTerm,
+          family: 'attack',
+          attempts: 4,
+          successfulAttempts: 0,
+          lastEvidenceCount: 0,
+          queries: [
+            { query: 'partialDuplicateAccepted \u8bc4\u8bba\u533a', strategyVersion: 6, ok: true, hit: false, comments: 120 },
+            { query: 'partialDuplicateAccepted \u70ed\u8bc4', strategyVersion: 6, ok: true, hit: false, comments: 90 },
+          ],
+        },
+        [zeroTerm]: {
+          term: zeroTerm,
+          family: 'attack',
+          attempts: 2,
+          successfulAttempts: 0,
+          queries: [
+            { query: 'hardZeroRetry \u8bc4\u8bba\u533a', strategyVersion: 6, ok: true, hit: false, comments: 30 },
+            { query: 'hardZeroRetry \u70ed\u8bc4', strategyVersion: 6, ok: true, hit: false, comments: 20 },
+          ],
+        },
+      },
+      runs: [
+        {
+          acceptedEvidenceCount: 1,
+          coverageIncreasingAcceptedEvidenceCount: 0,
+          queryDiagnostics: [
+            {
+              query: 'partialDuplicateAccepted \u70ed\u8bc4',
+              targetExistingTerms: [duplicateTerm],
+              acceptedTerms: [duplicateTerm],
+              commentsCollected: 90,
+            },
+          ],
+        },
+      ],
+    },
+    { targetEvidence: 3, maxActions: 2, retryBeforeUnattemptedLimit: 1, requireCommentBackedEvidence: true },
+  );
+
+  assert.deepEqual(audit.nextActions.map((item) => item.term), [zeroTerm, duplicateTerm]);
+  assert.equal(audit.nextActions[1].duplicateAcceptedNoProgress, true);
+});
+
+test('buildDictionaryCoverageAudit defers crawler-blocked retries behind harvestable weak terms', () => {
+  const blockedTerm = 'blockedSearchTerm';
+  const harvestableTerm = 'harvestableSearchTerm';
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [
+        { term: blockedTerm, family: 'attack', evidenceCount: 0 },
+        { term: harvestableTerm, family: 'attack', evidenceCount: 0 },
+      ],
+    },
+    {
+      termAttempts: {
+        [blockedTerm]: {
+          term: blockedTerm,
+          family: 'attack',
+          attempts: 2,
+          successfulAttempts: 0,
+          lastError: 'blockedSearchTerm \u4e89\u8bae \u70ed\u8bc4: HTTP 412 from https://api.bilibili.com/x/web-interface/search/type',
+          queries: [
+            {
+              query: 'blockedSearchTerm \u8bc4\u8bba\u533a',
+              strategyVersion: 6,
+              ok: false,
+              error: 'HTTP 412 from https://api.bilibili.com/x/web-interface/search/type',
+            },
+            {
+              query: 'blockedSearchTerm \u70ed\u8bc4',
+              strategyVersion: 6,
+              ok: false,
+              error: 'HTTP 412 from https://api.bilibili.com/x/web-interface/search/type',
+            },
+          ],
+        },
+        [harvestableTerm]: {
+          term: harvestableTerm,
+          family: 'attack',
+          attempts: 1,
+          successfulAttempts: 0,
+          queries: [{ query: 'harvestableSearchTerm \u8bc4\u8bba\u533a', strategyVersion: 6, ok: true, hit: false, comments: 20 }],
+        },
+      },
+    },
+    { targetEvidence: 3, maxActions: 2, retryBeforeUnattemptedLimit: 1, requireCommentBackedEvidence: true },
+  );
+
+  assert.deepEqual(audit.nextActions.map((item) => item.term), [harvestableTerm, blockedTerm]);
+});
+
 test('buildDictionaryCoverageAudit defers compact metric fragments behind discourse terms', () => {
   const audit = buildDictionaryCoverageAudit(
     {
