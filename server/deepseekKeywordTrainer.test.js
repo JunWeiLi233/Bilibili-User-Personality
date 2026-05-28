@@ -6376,8 +6376,7 @@ test('normalizeKeywordEntries prunes pai-zhang rank and queue evidence', () => {
     },
   ]);
 
-  assert.deepEqual(entries[0].evidenceSamples, ['\u6392\u957f\u80fd\u5e2e\u5fd9\u7edf\u8ba1\u4e00\u4e0b\u524d\u9762\u51e0\u6761\u7684\u8bc1\u636e\u5417']);
-  assert.equal(entries[0].evidenceCount, 1);
+  assert.deepEqual(entries, []);
 });
 
 test('normalizeKeywordEntries prunes concept-reflection evidence for absolute-correct claim', () => {
@@ -7121,7 +7120,6 @@ test('findDictionaryEntriesWithTextEvidence maps fresh noisy-search aliases back
   );
 
   assert.deepEqual(entries.map((entry) => entry.term), [
-    '\u7092\u9e21\u597d\u7528',
     '\u4e0d\u53ef\u62b5\u6297\u529b',
     '\u4e0d\u770b\u5185\u5bb9\u8bc4\u8bba',
     '\u62d4\u7fa4',
@@ -10253,6 +10251,73 @@ test('normalizeKeywordEntries prunes latest auto-coverage fragment, praise, prop
     ['\u90fd\u8ba9\u4f60\u9ad8\u5b8c\u4e86', ['\u90fd\u8ba9\u4f60\u9ad8\u5b8c\u4e86\ud83d\ude05']],
     ['\u5835\u4f4f\u4eba\u6c11\u5634', ['\u6211\u55b7\u7684\u662f\u756a\u8304\u8bc4\u8bba\u4e0d\u8ba9\u4eba\u8bf4\u8bdd\u7684\u4e8b\uff0c\u4f60\u518d\u8ddf\u6211\u626f\u4ec0\u4e48\uff0c\u5835\u4f4f\u4eba\u6c11\u5634\u4e0d\u7136\u4eba\u6c11\u8bf4\u8bdd\u4f60\u5f88\u7406\u76f4\u6c14\u58ee\u5417[\u661f\u661f\u773c]']],
     ['\u591a\u5c11\u6709\u70b9\u5c0f\u4e11', ['\u771f\u89c9\u5f97\u52d2\u514b\u83b1\u5c14\u6162\u90a3\u591a\u5c11\u6709\u70b9\u5c0f\u4e11']],
+  ]);
+});
+
+test('normalizeKeywordEntries prunes current auto-coverage game-pun, nickname, and generic praise noise', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u53d1\u73b0\u5168\u662f\u7f3a',
+      family: 'absolutes',
+      meaning: 'game map completion sentence mislabeled as absolute thinking',
+      evidenceCount: 1,
+      evidenceSamples: ['\u67e5\u6f0f\u81ea\u4fe1\u4f7f\u7528\u7f57\u76d8\uff0c\u53d1\u73b0\u5168\u662f\u7f3a[\u56e7][\u56e7]'],
+    },
+    {
+      term: '\u6392\u957f',
+      family: 'cooperation',
+      meaning: 'mine-clearing pun around rank title, not cooperation language',
+      evidenceCount: 3,
+      evidenceSamples: ['\u6211\u5c0f\u65f6\u5019\u4e00\u76f4\u4ee5\u4e3a\u6392\u957f\u5c31\u662f\u4e13\u95e8\u8d1f\u8d23\u6392\u96f7\u7684[\u7b11\u54ed]', '\u597d\u4e00\u4e2a\u201c\u6392\u201d\u957f[\u7b11\u54ed]', '\u6392\u957f\uff0c\u6211\u4eec\u4e5f\u8e29\u5230\u5730\u96f7\u4e86\uff01\ud83d\ude05'],
+    },
+    {
+      term: '\u7262\u7956\u51b2\u4e4b',
+      family: 'attack',
+      meaning: 'stale game nickname, not attack-language evidence',
+      evidenceCount: 1,
+      evidenceSamples: ['\u7262\u7956\u51b2\u4e4b\u5df2\u7ecf\u662f\u65f6\u4ee3\u7684\u773c\u6cea\u4e86[\u5927\u54ed]'],
+    },
+    {
+      term: '\u8fd0\u6c14\u771f\u597d',
+      family: 'attack',
+      meaning: 'generic luck phrase without stable argumentative meaning',
+      evidenceCount: 2,
+      evidenceSamples: ['\u201c\u6211\u8fd9\u6b21\u8fd0\u6c14\u771f\u597d\u201d', '\u53ea\u662f\u7f3a\u534a\u9897\u7259\uff0c\u8fd0\u6c14\u771f\u597d\u2026'],
+    },
+    {
+      term: '\u7092\u9e21\u597d\u7528',
+      family: 'cooperation',
+      meaning: 'generic product/game praise',
+      evidenceCount: 5,
+      evidenceSamples: ['\u7092\u9e21\u597d\u7528\uff0c\u6bcf\u6b21\u611f\u5192\u90fd\u542c\uff0c\u597d\u5f97\u5feb[\u6253call]', '\u5927\u4e16\u754c\u8d85\u7ea7\u597d\u7528', '\u5178\u85cf\u8d85\u597d\u7528\u554a\uff1f'],
+    },
+    {
+      term: '\u9632\u6760\u6211\u5148\u8bf4',
+      family: 'cooperation',
+      meaning: 'preempts nitpicking before stating a position',
+      evidenceCount: 1,
+      evidenceSamples: ['\u9632\u6760\u6211\u5148\u8bf4\u4e86\uff1a\u6211\u662f\u5403\u963f\u6b63\u548c\u5c0f\u5149\u7684cb\u7684\uff0c\u4f46\u662f\u6700\u8fd1\u7bc7\u7ae0\u91cc\u7684\u6b63\u4e49\u7ed9\u4eba\u4e00\u79cd\u5df2\u7ecf\u4e0d\u53ea\u662f\u4e00\u5f00\u59cb\u5927\u5bb6\u7231\u5f00\u5f00\u73a9\u7b11\u7684\u91cd\u7537'],
+    },
+    {
+      term: '\u4e0d\u8981\u80e1\u8bf4',
+      family: 'correction',
+      meaning: 'directly asks another speaker to stop making unsupported claims',
+      evidenceCount: 2,
+      evidenceSamples: ['\u7c89\u4e1d\u5c11\u66f4\u4e0d\u8981\u80e1\u8bf4\u516b\u9053\u6bd4\u8f83\u597d\u5427', '\u767d\u75f4\u522b\u4e71\u8bf4'],
+    },
+    {
+      term: '\u5e9f\u94dc\u70c2\u94c1',
+      family: 'attack',
+      meaning: 'dismisses an object or argument as worthless junk',
+      evidenceCount: 1,
+      evidenceSamples: ['\u7528\u7684\u4e00\u5806\u5e9f\u94dc\u70c2\u94c1\uff01'],
+    },
+  ]);
+
+  assert.deepEqual(entries.map((entry) => [entry.term, entry.evidenceSamples]), [
+    ['\u9632\u6760\u6211\u5148\u8bf4', ['\u9632\u6760\u6211\u5148\u8bf4\u4e86\uff1a\u6211\u662f\u5403\u963f\u6b63\u548c\u5c0f\u5149\u7684cb\u7684\uff0c\u4f46\u662f\u6700\u8fd1\u7bc7\u7ae0\u91cc\u7684\u6b63\u4e49\u7ed9\u4eba\u4e00\u79cd\u5df2\u7ecf\u4e0d\u53ea\u662f\u4e00\u5f00\u59cb\u5927\u5bb6\u7231\u5f00\u5f00\u73a9\u7b11\u7684\u91cd\u7537']],
+    ['\u4e0d\u8981\u80e1\u8bf4', ['\u7c89\u4e1d\u5c11\u66f4\u4e0d\u8981\u80e1\u8bf4\u516b\u9053\u6bd4\u8f83\u597d\u5427', '\u767d\u75f4\u522b\u4e71\u8bf4']],
+    ['\u5e9f\u94dc\u70c2\u94c1', ['\u7528\u7684\u4e00\u5806\u5e9f\u94dc\u70c2\u94c1\uff01']],
   ]);
 });
 
