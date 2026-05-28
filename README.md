@@ -44,14 +44,14 @@ Current audited dictionary state:
 
 - Dictionary terms: `1980`
 - Target evidence per term: `3`
-- Coverage ratio: `65.25%`
-- Weak terms below target: `688`
-- Zero-evidence terms: `130`
-- Evidence deficit: `1368`
-- Source-backed terms: `1850`
+- Coverage ratio: `65.71%`
+- Weak terms below target: `679`
+- Zero-evidence terms: `120`
+- Evidence deficit: `1340`
+- Source-backed terms: `1860`
 - Unsourced evidence terms: `0`
-- Attempted terms: `771`
-- Successful terms: `269`
+- Attempted terms: `832`
+- Successful terms: `329`
 
 The dictionary coverage target is not complete yet. Continue running `.\run-bilibili-auto-coverage.ps1` or `npm run dictionary:auto` until weak and zero-evidence terms are eliminated, then re-run `npm run dictionary:coverage`.
 
@@ -102,6 +102,7 @@ Recent dictionary-cleaning updates:
 - Ran the next strict `deepseek-v4-flash` max-effort pass and kept useful discourse evidence such as `全是粉丝` and `不黑不吹`; pruned pure game or office/faction terms `六扇门` and `轮椅轴`, and rejected explanation-only or card-game evidence for attack terms such as `大魔法师`, `蒜茄脑袋`, and `蒜茄脑瓜`.
 - Kept valid hostile or argumentative uses, for example direct `您配吗` challenges, targeted `梦男` mockery, and attack-context `猪鼻` usage.
 - Ran an extended strict `deepseek-v4-flash` max-effort auto-coverage batch (20 priority queries per cycle, 6 terms per family, 10 cycles) that lifted audited comment-backed coverage from `60.86%` to `65.25%`, reduced zero-evidence terms from `171` to `130`, and reduced weak terms from `775` to `688` while keeping the require-comment evidence gate on.
+- Ran a second extended strict `deepseek-v4-flash` max-effort batch (same 20-query, 6-term-per-family, 10-cycle config) over the harder dictionary tail; audited comment-backed coverage rose from `65.25%` to `65.71%`, zero-evidence terms fell from `130` to `120`, and weak terms fell from `688` to `679`. Per-cycle yield is lower now because the remaining terms are niche game/fandom slang that rarely surface in searchable comment pages.
 
 ## Run Locally
 
