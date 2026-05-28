@@ -683,6 +683,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
   let usedEvidenceSourceFallback = false;
   let usedPopularDiscoveryFallback = false;
   const excludeBvids = parseSet(payload.excludeBvids || deps.excludeBvids);
+  const popularFallbackExcludeBvids = parseSet(payload.popularFallbackExcludeBvids || deps.popularFallbackExcludeBvids);
   const loadEvidenceSourceFallbackVideos = async () => {
     if (!evidenceSourceVideoFallback || !existingTermsOnly || targetExistingTerms.length === 0) return [];
     try {
@@ -810,7 +811,12 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
       const discoverPopular = deps.discoverPopularVideos || discoverPopularVideos;
       try {
         throwIfAborted(payload.abortSignal);
-        discoveryGroups.push(await discoverPopular(discoveryLimit, deps));
+        const popularFallbackLimit = Math.min(50, Math.max(discoveryLimit, discoveryLimit + popularFallbackExcludeBvids.size));
+        discoveryGroups.push(
+          (await discoverPopular(popularFallbackLimit, deps))
+            .filter((video) => !popularFallbackExcludeBvids.has(video.bvid))
+            .slice(0, discoveryLimit),
+        );
         usedPopularDiscoveryFallback = true;
         throwIfAborted(payload.abortSignal);
       } catch (error) {

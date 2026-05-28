@@ -10590,6 +10590,79 @@ test('harvestKeywordDictionary backfills searched audit queries into term attemp
   }
 });
 
+test('harvestKeywordDictionary keeps popular fallback exclusions during deep retries', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-popular-fallback-exclude-'));
+  const statePath = join(dir, 'state.json');
+  const dictionary = {
+    version: 1,
+    entries: [{ term: 'deepMiss', family: 'attack', evidenceCount: 0 }],
+  };
+  try {
+    await writeFile(
+      statePath,
+      JSON.stringify({
+        version: 1,
+        harvestStrategyVersion: 6,
+        updatedAt: null,
+        searchedQueries: [],
+        scannedBvids: ['BVprevious'],
+        termAttempts: {
+          deepMiss: {
+            term: 'deepMiss',
+            family: 'attack',
+            attempts: 2,
+            successfulAttempts: 0,
+            queries: [
+              { query: 'deepMiss \u8bc4\u8bba\u533a', strategyVersion: 6, ok: true, hit: false, comments: 12 },
+              { query: 'deepMiss \u70ed\u8bc4', strategyVersion: 6, ok: true, hit: false, comments: 8 },
+            ],
+          },
+        },
+        runs: [],
+      }),
+    );
+    const payloads = [];
+    await harvestKeywordDictionary(
+      {
+        statePath,
+        seedQueries: [],
+        coverageMode: 'all-weak',
+        maxQueries: 1,
+        queryVariantsPerTerm: 1,
+        targetEvidence: 3,
+        retryBeforeUnattemptedLimit: 1,
+        requireCommentBackedEvidence: true,
+        existingTermsOnly: true,
+      },
+      {
+        readKeywordDictionary: async () => dictionary,
+        searchVideoKeywords: async (payload) => {
+          payloads.push(payload);
+          return {
+            ok: true,
+            videos: [{ bvid: 'BVfresh' }],
+            comments: [],
+            entries: [],
+            keywordTraining: { entries: [], dictionaryEvidenceEntries: [] },
+            dictionary: { entries: [{ term: 'deepMiss', family: 'attack', evidenceCount: 0 }] },
+            collectionDiagnostics: {
+              targetExistingTerms: payload.targetExistingTerms,
+              acceptedTerms: [],
+              scannedVideos: 1,
+              commentsCollected: 0,
+            },
+          };
+        },
+      },
+    );
+
+    assert.deepEqual(payloads[0].excludeBvids, []);
+    assert.deepEqual(payloads[0].popularFallbackExcludeBvids, ['BVprevious']);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('harvestKeywordDictionary ignores searched query backfill from stale strategy state', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-stale-search-backfill-'));
   const statePath = join(dir, 'state.json');

@@ -3221,6 +3221,9 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
         pages: effectivePages,
         excludeBvids: skipSeen && !deepenScan ? [...scannedBvidSet] : [],
       };
+      if (skipSeen && scannedBvidSet.size > 0) {
+        searchPayload.popularFallbackExcludeBvids = [...scannedBvidSet];
+      }
       if (timeoutController) {
         searchPayload.abortSignal = timeoutController.signal;
       }

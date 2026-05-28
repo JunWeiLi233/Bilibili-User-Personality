@@ -2165,6 +2165,68 @@ test('searchVideoKeywords falls back to popular videos when search discovery is 
   assert.deepEqual(trainingPayloads[0].targetExistingTerms, ['blocked target', 'popular comment']);
 });
 
+test('searchVideoKeywords excludes already scanned videos from blocked-search popular fallback', async () => {
+  const scannedBvids = [];
+  const popularLimits = [];
+  const result = await searchVideoKeywords(
+    {
+      searchQuery: 'blocked target comments',
+      discoveryMode: 'controversial',
+      discoveryLimit: 2,
+      pages: 1,
+      existingTermsOnly: true,
+      targetExistingTerms: ['blocked target'],
+      prioritizeSearchQueries: true,
+      targetSearchOnly: true,
+      includeVideoContext: false,
+      includeVideoObjectEvidence: false,
+      allowPopularDiscoveryOnSearchBlock: true,
+      popularFallbackExcludeBvids: ['BVseenPopular'],
+    },
+    {
+      discoverVideosByKeyword: async (query) => {
+        throw new Error(`HTTP 412 from search for ${query}`);
+      },
+      discoverPopularVideos: async (limit) => {
+        popularLimits.push(limit);
+        return [
+          { bvid: 'BVseenPopular', title: 'already scanned popular', sourceUrl: 'https://www.bilibili.com/video/BVseenPopular/' },
+          { bvid: 'BVfreshPopular', title: 'blocked target fresh popular', sourceUrl: 'https://www.bilibili.com/video/BVfreshPopular/' },
+        ];
+      },
+      fetchJson: async (url) => {
+        const bvid = new URL(String(url)).searchParams.get('bvid');
+        if (String(url).includes('/x/web-interface/view')) {
+          scannedBvids.push(bvid);
+          return {
+            code: 0,
+            data: {
+              aid: bvid,
+              title: bvid,
+              owner: { mid: 9, name: 'up' },
+              stat: { reply: 1 },
+            },
+          };
+        }
+        return {
+          code: 0,
+          data: {
+            replies: [{ rpid: 1, mid: 100, member: { uname: 'viewer' }, content: { message: 'fresh popular comment' } }],
+            cursor: { is_end: true, next: 0 },
+          },
+        };
+      },
+      trainKeywordDictionary: async () => ({ ok: true, entries: [], dictionaryEvidenceEntries: [], dictionary: { entries: [] } }),
+      readKeywordDictionary: async () => ({ entries: [] }),
+    },
+  );
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(popularLimits, [3]);
+  assert.deepEqual(scannedBvids, ['BVfreshPopular']);
+  assert.deepEqual(result.discoveredVideos.map((video) => video.bvid), ['BVfreshPopular']);
+});
+
 test('searchVideoKeywords can prefer broad controversy pools for strict comment-backed refreshes', async () => {
   const result = await searchVideoKeywords(
     {
