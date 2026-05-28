@@ -2607,15 +2607,13 @@ test('findDictionaryEntriesWithTextEvidence rejects literal game-mode and self-e
     { source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-literal-game-self/', uid: 'BV-literal-game-self' },
   );
 
-  assert.deepEqual(entries.map((entry) => entry.term), ['\u9e21\u8d3c', '\u6781\u9650\u6a21\u5f0f', '\u6025\u6b7b\u4e86', '\u96c6\u7f8e']);
+  assert.deepEqual(entries.map((entry) => entry.term), ['\u9e21\u8d3c', '\u6025\u6b7b\u4e86', '\u96c6\u7f8e']);
   assert.equal(entries[0].evidenceCount, 1);
   assert.deepEqual(entries[0].evidenceSamples, ['\u4ed6\u8fd9\u4e2a\u5403\u76f8\u592a\u9e21\u8d3c\u4e86\uff0c\u5c31\u662f\u60f3\u5360\u4fbf\u5b9c']);
   assert.equal(entries[1].evidenceCount, 1);
-  assert.deepEqual(entries[1].evidenceSamples, ['\u8fd9\u4e2a\u9879\u76ee\u5de5\u671f\u88ab\u538b\u5230\u6781\u9650\u6a21\u5f0f\uff0c\u5927\u5bb6\u90fd\u5f88\u96be\u9876']);
+  assert.deepEqual(entries[1].evidenceSamples, ['\u5546\u4eba\u6025\u6b7b\u4e86\uff0c\u68a6\u5e7b\u5012\u4e0d\u5012\u8ddf\u4f60\u4e00\u4e2a\u533a\u7684\u5978\u5546\u6709\u5565\u5173\u7cfb']);
   assert.equal(entries[2].evidenceCount, 1);
-  assert.deepEqual(entries[2].evidenceSamples, ['\u5546\u4eba\u6025\u6b7b\u4e86\uff0c\u68a6\u5e7b\u5012\u4e0d\u5012\u8ddf\u4f60\u4e00\u4e2a\u533a\u7684\u5978\u5546\u6709\u5565\u5173\u7cfb']);
-  assert.equal(entries[3].evidenceCount, 1);
-  assert.deepEqual(entries[3].evidenceSamples, ['\u5982\u679c\u96c6\u7f8e\u4eec\u771f\u7684\u548c\u5979\u8bf4\u7684\u4e00\u6837\uff0c\u4e0d\u73a9\u4e86\uff0c\u8fd9\u53cd\u800c\u4e0d\u662f\u4ef6\u597d\u4e8b\u5417\uff1f']);
+  assert.deepEqual(entries[2].evidenceSamples, ['\u5982\u679c\u96c6\u7f8e\u4eec\u771f\u7684\u548c\u5979\u8bf4\u7684\u4e00\u6837\uff0c\u4e0d\u73a9\u4e86\uff0c\u8fd9\u53cd\u800c\u4e0d\u662f\u4ef6\u597d\u4e8b\u5417\uff1f']);
 });
 
 test('findDictionaryEntriesWithTextEvidence rejects violent coercion for cooperative clarification evidence', () => {
@@ -5634,7 +5632,6 @@ test('normalizeKeywordEntries prunes latest harvested literal mode, commerce, an
     ['\u4e0d\u53ef\u62b5\u6297\u529b', ['\u522b\u628a\u6240\u6709\u5931\u8bef\u90fd\u53eb\u4e0d\u53ef\u62b5\u6297\u529b']],
     ['\u795e\u795e', ['\u8fd9\u7fa4\u795e\u795e\u53c8\u6765\u6263\u5e3d\u5b50']],
     ['\u7b11\u9ebb\u4e86', ['\u7b11\u9ebb\u4e86\uff0c\u5c31\u8fd9\u64cd\u4f5c\u8fd8\u5439\u6709\u8bc1\u636e']],
-    ['\u6781\u9650\u6a21\u5f0f', ['\u8fd9\u4e2a\u9879\u76ee\u5de5\u671f\u5c31\u662f\u6781\u9650\u6a21\u5f0f\uff0c\u5efa\u8bae\u5148\u62c6\u4efb\u52a1']],
   ]);
 });
 
@@ -10819,6 +10816,52 @@ test('normalizeKeywordEntries prunes current low-yield coverage batch emote, dev
     ['\u795e\u79d8\u7684\u5927\u624b', ['\u67d0\u53ea\u795e\u79d8\u7684\u5927\u624b\u7ed9\u81ea\u5df1\u66b4\u9732\u4e86[\u7b11\u54ed]\u4e0d\u6253\u81ea\u62db\u662f\u6ca1\u60f3\u5230\u7684[doge]']],
     ['\u88c5\u9ad8\u624b', ['\u90fd\u4e0d\u8bc4\u8bba\u88c5\u9ad8\u624b\u662f\u5417[doge]']],
     ['\u5403\u76f8\u592a\u96be\u770b', ['\u4ee5\u524d\u4e0d\u8981\u94b1\uff0c\u73b0\u5728\u739b\u5fb7\u5403\u76f8\u592a\u96be\u770b\u4e86']],
+  ]);
+});
+
+test('normalizeKeywordEntries prunes latest low-yield coverage game-mode and narrow question noise', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u6781\u9650\u6a21\u5f0f',
+      family: 'cooperation',
+      meaning: 'literal game difficulty mode',
+      evidenceCount: 1,
+      evidenceSamples: ['\u6709\u590d\u6d3b\u88c5\u5907\u5c31\u4e0d\u5750\u7262\u4e86\u3002\u6781\u9650\u6a21\u5f0f\u5c31\u6210\u4e86\u5982\u4f55\u8ba9\u81ea\u5df1\u624b\u4e0a\u4e00\u76f4\u6709\u4e0d\u6b7b\u56fe\u817e\u7684\u4e00\u822c\u6a21\u5f0f\u3002'],
+    },
+    {
+      term: '\u4eca\u5929\u88ab\u6253\u4e86\u6ca1\u6709',
+      family: 'attack',
+      meaning: 'over-specific teasing question',
+      evidenceCount: 1,
+      evidenceSamples: ['\u5144\u5f1f\u8dd1\u7740\u53d1\u5c55\u4e1a\u52a1\u6765\u5566\uff0c\u4eca\u5929\u88ab\u6253\u4e86\u6ca1\u6709[doge]'],
+    },
+    {
+      term: '\u7ea0\u6b63\u54e5',
+      family: 'attack',
+      meaning: 'label for someone who constantly corrects others',
+      evidenceCount: 1,
+      evidenceSamples: ['\u7b11\u70b9\u89e3\u6790\uff1a\u7ea0\u6b63\u54e5\u4e0d\u77e5\u9053\u5f17\u5170\u80af\u65af\u5766\u539f\u8457\u88ab\u9020\u51fa\u6765\u7684\u4ece\u672a\u53eb\u602a\u7269'],
+    },
+    {
+      term: '\u4f60\u7684\u8bf4\u6cd5\u592a\u7edd\u5bf9\u4e86',
+      family: 'attack',
+      meaning: 'calls out absolutist wording',
+      evidenceCount: 1,
+      evidenceSamples: ['\u4f60\u7684\u8bf4\u6cd5\u592a\u7edd\u5bf9\u4e86\uff0c\u4f60\u5e94\u8be5\u8bf4\u201c\u5927\u90e8\u5206\u201d[doge_\u91d1\u7b8d]'],
+    },
+    {
+      term: '\u6293\u5230\u4e00\u4e2a\u8001\u5b9e\u4eba',
+      family: 'attack',
+      meaning: 'mocks a naive reply target',
+      evidenceCount: 1,
+      evidenceSamples: ['\u6293\u5230\u4e00\u4e2a\u8001\u5b9e\u4eba\u5927\u5bb6\u5feb\u6765\u6b3a\u8d1f\u4ed6'],
+    },
+  ]);
+
+  assert.deepEqual(entries.map((entry) => [entry.term, entry.evidenceSamples]), [
+    ['\u7ea0\u6b63\u54e5', ['\u7b11\u70b9\u89e3\u6790\uff1a\u7ea0\u6b63\u54e5\u4e0d\u77e5\u9053\u5f17\u5170\u80af\u65af\u5766\u539f\u8457\u88ab\u9020\u51fa\u6765\u7684\u4ece\u672a\u53eb\u602a\u7269']],
+    ['\u4f60\u7684\u8bf4\u6cd5\u592a\u7edd\u5bf9\u4e86', ['\u4f60\u7684\u8bf4\u6cd5\u592a\u7edd\u5bf9\u4e86\uff0c\u4f60\u5e94\u8be5\u8bf4\u201c\u5927\u90e8\u5206\u201d[doge_\u91d1\u7b8d]']],
+    ['\u6293\u5230\u4e00\u4e2a\u8001\u5b9e\u4eba', ['\u6293\u5230\u4e00\u4e2a\u8001\u5b9e\u4eba\u5927\u5bb6\u5feb\u6765\u6b3a\u8d1f\u4ed6']],
   ]);
 });
 

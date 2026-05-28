@@ -149,6 +149,8 @@ STOP_TERMS.add('dj\u5982\u6765');
 STOP_TERMS.add('\u4f60\u609f\u4e86');
 STOP_TERMS.add('\u6bc1\u4e8e48v');
 STOP_TERMS.add('tv\u574f\u7b11');
+STOP_TERMS.add('\u6781\u9650\u6a21\u5f0f');
+STOP_TERMS.add('\u4eca\u5929\u88ab\u6253\u4e86\u6ca1\u6709');
 const ALLOWED_ASCII_KEYWORD_TERMS = new Set([
   'giegie',
   'lsp',
