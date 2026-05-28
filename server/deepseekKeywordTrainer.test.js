@@ -9891,6 +9891,62 @@ test('normalizeKeywordEntries prunes current coverage harvest praise, media, and
   ]);
 });
 
+test('normalizeKeywordEntries prunes latest coverage harvest vague reaction, proper-name, and game-state noise', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u541e\u4e4b',
+      family: 'evasion',
+      meaning: 'vague reaction fragment mislabeled as evasion',
+      evidenceCount: 1,
+      evidenceSamples: ['[\u7b11\u54ed]\u9019\u771f\u541e\u4e4b\u2026\u2026'],
+    },
+    {
+      term: '\u5f00\u9664\u51e1\u51e1',
+      family: 'attack',
+      meaning: 'proper-name question mislabeled as attack',
+      evidenceCount: 1,
+      evidenceSamples: ['\u4e3a\u4ec0\u4e48\u8981\u5f00\u9664\u51e1\u51e1\uff1f'],
+    },
+    {
+      term: '\u4ebf\u70b9\u70b9',
+      family: 'cooperation',
+      meaning: 'generic meme quantifier mislabeled as cooperation',
+      evidenceCount: 3,
+      evidenceSamples: [
+        '08\uff1a\u6211\u53ea\u4f1a\u4ebf\u70b9\u70b9\uff0c\u4e5f\u7b97\u662f\u840c\u65b0',
+        '\u80a5\u9f99\u3001\u8001\u897f\uff0c\u4f60\u4fe9\u8bf7\u4e00\u5b9a\u7ecf\u5e38\u65e5\u66f4\uff0c\u82e6\u903c\u6253\u5de5\u72d7\u7684\u65e5\u5e38\u5168\u9760\u4f60\u4fe9\u6dfb\u52a0\u4ebf\u70b9\u70b9\u5feb\u4e50\u52d2[\u5927\u54ed]',
+        '\u4f24\u5bb3\u6709\u90a3\u4e48\u4ebf\u70b9\u70b9\u62c9\u5938( \u309c- \u309c)\u3064\u30ed',
+      ],
+    },
+    {
+      term: '\u62c9\u5938',
+      family: 'correction',
+      meaning: 'game-state critique typo mislabeled as correction',
+      evidenceCount: 1,
+      evidenceSamples: ['\u4f24\u5bb3\u6709\u90a3\u4e48\u4ebf\u70b9\u70b9\u62c9\u5938( \u309c- \u309c)\u3064\u30ed'],
+    },
+    {
+      term: '\u5403\u76f8\u592a\u96be\u770b',
+      family: 'attack',
+      meaning: 'accuses monetization or platform behavior of being greedy',
+      evidenceCount: 1,
+      evidenceSamples: ['\u4ee5\u524d\u4e0d\u8981\u94b1\uff0c\u73b0\u5728\u739b\u5fb7\u5403\u76f8\u592a\u96be\u770b\u4e86'],
+    },
+    {
+      term: '\u7eaf\u94c1\u8111\u762b',
+      family: 'attack',
+      meaning: 'direct insult',
+      evidenceCount: 1,
+      evidenceSamples: ['\u54c8\u54c8\u54c8\uff0c\u8fd9\u6885\u9053\u7eaf\u94c1\u8111\u762b'],
+    },
+  ]);
+
+  assert.deepEqual(entries.map((entry) => [entry.term, entry.evidenceSamples]), [
+    ['\u5403\u76f8\u592a\u96be\u770b', ['\u4ee5\u524d\u4e0d\u8981\u94b1\uff0c\u73b0\u5728\u739b\u5fb7\u5403\u76f8\u592a\u96be\u770b\u4e86']],
+    ['\u7eaf\u94c1\u8111\u762b', ['\u54c8\u54c8\u54c8\uff0c\u8fd9\u6885\u9053\u7eaf\u94c1\u8111\u762b']],
+  ]);
+});
+
 test('findDictionaryEntriesWithTextEvidence keeps directed probability manipulation use of loaded-dice phrase', () => {
   const dictionary = {
     entries: [
