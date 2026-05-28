@@ -6688,6 +6688,88 @@ test('normalizeKeywordEntries prunes latest harvested context-only evidence', ()
   ]);
 });
 
+test('normalizeKeywordEntries prunes latest harvested bare, literal, and positive false positives', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u5c82\u4e0d\u7f8e\u54c9',
+      family: 'attack',
+      meaning: '\u7528\u53cd\u95ee\u53e3\u543b\u8bbd\u523a\u5bf9\u65b9\u7684\u81ea\u5229\u6216\u8bdd\u672f',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u5c82\u4e0d\u7f8e\u54c9',
+        '\u6263\u5e3d\u5b50\u518d\u88c5\u7406\u4e2d\u5ba2\uff0c\u5c82\u4e0d\u7f8e\u54c9',
+      ],
+      evidenceSources: [],
+    },
+    {
+      term: '\u7f8e\u54c9',
+      family: 'attack',
+      meaning: '\u7528\u53cd\u8bed\u8bbd\u523a\u5bf9\u65b9\u7684\u81ea\u6ee1\u6216\u8bdd\u672f',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u5c82\u4e0d\u7f8e\u54c9',
+        '\u4e00\u8fb9\u9020\u8c23\u4e00\u8fb9\u88c5\u53d7\u5bb3\u8005\uff0c\u5c82\u4e0d\u7f8e\u54c9',
+      ],
+      evidenceSources: [],
+    },
+    {
+      term: '\u4ea1\u7075\u6cd5\u5e08',
+      family: 'attack',
+      meaning: '\u8bbd\u523a\u53cd\u590d\u7ffb\u65e7\u8d26\u3001\u6316\u575f\u6216\u7ed9\u8fc7\u65f6\u4e1c\u897f\u62db\u9b42\u7684\u4eba',
+      evidenceCount: 5,
+      evidenceSamples: [
+        '\u56de\u590d @\u96fe\u96e8\u5bb6\u7684\u838e :\u4f20\u5947[doge_\u91d1\u7b8d]\u4ea1\u7075\u6cd5\u5e08\u827e\u5f85',
+        '\u53e6\u5916UP\u4e3b\u597d\u50cf\u4e0d\u592a\u4f1a\u7528\u9632\u5fa1\u65d7\u54ce\uff08\u867d\u7136\u53ef\u80fd\u662f\u53ea\u60f3\u7528\u4ea1\u7075\u6cd5\u5e08\uff09',
+        '\u7231\u5fb7\u534e\u4ea1\u7075\u6cd5\u5e08\u7684\u8fd8\u6709\u4e00\u4e2a\u539f\u56e0\u4e0d\u662f\u56e0\u4e3a\u7231\u5fb7\u534e\u7684\u8138\u6a21\u517c\u58f0\u4f18\u662f\u5eb7\u65af\u5766\u4e01\u561b(\u301c\uffe3\u25b3\uffe3)\u301c',
+        '\u56de\u590d @GREATKZ :\u4f46\u8fd9\u4e0d\u5f71\u54cd\u8fd9\u662f\u6897\uff08\u4ea1\u7075\u6cd5\u5e08\uff09\u7684\u6765\u6e90\u4e4b\u4e00\u554a',
+        '\u53c8\u5f00\u59cb\u7ed9\u8fd9\u4e2a\u70c2\u6897\u62db\u9b42\uff0c\u771f\u4ea1\u7075\u6cd5\u5e08',
+      ],
+      evidenceSources: [],
+    },
+    {
+      term: '\u53d1\u56fe',
+      family: 'evidence',
+      meaning: '\u8bf7\u5bf9\u65b9\u53d1\u56fe\u6216\u622a\u56fe\u4f5c\u4e3a\u8bc1\u636e',
+      evidenceCount: 2,
+      evidenceSamples: [
+        '\u56de\u590d @\u4e91\u8d77\u4e07\u8c61 :\u53d1\u56fe\u4e0d\u5c31\u884c\u4e86\uff0c\u62bd\u514d\u8d39100\u534a\u4ef7\u662f\u5728\u7684\u5427\uff0c\u622a\u56fe\u5462',
+        '\u6015\u88ab\u5220\u8bc4\uff0c\u6545\u53d1\u56fe',
+      ],
+      evidenceSources: [],
+    },
+    {
+      term: '\u65e0\u654c\u4e4b\u4eba',
+      family: 'attack',
+      meaning: '\u6307\u5149\u811a\u4e0d\u6015\u7a7f\u978b\u3001\u96be\u4ee5\u7528\u5e38\u89c4\u89c4\u5219\u7ea6\u675f\u7684\u4eba',
+      evidenceCount: 5,
+      evidenceSamples: [
+        '\u65e0\u654c\u4e4b\u4eba[\u7b11\u54ed]',
+        '\u8fd9\u5012\u662f\u771f\u7684\uff0c\u5927\u591a\u6570\u6240\u8c13\u7684\u65e0\u654c\u4e4b\u4eba\u7684\u4eba\u54c1\u5f88\u597d',
+        '\u4e0d\uff0c\u9047\u5230\u65e0\u654c\u4e4b\u4eba\uff0c\u4e00\u53e5\u9053\u53cb\uff0c\u5c31\u662f\u6700\u5927\u7684\u5c0a\u91cd',
+        '\u4ed6\u4eec\u4f1a\u7ed9\u4f60\u66f4\u597d\u7684\u793e\u4f1a\u798f\u5229\uff0c\u4e0d\u662f\u56e0\u4e3a\u4ed6\u4eec\u826f\u5fc3\u53d1\u73b0\uff0c\u800c\u662f\u56e0\u4e3a\u65e0\u654c\u4e4b\u4eba\u6765\u8fc7[doge]',
+        '\u8c01\u8ddf\u4f60\u662f\u9053\u53cb\uff1f\u4f60\u662f\u65e0\u654c\u4e4b\u4eba\u5417\uff1f',
+      ],
+      evidenceSources: [],
+    },
+  ]);
+
+  assert.deepEqual(entries.find((entry) => entry.term === '\u5c82\u4e0d\u7f8e\u54c9').evidenceSamples, [
+    '\u6263\u5e3d\u5b50\u518d\u88c5\u7406\u4e2d\u5ba2\uff0c\u5c82\u4e0d\u7f8e\u54c9',
+  ]);
+  assert.deepEqual(entries.find((entry) => entry.term === '\u7f8e\u54c9').evidenceSamples, [
+    '\u4e00\u8fb9\u9020\u8c23\u4e00\u8fb9\u88c5\u53d7\u5bb3\u8005\uff0c\u5c82\u4e0d\u7f8e\u54c9',
+  ]);
+  assert.deepEqual(entries.find((entry) => entry.term === '\u4ea1\u7075\u6cd5\u5e08').evidenceSamples, [
+    '\u53c8\u5f00\u59cb\u7ed9\u8fd9\u4e2a\u70c2\u6897\u62db\u9b42\uff0c\u771f\u4ea1\u7075\u6cd5\u5e08',
+  ]);
+  assert.deepEqual(entries.find((entry) => entry.term === '\u53d1\u56fe').evidenceSamples, [
+    '\u56de\u590d @\u4e91\u8d77\u4e07\u8c61 :\u53d1\u56fe\u4e0d\u5c31\u884c\u4e86\uff0c\u62bd\u514d\u8d39100\u534a\u4ef7\u662f\u5728\u7684\u5427\uff0c\u622a\u56fe\u5462',
+  ]);
+  assert.deepEqual(entries.find((entry) => entry.term === '\u65e0\u654c\u4e4b\u4eba').evidenceSamples, [
+    '\u8c01\u8ddf\u4f60\u662f\u9053\u53cb\uff1f\u4f60\u662f\u65e0\u654c\u4e4b\u4eba\u5417\uff1f',
+  ]);
+});
+
 test('normalizeKeywordEntries prunes persisted loose reaction evidence for bengbuzhu variants', () => {
   const entries = normalizeKeywordEntries([
     {

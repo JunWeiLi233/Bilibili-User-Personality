@@ -43,14 +43,14 @@ Current audited dictionary state:
 
 - Dictionary terms: `2149`
 - Target evidence per term: `3`
-- Coverage ratio: `55.84%`
-- Weak terms below target: `949`
-- Zero-evidence terms: `217`
-- Evidence deficit: `2004`
-- Source-backed terms: `1932`
+- Coverage ratio: `55.93%`
+- Weak terms below target: `947`
+- Zero-evidence terms: `220`
+- Evidence deficit: `2007`
+- Source-backed terms: `1929`
 - Unsourced evidence terms: `0`
-- Attempted terms: `110`
-- Successful terms: `34`
+- Attempted terms: `125`
+- Successful terms: `38`
 
 The dictionary coverage target is not complete yet. Continue running `.\run-bilibili-auto-coverage.ps1` or `npm run dictionary:auto` until weak and zero-evidence terms are eliminated, then re-run `npm run dictionary:coverage`.
 
@@ -69,6 +69,7 @@ Recent dictionary-cleaning updates:
 - Tightened filters for literal or neutral contexts, including real coins for `老硬币`, school-study narratives for `学习了`, celebrity-name mentions such as `欧阳娜娜`, and generic praise such as `伟大无需多言`.
 - Filtered glossary/explanation contexts so videos explaining a meme, a title, or a famous scene do not count as live usage evidence.
 - Pruned the latest harvested context-only false positives: video-title-only `赛寄`, literal-history `三角贸易`, and generic `实名制` policy discussion copied onto `实名制观看`.
+- Pruned the latest harvested bare/literal false positives: standalone `岂不美哉`, game/source uses of `亡灵法师`, censorship-workaround `怕被删评，故发图`, and positive/explainer uses of `无敌之人`.
 - Kept valid hostile or argumentative uses, for example direct `您配吗` challenges, targeted `梦男` mockery, and attack-context `猪鼻` usage.
 
 ## Run Locally
