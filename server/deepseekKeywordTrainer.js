@@ -1258,6 +1258,11 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const assertionContext = /(?:\u8bf4\u7684|\u5185\u5bb9|\u8fd9\u6837|\u8fd9\u4e48\u5e72|\u5c31\u5f97|\u5fc5\u987b).{0,18}\u7edd\u5bf9\u6b63\u786e|\u7edd\u5bf9\u6b63\u786e.{0,18}(?:\uff0c|\u3002|\uff01|\u4f46\u662f|\u5c31\u5f97|\u5fc5\u987b|\u6ca1\u6bdb\u75c5|\u5bf9)/u.test(cleanSample);
     if (conceptReflectionContext && !assertionContext) return true;
   }
+  if (term === '\u7f57\u795e\u4f1f\u5927' && family === 'absolutes') {
+    const targetSpecificContext = /(?:\u7f57\u795e|\u7f57\u8f91|\u7f57\u8001\u5e08|\u7f57\u7fd4)/u.test(cleanSample);
+    const genericGreatnessContext = /\u4f1f\u5927\u65e0\u9700\u591a\u8a00|\u65e0\u9700\u591a\u8a00/u.test(cleanSample);
+    if (genericGreatnessContext && !targetSpecificContext) return true;
+  }
   if (['\u753b\u997c', '\u7537\u7684\u90fd\u7231\u753b\u997c'].includes(term) && family === 'attack') {
     const rawSample = String(sample || '').trim();
     const textWithoutMentions = rawSample.replace(/@\S+/gu, '').trim();
@@ -1467,8 +1472,10 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const futureStudyContext = /(?:\u6211\u8981|\u8981\u5f00\u59cb|\u51c6\u5907|\u8be5)\u5b66\u4e60\u4e86/u.test(cleanSample);
     const literalCulturalLearningContext = /(?:\u65e5\u672c|\u6c11\u65cf|\u56fd\u5bb6|\u6587\u660e).{0,18}\u5b66\u4e60\u4e86.{0,18}(?:\u4e2d\u534e\u6587\u5316|\u6587\u5316|\u6280\u672f)|\u5b66\u4e60\u4e86.{0,18}(?:\u4e2d\u534e\u6587\u5316|\u6587\u5316|\u6280\u672f)/u.test(cleanSample);
     const learnedFromContext = /(?:\u8bb2\u6e05\u695a|\u5b66\u5230|\u53d7\u6559|\u8c22\u8c22|\u611f\u8c22|\u65f6\u95f4\u7ebf|\u5206\u6790).{0,18}\u5b66\u4e60\u4e86|\u5b66\u4e60\u4e86.{0,18}(?:\u8c22\u8c22|\u53d7\u6559|\u5b66\u5230|\u8bb2\u6e05\u695a)/u.test(cleanSample);
+    const literalSchoolStudyContext = /(?:\u7238\u7238|\u59d1\u5a18|\u5b69\u5b50|\u4e00\u5e74\u7ea7|\u6210\u7ee9|\u8bfb\u4e66|\u4e0d\u7231\u8bfb\u4e66|\u559c\u6b22\u5b66\u4e60|\u7231\u5b66\u4e60).{0,36}\u5b66\u4e60|\u5b66\u4e60.{0,36}(?:\u6210\u7ee9|\u597d\u73a9|\u4e0d\u597d|\u7238\u7238|\u59d1\u5a18|\u4e00\u5e74\u7ea7|\u8bfb\u4e66)/u.test(cleanSample);
     if (literalCulturalLearningContext && !learnedFromContext) return true;
     if (futureStudyContext && !learnedFromContext) return true;
+    if (literalSchoolStudyContext && !learnedFromContext) return true;
   }
   if (term === '\u7ca5\u6279' && family === 'attack') {
     const usernameOnlyContext = /@\S*\u7ca5\u6279\S*/u.test(String(sample || '')) && !String(sample || '').replace(/@\S+/gu, '').includes('\u7ca5\u6279');
