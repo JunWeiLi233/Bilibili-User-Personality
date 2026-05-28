@@ -6955,7 +6955,6 @@ test('findDictionaryEntriesWithTextEvidence maps harvest aliases back to hard ze
   assert.deepEqual(entries.map((entry) => entry.term), [
     '\u7cbe\u795e\u5916\u56fd\u4eba',
     '\u524d\u9762\u8bf4\u91cd\u4e86',
-    '\u95ee\u8001\u9a6c\u672c\u4eba',
     '\u53ef\u4ee5\u8d34',
   ]);
   assert.equal(entries.every((entry) => entry.evidenceCount === 1), true);
@@ -7000,7 +6999,6 @@ test('findDictionaryEntriesWithTextEvidence maps newer controversy aliases back 
 
   assert.deepEqual(entries.map((entry) => entry.term), [
     '\u524d\u9762\u8bf4\u91cd\u4e86',
-    '\u95ee\u8001\u9a6c\u672c\u4eba',
     '\u8e6d\u6982\u5ff5',
     '\u8f66\u5bb6\u519b',
   ]);
@@ -8941,7 +8939,6 @@ test('findDictionaryEntriesWithTextEvidence rejects latest harvested generic mod
     [
       '\u8fd9\u4e2a\u6a21\u7ec4\u94fe\u63a5\u53ef\u4ee5\u5206\u4eab\u4e00\u4e0b\u5417\uff0c\u6211\u60f3\u590d\u73b0\u8fd9\u4e2a\u95ee\u9898',
       '\u795d\u4f60\u65e9\u65e5\u8131\u5355\uff0c\u627e\u5230\u559c\u6b22\u7684\u5bf9\u8c61',
-      '\u522b\u95ee\u6211\u4e86\uff0c\u95ee\u8001\u9a6c\u672c\u4eba\u53bb',
       '\u4f60\u8fd9\u4e2a\u8bf4\u6cd5\u6ca1\u6709\u4efb\u4f55\u53cd\u4f8b\uff0c\u662f\u4e0d\u662f\u89c9\u5f97\u81ea\u5df1\u5168\u90fd\u662f\u5bf9',
       '\u8bc1\u636e\u4e0d\u7ed9\uff0c\u53ea\u8bf4\u6211\u90fd\u8bf4\u5230\u8fd9\u4efd\u4e0a\u4e86\u4f60\u61c2\u4e86\u5427',
     ].join('\n'),
@@ -8950,7 +8947,6 @@ test('findDictionaryEntriesWithTextEvidence rejects latest harvested generic mod
   assert.deepEqual(realEntries.map((entry) => entry.term), [
     '\u6a21\u7ec4',
     '\u8131\u5355',
-    '\u95ee\u8001\u9a6c\u672c\u4eba',
     '\u5168\u90fd\u662f\u5bf9',
     '\u61c2\u4e86\u5427',
   ]);
@@ -10591,6 +10587,94 @@ test('normalizeKeywordEntries prunes latest coverage batch broad-region, praise,
     ['\u5168\u662f\u6c34\u519b', ['\u8bc4\u8bba\u533a\u5168\u662f\u6c34\u519b\uff0c\u53d8\u7740\u6cd5\u7684\u8ba9\u4f60\u76f8\u4fe1\u66f4\u7cfb\u7edf\u662f\u597d\u4e8b']],
     ['\u6709\u4eba\u6025\u4e86', ['\u6709\u4eba\u6025\u4e86\uff0c\u9648\u8ff0\u4e8b\u5b9e\u5c31\u522b\u6025']],
     ['hapi\u8a00\u8bba', ['\u6765\u4e86\u6765\u4e86hapi\u8a00\u8bba\u53c8\u6765\u4e86\uff0c\u5ddd\u666e\u5fc3\u91cc\u6ca1\u70b9b\u6570\u561b']],
+  ]);
+});
+
+test('normalizeKeywordEntries prunes current coverage batch narrow meme, fandom, and tool-object noise', () => {
+  const entries = normalizeKeywordEntries([
+    {
+      term: '\u6218\u7ee9\u6e05\u96f6\u5361',
+      family: 'attack',
+      meaning: 'over-specific game-card style metaphor',
+      evidenceCount: 1,
+      evidenceSamples: ['\u4f7f\u7528\u6218\u7ee9\u6e05\u96f6\u5361\u8fd9\u4e00\u5757'],
+    },
+    {
+      term: '\u95ee\u8001\u9a6c\u672c\u4eba',
+      family: 'evasion',
+      meaning: 'over-specific name-based deflection',
+      evidenceCount: 1,
+      evidenceSamples: ['\u95ee\u4e86\u4e00\u5708\u5c31\u662f\u4e0d\u95ee\u672c\u4eba'],
+    },
+    {
+      term: '\u4e09\u5e74\u5c31\u8d70\u4e86',
+      family: 'attack',
+      meaning: 'over-specific morbidity joke fragment',
+      evidenceCount: 1,
+      evidenceSamples: ['\u4e5f\u6709\u53ef\u80fd\u56e0\u4e3a\u6ca1\u5403\u836f\u5f97\u5fc3\u810f\u75c5\uff0c\u4e09\u5e74\u5c31\u8d70\u4e86'],
+    },
+    {
+      term: '\u597d\u78d5\u7684\u5f88',
+      family: 'cooperation',
+      meaning: 'fandom shipping praise',
+      evidenceCount: 1,
+      evidenceSamples: ['\u597d\u78d5\u7684\u5f88\uff0c\u6700\u8fd1\u51fa\u4e86\u597d\u591a\u6211\u7a00\u7f55\u7684'],
+    },
+    {
+      term: '\u54b1\u4eec\u773c\u5149\u4e00\u6837',
+      family: 'cooperation',
+      meaning: 'generic agreement praise',
+      evidenceCount: 1,
+      evidenceSamples: ['\u54b1\u4eec\u773c\u5149\u4e00\u6837\uff0c\u54c8\u54c8\u54c8\uff0c\u6211\u6700\u8fd1\u4e5f\u662f\u6700\u559c\u6b22\u4ed6\u4eec\u4e09\u4e2a'],
+    },
+    {
+      term: '\u5feb\u901f\u5e73\u6574',
+      family: 'attack',
+      meaning: 'tool-object fragment from nuclear joke',
+      evidenceCount: 1,
+      evidenceSamples: ['\u4ec0\u4e48\u6838\u5f39\uff0c\u8fd9\u660e\u660e\u662f\u571f\u5730\u5feb\u901f\u5e73\u6574\u5668'],
+    },
+    {
+      term: '\u5e73\u6574\u5668',
+      family: 'attack',
+      meaning: 'tool-object suffix fragment',
+      evidenceCount: 1,
+      evidenceSamples: ['\u4ec0\u4e48\u6838\u5f39\uff0c\u8fd9\u660e\u660e\u662f\u571f\u5730\u5feb\u901f\u5e73\u6574\u5668'],
+    },
+    {
+      term: '\u571f\u5730\u5feb\u901f\u5e73\u6574\u5668',
+      family: 'attack',
+      meaning: 'over-specific tool-object nuclear joke',
+      evidenceCount: 1,
+      evidenceSamples: ['\u4ec0\u4e48\u6838\u5f39\uff0c\u8fd9\u660e\u660e\u662f\u571f\u5730\u5feb\u901f\u5e73\u6574\u5668'],
+    },
+    {
+      term: '\u6beb\u65e0\u540a\u7528',
+      family: 'absolutes',
+      meaning: 'absolute uselessness claim',
+      evidenceCount: 2,
+      evidenceSamples: ['\u522b\u4e70\uff0c\u6beb\u65e0\u540a\u7528'],
+    },
+    {
+      term: '\u7f55\u89c1ip',
+      family: 'attack',
+      meaning: 'regional IP sarcasm',
+      evidenceCount: 2,
+      evidenceSamples: ['\u7f55\u89c1IP[\u7b11\u54ed]'],
+    },
+    {
+      term: '\u65e0\u8111\u55b7',
+      family: 'attack',
+      meaning: 'accuses others of brainless criticism',
+      evidenceCount: 2,
+      evidenceSamples: ['\u662f\u7684\u5f88\u591a\u4eba\u771f\u7684\u65e0\u8111\u55b7[\u5403\u74dc]'],
+    },
+  ]);
+
+  assert.deepEqual(entries.map((entry) => [entry.term, entry.evidenceSamples]), [
+    ['\u6beb\u65e0\u540a\u7528', ['\u522b\u4e70\uff0c\u6beb\u65e0\u540a\u7528']],
+    ['\u7f55\u89c1ip', ['\u7f55\u89c1IP[\u7b11\u54ed]']],
+    ['\u65e0\u8111\u55b7', ['\u662f\u7684\u5f88\u591a\u4eba\u771f\u7684\u65e0\u8111\u55b7[\u5403\u74dc]']],
   ]);
 });
 

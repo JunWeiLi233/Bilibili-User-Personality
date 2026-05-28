@@ -42,16 +42,16 @@ Latest verified update: current `main` HEAD after this update.
 
 Current audited dictionary state:
 
-- Dictionary terms: `2043`
+- Dictionary terms: `2035`
 - Target evidence per term: `3`
-- Coverage ratio: `59.96%`
-- Weak terms below target: `818`
-- Zero-evidence terms: `192`
-- Evidence deficit: `1725`
-- Source-backed terms: `1851`
+- Coverage ratio: `60.49%`
+- Weak terms below target: `804`
+- Zero-evidence terms: `189`
+- Evidence deficit: `1690`
+- Source-backed terms: `1846`
 - Unsourced evidence terms: `0`
-- Attempted terms: `386`
-- Successful terms: `106`
+- Attempted terms: `405`
+- Successful terms: `118`
 
 The dictionary coverage target is not complete yet. Continue running `.\run-bilibili-auto-coverage.ps1` or `npm run dictionary:auto` until weak and zero-evidence terms are eliminated, then re-run `npm run dictionary:coverage`.
 
@@ -90,6 +90,7 @@ Recent dictionary-cleaning updates:
 - Pruned the latest flash/max coverage-batch fandom/title/platform/emote noise: removed generic family address `都是家人`, entertainment ranking `恐怖童谣绝对第一`, bare `PY现场`, creator-follow/platform actions `关注力` / `三联`, fandom-specific `高妃应得的待遇`, slogan `正道的光`, and emote labels `斜眼笑` / `tv斜眼笑`; kept valid argumentative uses such as `感谢指正`, `干崩阿`, `根本没有说不允许`, and `td小青蛙`.
 - Ran another `deepseek-v4-flash` max-effort auto-coverage pass over controversial Bilibili searches; kept useful discourse evidence such as `公知话术`, `精神美国人`, `狗屎机制`, and `不黑不吹`, while pruning generic/outdated/title or creator-noise terms `梗out了` / `out了`, `监狱来的妈妈`, `小up`, `千年是哮天犬`, and `原来你也玩原神`.
 - Ran another `deepseek-v4-flash` max-effort auto-coverage pass that reduced strict comment-backed zero-evidence terms by 3 and weak terms by 4; kept useful terms such as `挂路灯`, `全是广东的`, `全是水军`, `有人急了`, `规训顾客`, `猪血馒头`, `心里没点b数`, and `hapi言论`, while pruning broad/generic noise `广东的`, `笑嘻了`, `拔群` / `效果拔群`, `罗神伟大`, `国际宅男联盟` / `宅男联盟`, and `好时代来临力`.
+- Ran the next `deepseek-v4-flash` max-effort auto-coverage pass and pushed audited coverage above 60%; kept useful evidence such as `毫无吊用`, `没吊用`, `罕见ip`, `老抠比`, `无脑喷`, and `好拼截图`, while pruning narrow or non-argument terms `战绩清零卡`, `问老马本人`, `三年就走了`, `好磕的很`, `咱们眼光一样`, and tool-object fragments `快速平整` / `平整器` / `土地快速平整器`.
 - Kept valid hostile or argumentative uses, for example direct `您配吗` challenges, targeted `梦男` mockery, and attack-context `猪鼻` usage.
 
 ## Run Locally
