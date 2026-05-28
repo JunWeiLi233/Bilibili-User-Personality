@@ -43,14 +43,14 @@ Current audited dictionary state:
 
 - Dictionary terms: `2149`
 - Target evidence per term: `3`
-- Coverage ratio: `55.93%`
-- Weak terms below target: `947`
+- Coverage ratio: `56.03%`
+- Weak terms below target: `945`
 - Zero-evidence terms: `223`
-- Evidence deficit: `2006`
+- Evidence deficit: `2005`
 - Source-backed terms: `1926`
 - Unsourced evidence terms: `0`
-- Attempted terms: `137`
-- Successful terms: `43`
+- Attempted terms: `145`
+- Successful terms: `49`
 
 The dictionary coverage target is not complete yet. Continue running `.\run-bilibili-auto-coverage.ps1` or `npm run dictionary:auto` until weak and zero-evidence terms are eliminated, then re-run `npm run dictionary:coverage`.
 
@@ -71,6 +71,7 @@ Recent dictionary-cleaning updates:
 - Pruned the latest harvested context-only false positives: video-title-only `赛寄`, literal-history `三角贸易`, and generic `实名制` policy discussion copied onto `实名制观看`.
 - Pruned the latest harvested bare/literal false positives: standalone `岂不美哉`, game/source uses of `亡灵法师`, censorship-workaround `怕被删评，故发图`, and positive/explainer uses of `无敌之人`.
 - Pruned the latest harvested product/game false positives: game-mechanic `五毒俱全`, literal product-review `100好评` / `百分百好评率`, and commerce-only `差评连天`.
+- Pruned the latest loose comment false positives: generic `发出来` publish contexts for `可以贴`, affection-only `小馋猫[doge]`, nickname-list explanations for `小孩射`, and literal dating-app / emote-only `脱单` samples.
 - Kept valid hostile or argumentative uses, for example direct `您配吗` challenges, targeted `梦男` mockery, and attack-context `猪鼻` usage.
 
 ## Run Locally

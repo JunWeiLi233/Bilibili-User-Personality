@@ -8260,6 +8260,86 @@ test('mergeEntriesIntoDictionary prunes latest harvested generic cooperation sam
   }
 });
 
+test('mergeEntriesIntoDictionary prunes latest harvested loose publish, affection, nickname meta, and literal dating false positives', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'deepseek-prune-latest-harvested-language-noise-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  try {
+    await writeFile(
+      dictionaryPath,
+      JSON.stringify({
+        version: 1,
+        updatedAt: '2026-01-01T00:00:00.000Z',
+        entries: [
+          {
+            term: '可以贴',
+            family: 'cooperation',
+            meaning: 'ask another user to post evidence or context',
+            evidenceCount: 3,
+            evidenceSamples: [
+              '你把证据截图可以贴一下吗',
+              '看出代餐是谁也不要发出来，模糊就是为了让大家代入的',
+              '很简单的一件事，单侵权去告她就可以了，该道歉道歉该赔偿赔偿，李作为公众人物，发出来在微博升堂就是为了让舆论打垮她吧，而且他自己十年前就不干净了，路人还不能路见不平一声吼了？',
+            ],
+          },
+          {
+            term: '小馋猫',
+            family: 'attack',
+            meaning: 'greedy or sexualized teasing label',
+            evidenceCount: 4,
+            evidenceSamples: [
+              '回复 @阿小柯101 :小馋猫，什么都想吃只会不过审[doge]',
+              '小馋猫全都给你了[笑哭]',
+              '小馋猫[doge]',
+              '好想贴贴小馋猫的jiojio[脱单doge]',
+            ],
+          },
+          {
+            term: '小孩射',
+            family: 'attack',
+            meaning: 'derogatory nickname for a game player',
+            evidenceCount: 3,
+            evidenceSamples: [
+              '和他对位的射手哪个不来点黑称，妖刀被恶搞成小孩射，道崽被喷成保KDA,乔西被喷成亚军FMVP',
+              '一诺:妖刀小孩射',
+              '不是你抗压本来就容易死呀，妖刀承担大部分压力才有流浪法师那么强，再说你能说妖刀不强没作用吗？没了妖刀狼队在无冠军，射手能指挥的又有几个？',
+            ],
+          },
+          {
+            term: '脱单',
+            family: 'cooperation',
+            meaning: 'relationship support or wish',
+            evidenceCount: 3,
+            evidenceSamples: [
+              '但是软件对脱单也没啥用啊',
+              '干什么都被喷，换个想法就是想干什么就干什么[脱单doge]老艺术家之从容',
+              '祝你早日脱单，找到喜欢的对象',
+            ],
+          },
+        ],
+      }),
+      'utf8',
+    );
+
+    const dictionary = await mergeEntriesIntoDictionary([], { dictionaryPath });
+
+    assert.deepEqual(dictionary.entries.find((item) => item.term === '可以贴').evidenceSamples, [
+      '你把证据截图可以贴一下吗',
+    ]);
+    assert.deepEqual(dictionary.entries.find((item) => item.term === '小馋猫').evidenceSamples, [
+      '回复 @阿小柯101 :小馋猫，什么都想吃只会不过审[doge]',
+      '小馋猫全都给你了[笑哭]',
+    ]);
+    assert.deepEqual(dictionary.entries.find((item) => item.term === '小孩射').evidenceSamples, [
+      '一诺:妖刀小孩射',
+    ]);
+    assert.deepEqual(dictionary.entries.find((item) => item.term === '脱单').evidenceSamples, [
+      '祝你早日脱单，找到喜欢的对象',
+    ]);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('findDictionaryEntriesWithTextEvidence rejects latest harvested literal metallurgy and negated freshness false positives', () => {
   const dictionary = {
     entries: [

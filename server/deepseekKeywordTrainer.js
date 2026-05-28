@@ -1249,7 +1249,7 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
     const hostileDareContext = /(?:\u8001\u50bb\u5b50|\u6709\u672c\u4e8b).*(?:\u53d1\u51fa\u6765|\u8d34\u51fa\u6765|\u628a.*\u56fe\u7247\u53d1)|(?:\u4f60\u6562|\u4f60\u81ea\u5df1\u6562|\u4f60\u53d1\u7684\u4ec0\u4e48\u4e1c\u897f).{0,16}(?:\u53d1\u51fa\u6765|\u516c\u5f00\u53d1\u51fa\u6765)/u.test(cleanSample);
     const genericDiscoveryContext = !cleanSample.includes('\u53ef\u4ee5\u8d34') && /(?:\u53ef\u4ee5\u53d1\u73b0|\u5c31\u53ef\u4ee5\u53d1\u73b0|\u53ef\u4ee5\u770b\u51fa|\u53ef\u4ee5\u770b\u5230)/u.test(cleanSample);
     const genericAdviceContext = !cleanSample.includes('\u53ef\u4ee5\u8d34') && /(?:\u5efa\u8bae\u5927\u5bb6|\u706b\u9505\u5e95\u6599|\u5148\u7092\u5316\u5f00|\u518d\u52a0\u70ed\u6c34)/u.test(cleanSample);
-    const loosePublishContext = !cleanSample.includes('\u53ef\u4ee5\u8d34') && /(?:\u83ab\u540d\u5176\u5999\u53d1\u51fa\u6765\u4e86|\u73b0\u5728\u624d\u662f\u5b8c\u6574\u7248|\u8fd9\u80fd\u53d1\u51fa\u6765\u5417|\u8c03\u8bd5.{0,18}\u53d1\u51fa\u6765)/u.test(cleanSample);
+    const loosePublishContext = !cleanSample.includes('\u53ef\u4ee5\u8d34') && /(?:\u83ab\u540d\u5176\u5999\u53d1\u51fa\u6765\u4e86|\u73b0\u5728\u624d\u662f\u5b8c\u6574\u7248|\u8fd9\u80fd\u53d1\u51fa\u6765\u5417|\u8c03\u8bd5.{0,18}\u53d1\u51fa\u6765|\u4e0d\u8981\u53d1\u51fa\u6765|\u53d1\u51fa\u6765.{0,18}\u5fae\u535a\u5347\u5802|\u53d1\u51fa\u6765.{0,18}\u8206\u8bba)/u.test(cleanSample);
     const looseCapabilityContext = !cleanSample.includes('\u53ef\u4ee5\u8d34') && /\u53ef\u4ee5\u53d1\u6325/u.test(cleanSample);
     const genericPublishCapabilityContext =
       !cleanSample.includes('\u53ef\u4ee5\u8d34') &&
@@ -1468,8 +1468,9 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
   }
   if (term === '\u8131\u5355' && family === 'cooperation') {
     const emoteSuffixContext = /\[\u8131\u5355(?:doge)?\]/u.test(String(sample || '')) || /(?:\u8131\u5355doge|\u8131\u5355\s*doge)/u.test(cleanSample);
-    const relationshipContext = /(?:\u795d|\u65e9\u65e5|\u5e0c\u671b|\u60f3).{0,8}\u8131\u5355|\u8131\u5355.*(?:\u795d|\u65e9\u65e5|\u6210\u529f|\u5bf9\u8c61|\u604b\u7231)/u.test(cleanSample);
-    if (emoteSuffixContext && !relationshipContext) return true;
+    const relationshipContext = /(?:\u795d|\u65e9\u65e5|\u5e0c\u671b).{0,8}\u8131\u5355|\u60f3(?:\u8981)?\u8131\u5355|\u8131\u5355.*(?:\u795d|\u65e9\u65e5|\u6210\u529f|\u5bf9\u8c61|\u604b\u7231)/u.test(cleanSample);
+    const literalDatingToolContext = /(?:\u8f6f\u4ef6|app|\u5e94\u7528|\u76f8\u4eb2|\u4ea4\u53cb).{0,12}\u8131\u5355|\u8131\u5355.{0,12}(?:\u8f6f\u4ef6|app|\u5e94\u7528|\u76f8\u4eb2|\u4ea4\u53cb|\u6ca1\u5565\u7528|\u6ca1\u4ec0\u4e48\u7528|\u6ca1\u6709\u7528)/iu.test(cleanSample);
+    if ((emoteSuffixContext || literalDatingToolContext) && !relationshipContext) return true;
   }
   if (term === '\u516d\u6247\u95e8' && family === 'cooperation') {
     const literalOfficeContext = /(?:\u62a5\u516d\u6247\u95e8|\u516d\u6247\u95e8).*(?:\u53fc\u4e0a|\u5dee\u70b9|\u5f53\u65f6)|(?:\u53fc\u4e0a|\u5dee\u70b9|\u5f53\u65f6).*\u516d\u6247\u95e8/u.test(cleanSample);
@@ -1750,8 +1751,12 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
   }
   if (term === '\u5c0f\u5b69\u5c04' && family === 'attack') {
     const explanationListContext = /(?:\u4e0d\u61c2\u5c31\u95ee|\u4ec0\u4e48\u610f\u601d|\u662f\u4ec0\u4e48\u6897|\u4f60\u4eec\u8bf4\u7684).{0,80}\u5c0f\u5b69\u5c04|\u5c0f\u5b69\u5c04.{0,30}(?:\u4ec0\u4e48\u610f\u601d|\u662f\u4ec0\u4e48\u6897)/u.test(cleanSample);
-    const attackContext = /\u5c0f\u5b69\u5c04.{0,12}(?:\u9a82\u4eba|\u653b\u51fb|\u522b|\u6076\u5fc3)|(?:\u9a82\u4eba|\u653b\u51fb).{0,12}\u5c0f\u5b69\u5c04/u.test(cleanSample);
-    if (explanationListContext && !attackContext) return true;
+    const noExactSurfaceContext = !cleanSample.includes('\u5c0f\u5b69\u5c04');
+    const metaNicknameContext = /(?:\u9ed1\u79f0|\u6076\u641e\u6210|\u88ab\u55b7\u6210|\u54ea\u4e2a\u4e0d\u6765\u70b9\u9ed1\u79f0)/u.test(cleanSample);
+    const directNicknameUseContext = /(?:\u4e00\u8bfa.{0,4})?\u5996\u5200\u5c0f\u5b69\u5c04|\u4e00\u8bfa.{0,2}\u5c0f\u5b69\u5c04|\u5c0f\u5b69\u5c04.{0,2}(?:\u4e00\u8bfa|\u5996\u5200)/u.test(cleanSample);
+    const attackContext = /\u5c0f\u5b69\u5c04.{0,12}(?:\u9a82\u4eba|\u653b\u51fb|\u522b|\u6076\u5fc3|\u9ed1\u79f0|\u55b7)|(?:\u9a82\u4eba|\u653b\u51fb|\u4e00\u8bfa|\u5996\u5200).{0,12}\u5c0f\u5b69\u5c04|\u5c0f\u5b69\u5c04.{0,12}(?:\u4e00\u8bfa|\u5996\u5200)/u.test(cleanSample);
+    if (metaNicknameContext && !directNicknameUseContext) return true;
+    if ((explanationListContext || metaNicknameContext || noExactSurfaceContext) && !attackContext) return true;
   }
   if (['\u5b9e\u540d\u5236', '\u5b9e\u540d\u5236\u89c2\u770b'].includes(term) && family === 'cooperation') {
     if (term === '\u5b9e\u540d\u5236\u89c2\u770b' && !/\u5b9e\u540d\u5236\u89c2\u770b/u.test(cleanSample)) return true;
@@ -2543,8 +2548,9 @@ function isAmbiguousBenignEvidenceSample(term, family, sample) {
   }
   if (term === '\u5c0f\u998b\u732b' && family === 'attack') {
     const merchantOrQuotedContext = cleanSample === '\u5c0f\u998b\u732b' || /^[0-9\uff10-\uff19]+\u4f4d\u5c0f\u998b\u732b[.!！。\s]*$/u.test(cleanSample) || /(?:\u5c0f\u998b\u732b\u548c\u8c22\u5b9d\u6797|\u76f4\u64ad\u95f4\u5237\u793c\u7269|\u5e2e\u7740\u5ba3\u4f20|\u5c0f\u998b\u732b\u7b2c\u4e00|\u201c\u5c0f\u998b\u732b\u201d|"\u5c0f\u998b\u732b"|\u5916\u5356|\u70e4\u80a0)/u.test(cleanSample);
+    const affectionOnlyContext = /^\u5c0f\u998b\u732b(?:doge)?$/u.test(cleanSample) || /(?:\u8d34\u8d34|jiojio|\u597d\u60f3).{0,12}\u5c0f\u998b\u732b|\u5c0f\u998b\u732b.{0,12}(?:\u8d34\u8d34|jiojio)/iu.test(cleanSample);
     const greedyTeaseContext = /(?:\u4ec0\u4e48\u90fd\u60f3\u5403|\u5168\u90fd\u7ed9\u4f60|\u60f3\u5403|\u8d2a\u5fc3|\u4e0d\u8fc7\u5ba1)/u.test(cleanSample);
-    return merchantOrQuotedContext && !greedyTeaseContext;
+    return (merchantOrQuotedContext || affectionOnlyContext) && !greedyTeaseContext;
   }
   if (term === '\u9633\u6c14\u4e0d\u8db3' && family === 'attack') {
     const literalHealthContext = /(?:\u4e2d\u533b|\u5065\u5eb7|\u79d1\u666e|\u8868\u73b0|\u5e38\u89c1|\u81ea\u6211\u8bca\u65ad|\u9633\u865a|\u624b\u811a\u51b0\u51c9|\u6015\u51b7|\u6015\u98ce|\u611f\u5192|\u54b3\u55fd|\u8fc7\u654f\u6027\u9f3b\u708e|\u80c3\u5bd2|\u8179\u6cfb|\u813e\u9633\u4e0d\u8db3|\u591c\u5c3f|\u80be\u9633\u865a|\u517b\u6210\u597d\u4e60\u60ef|\u9632\u9633\u865a|\u6478\u809a\u8110|\u6e29\u5dee)/u.test(cleanSample);
