@@ -12276,6 +12276,84 @@ test('harvestKeywordDictionary disables video-title evidence during strict comme
   }
 });
 
+test('harvestKeywordDictionary skips evidence-source fallback after duplicate accepted no-progress feedback', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-skip-duplicate-source-fallback-'));
+  const statePath = join(dir, 'state.json');
+  const term = 'duplicateAccepted';
+  try {
+    await writeFile(
+      statePath,
+      JSON.stringify({
+        version: 1,
+        harvestStrategyVersion: 6,
+        termAttempts: {
+          [term]: {
+            term,
+            family: 'attack',
+            evidenceAtPlanTime: 2,
+            attempts: 2,
+            successfulAttempts: 0,
+            lastEvidenceCount: 0,
+            queries: [{ query: `${term} \u70ed\u8bc4`, strategyVersion: 6, ok: true, hit: false, videos: 6, comments: 80 }],
+          },
+        },
+        runs: [
+          {
+            acceptedEvidenceCount: 2,
+            coverageIncreasingAcceptedEvidenceCount: 0,
+            queryDiagnostics: [
+              {
+                query: `${term} \u70ed\u8bc4`,
+                targetExistingTerms: [term],
+                acceptedTerms: [term],
+                commentsCollected: 80,
+              },
+            ],
+          },
+        ],
+      }),
+      'utf8',
+    );
+
+    const payloads = [];
+    await harvestKeywordDictionary(
+      {
+        priorityQueries: [{ term, family: 'attack', query: `${term} \u56de\u590d` }],
+        seedQueries: [],
+        maxQueries: 1,
+        existingTermsOnly: true,
+        requireCommentBackedEvidence: true,
+        discoveryLimit: 1,
+        pages: 1,
+        statePath,
+      },
+      {
+        readKeywordDictionary: async () => ({
+          entries: [{ term, family: 'attack', evidenceCount: 2 }],
+        }),
+        searchVideoKeywords: async (payload) => {
+          payloads.push(payload);
+          return {
+            ok: true,
+            warnings: [],
+            videos: [],
+            comments: [],
+            entries: [],
+            keywordTraining: { dictionaryEvidenceEntries: [] },
+            dictionary: { entries: [{ term, family: 'attack', evidenceCount: 2 }] },
+          };
+        },
+      },
+    );
+
+    assert.equal(payloads[0].includeVideoContext, false);
+    assert.equal(payloads[0].includeVideoObjectEvidence, false);
+    assert.equal(payloads[0].evidenceSourceVideoFallback, false);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('harvestKeywordDictionary reports accepted evidence by unique comment samples', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-harvest-unique-evidence-count-'));
   const statePath = join(dir, 'state.json');

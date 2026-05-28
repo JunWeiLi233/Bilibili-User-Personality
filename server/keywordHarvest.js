@@ -3179,6 +3179,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
     const timeoutMs = Math.max(0, Number(options.perQueryTimeoutMs) || 0);
     const timeoutController = timeoutMs > 0 && typeof AbortController !== 'undefined' ? new AbortController() : null;
     const commentMisses = currentStrategyCommentMisses(priorAttempt);
+    const duplicateAcceptedNoProgress = planItem.term ? hasDuplicateAcceptedNoProgressFeedback(state, planItem.term) : false;
     const deepenScan = isRepeatedlyMissedAttempt(priorAttempt, options.retryBeforeUnattemptedLimit) || commentMisses > 0;
     const hardMissedZeroEvidence = isHardMissedZeroEvidenceAttempt(priorAttempt, options.retryBeforeUnattemptedLimit);
     const hardMissedDiscoveryLimit =
@@ -3238,7 +3239,7 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
       if (options.requireCommentBackedEvidence === true) {
         searchPayload.includeVideoContext = false;
         searchPayload.includeVideoObjectEvidence = false;
-        searchPayload.evidenceSourceVideoFallback = options.existingTermsOnly === true;
+        searchPayload.evidenceSourceVideoFallback = options.existingTermsOnly === true && !duplicateAcceptedNoProgress;
         searchPayload.allowFilteredDiscoveryFallback = options.allowFilteredDiscoveryFallback !== false;
         searchPayload.preferFilteredDiscoveryFallback = options.preferFilteredDiscoveryFallback !== false;
         searchPayload.expandTargetsFromComments = options.expandTargetsFromComments === true;
