@@ -11,6 +11,9 @@ import {
   readKeywordHarvestState,
 } from './keywordHarvest.js';
 
+process.env.DEEPSEEK_MODEL = 'deepseek-v4-flash';
+process.env.DEEPSEEK_REASONING_EFFORT = 'max';
+
 function parseList(value) {
   return String(value || '')
     .split(/[\r\n,;|]+/)
@@ -115,6 +118,8 @@ const cycles = [];
 let audit = await buildAudit(auditOptions);
 let stopReason = audit.ok ? 'coverage_gate_passed' : maxCycles === 0 ? 'cycle_limit' : '';
 console.log('Coverage harvest loop');
+console.log(`DeepSeek model: ${process.env.DEEPSEEK_MODEL}`);
+console.log(`DeepSeek reasoning effort: ${process.env.DEEPSEEK_REASONING_EFFORT}`);
 console.log(`Initial coverage: ${(audit.coverage.coverageRatio * 100).toFixed(2)}%, weak ${audit.coverage.weakTerms}, zero ${audit.coverage.zeroEvidenceTerms}`);
 
 for (let cycle = 1; cycle <= maxCycles && !audit.ok; cycle += 1) {

@@ -27,8 +27,9 @@ Research-driven prototype for evaluating whether a selected Bilibili user's publ
   - Still supports backend-owned explicit video links through `BILIBILI_DEFAULT_VIDEO_LINKS` or `BILIBILI_DEFAULT_VIDEO_LINK` when you want a fixed video set.
   - Shows the learned keywords in the UI and folds them into the local analyzer dictionary.
 - DeepSeek V4 Chinese keyword training:
-  - Uses the DeepSeek API for dictionary extraction, defaulting to `deepseek-v4-pro` with `DEEPSEEK_REASONING_EFFORT=max` for language-understanding work.
-  - Use `deepseek-v4-flash` only for light mechanical work where deep reasoning is not needed.
+  - Uses the DeepSeek API for dictionary extraction.
+  - The auto-coverage loop now forces `deepseek-v4-flash` with `DEEPSEEK_REASONING_EFFORT=max` for faster repeated Bilibili evidence harvesting.
+  - Direct analysis and delegated complex implementation work can still use `deepseek-v4-pro` when explicitly configured.
   - Current config reads `DEEPSEEK_API_KEY`, `DEEPSEEK_MODEL`, `DEEPSEEK_REASONING_EFFORT`, and `DEEPSEEK_BASE_URL`.
   - Extracts Chinese internet terms, meanings, variants, and semantic families from crawled comments.
   - Writes learned terms to `server/deepseekKeywordDictionary.json` and merges them into the local analyzer.
@@ -60,7 +61,7 @@ Current quality rules:
 - The crawler does not use AICU or third-party comment indexes as a substitute for local collection.
 - Search-result titles and glossary videos can help discovery, but strict coverage does not treat them as completed comment evidence.
 - DeepSeek is used as a dictionary extractor and sentence-context judge; it does not fine-tune a local model.
-- Complex language/dictionary work should use `deepseek-v4-pro` with `DEEPSEEK_REASONING_EFFORT=max`; light mechanical work can use `deepseek-v4-flash`.
+- The auto-coverage script uses `deepseek-v4-flash` with `DEEPSEEK_REASONING_EFFORT=max`; use `deepseek-v4-pro` only when a separate direct analysis or delegated implementation job explicitly needs it.
 
 Recent dictionary-cleaning updates:
 
@@ -103,7 +104,7 @@ For the full dictionary coverage loop, use:
 .\run-bilibili-auto-coverage.ps1 -MaxCycles 5 -RoundsPerCycle 2 -MaxQueries 20 -DiscoveryLimit 8 -CommentPages 3
 ```
 
-That command audits the current dictionary, exports the next weak-term priority queries, harvests Bilibili comments and public danmaku from controversial popular topics plus dictionary queries, then repeats until the coverage gate passes or the cycle limit is reached. It does not use the generic popular feed unless you pass `-IncludeGenericPopular`. It requires source-backed Bilibili comment evidence and refreshes existing dictionary terms only by default, so coverage work does not keep lowering the pass ratio by adding fresh terms mid-loop or treating search-result titles as completed comment evidence. Public danmaku is enabled by default in the auto-coverage script because many short meme phrases appear in弹幕 more often than replies; pass `-NoDanmaku` when you only want reply comments. The auto-coverage script also expands weak targets from collected comment hits by default, so one scanned comment pool can refresh other under-evidenced dictionary terms it contains; pass `-NoCommentTargetExpansion` when you need a single-target debug run. Add `-AllowNewTerms` when you want the same loop to expand the dictionary, add `-AllowContextOnlyEvidence` when video title/description context is enough for your run, and add `-AllowUnsourcedEvidence` only when you want a faster but less auditable run.
+That command audits the current dictionary, exports the next weak-term priority queries, harvests Bilibili comments and public danmaku from controversial popular topics plus dictionary queries, then repeats until the coverage gate passes or the cycle limit is reached. It forces `DEEPSEEK_MODEL=deepseek-v4-flash` and `DEEPSEEK_REASONING_EFFORT=max` after loading your local API-key script, so repeated coverage harvesting does not accidentally fall back to the slower pro model. It does not use the generic popular feed unless you pass `-IncludeGenericPopular`. It requires source-backed Bilibili comment evidence and refreshes existing dictionary terms only by default, so coverage work does not keep lowering the pass ratio by adding fresh terms mid-loop or treating search-result titles as completed comment evidence. Public danmaku is enabled by default in the auto-coverage script because many short meme phrases appear in弹幕 more often than replies; pass `-NoDanmaku` when you only want reply comments. The auto-coverage script also expands weak targets from collected comment hits by default, so one scanned comment pool can refresh other under-evidenced dictionary terms it contains; pass `-NoCommentTargetExpansion` when you need a single-target debug run. Add `-AllowNewTerms` when you want the same loop to expand the dictionary, add `-AllowContextOnlyEvidence` when video title/description context is enough for your run, and add `-AllowUnsourcedEvidence` only when you want a faster but less auditable run.
 
 To delegate implementation work to DeepSeek from this repo, use:
 
@@ -239,7 +240,7 @@ Optional model and discovery configuration:
 
 ```powershell
 $env:DEEPSEEK_BASE_URL="https://api.deepseek.com"
-$env:DEEPSEEK_MODEL="deepseek-v4-pro"
+$env:DEEPSEEK_MODEL="deepseek-v4-flash"
 $env:DEEPSEEK_REASONING_EFFORT="max"
 $env:BILIBILI_VIDEO_SEARCH_QUERIES="中文互联网 阴阳怪气`n杠精 评论区"
 $env:BILIBILI_CONTROVERSY_SEARCH_QUERIES="时政 评论区`n游戏 节奏 评论区`n社会事件 评论区"
@@ -265,7 +266,7 @@ $env:DEEPSEEK_KEYWORD_DICTIONARY_PATH="server/deepseekKeywordDictionary.json"
 
 `BILIBILI_COOKIE` is the CLI/server equivalent of the optional website cookie field. Keep it out of committed files and terminal screenshots. The crawler disables response caching for per-request cookies so one login cookie cannot poison another scan's cached response.
 
-Use `DEEPSEEK_MODEL=deepseek-v4-pro` for dictionary extraction, sentence understanding, ambiguity checks, and other complex language work. Use `DEEPSEEK_MODEL=deepseek-v4-flash` for light mechanical jobs. Keep `DEEPSEEK_REASONING_EFFORT=max` unless you intentionally want a cheaper, lower-effort run.
+The auto-coverage PowerShell loop overrides `DEEPSEEK_MODEL` to `deepseek-v4-flash` and keeps `DEEPSEEK_REASONING_EFFORT=max`. For direct analysis or one-off complex language jobs outside that loop, set `DEEPSEEK_MODEL=deepseek-v4-pro` when you need slower, stronger reasoning. Keep `DEEPSEEK_REASONING_EFFORT=max` unless you intentionally want a cheaper, lower-effort run.
 
 ## Build
 

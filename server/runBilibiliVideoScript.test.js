@@ -20,6 +20,8 @@ function runScript(args = [], script = '.\\run-bilibili-video.ps1') {
         'echo JITTER=%BILIBILI_CRAWLER_JITTER_MS%',
         'echo HARVEST_QUERY_TIMEOUT=%BILIBILI_HARVEST_QUERY_TIMEOUT_MS%',
         'echo EXPAND_TARGETS=%BILIBILI_HARVEST_EXPAND_TARGETS_FROM_COMMENTS%',
+        'echo DEEPSEEK_MODEL=%DEEPSEEK_MODEL%',
+        'echo DEEPSEEK_REASONING_EFFORT=%DEEPSEEK_REASONING_EFFORT%',
       ].join('\r\n'),
     );
     const result = spawnSync(
@@ -139,4 +141,18 @@ test('run-bilibili-auto-coverage.ps1 can disable comment target expansion', (t) 
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /EXPAND_TARGETS=/);
   assert.match(result.stdout, /Expand weak targets from collected comments: False/);
+});
+
+test('run-bilibili-auto-coverage.ps1 defaults DeepSeek to v4 flash with max effort', (t) => {
+  const result = runScript(['-MaxCycles', '1', '-MaxQueries', '1'], '.\\run-bilibili-auto-coverage.ps1');
+  if (!result) {
+    t.skip('PowerShell is unavailable in this environment');
+    return;
+  }
+
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /DEEPSEEK_MODEL=deepseek-v4-flash/);
+  assert.match(result.stdout, /DEEPSEEK_REASONING_EFFORT=max/);
+  assert.match(result.stdout, /DeepSeek model: deepseek-v4-flash/);
+  assert.match(result.stdout, /DeepSeek reasoning effort: max/);
 });

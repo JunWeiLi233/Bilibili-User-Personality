@@ -42,6 +42,9 @@ if (Test-Path ".\set-deepseek-env.ps1") {
   Write-Warning "set-deepseek-env.ps1 was not found. DeepSeek extraction will use the local fallback unless DEEPSEEK_API_KEY is already set."
 }
 
+$env:DEEPSEEK_MODEL = "deepseek-v4-flash"
+$env:DEEPSEEK_REASONING_EFFORT = "max"
+
 if ($SearchQuery.Count -gt 0) {
   $env:BILIBILI_VIDEO_SEARCH_QUERIES = ($SearchQuery -join "`n")
 } else {
@@ -171,6 +174,8 @@ Write-Host "Existing dictionary terms only: $(!$AllowNewTerms)"
 Write-Host "Require Bilibili evidence sources: $(!$AllowUnsourcedEvidence)"
 Write-Host "Require Bilibili comment evidence: $(!$AllowUnsourcedEvidence -and !$AllowContextOnlyEvidence)"
 Write-Host "Reset harvest state: $ResetHarvestState"
+Write-Host "DeepSeek model: $env:DEEPSEEK_MODEL"
+Write-Host "DeepSeek reasoning effort: $env:DEEPSEEK_REASONING_EFFORT"
 Write-Host ""
 Write-Host "Auditing coverage, harvesting priority queries, and repeating until the gate passes or the cycle limit is reached..."
 
