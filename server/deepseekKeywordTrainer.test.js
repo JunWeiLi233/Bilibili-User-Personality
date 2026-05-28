@@ -770,7 +770,6 @@ test('normalizes noisy punctuation and rejects low-quality keyword terms', () =>
 
   assert.deepEqual(entries.map((entry) => [entry.term, entry.family]), [
     ['问百度', 'evasion'],
-    ['doge', 'cooperation'],
   ]);
 });
 
@@ -805,7 +804,7 @@ test('normalizes away suffix-only Bilibili emote variants', () => {
     },
   ]);
 
-  assert.deepEqual(entries.map((entry) => entry.term), ['catconfuse']);
+  assert.deepEqual(entries.map((entry) => entry.term), []);
 });
 
 test('normalizes Bilibili emote wrapper artifacts to the spoken keyword', () => {
@@ -816,7 +815,7 @@ test('normalizes Bilibili emote wrapper artifacts to the spoken keyword', () => 
     { term: 'doge', family: 'cooperation', meaning: 'standalone Bilibili emote shorthand' },
   ]);
 
-  assert.deepEqual(entries.map((entry) => entry.term), ['\u77e5\u8bc6\u76f2\u533a', '\u5999\u554a', '\u61c2\u4e86\u5427', 'doge']);
+  assert.deepEqual(entries.map((entry) => entry.term), ['\u77e5\u8bc6\u76f2\u533a', '\u5999\u554a', '\u61c2\u4e86\u5427']);
 });
 
 test('normalizes mixed-case ASCII runs inside keyword terms', () => {
@@ -828,7 +827,7 @@ test('normalizes mixed-case ASCII runs inside keyword terms', () => {
     { term: 'A\u5230\u7206\u70b8', family: 'cooperation', meaning: 'mixed Latin adjective phrase' },
   ]);
 
-  assert.deepEqual(entries.map((entry) => entry.term), ['doge', 'up\u4e3b', '\u5168b\u7ad9', 'pua', 'a\u5230\u7206\u70b8']);
+  assert.deepEqual(entries.map((entry) => entry.term), ['up\u4e3b', '\u5168b\u7ad9', 'pua', 'a\u5230\u7206\u70b8']);
 });
 
 test('normalizeKeywordEntries gives ruanwen evidence a credibility-specific meaning', () => {
@@ -1098,8 +1097,8 @@ test('readKeywordDictionary returns the normalized canonical dictionary view', a
         version: 1,
         updatedAt: '2026-01-01T00:00:00.000Z',
         entries: [
-          { term: 'Doge', family: 'cooperation', meaning: 'mixed-case emote shorthand', evidenceCount: 1, evidenceSamples: ['Doge appears'] },
-          { term: 'doge', family: 'cooperation', meaning: 'lowercase emote shorthand', evidenceCount: 1, evidenceSamples: ['doge appears'] },
+          { term: 'YYGQ', family: 'attack', meaning: 'mixed-case Chinese initialism', evidenceCount: 1, evidenceSamples: ['YYGQ appears'] },
+          { term: 'yygq', family: 'attack', meaning: 'lowercase Chinese initialism', evidenceCount: 1, evidenceSamples: ['yygq appears'] },
           {
             term: '\u7edd\u5bf9\u56de\u5f52',
             family: 'absolutes',
@@ -1114,9 +1113,10 @@ test('readKeywordDictionary returns the normalized canonical dictionary view', a
 
     const dictionary = await readKeywordDictionary({ dictionaryPath });
 
-    assert.deepEqual(dictionary.entries.map((entry) => entry.term), ['doge']);
+    assert.deepEqual(dictionary.entries.map((entry) => entry.term), ['yygq']);
     assert.equal(dictionary.entries[0].evidenceCount, 2);
-    assert.deepEqual(dictionary.families.cooperation, ['doge']);
+    assert.deepEqual(dictionary.families.attack, ['yygq']);
+    assert.deepEqual(dictionary.families.cooperation, []);
     assert.deepEqual(dictionary.families.absolutes, []);
   } finally {
     await rm(dir, { recursive: true, force: true });
@@ -1157,14 +1157,25 @@ test('normalizes away weak ASCII technical and id fragments while keeping known 
     { term: 'NPC', family: 'attack', meaning: 'generic game abbreviation without Chinese context' },
     { term: 'R2', family: 'evidence', meaning: 'short id-like fragment' },
     { term: 'STLINE', family: 'evidence', meaning: 'asset or uploader id fragment' },
-    { term: 'doge', family: 'cooperation', meaning: 'Bilibili emote shorthand' },
-    { term: 'dddd', family: 'evidence', meaning: 'understood-by-insiders shorthand' },
+    { term: 'doge', family: 'cooperation', meaning: 'Bilibili emote name, not a Chinese dictionary term' },
+    { term: 'dddd', family: 'evidence', meaning: 'ambiguous ASCII placeholder shorthand' },
+    { term: 'allin', family: 'absolutes', meaning: 'English phrase, not a Chinese term' },
+    { term: 'nocap', family: 'evidence', meaning: 'English slang, not a Chinese term' },
+    { term: 'up', family: 'cooperation', meaning: 'platform role label, too broad' },
+    { term: 'pink', family: 'attack', meaning: 'English translation artifact for 粉红' },
+    { term: 'catconfuse', family: 'cooperation', meaning: 'emote or asset id fragment' },
+    { term: 'giegie', family: 'attack', meaning: 'Chinese internet baby-talk romanization' },
+    { term: 'lsp', family: 'attack', meaning: 'Chinese internet insult initialism' },
+    { term: 'nb', family: 'absolutes', meaning: 'Chinese slang initialism' },
+    { term: 'nt', family: 'attack', meaning: 'Chinese insult initialism' },
+    { term: 'pua', family: 'attack', meaning: 'Chinese internet accusation term' },
     { term: 'yygq', family: 'attack', meaning: 'yin-yang sarcasm shorthand' },
     { term: 'wdnmd', family: 'attack', meaning: 'Chinese internet insult shorthand' },
-    { term: 'nocap', family: 'evidence', meaning: 'internet slang shorthand' },
+    { term: 'xswl', family: 'attack', meaning: 'Chinese internet laugh shorthand' },
+    { term: 'yyds', family: 'cooperation', meaning: 'Chinese internet praise shorthand' },
   ]);
 
-  assert.deepEqual(entries.map((entry) => entry.term), ['doge', 'dddd', 'yygq', 'wdnmd', 'nocap']);
+  assert.deepEqual(entries.map((entry) => entry.term), ['giegie', 'lsp', 'nb', 'nt', 'pua', 'yygq', 'wdnmd', 'xswl', 'yyds']);
 });
 
 test('normalizes away mojibake Chinese-looking keyword terms', () => {
@@ -1185,10 +1196,10 @@ test('normalizes away mojibake Chinese-looking keyword terms', () => {
     ...mojibakeAxisLabels.map((term) => ({ term, family: 'attack', meaning: 'mojibake radar axis label' })),
     ...mojibakeQueryTerms.map((term) => ({ term, family: 'evidence', meaning: 'mojibake for a Bilibili query helper word' })),
     { term: '\u7537\u76d7\u5973\u5a3c', family: 'attack', meaning: 'real Chinese attack phrase' },
-    { term: 'doge', family: 'cooperation', meaning: 'allowed Bilibili ASCII meme shorthand' },
+    { term: 'yygq', family: 'attack', meaning: 'allowed Chinese initialism for 阴阳怪气' },
   ]);
 
-  assert.deepEqual(entries.map((entry) => entry.term), ['\u7537\u76d7\u5973\u5a3c', 'doge']);
+  assert.deepEqual(entries.map((entry) => entry.term), ['\u7537\u76d7\u5973\u5a3c', 'yygq']);
 });
 
 test('normalizes away pipe-delimited mojibake axis terms', () => {
@@ -1276,7 +1287,8 @@ test('mergeEntriesIntoDictionary prunes persisted non Chinese or Latin noise ter
         version: 1,
         updatedAt: '2026-01-01T00:00:00.000Z',
         entries: [
-          { term: 'doge', family: 'cooperation', meaning: 'common Bilibili expression', evidenceCount: 1 },
+          { term: 'yygq', family: 'attack', meaning: 'Chinese internet initialism', evidenceCount: 1 },
+          { term: 'doge', family: 'cooperation', meaning: 'common Bilibili emote name but not a Chinese dictionary term', evidenceCount: 1 },
           { term: '᭙ᦔꪀꪑᦔ', family: 'attack', meaning: 'decorative script noise', evidenceCount: 1 },
         ],
       }),
@@ -1285,7 +1297,7 @@ test('mergeEntriesIntoDictionary prunes persisted non Chinese or Latin noise ter
 
     const dictionary = await mergeEntriesIntoDictionary([], { dictionaryPath });
 
-    assert.deepEqual(dictionary.entries.map((entry) => entry.term), ['doge']);
+    assert.deepEqual(dictionary.entries.map((entry) => entry.term), ['yygq']);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
@@ -1358,7 +1370,7 @@ test('mergeEntriesIntoDictionary prunes persisted weak ASCII technical and id fr
 
     const dictionary = await mergeEntriesIntoDictionary([], { dictionaryPath });
 
-    assert.deepEqual(dictionary.entries.map((entry) => entry.term), ['yygq', 'doge']);
+    assert.deepEqual(dictionary.entries.map((entry) => entry.term), ['yygq']);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
@@ -1395,7 +1407,7 @@ test('mergeEntriesIntoDictionary prunes persisted suffix-only emote fragments', 
 
     const dictionary = await mergeEntriesIntoDictionary([], { dictionaryPath });
 
-    assert.deepEqual(dictionary.entries.map((entry) => entry.term), ['catconfuse']);
+    assert.deepEqual(dictionary.entries.map((entry) => entry.term), []);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
@@ -1681,20 +1693,20 @@ test('mergeEntriesIntoDictionary compacts same-family ASCII case variants', asyn
         updatedAt: '2026-01-01T00:00:00.000Z',
         entries: [
           {
-            term: 'doge',
+            term: 'yygq',
             family: 'cooperation',
-            meaning: 'lowercase Bilibili emote marker',
+            meaning: 'lowercase Chinese initialism',
             evidenceCount: 1,
-            evidenceSamples: ['this comment uses doge'],
-            evidenceSources: [{ source: 'Bilibili public video comment scan', uid: 'BV-lower', sample: 'this comment uses doge' }],
+            evidenceSamples: ['this comment uses yygq'],
+            evidenceSources: [{ source: 'Bilibili public video comment scan', uid: 'BV-lower', sample: 'this comment uses yygq' }],
           },
           {
-            term: 'Doge',
+            term: 'YYGQ',
             family: 'cooperation',
-            meaning: 'uppercase Bilibili emote marker',
+            meaning: 'uppercase Chinese initialism',
             evidenceCount: 1,
-            evidenceSamples: ['Doge appears in mixed case'],
-            evidenceSources: [{ source: 'Bilibili public video comment scan', uid: 'BV-upper', sample: 'Doge appears in mixed case' }],
+            evidenceSamples: ['YYGQ appears in mixed case'],
+            evidenceSources: [{ source: 'Bilibili public video comment scan', uid: 'BV-upper', sample: 'YYGQ appears in mixed case' }],
           },
         ],
       }),
@@ -1702,11 +1714,11 @@ test('mergeEntriesIntoDictionary compacts same-family ASCII case variants', asyn
     );
 
     const dictionary = await mergeEntriesIntoDictionary([], { dictionaryPath });
-    const lower = dictionary.entries.find((entry) => entry.term === 'doge');
+    const lower = dictionary.entries.find((entry) => entry.term === 'yygq');
 
-    assert.deepEqual(dictionary.entries.map((entry) => entry.term), ['doge']);
+    assert.deepEqual(dictionary.entries.map((entry) => entry.term), ['yygq']);
     assert.equal(lower.evidenceCount, 2);
-    assert.deepEqual(lower.evidenceSamples, ['this comment uses doge', 'Doge appears in mixed case']);
+    assert.deepEqual(lower.evidenceSamples, ['this comment uses yygq', 'YYGQ appears in mixed case']);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
@@ -1806,16 +1818,16 @@ test('mergeEntriesIntoDictionary keeps canonical ASCII terms split by family con
         updatedAt: '2026-01-01T00:00:00.000Z',
         entries: [
           {
-            term: 'doge',
+            term: 'yygq',
             family: 'cooperation',
-            meaning: 'Bilibili emote marker',
+            meaning: 'Chinese initialism marker',
             evidenceCount: 2,
-            evidenceSamples: ['nice one doge'],
+            evidenceSamples: ['nice one yygq'],
           },
           {
-            term: 'Doge',
+            term: 'YYGQ',
             family: 'attack',
-            meaning: 'unrelated brand or topic marker',
+            meaning: 'same ASCII term with lower confidence',
             evidenceCount: 0,
             evidenceSamples: [],
           },
@@ -1825,12 +1837,12 @@ test('mergeEntriesIntoDictionary keeps canonical ASCII terms split by family con
     );
 
     const dictionary = await mergeEntriesIntoDictionary([], { dictionaryPath });
-    const entry = dictionary.entries.find((item) => item.term === 'doge');
+    const entry = dictionary.entries.find((item) => item.term === 'yygq');
 
-    assert.deepEqual(dictionary.entries.map((item) => item.term), ['doge']);
+    assert.deepEqual(dictionary.entries.map((item) => item.term), ['yygq']);
     assert.equal(entry.family, 'cooperation');
     assert.equal(entry.evidenceCount, 1);
-    assert.deepEqual(entry.evidenceSamples, ['nice one doge']);
+    assert.deepEqual(entry.evidenceSamples, ['nice one yygq']);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
@@ -1874,20 +1886,20 @@ test('extracts JSON object from verbose DeepSeek responses', () => {
 test('filters keyword entries to terms with direct text evidence', () => {
   const entries = filterKeywordEntriesByEvidence(
     [
-      { term: '[doge]', family: 'cooperation', meaning: '表情梗' },
+      { term: 'YYGQ', family: 'attack', meaning: 'Chinese initialism' },
       { term: 'notpresent', family: 'attack', meaning: 'model hallucination' },
     ],
-    'this Bilibili comment uses [doge] only\nsecond [doge] sample',
+    'this Bilibili comment uses YYGQ only\nsecond yygq sample',
     { source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV1source/', uid: 'BV1source' },
   );
 
-  assert.deepEqual(entries.map((entry) => entry.term), ['doge']);
+  assert.deepEqual(entries.map((entry) => entry.term), ['yygq']);
   assert.equal(entries[0].evidenceCount, 2);
-  assert.deepEqual(entries[0].evidenceSamples, ['this Bilibili comment uses [doge] only', 'second [doge] sample']);
+  assert.deepEqual(entries[0].evidenceSamples, ['this Bilibili comment uses YYGQ only', 'second yygq sample']);
   assert.deepEqual(entries[0].evidenceSources[0], {
     source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV1source/',
     uid: 'BV1source',
-    sample: 'this Bilibili comment uses [doge] only',
+    sample: 'this Bilibili comment uses YYGQ only',
   });
 });
 
@@ -1895,16 +1907,16 @@ test('findDictionaryEntriesWithTextEvidence refreshes existing dictionary term e
   const entries = findDictionaryEntriesWithTextEvidence(
     {
       entries: [
-        { term: 'doge', family: 'cooperation', meaning: '琛ㄦ儏姊?', evidenceCount: 0 },
+        { term: 'yygq', family: 'attack', meaning: 'Chinese initialism', evidenceCount: 0 },
         { term: 'missing', family: 'attack', meaning: 'not present', evidenceCount: 0 },
       ],
     },
-    'first [doge] comment\nsecond doge sample',
+    'first YYGQ comment\nsecond yygq sample',
   );
 
-  assert.deepEqual(entries.map((entry) => entry.term), ['doge']);
+  assert.deepEqual(entries.map((entry) => entry.term), ['yygq']);
   assert.equal(entries[0].evidenceCount, 2);
-  assert.deepEqual(entries[0].evidenceSamples, ['first [doge] comment', 'second doge sample']);
+  assert.deepEqual(entries[0].evidenceSamples, ['first YYGQ comment', 'second yygq sample']);
 });
 
 test('findDictionaryEntriesWithTextEvidence rejects ambiguous food-context evidence for attack terms', () => {
@@ -3093,7 +3105,6 @@ test('findDictionaryEntriesWithTextEvidence rejects harvested self-label, litera
   const dictionary = {
     entries: [
       { term: '\u5c0f\u7c89\u7ea2', family: 'attack', meaning: 'hostile label for blind patriotic users' },
-      { term: 'pink', family: 'attack', meaning: 'alias for hostile pink label' },
       { term: '\u6211\u771f\u7ef7\u4e0d\u4f4f', family: 'attack', meaning: 'mocking cannot hold laughter' },
       { term: '\u8349\u751f', family: 'cooperation', meaning: 'playful laughter or acknowledgement' },
       { term: '\u5c4f\u853d', family: 'cooperation', meaning: 'constructive block/mute suggestion' },
@@ -3127,7 +3138,6 @@ test('findDictionaryEntriesWithTextEvidence rejects harvested self-label, litera
     dictionary,
     [
       '\u5c0f\u7c89\u7ea2\u90fd\u5f00\u59cb\u590d\u8bfb\u8fd9\u5957\u8bdd\u672f\u4e86',
-      'pink\u90fd\u662f\u5728\u6821\u5b66\u751f\u8fd9\u8bdd\u7ffb\u6765\u8986\u53bb',
       '\u4f60\u8fd9\u4e2a\u903b\u8f91\u6211\u771f\u7ef7\u4e0d\u4f4f\uff0c\u8bc1\u636e\u5462',
       '\u8fd9\u4e2a\u8f6c\u573a\u592a\u8349\u751f\u4e86',
       '\u5148\u5c4f\u853d\u4eba\u8eab\u653b\u51fb\u518d\u597d\u597d\u8ba8\u8bba',
@@ -3137,7 +3147,6 @@ test('findDictionaryEntriesWithTextEvidence rejects harvested self-label, litera
 
   assert.deepEqual(realEntries.map((entry) => entry.term), [
     '\u5c0f\u7c89\u7ea2',
-    'pink',
     '\u6211\u771f\u7ef7\u4e0d\u4f4f',
     '\u8349\u751f',
     '\u5c4f\u853d',
@@ -6492,9 +6501,7 @@ test('findDictionaryEntriesWithTextEvidence can match stable internet aliases', 
         { term: '\u8c01\u662f\u8e6d\u6982\u5ff5', family: 'attack', meaning: 'question-form variant' },
         { term: '\u81ea\u5df1\u67e5\u53bb', family: 'evasion', meaning: 'imperative variant' },
         { term: '\u95ee\u767e\u5ea6\u6709\u4ec0\u4e48\u7528', family: 'evasion', meaning: 'question-form variant' },
-        { term: 'dddd', family: 'evasion', meaning: 'abbreviation for \u61c2\u7684\u90fd\u61c2' },
         { term: 'yygq', family: 'attack', meaning: 'abbreviation for \u9634\u9633\u602a\u6c14' },
-        { term: 'pink', family: 'attack', meaning: 'shorthand for \u7c89\u7ea2' },
       ],
     },
     '\u6211\u4eec\u8d62\u9ebb\u4e86\n\u8fd9\u5c31\u662f\u8e6d\u6982\u5ff5\n\u81ea\u5df1\u67e5\u5427\n\u95ee\u767e\u5ea6\u4e5f\u884c\n\u61c2\u7684\u90fd\u61c2\uff0c\u4e0d\u89e3\u91ca\n\u8fd9\u6761\u8bc4\u8bba\u6709\u70b9\u9634\u9633\u602a\u6c14\n\u5c0f\u7c89\u7ea2\u53c8\u6765\u4e86',
@@ -6509,9 +6516,7 @@ test('findDictionaryEntriesWithTextEvidence can match stable internet aliases', 
     '\u8c01\u662f\u8e6d\u6982\u5ff5',
     '\u81ea\u5df1\u67e5\u53bb',
     '\u95ee\u767e\u5ea6\u6709\u4ec0\u4e48\u7528',
-    'dddd',
     'yygq',
-    'pink',
   ]);
   assert.equal(entries.every((entry) => entry.evidenceCount === 1), true);
   assert.equal(entries.every((entry) => entry.evidenceSources[0].uid === 'BV-alias'), true);
@@ -8129,7 +8134,6 @@ test('findDictionaryEntriesWithTextEvidence rejects latest harvested explanation
       { term: '\u6211\u9519\u4e86', family: 'correction', meaning: 'admit fault or correction' },
       { term: '\u8c01\u61c2', family: 'evasion', meaning: 'appeal to shared feeling instead of explaining' },
       { term: '\u5c0f\u7c89\u7ea2', family: 'attack', meaning: 'hostile pink label' },
-      { term: 'pink', family: 'attack', meaning: 'alias for hostile pink label' },
       { term: '\u5c0f\u5b69\u5c04', family: 'attack', meaning: 'ambiguous hostile slang item' },
     ],
   };
@@ -8155,7 +8159,6 @@ test('findDictionaryEntriesWithTextEvidence rejects latest harvested explanation
       '\u6211\u9519\u4e86\uff0c\u521a\u624d\u90a3\u53e5\u6536\u56de',
       '\u522b\u53ea\u8bf4\u8c01\u61c2\uff0c\u8bc1\u636e\u8d34\u51fa\u6765',
       '\u522b\u518d\u7528\u5c0f\u7c89\u7ea2\u8bdd\u672f\u6263\u5e3d\u5b50\u4e86',
-      'pink\u90fd\u662f\u5728\u6821\u5b66\u751f\u8fd9\u8bdd\u7ffb\u6765\u8986\u53bb',
       '\u5c0f\u5b69\u5c04\u8fd9\u79cd\u8bf4\u6cd5\u662f\u5728\u9a82\u4eba\u5427',
     ].join('\n'),
   );
@@ -8166,7 +8169,6 @@ test('findDictionaryEntriesWithTextEvidence rejects latest harvested explanation
     '\u6211\u9519\u4e86',
     '\u8c01\u61c2',
     '\u5c0f\u7c89\u7ea2',
-    'pink',
     '\u5c0f\u5b69\u5c04',
   ]);
 });
@@ -8206,7 +8208,6 @@ test('findDictionaryEntriesWithTextEvidence rejects latest harvested username li
   const dictionary = {
     entries: [
       { term: '\u5c0f\u7c89\u7ea2', family: 'attack', meaning: 'hostile pink label' },
-      { term: 'pink', family: 'attack', meaning: 'alias for hostile pink label' },
       { term: '\u5982\u679c\u6709', family: 'cooperation', meaning: 'conditional openness to evidence' },
       { term: '\u827e\u6ecb\u5200', family: 'attack', meaning: 'hostile KPL nickname' },
       { term: '\u827e\u6ecb\u91ce', family: 'attack', meaning: 'hostile KPL nickname' },
@@ -8237,7 +8238,6 @@ test('findDictionaryEntriesWithTextEvidence rejects latest harvested username li
     dictionary,
     [
       '\u522b\u518d\u7528\u5c0f\u7c89\u7ea2\u8bdd\u672f\u6263\u5e3d\u5b50\u4e86',
-      'pink\u90fd\u662f\u5728\u6821\u5b66\u751f\u8fd9\u8bdd\u7ffb\u6765\u8986\u53bb',
       '\u5982\u679c\u6709\u539f\u59cb\u8bc1\u636e\u6211\u613f\u610f\u6539\u7ed3\u8bba',
       '\u827e\u6ecb\u5200\u8fd9\u79cd\u9ed1\u79f0\u662f\u5728\u9a82\u4eba\u5427',
       '\u827e\u6ecb\u91ce\u8fd9\u4e2a\u8bcd\u522b\u4e71\u62ff\u6765\u653b\u51fb\u9009\u624b',
@@ -8252,7 +8252,6 @@ test('findDictionaryEntriesWithTextEvidence rejects latest harvested username li
 
   assert.deepEqual(realEntries.map((entry) => entry.term), [
     '\u5c0f\u7c89\u7ea2',
-    'pink',
     '\u5982\u679c\u6709',
     '\u827e\u6ecb\u5200',
     '\u827e\u6ecb\u91ce',
@@ -9342,7 +9341,7 @@ test('merges dictionary conflicts by term instead of family plus term', async ()
   try {
     await mergeEntriesIntoDictionary(
       [
-        { term: 'doge', family: 'attack', meaning: '嘲讽表情', confidence: 0.7 },
+        { term: 'yygq', family: 'attack', meaning: '阴阳怪气缩写', confidence: 0.7 },
         { term: '单走一个6', family: 'attack', meaning: '弹幕式嘲讽', confidence: 0.68 },
       ],
       { dictionaryPath },
@@ -9350,16 +9349,16 @@ test('merges dictionary conflicts by term instead of family plus term', async ()
 
     const dictionary = await mergeEntriesIntoDictionary(
       [
-        { term: 'doge', family: 'cooperation', meaning: '轻松玩梗', confidence: 0.72 },
+        { term: 'yygq', family: 'cooperation', meaning: '轻松玩梗', confidence: 0.72 },
         { term: '单走一个6', family: 'cooperation', meaning: '认可或玩梗', confidence: 0.72 },
       ],
       { dictionaryPath },
     );
 
-    assert.equal(dictionary.entries.filter((entry) => entry.term === 'doge').length, 1);
+    assert.equal(dictionary.entries.filter((entry) => entry.term === 'yygq').length, 1);
     assert.equal(dictionary.entries.filter((entry) => entry.term === '单走一个6').length, 1);
-    assert.equal(dictionary.families.attack.includes('doge'), true);
-    assert.equal(dictionary.families.cooperation.includes('doge'), false);
+    assert.equal(dictionary.families.attack.includes('yygq'), true);
+    assert.equal(dictionary.families.cooperation.includes('yygq'), false);
     assert.equal(dictionary.families.attack.includes('单走一个6'), true);
     assert.equal(dictionary.families.cooperation.includes('单走一个6'), false);
   } finally {
@@ -9481,7 +9480,7 @@ test('rejects DeepSeek keywords that are not evidenced in crawled text', async (
   try {
     const result = await trainKeywordDictionary(
       {
-        text: 'this Bilibili comment uses [doge] only',
+        text: 'this Bilibili comment uses YYGQ only',
         uid: 'BV-evidence',
         source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-evidence/',
       },
@@ -9504,7 +9503,7 @@ test('rejects DeepSeek keywords that are not evidenced in crawled text', async (
                   message: {
                     content: JSON.stringify({
                       keywords: [
-                        { term: '[doge]', family: 'cooperation', meaning: '表情梗' },
+                        { term: 'YYGQ', family: 'attack', meaning: 'Chinese initialism' },
                         { term: '\u672a\u51fa\u73b0\u8bcd', family: 'attack', meaning: 'not in source text' },
                       ],
                     }),
@@ -9519,12 +9518,12 @@ test('rejects DeepSeek keywords that are not evidenced in crawled text', async (
 
     assert.equal(result.usedFallback, false);
     assert.equal(result.evidenceRejected, 1);
-    assert.deepEqual(result.entries.map((entry) => entry.term), ['doge']);
+    assert.deepEqual(result.entries.map((entry) => entry.term), ['yygq']);
     assert.equal(result.entries[0].evidenceCount, 1);
-    assert.deepEqual(result.entries[0].evidenceSamples, ['this Bilibili comment uses [doge] only']);
+    assert.deepEqual(result.entries[0].evidenceSamples, ['this Bilibili comment uses YYGQ only']);
     assert.equal(result.entries[0].evidenceSources[0].uid, 'BV-evidence');
-    assert.deepEqual(result.dictionary.families.cooperation, ['doge']);
-    assert.deepEqual(result.dictionary.families.attack, []);
+    assert.deepEqual(result.dictionary.families.attack, ['yygq']);
+    assert.deepEqual(result.dictionary.families.cooperation, []);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
@@ -9536,7 +9535,7 @@ test('maps DeepSeek meme family output to non-attack dictionary evidence', async
   try {
     const result = await trainKeywordDictionary(
       {
-        text: '\u8fd9\u91cc\u5237doge\u53ea\u662f\u5f39\u5e55\u73a9\u6897\uff0c\u4e0d\u662f\u5728\u9a82\u4eba\u3002',
+        text: '\u8fd9\u91cc\u5237yyds\u53ea\u662f\u5f39\u5e55\u73a9\u6897\uff0c\u4e0d\u662f\u5728\u9a82\u4eba\u3002',
         uid: 'BV-meme-family',
         source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-meme-family/',
       },
@@ -9558,7 +9557,7 @@ test('maps DeepSeek meme family output to non-attack dictionary evidence', async
                 {
                   message: {
                     content: JSON.stringify({
-                      keywords: [{ term: 'doge', family: 'meme', meaning: 'danmaku meme marker, not an attack', risk: 'neutral', confidence: 0.86 }],
+                      keywords: [{ term: 'yyds', family: 'meme', meaning: 'Chinese meme praise marker, not an attack', risk: 'neutral', confidence: 0.86 }],
                     }),
                   },
                 },
@@ -9570,9 +9569,9 @@ test('maps DeepSeek meme family output to non-attack dictionary evidence', async
     );
 
     assert.equal(result.ok, true);
-    assert.deepEqual(result.entries.map((entry) => [entry.term, entry.family]), [['doge', 'cooperation']]);
+    assert.deepEqual(result.entries.map((entry) => [entry.term, entry.family]), [['yyds', 'cooperation']]);
     assert.deepEqual(result.dictionary.families.attack, []);
-    assert.deepEqual(result.dictionary.families.cooperation, ['doge']);
+    assert.deepEqual(result.dictionary.families.cooperation, ['yyds']);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }

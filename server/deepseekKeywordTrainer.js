@@ -27,19 +27,11 @@ const URL_HOST_FRAGMENT_TERMS = new Set(['http', 'https', 'www', 'com', 'cn', 'n
 STOP_TERMS.add('\u6211\u609f\u4e86');
 STOP_TERMS.add('\u609f\u4e86');
 const ALLOWED_ASCII_KEYWORD_TERMS = new Set([
-  'allin',
-  'catconfuse',
-  'dddd',
-  'doge',
   'giegie',
   'lsp',
   'nb',
-  'nocap',
   'nt',
-  'op',
-  'pink',
   'pua',
-  'up',
   'wdnmd',
   'xswl',
   'yygq',
