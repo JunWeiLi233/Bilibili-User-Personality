@@ -6501,6 +6501,49 @@ test('buildDictionaryCoverageAudit demotes saturated zero-evidence comment misse
   assert.deepEqual(audit.nextActions.map((item) => item.term), [fresher, saturated]);
 });
 
+test('buildDictionaryCoverageAudit rotates strict zero-evidence terms after two comment misses', () => {
+  const missed = 'twoCommentMisses';
+  const fresh = 'freshZeroMiss';
+  const audit = buildDictionaryCoverageAudit(
+    {
+      entries: [
+        { term: missed, family: 'attack', evidenceCount: 0 },
+        { term: fresh, family: 'attack', evidenceCount: 0 },
+      ],
+    },
+    {
+      termAttempts: {
+        [missed]: {
+          term: missed,
+          family: 'attack',
+          evidenceAtPlanTime: 0,
+          attempts: 2,
+          successfulAttempts: 0,
+          lastEvidenceCount: 0,
+          queries: [
+            { query: 'twoCommentMisses \u8bc4\u8bba\u533a', strategyVersion: 6, ok: true, hit: false, comments: 120 },
+            { query: 'twoCommentMisses \u70ed\u8bc4', strategyVersion: 6, ok: true, hit: false, comments: 96 },
+          ],
+          lastQuery: 'twoCommentMisses \u70ed\u8bc4',
+        },
+        [fresh]: {
+          term: fresh,
+          family: 'attack',
+          evidenceAtPlanTime: 0,
+          attempts: 1,
+          successfulAttempts: 0,
+          lastEvidenceCount: 0,
+          queries: [{ query: 'freshZeroMiss \u8bc4\u8bba\u533a', strategyVersion: 6, ok: true, hit: false, comments: 16 }],
+          lastQuery: 'freshZeroMiss \u8bc4\u8bba\u533a',
+        },
+      },
+    },
+    { targetEvidence: 3, maxActions: 2, retryBeforeUnattemptedLimit: 1, requireCommentBackedEvidence: true },
+  );
+
+  assert.deepEqual(audit.nextActions.map((item) => item.term), [fresh, missed]);
+});
+
 test('buildDictionaryCoverageAudit treats stale duplicate-evidence successes as misses', () => {
   const audit = buildDictionaryCoverageAudit(
     {

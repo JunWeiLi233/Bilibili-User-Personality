@@ -2051,7 +2051,7 @@ function actionSortRank(action, options = {}) {
   }
   if (
     action?.action === 'retry_with_new_variant' &&
-    currentCommentMisses >= Math.max(3, retryLimit + 2) &&
+    currentCommentMisses >= Math.max(2, retryLimit + 1) &&
     evidence === 0 &&
     successfulAttempts === 0 &&
     options.requireCommentBackedEvidence === true
