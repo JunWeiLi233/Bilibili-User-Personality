@@ -44,14 +44,12 @@ Current audited dictionary state:
 
 - Dictionary terms: `1931`
 - Target evidence per term: `3`
-- Coverage ratio: `68.41%`
-- Weak terms below target: `610`
-- Zero-evidence terms: `98`
-- Evidence deficit: `1199`
-- Source-backed terms: `1833`
+- Coverage ratio: `68.88%`
+- Weak terms below target: `601`
+- Zero-evidence terms: `97`
+- Evidence deficit: `1188`
+- Source-backed terms: `1834`
 - Unsourced evidence terms: `0`
-- Attempted terms: `828`
-- Successful terms: `275`
 
 The dictionary coverage target is not complete yet. Continue running `.\run-bilibili-auto-coverage.ps1` or `npm run dictionary:auto` until weak and zero-evidence terms are eliminated, then re-run `npm run dictionary:coverage`.
 
