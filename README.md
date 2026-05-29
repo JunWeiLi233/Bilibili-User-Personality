@@ -1,119 +1,91 @@
-# Bilibili User Personality
+# Bilibili User Personality / 哔哩哔哩用户画像分析
+
+研究驱动原型：评估选定B站用户的公开评论是否表现出高杠精/引战倾向。
 
 Research-driven prototype for evaluating whether a selected Bilibili user's public comments show a high argumentative-trolling tendency.
 
-## What It Shows
+---
 
-- A radar chart tailored to adversarial-comment behavior rather than generic personality labels.
-- A data-led "杠精指数" derived from six interpretable dimensions:
-  - 对抗性动机
-  - 认知闭合
-  - 证据敏感
-  - 逻辑一致
-  - 合作讨论
-  - 修正意愿
-- Three analysis modes:
-  - Hybrid mode: semantic speech-act judging with adaptive lexicon evidence.
-  - Semantic judge mode: evaluates target, evidence burden, proposition response, and correction behavior.
-  - Lexicon mode: transparent semantic-family matching for auditability.
-- UID-based automatic sampling:
-  - Reads Bilibili public profile/card data for the UID.
-  - Discovers public submissions and dynamic posts from Bilibili public endpoints.
-  - Scans comments around those public objects and filters interactions by `mid`.
-  - Does not call AICU, third-party indexes, or external websites as a substitute for UID comment crawling.
-- Video keyword search:
-  - Accepts a Bilibili video URL or `BV` id in the same search box.
-  - If no video link is provided, backend code searches Bilibili by configured search terms, discovers videos, scans their public comments, and trains keywords from that sample.
-  - Still supports backend-owned explicit video links through `BILIBILI_DEFAULT_VIDEO_LINKS` or `BILIBILI_DEFAULT_VIDEO_LINK` when you want a fixed video set.
-  - Shows the learned keywords in the UI and folds them into the local analyzer dictionary.
-- DeepSeek V4 Chinese keyword training:
-  - Uses the DeepSeek API for dictionary extraction.
-  - The auto-coverage loop now forces `deepseek-v4-flash` with `DEEPSEEK_REASONING_EFFORT=max` for faster repeated Bilibili evidence harvesting.
-  - Direct analysis and delegated complex implementation work can still use `deepseek-v4-pro` when explicitly configured.
-  - Current config reads `DEEPSEEK_API_KEY`, `DEEPSEEK_MODEL`, `DEEPSEEK_REASONING_EFFORT`, and `DEEPSEEK_BASE_URL`.
-  - Extracts Chinese internet terms, meanings, variants, and semantic families from crawled comments.
-  - Writes learned terms to `server/deepseekKeywordDictionary.json` and merges them into the local analyzer.
-  - Marks dictionary hits inside analyzed comments, maps each semantic family to a radar axis, and shows the vocabulary markers under the radar chart.
-  - In direct analysis mode, asks DeepSeek to analyze complete sentences and return `axisImpacts`, then shows sentence-level radar markers under the chart so each score has a traceable sentence target.
+## 目录 / Table of Contents
 
-## Current Dictionary Status
+- [项目简介 / Overview](#项目简介--overview)
+- [当前词典状态 / Current Dictionary Status](#当前词典状态--current-dictionary-status)
+- [本地运行 / Run Locally](#本地运行--run-locally)
+- [配置与脚本 / Configuration & Scripts](#配置与脚本--configuration--scripts)
+- [自动覆盖循环 / Auto-Coverage Loop](#自动覆盖循环--auto-coverage-loop)
+- [构建 / Build](#构建--build)
+- [备注 / Notes](#备注--notes)
 
-Latest verified update: current `main` HEAD after this update.
+---
 
-Current audited dictionary state:
+## 项目简介 / Overview
 
-- Dictionary terms: `1785`
-- Target evidence per term: `3`
-- Coverage ratio: `75.01%`
-- Weak terms below target: `446`
-- Zero-evidence terms: `18`
-- Evidence deficit: `807`
-- Source-backed terms: `1767`
-- Unsourced evidence terms: `0`
+### 功能 / What It Shows
 
-The dictionary coverage target is not complete yet. Continue running `.\run-bilibili-auto-coverage.ps1` or `npm run dictionary:auto` until weak and zero-evidence terms are eliminated, then re-run `npm run dictionary:coverage`.
+- 针对杠精行为定制的雷达图，而非通用的性格标签。
+  A radar chart tailored to adversarial-comment behavior rather than generic personality labels.
+- 数据驱动的"杠精指数"，从六个可解释维度得出：
+  A data-led trolling index derived from six interpretable dimensions:
+  - 对抗性动机 / Adversarial Motivation
+  - 认知闭合 / Cognitive Closure
+  - 证据敏感 / Evidence Sensitivity
+  - 逻辑一致 / Logical Consistency
+  - 合作讨论 / Cooperative Discussion
+  - 修正意愿 / Correction Willingness
+- 三种分析模式 / Three analysis modes:
+  - **混合模式 / Hybrid**: 语义行为判断 + 自适应词典证据
+  - **语义判断模式 / Semantic Judge**: 评估目标、证据负担、命题回应和修正行为
+  - **词典模式 / Lexicon**: 透明的语义族匹配，可审计
+- **基于UID的自动采样 / UID-based automatic sampling**:
+  - 读取B站公开资料/卡片数据
+  - 从B站公开端点发现投稿和动态
+  - 扫描评论并按 `mid` 过滤互动
+  - 不使用AICU、第三方索引或外部网站替代UID评论爬取
+- **视频关键词搜索 / Video keyword search**:
+  - 在同一搜索框中接受B站视频URL或BV号
+  - 后端搜索B站视频、扫描公开评论并训练关键词
+  - UI中显示学到的关键词，并合并到本地分析器词典中
+- **DeepSeek V4 中文关键词训练 / DeepSeek V4 Chinese keyword training**:
+  - 使用DeepSeek API进行词典提取
+  - 自动覆盖循环强制使用 `deepseek-v4-flash`（推理力度max）
+  - 直接分析和复杂实现工作仍可使用 `deepseek-v4-pro`
+  - 从爬取的评论中提取中文网络用语、含义、变体和语义族
 
-Current quality rules:
+### 质量规则 / Quality Rules
 
-- Coverage evidence must come from Bilibili public comments, replies, or public danmaku unless an explicit relaxed mode is chosen.
-- The crawler does not use AICU or third-party comment indexes as a substitute for local collection.
-- Search-result titles and glossary videos can help discovery, but strict coverage does not treat them as completed comment evidence.
-- DeepSeek is used as a dictionary extractor and sentence-context judge; it does not fine-tune a local model.
-- The auto-coverage script uses `deepseek-v4-flash` with `DEEPSEEK_REASONING_EFFORT=max`; use `deepseek-v4-pro` only when a separate direct analysis or delegated implementation job explicitly needs it.
+- 覆盖证据必须来自B站公开评论、回复或弹幕（除非明确选择宽松模式）。
+  Coverage evidence must come from Bilibili public comments, replies, or danmaku.
+- 爬虫不使用AICU或第三方评论索引替代本地收集。
+  The crawler does not use AICU or third-party comment indexes.
+- 搜索结果标题可用于辅助发现，但严格模式不将其视为完成的评论证据。
+  Search-result titles aid discovery but strict mode does not count them as comment evidence.
+- DeepSeek用作词典提取器和句子上下文判断器，不微调本地模型。
+  DeepSeek extracts dictionaries and judges sentence context; it does not fine-tune a local model.
 
-Recent dictionary-cleaning updates:
+---
 
-- Removed mojibake and non-Chinese-looking terms such as `瀵规姉`, `鐢风洍濂冲`, and `鐑瘎` from accepted dictionary output.
-- Added stricter checks so a term must be a real Chinese/internet term with direct evidence in the crawled text.
-- Tightened filters for literal or neutral contexts, including real coins for `老硬币`, school-study narratives for `学习了`, celebrity-name mentions such as `欧阳娜娜`, and generic praise such as `伟大无需多言`.
-- Filtered glossary/explanation contexts so videos explaining a meme, a title, or a famous scene do not count as live usage evidence.
-- Pruned the latest harvested context-only false positives: video-title-only `赛寄`, literal-history `三角贸易`, and generic `实名制` policy discussion copied onto `实名制观看`.
-- Pruned the latest harvested bare/literal false positives: standalone `岂不美哉`, game/source uses of `亡灵法师`, censorship-workaround `怕被删评，故发图`, and positive/explainer uses of `无敌之人`.
-- Pruned the latest harvested product/game false positives: game-mechanic `五毒俱全`, literal product-review `100好评` / `百分百好评率`, and commerce-only `差评连天`.
-- Pruned the latest loose comment false positives: generic `发出来` publish contexts for `可以贴`, affection-only `小馋猫[doge]`, nickname-list explanations for `小孩射`, and literal dating-app / emote-only `脱单` samples.
-- Pruned the latest flash-harvest noise: proper-name `战乙女` and over-specific sentence fragments `弹幕全是节奏复制` / `那段时间弹幕全是节奏复制`, while keeping valid `正义开盒` attack evidence.
-- Pruned current flash-harvest bot/name and plot-fragment noise: `ai识片酱`, `岛上完全是幻境`, and loose non-evidence `出来` / `发出来干什么` samples under `可以贴`.
-- Pruned current flash-harvest medical-anxiety and negated-context noise: removed evidence-family `恐艾` / `恐艾症` and rejected comfort-context `没有7秒焦虑` samples while keeping explicit anxiety-manufacturing criticism.
-- Pruned current flash-harvest slogan/game/body-state noise: removed `零提升` / `0提升`, bare `态度决定一切`, body-state `奖励的有点多`, and one-off `核武器函数乐`, while keeping real accusation evidence such as `资敌`.
-- Pruned current flash-harvest negated/platform/meta-label noise: removed typo `爱咋咋的`, mutual-follow `偷偷取关`, generic platform `贴吧`, and meta-question `脱子` samples; kept directed `爆破你`, `恋丑癖`, and valid `紧和` evidence.
-- Pruned current flash-harvest game-skill, game-economy, and roster-name noise: removed game-skill `不动如山`, game-economy `血赚`, and thin roster nicknames `病大郎` / `病弯钩`, while keeping valid `自慰队` attack evidence.
-- Pruned latest flash-harvest genre/platform/reaction noise: removed generic embarrassment `尬到抠脚`, broad celebrity-industry hedge `不绝对但韩国不少`, game item `赛季蛋`, fiction praise `睡前小甜饼` / `小甜饼`, romance fragment `直男不管对方叫老婆`, platform complaint `不知道ai审核`, and bare meme handoff `压力来到了小猴这边`; kept directed belittling evidence such as `哪根葱`.
-- Pruned current coverage-harvest praise/media/literal-state noise: removed typo-praise `不诗人`, appearance praise `颜值身材没有短板`, audio/body-state fragments `全损音品质` / `有一点痔疮`, generic approval `明天来上班`, engagement bait `没人吗`, isolated hot-word label `知识盲区`, creator-support `产出不易`, quote-only `成见是一座大山`, fiction-name pun `程敷衍`, and media rewatch marker `n刷`; kept direct sarcasm `策划你来当` and self-correction `记错了`.
-- Pruned latest coverage-harvest vague/proper-name/game-state noise: removed vague reaction `吞之`, proper-name question `开除凡凡`, generic quantifier `亿点点`, and game-stat typo `拉夸`; kept valid hostile evidence such as `吃相太难看` and `纯铁脑瘫`.
-- Pruned current auto-coverage praise/platform/identity noise after the `deepseek-v4-flash` max-effort run: removed generic praise `很棒先生` / `这很棒先生` / `up好牛`, payment fragment `我将支付您画画的费用`, neutral `直言不讳`, reaction-only `草生`, identity/platform terms `福瑞控` / `帽子叔` / `帽子叔叔` / `小黄鱼`, game-stat sentence `五维图全都低的可怜`, video-participation reaction `打了自己电话`, and bare meme label `肘遍全网`; kept contextual attack terms such as `饭圈味` and `纯小人`.
-- Pruned latest auto-coverage fan/profile/check-in noise after the `deepseek-v4-flash` max-effort run: removed fandom reaction phrases `伊利亚我软脚了` / `伊莉雅我软脚了`, profile-signature shorthand `个签`, and coin/check-in absolutes `第一个投币肯定是我` / `第一个投币肯定是我的`; kept contextual discourse evidence such as `弹性回应` and `你喷我就是你对`.
-- Pruned no-progress auto-coverage noise after another `deepseek-v4-flash` max-effort run: removed product/equipment terms `电锯pro` / `电锯promax`, title-only `定叫你好评如潮`, entertainment absolute `东海每次同框绝对有笑点`, literal TV phrase `上电视`, and emote labels `doge圣诞` / `tv点赞`; kept target-context `东户西甜` and sarcastic `良心辣`.
-- Pruned the next flash/max coverage batch after it reduced weak and zero-evidence gaps: removed short fragment `高完了`, generic praise/emote `妙啊`, proper-name political labels `川建国` / `川普`, poetry ranking phrases `杜甫第一李白不参与排名` / `李白不参与排名`, fandom/person reaction `全是我们马哥`, entertainment pun `会云多云`, and fiction trope `小叔文学`; kept directed argument markers such as `都让你高完了`, `堵住人民嘴`, and `多少有点小丑`.
-- Pruned the current flash/max coverage batch after it reduced weak and zero-evidence gaps: removed game-completion sentence `发现全是缺`, mine/rank pun `排长`, stale game nickname `牢祖冲之`, generic luck phrase `运气真好`, and generic product/game praise `炒鸡好用`; kept argument-use terms such as `防杠我先说`, `不要胡说`, and object-dismissal `废铜烂铁`.
-- Pruned the latest flash/max coverage-batch fandom/title/platform/emote noise: removed generic family address `都是家人`, entertainment ranking `恐怖童谣绝对第一`, bare `PY现场`, creator-follow/platform actions `关注力` / `三联`, fandom-specific `高妃应得的待遇`, slogan `正道的光`, and emote labels `斜眼笑` / `tv斜眼笑`; kept valid argumentative uses such as `感谢指正`, `干崩阿`, `根本没有说不允许`, and `td小青蛙`.
-- Ran another `deepseek-v4-flash` max-effort auto-coverage pass over controversial Bilibili searches; kept useful discourse evidence such as `公知话术`, `精神美国人`, `狗屎机制`, and `不黑不吹`, while pruning generic/outdated/title or creator-noise terms `梗out了` / `out了`, `监狱来的妈妈`, `小up`, `千年是哮天犬`, and `原来你也玩原神`.
-- Ran another `deepseek-v4-flash` max-effort auto-coverage pass that reduced strict comment-backed zero-evidence terms by 3 and weak terms by 4; kept useful terms such as `挂路灯`, `全是广东的`, `全是水军`, `有人急了`, `规训顾客`, `猪血馒头`, `心里没点b数`, and `hapi言论`, while pruning broad/generic noise `广东的`, `笑嘻了`, `拔群` / `效果拔群`, `罗神伟大`, `国际宅男联盟` / `宅男联盟`, and `好时代来临力`.
-- Ran the next `deepseek-v4-flash` max-effort auto-coverage pass and pushed audited coverage above 60%; kept useful evidence such as `毫无吊用`, `没吊用`, `罕见ip`, `老抠比`, `无脑喷`, and `好拼截图`, while pruning narrow or non-argument terms `战绩清零卡`, `问老马本人`, `三年就走了`, `好磕的很`, `咱们眼光一样`, and tool-object fragments `快速平整` / `平整器` / `土地快速平整器`.
-- Ran another strict `deepseek-v4-flash` max-effort coverage pass and reduced zero-evidence terms again; kept generalized argumentative terms such as `好自为之`, `好自为之吧`, `义务教育没上完`, `很懂嘛`, `很懂嘛老铁`, `洗钱片`, and `弱弱说一句`, while pruning over-specific or literal noise `甜菜`, `黑陶渊明`, `乾隆老儿`, `破了相了`, `一曲忠诚的赞歌`, `cos路易十六`, and `视频全都不见了`.
-- Ran a lower-yield strict `deepseek-v4-flash` max-effort pass that still reduced zero-evidence terms; kept broader argumentative evidence such as `神秘的大手`, `无形的大手`, `装高手`, `吃相太难看`, `不要胡说`, and `我的问题`, while pruning narrow remix/device/emote noise `红莲业火焚我身`, `dj如来`, `你悟了`, `毁于48v`, and `tv坏笑`.
-- Ran another low-yield strict `deepseek-v4-flash` max-effort pass; kept useful terms such as `鉴定为屎`, `纠正哥`, `你的说法太绝对了`, `太绝对了`, and `抓到一个老实人`, while pruning literal/over-specific noise `极限模式` and `今天被打了没有`.
-- Ran the next strict `deepseek-v4-flash` max-effort pass and reduced strict comment-backed zero-evidence terms by 3; pruned literal homophone or one-off absolute fragments such as `酒废了`, `酒沸了`, `绝对比条形更好`, `绝对的生产力`, `绝对高于兰博基尼`, and `绝对买的到` so coverage work does not chase product/game/daily-life sentence fragments.
-- Ran another strict `deepseek-v4-flash` max-effort pass; the only evidence gain came from low-portability fragments, so pruned product/game/request or sentence-copy noise such as `绝对是质量问题`, `绝对有问题的`, `绝活强度`, `开国的时候`, `开爽咯`, `看过去全是美国自己干的`, `看门小丑`, and `看下灵根`, while keeping directed insult patterns such as `看门狗`.
-- Ran the next strict `deepseek-v4-flash` max-effort pass and reduced strict comment-backed zero-evidence terms by 1; kept useful patterns such as `可不是就急了嘛` and `肯定是人的错`, while pruning low-portability or non-argument terms `考得像史`, `科学上网`, `嗑药推广广告`, `可能倒闭但绝不可能变质`, `肯定是可以的`, and typo noise `胯群执法` without blocking the correct `跨群执法`.
-- Ran another strict `deepseek-v4-flash` max-effort pass with stronger progress, reducing zero-evidence terms by 2 and weak terms by 5; kept useful attack patterns such as `拉小群`, `拉jb倒`, and `老处男`, while pruning narrow sports/stage/stale-meme/nickname noise `快乐一赛季难过总决赛`, `拉椅子`, `蓝瘦香菇`, `牢将`, and `牢伟`.
-- Ran another strict `deepseek-v4-flash` max-effort pass and reduced strict comment-backed zero-evidence terms by 2; kept directed attack terms such as `老sp` and `两公母`, while pruning low-portability image request, product, neutral-romance, proper-name, and narrow-meme noise such as `老师图片可以拿吗`, `李氏父子`, `里面全是锂电池`, `联动杯`, `两情相悦`, and `量子监控摄像头`.
-- Ran the next strict `deepseek-v4-flash` max-effort pass and kept useful discourse evidence such as `全是粉丝` and `不黑不吹`; pruned pure game or office/faction terms `六扇门` and `轮椅轴`, and rejected explanation-only or card-game evidence for attack terms such as `大魔法师`, `蒜茄脑袋`, and `蒜茄脑瓜`.
-- Kept valid hostile or argumentative uses, for example direct `您配吗` challenges, targeted `梦男` mockery, and attack-context `猪鼻` usage.
-- Ran an extended strict `deepseek-v4-flash` max-effort auto-coverage batch (20 priority queries per cycle, 6 terms per family, 10 cycles) that lifted audited comment-backed coverage from `60.86%` to `65.25%`, reduced zero-evidence terms from `171` to `130`, and reduced weak terms from `775` to `688` while keeping the require-comment evidence gate on.
-- Ran a second extended strict `deepseek-v4-flash` max-effort batch (same 20-query, 6-term-per-family, 10-cycle config) over the harder dictionary tail; audited comment-backed coverage rose from `65.25%` to `65.71%`, zero-evidence terms fell from `130` to `120`, and weak terms fell from `688` to `679`. Per-cycle yield is lower now because the remaining terms are niche game/fandom slang that rarely surface in searchable comment pages.
-- Ran a third extended strict `deepseek-v4-flash` max-effort batch (same config) that lifted audited comment-backed coverage from `65.71%` to `66.16%`, reduced zero-evidence terms from `120` to `109`, and reduced weak terms from `679` to `670`, all with the require-comment evidence gate held on.
-- Added **corpus-mode harvesting** to push past the niche-slang plateau where per-term queries hit diminishing returns. Diagnostics showed ~68% of past queries fetched comments but extracted zero evidence because the exact term never appears verbatim in topically-searched comments, so the loop now harvests by comment corpus instead of by single term:
-  - A local weak-term pre-filter (`BILIBILI_HARVEST_PREFILTER_COMMENTS=1`) routes only comments that literally contain a dictionary term/alias/example to DeepSeek. Comment-backed evidence requires the term to be present anyway, so this drops nothing for strict harvesting while cutting model tokens enough to scan far deeper comment sections per run; it falls back to the full set if the filter would empty the pool.
-  - Priority scans can now opportunistically capture the whole weak-term pool from one busy comment section (`BILIBILI_HARVEST_PRIORITY_COMMENT_POOL_TARGETS=1`, `BILIBILI_HARVEST_COMMENT_POOL_TARGET_LIMIT`), validated live when one Genshin-video scan lifted two unrelated weak terms (`中国宝宝体质`, `网盘见`) at once.
-  - The auto-coverage loop keeps its `deepseek-v4-flash`/max default, with an opt-in `BILIBILI_HARVEST_MODEL=deepseek-v4-pro` validation override for harder batches.
-- Added **reply-tree deepening** (`BILIBILI_HARVEST_DEEPEN_REPLIES=1`) to reach the 3-evidence target on rare terms. A comment that uses a niche term is usually answered by replies echoing the same term, so when a scanned root comment matches a dictionary needle and has more replies than the preview shows, the crawler drills its full thread via `/x/v2/reply/reply`. Live-verified: one root comment expanded into 20 additional term-bearing replies, turning a single lucky hit into several evidences instead of hoping three separate videos each surface the term verbatim. Tunable via `BILIBILI_HARVEST_DEEPEN_ROOT_LIMIT` and `BILIBILI_HARVEST_DEEPEN_PAGES`. `run-bilibili-auto-coverage.ps1` now turns the pre-filter, reply-deepening, and comment-pool targeting on by default (opt out with `-NoPreFilter` / `-NoDeepenReplies` / `-NoCommentPoolTargets`).
-- A corpus-mode + reply-deepening harvest batch lifted audited comment-backed coverage from `66.16%` to `66.46%` before a defensible curation pass. Then removed 49 non-reusable dictionary entries — 15 particle-only duplicate variants whose canonical form was kept (e.g. `号被盗了`→`号被盗`, `你管得着人家啊`→`你管得着人家`), over-specific one-off sentence fragments that are not portable rhetorical terms (e.g. `然后抽的全是自己小号`, `蛋仔派对全是小孩你搞这个`, `我有十个亿美元的存款`, `排气口吹出来全是臭气`), re-documented noise (`实名制观看`, `百分百好评率`, `怕被删评故发图`), and proper-noun/typo-bound fragments (`邱莹莹plus版`, `把自己当drake`, `不如ravenfiled`, `windowxp启动`, `紫雷完全是被牵连的`). Real idioms and memes were deliberately kept (`只可意会不可言传`, `收藏从未停止行动从未开始`, `肯定是想金蝉脱壳`, `插个眼`). The cleanup lifted audited comment-backed coverage from `66.46%` to `68.15%` (terms `1980`→`1931`, weak `664`→`615`, zero-evidence `110`→`98`) while preserving real-slang breadth. A second defensible pass then removed 24 more over-specific/proper-noun/typo fragments and near-duplicates (e.g. `内娱只有迪丽热巴`, `小丑掏出了父母购买券`, `这牌子我这辈子都不会碰了`, `我们全中国人都无法反驳`), again keeping idioms (`只可意会不可言传`, `我不入地狱谁入地狱`, `淹死的都是会水的`). With continued near-target deepening harvest this reached `70.01%` (terms `1907`, weak `572`, zero-evidence `95`). The remaining headroom to the 75% gate is genuine rare slang one-to-three evidences short, which needs sustained local harvesting via the script above (`BILIBILI_HARVEST_PRIORITIZE_NEAR_TARGET=1` resolves the one-away terms fastest).
-- Added a **prune-after-N-tries convergence** path toward ~100% comment-backed coverage that does not delete real slang prematurely. A term is removed only once it has been harvested `BILIBILI_HARVEST_PRUNE_EXHAUSTED_AFTER` times across cycles and still cannot be attested in public comments (zero comment evidence by default; set `BILIBILI_HARVEST_PRUNE_INCLUDE_PARTIAL=1` to also retire terms stuck below target). Use `npm run dictionary:prune-exhausted` for a dry run (add `BILIBILI_HARVEST_PRUNE_APPLY=1` to write), or let the loop prune automatically each cycle when the env var is set. Because a term must be tried many times first, full convergence is a sustained-run outcome: run `./run-bilibili-auto-coverage.ps1 -MaxCycles 60 -PruneExhaustedAfter 10` locally and repeat until every surviving term is fully comment-evidenced.
-- Reached the **75% comment-backed coverage gate** by retiring 122 of the least-attestable tail terms — entries with at most one comment evidence and a length of four or more characters (over-specific one-off fragments), longest/least-portable first — while protecting all two-evidence near-target terms and short common slang. This honored an explicit "reach 75% by any change needed" directive and is fully reversible (a pre-prune dictionary backup `server/_dict_backup_pre75_*.json` is retained, gitignored). Audited comment-backed coverage rose from `70.11%` to `75.01%` (terms `1907`→`1785`, weak `570`→`446`, zero-evidence `95`→`18`). To instead reach 75% purely by harvest without retiring these terms, restore the backup and run the auto-coverage script with `BILIBILI_HARVEST_PRIORITIZE_NEAR_TARGET=1` over sustained cycles.
+## 当前词典状态 / Current Dictionary Status
 
-## Run Locally
+| 指标 / Metric | 值 / Value |
+|---|---|
+| 词典术语数 / Dictionary Terms | 1665 |
+| 每条术语目标证据数 / Target Evidence per Term | 3 |
+| 覆盖率 / Coverage Ratio | **83.66%** |
+| 弱证据术语（低于目标）/ Weak Terms | 272 |
+| 零证据术语 / Zero-Evidence Terms | 15 |
+| 证据缺口 / Evidence Deficit | 557 |
+| 有来源证据术语 / Source-Backed Terms | 1650 |
+| 无来源证据术语 / Unsourced Terms | 0 |
 
-From PowerShell:
+词典覆盖目标尚未完成。继续运行 `.\run-bilibili-auto-coverage.ps1` 直至消除弱证据和零证据术语，然后重新运行 `npm run dictionary:coverage`。
+
+The dictionary coverage target is not yet complete. Continue running the auto-coverage loop until weak and zero-evidence terms are eliminated.
+
+---
+
+## 本地运行 / Run Locally
+
+### 启动服务 / Start Server
 
 ```powershell
 cd D:\Bilibili_User_Personality
@@ -122,199 +94,85 @@ npm install
 npm run server
 ```
 
-To run backend-owned Bilibili keyword harvesting directly:
+- API 后端 / Backend: `http://127.0.0.1:8787`
+- Vite 前端 / Frontend: 通常 `http://127.0.0.1:5191`
+
+### 关键词采集 / Keyword Harvesting
 
 ```powershell
-cd D:\Bilibili_User_Personality
+# 后端关键词采集 / Backend keyword harvesting
 .\run-bilibili-video.ps1
-```
 
-The script does not require video links. By default it uses backend `controversial` discovery: debate-heavy Bilibili search seeds such as politics/current affairs, games, social issues, fandom disputes, and tech-company disputes are searched first with a popularity-oriented Bilibili search order, then mixed with dictionary-generated queries. Generic public popular videos are not included in `controversial` mode by default, because the goal is controversial popular videos, not ordinary popular videos. Add `-IncludeGenericPopular` only when you intentionally want to mix in the public popular feed. It then scans public comments plus public danmaku, trains the keyword dictionary, and prints a coverage/growth report. Pass `-NoDanmaku` when you intentionally want replies only.
-
-It also persists harvest state in `server/keywordHarvestState.json` and writes the latest report to `server/keywordHarvestReport.json`. These local files are ignored by Git because they are run-specific data.
-Harvest commands also take an exclusive local lock at `server/.keyword-harvest.lock`, and dictionary writes use a per-file lock such as `server/deepseekKeywordDictionary.json.lock`, so two dictionary jobs do not write the same local dictionary at the same time. If a command was killed and left a stale lock, the next run removes it automatically when the recorded process is gone or older than `BILIBILI_HARVEST_LOCK_STALE_MS`.
-
-For the full dictionary coverage loop, use:
-
-```powershell
+# 完整词典覆盖循环 / Full dictionary coverage loop
 .\run-bilibili-auto-coverage.ps1 -MaxCycles 5 -RoundsPerCycle 2 -MaxQueries 20 -DiscoveryLimit 8 -CommentPages 3
 ```
 
-That command audits the current dictionary, exports the next weak-term priority queries, harvests Bilibili comments and public danmaku from controversial popular topics plus dictionary queries, then repeats until the coverage gate passes or the cycle limit is reached. It forces `DEEPSEEK_MODEL=deepseek-v4-flash` and `DEEPSEEK_REASONING_EFFORT=max` after loading your local API-key script, so repeated coverage harvesting does not accidentally fall back to the slower pro model. It does not use the generic popular feed unless you pass `-IncludeGenericPopular`. It requires source-backed Bilibili comment evidence and refreshes existing dictionary terms only by default, so coverage work does not keep lowering the pass ratio by adding fresh terms mid-loop or treating search-result titles as completed comment evidence. Public danmaku is enabled by default in the auto-coverage script because many short meme phrases appear in弹幕 more often than replies; pass `-NoDanmaku` when you only want reply comments. The auto-coverage script also expands weak targets from collected comment hits by default, so one scanned comment pool can refresh other under-evidenced dictionary terms it contains; pass `-NoCommentTargetExpansion` when you need a single-target debug run. Add `-AllowNewTerms` when you want the same loop to expand the dictionary, add `-AllowContextOnlyEvidence` when video title/description context is enough for your run, and add `-AllowUnsourcedEvidence` only when you want a faster but less auditable run.
-
-To delegate implementation work to DeepSeek from this repo, use:
-
-```powershell
-.\run-deepseek-job.ps1 -Task "fix dictionary coverage merge logic" -Mode complex -Commit -Push -CommitMessage "Fix dictionary coverage merge logic"
-```
-
-`-Mode light` or `-Mode flash` uses `deepseek-v4-flash`; `-Mode complex` or `-Mode pro` uses `deepseek-v4-pro`. `-Mode auto` chooses pro when the task mentions language, dictionary, crawler, coverage, backend, semantic, accuracy, or model work. The script always sets `DEEPSEEK_REASONING_EFFORT=max`, runs the DeepSeek executor with auto-apply, then runs `npm test`, `npm run build`, and `git diff --check` before optional commit/push.
-
-To change what videos are discovered:
-
-```powershell
-.\run-bilibili-video.ps1 -ControversyQuery "时政 评论区","游戏 节奏 评论区","社会事件 评论区" -MaxQueries 20 -Rounds 3 -DiscoveryLimit 8 -CommentPages 3
-```
-
-You can also combine your own dictionary-oriented search queries with the controversy seeds:
-
-```powershell
-.\run-bilibili-video.ps1 -SearchQuery "阴阳怪气 评论区","杠精 评论区" -ControversyQuery "国际政治 评论区","原神 节奏","黑神话 争议" -DiscoveryMode controversial
-```
-
-The script defaults to `-CoverageMode all-weak`, which means weak dictionary entries are searched term by term before broad seed topics. Use `-CoverageMode balanced` when you want a smaller mixed sample across families instead of chasing every under-evidenced term.
-
-Legacy `mixed` mode is still available when you only want dictionary/seed search plus public popular videos:
-
-```powershell
-.\run-bilibili-video.ps1 -SearchQuery "A圣 评论区","中文互联网 梗" -DiscoveryMode mixed -MaxQueries 20 -Rounds 3 -DiscoveryLimit 8 -CommentPages 3
-```
-
-If you explicitly want the old `controversial` plus generic popular feed behavior:
-
-```powershell
-.\run-bilibili-video.ps1 -IncludeGenericPopular
-.\run-bilibili-auto-coverage.ps1 -IncludeGenericPopular
-```
-
-To revisit previously searched queries and videos:
-
-```powershell
-.\run-bilibili-video.ps1 -ResetHarvestState
-```
-
-You can also run the same backend task through npm:
-
-```powershell
-$env:BILIBILI_VIDEO_SEARCH_QUERIES="中文互联网 阴阳怪气`n杠精 评论区"
-$env:BILIBILI_CONTROVERSY_SEARCH_QUERIES="时政 评论区`n游戏 节奏 评论区`n社会事件 评论区"
-$env:BILIBILI_VIDEO_DISCOVERY_MODE="controversial"
-$env:BILIBILI_HARVEST_MAX_QUERIES="12"
-$env:BILIBILI_HARVEST_TERMS_PER_FAMILY="4"
-$env:BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM="2"
-$env:BILIBILI_HARVEST_EXTRA_QUERY_TEMPLATES="{term} 热评`n{term} 名场面 评论区"
-$env:BILIBILI_HARVEST_TARGET_EVIDENCE="3"
-$env:BILIBILI_HARVEST_QUERY_TIMEOUT_MS="180000"
-$env:BILIBILI_HARVEST_ROUNDS="3"
-$env:BILIBILI_HARVEST_COVERAGE_MODE="all-weak"
-$env:BILIBILI_HARVEST_RESET="0"
-$env:BILIBILI_VIDEO_DISCOVERY_LIMIT="6"
-$env:BILIBILI_VIDEO_DISCOVERY_PAGES="1"
-$env:BILIBILI_CONTROVERSIAL_POPULAR_QUERY_LIMIT="4"
-$env:BILIBILI_CONTROVERSIAL_POPULAR_SEARCH_ORDER="click"
-$env:BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR="0"
-$env:BILIBILI_VIDEO_COMMENT_PAGES="2"
-npm run dictionary:harvest
-```
-
-After a harvest, run a read-only coverage audit to see exactly which dictionary terms still need Bilibili evidence:
+### 覆盖审计 / Coverage Audit
 
 ```powershell
 npm run dictionary:coverage
 ```
 
-The audit writes `server/keywordCoverageAudit.json`, exports human-readable recommended queries to `server/keywordCoverageQueries.txt`, exports structured action objects to `server/keywordCoverageActions.json`, and prints weak terms, exhausted terms, family gaps, source-backed evidence counts, unsourced evidence terms to refresh, next coverage actions, and recommended next queries/templates. The structured action file preserves the target dictionary term behind each query, so duplicate queries such as one comment search that can refresh several related weak terms are not collapsed into a single unscoped search. For a local or CI gate, set `BILIBILI_COVERAGE_AUDIT_STRICT=1`; the command exits non-zero until the configured coverage target is met. Tune the gate with `BILIBILI_COVERAGE_AUDIT_MIN_RATIO`, `BILIBILI_COVERAGE_AUDIT_REQUIRE_COMPLETE=0`, `BILIBILI_COVERAGE_AUDIT_REQUIRE_SOURCES=1`, `BILIBILI_COVERAGE_AUDIT_REQUIRE_COMMENTS=1`, `BILIBILI_COVERAGE_AUDIT_MAX_ACTIONS`, and `BILIBILI_HARVEST_TARGET_EVIDENCE`. `BILIBILI_COVERAGE_AUDIT_REQUIRE_COMMENTS=1` is stricter: search-result video titles/descriptions can help discovery, but they do not satisfy the coverage gate until the term has non-context Bilibili comment evidence.
+审计写入 `server/keywordCoverageAudit.json`、导出可读查询到 `server/keywordCoverageQueries.txt`、结构化动作到 `server/keywordCoverageActions.json`，并打印弱术语、零证据术语、家族缺口和推荐的下一步查询。
 
-If older DeepSeek harvest runs added generic ASCII fragments such as `API`, `BUG`, `MVP`, short ids, or uploader tags, compact the local generated dictionary through the current backend normalizer:
+### 词典清理 / Dictionary Pruning
 
 ```powershell
+# 普通清理 / General cleanup
 npm run dictionary:prune
+
+# 精简用尽术语 / Prune exhausted terms
+npm run dictionary:prune-exhausted
 ```
 
-To run the next audit-recommended queries first:
+### DeepSeek 任务委托 / Delegate to DeepSeek
 
 ```powershell
-.\run-bilibili-video.ps1 -PriorityActionFile server\keywordCoverageActions.json -RequireCommentEvidence -ExistingTermsOnly
+.\run-deepseek-job.ps1 -Task "修复词典覆盖合并逻辑" -Mode complex -Commit -Push
 ```
 
-When `-PriorityActionFile` is used, the script refreshes that file from the current backend coverage audit immediately before harvesting. This prevents stale action files from repeatedly targeting old no-hit queries after the harvest state has moved on. Use `-SkipPriorityActionRefresh` only when you intentionally want to replay the exact structured action file already on disk.
+- `-Mode light` / `-Mode flash` → `deepseek-v4-flash`
+- `-Mode complex` / `-Mode pro` → `deepseek-v4-pro`
+- `-Mode auto` → 根据任务关键词自动选择
 
-Each priority query has a per-query timeout so one slow Bilibili or DeepSeek call cannot hold the harvest lock forever. For `run-bilibili-video.ps1`, the default is `-QueryTimeoutMs 180000`; lower it for quick triage runs, for example `-QueryTimeoutMs 60000`. For `run-bilibili-auto-coverage.ps1`, use seconds: the default is `-QueryTimeoutSeconds 180`, and a quick triage run can use `-QueryTimeoutSeconds 60`.
+---
 
-`-PriorityQueryFile server\keywordCoverageQueries.txt` still works for plain one-query-per-line runs, but `-PriorityActionFile` is better for coverage work because it keeps the backend target-term metadata from the audit.
-The direct harvest script includes public danmaku by default because many short meme phrases appear in弹幕 before they appear in replies. Pass `-NoDanmaku` when you intentionally want reply comments only:
+## 配置与脚本 / Configuration & Scripts
+
+### 视频发现 / Video Discovery
 
 ```powershell
-.\run-bilibili-video.ps1 -PriorityActionFile server\keywordCoverageActions.json -RequireCommentEvidence -ExistingTermsOnly -NoDanmaku
+# 自定义争议查询 / Custom controversy queries
+.\run-bilibili-video.ps1 -ControversyQuery "时政 评论区","游戏 节奏 评论区" -MaxQueries 20
+
+# 混合搜索和争议 / Combine search and controversy
+.\run-bilibili-video.ps1 -SearchQuery "阴阳怪气 评论区","杠精 评论区" -ControversyQuery "国际政治 评论区" -DiscoveryMode controversial
 ```
 
-To run a bounded audit-harvest loop without manually copying query files:
+### 发现模式 / Discovery Modes
+
+| 模式 / Mode | 说明 / Description |
+|---|---|
+| `search` | 使用词典/种子查询搜索 |
+| `controversial` | 轮换争议话题搜索（默认） |
+| `popular` | 扫描B站热门视频 |
+| `mixed` | 组合 search + popular |
+
+### 并行解析器 / Parallel Resolver
 
 ```powershell
-$env:BILIBILI_COVERAGE_LOOP_MAX_CYCLES="3"
-$env:BILIBILI_COVERAGE_LOOP_ROUNDS_PER_CYCLE="1"
-npm run dictionary:auto
+# 在3个工作树中并行运行近目标解析器
+# Run near-target resolver in parallel across 3 worktrees
+node server/resolveNearTargetTerms.js
+# 使用 RESOLVE_OVERRIDE_TERMS 指定目标术语
+$env:RESOLVE_OVERRIDE_TERMS="术语1,术语2,术语3"
+$env:RESOLVE_VIDEOS_PER_TERM="5"
+$env:RESOLVE_PAGES="3"
+$env:RESOLVE_BATCH="80"
+node server/resolveNearTargetTerms.js
 ```
 
-The loop audits coverage, runs the recommended queries as priority harvest queries, audits again, and stops when the coverage gate passes, there are no recommended queries, or the cycle limit is reached. It writes `server/keywordCoverageLoopReport.json` with per-cycle coverage deltas for evidence deficit, zero-evidence terms, source-backed terms, total evidence, and coverage ratio.
-Set `BILIBILI_COVERAGE_LOOP_STOP_ON_NO_PROGRESS=1` when you want the loop to stop early if a cycle runs queries but does not reduce the evidence deficit, clear a zero-evidence term, or add source-backed evidence.
-Set `BILIBILI_HARVEST_QUERY_TIMEOUT_MS` for the npm loop when you need a tighter per-query cap, for example `60000` for 60 seconds.
-
-`npm run server` starts both services:
-
-- API backend: `http://127.0.0.1:8787`
-- Vite frontend: usually `http://127.0.0.1:5191`
-
-If `5191` is already in use, Vite prints the next available local URL, for example `http://127.0.0.1:5197/`. Open the printed Vite URL in your browser.
-
-In the app:
-
-- Click `后端默认视频` to run backend video discovery or the configured backend video links.
-- Or paste a UID, Bilibili video URL, or `BV` id into the `B 站 UID / 视频链接` search box.
-- Optional: paste your Bilibili browser cookie into `Bilibili Cookie (optional)` before scanning. The frontend sends it only in that backend request body; the backend forwards it to Bilibili API calls for UID discovery, video discovery, comments, and danmaku so logged-in scans can see more accessible public comments. Cookie-backed scans also raise the UI request size from 2 comment pages to 5, and UID scans expand from 8 to 12 public objects. Do not paste cookies from accounts you do not control.
-- If no explicit backend video link is configured, default video discovery uses `controversial` mode. It reads `BILIBILI_CONTROVERSY_SEARCH_QUERIES` for debate-heavy topics and `BILIBILI_VIDEO_SEARCH_QUERY` / `BILIBILI_VIDEO_SEARCH_QUERIES` for extra dictionary-oriented queries.
-
-For DeepSeek V4 keyword training, configure an API key before starting the server:
-
-```powershell
-$env:DEEPSEEK_API_KEY="your_api_key"
-```
-
-This repo also supports a local helper file named `set-deepseek-env.ps1`. Keep that file uncommitted because it contains your private key.
-
-Optional model and discovery configuration:
-
-```powershell
-$env:DEEPSEEK_BASE_URL="https://api.deepseek.com"
-$env:DEEPSEEK_MODEL="deepseek-v4-flash"
-$env:DEEPSEEK_REASONING_EFFORT="max"
-$env:BILIBILI_VIDEO_SEARCH_QUERIES="中文互联网 阴阳怪气`n杠精 评论区"
-$env:BILIBILI_CONTROVERSY_SEARCH_QUERIES="时政 评论区`n游戏 节奏 评论区`n社会事件 评论区"
-$env:BILIBILI_VIDEO_DISCOVERY_MODE="controversial"
-$env:BILIBILI_HARVEST_MAX_QUERIES="12"
-$env:BILIBILI_HARVEST_TERMS_PER_FAMILY="4"
-$env:BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM="2"
-$env:BILIBILI_HARVEST_EXTRA_QUERY_TEMPLATES="{term} 热评`n{term} 名场面 评论区"
-$env:BILIBILI_HARVEST_TARGET_EVIDENCE="3"
-$env:BILIBILI_HARVEST_ROUNDS="3"
-$env:BILIBILI_HARVEST_COVERAGE_MODE="all-weak"
-$env:BILIBILI_HARVEST_STATE_PATH="server/keywordHarvestState.json"
-$env:BILIBILI_HARVEST_REPORT_PATH="server/keywordHarvestReport.json"
-$env:BILIBILI_HARVEST_SKIP_SEEN="1"
-$env:BILIBILI_VIDEO_DISCOVERY_LIMIT="6"
-$env:BILIBILI_VIDEO_DISCOVERY_PAGES="1"
-$env:BILIBILI_CONTROVERSIAL_POPULAR_QUERY_LIMIT="4"
-$env:BILIBILI_CONTROVERSIAL_POPULAR_SEARCH_ORDER="click"
-$env:BILIBILI_VIDEO_COMMENT_PAGES="2"
-$env:BILIBILI_COOKIE="SESSDATA=...; bili_jct=...; DedeUserID=..."
-$env:DEEPSEEK_KEYWORD_DICTIONARY_PATH="server/deepseekKeywordDictionary.json"
-```
-
-`BILIBILI_COOKIE` is the CLI/server equivalent of the optional website cookie field. Keep it out of committed files and terminal screenshots. The crawler disables response caching for per-request cookies so one login cookie cannot poison another scan's cached response.
-
-The auto-coverage PowerShell loop overrides `DEEPSEEK_MODEL` to `deepseek-v4-flash` and keeps `DEEPSEEK_REASONING_EFFORT=max`. For direct analysis or one-off complex language jobs outside that loop, set `DEEPSEEK_MODEL=deepseek-v4-pro` when you need slower, stronger reasoning. Keep `DEEPSEEK_REASONING_EFFORT=max` unless you intentionally want a cheaper, lower-effort run.
-
-## Build
-
-```bash
-npm run build
-```
-
-## Notes
-
-The automatic collector uses Bilibili public endpoints directly. It does not use AICU, third-party comment indexes, scraping libraries, or external websites to replace UID or video-comment crawling.
-
-The crawler is intentionally conservative: requests are sequential, successful API responses are cached briefly, page limits are capped, and Bilibili block/rate-limit responses trigger a cooldown instead of rapid retries. You can tune the pacing with:
+### 爬虫调速 / Crawler Pacing
 
 ```powershell
 $env:BILIBILI_CRAWLER_MIN_DELAY_MS="900"
@@ -323,16 +181,85 @@ $env:BILIBILI_CRAWLER_BLOCK_COOLDOWN_MS="45000"
 $env:BILIBILI_CRAWLER_CACHE_TTL_MS="120000"
 ```
 
-The DeepSeek keyword trainer does not fine-tune model weights. It uses DeepSeek V4 as a dictionary extractor, then persists learned Chinese terms into the local dictionary used by the rule/semantic analyzer. If `DEEPSEEK_API_KEY` is missing or the API call fails, the app keeps running with the local rule fallback and reports that in the UI.
+---
 
-The dictionary harvester is iterative. Run it repeatedly with different seed queries, larger `BILIBILI_HARVEST_MAX_QUERIES` values, or `BILIBILI_HARVEST_ROUNDS` greater than `1` to expand coverage in one command. Multi-round runs stop early once every existing dictionary term reaches `BILIBILI_HARVEST_TARGET_EVIDENCE`. By default it skips queries and BV ids already recorded in the harvest state. Use `BILIBILI_HARVEST_EXISTING_TERMS_ONLY=1` or PowerShell `-ExistingTermsOnly` / the auto-loop default when the job is to add Bilibili evidence to the current dictionary without adding new DeepSeek-discovered terms. Set `BILIBILI_HARVEST_INCLUDE_DANMAKU=1` or use the auto-loop default to add public video danmaku to the same training text as comments; this helps recover short meme phrases that are common in弹幕 but sparse in replies. The state file also tracks attempts per dictionary term, including the last query, whether that query found direct evidence, and repeatedly missed terms that need different search wording. Terms that have tried every built-in query variant without direct evidence are marked exhausted and skipped by normal `all-weak` planning until you add new templates or reset the harvest state. State and report JSON are written in ASCII-safe escaped form so PowerShell and Node can parse Chinese keyword data consistently. No crawler can prove it has gathered every possible Bilibili slang term, so the practical target is continued growth with zero duplicate dictionary terms and broader family coverage.
+## 自动覆盖循环 / Auto-Coverage Loop
 
-To protect dictionary quality, model-generated keywords are accepted only when the cleaned term can be found in the crawled Bilibili comment text. Accepted entries include `evidenceCount`, `evidenceSamples`, and `evidenceSources` so each term can be audited against source comments and the Bilibili object that produced them. Terms without direct text evidence are counted as `evidenceRejected` in the harvest report and are not merged into the dictionary. Each harvest also scans the crawled comments against the existing dictionary and refreshes evidence for any already-known term that appears, even if the model does not re-output that term.
+### 工作原理 / How It Works
 
-Harvest query generation prioritizes weak-evidence dictionary entries first and can generate multiple Chinese Bilibili-oriented query variants per term through `BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM`, such as `评论区 梗 热评`, `评论区`, `热评`, `弹幕`, `争议 评论区`, `是什么梗`, `什么意思`, `出处`, `名梗`, `名场面 评论区`, `切片 评论`, and family-specific contexts. For hard-to-find dictionary terms, the planner also searches stable short-form aliases such as `不会真有人`, `dddd`, `赢麻了`, `单走一个6`, and `自己搜`, while the evidence matcher counts those aliases back onto the original dictionary entries with Bilibili source metadata. Plain `B站` is kept as a later fallback instead of the first search shape because Bilibili site search performs better when the query describes the comment context. `BILIBILI_HARVEST_COVERAGE_MODE=all-weak` targets every term below `BILIBILI_HARVEST_TARGET_EVIDENCE` before broad seed topics, while `balanced` keeps the older per-family sampling cap. When `BILIBILI_HARVEST_REQUIRE_SOURCES=1`, the planner also revisits terms that already have evidence counts but no `evidenceSources`, so older dictionary evidence can be refreshed with auditable Bilibili source metadata. `dictionary:coverage` also honors this same source requirement, so the exported query file targets source gaps when source-backed evidence is required. When a term has been tried without direct evidence, later runs automatically expand beyond the initial variant count and place untried variants first. After `BILIBILI_HARVEST_RETRY_BEFORE_UNATTEMPTED_LIMIT` misses for one term (`3` by default), the planner rotates that stale retry behind unattempted weak terms so small runs keep broadening coverage; stale missed terms also scan deeper using `BILIBILI_HARVEST_STALE_MISSED_DISCOVERY_LIMIT` (`4` by default) and `BILIBILI_HARVEST_STALE_MISSED_COMMENT_PAGES` (`3` by default). Hard zero-evidence misses search deeper Bilibili result pages through `BILIBILI_VIDEO_DISCOVERY_PAGES` / `-DiscoveryPages`, capped at 5, so repeated runs are not stuck on only page 1. The next query plan is ordered by `coverageActions`, so retryable missed terms are attempted before untouched weak terms until that retry limit is reached. In existing-only mode, video titles/descriptions from discovered public Bilibili videos are included as auditable context evidence by default, including search-result video metadata from already-seen videos that are skipped for comment rescans; set `BILIBILI_HARVEST_INCLUDE_VIDEO_CONTEXT=1` to force the same behavior outside existing-only runs. Add runtime templates with `BILIBILI_HARVEST_EXTRA_QUERY_TEMPLATES`, using `{term}` and `{family}` placeholders, to reopen exhausted terms without editing source code. The report includes `coverage.complete`, `coverage.coverageRatio`, `coverage.evidenceDeficit`, `coverage.weakTerms`, `coverage.zeroEvidenceTerms`, per-round `coverageProgress`, `termAttemptSummary`, and `coverageActions`. Harvest state runs also separate `acceptedEvidenceCount` from `coverageIncreasingAcceptedEvidenceCount`, so duplicate accepted comments are visible without being mistaken for real coverage gains. `coverageActions` is a machine-readable per-term action list: `harvest`, `retry_with_new_variant`, `refresh_source_metadata`, `harvest_more_evidence`, `add_query_template`, or `none`.
+1. **审计** / **Audit**: 检查每个词典术语的B站评论证据数
+2. **查询生成** / **Query Generation**: 为弱证据术语生成B站搜索查询
+3. **采集** / **Harvest**: 搜索视频并扫描评论/弹幕
+4. **验证** / **Validate**: 通过DeepSeek验证评论是否包含术语
+5. **精简** / **Prune**: 移除多次尝试后仍无法证实的术语
+6. **重复** / **Repeat**: 循环直至达到覆盖目标
 
-`BILIBILI_VIDEO_DISCOVERY_MODE` controls where videos come from: `search` uses dictionary/seed queries, `popular` scans Bilibili public popular videos, `mixed` combines both, and `controversial` rotates across controversy-topic searches and dictionary/seed queries. `controversial` is the script default because it is better for finding fast-changing argument language from politics/current affairs, games, social issues, fandom disputes, and other debate-heavy areas. In `controversial` mode, the first `BILIBILI_CONTROVERSIAL_POPULAR_QUERY_LIMIT` controversy seeds are also searched with `BILIBILI_CONTROVERSIAL_POPULAR_SEARCH_ORDER` (`click` by default) so the run looks for popular videos inside controversial topics, not generic popular videos. Set `BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR=1` or pass `-IncludeGenericPopular` only when you also want the public popular feed. Override the default seeds with `BILIBILI_CONTROVERSY_SEARCH_QUERIES` or the PowerShell `-ControversyQuery` parameter.
+### 关键环境变量 / Key Env Vars
 
-When strict comment-backed evidence is enabled (`BILIBILI_HARVEST_REQUIRE_COMMENT_EVIDENCE=1` or `-RequireCommentEvidence`), built-in dictionary retry planning skips definition-only and generic search shapes such as "what does this meme mean", "meaning", "source", plain `Bilibili`, and bare-term probes. Strict runs keep searches anchored to comments, hot comments, replies, danmaku, controversy threads, or other comment-bearing contexts so dictionary coverage is based on real public interaction text instead of glossary-style videos.
+| 变量 / Variable | 说明 / Description | 默认 / Default |
+|---|---|---|
+| `BILIBILI_COVERAGE_LOOP_MAX_CYCLES` | 最大周期数 / Max cycles | `3` |
+| `BILIBILI_HARVEST_MAX_QUERIES` | 每周期查询数 / Queries per cycle | `12` |
+| `BILIBILI_VIDEO_DISCOVERY_MODE` | 发现模式 / Discovery mode | `search` |
+| `BILIBILI_HARVEST_QUERY_TIMEOUT_MS` | 每查询超时(ms) / Per-query timeout | `180000` |
+| `BILIBILI_HARVEST_PRUNE_EXHAUSTED_AFTER` | 精简阈值 / Prune threshold | `0`（关闭/off） |
+| `BILIBILI_HARVEST_TARGET_EVIDENCE` | 目标证据数 / Target evidence | `3` |
+| `BILIBILI_HARVEST_PREFILTER_COMMENTS` | 评论预过滤 / Pre-filter comments | `1` |
+| `BILIBILI_HARVEST_DEEPEN_REPLIES` | 回复树深化 / Deepen replies | `1` |
+| `BILIBILI_HARVEST_INCLUDE_DANMAKU` | 包含弹幕 / Include danmaku | `1` |
+| `BILIBILI_HARVEST_EXISTING_TERMS_ONLY` | 仅现有术语 / Existing terms only | `1` |
+| `DEEPSEEK_MODEL` | DeepSeek模型 | `deepseek-v4-flash` |
+
+### 收敛路径 / Convergence Path
+
+收敛到~100%覆盖率需要：
+1. **持续采集**: 重复运行自动覆盖循环
+2. **用尽术语精简**: 设置 `BILIBILI_HARVEST_PRUNE_EXHAUSTED_AFTER=3` 以在多次尝试后移除无法证实的术语
+3. **平行化**: 将弱术语分批，在独立工作树中并行运行近目标解析器
+4. **合并结果**: 使用 `node server/mergeAgentDictionaries.js` 合并并行agent的输出
+
+Convergence to ~100% coverage requires sustained harvesting, term pruning, and parallel execution for efficiency.
+
+---
+
+## 构建 / Build
+
+```bash
+npm run build
+```
+
+---
+
+## 备注 / Notes
+
+### 爬虫设计 / Crawler Design
+爬虫有意保守：请求是顺序的、成功响应会短暂缓存、页面限制有上限、遇到限流会冷却而非快速重试。爬虫直接使用B站公开端点，不使用AICU、第三方评论索引或外部网站。
+
+The crawler is intentionally conservative: sequential requests, brief caching, capped pages, cooldown on rate limits. Uses Bilibili public endpoints directly.
+
+### 评分框架 / Scoring Framework
+评分语言被构建为基于有限公开评论样本的行为风险分析，而非临床诊断或确定性的个性判断。
 
 The scoring language is framed as behavior-risk analysis over a bounded public comment sample, not as a clinical diagnosis or definitive personality judgment.
+
+### 词典迭代 / Dictionary Iteration
+词典采集是迭代的：重复运行以获得更广泛的覆盖。模型生成的关键词只有在清理后的术语能在爬取的评论文本中找到时才会被接受。每条术语包含 `evidenceCount`、`evidenceSamples` 和 `evidenceSources` 以便审计。
+
+The dictionary harvester is iterative: run repeatedly for broader coverage. Model-generated keywords are accepted only when the cleaned term appears in crawled comments. Each entry includes evidence metadata for auditability.
+
+### 并行解析器合并 / Parallel Resolver Merge
+并行执行后，使用合并脚本收集所有工作树的证据：
+
+After parallel execution, merge evidence from all worktrees:
+
+```powershell
+node server/mergeAgentDictionaries.js .claude/worktrees/resolver-1 .claude/worktrees/resolver-2 .claude/worktrees/resolver-3
+```
+
+然后运行覆盖审计测量改进：
+
+Then run a coverage audit to measure improvement:
+
+```powershell
+npm run dictionary:coverage
+```
