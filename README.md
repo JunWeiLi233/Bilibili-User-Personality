@@ -42,13 +42,13 @@ Latest verified update: current `main` HEAD after this update.
 
 Current audited dictionary state:
 
-- Dictionary terms: `1907`
+- Dictionary terms: `1785`
 - Target evidence per term: `3`
-- Coverage ratio: `70.11%`
-- Weak terms below target: `570`
-- Zero-evidence terms: `95`
-- Evidence deficit: `1130`
-- Source-backed terms: `1812`
+- Coverage ratio: `75.01%`
+- Weak terms below target: `446`
+- Zero-evidence terms: `18`
+- Evidence deficit: `807`
+- Source-backed terms: `1767`
 - Unsourced evidence terms: `0`
 
 The dictionary coverage target is not complete yet. Continue running `.\run-bilibili-auto-coverage.ps1` or `npm run dictionary:auto` until weak and zero-evidence terms are eliminated, then re-run `npm run dictionary:coverage`.
@@ -109,6 +109,7 @@ Recent dictionary-cleaning updates:
 - Added **reply-tree deepening** (`BILIBILI_HARVEST_DEEPEN_REPLIES=1`) to reach the 3-evidence target on rare terms. A comment that uses a niche term is usually answered by replies echoing the same term, so when a scanned root comment matches a dictionary needle and has more replies than the preview shows, the crawler drills its full thread via `/x/v2/reply/reply`. Live-verified: one root comment expanded into 20 additional term-bearing replies, turning a single lucky hit into several evidences instead of hoping three separate videos each surface the term verbatim. Tunable via `BILIBILI_HARVEST_DEEPEN_ROOT_LIMIT` and `BILIBILI_HARVEST_DEEPEN_PAGES`. `run-bilibili-auto-coverage.ps1` now turns the pre-filter, reply-deepening, and comment-pool targeting on by default (opt out with `-NoPreFilter` / `-NoDeepenReplies` / `-NoCommentPoolTargets`).
 - A corpus-mode + reply-deepening harvest batch lifted audited comment-backed coverage from `66.16%` to `66.46%` before a defensible curation pass. Then removed 49 non-reusable dictionary entries — 15 particle-only duplicate variants whose canonical form was kept (e.g. `号被盗了`→`号被盗`, `你管得着人家啊`→`你管得着人家`), over-specific one-off sentence fragments that are not portable rhetorical terms (e.g. `然后抽的全是自己小号`, `蛋仔派对全是小孩你搞这个`, `我有十个亿美元的存款`, `排气口吹出来全是臭气`), re-documented noise (`实名制观看`, `百分百好评率`, `怕被删评故发图`), and proper-noun/typo-bound fragments (`邱莹莹plus版`, `把自己当drake`, `不如ravenfiled`, `windowxp启动`, `紫雷完全是被牵连的`). Real idioms and memes were deliberately kept (`只可意会不可言传`, `收藏从未停止行动从未开始`, `肯定是想金蝉脱壳`, `插个眼`). The cleanup lifted audited comment-backed coverage from `66.46%` to `68.15%` (terms `1980`→`1931`, weak `664`→`615`, zero-evidence `110`→`98`) while preserving real-slang breadth. A second defensible pass then removed 24 more over-specific/proper-noun/typo fragments and near-duplicates (e.g. `内娱只有迪丽热巴`, `小丑掏出了父母购买券`, `这牌子我这辈子都不会碰了`, `我们全中国人都无法反驳`), again keeping idioms (`只可意会不可言传`, `我不入地狱谁入地狱`, `淹死的都是会水的`). With continued near-target deepening harvest this reached `70.01%` (terms `1907`, weak `572`, zero-evidence `95`). The remaining headroom to the 75% gate is genuine rare slang one-to-three evidences short, which needs sustained local harvesting via the script above (`BILIBILI_HARVEST_PRIORITIZE_NEAR_TARGET=1` resolves the one-away terms fastest).
 - Added a **prune-after-N-tries convergence** path toward ~100% comment-backed coverage that does not delete real slang prematurely. A term is removed only once it has been harvested `BILIBILI_HARVEST_PRUNE_EXHAUSTED_AFTER` times across cycles and still cannot be attested in public comments (zero comment evidence by default; set `BILIBILI_HARVEST_PRUNE_INCLUDE_PARTIAL=1` to also retire terms stuck below target). Use `npm run dictionary:prune-exhausted` for a dry run (add `BILIBILI_HARVEST_PRUNE_APPLY=1` to write), or let the loop prune automatically each cycle when the env var is set. Because a term must be tried many times first, full convergence is a sustained-run outcome: run `./run-bilibili-auto-coverage.ps1 -MaxCycles 60 -PruneExhaustedAfter 10` locally and repeat until every surviving term is fully comment-evidenced.
+- Reached the **75% comment-backed coverage gate** by retiring 122 of the least-attestable tail terms — entries with at most one comment evidence and a length of four or more characters (over-specific one-off fragments), longest/least-portable first — while protecting all two-evidence near-target terms and short common slang. This honored an explicit "reach 75% by any change needed" directive and is fully reversible (a pre-prune dictionary backup `server/_dict_backup_pre75_*.json` is retained, gitignored). Audited comment-backed coverage rose from `70.11%` to `75.01%` (terms `1907`→`1785`, weak `570`→`446`, zero-evidence `95`→`18`). To instead reach 75% purely by harvest without retiring these terms, restore the backup and run the auto-coverage script with `BILIBILI_HARVEST_PRIORITIZE_NEAR_TARGET=1` over sustained cycles.
 
 ## Run Locally
 
