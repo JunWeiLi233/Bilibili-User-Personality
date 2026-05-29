@@ -1049,7 +1049,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
     : {};
   for (const videoLink of scanTargets) {
     try {
-      const scan = await fetchRepliesForVideo(videoLink, { pages: scanPages, includeDanmaku, ...deepenScanOptions }, deps);
+      const scan = await fetchRepliesForVideo(videoLink, { pages: scanPages, includeDanmaku, signal: payload.abortSignal, ...deepenScanOptions }, deps);
       if (scan.ok) {
         scans.push(scan);
       } else {

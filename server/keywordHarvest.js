@@ -3197,9 +3197,15 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
       : [];
   const results = [];
   const warnings = [];
+  const verbose = options.verbose === true || process.env.BILIBILI_HARVEST_VERBOSE === '1';
+  const planTotal = plan.length;
+  let planIndex = 0;
 
   for (const planItem of plan) {
     const query = planItem.query;
+    planIndex += 1;
+    const queryStartedAt = Date.now();
+    if (verbose) console.log(`  [q ${planIndex}/${planTotal}] start: ${query}`);
     const attemptFinishedAt = new Date().toISOString();
     const priorAttempt = planItem.term ? getTermAttempt(termAttempts, planItem.term) : null;
     const timeoutMs = Math.max(0, Number(options.perQueryTimeoutMs) || 0);
@@ -3311,6 +3317,13 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
         timeoutController,
       );
       results.push({ query, result });
+      if (verbose) {
+        const d = result.collectionDiagnostics || {};
+        const accepted = Array.isArray(d.acceptedTerms) ? d.acceptedTerms.length : 0;
+        const pf = d.commentPreFilter && d.commentPreFilter.applied ? ` prefilter ${d.commentPreFilter.commentsRouted}/${d.commentPreFilter.commentsBefore}` : '';
+        const secs = ((Date.now() - queryStartedAt) / 1000).toFixed(1);
+        console.log(`  [q ${planIndex}/${planTotal}] done ${secs}s: ok=${result.ok ? 1 : 0} videos=${d.scannedVideos || 0} comments=${d.commentsCollected || 0} accepted=${accepted}${pf}`);
+      }
       if (!result.ok) warnings.push(`${query}: ${result.error}`);
       for (const warning of result.warnings || []) warnings.push(`${query}: ${warning}`);
       searchedQuerySet.add(query);
@@ -3323,6 +3336,10 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
         if (video.bvid) scannedBvidSet.add(video.bvid);
       }
     } catch (error) {
+      if (verbose) {
+        const secs = ((Date.now() - queryStartedAt) / 1000).toFixed(1);
+        console.log(`  [q ${planIndex}/${planTotal}] FAILED ${secs}s: ${error.message}`);
+      }
       warnings.push(`${query}: ${error.message}`);
       const targetExistingTerms = planItem.term
         ? unique([

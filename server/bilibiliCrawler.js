@@ -764,12 +764,15 @@ export async function fetchReplyThread(video, rootRpid, options = {}, deps = {})
   if (!root) return [];
   const requestJson = deps.fetchJson || fetchJson;
   const pages = Math.max(1, Math.min(Number(options.pages || 2), 5));
+  const signal = options.signal;
+  const requestOptions = signal ? { signal } : {};
   const collected = [];
   for (let pn = 1; pn <= pages; pn += 1) {
+    if (signal?.aborted) break;
     const url = `https://api.bilibili.com/x/v2/reply/reply?type=${encodeURIComponent(video.replyType || 1)}&oid=${encodeURIComponent(video.oid)}&root=${encodeURIComponent(root)}&pn=${pn}&ps=20`;
     let data;
     try {
-      data = await requestJson(url, video.sourceUrl);
+      data = await requestJson(url, video.sourceUrl, requestOptions);
     } catch {
       break;
     }
@@ -834,9 +837,11 @@ export async function fetchRepliesForVideo(input, options = {}, deps = {}) {
   }
 
   if (deepenMatch && deepenRoots.size > 0) {
+    const signal = options.signal;
     for (const rootRpid of deepenRoots) {
+      if (signal?.aborted) break;
       try {
-        comments.push(...(await fetchReplyThread(video, rootRpid, { pages: deepenPages }, deps)));
+        comments.push(...(await fetchReplyThread(video, rootRpid, { pages: deepenPages, signal }, deps)));
       } catch {
         // Thread deepening is supplemental; keep the base comment scan usable on failure.
       }
