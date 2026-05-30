@@ -14,6 +14,9 @@ Research-driven prototype for evaluating whether a selected Bilibili user's publ
 - [配置与脚本 / Configuration & Scripts](#配置与脚本--configuration--scripts)
 - [自动覆盖循环 / Auto-Coverage Loop](#自动覆盖循环--auto-coverage-loop)
 - [构建 / Build](#构建--build)
+- [语义匹配 / Semantic Matching](#语义匹配--semantic-matching)
+- [UID 用户评论抓取 / UID Comment Scraping](#uid-用户评论抓取--uid-comment-scraping)
+- [收藏夹抓取 / Favorite List Scraping](#收藏夹抓取--favorite-list-scraping)
 - [备注 / Notes](#备注--notes)
 
 ---
@@ -68,14 +71,14 @@ Research-driven prototype for evaluating whether a selected Bilibili user's publ
 
 | 指标 / Metric | 值 / Value |
 |---|---|
-| 词典术语数 / Dictionary Terms | 1589 |
+| 词典术语数 / Dictionary Terms | 1590 |
 | 每条术语目标证据数 / Target Evidence per Term | 3 |
-| 覆盖率 / Coverage Ratio | **88.74%** |
-| 弱证据术语（低于目标）/ Weak Terms | 179 |
+| 覆盖率 / Coverage Ratio | **88.81%** |
+| 弱证据术语（低于目标）/ Weak Terms | 178 |
 | 零证据术语 / Zero-Evidence Terms | 14 |
-| 证据缺口 / Evidence Deficit | 363 |
-| 有来源证据术语 / Source-Backed Terms | 1575 |
-| 无来源证据术语 / Unsourced Terms | 0 |
+| 证据缺口 / Evidence Deficit | 361 |
+| 有来源证据术语 / Source-Backed Terms | 1576 |
+| 无来源证据术语 / Unsourced Terms | 14 |
 
 词典覆盖目标尚未完成。继续运行 `.\run-bilibili-auto-coverage.ps1` 直至消除弱证据和零证据术语，然后重新运行 `npm run dictionary:coverage`。
 
@@ -229,6 +232,86 @@ npm run build
 ```
 
 ---
+
+## 语义匹配 / Semantic Matching
+
+语义匹配作为精确子串匹配的补充：即使词典术语没有字面出现在评论中，只要含义相似即可接受为证据，用于覆盖那些"懂但不说"的稀有俚语。
+
+Semantic matching supplements exact substring matching by accepting comments whose meaning is similar to a term's definition even when the term doesn't appear literally.
+
+### 工作原理 / How It Works
+
+1. 使用本地 `@xenova/transformers`（模型 `Xenova/all-MiniLM-L6-v2`，384维向量）为每个词典术语生成嵌入向量，缓存至 `server/semanticTermEmbeddings.json`。
+2. 收集评论时，将评论按句子分块并嵌入，计算与所有术语的余弦相似度。
+3. 相似度 ≥ 阈值（默认 0.72）则作为语义证据写入词典，来源标记为 `[Semantic match, score=X.XXXX]`。
+
+Uses local `@xenova/transformers` (model `Xenova/all-MiniLM-L6-v2`, 384-dim vectors) to embed terms and comment chunks. Cosine similarity above threshold (default 0.72) counts as semantic evidence.
+
+### 启用 / Enabling
+
+```powershell
+$env:SEMANTIC_MATCH_ENABLED="1"
+$env:SEMANTIC_MATCH_THRESHOLD="0.72"   # 可选 / optional
+$env:SEMANTIC_MATCH_MAX_CHUNKS="50"    # 可选 / optional
+```
+
+在采集或解析器中启用后，语义匹配会自动在 `trainKeywordDictionary` 内运行，无须代码改动。精确匹配仍为主路径；语义匹配仅补充。
+
+When enabled, semantic matching runs automatically inside `trainKeywordDictionary`. Exact matching remains the primary path.
+
+### 模型说明 / Model Note
+
+本地模型对中文网络俚语的语义理解有限（约 27% 弱证据术语能从自身样本中获得 ≥0.72 的相似度）。语义匹配对常用词汇术语有一定帮助，但无法单靠它填补所有证据缺口。
+
+The local model has limited semantic understanding of niche Chinese internet slang (~27% of weak terms match their own samples above 0.72). It helps for common-vocabulary terms but won't close the gap alone.
+
+## UID 用户评论抓取 / UID Comment Scraping
+
+输入 B 站用户 UID，抓取该用户的公开评论数据作为词典证据来源。
+
+Input a Bilibili UID to scrape the user's public comment data for dictionary evidence.
+
+### 抓取范围 / Scraping Scope
+
+| 数据来源 / Source | 说明 / Description |
+|---|---|
+| 用户自己的视频互动 / Own video interactions | 用户在自己视频/动态中参与的评论线程 / Threads where the user replied on their own content |
+| 用户公开评论历史 / Public comment history | 通过 `x/v2/reply/search?mid={uid}` 获取用户在任何视频下的评论 / Comments the user wrote on any video |
+| 用户视频的全部评论 / All comments on user's videos | 用户投稿视频的完整评论区（不仅限于用户参与的线程）/ Full comment sections on the user's uploads |
+| 动态原文 / Dynamic posts | 用户发布的动态文本 / Authored dynamic text |
+
+### 使用 / Usage
+
+```powershell
+# 通过前端输入 UID / Via frontend UID input
+# 或通过 API / Or via API:
+curl -X POST http://127.0.0.1:8787/api/bilibili/analyze-uid \
+  -H "Content-Type: application/json" \
+  -d '{"uid":"130960422","pagesPerObject":2}'
+```
+
+## 收藏夹抓取 / Favorite List Scraping
+
+输入 B 站收藏夹链接或 media_id，自动展开收藏夹中的视频列表并扫描全部评论。
+
+Input a Bilibili favorite list URL or media_id to expand all videos in the list and scan their comments.
+
+### 支持的 URL 格式 / Supported URL Formats
+
+- `https://space.bilibili.com/{uid}/favlist?fid={media_id}`
+- `https://www.bilibili.com/medialist/detail/ml{media_id}`
+- 纯数字 media_id / Raw numeric media_id
+
+### 使用 / Usage
+
+```powershell
+# 通过 API 直接传入 / Via API directly:
+curl -X POST http://127.0.0.1:8787/api/bilibili/video-keywords \
+  -H "Content-Type: application/json" \
+  -d '{"favoriteLink":"https://space.bilibili.com/123/favlist?fid=456","pages":2}'
+```
+
+**注意**：收藏夹 API 需要 Cookie（SESSDATA）。Note: The favorite list API requires a Cookie (SESSDATA).
 
 ## 备注 / Notes
 

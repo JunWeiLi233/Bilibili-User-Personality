@@ -2,6 +2,7 @@ import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 
 import { withFileLock } from './fileLock.js';
+import { findDictionaryEntriesWithSemanticEvidence } from './semanticMatcher.js';
 
 const SUPPORTED_FAMILIES = ['attack', 'absolutes', 'evidence', 'evasion', 'cooperation', 'correction'];
 const DEEPSEEK_V4_MODELS = ['deepseek-v4-flash', 'deepseek-v4-pro'];
@@ -3519,7 +3520,17 @@ export async function trainKeywordDictionary(payload, options = {}) {
         excludeTerms: new Set([...generatedTerms, ...exactDictionaryEvidenceEntries.map((entry) => entry.term)]),
       })
     : { entries: [], usedFallback: true, evidenceRejected: 0, raw: '' };
-  const dictionaryEvidenceEntries = normalizeKeywordEntries([...exactDictionaryEvidenceEntries, ...modelDictionaryEvidence.entries]);
+  const semanticEvidenceEntries = await findDictionaryEntriesWithSemanticEvidence(evidenceDictionary, payload.fullText || payload.text, {
+    ...options,
+    source: payload.source,
+    uid: payload.uid,
+    targetEvidence: options.targetEvidence || 3,
+  });
+  const dictionaryEvidenceEntries = normalizeKeywordEntries([
+    ...exactDictionaryEvidenceEntries,
+    ...modelDictionaryEvidence.entries,
+    ...semanticEvidenceEntries,
+  ]);
   const acceptedEntries = normalizeKeywordEntries([...generated.entries, ...dictionaryEvidenceEntries]).filter(
     (entry) => !existingTermsOnly || currentTermSet.has(entry.term),
   );

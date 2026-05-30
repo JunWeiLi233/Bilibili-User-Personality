@@ -747,7 +747,7 @@ function App() {
     activeError === '全部'
       ? selectedUser.errors
       : selectedUser.errors.filter((error) => error.type === activeError);
-  const isVideoSearch = /BV[0-9A-Za-z]+|bilibili\.com\/video|b23\.tv/i.test(query);
+  const isVideoSearch = /BV[0-9A-Za-z]+|bilibili\.com\/video|b23\.tv|medialist|favlist/i.test(query);
 
   React.useEffect(() => {
     window.localStorage.setItem('bili-argument-lexicon', JSON.stringify(customLexicon));
@@ -799,25 +799,28 @@ function App() {
 
   const fetchVideoKeywords = async () => {
     const videoLink = query.trim();
+    const isFavorite = /medialist|favlist/i.test(videoLink);
     const hasBilibiliCookie = Boolean(bilibiliCookie.trim());
-    if (videoLink && !/BV[0-9A-Za-z]+|bilibili\.com\/video|b23\.tv/i.test(videoLink)) {
-      setFetchState({ status: 'error', message: '留空使用后端默认视频；或输入包含 BV 号的 B 站视频链接。' });
+    if (videoLink && !isFavorite && !/BV[0-9A-Za-z]+|bilibili\.com\/video|b23\.tv/i.test(videoLink)) {
+      setFetchState({ status: 'error', message: '留空使用后端默认视频；或输入包含 BV 号的 B 站视频链接或收藏夹链接。' });
       return;
     }
     setKeywordResults([]);
     setAnalysisState('loading');
     setFetchState({
       status: 'loading',
-      message: videoLink
-        ? '正在扫描该视频的公开评论，并用 DeepSeek V4 Pro max 提取关键词...'
-        : '正在调用后端代码里的默认 B 站视频，并用 DeepSeek V4 Pro max 提取关键词...',
+      message: isFavorite
+        ? '正在扫描该收藏夹中的视频，用 DeepSeek V4 Pro max 提取关键词...'
+        : videoLink
+          ? '正在扫描该视频的公开评论，并用 DeepSeek V4 Pro max 提取关键词...'
+          : '正在调用后端代码里的默认 B 站视频，并用 DeepSeek V4 Pro max 提取关键词...',
     });
     try {
       const response = await fetch('/api/bilibili/video-keywords', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          ...(videoLink ? { videoLink } : {}),
+          ...(isFavorite ? { favoriteLink: videoLink } : videoLink ? { videoLink } : {}),
           ...(hasBilibiliCookie ? { bilibiliCookie: bilibiliCookie.trim() } : {}),
           pages: hasBilibiliCookie ? 5 : 2,
         }),

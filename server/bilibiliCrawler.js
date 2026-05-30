@@ -528,6 +528,44 @@ export async function discoverVideosByUid(uid, limit, deps = {}) {
   return list.slice(0, limit).map((item) => videoObjectFromSpaceItem(item, uid));
 }
 
+export async function discoverVideosByFavorite(mediaId, limit, deps = {}) {
+  deps = depsWithBilibiliCookie(deps);
+  const requestJson = deps.fetchJson || fetchJson;
+  const pageSize = Math.min(20, limit);
+  const objects = [];
+
+  for (let pn = 1; objects.length < limit; pn += 1) {
+    const url = `https://api.bilibili.com/x/v3/fav/resource/list?media_id=${encodeURIComponent(mediaId)}&pn=${pn}&ps=${pageSize}&platform=web`;
+    let data;
+    try {
+      data = await requestJson(url, `https://space.bilibili.com`);
+    } catch {
+      break;
+    }
+    if (!data || data.code !== 0) break;
+    const medias = data.data?.medias || [];
+    for (const item of medias) {
+      if (objects.length >= limit) break;
+      if (item.type !== 2 || !item.bvid) continue; // type 2 = video
+      objects.push({
+        id: `video-1-${item.id}`,
+        kind: 'video',
+        bvid: item.bvid,
+        oid: String(item.id || ''),
+        replyType: 1,
+        title: item.title || item.bvid,
+        authorMid: String(item.upper?.mid || ''),
+        sourceUrl: `https://www.bilibili.com/video/${item.bvid}/`,
+        replyCount: Number(item.cnt_info?.reply || 0),
+      });
+    }
+    if (!data.data?.has_more) break;
+    await humanPause(600, 1600);
+  }
+
+  return objects;
+}
+
 function getDynamicText(item) {
   const dynamic = item?.modules?.module_dynamic || {};
   const descText = dynamic.desc?.text;
@@ -869,6 +907,39 @@ export async function fetchRepliesForVideo(input, options = {}, deps = {}) {
   };
 }
 
+export async function fetchUserPublicComments(mid, pages, deps = {}) {
+  const requestJson = deps.fetchJson || fetchJson;
+  const pageCount = Math.max(1, Math.min(Number(pages || 2), 5));
+  const comments = [];
+
+  for (let pn = 1; pn <= pageCount; pn += 1) {
+    const url = `https://api.bilibili.com/x/v2/reply/search?mid=${encodeURIComponent(mid)}&pn=${pn}&ps=20`;
+    let data;
+    try {
+      data = await requestJson(url, `https://space.bilibili.com/${mid}`);
+    } catch {
+      break;
+    }
+    if (!data || data.code !== 0) break;
+    for (const reply of data.data?.replies || []) {
+      const object = {
+        kind: reply.otype === 12 ? 'article' : 'video',
+        bvid: reply.bvid || '',
+        oid: String(reply.oid || ''),
+        replyType: Number(reply.type || reply.replyType || 1),
+        title: reply.title || '',
+        sourceUrl: reply.url || (reply.bvid ? `https://www.bilibili.com/video/${reply.bvid}/` : `https://space.bilibili.com/${mid}`),
+      };
+      collectPublicReply(reply, object, comments);
+    }
+    const page = data.data?.page;
+    if (!page || pn >= Math.ceil(Number(page.count || 0) / Math.max(Number(page.size || 20), 1))) break;
+    await humanPause(600, 1600);
+  }
+
+  return comments;
+}
+
 export function dedupePublicObjects(objects) {
   const seen = new Set();
   const unique = [];
@@ -960,6 +1031,27 @@ export async function analyzeUid(payload, deps = {}) {
     }
     if (i < objects.length - 1) {
       await humanPause(1400, 3600);
+    }
+  }
+
+  // Fetch the user's public comment history (comments they wrote on any video)
+  try {
+    comments.push(...(await fetchUserPublicComments(uid, pagesPerObject, deps)));
+  } catch (error) {
+    warnings.push(`comment history: ${error.message}`);
+  }
+
+  // Fetch ALL public comments on the user's own videos (not just threads where they replied)
+  const userVideos = objects.filter((o) => o.kind === 'video');
+  for (const video of userVideos) {
+    await humanPause(600, 1600);
+    try {
+      const scan = await fetchRepliesForVideo(video.sourceUrl || video.bvid, { pages: pagesPerObject }, deps);
+      if (scan.ok && scan.comments.length > 0) {
+        comments.push(...scan.comments);
+      }
+    } catch (error) {
+      warnings.push(`video scan ${video.bvid || video.title}: ${error.message}`);
     }
   }
 

@@ -1,4 +1,4 @@
-import { depsWithBilibiliCookie, discoverPopularVideos, discoverVideosByKeyword, extractBvid, fetchJson, fetchRepliesForVideo, fetchText } from './bilibiliCrawler.js';
+import { depsWithBilibiliCookie, discoverPopularVideos, discoverVideosByFavorite, discoverVideosByKeyword, extractBvid, fetchJson, fetchRepliesForVideo, fetchText } from './bilibiliCrawler.js';
 import {
   findDictionaryEntriesWithTextEvidence as defaultFindDictionaryEntriesWithTextEvidence,
   readKeywordDictionary as defaultReadKeywordDictionary,
@@ -617,6 +617,18 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
       deps.defaultVideoLink ||
       DEFAULT_VIDEO_LINK,
   );
+  const favoriteRaw = payload.favoriteId || payload.favoriteLink || payload.favorite || payload.favId || '';
+  if (favoriteRaw && videoLinks.length === 0) {
+    const favId = String(favoriteRaw).replace(/^ml/i, '').match(/\d+/)?.[0] || '';
+    if (favId) {
+      try {
+        const favVideos = await discoverVideosByFavorite(favId, 50, deps);
+        for (const v of favVideos) videoLinks.push(v.bvid);
+      } catch (error) {
+        warnings.push(`favorite expansion: ${error.message}`);
+      }
+    }
+  }
   const searchQueries = parseList(
     payload.searchQueries ||
       payload.searchQuery ||
@@ -1099,6 +1111,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
     (comment) => `${comment.bvid || comment.sourceUrl}:${comment.rpid}`,
   );
   const videos = scans.map((scan) => scan.video);
+  const fullCommentText = comments.map((c) => c.message).filter(Boolean).join('\n');
   const preFilterCommentsEnabled =
     (payload.preFilterCommentsToTargets === true || deps.preFilterCommentsToTargets === true) && existingTermsOnly;
   const commentPreFilter = preFilterCommentsEnabled
@@ -1183,6 +1196,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
     {
       uid: videos.map((video) => video.bvid).join(','),
       text: trainingText,
+      fullText: fullCommentText,
       source: `${mergedScan.source}${videoObjectEvidenceText ? ' plus video object evidence' : ''}${videoContextText ? ' plus video context' : ''}: ${contextSourceUrls.join(', ')}`,
       existingTermsOnly,
       ...(effectiveTargetExistingTerms.length ? { targetExistingTerms: effectiveTargetExistingTerms } : {}),
