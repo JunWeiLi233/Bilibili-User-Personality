@@ -71,14 +71,14 @@ Research-driven prototype for evaluating whether a selected Bilibili user's publ
 
 | 指标 / Metric | 值 / Value |
 |---|---|
-| 词典术语数 / Dictionary Terms | 1590 |
+| 词典术语数 / Dictionary Terms | 1593 |
 | 每条术语目标证据数 / Target Evidence per Term | 3 |
-| 覆盖率 / Coverage Ratio | **88.81%** |
-| 弱证据术语（低于目标）/ Weak Terms | 178 |
-| 零证据术语 / Zero-Evidence Terms | 14 |
-| 证据缺口 / Evidence Deficit | 361 |
-| 有来源证据术语 / Source-Backed Terms | 1576 |
-| 无来源证据术语 / Unsourced Terms | 14 |
+| 覆盖率 / Coverage Ratio | **89.58%** |
+| 弱证据术语（低于目标）/ Weak Terms | 153 |
+| 零证据术语 / Zero-Evidence Terms | 13 |
+| 证据缺口 / Evidence Deficit | 339 |
+| 有来源证据术语 / Source-Backed Terms | 1580 |
+| 无来源证据术语 / Unsourced Terms | 13 |
 
 词典覆盖目标尚未完成。继续运行 `.\run-bilibili-auto-coverage.ps1` 直至消除弱证据和零证据术语，然后重新运行 `npm run dictionary:coverage`。
 
