@@ -1,39 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-17T19:52:19.622Z",
+  "updatedAt": "2026-06-17T20:01:41.309Z",
   "runs": [
-    {
-      "at": "2026-06-17T06:39:19.850Z",
-      "queries": [
-        "无敌可爱 回复",
-        "这谁能绷得住 回复"
-      ],
-      "threadUrls": [],
-      "results": [
-        {
-          "query": "无敌可爱 回复",
-          "ok": false,
-          "threads": [],
-          "comments": [],
-          "warnings": [
-            "discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E6%97%A0%E6%95%8C%E5%8F%AF%E7%88%B1+%E5%9B%9E%E5%A4%8D&pn=0"
-          ]
-        },
-        {
-          "query": "这谁能绷得住 回复",
-          "ok": false,
-          "threads": [],
-          "comments": [],
-          "warnings": [
-            "discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E8%BF%99%E8%B0%81%E8%83%BD%E7%BB%B7%E5%BE%97%E4%BD%8F+%E5%9B%9E%E5%A4%8D&pn=0"
-          ]
-        }
-      ],
-      "warnings": [
-        "无敌可爱 回复: discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E6%97%A0%E6%95%8C%E5%8F%AF%E7%88%B1+%E5%9B%9E%E5%A4%8D&pn=0",
-        "这谁能绷得住 回复: discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E8%BF%99%E8%B0%81%E8%83%BD%E7%BB%B7%E5%BE%97%E4%BD%8F+%E5%9B%9E%E5%A4%8D&pn=0"
-      ]
-    },
     {
       "at": "2026-06-17T09:54:40.010Z",
       "queries": [
@@ -1155,6 +1123,35 @@
       ],
       "warnings": [
         "无敌可爱: discover: HTTP 403 from https://tieba.baidu.com/mo/q/m?kw=%E6%97%A0%E6%95%8C%E5%8F%AF%E7%88%B1"
+      ]
+    },
+    {
+      "at": "2026-06-17T20:01:39.290Z",
+      "queries": [],
+      "threadUrls": [
+        "https://c.tieba.baidu.com/p/10759170700?lp=home_main_thread_pb&mo_device=1"
+      ],
+      "results": [
+        {
+          "query": "explicit Tieba thread URLs",
+          "ok": false,
+          "threads": [
+            {
+              "id": "10759170700",
+              "kind": "tieba-thread",
+              "title": "Tieba thread 10759170700",
+              "keyword": "",
+              "sourceUrl": "https://tieba.baidu.com/p/10759170700"
+            }
+          ],
+          "comments": [],
+          "warnings": [
+            "https://tieba.baidu.com/p/10759170700: HTTP 403 from https://tieba.baidu.com/p/10759170700?pn=1"
+          ]
+        }
+      ],
+      "warnings": [
+        "explicit Tieba thread URLs: https://tieba.baidu.com/p/10759170700: HTTP 403 from https://tieba.baidu.com/p/10759170700?pn=1"
       ]
     }
   ],
