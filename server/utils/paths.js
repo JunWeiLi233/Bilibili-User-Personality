@@ -10,3 +10,4 @@ export const DEFAULT_COVERAGE_QUERY_FILE_PATH = join(DATA_DIR, 'keywordCoverageQ
 export const DEFAULT_COVERAGE_ACTION_FILE_PATH = join(DATA_DIR, 'keywordCoverageActions.json');
 export const DEFAULT_COVERAGE_LOOP_REPORT_PATH = join(DATA_DIR, 'keywordCoverageLoopReport.json');
 export const DEFAULT_TIEBA_CORPUS_PATH = join(DATA_DIR, 'tiebaKeywordCorpus.json');
+export const DEFAULT_HUGGINGFACE_CORPUS_PATH = join(DATA_DIR, 'huggingFaceKeywordCorpus.json');

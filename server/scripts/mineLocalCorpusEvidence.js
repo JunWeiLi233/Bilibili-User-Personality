@@ -8,6 +8,7 @@ const DEFAULT_CORPUS_PATHS = [
   'server/data/uid-discovery-comments.json',
   'server/data/bilibiliDirectProbeCorpus.json',
   'server/data/tiebaKeywordCorpus.json',
+  'server/data/huggingFaceKeywordCorpus.json',
 ];
 
 function parseCorpusPaths(value) {
