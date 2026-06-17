@@ -1,126 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-17T20:11:21.044Z",
+  "updatedAt": "2026-06-17T23:30:49.953Z",
   "runs": [
-    {
-      "at": "2026-06-17T10:01:06.761Z",
-      "queries": [
-        "无敌可爱"
-      ],
-      "threadUrls": [],
-      "results": [
-        {
-          "query": "无敌可爱",
-          "ok": true,
-          "threads": [
-            {
-              "id": "3971561580",
-              "kind": "tieba-thread",
-              "title": "超级喜欢你 连翻脸也没底气 5",
-              "keyword": "无敌可爱",
-              "sourceUrl": "https://tieba.baidu.com/p/3971561580"
-            },
-            {
-              "id": "3971560321",
-              "kind": "tieba-thread",
-              "title": "疏远 0",
-              "keyword": "无敌可爱",
-              "sourceUrl": "https://tieba.baidu.com/p/3971560321"
-            },
-            {
-              "id": "3922773186",
-              "kind": "tieba-thread",
-              "title": "为了你值得 26",
-              "keyword": "无敌可爱",
-              "sourceUrl": "https://tieba.baidu.com/p/3922773186"
-            },
-            {
-              "id": "3916447703",
-              "kind": "tieba-thread",
-              "title": "可爱不^_^ 1",
-              "keyword": "无敌可爱",
-              "sourceUrl": "https://tieba.baidu.com/p/3916447703"
-            },
-            {
-              "id": "3909680071",
-              "kind": "tieba-thread",
-              "title": "你祖宗到此一游 1",
-              "keyword": "无敌可爱",
-              "sourceUrl": "https://tieba.baidu.com/p/3909680071"
-            }
-          ],
-          "comments": [
-            {
-              "sourceKind": "tieba-discovery",
-              "sourceTitle": "超级喜欢你 连翻脸也没底气 5",
-              "sourceUrl": "https://tieba.baidu.com/p/3971561580",
-              "rpid": "tieba-discovery-3971561580",
-              "like": 0,
-              "ctime": 0,
-              "uname": "",
-              "mid": "",
-              "message": "超级喜欢你 连翻脸也没底气 5",
-              "platform": "tieba",
-              "keyword": "无敌可爱"
-            },
-            {
-              "sourceKind": "tieba-discovery",
-              "sourceTitle": "疏远 0",
-              "sourceUrl": "https://tieba.baidu.com/p/3971560321",
-              "rpid": "tieba-discovery-3971560321",
-              "like": 0,
-              "ctime": 0,
-              "uname": "",
-              "mid": "",
-              "message": "疏远 0",
-              "platform": "tieba",
-              "keyword": "无敌可爱"
-            },
-            {
-              "sourceKind": "tieba-discovery",
-              "sourceTitle": "为了你值得 26",
-              "sourceUrl": "https://tieba.baidu.com/p/3922773186",
-              "rpid": "tieba-discovery-3922773186",
-              "like": 0,
-              "ctime": 0,
-              "uname": "",
-              "mid": "",
-              "message": "为了你值得 26",
-              "platform": "tieba",
-              "keyword": "无敌可爱"
-            },
-            {
-              "sourceKind": "tieba-discovery",
-              "sourceTitle": "可爱不^_^ 1",
-              "sourceUrl": "https://tieba.baidu.com/p/3916447703",
-              "rpid": "tieba-discovery-3916447703",
-              "like": 0,
-              "ctime": 0,
-              "uname": "",
-              "mid": "",
-              "message": "可爱不^_^ 1",
-              "platform": "tieba",
-              "keyword": "无敌可爱"
-            },
-            {
-              "sourceKind": "tieba-discovery",
-              "sourceTitle": "你祖宗到此一游 1",
-              "sourceUrl": "https://tieba.baidu.com/p/3909680071",
-              "rpid": "tieba-discovery-3909680071",
-              "like": 0,
-              "ctime": 0,
-              "uname": "",
-              "mid": "",
-              "message": "你祖宗到此一游 1",
-              "platform": "tieba",
-              "keyword": "无敌可爱"
-            }
-          ],
-          "warnings": []
-        }
-      ],
-      "warnings": []
-    },
     {
       "at": "2026-06-17T10:04:09.299Z",
       "queries": [
@@ -1162,6 +1043,45 @@
       "warnings": [
         "explicit Tieba thread URLs: https://tieba.baidu.com/p/10759170700: HTTP 403 from https://c.tieba.baidu.com/p/10759170700?lp=home_main_thread_pb&mo_device=1&pn=1"
       ]
+    },
+    {
+      "at": "2026-06-17T23:30:47.387Z",
+      "queries": [
+        "你也难绷 弹幕"
+      ],
+      "threadUrls": [],
+      "results": [
+        {
+          "query": "你也难绷 弹幕",
+          "ok": true,
+          "threads": [
+            {
+              "id": "10792024244",
+              "kind": "tieba-thread",
+              "title": "真人团 接接接",
+              "keyword": "你也难绷 弹幕",
+              "sourceUrl": "https://tieba.baidu.com/p/10792024244"
+            }
+          ],
+          "comments": [
+            {
+              "sourceKind": "tieba-discovery",
+              "sourceTitle": "真人团 接接接",
+              "sourceUrl": "https://tieba.baidu.com/p/10792024244",
+              "rpid": "tieba-discovery-10792024244",
+              "like": 0,
+              "ctime": 0,
+              "uname": "",
+              "mid": "",
+              "message": "真人团 接接接",
+              "platform": "tieba",
+              "keyword": "你也难绷 弹幕"
+            }
+          ],
+          "warnings": []
+        }
+      ],
+      "warnings": []
     }
   ],
   "comments": [
@@ -1349,6 +1269,19 @@
       "message": "你祖宗到此一游 1",
       "platform": "tieba",
       "keyword": "无敌可爱"
+    },
+    {
+      "sourceKind": "tieba-discovery",
+      "sourceTitle": "真人团 接接接",
+      "sourceUrl": "https://tieba.baidu.com/p/10792024244",
+      "rpid": "tieba-discovery-10792024244",
+      "like": 0,
+      "ctime": 0,
+      "uname": "",
+      "mid": "",
+      "message": "真人团 接接接",
+      "platform": "tieba",
+      "keyword": "你也难绷 弹幕"
     }
   ]
 }
