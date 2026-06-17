@@ -6,6 +6,7 @@ import {
   buildBilibiliWebHeaders,
   buildBilibiliReplyUrl,
   buildBilibiliReplyPageUrl,
+  buildBilibiliReplyThreadUrl,
   buildBilibiliSearchUrls,
   buildBilibiliViewUrl,
   boundedProbeVideosPerQuery,
@@ -213,6 +214,20 @@ async function fetchVideoComments(video, options) {
       bvid: target.bvid || view.data.bvid,
     };
   }
+  if (target.rootRpid) {
+    for (let page = 1; page <= options.replyPages; page += 1) {
+      await wait(options.delayMs + Math.floor(Math.random() * options.jitterMs));
+      const url = buildBilibiliReplyThreadUrl(target, target.rootRpid, page, options.replyPageSize);
+      if (!url) throw new Error('missing video aid/root for reply thread');
+      const data = await fetchJson(
+        url.toString(),
+        target.bvid ? `https://www.bilibili.com/video/${target.bvid}/?reply=${target.rootRpid}` : `https://www.bilibili.com/video/av${target.aid}/?reply=${target.rootRpid}`,
+        options,
+      );
+      collectBilibiliReplyMessages(data.data?.replies || [], target, comments);
+      if (!data.data?.replies?.length) break;
+    }
+  }
   if (options.replyMode === 'cursor' || options.replyMode === 'both') {
     let cursor = 0;
     for (let page = 0; page < options.replyPages; page += 1) {
@@ -327,6 +342,7 @@ for (const action of actions) {
   console.log(`  videos: ${videos.length}`);
   for (const video of videos) {
     const videoKey = probeVideoKey(video);
+    const videoLabel = video.bvid || (video.aid ? `av${video.aid}` : videoKey || '(unknown video)');
     if (videoKey) scannedVideoKeys.add(videoKey);
     scannedVideos.push({
       key: videoKey,
@@ -334,24 +350,25 @@ for (const action of actions) {
       query: action.query,
       bvid: video.bvid,
       aid: video.aid,
+      rootRpid: video.rootRpid,
       title: video.title,
     });
     try {
       const comments = await fetchVideoComments(video, { ...options, cookie });
       allComments.push(...comments);
-      console.log(`  ${video.bvid}: ${comments.length} comment(s)`);
+      console.log(`  ${videoLabel}: ${comments.length} comment(s)`);
     } catch (error) {
-      warnings.push(`${action.query} ${video.bvid}: replies ${error.message}`);
-      console.log(`  ${video.bvid}: replies failed: ${error.message}`);
+      warnings.push(`${action.query} ${videoLabel}: replies ${error.message}`);
+      console.log(`  ${videoLabel}: replies failed: ${error.message}`);
     }
     if (options.includeDanmaku || action.query.includes('弹幕')) {
       try {
         const danmaku = await fetchVideoDanmaku(video, { ...options, cookie });
         allComments.push(...danmaku);
-        console.log(`  ${video.bvid}: ${danmaku.length} danmaku item(s)`);
+        console.log(`  ${videoLabel}: ${danmaku.length} danmaku item(s)`);
       } catch (error) {
-        warnings.push(`${action.query} ${video.bvid}: danmaku ${error.message}`);
-        console.log(`  ${video.bvid}: danmaku failed: ${error.message}`);
+        warnings.push(`${action.query} ${videoLabel}: danmaku ${error.message}`);
+        console.log(`  ${videoLabel}: danmaku failed: ${error.message}`);
       }
     }
   }

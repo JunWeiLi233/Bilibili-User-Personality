@@ -5,6 +5,7 @@ import {
   buildBilibiliWebHeaders,
   buildBilibiliReplyUrl,
   buildBilibiliReplyPageUrl,
+  buildBilibiliReplyThreadUrl,
   boundedProbeVideosPerQuery,
   buildEvidenceSourceVideosForActions,
   buildFreshEvidenceEntriesFromComments,
@@ -329,6 +330,17 @@ test('buildBilibiliReplyPageUrl builds legacy page-number reply URLs', () => {
   assert.equal(buildBilibiliReplyPageUrl({}), null);
 });
 
+test('buildBilibiliReplyThreadUrl builds root reply URLs', () => {
+  const url = buildBilibiliReplyThreadUrl({ aid: '789', rootRpid: '456' }, undefined, 2, 100);
+
+  assert.equal(url.pathname, '/x/v2/reply/reply');
+  assert.equal(url.searchParams.get('oid'), '789');
+  assert.equal(url.searchParams.get('root'), '456');
+  assert.equal(url.searchParams.get('pn'), '2');
+  assert.equal(url.searchParams.get('ps'), '50');
+  assert.equal(buildBilibiliReplyThreadUrl({ aid: '789' }), null);
+});
+
 test('nextReplyCursor follows Bilibili reply cursor end and next values', () => {
   assert.equal(nextReplyCursor({ data: { cursor: { is_end: true, next: 4 } } }, 3), null);
   assert.equal(nextReplyCursor({ data: { cursor: { is_end: false, next: 4 } } }, 3), 4);
@@ -341,6 +353,14 @@ test('extractBilibiliVideoRefs extracts and dedupes BV and av ids from source te
   );
 
   assert.deepEqual(refs, [{ bvid: 'BV1abc' }, { aid: '123' }]);
+});
+
+test('extractBilibiliVideoRefs keeps reply roots for precise source rescans', () => {
+  const refs = extractBilibiliVideoRefs(
+    'Bilibili public reply detail probe: https://www.bilibili.com/video/av116663559131570/?reply=301234384593',
+  );
+
+  assert.deepEqual(refs, [{ aid: '116663559131570', rootRpid: '301234384593' }]);
 });
 
 test('probeVideoKey normalizes BVID and aid video identities', () => {
@@ -429,6 +449,10 @@ test('buildEvidenceSourceVideosForActions recovers source videos from matching c
             message: 'corpus backed sample',
             source: 'Bilibili public direct comment probe: https://www.bilibili.com/video/BVfromCorpus/',
           },
+          {
+            message: 'corpus backed sample',
+            source: 'Bilibili public reply detail probe: https://www.bilibili.com/video/av987654/?reply=112233',
+          },
         ],
       },
     },
@@ -436,7 +460,8 @@ test('buildEvidenceSourceVideosForActions recovers source videos from matching c
 
   assert.deepEqual(videosByTerm.get('uid-only-term'), [
     {
-      bvid: 'BVfromCorpus',
+      aid: '987654',
+      rootRpid: '112233',
       title: 'existing evidence source for uid-only-term',
     },
   ]);

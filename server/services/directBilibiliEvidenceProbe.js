@@ -289,6 +289,9 @@ export function extractBilibiliVideoRefs(text = '') {
   while ((match = pattern.exec(String(text || '')))) {
     const id = match[1];
     const ref = id.startsWith('BV') ? { bvid: id } : { aid: id.slice(2) };
+    const tail = String(text || '').slice(match.index, pattern.lastIndex + 200);
+    const replyMatch = /[?&]reply=(\d+)/u.exec(tail);
+    if (replyMatch) ref.rootRpid = replyMatch[1];
     const key = ref.bvid ? `bvid:${ref.bvid}` : `aid:${ref.aid}`;
     if (seen.has(key)) continue;
     seen.add(key);
@@ -329,6 +332,14 @@ export function filterUnscannedProbeVideos(videos = [], scannedKeys = new Set())
   return result;
 }
 
+function corpusSourceRecoveryPriority(source = '') {
+  const text = cleanText(source);
+  if (/[?&]reply=\d+/u.test(text)) return 0;
+  if (text.includes('comment probe') || text.includes('reply detail probe')) return 1;
+  if (text.includes('danmaku')) return 3;
+  return 2;
+}
+
 export function buildEvidenceSourceVideosForActions(dictionary = {}, actions = [], options = {}) {
   const maxPerAction = Math.max(0, Math.min(Number(options.maxPerAction) || 0, 50));
   if (!maxPerAction) return new Map();
@@ -336,8 +347,10 @@ export function buildEvidenceSourceVideosForActions(dictionary = {}, actions = [
   const corpusSourcesByMessage = new Map();
   for (const comment of Array.isArray(options.corpus?.comments) ? options.corpus.comments : []) {
     const message = cleanText(comment?.message);
-    if (!message || corpusSourcesByMessage.has(message)) continue;
-    corpusSourcesByMessage.set(message, cleanText(comment?.source));
+    if (!message) continue;
+    const source = cleanText(comment?.source);
+    const existing = corpusSourcesByMessage.get(message);
+    if (!existing || corpusSourceRecoveryPriority(source) < corpusSourceRecoveryPriority(existing)) corpusSourcesByMessage.set(message, source);
   }
   const result = new Map();
 
@@ -351,7 +364,7 @@ export function buildEvidenceSourceVideosForActions(dictionary = {}, actions = [
     const candidateSources = [
       ...(Array.isArray(entry.evidenceSources) ? entry.evidenceSources.map((source) => source?.source) : []),
       ...(Array.isArray(entry.evidenceSamples) ? entry.evidenceSamples.map((sample) => corpusSourcesByMessage.get(cleanText(sample))) : []),
-    ];
+    ].sort((a, b) => corpusSourceRecoveryPriority(a) - corpusSourceRecoveryPriority(b));
     for (const source of candidateSources) {
       for (const ref of extractBilibiliVideoRefs(source)) {
         const key = ref.bvid ? `bvid:${ref.bvid}` : `aid:${ref.aid}`;
@@ -424,6 +437,17 @@ export function buildBilibiliReplyPageUrl(video = {}, page = 1, pageSize = 20) {
   url.searchParams.set('type', '1');
   url.searchParams.set('oid', cleanText(video.aid));
   url.searchParams.set('sort', '2');
+  url.searchParams.set('pn', String(Math.max(1, Number(page) || 1)));
+  url.searchParams.set('ps', String(Math.max(1, Math.min(Number(pageSize) || 20, 50))));
+  return url;
+}
+
+export function buildBilibiliReplyThreadUrl(video = {}, rootRpid = video.rootRpid, page = 1, pageSize = 20) {
+  if (!video.aid || !rootRpid) return null;
+  const url = new URL('https://api.bilibili.com/x/v2/reply/reply');
+  url.searchParams.set('type', '1');
+  url.searchParams.set('oid', cleanText(video.aid));
+  url.searchParams.set('root', cleanText(rootRpid));
   url.searchParams.set('pn', String(Math.max(1, Number(page) || 1)));
   url.searchParams.set('ps', String(Math.max(1, Math.min(Number(pageSize) || 20, 50))));
   return url;
