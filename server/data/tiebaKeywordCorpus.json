@@ -1,28 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-17T20:07:31.419Z",
+  "updatedAt": "2026-06-17T20:11:21.044Z",
   "runs": [
-    {
-      "at": "2026-06-17T09:57:02.129Z",
-      "queries": [
-        "表番"
-      ],
-      "threadUrls": [],
-      "results": [
-        {
-          "query": "表番",
-          "ok": false,
-          "threads": [],
-          "comments": [],
-          "warnings": [
-            "discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E8%A1%A8%E7%95%AA&pn=0"
-          ]
-        }
-      ],
-      "warnings": [
-        "表番: discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E8%A1%A8%E7%95%AA&pn=0"
-      ]
-    },
     {
       "at": "2026-06-17T10:01:06.761Z",
       "queries": [
@@ -1152,6 +1131,36 @@
       ],
       "warnings": [
         "真的吗我不信: discover: HTTP 403 from https://tieba.baidu.com/mo/q/m?kw=%E7%9C%9F%E7%9A%84%E5%90%97%E6%88%91%E4%B8%8D%E4%BF%A1"
+      ]
+    },
+    {
+      "at": "2026-06-17T20:11:20.123Z",
+      "queries": [],
+      "threadUrls": [
+        "https://c.tieba.baidu.com/p/10759170700?lp=home_main_thread_pb&mo_device=1"
+      ],
+      "results": [
+        {
+          "query": "explicit Tieba thread URLs",
+          "ok": false,
+          "threads": [
+            {
+              "id": "10759170700",
+              "kind": "tieba-thread",
+              "title": "Tieba thread 10759170700",
+              "keyword": "",
+              "sourceUrl": "https://tieba.baidu.com/p/10759170700",
+              "fetchUrl": "https://c.tieba.baidu.com/p/10759170700?lp=home_main_thread_pb&mo_device=1"
+            }
+          ],
+          "comments": [],
+          "warnings": [
+            "https://tieba.baidu.com/p/10759170700: HTTP 403 from https://c.tieba.baidu.com/p/10759170700?lp=home_main_thread_pb&mo_device=1&pn=1"
+          ]
+        }
+      ],
+      "warnings": [
+        "explicit Tieba thread URLs: https://tieba.baidu.com/p/10759170700: HTTP 403 from https://c.tieba.baidu.com/p/10759170700?lp=home_main_thread_pb&mo_device=1&pn=1"
       ]
     }
   ],

@@ -93,19 +93,36 @@ function absoluteTiebaThreadUrl(id) {
   return `${TIEBA_BASE}/p/${encodeURIComponent(String(id))}`;
 }
 
+function mobileTiebaThreadFetchUrl(value, id) {
+  const text = String(value || '').trim();
+  if (!text || !/c\.tieba\.baidu\.com\/p\//i.test(text)) return '';
+  try {
+    const url = new URL(text);
+    if (url.hostname !== 'c.tieba.baidu.com') return '';
+    url.pathname = `/p/${encodeURIComponent(String(id))}`;
+    url.searchParams.set('mo_device', '1');
+    return url.toString();
+  } catch {
+    return '';
+  }
+}
+
 export function threadFromTiebaUrl(value, keyword = '') {
   const text = String(value || '').trim();
   if (!text) return null;
   const match = /(?:^|\/p\/)(\d{4,})(?:\D|$)/.exec(text);
   if (!match) return null;
   const id = match[1];
-  return {
+  const thread = {
     id,
     kind: 'tieba-thread',
     title: `Tieba thread ${id}`,
     keyword: String(keyword || ''),
     sourceUrl: absoluteTiebaThreadUrl(id),
   };
+  const fetchUrl = mobileTiebaThreadFetchUrl(text, id);
+  if (fetchUrl) thread.fetchUrl = fetchUrl;
+  return thread;
 }
 
 function parseDataField(value) {
@@ -385,7 +402,7 @@ export async function fetchTiebaThreadComments(thread, options = {}, deps = {}) 
 
   for (let page = 1; page <= pages; page += 1) {
     if (page > 1) await scheduleRequest(config, deps);
-    const url = new URL(absoluteTiebaThreadUrl(id));
+    const url = new URL(thread.fetchUrl || absoluteTiebaThreadUrl(id));
     url.searchParams.set('pn', String(page));
     const html = await fetchText(url.toString(), thread.sourceUrl || `${TIEBA_BASE}/`, { requestTimeoutMs: config.requestTimeoutMs, signal: options.signal });
     assertNotTiebaSafetyVerification(html, url.toString());

@@ -23,6 +23,7 @@ test('threadFromTiebaUrl normalizes public Tieba thread URLs', () => {
     title: 'Tieba thread 10759170700',
     keyword: 'sample',
     sourceUrl: 'https://tieba.baidu.com/p/10759170700',
+    fetchUrl: 'https://c.tieba.baidu.com/p/10759170700?mo_device=1',
   });
   assert.deepEqual(threadFromTiebaUrl('10759170700'), {
     id: '10759170700',
@@ -32,6 +33,28 @@ test('threadFromTiebaUrl normalizes public Tieba thread URLs', () => {
     sourceUrl: 'https://tieba.baidu.com/p/10759170700',
   });
   assert.equal(threadFromTiebaUrl('https://tieba.baidu.com/f?kw=x'), null);
+});
+
+test('fetchTiebaThreadComments keeps explicit mobile Tieba thread fetch URLs', async () => {
+  const seenUrls = [];
+  const thread = threadFromTiebaUrl('https://c.tieba.baidu.com/p/10759170700?lp=home_main_thread_pb&mo_device=1', 'sample');
+  const comments = await fetchTiebaThreadComments(thread, { pages: 1 }, {
+    fetchText: async (url) => {
+      seenUrls.push(String(url));
+      return `
+        <div class="l_post" data-field='{"author":{"user_name":"mobile-user"},"content":{"post_id":11}}'>
+          <div class="d_post_content j_d_post_content">移动端贴吧评论</div>
+        </div>
+      `;
+    },
+    waitFn: async () => {},
+  });
+
+  assert.equal(new URL(seenUrls[0]).hostname, 'c.tieba.baidu.com');
+  assert.equal(new URL(seenUrls[0]).searchParams.get('mo_device'), '1');
+  assert.equal(new URL(seenUrls[0]).searchParams.get('pn'), '1');
+  assert.equal(comments[0].sourceUrl, 'https://tieba.baidu.com/p/10759170700');
+  assert.equal(comments[0].message, '移动端贴吧评论');
 });
 
 test('discoverTiebaThreads fetches Tieba forum pages and normalizes thread links', async () => {
