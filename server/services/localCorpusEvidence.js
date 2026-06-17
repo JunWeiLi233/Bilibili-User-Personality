@@ -249,6 +249,19 @@ function sourceBackedSamples(entry = {}) {
   );
 }
 
+function hasRecoverableVideoSource(entry = {}, sample = '') {
+  const targetSample = cleanText(sample);
+  if (!targetSample) return false;
+  return (Array.isArray(entry.evidenceSources) ? entry.evidenceSources : []).some((source) => {
+    if (cleanText(source?.sample) !== targetSample) return false;
+    return sourceHasRecoverableVideoUrl(source?.source);
+  });
+}
+
+function sourceHasRecoverableVideoUrl(source = '') {
+  return /(?:https?:\/\/)?(?:www\.)?bilibili\.com\/video\/(?:BV[0-9A-Za-z]+|av\d+)/u.test(cleanText(source));
+}
+
 function localEvidenceSampleScore(match = {}, entry = {}) {
   const sample = cleanText(match.sample);
   const term = cleanText(entry.term);
@@ -303,7 +316,14 @@ export function findLocalCorpusEvidenceEntries(dictionary = {}, comments = [], o
     for (const comment of comments) {
       const message = cleanText(comment?.message);
       if (!message || matchedSamples.has(message) || !commentMatchesEntry(message, entry)) continue;
-      if (seenSamples.has(message) && (!backfillUnsourcedSamples || sourcedSamples.has(message))) continue;
+      if (
+        seenSamples.has(message) &&
+        (
+          !backfillUnsourcedSamples ||
+          !sourceHasRecoverableVideoUrl(comment?.source) ||
+          (sourcedSamples.has(message) && hasRecoverableVideoSource(entry, message))
+        )
+      ) continue;
       seenSamples.add(message);
       matchedSamples.add(message);
       candidateMatches.push({

@@ -377,6 +377,56 @@ test('findLocalCorpusEvidenceEntries backfills source metadata for existing unso
   ]);
 });
 
+test('findLocalCorpusEvidenceEntries backfills recoverable video URLs for generic existing sources', () => {
+  const dictionary = {
+    entries: [
+      {
+        term: '\u5927\u53a8',
+        family: 'attack',
+        meaning: 'needs source URL recovery',
+        evidenceCount: 1,
+        evidenceSamples: ['\u4e00\u7fa4\u5403\u5916\u5356\u7684\u9510\u8bc4\u5927\u53a8'],
+        evidenceSources: [
+          {
+            source: 'Popular video comments UID 123 (1 comments from 1 videos)',
+            uid: '123',
+            sample: '\u4e00\u7fa4\u5403\u5916\u5356\u7684\u9510\u8bc4\u5927\u53a8',
+          },
+        ],
+      },
+    ],
+  };
+  const comments = [
+    {
+      message: '\u4e00\u7fa4\u5403\u5916\u5356\u7684\u9510\u8bc4\u5927\u53a8',
+      source: 'Bilibili local scraped user corpus: https://www.bilibili.com/video/BVsourceUrl/',
+      uid: '123',
+    },
+  ];
+
+  const entries = findLocalCorpusEvidenceEntries(dictionary, comments, {
+    targetEvidence: 3,
+    requireCommentBackedEvidence: true,
+  });
+
+  assert.deepEqual(entries, [
+    {
+      term: '\u5927\u53a8',
+      family: 'attack',
+      meaning: 'needs source URL recovery',
+      evidence: ['\u4e00\u7fa4\u5403\u5916\u5356\u7684\u9510\u8bc4\u5927\u53a8'],
+      evidenceSamples: ['\u4e00\u7fa4\u5403\u5916\u5356\u7684\u9510\u8bc4\u5927\u53a8'],
+      evidenceSources: [
+        {
+          source: 'Bilibili local scraped user corpus: https://www.bilibili.com/video/BVsourceUrl/',
+          uid: '123',
+          sample: '\u4e00\u7fa4\u5403\u5916\u5356\u7684\u9510\u8bc4\u5927\u53a8',
+        },
+      ],
+    },
+  ]);
+});
+
 test('findLocalCorpusEvidenceEntries prefers slang-context samples over literal mentions', () => {
   const dictionary = {
     entries: [
