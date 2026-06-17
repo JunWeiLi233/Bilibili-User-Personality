@@ -82,6 +82,13 @@ if (!options.write) {
 }
 
 const beforeCount = dictionary.entries?.length || 0;
+if (entries.length === 0) {
+  console.log(`Dictionary entries before: ${beforeCount}`);
+  console.log(`Dictionary entries after: ${beforeCount}`);
+  console.log('No mergeable evidence found; dictionary write skipped.');
+  process.exit(0);
+}
+
 const next = await mergeEntriesIntoDictionary(entries);
 console.log(`Dictionary entries before: ${beforeCount}`);
 console.log(`Dictionary entries after: ${next.entries?.length || 0}`);
