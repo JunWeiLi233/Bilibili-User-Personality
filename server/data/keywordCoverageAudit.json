@@ -1,6 +1,6 @@
 {
   "ok": false,
-  "generatedAt": "2026-06-17T22:28:06.330Z",
+  "generatedAt": "2026-06-17T22:32:07.554Z",
   "targetEvidence": 3,
   "minCoverageRatio": 1,
   "requireComplete": true,
@@ -9,7 +9,7 @@
     "complete": false,
     "targetEvidence": 3,
     "terms": 1579,
-    "totalEvidence": 9123,
+    "totalEvidence": 9125,
     "averageEvidence": 5.78,
     "coverageRatio": 0.9683,
     "evidenceDeficit": 92,
@@ -145,7 +145,7 @@
     "byFamily": {
       "absolutes": {
         "terms": 130,
-        "evidence": 732,
+        "evidence": 734,
         "weak": 12,
         "zero": 0,
         "sourced": 130
@@ -465,7 +465,7 @@
       "terms": 130,
       "weak": 12,
       "zero": 0,
-      "evidence": 732,
+      "evidence": 734,
       "coverageRatio": 0.9077
     },
     {
