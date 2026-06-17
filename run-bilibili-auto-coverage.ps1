@@ -237,4 +237,4 @@ Write-Host "DeepSeek reasoning effort: $env:DEEPSEEK_REASONING_EFFORT"
 Write-Host ""
 Write-Host "Auditing coverage, harvesting priority queries, and repeating until the gate passes or the cycle limit is reached..."
 
-node .\server\runCoverageHarvestLoop.js
+node .\server\scripts\runCoverageHarvestLoop.js

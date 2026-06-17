@@ -1,0 +1,735 @@
+{
+  "generatedAt": "2026-06-17T12:39:29.287Z",
+  "maxCycles": 1,
+  "roundsPerCycle": 1,
+  "stopReason": "no_recommended_queries",
+  "finalOk": false,
+  "finalAudit": {
+    "ok": false,
+    "generatedAt": "2026-06-17T12:39:29.285Z",
+    "targetEvidence": 3,
+    "minCoverageRatio": 1,
+    "requireComplete": true,
+    "requireSourceBackedEvidence": true,
+    "coverage": {
+      "complete": false,
+      "targetEvidence": 3,
+      "terms": 1579,
+      "totalEvidence": 9050,
+      "averageEvidence": 5.73,
+      "coverageRatio": 0.9607,
+      "evidenceDeficit": 111,
+      "sourcedEvidenceTerms": 1579,
+      "sourceCoverageRatio": 1,
+      "unsourcedEvidenceTerms": 0,
+      "weakTerms": 62,
+      "zeroEvidenceTerms": 0,
+      "weakSamples": [
+        {
+          "term": "8\u62535\u7684\u96f7\u9706",
+          "family": "attack",
+          "evidenceCount": 1,
+          "coverageEvidenceCount": 1
+        },
+        {
+          "term": "\u67e5\u67e5\u8d44\u6599",
+          "family": "evidence",
+          "evidenceCount": 1,
+          "coverageEvidenceCount": 1
+        },
+        {
+          "term": "\u8336\u5e8410\u4e2a\u67099\u4e2a\u6d17\u94b1\u7684",
+          "family": "absolutes",
+          "evidenceCount": 1,
+          "coverageEvidenceCount": 1
+        },
+        {
+          "term": "\u8d85\u7edd\u65e0\u8bed",
+          "family": "attack",
+          "evidenceCount": 1,
+          "coverageEvidenceCount": 1
+        },
+        {
+          "term": "\u5355\u673a\u533aup\u96c6\u4f53\u5012\u900010\u5e74",
+          "family": "attack",
+          "evidenceCount": 1,
+          "coverageEvidenceCount": 1
+        },
+        {
+          "term": "\u5012\u900010\u5e74",
+          "family": "attack",
+          "evidenceCount": 1,
+          "coverageEvidenceCount": 1
+        },
+        {
+          "term": "\u5fb7\u91cc\u4e0d\u9976\u4eba",
+          "family": "cooperation",
+          "evidenceCount": 1,
+          "coverageEvidenceCount": 1
+        },
+        {
+          "term": "\u90fd\u662f\u540c\u4e00\u6279",
+          "family": "attack",
+          "evidenceCount": 1,
+          "coverageEvidenceCount": 1
+        },
+        {
+          "term": "\u90fd\u8bf4\u516b\u767e\u904d\u4e86",
+          "family": "absolutes",
+          "evidenceCount": 1,
+          "coverageEvidenceCount": 1
+        },
+        {
+          "term": "\u5206\u4e0d\u6e05\u8f7b\u91cd",
+          "family": "attack",
+          "evidenceCount": 1,
+          "coverageEvidenceCount": 1
+        },
+        {
+          "term": "\u5206\u4e0d\u6e05\u8f7b\u91cd\u5c31\u4e71\u5957",
+          "family": "attack",
+          "evidenceCount": 1,
+          "coverageEvidenceCount": 1
+        },
+        {
+          "term": "\u7ed9\u5b98\u65b9\u526a\u7247\u5b50",
+          "family": "cooperation",
+          "evidenceCount": 1,
+          "coverageEvidenceCount": 1
+        },
+        {
+          "term": "\u72d7\u53bb\u54ea\u91cc\u4e86",
+          "family": "evasion",
+          "evidenceCount": 1,
+          "coverageEvidenceCount": 1
+        },
+        {
+          "term": "\u6beb\u65e0\u97f3\u4e50\u7406\u89e3",
+          "family": "attack",
+          "evidenceCount": 1,
+          "coverageEvidenceCount": 1
+        },
+        {
+          "term": "\u6362\u4e2a\u5730\u65b9\u518d\u5c31\u4e1a",
+          "family": "attack",
+          "evidenceCount": 1,
+          "coverageEvidenceCount": 1
+        },
+        {
+          "term": "\u57fa\u672c\u6ca1\u6709\u97f3\u4e50\u7406\u89e3",
+          "family": "attack",
+          "evidenceCount": 1,
+          "coverageEvidenceCount": 1
+        },
+        {
+          "term": "\u96c6\u4f53\u5012\u900010\u5e74",
+          "family": "attack",
+          "evidenceCount": 1,
+          "coverageEvidenceCount": 1
+        },
+        {
+          "term": "\u4ef7\u683c\u88ab\u6253\u4e0b\u6765",
+          "family": "attack",
+          "evidenceCount": 1,
+          "coverageEvidenceCount": 1
+        },
+        {
+          "term": "\u5c31\u662f\u9b3c\u755c\u6807\u7b7e",
+          "family": "absolutes",
+          "evidenceCount": 1,
+          "coverageEvidenceCount": 1
+        },
+        {
+          "term": "\u5c31\u662f\u8981\u5e72\u4f60",
+          "family": "attack",
+          "evidenceCount": 1,
+          "coverageEvidenceCount": 1
+        }
+      ],
+      "zeroEvidenceSamples": [],
+      "unsourcedEvidenceSamples": [],
+      "byFamily": {
+        "absolutes": {
+          "terms": 130,
+          "evidence": 718,
+          "weak": 16,
+          "zero": 0,
+          "sourced": 130
+        },
+        "attack": {
+          "terms": 965,
+          "evidence": 5448,
+          "weak": 22,
+          "zero": 0,
+          "sourced": 965
+        },
+        "cooperation": {
+          "terms": 350,
+          "evidence": 2105,
+          "weak": 13,
+          "zero": 0,
+          "sourced": 350
+        },
+        "correction": {
+          "terms": 33,
+          "evidence": 208,
+          "weak": 1,
+          "zero": 0,
+          "sourced": 33
+        },
+        "evasion": {
+          "terms": 66,
+          "evidence": 348,
+          "weak": 9,
+          "zero": 0,
+          "sourced": 66
+        },
+        "evidence": {
+          "terms": 35,
+          "evidence": 223,
+          "weak": 1,
+          "zero": 0,
+          "sourced": 35
+        }
+      }
+    },
+    "termAttemptSummary": {
+      "attemptedTerms": 228,
+      "successfulTerms": 95,
+      "unattemptedTerms": 1351,
+      "unattemptedSamples": [
+        {
+          "term": "3a\u666f\u533a",
+          "family": "cooperation",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u5305\u706b\u7684",
+          "family": "absolutes",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u672c\u6765\u7ed9\u4e865\u661f\u7684",
+          "family": "cooperation",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e0d\u597d\u610f\u601d\u70b9\u7834\u4f60",
+          "family": "attack",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u5e03\u4ec0\u6208\u95e8\u7406\u8bba",
+          "family": "attack",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u5403\u4e0d\u5230\u8461\u8404\u8bf4\u8461\u8404\u9178",
+          "family": "attack",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u7eaf\u6cd5\u5236\u5496",
+          "family": "attack",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u7eaf\u594b\u5173",
+          "family": "attack",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u5927\u6ce2\u6ce2",
+          "family": "attack",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u5012\u72d7",
+          "family": "attack",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4f4e\u6e29\u710a",
+          "family": "attack",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u7b2c\u51e0\u5c42",
+          "family": "attack",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u4e1c\u5434\u6d17\u811a\u57ce",
+          "family": "attack",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u90fd\u7ed9\u8001\u5b50\u4e0a",
+          "family": "attack",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u5835\u6865\u72d7",
+          "family": "attack",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u6cd5\u5236\u5496",
+          "family": "attack",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u996d\u5708\u5473",
+          "family": "attack",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u5c01100\u5e74",
+          "family": "absolutes",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u5c01\u53f7100\u5e74",
+          "family": "absolutes",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u8d1f\u5206\u6eda\u7c97",
+          "family": "attack",
+          "evidenceCount": 3
+        }
+      ],
+      "repeatedlyMissedTerms": [
+        {
+          "term": "\u4f60\u56fd",
+          "family": "attack",
+          "attempts": 37,
+          "lastQuery": "\u4f60\u56fd",
+          "lastError": ""
+        },
+        {
+          "term": "\u53bb\u770b\u4e66",
+          "family": "evasion",
+          "attempts": 37,
+          "lastQuery": "\u53bb\u770b\u4e66",
+          "lastError": ""
+        },
+        {
+          "term": "\u8fd9\u90fd\u4e0d\u61c2",
+          "family": "evasion",
+          "attempts": 37,
+          "lastQuery": "\u8fd9\u90fd\u4e0d\u61c2",
+          "lastError": ""
+        },
+        {
+          "term": "\u81ea\u5df1\u53bb\u627e",
+          "family": "evasion",
+          "attempts": 37,
+          "lastQuery": "\u81ea\u5df1\u53bb\u627e",
+          "lastError": ""
+        },
+        {
+          "term": "\u67e5\u67e5\u8d44\u6599",
+          "family": "evidence",
+          "attempts": 27,
+          "lastQuery": "\u67e5\u67e5\u8d44\u6599 \u4e89\u8bae \u8bc4\u8bba\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "8\u62535\u7684\u96f7\u9706",
+          "family": "attack",
+          "attempts": 25,
+          "lastQuery": "8\u62535\u7684\u96f7\u9706 \u5f39\u5e55",
+          "lastError": ""
+        },
+        {
+          "term": "\u57fa\u672c\u6ca1\u4eba",
+          "family": "absolutes",
+          "attempts": 22,
+          "lastQuery": "\u57fa\u672c\u6ca1\u4eba \u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4",
+          "lastError": "Bilibili harvest query \"\u57fa\u672c\u6ca1\u4eba \u7c89\u4e1d\" timed out after 150000ms"
+        },
+        {
+          "term": "\u88ab\u800d\u4e86",
+          "family": "attack",
+          "attempts": 20,
+          "lastQuery": "\u88ab\u800d\u4e86 \u8282\u594f",
+          "lastError": "Bilibili harvest query \"\u88ab\u800d\u4e86 \u8282\u594f\" timed out after 60000ms"
+        },
+        {
+          "term": "\u7f3a\u70b9\u53ea\u6709\u4e00\u4e2a\u8d35",
+          "family": "absolutes",
+          "attempts": 20,
+          "lastQuery": "\u7f3a\u70b9\u53ea\u6709\u4e00\u4e2a \u70ed\u8bc4",
+          "lastError": ""
+        },
+        {
+          "term": "\u90fd\u8bf4\u516b\u767e\u904d\u4e86",
+          "family": "absolutes",
+          "attempts": 19,
+          "lastQuery": "absolutes \u90fd\u8bf4\u516b\u767e\u904d\u4e86 \u8bc4\u8bba",
+          "lastError": ""
+        },
+        {
+          "term": "\u9601\u697c\u4e0a\u7684\u767d\u75f4",
+          "family": "attack",
+          "attempts": 19,
+          "lastQuery": "\u9601\u697c\u4e0a\u7684\u767d\u75f4 \u56de\u590d\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "\u592a\u65e0\u654c\u53ef\u7231\u4e86",
+          "family": "absolutes",
+          "attempts": 19,
+          "lastQuery": "\u592a\u65e0\u654c\u53ef\u7231\u4e86 \u8bc4\u8bba \u6897",
+          "lastError": ""
+        },
+        {
+          "term": "\u5fc3\u7535\u611f\u5e94",
+          "family": "attack",
+          "attempts": 19,
+          "lastQuery": "\u5fc3\u7535\u611f\u5e94 \u56de\u590d\u533a",
+          "lastError": ""
+        },
+        {
+          "term": "\u8336\u5e8410\u4e2a\u67099\u4e2a\u6d17\u94b1\u7684",
+          "family": "absolutes",
+          "attempts": 18,
+          "lastQuery": "\u8336\u5e8410\u4e2a\u67099\u4e2a\u6d17\u94b1\u7684 \u8bc4\u8bba\u56de\u590d",
+          "lastError": ""
+        },
+        {
+          "term": "\u61c2\u7684\u90fd\u61c2",
+          "family": "evasion",
+          "attempts": 18,
+          "lastQuery": "dddd \u540d\u6897",
+          "lastError": "Bilibili harvest query \"dddd \u540d\u6897\" timed out after 60000ms"
+        },
+        {
+          "term": "\u6536\u56de\u524d\u9762",
+          "family": "correction",
+          "attempts": 18,
+          "lastQuery": "\u6536\u56de\u524d\u9762 \u8bc4\u8bba\u56de\u590d",
+          "lastError": ""
+        },
+        {
+          "term": "\u571f\u8c46\u9e21\u86cb\u6279\u7684\u5f62\u72b6",
+          "family": "cooperation",
+          "attempts": 18,
+          "lastQuery": "\u571f\u8c46\u9e21\u86cb\u6279\u7684\u5f62\u72b6 \u8bc4\u8bba\u56de\u590d",
+          "lastError": ""
+        },
+        {
+          "term": "\u8d85\u7edd\u65e0\u8bed",
+          "family": "attack",
+          "attempts": 17,
+          "lastQuery": "attack \u8d85\u7edd\u65e0\u8bed \u8bc4\u8bba",
+          "lastError": ""
+        },
+        {
+          "term": "\u5fb7\u91cc\u4e0d\u9976\u4eba",
+          "family": "cooperation",
+          "attempts": 17,
+          "lastQuery": "cooperation \u5fb7\u91cc\u4e0d\u9976\u4eba \u8bc4\u8bba",
+          "lastError": ""
+        },
+        {
+          "term": "\u5206\u4e0d\u6e05\u8f7b\u91cd\u5c31\u4e71\u5957",
+          "family": "attack",
+          "attempts": 17,
+          "lastQuery": "attack \u5206\u4e0d\u6e05\u8f7b\u91cd\u5c31\u4e71\u5957 \u8bc4\u8bba",
+          "lastError": ""
+        }
+      ],
+      "exhaustedTerms": 20,
+      "exhaustedSamples": [
+        {
+          "term": "\u67e5\u67e5\u8d44\u6599",
+          "family": "evidence",
+          "evidenceCount": 1,
+          "attempts": 27,
+          "variantsTried": 6,
+          "lastQuery": "\u67e5\u67e5\u8d44\u6599 \u4e89\u8bae \u8bc4\u8bba\u533a",
+          "lastError": "",
+          "suggestedQueries": []
+        },
+        {
+          "term": "\u8336\u5e8410\u4e2a\u67099\u4e2a\u6d17\u94b1\u7684",
+          "family": "absolutes",
+          "evidenceCount": 1,
+          "attempts": 18,
+          "variantsTried": 6,
+          "lastQuery": "\u8336\u5e8410\u4e2a\u67099\u4e2a\u6d17\u94b1\u7684 \u8bc4\u8bba\u56de\u590d",
+          "lastError": "",
+          "suggestedQueries": []
+        },
+        {
+          "term": "\u8d85\u7edd\u65e0\u8bed",
+          "family": "attack",
+          "evidenceCount": 1,
+          "attempts": 17,
+          "variantsTried": 6,
+          "lastQuery": "attack \u8d85\u7edd\u65e0\u8bed \u8bc4\u8bba",
+          "lastError": "",
+          "suggestedQueries": []
+        },
+        {
+          "term": "\u5012\u900010\u5e74",
+          "family": "attack",
+          "evidenceCount": 1,
+          "attempts": 16,
+          "variantsTried": 6,
+          "lastQuery": "\u5012\u900010\u5e74 \u4e92\u52a8",
+          "lastError": "",
+          "suggestedQueries": []
+        },
+        {
+          "term": "\u5fb7\u91cc\u4e0d\u9976\u4eba",
+          "family": "cooperation",
+          "evidenceCount": 1,
+          "attempts": 17,
+          "variantsTried": 6,
+          "lastQuery": "cooperation \u5fb7\u91cc\u4e0d\u9976\u4eba \u8bc4\u8bba",
+          "lastError": "",
+          "suggestedQueries": []
+        },
+        {
+          "term": "\u90fd\u662f\u540c\u4e00\u6279",
+          "family": "attack",
+          "evidenceCount": 1,
+          "attempts": 15,
+          "variantsTried": 6,
+          "lastQuery": "\u90fd\u662f\u540c\u4e00\u6279 \u56de\u590d",
+          "lastError": "",
+          "suggestedQueries": []
+        },
+        {
+          "term": "\u90fd\u8bf4\u516b\u767e\u904d\u4e86",
+          "family": "absolutes",
+          "evidenceCount": 1,
+          "attempts": 19,
+          "variantsTried": 6,
+          "lastQuery": "absolutes \u90fd\u8bf4\u516b\u767e\u904d\u4e86 \u8bc4\u8bba",
+          "lastError": "",
+          "suggestedQueries": []
+        },
+        {
+          "term": "\u5206\u4e0d\u6e05\u8f7b\u91cd",
+          "family": "attack",
+          "evidenceCount": 1,
+          "attempts": 16,
+          "variantsTried": 6,
+          "lastQuery": "\u5206\u4e0d\u6e05\u8f7b\u91cd \u4e92\u52a8",
+          "lastError": "",
+          "suggestedQueries": []
+        },
+        {
+          "term": "\u5206\u4e0d\u6e05\u8f7b\u91cd\u5c31\u4e71\u5957",
+          "family": "attack",
+          "evidenceCount": 1,
+          "attempts": 17,
+          "variantsTried": 6,
+          "lastQuery": "attack \u5206\u4e0d\u6e05\u8f7b\u91cd\u5c31\u4e71\u5957 \u8bc4\u8bba",
+          "lastError": "",
+          "suggestedQueries": []
+        },
+        {
+          "term": "\u7ed9\u5b98\u65b9\u526a\u7247\u5b50",
+          "family": "cooperation",
+          "evidenceCount": 1,
+          "attempts": 17,
+          "variantsTried": 6,
+          "lastQuery": "cooperation \u7ed9\u5b98\u65b9\u526a\u7247\u5b50 \u8bc4\u8bba",
+          "lastError": "",
+          "suggestedQueries": []
+        },
+        {
+          "term": "\u72d7\u53bb\u54ea\u91cc\u4e86",
+          "family": "evasion",
+          "evidenceCount": 1,
+          "attempts": 12,
+          "variantsTried": 6,
+          "lastQuery": "\u72d7\u53bb\u54ea\u91cc\u4e86 \u8bc4\u8bba \u6897",
+          "lastError": "",
+          "suggestedQueries": []
+        },
+        {
+          "term": "\u6765\u7535\u4e86",
+          "family": "attack",
+          "evidenceCount": 1,
+          "attempts": 15,
+          "variantsTried": 6,
+          "lastQuery": "\u6765\u7535\u4e86 \u56de\u590d",
+          "lastError": "",
+          "suggestedQueries": []
+        },
+        {
+          "term": "\u53bb\u95ee\u8001\u5e08\u56e0\u4e3a\u8bfe\u4e0a\u8001\u5e08",
+          "family": "evasion",
+          "evidenceCount": 1,
+          "attempts": 15,
+          "variantsTried": 6,
+          "lastQuery": "\u53bb\u95ee\u8001\u5e08\u56e0\u4e3a\u8bfe\u4e0a\u8001\u5e08 \u56de\u590d",
+          "lastError": "",
+          "suggestedQueries": []
+        },
+        {
+          "term": "\u7f3a\u70b9\u53ea\u6709\u4e00\u4e2a\u8d35",
+          "family": "absolutes",
+          "evidenceCount": 1,
+          "attempts": 20,
+          "variantsTried": 6,
+          "lastQuery": "\u7f3a\u70b9\u53ea\u6709\u4e00\u4e2a \u70ed\u8bc4",
+          "lastError": "",
+          "suggestedQueries": []
+        },
+        {
+          "term": "\u571f\u8c46\u9e21\u86cb\u6279\u7684\u5f62\u72b6",
+          "family": "cooperation",
+          "evidenceCount": 1,
+          "attempts": 18,
+          "variantsTried": 6,
+          "lastQuery": "\u571f\u8c46\u9e21\u86cb\u6279\u7684\u5f62\u72b6 \u8bc4\u8bba\u56de\u590d",
+          "lastError": "",
+          "suggestedQueries": []
+        },
+        {
+          "term": "\u8fd9\u8fd8\u7528\u8bf4",
+          "family": "evasion",
+          "evidenceCount": 1,
+          "attempts": 13,
+          "variantsTried": 6,
+          "lastQuery": "\u8fd9\u8fd8\u7528\u8bf4 B\u7ad9",
+          "lastError": "",
+          "suggestedQueries": []
+        },
+        {
+          "term": "\u4f17\u6f02",
+          "family": "cooperation",
+          "evidenceCount": 1,
+          "attempts": 17,
+          "variantsTried": 6,
+          "lastQuery": "cooperation \u4f17\u6f02 \u8bc4\u8bba",
+          "lastError": "",
+          "suggestedQueries": []
+        },
+        {
+          "term": "\u8fd9\u90fd\u4e0d\u61c2",
+          "family": "evasion",
+          "evidenceCount": 2,
+          "attempts": 37,
+          "variantsTried": 6,
+          "lastQuery": "\u8fd9\u90fd\u4e0d\u61c2",
+          "lastError": "",
+          "suggestedQueries": []
+        },
+        {
+          "term": "\u81ea\u5df1\u53bb\u627e",
+          "family": "evasion",
+          "evidenceCount": 2,
+          "attempts": 37,
+          "variantsTried": 6,
+          "lastQuery": "\u81ea\u5df1\u53bb\u627e",
+          "lastError": "",
+          "suggestedQueries": []
+        },
+        {
+          "term": "\u88ab\u800d\u4e86",
+          "family": "attack",
+          "evidenceCount": 3,
+          "attempts": 20,
+          "variantsTried": 6,
+          "lastQuery": "\u88ab\u800d\u4e86 \u8282\u594f",
+          "lastError": "Bilibili harvest query \"\u88ab\u800d\u4e86 \u8282\u594f\" timed out after 60000ms",
+          "suggestedQueries": []
+        }
+      ]
+    },
+    "actionSummary": {
+      "add_query_template": 25,
+      "retry_with_new_variant": 35,
+      "none": 1517,
+      "harvest_more_evidence": 2
+    },
+    "familyGaps": [
+      {
+        "family": "attack",
+        "terms": 965,
+        "weak": 22,
+        "zero": 0,
+        "evidence": 5448,
+        "coverageRatio": 0.9772
+      },
+      {
+        "family": "absolutes",
+        "terms": 130,
+        "weak": 16,
+        "zero": 0,
+        "evidence": 718,
+        "coverageRatio": 0.8769
+      },
+      {
+        "family": "cooperation",
+        "terms": 350,
+        "weak": 13,
+        "zero": 0,
+        "evidence": 2105,
+        "coverageRatio": 0.9629
+      },
+      {
+        "family": "evasion",
+        "terms": 66,
+        "weak": 9,
+        "zero": 0,
+        "evidence": 348,
+        "coverageRatio": 0.8636
+      },
+      {
+        "family": "correction",
+        "terms": 33,
+        "weak": 1,
+        "zero": 0,
+        "evidence": 208,
+        "coverageRatio": 0.9697
+      },
+      {
+        "family": "evidence",
+        "terms": 35,
+        "weak": 1,
+        "zero": 0,
+        "evidence": 223,
+        "coverageRatio": 0.9714
+      }
+    ],
+    "nextActions": [
+      {
+        "term": "\u65e0\u654c\u53ef\u7231",
+        "family": "absolutes",
+        "status": "weak_partial",
+        "action": "harvest_more_evidence",
+        "evidenceCount": 5,
+        "coverageEvidenceCount": 2,
+        "sourcedEvidence": true,
+        "recommendationGroup": "\u65e0\u654c\u53ef\u7231",
+        "targetEvidence": 3,
+        "evidenceNeeded": 1,
+        "attempts": 10,
+        "successfulAttempts": 1,
+        "duplicateAcceptedNoProgress": false,
+        "currentCommentMisses": 6,
+        "exhausted": false,
+        "nextQuery": "",
+        "suggestedQueries": [],
+        "lastQuery": "\u65e0\u654c\u53ef\u7231 \u8bc4\u8bba \u6897",
+        "lastError": "Bilibili harvest query \"\u65e0\u654c\u53ef\u7231 \u8bc4\u8bba \u6897\" timed out after 90000ms"
+      }
+    ],
+    "recommendedQueries": [],
+    "failureReasons": [
+      "coverage ratio 0.9607 is below 1",
+      "62 term(s) are below 3 evidence hit(s)",
+      "20 exhausted term(s) need extra query templates"
+    ]
+  },
+  "cycles": []
+}

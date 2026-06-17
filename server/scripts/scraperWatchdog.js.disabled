@@ -1,0 +1,145 @@
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
+import { exec } from 'node:child_process';
+import { promisify } from 'node:util';
+
+const execAsync = promisify(exec);
+const DATA_DIR = join(process.cwd(), 'server', 'data');
+const LOG_DIR = join(DATA_DIR, 'scraper-logs');
+const CHECK_INTERVAL_MS = 90000; // Check every 90s
+const PROGRESS_LOG = join(LOG_DIR, 'watchdog.log');
+
+const SCRAPERS = [
+  // Scrapers paused — batchUidRange.js is running instead
+];
+
+const KILL_SCRIPTS = ['uidPipelineWorker.js', 'batchScrapePopular.js', 'batchScrapeBilibili.js'];
+
+async function loadJson(path, fallback) {
+  try { return JSON.parse(await readFile(path, 'utf8')); }
+  catch { return fallback; }
+}
+
+async function log(msg) {
+  const line = `[${new Date().toISOString()}] ${msg}`;
+  console.log(line);
+  try {
+    await mkdir(dirname(PROGRESS_LOG), { recursive: true });
+    await writeFile(PROGRESS_LOG, line + '\n', { flag: 'a' });
+  } catch {}
+}
+
+// Fast check: just see if the script name appears in any node process command line
+async function isScriptRunning(scriptName) {
+  try {
+    // Use cmd /c wmic with a short timeout
+    const { stdout } = await execAsync(
+      `cmd /c "wmic process where "name='node.exe'" get CommandLine /format:list"`,
+      { timeout: 8000, windowsHide: true }
+    );
+    return stdout.includes(scriptName);
+  } catch {
+    // Fallback: assume running if we can't check
+    return true;
+  }
+}
+
+async function killOldWorkers() {
+  for (const script of KILL_SCRIPTS) {
+    try {
+      const running = await isScriptRunning(script);
+      if (running) {
+        // Use taskkill with /IM doesn't work for specific scripts, so we use powershell
+        await execAsync(
+          `powershell -NoProfile -Command "Get-CimInstance Win32_Process -Filter \\"name='node.exe'\\" | Where-Object { $_.CommandLine -like '*${script}*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }"`,
+          { timeout: 10000, windowsHide: true }
+        );
+        await log(`Killed old worker: ${script}`);
+      }
+    } catch {}
+  }
+}
+
+async function restartScraper(scraper) {
+  const scriptPath = join(process.cwd(), 'server', 'scripts', scraper.script);
+  const logFile = join(LOG_DIR, `${scraper.name}.log`);
+  const errFile = join(LOG_DIR, `${scraper.name}-stderr.log`);
+  const argsStr = [scriptPath, ...scraper.args].map(a => `"${a}"`).join(' ');
+
+  try {
+    await execAsync(
+      `cmd /c "start /B node ${argsStr} >> "${logFile}" 2>>"${errFile}""`,
+      { cwd: process.cwd(), timeout: 5000, windowsHide: true }
+    );
+    await log(`Restarted ${scraper.name}`);
+    return true;
+  } catch (e) {
+    // start /B returns immediately, this might throw but the process starts
+    await log(`Restarted ${scraper.name} (start /B)`);
+    return true;
+  }
+}
+
+async function getProgress() {
+  const disc = await loadJson(join(DATA_DIR, 'uid-discovery-progress.json'), {});
+  const discAnalyzed = disc.stats?.uidsAnalyzed || 0;
+  const discFound = disc.stats?.uidsFound || 0;
+
+  let totalProcessed = 0;
+  let totalSuccess = 0;
+
+  for (const rng of ['1-20000', '20001-40000', '40001-60000', '60001-80000', '80001-100000']) {
+    const p = await loadJson(join(DATA_DIR, `uid-pipeline-${rng}.json`), {});
+    totalProcessed += Object.keys(p.processed || {}).length;
+    totalSuccess += p.stats?.success || 0;
+  }
+
+  return {
+    discAnalyzed,
+    discFound,
+    totalProcessed,
+    totalSuccess,
+    combined: discAnalyzed + totalSuccess,
+    pipelineRemaining: 100000 - totalProcessed,
+    discRemaining: discFound - discAnalyzed,
+  };
+}
+
+async function main() {
+  await log('=== Watchdog v3 Started ===');
+
+  while (true) {
+    try {
+      const progress = await getProgress();
+      await log(`Progress: ${progress.combined} analyzed (P:${progress.totalProcessed}/${progress.totalSuccess} D:${progress.discAnalyzed}/${progress.discFound})`);
+
+      // Kill old workers
+      await killOldWorkers();
+
+      // Check and restart scrapers
+      for (const scraper of SCRAPERS) {
+        const running = await isScriptRunning(scraper.script);
+        if (!running) {
+          await log(`${scraper.name} DOWN - restarting`);
+          await restartScraper(scraper);
+        }
+      }
+
+      if (progress.pipelineRemaining <= 0) {
+        await log('=== PIPELINE COMPLETE ===');
+        break;
+      }
+    } catch (e) {
+      await log(`Watchdog error: ${e.message}`);
+    }
+
+    await new Promise(r => setTimeout(r, CHECK_INTERVAL_MS));
+  }
+
+  await log('=== Watchdog Finished ===');
+}
+
+main().catch(err => {
+  console.error('Watchdog fatal:', err.message);
+  process.exit(1);
+});

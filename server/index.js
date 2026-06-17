@@ -1,93 +1,66 @@
+import { serve } from '@hono/node-server';
+import { Hono } from 'hono';
+import { cors } from 'hono/cors';
 import { spawn } from 'node:child_process';
-import { createServer } from 'node:http';
-import { URL } from 'node:url';
 
-import { analyzeUid } from './bilibiliCrawler.js';
-import { analyzeCommentsWithDeepSeek, getDeepSeekConfig, readKeywordDictionary, trainKeywordDictionary } from './deepseekKeywordTrainer.js';
-import { searchVideoKeywords } from './videoKeywordSearch.js';
+import bilibili from './routes/bilibili.js';
+import deepseek from './routes/deepseek.js';
+import aicu from './routes/aicu.js';
 
 const PORT = Number(process.env.PORT || 8787);
 const VITE_PORT = Number(process.env.VITE_PORT || 5191);
 
-async function readBody(request) {
-  const chunks = [];
-  for await (const chunk of request) chunks.push(chunk);
-  return Buffer.concat(chunks).toString('utf8');
+if (!Number.isFinite(PORT) || PORT < 1 || PORT > 65535) {
+  console.error(`Invalid PORT: ${process.env.PORT}`);
+  process.exit(1);
 }
 
-function writeJson(response, status, payload) {
-  response.writeHead(status, {
-    'content-type': 'application/json; charset=utf-8',
-    'access-control-allow-origin': '*',
-    'access-control-allow-methods': 'GET,POST,OPTIONS',
-    'access-control-allow-headers': 'content-type',
-  });
-  response.end(JSON.stringify(payload));
-}
+const app = new Hono();
 
-const server = createServer(async (request, response) => {
-  if (request.method === 'OPTIONS') return writeJson(response, 204, {});
-  const url = new URL(request.url, `http://${request.headers.host}`);
+app.use('*', cors());
 
-  if (url.pathname === '/api/health') {
-    return writeJson(response, 200, { ok: true });
-  }
-
-  if (url.pathname === '/api/deepseek/config') {
-    return writeJson(response, 200, await getDeepSeekConfig());
-  }
-
-  if (url.pathname === '/api/deepseek/dictionary') {
-    return writeJson(response, 200, { ok: true, dictionary: await readKeywordDictionary() });
-  }
-
-  if (url.pathname === '/api/deepseek/analyze-comments' && request.method === 'POST') {
-    try {
-      const payload = JSON.parse((await readBody(request)) || '{}');
-      return writeJson(response, 200, await analyzeCommentsWithDeepSeek(payload));
-    } catch (error) {
-      return writeJson(response, 500, { ok: false, error: error.message });
-    }
-  }
-
-  if (url.pathname === '/api/deepseek/train-keywords' && request.method === 'POST') {
-    try {
-      const payload = JSON.parse((await readBody(request)) || '{}');
-      return writeJson(response, 200, await trainKeywordDictionary(payload));
-    } catch (error) {
-      return writeJson(response, 500, { ok: false, error: error.message });
-    }
-  }
-
-  if (url.pathname === '/api/bilibili/analyze-uid' && request.method === 'POST') {
-    try {
-      const payload = JSON.parse((await readBody(request)) || '{}');
-      return writeJson(response, 200, await analyzeUid(payload));
-    } catch (error) {
-      return writeJson(response, 500, { ok: false, error: error.message });
-    }
-  }
-
-  if (url.pathname === '/api/bilibili/video-keywords' && request.method === 'POST') {
-    try {
-      const payload = JSON.parse((await readBody(request)) || '{}');
-      return writeJson(response, 200, await searchVideoKeywords(payload));
-    } catch (error) {
-      return writeJson(response, 500, { ok: false, error: error.message });
-    }
-  }
-
-  return writeJson(response, 404, { ok: false, error: 'Not found' });
+app.onError((err, c) => {
+  console.error(err);
+  return c.json({ ok: false, error: 'Internal server error' }, 500);
 });
 
-server.listen(PORT, () => {
+app.route('/api/bilibili', bilibili);
+app.route('/api/deepseek', deepseek);
+app.route('/api/aicu', aicu);
+app.get('/api/health', (c) => c.json({ ok: true }));
+
+const server = serve({ fetch: app.fetch, port: PORT, hostname: '127.0.0.1' }, () => {
   console.log(`API server listening on http://127.0.0.1:${PORT}`);
 });
 
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`Port ${PORT} is already in use`);
+  } else {
+    console.error('Server error:', err);
+  }
+  process.exit(1);
+});
+
+let vite = null;
 if (process.env.START_VITE !== '0') {
-  const vite = spawn('npm', ['run', 'dev', '--', '--port', String(VITE_PORT)], {
+  vite = spawn('npm', ['run', 'dev', '--', '--port', String(VITE_PORT)], {
     shell: true,
     stdio: 'inherit',
   });
-  process.on('exit', () => vite.kill());
+  vite.on('error', (err) => {
+    console.error('Failed to start Vite:', err.message);
+  });
 }
+
+function shutdown() {
+  if (vite) {
+    vite.kill();
+    vite = null;
+  }
+  server.close(() => process.exit(0));
+  setTimeout(() => process.exit(1), 5000);
+}
+
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);

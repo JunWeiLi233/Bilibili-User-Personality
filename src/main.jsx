@@ -15,16 +15,16 @@ import {
   ShieldWarning,
   WarningCircle,
 } from '@phosphor-icons/react';
-import { buildRiskLexiconText, buildSentenceRadarMarks, isMemeOrQuotedNonAttackText } from './languageUnderstanding.js';
+import { buildRiskLexiconText, isMemeOrQuotedNonAttackText } from './languageUnderstanding.js';
 import './styles.css';
 
 const INVERSE_AXES = new Set(['证据敏感', '逻辑一致', '合作讨论', '修正意愿']);
 
 const analysisModes = [
   {
-    id: 'deepseek',
-    label: 'DeepSeek 直析',
-    description: 'DeepSeek V4 直接分析评论话语行为，全面理解语境、反讽和言外之意，无需关键词匹配。',
+    id: 'best',
+    label: '最优融合',
+    description: '语义裁判 + 动态语库双引擎融合，综合话语行为判定与词族密度分析。',
   },
   {
     id: 'hybrid',
@@ -75,54 +75,56 @@ const researchFrames = [
   },
 ];
 
-const sampleTextA = `你连这个都不懂还谈产业？国产替代就是骗补，哪个不是 PPT 项目？
-B 站早就没有长视频创作者了，都是切片号。
-你说要看数据，其实就是给资本洗地。
-笑死，这种观点也有人信，真是被营销洗傻了。
-别扯什么来源，你自己搜一下不就知道了。
-所有支持这个观点的人都一个样，根本不是讨论问题。`;
-
-const sampleTextB = `这个优化像上次那款一样翻车，所以估计也撑不了多久。
-厂家肯定偷偷降规格了，不然不会这样。
-我看了一下评测数据，可能是固件版本不同，前面那句我说重了。
-如果有更完整的来源可以贴一下，我愿意改结论。
-这个类比不一定准确，但目前样本里确实有两个相似案例。`;
-
-const bilibiliFetchedSamples = [
-  {
-    name: 'BV19y 评论样本 A',
-    uid: 'mid 130960422 · BV19yGa61Ee6',
-    source: '公开视频热门评论/楼中楼聚合',
-    text: `谁是正宗核心供应商，谁是蹭概念
-回复 @costoffree :可以不信，但不能怀疑事实
-回复 @小陈子爱长沙 :👌
-回复 @猫子樱桃 :正在做`,
-  },
-  {
-    name: 'BV19y 评论样本 B',
-    uid: 'mid 8567536 · BV19yGa61Ee6',
-    source: '公开视频热门评论/楼中楼聚合',
-    text: `核心供应商都在国内，为啥我们做不出来
-回复 @关中王-李 :星舰v3作为人类历史上推力第一的火箭，起飞推力8240吨。我国现役最强火箭长征五号，起飞推力1000吨，目前规划的长征九号，起飞推力预计6000吨，请问你说的正在做，是指哪艘？`,
-  },
-  {
-    name: 'BV19y 评论样本 C',
-    uid: 'mid 1438219989 · BV19yGa61Ee6',
-    source: '公开视频热门评论/楼中楼聚合',
-    text: `回复 @老王头头头头头 :抄作业是指抄答案。不管题目。给专利费买专利是买解题思路和答案。连最基础的你都搞不懂。
-回复 @燃烧的拖把 :我了解的不够全面。我知道了，在火箭回收方面空差X确实开放了部分非核心专利。网络上可以查得到。还有就是特斯拉。那句话怎么说来着？如果不是马上开源国内的电动车产业能如此飞快的崛起吗？
-开放了包括但不限于三电系统、充电技术、Autopilot/FSD核心软件技术、初代Roadster相关专利。
-回复 @燃烧的拖把 :另外就是你可以去空X官网看一看。人家在上面公布了很多相关的技术。这些都已经不是秘密。为此。国内有些不要脸的公司还拿来在国内注册的专利。承认别人强很难吗？`,
-  },
-];
-
 const baseLexicons = {
-  attack: ['你懂', '洗傻', '笑死', '智商', '脑子', '蠢', '跪', '急了', '别扯', '装', '洗地', '你连', '典', '孝', '绷', '小丑'],
-  absolutes: ['所有', '全部', '都是', '从来', '永远', '肯定', '必然', '早就没有', '哪个不是', '根本', '没有一个'],
-  evidence: ['数据', '来源', '论文', '报告', '统计', '样本', '链接', '证据', '评测', '引用'],
-  evasion: ['你自己搜', '这还用说', '懂的都懂', '懒得解释', '不解释', '自己查', '这还用问'],
-  cooperation: ['如果', '可能', '不一定', '我理解', '你是说', '能否', '可以贴', '我愿意', '补充', '限定'],
-  correction: ['我错了', '我说重了', '更正', '修正', '前面那句', '改结论', '承认', '确实'],
+  attack: [
+    '你懂', '洗傻', '笑死', '智商', '脑子', '蠢', '跪', '急了', '别扯', '装', '洗地', '你连',
+    '典', '孝', '绷', '小丑', '你配', '你也配', '你算老几', '你什么东西', '你行你上', '就你',
+    '看你主页', '翻你动态', '查成分', '你主子', '你爹', '孝子', '逆天', '闹麻了', '唐', '啥狗',
+    '出生', '破防', '这就破防', '急成这样', '急了急了', '懂哥', '云玩家', '云', '脑测', '脑补',
+    '大聪明', '睿智', '麻了', '绷不住', '蚌', '赢麻了', '赢', '遥遥领先', '遥遥',
+    '你这种', '你个', '什么东西', '你也配', '搞笑', '可笑', '笑嘻了', '难绷',
+    '纯纯', '纯属', '纯', '离谱', '逆天', '抽象', '神金', '有病',
+  ],
+  absolutes: [
+    '所有', '全部', '都是', '从来', '永远', '肯定', '必然', '早就没有', '哪个不是', '根本', '没有一个',
+    '全都', '一律', '无一例外', '百分百', '百分之一百', '任何人', '谁都', '没人', '没有人',
+    '没有一个人', '没有哪个', '从古至今', '自古以来', '历来', '绝对', '毫无疑问', '毋庸置疑',
+    '不用怀疑', '不可能是', '肯定是', '绝对是', '很明显', '明摆着', '众所周知', '大家都知道',
+    '谁不知道', '不用想', '确定无疑', '必然', '必然的', '板上钉钉', '没跑', '没跑了',
+    '大势所趋', '不可逆转', '不可阻挡', '必然趋势', '铁定', '一定', '必须',
+  ],
+  evidence: [
+    '数据', '来源', '论文', '报告', '统计', '样本', '链接', '证据', '评测', '引用',
+    '出处', '原帖', '原文', '截图', '实锤', '石锤', '铁证', '有图有真相', '求出处',
+    '哪里看到', '哪来的', '依据', '根据', '调研', '调查', '实测', '亲测', '实测数据',
+    '文献', '期刊', '学术', '研究', '论文', '论文链接', '参考文献', '资料', '素材',
+    '官方', '权威', '可靠', '可信', '有据可查', '有据', '可查', '可验证',
+  ],
+  evasion: [
+    '你自己搜', '这还用说', '懂的都懂', '懒得解释', '不解释', '自己查', '这还用问',
+    '不会百度', '问百度', '去百度', '自己去找', '不会搜', '搜一下不会', '这都不知道',
+    '常识', '不用我教', '自己学', '去看书', '多读书', '这还用说', '这都不懂',
+    '你不会自己查', '自己搜', '你去搜', '你查一下', '你去看看', '你去了解',
+    '说了你也不懂', '解释了也没用', '跟你说了你也不明白', '说了你也不信',
+    '不信拉倒', '爱信不信', '随你', '你开心就好', '你说的都对',
+  ],
+  cooperation: [
+    '如果', '可能', '不一定', '我理解', '你是说', '能否', '可以贴', '我愿意', '补充', '限定',
+    '或许', '大概', '也许', '有可能', '据我所知', '就我所见', '以我目前', '暂时', '目前看来',
+    '现阶段', '这里有一个', '让我补充', '提供一下', '仅供参考', '个人看法', '在我看来',
+    '我的理解', '你说的有道理', '这倒也是', '那倒也对', '确实有道理', '有道理',
+    '你说得对', '受教', '学习', '感谢指正', '谢谢指正', '感谢', '谢谢',
+    '我认同', '我同意', '有道理', '说得对', '没毛病', '合理', '正常',
+    '可以理解', '能理解', '理解', '懂了', '明白了', '知道了',
+  ],
+  correction: [
+    '我错了', '我说重了', '更正', '修正', '前面那句', '改结论', '承认', '确实',
+    '说错了', '搞错了', '弄错了', '记错了', '你说得对', '受教', '学习', '感谢指正',
+    '谢谢指正', '有道理', '你说的有道理', '这倒也是', '那倒也对', '收回', '前面说错',
+    '之前说错', '是我搞混', '我搞混了', '我记错了', '原来如此', '原来这样',
+    '不好意思', '抱歉', '对不起', '我的锅', '我的问题', '我的错',
+    '重新看了下', '再看了一下', '仔细看了', '确认了下', '核实了一下',
+  ],
 };
 
 const lexiconFamilies = [
@@ -301,7 +303,7 @@ function splitComments(text) {
 }
 
 function countMatches(text, terms) {
-  return terms.reduce((sum, term) => sum + (text.split(term).length - 1), 0);
+  return terms.reduce((sum, term) => sum + (term ? text.split(term).length - 1 : 0), 0);
 }
 
 function perThousand(text, terms) {
@@ -480,6 +482,7 @@ function getTrollIndex(user) {
   );
 }
 
+let _scoreCounter = 0;
 function scoreComments({ name, uid, text, source, runtimeLexicon = baseLexicons, analysisMode = 'hybrid' }) {
   const comments = splitComments(text);
   const joined = comments.join('\n');
@@ -590,7 +593,7 @@ function scoreComments({ name, uid, text, source, runtimeLexicon = baseLexicons,
   const confidence = clamp(0.5 + Math.min(total, 30) / 100 + Math.min(primaryErrors.length, 10) / 85, 0.45, 0.92);
 
   return {
-    id: `generated-${Date.now()}-${analysisMode}`,
+    id: `generated-${Date.now()}-${++_scoreCounter}-${analysisMode}`,
     uid: uid || '自定义样本',
     name: name || '自定义 B 站用户',
     bio: source || '由粘贴评论样本即时生成',
@@ -611,20 +614,6 @@ function scoreComments({ name, uid, text, source, runtimeLexicon = baseLexicons,
     errors: fallbackErrors,
   };
 }
-
-const defaultUsers = [
-  scoreComments({ name: '山前反证员', uid: 'UID 349872641', text: sampleTextA, analysisMode: 'hybrid' }),
-  scoreComments({ name: '冷启动观测站', uid: 'UID 68190422', text: sampleTextB, analysisMode: 'hybrid' }),
-  ...bilibiliFetchedSamples.map((sample) =>
-    scoreComments({
-      name: sample.name,
-      uid: sample.uid,
-      text: sample.text,
-      source: sample.source,
-      analysisMode: 'hybrid',
-    }),
-  ),
-];
 
 function RadarChart({ scores }) {
   const size = 360;
@@ -671,7 +660,7 @@ function RadarChart({ scores }) {
 }
 
 function ErrorComment({ item }) {
-  const hasHighlight = item.highlight && item.comment.includes(item.highlight);
+  const hasHighlight = item.highlight && item.highlight !== item.comment && item.comment.includes(item.highlight);
   const parts = hasHighlight ? item.comment.split(item.highlight) : [item.comment];
   return (
     <article className="error-item">
@@ -716,19 +705,19 @@ function ErrorComment({ item }) {
 }
 
 function App() {
-  const [profiles, setProfiles] = React.useState(defaultUsers);
-  const [selectedId, setSelectedId] = React.useState(defaultUsers[0].id);
+  const [profiles, setProfiles] = React.useState([]);
+  const [selectedId, setSelectedId] = React.useState(null);
   const [activeError, setActiveError] = React.useState('全部');
   const [query, setQuery] = React.useState('');
   const [bilibiliCookie, setBilibiliCookie] = React.useState('');
-  const [uid, setUid] = React.useState('UID 349872641');
-  const [commentText, setCommentText] = React.useState(sampleTextA);
+  const [uid, setUid] = React.useState('');
+  const [commentText, setCommentText] = React.useState('');
   const [fetchState, setFetchState] = React.useState({
     status: 'idle',
     message: '输入 UID 或视频链接后会直接扫描 B 站公开对象，并用 DeepSeek V4 Pro max 学习关键词。',
   });
   const [keywordResults, setKeywordResults] = React.useState([]);
-  const [analysisMode, setAnalysisMode] = React.useState('hybrid');
+  const [analysisMode, setAnalysisMode] = React.useState('best');
   const [customLexicon, setCustomLexicon] = React.useState(() => {
     try {
       return JSON.parse(window.localStorage.getItem('bili-argument-lexicon') || '{}');
@@ -739,15 +728,15 @@ function App() {
   const [analysisState, setAnalysisState] = React.useState('ready');
   const [deepSeekConfig, setDeepSeekConfig] = React.useState(null);
 
+  const emptyUser = { id: '', uid: '', name: '等待搜索', bio: '输入 UID 后开始分析', sampleSize: 0, analyzed: 0, confidence: 0, stanceSwitchRate: 0, disagreementRate: 0, engineLabel: '', speechSummary: { negative: 0, positive: 0, lexicon: 0, mode: '' }, vocabularyMarks: [], scores: [], errors: [] };
   const runtimeLexicon = React.useMemo(() => buildRuntimeLexicon(customLexicon), [customLexicon]);
-  const selectedUser = profiles.find((user) => user.id === selectedId) || profiles[0];
+  const selectedUser = profiles.find((user) => user.id === selectedId) || profiles[0] || emptyUser;
   const trollIndex = getTrollIndex(selectedUser);
-  const errorTypes = ['全部', ...new Set(selectedUser.errors.map((error) => error.type))];
+  const errorTypes = ['全部', ...new Set((selectedUser.errors || []).map((error) => error.type))];
   const visibleErrors =
     activeError === '全部'
-      ? selectedUser.errors
-      : selectedUser.errors.filter((error) => error.type === activeError);
-  const isVideoSearch = /BV[0-9A-Za-z]+|bilibili\.com\/video|b23\.tv|medialist|favlist/i.test(query);
+      ? selectedUser.errors || []
+      : (selectedUser.errors || []).filter((error) => error.type === activeError);
 
   React.useEffect(() => {
     window.localStorage.setItem('bili-argument-lexicon', JSON.stringify(customLexicon));
@@ -773,8 +762,8 @@ function App() {
             ? {
                 ...current,
                 message: config.available
-                  ? `DeepSeek V4 模型 ${config.model}（${config.reasoningEffort || 'medium'}）已配置；输入 UID 或视频链接后会抓取公开文本、抽取中文关键词并写入本地词典。`
-                  : '未检测到 DEEPSEEK_API_KEY；输入 UID 或视频链接后仍会用本地规则提取关键词并写入本地词典。',
+                  ? `DeepSeek V4 模型 ${config.model}（${config.reasoningEffort || 'medium'}）已配置；输入 UID 后会抓取公开文本、抽取中文关键词并写入本地词典。`
+                  : '未检测到 DEEPSEEK_API_KEY；输入 UID 后仍会用本地规则提取关键词并写入本地词典。',
               }
             : current,
         );
@@ -797,321 +786,86 @@ function App() {
     };
   }, []);
 
-  const fetchVideoKeywords = async () => {
-    const videoLink = query.trim();
-    const isFavorite = /medialist|favlist/i.test(videoLink);
-    const hasBilibiliCookie = Boolean(bilibiliCookie.trim());
-    if (videoLink && !isFavorite && !/BV[0-9A-Za-z]+|bilibili\.com\/video|b23\.tv/i.test(videoLink)) {
-      setFetchState({ status: 'error', message: '留空使用后端默认视频；或输入包含 BV 号的 B 站视频链接或收藏夹链接。' });
-      return;
-    }
-    setKeywordResults([]);
-    setAnalysisState('loading');
-    setFetchState({
-      status: 'loading',
-      message: isFavorite
-        ? '正在扫描该收藏夹中的视频，用 DeepSeek V4 Pro max 提取关键词...'
-        : videoLink
-          ? '正在扫描该视频的公开评论，并用 DeepSeek V4 Pro max 提取关键词...'
-          : '正在调用后端代码里的默认 B 站视频，并用 DeepSeek V4 Pro max 提取关键词...',
-    });
-    try {
-      const response = await fetch('/api/bilibili/video-keywords', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          ...(isFavorite ? { favoriteLink: videoLink } : videoLink ? { videoLink } : {}),
-          ...(hasBilibiliCookie ? { bilibiliCookie: bilibiliCookie.trim() } : {}),
-          pages: hasBilibiliCookie ? 5 : 2,
-        }),
-      });
-      const data = await response.json();
-      if (!data.ok) {
-        setFetchState({ status: 'error', message: data.error || '视频关键词搜索失败。' });
-        setAnalysisState('ready');
-        return;
-      }
-
-      const nextCommentText = data.commentText || '';
-      const entries = data.entries || [];
-      let learnedRuntimeLexicon = runtimeLexicon;
-      const trainData = data.keywordTraining;
-      let learnedNote = '未发现可写入本地词典的新关键词。';
-      if (trainData?.ok) {
-        const nextCustomLexicon = mergeDictionaryFamilies(customLexicon, trainData.dictionary?.families || {});
-        setCustomLexicon(nextCustomLexicon);
-        learnedRuntimeLexicon = buildRuntimeLexicon(nextCustomLexicon);
-        learnedNote = `${trainData.available ? `DeepSeek V4 ${trainData.model}（${trainData.reasoningEffort || 'medium'}）` : '本地规则'}学习 ${entries.length} 个中文关键词${trainData.usedFallback ? '（使用规则兜底）' : ''}。`;
-      }
-
-      setQuery(data.video.bvid);
-      setUid(`video ${data.video.bvid}`);
-      setCommentText(nextCommentText);
-      setKeywordResults(entries);
-      if (nextCommentText.trim()) {
-        if (analysisMode === 'deepseek') {
-          const deepseekProfile = await runDeepSeekAnalysis(
-            nextCommentText,
-            data.video.title || data.video.bvid,
-            `video ${data.video.bvid}`,
-            data.video.sourceUrl,
-          );
-          if (deepseekProfile) {
-            setProfiles((current) => [deepseekProfile, ...current.filter((item) => !item.id.startsWith('generated-'))]);
-            setSelectedId(deepseekProfile.id);
-            setActiveError('全部');
-          }
-        } else {
-          const generated = scoreComments({
-            name: data.video.title || data.video.bvid,
-            uid: `video ${data.video.bvid}`,
-            text: nextCommentText,
-            source: data.video.sourceUrl,
-            runtimeLexicon: learnedRuntimeLexicon,
-            analysisMode,
-          });
-          setProfiles((current) => [generated, ...current.filter((item) => !item.id.startsWith('generated-'))]);
-          setSelectedId(generated.id);
-          setActiveError('全部');
-        }
-      }
-
-      if (analysisMode !== 'deepseek') {
-        setFetchState({
-          status: data.comments.length > 0 ? 'ready' : 'empty',
-          message: `扫描 ${data.videos?.length || 1} 个视频（首个：《${data.video.title}》），采集 ${data.comments.length} 条公开评论。${learnedNote}${data.confidenceHint}。`,
-        });
-      }
-      setAnalysisState('ready');
-    } catch (error) {
-      setFetchState({ status: 'error', message: `视频关键词搜索失败：${error.message}。请确认已运行 npm run server。` });
-      setAnalysisState('ready');
-    }
-  };
-
   const fetchUidComments = async () => {
     const searchUid = query.trim().match(/\d+/)?.[0] || '';
-    const hasBilibiliCookie = Boolean(bilibiliCookie.trim());
     if (!searchUid) {
       setFetchState({ status: 'error', message: '请输入数字 UID。' });
       return;
     }
     setKeywordResults([]);
     setAnalysisState('loading');
-    setFetchState({ status: 'loading', message: '正在直接扫描该 UID 的公开投稿、动态与评论互动...' });
+    setFetchState({ status: 'loading', message: '正在从 AICU 获取该 UID 的评论数据...' });
     try {
-      const response = await fetch('/api/bilibili/analyze-uid', {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 60000);
+      const response = await fetch('/api/aicu/scrape', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          uid: searchUid,
-          ...(hasBilibiliCookie ? { bilibiliCookie: bilibiliCookie.trim() } : {}),
-          bvidPool: '',
-          objectLimit: hasBilibiliCookie ? 12 : 8,
-          dynamicLimit: hasBilibiliCookie ? 12 : 8,
-          pagesPerObject: hasBilibiliCookie ? 5 : 2,
-        }),
+        body: JSON.stringify({ uid: searchUid }),
+        signal: controller.signal,
       });
+      clearTimeout(timeout);
+      if (!response.ok) {
+        const errorText = await response.text().catch(() => '');
+        throw new Error(`服务器错误 (${response.status}): ${errorText.slice(0, 200)}`);
+      }
       const data = await response.json();
       if (!data.ok) {
-        setFetchState({
-          status: 'error',
-          message: `${data.error}${data.details ? ` (${data.details})` : ''}`,
-        });
+        setFetchState({ status: 'error', message: data.error || '获取失败' });
         setAnalysisState('ready');
         return;
       }
-      setQuery(data.uid);
-      setUid(`mid ${data.uid}`);
-      const nextCommentText = data.commentText || '';
+      const user = data.user;
+      setQuery(user.uid);
+      setUid(`mid ${user.uid}`);
+      const nextCommentText = user.combinedText || user.commentText || '';
       setCommentText(nextCommentText);
-      const statementCount = data.statements?.length ?? data.comments.length;
-      const dynamicCount = data.dynamics?.length ?? 0;
-      const postCount = data.authoredPosts?.length ?? 0;
       let learnedRuntimeLexicon = runtimeLexicon;
-      let learnedNote = deepSeekConfig?.available
-        ? `DeepSeek V4 模型 ${deepSeekConfig.model}（${deepSeekConfig.reasoningEffort || 'medium'}）未发现新关键词。`
-        : 'DeepSeek 未配置，本地规则未发现新词。';
-      if (nextCommentText.trim()) {
-        setFetchState({ status: 'loading', message: '正在用 DeepSeek V4 提取中文关键词并写入本地词典...' });
+      let learnedNote = '';
+      if (nextCommentText.trim() && deepSeekConfig?.available) {
+        setFetchState({ status: 'loading', message: `已获取 ${user.commentCount} 条评论 + ${user.danmakuCount || 0} 条弹幕，正在提取关键词...` });
         try {
           const trainResponse = await fetch('/api/deepseek/train-keywords', {
             method: 'POST',
             headers: { 'content-type': 'application/json' },
-            body: JSON.stringify({
-              uid: data.uid,
-              text: nextCommentText,
-              source: data.source,
-            }),
+            body: JSON.stringify({ uid: user.uid, text: nextCommentText, source: 'aicu.cc' }),
           });
+          if (!trainResponse.ok) throw new Error(`Training request failed (${trainResponse.status})`);
           const trainData = await trainResponse.json();
           if (trainData.ok) {
             const nextCustomLexicon = mergeDictionaryFamilies(customLexicon, trainData.dictionary?.families || {});
             setCustomLexicon(nextCustomLexicon);
             learnedRuntimeLexicon = buildRuntimeLexicon(nextCustomLexicon);
             setKeywordResults(trainData.entries || []);
-            learnedNote = `${trainData.available ? `DeepSeek V4 ${trainData.model}（${trainData.reasoningEffort || 'medium'}）` : '本地规则'}学习 ${trainData.entries.length} 个中文关键词${trainData.usedFallback ? '（使用规则兜底）' : ''}。`;
-          } else {
-            learnedNote = `DeepSeek 词典训练失败：${trainData.error || '未知错误'}。`;
+            learnedNote = `关键词 ${trainData.entries.length} 个。`;
           }
-        } catch (error) {
-          learnedNote = `DeepSeek 词典训练失败：${error.message}。`;
+        } catch (trainError) {
+          console.warn('Keyword training failed:', trainError);
         }
       }
-      if (statementCount > 0) {
-        if (analysisMode === 'deepseek') {
-          const deepseekProfile = await runDeepSeekAnalysis(
-            nextCommentText,
-            data.uname || `UID ${data.uid}`,
-            `mid ${data.uid}`,
-            data.source,
-          );
-          if (deepseekProfile) {
-            setProfiles((current) => [deepseekProfile, ...current.filter((item) => !item.id.startsWith('generated-'))]);
-            setSelectedId(deepseekProfile.id);
-            setActiveError('全部');
-          }
-        } else {
-          const generated = scoreComments({
-            name: data.uname || `UID ${data.uid}`,
-            uid: `mid ${data.uid}`,
-            text: nextCommentText,
-            runtimeLexicon: learnedRuntimeLexicon,
-            analysisMode,
-          });
-          setProfiles((current) => [generated, ...current.filter((item) => !item.id.startsWith('generated-'))]);
-          setSelectedId(generated.id);
-          setActiveError('全部');
-        }
-      }
-      if (analysisMode !== 'deepseek') {
-        setFetchState({
-          status: statementCount > 0 ? 'ready' : 'empty',
-          message: `扫描 ${data.objects?.length ?? data.videos.length} 个公开对象（视频 ${data.videos.length} / 动态 ${dynamicCount}），采集 ${postCount} 条公开动态原文与 ${data.comments.length} 条该 UID 评论互动。${learnedNote}${data.confidenceHint}。${data.warnings?.length ? `警告：${data.warnings.join('；')}` : ''}`,
+      if (user.commentCount > 0 || (user.danmakuCount || 0) > 0) {
+        setFetchState({ status: 'loading', message: '正在生成分析画像...' });
+        const effectiveMode = analysisMode === 'best' ? 'hybrid' : analysisMode;
+        const generated = scoreComments({
+          name: `UID ${user.uid}`,
+          uid: `mid ${user.uid}`,
+          text: nextCommentText,
+          runtimeLexicon: learnedRuntimeLexicon,
+          analysisMode: effectiveMode,
         });
-      }
-      setAnalysisState('ready');
-    } catch (error) {
-      setFetchState({ status: 'error', message: `采集失败：${error.message}。请确认已运行 npm run server。` });
-      setAnalysisState('ready');
-    }
-  };
-
-  function buildDeepSeekProfile(result, { name, uid, source, commentText }) {
-    const comments = splitComments(commentText);
-    const axes = result.axes || [];
-    const scores = axes.map((axis) => ({
-      axis: axis.axis,
-      value: Math.round(clamp(Number(axis.score) || 50)),
-      benchmark: { '对抗性动机': 52, '认知闭合': 49, '证据敏感': 58, '逻辑一致': 61, '合作讨论': 55, '修正意愿': 46 }[axis.axis] || 50,
-      note: `${axis.reasoning || ''} 证据：${(axis.evidence || []).join('；')}`,
-    }));
-
-    const errors = axes.flatMap((axis) => {
-      const evidence = Array.isArray(axis.evidence) ? axis.evidence : [];
-      return evidence.map((quote, index) => ({
-        id: `deepseek-${axis.axis}-${index}`,
-        source: 'DeepSeek V4 直析',
-        speechAct: axis.axis,
-        target: '话语行为',
-        type: axis.score >= 70 || axis.score <= 30 ? '高风险话语' : '中性话语',
-        severity: axis.score >= 70 ? '高' : axis.score <= 30 ? '中' : '低',
-        comment: quote,
-        highlight: quote.slice(0, 40),
-        diagnosis: axis.reasoning || '',
-        evidence: `DeepSeek V4 从评论中抽取的原文证据（${axis.axis}轴）。`,
-        confidence: result.confidence || 0.7,
-      }));
-    });
-    const sentenceAnalyses = Array.isArray(result.sentenceAnalyses) ? result.sentenceAnalyses : [];
-    const sentenceRadarMarks = buildSentenceRadarMarks(sentenceAnalyses, { confidence: result.confidence || 0.7 });
-    const sentenceMarksByQuote = sentenceRadarMarks.reduce((groups, mark) => {
-      const marks = groups.get(mark.quote) || [];
-      marks.push(mark);
-      groups.set(mark.quote, marks);
-      return groups;
-    }, new Map());
-    const sentenceErrors = sentenceAnalyses.map((item, index) => ({
-      id: `deepseek-sentence-${index}`,
-      source: 'DeepSeek V4 逐句分析',
-      speechAct: item.speechAct || '完整句判断',
-      target: (sentenceMarksByQuote.get(item.quote || '') || []).map((mark) => mark.axis).join(' / ') || item.target || '整句语境',
-      type: item.risk === 'high' ? '高风险话语' : item.risk === 'medium' ? '中性话语' : '低风险话语',
-      severity: item.risk === 'high' ? '高' : item.risk === 'medium' ? '中' : '低',
-      comment: item.quote || '',
-      highlight: (item.quote || '').slice(0, 40),
-      diagnosis: [
-        (sentenceMarksByQuote.get(item.quote || '') || []).length > 0
-          ? `Radar: ${(sentenceMarksByQuote.get(item.quote || '') || []).map((mark) => `${mark.axis} ${Math.round(mark.strength * 100)}%`).join(' / ')}`
-          : '',
-        item.stance,
-        item.contextRole,
-        item.reasoning,
-      ].filter(Boolean).join('；'),
-      evidence: 'DeepSeek V4 按完整句子的命题、对象、语气、证据关系和上下文作用判断，不只按单个关键词定性。',
-      confidence: result.confidence || 0.7,
-    }));
-    const combinedErrors = [...sentenceErrors, ...errors];
-
-    return {
-      id: `generated-${Date.now()}-deepseek`,
-      uid: uid || '自定义样本',
-      name: name || '自定义 B 站用户',
-      bio: source || '由 DeepSeek V4 直接分析评论样本生成',
-      sampleSize: comments.length,
-      analyzed: comments.length,
-      confidence: result.confidence || 0.7,
-      stanceSwitchRate: 0,
-      disagreementRate: 0,
-      engineLabel: 'DeepSeek 直析',
-      speechSummary: {
-        negative: axes.filter((a) => a.score >= 70).length,
-        positive: axes.filter((a) => a.score <= 30 && ['证据敏感', '逻辑一致', '合作讨论', '修正意愿'].includes(a.axis)).length,
-        lexicon: 0,
-        mode: 'deepseek',
-      },
-      vocabularyMarks: [],
-      sentenceRadarMarks,
-      scores,
-      errors: combinedErrors.length > 0 ? combinedErrors : [{
-        id: 'deepseek-empty',
-        source: 'DeepSeek V4 直析',
-        speechAct: '综合分析',
-        target: '话语行为',
-        type: '中性话语',
-        severity: '低',
-        comment: comments[0] || '',
-        highlight: comments[0]?.slice(0, 40) || '',
-        diagnosis: result.overall?.summary || 'DeepSeek V4 对评论样本进行了全面话语行为分析。',
-        evidence: `已分析 ${comments.length} 条评论的全量话语行为模式。`,
-        confidence: result.confidence || 0.7,
-      }],
-    };
-  }
-
-  const runDeepSeekAnalysis = async (commentText, name, uid, source) => {
-    setFetchState({ status: 'loading', message: 'DeepSeek V4 正在直接分析评论话语行为...' });
-    try {
-      const response = await fetch('/api/deepseek/analyze-comments', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ text: commentText, uid, name }),
-      });
-      const result = await response.json();
-      if (!result.ok) {
-        setFetchState({ status: 'error', message: `DeepSeek 分析失败：${result.error || '未知错误'}` });
-        setAnalysisState('ready');
-        return null;
+        setProfiles([generated]);
+        setSelectedId(generated.id);
+        setActiveError('全部');
       }
       setFetchState({
-        status: 'ready',
-        message: `DeepSeek V4 ${result.model}（${result.reasoningEffort || 'medium'}）直接分析了 ${splitComments(commentText).length} 条评论。风险判定：${result.overall?.riskBand || '未知'}。${result.overall?.summary || ''}`,
+        status: user.commentCount > 0 ? 'ready' : 'empty',
+        message: `${user.commentCount} 条评论 + ${user.danmakuCount || 0} 条弹幕 · ${data.cached ? '已缓存' : '新获取'} · ${learnedNote}`,
       });
-      return buildDeepSeekProfile(result, { name, uid, source, commentText });
-    } catch (error) {
-      setFetchState({ status: 'error', message: `DeepSeek 分析失败：${error.message}` });
       setAnalysisState('ready');
-      return null;
+    } catch (error) {
+      const msg = error.name === 'AbortError' ? '请求超时，请稍后重试。' : `获取失败：${error.message}`;
+      setFetchState({ status: 'error', message: msg });
+      setAnalysisState('ready');
     }
   };
 
@@ -1139,31 +893,19 @@ function App() {
               词表只做辅助召回，核心判断转向：是否回应原命题、是否转向人身或阵营、是否转移举证责任、是否愿意修正。
             </p>
             <div className="search-row">
-              <label htmlFor="user-query">B 站 UID / 视频链接</label>
+              <label htmlFor="user-query">B 站 UID</label>
               <div>
                 <input
                   id="user-query"
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
-                  placeholder="例如 453244911 或 https://www.bilibili.com/video/BV..."
+                  placeholder="例如 453244911"
                 />
-                <button type="button" onClick={isVideoSearch ? fetchVideoKeywords : fetchUidComments} disabled={analysisState === 'loading'}>
+                <button type="button" onClick={fetchUidComments} disabled={analysisState === 'loading'}>
                   <Lightning size={17} weight="fill" />
-                  {analysisState === 'loading' ? '抓取中' : isVideoSearch ? '找视频关键词' : '搜索 UID'}
-                </button>
-                <button type="button" onClick={fetchVideoKeywords} disabled={analysisState === 'loading'}>
-                  <Lightning size={17} weight="fill" />
-                  后端默认视频
+                  {analysisState === 'loading' ? '抓取中' : '搜索 UID'}
                 </button>
               </div>
-              <label htmlFor="bilibili-cookie">Bilibili Cookie (optional)</label>
-              <textarea
-                id="bilibili-cookie"
-                value={bilibiliCookie}
-                onChange={(event) => setBilibiliCookie(event.target.value)}
-                placeholder="SESSDATA=...; bili_jct=...; DedeUserID=..."
-                spellCheck="false"
-              />
               <p className={`fetch-status fetch-${fetchState.status}`}>{fetchState.message}</p>
               <div className="mode-selector" role="radiogroup" aria-label="分析模式">
                 {analysisModes.map((mode) => (
@@ -1210,7 +952,7 @@ function App() {
         <aside className="user-rail">
           <div className="rail-title">
             <ClipboardText size={18} />
-            <span>用户样本</span>
+            <span>用户评论</span>
           </div>
           {profiles.map((user) => (
             <button
@@ -1277,26 +1019,6 @@ function App() {
                       <b>{mark.term}</b>
                       <i>{mark.label} · {mark.axis}{mark.count > 1 ? ` ×${mark.count}` : ''}</i>
                     </span>
-                  ))}
-                </div>
-              </div>
-            )}
-            {selectedUser.sentenceRadarMarks?.length > 0 && (
-              <div className="sentence-radar" aria-label="完整句 radar 标记">
-                <div className="vocabulary-radar-head">
-                  <strong>完整句 radar 标记</strong>
-                  <span>DeepSeek 按整句判断话语行为，并把每句映射到对应 radar 轴。</span>
-                </div>
-                <div className="sentence-radar-list">
-                  {selectedUser.sentenceRadarMarks.slice(0, 8).map((mark) => (
-                    <article className={`sentence-radar-item sentence-${mark.direction}`} key={mark.id}>
-                      <div className="sentence-radar-meta">
-                        <strong>{mark.axis}</strong>
-                        <span>{mark.speechAct} / {mark.target} / {Math.round(mark.strength * 100)}%</span>
-                      </div>
-                      <p>{mark.quote}</p>
-                      <em>{mark.reasoning}</em>
-                    </article>
                   ))}
                 </div>
               </div>

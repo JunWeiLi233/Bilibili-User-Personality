@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bilibili Cookie Export Helper</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; display: flex; justify-content: center; align-items: center; }
+  .card { background: #1e293b; border-radius: 12px; padding: 32px; max-width: 640px; width: 100%; box-shadow: 0 4px 24px rgba(0,0,0,.4); }
+  h2 { margin-bottom: 4px; font-size: 1.3rem; }
+  .sub { color: #94a3b8; margin-bottom: 20px; line-height: 1.5; font-size: .88rem; }
+  .step { background: #0f172a; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+  .step h3 { font-size: .85rem; color: #38bdf8; margin-bottom: 8px; }
+  .step ol { color: #94a3b8; font-size: .88rem; padding-left: 20px; line-height: 1.8; }
+  code { background: #334155; padding: 2px 6px; border-radius: 4px; font-family: "Cascadia Code", "Fira Code", monospace; font-size: .84rem; color: #facc15; }
+  textarea { width: 100%; background: #0f172a; color: #e2e8f0; border: 1px solid #334155; border-radius: 8px; padding: 12px; font-size: .82rem; font-family: "Cascadia Code", "Fira Code", monospace; resize: vertical; }
+  button { background: #38bdf8; color: #0f172a; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: .85rem; }
+  button:hover { background: #7dd3fc; }
+  .result-box { background: #0f172a; border: 1px solid #4ade80; border-radius: 8px; padding: 12px; margin-top: 12px; }
+  .result-box code { color: #4ade80; background: none; font-size: .84rem; word-break: break-all; }
+  .note { background: #422006; color: #fdba74; border-radius: 6px; padding: 10px 14px; font-size: .8rem; margin-top: 12px; }
+  .copied { color: #4ade80; margin-left: 10px; font-size: .8rem; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h2>导出 Bilibili Cookie</h2>
+  <p class="sub">复制下方代码 → 在 bilibili.com 按 F12 打开控制台 → 粘贴回车 → 按提示走。</p>
+
+  <div class="step">
+    <h3>控制台代码（全自动，只需点一次弹窗）</h3>
+    <textarea id="consoleSnippet" readonly rows="20" style="min-height:380px;">(function() {
+  // Step 1: grab what JS can reach
+  var get = function(name) {
+    var m = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
+    return m ? m[1] : null;
+  };
+  var jct = get('bili_jct') || '';
+  var dede = get('DedeUserID') || '';
+
+  // Step 2: SESSDATA is HttpOnly, JS can't read it. Prompt user.
+  console.clear();
+  console.log('%c=== BILIBILI COOKIE EXPORT ===%c\n', 'font-size:18px;color:#38bdf8', '');
+  console.log('%cbili_jct: %c' + (jct ? jct.slice(0,6) + '...' : 'NOT FOUND'),
+    'color:#94a3b8', jct ? 'color:#4ade80' : 'color:#f87171');
+  console.log('%cDedeUserID: %c' + (dede || 'NOT FOUND'),
+    'color:#94a3b8', dede ? 'color:#4ade80' : 'color:#f87171');
+  console.log('');
+  console.log('%cSESSDATA is HttpOnly — must paste from DevTools.', 'color:#fdba74');
+  console.log('%cApplication tab > Cookies > bilibili.com > SESSDATA > double-click Value > Ctrl+C',
+    'color:#94a3b8');
+
+  var sess = prompt(
+    'SESSDATA is HttpOnly (JS cannot read it).\n\n' +
+    '1. Go to Application tab > Cookies > bilibili.com\n' +
+    '2. Find SESSDATA, double-click its Value, Ctrl+C\n' +
+    '3. Paste here and click OK\n\n' +
+    'SESSDATA:'
+  );
+
+  if (!sess || !sess.trim()) {
+    console.log('%cCancelled — SESSDATA is required.', 'color:#f87171');
+    return;
+  }
+
+  var parts = ['SESSDATA=' + sess.trim()];
+  if (jct) parts.push('bili_jct=' + jct);
+  if (dede) parts.push('DedeUserID=' + dede);
+  var result = parts.join('; ');
+
+  console.log('');
+  console.log('%c=== COPY THE LINE BELOW ===', 'font-size:14px;color:#4ade80');
+  console.log('%c' + result, 'font-size:13px;color:#fff;background:#1e293b;padding:8px 12px;border-radius:4px');
+  console.log('');
+  console.log('%cPaste this into $InlineCookie in run-bilibili-video.links.ps1', 'color:#94a3b8');
+  console.log('%cUID: ' + (dede || '?') + '  |  jct: ' + (jct ? 'yes' : 'no') + '  |  sessdata: ' + sess.length + ' chars',
+    'color:#64748b');
+
+  // auto-copy to clipboard if available
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(result).then(function() {
+      console.log('%cAlready copied to clipboard!', 'color:#4ade80');
+    });
+  }
+})();</textarea>
+    <button onclick="copySnippet()">复制代码</button>
+    <span id="copyMsg" class="copied"></span>
+  </div>
+
+  <div class="note">
+    SESSDATA 是 <strong>HttpOnly</strong> 的（JS 无法读取），所以用弹窗让你手动粘贴。<br>
+    bili_jct 和 DedeUserID 自动从 <code>document.cookie</code> 读取。<br>
+    结果自动复制到剪贴板，可直接粘贴到 <code>$InlineCookie</code>。
+  </div>
+</div>
+
+<script>
+function copySnippet() {
+  var el = document.getElementById('consoleSnippet');
+  navigator.clipboard.writeText(el.value).then(function() {
+    document.getElementById('copyMsg').textContent = '已复制！去 bilibili.com 控制台粘贴';
+    setTimeout(function(){ document.getElementById('copyMsg').textContent = ''; }, 3000);
+  });
+}
+</script>
+</body>
+</html>

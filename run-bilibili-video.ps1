@@ -3,6 +3,9 @@ param(
   [string]$SearchQueryFile = "",
   [string]$PriorityQueryFile = "",
   [string]$PriorityActionFile = "",
+  [string]$VideoLink = "",
+  [string]$FavoriteLink = "",
+  [string]$BilibiliCookie = "",
   [string[]]$ControversyQuery = @(),
   [string[]]$ExtraQueryTemplate = @(),
   [int]$DiscoveryLimit = 6,
@@ -36,6 +39,23 @@ param(
 # Example:
 #   .\run-bilibili-video.ps1
 #   .\run-bilibili-video.ps1 -SearchQuery "your search term 1","your search term 2" -MaxQueries 20 -DiscoveryLimit 8 -CommentPages 3
+#
+# =============================================================================
+# PASTE YOUR LINKS in run-bilibili-video.links.ps1 (gitignored — stays local).
+# =============================================================================
+$InlineLinks = @()
+$InlineCookie = ""
+if (Test-Path ".\run-bilibili-video.links.ps1") {
+  . ".\run-bilibili-video.links.ps1"
+} else {
+  Write-Warning "run-bilibili-video.links.ps1 not found — no inline links loaded."
+  Write-Warning "Create it with `$InlineLinks = @('your links here') and `$InlineCookie = '...'"
+}
+# =============================================================================
+#
+# Also supports command-line overrides:
+#   .\run-bilibili-video.ps1 -VideoLink "https://www.bilibili.com/video/BV..."
+#   .\run-bilibili-video.ps1 -SearchQuery "阴阳怪气 评论区" -MaxQueries 20
 
 if (Test-Path ".\set-deepseek-env.ps1") {
   . ".\set-deepseek-env.ps1"
@@ -197,7 +217,7 @@ if ($PriorityActionFile -and -not $SkipPriorityActionRefresh) {
     $env:BILIBILI_COVERAGE_AUDIT_MAX_ACTIONS = [string]([Math]::Max(20, $MaxQueries * 4))
   }
   $env:BILIBILI_COVERAGE_AUDIT_STRICT = "0"
-  node .\server\runDictionaryCoverageAudit.js
+  node .\server\scripts\runDictionaryCoverageAudit.js
   $coverageExitCode = $LASTEXITCODE
   if ($previousMaxActions) {
     $env:BILIBILI_COVERAGE_AUDIT_MAX_ACTIONS = $previousMaxActions
@@ -215,6 +235,41 @@ if ($PriorityActionFile -and -not $SkipPriorityActionRefresh) {
   Write-Host ""
 }
 
-Write-Host "Harvesting dictionary-seeded Bilibili videos, scanning comments, and training the local keyword dictionary..."
+$allLinks = @()
+# Gather from inline list
+foreach ($link in $InlineLinks) {
+  $trimmed = $link.Trim()
+  if ($trimmed -and -not $trimmed.StartsWith("#")) { $allLinks += $trimmed }
+}
+# Gather from command-line params
+if ($VideoLink) { $allLinks += $VideoLink }
+if ($FavoriteLink) { $allLinks += $FavoriteLink }
 
-node .\server\runVideoKeywordDiscovery.js
+if ($allLinks.Count -gt 0) {
+  foreach ($link in $allLinks) {
+    $isFav = $link -match "medialist|favlist"
+    $isSpace = $link -match "space\.bilibili\.com/(\d+)"
+    $isUid = $link -match "^\d+$"
+    $uidFromSpace = if ($isSpace) { $matches[1] } else { "" }
+
+    Write-Host "Direct link: $link"
+    $nodeArgs = @(".\server\scripts\runVideoLinkDirect.js")
+    if ($isFav) {
+      $nodeArgs += "--favorite-link"; $nodeArgs += $link
+    } elseif ($isSpace) {
+      $nodeArgs += "--uid"; $nodeArgs += $uidFromSpace
+    } elseif ($isUid) {
+      $nodeArgs += "--uid"; $nodeArgs += $link
+    } else {
+      $nodeArgs += "--video-link"; $nodeArgs += $link
+    }
+    if ($InlineCookie) { $nodeArgs += "--cookie"; $nodeArgs += $InlineCookie }
+    if ($BilibiliCookie) { $nodeArgs += "--cookie"; $nodeArgs += $BilibiliCookie }
+    if ($CommentPages) { $nodeArgs += "--pages"; $nodeArgs += $CommentPages }
+    node $nodeArgs
+    Write-Host ""
+  }
+} else {
+  Write-Host "Harvesting dictionary-seeded Bilibili videos, scanning comments, and training the local keyword dictionary..."
+  node .\server\scripts\runVideoKeywordDiscovery.js
+}
