@@ -10,6 +10,12 @@ export function boundedProbeVideosPerQuery(value, fallback = 5) {
   return Math.max(0, Math.min(Math.floor(number), 20));
 }
 
+export function boundedReplyCursorSkipPages(value, fallback = 0) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return fallback;
+  return Math.max(0, Math.min(Math.floor(number), 20));
+}
+
 export function isAnalyzableProbeMessage(value) {
   return /[\p{Script=Han}]/u.test(cleanText(value));
 }

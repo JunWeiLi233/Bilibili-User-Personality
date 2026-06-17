@@ -10,6 +10,7 @@ import {
   buildBilibiliSearchUrls,
   buildBilibiliViewUrl,
   boundedProbeVideosPerQuery,
+  boundedReplyCursorSkipPages,
   collectScannedProbeVideoKeys,
   buildEvidenceSourceVideosForActions,
   buildFreshEvidenceEntriesFromComments,
@@ -42,6 +43,7 @@ function parseArgs(argv = process.argv.slice(2), env = process.env) {
     replyPages: boundedInt(env.BILIBILI_DIRECT_PROBE_REPLY_PAGES, 2, 1, 5),
     replyStartPage: boundedInt(env.BILIBILI_DIRECT_PROBE_REPLY_START_PAGE, 1, 1, 20),
     replyPageSize: boundedInt(env.BILIBILI_DIRECT_PROBE_REPLY_PAGE_SIZE, 20, 1, 20),
+    replyCursorSkipPages: boundedReplyCursorSkipPages(env.BILIBILI_DIRECT_PROBE_REPLY_CURSOR_SKIP_PAGES, 0),
     replyMode: ['cursor', 'page', 'both'].includes(env.BILIBILI_DIRECT_PROBE_REPLY_MODE) ? env.BILIBILI_DIRECT_PROBE_REPLY_MODE : 'cursor',
     sourceVideosPerAction: boundedInt(env.BILIBILI_DIRECT_PROBE_SOURCE_VIDEOS_PER_ACTION, 6, 0, 50),
     explicitQueries: [],
@@ -64,6 +66,9 @@ function parseArgs(argv = process.argv.slice(2), env = process.env) {
     else if (arg.startsWith('--reply-start-page=')) options.replyStartPage = boundedInt(arg.slice('--reply-start-page='.length), options.replyStartPage, 1, 20);
     else if (arg.startsWith('--reply-page-size=')) {
       options.replyPageSize = boundedInt(arg.slice('--reply-page-size='.length), options.replyPageSize, 1, 20);
+    }
+    else if (arg.startsWith('--reply-cursor-skip-pages=')) {
+      options.replyCursorSkipPages = boundedReplyCursorSkipPages(arg.slice('--reply-cursor-skip-pages='.length), options.replyCursorSkipPages);
     }
     else if (arg.startsWith('--reply-mode=')) {
       const mode = arg.slice('--reply-mode='.length).trim();
@@ -224,13 +229,14 @@ async function fetchVideoComments(video, options) {
         target.bvid ? `https://www.bilibili.com/video/${target.bvid}/?reply=${target.rootRpid}` : `https://www.bilibili.com/video/av${target.aid}/?reply=${target.rootRpid}`,
         options,
       );
-      collectBilibiliReplyMessages(data.data?.replies || [], target, comments);
+      if (page >= options.replyCursorSkipPages) collectBilibiliReplyMessages(data.data?.replies || [], target, comments);
       if (!data.data?.replies?.length) break;
     }
   }
   if (options.replyMode === 'cursor' || options.replyMode === 'both') {
     let cursor = 0;
-    for (let page = 0; page < options.replyPages; page += 1) {
+    const totalCursorPages = options.replyCursorSkipPages + options.replyPages;
+    for (let page = 0; page < totalCursorPages; page += 1) {
       await wait(options.delayMs + Math.floor(Math.random() * options.jitterMs));
       const url = buildBilibiliReplyUrl(target, cursor, options.replyPageSize);
       if (!url) throw new Error('missing video aid for replies');

@@ -7,6 +7,7 @@ import {
   buildBilibiliReplyPageUrl,
   buildBilibiliReplyThreadUrl,
   boundedProbeVideosPerQuery,
+  boundedReplyCursorSkipPages,
   buildEvidenceSourceVideosForActions,
   buildFreshEvidenceEntriesFromComments,
   buildBilibiliSearchUrls,
@@ -301,6 +302,13 @@ test('boundedProbeVideosPerQuery allows source-only direct probes with zero sear
   assert.equal(boundedProbeVideosPerQuery('-1', 5), 0);
   assert.equal(boundedProbeVideosPerQuery('25', 5), 20);
   assert.equal(boundedProbeVideosPerQuery('bad', 5), 5);
+});
+
+test('boundedReplyCursorSkipPages limits cursor warmup pages for conservative rescans', () => {
+  assert.equal(boundedReplyCursorSkipPages('2'), 2);
+  assert.equal(boundedReplyCursorSkipPages('-1'), 0);
+  assert.equal(boundedReplyCursorSkipPages('200'), 20);
+  assert.equal(boundedReplyCursorSkipPages('bad', 3), 3);
 });
 
 test('buildBilibiliViewUrl supports BVID and aid lookups', () => {
