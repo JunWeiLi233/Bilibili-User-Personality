@@ -57,6 +57,34 @@ function assertNotTiebaSafetyVerification(html, url) {
   throw error;
 }
 
+function normalizeTiebaCharset(value = '') {
+  const charset = String(value || '').trim().toLowerCase().replace(/^["']|["']$/g, '');
+  if (!charset) return '';
+  if (['gbk', 'gb2312', 'gb18030'].includes(charset)) return 'gb18030';
+  if (['utf-8', 'utf8'].includes(charset)) return 'utf-8';
+  return charset;
+}
+
+function sniffTiebaCharset(buffer, contentType = '') {
+  const headerCharset = /charset=([^;\s]+)/i.exec(String(contentType || ''))?.[1];
+  if (headerCharset) return normalizeTiebaCharset(headerCharset);
+  const ascii = new TextDecoder('latin1').decode(buffer).slice(0, 4096);
+  const metaCharset =
+    /<meta\b[^>]*charset=["']?([^"'\s/>]+)/i.exec(ascii)?.[1] ||
+    /<meta\b[^>]*content=["'][^"']*charset=([^"';\s]+)/i.exec(ascii)?.[1];
+  return normalizeTiebaCharset(metaCharset) || 'utf-8';
+}
+
+export function decodeTiebaHtmlResponse(buffer, contentType = '') {
+  const bytes = buffer instanceof Uint8Array ? buffer : new Uint8Array(buffer || []);
+  const charset = sniffTiebaCharset(bytes, contentType);
+  try {
+    return new TextDecoder(charset).decode(bytes);
+  } catch {
+    return new TextDecoder('utf-8').decode(bytes);
+  }
+}
+
 function cleanTitle(value, fallback = '') {
   return cleanText(value || fallback).slice(0, 160);
 }
@@ -226,7 +254,8 @@ async function fetchTextWithTimeout(fetchImpl, url, init, timeoutMs) {
   if (!timeoutMs || typeof AbortController === 'undefined') {
     const response = await fetchImpl(url, init);
     if (!response.ok) throw new Error(`HTTP ${response.status} from ${url}`);
-    return response.text();
+    const buffer = await response.arrayBuffer();
+    return decodeTiebaHtmlResponse(buffer, response.headers?.get?.('content-type') || '');
   }
   const controller = new AbortController();
   const callerSignal = init?.signal;
@@ -239,7 +268,8 @@ async function fetchTextWithTimeout(fetchImpl, url, init, timeoutMs) {
   try {
     const response = await fetchImpl(url, { ...init, signal });
     if (!response.ok) throw new Error(`HTTP ${response.status} from ${url}`);
-    return response.text();
+    const buffer = await response.arrayBuffer();
+    return decodeTiebaHtmlResponse(buffer, response.headers?.get?.('content-type') || '');
   } finally {
     clearTimeout(timer);
   }

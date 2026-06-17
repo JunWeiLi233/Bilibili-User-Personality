@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import {
+  decodeTiebaHtmlResponse,
   discoverTiebaThreads,
   fetchTiebaThreadComments,
   scrapeTiebaKeyword,
@@ -9,6 +10,11 @@ import {
   tiebaThreadsToDiscoveryComments,
   threadFromTiebaUrl,
 } from './tiebaScraper.js';
+
+test('decodeTiebaHtmlResponse decodes GBK Tieba pages as Chinese text', () => {
+  const bytes = Uint8Array.from(Buffer.from('cedeb5d0bfc9b0ae', 'hex'));
+  assert.equal(decodeTiebaHtmlResponse(bytes, 'text/html; charset=gbk'), '无敌可爱');
+});
 
 test('threadFromTiebaUrl normalizes public Tieba thread URLs', () => {
   assert.deepEqual(threadFromTiebaUrl('https://c.tieba.baidu.com/p/10759170700?mo_device=1', 'sample'), {
