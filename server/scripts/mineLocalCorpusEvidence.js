@@ -4,11 +4,24 @@ import { readKeywordDictionary, mergeEntriesIntoDictionary, normalizeKeywordEntr
 import { findLocalCorpusEvidenceEntries, flattenBilibiliCommentCorpus } from '../services/localCorpusEvidence.js';
 import { DEFAULT_COVERAGE_ACTION_FILE_PATH } from '../utils/paths.js';
 
-const DEFAULT_BILIBILI_CORPUS_PATH = 'server/data/uid-discovery-comments.json';
+const DEFAULT_CORPUS_PATHS = [
+  'server/data/uid-discovery-comments.json',
+  'server/data/bilibiliDirectProbeCorpus.json',
+  'server/data/tiebaKeywordCorpus.json',
+];
+
+function parseCorpusPaths(value) {
+  return String(value || '')
+    .split(/[\r\n,;|]+/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
 
 function parseArgs(argv = process.argv.slice(2)) {
   const options = {
-    corpusPath: process.env.LOCAL_BILIBILI_CORPUS_PATH || DEFAULT_BILIBILI_CORPUS_PATH,
+    corpusPaths: parseCorpusPaths(process.env.LOCAL_BILIBILI_CORPUS_PATH).length
+      ? parseCorpusPaths(process.env.LOCAL_BILIBILI_CORPUS_PATH)
+      : DEFAULT_CORPUS_PATHS,
     targetEvidence: Number(process.env.BILIBILI_COVERAGE_TARGET_EVIDENCE || 3),
     maxSamplesPerTerm: Number(process.env.LOCAL_CORPUS_MAX_SAMPLES_PER_TERM || 3),
     actionFile: process.env.LOCAL_CORPUS_ACTION_FILE || DEFAULT_COVERAGE_ACTION_FILE_PATH,
@@ -16,7 +29,7 @@ function parseArgs(argv = process.argv.slice(2)) {
     write: process.env.LOCAL_CORPUS_WRITE === '1',
   };
   for (const arg of argv) {
-    if (arg.startsWith('--corpus=')) options.corpusPath = arg.slice('--corpus='.length).trim();
+    if (arg.startsWith('--corpus=')) options.corpusPaths = parseCorpusPaths(arg.slice('--corpus='.length));
     else if (arg.startsWith('--actions=')) options.actionFile = arg.slice('--actions='.length).trim();
     else if (arg.startsWith('--target-evidence=')) options.targetEvidence = Number(arg.slice('--target-evidence='.length));
     else if (arg.startsWith('--max-samples-per-term=')) options.maxSamplesPerTerm = Number(arg.slice('--max-samples-per-term='.length));
@@ -52,9 +65,9 @@ async function readJson(path) {
 
 const options = parseArgs();
 const dictionary = await readKeywordDictionary();
-const corpus = await readJson(options.corpusPath);
+const corpora = await Promise.all(options.corpusPaths.map((path) => readJson(path)));
 const targetTerms = targetTermsFromActions(await readJsonIfExists(options.actionFile, []));
-const comments = flattenBilibiliCommentCorpus(corpus);
+const comments = corpora.flatMap((corpus) => flattenBilibiliCommentCorpus(corpus));
 const rawEntries = findLocalCorpusEvidenceEntries(dictionary, comments, {
   targetEvidence: options.targetEvidence,
   maxSamplesPerTerm: options.maxSamplesPerTerm,
@@ -67,6 +80,7 @@ const entries = normalizeKeywordEntries(rawEntries).filter(
 const filteredEntryCount = rawEntries.length - entries.length;
 
 console.log('Local Bilibili corpus evidence mining');
+console.log(`Corpus files: ${options.corpusPaths.join(', ')}`);
 console.log(`Corpus comments: ${comments.length}`);
 console.log(`Strict audit target terms: ${targetTerms.length}`);
 console.log(`Require comment-backed evidence: ${options.requireCommentBackedEvidence}`);
