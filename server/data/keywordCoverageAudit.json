@@ -1,6 +1,6 @@
 {
   "ok": false,
-  "generatedAt": "2026-06-17T20:40:25.348Z",
+  "generatedAt": "2026-06-17T20:46:18.250Z",
   "targetEvidence": 3,
   "minCoverageRatio": 1,
   "requireComplete": true,
@@ -9,14 +9,14 @@
     "complete": false,
     "targetEvidence": 3,
     "terms": 1579,
-    "totalEvidence": 9058,
+    "totalEvidence": 9059,
     "averageEvidence": 5.74,
-    "coverageRatio": 0.9633,
-    "evidenceDeficit": 104,
+    "coverageRatio": 0.9639,
+    "evidenceDeficit": 103,
     "sourcedEvidenceTerms": 1579,
     "sourceCoverageRatio": 1,
     "unsourcedEvidenceTerms": 0,
-    "weakTerms": 58,
+    "weakTerms": 57,
     "zeroEvidenceTerms": 0,
     "weakSamples": [
       {
@@ -145,8 +145,8 @@
     "byFamily": {
       "absolutes": {
         "terms": 130,
-        "evidence": 719,
-        "weak": 15,
+        "evidence": 720,
+        "weak": 14,
         "zero": 0,
         "sourced": 130
       },
@@ -439,9 +439,9 @@
     "exhaustedSamples": []
   },
   "actionSummary": {
-    "retry_with_new_variant": 55,
+    "retry_with_new_variant": 54,
     "add_query_template": 2,
-    "none": 1521,
+    "none": 1522,
     "harvest_more_evidence": 1
   },
   "familyGaps": [
@@ -456,10 +456,10 @@
     {
       "family": "absolutes",
       "terms": 130,
-      "weak": 15,
+      "weak": 14,
       "zero": 0,
-      "evidence": 719,
-      "coverageRatio": 0.8846
+      "evidence": 720,
+      "coverageRatio": 0.8923
     },
     {
       "family": "cooperation",
@@ -939,7 +939,7 @@
     "\u96c6\u4f53\u5012\u900010\u5e74 \u4e89\u8bae \u8bc4\u8bba\u533a"
   ],
   "failureReasons": [
-    "coverage ratio 0.9633 is below 1",
-    "58 term(s) are below 3 evidence hit(s)"
+    "coverage ratio 0.9639 is below 1",
+    "57 term(s) are below 3 evidence hit(s)"
   ]
 }
