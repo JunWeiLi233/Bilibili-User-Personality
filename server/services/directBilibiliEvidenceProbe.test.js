@@ -258,6 +258,7 @@ test('buildFreshEvidenceEntriesFromComments accepts generated evidence aliases f
 test('probeSearchNeedles drops generic comment-search scaffolding', () => {
   assert.deepEqual(probeSearchNeedles({ term: '超绝无语', query: '超绝无语 评论回复' }), ['超绝无语']);
   assert.deepEqual(probeSearchNeedles({ term: '倒退10年', query: 'attack 倒退10年 评论区 热评' }), ['倒退10年']);
+  assert.deepEqual(probeSearchNeedles({ term: '查查资料', query: '查查资料、评论区、热评' }), ['查查资料']);
 });
 
 test('rankProbeVideosForAction prefers exact weak-term title matches', () => {

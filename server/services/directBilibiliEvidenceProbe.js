@@ -96,8 +96,8 @@ const GENERIC_QUERY_TOKENS = new Set([
 export function probeSearchNeedles(action = {}) {
   const term = cleanText(action?.term);
   const query = cleanText(action?.query);
-  return [...new Set([term, ...query.split(/[\s,，;；|]+/)])]
-    .map((token) => token.replace(/[“”"'!?！？。:：()[\]【】]/g, '').trim())
+  return [...new Set([term, ...query.split(/[\s,，、;；|]+/)])]
+    .map((token) => token.replace(/^[“”"'!?！？。:：()[\]【】]+|[“”"'!?！？。:：()[\]【】]+$/g, '').trim())
     .filter((token) => token.length >= 2 && !GENERIC_QUERY_TOKENS.has(token.toLowerCase()));
 }
 
