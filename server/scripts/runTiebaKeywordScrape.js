@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 
+import { buildTiebaCorpusUpdate } from '../services/tiebaCorpus.js';
 import { scrapeTiebaKeyword, scrapeTiebaThreadUrls } from '../services/tiebaScraper.js';
 import { DEFAULT_COVERAGE_ACTION_FILE_PATH, DEFAULT_TIEBA_CORPUS_PATH } from '../utils/paths.js';
 
@@ -105,14 +106,6 @@ async function loadExistingCorpus(path) {
   return { version: 1, updatedAt: null, runs: [], comments: [] };
 }
 
-function uniqueComments(comments = []) {
-  return [...new Map(
-    comments
-      .filter((comment) => String(comment?.message || '').trim())
-      .map((comment) => [`${comment.sourceUrl || ''}\n${comment.rpid || ''}\n${comment.message}`, comment]),
-  ).values()];
-}
-
 const options = parseArgs();
 const hardStopMs = Math.max(options.overallTimeoutMs * Math.max(1, options.maxQueries) + 10000, options.overallTimeoutMs + 10000);
 const hardStop = setTimeout(() => {
@@ -215,14 +208,11 @@ for (const query of options.queries) {
 }
 
 const corpus = await loadExistingCorpus(options.outputPath);
-const newComments = run.results.flatMap((result) => result.comments || []);
-const comments = uniqueComments([...(corpus.comments || []), ...newComments]);
-const nextCorpus = {
-  version: 1,
-  updatedAt: new Date().toISOString(),
-  runs: [...(corpus.runs || []).slice(-49), run],
-  comments,
-};
-await writeJson(options.outputPath, nextCorpus);
-console.log(`Tieba comments in corpus: ${comments.length}`);
+const update = buildTiebaCorpusUpdate(corpus, run);
+if (update.changed) {
+  await writeJson(options.outputPath, update.corpus);
+} else {
+  console.log('No new Tieba comments; corpus unchanged.');
+}
+console.log(`Tieba comments in corpus: ${update.corpus.comments.length}`);
 clearTimeout(hardStop);
