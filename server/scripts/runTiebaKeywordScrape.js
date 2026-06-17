@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 
 import { buildTiebaCorpusUpdate } from '../services/tiebaCorpus.js';
+import { computeTiebaScrapeHardStopMs } from '../services/tiebaScrapeTiming.js';
 import { scrapeTiebaKeyword, scrapeTiebaThreadUrls } from '../services/tiebaScraper.js';
 import { DEFAULT_COVERAGE_ACTION_FILE_PATH, DEFAULT_TIEBA_CORPUS_PATH } from '../utils/paths.js';
 
@@ -107,7 +108,7 @@ async function loadExistingCorpus(path) {
 }
 
 const options = parseArgs();
-const hardStopMs = Math.max(options.overallTimeoutMs * Math.max(1, options.maxQueries) + 10000, options.overallTimeoutMs + 10000);
+const hardStopMs = computeTiebaScrapeHardStopMs(options);
 const hardStop = setTimeout(() => {
   console.error(`Tieba keyword scrape hard-stopped after ${hardStopMs}ms.`);
   process.exit(124);
