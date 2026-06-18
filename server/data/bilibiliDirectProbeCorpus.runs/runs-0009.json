@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T21:55:53.742Z",
+  "updatedAt": "2026-06-18T22:06:22.848Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -1399,6 +1399,64 @@
       "warnings": [],
       "commentsCollected": 1136,
       "commentsAdded": 982
+    },
+    {
+      "at": "2026-06-18T22:06:22.848Z",
+      "actions": [
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1n7Jj6eE7q",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1n7Jj6eE7q",
+          "aid": 116738351958173,
+          "title": "你要不要看看你说的是什么"
+        },
+        {
+          "key": "bvid:BV1aKjV6eE4j",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1aKjV6eE4j",
+          "aid": 116760430845859,
+          "title": "竞选全宇宙最<em class=\"keyword\">雷霆</em>追击视频"
+        },
+        {
+          "key": "bvid:BV1S1421z7cC",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1S1421z7cC",
+          "aid": 1554508463,
+          "title": "网页<em class=\"keyword\">B站</em>为什么看不到<em class=\"keyword\">评论</em>区"
+        },
+        {
+          "key": "bvid:BV1oanbz1En6",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1oanbz1En6",
+          "aid": 115264607750752,
+          "title": "天喔<em class=\"keyword\">茶庄</em>蜂蜜柚子茶"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 49,
+      "commentsAdded": 32
     }
   ]
 }
