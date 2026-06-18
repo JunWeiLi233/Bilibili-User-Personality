@@ -1283,6 +1283,27 @@ test('classifyCommentCoverage handles round 53 random audit missed cues', () => 
   assert.deepEqual(dictionaryBacked.hits.map((hit) => [hit.term, hit.family]), [['\u57fa\u672c\u6ca1\u6709\u97f3\u4e50\u7406\u89e3', 'absolutes']]);
 });
 
+test('classifyCommentCoverage handles round 54 random audit missed cues', () => {
+  const cases = [
+    ['\u660e\u77e5\u6545\u95ee', '\u660e\u77e5\u6545\u95ee', 'attack'],
+    ['\u65c1\u8fb9\u8fd8\u7ad9\u7740\u65e5\u672c\u4eba\u5462\u7adf\u8ba9\u65e5\u672c\u4eba\u770b\u7b11\u8bdd\u4e86', '\u770b\u7b11\u8bdd', 'attack'],
+    ['\u72d7\u76ee\u524d\u8fd8\u7b97\u8d22\u52a1\u7684\u8303\u7574\u5427\uff0c\u4f60\u5077\u4e86\u8fd8\u6709\u7406\u4e0a\u4e86', '\u8fd8\u6709\u7406\u4e0a\u4e86', 'attack'],
+    ['\u8fd9\u56de\u53ef\u7b97\u9047\u7740\u4e2a\u597d\u4eba\u4e86', '\u53ef\u7b97\u9047\u7740\u4e2a\u597d\u4eba\u4e86', 'attack'],
+    ['\u600e\u4e48\u80fd\u53eb\u5f02\u5e38\u5462\uff1f\u90a3\u660e\u660e\u662f\u6b63\u786e\u7684\u9009\u62e9\u5440', '\u600e\u4e48\u80fd\u53ebX\u90a3\u660e\u660e\u662fY', 'attack'],
+    ['\u5927\u96f7\uff08\u6307\u6b63\uff09', '\u5927\u96f7', 'attack'],
+    ['\u7fa1\u6155\u54ea\u513f\uff08\uff09', '\u7fa1\u6155\u54ea\u513f', 'attack'],
+    ['\u5341\u5929\u524d\u5979\u4eec\u53ef\u80fd\u8fd8\u4e0d\u77e5\u9053\u5b59\u9896\u838e\u662f\u8c01', '\u8fd8\u4e0d\u77e5\u9053\u662f\u8c01', 'attack'],
+    ['\u5feb\u4e24\u767e\u5e74\u4e86\u597d\u5427', '\u5feb\u4e24\u767e\u5e74\u4e86', 'absolutes'],
+    ['\u597d\u80d6\u4e86', '\u597d\u80d6\u4e86', 'attack'],
+  ];
+
+  for (const [text, term, family] of cases) {
+    const result = classifyCommentCoverage(dictionary, text);
+    assert.equal(result.mode, 'keyword');
+    assert.deepEqual(result.hits.map((hit) => [hit.term, hit.family]), [[term, family]]);
+  }
+});
+
 test('sampleCommentCoverage summarizes full coverage over keyword and neutral samples', () => {
   const result = sampleCommentCoverage(dictionary, [
     '这事懂的都懂，不展开了',

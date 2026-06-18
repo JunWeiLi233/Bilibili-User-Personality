@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T12:41:48.336Z",
+  "updatedAt": "2026-06-18T12:57:07.490Z",
   "family": "attack",
   "shard": 76,
   "shardCount": 97,
@@ -13,23 +13,13 @@
       "confidence": 0.85,
       "evidenceCount": 7,
       "evidenceSamples": [
-        "资本赢麻了",
-        "手底下握着九个号，真给那就赢麻了[大笑][大笑][大笑]",
         "感觉有一部分人现在倾向于放弃思考傻乐，可能是一种无意识的防御姿态，他们或许认为只要不思考、只要用乐子去解构一切，我就不会输，我就不是失败者，我赢麻了。这是一种拒绝对话的姿态，我有些悲伤，我们的互联网环境变成了这个样子。",
         "政哥：没错！又是我！！！赢麻了",
-        "赢麻了~"
+        "赢麻了~",
+        "【这次真的赢麻了，一等兵马斯克简直是个新兵蛋子！-哔哩哔哩】 https://b23.tv/xfWqnPp",
+        "资本赢麻了"
       ],
       "evidenceSources": [
-        {
-          "source": "Bilibili public search-discovered video comment scan plus video context: https://www.bilibili.com/video/BV13W4y1W7Fg/, https://www.bilibili.com/video/BV1t25K6KELi/, https://www.bilibili.com/video/BV1MTvXekEk1/, https://www.bilibili.com/video/BV1kF5ozSE7f/, http://www.bilibili.com/video/av945304869, http://www.bilibili.com/video/av116559473286926, http://www.bilibili.com/video/av112897611072149, http://www.bilibili.com/video/av114382512064748",
-          "uid": "BV13W4y1W7Fg,BV1t25K6KELi,BV1MTvXekEk1,BV1kF5ozSE7f",
-          "sample": "资本赢麻了"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan plus video context: https://www.bilibili.com/video/BV1i8Gt6zEVn/, https://www.bilibili.com/video/BV1NJ61BBEWa/, https://www.bilibili.com/video/BV1ZioUB3Eic/, https://www.bilibili.com/video/BV1jULw6GEAD/, http://www.bilibili.com/video/av116617639888585, http://www.bilibili.com/video/av115989450589210, http://www.bilibili.com/video/av116462618418060, http://www.bilibili.com/video/av116594806098868",
-          "uid": "BV1i8Gt6zEVn,BV1NJ61BBEWa,BV1ZioUB3Eic,BV1jULw6GEAD",
-          "sample": "手底下握着九个号，真给那就赢麻了[大笑][大笑][大笑]"
-        },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV16QDoYwEi2/, https://www.bilibili.com/video/BV1k44y1p7Sp/, https://www.bilibili.com/video/BV1714y1u7sw/, https://www.bilibili.com/video/BV1ok4y187PG/, https://www.bilibili.com/video/BV1TD4y187Tu/, https://www.bilibili.com/video/BV1mS4y1t7Gh/, http://www.bilibili.com/video/av113447249383292, http://www.bilibili.com/video/av978669809, http://www.bilibili.com/video/av777592453, http://www.bilibili.com/video/av738232819, http://www.bilibili.com/video/av732166984, http://www.bilibili.com/video/av728980285",
           "uid": "BV16QDoYwEi2,BV1k44y1p7Sp,BV1714y1u7sw,BV1ok4y187PG,BV1TD4y187Tu,BV1mS4y1t7Gh",
@@ -51,6 +41,16 @@
           "sample": "【这次真的赢麻了，一等兵马斯克简直是个新兵蛋子！-哔哩哔哩】 https://b23.tv/xfWqnPp"
         },
         {
+          "source": "Bilibili public search-discovered video comment scan plus video context: https://www.bilibili.com/video/BV13W4y1W7Fg/, https://www.bilibili.com/video/BV1t25K6KELi/, https://www.bilibili.com/video/BV1MTvXekEk1/, https://www.bilibili.com/video/BV1kF5ozSE7f/, http://www.bilibili.com/video/av945304869, http://www.bilibili.com/video/av116559473286926, http://www.bilibili.com/video/av112897611072149, http://www.bilibili.com/video/av114382512064748",
+          "uid": "BV13W4y1W7Fg,BV1t25K6KELi,BV1MTvXekEk1,BV1kF5ozSE7f",
+          "sample": "资本赢麻了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan plus video context: https://www.bilibili.com/video/BV1i8Gt6zEVn/, https://www.bilibili.com/video/BV1NJ61BBEWa/, https://www.bilibili.com/video/BV1ZioUB3Eic/, https://www.bilibili.com/video/BV1jULw6GEAD/, http://www.bilibili.com/video/av116617639888585, http://www.bilibili.com/video/av115989450589210, http://www.bilibili.com/video/av116462618418060, http://www.bilibili.com/video/av116594806098868",
+          "uid": "BV1i8Gt6zEVn,BV1NJ61BBEWa,BV1ZioUB3Eic,BV1jULw6GEAD",
+          "sample": "手底下握着九个号，真给那就赢麻了[大笑][大笑][大笑]"
+        },
+        {
           "source": "Bilibili public search-discovered video comment scan plus video context: https://www.bilibili.com/video/BV1PkGJ68EGV/, https://www.bilibili.com/video/BV1QRLC6EEyh/, https://www.bilibili.com/video/BV1si421R7cz/, https://www.bilibili.com/video/BV1DxGJ6gECS/, https://www.bilibili.com/video/BV1fY5y6bEfr/, https://www.bilibili.com/video/BV1DxGJ6gE2y/, https://www.bilibili.com/video/BV13cGE6BEbk/, https://www.bilibili.com/video/BV14QGt6xEyY/, http://www.bilibili.com/video/av116629266635286, http://www.bilibili.com/video/av116605056980831, http://www.bilibili.com/video/av1451798787, http://www.bilibili.com/video/av116629115570115, http://www.bilibili.com/video/av116567543189901, http://www.bilibili.com/video/av116629115569946, http://www.bilibili.com/video/av116628159204222, http://www.bilibili.com/video/av116617472316469",
           "uid": "BV1PkGJ68EGV,BV1QRLC6EEyh,BV1si421R7cz,BV1DxGJ6gECS,BV1fY5y6bEfr,BV1DxGJ6gE2y,BV13cGE6BEbk,BV14QGt6xEyY",
           "sample": "我看成车震赢麻了[笑哭]"
@@ -61,7 +61,7 @@
           "sample": "我看成车震赢麻了[笑哭]"
         }
       ],
-      "updatedAt": "2026-06-18T12:41:48.336Z"
+      "updatedAt": "2026-06-18T12:57:07.490Z"
     },
     {
       "term": "我真绷不住",
