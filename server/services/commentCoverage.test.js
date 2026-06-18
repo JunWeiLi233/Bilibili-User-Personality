@@ -180,6 +180,28 @@ test('classifyCommentCoverage suppresses sampled rhetorical feeling and outcome 
   assert.equal(outcome.hits.length, 0);
 });
 
+test('classifyCommentCoverage suppresses playful standalone laughter hits', () => {
+  const sampledDictionary = {
+    entries: [
+      { term: '\u54c8\u54c8\u54c8', family: 'attack', meaning: 'sarcastic laughter' },
+      { term: '\u54c8\u54c8', family: 'cooperation', meaning: 'ordinary laughter' },
+    ],
+  };
+  const result = classifyCommentCoverage(sampledDictionary, '\u70b8\u4e86\u72d7\u7a9d\u4e86\u54c8\u54c8\u54c8\u54ce');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'neutral');
+  assert.equal(result.hits.length, 0);
+});
+
+test('classifyCommentCoverage captures sampled dianpo insult', () => {
+  const result = classifyCommentCoverage(dictionary, '\u98a0\u5a46');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.ok(result.hits.some((hit) => hit.term === '\u98a0\u5a46'));
+});
+
 test('classifyCommentCoverage captures whitewashing accusations without matching literal washing', () => {
   const accusation = classifyCommentCoverage(dictionary, '\u4e5f\u591f\u522b\u6d17\u4e86');
   const literal = classifyCommentCoverage(dictionary, '\u522b\u6d17\u8863\u670d\u4e86\uff0c\u660e\u5929\u4e0b\u96e8');

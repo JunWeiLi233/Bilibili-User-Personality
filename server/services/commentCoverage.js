@@ -72,6 +72,12 @@ export function detectEmoteSemanticHits(comment) {
 
 const SUPPLEMENTAL_SEMANTICS = [
   {
+    pattern: /\u98a0\u5a46/u,
+    term: '\u98a0\u5a46',
+    family: 'attack',
+    meaning: '\u201c\u98a0\u5a46\u201d\u662f\u5bf9\u5973\u6027\u7684\u8d2c\u635f\u6027\u7f51\u7edc\u79f0\u547c\uff0c\u5e38\u8868\u793a\u5bf9\u65b9\u75af\u766b\u3001\u5931\u63a7\u6216\u4e0d\u53ef\u7406\u55bb\uff0c\u5c5e\u4e8e\u76f4\u63a5\u4eba\u8eab\u653b\u51fb\u3002',
+  },
+  {
     pattern: /\u8ba4\u77e5.{0,4}200|\u4f60.{0,8}200[\uff0c,]/u,
     term: '200',
     family: 'attack',
@@ -283,6 +289,14 @@ function isNeutralOutcomeNarrationContext(entry, message) {
   return false;
 }
 
+function isPlayfulStandaloneLaughterContext(entry, message) {
+  const term = String(entry?.term || '');
+  if (!/^\u54c8{2,}$/.test(term)) return false;
+  if (!/\u54c8{2,}/u.test(message)) return false;
+  return /(?:^|[，,。！？!?\s])(?:\u70b8\u4e86|\u7b11\u6b7b|\u7b11\u4e86|\u7edd\u4e86)?[^，,。！？!?]{0,12}\u54c8{2,}(?:\u54ce|\u554a|\u6b38)?(?:$|[，,。！？!?\s])/u.test(message)
+    && !/(?:\u4f60|\u4ed6|\u5979|\u5b83|\u4ed6\u4eec|\u5979\u4eec|\u8fd9\u4eba|\u90a3\u4eba|up|UP).{0,8}(?:\u8822|\u50bb|\u72d7|\u5e9f|\u83dc|\u6eda|\u6b7b)/u.test(message);
+}
+
 function isSuppressedLexicalHit(entry, message) {
   return isSelfReferentialNoviceHit(entry, message)
     || isLiteralYinYangContext(entry, message)
@@ -291,7 +305,8 @@ function isSuppressedLexicalHit(entry, message) {
     || isLiteralTrafficContext(entry, message)
     || isNeutralSpeculativeBroadener(entry, message)
     || isRhetoricalFeelingWhyContext(entry, message)
-    || isNeutralOutcomeNarrationContext(entry, message);
+    || isNeutralOutcomeNarrationContext(entry, message)
+    || isPlayfulStandaloneLaughterContext(entry, message);
 }
 
 function exactDictionaryEntries(dictionary, message) {
