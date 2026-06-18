@@ -1,6 +1,6 @@
 {
   "ok": false,
-  "generatedAt": "2026-06-17T22:50:04.317Z",
+  "generatedAt": "2026-06-18T00:18:24.541Z",
   "targetEvidence": 3,
   "minCoverageRatio": 1,
   "requireComplete": true,
@@ -12,7 +12,7 @@
     "totalEvidence": 9124,
     "averageEvidence": 5.78,
     "coverageRatio": 0.9683,
-    "evidenceDeficit": 92,
+    "evidenceDeficit": 91,
     "sourcedEvidenceTerms": 1579,
     "sourceCoverageRatio": 1,
     "unsourcedEvidenceTerms": 0,
@@ -145,7 +145,7 @@
     "byFamily": {
       "absolutes": {
         "terms": 130,
-        "evidence": 733,
+        "evidence": 732,
         "weak": 12,
         "zero": 0,
         "sourced": 130
@@ -159,7 +159,7 @@
       },
       "cooperation": {
         "terms": 350,
-        "evidence": 2111,
+        "evidence": 2112,
         "weak": 13,
         "zero": 0,
         "sourced": 350
@@ -457,7 +457,7 @@
       "terms": 350,
       "weak": 13,
       "zero": 0,
-      "evidence": 2111,
+      "evidence": 2112,
       "coverageRatio": 0.9629
     },
     {
@@ -465,7 +465,7 @@
       "terms": 130,
       "weak": 12,
       "zero": 0,
-      "evidence": 733,
+      "evidence": 732,
       "coverageRatio": 0.9077
     },
     {
@@ -555,6 +555,27 @@
       "nextQuery": "\u4ef7\u683c\u88ab\u6253\u4e0b\u6765 \u4e89\u8bae \u8bc4\u8bba\u533a",
       "suggestedQueries": [],
       "lastQuery": "\u4ef7\u683c\u88ab\u6253\u4e0b\u6765 \u5f39\u5e55",
+      "lastError": ""
+    },
+    {
+      "term": "\u629b\u5f00\u5176\u4ed6",
+      "family": "cooperation",
+      "status": "weak_missed",
+      "action": "retry_with_new_variant",
+      "evidenceCount": 2,
+      "coverageEvidenceCount": 2,
+      "sourcedEvidence": true,
+      "recommendationGroup": "\u629b\u5f00\u5176\u4ed6",
+      "targetEvidence": 3,
+      "evidenceNeeded": 1,
+      "attempts": 3,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 2,
+      "exhausted": false,
+      "nextQuery": "\u629b\u5f00\u5176\u4ed6 \u5f39\u5e55",
+      "suggestedQueries": [],
+      "lastQuery": "\u629b\u5f00\u5176\u4ed6 \u70ed\u8bc4",
       "lastError": ""
     },
     {
@@ -1104,27 +1125,6 @@
       "lastError": ""
     },
     {
-      "term": "\u629b\u5f00\u5176\u4ed6",
-      "family": "cooperation",
-      "status": "weak_missed",
-      "action": "retry_with_new_variant",
-      "evidenceCount": 1,
-      "coverageEvidenceCount": 1,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u629b\u5f00\u5176\u4ed6",
-      "targetEvidence": 3,
-      "evidenceNeeded": 2,
-      "attempts": 3,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 2,
-      "exhausted": false,
-      "nextQuery": "\u629b\u5f00\u5176\u4ed6 \u5f39\u5e55",
-      "suggestedQueries": [],
-      "lastQuery": "\u629b\u5f00\u5176\u4ed6 \u70ed\u8bc4",
-      "lastError": ""
-    },
-    {
       "term": "\u53bb\u95ee\u8001\u5e08\u56e0\u4e3a\u8bfe\u4e0a\u8001\u5e08",
       "family": "evasion",
       "status": "weak_missed",
@@ -1549,6 +1549,7 @@
     "\u5fb7\u91cc\u4e0d\u9976\u4eba \u8bc4\u8bba\u56de\u590d",
     "\u72d7\u53bb\u54ea\u91cc\u4e86 B\u7ad9",
     "\u4ef7\u683c\u88ab\u6253\u4e0b\u6765 \u4e89\u8bae \u8bc4\u8bba\u533a",
+    "\u629b\u5f00\u5176\u4ed6 \u5f39\u5e55",
     "\u8fd9\u8fd8\u7528\u8bf4",
     "8\u62535\u7684\u96f7\u9706 \u76f4\u64ad\u5207\u7247",
     "\u67e5\u67e5\u8d44\u6599 B\u7ad9\u8bc4\u8bba",
@@ -1575,7 +1576,6 @@
     "\u7537\u7684\u5c31\u662f\u8fd9\u6837\u7231\u63a8\u5378\u8d23\u4efb \u4e89\u8bae \u8bc4\u8bba\u533a",
     "\u4f60\u4e5f\u96be\u7ef7 \u5f39\u5e55",
     "\u80d6\u63cd\u5e73 \u5f39\u5e55",
-    "\u629b\u5f00\u5176\u4ed6 \u5f39\u5e55",
     "\u53bb\u95ee\u8001\u5e08\u56e0\u4e3a\u8bfe\u4e0a\u8001\u5e08 \u4e92\u52a8",
     "\u7f3a\u70b9\u53ea\u6709\u4e00\u4e2a \u5f39\u5e55",
     "\u571f\u8c46\u9e21\u86cb\u6279\u7684\u5f62\u72b6 \u56de\u590d\u533a",
