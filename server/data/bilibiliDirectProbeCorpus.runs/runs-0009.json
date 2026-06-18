@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T23:38:35.618Z",
+  "updatedAt": "2026-06-18T23:46:32.795Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -1855,6 +1855,64 @@
       "warnings": [],
       "commentsCollected": 230,
       "commentsAdded": 168
+    },
+    {
+      "at": "2026-06-18T23:46:32.795Z",
+      "actions": [
+        {
+          "term": "这还用说",
+          "query": "这还用说 评论区"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 解说"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 评论回复"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄洗钱 评论区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1XYDvB5EFa",
+          "term": "这还用说",
+          "query": "这还用说 评论区",
+          "bvid": "BV1XYDvB5EFa",
+          "aid": 116362508769952,
+          "title": "抖音神秘<em class=\"keyword\">评论区</em>"
+        },
+        {
+          "key": "bvid:BV1QzEd6ZEsu",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 解说",
+          "bvid": "BV1QzEd6ZEsu",
+          "aid": 116725467056058,
+          "title": "喷火器的烈焰，烧不化芬兰人抵抗的决心！【战争<em class=\"keyword\">雷霆</em>】"
+        },
+        {
+          "key": "bvid:BV1iPbuzkEWB",
+          "term": "查查资料",
+          "query": "查查资料 评论回复",
+          "bvid": "BV1iPbuzkEWB",
+          "aid": 115007194924116,
+          "title": "众所周知的查后体验感，分享给你那个还没有被查的朋友"
+        },
+        {
+          "key": "bvid:BV1kP4y1w7BM",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄洗钱 评论区",
+          "bvid": "BV1kP4y1w7BM",
+          "aid": 894100421,
+          "title": "直播间常见卖茶套路，别以为捡到大便宜，连行内人都差点掉坑了"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 722,
+      "commentsAdded": 525
     }
   ]
 }
