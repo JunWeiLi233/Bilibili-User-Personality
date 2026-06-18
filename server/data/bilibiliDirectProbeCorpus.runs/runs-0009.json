@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T19:20:24.240Z",
+  "updatedAt": "2026-06-18T19:31:56.374Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -323,6 +323,88 @@
       "warnings": [],
       "commentsCollected": 369,
       "commentsAdded": 249
+    },
+    {
+      "at": "2026-06-18T19:31:56.374Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV156Jn6NEdx",
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复",
+          "bvid": "BV156Jn6NEdx",
+          "aid": 116742193945502,
+          "title": "2026.6.13（赛雷暴怒）狗腿子纠正赛雷历史错误，提出731解剖人体还给打麻药？说畜牲有人性，不是洗白是什么？"
+        },
+        {
+          "key": "bvid:BV1rnKNexEBT",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1rnKNexEBT",
+          "aid": 114002172578698,
+          "title": "潘宏：被一条狗毁掉的千万粉丝网红（附潘宏被封杀前原视频）"
+        },
+        {
+          "key": "bvid:BV1J1mJBgEWv",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1J1mJBgEWv",
+          "aid": 115689910180079,
+          "title": "满清贵族人设遭反噬，吴京关晓彤<em class=\"keyword\">评论区</em>彻底沦陷，过往<em class=\"keyword\">争议</em>言论被扒"
+        },
+        {
+          "key": "bvid:BV17fYYzZErY",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV17fYYzZErY",
+          "aid": 115036790065727,
+          "title": "【教程】关于互动<em class=\"keyword\">弹幕</em>，你想要知道的都在这里"
+        },
+        {
+          "key": "bvid:BV1Zijw65EbW",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1Zijw65EbW",
+          "aid": 116771419985076,
+          "title": "老玩家走心提醒！最新活动30张高光券现在就能拿，超高质量包突然上线，30张高光券怎么用最稳？这期直接说清！"
+        },
+        {
+          "key": "bvid:BV12Yjc64EZf",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV12Yjc64EZf",
+          "aid": 116770161559478,
+          "title": "躲猫猫4200分<em class=\"keyword\">的雷霆</em>点位"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 1056,
+      "commentsAdded": 469
     }
   ]
 }

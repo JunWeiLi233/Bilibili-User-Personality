@@ -97,6 +97,18 @@ export function detectEmoteSemanticHits(comment) {
 
 const SUPPLEMENTAL_SEMANTICS = [
   {
+    pattern: /(?:没看|别|不要|少|别再)\s*bb\b|\bbb\s*(?:什么|啥|个啥|半天)/iu,
+    term: '别bb',
+    family: 'attack',
+    meaning: '“别bb”是中文评论区里“别多嘴/别瞎说/别废话”的拼音缩写式压制，常用于争吵中否定对方发言资格或表达不耐烦。',
+  },
+  {
+    pattern: /键仁(?:测试|出没|发言|来了|集合|上线)?|(?:这|又|全是).{0,4}键仁/u,
+    term: '键仁',
+    family: 'attack',
+    meaning: '“键仁”是“键人/键盘人”一类谐音或错别字变体，常用于贬低他人为网络喷子、键盘侠或只会嘴上输出的人。',
+  },
+  {
     pattern: /假冒伪劣.{0,8}认亲|认亲来了|乱认亲/u,
     term: '假冒伪劣认亲',
     family: 'attack',
