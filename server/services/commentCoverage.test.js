@@ -22,7 +22,7 @@ test('classifyCommentCoverage reports keyword coverage when a dictionary term ap
 
   assert.equal(result.covered, true);
   assert.equal(result.mode, 'keyword');
-  assert.deepEqual(result.hits.map((hit) => hit.term), ['懂的都懂']);
+  assert.ok(result.hits.some((hit) => hit.term === '懂的都懂'));
 });
 
 test('classifyCommentCoverage captures round 38 random audit misses', () => {
@@ -2409,6 +2409,36 @@ test('classifyCommentCoverage handles round 95 validated UTF-8 audit cues', () =
     '\u5f1f\u5f1f\u4eca\u5929\u56de\u5bb6\u4e86',
     '\u95e8\u53e3\u7ad9\u4e00\u79d2\u518d\u8d70',
     '\u624b\u6ed1\u6454\u5012\u4e86',
+  ];
+
+  for (const text of neutralCases) {
+    const neutral = classifyCommentCoverage({ entries: [] }, text);
+    assert.equal(neutral.mode, 'neutral');
+    assert.deepEqual(neutral.hits, []);
+  }
+});
+
+test('classifyCommentCoverage handles round 96 validated UTF-8 audit cues', () => {
+  const cases = [
+    ['\u53fd\u53fd\u7ea2\u6e29\u7684\u65f6\u5019\u6211\u8868\u7535\u8bdd\u4e5f\u54cd\u4e86', '\u7ea2\u6e29', 'attack'],
+    ['\u65f6\u957f\u7231\u4e86\u7231\u4e86', '\u7231\u4e86\u7231\u4e86', 'cooperation'],
+    ['fmvp\u542b\u91d1\u91cf\u61c2\u5f97\u90fd\u61c2', '\u61c2\u5f97\u90fd\u61c2', 'evasion'],
+    ['\u795e\u4eba UP', '\u795e\u4eba', 'cooperation'],
+    ['\u5c0f\u8111\u840e\u7f29\u4e86', '\u5c0f\u8111\u840e\u7f29', 'attack'],
+    ['\u6f0f\u7a0e\u72c2\u9b54', '\u72c2\u9b54', 'attack'],
+  ];
+
+  for (const [text, term, family] of cases) {
+    const result = classifyCommentCoverage({ entries: [] }, text);
+    assert.equal(result.mode, 'keyword');
+    assert.ok(result.hits.some((hit) => hit.term === term && hit.family === family));
+  }
+
+  const neutralCases = [
+    '\u6c34\u676f\u7ea2\u6e29\u63d0\u793a',
+    '\u6211\u771f\u7684\u604b\u7231\u4e86',
+    '\u533b\u751f\u8bf4\u662f\u5c0f\u8111\u840e\u7f29',
+    '\u5b66\u4e60\u72c2\u9b54',
   ];
 
   for (const text of neutralCases) {

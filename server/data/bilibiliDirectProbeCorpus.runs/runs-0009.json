@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T21:33:48.523Z",
+  "updatedAt": "2026-06-18T21:46:19.877Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -1275,6 +1275,88 @@
       "warnings": [],
       "commentsCollected": 709,
       "commentsAdded": 547
+    },
+    {
+      "at": "2026-06-18T21:46:19.877Z",
+      "actions": [
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1JZ421x7e2",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1JZ421x7e2",
+          "aid": 1154995584,
+          "title": "[自用]两分钟去除<em class=\"keyword\">B站</em>网页端与手机端的热搜榜、搜索推荐"
+        },
+        {
+          "key": "bvid:BV1MUGE6iE4C",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1MUGE6iE4C",
+          "aid": 116629786658957,
+          "title": "每天带你体验不一样人生副本，今天体验：“<em class=\"keyword\">洗钱</em>者的一生”。"
+        },
+        {
+          "key": "bvid:BV1RwJ36uEUm",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1RwJ36uEUm",
+          "aid": 116752612594731,
+          "title": "神人<em class=\"keyword\">回复</em>"
+        },
+        {
+          "key": "bvid:BV1ThJM6XE3f",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1ThJM6XE3f",
+          "aid": 116752042166032,
+          "title": "【<em class=\"keyword\">互动</em>视频】选一条路！决定你接下来的生存！总共6个结局,难度较高～"
+        },
+        {
+          "key": "bvid:BV1c2VA61E7L",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1c2VA61E7L",
+          "aid": 116640238802310,
+          "title": "救命，这里剪辑笑<em class=\"keyword\">了八百遍</em>"
+        },
+        {
+          "key": "bvid:BV1PP411W75u",
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论",
+          "bvid": "BV1PP411W75u",
+          "aid": 317600326,
+          "title": "【counter <em class=\"keyword\">attack</em>】0基础也完全没问题！！"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 63,
+      "commentsAdded": 49
     }
   ]
 }
