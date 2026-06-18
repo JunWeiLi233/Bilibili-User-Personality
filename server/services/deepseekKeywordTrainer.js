@@ -678,6 +678,33 @@ function prioritizeEvidenceSourcesForSamples(evidenceSources = [], evidenceSampl
   return uniqueBy([...preferred, ...sortedSources], sourceKey).slice(0, limit);
 }
 
+function stableJson(value) {
+  if (Array.isArray(value)) return `[${value.map((item) => stableJson(item)).join(',')}]`;
+  if (value && typeof value === 'object') {
+    return `{${Object.keys(value)
+      .sort()
+      .map((key) => `${JSON.stringify(key)}:${stableJson(value[key])}`)
+      .join(',')}}`;
+  }
+  return JSON.stringify(value);
+}
+
+function withoutUpdatedAt(value) {
+  if (Array.isArray(value)) return value.map((item) => withoutUpdatedAt(item));
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value)
+        .filter(([key]) => key !== 'updatedAt')
+        .map(([key, item]) => [key, withoutUpdatedAt(item)]),
+    );
+  }
+  return value;
+}
+
+function semanticallyEqualIgnoringUpdatedAt(left, right) {
+  return stableJson(withoutUpdatedAt(left)) === stableJson(withoutUpdatedAt(right));
+}
+
 function mergeKeywordEntry(existing, incoming, now) {
   if (!existing) return { ...incoming, updatedAt: incoming.updatedAt || now };
 
@@ -725,7 +752,7 @@ function mergeKeywordEntry(existing, incoming, now) {
   const ambiguousEvidenceWasFiltered = evidenceSamples.length < Math.min(mergedEvidenceSamples.length, 5) || evidenceSources.length < Math.min(mergedEvidenceSources.length, 8);
   const sampleBackedEvidenceCount = evidenceUnitCount(evidenceSamples, evidenceSources);
 
-  return {
+  const merged = {
     ...base,
     ...details,
     term: incoming.term,
@@ -743,6 +770,7 @@ function mergeKeywordEntry(existing, incoming, now) {
     evidenceSources,
     updatedAt: now,
   };
+  return semanticallyEqualIgnoringUpdatedAt(existing, merged) ? { ...merged, updatedAt: existing.updatedAt || null } : merged;
 }
 
 function aliasEvidenceEntriesForEntry(entryMap, entry) {
@@ -3187,6 +3215,7 @@ export async function mergeEntriesIntoDictionary(entries, options = {}) {
       entries: allEntries,
       families,
     };
+    if (semanticallyEqualIgnoringUpdatedAt(current, next)) return current;
     await writeJsonFileAtomic(dictionaryPath, next);
     return next;
   });

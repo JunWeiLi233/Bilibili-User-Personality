@@ -11769,6 +11769,63 @@ test('merges learned keyword entries into a persistent local dictionary', async 
   }
 });
 
+test('mergeEntriesIntoDictionary skips writes when evidence is already present', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bili-keywords-noop-merge-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  try {
+    const existing = {
+      version: 1,
+      updatedAt: '2026-01-01T00:00:00.000Z',
+      entries: [
+        {
+          term: '\u79c0\u4e00\u624b',
+          family: 'cooperation',
+          meaning: '\u7528\u4e8e\u8f7b\u677e\u8981\u6c42\u5c55\u793a\u64cd\u4f5c\u6216\u8868\u6f14',
+          risk: 'positive',
+          confidence: 0.72,
+          evidenceCount: 1,
+          evidenceSamples: ['\u8001\u54e5\u79c0\u4e00\u624b'],
+          evidenceSources: [{ source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-noop/', uid: 'BV-noop', sample: '\u8001\u54e5\u79c0\u4e00\u624b' }],
+          updatedAt: '2026-01-01T00:00:00.000Z',
+        },
+      ],
+      families: {
+        attack: [],
+        absolutes: [],
+        evidence: [],
+        evasion: [],
+        cooperation: ['\u79c0\u4e00\u624b'],
+        correction: [],
+      },
+    };
+    await writeFile(dictionaryPath, `${JSON.stringify(existing, null, 2)}\n`, 'utf8');
+    const before = await readFile(dictionaryPath, 'utf8');
+
+    const dictionary = await mergeEntriesIntoDictionary(
+      [
+        {
+          term: '\u79c0\u4e00\u624b',
+          family: 'cooperation',
+          meaning: '\u7528\u4e8e\u8f7b\u677e\u8981\u6c42\u5c55\u793a\u64cd\u4f5c\u6216\u8868\u6f14',
+          risk: 'positive',
+          confidence: 0.72,
+          evidenceCount: 1,
+          evidenceSamples: ['\u8001\u54e5\u79c0\u4e00\u624b'],
+          evidenceSources: [{ source: 'Bilibili public video comment scan: https://www.bilibili.com/video/BV-noop/', uid: 'BV-noop', sample: '\u8001\u54e5\u79c0\u4e00\u624b' }],
+        },
+      ],
+      { dictionaryPath },
+    );
+
+    const after = await readFile(dictionaryPath, 'utf8');
+    assert.equal(after, before);
+    assert.equal(dictionary.updatedAt, existing.updatedAt);
+    assert.equal(dictionary.entries[0].updatedAt, existing.entries[0].updatedAt);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('mergeEntriesIntoDictionary respects the dictionary write lock', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'bili-dictionary-lock-'));
   const dictionaryPath = join(dir, 'dictionary.json');
