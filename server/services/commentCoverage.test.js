@@ -306,6 +306,33 @@ test('classifyCommentCoverage treats nanbeng title comments as sarcasm, not coop
   assert.deepEqual(result.hits.map((hit) => hit.family), ['attack']);
 });
 
+test('classifyCommentCoverage captures urgent-danmaku sarcasm as attack', () => {
+  const result = classifyCommentCoverage({ entries: [] }, '\u5f39\u5e55\u597d\u6025\u554a\uff0c\u751f\u6d3b\u81ea\u5df1\u6ca1\u670b\u53cb\u8fd8\u89c1\u4e0d\u5230\u522b\u4eba\u73a9\u7b11\u5417');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['\u5f39\u5e55\u597d\u6025\u554a']);
+  assert.deepEqual(result.hits.map((hit) => hit.family), ['attack']);
+});
+
+test('classifyCommentCoverage captures gezhe rhetorical short-drama accusation', () => {
+  const result = classifyCommentCoverage({ entries: [] }, '\u6401\u7740\u770b\u77ed\u5267\u5462\uff1f\uff1f');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['\u6401\u7740\u770b\u77ed\u5267\u5462']);
+  assert.deepEqual(result.hits.map((hit) => hit.family), ['attack']);
+});
+
+test('classifyCommentCoverage captures zombie-dog dehumanizing insults', () => {
+  const result = classifyCommentCoverage({ entries: [] }, '\u50f5\u5c38\u4e00\u6837\u7684\u72d7');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['\u50f5\u5c38\u4e00\u6837\u7684\u72d7']);
+  assert.deepEqual(result.hits.map((hit) => hit.family), ['attack']);
+});
+
 test('classifyCommentCoverage captures contextual self-immolation variants as attack imagery', () => {
   const sampledDictionary = { entries: [] };
   const typoVariant = classifyCommentCoverage(sampledDictionary, '\u53bb\u86c7\u62f3\u5854\u62b1\u7740\u674e\u7ea2\u72fc\u4e00\u8d77\u81ea\u706b');

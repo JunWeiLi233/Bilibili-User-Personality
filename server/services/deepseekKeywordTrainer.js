@@ -3209,7 +3209,6 @@ async function writeSplitDictionaryAtomic(dictionaryPath, dictionary) {
     storage: 'split',
     updatedAt: dictionary.updatedAt || null,
     entryFiles,
-    families: dictionary.families || {},
   });
 }
 
@@ -3274,7 +3273,7 @@ export async function mergeEntriesIntoDictionary(entries, options = {}) {
       entries: allEntries,
       families,
     };
-    if (semanticallyEqualIgnoringUpdatedAt(current, next) && current.storage === 'split') return current;
+    if (semanticallyEqualIgnoringUpdatedAt(canonicalCurrent, next) && current.storage === 'split') return current;
     await writeSplitDictionaryAtomic(dictionaryPath, next);
     return next;
   });

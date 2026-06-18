@@ -1203,6 +1203,7 @@ test('mergeEntriesIntoDictionary migrates a legacy monolith to split storage', a
 
     assert.equal(manifest.storage, 'split');
     assert.equal(Array.isArray(manifest.entries), false);
+    assert.equal(Object.hasOwn(manifest, 'families'), false);
     assert.deepEqual(attack.entries.map((entry) => entry.term), ['\u9634\u9633\u602a\u6c14']);
     assert.deepEqual(cooperation.entries.map((entry) => entry.term), ['\u6211\u89c9\u5f97']);
   } finally {
