@@ -756,6 +756,48 @@ const SUPPLEMENTAL_SEMANTICS = [
     family: 'attack',
     meaning: '\u201c\u4f60\u804b\u4e86\u201d\u5728\u56de\u590d\u4e2d\u662f\u9488\u5bf9\u5bf9\u65b9\u7406\u89e3\u6216\u542c\u89c9\u7684\u76f4\u63a5\u8fb1\u9a82\uff0c\u4e0d\u662f\u533b\u7597\u6216\u4e8b\u5b9e\u63cf\u8ff0\u3002',
   },
+  {
+    pattern: /\u5356\u4e0d\u51fa\u53bb\u4e86?[\uff1f?]/u,
+    term: '\u5356\u4e0d\u51fa\u53bb\u4e86\uff1f',
+    family: 'attack',
+    meaning: '\u201c\u5356\u4e0d\u51fa\u53bb\u4e86\uff1f\u201d\u5728\u53cd\u95ee\u4e2d\u5e38\u7528\u6765\u8bbd\u523a\u4ea7\u54c1\u6216\u9635\u8425\u6ca1\u6709\u5e02\u573a\uff0c\u662f\u80fd\u529b/\u4ef7\u503c\u5426\u5b9a\u578b\u653b\u51fb\u3002',
+  },
+  {
+    pattern: /(?:\u4f60|\u4f60\u7684|\u4f60\u8fd9|[\u4ed6\u5979]\u7684)?[^\uff0c,\u3002\uff01\uff1f!?\s]{0,8}(?:\u6c6a\u6c6a){2,}/u,
+    term: '\u6c6a\u6c6a\u6c6a\u5632\u8bbd',
+    family: 'attack',
+    meaning: '\u91cd\u590d\u201c\u6c6a\u6c6a\u201d\u5e38\u628a\u5bf9\u65b9\u62df\u4f5c\u72d7\u6216\u5435\u95f9\u58f0\uff0c\u662f\u52a8\u7269\u5316\u5632\u8bbd\u800c\u975e\u666e\u901a\u7b11\u58f0\u3002',
+  },
+  {
+    pattern: /\u5e94\u8be5\u88ab.{0,8}(?:\u5904\u4ee5|\u884c\u653f\u62d8\u7559|\u62d8\u7559|\u5904\u7f5a|\u6cd5\u529e)/u,
+    term: '\u5e94\u8be5\u88ab\u5904\u7f5a',
+    family: 'attack',
+    meaning: '\u201c\u5e94\u8be5\u88ab...\u5904\u7f5a/\u62d8\u7559\u201d\u662f\u5bf9\u4ed6\u4eba\u7684\u60e9\u7f5a\u6027\u6307\u8d23\uff0c\u4e0d\u662f\u5408\u4f5c\u5efa\u8bae\u3002',
+  },
+  {
+    pattern: /^(?:\u5475|\u54df|\u54fc)[\uff0c, ]{0,2}[\u4e00-\u9fff]{1,8}(?:\u4eba|\u7c89|\u515a|up|UP)/u,
+    term: '\u5475\uff0cX\u4eba',
+    family: 'attack',
+    meaning: '\u53e5\u9996\u201c\u5475\uff0cX\u4eba\u201d\u5e38\u4ee5\u8f7b\u8511\u8bed\u6c14\u70b9\u540d\u7fa4\u4f53\u6216\u7c89\u4e1d\u8eab\u4efd\uff0c\u8868\u793a\u5632\u8bbd\u548c\u8d2c\u4f4e\u3002',
+  },
+  {
+    pattern: /\u7075\u6d3b\u6570\u636e/u,
+    term: '\u7075\u6d3b\u6570\u636e',
+    family: 'evasion',
+    meaning: '\u201c\u7075\u6d3b\u6570\u636e\u201d\u5e38\u7528\u6765\u8bbd\u523a\u6570\u636e\u53e3\u5f84\u968f\u610f\u3001\u6311\u9009\u6216\u9020\u5047\uff0c\u662f\u5bf9\u8bba\u636e\u53ef\u4fe1\u5ea6\u7684\u5632\u8bbd\u3002',
+  },
+  {
+    pattern: /(?:\u4ed6|\u5979|\u8fd9\u4eba|\u90a3\u4eba|up|UP).{0,12}\u762e\u4eba/u,
+    term: '\u762e\u4eba',
+    family: 'attack',
+    meaning: '\u201c\u762e\u4eba\u201d\u7528\u6765\u8bf4\u67d0\u4eba\u6050\u6016\u3001\u53d1\u6bdb\u6216\u8ba9\u4eba\u4e0d\u9002\uff0c\u662f\u5bf9\u4eba\u7684\u5f3a\u8d1f\u9762\u8bc4\u4ef7\u3002',
+  },
+  {
+    pattern: /\u4ed6\u4eec\u5728\u795d\u798f\u6211[\uff0c, ].{0,8}\u54c8\u54c8/u,
+    term: '\u795d\u798f\u6211\u54c8\u54c8',
+    family: 'attack',
+    meaning: '\u201c\u4ed6\u4eec\u5728\u795d\u798f\u6211\uff0c\u54c8\u54c8\u201d\u5e38\u662f\u5bf9\u88ab\u9a82/\u88ab\u653b\u51fb\u7684\u53cd\u8bdd\u5316\u5904\u7406\uff0c\u7b11\u58f0\u5f3a\u5316\u8bbd\u523a\u8bed\u6c14\u3002',
+  },
 ];
 
 function detectSupplementalSemanticHits(comment) {
@@ -820,6 +862,18 @@ function isRound47NeutralContext(entry, message) {
   }
   if (entry?.family === 'cooperation' && term === '\u5c31\u662f') {
     return /\u5c31\u662f.{0,18}(?:\u5b57\u4f53|\u900f\u660e\u5ea6|\u8bbe\u7f6e|\u529f\u80fd|\u610f\u601d|\u6307|\u5b9a\u4e49|\u89e3\u91ca)/u.test(message);
+  }
+  return false;
+}
+
+function isRound48SuppressedCooperation(entry, message) {
+  if (entry?.family !== 'cooperation') return false;
+  const term = String(entry?.term || '');
+  if (term === '\u5c31\u662f') {
+    return /(?:\u4f60|\u4f60\u7684|\u4f60\u8fd9|[\u4ed6\u5979]\u7684)?[^\uff0c,\u3002\uff01\uff1f!?\s]{0,8}(?:\u6c6a\u6c6a){2,}/u.test(message);
+  }
+  if (term === '\u5e94\u8be5') {
+    return /\u5e94\u8be5\u88ab.{0,8}(?:\u5904\u4ee5|\u884c\u653f\u62d8\u7559|\u62d8\u7559|\u5904\u7f5a|\u6cd5\u529e)/u.test(message);
   }
   return false;
 }
@@ -1034,6 +1088,7 @@ function isSuppressedLexicalHit(entry, message) {
     || isLiteralYinYangContext(entry, message)
     || isFactualNoHaveContext(entry, message)
     || isRound47NeutralContext(entry, message)
+    || isRound48SuppressedCooperation(entry, message)
     || isLogicalNotIsContext(entry, message)
     || isPositiveDescriptionNegationContext(entry, message)
     || isLiteralTrafficContext(entry, message)

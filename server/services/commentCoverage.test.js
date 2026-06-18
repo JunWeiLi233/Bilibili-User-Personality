@@ -1117,6 +1117,24 @@ test('classifyCommentCoverage handles round 47 random audit false positives and 
   ]);
 });
 
+test('classifyCommentCoverage handles round 48 random audit misses and cooperation false positives', () => {
+  const cases = [
+    ['\u519b\u706b\u5356\u4e0d\u51fa\u53bb\u4e86\uff1f', '\u5356\u4e0d\u51fa\u53bb\u4e86\uff1f', 'attack'],
+    ['\u5c31\u662f\u4f60\u72d7\u8a00 \u6c6a\u6c6a\u6c6a\u6c6a\u6c6a', '\u6c6a\u6c6a\u6c6a\u5632\u8bbd', 'attack'],
+    ['\u90a3\u4e2a\u7ad6\u4e2d\u6307\u7684\u4eba\u5e94\u8be5\u88ab\u5904\u4ee5\u884c\u653f\u62d8\u7559', '\u5e94\u8be5\u88ab\u5904\u7f5a', 'attack'],
+    ['\u5475\uff0c\u97e9\u56fd\u4eba', '\u5475\uff0cX\u4eba', 'attack'],
+    ['\u7075\u6d3b\u6570\u636e', '\u7075\u6d3b\u6570\u636e', 'evasion'],
+    ['\u4ed6\u7ad9\u5728\u90a3\u91cc\u592a\u762e\u4eba\u4e86', '\u762e\u4eba', 'attack'],
+    ['\u4ed6\u4eec\u5728\u795d\u798f\u6211\uff0c\u54c8\u54c8\u54c8\u54c8', '\u795d\u798f\u6211\u54c8\u54c8', 'attack'],
+  ];
+
+  for (const [text, term, family] of cases) {
+    const result = classifyCommentCoverage(dictionary, text);
+    assert.equal(result.mode, 'keyword');
+    assert.deepEqual(result.hits.map((hit) => [hit.term, hit.family]), [[term, family]]);
+  }
+});
+
 test('sampleCommentCoverage summarizes full coverage over keyword and neutral samples', () => {
   const result = sampleCommentCoverage(dictionary, [
     '这事懂的都懂，不展开了',
