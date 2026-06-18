@@ -1,28 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-17T23:30:49.953Z",
+  "updatedAt": "2026-06-18T05:12:53.229Z",
   "runs": [
-    {
-      "at": "2026-06-17T10:04:09.299Z",
-      "queries": [
-        "查查资料"
-      ],
-      "threadUrls": [],
-      "results": [
-        {
-          "query": "查查资料",
-          "ok": false,
-          "threads": [],
-          "comments": [],
-          "warnings": [
-            "discover: HTTP 403 from https://tieba.baidu.com/mo/q/m?kw=%E6%9F%A5%E6%9F%A5%E8%B5%84%E6%96%99"
-          ]
-        }
-      ],
-      "warnings": [
-        "查查资料: discover: HTTP 403 from https://tieba.baidu.com/mo/q/m?kw=%E6%9F%A5%E6%9F%A5%E8%B5%84%E6%96%99"
-      ]
-    },
     {
       "at": "2026-06-17T10:18:26.883Z",
       "queries": [
@@ -1082,6 +1061,68 @@
         }
       ],
       "warnings": []
+    },
+    {
+      "at": "2026-06-18T05:12:49.719Z",
+      "queries": [
+        "都说八百遍了 评论回复",
+        "8打5的雷霆 直播切片",
+        "茶庄10个有9个洗钱的 回复区"
+      ],
+      "threadUrls": [],
+      "results": [
+        {
+          "query": "都说八百遍了 评论回复",
+          "ok": false,
+          "threads": [],
+          "comments": [],
+          "warnings": [
+            "discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E9%83%BD%E8%AF%B4%E5%85%AB%E7%99%BE%E9%81%8D%E4%BA%86+%E8%AF%84%E8%AE%BA%E5%9B%9E%E5%A4%8D&pn=0"
+          ]
+        },
+        {
+          "query": "8打5的雷霆 直播切片",
+          "ok": true,
+          "threads": [
+            {
+              "id": "8814482813",
+              "kind": "tieba-thread",
+              "title": "[公告]关于撤销 星锥传媒 吧主管理权限的说明",
+              "keyword": "8打5的雷霆 直播切片",
+              "sourceUrl": "https://tieba.baidu.com/p/8814482813"
+            }
+          ],
+          "comments": [
+            {
+              "sourceKind": "tieba-discovery",
+              "sourceTitle": "[公告]关于撤销 星锥传媒 吧主管理权限的说明",
+              "sourceUrl": "https://tieba.baidu.com/p/8814482813",
+              "rpid": "tieba-discovery-8814482813",
+              "like": 0,
+              "ctime": 0,
+              "uname": "",
+              "mid": "",
+              "message": "[公告]关于撤销 星锥传媒 吧主管理权限的说明",
+              "platform": "tieba",
+              "keyword": "8打5的雷霆 直播切片"
+            }
+          ],
+          "warnings": []
+        },
+        {
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "ok": false,
+          "threads": [],
+          "comments": [],
+          "warnings": [
+            "discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E8%8C%B6%E5%BA%8410%E4%B8%AA%E6%9C%899%E4%B8%AA%E6%B4%97%E9%92%B1%E7%9A%84+%E5%9B%9E%E5%A4%8D%E5%8C%BA&pn=0"
+          ]
+        }
+      ],
+      "warnings": [
+        "都说八百遍了 评论回复: discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E9%83%BD%E8%AF%B4%E5%85%AB%E7%99%BE%E9%81%8D%E4%BA%86+%E8%AF%84%E8%AE%BA%E5%9B%9E%E5%A4%8D&pn=0",
+        "茶庄10个有9个洗钱的 回复区: discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E8%8C%B6%E5%BA%8410%E4%B8%AA%E6%9C%899%E4%B8%AA%E6%B4%97%E9%92%B1%E7%9A%84+%E5%9B%9E%E5%A4%8D%E5%8C%BA&pn=0"
+      ]
     }
   ],
   "comments": [
@@ -1282,6 +1323,19 @@
       "message": "真人团 接接接",
       "platform": "tieba",
       "keyword": "你也难绷 弹幕"
+    },
+    {
+      "sourceKind": "tieba-discovery",
+      "sourceTitle": "[公告]关于撤销 星锥传媒 吧主管理权限的说明",
+      "sourceUrl": "https://tieba.baidu.com/p/8814482813",
+      "rpid": "tieba-discovery-8814482813",
+      "like": 0,
+      "ctime": 0,
+      "uname": "",
+      "mid": "",
+      "message": "[公告]关于撤销 星锥传媒 吧主管理权限的说明",
+      "platform": "tieba",
+      "keyword": "8打5的雷霆 直播切片"
     }
   ]
 }
