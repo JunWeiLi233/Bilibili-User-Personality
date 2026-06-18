@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T17:29:29.693Z",
+  "updatedAt": "2026-06-18T17:43:30.509Z",
   "shard": 8,
   "shardCount": 8,
   "runs": [
@@ -1521,6 +1521,112 @@
       "warnings": [],
       "commentsCollected": 172,
       "commentsAdded": 122
+    },
+    {
+      "at": "2026-06-18T17:43:30.509Z",
+      "actions": [
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论"
+        },
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 弹幕"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 评论"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 弹幕"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说 评论区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1e9jh6sEu2",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1e9jh6sEu2",
+          "aid": 116772107717568,
+          "title": "对于最近视频的<em class=\"keyword\">评论</em>的一些<em class=\"keyword\">回复</em>"
+        },
+        {
+          "key": "bvid:BV1sEjw6dEwK",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1sEjw6dEwK",
+          "aid": 116769456917233,
+          "title": "6.18郭正亮破防④ 日本右翼和台毒是<em class=\"keyword\">同一批</em>人，小亮瑟瑟发抖中"
+        },
+        {
+          "key": "bvid:BV1Wm4y1B7QG",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1Wm4y1B7QG",
+          "aid": 697176447,
+          "title": "听了金冬甜这么软的睡前语音 谁还睡得着啊 不得听个<em class=\"keyword\">八百遍</em>"
+        },
+        {
+          "key": "bvid:BV1te411B7q4",
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论",
+          "bvid": "BV1te411B7q4",
+          "aid": 240170557,
+          "title": "“审<em class=\"keyword\">轻重</em>然后动，量得失以居身！”——钟会【欲谋自立】皮肤台词欣赏"
+        },
+        {
+          "key": "bvid:BV1HtnJztEt2",
+          "term": "德里不饶人",
+          "query": "德里不饶人 弹幕",
+          "bvid": "BV1HtnJztEt2",
+          "aid": 115274791525084,
+          "title": "李昭希认真对待每一球，但岁月<em class=\"keyword\">不饶人</em>"
+        },
+        {
+          "key": "bvid:BV1yeLo6gEjD",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 评论",
+          "bvid": "BV1yeLo6gEjD",
+          "aid": 116766336356550,
+          "title": "TeeTeePor：北哥不理Tee，Tee不理老豆，北哥已对Tee道歉，狗什么时候去老豆那道歉………"
+        },
+        {
+          "key": "bvid:BV1Hnj36jEDD",
+          "term": "价格被打下来",
+          "query": "价格被打下来 弹幕",
+          "bvid": "BV1Hnj36jEDD",
+          "aid": 116759440984196,
+          "title": "【恬豆】看牛哥看地三鲜串自己合订本红温切片，牢豆极力撇清关系不关我事👋<em class=\"keyword\">被弹幕</em>整好奇想看第10个了🤩真敢看明天必定活不到周四了👻"
+        },
+        {
+          "key": "bvid:BV1q6LR6tEf5",
+          "term": "这还用说",
+          "query": "这还用说 评论区",
+          "bvid": "BV1q6LR6tEf5",
+          "aid": 116765229057483,
+          "title": "你要是能打开<em class=\"keyword\">评论区</em>算我输"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 93,
+      "commentsAdded": 80
     }
   ]
 }

@@ -1,30 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T13:08:19.976Z",
+  "updatedAt": "2026-06-18T17:43:48.743Z",
   "shard": 1,
   "shardCount": 1,
   "runs": [
-    {
-      "at": "2026-06-17T11:00:19.977Z",
-      "queries": [
-        "超绝无语"
-      ],
-      "threadUrls": [],
-      "results": [
-        {
-          "query": "超绝无语",
-          "ok": false,
-          "threads": [],
-          "comments": [],
-          "warnings": [
-            "discover: HTTP 403 from https://tieba.baidu.com/mo/q/m?kw=%E8%B6%85%E7%BB%9D%E6%97%A0%E8%AF%AD"
-          ]
-        }
-      ],
-      "warnings": [
-        "超绝无语: discover: HTTP 403 from https://tieba.baidu.com/mo/q/m?kw=%E8%B6%85%E7%BB%9D%E6%97%A0%E8%AF%AD"
-      ]
-    },
     {
       "at": "2026-06-17T11:40:47.462Z",
       "queries": [
@@ -1368,6 +1347,123 @@
         "老闻 争议 评论区: discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E8%80%81%E9%97%BB+%E4%BA%89%E8%AE%AE+%E8%AF%84%E8%AE%BA%E5%8C%BA&pn=0",
         "留中不发 什么意思: discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E7%95%99%E4%B8%AD%E4%B8%8D%E5%8F%91+%E4%BB%80%E4%B9%88%E6%84%8F%E6%80%9D&pn=0",
         "盲人帽子 弹幕: discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E7%9B%B2%E4%BA%BA%E5%B8%BD%E5%AD%90+%E5%BC%B9%E5%B9%95&pn=0"
+      ]
+    },
+    {
+      "at": "2026-06-18T17:43:44.018Z",
+      "queries": [
+        "超绝无语 评论回复",
+        "都是同一批 互动",
+        "都说八百遍了 评论回复",
+        "分不清轻重 评论",
+        "德里不饶人 弹幕",
+        "狗去哪里了 评论",
+        "价格被打下来 弹幕",
+        "这还用说 评论区"
+      ],
+      "threadUrls": [],
+      "results": [
+        {
+          "query": "超绝无语 评论回复",
+          "ok": false,
+          "threads": [],
+          "comments": [],
+          "warnings": [
+            "discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E8%B6%85%E7%BB%9D%E6%97%A0%E8%AF%AD+%E8%AF%84%E8%AE%BA%E5%9B%9E%E5%A4%8D&pn=0"
+          ]
+        },
+        {
+          "query": "都是同一批 互动",
+          "ok": false,
+          "threads": [],
+          "comments": [],
+          "warnings": [
+            "discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E9%83%BD%E6%98%AF%E5%90%8C%E4%B8%80%E6%89%B9+%E4%BA%92%E5%8A%A8&pn=0"
+          ]
+        },
+        {
+          "query": "都说八百遍了 评论回复",
+          "ok": false,
+          "threads": [],
+          "comments": [],
+          "warnings": [
+            "discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E9%83%BD%E8%AF%B4%E5%85%AB%E7%99%BE%E9%81%8D%E4%BA%86+%E8%AF%84%E8%AE%BA%E5%9B%9E%E5%A4%8D&pn=0"
+          ]
+        },
+        {
+          "query": "分不清轻重 评论",
+          "ok": false,
+          "threads": [],
+          "comments": [],
+          "warnings": [
+            "discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E5%88%86%E4%B8%8D%E6%B8%85%E8%BD%BB%E9%87%8D+%E8%AF%84%E8%AE%BA&pn=0"
+          ]
+        },
+        {
+          "query": "德里不饶人 弹幕",
+          "ok": false,
+          "threads": [],
+          "comments": [],
+          "warnings": [
+            "discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E5%BE%B7%E9%87%8C%E4%B8%8D%E9%A5%B6%E4%BA%BA+%E5%BC%B9%E5%B9%95&pn=0"
+          ]
+        },
+        {
+          "query": "狗去哪里了 评论",
+          "ok": true,
+          "threads": [
+            {
+              "id": "9698845314",
+              "kind": "tieba-thread",
+              "title": "[公告]关于撤销 折翼133 吧主管理权限的说明",
+              "keyword": "狗去哪里了 评论",
+              "sourceUrl": "https://tieba.baidu.com/p/9698845314"
+            }
+          ],
+          "comments": [
+            {
+              "sourceKind": "tieba-discovery",
+              "sourceTitle": "[公告]关于撤销 折翼133 吧主管理权限的说明",
+              "sourceUrl": "https://tieba.baidu.com/p/9698845314",
+              "rpid": "tieba-discovery-9698845314",
+              "like": 0,
+              "ctime": 0,
+              "uname": "",
+              "mid": "",
+              "message": "[公告]关于撤销 折翼133 吧主管理权限的说明",
+              "platform": "tieba",
+              "keyword": "狗去哪里了 评论"
+            }
+          ],
+          "warnings": []
+        },
+        {
+          "query": "价格被打下来 弹幕",
+          "ok": false,
+          "threads": [],
+          "comments": [],
+          "warnings": [
+            "discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E4%BB%B7%E6%A0%BC%E8%A2%AB%E6%89%93%E4%B8%8B%E6%9D%A5+%E5%BC%B9%E5%B9%95&pn=0"
+          ]
+        },
+        {
+          "query": "这还用说 评论区",
+          "ok": false,
+          "threads": [],
+          "comments": [],
+          "warnings": [
+            "discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E8%BF%99%E8%BF%98%E7%94%A8%E8%AF%B4+%E8%AF%84%E8%AE%BA%E5%8C%BA&pn=0"
+          ]
+        }
+      ],
+      "warnings": [
+        "超绝无语 评论回复: discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E8%B6%85%E7%BB%9D%E6%97%A0%E8%AF%AD+%E8%AF%84%E8%AE%BA%E5%9B%9E%E5%A4%8D&pn=0",
+        "都是同一批 互动: discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E9%83%BD%E6%98%AF%E5%90%8C%E4%B8%80%E6%89%B9+%E4%BA%92%E5%8A%A8&pn=0",
+        "都说八百遍了 评论回复: discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E9%83%BD%E8%AF%B4%E5%85%AB%E7%99%BE%E9%81%8D%E4%BA%86+%E8%AF%84%E8%AE%BA%E5%9B%9E%E5%A4%8D&pn=0",
+        "分不清轻重 评论: discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E5%88%86%E4%B8%8D%E6%B8%85%E8%BD%BB%E9%87%8D+%E8%AF%84%E8%AE%BA&pn=0",
+        "德里不饶人 弹幕: discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E5%BE%B7%E9%87%8C%E4%B8%8D%E9%A5%B6%E4%BA%BA+%E5%BC%B9%E5%B9%95&pn=0",
+        "价格被打下来 弹幕: discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E4%BB%B7%E6%A0%BC%E8%A2%AB%E6%89%93%E4%B8%8B%E6%9D%A5+%E5%BC%B9%E5%B9%95&pn=0",
+        "这还用说 评论区: discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E8%BF%99%E8%BF%98%E7%94%A8%E8%AF%B4+%E8%AF%84%E8%AE%BA%E5%8C%BA&pn=0"
       ]
     }
   ]
