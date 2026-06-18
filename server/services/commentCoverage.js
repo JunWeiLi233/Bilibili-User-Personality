@@ -90,6 +90,48 @@ export function detectEmoteSemanticHits(comment) {
 
 const SUPPLEMENTAL_SEMANTICS = [
   {
+    pattern: /\u4ec0\u4e48\u8eab\u4efd\u5417\[\u54cd\u6307\]|\[\u54cd\u6307\].{0,12}(?:\u4ec0\u4e48\u8eab\u4efd|\u8fd9\u4e48\u72c2)|(?:\u8fd9\u4e48\u72c2|\u4ec0\u4e48\u8eab\u4efd).{0,20}\[\u54cd\u6307\]/u,
+    term: '\u54cd\u6307\u8eab\u4efd\u53cd\u8bdd',
+    family: 'attack',
+    meaning: '\u201c\u4e0d\u77e5\u9053\u6211\u662f\u4ec0\u4e48\u8eab\u4efd\u5417[\u54cd\u6307]\u201d\u662f\u501f\u52bf\u3001\u88c5\u8154\u6216\u8fd1\u4f3c\u5a01\u538b\u7684\u53cd\u8bdd\u68d2\u8bfb\uff0c\u5728B\u7ad9\u8bed\u5883\u91cc\u5e38\u8868\u793a\u5632\u8bbd\u6216\u653b\u51fb\u6027\u59ff\u6001\u3002',
+  },
+  {
+    pattern: /\u5565\u90fd\u53ef\u4ee5\u9001\u54c8\u54c8\u54c8/u,
+    term: '\u54c8\u54c8\u54c8\u8f7b\u677e\u7b11',
+    family: 'cooperation',
+    meaning: '\u5355\u72ec\u7684\u201c\u54c8\u54c8\u54c8/2333/xswl\u201d\u901a\u5e38\u662f\u88ab\u9017\u7b11\u3001\u8f7b\u677e\u6216\u5171\u4eab\u5a31\u4e50\u6548\u679c\uff0c\u672a\u4e0e\u653b\u51fb\u5bf9\u8c61\u7ed1\u5b9a\u65f6\u5e94\u4f5c\u4e3a\u5408\u4f5c/\u6b63\u5411\u8bed\u6c14\u4fdd\u7559\u3002',
+  },
+  {
+    pattern: /[\uff08(]\u559c[\uff09)]/u,
+    term: '\u559c\u8868\u60c5',
+    family: 'cooperation',
+    meaning: '\u201c\uff08\u559c\uff09\u201d\u662fB\u7ad9\u5e38\u89c1\u821e\u53f0\u6307\u793a\u5f0f\u8868\u60c5\uff0c\u6807\u8bb0\u8f7b\u677e\u3001\u9ad8\u5174\u3001\u8c03\u4f83\u6216\u89e3\u8131\u611f\uff0c\u4e0d\u5e94\u88ab\u5f53\u6210\u65e0\u8bed\u4e2d\u6027\u566a\u58f0\u5ffd\u7565\u3002',
+  },
+  {
+    pattern: /\u53bb\u4e86\u4f46\u6ca1\u5b8c\u5168\u53bb/u,
+    term: '\u53bb\u4e86\u4f46\u6ca1\u5b8c\u5168\u53bb',
+    family: 'cooperation',
+    meaning: '\u201c\u53bb\u4e86\u4f46\u6ca1\u5b8c\u5168\u53bb\u201d\u662f\u5e38\u89c1\u201cX\u4e86\u4f46\u6ca1\u5b8c\u5168X\u201d\u73a9\u6897\u53e5\u5f0f\uff0c\u7528\u6765\u8868\u8fbe\u8f7b\u677e\u7684\u77db\u76fe\u5f0f\u8c03\u4f83\u3002',
+  },
+  {
+    pattern: /[\uff08(]x$|[\uff08(]x[\uff09)]?/iu,
+    term: 'ASCII (x teasing marker',
+    family: 'cooperation',
+    meaning: '\u201c\uff08x\u201d\u7c7bASCII\u8868\u60c5\u901a\u5e38\u662f\u4f38\u820c\u3001\u5f00\u73a9\u7b11\u6216\u8f7b\u677e\u8c03\u4f83\u7684\u8bed\u6c14\u6807\u8bb0\uff0c\u9700\u8981\u4f5c\u4e3a\u8bed\u4e49\u4fe1\u53f7\u4fdd\u7559\u3002',
+  },
+  {
+    pattern: /\u4e5d\u65cf\u6d88\u6d88\u4e50/u,
+    term: '\u4e5d\u65cf\u6d88\u6d88\u4e50',
+    family: 'attack',
+    meaning: '\u201c\u4e5d\u65cf\u6d88\u6d88\u4e50\u201d\u662f\u628a\u201c\u8bdb\u4e5d\u65cf\u201d\u4e0e\u6e38\u620f\u201c\u6d88\u6d88\u4e50\u201d\u7ed3\u5408\u7684\u9ed1\u8272\u5e7d\u9ed8\u6216\u6781\u7aef\u60e9\u7f5a\u6897\uff0c\u5e26\u6709\u660e\u663e\u653b\u51fb\u548c\u5a01\u80c1\u60f3\u8c61\u3002',
+  },
+  {
+    pattern: /\u63a5\u63a5\u63a5+|(?:\u771f\u4eba\u56e2|cp|CP|[\u4e00-\u9fff]{1,8}).{0,8}\u63a5\u63a5\u63a5/u,
+    term: '\u63a5\u63a5\u63a5',
+    family: 'cooperation',
+    meaning: '\u201c\u63a5\u63a5\u63a5\u201d\u5728\u996d\u5708\u548c\u8d34\u5427\u8bed\u5883\u91cc\u5e38\u8868\u793a\u201c\u6211\u63a5\u53d7/\u6211\u8981/\u6b22\u8fce\u201d\u7684\u70ed\u60c5\u8868\u6001\uff0c\u5c5e\u4e8e\u652f\u6301\u6216\u8d5e\u540c\u3002',
+  },
+  {
     pattern: /(?:\u8fc8\u5411|\u5954\u5411).{0,12}\u66f4\u7cbe\u5f69.{0,12}(?:High\s*five|high\s*five|[\u51fb\u64ca]\u638c)|High\s*five[\uff01!]?/iu,
     term: 'High five\u9f13\u52b1',
     family: 'cooperation',
@@ -884,11 +926,24 @@ function isNeutralMetaphorOrDefinitionContext(entry, message) {
   const term = String(entry?.term || '');
   if (term === '\u96f7\u533a') return /(?:\u8ddf|\u50cf).{0,4}\u8fdb\u96f7\u533a\u4f3c\u7684/u.test(message);
   if (term === '\u5168\u662f') return /(?:\u4eba\u884c\u9053|\u8def\u4e0a).{0,8}\u5168\u662f/u.test(message);
+  if (term === '\u90fd\u662f') return /\u8fd9\u79cd\u90fd\u662f\u9690\u85cf\u5b9e\u529b/u.test(message);
   if (term === '\u7edd\u5bf9') return /\u53ef\u9760\u6027\u7edd\u5bf9\u6700\u9ad8/u.test(message);
   if (term === '\u4e0d\u53ef\u80fd') return /\u6838\u52a8\u529b\u9a74\u751f\u6001\u7cfb\u7edf/u.test(message);
   if (term === '\u4e0d\u4e00\u5b9a') return /\u6280\u672f\u4e0d\u4e00\u5b9a\u9ad8/u.test(message);
   if (term === '\u5c31\u662f') return /\u6982\u5ff5\u5462[\uff0c,]\u5c31\u662f|\u610f\u56fe\u5c31\u662f\u8fd9\u4e48\u660e\u663e|\u6211\u5c31\u662f\u998b|\u4e07\u4e00\u5c31\u662f/u.test(message);
   return false;
+}
+
+function isPositiveSurpriseContext(entry, message) {
+  const term = String(entry?.term || '');
+  if (term !== '\u6211\u53bb') return false;
+  return /\u6211\u53bb[\uff01!].{0,20}(?:\u6587\u827a\u590d\u5174|\u9b3c\u755c|\u723d|\u597d\u770b|\u597d\u542c|\u592a\u5f3a)/u.test(message);
+}
+
+function isQuestionParticleNotIsContext(entry, message) {
+  const term = String(entry?.term || '');
+  if (term !== '\u4e0d\u662f') return false;
+  return /\u662f\u4e0d\u662f.{0,40}(?:\u610f\u5473\u7740|\u53ef\u4ee5|\u4f1a|\u80fd|\u8981)/u.test(message);
 }
 
 function isSpeculativeThirdPartyMistakeContext(entry, message) {
@@ -927,6 +982,8 @@ function isSuppressedLexicalHit(entry, message) {
     || isAliasOrSubstringArtifactContext(entry, message)
     || isContainedConditionalPossibilityContext(entry, message)
     || isNeutralMetaphorOrDefinitionContext(entry, message)
+    || isPositiveSurpriseContext(entry, message)
+    || isQuestionParticleNotIsContext(entry, message)
     || isSpeculativeThirdPartyMistakeContext(entry, message)
     || isSincereFaithContext(entry, message);
 }
