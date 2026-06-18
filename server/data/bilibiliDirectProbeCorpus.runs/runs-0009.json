@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T19:31:56.374Z",
+  "updatedAt": "2026-06-18T19:43:41.411Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -405,6 +405,88 @@
       "warnings": [],
       "commentsCollected": 1056,
       "commentsAdded": 469
+    },
+    {
+      "at": "2026-06-18T19:43:41.411Z",
+      "actions": [
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV153gzzyEmS",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV153gzzyEmS",
+          "aid": 114889754411239,
+          "title": "以防你不知道<em class=\"keyword\">b站</em>可以查自己的成分"
+        },
+        {
+          "key": "bvid:BV1QgLX6gEkP",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1QgLX6gEkP",
+          "aid": 116764658636413,
+          "title": "六月十八日 茶事日记"
+        },
+        {
+          "key": "bvid:BV1jjEB6DE4A",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1jjEB6DE4A",
+          "aid": 116732849031732,
+          "title": "针对上期内容，统一<em class=\"keyword\">回复评论</em>区"
+        },
+        {
+          "key": "bvid:BV1j5MhzXEzb",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1j5MhzXEzb",
+          "aid": 114687572184907,
+          "title": "【<em class=\"keyword\">互动</em>视频】sprunki小鬼测试"
+        },
+        {
+          "key": "bvid:BV1692kBuEf3",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1692kBuEf3",
+          "aid": 115683182512802,
+          "title": "【关锦】二哥低音炮版撒娇八连太蛊了，我手机镶墙里听<em class=\"keyword\">了八百遍</em>"
+        },
+        {
+          "key": "bvid:BV1Tx421X7VB",
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论",
+          "bvid": "BV1Tx421X7VB",
+          "aid": 1752377056,
+          "title": "<em class=\"keyword\">轻重</em>及粗细变化详细讲解，最最底层逻辑+练习方法，秒懂！"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 137,
+      "commentsAdded": 111
     }
   ]
 }

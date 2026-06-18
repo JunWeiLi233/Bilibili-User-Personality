@@ -67,7 +67,7 @@ const EMOTE_SEMANTICS = [
     meaning: '狗头或狗符号在中文评论中可表示保命玩笑，也可配合羞辱、置顶、嘲笑等语境指向贬损称呼，需要作为语气信号保留。',
   },
   {
-    pattern: /(?:\^[_-]?\^|>[_-]?<|T[_-]?T|Q(?:A|w)Q|orz|xswl|2333+|(?<!https?):[:;=8xX][-o*']?[)(DPp/\\])/u,
+    pattern: /(?:\^[_-]?\^|>[_-]?<|T(?:[_-]|\^)?T|Q(?:A|w)Q|orz|xswl|2333+|(?<!https?):[:;=8xX][-o*']?[)(DPp/\\])/u,
     term: 'ASCII emoticon tone marker',
     family: 'cooperation',
     meaning: 'Plain-text emoticons common in Tieba/BBS comments can soften, tease, self-mock, or mark playful/satirical tone when no platform emote shortcode is present.',
@@ -96,6 +96,24 @@ export function detectEmoteSemanticHits(comment) {
 }
 
 const SUPPLEMENTAL_SEMANTICS = [
+  {
+    pattern: /(?:一家|全家|这家|一群).{0,4}坏种|(?:^|[\s，,。！？!?])坏种(?:$|[\s，,。！？!?])|坏种(?:一家|一窝|一群)/u,
+    term: '一家坏种',
+    family: 'attack',
+    meaning: '“一家坏种/坏种”是在评论区把对象或其家庭整体定性为品性恶劣的人，属于直接人格贬损和群体式攻击。',
+  },
+  {
+    pattern: /(?:因为|这叫|属于)?狐证不立[（(]?/u,
+    term: '狐证不立',
+    family: 'evasion',
+    meaning: '“狐证不立”是把“证据/举证不成立”玩成谐音梗的弹幕式说法，常用于戏谑地否定论据或把证据问题梗化处理。',
+  },
+  {
+    pattern: /(?:^|[\s，,。！？!?])川你吗(?:$|[\s，,。！？!?])/u,
+    term: '川你吗',
+    family: 'attack',
+    meaning: '“川你吗”在弹幕短句中常作为粗口谐音/避审写法，借相近读音保留辱骂语气；需按攻击性情绪而非地名疑问处理。',
+  },
   {
     pattern: /(?:没看|别|不要|少|别再)\s*bb\b|\bbb\s*(?:什么|啥|个啥|半天)/iu,
     term: '别bb',
