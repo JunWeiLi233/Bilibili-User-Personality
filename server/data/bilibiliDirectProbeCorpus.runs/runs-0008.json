@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T18:07:46.331Z",
+  "updatedAt": "2026-06-18T18:18:42.713Z",
   "shard": 8,
   "shardCount": 8,
   "runs": [
@@ -1775,6 +1775,88 @@
       "warnings": [],
       "commentsCollected": 662,
       "commentsAdded": 492
+    },
+    {
+      "at": "2026-06-18T18:18:42.713Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 B站评论"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 评论回复"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 B站弹幕"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 B站评论"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说 弹幕"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1zJxczUEgD",
+          "term": "德里不饶人",
+          "query": "德里不饶人 B站评论",
+          "bvid": "BV1zJxczUEgD",
+          "aid": 115437798949614,
+          "title": "小叨叨竟然拉黑粉丝？！低素质逆天发言尽显无良！！！"
+        },
+        {
+          "key": "bvid:BV1Q54y1q74k",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 评论回复",
+          "bvid": "BV1Q54y1q74k",
+          "aid": 841437742,
+          "title": "【寻狗启示】不得不重视的话题，狗丢了怎么办？什么方式最有效呢？"
+        },
+        {
+          "key": "bvid:BV1da411u7Bm",
+          "term": "价格被打下来",
+          "query": "价格被打下来 B站弹幕",
+          "bvid": "BV1da411u7Bm",
+          "aid": 217967451,
+          "title": "用50元在<em class=\"keyword\">B站</em>能买到多少播放量？"
+        },
+        {
+          "key": "bvid:BV16L4y1u7G5",
+          "term": "抛开其他",
+          "query": "抛开其他 B站评论",
+          "bvid": "BV16L4y1u7G5",
+          "aid": 852138273,
+          "title": "才知道每个人的热门是不一样的，又和我一样热门视频的小伙伴吗？"
+        },
+        {
+          "key": "bvid:BV1YWE46jEuy",
+          "term": "这还用说",
+          "query": "这还用说 弹幕",
+          "bvid": "BV1YWE46jEuy",
+          "aid": 116707850981182,
+          "title": "【爆】婉拒假千金归还的婚约后，<em class=\"keyword\">弹幕说</em>我会后悔 (1)"
+        },
+        {
+          "key": "bvid:BV1DE421N7e1",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 评论",
+          "bvid": "BV1DE421N7e1",
+          "aid": 1655940297,
+          "title": "谁言<em class=\"keyword\">雷霆</em>无大帝？<em class=\"keyword\">雷霆</em>全系列解析"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 208,
+      "commentsAdded": 171
     }
   ]
 }
