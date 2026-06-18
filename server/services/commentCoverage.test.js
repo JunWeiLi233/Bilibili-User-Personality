@@ -1678,6 +1678,48 @@ test('classifyCommentCoverage handles round 66 random audit cues', () => {
   assert.ok(keyZheng.hits.some((hit) => hit.term === '\u952e\u6b63' && hit.family === 'evasion'));
 });
 
+test('classifyCommentCoverage handles round 67 random audit cues', () => {
+  const round67Dictionary = {
+    entries: [
+      { term: '\u6211\u53bb', family: 'attack', meaning: 'interjection' },
+      { term: '\u6ca1\u6709', family: 'absolutes', meaning: 'negation' },
+      { term: '\u732a\u9f3b', family: 'attack', meaning: 'insult' },
+      { term: '\u786e\u5b9e', family: 'cooperation', meaning: 'agreement' },
+      { term: '\u4e3a\u4ec0\u4e48', family: 'evidence', meaning: 'question' },
+      { term: '\u90fd\u662f', family: 'absolutes', meaning: 'all' },
+      { term: '\u56fe\u7a77\u5315\u89c1', family: 'attack', meaning: 'revealed intent' },
+      { term: '\u7701\u6d41', family: 'cooperation', meaning: 'summary' },
+      { term: '\u89c9\u5f97', family: 'cooperation', meaning: 'opinion' },
+      { term: '\u80af\u5b9a', family: 'absolutes', meaning: 'certainty' },
+      { term: '\u53ef\u7231', family: 'cooperation', meaning: 'cute' },
+      { term: '\u5168\u90fd', family: 'absolutes', meaning: 'all' },
+      { term: '\u8282\u594f', family: 'attack', meaning: 'rhythm/brigading' },
+      { term: '\u4e0d\u662f', family: 'attack', meaning: 'negation' },
+    ],
+  };
+
+  const neutralCases = [
+    '\u6211\u53bb\u8bd5\u8bd5\uff0c\u521a\u597d\u6211\u8fd9\u5b66\u671f\u6709\u4e00\u79d1\u4e0a\u4e00\u5c4a\u6302\u4e86\u4e8c\u5341\u4e2a\u4eba\uff0c\u6211\u770b\u770b\u6709\u6ca1\u6709\u7528',
+    '\u732a\u9f3b\u8fd9\u4e2a\u4f53\u8272\u786e\u5b9e\u5f97\u8d35',
+    '\u4f60\u4e3a\u4ec0\u4e48\u4e3a\u96be\u81ea\u5df1\uff1f',
+    '\u7ec8\u4e8e\u4e5f\u80fd\u8ffd\u522b\u4eba\u4e86\uff0c\u5927G\u5411\u6765\u90fd\u662f\u88ab\u522b\u4eba\u8ffd',
+    '\u6709\u6ca1\u6709\u4eba\u770b\u770b\u671f\u8d27\u5e02\u573a\u6709\u6ca1\u6709\u65b0\u6237\u5934\u5f00\u5927\u5355\u5565\u7684',
+    '\u7701\u6d41\uff1a\u56fe\u7a77\u5315\u89c1',
+    '\u6709\u94b1\u4e86 \u7136\u540e\u5c31\u89c9\u5f97\u81ea\u5df1\u662f\u5927\u5973\u4e3b',
+    '\u90a3\u80af\u5b9a\u4fee\u4e0d\u597d\u4e86\u5427',
+    '\u8bf6p4\u8fd9\u4e2a\u662f\u6709\u5c3e\u5df4\u7684\u5417\u597d\u53ef\u7231',
+    '\u5168\u90fd\u627f\u8ba4\u4e86\uff0c\u662f\u771f\u7684\u8ba4\u9519\u4e86\uff0c\u5feb\u56de\u6765\u5427',
+    '\u60f3\u8981\u5168\u5bb6\u8986\u6ca1\u7684\u8282\u594f\u5417\uff1f',
+    '\u8bf7\u6ce8\u610f\u53f8\u673a\u5e76\u4e0d\u662f\u5218\u6c0f\u96c6\u4f53\u5458\u5de5\uff0c\u6240\u4ee5\u8bf7\u524d\u9762\u7684\u4eba\u5728\u770b\u51e0\u6b21\u7535\u5f71',
+  ];
+
+  for (const text of neutralCases) {
+    const result = classifyCommentCoverage(round67Dictionary, text);
+    assert.equal(result.mode, 'neutral');
+    assert.deepEqual(result.hits, []);
+  }
+});
+
 test('sampleCommentCoverage summarizes full coverage over keyword and neutral samples', () => {
   const result = sampleCommentCoverage(dictionary, [
     '这事懂的都懂，不展开了',

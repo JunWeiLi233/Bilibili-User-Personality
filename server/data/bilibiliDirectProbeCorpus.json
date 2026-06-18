@@ -15326,9 +15326,115 @@
       "warnings": [],
       "commentsCollected": 739,
       "commentsAdded": 656
+    },
+    {
+      "at": "2026-06-18T16:06:02.961Z",
+      "actions": [
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论"
+        },
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 弹幕"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 评论回复"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说 弹幕"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 弹幕"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1dBjV6rEfJ",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1dBjV6rEfJ",
+          "aid": 116759877130270,
+          "title": "下一期读<em class=\"keyword\">评论</em>，大家可以发发<em class=\"keyword\">评论</em>，下个视频统一<em class=\"keyword\">回复</em>"
+        },
+        {
+          "key": "bvid:BV1owLn6xE7H",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1owLn6xE7H",
+          "aid": 116590007817384,
+          "title": "【<em class=\"keyword\">互动</em>视频】8人局弹丸论破/百日战纪阿瓦隆（一）"
+        },
+        {
+          "key": "bvid:BV1AV411Q7No",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1AV411Q7No",
+          "aid": 411610046,
+          "title": "这动作你都模仿<em class=\"keyword\">了八百遍了</em>🤨🤨"
+        },
+        {
+          "key": "bvid:BV1fZ4y1T7Q2",
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论",
+          "bvid": "BV1fZ4y1T7Q2",
+          "aid": 371573414,
+          "title": "【莫奈叨鞋】球鞋不够骚，球技难提高，亚瑟士<em class=\"keyword\">ATTACK</em> DOMINATE FF2，功能强大骚而不贵"
+        },
+        {
+          "key": "bvid:BV1SWSnBcEAk",
+          "term": "德里不饶人",
+          "query": "德里不饶人 弹幕",
+          "bvid": "BV1SWSnBcEAk",
+          "aid": 115628119694836,
+          "title": "女子得理<em class=\"keyword\">不饶人</em>，最终是害了别人也害了自己，得不偿失"
+        },
+        {
+          "key": "bvid:BV1Lv4y1p7AV",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 评论回复",
+          "bvid": "BV1Lv4y1p7AV",
+          "aid": 569468956,
+          "title": "「狗儿再也听不到狗儿歌了」"
+        },
+        {
+          "key": "bvid:BV15zjF6eE8v",
+          "term": "这还用说",
+          "query": "这还用说 弹幕",
+          "bvid": "BV15zjF6eE8v",
+          "aid": 116768399954287,
+          "title": "【地上世界杯】李老八听到<em class=\"keyword\">弹幕说</em>C罗是骡子笑嘻了  暗讽罗哥全场散步纯纯负作用"
+        },
+        {
+          "key": "bvid:BV1g7NLzREGT",
+          "term": "查查资料",
+          "query": "查查资料 弹幕",
+          "bvid": "BV1g7NLzREGT",
+          "aid": 114702067769284,
+          "title": "（补档）【索的道理 第三季】第十集 名场面之<em class=\"keyword\">查查</em>毙"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 727,
+      "commentsAdded": 278
     }
   ],
-  "updatedAt": "2026-06-18T15:51:16.477Z",
+  "updatedAt": "2026-06-18T16:06:02.961Z",
   "storage": "split",
   "shardMaxBytes": 65536,
   "commentFiles": [
@@ -15744,7 +15850,8 @@
     "bilibiliDirectProbeCorpus.comments/comments-0410.json",
     "bilibiliDirectProbeCorpus.comments/comments-0411.json",
     "bilibiliDirectProbeCorpus.comments/comments-0412.json",
-    "bilibiliDirectProbeCorpus.comments/comments-0413.json"
+    "bilibiliDirectProbeCorpus.comments/comments-0413.json",
+    "bilibiliDirectProbeCorpus.comments/comments-0414.json"
   ],
-  "commentCount": 133919
+  "commentCount": 134197
 }

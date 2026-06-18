@@ -1770,6 +1770,50 @@ function isRound66SuppressedContext(entry, message) {
   return false;
 }
 
+function isRound67SuppressedContext(entry, message) {
+  const term = String(entry?.term || '');
+  if (entry?.family === 'attack' && term === '\u6211\u53bb') {
+    return /\u6211\u53bb\u8bd5\u8bd5/u.test(message);
+  }
+  if (entry?.family === 'absolutes' && term === '\u6ca1\u6709') {
+    return /\u6709\u6ca1\u6709/u.test(message);
+  }
+  if (entry?.family === 'attack' && term === '\u732a\u9f3b') {
+    return /\u732a\u9f3b.{0,8}\u4f53\u8272/u.test(message);
+  }
+  if (entry?.family === 'cooperation' && term === '\u786e\u5b9e') {
+    return /\u4f53\u8272.{0,8}\u786e\u5b9e.{0,6}\u8d35/u.test(message);
+  }
+  if (entry?.family === 'evidence' && term === '\u4e3a\u4ec0\u4e48') {
+    return /\u4f60\u4e3a\u4ec0\u4e48\u4e3a\u96be\u81ea\u5df1/u.test(message);
+  }
+  if (entry?.family === 'absolutes' && term === '\u90fd\u662f') {
+    return /\u5411\u6765\u90fd\u662f\u88ab\u522b\u4eba\u8ffd/u.test(message);
+  }
+  if ((entry?.family === 'attack' && term === '\u56fe\u7a77\u5315\u89c1') || (entry?.family === 'cooperation' && term === '\u7701\u6d41')) {
+    return /^\u7701\u6d41[:\uff1a]\s*\u56fe\u7a77\u5315\u89c1$/u.test(message);
+  }
+  if (entry?.family === 'cooperation' && term === '\u89c9\u5f97') {
+    return /\u7136\u540e\u5c31\u89c9\u5f97\u81ea\u5df1\u662f/u.test(message);
+  }
+  if (entry?.family === 'absolutes' && term === '\u80af\u5b9a') {
+    return /\u90a3\u80af\u5b9a\u4fee\u4e0d\u597d\u4e86\u5427/u.test(message);
+  }
+  if (entry?.family === 'cooperation' && term === '\u53ef\u7231') {
+    return /\u8fd9\u4e2a\u662f\u6709\u5c3e\u5df4\u7684\u5417\u597d\u53ef\u7231/u.test(message);
+  }
+  if (entry?.family === 'absolutes' && term === '\u5168\u90fd') {
+    return /\u5168\u90fd\u627f\u8ba4\u4e86.{0,12}\u8ba4\u9519\u4e86.{0,8}\u5feb\u56de\u6765/u.test(message);
+  }
+  if (entry?.family === 'attack' && term === '\u8282\u594f') {
+    return /\u60f3\u8981\u5168\u5bb6\u8986\u6ca1\u7684\u8282\u594f\u5417/u.test(message);
+  }
+  if (entry?.family === 'attack' && term === '\u4e0d\u662f') {
+    return /\u53f8\u673a\u5e76\u4e0d\u662f.{0,12}\u5458\u5de5/u.test(message);
+  }
+  return false;
+}
+
 function isSuppressedLexicalHit(entry, message) {
   return isSelfReferentialNoviceHit(entry, message)
     || isLiteralYinYangContext(entry, message)
@@ -1810,7 +1854,8 @@ function isSuppressedLexicalHit(entry, message) {
     || isRound63SuppressedContext(entry, message)
     || isRound64SuppressedContext(entry, message)
     || isRound65SuppressedContext(entry, message)
-    || isRound66SuppressedContext(entry, message);
+    || isRound66SuppressedContext(entry, message)
+    || isRound67SuppressedContext(entry, message);
 }
 
 function exactDictionaryEntries(dictionary, message) {
