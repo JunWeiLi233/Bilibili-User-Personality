@@ -15856,9 +15856,115 @@
       "warnings": [],
       "commentsCollected": 356,
       "commentsAdded": 203
+    },
+    {
+      "at": "2026-06-18T17:11:05.627Z",
+      "actions": [
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 争议 评论"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 评论回复"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 弹幕"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 弹幕"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 评论区"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 弹幕"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "分不清轻重 回复"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1dFjP62EuV",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 争议 评论",
+          "bvid": "BV1dFjP62EuV",
+          "aid": 116770698496620,
+          "title": "第一次见给电脑设置成这种<em class=\"keyword\">雷霆</em>大鼠标的？？？"
+        },
+        {
+          "key": "bvid:BV1zb4y1b7jV",
+          "term": "查查资料",
+          "query": "查查资料 评论回复",
+          "bvid": "BV1zb4y1b7jV",
+          "aid": 633890910,
+          "title": "如何抓取一个用户发的所有微博的所有<em class=\"keyword\">评论</em>"
+        },
+        {
+          "key": "bvid:BV1AbWCejEkn",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 弹幕",
+          "bvid": "BV1AbWCejEkn",
+          "aid": 113023473681745,
+          "title": "网上那些九块九还包邮的茶，到底能不能喝？"
+        },
+        {
+          "key": "bvid:BV1pSBeBhEwZ",
+          "term": "超绝无语",
+          "query": "超绝无语 弹幕",
+          "bvid": "BV1pSBeBhEwZ",
+          "aid": 115784986656783,
+          "title": "【2025年度<em class=\"keyword\">弹幕</em>】被B站网友发送了2282万次"
+        },
+        {
+          "key": "bvid:BV1B8411B7X2",
+          "term": "都是同一批",
+          "query": "都是同一批 评论区",
+          "bvid": "BV1B8411B7X2",
+          "aid": 233210204,
+          "title": "原来每个人看到的<em class=\"keyword\">评论区</em>都不一样，我一整个大震惊！"
+        },
+        {
+          "key": "bvid:BV1zhEq6HEJr",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 弹幕",
+          "bvid": "BV1zhEq6HEJr",
+          "aid": 116731271972781,
+          "title": "一个跟头十万八千里"
+        },
+        {
+          "key": "bvid:BV1ze4y1x7yx",
+          "term": "分不清轻重",
+          "query": "分不清轻重 回复",
+          "bvid": "BV1ze4y1x7yx",
+          "aid": 647418204,
+          "title": "怎样写出线条的<em class=\"keyword\">轻重</em>变化？来听老师详细讲解方法"
+        },
+        {
+          "key": "bvid:BV1nKLb6dEEC",
+          "term": "抛开其他",
+          "query": "抛开其他 评论",
+          "bvid": "BV1nKLb6dEEC",
+          "aid": 116612623566917,
+          "title": "女神:<em class=\"keyword\">抛开</em>脸不谈"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 1904,
+      "commentsAdded": 583
     }
   ],
-  "updatedAt": "2026-06-18T17:00:06.987Z",
+  "updatedAt": "2026-06-18T17:11:05.627Z",
   "storage": "split",
   "shardMaxBytes": 65536,
   "commentFiles": [
@@ -16291,7 +16397,9 @@
     "bilibiliDirectProbeCorpus.comments/comments-0427.json",
     "bilibiliDirectProbeCorpus.comments/comments-0428.json",
     "bilibiliDirectProbeCorpus.comments/comments-0429.json",
-    "bilibiliDirectProbeCorpus.comments/comments-0430.json"
+    "bilibiliDirectProbeCorpus.comments/comments-0430.json",
+    "bilibiliDirectProbeCorpus.comments/comments-0431.json",
+    "bilibiliDirectProbeCorpus.comments/comments-0432.json"
   ],
-  "commentCount": 139453
+  "commentCount": 140036
 }
