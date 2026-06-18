@@ -54,6 +54,12 @@ const EMOTE_SEMANTICS = [
     family: 'attack',
     meaning: '狗头或狗符号在中文评论中可表示保命玩笑，也可配合羞辱、置顶、嘲笑等语境指向贬损称呼，需要作为语气信号保留。',
   },
+  {
+    pattern: /(?:\^[_-]?\^|>[_-]?<|T[_-]?T|Q(?:A|w)Q|orz|xswl|2333+|(?<!https?):[:;=8xX][-o*']?[)(DPp/\\])/u,
+    term: 'ASCII emoticon tone marker',
+    family: 'cooperation',
+    meaning: 'Plain-text emoticons common in Tieba/BBS comments can soften, tease, self-mock, or mark playful/satirical tone when no platform emote shortcode is present.',
+  },
 ];
 
 export function detectEmoteSemanticHits(comment) {

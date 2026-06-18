@@ -41,12 +41,28 @@ test('classifyCommentCoverage covers pure emoji and emote comments semantically'
   assert.equal(result.hits[0].term, '嘲讽/看戏表情');
 });
 
+test('detectEmoteSemanticHits treats ASCII emoticons as tone markers', () => {
+  const hits = detectEmoteSemanticHits('可爱^_^ 1');
+
+  assert.deepEqual(hits.map((hit) => hit.term), ['ASCII emoticon tone marker']);
+  assert.equal(hits[0].family, 'cooperation');
+});
+
 test('classifyCommentCoverage keeps doge satire when a generic lexical term also matches', () => {
   const result = classifyCommentCoverage(dictionary, '\u4e0d\u52aa\u529b\u53ef\u80fd\u4f1a\u88ab\u8d25\u5149\u5bb6\u4e1a[doge]');
 
   assert.equal(result.covered, true);
   assert.equal(result.mode, 'keyword');
   assert.deepEqual(result.hits.map((hit) => hit.term), ['可能', 'doge/反讽表情']);
+  assert.match(result.reason, /emoji\/emote/i);
+});
+
+test('classifyCommentCoverage keeps Tieba ASCII emoticon tone cues', () => {
+  const result = classifyCommentCoverage(dictionary, '可爱^_^ 1');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['ASCII emoticon tone marker']);
   assert.match(result.reason, /emoji\/emote/i);
 });
 
