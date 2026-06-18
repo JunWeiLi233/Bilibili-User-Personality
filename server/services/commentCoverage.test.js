@@ -1869,6 +1869,32 @@ test('classifyCommentCoverage handles round 72 random audit cues', () => {
   assert.ok(systemMessageMeme.hits.some((hit) => hit.term === '\u5df2\u9000\u51fa\u76f4\u64ad\u95f4\u68d7' && hit.family === 'evasion'));
 });
 
+test('classifyCommentCoverage handles round 74 random audit cues', () => {
+  const attackCases = [
+    ['\u4eba\u624d\u5440', '\u4eba\u624d\u5440'],
+    ['\u6211\u662f\u4f60\u7238\u7238\u3002', '\u6211\u662f\u4f60\u7238\u7238'],
+    ['\u90fd\u8d31', '\u90fd\u8d31'],
+    ['\u7834\u4ea7\u540e\u7531\u5962\u5165\u7b80\u7684\u5c0f\u660e\u611f\u53f9\u5230\uff1a\u201c\u88ab\u5f3a\u4fed\u4e86\u201d', '\u88ab\u5f3a\u4fed\u4e86'],
+  ];
+
+  for (const [text, term] of attackCases) {
+    const result = classifyCommentCoverage({ entries: [] }, text);
+    assert.equal(result.mode, 'keyword');
+    assert.ok(result.hits.some((hit) => hit.term === term && hit.family === 'attack'));
+  }
+
+  const neutralCases = [
+    '\u4eba\u624d\u6d4e\u6d4e\uff0c\u8fd9\u4e2a\u56e2\u961f\u592a\u5f3a\u4e86',
+    '\u4ed6\u786e\u5b9e\u662f\u4e2a\u79d1\u7814\u4eba\u624d',
+  ];
+
+  for (const text of neutralCases) {
+    const result = classifyCommentCoverage({ entries: [] }, text);
+    assert.equal(result.mode, 'neutral');
+    assert.deepEqual(result.hits, []);
+  }
+});
+
 test('sampleCommentCoverage summarizes full coverage over keyword and neutral samples', () => {
   const result = sampleCommentCoverage(dictionary, [
     '这事懂的都懂，不展开了',

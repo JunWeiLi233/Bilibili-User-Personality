@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T17:11:05.627Z",
+  "updatedAt": "2026-06-18T17:29:29.693Z",
   "shard": 8,
   "shardCount": 8,
   "runs": [
@@ -1415,6 +1415,112 @@
       "warnings": [],
       "commentsCollected": 1904,
       "commentsAdded": 583
+    },
+    {
+      "at": "2026-06-18T17:29:29.693Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1WzELz2Epp",
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复",
+          "bvid": "BV1WzELz2Epp",
+          "aid": 114492285394509,
+          "title": "阿三新<em class=\"keyword\">德里</em>的由来"
+        },
+        {
+          "key": "bvid:BV1hJRXYGEJh",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1hJRXYGEJh",
+          "aid": 114283576823823,
+          "title": "格鲁吉亚狗都不去！蓝战非直言这个国家甚至不如委内瑞拉！"
+        },
+        {
+          "key": "bvid:BV19HdhYsEhr",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV19HdhYsEhr",
+          "aid": 114323489888335,
+          "title": "小贝假吃被实锤？视频破绽百出惹<em class=\"keyword\">争议</em>，两个细节暴露背后真相 #小贝  #网红零食  #娱乐  #娱乐评论大赏"
+        },
+        {
+          "key": "bvid:BV1AY4aeREKg",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV1AY4aeREKg",
+          "aid": 113114271977121,
+          "title": "（崩铁）2.5NPC北丐两个成就：<em class=\"keyword\">抛开</em>世事断愁怨和可供交易的崇高客体"
+        },
+        {
+          "key": "bvid:BV14W4y1f7py",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV14W4y1f7py",
+          "aid": 955658588,
+          "title": "啊 这就是…"
+        },
+        {
+          "key": "bvid:BV1V4L96EEL8",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1V4L96EEL8",
+          "aid": 116766034365020,
+          "title": "【加特林】依旧创作淫秽物品，绝区零史上最<em class=\"keyword\">雷霆</em>服装设计！！！"
+        },
+        {
+          "key": "bvid:BV17Z4y137ig",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV17Z4y137ig",
+          "aid": 373238063,
+          "title": "“<em class=\"keyword\">评论</em>已不存在”，啊，原来这就是<em class=\"keyword\">B站</em>呀"
+        },
+        {
+          "key": "bvid:BV144MmzUEkH",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV144MmzUEkH",
+          "aid": 114681029073252,
+          "title": "茶圈公认的“廉价”品牌，内行人天天喝，外行人却不知道"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 172,
+      "commentsAdded": 122
     }
   ]
 }
