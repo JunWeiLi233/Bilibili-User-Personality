@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T11:04:31.544Z",
+  "updatedAt": "2026-06-18T11:16:31.499Z",
   "family": "evasion",
   "shard": 3,
   "shardCount": 7,
@@ -515,13 +515,23 @@
       "confidence": 0.5,
       "evidenceCount": 8,
       "evidenceSamples": [
+        "还真是，我现在已经习惯问豆包而不是自己查了",
+        "以前讲过的吧 你自己搜一下",
         "↑飞机能飞就是没弄明白，自己搜去",
         "太几把智慧了，真有人信这种博主啊？不行咱上上网自己查呢[吃瓜]",
-        "搞半天还要我自己搜来看",
-        "临战将不顾兵者斩其将朱祁镇单纯就是蠢，被人忽悠于谦要拥立藩王，都不晓得自己查证下，然后被人当刀使，生生背上历史前五的恶名",
-        "还真是，我现在已经习惯问豆包而不是自己查了"
+        "搞半天还要我自己搜来看"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili public existing evidence-source video comment scan: https://www.bilibili.com/video/BV1M8qcBGEkG/, https://www.bilibili.com/video/BV13hc3eLEnr/, https://www.bilibili.com/video/BV1KjFvzbEdQ/, https://www.bilibili.com/video/BV1y2GW6GEuQ/, https://www.bilibili.com/video/BV1XYdPBrEXE/, https://www.bilibili.com/video/BV1SFkMBCEea/, https://www.bilibili.com/video/BV154AszXEmj/, https://www.bilibili.com/video/BV1KUQFB3Ept/, https://www.bilibili.com/video/BV1tGdnYDEMy/, https://www.bilibili.com/video/BV18ZGe6yEcH/, https://www.bilibili.com/video/BV1S7Gi6SEVL/",
+          "uid": "BV1M8qcBGEkG,BV13hc3eLEnr,BV1KjFvzbEdQ,BV1y2GW6GEuQ,BV1XYdPBrEXE,BV1SFkMBCEea,BV154AszXEmj,BV1KUQFB3Ept,BV1tGdnYDEMy",
+          "sample": "还真是，我现在已经习惯问豆包而不是自己查了"
+        },
+        {
+          "source": "UID 32645507 (いい響きだな) - 1 comments from 1 videos",
+          "uid": "32645507",
+          "sample": "以前讲过的吧 你自己搜一下"
+        },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1VF411u7SB/, https://www.bilibili.com/video/BV1BS411c76T/, https://www.bilibili.com/video/BV1od4y1t7JW/, https://www.bilibili.com/video/BV1jDX8BLEHH/, http://www.bilibili.com/video/av298505882, http://www.bilibili.com/video/av1906063842, http://www.bilibili.com/video/av390582978, http://www.bilibili.com/video/av116298252094212",
           "uid": "BV1VF411u7SB,BV1BS411c76T,BV1od4y1t7JW,BV1jDX8BLEHH",
@@ -543,16 +553,6 @@
           "sample": "临战将不顾兵者斩其将朱祁镇单纯就是蠢，被人忽悠于谦要拥立藩王，都不晓得自己查证下，然后被人当刀使，生生背上历史前五的恶名"
         },
         {
-          "source": "Bilibili public existing evidence-source video comment scan: https://www.bilibili.com/video/BV1M8qcBGEkG/, https://www.bilibili.com/video/BV13hc3eLEnr/, https://www.bilibili.com/video/BV1KjFvzbEdQ/, https://www.bilibili.com/video/BV1y2GW6GEuQ/, https://www.bilibili.com/video/BV1XYdPBrEXE/, https://www.bilibili.com/video/BV1SFkMBCEea/, https://www.bilibili.com/video/BV154AszXEmj/, https://www.bilibili.com/video/BV1KUQFB3Ept/, https://www.bilibili.com/video/BV1tGdnYDEMy/, https://www.bilibili.com/video/BV18ZGe6yEcH/, https://www.bilibili.com/video/BV1S7Gi6SEVL/",
-          "uid": "BV1M8qcBGEkG,BV13hc3eLEnr,BV1KjFvzbEdQ,BV1y2GW6GEuQ,BV1XYdPBrEXE,BV1SFkMBCEea,BV154AszXEmj,BV1KUQFB3Ept,BV1tGdnYDEMy",
-          "sample": "还真是，我现在已经习惯问豆包而不是自己查了"
-        },
-        {
-          "source": "UID 32645507 (いい響きだな) - 1 comments from 1 videos",
-          "uid": "32645507",
-          "sample": "以前讲过的吧 你自己搜一下"
-        },
-        {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1i3zeBnEwM/, https://www.bilibili.com/video/BV1E3VA6zEMQ/, https://www.bilibili.com/video/BV17V4y1b7q4/, https://www.bilibili.com/video/BV1TptPeQEvz/, https://www.bilibili.com/video/BV1rnXQBLEAC/, https://www.bilibili.com/video/BV16u411H7uQ/, http://www.bilibili.com/video/av116640423350545, http://www.bilibili.com/video/av115961818519555, http://www.bilibili.com/video/av870890989, http://www.bilibili.com/video/av113134639515165, http://www.bilibili.com/video/av116312781227595",
           "uid": "BV1i3zeBnEwM,BV1E3VA6zEMQ,BV17V4y1b7q4,BV1TptPeQEvz,BV1rnXQBLEAC,BV16u411H7uQ",
           "sample": "mentor是什么意思？看个视频怎么还得自己查单词了"
@@ -563,7 +563,7 @@
           "sample": "你们自己搜搜VAVA到底说了啥 就知道羊和苏为啥骂他 剪掉了没法播"
         }
       ],
-      "updatedAt": "2026-06-18T10:46:13.637Z"
+      "updatedAt": "2026-06-18T11:16:31.499Z"
     }
   ]
 }

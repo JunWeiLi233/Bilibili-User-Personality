@@ -85,10 +85,23 @@ export function detectEmoteSemanticHits(comment) {
   if (!message) return [];
   return EMOTE_SEMANTICS
     .filter((item) => item.pattern.test(message))
+    .filter((item) => !isSuppressedEmoteHit(item, message))
     .map((item) => summarizeHit(item));
 }
 
 const SUPPLEMENTAL_SEMANTICS = [
+  {
+    pattern: /\u767e\u65e0\u662f\u5904/u,
+    term: '\u767e\u65e0\u662f\u5904',
+    family: 'attack',
+    meaning: '\u201c\u767e\u65e0\u662f\u5904\u201d\u662f\u5f3a\u8d2c\u4e49\u6210\u8bed\uff0c\u8868\u793a\u5bf9\u8c61\u51e0\u4e4e\u6ca1\u6709\u4efb\u4f55\u53ef\u53d6\u4e4b\u5904\uff0c\u5728\u8bc4\u8bba\u4e2d\u5c5e\u4e8e\u660e\u786e\u5426\u5b9a\u548c\u653b\u51fb\u3002',
+  },
+  {
+    pattern: /\u5efa\u7fa4(?:\u4e86)?\u901a\u77e5\u6211|\u62c9\u6211\u8fdb\u7fa4/u,
+    term: '\u5efa\u7fa4\u4e92\u52a9',
+    family: 'cooperation',
+    meaning: '\u201c\u5efa\u4e2a\u7fa4\u5427/\u5efa\u7fa4\u4e86\u901a\u77e5\u6211/\u62c9\u6211\u8fdb\u7fa4\u201d\u8868\u793a\u7ec4\u7fa4\u5b66\u4e60\u3001\u4e92\u52a9\u6216\u534f\u4f5c\u610f\u56fe\uff0c\u5c5e\u4e8e\u8d34\u5427/B\u7ad9\u8bed\u5883\u7684\u5408\u4f5c\u4fe1\u53f7\u3002',
+  },
   {
     pattern: /\u9519\u7684\u4e0d\u662f.{1,16}\u662f.{1,24}(?:\u624d\u5bf9|\u624d\u662f|\u5bf9)/u,
     term: '\u9519\u7684\u4e0d\u662fX\u662fY',
@@ -748,10 +761,13 @@ function detectSupplementalSemanticHits(comment) {
     .map((item) => summarizeHit(item));
 }
 
+function isSuppressedEmoteHit(item, message) {
+  if (item?.term !== 'doge/\u53cd\u8bbd\u8868\u60c5') return false;
+  return /\u6211\u4eec\u6709\d{1,3}\u5957\u9632\u7206\u7532[\uff08(]\s*doge\s*[\uff09)]/iu.test(message)
+    && !/(?:\u9a82|\u50bb|\u8822|\u6eda|\u6b7b|\u4e0d\u5982|\u5e9f|\u83dc|\u653b\u51fb|\u5632|\u9634\u9633)/u.test(message);
+}
+
 function isSuppressedSupplementalHit(item, message) {
-  if (item?.term === '\u5efa\u4e2a\u7fa4\u5427') {
-    return /\u6211\u4e5f\u662f\u5c0f\u767d.{0,16}\u5efa\u4e2a\u7fa4\u5427/u.test(message);
-  }
   return false;
 }
 
@@ -779,7 +795,10 @@ function isLogicalNotIsContext(entry, message) {
   if (entry?.family !== 'attack') return false;
   if (String(entry?.term || '') !== '\u4e0d\u662f') return false;
   return /\u4e0d\u662f(?:\u505a|\u5f53|\u4e3a\u4e86|\u56e0\u4e3a|\u8bf4|\u6307|\u6307\u7684\u662f|\u8fd9\u4e2a|\u90a3\u4e2a|\u4e00\u79cd|\u540c\u4e00\u4e2a|\u4e00\u56de\u4e8b|\u95ee\u9898|\u91cd\u70b9|\u539f\u56e0)/u.test(message)
-    || /\u9519\u7684\u4e0d\u662f.{1,16}\u662f.{1,24}(?:\u624d\u5bf9|\u624d\u662f|\u5bf9)/u.test(message);
+    || /\u9519\u7684\u4e0d\u662f.{1,16}\u662f.{1,24}(?:\u624d\u5bf9|\u624d\u662f|\u5bf9)/u.test(message)
+    || /\u4e0d\u662f.{1,16}\uff0c?\s*\u662f.{1,24}/u.test(message)
+    || /\u8fd9\u4e0d\u662f.{1,20}\u80fd\u6574\u51fa\u6765\u7684/u.test(message)
+    || /\u96be\u9053\u4e0d\u662f/u.test(message);
 }
 
 function isPositiveDescriptionNegationContext(entry, message) {
@@ -944,13 +963,25 @@ function isNeutralMetaphorOrDefinitionContext(entry, message) {
 function isPositiveSurpriseContext(entry, message) {
   const term = String(entry?.term || '');
   if (term !== '\u6211\u53bb') return false;
-  return /\u6211\u53bb[\uff01!].{0,20}(?:\u6587\u827a\u590d\u5174|\u9b3c\u755c|\u723d|\u597d\u770b|\u597d\u542c|\u592a\u5f3a)/u.test(message);
+  return /\u6211\u53bb[\uff01!\uff0c,].{0,20}(?:\u6587\u827a\u590d\u5174|\u9b3c\u755c|\u723d|\u597d\u770b|\u597d\u542c|\u592a\u5f3a|\u597d\u7ec6|\u597d\u725b|\u7edd\u4e86)/u.test(message);
 }
 
 function isQuestionParticleNotIsContext(entry, message) {
   const term = String(entry?.term || '');
   if (term !== '\u4e0d\u662f') return false;
-  return /\u662f\u4e0d\u662f.{0,40}(?:\u610f\u5473\u7740|\u53ef\u4ee5|\u4f1a|\u80fd|\u8981)/u.test(message);
+  return /\u662f\u4e0d\u662f.{0,40}(?:\u610f\u5473\u7740|\u53ef\u4ee5|\u4f1a|\u80fd|\u8981|\u4e4b\u524d|\u6709\u4e2a|\u54ea\u4e2a|\u8fd9\u4e2a|\u90a3\u4e2a)/u.test(message);
+}
+
+function isFirstPersonHabitualDoushiContext(entry, message) {
+  if (entry?.family !== 'absolutes') return false;
+  if (String(entry?.term || '') !== '\u90fd\u662f') return false;
+  return /\u6211(?:\u4e00\u76f4|\u4eec)?\u90fd\u662f\u8fd9\u6837/u.test(message);
+}
+
+function isSongLyricShouldContext(entry, message) {
+  if (entry?.family !== 'cooperation') return false;
+  if (String(entry?.term || '') !== '\u5e94\u8be5') return false;
+  return /\u6211\u5e94\u8be5\u5728\u8f66\u5e95\u4e0d\u5e94\u8be5\u5728\u8f66\u91cc/u.test(message);
 }
 
 function isSpeculativeThirdPartyMistakeContext(entry, message) {
@@ -991,6 +1022,8 @@ function isSuppressedLexicalHit(entry, message) {
     || isNeutralMetaphorOrDefinitionContext(entry, message)
     || isPositiveSurpriseContext(entry, message)
     || isQuestionParticleNotIsContext(entry, message)
+    || isFirstPersonHabitualDoushiContext(entry, message)
+    || isSongLyricShouldContext(entry, message)
     || isSpeculativeThirdPartyMistakeContext(entry, message)
     || isSincereFaithContext(entry, message);
 }

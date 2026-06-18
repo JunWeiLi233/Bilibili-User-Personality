@@ -214,8 +214,10 @@ test('classifyCommentCoverage suppresses self-referential novice attack hits', (
   const result = classifyCommentCoverage(dictionary, '\u6211\u4e5f\u662f\u5c0f\u767d\uff0c\u4f60\u7ed9\u54b1\u4eec\u5efa\u4e2a\u7fa4\u5427');
 
   assert.equal(result.covered, true);
-  assert.equal(result.mode, 'neutral');
-  assert.equal(result.hits.length, 0);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => [hit.term, hit.family]), [
+    ['\u5efa\u4e2a\u7fa4\u5427', 'cooperation'],
+  ]);
 });
 
 test('classifyCommentCoverage does not attribute keyword hits inside reply usernames', () => {
@@ -1055,6 +1057,38 @@ test('classifyCommentCoverage suppresses round 45 random audit false positives',
   assert.equal(selfNovice.covered, true);
   assert.equal(selfNovice.mode, 'neutral');
   assert.equal(selfNovice.hits.length, 0);
+});
+
+test('classifyCommentCoverage handles round 46 random audit false positives and misses', () => {
+  const neutralCases = [
+    '\u6211\u4e00\u76f4\u90fd\u662f\u8fd9\u6837\u6655\u7684',
+    '\u6211\u53bb\uff0c\u597d\u7ec6\u554a',
+    '\u4e0d\u662f\u73b0\u5b9e\u4e3b\u4e49\uff0c\u662f\u529f\u5229\u4e3b\u4e49',
+    '\u8fd9\u4e0d\u662f\u78b3\u57fa\u751f\u7269\u80fd\u6574\u51fa\u6765\u7684',
+    '\u5982\u679c\uff0c\u6211\u662f\u8bf4\u5982\u679c\uff0c\u838e\u838e\u5012\u57281/4\u51b3\u8d5b\u4e0a\uff0c\u9648\u68a6\u96be\u9053\u4e0d\u662f\u548c\u6a0a\u632f\u4e1c\u4e00\u6837\uff0c\u662f\u90a3\u4e2a\u529b\u633d\u72c2\u6f9c\u7684\u5b58\u5728\u561b',
+    '\u8fd9\u4e2a\u662f\u4e0d\u662f\u4e4b\u524d\u6709\u4e2a\u5728\u5e7c\u513f\u56ed\u505a\u996d\u7684UP',
+    '\u6211\u4eec\u670910\u5957\u9632\u7206\u7532\uff08doge\uff09',
+    '\u53f8\u673a\uff1a\u6211\u5e94\u8be5\u5728\u8f66\u5e95\u4e0d\u5e94\u8be5\u5728\u8f66\u91cc',
+  ];
+
+  for (const text of neutralCases) {
+    const result = classifyCommentCoverage(dictionary, text);
+    assert.equal(result.covered, true);
+    assert.equal(result.mode, 'neutral');
+    assert.equal(result.hits.length, 0);
+  }
+
+  const attack = classifyCommentCoverage(dictionary, '\u8fd9\u7537\u7684\u767e\u65e0\u662f\u5904');
+  const groupNotice = classifyCommentCoverage(dictionary, '\u5efa\u7fa4\u4e86\u901a\u77e5\u6211');
+
+  assert.equal(attack.mode, 'keyword');
+  assert.deepEqual(attack.hits.map((hit) => [hit.term, hit.family]), [
+    ['\u767e\u65e0\u662f\u5904', 'attack'],
+  ]);
+  assert.equal(groupNotice.mode, 'keyword');
+  assert.deepEqual(groupNotice.hits.map((hit) => [hit.term, hit.family]), [
+    ['\u5efa\u7fa4\u4e92\u52a9', 'cooperation'],
+  ]);
 });
 
 test('sampleCommentCoverage summarizes full coverage over keyword and neutral samples', () => {
