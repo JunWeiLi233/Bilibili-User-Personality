@@ -84,6 +84,12 @@ export function detectEmoteSemanticHits(comment) {
 
 const SUPPLEMENTAL_SEMANTICS = [
   {
+    pattern: /(?:\u90a3\u6211|\u6211|\u8fd8|\u4f60).{0,4}\u73a9\u96c6\u8d38|\u73a9\u96c6\u8d38\u554a|\u96c6\u8d38\u554a/u,
+    term: '\u73a9\u96c6\u8d38',
+    family: 'attack',
+    meaning: '\u201c\u73a9\u96c6\u8d38\u201d\u662f\u201c\u73a9\u9e21\u6bdb\u201d\u7684\u8c10\u97f3\u5f0f\u7c97\u53e3\u8868\u8fbe\uff0c\u5728\u201c\u90a3\u6211\u73a9\u96c6\u8d38\u554a\u201d\u7b49\u8bed\u5883\u4e2d\u8868\u793a\u5f3a\u70c8\u4e0d\u6ee1\u3001\u65e0\u5948\u6216\u5426\u5b9a\uff0c\u4e0d\u662f\u666e\u901a\u201c\u96c6\u8d38\u201d\u540d\u8bcd\u3002',
+  },
+  {
     pattern: /\u98a0\u5a46/u,
     term: '\u98a0\u5a46',
     family: 'attack',
@@ -661,6 +667,12 @@ function isLogicalNotIsContext(entry, message) {
   return /不是(?:做|当|为了|因为|说|指|指的是|这个|那个|一种|同一个|一回事|问题|重点|原因)/u.test(message);
 }
 
+function isPositiveDescriptionNegationContext(entry, message) {
+  if (entry?.family !== 'attack') return false;
+  if (!['\u4e0d\u662f', '涓嶆槸'].includes(String(entry?.term || ''))) return false;
+  return /\u4e0d\u662f[\u4e00-\u9fff]{1,8}\uff0c\u4f46.{0,28}(?:\u597d\u6b32|\u597d\u7edd|\u5e05\u54e5|\u8ff7\u4eba|\u597d\u770b)/u.test(message);
+}
+
 function isSelfReferentialNoviceHit(entry, message) {
   if (entry?.family !== 'attack') return false;
   const term = String(entry?.term || '');
@@ -717,6 +729,7 @@ function isPlayfulStandaloneLaughterContext(entry, message) {
   const term = String(entry?.term || '');
   if (!/^\u54c8{2,}$/.test(term)) return false;
   if (!/\u54c8{2,}/u.test(message)) return false;
+  if (entry?.family === 'attack' && /\u54c8{2,}.{0,8}(?:\u70eb\u5589\u5499|\u7b11\u5230|\u7b11\u6b7b|\u7ef7\u4e0d\u4f4f)/u.test(message)) return true;
   return /(?:^|[，,。！？!?\s])(?:\u70b8\u4e86|\u7b11\u6b7b|\u7b11\u4e86|\u7edd\u4e86)?[^，,。！？!?]{0,12}\u54c8{2,}(?:\u54ce|\u554a|\u6b38)?(?:$|[，,。！？!?\s])/u.test(message)
     && !/(?:\u4f60|\u4ed6|\u5979|\u5b83|\u4ed6\u4eec|\u5979\u4eec|\u8fd9\u4eba|\u90a3\u4eba|up|UP).{0,8}(?:\u8822|\u50bb|\u72d7|\u5e9f|\u83dc|\u6eda|\u6b7b)/u.test(message);
 }
@@ -736,8 +749,9 @@ function isPositiveNicknameContext(entry, message) {
 
 function isEmbeddedLatinAcronymContext(entry, message) {
   const term = String(entry?.term || '');
-  if (term !== 'nb') return false;
-  return !/(^|[^a-z0-9])nb(?=$|[^a-z0-9])/iu.test(message);
+  if (term === 'nb') return !/(^|[^a-z0-9])nb(?=$|[^a-z0-9])/iu.test(message);
+  if (term === 'nt') return !/(^|[^a-z0-9])nt(?=$|[^a-z0-9])/iu.test(message);
+  return false;
 }
 
 function isLiteralCrushDeathContext(entry, message) {
@@ -779,11 +793,14 @@ function isRhetoricalNotJustIsContext(entry, message) {
 
 function isAliasOrSubstringArtifactContext(entry, message) {
   const term = String(entry?.term || '');
+  if (term === '\u7edd\u5bf9') return !message.includes(term) && /(?:\u597d\u7edd|\u7edd\u4e86|\u7edd\u7edd\u5b50)/u.test(message);
   if (term === '\u5f00\u73a9\u7b11') return /\u4e0d\u5f00\u73a9\u7b11/u.test(message);
   if (term === '\u4e0d\u9ed1\u4e0d\u5439') return !message.includes(term) && /\u6709\u4e00\u8bf4\u4e00/u.test(message);
   if (term === '\u6ca1\u6709') return /\u57fa\u672c\u6ca1\u6709\u97f3\u4e50\u7406\u89e3/u.test(message);
   if (term === '\u6beb\u65e0\u97f3\u4e50\u7406\u89e3') return /\u57fa\u672c\u6ca1\u6709\u97f3\u4e50\u7406\u89e3/u.test(message);
   if (term === '\u65e0\u8bed') return /\u8d85\u7edd\u65e0\u8bed/u.test(message);
+  if (term === '\u5c0f\u4e11') return /\b(?:52|54)\u5f20.{0,8}\u5c0f\u4e11.{0,4}(?:2|\u4e24)\u53ea/u.test(message);
+  if (term === '\u81ea\u5f8b') return /\u5982\u4f55\u81ea\u5f8b[\uff1f?].{0,12}\u5eb7\u590d\u51fa\u9662/u.test(message);
   return false;
 }
 
@@ -810,6 +827,7 @@ function isSuppressedLexicalHit(entry, message) {
     || isLiteralYinYangContext(entry, message)
     || isFactualNoHaveContext(entry, message)
     || isLogicalNotIsContext(entry, message)
+    || isPositiveDescriptionNegationContext(entry, message)
     || isLiteralTrafficContext(entry, message)
     || isNeutralSpeculativeBroadener(entry, message)
     || isRhetoricalFeelingWhyContext(entry, message)

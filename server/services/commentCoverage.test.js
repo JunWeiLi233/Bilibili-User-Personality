@@ -96,6 +96,45 @@ test('classifyCommentCoverage suppresses round 39 random audit overlap artifacts
   }
 });
 
+test('classifyCommentCoverage captures round 40 random audit misses', () => {
+  const result = classifyCommentCoverage({ entries: [] }, '\u90a3\u6211\u73a9\u96c6\u8d38\u554a');
+
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['\u73a9\u96c6\u8d38']);
+  assert.equal(result.hits[0].family, 'attack');
+});
+
+test('classifyCommentCoverage suppresses round 40 random audit false positives', () => {
+  const round40Dictionary = {
+    entries: [
+      { term: '\u7edd\u5bf9', family: 'absolutes', meaning: '\u5f3a\u65ad\u8a00', aliases: ['\u7edd'] },
+      { term: '\u4e0d\u662f', family: 'attack', meaning: '\u76f4\u63a5\u5426\u5b9a' },
+      { term: '\u786e\u5b9e', family: 'cooperation', meaning: '\u8ba4\u540c\u6216\u627f\u8ba4' },
+      { term: '\u54c8\u54c8\u54c8', family: 'attack', meaning: '\u5632\u7b11' },
+      { term: '\u54c8\u54c8', family: 'cooperation', meaning: '\u7b11\u58f0' },
+      { term: '\u5c0f\u4e11', family: 'attack', meaning: '\u8d2c\u635f\u7f51\u7edc\u79f0\u547c' },
+      { term: 'nt', family: 'attack', meaning: '\u8111\u762b\u7f29\u5199' },
+      { term: '\u81ea\u5f8b', family: 'cooperation', meaning: '\u652f\u6301\u6027\u8868\u8fbe' },
+    ],
+  };
+  const cases = [
+    [
+      '\u4ed6\u786e\u5b9e\u4e0d\u662f\u5efa\u6a21\u8138\uff0c\u4f46\u957f\u5f97\u7709\u76ee\u542b\u60c5\uff0c\u771f\u7684\u597d\u6b32\u597d\u7edd!',
+      ['\u786e\u5b9e'],
+    ],
+    ['\u54c8\u54c8\u54c8\u70eb\u5589\u5499', ['\u54c8\u54c8']],
+    ['52\u5f20\u7b97\u7684\u8bdd\u5c0f\u4e11\u67092\u53ea\u54c7', []],
+    ['\u6070\u597d\u662f\u7b2c140\u54e5\uff0c\u6211\u6536\u85cfin the good music\u6536\u85cf\u5939\u7684\u89c6\u9891', []],
+    ['\u5728\u5047\u671f\u5982\u4f55\u81ea\u5f8b\uff1f\u53ca\u65f6\u5c3d\u65e9\u5eb7\u590d\u51fa\u9662\u3002', []],
+  ];
+
+  for (const [comment, expectedTerms] of cases) {
+    const result = classifyCommentCoverage(round40Dictionary, comment);
+    assert.deepEqual(result.hits.map((hit) => hit.term), expectedTerms);
+    assert.equal(result.mode, expectedTerms.length ? 'keyword' : 'neutral');
+  }
+});
+
 test('detectEmoteSemanticHits treats Bilibili emotes as satire and tone markers', () => {
   const hits = detectEmoteSemanticHits('皇马：我谢谢你啊[doge]');
 
