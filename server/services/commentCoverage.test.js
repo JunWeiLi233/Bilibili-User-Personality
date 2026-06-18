@@ -939,6 +939,36 @@ test('classifyCommentCoverage treats ordinary supportive speech as neutral analy
   assert.match(result.reason, /no dictionary risk term/i);
 });
 
+test('classifyCommentCoverage captures round 42 random audit complaint and sarcasm misses', () => {
+  const cases = [
+    ['\u62d6\u5230\u73b0\u5728\u8fd8\u5728\u5439\uff01\u90fd\u6ca1\u5174\u8da3\u4e86\uff01', '\u62d6\u5230\u73b0\u5728\u8fd8\u5728\u5439'],
+    ['\u4e00\u7c73\u4e94\u7684\u5927\u9ad8\u4e2a\u2026\u2026', '\u4e00\u7c73\u4e94\u7684\u5927\u9ad8\u4e2a'],
+    ['\u5e74\u5e74\u6da8\uff0c\u8d28\u91cf\u4e00\u5e74\u4e0d\u5982\u4e00\u5e74', '\u8d28\u91cf\u4e00\u5e74\u4e0d\u5982\u4e00\u5e74'],
+  ];
+
+  for (const [text, term] of cases) {
+    const result = classifyCommentCoverage(dictionary, text);
+    assert.equal(result.covered, true);
+    assert.equal(result.mode, 'keyword');
+    assert.deepEqual(result.hits.map((hit) => hit.term), [term]);
+    assert.deepEqual(result.hits.map((hit) => hit.family), ['attack']);
+  }
+});
+
+test('classifyCommentCoverage suppresses round 42 random audit literal false positives', () => {
+  const cases = [
+    '\u4e13\u5bb6\u53d1\u73b0\u6b66\u5219\u5929\u5931\u8d25\u7684\u6700\u5927\u539f\u56e0\u662f\u6ca1\u6709\u94ed\u6587',
+    '\u6211\u5c31\u662f\u998b\u963f\u5e3d\uff0c\u5361\u5c14\u7684\u8eab\u5b50',
+  ];
+
+  for (const text of cases) {
+    const result = classifyCommentCoverage(dictionary, text);
+    assert.equal(result.covered, true);
+    assert.equal(result.mode, 'neutral');
+    assert.equal(result.hits.length, 0);
+  }
+});
+
 test('sampleCommentCoverage summarizes full coverage over keyword and neutral samples', () => {
   const result = sampleCommentCoverage(dictionary, [
     '这事懂的都懂，不展开了',

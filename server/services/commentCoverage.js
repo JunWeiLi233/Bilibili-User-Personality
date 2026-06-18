@@ -90,6 +90,24 @@ export function detectEmoteSemanticHits(comment) {
 
 const SUPPLEMENTAL_SEMANTICS = [
   {
+    pattern: /\u62d6\u5230\u73b0\u5728\u8fd8\u5728\u5439[\uff01!]?.{0,12}(?:\u90fd)?\u6ca1\u5174\u8da3/u,
+    term: '\u62d6\u5230\u73b0\u5728\u8fd8\u5728\u5439',
+    family: 'attack',
+    meaning: '\u201c\u62d6\u5230\u73b0\u5728\u8fd8\u5728\u5439\uff0c\u90fd\u6ca1\u5174\u8da3\u4e86\u201d\u662f\u5bf9\u5185\u5bb9\u88ab\u8fc7\u5ea6\u5439\u6367\u6216\u62d6\u5ef6\u5ba3\u53d1\u7684\u660e\u786e\u4e0d\u6ee1\uff0c\u5728B\u7ad9\u8bed\u5883\u91cc\u5e94\u4fdd\u7559\u4e3a\u8d1f\u9762\u5410\u69fd\u3002',
+  },
+  {
+    pattern: /\u4e00\u7c73\u4e94\u7684\u5927\u9ad8\u4e2a[\u2026.。]*|(?:\u4e00\u7c73\u4e94|150|1\.5\u7c73).{0,8}(?:\u5927\u9ad8\u4e2a|\u9ad8\u4e2a)/u,
+    term: '\u4e00\u7c73\u4e94\u7684\u5927\u9ad8\u4e2a',
+    family: 'attack',
+    meaning: '\u201c\u4e00\u7c73\u4e94\u7684\u5927\u9ad8\u4e2a\u2026\u2026\u201d\u5229\u7528\u8eab\u9ad8\u4e0e\u201c\u5927\u9ad8\u4e2a\u201d\u7684\u53cd\u5dee\u505a\u53cd\u8bdd\uff0c\u901a\u5e38\u662f\u5632\u8bbd\u6216\u8c03\u4f83\u800c\u975e\u4e2d\u6027\u63cf\u8ff0\u3002',
+  },
+  {
+    pattern: /\u5e74\u5e74(?:\u6da8|\u6da8\u4ef7|\u6da8\u94b1)[\uff0c,].{0,10}\u8d28\u91cf\u4e00\u5e74\u4e0d\u5982\u4e00\u5e74|\u8d28\u91cf\u4e00\u5e74\u4e0d\u5982\u4e00\u5e74/u,
+    term: '\u8d28\u91cf\u4e00\u5e74\u4e0d\u5982\u4e00\u5e74',
+    family: 'attack',
+    meaning: '\u201c\u5e74\u5e74\u6da8\uff0c\u8d28\u91cf\u4e00\u5e74\u4e0d\u5982\u4e00\u5e74\u201d\u662f\u5bf9\u5546\u54c1\u6216\u5185\u5bb9\u8d28\u91cf\u4e0b\u6ed1\u7684\u76f4\u63a5\u62b1\u6028\uff0c\u5c5e\u4e8e\u8d1f\u9762\u8bc4\u4ef7\u800c\u4e0d\u662f\u4e2d\u6027\u9648\u8ff0\u3002',
+  },
+  {
     pattern: /(?:把|将|给).{0,4}(?:他|她|它|你|人|对方).{0,4}(?:腿|胳膊|手|骨头).{0,4}(?:打折|打断|砸断|敲断)|(?:腿|胳膊|手|骨头).{0,4}(?:打折|打断|砸断|敲断)/u,
     term: '\u6253\u65ad\u817f/\u817f\u6253\u6298',
     family: 'attack',
@@ -811,7 +829,7 @@ function isAliasOrSubstringArtifactContext(entry, message) {
   if (term === '\u70b9\u8d5e') return /\u70b9\u8d5e.{0,6}(?:\u53d8\u7eff|\u7eff\u4e86|\u53d8\u7070|\u6309\u94ae|\u56fe\u6807)/u.test(message);
   if (term === '\u5f00\u73a9\u7b11') return /\u4e0d\u5f00\u73a9\u7b11/u.test(message);
   if (term === '\u4e0d\u9ed1\u4e0d\u5439') return !message.includes(term) && /\u6709\u4e00\u8bf4\u4e00/u.test(message);
-  if (term === '\u6ca1\u6709') return /\u57fa\u672c\u6ca1\u6709\u97f3\u4e50\u7406\u89e3/u.test(message);
+  if (term === '\u6ca1\u6709') return /\u57fa\u672c\u6ca1\u6709\u97f3\u4e50\u7406\u89e3|\u6ca1\u6709\u94ed\u6587/u.test(message);
   if (term === '\u6beb\u65e0\u97f3\u4e50\u7406\u89e3') return /\u57fa\u672c\u6ca1\u6709\u97f3\u4e50\u7406\u89e3/u.test(message);
   if (term === '\u65e0\u8bed') return /\u8d85\u7edd\u65e0\u8bed/u.test(message);
   if (term === '\u5c0f\u4e11') return /\b(?:52|54)\u5f20.{0,8}\u5c0f\u4e11.{0,4}(?:2|\u4e24)\u53ea/u.test(message);
@@ -833,7 +851,7 @@ function isNeutralMetaphorOrDefinitionContext(entry, message) {
   if (term === '\u7edd\u5bf9') return /\u53ef\u9760\u6027\u7edd\u5bf9\u6700\u9ad8/u.test(message);
   if (term === '\u4e0d\u53ef\u80fd') return /\u6838\u52a8\u529b\u9a74\u751f\u6001\u7cfb\u7edf/u.test(message);
   if (term === '\u4e0d\u4e00\u5b9a') return /\u6280\u672f\u4e0d\u4e00\u5b9a\u9ad8/u.test(message);
-  if (term === '\u5c31\u662f') return /\u6982\u5ff5\u5462[\uff0c,]\u5c31\u662f|\u610f\u56fe\u5c31\u662f\u8fd9\u4e48\u660e\u663e/u.test(message);
+  if (term === '\u5c31\u662f') return /\u6982\u5ff5\u5462[\uff0c,]\u5c31\u662f|\u610f\u56fe\u5c31\u662f\u8fd9\u4e48\u660e\u663e|\u6211\u5c31\u662f\u998b/u.test(message);
   return false;
 }
 
