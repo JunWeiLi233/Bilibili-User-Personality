@@ -1179,6 +1179,65 @@ test('readKeywordDictionary reads split family entry files', async () => {
   }
 });
 
+test('readKeywordDictionary reads split shard arrays', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'deepseek-read-shards-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  try {
+    await mkdir(join(dir, 'dictionary.entries'), { recursive: true });
+    await writeFile(
+      join(dir, 'dictionary.entries', 'attack-001.json'),
+      JSON.stringify({
+        version: 1,
+        updatedAt: '2026-01-01T00:00:00.000Z',
+        family: 'attack',
+        shard: 1,
+        shardCount: 2,
+        entries: [{ term: '\u9634\u9633\u602a\u6c14', family: 'attack', meaning: 'sarcasm', evidenceCount: 1 }],
+      }),
+      'utf8',
+    );
+    await writeFile(
+      join(dir, 'dictionary.entries', 'attack-002.json'),
+      JSON.stringify({
+        version: 1,
+        updatedAt: '2026-01-01T00:00:00.000Z',
+        family: 'attack',
+        shard: 2,
+        shardCount: 2,
+        entries: [{ term: '\u5178\u4e2d\u5178', family: 'attack', meaning: 'cliche callout', evidenceCount: 1 }],
+      }),
+      'utf8',
+    );
+    for (const family of ['absolutes', 'evidence', 'evasion', 'cooperation', 'correction']) {
+      await writeFile(join(dir, 'dictionary.entries', `${family}-001.json`), JSON.stringify({ version: 1, family, shard: 1, shardCount: 1, entries: [] }), 'utf8');
+    }
+    await writeFile(
+      dictionaryPath,
+      JSON.stringify({
+        version: 1,
+        storage: 'split',
+        updatedAt: '2026-01-01T00:00:00.000Z',
+        entryFiles: {
+          attack: ['dictionary.entries/attack-001.json', 'dictionary.entries/attack-002.json'],
+          absolutes: ['dictionary.entries/absolutes-001.json'],
+          evidence: ['dictionary.entries/evidence-001.json'],
+          evasion: ['dictionary.entries/evasion-001.json'],
+          cooperation: ['dictionary.entries/cooperation-001.json'],
+          correction: ['dictionary.entries/correction-001.json'],
+        },
+      }),
+      'utf8',
+    );
+
+    const dictionary = await readKeywordDictionary({ dictionaryPath });
+
+    assert.deepEqual(dictionary.entries.map((entry) => entry.term), ['\u5178\u4e2d\u5178', '\u9634\u9633\u602a\u6c14']);
+    assert.deepEqual(dictionary.families.attack, ['\u5178\u4e2d\u5178', '\u9634\u9633\u602a\u6c14']);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('mergeEntriesIntoDictionary migrates a legacy monolith to split storage', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'deepseek-migrate-split-'));
   const dictionaryPath = join(dir, 'dictionary.json');
@@ -1198,12 +1257,16 @@ test('mergeEntriesIntoDictionary migrates a legacy monolith to split storage', a
 
     await mergeEntriesIntoDictionary([], { dictionaryPath });
     const manifest = JSON.parse(await readFile(dictionaryPath, 'utf8'));
-    const attack = JSON.parse(await readFile(join(dir, manifest.entryFiles.attack), 'utf8'));
-    const cooperation = JSON.parse(await readFile(join(dir, manifest.entryFiles.cooperation), 'utf8'));
+    const attack = JSON.parse(await readFile(join(dir, manifest.entryFiles.attack[0]), 'utf8'));
+    const cooperation = JSON.parse(await readFile(join(dir, manifest.entryFiles.cooperation[0]), 'utf8'));
+    const entryFileNames = await readdir(join(dir, 'dictionary.entries'));
 
     assert.equal(manifest.storage, 'split');
     assert.equal(Array.isArray(manifest.entries), false);
     assert.equal(Object.hasOwn(manifest, 'families'), false);
+    assert.equal(Array.isArray(manifest.entryFiles.attack), true);
+    assert.equal(entryFileNames.includes('attack.json'), false);
+    assert.equal(entryFileNames.includes('attack-001.json'), true);
     assert.deepEqual(attack.entries.map((entry) => entry.term), ['\u9634\u9633\u602a\u6c14']);
     assert.deepEqual(cooperation.entries.map((entry) => entry.term), ['\u6211\u89c9\u5f97']);
   } finally {

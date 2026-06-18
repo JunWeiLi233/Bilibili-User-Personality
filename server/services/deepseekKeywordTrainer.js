@@ -1,10 +1,11 @@
-import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, readdir, rename, rm, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 
 import { withFileLock } from '../utils/fileLock.js';
 import { findDictionaryEntriesWithSemanticEvidence } from './semanticMatcher.js';
 
 const SUPPORTED_FAMILIES = ['attack', 'absolutes', 'evidence', 'evasion', 'cooperation', 'correction'];
+const SPLIT_DICTIONARY_SHARD_SIZE = 50;
 const DEEPSEEK_V4_MODELS = ['deepseek-v4-flash', 'deepseek-v4-pro'];
 const REASONING_EFFORTS = new Set(['low', 'medium', 'high', 'xhigh', 'max']);
 const STOP_TERMS = new Set([
@@ -3132,16 +3133,20 @@ async function readDictionary(dictionaryPath) {
     const current = JSON.parse(raw);
     if (current?.storage === 'split' && current?.entryFiles && typeof current.entryFiles === 'object') {
       const entries = [];
-      for (const [family, relativePath] of Object.entries(current.entryFiles)) {
+      for (const [family, relativePaths] of Object.entries(current.entryFiles)) {
         if (!SUPPORTED_FAMILIES.includes(family)) continue;
-        const filePath = join(dirname(dictionaryPath), String(relativePath));
-        try {
-          const familyRaw = await readFile(filePath, 'utf8');
-          const familyPayload = JSON.parse(familyRaw);
-          const familyEntries = Array.isArray(familyPayload?.entries) ? familyPayload.entries : [];
-          entries.push(...familyEntries.map((entry) => ({ ...entry, family: entry.family || family })));
-        } catch (error) {
-          throw new Error(`Could not read split keyword dictionary entries ${filePath}: ${error.message}`);
+        const fileList = Array.isArray(relativePaths) ? relativePaths : [relativePaths];
+        for (const relativePath of fileList) {
+          if (!relativePath) continue;
+          const filePath = join(dirname(dictionaryPath), String(relativePath));
+          try {
+            const familyRaw = await readFile(filePath, 'utf8');
+            const familyPayload = JSON.parse(familyRaw);
+            const familyEntries = Array.isArray(familyPayload?.entries) ? familyPayload.entries : [];
+            entries.push(...familyEntries.map((entry) => ({ ...entry, family: entry.family || family })));
+          } catch (error) {
+            throw new Error(`Could not read split keyword dictionary entries ${filePath}: ${error.message}`);
+          }
         }
       }
       return {
@@ -3171,8 +3176,9 @@ function splitDictionaryEntryFilesPath(dictionaryPath) {
   return `${dictionaryPath.replace(/\.json$/i, '')}.entries`;
 }
 
-function splitDictionaryRelativePath(dictionaryPath, family) {
-  return `${splitDictionaryEntryFilesPath(dictionaryPath).slice(dirname(dictionaryPath).length + 1).replace(/\\/g, '/')}/${family}.json`;
+function splitDictionaryShardRelativePath(dictionaryPath, family, shardIndex) {
+  const shardNumber = String(shardIndex + 1).padStart(3, '0');
+  return `${splitDictionaryEntryFilesPath(dictionaryPath).slice(dirname(dictionaryPath).length + 1).replace(/\\/g, '/')}/${family}-${shardNumber}.json`;
 }
 
 export async function writeJsonFileAtomic(filePath, value) {
@@ -3187,6 +3193,26 @@ export async function writeJsonFileAtomic(filePath, value) {
   }
 }
 
+async function removeStaleSplitDictionaryFiles(dictionaryPath, entryFiles) {
+  const entryDir = splitDictionaryEntryFilesPath(dictionaryPath);
+  const referenced = new Set(Object.values(entryFiles).flat().map((relativePath) => join(dirname(dictionaryPath), relativePath)));
+  const legacyFamilyFiles = new Set(SUPPORTED_FAMILIES.map((family) => join(entryDir, `${family}.json`)));
+  let names = [];
+  try {
+    names = await readdir(entryDir);
+  } catch (error) {
+    if (error?.code !== 'ENOENT') throw error;
+    return;
+  }
+
+  await Promise.all(
+    names
+      .map((name) => join(entryDir, name))
+      .filter((filePath) => legacyFamilyFiles.has(filePath) || (/-\d{3}\.json$/i.test(filePath) && !referenced.has(filePath)))
+      .map((filePath) => rm(filePath, { force: true })),
+  );
+}
+
 async function writeSplitDictionaryAtomic(dictionaryPath, dictionary) {
   const entriesByFamily = new Map(SUPPORTED_FAMILIES.map((family) => [family, []]));
   for (const entry of Array.isArray(dictionary?.entries) ? dictionary.entries : []) {
@@ -3195,14 +3221,22 @@ async function writeSplitDictionaryAtomic(dictionaryPath, dictionary) {
   }
   const entryFiles = {};
   for (const family of SUPPORTED_FAMILIES) {
-    const relativePath = splitDictionaryRelativePath(dictionaryPath, family);
-    entryFiles[family] = relativePath;
-    await writeJsonFileAtomic(join(dirname(dictionaryPath), relativePath), {
-      version: dictionary.version || 1,
-      updatedAt: dictionary.updatedAt || null,
-      family,
-      entries: entriesByFamily.get(family) || [],
-    });
+    const entries = entriesByFamily.get(family) || [];
+    const shardCount = Math.max(1, Math.ceil(entries.length / SPLIT_DICTIONARY_SHARD_SIZE));
+    const relativePaths = [];
+    for (let shardIndex = 0; shardIndex < shardCount; shardIndex += 1) {
+      const relativePath = splitDictionaryShardRelativePath(dictionaryPath, family, shardIndex);
+      relativePaths.push(relativePath);
+      await writeJsonFileAtomic(join(dirname(dictionaryPath), relativePath), {
+        version: dictionary.version || 1,
+        updatedAt: dictionary.updatedAt || null,
+        family,
+        shard: shardIndex + 1,
+        shardCount,
+        entries: entries.slice(shardIndex * SPLIT_DICTIONARY_SHARD_SIZE, (shardIndex + 1) * SPLIT_DICTIONARY_SHARD_SIZE),
+      });
+    }
+    entryFiles[family] = relativePaths;
   }
   await writeJsonFileAtomic(dictionaryPath, {
     version: dictionary.version || 1,
@@ -3210,6 +3244,7 @@ async function writeSplitDictionaryAtomic(dictionaryPath, dictionary) {
     updatedAt: dictionary.updatedAt || null,
     entryFiles,
   });
+  await removeStaleSplitDictionaryFiles(dictionaryPath, entryFiles);
 }
 
 function buildCanonicalDictionarySnapshot(current, now = current?.updatedAt || new Date().toISOString()) {
