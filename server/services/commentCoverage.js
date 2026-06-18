@@ -1302,6 +1302,9 @@ function detectSupplementalSemanticHits(comment) {
 }
 
 function isSuppressedEmoteHit(item, message) {
+  const term = String(item?.term || '');
+  if (/\u4e13\u95e8\u76d7\u89c6\u9891.{0,120}\u526f\u672c\s*\[doge\]/u.test(message) && term.includes('doge')) return true;
+  if (/\u5e72\u7239.{0,16}\u8dd1\u8dd1\s*\[\u6ed1\u7a3d\]/u.test(message)) return true;
   if (item?.term !== 'doge/\u53cd\u8bbd\u8868\u60c5') return false;
   return /\u6211\u4eec\u6709\d{1,3}\u5957\u9632\u7206\u7532[\uff08(]\s*doge\s*[\uff09)]/iu.test(message)
     && !/(?:\u9a82|\u50bb|\u8822|\u6eda|\u6b7b|\u4e0d\u5982|\u5e9f|\u83dc|\u653b\u51fb|\u5632|\u9634\u9633)/u.test(message)
@@ -1718,6 +1721,26 @@ function isRound64SuppressedContext(entry, message) {
   return false;
 }
 
+function isRound65SuppressedContext(entry, message) {
+  const term = String(entry?.term || '');
+  if (entry?.family === 'attack' && term === 'p\u7684') {
+    return /up\u7684\u89c6\u9891/u.test(message);
+  }
+  if (entry?.family === 'cooperation' && term === '\u5c31\u662f') {
+    return /\u6211\u5c31\u662f\u53d1\u5b8c\u5f39\u5e55.{0,30}\u9000\u51fa\u89c6\u9891/u.test(message);
+  }
+  if (entry?.family === 'attack' && term === '\u6ed1\u7a3d') {
+    return /\u5e72\u7239.{0,16}\u8dd1\u8dd1\s*\[\u6ed1\u7a3d\]/u.test(message);
+  }
+  if (entry?.family === 'absolutes' && term === '\u6ca1\u6709') {
+    return /\u6ca1\u6709.{0,8}(?:\u77ed\u89c6\u9891|\u89c6\u9891).{0,6}\u7684\u65f6\u5019/u.test(message);
+  }
+  if (entry?.family === 'attack' && term === '\u4e0d\u662f') {
+    return /\u7ebf\u4e0a\u7ebf\u4e0b\u4e0d\u662f\u4e00\u7c7b\u4eba/u.test(message);
+  }
+  return false;
+}
+
 function isSuppressedLexicalHit(entry, message) {
   return isSelfReferentialNoviceHit(entry, message)
     || isLiteralYinYangContext(entry, message)
@@ -1756,7 +1779,8 @@ function isSuppressedLexicalHit(entry, message) {
     || isRound61SuppressedContext(entry, message)
     || isRound62SuppressedContext(entry, message)
     || isRound63SuppressedContext(entry, message)
-    || isRound64SuppressedContext(entry, message);
+    || isRound64SuppressedContext(entry, message)
+    || isRound65SuppressedContext(entry, message);
 }
 
 function exactDictionaryEntries(dictionary, message) {

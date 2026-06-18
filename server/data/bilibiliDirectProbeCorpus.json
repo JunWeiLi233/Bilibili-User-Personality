@@ -15146,9 +15146,83 @@
       "warnings": [],
       "commentsCollected": 845,
       "commentsAdded": 616
+    },
+    {
+      "at": "2026-06-18T15:36:41.090Z",
+      "actions": [
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1fK4y1A7bQ",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1fK4y1A7bQ",
+          "aid": 888119069,
+          "title": "最常见的7种<em class=\"keyword\">洗钱</em>手段，一定要知道，别参与了其中而不自知！！！"
+        },
+        {
+          "key": "bvid:BV1xPL96PEU3",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1xPL96PEU3",
+          "aid": 116764071432462,
+          "title": "为什么水可以很滑，也可以很涩？"
+        },
+        {
+          "key": "bvid:BV1BQjg6KENM",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1BQjg6KENM",
+          "aid": 116759491319285,
+          "title": "就这样角色互换下去吧..."
+        },
+        {
+          "key": "bvid:BV1M24y1m7QA",
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论",
+          "bvid": "BV1M24y1m7QA",
+          "aid": 690223628,
+          "title": "Counter <em class=\"keyword\">Attack</em>-Mankind - 0.8X"
+        },
+        {
+          "key": "bvid:BV19p4y167M6",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV19p4y167M6",
+          "aid": 970309828,
+          "title": "11-17-改变b站<em class=\"keyword\">弹幕</em>字体大小"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 1515,
+      "commentsAdded": 1102
     }
   ],
-  "updatedAt": "2026-06-18T15:24:56.572Z",
+  "updatedAt": "2026-06-18T15:36:41.090Z",
   "storage": "split",
   "shardMaxBytes": 65536,
   "commentFiles": [
@@ -15559,7 +15633,10 @@
     "bilibiliDirectProbeCorpus.comments/comments-0405.json",
     "bilibiliDirectProbeCorpus.comments/comments-0406.json",
     "bilibiliDirectProbeCorpus.comments/comments-0407.json",
-    "bilibiliDirectProbeCorpus.comments/comments-0408.json"
+    "bilibiliDirectProbeCorpus.comments/comments-0408.json",
+    "bilibiliDirectProbeCorpus.comments/comments-0409.json",
+    "bilibiliDirectProbeCorpus.comments/comments-0410.json",
+    "bilibiliDirectProbeCorpus.comments/comments-0411.json"
   ],
-  "commentCount": 132161
+  "commentCount": 133263
 }
