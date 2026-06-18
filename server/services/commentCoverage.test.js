@@ -202,6 +202,20 @@ test('classifyCommentCoverage captures sampled dianpo insult', () => {
   assert.ok(result.hits.some((hit) => hit.term === '\u98a0\u5a46'));
 });
 
+test('classifyCommentCoverage suppresses passive criticism report hits', () => {
+  const sampledDictionary = {
+    entries: [
+      { term: '\u88ab\u9a82', family: 'attack', meaning: 'being cursed or criticized' },
+      { term: '\u786e\u5b9e', family: 'cooperation', meaning: 'agreement marker' },
+    ],
+  };
+  const result = classifyCommentCoverage(sampledDictionary, '\u7279\u65af\u62c9\u867d\u7136\u5929\u5929\u88ab\u9a82\uff0c\u4f46\u9500\u91cf\u786e\u5b9e\u8fd8\u53ef\u4ee5');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['\u786e\u5b9e']);
+});
+
 test('classifyCommentCoverage captures whitewashing accusations without matching literal washing', () => {
   const accusation = classifyCommentCoverage(dictionary, '\u4e5f\u591f\u522b\u6d17\u4e86');
   const literal = classifyCommentCoverage(dictionary, '\u522b\u6d17\u8863\u670d\u4e86\uff0c\u660e\u5929\u4e0b\u96e8');

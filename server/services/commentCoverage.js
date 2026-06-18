@@ -297,6 +297,13 @@ function isPlayfulStandaloneLaughterContext(entry, message) {
     && !/(?:\u4f60|\u4ed6|\u5979|\u5b83|\u4ed6\u4eec|\u5979\u4eec|\u8fd9\u4eba|\u90a3\u4eba|up|UP).{0,8}(?:\u8822|\u50bb|\u72d7|\u5e9f|\u83dc|\u6eda|\u6b7b)/u.test(message);
 }
 
+function isPassiveCriticismReportContext(entry, message) {
+  if (entry?.family !== 'attack') return false;
+  if (String(entry?.term || '') !== '\u88ab\u9a82') return false;
+  return /(?:\u867d\u7136|\u7ecf\u5e38|\u5929\u5929|\u8001\u662f|\u603b\u662f).{0,8}\u88ab\u9a82/u.test(message)
+    || /\u88ab\u9a82.{0,16}(?:\u4f46|\u4f46\u662f|\u4e0d\u8fc7|\u53ef|\u5176\u5b9e|\u786e\u5b9e|\u8fd8\u53ef\u4ee5)/u.test(message);
+}
+
 function isSuppressedLexicalHit(entry, message) {
   return isSelfReferentialNoviceHit(entry, message)
     || isLiteralYinYangContext(entry, message)
@@ -306,7 +313,8 @@ function isSuppressedLexicalHit(entry, message) {
     || isNeutralSpeculativeBroadener(entry, message)
     || isRhetoricalFeelingWhyContext(entry, message)
     || isNeutralOutcomeNarrationContext(entry, message)
-    || isPlayfulStandaloneLaughterContext(entry, message);
+    || isPlayfulStandaloneLaughterContext(entry, message)
+    || isPassiveCriticismReportContext(entry, message);
 }
 
 function exactDictionaryEntries(dictionary, message) {
