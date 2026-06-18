@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T23:31:15.629Z",
+  "updatedAt": "2026-06-18T23:38:35.618Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -1797,6 +1797,64 @@
       "warnings": [],
       "commentsCollected": 1134,
       "commentsAdded": 808
+    },
+    {
+      "at": "2026-06-18T23:38:35.618Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论区"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1VPcrzREAW",
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论区",
+          "bvid": "BV1VPcrzREAW",
+          "aid": 116214416285370,
+          "title": "心上<em class=\"keyword\">不饶人</em>"
+        },
+        {
+          "key": "bvid:BV1CcQUBqEkx",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1CcQUBqEkx",
+          "aid": 116288538025856,
+          "title": "狗：啊？咱奶休息完了？那我们去遛狗吧！！"
+        },
+        {
+          "key": "bvid:BV1WQiWBaEHt",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1WQiWBaEHt",
+          "aid": 115839747490154,
+          "title": "你还知道什么<em class=\"keyword\">争议</em>教学？打在<em class=\"keyword\">评论区</em>"
+        },
+        {
+          "key": "bvid:BV1Jr4y117RC",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV1Jr4y117RC",
+          "aid": 763805251,
+          "title": "看剧千万别开<em class=\"keyword\">弹幕</em>..."
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 230,
+      "commentsAdded": 168
     }
   ]
 }
