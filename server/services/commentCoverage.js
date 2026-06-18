@@ -90,6 +90,42 @@ export function detectEmoteSemanticHits(comment) {
 
 const SUPPLEMENTAL_SEMANTICS = [
   {
+    pattern: /(?:\u8fc8\u5411|\u5954\u5411).{0,12}\u66f4\u7cbe\u5f69.{0,12}(?:High\s*five|high\s*five|[\u51fb\u64ca]\u638c)|High\s*five[\uff01!]?/iu,
+    term: 'High five\u9f13\u52b1',
+    family: 'cooperation',
+    meaning: '\u201c\u8fc8\u5411\u66f4\u7cbe\u5f69\u7684\u4eba\u751f\u5427\uff01High five\uff01\u201d\u662f\u660e\u786e\u7684\u9f13\u52b1\u3001\u5e86\u795d\u548c\u4e92\u76f8\u652f\u6301\u8bed\u6c14\uff0c\u5e94\u4f5c\u4e3a\u5408\u4f5c/\u652f\u6301\u6027\u8bdd\u8bed\u4fdd\u7559\u3002',
+  },
+  {
+    pattern: /(?:\u4f60|\u4ed6|\u5979|\u5b83|\u8fd9|UP|up).{0,8}(?:\u505a\u7684|\u505a\u5f97|\u8868\u73b0).{0,4}\u4e5f\u4e00\u822c/u,
+    term: '\u4f60\u505a\u7684\u4e5f\u4e00\u822c',
+    family: 'attack',
+    meaning: '\u201c\u4f60\u505a\u7684\u4e5f\u4e00\u822c\u201d\u662f\u4e2d\u6587\u8bc4\u8bba\u91cc\u5e38\u89c1\u7684\u8f7b\u5ea6\u5426\u5b9a\u548c\u6279\u8bc4\uff0c\u6307\u5411\u5bf9\u65b9\u8868\u73b0\u4e0d\u591f\u597d\uff0c\u4e0d\u5e94\u5f53\u6210\u4e2d\u6027\u9648\u8ff0\u3002',
+  },
+  {
+    pattern: /\u8fde\u5c0f\u5b69\u90fd\u4e0d\u5982|\u5c0f\u5b69\u90fd\u4e0d\u5982/u,
+    term: '\u8fde\u5c0f\u5b69\u90fd\u4e0d\u5982',
+    family: 'attack',
+    meaning: '\u201c\u8fde\u5c0f\u5b69\u90fd\u4e0d\u5982\u201d\u662f\u628a\u5bf9\u8c61\u8d2c\u4f4e\u5230\u4e0d\u5982\u5c0f\u5b69\u7684\u76f4\u63a5\u5426\u5b9a\uff0c\u5373\u4f7f\u524d\u9762\u7528\u201c\u5bb6\u4eba\u4eec\u201d\u79f0\u547c\u4e5f\u4e0d\u662f\u771f\u5b9e\u5408\u4f5c\u8bed\u6c14\u3002',
+  },
+  {
+    pattern: /\u662f\u77f3(?:$|[\s\u3002\uff01!\uff1f?])|(?:\u7535\u5f71|\u89c6\u9891|\u4f5c\u54c1|[\u4e00-\u9fff]{2,12})\u662f\u77f3/u,
+    term: '\u662f\u77f3/\u662f\u5c4e',
+    family: 'attack',
+    meaning: '\u201c\u662f\u77f3\u201d\u5728\u201c\u5927\u9c7c\u6d77\u68e0\u662f\u77f3\u201d\u7c7b\u8bed\u5883\u4e2d\u5e38\u662f\u7528\u8c10\u97f3\u6216\u8f93\u5165\u89c4\u907f\u8868\u8fbe\u201c\u662f\u5c4e\u201d\uff0c\u5c5e\u4e8e\u5bf9\u4f5c\u54c1\u7684\u8d2c\u635f\u6027\u5426\u5b9a\u3002',
+  },
+  {
+    pattern: /\u2615|\ud83c\udf75|(?:\u591a\u4e48\u53ef\u8d35\u7684\u54c1\u8d28|(?:\u53ef\u8d35|\u4f18\u79c0|\u592a\u5b5d\u4e86).{0,12}(?:\u54c1\u8d28|\u7236\u4eb2|\u513f\u5b50)).{0,8}(?:\u2615|\ud83c\udf75)/u,
+    term: '\u8336\u676f\u8868\u60c5\u53cd\u8bdd',
+    family: 'attack',
+    meaning: '\u8336\u676f\u8868\u60c5\u5728\u4e2d\u6587\u7f51\u7edc\u8bed\u5883\u91cc\u5e38\u6807\u8bb0\u9634\u9633\u602a\u6c14\u6216\u5403\u74dc\u5f0f\u53cd\u8bdd\uff0c\u4e0e\u201c\u591a\u4e48\u53ef\u8d35\u7684\u54c1\u8d28\u201d\u7b49\u5938\u5f20\u8868\u8fbe\u540c\u73b0\u65f6\u5e94\u4f5c\u4e3a\u5632\u8bbd\u4fdd\u7559\u3002',
+  },
+  {
+    pattern: /\u8fd9\u79cd\u4eba.{0,8}\u5634\u4e0a\u558a\u7231\u56fd.{0,8}\u6700\u72e0|\u5634\u4e0a\u558a\u7231\u56fd.{0,12}(?:\u6700\u72e0|\u4e00\u5957|\u865a\u4f2a)/u,
+    term: '\u5634\u4e0a\u558a\u7231\u56fd',
+    family: 'attack',
+    meaning: '\u201c\u5634\u4e0a\u558a\u7231\u56fd\u6700\u72e0\u201d\u662f\u5bf9\u5047\u7231\u56fd\u6216\u53e3\u53f7\u5f0f\u7acb\u573a\u7684\u76f4\u63a5\u6307\u63a7\uff0c\u5e26\u6709\u660e\u786e\u8d1f\u9762\u8bc4\u4ef7\u548c\u653b\u51fb\u6027\u3002',
+  },
+  {
     pattern: /\u62d6\u5230\u73b0\u5728\u8fd8\u5728\u5439[\uff01!]?.{0,12}(?:\u90fd)?\u6ca1\u5174\u8da3/u,
     term: '\u62d6\u5230\u73b0\u5728\u8fd8\u5728\u5439',
     family: 'attack',
@@ -824,7 +860,7 @@ function isRhetoricalNotJustIsContext(entry, message) {
 function isAliasOrSubstringArtifactContext(entry, message) {
   const term = String(entry?.term || '');
   if (term === '\u7edd\u5bf9') return !message.includes(term) && /(?:\u597d\u7edd|\u7edd\u4e86|\u7edd\u7edd\u5b50)/u.test(message);
-  if (term === '\u5bb6\u4eba') return /(?:\u517b\u4e45\u4e86|\u732b|\u72d7|\u5ba0\u7269|毛孩子).{0,8}\u6210\u5bb6\u4eba/u.test(message);
+  if (term === '\u5bb6\u4eba') return /(?:\u517b\u4e45\u4e86|\u732b|\u72d7|\u5ba0\u7269|毛孩子).{0,8}\u6210\u5bb6\u4eba|\u5bb6\u4eba\u4eec.{0,12}(?:\u4e0d\u5982|\u65e0\u8bed|\u79bb\u8c31)/u.test(message);
   if (term === '\u7edd\u6740') return /(?:\u7bee\u4e0b|\u8865\u7bee|\u6295\u7bee|\u6bd4\u8d5b|\u7403|欧文|NBA).{0,12}\u7edd\u6740|\u7edd\u6740.{0,12}(?:\u7bee\u4e0b|\u8865\u7bee|\u6295\u7bee|\u6bd4\u8d5b|\u7403|欧文|NBA)/iu.test(message);
   if (term === '\u70b9\u8d5e') return /\u70b9\u8d5e.{0,6}(?:\u53d8\u7eff|\u7eff\u4e86|\u53d8\u7070|\u6309\u94ae|\u56fe\u6807)/u.test(message);
   if (term === '\u5f00\u73a9\u7b11') return /\u4e0d\u5f00\u73a9\u7b11/u.test(message);
@@ -851,8 +887,20 @@ function isNeutralMetaphorOrDefinitionContext(entry, message) {
   if (term === '\u7edd\u5bf9') return /\u53ef\u9760\u6027\u7edd\u5bf9\u6700\u9ad8/u.test(message);
   if (term === '\u4e0d\u53ef\u80fd') return /\u6838\u52a8\u529b\u9a74\u751f\u6001\u7cfb\u7edf/u.test(message);
   if (term === '\u4e0d\u4e00\u5b9a') return /\u6280\u672f\u4e0d\u4e00\u5b9a\u9ad8/u.test(message);
-  if (term === '\u5c31\u662f') return /\u6982\u5ff5\u5462[\uff0c,]\u5c31\u662f|\u610f\u56fe\u5c31\u662f\u8fd9\u4e48\u660e\u663e|\u6211\u5c31\u662f\u998b/u.test(message);
+  if (term === '\u5c31\u662f') return /\u6982\u5ff5\u5462[\uff0c,]\u5c31\u662f|\u610f\u56fe\u5c31\u662f\u8fd9\u4e48\u660e\u663e|\u6211\u5c31\u662f\u998b|\u4e07\u4e00\u5c31\u662f/u.test(message);
   return false;
+}
+
+function isSpeculativeThirdPartyMistakeContext(entry, message) {
+  const term = String(entry?.term || '');
+  if (term !== '\u641e\u9519\u4e86') return false;
+  return /\u4e07\u4e00.{0,12}(?:\u7f16\u5267|\u5b98\u65b9|\u4f5c\u8005|\u4ed6|\u5979|\u5bf9\u65b9).{0,8}\u641e\u9519\u4e86/u.test(message);
+}
+
+function isSincereFaithContext(entry, message) {
+  const term = String(entry?.term || '');
+  if (term !== '\u4fe1\u4ef0') return false;
+  return /(?:\u76f8\u4fe1\u81ea\u5df1|\u76f8\u4fe1.{0,6}\u56e2\u961f).{0,18}\u80dc\u5229\u7684\u4fe1\u4ef0|\u4fe1\u4ef0.{0,8}(?:\u80dc\u5229|\u68a6\u60f3|\u575a\u6301)/u.test(message);
 }
 
 function isSuppressedLexicalHit(entry, message) {
@@ -878,7 +926,9 @@ function isSuppressedLexicalHit(entry, message) {
     || isRhetoricalNotJustIsContext(entry, message)
     || isAliasOrSubstringArtifactContext(entry, message)
     || isContainedConditionalPossibilityContext(entry, message)
-    || isNeutralMetaphorOrDefinitionContext(entry, message);
+    || isNeutralMetaphorOrDefinitionContext(entry, message)
+    || isSpeculativeThirdPartyMistakeContext(entry, message)
+    || isSincereFaithContext(entry, message);
 }
 
 function exactDictionaryEntries(dictionary, message) {

@@ -969,6 +969,39 @@ test('classifyCommentCoverage suppresses round 42 random audit literal false pos
   }
 });
 
+test('classifyCommentCoverage captures round 43 random audit semantic misses', () => {
+  const cases = [
+    ['\u8fc8\u5411\u66f4\u7cbe\u5f69\u7684\u4eba\u751f\u5427\uff01High five\uff01', 'High five\u9f13\u52b1', 'cooperation'],
+    ['\u4f60\u505a\u7684\u4e5f\u4e00\u822c', '\u4f60\u505a\u7684\u4e5f\u4e00\u822c', 'attack'],
+    ['\u5bb6\u4eba\u4eec\u8fde\u5c0f\u5b69\u90fd\u4e0d\u5982\u4e86-_-||', '\u8fde\u5c0f\u5b69\u90fd\u4e0d\u5982', 'attack'],
+    ['\u5927\u9c7c\u6d77\u68e0\u662f\u77f3', '\u662f\u77f3/\u662f\u5c4e', 'attack'],
+    ['\u6613\u7259\u7684\u513f\u5b50\u80fd\u4e3a\u4ed6\u7236\u4eb2\u8d74\u6c64\u8e48\u706b \u591a\u4e48\u53ef\u8d35\u7684\u54c1\u8d28\uff01\ud83c\udf75', '\u8336\u676f\u8868\u60c5\u53cd\u8bdd', 'attack'],
+    ['\u8fd9\u79cd\u4eba\u5634\u4e0a\u558a\u7231\u56fd\u6700\u72e0\u4e86', '\u5634\u4e0a\u558a\u7231\u56fd', 'attack'],
+  ];
+
+  for (const [text, term, family] of cases) {
+    const result = classifyCommentCoverage(dictionary, text);
+    assert.equal(result.covered, true);
+    assert.equal(result.mode, 'keyword');
+    assert.deepEqual(result.hits.map((hit) => hit.term), [term]);
+    assert.deepEqual(result.hits.map((hit) => hit.family), [family]);
+  }
+});
+
+test('classifyCommentCoverage suppresses round 43 random audit context false positives', () => {
+  const cases = [
+    '\u4e07\u4e00\u5c31\u662f\u7f16\u5267\u641e\u9519\u4e86',
+    '\u76f8\u4fe1\u81ea\u5df1\u7684\u56e2\u961f\uff0c\u90a3\u662f\u80dc\u5229\u7684\u4fe1\u4ef0',
+  ];
+
+  for (const text of cases) {
+    const result = classifyCommentCoverage(dictionary, text);
+    assert.equal(result.covered, true);
+    assert.equal(result.mode, 'neutral');
+    assert.equal(result.hits.length, 0);
+  }
+});
+
 test('sampleCommentCoverage summarizes full coverage over keyword and neutral samples', () => {
   const result = sampleCommentCoverage(dictionary, [
     '这事懂的都懂，不展开了',
