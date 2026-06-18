@@ -1,7 +1,5 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { dirname } from 'node:path';
-
 import { buildHuggingFaceCorpusUpdate, parseHuggingFaceRows } from '../services/huggingFaceCorpus.js';
+import { readJsonCorpus, writeJsonCorpus } from '../services/splitCorpusStorage.js';
 import { DEFAULT_HUGGINGFACE_CORPUS_PATH } from '../utils/paths.js';
 
 const DEFAULT_SOURCES = [
@@ -76,19 +74,6 @@ function parseArgs(argv = process.argv.slice(2)) {
   return options;
 }
 
-async function readJsonIfExists(path, fallback) {
-  try {
-    return JSON.parse(await readFile(path, 'utf8'));
-  } catch {
-    return fallback;
-  }
-}
-
-async function writeJson(path, payload) {
-  await mkdir(dirname(path), { recursive: true });
-  await writeFile(path, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
-}
-
 function datasetResolveUrl(source) {
   const encodedFile = String(source.file).split('/').map(encodeURIComponent).join('/');
   return `https://huggingface.co/datasets/${source.dataset}/resolve/main/${encodedFile}`;
@@ -132,7 +117,7 @@ async function fetchSourceWithRetry(source, options = {}) {
 }
 
 const options = parseArgs();
-const existing = await readJsonIfExists(options.outputPath, { version: 1, updatedAt: null, runs: [], comments: [] });
+const existing = await readJsonCorpus(options.outputPath, { version: 1, updatedAt: null, runs: [], comments: [] });
 const run = {
   at: new Date().toISOString(),
   sources: options.sources.map((source) => ({
@@ -167,7 +152,7 @@ for (const source of options.sources) {
 
 const update = buildHuggingFaceCorpusUpdate(existing, imported, run);
 if (options.write && update.changed) {
-  await writeJson(options.outputPath, update.corpus);
+  await writeJsonCorpus(options.outputPath, update.corpus);
 } else if (!options.write) {
   console.log('Dry run only. Pass --write to update the corpus.');
 } else {

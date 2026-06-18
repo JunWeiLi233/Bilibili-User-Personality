@@ -1,0 +1,1508 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-18T03:56:00.132Z",
+  "shard": 40,
+  "shardCount": 66,
+  "comments": [
+    {
+      "message": "为什么期末考试都要考前复习呢？ 考试后看哪里错了不就可以重点复习了吗？",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8465492453",
+      "sourceUrl": "https://tieba.baidu.com/p/8465492453",
+      "uid": "-l澄闪l-",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "“你是我努力奔跑的动力。”犯罪嫌疑人深情告白王警官。",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7526543485",
+      "sourceUrl": "https://tieba.baidu.com/p/7526543485",
+      "uid": "王小波大😁",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "新婚三天的食人族妻子洗手作羹汤",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7526504758",
+      "sourceUrl": "https://tieba.baidu.com/p/7526504758",
+      "uid": "摧铩",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "体育锻炼好难啊 走路好难啊，刚从美国走北京就累了",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8455601806",
+      "sourceUrl": "https://tieba.baidu.com/p/8455601806",
+      "uid": "贴吧用户_589tSb1",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "今天学校评选三好学生 为什么老师既说参选的同学要有动手能力又说有动手记录的同学不得参选",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8454155198",
+      "sourceUrl": "https://tieba.baidu.com/p/8454155198",
+      "uid": "xklbba",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "三国时期最爱国的城市是建业 因为是吴京",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8441505114",
+      "sourceUrl": "https://tieba.baidu.com/p/8441505114",
+      "uid": "笺墨无颜",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "大家不要给嬴政打钱了，给爱因斯坦打吧，有科学依据",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8446975629",
+      "sourceUrl": "https://tieba.baidu.com/p/8446975629",
+      "uid": "贴吧用户_JSA8K2V",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "学委每次点名都不点自己的名字，她是不是每次自己都不来上课",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8458322877",
+      "sourceUrl": "https://tieba.baidu.com/p/8458322877",
+      "uid": "贴吧用户_aJUe3CN",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "地府里的日子还真是让人流连忘返",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8328197538",
+      "sourceUrl": "https://tieba.baidu.com/p/8328197538",
+      "uid": "卷云舒🌸",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "为什么孙笑川会被烫伤？ 用圆深碗放粥太多导致的",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8465859000",
+      "sourceUrl": "https://tieba.baidu.com/p/8465859000",
+      "uid": "贴吧用户_71ZGR1J",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "我明明已经吻了睡美人的唇好几遍了 为什么她还是没醒过来，反倒是一直在流口水？",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8459674580",
+      "sourceUrl": "https://tieba.baidu.com/p/8459674580",
+      "uid": "Timmie233",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "在禁渔期，授人以渔不如授人以鱼",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8467069372",
+      "sourceUrl": "https://tieba.baidu.com/p/8467069372",
+      "uid": "晓琛白羽",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "终于登上雪山的小明对着一朵花惊呼：“这冬雪莲真TM罕见”",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8464205340",
+      "sourceUrl": "https://tieba.baidu.com/p/8464205340",
+      "uid": "贴吧用户_71ZGR1J",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "为什么人们不赞美10点或15点的太阳，而只赞美夕阳？ 是不是总要等到失去了才懂得珍惜？",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8464132763",
+      "sourceUrl": "https://tieba.baidu.com/p/8464132763",
+      "uid": "无端乱入º",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "“昨晚梦见我去爬山了，还好梦都是反的” 孙悟空说",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8440669371",
+      "sourceUrl": "https://tieba.baidu.com/p/8440669371",
+      "uid": "笺墨无颜",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "有了伯乐，才有了千里马；有了千里马，才有了五个商殃",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8325751392",
+      "sourceUrl": "https://tieba.baidu.com/p/8325751392",
+      "uid": "原神1437",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "我自首 我曾经杀死一只知更鸟，曾经杀死 比尔，还曾经杀死那个石家庄人",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7211860138",
+      "sourceUrl": "https://tieba.baidu.com/p/7211860138",
+      "uid": "🌀GHOST",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "大发现！人民币能溶于空气，我把钱扔在地上，第二天就溶解了！",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8450880015",
+      "sourceUrl": "https://tieba.baidu.com/p/8450880015",
+      "uid": "wc有OP",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "手雷是一种拉炮儿",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7526857145",
+      "sourceUrl": "https://tieba.baidu.com/p/7526857145",
+      "uid": "59412b22",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "法海一招大威天龙把小青轰成气体 然后法海死于氰中毒",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7527389938",
+      "sourceUrl": "https://tieba.baidu.com/p/7527389938",
+      "uid": "贴吧用户_0J9KbAM",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "贱不贱呐？ 王阿姨在小贩前问道",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8454364766",
+      "sourceUrl": "https://tieba.baidu.com/p/8454364766",
+      "uid": "玩蛋玩意◎",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "既然李白十步杀一人，千里不留行 那我骑马岂不是很安全",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8453804874",
+      "sourceUrl": "https://tieba.baidu.com/p/8453804874",
+      "uid": "玩蛋玩意◎",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "消防通道居然大门紧锁，青龙山监狱被责令整改",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8467305008",
+      "sourceUrl": "https://tieba.baidu.com/p/8467305008",
+      "uid": "笺墨无颜",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "在中文中，加“了”表示发生在过去 但是在宾馆服务员不小心看到没穿衣服的女顾客的段子里，“对不起女士”表示过去，而“对不起了女士”表示将来",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8467247144",
+      "sourceUrl": "https://tieba.baidu.com/p/8467247144",
+      "uid": "牛哇小酥肉😘",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "长篇弱智｜分享你们不知道的青龙山趣事",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8282002659",
+      "sourceUrl": "https://tieba.baidu.com/p/8282002659",
+      "uid": "卷云舒🌸",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "吕布：援邳！ 甄姬：袁→丕 二郎神：猿劈 宋江：援霹 朱元璋：元劈 武大郎：原砒！ 数学老师：过点P作一个圆，记为圆P",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8467217998",
+      "sourceUrl": "https://tieba.baidu.com/p/8467217998",
+      "uid": "0N8X1J℃",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "陈奕迅献唱撑杆跳比赛主题曲：都，是用杆的",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8467177275",
+      "sourceUrl": "https://tieba.baidu.com/p/8467177275",
+      "uid": "笺墨无颜",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "本吧本来是发段子的地方 结果新来的人都在这装弱智 @公孙闬 你为什么不管",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8464467107",
+      "sourceUrl": "https://tieba.baidu.com/p/8464467107",
+      "uid": "Hero灬守望者",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "其实霍格沃兹是一所数论学校 因为里面的人都擅长模法",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8467102354",
+      "sourceUrl": "https://tieba.baidu.com/p/8467102354",
+      "uid": "贴吧用户_GSJ5UJ8",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "免责声明：顾客吃出压缩机系本餐厅新品炖空调，不是异物",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8461653220",
+      "sourceUrl": "https://tieba.baidu.com/p/8461653220",
+      "uid": "100vicecity",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "段子手在农田里开车，结果撞梗了",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8467047084",
+      "sourceUrl": "https://tieba.baidu.com/p/8467047084",
+      "uid": "月夜魔术师",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "我宣布生物学不存在了 如果说生物的生长发育是由于细胞分裂，可我一直都只有一个，所以这个理论是错误的",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8445167063",
+      "sourceUrl": "https://tieba.baidu.com/p/8445167063",
+      "uid": "想屮皮燕😍",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "“真的是吃啥补啥吗？” “真的是吃啥补啥吗？”我问妈妈 “当然了，就是因为你吃的多才能出人头地”妈妈说 ——来自食人族小明的一篇日记",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8466595772",
+      "sourceUrl": "https://tieba.baidu.com/p/8466595772",
+      "uid": "蛙蛙敲腻害",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "总有人问我为什么驼背 我就说：老人驼背是因为背着太多的时间，我驼背是因为背着太重的理想",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8466612043",
+      "sourceUrl": "https://tieba.baidu.com/p/8466612043",
+      "uid": "JO家绅士🐶",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "用手指擦完屁股之后再用纸巾擦手指可以节约厕纸",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7916045331",
+      "sourceUrl": "https://tieba.baidu.com/p/7916045331",
+      "uid": "绝对猫科-",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "不建议帅哥美女文身，因为颜良文丑",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8462197077",
+      "sourceUrl": "https://tieba.baidu.com/p/8462197077",
+      "uid": "笺墨无颜",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "小时候我的眼睛明明是最清晰的，怎么过去的画面是那么模糊",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8464227379",
+      "sourceUrl": "https://tieba.baidu.com/p/8464227379",
+      "uid": "tttghue",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "既然天上一天地上一年，那我在天堂上看人间能加速吗",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8451629579",
+      "sourceUrl": "https://tieba.baidu.com/p/8451629579",
+      "uid": "贴吧用户_Q4CZa63",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "一直对着一个人卡视野不就能对这个人隐形了吗？",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8462826078",
+      "sourceUrl": "https://tieba.baidu.com/p/8462826078",
+      "uid": "1234588888ww",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "我卖废纸，捆废纸用的是比较扁的绳子，收废纸的说感觉不如圆绳",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8465603199",
+      "sourceUrl": "https://tieba.baidu.com/p/8465603199",
+      "uid": "红桥许破天",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "对阿努比斯说“称心如意”和“工作顺利”本质上是一样的",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8466792288",
+      "sourceUrl": "https://tieba.baidu.com/p/8466792288",
+      "uid": "笺墨无颜",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "李白去蜀道溜达了一圈把衣服弄脏了，感叹道：“'衣需洗！”",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7773132826",
+      "sourceUrl": "https://tieba.baidu.com/p/7773132826",
+      "uid": "柛滑木木颖º",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "我把购物车推出超市，在生活里随心闲逛",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8302096259",
+      "sourceUrl": "https://tieba.baidu.com/p/8302096259",
+      "uid": "贴吧用户_79N2M2V",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "你美得让我无法呼吸，有一种脑干缺失的美",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8466690364",
+      "sourceUrl": "https://tieba.baidu.com/p/8466690364",
+      "uid": "摧铩",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "“大哥抽这个，这个劲大”管家说着把鞭子递给奴隶主",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8415806465",
+      "sourceUrl": "https://tieba.baidu.com/p/8415806465",
+      "uid": "100vicecity",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "特斯拉竞速比赛不慎抛锚，弱智观众大喊：加油！ 如题",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8466583822",
+      "sourceUrl": "https://tieba.baidu.com/p/8466583822",
+      "uid": "carrot吃翔",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "我弄丢了很多高中的东西 那时的笔，那时的书，那时的风，那时的梦",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8449954966",
+      "sourceUrl": "https://tieba.baidu.com/p/8449954966",
+      "uid": "WARN🔥",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "我寄涩心与明月，于是床前明月光",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8466596480",
+      "sourceUrl": "https://tieba.baidu.com/p/8466596480",
+      "uid": "JO家绅士🐶",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "当你看不到任何颜色时，你就已被生活绿了",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8466587564",
+      "sourceUrl": "https://tieba.baidu.com/p/8466587564",
+      "uid": "gdcg15888etf",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "我想你的时候，其实我也是在看着你",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8466015876",
+      "sourceUrl": "https://tieba.baidu.com/p/8466015876",
+      "uid": "偷猫的月亮♤",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "发癫别来看 警方发现，距离一家兰州拉面馆10000万米的地方，有一个特别正宗的凶杀案现场。",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8466544467",
+      "sourceUrl": "https://tieba.baidu.com/p/8466544467",
+      "uid": "贴吧用户_73JJN4S",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "皇帝一晚不会宠幸同个妃子两次 因为天无二日",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8452566871",
+      "sourceUrl": "https://tieba.baidu.com/p/8452566871",
+      "uid": "玩蛋玩意◎",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "“今天大太阳了” 丫鬟连忙向府中上下通报女主人的病情",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8440733688",
+      "sourceUrl": "https://tieba.baidu.com/p/8440733688",
+      "uid": "笺墨无颜",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "李先生移民美国后儿子却变成了日本人 因为Lison",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8466440704",
+      "sourceUrl": "https://tieba.baidu.com/p/8466440704",
+      "uid": "草鱼-ETC",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "谁能想到在重男轻女的地方竟然也有两百多斤的女生。",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8395142467",
+      "sourceUrl": "https://tieba.baidu.com/p/8395142467",
+      "uid": "我很弱mx",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "不确定醋里面是不是混有酱油 我：自交看看会不会性状分离",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8465757849",
+      "sourceUrl": "https://tieba.baidu.com/p/8465757849",
+      "uid": "桃城小蒋🌚",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "日本有大和民族，还有和服，和屋，和食。 现在我宣布还有和废水！",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8461427212",
+      "sourceUrl": "https://tieba.baidu.com/p/8461427212",
+      "uid": "美帝人类希望咯",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "鸭子的脖子那么长，会不会卡痰啊",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8450758078",
+      "sourceUrl": "https://tieba.baidu.com/p/8450758078",
+      "uid": "蛮晓小",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "枯藤老鼠昏鸭 这句比原句更加贴切",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8464488444",
+      "sourceUrl": "https://tieba.baidu.com/p/8464488444",
+      "uid": "贴吧用户_71ZGR1J",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "朋友应该是开挂了，真人在操作，却是游戏里的人物在动",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8458552688",
+      "sourceUrl": "https://tieba.baidu.com/p/8458552688",
+      "uid": "胶警重拳出击👺",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "不要眨眼， 不要眨眼，三分钟教会你三分钟不眨眼",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8465324743",
+      "sourceUrl": "https://tieba.baidu.com/p/8465324743",
+      "uid": "吴十八",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "捧哏！什么都捧，只会害了你！",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8412920689",
+      "sourceUrl": "https://tieba.baidu.com/p/8412920689",
+      "uid": "piggy0930",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "天呐我们的身体就是一个鬼屋！ 里面藏有一副骷髅和一个灵魂，屋子的墙布满满了血肉！好可怕！",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8431220989",
+      "sourceUrl": "https://tieba.baidu.com/p/8431220989",
+      "uid": "sugars628",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "各位8u谁认识小明，让他自己来做题！ 今天老师留的题：老师问小明：1 3 5 7 9，五和七中间填什么。我又不是小明我凭什么帮小明回答[表情]",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8462820729",
+      "sourceUrl": "https://tieba.baidu.com/p/8462820729",
+      "uid": "史莱姆◎00",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "大学生毕业叫学士，带专学院的毕业是不是院士？",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8443267646",
+      "sourceUrl": "https://tieba.baidu.com/p/8443267646",
+      "uid": "WARN🔥",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "大家都被骗了 日本不是倒了核废水，是在海里做核爆实验啊。倒核废水只是掩盖真相。",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8458989247",
+      "sourceUrl": "https://tieba.baidu.com/p/8458989247",
+      "uid": "12海平线",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "其实我上课真的很认真，认真到我连自己是什么时候睡着的都没注意",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8464749487",
+      "sourceUrl": "https://tieba.baidu.com/p/8464749487",
+      "uid": "贴吧用户_7Wbeby6",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "占卜也是一种测谎方法 只是准确性堪忧",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8464742746",
+      "sourceUrl": "https://tieba.baidu.com/p/8464742746",
+      "uid": "貼巴不用尸😢",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "我把霍金扔进微波炉，打开了解冻模式。",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8464062789",
+      "sourceUrl": "https://tieba.baidu.com/p/8464062789",
+      "uid": "我很弱mx",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "如果幸福是守恒的 那我的梦应该会很甜",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8327797536",
+      "sourceUrl": "https://tieba.baidu.com/p/8327797536",
+      "uid": "欧亨利式的人生",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "我提议拜登来担任我们吧主",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8464518400",
+      "sourceUrl": "https://tieba.baidu.com/p/8464518400",
+      "uid": "okzori",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "水开了就能喝，为什么门开了不能喝 RT",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7951574123",
+      "sourceUrl": "https://tieba.baidu.com/p/7951574123",
+      "uid": "我是贱坚",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "华生梦游，身在福中不知福",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8459945030",
+      "sourceUrl": "https://tieba.baidu.com/p/8459945030",
+      "uid": "知世knower",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "五险一金——意味着富贵险中求",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8462910753",
+      "sourceUrl": "https://tieba.baidu.com/p/8462910753",
+      "uid": "贴吧用户_G9WJ3KJ",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "不握紧手就抓不住，握紧手就无法去抓。",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8453469073",
+      "sourceUrl": "https://tieba.baidu.com/p/8453469073",
+      "uid": "魂随风荡丶",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "瞎了一只眼睛是不是只能看到半个人？",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8444583113",
+      "sourceUrl": "https://tieba.baidu.com/p/8444583113",
+      "uid": "阿飞不玩夏侯🐷",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "我配了一副眼镜，但是因为把这个世界看的太清楚了，我没有戴。",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/6935265439",
+      "sourceUrl": "https://tieba.baidu.com/p/6935265439",
+      "uid": "心里没点数么",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "天气太热了，妹妹说她不能吹空调风扇 于是我说了一大堆风凉话，为什么她现在满脸红温感觉怒火冲天的样子",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8456693210",
+      "sourceUrl": "https://tieba.baidu.com/p/8456693210",
+      "uid": "钢铁巨兽南十字",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "近日，一大学生因购买劣质商品被劝退",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8462208793",
+      "sourceUrl": "https://tieba.baidu.com/p/8462208793",
+      "uid": "WARN🔥",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "老师没有批准我的请假申请，理由竟然是我装的不像",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8464162275",
+      "sourceUrl": "https://tieba.baidu.com/p/8464162275",
+      "uid": "贴吧用户_QeeWJGt",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "关于舔狗。 如果给女神当工具人满足了你当舔狗的欲望，那么是不是代表她才是你的工具人",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8463760900",
+      "sourceUrl": "https://tieba.baidu.com/p/8463760900",
+      "uid": "贴吧用户_aAUJ9b4",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "太阳违反了禁止太空核试验法",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8464365379",
+      "sourceUrl": "https://tieba.baidu.com/p/8464365379",
+      "uid": "瞎说🐵鲁迅",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "皇帝把不喜欢的妃子放入冷宫冰冻保存 需要用的时候再化冻",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7527770903",
+      "sourceUrl": "https://tieba.baidu.com/p/7527770903",
+      "uid": "贴吧用户_0J9KbAM",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "空调是一堵墙，里面的人说冷，外面的人说热",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8463965942",
+      "sourceUrl": "https://tieba.baidu.com/p/8463965942",
+      "uid": "萨克933",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "科学证明 越烫的食物越好吃 所以蓝巨星是让人欲罢不能的美食",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8464088894",
+      "sourceUrl": "https://tieba.baidu.com/p/8464088894",
+      "uid": "🌚啊♂这🌝",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "黄盖对周瑜说：“我愿挨。你愿批吗？”",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8464235599",
+      "sourceUrl": "https://tieba.baidu.com/p/8464235599",
+      "uid": "夜栖咯隔驾到",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "这人啊！一点闲下来了 就没事干了！",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8464187227",
+      "sourceUrl": "https://tieba.baidu.com/p/8464187227",
+      "uid": "贴吧用户_GRURZM4",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "蜘蛛咬了人，人就变成蜘蛛侠，那人咬了蜘蛛，蜘蛛会不会变成人类侠",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8452594763",
+      "sourceUrl": "https://tieba.baidu.com/p/8452594763",
+      "uid": "贴吧用户_Gt4ZMRK",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "英文语法教授在研究后表示: 系动词系动词",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8462200369",
+      "sourceUrl": "https://tieba.baidu.com/p/8462200369",
+      "uid": "玛丽的对头",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "慕容家都是为了复国而生，那为什么他们不都叫“慕容复”",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8464034435",
+      "sourceUrl": "https://tieba.baidu.com/p/8464034435",
+      "uid": "无用💫",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "干门老婆出轨：闰",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8463717002",
+      "sourceUrl": "https://tieba.baidu.com/p/8463717002",
+      "uid": "WARN🔥",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "王老汉难得娶到一个媳妇 虽然她已经和别人有染还有两个女儿 但王老汉笑嘻嘻的对众人说:“我不仅有了个老婆还送了两个继女”",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8463711608",
+      "sourceUrl": "https://tieba.baidu.com/p/8463711608",
+      "uid": "一氧化二氮😄😈",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "一箱羊毛的毛重是不是就是羊毛的净重。",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8463470667",
+      "sourceUrl": "https://tieba.baidu.com/p/8463470667",
+      "uid": "自恋就摇一摇",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "“我爱你”是产品激活序列码",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8462094151",
+      "sourceUrl": "https://tieba.baidu.com/p/8462094151",
+      "uid": "萨克933",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "钱多的人会想办法拿走钱少的人的钱，是钱的万有引力吗",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7499464664",
+      "sourceUrl": "https://tieba.baidu.com/p/7499464664",
+      "uid": "疚誓久-",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "我鼻子有问题，一直没闻到过辣味",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8456693721",
+      "sourceUrl": "https://tieba.baidu.com/p/8456693721",
+      "uid": "cocoman666",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "不当家不知柴米贵 败家的小明散尽家财，后典当粮食成功致富",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8463927020",
+      "sourceUrl": "https://tieba.baidu.com/p/8463927020",
+      "uid": "贴吧用户_5N2R93W",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "小明上学路上发现车子故障，立即打开车灯说道：“还好光速不变。”",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8463102900",
+      "sourceUrl": "https://tieba.baidu.com/p/8463102900",
+      "uid": "王虚的黑色闪光",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "既然汉字是象形文字，那为什么“隐形”这个词不写成",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8431118868",
+      "sourceUrl": "https://tieba.baidu.com/p/8431118868",
+      "uid": "贴吧用户_0J263KM",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "在铁扇公主同意后，孙悟空故意走错了路",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7375071384",
+      "sourceUrl": "https://tieba.baidu.com/p/7375071384",
+      "uid": "jshdisbsjdn",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "所有我投进的球都是帮对面投的，这样打假赛也太爽了，没一个人怀疑",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8463688923",
+      "sourceUrl": "https://tieba.baidu.com/p/8463688923",
+      "uid": "tttghue",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "为什么上楼的时候我拿着省力杠杆还是很累 不是省力的吗",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8453125271",
+      "sourceUrl": "https://tieba.baidu.com/p/8453125271",
+      "uid": "-恋人心",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "我可以出院了吗 当你开始怀疑一个瓜熟不熟的时候，那个瓜在你的心里已经不熟了",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8463694378",
+      "sourceUrl": "https://tieba.baidu.com/p/8463694378",
+      "uid": "贴吧用户_GR9R7SE",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "你们知道今天的空气湿度有多高吗！ 我只是出去跑个一千米就全身湿透了！",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8461421860",
+      "sourceUrl": "https://tieba.baidu.com/p/8461421860",
+      "uid": "被吓到的一只鼠",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "为什么没有人在主驾装儿童座椅？",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8462040885",
+      "sourceUrl": "https://tieba.baidu.com/p/8462040885",
+      "uid": "无风烛火摇",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "小明没法洗澡，因为他浴霸不能",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8462714014",
+      "sourceUrl": "https://tieba.baidu.com/p/8462714014",
+      "uid": "贴吧用户_5VS1VVR",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "还好雨很大，不然雨刮器就要着火了",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8463577996",
+      "sourceUrl": "https://tieba.baidu.com/p/8463577996",
+      "uid": "grtby",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "八爪鱼又称8feet鱼",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8463533166",
+      "sourceUrl": "https://tieba.baidu.com/p/8463533166",
+      "uid": "夏娃coven",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "脚趾头作用是缓解尴尬",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7468945841",
+      "sourceUrl": "https://tieba.baidu.com/p/7468945841",
+      "uid": "起名废⚡",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "\"我晕车开慢点\"我歇斯底里的喊让过山车司机开慢点",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8463331508",
+      "sourceUrl": "https://tieba.baidu.com/p/8463331508",
+      "uid": "欧皇寿命极长♂",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "个子高的去高考，矮子怎么办？ 低考貌似没办法报名啊",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8449939265",
+      "sourceUrl": "https://tieba.baidu.com/p/8449939265",
+      "uid": "贴吧用户_76Pt9DG",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "小孩对着家里的老玉米说∶老东西赶紧给我爆米",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8457090081",
+      "sourceUrl": "https://tieba.baidu.com/p/8457090081",
+      "uid": "菊花残GRT🌝",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "白酒瓶被灌了一整瓶白酒终于不胜酒力醉倒",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8459481896",
+      "sourceUrl": "https://tieba.baidu.com/p/8459481896",
+      "uid": "笺墨无颜",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "碳酸钠是纯碱，那不纯的碳酸钠是什么",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7498920858",
+      "sourceUrl": "https://tieba.baidu.com/p/7498920858",
+      "uid": "割尾鬼Ω",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "小明在玩狼人杀期间被王警官带走 警方表示：小明是锒铛入狱",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8461501926",
+      "sourceUrl": "https://tieba.baidu.com/p/8461501926",
+      "uid": "贴吧用户_GbWPDNS",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "袁绍是我国古代著名的地理学家 划定时区、区别东西半球的国际日界线便是以他的名字命名的",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7509297885",
+      "sourceUrl": "https://tieba.baidu.com/p/7509297885",
+      "uid": "Sco⚡",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "是不是加入红十字会就能提高打红十的水平",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8462662632",
+      "sourceUrl": "https://tieba.baidu.com/p/8462662632",
+      "uid": "-恋人心",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "ಠ_ಠ_ಠ 霍金有什么了不起的，我走过的桥比他走过的路都多",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8454978568",
+      "sourceUrl": "https://tieba.baidu.com/p/8454978568",
+      "uid": "贴吧用户_5NZNNVD",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "蔡徐坤长得好白 可我喜欢黑蔡徐坤",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8444196879",
+      "sourceUrl": "https://tieba.baidu.com/p/8444196879",
+      "uid": "Hero灬守望者",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "为了让水烧的更快 我研究出了减压烧水壶，只需要30°水就能开",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8435446568",
+      "sourceUrl": "https://tieba.baidu.com/p/8435446568",
+      "uid": "贴吧用户_Q6XQSZG",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "两个东北人见面， 一个是你瞅啥a，一个是你瞅啥 b。",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8462397889",
+      "sourceUrl": "https://tieba.baidu.com/p/8462397889",
+      "uid": "海林堡º",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "在天堂笑话吧发地狱笑话被删后，小明说这是地域歧视",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8462607608",
+      "sourceUrl": "https://tieba.baidu.com/p/8462607608",
+      "uid": "scp100010",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "从理想青年转变为职场文化的拥趸者，算进化还是堕化",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8461909266",
+      "sourceUrl": "https://tieba.baidu.com/p/8461909266",
+      "uid": "断垣八千里-",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "和尚都是单身，为什么不去庙里求姻缘。",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8453511245",
+      "sourceUrl": "https://tieba.baidu.com/p/8453511245",
+      "uid": "不想吃饭饭啊",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "既然皇帝是真龙天子 那为什么又会说天要亡我",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8453758508",
+      "sourceUrl": "https://tieba.baidu.com/p/8453758508",
+      "uid": "玩蛋玩意◎",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "世界上只有日本被原子弹炸过，日本为什么不申请专利呢？以后你们 世界上只有日本被原子弹炸过，日本为什么不申请专利呢？以后你们的原子弹丢到别的国家要给我交专利费，除非丢到我这里。",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7607835756",
+      "sourceUrl": "https://tieba.baidu.com/p/7607835756",
+      "uid": "贴吧用户_00XMVUJ",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "为什么买了运费险铁路局还收我返程车票",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8462203206",
+      "sourceUrl": "https://tieba.baidu.com/p/8462203206",
+      "uid": "正午的井♋",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "病人死亡需要经过医生确认，那家属为什么不拦着不让医生确认？",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8455007008",
+      "sourceUrl": "https://tieba.baidu.com/p/8455007008",
+      "uid": "奶狗一条🐶",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "暗访揭秘外卖店后厨肮脏内幕：厨房的承重墙用了10年都没换过！",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8458708178",
+      "sourceUrl": "https://tieba.baidu.com/p/8458708178",
+      "uid": "笺墨无颜",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "根据目的读音不难推测罒应该读作 3 c/",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8462358611",
+      "sourceUrl": "https://tieba.baidu.com/p/8462358611",
+      "uid": "笺墨无颜",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "我定了个九点的闹钟，提醒自己在九点定个十点的闹钟。",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8322691578",
+      "sourceUrl": "https://tieba.baidu.com/p/8322691578",
+      "uid": "我很弱mx",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "杀人犯辩称在火车站台上使用了推免资格",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8462202801",
+      "sourceUrl": "https://tieba.baidu.com/p/8462202801",
+      "uid": "正午的井♋",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "无神论者王老汉在精神病医院门口示威，坚称这世界上没有精神病。",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8457604884",
+      "sourceUrl": "https://tieba.baidu.com/p/8457604884",
+      "uid": "我很弱mx",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "瘦死的骆驼比我瘦",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8461711130",
+      "sourceUrl": "https://tieba.baidu.com/p/8461711130",
+      "uid": "安赭",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "出门前我发布了我自己的寻人启事和通缉令，让全城警民陪我玩捉迷藏",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8462135569",
+      "sourceUrl": "https://tieba.baidu.com/p/8462135569",
+      "uid": "tttghue",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "既然我入院了，我就不避讳的和大伙说了，我和我老师应该是外星特务 因为我的老师经常偷偷暗示我，叫我学做人，做人事，说人话，我老师和我说，做人不能这样不能那样。我怀疑他是在为我母星入侵地球做准备，培养我当特务，可惜我被抓进来了。",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8461346614",
+      "sourceUrl": "https://tieba.baidu.com/p/8461346614",
+      "uid": "贴吧用户_G1MAGXW697",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "没人发现费马是文学家吗 他会用设置悬念的方法，引起读者阅读兴趣",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8462100869",
+      "sourceUrl": "https://tieba.baidu.com/p/8462100869",
+      "uid": "贴吧用户_58t5K1a",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "古代人可以使用极其复杂的甲骨文，而现代人用的是简单的简体字 说明我们的智商是在一直倒退的啊",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8432615218",
+      "sourceUrl": "https://tieba.baidu.com/p/8432615218",
+      "uid": "Deity槿桉",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "霍金这么伟大的科学家，没想到见到美女也是走不动道。",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8394990900",
+      "sourceUrl": "https://tieba.baidu.com/p/8394990900",
+      "uid": "我很弱mx",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "改换信仰之后运势变差，信众们纷纷表示：不如原神",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8461531110",
+      "sourceUrl": "https://tieba.baidu.com/p/8461531110",
+      "uid": "笺墨无颜",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "考试的时候不会，能不能当场把自己的脑子取出来看一下复习内容。",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7467919248",
+      "sourceUrl": "https://tieba.baidu.com/p/7467919248",
+      "uid": "云贤者",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "我要是天生六指，工作中被切掉那根多余的，这算正畸手术还是 我要是天生六指，工作中被切掉那根多余的，这算正畸手术还是工伤",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8264227516",
+      "sourceUrl": "https://tieba.baidu.com/p/8264227516",
+      "uid": "牛X者事竟成",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "喝了杀虫剂 蚊子一咬我就死了",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8425072708",
+      "sourceUrl": "https://tieba.baidu.com/p/8425072708",
+      "uid": "这是希望😄",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "短篇 诺智 果然，试图跟弱智说话就是愚蠢 ——于是我停止了自言自语",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8461514657",
+      "sourceUrl": "https://tieba.baidu.com/p/8461514657",
+      "uid": "贴吧用户_GyZPtK6",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "我今天夜观天象，发现现在是晚上",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7499465094",
+      "sourceUrl": "https://tieba.baidu.com/p/7499465094",
+      "uid": "Twicy-◎",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "利用他人身份证逃过防沉迷系统算不算另一种偷渡",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7526428848",
+      "sourceUrl": "https://tieba.baidu.com/p/7526428848",
+      "uid": "东北🐯柴浩",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "现在购买C4炸弹可免费保修27秒",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/7527612312",
+      "sourceUrl": "https://tieba.baidu.com/p/7527612312",
+      "uid": "旺星人五世",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "本质上来说人也是动物，所以医院里的医生也算兽医",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8460847495",
+      "sourceUrl": "https://tieba.baidu.com/p/8460847495",
+      "uid": "太美丽啦理糖",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "有没有六个边的三角形",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8460138879",
+      "sourceUrl": "https://tieba.baidu.com/p/8460138879",
+      "uid": "处女座bb102",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    },
+    {
+      "message": "萧薰儿：我被炎上了",
+      "platform": "tieba",
+      "source": "Hugging Face dataset: kirp/ruozhiba-raw/wisdomBar_raw.csv: https://tieba.baidu.com/p/8461633739",
+      "sourceUrl": "https://tieba.baidu.com/p/8461633739",
+      "uid": "笺墨无颜",
+      "uname": "",
+      "dataset": "kirp/ruozhiba-raw",
+      "file": "wisdomBar_raw.csv"
+    }
+  ]
+}

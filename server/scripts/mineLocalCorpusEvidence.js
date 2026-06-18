@@ -2,6 +2,7 @@ import { readFile } from 'node:fs/promises';
 
 import { readKeywordDictionary, mergeEntriesIntoDictionary, normalizeKeywordEntries } from '../services/deepseekKeywordTrainer.js';
 import { findLocalCorpusEvidenceEntries, flattenBilibiliCommentCorpus } from '../services/localCorpusEvidence.js';
+import { readJsonCorpus } from '../services/splitCorpusStorage.js';
 import { DEFAULT_COVERAGE_ACTION_FILE_PATH } from '../utils/paths.js';
 
 const DEFAULT_CORPUS_PATHS = [
@@ -61,7 +62,9 @@ function targetTermsFromActions(actions = []) {
 async function readJson(path) {
   const raw = await readFile(path, 'utf8');
   if (/\.txt$/i.test(path)) return raw.split(/\r?\n/);
-  return JSON.parse(raw);
+  const parsed = JSON.parse(raw);
+  if (parsed?.storage !== 'split' || !Array.isArray(parsed.commentFiles)) return parsed;
+  return readJsonCorpus(path);
 }
 
 const options = parseArgs();

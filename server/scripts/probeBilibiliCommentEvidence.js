@@ -1,5 +1,4 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { dirname } from 'node:path';
+import { readFile } from 'node:fs/promises';
 
 import { readKeywordDictionary, mergeEntriesIntoDictionary } from '../services/deepseekKeywordTrainer.js';
 import {
@@ -23,6 +22,7 @@ import {
   probeVideoKey,
   rankProbeVideosForAction,
 } from '../services/directBilibiliEvidenceProbe.js';
+import { readJsonCorpus, writeJsonCorpus } from '../services/splitCorpusStorage.js';
 import { DEFAULT_COVERAGE_AUDIT_REPORT_PATH } from '../utils/paths.js';
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -113,19 +113,6 @@ function parseArgs(argv = process.argv.slice(2), env = process.env) {
 
 async function readJson(path) {
   return JSON.parse(await readFile(path, 'utf8'));
-}
-
-async function readJsonIfExists(path, fallback) {
-  try {
-    return await readJson(path);
-  } catch {
-    return fallback;
-  }
-}
-
-async function writeJson(path, payload) {
-  await mkdir(dirname(path), { recursive: true });
-  await writeFile(path, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
 }
 
 async function fetchJson(url, referer, options) {
@@ -291,7 +278,7 @@ async function fetchVideoDanmaku(video, options) {
 
 const options = parseArgs();
 const audit = await readJson(options.auditPath);
-const existingCorpus = await readJsonIfExists(options.outputPath, { version: 1, comments: [], runs: [] });
+const existingCorpus = await readJsonCorpus(options.outputPath, { version: 1, comments: [], runs: [] });
 const scannedVideoKeys = collectScannedProbeVideoKeys(existingCorpus);
 const dictionary = await readKeywordDictionary();
 const actions = options.explicitQueries.length
@@ -405,7 +392,7 @@ const corpus = buildProbeCorpus(existingCorpus, allComments, {
   videos: scannedVideos,
   warnings,
 });
-await writeJson(options.outputPath, corpus);
+await writeJsonCorpus(options.outputPath, corpus);
 console.log(`Probe corpus comments: ${corpus.comments.length}`);
 console.log(`Probe corpus: ${options.outputPath}`);
 

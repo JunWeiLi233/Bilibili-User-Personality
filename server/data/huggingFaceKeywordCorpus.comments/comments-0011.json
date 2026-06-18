@@ -1,0 +1,1258 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-18T03:56:00.132Z",
+  "shard": 11,
+  "shardCount": 66,
+  "comments": [
+    {
+      "message": "你说的3个人不是一个档次，成龙是国际巨星，王家卫是个国外评价还不错的有一定知名度小众导演，张艺谋国际地位就是路边一条",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "周杰伦确实厉害，但还是形单影只，以周杰伦喜欢的篮球为例，他相当于华人世界出现的篮球水平极高的运动员，扔到nba话，发现自己只是普通轮换",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "日本音乐很强的[笑哭]",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "之前跟我同学出去玩，结果他在外面听什么中国古风歌曲，还外放，我说尴尬死了叫他关掉，他还说什么中国人要有文化自信[笑哭]",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "我艹这太典了，想起来我第一次听到这种质疑还是在三叠纪食草的问小型食肉的有什么大型猎物捕[笑哭]",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "J-pop一股浓浓的东方味、东瀛风，K-pop更国际化。恰恰是因为东大不仅对传统音乐传承的不好，现代音乐也只学了皮毛，不像小日那样充分消化吸收后融合，而是直接嫁接。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @返工不返汉 :我说音乐课没用你说我让小孩上艺校，我说音乐教育的初衷你说音乐课没用，你就是来找杠的对吗？",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "我以前喜欢过一些优秀歌手，我发现林忆莲唱过decode，我发现邓丽君唱过beat it，还有很多，我就知道了那些人受到的音乐教育和熏陶和大陆完全不是一个概念。就看简单的弹唱型流行歌手，深挖一下多少都收到过西方摇滚乐爵士乐的影响，所以他们的歌起码是言之有物，旋律是不过时的，是不低俗的。我觉得土从来不是贬义词，英伦摇滚是英国土音乐，爵士是黑人的土音乐。剩下的不能多说了",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "不知道为什么刷到，但是我几乎不听中文歌[吃瓜]",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @AVC_dayo :你说的话正好印证了层主说的内容",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "说实话不仅是音乐……整个中国的审美完全在平均线之下…… 中国太爱钱了，审美好像变成了不必要的东西一样。哪怕是春晚这种应该是纯审美的地方，也要强行上价值展现国力。 美就是美，不是说美不可以上价值，但是纯粹的、感官上和谐的美也是有价值的……",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @AAA鸡蛋纺纱机批发 :勃勃生机在哪？中国全部游戏全绑一起能凑出一个原创玩法的游戏吗？网文更是下沉市场聚集地，烂得出奇，不是讨论裤裆里面那点事儿，就是类《查理九世》的少年读刊加强版。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "现在真正正面走入世界的中国音乐，是游戏音乐",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @某科学の路易十四 :反正全损版阳关三叠我是既听不懂也不想听懂。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @FATE-_EVA :那照你的说法 中国游戏公司随随便便占据这个榜了 难道就米是个人傻钱多的疯狂往本不是游戏最核心的板块砸钱？ 还是说其实你的意思下 中国其它的游戏公司都没钱砸这个方向？ 再说了 国内没什么审美喜欢听流水歌也就算了 国际化的大众都愿意为流水歌买账 贡献播放量？米要是真敢拿这种东西放出去 还能和一些本身就有知名度的流行歌手碰一碰 早把自己碰死了 这还要能上榜 把自己游戏收益砸完了都做不到",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @鱼卡太短了 :你当璃月，层岩巨渊，沉玉谷三张专辑共150首左右的歌不存在？来讨论前总得先调查调查吧？一张嘴就可以乱说话？",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "每期读ai稿反复练词癖，能看下去神人",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "大概从头看到尾了，虽然不懂音乐，可能也是搜索一些古典音乐数据推送到了，总体觉得up内心当中还是希望国产音乐能走上一条正确的路，文案也是真有种爱之深责之切的感觉。前几集感觉音乐的思想性、歌手的情感说的都非常好，包括观众审美等，短视频流量资本的时代，很多觉得好无聊的音乐真的不知道为什么莫名其妙的火，再比如一些歌曲的翻唱，追求完美的音轨，这些看都像是旋律上的毒品，我本质上一些莫名其妙的歌曲，办公室喝茶喜欢听《卡门》等等古典，但更多时听理查德克莱德曼通俗钢琴演奏，像贝多芬、肖邦的曲子除了高潮部分真觉得自己没有耐心听下去。我想说不仅仅是对音乐也好，对其他的一些事情而言，现在太过于浮躁、功利，所以这几期视频对于音乐的真正内核不怎么懂，也没有什么权利插嘴，但是分析的一些问题在对于其他事情确实能让自己反思。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "你这段“批判”最绝妙之处在于——当你试图用“水池里银龙鱼”证明华语乐坛完蛋时，其实正暴露了你连自己举例的歌都没耐心听完。《八方来财》专辑恰恰是近年华语乐坛为数不多的音乐性与文化深度都十分优秀的作品之一，而你的三秒快进式听歌习惯，完美复刻了短视频时代最讽刺的认知闭环：一边抱怨“只有流水账”，一边亲手把棱角分明的作品削成自己想象中的碎片。建议下次开喷前，至少把专辑听到第二首歌的主歌，毕竟真正的“没脑子”不是听不懂，是连听都不听就忙着编结论。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "有些做鬼畜的先把音高调对到调上先吧，鬼畜确实是b站瑰宝但是不太指望得上顶起音乐区",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "因为中国有能力的人会认为音乐是不务正业的事情",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "没觉得“审美倒退越来越烂”啊[笑哭] 你如果非要说以前有丽君宗盛咏麟学友有周林王陶，那我想说以前你没看到的是广大农村下沉市场的大量三俗音乐比如云南老山歌啊 所以我想说的是，一直都很烂啊，只是以前你不知道而已。你以为越来越烂，其实只是现在信息更发达了",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "好音乐都是玩出来的，确实只有靠鬼畜区了",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @chuanzhiyizi :象形和表音哪来的高下之分",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @独钓_一江秋 :现代音乐的发展就是在传承上创新，从劳动号子、乡歌、室内乐、舞曲歌剧到爵士、摇摆乐流行乐再到摇滚朋克前卫，最后再是现代流行乐，哪一个不是根据上一个的经验总结后升华，没有前人的积累可能从劳动号子一下起飞到摇滚？开什么玩笑[笑哭]",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "你有啥想法，但说无妨！",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "软硬实力相关性有限。韩国、印度、墨西哥，这些国家的硬实力很强吗？但是他们这里面或雅或俗的审美、文化、娱乐体系就是全球瞩目，有话语权。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @高山水锦树 :音乐影视两个传统的流行文化板块很拉胯，反而是游戏和网文生机勃勃",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "说句残忍的就是观众都快看腻了，搞创新也跟不上年轻观众的需求，成功的新作品大都是改编老作品，原创的又总有种背着宣传任务的束缚感，说教味很重，而且上世纪的京剧流派纷呈，各有各的绝活，现在十旦九张十生九杨，都标着一种学，属于是越发展反而路越窄了，其实很可惜，翻翻剧作杂志能看到不少好玩的剧本，但问题是没人出资让演员们排练巡演",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "艺术没有自己的生命力，只能依附在说教系统存活",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "流行音乐不过百年，脉络很清晰的，搜一下流行音乐发展史就知道了",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "华语乐坛貌似在几百年前就被别人超过了，说起西方古典乐是一个比一个经典，但说中华古典我想不起一首好听甚至闻名世界的",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @宇宙飞-橙 :搞音乐的不是没有能人，也不少，为什么没人听，市场不需要，资本满足烂歌品位即可赚翻。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "这两者不矛盾",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @小GAi鸽 :别提升文化自信了，现在咱多有文化自信啊，盲目的自信只会让我们固步自封，不是什么孤芳自赏，只会在自己狭隘的小圈子里面转圈，这叫闭关锁国。什么叫走出国门，up说的很明白了，科目三不叫走出国门，跟什么雪花飘飘是一个道理。我就提一点，承认我们自己的文化有落后性西方文化有自己的先进性有那么难吗？先承认这点才能改造文化，你不去接受不去理解，又怎么发展自己的文化呢？",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "难怪金星被整了，揭下了多少圈内人的遮羞布啊。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "他的粉丝到处造神喷别人，所以他也要为粉丝的行为负责到底",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "国内民乐领域的学院派太保守了，古的东西早已失传，近的东西创造不出来，就靠着20世纪初那一批作曲家写的东西一直吃老本",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "生产在哪里？华语乐坛的风格取决于别人日韩出了什么歌[喜欢]",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "这几乎真有点被说烂了。艺术脱离群众那就不是艺术，指的是艺术本身是歌颂群众的高光，同时也记录群众的苦难。如果跟这两个都没关系，那是否脱离群众其实也没关系。非洲有些地方群众的艺术是食人之前捶着胸口跳个舞嗷嗷叫。那能叫艺术吗？",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "深层次就不能谈了",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "至于kpop，我觉得只是商业上成功，绝大多数音乐没什么深度，没有太多艺术层面上借鉴的必要",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "中国再出十个像周杰伦一样的音乐制作人，可能都很难改变中国音乐审美",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @ase481 :那你知道现在jpop和kpop已经发展到能反过来重新影响欧美的程度了吗？",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "中国音乐没有走进世界，是因为中国人没有走入世界",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "我认为dy和慢脚是最主要的原因。导致现在的音乐人只追求能快速洗脑节奏强的能快速变现的歌曲。再加上抄袭也能变现也能被dy和慢脚接受，就越来越猖獗。比如有个男的他的歌几乎全是抄袭好几个超周董的，但是哪怕如此他还挺火。 现在已经不是不是音乐塞选歌手的年代而是而是资本塞选音乐的年代了。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "国外的歌也烂完了，全是节奏 律动。另外从10年代开始，加几句rap更是典中典。 乐坛这块还是只能看日本。 更深的文化以及改革那些也不想谈，但从国外爆火到国内爆火，之前欧美的diva或者男歌手都有大火的歌，现在rap听的人比之前多，但破圈却很少，近些年顶流的坏兔子，更是小众的离谱。 但有一点我不得不谈，就歌手这块，国内外唱功差距太大了，国内歌手练嗓子的太少",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @TARDIS026 :所以说你说得对啊，国内人大部分就是只听中文歌啊。我身边难道没有这些人吗？大部分人最多也就听英文歌，老一辈的更不可能听日语歌韩语歌英文歌啊？而且曲风也是个问题啊，我身边都很少有人听硬摇，爵士，之类的。这就注定他们听不懂编曲或者混音啊。现在听中文歌的，你问他能不能听出贝斯的声音，他估计都不知道贝斯是啥。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "华语乐坛撇开港台，还剩什么，已经不是可以用悲观来形容了。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "上个世纪全世界各地的人探索电子音乐的时候国内在哪发财呢",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "朴也是因为和火星哥合作 猎魔女团也是因为有游戏这个介质 实际上光靠亚洲地区本身的身份 难上加难",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "哈哈 看到&#34;旋律被写完了&#34;是真的绷不住",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "第一句好自信的断言，敢问阁下对jpopkpop有多深的了解足以支持你断言他们都是西方流行乐的子类，西方流行乐的定义又是什么，这么轻率笼统的断言不会让自己显得很招笑吗",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "要实事求是，敢于面对自己不足",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "毕竟约400年前的那次文化灭绝，没有给音乐留下多少生存土壤，现在想做什么都要重新开始，想要在中国文化里做，先从方言开始吧，把韵和音找回来，再说创作的事。做音乐永远不是单指音乐本身，它是一个综合的东西。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @鼠熟驾到 : 这谁敢说啊[doge] 一切历史都是当代史，借古讽今这块，懂就行了。还是有明白人的，新年快乐[抱拳]",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @sees月球牢理 :这个应该指代的是热度高而德不配位的情况，但万青在热度背后有相当好的作品。硬要说国摇原神还不如说是草东",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "同理，鲁迅也只有批评",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "先思考为什么80 90s只有港澳能大量生产出优质音乐而内地不能。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "就一句话能说清楚的事，因为国内的音乐元素不够多元。 这和看电影是一样的，《镖人》为啥至今只卖10亿票房？作为动作片，武打动作设计太老套，没有想象力没有创造力，没有新奇特的内容，就连大沙暴这么有想象力的场景，居然简单打几下就完了，胃口越来越叼的观众怎么可能买账。 音乐也是一样的道理，你只有足够多元，才会迸发更多想象力，才有机会源源不断的产生新奇特的内容，才能满足胃口叼的听众。 纵观全世界，哪个国家音乐审美是年年进步的？除了老美这个大杂烩的地方，也没了，所以有钱人家的孩子想学音乐，就去美国高校学，其他地方包括韩国都没必要，例如王力宏，美国伯克利音乐学院双硕士。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @紫石竹话 :额，做商业的都有感受，任何一个大小行业，能赚高利润的都是洋牌子，高技术行业基本百分百洋牌子，技术不输国外的低端产品，高利润也绝大多数都是洋牌子，偶尔插进来几个新国货卖的不错，但利润率还是差的远。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "中国音乐的弊病古代就埋下了，自古国乐就是重词不重曲，一个曲子可以填几百上千首词，而且写词的人和填曲的人地位天壤之别，中国音乐还有个毛病就是太想用歌曲讲故事了，世界大部分音乐都是用歌曲表达情绪，只有中国音乐非要把一个完整的故事写进歌里",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "批评很容易，建设太难了，哪个国家都有垃圾音乐，中国音乐审美降低，你就贡献了批评",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "过去亚洲音乐基本就是指日本音乐",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @Gavin_Fuleo :还真是https://b23.tv/BV12x411c7mQ",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @TARDIS026 :现在国内的听众就是水平不行啊。国外的歌最多就听英文歌，日语歌他们会说我都听不懂日语我干嘛要听日语歌？曲风也是觉得摇滚太吵，爵士很莫名其妙，等等。我自己古典音乐听的少，但是不排斥，我有听我自己喜欢的曲风。但是现在大多数人甚至连自己听啥歌，是啥风格都不知道，只要是中文歌就行了",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "词曲都是西式音乐的。依旧没有建构出什么是中国音乐啊。但是不得不说，游戏音乐就是目前大陆最自由最优秀的音乐。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "留下来的清代以前的音乐典籍多的很啊？天天不拐清朝不会说话了，通俗小说，诗词，绘画啥的，清朝都不比明朝差甚至还进一步发展了，是不是你们就非得相信“曾经我们天下无敌，都是某个外族进来全毁了”，才能满足一点你们看起来自信实则是自卑的可笑心态？",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "一首日本歌香港翻唱一遍粤语的台湾翻唱一遍国语的，严重的时候翻唱都不标明在哪嗯装原创，大陆哪有这条件啊[笑哭]虽然我也承认论真原创，那个时代港台也强于大陆，问题是很多留到现在的港台优质音乐，它真是翻唱啊",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "从事绘画行业，老师讲的简直就是国内创作圈的通病",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "是经济发展，是国力强弱 绝对不是审美教育，绝对不是市场畸形 是华语倒退，是不如以前 绝对不是不爱深挖，绝对不是包容心差",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @FATE-_EVA :这话说的 腾子这么有钱为啥砸不出来呢 先自圆其说 再下结论吧[笑哭]",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "正因为没人在乎民乐所以才会没落请参考电影《闪光少女》，看完之后我发现，西方音乐也就那样",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "没人在乎？你合着就想听流行歌，那你听了也没用",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "没人听，本土都没人听",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "就拿前两天今年格莱美颁发的史上的首张西班牙语年专DtMF来举例吧，他的制作人是来自加勒比海的波多黎各地区，将当地的各种文化元素以及他们对自己所处乡土的思考有机融入了自己的作品里面，并且在语言并非欧美市场主流英语的情况下还能够产生了极大的话题度和共鸣，这是一件很了不起的成就，也可以当做一个可以参考的范例样本。 我觉得中国的音乐真正能够出海和产生全球影响力的那一天虽然还很遥远，但是我们必须得从重新把自己认清楚开始，我们对自己的认知是什么，我们该进行怎样的独属于我们自己的表达，然后进行新的建构。我们已经迷失了很久了。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @樾殇438 : 你的圈子指啥呢, 流媒体的播放量也没按音乐类型分,这不就谁IP流量大谁就听得人多",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "三大审美：弹得真快、唱得真高、画得真像！",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "啊这，你玩抽象的嘛",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "诗歌、戏曲和号子才是中国的传统音乐啊",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "别只谈老百姓不谈上限 有些老百姓觉得糠咽菜好 难道糠咽菜真的好吗？ 是因为平时只能吃草根 树根 树叶 没吃过更好的 中国音乐教育什么时候教过审美？听过更好的音乐？倒不如说九年义务教育有音乐课吗？",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "嘉豪这一块",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "开场白就很难绷，翻译就是喜欢up的都是独立思考的，不喜欢的就是跟风黑的，这不就是粉丝提纯的路子吗，和鉴证区一个味",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "日本音乐在世界范围内都是领先的，比如，他们的动漫op，ed，bgm。作曲和编曲对咱们就是降维打击，蔑视",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "我不明白中国乐坛哪里不接国际了，你看一堆音乐和外国不少曲子甚至经典名曲的节奏旋律甚至贝斯都差不多，我看已经对标国际水平了啊[笑哭]",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "如果再告诉你，近年来中国兴盛的livehouse和电音都是坂本龙一ymo他们七十年代玩剩下的，你是不是会更惊讶？",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "现在国内的音乐环境就使得他这种纯粹的音乐人很难出头，国内没有欧美那些专门给歌手准备的打榜歌曲的平台，也没有一个特别权威的像美国的biilboard的集齐下载，电台，流媒体的热歌排行榜，同时整个音乐圈被内娱饭圈污染严重，说相声的都去开演唱会，国内的节日庆典，不请专业的歌手来唱歌，反倒请些和音乐基本不沾边的影视流量明星来唱歌。人家国外是你有好的音乐作品才喜欢上你，而国内现在的情况则是先喜欢上你再去听你的歌。流量明星大行其道，真正热衷于音乐的创作型歌手出不了头，音乐成了附属品，你说说咋整?",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "真没必要因为国内文化沙漠就去抬韩娱，韩娱的问题不在作品而在整个系统跟爱泼斯坦那一套似的。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "抖和快只是病态的一种表现，而不是主因。又何止是音乐呢？",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "游戏配乐在国内一直是独一档",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "我认为现在还有一点很重要的是有这么一群人，稍微有点好听的曲子马上找出其中的西方元素，无论是乐器 编曲 或者评价体系 ，只要沾上一点就立刻切割出中国音乐[吃瓜]",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @想到的名字全被注册了 :[喜极而泣]培养音乐素养提高审美？是靠小学一周两节，初中一周一节，高中一周两节的音乐课就能培养的？就这一周两节，一个学期30节的教学强度，充其量是个通识教育，提高什么素质？培养什么审美？[喜极而泣]",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "中国复兴，木桶原理，最短的那一块木板就是文化。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @想到的名字全被注册了 :我看你回的也挺勤，跟你说几个点。 1.音乐的审美是需要听大量的音乐，大量的公认的经典、高级的音乐才能培养出来的。 2.学会去批判、欣赏所谓的低级音乐 3.能够或被动或主动的找到懂得欣赏的引导人，来提高音乐审美教育。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "UP主接下来打算做什么呢",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "千禧年后，好的作品、团体与个人，已经与千禧年以前逐渐拉开了距离，直到形成仿佛两个世界的壁垒。后来，对于各种粗伪国风民族、烂俗神曲、莫名奇妙火起来的流行歌，我确实是已经无法听下去了，也不愿意去记得各种爱豆和歌手的名字，索性弹古典吉他去了，非要翻唱表演也选黄金时代的老流行歌。现在本来就半死不活，青黄不接，浮躁虚伪，再加上AI制作音乐日趋成熟，得了，我们就等着慢慢变成怀旧老登吧。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "很遗憾，审美就是有高下之分，下里巴人就是不如阳春白雪，我龙飞凤舞的江湖体就是不如魏碑的古拙，我写出来的狗屁文章就是不如那些历史名家。哪怕我把这些东西包装的再如何符合大众口味，不如就是不如。这种高下就是可以通过广泛的鉴赏与训练习得的。擅长书法的人就是能一眼分辨江湖体和魏碑的高下，饱读诗书的人就是能看得出我文中的空洞，菜就多练，不要拿“审美没有高低”来欺骗自己。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @再装填激光导弹再装填 :问题在哪[汤圆]讲道理我听完这个视频都没听明白到底是要批判什么，是批判国内音乐不能走向国际还是批判国内音乐太西洋化？是批判国内音乐缺少民族传统还是批判国内音乐死咬着传统音乐不放？你没发现这视频前后是左右脑互搏的吗[汤圆]",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "自己跟自己比，10年前的音乐环境是什么样的，现在的音乐环境是什么样的？我们的音乐环境和音乐水平是随着经济正增长吗？",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "中国的快速发展把文艺这块落下了，我们的工业和城市化用了几十年干了人家欧美几百年的事，文艺这块几十年可能就干了几十年的事，还没啥正事，音乐不知道，但是电影和游戏最近几年终于有点起色了",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "问：如何支持中国音乐 答：多听世界音乐",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "永远想着弯道超车，永远不把打基础当回事，永远信奉功利主义优绩主义，永远不去投入长期培养，一次次的自我催眠中自我满足，甚至把一些话捏造给鲁迅，但是却从不记得鲁迅真正说过的一句话 “不敢正视各方面，用瞒和骗，造出奇妙的逃路来，而自以为正路。在这路上，就证明著国民性的怯弱，懒惰，而又巧滑。一天一天的满足着，即一天一天的堕落着，但却又觉得日见其光荣。”",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "確實，總感覺那些“國風”標籤的東西特別尬，中不中，洋不洋，好多學民樂的連“黃鐘律呂”是什麼都不知道，音樂教科書連“宮商角徴羽”都講不明白，不光是音樂，還有爛大街的過氣西裝剪裁加清朝紋樣碰瓷“漢服”，街頭耍把式的加點體操和舞蹈說是“傳武”，中國自己的好東西一點看不見，外國的好東西還一點不承認。咱也不知道這幫人啥目的都是，就這樣還能復興傳統文化？",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "当初第一次看见“国潮”外卖包装袋的时候，我说嘿，这袋子有特色，有点潮流，还挺好看。然而后面发现，但凡“国潮”外卖包装袋，基本上都是“预制菜”。不是“国潮”不美，而是他们糟蹋了“国潮”。[吃瓜]",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @Rong_official : 他们是圈内人，利益相关方，跟我们这些单纯喜欢音乐的人不一样。他们的理解能力已经是负数了[笑哭] 音乐跟其他产品完全不一样，其他产品你做不到最好，也有你的生态位。但是音乐不一样，你做的不好没人会理你[笑哭] 他们不理解，或者理解了但是装傻，碰瓷找点热点而已。音乐说的难听点，就是一部分有天分的人玩的，没天分早点闪[笑哭]",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "补充两点： 1. 衡量华语音乐复兴的标志，不是欧美up主为了那点流量进行的（或者花钱去外网找欧美博主），如同“夸夸群”般的“华语音乐反应视频”，而是我们不再需要通过出口转内销的外国赞许来获得极其病态的审美确认； 2. 很多方面可以接受刀郎2023年的现象：成千上万的营销号对乐理的践踏、认知闭环和信息茧房——由于英语壁垒和网络封锁，下沉市场的听众接触不到世界前沿的先锋音乐。营销号利用这种信息匮乏，将刀郎神化为一个“全球音乐的救世主”形象。 以及，下沉市场的大众在生活中往往是沉默和被忽视的。因此，“草根出身、被主流排挤、沉寂多年一战封神”的包装形象，完美契合了民众们的“复仇幻想”。在这种情绪高潮下，乐理、审美、编曲结构都不重要了。唯一的评判标准居然是态度和出身。讽刺又无奈。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "脖子上的警铃？",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @kurroz :总榜要算专辑销量和各种点播的。HOYOMiX又不发售专辑，只是在流媒体平台发布作品，而且不允许商业使用，天然就没法比。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "先投机取巧带动后投巧取机",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "我听欧美。弹幕上一个说法“韩娱也没拿过格莱美”真的给我看笑了。今年朴彩英和猎魔女团都有格莱美提名的，并且也是通类和大类流行……总比瓷器一次没上过强吧",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "凡事都是两面的，中国现在平均审美能力不高是不争的事实，不论音乐美术还是其他方面，大伙都还是以凑热闹为主，但是这并不意味着“劣根性”，西方音乐为什么成熟，是因为他们经过了多年发展有了成熟的艺术供应链条，有着现实之外的丰富的精神世界。而我们的美育还在被学历焦虑下的内卷挤占空间，绝大部分人一辈子只有茶米油盐，部分人有审美意识但没有专门教育，部分艺术生受到教育却把艺术作为糊口的工具，说白了，物质世界才刚开始丰富，精神世界怎么可能有发展的土壤。不是西方高人一等，只是我们起步太晚……",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @TARDIS026 :给你做个比喻，如果把音乐比作文章，编曲配器这些就是修辞手法，叙事结构之类。没有学过这些的人能不能评价文章的好坏?能，但是他的评价体系是简陋的，不成熟的，那他的评价结论自然是不精确的，可信度不高的。他可以判断文章是好是坏，但是好在哪，为什么好，具体有多好，他是一概不知的。60分的文章和100分的文章在他眼里没有什么区别。那他都不写文章为什么还要学这些?因为能提高自己的鉴赏水平，分辨出真正高质量的作品。试想一下，如果一个人天天给你推荐《斗罗大陆》并说这是一本神书，你会作何感想?我还是很希望每个人都提高一下音乐审美的，至少别再做出“急急如律令”这种东西了，每次听到都感觉流行文化已经完蛋了。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @旗木顺顺东 :老是搁那说中国音乐没有创新 只是生拉硬拽 只是覆写西方和声系统 最后甩一句我持悲观态度[汤圆]不好评价 只能说华语乐坛的烂也离不开这种人",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "回复 @小GAi鸽 :哥们你这体制话术我是真不想回答，我辛辛苦苦码字不是想要听这个[笑哭]",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "你以为国外音乐审美就没倒退吗[呲牙]",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "乱说，跟大众的音乐教育一点关系都没有，就是这些搞音乐的水平低，要有好歌怎么会没有人去听啊.就是能力不行",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "pop在建国之前还有 建国之后就全无了 全变成苏式红歌了 历经三十年 直到八十年代才逐渐复现。并且接受港乐 台乐 韩乐的一波波浪潮 在本土pop的探索上 真的还蛮少的 经常有人说 中国对世界音乐的贡献是0 还蛮有道理的",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "陈老师很多观点不错，很深入，不过也有的地方也有点抽象了，特别是描述西方音乐和现代音乐这块，有点教条了，特别是那个音乐审美这事和包装嫁接这事，全世界估计一个样，关于刀郎的分析感觉也有点情绪化了，杰伦掀起的这潮和刀郎有多大区别呢，抄袭嫁接海外音乐这波也是港台拿手好戏。给陈老师赞一个，少有的音乐方面的犀利解读。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "然后说实话 一直强调自己的粉丝是有审美的懂独立思考的会让我觉得你像个神棍 本来可以忽略的一些逻辑谬误被你这么一整没法忽略了",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "音乐不是刚需，审美也是主观的，欣赏不来中国音乐就听外国音乐。外国人负责能歌善舞，中国人负责工业制造，挺好的。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "那我想知道京剧怎么算？[doge]",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "华语乐坛现在跟中国篮坛非常像，属于是国内最顶尖的那几个放到世界上看就是普通水平，连二三流都算不上。就像姚明在CBA称霸，来到NBA就是一个场均20分+10篮板左右的普通球星，比他强的大有人在，连在一般球队的大当家都做不上，把周杰伦放到世界上看也是同理[笑哭]。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "云南老山歌不差，你前面说的那帮也没那么牛",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "世界范围内找几个免费的软件出来看看，bandcamp这种独立音乐聚集地不算，毕竟bandcamp里面的音乐搬运到国内音乐软件里也不收费",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    },
+    {
+      "message": "真正被 西方流行 文化圈广泛接受 反复消费的 属于 华人圈子的文化产品 只有 李小龙 成龙的动作片 和 武术指导， 依托于 戏班子 京剧 衍生出来的套招 和 武师， 确实比 好莱坞的动作好看的多，其他的乏善可陈，特别是音乐。",
+      "platform": "bilibili",
+      "source": "Hugging Face dataset: honeray/ai-music-comments-1.5M/final_data.csv",
+      "sourceUrl": "",
+      "uid": "",
+      "uname": "",
+      "dataset": "honeray/ai-music-comments-1.5M",
+      "file": "final_data.csv"
+    }
+  ]
+}
