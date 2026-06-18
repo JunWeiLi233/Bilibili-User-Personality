@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T19:54:54.255Z",
+  "updatedAt": "2026-06-18T20:05:12.674Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -569,6 +569,88 @@
       "warnings": [],
       "commentsCollected": 621,
       "commentsAdded": 501
+    },
+    {
+      "at": "2026-06-18T20:05:12.674Z",
+      "actions": [
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1GFE26vEaR",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1GFE26vEaR",
+          "aid": 116736171051904,
+          "title": "吐槽一下<em class=\"keyword\">B站</em>的热搜"
+        },
+        {
+          "key": "bvid:BV1D2421K7sn",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1D2421K7sn",
+          "aid": 1601530899,
+          "title": "【我的世界】呓语·东竹<em class=\"keyword\">茶庄</em>：一<em class=\"keyword\">个有</em>一点不大正经的大型科技魔法服务器玩法介绍[180+模组][独家魔改][MC服务器推荐][六年老服]"
+        },
+        {
+          "key": "bvid:BV14gja6CER8",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV14gja6CER8",
+          "aid": 116771923169292,
+          "title": "会一直等待我说废话都会认真<em class=\"keyword\">回复</em>我的人"
+        },
+        {
+          "key": "bvid:BV1E8jF66EmP",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1E8jF66EmP",
+          "aid": 116768433508795,
+          "title": "小哈尼宁波小骚骚甜蜜英语教学<em class=\"keyword\">互动</em>！哈尼的闽南英语可爱捏！骚骚也不愧是美国留学生，乔丹的北卡校友"
+        },
+        {
+          "key": "bvid:BV1yLcUz8E32",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1yLcUz8E32",
+          "aid": 116220707740948,
+          "title": "本周小号作业｜万青《秦皇岛》前奏之录<em class=\"keyword\">了八百遍</em>不如第一遍"
+        },
+        {
+          "key": "bvid:BV1Kdjw6hESW",
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论",
+          "bvid": "BV1Kdjw6hESW",
+          "aid": 116771470182980,
+          "title": "【配音】贾扬特：金砖唯一有分量的是中国，而印度无足<em class=\"keyword\">轻重</em> | 附油管热评"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 119,
+      "commentsAdded": 87
     }
   ]
 }
