@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T18:18:42.713Z",
+  "updatedAt": "2026-06-18T18:30:44.177Z",
   "shard": 8,
   "shardCount": 8,
   "runs": [
@@ -1857,6 +1857,88 @@
       "warnings": [],
       "commentsCollected": 208,
       "commentsAdded": 171
+    },
+    {
+      "at": "2026-06-18T18:30:44.177Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1kGEh6gEKQ",
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复",
+          "bvid": "BV1kGEh6gEKQ",
+          "aid": 116709310599097,
+          "title": "老外去了趟印度新<em class=\"keyword\">德里</em>，心态直接崩了，直接开骂，他呼吁其它人都不要来印度。"
+        },
+        {
+          "key": "bvid:BV1RNoQYSEBM",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1RNoQYSEBM",
+          "aid": 114238110568565,
+          "title": "被猫狗咬伤，一定不要去医院"
+        },
+        {
+          "key": "bvid:BV1m2EJ6EEnY",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1m2EJ6EEnY",
+          "aid": 116703539435131,
+          "title": "消费者没有买正版的义务，只拥有消费的权利"
+        },
+        {
+          "key": "bvid:BV1xgHYz3EYn",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV1xgHYz3EYn",
+          "aid": 115185503241899,
+          "title": "<em class=\"keyword\">抛开</em>事实不谈，这简直就是我本人"
+        },
+        {
+          "key": "bvid:BV1YMjP63E2U",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1YMjP63E2U",
+          "aid": 116770681655746,
+          "title": "敌军：进攻的是重装合成旅我没开玩笑！对方指挥到底说了什么啊？ 《三角洲行动胜者为王攀升进攻教学》"
+        },
+        {
+          "key": "bvid:BV1puDdBHEgL",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1puDdBHEgL",
+          "aid": 116392590318104,
+          "title": "终于有人治<em class=\"keyword\">雷霆</em>了 #东东电竞 #我是东东电竞<em class=\"keyword\">切片</em>大师"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 426,
+      "commentsAdded": 260
     }
   ]
 }

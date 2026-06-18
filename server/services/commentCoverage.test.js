@@ -1605,7 +1605,6 @@ test('classifyCommentCoverage handles round 64 random audit cues', () => {
     '\u8fd9\u4e09\u90e8\u4f5c\u54c1\u5206\u522b\u4ee3\u8868\u4e86\u60ac\u7591\u5411\u3001\u70ed\u8840\u5411\u3001\u6c99\u96d5\u5411',
     '\u76f4\u5347\u673a\u4e0a\u5de6\u5df4\u6768\uff0c\u4ea1\u6768\u6355\u7262\u5927\u51c9\u51c9',
     '\u4e0d\u662f\u54e5\u4eec\uff0c\u4ec0\u4e48\u5730\u94c1\u5546\u573a\uff0c\u519c\u6751\u6709\u90a3\u73a9\u610f\u5417',
-    '(\u22673\u2266)',
   ];
 
   for (const text of neutralCases) {
@@ -1986,6 +1985,47 @@ test('classifyCommentCoverage handles round 78 random audit cues', () => {
     '\u6211\u521a\u521a\u7ed9\u8fd9\u4e2a\u89c6\u9891\u6295\u5e01\u4e86',
     '\u533b\u5b66\u4e0a\u7684\u590d\u6d3b\u6982\u5ff5\u4e0d\u5b58\u5728',
     '\u8bf7\u68c0\u67e5\u4f60\u7684\u8d26\u53f7\u5b89\u5168\uff0c\u907f\u514d\u88ab\u76d7\u53f7',
+  ];
+
+  for (const text of neutralCases) {
+    const result = classifyCommentCoverage({ entries: [] }, text);
+    assert.equal(result.mode, 'neutral');
+    assert.deepEqual(result.hits, []);
+  }
+});
+
+test('classifyCommentCoverage handles round 79 random audit cues', () => {
+  const cases = [
+    ['\u5267\u60c5\u6865\u6bb5\u6709\u70b9\u5f31\u8d28\u5c5e\u4e8e\u662f', '\u5f31\u8d28\u5c5e\u4e8e\u662f', 'attack'],
+    ['\u732b\u95f4\u5931\u683c', '\u732b\u95f4\u5931\u683c/X\u95f4\u5931\u683c', 'cooperation'],
+    ['\u770b\u56fe\u7ef7\u4f4f\u4e86\uff0c\u4e00\u770b\u5230\u5927\u529b\u738b\u6ca1\u7ef7\u4f4f', '\u7ef7\u4f4f/\u6ca1\u7ef7\u4f4f', 'cooperation'],
+    ['\u6709\u65f6\u5019\u770b\u8ff7\u60d1\u89c6\u9891\u8ddf\u8d64\u77f3\u6ca1\u4ec0\u4e48\u4e24\u6837', '\u8d64\u77f3/\u5403\u5c4e\u8c10\u97f3', 'attack'],
+    ['\u91d1\u5c5e\u53e3\u7ea2\u4e0d\u662f\u4e00\u5768\uff1f', '\u4e00\u5768', 'attack'],
+    ['\u54c8\u54c8\u54c8\u54c8\u54c8\u7ea2\u7ea2\u706b\u706b\u604d\u604d\u60da\u60da', '\u7ea2\u7ea2\u706b\u706b\u604d\u604d\u60da\u60da', 'cooperation'],
+    ['\u4e0d\u4f1a\u521b\u4f5c\uff0c\u5c31\u662f\u767d\u642d', '\u5c31\u662f\u767d\u642d', 'absolutes'],
+    ['\u771f\u662f\u5bf9\u725b\u5f39\u7434', '\u5bf9\u725b\u5f39\u7434', 'attack'],
+    ['\u770b\u5b8c\u5927\u8111\u8936\u76b1\u88ab\u629a\u5e73\u4e86', '\u5927\u8111\u8936\u76b1\u88ab\u629a\u5e73', 'attack'],
+    ['\u98de\u5929\u5927\u7107', '\u7107/\u5927\u7107', 'attack'],
+    ['\u8fd8\u6709\u4eba\u7c7b\u5417\uff1f', '\u8fd8\u6709\u4eba\u7c7b\u5417', 'attack'],
+    ['\u8fd9\u4e2a\u6df7\u5b50\u53c8\u51fa\u73b0\u4e86', '\u6df7\u5b50', 'attack'],
+    ['\u771f\u4eba\u56e2 \u63a5\u63a5\u63a5', '\u63a5\u63a5\u63a5', 'cooperation'],
+  ];
+
+  for (const [text, term, family] of cases) {
+    const result = classifyCommentCoverage({ entries: [] }, text);
+    assert.equal(result.mode, 'keyword');
+    assert.ok(result.hits.some((hit) => hit.term === term && hit.family === family));
+  }
+
+  const emoteResult = classifyCommentCoverage({ entries: [] }, '(\u22673\u2266)');
+  assert.equal(emoteResult.mode, 'keyword');
+  assert.ok(emoteResult.hits.some((hit) => hit.term === 'kaomoji playful tone marker' && hit.family === 'cooperation'));
+
+  const neutralCases = [
+    '\u8fd9\u662f\u4e00\u5757\u6ce5\u571f',
+    '\u6211\u4eca\u5929\u5b66\u4e86\u9ea6\u5757\u8d64\u77f3\u7535\u8def',
+    '\u5c0f\u767d\u5154\u767d\u53c8\u767d',
+    '\u533b\u5b66\u8bfe\u4e0a\u8bb2\u5230\u5927\u8111\u8936\u76b1\u548c\u795e\u7ecf\u53d1\u80b2',
   ];
 
   for (const text of neutralCases) {
