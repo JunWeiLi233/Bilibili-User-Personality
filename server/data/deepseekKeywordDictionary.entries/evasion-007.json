@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T11:54:25.457Z",
+  "updatedAt": "2026-06-18T12:05:50.437Z",
   "family": "evasion",
   "shard": 7,
   "shardCount": 7,
@@ -13,13 +13,23 @@
       "confidence": 0.5,
       "evidenceCount": 8,
       "evidenceSamples": [
+        "↑飞机能飞就是没弄明白，自己搜去",
+        "太几把智慧了，真有人信这种博主啊？不行咱上上网自己查呢[吃瓜]",
         "搞半天还要我自己搜来看",
         "临战将不顾兵者斩其将朱祁镇单纯就是蠢，被人忽悠于谦要拥立藩王，都不晓得自己查证下，然后被人当刀使，生生背上历史前五的恶名",
-        "还真是，我现在已经习惯问豆包而不是自己查了",
-        "以前讲过的吧 你自己搜一下",
-        "↑飞机能飞就是没弄明白，自己搜去"
+        "还真是，我现在已经习惯问豆包而不是自己查了"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1VF411u7SB/, https://www.bilibili.com/video/BV1BS411c76T/, https://www.bilibili.com/video/BV1od4y1t7JW/, https://www.bilibili.com/video/BV1jDX8BLEHH/, http://www.bilibili.com/video/av298505882, http://www.bilibili.com/video/av1906063842, http://www.bilibili.com/video/av390582978, http://www.bilibili.com/video/av116298252094212",
+          "uid": "BV1VF411u7SB,BV1BS411c76T,BV1od4y1t7JW,BV1jDX8BLEHH",
+          "sample": "↑飞机能飞就是没弄明白，自己搜去"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1sTGd6FEFf/, https://www.bilibili.com/video/BV1g4VA6bELA/, https://www.bilibili.com/video/BV1w8Go6AEnw/, https://www.bilibili.com/video/BV16N5C6fECD/, http://www.bilibili.com/video/av116634534678930, http://www.bilibili.com/video/av116640456906922, http://www.bilibili.com/video/av116635574734625, http://www.bilibili.com/video/av116566016459122",
+          "uid": "BV1sTGd6FEFf,BV1g4VA6bELA,BV1w8Go6AEnw,BV16N5C6fECD",
+          "sample": "太几把智慧了，真有人信这种博主啊？不行咱上上网自己查呢[吃瓜]"
+        },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1xTUsBvEUP/, https://www.bilibili.com/video/BV1Em421j7oc/, https://www.bilibili.com/video/BV1nT421D7Xk/, https://www.bilibili.com/video/BV1UdbEzZEq5/, http://www.bilibili.com/video/av115592870823925, http://www.bilibili.com/video/av1603161636, http://www.bilibili.com/video/av1704571620, http://www.bilibili.com/video/av115030985018857",
           "uid": "BV1xTUsBvEUP,BV1Em421j7oc,BV1nT421D7Xk,BV1UdbEzZEq5",
@@ -41,16 +51,6 @@
           "sample": "以前讲过的吧 你自己搜一下"
         },
         {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1VF411u7SB/, https://www.bilibili.com/video/BV1BS411c76T/, https://www.bilibili.com/video/BV1od4y1t7JW/, https://www.bilibili.com/video/BV1jDX8BLEHH/, http://www.bilibili.com/video/av298505882, http://www.bilibili.com/video/av1906063842, http://www.bilibili.com/video/av390582978, http://www.bilibili.com/video/av116298252094212",
-          "uid": "BV1VF411u7SB,BV1BS411c76T,BV1od4y1t7JW,BV1jDX8BLEHH",
-          "sample": "↑飞机能飞就是没弄明白，自己搜去"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1sTGd6FEFf/, https://www.bilibili.com/video/BV1g4VA6bELA/, https://www.bilibili.com/video/BV1w8Go6AEnw/, https://www.bilibili.com/video/BV16N5C6fECD/, http://www.bilibili.com/video/av116634534678930, http://www.bilibili.com/video/av116640456906922, http://www.bilibili.com/video/av116635574734625, http://www.bilibili.com/video/av116566016459122",
-          "uid": "BV1sTGd6FEFf,BV1g4VA6bELA,BV1w8Go6AEnw,BV16N5C6fECD",
-          "sample": "太几把智慧了，真有人信这种博主啊？不行咱上上网自己查呢[吃瓜]"
-        },
-        {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1i3zeBnEwM/, https://www.bilibili.com/video/BV1E3VA6zEMQ/, https://www.bilibili.com/video/BV17V4y1b7q4/, https://www.bilibili.com/video/BV1TptPeQEvz/, https://www.bilibili.com/video/BV1rnXQBLEAC/, https://www.bilibili.com/video/BV16u411H7uQ/, http://www.bilibili.com/video/av116640423350545, http://www.bilibili.com/video/av115961818519555, http://www.bilibili.com/video/av870890989, http://www.bilibili.com/video/av113134639515165, http://www.bilibili.com/video/av116312781227595",
           "uid": "BV1i3zeBnEwM,BV1E3VA6zEMQ,BV17V4y1b7q4,BV1TptPeQEvz,BV1rnXQBLEAC,BV16u411H7uQ",
           "sample": "mentor是什么意思？看个视频怎么还得自己查单词了"
@@ -61,7 +61,7 @@
           "sample": "你们自己搜搜VAVA到底说了啥 就知道羊和苏为啥骂他 剪掉了没法播"
         }
       ],
-      "updatedAt": "2026-06-18T11:54:25.457Z"
+      "updatedAt": "2026-06-18T12:05:50.437Z"
     },
     {
       "term": "自己看",
@@ -127,10 +127,11 @@
       "meaning": "把举证责任转移给对方",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 2,
+      "evidenceCount": 3,
       "evidenceSamples": [
         "有一说一，那些提前把星声换成金球的我是真搞不懂什么脑回路，正常人会一发工资就去把工资换成代金券的吗？没有任何人逼你怂恿你去把一个高级货币换成次级固定货币，都是成年人了人要为自己的行为负责不懂吗？一出事就找人兜底？你觉得不合理了自己被背刺了也...",
-        "回复 @司机团团长 :例子举给你听了，你也可以自己去找个家政公司或者工地打听打听价格，一味输出不满情绪，别人告诉你的你都不信，你自己有讲不出个道道，你有本事倒是全上海找出一个一小时9块的工地给我看看？找不出你可以不用回[脱单doge]"
+        "回复 @司机团团长 :例子举给你听了，你也可以自己去找个家政公司或者工地打听打听价格，一味输出不满情绪，别人告诉你的你都不信，你自己有讲不出个道道，你有本事倒是全上海找出一个一小时9块的工地给我看看？找不出你可以不用回[脱单doge]",
+        "我知道现在大女主崛起，但是人家明着写cp都写到这了出来招笑。爱看大女主的自己去找别在嗑cp这里显。唐的要命"
       ],
       "evidenceSources": [
         {
@@ -144,12 +145,17 @@
           "sample": "回复 @司机团团长 :例子举给你听了，你也可以自己去找个家政公司或者工地打听打听价格，一味输出不满情绪，别人告诉你的你都不信，你自己有讲不出个道道，你有本事倒是全上海找出一个一小时9块的工地给我看看？找不出你可以不用回[脱单doge]"
         },
         {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1ZRGdzKEnp/",
+          "uid": "BV1ZRGdzKEnp",
+          "sample": "我知道现在大女主崛起，但是人家明着写cp都写到这了出来招笑。爱看大女主的自己去找别在嗑cp这里显。唐的要命"
+        },
+        {
           "source": "Bilibili local AICU corpus: https://www.bilibili.com/video/av908164140/",
           "uid": "100113",
           "sample": "回复 @司机团团长 :例子举给你听了，你也可以自己去找个家政公司或者工地打听打听价格，一味输出不满情绪，别人告诉你的你都不信，你自己有讲不出个道道，你有本事倒是全上海找出一个一小时9块的工地给我看看？找不出你可以不用回[脱单doge]"
         }
       ],
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-18T12:04:32.144Z"
     },
     {
       "term": "自己搜",
@@ -159,13 +165,23 @@
       "confidence": 0.5,
       "evidenceCount": 8,
       "evidenceSamples": [
+        "以前讲过的吧 你自己搜一下",
+        "↑飞机能飞就是没弄明白，自己搜去",
         "太几把智慧了，真有人信这种博主啊？不行咱上上网自己查呢[吃瓜]",
         "搞半天还要我自己搜来看",
-        "临战将不顾兵者斩其将朱祁镇单纯就是蠢，被人忽悠于谦要拥立藩王，都不晓得自己查证下，然后被人当刀使，生生背上历史前五的恶名",
-        "还真是，我现在已经习惯问豆包而不是自己查了",
-        "以前讲过的吧 你自己搜一下"
+        "临战将不顾兵者斩其将朱祁镇单纯就是蠢，被人忽悠于谦要拥立藩王，都不晓得自己查证下，然后被人当刀使，生生背上历史前五的恶名"
       ],
       "evidenceSources": [
+        {
+          "source": "UID 32645507 (いい響きだな) - 1 comments from 1 videos",
+          "uid": "32645507",
+          "sample": "以前讲过的吧 你自己搜一下"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1VF411u7SB/, https://www.bilibili.com/video/BV1BS411c76T/, https://www.bilibili.com/video/BV1od4y1t7JW/, https://www.bilibili.com/video/BV1jDX8BLEHH/, http://www.bilibili.com/video/av298505882, http://www.bilibili.com/video/av1906063842, http://www.bilibili.com/video/av390582978, http://www.bilibili.com/video/av116298252094212",
+          "uid": "BV1VF411u7SB,BV1BS411c76T,BV1od4y1t7JW,BV1jDX8BLEHH",
+          "sample": "↑飞机能飞就是没弄明白，自己搜去"
+        },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1sTGd6FEFf/, https://www.bilibili.com/video/BV1g4VA6bELA/, https://www.bilibili.com/video/BV1w8Go6AEnw/, https://www.bilibili.com/video/BV16N5C6fECD/, http://www.bilibili.com/video/av116634534678930, http://www.bilibili.com/video/av116640456906922, http://www.bilibili.com/video/av116635574734625, http://www.bilibili.com/video/av116566016459122",
           "uid": "BV1sTGd6FEFf,BV1g4VA6bELA,BV1w8Go6AEnw,BV16N5C6fECD",
@@ -187,16 +203,6 @@
           "sample": "还真是，我现在已经习惯问豆包而不是自己查了"
         },
         {
-          "source": "UID 32645507 (いい響きだな) - 1 comments from 1 videos",
-          "uid": "32645507",
-          "sample": "以前讲过的吧 你自己搜一下"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1VF411u7SB/, https://www.bilibili.com/video/BV1BS411c76T/, https://www.bilibili.com/video/BV1od4y1t7JW/, https://www.bilibili.com/video/BV1jDX8BLEHH/, http://www.bilibili.com/video/av298505882, http://www.bilibili.com/video/av1906063842, http://www.bilibili.com/video/av390582978, http://www.bilibili.com/video/av116298252094212",
-          "uid": "BV1VF411u7SB,BV1BS411c76T,BV1od4y1t7JW,BV1jDX8BLEHH",
-          "sample": "↑飞机能飞就是没弄明白，自己搜去"
-        },
-        {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1i3zeBnEwM/, https://www.bilibili.com/video/BV1E3VA6zEMQ/, https://www.bilibili.com/video/BV17V4y1b7q4/, https://www.bilibili.com/video/BV1TptPeQEvz/, https://www.bilibili.com/video/BV1rnXQBLEAC/, https://www.bilibili.com/video/BV16u411H7uQ/, http://www.bilibili.com/video/av116640423350545, http://www.bilibili.com/video/av115961818519555, http://www.bilibili.com/video/av870890989, http://www.bilibili.com/video/av113134639515165, http://www.bilibili.com/video/av116312781227595",
           "uid": "BV1i3zeBnEwM,BV1E3VA6zEMQ,BV17V4y1b7q4,BV1TptPeQEvz,BV1rnXQBLEAC,BV16u411H7uQ",
           "sample": "mentor是什么意思？看个视频怎么还得自己查单词了"
@@ -207,7 +213,7 @@
           "sample": "你们自己搜搜VAVA到底说了啥 就知道羊和苏为啥骂他 剪掉了没法播"
         }
       ],
-      "updatedAt": "2026-06-18T11:54:25.457Z"
+      "updatedAt": "2026-06-18T12:05:50.437Z"
     },
     {
       "term": "自己学",

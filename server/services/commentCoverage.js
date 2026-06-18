@@ -925,6 +925,27 @@ function isRound49SuppressedContext(entry, message) {
   return false;
 }
 
+function isRound50SuppressedContext(entry, message) {
+  const term = String(entry?.term || '');
+  if (entry?.family === 'cooperation' && term === '\u8fd8\u771f') {
+    return /\u8fd8\u771f\u7684.{0,8}(?:\u8d35|\u4fbf\u5b9c|\u96be|\u597d|\u5dee)|(?:\u4f4f|\u5403|\u5356|\u4e70).{0,6}\u8fd8\u771f\u7684/u.test(message);
+  }
+  if (entry?.family === 'attack' && term === '\u559c\u6b22\u6211') {
+    return /\u4f60\u559c\u6b22\u6211\u4e0d\u559c\u6b22|\u559c\u6b22.{0,4}\u4e0d\u559c\u6b22/u.test(message);
+  }
+  if (entry?.family === 'cooperation' && term === '\u4e0d\u559c') {
+    return /\u4e0d\u559c\u6b22|\u4e0d\u559c(?:\u52ff\u55b7|\u53ef\u4ee5|\u5c31)/u.test(message);
+  }
+  if (entry?.family === 'attack' && term === '\u867d\u7136\u4f46\u662f') {
+    return /\u867d\u7136\u4f46\u662f[\uff0c,].{0,24}(?:\u56e0\u4e3a|\u597d\u50cf|\u53ef\u80fd|\u5176\u5b9e)/u.test(message);
+  }
+  if (entry?.family === 'cooperation' && term === '\u5bfb\u601d') {
+    return /(?:\u6211|\u4ffa)?\u5bfb\u601d.{0,12}(?:\u6ca1|\u59b9|\u4e0d\u662f|\u600e\u4e48|\u4e3a\u5565|\u4ec0\u4e48)/u.test(message)
+      && !/[\[\uff08(]doge|233|哈哈|\u7b11|帮你\u5bfb\u601d/u.test(message);
+  }
+  return false;
+}
+
 function isLogicalNotIsContext(entry, message) {
   if (entry?.family !== 'attack') return false;
   if (String(entry?.term || '') !== '\u4e0d\u662f') return false;
@@ -1137,6 +1158,7 @@ function isSuppressedLexicalHit(entry, message) {
     || isRound47NeutralContext(entry, message)
     || isRound48SuppressedCooperation(entry, message)
     || isRound49SuppressedContext(entry, message)
+    || isRound50SuppressedContext(entry, message)
     || isLogicalNotIsContext(entry, message)
     || isPositiveDescriptionNegationContext(entry, message)
     || isLiteralTrafficContext(entry, message)

@@ -1,6 +1,6 @@
 {
   "ok": false,
-  "generatedAt": "2026-06-18T11:57:25.643Z",
+  "generatedAt": "2026-06-18T12:10:00.393Z",
   "targetEvidence": 3,
   "minCoverageRatio": 1,
   "requireComplete": true,
@@ -9,14 +9,14 @@
     "complete": false,
     "targetEvidence": 3,
     "terms": 1579,
-    "totalEvidence": 9125,
+    "totalEvidence": 9127,
     "averageEvidence": 5.78,
-    "coverageRatio": 0.969,
-    "evidenceDeficit": 90,
+    "coverageRatio": 0.9696,
+    "evidenceDeficit": 89,
     "sourcedEvidenceTerms": 1579,
     "sourceCoverageRatio": 1,
     "unsourcedEvidenceTerms": 0,
-    "weakTerms": 49,
+    "weakTerms": 48,
     "zeroEvidenceTerms": 0,
     "weakSamples": [
       {
@@ -145,7 +145,7 @@
     "byFamily": {
       "absolutes": {
         "terms": 130,
-        "evidence": 732,
+        "evidence": 733,
         "weak": 12,
         "zero": 0,
         "sourced": 130
@@ -173,8 +173,8 @@
       },
       "evasion": {
         "terms": 66,
-        "evidence": 357,
-        "weak": 5,
+        "evidence": 358,
+        "weak": 4,
         "zero": 0,
         "sourced": 66
       },
@@ -440,8 +440,7 @@
   },
   "actionSummary": {
     "retry_with_new_variant": 48,
-    "add_query_template": 1,
-    "none": 1530
+    "none": 1531
   },
   "familyGaps": [
     {
@@ -465,16 +464,16 @@
       "terms": 130,
       "weak": 12,
       "zero": 0,
-      "evidence": 732,
+      "evidence": 733,
       "coverageRatio": 0.9077
     },
     {
       "family": "evasion",
       "terms": 66,
-      "weak": 5,
+      "weak": 4,
       "zero": 0,
-      "evidence": 357,
-      "coverageRatio": 0.9242
+      "evidence": 358,
+      "coverageRatio": 0.9394
     },
     {
       "family": "correction",
@@ -1461,27 +1460,6 @@
       "lastError": "Bilibili harvest query \"\u539f\u6765\u8299\u5b81\u5a1c\u4e5f\u7231\u770b \u8bc4\u8bba\u533a\" timed out after 180000ms"
     },
     {
-      "term": "\u81ea\u5df1\u53bb\u627e",
-      "family": "evasion",
-      "status": "weak_missed",
-      "action": "add_query_template",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u81ea\u5df1\u53bb\u627e",
-      "targetEvidence": 3,
-      "evidenceNeeded": 1,
-      "attempts": 37,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 6,
-      "exhausted": false,
-      "nextQuery": "",
-      "suggestedQueries": [],
-      "lastQuery": "\u81ea\u5df1\u53bb\u627e",
-      "lastError": ""
-    },
-    {
       "term": "\u7f3a\u70b9\u53ea\u6709\u4e00\u4e2a\u8d35",
       "family": "absolutes",
       "status": "weak_missed",
@@ -1575,7 +1553,7 @@
     "\u8bf4\u516b\u767e\u904d\u4e86 \u70ed\u8bc4"
   ],
   "failureReasons": [
-    "coverage ratio 0.969 is below 1",
-    "49 term(s) are below 3 evidence hit(s)"
+    "coverage ratio 0.9696 is below 1",
+    "48 term(s) are below 3 evidence hit(s)"
   ]
 }
