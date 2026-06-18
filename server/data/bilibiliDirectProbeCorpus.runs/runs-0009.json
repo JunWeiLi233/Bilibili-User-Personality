@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T23:22:09.346Z",
+  "updatedAt": "2026-06-18T23:31:15.629Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -1739,6 +1739,64 @@
       "warnings": [],
       "commentsCollected": 743,
       "commentsAdded": 608
+    },
+    {
+      "at": "2026-06-18T23:31:15.629Z",
+      "actions": [
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1R75n6HEQj",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1R75n6HEQj",
+          "aid": 116550531028587,
+          "title": "梗图系列973."
+        },
+        {
+          "key": "bvid:BV15tKnzjEP6",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV15tKnzjEP6",
+          "aid": 114744094629868,
+          "title": "【<em class=\"keyword\">互动</em>视频】你本该今天离开，却收到了一份特殊的“礼物”——永久冰冻界"
+        },
+        {
+          "key": "bvid:BV13KCaBDERz",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV13KCaBDERz",
+          "aid": 115561732244679,
+          "title": "唐人语录，别笑你进来也看不完第二遍"
+        },
+        {
+          "key": "bvid:BV1dhHYzdEvh",
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论",
+          "bvid": "BV1dhHYzdEvh",
+          "aid": 115185201192225,
+          "title": "绿帽先生的<em class=\"keyword\">轻重</em>程度"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 1134,
+      "commentsAdded": 808
     }
   ]
 }
