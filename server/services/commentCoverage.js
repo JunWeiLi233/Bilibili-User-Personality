@@ -750,6 +750,12 @@ const SUPPLEMENTAL_SEMANTICS = [
     family: 'attack',
     meaning: '\u201c\u5531\u620f\u7684\u8154\u201d\u5e38\u7528\u6765\u8bbd\u523a\u5bf9\u65b9\u53ea\u8bf4\u4e0d\u505a\u3001\u88c5\u8154\u4f5c\u52bf\u6216\u8868\u6f14\u75d5\u8ff9\u91cd\uff0c\u5c5e\u4e8e\u8d2c\u635f\u6027\u5410\u69fd\u3002',
   },
+  {
+    pattern: /(?:\u4f60|\u4f60\u662f|\u4f60\u8fd9).{0,3}\u804b(?:\u4e86|\u5417)?/u,
+    term: '\u4f60\u804b\u4e86',
+    family: 'attack',
+    meaning: '\u201c\u4f60\u804b\u4e86\u201d\u5728\u56de\u590d\u4e2d\u662f\u9488\u5bf9\u5bf9\u65b9\u7406\u89e3\u6216\u542c\u89c9\u7684\u76f4\u63a5\u8fb1\u9a82\uff0c\u4e0d\u662f\u533b\u7597\u6216\u4e8b\u5b9e\u63cf\u8ff0\u3002',
+  },
 ];
 
 function detectSupplementalSemanticHits(comment) {
@@ -789,6 +795,33 @@ function isFactualNoHaveContext(entry, message) {
   return /(?:频道|CCTV\d+|iptv|运营商|广电|关系|影响|证据|资料|机会|时间|办法).{0,12}没有/u.test(message)
     || /没有.{0,12}(?:频道|CCTV\d+|iptv|运营商|广电|关系|影响|证据|资料|机会|时间|办法)/u.test(message)
     || /一点关系没有/u.test(message);
+}
+
+function isRound47NeutralContext(entry, message) {
+  const term = String(entry?.term || '');
+  if (entry?.family === 'absolutes' && term === '\u6ca1\u6709') {
+    return /(?:\u98a0\u52fa|\u9505\u6c14|\u6f0f).{0,8}\u6ca1\u6709|\u6ca1\u6709.{0,8}(?:\u98a0\u52fa|\u9505\u6c14|\u6f0f)/u.test(message)
+      || /(?:\u53ea\u80fd\u8bf4\u662f|\u53ea\u6709\u8fce\u5408).{0,24}\u6ca1\u6709|\u6ca1\u6709.{0,18}(?:\u771f\u6b63\u7684|\u6df1\u5165|\u5256\u6790|\u63ed\u9732)/u.test(message);
+  }
+  if (entry?.family === 'attack' && term === '\u51fa\u751f') {
+    return /(?:\u5728|[一-龥]{2,8})[一-龥]{0,8}\u51fa\u751f(?:\u7684|\u4e8e)?/u.test(message)
+      && !/(?:\u755c\u751f|\u4f60|sb|\u50bb|cnm|\u6eda).{0,8}\u51fa\u751f|\u51fa\u751f.{0,8}(?:\u755c\u751f|\u73a9\u610f|\u4e1c\u897f|\u50bb)/iu.test(message);
+  }
+  if (entry?.family === 'attack' && ['\u9006\u5929', '\u592a\u9006\u5929'].includes(term)) {
+    return /^(?:\s*(?:\u592a)?\u9006\u5929(?:\u4e86)?\s*)+$/u.test(message)
+      || /(?:^|[\s\uff0c,])(?:\u592a)?\u9006\u5929(?:\u4e86)?(?:$|[\s\uff0c,\u3002\uff01!])/u.test(message)
+        && !/(?:\u4f60|\u4ed6|\u5979|\u8fd9\u4eba|up|UP).{0,10}(?:\u9006\u5929|\u592a\u9006\u5929)/u.test(message);
+  }
+  if (entry?.family === 'attack' && term === '\u79bb\u8c31') {
+    return /(?:\u8bf4\u6cd5|\u6982\u5ff5|\u8bbe\u5b9a|\u5267\u60c5|\u903b\u8f91|\u7406\u7531|\u73b0\u8c61).{0,10}\u79bb\u8c31|\u79bb\u8c31.{0,10}(?:\u8bf4\u6cd5|\u6982\u5ff5|\u8bbe\u5b9a|\u5267\u60c5|\u903b\u8f91|\u7406\u7531|\u73b0\u8c61)/u.test(message);
+  }
+  if (entry?.family === 'absolutes' && term === '\u4e00\u773c') {
+    return /\u7b2c\u4e00\u773c/u.test(message);
+  }
+  if (entry?.family === 'cooperation' && term === '\u5c31\u662f') {
+    return /\u5c31\u662f.{0,18}(?:\u5b57\u4f53|\u900f\u660e\u5ea6|\u8bbe\u7f6e|\u529f\u80fd|\u610f\u601d|\u6307|\u5b9a\u4e49|\u89e3\u91ca)/u.test(message);
+  }
+  return false;
 }
 
 function isLogicalNotIsContext(entry, message) {
@@ -1000,6 +1033,7 @@ function isSuppressedLexicalHit(entry, message) {
   return isSelfReferentialNoviceHit(entry, message)
     || isLiteralYinYangContext(entry, message)
     || isFactualNoHaveContext(entry, message)
+    || isRound47NeutralContext(entry, message)
     || isLogicalNotIsContext(entry, message)
     || isPositiveDescriptionNegationContext(entry, message)
     || isLiteralTrafficContext(entry, message)
