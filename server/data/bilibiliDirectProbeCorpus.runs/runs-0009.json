@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T18:56:18.725Z",
+  "updatedAt": "2026-06-18T19:08:50.302Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -159,6 +159,88 @@
       "warnings": [],
       "commentsCollected": 868,
       "commentsAdded": 441
+    },
+    {
+      "at": "2026-06-18T19:08:50.302Z",
+      "actions": [
+        {
+          "term": "查查资料",
+          "query": "查查资料 评论区"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 B站"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 弹幕"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 评论"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 弹幕"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1J7L96sE53",
+          "term": "查查资料",
+          "query": "查查资料 评论区",
+          "bvid": "BV1J7L96sE53",
+          "aid": 116764188872872,
+          "title": "看<em class=\"keyword\">评论区</em>"
+        },
+        {
+          "key": "bvid:BV1CF4m157yf",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 B站",
+          "bvid": "BV1CF4m157yf",
+          "aid": 1201219732,
+          "title": "在某站上看到卖茶叶，靠谱吗？"
+        },
+        {
+          "key": "bvid:BV1ZMjc6CEUc",
+          "term": "超绝无语",
+          "query": "超绝无语 弹幕",
+          "bvid": "BV1ZMjc6CEUc",
+          "aid": 116770429996652,
+          "title": "老师，你是在开玩笑吗？凭什么开除我们？....."
+        },
+        {
+          "key": "bvid:BV13g411g7rR",
+          "term": "都是同一批",
+          "query": "都是同一批 评论",
+          "bvid": "BV13g411g7rR",
+          "aid": 503609306,
+          "title": "B站好操作，<em class=\"keyword\">同一</em>个视频不同账号看到<em class=\"keyword\">评论</em>区完全不一样"
+        },
+        {
+          "key": "bvid:BV1kGGx6VEst",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 弹幕",
+          "bvid": "BV1kGGx6VEst",
+          "aid": 116633980897516,
+          "title": "你订<em class=\"keyword\">八百</em>酒店被取消，现在还想挑刺？我回。我只是提醒风险。她发来一串冷笑表情。风险？......."
+        },
+        {
+          "key": "bvid:BV1Ycjw6MEdr",
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论回复",
+          "bvid": "BV1Ycjw6MEdr",
+          "aid": 116769926677807,
+          "title": "纪往：从善提笔，横遭网bao；三载不折，以正清名"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 38,
+      "commentsAdded": 33
     }
   ]
 }
