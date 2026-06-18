@@ -1813,6 +1813,26 @@ test('classifyCommentCoverage handles round 69 random audit cues', () => {
   assert.ok(noviceHelp.hits.some((hit) => hit.family === 'cooperation'));
 });
 
+test('classifyCommentCoverage handles round 70 random audit cues', () => {
+  const round70Dictionary = {
+    entries: [
+      { term: '\u907f\u96f7', family: 'cooperation', meaning: 'warning/share pitfall' },
+    ],
+  };
+
+  const warning = classifyCommentCoverage(round70Dictionary, '\u907f\u96f7\u4e00\u4e0b\u54c8\uff0c\u8fd9\u4e0d\u662f\u723d\u6587\uff0c\u8fd9\u662f\u751c\u6587');
+  assert.equal(warning.mode, 'keyword');
+  assert.ok(warning.hits.some((hit) => hit.term === '\u907f\u96f7\u4e00\u4e0b' && hit.family === 'correction'));
+
+  const laundering = classifyCommentCoverage(round70Dictionary, '\u73b0\u5728\u90fd\u4e0d\u6d17\u4e86\uff0c\u76f4\u63a5\u7528\u6bd4\u7279\u5e01');
+  assert.equal(laundering.mode, 'keyword');
+  assert.ok(laundering.hits.some((hit) => hit.term === '\u4e0d\u6d17\u4e86\u76f4\u63a5\u7528\u6bd4\u7279\u5e01' && hit.family === 'evasion'));
+
+  const titleRepeat = classifyCommentCoverage(round70Dictionary, '\u8d85\u7ea7\u559c\u6b22\u4f60 \u8fde\u7ffb\u8138\u4e5f\u6ca1\u5e95\u6c14 5');
+  assert.equal(titleRepeat.mode, 'neutral');
+  assert.deepEqual(titleRepeat.hits, []);
+});
+
 test('sampleCommentCoverage summarizes full coverage over keyword and neutral samples', () => {
   const result = sampleCommentCoverage(dictionary, [
     '这事懂的都懂，不展开了',

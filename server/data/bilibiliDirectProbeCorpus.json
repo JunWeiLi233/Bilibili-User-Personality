@@ -15644,9 +15644,115 @@
       "warnings": [],
       "commentsCollected": 2239,
       "commentsAdded": 1782
+    },
+    {
+      "at": "2026-06-18T16:47:49.386Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1pg4y1P7NF",
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复",
+          "bvid": "BV1pg4y1P7NF",
+          "aid": 828111873,
+          "title": "为什么“指责型人格”的人总是得理<em class=\"keyword\">不饶人</em>？"
+        },
+        {
+          "key": "bvid:BV1YG4y1V7Fd",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1YG4y1V7Fd",
+          "aid": 817894405,
+          "title": "下河救狗溺亡男孩事件后续：狗主人以要上班为由，拒绝去灵堂吊唁"
+        },
+        {
+          "key": "bvid:BV1M1ju6HERd",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1M1ju6HERd",
+          "aid": 116758400796507,
+          "title": "第1205日投资记录：即使低估值依然爆亏10万，<em class=\"keyword\">价格</em>都非常不错，继续加码买入，保持乐观！"
+        },
+        {
+          "key": "bvid:BV1EKeHztEde",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV1EKeHztEde",
+          "aid": 115084101685766,
+          "title": "【干货】哔哩哔哩如何屏蔽同一个人发的<em class=\"keyword\">弹幕</em>？不要再笑点解析了！"
+        },
+        {
+          "key": "bvid:BV1d7jc6qEjC",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1d7jc6qEjC",
+          "aid": 116770396444393,
+          "title": "❣️Juniormark❣️虽然此男很好，但咱也不用爱的这～么无死角，你说是吧小吉兰！"
+        },
+        {
+          "key": "bvid:BV1wFoFBCEN1",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1wFoFBCEN1",
+          "aid": 116431916308669,
+          "title": "<em class=\"keyword\">雷霆</em>主播幼稚兽 2026-04-18 片段"
+        },
+        {
+          "key": "bvid:BV1g4eWzQEQD",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1g4eWzQEQD",
+          "aid": 115086853149222,
+          "title": "<em class=\"keyword\">哔哩哔哩</em>年度报告哪里看"
+        },
+        {
+          "key": "bvid:BV1qu2mByEi8",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1qu2mByEi8",
+          "aid": 115687024492856,
+          "title": "头部奶茶加盟 原地赔钱指南"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 707,
+      "commentsAdded": 580
     }
   ],
-  "updatedAt": "2026-06-18T16:34:27.435Z",
+  "updatedAt": "2026-06-18T16:47:49.386Z",
   "storage": "split",
   "shardMaxBytes": 65536,
   "commentFiles": [
@@ -16077,7 +16183,8 @@
     "bilibiliDirectProbeCorpus.comments/comments-0425.json",
     "bilibiliDirectProbeCorpus.comments/comments-0426.json",
     "bilibiliDirectProbeCorpus.comments/comments-0427.json",
-    "bilibiliDirectProbeCorpus.comments/comments-0428.json"
+    "bilibiliDirectProbeCorpus.comments/comments-0428.json",
+    "bilibiliDirectProbeCorpus.comments/comments-0429.json"
   ],
-  "commentCount": 138670
+  "commentCount": 139250
 }
