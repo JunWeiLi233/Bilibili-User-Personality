@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T20:05:12.674Z",
+  "updatedAt": "2026-06-18T20:14:15.542Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -651,6 +651,64 @@
       "warnings": [],
       "commentsCollected": 119,
       "commentsAdded": 87
+    },
+    {
+      "at": "2026-06-18T20:14:15.542Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1crJK6MEC4",
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复",
+          "bvid": "BV1crJK6MEC4",
+          "aid": 116749223598681,
+          "title": "6月15日劲爆消息！“滚回自己的国家！”离大谱！陕西西安，4名印度留学生去点餐…"
+        },
+        {
+          "key": "bvid:BV1yyjA6oE3N",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1yyjA6oE3N",
+          "aid": 116770933314796,
+          "title": "都说了！修勾怎么可能怪主人呢！小县令仅用0秒就接受自己是“充电宝”了！我就说这么撩迟早会出事吧！这不~恋爱脑都差点长成了！一个在“充电” 一个在长恋爱脑哈哈哈！"
+        },
+        {
+          "key": "bvid:BV1DtjA6BEky",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1DtjA6BEky",
+          "aid": 116770782317290,
+          "title": "<em class=\"keyword\">直播</em>回放 战地6<em class=\"keyword\">雷霆</em>腰射m4专场"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 736,
+      "commentsAdded": 660
     }
   ]
 }
