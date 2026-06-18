@@ -1833,6 +1833,20 @@ test('classifyCommentCoverage handles round 70 random audit cues', () => {
   assert.deepEqual(titleRepeat.hits, []);
 });
 
+test('classifyCommentCoverage handles round 71 random audit cues', () => {
+  const neutralPraise = classifyCommentCoverage({ entries: [] }, '\u6551\u547d\uff01\u6ce2\u6ce2\u56de\u6765\u4e86\u545c\u545c\u545c\uff0c\u6211\u7231\u6ce2\u6ce2');
+  assert.equal(neutralPraise.mode, 'neutral');
+  assert.deepEqual(neutralPraise.hits, []);
+
+  const playfulDogePun = classifyCommentCoverage({ entries: [] }, '\u56de\u590d @Ancient-Temple :\u8001\u94c1\u53ea\u4f1a\u751f\u9508[doge]');
+  assert.equal(playfulDogePun.mode, 'neutral');
+  assert.deepEqual(playfulDogePun.hits, []);
+
+  const ancestorTaunt = classifyCommentCoverage({ entries: [] }, '\u4f60\u7956\u5b97\u5230\u6b64\u4e00\u6e38 1');
+  assert.equal(ancestorTaunt.mode, 'keyword');
+  assert.ok(ancestorTaunt.hits.some((hit) => hit.term === '\u4f60\u7956\u5b97' && hit.family === 'attack'));
+});
+
 test('sampleCommentCoverage summarizes full coverage over keyword and neutral samples', () => {
   const result = sampleCommentCoverage(dictionary, [
     '这事懂的都懂，不展开了',

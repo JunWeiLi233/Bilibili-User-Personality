@@ -15750,9 +15750,115 @@
       "warnings": [],
       "commentsCollected": 707,
       "commentsAdded": 580
+    },
+    {
+      "at": "2026-06-18T17:00:06.987Z",
+      "actions": [
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论"
+        },
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 弹幕"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 评论回复"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 弹幕"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说 弹幕"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1AaJP6qESY",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1AaJP6qESY",
+          "aid": 116748217155943,
+          "title": "超级无敌大白话30"
+        },
+        {
+          "key": "bvid:BV12i5R6TEvR",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV12i5R6TEvR",
+          "aid": 116573566146686,
+          "title": "【<em class=\"keyword\">互动</em>视频】点击测试看看，你会是哪个影视角色？"
+        },
+        {
+          "key": "bvid:BV1FfE96ME9U",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1FfE96ME9U",
+          "aid": 116724762479260,
+          "title": "少爷对网友的最新回应来了，笑死😂"
+        },
+        {
+          "key": "bvid:BV1YAyUY3Ebp",
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论",
+          "bvid": "BV1YAyUY3Ebp",
+          "aid": 113367641494573,
+          "title": "老外看「进击的巨人」最终季ED1《衝擊》 Reaction mashup"
+        },
+        {
+          "key": "bvid:BV12uLU6sEZM",
+          "term": "德里不饶人",
+          "query": "德里不饶人 弹幕",
+          "bvid": "BV12uLU6sEZM",
+          "aid": 116606231382567,
+          "title": "【小丑回魂：欢迎来到<em class=\"keyword\">德里</em>镇】全8集 4K超清未删减完整版 reaction"
+        },
+        {
+          "key": "bvid:BV1EPEF6LEMQ",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 评论回复",
+          "bvid": "BV1EPEF6LEMQ",
+          "aid": 116690704665593,
+          "title": "当人在狗咖里摔倒的瞬间……全世界的小狗都涌了过来"
+        },
+        {
+          "key": "bvid:BV1xH4y1X7s2",
+          "term": "价格被打下来",
+          "query": "价格被打下来 弹幕",
+          "bvid": "BV1xH4y1X7s2",
+          "aid": 960722194,
+          "title": "【旭旭宝宝反向带货名场面】原价33块9现价只要32块9，只便宜一块钱，不愧是好东西！"
+        },
+        {
+          "key": "bvid:BV18axbz5EK7",
+          "term": "这还用说",
+          "query": "这还用说 弹幕",
+          "bvid": "BV18axbz5EK7",
+          "aid": 115317137215674,
+          "title": "教你们怎么发空白<em class=\"keyword\">弹幕</em>"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 356,
+      "commentsAdded": 203
     }
   ],
-  "updatedAt": "2026-06-18T16:47:49.386Z",
+  "updatedAt": "2026-06-18T17:00:06.987Z",
   "storage": "split",
   "shardMaxBytes": 65536,
   "commentFiles": [
@@ -16184,7 +16290,8 @@
     "bilibiliDirectProbeCorpus.comments/comments-0426.json",
     "bilibiliDirectProbeCorpus.comments/comments-0427.json",
     "bilibiliDirectProbeCorpus.comments/comments-0428.json",
-    "bilibiliDirectProbeCorpus.comments/comments-0429.json"
+    "bilibiliDirectProbeCorpus.comments/comments-0429.json",
+    "bilibiliDirectProbeCorpus.comments/comments-0430.json"
   ],
-  "commentCount": 139250
+  "commentCount": 139453
 }

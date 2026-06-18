@@ -1373,6 +1373,7 @@ function isSuppressedEmoteHit(item, message) {
   if (/\u4e13\u95e8\u76d7\u89c6\u9891.{0,120}\u526f\u672c\s*\[doge\]/u.test(message) && term.includes('doge')) return true;
   if (/\u5e72\u7239.{0,16}\u8dd1\u8dd1\s*\[\u6ed1\u7a3d\]/u.test(message)) return true;
   if (item?.term !== 'doge/\u53cd\u8bbd\u8868\u60c5') return false;
+  if (/\u8001\u94c1\u53ea\u4f1a\u751f\u9508\s*\[doge\]/iu.test(message)) return true;
   return /\u6211\u4eec\u6709\d{1,3}\u5957\u9632\u7206\u7532[\uff08(]\s*doge\s*[\uff09)]/iu.test(message)
     && !/(?:\u9a82|\u50bb|\u8822|\u6eda|\u6b7b|\u4e0d\u5982|\u5e9f|\u83dc|\u653b\u51fb|\u5632|\u9634\u9633)/u.test(message)
     || /(?:\u65e0\u5e7f|\u4e2a\u4eba\u63a8\u8350|\u4ef7\u683c\u5f88\u4e0d\u9519|\u5206\u91cf\u5f88\u591a).{0,80}(?:\u5730\u5740|[\u5e02\u533a\u8def\u53f7\u95e8]).{0,80}\[doge\]/iu.test(message)
