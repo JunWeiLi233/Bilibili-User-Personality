@@ -605,6 +605,18 @@ const SUPPLEMENTAL_SEMANTICS = [
     family: 'attack',
     meaning: '\u201ctn\u201d\u662f\u201c\u4ed6\u5a18/\u4ed6\u5988\u7684\u201d\u7c7b\u7c97\u53e3\u7f29\u5199\uff0c\u548c\u201c\u98a0\u201d\u8fde\u7528\u65f6\u8868\u793a\u5f3a\u70c8\u8d1f\u9762\u3001\u7c97\u4fd7\u6216\u8fb1\u9a82\u5f0f\u60c5\u7eea\u3002',
   },
+  {
+    pattern: /\u6839\u672c(?:\u65e0\u6cd5|\u4e0d\u80fd|\u6ca1\u6cd5|\u4e0d\u4f1a|\u6ca1\u6709)/u,
+    term: '\u6839\u672c',
+    family: 'absolutes',
+    meaning: '\u201c\u6839\u672c\u201d\u4e0e\u5426\u5b9a\u80fd\u529b\u6216\u7ed3\u679c\u8fde\u7528\u65f6\u8868\u793a\u5f3a\u5426\u5b9a\u548c\u7edd\u5bf9\u5316\u5224\u65ad\uff0c\u4f8b\u5982\u201c\u6839\u672c\u65e0\u6cd5\u6cbb\u6108\u201d\u3002',
+  },
+  {
+    pattern: /\u5531\u620f\u7684\u8154/u,
+    term: '\u5531\u620f\u7684\u8154',
+    family: 'attack',
+    meaning: '\u201c\u5531\u620f\u7684\u8154\u201d\u5e38\u7528\u6765\u8bbd\u523a\u5bf9\u65b9\u53ea\u8bf4\u4e0d\u505a\u3001\u88c5\u8154\u4f5c\u52bf\u6216\u8868\u6f14\u75d5\u8ff9\u91cd\uff0c\u5c5e\u4e8e\u8d2c\u635f\u6027\u5410\u69fd\u3002',
+  },
 ];
 
 function detectSupplementalSemanticHits(comment) {
@@ -765,6 +777,16 @@ function isRhetoricalNotJustIsContext(entry, message) {
   return /\u4e0d\u5c31\u662f.{0,24}\u5417[\uff1f?].{0,16}\u600e\u4e48\u5c31\u4e0d\u662f/u.test(message);
 }
 
+function isAliasOrSubstringArtifactContext(entry, message) {
+  const term = String(entry?.term || '');
+  if (term === '\u5f00\u73a9\u7b11') return /\u4e0d\u5f00\u73a9\u7b11/u.test(message);
+  if (term === '\u4e0d\u9ed1\u4e0d\u5439') return !message.includes(term) && /\u6709\u4e00\u8bf4\u4e00/u.test(message);
+  if (term === '\u6ca1\u6709') return /\u57fa\u672c\u6ca1\u6709\u97f3\u4e50\u7406\u89e3/u.test(message);
+  if (term === '\u6beb\u65e0\u97f3\u4e50\u7406\u89e3') return /\u57fa\u672c\u6ca1\u6709\u97f3\u4e50\u7406\u89e3/u.test(message);
+  if (term === '\u65e0\u8bed') return /\u8d85\u7edd\u65e0\u8bed/u.test(message);
+  return false;
+}
+
 function isContainedConditionalPossibilityContext(entry, message) {
   const term = String(entry?.term || '');
   if (term === '\u4e00\u5b9a') return /\u4e0d\u4e00\u5b9a/u.test(message);
@@ -803,6 +825,7 @@ function isSuppressedLexicalHit(entry, message) {
     || isContainedAddOneLiteralContext(entry, message)
     || isNeutralGirlReferenceContext(entry, message)
     || isRhetoricalNotJustIsContext(entry, message)
+    || isAliasOrSubstringArtifactContext(entry, message)
     || isContainedConditionalPossibilityContext(entry, message)
     || isNeutralMetaphorOrDefinitionContext(entry, message);
 }

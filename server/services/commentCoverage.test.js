@@ -58,6 +58,44 @@ test('classifyCommentCoverage suppresses round 38 random audit false positives',
   }
 });
 
+test('classifyCommentCoverage captures round 39 random audit misses', () => {
+  const cases = [
+    ['\u6839\u672c\u65e0\u6cd5\u6cbb\u6108', ['\u6839\u672c']],
+    ['\u5531\u620f\u7684\u8154', ['\u5531\u620f\u7684\u8154']],
+  ];
+
+  for (const [comment, expectedTerms] of cases) {
+    const result = classifyCommentCoverage(dictionary, comment);
+    assert.equal(result.mode, 'keyword');
+    assert.deepEqual(result.hits.map((hit) => hit.term), expectedTerms);
+  }
+});
+
+test('classifyCommentCoverage suppresses round 39 random audit overlap artifacts', () => {
+  const overlapDictionary = {
+    entries: [
+      { term: '\u6709\u4e00\u8bf4\u4e00', family: 'cooperation', meaning: '\u5ba2\u89c2\u8868\u8fbe', aliases: ['\u4e0d\u9ed1\u4e0d\u5439'] },
+      { term: '\u5f00\u73a9\u7b11', family: 'attack', meaning: '\u8bbd\u523a\u6216\u8d28\u7591' },
+      { term: '\u6ca1\u6709', family: 'absolutes', meaning: '\u5168\u79f0\u5426\u5b9a' },
+      { term: '\u57fa\u672c\u6ca1\u6709\u97f3\u4e50\u7406\u89e3', family: 'attack', meaning: '\u7f3a\u4e4f\u97f3\u4e50\u7406\u89e3\u80fd\u529b' },
+      { term: '\u6beb\u65e0\u97f3\u4e50\u7406\u89e3', family: 'attack', meaning: '\u7f3a\u4e4f\u97f3\u4e50\u7406\u89e3\u80fd\u529b' },
+      { term: '\u8d85\u7edd\u65e0\u8bed', family: 'attack', meaning: '\u6781\u5ea6\u65e0\u8bed\u548c\u5410\u69fd' },
+      { term: '\u65e0\u8bed', family: 'cooperation', meaning: '\u8f7b\u677e\u4e92\u52a8' },
+    ],
+  };
+  const cases = [
+    ['\u6709\u4e00\u8bf4\u4e00\uff0c\u8fd9\u4e2a\u8d28\u91cf\uff0c\u4e0d\u5f00\u73a9\u7b11\u771f\u5f97\u6362\u4e00\u6279\u3002', ['\u6709\u4e00\u8bf4\u4e00']],
+    ['\u57fa\u672c\u6ca1\u6709\u97f3\u4e50\u7406\u89e3', ['\u57fa\u672c\u6ca1\u6709\u97f3\u4e50\u7406\u89e3']],
+    ['\u8d85\u7edd\u65e0\u8bed', ['\u8d85\u7edd\u65e0\u8bed']],
+  ];
+
+  for (const [comment, expectedTerms] of cases) {
+    const result = classifyCommentCoverage(overlapDictionary, comment);
+    assert.equal(result.mode, 'keyword');
+    assert.deepEqual(result.hits.map((hit) => hit.term), expectedTerms);
+  }
+});
+
 test('detectEmoteSemanticHits treats Bilibili emotes as satire and tone markers', () => {
   const hits = detectEmoteSemanticHits('皇马：我谢谢你啊[doge]');
 

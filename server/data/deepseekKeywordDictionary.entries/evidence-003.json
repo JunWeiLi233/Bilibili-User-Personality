@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T09:30:18.031Z",
+  "updatedAt": "2026-06-18T09:44:01.239Z",
   "family": "evidence",
   "shard": 3,
   "shardCount": 4,
@@ -172,13 +172,18 @@
       "confidence": 0.5,
       "evidenceCount": 8,
       "evidenceSamples": [
+        "不是看懂的，是链接简体字懂的",
         "元链接在哪？",
         "我去快发链接",
         "两年前视频上链接",
-        "那你看看链接点进去有效代码文档txt https://www.alipan.com/s/4J9L7zXbNyF",
-        "回覆 @CrispyChips脆薯條 :其实私服作者是国人。简介的链接是修改圈名人，自己fork一份开公网服务器了[doge]"
+        "那你看看链接点进去有效代码文档txt https://www.alipan.com/s/4J9L7zXbNyF"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Da411j7hh/, https://www.bilibili.com/video/BV1Wypyz6EPy/, https://www.bilibili.com/video/BV1Si4y1H7UR/, https://www.bilibili.com/video/BV1vx4y1K76w/, http://www.bilibili.com/video/av214595557, http://www.bilibili.com/video/av115212782929324, http://www.bilibili.com/video/av539287464, http://www.bilibili.com/video/av993010267",
+          "uid": "BV1Da411j7hh,BV1Wypyz6EPy,BV1Si4y1H7UR,BV1vx4y1K76w",
+          "sample": "不是看懂的，是链接简体字懂的"
+        },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1V2Vb6rEYH/, https://www.bilibili.com/video/BV1muVs6nEbj/, https://www.bilibili.com/video/BV1pr4y1z7H1/, https://www.bilibili.com/video/BV1M8TozyEC6/, https://www.bilibili.com/video/BV1N8Vh6wEJ4/, https://www.bilibili.com/video/BV1qmttzwEBE/, https://www.bilibili.com/video/BV1ccGB6gEE1/, https://www.bilibili.com/video/BV1gKGE6NEQ9/, https://www.bilibili.com/video/BV1URVb6NE1J/, https://www.bilibili.com/video/BV1ToGC6TEAM/, https://www.bilibili.com/video/BV1RtG26XEhB/, https://www.bilibili.com/video/BV1UCVa6gEBe/, http://www.bilibili.com/video/av116656110109346, http://www.bilibili.com/video/av116652435966859, http://www.bilibili.com/video/av766867725, http://www.bilibili.com/video/av114648934254760, http://www.bilibili.com/video/av116657133655655, http://www.bilibili.com/video/av114998554659983, http://www.bilibili.com/video/av116624015234687, http://www.bilibili.com/video/av116628108875523, http://www.bilibili.com/video/av116655690614820, http://www.bilibili.com/video/av116644013672481, http://www.bilibili.com/video/av116646714807670, http://www.bilibili.com/video/av116658475703220",
           "uid": "BV1V2Vb6rEYH,BV1muVs6nEbj,BV1pr4y1z7H1,BV1M8TozyEC6,BV1N8Vh6wEJ4,BV1qmttzwEBE,BV1ccGB6gEE1,BV1gKGE6NEQ9,BV1URVb6NE1J,BV1ToGC6TEAM,BV1RtG26XEhB,BV1UCVa6gEBe",
@@ -205,11 +210,6 @@
           "sample": "回覆 @CrispyChips脆薯條 :其实私服作者是国人。简介的链接是修改圈名人，自己fork一份开公网服务器了[doge]"
         },
         {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Da411j7hh/, https://www.bilibili.com/video/BV1Wypyz6EPy/, https://www.bilibili.com/video/BV1Si4y1H7UR/, https://www.bilibili.com/video/BV1vx4y1K76w/, http://www.bilibili.com/video/av214595557, http://www.bilibili.com/video/av115212782929324, http://www.bilibili.com/video/av539287464, http://www.bilibili.com/video/av993010267",
-          "uid": "BV1Da411j7hh,BV1Wypyz6EPy,BV1Si4y1H7UR,BV1vx4y1K76w",
-          "sample": "不是看懂的，是链接简体字懂的"
-        },
-        {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1inV867EWm/, https://www.bilibili.com/video/BV15gVY6QEVu/, https://www.bilibili.com/video/BV1f2VW6KEaA/, https://www.bilibili.com/video/BV1GuGp6UEjg/, https://www.bilibili.com/video/BV1upVY6CEby/, https://www.bilibili.com/video/BV1FdG26vEzy/, https://www.bilibili.com/video/BV1pZVe6BE9o/, https://www.bilibili.com/video/BV196Lz6GEhW/, https://www.bilibili.com/video/BV1SfVh6gEEk/, https://www.bilibili.com/video/BV18RXqBREYC/, https://www.bilibili.com/video/BV14CVa6gEBo/, https://www.bilibili.com/video/BV1uEdcBxESp/, http://www.bilibili.com/video/av116657552887747, http://www.bilibili.com/video/av116657838098168, http://www.bilibili.com/video/av116652687623734, http://www.bilibili.com/video/av116631950858841, http://www.bilibili.com/video/av116657972321196, http://www.bilibili.com/video/av116646345771980, http://www.bilibili.com/video/av116658878290532, http://www.bilibili.com/video/av116601332434008, http://www.bilibili.com/video/av116658626626118, http://www.bilibili.com/video/av116321589136909, http://www.bilibili.com/video/av116658475634506, http://www.bilibili.com/video/av116531069590329",
           "uid": "BV1inV867EWm,BV15gVY6QEVu,BV1f2VW6KEaA,BV1GuGp6UEjg,BV1upVY6CEby,BV1FdG26vEzy,BV1pZVe6BE9o,BV196Lz6GEhW,BV1SfVh6gEEk,BV18RXqBREYC,BV14CVa6gEBo,BV1uEdcBxESp",
           "sample": "链接："
@@ -220,7 +220,7 @@
           "sample": "大佬能发个链接吗？[doge]"
         }
       ],
-      "updatedAt": "2026-06-18T09:30:18.031Z"
+      "updatedAt": "2026-06-18T09:44:01.239Z"
     },
     {
       "term": "石锤",
