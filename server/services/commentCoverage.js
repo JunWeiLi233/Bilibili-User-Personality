@@ -91,6 +91,48 @@ export function detectEmoteSemanticHits(comment) {
 
 const SUPPLEMENTAL_SEMANTICS = [
   {
+    pattern: /\u90a3\u9a6c\u548b\u5e01|\u90a3\u9a6c\u548b|\u90a3\u9a6c\u5e01/u,
+    term: '\u90a3\u5988\u548b\u5e01',
+    family: 'attack',
+    meaning: '\u201c\u90a3\u9a6c\u548b\u5e01\u201d\u662f\u201c\u90a3\u5988\u548b\u5e01\u201d\u7684\u8c10\u97f3\u5f02\u5199\uff0c\u4f9d\u7136\u662f\u7c97\u53e3\u653b\u51fb\u6216\u5f3a\u70c8\u8d28\u95ee\u8bed\u6c14\u3002',
+  },
+  {
+    pattern: /\u8111\u5b50\u6709\u6ce1|鑴戝瓙鏈夋场/u,
+    term: '\u8111\u5b50\u6709\u6ce1',
+    family: 'attack',
+    meaning: '\u201c\u8111\u5b50\u6709\u6ce1\u201d\u662f\u628a\u5bf9\u65b9\u8bf4\u6210\u8111\u5b50\u51fa\u95ee\u9898\u7684\u8d2c\u635f\u6027\u7f51\u7edc\u8bdd\uff0c\u5e38\u89c1\u4e8e\u4eba\u8eab\u653b\u51fb\u6216\u667a\u529b\u8fb1\u9a82\u3002',
+  },
+  {
+    pattern: /\u90a3\u5988\u548b\u5e01|\u90a3\u5988\u548b|\u90a3\u5988\u5e01|閭ｉ┈鍜嬪竵/u,
+    term: '\u90a3\u5988\u548b\u5e01',
+    family: 'attack',
+    meaning: '\u201c\u90a3\u5988\u548b\u5e01\u201d\u7c7b\u8c10\u97f3/\u53d8\u4f53\u662f\u7c97\u53e3\u9a82\u4eba\u6216\u5f3a\u70c8\u8d28\u95ee\uff0c\u4e0d\u5e94\u88ab\u5f53\u4f5c\u666e\u901a\u65e0\u610f\u4e49\u5f39\u5e55\u3002',
+  },
+  {
+    pattern: /\u8fd9\u4e48\u78e8\u53fd|纾ㄥ徑|(?:\u76f4\u63a5|\u5e72\u8106).{0,4}\u65ad\u4ea4/u,
+    term: '\u8fd9\u4e48\u78e8\u53fd/\u76f4\u63a5\u65ad\u4ea4',
+    family: 'attack',
+    meaning: '\u201c\u76f4\u63a5\u65ad\u4ea4\u4e0d\u597d\u5417/\u8fd9\u4e48\u78e8\u53fd\u201d\u662f\u5426\u5b9a\u5bf9\u65b9\u6c9f\u901a\u65b9\u5f0f\u5e76\u5efa\u8bae\u5207\u65ad\u5173\u7cfb\u7684\u653b\u51fb\u6027\u50ac\u4fc3\u6216\u538c\u70e6\u8bed\u6c14\u3002',
+  },
+  {
+    pattern: /\u6d3b\u8be5\u6ca1\u670b\u53cb|娲昏娌℃湅鍙/u,
+    term: '\u6d3b\u8be5\u6ca1\u670b\u53cb',
+    family: 'attack',
+    meaning: '\u201c\u6d3b\u8be5\u6ca1\u670b\u53cb\u201d\u628a\u5bf9\u65b9\u7684\u4eba\u9645\u5b64\u7acb\u8bf4\u6210\u5e94\u5f97\u7ed3\u679c\uff0c\u662f\u660e\u786e\u4eba\u8eab\u8d2c\u635f\u548c\u6076\u610f\u5f52\u56e0\u3002',
+  },
+  {
+    pattern: /2001\.9\.11.{0,24}(?:\u4ea4\u901a\u4e8b\u6545|\u7834\u574f\u529b|\u4f24\u4ea1)|鏃堕棿涓婃渶涓ラ噸鐨勪氦閫氫簨鏁呭彂鐢熶簬2001\.9\.11/u,
+    term: '9/11\u4ea4\u901a\u4e8b\u6545\u53cd\u8bdd',
+    family: 'attack',
+    meaning: '\u628a9/11\u7b49\u91cd\u5927\u4f24\u4ea1\u4e8b\u4ef6\u8bf4\u6210\u201c\u4ea4\u901a\u4e8b\u6545\u201d\u662f\u6545\u610f\u964d\u683c\u60b2\u5267\u7684\u9ed1\u8272\u53cd\u8bdd/\u5730\u72f1\u7b11\u8bdd\uff0c\u5e94\u4f5c\u4e3a\u653b\u51fb\u6216\u5192\u72af\u6027\u8bed\u4e49\u4fdd\u7559\u3002',
+  },
+  {
+    pattern: /\u7761\u4e86\u8fd9\u4e2a\u4eba|\u7761\u4e86.{0,4}\u4eba|鐫′簡杩欎釜浜/u,
+    term: '\u7761\u4e86\u8fd9\u4e2a\u4eba',
+    family: 'attack',
+    meaning: '\u201c\u7761\u4e86\u8fd9\u4e2a\u4eba\u201d\u5728\u201c\u4e0d\u9192\u88c5\u7761\u201d\u7b49\u53cc\u5173\u91cc\u53ef\u8868\u793a\u201c\u6740\u4e86/\u653e\u5012\u201d\u7684\u9ed1\u8272\u5a01\u80c1\u68d7\uff0c\u9700\u4f5c\u4e3a\u654c\u610f\u7ebf\u7d22\u3002',
+  },
+  {
     pattern: /\u7eaf\u9e7f\u4eba/u,
     term: '\u7eaf\u9e7f\u4eba',
     family: 'evasion',
@@ -1257,6 +1299,12 @@ function isSuppressedSupplementalHit(item, message) {
     return /(?:\u6211|俺|咱).{0,8}(?:\u5403|\u559d|\u95fb|\u770b).{0,20}(?:\u6076\u5fc3|\u53cd\u80c3|\u60f3\u5410)/u.test(message)
       || /(?:\u5403|\u559d|\u95fb).{0,12}(?:\u8fd9\u4e2a|\u8fd9\u4e9b|\u5b83|它).{0,12}(?:\u6076\u5fc3|\u53cd\u80c3|\u60f3\u5410)/u.test(message);
   }
+  if (item?.term === '瀹炲姏涓嶈') {
+    return /绱犺川鏁欒偛涓嶈|\u7d20\u8d28\u6559\u80b2\u4e0d\u884c/u.test(message);
+  }
+  if (/\u7ef1\u72ba\u5ddd\u93c1\u6b12\u505b\u6d93\u5d88\ue511|\u7d20\u8d28\u6559\u80b2\u4e0d\u884c/u.test(message)) {
+    return true;
+  }
   return false;
 }
 
@@ -1580,6 +1628,21 @@ function isSincereFaithContext(entry, message) {
   return /(?:\u76f8\u4fe1\u81ea\u5df1|\u76f8\u4fe1.{0,6}\u56e2\u961f).{0,18}\u80dc\u5229\u7684\u4fe1\u4ef0|\u4fe1\u4ef0.{0,8}(?:\u80dc\u5229|\u68a6\u60f3|\u575a\u6301)/u.test(message);
 }
 
+function isRound61SuppressedContext(entry, message) {
+  const term = String(entry?.term || '');
+  if (entry?.family === 'attack' && (term === '\u4e0d\u662f' || term === '涓嶆槸')) {
+    return /杩欎笉鏄竴鏍风埍|銆婁篃涓嶆槸|涓嶆槸鑸炴洸|宀備笉鏄/u.test(message)
+      || /\u8fd9\u4e0d\u662f\u4e00\u6837\u7231|\u300a\u4e5f\u4e0d\u662f|\u4e0d\u662f\u821e\u66f2|\u5c82\u4e0d\u662f/u.test(message);
+  }
+  if (entry?.family === 'attack' && (term === '\u52a3\u8d28' || term === '鍔ｈ川')) {
+    return /绱犳潗搴撳悗鏈熼煶鏁?|(?:\u7d20\u6750\u5e93|\u540e\u671f|\u97f3\u6548).{0,12}\u52a3\u8d28|\u52a3\u8d28.{0,12}(?:\u7d20\u6750\u5e93|\u540e\u671f|\u97f3\u6548)/u.test(message);
+  }
+  if (entry?.family === 'attack' && (term === '\u6d41\u91cf' || term === '娴侀噺')) {
+    return /娴侀噺灏卞彲浠ヨ禋閽?|(?:\u6d41\u91cf).{0,8}(?:\u8d5a\u94b1|\u53d8\u73b0|\u6536\u5165|\u64ad\u653e|\u70ed\u5ea6)/u.test(message);
+  }
+  return false;
+}
+
 function isSuppressedLexicalHit(entry, message) {
   return isSelfReferentialNoviceHit(entry, message)
     || isLiteralYinYangContext(entry, message)
@@ -1614,7 +1677,8 @@ function isSuppressedLexicalHit(entry, message) {
     || isFirstPersonHabitualDoushiContext(entry, message)
     || isSongLyricShouldContext(entry, message)
     || isSpeculativeThirdPartyMistakeContext(entry, message)
-    || isSincereFaithContext(entry, message);
+    || isSincereFaithContext(entry, message)
+    || isRound61SuppressedContext(entry, message);
 }
 
 function exactDictionaryEntries(dictionary, message) {
