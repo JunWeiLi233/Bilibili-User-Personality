@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T17:56:31.360Z",
+  "updatedAt": "2026-06-18T18:07:46.331Z",
   "shard": 8,
   "shardCount": 8,
   "runs": [
@@ -1701,6 +1701,80 @@
       "warnings": [],
       "commentsCollected": 383,
       "commentsAdded": 289
+    },
+    {
+      "at": "2026-06-18T18:07:46.331Z",
+      "actions": [
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1Ba4y137M7",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1Ba4y137M7",
+          "aid": 656133318,
+          "title": "<em class=\"keyword\">B站</em>手机端<em class=\"keyword\">评论</em>区发图片教程"
+        },
+        {
+          "key": "bvid:BV1iu4y1T7N3",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1iu4y1T7N3",
+          "aid": 922276346,
+          "title": "金融茶“爆雷“：当一个赚钱机会摆在你面前，一定要想想背后的风险"
+        },
+        {
+          "key": "bvid:BV1kT421C7mk",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1kT421C7mk",
+          "aid": 1703834914,
+          "title": "让双方以为我是在回答他们问题"
+        },
+        {
+          "key": "bvid:BV15C411r7ZE",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV15C411r7ZE",
+          "aid": 1950028865,
+          "title": "一点小建议：b站发<em class=\"keyword\">评论</em>时可以发图片，但<em class=\"keyword\">回复评论</em>却又不可以发图片"
+        },
+        {
+          "key": "bvid:BV1sC4y1M7dM",
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论",
+          "bvid": "BV1sC4y1M7dM",
+          "aid": 750070847,
+          "title": "【Counter <em class=\"keyword\">Attack</em>】热血沸腾了吗？少年"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 662,
+      "commentsAdded": 492
     }
   ]
 }
