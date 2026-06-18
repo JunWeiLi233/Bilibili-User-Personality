@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T19:43:41.411Z",
+  "updatedAt": "2026-06-18T19:54:54.255Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -487,6 +487,88 @@
       "warnings": [],
       "commentsCollected": 137,
       "commentsAdded": 111
+    },
+    {
+      "at": "2026-06-18T19:54:54.255Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1eajXzFEHC",
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复",
+          "bvid": "BV1eajXzFEHC",
+          "aid": 114577161393083,
+          "title": "外网喷印度第一人贾扬特.班达里的那些推文。最后面部分是多年前的观点，2010年携款2亿美元回乡投资，差点人都出不来了。"
+        },
+        {
+          "key": "bvid:BV1idJJ6NECp",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1idJJ6NECp",
+          "aid": 116740600109589,
+          "title": "欢迎大家来找狗狗网管"
+        },
+        {
+          "key": "bvid:BV13ibhzcERw",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV13ibhzcERw",
+          "aid": 115020918690931,
+          "title": "“炒菜多放辣椒”写入先进事迹，引<em class=\"keyword\">争议</em>后被取消“吉林好人”候选资格？当地回应：没取消"
+        },
+        {
+          "key": "bvid:BV1Sv4y1e7S5",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV1Sv4y1e7S5",
+          "aid": 567536781,
+          "title": "他俩<em class=\"keyword\">抛开</em>各种东亚风味的含蓄拉扯，全是彼此理解尊重保护的阳间内核，乐之所乐，忧之所忧的soulmate。"
+        },
+        {
+          "key": "bvid:BV1zDJg6mEdw",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1zDJg6mEdw",
+          "aid": 116752931488141,
+          "title": "【一口吃完】以后是兄弟了。兄弟。他说的时候特别轻巧。好像这个词不需要用四年来称量，也不需要用十年来收债。我当时只是嗯了一声，把可乐喝了个精光。心里想的是"
+        },
+        {
+          "key": "bvid:BV17bja6hEuL",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV17bja6hEuL",
+          "aid": 116771990274326,
+          "title": "【战争<em class=\"keyword\">雷霆</em>】<em class=\"keyword\">直播切片</em>——基胡的入机操作"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 621,
+      "commentsAdded": 501
     }
   ]
 }

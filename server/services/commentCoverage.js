@@ -97,6 +97,12 @@ export function detectEmoteSemanticHits(comment) {
 
 const SUPPLEMENTAL_SEMANTICS = [
   {
+    pattern: /(?:你|他|她|它|这人|那人|弹幕|评论).{0,8}狗笑(?:什么|啥|呢|啊)?|狗笑(?:什么|啥|呢|啊)/u,
+    term: '狗笑什么',
+    family: 'attack',
+    meaning: '“你在狗笑什么/狗笑什么”是在评论区把对方的嘲笑贬成狗叫式反应，带有人身攻击和动物化嘲讽意味。',
+  },
+  {
     pattern: /(?:一家|全家|这家|一群).{0,4}坏种|(?:^|[\s，,。！？!?])坏种(?:$|[\s，,。！？!?])|坏种(?:一家|一窝|一群)/u,
     term: '一家坏种',
     family: 'attack',
