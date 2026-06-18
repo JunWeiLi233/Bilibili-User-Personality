@@ -97,17 +97,37 @@ async function fetchSource(source, options = {}) {
   const maxBytes = Math.max(1000, Math.min(Number(source.maxBytes) || 750000, 5_000_000));
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), options.requestTimeoutMs);
-  const response = await fetch(datasetResolveUrl(source), {
-    signal: controller.signal,
-    headers: {
-      Range: `bytes=0-${maxBytes - 1}`,
-      'User-Agent': 'Bilibili_User_Personality corpus importer (bounded)',
-    },
-  }).finally(() => clearTimeout(timeout));
-  if (!response.ok && response.status !== 206) {
-    throw new Error(`HTTP ${response.status} ${response.statusText}`);
+  try {
+    const response = await fetch(datasetResolveUrl(source), {
+      signal: controller.signal,
+      headers: {
+        Range: `bytes=0-${maxBytes - 1}`,
+        'User-Agent': 'Bilibili_User_Personality corpus importer (bounded)',
+      },
+    });
+    if (!response.ok && response.status !== 206) {
+      throw new Error(`HTTP ${response.status} ${response.statusText}`);
+    }
+    return await response.text();
+  } finally {
+    clearTimeout(timeout);
   }
-  return await response.text();
+}
+
+async function fetchSourceWithRetry(source, options = {}) {
+  const attempts = Math.max(1, Math.min(Number(options.fetchAttempts) || 3, 5));
+  let lastError;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      return await fetchSource(source, options);
+    } catch (error) {
+      lastError = error;
+      if (attempt < attempts) {
+        await new Promise((resolve) => setTimeout(resolve, 1000 * attempt));
+      }
+    }
+  }
+  throw lastError;
 }
 
 const options = parseArgs();
@@ -132,7 +152,7 @@ console.log(`Request timeout: ${options.requestTimeoutMs}ms`);
 const imported = [];
 for (const source of options.sources) {
   try {
-    const raw = await fetchSource(source, options);
+    const raw = await fetchSourceWithRetry(source, options);
     const rows = parseHuggingFaceRows(raw, source);
     imported.push(...rows);
     run.results.push({ ...source, ok: true, rows: rows.length });

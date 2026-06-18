@@ -29,6 +29,25 @@ test('parseHuggingFaceRows reads csv comment fields and filters to requested pla
   assert.equal(rows[0].sourceUrl, 'https://www.bilibili.com/video/BV1/');
 });
 
+test('parseHuggingFaceRows reads Tieba title/detail csv rows', () => {
+  const csv = [
+    'title,detail,author,num_reply,href',
+    '"\u4e3a\u4ec0\u4e48\u6709\u8fdb\u6b65\uff1f","\u56e0\u4e3a\u6709\u4e86\u843d\u540e\u7684\u6807\u51c6\u6240\u4ee5\u5c31\u6709\u4e86\u8fdb\u6b65","tester",2,https://tieba.baidu.com/p/8712791904',
+  ].join('\n');
+  const rows = parseHuggingFaceRows(csv, {
+    dataset: 'kirp/ruozhiba-raw',
+    file: 'wisdomBar_raw.csv',
+    platform: 'tieba',
+    limit: 10,
+  });
+
+  assert.equal(rows.length, 1);
+  assert.match(rows[0].message, /\u4e3a\u4ec0\u4e48\u6709\u8fdb\u6b65/);
+  assert.match(rows[0].message, /\u843d\u540e\u7684\u6807\u51c6/);
+  assert.equal(rows[0].sourceUrl, 'https://tieba.baidu.com/p/8712791904');
+  assert.equal(rows[0].uid, 'tester');
+});
+
 test('buildHuggingFaceCorpusUpdate dedupes imported rows against existing comments', () => {
   const existing = {
     version: 1,

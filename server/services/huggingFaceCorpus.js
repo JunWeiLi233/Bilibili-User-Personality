@@ -9,7 +9,7 @@ function hasHanText(value) {
 function sourceForRow(options = {}, row = {}) {
   const dataset = cleanText(options.dataset);
   const file = cleanText(options.file);
-  const url = cleanText(row.url || row.sourceUrl || row.source);
+  const url = cleanText(row.url || row.sourceUrl || row.source || row.href);
   const prefix = `Hugging Face dataset: ${dataset}${file ? `/${file}` : ''}`;
   return url ? `${prefix}: ${url}` : prefix;
 }
@@ -61,10 +61,31 @@ function parseCsv(raw) {
   });
 }
 
-function firstTextField(row = {}) {
+function isTiebaLikeRow(row = {}, options = {}) {
+  const platform = cleanText(row.platform || row.source_platform || options.platform).toLowerCase();
+  const href = cleanText(row.href || row.url || row.sourceUrl || row.source);
+  return platform === 'tieba' || /tieba\.baidu\.com/i.test(href);
+}
+
+function firstTextField(row = {}, options = {}) {
   if (Array.isArray(row.messages)) {
     const message = row.messages.find((item) => cleanText(item?.content) && cleanText(item?.role) !== 'assistant');
     if (message) return message.content;
+  }
+  const directText = row.comment
+    || row.content
+    || row.text
+    || row.instruction
+    || row.input
+    || row.output
+    || '';
+  if (directText) return directText;
+  if (isTiebaLikeRow(row, options)) {
+    return [row.title, row.detail]
+      .map(cleanText)
+      .filter(Boolean)
+      .filter((value, index, values) => values.indexOf(value) === index)
+      .join(' ');
   }
   return row.comment
     || row.content
@@ -103,14 +124,14 @@ export function parseHuggingFaceRows(raw, options = {}) {
     if (!row || typeof row !== 'object') continue;
     const detectedPlatform = rowPlatform(row, platform);
     if (platform && detectedPlatform && detectedPlatform !== platform) continue;
-    const message = cleanText(firstTextField(row));
+    const message = cleanText(firstTextField(row, options));
     if (!message) continue;
     if (!hasHanText(message)) continue;
     comments.push({
       message,
       platform: detectedPlatform || platform || 'huggingface',
       source: sourceForRow(options, row),
-      sourceUrl: cleanText(row.url || row.sourceUrl || row.source),
+      sourceUrl: cleanText(row.url || row.sourceUrl || row.source || row.href),
       uid: cleanText(row.creator_id || row.user_id || row.uid || row.author || row.comment_id),
       uname: cleanText(row.creator_name || row.username || row.uname || row.user),
       dataset: cleanText(options.dataset),
