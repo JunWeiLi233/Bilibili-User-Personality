@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T22:42:20.941Z",
+  "updatedAt": "2026-06-18T23:01:59.157Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -1565,6 +1565,64 @@
       "warnings": [],
       "commentsCollected": 61,
       "commentsAdded": 28
+    },
+    {
+      "at": "2026-06-18T23:01:59.157Z",
+      "actions": [
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV19Z2sBkE7t",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV19Z2sBkE7t",
+          "aid": 115655835655478,
+          "title": "憋笑挑战2.0"
+        },
+        {
+          "key": "bvid:BV1zhZCBPEre",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1zhZCBPEre",
+          "aid": 116084627800338,
+          "title": "【<em class=\"keyword\">互动</em>视频】不要相信T氏的话,但是自己做选择..."
+        },
+        {
+          "key": "bvid:BV1Q1421473b",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1Q1421473b",
+          "aid": 1556366793,
+          "title": "耗时999分钟，一口气看爽《八 个 鸭 肉》！！！"
+        },
+        {
+          "key": "bvid:BV1Mm4y1u7by",
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论",
+          "bvid": "BV1Mm4y1u7by",
+          "aid": 702708624,
+          "title": "【Counter <em class=\"keyword\">Attack</em>简谱】谱子来喽！"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 757,
+      "commentsAdded": 435
     }
   ]
 }
