@@ -353,11 +353,23 @@ test('classifyCommentCoverage captures hostile plot-writing rants', () => {
 });
 
 test('classifyCommentCoverage captures sampled Latin profanity', () => {
-  const result = classifyCommentCoverage({ entries: [] }, 'tmd\u6211\u5f00\u7a7a\u8c03\uff0c\u60f3\u4ec0\u4e48\u65f6\u5019\u5f00\u5c31\u4ec0\u4e48\u65f6\u5019\u5f00');
+  const tmd = classifyCommentCoverage({ entries: [] }, 'tmd\u6211\u5f00\u7a7a\u8c03\uff0c\u60f3\u4ec0\u4e48\u65f6\u5019\u5f00\u5c31\u4ec0\u4e48\u65f6\u5019\u5f00');
+  const tm = classifyCommentCoverage({ entries: [] }, '2024\u5e74\u4e86\uff0c\u8fd8tm\u6ca1\u6539');
+
+  assert.equal(tmd.covered, true);
+  assert.equal(tmd.mode, 'keyword');
+  assert.deepEqual(tmd.hits.map((hit) => hit.term), ['tm/tmd']);
+  assert.deepEqual(tmd.hits.map((hit) => hit.family), ['attack']);
+  assert.deepEqual(tm.hits.map((hit) => hit.term), ['tm/tmd']);
+  assert.deepEqual(tm.hits.map((hit) => hit.family), ['attack']);
+});
+
+test('classifyCommentCoverage captures hostile jail-wish sarcasm', () => {
+  const result = classifyCommentCoverage({ entries: [] }, '\u966a\u4e0d\u4e86\u5750\u7262\uff0c\u5750\u51e0\u5e74\u7262\u518d\u8bf4\u5427\u3002');
 
   assert.equal(result.covered, true);
   assert.equal(result.mode, 'keyword');
-  assert.deepEqual(result.hits.map((hit) => hit.term), ['tmd']);
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['\u5750\u7262']);
   assert.deepEqual(result.hits.map((hit) => hit.family), ['attack']);
 });
 
