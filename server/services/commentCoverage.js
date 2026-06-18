@@ -1290,6 +1290,12 @@ const SUPPLEMENTAL_SEMANTICS = [
     family: 'evasion',
     meaning: '\u5c06\u201c\u901a\u8d27\u81a8\u80c0\u201d\u62c6\u5f00\u6216\u52a0\u5f15\u53f7\u7684\u5199\u6cd5\u5e38\u7528\u4e8e\u89c4\u907f\u654f\u611f\u8bcd\u8fc7\u6ee4\uff0c\u5c5e\u4e8e\u5206\u9694\u5f0f\u8bed\u4e49\u89c4\u907f\u4fe1\u53f7\u3002',
   },
+  {
+    pattern: /\u952e\u6b63/u,
+    term: '\u952e\u6b63',
+    family: 'evasion',
+    meaning: '\u201c\u952e\u6b63\u201d\u662f\u201c\u952e\u653f\u201d\u7684\u8c10\u97f3/\u9519\u5b57\u53d8\u4f53\uff0c\u5e38\u7528\u4e8e\u56de\u907f\u5ba1\u6838\u6216\u8c03\u4f83\u7f51\u7edc\u653f\u6cbb\u8ba8\u8bba\u8eab\u4efd\u3002',
+  },
 ];
 
 function detectSupplementalSemanticHits(comment) {
@@ -1333,6 +1339,9 @@ function isSuppressedSupplementalHit(item, message) {
   }
   if (item?.term === '\u5b9e\u529b\u4e0d\u884c') {
     return /(?:\u6211|\u672c\u4eba).{0,16}\u4e0d\u884c|(?:\u6211|\u672c\u4eba).{0,24}(?:\u5e9f\u7269|\u50bb\u9c7c|\u4e5d\u6f0f\u9c7c)|(?:\u4f53\u80b2|\u5b66\u4e60|\u6570\u5b66|\u82f1\u8bed)\u5e9f\u7269/u.test(message);
+  }
+  if (item?.term === '\u8d85\u7ea7\u559c\u6b22\u4f60') {
+    return /\u8d85\u7ea7\u559c\u6b22\u4f60.{0,12}\u8fde\u7ffb\u8138\u4e5f\u6ca1\u5e95\u6c14\s+\d+$/u.test(message);
   }
   return false;
 }
@@ -1741,6 +1750,26 @@ function isRound65SuppressedContext(entry, message) {
   return false;
 }
 
+function isRound66SuppressedContext(entry, message) {
+  const term = String(entry?.term || '');
+  if (entry?.family === 'evidence' && term === '\u4e3a\u4ec0\u4e48') {
+    return /\u60f3\u9738\u699c\u4e3a\u4ec0\u4e48\u4e0d\u628a\u628a/u.test(message);
+  }
+  if (entry?.family === 'cooperation' && term === '\u628a\u628a') {
+    return /\u4e3a\u4ec0\u4e48\u4e0d\u628a\u628a\u4e00\u5343\u4e07/u.test(message);
+  }
+  if (entry?.family === 'attack' && term === '\u6b7b\u4e86') {
+    return /\u5435\u6b7b\u4e86(?:\u771f\u7684)?/u.test(message);
+  }
+  if (entry?.family === 'cooperation' && term === '\u89c9\u5f97') {
+    return /\u6211\u600e\u4e48\u89c9\u5f97.{0,16}\u51fa\u95ee\u9898/u.test(message);
+  }
+  if (entry?.family === 'absolutes' && term === '\u90fd\u662f') {
+    return /(?:\u6211|\u6211\u5f53\u5e74).{0,28}\u5c31\u4e00\u76f4\u90fd\u662f/u.test(message);
+  }
+  return false;
+}
+
 function isSuppressedLexicalHit(entry, message) {
   return isSelfReferentialNoviceHit(entry, message)
     || isLiteralYinYangContext(entry, message)
@@ -1780,7 +1809,8 @@ function isSuppressedLexicalHit(entry, message) {
     || isRound62SuppressedContext(entry, message)
     || isRound63SuppressedContext(entry, message)
     || isRound64SuppressedContext(entry, message)
-    || isRound65SuppressedContext(entry, message);
+    || isRound65SuppressedContext(entry, message)
+    || isRound66SuppressedContext(entry, message);
 }
 
 function exactDictionaryEntries(dictionary, message) {

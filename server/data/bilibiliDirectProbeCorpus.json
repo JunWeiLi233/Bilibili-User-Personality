@@ -15220,9 +15220,115 @@
       "warnings": [],
       "commentsCollected": 1515,
       "commentsAdded": 1102
+    },
+    {
+      "at": "2026-06-18T15:51:16.477Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1U6jN6MEgw",
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复",
+          "bvid": "BV1U6jN6MEgw",
+          "aid": 116754642639593,
+          "title": "馆长6.15直播⑴：全台网络平台账号大封禁，青鸟造谣背后是大陆在发力？那为什么我也有3个账号被封"
+        },
+        {
+          "key": "bvid:BV12J3XzzEhc",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV12J3XzzEhc",
+          "aid": 114800046639162,
+          "title": "快点下播带我们去偷狗"
+        },
+        {
+          "key": "bvid:BV1SWrfYdEkt",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1SWrfYdEkt",
+          "aid": 113672550617470,
+          "title": "有人把“仅退款”当“零元购”，最终“多赔钱”！"
+        },
+        {
+          "key": "bvid:BV1M3ctzCESL",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV1M3ctzCESL",
+          "aid": 116051341873588,
+          "title": "如果你在全站<em class=\"keyword\">弹幕</em>最多的视频里狂刷<em class=\"keyword\">弹幕</em>会怎么样"
+        },
+        {
+          "key": "bvid:BV1iwjP6LETp",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1iwjP6LETp",
+          "aid": 116770748766923,
+          "title": "为什么你画的缠论中枢总是错的？因为99%的人忽略了这1个细节！不是所有人都适合缠论，理解不了千万别硬钻"
+        },
+        {
+          "key": "bvid:BV1keLo6gE7a",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1keLo6gE7a",
+          "aid": 116766336355622,
+          "title": "<em class=\"keyword\">雷霆</em>战机6月17日兑换码五个"
+        },
+        {
+          "key": "bvid:BV1arEA62Eok",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1arEA62Eok",
+          "aid": 116692415940792,
+          "title": "<em class=\"keyword\">B站</em>更新横屏查看<em class=\"keyword\">评论</em>功能"
+        },
+        {
+          "key": "bvid:BV1TDLZ6EEFB",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1TDLZ6EEFB",
+          "aid": 116767712091034,
+          "title": "【老亿<em class=\"keyword\">茶庄</em>】视频加载中，速速查收惊喜！"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 739,
+      "commentsAdded": 656
     }
   ],
-  "updatedAt": "2026-06-18T15:36:41.090Z",
+  "updatedAt": "2026-06-18T15:51:16.477Z",
   "storage": "split",
   "shardMaxBytes": 65536,
   "commentFiles": [
@@ -15636,7 +15742,9 @@
     "bilibiliDirectProbeCorpus.comments/comments-0408.json",
     "bilibiliDirectProbeCorpus.comments/comments-0409.json",
     "bilibiliDirectProbeCorpus.comments/comments-0410.json",
-    "bilibiliDirectProbeCorpus.comments/comments-0411.json"
+    "bilibiliDirectProbeCorpus.comments/comments-0411.json",
+    "bilibiliDirectProbeCorpus.comments/comments-0412.json",
+    "bilibiliDirectProbeCorpus.comments/comments-0413.json"
   ],
-  "commentCount": 133263
+  "commentCount": 133919
 }
