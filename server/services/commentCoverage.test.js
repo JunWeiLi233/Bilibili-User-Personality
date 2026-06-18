@@ -333,6 +333,25 @@ test('classifyCommentCoverage captures zombie-dog dehumanizing insults', () => {
   assert.deepEqual(result.hits.map((hit) => hit.family), ['attack']);
 });
 
+test('classifyCommentCoverage captures family-level hooligan insults', () => {
+  const result = classifyCommentCoverage({ entries: [] }, '\u7eaf\u4e00\u5bb6\u5b50\u81ed\u6d41\u6c13');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['\u4e00\u5bb6\u5b50\u81ed\u6d41\u6c13']);
+  assert.deepEqual(result.hits.map((hit) => hit.family), ['attack']);
+});
+
+test('classifyCommentCoverage captures hostile plot-writing rants', () => {
+  const comment = '\u4e71\u5199\u662f\u8fd9\u6837\u7684\uff0c\u5199\u4e0d\u4e0b\u53bb\u5c31\u5f00\u59cb\u4e71\u5199\u4e86\uff0c\u8ddf\u7279\u4e48\u868a\u5b50\u6709\u4e0d\u5438\u4eba\u7684\u597d\u868a\u4f3c\u7684\u795e\u7ecf\u5267\u672c';
+  const result = classifyCommentCoverage({ entries: [] }, comment);
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['\u4e71\u5199/\u795e\u7ecf\u5267\u672c']);
+  assert.deepEqual(result.hits.map((hit) => hit.family), ['attack']);
+});
+
 test('classifyCommentCoverage captures contextual self-immolation variants as attack imagery', () => {
   const sampledDictionary = { entries: [] };
   const typoVariant = classifyCommentCoverage(sampledDictionary, '\u53bb\u86c7\u62f3\u5854\u62b1\u7740\u674e\u7ea2\u72fc\u4e00\u8d77\u81ea\u706b');
