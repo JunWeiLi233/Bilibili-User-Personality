@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T22:19:28.502Z",
+  "updatedAt": "2026-06-18T22:42:20.941Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -1507,6 +1507,64 @@
       "warnings": [],
       "commentsCollected": 1450,
       "commentsAdded": 1044
+    },
+    {
+      "at": "2026-06-18T22:42:20.941Z",
+      "actions": [
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1KVja6kENe",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1KVja6kENe",
+          "aid": 116771956856040,
+          "title": "尽管我早就用左右手完美过了一遍，但录视频时却把整个关卡死了个遍。我只能说你麦为了赶上端午放假，拼了老命创造这种用大便一坨糊成手感的关卡，录了15个素材死几回了…"
+        },
+        {
+          "key": "bvid:BV15Jjc6TECX",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV15Jjc6TECX",
+          "aid": 116770044189388,
+          "title": "我给<em class=\"keyword\">雷霆</em>蜜和<em class=\"keyword\">雷霆</em>黑架设了一个数字战场"
+        },
+        {
+          "key": "bvid:BV1NMWveZERW",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1NMWveZERW",
+          "aid": 113018541180502,
+          "title": "<em class=\"keyword\">b站评论</em>区按热度排序丢热评"
+        },
+        {
+          "key": "bvid:BV1BXLQ6XEBN",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1BXLQ6XEBN",
+          "aid": 116764910423448,
+          "title": "3名中国人在日本被捕，非法运营‘地下钱庄’"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 61,
+      "commentsAdded": 28
     }
   ]
 }
