@@ -2384,3 +2384,36 @@ test('classifyCommentCoverage handles round 94 validated UTF-8 audit cues', () =
     assert.deepEqual(neutral.hits, []);
   }
 });
+
+test('classifyCommentCoverage handles round 95 validated UTF-8 audit cues', () => {
+  const cases = [
+    ['\u8fd9\u4e2a\u4eba\u591a\u635e\u554a', '\u635e', 'attack'],
+    ['\u8fd9\u4e9b\u9500\u552e\u8bdd\u672f\u597d\u719f\u6089 \u8bed\u6c14\u4e5f\u90fd\u5f88\u5178\uff0c\u786c\u51f9\u51fa\u8001\u94b1\u81ea\u4fe1\u7684\u611f\u89c9', '\u5f88\u5178/\u5178\u4e2d\u5178', 'attack'],
+    ['\u8fd9\u4e9b\u9500\u552e\u8bdd\u672f\u597d\u719f\u6089 \u8bed\u6c14\u4e5f\u90fd\u5f88\u5178\uff0c\u786c\u51f9\u51fa\u8001\u94b1\u81ea\u4fe1\u7684\u611f\u89c9', '\u786c\u51f9', 'attack'],
+    ['\u6211\u5927\u80e1\u5efa\u4e5f\u662f, \u4e0d\u8fc7\u597d\u5728\u6211\u4eec\u53ef\u4ee5\u7528\u6587\u5b57\u4ea4\u6d41,\u7b11', '\u7b11\u8bed\u6c14\u6807\u8bb0', 'cooperation'],
+    ['\u9f9a\u5e7f\u7984\uff0c\u6211\u771f\u7684\u7231\u4f60\u554a\uff0c\u4f60\u77e5\u9053\u5417 \u7ad9\u4e00\u79d2\u65e0\u4eba\u5c4f\u5e55', '\u7ad9\u4e00\u79d2', 'cooperation'],
+    ['\u524d\u65b9\u6253\u5206\uff0c\u6ce8\u610f\u52ff\u624b\u6ed1\uff01', '\u624b\u6ed1', 'evasion'],
+    ['\u9b54\u65b9\uff1a\u4f60\u662f\u5f1f\u5f1f', '\u5f1f\u5f1f\u8d2c\u4e49', 'attack'],
+    ['\u8d5b\u535a\u516d\u827a', '\u8d5b\u535a\u516d\u827a', 'cooperation'],
+  ];
+
+  for (const [text, term, family] of cases) {
+    const result = classifyCommentCoverage({ entries: [] }, text);
+    assert.equal(result.mode, 'keyword');
+    assert.ok(result.hits.some((hit) => hit.term === term && hit.family === family));
+  }
+
+  const neutralCases = [
+    '\u4eca\u5929\u53bb\u6cb3\u91cc\u635e\u9c7c',
+    '\u8fd9\u662f\u7ecf\u5178\u6848\u4f8b',
+    '\u5f1f\u5f1f\u4eca\u5929\u56de\u5bb6\u4e86',
+    '\u95e8\u53e3\u7ad9\u4e00\u79d2\u518d\u8d70',
+    '\u624b\u6ed1\u6454\u5012\u4e86',
+  ];
+
+  for (const text of neutralCases) {
+    const neutral = classifyCommentCoverage({ entries: [] }, text);
+    assert.equal(neutral.mode, 'neutral');
+    assert.deepEqual(neutral.hits, []);
+  }
+});

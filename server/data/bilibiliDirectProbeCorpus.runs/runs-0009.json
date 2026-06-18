@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T21:20:48.257Z",
+  "updatedAt": "2026-06-18T21:33:48.523Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -1193,6 +1193,88 @@
       "warnings": [],
       "commentsCollected": 585,
       "commentsAdded": 443
+    },
+    {
+      "at": "2026-06-18T21:33:48.523Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1g9Jp6PEqT",
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复",
+          "bvid": "BV1g9Jp6PEqT",
+          "aid": 116742680483244,
+          "title": "窃听风云"
+        },
+        {
+          "key": "bvid:BV1aL411e7Vb",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1aL411e7Vb",
+          "aid": 442587737,
+          "title": "我家公狗又去祸害人家小处狗，羞死了，我又要当外婆了！"
+        },
+        {
+          "key": "bvid:BV1SS7k6DEDX",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1SS7k6DEDX",
+          "aid": 116697130471374,
+          "title": "香港富豪雪糕事件持续发酵！蔡少芬因分享惹<em class=\"keyword\">争议</em>，<em class=\"keyword\">评论区</em>彻底沦陷"
+        },
+        {
+          "key": "bvid:BV1gqfRBXEG7",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV1gqfRBXEG7",
+          "aid": 116011344923538,
+          "title": "一个弹窗看所有平台<em class=\"keyword\">弹幕</em>，再也不用东一眼西一眼的看<em class=\"keyword\">弹幕</em>了"
+        },
+        {
+          "key": "bvid:BV1VBja6sEzc",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1VBja6sEzc",
+          "aid": 116771688289466,
+          "title": "谁<em class=\"keyword\">说这</em>是智斗了！！！到底用脑子的哪一块能赢啊！"
+        },
+        {
+          "key": "bvid:BV1UYjA6NEqV",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1UYjA6NEqV",
+          "aid": 116770799094306,
+          "title": "<em class=\"keyword\">雷霆</em>模式匹配到<em class=\"keyword\">的雷霆</em>对局"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 709,
+      "commentsAdded": 547
     }
   ]
 }
