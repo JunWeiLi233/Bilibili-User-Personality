@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T20:49:17.730Z",
+  "updatedAt": "2026-06-18T21:01:07.465Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -947,6 +947,88 @@
       "warnings": [],
       "commentsCollected": 376,
       "commentsAdded": 285
+    },
+    {
+      "at": "2026-06-18T21:01:07.465Z",
+      "actions": [
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1z65t6SEPb",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1z65t6SEPb",
+          "aid": 116556419893495,
+          "title": "关于<em class=\"keyword\">B站评论</em>区关键词屏蔽的妙用分享（屏蔽特定表情）"
+        },
+        {
+          "key": "bvid:BV1zWEvzbEta",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1zWEvzbEta",
+          "aid": 114505824673790,
+          "title": "寺庙公户<em class=\"keyword\">洗钱</em>7000万车队2天狂转1700万流水主犯逍遥法外 从犯退赃百万"
+        },
+        {
+          "key": "bvid:BV1dTMmzaET7",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1dTMmzaET7",
+          "aid": 114681515675548,
+          "title": "有梗<em class=\"keyword\">回复</em>信息，建议收藏！"
+        },
+        {
+          "key": "bvid:BV1QgdeY8EPk",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1QgdeY8EPk",
+          "aid": 114325872313530,
+          "title": "当你跳槽后发现同事还是<em class=\"keyword\">同一批</em>"
+        },
+        {
+          "key": "bvid:BV18gNFz5EsJ",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV18gNFz5EsJ",
+          "aid": 116204501016444,
+          "title": "啊啊啊所有人打开声音听<em class=\"keyword\">八百遍</em>吧！！"
+        },
+        {
+          "key": "bvid:BV1y24y1u7cZ",
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论",
+          "bvid": "BV1y24y1u7cZ",
+          "aid": 781130957,
+          "title": "counter <em class=\"keyword\">attack</em>竹笛演奏"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 771,
+      "commentsAdded": 505
     }
   ]
 }
