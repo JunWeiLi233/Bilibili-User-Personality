@@ -216,6 +216,19 @@ test('classifyCommentCoverage suppresses passive criticism report hits', () => {
   assert.deepEqual(result.hits.map((hit) => hit.term), ['\u786e\u5b9e']);
 });
 
+test('classifyCommentCoverage suppresses positive nickname hits', () => {
+  const sampledDictionary = {
+    entries: [
+      { term: '\u5c11\u7fbd', family: 'attack', meaning: 'ambiguous attack phrase' },
+    ],
+  };
+  const result = classifyCommentCoverage(sampledDictionary, '\u5c11\u7fbd\u8d85\u725b\u6bd4\uff08\u751f\u7269\uff09');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'neutral');
+  assert.equal(result.hits.length, 0);
+});
+
 test('classifyCommentCoverage captures whitewashing accusations without matching literal washing', () => {
   const accusation = classifyCommentCoverage(dictionary, '\u4e5f\u591f\u522b\u6d17\u4e86');
   const literal = classifyCommentCoverage(dictionary, '\u522b\u6d17\u8863\u670d\u4e86\uff0c\u660e\u5929\u4e0b\u96e8');

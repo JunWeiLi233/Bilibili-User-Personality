@@ -304,6 +304,12 @@ function isPassiveCriticismReportContext(entry, message) {
     || /\u88ab\u9a82.{0,16}(?:\u4f46|\u4f46\u662f|\u4e0d\u8fc7|\u53ef|\u5176\u5b9e|\u786e\u5b9e|\u8fd8\u53ef\u4ee5)/u.test(message);
 }
 
+function isPositiveNicknameContext(entry, message) {
+  if (entry?.family !== 'attack') return false;
+  if (String(entry?.term || '') !== '\u5c11\u7fbd') return false;
+  return /\u5c11\u7fbd.{0,8}(?:\u8d85|\u771f|\u5f88)?(?:\u725b\u6bd4|\u725b\u903c|\u725b|\u5389\u5bb3|\u5f3a|\u5e05|\u597d)/u.test(message);
+}
+
 function isSuppressedLexicalHit(entry, message) {
   return isSelfReferentialNoviceHit(entry, message)
     || isLiteralYinYangContext(entry, message)
@@ -314,7 +320,8 @@ function isSuppressedLexicalHit(entry, message) {
     || isRhetoricalFeelingWhyContext(entry, message)
     || isNeutralOutcomeNarrationContext(entry, message)
     || isPlayfulStandaloneLaughterContext(entry, message)
-    || isPassiveCriticismReportContext(entry, message);
+    || isPassiveCriticismReportContext(entry, message)
+    || isPositiveNicknameContext(entry, message);
 }
 
 function exactDictionaryEntries(dictionary, message) {
