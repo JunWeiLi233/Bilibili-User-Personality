@@ -97,6 +97,30 @@ export function detectEmoteSemanticHits(comment) {
 
 const SUPPLEMENTAL_SEMANTICS = [
   {
+    pattern: /假冒伪劣.{0,8}认亲|认亲来了|乱认亲/u,
+    term: '假冒伪劣认亲',
+    family: 'attack',
+    meaning: '“假冒伪劣认亲/认亲来了”是在评论区讽刺某人冒充关系、乱攀亲或借身份贴近对象，带有嘲讽和质疑真实性的攻击意味。',
+  },
+  {
+    pattern: /(?:又一个|真是|这就是).{0,4}万中无一的天才|万中无一的天才[!！]+/u,
+    term: '万中无一的天才反讽',
+    family: 'attack',
+    meaning: '“又一个万中无一的天才！”在B站语境中常是把离谱操作或错误称作天才的反讽，不应按字面正向夸奖处理。',
+  },
+  {
+    pattern: /(?:应该是|是|这里).{0,6}写错了.{0,12}是[\p{Script=Han}A-Za-z0-9]+|写错了[，,]\s*是[\p{Script=Han}A-Za-z0-9]+/u,
+    term: '写错了，是',
+    family: 'correction',
+    meaning: '“写错了，是…”是明确纠错结构，用来指出原内容/字幕/说法错误并给出更正，应作为修正意愿和证据线索保留。',
+  },
+  {
+    pattern: /新\s+人\s+类/u,
+    term: '新 人 类',
+    family: 'attack',
+    meaning: '“新 人 类”这种逐字空格写法在弹幕中常用于强调异质、抽象或脱离常识的标签化吐槽；空格本身是网感强调信号。',
+  },
+  {
     pattern: /(?:老师|大佬|姐妹|兄弟).{0,4}捞捞|捞捞(?:我|孩子|老师)?/u,
     term: '捞捞',
     family: 'cooperation',

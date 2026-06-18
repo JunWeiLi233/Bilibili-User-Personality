@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T19:08:50.302Z",
+  "updatedAt": "2026-06-18T19:20:24.240Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -241,6 +241,88 @@
       "warnings": [],
       "commentsCollected": 38,
       "commentsAdded": 33
+    },
+    {
+      "at": "2026-06-18T19:20:24.240Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 弹幕"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站弹幕"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 评论回复"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 B站评论"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说 弹幕"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 比赛评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1S3LX6zENR",
+          "term": "德里不饶人",
+          "query": "德里不饶人 弹幕",
+          "bvid": "BV1S3LX6zENR",
+          "aid": 116764708965644,
+          "title": "伊莉雅总是<em class=\"keyword\">不饶人</em>"
+        },
+        {
+          "key": "bvid:BV1SW4y1v7yp",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站弹幕",
+          "bvid": "BV1SW4y1v7yp",
+          "aid": 943416687,
+          "title": "［doge］是什么意思？"
+        },
+        {
+          "key": "bvid:BV1v1LX6jEAN",
+          "term": "价格被打下来",
+          "query": "价格被打下来 评论回复",
+          "bvid": "BV1v1LX6jEAN",
+          "aid": 116764541195264,
+          "title": "省钱主包翻车，承认自己的不足很难吗？"
+        },
+        {
+          "key": "bvid:BV14DxbeQER3",
+          "term": "抛开其他",
+          "query": "抛开其他 B站评论",
+          "bvid": "BV14DxbeQER3",
+          "aid": 113229078466318,
+          "title": "拉黑只会隐藏<em class=\"keyword\">评论</em>，不会删除<em class=\"keyword\">评论</em>，<em class=\"keyword\">评论</em>数不会减少"
+        },
+        {
+          "key": "bvid:BV1B1Vg6bEgq",
+          "term": "这还用说",
+          "query": "这还用说 弹幕",
+          "bvid": "BV1B1Vg6bEgq",
+          "aid": 116661495534695,
+          "title": "<em class=\"keyword\">弹幕说</em>我活不过三集_2"
+        },
+        {
+          "key": "bvid:BV182Ev6YETW",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 比赛评论",
+          "bvid": "BV182Ev6YETW",
+          "aid": 116729996903946,
+          "title": "【杨毅回答球迷提问】马刺<em class=\"keyword\">雷霆</em>谁打球更“脏”"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 369,
+      "commentsAdded": 249
     }
   ]
 }
