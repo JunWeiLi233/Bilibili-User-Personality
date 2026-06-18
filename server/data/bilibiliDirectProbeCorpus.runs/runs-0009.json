@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-18T18:44:24.104Z",
+  "shard": 9,
+  "shardCount": 9,
+  "runs": [
+    {
+      "at": "2026-06-18T18:44:24.104Z",
+      "actions": [
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "分不清轻重 B站评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1S2596rEUw",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1S2596rEUw",
+          "aid": 116571955660323,
+          "title": "茶水费这事你们怎么看？"
+        },
+        {
+          "key": "bvid:BV1BX4y1n7TD",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1BX4y1n7TD",
+          "aid": 358849648,
+          "title": "byd给我整<em class=\"keyword\">无语</em>了…"
+        },
+        {
+          "key": "bvid:BV11pEz6vEnW",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV11pEz6vEnW",
+          "aid": 116731859181028,
+          "title": "【OC<em class=\"keyword\">互动</em>】如果妄辞去了你的世界，会怎样？"
+        },
+        {
+          "key": "bvid:BV1LM2RBbEe7",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1LM2RBbEe7",
+          "aid": 115673921492924,
+          "title": "<em class=\"keyword\">说八百遍</em>也是辛迪瑞拉热恋永远热恋 救命这才是真正的尖叫之夜 两人真是为所欲为不管不顾 夫妻感太重了 是真的谈了吧"
+        },
+        {
+          "key": "bvid:BV1DTBFYQETp",
+          "term": "分不清轻重",
+          "query": "分不清轻重 B站评论",
+          "bvid": "BV1DTBFYQETp",
+          "aid": 113657115577035,
+          "title": "<em class=\"keyword\">b站</em>如何删除自己的<em class=\"keyword\">评论</em>"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 363,
+      "commentsAdded": 258
+    }
+  ]
+}

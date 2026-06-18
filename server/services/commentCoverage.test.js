@@ -2035,6 +2035,40 @@ test('classifyCommentCoverage handles round 79 random audit cues', () => {
   }
 });
 
+test('classifyCommentCoverage handles round 80 random audit cues', () => {
+  const cases = [
+    ['\u5e0c\u671b\u6361\u72d7\u7684\u54ea\u5929\u5b69\u5b50\u88ab\u4eba\u6361\u8d70', '\u5e0c\u671b\u54ea\u5929\u88ab\u4eba\u6361\u8d70', 'attack'],
+    ['\u524d\u9762\u7684\u626f\u4ec0\u4e48\u86cb\u5462\uff0c\u624d\u8fd9\u4e48\u51e0\u5929\u8f6e\u8239\u80fd\u9508\u6210\u8fd9\u6837\uff1f', '\u626f\u4ec0\u4e48\u86cb', 'attack'],
+    ['\u628a\u4ed6\u4eec\u6253\u6b7b\u5c31\u4e0d\u4f1a\u6709\u4eba\u6253\u67b6\u4e86', '\u6253\u6b7b\u5c31\u4e0d\u4f1a\u6709', 'attack'],
+    ['\u8fd9\u4e2a\u4e2d\u56fd\u4eba\u6211\u770b\u7740\u5f88\u4e0d\u559c\u6b22\uff0c\u61c2\u5f97\u4e0d\u592a\u591a', '\u770b\u7740\u5f88\u4e0d\u559c\u6b22', 'attack'],
+    ['\u300a\u4e0a\u6765\u4e86\u300b', '\u4e66\u540d\u53f7\u53cd\u8bed\u5f15\u7528', 'attack'],
+    ['\u8fd9 \u5c31 \u662f \u4f60 \u5206 \u9996 \u7684 \u501f \u53e3', '\u8fd9 \u5c31 \u662f \u4f60 \u7684 \u501f \u53e3', 'attack'],
+    ['\u5bf9\u4e0d\u8d77\uff0c\u6ca1\u7ef7\u4f4f\u3002\u3002', '\u6ca1\u7ef7\u4f4f\u9053\u6b49\u5f0f\u7b11\u573a', 'cooperation'],
+    ['\u9501\u4e86\u4e2a\u5bc2\u5bde', '\u4e86\u4e2a\u5bc2\u5bde', 'attack'],
+    ['\u6ca1\u94b1\u548c\u6027\u522b\u6709\u6bdb\u5173\u7cfb', '\u6709\u6bdb\u5173\u7cfb', 'attack'],
+    ['\u621112\u5e74\u7684\u4e0d\u80cc\u8fd9\u4e2a\u9505', '\u4e0d\u80cc\u8fd9\u4e2a\u9505', 'evasion'],
+  ];
+
+  for (const [text, term, family] of cases) {
+    const result = classifyCommentCoverage({ entries: [] }, text);
+    assert.equal(result.mode, 'keyword');
+    assert.ok(result.hits.some((hit) => hit.term === term && hit.family === family));
+  }
+
+  const neutralCases = [
+    '\u300a\u7ea2\u697c\u68a6\u300b\u662f\u4e2d\u56fd\u53e4\u5178\u5c0f\u8bf4',
+    '\u8fd9 \u5c31 \u662f \u4f60 \u7684 \u540d \u5b57',
+    '\u5b8c\u4e86\u6ca1\u7ef7\u4f4f',
+    '\u6211\u4e0d\u559c\u6b22\u8fd9\u9053\u83dc\u7684\u989c\u8272',
+  ];
+
+  for (const text of neutralCases) {
+    const result = classifyCommentCoverage({ entries: [] }, text);
+    assert.equal(result.mode, 'neutral');
+    assert.deepEqual(result.hits, []);
+  }
+});
+
 test('sampleCommentCoverage summarizes full coverage over keyword and neutral samples', () => {
   const result = sampleCommentCoverage(dictionary, [
     '这事懂的都懂，不展开了',
