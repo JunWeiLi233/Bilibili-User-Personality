@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T23:46:32.795Z",
+  "updatedAt": "2026-06-18T23:53:55.784Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -1913,6 +1913,64 @@
       "warnings": [],
       "commentsCollected": 722,
       "commentsAdded": 525
+    },
+    {
+      "at": "2026-06-18T23:53:55.784Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 回复"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 评论区"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 视频"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1FvEz6tEby",
+          "term": "德里不饶人",
+          "query": "德里不饶人 回复",
+          "bvid": "BV1FvEz6tEby",
+          "aid": 116731993463360,
+          "title": "郭德纲于谦《于老爷子最爱看哆啦a片》经典无唱助眠相声"
+        },
+        {
+          "key": "bvid:BV1iqGezuEka",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 评论区",
+          "bvid": "BV1iqGezuEka",
+          "aid": 114429739991110,
+          "title": "中华田园犬买狗最全攻略，带你用400买到梦中情狗！"
+        },
+        {
+          "key": "bvid:BV12o2jB3ETU",
+          "term": "价格被打下来",
+          "query": "价格被打下来 视频",
+          "bvid": "BV12o2jB3ETU",
+          "aid": 115667344819674,
+          "title": "<em class=\"keyword\">被打</em>一巴掌到底能赔偿多少钱"
+        },
+        {
+          "key": "bvid:BV1R3CmBaELK",
+          "term": "抛开其他",
+          "query": "抛开其他 评论",
+          "bvid": "BV1R3CmBaELK",
+          "aid": 115554048285427,
+          "title": "<em class=\"keyword\">抛开</em>一坨剧情，这反派味太对了，就这个野心总裁爽"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 207,
+      "commentsAdded": 192
     }
   ]
 }
