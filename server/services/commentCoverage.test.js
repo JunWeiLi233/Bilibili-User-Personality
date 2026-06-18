@@ -261,6 +261,40 @@ test('classifyCommentCoverage captures contextual sarcastic praise without match
   assert.equal(praise.hits.length, 0);
 });
 
+test('classifyCommentCoverage suppresses nb slang inside longer Latin acronyms', () => {
+  const sampledDictionary = {
+    entries: [
+      { term: 'nb', family: 'absolutes', meaning: '\u725b\u903c\u7684\u7f29\u5199' },
+    ],
+  };
+  const acronym = classifyCommentCoverage(sampledDictionary, 'NBA\u672c\u6765\u5f88\u62c9\uff0c\u7ed3\u679c\u8ddf\u4e52\u4e53\u7403\u5bf9\u6bd4\u53ef\u592a\u6e05\u4e86');
+  const slang = classifyCommentCoverage(sampledDictionary, '\u4f60\u662f\u771f\u7684nb');
+
+  assert.equal(acronym.covered, true);
+  assert.equal(acronym.mode, 'neutral');
+  assert.equal(acronym.hits.length, 0);
+  assert.equal(slang.covered, true);
+  assert.equal(slang.mode, 'keyword');
+  assert.deepEqual(slang.hits.map((hit) => hit.term), ['nb']);
+});
+
+test('classifyCommentCoverage captures contextual self-immolation variants as attack imagery', () => {
+  const sampledDictionary = { entries: [] };
+  const typoVariant = classifyCommentCoverage(sampledDictionary, '\u53bb\u86c7\u62f3\u5854\u62b1\u7740\u674e\u7ea2\u72fc\u4e00\u8d77\u81ea\u706b');
+  const canonical = classifyCommentCoverage(sampledDictionary, '\u62b1\u7740\u4ed6\u4e00\u8d77\u81ea\u711a');
+  const literal = classifyCommentCoverage(sampledDictionary, '\u8fd9\u4e2a\u706b\u7089\u53ef\u4ee5\u81ea\u52a8\u70b9\u706b');
+
+  assert.equal(typoVariant.covered, true);
+  assert.equal(typoVariant.mode, 'keyword');
+  assert.deepEqual(typoVariant.hits.map((hit) => hit.term), ['\u81ea\u706b/\u81ea\u711a']);
+  assert.equal(canonical.covered, true);
+  assert.equal(canonical.mode, 'keyword');
+  assert.deepEqual(canonical.hits.map((hit) => hit.term), ['\u81ea\u706b/\u81ea\u711a']);
+  assert.equal(literal.covered, true);
+  assert.equal(literal.mode, 'neutral');
+  assert.equal(literal.hits.length, 0);
+});
+
 test('classifyCommentCoverage captures homophone insults even when absolutes also match', () => {
   const result = classifyCommentCoverage(dictionary, '\u521a\u8fdb\u9662\uff0c\u73af\u5883\u5f88\u5dee\uff0c\u5168\u90fd\u662f\u6c99\u58c1');
 

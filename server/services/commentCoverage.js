@@ -138,6 +138,12 @@ const SUPPLEMENTAL_SEMANTICS = [
     meaning: '\u201c\u4e0d\u810f\uff0c\u4f60\u7684\u8bdd\u662f\u5929\u7c41\u201d\u5f0f\u8868\u8fbe\u628a\u8d5e\u7f8e\u8bed\u653e\u5728\u5426\u5b9a\u6216\u53cd\u8bdd\u8bed\u5883\u91cc\uff0c\u5e38\u7528\u4e8e\u5a49\u8f6c\u5632\u8bbd\u5bf9\u65b9\u8bf4\u8bdd\u96be\u542c\u6216\u8352\u8c2c\uff0c\u4e0d\u7b49\u540c\u4e8e\u666e\u901a\u201c\u5929\u7c41\u201d\u8d5e\u7f8e\u3002',
   },
   {
+    pattern: /(?:\u62b1\u7740|\u62c9\u7740|\u5e26\u7740|\u4e00\u8d77|\u53bb).{0,12}(?:\u81ea\u706b|\u81ea\u711a)|(?:\u81ea\u706b|\u81ea\u711a).{0,12}(?:\u4e00\u8d77|\u62b1\u7740|\u62c9\u7740|\u5e26\u7740)/u,
+    term: '\u81ea\u706b/\u81ea\u711a',
+    family: 'attack',
+    meaning: '\u201c\u62b1\u7740...\u4e00\u8d77\u81ea\u706b/\u81ea\u711a\u201d\u7c7b\u8bf4\u6cd5\u5c06\u81ea\u4f24\u6216\u66b4\u529b\u753b\u9762\u7528\u4f5c\u5bf9\u4ed6\u4eba\u7684\u653b\u51fb\u6027\u8868\u8fbe\uff1b\u201c\u81ea\u706b\u201d\u5e38\u662f\u201c\u81ea\u711a\u201d\u7684\u9519\u5b57\u6216\u5f39\u5e55\u53d8\u4f53\uff0c\u9700\u4fdd\u7559\u5176\u6781\u7aef\u8d1f\u9762\u8bed\u6c14\u3002',
+  },
+  {
     pattern: /\u6211\u5200\u5462[?!\uff1f\uff01]*/u,
     term: '\u6211\u5200\u5462',
     family: 'attack',
@@ -316,6 +322,12 @@ function isPositiveNicknameContext(entry, message) {
   return /\u5c11\u7fbd.{0,8}(?:\u8d85|\u771f|\u5f88)?(?:\u725b\u6bd4|\u725b\u903c|\u725b|\u5389\u5bb3|\u5f3a|\u5e05|\u597d)/u.test(message);
 }
 
+function isEmbeddedLatinAcronymContext(entry, message) {
+  const term = String(entry?.term || '');
+  if (term !== 'nb') return false;
+  return !/(^|[^a-z0-9])nb(?=$|[^a-z0-9])/iu.test(message);
+}
+
 function isSuppressedLexicalHit(entry, message) {
   return isSelfReferentialNoviceHit(entry, message)
     || isLiteralYinYangContext(entry, message)
@@ -327,7 +339,8 @@ function isSuppressedLexicalHit(entry, message) {
     || isNeutralOutcomeNarrationContext(entry, message)
     || isPlayfulStandaloneLaughterContext(entry, message)
     || isPassiveCriticismReportContext(entry, message)
-    || isPositiveNicknameContext(entry, message);
+    || isPositiveNicknameContext(entry, message)
+    || isEmbeddedLatinAcronymContext(entry, message);
 }
 
 function exactDictionaryEntries(dictionary, message) {
