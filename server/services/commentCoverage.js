@@ -479,6 +479,48 @@ const SUPPLEMENTAL_SEMANTICS = [
     family: 'absolutes',
     meaning: '\u201c\u90fd\u662f\u540c\u4e00\u6279\u201d\u628a\u591a\u4e2a\u5bf9\u8c61\u4e00\u6982\u5f52\u4e3a\u540c\u4e00\u7fa4\u4f53\u6216\u540c\u4e00\u5957\u8def\uff0c\u662f\u7edd\u5bf9\u5316\u7fa4\u4f53\u6982\u62ec\u3002',
   },
+  {
+    pattern: /\u90a3\u522b\u6765\u5c31\u884c|\u90a3\u5c31\u522b\u6765/u,
+    term: '\u90a3\u522b\u6765\u5c31\u884c',
+    family: 'evasion',
+    meaning: '\u201c\u90a3\u522b\u6765\u5c31\u884c\u201d\u7528\u6392\u9664\u5f0f\u547d\u4ee4\u4ee3\u66ff\u8ba8\u8bba\u95ee\u9898\u672c\u8eab\uff0c\u5e38\u662f\u56de\u907f\u8d28\u7591\u6216\u628a\u5bf9\u65b9\u76f4\u63a5\u8d76\u51fa\u8ba8\u8bba\u7684\u8bed\u6c14\u3002',
+  },
+  {
+    pattern: /\u4ec0\u4e48.{0,16}\u6210\u672c\u51e0\u5757\u94b1[\uff1f?]{1,}|\u6210\u672c\u51e0\u5757\u94b1[\uff1f?]{1,}/u,
+    term: '\u6210\u672c\u51e0\u5757\u94b1',
+    family: 'attack',
+    meaning: '\u201c\u6210\u672c\u51e0\u5757\u94b1\uff1f\uff1f\u201d\u5728\u5b9a\u4ef7\u6216\u7528\u6599\u8ba8\u8bba\u91cc\u662f\u5bf9\u5546\u5bb6\u66b4\u5229\u3001\u7c97\u5236\u6216\u4ef7\u683c\u4e0d\u503c\u7684\u5632\u8bbd\u6027\u8d28\u95ee\u3002',
+  },
+  {
+    pattern: /\u9ad8\u6750\u751f.{0,12}(?:\u90fd)?\u8dd1\u4e86.{0,8}\u54c8{2,}|\u54c8{2,}.{0,8}\u9ad8\u6750\u751f.{0,12}\u8dd1\u4e86/u,
+    term: '\u9ad8\u6750\u751f\u90fd\u8dd1\u4e86',
+    family: 'attack',
+    meaning: '\u201c\u9ad8\u6750\u751f\u90fd\u8dd1\u4e86\u54c8\u54c8\u201d\u628a\u201c\u9ad8\u6750\u751f\u201d\u653e\u5728\u5927\u7b11\u548c\u9003\u79bb\u8bed\u5883\u91cc\uff0c\u901a\u5e38\u662f\u5632\u8bbd\u524d\u8005\u88ab\u5413\u8dd1\u6216\u4e0d\u582a\u4e00\u51fb\u3002',
+  },
+  {
+    pattern: /\u7d20\u83dc\u8364\u4ef7/u,
+    term: '\u7d20\u83dc\u8364\u4ef7',
+    family: 'attack',
+    meaning: '\u201c\u7d20\u83dc\u8364\u4ef7\u201d\u7528\u83dc\u54c1\u6bd4\u55bb\u6279\u8bc4\u67d0\u7269\u4ef7\u683c\u865a\u9ad8\u3001\u6027\u4ef7\u6bd4\u4f4e\uff0c\u662f\u5bf9\u5b9a\u4ef7\u6216\u5356\u65b9\u7684\u8d1f\u9762\u8bc4\u4ef7\u3002',
+  },
+  {
+    pattern: /\u4f60\u8fd8.{0,8}\u6a21\u4eff.{0,12}\u54c8{2,}|\u4f60\u8fd8[\p{Script=Han}A-Za-z0-9]{1,8}[\uff01!].{0,12}\u54c8{3,}/u,
+    term: '\u4f60\u8fd8\u6a21\u4eff',
+    family: 'attack',
+    meaning: '\u201c\u4f60\u8fd8\u6a21\u4eff\uff01\u54c8\u54c8\u54c8\u201d\u662f\u5bf9\u5bf9\u65b9\u884c\u4e3a\u7684\u620f\u5f04\u5f0f\u5632\u8bbd\uff0c\u5927\u7b11\u8bed\u6c14\u5f3a\u5316\u4e86\u8d2c\u4f4e\u548c\u4e0d\u5c51\u3002',
+  },
+  {
+    pattern: /\u5efa\u4e2a\u7fa4\u5427|\u7ed9\u54b1\u4eec\u5efa\u4e2a\u7fa4|\u62c9\u4e2a\u7fa4/u,
+    term: '\u5efa\u4e2a\u7fa4\u5427',
+    family: 'cooperation',
+    meaning: '\u201c\u5efa\u4e2a\u7fa4\u5427\u201d\u8868\u793a\u5efa\u7acb\u7fa4\u804a\u3001\u7ec4\u7ec7\u4ea4\u6d41\u6216\u540e\u7eed\u534f\u4f5c\u7684\u610f\u56fe\uff0c\u5e94\u4f5c\u4e3a\u5408\u4f5c/\u7ec4\u7ec7\u6027\u8bed\u6c14\u4fdd\u7559\u3002',
+  },
+  {
+    pattern: /\u6211\u4e5f\u60f3\u5b66|\u6211\u4e5f\u662f.{0,4}\u60f3\u5b66|\u6211\u4e5f\u8981\u5b66/u,
+    term: '\u6211\u4e5f\u60f3\u5b66',
+    family: 'cooperation',
+    meaning: '\u201c\u6211\u4e5f\u60f3\u5b66\u201d\u8868\u8fbe\u8ddf\u968f\u5b66\u4e60\u3001\u8bf7\u6559\u6216\u52a0\u5165\u4ea4\u6d41\u7684\u610f\u613f\uff0c\u5728\u5e16\u5427/BBS\u8bed\u5883\u4e2d\u5e38\u662f\u6e29\u548c\u7684\u5408\u4f5c\u4fe1\u53f7\u3002',
+  },
 ];
 
 function detectSupplementalSemanticHits(comment) {
@@ -486,7 +528,15 @@ function detectSupplementalSemanticHits(comment) {
   if (!message) return [];
   return SUPPLEMENTAL_SEMANTICS
     .filter((item) => item.pattern.test(message))
+    .filter((item) => !isSuppressedSupplementalHit(item, message))
     .map((item) => summarizeHit(item));
+}
+
+function isSuppressedSupplementalHit(item, message) {
+  if (item?.term === '\u5efa\u4e2a\u7fa4\u5427') {
+    return /\u6211\u4e5f\u662f\u5c0f\u767d.{0,16}\u5efa\u4e2a\u7fa4\u5427/u.test(message);
+  }
+  return false;
 }
 
 function cleanNeedle(value) {
@@ -600,6 +650,12 @@ function isLiteralCrushDeathContext(entry, message) {
   return /(?:\u538b|\u8e29|\u780d|\u5939|\u6454|\u7838)\u6b7b\u4e86?.{0,8}(?:\u58c1\u864e|\u866b|\u868a|\u82cd\u8747|\u87d1\u8782|\u86c7|\u9c7c|\u9f20|\u732b|\u72d7|\u52a8\u7269)/u.test(message);
 }
 
+function isNeutralAdultSiteLookalikeContext(entry, message) {
+  if (entry?.family !== 'cooperation') return false;
+  if (String(entry?.term || '') !== '\u65e2\u89c6\u611f') return false;
+  return /(?:^|[^A-Za-z0-9])(?:FC2|fc2|AV|av|P站|p\u7ad9|成人视频|成人).{0,8}\u65e2\u89c6\u611f/u.test(message);
+}
+
 function isSuppressedLexicalHit(entry, message) {
   return isSelfReferentialNoviceHit(entry, message)
     || isLiteralYinYangContext(entry, message)
@@ -614,7 +670,8 @@ function isSuppressedLexicalHit(entry, message) {
     || isPositiveNicknameContext(entry, message)
     || isEmbeddedLatinAcronymContext(entry, message)
     || isSarcasticNanbengContext(entry, message)
-    || isLiteralCrushDeathContext(entry, message);
+    || isLiteralCrushDeathContext(entry, message)
+    || isNeutralAdultSiteLookalikeContext(entry, message);
 }
 
 function exactDictionaryEntries(dictionary, message) {

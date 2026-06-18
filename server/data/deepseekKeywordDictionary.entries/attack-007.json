@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T08:46:20.268Z",
+  "updatedAt": "2026-06-18T08:56:59.032Z",
   "family": "attack",
   "shard": 7,
   "shardCount": 20,
@@ -452,13 +452,23 @@
       "confidence": 0.85,
       "evidenceCount": 6,
       "evidenceSamples": [
+        "你可以看看龙雅的鉴蛇视频，你用科学的方法鉴定蛇的大小和体重，但是评论区依旧有一堆人上来就是“你没见过不代表没有”，真的很难绷[doge]",
+        "刷雪人谷那个冰晶石材料真的难绷，还会掉紫色精粹碎片和魔法石，掉率大大下降[笑哭]",
         "最难绷得设计，我还是觉得楼梯安全",
         "难绷开头",
-        "以完美以往的作风，这玩意你看着说是bug变玩法，等实际出来，说不定就有新的更难绷的车辆bug， 并且我一点都不意外。[吃瓜][吃瓜]",
-        "难绷依旧东扯西扯，划到后面，甚至看不见在讲妮可的内容[笑哭]",
-        "你可以看看龙雅的鉴蛇视频，你用科学的方法鉴定蛇的大小和体重，但是评论区依旧有一堆人上来就是“你没见过不代表没有”，真的很难绷[doge]"
+        "以完美以往的作风，这玩意你看着说是bug变玩法，等实际出来，说不定就有新的更难绷的车辆bug， 并且我一点都不意外。[吃瓜][吃瓜]"
       ],
       "evidenceSources": [
+        {
+          "source": "Popular video comments UID 6778744 (1 comments from 1 videos)",
+          "uid": "6778744",
+          "sample": "你可以看看龙雅的鉴蛇视频，你用科学的方法鉴定蛇的大小和体重，但是评论区依旧有一堆人上来就是“你没见过不代表没有”，真的很难绷[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1SK4y177vp/, https://www.bilibili.com/video/BV12LGa6vECu/, https://www.bilibili.com/video/BV1K1421o7SX/, https://www.bilibili.com/video/BV1hdLozKEov/, https://www.bilibili.com/video/BV1oN411t7fv/, https://www.bilibili.com/video/BV1NCEbzpEah/, http://www.bilibili.com/video/av885080105, http://www.bilibili.com/video/av116619535714266, http://www.bilibili.com/video/av1552967992, http://www.bilibili.com/video/av114403970192795, http://www.bilibili.com/video/av491909259, http://www.bilibili.com/video/av114518072170291",
+          "uid": "BV1SK4y177vp,BV12LGa6vECu,BV1K1421o7SX,BV1hdLozKEov,BV1oN411t7fv,BV1NCEbzpEah",
+          "sample": "刷雪人谷那个冰晶石材料真的难绷，还会掉紫色精粹碎片和魔法石，掉率大大下降[笑哭]"
+        },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1DkTMz3EiG/, https://www.bilibili.com/video/BV1jF5v6cEBk/, https://www.bilibili.com/video/BV1i94y1w7mc/, https://www.bilibili.com/video/BV1vULe6aEPi/, https://www.bilibili.com/video/BV1ks4y1N7Qi/, https://www.bilibili.com/video/BV1RN4y1o7gh/, http://www.bilibili.com/video/av114636435230781, http://www.bilibili.com/video/av116577777228776, http://www.bilibili.com/video/av367696274, http://www.bilibili.com/video/av116615324700576, http://www.bilibili.com/video/av952199480, http://www.bilibili.com/video/av874377925",
           "uid": "BV1DkTMz3EiG,BV1jF5v6cEBk,BV1i94y1w7mc,BV1vULe6aEPi,BV1ks4y1N7Qi,BV1RN4y1o7gh",
@@ -475,16 +485,6 @@
           "sample": "以完美以往的作风，这玩意你看着说是bug变玩法，等实际出来，说不定就有新的更难绷的车辆bug， 并且我一点都不意外。[吃瓜][吃瓜]"
         },
         {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1X1GR6VEaX/, https://www.bilibili.com/video/BV1xdG868ERF/, https://www.bilibili.com/video/BV181Gt6bEj9/, https://www.bilibili.com/video/BV1wpLU62EVh/, https://www.bilibili.com/video/BV1QSGR66ED5/, https://www.bilibili.com/video/BV1C5L26VETo/, http://www.bilibili.com/video/av116634836534294, http://www.bilibili.com/video/av116618260650709, http://www.bilibili.com/video/av116617270793907, http://www.bilibili.com/video/av116606348893115, http://www.bilibili.com/video/av116634517772083, http://www.bilibili.com/video/av116605610624550",
-          "uid": "BV1X1GR6VEaX,BV1xdG868ERF,BV181Gt6bEj9,BV1wpLU62EVh,BV1QSGR66ED5,BV1C5L26VETo",
-          "sample": "难绷依旧东扯西扯，划到后面，甚至看不见在讲妮可的内容[笑哭]"
-        },
-        {
-          "source": "Popular video comments UID 6778744 (1 comments from 1 videos)",
-          "uid": "6778744",
-          "sample": "你可以看看龙雅的鉴蛇视频，你用科学的方法鉴定蛇的大小和体重，但是评论区依旧有一堆人上来就是“你没见过不代表没有”，真的很难绷[doge]"
-        },
-        {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1W9Gx6LEaU/, https://www.bilibili.com/video/BV1LfQjBBE6r/, https://www.bilibili.com/video/BV1m5411i7Pr/, https://www.bilibili.com/video/BV1EeL86xEqg/, https://www.bilibili.com/video/BV1ig4y1U7G9/, https://www.bilibili.com/video/BV1zW4y1B7yu/, http://www.bilibili.com/video/av116633729242354, http://www.bilibili.com/video/av116406767061929, http://www.bilibili.com/video/av453733435, http://www.bilibili.com/video/av116613479137993, http://www.bilibili.com/video/av835989227, http://www.bilibili.com/video/av942921836",
           "uid": "BV1W9Gx6LEaU,BV1LfQjBBE6r,BV1m5411i7Pr,BV1EeL86xEqg,BV1ig4y1U7G9,BV1zW4y1B7yu",
           "sample": "难绷开头"
@@ -495,12 +495,12 @@
           "sample": "难绷开头"
         },
         {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1SK4y177vp/, https://www.bilibili.com/video/BV12LGa6vECu/, https://www.bilibili.com/video/BV1K1421o7SX/, https://www.bilibili.com/video/BV1hdLozKEov/, https://www.bilibili.com/video/BV1oN411t7fv/, https://www.bilibili.com/video/BV1NCEbzpEah/, http://www.bilibili.com/video/av885080105, http://www.bilibili.com/video/av116619535714266, http://www.bilibili.com/video/av1552967992, http://www.bilibili.com/video/av114403970192795, http://www.bilibili.com/video/av491909259, http://www.bilibili.com/video/av114518072170291",
-          "uid": "BV1SK4y177vp,BV12LGa6vECu,BV1K1421o7SX,BV1hdLozKEov,BV1oN411t7fv,BV1NCEbzpEah",
-          "sample": "刷雪人谷那个冰晶石材料真的难绷，还会掉紫色精粹碎片和魔法石，掉率大大下降[笑哭]"
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1X1GR6VEaX/, https://www.bilibili.com/video/BV1xdG868ERF/, https://www.bilibili.com/video/BV181Gt6bEj9/, https://www.bilibili.com/video/BV1wpLU62EVh/, https://www.bilibili.com/video/BV1QSGR66ED5/, https://www.bilibili.com/video/BV1C5L26VETo/, http://www.bilibili.com/video/av116634836534294, http://www.bilibili.com/video/av116618260650709, http://www.bilibili.com/video/av116617270793907, http://www.bilibili.com/video/av116606348893115, http://www.bilibili.com/video/av116634517772083, http://www.bilibili.com/video/av116605610624550",
+          "uid": "BV1X1GR6VEaX,BV1xdG868ERF,BV181Gt6bEj9,BV1wpLU62EVh,BV1QSGR66ED5,BV1C5L26VETo",
+          "sample": "难绷依旧东扯西扯，划到后面，甚至看不见在讲妮可的内容[笑哭]"
         }
       ],
-      "updatedAt": "2026-06-18T08:46:20.268Z"
+      "updatedAt": "2026-06-18T08:56:59.032Z"
     },
     {
       "term": "红脖子",
@@ -1617,13 +1617,23 @@
       "confidence": 0.8,
       "evidenceCount": 6,
       "evidenceSamples": [
+        "我2019年捐献了造血干细胞，从2018年开始献血，到现在已经献了3000毫升血。现在在广州国企干个中层副职，虽然，这几年每隔3年左右，就有半个月抑郁、很辛苦，但是，我坚信，行善积德，对命运会有改善的。",
+        "行善积德能改命是肯定的，《了凡四训》都说的清清楚楚明明白白了。",
         "回复 @呼噜噜瞌睡蟲 :万般皆是命，坏人才不会懂得行善积德呢，明白吗，衰人住阴宅，有福气的人找房子都是自然能找到风水好的房子住的",
         "氢弹阿不带核，边炸边积德[打call]",
-        "可怜的孩子，父母怎么不知道为孩子行善积德？唉，万般皆是命，但是应该报在父母身上而不应该让孩子出问题……",
-        "我不认为这是行善积德，这是他的工作啊，卖房子你也一样给人按照需求介绍吧",
-        "我2019年捐献了造血干细胞，从2018年开始献血，到现在已经献了3000毫升血。现在在广州国企干个中层副职，虽然，这几年每隔3年左右，就有半个月抑郁、很辛苦，但是，我坚信，行善积德，对命运会有改善的。"
+        "可怜的孩子，父母怎么不知道为孩子行善积德？唉，万般皆是命，但是应该报在父母身上而不应该让孩子出问题……"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV13rGD6hEz3/, https://www.bilibili.com/video/BV165V86HECQ/, https://www.bilibili.com/video/BV1qo28YuEZq/, https://www.bilibili.com/video/BV1MdNszSEkY/, http://www.bilibili.com/video/av116650053534296, http://www.bilibili.com/video/av116655740951265, http://www.bilibili.com/video/av113294073397959, http://www.bilibili.com/video/av114708426264177",
+          "uid": "BV13rGD6hEz3,BV165V86HECQ,BV1qo28YuEZq,BV1MdNszSEkY",
+          "sample": "我2019年捐献了造血干细胞，从2018年开始献血，到现在已经献了3000毫升血。现在在广州国企干个中层副职，虽然，这几年每隔3年左右，就有半个月抑郁、很辛苦，但是，我坚信，行善积德，对命运会有改善的。"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV13rGD6hEz3/, https://www.bilibili.com/video/BV165V86HECQ/, https://www.bilibili.com/video/BV1qo28YuEZq/, https://www.bilibili.com/video/BV1MdNszSEkY/, http://www.bilibili.com/video/av116650053534296, http://www.bilibili.com/video/av116655740951265, http://www.bilibili.com/video/av113294073397959, http://www.bilibili.com/video/av114708426264177",
+          "uid": "BV13rGD6hEz3,BV165V86HECQ,BV1qo28YuEZq,BV1MdNszSEkY",
+          "sample": "行善积德能改命是肯定的，《了凡四训》都说的清清楚楚明明白白了。"
+        },
         {
           "source": "Bilibili public existing evidence-source video comment scan: https://www.bilibili.com/video/BV1Psp1zVEzY/, https://www.bilibili.com/video/BV1Lj421Q7ND/, https://www.bilibili.com/video/BV16y4y1Y7EZ/, https://www.bilibili.com/video/BV1D7Gi6SELT/, https://www.bilibili.com/video/BV1aYGx6fEEX/, https://www.bilibili.com/video/BV1HdGW6KEKF/, https://www.bilibili.com/video/BV1zGGd6REYY/, https://www.bilibili.com/video/BV1NPGd6wEkL/, https://www.bilibili.com/video/BV1L4Gq6YEzX/, https://www.bilibili.com/video/BV17EGd6QEUX/, https://www.bilibili.com/video/BV1o2Gs6cEVT/, https://www.bilibili.com/video/BV1x1Gx6DEUB/",
           "uid": "BV1Psp1zVEzY,BV1Lj421Q7ND,BV16y4y1Y7EZ",
@@ -1640,16 +1650,6 @@
           "sample": "可怜的孩子，父母怎么不知道为孩子行善积德？唉，万般皆是命，但是应该报在父母身上而不应该让孩子出问题……"
         },
         {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV13rGD6hEz3/, https://www.bilibili.com/video/BV165V86HECQ/, https://www.bilibili.com/video/BV1qo28YuEZq/, https://www.bilibili.com/video/BV1MdNszSEkY/, http://www.bilibili.com/video/av116650053534296, http://www.bilibili.com/video/av116655740951265, http://www.bilibili.com/video/av113294073397959, http://www.bilibili.com/video/av114708426264177",
-          "uid": "BV13rGD6hEz3,BV165V86HECQ,BV1qo28YuEZq,BV1MdNszSEkY",
-          "sample": "我不认为这是行善积德，这是他的工作啊，卖房子你也一样给人按照需求介绍吧"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV13rGD6hEz3/, https://www.bilibili.com/video/BV165V86HECQ/, https://www.bilibili.com/video/BV1qo28YuEZq/, https://www.bilibili.com/video/BV1MdNszSEkY/, http://www.bilibili.com/video/av116650053534296, http://www.bilibili.com/video/av116655740951265, http://www.bilibili.com/video/av113294073397959, http://www.bilibili.com/video/av114708426264177",
-          "uid": "BV13rGD6hEz3,BV165V86HECQ,BV1qo28YuEZq,BV1MdNszSEkY",
-          "sample": "我2019年捐献了造血干细胞，从2018年开始献血，到现在已经献了3000毫升血。现在在广州国企干个中层副职，虽然，这几年每隔3年左右，就有半个月抑郁、很辛苦，但是，我坚信，行善积德，对命运会有改善的。"
-        },
-        {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Psp1zVEzY/, https://www.bilibili.com/video/BV1Lj421Q7ND/, https://www.bilibili.com/video/BV16y4y1Y7EZ/, https://www.bilibili.com/video/BV1Np4y187qW/, https://www.bilibili.com/video/BV1rpz5B3EHu/, https://www.bilibili.com/video/BV1wuLdzUE2o/, http://www.bilibili.com/video/av115212682264591, http://www.bilibili.com/video/av1650887940, http://www.bilibili.com/video/av799175171, http://www.bilibili.com/video/av972369888, http://www.bilibili.com/video/av115931216873624, http://www.bilibili.com/video/av114402980272834",
           "uid": "BV1Psp1zVEzY,BV1Lj421Q7ND,BV16y4y1Y7EZ,BV1Np4y187qW,BV1rpz5B3EHu,BV1wuLdzUE2o",
           "sample": "可怜的孩子，父母怎么不知道为孩子行善积德？唉，万般皆是命，但是应该报在父母身上而不应该让孩子出问题……"
@@ -1662,10 +1662,10 @@
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV13rGD6hEz3/, https://www.bilibili.com/video/BV165V86HECQ/, https://www.bilibili.com/video/BV1qo28YuEZq/, https://www.bilibili.com/video/BV1MdNszSEkY/, http://www.bilibili.com/video/av116650053534296, http://www.bilibili.com/video/av116655740951265, http://www.bilibili.com/video/av113294073397959, http://www.bilibili.com/video/av114708426264177",
           "uid": "BV13rGD6hEz3,BV165V86HECQ,BV1qo28YuEZq,BV1MdNszSEkY",
-          "sample": "行善积德能改命是肯定的，《了凡四训》都说的清清楚楚明明白白了。"
+          "sample": "我不认为这是行善积德，这是他的工作啊，卖房子你也一样给人按照需求介绍吧"
         }
       ],
-      "updatedAt": "2026-06-18T08:46:20.268Z"
+      "updatedAt": "2026-06-18T08:56:59.032Z"
     },
     {
       "term": "基本没有音乐理解",
