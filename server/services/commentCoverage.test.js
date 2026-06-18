@@ -403,6 +403,20 @@ test('classifyCommentCoverage captures sampled passive insults and threat misses
   assert.deepEqual(longerPraise.hits.map((hit) => hit.term), []);
 });
 
+test('classifyCommentCoverage captures sampled support and accusation misses', () => {
+  const call = classifyCommentCoverage({ entries: [] }, '\u5927\u5bb6\u628a\u5f39\u5e55\u4f18\u9009\u5173\u4e86\uff0c\u6211\u7684\u5feb\u4e50\u53c8\u56de\u6765\u4e86\u54c8\u54c8\u54c8[\u6253call][\u6253call]');
+  const reallyLike = classifyCommentCoverage({ entries: [] }, '\u8fd9\u4e2a\u6211\u662f\u771f\u559c\u6b22\uff01');
+  const extortion = classifyCommentCoverage({ entries: [] }, '\u53ef\u4ee5\u8d54\uff0c\u8f6c\u624b\u6cd5\u9662\u89c1 \u4f60\u6572\u8bc8\u6211');
+  const dogOwners = classifyCommentCoverage({ entries: [] }, '\u5bf9\u7684\uff0c\u4e0d\u662f\u72d7\u4e0d\u597d\uff0c\u4e3b\u8981\u662f\u517b\u72d7\u7684\u4eba\uff0c\u81ea\u79c1');
+
+  assert.deepEqual(call.hits.map((hit) => hit.term), ['\u6253call\u8868\u60c5']);
+  assert.deepEqual(reallyLike.hits.map((hit) => hit.term), ['\u771f\u559c\u6b22']);
+  assert.deepEqual(extortion.hits.map((hit) => hit.term), ['\u4f60\u6572\u8bc8\u6211']);
+  assert.deepEqual(dogOwners.hits.map((hit) => hit.term), ['\u517b\u72d7\u7684\u4eba\u81ea\u79c1']);
+  assert.deepEqual([call, reallyLike].map((result) => result.hits[0].family), ['cooperation', 'cooperation']);
+  assert.deepEqual([extortion, dogOwners].map((result) => result.hits[0].family), ['attack', 'attack']);
+});
+
 test('classifyCommentCoverage captures whitespace-split shameless insults', () => {
   const result = classifyCommentCoverage({ entries: [] }, '\u8fd8\u5c31\u90a3\u4e2a\u81ed\u4e0d\u8981 \u8138');
 
