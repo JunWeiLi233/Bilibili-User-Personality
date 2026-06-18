@@ -1559,6 +1559,33 @@ test('classifyCommentCoverage handles round 62 random audit cues', () => {
   assert.deepEqual(fillerSuppression.hits, []);
 });
 
+test('classifyCommentCoverage handles round 63 random audit cues', () => {
+  const round63Dictionary = {
+    entries: [
+      { term: '\u81ea\u4fe1\u70b9', family: 'absolutes', meaning: 'strong confidence prompt' },
+      { term: '\u4e0d\u662f', family: 'attack', meaning: 'direct negation' },
+      { term: '\u5e94\u8be5', family: 'cooperation', meaning: 'soft suggestion marker' },
+    ],
+  };
+
+  const neutralCases = [
+    '\u81ea\u4fe1\u70b9\uff0c\u89e3\u8bf4\u4e86\u4e5f\u662f',
+    '\u6211\u5e76\u4e0d\u662f\u65e0\u8def\u53ef\u8d70\uff0c\u6211\u8fd8\u6709\u6b7b\u8def\u4e00\u6761',
+    '0\u5206\u5c31\u4e0d\u7b54\u4e86\uff08doge\uff09',
+    '\u5e94\u8be5\u65e9\u70b9\u7761',
+  ];
+
+  for (const text of neutralCases) {
+    const result = classifyCommentCoverage(round63Dictionary, text);
+    assert.equal(result.mode, 'neutral');
+    assert.deepEqual(result.hits, []);
+  }
+
+  const scolding = classifyCommentCoverage(round63Dictionary, '\u54c8\u54c8\u54c8\uff0c\u6211\u4eec\u8fd9\u4e0d\u4e5f\u5728\u9a82\u4f60\u5462\u5417\uff1f');
+  assert.equal(scolding.mode, 'keyword');
+  assert.ok(scolding.hits.some((hit) => hit.term === '\u6211\u4eec\u4e5f\u5728\u9a82\u4f60' && hit.family === 'attack'));
+});
+
 test('sampleCommentCoverage summarizes full coverage over keyword and neutral samples', () => {
   const result = sampleCommentCoverage(dictionary, [
     '这事懂的都懂，不展开了',

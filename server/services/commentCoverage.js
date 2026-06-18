@@ -91,6 +91,12 @@ export function detectEmoteSemanticHits(comment) {
 
 const SUPPLEMENTAL_SEMANTICS = [
   {
+    pattern: /(?:\u6211\u4eec|\u54b1\u4eec).{0,8}\u4e0d\u4e5f.{0,8}\u9a82\u4f60\u5462\u5417|鎴戜滑.{0,8}涓嶄篃.{0,8}楠備綘鍛㈠悧/u,
+    term: '\u6211\u4eec\u4e5f\u5728\u9a82\u4f60',
+    family: 'attack',
+    meaning: '\u201c\u6211\u4eec\u8fd9\u4e0d\u4e5f\u5728\u9a82\u4f60\u5462\u5417\u201d\u7c7b\u53e5\u5f0f\u867d\u7136\u5e26\u6709\u73a9\u7b11\u6216\u53cd\u95ee\uff0c\u4f46\u660e\u786e\u627f\u8ba4\u5bf9\u5bf9\u65b9\u7684\u8d23\u9a82/\u653b\u51fb\u6027\u4e92\u52a8\u3002',
+  },
+  {
     pattern: /\u90a3\u9a6c\u548b\u5e01|\u90a3\u9a6c\u548b|\u90a3\u9a6c\u5e01/u,
     term: '\u90a3\u5988\u548b\u5e01',
     family: 'attack',
@@ -1293,7 +1299,8 @@ function isSuppressedEmoteHit(item, message) {
   if (item?.term !== 'doge/\u53cd\u8bbd\u8868\u60c5') return false;
   return /\u6211\u4eec\u6709\d{1,3}\u5957\u9632\u7206\u7532[\uff08(]\s*doge\s*[\uff09)]/iu.test(message)
     && !/(?:\u9a82|\u50bb|\u8822|\u6eda|\u6b7b|\u4e0d\u5982|\u5e9f|\u83dc|\u653b\u51fb|\u5632|\u9634\u9633)/u.test(message)
-    || /(?:\u65e0\u5e7f|\u4e2a\u4eba\u63a8\u8350|\u4ef7\u683c\u5f88\u4e0d\u9519|\u5206\u91cf\u5f88\u591a).{0,80}(?:\u5730\u5740|[\u5e02\u533a\u8def\u53f7\u95e8]).{0,80}\[doge\]/iu.test(message);
+    || /(?:\u65e0\u5e7f|\u4e2a\u4eba\u63a8\u8350|\u4ef7\u683c\u5f88\u4e0d\u9519|\u5206\u91cf\u5f88\u591a).{0,80}(?:\u5730\u5740|[\u5e02\u533a\u8def\u53f7\u95e8]).{0,80}\[doge\]/iu.test(message)
+    || /(?:0\u5206|0鍒.).{0,8}(?:\u4e0d\u7b54\u4e86|涓嶇瓟浜.).{0,8}[\uff08(\[]\s*doge\s*[\uff09)\]]/iu.test(message);
 }
 
 function isSuppressedSupplementalHit(item, message) {
@@ -1668,6 +1675,20 @@ function isRound62SuppressedContext(entry, message) {
   return false;
 }
 
+function isRound63SuppressedContext(entry, message) {
+  const term = String(entry?.term || '');
+  if (entry?.family === 'absolutes' && (term === '\u81ea\u4fe1\u70b9' || term.includes('鑷俊'))) {
+    return /\u81ea\u4fe1\u70b9[\uff0c,].{0,12}\u89e3\u8bf4|鑷俊鐐?.{0,12}瑙ｈ/u.test(message);
+  }
+  if (entry?.family === 'attack' && (term === '\u4e0d\u662f' || term === '涓嶆槸')) {
+    return /(?:\u6211\u5e76\u4e0d\u662f|\u6211\u4e0d\u662f).{0,16}(?:\u65e0\u8def\u53ef\u8d70|\u6ca1\u8def\u53ef\u8d70).{0,20}\u6b7b\u8def\u4e00\u6761|鎴戝苟涓嶆槸.{0,16}鏃犺矾鍙蛋.{0,20}姝昏矾涓€鏉?/u.test(message);
+  }
+  if (entry?.family === 'cooperation' && (term === '\u5e94\u8be5' || term === '搴旇')) {
+    return /\u5e94\u8be5\u65e9\u70b9(?:\u7761|\u4f11\u606f)|搴旇鏃╃偣(?:鐫＄湅|浼戞伅)/u.test(message);
+  }
+  return false;
+}
+
 function isSuppressedLexicalHit(entry, message) {
   return isSelfReferentialNoviceHit(entry, message)
     || isLiteralYinYangContext(entry, message)
@@ -1704,7 +1725,8 @@ function isSuppressedLexicalHit(entry, message) {
     || isSpeculativeThirdPartyMistakeContext(entry, message)
     || isSincereFaithContext(entry, message)
     || isRound61SuppressedContext(entry, message)
-    || isRound62SuppressedContext(entry, message);
+    || isRound62SuppressedContext(entry, message)
+    || isRound63SuppressedContext(entry, message);
 }
 
 function exactDictionaryEntries(dictionary, message) {

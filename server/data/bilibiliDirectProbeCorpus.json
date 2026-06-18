@@ -15014,9 +15014,67 @@
       "warnings": [],
       "commentsCollected": 27,
       "commentsAdded": 25
+    },
+    {
+      "at": "2026-06-18T15:10:32.905Z",
+      "actions": [
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1vy1VYJESY",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1vy1VYJESY",
+          "aid": 113383848285771,
+          "title": "离谱网友的神<em class=\"keyword\">回复</em>！网友是会聊天的！"
+        },
+        {
+          "key": "bvid:BV16v4y1B7Et",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV16v4y1B7Et",
+          "aid": 564610856,
+          "title": "测测别人眼中你是攻or受？是从头攻到尾，还是一路受到底？"
+        },
+        {
+          "key": "bvid:BV1rRzhBWE9p",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1rRzhBWE9p",
+          "aid": 115959218051325,
+          "title": "出门被问<em class=\"keyword\">八百遍</em>的全是回忆的拼图游戏！"
+        },
+        {
+          "key": "bvid:BV1EHEg6CE7E",
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论",
+          "bvid": "BV1EHEg6CE7E",
+          "aid": 116714008218959,
+          "title": "NPD<em class=\"keyword\">分不清</em>事情的<em class=\"keyword\">轻重</em>缓急"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 176,
+      "commentsAdded": 67
     }
   ],
-  "updatedAt": "2026-06-18T14:55:39.218Z",
+  "updatedAt": "2026-06-18T15:10:32.905Z",
   "storage": "split",
   "shardMaxBytes": 65536,
   "commentFiles": [
@@ -15427,5 +15485,5 @@
     "bilibiliDirectProbeCorpus.comments/comments-0405.json",
     "bilibiliDirectProbeCorpus.comments/comments-0406.json"
   ],
-  "commentCount": 131478
+  "commentCount": 131545
 }
