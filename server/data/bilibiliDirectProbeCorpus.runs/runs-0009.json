@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T18:44:24.104Z",
+  "updatedAt": "2026-06-18T18:56:18.725Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -77,6 +77,88 @@
       "warnings": [],
       "commentsCollected": 363,
       "commentsAdded": 258
+    },
+    {
+      "at": "2026-06-18T18:56:18.725Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 B站"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 评论回复"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 弹幕"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 评论区"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说 B站评论"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播回放"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1gUaczHEyT",
+          "term": "德里不饶人",
+          "query": "德里不饶人 B站",
+          "bvid": "BV1gUaczHEyT",
+          "aid": 115133913308190,
+          "title": "印度网友：我无法相信一个不知名的天津，已经领先我们新<em class=\"keyword\">德里</em>这么多"
+        },
+        {
+          "key": "bvid:BV1WgoXYKEbj",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 评论回复",
+          "bvid": "BV1WgoXYKEbj",
+          "aid": 114239486300175,
+          "title": "狗狗听到 “狗语百科” 的反应！快放给你家毛孩子试试～"
+        },
+        {
+          "key": "bvid:BV1VL411p7cj",
+          "term": "价格被打下来",
+          "query": "价格被打下来 弹幕",
+          "bvid": "BV1VL411p7cj",
+          "aid": 461843365,
+          "title": "我<em class=\"keyword\">弹幕</em>为什么会被删?"
+        },
+        {
+          "key": "bvid:BV1cAG76EEbN",
+          "term": "抛开其他",
+          "query": "抛开其他 评论区",
+          "bvid": "BV1cAG76EEbN",
+          "aid": 116628595481466,
+          "title": "很久没看见过潘博这种纯粹的cp了 根本不经过大脑的思考 毫无博弈可言 完全<em class=\"keyword\">抛开</em>了技巧 放弃了多余的思考 感觉每一次都完完全全处于本能 所有的操作都是来自于人类"
+        },
+        {
+          "key": "bvid:BV1zUAheHEZY",
+          "term": "这还用说",
+          "query": "这还用说 B站评论",
+          "bvid": "BV1zUAheHEZY",
+          "aid": 114024503058363,
+          "title": "[<em class=\"keyword\">b站</em>扫盲计划11]<em class=\"keyword\">B站</em>lv6到底是有什么用?有哪些专属特权?"
+        },
+        {
+          "key": "bvid:BV19njc6vEnt",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播回放",
+          "bvid": "BV19njc6vEnt",
+          "aid": 116770027347832,
+          "title": "记录死平板的断触次数和自己<em class=\"keyword\">雷霆</em>技术的失误次数（os处刑好好听……"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 868,
+      "commentsAdded": 441
     }
   ]
 }
