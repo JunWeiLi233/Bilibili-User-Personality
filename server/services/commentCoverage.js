@@ -91,6 +91,42 @@ export function detectEmoteSemanticHits(comment) {
 
 const SUPPLEMENTAL_SEMANTICS = [
   {
+    pattern: /\u600e\u4e48\u4e0d\u8bad\u72d7\u6574\u4e0a\u4e8c\u4eba\u8f6c\u4e86/u,
+    term: '\u600e\u4e48\u4e0d\u8bad\u72d7\u6574\u4e0a\u4e8c\u4eba\u8f6c\u4e86',
+    family: 'attack',
+    meaning: '\u201c\u600e\u4e48\u4e0d\u8bad\u72d7\u201d\u628a\u5bf9\u65b9\u884c\u4e3a\u7c7b\u6bd4\u6210\u8bad\u72d7\u6216\u8868\u6f14\uff0c\u662f\u5e26\u8d2c\u4e49\u7684\u53cd\u95ee\u5f0f\u5632\u8bbd\u3002',
+  },
+  {
+    pattern: /\u770b\u4eba\u771f\u51c6\u2193?[\uff1f?]/u,
+    term: '\u770b\u4eba\u771f\u51c6\u2193\uff1f',
+    family: 'attack',
+    meaning: '\u201c\u770b\u4eba\u771f\u51c6\u2193\uff1f\u201d\u501f\u53cd\u8bdd\u548c\u4e0b\u7bad\u5934\u6807\u8bb0\u5bf9\u5224\u65ad\u80fd\u529b\u7684\u5632\u8bbd\uff0c\u5c5e\u4e8e\u653b\u51fb\u6027\u8bed\u6c14\u3002',
+  },
+  {
+    pattern: /\u7f3a\u5fb7\u73a9\u610f.{0,8}\u6253\u6b7b.{0,8}\u8d3c/u,
+    term: '\u7f3a\u5fb7\u73a9\u610f/\u6253\u6b7b\u5077\u72d7\u8d3c',
+    family: 'attack',
+    meaning: '\u201c\u7f3a\u5fb7\u73a9\u610f\u201d\u548c\u201c\u6253\u6b7b...\u8d3c\u201d\u7ec4\u5408\u662f\u8fb1\u9a82\u52a0\u66b4\u529b\u60e9\u7f5a\u613f\u671b\uff0c\u9700\u4f5c\u4e3a\u653b\u51fb\u7ebf\u7d22\u3002',
+  },
+  {
+    pattern: /\u4efb\u4f55\u4e0d\u4ee5\u7ed3\u5a5a\u4e3a\u76ee\u7684\u7684\u8c08\u604b\u7231\u90fd\u662f\u800d\*+/u,
+    term: '\u90fd\u662f\u800d**',
+    family: 'attack',
+    meaning: '\u201c\u4efb\u4f55...\u90fd\u662f\u800d**\u201d\u7528\u6cdb\u5316\u8bed\u5f0f\u5bf9\u4eb2\u5bc6\u5173\u7cfb\u505a\u9053\u5fb7\u5316\u8d2c\u635f\uff0c\u662f\u653b\u51fb\u6027\u5224\u65ad\u3002',
+  },
+  {
+    pattern: /\u5bb3\u4eba\u4e0d\u6d45/u,
+    term: '\u5bb3\u4eba\u4e0d\u6d45',
+    family: 'attack',
+    meaning: '\u201c\u5bb3\u4eba\u4e0d\u6d45\u201d\u662f\u5bf9\u884c\u4e3a\u6216\u5bf9\u8c61\u9020\u6210\u4f24\u5bb3\u7684\u660e\u786e\u6307\u8d23\uff0c\u5e26\u6709\u8d1f\u9762\u653b\u51fb\u6027\u3002',
+  },
+  {
+    pattern: /\u6211\u6211\u6211\u4e5f\u5b66/u,
+    term: '\u6211\u6211\u6211\u4e5f\u5b66',
+    family: 'cooperation',
+    meaning: '\u201c\u6211\u6211\u6211\u4e5f\u5b66\u201d\u8868\u8fbe\u60f3\u52a0\u5165\u5b66\u4e60\u6216\u4e92\u52a9\u7684\u610f\u613f\uff0c\u662f\u8d34\u5427\u5b66\u4e60\u8bed\u5883\u4e2d\u7684\u5408\u4f5c\u4fe1\u53f7\u3002',
+  },
+  {
     pattern: /\u65e0\u4efb\u4f55.{0,8}(?:\u6743\u529b|\u6743\u5229|\u7406\u7531|\u8bc1\u636e)|鏃犱换浣?.{0,8}(?:鏉冨姏|鏉冨埄|鐞嗙敱|璇佹嵁)/u,
     term: '\u65e0\u4efb\u4f55',
     family: 'absolutes',
@@ -1309,6 +1345,7 @@ function detectSupplementalSemanticHits(comment) {
 
 function isSuppressedEmoteHit(item, message) {
   const term = String(item?.term || '');
+  if (term === 'ASCII emoticon tone marker' && /^\u53ef\u7231\u4e0d\^_\^\s*\d*$/u.test(message)) return true;
   if (/\u4e13\u95e8\u76d7\u89c6\u9891.{0,120}\u526f\u672c\s*\[doge\]/u.test(message) && term.includes('doge')) return true;
   if (/\u5e72\u7239.{0,16}\u8dd1\u8dd1\s*\[\u6ed1\u7a3d\]/u.test(message)) return true;
   if (item?.term !== 'doge/\u53cd\u8bbd\u8868\u60c5') return false;
@@ -1814,6 +1851,41 @@ function isRound67SuppressedContext(entry, message) {
   return false;
 }
 
+function isRound68SuppressedContext(entry, message) {
+  const term = String(entry?.term || '');
+  if (entry?.family === 'attack' && term === '\u4e0d\u662f') {
+    return /\u539f\u6765\u4e0d\u662f\u8001\u4e61/u.test(message);
+  }
+  if (entry?.family === 'cooperation' && term === '\u5c31\u662f') {
+    return /\u5176\u5b9e\u5c31\u662fAI\u7248\u6743\u4fdd\u62a4/u.test(message);
+  }
+  if (entry?.family === 'cooperation' && (term === '\u53ef\u80fd' || term === '\u53ef\u80fd\u662f')) {
+    return /\u53ef\u80fd\u662f\u56e0\u4e3a\u90a3\u4e2a\u4eba.{0,4}\u5fa1\u517d\u80fd\u529b\u6bd4\u8f83\u5f3a/u.test(message);
+  }
+  if ((entry?.family === 'attack' || entry?.family === 'cooperation') && /^(\u54c8)+$/u.test(term)) {
+    return /^\u54c8\u54c8\u54c8\u54c8\u54c8\u5408\u7406$/u.test(message);
+  }
+  if (entry?.family === 'absolutes' && term === '\u4e00\u5f8b') {
+    return /\u5343\u7bc7\u4e00\u5f8b/u.test(message);
+  }
+  if (entry?.family === 'absolutes' && term === '\u80af\u5b9a') {
+    return /\u5217\u88c5\u524d\u80af\u5b9a\u505a\u8db3\u4e86\u529f\u8bfe/u.test(message);
+  }
+  if (entry?.family === 'cooperation' && (term === '\u7ef7\u4f4f' || term === '\u6ca1\u7ef7\u4f4f')) {
+    return /^\u5b8c\u4e86\u6ca1\u7ef7\u4f4f$/u.test(message);
+  }
+  if (entry?.family === 'absolutes' && term === '\u90fd\u662f') {
+    return /\u4efb\u4f55\u4e0d\u4ee5\u7ed3\u5a5a\u4e3a\u76ee\u7684\u7684\u8c08\u604b\u7231\u90fd\u662f\u800d\*+/u.test(message);
+  }
+  if (entry?.family === 'cooperation' && term === '\u771f\u662f') {
+    return /\u771f\u662f\u5bb3\u4eba\u4e0d\u6d45/u.test(message);
+  }
+  if (entry?.family === 'cooperation' && term === '\u53ef\u7231') {
+    return /^\u53ef\u7231\u4e0d\^_\^\s*\d*$/u.test(message);
+  }
+  return false;
+}
+
 function isSuppressedLexicalHit(entry, message) {
   return isSelfReferentialNoviceHit(entry, message)
     || isLiteralYinYangContext(entry, message)
@@ -1855,7 +1927,8 @@ function isSuppressedLexicalHit(entry, message) {
     || isRound64SuppressedContext(entry, message)
     || isRound65SuppressedContext(entry, message)
     || isRound66SuppressedContext(entry, message)
-    || isRound67SuppressedContext(entry, message);
+    || isRound67SuppressedContext(entry, message)
+    || isRound68SuppressedContext(entry, message);
 }
 
 function exactDictionaryEntries(dictionary, message) {
