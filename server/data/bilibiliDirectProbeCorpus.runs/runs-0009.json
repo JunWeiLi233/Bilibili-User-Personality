@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T23:12:45.984Z",
+  "updatedAt": "2026-06-18T23:22:09.346Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -1681,6 +1681,64 @@
       "warnings": [],
       "commentsCollected": 123,
       "commentsAdded": 110
+    },
+    {
+      "at": "2026-06-18T23:22:09.346Z",
+      "actions": [
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1U6V86eE4w",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1U6V86eE4w",
+          "aid": 116657670395681,
+          "title": "我去不早说21.0"
+        },
+        {
+          "key": "bvid:BV1Vf7D62EwZ",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1Vf7D62EwZ",
+          "aid": 116702448716451,
+          "title": "《我一级就是后期了》"
+        },
+        {
+          "key": "bvid:BV1EK4y1i7Gw",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1EK4y1i7Gw",
+          "aid": 881678497,
+          "title": "别刷首页，找找精品"
+        },
+        {
+          "key": "bvid:BV1b3J3zVEte",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1b3J3zVEte",
+          "aid": 114528087970652,
+          "title": "可以无脑入的茶叶品牌清单，集齐六大茶类，茶叶爱好者建议收藏"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 743,
+      "commentsAdded": 608
     }
   ]
 }
