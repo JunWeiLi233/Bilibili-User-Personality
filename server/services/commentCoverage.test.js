@@ -483,6 +483,28 @@ test('classifyCommentCoverage treats scrape diagnostics as neutral non-speech', 
   assert.equal(result.reason, 'scrape diagnostic line, not user speech');
 });
 
+test('classifyCommentCoverage captures follow-up random audit misses', () => {
+  const cases = [
+    ['\u867d\u7136\u8d2b\u5bcc\u5dee\u8ddd\u4ecd\u5b58\u5728\uff0c\u4f46\u80fd\u4fdd\u8bc1\u6bcf\u4e2a\u4eba\u90fd\u80af\u5b9a\u5439\u8fc7\u7a7a\u8c03', '\u80af\u5b9a', 'absolutes'],
+    ['\u8fd9\u4e48\u8bf4\u4f60\u5f88\u61c2\u54e6', '\u4f60\u5f88\u61c2\u54e6', 'attack'],
+    ['\u90fd\u662f\u6897 \u522b\u8ba4\u771f', '\u90fd\u662f\u6897\u522b\u8ba4\u771f', 'evasion'],
+    ['\u804c\u4e1a\u53eb\u82b1\uff1f', '\u804c\u4e1a\u53eb\u82b1', 'attack'],
+    ['\u5927G\u7ec8\u4e8e\u77e5\u9053\u81ea\u5df1\u6709\u591a\u8ba8\u538c\u4e86', '\u8ba8\u538c', 'attack'],
+    ['\u7ec6\u8282\u627e\u4e0d\u5230\u5410\u69fd\u7684\u5730\u65b9\u6545\u610f\u778e\u7ffb\u8bd1', '\u6545\u610f\u778e\u7ffb\u8bd1', 'attack'],
+    ['\u4f60\u4fe1\u5417', '\u4f60\u4fe1\u5417', 'evidence'],
+    ['\u9999\u6e2f\u4e2a\u6bdb\u7ebf', '\u4e2a\u6bdb\u7ebf', 'attack'],
+    ['\u90fd\u8bf4\u516b\u767e\u904d\u4e86 \u8bc4\u8bba\u56de\u590d', '\u90fd\u8bf4\u516b\u767e\u904d\u4e86', 'absolutes'],
+    ['\u5206\u4e0d\u6e05\u8f7b\u91cd', '\u5206\u4e0d\u6e05\u8f7b\u91cd', 'attack'],
+    ['\u90fd\u662f\u540c\u4e00\u6279', '\u90fd\u662f\u540c\u4e00\u6279', 'absolutes'],
+  ];
+
+  for (const [comment, term, family] of cases) {
+    const result = classifyCommentCoverage({ entries: [] }, comment);
+    assert.equal(result.mode, 'keyword', comment);
+    assert.ok(result.hits.some((hit) => hit.term === term && hit.family === family), comment);
+  }
+});
+
 test('classifyCommentCoverage captures contextual self-immolation variants as attack imagery', () => {
   const sampledDictionary = { entries: [] };
   const typoVariant = classifyCommentCoverage(sampledDictionary, '\u53bb\u86c7\u62f3\u5854\u62b1\u7740\u674e\u7ea2\u72fc\u4e00\u8d77\u81ea\u706b');
