@@ -25,6 +25,39 @@ test('classifyCommentCoverage reports keyword coverage when a dictionary term ap
   assert.deepEqual(result.hits.map((hit) => hit.term), ['懂的都懂']);
 });
 
+test('classifyCommentCoverage captures round 38 random audit misses', () => {
+  const cases = [
+    [
+      '\u62c9\u8349\u4e1b\u91cc\u6211\u90fd\u4e0d\u8bf4\u4ec0\u4e48\u4e86\uff0c\u4eba\u5bb6\u77e5\u9053\u9760\u8fb9\uff0c\u6211\u4eec\u8fd9\u6709\u4e00\u6bb5\u8def\u7684\u4eba\u884c\u9053\u4e0a\u5168\u662f\uff0c\u8d70\u54ea\u6761\u8def\u5c31\u8ddf\u8fdb\u96f7\u533a\u4f3c\u7684',
+      ['\u8ddf\u8fdb\u96f7\u533a\u4f3c\u7684'],
+    ],
+    ['\u4f60\u4e0d\u8ba4\u53ef\u90a3\u5c31\u522b\u505a\u4eba\u4e86', ['\u522b\u505a\u4eba\u4e86']],
+    ['\u4f60\u591a\u6b7b\u51e0\u6b21\uff0c\u4f18\u52bf\u5c31\u56de\u6765\u4e86', ['\u591a\u6b7b\u51e0\u6b21']],
+    ['\u597dtn\u7684\u98a0', ['tn\u7684\u98a0']],
+  ];
+
+  for (const [comment, expectedTerms] of cases) {
+    const result = classifyCommentCoverage(dictionary, comment);
+    assert.equal(result.mode, 'keyword');
+    assert.deepEqual(result.hits.map((hit) => hit.term), expectedTerms);
+  }
+});
+
+test('classifyCommentCoverage suppresses round 38 random audit false positives', () => {
+  const neutralCases = [
+    '\u5b83\u4eec\u7528\u4e86\u4e0a\u5343\u5e74\u6253\u9020\u51fa\u4e00\u4e2a\u6838\u52a8\u529b\u9a74\u751f\u6001\u7cfb\u7edf\uff0c\u4e0d\u53ef\u80fd\u56e0\u6b64\u65f6\u4ee3\u800c\u5d29\u574f',
+    '\u65e2\u89c6\u611f\u53d1\u529b\u4e86',
+    '\u519b\u54c1\u662f\u4ec0\u4e48\u6982\u5ff5\u5462\uff0c\u5c31\u662f\u6280\u672f\u4e0d\u4e00\u5b9a\u9ad8\uff0c\u4f46\u53ef\u9760\u6027\u7edd\u5bf9\u6700\u9ad8\uff0c\u5c5e\u4e8e\u90a3\u79cd\u4e00\u5957\u9ad8\u5f3a\u5ea6\u6d4b\u8bd5\u4e0b\u6765\uff0c\u8fde\u6f06\u90fd\u4e0d\u6389\u7684\u90a3\u79cd(',
+  ];
+
+  for (const comment of neutralCases) {
+    const result = classifyCommentCoverage(dictionary, comment);
+    assert.equal(result.covered, true);
+    assert.equal(result.mode, 'neutral');
+    assert.equal(result.hits.length, 0);
+  }
+});
+
 test('detectEmoteSemanticHits treats Bilibili emotes as satire and tone markers', () => {
   const hits = detectEmoteSemanticHits('皇马：我谢谢你啊[doge]');
 

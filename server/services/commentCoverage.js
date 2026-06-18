@@ -581,6 +581,30 @@ const SUPPLEMENTAL_SEMANTICS = [
     family: 'cooperation',
     meaning: '\u201c\u6709\u6728\u6709\u4e00\u8d77\u5b66\u7684\u5c0f\u4f19\u4f34\u201d\u662f\u5bfb\u627e\u540c\u4f34\u3001\u7ec4\u961f\u5b66\u4e60\u6216\u4e92\u52a9\u7684\u660e\u786e\u5408\u4f5c\u610f\u56fe\u3002',
   },
+  {
+    pattern: /(?:\u8ddf|\u50cf).{0,4}\u8fdb\u96f7\u533a\u4f3c\u7684/u,
+    term: '\u8ddf\u8fdb\u96f7\u533a\u4f3c\u7684',
+    family: 'attack',
+    meaning: '\u628a\u8def\u9762\u6216\u73af\u5883\u6bd4\u4f5c\u201c\u8fdb\u96f7\u533a\u201d\u662f\u5938\u5f20\u5f0f\u8d1f\u9762\u5410\u69fd\uff0c\u7528\u5371\u9669\u9690\u55bb\u8868\u8fbe\u5f3a\u70c8\u53cd\u611f\u6216\u5632\u8bbd\u6027\u62b1\u6028\u3002',
+  },
+  {
+    pattern: /\u522b\u505a\u4eba\u4e86|\u522b\u5f53\u4eba\u4e86/u,
+    term: '\u522b\u505a\u4eba\u4e86',
+    family: 'attack',
+    meaning: '\u201c\u522b\u505a\u4eba\u4e86\u201d\u7528\u53bb\u4eba\u5316\u548c\u6781\u7aef\u6761\u4ef6\u53e5\u8d2c\u635f\u5bf9\u65b9\uff0c\u5728\u201c\u4f60\u4e0d\u8ba4\u53ef\u90a3\u5c31...\u201d\u8bed\u5883\u4e2d\u662f\u660e\u663e\u653b\u51fb\u6027\u8bbd\u523a\u3002',
+  },
+  {
+    pattern: /\u591a\u6b7b\u51e0\u6b21/u,
+    term: '\u591a\u6b7b\u51e0\u6b21',
+    family: 'attack',
+    meaning: '\u6e38\u620f\u8bed\u5883\u91cc\u201c\u591a\u6b7b\u51e0\u6b21\u201d\u5e38\u4ee5\u4f2a\u5efa\u8bae\u5f62\u5f0f\u5632\u8bbd\u5bf9\u65b9\u64cd\u4f5c\u5dee\u6216\u4f18\u52bf\u9001\u6ca1\uff0c\u5c5e\u4e8e\u653b\u51fb\u6027\u53cd\u8bdd\u3002',
+  },
+  {
+    pattern: /(?:^|[\s\uff0c,])(?:\u597d)?t\s*n(?:\u7684)?\u98a0|(?:^|[\s\uff0c,])t\s*n(?:$|[\s\uff0c,])/iu,
+    term: 'tn\u7684\u98a0',
+    family: 'attack',
+    meaning: '\u201ctn\u201d\u662f\u201c\u4ed6\u5a18/\u4ed6\u5988\u7684\u201d\u7c7b\u7c97\u53e3\u7f29\u5199\uff0c\u548c\u201c\u98a0\u201d\u8fde\u7528\u65f6\u8868\u793a\u5f3a\u70c8\u8d1f\u9762\u3001\u7c97\u4fd7\u6216\u8fb1\u9a82\u5f0f\u60c5\u7eea\u3002',
+  },
 ];
 
 function detectSupplementalSemanticHits(comment) {
@@ -716,6 +740,12 @@ function isNeutralAdultSiteLookalikeContext(entry, message) {
   return /(?:^|[^A-Za-z0-9])(?:FC2|fc2|AV|av|P站|p\u7ad9|成人视频|成人).{0,8}\u65e2\u89c6\u611f/u.test(message);
 }
 
+function isNeutralDejaVuDescriptionContext(entry, message) {
+  if (entry?.family !== 'cooperation') return false;
+  if (String(entry?.term || '') !== '\u65e2\u89c6\u611f') return false;
+  return /\u65e2\u89c6\u611f(?:\u53d1\u529b\u4e86|\u6765\u4e86|\u5f88\u5f3a|\u592a\u5f3a|\u6ee1\u6ee1|\u597d\u5f3a)/u.test(message);
+}
+
 function isContainedAddOneLiteralContext(entry, message) {
   if (entry?.family !== 'cooperation') return false;
   if (String(entry?.term || '') !== '\u52a0\u4e00') return false;
@@ -735,6 +765,24 @@ function isRhetoricalNotJustIsContext(entry, message) {
   return /\u4e0d\u5c31\u662f.{0,24}\u5417[\uff1f?].{0,16}\u600e\u4e48\u5c31\u4e0d\u662f/u.test(message);
 }
 
+function isContainedConditionalPossibilityContext(entry, message) {
+  const term = String(entry?.term || '');
+  if (term === '\u4e00\u5b9a') return /\u4e0d\u4e00\u5b9a/u.test(message);
+  if (term === '\u53ef\u80fd') return /\u4e0d\u53ef\u80fd/u.test(message);
+  return false;
+}
+
+function isNeutralMetaphorOrDefinitionContext(entry, message) {
+  const term = String(entry?.term || '');
+  if (term === '\u96f7\u533a') return /(?:\u8ddf|\u50cf).{0,4}\u8fdb\u96f7\u533a\u4f3c\u7684/u.test(message);
+  if (term === '\u5168\u662f') return /(?:\u4eba\u884c\u9053|\u8def\u4e0a).{0,8}\u5168\u662f/u.test(message);
+  if (term === '\u7edd\u5bf9') return /\u53ef\u9760\u6027\u7edd\u5bf9\u6700\u9ad8/u.test(message);
+  if (term === '\u4e0d\u53ef\u80fd') return /\u6838\u52a8\u529b\u9a74\u751f\u6001\u7cfb\u7edf/u.test(message);
+  if (term === '\u4e0d\u4e00\u5b9a') return /\u6280\u672f\u4e0d\u4e00\u5b9a\u9ad8/u.test(message);
+  if (term === '\u5c31\u662f') return /\u6982\u5ff5\u5462[\uff0c,]\u5c31\u662f/u.test(message);
+  return false;
+}
+
 function isSuppressedLexicalHit(entry, message) {
   return isSelfReferentialNoviceHit(entry, message)
     || isLiteralYinYangContext(entry, message)
@@ -751,9 +799,12 @@ function isSuppressedLexicalHit(entry, message) {
     || isSarcasticNanbengContext(entry, message)
     || isLiteralCrushDeathContext(entry, message)
     || isNeutralAdultSiteLookalikeContext(entry, message)
+    || isNeutralDejaVuDescriptionContext(entry, message)
     || isContainedAddOneLiteralContext(entry, message)
     || isNeutralGirlReferenceContext(entry, message)
-    || isRhetoricalNotJustIsContext(entry, message);
+    || isRhetoricalNotJustIsContext(entry, message)
+    || isContainedConditionalPossibilityContext(entry, message)
+    || isNeutralMetaphorOrDefinitionContext(entry, message);
 }
 
 function exactDictionaryEntries(dictionary, message) {
