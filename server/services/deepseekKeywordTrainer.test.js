@@ -148,8 +148,10 @@ test('analyzeCommentsWithDeepSeek asks DeepSeek to analyze full sentence context
   const userPrompt = analyzeRequest.body.messages.find((message) => message.role === 'user').content;
 
   assert.equal(result.ok, true);
-  assert.equal(userPrompt.includes('逐句分析'), true);
-  assert.equal(userPrompt.includes('不要只按单个关键词或梗词定性'), true);
+  assert.equal(userPrompt.includes('STANDALONE full-sentence psychologist/speech-act analyzer'), true);
+  assert.equal(userPrompt.includes('Keyword hints are optional, non-binding context only'), true);
+  assert.equal(userPrompt.includes('Do not assign radar/personality scores from keyword hits alone'), true);
+  assert.equal(userPrompt.includes('complete sentence/comment text'), true);
   assert.equal(userPrompt.includes('不是我杠，你这个证据链只覆盖一个样本，先别急着扣帽子。'), true);
   assert.deepEqual(result.sentenceAnalyses, [
     {
@@ -177,6 +179,89 @@ test('analyzeCommentsWithDeepSeek asks DeepSeek to analyze full sentence context
     },
   ]);
   assert.equal(userPrompt.includes('axisImpacts'), true);
+});
+
+test('analyzeCommentsWithDeepSeek treats keyword hints as non-binding standalone context', async () => {
+  const sentence = '\u8fd9\u53ea\u662f\u5f15\u7528\u68d2\u7403\u672f\u8bed\uff0c\u4e0d\u662f\u5728\u9a82\u4eba\u3002';
+  const requests = [];
+  const result = await analyzeCommentsWithDeepSeek(
+    {
+      uid: 'mid standalone',
+      name: 'standalone tester',
+      text: sentence,
+      keywordHints: [
+        {
+          term: '\u9a82\u4eba',
+          family: 'attack',
+          meaning: '\u653b\u51fb\u6027\u8bcd\u9762',
+        },
+      ],
+    },
+    {
+      env: {
+        DEEPSEEK_API_KEY: 'test-key',
+        DEEPSEEK_BASE_URL: 'https://api.deepseek.com',
+        DEEPSEEK_MODEL: 'deepseek-v4-flash',
+      },
+      fetch: async (url, options = {}) => {
+        if (String(url).endsWith('/models')) {
+          return { ok: true, json: async () => ({ data: [{ id: 'deepseek-v4-flash' }] }) };
+        }
+        requests.push(JSON.parse(options.body));
+        return {
+          ok: true,
+          json: async () => ({
+            choices: [
+              {
+                message: {
+                  content: JSON.stringify({
+                    axes: [
+                      {
+                        axis: '\u5bf9\u6297\u6027\u52a8\u673a',
+                        score: 45,
+                        evidence: [sentence],
+                        reasoning: '\u6574\u53e5\u5426\u5b9a\u4e86\u653b\u51fb\u7528\u6cd5\uff0c\u5173\u952e\u8bcd\u53ea\u662f\u88ab\u5f15\u7528\u7684\u5bf9\u8c61\u3002',
+                      },
+                    ],
+                    sentenceAnalyses: [
+                      {
+                        quote: sentence,
+                        speechAct: '\u6f84\u6e05\u8bed\u4e49',
+                        target: '\u672f\u8bed\u7528\u6cd5',
+                        stance: '\u4f4e\u5bf9\u6297\u6f84\u6e05',
+                        contextRole: '\u8bf4\u660e\u4e0d\u80fd\u6309\u5173\u952e\u8bcd\u8868\u9762\u5224\u65ad',
+                        risk: 'neutral',
+                        axisImpacts: [
+                          {
+                            axis: '\u5bf9\u6297\u6027\u52a8\u673a',
+                            direction: 'risk',
+                            strength: 0.1,
+                            reasoning: '\u5b8c\u6574\u53e5\u5b50\u662f\u6f84\u6e05\uff0c\u4e0d\u662f\u653b\u51fb\u3002',
+                          },
+                        ],
+                        reasoning: '\u5173\u952e\u8bcd\u63d0\u793a\u53ea\u80fd\u4f5c\u4e3a\u80cc\u666f\uff0c\u5fc5\u987b\u6309\u5b8c\u6574\u53e5\u5b50\u5224\u65ad\u3002',
+                      },
+                    ],
+                    overall: { riskBand: '\u4f4e\u98ce\u9669\u8ba8\u8bba\u578b', summary: '\u6837\u672c\u662f\u8bed\u4e49\u6f84\u6e05\u3002' },
+                    confidence: 0.8,
+                  }),
+                },
+              },
+            ],
+          }),
+        };
+      },
+    },
+  );
+
+  const userPrompt = requests[0].messages.find((message) => message.role === 'user').content;
+  assert.equal(result.ok, true);
+  assert.equal(userPrompt.includes('STANDALONE full-sentence psychologist/speech-act analyzer'), true);
+  assert.equal(userPrompt.includes('Keyword hints are optional, non-binding context only'), true);
+  assert.equal(userPrompt.includes('Do not assign radar/personality scores from keyword hits alone'), true);
+  assert.equal(userPrompt.includes('\u653b\u51fb\u6027\u8bcd\u9762'), true);
+  assert.equal(result.axes.find((axis) => axis.axis === '\u5bf9\u6297\u6027\u52a8\u673a').score, 45);
+  assert.deepEqual(result.sentenceAnalyses.map((item) => item.quote), [sentence]);
 });
 
 test('analyzeCommentsWithDeepSeek grounds sentence radar quotes to original comments', async () => {

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T22:06:22.848Z",
+  "updatedAt": "2026-06-18T22:19:28.502Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -1457,6 +1457,56 @@
       "warnings": [],
       "commentsCollected": 49,
       "commentsAdded": 32
+    },
+    {
+      "at": "2026-06-18T22:19:28.502Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV16LL96dENE",
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复",
+          "bvid": "BV16LL96dENE",
+          "aid": 116764205718283,
+          "title": "最近有个酒店的操作直接炸锅了，人家干脆贴出告示：“本酒店概不接待印度人，高种姓也不行！”还配了中英双语，这态度简直硬气到家。"
+        },
+        {
+          "key": "bvid:BV1yuCvBLEex",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1yuCvBLEex",
+          "aid": 115564299164188,
+          "title": "狗知道自己是狗吗？"
+        },
+        {
+          "key": "bvid:BV1cRE76NEY2",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1cRE76NEY2",
+          "aid": 116719595101074,
+          "title": "张桂梅送考仅1天，难堪的一幕发生，人民日报的锐评，字字扎心！"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 1450,
+      "commentsAdded": 1044
     }
   ]
 }

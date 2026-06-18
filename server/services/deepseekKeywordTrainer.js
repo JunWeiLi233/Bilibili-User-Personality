@@ -4003,6 +4003,94 @@ Rules:
   ];
 }
 
+function normalizeStandaloneAnalysisHints(payload = {}) {
+  const rawHints = [
+    ...(Array.isArray(payload.keywordHints) ? payload.keywordHints : []),
+    ...(Array.isArray(payload.dictionaryHints) ? payload.dictionaryHints : []),
+    ...(Array.isArray(payload.coverageHits) ? payload.coverageHits : []),
+    ...(Array.isArray(payload.keywordHits) ? payload.keywordHits : []),
+  ];
+  const seen = new Set();
+  return rawHints
+    .map((hint) => {
+      if (typeof hint === 'string') return { term: hint };
+      if (!hint || typeof hint !== 'object') return null;
+      return {
+        term: String(hint.term || hint.keyword || hint.text || '').trim(),
+        family: String(hint.family || hint.axis || '').trim(),
+        meaning: String(hint.meaning || hint.reason || hint.description || '').trim(),
+      };
+    })
+    .filter((hint) => hint?.term)
+    .filter((hint) => {
+      const key = `${hint.term}\0${hint.family}\0${hint.meaning}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .slice(0, 80);
+}
+
+function buildStandaloneAnalysisInput(payload = {}, { compact = false } = {}) {
+  return {
+    uid: payload.uid || 'unknown',
+    name: payload.name || 'unknown',
+    comments: splitAnalysisSourceSentences(payload.text).slice(0, compact ? 40 : 80),
+    keywordHints: normalizeStandaloneAnalysisHints(payload),
+  };
+}
+
+function buildStandaloneAnalysisMessages(payload, { compact = false } = {}) {
+  const input = buildStandaloneAnalysisInput(payload, { compact });
+  return [
+    {
+      role: 'system',
+      content:
+        'You are a standalone Chinese online speech-act analyzer. Analyze complete comments directly. Return valid JSON only; no markdown.',
+    },
+    {
+      role: 'user',
+      content: `Analyze the comments below as a STANDALONE full-sentence psychologist/speech-act analyzer.
+
+Authoritative input is the complete sentence/comment text. Keyword hints are optional, non-binding context only:
+- Do not assign radar/personality scores from keyword hits alone.
+- Do not let dictionary terms override the full sentence speech act.
+- A score or risk label is valid only when it cites an original quote and explains the complete sentence context.
+- Emoji, Bilibili bracket emotes, ASCII emoticons, and repeated punctuation are part of sentence tone, not decoration and not standalone proof of hostility.
+- If a hostile-looking word is a meme, quote, copypasta, title, self-reference, or playful marker, keep risk neutral/low unless the full sentence attacks a concrete target.
+- If evidence is insufficient for an axis, use a neutral 40-60 score and say evidence is insufficient.
+
+Axes:
+1. 对抗性动机: movement from discussing claims toward attacking person, identity, faction, motive, or status.
+2. 认知闭合: absolutist claims, all-or-nothing framing, refusal of nuance.
+3. 证据敏感: use/request of verifiable sources, data, evidence, or burden-of-proof handling.
+4. 逻辑一致: causal consistency, avoiding strawman, category errors, overgeneralization, or self-contradiction.
+5. 合作讨论: clarification, qualification, restating the other view, willingness to discuss.
+6. 修正意愿: admission, correction, softening, updating claims, accepting correction.
+
+Input JSON:
+${JSON.stringify(input, null, 2)}
+
+Return this exact JSON shape:
+{
+  "axes": [
+    {"axis": "对抗性动机", "score": 0, "evidence": ["原文 quote"], "reasoning": "sentence-level reason"},
+    {"axis": "认知闭合", "score": 0, "evidence": ["原文 quote"], "reasoning": "sentence-level reason"},
+    {"axis": "证据敏感", "score": 0, "evidence": ["原文 quote"], "reasoning": "sentence-level reason"},
+    {"axis": "逻辑一致", "score": 0, "evidence": ["原文 quote"], "reasoning": "sentence-level reason"},
+    {"axis": "合作讨论", "score": 0, "evidence": ["原文 quote"], "reasoning": "sentence-level reason"},
+    {"axis": "修正意愿", "score": 0, "evidence": ["原文 quote"], "reasoning": "sentence-level reason"}
+  ],
+  "sentenceAnalyses": [
+    {"quote": "完整原句", "speechAct": "话语行为", "target": "对象/命题", "stance": "立场语气", "contextRole": "上下文作用", "risk": "high|medium|low|positive|neutral", "axisImpacts": [{"axis": "对抗性动机|认知闭合|证据敏感|逻辑一致|合作讨论|修正意愿", "direction": "risk|positive", "strength": 0.0, "reasoning": "full sentence reason"}], "reasoning": "why keyword-only judgment would be wrong"}
+  ],
+  "overall": {"riskBand": "高风险对抗型|混合争辩型|低风险讨论型", "summary": "summary"},
+  "confidence": 0.0
+}`,
+    },
+  ];
+}
+
 function sourceHasChinese(text) {
   return /[\p{Script=Han}]/u.test(String(text || ''));
 }
@@ -4082,7 +4170,7 @@ function axisHasUsableEvidence(axis, sourceText) {
 async function requestDeepSeekAnalysis({ config, fetchImpl, payload, options, compact = false }) {
   const requestBody = {
     model: config.model,
-    messages: compact ? buildCompactAnalysisMessages(payload) : buildAnalysisMessages(payload),
+    messages: buildStandaloneAnalysisMessages(payload, { compact }),
     response_format: { type: 'json_object' },
     stream: false,
     max_tokens: compact ? 6000 : 2000,
