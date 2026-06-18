@@ -388,6 +388,21 @@ test('classifyCommentCoverage captures sampled sarcasm and negative accusation m
   assert.deepEqual([bossy, cleanStream, hate, hype, noisy].map((result) => result.hits[0].family), ['attack', 'attack', 'attack', 'attack', 'attack']);
 });
 
+test('classifyCommentCoverage captures sampled passive insults and threat misses', () => {
+  const dirty = classifyCommentCoverage({ entries: [] }, '\u4eba\u810f\u7684\u4eba\u770b\u4ec0\u4e48\u90fd\u810f');
+  const canReally = classifyCommentCoverage({ entries: [] }, '\u771f\u4f1a');
+  const mustUse = classifyCommentCoverage({ entries: [] }, '\u7f57\u6280\u662f\u975e\u7528\u4e0d\u53ef\u5417');
+  const doomed = classifyCommentCoverage({ entries: [] }, '\u5979\u6b7b\u5b9a\u4e86');
+  const longerPraise = classifyCommentCoverage({ entries: [] }, '\u771f\u4f1a\u8bf4\u8bdd\uff0c\u8c22\u8c22\u4f60');
+
+  assert.deepEqual(dirty.hits.map((hit) => hit.term), ['\u4eba\u810f\u7684\u4eba']);
+  assert.deepEqual(canReally.hits.map((hit) => hit.term), ['\u771f\u4f1a']);
+  assert.deepEqual(mustUse.hits.map((hit) => hit.term), ['\u975e\u7528\u4e0d\u53ef\u5417']);
+  assert.deepEqual(doomed.hits.map((hit) => hit.term), ['\u6b7b\u5b9a\u4e86']);
+  assert.deepEqual([dirty, canReally, mustUse, doomed].map((result) => result.hits[0].family), ['attack', 'attack', 'attack', 'attack']);
+  assert.deepEqual(longerPraise.hits.map((hit) => hit.term), []);
+});
+
 test('classifyCommentCoverage captures whitespace-split shameless insults', () => {
   const result = classifyCommentCoverage({ entries: [] }, '\u8fd8\u5c31\u90a3\u4e2a\u81ed\u4e0d\u8981 \u8138');
 
