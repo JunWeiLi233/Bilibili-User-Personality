@@ -90,6 +90,12 @@ export function detectEmoteSemanticHits(comment) {
 
 const SUPPLEMENTAL_SEMANTICS = [
   {
+    pattern: /\u9519\u7684\u4e0d\u662f.{1,16}\u662f.{1,24}(?:\u624d\u5bf9|\u624d\u662f|\u5bf9)/u,
+    term: '\u9519\u7684\u4e0d\u662fX\u662fY',
+    family: 'correction',
+    meaning: '\u201c\u9519\u7684\u4e0d\u662fX\uff0c\u662fY\u201d\u662f\u5148\u5426\u5b9a\u8bef\u5f52\u56e0\u518d\u7ed9\u51fa\u66f4\u6b63\u5bf9\u8c61\u7684\u7ea0\u504f\u53e5\u5f0f\uff0c\u4e0d\u5e94\u628a\u201c\u4e0d\u662f\u201d\u5355\u72ec\u8bef\u5224\u4e3a\u653b\u51fb\u3002',
+  },
+  {
     pattern: /\u4ec0\u4e48\u8eab\u4efd\u5417\[\u54cd\u6307\]|\[\u54cd\u6307\].{0,12}(?:\u4ec0\u4e48\u8eab\u4efd|\u8fd9\u4e48\u72c2)|(?:\u8fd9\u4e48\u72c2|\u4ec0\u4e48\u8eab\u4efd).{0,20}\[\u54cd\u6307\]/u,
     term: '\u54cd\u6307\u8eab\u4efd\u53cd\u8bdd',
     family: 'attack',
@@ -771,8 +777,9 @@ function isFactualNoHaveContext(entry, message) {
 
 function isLogicalNotIsContext(entry, message) {
   if (entry?.family !== 'attack') return false;
-  if (String(entry?.term || '') !== '不是') return false;
-  return /不是(?:做|当|为了|因为|说|指|指的是|这个|那个|一种|同一个|一回事|问题|重点|原因)/u.test(message);
+  if (String(entry?.term || '') !== '\u4e0d\u662f') return false;
+  return /\u4e0d\u662f(?:\u505a|\u5f53|\u4e3a\u4e86|\u56e0\u4e3a|\u8bf4|\u6307|\u6307\u7684\u662f|\u8fd9\u4e2a|\u90a3\u4e2a|\u4e00\u79cd|\u540c\u4e00\u4e2a|\u4e00\u56de\u4e8b|\u95ee\u9898|\u91cd\u70b9|\u539f\u56e0)/u.test(message)
+    || /\u9519\u7684\u4e0d\u662f.{1,16}\u662f.{1,24}(?:\u624d\u5bf9|\u624d\u662f|\u5bf9)/u.test(message);
 }
 
 function isPositiveDescriptionNegationContext(entry, message) {
@@ -785,8 +792,8 @@ function isSelfReferentialNoviceHit(entry, message) {
   if (entry?.family !== 'attack') return false;
   const term = String(entry?.term || '');
   const aliases = Array.isArray(entry?.aliases) ? entry.aliases.map(String) : [];
-  if (![term, ...aliases].some((value) => value.includes('小白'))) return false;
-  return /(?:^|[，,。！？!?\s])我(?:也|是|就是|也算|算)?[^，,。！？!?]{0,8}小白/u.test(message);
+  if (![term, ...aliases].some((value) => value.includes('\u5c0f\u767d'))) return false;
+  return /(?:^|[\uff0c,\u3002\uff01\uff1f!?\s])(?:\u6211(?:\u4e5f|\u662f|\u5c31\u662f|\u4e5f\u7b97|\u7b97)?|\u7eaf|\u65b0\u4eba|\u840c\u65b0)[^\uff0c,\u3002\uff01\uff1f!?]{0,8}\u5c0f\u767d/u.test(message);
 }
 
 function isLiteralTrafficContext(entry, message) {

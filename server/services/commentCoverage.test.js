@@ -1043,6 +1043,20 @@ test('classifyCommentCoverage suppresses round 44 random audit context false pos
   }
 });
 
+test('classifyCommentCoverage suppresses round 45 random audit false positives', () => {
+  const correction = classifyCommentCoverage(dictionary, '\u9519\u7684\u4e0d\u662f\u4ed6\u554a \u662f\u5077\u72d7\u7684\u624d\u5bf9\u554a\u4e3a\u4ec0\u4e48\u653b\u51fb\u72d7\u4e3b\u4eba\uff1f');
+  const selfNovice = classifyCommentCoverage(dictionary, '\u7eaf\u5c0f\u767d\uff0c\u697c\u4e3b\u627e\u5230\u6559\u7a0b\u4e86\u5417');
+
+  assert.equal(correction.covered, true);
+  assert.equal(correction.mode, 'keyword');
+  assert.deepEqual(correction.hits.map((hit) => [hit.term, hit.family]), [
+    ['\u9519\u7684\u4e0d\u662fX\u662fY', 'correction'],
+  ]);
+  assert.equal(selfNovice.covered, true);
+  assert.equal(selfNovice.mode, 'neutral');
+  assert.equal(selfNovice.hits.length, 0);
+});
+
 test('sampleCommentCoverage summarizes full coverage over keyword and neutral samples', () => {
   const result = sampleCommentCoverage(dictionary, [
     '这事懂的都懂，不展开了',
