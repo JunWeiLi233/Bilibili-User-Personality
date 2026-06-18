@@ -157,6 +157,12 @@ const SUPPLEMENTAL_SEMANTICS = [
     meaning: '\u5c06\u201c\u9ed1\u4eba/\u975e\u6d32\u9ed1\u4eba\u201d\u4e0e\u201c\u6ca1\u6709\u6559\u5316\u201d\u3001\u201c\u8ba8\u5403\u201d\u7b49\u7fa4\u4f53\u8d2c\u635f\u7ed1\u5b9a\uff0c\u662f\u79cd\u65cf\u5316\u8d2c\u4f4e\u548c\u660e\u786e\u653b\u51fb\u8bed\u4e49\u3002',
   },
   {
+    pattern: /(?:\u8001\u9ed1.{0,24}(?:\u7334|\u7329\u7329|\u827e\u6ecb|\u81ed\u6c14|\u4ee3\u66ff)|(?:\u7334|\u7329\u7329).{0,24}(?:\u4ee3\u66ff\u8001\u9ed1|\u627e\u523a\u6fc0|\u827e\u6ecb|\u81ed\u6c14)|\u4ee3\u66ff\u8001\u9ed1|\u627e\u7329\u7329)/u,
+    term: '\u8001\u9ed1/\u7329\u7329\u79cd\u65cf\u5316\u8d2c\u635f',
+    family: 'attack',
+    meaning: '\u201c\u8001\u9ed1\u201d\u548c\u201c\u7329\u7329/\u7334\u201d\u5728\u4eba\u7fa4\u6bd4\u9644\u3001\u6027\u5316\u6216\u75be\u75c5\u98ce\u9669\u8bed\u5883\u4e2d\u662f\u79cd\u65cf\u5316\u8d2c\u635f\u548c\u53bb\u4eba\u5316\u8868\u8fbe\uff0c\u5e94\u4f5c\u4e3a\u9ad8\u654c\u610f\u653b\u51fb\u4fe1\u53f7\u3002',
+  },
+  {
     pattern: /\u4e00\u67aa\u4e09\u53e3|\u5b89\u500d.{0,12}\u67aa/u,
     term: '\u4e00\u67aa\u4e09\u53e3',
     family: 'attack',
@@ -1305,6 +1311,13 @@ function isSuppressedSupplementalHit(item, message) {
   if (/\u7ef1\u72ba\u5ddd\u93c1\u6b12\u505b\u6d93\u5d88\ue511|\u7d20\u8d28\u6559\u80b2\u4e0d\u884c/u.test(message)) {
     return true;
   }
+  if (item?.term === '\u8ba8\u538c') {
+    return /(?:\u6211|\u672c\u4eba).{0,4}\u6700?\u8ba8\u538c.{0,16}(?:\u4e8b\u540e|\u9053\u6b49|\u505a\u6cd5|\u884c\u4e3a|\u8fd9\u79cd|\u90a3\u79cd)/u.test(message)
+      && !/\u8ba8\u538c.{0,8}(?:\u4f60|\u4ed6|\u5979|\u5b83|up|UP|\u8fd9\u4eba|\u90a3\u4eba)/u.test(message);
+  }
+  if (item?.term === '\u5b9e\u529b\u4e0d\u884c') {
+    return /(?:\u6211|\u672c\u4eba).{0,16}\u4e0d\u884c|(?:\u6211|\u672c\u4eba).{0,24}(?:\u5e9f\u7269|\u50bb\u9c7c|\u4e5d\u6f0f\u9c7c)|(?:\u4f53\u80b2|\u5b66\u4e60|\u6570\u5b66|\u82f1\u8bed)\u5e9f\u7269/u.test(message);
+  }
   return false;
 }
 
@@ -1643,6 +1656,18 @@ function isRound61SuppressedContext(entry, message) {
   return false;
 }
 
+function isRound62SuppressedContext(entry, message) {
+  const term = String(entry?.term || '');
+  if (entry?.family === 'cooperation' && term === 'up\u4e3b') {
+    return /(?:\u6124\u6012\u533a|[\u4e00-\u9fff]{1,8}\u533a)up\u4e3b/u.test(message)
+      && !/(?:\u725b|\u5389\u5bb3|\u597d|\u652f\u6301|\u559c\u6b22|\u4e09\u8fde|\u6295\u5e01)/u.test(message);
+  }
+  if (entry?.family === 'cooperation' && term === '\u5c31\u662f') {
+    return /\u5176\u5b9e\u5c31\u662f\u4e3a\u4e86/u.test(message);
+  }
+  return false;
+}
+
 function isSuppressedLexicalHit(entry, message) {
   return isSelfReferentialNoviceHit(entry, message)
     || isLiteralYinYangContext(entry, message)
@@ -1678,7 +1703,8 @@ function isSuppressedLexicalHit(entry, message) {
     || isSongLyricShouldContext(entry, message)
     || isSpeculativeThirdPartyMistakeContext(entry, message)
     || isSincereFaithContext(entry, message)
-    || isRound61SuppressedContext(entry, message);
+    || isRound61SuppressedContext(entry, message)
+    || isRound62SuppressedContext(entry, message);
 }
 
 function exactDictionaryEntries(dictionary, message) {

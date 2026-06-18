@@ -1530,6 +1530,35 @@ test('classifyCommentCoverage handles round 61 escaped random audit cues', () =>
   }
 });
 
+test('classifyCommentCoverage handles round 62 random audit cues', () => {
+  const neutralCases = [
+    '\u6211\u6700\u8ba8\u538c\u4e8b\u540e\u9053\u6b49\uff01',
+    '\u6211\u4e03\u79d1\u4e0d\u884c\uff0c\u4f53\u80b2\u5e9f\u7269\uff0c\u90a3\u6211\u662f\u4e5d\u6f0f\u9c7c\u7684\u4eb2\u621a\u2014\u2014\u516b\u50bb\u9c7c',
+  ];
+
+  for (const text of neutralCases) {
+    const result = classifyCommentCoverage(dictionary, text);
+    assert.equal(result.mode, 'neutral');
+    assert.deepEqual(result.hits, []);
+  }
+
+  const upDescriptor = classifyCommentCoverage({
+    entries: [{ term: 'up\u4e3b', family: 'cooperation', meaning: 'creator mention' }],
+  }, '\u6124\u6012\u533aup\u4e3b\uff08\u25e3\u2014\u25e2\uff09');
+  assert.equal(upDescriptor.mode, 'neutral');
+  assert.deepEqual(upDescriptor.hits, []);
+
+  const hateSpeech = classifyCommentCoverage(dictionary, '\u4ee5\u524d\u5728\u56fd\u5916\u5e72\u6d3b\u7528\u8fc7\u7279\u5236\u5957\u5b50\u6bdb\u59b9\u8bf4\u6bd4\u8001\u9ed1\u90a3\u8fd8\u5389\u5bb3\uff0c\u5b8c\u5168\u53ef\u4ee5\u4ee3\u66ff\u8001\u9ed1\u3002\u6709\u4e9b\u763e\u5927\u7684\u5973\u4eba\u627e\u7329\u7329\u5176\u5b9e\u5c31\u662f\u4e3a\u4e86\u627e\u523a\u6fc0\uff0c\u53ea\u8981\u5979\u4eec\u77e5\u9053\u6709\u4ee3\u66ff\u65b9\u6cd5\u5979\u4eec\u4e5f\u4e0d\u4f1a\u5192\u827e\u6ecb\u98ce\u9669\u548c\u81ed\u6c14\u627e\u7329\u7329\u3002');
+  assert.equal(hateSpeech.mode, 'keyword');
+  assert.ok(hateSpeech.hits.some((hit) => hit.term === '\u8001\u9ed1/\u7329\u7329\u79cd\u65cf\u5316\u8d2c\u635f' && hit.family === 'attack'));
+
+  const fillerSuppression = classifyCommentCoverage({
+    entries: [{ term: '\u5c31\u662f', family: 'cooperation', meaning: 'agreement marker' }],
+  }, '\u6709\u4e9b\u4eba\u8fd9\u4e48\u505a\u5176\u5b9e\u5c31\u662f\u4e3a\u4e86\u627e\u523a\u6fc0');
+  assert.equal(fillerSuppression.mode, 'neutral');
+  assert.deepEqual(fillerSuppression.hits, []);
+});
+
 test('sampleCommentCoverage summarizes full coverage over keyword and neutral samples', () => {
   const result = sampleCommentCoverage(dictionary, [
     '这事懂的都懂，不展开了',

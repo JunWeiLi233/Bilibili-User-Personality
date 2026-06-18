@@ -14898,9 +14898,125 @@
       "warnings": [],
       "commentsCollected": 331,
       "commentsAdded": 224
+    },
+    {
+      "at": "2026-06-18T14:52:37.611Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1Bp4y1T7df",
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复",
+          "bvid": "BV1Bp4y1T7df",
+          "aid": 959823962,
+          "title": "【每日一遍，谨防抑郁】"
+        },
+        {
+          "key": "bvid:BV1BY4y1y7dt",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1BY4y1y7dt",
+          "aid": 653209720,
+          "title": "为源头上解决狗尿问题，车主往轮胎喷神秘液体，狗子一碰就去逝？"
+        },
+        {
+          "key": "bvid:BV1Sj411T7mq",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1Sj411T7mq",
+          "aid": 436276915,
+          "title": "差评之后问客服要好评返现？！"
+        },
+        {
+          "key": "bvid:BV14ph1eCEWp",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV14ph1eCEWp",
+          "aid": 112723597723839,
+          "title": "所以竖屏的<em class=\"keyword\">弹幕</em>设置到底在哪里（怒"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 1296,
+      "commentsAdded": 905
+    },
+    {
+      "at": "2026-06-18T14:55:39.218Z",
+      "actions": [
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1YDLR6DEoA",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1YDLR6DEoA",
+          "aid": 116765380057802,
+          "title": "《运营<em class=\"keyword\">说这</em>段一秒都不用剪》"
+        },
+        {
+          "key": "bvid:BV1n5L964E67",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1n5L964E67",
+          "aid": 116764289536188,
+          "title": "【战争<em class=\"keyword\">雷霆</em>】J15T以凡人之区5杀😋残局1V2弑掉大飞柱"
+        },
+        {
+          "key": "bvid:BV1X5FEzREv5",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1X5FEzREv5",
+          "aid": 116024414306701,
+          "title": "如何白嫖某<em class=\"keyword\">查查</em>"
+        },
+        {
+          "key": "bvid:BV1Ry421b711",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1Ry421b711",
+          "aid": 1550660499,
+          "title": "【原神/海灯节03】探索<em class=\"keyword\">茶庄</em>水土流失＋保留节目十连抽"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 27,
+      "commentsAdded": 25
     }
   ],
-  "updatedAt": "2026-06-18T14:29:44.040Z",
+  "updatedAt": "2026-06-18T14:55:39.218Z",
   "storage": "split",
   "shardMaxBytes": 65536,
   "commentFiles": [
@@ -15306,7 +15422,10 @@
     "bilibiliDirectProbeCorpus.comments/comments-0400.json",
     "bilibiliDirectProbeCorpus.comments/comments-0401.json",
     "bilibiliDirectProbeCorpus.comments/comments-0402.json",
-    "bilibiliDirectProbeCorpus.comments/comments-0403.json"
+    "bilibiliDirectProbeCorpus.comments/comments-0403.json",
+    "bilibiliDirectProbeCorpus.comments/comments-0404.json",
+    "bilibiliDirectProbeCorpus.comments/comments-0405.json",
+    "bilibiliDirectProbeCorpus.comments/comments-0406.json"
   ],
-  "commentCount": 130548
+  "commentCount": 131478
 }
