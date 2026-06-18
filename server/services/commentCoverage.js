@@ -43,10 +43,16 @@ const EMOTE_SEMANTICS = [
     meaning: '表示围观、拱火、旁观或回避直接论证，常弱化说话者责任或把严肃争论娱乐化。',
   },
   {
-    pattern: /\[(?:捂脸|笑哭|喜极而泣|允悲|辣眼睛)\]|😓|🤦|🤦‍♂️|🤦‍♀️/u,
+    pattern: /\[(?:捂脸|喜极而泣|允悲|辣眼睛)\]|😓|🤦|🤦‍♂️|🤦‍♀️/u,
     term: '无语/尴尬表情',
     family: 'attack',
-    meaning: '表达无语、尴尬、轻蔑或自嘲；在中文评论里经常承担态度和讽刺功能。',
+    meaning: '表达无语、尴尬、轻蔑或讽刺；在中文评论里经常承担态度和攻击缓冲功能。',
+  },
+  {
+    pattern: /🐶/u,
+    term: '狗头/狗称呼表情',
+    family: 'attack',
+    meaning: '狗头或狗符号在中文评论中可表示保命玩笑，也可配合羞辱、置顶、嘲笑等语境指向贬损称呼，需要作为语气信号保留。',
   },
 ];
 
@@ -58,8 +64,45 @@ export function detectEmoteSemanticHits(comment) {
     .map((item) => summarizeHit(item));
 }
 
+const SUPPLEMENTAL_SEMANTICS = [
+  {
+    pattern: /(?:好|真|太|很)?恶心/u,
+    term: '恶心',
+    family: 'attack',
+    meaning: '强烈厌恶或反感评价；即使没有显式辱骂对象，也对人格/语气分析有负面情绪价值。',
+  },
+  {
+    pattern: /(?:沙壁|傻逼|傻b|sb)(?![a-z])/iu,
+    term: '沙壁/傻逼',
+    family: 'attack',
+    meaning: '中文网络常见谐音辱骂，表示把对象贬为愚蠢或低能。',
+  },
+  {
+    pattern: /你祖宗/u,
+    term: '你祖宗',
+    family: 'attack',
+    meaning: '以祖宗称呼对方常带有挑衅、压人或辱骂意味，在“到此一游”等涂鸦式表达中也可能是被动攻击。',
+  },
+];
+
+function detectSupplementalSemanticHits(comment) {
+  const message = cleanComment(comment);
+  if (!message) return [];
+  return SUPPLEMENTAL_SEMANTICS
+    .filter((item) => item.pattern.test(message))
+    .map((item) => summarizeHit(item));
+}
+
 function cleanNeedle(value) {
   return String(value || '').normalize('NFKC').trim().toLowerCase();
+}
+
+function isLiteralYinYangContext(entry, message) {
+  if (entry?.family !== 'attack') return false;
+  if (!['阴阳', '阴阳怪气'].includes(String(entry?.term || ''))) return false;
+  return /阴阳(?:逆乱|五行|两仪|调和|平衡|师|术|家|鱼|眼|怪|合同|交界)/u.test(message)
+    || /(?:天道|魑魅魍魉|金光神咒|天地玄宗|三魂|七魄|补天|本根).{0,80}阴阳/u.test(message)
+    || /阴阳.{0,80}(?:天道|魑魅魍魉|金光神咒|天地玄宗|三魂|七魄|补天|本根)/u.test(message);
 }
 
 function isSelfReferentialNoviceHit(entry, message) {
@@ -71,7 +114,8 @@ function isSelfReferentialNoviceHit(entry, message) {
 }
 
 function isSuppressedLexicalHit(entry, message) {
-  return isSelfReferentialNoviceHit(entry, message);
+  return isSelfReferentialNoviceHit(entry, message)
+    || isLiteralYinYangContext(entry, message);
 }
 
 function exactDictionaryEntries(dictionary, message) {
@@ -109,15 +153,18 @@ export function classifyCommentCoverage(dictionary, comment, options = {}) {
       .filter((entry) => !isSuppressedLexicalHit(entry, attributableMessage));
   const lexicalHits = lexicalEntries.map(summarizeHit);
   const emoteHits = detectEmoteSemanticHits(message);
-  const hits = [...lexicalHits, ...emoteHits];
+  const supplementalHits = detectSupplementalSemanticHits(message);
+  const hits = [...lexicalHits, ...emoteHits, ...supplementalHits];
 
   if (hits.length > 0) {
     return {
       covered: true,
       mode: 'keyword',
-      reason: lexicalHits.length > 0 && emoteHits.length > 0
-        ? 'dictionary term and emoji/emote semantic marker matched'
-        : (lexicalHits.length > 0 ? 'dictionary term evidence matched' : 'emoji/emote semantic marker matched'),
+      reason: [
+        lexicalHits.length > 0 ? 'dictionary term' : null,
+        emoteHits.length > 0 ? 'emoji/emote semantic marker' : null,
+        supplementalHits.length > 0 ? 'supplemental semantic marker' : null,
+      ].filter(Boolean).join(' and ') + ' matched',
       hits,
       comment: message,
     };

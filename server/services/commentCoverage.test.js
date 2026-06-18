@@ -10,6 +10,8 @@ const dictionary = {
     { term: '可能', family: 'cooperation', meaning: '缓和语气的可能性标记' },
     { term: '小白', family: 'attack', meaning: '贬低对方不懂的新手标签' },
     { term: '手残', family: 'attack', meaning: '贬低操作能力差' },
+    { term: '阴阳', family: 'attack', meaning: '阴阳怪气地讽刺、含沙射影' },
+    { term: '笑哭', family: 'cooperation', meaning: '笑哭表情，用于表示哭笑不得、调侃或自嘲，缓和语气' },
   ],
 };
 
@@ -56,6 +58,54 @@ test('classifyCommentCoverage suppresses self-referential novice attack hits', (
 
 test('classifyCommentCoverage does not attribute keyword hits inside reply usernames', () => {
   const result = classifyCommentCoverage(dictionary, '\u56de\u590d @\u624b\u6b8b\u4e2d\u7684\u624b\u6b8b\u73a9\u5bb6 :\u5df2\u7ecf\u662f\u65e9\u5e74\u4e86');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'neutral');
+  assert.equal(result.hits.length, 0);
+});
+
+test('classifyCommentCoverage captures strong negative affect as semantic coverage', () => {
+  const result = classifyCommentCoverage(dictionary, '\u597d\u6076\u5fc3');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['恶心']);
+});
+
+test('classifyCommentCoverage captures homophone insults even when absolutes also match', () => {
+  const result = classifyCommentCoverage(dictionary, '\u521a\u8fdb\u9662\uff0c\u73af\u5883\u5f88\u5dee\uff0c\u5168\u90fd\u662f\u6c99\u58c1');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['沙壁/傻逼']);
+});
+
+test('classifyCommentCoverage captures ancestor-address passive aggression', () => {
+  const result = classifyCommentCoverage(dictionary, '\u4f60\u7956\u5b97\u5230\u6b64\u4e00\u6e38 1');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['你祖宗']);
+});
+
+test('classifyCommentCoverage treats dog emoji as a Chinese platform tone marker', () => {
+  const result = classifyCommentCoverage(dictionary, '\u60a8\u7684\u5e16\u5b50\u91cc\u9762\u6709\u6761\u76ee\ud83d\udc36\uff0c\u8d76\u7d27\u7f6e\u9876\u7f9e\u8fb1');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['狗头/狗称呼表情']);
+});
+
+test('classifyCommentCoverage does not turn laugh-cry self-mockery into attack by itself', () => {
+  const result = classifyCommentCoverage(dictionary, '[\u7b11\u54ed] \u96be\u5d29[\u7b11\u54ed]');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['笑哭']);
+});
+
+test('classifyCommentCoverage suppresses literal classical yin-yang contexts', () => {
+  const result = classifyCommentCoverage(dictionary, '\u5929\u9053\u65e0\u80fd\uff0c\u9634\u9633\u9006\u4e71\uff0c\u9b51\u9b45\u9b4d\u9b49\u6d82\u70ad\u751f\u7075\u3002\u91d1\u5149\u795e\u5492 \u5929\u5730\u7384\u5b97');
 
   assert.equal(result.covered, true);
   assert.equal(result.mode, 'neutral');
