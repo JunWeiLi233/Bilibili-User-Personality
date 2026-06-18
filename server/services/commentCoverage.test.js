@@ -98,6 +98,18 @@ test('classifyCommentCoverage captures standalone pei dismissal', () => {
   assert.deepEqual(result.hits.map((hit) => hit.term), ['\u5478']);
 });
 
+test('classifyCommentCoverage captures targeted stupid insults without matching benign cute phrasing', () => {
+  const insult = classifyCommentCoverage(dictionary, '\u5370\u5ea6\u4eba\u8822\u662f\u8822\uff0c\u57fa\u672c\u793c\u4eea\u90fd\u6ca1\u6709');
+  const benign = classifyCommentCoverage(dictionary, '\u8fd9\u53ea\u732b\u6709\u70b9\u8822\u840c');
+
+  assert.equal(insult.covered, true);
+  assert.equal(insult.mode, 'keyword');
+  assert.ok(insult.hits.some((hit) => hit.term === '\u8822'));
+  assert.equal(benign.covered, true);
+  assert.equal(benign.mode, 'neutral');
+  assert.equal(benign.hits.length, 0);
+});
+
 test('classifyCommentCoverage captures whitewashing accusations without matching literal washing', () => {
   const accusation = classifyCommentCoverage(dictionary, '\u4e5f\u591f\u522b\u6d17\u4e86');
   const literal = classifyCommentCoverage(dictionary, '\u522b\u6d17\u8863\u670d\u4e86\uff0c\u660e\u5929\u4e0b\u96e8');

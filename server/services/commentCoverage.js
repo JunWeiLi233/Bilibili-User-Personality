@@ -72,6 +72,12 @@ export function detectEmoteSemanticHits(comment) {
 
 const SUPPLEMENTAL_SEMANTICS = [
   {
+    pattern: /(?:\u8822\u662f\u8822|(?:\u4f60|\u4ed6|\u5979|\u5b83|\u4ed6\u4eec|\u5979\u4eec|\u8fd9\u4eba|\u90a3\u4eba|[\p{Script=Han}]{1,6}\u4eba).{0,6}\u8822|\u8822(?:\u8d27|\u903c|\u6bd4|\u72d7))/u,
+    term: '\u8822',
+    family: 'attack',
+    meaning: '\u201c\u8822\u201d\u5728\u6307\u5411\u4e2a\u4eba\u3001\u7fa4\u4f53\u6216\u52a8\u7269\u5316\u8d2c\u79f0\u65f6\u662f\u76f4\u63a5\u667a\u529b\u8fb1\u9a82\uff0c\u4f1a\u653e\u5927\u5bf9\u8c61\u8d2c\u635f\u548c\u7fa4\u4f53\u653b\u51fb\u8bed\u6c14\u3002',
+  },
+  {
     pattern: /^[\s"'“”‘’]*\u5478[\s"'“”‘’!！?？。]*$/u,
     term: '\u5478',
     family: 'attack',
