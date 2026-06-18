@@ -110,6 +110,18 @@ test('classifyCommentCoverage captures targeted stupid insults without matching 
   assert.equal(benign.hits.length, 0);
 });
 
+test('classifyCommentCoverage captures salted-fish satire without matching literal food', () => {
+  const satire = classifyCommentCoverage(dictionary, '\u5728\u4f60\u9762\u524d\u7684\u662f\u4e00\u4f4d\u771f\u6b63\u7684\u82f1\u96c4\uff08\u54b8\u9c7c\uff09');
+  const literal = classifyCommentCoverage(dictionary, '\u665a\u4e0a\u5403\u54b8\u9c7c\u8304\u5b50\u7172');
+
+  assert.equal(satire.covered, true);
+  assert.equal(satire.mode, 'keyword');
+  assert.deepEqual(satire.hits.map((hit) => hit.term), ['\u54b8\u9c7c']);
+  assert.equal(literal.covered, true);
+  assert.equal(literal.mode, 'neutral');
+  assert.equal(literal.hits.length, 0);
+});
+
 test('classifyCommentCoverage captures whitewashing accusations without matching literal washing', () => {
   const accusation = classifyCommentCoverage(dictionary, '\u4e5f\u591f\u522b\u6d17\u4e86');
   const literal = classifyCommentCoverage(dictionary, '\u522b\u6d17\u8863\u670d\u4e86\uff0c\u660e\u5929\u4e0b\u96e8');
