@@ -352,6 +352,24 @@ test('classifyCommentCoverage captures hostile plot-writing rants', () => {
   assert.deepEqual(result.hits.map((hit) => hit.family), ['attack']);
 });
 
+test('classifyCommentCoverage captures sampled Latin profanity', () => {
+  const result = classifyCommentCoverage({ entries: [] }, 'tmd\u6211\u5f00\u7a7a\u8c03\uff0c\u60f3\u4ec0\u4e48\u65f6\u5019\u5f00\u5c31\u4ec0\u4e48\u65f6\u5019\u5f00');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['tmd']);
+  assert.deepEqual(result.hits.map((hit) => hit.family), ['attack']);
+});
+
+test('classifyCommentCoverage captures whitespace-split shameless insults', () => {
+  const result = classifyCommentCoverage({ entries: [] }, '\u8fd8\u5c31\u90a3\u4e2a\u81ed\u4e0d\u8981 \u8138');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['\u81ed\u4e0d\u8981\u8138']);
+  assert.deepEqual(result.hits.map((hit) => hit.family), ['attack']);
+});
+
 test('classifyCommentCoverage captures tuition-scam graduation accusations', () => {
   const result = classifyCommentCoverage({ entries: [] }, '\u9a97\u5b66\u8d39\u8fd8\u4e0d\u7ed9\u6bd5\u4e1a');
 
