@@ -1304,6 +1304,35 @@ test('classifyCommentCoverage handles round 54 random audit missed cues', () => 
   }
 });
 
+test('classifyCommentCoverage handles round 55 random audit missed cues', () => {
+  const exactCases = [
+    ['\u7ed9\u4f60\u6295\u4e2a\u5e01', '\u6295\u5e01', 'cooperation'],
+    ['\u8001\u9ad8\u773c\u7ea2\u4e86', '\u773c\u7ea2', 'attack'],
+    ['\u6ee1\u95e8\u6284\u2026\u2026', '\u6ee1\u95e8\u6284', 'attack'],
+    ['666\u4e0d\u6f14\u4e86', '\u4e0d\u6f14\u4e86', 'attack'],
+    ['\u4efb\u4f55\u4eba\u78d5\u4e0d\u5230\u9192\u8fdc\u6211\u90fd\u4f1a\u4f24\u5fc3\u7684', '\u4efb\u4f55\u4eba', 'absolutes'],
+    ['\u6d3b\u4e0d\u8d77\u4e86\uff0c\u5077\u72d7\uff1f', '\u6d3b\u4e0d\u8d77\u4e86', 'evasion'],
+  ];
+
+  for (const [text, term, family] of exactCases) {
+    const result = classifyCommentCoverage(dictionary, text);
+    assert.equal(result.mode, 'keyword');
+    assert.deepEqual(result.hits.map((hit) => [hit.term, hit.family]), [[term, family]]);
+  }
+
+  const containsCases = [
+    ['\u7167\u8fd9\u4e9b\u6240\u8c13\u4e13\u5bb6\u7684\u72e1\u8fa9\uff0c\u9075\u7eaa\u5b88\u6cd5\u8005\u6ca1\u6709\u8d44\u683c\u8003\u516c\uff1f\u53ea\u80fd\u7b49\u90a3\u4e9b\u5438\u6bd2\u8005\u6765\u8003\u516c\uff1f\u5b83\u4eec\u8bf4\u7684\u592a\u9732\u9aa8\u4e86\uff01\u5b83\u4eec\u66b4\u9732\u4e86\u5230\u5e95\u662f\u7ad9\u5728\u4ec0\u4e48\u4eba\u7684\u7acb\u573a\u4e0a\uff01', '\u5b83\u4eec', 'attack'],
+    ['\u603b\u89c9\u5f97\u4e0d\u50cf\u597d\u4eba', '\u4e0d\u50cf\u597d\u4eba', 'attack'],
+    ['\u8fd9\u4e0d\u662f\u4eba\u683c\u5206\u88c2\u5417\uff1f', '\u4eba\u683c\u5206\u88c2', 'attack'],
+  ];
+
+  for (const [text, term, family] of containsCases) {
+    const result = classifyCommentCoverage(dictionary, text);
+    assert.equal(result.mode, 'keyword');
+    assert.ok(result.hits.some((hit) => hit.term === term && hit.family === family));
+  }
+});
+
 test('sampleCommentCoverage summarizes full coverage over keyword and neutral samples', () => {
   const result = sampleCommentCoverage(dictionary, [
     '这事懂的都懂，不展开了',
