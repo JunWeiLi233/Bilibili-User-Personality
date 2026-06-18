@@ -91,6 +91,30 @@ export function detectEmoteSemanticHits(comment) {
 
 const SUPPLEMENTAL_SEMANTICS = [
   {
+    pattern: /\u611a\u8822(?:\u7684)?(?:\u4eba|\u4eba\u7c7b|\u4e1c\u897f|\u73a9\u610f|$)|鎰氳牏(?:鐨勮漢|鐨勪汉|鐨勪汉绫|$)/u,
+    term: '\u611a\u8822',
+    family: 'attack',
+    meaning: '\u201c\u611a\u8822\u201d\u662f\u5bf9\u667a\u529b\u3001\u5224\u65ad\u6216\u4eba\u683c\u7684\u76f4\u63a5\u8d2c\u635f\uff0c\u5728B\u7ad9/\u8d34\u5427\u8bed\u5883\u91cc\u5e94\u4f5c\u4e3a\u653b\u51fb\u6027\u8bed\u4e49\u7ebf\u7d22\u4fdd\u7559\u3002',
+  },
+  {
+    pattern: /(?:\u6c34\u5e73|\u8d28\u91cf|\u5267\u60c5|\u505a\u5f97|\u5199\u5f97).{0,8}\u592a\u6b21(?:\u4e86|$)|姘村钩.{0,8}澶/u,
+    term: '\u592a\u6b21',
+    family: 'attack',
+    meaning: '\u201c\u6c34\u5e73\u592a\u6b21/\u592a\u6b21\u4e86\u201d\u662f\u5bf9\u4f5c\u54c1\u6216\u5bf9\u65b9\u80fd\u529b\u7684\u5f3a\u5426\u5b9a\u548c\u8d2c\u4f4e\uff0c\u5c5e\u4e8e\u660e\u786e\u8d1f\u5411\u8bc4\u4ef7\u3002',
+  },
+  {
+    pattern: /\u67e5\u67e5\u8d44\u6599|鏌ユ煡璧勬枡/u,
+    term: '\u67e5\u67e5\u8d44\u6599',
+    family: 'evidence',
+    meaning: '\u201c\u67e5\u67e5\u8d44\u6599\u201d\u662f\u8981\u6c42\u5bf9\u65b9\u81ea\u884c\u67e5\u8bc1\u6216\u8865\u8bc1\u636e\u7684\u5e38\u89c1\u7f51\u7edc\u56de\u590d\uff0c\u5c5e\u4e8e\u8bc1\u636e/\u6838\u5b9e\u7ebf\u7d22\u3002',
+  },
+  {
+    pattern: /\u4e00\u628a\u5b50\u652f\u6301(?:\u4e86|$)|涓€鎶婂瓙鏀寔/u,
+    term: '\u4e00\u628a\u5b50\u652f\u6301',
+    family: 'cooperation',
+    meaning: '\u201c\u4e00\u628a\u5b50\u652f\u6301\u201d\u662f\u7f51\u7edc\u53e3\u8bed\u5316\u7684\u5f3a\u652f\u6301\u3001\u8d5e\u540c\u6216\u7ad9\u961f\u8868\u8fbe\uff0c\u5c5e\u4e8e\u5408\u4f5c/\u6b63\u5411\u4e92\u52a8\u4fe1\u53f7\u3002',
+  },
+  {
     pattern: /\u773c\u775b?\u778e(?:\u4e86|\u5417|\u5728|$)|\u773c\u778e(?:\u4e86|\u5417|\u5728|$)/u,
     term: '\u773c\u778e',
     family: 'attack',
@@ -1099,6 +1123,10 @@ function isSuppressedEmoteHit(item, message) {
 }
 
 function isSuppressedSupplementalHit(item, message) {
+  if (item?.term === '\u6076\u5fc3' || item?.term === '鎭跺績') {
+    return /(?:\u6211|俺|咱).{0,8}(?:\u5403|\u559d|\u95fb|\u770b).{0,20}(?:\u6076\u5fc3|\u53cd\u80c3|\u60f3\u5410)/u.test(message)
+      || /(?:\u5403|\u559d|\u95fb).{0,12}(?:\u8fd9\u4e2a|\u8fd9\u4e9b|\u5b83|它).{0,12}(?:\u6076\u5fc3|\u53cd\u80c3|\u60f3\u5410)/u.test(message);
+  }
   return false;
 }
 

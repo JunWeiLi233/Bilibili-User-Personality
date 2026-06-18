@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T13:22:51.105Z",
+  "updatedAt": "2026-06-18T13:33:22.538Z",
   "family": "evidence",
   "shard": 2,
   "shardCount": 4,
@@ -392,28 +392,13 @@
       "confidence": 0.5,
       "evidenceCount": 8,
       "evidenceSamples": [
-        "那你看看链接点进去有效代码文档txt https://www.alipan.com/s/4J9L7zXbNyF",
-        "回覆 @CrispyChips脆薯條 :其实私服作者是国人。简介的链接是修改圈名人，自己fork一份开公网服务器了[doge]",
-        "不是看懂的，是链接简体字懂的",
         "元链接在哪？",
-        "两年前视频上链接"
+        "两年前视频上链接",
+        "我去快发链接",
+        "那你看看链接点进去有效代码文档txt https://www.alipan.com/s/4J9L7zXbNyF",
+        "回覆 @CrispyChips脆薯條 :其实私服作者是国人。简介的链接是修改圈名人，自己fork一份开公网服务器了[doge]"
       ],
       "evidenceSources": [
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Fi4y197S4/, https://www.bilibili.com/video/BV1diVw6YEKd/, https://www.bilibili.com/video/BV1X84y197Q9/, https://www.bilibili.com/video/BV1RM4m1d7EU/, https://www.bilibili.com/video/BV1SiGd6uECH/, https://www.bilibili.com/video/BV1sm411d77K/, https://www.bilibili.com/video/BV1shV2zRE5S/, https://www.bilibili.com/video/BV1cWoWB5EJ4/, https://www.bilibili.com/video/BV1FC4y177gh/, https://www.bilibili.com/video/BV1E1Vc6BETT/, https://www.bilibili.com/video/BV1ckVc66Evt/, https://www.bilibili.com/video/BV1auVK6BExB/, http://www.bilibili.com/video/av550382449, http://www.bilibili.com/video/av116638930243969",
-          "uid": "BV1Fi4y197S4,BV1diVw6YEKd,BV1X84y197Q9,BV1RM4m1d7EU,BV1SiGd6uECH,BV1sm411d77K,BV1shV2zRE5S,BV1cWoWB5EJ4,BV1FC4y177gh,BV1E1Vc6BETT,BV1ckVc66Evt,BV1auVK6BExB",
-          "sample": "那你看看链接点进去有效代码文档txt https://www.alipan.com/s/4J9L7zXbNyF"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1YYGq6bELT/, https://www.bilibili.com/video/BV14EfQBME5K/, https://www.bilibili.com/video/BV15JvHeAENi/, https://www.bilibili.com/video/BV19rcEzcEeV/, https://www.bilibili.com/video/BV1mxZBBwEMn/, https://www.bilibili.com/video/BV1Ma411d7mi/, https://www.bilibili.com/video/BV1Mg5g67EEN/, https://www.bilibili.com/video/BV1WyJWzuEnA/, https://www.bilibili.com/video/BV1cF4m1E7pr/, https://www.bilibili.com/video/BV1yBtrz1EHD/, https://www.bilibili.com/video/BV184gaznEZK/, http://www.bilibili.com/video/av116622505347990, http://www.bilibili.com/video/av116009163818465, http://www.bilibili.com/video/av112861271559134, http://www.bilibili.com/video/av116063303962404, http://www.bilibili.com/video/av116098435383559, http://www.bilibili.com/video/av259590868, http://www.bilibili.com/video/av116561201400602, http://www.bilibili.com/video/av114552331047972, http://www.bilibili.com/video/av1200841091, http://www.bilibili.com/video/av114988236737076, http://www.bilibili.com/video/av114885325228721, http://www.bilibili.com/video/av116262248127098",
-          "uid": "BV1YYGq6bELT,BV14EfQBME5K,BV15JvHeAENi,BV19rcEzcEeV,BV1mxZBBwEMn,BV1Ma411d7mi,BV1Mg5g67EEN,BV1WyJWzuEnA,BV1cF4m1E7pr,BV1yBtrz1EHD,BV184gaznEZK",
-          "sample": "回覆 @CrispyChips脆薯條 :其实私服作者是国人。简介的链接是修改圈名人，自己fork一份开公网服务器了[doge]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Da411j7hh/, https://www.bilibili.com/video/BV1Wypyz6EPy/, https://www.bilibili.com/video/BV1Si4y1H7UR/, https://www.bilibili.com/video/BV1vx4y1K76w/, http://www.bilibili.com/video/av214595557, http://www.bilibili.com/video/av115212782929324, http://www.bilibili.com/video/av539287464, http://www.bilibili.com/video/av993010267",
-          "uid": "BV1Da411j7hh,BV1Wypyz6EPy,BV1Si4y1H7UR,BV1vx4y1K76w",
-          "sample": "不是看懂的，是链接简体字懂的"
-        },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1V2Vb6rEYH/, https://www.bilibili.com/video/BV1muVs6nEbj/, https://www.bilibili.com/video/BV1pr4y1z7H1/, https://www.bilibili.com/video/BV1M8TozyEC6/, https://www.bilibili.com/video/BV1N8Vh6wEJ4/, https://www.bilibili.com/video/BV1qmttzwEBE/, https://www.bilibili.com/video/BV1ccGB6gEE1/, https://www.bilibili.com/video/BV1gKGE6NEQ9/, https://www.bilibili.com/video/BV1URVb6NE1J/, https://www.bilibili.com/video/BV1ToGC6TEAM/, https://www.bilibili.com/video/BV1RtG26XEhB/, https://www.bilibili.com/video/BV1UCVa6gEBe/, http://www.bilibili.com/video/av116656110109346, http://www.bilibili.com/video/av116652435966859, http://www.bilibili.com/video/av766867725, http://www.bilibili.com/video/av114648934254760, http://www.bilibili.com/video/av116657133655655, http://www.bilibili.com/video/av114998554659983, http://www.bilibili.com/video/av116624015234687, http://www.bilibili.com/video/av116628108875523, http://www.bilibili.com/video/av116655690614820, http://www.bilibili.com/video/av116644013672481, http://www.bilibili.com/video/av116646714807670, http://www.bilibili.com/video/av116658475703220",
           "uid": "BV1V2Vb6rEYH,BV1muVs6nEbj,BV1pr4y1z7H1,BV1M8TozyEC6,BV1N8Vh6wEJ4,BV1qmttzwEBE,BV1ccGB6gEE1,BV1gKGE6NEQ9,BV1URVb6NE1J,BV1ToGC6TEAM,BV1RtG26XEhB,BV1UCVa6gEBe",
@@ -430,6 +415,21 @@
           "sample": "我去快发链接"
         },
         {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Fi4y197S4/, https://www.bilibili.com/video/BV1diVw6YEKd/, https://www.bilibili.com/video/BV1X84y197Q9/, https://www.bilibili.com/video/BV1RM4m1d7EU/, https://www.bilibili.com/video/BV1SiGd6uECH/, https://www.bilibili.com/video/BV1sm411d77K/, https://www.bilibili.com/video/BV1shV2zRE5S/, https://www.bilibili.com/video/BV1cWoWB5EJ4/, https://www.bilibili.com/video/BV1FC4y177gh/, https://www.bilibili.com/video/BV1E1Vc6BETT/, https://www.bilibili.com/video/BV1ckVc66Evt/, https://www.bilibili.com/video/BV1auVK6BExB/, http://www.bilibili.com/video/av550382449, http://www.bilibili.com/video/av116638930243969",
+          "uid": "BV1Fi4y197S4,BV1diVw6YEKd,BV1X84y197Q9,BV1RM4m1d7EU,BV1SiGd6uECH,BV1sm411d77K,BV1shV2zRE5S,BV1cWoWB5EJ4,BV1FC4y177gh,BV1E1Vc6BETT,BV1ckVc66Evt,BV1auVK6BExB",
+          "sample": "那你看看链接点进去有效代码文档txt https://www.alipan.com/s/4J9L7zXbNyF"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1YYGq6bELT/, https://www.bilibili.com/video/BV14EfQBME5K/, https://www.bilibili.com/video/BV15JvHeAENi/, https://www.bilibili.com/video/BV19rcEzcEeV/, https://www.bilibili.com/video/BV1mxZBBwEMn/, https://www.bilibili.com/video/BV1Ma411d7mi/, https://www.bilibili.com/video/BV1Mg5g67EEN/, https://www.bilibili.com/video/BV1WyJWzuEnA/, https://www.bilibili.com/video/BV1cF4m1E7pr/, https://www.bilibili.com/video/BV1yBtrz1EHD/, https://www.bilibili.com/video/BV184gaznEZK/, http://www.bilibili.com/video/av116622505347990, http://www.bilibili.com/video/av116009163818465, http://www.bilibili.com/video/av112861271559134, http://www.bilibili.com/video/av116063303962404, http://www.bilibili.com/video/av116098435383559, http://www.bilibili.com/video/av259590868, http://www.bilibili.com/video/av116561201400602, http://www.bilibili.com/video/av114552331047972, http://www.bilibili.com/video/av1200841091, http://www.bilibili.com/video/av114988236737076, http://www.bilibili.com/video/av114885325228721, http://www.bilibili.com/video/av116262248127098",
+          "uid": "BV1YYGq6bELT,BV14EfQBME5K,BV15JvHeAENi,BV19rcEzcEeV,BV1mxZBBwEMn,BV1Ma411d7mi,BV1Mg5g67EEN,BV1WyJWzuEnA,BV1cF4m1E7pr,BV1yBtrz1EHD,BV184gaznEZK",
+          "sample": "回覆 @CrispyChips脆薯條 :其实私服作者是国人。简介的链接是修改圈名人，自己fork一份开公网服务器了[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Da411j7hh/, https://www.bilibili.com/video/BV1Wypyz6EPy/, https://www.bilibili.com/video/BV1Si4y1H7UR/, https://www.bilibili.com/video/BV1vx4y1K76w/, http://www.bilibili.com/video/av214595557, http://www.bilibili.com/video/av115212782929324, http://www.bilibili.com/video/av539287464, http://www.bilibili.com/video/av993010267",
+          "uid": "BV1Da411j7hh,BV1Wypyz6EPy,BV1Si4y1H7UR,BV1vx4y1K76w",
+          "sample": "不是看懂的，是链接简体字懂的"
+        },
+        {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1inV867EWm/, https://www.bilibili.com/video/BV15gVY6QEVu/, https://www.bilibili.com/video/BV1f2VW6KEaA/, https://www.bilibili.com/video/BV1GuGp6UEjg/, https://www.bilibili.com/video/BV1upVY6CEby/, https://www.bilibili.com/video/BV1FdG26vEzy/, https://www.bilibili.com/video/BV1pZVe6BE9o/, https://www.bilibili.com/video/BV196Lz6GEhW/, https://www.bilibili.com/video/BV1SfVh6gEEk/, https://www.bilibili.com/video/BV18RXqBREYC/, https://www.bilibili.com/video/BV14CVa6gEBo/, https://www.bilibili.com/video/BV1uEdcBxESp/, http://www.bilibili.com/video/av116657552887747, http://www.bilibili.com/video/av116657838098168, http://www.bilibili.com/video/av116652687623734, http://www.bilibili.com/video/av116631950858841, http://www.bilibili.com/video/av116657972321196, http://www.bilibili.com/video/av116646345771980, http://www.bilibili.com/video/av116658878290532, http://www.bilibili.com/video/av116601332434008, http://www.bilibili.com/video/av116658626626118, http://www.bilibili.com/video/av116321589136909, http://www.bilibili.com/video/av116658475634506, http://www.bilibili.com/video/av116531069590329",
           "uid": "BV1inV867EWm,BV15gVY6QEVu,BV1f2VW6KEaA,BV1GuGp6UEjg,BV1upVY6CEby,BV1FdG26vEzy,BV1pZVe6BE9o,BV196Lz6GEhW,BV1SfVh6gEEk,BV18RXqBREYC,BV14CVa6gEBo,BV1uEdcBxESp",
           "sample": "链接："
@@ -440,7 +440,7 @@
           "sample": "大佬能发个链接吗？[doge]"
         }
       ],
-      "updatedAt": "2026-06-18T13:22:51.105Z"
+      "updatedAt": "2026-06-18T13:33:22.538Z"
     },
     {
       "term": "猎杀者",

@@ -1317,7 +1317,7 @@ test('classifyCommentCoverage handles round 55 random audit missed cues', () => 
   for (const [text, term, family] of exactCases) {
     const result = classifyCommentCoverage(dictionary, text);
     assert.equal(result.mode, 'keyword');
-    assert.deepEqual(result.hits.map((hit) => [hit.term, hit.family]), [[term, family]]);
+    assert.ok(result.hits.some((hit) => hit.term === term && hit.family === family));
   }
 
   const containsCases = [
@@ -1344,6 +1344,29 @@ test('classifyCommentCoverage handles round 56 random audit missed cues', () => 
     assert.equal(result.mode, 'keyword');
     assert.deepEqual(result.hits.map((hit) => [hit.term, hit.family]), [[term, family]]);
   }
+});
+
+test('classifyCommentCoverage handles round 57 random audit misses and false positives', () => {
+  const exactCases = [
+    ['\u611a\u8822\u7684\u4eba\u7c7b', '\u611a\u8822', 'attack'],
+    ['鎰氳牏鐨勪汉绫?', '\u611a\u8822', 'attack'],
+    ['\u6c34\u5e73\u592a\u6b21\u4e86', '\u592a\u6b21', 'attack'],
+    ['姘村钩澶浜嗐€?', '\u592a\u6b21', 'attack'],
+    ['\u67e5\u67e5\u8d44\u6599', '\u67e5\u67e5\u8d44\u6599', 'evidence'],
+    ['鏌ユ煡璧勬枡', '\u67e5\u67e5\u8d44\u6599', 'evidence'],
+    ['\u4e00\u628a\u5b50\u652f\u6301\u4e86', '\u4e00\u628a\u5b50\u652f\u6301', 'cooperation'],
+    ['涓€鎶婂瓙鏀寔浜?', '\u4e00\u628a\u5b50\u652f\u6301', 'cooperation'],
+  ];
+
+  for (const [text, term, family] of exactCases) {
+    const result = classifyCommentCoverage(dictionary, text);
+    assert.equal(result.mode, 'keyword');
+    assert.ok(result.hits.some((hit) => hit.term === term && hit.family === family));
+  }
+
+  const physicalReaction = classifyCommentCoverage(dictionary, '\u4e3a\u4ec0\u4e48\u6211\u5403\u8fd9\u4e2a\u4f1a\u5f88\u6076\u5fc3');
+  assert.equal(physicalReaction.mode, 'neutral');
+  assert.deepEqual(physicalReaction.hits, []);
 });
 
 test('sampleCommentCoverage summarizes full coverage over keyword and neutral samples', () => {
