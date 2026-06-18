@@ -1251,6 +1251,38 @@ test('classifyCommentCoverage handles round 52 random audit missed cues', () => 
   }
 });
 
+test('classifyCommentCoverage handles round 53 random audit missed cues', () => {
+  const cases = [
+    ['\u6709\u6bd2\u65e0\u6bd2\u4e00\u4e0a\u624b\u5c31\u77e5', '\u4e00\u4e0a\u624b\u5c31\u77e5', 'absolutes'],
+    ['\u4e2d\u539f\u8bdd\u4e0d\u53ea\u662f\u6cb3\u5357\u8bdd\u597d\u5427', '\u4e0d\u53ea\u662f', 'correction'],
+    ['\u771f\u7684\u88ab\u8fd9\u79cd\u5e05\u54e5\u9a97\u8d22\u9a97\u8272\u90fd\u503c\u4e86', '\u90fd\u503c\u4e86', 'absolutes'],
+    ['\u8fd9\u9996\u5979\u996d\u62cd\u89c6\u9891\u4e0d\u662f\u8bf4\u4e86\u4e48\u8282\u76ee\u7ec4\u8981\u6c42\u7684', '\u4e0d\u662f\u8bf4\u4e86\u4e48', 'correction'],
+    ['\u5927\u9ec4:\u4f60\u518d\u9a82?', '\u4f60\u518d\u9a82', 'attack'],
+    ['\u5934\u6655\u662f\u6b63\u5e38\u7684', '\u662f\u6b63\u5e38\u7684', 'absolutes'],
+    ['B&B\u662f\u771f\u7684\u6beb\u65e0\u8425\u517b', '\u6beb\u65e0', 'absolutes'],
+    ['\u5b59\u5584\u4e0d\u5584\u826f\u53bb\u770b\u738b\u66fc\u6631\u8f93\u7403\u65f6\u5b59\u7684\u6b6a\u5634\u7b11\uff0c\u4ec0\u4e48\u6837\u7684\u6b63\u4e3b\u5c31\u6709\u4ec0\u4e48\u6837\u7684\u7c89\u4e1d', '\u6b6a\u5634\u7b11/\u4ec0\u4e48\u6837\u7684\u6b63\u4e3b', 'attack'],
+    ['\u90fd\u662f\u540c\u4e00\u6279', '\u90fd\u662f\u540c\u4e00\u6279', 'absolutes'],
+    ['\u8fd9\u8c01\u80fd\u7ef7\u5f97\u4f4f', '\u8c01\u80fd\u7ef7\u5f97\u4f4f', 'absolutes'],
+    ['\u4f60\u6ca1\u89c1\u8fc7\u4e0d\u4ee3\u8868\u6ca1\u6709', '\u4e0d\u4ee3\u8868\u6ca1\u6709', 'correction'],
+    ['\u771f\u4eba\u56e2 \u63a5\u63a5\u63a5', '\u63a5\u63a5\u63a5', 'cooperation'],
+  ];
+
+  for (const [text, term, family] of cases) {
+    const result = classifyCommentCoverage(dictionary, text);
+    assert.equal(result.mode, 'keyword');
+    assert.deepEqual(result.hits.map((hit) => [hit.term, hit.family]), [[term, family]]);
+  }
+
+  const dictionaryBacked = classifyCommentCoverage({
+    entries: [
+      ...dictionary.entries,
+      { term: '\u57fa\u672c\u6ca1\u6709\u97f3\u4e50\u7406\u89e3', family: 'absolutes', meaning: '\u8f6f\u5316\u7684\u5168\u79f0\u5426\u5b9a' },
+    ],
+  }, '\u57fa\u672c\u6ca1\u6709\u97f3\u4e50\u7406\u89e3');
+  assert.equal(dictionaryBacked.mode, 'keyword');
+  assert.deepEqual(dictionaryBacked.hits.map((hit) => [hit.term, hit.family]), [['\u57fa\u672c\u6ca1\u6709\u97f3\u4e50\u7406\u89e3', 'absolutes']]);
+});
+
 test('sampleCommentCoverage summarizes full coverage over keyword and neutral samples', () => {
   const result = sampleCommentCoverage(dictionary, [
     '这事懂的都懂，不展开了',
