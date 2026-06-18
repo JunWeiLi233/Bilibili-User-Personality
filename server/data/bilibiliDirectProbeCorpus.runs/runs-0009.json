@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T20:14:15.542Z",
+  "updatedAt": "2026-06-18T20:27:34.266Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -709,6 +709,88 @@
       "warnings": [],
       "commentsCollected": 736,
       "commentsAdded": 660
+    },
+    {
+      "at": "2026-06-18T20:27:34.266Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1SQJF6KEUd",
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复",
+          "bvid": "BV1SQJF6KEUd",
+          "aid": 116746337911095,
+          "title": "印度小哥叫嚣所有外国人：我们不会离开你们国家"
+        },
+        {
+          "key": "bvid:BV1gtVA6ZE5w",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1gtVA6ZE5w",
+          "aid": 116640440127869,
+          "title": "我们都一样，活的都不如一只狗"
+        },
+        {
+          "key": "bvid:BV1KKJN6VEJS",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1KKJN6VEJS",
+          "aid": 116748183472325,
+          "title": "祖国人现象：为什么教培界的老板们都热衷于“自杀”？"
+        },
+        {
+          "key": "bvid:BV1m7KJzPEGg",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV1m7KJzPEGg",
+          "aid": 114742786001809,
+          "title": "【全文已完结】爽到没边了！终于有女主治治伪人<em class=\"keyword\">弹幕</em>了"
+        },
+        {
+          "key": "bvid:BV1V6E26TEbq",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1V6E26TEbq",
+          "aid": 116720635216419,
+          "title": "〖无敌少侠〗选择你的杯子3"
+        },
+        {
+          "key": "bvid:BV1izjw6GEDN",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1izjw6GEDN",
+          "aid": 116771319255248,
+          "title": "【战争<em class=\"keyword\">雷霆</em>】搞完！搞完！"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 2301,
+      "commentsAdded": 1700
     }
   ]
 }
