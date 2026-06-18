@@ -2260,6 +2260,16 @@ test('classifyCommentCoverage handles round 88 validated UTF-8 audit cues', () =
   }
 });
 
+test('classifyCommentCoverage handles round 90 validated UTF-8 audit cues', () => {
+  const evasion = classifyCommentCoverage({ entries: [] }, '\u7701\u6d41\uff1a\u6bcf\u4e2a\u4eba\u90fd\u53e3\u542bdio');
+  assert.equal(evasion.mode, 'keyword');
+  assert.ok(evasion.hits.some((hit) => hit.term === '\u53e3\u542bdio' && hit.family === 'attack'));
+
+  const properName = classifyCommentCoverage({ entries: [] }, 'DIO\u662f\u52a8\u6f2b\u89d2\u8272');
+  assert.equal(properName.mode, 'neutral');
+  assert.deepEqual(properName.hits, []);
+});
+
 test('sampleCommentCoverage summarizes full coverage over keyword and neutral samples', () => {
   const result = sampleCommentCoverage(dictionary, [
     '这事懂的都懂，不展开了',

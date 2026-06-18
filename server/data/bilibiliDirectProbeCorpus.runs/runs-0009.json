@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T20:27:34.266Z",
+  "updatedAt": "2026-06-18T20:37:29.140Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -791,6 +791,88 @@
       "warnings": [],
       "commentsCollected": 2301,
       "commentsAdded": 1700
+    },
+    {
+      "at": "2026-06-18T20:37:29.140Z",
+      "actions": [
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1bP411b7Cc",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1bP411b7Cc",
+          "aid": 318697422,
+          "title": "<em class=\"keyword\">B站</em>从那里进去查帐号违规，看这儿？"
+        },
+        {
+          "key": "bvid:BV1os4y1U7WP",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1os4y1U7WP",
+          "aid": 994488053,
+          "title": "盘点卖茶叶行业黑幕，9块<em class=\"keyword\">9的</em>老班章，含泪挣了十八万八"
+        },
+        {
+          "key": "bvid:BV1DujP66EB8",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1DujP66EB8",
+          "aid": 116770664941776,
+          "title": "有这神笔马良的功能，还不给自己写点儿好的？别管那个外星人！"
+        },
+        {
+          "key": "bvid:BV1TaLf6nE8M",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1TaLf6nE8M",
+          "aid": 116769406652509,
+          "title": "<em class=\"keyword\">互动</em>"
+        },
+        {
+          "key": "bvid:BV1Bd4y1V7RX",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1Bd4y1V7RX",
+          "aid": 393037802,
+          "title": "我已经心动<em class=\"keyword\">八百遍了</em>，你怎么回事又撩起来了是吧！！"
+        },
+        {
+          "key": "bvid:BV1mijA6AEnx",
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论",
+          "bvid": "BV1mijA6AEnx",
+          "aid": 116770966865402,
+          "title": "收拾收拾准备升咖！首小时就全员破千？！召回打歌数据不错啊！rescene《love <em class=\"keyword\">attack</em>》召回打歌首舞台直拍排名"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 32,
+      "commentsAdded": 29
     }
   ]
 }
