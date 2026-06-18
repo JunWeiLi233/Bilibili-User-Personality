@@ -1333,6 +1333,19 @@ test('classifyCommentCoverage handles round 55 random audit missed cues', () => 
   }
 });
 
+test('classifyCommentCoverage handles round 56 random audit missed cues', () => {
+  const cases = [
+    ['\u773c\u775b\u778e\u5728\u72f8\u732b\u4e0a\uff01', '\u773c\u778e', 'attack'],
+    ['\u4f60\u773c\u778e\u4e86\u5417', '\u773c\u778e', 'attack'],
+  ];
+
+  for (const [text, term, family] of cases) {
+    const result = classifyCommentCoverage(dictionary, text);
+    assert.equal(result.mode, 'keyword');
+    assert.deepEqual(result.hits.map((hit) => [hit.term, hit.family]), [[term, family]]);
+  }
+});
+
 test('sampleCommentCoverage summarizes full coverage over keyword and neutral samples', () => {
   const result = sampleCommentCoverage(dictionary, [
     '这事懂的都懂，不展开了',
