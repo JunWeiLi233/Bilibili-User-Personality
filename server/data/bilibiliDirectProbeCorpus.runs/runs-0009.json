@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T21:46:19.877Z",
+  "updatedAt": "2026-06-18T21:55:53.742Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -1357,6 +1357,48 @@
       "warnings": [],
       "commentsCollected": 63,
       "commentsAdded": 49
+    },
+    {
+      "at": "2026-06-18T21:55:53.742Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1Ug411P7pD",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1Ug411P7pD",
+          "aid": 506757074,
+          "title": "如何用狗语和狗对骂"
+        },
+        {
+          "key": "bvid:BV1RnLb6LEyu",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1RnLb6LEyu",
+          "aid": 116612136966728,
+          "title": "被仅退款逼到拉黑整个省：这场互害没有赢家"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 1136,
+      "commentsAdded": 982
     }
   ]
 }
