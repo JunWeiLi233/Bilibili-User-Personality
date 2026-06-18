@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T20:37:29.140Z",
+  "updatedAt": "2026-06-18T20:49:17.730Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -873,6 +873,80 @@
       "warnings": [],
       "commentsCollected": 32,
       "commentsAdded": 29
+    },
+    {
+      "at": "2026-06-18T20:49:17.730Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1w6JM62EBj",
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复",
+          "bvid": "BV1w6JM62EBj",
+          "aid": 116752008610985,
+          "title": "中国未来要搞远程养殖吗？西方式意识形态害人更害己"
+        },
+        {
+          "key": "bvid:BV1Y5VH6JEUt",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1Y5VH6JEUt",
+          "aid": 116652133848354,
+          "title": "锄头被偷进展，探访偷狗人所在村子，偷狗人已被警察带走"
+        },
+        {
+          "key": "bvid:BV1zNzeBsEap",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1zNzeBsEap",
+          "aid": 115960006578687,
+          "title": "当仅退款183万，被找上门后……"
+        },
+        {
+          "key": "bvid:BV1TbLf6pENm",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1TbLf6pENm",
+          "aid": 116769373096071,
+          "title": "按张雪峰的话来说，我就是运气非常好，有人<em class=\"keyword\">说这</em>是时代红利，我<em class=\"keyword\">说这</em>就是运气战法"
+        },
+        {
+          "key": "bvid:BV17Yjw6jE6v",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV17Yjw6jE6v",
+          "aid": 116771386297159,
+          "title": "面对绷带，你才是挑战者【火影<em class=\"keyword\">雷霆</em>决斗场2】"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 376,
+      "commentsAdded": 285
     }
   ]
 }

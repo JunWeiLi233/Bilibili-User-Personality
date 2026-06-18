@@ -2281,3 +2281,28 @@ test('sampleCommentCoverage summarizes full coverage over keyword and neutral sa
   assert.equal(result.coverageRatio, 1);
   assert.deepEqual(result.byMode, { keyword: 1, neutral: 1, uncovered: 0 });
 });
+test('classifyCommentCoverage handles round 91 validated UTF-8 audit cues', () => {
+  const cases = [
+    ['\u4e5d\u654f\uff0c\u597d\u75af\u72c2', '\u4e5d\u654f', 'cooperation'],
+    ['xdm\u6211\u521a\u521a\u53bb\u8bd5\u4e86\u4e0b 5070\u625b\u4e0d\u4f4f \u5efa\u8bae\u522b\u53bb\u4e86\u3002\u3002\u3002', 'xdm', 'cooperation'],
+    ['\u4f60\u7956\u5b97\u5230\u6b64\u4e00\u6e38 1', '\u4f60\u7956\u5b97', 'attack'],
+    ['\u521a\u5f00\u59cb\u5b66AE\u6709\u6728\u6709\u4e00\u8d77\u5b66\u7684\u5c0f\u4f19\u4f34', '\u6709\u6728\u6709', 'cooperation'],
+  ];
+
+  for (const [text, term, family] of cases) {
+    const result = classifyCommentCoverage({ entries: [] }, text);
+    assert.equal(result.mode, 'keyword');
+    assert.ok(result.hits.some((hit) => hit.term === term && hit.family === family));
+  }
+
+  const neutralCases = [
+    'XDM-100\u662f\u8bbe\u5907\u578b\u53f7',
+    '\u6728\u6709\u8fd9\u79cd\u6750\u6599\u5e93\u5b58\u4e86',
+  ];
+
+  for (const text of neutralCases) {
+    const neutral = classifyCommentCoverage({ entries: [] }, text);
+    assert.equal(neutral.mode, 'neutral');
+    assert.deepEqual(neutral.hits, []);
+  }
+});
