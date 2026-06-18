@@ -1,573 +1,2187 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T13:33:22.538Z",
+  "updatedAt": "2026-06-18T13:55:24.559Z",
   "family": "attack",
   "shard": 4,
-  "shardCount": 97,
+  "shardCount": 5,
   "entries": [
     {
-      "term": "背刺自己",
+      "term": "托子满天飞",
       "family": "attack",
-      "meaning": "指被信任的人背后伤害，常用于指责背叛",
-      "risk": "high",
-      "confidence": 0.9,
-      "evidenceCount": 8,
-      "evidenceSamples": [
-        "再快有苹果Air降价快？不到两个月降2千首发用户被背刺的嗷嗷叫",
-        "背刺自己也是背刺[星星眼]",
-        "小人退散，背刺我的人全替我挡灾",
-        "合着背刺是背刺以前的自己[笑哭]这期又塌房了[蔚蓝档案静态_叹气]",
-        "背刺的就应该往死里打 全服务器通缉 给他们打退出服务器"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1sTGd6FEFf/, https://www.bilibili.com/video/BV1xdG868ERF/, https://www.bilibili.com/video/BV1DMGR6zEzZ/, https://www.bilibili.com/video/BV1X2Gn6yEjr/, https://www.bilibili.com/video/BV1RyGe6WEEC/, https://www.bilibili.com/video/BV1Wtcaz7EP1/, http://www.bilibili.com/video/av116634534678930, http://www.bilibili.com/video/av116618260650709, http://www.bilibili.com/video/av116634970884883, http://www.bilibili.com/video/av116630373799335, http://www.bilibili.com/video/av116621867812033, http://www.bilibili.com/video/av116054646857363",
-          "uid": "BV1sTGd6FEFf,BV1xdG868ERF,BV1DMGR6zEzZ,BV1X2Gn6yEjr,BV1RyGe6WEEC,BV1Wtcaz7EP1",
-          "sample": "再快有苹果Air降价快？不到两个月降2千首发用户被背刺的嗷嗷叫"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1ZcGi6aEzj/, https://www.bilibili.com/video/BV1XhXSBfEmb/, https://www.bilibili.com/video/BV113WszsEUD/, https://www.bilibili.com/video/BV1h3aqzpE7G/, https://www.bilibili.com/video/BV13H6QBhEH8/, https://www.bilibili.com/video/BV15RG76kErc/, http://www.bilibili.com/video/av116623243675407, http://www.bilibili.com/video/av116311489251943, http://www.bilibili.com/video/av115393708426476, http://www.bilibili.com/video/av115156512212645, http://www.bilibili.com/video/av115871942973232, http://www.bilibili.com/video/av116627957876538",
-          "uid": "BV1ZcGi6aEzj,BV1XhXSBfEmb,BV113WszsEUD,BV1h3aqzpE7G,BV13H6QBhEH8,BV15RG76kErc",
-          "sample": "背刺自己也是背刺[星星眼]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1p1mmYeE5G/, https://www.bilibili.com/video/BV1FCD7ByEUq/, https://www.bilibili.com/video/BV1rP4y1q7pv/, https://www.bilibili.com/video/BV1fs411R7Bd/, https://www.bilibili.com/video/BV1Cz4y1Q7Y3/, https://www.bilibili.com/video/BV1SexQz3Ewt/, http://www.bilibili.com/video/av113464345365155, http://www.bilibili.com/video/av116369186095193, http://www.bilibili.com/video/av904370981, http://www.bilibili.com/video/av3169983, http://www.bilibili.com/video/av583586328, http://www.bilibili.com/video/av115332538699852",
-          "uid": "BV1p1mmYeE5G,BV1FCD7ByEUq,BV1rP4y1q7pv,BV1fs411R7Bd,BV1Cz4y1Q7Y3,BV1SexQz3Ewt",
-          "sample": "小人退散，背刺我的人全替我挡灾"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1ZcGi6aEzj/, https://www.bilibili.com/video/BV1XhXSBfEmb/, https://www.bilibili.com/video/BV113WszsEUD/, https://www.bilibili.com/video/BV1h3aqzpE7G/, https://www.bilibili.com/video/BV13H6QBhEH8/, https://www.bilibili.com/video/BV15RG76kErc/, http://www.bilibili.com/video/av116623243675407, http://www.bilibili.com/video/av116311489251943, http://www.bilibili.com/video/av115393708426476, http://www.bilibili.com/video/av115156512212645, http://www.bilibili.com/video/av115871942973232, http://www.bilibili.com/video/av116627957876538",
-          "uid": "BV1ZcGi6aEzj,BV1XhXSBfEmb,BV113WszsEUD,BV1h3aqzpE7G,BV13H6QBhEH8,BV15RG76kErc",
-          "sample": "合着背刺是背刺以前的自己[笑哭]这期又塌房了[蔚蓝档案静态_叹气]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1ZcGi6aEzj/, https://www.bilibili.com/video/BV1XhXSBfEmb/, https://www.bilibili.com/video/BV113WszsEUD/, https://www.bilibili.com/video/BV1h3aqzpE7G/, https://www.bilibili.com/video/BV13H6QBhEH8/, https://www.bilibili.com/video/BV15RG76kErc/, http://www.bilibili.com/video/av116623243675407, http://www.bilibili.com/video/av116311489251943, http://www.bilibili.com/video/av115393708426476, http://www.bilibili.com/video/av115156512212645, http://www.bilibili.com/video/av115871942973232, http://www.bilibili.com/video/av116627957876538",
-          "uid": "BV1ZcGi6aEzj,BV1XhXSBfEmb,BV113WszsEUD,BV1h3aqzpE7G,BV13H6QBhEH8,BV15RG76kErc",
-          "sample": "背刺的就应该往死里打 全服务器通缉 给他们打退出服务器"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1JR5i6GE9s/, https://www.bilibili.com/video/BV1PdLA64EQo/, https://www.bilibili.com/video/BV1LV5C6WEfc/, https://www.bilibili.com/video/BV1zLGd6XEBF/, https://www.bilibili.com/video/BV1bn23BhEqQ/, https://www.bilibili.com/video/BV1vAL862EMj/, http://www.bilibili.com/video/av116579001960263, http://www.bilibili.com/video/av116596215455600, http://www.bilibili.com/video/av116565999618164, http://www.bilibili.com/video/av116634232559417, http://www.bilibili.com/video/av115507810273025, http://www.bilibili.com/video/av116611667202459",
-          "uid": "BV1JR5i6GE9s,BV1PdLA64EQo,BV1LV5C6WEfc,BV1zLGd6XEBF,BV1bn23BhEqQ,BV1vAL862EMj",
-          "sample": "高情商：没背刺[doge]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Rf421v7jy/, https://www.bilibili.com/video/BV1xr421t7uE/, https://www.bilibili.com/video/BV1EM411L7DR/, https://www.bilibili.com/video/BV12x411o7kG/, https://www.bilibili.com/video/BV1WD4y1g75n/, https://www.bilibili.com/video/BV1YuGs64E8B/, http://www.bilibili.com/video/av1206419556, http://www.bilibili.com/video/av1402685731, http://www.bilibili.com/video/av527592820, http://www.bilibili.com/video/av56777225, http://www.bilibili.com/video/av737916583, http://www.bilibili.com/video/av116632722672268",
-          "uid": "BV1Rf421v7jy,BV1xr421t7uE,BV1EM411L7DR,BV12x411o7kG,BV1WD4y1g75n,BV1YuGs64E8B",
-          "sample": "然后背刺，复活鸡哥心心念念的老奶奶"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1SYRNBqEZc/, https://www.bilibili.com/video/BV1ez411v78X/, https://www.bilibili.com/video/BV1qyB5BAEoa/, https://www.bilibili.com/video/BV14iNgzTEwH/, https://www.bilibili.com/video/BV1SwgKzrEqY/, https://www.bilibili.com/video/BV1rxYDzVEsM/, http://www.bilibili.com/video/av116512933350442, http://www.bilibili.com/video/av201324482, http://www.bilibili.com/video/av115773628489366, http://www.bilibili.com/video/av116193092502050, http://www.bilibili.com/video/av114869722422387, http://www.bilibili.com/video/av115064589784715",
-          "uid": "BV1SYRNBqEZc,BV1ez411v78X,BV1qyB5BAEoa,BV14iNgzTEwH,BV1SwgKzrEqY,BV1rxYDzVEsM",
-          "sample": "冷知识：阿婆主就是这被逼疯的，可以看一下他以前视频，玩盾或者打暗号老是被背刺，所以他就黑化了。没办法，手游门槛低，什么样的人都有[笑哭]"
-        }
-      ],
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "被背刺",
-      "family": "attack",
-      "meaning": "指被信任的人暗中伤害或背叛",
-      "risk": "medium",
-      "confidence": 0.82,
-      "evidenceCount": 8,
-      "evidenceSamples": [
-        "再快有苹果Air降价快？不到两个月降2千首发用户被背刺的嗷嗷叫",
-        "小人退散，背刺我的人全替我挡灾",
-        "合着背刺是背刺以前的自己[笑哭]这期又塌房了[蔚蓝档案静态_叹气]",
-        "背刺自己也是背刺[星星眼]",
-        "背刺的就应该往死里打 全服务器通缉 给他们打退出服务器"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1sTGd6FEFf/, https://www.bilibili.com/video/BV1xdG868ERF/, https://www.bilibili.com/video/BV1DMGR6zEzZ/, https://www.bilibili.com/video/BV1X2Gn6yEjr/, https://www.bilibili.com/video/BV1RyGe6WEEC/, https://www.bilibili.com/video/BV1Wtcaz7EP1/, http://www.bilibili.com/video/av116634534678930, http://www.bilibili.com/video/av116618260650709, http://www.bilibili.com/video/av116634970884883, http://www.bilibili.com/video/av116630373799335, http://www.bilibili.com/video/av116621867812033, http://www.bilibili.com/video/av116054646857363",
-          "uid": "BV1sTGd6FEFf,BV1xdG868ERF,BV1DMGR6zEzZ,BV1X2Gn6yEjr,BV1RyGe6WEEC,BV1Wtcaz7EP1",
-          "sample": "再快有苹果Air降价快？不到两个月降2千首发用户被背刺的嗷嗷叫"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1p1mmYeE5G/, https://www.bilibili.com/video/BV1FCD7ByEUq/, https://www.bilibili.com/video/BV1rP4y1q7pv/, https://www.bilibili.com/video/BV1fs411R7Bd/, https://www.bilibili.com/video/BV1Cz4y1Q7Y3/, https://www.bilibili.com/video/BV1SexQz3Ewt/, http://www.bilibili.com/video/av113464345365155, http://www.bilibili.com/video/av116369186095193, http://www.bilibili.com/video/av904370981, http://www.bilibili.com/video/av3169983, http://www.bilibili.com/video/av583586328, http://www.bilibili.com/video/av115332538699852",
-          "uid": "BV1p1mmYeE5G,BV1FCD7ByEUq,BV1rP4y1q7pv,BV1fs411R7Bd,BV1Cz4y1Q7Y3,BV1SexQz3Ewt",
-          "sample": "小人退散，背刺我的人全替我挡灾"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1ZcGi6aEzj/, https://www.bilibili.com/video/BV1XhXSBfEmb/, https://www.bilibili.com/video/BV113WszsEUD/, https://www.bilibili.com/video/BV1h3aqzpE7G/, https://www.bilibili.com/video/BV13H6QBhEH8/, https://www.bilibili.com/video/BV15RG76kErc/, http://www.bilibili.com/video/av116623243675407, http://www.bilibili.com/video/av116311489251943, http://www.bilibili.com/video/av115393708426476, http://www.bilibili.com/video/av115156512212645, http://www.bilibili.com/video/av115871942973232, http://www.bilibili.com/video/av116627957876538",
-          "uid": "BV1ZcGi6aEzj,BV1XhXSBfEmb,BV113WszsEUD,BV1h3aqzpE7G,BV13H6QBhEH8,BV15RG76kErc",
-          "sample": "合着背刺是背刺以前的自己[笑哭]这期又塌房了[蔚蓝档案静态_叹气]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1ZcGi6aEzj/, https://www.bilibili.com/video/BV1XhXSBfEmb/, https://www.bilibili.com/video/BV113WszsEUD/, https://www.bilibili.com/video/BV1h3aqzpE7G/, https://www.bilibili.com/video/BV13H6QBhEH8/, https://www.bilibili.com/video/BV15RG76kErc/, http://www.bilibili.com/video/av116623243675407, http://www.bilibili.com/video/av116311489251943, http://www.bilibili.com/video/av115393708426476, http://www.bilibili.com/video/av115156512212645, http://www.bilibili.com/video/av115871942973232, http://www.bilibili.com/video/av116627957876538",
-          "uid": "BV1ZcGi6aEzj,BV1XhXSBfEmb,BV113WszsEUD,BV1h3aqzpE7G,BV13H6QBhEH8,BV15RG76kErc",
-          "sample": "背刺自己也是背刺[星星眼]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1ZcGi6aEzj/, https://www.bilibili.com/video/BV1XhXSBfEmb/, https://www.bilibili.com/video/BV113WszsEUD/, https://www.bilibili.com/video/BV1h3aqzpE7G/, https://www.bilibili.com/video/BV13H6QBhEH8/, https://www.bilibili.com/video/BV15RG76kErc/, http://www.bilibili.com/video/av116623243675407, http://www.bilibili.com/video/av116311489251943, http://www.bilibili.com/video/av115393708426476, http://www.bilibili.com/video/av115156512212645, http://www.bilibili.com/video/av115871942973232, http://www.bilibili.com/video/av116627957876538",
-          "uid": "BV1ZcGi6aEzj,BV1XhXSBfEmb,BV113WszsEUD,BV1h3aqzpE7G,BV13H6QBhEH8,BV15RG76kErc",
-          "sample": "背刺的就应该往死里打 全服务器通缉 给他们打退出服务器"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1JR5i6GE9s/, https://www.bilibili.com/video/BV1PdLA64EQo/, https://www.bilibili.com/video/BV1LV5C6WEfc/, https://www.bilibili.com/video/BV1zLGd6XEBF/, https://www.bilibili.com/video/BV1bn23BhEqQ/, https://www.bilibili.com/video/BV1vAL862EMj/, http://www.bilibili.com/video/av116579001960263, http://www.bilibili.com/video/av116596215455600, http://www.bilibili.com/video/av116565999618164, http://www.bilibili.com/video/av116634232559417, http://www.bilibili.com/video/av115507810273025, http://www.bilibili.com/video/av116611667202459",
-          "uid": "BV1JR5i6GE9s,BV1PdLA64EQo,BV1LV5C6WEfc,BV1zLGd6XEBF,BV1bn23BhEqQ,BV1vAL862EMj",
-          "sample": "高情商：没背刺[doge]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Rf421v7jy/, https://www.bilibili.com/video/BV1xr421t7uE/, https://www.bilibili.com/video/BV1EM411L7DR/, https://www.bilibili.com/video/BV12x411o7kG/, https://www.bilibili.com/video/BV1WD4y1g75n/, https://www.bilibili.com/video/BV1YuGs64E8B/, http://www.bilibili.com/video/av1206419556, http://www.bilibili.com/video/av1402685731, http://www.bilibili.com/video/av527592820, http://www.bilibili.com/video/av56777225, http://www.bilibili.com/video/av737916583, http://www.bilibili.com/video/av116632722672268",
-          "uid": "BV1Rf421v7jy,BV1xr421t7uE,BV1EM411L7DR,BV12x411o7kG,BV1WD4y1g75n,BV1YuGs64E8B",
-          "sample": "然后背刺，复活鸡哥心心念念的老奶奶"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1SYRNBqEZc/, https://www.bilibili.com/video/BV1ez411v78X/, https://www.bilibili.com/video/BV1qyB5BAEoa/, https://www.bilibili.com/video/BV14iNgzTEwH/, https://www.bilibili.com/video/BV1SwgKzrEqY/, https://www.bilibili.com/video/BV1rxYDzVEsM/, http://www.bilibili.com/video/av116512933350442, http://www.bilibili.com/video/av201324482, http://www.bilibili.com/video/av115773628489366, http://www.bilibili.com/video/av116193092502050, http://www.bilibili.com/video/av114869722422387, http://www.bilibili.com/video/av115064589784715",
-          "uid": "BV1SYRNBqEZc,BV1ez411v78X,BV1qyB5BAEoa,BV14iNgzTEwH,BV1SwgKzrEqY,BV1rxYDzVEsM",
-          "sample": "冷知识：阿婆主就是这被逼疯的，可以看一下他以前视频，玩盾或者打暗号老是被背刺，所以他就黑化了。没办法，手游门槛低，什么样的人都有[笑哭]"
-        }
-      ],
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "被冲",
-      "family": "attack",
-      "meaning": "指被集体抨击或网暴",
-      "risk": "high",
-      "confidence": 0.85,
-      "evidenceCount": 7,
-      "evidenceSamples": [
-        "你既然以这个为噱头炒作流量就要有被冲的准备[吃瓜][吃瓜]他确实很强，但搞抽象是有后果的[doge]",
-        "还有小寒用了个紧诺千山抖音被冲烂了[喜极而泣]",
-        "那个影焰大帽打团注意站位平推局的给我看笑了[吃瓜]。梦魇，卡莎，狐狸，你打算注意站位？是要站到对面都没视野的位置吗？那你这套暴力输出装咋输出？等寒冰被冲死了再上？然后就赌对面站位犯出，自己发条拉四五个？并且这套没冷却，打团基本就看一个大，什...",
-        "胃小戴想被冲了",
-        "回复 @POLAROS北辰星 :游戏我没玩过首页刷到几个视频我看现在一直被冲的是女拳问题啊你这个视频怎么提没提"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1xdG868ERF/, https://www.bilibili.com/video/BV1RKAdzqE3x/, https://www.bilibili.com/video/BV13hc3eLEnr/, https://www.bilibili.com/video/BV1Ef5i6zEBc/, https://www.bilibili.com/video/BV1U95Y6LEKT/, https://www.bilibili.com/video/BV1LKR7ByEeD/, http://www.bilibili.com/video/av116618260650709, http://www.bilibili.com/video/av116163363346000, http://www.bilibili.com/video/av113814804630223, http://www.bilibili.com/video/av116578683198352, http://www.bilibili.com/video/av116576619601228, http://www.bilibili.com/video/av116505081617892",
-          "uid": "BV1xdG868ERF,BV1RKAdzqE3x,BV13hc3eLEnr,BV1Ef5i6zEBc,BV1U95Y6LEKT,BV1LKR7ByEeD",
-          "sample": "你既然以这个为噱头炒作流量就要有被冲的准备[吃瓜][吃瓜]他确实很强，但搞抽象是有后果的[doge]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1JJpNzsEtD/, https://www.bilibili.com/video/BV1kMGH68Eu3/, https://www.bilibili.com/video/BV1nSGH6aEGU/, https://www.bilibili.com/video/BV1GK411f7DU/, https://www.bilibili.com/video/BV1564y1T7zT/, https://www.bilibili.com/video/BV1RQ5T6DEde/, http://www.bilibili.com/video/av115205786898000, http://www.bilibili.com/video/av472764314, http://www.bilibili.com/video/av116560630907170, http://www.bilibili.com/video/av89291628, http://www.bilibili.com/video/av114539999797078, http://www.bilibili.com/video/av116315532631440, http://www.bilibili.com/video/av115008939753693, http://www.bilibili.com/video/av113401934126986, http://www.bilibili.com/video/av114657289307490, http://www.bilibili.com/video/av116491357853462, http://www.bilibili.com/video/av115145355298724, http://www.bilibili.com/video/av114205562772155, http://www.bilibili.com/video/av560904716, http://www.bilibili.com/video/av114880728273781, http://www.bilibili.com/video/av1251847697, http://www.bilibili.com/video/av115135557468459, http://www.bilibili.com/video/av368578366, http://www.bilibili.com/video/av114713425875055, http://www.bilibili.com/video/av116400442051765, http://www.bilibili.com/video/av114573738843794, http://www.bilibili.com/video/av114651350241934, http://www.bilibili.com/video/av873526879, http://www.bilibili.com/video/av116630206026842, http://www.bilibili.com/video/av581145688, http://www.bilibili.com/video/av116029229367325, http://www.bilibili.com/video/av613711871, http://www.bilibili.com/video/av116551336335411, http://www.bilibili.com/video/av115247729873603, http://www.bilibili.com/video/av116619116286309, http://www.bilibili.com/video/av114589157039572, http://www.bilibili.com/video/av116584672657833, http://www.bilibili.com/video/av116626145936932, http://www.bilibili.com/video/av116530247371914, http://www.bilibili.com/video/av115315174281372, http://www.bilibili.com/video/av116627186123326, http://www.bilibili.com/video/av116635641846550, http://www.bilibili.com/video/av116633980965279, http://www.bilibili.com/video/av116634903647662, http://www.bilibili.com/video/av116629618886876, http://www.bilibili.com/video/av113236326221758, http://www.bilibili.com/video/av115432665252135, http://www.bilibili.com/video/av116634719094602, http://www.bilibili.com/video/av116630021474548, http://www.bilibili.com/video/av114048427361148, http://www.bilibili.com/video/av923916352, http://www.bilibili.com/video/av114568537838365, http://www.bilibili.com/video/av115453670265935",
-          "uid": "BV1JJpNzsEtD,BV1kMGH68Eu3,BV1nSGH6aEGU,BV1GK411f7DU,BV1564y1T7zT,BV1RQ5T6DEde",
-          "sample": "还有小寒用了个紧诺千山抖音被冲烂了[喜极而泣]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1ho47zHENi/, https://www.bilibili.com/video/BV1LZGgzqE8Q/, https://www.bilibili.com/video/BV1eXy3YGEAN/, https://www.bilibili.com/video/BV1zL1sBEEdb/, https://www.bilibili.com/video/BV17SfZB3EPZ/, https://www.bilibili.com/video/BV1AGKWeyEkr/, http://www.bilibili.com/video/av115348091182734, http://www.bilibili.com/video/av113326302433244, http://www.bilibili.com/video/av113996820650349, http://www.bilibili.com/video/av114531393148085, http://www.bilibili.com/video/av116591685535193, http://www.bilibili.com/video/av115044272706520, http://www.bilibili.com/video/av113198376227282, http://www.bilibili.com/video/av115768679274004, http://www.bilibili.com/video/av115028686540160, http://www.bilibili.com/video/av113928990360449, http://www.bilibili.com/video/av115117974887550, http://www.bilibili.com/video/av115083397039787, http://www.bilibili.com/video/av405653376, http://www.bilibili.com/video/av114827192178075, http://www.bilibili.com/video/av115496603158059, http://www.bilibili.com/video/av422201139, http://www.bilibili.com/video/av116013274235943, http://www.bilibili.com/video/av1506449796, http://www.bilibili.com/video/av115531466150099, http://www.bilibili.com/video/av116296356204538, http://www.bilibili.com/video/av982187498, http://www.bilibili.com/video/av524095630, http://www.bilibili.com/video/av116635440514637, http://www.bilibili.com/video/av116635641846550, http://www.bilibili.com/video/av116622052296207, http://www.bilibili.com/video/av116633980965279, http://www.bilibili.com/video/av116611163887028, http://www.bilibili.com/video/av1003951660, http://www.bilibili.com/video/av116255705011461, http://www.bilibili.com/video/av116518603981352, http://www.bilibili.com/video/av116601147884063, http://www.bilibili.com/video/av116499696190190, http://www.bilibili.com/video/av113507630586039, http://www.bilibili.com/video/av115174665224347, http://www.bilibili.com/video/av116526237617096",
-          "uid": "BV1ho47zHENi,BV1LZGgzqE8Q,BV1eXy3YGEAN,BV1zL1sBEEdb,BV17SfZB3EPZ,BV1AGKWeyEkr",
-          "sample": "那个影焰大帽打团注意站位平推局的给我看笑了[吃瓜]。梦魇，卡莎，狐狸，你打算注意站位？是要站到对面都没视野的位置吗？那你这套暴力输出装咋输出？等寒冰被冲死了再上？然后就赌对面站位犯出，自己发条拉四五个？并且这套没冷却，打团基本就看一个大，什..."
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Ub411j743/, https://www.bilibili.com/video/BV1s8Vh6cEnM/, https://www.bilibili.com/video/BV1i7PjegEdx/, https://www.bilibili.com/video/BV1YeVa6jEHJ/, https://www.bilibili.com/video/BV1HXAwziEYW/, https://www.bilibili.com/video/BV1Xf42117c1/, https://www.bilibili.com/video/BV1QBLc6FEJ1/, https://www.bilibili.com/video/BV1QjGB6FEXi/, https://www.bilibili.com/video/BV19o9wB8EE8/, https://www.bilibili.com/video/BV1L4V865EF2/, https://www.bilibili.com/video/BV1EFVh6DE8A/, https://www.bilibili.com/video/BV1f6ERzEEDC/, http://www.bilibili.com/video/av46945296, http://www.bilibili.com/video/av114069180782522, http://www.bilibili.com/video/av1204697209, http://www.bilibili.com/video/av116335883327458, http://www.bilibili.com/video/av114533909665011, http://www.bilibili.com/video/av116301808798814, http://www.bilibili.com/video/av116323182973250, http://www.bilibili.com/video/av116657133524659, http://www.bilibili.com/video/av116658509191902, http://www.bilibili.com/video/av116593497480041, http://www.bilibili.com/video/av116657485912610, http://www.bilibili.com/video/av115390470558395, http://www.bilibili.com/video/av116624183199874, http://www.bilibili.com/video/av116622488507536, http://www.bilibili.com/video/av116628796741866, http://www.bilibili.com/video/av116658928622359, http://www.bilibili.com/video/av116285333573703, http://www.bilibili.com/video/av116395861876194, http://www.bilibili.com/video/av116164470709552, http://www.bilibili.com/video/av113489762850369, http://www.bilibili.com/video/av1804922680, http://www.bilibili.com/video/av468462356, http://www.bilibili.com/video/av690430730, http://www.bilibili.com/video/av227712466, http://www.bilibili.com/video/av1054551351, http://www.bilibili.com/video/av116385778767625, http://www.bilibili.com/video/av788958981, http://www.bilibili.com/video/av114658430227814, http://www.bilibili.com/video/av116553970484579, http://www.bilibili.com/video/av606530212, http://www.bilibili.com/video/av116639567708855, http://www.bilibili.com/video/av116652519725974, http://www.bilibili.com/video/av116659197057033, http://www.bilibili.com/video/av116660807668057, http://www.bilibili.com/video/av116652955929269, http://www.bilibili.com/video/av116657435447223, http://www.bilibili.com/video/av115835066646811, http://www.bilibili.com/video/av116657116878563, http://www.bilibili.com/video/av116658240820861, http://www.bilibili.com/video/av116658123315999, http://www.bilibili.com/video/av116657301292207, http://www.bilibili.com/video/av116624199845088, http://www.bilibili.com/video/av116633494423385, http://www.bilibili.com/video/av116651026551962, http://www.bilibili.com/video/av116657032860118, http://www.bilibili.com/video/av116515466643255, http://www.bilibili.com/video/av1053418493, http://www.bilibili.com/video/av411057792, http://www.bilibili.com/video/av81891298, http://www.bilibili.com/video/av951683372, http://www.bilibili.com/video/av116651244657302, http://www.bilibili.com/video/av116599956707503, http://www.bilibili.com/video/av116585612185875, http://www.bilibili.com/video/av116376484185121, http://www.bilibili.com/video/av116265972730664, http://www.bilibili.com/video/av116657452226206, http://www.bilibili.com/video/av116260016883480, http://www.bilibili.com/video/av115599380323272, http://www.bilibili.com/video/av116487952012798, http://www.bilibili.com/video/av116641731975684, http://www.bilibili.com/video/av116642084291218",
-          "uid": "BV1Ub411j743,BV1s8Vh6cEnM,BV1i7PjegEdx,BV1YeVa6jEHJ,BV1HXAwziEYW,BV1Xf42117c1,BV1QBLc6FEJ1,BV1QjGB6FEXi,BV19o9wB8EE8,BV1L4V865EF2,BV1EFVh6DE8A,BV1f6ERzEEDC",
-          "sample": "胃小戴想被冲了"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1i7PjegEdx/, https://www.bilibili.com/video/BV1s8Vh6cEnM/, https://www.bilibili.com/video/BV1QML3z6Ehp/, https://www.bilibili.com/video/BV1Xf42117c1/, https://www.bilibili.com/video/BV1YeVa6jEHJ/, https://www.bilibili.com/video/BV1FewSzcE6D/, https://www.bilibili.com/video/BV19o9wB8EE8/, https://www.bilibili.com/video/BV1QBLc6FEJ1/, https://www.bilibili.com/video/BV1kFVW6qENb/, https://www.bilibili.com/video/BV1f6ERzEEDC/, https://www.bilibili.com/video/BV1L4V865EF2/, https://www.bilibili.com/video/BV1YrVw6FEFy/, http://www.bilibili.com/video/av114069180782522, http://www.bilibili.com/video/av1204697209, http://www.bilibili.com/video/av116335883327458, http://www.bilibili.com/video/av114533909665011, http://www.bilibili.com/video/av116301808798814, http://www.bilibili.com/video/av116323182973250, http://www.bilibili.com/video/av116657133524659, http://www.bilibili.com/video/av116658509191902, http://www.bilibili.com/video/av116593497480041, http://www.bilibili.com/video/av116657485912610, http://www.bilibili.com/video/av115390470558395, http://www.bilibili.com/video/av116624183199874, http://www.bilibili.com/video/av116622488507536, http://www.bilibili.com/video/av116628796741866, http://www.bilibili.com/video/av116658928622359, http://www.bilibili.com/video/av116285333573703, http://www.bilibili.com/video/av116395861876194, http://www.bilibili.com/video/av116164470709552, http://www.bilibili.com/video/av113489762850369, http://www.bilibili.com/video/av1804922680, http://www.bilibili.com/video/av468462356, http://www.bilibili.com/video/av690430730, http://www.bilibili.com/video/av227712466, http://www.bilibili.com/video/av1054551351, http://www.bilibili.com/video/av116385778767625, http://www.bilibili.com/video/av788958981, http://www.bilibili.com/video/av114658430227814, http://www.bilibili.com/video/av116553970484579, http://www.bilibili.com/video/av606530212, http://www.bilibili.com/video/av116639567708855, http://www.bilibili.com/video/av116652519725974, http://www.bilibili.com/video/av116660807668057, http://www.bilibili.com/video/av116659197057033, http://www.bilibili.com/video/av116652955929269, http://www.bilibili.com/video/av116657435447223, http://www.bilibili.com/video/av115835066646811, http://www.bilibili.com/video/av116658240820861, http://www.bilibili.com/video/av116657116878563, http://www.bilibili.com/video/av116658123315999, http://www.bilibili.com/video/av116657301292207, http://www.bilibili.com/video/av116659448847224, http://www.bilibili.com/video/av116633494423385, http://www.bilibili.com/video/av116651026551962, http://www.bilibili.com/video/av116657032860118, http://www.bilibili.com/video/av116515466643255, http://www.bilibili.com/video/av1053418493, http://www.bilibili.com/video/av411057792, http://www.bilibili.com/video/av81891298, http://www.bilibili.com/video/av951683372, http://www.bilibili.com/video/av116651244657302, http://www.bilibili.com/video/av116599956707503, http://www.bilibili.com/video/av116585612185875, http://www.bilibili.com/video/av116376484185121, http://www.bilibili.com/video/av114392830051833, http://www.bilibili.com/video/av116241914134884, http://www.bilibili.com/video/av116653392141081, http://www.bilibili.com/video/av116638879849456, http://www.bilibili.com/video/av116548836591090, http://www.bilibili.com/video/av114850361580922, http://www.bilibili.com/video/av113481676297375, http://www.bilibili.com/video/av114148771890539, http://www.bilibili.com/video/av64378828, http://www.bilibili.com/video/av1403310489, http://www.bilibili.com/video/av116511758879583, http://www.bilibili.com/video/av970086195",
-          "uid": "BV1i7PjegEdx,BV1s8Vh6cEnM,BV1QML3z6Ehp,BV1Xf42117c1,BV1YeVa6jEHJ,BV1FewSzcE6D,BV19o9wB8EE8,BV1QBLc6FEJ1,BV1kFVW6qENb,BV1f6ERzEEDC,BV1L4V865EF2,BV1YrVw6FEFy",
-          "sample": "胃小戴想被冲了"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1AS42197Zf/, https://www.bilibili.com/video/BV1VAV46AEkh/, https://www.bilibili.com/video/BV163V86WEfP/, https://www.bilibili.com/video/BV18r421n7jP/, https://www.bilibili.com/video/BV1R9GJzcEgZ/, https://www.bilibili.com/video/BV1pxV467EPC/, https://www.bilibili.com/video/BV1n8Vb6pE9e/, https://www.bilibili.com/video/BV1ajA6eNEmk/, https://www.bilibili.com/video/BV1aFVe6EEVB/, https://www.bilibili.com/video/BV1Wmo7BYEE5/, https://www.bilibili.com/video/BV1UzbQzUEd7/, https://www.bilibili.com/video/BV1kWVP6JEV5/, http://www.bilibili.com/video/av1506380494, http://www.bilibili.com/video/av1401825315, http://www.bilibili.com/video/av114816974852067, http://www.bilibili.com/video/av114029955648642, http://www.bilibili.com/video/av114913259360314, http://www.bilibili.com/video/av115265413054501, http://www.bilibili.com/video/av116497699774129, http://www.bilibili.com/video/av115666438916809, http://www.bilibili.com/video/av488638778, http://www.bilibili.com/video/av116064260196085, http://www.bilibili.com/video/av114922117666617, http://www.bilibili.com/video/av112943681310075, http://www.bilibili.com/video/av116290450687626, http://www.bilibili.com/video/av114968439557198, http://www.bilibili.com/video/av602257454, http://www.bilibili.com/video/av115311265189777, http://www.bilibili.com/video/av1753023415, http://www.bilibili.com/video/av116123030790044, http://www.bilibili.com/video/av115666489187778, http://www.bilibili.com/video/av113108198625256, http://www.bilibili.com/video/av116241897362660, http://www.bilibili.com/video/av113486541686373, http://www.bilibili.com/video/av112869274291875, http://www.bilibili.com/video/av959820524, http://www.bilibili.com/video/av113531571673702, http://www.bilibili.com/video/av113261492113440, http://www.bilibili.com/video/av526855719, http://www.bilibili.com/video/av113090330952702, http://www.bilibili.com/video/av359110503, http://www.bilibili.com/video/av277372846, http://www.bilibili.com/video/av114705809022820, http://www.bilibili.com/video/av115711435346995, http://www.bilibili.com/video/av115090208590432, http://www.bilibili.com/video/av113522025438121, http://www.bilibili.com/video/av116655422182463, http://www.bilibili.com/video/av116655841610313, http://www.bilibili.com/video/av116655506135225, http://www.bilibili.com/video/av116659448847224, http://www.bilibili.com/video/av116639567708855, http://www.bilibili.com/video/av116652117133220, http://www.bilibili.com/video/av116659197057033, http://www.bilibili.com/video/av116576971917841, http://www.bilibili.com/video/av116652435835063, http://www.bilibili.com/video/av116648040208572, http://www.bilibili.com/video/av116624199845088, http://www.bilibili.com/video/av116658123315999, http://www.bilibili.com/video/av116652519725974, http://www.bilibili.com/video/av116655841614361, http://www.bilibili.com/video/av116661243875304, http://www.bilibili.com/video/av116655724235467, http://www.bilibili.com/video/av116649315276079, http://www.bilibili.com/video/av116655959116770, http://www.bilibili.com/video/av116460772917957, http://www.bilibili.com/video/av116661344535748, http://www.bilibili.com/video/av113121956007778, http://www.bilibili.com/video/av116645741724352, http://www.bilibili.com/video/av114862323670733, http://www.bilibili.com/video/av116463474054406, http://www.bilibili.com/video/av114801657251962, http://www.bilibili.com/video/av116656294594239, http://www.bilibili.com/video/av115976515355784, http://www.bilibili.com/video/av116658123311322, http://www.bilibili.com/video/av116657167008902, http://www.bilibili.com/video/av116652251284595, http://www.bilibili.com/video/av116657351563517, http://www.bilibili.com/video/av116655589950678, http://www.bilibili.com/video/av116638712074695, http://www.bilibili.com/video/av116655589951679",
-          "uid": "BV1AS42197Zf,BV1VAV46AEkh,BV163V86WEfP,BV18r421n7jP,BV1R9GJzcEgZ,BV1pxV467EPC,BV1n8Vb6pE9e,BV1ajA6eNEmk,BV1aFVe6EEVB,BV1Wmo7BYEE5,BV1UzbQzUEd7,BV1kWVP6JEV5",
-          "sample": "回复 @POLAROS北辰星 :游戏我没玩过首页刷到几个视频我看现在一直被冲的是女拳问题啊你这个视频怎么提没提"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV14a4y1G7VX/, https://www.bilibili.com/video/BV1Ly4y1R7PN/, https://www.bilibili.com/video/BV1bi421v7ck/, https://www.bilibili.com/video/BV1d9QcBdEcj/, https://www.bilibili.com/video/BV1aDVM67Ehf/, https://www.bilibili.com/video/BV1BrVg6wEof/, https://www.bilibili.com/video/BV1zS4y1A7WX/, https://www.bilibili.com/video/BV1cxV467Epg/, https://www.bilibili.com/video/BV1aFVe6EEVB/, https://www.bilibili.com/video/BV1f2oeBMEkG/, https://www.bilibili.com/video/BV1R8GU6FENd/, https://www.bilibili.com/video/BV1HC4y1A7f4/, http://www.bilibili.com/video/av655730214, http://www.bilibili.com/video/av116380225575657, http://www.bilibili.com/video/av683372866, http://www.bilibili.com/video/av116471762061201, http://www.bilibili.com/video/av116397673878812, http://www.bilibili.com/video/av116408998498758, http://www.bilibili.com/video/av116437100272164, http://www.bilibili.com/video/av115750929044351, http://www.bilibili.com/video/av116623058934464, http://www.bilibili.com/video/av116513000391416, http://www.bilibili.com/video/av113209281351850, http://www.bilibili.com/video/av116622454954734, http://www.bilibili.com/video/av1906483079, http://www.bilibili.com/video/av115183305426332, http://www.bilibili.com/video/av116256342543576, http://www.bilibili.com/video/av115450012768475, http://www.bilibili.com/video/av114280120783799, http://www.bilibili.com/video/av115508347212991, http://www.bilibili.com/video/av114205562772155, http://www.bilibili.com/video/av116311757689958, http://www.bilibili.com/video/av236644036, http://www.bilibili.com/video/av114481212427085, http://www.bilibili.com/video/av114039837430900, http://www.bilibili.com/video/av791607701, http://www.bilibili.com/video/av114013161652857, http://www.bilibili.com/video/av113329506880860, http://www.bilibili.com/video/av1056149256, http://www.bilibili.com/video/av113152826019813, http://www.bilibili.com/video/av115322606587100, http://www.bilibili.com/video/av113610542088669, http://www.bilibili.com/video/av114376572936189, http://www.bilibili.com/video/av112945778393684, http://www.bilibili.com/video/av114426216717970, http://www.bilibili.com/video/av116167070979083, http://www.bilibili.com/video/av114583419231117, http://www.bilibili.com/video/av778553786, http://www.bilibili.com/video/av116660606339074, http://www.bilibili.com/video/av116655506065593, http://www.bilibili.com/video/av116647536889767, http://www.bilibili.com/video/av116653073371407, http://www.bilibili.com/video/av116645406251151, http://www.bilibili.com/video/av114463764124377, http://www.bilibili.com/video/av529627574, http://www.bilibili.com/video/av116281709762751, http://www.bilibili.com/video/av116655925498183, http://www.bilibili.com/video/av116645154523990, http://www.bilibili.com/video/av116424181811757, http://www.bilibili.com/video/av116641144773513, http://www.bilibili.com/video/av116659448847224, http://www.bilibili.com/video/av116530247371914, http://www.bilibili.com/video/av379768445, http://www.bilibili.com/video/av113623779251436, http://www.bilibili.com/video/av680679130, http://www.bilibili.com/video/av747007480, http://www.bilibili.com/video/av116426161588214, http://www.bilibili.com/video/av114278141005430, http://www.bilibili.com/video/av114390347027930, http://www.bilibili.com/video/av116657334848375, http://www.bilibili.com/video/av116633410472134, http://www.bilibili.com/video/av1952228664, http://www.bilibili.com/video/av116655841610313, http://www.bilibili.com/video/av116639567708855, http://www.bilibili.com/video/av116532763958721, http://www.bilibili.com/video/av116659197057033, http://www.bilibili.com/video/av116655506135225, http://www.bilibili.com/video/av116660807668057, http://www.bilibili.com/video/av116385141228607, http://www.bilibili.com/video/av116658240820861, http://www.bilibili.com/video/av115411894934970, http://www.bilibili.com/video/av116661042549025, http://www.bilibili.com/video/av116579706607299, http://www.bilibili.com/video/av116651026551962, http://www.bilibili.com/video/av411057792, http://www.bilibili.com/video/av116633494423385, http://www.bilibili.com/video/av951683372, http://www.bilibili.com/video/av116646614145909, http://www.bilibili.com/video/av116376484185121, http://www.bilibili.com/video/av116654449100534, http://www.bilibili.com/video/av116613395253133, http://www.bilibili.com/video/av114331324912237, http://www.bilibili.com/video/av112966095733779, http://www.bilibili.com/video/av116660740758026, http://www.bilibili.com/video/av1455484328, http://www.bilibili.com/video/av116661277428328, http://www.bilibili.com/video/av749083563, http://www.bilibili.com/video/av116555799076751, http://www.bilibili.com/video/av751910106, http://www.bilibili.com/video/av116627219679318, http://www.bilibili.com/video/av116516523611646, http://www.bilibili.com/video/av116661562643595, http://www.bilibili.com/video/av116572693797032, http://www.bilibili.com/video/av116600527128336, http://www.bilibili.com/video/av116661159986421",
-          "uid": "BV14a4y1G7VX,BV1Ly4y1R7PN,BV1bi421v7ck,BV1d9QcBdEcj,BV1aDVM67Ehf,BV1BrVg6wEof,BV1zS4y1A7WX,BV1cxV467Epg,BV1aFVe6EEVB,BV1f2oeBMEkG,BV1R8GU6FENd,BV1HC4y1A7f4",
-          "sample": "是啊，就奇了怪了，一个都还没落地就被冲没了的活动，怎么可能会有所谓的线下图片[笑哭]，很多玩家都还不知道有联动这回事，就直接看到联动取消的公告了，线上联动宣传图也是和谐过之后的，线下也是要展示UID才能买的，我真的感觉尘白已经很谨慎了，可惜..."
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1z84y1R7Jw/, https://www.bilibili.com/video/BV1B8Vw6qEWV/, https://www.bilibili.com/video/BV1b7Vh6uEBm/, https://www.bilibili.com/video/BV1mtUKYZEPG/, https://www.bilibili.com/video/BV1ZzVb6LEUh/, https://www.bilibili.com/video/BV1a1ksYqEw1/, https://www.bilibili.com/video/BV1Pu4y127qx/, https://www.bilibili.com/video/BV1eBGX63ER7/, https://www.bilibili.com/video/BV1sy7VzrER2/, https://www.bilibili.com/video/BV1du4y157xS/, https://www.bilibili.com/video/BV1BEV86UES1/, https://www.bilibili.com/video/BV1HrLP6REVR/, http://www.bilibili.com/video/av620170491, http://www.bilibili.com/video/av113476005530759, http://www.bilibili.com/video/av828924434, http://www.bilibili.com/video/av918961737, http://www.bilibili.com/video/av114036330992308, http://www.bilibili.com/video/av114689367351211, http://www.bilibili.com/video/av114030878396585, http://www.bilibili.com/video/av115508347212991, http://www.bilibili.com/video/av113283017213513, http://www.bilibili.com/video/av112833958250564, http://www.bilibili.com/video/av115475732236918, http://www.bilibili.com/video/av114878765338726, http://www.bilibili.com/video/av400583019, http://www.bilibili.com/video/av116299459992367, http://www.bilibili.com/video/av114291596334107, http://www.bilibili.com/video/av115660399319085, http://www.bilibili.com/video/av113863961876567, http://www.bilibili.com/video/av115301131754498, http://www.bilibili.com/video/av114262018165453, http://www.bilibili.com/video/av785503104, http://www.bilibili.com/video/av116193662868372, http://www.bilibili.com/video/av113484327027604, http://www.bilibili.com/video/av115512239521917, http://www.bilibili.com/video/av115996077655967, http://www.bilibili.com/video/av332441318, http://www.bilibili.com/video/av1401596773, http://www.bilibili.com/video/av115252964362911, http://www.bilibili.com/video/av116638728853308, http://www.bilibili.com/video/av116655925498183, http://www.bilibili.com/video/av116651194452676, http://www.bilibili.com/video/av116657569666371, http://www.bilibili.com/video/av116658676964022, http://www.bilibili.com/video/av116652117072732, http://www.bilibili.com/video/av116651596974908, http://www.bilibili.com/video/av116656093338595, http://www.bilibili.com/video/av116629753038465, http://www.bilibili.com/video/av808303311, http://www.bilibili.com/video/av116656663698380, http://www.bilibili.com/video/av116536790482964, http://www.bilibili.com/video/av116659448847224, http://www.bilibili.com/video/av116659197057033, http://www.bilibili.com/video/av116652955929269, http://www.bilibili.com/video/av116655841610313, http://www.bilibili.com/video/av116644684763638, http://www.bilibili.com/video/av114980636592964, http://www.bilibili.com/video/av116639567708855, http://www.bilibili.com/video/av116619116286309, http://www.bilibili.com/video/av115783728365676, http://www.bilibili.com/video/av113541554504421, http://www.bilibili.com/video/av116652251285520, http://www.bilibili.com/video/av116661243875304, http://www.bilibili.com/video/av116652435835063, http://www.bilibili.com/video/av116660807668057, http://www.bilibili.com/video/av116658123315999, http://www.bilibili.com/video/av116658005875458, http://www.bilibili.com/video/av115835066646811, http://www.bilibili.com/video/av115728799765928, http://www.bilibili.com/video/av116515466643255, http://www.bilibili.com/video/av116579706607299, http://www.bilibili.com/video/av116613395253133, http://www.bilibili.com/video/av116651026551962, http://www.bilibili.com/video/av114331324912237, http://www.bilibili.com/video/av116646614145909, http://www.bilibili.com/video/av116606516661188, http://www.bilibili.com/video/av116231042501704, http://www.bilibili.com/video/av115733195397054, http://www.bilibili.com/video/av116633494423385, http://www.bilibili.com/video/av115744570479457, http://www.bilibili.com/video/av116656999304099, http://www.bilibili.com/video/av113688119869767, http://www.bilibili.com/video/av114589861682948, http://www.bilibili.com/video/av116595510740856, http://www.bilibili.com/video/av116494176426507, http://www.bilibili.com/video/av115413438504568, http://www.bilibili.com/video/av116647872436243, http://www.bilibili.com/video/av754067030, http://www.bilibili.com/video/av113638845256164, http://www.bilibili.com/video/av113679831931595, http://www.bilibili.com/video/av116115078451389, http://www.bilibili.com/video/av116454447909380",
-          "uid": "BV1z84y1R7Jw,BV1B8Vw6qEWV,BV1b7Vh6uEBm,BV1mtUKYZEPG,BV1ZzVb6LEUh,BV1a1ksYqEw1,BV1Pu4y127qx,BV1eBGX63ER7,BV1sy7VzrER2,BV1du4y157xS,BV1BEV86UES1,BV1HrLP6REVR",
-          "sample": "鸭子被冲走了好搞笑"
-        }
-      ],
-      "updatedAt": "2026-06-02T12:06:09.853Z"
-    },
-    {
-      "term": "被创飞",
-      "family": "attack",
-      "meaning": "表示被剧情或内容强烈冲击，带有负面吐槽意味",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 5,
-      "evidenceSamples": [
-        "这事情吧，男女主谁也没对不起谁，就是观众被创飞了。",
-        "最近不管是看电视的还是看网剧的都在被创飞",
-        "什么逆天言论？？？主角厨都要被创飞了",
-        "回复 @当湖栖霜 :这哪是车啊[笑哭]等下玩不起了就当场酷酷卡卡变成隧者给场上全创飞",
-        "一个动作创飞韩娱妹"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1n3411t76S/, https://www.bilibili.com/video/BV1VT411U7ZR/, https://www.bilibili.com/video/BV14g411K7r7/, https://www.bilibili.com/video/BV1khnGzGED4/, https://www.bilibili.com/video/BV1Bc411K74P/, https://www.bilibili.com/video/BV1Yw4m1S7Np/, http://www.bilibili.com/video/av422295141, http://www.bilibili.com/video/av482096474, http://www.bilibili.com/video/av271041479, http://www.bilibili.com/video/av506551170, http://www.bilibili.com/video/av511348527, http://www.bilibili.com/video/av217902985, http://www.bilibili.com/video/av115008939753693, http://www.bilibili.com/video/av116491357853462, http://www.bilibili.com/video/av113002737042144, http://www.bilibili.com/video/av116491106194700, http://www.bilibili.com/video/av670621558, http://www.bilibili.com/video/av346195198, http://www.bilibili.com/video/av473394642, http://www.bilibili.com/video/av90352608, http://www.bilibili.com/video/av115853672585471, http://www.bilibili.com/video/av854820821, http://www.bilibili.com/video/av512721103, http://www.bilibili.com/video/av13605745, http://www.bilibili.com/video/av951210580, http://www.bilibili.com/video/av687232154, http://www.bilibili.com/video/av601924190, http://www.bilibili.com/video/av115270764987875, http://www.bilibili.com/video/av1105143619, http://www.bilibili.com/video/av576833746, http://www.bilibili.com/video/av512073817, http://www.bilibili.com/video/av114489584262643, http://www.bilibili.com/video/av115465229697469, http://www.bilibili.com/video/av114979848132573, http://www.bilibili.com/video/av115733195397054, http://www.bilibili.com/video/av114838634303333, http://www.bilibili.com/video/av116633829904147, http://www.bilibili.com/video/av425176015, http://www.bilibili.com/video/av116457887307823",
-          "uid": "BV1n3411t76S,BV1VT411U7ZR,BV14g411K7r7,BV1khnGzGED4,BV1Bc411K74P,BV1Yw4m1S7Np",
-          "sample": "这事情吧，男女主谁也没对不起谁，就是观众被创飞了。"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1n3411t76S/, https://www.bilibili.com/video/BV1VT411U7ZR/, https://www.bilibili.com/video/BV14g411K7r7/, https://www.bilibili.com/video/BV1khnGzGED4/, https://www.bilibili.com/video/BV1Bc411K74P/, https://www.bilibili.com/video/BV1Yw4m1S7Np/, http://www.bilibili.com/video/av422295141, http://www.bilibili.com/video/av482096474, http://www.bilibili.com/video/av271041479, http://www.bilibili.com/video/av506551170, http://www.bilibili.com/video/av511348527, http://www.bilibili.com/video/av217902985, http://www.bilibili.com/video/av115008939753693, http://www.bilibili.com/video/av116491357853462, http://www.bilibili.com/video/av113002737042144, http://www.bilibili.com/video/av116491106194700, http://www.bilibili.com/video/av670621558, http://www.bilibili.com/video/av346195198, http://www.bilibili.com/video/av473394642, http://www.bilibili.com/video/av90352608, http://www.bilibili.com/video/av115853672585471, http://www.bilibili.com/video/av854820821, http://www.bilibili.com/video/av512721103, http://www.bilibili.com/video/av13605745, http://www.bilibili.com/video/av951210580, http://www.bilibili.com/video/av687232154, http://www.bilibili.com/video/av601924190, http://www.bilibili.com/video/av115270764987875, http://www.bilibili.com/video/av1105143619, http://www.bilibili.com/video/av576833746, http://www.bilibili.com/video/av512073817, http://www.bilibili.com/video/av114489584262643, http://www.bilibili.com/video/av115465229697469, http://www.bilibili.com/video/av114979848132573, http://www.bilibili.com/video/av115733195397054, http://www.bilibili.com/video/av114838634303333, http://www.bilibili.com/video/av116633829904147, http://www.bilibili.com/video/av425176015, http://www.bilibili.com/video/av116457887307823",
-          "uid": "BV1n3411t76S,BV1VT411U7ZR,BV14g411K7r7,BV1khnGzGED4,BV1Bc411K74P,BV1Yw4m1S7Np",
-          "sample": "最近不管是看电视的还是看网剧的都在被创飞"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1AS42197Zf/, https://www.bilibili.com/video/BV14DVF6LEw1/, https://www.bilibili.com/video/BV1TbjyzFEcf/, http://www.bilibili.com/video/av1506380494, http://www.bilibili.com/video/av116637671888811, http://www.bilibili.com/video/av114589157039572",
-          "uid": "BV1AS42197Zf,BV14DVF6LEw1,BV1TbjyzFEcf",
-          "sample": "什么逆天言论？？？主角厨都要被创飞了"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v2",
-          "sample": "回复 @当湖栖霜 :这哪是车啊[笑哭]等下玩不起了就当场酷酷卡卡变成隧者给场上全创飞"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1n3411t76S/, https://www.bilibili.com/video/BV1Cs4y1u7J3/, https://www.bilibili.com/video/BV1VT411U7ZR/, https://www.bilibili.com/video/BV1FLLY6KEWU/, https://www.bilibili.com/video/BV1Bc411K74P/, https://www.bilibili.com/video/BV1eEVUzrENZ/, http://www.bilibili.com/video/av422295141, http://www.bilibili.com/video/av482096474, http://www.bilibili.com/video/av271041479, http://www.bilibili.com/video/av506551170, http://www.bilibili.com/video/av511348527, http://www.bilibili.com/video/av217902985, http://www.bilibili.com/video/av115008939753693, http://www.bilibili.com/video/av116491357853462, http://www.bilibili.com/video/av113002737042144, http://www.bilibili.com/video/av116491106194700, http://www.bilibili.com/video/av114121592867749, http://www.bilibili.com/video/av670621558, http://www.bilibili.com/video/av346195198, http://www.bilibili.com/video/av473394642, http://www.bilibili.com/video/av90352608, http://www.bilibili.com/video/av115853672585471, http://www.bilibili.com/video/av43269879, http://www.bilibili.com/video/av854820821, http://www.bilibili.com/video/av512721103, http://www.bilibili.com/video/av13605745, http://www.bilibili.com/video/av951210580, http://www.bilibili.com/video/av687232154, http://www.bilibili.com/video/av601924190, http://www.bilibili.com/video/av953505874, http://www.bilibili.com/video/av116614133452638, http://www.bilibili.com/video/av114460324794917, http://www.bilibili.com/video/av576833746, http://www.bilibili.com/video/av1801434853, http://www.bilibili.com/video/av116424869812452, http://www.bilibili.com/video/av116619116286309, http://www.bilibili.com/video/av114976207473817, http://www.bilibili.com/video/av1105143619, http://www.bilibili.com/video/av116595510804956, http://www.bilibili.com/video/av116635574733643, http://www.bilibili.com/video/av114420764122522, http://www.bilibili.com/video/av116633209279840, http://www.bilibili.com/video/av411057792, http://www.bilibili.com/video/av115432665252135, http://www.bilibili.com/video/av338320855, http://www.bilibili.com/video/av781930485",
-          "uid": "BV1n3411t76S,BV1Cs4y1u7J3,BV1VT411U7ZR,BV1FLLY6KEWU,BV1Bc411K74P,BV1eEVUzrENZ",
-          "sample": "这事情吧，男女主谁也没对不起谁，就是观众被创飞了。"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1n3411t76S/, https://www.bilibili.com/video/BV1Cs4y1u7J3/, https://www.bilibili.com/video/BV1VT411U7ZR/, https://www.bilibili.com/video/BV1FLLY6KEWU/, https://www.bilibili.com/video/BV1Bc411K74P/, https://www.bilibili.com/video/BV1eEVUzrENZ/, http://www.bilibili.com/video/av422295141, http://www.bilibili.com/video/av482096474, http://www.bilibili.com/video/av271041479, http://www.bilibili.com/video/av506551170, http://www.bilibili.com/video/av511348527, http://www.bilibili.com/video/av217902985, http://www.bilibili.com/video/av115008939753693, http://www.bilibili.com/video/av116491357853462, http://www.bilibili.com/video/av113002737042144, http://www.bilibili.com/video/av116491106194700, http://www.bilibili.com/video/av114121592867749, http://www.bilibili.com/video/av670621558, http://www.bilibili.com/video/av346195198, http://www.bilibili.com/video/av473394642, http://www.bilibili.com/video/av90352608, http://www.bilibili.com/video/av115853672585471, http://www.bilibili.com/video/av43269879, http://www.bilibili.com/video/av854820821, http://www.bilibili.com/video/av512721103, http://www.bilibili.com/video/av13605745, http://www.bilibili.com/video/av951210580, http://www.bilibili.com/video/av687232154, http://www.bilibili.com/video/av601924190, http://www.bilibili.com/video/av953505874, http://www.bilibili.com/video/av116614133452638, http://www.bilibili.com/video/av114460324794917, http://www.bilibili.com/video/av576833746, http://www.bilibili.com/video/av1801434853, http://www.bilibili.com/video/av116424869812452, http://www.bilibili.com/video/av116619116286309, http://www.bilibili.com/video/av114976207473817, http://www.bilibili.com/video/av1105143619, http://www.bilibili.com/video/av116595510804956, http://www.bilibili.com/video/av116635574733643, http://www.bilibili.com/video/av114420764122522, http://www.bilibili.com/video/av116633209279840, http://www.bilibili.com/video/av411057792, http://www.bilibili.com/video/av115432665252135, http://www.bilibili.com/video/av338320855, http://www.bilibili.com/video/av781930485",
-          "uid": "BV1n3411t76S,BV1Cs4y1u7J3,BV1VT411U7ZR,BV1FLLY6KEWU,BV1Bc411K74P,BV1eEVUzrENZ",
-          "sample": "最近不管是看电视的还是看网剧的都在被创飞"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v3",
-          "sample": "回复 @当湖栖霜 :这哪是车啊[笑哭]等下玩不起了就当场酷酷卡卡变成隧者给场上全创飞"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v4",
-          "sample": "回复 @当湖栖霜 :这哪是车啊[笑哭]等下玩不起了就当场酷酷卡卡变成隧者给场上全创飞"
-        }
-      ],
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "被锤",
-      "family": "attack",
-      "meaning": "揭露黑料、批评或曝光，常指针对UP主的负面行动",
-      "risk": "high",
-      "confidence": 0.85,
-      "evidenceCount": 6,
-      "evidenceSamples": [
-        "指不定哪天就被锤了[热词系列_危]",
-        "这个只是一个称号而已（认真你就输了），但确实不少百大都被锤了",
-        "别吧，开一场能理解，在各大赛事把把开还不被锤?",
-        "确实会被锤",
-        "其实王自如的评测没有什么太大问题，王自如最大的问题就是打着独立第三方的测评旗号，没有公开利益关系，他的测评机构确实被小米 OPPO vivo 金立，包括腾讯等等等等其它厂商投资，最终因为辩论被锤成了包养，你可以说他的测评不严谨，也不独立，也..."
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV19xNVecEXU/, https://www.bilibili.com/video/BV17z421U78z/, https://www.bilibili.com/video/BV1MT411W7uw/, https://www.bilibili.com/video/BV12z4y1R7Ka/, https://www.bilibili.com/video/BV13E421j7Ep/, https://www.bilibili.com/video/BV1ga411V7cT/, http://www.bilibili.com/video/av113968299380862, http://www.bilibili.com/video/av1354014383, http://www.bilibili.com/video/av484767215, http://www.bilibili.com/video/av583131660, http://www.bilibili.com/video/av1653799981, http://www.bilibili.com/video/av217516410",
-          "uid": "BV19xNVecEXU,BV17z421U78z,BV1MT411W7uw,BV12z4y1R7Ka,BV13E421j7Ep,BV1ga411V7cT",
-          "sample": "指不定哪天就被锤了[热词系列_危]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV19xNVecEXU/, https://www.bilibili.com/video/BV17z421U78z/, https://www.bilibili.com/video/BV1MT411W7uw/, https://www.bilibili.com/video/BV12z4y1R7Ka/, https://www.bilibili.com/video/BV13E421j7Ep/, https://www.bilibili.com/video/BV1ga411V7cT/, http://www.bilibili.com/video/av113968299380862, http://www.bilibili.com/video/av1354014383, http://www.bilibili.com/video/av484767215, http://www.bilibili.com/video/av583131660, http://www.bilibili.com/video/av1653799981, http://www.bilibili.com/video/av217516410",
-          "uid": "BV19xNVecEXU,BV17z421U78z,BV1MT411W7uw,BV12z4y1R7Ka,BV13E421j7Ep,BV1ga411V7cT",
-          "sample": "这个只是一个称号而已（认真你就输了），但确实不少百大都被锤了"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1vT4y1G7Uv/, https://www.bilibili.com/video/BV12z4y1R7Ka/, https://www.bilibili.com/video/BV17DcLztEW3/, https://www.bilibili.com/video/BV1BK411L7ou/, http://www.bilibili.com/video/av497651376, http://www.bilibili.com/video/av115394043976255, http://www.bilibili.com/video/av94018988, http://www.bilibili.com/video/av885801794, http://www.bilibili.com/video/av435381541, http://www.bilibili.com/video/av465525600, http://www.bilibili.com/video/av385720317, http://www.bilibili.com/video/av798976040, http://www.bilibili.com/video/av511118021, http://www.bilibili.com/video/av1205976554, http://www.bilibili.com/video/av116000120897867, http://www.bilibili.com/video/av1501837195, http://www.bilibili.com/video/av840674356, http://www.bilibili.com/video/av115461874257126, http://www.bilibili.com/video/av925265563, http://www.bilibili.com/video/av114982196874682, http://www.bilibili.com/video/av114975838311060, http://www.bilibili.com/video/av114892304555819, http://www.bilibili.com/video/av115408640152191, http://www.bilibili.com/video/av115571899304795, http://www.bilibili.com/video/av936186766, http://www.bilibili.com/video/av114189439860814, http://www.bilibili.com/video/av253445657, http://www.bilibili.com/video/av1750229402, http://www.bilibili.com/video/av115537455615174, http://www.bilibili.com/video/av942271933, http://www.bilibili.com/video/av425445034, http://www.bilibili.com/video/av579883045, http://www.bilibili.com/video/av465340288, http://www.bilibili.com/video/av114909484422189, http://www.bilibili.com/video/av583131660, http://www.bilibili.com/video/av116060938378838, http://www.bilibili.com/video/av113968299380862, http://www.bilibili.com/video/av114283392272810, http://www.bilibili.com/video/av795660461, http://www.bilibili.com/video/av484767215, http://www.bilibili.com/video/av1653799981, http://www.bilibili.com/video/av1354014383, http://www.bilibili.com/video/av113922078151639, http://www.bilibili.com/video/av1050960852",
-          "uid": "BV1vT4y1G7Uv,BV12z4y1R7Ka,BV17DcLztEW3,BV1BK411L7ou",
-          "sample": "指不定哪天就被锤了[热词系列_危]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1vT4y1G7Uv/, https://www.bilibili.com/video/BV12z4y1R7Ka/, https://www.bilibili.com/video/BV17DcLztEW3/, https://www.bilibili.com/video/BV1BK411L7ou/, http://www.bilibili.com/video/av497651376, http://www.bilibili.com/video/av115394043976255, http://www.bilibili.com/video/av94018988, http://www.bilibili.com/video/av885801794, http://www.bilibili.com/video/av435381541, http://www.bilibili.com/video/av465525600, http://www.bilibili.com/video/av385720317, http://www.bilibili.com/video/av798976040, http://www.bilibili.com/video/av511118021, http://www.bilibili.com/video/av1205976554, http://www.bilibili.com/video/av116000120897867, http://www.bilibili.com/video/av1501837195, http://www.bilibili.com/video/av840674356, http://www.bilibili.com/video/av115461874257126, http://www.bilibili.com/video/av925265563, http://www.bilibili.com/video/av114982196874682, http://www.bilibili.com/video/av114975838311060, http://www.bilibili.com/video/av114892304555819, http://www.bilibili.com/video/av115408640152191, http://www.bilibili.com/video/av115571899304795, http://www.bilibili.com/video/av936186766, http://www.bilibili.com/video/av114189439860814, http://www.bilibili.com/video/av253445657, http://www.bilibili.com/video/av1750229402, http://www.bilibili.com/video/av115537455615174, http://www.bilibili.com/video/av942271933, http://www.bilibili.com/video/av425445034, http://www.bilibili.com/video/av579883045, http://www.bilibili.com/video/av465340288, http://www.bilibili.com/video/av114909484422189, http://www.bilibili.com/video/av583131660, http://www.bilibili.com/video/av116060938378838, http://www.bilibili.com/video/av113968299380862, http://www.bilibili.com/video/av114283392272810, http://www.bilibili.com/video/av795660461, http://www.bilibili.com/video/av484767215, http://www.bilibili.com/video/av1653799981, http://www.bilibili.com/video/av1354014383, http://www.bilibili.com/video/av113922078151639, http://www.bilibili.com/video/av1050960852",
-          "uid": "BV1vT4y1G7Uv,BV12z4y1R7Ka,BV17DcLztEW3,BV1BK411L7ou",
-          "sample": "这个只是一个称号而已（认真你就输了），但确实不少百大都被锤了"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV13M4y1v736/, https://www.bilibili.com/video/BV1mZGn6TENo/, https://www.bilibili.com/video/BV1kt41127zp/, https://www.bilibili.com/video/BV1Pd4nzSEG2/, http://www.bilibili.com/video/av911955130, http://www.bilibili.com/video/av115350624540814, http://www.bilibili.com/video/av803949097, http://www.bilibili.com/video/av35994357, http://www.bilibili.com/video/av114365785179768",
-          "uid": "BV13M4y1v736,BV1mZGn6TENo,BV1kt41127zp,BV1Pd4nzSEG2",
-          "sample": "别吧，开一场能理解，在各大赛事把把开还不被锤?"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV13M4y1v736/, https://www.bilibili.com/video/BV1mZGn6TENo/, https://www.bilibili.com/video/BV1kt41127zp/, https://www.bilibili.com/video/BV1Pd4nzSEG2/, http://www.bilibili.com/video/av911955130, http://www.bilibili.com/video/av115350624540814, http://www.bilibili.com/video/av803949097, http://www.bilibili.com/video/av35994357, http://www.bilibili.com/video/av114365785179768",
-          "uid": "BV13M4y1v736,BV1mZGn6TENo,BV1kt41127zp,BV1Pd4nzSEG2",
-          "sample": "确实会被锤"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Cn5y6qE2S/, https://www.bilibili.com/video/BV1Cp411R7gY/, https://www.bilibili.com/video/BV1wA411h7p1/, https://www.bilibili.com/video/BV1kK411v7R9/, https://www.bilibili.com/video/BV1vLVx6NEy4/, https://www.bilibili.com/video/BV1rv411b7Pe/, https://www.bilibili.com/video/BV1z8Q4BME2Q/, https://www.bilibili.com/video/BV16uxbzFEPj/, https://www.bilibili.com/video/BV12Vx4euEc4/, https://www.bilibili.com/video/BV1Ye411B7fU/, https://www.bilibili.com/video/BV13y5yzwEam/, https://www.bilibili.com/video/BV1Le4y1b7rT/, http://www.bilibili.com/video/av116567408903889, http://www.bilibili.com/video/av23961647, http://www.bilibili.com/video/av327605387, http://www.bilibili.com/video/av496159601, http://www.bilibili.com/video/av116653794788451, http://www.bilibili.com/video/av245615858, http://www.bilibili.com/video/av116396499404759, http://www.bilibili.com/video/av115317388877087, http://www.bilibili.com/video/av113226779988795, http://www.bilibili.com/video/av240192938, http://www.bilibili.com/video/av114375213978875, http://www.bilibili.com/video/av560861656",
-          "uid": "BV1Cn5y6qE2S,BV1Cp411R7gY,BV1wA411h7p1,BV1kK411v7R9,BV1vLVx6NEy4,BV1rv411b7Pe,BV1z8Q4BME2Q,BV16uxbzFEPj,BV12Vx4euEc4,BV1Ye411B7fU,BV13y5yzwEam,BV1Le4y1b7rT",
-          "sample": "其实王自如的评测没有什么太大问题，王自如最大的问题就是打着独立第三方的测评旗号，没有公开利益关系，他的测评机构确实被小米 OPPO vivo 金立，包括腾讯等等等等其它厂商投资，最终因为辩论被锤成了包养，你可以说他的测评不严谨，也不独立，也..."
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Cn5y6qE2S/, https://www.bilibili.com/video/BV1Cp411R7gY/, https://www.bilibili.com/video/BV1wA411h7p1/, https://www.bilibili.com/video/BV1kK411v7R9/, https://www.bilibili.com/video/BV1vLVx6NEy4/, https://www.bilibili.com/video/BV1rv411b7Pe/, https://www.bilibili.com/video/BV1z8Q4BME2Q/, https://www.bilibili.com/video/BV16uxbzFEPj/, https://www.bilibili.com/video/BV12Vx4euEc4/, https://www.bilibili.com/video/BV1Ye411B7fU/, https://www.bilibili.com/video/BV13y5yzwEam/, https://www.bilibili.com/video/BV1Le4y1b7rT/, http://www.bilibili.com/video/av116567408903889, http://www.bilibili.com/video/av23961647, http://www.bilibili.com/video/av327605387, http://www.bilibili.com/video/av496159601, http://www.bilibili.com/video/av116653794788451, http://www.bilibili.com/video/av245615858, http://www.bilibili.com/video/av116396499404759, http://www.bilibili.com/video/av115317388877087, http://www.bilibili.com/video/av113226779988795, http://www.bilibili.com/video/av240192938, http://www.bilibili.com/video/av114375213978875, http://www.bilibili.com/video/av560861656",
-          "uid": "BV1Cn5y6qE2S,BV1Cp411R7gY,BV1wA411h7p1,BV1kK411v7R9,BV1vLVx6NEy4,BV1rv411b7Pe,BV1z8Q4BME2Q,BV16uxbzFEPj,BV12Vx4euEc4,BV1Ye411B7fU,BV13y5yzwEam,BV1Le4y1b7rT",
-          "sample": "这些十年前就被锤了吧，可惜没掀起什么大风浪，甚至还不如矮大紧的风浪大。精日群体还是不少。"
-        }
-      ],
-      "updatedAt": "2026-06-02T11:46:28.457Z"
-    },
-    {
-      "term": "被黑",
-      "family": "attack",
-      "meaning": "被恶意中伤、抹黑或网络暴力攻击",
-      "risk": "medium",
-      "confidence": 0.6,
-      "evidenceCount": 6,
-      "evidenceSamples": [
-        "是被黑的有点惨",
-        "东边精神小伙，河南偷井盖，广西鬼火，三省常年被黑[囧]",
-        "是有人给她兜底 650那几个小伙伴一直帮她兜底圆话 今年喜人郭麒麟邀请她去的 一直给她兜底去看看 她说话得罪不少人的 只是现在更红了 观众缘特别好 所以她得罪人那个人也不能说什么 你看早期她也这样被黑了多少年",
-        "文物被黑的最惨的一次",
-        "这支奇才是当年的意难平，被黑哨和伤病毁掉了。06/07前半赛季是这批人的顶峰，当时东部活塞 骑士 奇才三足鼎立，埃迪乔丹还当了全明星东部主教练，然后巴特勒 阿里纳斯相继报销，直接玩完。等阿里纳斯08年再复出状态已经不行了。"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1XT4y1b7Gy/, https://www.bilibili.com/video/BV1je5d6tEfh/, https://www.bilibili.com/video/BV1HkG76DEmE/, https://www.bilibili.com/video/BV1apGJ6GExg/, http://www.bilibili.com/video/av115987403773226, http://www.bilibili.com/video/av924242148, http://www.bilibili.com/video/av116573129936779, http://www.bilibili.com/video/av116628360532241, http://www.bilibili.com/video/av1355384961, http://www.bilibili.com/video/av116629484604267",
-          "uid": "BV1XT4y1b7Gy,BV1je5d6tEfh,BV1HkG76DEmE,BV1apGJ6GExg",
-          "sample": "是被黑的有点惨"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1tU4y1B7oa/, https://www.bilibili.com/video/BV1LQ4y1M7oR/, https://www.bilibili.com/video/BV1J5Y9zEE5p/, https://www.bilibili.com/video/BV1MP4y1J79U/, https://www.bilibili.com/video/BV1s1CcBXE3K/, https://www.bilibili.com/video/BV11v421C7nF/, http://www.bilibili.com/video/av685968546, http://www.bilibili.com/video/av710025052, http://www.bilibili.com/video/av115067106366661, http://www.bilibili.com/video/av893112692, http://www.bilibili.com/video/av115525426350567, http://www.bilibili.com/video/av1450496211",
-          "uid": "BV1tU4y1B7oa,BV1LQ4y1M7oR,BV1J5Y9zEE5p,BV1MP4y1J79U,BV1s1CcBXE3K,BV11v421C7nF",
-          "sample": "东边精神小伙，河南偷井盖，广西鬼火，三省常年被黑[囧]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1LQ4y1M7oR/, https://www.bilibili.com/video/BV11v421C7nF/, https://www.bilibili.com/video/BV1tU4y1B7oa/, https://www.bilibili.com/video/BV1MP4y1J79U/, https://www.bilibili.com/video/BV1Evf7BbET5/, https://www.bilibili.com/video/BV1s1CcBXE3K/, http://www.bilibili.com/video/av710025052, http://www.bilibili.com/video/av1450496211, http://www.bilibili.com/video/av685968546, http://www.bilibili.com/video/av893112692, http://www.bilibili.com/video/av116107948072407, http://www.bilibili.com/video/av115525426350567",
-          "uid": "BV1LQ4y1M7oR,BV11v421C7nF,BV1tU4y1B7oa,BV1MP4y1J79U,BV1Evf7BbET5,BV1s1CcBXE3K",
-          "sample": "东边精神小伙，河南偷井盖，广西鬼火，三省常年被黑[囧]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1TdReBLE4U/, https://www.bilibili.com/video/BV1L8P1eREY5/, https://www.bilibili.com/video/BV1CqG66pE7v/, https://www.bilibili.com/video/BV1JgwxzbESD/, https://www.bilibili.com/video/BV1U3LE6rEWp/, https://www.bilibili.com/video/BV11E4ezpEFT/, http://www.bilibili.com/video/av116515584154620, http://www.bilibili.com/video/av113951874548313, http://www.bilibili.com/video/av116624518549423, http://www.bilibili.com/video/av116227133407494, http://www.bilibili.com/video/av116588799856515, http://www.bilibili.com/video/av115376595801404",
-          "uid": "BV1TdReBLE4U,BV1L8P1eREY5,BV1CqG66pE7v,BV1JgwxzbESD,BV1U3LE6rEWp,BV11E4ezpEFT",
-          "sample": "是有人给她兜底 650那几个小伙伴一直帮她兜底圆话 今年喜人郭麒麟邀请她去的 一直给她兜底去看看 她说话得罪不少人的 只是现在更红了 观众缘特别好 所以她得罪人那个人也不能说什么 你看早期她也这样被黑了多少年"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1E5drBnEKp/, https://www.bilibili.com/video/BV1L8P1eREY5/, https://www.bilibili.com/video/BV1QHJAe3ExF/, https://www.bilibili.com/video/BV1tKc4emEwm/, https://www.bilibili.com/video/BV1b1XhBqE9U/, https://www.bilibili.com/video/BV1WG4y1n7sv/, http://www.bilibili.com/video/av116436865520673, http://www.bilibili.com/video/av113951874548313, http://www.bilibili.com/video/av112415533498369, http://www.bilibili.com/video/av113807305278757, http://www.bilibili.com/video/av116316975401628, http://www.bilibili.com/video/av816640981",
-          "uid": "BV1E5drBnEKp,BV1L8P1eREY5,BV1QHJAe3ExF,BV1tKc4emEwm,BV1b1XhBqE9U,BV1WG4y1n7sv",
-          "sample": "是有人给她兜底 650那几个小伙伴一直帮她兜底圆话 今年喜人郭麒麟邀请她去的 一直给她兜底去看看 她说话得罪不少人的 只是现在更红了 观众缘特别好 所以她得罪人那个人也不能说什么 你看早期她也这样被黑了多少年"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1L4Gq6YEzX/, https://www.bilibili.com/video/BV1x24y1i74F/, https://www.bilibili.com/video/BV12Z4y1v7Tg/, https://www.bilibili.com/video/BV11TLY6rE1Q/, https://www.bilibili.com/video/BV1DRTjzNEgY/, https://www.bilibili.com/video/BV1HW411X7fe/, http://www.bilibili.com/video/av116622572391248, http://www.bilibili.com/video/av692297163, http://www.bilibili.com/video/av385156607, http://www.bilibili.com/video/av116614217471889, http://www.bilibili.com/video/av114624674400507, http://www.bilibili.com/video/av30134460",
-          "uid": "BV1L4Gq6YEzX,BV1x24y1i74F,BV12Z4y1v7Tg,BV11TLY6rE1Q,BV1DRTjzNEgY,BV1HW411X7fe",
-          "sample": "hhh大家不要因为一点小事生气呀[拥抱][拥抱]，宗师就是那种小孩心性来着，也因为随性所以打游戏比较有灵性吧。之前追过别的游戏主播，就游戏天赋这东西到一定时间老天就收回了，再努力也抵不过时间。像他一直被黑被骂还能坚持下来的已经很不容易了，粉..."
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV15T411m7dS/, https://www.bilibili.com/video/BV1dD3szyED5/, https://www.bilibili.com/video/BV1GoV5zmEJx/, https://www.bilibili.com/video/BV1WC4y1n7X4/, https://www.bilibili.com/video/BV1QJW2zbEnV/, https://www.bilibili.com/video/BV1Sh4y1E7L1/, http://www.bilibili.com/video/av480362719, http://www.bilibili.com/video/av747717087, http://www.bilibili.com/video/av607816933, http://www.bilibili.com/video/av282713917, http://www.bilibili.com/video/av280109582, http://www.bilibili.com/video/av1804626468, http://www.bilibili.com/video/av990215798, http://www.bilibili.com/video/av721002900, http://www.bilibili.com/video/av564825065, http://www.bilibili.com/video/av114339679836280, http://www.bilibili.com/video/av748197628, http://www.bilibili.com/video/av114339830831502, http://www.bilibili.com/video/av115097842224129, http://www.bilibili.com/video/av113253791368266, http://www.bilibili.com/video/av114782799728275, http://www.bilibili.com/video/av115405939082454, http://www.bilibili.com/video/av824292988, http://www.bilibili.com/video/av612525278, http://www.bilibili.com/video/av115866138057430, http://www.bilibili.com/video/av114438547966060, http://www.bilibili.com/video/av114718828142373, http://www.bilibili.com/video/av941143012, http://www.bilibili.com/video/av219290209, http://www.bilibili.com/video/av116372927551647, http://www.bilibili.com/video/av116621045663263, http://www.bilibili.com/video/av116635675395848, http://www.bilibili.com/video/av115972388167385, http://www.bilibili.com/video/av116630088585170, http://www.bilibili.com/video/av116633527912435, http://www.bilibili.com/video/av114243798048543, http://www.bilibili.com/video/av116509628171816, http://www.bilibili.com/video/av113611599055167, http://www.bilibili.com/video/av613183673, http://www.bilibili.com/video/av1204740783, http://www.bilibili.com/video/av114545871819439, http://www.bilibili.com/video/av115507625723186",
-          "uid": "BV15T411m7dS,BV1dD3szyED5,BV1GoV5zmEJx,BV1WC4y1n7X4,BV1QJW2zbEnV,BV1Sh4y1E7L1",
-          "sample": "文物被黑的最惨的一次"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1wDSLBMEU4/, https://www.bilibili.com/video/BV1roeXz9E3D/, https://www.bilibili.com/video/BV1sufoBSEeD/, https://www.bilibili.com/video/BV1UeawzSErm/, https://www.bilibili.com/video/BV1gSLt6qEMu/, https://www.bilibili.com/video/BV19315B3Etd/, http://www.bilibili.com/video/av115624999129571, http://www.bilibili.com/video/av115133745535921, http://www.bilibili.com/video/av1105681755, http://www.bilibili.com/video/av114636586225553, http://www.bilibili.com/video/av1355627373, http://www.bilibili.com/video/av115027528914096, http://www.bilibili.com/video/av114583234682722, http://www.bilibili.com/video/av114713425875055, http://www.bilibili.com/video/av114573738843794, http://www.bilibili.com/video/av524720766, http://www.bilibili.com/video/av114651350241934, http://www.bilibili.com/video/av115653000366524, http://www.bilibili.com/video/av115104318292004, http://www.bilibili.com/video/av116612472511450, http://www.bilibili.com/video/av115376696467317, http://www.bilibili.com/video/av115254960916939, http://www.bilibili.com/video/av116622538900129, http://www.bilibili.com/video/av417763577, http://www.bilibili.com/video/av116634115248102, http://www.bilibili.com/video/av116630659013398, http://www.bilibili.com/video/av116630071871122, http://www.bilibili.com/video/av116628377312058, http://www.bilibili.com/video/av116625978170274, http://www.bilibili.com/video/av116624619214054, http://www.bilibili.com/video/av116630256355038, http://www.bilibili.com/video/av116623629424224, http://www.bilibili.com/video/av116623025441531, http://www.bilibili.com/video/av115676152861028, http://www.bilibili.com/video/av115626123265986, http://www.bilibili.com/video/av116481224415464, http://www.bilibili.com/video/av116441395238820, http://www.bilibili.com/video/av116612992599096, http://www.bilibili.com/video/av116526589943508, http://www.bilibili.com/video/av116526841594544, http://www.bilibili.com/video/av870861549, http://www.bilibili.com/video/av116012217339104, http://www.bilibili.com/video/av115473350006167, http://www.bilibili.com/video/av113786769904887, http://www.bilibili.com/video/av757995984, http://www.bilibili.com/video/av908601719",
-          "uid": "BV1wDSLBMEU4,BV1roeXz9E3D,BV1sufoBSEeD,BV1UeawzSErm,BV1gSLt6qEMu,BV19315B3Etd",
-          "sample": "这支奇才是当年的意难平，被黑哨和伤病毁掉了。06/07前半赛季是这批人的顶峰，当时东部活塞 骑士 奇才三足鼎立，埃迪乔丹还当了全明星东部主教练，然后巴特勒 阿里纳斯相继报销，直接玩完。等阿里纳斯08年再复出状态已经不行了。"
-        }
-      ],
-      "updatedAt": "2026-06-02T11:50:38.468Z"
-    },
-    {
-      "term": "被骂",
-      "family": "attack",
-      "meaning": "被恶意中伤、抹黑或网络暴力攻击",
-      "risk": "medium",
-      "confidence": 0.6,
-      "evidenceCount": 8,
-      "evidenceSamples": [
-        "看得出来官方也被骂急了，锯了好几台车了[笑哭]原来我对骓特的印象也不太好，现在真的希望骓特能越做越好不忘初心让广大车友玩车成本降低一点，让更多人可以体验公路车运动的乐趣[打call]",
-        "回复 @暗恋金3年被骂舔狗 : 没事",
-        "愿意拍吃流量就别怕被骂 向来如此[doge]",
-        "我寻思也不是老板吃流量啊，是拍视频的这个人吃流量，然后反而老板被骂[喜极而泣]",
-        "真的心疼魏大勋和他粉丝，又不是他们让白换衣服抢c位的，但被白粉骂得最惨却是他们，被骂绿茶，我这吃瓜路人是真的觉很恶心[疑惑]"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1XT4y1b7Gy/, https://www.bilibili.com/video/BV1je5d6tEfh/, https://www.bilibili.com/video/BV1HkG76DEmE/, https://www.bilibili.com/video/BV1apGJ6GExg/, http://www.bilibili.com/video/av115987403773226, http://www.bilibili.com/video/av924242148, http://www.bilibili.com/video/av116573129936779, http://www.bilibili.com/video/av116628360532241, http://www.bilibili.com/video/av1355384961, http://www.bilibili.com/video/av116629484604267",
-          "uid": "BV1XT4y1b7Gy,BV1je5d6tEfh,BV1HkG76DEmE,BV1apGJ6GExg",
-          "sample": "看得出来官方也被骂急了，锯了好几台车了[笑哭]原来我对骓特的印象也不太好，现在真的希望骓特能越做越好不忘初心让广大车友玩车成本降低一点，让更多人可以体验公路车运动的乐趣[打call]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1big3z9Eec/, https://www.bilibili.com/video/BV1UT41187Px/, https://www.bilibili.com/video/BV1mDGE6PELN/, https://www.bilibili.com/video/BV1zJenzfESB/, https://www.bilibili.com/video/BV1Ps4y1e7de/, https://www.bilibili.com/video/BV19i4y1Y7QK/, http://www.bilibili.com/video/av114872843047616, http://www.bilibili.com/video/av485546318, http://www.bilibili.com/video/av116629769816200, http://www.bilibili.com/video/av115084269454830, http://www.bilibili.com/video/av949145646, http://www.bilibili.com/video/av537248993",
-          "uid": "BV1big3z9Eec,BV1UT41187Px,BV1mDGE6PELN,BV1zJenzfESB,BV1Ps4y1e7de,BV19i4y1Y7QK",
-          "sample": "回复 @暗恋金3年被骂舔狗 : 没事"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1big3z9Eec/, https://www.bilibili.com/video/BV1UT41187Px/, https://www.bilibili.com/video/BV1mDGE6PELN/, https://www.bilibili.com/video/BV1zJenzfESB/, https://www.bilibili.com/video/BV1Ps4y1e7de/, https://www.bilibili.com/video/BV19i4y1Y7QK/, http://www.bilibili.com/video/av114872843047616, http://www.bilibili.com/video/av485546318, http://www.bilibili.com/video/av116629769816200, http://www.bilibili.com/video/av115084269454830, http://www.bilibili.com/video/av949145646, http://www.bilibili.com/video/av537248993",
-          "uid": "BV1big3z9Eec,BV1UT41187Px,BV1mDGE6PELN,BV1zJenzfESB,BV1Ps4y1e7de,BV19i4y1Y7QK",
-          "sample": "乐园玩干扰纯纯被骂"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1kK411Z7wn/, https://www.bilibili.com/video/BV1rb411w7re/, https://www.bilibili.com/video/BV1DY4y1v7Bd/, https://www.bilibili.com/video/BV1mP8qzgEEb/, https://www.bilibili.com/video/BV1r2Lb6tEX3/, https://www.bilibili.com/video/BV1qr5TzBEzh/, http://www.bilibili.com/video/av475248567, http://www.bilibili.com/video/av35282234, http://www.bilibili.com/video/av637863927, http://www.bilibili.com/video/av114942820816867, http://www.bilibili.com/video/av116611851748058, http://www.bilibili.com/video/av114471817187113",
-          "uid": "BV1kK411Z7wn,BV1rb411w7re,BV1DY4y1v7Bd,BV1mP8qzgEEb,BV1r2Lb6tEX3,BV1qr5TzBEzh",
-          "sample": "回复 @一只投降的意呆利 :慢脚的尿液流进来了，我现在温馨提醒别在评论区at别人反而被骂"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1VBvKz5E65/, https://www.bilibili.com/video/BV1x7L86TEdW/, https://www.bilibili.com/video/BV178shzhEaR/, https://www.bilibili.com/video/BV1NzVEz2Eg5/, https://www.bilibili.com/video/BV1ZC5N6EELT/, https://www.bilibili.com/video/BV1uHGL6tE68/, http://www.bilibili.com/video/av115095996731555, http://www.bilibili.com/video/av116611784641156, http://www.bilibili.com/video/av115418337516804, http://www.bilibili.com/video/av114442557851701, http://www.bilibili.com/video/av116559892709638, http://www.bilibili.com/video/av116627488244292",
-          "uid": "BV1VBvKz5E65,BV1x7L86TEdW,BV178shzhEaR,BV1NzVEz2Eg5,BV1ZC5N6EELT,BV1uHGL6tE68",
-          "sample": "【比巴卜谈自己在贴吧被骂及贴吧公会节奏。-哔哩哔哩】 https://b23.tv/GRa7H6b"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1boKhzTE5y/, https://www.bilibili.com/video/BV1DHPveJE1t/, https://www.bilibili.com/video/BV1pRuazMEze/, https://www.bilibili.com/video/BV1P9uCzBEB9/, https://www.bilibili.com/video/BV1j5GJ6UEde/, https://www.bilibili.com/video/BV1qg4y1x71h/, http://www.bilibili.com/video/av114733256606932, http://www.bilibili.com/video/av114855948328309, http://www.bilibili.com/video/av113963517872888, http://www.bilibili.com/video/av769713046, http://www.bilibili.com/video/av1802104669, http://www.bilibili.com/video/av512785834, http://www.bilibili.com/video/av923804718, http://www.bilibili.com/video/av1555073392, http://www.bilibili.com/video/av113156097576881, http://www.bilibili.com/video/av746538126, http://www.bilibili.com/video/av115663754501626, http://www.bilibili.com/video/av114266061408928, http://www.bilibili.com/video/av315183943, http://www.bilibili.com/video/av113851211259300, http://www.bilibili.com/video/av345384265, http://www.bilibili.com/video/av113809771463174, http://www.bilibili.com/video/av113753366463779, http://www.bilibili.com/video/av113849936185439, http://www.bilibili.com/video/av116619502164179, http://www.bilibili.com/video/av116628159208049, http://www.bilibili.com/video/av114063828850980, http://www.bilibili.com/video/av116627957944199, http://www.bilibili.com/video/av116629501516014, http://www.bilibili.com/video/av116614016012217, http://www.bilibili.com/video/av116629534934747, http://www.bilibili.com/video/av116629904104096, http://www.bilibili.com/video/av116634903647662, http://www.bilibili.com/video/av116621599312626, http://www.bilibili.com/video/av116607640671890, http://www.bilibili.com/video/av116616935381918, http://www.bilibili.com/video/av116628645741727, http://www.bilibili.com/video/av116630038319477, http://www.bilibili.com/video/av116352928974665, http://www.bilibili.com/video/av271031589, http://www.bilibili.com/video/av114034401608074, http://www.bilibili.com/video/av81891298, http://www.bilibili.com/video/av114708459819979, http://www.bilibili.com/video/av114420764122522, http://www.bilibili.com/video/av536571122, http://www.bilibili.com/video/av114848197250014, http://www.bilibili.com/video/av823835605, http://www.bilibili.com/video/av116629417629851, http://www.bilibili.com/video/av115905296074678, http://www.bilibili.com/video/av115424075188974, http://www.bilibili.com/video/av116047466208821",
-          "uid": "BV1boKhzTE5y,BV1DHPveJE1t,BV1pRuazMEze,BV1P9uCzBEB9,BV1j5GJ6UEde,BV1qg4y1x71h",
-          "sample": "愿意拍吃流量就别怕被骂 向来如此[doge]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1boKhzTE5y/, https://www.bilibili.com/video/BV1DHPveJE1t/, https://www.bilibili.com/video/BV1pRuazMEze/, https://www.bilibili.com/video/BV1P9uCzBEB9/, https://www.bilibili.com/video/BV1j5GJ6UEde/, https://www.bilibili.com/video/BV1qg4y1x71h/, http://www.bilibili.com/video/av114733256606932, http://www.bilibili.com/video/av114855948328309, http://www.bilibili.com/video/av113963517872888, http://www.bilibili.com/video/av769713046, http://www.bilibili.com/video/av1802104669, http://www.bilibili.com/video/av512785834, http://www.bilibili.com/video/av923804718, http://www.bilibili.com/video/av1555073392, http://www.bilibili.com/video/av113156097576881, http://www.bilibili.com/video/av746538126, http://www.bilibili.com/video/av115663754501626, http://www.bilibili.com/video/av114266061408928, http://www.bilibili.com/video/av315183943, http://www.bilibili.com/video/av113851211259300, http://www.bilibili.com/video/av345384265, http://www.bilibili.com/video/av113809771463174, http://www.bilibili.com/video/av113753366463779, http://www.bilibili.com/video/av113849936185439, http://www.bilibili.com/video/av116619502164179, http://www.bilibili.com/video/av116628159208049, http://www.bilibili.com/video/av114063828850980, http://www.bilibili.com/video/av116627957944199, http://www.bilibili.com/video/av116629501516014, http://www.bilibili.com/video/av116614016012217, http://www.bilibili.com/video/av116629534934747, http://www.bilibili.com/video/av116629904104096, http://www.bilibili.com/video/av116634903647662, http://www.bilibili.com/video/av116621599312626, http://www.bilibili.com/video/av116607640671890, http://www.bilibili.com/video/av116616935381918, http://www.bilibili.com/video/av116628645741727, http://www.bilibili.com/video/av116630038319477, http://www.bilibili.com/video/av116352928974665, http://www.bilibili.com/video/av271031589, http://www.bilibili.com/video/av114034401608074, http://www.bilibili.com/video/av81891298, http://www.bilibili.com/video/av114708459819979, http://www.bilibili.com/video/av114420764122522, http://www.bilibili.com/video/av536571122, http://www.bilibili.com/video/av114848197250014, http://www.bilibili.com/video/av823835605, http://www.bilibili.com/video/av116629417629851, http://www.bilibili.com/video/av115905296074678, http://www.bilibili.com/video/av115424075188974, http://www.bilibili.com/video/av116047466208821",
-          "uid": "BV1boKhzTE5y,BV1DHPveJE1t,BV1pRuazMEze,BV1P9uCzBEB9,BV1j5GJ6UEde,BV1qg4y1x71h",
-          "sample": "我寻思也不是老板吃流量啊，是拍视频的这个人吃流量，然后反而老板被骂[喜极而泣]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1qS4y1R7U7/, https://www.bilibili.com/video/BV1BFLe6NEYc/, https://www.bilibili.com/video/BV1NzUhYtEnb/, https://www.bilibili.com/video/BV1DJ4JzsEE7/, https://www.bilibili.com/video/BV1GBL26ZEEP/, https://www.bilibili.com/video/BV1qm411D79r/, http://www.bilibili.com/video/av721438900, http://www.bilibili.com/video/av115349534023298, http://www.bilibili.com/video/av1900655699, http://www.bilibili.com/video/av114612024385327, http://www.bilibili.com/video/av426971673, http://www.bilibili.com/video/av114787061145475, http://www.bilibili.com/video/av518500594, http://www.bilibili.com/video/av114805381796614, http://www.bilibili.com/video/av113292865505805, http://www.bilibili.com/video/av114085303681073, http://www.bilibili.com/video/av114549982306297, http://www.bilibili.com/video/av116197001596501, http://www.bilibili.com/video/av1902702673, http://www.bilibili.com/video/av974283121, http://www.bilibili.com/video/av427211716, http://www.bilibili.com/video/av248233411, http://www.bilibili.com/video/av844819552, http://www.bilibili.com/video/av397658516, http://www.bilibili.com/video/av378513423, http://www.bilibili.com/video/av116615861505990, http://www.bilibili.com/video/av116605342324963, http://www.bilibili.com/video/av116634215777350, http://www.bilibili.com/video/av114686951430322, http://www.bilibili.com/video/av113490266162603, http://www.bilibili.com/video/av116367021902453, http://www.bilibili.com/video/av115546330764720, http://www.bilibili.com/video/av113068117920727, http://www.bilibili.com/video/av219002500, http://www.bilibili.com/video/av115876590389427, http://www.bilibili.com/video/av116430339180410, http://www.bilibili.com/video/av114078626355796, http://www.bilibili.com/video/av114528171919445, http://www.bilibili.com/video/av113855908809077, http://www.bilibili.com/video/av924444046, http://www.bilibili.com/video/av909329863",
-          "uid": "BV1qS4y1R7U7,BV1BFLe6NEYc,BV1NzUhYtEnb,BV1DJ4JzsEE7,BV1GBL26ZEEP,BV1qm411D79r",
-          "sample": "真的心疼魏大勋和他粉丝，又不是他们让白换衣服抢c位的，但被白粉骂得最惨却是他们，被骂绿茶，我这吃瓜路人是真的觉很恶心[疑惑]"
-        }
-      ],
-      "updatedAt": "2026-06-02T12:23:09.945Z"
-    },
-    {
-      "term": "被迫害妄想症",
-      "family": "attack",
-      "meaning": "指责对方疑心过重，常见于反驳时攻击对方立场",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 5,
-      "evidenceSamples": [
-        "这主持人满满的被迫害妄想症，一直在带沟的感觉。",
-        "被迫害妄想症是精神疾病",
-        "这是一个关于\"真假千金\"题材的搞笑反转故事。主角\"糖糖\"因沉迷真假千金文而患上被迫害妄想症，每天严阵以待防止被真千金陷害。",
-        "00:00:00 - 糖糖沉迷真假千金文，患上被迫害妄想症",
-        "故事展现了糖糖如何凭借自己的\"被迫害妄想症\"和提前准备，一次次化解林芊芊的陷害，最终反败为胜的搞笑过程。"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1ZuG76VE8F/, https://www.bilibili.com/video/BV1XdGi69Egt/, https://www.bilibili.com/video/BV1B7yNBHE54/, https://www.bilibili.com/video/BV1YJo3BtEci/, https://www.bilibili.com/video/BV1o7Lb67E5e/, http://www.bilibili.com/video/av116628528372465, http://www.bilibili.com/video/av116622639567280, http://www.bilibili.com/video/av115583559405801, http://www.bilibili.com/video/av116620710118502, http://www.bilibili.com/video/av116456628950974, http://www.bilibili.com/video/av116612237630298",
-          "uid": "BV1ZuG76VE8F,BV1XdGi69Egt,BV1B7yNBHE54,BV1YJo3BtEci,BV1o7Lb67E5e",
-          "sample": "这主持人满满的被迫害妄想症，一直在带沟的感觉。"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1fCmXYgEBK/, https://www.bilibili.com/video/BV1zuL66pE7u/, https://www.bilibili.com/video/BV1Pf4y1G7zf/, http://www.bilibili.com/video/av116630810073630, http://www.bilibili.com/video/av113484377359143, http://www.bilibili.com/video/av116601080777728, http://www.bilibili.com/video/av292433902, http://www.bilibili.com/video/av115451204075971, http://www.bilibili.com/video/av114817411061232, http://www.bilibili.com/video/av115667009340620, http://www.bilibili.com/video/av112875146513040, http://www.bilibili.com/video/av114392427401747, http://www.bilibili.com/video/av629647265",
-          "uid": "BV1fCmXYgEBK,BV1zuL66pE7u,BV1Pf4y1G7zf",
-          "sample": "被迫害妄想症是精神疾病"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV11b4y197ib/, https://www.bilibili.com/video/BV1tpnZzLE38/, https://www.bilibili.com/video/BV1Pf4y1G7zf/, https://www.bilibili.com/video/BV1v34y1b7cP/, http://www.bilibili.com/video/av629647265, http://www.bilibili.com/video/av116630810073630, http://www.bilibili.com/video/av115283045911236, http://www.bilibili.com/video/av292433902, http://www.bilibili.com/video/av113555059769667, http://www.bilibili.com/video/av809509549",
-          "uid": "BV11b4y197ib,BV1tpnZzLE38,BV1Pf4y1G7zf,BV1v34y1b7cP",
-          "sample": "被迫害妄想症是精神疾病"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1qVvyeiEfk/, https://www.bilibili.com/video/BV11b4y197ib/, https://www.bilibili.com/video/BV1Q427BDEgi/, http://www.bilibili.com/video/av116630810073630, http://www.bilibili.com/video/av112875146513040, http://www.bilibili.com/video/av629647265, http://www.bilibili.com/video/av115667009340620, http://www.bilibili.com/video/av116601080777728, http://www.bilibili.com/video/av115451204075971, http://www.bilibili.com/video/av113484377359143, http://www.bilibili.com/video/av115283045911236, http://www.bilibili.com/video/av113555059769667, http://www.bilibili.com/video/av292433902",
-          "uid": "BV1qVvyeiEfk,BV11b4y197ib,BV1Q427BDEgi",
-          "sample": "这是一个关于\"真假千金\"题材的搞笑反转故事。主角\"糖糖\"因沉迷真假千金文而患上被迫害妄想症，每天严阵以待防止被真千金陷害。"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1qVvyeiEfk/, https://www.bilibili.com/video/BV11b4y197ib/, https://www.bilibili.com/video/BV1Q427BDEgi/, http://www.bilibili.com/video/av116630810073630, http://www.bilibili.com/video/av112875146513040, http://www.bilibili.com/video/av629647265, http://www.bilibili.com/video/av115667009340620, http://www.bilibili.com/video/av116601080777728, http://www.bilibili.com/video/av115451204075971, http://www.bilibili.com/video/av113484377359143, http://www.bilibili.com/video/av115283045911236, http://www.bilibili.com/video/av113555059769667, http://www.bilibili.com/video/av292433902",
-          "uid": "BV1qVvyeiEfk,BV11b4y197ib,BV1Q427BDEgi",
-          "sample": "00:00:00 - 糖糖沉迷真假千金文，患上被迫害妄想症"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1qVvyeiEfk/, https://www.bilibili.com/video/BV11b4y197ib/, https://www.bilibili.com/video/BV1Q427BDEgi/, http://www.bilibili.com/video/av116630810073630, http://www.bilibili.com/video/av112875146513040, http://www.bilibili.com/video/av629647265, http://www.bilibili.com/video/av115667009340620, http://www.bilibili.com/video/av116601080777728, http://www.bilibili.com/video/av115451204075971, http://www.bilibili.com/video/av113484377359143, http://www.bilibili.com/video/av115283045911236, http://www.bilibili.com/video/av113555059769667, http://www.bilibili.com/video/av292433902",
-          "uid": "BV1qVvyeiEfk,BV11b4y197ib,BV1Q427BDEgi",
-          "sample": "故事展现了糖糖如何凭借自己的\"被迫害妄想症\"和提前准备，一次次化解林芊芊的陷害，最终反败为胜的搞笑过程。"
-        }
-      ],
-      "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "被耍了",
-      "family": "attack",
-      "meaning": "感觉自己被戏弄、期待落空的网络表达",
+      "meaning": "夸张形容游戏内托很多",
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 4,
-      "evidenceSamples": [
-        "你知道b站首页的搜索框天天默认你们的名字，一搜索结果发现还是2个月前的视频吗？那种视频我都看完，天天推送，结果进去被耍了感觉，没更新喊我进来看啥，温故知新每天看一次么[无语]",
-        "你知道b站首页的搜索框天天默认你们的名字，一搜索结果发现还是2个月前的视频吗？那种视频我都看完，天天推送，结果进去被耍了感觉，没更新喊我进来看啥，温故知新每天看一次么[无语] 已经令我有点烦了，要不跟阿B说说已关注的up就别在搜索框推荐了，有点败好感了",
-        "感觉在感情上被耍了，想哭 难受，我只是一个18岁的阴湿宅女",
-        "Bilibili video context: “人间魔法师”高雨田，因敦煌飞天魔术引争议，网友：被耍了"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Popular video comments UID 1954795 (1 comments from 1 videos)",
-          "uid": "1954795",
-          "sample": "你知道b站首页的搜索框天天默认你们的名字，一搜索结果发现还是2个月前的视频吗？那种视频我都看完，天天推送，结果进去被耍了感觉，没更新喊我进来看啥，温故知新每天看一次么[无语]"
-        },
-        {
-          "source": "Bilibili local AICU corpus: oid 116619082798184",
-          "uid": "1954795",
-          "sample": "你知道b站首页的搜索框天天默认你们的名字，一搜索结果发现还是2个月前的视频吗？那种视频我都看完，天天推送，结果进去被耍了感觉，没更新喊我进来看啥，温故知新每天看一次么[无语] 已经令我有点烦了，要不跟阿B说说已关注的up就别在搜索框推荐了，有点败好感了"
-        },
-        {
-          "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
-          "uid": "",
-          "sample": "感觉在感情上被耍了，想哭 难受，我只是一个18岁的阴湿宅女"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v6",
-          "sample": "你知道b站首页的搜索框天天默认你们的名字，一搜索结果发现还是2个月前的视频吗？那种视频我都看完，天天推送，结果进去被耍了感觉，没更新喊我进来看啥，温故知新每天看一次么[无语]"
-        },
-        {
-          "source": "Bilibili local scraped user corpus: https://www.bilibili.com/video/BV1p6Gb6QE2k/",
-          "uid": "1954795",
-          "sample": "你知道b站首页的搜索框天天默认你们的名字，一搜索结果发现还是2个月前的视频吗？那种视频我都看完，天天推送，结果进去被耍了感觉，没更新喊我进来看啥，温故知新每天看一次么[无语]"
-        },
-        {
-          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/av116619082798184/",
-          "uid": "1954795",
-          "sample": "你知道b站首页的搜索框天天默认你们的名字，一搜索结果发现还是2个月前的视频吗？那种视频我都看完，天天推送，结果进去被耍了感觉，没更新喊我进来看啥，温故知新每天看一次么[无语] 已经令我有点烦了，要不跟阿B说说已关注的up就别在搜索框推荐了，有点败好感了"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan plus video context: https://www.bilibili.com/video/BV11Y4y1U7DE/, https://www.bilibili.com/video/BV1uCFTeoEN6/, http://www.bilibili.com/video/av652446927, http://www.bilibili.com/video/av115008939753693, http://www.bilibili.com/video/av114207055943284, http://www.bilibili.com/video/av114127196521496, http://www.bilibili.com/video/av1356375505, http://www.bilibili.com/video/av113963870193146, http://www.bilibili.com/video/av116395677390763, http://www.bilibili.com/video/av114403819128317, http://www.bilibili.com/video/av113804000105225, http://www.bilibili.com/video/av876942980, http://www.bilibili.com/video/av114931563235342, http://www.bilibili.com/video/av344984988, http://www.bilibili.com/video/av114895861322307, http://www.bilibili.com/video/av795125517, http://www.bilibili.com/video/av113190071701641, http://www.bilibili.com/video/av113170190437468, http://www.bilibili.com/video/av114013161652857, http://www.bilibili.com/video/av114925087296199, http://www.bilibili.com/video/av114805901890987, http://www.bilibili.com/video/av113708772624300, http://www.bilibili.com/video/av113911122629246, http://www.bilibili.com/video/av115553477926740, http://www.bilibili.com/video/av115286267138138, http://www.bilibili.com/video/av116232049137451, http://www.bilibili.com/video/av116111588726425, http://www.bilibili.com/video/av1554344509, http://www.bilibili.com/video/av114675341597469, http://www.bilibili.com/video/av993085335, http://www.bilibili.com/video/av510233943, http://www.bilibili.com/video/av492509645, http://www.bilibili.com/video/av113039462367506, http://www.bilibili.com/video/av114131675978562, http://www.bilibili.com/video/av112932692231241, http://www.bilibili.com/video/av112983627859919, http://www.bilibili.com/video/av113722831933890, http://www.bilibili.com/video/av114300656030659, http://www.bilibili.com/video/av112993945914130, http://www.bilibili.com/video/av114873732173831, http://www.bilibili.com/video/av116036695230322, http://www.bilibili.com/video/av490587330, http://www.bilibili.com/video/av360905277, http://www.bilibili.com/video/av994336370, http://www.bilibili.com/video/av777126439, http://www.bilibili.com/video/av796727569",
-          "uid": "BV11Y4y1U7DE,BV1uCFTeoEN6",
-          "sample": "Bilibili video context: “人间魔法师”高雨田，因敦煌飞天魔术引争议，网友：被耍了"
-        }
-      ],
-      "updatedAt": "2026-06-17T21:59:16.416Z"
+      "updatedAt": "2026-06-17T22:47:28.441Z"
     },
     {
-      "term": "被演员本人夺舍",
+      "term": "完全get不到",
       "family": "attack",
-      "meaning": "讽刺演员特质取代或污染角色，质疑角色刻画脱离原初设定",
+      "meaning": "完全不能理解或感受其魅力，表示不认可",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "玩不起",
+      "family": "attack",
+      "meaning": "指责对方输不起、耍赖",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-02T12:06:09.853Z"
+    },
+    {
+      "term": "玩抽象",
+      "family": "attack",
+      "meaning": "指采用抽象话、搞怪或讽刺的方式进行表达，是B站一种流行风格",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "玩烂梗",
+      "family": "attack",
+      "meaning": "表示对方使用低俗或重复的无聊梗，带有讽刺或鄙视语气",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "宛宛类卿",
+      "family": "attack",
+      "meaning": "指某人与他人相似作为替代品，带讽刺或调侃意味",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "宛宛类卿那个",
+      "family": "attack",
+      "meaning": "指某人与他人相似作为替代品，带讽刺或调侃意味",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "网暴",
+      "family": "attack",
+      "meaning": "网络暴力，群体攻击行为",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-02T11:54:48.634Z"
+    },
+    {
+      "term": "往自己脸上贴金",
+      "family": "attack",
+      "meaning": "讽刺某人自我美化、夸大其词",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "微表情",
+      "family": "attack",
+      "meaning": "暗示对方掩饰真实想法，常用于质疑或攻击",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "微博投票绷不住了",
+      "family": "attack",
+      "meaning": "对微博投票结果表示无语或讽刺，常用于比赛评选中",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "伪人",
+      "family": "attack",
+      "meaning": "骂别人不是人，缺乏素质或非人类，常用于攻击弹幕或评论",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "伪人类",
+      "family": "attack",
+      "meaning": "对评论者的侮辱性称呼，暗示对方不配称为人，常见于人身攻击或阵营排斥",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "温故知新",
+      "family": "attack",
+      "meaning": "用褒义成语反讽平台反复推荐已看过的旧视频",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-01T23:40:58.199Z"
+    },
+    {
+      "term": "温水煮青蛙",
+      "family": "attack",
+      "meaning": "比喻逐渐侵蚀、缓慢攻击的固定话术",
       "risk": "medium",
       "confidence": 0.75,
       "evidenceCount": 7,
-      "evidenceSamples": [
-        "现在的Cassie臭臭的油油的……很第一季两模两样，疑似被演员本人夺舍……",
-        "夺舍改抢劫了也是",
-        "夺舍的最高境界就是直接夺舍一整队[doge]",
-        "这个应该算是b站的都市传说 不同赛道的up都会出现妙界夺舍",
-        "回复 @鹿争鸣 :随便讲一个吧，我曾经一个人去外地参加婚礼租了一个LOFT民宿，半夜清醒着被一团人状气体爬到身体上，它浑身带电，电得我酥酥麻麻的，它想从我天灵盖钻进去夺舍，我背了很久的咒语然后它就消失了。那段时间心情比较压抑抑郁，遇到了很多..."
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1WR5M6BE21/, http://www.bilibili.com/video/av116606885693970, http://www.bilibili.com/video/av116627941168767, http://www.bilibili.com/video/av116632588391692, http://www.bilibili.com/video/av116628394089006, http://www.bilibili.com/video/av116560211478633, http://www.bilibili.com/video/av116630424325959",
-          "uid": "BV1WR5M6BE21",
-          "sample": "现在的Cassie臭臭的油油的……很第一季两模两样，疑似被演员本人夺舍……"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV18ffgBfEGx/, https://www.bilibili.com/video/BV1CN41157jr/, https://www.bilibili.com/video/BV1NYLs6QECY/, https://www.bilibili.com/video/BV1DD421j7dv/, https://www.bilibili.com/video/BV131GE6BEey/, https://www.bilibili.com/video/BV1pSGW6gE3m/, http://www.bilibili.com/video/av116103485325958, http://www.bilibili.com/video/av494541035, http://www.bilibili.com/video/av116610325091763, http://www.bilibili.com/video/av1501949353, http://www.bilibili.com/video/av116629618890402, http://www.bilibili.com/video/av116632940710127",
-          "uid": "BV18ffgBfEGx,BV1CN41157jr,BV1NYLs6QECY,BV1DD421j7dv,BV131GE6BEey,BV1pSGW6gE3m",
-          "sample": "夺舍改抢劫了也是"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV18ffgBfEGx/, https://www.bilibili.com/video/BV1CN41157jr/, https://www.bilibili.com/video/BV1NYLs6QECY/, https://www.bilibili.com/video/BV1DD421j7dv/, https://www.bilibili.com/video/BV131GE6BEey/, https://www.bilibili.com/video/BV1pSGW6gE3m/, http://www.bilibili.com/video/av116103485325958, http://www.bilibili.com/video/av494541035, http://www.bilibili.com/video/av116610325091763, http://www.bilibili.com/video/av1501949353, http://www.bilibili.com/video/av116629618890402, http://www.bilibili.com/video/av116632940710127",
-          "uid": "BV18ffgBfEGx,BV1CN41157jr,BV1NYLs6QECY,BV1DD421j7dv,BV131GE6BEey,BV1pSGW6gE3m",
-          "sample": "夺舍的最高境界就是直接夺舍一整队[doge]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1r2ntz7EPE/, https://www.bilibili.com/video/BV13oGV6REMv/, https://www.bilibili.com/video/BV11BsCzkEgs/, https://www.bilibili.com/video/BV1HpexeXEYi/, https://www.bilibili.com/video/BV1FdRDBJEZx/, https://www.bilibili.com/video/BV135Y5eiEbh/, http://www.bilibili.com/video/av115263164977193, http://www.bilibili.com/video/av116626598925837, http://www.bilibili.com/video/av115442379134815, http://www.bilibili.com/video/av112963310585044, http://www.bilibili.com/video/av116543669143642, http://www.bilibili.com/video/av112935678576705",
-          "uid": "BV1r2ntz7EPE,BV13oGV6REMv,BV11BsCzkEgs,BV1HpexeXEYi,BV1FdRDBJEZx,BV135Y5eiEbh",
-          "sample": "这个应该算是b站的都市传说 不同赛道的up都会出现妙界夺舍"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1X8fgYuEr4/, https://www.bilibili.com/video/BV1B7Gd6HEvY/, https://www.bilibili.com/video/BV1CjUSBvEih/, https://www.bilibili.com/video/BV19aVp6dEX8/, https://www.bilibili.com/video/BV1QSzjBhEMF/, https://www.bilibili.com/video/BV1ym4y1i7g6/, https://www.bilibili.com/video/BV12nVb6bEZn/, https://www.bilibili.com/video/BV1Z675zAE8L/, https://www.bilibili.com/video/BV1YSG16SEDR/, https://www.bilibili.com/video/BV1sH4y1c7kk/, https://www.bilibili.com/video/BV1Un9vY9Ev9/, https://www.bilibili.com/video/BV1YEGS64EN3/, http://www.bilibili.com/video/av114271648219349, http://www.bilibili.com/video/av115609295718495, http://www.bilibili.com/video/av699476980, http://www.bilibili.com/video/av114591136743602, http://www.bilibili.com/video/av114096561193471, http://www.bilibili.com/video/av114957383371786, http://www.bilibili.com/video/av114051950642851, http://www.bilibili.com/video/av115133275768075, http://www.bilibili.com/video/av115133879681400, http://www.bilibili.com/video/av114878966663423, http://www.bilibili.com/video/av114789627991033, http://www.bilibili.com/video/av233215785, http://www.bilibili.com/video/av739119743, http://www.bilibili.com/video/av114127196521496, http://www.bilibili.com/video/av652084505, http://www.bilibili.com/video/av114931563235342, http://www.bilibili.com/video/av5232527, http://www.bilibili.com/video/av116384319210061, http://www.bilibili.com/video/av116223022990551, http://www.bilibili.com/video/av115972857922615, http://www.bilibili.com/video/av113331251777213, http://www.bilibili.com/video/av114968791876044, http://www.bilibili.com/video/av116174788500885, http://www.bilibili.com/video/av114867944228217, http://www.bilibili.com/video/av114156791399320, http://www.bilibili.com/video/av114029620103414, http://www.bilibili.com/video/av516466059, http://www.bilibili.com/video/av115541230486105, http://www.bilibili.com/video/av116109810337743, http://www.bilibili.com/video/av1701642676, http://www.bilibili.com/video/av116454682791158, http://www.bilibili.com/video/av116634148674427, http://www.bilibili.com/video/av116651345314816, http://www.bilibili.com/video/av116656395393827, http://www.bilibili.com/video/av116646865867924, http://www.bilibili.com/video/av116649147502982, http://www.bilibili.com/video/av116658291085098, http://www.bilibili.com/video/av116654080005257, http://www.bilibili.com/video/av116657670391944, http://www.bilibili.com/video/av116659046061672, http://www.bilibili.com/video/av116639634954489, http://www.bilibili.com/video/av116519694502768, http://www.bilibili.com/video/av113702212736252, http://www.bilibili.com/video/av115674206699847, http://www.bilibili.com/video/av116503420601528, http://www.bilibili.com/video/av1056315504, http://www.bilibili.com/video/av113427401936715, http://www.bilibili.com/video/av116660975441026, http://www.bilibili.com/video/av116655841610313, http://www.bilibili.com/video/av605959769, http://www.bilibili.com/video/av1754844746, http://www.bilibili.com/video/av116148716768480, http://www.bilibili.com/video/av116655841614361, http://www.bilibili.com/video/av116659197057033, http://www.bilibili.com/video/av116639567708855, http://www.bilibili.com/video/av116659448847224, http://www.bilibili.com/video/av116660807668057, http://www.bilibili.com/video/av116652519725974, http://www.bilibili.com/video/av116655422182463, http://www.bilibili.com/video/av116658240820861, http://www.bilibili.com/video/av116625810396658, http://www.bilibili.com/video/av116595510804956, http://www.bilibili.com/video/av116460772917957, http://www.bilibili.com/video/av1606188621, http://www.bilibili.com/video/av116515466643255, http://www.bilibili.com/video/av116651026551962, http://www.bilibili.com/video/av116633494423385, http://www.bilibili.com/video/av116657032860118, http://www.bilibili.com/video/av116645422962416, http://www.bilibili.com/video/av116646614145909, http://www.bilibili.com/video/av411057792, http://www.bilibili.com/video/av116357257496502, http://www.bilibili.com/video/av116231042501704, http://www.bilibili.com/video/av116638443640744, http://www.bilibili.com/video/av116613395253133, http://www.bilibili.com/video/av115933901297747, http://www.bilibili.com/video/av116644835755545, http://www.bilibili.com/video/av116634534549292, http://www.bilibili.com/video/av115473517642857, http://www.bilibili.com/video/av114437776282256, http://www.bilibili.com/video/av116622471729662, http://www.bilibili.com/video/av116653006262725",
-          "uid": "BV1X8fgYuEr4,BV1B7Gd6HEvY,BV1CjUSBvEih,BV19aVp6dEX8,BV1QSzjBhEMF,BV1ym4y1i7g6,BV12nVb6bEZn,BV1Z675zAE8L,BV1YSG16SEDR,BV1sH4y1c7kk,BV1Un9vY9Ev9,BV1YEGS64EN3",
-          "sample": "回复 @鹿争鸣 :随便讲一个吧，我曾经一个人去外地参加婚礼租了一个LOFT民宿，半夜清醒着被一团人状气体爬到身体上，它浑身带电，电得我酥酥麻麻的，它想从我天灵盖钻进去夺舍，我背了很久的咒语然后它就消失了。那段时间心情比较压抑抑郁，遇到了很多..."
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1DuN3zCEPj/, https://www.bilibili.com/video/BV1F24y1Z78R/, https://www.bilibili.com/video/BV1gJ4m1w7r8/, https://www.bilibili.com/video/BV15W4y1R7SH/, https://www.bilibili.com/video/BV11E411r7QV/, https://www.bilibili.com/video/BV1wU4y1C7pP/, https://www.bilibili.com/video/BV1Zb421Y77o/, https://www.bilibili.com/video/BV11y4y1c79c/, https://www.bilibili.com/video/BV1Hs4y1M7jG/, https://www.bilibili.com/video/BV1yT41187zR/, https://www.bilibili.com/video/BV13Qk5BAEVB/, https://www.bilibili.com/video/BV1Mm4y1d7Wr/, http://www.bilibili.com/video/av116193058889671, http://www.bilibili.com/video/av954315230, http://www.bilibili.com/video/av1803757962, http://www.bilibili.com/video/av953764123, http://www.bilibili.com/video/av485499918, http://www.bilibili.com/video/av646532151, http://www.bilibili.com/video/av112737925466978, http://www.bilibili.com/video/av114721831261353, http://www.bilibili.com/video/av545550161, http://www.bilibili.com/video/av20558298, http://www.bilibili.com/video/av113516321245979, http://www.bilibili.com/video/av79705037, http://www.bilibili.com/video/av378834609, http://www.bilibili.com/video/av116035118239941, http://www.bilibili.com/video/av115367754204234, http://www.bilibili.com/video/av114291596334107, http://www.bilibili.com/video/av114133051707064, http://www.bilibili.com/video/av113739307161217, http://www.bilibili.com/video/av116617472184174, http://www.bilibili.com/video/av115247964751255, http://www.bilibili.com/video/av235860331, http://www.bilibili.com/video/av115252964362911, http://www.bilibili.com/video/av687948396, http://www.bilibili.com/video/av71625514, http://www.bilibili.com/video/av1254920590, http://www.bilibili.com/video/av790524394, http://www.bilibili.com/video/av115926418593888, http://www.bilibili.com/video/av116614133452638, http://www.bilibili.com/video/av55455138, http://www.bilibili.com/video/av757196637, http://www.bilibili.com/video/av933647195, http://www.bilibili.com/video/av953208936, http://www.bilibili.com/video/av114256666168981, http://www.bilibili.com/video/av757021920, http://www.bilibili.com/video/av115701620871526, http://www.bilibili.com/video/av998365056, http://www.bilibili.com/video/av116648358971047, http://www.bilibili.com/video/av401771280, http://www.bilibili.com/video/av768813152, http://www.bilibili.com/video/av380777004, http://www.bilibili.com/video/av116518620765046, http://www.bilibili.com/video/av116658190419493, http://www.bilibili.com/video/av116278622685202, http://www.bilibili.com/video/av116651026551962, http://www.bilibili.com/video/av115338075178445, http://www.bilibili.com/video/av116633980963598, http://www.bilibili.com/video/av114838634303333, http://www.bilibili.com/video/av116357257496502, http://www.bilibili.com/video/av116492498637241, http://www.bilibili.com/video/av116633494423385, http://www.bilibili.com/video/av116034916851231, http://www.bilibili.com/video/av116595879903497, http://www.bilibili.com/video/av116140311388099, http://www.bilibili.com/video/av411057792, http://www.bilibili.com/video/av686858227, http://www.bilibili.com/video/av678978549, http://www.bilibili.com/video/av594498367, http://www.bilibili.com/video/av513753539, http://www.bilibili.com/video/av115463652639756, http://www.bilibili.com/video/av477002317",
-          "uid": "BV1DuN3zCEPj,BV1F24y1Z78R,BV1gJ4m1w7r8,BV15W4y1R7SH,BV11E411r7QV,BV1wU4y1C7pP,BV1Zb421Y77o,BV11y4y1c79c,BV1Hs4y1M7jG,BV1yT41187zR,BV13Qk5BAEVB,BV1Mm4y1d7Wr",
-          "sample": "现在是彻底完蛋，不过作者肯定不在乎了，自己代入，亲亲雪宝就行了。哪怕陆雪琪其实也已经被夺舍成了他老婆的样子。"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1DuN3zCEPj/, https://www.bilibili.com/video/BV1F24y1Z78R/, https://www.bilibili.com/video/BV1864y1D79Q/, https://www.bilibili.com/video/BV15W4y1R7SH/, https://www.bilibili.com/video/BV11E411r7QV/, https://www.bilibili.com/video/BV1Zb421Y77o/, https://www.bilibili.com/video/BV1gJ4m1w7r8/, https://www.bilibili.com/video/BV13Qk5BAEVB/, https://www.bilibili.com/video/BV1Hs4y1M7jG/, https://www.bilibili.com/video/BV11y4y1c79c/, https://www.bilibili.com/video/BV1yT41187zR/, https://www.bilibili.com/video/BV1We4y1E7kz/, http://www.bilibili.com/video/av116193058889671, http://www.bilibili.com/video/av954315230, http://www.bilibili.com/video/av1803757962, http://www.bilibili.com/video/av953764123, http://www.bilibili.com/video/av485499918, http://www.bilibili.com/video/av646532151, http://www.bilibili.com/video/av112737925466978, http://www.bilibili.com/video/av114721831261353, http://www.bilibili.com/video/av545550161, http://www.bilibili.com/video/av20558298, http://www.bilibili.com/video/av113516321245979, http://www.bilibili.com/video/av79705037, http://www.bilibili.com/video/av378834609, http://www.bilibili.com/video/av116035118239941, http://www.bilibili.com/video/av115367754204234, http://www.bilibili.com/video/av114291596334107, http://www.bilibili.com/video/av114133051707064, http://www.bilibili.com/video/av113739307161217, http://www.bilibili.com/video/av116617472184174, http://www.bilibili.com/video/av115247964751255, http://www.bilibili.com/video/av235860331, http://www.bilibili.com/video/av115252964362911, http://www.bilibili.com/video/av687948396, http://www.bilibili.com/video/av71625514, http://www.bilibili.com/video/av1254920590, http://www.bilibili.com/video/av790524394, http://www.bilibili.com/video/av115926418593888, http://www.bilibili.com/video/av116614133452638, http://www.bilibili.com/video/av55455138, http://www.bilibili.com/video/av757196637, http://www.bilibili.com/video/av933647195, http://www.bilibili.com/video/av953208936, http://www.bilibili.com/video/av114256666168981, http://www.bilibili.com/video/av757021920, http://www.bilibili.com/video/av115701620871526, http://www.bilibili.com/video/av998365056, http://www.bilibili.com/video/av116648358971047, http://www.bilibili.com/video/av401771280, http://www.bilibili.com/video/av768813152, http://www.bilibili.com/video/av380777004, http://www.bilibili.com/video/av116518620765046, http://www.bilibili.com/video/av116658190419493, http://www.bilibili.com/video/av116278622685202, http://www.bilibili.com/video/av116651026551962, http://www.bilibili.com/video/av115338075178445, http://www.bilibili.com/video/av116633980963598, http://www.bilibili.com/video/av114838634303333, http://www.bilibili.com/video/av116357257496502, http://www.bilibili.com/video/av116492498637241, http://www.bilibili.com/video/av116633494423385, http://www.bilibili.com/video/av116034916851231, http://www.bilibili.com/video/av116595879903497, http://www.bilibili.com/video/av116140311388099, http://www.bilibili.com/video/av411057792, http://www.bilibili.com/video/av1655509197, http://www.bilibili.com/video/av596780987",
-          "uid": "BV1DuN3zCEPj,BV1F24y1Z78R,BV1864y1D79Q,BV15W4y1R7SH,BV11E411r7QV,BV1Zb421Y77o,BV1gJ4m1w7r8,BV13Qk5BAEVB,BV1Hs4y1M7jG,BV11y4y1c79c,BV1yT41187zR,BV1We4y1E7kz",
-          "sample": "现在是彻底完蛋，不过作者肯定不在乎了，自己代入，亲亲雪宝就行了。哪怕陆雪琪其实也已经被夺舍成了他老婆的样子。"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1wxG1zjE2o/, https://www.bilibili.com/video/BV1ehVa6EEfe/, https://www.bilibili.com/video/BV1KYGJz1E6Y/, https://www.bilibili.com/video/BV1qY4y1Q7pt/, https://www.bilibili.com/video/BV1ysxXzTEKG/, http://www.bilibili.com/video/av114420764122522, http://www.bilibili.com/video/av114817260065621, http://www.bilibili.com/video/av115060831687412, http://www.bilibili.com/video/av115106214059658, http://www.bilibili.com/video/av114926043535314, http://www.bilibili.com/video/av115445969461075, http://www.bilibili.com/video/av116322142849628, http://www.bilibili.com/video/av115231539856972, http://www.bilibili.com/video/av393541868, http://www.bilibili.com/video/av113587892850628, http://www.bilibili.com/video/av458902058, http://www.bilibili.com/video/av116485284434422, http://www.bilibili.com/video/av523786908, http://www.bilibili.com/video/av114602947907540, http://www.bilibili.com/video/av114284583456843, http://www.bilibili.com/video/av929088800, http://www.bilibili.com/video/av113348683238770, http://www.bilibili.com/video/av445015939, http://www.bilibili.com/video/av114053393417606, http://www.bilibili.com/video/av113734676710538, http://www.bilibili.com/video/av466865564, http://www.bilibili.com/video/av113395089146336, http://www.bilibili.com/video/av113613243159745, http://www.bilibili.com/video/av1456228642, http://www.bilibili.com/video/av116658341418148, http://www.bilibili.com/video/av653554572, http://www.bilibili.com/video/av1250127208, http://www.bilibili.com/video/av116651580263160, http://www.bilibili.com/video/av115766632384624, http://www.bilibili.com/video/av116636413658130, http://www.bilibili.com/video/av116615760843864, http://www.bilibili.com/video/av116589504497430, http://www.bilibili.com/video/av114158100022521, http://www.bilibili.com/video/av116579320995105, http://www.bilibili.com/video/av116607791732843, http://www.bilibili.com/video/av116594336335942, http://www.bilibili.com/video/av116575310976152, http://www.bilibili.com/video/av380912980, http://www.bilibili.com/video/av116635004307684, http://www.bilibili.com/video/av114987196483181, http://www.bilibili.com/video/av116640071028559, http://www.bilibili.com/video/av115321935566769, http://www.bilibili.com/video/av114051145339710, http://www.bilibili.com/video/av116629568493685, http://www.bilibili.com/video/av116215087371605, http://www.bilibili.com/video/av116651664087159, http://www.bilibili.com/video/av115785456426269, http://www.bilibili.com/video/av1405013084, http://www.bilibili.com/video/av770759663, http://www.bilibili.com/video/av115786244955971, http://www.bilibili.com/video/av113768935720721, http://www.bilibili.com/video/av114795281910988, http://www.bilibili.com/video/av116656680474825, http://www.bilibili.com/video/av820202491, http://www.bilibili.com/video/av406287870, http://www.bilibili.com/video/av56513655, http://www.bilibili.com/video/av505185186, http://www.bilibili.com/video/av112996227482644, http://www.bilibili.com/video/av114690927625525, http://www.bilibili.com/video/av116662367950969, http://www.bilibili.com/video/av1004644565, http://www.bilibili.com/video/av116576971917841, http://www.bilibili.com/video/av1500142665, http://www.bilibili.com/video/av116623864370379, http://www.bilibili.com/video/av114041330600399, http://www.bilibili.com/video/av112873669919271, http://www.bilibili.com/video/av115693282466604, http://www.bilibili.com/video/av1706327654, http://www.bilibili.com/video/av870078924, http://www.bilibili.com/video/av279692209, http://www.bilibili.com/video/av115842465399519, http://www.bilibili.com/video/av1155780854, http://www.bilibili.com/video/av113648928295574, http://www.bilibili.com/video/av113079257924778, http://www.bilibili.com/video/av116536371119819, http://www.bilibili.com/video/av115027864458282, http://www.bilibili.com/video/av116284159237908, http://www.bilibili.com/video/av116299980083202, http://www.bilibili.com/video/av268340642, http://www.bilibili.com/video/av116653073435207, http://www.bilibili.com/video/av116652134043447, http://www.bilibili.com/video/av113452802706862, http://www.bilibili.com/video/av115083782982394, http://www.bilibili.com/video/av708338172, http://www.bilibili.com/video/av1100859909, http://www.bilibili.com/video/av12361349, http://www.bilibili.com/video/av114901028768487, http://www.bilibili.com/video/av116313955506843, http://www.bilibili.com/video/av116663978558064, http://www.bilibili.com/video/av115543143090126, http://www.bilibili.com/video/av115802737017229, http://www.bilibili.com/video/av116617623111496, http://www.bilibili.com/video/av116661344606846, http://www.bilibili.com/video/av1051381638, http://www.bilibili.com/video/av116106891104367, http://www.bilibili.com/video/av915851253, http://www.bilibili.com/video/av959373801, http://www.bilibili.com/video/av115089671782407, http://www.bilibili.com/video/av116661529220460, http://www.bilibili.com/video/av116000389339022, http://www.bilibili.com/video/av116661294205027, http://www.bilibili.com/video/av116594688655862, http://www.bilibili.com/video/av756843384, http://www.bilibili.com/video/av116302328959185, http://www.bilibili.com/video/av116582843947909, http://www.bilibili.com/video/av116502263044915, http://www.bilibili.com/video/av116643946629801, http://www.bilibili.com/video/av116644013674356, http://www.bilibili.com/video/av116659633259654, http://www.bilibili.com/video/av116462333198876, http://www.bilibili.com/video/av116645540402790, http://www.bilibili.com/video/av115989299660347, http://www.bilibili.com/video/av116385896204894, http://www.bilibili.com/video/av116261677697673, http://www.bilibili.com/video/av116639567778125, http://www.bilibili.com/video/av114997430590985, http://www.bilibili.com/video/av1002679891, http://www.bilibili.com/video/av116661831075013, http://www.bilibili.com/video/av114722569523956, http://www.bilibili.com/video/av1605259083, http://www.bilibili.com/video/av474209783, http://www.bilibili.com/video/av113911525282779, http://www.bilibili.com/video/av726922216, http://www.bilibili.com/video/av115807686236108, http://www.bilibili.com/video/av115575758068670, http://www.bilibili.com/video/av1506402597, http://www.bilibili.com/video/av116657385313732, http://www.bilibili.com/video/av114715690866499, http://www.bilibili.com/video/av1851609885, http://www.bilibili.com/video/av1155646725, http://www.bilibili.com/video/av115354198089611, http://www.bilibili.com/video/av116170443200334, http://www.bilibili.com/video/av116577676561367, http://www.bilibili.com/video/av116560681240207, http://www.bilibili.com/video/av116463071401733, http://www.bilibili.com/video/av113038808059590, http://www.bilibili.com/video/av116655623506108, http://www.bilibili.com/video/av1005325676, http://www.bilibili.com/video/av115745526716386, http://www.bilibili.com/video/av387992590, http://www.bilibili.com/video/av544793887, http://www.bilibili.com/video/av116657737435024, http://www.bilibili.com/video/av116581300437319, http://www.bilibili.com/video/av116620055807706, http://www.bilibili.com/video/av115879895368330, http://www.bilibili.com/video/av116533720255497, http://www.bilibili.com/video/av116651613752144, http://www.bilibili.com/video/av116644282111487, http://www.bilibili.com/video/av116618193606202, http://www.bilibili.com/video/av116562493183665, http://www.bilibili.com/video/av116657502554818, http://www.bilibili.com/video/av116583296995108, http://www.bilibili.com/video/av114290438707405, http://www.bilibili.com/video/av116063706611745, http://www.bilibili.com/video/av116613110109837, http://www.bilibili.com/video/av115039222633637, http://www.bilibili.com/video/av1054688662, http://www.bilibili.com/video/av114204338101542, http://www.bilibili.com/video/av112604328496808, http://www.bilibili.com/video/av116389654304615, http://www.bilibili.com/video/av116648929398769, http://www.bilibili.com/video/av116650842067270, http://www.bilibili.com/video/av116629232949164, http://www.bilibili.com/video/av113331067159327, http://www.bilibili.com/video/av867868445, http://www.bilibili.com/video/av116645188081193, http://www.bilibili.com/video/av116632068295270, http://www.bilibili.com/video/av116465973856053, http://www.bilibili.com/video/av116521926007318, http://www.bilibili.com/video/av116040386217493, http://www.bilibili.com/video/av115840804526160, http://www.bilibili.com/video/av116135009719839, http://www.bilibili.com/video/av116657720656923, http://www.bilibili.com/video/av116272851389503, http://www.bilibili.com/video/av114782984276899, http://www.bilibili.com/video/av116449515405528, http://www.bilibili.com/video/av116641463538734, http://www.bilibili.com/video/av116595359881422, http://www.bilibili.com/video/av116011697246596, http://www.bilibili.com/video/av116547997666288, http://www.bilibili.com/video/av116539105744688, http://www.bilibili.com/video/av116658408527667, http://www.bilibili.com/video/av115279522695706, http://www.bilibili.com/video/av115593156039570, http://www.bilibili.com/video/av116649969583334, http://www.bilibili.com/video/av116141552834715, http://www.bilibili.com/video/av918161947, http://www.bilibili.com/video/av114624657622280, http://www.bilibili.com/video/av116534240346699, http://www.bilibili.com/video/av113082579816211, http://www.bilibili.com/video/av116539961378393, http://www.bilibili.com/video/av115133124710291, http://www.bilibili.com/video/av636298603, http://www.bilibili.com/video/av115381679167319, http://www.bilibili.com/video/av116645842454543, http://www.bilibili.com/video/av116634651990013, http://www.bilibili.com/video/av116216244997647, http://www.bilibili.com/video/av116640272355750, http://www.bilibili.com/video/av112943832236606, http://www.bilibili.com/video/av116231780696497, http://www.bilibili.com/video/av116505014436044, http://www.bilibili.com/video/av114046783196413, http://www.bilibili.com/video/av116656563030180, http://www.bilibili.com/video/av116213476758836, http://www.bilibili.com/video/av116237753387209, http://www.bilibili.com/video/av116655824836277, http://www.bilibili.com/video/av116638561142903, http://www.bilibili.com/video/av116583045275398, http://www.bilibili.com/video/av116661243875261, http://www.bilibili.com/video/av116591433877602, http://www.bilibili.com/video/av116532898175916, http://www.bilibili.com/video/av116323854190084, http://www.bilibili.com/video/av116328820118826, http://www.bilibili.com/video/av115995893105973, http://www.bilibili.com/video/av116379219004363, http://www.bilibili.com/video/av116418880281975, http://www.bilibili.com/video/av116490854599323, http://www.bilibili.com/video/av114467018904134, http://www.bilibili.com/video/av116630189249781, http://www.bilibili.com/video/av581870265, http://www.bilibili.com/video/av1555113491, http://www.bilibili.com/video/av116324089009405, http://www.bilibili.com/video/av115166175894978, http://www.bilibili.com/video/av116362340998560, http://www.bilibili.com/video/av116538602428160, http://www.bilibili.com/video/av116041057374253, http://www.bilibili.com/video/av116589018089162, http://www.bilibili.com/video/av116012133452689, http://www.bilibili.com/video/av116335849768186, http://www.bilibili.com/video/av116595795958706, http://www.bilibili.com/video/av485442736, http://www.bilibili.com/video/av115355859093829, http://www.bilibili.com/video/av116122661687051, http://www.bilibili.com/video/av114932855084476, http://www.bilibili.com/video/av1604589720, http://www.bilibili.com/video/av116639903257713, http://www.bilibili.com/video/av115666187327265, http://www.bilibili.com/video/av793042787, http://www.bilibili.com/video/av44499097, http://www.bilibili.com/video/av435572345, http://www.bilibili.com/video/av116652737824287, http://www.bilibili.com/video/av115798106439888, http://www.bilibili.com/video/av115281284301062, http://www.bilibili.com/video/av116618914961376, http://www.bilibili.com/video/av116046308639188, http://www.bilibili.com/video/av114838953004131, http://www.bilibili.com/video/av116655841610313, http://www.bilibili.com/video/av115170286247876, http://www.bilibili.com/video/av114996776338781, http://www.bilibili.com/video/av952879650, http://www.bilibili.com/video/av114030727402351, http://www.bilibili.com/video/av504905725, http://www.bilibili.com/video/av603144515, http://www.bilibili.com/video/av506673585, http://www.bilibili.com/video/av594996116, http://www.bilibili.com/video/av49504657, http://www.bilibili.com/video/av797252973, http://www.bilibili.com/video/av845581765, http://www.bilibili.com/video/av468491609, http://www.bilibili.com/video/av116661529084471, http://www.bilibili.com/video/av910319300, http://www.bilibili.com/video/av116603614135466, http://www.bilibili.com/video/av116538552096632, http://www.bilibili.com/video/av783032152, http://www.bilibili.com/video/av112800923913080, http://www.bilibili.com/video/av112999817806747, http://www.bilibili.com/video/av112845836521063, http://www.bilibili.com/video/av73708200, http://www.bilibili.com/video/av259323249, http://www.bilibili.com/video/av301127211, http://www.bilibili.com/video/av716662465, http://www.bilibili.com/video/av115331985121271, http://www.bilibili.com/video/av115350272220701, http://www.bilibili.com/video/av116559573946584, http://www.bilibili.com/video/av1005795493",
-          "uid": "BV1wxG1zjE2o,BV1ehVa6EEfe,BV1KYGJz1E6Y,BV1qY4y1Q7pt,BV1ysxXzTEKG",
-          "sample": "电视被花人夺舍了，这不还是现实慢慢被剥离"
-        }
-      ],
+      "updatedAt": "2026-06-01T10:55:34.638Z"
+    },
+    {
+      "term": "文化挪用",
+      "family": "attack",
+      "meaning": "指责对方不当使用或占取文化元素，通常暗示恶意",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "文化挪用不可饶恕",
+      "family": "attack",
+      "meaning": "指责对方不当使用或占取文化元素，通常暗示恶意",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "我不懂啊",
+      "family": "attack",
+      "meaning": "假装不懂，实则讽刺对方炫耀不值一提",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-02T11:50:38.468Z"
+    },
+    {
+      "term": "我不李姐",
+      "family": "attack",
+      "meaning": "谐音‘我不理解’，表达对荒唐行为的讽刺与不认同",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "我不信",
+      "family": "attack",
+      "meaning": "源自电视节目的经典质疑句式，用于讽刺或挑衅性地表达不信",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-02T12:17:26.480Z"
+    },
+    {
+      "term": "我草",
+      "family": "attack",
+      "meaning": "粗口，表达惊讶或不满",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "我草点了",
+      "family": "attack",
+      "meaning": "粗口，表达惊讶或不满",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "我阐述你的梦",
+      "family": "attack",
+      "meaning": "用阴阳怪气的方式讽刺比亚迪或汽车品牌文化，常见于B站车评区",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "我都不好意思点破你",
+      "family": "attack",
+      "meaning": "委婉指出对方问题，带讽刺意味",
+      "risk": "low",
+      "confidence": 0.7,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "我命由我",
+      "family": "attack",
+      "meaning": "原为台词，现常被用作狂妄自大的表态，用于讽刺",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "我命由我不由天",
+      "family": "attack",
+      "meaning": "原为台词，现常被用作狂妄自大的表态，用于讽刺",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "我破防",
+      "family": "attack",
+      "meaning": "被戳中痛点后情绪失控，常用于嘲讽对方反应过度",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-05-30T23:59:04.117Z"
+    },
+    {
+      "term": "我去",
+      "family": "attack",
+      "meaning": "感叹词'卧槽'的拼音缩写，表达惊讶、震惊，常带有负面情绪",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-17T06:10:13.852Z"
+    },
+    {
+      "term": "我上我也行",
+      "family": "attack",
+      "meaning": "嘲讽或自嘲的常见表达，表示换作自己也能做到",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-05-31T16:51:24.141Z"
+    },
+    {
+      "term": "我酸了",
+      "family": "attack",
+      "meaning": "表达羡慕嫉妒的自嘲式网络用语，常带有轻微阴阳怪气",
+      "risk": "medium",
+      "confidence": 0.78,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "我赢麻了",
+      "family": "attack",
+      "meaning": "讽刺对方自以为胜利或过度得意，也表示赢家通吃的嘲讽",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-18T13:55:24.559Z"
+    },
+    {
+      "term": "我真绷不住",
+      "family": "attack",
+      "meaning": "表示忍不住笑或无奈，常用来嘲讽对方言论荒谬",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-02T09:10:25.491Z"
+    },
+    {
+      "term": "无慈悲",
+      "family": "attack",
+      "meaning": "来自游戏对白，用于调侃冷酷无情，带讽刺",
+      "risk": "medium",
+      "confidence": 0.65,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-01T18:29:22.006Z"
+    },
+    {
+      "term": "无敌之人",
+      "family": "attack",
+      "meaning": "形容某人或某事非常强大、无人能敌，常带讽刺或调侃意味",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-02T12:17:26.480Z"
+    },
+    {
+      "term": "无脑",
+      "family": "attack",
+      "meaning": "贬低操作或玩法“无脑”，暗示不用思考，带有轻视",
+      "risk": "medium",
+      "confidence": 0.65,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "无脑跟风",
+      "family": "attack",
+      "meaning": "贬低他人盲目跟随潮流，缺乏独立思考",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "无脑上拐",
+      "family": "attack",
+      "meaning": "贬低操作或玩法“无脑”，暗示不用思考，带有轻视",
+      "risk": "medium",
+      "confidence": 0.65,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "无形的大手",
+      "family": "attack",
+      "meaning": "隐喻背后操纵的力量，用于讽刺资本或权力暗中干预",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-02T11:50:38.468Z"
+    },
+    {
+      "term": "无掩体干拉",
+      "family": "attack",
+      "meaning": "游戏术语，原指不找掩体直接开火，网络用语中嘲讽他人鲁莽、无脑行动",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 3,
+      "updatedAt": "2026-05-30T06:04:01.774Z"
+    },
+    {
+      "term": "吾命休矣",
+      "family": "attack",
+      "meaning": "表示绝望或困境的调侃说法，源自游戏或影视台词，用于自嘲或表达无奈",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 3,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "五毒俱全",
+      "family": "attack",
+      "meaning": "形容某人品质极坏、无恶不作，强烈攻击性",
+      "risk": "high",
+      "confidence": 0.92,
+      "evidenceCount": 5,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "五毛",
+      "family": "attack",
+      "meaning": "中文互联网弹幕式嘲讽、阵营指称或戏谑表达",
+      "risk": "medium",
+      "confidence": 0.5,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-02T12:23:09.945Z"
+    },
+    {
+      "term": "五十万",
+      "family": "attack",
+      "meaning": "指间谍举报奖励，用来怀疑或指控对方是间谍、带节奏",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "侮辱乐手",
+      "family": "attack",
+      "meaning": "指责言论对乐手构成侮辱",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-17T19:43:51.466Z"
+    },
+    {
+      "term": "捂嘴",
+      "family": "attack",
+      "meaning": "指压制言论、不让批评发声",
+      "risk": "high",
+      "confidence": 0.88,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-02T11:50:38.468Z"
+    },
+    {
+      "term": "吸特乐",
+      "family": "attack",
+      "meaning": "谐音梗，指吸毒者或讽刺希特勒，带有侮辱性",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "洗白",
+      "family": "attack",
+      "meaning": "为错误或争议行为强行辩护、粉饰",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-02T12:17:26.480Z"
+    },
+    {
+      "term": "洗白弱三分",
+      "family": "attack",
+      "meaning": "调侃角色或人物洗白后战斗力减弱，常用于影视或游戏讨论中的批评",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 4,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "洗地",
+      "family": "attack",
+      "meaning": "为错误或争议行为强行辩护、粉饰",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "喜欢我",
+      "family": "attack",
+      "meaning": "固定嘲讽句式，常用于描述对方劣势或愚蠢行为",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-17T06:10:13.852Z"
+    },
+    {
+      "term": "虾头",
+      "family": "attack",
+      "meaning": "游戏梗，用‘虾头’（‘下头’谐音）侮辱太刀玩家，指其行为恶心",
+      "risk": "high",
+      "confidence": 0.78,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "虾头太刀",
+      "family": "attack",
+      "meaning": "游戏梗，用‘虾头’（‘下头’谐音）侮辱太刀玩家，指其行为恶心",
+      "risk": "high",
+      "confidence": 0.78,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "瞎说",
+      "family": "attack",
+      "meaning": "直接否定对方说法，表示完全错误",
+      "risk": "high",
+      "confidence": 0.7,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "瞎说什么实话",
+      "family": "attack",
+      "meaning": "固定话术，调侃对方说出不该说的真相",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "下次一定",
+      "family": "attack",
+      "meaning": "B站经典调侃用语，表示假装支持但实际不会行动，常含讽刺",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-02T12:17:26.480Z"
+    },
+    {
+      "term": "下三路",
+      "family": "attack",
+      "meaning": "用下流低俗的方式辱骂他人",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "下三路辱骂",
+      "family": "attack",
+      "meaning": "用下流低俗的方式辱骂他人",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "下头",
+      "family": "attack",
+      "meaning": "形容让人扫兴、反感，常用于对人或事表达负面情绪",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "下头了",
+      "family": "attack",
+      "meaning": "网络用语，表示扫兴、破坏氛围，常用于批评言论或行为令人反感",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "消费爱国",
+      "family": "attack",
+      "meaning": "指责商家利用爱国情绪来赚钱，带有讽刺意味",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "消费爱国情怀",
+      "family": "attack",
+      "meaning": "指责商家利用爱国情绪来赚钱，带有讽刺意味",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "小白",
+      "family": "attack",
+      "meaning": "指不熟悉技术的新手用户",
+      "risk": "neutral",
+      "confidence": 0.9,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-02T11:50:38.468Z"
+    },
+    {
+      "term": "小馋猫",
+      "family": "attack",
+      "meaning": "调侃对方贪心或想占便宜，带有轻微讽刺的固定话术",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-02T12:17:26.480Z"
+    },
+    {
+      "term": "小丑",
+      "family": "attack",
+      "meaning": "中文互联网嘲讽或贬低性梗；猪鼻用于批评某人当下行为犯蠢",
+      "risk": "medium",
+      "confidence": 0.95,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "小丑皇",
+      "family": "attack",
+      "meaning": "自嘲或夸张自称，源自游戏梗",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "小丑了",
+      "family": "attack",
+      "meaning": "指某人行为可笑，用于嘲讽",
+      "risk": "high",
+      "confidence": 0.95,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-02T12:10:11.165Z"
+    },
+    {
+      "term": "小丑皮尔斯",
+      "family": "attack",
+      "meaning": "用于自嘲或讽刺他人，常指可笑或被耍弄的人",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 4,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "小粉红",
+      "family": "attack",
+      "meaning": "中文互联网弹幕式嘲讽、阵营指称或戏谑表达",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "小鬼",
+      "family": "attack",
+      "meaning": "指极端无脑的粉丝或跟风者，带有贬义，常用于批评某个群体的盲从行为",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "小号",
+      "family": "attack",
+      "meaning": "指低等级或新注册账号，用于质疑对方身份真实性，暗示水军或诈骗",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-02T11:50:38.468Z"
+    },
+    {
+      "term": "小黑子",
+      "family": "attack",
+      "meaning": "指故意黑别人的黑粉或喷子，常用于攻击对方立场不纯或刻意找茬",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "小黑子梗",
+      "family": "attack",
+      "meaning": "指代黑粉玩梗阴阳怪气",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "小黑子露出鸡脚了吧",
+      "family": "attack",
+      "meaning": "用于讽刺黑粉露馅，源自蔡徐坤梗",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "小鸟伏特加",
+      "family": "attack",
+      "meaning": "网络恶搞，模仿俄式综艺，带嘲讽意味",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 5,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "小趴菜",
+      "family": "attack",
+      "meaning": "网络用语，指实力弱、很菜的人，带有轻蔑或自嘲意味",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "小人国国王",
+      "family": "attack",
+      "meaning": "讽刺bin选手自负或装逼",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 5,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "小人退散",
+      "family": "attack",
+      "meaning": "诅咒或驱赶小人，表达对负面人的排斥",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 4,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "小日本",
+      "family": "attack",
+      "meaning": "用侮辱性称呼和绝对化断言表示敌意",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "小日本都是坏人",
+      "family": "attack",
+      "meaning": "用侮辱性称呼和绝对化断言表示敌意",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "小日子",
+      "family": "attack",
+      "meaning": "对日本人的戏称，带轻视或调侃意味",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-02T11:50:38.468Z"
+    },
+    {
+      "term": "小受",
+      "family": "attack",
+      "meaning": "阴阳怪气称呼同性恋中的被动方",
+      "risk": "medium",
+      "confidence": 0.78,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-01T04:14:11.802Z"
+    },
+    {
+      "term": "小子",
+      "family": "attack",
+      "meaning": "带有贬义的称呼，可能指某支球队的粉丝或球员，含轻蔑意味",
+      "risk": "high",
+      "confidence": 0.65,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-02T12:26:14.667Z"
+    },
+    {
+      "term": "小作文",
+      "family": "attack",
+      "meaning": "指主播或用户发的长文解释或借口，常用来讽刺敷衍、逃避责任的行为。",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-02T12:17:26.480Z"
+    },
+    {
+      "term": "笑麻了",
+      "family": "attack",
+      "meaning": "嘲讽他人表现滑稽，带有强烈揶揄意味",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-02T11:04:48.836Z"
+    },
+    {
+      "term": "笑死",
+      "family": "attack",
+      "meaning": "网络用语，表示极度好笑，常用于嘲讽或吐槽",
+      "risk": "low",
+      "confidence": 0.85,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-18T13:55:24.559Z"
+    },
+    {
+      "term": "笑死了",
+      "family": "attack",
+      "meaning": "表达轻蔑或讽刺",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-18T13:55:24.559Z"
+    },
+    {
+      "term": "笑死我了",
+      "family": "attack",
+      "meaning": "嘲讽他人表现滑稽，带有强烈揶揄意味",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-18T13:55:24.559Z"
+    },
+    {
+      "term": "笑亖",
+      "family": "attack",
+      "meaning": "笑死，表示被逗乐或略带嘲讽，亖为死谐音",
+      "risk": "medium",
+      "confidence": 0.78,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-02T11:41:47.569Z"
+    },
+    {
+      "term": "心电感应",
+      "family": "attack",
+      "meaning": "讽刺那种无需分析就能直接从音乐中听出具体叙事的玄幻解读方式，暗指听众仿佛拥有超能力",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-17T10:14:23.514Z"
+    },
+    {
+      "term": "心里没点b数",
+      "family": "attack",
+      "meaning": "指责对方不自知，带有攻击性",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-01T10:37:35.685Z"
+    },
+    {
+      "term": "新兰党",
+      "family": "attack",
+      "meaning": "指支持柯南与灰原哀配对的粉丝群体，常被用于阵营攻击或对立",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-01T17:56:49.374Z"
+    },
+    {
+      "term": "新烂梗",
+      "family": "attack",
+      "meaning": "指新出现的低质量网络梗，用于嘲讽或批评",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "新闻学啊",
+      "family": "attack",
+      "meaning": "讽刺对方用新闻学手法歪曲事实，阴阳怪气",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-02T11:50:38.468Z"
+    },
+    {
+      "term": "新闻学的魅力",
+      "family": "attack",
+      "meaning": "讽刺新闻学或新闻从业者的梗，常用来贬低对方言论可信度",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-02T11:50:38.468Z"
+    },
+    {
+      "term": "信息茧房",
+      "family": "attack",
+      "meaning": "指人只接触自己感兴趣的信息，听不进不同意见，用于批评固步自封",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-02T11:50:38.468Z"
+    },
+    {
+      "term": "信仰",
+      "family": "attack",
+      "meaning": "名词，此处用作讽刺对方盲目相信（如品牌、观点）",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-02T11:46:28.457Z"
+    },
+    {
+      "term": "行善积德",
+      "family": "attack",
+      "meaning": "道德绑架式话语，指责他人缺乏善行导致恶果，带有攻击性",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-18T13:55:24.559Z"
+    },
+    {
+      "term": "行走的五十万",
+      "family": "attack",
+      "meaning": "指间谍举报奖励，用来怀疑或指控对方是间谍、带节奏",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "兄啊",
+      "family": "attack",
+      "meaning": "homo梗语气词，模仿角色口吻，用于阴阳怪气或嘲讽",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-01T10:20:00.094Z"
+    },
+    {
+      "term": "虚标",
+      "family": "attack",
+      "meaning": "指责产品参数虚假、不实，常见于数码评测",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "虚标名",
+      "family": "attack",
+      "meaning": "指责产品参数虚假、不实，常见于数码评测",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "虚空索敌",
+      "family": "attack",
+      "meaning": "无中生有地攻击假想敌，讽刺对方乱扣帽子",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-02T11:41:47.569Z"
+    },
+    {
+      "term": "炫压抑",
+      "family": "attack",
+      "meaning": "调侃对方过度炫耀或压抑欲望",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "炫压抑上了",
+      "family": "attack",
+      "meaning": "调侃对方过度炫耀或压抑欲望",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "学会了快删了",
+      "family": "attack",
+      "meaning": "调侃话术，表面要求删除教程，实为称赞内容实用，带有阴阳怪气效果",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "学新闻学",
+      "family": "attack",
+      "meaning": "讽刺新闻学或新闻从业者的梗，常用来贬低对方言论可信度",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "学新闻学的",
+      "family": "attack",
+      "meaning": "讽刺新闻学或新闻从业者的梗，常用来贬低对方言论可信度",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "殉情",
+      "family": "attack",
+      "meaning": "网络梗，用于调侃失恋或极端情感表达",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 5,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "严父",
+      "family": "attack",
+      "meaning": "手机圈梗，形容性价比极高、碾压对手",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 6,
+      "updatedAt": "2026-05-31T01:21:48.932Z"
+    },
+    {
+      "term": "厌蠢",
+      "family": "attack",
+      "meaning": "因他人愚蠢而产生强烈厌恶，常用于批评角色或行为",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-02T10:15:16.892Z"
+    },
+    {
+      "term": "阳光老登",
+      "family": "attack",
+      "meaning": "对老年男性的贬义称呼",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "阳气不足",
+      "family": "attack",
+      "meaning": "阴阳怪气地嘲讽对方体虚或精神状态不佳",
+      "risk": "medium",
+      "confidence": 0.65,
+      "evidenceCount": 3,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "阳痿",
+      "family": "attack",
+      "meaning": "粗俗攻击，侮辱他人性能力",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-02T00:27:53.503Z"
+    },
+    {
+      "term": "杨圣",
+      "family": "attack",
+      "meaning": "对特定人物的戏称，带有阴阳怪气的讽刺",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 3,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "要断章取义",
+      "family": "attack",
+      "meaning": "反讽断章取义行为，常见于评论",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-02T11:50:38.468Z"
+    },
+    {
+      "term": "也中",
+      "family": "attack",
+      "meaning": "谐音'野种'，用于人身攻击",
+      "risk": "high",
+      "confidence": 0.95,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-02T12:10:11.165Z"
+    },
+    {
+      "term": "野榜",
+      "family": "attack",
+      "meaning": "指责榜单不靠谱、主观、乱排，带有讽刺意味",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-01T09:34:59.295Z"
+    },
+    {
+      "term": "一个多亿",
+      "family": "attack",
+      "meaning": "强调巨额数字，结合哭笑表情表达对资金使用效率的嘲讽",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-17T19:41:51.936Z"
+    },
+    {
+      "term": "一言难尽",
+      "family": "attack",
+      "meaning": "表示对某事不满或无奈，委婉批评",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-02T11:50:38.468Z"
+    },
+    {
+      "term": "一转攻势",
+      "family": "attack",
+      "meaning": "指立场或局势突然反转，常用于嘲讽对方被反杀",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-02T00:07:32.305Z"
+    },
+    {
+      "term": "遗言",
+      "family": "attack",
+      "meaning": "调侃某人说的话像临终遗言，常用于嘲讽或阴阳怪气",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "遗言吗",
+      "family": "attack",
+      "meaning": "调侃某人说的话像临终遗言，常用于嘲讽或阴阳怪气",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "异食癖",
+      "family": "attack",
+      "meaning": "调侃他人品味奇特的行为",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 4,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "异议",
+      "family": "attack",
+      "meaning": "逆转裁判梗，表示强烈反驳或质疑",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-02T11:54:48.634Z"
+    },
+    {
+      "term": "意淫",
+      "family": "attack",
+      "meaning": "贬低对方空想、不切实际，用于嘲讽",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-02T11:50:38.468Z"
+    },
+    {
+      "term": "懿粉",
+      "family": "attack",
+      "meaning": "对孙颖莎粉丝的贬称，样本中与‘懿症’相关",
+      "risk": "high",
+      "confidence": 0.7,
+      "evidenceCount": 4,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "阴成啥了",
+      "family": "attack",
+      "meaning": "形容人阴险、心机重，负面评价",
+      "risk": "high",
+      "confidence": 0.88,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-01T09:34:59.295Z"
+    },
+    {
+      "term": "阴谋论",
+      "family": "attack",
+      "meaning": "指责对方用阴谋论推理，缺乏证据",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-01T11:23:27.054Z"
+    },
+    {
+      "term": "阴阳",
+      "family": "attack",
+      "meaning": "阴阳怪气地讽刺、含沙射影",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-02T12:10:11.165Z"
+    },
+    {
+      "term": "阴阳怪气",
+      "family": "attack",
+      "meaning": "中文互联网嘲讽或贬低性梗；猪鼻用于批评某人当下行为犯蠢",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-02T11:50:38.468Z"
+    },
+    {
+      "term": "银手镯",
+      "family": "attack",
+      "meaning": "指手铐，用于讽刺警方抓捕或罪犯被戴手铐的调侃",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "引流",
+      "family": "attack",
+      "meaning": "指责故意吸引流量",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-02T02:07:05.906Z"
+    },
+    {
+      "term": "引蛇出洞",
+      "family": "attack",
+      "meaning": "引用政治历史用语，讽刺真实专家被引诱出并打压",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 3,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "应激",
+      "family": "attack",
+      "meaning": "网络用语，指对某事过度反应、一惊一乍",
+      "risk": "high",
+      "confidence": 0.7,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-02T11:50:38.468Z"
+    },
+    {
+      "term": "营销号",
+      "family": "attack",
+      "meaning": "贬义词，指发布虚假信息或博眼球的账号",
+      "risk": "medium",
+      "confidence": 0.82,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-02T12:06:09.853Z"
+    },
+    {
+      "term": "营销号都给老子",
+      "family": "attack",
+      "meaning": "讽刺营销号格式的内容",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "营销号都给老子上",
+      "family": "attack",
+      "meaning": "讽刺营销号格式的内容",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "赢麻",
+      "family": "attack",
+      "meaning": "嘲讽某人或某事看似赢了实则可笑，用于阴阳怪气",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-18T13:55:24.559Z"
+    },
+    {
+      "term": "赢麻了",
+      "family": "attack",
+      "meaning": "中文互联网嘲讽或贬低性梗；猪鼻用于批评某人当下行为犯蠢",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-18T13:55:24.559Z"
+    },
+    {
+      "term": "硬黑",
+      "family": "attack",
+      "meaning": "无理由的恶意贬低或故意挑刺",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-17T06:10:13.852Z"
+    },
+    {
+      "term": "幽默",
+      "family": "attack",
+      "meaning": "反讽，表示对方言论可笑、不切实际",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-02T12:23:09.945Z"
+    },
+    {
+      "term": "油物",
+      "family": "attack",
+      "meaning": "用'油物'谐音讽刺美国演员油腻、做作",
+      "risk": "medium",
+      "confidence": 0.6,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "油盐不进",
+      "family": "attack",
+      "meaning": "形容人固执、听不进劝，带有嘲讽意味",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-01T08:06:21.560Z"
+    },
+    {
+      "term": "有点太装了",
+      "family": "attack",
+      "meaning": "直接批评某人虚伪、做作，语气轻蔑",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "有人急了",
+      "family": "attack",
+      "meaning": "网络用语，用于嘲讽对方因被戳中痛处而气急败坏",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-02T12:06:09.853Z"
+    },
+    {
+      "term": "有什么值得炫耀的",
+      "family": "attack",
+      "meaning": "直接贬低对方的炫耀资本，表达不屑",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "又能怎",
+      "family": "attack",
+      "meaning": "与‘那咋了’类似，用反问表达敷衍、轻视",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "幼态审美",
+      "family": "attack",
+      "meaning": "声称其他游戏角色设计均为幼态审美，含有贬低和绝对化的攻击",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "预言家刀了",
+      "family": "attack",
+      "meaning": "源自狼人杀，用于调侃某人预判准确，要以‘刀’处决，带幽默攻击性",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-01T17:15:15.750Z"
+    },
+    {
+      "term": "元神",
+      "family": "attack",
+      "meaning": "故意将'原神'写作'元神'，用于讽刺游戏或玩家",
+      "risk": "medium",
+      "confidence": 0.78,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-01T14:55:39.468Z"
+    },
+    {
+      "term": "月光白莲",
+      "family": "attack",
+      "meaning": "指表面纯洁无害、实际有心机的人，带讽刺意味",
+      "risk": "medium",
+      "confidence": 0.82,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "阅读理解",
+      "family": "attack",
+      "meaning": "用“阅读理解”讽刺对方理解能力差或暗示对话存在隐含意思",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-02T12:06:09.853Z"
+    },
+    {
+      "term": "云玩家",
+      "family": "attack",
+      "meaning": "讽刺只看不玩、缺乏实际经验的所谓玩家",
+      "risk": "medium",
+      "confidence": 0.78,
+      "evidenceCount": 6,
+      "updatedAt": "2026-05-31T21:00:31.745Z"
+    },
+    {
+      "term": "再问删了",
+      "family": "attack",
+      "meaning": "威胁性警告评论，意为再追问就删除或拉黑，带有攻击性",
+      "risk": "medium",
+      "confidence": 0.6,
+      "evidenceCount": 3,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "在第几层",
+      "family": "attack",
+      "meaning": "出自‘我在第几层’梗，用于讽刺对方理解不到位或故作高深",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "早九八五",
+      "family": "attack",
+      "meaning": "对‘朝九晚五’的谐音变形，调侃平庸重复的工作生活，这里用作典型例子反驳过度具体的社会化解读",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "早九八五的平庸之恶",
+      "family": "attack",
+      "meaning": "以“早九八五”谐音朝九晚五结合985，讽刺滥用哲学概念形容平庸工作",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "早晚",
+      "family": "attack",
+      "meaning": "威胁或预言对方迟早会倒霉，常见于网络骂战",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "早晚必锤之",
+      "family": "attack",
+      "meaning": "威胁或预言对方迟早会倒霉，常见于网络骂战",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "造黄谣",
+      "family": "attack",
+      "meaning": "制造并散布涉及性的谣言，人身攻击",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "怎么哪哪都有你",
+      "family": "attack",
+      "meaning": "抱怨某人频繁出现，略带阴阳怪气",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "渣浪",
+      "family": "attack",
+      "meaning": "对新浪微博的蔑称，表达对平台的不满和讽刺",
+      "risk": "medium",
+      "confidence": 0.88,
+      "evidenceCount": 6,
+      "updatedAt": "2026-05-31T17:19:27.870Z"
+    },
+    {
+      "term": "炸鱼",
+      "family": "attack",
+      "meaning": "高段位玩家去低段位虐菜，贬义",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-02T11:30:26.059Z"
+    },
+    {
+      "term": "斩杀线",
+      "family": "attack",
+      "meaning": "比喻利益或生存被剥夺的阈值，带有攻击性",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-01T19:40:23.393Z"
+    },
+    {
+      "term": "张口就来",
+      "family": "attack",
+      "meaning": "指责对方不负责任、无证据地乱说话",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "张口就来的",
+      "family": "attack",
+      "meaning": "指责对方不负责任、无证据地乱说话",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "张嘴逼逼叨叨",
+      "family": "attack",
+      "meaning": "口语化指责对方乱说话、废话多，带有侮辱性",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "招笑",
+      "family": "attack",
+      "meaning": "表示可笑、搞笑，用于讽刺对方表现差",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-02T12:17:26.480Z"
+    },
+    {
+      "term": "找茬",
+      "family": "attack",
+      "meaning": "故意挑刺、找麻烦的行为",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-02T12:17:26.480Z"
+    },
+    {
+      "term": "找个班上",
+      "family": "attack",
+      "meaning": "讽刺对方因为无聊、话多而闲得慌，建议去工作，带攻击性",
+      "risk": "medium",
+      "confidence": 0.6,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "照你这么说",
+      "family": "attack",
+      "meaning": "用归谬法将对方观点推至极端，讽刺其荒谬性",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-02T10:18:44.380Z"
+    },
+    {
+      "term": "这辈子有了",
+      "family": "attack",
+      "meaning": "讽刺对方观点愚蠢，表示'你这个观点注定完蛋'",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-02T12:17:26.480Z"
+    },
+    {
+      "term": "这都不知道",
+      "family": "attack",
+      "meaning": "表达对方信息落后，含有贬低意味",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-01T08:06:21.560Z"
+    },
+    {
+      "term": "这个叉出去",
+      "family": "attack",
+      "meaning": "命令将某物或某人排除出去，常用于驱逐讨厌的言论或用户",
+      "risk": "high",
+      "confidence": 0.6,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "这么急",
+      "family": "attack",
+      "meaning": "讽刺对方情绪激动，常用于争论中质疑对方冷静",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-02T12:06:09.853Z"
+    },
+    {
+      "term": "这一块",
+      "family": "attack",
+      "meaning": "网络句式，用于调侃某人某方面突出",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-02T12:17:26.480Z"
+    },
+    {
+      "term": "真拉",
+      "family": "attack",
+      "meaning": "网络口语，表示质量差、糟糕",
+      "risk": "low",
+      "confidence": 0.65,
+      "evidenceCount": 6,
+      "updatedAt": "2026-05-30T23:16:46.342Z"
+    },
+    {
+      "term": "真小丑",
+      "family": "attack",
+      "meaning": "直接骂角色或人是小丑，强烈嘲讽",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-02T12:10:11.165Z"
+    },
+    {
+      "term": "整孝了",
+      "family": "attack",
+      "meaning": "谐音'整笑了'，用'孝'替代'笑'进行讽刺，表示某事非常可笑",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "正义开盒",
+      "family": "attack",
+      "meaning": "讽刺性说法，指打着正义旗号进行人肉搜索，用于攻击开盒行为或表达支持",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-02T11:50:38.468Z"
+    },
+    {
+      "term": "正义之士",
+      "family": "attack",
+      "meaning": "讽刺对方自诩正义、盲目跟风或道德优越感",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-05-30T08:20:09.865Z"
+    },
+    {
+      "term": "直呼内行",
+      "family": "attack",
+      "meaning": "调侃式认可，看似肯定实则带阴阳",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-02T12:06:09.853Z"
+    },
+    {
+      "term": "殖人",
+      "family": "attack",
+      "meaning": "中文互联网弹幕式嘲讽、阵营指称或戏谑表达",
+      "risk": "medium",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-01T10:00:40.274Z"
+    },
+    {
+      "term": "智商税",
+      "family": "attack",
+      "meaning": "指因盲目相信或缺乏判断而付出的额外金钱或精力，含讽刺意味",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 8,
+      "updatedAt": "2026-05-31T18:55:06.333Z"
+    },
+    {
+      "term": "中味",
+      "family": "attack",
+      "meaning": "带有贬义的中式风格指代，用于攻击或嘲讽中国元素",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 4,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "众所周知",
+      "family": "attack",
+      "meaning": "以‘众所周知’的形式表达一个反讽或非事实的观点，常用作铺垫攻击或调侃",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-02T11:50:38.468Z"
+    },
+    {
+      "term": "重金求一双没听过的耳朵",
+      "family": "attack",
+      "meaning": "极度嫌弃演唱难听，用夸张悬赏表达无法忍受",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-17T03:23:03.913Z"
+    },
+    {
+      "term": "周处",
+      "family": "attack",
+      "meaning": "对《明日方舟》玩家的贬称，恶意调侃其极端行为",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 4,
+      "updatedAt": "2026-05-30T19:57:11.658Z"
+    },
+    {
+      "term": "粥批",
+      "family": "attack",
+      "meaning": "对《明日方舟》玩家的贬称，恶意调侃其极端行为",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-05-30T20:44:52.700Z"
+    },
+    {
+      "term": "朱一龙",
+      "family": "attack",
+      "meaning": "朱一龙缩写，在事件中作为被攻击的负面对象",
+      "risk": "medium",
+      "confidence": 0.6,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-01T21:08:22.012Z"
+    },
+    {
+      "term": "猪鼻",
+      "family": "attack",
+      "meaning": "中文互联网嘲讽或贬低性梗；猪鼻用于批评某人当下行为犯蠢",
+      "risk": "medium",
+      "confidence": 0.95,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-01T13:10:14.781Z"
+    },
+    {
+      "term": "猪血馒头",
+      "family": "attack",
+      "meaning": "借鲁迅作品讽刺吃人血馒头的跟风行为",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 3,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "注水",
+      "family": "attack",
+      "meaning": "指责数据造假、刷榜等不诚信行为",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-02T12:29:45.885Z"
+    },
+    {
+      "term": "注意它的微表情",
+      "family": "attack",
+      "meaning": "暗示对方掩饰真实想法，常用于质疑或攻击",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "铸币",
+      "family": "attack",
+      "meaning": "谐音“傻逼”，用于辱骂策划或开发者，攻击性较强",
+      "risk": "high",
+      "confidence": 0.7,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-02T10:15:16.892Z"
+    },
+    {
+      "term": "砖家叫兽",
+      "family": "attack",
+      "meaning": "讽刺专家为骗子的谐音表达",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "转行",
+      "family": "attack",
+      "meaning": "在特定语境下讽刺博主更换赛道，暗含调侃",
+      "risk": "low",
+      "confidence": 0.65,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-02T11:50:38.468Z"
+    },
+    {
+      "term": "赚翻",
+      "family": "attack",
+      "meaning": "夸张说法，常用于反讽，明褒实贬",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "赚翻了",
+      "family": "attack",
+      "meaning": "反讽，表达对抓捕结果的幸灾乐祸",
+      "risk": "high",
+      "confidence": 0.82,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "装到",
+      "family": "attack",
+      "meaning": "装逼的变体，用于讽刺某人炫耀",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-02T11:41:47.569Z"
+    },
+    {
+      "term": "装懂",
+      "family": "attack",
+      "meaning": "讽刺对方假装内行，使用狗头表情缓和语气",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-02T11:50:38.468Z"
+    },
+    {
+      "term": "装高手",
+      "family": "attack",
+      "meaning": "讽刺对方假装内行",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-01T09:34:59.295Z"
+    },
+    {
+      "term": "装糊涂",
+      "family": "attack",
+      "meaning": "指责对方（如策划）故意装作不知道，实则精明",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "装什么",
+      "family": "attack",
+      "meaning": "质疑对方身份或资格，带有讽刺和蔑视，常用于粉丝群体间的资格审查",
+      "risk": "high",
+      "confidence": 0.65,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "装唐",
+      "family": "attack",
+      "meaning": "讽刺对方装傻或装弱智，唐指唐氏综合征，具攻击性",
+      "risk": "high",
+      "confidence": 0.7,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-01T10:11:52.755Z"
+    },
+    {
+      "term": "资敌",
+      "family": "attack",
+      "meaning": "指控他人行为是资助敌人，带攻击性",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-01T12:04:07.872Z"
+    },
+    {
+      "term": "子涵",
+      "family": "attack",
+      "meaning": "指代过度焦虑、无理纠缠的家长，源于网络段子中的典型名字，用作讽刺",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-01T04:35:10.925Z"
+    },
+    {
+      "term": "紫砂",
+      "family": "attack",
+      "meaning": "“自杀了”的谐音表达，常用于游戏或网络调侃中，指代游戏内NPC自杀或夸张的自我终结",
+      "risk": "high",
+      "confidence": 0.79,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "紫砂了",
+      "family": "attack",
+      "meaning": "“自杀了”的谐音表达，常用于游戏或网络调侃中，指代游戏内NPC自杀或夸张的自我终结",
+      "risk": "high",
+      "confidence": 0.79,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "自搜",
+      "family": "attack",
+      "meaning": "讽刺某人频繁搜索自己相关言论，暗指对方过度关注网络评价",
+      "risk": "medium",
+      "confidence": 0.82,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "自慰队",
+      "family": "attack",
+      "meaning": "谐音讽刺日本自卫队，侮辱性网络梗",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 4,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "自我感动",
+      "family": "attack",
+      "meaning": "讽刺对方只感动自己而不顾他人感受，是常见的阴阳怪气表达",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-02T07:05:48.749Z"
+    },
+    {
+      "term": "走一个6",
+      "family": "attack",
+      "meaning": "阴阳怪气地称赞或嘲讽，源自B站梗",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "嘴臭",
+      "family": "attack",
+      "meaning": "指说话难听、爱骂人，常用于攻击他人或批评他人说话方式",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-01T22:45:54.493Z"
+    },
+    {
+      "term": "最拉",
+      "family": "attack",
+      "meaning": "指历年最差、最拉胯的表现，尖锐差评",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "最正义的一集",
+      "family": "attack",
+      "meaning": "反讽用语，表面夸赞实则讽刺或表达极端赞同",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-02T11:50:38.468Z"
+    },
+    {
+      "term": "尊重祝福",
+      "family": "attack",
+      "meaning": "表面表达祝福实为讽刺对方选择不干预，常用于不满但不想争辩",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 6,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "嘬嘬嘬",
+      "family": "attack",
+      "meaning": "拟声词，用于嘲讽或挑衅",
+      "risk": "high",
+      "confidence": 0.7,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-01T11:23:27.054Z"
+    },
+    {
+      "term": "左右脑互搏",
+      "family": "attack",
+      "meaning": "讽刺对方逻辑矛盾，自己打自己脸",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-02T12:17:26.480Z"
+    },
+    {
+      "term": "做票",
+      "family": "attack",
+      "meaning": "指控节目组操纵投票，讽刺造假",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-05-31T21:13:43.087Z"
+    },
+    {
+      "term": "做题区",
+      "family": "attack",
+      "meaning": "将学习经历简单归类为刷题，带有贬低或归类嘲弄",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 3,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "a圣",
+      "family": "attack",
+      "meaning": "对某特定人物（如A圣）的贬义称呼，带讽刺",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 4,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "avemujica开心",
+      "family": "attack",
+      "meaning": "结合表情包代指阴阳怪气或嘲讽态度",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-05-31T20:41:35.754Z"
+    },
+    {
+      "term": "doge金箍",
+      "family": "attack",
+      "meaning": "狗头表情，用于调侃或说反话，此处暗讽“野心不小”可能是嘲讽",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-02T12:10:11.165Z"
+    },
+    {
+      "term": "ex人",
+      "family": "attack",
+      "meaning": "网络用语，'恶心'的缩写，表示厌恶",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-02T10:52:21.487Z"
+    },
+    {
+      "term": "flop到地心",
+      "family": "attack",
+      "meaning": "形容节目或表现失败到极点，网络嘲讽用语",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-17T03:23:03.913Z"
+    },
+    {
+      "term": "gay达",
+      "family": "attack",
+      "meaning": "调侃对方有同性恋倾向，暗含对性取向的戏谑审查",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 3,
+      "updatedAt": "2026-05-30T08:39:43.122Z"
+    },
+    {
+      "term": "get不到",
+      "family": "attack",
+      "meaning": "完全不能理解或感受其魅力，表示不认可",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "giegie",
+      "family": "attack",
+      "meaning": "对‘哥哥’的谐音讽刺，用于嘲讽撒娇或做作行为",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 3,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "ip正确",
+      "family": "attack",
+      "meaning": "讽刺根据IP属地判断对方立场或身份，带有地域攻击色彩",
+      "risk": "high",
+      "confidence": 0.88,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "ip正确藏狐",
+      "family": "attack",
+      "meaning": "通过IP属地嘲讽对方观点，暗示地域决定立场",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "kda大帝",
+      "family": "attack",
+      "meaning": "讽刺玩家KDA数据好看但实际表现不佳的黑称",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 3,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "lsp",
+      "family": "attack",
+      "meaning": "老色批的缩写，调侃或自嘲性取向低俗",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-05-31T16:50:08.998Z"
+    },
+    {
+      "term": "nt",
+      "family": "attack",
+      "meaning": "网络用语，通常指'脑瘫'，用于侮辱或贬低对手，语境中嘲讽队伍战术",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-02T12:23:09.945Z"
+    },
+    {
+      "term": "p的",
+      "family": "attack",
+      "meaning": "声称图片是伪造的，质疑真实性",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-17T06:10:13.852Z"
+    },
+    {
+      "term": "p图",
+      "family": "attack",
+      "meaning": "PS图片简称，常指修改图片进行造假",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-02T00:46:57.155Z"
+    },
+    {
+      "term": "play的一环",
+      "family": "attack",
+      "meaning": "讽刺某角色或人物被当作工具使用，常用于批评剧情中角色行为的工具性，带阴阳怪气",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-01T08:17:45.311Z"
+    },
+    {
+      "term": "pua",
+      "family": "attack",
+      "meaning": "情感操控术语，常指精神打压或控制",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-02T12:17:26.480Z"
+    },
+    {
+      "term": "pv诈骗",
+      "family": "attack",
+      "meaning": "指游戏或视频宣传PV与实际内容严重不符，是一种批评和讽刺",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 3,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "tv白眼",
+      "family": "attack",
+      "meaning": "B站表情，表达无语、鄙视、看戏",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-01T06:25:08.831Z"
+    },
+    {
+      "term": "tv抠鼻",
+      "family": "attack",
+      "meaning": "B站表情，表示不屑、嘲讽或嫌弃",
+      "risk": "medium",
+      "confidence": 0.78,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "tv呕吐",
+      "family": "attack",
+      "meaning": "弹幕表情，表达恶心、反感",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-05-31T20:58:50.101Z"
     }
   ]
 }

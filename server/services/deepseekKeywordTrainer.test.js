@@ -1274,6 +1274,58 @@ test('mergeEntriesIntoDictionary migrates a legacy monolith to split storage', a
   }
 });
 
+test('mergeEntriesIntoDictionary splits bulky dictionary entries by serialized byte size', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'deepseek-byte-shards-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  try {
+    const entries = Array.from({ length: 12 }, (_, index) => ({
+      term: `\u5206\u7247\u6d4b\u8bd5${index}`,
+      family: 'attack',
+      meaning: 'x'.repeat(12000),
+      evidenceCount: 1,
+      evidenceSamples: [`\u5206\u7247\u6d4b\u8bd5${index}`],
+      evidenceSources: Array.from({ length: 4 }, (_, sourceIndex) => ({
+        source: 'unit',
+        url: `https://example.test/${index}/${sourceIndex}`,
+        sample: 'y'.repeat(10000),
+      })),
+    }));
+    await writeFile(
+      dictionaryPath,
+      JSON.stringify({
+        version: 1,
+        updatedAt: '2026-01-01T00:00:00.000Z',
+        entries,
+      }),
+      'utf8',
+    );
+
+    await mergeEntriesIntoDictionary([], { dictionaryPath });
+    const manifest = JSON.parse(await readFile(dictionaryPath, 'utf8'));
+    const attackFiles = manifest.entryFiles.attack;
+    const attackEvidenceFiles = manifest.evidenceFiles.attack;
+
+    assert.equal(manifest.storage, 'split');
+    assert.equal(manifest.shardMaxBytes, 64 * 1024);
+    assert.equal(Object.hasOwn(manifest, 'shardSize'), false);
+    assert.equal(attackFiles.length > 1, true);
+    assert.equal(attackEvidenceFiles.length > 1, true);
+    for (const relativePath of attackFiles) {
+      const raw = await readFile(join(dir, relativePath), 'utf8');
+      assert.equal(Buffer.byteLength(raw, 'utf8') <= manifest.shardMaxBytes, true);
+      assert.equal(raw.includes('evidenceSources'), false);
+    }
+    for (const relativePath of attackEvidenceFiles) {
+      const raw = await readFile(join(dir, relativePath), 'utf8');
+      assert.equal(Buffer.byteLength(raw, 'utf8') <= manifest.shardMaxBytes, true);
+    }
+    const hydrated = await readKeywordDictionary({ dictionaryPath });
+    assert.equal(hydrated.entries.find((entry) => entry.term === '\u5206\u7247\u6d4b\u8bd50').evidenceSources.length > 0, true);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('readKeywordDictionary rejects corrupt dictionary JSON instead of treating it as empty', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'deepseek-read-corrupt-'));
   const dictionaryPath = join(dir, 'dictionary.json');

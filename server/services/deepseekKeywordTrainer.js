@@ -5,7 +5,7 @@ import { withFileLock } from '../utils/fileLock.js';
 import { findDictionaryEntriesWithSemanticEvidence } from './semanticMatcher.js';
 
 const SUPPORTED_FAMILIES = ['attack', 'absolutes', 'evidence', 'evasion', 'cooperation', 'correction'];
-const SPLIT_DICTIONARY_SHARD_SIZE = 10;
+const SPLIT_DICTIONARY_MAX_SHARD_BYTES = 64 * 1024;
 const DEEPSEEK_V4_MODELS = ['deepseek-v4-flash', 'deepseek-v4-pro'];
 const REASONING_EFFORTS = new Set(['low', 'medium', 'high', 'xhigh', 'max']);
 const STOP_TERMS = new Set([
@@ -3136,6 +3136,33 @@ async function readDictionary(dictionaryPath) {
       for (const [family, relativePaths] of Object.entries(current.entryFiles)) {
         if (!SUPPORTED_FAMILIES.includes(family)) continue;
         const fileList = Array.isArray(relativePaths) ? relativePaths : [relativePaths];
+        const evidenceFileList = Array.isArray(current.evidenceFiles?.[family])
+          ? current.evidenceFiles[family]
+          : current.evidenceFiles?.[family]
+            ? [current.evidenceFiles[family]]
+            : [];
+        const evidenceByTerm = new Map();
+        for (const evidenceRelativePath of evidenceFileList) {
+          if (!evidenceRelativePath) continue;
+          const evidencePath = join(dirname(dictionaryPath), String(evidenceRelativePath));
+          const evidenceRaw = await readFile(evidencePath, 'utf8');
+          const evidencePayload = JSON.parse(evidenceRaw);
+          for (const evidence of Array.isArray(evidencePayload?.evidence) ? evidencePayload.evidence : []) {
+            const term = cleanKeywordTerm(evidence?.term);
+            if (!term) continue;
+            const existing = evidenceByTerm.get(term) || { evidenceSamples: [], evidenceSources: [] };
+            existing.evidenceSamples = Array.from(new Set([
+              ...existing.evidenceSamples,
+              ...(Array.isArray(evidence.evidenceSamples) ? evidence.evidenceSamples : []),
+            ]));
+            const sourceMap = new Map(existing.evidenceSources.map((source) => [JSON.stringify(source), source]));
+            for (const source of Array.isArray(evidence.evidenceSources) ? evidence.evidenceSources : []) {
+              sourceMap.set(JSON.stringify(source), source);
+            }
+            existing.evidenceSources = [...sourceMap.values()];
+            evidenceByTerm.set(term, existing);
+          }
+        }
         for (const relativePath of fileList) {
           if (!relativePath) continue;
           const filePath = join(dirname(dictionaryPath), String(relativePath));
@@ -3143,7 +3170,11 @@ async function readDictionary(dictionaryPath) {
             const familyRaw = await readFile(filePath, 'utf8');
             const familyPayload = JSON.parse(familyRaw);
             const familyEntries = Array.isArray(familyPayload?.entries) ? familyPayload.entries : [];
-            entries.push(...familyEntries.map((entry) => ({ ...entry, family: entry.family || family })));
+            entries.push(...familyEntries.map((entry) => ({
+              ...entry,
+              ...(evidenceByTerm.get(cleanKeywordTerm(entry.term)) || {}),
+              family: entry.family || family,
+            })));
           } catch (error) {
             throw new Error(`Could not read split keyword dictionary entries ${filePath}: ${error.message}`);
           }
@@ -3153,6 +3184,8 @@ async function readDictionary(dictionaryPath) {
         version: current.version || 1,
         storage: 'split',
         shardSize: current.shardSize || null,
+        shardMaxBytes: current.shardMaxBytes || null,
+        evidenceStorage: current.evidenceFiles ? 'split' : null,
         updatedAt: current.updatedAt || null,
         entries,
         families: current.families || {},
@@ -3177,9 +3210,129 @@ function splitDictionaryEntryFilesPath(dictionaryPath) {
   return `${dictionaryPath.replace(/\.json$/i, '')}.entries`;
 }
 
+function splitDictionaryEvidenceFilesPath(dictionaryPath) {
+  return `${dictionaryPath.replace(/\.json$/i, '')}.evidence`;
+}
+
 function splitDictionaryShardRelativePath(dictionaryPath, family, shardIndex) {
   const shardNumber = String(shardIndex + 1).padStart(3, '0');
   return `${splitDictionaryEntryFilesPath(dictionaryPath).slice(dirname(dictionaryPath).length + 1).replace(/\\/g, '/')}/${family}-${shardNumber}.json`;
+}
+
+function splitDictionaryEvidenceRelativePath(dictionaryPath, family, shardIndex) {
+  const shardNumber = String(shardIndex + 1).padStart(3, '0');
+  return `${splitDictionaryEvidenceFilesPath(dictionaryPath).slice(dirname(dictionaryPath).length + 1).replace(/\\/g, '/')}/${family}-${shardNumber}.json`;
+}
+
+function stripSplitDictionaryEntryEvidence(entry) {
+  const { evidenceSamples: _evidenceSamples, evidenceSources: _evidenceSources, ...leanEntry } = entry;
+  return leanEntry;
+}
+
+function buildSplitDictionaryShardPayload(dictionary, family, shard, shardCount, entries) {
+  return {
+    version: dictionary.version || 1,
+    updatedAt: dictionary.updatedAt || null,
+    family,
+    shard,
+    shardCount,
+    entries: entries.map(stripSplitDictionaryEntryEvidence),
+  };
+}
+
+function buildSplitDictionaryEvidencePayload(dictionary, family, shard, shardCount, evidence) {
+  return {
+    version: dictionary.version || 1,
+    updatedAt: dictionary.updatedAt || null,
+    family,
+    shard,
+    shardCount,
+    evidence,
+  };
+}
+
+function byteLengthPrettyJson(value) {
+  return Buffer.byteLength(`${JSON.stringify(value, null, 2)}\n`, 'utf8');
+}
+
+function splitDictionaryEntriesBySerializedBytes(dictionary, family, entries) {
+  if (entries.length === 0) return [[]];
+  const shards = [];
+  let current = [];
+  for (const entry of entries) {
+    const candidate = [...current, entry];
+    const candidatePayload = buildSplitDictionaryShardPayload(dictionary, family, 999, 999, candidate);
+    if (current.length > 0 && byteLengthPrettyJson(candidatePayload) > SPLIT_DICTIONARY_MAX_SHARD_BYTES) {
+      shards.push(current);
+      current = [entry];
+    } else {
+      current = candidate;
+    }
+  }
+  if (current.length > 0) shards.push(current);
+  return shards;
+}
+
+function splitDictionaryEvidenceRecordBySerializedBytes(dictionary, family, record) {
+  const sources = Array.isArray(record.evidenceSources) ? record.evidenceSources : [];
+  const samples = Array.isArray(record.evidenceSamples) ? record.evidenceSamples : [];
+  if (sources.length === 0) return [{ ...record, evidenceSamples: samples, evidenceSources: [] }];
+  const chunks = [];
+  let currentSources = [];
+  let includeSamples = true;
+  for (const source of sources) {
+    const candidate = {
+      term: record.term,
+      evidenceSamples: includeSamples ? samples : [],
+      evidenceSources: [...currentSources, source],
+    };
+    const payload = buildSplitDictionaryEvidencePayload(dictionary, family, 999, 999, [candidate]);
+    if (currentSources.length > 0 && byteLengthPrettyJson(payload) > SPLIT_DICTIONARY_MAX_SHARD_BYTES) {
+      chunks.push({
+        term: record.term,
+        evidenceSamples: includeSamples ? samples : [],
+        evidenceSources: currentSources,
+      });
+      currentSources = [source];
+      includeSamples = false;
+    } else {
+      currentSources = candidate.evidenceSources;
+    }
+  }
+  if (currentSources.length > 0) {
+    chunks.push({
+      term: record.term,
+      evidenceSamples: includeSamples ? samples : [],
+      evidenceSources: currentSources,
+    });
+  }
+  return chunks;
+}
+
+function splitDictionaryEvidenceBySerializedBytes(dictionary, family, entries) {
+  const records = entries
+    .map((entry) => ({
+      term: entry.term,
+      evidenceSamples: Array.isArray(entry.evidenceSamples) ? entry.evidenceSamples : [],
+      evidenceSources: Array.isArray(entry.evidenceSources) ? entry.evidenceSources : [],
+    }))
+    .filter((entry) => entry.evidenceSamples.length > 0 || entry.evidenceSources.length > 0)
+    .flatMap((record) => splitDictionaryEvidenceRecordBySerializedBytes(dictionary, family, record));
+  if (records.length === 0) return [[]];
+  const shards = [];
+  let current = [];
+  for (const record of records) {
+    const candidate = [...current, record];
+    const candidatePayload = buildSplitDictionaryEvidencePayload(dictionary, family, 999, 999, candidate);
+    if (current.length > 0 && byteLengthPrettyJson(candidatePayload) > SPLIT_DICTIONARY_MAX_SHARD_BYTES) {
+      shards.push(current);
+      current = [record];
+    } else {
+      current = candidate;
+    }
+  }
+  if (current.length > 0) shards.push(current);
+  return shards;
 }
 
 export async function writeJsonFileAtomic(filePath, value) {
@@ -3194,13 +3347,12 @@ export async function writeJsonFileAtomic(filePath, value) {
   }
 }
 
-async function removeStaleSplitDictionaryFiles(dictionaryPath, entryFiles) {
-  const entryDir = splitDictionaryEntryFilesPath(dictionaryPath);
-  const referenced = new Set(Object.values(entryFiles).flat().map((relativePath) => join(dirname(dictionaryPath), relativePath)));
-  const legacyFamilyFiles = new Set(SUPPORTED_FAMILIES.map((family) => join(entryDir, `${family}.json`)));
+async function removeStaleSplitFiles(dictionaryPath, splitDir, fileMap) {
+  const referenced = new Set(Object.values(fileMap).flat().map((relativePath) => join(dirname(dictionaryPath), relativePath)));
+  const legacyFamilyFiles = new Set(SUPPORTED_FAMILIES.map((family) => join(splitDir, `${family}.json`)));
   let names = [];
   try {
-    names = await readdir(entryDir);
+    names = await readdir(splitDir);
   } catch (error) {
     if (error?.code !== 'ENOENT') throw error;
     return;
@@ -3208,10 +3360,17 @@ async function removeStaleSplitDictionaryFiles(dictionaryPath, entryFiles) {
 
   await Promise.all(
     names
-      .map((name) => join(entryDir, name))
+      .map((name) => join(splitDir, name))
       .filter((filePath) => legacyFamilyFiles.has(filePath) || (/-\d{3}\.json$/i.test(filePath) && !referenced.has(filePath)))
       .map((filePath) => rm(filePath, { force: true })),
   );
+}
+
+async function removeStaleSplitDictionaryFiles(dictionaryPath, entryFiles, evidenceFiles) {
+  const entryDir = splitDictionaryEntryFilesPath(dictionaryPath);
+  const evidenceDir = splitDictionaryEvidenceFilesPath(dictionaryPath);
+  await removeStaleSplitFiles(dictionaryPath, entryDir, entryFiles);
+  await removeStaleSplitFiles(dictionaryPath, evidenceDir, evidenceFiles);
 }
 
 async function writeSplitDictionaryAtomic(dictionaryPath, dictionary) {
@@ -3221,32 +3380,42 @@ async function writeSplitDictionaryAtomic(dictionaryPath, dictionary) {
     entriesByFamily.get(family).push(entry);
   }
   const entryFiles = {};
+  const evidenceFiles = {};
   for (const family of SUPPORTED_FAMILIES) {
     const entries = entriesByFamily.get(family) || [];
-    const shardCount = Math.max(1, Math.ceil(entries.length / SPLIT_DICTIONARY_SHARD_SIZE));
+    const shards = splitDictionaryEntriesBySerializedBytes(dictionary, family, entries);
+    const evidenceShards = splitDictionaryEvidenceBySerializedBytes(dictionary, family, entries);
+    const shardCount = shards.length;
     const relativePaths = [];
-    for (let shardIndex = 0; shardIndex < shardCount; shardIndex += 1) {
+    const evidenceRelativePaths = [];
+    for (let shardIndex = 0; shardIndex < shards.length; shardIndex += 1) {
       const relativePath = splitDictionaryShardRelativePath(dictionaryPath, family, shardIndex);
       relativePaths.push(relativePath);
-      await writeJsonFileAtomic(join(dirname(dictionaryPath), relativePath), {
-        version: dictionary.version || 1,
-        updatedAt: dictionary.updatedAt || null,
-        family,
-        shard: shardIndex + 1,
-        shardCount,
-        entries: entries.slice(shardIndex * SPLIT_DICTIONARY_SHARD_SIZE, (shardIndex + 1) * SPLIT_DICTIONARY_SHARD_SIZE),
-      });
+      await writeJsonFileAtomic(
+        join(dirname(dictionaryPath), relativePath),
+        buildSplitDictionaryShardPayload(dictionary, family, shardIndex + 1, shardCount, shards[shardIndex]),
+      );
+    }
+    for (let shardIndex = 0; shardIndex < evidenceShards.length; shardIndex += 1) {
+      const evidenceRelativePath = splitDictionaryEvidenceRelativePath(dictionaryPath, family, shardIndex);
+      evidenceRelativePaths.push(evidenceRelativePath);
+      await writeJsonFileAtomic(
+        join(dirname(dictionaryPath), evidenceRelativePath),
+        buildSplitDictionaryEvidencePayload(dictionary, family, shardIndex + 1, evidenceShards.length, evidenceShards[shardIndex]),
+      );
     }
     entryFiles[family] = relativePaths;
+    evidenceFiles[family] = evidenceRelativePaths;
   }
   await writeJsonFileAtomic(dictionaryPath, {
     version: dictionary.version || 1,
     storage: 'split',
     updatedAt: dictionary.updatedAt || null,
-    shardSize: SPLIT_DICTIONARY_SHARD_SIZE,
+    shardMaxBytes: SPLIT_DICTIONARY_MAX_SHARD_BYTES,
     entryFiles,
+    evidenceFiles,
   });
-  await removeStaleSplitDictionaryFiles(dictionaryPath, entryFiles);
+  await removeStaleSplitDictionaryFiles(dictionaryPath, entryFiles, evidenceFiles);
 }
 
 function buildCanonicalDictionarySnapshot(current, now = current?.updatedAt || new Date().toISOString()) {
@@ -3313,7 +3482,8 @@ export async function mergeEntriesIntoDictionary(entries, options = {}) {
     if (
       semanticallyEqualIgnoringUpdatedAt(canonicalCurrent, next)
       && current.storage === 'split'
-      && current.shardSize === SPLIT_DICTIONARY_SHARD_SIZE
+      && current.shardMaxBytes === SPLIT_DICTIONARY_MAX_SHARD_BYTES
+      && current.evidenceStorage === 'split'
     ) {
       return current;
     }

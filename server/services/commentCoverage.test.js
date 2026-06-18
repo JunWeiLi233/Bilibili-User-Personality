@@ -1369,6 +1369,30 @@ test('classifyCommentCoverage handles round 57 random audit misses and false pos
   assert.deepEqual(physicalReaction.hits, []);
 });
 
+test('classifyCommentCoverage handles round 58 random audit misses and self-mockery', () => {
+  const cases = [
+    ['\u62c9\u5012\u5427', '\u62c9\u5012\u5427', 'evasion'],
+    ['鎷夊€掑惂', '\u62c9\u5012\u5427', 'evasion'],
+    ['\u4f5c\u753b\u592a\u62c9', '\u592a\u62c9', 'attack'],
+    ['浣滷敾澶媺', '\u592a\u62c9', 'attack'],
+    ['\u4f60\u4e5f\u96be\u7ef7 \u5f39\u5e55', '\u4f60\u4e5f\u96be\u7ef7', 'evasion'],
+    ['浣犱篃闅剧环 寮瑰箷', '\u4f60\u4e5f\u96be\u7ef7', 'evasion'],
+    ['\u771f\u7684\u5417\u6211\u4e0d\u4fe1', '\u771f\u7684\u5417\u6211\u4e0d\u4fe1', 'evidence'],
+    ['鐪熺殑鍚楁垜涓嶄俊', '\u771f\u7684\u5417\u6211\u4e0d\u4fe1', 'evidence'],
+    ['\u5f31\u667a', '\u5f31\u667a', 'attack'],
+  ];
+
+  for (const [text, term, family] of cases) {
+    const result = classifyCommentCoverage(dictionary, text);
+    assert.equal(result.mode, 'keyword');
+    assert.ok(result.hits.some((hit) => hit.term === term && hit.family === family));
+  }
+
+  const selfMockery = classifyCommentCoverage(dictionary, '\u6240\u4ee5\u6211\u6c38\u8fdc\u662f\u5f31\u667a');
+  assert.equal(selfMockery.mode, 'neutral');
+  assert.deepEqual(selfMockery.hits, []);
+});
+
 test('sampleCommentCoverage summarizes full coverage over keyword and neutral samples', () => {
   const result = sampleCommentCoverage(dictionary, [
     '这事懂的都懂，不展开了',
