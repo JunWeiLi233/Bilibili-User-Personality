@@ -149,6 +149,37 @@ test('classifyCommentCoverage captures sampled adaptation and noise complaints',
   assert.ok(noise.hits.some((hit) => hit.term === '\u8111\u4ec1\u75bc'));
 });
 
+test('classifyCommentCoverage captures sampled numeric and kinship sarcasm attacks', () => {
+  const cognition = classifyCommentCoverage(dictionary, '\u4f60\u7684\u8ba4\u77e5\u5c31200\uff0c\u522b\u4eba\u5462');
+  const kinship = classifyCommentCoverage(dictionary, '\u632a\u5a01\u9996\u5bcc\u548c\u4f60\u662f\u670b\u53cb\uff0c\u9a6c\u4e91\u8fd8\u662f\u6211\u4eec\u7684\u7238\u7238\u5462');
+
+  assert.equal(cognition.covered, true);
+  assert.equal(cognition.mode, 'keyword');
+  assert.ok(cognition.hits.some((hit) => hit.term === '200'));
+  assert.equal(kinship.covered, true);
+  assert.equal(kinship.mode, 'keyword');
+  assert.ok(kinship.hits.some((hit) => hit.term === '\u7238\u7238\u5462'));
+});
+
+test('classifyCommentCoverage suppresses sampled rhetorical feeling and outcome narration hits', () => {
+  const sampledDictionary = {
+    entries: [
+      { term: '\u4e3a\u4ec0\u4e48', family: 'evidence', meaning: 'asks for reason or source' },
+      { term: '\u53ef\u80fd', family: 'cooperation', meaning: 'soft speculative modal' },
+      { term: '\u4e0a\u5cb8', family: 'cooperation', meaning: 'successful landing or transition' },
+    ],
+  };
+  const feeling = classifyCommentCoverage(sampledDictionary, '\u660e\u660e\u662f\u5411\u9633\u751f\u957f\u7684\u5411\u65e5\u8475\uff0c\u4e3a\u4ec0\u4e48\u6709\u79cd\u4f4e\u7740\u5934\u4fef\u89c6\u6211\u7684\u611f\u89c9');
+  const outcome = classifyCommentCoverage(sampledDictionary, '\u662f\u7684\uff0cJade\u4e5f\u4f20\u7edf\u5bb3\u60e8\u4e86\uff0c\u5982\u679c\u5979\u5f53\u521d\u6293\u4f4f\u7684\u662f\u6cf0\u52d2\u5979\u771f\u7684\u6709\u53ef\u80fd\u4e0a\u5cb8\u4e86');
+
+  assert.equal(feeling.covered, true);
+  assert.equal(feeling.mode, 'neutral');
+  assert.equal(feeling.hits.length, 0);
+  assert.equal(outcome.covered, true);
+  assert.equal(outcome.mode, 'neutral');
+  assert.equal(outcome.hits.length, 0);
+});
+
 test('classifyCommentCoverage captures whitewashing accusations without matching literal washing', () => {
   const accusation = classifyCommentCoverage(dictionary, '\u4e5f\u591f\u522b\u6d17\u4e86');
   const literal = classifyCommentCoverage(dictionary, '\u522b\u6d17\u8863\u670d\u4e86\uff0c\u660e\u5929\u4e0b\u96e8');

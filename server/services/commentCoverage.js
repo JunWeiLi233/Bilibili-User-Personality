@@ -72,6 +72,18 @@ export function detectEmoteSemanticHits(comment) {
 
 const SUPPLEMENTAL_SEMANTICS = [
   {
+    pattern: /\u8ba4\u77e5.{0,4}200|\u4f60.{0,8}200[\uff0c,]/u,
+    term: '200',
+    family: 'attack',
+    meaning: '\u201c200\u201d\u5728\u201c\u8ba4\u77e5200\u201d\u7b49\u8bed\u5883\u4e2d\u5e38\u662f\u201c\u4e8c\u767e\u4e94\u201d\u7684\u7f29\u5199\u5f0f\u5632\u8bbd\uff0c\u7528\u6765\u8d2c\u4f4e\u5bf9\u65b9\u7406\u89e3\u529b\u6216\u667a\u529b\u3002',
+  },
+  {
+    pattern: /\u548c\u4f60\u662f\u670b\u53cb[\uff0c,].{0,16}\u8fd8\u662f.{0,8}\u7238\u7238\u5462/u,
+    term: '\u7238\u7238\u5462',
+    family: 'attack',
+    meaning: '\u7528\u201cX\u548c\u4f60\u662f\u670b\u53cb\uff0cY\u8fd8\u662f\u6211\u4eec\u7238\u7238\u5462\u201d\u7c7b\u6bd4\u6765\u5632\u8bbd\u524d\u4e00\u8bf4\u6cd5\u8352\u8c2c\uff0c\u662f\u9488\u5bf9\u5bf9\u65b9\u4fe1\u606f\u53ef\u4fe1\u5ea6\u7684\u654c\u610f\u6027\u53cd\u8bbd\u3002',
+  },
+  {
     pattern: /\u6bc1\u539f\u4f5c|\u6bc1.{0,4}\u539f\u4f5c/u,
     term: '\u6bc1\u539f\u4f5c',
     family: 'attack',
@@ -253,13 +265,33 @@ function isNeutralSpeculativeBroadener(entry, message) {
   return false;
 }
 
+function isRhetoricalFeelingWhyContext(entry, message) {
+  if (entry?.family !== 'evidence' && entry?.family !== 'correction') return false;
+  if (String(entry?.term || '') !== '\u4e3a\u4ec0\u4e48') return false;
+  return /\u4e3a\u4ec0\u4e48.{0,12}(?:\u6709\u79cd|\u611f\u89c9|\u770b\u8d77\u6765|\u50cf|\u8fd9\u4e48|\u90a3\u4e48)/u.test(message)
+    || /\u4e3a\u4ec0\u4e48.{0,20}\u611f\u89c9/u.test(message);
+}
+
+function isNeutralOutcomeNarrationContext(entry, message) {
+  const term = String(entry?.term || '');
+  if (entry?.family === 'cooperation' && term === '\u53ef\u80fd') {
+    return /\u771f\u7684\u6709\u53ef\u80fd.{0,12}\u4e0a\u5cb8|\u6709\u53ef\u80fd.{0,12}(?:\u4e86|[，,。])/u.test(message);
+  }
+  if (entry?.family === 'cooperation' && term === '\u4e0a\u5cb8') {
+    return /(?:\u6709\u53ef\u80fd|\u5982\u679c|\u5f53\u521d|\u6293\u4f4f).{0,20}\u4e0a\u5cb8\u4e86?/u.test(message);
+  }
+  return false;
+}
+
 function isSuppressedLexicalHit(entry, message) {
   return isSelfReferentialNoviceHit(entry, message)
     || isLiteralYinYangContext(entry, message)
     || isFactualNoHaveContext(entry, message)
     || isLogicalNotIsContext(entry, message)
     || isLiteralTrafficContext(entry, message)
-    || isNeutralSpeculativeBroadener(entry, message);
+    || isNeutralSpeculativeBroadener(entry, message)
+    || isRhetoricalFeelingWhyContext(entry, message)
+    || isNeutralOutcomeNarrationContext(entry, message);
 }
 
 function exactDictionaryEntries(dictionary, message) {
