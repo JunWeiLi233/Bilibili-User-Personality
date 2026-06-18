@@ -134,6 +134,38 @@ test('classifyCommentCoverage captures targeted dog insults without matching lit
   assert.equal(literal.hits.length, 0);
 });
 
+test('classifyCommentCoverage captures knife-threat memes without matching literal knives', () => {
+  const threat = classifyCommentCoverage(dictionary, '\u6211\u5200\u5462\uff1f\uff01');
+  const literal = classifyCommentCoverage(dictionary, '\u6211\u7684\u5200\u5462\uff0c\u505a\u996d\u8981\u7528');
+
+  assert.equal(threat.covered, true);
+  assert.equal(threat.mode, 'keyword');
+  assert.deepEqual(threat.hits.map((hit) => hit.term), ['\u6211\u5200\u5462']);
+  assert.equal(literal.covered, true);
+  assert.equal(literal.mode, 'neutral');
+  assert.equal(literal.hits.length, 0);
+});
+
+test('classifyCommentCoverage captures sampled derogatory nickname compounds', () => {
+  const result = classifyCommentCoverage(dictionary, '\u6218\u795e\u72d7\u548c\u98de\u821e\u8d3c');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['\u6218\u795e\u72d7/\u98de\u821e\u8d3c']);
+});
+
+test('classifyCommentCoverage captures standalone get-lost insults without matching rolling words', () => {
+  const insult = classifyCommentCoverage(dictionary, '\u201c\u6eda\u201d');
+  const literal = classifyCommentCoverage(dictionary, '\u5c4f\u5e55\u6eda\u52a8\u4e00\u4e0b');
+
+  assert.equal(insult.covered, true);
+  assert.equal(insult.mode, 'keyword');
+  assert.deepEqual(insult.hits.map((hit) => hit.term), ['\u6eda']);
+  assert.equal(literal.covered, true);
+  assert.equal(literal.mode, 'neutral');
+  assert.equal(literal.hits.length, 0);
+});
+
 test('classifyCommentCoverage captures sexualized driving slang without matching literal driving', () => {
   const slang = classifyCommentCoverage(dictionary, '眼神开车开始了');
   const literal = classifyCommentCoverage(dictionary, '今天下雨开车慢一点');
