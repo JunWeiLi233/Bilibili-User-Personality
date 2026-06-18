@@ -113,6 +113,24 @@ const SUPPLEMENTAL_SEMANTICS = [
     family: 'attack',
     meaning: '中文网络语境里“开车”常指性暗示、擦边或低俗玩笑，尤其与眼神、弹幕、开始等搭配时不是字面驾驶。',
   },
+  {
+    pattern: /(?:这个|那个|这|那|你|他|她|中单|上单|队友|主播|作者).{0,6}逼/u,
+    term: '这个逼',
+    family: 'attack',
+    meaning: '中文平台常见粗口指称，把对象称为“逼”通常带有辱骂、轻蔑或强烈不满，应作为攻击性语气信号。',
+  },
+  {
+    pattern: /反复去世|当场去世|原地去世/u,
+    term: '反复去世',
+    family: 'cooperation',
+    meaning: 'Bilibili 等平台常见夸张 meme，用“去世”表达被作品、颜值或情绪强烈冲击，通常是高情绪表达和玩梗语气。',
+  },
+  {
+    pattern: /(?:纯|又|已经|一直|天天|继续|开始|想)?白嫖/u,
+    term: '白嫖',
+    family: 'evasion',
+    meaning: '中文网络语境中表示不付费、免费占用或薅资源的俗语，可用于自嘲、批评或消费态度表达，区别于字面颜色与行为。',
+  },
 ];
 
 function detectSupplementalSemanticHits(comment) {

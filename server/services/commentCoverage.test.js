@@ -146,6 +146,38 @@ test('classifyCommentCoverage captures sexualized driving slang without matching
   assert.equal(literal.hits.length, 0);
 });
 
+test('classifyCommentCoverage captures targeted bi profanity without matching neutral syllables', () => {
+  const insult = classifyCommentCoverage(dictionary, '上单:这个逼中单死了两次了');
+  const neutral = classifyCommentCoverage(dictionary, '逼近终点的时候不要急');
+
+  assert.equal(insult.covered, true);
+  assert.equal(insult.mode, 'keyword');
+  assert.deepEqual(insult.hits.map((hit) => hit.term), ['这个逼']);
+  assert.equal(neutral.covered, true);
+  assert.equal(neutral.mode, 'neutral');
+  assert.equal(neutral.hits.length, 0);
+});
+
+test('classifyCommentCoverage captures Bilibili emotional death memes', () => {
+  const result = classifyCommentCoverage(dictionary, '啊啊啊啊啊我反复去世！！！太好看了');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['反复去世']);
+});
+
+test('classifyCommentCoverage captures freeloading slang without matching unrelated color text', () => {
+  const slang = classifyCommentCoverage(dictionary, '至从出了王棋后已经纯白嫖了，月卡都不愿给了');
+  const literal = classifyCommentCoverage(dictionary, '白色的嫖字写错了');
+
+  assert.equal(slang.covered, true);
+  assert.equal(slang.mode, 'keyword');
+  assert.deepEqual(slang.hits.map((hit) => hit.term), ['白嫖']);
+  assert.equal(literal.covered, true);
+  assert.equal(literal.mode, 'neutral');
+  assert.equal(literal.hits.length, 0);
+});
+
 test('classifyCommentCoverage suppresses factual no-have statements', () => {
   const result = classifyCommentCoverage(dictionary, '\u5e7f\u7535\u6ca1\u6709CCTV16\u9891\u9053\uff0c\u5176\u4ed6\u4e09\u5927\u8fd0\u8425\u5546iptv\u6709CCTV16\u9891\u9053');
 
