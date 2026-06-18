@@ -2334,3 +2334,28 @@ test('classifyCommentCoverage handles round 92 validated UTF-8 audit cues', () =
     assert.deepEqual(neutral.hits, []);
   }
 });
+
+test('classifyCommentCoverage handles round 93 validated UTF-8 audit cues', () => {
+  const cases = [
+    ['\u8fd9\u662f\u8e0f\u9a6c\u50ac\u6cea', '\u8e0f\u9a6c', 'attack'],
+    ['\u4e94\u4e2a\u50bb\ud83d\udd8a\ufe0f__ __ __', '\u50bb\ud83d\udd8a\ufe0f', 'attack'],
+    ['\u4e0d\u884c\u5417\uff1f\uff1f\uff01\uff01\uff01\uff08\u72d7\u5934\uff09', '\u72d7\u5934\u4fdd\u547d/\u53cd\u8bbd\u8bed\u6c14', 'cooperation'],
+  ];
+
+  for (const [text, term, family] of cases) {
+    const result = classifyCommentCoverage({ entries: [] }, text);
+    assert.equal(result.mode, 'keyword');
+    assert.ok(result.hits.some((hit) => hit.term === term && hit.family === family));
+  }
+
+  const neutralCases = [
+    '\u72d7\u72d7\u5934\u671d\u4e0b\u662f\u5728\u9080\u8bf7\u4f60\u4e00\u8d77\u73a9',
+    '\u6211\u4eca\u5929\u4e70\u4e86\u4e00\u652f\u7b14',
+  ];
+
+  for (const text of neutralCases) {
+    const neutral = classifyCommentCoverage({ entries: [] }, text);
+    assert.equal(neutral.mode, 'neutral');
+    assert.deepEqual(neutral.hits, []);
+  }
+});

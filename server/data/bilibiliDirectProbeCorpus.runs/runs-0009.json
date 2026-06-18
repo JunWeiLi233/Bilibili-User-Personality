@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T21:01:07.465Z",
+  "updatedAt": "2026-06-18T21:10:57.657Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -1029,6 +1029,88 @@
       "warnings": [],
       "commentsCollected": 771,
       "commentsAdded": 505
+    },
+    {
+      "at": "2026-06-18T21:10:57.657Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1s6spzDEcA",
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复",
+          "bvid": "BV1s6spzDEcA",
+          "aid": 115429712331182,
+          "title": "白天<em class=\"keyword\">不饶人</em>晚上求人饶的类型"
+        },
+        {
+          "key": "bvid:BV1nv421i7fY",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1nv421i7fY",
+          "aid": 1450106569,
+          "title": "他将132名日军俘虏头颅砍下拿去喂狗，被称最狠抗日将军"
+        },
+        {
+          "key": "bvid:BV1eBU8YuEzF",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1eBU8YuEzF",
+          "aid": 113491205689091,
+          "title": "ILLIT成员私下指责NewJeans做的太过分？其老板揭秘：成员因抄袭<em class=\"keyword\">争议</em>崩溃，我们从未抄袭NewJeans！"
+        },
+        {
+          "key": "bvid:BV1K8JK61Euc",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV1K8JK61Euc",
+          "aid": 116749139706440,
+          "title": "这<em class=\"keyword\">弹幕</em>比我这辈子见过的都多"
+        },
+        {
+          "key": "bvid:BV1GCjw6zEMS",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1GCjw6zEMS",
+          "aid": 116771335966171,
+          "title": "……你说谁玩根茎流？"
+        },
+        {
+          "key": "bvid:BV1Qpjc6PE5V",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1Qpjc6PE5V",
+          "aid": 116770077674938,
+          "title": "《<em class=\"keyword\">雷霆</em>老头蹦迪》用自由视角发现隐藏在游戏中黑暗秘密"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 795,
+      "commentsAdded": 479
     }
   ]
 }
