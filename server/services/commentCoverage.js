@@ -828,6 +828,24 @@ const SUPPLEMENTAL_SEMANTICS = [
     family: 'attack',
     meaning: '\u201c\u5b9e\u529b\u4e0d\u884c/\u4e0d\u884c\u201d\u5f53\u6307\u5411\u5177\u4f53\u4eba\u6216\u961f\u4f0d\u65f6\u662f\u76f4\u63a5\u80fd\u529b\u5426\u5b9a\uff0c\u5c5e\u4e8e\u8d1f\u9762\u653b\u51fb\u6027\u8bc4\u4ef7\u3002',
   },
+  {
+    pattern: /\u4e09\u89c2(?:\u786e\u5b9e)?\u6709\u95ee\u9898|\u6709\u95ee\u9898.{0,6}\u4e09\u89c2/u,
+    term: '\u4e09\u89c2\u6709\u95ee\u9898',
+    family: 'attack',
+    meaning: '\u201c\u4e09\u89c2\u6709\u95ee\u9898\u201d\u662f\u5bf9\u5bf9\u65b9\u4ef7\u503c\u89c2\u6216\u4eba\u54c1\u7684\u76f4\u63a5\u5426\u5b9a\uff0c\u5728\u4e89\u8bba\u91cc\u5c5e\u4e8e\u653b\u51fb\u6027\u8bc4\u4ef7\u3002',
+  },
+  {
+    pattern: /\u6709\u4e2a\u5c41|\u4ec0\u4e48\u5c41|(?:\u5220|\u8bf4|\u770b|\u4fe1).{0,4}\u4e2a\u5c41/u,
+    term: '\u6709\u4e2a\u5c41',
+    family: 'attack',
+    meaning: '\u201c\u6709\u4e2a\u5c41/\u4ec0\u4e48\u5c41\u201d\u662f\u4e2d\u6587\u8bc4\u8bba\u91cc\u5e38\u89c1\u7684\u7c97\u53e3\u5426\u5b9a\u548c\u9a73\u65a5\uff0c\u8868\u793a\u5f3a\u70c8\u4e0d\u8ba4\u53ef\u6216\u4e0d\u8010\u70e6\u3002',
+  },
+  {
+    pattern: /\u88c5\s*b|\u88c5\u903c|\u88c5\u903c\u4fa0|\u88c5b\u4fa0/iu,
+    term: '\u88c5b/\u88c5\u903c',
+    family: 'attack',
+    meaning: '\u201c\u88c5b/\u88c5\u903c\u201d\u662f\u76f4\u63a5\u6307\u8d23\u5bf9\u65b9\u88c5\u8154\u3001\u70ab\u8000\u6216\u6545\u4f5c\u59ff\u6001\u7684\u4e2d\u6587\u7f51\u7edc\u7c97\u53e3\u8d2c\u4e49\u8868\u8fbe\u3002',
+  },
 ];
 
 function detectSupplementalSemanticHits(comment) {
@@ -842,7 +860,8 @@ function detectSupplementalSemanticHits(comment) {
 function isSuppressedEmoteHit(item, message) {
   if (item?.term !== 'doge/\u53cd\u8bbd\u8868\u60c5') return false;
   return /\u6211\u4eec\u6709\d{1,3}\u5957\u9632\u7206\u7532[\uff08(]\s*doge\s*[\uff09)]/iu.test(message)
-    && !/(?:\u9a82|\u50bb|\u8822|\u6eda|\u6b7b|\u4e0d\u5982|\u5e9f|\u83dc|\u653b\u51fb|\u5632|\u9634\u9633)/u.test(message);
+    && !/(?:\u9a82|\u50bb|\u8822|\u6eda|\u6b7b|\u4e0d\u5982|\u5e9f|\u83dc|\u653b\u51fb|\u5632|\u9634\u9633)/u.test(message)
+    || /(?:\u65e0\u5e7f|\u4e2a\u4eba\u63a8\u8350|\u4ef7\u683c\u5f88\u4e0d\u9519|\u5206\u91cf\u5f88\u591a).{0,80}(?:\u5730\u5740|[\u5e02\u533a\u8def\u53f7\u95e8]).{0,80}\[doge\]/iu.test(message);
 }
 
 function isSuppressedSupplementalHit(item, message) {
@@ -942,6 +961,20 @@ function isRound50SuppressedContext(entry, message) {
   if (entry?.family === 'cooperation' && term === '\u5bfb\u601d') {
     return /(?:\u6211|\u4ffa)?\u5bfb\u601d.{0,12}(?:\u6ca1|\u59b9|\u4e0d\u662f|\u600e\u4e48|\u4e3a\u5565|\u4ec0\u4e48)/u.test(message)
       && !/[\[\uff08(]doge|233|哈哈|\u7b11|帮你\u5bfb\u601d/u.test(message);
+  }
+  return false;
+}
+
+function isRound51SuppressedContext(entry, message) {
+  const term = String(entry?.term || '');
+  if (entry?.family === 'cooperation' && ['\u5c31\u662f', '\u786e\u5b9e'].includes(term)) {
+    return /\u4e09\u89c2(?:\u786e\u5b9e)?\u6709\u95ee\u9898/u.test(message);
+  }
+  if (entry?.family === 'attack' && term === '\u8fd9\u4e00\u5757') {
+    return /^\u8bba.{1,16}\u8fd9\u4e00\u5757[\/.。]*$/u.test(message);
+  }
+  if (entry?.family === 'absolutes' && term === '\u6ca1\u6709') {
+    return /\u8981\u662f\u6ca1\u6709.{0,8}(?:\u5d29\u6e83|\u51fa\u4e8b|\u7ffb\u8f66)/u.test(message);
   }
   return false;
 }
@@ -1159,6 +1192,7 @@ function isSuppressedLexicalHit(entry, message) {
     || isRound48SuppressedCooperation(entry, message)
     || isRound49SuppressedContext(entry, message)
     || isRound50SuppressedContext(entry, message)
+    || isRound51SuppressedContext(entry, message)
     || isLogicalNotIsContext(entry, message)
     || isPositiveDescriptionNegationContext(entry, message)
     || isLiteralTrafficContext(entry, message)

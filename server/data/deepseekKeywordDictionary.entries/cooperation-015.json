@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T12:05:50.437Z",
+  "updatedAt": "2026-06-18T12:16:21.953Z",
   "family": "cooperation",
   "shard": 15,
   "shardCount": 35,
@@ -361,13 +361,23 @@
       "confidence": 0.95,
       "evidenceCount": 9,
       "evidenceSamples": [
+        "有可能是过度解读，人家只是看看美女不一定喜欢你[doge]",
+        "很有可能是照着画",
         "哈哈，有没有可能是这帮队友说，一绝死里面，让我们刀他[doge]",
         "我刷到过几次摸鱼事务所的视频，我觉得摸老师那个话其实不是随便说的，他时不时可能就能说出一句金句。",
-        "你们说有没有可能，英特尔偷偷打钱了！我是说可能",
-        "[doge]有没有可能是amd这五年一点提升都没有， 所以intel才挤牙膏。",
-        "有可能是过度解读，人家只是看看美女不一定喜欢你[doge]"
+        "你们说有没有可能，英特尔偷偷打钱了！我是说可能"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1SiGd6uECH/, https://www.bilibili.com/video/BV1kTGH6cETL/, https://www.bilibili.com/video/BV1a44y1c7gn/, http://www.bilibili.com/video/av116636094896106, http://www.bilibili.com/video/av116630222799482, http://www.bilibili.com/video/av999704071",
+          "uid": "BV1SiGd6uECH,BV1kTGH6cETL,BV1a44y1c7gn",
+          "sample": "有可能是过度解读，人家只是看看美女不一定喜欢你[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV13T4y1974Y/, https://www.bilibili.com/video/BV1NL3AzFEYy/, https://www.bilibili.com/video/BV14hRYBkE5U/, https://www.bilibili.com/video/BV1ZShqzaEoL/, http://www.bilibili.com/video/av934037851",
+          "uid": "BV13T4y1974Y,BV1NL3AzFEYy,BV14hRYBkE5U,BV1ZShqzaEoL",
+          "sample": "很有可能是照着画"
+        },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1mdCaBjEkZ/, https://www.bilibili.com/video/BV1U4u2zXEbY/, https://www.bilibili.com/video/BV1kp5k6tEpK/, https://www.bilibili.com/video/BV1ZdosBgEMK/, https://www.bilibili.com/video/BV1jrtyz3Em3/, https://www.bilibili.com/video/BV1DtxQzLEbC/, https://www.bilibili.com/video/BV16wGb6mE8g/, https://www.bilibili.com/video/BV1Rr421573F/, https://www.bilibili.com/video/BV1ka7WzhEGw/, https://www.bilibili.com/video/BV1ArRGBLEbQ/, https://www.bilibili.com/video/BV16KqLYyEqf/, https://www.bilibili.com/video/BV1ci421f7Xr/, http://www.bilibili.com/video/av115563342858721, http://www.bilibili.com/video/av114873597955287, http://www.bilibili.com/video/av116581518546469, http://www.bilibili.com/video/av116447703470397, http://www.bilibili.com/video/av114990333894228, http://www.bilibili.com/video/av115332605805877, http://www.bilibili.com/video/av116617019196595, http://www.bilibili.com/video/av1404931737, http://www.bilibili.com/video/av114596321104741, http://www.bilibili.com/video/av116501541554901, http://www.bilibili.com/video/av113612135862158, http://www.bilibili.com/video/av1451462473",
           "uid": "BV1mdCaBjEkZ,BV1U4u2zXEbY,BV1kp5k6tEpK,BV1ZdosBgEMK,BV1jrtyz3Em3,BV1DtxQzLEbC,BV16wGb6mE8g,BV1Rr421573F,BV1ka7WzhEGw,BV1ArRGBLEbQ,BV16KqLYyEqf,BV1ci421f7Xr",
@@ -382,16 +392,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1NB4y1S7RB/, https://www.bilibili.com/video/BV1sTGd6FEFf/, http://www.bilibili.com/video/av597446864, http://www.bilibili.com/video/av116634534678930, http://www.bilibili.com/video/av113377003176324, http://www.bilibili.com/video/av114126072319763",
           "uid": "BV1NB4y1S7RB,BV1sTGd6FEFf",
           "sample": "[doge]有没有可能是amd这五年一点提升都没有， 所以intel才挤牙膏。"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1SiGd6uECH/, https://www.bilibili.com/video/BV1kTGH6cETL/, https://www.bilibili.com/video/BV1a44y1c7gn/, http://www.bilibili.com/video/av116636094896106, http://www.bilibili.com/video/av116630222799482, http://www.bilibili.com/video/av999704071",
-          "uid": "BV1SiGd6uECH,BV1kTGH6cETL,BV1a44y1c7gn",
-          "sample": "有可能是过度解读，人家只是看看美女不一定喜欢你[doge]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV13T4y1974Y/, https://www.bilibili.com/video/BV1NL3AzFEYy/, https://www.bilibili.com/video/BV14hRYBkE5U/, https://www.bilibili.com/video/BV1ZShqzaEoL/, http://www.bilibili.com/video/av934037851",
-          "uid": "BV13T4y1974Y,BV1NL3AzFEYy,BV14hRYBkE5U,BV1ZShqzaEoL",
-          "sample": "很有可能是照着画"
         },
         {
           "source": "Bilibili public search-discovered video comment scan plus video context: https://www.bilibili.com/video/BV1ssL86aET2/",
@@ -409,7 +409,7 @@
           "sample": "而且飞飙future2是361旗舰顶碳，不可能是一双不会有什么人穿它去拿大赛成绩的概念鞋"
         }
       ],
-      "updatedAt": "2026-06-18T12:05:50.437Z"
+      "updatedAt": "2026-06-18T12:16:21.953Z"
     },
     {
       "term": "可能是",
