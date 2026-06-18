@@ -373,6 +373,21 @@ test('classifyCommentCoverage captures hostile jail-wish sarcasm', () => {
   assert.deepEqual(result.hits.map((hit) => hit.family), ['attack']);
 });
 
+test('classifyCommentCoverage captures sampled sarcasm and negative accusation misses', () => {
+  const bossy = classifyCommentCoverage({ entries: [] }, '\u8bf4\u662f\u867d\u7136\u8282\u76ee\u53ea\u6709\u77ed\u77ed\u51e0\u5341\u5206\u949f\uff0c\u4f46\u662f\u9ea6\u718f\u9e21\u73b0\u573a\u6298\u817e\u4e86\u56db\u4e2a\u591a\u5c0f\u65f6\uff0c\u5927\u5bb6\u5168\u90fd\u51cc\u6668\u4e09\u70b9\u591a\u624d\u7761[\u7b11\u54ed][\u7b11\u54ed][\u7b11\u54ed]\u611f\u89c9\u6768\u5b50\u8fd9\u4e2a\u5927\u7239\u90fd\u7ed9\u6298\u817e\u7d2f\u4e86\uff0c\u6f14\u4e0d\u4e0b\u53bb\u4e86[\u7b11\u54ed]');
+  const cleanStream = classifyCommentCoverage({ entries: [] }, '\u8bf4\u4e2a\u7b11\u8bdd\uff1b\u54c8\u54c8\u54c8\u54c8\u54c8\u54c8\u54c8\u54c8\u54c8\u54c8 \uff01NBA\uff0c\u6e05\u6d41\u5927\u5927\u6ef4\uff01');
+  const hate = classifyCommentCoverage({ entries: [] }, '\u6211\u6068\u90a3\u4e9b\u5bfc\u81f4\u4f60\u505c\u4e0b\u7684\u4eba\uff0c\u597d\u6068\uff0c\u8bf7\u5feb\u56de');
+  const hype = classifyCommentCoverage({ entries: [] }, '\u6563\u4e86\u5427\u3002\u6bcf\u5e74\u90fd\u5728\u7092\u4f5c');
+  const noisy = classifyCommentCoverage({ entries: [] }, '\u5168\u6293\uff01\uff01\uff01\u597d\u5435\uff01\uff01');
+
+  assert.deepEqual(bossy.hits.map((hit) => hit.term), ['\u5927\u7239']);
+  assert.deepEqual(cleanStream.hits.map((hit) => hit.term), ['\u6e05\u6d41\u53cd\u8bdd']);
+  assert.deepEqual(hate.hits.map((hit) => hit.term), ['\u597d\u6068']);
+  assert.deepEqual(hype.hits.map((hit) => hit.term), ['\u7092\u4f5c']);
+  assert.deepEqual(noisy.hits.map((hit) => hit.term), ['\u597d\u5435']);
+  assert.deepEqual([bossy, cleanStream, hate, hype, noisy].map((result) => result.hits[0].family), ['attack', 'attack', 'attack', 'attack', 'attack']);
+});
+
 test('classifyCommentCoverage captures whitespace-split shameless insults', () => {
   const result = classifyCommentCoverage({ entries: [] }, '\u8fd8\u5c31\u90a3\u4e2a\u81ed\u4e0d\u8981 \u8138');
 
