@@ -543,6 +543,39 @@ test('classifyCommentCoverage suppresses adult-site lookalike as neutral既视�
   assert.deepEqual(ordinary.hits.map((hit) => hit.term), ['\u65e2\u89c6\u611f']);
 });
 
+test('classifyCommentCoverage captures round 36 random audit misses', () => {
+  const rhetorical = classifyCommentCoverage(dictionary, '\u4e0d\u5c31\u662f\u9006\u6d41\u6cb3\u90a3\u4e00\u6bb5\u5417\uff1f\u600e\u4e48\u5c31\u4e0d\u662f\u86ca\u4e86?');
+  const fabrication = classifyCommentCoverage({ entries: [] }, '\u65e0\u4e2d\u751f\u6709\uff0c\u51ed\u7a7a\u9020\u724c\uff0c\u5370\u5ea6\u5b66\u8001\u4e3b\u5b50\uff0c\u5b66\u7684\u633a\u5168\u554a');
+  const insult = classifyCommentCoverage({ entries: [] }, '\u592a\u723d\u4e86\u674e\u4f69\u7476\uff01ai\u8bf4\u4f60\u662f\u592a\u539f\u7684\u9e21');
+
+  assert.equal(rhetorical.mode, 'keyword');
+  assert.ok(rhetorical.hits.some((hit) => hit.term === '\u4e0d\u5c31\u662f...\u5417' && hit.family === 'evidence'));
+  assert.ok(rhetorical.hits.some((hit) => hit.term === '\u600e\u4e48\u5c31\u4e0d\u662f' && hit.family === 'correction'));
+  assert.ok(!rhetorical.hits.some((hit) => hit.term === '\u4e0d\u662f' || hit.term === '\u5c31\u662f'));
+  assert.ok(fabrication.hits.some((hit) => hit.term === '\u65e0\u4e2d\u751f\u6709/\u51ed\u7a7a\u9020\u724c' && hit.family === 'attack'));
+  assert.ok(fabrication.hits.some((hit) => hit.term === '\u5b66\u7684\u633a\u5168\u554a' && hit.family === 'correction'));
+  assert.deepEqual(insult.hits.map((hit) => [hit.term, hit.family]), [['\u592a\u539f\u7684\u9e21', 'attack']]);
+});
+
+test('classifyCommentCoverage suppresses round 36 false positives', () => {
+  const sampledDictionary = {
+    entries: [
+      { term: '\u52a0\u4e00', family: 'cooperation', meaning: '\u9644\u8bae' },
+      { term: '\u5973\u5b69', family: 'attack', meaning: '\u8d2c\u4e49\u6697\u8bed' },
+    ],
+  };
+  const addOne = classifyCommentCoverage(sampledDictionary, '\u7cfb\u7edf\u4f1a\u7ed9\u4f60\u52a0\u4e00\u4e2a\u8fd9\u4e2a\uff0c\u65b9\u4fbf\u5176\u4ed6\u4eba\u641c\u7d22');
+  const californiaGirl = classifyCommentCoverage(sampledDictionary, '\u6211\u4ee5\u4e3a\u52a0\u5dde\u5973\u5b69\u5462');
+  const agreement = classifyCommentCoverage(sampledDictionary, '\u6211\u52a0\u4e00');
+
+  assert.equal(addOne.mode, 'neutral');
+  assert.equal(addOne.hits.length, 0);
+  assert.equal(californiaGirl.mode, 'neutral');
+  assert.equal(californiaGirl.hits.length, 0);
+  assert.equal(agreement.mode, 'keyword');
+  assert.deepEqual(agreement.hits.map((hit) => hit.term), ['\u52a0\u4e00']);
+});
+
 test('classifyCommentCoverage captures contextual self-immolation variants as attack imagery', () => {
   const sampledDictionary = { entries: [] };
   const typoVariant = classifyCommentCoverage(sampledDictionary, '\u53bb\u86c7\u62f3\u5854\u62b1\u7740\u674e\u7ea2\u72fc\u4e00\u8d77\u81ea\u706b');
