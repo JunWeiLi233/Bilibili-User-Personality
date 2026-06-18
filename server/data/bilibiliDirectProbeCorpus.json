@@ -15538,9 +15538,115 @@
       "warnings": [],
       "commentsCollected": 4388,
       "commentsAdded": 2691
+    },
+    {
+      "at": "2026-06-18T16:34:27.435Z",
+      "actions": [
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论"
+        },
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 弹幕"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 评论回复"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 弹幕"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说 弹幕"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1CyujzfEH8",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1CyujzfEH8",
+          "aid": 114838818785348,
+          "title": "逆天……"
+        },
+        {
+          "key": "bvid:BV1Ff4y1t79S",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1Ff4y1t79S",
+          "aid": 289576699,
+          "title": "【<em class=\"keyword\">互动</em>游戏】多选项多结局，你的命运掌握在你自己手里！（有彩蛋哦！）"
+        },
+        {
+          "key": "bvid:BV1wWM8zZEZP",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1wWM8zZEZP",
+          "aid": 114688125902487,
+          "title": "有人似你三分，我便慌了神"
+        },
+        {
+          "key": "bvid:BV1KX4y1T7ES",
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论",
+          "bvid": "BV1KX4y1T7ES",
+          "aid": 713804575,
+          "title": "巨人里最好听的一首歌 好听到哭"
+        },
+        {
+          "key": "bvid:BV12aiPBCEM2",
+          "term": "德里不饶人",
+          "query": "德里不饶人 弹幕",
+          "bvid": "BV12aiPBCEM2",
+          "aid": 115811628880970,
+          "title": "【4K】印度首都<em class=\"keyword\">德里</em>街头边走边拍， PaharGanj附近，位于康诺特广场西北， 本地商业区繁华所在"
+        },
+        {
+          "key": "bvid:BV1CY4y1e7kD",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 评论回复",
+          "bvid": "BV1CY4y1e7kD",
+          "aid": 638171440,
+          "title": "宠物冷知识：狗狗走丢后的正确做法，希望你用不到这个视频"
+        },
+        {
+          "key": "bvid:BV127411o73i",
+          "term": "价格被打下来",
+          "query": "价格被打下来 弹幕",
+          "bvid": "BV127411o73i",
+          "aid": 96791366,
+          "title": "把<em class=\"keyword\">价格打下来</em>！！！"
+        },
+        {
+          "key": "bvid:BV1CxpZeDEwh",
+          "term": "这还用说",
+          "query": "这还用说 弹幕",
+          "bvid": "BV1CxpZeDEwh",
+          "aid": 112977286073705,
+          "title": "《您发送<em class=\"keyword\">弹幕</em>的频率过快》"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 2239,
+      "commentsAdded": 1782
     }
   ],
-  "updatedAt": "2026-06-18T16:19:48.182Z",
+  "updatedAt": "2026-06-18T16:34:27.435Z",
   "storage": "split",
   "shardMaxBytes": 65536,
   "commentFiles": [
@@ -15965,7 +16071,13 @@
     "bilibiliDirectProbeCorpus.comments/comments-0419.json",
     "bilibiliDirectProbeCorpus.comments/comments-0420.json",
     "bilibiliDirectProbeCorpus.comments/comments-0421.json",
-    "bilibiliDirectProbeCorpus.comments/comments-0422.json"
+    "bilibiliDirectProbeCorpus.comments/comments-0422.json",
+    "bilibiliDirectProbeCorpus.comments/comments-0423.json",
+    "bilibiliDirectProbeCorpus.comments/comments-0424.json",
+    "bilibiliDirectProbeCorpus.comments/comments-0425.json",
+    "bilibiliDirectProbeCorpus.comments/comments-0426.json",
+    "bilibiliDirectProbeCorpus.comments/comments-0427.json",
+    "bilibiliDirectProbeCorpus.comments/comments-0428.json"
   ],
-  "commentCount": 136888
+  "commentCount": 138670
 }

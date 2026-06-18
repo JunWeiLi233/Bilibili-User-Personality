@@ -1055,8 +1055,8 @@ test('classifyCommentCoverage suppresses round 45 random audit false positives',
     ['\u9519\u7684\u4e0d\u662fX\u662fY', 'correction'],
   ]);
   assert.equal(selfNovice.covered, true);
-  assert.equal(selfNovice.mode, 'neutral');
-  assert.equal(selfNovice.hits.length, 0);
+  assert.equal(selfNovice.mode, 'keyword');
+  assert.ok(selfNovice.hits.some((hit) => hit.family === 'cooperation'));
 });
 
 test('classifyCommentCoverage handles round 46 random audit false positives and misses', () => {
@@ -1773,6 +1773,44 @@ test('classifyCommentCoverage handles round 68 random audit cues', () => {
   const joinStudy = classifyCommentCoverage(round68Dictionary, '\u6211\u6211\u6211\u4e5f\u5b66');
   assert.equal(joinStudy.mode, 'keyword');
   assert.ok(joinStudy.hits.some((hit) => hit.family === 'cooperation'));
+});
+
+test('classifyCommentCoverage handles round 69 random audit cues', () => {
+  const round69Dictionary = {
+    entries: [
+      { term: '\u7ef7\u4f4f', family: 'cooperation', meaning: 'hold laughter' },
+      { term: '\u6ca1\u7ef7\u4f4f', family: 'cooperation', meaning: 'could not hold laughter' },
+      { term: '\u5e94\u8be5\u662f', family: 'cooperation', meaning: 'speculation' },
+      { term: '\u6ca1\u6709', family: 'absolutes', meaning: 'negation' },
+      { term: '\u80af\u5b9a', family: 'absolutes', meaning: 'certainty' },
+      { term: '\u4e0d\u662f', family: 'attack', meaning: 'negation' },
+      { term: '\u5c31\u662f', family: 'cooperation', meaning: 'copula' },
+      { term: '\u5c0f\u59d0\u59d0', family: 'cooperation', meaning: 'young woman address' },
+    ],
+  };
+
+  const neutralCases = [
+    '\u4e0d\u884c\u6ca1\u7ef7\u4f4f',
+    '\u6bd5\u7adf\u8fd9\u7528\u5fc3\u7a0b\u5ea6\u5df2\u7ecf\u4e0d\u4e00\u6837\uff0c\u4f46\u8bf4\u7684\u5e94\u8be5\u662f\u540c\u7b49\u6c34\u5e73\u7684\u60c5\u51b5\u4e0b',
+    '\u8fd9\u4e5f\u6ca1\u670980\u4e2a\u53f0\u5b50\u554a',
+    '\u522b\u8bf4\u7275\u5f3a\uff0c\u5bfc\u6f14\u80af\u5b9a\u6bd4\u8fd9\u60f3\u5f97\u591a',
+    '\u4e09\u5341\u800c\u7acb\uff08\u867d\u7136\u597d\u50cf\u4e0d\u662f\u6210\u8bed\uff1f',
+    '\u4ffa\u5c31\u662f\u4e2a\u81ed\u5546\u4eba\uff0c\u5999\u754c\u5c0f\u59d0\u59d0\u5feb\u7528\u5c0f\u62f3\u62f3\u6253\u4ffa\u80f8\u53e3\uff01',
+  ];
+
+  for (const text of neutralCases) {
+    const result = classifyCommentCoverage(round69Dictionary, text);
+    assert.equal(result.mode, 'neutral');
+    assert.deepEqual(result.hits, []);
+  }
+
+  const blame = classifyCommentCoverage(round69Dictionary, '\u5c31\u81ea\u5df1\u6c92\u5e95\u7dda \u554f\u984c\u6838\u5fc3\u5728\u65bc\u81ea\u5df1\u8eab\u4e0a');
+  assert.equal(blame.mode, 'keyword');
+  assert.ok(blame.hits.some((hit) => hit.family === 'attack'));
+
+  const noviceHelp = classifyCommentCoverage(round69Dictionary, '\u7eaf\u5c0f\u767d\uff0c\u697c\u4e3b\u627e\u5230\u6559\u7a0b\u4e86\u5417');
+  assert.equal(noviceHelp.mode, 'keyword');
+  assert.ok(noviceHelp.hits.some((hit) => hit.family === 'cooperation'));
 });
 
 test('sampleCommentCoverage summarizes full coverage over keyword and neutral samples', () => {
