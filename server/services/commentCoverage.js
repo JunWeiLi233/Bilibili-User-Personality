@@ -49,10 +49,16 @@ const EMOTE_SEMANTICS = [
     meaning: '表示围观、拱火、旁观或回避直接论证，常弱化说话者责任或把严肃争论娱乐化。',
   },
   {
-    pattern: /\[(?:捂脸|喜极而泣|允悲|辣眼睛)\]|😓|🤦|🤦‍♂️|🤦‍♀️/u,
+    pattern: /\[(?:捂脸|允悲|辣眼睛)\]|😓|🤦|🤦‍♂️|🤦‍♀️/u,
     term: '无语/尴尬表情',
     family: 'attack',
     meaning: '表达无语、尴尬、轻蔑或讽刺；在中文评论里经常承担态度和攻击缓冲功能。',
+  },
+  {
+    pattern: /\[喜极而泣\]/u,
+    term: '喜极而泣表情',
+    family: 'cooperation',
+    meaning: 'Bilibili/Tieba语境中的喜极而泣表情通常表示轻松回忆、调侃、被逗笑或自嘲，不能默认当成攻击性无语。',
   },
   {
     pattern: /🐶/u,
@@ -83,6 +89,12 @@ export function detectEmoteSemanticHits(comment) {
 }
 
 const SUPPLEMENTAL_SEMANTICS = [
+  {
+    pattern: /(?:把|将|给).{0,4}(?:他|她|它|你|人|对方).{0,4}(?:腿|胳膊|手|骨头).{0,4}(?:打折|打断|砸断|敲断)|(?:腿|胳膊|手|骨头).{0,4}(?:打折|打断|砸断|敲断)/u,
+    term: '\u6253\u65ad\u817f/\u817f\u6253\u6298',
+    family: 'attack',
+    meaning: '\u201c\u628a\u4ed6\u817f\u6253\u6298\u201d\u7c7b\u8868\u8fbe\u662f\u660e\u786e\u7684\u66b4\u529b\u5a01\u80c1\u6216\u60e9\u7f5a\u6027\u653b\u51fb\u613f\u671b\uff0c\u5373\u4f7f\u51fa\u73b0\u5728\u5f39\u5e55\u91cc\u4e5f\u5e94\u4f5c\u4e3a\u653b\u51fb\u6027\u8bed\u6c14\u4fdd\u7559\u3002',
+  },
   {
     pattern: /(?:\u90a3\u6211|\u6211|\u8fd8|\u4f60).{0,4}\u73a9\u96c6\u8d38|\u73a9\u96c6\u8d38\u554a|\u96c6\u8d38\u554a/u,
     term: '\u73a9\u96c6\u8d38',
@@ -794,6 +806,9 @@ function isRhetoricalNotJustIsContext(entry, message) {
 function isAliasOrSubstringArtifactContext(entry, message) {
   const term = String(entry?.term || '');
   if (term === '\u7edd\u5bf9') return !message.includes(term) && /(?:\u597d\u7edd|\u7edd\u4e86|\u7edd\u7edd\u5b50)/u.test(message);
+  if (term === '\u5bb6\u4eba') return /(?:\u517b\u4e45\u4e86|\u732b|\u72d7|\u5ba0\u7269|毛孩子).{0,8}\u6210\u5bb6\u4eba/u.test(message);
+  if (term === '\u7edd\u6740') return /(?:\u7bee\u4e0b|\u8865\u7bee|\u6295\u7bee|\u6bd4\u8d5b|\u7403|欧文|NBA).{0,12}\u7edd\u6740|\u7edd\u6740.{0,12}(?:\u7bee\u4e0b|\u8865\u7bee|\u6295\u7bee|\u6bd4\u8d5b|\u7403|欧文|NBA)/iu.test(message);
+  if (term === '\u70b9\u8d5e') return /\u70b9\u8d5e.{0,6}(?:\u53d8\u7eff|\u7eff\u4e86|\u53d8\u7070|\u6309\u94ae|\u56fe\u6807)/u.test(message);
   if (term === '\u5f00\u73a9\u7b11') return /\u4e0d\u5f00\u73a9\u7b11/u.test(message);
   if (term === '\u4e0d\u9ed1\u4e0d\u5439') return !message.includes(term) && /\u6709\u4e00\u8bf4\u4e00/u.test(message);
   if (term === '\u6ca1\u6709') return /\u57fa\u672c\u6ca1\u6709\u97f3\u4e50\u7406\u89e3/u.test(message);
@@ -818,7 +833,7 @@ function isNeutralMetaphorOrDefinitionContext(entry, message) {
   if (term === '\u7edd\u5bf9') return /\u53ef\u9760\u6027\u7edd\u5bf9\u6700\u9ad8/u.test(message);
   if (term === '\u4e0d\u53ef\u80fd') return /\u6838\u52a8\u529b\u9a74\u751f\u6001\u7cfb\u7edf/u.test(message);
   if (term === '\u4e0d\u4e00\u5b9a') return /\u6280\u672f\u4e0d\u4e00\u5b9a\u9ad8/u.test(message);
-  if (term === '\u5c31\u662f') return /\u6982\u5ff5\u5462[\uff0c,]\u5c31\u662f/u.test(message);
+  if (term === '\u5c31\u662f') return /\u6982\u5ff5\u5462[\uff0c,]\u5c31\u662f|\u610f\u56fe\u5c31\u662f\u8fd9\u4e48\u660e\u663e/u.test(message);
   return false;
 }
 

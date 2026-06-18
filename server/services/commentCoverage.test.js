@@ -135,6 +135,40 @@ test('classifyCommentCoverage suppresses round 40 random audit false positives',
   }
 });
 
+test('classifyCommentCoverage captures round 41 random audit misses', () => {
+  const result = classifyCommentCoverage({ entries: [] }, '\u80fd\u6293\u5230\u6700\u597d\u628a\u4ed6\u817f\u6253\u6298\uff01');
+
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['\u6253\u65ad\u817f/\u817f\u6253\u6298']);
+  assert.equal(result.hits[0].family, 'attack');
+});
+
+test('classifyCommentCoverage suppresses round 41 random audit false positives', () => {
+  const round41Dictionary = {
+    entries: [
+      { term: '\u5bb6\u4eba', family: 'cooperation', meaning: '\u7c89\u4e1d\u4eb2\u8fd1\u79f0\u547c' },
+      { term: '\u7edd\u6740', family: 'attack', meaning: '\u7ec8\u7ed3\u8ba8\u8bba\u7684\u72e0\u8bdd' },
+      { term: '\u5c31\u662f', family: 'cooperation', meaning: '\u8d5e\u540c\u9644\u548c' },
+      { term: '\u70b9\u8d5e', family: 'cooperation', meaning: '\u652f\u6301\u8ba4\u540c' },
+    ],
+  };
+  const cases = [
+    ['\u517b\u4e45\u4e86\u6210\u5bb6\u4eba\u4e86', []],
+    ['\u770b\u5230\u6b27\u6587\u7bee\u4e0b\u8865\u7bee\u7edd\u6740\uff0c\u610f\u56fe\u5c31\u662f\u8fd9\u4e48\u660e\u663e', []],
+    ['\u70b9\u8d5e\u4e5f\u53d8\u7eff\u4e86\u5509', []],
+  ];
+
+  for (const [comment, expectedTerms] of cases) {
+    const result = classifyCommentCoverage(round41Dictionary, comment);
+    assert.deepEqual(result.hits.map((hit) => hit.term), expectedTerms);
+    assert.equal(result.mode, expectedTerms.length ? 'keyword' : 'neutral');
+  }
+
+  const emote = classifyCommentCoverage({ entries: [] }, '\u53c8\u8ba9\u6211\u60f3\u8d77\u90a3\u4e2a\u89c6\u9891\u4e86[\u559c\u6781\u800c\u6ce3]');
+  assert.equal(emote.mode, 'keyword');
+  assert.deepEqual(emote.hits.map((hit) => [hit.term, hit.family]), [['\u559c\u6781\u800c\u6ce3\u8868\u60c5', 'cooperation']]);
+});
+
 test('detectEmoteSemanticHits treats Bilibili emotes as satire and tone markers', () => {
   const hits = detectEmoteSemanticHits('皇马：我谢谢你啊[doge]');
 
