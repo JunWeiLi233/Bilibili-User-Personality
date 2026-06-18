@@ -90,6 +90,34 @@ test('classifyCommentCoverage captures strong negative affect as semantic covera
   assert.deepEqual(result.hits.map((hit) => hit.term), ['恶心']);
 });
 
+test('classifyCommentCoverage captures standalone pei dismissal', () => {
+  const result = classifyCommentCoverage(dictionary, '\u5478');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['\u5478']);
+});
+
+test('classifyCommentCoverage captures whitewashing accusations without matching literal washing', () => {
+  const accusation = classifyCommentCoverage(dictionary, '\u4e5f\u591f\u522b\u6d17\u4e86');
+  const literal = classifyCommentCoverage(dictionary, '\u522b\u6d17\u8863\u670d\u4e86\uff0c\u660e\u5929\u4e0b\u96e8');
+
+  assert.equal(accusation.covered, true);
+  assert.equal(accusation.mode, 'keyword');
+  assert.deepEqual(accusation.hits.map((hit) => hit.term), ['\u522b\u6d17\u4e86']);
+  assert.equal(literal.covered, true);
+  assert.equal(literal.mode, 'neutral');
+  assert.equal(literal.hits.length, 0);
+});
+
+test('classifyCommentCoverage captures audience-taste sarcasm', () => {
+  const result = classifyCommentCoverage(dictionary, '\u5982\u679c\u4e2d\u56fd\u5927\u4f17\u771f\u7684\u6709\u54c1\u5473\u4f1a\u6709\u7968\u51a0\u6ee1\u6c5f\u7ea2\uff1f');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['\u6709\u54c1\u5473...\u6ee1\u6c5f\u7ea2']);
+});
+
 test('classifyCommentCoverage captures homophone insults even when absolutes also match', () => {
   const result = classifyCommentCoverage(dictionary, '\u521a\u8fdb\u9662\uff0c\u73af\u5883\u5f88\u5dee\uff0c\u5168\u90fd\u662f\u6c99\u58c1');
 
