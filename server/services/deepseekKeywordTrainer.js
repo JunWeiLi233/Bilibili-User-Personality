@@ -5,7 +5,7 @@ import { withFileLock } from '../utils/fileLock.js';
 import { findDictionaryEntriesWithSemanticEvidence } from './semanticMatcher.js';
 
 const SUPPORTED_FAMILIES = ['attack', 'absolutes', 'evidence', 'evasion', 'cooperation', 'correction'];
-const SPLIT_DICTIONARY_SHARD_SIZE = 50;
+const SPLIT_DICTIONARY_SHARD_SIZE = 10;
 const DEEPSEEK_V4_MODELS = ['deepseek-v4-flash', 'deepseek-v4-pro'];
 const REASONING_EFFORTS = new Set(['low', 'medium', 'high', 'xhigh', 'max']);
 const STOP_TERMS = new Set([
@@ -3152,6 +3152,7 @@ async function readDictionary(dictionaryPath) {
       return {
         version: current.version || 1,
         storage: 'split',
+        shardSize: current.shardSize || null,
         updatedAt: current.updatedAt || null,
         entries,
         families: current.families || {},
@@ -3242,6 +3243,7 @@ async function writeSplitDictionaryAtomic(dictionaryPath, dictionary) {
     version: dictionary.version || 1,
     storage: 'split',
     updatedAt: dictionary.updatedAt || null,
+    shardSize: SPLIT_DICTIONARY_SHARD_SIZE,
     entryFiles,
   });
   await removeStaleSplitDictionaryFiles(dictionaryPath, entryFiles);
@@ -3308,7 +3310,13 @@ export async function mergeEntriesIntoDictionary(entries, options = {}) {
       entries: allEntries,
       families,
     };
-    if (semanticallyEqualIgnoringUpdatedAt(canonicalCurrent, next) && current.storage === 'split') return current;
+    if (
+      semanticallyEqualIgnoringUpdatedAt(canonicalCurrent, next)
+      && current.storage === 'split'
+      && current.shardSize === SPLIT_DICTIONARY_SHARD_SIZE
+    ) {
+      return current;
+    }
     await writeSplitDictionaryAtomic(dictionaryPath, next);
     return next;
   });

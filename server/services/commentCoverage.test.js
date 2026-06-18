@@ -576,6 +576,22 @@ test('classifyCommentCoverage suppresses round 36 false positives', () => {
   assert.deepEqual(agreement.hits.map((hit) => hit.term), ['\u52a0\u4e00']);
 });
 
+test('classifyCommentCoverage captures round 37 random audit misses', () => {
+  const cases = [
+    ['\u52a8\u4e0d\u52a8\u5c31\u5973\u670b\u53cb\uff0c\u73b0\u5728\u987a\u6cbb\u771f\u7684\u662f\u6ca1\u6709\u8fb9\u754c\u611f', '\u6ca1\u6709\u8fb9\u754c\u611f', 'attack'],
+    ['\u5b83\u4eec\u4e5f\u5728\u89c2\u7334', '\u89c2\u7334', 'attack'],
+    ['\u864e\u4e86\u5427\u5527\uff0c\u4e0d\u80fd\u8fd9\u6837\u5f0f\u6ef4\u54e6\uff5e[\u55d1\u74dc\u5b50]', '\u4e0d\u80fd\u8fd9\u6837', 'correction'],
+    ['\u771f\u9017', '\u771f\u9017', 'attack'],
+    ['\u521a\u5f00\u59cb\u5b66AE\u6709\u6728\u6709\u4e00\u8d77\u5b66\u7684\u5c0f\u4f19\u4f34', '\u6709\u6728\u6709\u4e00\u8d77\u5b66', 'cooperation'],
+  ];
+
+  for (const [comment, term, family] of cases) {
+    const result = classifyCommentCoverage({ entries: [] }, comment);
+    assert.equal(result.mode, 'keyword', comment);
+    assert.ok(result.hits.some((hit) => hit.term === term && hit.family === family), comment);
+  }
+});
+
 test('classifyCommentCoverage captures contextual self-immolation variants as attack imagery', () => {
   const sampledDictionary = { entries: [] };
   const typoVariant = classifyCommentCoverage(sampledDictionary, '\u53bb\u86c7\u62f3\u5854\u62b1\u7740\u674e\u7ea2\u72fc\u4e00\u8d77\u81ea\u706b');
