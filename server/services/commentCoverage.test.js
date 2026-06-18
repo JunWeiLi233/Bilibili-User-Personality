@@ -1586,6 +1586,39 @@ test('classifyCommentCoverage handles round 63 random audit cues', () => {
   assert.ok(scolding.hits.some((hit) => hit.term === '\u6211\u4eec\u4e5f\u5728\u9a82\u4f60' && hit.family === 'attack'));
 });
 
+test('classifyCommentCoverage handles round 64 random audit cues', () => {
+  const round64Dictionary = {
+    entries: [
+      { term: '\u6ca1\u6709', family: 'absolutes', meaning: 'absolute denial' },
+      { term: '\u90fd\u662f', family: 'absolutes', meaning: 'absolute generalization' },
+      { term: '\u795e\u4e86', family: 'attack', meaning: 'sarcastic amazement' },
+      { term: '\u6c99\u96d5', family: 'attack', meaning: 'derogatory silly/idiot label' },
+      { term: '\u7262\u5927', family: 'attack', meaning: 'mocking nickname' },
+      { term: '\u4e0d\u662f', family: 'attack', meaning: 'direct negation' },
+    ],
+  };
+
+  const neutralCases = [
+    '\u4e2a\u4eba\u5bf9\u8fd9\u6bb5\u6ca1\u6709\u5370\u8c61',
+    '\u8bcd\u548c\u66f2\u90fd\u662f\u8868\u8fbe\u7684\u8f7d\u4f53',
+    '\u5b69\u5b50\u88ab\u7535\u51fb\u4e86\uff0c\u771f\u7684\u592a\u6709\u804c\u4e1a\u7cbe\u795e\u4e86[\u5927\u54ed]',
+    '\u8fd9\u4e09\u90e8\u4f5c\u54c1\u5206\u522b\u4ee3\u8868\u4e86\u60ac\u7591\u5411\u3001\u70ed\u8840\u5411\u3001\u6c99\u96d5\u5411',
+    '\u76f4\u5347\u673a\u4e0a\u5de6\u5df4\u6768\uff0c\u4ea1\u6768\u6355\u7262\u5927\u51c9\u51c9',
+    '\u4e0d\u662f\u54e5\u4eec\uff0c\u4ec0\u4e48\u5730\u94c1\u5546\u573a\uff0c\u519c\u6751\u6709\u90a3\u73a9\u610f\u5417',
+    '(\u22673\u2266)',
+  ];
+
+  for (const text of neutralCases) {
+    const result = classifyCommentCoverage(round64Dictionary, text);
+    assert.equal(result.mode, 'neutral');
+    assert.deepEqual(result.hits, []);
+  }
+
+  const absolute = classifyCommentCoverage(round64Dictionary, '\u5ba0\u7269\u662f\u7269\u54c1\uff0c\u65e0\u4efb\u4f55\u6743\u529b\uff0c\u8fd8\u5165\u5211');
+  assert.equal(absolute.mode, 'keyword');
+  assert.ok(absolute.hits.some((hit) => hit.term === '\u65e0\u4efb\u4f55' && hit.family === 'absolutes'));
+});
+
 test('sampleCommentCoverage summarizes full coverage over keyword and neutral samples', () => {
   const result = sampleCommentCoverage(dictionary, [
     '这事懂的都懂，不展开了',

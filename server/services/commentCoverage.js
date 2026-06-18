@@ -91,6 +91,12 @@ export function detectEmoteSemanticHits(comment) {
 
 const SUPPLEMENTAL_SEMANTICS = [
   {
+    pattern: /\u65e0\u4efb\u4f55.{0,8}(?:\u6743\u529b|\u6743\u5229|\u7406\u7531|\u8bc1\u636e)|鏃犱换浣?.{0,8}(?:鏉冨姏|鏉冨埄|鐞嗙敱|璇佹嵁)/u,
+    term: '\u65e0\u4efb\u4f55',
+    family: 'absolutes',
+    meaning: '“无任何……”式全称否定，强调完全不存在权利、理由、证据等空间。',
+  },
+  {
     pattern: /(?:\u6211\u4eec|\u54b1\u4eec).{0,8}\u4e0d\u4e5f.{0,8}\u9a82\u4f60\u5462\u5417|鎴戜滑.{0,8}涓嶄篃.{0,8}楠備綘鍛㈠悧/u,
     term: '\u6211\u4eec\u4e5f\u5728\u9a82\u4f60',
     family: 'attack',
@@ -1689,6 +1695,29 @@ function isRound63SuppressedContext(entry, message) {
   return false;
 }
 
+function isRound64SuppressedContext(entry, message) {
+  const term = String(entry?.term || '');
+  if (entry?.family === 'absolutes' && (term === '\u6ca1\u6709' || term === '娌℃湁')) {
+    return /(?:\u4e2a\u4eba|鎴戣寰?|鎴戜釜浜?).{0,8}(?:\u5bf9|瀵?).{0,12}(?:\u6ca1\u6709|娌℃湁)(?:\u5370\u8c61|鍗拌薄)/u.test(message);
+  }
+  if (entry?.family === 'absolutes' && (term === '\u90fd\u662f' || term === '閮芥槸')) {
+    return /(?:\u8bcd\u548c\u66f2|\u8bcd\u66f2|\u8bcd.{0,2}\u66f2|璇嶅拰鏇?).{0,8}(?:\u90fd\u662f|閮芥槸).{0,12}(?:\u8868\u8fbe|\u8f7d\u4f53|琛ㄨ揪|杞戒綋)/u.test(message);
+  }
+  if (entry?.family === 'attack' && (term === '\u795e\u4e86' || term === '绁炰簡')) {
+    return /(?:\u7cbe\u795e\u4e86|绮剧浜?)/u.test(message);
+  }
+  if (entry?.family === 'attack' && (term === '\u6c99\u96d5' || term === '娌欓洉')) {
+    return /(?:\u6c99\u96d5\u5411|娌欓洉鍚?)/u.test(message);
+  }
+  if (entry?.family === 'attack' && (term === '\u7262\u5927' || term === '鐗㈠ぇ')) {
+    return /(?:\u4ea1\u6768\u6355\u7262\u5927\u51c9\u51c9|浜℃潹鎹曠墷澶у噳鍑?)/u.test(message);
+  }
+  if (entry?.family === 'attack' && term === '\u4e0d\u662f') {
+    return /(?:\u4e0d\u662f|娑撳秵妲?).{0,2}(?:\u54e5\u4eec|鍝ヤ滑)/u.test(message);
+  }
+  return false;
+}
+
 function isSuppressedLexicalHit(entry, message) {
   return isSelfReferentialNoviceHit(entry, message)
     || isLiteralYinYangContext(entry, message)
@@ -1726,7 +1755,8 @@ function isSuppressedLexicalHit(entry, message) {
     || isSincereFaithContext(entry, message)
     || isRound61SuppressedContext(entry, message)
     || isRound62SuppressedContext(entry, message)
-    || isRound63SuppressedContext(entry, message);
+    || isRound63SuppressedContext(entry, message)
+    || isRound64SuppressedContext(entry, message);
 }
 
 function exactDictionaryEntries(dictionary, message) {
@@ -1795,6 +1825,16 @@ export function classifyCommentCoverage(dictionary, comment, options = {}) {
       covered: true,
       mode: 'neutral',
       reason: 'no dictionary risk term matched; comment remains analyzable as neutral/no-keyword speech',
+      hits: [],
+      comment: message,
+    };
+  }
+
+  if (/^(?:[\p{Emoji_Presentation}\p{Extended_Pictographic}\p{Punctuation}\p{Symbol}\s]|[()（）<>≧≦=^_^・ω3])+$/u.test(message)) {
+    return {
+      covered: true,
+      mode: 'neutral',
+      reason: 'emoji/emoticon-only comment; analyzable as neutral tone without lexical risk term',
       hits: [],
       comment: message,
     };

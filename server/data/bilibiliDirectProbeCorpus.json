@@ -15072,9 +15072,83 @@
       "warnings": [],
       "commentsCollected": 176,
       "commentsAdded": 67
+    },
+    {
+      "at": "2026-06-18T15:24:56.572Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV13rEy6ZE17",
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复",
+          "bvid": "BV13rEy6ZE17",
+          "aid": 116736959453038,
+          "title": "/🤍轻度/🩵中度/💛重度/❤️印度/#141"
+        },
+        {
+          "key": "bvid:BV1JcR9B9EeH",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1JcR9B9EeH",
+          "aid": 116544508070000,
+          "title": "这狗还能要吗？"
+        },
+        {
+          "key": "bvid:BV1PZy2YdEk6",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1PZy2YdEk6",
+          "aid": 113366399980810,
+          "title": "会不会有人因为拼多多的仅退款被捕？"
+        },
+        {
+          "key": "bvid:BV1iXjc6CEfa",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1iXjc6CEfa",
+          "aid": 116769742130702,
+          "title": "大爷回家后：我跟你说，咱用错了饵，这河里的鱼吃塑料"
+        },
+        {
+          "key": "bvid:BV1oNLo6FET4",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1oNLo6FET4",
+          "aid": 116766722230407,
+          "title": "咦你<em class=\"keyword\">雷霆</em>！"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 845,
+      "commentsAdded": 616
     }
   ],
-  "updatedAt": "2026-06-18T15:10:32.905Z",
+  "updatedAt": "2026-06-18T15:24:56.572Z",
   "storage": "split",
   "shardMaxBytes": 65536,
   "commentFiles": [
@@ -15483,7 +15557,9 @@
     "bilibiliDirectProbeCorpus.comments/comments-0403.json",
     "bilibiliDirectProbeCorpus.comments/comments-0404.json",
     "bilibiliDirectProbeCorpus.comments/comments-0405.json",
-    "bilibiliDirectProbeCorpus.comments/comments-0406.json"
+    "bilibiliDirectProbeCorpus.comments/comments-0406.json",
+    "bilibiliDirectProbeCorpus.comments/comments-0407.json",
+    "bilibiliDirectProbeCorpus.comments/comments-0408.json"
   ],
-  "commentCount": 131545
+  "commentCount": 132161
 }
