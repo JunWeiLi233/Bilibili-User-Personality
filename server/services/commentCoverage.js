@@ -1477,10 +1477,16 @@ const SUPPLEMENTAL_SEMANTICS = [
     meaning: '强烈厌恶或反感评价；即使没有显式辱骂对象，也对人格/语气分析有负面情绪价值。',
   },
   {
-    pattern: /(?:沙壁|傻逼|傻b|sb)(?![a-z])/iu,
+    pattern: /(?:\u6c99\u58c1(?!\u5730\u8c8c|\u5efa\u7b51|\u5ca9|\u753b|\u6750)|\u50bb\u903c|\u50bbb|sb)(?![a-z])/iu,
     term: '沙壁/傻逼',
     family: 'attack',
     meaning: '中文网络常见谐音辱骂，表示把对象贬为愚蠢或低能。',
+  },
+  {
+    pattern: /(?<!\u76d1)\u7262\u5927(?=$|[^\p{Script=Han}]|\u7684(?:\u5973\u513f|\u5b69\u5b50)|\u54e5|\u6897|\u7c89)/u,
+    term: '\u7262\u5927',
+    family: 'cooperation',
+    meaning: '\u201c\u7262\u5927\u201d\u5728B\u7ad9/\u7bee\u7403\u6897\u8bed\u5883\u91cc\u5e38\u662f\u6307\u4ee3\u79d1\u6bd4\u7684\u9ed1\u8272\u5e7d\u9ed8\u5f0fmeme\u79f0\u547c\uff0c\u9700\u4f5c\u4e3a\u73a9\u6897\u5f15\u7528\u4fdd\u7559\uff0c\u4e0d\u5e94\u6309\u5b57\u9762\u201c\u76d1\u7262\u91cc\u7684\u8001\u5927\u201d\u7406\u89e3\u3002',
   },
   {
     pattern: /你祖宗/u,

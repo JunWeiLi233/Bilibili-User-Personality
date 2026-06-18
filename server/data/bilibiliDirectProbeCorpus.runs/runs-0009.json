@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T21:10:57.657Z",
+  "updatedAt": "2026-06-18T21:20:48.257Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -1111,6 +1111,88 @@
       "warnings": [],
       "commentsCollected": 795,
       "commentsAdded": 479
+    },
+    {
+      "at": "2026-06-18T21:20:48.257Z",
+      "actions": [
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV13FrfBXELa",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV13FrfBXELa",
+          "aid": 115897897388018,
+          "title": "<em class=\"keyword\">b站评论</em>采集，<em class=\"keyword\">b站评论</em>爬取，<em class=\"keyword\">b站</em>一二级<em class=\"keyword\">评论</em>采集，<em class=\"keyword\">b站评论</em>脚本，<em class=\"keyword\">b站评论</em>采集脚本源码"
+        },
+        {
+          "key": "bvid:BV1JqY3zYE97",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1JqY3zYE97",
+          "aid": 115160605858686,
+          "title": "天喔<em class=\"keyword\">茶庄</em> 蜂蜜柚子茶 凉茶0脂肪果味饮料小包便携饮品250ml_16整箱装"
+        },
+        {
+          "key": "bvid:BV1L6VS6KEnH",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1L6VS6KEnH",
+          "aid": 116668491629058,
+          "title": "不录挑战！！！"
+        },
+        {
+          "key": "bvid:BV1BvGe68EX9",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1BvGe68EX9",
+          "aid": 116622303955045,
+          "title": "❤️当开拓者被拿下后……"
+        },
+        {
+          "key": "bvid:BV1dajezjEJ3",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1dajezjEJ3",
+          "aid": 114582530039002,
+          "title": "神人作文阴间诵读：那一次，我被温暖击中"
+        },
+        {
+          "key": "bvid:BV17fjA6EEQu",
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论",
+          "bvid": "BV17fjA6EEQu",
+          "aid": 116770715342426,
+          "title": "全体个人直拍 260618 MCOUNTDOWN LOVE <em class=\"keyword\">ATTACK</em> - RESCENE | 打歌舞台"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 585,
+      "commentsAdded": 443
     }
   ]
 }
