@@ -352,6 +352,38 @@ test('classifyCommentCoverage captures hostile plot-writing rants', () => {
   assert.deepEqual(result.hits.map((hit) => hit.family), ['attack']);
 });
 
+test('classifyCommentCoverage captures tuition-scam graduation accusations', () => {
+  const result = classifyCommentCoverage({ entries: [] }, '\u9a97\u5b66\u8d39\u8fd8\u4e0d\u7ed9\u6bd5\u4e1a');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['\u9a97\u5b66\u8d39\u4e0d\u7ed9\u6bd5\u4e1a']);
+  assert.deepEqual(result.hits.map((hit) => hit.family), ['attack']);
+});
+
+test('classifyCommentCoverage captures egou animalized insults', () => {
+  const result = classifyCommentCoverage({ entries: [] }, '\u6076\u72d7');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['\u6076\u72d7']);
+  assert.deepEqual(result.hits.map((hit) => hit.family), ['attack']);
+});
+
+test('classifyCommentCoverage captures sampled explicit praise as cooperation', () => {
+  const taste = classifyCommentCoverage({ entries: [] }, '\u6709\u54c1\uff01');
+  const wellDone = classifyCommentCoverage({ entries: [] }, '\u96be\u770b\u771f\u4e0d\u81f3\u4e8e\uff0c\u505a\u5f97\u5f88\u597d\u7684');
+  const superLike = classifyCommentCoverage({ entries: [] }, '\u8d85\u7ea7\u559c\u6b22\u4f60 \u8fde\u7ffb\u8138\u4e5f\u6ca1\u5e95\u6c14');
+
+  assert.equal(taste.mode, 'keyword');
+  assert.deepEqual(taste.hits.map((hit) => hit.term), ['\u6709\u54c1']);
+  assert.deepEqual(taste.hits.map((hit) => hit.family), ['cooperation']);
+  assert.deepEqual(wellDone.hits.map((hit) => hit.term), ['\u505a\u5f97\u5f88\u597d']);
+  assert.deepEqual(wellDone.hits.map((hit) => hit.family), ['cooperation']);
+  assert.deepEqual(superLike.hits.map((hit) => hit.term), ['\u8d85\u7ea7\u559c\u6b22\u4f60']);
+  assert.deepEqual(superLike.hits.map((hit) => hit.family), ['cooperation']);
+});
+
 test('classifyCommentCoverage captures contextual self-immolation variants as attack imagery', () => {
   const sampledDictionary = { entries: [] };
   const typoVariant = classifyCommentCoverage(sampledDictionary, '\u53bb\u86c7\u62f3\u5854\u62b1\u7740\u674e\u7ea2\u72fc\u4e00\u8d77\u81ea\u706b');
