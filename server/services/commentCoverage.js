@@ -72,6 +72,18 @@ export function detectEmoteSemanticHits(comment) {
 
 const SUPPLEMENTAL_SEMANTICS = [
   {
+    pattern: /\u6bc1\u539f\u4f5c|\u6bc1.{0,4}\u539f\u4f5c/u,
+    term: '\u6bc1\u539f\u4f5c',
+    family: 'attack',
+    meaning: '\u201c\u6bc1\u539f\u4f5c\u201d\u662f\u5bf9\u6539\u7f16\u65b9\u6216\u521b\u4f5c\u65b9\u7684\u5f3a\u70c8\u8d1f\u9762\u8bc4\u4ef7\uff0c\u6307\u5176\u7834\u574f\u539f\u4f5c\u6c14\u8d28\u6216\u8d28\u91cf\u3002',
+  },
+  {
+    pattern: /(?:\u5435|\u8042|\u95f9|\u55e1).{0,8}\u8111\u4ec1\u75bc|\u8111\u4ec1\u75bc/u,
+    term: '\u8111\u4ec1\u75bc',
+    family: 'attack',
+    meaning: '\u201c\u8111\u4ec1\u75bc\u201d\u5728\u8bc4\u8bba\u91cc\u5e38\u8868\u793a\u88ab\u5435\u95f9\u3001\u4f4e\u8d28\u6216\u96be\u53d7\u5185\u5bb9\u6298\u78e8\u5230\u5934\u75bc\uff0c\u5c5e\u4e8e\u5f3a\u70c8\u8d1f\u9762\u5410\u69fd\u4fe1\u53f7\u3002',
+  },
+  {
     pattern: /(?:\u82f1\u96c4|\u771f\u6b63|\u6211|\u4f60|\u4ed6|\u5979|\u8fd9\u4eba|\u90a3\u4eba|up|UP).{0,12}[\uff08(]\u54b8\u9c7c[\uff09)]|\u54b8\u9c7c(?:\u4e00\u6761|\u672c\u9c7c|\u4eba\u751f|\u8eba\u5e73)/u,
     term: '\u54b8\u9c7c',
     family: 'attack',
@@ -223,11 +235,31 @@ function isSelfReferentialNoviceHit(entry, message) {
   return /(?:^|[，,。！？!?\s])我(?:也|是|就是|也算|算)?[^，,。！？!?]{0,8}小白/u.test(message);
 }
 
+function isLiteralTrafficContext(entry, message) {
+  if (entry?.family !== 'attack') return false;
+  if (String(entry?.term || '') !== '\u6d41\u91cf') return false;
+  return /(?:\u5370\u5ea6|\u56fd\u5185|\u56fd\u5916|\u5e73\u53f0|\u89c6\u9891|\u76f4\u64ad|\u7f51\u7ad9|\u8d26\u53f7|\u81ea\u5a92\u4f53).{0,12}\u6d41\u91cf|\u6d41\u91cf.{0,12}(?:\u5f88\u5927|\u5927|\u5c0f|\u9ad8|\u4f4e|\u591a|\u5c11|\u5bc6\u7801|\u5165\u53e3|\u63a8\u8350|\u66dd\u5149)/u.test(message);
+}
+
+function isNeutralSpeculativeBroadener(entry, message) {
+  const term = String(entry?.term || '');
+  if (entry?.family === 'absolutes' && term === '\u90fd\u662f') {
+    return /(?:\u5e94\u8be5|\u53ef\u80fd|\u5927\u6982|\u4f30\u8ba1).{0,12}\u90fd\u662f/u.test(message)
+      || /\u90fd\u662f.{0,12}(?:\u60f3|\u6765|\u53bb|\u505a|\u770b|\u4e70|\u5356)/u.test(message);
+  }
+  if (entry?.family === 'cooperation' && term === '\u5e94\u8be5') {
+    return /\u5e94\u8be5.{0,12}(?:\u90fd\u662f|\u662f|\u60f3|\u80fd|\u4f1a|\u53ef\u4ee5)/u.test(message);
+  }
+  return false;
+}
+
 function isSuppressedLexicalHit(entry, message) {
   return isSelfReferentialNoviceHit(entry, message)
     || isLiteralYinYangContext(entry, message)
     || isFactualNoHaveContext(entry, message)
-    || isLogicalNotIsContext(entry, message);
+    || isLogicalNotIsContext(entry, message)
+    || isLiteralTrafficContext(entry, message)
+    || isNeutralSpeculativeBroadener(entry, message);
 }
 
 function exactDictionaryEntries(dictionary, message) {

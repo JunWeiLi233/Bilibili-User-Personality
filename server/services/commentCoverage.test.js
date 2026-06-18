@@ -122,6 +122,33 @@ test('classifyCommentCoverage captures salted-fish satire without matching liter
   assert.equal(literal.hits.length, 0);
 });
 
+test('classifyCommentCoverage suppresses neutral traffic and speculative broadener hits', () => {
+  const sampledDictionary = {
+    entries: [
+      { term: '\u90fd\u662f', family: 'absolutes', meaning: 'absolute generalization' },
+      { term: '\u6d41\u91cf', family: 'attack', meaning: 'traffic-star derogation when aimed at a creator' },
+      { term: '\u5e94\u8be5', family: 'cooperation', meaning: 'soft speculative modal' },
+    ],
+  };
+  const result = classifyCommentCoverage(sampledDictionary, '\u56fd\u5185\u53bb\u7684\u5e94\u8be5\u90fd\u662f\u60f3\u505a\u81ea\u5a92\u4f53\u7684\u5427\u2026\u5370\u5ea6\u6d41\u91cf\u5f88\u5927\u7684');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'neutral');
+  assert.equal(result.hits.length, 0);
+});
+
+test('classifyCommentCoverage captures sampled adaptation and noise complaints', () => {
+  const adaptation = classifyCommentCoverage(dictionary, '\u6263\u673a\u793e\u6bc1\u539f\u4f5c\u7684\u6982\u7387\u4e0d\u4e9a\u4e8e\u7269\u7406\u7a81\u7834\u91cf\u5b50\u9886\u57df');
+  const noise = classifyCommentCoverage(dictionary, '\u8fd9\u7fa4\u6401\u8fd9\u8bf4\u4ec0\u4e48\u5462 \u8042\u7684\u8111\u4ec1\u75bc');
+
+  assert.equal(adaptation.covered, true);
+  assert.equal(adaptation.mode, 'keyword');
+  assert.ok(adaptation.hits.some((hit) => hit.term === '\u6bc1\u539f\u4f5c'));
+  assert.equal(noise.covered, true);
+  assert.equal(noise.mode, 'keyword');
+  assert.ok(noise.hits.some((hit) => hit.term === '\u8111\u4ec1\u75bc'));
+});
+
 test('classifyCommentCoverage captures whitewashing accusations without matching literal washing', () => {
   const accusation = classifyCommentCoverage(dictionary, '\u4e5f\u591f\u522b\u6d17\u4e86');
   const literal = classifyCommentCoverage(dictionary, '\u522b\u6d17\u8863\u670d\u4e86\uff0c\u660e\u5929\u4e0b\u96e8');
