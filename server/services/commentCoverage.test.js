@@ -249,6 +249,18 @@ test('classifyCommentCoverage captures audience-taste sarcasm', () => {
   assert.deepEqual(result.hits.map((hit) => hit.term), ['\u6709\u54c1\u5473...\u6ee1\u6c5f\u7ea2']);
 });
 
+test('classifyCommentCoverage captures contextual sarcastic praise without matching plain praise', () => {
+  const sarcasm = classifyCommentCoverage(dictionary, '\u4e0d\u810f\uff0c\u4f60\u7684\u8bdd\u662f\u5929\u7c41');
+  const praise = classifyCommentCoverage(dictionary, '\u5979\u7684\u58f0\u97f3\u771f\u7684\u662f\u5929\u7c41');
+
+  assert.equal(sarcasm.covered, true);
+  assert.equal(sarcasm.mode, 'keyword');
+  assert.deepEqual(sarcasm.hits.map((hit) => hit.term), ['\u4f60\u7684\u8bdd\u662f\u5929\u7c41']);
+  assert.equal(praise.covered, true);
+  assert.equal(praise.mode, 'neutral');
+  assert.equal(praise.hits.length, 0);
+});
+
 test('classifyCommentCoverage captures homophone insults even when absolutes also match', () => {
   const result = classifyCommentCoverage(dictionary, '\u521a\u8fdb\u9662\uff0c\u73af\u5883\u5f88\u5dee\uff0c\u5168\u90fd\u662f\u6c99\u58c1');
 
