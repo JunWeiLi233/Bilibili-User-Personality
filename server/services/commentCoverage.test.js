@@ -1393,6 +1393,38 @@ test('classifyCommentCoverage handles round 58 random audit misses and self-mock
   assert.deepEqual(selfMockery.hits, []);
 });
 
+test('classifyCommentCoverage handles round 59 random audit misses', () => {
+  const cases = [
+    ['\u5f20\u603b\u6b7b\u4e86\u7684\u8bdd\u6709\u6548', '\u6b7b\u4e86\u624d\u6709\u6548', 'attack'],
+    ['\u74f6\u5b50\u6ca1\u5355\u8bb2\u8fc7mygo\u5427\uff0c\u5e94\u8be5\u662f\u8303\u5f0f', '\u6ca1\u8bb2\u8fc7X\u5e94\u8be5\u662fY', 'correction'],
+    ['\u770b\uff0c\u8fd1\u4eb2\u7ed3\u5a5a\u7684\u62a5\u5e94\u6765\u4e86\u5427', '\u62a5\u5e94\u6765\u4e86', 'attack'],
+    ['\u5356\u8fd9\u4e48\u8d35\u8fd8\u7ed9\u6211\u5403\u7cca\u7684', '\u8d35\u8fd8\u7cca', 'attack'],
+    ['\u8111\u989d\u53f6\u5207\u9664\u624b\u672f', '\u8111\u989d\u53f6\u5207\u9664', 'attack'],
+    ['\u8bf4\u4e0d\u5b9a\u53c8\u662f\u4e00\u4e2a\u70df\u96fe\u5f39', '\u70df\u96fe\u5f39/\u9a97\u8fc7\u6765', 'attack'],
+    ['\u7ed9\u9694\u58c1\u5c0f\u5b69\u9a97\u8fc7\u6765\u8fd9\u4e48\u591a', '\u70df\u96fe\u5f39/\u9a97\u8fc7\u6765', 'attack'],
+    ['md\u70b9\u4e0d\u5230\u5355\u4eba', 'md', 'attack'],
+    ['\u4f60\u8fd9\u5bb6\u4f19\u518d\u5e72\u4ec0\u4e48', '\u4f60\u8fd9\u5bb6\u4f19\u5728\u5e72\u4ec0\u4e48', 'attack'],
+    ['\u738b\u9886\u5bfc\u8bf4\u9664\u975e\u8de8\u8fc7\u4ed6\u7684\u5c38\u4f53', '\u8de8\u8fc7\u5c38\u4f53/\u8de8\u680f\u5927\u8d5b', 'attack'],
+    ['\u4e8e\u662f\u6751\u91cc\u5f53\u665a\u4e3e\u529e\u4e86\u4e00\u573a\u8de8\u680f\u5927\u8d5b', '\u8de8\u8fc7\u5c38\u4f53/\u8de8\u680f\u5927\u8d5b', 'attack'],
+  ];
+
+  for (const [text, term, family] of cases) {
+    const result = classifyCommentCoverage(dictionary, text);
+    assert.equal(result.mode, 'keyword');
+    assert.ok(result.hits.some((hit) => hit.term === term && hit.family === family));
+  }
+});
+
+test('classifyCommentCoverage suppresses round 59 overbroad audit candidates', () => {
+  const markdown = classifyCommentCoverage(dictionary, 'md markdown \u6587\u6863\u683c\u5f0f');
+  assert.equal(markdown.mode, 'neutral');
+  assert.deepEqual(markdown.hits, []);
+
+  const plainTradition = classifyCommentCoverage(dictionary, '\u4f20\u7edf\u7f8e\u5fb7\u8fd9\u4e00\u5757\u503c\u5f97\u4f20\u627f');
+  assert.equal(plainTradition.mode, 'neutral');
+  assert.deepEqual(plainTradition.hits, []);
+});
+
 test('sampleCommentCoverage summarizes full coverage over keyword and neutral samples', () => {
   const result = sampleCommentCoverage(dictionary, [
     '这事懂的都懂，不展开了',
