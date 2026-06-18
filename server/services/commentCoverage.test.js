@@ -458,6 +458,31 @@ test('classifyCommentCoverage captures sampled explicit praise as cooperation', 
   assert.deepEqual(superLike.hits.map((hit) => hit.family), ['cooperation']);
 });
 
+test('classifyCommentCoverage captures latest random audit misses', () => {
+  const kline = classifyCommentCoverage({ entries: [] }, '\u4e0d\u662f\u53c8\u753bK\u7ebf\u5427');
+  const support = classifyCommentCoverage({ entries: [] }, '\u770b\u4e86\u5341\u51e0\u5e74\u5382\u957f\u4e86\uff0c\u7ee7\u7eed\u505a\u4e0b\u53bb\u5427\uff0c\u4eba\u65e0\u5b8c\u4eba');
+  const profanity = classifyCommentCoverage({ entries: [] }, '\u5fb7\u4e8c:\u82f1\u56fd\uff0c\u6cd5\u56fd\uff0c\u6211\u4ed6\u5988\u6765\u627e\u4f60\u4eec\u7b97\u8d26\u4e86');
+
+  assert.deepEqual(kline.hits.map((hit) => hit.family), ['attack']);
+  assert.deepEqual(kline.hits.map((hit) => hit.term), ['\u4e0d\u662f\u53c8\u753bK\u7ebf\u5427']);
+  assert.deepEqual(support.hits.map((hit) => hit.family), ['cooperation']);
+  assert.deepEqual(support.hits.map((hit) => hit.term), ['\u7ee7\u7eed\u505a\u4e0b\u53bb\u5427']);
+  assert.deepEqual(profanity.hits.map((hit) => hit.family), ['attack']);
+  assert.deepEqual(profanity.hits.map((hit) => hit.term), ['\u4ed6\u5988/\u7b97\u8d26']);
+});
+
+test('classifyCommentCoverage treats scrape diagnostics as neutral non-speech', () => {
+  const result = classifyCommentCoverage(
+    dictionary,
+    '\u72d7\u53bb\u54ea\u91cc\u4e86: discover: HTTP 403 from https://tieba.baidu.com/mo/q/m?kw=%E7%8B%97',
+  );
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'neutral');
+  assert.deepEqual(result.hits, []);
+  assert.equal(result.reason, 'scrape diagnostic line, not user speech');
+});
+
 test('classifyCommentCoverage captures contextual self-immolation variants as attack imagery', () => {
   const sampledDictionary = { entries: [] };
   const typoVariant = classifyCommentCoverage(sampledDictionary, '\u53bb\u86c7\u62f3\u5854\u62b1\u7740\u674e\u7ea2\u72fc\u4e00\u8d77\u81ea\u706b');

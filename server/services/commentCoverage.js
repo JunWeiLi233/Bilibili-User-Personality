@@ -15,6 +15,12 @@ function stripMentionScaffolding(text) {
     .trim();
 }
 
+function isScrapeDiagnosticMessage(text) {
+  const message = String(text || '');
+  return /(?:^|[:\s])(?:discover|explicit Tieba thread URLs):\s+.*HTTP\s+(?:403|4\d\d|5\d\d)\s+from\s+https?:\/\//iu.test(message)
+    || /HTTP\s+(?:403|4\d\d|5\d\d)\s+from\s+https?:\/\/(?:tieba|c\.tieba|www\.bilibili|api\.bilibili)\./iu.test(message);
+}
+
 function summarizeHit(entry) {
   return {
     term: entry.term,
@@ -389,6 +395,24 @@ const SUPPLEMENTAL_SEMANTICS = [
     family: 'evasion',
     meaning: '中文网络语境中表示不付费、免费占用或薅资源的俗语，可用于自嘲、批评或消费态度表达，区别于字面颜色与行为。',
   },
+  {
+    pattern: /(?:\u4e0d\u662f\u53c8.{0,8}(?:K\u7ebf|k\u7ebf|\u753b\u7ebf).{0,4}(?:\u5427|\u5417|[?\uff1f])|\u53c8.{0,4}\u753bK\u7ebf)/u,
+    term: '\u4e0d\u662f\u53c8\u753bK\u7ebf\u5427',
+    family: 'attack',
+    meaning: '\u201c\u4e0d\u662f\u53c8\u753bK\u7ebf\u5427\u201d\u5728\u6295\u8d44\u3001\u6570\u636e\u6216\u8206\u8bba\u8bed\u5883\u91cc\u5e38\u662f\u53cd\u95ee\u5f0f\u8d28\u7591\uff0c\u6697\u793a\u5bf9\u65b9\u53c8\u5728\u64cd\u76d8\u3001\u9020\u52bf\u6216\u641e\u5957\u8def\u3002',
+  },
+  {
+    pattern: /(?:\u7ee7\u7eed(?:\u505a|\u66f4|\u52aa\u529b|[\u4e00-\u9fff]{0,4})\u4e0b\u53bb\u5427|\u4eba\u65e0\u5b8c\u4eba|\u7ee7\u7eed\u52a0\u6cb9)/u,
+    term: '\u7ee7\u7eed\u505a\u4e0b\u53bb\u5427',
+    family: 'cooperation',
+    meaning: '\u5bf9UP\u4e3b\u6216\u521b\u4f5c\u8005\u8bf4\u201c\u7ee7\u7eed\u505a\u4e0b\u53bb\u5427\u201d\u3001\u201c\u4eba\u65e0\u5b8c\u4eba\u201d\u662f\u660e\u786e\u652f\u6301\u3001\u9f13\u52b1\u548c\u7f13\u548c\u6279\u8bc4\u7684\u5408\u4f5c\u6027\u8bed\u6c14\u3002',
+  },
+  {
+    pattern: /(?:\u6211|\u4f60|\u4ed6|\u5979|\u54b1|\u54b1\u4eec|[\u4e00-\u9fff]{1,6})\u4ed6\u5988(?:\u7684)?|(?:\u7b97\u8d26|\u627e\u4f60\u4eec\u7b97\u8d26).{0,8}(?:\u4ed6\u5988|\u6765\u627e)|\u4ed6\u5988.{0,12}\u7b97\u8d26/u,
+    term: '\u4ed6\u5988/\u7b97\u8d26',
+    family: 'attack',
+    meaning: '\u201c\u4ed6\u5988\u201d\u662f\u4e2d\u6587\u5e38\u89c1\u7c97\u53e3\u5f3a\u8bed\u6c14\uff0c\u4e0e\u201c\u627e\u4f60\u4eec\u7b97\u8d26\u201d\u7b49\u5bf9\u8c61\u6307\u5411\u8868\u8fbe\u5408\u7528\u65f6\u5e94\u4f5c\u4e3a\u654c\u610f\u6216\u653b\u51fb\u4fe1\u53f7\u4fdd\u7559\u3002',
+  },
 ];
 
 function detectSupplementalSemanticHits(comment) {
@@ -547,6 +571,15 @@ export function classifyCommentCoverage(dictionary, comment, options = {}) {
       covered: false,
       mode: 'uncovered',
       reason: 'empty comment',
+      hits: [],
+      comment: message,
+    };
+  }
+  if (isScrapeDiagnosticMessage(message)) {
+    return {
+      covered: true,
+      mode: 'neutral',
+      reason: 'scrape diagnostic line, not user speech',
       hits: [],
       comment: message,
     };

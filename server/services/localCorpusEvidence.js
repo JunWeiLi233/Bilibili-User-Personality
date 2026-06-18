@@ -4,6 +4,17 @@ function cleanText(value) {
   return String(value || '').replace(/\s+/g, ' ').trim();
 }
 
+function isScrapeDiagnosticMessage(value) {
+  const message = cleanText(value);
+  return /(?:^|[:\s])(?:discover|explicit Tieba thread URLs):\s+.*HTTP\s+(?:403|4\d\d|5\d\d)\s+from\s+https?:\/\//iu.test(message)
+    || /HTTP\s+(?:403|4\d\d|5\d\d)\s+from\s+https?:\/\/(?:tieba|c\.tieba|www\.bilibili|api\.bilibili)\./iu.test(message);
+}
+
+function cleanCommentMessage(value) {
+  const message = cleanText(value);
+  return message && !isScrapeDiagnosticMessage(message) ? message : '';
+}
+
 function evidenceCount(entry = {}) {
   const count = Number(entry.evidenceCount ?? entry.evidence?.length ?? entry.evidenceSamples?.length ?? 0);
   return Number.isFinite(count) ? Math.max(0, count) : 0;
@@ -97,7 +108,7 @@ function sourceForTiebaComment(item = {}) {
 function splitCommentText(value) {
   return String(value || '')
     .split(/\r?\n/)
-    .map(cleanText)
+    .map(cleanCommentMessage)
     .filter(Boolean);
 }
 
@@ -105,7 +116,7 @@ function flattenUidCommentMap(rawMap = {}) {
   return Object.entries(rawMap)
     .flatMap(([uid, items]) => (Array.isArray(items) ? items.map((item) => ({ ...item, uid: item?.uid || uid })) : []))
     .map((item) => {
-      const message = cleanText(item?.message);
+      const message = cleanCommentMessage(item?.message);
       if (!message) return null;
       const bvid = cleanText(item?.bvid);
       return {
@@ -122,7 +133,7 @@ function flattenUidCommentMap(rawMap = {}) {
 export function flattenBilibiliCommentCorpus(raw) {
   if (Array.isArray(raw) && raw.every((item) => typeof item === 'string')) {
     return raw
-      .map(cleanText)
+      .map(cleanCommentMessage)
       .filter(Boolean)
       .map((message) => ({
         message,
@@ -140,7 +151,7 @@ export function flattenBilibiliCommentCorpus(raw) {
   if (Array.isArray(raw?.comments)) {
     return raw.comments
       .map((item) => {
-        const message = cleanText(item?.message);
+        const message = cleanCommentMessage(item?.message);
         if (!message) return null;
         const platform = cleanText(item?.platform) || 'bilibili';
         return {
@@ -159,7 +170,7 @@ export function flattenBilibiliCommentCorpus(raw) {
       .flatMap((run) => (Array.isArray(run?.results) ? run.results : []))
       .flatMap((result) => (Array.isArray(result?.comments) ? result.comments : []))
       .map((item) => {
-        const message = cleanText(item?.message);
+        const message = cleanCommentMessage(item?.message);
         if (!message) return null;
         const platform = cleanText(item?.platform) || 'tieba';
         return {
@@ -189,7 +200,7 @@ export function flattenBilibiliCommentCorpus(raw) {
         });
       }
       for (const item of Array.isArray(user?.comments) ? user.comments : []) {
-        const message = cleanText(item?.message);
+        const message = cleanCommentMessage(item?.message);
         if (!message) continue;
         const oid = cleanText(item?.oid);
         comments.push({
@@ -201,7 +212,7 @@ export function flattenBilibiliCommentCorpus(raw) {
         });
       }
       for (const item of Array.isArray(user?.danmaku) ? user.danmaku : []) {
-        const message = cleanText(item?.content || item?.message);
+        const message = cleanCommentMessage(item?.content || item?.message);
         if (!message) continue;
         const oid = cleanText(item?.oid);
         comments.push({

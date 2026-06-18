@@ -167,6 +167,43 @@ test('flattenBilibiliCommentCorpus reads saved Tieba keyword corpus comments', (
   ]);
 });
 
+test('flattenBilibiliCommentCorpus drops scrape diagnostics from Tieba corpora', () => {
+  const comments = flattenBilibiliCommentCorpus({
+    version: 1,
+    runs: [
+      {
+        results: [
+          {
+            comments: [
+              {
+                message: '\u72d7\u53bb\u54ea\u91cc\u4e86: discover: HTTP 403 from https://tieba.baidu.com/mo/q/m?kw=%E7%8B%97',
+                sourceUrl: 'https://tieba.baidu.com/f?kw=dog',
+                platform: 'tieba',
+              },
+              {
+                message: '\u771f\u4eba\u56e2 \u63a5\u63a5\u63a5',
+                sourceUrl: 'https://tieba.baidu.com/p/10792024244',
+                platform: 'tieba',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  });
+
+  assert.deepEqual(comments.map((comment) => comment.message), ['\u771f\u4eba\u56e2 \u63a5\u63a5\u63a5']);
+});
+
+test('flattenBilibiliCommentCorpus drops scrape diagnostics from plain text corpora', () => {
+  const comments = flattenBilibiliCommentCorpus([
+    'discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E7%8B%97',
+    '\u67e5\u67e5\u8d44\u6599\u518d\u8bf4',
+  ]);
+
+  assert.deepEqual(comments.map((comment) => comment.message), ['\u67e5\u67e5\u8d44\u6599\u518d\u8bf4']);
+});
+
 test('flattenBilibiliCommentCorpus keeps top-level direct probe comments when runs are present', () => {
   const comments = flattenBilibiliCommentCorpus({
     version: 1,
