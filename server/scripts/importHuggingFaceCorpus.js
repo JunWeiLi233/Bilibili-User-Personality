@@ -43,13 +43,14 @@ const DEFAULT_SOURCES = [
 ];
 
 function parseSource(value) {
-  const [dataset, file, platform = 'huggingface', maxBytes = '750000', limit = '250'] = String(value || '').split('::');
+  const [dataset, file, platform = 'huggingface', maxBytes = '750000', limit = '250', offset = '0'] = String(value || '').split('::');
   return {
     dataset: dataset?.trim(),
     file: file?.trim(),
     platform: platform?.trim(),
     maxBytes: Number(maxBytes),
     limit: Number(limit),
+    offset: Number(offset),
   };
 }
 
@@ -140,6 +141,7 @@ const run = {
     platform: source.platform,
     maxBytes: source.maxBytes,
     limit: source.limit,
+    offset: source.offset || 0,
   })),
   results: [],
 };

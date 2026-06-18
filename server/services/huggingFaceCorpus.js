@@ -103,6 +103,7 @@ function rowPlatform(row = {}, fallback = '') {
 export function parseHuggingFaceRows(raw, options = {}) {
   const platform = cleanText(options.platform || 'huggingface').toLowerCase();
   const limit = Math.max(1, Math.min(Number(options.limit) || 500, 5000));
+  const offset = Math.max(0, Number(options.offset) || 0);
   const file = cleanText(options.file);
   let rows = [];
 
@@ -120,6 +121,7 @@ export function parseHuggingFaceRows(raw, options = {}) {
   }
 
   const comments = [];
+  let accepted = 0;
   for (const row of rows) {
     if (!row || typeof row !== 'object') continue;
     const detectedPlatform = rowPlatform(row, platform);
@@ -127,6 +129,10 @@ export function parseHuggingFaceRows(raw, options = {}) {
     const message = cleanText(firstTextField(row, options));
     if (!message) continue;
     if (!hasHanText(message)) continue;
+    if (accepted < offset) {
+      accepted += 1;
+      continue;
+    }
     comments.push({
       message,
       platform: detectedPlatform || platform || 'huggingface',
@@ -137,6 +143,7 @@ export function parseHuggingFaceRows(raw, options = {}) {
       dataset: cleanText(options.dataset),
       file,
     });
+    accepted += 1;
     if (comments.length >= limit) break;
   }
   return comments;

@@ -48,6 +48,25 @@ test('parseHuggingFaceRows reads Tieba title/detail csv rows', () => {
   assert.equal(rows[0].uid, 'tester');
 });
 
+test('parseHuggingFaceRows offsets accepted Hugging Face rows before limiting', () => {
+  const csv = [
+    'comment',
+    'skip english',
+    '\u7b2c\u4e00\u6761',
+    '\u7b2c\u4e8c\u6761',
+    '\u7b2c\u4e09\u6761',
+  ].join('\n');
+  const rows = parseHuggingFaceRows(csv, {
+    dataset: 'sample/tieba',
+    file: 'comments.csv',
+    platform: 'tieba',
+    offset: 1,
+    limit: 1,
+  });
+
+  assert.deepEqual(rows.map((row) => row.message), ['\u7b2c\u4e8c\u6761']);
+});
+
 test('buildHuggingFaceCorpusUpdate dedupes imported rows against existing comments', () => {
   const existing = {
     version: 1,
