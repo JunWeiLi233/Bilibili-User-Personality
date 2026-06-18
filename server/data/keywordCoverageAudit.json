@@ -1,6 +1,6 @@
 {
   "ok": false,
-  "generatedAt": "2026-06-18T00:18:24.541Z",
+  "generatedAt": "2026-06-18T03:28:56.333Z",
   "targetEvidence": 3,
   "minCoverageRatio": 1,
   "requireComplete": true,
@@ -9,14 +9,14 @@
     "complete": false,
     "targetEvidence": 3,
     "terms": 1579,
-    "totalEvidence": 9124,
+    "totalEvidence": 9127,
     "averageEvidence": 5.78,
-    "coverageRatio": 0.9683,
-    "evidenceDeficit": 91,
+    "coverageRatio": 0.969,
+    "evidenceDeficit": 90,
     "sourcedEvidenceTerms": 1579,
     "sourceCoverageRatio": 1,
     "unsourcedEvidenceTerms": 0,
-    "weakTerms": 50,
+    "weakTerms": 49,
     "zeroEvidenceTerms": 0,
     "weakSamples": [
       {
@@ -145,7 +145,7 @@
     "byFamily": {
       "absolutes": {
         "terms": 130,
-        "evidence": 732,
+        "evidence": 734,
         "weak": 12,
         "zero": 0,
         "sourced": 130
@@ -173,8 +173,8 @@
       },
       "evasion": {
         "terms": 66,
-        "evidence": 356,
-        "weak": 6,
+        "evidence": 357,
+        "weak": 5,
         "zero": 0,
         "sourced": 66
       },
@@ -440,8 +440,8 @@
   },
   "actionSummary": {
     "retry_with_new_variant": 48,
-    "add_query_template": 2,
-    "none": 1529
+    "add_query_template": 1,
+    "none": 1530
   },
   "familyGaps": [
     {
@@ -465,16 +465,16 @@
       "terms": 130,
       "weak": 12,
       "zero": 0,
-      "evidence": 732,
+      "evidence": 734,
       "coverageRatio": 0.9077
     },
     {
       "family": "evasion",
       "terms": 66,
-      "weak": 6,
+      "weak": 5,
       "zero": 0,
-      "evidence": 356,
-      "coverageRatio": 0.9091
+      "evidence": 357,
+      "coverageRatio": 0.9242
     },
     {
       "family": "correction",
@@ -1461,27 +1461,6 @@
       "lastError": "Bilibili harvest query \"\u539f\u6765\u8299\u5b81\u5a1c\u4e5f\u7231\u770b \u8bc4\u8bba\u533a\" timed out after 180000ms"
     },
     {
-      "term": "\u8fd9\u90fd\u4e0d\u61c2",
-      "family": "evasion",
-      "status": "weak_missed",
-      "action": "add_query_template",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u8fd9\u90fd\u4e0d\u61c2",
-      "targetEvidence": 3,
-      "evidenceNeeded": 1,
-      "attempts": 37,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 6,
-      "exhausted": false,
-      "nextQuery": "",
-      "suggestedQueries": [],
-      "lastQuery": "\u8fd9\u90fd\u4e0d\u61c2",
-      "lastError": ""
-    },
-    {
       "term": "\u81ea\u5df1\u53bb\u627e",
       "family": "evasion",
       "status": "weak_missed",
@@ -1596,7 +1575,7 @@
     "\u8bf4\u516b\u767e\u904d\u4e86 \u70ed\u8bc4"
   ],
   "failureReasons": [
-    "coverage ratio 0.9683 is below 1",
-    "50 term(s) are below 3 evidence hit(s)"
+    "coverage ratio 0.969 is below 1",
+    "49 term(s) are below 3 evidence hit(s)"
   ]
 }
