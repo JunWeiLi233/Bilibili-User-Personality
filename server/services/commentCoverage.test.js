@@ -1918,6 +1918,28 @@ test('classifyCommentCoverage handles round 75 random audit cues', () => {
   assert.deepEqual(neutralDiscussion.hits, []);
 });
 
+test('classifyCommentCoverage handles round 76 random audit cues', () => {
+  const cases = [
+    ['\u5211\u8baf\u903c\u4f9b\uff0c\u56fd\u5185\u4e5f\u6709\uff0c\u53ea\u662f\u76d1\u63a7\u574f\u4e86\uff0c\u4f60\u770b\u4e0d\u5230', '\u5211\u8baf\u903c\u4f9b\u76d1\u63a7\u574f\u4e86', 'attack'],
+    ['\u4f60\u4eec\u5982\u679c\u8bf4\u8fd9\u662f\u526a\u8f91\uff0c\u90a3\u4f60\u4eec\u5148\u8bf4\u600e\u4e48\u526a\u8f91\u7684\uff0c\u628a\u8fc7\u7a0b\u544a\u8bc9\u6211\u4eec', '\u600e\u4e48\u526a\u8f91/\u628a\u8fc7\u7a0b\u544a\u8bc9', 'evidence'],
+    ['\u9006\u5929\u5c01\u9762', '\u9006\u5929', 'absolutes'],
+    ['\u4e0d\u670d\u7684\u4f60\u4eec\u6765\u6311\u6218\u5440', '\u4e0d\u670d\u6765\u6311\u6218', 'attack'],
+    ['\u8fd9\u4e0d\u72af\u6cd5\u5417', '\u8fd9\u4e0d\u72af\u6cd5\u5417', 'evidence'],
+    ['\u5b69\u5b50\uff0c\u4f60\u6570\u5b66\u57fa\u672c\u53ef\u4ee5\u653e\u5f03\u4e86', '\u6570\u5b66\u57fa\u672c\u53ef\u4ee5\u653e\u5f03\u4e86', 'attack'],
+    ['\u521a\u5f00\u59cb\u5b66AE\u6709\u6728\u6709\u4e00\u8d77\u5b66\u7684\u5c0f\u4f19\u4f34', '\u6709\u6ca1\u6709\u4e00\u8d77\u5b66\u7684\u5c0f\u4f19\u4f34', 'cooperation'],
+  ];
+
+  for (const [text, term, family] of cases) {
+    const result = classifyCommentCoverage({ entries: [] }, text);
+    assert.equal(result.mode, 'keyword');
+    assert.ok(result.hits.some((hit) => hit.term === term && hit.family === family));
+  }
+
+  const neutralIdiom = classifyCommentCoverage({ entries: [] }, '\u4ed6\u60f3\u9760\u52aa\u529b\u9006\u5929\u6539\u547d');
+  assert.equal(neutralIdiom.mode, 'neutral');
+  assert.deepEqual(neutralIdiom.hits, []);
+});
+
 test('sampleCommentCoverage summarizes full coverage over keyword and neutral samples', () => {
   const result = sampleCommentCoverage(dictionary, [
     '这事懂的都懂，不展开了',

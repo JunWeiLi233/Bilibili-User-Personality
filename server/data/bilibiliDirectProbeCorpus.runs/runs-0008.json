@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T17:43:30.509Z",
+  "updatedAt": "2026-06-18T17:56:31.360Z",
   "shard": 8,
   "shardCount": 8,
   "runs": [
@@ -1627,6 +1627,80 @@
       "warnings": [],
       "commentsCollected": 93,
       "commentsAdded": 80
+    },
+    {
+      "at": "2026-06-18T17:56:31.360Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1mMJT6UExY",
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复",
+          "bvid": "BV1mMJT6UExY",
+          "aid": 116751136202081,
+          "title": "“立即停止战争”！美伊达成和平协议！"
+        },
+        {
+          "key": "bvid:BV1CB1TBzE5y",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1CB1TBzE5y",
+          "aid": 115469054975364,
+          "title": "一只狗死在<em class=\"keyword\">了去</em>吃巧克力的路上"
+        },
+        {
+          "key": "bvid:BV12ZV7zCEqe",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV12ZV7zCEqe",
+          "aid": 114440930333526,
+          "title": "云视听小电视开关<em class=\"keyword\">弹幕</em>教学"
+        },
+        {
+          "key": "bvid:BV1CE9qBVEHb",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1CE9qBVEHb",
+          "aid": 116496256736565,
+          "title": "三周年快乐    不<em class=\"keyword\">用说</em>谢谢，谢谢这两个字太过沉重。因为爱所以我们从未放弃，也因为爱，你留下来了，我们也留下来了…"
+        },
+        {
+          "key": "bvid:BV1xQja61EgK",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1xQja61EgK",
+          "aid": 116771805792373,
+          "title": "<em class=\"keyword\">雷霆</em>战机6月18日兑换码五个"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 383,
+      "commentsAdded": 289
     }
   ]
 }
