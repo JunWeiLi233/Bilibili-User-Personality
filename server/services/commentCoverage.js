@@ -138,6 +138,18 @@ const SUPPLEMENTAL_SEMANTICS = [
     meaning: '\u201c\u4e0d\u810f\uff0c\u4f60\u7684\u8bdd\u662f\u5929\u7c41\u201d\u5f0f\u8868\u8fbe\u628a\u8d5e\u7f8e\u8bed\u653e\u5728\u5426\u5b9a\u6216\u53cd\u8bdd\u8bed\u5883\u91cc\uff0c\u5e38\u7528\u4e8e\u5a49\u8f6c\u5632\u8bbd\u5bf9\u65b9\u8bf4\u8bdd\u96be\u542c\u6216\u8352\u8c2c\uff0c\u4e0d\u7b49\u540c\u4e8e\u666e\u901a\u201c\u5929\u7c41\u201d\u8d5e\u7f8e\u3002',
   },
   {
+    pattern: /\u8fd9\u53e5[“"']?[^”"']{0,20}\u90fd\u662f[^”"']{0,20}[”"']?.{0,12}(?:\u641e\u7b11|\u597d\u7b11|\u7b11\u6b7b|\u96be\u7ef7|\u96be\u868c)/u,
+    term: '\u5f15\u8bed\u91cc\u7684\u90fd\u662f',
+    family: 'evasion',
+    meaning: '\u628a\u201c\u90fd\u662f...\u201d\u4f5c\u4e3a\u5f15\u7528\u5185\u5bb9\u540e\u63a5\u201c\u641e\u7b11\u201d\u7b49\u8bc4\u8bed\uff0c\u901a\u5e38\u662f\u5632\u8bbd\u522b\u4eba\u7684\u7edd\u5bf9\u5316\u8bf4\u6cd5\uff0c\u800c\u4e0d\u662f\u8bf4\u8bdd\u8005\u672c\u4eba\u5728\u4e0b\u5168\u79f0\u65ad\u8a00\u3002',
+  },
+  {
+    pattern: /(?:\u96be[\u868c\u7ef7].{0,8}(?:\u6807\u9898|\u5c5e\u5b9e|\u771f|\u6709\u70b9|\u4e86|\u4f4f)|(?:\u6807\u9898|\u5c5e\u5b9e).{0,6}\u96be[\u868c\u7ef7])/u,
+    term: '\u96be\u868c/\u96be\u7ef7',
+    family: 'attack',
+    meaning: '\u201c\u96be\u868c/\u96be\u7ef7\u201d\u5e38\u8868\u793a\u7ef7\u4e0d\u4f4f\u3001\u65e0\u6cd5\u4fdd\u6301\u4e25\u8083\u7684\u5632\u8bbd\u6216\u5426\u5b9a\u6001\u5ea6\uff0c\u5c24\u5176\u548c\u201c\u6807\u9898\u201d\u7b49\u5bf9\u8c61\u642d\u914d\u65f6\u662f\u5bf9\u5185\u5bb9\u5957\u8def\u7684\u8c03\u4f83\u3002',
+  },
+  {
     pattern: /(?:\u62b1\u7740|\u62c9\u7740|\u5e26\u7740|\u4e00\u8d77|\u53bb).{0,12}(?:\u81ea\u706b|\u81ea\u711a)|(?:\u81ea\u706b|\u81ea\u711a).{0,12}(?:\u4e00\u8d77|\u62b1\u7740|\u62c9\u7740|\u5e26\u7740)/u,
     term: '\u81ea\u706b/\u81ea\u711a',
     family: 'attack',
@@ -275,12 +287,20 @@ function isNeutralSpeculativeBroadener(entry, message) {
   const term = String(entry?.term || '');
   if (entry?.family === 'absolutes' && term === '\u90fd\u662f') {
     return /(?:\u5e94\u8be5|\u53ef\u80fd|\u5927\u6982|\u4f30\u8ba1).{0,12}\u90fd\u662f/u.test(message)
-      || /\u90fd\u662f.{0,12}(?:\u60f3|\u6765|\u53bb|\u505a|\u770b|\u4e70|\u5356)/u.test(message);
+      || /\u90fd\u662f.{0,12}(?:\u60f3|\u6765|\u53bb|\u505a|\u770b|\u4e70|\u5356)/u.test(message)
+      || /\u8fd9\u53e5[“"']?[^”"']{0,20}\u90fd\u662f[^”"']{0,20}[”"']?.{0,12}(?:\u641e\u7b11|\u597d\u7b11|\u7b11\u6b7b|\u96be\u7ef7|\u96be\u868c)/u.test(message);
   }
   if (entry?.family === 'cooperation' && term === '\u5e94\u8be5') {
     return /\u5e94\u8be5.{0,12}(?:\u90fd\u662f|\u662f|\u60f3|\u80fd|\u4f1a|\u53ef\u4ee5)/u.test(message);
   }
   return false;
+}
+
+function isSarcasticNanbengContext(entry, message) {
+  if (entry?.family !== 'cooperation') return false;
+  const term = String(entry?.term || '');
+  if (!['\u96be\u868c', '\u96be\u7ef7'].includes(term)) return false;
+  return /(?:\u96be[\u868c\u7ef7].{0,8}(?:\u6807\u9898|\u5c5e\u5b9e|\u771f|\u6709\u70b9|\u4e86|\u4f4f)|(?:\u6807\u9898|\u5c5e\u5b9e).{0,6}\u96be[\u868c\u7ef7])/u.test(message);
 }
 
 function isRhetoricalFeelingWhyContext(entry, message) {
@@ -328,6 +348,12 @@ function isEmbeddedLatinAcronymContext(entry, message) {
   return !/(^|[^a-z0-9])nb(?=$|[^a-z0-9])/iu.test(message);
 }
 
+function isLiteralCrushDeathContext(entry, message) {
+  if (entry?.family !== 'attack') return false;
+  if (String(entry?.term || '') !== '\u6b7b\u4e86') return false;
+  return /(?:\u538b|\u8e29|\u780d|\u5939|\u6454|\u7838)\u6b7b\u4e86?.{0,8}(?:\u58c1\u864e|\u866b|\u868a|\u82cd\u8747|\u87d1\u8782|\u86c7|\u9c7c|\u9f20|\u732b|\u72d7|\u52a8\u7269)/u.test(message);
+}
+
 function isSuppressedLexicalHit(entry, message) {
   return isSelfReferentialNoviceHit(entry, message)
     || isLiteralYinYangContext(entry, message)
@@ -340,7 +366,9 @@ function isSuppressedLexicalHit(entry, message) {
     || isPlayfulStandaloneLaughterContext(entry, message)
     || isPassiveCriticismReportContext(entry, message)
     || isPositiveNicknameContext(entry, message)
-    || isEmbeddedLatinAcronymContext(entry, message);
+    || isEmbeddedLatinAcronymContext(entry, message)
+    || isSarcasticNanbengContext(entry, message)
+    || isLiteralCrushDeathContext(entry, message);
 }
 
 function exactDictionaryEntries(dictionary, message) {

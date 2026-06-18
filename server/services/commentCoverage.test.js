@@ -278,6 +278,34 @@ test('classifyCommentCoverage suppresses nb slang inside longer Latin acronyms',
   assert.deepEqual(slang.hits.map((hit) => hit.term), ['nb']);
 });
 
+test('classifyCommentCoverage treats quoted broadener sarcasm as evasion instead of speaker absolute', () => {
+  const sampledDictionary = {
+    entries: [
+      { term: '\u90fd\u662f', family: 'absolutes', meaning: 'absolute broadener' },
+    ],
+  };
+  const result = classifyCommentCoverage(sampledDictionary, '\u8fd9\u53e5\u201c\u90fd\u662f\u56fd\u5916\u5f15\u8fdb\u7684\u201d\u6709\u70b9\u641e\u7b11');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['\u5f15\u8bed\u91cc\u7684\u90fd\u662f']);
+  assert.deepEqual(result.hits.map((hit) => hit.family), ['evasion']);
+});
+
+test('classifyCommentCoverage treats nanbeng title comments as sarcasm, not cooperation', () => {
+  const sampledDictionary = {
+    entries: [
+      { term: '\u96be\u868c', family: 'cooperation', meaning: 'light interaction' },
+    ],
+  };
+  const result = classifyCommentCoverage(sampledDictionary, '\u96be\u868c\u6807\u9898');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['\u96be\u868c/\u96be\u7ef7']);
+  assert.deepEqual(result.hits.map((hit) => hit.family), ['attack']);
+});
+
 test('classifyCommentCoverage captures contextual self-immolation variants as attack imagery', () => {
   const sampledDictionary = { entries: [] };
   const typoVariant = classifyCommentCoverage(sampledDictionary, '\u53bb\u86c7\u62f3\u5854\u62b1\u7740\u674e\u7ea2\u72fc\u4e00\u8d77\u81ea\u706b');
@@ -293,6 +321,23 @@ test('classifyCommentCoverage captures contextual self-immolation variants as at
   assert.equal(literal.covered, true);
   assert.equal(literal.mode, 'neutral');
   assert.equal(literal.hits.length, 0);
+});
+
+test('classifyCommentCoverage suppresses literal crushed-animal death homophone hits', () => {
+  const sampledDictionary = {
+    entries: [
+      { term: '\u6b7b\u4e86', family: 'attack', meaning: 'xiaohu homophone attack' },
+    ],
+  };
+  const literal = classifyCommentCoverage(sampledDictionary, '\u538b\u6b7b\u4e86\u4e2a\u9006\u884c\u7684\u58c1\u864e');
+  const attack = classifyCommentCoverage(sampledDictionary, '\u4e0a\u5355:\u8fd9\u4e2a\u903c\u4e2d\u5355\u6b7b\u4e86\u4e24\u6b21\u4e86');
+
+  assert.equal(literal.covered, true);
+  assert.equal(literal.mode, 'neutral');
+  assert.equal(literal.hits.length, 0);
+  assert.equal(attack.covered, true);
+  assert.equal(attack.mode, 'keyword');
+  assert.ok(attack.hits.some((hit) => hit.term === '\u6b7b\u4e86'));
 });
 
 test('classifyCommentCoverage captures homophone insults even when absolutes also match', () => {
