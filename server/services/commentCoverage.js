@@ -8,6 +8,13 @@ function cleanComment(text) {
   return String(text || '').replace(/\s+/g, ' ').trim();
 }
 
+function stripMentionScaffolding(text) {
+  return cleanComment(text)
+    .replace(/回复\s*@[^:：\s]+[\s:：]*/gu, '')
+    .replace(/@[^:：\s]+/gu, '')
+    .trim();
+}
+
 function summarizeHit(entry) {
   return {
     term: entry.term,
@@ -55,7 +62,19 @@ function cleanNeedle(value) {
   return String(value || '').normalize('NFKC').trim().toLowerCase();
 }
 
-function exactDictionaryHits(dictionary, message) {
+function isSelfReferentialNoviceHit(entry, message) {
+  if (entry?.family !== 'attack') return false;
+  const term = String(entry?.term || '');
+  const aliases = Array.isArray(entry?.aliases) ? entry.aliases.map(String) : [];
+  if (![term, ...aliases].some((value) => value.includes('小白'))) return false;
+  return /(?:^|[，,。！？!?\s])我(?:也|是|就是|也算|算)?[^，,。！？!?]{0,8}小白/u.test(message);
+}
+
+function isSuppressedLexicalHit(entry, message) {
+  return isSelfReferentialNoviceHit(entry, message);
+}
+
+function exactDictionaryEntries(dictionary, message) {
   const cleanMessage = cleanNeedle(message);
   if (!cleanMessage) return [];
   const hits = [];
@@ -63,7 +82,7 @@ function exactDictionaryHits(dictionary, message) {
     const needles = [entry.term, ...(Array.isArray(entry.aliases) ? entry.aliases : []), ...(Array.isArray(entry.examples) ? entry.examples : [])]
       .map(cleanNeedle)
       .filter((item) => item.length >= 2);
-    if (needles.some((needle) => cleanMessage.includes(needle))) hits.push(summarizeHit(entry));
+    if (needles.some((needle) => cleanMessage.includes(needle))) hits.push(entry);
   }
   return hits;
 }
@@ -80,28 +99,26 @@ export function classifyCommentCoverage(dictionary, comment, options = {}) {
     };
   }
 
-  const evidenceHits = findDictionaryEntriesWithTextEvidence(dictionary, message, {
+  const attributableMessage = stripMentionScaffolding(message);
+  const evidenceEntries = findDictionaryEntriesWithTextEvidence(dictionary, attributableMessage, {
     source: options.source || 'comment coverage check',
-  }).map(summarizeHit);
-  const hits = evidenceHits.length > 0 ? evidenceHits : exactDictionaryHits(dictionary, message);
+  }).filter((entry) => !isSuppressedLexicalHit(entry, attributableMessage));
+  const lexicalEntries = evidenceEntries.length > 0
+    ? evidenceEntries
+    : exactDictionaryEntries(dictionary, attributableMessage)
+      .filter((entry) => !isSuppressedLexicalHit(entry, attributableMessage));
+  const lexicalHits = lexicalEntries.map(summarizeHit);
+  const emoteHits = detectEmoteSemanticHits(message);
+  const hits = [...lexicalHits, ...emoteHits];
 
   if (hits.length > 0) {
     return {
       covered: true,
       mode: 'keyword',
-      reason: 'dictionary term evidence matched',
+      reason: lexicalHits.length > 0 && emoteHits.length > 0
+        ? 'dictionary term and emoji/emote semantic marker matched'
+        : (lexicalHits.length > 0 ? 'dictionary term evidence matched' : 'emoji/emote semantic marker matched'),
       hits,
-      comment: message,
-    };
-  }
-
-  const emoteHits = detectEmoteSemanticHits(message);
-  if (emoteHits.length > 0) {
-    return {
-      covered: true,
-      mode: 'keyword',
-      reason: 'emoji/emote semantic marker matched',
-      hits: emoteHits,
       comment: message,
     };
   }
