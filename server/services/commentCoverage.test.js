@@ -114,6 +114,38 @@ test('classifyCommentCoverage captures animalized female-group insults', () => {
   assert.deepEqual(result.hits.map((hit) => hit.term), ['女鼠/母狗/母猪']);
 });
 
+test('classifyCommentCoverage captures mild profanity as strong tone', () => {
+  const result = classifyCommentCoverage(dictionary, '我草我大学就是在威海上的');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['我草/卧槽']);
+});
+
+test('classifyCommentCoverage captures targeted dog insults without matching literal dogs', () => {
+  const insult = classifyCommentCoverage(dictionary, '谁再买我笑他是狗');
+  const literal = classifyCommentCoverage(dictionary, '我家的狗今天很乖');
+
+  assert.equal(insult.covered, true);
+  assert.equal(insult.mode, 'keyword');
+  assert.deepEqual(insult.hits.map((hit) => hit.term), ['是狗']);
+  assert.equal(literal.covered, true);
+  assert.equal(literal.mode, 'neutral');
+  assert.equal(literal.hits.length, 0);
+});
+
+test('classifyCommentCoverage captures sexualized driving slang without matching literal driving', () => {
+  const slang = classifyCommentCoverage(dictionary, '眼神开车开始了');
+  const literal = classifyCommentCoverage(dictionary, '今天下雨开车慢一点');
+
+  assert.equal(slang.covered, true);
+  assert.equal(slang.mode, 'keyword');
+  assert.deepEqual(slang.hits.map((hit) => hit.term), ['开车/眼神开车']);
+  assert.equal(literal.covered, true);
+  assert.equal(literal.mode, 'neutral');
+  assert.equal(literal.hits.length, 0);
+});
+
 test('classifyCommentCoverage suppresses factual no-have statements', () => {
   const result = classifyCommentCoverage(dictionary, '\u5e7f\u7535\u6ca1\u6709CCTV16\u9891\u9053\uff0c\u5176\u4ed6\u4e09\u5927\u8fd0\u8425\u5546iptv\u6709CCTV16\u9891\u9053');
 
