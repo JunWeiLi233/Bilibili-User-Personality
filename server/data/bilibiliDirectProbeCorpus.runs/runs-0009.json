@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T23:01:59.157Z",
+  "updatedAt": "2026-06-18T23:12:45.984Z",
   "shard": 9,
   "shardCount": 9,
   "runs": [
@@ -1623,6 +1623,64 @@
       "warnings": [],
       "commentsCollected": 757,
       "commentsAdded": 435
+    },
+    {
+      "at": "2026-06-18T23:12:45.984Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 回复区"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 弹幕"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 B站评论"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 评论区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1yAEb6BEzG",
+          "term": "德里不饶人",
+          "query": "德里不饶人 回复区",
+          "bvid": "BV1yAEb6BEzG",
+          "aid": 116708572400375,
+          "title": "嘴上<em class=\"keyword\">不饶人</em>？才怪！敢乱跑的话小飞棍来喽～"
+        },
+        {
+          "key": "bvid:BV1df421v7hT",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 弹幕",
+          "bvid": "BV1df421v7hT",
+          "aid": 1206423600,
+          "title": "【桃花坞4】前面<em class=\"keyword\">弹幕</em>刚说狗上桌脏死了，后面孟姐就提醒王星越把狗抱下去，会有人骂，预判了哈哈哈哈"
+        },
+        {
+          "key": "bvid:BV1xjZuB1Edr",
+          "term": "价格被打下来",
+          "query": "价格被打下来 B站评论",
+          "bvid": "BV1xjZuB1Edr",
+          "aid": 116080399882035,
+          "title": "<em class=\"keyword\">B站</em>出现新骗局？不要再被骗了！"
+        },
+        {
+          "key": "bvid:BV1M1ja6SEYS",
+          "term": "抛开其他",
+          "query": "抛开其他 评论区",
+          "bvid": "BV1M1ja6SEYS",
+          "aid": 116771604400235,
+          "title": "分享故事吗？反正<em class=\"keyword\">评论区</em>没人认识"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 123,
+      "commentsAdded": 110
     }
   ]
 }
