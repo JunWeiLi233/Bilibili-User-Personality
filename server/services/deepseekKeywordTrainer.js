@@ -695,6 +695,8 @@ function withoutUpdatedAt(value) {
     return Object.fromEntries(
       Object.entries(value)
         .filter(([key]) => key !== 'updatedAt')
+        .filter(([key]) => key !== 'storage')
+        .filter(([key]) => key !== 'entryFiles')
         .map(([key, item]) => [key, withoutUpdatedAt(item)]),
     );
   }
@@ -3128,8 +3130,31 @@ async function readDictionary(dictionaryPath) {
   try {
     const raw = await readFile(dictionaryPath, 'utf8');
     const current = JSON.parse(raw);
+    if (current?.storage === 'split' && current?.entryFiles && typeof current.entryFiles === 'object') {
+      const entries = [];
+      for (const [family, relativePath] of Object.entries(current.entryFiles)) {
+        if (!SUPPORTED_FAMILIES.includes(family)) continue;
+        const filePath = join(dirname(dictionaryPath), String(relativePath));
+        try {
+          const familyRaw = await readFile(filePath, 'utf8');
+          const familyPayload = JSON.parse(familyRaw);
+          const familyEntries = Array.isArray(familyPayload?.entries) ? familyPayload.entries : [];
+          entries.push(...familyEntries.map((entry) => ({ ...entry, family: entry.family || family })));
+        } catch (error) {
+          throw new Error(`Could not read split keyword dictionary entries ${filePath}: ${error.message}`);
+        }
+      }
+      return {
+        version: current.version || 1,
+        storage: 'split',
+        updatedAt: current.updatedAt || null,
+        entries,
+        families: current.families || {},
+      };
+    }
     return {
       version: current.version || 1,
+      storage: 'monolith',
       updatedAt: current.updatedAt || null,
       entries: Array.isArray(current.entries) ? current.entries : [],
       families: current.families || {},
@@ -3138,8 +3163,16 @@ async function readDictionary(dictionaryPath) {
     if (error?.code !== 'ENOENT') {
       throw new Error(`Could not read keyword dictionary ${dictionaryPath}: ${error.message}`);
     }
-    return { version: 1, updatedAt: null, entries: [], families: {} };
+    return { version: 1, storage: 'missing', updatedAt: null, entries: [], families: {} };
   }
+}
+
+function splitDictionaryEntryFilesPath(dictionaryPath) {
+  return `${dictionaryPath.replace(/\.json$/i, '')}.entries`;
+}
+
+function splitDictionaryRelativePath(dictionaryPath, family) {
+  return `${splitDictionaryEntryFilesPath(dictionaryPath).slice(dirname(dictionaryPath).length + 1).replace(/\\/g, '/')}/${family}.json`;
 }
 
 export async function writeJsonFileAtomic(filePath, value) {
@@ -3152,6 +3185,32 @@ export async function writeJsonFileAtomic(filePath, value) {
     await rm(tempPath, { force: true }).catch(() => {});
     throw error;
   }
+}
+
+async function writeSplitDictionaryAtomic(dictionaryPath, dictionary) {
+  const entriesByFamily = new Map(SUPPORTED_FAMILIES.map((family) => [family, []]));
+  for (const entry of Array.isArray(dictionary?.entries) ? dictionary.entries : []) {
+    const family = SUPPORTED_FAMILIES.includes(entry.family) ? entry.family : 'attack';
+    entriesByFamily.get(family).push(entry);
+  }
+  const entryFiles = {};
+  for (const family of SUPPORTED_FAMILIES) {
+    const relativePath = splitDictionaryRelativePath(dictionaryPath, family);
+    entryFiles[family] = relativePath;
+    await writeJsonFileAtomic(join(dirname(dictionaryPath), relativePath), {
+      version: dictionary.version || 1,
+      updatedAt: dictionary.updatedAt || null,
+      family,
+      entries: entriesByFamily.get(family) || [],
+    });
+  }
+  await writeJsonFileAtomic(dictionaryPath, {
+    version: dictionary.version || 1,
+    storage: 'split',
+    updatedAt: dictionary.updatedAt || null,
+    entryFiles,
+    families: dictionary.families || {},
+  });
 }
 
 function buildCanonicalDictionarySnapshot(current, now = current?.updatedAt || new Date().toISOString()) {
@@ -3215,8 +3274,8 @@ export async function mergeEntriesIntoDictionary(entries, options = {}) {
       entries: allEntries,
       families,
     };
-    if (semanticallyEqualIgnoringUpdatedAt(current, next)) return current;
-    await writeJsonFileAtomic(dictionaryPath, next);
+    if (semanticallyEqualIgnoringUpdatedAt(current, next) && current.storage === 'split') return current;
+    await writeSplitDictionaryAtomic(dictionaryPath, next);
     return next;
   });
 }

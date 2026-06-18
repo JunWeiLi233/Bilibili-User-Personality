@@ -83,6 +83,12 @@ const SUPPLEMENTAL_SEMANTICS = [
     family: 'attack',
     meaning: '以祖宗称呼对方常带有挑衅、压人或辱骂意味，在“到此一游”等涂鸦式表达中也可能是被动攻击。',
   },
+  {
+    pattern: /(?:女鼠|母狗|母猪)/u,
+    term: '女鼠/母狗/母猪',
+    family: 'attack',
+    meaning: '将女性或特定群体动物化的中文网络贬称，常用于羞辱、物化或群体攻击。',
+  },
 ];
 
 function detectSupplementalSemanticHits(comment) {
@@ -105,6 +111,20 @@ function isLiteralYinYangContext(entry, message) {
     || /阴阳.{0,80}(?:天道|魑魅魍魉|金光神咒|天地玄宗|三魂|七魄|补天|本根)/u.test(message);
 }
 
+function isFactualNoHaveContext(entry, message) {
+  if (entry?.family !== 'absolutes') return false;
+  if (String(entry?.term || '') !== '没有') return false;
+  return /(?:频道|CCTV\d+|iptv|运营商|广电|关系|影响|证据|资料|机会|时间|办法).{0,12}没有/u.test(message)
+    || /没有.{0,12}(?:频道|CCTV\d+|iptv|运营商|广电|关系|影响|证据|资料|机会|时间|办法)/u.test(message)
+    || /一点关系没有/u.test(message);
+}
+
+function isLogicalNotIsContext(entry, message) {
+  if (entry?.family !== 'attack') return false;
+  if (String(entry?.term || '') !== '不是') return false;
+  return /不是(?:做|当|为了|因为|说|指|指的是|这个|那个|一种|同一个|一回事|问题|重点|原因)/u.test(message);
+}
+
 function isSelfReferentialNoviceHit(entry, message) {
   if (entry?.family !== 'attack') return false;
   const term = String(entry?.term || '');
@@ -115,7 +135,9 @@ function isSelfReferentialNoviceHit(entry, message) {
 
 function isSuppressedLexicalHit(entry, message) {
   return isSelfReferentialNoviceHit(entry, message)
-    || isLiteralYinYangContext(entry, message);
+    || isLiteralYinYangContext(entry, message)
+    || isFactualNoHaveContext(entry, message)
+    || isLogicalNotIsContext(entry, message);
 }
 
 function exactDictionaryEntries(dictionary, message) {

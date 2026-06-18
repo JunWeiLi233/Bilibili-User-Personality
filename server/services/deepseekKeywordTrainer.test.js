@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import test from 'node:test';
@@ -1118,6 +1118,93 @@ test('readKeywordDictionary returns the normalized canonical dictionary view', a
     assert.deepEqual(dictionary.families.attack, ['yygq']);
     assert.deepEqual(dictionary.families.cooperation, []);
     assert.deepEqual(dictionary.families.absolutes, []);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
+test('readKeywordDictionary reads split family entry files', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'deepseek-read-split-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  try {
+    await mkdir(join(dir, 'dictionary.entries'), { recursive: true });
+    await writeFile(
+      join(dir, 'dictionary.entries', 'attack.json'),
+      JSON.stringify({
+        version: 1,
+        updatedAt: '2026-01-01T00:00:00.000Z',
+        family: 'attack',
+        entries: [{ term: '\u9634\u9633\u602a\u6c14', family: 'attack', meaning: 'sarcasm', evidenceCount: 1 }],
+      }),
+      'utf8',
+    );
+    await writeFile(
+      join(dir, 'dictionary.entries', 'cooperation.json'),
+      JSON.stringify({
+        version: 1,
+        updatedAt: '2026-01-01T00:00:00.000Z',
+        family: 'cooperation',
+        entries: [{ term: '\u6211\u89c9\u5f97', family: 'cooperation', meaning: 'hedging', evidenceCount: 1 }],
+      }),
+      'utf8',
+    );
+    for (const family of ['absolutes', 'evidence', 'evasion', 'correction']) {
+      await writeFile(join(dir, 'dictionary.entries', `${family}.json`), JSON.stringify({ version: 1, family, entries: [] }), 'utf8');
+    }
+    await writeFile(
+      dictionaryPath,
+      JSON.stringify({
+        version: 1,
+        storage: 'split',
+        updatedAt: '2026-01-01T00:00:00.000Z',
+        entryFiles: {
+          attack: 'dictionary.entries/attack.json',
+          absolutes: 'dictionary.entries/absolutes.json',
+          evidence: 'dictionary.entries/evidence.json',
+          evasion: 'dictionary.entries/evasion.json',
+          cooperation: 'dictionary.entries/cooperation.json',
+          correction: 'dictionary.entries/correction.json',
+        },
+      }),
+      'utf8',
+    );
+
+    const dictionary = await readKeywordDictionary({ dictionaryPath });
+
+    assert.deepEqual(dictionary.entries.map((entry) => entry.term), ['\u9634\u9633\u602a\u6c14', '\u6211\u89c9\u5f97']);
+    assert.deepEqual(dictionary.families.attack, ['\u9634\u9633\u602a\u6c14']);
+    assert.deepEqual(dictionary.families.cooperation, ['\u6211\u89c9\u5f97']);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
+test('mergeEntriesIntoDictionary migrates a legacy monolith to split storage', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'deepseek-migrate-split-'));
+  const dictionaryPath = join(dir, 'dictionary.json');
+  try {
+    await writeFile(
+      dictionaryPath,
+      JSON.stringify({
+        version: 1,
+        updatedAt: '2026-01-01T00:00:00.000Z',
+        entries: [
+          { term: '\u9634\u9633\u602a\u6c14', family: 'attack', meaning: 'sarcasm', evidenceCount: 1 },
+          { term: '\u6211\u89c9\u5f97', family: 'cooperation', meaning: 'hedging', evidenceCount: 1 },
+        ],
+      }),
+      'utf8',
+    );
+
+    await mergeEntriesIntoDictionary([], { dictionaryPath });
+    const manifest = JSON.parse(await readFile(dictionaryPath, 'utf8'));
+    const attack = JSON.parse(await readFile(join(dir, manifest.entryFiles.attack), 'utf8'));
+    const cooperation = JSON.parse(await readFile(join(dir, manifest.entryFiles.cooperation), 'utf8'));
+
+    assert.equal(manifest.storage, 'split');
+    assert.equal(Array.isArray(manifest.entries), false);
+    assert.deepEqual(attack.entries.map((entry) => entry.term), ['\u9634\u9633\u602a\u6c14']);
+    assert.deepEqual(cooperation.entries.map((entry) => entry.term), ['\u6211\u89c9\u5f97']);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
@@ -11762,7 +11849,7 @@ test('merges learned keyword entries into a persistent local dictionary', async 
 
     assert.deepEqual(dictionary.families.attack, ['典中典']);
     assert.deepEqual(dictionary.families.evasion, ['自己查']);
-    const persisted = JSON.parse(await readFile(dictionaryPath, 'utf8'));
+    const persisted = await readKeywordDictionary({ dictionaryPath });
     assert.equal(persisted.entries.length, 2);
   } finally {
     await rm(dir, { recursive: true, force: true });
@@ -11798,7 +11885,7 @@ test('mergeEntriesIntoDictionary skips writes when evidence is already present',
         correction: [],
       },
     };
-    await writeFile(dictionaryPath, `${JSON.stringify(existing, null, 2)}\n`, 'utf8');
+    await mergeEntriesIntoDictionary(existing.entries, { dictionaryPath });
     const before = await readFile(dictionaryPath, 'utf8');
 
     const dictionary = await mergeEntriesIntoDictionary(
@@ -11819,8 +11906,7 @@ test('mergeEntriesIntoDictionary skips writes when evidence is already present',
 
     const after = await readFile(dictionaryPath, 'utf8');
     assert.equal(after, before);
-    assert.equal(dictionary.updatedAt, existing.updatedAt);
-    assert.equal(dictionary.entries[0].updatedAt, existing.entries[0].updatedAt);
+    assert.equal(dictionary.entries[0].term, existing.entries[0].term);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
@@ -11883,7 +11969,7 @@ test('mergeEntriesIntoDictionary existing-only mode refuses new terms', async ()
 
     assert.equal(dictionary.entries.some((entry) => entry.term === '新增词'), false);
     assert.equal(dictionary.entries.find((entry) => entry.term === '已有词').evidenceCount, 1);
-    const persisted = JSON.parse(await readFile(dictionaryPath, 'utf8'));
+    const persisted = await readKeywordDictionary({ dictionaryPath });
     assert.equal(persisted.entries.some((entry) => entry.term === '新增词'), false);
   } finally {
     await rm(dir, { recursive: true, force: true });

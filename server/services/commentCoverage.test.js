@@ -12,6 +12,8 @@ const dictionary = {
     { term: '手残', family: 'attack', meaning: '贬低操作能力差' },
     { term: '阴阳', family: 'attack', meaning: '阴阳怪气地讽刺、含沙射影' },
     { term: '笑哭', family: 'cooperation', meaning: '笑哭表情，用于表示哭笑不得、调侃或自嘲，缓和语气' },
+    { term: '没有', family: 'absolutes', meaning: '全称否定，强调不存在某种情况' },
+    { term: '不是', family: 'attack', meaning: '直接否定或反驳对方观点，表示不赞同' },
   ],
 };
 
@@ -86,6 +88,30 @@ test('classifyCommentCoverage captures ancestor-address passive aggression', () 
   assert.equal(result.covered, true);
   assert.equal(result.mode, 'keyword');
   assert.deepEqual(result.hits.map((hit) => hit.term), ['你祖宗']);
+});
+
+test('classifyCommentCoverage captures animalized female-group insults', () => {
+  const result = classifyCommentCoverage(dictionary, '\u73a9\u5b59\u5427\u7684\u5973\u751f\u90fd\u957f\u4ec0\u4e48\u6837\uff1f \u60f3\u770b\u4e00\u4e0b\u5427\u5185\u5973\u9f20\u4eec\u7684\u989c\u503c');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['女鼠/母狗/母猪']);
+});
+
+test('classifyCommentCoverage suppresses factual no-have statements', () => {
+  const result = classifyCommentCoverage(dictionary, '\u5e7f\u7535\u6ca1\u6709CCTV16\u9891\u9053\uff0c\u5176\u4ed6\u4e09\u5927\u8fd0\u8425\u5546iptv\u6709CCTV16\u9891\u9053');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'neutral');
+  assert.equal(result.hits.length, 0);
+});
+
+test('classifyCommentCoverage suppresses logical not-is disagreement', () => {
+  const result = classifyCommentCoverage(dictionary, '\u4eba\u5bb6\u662f\u8981\u505a\u5c71\u6cbb\uff0c\u4e0d\u662f\u505a\u53a8\u5e08\uff0c\u6446\u644a\u8ddf\u4f60\u7a7f\u5565\u8863\u670d\u4e00\u70b9\u5173\u7cfb\u6ca1\u6709');
+
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'neutral');
+  assert.equal(result.hits.length, 0);
 });
 
 test('classifyCommentCoverage treats dog emoji as a Chinese platform tone marker', () => {
