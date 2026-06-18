@@ -1,0 +1,678 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-18T03:56:00.132Z",
+  "shard": 1,
+  "shardCount": 1,
+  "runs": [
+    {
+      "at": "2026-06-17T21:53:43.412Z",
+      "sources": [
+        {
+          "dataset": "Orphanage/Baidu_Tieba_SunXiaochuan",
+          "file": "train.jsonl",
+          "platform": "tieba",
+          "maxBytes": 750000,
+          "limit": 250
+        },
+        {
+          "dataset": "Orphanage/Baidu_Tieba_KangYaBeiGuo",
+          "file": "data/tieba_post_detail_page_1~106/tieba_post_detail_page_1.json",
+          "platform": "tieba",
+          "maxBytes": 750000,
+          "limit": 250
+        },
+        {
+          "dataset": "honeray/ai-music-comments-1.5M",
+          "file": "final_data.csv",
+          "platform": "bilibili",
+          "maxBytes": 1000000,
+          "limit": 250
+        },
+        {
+          "dataset": "wencan2024/bilibili-masterpieces",
+          "file": "bilibili-masterpieces-v0.jsonl",
+          "platform": "bilibili",
+          "maxBytes": 750000,
+          "limit": 100
+        },
+        {
+          "dataset": "JunyuLu/ToxiCN",
+          "file": "ToxiCN_1.0.csv",
+          "platform": "tieba",
+          "maxBytes": 1000000,
+          "limit": 250
+        }
+      ],
+      "results": [
+        {
+          "dataset": "Orphanage/Baidu_Tieba_SunXiaochuan",
+          "file": "train.jsonl",
+          "platform": "tieba",
+          "maxBytes": 750000,
+          "limit": 250,
+          "ok": true,
+          "rows": 250
+        },
+        {
+          "dataset": "Orphanage/Baidu_Tieba_KangYaBeiGuo",
+          "file": "data/tieba_post_detail_page_1~106/tieba_post_detail_page_1.json",
+          "platform": "tieba",
+          "maxBytes": 750000,
+          "limit": 250,
+          "ok": true,
+          "rows": 0
+        },
+        {
+          "dataset": "honeray/ai-music-comments-1.5M",
+          "file": "final_data.csv",
+          "platform": "bilibili",
+          "maxBytes": 1000000,
+          "limit": 250,
+          "ok": true,
+          "rows": 250
+        },
+        {
+          "dataset": "wencan2024/bilibili-masterpieces",
+          "file": "bilibili-masterpieces-v0.jsonl",
+          "platform": "bilibili",
+          "maxBytes": 750000,
+          "limit": 100,
+          "ok": true,
+          "rows": 0
+        },
+        {
+          "dataset": "JunyuLu/ToxiCN",
+          "file": "ToxiCN_1.0.csv",
+          "platform": "tieba",
+          "maxBytes": 1000000,
+          "limit": 250,
+          "ok": true,
+          "rows": 250
+        }
+      ],
+      "addedComments": 500,
+      "importedRows": 750
+    },
+    {
+      "at": "2026-06-18T00:31:35.995Z",
+      "sources": [
+        {
+          "dataset": "Orphanage/Baidu_Tieba_SunXiaochuan",
+          "file": "train.jsonl",
+          "platform": "tieba",
+          "maxBytes": 3000000,
+          "limit": 800
+        },
+        {
+          "dataset": "Orphanage/Baidu_Tieba_KangYaBeiGuo",
+          "file": "data/tieba_post_detail_page_1~106/tieba_post_detail_page_1.json",
+          "platform": "tieba",
+          "maxBytes": 3000000,
+          "limit": 800
+        },
+        {
+          "dataset": "honeray/ai-music-comments-1.5M",
+          "file": "final_data.csv",
+          "platform": "bilibili",
+          "maxBytes": 4000000,
+          "limit": 800
+        },
+        {
+          "dataset": "wencan2024/bilibili-masterpieces",
+          "file": "bilibili-masterpieces-v0.jsonl",
+          "platform": "bilibili",
+          "maxBytes": 3000000,
+          "limit": 300
+        },
+        {
+          "dataset": "JunyuLu/ToxiCN",
+          "file": "ToxiCN_1.0.csv",
+          "platform": "tieba",
+          "maxBytes": 3000000,
+          "limit": 800
+        }
+      ],
+      "results": [
+        {
+          "dataset": "Orphanage/Baidu_Tieba_SunXiaochuan",
+          "file": "train.jsonl",
+          "platform": "tieba",
+          "maxBytes": 3000000,
+          "limit": 800,
+          "ok": true,
+          "rows": 800
+        },
+        {
+          "dataset": "Orphanage/Baidu_Tieba_KangYaBeiGuo",
+          "file": "data/tieba_post_detail_page_1~106/tieba_post_detail_page_1.json",
+          "platform": "tieba",
+          "maxBytes": 3000000,
+          "limit": 800,
+          "ok": true,
+          "rows": 0
+        },
+        {
+          "dataset": "honeray/ai-music-comments-1.5M",
+          "file": "final_data.csv",
+          "platform": "bilibili",
+          "maxBytes": 4000000,
+          "limit": 800,
+          "ok": true,
+          "rows": 721
+        },
+        {
+          "dataset": "wencan2024/bilibili-masterpieces",
+          "file": "bilibili-masterpieces-v0.jsonl",
+          "platform": "bilibili",
+          "maxBytes": 3000000,
+          "limit": 300,
+          "ok": true,
+          "rows": 0
+        },
+        {
+          "dataset": "JunyuLu/ToxiCN",
+          "file": "ToxiCN_1.0.csv",
+          "platform": "tieba",
+          "maxBytes": 3000000,
+          "limit": 800,
+          "ok": true,
+          "rows": 800
+        }
+      ],
+      "addedComments": 873,
+      "importedRows": 2321
+    },
+    {
+      "at": "2026-06-18T01:25:31.662Z",
+      "sources": [
+        {
+          "dataset": "Orphanage/Baidu_Tieba_SunXiaochuan",
+          "file": "train.jsonl",
+          "platform": "tieba",
+          "maxBytes": 5000000,
+          "limit": 1200
+        },
+        {
+          "dataset": "Orphanage/Baidu_Tieba_KangYaBeiGuo",
+          "file": "data/tieba_post_detail_page_1~106/tieba_post_detail_page_1.json",
+          "platform": "tieba",
+          "maxBytes": 5000000,
+          "limit": 1200
+        },
+        {
+          "dataset": "honeray/ai-music-comments-1.5M",
+          "file": "final_data.csv",
+          "platform": "bilibili",
+          "maxBytes": 5000000,
+          "limit": 1200
+        },
+        {
+          "dataset": "wencan2024/bilibili-masterpieces",
+          "file": "bilibili-masterpieces-v0.jsonl",
+          "platform": "bilibili",
+          "maxBytes": 5000000,
+          "limit": 500
+        },
+        {
+          "dataset": "JunyuLu/ToxiCN",
+          "file": "ToxiCN_1.0.csv",
+          "platform": "tieba",
+          "maxBytes": 5000000,
+          "limit": 1200
+        }
+      ],
+      "results": [
+        {
+          "dataset": "Orphanage/Baidu_Tieba_SunXiaochuan",
+          "file": "train.jsonl",
+          "platform": "tieba",
+          "maxBytes": 5000000,
+          "limit": 1200,
+          "ok": true,
+          "rows": 1200
+        },
+        {
+          "dataset": "Orphanage/Baidu_Tieba_KangYaBeiGuo",
+          "file": "data/tieba_post_detail_page_1~106/tieba_post_detail_page_1.json",
+          "platform": "tieba",
+          "maxBytes": 5000000,
+          "limit": 1200,
+          "ok": true,
+          "rows": 0
+        },
+        {
+          "dataset": "honeray/ai-music-comments-1.5M",
+          "file": "final_data.csv",
+          "platform": "bilibili",
+          "maxBytes": 5000000,
+          "limit": 1200,
+          "ok": true,
+          "rows": 1198
+        },
+        {
+          "dataset": "wencan2024/bilibili-masterpieces",
+          "file": "bilibili-masterpieces-v0.jsonl",
+          "platform": "bilibili",
+          "maxBytes": 5000000,
+          "limit": 500,
+          "ok": true,
+          "rows": 0
+        },
+        {
+          "dataset": "JunyuLu/ToxiCN",
+          "file": "ToxiCN_1.0.csv",
+          "platform": "tieba",
+          "maxBytes": 5000000,
+          "limit": 1200,
+          "ok": true,
+          "rows": 1200
+        }
+      ],
+      "addedComments": 955,
+      "importedRows": 3598
+    },
+    {
+      "at": "2026-06-18T02:44:00.504Z",
+      "sources": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 1000000,
+          "limit": 500
+        }
+      ],
+      "results": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 1000000,
+          "limit": 500,
+          "ok": true,
+          "rows": 500
+        }
+      ],
+      "addedComments": 500,
+      "importedRows": 500
+    },
+    {
+      "at": "2026-06-18T02:49:39.648Z",
+      "sources": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 2500000,
+          "limit": 500,
+          "offset": 500
+        }
+      ],
+      "results": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 2500000,
+          "limit": 500,
+          "offset": 500,
+          "ok": true,
+          "rows": 500
+        }
+      ],
+      "addedComments": 500,
+      "importedRows": 500
+    },
+    {
+      "at": "2026-06-18T02:54:43.097Z",
+      "sources": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 3500000,
+          "limit": 500,
+          "offset": 1000
+        }
+      ],
+      "results": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 3500000,
+          "limit": 500,
+          "offset": 1000,
+          "ok": true,
+          "rows": 500
+        }
+      ],
+      "addedComments": 500,
+      "importedRows": 500
+    },
+    {
+      "at": "2026-06-18T02:59:48.819Z",
+      "sources": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 4500000,
+          "limit": 500,
+          "offset": 1500
+        }
+      ],
+      "results": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 4500000,
+          "limit": 500,
+          "offset": 1500,
+          "ok": true,
+          "rows": 500
+        }
+      ],
+      "addedComments": 500,
+      "importedRows": 500
+    },
+    {
+      "at": "2026-06-18T03:06:19.606Z",
+      "sources": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 5500000,
+          "limit": 500,
+          "offset": 2000
+        }
+      ],
+      "results": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 5500000,
+          "limit": 500,
+          "offset": 2000,
+          "ok": true,
+          "rows": 500
+        }
+      ],
+      "addedComments": 500,
+      "importedRows": 500
+    },
+    {
+      "at": "2026-06-18T03:11:26.965Z",
+      "sources": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 6500000,
+          "limit": 500,
+          "offset": 2500
+        }
+      ],
+      "results": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 6500000,
+          "limit": 500,
+          "offset": 2500,
+          "ok": true,
+          "rows": 500
+        }
+      ],
+      "addedComments": 500,
+      "importedRows": 500
+    },
+    {
+      "at": "2026-06-18T03:16:30.508Z",
+      "sources": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 7500000,
+          "limit": 500,
+          "offset": 3000
+        }
+      ],
+      "results": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 7500000,
+          "limit": 500,
+          "offset": 3000,
+          "ok": true,
+          "rows": 500
+        }
+      ],
+      "addedComments": 500,
+      "importedRows": 500
+    },
+    {
+      "at": "2026-06-18T03:21:10.270Z",
+      "sources": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 8500000,
+          "limit": 500,
+          "offset": 3500
+        }
+      ],
+      "results": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 8500000,
+          "limit": 500,
+          "offset": 3500,
+          "ok": true,
+          "rows": 500
+        }
+      ],
+      "addedComments": 500,
+      "importedRows": 500
+    },
+    {
+      "at": "2026-06-18T03:26:05.717Z",
+      "sources": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 9500000,
+          "limit": 500,
+          "offset": 4000
+        }
+      ],
+      "results": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 9500000,
+          "limit": 500,
+          "offset": 4000,
+          "ok": true,
+          "rows": 500
+        }
+      ],
+      "addedComments": 500,
+      "importedRows": 500
+    },
+    {
+      "at": "2026-06-18T03:31:35.336Z",
+      "sources": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 10500000,
+          "limit": 500,
+          "offset": 4500
+        }
+      ],
+      "results": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 10500000,
+          "limit": 500,
+          "offset": 4500,
+          "ok": true,
+          "rows": 500
+        }
+      ],
+      "addedComments": 500,
+      "importedRows": 500
+    },
+    {
+      "at": "2026-06-18T03:36:26.225Z",
+      "sources": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 11500000,
+          "limit": 500,
+          "offset": 5000
+        }
+      ],
+      "results": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 11500000,
+          "limit": 500,
+          "offset": 5000,
+          "ok": true,
+          "rows": 500
+        }
+      ],
+      "addedComments": 500,
+      "importedRows": 500
+    },
+    {
+      "at": "2026-06-18T03:41:15.956Z",
+      "sources": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 12500000,
+          "limit": 500,
+          "offset": 5500
+        }
+      ],
+      "results": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 12500000,
+          "limit": 500,
+          "offset": 5500,
+          "ok": true,
+          "rows": 500
+        }
+      ],
+      "addedComments": 500,
+      "importedRows": 500
+    },
+    {
+      "at": "2026-06-18T03:46:02.766Z",
+      "sources": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 13500000,
+          "limit": 500,
+          "offset": 6000
+        }
+      ],
+      "results": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 13500000,
+          "limit": 500,
+          "offset": 6000,
+          "ok": true,
+          "rows": 500
+        }
+      ],
+      "addedComments": 500,
+      "importedRows": 500
+    },
+    {
+      "at": "2026-06-18T03:51:02.893Z",
+      "sources": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 14500000,
+          "limit": 500,
+          "offset": 6500
+        }
+      ],
+      "results": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 14500000,
+          "limit": 500,
+          "offset": 6500,
+          "ok": true,
+          "rows": 500
+        }
+      ],
+      "addedComments": 500,
+      "importedRows": 500
+    },
+    {
+      "at": "2026-06-18T03:55:56.238Z",
+      "sources": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 15500000,
+          "limit": 500,
+          "offset": 7000
+        }
+      ],
+      "results": [
+        {
+          "dataset": "kirp/ruozhiba-raw",
+          "file": "wisdomBar_raw.csv",
+          "platform": "tieba",
+          "maxBytes": 15500000,
+          "limit": 500,
+          "offset": 7000,
+          "ok": true,
+          "rows": 500
+        }
+      ],
+      "addedComments": 500,
+      "importedRows": 500
+    }
+  ]
+}

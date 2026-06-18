@@ -1,9 +1,9 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { dirname } from 'node:path';
+import { readFile } from 'node:fs/promises';
 
 import { buildTiebaCorpusUpdate } from '../services/tiebaCorpus.js';
 import { computeTiebaScrapeHardStopMs } from '../services/tiebaScrapeTiming.js';
 import { scrapeTiebaKeyword, scrapeTiebaThreadUrls } from '../services/tiebaScraper.js';
+import { readJsonCorpus, writeJsonCorpus } from '../services/splitCorpusStorage.js';
 import { DEFAULT_COVERAGE_ACTION_FILE_PATH, DEFAULT_TIEBA_CORPUS_PATH } from '../utils/paths.js';
 
 function parseArgs(argv = process.argv.slice(2)) {
@@ -86,11 +86,6 @@ function boundedNumber(value, fallback, min, max) {
   return Math.max(min, Math.min(number, max));
 }
 
-async function writeJson(path, payload) {
-  await mkdir(dirname(path), { recursive: true });
-  await writeFile(path, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
-}
-
 async function queriesFromActions(actionFile, maxQueries) {
   const actions = await readJson(actionFile, []);
   return [...new Set(
@@ -102,7 +97,7 @@ async function queriesFromActions(actionFile, maxQueries) {
 }
 
 async function loadExistingCorpus(path) {
-  const corpus = await readJson(path, null);
+  const corpus = await readJsonCorpus(path, null);
   if (corpus && Array.isArray(corpus.runs)) return corpus;
   return { version: 1, updatedAt: null, runs: [], comments: [] };
 }
@@ -211,7 +206,7 @@ for (const query of options.queries) {
 const corpus = await loadExistingCorpus(options.outputPath);
 const update = buildTiebaCorpusUpdate(corpus, run);
 if (update.changed) {
-  await writeJson(options.outputPath, update.corpus);
+  await writeJsonCorpus(options.outputPath, update.corpus);
 } else {
   console.log('No new Tieba comments; corpus unchanged.');
 }

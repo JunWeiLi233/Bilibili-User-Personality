@@ -1,0 +1,1997 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-18T17:11:05.627Z",
+  "shard": 4,
+  "shardCount": 8,
+  "runs": [
+    {
+      "at": "2026-06-17T21:36:53.761Z",
+      "actions": [
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说 评论区 热评"
+        },
+        {
+          "term": "真的吗我不信",
+          "query": "真的吗我不信 评论 梗"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1Yeju6fERd",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1Yeju6fERd",
+          "aid": 116758249867275,
+          "title": "因为一个<em class=\"keyword\">评论区</em>的争论，我去报警了"
+        },
+        {
+          "key": "bvid:BV13kju6WEPw",
+          "term": "这还用说",
+          "query": "这还用说 评论区 热评",
+          "bvid": "BV13kju6WEPw",
+          "aid": 116758367246437,
+          "title": "tiktok 中国俩小孩玩耍火到外网，<em class=\"keyword\">评论区</em>老外应激了"
+        },
+        {
+          "key": "bvid:BV1SVjL6qEkv",
+          "term": "真的吗我不信",
+          "query": "真的吗我不信 评论 梗",
+          "bvid": "BV1SVjL6qEkv",
+          "aid": 116760917444519,
+          "title": "你炸的没我响你<em class=\"keyword\">信不信</em>"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 8,
+      "commentsAdded": 7
+    },
+    {
+      "at": "2026-06-17T21:42:02.546Z",
+      "actions": [
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 B站评论"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1NdVV6JETm",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 B站评论",
+          "bvid": "BV1NdVV6JETm",
+          "aid": 116663441688427,
+          "title": "世上最难绷的视频来了"
+        },
+        {
+          "key": "bvid:BV1ubAJeiEUu",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1ubAJeiEUu",
+          "aid": 114034284171408,
+          "title": "<em class=\"keyword\">b站评论</em>爬取"
+        },
+        {
+          "key": "bvid:BV1PZdXYgE2A",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1PZdXYgE2A",
+          "aid": 114322197974766,
+          "title": "我爹茶厂几个亿跟我有什么关系？"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 558,
+      "commentsAdded": 267
+    },
+    {
+      "at": "2026-06-17T22:00:39.441Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV18a4y1F7wT",
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复",
+          "bvid": "BV18a4y1F7wT",
+          "aid": 658118916,
+          "title": "【简明科普】印度首都，<em class=\"keyword\">德里</em>、新<em class=\"keyword\">德里</em>、旧<em class=\"keyword\">德里</em>的区别。"
+        },
+        {
+          "key": "bvid:BV1FuV566EcT",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1FuV566EcT",
+          "title": "existing evidence source for 狗去哪里了"
+        },
+        {
+          "key": "bvid:BV1ATKxemEDH",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1ATKxemEDH",
+          "aid": 112503333323520,
+          "title": "【糖宝和狗宝】第一次在<em class=\"keyword\">B站</em>发视频，求关注！"
+        },
+        {
+          "key": "bvid:BV1p6Gb6QE2k",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1p6Gb6QE2k",
+          "title": "existing evidence source for 价格被打下来"
+        },
+        {
+          "key": "bvid:BV1yfj36JE1i",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1yfj36JE1i",
+          "aid": 116758753057492,
+          "title": "外网TikTok，最难卖的一块被你买走了[衰]"
+        },
+        {
+          "key": "bvid:BV1CrCQBtEcB",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1CrCQBtEcB",
+          "title": "existing evidence source for 这还用说"
+        },
+        {
+          "key": "bvid:BV1ktzKYxEuD",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1ktzKYxEuD",
+          "title": "existing evidence source for 这还用说"
+        },
+        {
+          "key": "bvid:BV1oH4y1u7YX",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1oH4y1u7YX",
+          "title": "existing evidence source for 这还用说"
+        },
+        {
+          "key": "bvid:BV1QKJ36iETr",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1QKJ36iETr",
+          "aid": 116752562260069,
+          "title": "修罗<em class=\"keyword\">说这</em>段不用剪"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 55,
+      "commentsAdded": 37
+    },
+    {
+      "at": "2026-06-17T22:08:25.070Z",
+      "actions": [
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1yrVj6xEh8",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1yrVj6xEh8",
+          "title": "existing evidence source for 8打5的雷霆"
+        },
+        {
+          "key": "bvid:BV1ct421A7Nd",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1ct421A7Nd",
+          "title": "existing evidence source for 查查资料"
+        },
+        {
+          "key": "bvid:BV1XTVM62EUk",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1XTVM62EUk",
+          "title": "existing evidence source for 查查资料"
+        },
+        {
+          "key": "bvid:BV1zwWVepEuW",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1zwWVepEuW",
+          "title": "existing evidence source for 查查资料"
+        },
+        {
+          "key": "bvid:BV1Ah411G7J5",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1Ah411G7J5",
+          "title": "existing evidence source for 查查资料"
+        },
+        {
+          "key": "bvid:BV1SEVH62EZP",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1SEVH62EZP",
+          "title": "existing evidence source for 茶庄10个有9个洗钱的"
+        },
+        {
+          "key": "bvid:BV1SAVe6LEeP",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1SAVe6LEeP",
+          "title": "existing evidence source for 超绝无语"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 43,
+      "commentsAdded": 0
+    },
+    {
+      "at": "2026-06-17T22:08:58.931Z",
+      "actions": [
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1PhJP6TE3n",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1PhJP6TE3n",
+          "aid": 116748233736705,
+          "title": "众主播及职业看到球球奥丁兜底后，康康上演<em class=\"keyword\">雷霆</em>庆祝姿势，这谁能绷得住啊！"
+        },
+        {
+          "key": "bvid:BV1Yg4y1f79e",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1Yg4y1f79e",
+          "aid": 834291082,
+          "title": "<em class=\"keyword\">b站评论</em>区放大镜到底要怎么关闭？"
+        },
+        {
+          "key": "bvid:BV1Jq4y157sc",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1Jq4y157sc",
+          "aid": 548579894,
+          "title": "【茶百道】茶百道负责人回应频上热搜：<em class=\"keyword\">10</em>月营收下降！（内幕纠察局yyds，我非常支持你！）"
+        },
+        {
+          "key": "bvid:BV1Sj5TzREj9",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1Sj5TzREj9",
+          "aid": 114472085621095,
+          "title": "最近有很多莫名其妙的人来关注我，哈哈哈，被气笑了"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 31,
+      "commentsAdded": 30
+    },
+    {
+      "at": "2026-06-17T22:11:36.131Z",
+      "actions": [
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论"
+        },
+        {
+          "term": "分不清轻重就乱套",
+          "query": "分不清轻重就乱套 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1Xp4y137nw",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1Xp4y137nw",
+          "aid": 956983797,
+          "title": "【<em class=\"keyword\">互动</em>答题】10道题，让你怀疑没看过熊出没（人物篇）"
+        },
+        {
+          "key": "bvid:BV1ew411x7cr",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1ew411x7cr",
+          "aid": 324853717,
+          "title": "陆沉一场自问自答让我哭<em class=\"keyword\">了八百遍</em>【陆沉台词向×如愿】"
+        },
+        {
+          "key": "bvid:BV1vg4y1C7Mi",
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论",
+          "bvid": "BV1vg4y1C7Mi",
+          "aid": 835009936,
+          "title": "终于学会thumb <em class=\"keyword\">attack</em>了啊啊啊啊啊啊啊啊"
+        },
+        {
+          "key": "bvid:BV1u3V46oEb2",
+          "term": "分不清轻重就乱套",
+          "query": "分不清轻重就乱套 评论回复",
+          "bvid": "BV1u3V46oEb2",
+          "aid": 116655388628682,
+          "title": "踩坑预警！动量守恒别<em class=\"keyword\">乱套</em>，<em class=\"keyword\">分清</em>方向才得分！"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 26,
+      "commentsAdded": 23
+    },
+    {
+      "at": "2026-06-17T22:15:19.180Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV18EGm6UEqa",
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复",
+          "bvid": "BV18EGm6UEqa",
+          "title": "existing evidence source for 德里不饶人"
+        },
+        {
+          "key": "aid:116663559131570",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "aid": "116663559131570",
+          "rootRpid": "301234384593",
+          "title": "existing evidence source for 狗去哪里了"
+        },
+        {
+          "key": "bvid:BV1FuV566EcT",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1FuV566EcT",
+          "title": "existing evidence source for 狗去哪里了"
+        },
+        {
+          "key": "aid:116619082798184",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "aid": "116619082798184",
+          "rootRpid": "301016551169",
+          "title": "existing evidence source for 价格被打下来"
+        },
+        {
+          "key": "bvid:BV1p6Gb6QE2k",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1p6Gb6QE2k",
+          "title": "existing evidence source for 价格被打下来"
+        },
+        {
+          "key": "bvid:BV1J9yKYTE2A",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1J9yKYTE2A",
+          "title": "existing evidence source for 价格被打下来"
+        },
+        {
+          "key": "bvid:BV1EBJPzkE2j",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1EBJPzkE2j",
+          "title": "existing evidence source for 这还用说"
+        },
+        {
+          "key": "bvid:BV1yeoGYtE5f",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1yeoGYtE5f",
+          "title": "existing evidence source for 这还用说"
+        },
+        {
+          "key": "bvid:BV1tsZNY5ETg",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1tsZNY5ETg",
+          "title": "existing evidence source for 这还用说"
+        },
+        {
+          "key": "bvid:BV1CrCQBtEcB",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1CrCQBtEcB",
+          "title": "existing evidence source for 这还用说"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 14,
+      "commentsAdded": 0
+    },
+    {
+      "at": "2026-06-17T22:16:11.931Z",
+      "actions": [
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1yrVj6xEh8",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1yrVj6xEh8",
+          "title": "existing evidence source for 8打5的雷霆"
+        },
+        {
+          "key": "bvid:BV1ct421A7Nd",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1ct421A7Nd",
+          "title": "existing evidence source for 查查资料"
+        },
+        {
+          "key": "bvid:BV1XTVM62EUk",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1XTVM62EUk",
+          "title": "existing evidence source for 查查资料"
+        },
+        {
+          "key": "bvid:BV1zwWVepEuW",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1zwWVepEuW",
+          "title": "existing evidence source for 查查资料"
+        },
+        {
+          "key": "bvid:BV1Ah411G7J5",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1Ah411G7J5",
+          "title": "existing evidence source for 查查资料"
+        },
+        {
+          "key": "bvid:BV1SEVH62EZP",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1SEVH62EZP",
+          "title": "existing evidence source for 茶庄10个有9个洗钱的"
+        },
+        {
+          "key": "bvid:BV1SAVe6LEeP",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1SAVe6LEeP",
+          "title": "existing evidence source for 超绝无语"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 0,
+      "commentsAdded": 0
+    },
+    {
+      "at": "2026-06-17T22:19:23.622Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV18EGm6UEqa",
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复",
+          "bvid": "BV18EGm6UEqa",
+          "title": "existing evidence source for 德里不饶人"
+        },
+        {
+          "key": "aid:116663559131570",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "aid": "116663559131570",
+          "rootRpid": "301234384593",
+          "title": "existing evidence source for 狗去哪里了"
+        },
+        {
+          "key": "bvid:BV1FuV566EcT",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1FuV566EcT",
+          "title": "existing evidence source for 狗去哪里了"
+        },
+        {
+          "key": "aid:116619082798184",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "aid": "116619082798184",
+          "rootRpid": "301016551169",
+          "title": "existing evidence source for 价格被打下来"
+        },
+        {
+          "key": "bvid:BV1p6Gb6QE2k",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1p6Gb6QE2k",
+          "title": "existing evidence source for 价格被打下来"
+        },
+        {
+          "key": "bvid:BV1J9yKYTE2A",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1J9yKYTE2A",
+          "title": "existing evidence source for 价格被打下来"
+        },
+        {
+          "key": "bvid:BV1EBJPzkE2j",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1EBJPzkE2j",
+          "title": "existing evidence source for 这还用说"
+        },
+        {
+          "key": "bvid:BV1yeoGYtE5f",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1yeoGYtE5f",
+          "title": "existing evidence source for 这还用说"
+        },
+        {
+          "key": "bvid:BV1tsZNY5ETg",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1tsZNY5ETg",
+          "title": "existing evidence source for 这还用说"
+        },
+        {
+          "key": "bvid:BV1CrCQBtEcB",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1CrCQBtEcB",
+          "title": "existing evidence source for 这还用说"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 88,
+      "commentsAdded": 2
+    },
+    {
+      "at": "2026-06-17T22:22:50.545Z",
+      "actions": [
+        {
+          "term": "给官方剪片子",
+          "query": "给官方剪片子 评论回复"
+        },
+        {
+          "term": "毫无音乐理解",
+          "query": "毫无音乐理解 热评"
+        },
+        {
+          "term": "换个地方再就业",
+          "query": "换个地方再就业 争议 评论区"
+        },
+        {
+          "term": "基本没有音乐理解",
+          "query": "基本没有音乐理解 争议 评论区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1NHoUBQEN6",
+          "term": "给官方剪片子",
+          "query": "给官方剪片子 评论回复",
+          "bvid": "BV1NHoUBQEN6",
+          "aid": 116463104957286,
+          "title": "别人视频加个<em class=\"keyword\">评论</em>区当自己视频的傻遇封都飞了"
+        },
+        {
+          "key": "bvid:BV1AA7r6PEnL",
+          "term": "毫无音乐理解",
+          "query": "毫无音乐理解 热评",
+          "bvid": "BV1AA7r6PEnL",
+          "aid": 116696090156616,
+          "title": "2026上半年热歌榜单Top10，有无你耳熟的歌！"
+        },
+        {
+          "key": "bvid:BV1XH4y127oc",
+          "term": "换个地方再就业",
+          "query": "换个地方再就业 争议 评论区",
+          "bvid": "BV1XH4y127oc",
+          "aid": 963835264,
+          "title": "为啥我觉得《快乐老友记》有点奇怪"
+        },
+        {
+          "key": "bvid:BV1kbJ36DEKt",
+          "term": "基本没有音乐理解",
+          "query": "基本没有音乐理解 争议 评论区",
+          "bvid": "BV1kbJ36DEKt",
+          "aid": 116752243496728,
+          "title": "街头音要❗| 西南石油 你在听什么❗❓（第五十期） #吃喝玩乐分享计划 #街头音要 #有品 #蔡徐坤 #毕业"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 26,
+      "commentsAdded": 24
+    },
+    {
+      "at": "2026-06-17T22:23:27.371Z",
+      "actions": [
+        {
+          "term": "就是鬼畜标签",
+          "query": "就是鬼畜标签 争议 评论区"
+        },
+        {
+          "term": "就是要干你",
+          "query": "就是要干你 争议 评论区"
+        },
+        {
+          "term": "就算六个齐上也不是我对手",
+          "query": "就算六个齐上也不是我对手 争议 评论区"
+        },
+        {
+          "term": "来电了",
+          "query": "来电了 互动"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1jaYQeUEgK",
+          "term": "就是鬼畜标签",
+          "query": "就是鬼畜标签 争议 评论区",
+          "bvid": "BV1jaYQeUEgK",
+          "aid": 112941919635529,
+          "title": "B站弹幕梗——我是XX，这<em class=\"keyword\">就是</em>XX"
+        },
+        {
+          "key": "bvid:BV1cNx7zPEE1",
+          "term": "就是要干你",
+          "query": "就是要干你 争议 评论区",
+          "bvid": "BV1cNx7zPEE1",
+          "aid": 115326800889071,
+          "title": "为什么不骂我 是怕我爽吗"
+        },
+        {
+          "key": "bvid:BV19SLR6HEF3",
+          "term": "就算六个齐上也不是我对手",
+          "query": "就算六个齐上也不是我对手 争议 评论区",
+          "bvid": "BV19SLR6HEF3",
+          "aid": 116765329787864,
+          "title": "《MSI的<em class=\"keyword\">对手</em>，放弃直视我吧》"
+        },
+        {
+          "key": "bvid:BV1QV411B7dH",
+          "term": "来电了",
+          "query": "来电了 互动",
+          "bvid": "BV1QV411B7dH",
+          "aid": 413985578,
+          "title": "【<em class=\"keyword\">互动</em>视频】（小猪佩奇）未接<em class=\"keyword\">来电</em>"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 32,
+      "commentsAdded": 30
+    },
+    {
+      "at": "2026-06-17T22:27:24.244Z",
+      "actions": [
+        {
+          "term": "老闻",
+          "query": "老闻 争议 评论区"
+        },
+        {
+          "term": "留中不发",
+          "query": "留中不发 什么意思"
+        },
+        {
+          "term": "盲人帽子",
+          "query": "盲人帽子 弹幕"
+        },
+        {
+          "term": "没有成为炒饭的资格",
+          "query": "没有成为炒饭的资格 弹幕"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1x3QZYGEGF",
+          "term": "老闻",
+          "query": "老闻 争议 评论区",
+          "bvid": "BV1x3QZYGEGF",
+          "aid": 114188164794007,
+          "title": "官媒不要脸了？"
+        },
+        {
+          "key": "bvid:BV13W4y1W7Fg",
+          "term": "留中不发",
+          "query": "留中不发 什么意思",
+          "bvid": "BV13W4y1W7Fg",
+          "aid": 945304869,
+          "title": "网络上的那些热词梗到底是<em class=\"keyword\">什么意思</em>呢，一起来猜猜"
+        },
+        {
+          "key": "bvid:BV12J1FYFEN3",
+          "term": "盲人帽子",
+          "query": "盲人帽子 弹幕",
+          "bvid": "BV12J1FYFEN3",
+          "aid": 113356149231978,
+          "title": "《<em class=\"keyword\">盲人</em>》"
+        },
+        {
+          "key": "bvid:BV193411G7y4",
+          "term": "没有成为炒饭的资格",
+          "query": "没有成为炒饭的资格 弹幕",
+          "bvid": "BV193411G7y4",
+          "aid": 426818403,
+          "title": "<em class=\"keyword\">没有</em>鸡蛋也能做<em class=\"keyword\">炒饭</em>？真香！"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 1577,
+      "commentsAdded": 1178
+    },
+    {
+      "at": "2026-06-17T22:31:23.671Z",
+      "actions": [
+        {
+          "term": "米哈游你干得好啊",
+          "query": "米哈游你干得好啊 弹幕"
+        },
+        {
+          "term": "男的就是这样",
+          "query": "男的就是这样 弹幕"
+        },
+        {
+          "term": "男的就是这样爱推卸责任",
+          "query": "男的就是这样爱推卸责任 争议 评论区"
+        },
+        {
+          "term": "你也难绷",
+          "query": "你也难绷 弹幕"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1VM4y1H7ui",
+          "term": "米哈游你干得好啊",
+          "query": "米哈游你干得好啊 弹幕",
+          "bvid": "BV1VM4y1H7ui",
+          "aid": 914109170,
+          "title": "“<em class=\"keyword\">米哈游</em>总想通过游戏让我们认识到与朋友或亲人离别的痛苦 『4k60fps/剧情/全糖/混剪』"
+        },
+        {
+          "key": "bvid:BV1pNLQ6REkJ",
+          "term": "男的就是这样",
+          "query": "男的就是这样 弹幕",
+          "bvid": "BV1pNLQ6REkJ",
+          "aid": 116763282904150,
+          "title": "<em class=\"keyword\">弹幕</em>说我是男主的草包前妻1"
+        },
+        {
+          "key": "bvid:BV1gmXyBCEnM",
+          "term": "男的就是这样爱推卸责任",
+          "query": "男的就是这样爱推卸责任 争议 评论区",
+          "bvid": "BV1gmXyBCEnM",
+          "aid": 116308486131283,
+          "title": "请尊重男性谢谢"
+        },
+        {
+          "key": "bvid:BV1DYVz6cEsT",
+          "term": "你也难绷",
+          "query": "你也难绷 弹幕",
+          "bvid": "BV1DYVz6cEsT",
+          "aid": 116679698945240,
+          "title": "大型纪录片《惹我<em class=\"keyword\">绷绷</em>强，<em class=\"keyword\">绷你</em>没商量》"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 106,
+      "commentsAdded": 86
+    },
+    {
+      "at": "2026-06-17T22:35:11.948Z",
+      "actions": [
+        {
+          "term": "胖揍平",
+          "query": "胖揍平 弹幕"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        },
+        {
+          "term": "去问老师因为课上老师",
+          "query": "去问老师因为课上老师 互动"
+        },
+        {
+          "term": "缺点只有一个",
+          "query": "缺点只有一个 弹幕"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1BvjP6XEmh",
+          "term": "胖揍平",
+          "query": "胖揍平 弹幕",
+          "bvid": "BV1BvjP6XEmh",
+          "aid": 116755011798029,
+          "title": "dy 胖涛老肥了"
+        },
+        {
+          "key": "bvid:BV1eYgBz6E5j",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV1eYgBz6E5j",
+          "aid": 114889838304835,
+          "title": "教你如何查看<em class=\"keyword\">弹幕</em>"
+        },
+        {
+          "key": "bvid:BV19Q7UzXEfQ",
+          "term": "去问老师因为课上老师",
+          "query": "去问老师因为课上老师 互动",
+          "bvid": "BV19Q7UzXEfQ",
+          "aid": 114612292817919,
+          "title": "3招！让无生试讲有真实<em class=\"keyword\">互动</em>交流感！1.眼里有人 2.口语表达 3.转换角色"
+        },
+        {
+          "key": "bvid:BV1R64y1D7Yu",
+          "term": "缺点只有一个",
+          "query": "缺点只有一个 弹幕",
+          "bvid": "BV1R64y1D7Yu",
+          "aid": 757247726,
+          "title": "bilibili 彻底关闭<em class=\"keyword\">弹幕</em>"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 130,
+      "commentsAdded": 70
+    },
+    {
+      "at": "2026-06-17T22:38:40.896Z",
+      "actions": [
+        {
+          "term": "土豆鸡蛋批的形状",
+          "query": "土豆鸡蛋批的形状 回复区"
+        },
+        {
+          "term": "众漂",
+          "query": "众漂 评论回复"
+        },
+        {
+          "term": "时髦小设定",
+          "query": "时髦小设定 热评"
+        },
+        {
+          "term": "秀一手",
+          "query": "秀一手 热评"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1Q5411276e",
+          "term": "土豆鸡蛋批的形状",
+          "query": "土豆鸡蛋批的形状 回复区",
+          "bvid": "BV1Q5411276e",
+          "aid": 468282940,
+          "title": "<em class=\"keyword\">土豆</em>裹上蛋液，咔滋脆的蛋液炸薯条，油炸一下马上出锅"
+        },
+        {
+          "key": "bvid:BV1UBjN6zEXC",
+          "term": "众漂",
+          "query": "众漂 评论回复",
+          "bvid": "BV1UBjN6zEXC",
+          "aid": 116754592307951,
+          "title": "【鸣潮】为什么我不建议去看雷主/导电漂实机爆料？"
+        },
+        {
+          "key": "bvid:BV1EWEy6gEip",
+          "term": "时髦小设定",
+          "query": "时髦小设定 热评",
+          "bvid": "BV1EWEy6gEip",
+          "aid": 116735281727671,
+          "title": "就这个<em class=\"keyword\">设定</em>爽"
+        },
+        {
+          "key": "bvid:BV1LfjG6uEZE",
+          "term": "秀一手",
+          "query": "秀一手 热评",
+          "bvid": "BV1LfjG6uEZE",
+          "aid": 116760514663437,
+          "title": "众主播看留<em class=\"keyword\">一手</em>伦敦大师赛被刀，导播回放反复鞭尸"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 25,
+      "commentsAdded": 25
+    },
+    {
+      "at": "2026-06-17T22:42:23.748Z",
+      "actions": [
+        {
+          "term": "这都不懂",
+          "query": "这都不懂"
+        },
+        {
+          "term": "自己去找",
+          "query": "自己去找"
+        },
+        {
+          "term": "缺点只有一个贵",
+          "query": "缺点只有一个贵"
+        },
+        {
+          "term": "说八百遍了",
+          "query": "说八百遍了"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV13E4m1d7HE",
+          "term": "这都不懂",
+          "query": "这都不懂",
+          "bvid": "BV13E4m1d7HE",
+          "aid": 1256408555,
+          "title": "小八：完全搞<em class=\"keyword\">不懂</em>"
+        },
+        {
+          "key": "bvid:BV1xcJG6fEXm",
+          "term": "自己去找",
+          "query": "自己去找",
+          "bvid": "BV1xcJG6fEXm",
+          "aid": 116754374202659,
+          "title": "放下想要安全，在关系中反而不怕受伤了。如果你也总是在关系中与所有人保持距离，感觉<em class=\"keyword\">自己</em>跟他人隔着一层厚厚的壁垒，那我们可以去找到潜在的一个限制性信念"
+        },
+        {
+          "key": "bvid:BV1We411679U",
+          "term": "缺点只有一个贵",
+          "query": "缺点只有一个贵",
+          "bvid": "BV1We411679U",
+          "aid": 237957760,
+          "title": "【Alex】贵的唯一<em class=\"keyword\">缺点</em>，就<em class=\"keyword\">只有贵</em>"
+        },
+        {
+          "key": "bvid:BV1PWNwzVEh3",
+          "term": "说八百遍了",
+          "query": "说八百遍了",
+          "bvid": "BV1PWNwzVEh3",
+          "aid": 116187740507012,
+          "title": "《我溺于你的回声》（完结）第一百零八次假死，我往地板上洒满番茄酱"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 20,
+      "commentsAdded": 20
+    },
+    {
+      "at": "2026-06-17T22:49:42.125Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "分不清轻重"
+        },
+        {
+          "term": "分不清轻重就乱套",
+          "query": "分不清轻重就乱套"
+        },
+        {
+          "term": "给官方剪片子",
+          "query": "给官方剪片子"
+        },
+        {
+          "term": "毫无音乐理解",
+          "query": "毫无音乐理解"
+        },
+        {
+          "term": "换个地方再就业",
+          "query": "换个地方再就业"
+        },
+        {
+          "term": "基本没有音乐理解",
+          "query": "基本没有音乐理解"
+        },
+        {
+          "term": "就是鬼畜标签",
+          "query": "就是鬼畜标签"
+        },
+        {
+          "term": "就是要干你",
+          "query": "就是要干你"
+        },
+        {
+          "term": "就算六个齐上也不是我对手",
+          "query": "就算六个齐上也不是我对手"
+        },
+        {
+          "term": "来电了",
+          "query": "来电了"
+        },
+        {
+          "term": "老闻",
+          "query": "老闻"
+        },
+        {
+          "term": "留中不发",
+          "query": "留中不发"
+        },
+        {
+          "term": "盲人帽子",
+          "query": "盲人帽子"
+        },
+        {
+          "term": "没有成为炒饭的资格",
+          "query": "没有成为炒饭的资格"
+        },
+        {
+          "term": "米哈游你干得好啊",
+          "query": "米哈游你干得好啊"
+        },
+        {
+          "term": "男的就是这样",
+          "query": "男的就是这样"
+        },
+        {
+          "term": "男的就是这样爱推卸责任",
+          "query": "男的就是这样爱推卸责任"
+        },
+        {
+          "term": "你也难绷",
+          "query": "你也难绷"
+        },
+        {
+          "term": "胖揍平",
+          "query": "胖揍平"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他"
+        },
+        {
+          "term": "去问老师因为课上老师",
+          "query": "去问老师因为课上老师"
+        },
+        {
+          "term": "缺点只有一个",
+          "query": "缺点只有一个"
+        },
+        {
+          "term": "土豆鸡蛋批的形状",
+          "query": "土豆鸡蛋批的形状"
+        },
+        {
+          "term": "众漂",
+          "query": "众漂"
+        },
+        {
+          "term": "时髦小设定",
+          "query": "时髦小设定"
+        },
+        {
+          "term": "秀一手",
+          "query": "秀一手"
+        },
+        {
+          "term": "谁都受不了",
+          "query": "谁都受不了"
+        },
+        {
+          "term": "谁都受不住",
+          "query": "谁都受不住"
+        },
+        {
+          "term": "土豆鸡蛋批",
+          "query": "土豆鸡蛋批"
+        },
+        {
+          "term": "喂啥我就吃啥",
+          "query": "喂啥我就吃啥"
+        },
+        {
+          "term": "我猜一手",
+          "query": "我猜一手"
+        },
+        {
+          "term": "卧寻思也妹有口音哈",
+          "query": "卧寻思也妹有口音哈"
+        },
+        {
+          "term": "侮辱乐手",
+          "query": "侮辱乐手"
+        },
+        {
+          "term": "一个多亿",
+          "query": "一个多亿"
+        },
+        {
+          "term": "有什么值得炫耀的",
+          "query": "有什么值得炫耀的"
+        },
+        {
+          "term": "原来芙宁娜也爱看",
+          "query": "原来芙宁娜也爱看"
+        },
+        {
+          "term": "这都不懂",
+          "query": "这都不懂"
+        },
+        {
+          "term": "自己去找",
+          "query": "自己去找"
+        },
+        {
+          "term": "缺点只有一个贵",
+          "query": "缺点只有一个贵"
+        },
+        {
+          "term": "说八百遍了",
+          "query": "说八百遍了"
+        }
+      ],
+      "videos": [],
+      "warnings": [],
+      "commentsCollected": 27,
+      "commentsAdded": 27,
+      "source": "local weak evidence corpus backfill"
+    },
+    {
+      "at": "2026-06-17T22:54:31.770Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1rvEr6NEKd",
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复",
+          "bvid": "BV1rvEr6NEKd",
+          "aid": 116735046846401,
+          "title": "英国爆发严重街头骚乱持续4天都没有停止，还是跟移民政策有关"
+        },
+        {
+          "key": "bvid:BV1E17U6mEQZ",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1E17U6mEQZ",
+          "aid": 116701559526655,
+          "title": "<em class=\"keyword\">B站</em>最近出现了这样的不明链接，千万不要去搜！"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 9,
+      "commentsAdded": 9
+    },
+    {
+      "at": "2026-06-17T23:03:28.659Z",
+      "actions": [
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1i9pMzZEMy",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1i9pMzZEMy",
+          "aid": 115207733053884,
+          "title": "好消息，取消仅退款了；坏消息，只取消了一个“仅”字"
+        },
+        {
+          "key": "bvid:BV1L8411C7Vc",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1L8411C7Vc",
+          "aid": 234146484,
+          "title": "什么玩意他这是"
+        },
+        {
+          "key": "bvid:BV1FFER6qEEA",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1FFER6qEEA",
+          "aid": 116724410157836,
+          "title": "【虚虚小心】251128<em class=\"keyword\">直播切片</em> 国宴来了 我出生了"
+        },
+        {
+          "key": "bvid:BV1FJwXzMEXZ",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1FJwXzMEXZ",
+          "aid": 116244128800077,
+          "title": "全178集【初二数学·下册】2026 <em class=\"keyword\">B站</em>最好的初二数学课程，涵盖八年级数学所有知识点和难点精讲，课程生动易懂，（附送初中<em class=\"keyword\">资料</em>）一个视频带你学好初二下册数学！！"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 22,
+      "commentsAdded": 19
+    },
+    {
+      "at": "2026-06-17T23:07:56.219Z",
+      "actions": [
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV129j36XEZg",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV129j36XEZg",
+          "aid": 116759138933373,
+          "title": "茶叶店的压箱底好茶，90%的人都没有喝过！"
+        },
+        {
+          "key": "bvid:BV1JNWvzgEYG",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1JNWvzgEYG",
+          "aid": 115382987856643,
+          "title": "外网逆天难绷地狱meme合集＃11"
+        },
+        {
+          "key": "bvid:BV1NRosYaEzc",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1NRosYaEzc",
+          "aid": 114220544820962,
+          "title": "（<em class=\"keyword\">互动</em>视频）steam游戏试玩《The Coffin of Andy and Leyley》译名《安迪和莉莉的棺材》第二章：坟墓"
+        },
+        {
+          "key": "bvid:BV1yt411d7eL",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1yt411d7eL",
+          "aid": 34084462,
+          "title": "九九八十一原版"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 23,
+      "commentsAdded": 22
+    },
+    {
+      "at": "2026-06-17T23:11:54.656Z",
+      "actions": [
+        {
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论"
+        },
+        {
+          "term": "分不清轻重就乱套",
+          "query": "分不清轻重就乱套 评论回复"
+        },
+        {
+          "term": "给官方剪片子",
+          "query": "给官方剪片子 评论回复"
+        },
+        {
+          "term": "毫无音乐理解",
+          "query": "毫无音乐理解 热评"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1D1421m7gk",
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论",
+          "bvid": "BV1D1421m7gk",
+          "aid": 1552927290,
+          "title": "army-<em class=\"keyword\">attack</em>"
+        },
+        {
+          "key": "bvid:BV1oZLQ6EEFS",
+          "term": "分不清轻重就乱套",
+          "query": "分不清轻重就乱套 评论回复",
+          "bvid": "BV1oZLQ6EEFS",
+          "aid": 116765061286759,
+          "title": "感觉说<em class=\"keyword\">不清</em>的越道越明白."
+        },
+        {
+          "key": "aid:116655690683648",
+          "term": "给官方剪片子",
+          "query": "给官方剪片子 评论回复",
+          "aid": "116655690683648",
+          "title": "existing evidence source for 给官方剪片子"
+        },
+        {
+          "key": "bvid:BV1n5L964ErR",
+          "term": "给官方剪片子",
+          "query": "给官方剪片子 评论回复",
+          "bvid": "BV1n5L964ErR",
+          "aid": 116764289536030,
+          "title": "这是第一个正式动画，我不怎么会剪（剪错了），希望你们能喜欢，对了，我还有一个没过审的视频，你们要看的话，在<em class=\"keyword\">评论</em>区<em class=\"keyword\">回复</em>"
+        },
+        {
+          "key": "bvid:BV1UnY5ehEqb",
+          "term": "毫无音乐理解",
+          "query": "毫无音乐理解 热评",
+          "bvid": "BV1UnY5ehEqb",
+          "aid": 112935879837643,
+          "title": "<em class=\"keyword\">毫无</em>感情的茶花女 稳得像个机器 Miliza Korjus现场发挥 上了发条的音准怪物罢了"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 23,
+      "commentsAdded": 19
+    },
+    {
+      "at": "2026-06-17T23:15:46.103Z",
+      "actions": [
+        {
+          "term": "换个地方再就业",
+          "query": "换个地方再就业 争议 评论区"
+        },
+        {
+          "term": "基本没有音乐理解",
+          "query": "基本没有音乐理解 争议 评论区"
+        },
+        {
+          "term": "就是鬼畜标签",
+          "query": "就是鬼畜标签 争议 评论区"
+        },
+        {
+          "term": "就是要干你",
+          "query": "就是要干你 争议 评论区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1DjwnezEpA",
+          "term": "换个地方再就业",
+          "query": "换个地方再就业 争议 评论区",
+          "bvid": "BV1DjwnezEpA",
+          "aid": 113842117937544,
+          "title": "“陆虎最有城府，苏醒没有主见”"
+        },
+        {
+          "key": "bvid:BV1LgLo6oE47",
+          "term": "基本没有音乐理解",
+          "query": "基本没有音乐理解 争议 评论区",
+          "bvid": "BV1LgLo6oE47",
+          "aid": 116766655190578,
+          "title": "【<em class=\"keyword\">音乐</em>餐厅】起手牌不知道怎么输"
+        },
+        {
+          "key": "bvid:BV12R4y1g7Ja",
+          "term": "就是鬼畜标签",
+          "query": "就是鬼畜标签 争议 评论区",
+          "bvid": "BV12R4y1g7Ja",
+          "aid": 338140634,
+          "title": "这是什么梗：补档"
+        },
+        {
+          "key": "bvid:BV1wRVR6wE1a",
+          "term": "就是要干你",
+          "query": "就是要干你 争议 评论区",
+          "bvid": "BV1wRVR6wE1a",
+          "aid": 116673709412100,
+          "title": "这TM要被玩坏了？"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 34,
+      "commentsAdded": 32
+    },
+    {
+      "at": "2026-06-17T23:20:08.135Z",
+      "actions": [
+        {
+          "term": "就算六个齐上也不是我对手",
+          "query": "就算六个齐上也不是我对手 争议 评论区"
+        },
+        {
+          "term": "来电了",
+          "query": "来电了 互动"
+        },
+        {
+          "term": "老闻",
+          "query": "老闻 争议 评论区"
+        },
+        {
+          "term": "留中不发",
+          "query": "留中不发 什么意思"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1hJLo6DEJw",
+          "term": "就算六个齐上也不是我对手",
+          "query": "就算六个齐上也不是我对手 争议 评论区",
+          "bvid": "BV1hJLo6DEJw",
+          "aid": 116766219049947,
+          "title": "盖奇的特色直拳：利用打出上勾拳的假动作去骗<em class=\"keyword\">对手</em>后仰，导致把重心都放在后蹆，不能移动的特点，给对方一个右直拳盖奇用此招打退“斗牛士”伊利亚·托普里亚"
+        },
+        {
+          "key": "bvid:BV18XN3z5EEy",
+          "term": "来电了",
+          "query": "来电了 互动",
+          "bvid": "BV18XN3z5EEy",
+          "title": "existing evidence source for 来电了"
+        },
+        {
+          "key": "bvid:BV1t6L96zEeF",
+          "term": "来电了",
+          "query": "来电了 互动",
+          "bvid": "BV1t6L96zEeF",
+          "aid": 116766084766653,
+          "title": "玩机器直播间的压抑烧叫合集，感觉再播一会儿阿雨就要打<em class=\"keyword\">来电</em>话了，猜猜这个视频多久会被拿下"
+        },
+        {
+          "key": "bvid:BV17gVv68Eug",
+          "term": "老闻",
+          "query": "老闻 争议 评论区",
+          "bvid": "BV17gVv68Eug",
+          "title": "existing evidence source for 老闻"
+        },
+        {
+          "key": "bvid:BV1hWjg6sECs",
+          "term": "老闻",
+          "query": "老闻 争议 评论区",
+          "bvid": "BV1hWjg6sECs",
+          "aid": 116757712869151,
+          "title": "同框两热搜都跟“逃逸”有关"
+        },
+        {
+          "key": "bvid:BV1g2VV6xE2J",
+          "term": "留中不发",
+          "query": "留中不发 什么意思",
+          "bvid": "BV1g2VV6xE2J",
+          "title": "existing evidence source for 留中不发"
+        },
+        {
+          "key": "bvid:BV1WitzzuEji",
+          "term": "留中不发",
+          "query": "留中不发 什么意思",
+          "bvid": "BV1WitzzuEji",
+          "aid": 114987431365324,
+          "title": "<em class=\"keyword\">留中</em>长发两边鬓角怎么剪？以及男生中长发烫发案例"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 37,
+      "commentsAdded": 32
+    },
+    {
+      "at": "2026-06-17T23:25:14.390Z",
+      "actions": [
+        {
+          "term": "盲人帽子",
+          "query": "盲人帽子 弹幕"
+        },
+        {
+          "term": "没有成为炒饭的资格",
+          "query": "没有成为炒饭的资格 弹幕"
+        },
+        {
+          "term": "米哈游你干得好啊",
+          "query": "米哈游你干得好啊 弹幕"
+        },
+        {
+          "term": "男的就是这样",
+          "query": "男的就是这样 弹幕"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1vX4y1j71n",
+          "term": "盲人帽子",
+          "query": "盲人帽子 弹幕",
+          "bvid": "BV1vX4y1j71n",
+          "aid": 359629887,
+          "title": "一个<em class=\"keyword\">帽子</em>竟能帮助到<em class=\"keyword\">盲人</em>？来看看它都有什么科技吧！"
+        },
+        {
+          "key": "bvid:BV1VYVn6EEjj",
+          "term": "没有成为炒饭的资格",
+          "query": "没有成为炒饭的资格 弹幕",
+          "bvid": "BV1VYVn6EEjj",
+          "title": "existing evidence source for 没有成为炒饭的资格"
+        },
+        {
+          "key": "bvid:BV1huojB6Egc",
+          "term": "没有成为炒饭的资格",
+          "query": "没有成为炒饭的资格 弹幕",
+          "bvid": "BV1huojB6Egc",
+          "aid": 116459699243710,
+          "title": "原来这就是第一次<em class=\"keyword\">炒饭</em>快的原因啊"
+        },
+        {
+          "key": "bvid:BV1agVQ6eEh1",
+          "term": "米哈游你干得好啊",
+          "query": "米哈游你干得好啊 弹幕",
+          "bvid": "BV1agVQ6eEh1",
+          "title": "existing evidence source for 米哈游你干得好啊"
+        },
+        {
+          "key": "bvid:BV1xnAGzMEoD",
+          "term": "米哈游你干得好啊",
+          "query": "米哈游你干得好啊 弹幕",
+          "bvid": "BV1xnAGzMEoD",
+          "aid": 116272717106736,
+          "title": "当我们把原神崩铁结合起来🤓☝️"
+        },
+        {
+          "key": "bvid:BV1DUoUBAEyc",
+          "term": "男的就是这样",
+          "query": "男的就是这样 弹幕",
+          "bvid": "BV1DUoUBAEyc",
+          "aid": 116462752629872,
+          "title": "«四肢报废»又一次钻进继兄被窝强迫他时，我看到了<em class=\"keyword\">弹幕</em>：男配阴到没边儿了，明知道反派是直男，还撒谎说自己有求法证。"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 1823,
+      "commentsAdded": 1316
+    },
+    {
+      "at": "2026-06-17T23:30:41.034Z",
+      "actions": [
+        {
+          "term": "男的就是这样爱推卸责任",
+          "query": "男的就是这样爱推卸责任 争议 评论区"
+        },
+        {
+          "term": "你也难绷",
+          "query": "你也难绷 弹幕"
+        },
+        {
+          "term": "胖揍平",
+          "query": "胖揍平 弹幕"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1AWwNeSEZF",
+          "term": "男的就是这样爱推卸责任",
+          "query": "男的就是这样爱推卸责任 争议 评论区",
+          "bvid": "BV1AWwNeSEZF",
+          "aid": 113849399247351,
+          "title": "<em class=\"keyword\">推卸责任</em>？请你继续玩！祝福奈t奈w第四期！up主？损人利己的投机分子罢了！"
+        },
+        {
+          "key": "bvid:BV1PtVh6aENM",
+          "term": "你也难绷",
+          "query": "你也难绷 弹幕",
+          "bvid": "BV1PtVh6aENM",
+          "title": "existing evidence source for 你也难绷"
+        },
+        {
+          "key": "bvid:BV1CqJJ67EkF",
+          "term": "你也难绷",
+          "query": "你也难绷 弹幕",
+          "bvid": "BV1CqJJ67EkF",
+          "aid": 116740532997601,
+          "title": "绷住大赛"
+        },
+        {
+          "key": "bvid:BV1fvVS6zEGq",
+          "term": "胖揍平",
+          "query": "胖揍平 弹幕",
+          "bvid": "BV1fvVS6zEGq",
+          "title": "existing evidence source for 胖揍平"
+        },
+        {
+          "key": "bvid:BV1rs411t7ce",
+          "term": "胖揍平",
+          "query": "胖揍平 弹幕",
+          "bvid": "BV1rs411t7ce",
+          "aid": 6393448,
+          "title": "【<em class=\"keyword\">弹幕</em>的狂欢】B站最凶残的全<em class=\"keyword\">弹幕</em>"
+        },
+        {
+          "key": "bvid:BV1sCVt69Egy",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV1sCVt69Egy",
+          "title": "existing evidence source for 抛开其他"
+        },
+        {
+          "key": "bvid:BV1uP4y187jP",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV1uP4y187jP",
+          "aid": 890840267,
+          "title": "教你修改b站都<em class=\"keyword\">弹幕</em>！自定义<em class=\"keyword\">弹幕</em>修改！"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 7880,
+      "commentsAdded": 3457
+    },
+    {
+      "at": "2026-06-17T23:35:13.290Z",
+      "actions": [
+        {
+          "term": "去问老师因为课上老师",
+          "query": "去问老师因为课上老师 互动"
+        },
+        {
+          "term": "缺点只有一个",
+          "query": "缺点只有一个 弹幕"
+        },
+        {
+          "term": "土豆鸡蛋批的形状",
+          "query": "土豆鸡蛋批的形状 回复区"
+        },
+        {
+          "term": "众漂",
+          "query": "众漂 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV12kKHeLEvU",
+          "term": "去问老师因为课上老师",
+          "query": "去问老师因为课上老师 互动",
+          "bvid": "BV12kKHeLEvU",
+          "title": "existing evidence source for 去问老师因为课上老师"
+        },
+        {
+          "key": "bvid:BV1dt4y1V7mx",
+          "term": "去问老师因为课上老师",
+          "query": "去问老师因为课上老师 互动",
+          "bvid": "BV1dt4y1V7mx",
+          "aid": 984081646,
+          "title": "公开课学生不熟悉，给你百试不爽的课前师生<em class=\"keyword\">互动</em>方式"
+        },
+        {
+          "key": "bvid:BV1Wp4y1P7KU",
+          "term": "缺点只有一个",
+          "query": "缺点只有一个 弹幕",
+          "bvid": "BV1Wp4y1P7KU",
+          "aid": 958633980,
+          "title": "画面上<em class=\"keyword\">弹幕</em>不显示？主体被<em class=\"keyword\">弹幕</em>遮挡？竖屏模式最全<em class=\"keyword\">弹幕</em>教程TA来了！"
+        },
+        {
+          "key": "bvid:BV16WVV63EB8",
+          "term": "土豆鸡蛋批的形状",
+          "query": "土豆鸡蛋批的形状 回复区",
+          "bvid": "BV16WVV63EB8",
+          "title": "existing evidence source for 土豆鸡蛋批的形状"
+        },
+        {
+          "key": "bvid:BV1ee4y1Z7oc",
+          "term": "土豆鸡蛋批的形状",
+          "query": "土豆鸡蛋批的形状 回复区",
+          "bvid": "BV1ee4y1Z7oc",
+          "aid": 557507984,
+          "title": "我是万万没想到，把<em class=\"keyword\">鸡蛋</em>淋入<em class=\"keyword\">土豆</em>中，出锅瞬间变成一道特色美食"
+        },
+        {
+          "key": "bvid:BV1dkVb6VESD",
+          "term": "众漂",
+          "query": "众漂 评论回复",
+          "bvid": "BV1dkVb6VESD",
+          "title": "existing evidence source for 众漂"
+        },
+        {
+          "key": "bvid:BV19fLm6wE5i",
+          "term": "众漂",
+          "query": "众漂 评论回复",
+          "bvid": "BV19fLm6wE5i",
+          "aid": 116606617263012,
+          "title": "教大家怎么看<em class=\"keyword\">回复</em>的消息和写<em class=\"keyword\">评论</em>"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 236,
+      "commentsAdded": 91
+    },
+    {
+      "at": "2026-06-17T23:39:34.910Z",
+      "actions": [
+        {
+          "term": "时髦小设定",
+          "query": "时髦小设定 热评"
+        },
+        {
+          "term": "秀一手",
+          "query": "秀一手 热评"
+        },
+        {
+          "term": "谁都受不了",
+          "query": "谁都受不了 热评"
+        },
+        {
+          "term": "谁都受不住",
+          "query": "谁都受不住 热评"
+        }
+      ],
+      "videos": [
+        {
+          "key": "aid:116657301294055",
+          "term": "时髦小设定",
+          "query": "时髦小设定 热评",
+          "aid": "116657301294055",
+          "title": "existing evidence source for 时髦小设定"
+        },
+        {
+          "key": "bvid:BV13M4y1K78h",
+          "term": "时髦小设定",
+          "query": "时髦小设定 热评",
+          "bvid": "BV13M4y1K78h",
+          "aid": 932154583,
+          "title": "我，就是时尚圈迷惑行为大赏！【设计师列传】"
+        },
+        {
+          "key": "bvid:BV1Kt411b7js",
+          "term": "秀一手",
+          "query": "秀一手 热评",
+          "bvid": "BV1Kt411b7js",
+          "aid": 41501819,
+          "title": "[王者荣耀补录] 张大仙 <em class=\"keyword\">秀一手</em>韩信 2018/12/10"
+        },
+        {
+          "key": "bvid:BV1GyVS6YEQ8",
+          "term": "谁都受不了",
+          "query": "谁都受不了 热评",
+          "bvid": "BV1GyVS6YEQ8",
+          "title": "existing evidence source for 谁都受不了"
+        },
+        {
+          "key": "bvid:BV15AySB6Ef6",
+          "term": "谁都受不了",
+          "query": "谁都受不了 热评",
+          "bvid": "BV15AySB6Ef6",
+          "aid": 115456975377738,
+          "title": "【锐评】热歌《没出息》是什么鬼？<em class=\"keyword\">受不了</em>了这也太洗脑了！"
+        },
+        {
+          "key": "bvid:BV14m421s7TA",
+          "term": "谁都受不住",
+          "query": "谁都受不住 热评",
+          "bvid": "BV14m421s7TA",
+          "aid": 1603698266,
+          "title": "我被五个死对头娅在镜子前用力看见他们拿出的小东西拜托，我真的<em class=\"keyword\">受不住</em>!!!"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 34,
+      "commentsAdded": 32
+    },
+    {
+      "at": "2026-06-17T23:44:00.875Z",
+      "actions": [
+        {
+          "term": "土豆鸡蛋批",
+          "query": "土豆鸡蛋批 热评"
+        },
+        {
+          "term": "喂啥我就吃啥",
+          "query": "喂啥我就吃啥 热评"
+        },
+        {
+          "term": "我猜一手",
+          "query": "我猜一手 热评"
+        },
+        {
+          "term": "卧寻思也妹有口音哈",
+          "query": "卧寻思也妹有口音哈 热评"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1odJg6VEDm",
+          "term": "土豆鸡蛋批",
+          "query": "土豆鸡蛋批 热评",
+          "bvid": "BV1odJg6VEDm",
+          "aid": 116752948134199,
+          "title": "<em class=\"keyword\">土豆</em>炸了，进不去游戏了！【奶块】"
+        },
+        {
+          "key": "bvid:BV1kZJj6TEey",
+          "term": "喂啥我就吃啥",
+          "query": "喂啥我就吃啥 热评",
+          "bvid": "BV1kZJj6TEey",
+          "aid": 116740398914970,
+          "title": "“吃饱就好”"
+        },
+        {
+          "key": "bvid:BV1CfVV67EqU",
+          "term": "我猜一手",
+          "query": "我猜一手 热评",
+          "bvid": "BV1CfVV67EqU",
+          "title": "existing evidence source for 我猜一手"
+        },
+        {
+          "key": "bvid:BV112jN6PE8N",
+          "term": "我猜一手",
+          "query": "我猜一手 热评",
+          "bvid": "BV112jN6PE8N",
+          "aid": 116754575528972,
+          "title": "你猜呢？"
+        },
+        {
+          "key": "aid:116668609205355",
+          "term": "卧寻思也妹有口音哈",
+          "query": "卧寻思也妹有口音哈 热评",
+          "aid": "116668609205355",
+          "title": "existing evidence source for 卧寻思也妹有口音哈"
+        },
+        {
+          "key": "bvid:BV1LF411f7UZ",
+          "term": "卧寻思也妹有口音哈",
+          "query": "卧寻思也妹有口音哈 热评",
+          "bvid": "BV1LF411f7UZ",
+          "aid": 274323257,
+          "title": "你咋知道我东北的？我<em class=\"keyword\">寻思</em>，我<em class=\"keyword\">也妹有口音</em>呐"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 37,
+      "commentsAdded": 29
+    }
+  ]
+}
