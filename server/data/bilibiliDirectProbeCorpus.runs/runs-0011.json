@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T06:17:24.728Z",
+  "updatedAt": "2026-06-19T06:38:15.258Z",
   "shard": 11,
   "shardCount": 11,
   "runs": [
@@ -435,6 +435,68 @@
       "warnings": [],
       "commentsCollected": 2100,
       "commentsAdded": 258
+    },
+    {
+      "at": "2026-06-19T06:38:15.258Z",
+      "actions": [
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1U44y1h749",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1U44y1h749",
+          "aid": 977107903,
+          "title": "狗是谁？（2）"
+        },
+        {
+          "key": "bvid:BV18NSdBcEMr",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV18NSdBcEMr",
+          "aid": 116355546218527,
+          "title": "<em class=\"keyword\">去狗</em>咖打工的小狗被发现啦"
+        },
+        {
+          "key": "bvid:BV1oEjq6kEHk",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1oEjq6kEHk",
+          "aid": 116775261831668,
+          "title": "你知道是什么让凡人<em class=\"keyword\">评论区</em>彻底变味？正常个人观点也<em class=\"keyword\">被打</em>成黑子？"
+        },
+        {
+          "key": "bvid:BV1PZQmB6EEN",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV1PZQmB6EEN",
+          "aid": 116288638750426,
+          "title": "逆天<em class=\"keyword\">弹幕</em>"
+        },
+        {
+          "key": "bvid:BV1dyZiB3EQi",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV1dyZiB3EQi",
+          "aid": 116097328154380,
+          "title": "【riyu/shiku】原则是<em class=\"keyword\">抛开</em>脸不谈"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 1843,
+      "commentsAdded": 1116
     }
   ]
 }
