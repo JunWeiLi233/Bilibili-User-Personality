@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from datetime import datetime, timezone
 from typing import Any
 
@@ -92,6 +93,49 @@ class UidPipelineWorkerPlanner:
             if start <= numeric_uid <= end:
                 count += 1
         return count
+
+
+class UidPipelineLauncherPlanner:
+    """Build a UID pipeline launcher plan without touching the filesystem."""
+
+    def __init__(self, now: Any | None = None):
+        self.now = now or (lambda: datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z"))
+
+    def build_plan(self, *, total_start: int = 1, total_end: int = 100000, workers: int = 5) -> dict[str, Any]:
+        total_start = int(total_start)
+        total_end = int(total_end)
+        workers = max(1, int(workers))
+        total_expected = max(0, total_end - total_start + 1)
+        chunk_size = math.ceil(total_expected / workers) if total_expected else 0
+        started_at = self.now()
+        worker_plans = []
+        state_workers = []
+
+        for worker_index in range(workers):
+            start = total_start + worker_index * chunk_size
+            end = min(start + chunk_size - 1, total_end)
+            if start > total_end:
+                break
+            progress_file = f"uid-pipeline-{start}-{end}.json"
+            log_file = f"scraper-logs/uid-pipeline-{start}-{end}.log"
+            state_workers.append({"start": start, "end": end, "progressFile": progress_file})
+            worker_plans.append(
+                {
+                    "start": start,
+                    "end": end,
+                    "progressFile": progress_file,
+                    "logFile": log_file,
+                    "args": [f"--start={start}", f"--end={end}"],
+                }
+            )
+
+        return {
+            "ok": True,
+            "startedAt": started_at,
+            "range": {"start": total_start, "end": total_end, "workers": workers, "chunkSize": chunk_size},
+            "workers": worker_plans,
+            "state": {"startedAt": started_at, "workers": state_workers},
+        }
 
 
 class UidPipelineMergeReporter:

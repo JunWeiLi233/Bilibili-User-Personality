@@ -114,7 +114,7 @@ from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner, UidRan
 from python_backend.scrapers.batch_uid_scrape import BatchUidProgressReporter, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner, UidDiscoveryProgressReporter
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelProgressReporter
-from python_backend.scrapers.uid_pipeline import UidPipelineMergeReporter, UidPipelineProgressReporter, UidPipelineStateReporter, UidPipelineWorkerPlanner
+from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineMergeReporter, UidPipelineProgressReporter, UidPipelineStateReporter, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorReporter
 from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanner
 
@@ -5234,6 +5234,42 @@ class CorpusContractTests(unittest.TestCase):
         self.assertNotIn("processed", result)
         self.assertEqual(result["summary"]["totalProcessed"], 1)
         self.assertEqual(result["stats"]["success"], 1)
+
+    def test_uid_pipeline_launcher_planner_builds_state_contract_without_filesystem(self):
+        result = UidPipelineLauncherPlanner(now=lambda: "2026-06-19T00:00:00.000Z").build_plan(total_start=5, total_end=9, workers=2)
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["startedAt"], "2026-06-19T00:00:00.000Z")
+        self.assertEqual(result["range"], {"start": 5, "end": 9, "workers": 2, "chunkSize": 3})
+        self.assertEqual(
+            result["workers"],
+            [
+                {
+                    "start": 5,
+                    "end": 7,
+                    "progressFile": "uid-pipeline-5-7.json",
+                    "logFile": "scraper-logs/uid-pipeline-5-7.log",
+                    "args": ["--start=5", "--end=7"],
+                },
+                {
+                    "start": 8,
+                    "end": 9,
+                    "progressFile": "uid-pipeline-8-9.json",
+                    "logFile": "scraper-logs/uid-pipeline-8-9.log",
+                    "args": ["--start=8", "--end=9"],
+                },
+            ],
+        )
+        self.assertEqual(
+            result["state"],
+            {
+                "startedAt": "2026-06-19T00:00:00.000Z",
+                "workers": [
+                    {"start": 5, "end": 7, "progressFile": "uid-pipeline-5-7.json"},
+                    {"start": 8, "end": 9, "progressFile": "uid-pipeline-8-9.json"},
+                ],
+            },
+        )
 
     def test_uid_pipeline_launcher_plan_runner_matches_js_launcher_state_contract(self):
         with tempfile.TemporaryDirectory() as tmp:

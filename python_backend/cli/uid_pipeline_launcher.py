@@ -2,11 +2,11 @@ from __future__ import annotations
 
 import argparse
 import json
-import math
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
+
+from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner
 
 
 class UidPipelineLauncherPlanRunner:
@@ -27,47 +27,15 @@ class UidPipelineLauncherPlanRunner:
         self.total_end = int(total_end)
         self.workers = max(1, int(workers))
         self.write_state = write_state
-        self.now = now or (lambda: datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z"))
+        self.now = now
 
     def run(self) -> dict[str, Any]:
-        total_expected = max(0, self.total_end - self.total_start + 1)
-        chunk_size = math.ceil(total_expected / self.workers) if total_expected else 0
-        started_at = self.now()
-        workers = []
-        state_workers = []
-
-        for worker_index in range(self.workers):
-            start = self.total_start + worker_index * chunk_size
-            end = min(start + chunk_size - 1, self.total_end)
-            if start > self.total_end:
-                break
-            progress_file = f"uid-pipeline-{start}-{end}.json"
-            log_file = f"scraper-logs/uid-pipeline-{start}-{end}.log"
-            state_workers.append({"start": start, "end": end, "progressFile": progress_file})
-            workers.append(
-                {
-                    "start": start,
-                    "end": end,
-                    "progressFile": progress_file,
-                    "logFile": log_file,
-                    "args": [f"--start={start}", f"--end={end}"],
-                }
-            )
-
-        state = {"startedAt": started_at, "workers": state_workers}
+        result = UidPipelineLauncherPlanner(now=self.now).build_plan(total_start=self.total_start, total_end=self.total_end, workers=self.workers)
         if self.write_state:
             self.data_dir.mkdir(parents=True, exist_ok=True)
-            (self.data_dir / "uid-pipeline-launcher.json").write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
+            (self.data_dir / "uid-pipeline-launcher.json").write_text(json.dumps(result["state"], ensure_ascii=False, indent=2), encoding="utf-8")
 
-        return {
-            "ok": True,
-            "startedAt": started_at,
-            "range": {"start": self.total_start, "end": self.total_end, "workers": self.workers, "chunkSize": chunk_size},
-            "workers": workers,
-            "state": state,
-            "statePath": str(self.data_dir / "uid-pipeline-launcher.json"),
-            "writeState": self.write_state,
-        }
+        return {**result, "statePath": str(self.data_dir / "uid-pipeline-launcher.json"), "writeState": self.write_state}
 
 
 class UidPipelineLauncherContractComparator:
