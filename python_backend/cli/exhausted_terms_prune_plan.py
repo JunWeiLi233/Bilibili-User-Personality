@@ -6,8 +6,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.coverage_progress import CoverageProgressTracker
 from python_backend.corpus.dictionary import DictionaryLoader
+from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 
 
 class ExhaustedTermsPrunePlanRunner:
@@ -31,35 +31,18 @@ class ExhaustedTermsPrunePlanRunner:
         self.require_zero_evidence = require_zero_evidence
         self.require_source_backed_evidence = require_source_backed_evidence
         self.require_comment_backed_evidence = require_comment_backed_evidence
-        self.tracker = CoverageProgressTracker()
 
     def run(self) -> dict[str, Any]:
         loaded_dictionary = DictionaryLoader(self.dictionary_path).load()
         dictionary = {**loaded_dictionary.manifest, "entries": loaded_dictionary.entries}
         state = self._read_json(self.state_path, {"termAttempts": {}})
-        options = {
-            "targetEvidence": self.target_evidence,
-            "attemptThreshold": self.attempt_threshold,
-            "requireZeroEvidence": self.require_zero_evidence,
-            "requireSourceBackedEvidence": self.require_source_backed_evidence,
-            "requireCommentBackedEvidence": self.require_comment_backed_evidence,
-        }
-        candidates = self.tracker.select_exhausted_terms(dictionary, state, options)
-        return {
-            "ok": True,
-            "targetEvidence": max(1, int(self.target_evidence)),
-            "attemptThreshold": max(1, int(self.attempt_threshold)),
-            "requireZeroEvidence": self.require_zero_evidence,
-            "requireSourceBackedEvidence": self.require_source_backed_evidence,
-            "requireCommentBackedEvidence": self.require_comment_backed_evidence,
-            "count": len(candidates),
-            "candidates": candidates,
-            "summary": {
-                "attemptThreshold": max(1, int(self.attempt_threshold)),
-                "requireZeroEvidence": self.require_zero_evidence,
-                "candidates": len(candidates),
-            },
-        }
+        return ExhaustedTermsPrunePlanner(
+            target_evidence=self.target_evidence,
+            attempt_threshold=self.attempt_threshold,
+            require_zero_evidence=self.require_zero_evidence,
+            require_source_backed_evidence=self.require_source_backed_evidence,
+            require_comment_backed_evidence=self.require_comment_backed_evidence,
+        ).build_plan(dictionary, state)
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
         if not path.exists():

@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+import base64
 import re
 import unicodedata
 from typing import Any
+
+from python_backend.analysis.audit import CoverageAuditBuilder
 
 
 SUPPORTED_FAMILIES = ("attack", "absolutes", "evidence", "evasion", "cooperation", "correction")
@@ -141,3 +144,86 @@ class DictionaryPrunePlanner:
 
     def _is_han(self, char: str) -> bool:
         return "\u4e00" <= char <= "\u9fff"
+
+
+class ExhaustedTermsPrunePlanner:
+    """Build a JS-compatible prune plan for repeatedly missed dictionary terms."""
+
+    def __init__(
+        self,
+        *,
+        target_evidence: int = 3,
+        attempt_threshold: int = 10,
+        require_zero_evidence: bool = True,
+        require_source_backed_evidence: bool = False,
+        require_comment_backed_evidence: bool = False,
+    ):
+        self.target_evidence = self._positive_int(target_evidence, 3, 1000)
+        self.attempt_threshold = self._positive_int(attempt_threshold, 10, 100000)
+        self.require_zero_evidence = require_zero_evidence is not False
+        self.require_source_backed_evidence = require_source_backed_evidence is True
+        self.require_comment_backed_evidence = require_comment_backed_evidence is True
+
+    def build_plan(self, dictionary: dict[str, Any] | None = None, state: dict[str, Any] | None = None) -> dict[str, Any]:
+        candidates = self.select_candidates(dictionary, state)
+        return {
+            "ok": True,
+            "targetEvidence": self.target_evidence,
+            "attemptThreshold": self.attempt_threshold,
+            "requireZeroEvidence": self.require_zero_evidence,
+            "requireSourceBackedEvidence": self.require_source_backed_evidence,
+            "requireCommentBackedEvidence": self.require_comment_backed_evidence,
+            "count": len(candidates),
+            "candidates": candidates,
+            "summary": {
+                "attemptThreshold": self.attempt_threshold,
+                "requireZeroEvidence": self.require_zero_evidence,
+                "candidates": len(candidates),
+            },
+        }
+
+    def select_candidates(self, dictionary: dict[str, Any] | None = None, state: dict[str, Any] | None = None) -> list[dict[str, Any]]:
+        dictionary = dictionary if isinstance(dictionary, dict) else {}
+        state = state if isinstance(state, dict) else {}
+        audit = CoverageAuditBuilder(
+            target_evidence=self.target_evidence,
+            require_source_backed_evidence=self.require_source_backed_evidence,
+            require_comment_backed_evidence=self.require_comment_backed_evidence,
+        )
+        term_attempts = state.get("termAttempts") if isinstance(state.get("termAttempts"), dict) else {}
+        exhausted: list[dict[str, Any]] = []
+        entries = dictionary.get("entries") if isinstance(dictionary.get("entries"), list) else []
+        for entry in entries:
+            if not isinstance(entry, dict):
+                continue
+            term = str(entry.get("term") or "").strip()
+            if not term:
+                continue
+            evidence = audit._coverage_evidence_count(entry)
+            if evidence >= self.target_evidence:
+                continue
+            if self.require_zero_evidence and evidence > 0:
+                continue
+            attempts = self._attempts_for_term(term_attempts, term)
+            if attempts >= self.attempt_threshold:
+                exhausted.append({"term": term, "family": entry.get("family") or "", "attempts": attempts, "evidence": evidence})
+        return exhausted
+
+    def _attempts_for_term(self, term_attempts: dict[str, Any], term: str) -> int:
+        raw = term_attempts.get(term)
+        if not isinstance(raw, dict):
+            raw = term_attempts.get(self._term_attempt_key(term))
+        if not isinstance(raw, dict):
+            return 0
+        return max(0, int(float(raw.get("attempts") or 0)))
+
+    def _term_attempt_key(self, term: str) -> str:
+        encoded = base64.urlsafe_b64encode(term.encode("utf-8")).decode("ascii")
+        return encoded.rstrip("=")
+
+    def _positive_int(self, value: Any, fallback: int, max_value: int) -> int:
+        try:
+            parsed = int(value)
+        except (TypeError, ValueError):
+            parsed = fallback
+        return min(max_value, max(1, parsed))

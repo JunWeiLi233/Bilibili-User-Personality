@@ -85,6 +85,7 @@ from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner
 from python_backend.corpus.tieba import TiebaCorpusUpdater
 from python_backend.analysis.video_filter import VideoCommentFilter, VideoContextBuilder, VideoRelevanceFilter
 from python_backend.corpus.dictionary import DictionaryLoader
+from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
@@ -4830,6 +4831,37 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(strict, [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "attempts": 10, "evidence": 0}])
         self.assertEqual(
             broad,
+            [
+                {"term": "\u96f6\u8bc1\u636e", "family": "attack", "attempts": 10, "evidence": 0},
+                {"term": "\u90e8\u5206\u8bc1\u636e", "family": "evidence", "attempts": 12, "evidence": 1},
+            ],
+        )
+
+    def test_exhausted_terms_prune_planner_selects_js_state_contract_candidates(self):
+        planner = ExhaustedTermsPrunePlanner(target_evidence=3, attempt_threshold=10)
+        dictionary = {
+            "entries": [
+                {"term": "\u96f6\u8bc1\u636e", "family": "attack", "evidenceCount": 0},
+                {"term": "\u90e8\u5206\u8bc1\u636e", "family": "evidence", "evidenceCount": 1, "evidenceSamples": ["sample"]},
+                {"term": "\u8db3\u591f\u8bc1\u636e", "family": "cooperation", "evidenceCount": 3, "evidenceSamples": ["a", "b", "c"]},
+            ]
+        }
+        state = {
+            "termAttempts": {
+                "6Zu26K-B5o2u": {"attempts": 10},
+                "\u90e8\u5206\u8bc1\u636e": {"attempts": 12},
+                "\u8db3\u591f\u8bc1\u636e": {"attempts": 99},
+            }
+        }
+
+        strict = planner.build_plan(dictionary, state)
+        broad = ExhaustedTermsPrunePlanner(target_evidence=3, attempt_threshold=10, require_zero_evidence=False).build_plan(dictionary, state)
+
+        self.assertEqual(strict["count"], 1)
+        self.assertEqual(strict["candidates"], [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "attempts": 10, "evidence": 0}])
+        self.assertEqual(strict["summary"], {"attemptThreshold": 10, "requireZeroEvidence": True, "candidates": 1})
+        self.assertEqual(
+            broad["candidates"],
             [
                 {"term": "\u96f6\u8bc1\u636e", "family": "attack", "attempts": 10, "evidence": 0},
                 {"term": "\u90e8\u5206\u8bc1\u636e", "family": "evidence", "attempts": 12, "evidence": 1},
