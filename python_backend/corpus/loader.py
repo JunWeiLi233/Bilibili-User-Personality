@@ -32,8 +32,16 @@ class CorpusLoader:
                 runs=list(manifest.get("runs") or []),
             )
 
-        comments = self._hydrate_files(manifest.get("commentFiles") or [], "comments")
-        runs = self._hydrate_files(manifest.get("runFiles") or [], "runs")
+        comments = (
+            self._hydrate_files(manifest.get("commentFiles") or [], "comments")
+            if isinstance(manifest.get("commentFiles"), list)
+            else list(manifest.get("comments") or [])
+        )
+        runs = (
+            self._hydrate_files(manifest.get("runFiles") or [], "runs")
+            if isinstance(manifest.get("runFiles"), list)
+            else list(manifest.get("runs") or [])
+        )
         return Corpus(manifest={**manifest, "comments": comments, "runs": runs}, comments=comments, runs=runs)
 
     def _hydrate_files(self, files: list[str], key: str) -> list[dict[str, Any]]:
