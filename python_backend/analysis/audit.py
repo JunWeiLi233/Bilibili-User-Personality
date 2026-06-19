@@ -34,7 +34,7 @@ class CoverageAuditReport:
 
     @classmethod
     def load(cls, path: str | Path) -> "CoverageAuditReport":
-        with Path(path).open("r", encoding="utf-8") as handle:
+        with Path(path).open("r", encoding="utf-8-sig") as handle:
             return cls.from_json(json.load(handle))
 
     def next_queries(self) -> list[str]:

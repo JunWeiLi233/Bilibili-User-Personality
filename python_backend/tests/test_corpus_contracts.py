@@ -176,6 +176,28 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(report.weak_terms, 2)
         self.assertEqual(report.next_queries(), ["查查资料 B站评论"])
 
+    def test_coverage_audit_report_load_accepts_utf8_bom_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            audit_path = Path(tmp) / "audit.json"
+            audit_path.write_text(
+                "\ufeff"
+                + json.dumps(
+                    {
+                        "ok": False,
+                        "targetEvidence": 3,
+                        "coverage": {"terms": 2, "weakTerms": 1, "coverageRatio": 0.5},
+                        "nextActions": [{"nextQuery": "bom query"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            report = CoverageAuditReport.load(audit_path)
+
+        self.assertEqual(report.terms, 2)
+        self.assertEqual(report.weak_terms, 1)
+        self.assertEqual(report.next_queries(), ["bom query"])
+
     def test_rate_limiter_uses_injected_sleep_without_real_waiting(self):
         sleeps = []
         limiter = RateLimiter(delay_seconds=1.25, sleep=sleeps.append)
