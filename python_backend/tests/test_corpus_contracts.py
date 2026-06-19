@@ -82,6 +82,7 @@ from python_backend.corpus.writer import CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliPublicParser
 from python_backend.scrapers.aicu import AicuScrapePlanner
+from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanner
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanner
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerHelper
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanner
@@ -89,6 +90,7 @@ from python_backend.runtime.file_lock import FileLockStateInspector
 from python_backend.scrapers.rate_limiter import RateLimiter
 from python_backend.cli.scraper_monitor import ScraperMonitorContractComparator, ScraperMonitorRunner
 from python_backend.cli.aicu_scrape_plan import AicuScrapePlanContractComparator, AicuScrapePlanRunner
+from python_backend.cli.aicu_browser_batch_plan import AicuBrowserBatchPlanContractComparator, AicuBrowserBatchPlanRunner
 from python_backend.cli.file_lock_state import FileLockStateContractComparator, FileLockStateRunner
 from python_backend.cli.batch_scrape_progress import BatchScrapeProgressContractComparator, BatchScrapeProgressRunner
 from python_backend.cli.batch_uid_progress import BatchUidProgressContractComparator, BatchUidProgressRunner
@@ -494,6 +496,61 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {"key": "uids", "python": ["42", "43"], "js": ["42"]},
                 {"key": "summary", "python": {"uids": 2, "commentPagesPerUid": 2, "danmakuPagesPerUid": 2, "delayBetweenUidsMs": 15000}, "js": {"uids": 1}},
+            ],
+        )
+
+    def test_aicu_browser_batch_planner_matches_js_resume_and_browser_contract(self):
+        planner = AicuBrowserBatchPlanner(project_dir="D:/Bilibili_User_Personality")
+        progress = {"lastUid": 100002, "completed": 7, "errors": [{"uid": "100001", "error": "timeout"}]}
+        database = {"users": {"100003": {}, "100010": {}}}
+
+        result = planner.build_plan(["--start=100000", "--end=100005"], progress, database)
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"requestedStart": 100000, "effectiveStart": 100003, "end": 100005, "total": 3})
+        self.assertEqual(result["progress"], {"lastUid": 100002, "completed": 7, "errors": 1})
+        self.assertEqual(result["database"], {"users": 2, "existingInEffectiveRange": 1})
+        self.assertEqual(result["browser"], {"command": "browser-harness", "script": "server/scripts/browserScrapeAicu.py", "wrapper": "server/data/_browser_aicu_tmp.py", "timeoutMs": 120000, "maxPages": 3})
+        self.assertEqual(result["pacing"], {"delayBetweenUidsMs": 5000, "saveEveryAttempts": 10})
+        self.assertEqual(
+            result["sampleInvocation"],
+            {
+                "uid": "100003",
+                "wrapperArgv": ["browserScrapeAicu.py", "100003", "3"],
+                "exec": "browser-harness -c \"exec(open('server/data/_browser_aicu_tmp.py').read())\"",
+            },
+        )
+
+    def test_aicu_browser_batch_plan_runner_and_comparator_read_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "aicu-browser-plan.json"
+            js_report_path = root / "js-aicu-browser-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--start=5", "--end=8"],
+                        "progress": {"lastUid": 5, "completed": 2},
+                        "database": {"users": {"6": {}, "9": {}}},
+                        "projectDir": "D:/repo",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"range": {"effectiveStart": 5}, "browser": {"maxPages": 10}}), encoding="utf-8")
+
+            result = AicuBrowserBatchPlanRunner(payload_path).run()
+            comparison = AicuBrowserBatchPlanContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"requestedStart": 5, "effectiveStart": 6, "end": 8, "total": 3})
+        self.assertEqual(result["database"], {"users": 2, "existingInEffectiveRange": 1})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "range", "python": {"requestedStart": 5, "effectiveStart": 6, "end": 8, "total": 3}, "js": {"effectiveStart": 5}},
+                {"key": "browser", "python": {"command": "browser-harness", "script": "server/scripts/browserScrapeAicu.py", "wrapper": "server/data/_browser_aicu_tmp.py", "timeoutMs": 120000, "maxPages": 3}, "js": {"maxPages": 10}},
             ],
         )
 

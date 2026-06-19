@@ -37,6 +37,7 @@
     "python:merge-agent-plan": "python -m python_backend.cli.merge_agent_dictionaries_plan",
     "python:file-lock-state": "python -m python_backend.cli.file_lock_state",
     "python:aicu-plan": "python -m python_backend.cli.aicu_scrape_plan",
+    "python:aicu-browser-plan": "python -m python_backend.cli.aicu_browser_batch_plan",
     "python:batch-bilibili-plan": "python -m python_backend.cli.batch_bilibili_plan",
     "python:batch-popular-plan": "python -m python_backend.cli.batch_popular_plan",
     "python:batch-scraper-launcher": "python -m python_backend.cli.batch_scraper_launcher",
