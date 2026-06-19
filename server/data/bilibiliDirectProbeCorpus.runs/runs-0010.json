@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T04:24:46.514Z",
+  "updatedAt": "2026-06-19T04:39:28.717Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -1647,6 +1647,114 @@
       "warnings": [],
       "commentsCollected": 685,
       "commentsAdded": 311
+    },
+    {
+      "at": "2026-06-19T04:36:05.628Z",
+      "actions": [
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1knjF62EWG",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1knjF62EWG",
+          "aid": 116768869777685,
+          "title": "<em class=\"keyword\">评论</em>区里的逆天发言"
+        },
+        {
+          "key": "bvid:BV1w65X6oEpb",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1w65X6oEpb",
+          "aid": 116572878340499,
+          "title": "［游戏推荐221］《与连的<em class=\"keyword\">互动</em>》自购分享喵"
+        },
+        {
+          "key": "bvid:BV1BvUhB6Emt",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1BvUhB6Emt",
+          "aid": 115614463164712,
+          "title": "《里语无奈》劝分闺蜜<em class=\"keyword\">八百遍</em>，最后喝上了她的喜酒。婚礼当日，我和男方军师坐在主桌拿着手机对账。发现每当他们俩闹分手，霍霍的都是我们两个。聊天记录惊人的相似。分手了"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 10,
+      "commentsAdded": 10
+    },
+    {
+      "at": "2026-06-19T04:39:28.717Z",
+      "actions": [
+        {
+          "term": "狗去哪里了",
+          "query": "宠物繁殖 狗去哪里了"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "鸦片战争 价格被打下来"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 做游戏视频"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 绿鬣蜥 变色龙"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1kgoJBiE8W",
+          "term": "狗去哪里了",
+          "query": "宠物繁殖 狗去哪里了",
+          "bvid": "BV1kgoJBiE8W",
+          "aid": 116462215761022,
+          "title": "今天给大家介绍迷你世界里的14种动物怎么驯服和<em class=\"keyword\">繁殖</em>"
+        },
+        {
+          "key": "bvid:BV1pjf3B7EtZ",
+          "term": "价格被打下来",
+          "query": "鸦片战争 价格被打下来",
+          "bvid": "BV1pjf3B7EtZ",
+          "aid": 116103233671533,
+          "title": "第二次<em class=\"keyword\">鸦片战争</em>八里桥战役 3万清军全军覆没"
+        },
+        {
+          "key": "bvid:BV1pDjj6cEqD",
+          "term": "抛开其他",
+          "query": "抛开其他 做游戏视频",
+          "bvid": "BV1pDjj6cEqD",
+          "aid": 116762343375346,
+          "title": "为什么你的游戏点子很好，但就是做不出来？"
+        },
+        {
+          "key": "bvid:BV1SJ411n7Kh",
+          "term": "查查资料",
+          "query": "查查资料 绿鬣蜥 变色龙",
+          "bvid": "BV1SJ411n7Kh",
+          "aid": 83212369,
+          "title": "【哞哞张大宝】<em class=\"keyword\">绿鬣蜥</em>入门饲养指南！！爬宠星人集合"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 87,
+      "commentsAdded": 78
     }
   ]
 }
