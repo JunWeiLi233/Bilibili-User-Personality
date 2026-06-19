@@ -40,7 +40,7 @@ from python_backend.cli.direct_probe_plan import DirectProbePlanRunner
 from python_backend.cli.random_verification import RandomVerificationContractComparator, RandomVerificationRunner, json_result_bytes
 from python_backend.cli.tieba_corpus import TiebaCorpusUpdateRunner
 from python_backend.cli.tieba_html_parse import TiebaHtmlParseRunner
-from python_backend.cli.tieba_timing import TiebaTimingRunner
+from python_backend.cli.tieba_timing import TiebaTimingContractComparator, TiebaTimingRunner
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder
 from python_backend.corpus.history_tags import HistoryTagCorpusManager
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter
@@ -1455,6 +1455,22 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertTrue(result["ok"])
         self.assertEqual(result["hardStopMs"], 610000)
+
+    def test_tieba_timing_contract_comparator_reports_hard_stop_mismatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-timing.json"
+            payload_path.write_text(
+                json.dumps({"maxQueries": 4, "overallTimeoutMs": 30000, "blockCooldownMs": 120000}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"hardStopMs": 600000}), encoding="utf-8")
+
+            result = TiebaTimingContractComparator(payload_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["mismatches"], [{"key": "hardStopMs", "python": 610000, "js": 600000}])
 
     def test_direct_probe_builder_collects_replies_and_danmaku(self):
         builder = DirectProbeCorpusBuilder()
