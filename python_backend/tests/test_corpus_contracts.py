@@ -45,6 +45,7 @@ from python_backend.cli.random_verification import RandomVerificationContractCom
 from python_backend.cli.tieba_corpus import TiebaCorpusUpdateContractComparator, TiebaCorpusUpdateRunner
 from python_backend.cli.tieba_html_parse import TiebaHtmlParseContractComparator, TiebaHtmlParseRunner
 from python_backend.cli.tieba_timing import TiebaTimingContractComparator, TiebaTimingRunner
+from python_backend.cli.uid_pipeline_merge import UidPipelineMergeContractComparator, UidPipelineMergeRunner
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder
 from python_backend.corpus.history_tags import HistoryTagCorpusManager
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter
@@ -4101,6 +4102,93 @@ class CorpusContractTests(unittest.TestCase):
                 },
             ],
         )
+
+    def test_uid_pipeline_merge_runner_matches_js_worker_range_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            (data_dir / "uid-pipeline-1-2.json").write_text(
+                json.dumps(
+                    {
+                        "processed": {"1": "success", "2": "no_comments"},
+                        "stats": {"success": 1, "noComments": 1, "noVideos": 9, "blocked": 2},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (data_dir / "uid-pipeline-3-4.json").write_text(
+                json.dumps({"processed": {"3": "no_user"}, "stats": {"noUser": 1, "errors": 1}}),
+                encoding="utf-8",
+            )
+            (data_dir / "scraped-users-db.json").write_text(
+                json.dumps({"users": {"1": {"uid": "1"}, "3": {"uid": "3"}}}),
+                encoding="utf-8",
+            )
+
+            result = UidPipelineMergeRunner(data_dir, total_start=1, total_end=4, workers=2, now=lambda: "2026-06-19T00:00:00.000Z").run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"start": 1, "end": 4, "workers": 2, "chunkSize": 2})
+        self.assertEqual(result["processed"], {"1": "success", "2": "no_comments", "3": "no_user"})
+        self.assertEqual(result["stats"], {"success": 1, "noComments": 1, "noUser": 1, "trainError": 0, "blocked": 2, "errors": 1})
+        self.assertEqual(result["totalProcessed"], 3)
+        self.assertEqual(result["totalExpected"], 4)
+        self.assertEqual(result["usersInDb"], 2)
+        self.assertEqual(
+            result["chunks"],
+            [
+                {"start": 1, "end": 2, "path": str(data_dir / "uid-pipeline-1-2.json"), "processed": 2, "skipped": False},
+                {"start": 3, "end": 4, "path": str(data_dir / "uid-pipeline-3-4.json"), "processed": 1, "skipped": False},
+            ],
+        )
+        self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
+
+    def test_uid_pipeline_merge_comparator_reports_stats_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            js_report_path = root / "js-uid-merge.json"
+            (data_dir / "uid-pipeline-1-1.json").write_text(
+                json.dumps({"processed": {"1": "success"}, "stats": {"success": 1}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"totalProcessed": 0, "stats": {"success": 0, "noComments": 0, "noUser": 0, "trainError": 0, "blocked": 0, "errors": 0}}),
+                encoding="utf-8",
+            )
+
+            result = UidPipelineMergeContractComparator(data_dir, js_report_path, total_start=1, total_end=1, workers=1).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "totalProcessed", "python": 1, "js": 0},
+                {
+                    "key": "stats",
+                    "python": {"success": 1, "noComments": 0, "noUser": 0, "trainError": 0, "blocked": 0, "errors": 0},
+                    "js": {"success": 0, "noComments": 0, "noUser": 0, "trainError": 0, "blocked": 0, "errors": 0},
+                },
+            ],
+        )
+
+    def test_uid_pipeline_merge_runner_can_emit_summary_without_processed_map(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            (data_dir / "uid-pipeline-1-1.json").write_text(
+                json.dumps({"processed": {"1": "success"}, "stats": {"success": 1}}),
+                encoding="utf-8",
+            )
+
+            result = UidPipelineMergeRunner(data_dir, total_start=1, total_end=1, workers=1, summary_only=True).run()
+
+        self.assertNotIn("processed", result)
+        self.assertEqual(result["summary"]["totalProcessed"], 1)
+        self.assertEqual(result["stats"]["success"], 1)
 
     def test_near_target_resolve_plan_runner_selects_source_backed_terms(self):
         with tempfile.TemporaryDirectory() as tmp:

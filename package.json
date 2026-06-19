@@ -35,6 +35,7 @@
     "python:harvest-plan": "python -m python_backend.cli.harvest_plan",
     "python:near-target-plan": "python -m python_backend.cli.near_target_resolve_plan",
     "python:merge-agent-plan": "python -m python_backend.cli.merge_agent_dictionaries_plan",
+    "python:uid-pipeline-merge": "python -m python_backend.cli.uid_pipeline_merge --summary-only",
     "python:verify-random": "python -m python_backend.cli.random_verification",
     "python:comment-coverage": "python -m python_backend.cli.comment_coverage",
     "python:semantic-match": "python -m python_backend.cli.semantic_matcher",
