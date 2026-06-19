@@ -25,6 +25,7 @@ class AuditContractComparator:
 
     WARNING_METRIC_KEYS: tuple[str, ...] = ()
     COVERAGE_STATUS_KEYS = ("complete",)
+    OPTIONAL_COVERAGE_METRIC_KEYS = ("averageEvidence",)
 
     def __init__(self, dictionary_path: str | Path, js_audit_path: str | Path, strict_total_evidence: bool = False):
         self.dictionary_path = Path(dictionary_path)
@@ -49,6 +50,7 @@ class AuditContractComparator:
         ).build({"entries": dictionary.entries})
         mismatches = self._metric_mismatches(python_audit, js_audit, self.GATE_METRIC_KEYS)
         mismatches.extend(self._optional_metric_mismatches(python_audit, js_audit, self.COVERAGE_STATUS_KEYS))
+        mismatches.extend(self._optional_metric_mismatches(python_audit, js_audit, self.OPTIONAL_COVERAGE_METRIC_KEYS))
         warnings = self._metric_mismatches(python_audit, js_audit, self.WARNING_METRIC_KEYS)
         if "ok" in js_audit:
             python_ok = bool(python_audit.get("ok"))
@@ -106,7 +108,10 @@ class AuditContractComparator:
         return {
             "ok": report.ok,
             "targetEvidence": report.target_evidence,
-            "coverage": {key: coverage.get(key) for key in (*self.COVERAGE_STATUS_KEYS, *self.GATE_METRIC_KEYS, *self.WARNING_METRIC_KEYS)},
+            "coverage": {
+                key: coverage.get(key)
+                for key in (*self.COVERAGE_STATUS_KEYS, *self.GATE_METRIC_KEYS, *self.OPTIONAL_COVERAGE_METRIC_KEYS, *self.WARNING_METRIC_KEYS)
+            },
             "failureReasons": list(audit.get("failureReasons") or []),
             "familyGaps": list(audit.get("familyGaps") or []),
         }
