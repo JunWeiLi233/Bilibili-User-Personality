@@ -78,3 +78,110 @@ class SemanticMatcherHelper:
             except (TypeError, ValueError):
                 vector.append(0.0)
         return vector
+
+
+class SemanticEmbeddingCache:
+    """Build the JS-compatible semantic term embedding cache shape from precomputed vectors."""
+
+    def __init__(self, now=None):
+        self.now = now or (lambda: "")
+
+    def embedding_texts(self, dictionary: dict[str, Any]) -> list[str]:
+        texts: list[str] = []
+        for entry in dictionary.get("entries") if isinstance(dictionary.get("entries"), list) else []:
+            if not isinstance(entry, dict):
+                continue
+            term = str(entry.get("term") or "").strip()
+            if not term:
+                continue
+            meaning = str(entry.get("meaning") or "").strip()
+            variants = entry.get("variants")
+            variant_text = ", ".join(str(item).strip() for item in variants if str(item or "").strip()) if isinstance(variants, list) else ""
+            texts.append(f"{term}: {meaning} | 鍙樹綋: {variant_text}" if variant_text else f"{term}: {meaning}")
+        return texts
+
+    def build_cache_payload(self, dictionary: dict[str, Any], embeddings: dict[str, Any]) -> dict[str, Any]:
+        terms = [
+            str(entry.get("term") or "").strip()
+            for entry in dictionary.get("entries") if isinstance(dictionary.get("entries"), list)
+            if isinstance(entry, dict) and str(entry.get("term") or "").strip()
+        ]
+        normalized_embeddings: dict[str, list[float]] = {}
+        for term in terms:
+            if term not in embeddings:
+                continue
+            normalized_embeddings[term] = self._numeric_vector(embeddings.get(term))
+        return {
+            "dictionaryVersion": dictionary.get("version"),
+            "termCount": len(dictionary.get("entries") if isinstance(dictionary.get("entries"), list) else []),
+            "builtAt": self.now(),
+            "embeddings": normalized_embeddings,
+        }
+
+    def _numeric_vector(self, value: Any) -> list[float]:
+        if not isinstance(value, list):
+            return []
+        result: list[float] = []
+        for item in value:
+            try:
+                result.append(float(item))
+            except (TypeError, ValueError):
+                result.append(0.0)
+        return result
+
+
+class SemanticEvidenceBuilder:
+    """Convert precomputed semantic matches into JS-compatible dictionary evidence entries."""
+
+    def __init__(self, now=None):
+        self.now = now or (lambda: "")
+
+    def build_evidence_entries(
+        self,
+        dictionary: dict[str, Any],
+        matches: list[dict[str, Any]],
+        target_evidence: int = 3,
+        source: str = "Bilibili public comment semantic match",
+        uid: str = "",
+    ) -> list[dict[str, Any]]:
+        weak_entries = {
+            str(entry.get("term") or "").strip(): entry
+            for entry in dictionary.get("entries") if isinstance(dictionary.get("entries"), list)
+            if isinstance(entry, dict)
+            and str(entry.get("term") or "").strip()
+            and int(entry.get("evidenceCount") or 0) < int(target_evidence)
+        }
+        by_term: dict[str, dict[str, Any]] = {}
+        seen_samples: dict[str, set[str]] = {}
+        for match in matches:
+            if not isinstance(match, dict):
+                continue
+            term = str(match.get("term") or "").strip()
+            chunk = str(match.get("chunk") or "").strip()
+            if term not in weak_entries or not chunk:
+                continue
+            entry = by_term.setdefault(
+                term,
+                {
+                    "term": term,
+                    "evidenceSamples": [],
+                    "evidenceSources": [],
+                    "updatedAt": self.now(),
+                },
+            )
+            seen = seen_samples.setdefault(term, set())
+            if chunk not in seen:
+                seen.add(chunk)
+                if len(entry["evidenceSamples"]) < 5:
+                    entry["evidenceSamples"].append(chunk)
+            if len(entry["evidenceSources"]) < 8:
+                entry["evidenceSources"].append(
+                    {
+                        "source": f"[Semantic match, score={round(float(match.get('score') or 0), 4)}] {source}",
+                        "uid": uid,
+                        "sample": chunk,
+                    }
+                )
+        for entry in by_term.values():
+            entry["evidenceCount"] = len(entry["evidenceSamples"])
+        return list(by_term.values())

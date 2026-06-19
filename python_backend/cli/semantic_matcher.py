@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.semantic_matcher import SemanticMatcherHelper
+from python_backend.analysis.semantic_matcher import SemanticEmbeddingCache, SemanticEvidenceBuilder, SemanticMatcherHelper
 
 
 class SemanticMatcherRunner:
@@ -18,6 +18,28 @@ class SemanticMatcherRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
+        mode = str(payload.get("mode") or "match").strip().lower()
+        if mode == "cache":
+            cache = SemanticEmbeddingCache(now=lambda: str(payload.get("now") or ""))
+            return {
+                "ok": True,
+                "mode": "cache",
+                "embeddingTexts": cache.embedding_texts(payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}),
+                "cache": cache.build_cache_payload(
+                    payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {},
+                    payload.get("embeddings") if isinstance(payload.get("embeddings"), dict) else {},
+                ),
+            }
+        if mode == "evidence":
+            builder = SemanticEvidenceBuilder(now=lambda: str(payload.get("now") or ""))
+            entries = builder.build_evidence_entries(
+                payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {},
+                payload.get("matches") if isinstance(payload.get("matches"), list) else [],
+                target_evidence=int(payload.get("targetEvidence") or 3),
+                source=str(payload.get("source") or "Bilibili public comment semantic match"),
+                uid=str(payload.get("uid") or ""),
+            )
+            return {"ok": True, "mode": "evidence", "count": len(entries), "entries": entries}
         chunks = payload.get("chunks")
         if not isinstance(chunks, list):
             chunks = self.matcher.chunk_comment_text(payload.get("text", ""))
@@ -34,6 +56,7 @@ class SemanticMatcherRunner:
 
         return {
             "ok": True,
+            "mode": "match",
             "chunks": chunks,
             "cosine": round(self.matcher.cosine_similarity(left, right), 4),
             "matches": self.matcher.match_comment_to_terms(chunks, chunk_embeddings, term_embeddings, threshold),
@@ -54,7 +77,7 @@ class SemanticMatcherRunner:
 class SemanticMatcherContractComparator:
     """Compare Python semantic matcher output against saved JS-compatible JSON."""
 
-    RESULT_KEYS = ("chunks", "cosine", "matches")
+    RESULT_KEYS = ("mode", "chunks", "cosine", "matches", "embeddingTexts", "cache", "count", "entries")
 
     def __init__(self, payload_path: str | Path, js_report_path: str | Path):
         self.payload_path = Path(payload_path)

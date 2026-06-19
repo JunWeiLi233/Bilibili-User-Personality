@@ -11,7 +11,7 @@ from python_backend.analysis.discovery_report import VideoKeywordDiscoveryReport
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSvgRenderer
-from python_backend.analysis.semantic_matcher import SemanticMatcherHelper
+from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherHelper
 from python_backend.analysis.verification import RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisValidator
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPlanner
@@ -993,6 +993,100 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "matches", "python": [{"term": "term-a", "chunk": "alpha chunk", "score": 1.0}], "js": []},
             ],
         )
+
+    def test_semantic_embedding_cache_matches_js_cache_shape(self):
+        cache = SemanticEmbeddingCache(now=lambda: "2026-06-19T00:00:00.000Z")
+        dictionary = {
+            "version": 7,
+            "entries": [
+                {"term": "doge", "meaning": "satire marker", "variants": ["dog"]},
+                {"term": "", "meaning": "ignored"},
+                {"term": "yygq", "meaning": "sarcasm"},
+            ],
+        }
+
+        payload = cache.build_cache_payload(dictionary, {"doge": [1, 0.5], "yygq": [0.2, 0.8], "extra": [9]})
+
+        self.assertEqual(
+            payload,
+            {
+                "dictionaryVersion": 7,
+                "termCount": 3,
+                "builtAt": "2026-06-19T00:00:00.000Z",
+                "embeddings": {"doge": [1.0, 0.5], "yygq": [0.2, 0.8]},
+            },
+        )
+        self.assertEqual(cache.embedding_texts(dictionary), ["doge: satire marker | 鍙樹綋: dog", "yygq: sarcasm"])
+
+    def test_semantic_evidence_builder_uses_weak_terms_and_caps_samples(self):
+        builder = SemanticEvidenceBuilder(now=lambda: "2026-06-19T00:00:00.000Z")
+        dictionary = {
+            "entries": [
+                {"term": "doge", "family": "attack", "meaning": "satire marker", "evidenceCount": 1},
+                {"term": "covered", "family": "attack", "meaning": "covered", "evidenceCount": 3},
+            ]
+        }
+        matches = [
+            {"term": "doge", "chunk": "doge chunk one", "score": 0.91234},
+            {"term": "covered", "chunk": "covered chunk", "score": 0.99},
+            {"term": "doge", "chunk": "doge chunk one", "score": 0.88},
+        ]
+        matches.extend({"term": "doge", "chunk": f"doge chunk {index}", "score": 0.8} for index in range(2, 8))
+
+        entries = builder.build_evidence_entries(
+            dictionary,
+            matches,
+            target_evidence=3,
+            source="Bilibili public comment semantic match",
+            uid="BV1",
+        )
+
+        self.assertEqual(len(entries), 1)
+        self.assertEqual(entries[0]["term"], "doge")
+        self.assertEqual(entries[0]["updatedAt"], "2026-06-19T00:00:00.000Z")
+        self.assertEqual(entries[0]["evidenceCount"], 5)
+        self.assertEqual(entries[0]["evidenceSamples"], ["doge chunk one", "doge chunk 2", "doge chunk 3", "doge chunk 4", "doge chunk 5"])
+        self.assertEqual(len(entries[0]["evidenceSources"]), 8)
+        self.assertEqual(entries[0]["evidenceSources"][0]["source"], "[Semantic match, score=0.9123] Bilibili public comment semantic match")
+        self.assertEqual(entries[0]["evidenceSources"][0]["uid"], "BV1")
+
+    def test_semantic_matcher_runner_supports_cache_and_evidence_modes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            cache_payload = root / "cache.json"
+            evidence_payload = root / "evidence.json"
+            cache_payload.write_text(
+                json.dumps(
+                    {
+                        "mode": "cache",
+                        "now": "2026-06-19T00:00:00.000Z",
+                        "dictionary": {"version": 2, "entries": [{"term": "doge", "meaning": "satire", "variants": ["dog"]}]},
+                        "embeddings": {"doge": [1, "2"]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            evidence_payload.write_text(
+                json.dumps(
+                    {
+                        "mode": "evidence",
+                        "now": "2026-06-19T00:00:00.000Z",
+                        "dictionary": {"entries": [{"term": "doge", "family": "attack", "evidenceCount": 0}]},
+                        "matches": [{"term": "doge", "chunk": "doge chunk", "score": 1}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            cache_result = SemanticMatcherRunner(cache_payload).run()
+            evidence_result = SemanticMatcherRunner(evidence_payload).run()
+
+        self.assertTrue(cache_result["ok"])
+        self.assertEqual(cache_result["mode"], "cache")
+        self.assertEqual(cache_result["cache"]["embeddings"], {"doge": [1.0, 2.0]})
+        self.assertTrue(evidence_result["ok"])
+        self.assertEqual(evidence_result["mode"], "evidence")
+        self.assertEqual(evidence_result["entries"][0]["term"], "doge")
 
     def test_readme_stats_builder_matches_js_timeline_contract(self):
         builder = ReadmeStatsBuilder(now=lambda: "2026-06-19T00:00:00.000Z")
