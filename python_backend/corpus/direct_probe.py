@@ -364,6 +364,72 @@ class DirectProbeCorpusBuilder:
             headers["cookie"] = _clean_text(options.get("cookie"))
         return headers
 
+    def build_evidence_source_videos_for_actions(
+        self,
+        dictionary: dict[str, Any] | None = None,
+        actions: list[dict[str, Any]] | None = None,
+        options: dict[str, Any] | None = None,
+    ) -> dict[str, list[dict[str, str]]]:
+        dictionary = dictionary if isinstance(dictionary, dict) else {}
+        options = options if isinstance(options, dict) else {}
+        max_per_action = max(0, min(int(_number(options.get("maxPerAction"))), 50))
+        if not max_per_action:
+            return {}
+
+        entries = {
+            _clean_text(entry.get("term")): entry
+            for entry in dictionary.get("entries") or []
+            if isinstance(entry, dict) and _clean_text(entry.get("term"))
+        }
+        corpus_sources_by_message: dict[str, str] = {}
+        corpus = options.get("corpus") if isinstance(options.get("corpus"), dict) else {}
+        for comment in corpus.get("comments") if isinstance(corpus.get("comments"), list) else []:
+            if not isinstance(comment, dict):
+                continue
+            message = _clean_text(comment.get("message"))
+            if not message:
+                continue
+            source = _clean_text(comment.get("source"))
+            existing = corpus_sources_by_message.get(message)
+            if existing is None or self._corpus_source_recovery_priority(source) < self._corpus_source_recovery_priority(existing):
+                corpus_sources_by_message[message] = source
+
+        result: dict[str, list[dict[str, str]]] = {}
+        for action in actions if isinstance(actions, list) else []:
+            if not isinstance(action, dict):
+                continue
+            term = _clean_text(action.get("term"))
+            if not term or term not in entries:
+                continue
+            entry = entries[term]
+            candidate_sources: list[Any] = []
+            candidate_sources.extend(
+                source.get("source")
+                for source in entry.get("evidenceSources") or []
+                if isinstance(source, dict)
+            )
+            candidate_sources.extend(
+                corpus_sources_by_message.get(_clean_text(sample))
+                for sample in entry.get("evidenceSamples") or []
+            )
+            candidate_sources = sorted(candidate_sources, key=self._corpus_source_recovery_priority)
+            videos: list[dict[str, str]] = []
+            seen: set[str] = set()
+            for source in candidate_sources:
+                for ref in self.extract_bilibili_video_refs(source):
+                    key = self.probe_video_key(ref)
+                    if not key or key in seen:
+                        continue
+                    seen.add(key)
+                    videos.append({**ref, "title": f"existing evidence source for {term}"})
+                    if len(videos) >= max_per_action:
+                        break
+                if len(videos) >= max_per_action:
+                    break
+            if videos:
+                result[term] = videos
+        return result
+
     def collect_reply_messages(self, replies: list[Any] | None, video: dict[str, Any] | None = None, bucket: list[dict[str, str]] | None = None) -> list[dict[str, str]]:
         video = video or {}
         bucket = bucket if bucket is not None else []
@@ -496,3 +562,13 @@ class DirectProbeCorpusBuilder:
         text = re.sub(r"<[^>]+>", "", _clean_text(value))
         text = re.sub(r"&[^;\s]+;", " ", text)
         return text.lower()
+
+    def _corpus_source_recovery_priority(self, source: Any = "") -> int:
+        text = _clean_text(source)
+        if re.search(r"[?&]reply=\d+", text):
+            return 0
+        if "comment probe" in text or "reply detail probe" in text:
+            return 1
+        if "danmaku" in text:
+            return 3
+        return 2

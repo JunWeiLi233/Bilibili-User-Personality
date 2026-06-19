@@ -1030,6 +1030,76 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["viewUrl"], "https://api.bilibili.com/x/web-interface/view?aid=116663559131570")
         self.assertIn("keyword=%E6%9F%A5%E6%9F%A5%E8%B5%84%E6%96%99+B%E7%AB%99%E8%AF%84%E8%AE%BA", result["searchUrls"][0])
 
+    def test_direct_probe_builder_recovers_existing_evidence_source_videos(self):
+        builder = DirectProbeCorpusBuilder()
+
+        direct = builder.build_evidence_source_videos_for_actions(
+            {
+                "entries": [
+                    {
+                        "term": "rare-term",
+                        "evidenceSources": [
+                            {"source": "https://www.bilibili.com/video/BVsource1/ https://www.bilibili.com/video/av456"},
+                            {"source": "https://www.bilibili.com/video/BVsource2/"},
+                        ],
+                    },
+                    {"term": "other-term", "evidenceSources": [{"source": "https://www.bilibili.com/video/BVother/"}]},
+                ]
+            },
+            [{"term": "rare-term", "query": "rare-term comments"}],
+            {"maxPerAction": 2},
+        )
+        recovered = builder.build_evidence_source_videos_for_actions(
+            {
+                "entries": [
+                    {
+                        "term": "uid-only-term",
+                        "evidenceSamples": ["corpus backed sample"],
+                        "evidenceSources": [
+                            {
+                                "source": "Popular video comments UID 123 (1 comments from 1 videos)",
+                                "sample": "corpus backed sample",
+                            }
+                        ],
+                    }
+                ]
+            },
+            [{"term": "uid-only-term", "query": "uid-only-term comments"}],
+            {
+                "maxPerAction": 2,
+                "corpus": {
+                    "comments": [
+                        {
+                            "message": "corpus backed sample",
+                            "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BVfromCorpus/",
+                        },
+                        {
+                            "message": "corpus backed sample",
+                            "source": "Bilibili public reply detail probe: https://www.bilibili.com/video/av987654/?reply=112233",
+                        },
+                    ]
+                },
+            },
+        )
+
+        self.assertEqual(
+            direct,
+            {
+                "rare-term": [
+                    {"bvid": "BVsource1", "title": "existing evidence source for rare-term"},
+                    {"aid": "456", "title": "existing evidence source for rare-term"},
+                ]
+            },
+        )
+        self.assertEqual(
+            recovered,
+            {
+                "uid-only-term": [
+                    {"aid": "987654", "rootRpid": "112233", "title": "existing evidence source for uid-only-term"}
+                ]
+            },
+        )
+
     def test_history_tag_corpus_manager_merges_and_searches_videos(self):
         manager = HistoryTagCorpusManager(generated_at="2026-06-19T00:00:00.000Z")
         merged = manager.merge(

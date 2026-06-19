@@ -25,11 +25,18 @@ class DirectProbePlanRunner:
         primary_ref = source_refs[0] if source_refs else {}
         cursor_payload = payload.get("cursorPayload") if isinstance(payload.get("cursorPayload"), dict) else {}
         query = action.get("query") or action.get("term") or ""
+        dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}
+        actions = payload.get("actions") if isinstance(payload.get("actions"), list) else ([action] if action else [])
+        source_video_options = {
+            "maxPerAction": payload.get("maxPerAction", 0),
+            "corpus": payload.get("corpus") if isinstance(payload.get("corpus"), dict) else {},
+        }
         return {
             "ok": True,
             "needles": self.builder.probe_search_needles(action),
             "rankedVideos": self.builder.rank_probe_videos_for_action(videos, action),
             "sourceRefs": source_refs,
+            "evidenceSourceVideos": self.builder.build_evidence_source_videos_for_actions(dictionary, actions, source_video_options),
             "nextReplyCursor": self.builder.next_reply_cursor(cursor_payload, payload.get("cursorFallback", 0)),
             "viewUrl": self.builder.build_bilibili_view_url(primary_ref),
             "replyUrl": self.builder.build_bilibili_reply_url(primary_ref, payload.get("replyPage", 0), payload.get("pageSize", 20)),
