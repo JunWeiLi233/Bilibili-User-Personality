@@ -30,7 +30,7 @@ from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanContra
 from python_backend.cli.keyword_evidence import KeywordEvidenceRunner
 from python_backend.cli.history_tag_corpus import HistoryTagCorpusRunner
 from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportRunner
-from python_backend.cli.local_corpus_evidence import LocalCorpusEvidenceRunner
+from python_backend.cli.local_corpus_evidence import LocalCorpusEvidenceContractComparator, LocalCorpusEvidenceRunner
 from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenRunner
 from python_backend.cli.video_comment_filter import VideoCommentFilterContractComparator, VideoCommentFilterRunner
 from python_backend.cli.video_context import VideoContextContractComparator, VideoContextRunner
@@ -1367,6 +1367,42 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["entries"][0]["term"], "\u61c2\u7684\u90fd\u61c2")
+
+    def test_local_corpus_evidence_contract_comparator_reports_entry_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            comments_path = root / "comments.json"
+            js_report_path = root / "js-report.json"
+            dictionary_path.write_text(
+                json.dumps({"entries": [{"term": "\u61c2\u7684\u90fd\u61c2", "family": "evasion", "meaning": "\u6697\u793a", "evidenceCount": 0}]}),
+                encoding="utf-8",
+            )
+            comments_path.write_text(
+                json.dumps({"comments": [{"message": "\u8fd9\u4e8b\u61c2\u7684\u90fd\u61c2", "source": "local", "uid": "42"}]}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"count": 1, "entries": [{"term": "wrong", "evidence": ["wrong sample"]}]}),
+                encoding="utf-8",
+            )
+
+            result = LocalCorpusEvidenceContractComparator(
+                dictionary_path,
+                comments_path,
+                js_report_path,
+                target_evidence=3,
+                max_samples_per_term=1,
+            ).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "terms", "python": ["\u61c2\u7684\u90fd\u61c2"], "js": ["wrong"]},
+                {"key": "evidence", "python": {"\u61c2\u7684\u90fd\u61c2": ["\u8fd9\u4e8b\u61c2\u7684\u90fd\u61c2"]}, "js": {"wrong": ["wrong sample"]}},
+            ],
+        )
 
     def test_tieba_corpus_updater_leaves_corpus_unchanged_without_comments(self):
         existing = {
