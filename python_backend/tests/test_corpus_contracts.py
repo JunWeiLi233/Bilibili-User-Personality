@@ -95,7 +95,7 @@ from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanSummary, Ai
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanner
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerHelper, BilibiliCrawlerSummary
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanSummary, BilibiliProbePlanner
-from python_backend.runtime.file_lock import FileLockStateInspector
+from python_backend.runtime.file_lock import FileLockStateInspector, FileLockStateSummary
 from python_backend.scrapers.rate_limiter import RateLimiter
 from python_backend.cli.scraper_monitor import ScraperMonitorContractComparator, ScraperMonitorRunner
 from python_backend.cli.aicu_scrape_plan import AicuScrapePlanContractComparator, AicuScrapePlanRunner
@@ -579,6 +579,18 @@ class CorpusContractTests(unittest.TestCase):
                 }
             ],
         )
+
+    def test_file_lock_state_summary_extracts_comparator_contract(self):
+        summary = FileLockStateSummary().summarize(
+            {
+                "ok": True,
+                "lockPath": "ignored",
+                "owner": {"pid": 123},
+                "state": {"exists": True},
+            }
+        )
+
+        self.assertEqual(summary, {"owner": {"pid": 123}, "state": {"exists": True}})
 
     def test_aicu_scrape_planner_matches_js_uid_input_contract(self):
         with tempfile.TemporaryDirectory() as tmp:

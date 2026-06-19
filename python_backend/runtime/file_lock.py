@@ -7,6 +7,16 @@ from pathlib import Path
 from typing import Any, Callable
 
 
+class FileLockStateSummary:
+    """Shape file-lock state reports into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("owner", "state")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        source = result if isinstance(result, dict) else {}
+        return {key: source.get(key) for key in self.RESULT_KEYS if key in source}
+
+
 class FileLockStateInspector:
     """Read JS file-lock owner.json state without acquiring or removing the lock."""
 
