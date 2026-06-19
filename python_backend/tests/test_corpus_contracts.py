@@ -10,12 +10,14 @@ from python_backend.cli.coverage_audit import AuditContractComparator
 from python_backend.cli.compare_contracts import ContractComparator
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanRunner
 from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportRunner
+from python_backend.cli.local_corpus_evidence import LocalCorpusEvidenceRunner
 from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenRunner
 from python_backend.cli.direct_probe_corpus import DirectProbeCorpusRunner
 from python_backend.cli.random_verification import RandomVerificationRunner
 from python_backend.cli.tieba_corpus import TiebaCorpusUpdateRunner
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter
+from python_backend.corpus.local import LocalCorpusEvidenceFinder
 from python_backend.corpus.local import LocalCorpusFlattener
 from python_backend.corpus.tieba import TiebaCorpusUpdater
 from python_backend.corpus.dictionary import DictionaryLoader
@@ -519,6 +521,95 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["comments"][0]["uid"], "BVprogress")
+
+    def test_local_corpus_evidence_finder_selects_weak_and_strict_comment_backed_terms(self):
+        finder = LocalCorpusEvidenceFinder()
+        dictionary = {
+            "entries": [
+                {"term": "\u61c2\u7684\u90fd\u61c2", "family": "evasion", "evidenceCount": 2},
+                {"term": "\u67e5\u67e5\u8d44\u6599", "family": "evidence", "evidenceCount": 3},
+                {
+                    "term": "\u4e0a\u4e0b\u6587\u8bcd",
+                    "family": "attack",
+                    "evidenceCount": 3,
+                    "evidenceSources": [
+                        {"source": "search-discovered video context", "sample": "Bilibili video context: \u4e0a\u4e0b\u6587\u8bcd"},
+                        {"source": "search-discovered video context", "sample": "Bilibili public video title: \u4e0a\u4e0b\u6587\u8bcd"},
+                        {"source": "Bilibili local corpus", "sample": "\u666e\u901a\u6837\u672c\u4e0a\u4e0b\u6587\u8bcd"},
+                    ],
+                },
+            ]
+        }
+
+        weak = finder.build_weak_term_set(dictionary, {"targetEvidence": 3})
+        strict = finder.build_weak_term_set(dictionary, {"targetEvidence": 3, "targetTerms": ["\u67e5\u67e5\u8d44\u6599"], "requireCommentBackedEvidence": True})
+
+        self.assertEqual(list(weak.keys()), ["\u61c2\u7684\u90fd\u61c2"])
+        self.assertEqual(list(strict.keys()), ["\u61c2\u7684\u90fd\u61c2", "\u67e5\u67e5\u8d44\u6599", "\u4e0a\u4e0b\u6587\u8bcd"])
+
+    def test_local_corpus_evidence_finder_creates_merge_ready_entries(self):
+        dictionary = {
+            "entries": [
+                {
+                    "term": "\u61c2\u7684\u90fd\u61c2",
+                    "family": "evasion",
+                    "meaning": "\u6697\u793a\u5f0f\u56de\u907f",
+                    "evidenceCount": 1,
+                    "evidenceSamples": ["\u65e7\u6837\u672c\u61c2\u7684\u90fd\u61c2"],
+                },
+                {"term": "\u5403\u76f8\u592a\u96be\u770b", "family": "attack", "evidenceCount": 0},
+                {"term": "\u67e5\u67e5\u8d44\u6599", "family": "evidence", "evidenceCount": 3},
+            ]
+        }
+        comments = [
+            {
+                "message": "\u8fd9\u4e8b\u61c2\u7684\u90fd\u61c2\uff0c\u4e0d\u5c55\u5f00\u4e86",
+                "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV1/",
+                "uid": "BV1",
+            },
+            {
+                "message": "\u65e7\u6837\u672c\u61c2\u7684\u90fd\u61c2",
+                "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV2/",
+                "uid": "BV2",
+            },
+            {
+                "message": "\u8fd9\u5403\u76f8\u96be\u770b\u5230\u79bb\u8c31",
+                "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV3/",
+                "uid": "BV3",
+            },
+            {
+                "message": "\u5efa\u8bae\u5148\u67e5\u67e5\u8d44\u6599",
+                "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV4/",
+                "uid": "BV4",
+            },
+        ]
+
+        entries = LocalCorpusEvidenceFinder().find_entries(dictionary, comments, {"targetEvidence": 3, "maxSamplesPerTerm": 2})
+
+        self.assertEqual([entry["term"] for entry in entries], ["\u61c2\u7684\u90fd\u61c2", "\u5403\u76f8\u592a\u96be\u770b"])
+        self.assertEqual(entries[0]["evidence"], ["\u8fd9\u4e8b\u61c2\u7684\u90fd\u61c2\uff0c\u4e0d\u5c55\u5f00\u4e86"])
+        self.assertEqual(entries[0]["evidenceSources"][0]["uid"], "BV1")
+        self.assertEqual(entries[1]["evidence"], ["\u8fd9\u5403\u76f8\u96be\u770b\u5230\u79bb\u8c31"])
+
+    def test_local_corpus_evidence_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            comments_path = root / "comments.json"
+            dictionary_path.write_text(
+                json.dumps({"entries": [{"term": "\u61c2\u7684\u90fd\u61c2", "family": "evasion", "meaning": "\u6697\u793a", "evidenceCount": 0}]}),
+                encoding="utf-8",
+            )
+            comments_path.write_text(
+                json.dumps({"comments": [{"message": "\u8fd9\u4e8b\u61c2\u7684\u90fd\u61c2", "source": "local", "uid": "42"}]}),
+                encoding="utf-8",
+            )
+
+            result = LocalCorpusEvidenceRunner(dictionary_path, comments_path, target_evidence=3, max_samples_per_term=1).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["entries"][0]["term"], "\u61c2\u7684\u90fd\u61c2")
 
     def test_tieba_corpus_updater_leaves_corpus_unchanged_without_comments(self):
         existing = {

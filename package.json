@@ -30,6 +30,7 @@
     "python:deepseek-plan": "python -m python_backend.cli.deepseek_analysis_plan",
     "python:huggingface-import": "python -m python_backend.cli.huggingface_corpus",
     "python:flatten-local": "python -m python_backend.cli.local_corpus_flatten",
+    "python:local-evidence": "python -m python_backend.cli.local_corpus_evidence",
     "python:tieba-update": "python -m python_backend.cli.tieba_corpus",
     "python:direct-probe-update": "python -m python_backend.cli.direct_probe_corpus",
     "dev:full": "node server/index.js",

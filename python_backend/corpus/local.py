@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import unicodedata
 from typing import Any
 
 
@@ -191,3 +192,230 @@ class LocalCorpusFlattener:
             else:
                 values.append(value)
         return values
+
+
+def _evidence_count(entry: dict[str, Any]) -> int:
+    count = entry.get("evidenceCount")
+    if count is None:
+        count = len(entry.get("evidence") or entry.get("evidenceSamples") or [])
+    try:
+        return max(0, int(count))
+    except (TypeError, ValueError):
+        return 0
+
+
+def _is_video_context_evidence_source(source: dict[str, Any]) -> bool:
+    sample = clean_text(source.get("sample"))
+    source_text = clean_text(source.get("source"))
+    return (
+        sample.startswith("Bilibili video context:")
+        or sample.startswith("Bilibili public video title:")
+        or "search-discovered video context" in source_text
+    )
+
+
+def _is_comment_backed_sample(sample: Any) -> bool:
+    sample_text = clean_text(sample)
+    return bool(
+        sample_text
+        and not sample_text.startswith("Bilibili video context:")
+        and not sample_text.startswith("Bilibili public video title:")
+    )
+
+
+def _has_bilibili_comment_scan_source(entry: dict[str, Any]) -> bool:
+    for source in entry.get("evidenceSources") or []:
+        source_text = clean_text(source.get("source") if isinstance(source, dict) else "")
+        if source_text.startswith("Bilibili public ") and "comment scan" in source_text:
+            return True
+    return False
+
+
+def _comment_backed_evidence_count(entry: dict[str, Any]) -> int:
+    raw_count = _evidence_count(entry)
+    if raw_count == 0:
+        return 0
+    samples = set()
+    for source in entry.get("evidenceSources") or []:
+        if not isinstance(source, dict):
+            continue
+        sample = clean_text(source.get("sample"))
+        if sample and not _is_video_context_evidence_source(source) and _is_comment_backed_sample(sample):
+            samples.add(sample)
+    if _has_bilibili_comment_scan_source(entry):
+        for sample in entry.get("evidenceSamples") or []:
+            sample_text = clean_text(sample)
+            if _is_comment_backed_sample(sample_text):
+                samples.add(sample_text)
+    return min(raw_count, len(samples))
+
+
+def _coverage_evidence_count(entry: dict[str, Any], options: dict[str, Any]) -> int:
+    if options.get("requireCommentBackedEvidence") is True:
+        return _comment_backed_evidence_count(entry)
+    count = entry.get("coverageEvidenceCount")
+    if count is None:
+        return _evidence_count(entry)
+    try:
+        return max(0, int(count))
+    except (TypeError, ValueError):
+        return 0
+
+
+def _normalize_needle(value: Any) -> str:
+    return unicodedata.normalize("NFKC", clean_text(value)).lower()
+
+
+def _unique(values: list[str]) -> list[str]:
+    seen = set()
+    result = []
+    for value in values:
+        if value and value not in seen:
+            seen.add(value)
+            result.append(value)
+    return result
+
+
+def _generated_colloquial_aliases(term: str) -> list[str]:
+    aliases = []
+    if len(term) >= 4:
+        for suffix in ["\u554a", "\u5427", "\u5462", "\u561b", "\u5457"]:
+            aliases.append(term[:-1] if term.endswith(suffix) else f"{term}{suffix}")
+        aliases.append(term[:-1] if term.endswith("\u4e86") and len(term) > 4 else f"{term}\u4e86")
+    if term == "\u5403\u76f8\u592a\u96be\u770b":
+        aliases.extend(["\u5403\u76f8\u4e5f\u592a\u96be\u770b\u4e86", "\u5403\u76f8\u96be\u770b"])
+    return aliases
+
+
+def _entry_needles(entry: dict[str, Any]) -> list[str]:
+    term = clean_text(entry.get("term"))
+    values = [
+        term,
+        *_generated_colloquial_aliases(term),
+        *[clean_text(alias) for alias in entry.get("aliases") or []],
+        *[clean_text(example) for example in entry.get("examples") or []],
+    ]
+    return [value for value in _unique([_normalize_needle(item) for item in values]) if len(value) >= 2]
+
+
+def _existing_samples(entry: dict[str, Any]) -> set[str]:
+    samples = []
+    samples.extend(entry.get("evidence") or [])
+    samples.extend(entry.get("evidenceSamples") or [])
+    samples.extend(source.get("sample") for source in entry.get("evidenceSources") or [] if isinstance(source, dict))
+    return {clean_text(sample) for sample in samples if clean_text(sample)}
+
+
+def _source_backed_samples(entry: dict[str, Any]) -> set[str]:
+    return {
+        clean_text(source.get("sample"))
+        for source in entry.get("evidenceSources") or []
+        if isinstance(source, dict) and clean_text(source.get("sample"))
+    }
+
+
+def _source_has_recoverable_video_url(source: Any) -> bool:
+    return bool(re.search(r"(?:https?://)?(?:www\.)?bilibili\.com/video/(?:BV[0-9A-Za-z]+|av\d+)", clean_text(source)))
+
+
+def _has_recoverable_video_source(entry: dict[str, Any], sample: Any) -> bool:
+    target_sample = clean_text(sample)
+    if not target_sample:
+        return False
+    for source in entry.get("evidenceSources") or []:
+        if not isinstance(source, dict):
+            continue
+        if clean_text(source.get("sample")) == target_sample and _source_has_recoverable_video_url(source.get("source")):
+            return True
+    return False
+
+
+def _local_evidence_sample_score(match: dict[str, Any], entry: dict[str, Any]) -> int:
+    sample = clean_text(match.get("sample"))
+    term = clean_text(entry.get("term"))
+    if not sample:
+        return 0
+    score = 0
+    if term and term in sample:
+        score += 3
+    if 8 <= len(sample) <= 160:
+        score += 2
+    if re.search(r"[\u201c\u2018\u300a\u3010\u300c\u300e\uff08(]\s*[^\u201d\u2019\u300b\u3011\u300d\u300f\uff09)]{0,12}\s*[\u201d\u2019\u300b\u3011\u300d\u300f\uff09)]", sample):
+        score += 1
+    if re.search(r"\[[^\]]{1,40}\]|[\U0001f300-\U0001f64f\U0001f680-\U0001f6ff\u2600-\u27bf]", sample):
+        score += 1
+    if re.search(r"\u5f39\u5e55|\u8bc4\u8bba\u533a|\u8bc4\u8bba|\u56de\u590d|\u9510\u8bc4|\u6307\u70b9|\u61c2\u54e5|\u5012\u6253\u4e00\u8019|\u9006\u5929|\u7b11\u6b7b|\u7ef7|\u795e\u4eba|\u4ec0\u4e48", sample):
+        score += 3
+    if re.search(r"\u4e0d\u662f.*\u610f\u601d|\u4ec0\u4e48\u610f\u601d|\u600e\u4e48\u8bf4|\u8c01\u61c2|\u6709\u6ca1\u6709\u61c2", sample):
+        score += 1
+    if re.search(r"^\s*[\W\dA-Za-z\s]{0,8}\s*$", sample, re.UNICODE):
+        score -= 3
+    return score
+
+
+class LocalCorpusEvidenceFinder:
+    """Find merge-ready dictionary evidence from already-flattened local corpora."""
+
+    def build_weak_term_set(self, dictionary: dict[str, Any] | None, options: dict[str, Any] | None = None) -> dict[str, dict[str, Any]]:
+        options = options or {}
+        target_evidence = max(1, int(options.get("targetEvidence") or 3))
+        target_terms = {clean_text(term) for term in options.get("targetTerms") or [] if clean_text(term)}
+        weak: dict[str, dict[str, Any]] = {}
+        for entry in (dictionary or {}).get("entries") or []:
+            if not isinstance(entry, dict):
+                continue
+            term = clean_text(entry.get("term"))
+            if not term:
+                continue
+            if term in target_terms or _coverage_evidence_count(entry, options) < target_evidence:
+                weak[term] = entry
+        return weak
+
+    def find_entries(self, dictionary: dict[str, Any] | None, comments: list[Any] | None, options: dict[str, Any] | None = None) -> list[dict[str, Any]]:
+        options = options or {}
+        weak_terms = self.build_weak_term_set(dictionary or {}, options)
+        max_samples = max(1, int(options.get("maxSamplesPerTerm") or 3))
+        entries = []
+
+        for term, entry in weak_terms.items():
+            seen_samples = _existing_samples(entry)
+            sourced_samples = _source_backed_samples(entry)
+            backfill_unsourced = options.get("requireCommentBackedEvidence") is True
+            matched_samples = set()
+            candidate_matches = []
+            needles = _entry_needles(entry)
+            for comment in comments if isinstance(comments, list) else []:
+                if not isinstance(comment, dict):
+                    continue
+                message = clean_text(comment.get("message"))
+                normalized_message = _normalize_needle(message)
+                if not message or message in matched_samples or not any(needle in normalized_message for needle in needles):
+                    continue
+                if seen_samples and message in seen_samples:
+                    has_recoverable_candidate = _source_has_recoverable_video_url(comment.get("source"))
+                    already_backed = message in sourced_samples and _has_recoverable_video_source(entry, message)
+                    if not backfill_unsourced or not has_recoverable_candidate or already_backed:
+                        continue
+                seen_samples.add(message)
+                matched_samples.add(message)
+                candidate_matches.append(
+                    {
+                        "source": clean_text(comment.get("source")) or "Bilibili local corpus",
+                        "uid": clean_text(comment.get("uid")),
+                        "sample": message,
+                    }
+                )
+            matches = sorted(candidate_matches, key=lambda match: (-_local_evidence_sample_score(match, entry), len(clean_text(match.get("sample")))))[:max_samples]
+            if not matches:
+                continue
+            entries.append(
+                {
+                    "term": term,
+                    "family": entry.get("family") or "attack",
+                    "meaning": entry.get("meaning") or "",
+                    "evidence": [match["sample"] for match in matches],
+                    "evidenceSamples": [match["sample"] for match in matches],
+                    "evidenceSources": matches,
+                }
+            )
+        return entries
