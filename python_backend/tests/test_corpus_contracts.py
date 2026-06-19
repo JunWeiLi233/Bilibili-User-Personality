@@ -174,6 +174,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(by_message["cmd mode"]["coverage"], "neutral")
         self.assertEqual(by_message["MD!"]["matched_terms"], ["md"])
 
+    def test_random_verifier_normalizes_noisy_chinese_keyword_spacing(self):
+        verifier = RandomVerifier(keyword_terms=["\u7f51\u76d8\u89c1"])
+
+        summary = verifier.verify([{"message": "\u54c8\u54c8\u54c8 \u7f51 \u76d8 \u89c1\uff01"}], sample_size=1, seed=1)
+
+        self.assertEqual(summary.keyword_hits, 1)
+        self.assertEqual(summary.samples[0]["matched_terms"], ["\u7f51\u76d8\u89c1"])
+        self.assertEqual(summary.samples[0]["coverage"], "keyword")
+
     def test_random_verifier_skips_scrape_diagnostics(self):
         verifier = RandomVerifier(keyword_terms=["狗头"])
 

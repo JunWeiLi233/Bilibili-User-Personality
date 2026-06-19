@@ -5,7 +5,7 @@ import re
 from dataclasses import dataclass
 from typing import Any
 
-from python_backend.analysis.comment_coverage import _is_scrape_diagnostic
+from python_backend.analysis.comment_coverage import _clean_needle, _is_scrape_diagnostic
 
 
 @dataclass(frozen=True)
@@ -41,10 +41,11 @@ class RandomVerifier:
     def _annotate(self, comment: dict[str, Any]) -> dict[str, Any]:
         message = self._message(comment)
         folded_message = message.casefold()
+        clean_message = _clean_needle(message)
         matched = [
             term
             for term in self.keyword_terms
-            if (self._ascii_terms[term].search(folded_message) if term in self._ascii_terms else term in message)
+            if (self._ascii_terms[term].search(folded_message) if term in self._ascii_terms else _clean_needle(term) in clean_message)
         ]
         return {**comment, "matched_terms": matched, "coverage": "keyword" if matched else "neutral"}
 
