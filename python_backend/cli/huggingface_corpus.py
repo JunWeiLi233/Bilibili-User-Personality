@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceImportPlanner
+from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceImportPlanner, HuggingFaceImportSummary
 
 
 class HuggingFaceCorpusImportPlanRunner:
@@ -125,7 +125,6 @@ class HuggingFaceCorpusImportContractComparator:
     """Compare Python HuggingFace/Kaggle corpus imports against saved JS-compatible JSON."""
 
     RESULT_KEYS = ("importedRows", "changed", "addedComments", "corpus")
-    SUMMARY_KEYS = ("importedRows", "changed", "addedComments")
 
     def __init__(
         self,
@@ -148,6 +147,7 @@ class HuggingFaceCorpusImportContractComparator:
         self.limit = limit
         self.offset = offset
         self.generated_at = generated_at
+        self.summary = HuggingFaceImportSummary()
 
     def compare(self) -> dict[str, Any]:
         python_result = HuggingFaceCorpusImportRunner(
@@ -169,8 +169,8 @@ class HuggingFaceCorpusImportContractComparator:
         return {
             "ok": not mismatches,
             "mismatches": mismatches,
-            "python": {"summary": self._summary(python_result)},
-            "js": {"summary": self._summary(js_result)},
+            "python": {"summary": self.summary.summarize(python_result)},
+            "js": {"summary": self.summary.summarize(js_result)},
         }
 
     def _read_js_report(self) -> dict[str, Any]:
@@ -179,10 +179,6 @@ class HuggingFaceCorpusImportContractComparator:
         with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
-
-    def _summary(self, result: dict[str, Any]) -> dict[str, Any]:
-        return {key: result.get(key) for key in self.SUMMARY_KEYS if key in result}
-
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Parse a local HuggingFace/Kaggle corpus file into the JS-compatible corpus contract.")

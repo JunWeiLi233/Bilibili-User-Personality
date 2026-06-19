@@ -184,6 +184,16 @@ class HuggingFaceCorpusImporter:
         return f"{prefix}: {url}" if url else prefix
 
 
+class HuggingFaceImportSummary:
+    """Shape local corpus import results into the JS comparator summary contract."""
+
+    SUMMARY_KEYS = ("importedRows", "changed", "addedComments")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.SUMMARY_KEYS if key in result}
+
+
 class HuggingFaceImportPlanner:
     """Build a dry-run fetch plan compatible with importHuggingFaceCorpus.js."""
 

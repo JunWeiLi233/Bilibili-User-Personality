@@ -77,7 +77,7 @@ from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContra
 from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContractComparator, FastPipelineLauncherPlanRunner
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusSummary
 from python_backend.corpus.history_tags import HistoryTagCorpusManager, HistoryTagScrapePlanner
-from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceImportPlanner
+from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceImportPlanner, HuggingFaceImportSummary
 from python_backend.corpus.local import LocalCorpusEvidenceFinder
 from python_backend.corpus.local import LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner
@@ -1985,6 +1985,19 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["importedRows"], 1)
         self.assertEqual(result["addedComments"], 1)
         self.assertEqual(result["corpus"]["comments"][0]["message"], "\u5341\u5468\u5e74\u5feb\u4e50")
+
+    def test_huggingface_import_summary_extracts_comparator_contract(self):
+        summary = HuggingFaceImportSummary().summarize(
+            {
+                "ok": True,
+                "importedRows": 3,
+                "changed": True,
+                "addedComments": 2,
+                "corpus": {"comments": []},
+            }
+        )
+
+        self.assertEqual(summary, {"importedRows": 3, "changed": True, "addedComments": 2})
 
     def test_huggingface_import_contract_comparator_reports_corpus_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
