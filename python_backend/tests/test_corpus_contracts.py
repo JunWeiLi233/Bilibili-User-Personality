@@ -17,7 +17,7 @@ from python_backend.analyzers.keyword_evidence import KeywordEvidenceMatcher
 from python_backend.cli.comment_coverage import CommentCoverageContractComparator, CommentCoverageRunner
 from python_backend.cli.bilibili_parse import BilibiliParseContractComparator, BilibiliParseRunner
 from python_backend.cli.bilibili_crawler import BilibiliCrawlerContractComparator, BilibiliCrawlerRunner
-from python_backend.cli.bilibili_probe_plan import BilibiliProbePlanRunner
+from python_backend.cli.bilibili_probe_plan import BilibiliProbePlanContractComparator, BilibiliProbePlanRunner
 from python_backend.cli.coverage_audit import AuditContractComparator
 from python_backend.cli.coverage_progress import CoverageProgressContractComparator, CoverageProgressRunner
 from python_backend.cli.discovery_report import VideoKeywordDiscoveryReportContractComparator, VideoKeywordDiscoveryReportRunner
@@ -3217,6 +3217,42 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["viewUrl"], "https://api.bilibili.com/x/web-interface/view?aid=123")
         self.assertEqual(result["replyThreadUrl"], "https://api.bilibili.com/x/v2/reply/reply?type=1&oid=123&root=456&pn=1&ps=20")
         self.assertEqual(len(result["searchUrls"]), 1)
+
+    def test_bilibili_probe_plan_contract_comparator_reports_plan_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-probe-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "urls",
+                        "query": "查查资料",
+                        "search": {"pages": 1, "pageSize": 8},
+                        "video": {"aid": "123", "rootRpid": "456"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"ok": True, "mode": "urls", "viewUrl": "wrong", "searchUrls": []}),
+                encoding="utf-8",
+            )
+
+            result = BilibiliProbePlanContractComparator(payload_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "viewUrl", "python": "https://api.bilibili.com/x/web-interface/view?aid=123", "js": "wrong"},
+                {
+                    "key": "searchUrls",
+                    "python": ["https://api.bilibili.com/x/web-interface/search/type?search_type=video&keyword=%E6%9F%A5%E6%9F%A5%E8%B5%84%E6%96%99&page=1&page_size=8"],
+                    "js": [],
+                },
+            ],
+        )
 
     def test_bilibili_probe_planner_recovers_existing_source_videos(self):
         planner = BilibiliProbePlanner()
