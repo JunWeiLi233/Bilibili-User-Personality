@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T01:06:02.004Z",
+  "updatedAt": "2026-06-19T01:16:13.970Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -525,6 +525,64 @@
       "warnings": [],
       "commentsCollected": 95,
       "commentsAdded": 80
+    },
+    {
+      "at": "2026-06-19T01:16:13.970Z",
+      "actions": [
+        {
+          "term": "这还用说",
+          "query": "这还用说 弹幕"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 解说评论"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站弹幕"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1sGja6GENL",
+          "term": "这还用说",
+          "query": "这还用说 弹幕",
+          "bvid": "BV1sGja6GENL",
+          "aid": 116771906391498,
+          "title": "我提一嘴我可能被海子姐认知了，在我之前没有<em class=\"keyword\">弹幕说</em>好听来着，反正我这边显示的这样的"
+        },
+        {
+          "key": "bvid:BV1zyjh6hEd2",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 解说评论",
+          "bvid": "BV1zyjh6hEd2",
+          "aid": 116772543927994,
+          "title": "[纳拉莫核电站]<em class=\"keyword\">雷霆8</em>nec要做抢点和空袭？？？下版本更新内容"
+        },
+        {
+          "key": "bvid:BV1MkNjz4EAv",
+          "term": "查查资料",
+          "query": "查查资料 B站弹幕",
+          "bvid": "BV1MkNjz4EAv",
+          "aid": 114703024000779,
+          "title": "[<em class=\"keyword\">B站</em>UP主教程]查看和管理自己视频里的<em class=\"keyword\">弹幕</em>(手机平板)"
+        },
+        {
+          "key": "bvid:BV1cdL2zxEXR",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 评论",
+          "bvid": "BV1cdL2zxEXR",
+          "aid": 114415160531156,
+          "title": "制茶与评茶 茶叶风味科学【含资料】【浙江大学】【国家级精品课】【全59讲】"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 23,
+      "commentsAdded": 21
     }
   ]
 }
