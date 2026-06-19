@@ -8,6 +8,25 @@ from typing import Any
 BLOCK_CODES = {-101, -111, -352, -412, -509, -799}
 
 
+class BilibiliCrawlerSummary:
+    """Shape Bilibili crawler helper output into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = (
+        "bvids",
+        "bvid",
+        "blocked",
+        "cookie",
+        "objects",
+        "targetReplies",
+        "danmaku",
+        "dynamicRecords",
+    )
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        source = result if isinstance(result, dict) else {}
+        return {key: source.get(key) for key in self.RESULT_KEYS if key in source}
+
+
 class BilibiliCrawlerHelper:
     """Normalize Bilibili crawler identifiers and block responses without network IO."""
 

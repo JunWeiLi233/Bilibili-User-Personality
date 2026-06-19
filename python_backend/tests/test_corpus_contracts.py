@@ -93,7 +93,7 @@ from python_backend.scrapers.bilibili import BilibiliParseSummary, BilibiliPubli
 from python_backend.scrapers.aicu import AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanSummary, AicuScrapePlanner
 from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanSummary, AicuBrowserBatchPlanner
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanner
-from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerHelper
+from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerHelper, BilibiliCrawlerSummary
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanSummary, BilibiliProbePlanner
 from python_backend.runtime.file_lock import FileLockStateInspector
 from python_backend.scrapers.rate_limiter import RateLimiter
@@ -4470,6 +4470,28 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "bvids", "python": ["BV19yGa61Ee6", "BV1xx411c7mD"], "js": ["BV19yGa61Ee6"]},
                 {"key": "blocked", "python": True, "js": False},
             ],
+        )
+
+    def test_bilibili_crawler_summary_extracts_helper_contract(self):
+        summary = BilibiliCrawlerSummary().summarize(
+            {
+                "ok": True,
+                "bvids": ["BV1"],
+                "bvid": "BV1",
+                "blocked": False,
+                "dynamicRecords": {"objects": []},
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "bvids": ["BV1"],
+                "bvid": "BV1",
+                "blocked": False,
+                "dynamicRecords": {"objects": []},
+            },
         )
 
     def test_bilibili_crawler_helper_matches_public_comment_contracts(self):
