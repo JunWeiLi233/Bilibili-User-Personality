@@ -31,6 +31,7 @@
     "python:deepseek-plan": "python -m python_backend.cli.deepseek_analysis_plan",
     "python:huggingface-import": "python -m python_backend.cli.huggingface_corpus",
     "python:history-tags": "python -m python_backend.cli.history_tag_corpus",
+    "python:bilibili-parse": "python -m python_backend.cli.bilibili_parse",
     "python:tieba-html-parse": "python -m python_backend.cli.tieba_html_parse",
     "python:flatten-local": "python -m python_backend.cli.local_corpus_flatten",
     "python:local-evidence": "python -m python_backend.cli.local_corpus_evidence",

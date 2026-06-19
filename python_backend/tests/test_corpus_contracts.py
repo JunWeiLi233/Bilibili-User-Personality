@@ -8,6 +8,7 @@ from python_backend.analysis.comment_coverage import CommentCoverageClassifier
 from python_backend.analysis.verification import RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient
 from python_backend.cli.comment_coverage import CommentCoverageRunner
+from python_backend.cli.bilibili_parse import BilibiliParseRunner
 from python_backend.cli.coverage_audit import AuditContractComparator
 from python_backend.cli.compare_contracts import ContractComparator
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanRunner
@@ -31,6 +32,7 @@ from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
+from python_backend.scrapers.bilibili import BilibiliPublicParser
 from python_backend.scrapers.rate_limiter import RateLimiter
 from python_backend.scrapers.tieba_html import TiebaHtmlParser
 
@@ -991,6 +993,73 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["mode"], "comments")
         self.assertEqual(result["comments"][0]["message"], "\u65b0\u8d34\u5427\u8bc4\u8bba")
+
+    def test_bilibili_public_parser_matches_bvid_contracts(self):
+        parser = BilibiliPublicParser()
+
+        self.assertEqual(
+            parser.parse_bvid_pool("BV19yGa61Ee6, BV1xx411c7mD\uff0cBVabc1234567  bad-id"),
+            ["BV19yGa61Ee6", "BV1xx411c7mD", "BVabc1234567"],
+        )
+        self.assertEqual(parser.extract_bvid("https://www.bilibili.com/video/BV19yGa61Ee6/?vd_source=abc"), "BV19yGa61Ee6")
+        self.assertEqual(parser.extract_bvid("https://b23.tv/BV1xx411c7mD"), "BV1xx411c7mD")
+        self.assertEqual(parser.extract_bvid("not-a-video"), "")
+
+    def test_bilibili_public_parser_extracts_danmaku_xml_comments(self):
+        parser = BilibiliPublicParser()
+        comments = parser.parse_danmaku_xml(
+            '<i><d p="1,1,25,16777215,1710000000,0,12345,0">\u522b\u55b7\u6211 &amp; \u4e0d\u5439\u4e0d\u9ed1</d></i>',
+            {
+                "bvid": "BV1danmaku",
+                "oid": "123",
+                "replyType": 1,
+                "title": "danmaku video",
+                "sourceUrl": "https://www.bilibili.com/video/BV1danmaku/",
+                "cid": "456",
+            },
+        )
+
+        self.assertEqual(
+            comments,
+            [
+                {
+                    "bvid": "BV1danmaku",
+                    "oid": "123",
+                    "replyType": 1,
+                    "sourceTitle": "danmaku video",
+                    "sourceUrl": "https://www.bilibili.com/video/BV1danmaku/",
+                    "rpid": "danmaku-456-0",
+                    "like": 0,
+                    "ctime": 1710000000,
+                    "uname": "",
+                    "mid": "12345",
+                    "message": "\u522b\u55b7\u6211 & \u4e0d\u5439\u4e0d\u9ed1",
+                    "kind": "danmaku",
+                }
+            ],
+        )
+
+    def test_bilibili_parse_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "danmaku",
+                        "video": {"bvid": "BVcli", "oid": "100", "cid": "200", "title": "cli video"},
+                        "xml": '<i><d p="0,1,25,16777215,1710000001,0,42,0">\u5f39\u5e55\u8bc4\u8bba</d></i>',
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = BilibiliParseRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "danmaku")
+        self.assertEqual(result["comments"][0]["message"], "\u5f39\u5e55\u8bc4\u8bba")
+        self.assertEqual(result["comments"][0]["rpid"], "danmaku-200-0")
 
     def test_comment_coverage_classifier_matches_core_js_modes(self):
         dictionary = {
