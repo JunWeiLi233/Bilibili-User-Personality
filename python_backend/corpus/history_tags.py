@@ -5,6 +5,33 @@ import re
 import unicodedata
 from datetime import datetime, timezone
 from typing import Any
+from urllib.parse import quote
+
+
+DEFAULT_BILIBILI_HISTORY_TAG_CORPUS_PATH = "server/data/bilibiliHistoryTagCorpus.json"
+DEFAULT_HISTORY_TAG_SEEDS = [
+    "鍘嗗彶",
+    "涓浗鍘嗗彶",
+    "涓栫晫鍘嗗彶",
+    "杩戜唬鍙?",
+    "鍙や唬鍙?",
+    "鍘嗗彶绉戞櫘",
+    "鍘嗗彶瑙ｈ",
+    "鍘嗗彶浜虹墿",
+    "鍘嗗彶浜嬩欢",
+    "鎴樹簤鍙?",
+    "鍐涗簨鍘嗗彶",
+    "鑰冨彜",
+    "鏂囩墿",
+    "鍗氱墿棣?",
+    "鏄庢湞",
+    "娓呮湞",
+    "涓夊浗",
+    "绉︽眽",
+    "鍞愭湞",
+    "瀹嬫湞",
+    "姘戝浗",
+]
 
 
 def _parse_list(value: Any) -> list[str]:
@@ -65,6 +92,100 @@ def _score_history_video(video: dict[str, Any], needles: list[str]) -> int:
     if "\u5386\u53f2" in _clean_text(video.get("sourceQuery")):
         score += 1
     return score
+
+
+def _bounded_int(value: Any, fallback: int, minimum: int, maximum: int) -> int:
+    try:
+        number = int(float(value))
+    except (TypeError, ValueError):
+        return fallback
+    return max(minimum, min(number, maximum))
+
+
+class HistoryTagScrapePlanner:
+    """Build scrapeBilibiliHistoryTags.js-compatible request plans."""
+
+    def __init__(self, project_dir: str | None = None):
+        self.project_dir = project_dir or ""
+
+    def build_plan(
+        self,
+        argv: list[Any] | None = None,
+        env: dict[str, Any] | None = None,
+        seed_files: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        env = env or {}
+        options = {
+            "outputPath": str(env.get("BILIBILI_HISTORY_TAG_CORPUS_PATH") or DEFAULT_BILIBILI_HISTORY_TAG_CORPUS_PATH),
+            "pages": _bounded_int(env.get("BILIBILI_HISTORY_TAG_PAGES"), 1, 1, 10),
+            "pageSize": _bounded_int(env.get("BILIBILI_HISTORY_TAG_PAGE_SIZE"), 20, 1, 50),
+            "delayMs": _bounded_int(env.get("BILIBILI_HISTORY_TAG_DELAY_MS"), 5000, 0, 120000),
+            "jitterMs": _bounded_int(env.get("BILIBILI_HISTORY_TAG_JITTER_MS"), 2500, 0, 120000),
+            "seeds": _parse_list(env.get("BILIBILI_HISTORY_TAG_SEEDS")),
+            "seedFile": str(env.get("BILIBILI_HISTORY_TAG_SEED_FILE") or ""),
+            "write": env.get("BILIBILI_HISTORY_TAG_WRITE") == "1",
+        }
+        for raw_arg in argv or []:
+            arg = str(raw_arg)
+            if arg.startswith("--output="):
+                options["outputPath"] = arg[len("--output=") :].strip()
+            elif arg.startswith("--pages="):
+                options["pages"] = _bounded_int(arg[len("--pages=") :], options["pages"], 1, 10)
+            elif arg.startswith("--page-size="):
+                options["pageSize"] = _bounded_int(arg[len("--page-size=") :], options["pageSize"], 1, 50)
+            elif arg.startswith("--delay-ms="):
+                options["delayMs"] = _bounded_int(arg[len("--delay-ms=") :], options["delayMs"], 0, 120000)
+            elif arg.startswith("--jitter-ms="):
+                options["jitterMs"] = _bounded_int(arg[len("--jitter-ms=") :], options["jitterMs"], 0, 120000)
+            elif arg.startswith("--seed="):
+                options["seeds"].append(arg[len("--seed=") :].strip())
+            elif arg.startswith("--seeds="):
+                options["seeds"].extend(_parse_list(arg[len("--seeds=") :]))
+            elif arg.startswith("--seed-file="):
+                options["seedFile"] = arg[len("--seed-file=") :].strip()
+            elif arg == "--write":
+                options["write"] = True
+        if options["seedFile"]:
+            options["seeds"].extend(_parse_list((seed_files or {}).get(options["seedFile"], "")))
+        options["seeds"] = _unique_by([seed for seed in options["seeds"] if seed], lambda seed: seed)
+        if not options["seeds"]:
+            options["seeds"] = list(DEFAULT_HISTORY_TAG_SEEDS)
+
+        requests = self._requests(options["seeds"], options["pages"], options["pageSize"])
+        return {
+            "ok": True,
+            "outputPath": options["outputPath"],
+            "pages": options["pages"],
+            "pageSize": options["pageSize"],
+            "delayMs": options["delayMs"],
+            "jitterMs": options["jitterMs"],
+            "write": options["write"],
+            "seeds": options["seeds"],
+            "seedFile": options["seedFile"],
+            "collectComments": False,
+            "collectDanmaku": False,
+            "requests": requests,
+            "summary": {
+                "seeds": len(options["seeds"]),
+                "requests": len(requests),
+                "commentDanmakuScraping": False,
+            },
+        }
+
+    def _requests(self, seeds: list[str], pages: int, page_size: int) -> list[dict[str, Any]]:
+        requests = []
+        for seed in seeds:
+            encoded = quote(seed, safe="")
+            for page in range(1, pages + 1):
+                requests.append(
+                    {
+                        "seed": seed,
+                        "page": page,
+                        "url": f"https://api.bilibili.com/x/web-interface/search/type?search_type=video&keyword={encoded}&page={page}&page_size={page_size}",
+                        "referer": f"https://search.bilibili.com/all?keyword={encoded}",
+                    }
+                )
+        return requests
 
 
 class HistoryTagCorpusManager:

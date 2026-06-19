@@ -33,7 +33,7 @@ from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanContra
 from python_backend.cli.deepseek_analysis_validate import DeepSeekAnalysisValidateContractComparator, DeepSeekAnalysisValidateRunner
 from python_backend.cli.exhausted_terms_prune_plan import ExhaustedTermsPrunePlanContractComparator, ExhaustedTermsPrunePlanRunner
 from python_backend.cli.keyword_evidence import KeywordEvidenceContractComparator, KeywordEvidenceRunner
-from python_backend.cli.history_tag_corpus import HistoryTagCorpusContractComparator, HistoryTagCorpusRunner
+from python_backend.cli.history_tag_corpus import HistoryTagCorpusContractComparator, HistoryTagCorpusRunner, HistoryTagScrapePlanContractComparator, HistoryTagScrapePlanRunner
 from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportContractComparator, HuggingFaceCorpusImportPlanContractComparator, HuggingFaceCorpusImportPlanRunner, HuggingFaceCorpusImportRunner
 from python_backend.cli.local_corpus_evidence import LocalCorpusEvidenceContractComparator, LocalCorpusEvidenceRunner
 from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenContractComparator, LocalCorpusFlattenRunner
@@ -69,7 +69,7 @@ from python_backend.cli.batch_scraper_launcher import BatchScraperLauncherContra
 from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContractComparator, RangeScraperLauncherPlanRunner
 from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContractComparator, FastPipelineLauncherPlanRunner
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder
-from python_backend.corpus.history_tags import HistoryTagCorpusManager
+from python_backend.corpus.history_tags import HistoryTagCorpusManager, HistoryTagScrapePlanner
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceImportPlanner
 from python_backend.corpus.local import LocalCorpusEvidenceFinder
 from python_backend.corpus.local import LocalCorpusFlattener
@@ -2862,6 +2862,87 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "tags", "python": 1, "js": 0},
                 {"key": "videos", "python": 1, "js": 0},
                 {"key": "runs", "python": 1, "js": 0},
+            ],
+        )
+
+    def test_history_tag_scrape_planner_matches_js_options_and_request_contract(self):
+        plan = HistoryTagScrapePlanner(project_dir="D:/repo").build_plan(
+            argv=[
+                "--output=custom-history.json",
+                "--pages=99",
+                "--page-size=0",
+                "--delay-ms=-5",
+                "--jitter-ms=999999",
+                "--seed=\u660e\u671d",
+                "--seeds=\u6e05\u671d;\u4e09\u56fd",
+                "--seed-file=seeds.txt",
+                "--write",
+            ],
+            env={
+                "BILIBILI_HISTORY_TAG_SEEDS": "\u73af\u5883\u79cd\u5b50",
+                "BILIBILI_HISTORY_TAG_PAGE_SIZE": "25",
+                "BILIBILI_HISTORY_TAG_DELAY_MS": "1000",
+                "BILIBILI_HISTORY_TAG_JITTER_MS": "500",
+            },
+            seed_files={"seeds.txt": "\u8003\u53e4\n\u6587\u7269"},
+        )
+
+        self.assertEqual(plan["outputPath"], "custom-history.json")
+        self.assertEqual(plan["pages"], 10)
+        self.assertEqual(plan["pageSize"], 1)
+        self.assertEqual(plan["delayMs"], 0)
+        self.assertEqual(plan["jitterMs"], 120000)
+        self.assertTrue(plan["write"])
+        self.assertEqual(plan["seeds"], ["\u73af\u5883\u79cd\u5b50", "\u660e\u671d", "\u6e05\u671d", "\u4e09\u56fd", "\u8003\u53e4", "\u6587\u7269"])
+        self.assertEqual(plan["summary"], {"seeds": 6, "requests": 60, "commentDanmakuScraping": False})
+        self.assertEqual(
+            plan["requests"][0],
+            {
+                "seed": "\u73af\u5883\u79cd\u5b50",
+                "page": 1,
+                "url": "https://api.bilibili.com/x/web-interface/search/type?search_type=video&keyword=%E7%8E%AF%E5%A2%83%E7%A7%8D%E5%AD%90&page=1&page_size=1",
+                "referer": "https://search.bilibili.com/all?keyword=%E7%8E%AF%E5%A2%83%E7%A7%8D%E5%AD%90",
+            },
+        )
+        self.assertFalse(plan["collectComments"])
+        self.assertFalse(plan["collectDanmaku"])
+
+    def test_history_tag_scrape_plan_runner_and_comparator_read_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--pages=2", "--page-size=3", "--seed=\u5386\u53f2", "--seed=\u660e\u671d"],
+                        "env": {"BILIBILI_HISTORY_TAG_WRITE": "1"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"pages": 1, "pageSize": 3, "seeds": ["\u5386\u53f2"], "summary": {"seeds": 1, "requests": 3, "commentDanmakuScraping": False}}),
+                encoding="utf-8",
+            )
+
+            result = HistoryTagScrapePlanRunner(payload_path).run()
+            comparison = HistoryTagScrapePlanContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["summary"], {"seeds": 2, "requests": 4, "commentDanmakuScraping": False})
+        self.assertEqual(len(result["requests"]), 4)
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "pages", "python": 2, "js": 1},
+                {"key": "seeds", "python": ["\u5386\u53f2", "\u660e\u671d"], "js": ["\u5386\u53f2"]},
+                {
+                    "key": "summary",
+                    "python": {"seeds": 2, "requests": 4, "commentDanmakuScraping": False},
+                    "js": {"seeds": 1, "requests": 3, "commentDanmakuScraping": False},
+                },
             ],
         )
 
