@@ -5,7 +5,7 @@ from pathlib import Path
 
 from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractSummary, CoverageAuditReport
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageSummary
-from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanner
+from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressSummary, CoverageProgressTracker
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReporter
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, VideoKeywordDiscoveryOptionsBuilder
@@ -8125,6 +8125,40 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["initialStopReason"], "")
         self.assertEqual([item["query"] for item in result["priorityQueries"]], ["doge hot", "doge comments", "tieba roast"])
+
+    def test_coverage_harvest_loop_plan_summary_extracts_comparator_contract(self):
+        summary = CoverageHarvestLoopPlanSummary().summarize(
+            {
+                "ok": True,
+                "deepseek": {"model": "deepseek-v4-flash"},
+                "paths": {"reportPath": "server/data/report.json"},
+                "loop": {"maxCycles": 3},
+                "auditOptions": {"targetEvidence": 3},
+                "harvestOptions": {"maxQueries": 12},
+                "lists": {"seedQueries": ["doge"]},
+                "prune": {"pruneExhaustedAfter": 0},
+                "strict": True,
+                "priorityQueries": [{"query": "doge hot"}],
+                "initialStopReason": "",
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "deepseek": {"model": "deepseek-v4-flash"},
+                "paths": {"reportPath": "server/data/report.json"},
+                "loop": {"maxCycles": 3},
+                "auditOptions": {"targetEvidence": 3},
+                "harvestOptions": {"maxQueries": 12},
+                "lists": {"seedQueries": ["doge"]},
+                "prune": {"pruneExhaustedAfter": 0},
+                "strict": True,
+                "priorityQueries": [{"query": "doge hot"}],
+                "initialStopReason": "",
+            },
+        )
 
     def test_coverage_harvest_loop_contract_comparator_reports_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:

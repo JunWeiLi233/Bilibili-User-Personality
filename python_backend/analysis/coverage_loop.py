@@ -39,6 +39,27 @@ def _parse_list(value: Any) -> list[str]:
     return [item.strip() for item in re.split(r"[\r\n,;|]+", str(value or "")) if item.strip()]
 
 
+class CoverageHarvestLoopPlanSummary:
+    """Shape coverage-harvest loop plans into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = (
+        "deepseek",
+        "paths",
+        "loop",
+        "auditOptions",
+        "harvestOptions",
+        "lists",
+        "prune",
+        "strict",
+        "priorityQueries",
+        "initialStopReason",
+    )
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
 class CoverageHarvestLoopPlanner:
     """Build the JS-compatible auto coverage-harvest loop plan without running network work."""
 
