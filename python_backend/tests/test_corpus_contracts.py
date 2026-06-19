@@ -68,6 +68,7 @@ from python_backend.scrapers.bilibili_probe import BilibiliProbePlanner
 from python_backend.scrapers.rate_limiter import RateLimiter
 from python_backend.cli.scraper_monitor import ScraperMonitorContractComparator, ScraperMonitorRunner
 from python_backend.cli.batch_uid_progress import BatchUidProgressContractComparator, BatchUidProgressRunner
+from python_backend.cli.uid_discovery_progress import UidDiscoveryProgressContractComparator, UidDiscoveryProgressRunner
 from python_backend.scrapers.tieba_html import TiebaHtmlParser
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 
@@ -4551,6 +4552,73 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {"key": "discovery", "python": {"videosScanned": 1, "uidsDiscovered": 1, "commentsCollected": 0}, "js": {"videosScanned": 0}},
                 {"key": "phase2", "python": {"processed": 1, "success": 1, "errors": 0, "skipped": 0, "remaining": 0}, "js": {"processed": 0}},
+            ],
+        )
+
+    def test_uid_discovery_progress_runner_summarizes_separate_progress_comments_and_user_db(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            (data_dir / "uid-discovery-progress.json").write_text(
+                json.dumps(
+                    {
+                        "scannedBvids": ["BV1", "BV2"],
+                        "processedUids": {"100": "success", "101": "error", "102": "no_text"},
+                        "stats": {"videosScanned": 2, "uidsFound": 3, "uidsAnalyzed": 1, "commentsCollected": 4, "errors": 1},
+                        "phase": "analysis",
+                        "videoQueueSize": 7,
+                        "lastUpdated": "2026-06-19T00:00:00.000Z",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (data_dir / "uid-discovery-comments.json").write_text(
+                json.dumps(
+                    {
+                        "100": [{"message": "one", "bvid": "BV1"}, {"message": "two", "bvid": "BV2"}],
+                        "101": [{"message": "three", "bvid": "BV2"}],
+                        "102": [],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (data_dir / "scraped-users-db.json").write_text(
+                json.dumps({"users": {"100": {"uid": "100"}, "101": {"uid": "101"}}}),
+                encoding="utf-8",
+            )
+
+            result = UidDiscoveryProgressRunner(data_dir).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["phase"], "analysis")
+        self.assertEqual(result["discovery"], {"videosScanned": 2, "videoQueueSize": 7, "uidsDiscovered": 3, "commentsCollected": 4})
+        self.assertEqual(result["analysis"], {"processed": 3, "success": 1, "errors": 1, "skipped": 1, "remaining": 0})
+        self.assertEqual(result["comments"], {"total": 3, "averagePerUid": 1.0, "uidsWithComments": 2})
+        self.assertEqual(result["userDb"], {"users": 2})
+        self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
+
+    def test_uid_discovery_progress_comparator_reports_summary_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            js_report_path = root / "js-uid-discovery-progress.json"
+            (data_dir / "uid-discovery-progress.json").write_text(
+                json.dumps({"scannedBvids": ["BV1"], "processedUids": {"100": "success"}, "stats": {"videosScanned": 1}}),
+                encoding="utf-8",
+            )
+            (data_dir / "uid-discovery-comments.json").write_text(json.dumps({"100": [{"message": "x"}]}), encoding="utf-8")
+            js_report_path.write_text(json.dumps({"discovery": {"videosScanned": 0}, "analysis": {"processed": 0}}), encoding="utf-8")
+
+            result = UidDiscoveryProgressContractComparator(data_dir, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "discovery", "python": {"videosScanned": 1, "videoQueueSize": 0, "uidsDiscovered": 1, "commentsCollected": 0}, "js": {"videosScanned": 0}},
+                {"key": "analysis", "python": {"processed": 1, "success": 1, "errors": 0, "skipped": 0, "remaining": 0}, "js": {"processed": 0}},
             ],
         )
 
