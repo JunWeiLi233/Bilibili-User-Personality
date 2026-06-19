@@ -110,7 +110,7 @@ from python_backend.scrapers.tieba_keyword import TiebaKeywordScrapeOptionsPlann
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 from python_backend.scrapers.batch_bilibili import BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularScrapePlanner
-from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner
+from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner, UidRangeProgressReporter
 from python_backend.scrapers.batch_uid_scrape import BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner, UidDiscoveryProgressReporter
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelProgressReporter
@@ -6512,6 +6512,32 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["range"], {"start": 200000, "end": 300000})
         self.assertEqual(result["discovery"], {"videosScanned": 2, "uidsDiscovered": 4, "targetUidsDiscovered": 2, "commentsCollected": 5})
+        self.assertEqual(result["phase2"], {"processed": 2, "success": 1, "errors": 1, "skipped": 1, "remaining": 0})
+        self.assertEqual(result["comments"], {"totalForTargetUids": 3, "averagePerTargetUid": 1.5})
+        self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
+
+    def test_uid_range_progress_reporter_summarizes_target_payload_without_filesystem(self):
+        reporter = UidRangeProgressReporter(start=200000, end=300000)
+
+        result = reporter.build_report(
+            {
+                "scannedBvids": ["BV1", "BV2"],
+                "_uidComments": {
+                    "199999": [{"message": "below"}],
+                    "200000": [{"message": "inside one"}, {"message": "inside two"}],
+                    "250000": [{"message": "inside"}],
+                    "300001": [{"message": "above"}],
+                    "not-a-uid": [{"message": "ignored"}],
+                },
+                "processedUids": {"200000": "success", "250000": "error_timeout", "300001": "success"},
+                "stats": {"videosScanned": "2", "targetUidsFound": "2", "commentsCollected": "5", "skipped": "1"},
+                "lastUpdated": "2026-06-19T00:00:00.000Z",
+            }
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"start": 200000, "end": 300000})
+        self.assertEqual(result["discovery"], {"videosScanned": 2, "uidsDiscovered": 5, "targetUidsDiscovered": 2, "commentsCollected": 5})
         self.assertEqual(result["phase2"], {"processed": 2, "success": 1, "errors": 1, "skipped": 1, "remaining": 0})
         self.assertEqual(result["comments"], {"totalForTargetUids": 3, "averagePerTargetUid": 1.5})
         self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")

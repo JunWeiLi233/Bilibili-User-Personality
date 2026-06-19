@@ -11,6 +11,13 @@ def _js_number_or(value: Any, fallback: int) -> int:
     return parsed or fallback
 
 
+def _progress_number_or(value: Any, fallback: int) -> int:
+    try:
+        return int(float(str(value)))
+    except (TypeError, ValueError):
+        return fallback
+
+
 class BatchUidRangePlanner:
     """Build a dry-run plan for batchUidRange.js discovery and analysis phases."""
 
@@ -87,3 +94,52 @@ class BatchUidRangePlanner:
         except (TypeError, ValueError):
             return False
         return start <= value <= end
+
+
+class UidRangeProgressReporter:
+    """Summarize batch UID range progress payloads into the JS-compatible report shape."""
+
+    def __init__(self, *, start: int = 200000, end: int = 300000):
+        self.start = int(start)
+        self.end = int(end)
+
+    def build_report(self, payload: Any) -> dict[str, Any]:
+        progress = payload if isinstance(payload, dict) else {}
+        uid_comments = progress.get("_uidComments") if isinstance(progress.get("_uidComments"), dict) else {}
+        processed_uids = progress.get("processedUids") if isinstance(progress.get("processedUids"), dict) else {}
+        stats = progress.get("stats") if isinstance(progress.get("stats"), dict) else {}
+        target_uids = [uid for uid in uid_comments if self._in_range(uid)]
+        processed_target_uids = {uid: status for uid, status in processed_uids.items() if self._in_range(uid)}
+        success_count = sum(1 for status in processed_target_uids.values() if status == "success")
+        error_count = sum(1 for status in processed_target_uids.values() if str(status).startswith("error"))
+        target_comment_total = sum(len(comments) for uid, comments in uid_comments.items() if self._in_range(uid) and isinstance(comments, list))
+        target_count = len(target_uids)
+        return {
+            "ok": True,
+            "range": {"start": self.start, "end": self.end},
+            "discovery": {
+                "videosScanned": _progress_number_or(stats.get("videosScanned"), len(progress.get("scannedBvids") or [])) if stats.get("videosScanned") else len(progress.get("scannedBvids") or []),
+                "uidsDiscovered": len(uid_comments),
+                "targetUidsDiscovered": _progress_number_or(stats.get("targetUidsFound"), target_count) if stats.get("targetUidsFound") else target_count,
+                "commentsCollected": _progress_number_or(stats.get("commentsCollected"), 0) if stats.get("commentsCollected") else 0,
+            },
+            "phase2": {
+                "processed": len(processed_target_uids),
+                "success": success_count,
+                "errors": error_count,
+                "skipped": _progress_number_or(stats.get("skipped"), 0) if stats.get("skipped") else 0,
+                "remaining": max(0, target_count - len(processed_target_uids)),
+            },
+            "comments": {
+                "totalForTargetUids": target_comment_total,
+                "averagePerTargetUid": round(target_comment_total / target_count, 2) if target_count else 0,
+            },
+            "lastUpdated": progress.get("lastUpdated") or None,
+        }
+
+    def _in_range(self, uid: Any) -> bool:
+        try:
+            value = int(str(uid))
+        except ValueError:
+            return False
+        return self.start <= value <= self.end

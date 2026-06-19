@@ -6,6 +6,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from python_backend.scrapers.batch_uid_range import UidRangeProgressReporter
+
 
 class UidRangeProgressRunner:
     """Summarize batchUidRange.js progress JSON without mutating scraper state."""
@@ -17,45 +19,7 @@ class UidRangeProgressRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_json(self.progress_path, {})
-        uid_comments = payload.get("_uidComments") if isinstance(payload.get("_uidComments"), dict) else {}
-        processed_uids = payload.get("processedUids") if isinstance(payload.get("processedUids"), dict) else {}
-        stats = payload.get("stats") if isinstance(payload.get("stats"), dict) else {}
-        target_uids = [uid for uid in uid_comments if self._in_range(uid)]
-        processed_target_uids = {uid: status for uid, status in processed_uids.items() if self._in_range(uid)}
-        success_count = sum(1 for status in processed_target_uids.values() if status == "success")
-        error_count = sum(1 for status in processed_target_uids.values() if str(status).startswith("error"))
-        skipped_count = int(stats.get("skipped") or 0)
-        target_comment_total = sum(len(comments) for uid, comments in uid_comments.items() if self._in_range(uid) and isinstance(comments, list))
-        target_count = len(target_uids)
-        return {
-            "ok": True,
-            "range": {"start": self.start, "end": self.end},
-            "discovery": {
-                "videosScanned": int(stats.get("videosScanned") or len(payload.get("scannedBvids") or [])),
-                "uidsDiscovered": len(uid_comments),
-                "targetUidsDiscovered": int(stats.get("targetUidsFound") or target_count),
-                "commentsCollected": int(stats.get("commentsCollected") or 0),
-            },
-            "phase2": {
-                "processed": len(processed_target_uids),
-                "success": success_count,
-                "errors": error_count,
-                "skipped": skipped_count,
-                "remaining": max(0, target_count - len(processed_target_uids)),
-            },
-            "comments": {
-                "totalForTargetUids": target_comment_total,
-                "averagePerTargetUid": round(target_comment_total / target_count, 2) if target_count else 0,
-            },
-            "lastUpdated": payload.get("lastUpdated") or None,
-        }
-
-    def _in_range(self, uid: Any) -> bool:
-        try:
-            value = int(str(uid))
-        except ValueError:
-            return False
-        return self.start <= value <= self.end
+        return UidRangeProgressReporter(start=self.start, end=self.end).build_report(payload)
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
         if not path.exists():
