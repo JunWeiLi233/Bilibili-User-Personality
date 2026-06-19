@@ -165,7 +165,9 @@ class CoverageProgressTracker:
         return exhausted
 
     def _action_need(self, action: dict[str, Any]) -> int | float:
-        return max(0, _number(action.get("needs")))
+        if "needs" in action:
+            return max(0, _number(action.get("needs")))
+        return max(0, _number(action.get("evidenceNeeded")))
 
     def _term_attempt(self, term_attempts: dict[str, Any], term: str) -> dict[str, Any] | None:
         raw = term_attempts.get(term)

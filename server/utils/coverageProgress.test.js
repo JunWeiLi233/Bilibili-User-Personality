@@ -76,6 +76,19 @@ test('hasCoverageGateProgress accepts target action progress even when new weak 
   );
 });
 
+test('hasCoverageGateProgress accepts harvest action evidenceNeeded progress', () => {
+  const beforeCoverage = { evidenceDeficit: 10, weakTerms: 2 };
+  const afterCoverage = { evidenceDeficit: 12, weakTerms: 3 };
+
+  assert.equal(
+    hasCoverageGateProgress(beforeCoverage, afterCoverage, {
+      beforeActions: [{ term: 'partial', action: 'harvest_more_evidence', evidenceNeeded: 2 }],
+      afterActions: [{ term: 'partial', action: 'harvest_more_evidence', evidenceNeeded: 1 }],
+    }),
+    true,
+  );
+});
+
 test('coverageDeltaFromHarvest ignores audit-only drift when harvest made no evidence progress', () => {
   const before = {
     terms: 2157,

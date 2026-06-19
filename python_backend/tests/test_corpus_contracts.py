@@ -4622,6 +4622,30 @@ class CorpusContractTests(unittest.TestCase):
             )
         )
 
+    def test_coverage_progress_tracker_accepts_harvest_action_evidence_needed_contract(self):
+        tracker = CoverageProgressTracker()
+
+        self.assertEqual(
+            tracker.action_progress_delta(
+                [
+                    {"term": "hard-zero", "action": "add_query_template", "evidenceNeeded": 3},
+                    {"term": "partial", "action": "harvest_more_evidence", "evidenceNeeded": 2},
+                ],
+                [{"term": "partial", "action": "harvest_more_evidence", "evidenceNeeded": 1}],
+            ),
+            {"actionTermsResolved": 1, "actionEvidenceNeedReduced": 4},
+        )
+        self.assertTrue(
+            tracker.has_coverage_gate_progress(
+                {"evidenceDeficit": 10, "weakTerms": 2},
+                {"evidenceDeficit": 12, "weakTerms": 3},
+                {
+                    "beforeActions": [{"term": "partial", "action": "harvest_more_evidence", "evidenceNeeded": 2}],
+                    "afterActions": [{"term": "partial", "action": "harvest_more_evidence", "evidenceNeeded": 1}],
+                },
+            )
+        )
+
     def test_coverage_progress_tracker_filters_audit_only_harvest_drift(self):
         tracker = CoverageProgressTracker()
         before = {

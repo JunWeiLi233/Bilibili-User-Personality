@@ -44,7 +44,10 @@ export function coverageDeltaFromHarvest(before = {}, after = {}, harvestProgres
 }
 
 function actionNeed(action) {
-  return Math.max(0, Number(action?.needs) || 0);
+  if (Object.hasOwn(action || {}, 'needs')) {
+    return Math.max(0, Number(action?.needs) || 0);
+  }
+  return Math.max(0, Number(action?.evidenceNeeded) || 0);
 }
 
 export function actionProgressDelta(beforeActions = [], afterActions = []) {
