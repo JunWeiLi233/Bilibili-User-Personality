@@ -59,13 +59,69 @@ class VideoContextRunner:
         return [value]
 
 
+class VideoContextContractComparator:
+    """Compare Python video context output against saved JS-compatible JSON."""
+
+    TOP_LEVEL_KEYS = ("videoContextText", "videoObjectEvidenceText", "contextSourceUrls")
+
+    def __init__(self, payload_path: str | Path, js_report_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.js_report_path = Path(js_report_path)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = VideoContextRunner(self.payload_path).run()
+        js_result = self._read_js_report()
+        mismatches = self._top_level_mismatches(python_result, js_result)
+        mismatches.extend(self._diagnostic_mismatches(python_result, js_result))
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": self._summary(python_result),
+            "js": self._summary(js_result),
+        }
+
+    def _read_js_report(self) -> dict[str, Any]:
+        if not self.js_report_path.exists():
+            return {}
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
+
+    def _top_level_mismatches(self, python_result: dict[str, Any], js_result: dict[str, Any]) -> list[dict[str, Any]]:
+        return [
+            {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
+            for key in self.TOP_LEVEL_KEYS
+            if key in js_result and python_result.get(key) != js_result.get(key)
+        ]
+
+    def _diagnostic_mismatches(self, python_result: dict[str, Any], js_result: dict[str, Any]) -> list[dict[str, Any]]:
+        python_diagnostics = python_result.get("diagnostics") if isinstance(python_result.get("diagnostics"), dict) else {}
+        js_diagnostics = js_result.get("diagnostics") if isinstance(js_result.get("diagnostics"), dict) else {}
+        return [
+            {"key": f"diagnostics.{key}", "python": python_diagnostics.get(key), "js": js_value}
+            for key, js_value in js_diagnostics.items()
+            if python_diagnostics.get(key) != js_value
+        ]
+
+    def _summary(self, result: dict[str, Any]) -> dict[str, Any]:
+        summary = {key: result.get(key) for key in self.TOP_LEVEL_KEYS if key in result}
+        diagnostics = result.get("diagnostics") if isinstance(result.get("diagnostics"), dict) else None
+        if diagnostics is not None:
+            summary["diagnostics"] = diagnostics
+        return summary
+
+
 def main() -> int:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description="Build Bilibili video context/evidence diagnostics from JSON.")
     parser.add_argument("--payload", required=True, help="JSON payload with videos, comments, search queries, and target terms.")
+    parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible video context report to compare.")
     args = parser.parse_args()
-    result = VideoContextRunner(args.payload).run()
+    if args.compare_js_report:
+        result = VideoContextContractComparator(args.payload, args.compare_js_report).compare()
+    else:
+        result = VideoContextRunner(args.payload).run()
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0 if result["ok"] else 1
 

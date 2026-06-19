@@ -33,7 +33,7 @@ from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportRunner
 from python_backend.cli.local_corpus_evidence import LocalCorpusEvidenceRunner
 from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenRunner
 from python_backend.cli.video_comment_filter import VideoCommentFilterRunner
-from python_backend.cli.video_context import VideoContextRunner
+from python_backend.cli.video_context import VideoContextContractComparator, VideoContextRunner
 from python_backend.cli.video_relevance import VideoRelevanceContractComparator, VideoRelevanceRunner
 from python_backend.cli.direct_probe_corpus import DirectProbeCorpusRunner
 from python_backend.cli.direct_probe_plan import DirectProbePlanContractComparator, DirectProbePlanRunner
@@ -2206,6 +2206,58 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["videoObjectEvidenceText"], "Bilibili public video title: \u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28")
         self.assertEqual(result["diagnostics"]["targetTextHits"], [{"term": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28", "count": 1}])
+
+    def test_video_context_contract_comparator_reports_context_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-report.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "videos": [{"bvid": "BV1", "title": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"}],
+                        "discoveredVideos": [{"bvid": "BVD", "title": "\u53d1\u73b0"}],
+                        "comments": [{"message": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"}],
+                        "trainingText": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28",
+                        "searchQueries": ["\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"],
+                        "targetExistingTerms": ["\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps(
+                    {
+                        "videoContextText": "wrong context",
+                        "videoObjectEvidenceText": "",
+                        "contextSourceUrls": ["https://wrong.example/video"],
+                        "diagnostics": {"targetTextHits": [], "commentsCollected": 0},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = VideoContextContractComparator(payload_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {
+                    "key": "videoContextText",
+                    "python": "Bilibili video context: \u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28\nBilibili video context: \u53d1\u73b0",
+                    "js": "wrong context",
+                },
+                {
+                    "key": "videoObjectEvidenceText",
+                    "python": "Bilibili public video title: \u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28",
+                    "js": "",
+                },
+                {"key": "contextSourceUrls", "python": [], "js": ["https://wrong.example/video"]},
+                {"key": "diagnostics.targetTextHits", "python": [{"term": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28", "count": 1}], "js": []},
+                {"key": "diagnostics.commentsCollected", "python": 1, "js": 0},
+            ],
+        )
 
     def test_tieba_html_parser_matches_thread_discovery_contract(self):
         parser = TiebaHtmlParser()
