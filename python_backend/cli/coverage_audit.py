@@ -31,7 +31,7 @@ class AuditContractComparator:
         self.strict_total_evidence = strict_total_evidence
 
     def compare(self) -> dict[str, Any]:
-        with self.js_audit_path.open("r", encoding="utf-8") as handle:
+        with self.js_audit_path.open("r", encoding="utf-8-sig") as handle:
             js_audit = json.load(handle)
         target_evidence = int(js_audit.get("targetEvidence") or js_audit.get("coverage", {}).get("targetEvidence") or 3)
         require_source_backed = bool(js_audit.get("requireSourceBackedEvidence"))
