@@ -7,8 +7,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-
-STAT_KEYS = ("success", "noComments", "noVideos", "noUser", "trainError", "blocked", "errors")
+from python_backend.scrapers.uid_pipeline import UidPipelineProgressReporter
 
 
 class UidPipelineProgressRunner:
@@ -30,44 +29,9 @@ class UidPipelineProgressRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_json(self.progress_path, {})
-        processed = payload.get("processed") if isinstance(payload.get("processed"), dict) else {}
-        stats = payload.get("stats") if isinstance(payload.get("stats"), dict) else {}
-        total = max(0, self.end - self.start + 1)
-        processed_count = len(processed)
-        normalized_stats = {key: int(stats.get(key) or 0) for key in STAT_KEYS}
-        return {
-            "ok": True,
-            "range": {"start": self.start, "end": self.end, "total": total},
-            "progress": {
-                "processed": processed_count,
-                "remaining": max(0, total - processed_count),
-                "completionRatio": round(processed_count / total, 4) if total else 0,
-            },
-            "stats": normalized_stats,
-            "statusCounts": self._status_counts(processed),
-            "userDb": self._user_db_summary(),
-            "lastUpdated": payload.get("lastUpdated") or None,
-        }
-
-    def _status_counts(self, processed: dict[str, Any]) -> dict[str, int]:
-        counts: dict[str, int] = {}
-        for status in processed.values():
-            key = str(status)
-            counts[key] = counts.get(key, 0) + 1
-        return counts
-
-    def _user_db_summary(self) -> dict[str, int]:
         user_db = self._read_json(self.user_db_path, {})
         users = user_db.get("users") if isinstance(user_db.get("users"), dict) else {}
-        users_in_range = 0
-        for uid in users:
-            try:
-                numeric_uid = int(uid)
-            except (TypeError, ValueError):
-                continue
-            if self.start <= numeric_uid <= self.end:
-                users_in_range += 1
-        return {"users": len(users), "usersInRange": users_in_range}
+        return UidPipelineProgressReporter().build_report(payload, users=users, start=self.start, end=self.end)
 
     def _infer_range(self, name: str) -> tuple[int, int]:
         match = re.search(r"uid-pipeline-(\d+)-(\d+)\.json$", name)

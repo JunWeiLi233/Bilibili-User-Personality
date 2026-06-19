@@ -153,3 +153,55 @@ class UidPipelineMergeReporter:
         if not summary_only:
             result["processed"] = merged_processed
         return result
+
+
+class UidPipelineProgressReporter:
+    """Summarize one UID pipeline worker progress payload into the JS JSON contract."""
+
+    def build_report(
+        self,
+        progress_payload: dict[str, Any] | None = None,
+        *,
+        users: dict[str, Any] | None = None,
+        start: int = 0,
+        end: int = 0,
+    ) -> dict[str, Any]:
+        progress_payload = progress_payload if isinstance(progress_payload, dict) else {}
+        users = users if isinstance(users, dict) else {}
+        start = int(start)
+        end = int(end)
+        processed = progress_payload.get("processed") if isinstance(progress_payload.get("processed"), dict) else {}
+        stats = progress_payload.get("stats") if isinstance(progress_payload.get("stats"), dict) else {}
+        total = max(0, end - start + 1)
+        processed_count = len(processed)
+        return {
+            "ok": True,
+            "range": {"start": start, "end": end, "total": total},
+            "progress": {
+                "processed": processed_count,
+                "remaining": max(0, total - processed_count),
+                "completionRatio": round(processed_count / total, 4) if total else 0,
+            },
+            "stats": {key: _parse_number_or(stats.get(key), 0) for key in STAT_KEYS},
+            "statusCounts": self._status_counts(processed),
+            "userDb": {"users": len(users), "usersInRange": self._users_in_range(users, start, end)},
+            "lastUpdated": progress_payload.get("lastUpdated") or None,
+        }
+
+    def _status_counts(self, processed: dict[str, Any]) -> dict[str, int]:
+        counts: dict[str, int] = {}
+        for status in processed.values():
+            key = str(status)
+            counts[key] = counts.get(key, 0) + 1
+        return counts
+
+    def _users_in_range(self, users: dict[str, Any], start: int, end: int) -> int:
+        count = 0
+        for uid in users:
+            try:
+                numeric_uid = int(str(uid))
+            except (TypeError, ValueError):
+                continue
+            if start <= numeric_uid <= end:
+                count += 1
+        return count

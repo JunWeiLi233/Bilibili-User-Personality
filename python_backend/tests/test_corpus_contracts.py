@@ -114,7 +114,7 @@ from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner
 from python_backend.scrapers.batch_uid_scrape import BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner
-from python_backend.scrapers.uid_pipeline import UidPipelineMergeReporter, UidPipelineWorkerPlanner
+from python_backend.scrapers.uid_pipeline import UidPipelineMergeReporter, UidPipelineProgressReporter, UidPipelineWorkerPlanner
 from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanner
 
 
@@ -5413,6 +5413,25 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["statusCounts"], {"success": 1, "no_comments": 1, "no_videos": 1, "no_user": 1, "train_error": 1, "blocked": 1})
         self.assertEqual(result["userDb"], {"users": 2, "usersInRange": 1})
+        self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
+
+    def test_uid_pipeline_progress_reporter_summarizes_payload_without_filesystem(self):
+        reporter = UidPipelineProgressReporter()
+        progress = {
+            "processed": {"10": "success", "11": "blocked", "12": "blocked"},
+            "stats": {"success": 1, "blocked": 2, "errors": 1, "noVideos": 99},
+            "lastUpdated": "2026-06-19T00:00:00.000Z",
+        }
+        users = {"10": {}, "13": {}, "999": {}}
+
+        result = reporter.build_report(progress, users=users, start=10, end=14)
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"start": 10, "end": 14, "total": 5})
+        self.assertEqual(result["progress"], {"processed": 3, "remaining": 2, "completionRatio": 0.6})
+        self.assertEqual(result["stats"], {"success": 1, "noComments": 0, "noVideos": 99, "noUser": 0, "trainError": 0, "blocked": 2, "errors": 1})
+        self.assertEqual(result["statusCounts"], {"success": 1, "blocked": 2})
+        self.assertEqual(result["userDb"], {"users": 3, "usersInRange": 2})
         self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
 
     def test_uid_pipeline_progress_comparator_reports_summary_mismatches(self):
