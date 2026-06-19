@@ -16,6 +16,82 @@ class BilibiliPublicParser:
         match = re.search(r"BV[0-9A-Za-z]+", str(value or "").strip())
         return match.group(0) if match else ""
 
+    def video_object_from_view(self, bvid: Any, data: dict[str, Any] | None = None) -> dict[str, Any]:
+        data = data if isinstance(data, dict) else {}
+        bvid_text = str(bvid or "")
+        return {
+            "id": f"video-1-{data.get('aid')}",
+            "kind": "video",
+            "bvid": bvid_text,
+            "oid": str(data.get("aid")),
+            "replyType": 1,
+            "title": data.get("title") or bvid_text,
+            "authorMid": str(self._path(data, "owner", "mid") or ""),
+            "sourceUrl": f"https://www.bilibili.com/video/{bvid_text}/",
+            "replyCount": self._number(self._path(data, "stat", "reply"), 0),
+            "cid": str(data.get("cid") or self._path(data, "pages", 0, "cid") or ""),
+        }
+
+    def video_object_from_space_item(self, item: dict[str, Any] | None = None, uid: Any = "") -> dict[str, Any]:
+        item = item if isinstance(item, dict) else {}
+        bvid = item.get("bvid")
+        return {
+            "id": f"video-1-{item.get('aid')}",
+            "kind": "video",
+            "bvid": bvid,
+            "oid": str(item.get("aid")),
+            "replyType": 1,
+            "title": item.get("title") or bvid,
+            "authorMid": str(item.get("mid") or uid or ""),
+            "sourceUrl": f"https://www.bilibili.com/video/{bvid}/",
+            "replyCount": self._number(item.get("comment"), 0),
+        }
+
+    def video_object_from_search_item(self, item: dict[str, Any] | None = None) -> dict[str, Any]:
+        item = item if isinstance(item, dict) else {}
+        bvid = item.get("bvid")
+        video_id = item.get("aid") or item.get("id") or bvid
+        return {
+            "id": f"video-1-{video_id}",
+            "kind": "video",
+            "bvid": bvid,
+            "oid": str(item.get("aid") or item.get("id") or ""),
+            "replyType": 1,
+            "title": self.clean_search_title(item.get("title"), bvid),
+            "authorMid": str(item.get("mid") or item.get("author_mid") or ""),
+            "sourceUrl": item.get("arcurl") or f"https://www.bilibili.com/video/{bvid}/",
+            "replyCount": self._number(item.get("review") or item.get("comment"), 0),
+        }
+
+    def video_object_from_popular_item(self, item: dict[str, Any] | None = None) -> dict[str, Any]:
+        item = item if isinstance(item, dict) else {}
+        bvid = item.get("bvid")
+        video_id = item.get("aid") or bvid
+        reply_count = self._path(item, "stat", "reply")
+        if reply_count is None:
+            reply_count = self._path(item, "stat", "danmaku")
+        return {
+            "id": f"video-1-{video_id}",
+            "kind": "video",
+            "bvid": bvid,
+            "oid": str(item.get("aid") or ""),
+            "replyType": 1,
+            "title": item.get("title") or bvid,
+            "authorMid": str(self._path(item, "owner", "mid") or item.get("mid") or ""),
+            "sourceUrl": item.get("short_link_v2") or f"https://www.bilibili.com/video/{bvid}/",
+            "replyCount": self._number(reply_count, 0),
+        }
+
+    def clean_search_title(self, title: Any, fallback: Any = "") -> str:
+        clean = re.sub(r"<[^>]+>", "", str(title or ""))
+        clean = (
+            clean.replace("&quot;", '"')
+            .replace("&amp;", "&")
+            .replace("&#39;", "'")
+        )
+        clean = re.sub(r"\s+", " ", clean).strip()
+        return clean or str(fallback or "")
+
     def parse_danmaku_xml(self, xml: Any, video: dict[str, Any] | None = None) -> list[dict[str, Any]]:
         video = video or {}
         items: list[dict[str, Any]] = []
@@ -44,3 +120,22 @@ class BilibiliPublicParser:
             )
             index += 1
         return items
+
+    def _number(self, value: Any, fallback: int = 0) -> int:
+        try:
+            return int(float(value))
+        except (TypeError, ValueError):
+            return fallback
+
+    def _path(self, value: Any, *keys: Any) -> Any:
+        current = value
+        for key in keys:
+            if isinstance(key, int):
+                if not isinstance(current, list) or key >= len(current):
+                    return None
+                current = current[key]
+                continue
+            if not isinstance(current, dict):
+                return None
+            current = current.get(key)
+        return current

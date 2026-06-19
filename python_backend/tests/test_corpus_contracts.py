@@ -1388,6 +1388,113 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_bilibili_public_parser_normalizes_video_objects(self):
+        parser = BilibiliPublicParser()
+
+        self.assertEqual(
+            parser.video_object_from_search_item(
+                {
+                    "aid": 123,
+                    "bvid": "BV19yGa61Ee6",
+                    "title": '<em class="keyword">\u9634\u9633\u602a\u6c14</em> &amp; sample',
+                    "mid": 9,
+                    "arcurl": "https://www.bilibili.com/video/BV19yGa61Ee6/",
+                    "review": 12,
+                }
+            ),
+            {
+                "id": "video-1-123",
+                "kind": "video",
+                "bvid": "BV19yGa61Ee6",
+                "oid": "123",
+                "replyType": 1,
+                "title": "\u9634\u9633\u602a\u6c14 & sample",
+                "authorMid": "9",
+                "sourceUrl": "https://www.bilibili.com/video/BV19yGa61Ee6/",
+                "replyCount": 12,
+            },
+        )
+        self.assertEqual(
+            parser.video_object_from_popular_item(
+                {
+                    "aid": 456,
+                    "bvid": "BV1xx411c7mD",
+                    "title": "popular sample",
+                    "owner": {"mid": 8},
+                    "stat": {"reply": 22, "danmaku": 99},
+                }
+            ),
+            {
+                "id": "video-1-456",
+                "kind": "video",
+                "bvid": "BV1xx411c7mD",
+                "oid": "456",
+                "replyType": 1,
+                "title": "popular sample",
+                "authorMid": "8",
+                "sourceUrl": "https://www.bilibili.com/video/BV1xx411c7mD/",
+                "replyCount": 22,
+            },
+        )
+        self.assertEqual(
+            parser.video_object_from_view(
+                "BVlookup",
+                {"aid": 789, "title": "view sample", "owner": {"mid": 7}, "stat": {"reply": 5}, "pages": [{"cid": 456}]},
+            ),
+            {
+                "id": "video-1-789",
+                "kind": "video",
+                "bvid": "BVlookup",
+                "oid": "789",
+                "replyType": 1,
+                "title": "view sample",
+                "authorMid": "7",
+                "sourceUrl": "https://www.bilibili.com/video/BVlookup/",
+                "replyCount": 5,
+                "cid": "456",
+            },
+        )
+        self.assertEqual(
+            parser.video_object_from_space_item({"aid": 321, "bvid": "BVspace", "title": "space sample", "comment": 4}, "42"),
+            {
+                "id": "video-1-321",
+                "kind": "video",
+                "bvid": "BVspace",
+                "oid": "321",
+                "replyType": 1,
+                "title": "space sample",
+                "authorMid": "42",
+                "sourceUrl": "https://www.bilibili.com/video/BVspace/",
+                "replyCount": 4,
+            },
+        )
+
+    def test_bilibili_parse_runner_exposes_video_object_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "video-objects",
+                        "bvid": "BVlookup",
+                        "uid": "42",
+                        "view": {"aid": 789, "title": "view sample", "owner": {"mid": 7}, "stat": {"reply": 5}, "cid": 456},
+                        "searchItems": [{"aid": 123, "bvid": "BVsearch", "title": "<em>x</em>", "author_mid": 9, "comment": 2}],
+                        "popularItems": [{"bvid": "BVpop", "title": "popular", "mid": 8, "stat": {"danmaku": 3}}],
+                        "spaceItems": [{"aid": 321, "bvid": "BVspace", "title": "space", "comment": 4}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = BilibiliParseRunner(payload_path).run()
+
+        self.assertEqual(result["mode"], "video-objects")
+        self.assertEqual(result["view"]["cid"], "456")
+        self.assertEqual(result["searchVideos"][0]["sourceUrl"], "https://www.bilibili.com/video/BVsearch/")
+        self.assertEqual(result["popularVideos"][0]["replyCount"], 3)
+        self.assertEqual(result["spaceVideos"][0]["authorMid"], "42")
+
     def test_bilibili_parse_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
