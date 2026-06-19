@@ -12,16 +12,33 @@ from python_backend.analysis.video_filter import VideoCommentFilter
 class VideoCommentFilterRunner:
     """Run comment pre-filtering from JSON contracts."""
 
-    def __init__(self, comments_path: str | Path, needles_path: str | Path, extra_needles: list[str] | None = None):
+    def __init__(
+        self,
+        comments_path: str | Path,
+        needles_path: str | Path,
+        extra_needles: list[str] | None = None,
+        dictionary_mode: bool = False,
+        existing_terms_only: bool = False,
+    ):
         self.comments_path = Path(comments_path)
         self.needles_path = Path(needles_path)
         self.extra_needles = [self._decode_cli_value(item) for item in extra_needles or []]
+        self.dictionary_mode = dictionary_mode
+        self.existing_terms_only = existing_terms_only
         self.comment_filter = VideoCommentFilter()
 
     def run(self) -> dict[str, Any]:
         comments_payload = self._read_json(self.comments_path, [])
         comments = comments_payload.get("comments") if isinstance(comments_payload, dict) else comments_payload
         needles_payload = self._read_json(self.needles_path, [])
+        if self.dictionary_mode:
+            result = self.comment_filter.prefilter_comments_to_dictionary(
+                comments if isinstance(comments, list) else [],
+                needles_payload if isinstance(needles_payload, dict) else {},
+                existing_terms_only=self.existing_terms_only,
+                target_existing_terms=self.extra_needles,
+            )
+            return {"ok": True, **result}
         needles = needles_payload.get("needles") if isinstance(needles_payload, dict) else needles_payload
         result = self.comment_filter.filter_comments(
             comments if isinstance(comments, list) else [],
@@ -50,8 +67,10 @@ def main() -> int:
     parser.add_argument("--comments", required=True, help="JSON list or object with a comments array.")
     parser.add_argument("--needles", required=True, help="JSON list or object with a needles array.")
     parser.add_argument("--extra-needle", action="append", default=[])
+    parser.add_argument("--dictionary-mode", action="store_true", help="Treat --needles as a dictionary JSON payload.")
+    parser.add_argument("--existing-terms-only", action="store_true", help="Apply filtering only for existing-term dictionary refreshes.")
     args = parser.parse_args()
-    result = VideoCommentFilterRunner(args.comments, args.needles, args.extra_needle).run()
+    result = VideoCommentFilterRunner(args.comments, args.needles, args.extra_needle, args.dictionary_mode, args.existing_terms_only).run()
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0 if result["ok"] else 1
 

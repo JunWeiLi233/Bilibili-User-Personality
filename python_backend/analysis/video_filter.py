@@ -38,3 +38,49 @@ class VideoCommentFilter:
         if not matched:
             return {"comments": comments, "needleCount": len(needles), "matched": 0, "applied": False}
         return {"comments": matched, "needleCount": len(needles), "matched": len(matched), "applied": True}
+
+    def dictionary_entry_needles(self, entry: dict[str, Any] | None = None) -> list[str]:
+        entry = entry if isinstance(entry, dict) else {}
+        values = [
+            entry.get("term"),
+            *(entry.get("aliases") if isinstance(entry.get("aliases"), list) else []),
+            *(entry.get("examples") if isinstance(entry.get("examples"), list) else []),
+        ]
+        seen: set[str] = set()
+        needles: list[str] = []
+        for value in values:
+            clean = _clean_search_text(value)
+            if len(clean) < 2 or clean in seen:
+                continue
+            seen.add(clean)
+            needles.append(clean)
+        return needles
+
+    def dictionary_needle_set(self, dictionary: dict[str, Any] | None = None) -> set[str]:
+        dictionary = dictionary if isinstance(dictionary, dict) else {}
+        needles: set[str] = set()
+        for entry in dictionary.get("entries") if isinstance(dictionary.get("entries"), list) else []:
+            if not isinstance(entry, dict):
+                continue
+            needles.update(self.dictionary_entry_needles(entry))
+        return needles
+
+    def prefilter_comments_to_dictionary(
+        self,
+        comments: list[Any] | None = None,
+        dictionary: dict[str, Any] | None = None,
+        existing_terms_only: bool = False,
+        target_existing_terms: list[Any] | None = None,
+    ) -> dict[str, Any]:
+        comments = comments if isinstance(comments, list) else []
+        if not existing_terms_only or not comments:
+            return {"comments": comments, "applied": False, "needleCount": 0, "before": len(comments), "after": len(comments)}
+        needle_set = self.dictionary_needle_set(dictionary)
+        result = self.filter_comments(comments, needle_set, target_existing_terms or [])
+        return {
+            "comments": result["comments"],
+            "applied": result["applied"],
+            "needleCount": result["needleCount"],
+            "before": len(comments),
+            "after": len(result["comments"]),
+        }

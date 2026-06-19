@@ -1235,6 +1235,77 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["matched"], 2)
         self.assertEqual([comment["rpid"] for comment in result["comments"]], ["1", "2"])
 
+    def test_video_comment_filter_builds_dictionary_needles_and_prefilter_envelope(self):
+        comments = [
+            {"rpid": "1", "message": "\u5efa\u8bae\u7f51 \u76d8 \u89c1"},
+            {"rpid": "2", "message": "\u7eaf\u8def\u8fc7"},
+            {"rpid": "3", "message": "\u8fd9\u662f\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28\u4e86"},
+        ]
+        dictionary = {
+            "entries": [
+                {
+                    "term": "\u7f51\u76d8\u89c1",
+                    "aliases": ["\u7f51\u76d8\u94fe\u63a5"],
+                    "examples": ["\u53bb\u7f51\u76d8\u89c1"],
+                },
+                {"term": "x", "aliases": ["\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"]},
+            ]
+        }
+        comment_filter = VideoCommentFilter()
+
+        self.assertEqual(
+            comment_filter.dictionary_needle_set(dictionary),
+            {"\u7f51\u76d8\u89c1", "\u7f51\u76d8\u94fe\u63a5", "\u53bb\u7f51\u76d8\u89c1", "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"},
+        )
+        result = comment_filter.prefilter_comments_to_dictionary(comments, dictionary, existing_terms_only=True)
+        disabled = comment_filter.prefilter_comments_to_dictionary(comments, dictionary, existing_terms_only=False)
+        fallback = comment_filter.prefilter_comments_to_dictionary(comments, {"entries": [{"term": "\u4e0d\u5b58\u5728"}]}, existing_terms_only=True)
+
+        self.assertTrue(result["applied"])
+        self.assertEqual(result["needleCount"], 4)
+        self.assertEqual(result["before"], 3)
+        self.assertEqual(result["after"], 2)
+        self.assertEqual([comment["rpid"] for comment in result["comments"]], ["1", "3"])
+        self.assertFalse(disabled["applied"])
+        self.assertEqual(disabled["after"], 3)
+        self.assertFalse(fallback["applied"])
+        self.assertEqual(fallback["after"], 3)
+
+    def test_video_comment_filter_runner_accepts_dictionary_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            comments_path = root / "comments.json"
+            dictionary_path = root / "dictionary.json"
+            comments_path.write_text(
+                json.dumps(
+                    {
+                        "comments": [
+                            {"rpid": "1", "message": "\u7f51\u76d8\u89c1"},
+                            {"rpid": "2", "message": "\u8def\u8fc7"},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            dictionary_path.write_text(
+                json.dumps({"entries": [{"term": "\u7f51\u76d8\u89c1"}]}),
+                encoding="utf-8",
+            )
+
+            result = VideoCommentFilterRunner(
+                comments_path,
+                dictionary_path,
+                extra_needles=[],
+                dictionary_mode=True,
+                existing_terms_only=True,
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertTrue(result["applied"])
+        self.assertEqual(result["before"], 2)
+        self.assertEqual(result["after"], 1)
+        self.assertEqual(result["comments"][0]["rpid"], "1")
+
     def test_tieba_html_parser_matches_thread_discovery_contract(self):
         parser = TiebaHtmlParser()
         html = """
