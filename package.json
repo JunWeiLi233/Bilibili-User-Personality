@@ -42,6 +42,7 @@
     "python:batch-scraper-launcher": "python -m python_backend.cli.batch_scraper_launcher",
     "python:range-scraper-launcher": "python -m python_backend.cli.range_scraper_launcher",
     "python:fast-pipeline-launcher": "python -m python_backend.cli.fast_pipeline_launcher",
+    "python:uid-pipeline-plan": "python -m python_backend.cli.uid_pipeline_plan",
     "python:uid-pipeline-launcher": "python -m python_backend.cli.uid_pipeline_launcher",
     "python:uid-parallel-plan": "python -m python_backend.cli.uid_parallel_plan",
     "python:uid-parallel-progress": "python -m python_backend.cli.uid_parallel_progress",

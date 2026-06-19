@@ -54,6 +54,7 @@ from python_backend.cli.tieba_timing import TiebaTimingContractComparator, Tieba
 from python_backend.cli.uid_range_progress import UidRangeProgressContractComparator, UidRangeProgressRunner
 from python_backend.cli.uid_parallel_plan import UidParallelPlanContractComparator, UidParallelPlanRunner
 from python_backend.cli.uid_parallel_progress import UidParallelProgressContractComparator, UidParallelProgressRunner
+from python_backend.cli.uid_pipeline_plan import UidPipelinePlanContractComparator, UidPipelinePlanRunner
 from python_backend.cli.uid_pipeline_progress import UidPipelineProgressContractComparator, UidPipelineProgressRunner
 from python_backend.cli.uid_pipeline_merge import UidPipelineMergeContractComparator, UidPipelineMergeRunner
 from python_backend.cli.uid_pipeline_launcher import UidPipelineLauncherContractComparator, UidPipelineLauncherPlanRunner
@@ -100,6 +101,7 @@ from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner
 from python_backend.scrapers.batch_uid_scrape import BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner
+from python_backend.scrapers.uid_pipeline import UidPipelineWorkerPlanner
 
 
 class CorpusContractTests(unittest.TestCase):
@@ -4833,6 +4835,57 @@ class CorpusContractTests(unittest.TestCase):
                     "python": {"success": 1, "noComments": 0, "noVideos": 0, "noUser": 0, "trainError": 0, "blocked": 0, "errors": 0},
                     "js": {"success": 0},
                 },
+            ],
+        )
+
+    def test_uid_pipeline_plan_matches_js_range_limits_and_training_contract(self):
+        planner = UidPipelineWorkerPlanner()
+        progress = {
+            "processed": {"10": "success", "11": "no_user", "12": "blocked"},
+            "stats": {"success": 1, "noComments": 0, "noVideos": 0, "noUser": 1, "trainError": 0, "blocked": 1, "errors": 0},
+        }
+
+        result = planner.build_plan(["--start=10", "--end=15"], progress, {"users": {"10": {}, "99": {}}})
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"start": 10, "end": 15, "total": 6})
+        self.assertEqual(result["progress"], {"processed": 3, "remaining": 3, "completionRatio": 0.5})
+        self.assertEqual(result["limits"], {"videosPerUser": 3, "commentPagesPerVideo": 2, "commentTextMinChars": 10, "commentTextLimit": 8000})
+        self.assertEqual(result["pacing"], {"delayUidMs": 1500, "delayRequestMs": 500, "saveEvery": 20})
+        self.assertEqual(result["training"], {"multiagent": True, "existingTermsOnly": False, "lockRetryDelayMs": 10000, "lockMaxRetries": 5})
+        self.assertEqual(result["blockPolicy"], {"blockedCodes": [-799, -352], "consecutiveBlockThreshold": 3, "blockBackoffBaseMs": 30000, "blockBackoffMaxMultiplier": 10})
+        self.assertEqual(result["stats"], {"success": 1, "noComments": 0, "noVideos": 0, "noUser": 1, "trainError": 0, "blocked": 1, "errors": 0})
+        self.assertEqual(result["userDb"], {"users": 2, "usersInRange": 1})
+
+    def test_uid_pipeline_plan_runner_and_comparator_read_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "uid-pipeline-plan.json"
+            js_report_path = root / "js-uid-pipeline-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--start=1", "--end=3"],
+                        "progress": {"processed": {"1": "success"}, "stats": {"success": 1}},
+                        "database": {"users": {"1": {}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"progress": {"processed": 0}, "training": {"multiagent": False}}), encoding="utf-8")
+
+            result = UidPipelinePlanRunner(payload_path).run()
+            comparison = UidPipelinePlanContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"start": 1, "end": 3, "total": 3})
+        self.assertEqual(result["progress"], {"processed": 1, "remaining": 2, "completionRatio": 0.3333})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "progress", "python": {"processed": 1, "remaining": 2, "completionRatio": 0.3333}, "js": {"processed": 0}},
+                {"key": "training", "python": {"multiagent": True, "existingTermsOnly": False, "lockRetryDelayMs": 10000, "lockMaxRetries": 5}, "js": {"multiagent": False}},
             ],
         )
 
