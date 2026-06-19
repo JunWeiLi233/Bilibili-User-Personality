@@ -32,7 +32,7 @@ from python_backend.cli.history_tag_corpus import HistoryTagCorpusRunner
 from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportRunner
 from python_backend.cli.local_corpus_evidence import LocalCorpusEvidenceRunner
 from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenRunner
-from python_backend.cli.video_comment_filter import VideoCommentFilterRunner
+from python_backend.cli.video_comment_filter import VideoCommentFilterContractComparator, VideoCommentFilterRunner
 from python_backend.cli.video_context import VideoContextContractComparator, VideoContextRunner
 from python_backend.cli.video_relevance import VideoRelevanceContractComparator, VideoRelevanceRunner
 from python_backend.cli.direct_probe_corpus import DirectProbeCorpusRunner
@@ -1966,6 +1966,50 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["before"], 2)
         self.assertEqual(result["after"], 1)
         self.assertEqual(result["comments"][0]["rpid"], "1")
+
+    def test_video_comment_filter_contract_comparator_reports_filter_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            comments_path = root / "comments.json"
+            needles_path = root / "needles.json"
+            js_report_path = root / "js-report.json"
+            comments_path.write_text(
+                json.dumps(
+                    {
+                        "comments": [
+                            {"rpid": "1", "message": "\u7f51\u76d8\u89c1"},
+                            {"rpid": "2", "message": "\u8def\u8fc7"},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            needles_path.write_text(json.dumps({"needles": ["\u7f51\u76d8\u89c1"]}), encoding="utf-8")
+            js_report_path.write_text(
+                json.dumps(
+                    {
+                        "applied": False,
+                        "matched": 0,
+                        "before": 2,
+                        "after": 2,
+                        "comments": [{"rpid": "2", "message": "\u8def\u8fc7"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = VideoCommentFilterContractComparator(comments_path, needles_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "applied", "python": True, "js": False},
+                {"key": "matched", "python": 1, "js": 0},
+                {"key": "after", "python": 1, "js": 2},
+                {"key": "comments", "python": ["1"], "js": ["2"]},
+            ],
+        )
 
     def test_video_relevance_filter_weights_alias_queries_and_stably_ranks(self):
         relevance = VideoRelevanceFilter()
