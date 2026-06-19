@@ -551,6 +551,49 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(dictionary.entries[0]["evidenceSamples"], ["doge satire"])
         self.assertEqual(dictionary.entries[0]["evidenceSources"][0]["sample"], "doge satire")
 
+    def test_dictionary_loader_accepts_utf8_bom_split_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "dict.entries").mkdir()
+            (root / "dict.evidence").mkdir()
+            (root / "dict.json").write_text(
+                "\ufeff"
+                + json.dumps(
+                    {
+                        "version": 1,
+                        "storage": "split",
+                        "entryFiles": {"attack": ["dict.entries/attack-001.json"]},
+                        "evidenceFiles": {"attack": ["dict.evidence/attack-001.json"]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (root / "dict.entries" / "attack-001.json").write_text(
+                "\ufeff" + json.dumps({"entries": [{"term": "bomTerm", "family": "attack", "evidenceCount": 1}]}),
+                encoding="utf-8",
+            )
+            (root / "dict.evidence" / "attack-001.json").write_text(
+                "\ufeff"
+                + json.dumps(
+                    {
+                        "evidence": [
+                            {
+                                "term": "bomTerm",
+                                "evidenceSamples": ["bom sample"],
+                                "evidenceSources": [{"source": "bilibili", "sample": "bom sample"}],
+                            }
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            dictionary = DictionaryLoader(root / "dict.json").load()
+
+        self.assertEqual(dictionary.entries[0]["term"], "bomTerm")
+        self.assertEqual(dictionary.entries[0]["evidenceSamples"], ["bom sample"])
+        self.assertEqual(dictionary.entries[0]["evidenceSources"][0]["sample"], "bom sample")
+
     def test_dictionary_loader_merges_duplicate_split_evidence_terms(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

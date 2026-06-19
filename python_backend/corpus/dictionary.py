@@ -63,7 +63,7 @@ class DictionaryLoader:
 
     @staticmethod
     def _read_json(path: Path) -> dict[str, Any]:
-        with path.open("r", encoding="utf-8") as handle:
+        with path.open("r", encoding="utf-8-sig") as handle:
             return json.load(handle)
 
     @staticmethod
