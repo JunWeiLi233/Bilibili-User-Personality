@@ -243,20 +243,32 @@ function formatDateLabel(value) {
 
 function polyline(points, valueKey, maxValue, x0, y0, width, height) {
   if (!points.length) return '';
+  const yForValue = (value) => {
+    const ratio = Math.max(0, Math.min(1, value / maxValue));
+    return y0 + height - (ratio * height);
+  };
   if (points.length === 1) {
-    const y = y0 + height - ((points[0][valueKey] / maxValue) * height);
+    const y = yForValue(points[0][valueKey]);
     return `${x0},${y.toFixed(1)} ${x0 + width},${y.toFixed(1)}`;
   }
   return points.map((point, index) => {
     const x = x0 + ((index / (points.length - 1)) * width);
-    const y = y0 + height - ((point[valueKey] / maxValue) * height);
+    const y = yForValue(point[valueKey]);
     return `${x.toFixed(1)},${y.toFixed(1)}`;
   }).join(' ');
 }
 
+export function paddedTimelineMax(value) {
+  const raw = Math.max(1, Number(value) || 1);
+  const padded = raw * 1.08;
+  const magnitude = 10 ** Math.max(0, Math.floor(Math.log10(padded)) - 1);
+  return Math.ceil(padded / magnitude) * magnitude;
+}
+
 function renderTimelineSvg(timeline, generatedAt) {
   const points = timeline.points || [];
-  const maxValue = Math.max(...points.map((point) => point.total), timeline.finalTotal, 1);
+  const observedMax = Math.max(...points.map((point) => point.total), timeline.finalTotal, 1);
+  const maxValue = paddedTimelineMax(observedMax);
   const x0 = 72;
   const y0 = 126;
   const width = 748;

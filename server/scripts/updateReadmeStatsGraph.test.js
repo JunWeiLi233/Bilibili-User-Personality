@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { buildCollectionTimeline } from './updateReadmeStatsGraph.js';
+import { buildCollectionTimeline, paddedTimelineMax } from './updateReadmeStatsGraph.js';
 
 test('buildCollectionTimeline accumulates comment and danmaku growth by run time', () => {
   const timeline = buildCollectionTimeline([
@@ -42,4 +42,9 @@ test('buildCollectionTimeline accumulates comment and danmaku growth by run time
   ]);
   assert.equal(timeline.finalComments, 5);
   assert.equal(timeline.finalDanmaku, 2);
+});
+
+test('paddedTimelineMax keeps the highest timeline point below the top grid line', () => {
+  assert.equal(paddedTimelineMax(179185), 200000);
+  assert.ok(paddedTimelineMax(179185) > 179185);
 });
