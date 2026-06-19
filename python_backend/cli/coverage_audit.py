@@ -25,7 +25,7 @@ class AuditContractComparator:
 
     WARNING_METRIC_KEYS: tuple[str, ...] = ()
     COVERAGE_STATUS_KEYS = ("complete",)
-    OPTIONAL_COVERAGE_METRIC_KEYS = ("averageEvidence", "sourceCoverageRatio")
+    OPTIONAL_COVERAGE_METRIC_KEYS = ("targetEvidence", "averageEvidence", "sourceCoverageRatio")
 
     def __init__(self, dictionary_path: str | Path, js_audit_path: str | Path, strict_total_evidence: bool = False):
         self.dictionary_path = Path(dictionary_path)
