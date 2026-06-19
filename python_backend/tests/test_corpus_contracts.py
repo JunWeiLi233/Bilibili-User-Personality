@@ -39,7 +39,7 @@ from python_backend.cli.direct_probe_corpus import DirectProbeCorpusContractComp
 from python_backend.cli.direct_probe_plan import DirectProbePlanContractComparator, DirectProbePlanRunner
 from python_backend.cli.random_verification import RandomVerificationContractComparator, RandomVerificationRunner, json_result_bytes
 from python_backend.cli.tieba_corpus import TiebaCorpusUpdateContractComparator, TiebaCorpusUpdateRunner
-from python_backend.cli.tieba_html_parse import TiebaHtmlParseRunner
+from python_backend.cli.tieba_html_parse import TiebaHtmlParseContractComparator, TiebaHtmlParseRunner
 from python_backend.cli.tieba_timing import TiebaTimingContractComparator, TiebaTimingRunner
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder
 from python_backend.corpus.history_tags import HistoryTagCorpusManager
@@ -2634,6 +2634,45 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["mode"], "comments")
         self.assertEqual(result["comments"][0]["message"], "\u65b0\u8d34\u5427\u8bc4\u8bba")
+
+    def test_tieba_html_parse_contract_comparator_reports_parse_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-tieba-html.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "threads",
+                        "keyword": "无界可爱",
+                        "html": '<a href="/p/1234567890" title="无界可爱讨论">duplicate body</a>',
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"ok": True, "mode": "threads", "threads": []}), encoding="utf-8")
+
+            result = TiebaHtmlParseContractComparator(payload_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {
+                    "key": "threads",
+                    "python": [
+                        {
+                            "id": "1234567890",
+                            "kind": "tieba-thread",
+                            "title": "无界可爱讨论",
+                            "keyword": "无界可爱",
+                            "sourceUrl": "https://tieba.baidu.com/p/1234567890",
+                        }
+                    ],
+                    "js": [],
+                }
+            ],
+        )
 
     def test_bilibili_public_parser_matches_bvid_contracts(self):
         parser = BilibiliPublicParser()
