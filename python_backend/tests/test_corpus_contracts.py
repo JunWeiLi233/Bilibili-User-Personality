@@ -52,6 +52,7 @@ from python_backend.cli.tieba_html_parse import TiebaHtmlParseContractComparator
 from python_backend.cli.tieba_keyword_plan import TiebaKeywordPlanContractComparator, TiebaKeywordPlanRunner
 from python_backend.cli.tieba_timing import TiebaTimingContractComparator, TiebaTimingRunner
 from python_backend.cli.uid_range_progress import UidRangeProgressContractComparator, UidRangeProgressRunner
+from python_backend.cli.uid_parallel_plan import UidParallelPlanContractComparator, UidParallelPlanRunner
 from python_backend.cli.uid_parallel_progress import UidParallelProgressContractComparator, UidParallelProgressRunner
 from python_backend.cli.uid_pipeline_progress import UidPipelineProgressContractComparator, UidPipelineProgressRunner
 from python_backend.cli.uid_pipeline_merge import UidPipelineMergeContractComparator, UidPipelineMergeRunner
@@ -98,6 +99,7 @@ from python_backend.scrapers.batch_popular import BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner
 from python_backend.scrapers.batch_uid_scrape import BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner
+from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner
 
 
 class CorpusContractTests(unittest.TestCase):
@@ -4898,6 +4900,60 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {"key": "progress", "python": {"processed": 1, "remaining": 0, "completionRatio": 1.0}, "js": {"processed": 0}},
                 {"key": "stats", "python": {"success": 0, "noText": 0, "errors": 1}, "js": {"errors": 0}},
+            ],
+        )
+
+    def test_uid_parallel_plan_matches_js_worker_assignment_and_training_contract(self):
+        planner = UidParallelAnalyzerPlanner()
+        comments = {
+            "100": [{"message": "a", "bvid": "BV1"}],
+            "101": [{"message": "", "bvid": "BV2"}],
+            "102": [],
+            "103": [{"message": "d", "bvid": "BV3"}],
+            "104": [{"message": "e", "bvid": "BV4"}],
+        }
+        progress = {"processed": {"101": "no_text"}, "stats": {"success": 0, "noText": 1, "errors": 0}}
+
+        result = planner.build_plan(["--worker=1", "--workers=2"], comments, progress, {"users": {"103": {}, "999": {}}})
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["worker"], {"id": 1, "totalWorkers": 2, "assigned": 2})
+        self.assertEqual(result["assignment"], {"assignedUids": ["101", "103"], "alreadyProcessed": 1, "pending": 1, "trainable": 1, "skippableNoText": 0})
+        self.assertEqual(result["training"], {"multiagent": True, "existingTermsOnly": False, "commentTextLimit": 5000, "saveEvery": 20})
+        self.assertEqual(result["pacing"], {"lockRetryDelayMs": 3000, "lockRetryJitterMs": 2000, "lockMaxRetries": 15, "staleLockRemovalAfterAttempt": 8})
+        self.assertEqual(result["stats"], {"success": 0, "noText": 1, "errors": 0})
+        self.assertEqual(result["userDb"], {"users": 2, "assignedUsersInDb": 1})
+
+    def test_uid_parallel_plan_runner_and_comparator_read_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "uid-parallel-plan.json"
+            js_report_path = root / "js-uid-parallel-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--worker=0", "--workers=2"],
+                        "comments": {"100": [{"message": "a"}], "101": [{"message": ""}], "102": [{"message": "c"}]},
+                        "progress": {"processed": {"100": "success"}, "stats": {"success": 1}},
+                        "database": {"users": {"100": {}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"assignment": {"trainable": 9}, "training": {"multiagent": False}}), encoding="utf-8")
+
+            result = UidParallelPlanRunner(payload_path).run()
+            comparison = UidParallelPlanContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["worker"], {"id": 0, "totalWorkers": 2, "assigned": 2})
+        self.assertEqual(result["assignment"], {"assignedUids": ["100", "102"], "alreadyProcessed": 1, "pending": 1, "trainable": 1, "skippableNoText": 0})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "assignment", "python": {"assignedUids": ["100", "102"], "alreadyProcessed": 1, "pending": 1, "trainable": 1, "skippableNoText": 0}, "js": {"trainable": 9}},
+                {"key": "training", "python": {"multiagent": True, "existingTermsOnly": False, "commentTextLimit": 5000, "saveEvery": 20}, "js": {"multiagent": False}},
             ],
         )
 
