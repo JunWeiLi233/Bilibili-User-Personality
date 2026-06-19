@@ -90,7 +90,7 @@ from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriteSummary, CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliParseSummary, BilibiliPublicParser
-from python_backend.scrapers.aicu import AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanner
+from python_backend.scrapers.aicu import AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanSummary, AicuScrapePlanner
 from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanSummary, AicuBrowserBatchPlanner
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanner
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerHelper
@@ -626,6 +626,19 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "summary", "python": {"uids": 2, "commentPagesPerUid": 2, "danmakuPagesPerUid": 2, "delayBetweenUidsMs": 15000}, "js": {"uids": 1}},
             ],
         )
+
+    def test_aicu_scrape_plan_summary_extracts_comparator_contract(self):
+        summary = AicuScrapePlanSummary().summarize(
+            {
+                "ok": True,
+                "uids": ["42", "43"],
+                "summary": {"uids": 2},
+                "requests": [{"uid": "42"}],
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(summary, {"uids": ["42", "43"], "summary": {"uids": 2}, "requests": [{"uid": "42"}]})
 
     def test_aicu_batch_planner_matches_js_resume_waf_and_request_contract(self):
         planner = AicuBatchPlanner()

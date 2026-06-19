@@ -16,6 +16,16 @@ def _parse_int_or(value: Any, fallback: int) -> int:
         return fallback
 
 
+class AicuScrapePlanSummary:
+    """Shape AICU scrape request plans into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("uids", "summary", "requests")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        source = result if isinstance(result, dict) else {}
+        return {key: source.get(key) for key in self.RESULT_KEYS if key in source}
+
+
 class AicuScrapePlanner:
     """Build a read-only plan compatible with scrapeAicuUsers.js UID inputs."""
 
