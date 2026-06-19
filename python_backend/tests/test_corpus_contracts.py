@@ -114,7 +114,7 @@ from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner, UidRan
 from python_backend.scrapers.batch_uid_scrape import BatchUidProgressReporter, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner, UidDiscoveryProgressReporter
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelProgressReporter
-from python_backend.scrapers.uid_pipeline import UidPipelineMergeReporter, UidPipelineProgressReporter, UidPipelineWorkerPlanner
+from python_backend.scrapers.uid_pipeline import UidPipelineMergeReporter, UidPipelineProgressReporter, UidPipelineStateReporter, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorReporter
 from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanner
 
@@ -5305,6 +5305,43 @@ class CorpusContractTests(unittest.TestCase):
                     "python": [{"start": 1, "end": 2, "progressFile": "uid-pipeline-1-2.json"}],
                     "js": [{"start": 1, "end": 2, "progressFile": "stale.json"}],
                 }
+            ],
+        )
+
+    def test_uid_pipeline_state_reporter_summarizes_launcher_payload_without_filesystem(self):
+        result = UidPipelineStateReporter().build_report(
+            {
+                "startedAt": "2026-06-19T00:00:00.000Z",
+                "workers": [
+                    {"start": 10, "end": 12, "progressFile": "uid-pipeline-10-12.json"},
+                    {"start": 13, "end": 14},
+                    "ignore-me",
+                ],
+            },
+            {
+                "uid-pipeline-10-12.json": {
+                    "processed": {"10": "success", "11": "blocked", "12": "success"},
+                    "stats": {"success": "2", "blocked": 1, "errors": "bad"},
+                },
+                "uid-pipeline-13-14.json": {
+                    "processed": {"13": "no_comments"},
+                    "stats": {"noComments": 1},
+                },
+            },
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["startedAt"], "2026-06-19T00:00:00.000Z")
+        self.assertEqual(
+            result["summary"],
+            {"workers": 2, "completedWorkers": 1, "totalProcessed": 4, "totalExpected": 5, "completionRatio": 0.8},
+        )
+        self.assertEqual(result["stats"], {"success": 2, "noComments": 1, "noVideos": 0, "noUser": 0, "trainError": 0, "blocked": 1, "errors": 0})
+        self.assertEqual(
+            result["workers"],
+            [
+                {"start": 10, "end": 12, "progressFile": "uid-pipeline-10-12.json", "processed": 3, "total": 3, "complete": True},
+                {"start": 13, "end": 14, "progressFile": "uid-pipeline-13-14.json", "processed": 1, "total": 2, "complete": False},
             ],
         )
 

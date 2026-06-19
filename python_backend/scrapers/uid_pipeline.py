@@ -155,6 +155,63 @@ class UidPipelineMergeReporter:
         return result
 
 
+class UidPipelineStateReporter:
+    """Summarize UID pipeline launcher state and worker progress payloads."""
+
+    def build_report(self, state_payload: dict[str, Any] | None = None, progress_by_file: dict[str, Any] | None = None) -> dict[str, Any]:
+        state_payload = state_payload if isinstance(state_payload, dict) else {}
+        progress_by_file = progress_by_file if isinstance(progress_by_file, dict) else {}
+        raw_workers = state_payload.get("workers") if isinstance(state_payload.get("workers"), list) else []
+        stats = {key: 0 for key in STAT_KEYS}
+        workers = []
+        total_processed = 0
+        total_expected = 0
+        completed_workers = 0
+
+        for raw_worker in raw_workers:
+            if not isinstance(raw_worker, dict):
+                continue
+            start = _parse_number_or(raw_worker.get("start"), 0)
+            end = _parse_number_or(raw_worker.get("end"), 0)
+            total = max(0, end - start + 1)
+            progress_file = str(raw_worker.get("progressFile") or f"uid-pipeline-{start}-{end}.json")
+            progress = progress_by_file.get(progress_file) if isinstance(progress_by_file.get(progress_file), dict) else {}
+            processed = progress.get("processed") if isinstance(progress.get("processed"), dict) else {}
+            progress_stats = progress.get("stats") if isinstance(progress.get("stats"), dict) else {}
+            processed_count = len(processed)
+            complete = bool(total and processed_count >= total)
+
+            total_processed += processed_count
+            total_expected += total
+            completed_workers += 1 if complete else 0
+            for key in STAT_KEYS:
+                stats[key] += _parse_number_or(progress_stats.get(key), 0)
+            workers.append(
+                {
+                    "start": start,
+                    "end": end,
+                    "progressFile": progress_file,
+                    "processed": processed_count,
+                    "total": total,
+                    "complete": complete,
+                }
+            )
+
+        return {
+            "ok": True,
+            "startedAt": state_payload.get("startedAt") or None,
+            "workers": workers,
+            "stats": stats,
+            "summary": {
+                "workers": len(workers),
+                "completedWorkers": completed_workers,
+                "totalProcessed": total_processed,
+                "totalExpected": total_expected,
+                "completionRatio": round(total_processed / total_expected, 4) if total_expected else 0,
+            },
+        }
+
+
 class UidPipelineProgressReporter:
     """Summarize one UID pipeline worker progress payload into the JS JSON contract."""
 
