@@ -27,7 +27,7 @@ from python_backend.cli.readme_stats import ReadmeStatsRunner
 from python_backend.cli.semantic_matcher import SemanticMatcherContractComparator, SemanticMatcherRunner
 from python_backend.cli.compare_contracts import ContractComparator
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanContractComparator, DeepSeekAnalysisPlanRunner
-from python_backend.cli.keyword_evidence import KeywordEvidenceRunner
+from python_backend.cli.keyword_evidence import KeywordEvidenceContractComparator, KeywordEvidenceRunner
 from python_backend.cli.history_tag_corpus import HistoryTagCorpusContractComparator, HistoryTagCorpusRunner
 from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportRunner
 from python_backend.cli.local_corpus_evidence import LocalCorpusEvidenceContractComparator, LocalCorpusEvidenceRunner
@@ -470,6 +470,61 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["entries"][0]["term"], "yygq")
         self.assertEqual(result["entries"][0]["evidenceCount"], 2)
+
+    def test_keyword_evidence_contract_comparator_reports_entry_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-keyword-evidence.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [{"term": "YYGQ", "family": "attack", "meaning": "Chinese initialism"}],
+                        "text": "YYGQ once\nyygq twice",
+                        "source": "Bilibili public comment target expansion",
+                        "uid": "mid-1",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"ok": True, "mode": "entries", "count": 1, "entries": []}),
+                encoding="utf-8",
+            )
+
+            result = KeywordEvidenceContractComparator(payload_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {
+                    "key": "entries",
+                    "python": [
+                        {
+                            "term": "yygq",
+                            "family": "attack",
+                            "meaning": "Chinese initialism",
+                            "evidenceCount": 2,
+                            "evidenceSamples": ["YYGQ once", "yygq twice"],
+                            "evidenceSources": [
+                                {
+                                    "source": "Bilibili public comment target expansion",
+                                    "uid": "mid-1",
+                                    "sample": "YYGQ once",
+                                },
+                                {
+                                    "source": "Bilibili public comment target expansion",
+                                    "uid": "mid-1",
+                                    "sample": "yygq twice",
+                                },
+                            ],
+                        }
+                    ],
+                    "js": [],
+                }
+            ],
+        )
 
     def test_semantic_matcher_helper_matches_js_chunk_and_cosine_contracts(self):
         matcher = SemanticMatcherHelper()
