@@ -77,7 +77,7 @@ from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContra
 from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContractComparator, FastPipelineLauncherPlanRunner
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusSummary, DirectProbePlanSummary
 from python_backend.corpus.history_tags import HistoryTagCorpusManager, HistoryTagCorpusSummary, HistoryTagScrapePlanner, HistoryTagScrapePlanSummary
-from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceImportPlanner, HuggingFaceImportSummary
+from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
 from python_backend.corpus.local import LocalCorpusEvidenceFinder, LocalCorpusEvidenceSummary
 from python_backend.corpus.local import LocalCorpusFlattenSummary, LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner
@@ -2129,6 +2129,30 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "requestTimeoutMs", "python": 1000, "js": 50},
                 {"key": "write", "python": True, "js": False},
             ],
+        )
+
+    def test_huggingface_import_plan_summary_extracts_comparator_contract(self):
+        summary = HuggingFaceImportPlanSummary().summarize(
+            {
+                "ok": True,
+                "outputPath": "server/data/hf.json",
+                "requestTimeoutMs": 30000,
+                "write": False,
+                "sources": [{"dataset": "Midsummra/bilibilicomment"}],
+                "summary": {"sources": 1},
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "outputPath": "server/data/hf.json",
+                "requestTimeoutMs": 30000,
+                "write": False,
+                "sources": [{"dataset": "Midsummra/bilibilicomment"}],
+                "summary": {"sources": 1},
+            },
         )
 
     def test_huggingface_import_runner_reads_raw_and_existing_json_contracts(self):

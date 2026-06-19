@@ -194,6 +194,16 @@ class HuggingFaceImportSummary:
         return {key: result.get(key) for key in self.SUMMARY_KEYS if key in result}
 
 
+class HuggingFaceImportPlanSummary:
+    """Shape HuggingFace/Kaggle fetch plans into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("outputPath", "requestTimeoutMs", "write", "sources", "summary")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        source = result if isinstance(result, dict) else {}
+        return {key: source.get(key) for key in self.RESULT_KEYS if key in source}
+
+
 class HuggingFaceImportPlanner:
     """Build a dry-run fetch plan compatible with importHuggingFaceCorpus.js."""
 
