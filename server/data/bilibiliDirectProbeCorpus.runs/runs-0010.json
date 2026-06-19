@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T01:31:56.854Z",
+  "updatedAt": "2026-06-19T01:39:52.905Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -699,6 +699,64 @@
       "warnings": [],
       "commentsCollected": 50,
       "commentsAdded": 44
+    },
+    {
+      "at": "2026-06-19T01:39:52.905Z",
+      "actions": [
+        {
+          "term": "这还用说",
+          "query": "这还用说 B站评论"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1F2uyzAEhm",
+          "term": "这还用说",
+          "query": "这还用说 B站评论",
+          "bvid": "BV1F2uyzAEhm",
+          "aid": 114855445074105,
+          "title": "继<em class=\"keyword\">评论</em>折叠后，又一新隐藏<em class=\"keyword\">评论</em>方式"
+        },
+        {
+          "key": "bvid:BV1S8jv64E5L",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1S8jv64E5L",
+          "aid": 116774104205120,
+          "title": "362w白龙带281紫鼠过雷巫，这个boss攻击欲望太<em class=\"keyword\">雷霆</em>了，对我这个喜欢耗的太难了"
+        },
+        {
+          "key": "bvid:BV1hmxKexEjq",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1hmxKexEjq",
+          "aid": 113213492499359,
+          "title": "<em class=\"keyword\">B站评论</em>区蓝色链接是怎么做的?教你三端如何操作"
+        },
+        {
+          "key": "bvid:BV1dj421m7vH",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1dj421m7vH",
+          "aid": 1651289322,
+          "title": "【我的世界】呓语·东竹<em class=\"keyword\">茶庄</em>：一<em class=\"keyword\">个有</em>一点不一样的大型科技魔法服务器宣传片[180+模组][独家魔改][MC服务器推荐][六年老服]"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 148,
+      "commentsAdded": 88
     }
   ]
 }
