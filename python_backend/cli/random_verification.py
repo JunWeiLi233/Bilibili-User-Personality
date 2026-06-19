@@ -24,7 +24,7 @@ class RandomVerificationRunner:
     def run(self) -> dict[str, Any]:
         corpus = CorpusLoader(self.corpus_path).load()
         dictionary = DictionaryLoader(self.dictionary_path).load()
-        terms = [str(entry.get("term") or "").strip() for entry in dictionary.entries]
+        terms = self._keyword_terms(dictionary.entries)
         summary = RandomVerifier(terms).verify(corpus.comments, sample_size=self.sample_size, seed=self.seed)
         payload = asdict(summary)
         return {
@@ -43,6 +43,23 @@ class RandomVerificationRunner:
             "uncovered": payload["uncovered"],
             "samples": payload["samples"],
         }
+
+    def _keyword_terms(self, entries: list[dict[str, Any]]) -> list[str]:
+        seen: set[str] = set()
+        terms: list[str] = []
+        for entry in entries:
+            values = [
+                entry.get("term"),
+                *(entry.get("aliases") if isinstance(entry.get("aliases"), list) else []),
+                *(entry.get("examples") if isinstance(entry.get("examples"), list) else []),
+            ]
+            for value in values:
+                term = str(value or "").strip()
+                if not term or term in seen:
+                    continue
+                seen.add(term)
+                terms.append(term)
+        return terms
 
 
 def json_result_bytes(result: dict[str, Any]) -> bytes:

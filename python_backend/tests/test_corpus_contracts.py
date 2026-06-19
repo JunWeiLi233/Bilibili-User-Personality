@@ -3318,6 +3318,47 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["uncovered"], 0)
         self.assertEqual(result["dictionaryTerms"], 2)
 
+    def test_random_verification_runner_uses_dictionary_aliases_and_examples(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            dictionary_path = root / "dictionary.json"
+            corpus_path.write_text(
+                json.dumps(
+                    {
+                        "comments": [
+                            {"message": "dddd"},
+                            {"message": "\u5927\u5bb6\u90fd\u61c2"},
+                            {"message": "ordinary"},
+                        ],
+                        "runs": [],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {
+                                "term": "\u61c2\u7684\u90fd\u61c2",
+                                "family": "evasion",
+                                "aliases": ["dddd"],
+                                "examples": ["\u5927\u5bb6\u90fd\u61c2"],
+                            }
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = RandomVerificationRunner(corpus_path, dictionary_path, sample_size=3, seed=1).run()
+
+        self.assertEqual(result["sampled"], 3)
+        self.assertEqual(result["keywordHits"], 2)
+        self.assertEqual(result["neutral"], 1)
+        self.assertEqual(result["dictionaryTerms"], 3)
+
     def test_random_verification_json_output_is_utf8_safe(self):
         payload = {"ok": True, "samples": [{"message": "emoji 😭 and hangul 눈"}]}
 
