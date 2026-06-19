@@ -1,6 +1,16 @@
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
+
+
+BATCH_LAUNCHER_RANGES = (
+    {"start": 1, "end": 20000, "progressFile": "batch-uid-progress-1-20000.json"},
+    {"start": 20001, "end": 40000, "progressFile": "batch-uid-progress-20001-40000.json"},
+    {"start": 40001, "end": 60000, "progressFile": "batch-uid-progress-40001-60000.json"},
+    {"start": 60001, "end": 80000, "progressFile": "batch-uid-progress-60001-80000.json"},
+    {"start": 80001, "end": 100000, "progressFile": "batch-uid-progress-80001-100000.json"},
+)
 
 
 def _int_or_zero(value: Any) -> int:
@@ -68,6 +78,38 @@ class BatchUidScrapePlanner:
         if not isinstance(comments, list):
             return ""
         return "\n".join(str(comment.get("message") or "") for comment in comments if isinstance(comment, dict))
+
+
+class BatchScraperLauncherPlanner:
+    """Build a dry-run launch plan compatible with launchAllScrapers.js ranges."""
+
+    def build_plan(self, *, data_dir: str | Path, script: str = "server/scripts/batchUidScrape.js") -> dict[str, Any]:
+        data_dir = Path(data_dir)
+        workers = []
+        for item in BATCH_LAUNCHER_RANGES:
+            start = int(item["start"])
+            end = int(item["end"])
+            progress_file = str(item["progressFile"])
+            workers.append(
+                {
+                    "start": start,
+                    "end": end,
+                    "progressFile": progress_file,
+                    "logFile": f"scraper-logs/scraper-{start}-{end}.log",
+                    "args": [f"--start={start}", f"--end={end}", f"--progress={progress_file}"],
+                }
+            )
+
+        total_start = workers[0]["start"] if workers else 0
+        total_end = workers[-1]["end"] if workers else 0
+        total_uids = sum(worker["end"] - worker["start"] + 1 for worker in workers)
+        return {
+            "ok": True,
+            "script": script,
+            "logDir": str(data_dir / "scraper-logs"),
+            "workers": workers,
+            "summary": {"workers": len(workers), "totalStart": total_start, "totalEnd": total_end, "totalUids": total_uids},
+        }
 
 
 class BatchUidProgressReporter:
