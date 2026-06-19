@@ -5421,6 +5421,18 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["resume"], {"lastUid": 105, "resumed": True})
         self.assertEqual(result["database"], {"users": 2})
         self.assertEqual(result["limits"], {"maxVideos": 3, "maxComments": 50, "replyPages": 1})
+        self.assertEqual(result["pacing"], {"delayBetweenRequestsMs": 3000, "delayBetweenUidsMs": 15000, "delayAfterRateLimitMs": 60000})
+        self.assertEqual(result["retry"], {"maxRetries": 3, "rateLimitCodes": [-799, -412], "htmlWafDetection": True, "hasUserAgent": True, "referer": "https://www.bilibili.com/"})
+        self.assertEqual(result["browser"], {"command": "browser-harness", "script": "server/scripts/browserGetVideos.py", "wrapper": "server/data/_browser_tmp.py", "timeoutMs": 45000, "maxVideos": 3})
+        self.assertEqual(
+            result["sampleRequests"],
+            {
+                "uid": "106",
+                "cardUrl": "https://api.bilibili.com/x/web-interface/card?mid=106",
+                "replyUrl": "https://api.bilibili.com/x/v2/reply?type=1&oid=123&pn=1&ps=20&sort=1",
+                "wrapperArgv": ["browserGetVideos.py", "106", "3"],
+            },
+        )
         self.assertEqual(invalid["range"], {"startUid": 100000, "endUid": 200000, "total": 100001})
 
     def test_batch_bilibili_plan_runner_and_comparator_read_json_contracts(self):
@@ -5432,7 +5444,7 @@ class CorpusContractTests(unittest.TestCase):
                 json.dumps({"argv": ["--start=10", "--end=12"], "progress": {"lastUid": 10}, "database": {"users": {"10": {}}}}),
                 encoding="utf-8",
             )
-            js_report_path.write_text(json.dumps({"range": {"startUid": 10}, "database": {"users": 9}}), encoding="utf-8")
+            js_report_path.write_text(json.dumps({"range": {"startUid": 10}, "database": {"users": 9}, "browser": {"maxVideos": 10}}), encoding="utf-8")
 
             result = BatchBilibiliPlanRunner(payload_path).run()
             comparison = BatchBilibiliPlanContractComparator(payload_path, js_report_path).compare()
@@ -5445,6 +5457,7 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {"key": "range", "python": {"startUid": 11, "endUid": 12, "total": 2}, "js": {"startUid": 10}},
                 {"key": "database", "python": {"users": 1}, "js": {"users": 9}},
+                {"key": "browser", "python": {"command": "browser-harness", "script": "server/scripts/browserGetVideos.py", "wrapper": "server/data/_browser_tmp.py", "timeoutMs": 45000, "maxVideos": 3}, "js": {"maxVideos": 10}},
             ],
         )
 

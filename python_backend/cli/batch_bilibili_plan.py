@@ -35,7 +35,7 @@ class BatchBilibiliPlanRunner:
 class BatchBilibiliPlanContractComparator:
     """Compare Python batch Bilibili dry-run plans against saved JS-compatible JSON."""
 
-    RESULT_KEYS = ("input", "range", "resume", "database", "limits", "progress")
+    RESULT_KEYS = ("input", "range", "resume", "database", "limits", "pacing", "retry", "browser", "sampleRequests", "progress")
 
     def __init__(self, payload_path: str | Path, js_report_path: str | Path):
         self.payload_path = Path(payload_path)

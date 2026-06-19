@@ -13,6 +13,19 @@ def _parse_int(value: Any, fallback: int) -> int:
 class BatchBilibiliScrapePlanner:
     """Build a dry-run plan for batchScrapeBilibili.js UID range routing."""
 
+    DELAY_BETWEEN_REQUESTS_MS = 3000
+    DELAY_BETWEEN_UIDS_MS = 15000
+    DELAY_AFTER_RATE_LIMIT_MS = 60000
+    MAX_RETRIES = 3
+    MAX_VIDEOS = 3
+    MAX_COMMENTS = 50
+    VIDEO_REPLY_PAGES = 1
+    BROWSER_TIMEOUT_MS = 45000
+    RATE_LIMIT_CODES = (-799, -412)
+    BROWSER_COMMAND = "browser-harness"
+    BROWSER_SCRIPT = "server/scripts/browserGetVideos.py"
+    BROWSER_WRAPPER = "server/data/_browser_tmp.py"
+
     def build_plan(self, argv: list[Any] | None = None, progress: dict[str, Any] | None = None, database: dict[str, Any] | None = None) -> dict[str, Any]:
         argv = argv or []
         progress = progress or {}
@@ -42,9 +55,37 @@ class BatchBilibiliScrapePlanner:
             "range": {"startUid": start_uid, "endUid": end_uid, "total": total},
             "resume": {"lastUid": last_uid, "resumed": resumed},
             "database": {"users": len(users)},
-            "limits": {"maxVideos": 3, "maxComments": 50, "replyPages": 1},
+            "limits": {"maxVideos": self.MAX_VIDEOS, "maxComments": self.MAX_COMMENTS, "replyPages": self.VIDEO_REPLY_PAGES},
+            "pacing": {
+                "delayBetweenRequestsMs": self.DELAY_BETWEEN_REQUESTS_MS,
+                "delayBetweenUidsMs": self.DELAY_BETWEEN_UIDS_MS,
+                "delayAfterRateLimitMs": self.DELAY_AFTER_RATE_LIMIT_MS,
+            },
+            "retry": {
+                "maxRetries": self.MAX_RETRIES,
+                "rateLimitCodes": list(self.RATE_LIMIT_CODES),
+                "htmlWafDetection": True,
+                "hasUserAgent": True,
+                "referer": "https://www.bilibili.com/",
+            },
+            "browser": {
+                "command": self.BROWSER_COMMAND,
+                "script": self.BROWSER_SCRIPT,
+                "wrapper": self.BROWSER_WRAPPER,
+                "timeoutMs": self.BROWSER_TIMEOUT_MS,
+                "maxVideos": self.MAX_VIDEOS,
+            },
+            "sampleRequests": self._sample_requests(str(start_uid) if total else ""),
             "progress": {
                 "completed": _parse_int(progress.get("completed"), 0),
                 "errors": len(progress.get("errors") if isinstance(progress.get("errors"), list) else []),
             },
+        }
+
+    def _sample_requests(self, uid: str) -> dict[str, Any]:
+        return {
+            "uid": uid,
+            "cardUrl": f"https://api.bilibili.com/x/web-interface/card?mid={uid}" if uid else "",
+            "replyUrl": "https://api.bilibili.com/x/v2/reply?type=1&oid=123&pn=1&ps=20&sort=1" if uid else "",
+            "wrapperArgv": ["browserGetVideos.py", uid, str(self.MAX_VIDEOS)] if uid else [],
         }
