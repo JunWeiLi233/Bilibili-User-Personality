@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T04:01:41.687Z",
+  "updatedAt": "2026-06-19T04:09:25.149Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -1509,6 +1509,52 @@
       "warnings": [],
       "commentsCollected": 159,
       "commentsAdded": 129
+    },
+    {
+      "at": "2026-06-19T04:09:25.149Z",
+      "actions": [
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1vZjY68Etk",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1vZjY68Etk",
+          "aid": 116772963358284,
+          "title": "[老哥<em class=\"keyword\">切片</em>]6月18日<em class=\"keyword\">直播</em>三个小时，精剪其中高能瞬间10分钟多"
+        },
+        {
+          "key": "bvid:BV1c4EZ61EMn",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1c4EZ61EMn",
+          "aid": 116726507246675,
+          "title": "才发现将军风格二段<em class=\"keyword\">互动</em>是这样的。"
+        },
+        {
+          "key": "bvid:BV1krLf6VELW",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1krLf6VELW",
+          "aid": 116768970381938,
+          "title": "这TM唱一下给<em class=\"keyword\">八百</em>！？"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 22,
+      "commentsAdded": 15
     }
   ]
 }
