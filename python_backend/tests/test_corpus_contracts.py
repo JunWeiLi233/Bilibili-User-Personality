@@ -28,7 +28,7 @@ from python_backend.cli.semantic_matcher import SemanticMatcherRunner
 from python_backend.cli.compare_contracts import ContractComparator
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanContractComparator, DeepSeekAnalysisPlanRunner
 from python_backend.cli.keyword_evidence import KeywordEvidenceRunner
-from python_backend.cli.history_tag_corpus import HistoryTagCorpusRunner
+from python_backend.cli.history_tag_corpus import HistoryTagCorpusContractComparator, HistoryTagCorpusRunner
 from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportRunner
 from python_backend.cli.local_corpus_evidence import LocalCorpusEvidenceContractComparator, LocalCorpusEvidenceRunner
 from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenRunner
@@ -1925,6 +1925,73 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["corpus"]["updatedAt"], "2026-06-19T01:00:00.000Z")
         self.assertEqual(result["corpus"]["videos"][0]["title"], "\u5386\u53f2\u89c6\u9891")
         self.assertEqual(result["corpus"]["videos"][0]["tags"], ["\u5386\u53f2", "\u6e05\u671d"])
+
+    def test_history_tag_corpus_contract_comparator_reports_corpus_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            current_path = root / "current.json"
+            update_path = root / "update.json"
+            js_report_path = root / "js-history-tags.json"
+            current_path.write_text(json.dumps({"tags": [], "videos": [], "runs": []}), encoding="utf-8")
+            update_path.write_text(
+                json.dumps(
+                    {
+                        "tags": [{"name": "history"}],
+                        "videos": [{"bvid": "BVhistory", "aid": 100, "title": "<em>history</em> video", "tags": "history,archive"}],
+                        "runs": [{"at": "run"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps(
+                    {
+                        "tags": 0,
+                        "videos": 0,
+                        "runs": 0,
+                        "corpus": {"version": 1, "updatedAt": "wrong", "tags": [], "videos": [], "runs": []},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = HistoryTagCorpusContractComparator(
+                current_path,
+                update_path,
+                js_report_path,
+                generated_at="2026-06-19T01:00:00.000Z",
+            ).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {
+                    "key": "corpus",
+                    "python": {
+                        "version": 1,
+                        "updatedAt": "2026-06-19T01:00:00.000Z",
+                        "tags": [{"name": "history"}],
+                        "videos": [
+                            {
+                                "bvid": "BVhistory",
+                                "aid": "100",
+                                "title": "history video",
+                                "tags": ["history", "archive"],
+                                "sourceUrl": "https://www.bilibili.com/video/BVhistory/",
+                                "sourceQuery": "",
+                                "replyCount": 0,
+                            }
+                        ],
+                        "runs": [{"at": "run"}],
+                    },
+                    "js": {"version": 1, "updatedAt": "wrong", "tags": [], "videos": [], "runs": []},
+                },
+                {"key": "tags", "python": 1, "js": 0},
+                {"key": "videos", "python": 1, "js": 0},
+                {"key": "runs", "python": 1, "js": 0},
+            ],
+        )
 
     def test_video_comment_filter_matches_needles_inside_noisy_text(self):
         comment_filter = VideoCommentFilter()
