@@ -115,6 +115,7 @@ from python_backend.scrapers.batch_uid_scrape import BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelProgressReporter
 from python_backend.scrapers.uid_pipeline import UidPipelineMergeReporter, UidPipelineProgressReporter, UidPipelineWorkerPlanner
+from python_backend.scrapers.scraper_monitor import ScraperMonitorReporter
 from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanner
 
 
@@ -5898,6 +5899,40 @@ class CorpusContractTests(unittest.TestCase):
             )
 
             result = ScraperMonitorRunner(data_dir, total_start=1, total_end=4, workers=2, pipeline_rate_per_minute=2).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["discovery"], {"analyzed": 4, "found": 10, "remaining": 6, "errors": 2})
+        self.assertEqual(
+            result["pipeline"],
+            {
+                "processed": 3,
+                "success": 1,
+                "noComments": 1,
+                "noVideos": 1,
+                "noUser": 0,
+                "errors": 1,
+                "remaining": 1,
+                "etaMinutes": 1,
+                "etaHours": 0.0,
+            },
+        )
+        self.assertEqual(result["combined"], {"uidsAnalyzed": 5})
+
+    def test_scraper_monitor_reporter_summarizes_loaded_progress_payloads(self):
+        reporter = ScraperMonitorReporter(pipeline_rate_per_minute=2)
+
+        result = reporter.build_report(
+            discovery_progress={"stats": {"uidsAnalyzed": "4", "uidsFound": 10, "errors": "2"}},
+            pipeline_report={
+                "totalProcessed": "3",
+                "totalExpected": 4,
+                "stats": {"success": "1", "noComments": 1, "noUser": 0, "errors": "1"},
+            },
+            pipeline_progress_payloads=[
+                {"stats": {"noVideos": "0"}},
+                {"stats": {"noVideos": 1.0}},
+            ],
+        )
 
         self.assertTrue(result["ok"])
         self.assertEqual(result["discovery"], {"analyzed": 4, "found": 10, "remaining": 6, "errors": 2})

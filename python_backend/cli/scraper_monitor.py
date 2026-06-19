@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from python_backend.cli.uid_pipeline_merge import UidPipelineMergeRunner
+from python_backend.scrapers.scraper_monitor import ScraperMonitorReporter
 
 
 class ScraperMonitorRunner:
@@ -29,29 +30,8 @@ class ScraperMonitorRunner:
         self.pipeline_rate_per_minute = max(1, int(pipeline_rate_per_minute))
 
     def run(self) -> dict[str, Any]:
-        discovery = self._discovery_summary()
-        pipeline = self._pipeline_summary()
-        return {
-            "ok": True,
-            "discovery": discovery,
-            "pipeline": pipeline,
-            "combined": {"uidsAnalyzed": discovery["analyzed"] + pipeline["success"]},
-        }
-
-    def _discovery_summary(self) -> dict[str, int]:
-        payload = self._read_json(self.data_dir / "uid-discovery-progress.json", {})
-        stats = payload.get("stats") if isinstance(payload.get("stats"), dict) else {}
-        analyzed = int(stats.get("uidsAnalyzed") or 0)
-        found = int(stats.get("uidsFound") or 0)
-        return {
-            "analyzed": analyzed,
-            "found": found,
-            "remaining": found - analyzed,
-            "errors": int(stats.get("errors") or 0),
-        }
-
-    def _pipeline_summary(self) -> dict[str, Any]:
-        report = UidPipelineMergeRunner(
+        discovery = self._read_json(self.data_dir / "uid-discovery-progress.json", {})
+        pipeline_report = UidPipelineMergeRunner(
             self.data_dir,
             total_start=self.total_start,
             total_end=self.total_end,
@@ -59,35 +39,24 @@ class ScraperMonitorRunner:
             summary_only=True,
             now=lambda: "",
         ).run()
-        stats = report.get("stats") if isinstance(report.get("stats"), dict) else {}
-        no_videos = self._sum_pipeline_stat("noVideos")
-        remaining = max(0, int(report.get("totalExpected") or 0) - int(report.get("totalProcessed") or 0))
-        eta_minutes = math.ceil(remaining / self.pipeline_rate_per_minute)
-        return {
-            "processed": int(report.get("totalProcessed") or 0),
-            "success": int(stats.get("success") or 0),
-            "noComments": int(stats.get("noComments") or 0),
-            "noVideos": no_videos,
-            "noUser": int(stats.get("noUser") or 0),
-            "errors": int(stats.get("errors") or 0),
-            "remaining": remaining,
-            "etaMinutes": eta_minutes,
-            "etaHours": round(remaining / self.pipeline_rate_per_minute / 60, 1),
-        }
+        reporter = ScraperMonitorReporter(pipeline_rate_per_minute=self.pipeline_rate_per_minute)
+        return reporter.build_report(
+            discovery_progress=discovery,
+            pipeline_report=pipeline_report,
+            pipeline_progress_payloads=self._pipeline_progress_payloads(),
+        )
 
-    def _sum_pipeline_stat(self, key: str) -> int:
+    def _pipeline_progress_payloads(self) -> list[Any]:
         total_expected = max(0, self.total_end - self.total_start + 1)
         chunk_size = math.ceil(total_expected / self.workers) if total_expected else 0
-        total = 0
+        payloads: list[Any] = []
         for worker_index in range(self.workers):
             start = self.total_start + worker_index * chunk_size
             end = min(start + chunk_size - 1, self.total_end)
             if start > self.total_end:
                 break
-            payload = self._read_json(self.data_dir / f"uid-pipeline-{start}-{end}.json", {})
-            stats = payload.get("stats") if isinstance(payload.get("stats"), dict) else {}
-            total += int(stats.get(key) or 0)
-        return total
+            payloads.append(self._read_json(self.data_dir / f"uid-pipeline-{start}-{end}.json", {}))
+        return payloads
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
         if not path.exists():
