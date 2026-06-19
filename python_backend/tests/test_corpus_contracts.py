@@ -59,6 +59,7 @@ from python_backend.cli.uid_pipeline_launcher import UidPipelineLauncherContract
 from python_backend.cli.uid_pipeline_state import UidPipelineStateContractComparator, UidPipelineStateRunner
 from python_backend.cli.batch_bilibili_plan import BatchBilibiliPlanContractComparator, BatchBilibiliPlanRunner
 from python_backend.cli.batch_popular_plan import BatchPopularPlanContractComparator, BatchPopularPlanRunner
+from python_backend.cli.batch_uid_range_plan import BatchUidRangePlanContractComparator, BatchUidRangePlanRunner
 from python_backend.cli.batch_scraper_launcher import BatchScraperLauncherContractComparator, BatchScraperLauncherPlanRunner
 from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContractComparator, RangeScraperLauncherPlanRunner
 from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContractComparator, FastPipelineLauncherPlanRunner
@@ -92,6 +93,7 @@ from python_backend.scrapers.tieba_keyword import TiebaKeywordScrapeOptionsPlann
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 from python_backend.scrapers.batch_bilibili import BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularScrapePlanner
+from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner
 
 
 class CorpusContractTests(unittest.TestCase):
@@ -5339,6 +5341,61 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {"key": "discovery", "python": {"videosScanned": 1, "uidsDiscovered": 1, "commentsCollected": 0}, "js": {"videosScanned": 0}},
                 {"key": "phase2", "python": {"processed": 1, "success": 1, "errors": 0, "skipped": 0, "remaining": 0}, "js": {"processed": 0}},
+            ],
+        )
+
+    def test_batch_uid_range_planner_matches_js_args_resume_and_target_contract(self):
+        planner = BatchUidRangePlanner()
+        progress = {
+            "scannedBvids": ["BV1", "BV2"],
+            "_uidComments": {
+                "199999": [{"message": "below", "bvid": "BV1"}],
+                "200000": [{"message": "inside", "bvid": "BV1"}],
+                "250000": [{"message": "inside2", "bvid": "BV2"}],
+                "300001": [{"message": "above", "bvid": "BV2"}],
+            },
+            "processedUids": {"200000": "success", "250000": "no_text"},
+            "stats": {"videosScanned": 2, "uidsFound": 4, "targetUidsFound": 2, "commentsCollected": 4, "analyzed": 1, "skipped": 1, "errors": 0},
+        }
+
+        result = planner.build_plan(["--start=200000", "--end=300000", "--pages=80", "--phase2-only"], progress, {"users": {"200000": {}}})
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["input"], {"start": 200000, "end": 300000, "pages": 80, "phase2Only": True})
+        self.assertEqual(result["phase1"], {"enabled": False, "scannedBvids": 2, "maxPages": 80, "popularPageSize": 20, "commentPagesPerVideo": 3})
+        self.assertEqual(result["phase2"], {"targetUids": 2, "processed": 2, "remaining": 0, "userDbUsers": 1})
+        self.assertEqual(result["stats"], {"videosScanned": 2, "uidsFound": 4, "targetUidsFound": 2, "commentsCollected": 4, "analyzed": 1, "skipped": 1, "errors": 0})
+        self.assertEqual(result["pacing"], {"delayBetweenVideosMs": 2000, "delayBetweenUidsMs": 1500, "lockRetryDelayMs": 3000, "lockMaxRetries": 10, "saveInterval": 5})
+
+    def test_batch_uid_range_plan_runner_and_comparator_read_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "batch-uid-range-plan.json"
+            js_report_path = root / "js-batch-uid-range-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--start=10", "--end=20", "--pages=3"],
+                        "progress": {"scannedBvids": ["BV1"], "_uidComments": {"12": [{"message": "x"}], "30": [{"message": "y"}]}, "processedUids": {}},
+                        "database": {"users": {"12": {}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"input": {"start": 10}, "phase2": {"targetUids": 9}}), encoding="utf-8")
+
+            result = BatchUidRangePlanRunner(payload_path).run()
+            comparison = BatchUidRangePlanContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["input"], {"start": 10, "end": 20, "pages": 3, "phase2Only": False})
+        self.assertEqual(result["phase2"], {"targetUids": 1, "processed": 0, "remaining": 1, "userDbUsers": 1})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "input", "python": {"start": 10, "end": 20, "pages": 3, "phase2Only": False}, "js": {"start": 10}},
+                {"key": "phase2", "python": {"targetUids": 1, "processed": 0, "remaining": 1, "userDbUsers": 1}, "js": {"targetUids": 9}},
             ],
         )
 

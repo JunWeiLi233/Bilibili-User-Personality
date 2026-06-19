@@ -51,6 +51,7 @@
     "python:batch-scrape-progress": "python -m python_backend.cli.batch_scrape_progress",
     "python:uid-discovery-progress": "python -m python_backend.cli.uid_discovery_progress",
     "python:batch-uid-progress": "python -m python_backend.cli.batch_uid_progress",
+    "python:batch-uid-range-plan": "python -m python_backend.cli.batch_uid_range_plan",
     "python:uid-range-progress": "python -m python_backend.cli.uid_range_progress",
     "python:verify-random": "python -m python_backend.cli.random_verification",
     "python:comment-coverage": "python -m python_backend.cli.comment_coverage",

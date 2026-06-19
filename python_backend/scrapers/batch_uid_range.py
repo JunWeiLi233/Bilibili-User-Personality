@@ -1,0 +1,89 @@
+from __future__ import annotations
+
+from typing import Any
+
+
+def _js_number_or(value: Any, fallback: int) -> int:
+    try:
+        parsed = int(float(str(value)))
+    except (TypeError, ValueError):
+        return fallback
+    return parsed or fallback
+
+
+class BatchUidRangePlanner:
+    """Build a dry-run plan for batchUidRange.js discovery and analysis phases."""
+
+    DEFAULT_START = 200000
+    DEFAULT_END = 300000
+    DEFAULT_PAGES = 200
+    POPULAR_PAGE_SIZE = 20
+    COMMENT_PAGES_PER_VIDEO = 3
+    DELAY_BETWEEN_VIDEOS_MS = 2000
+    DELAY_BETWEEN_UIDS_MS = 1500
+    LOCK_RETRY_DELAY_MS = 3000
+    LOCK_MAX_RETRIES = 10
+    SAVE_INTERVAL = 5
+
+    def build_plan(self, argv: list[Any] | None = None, progress: dict[str, Any] | None = None, database: dict[str, Any] | None = None) -> dict[str, Any]:
+        argv = argv or []
+        progress = progress or {}
+        database = database or {}
+        start = self.DEFAULT_START
+        end = self.DEFAULT_END
+        pages = self.DEFAULT_PAGES
+        phase2_only = False
+        for raw in argv:
+            arg = str(raw or "")
+            if arg.startswith("--start="):
+                start = _js_number_or(arg.split("=", 1)[1], self.DEFAULT_START)
+            elif arg.startswith("--end="):
+                end = _js_number_or(arg.split("=", 1)[1], self.DEFAULT_END)
+            elif arg.startswith("--pages="):
+                pages = _js_number_or(arg.split("=", 1)[1], self.DEFAULT_PAGES)
+            elif arg == "--phase2-only":
+                phase2_only = True
+
+        uid_comments = progress.get("_uidComments") if isinstance(progress.get("_uidComments"), dict) else {}
+        processed_uids = progress.get("processedUids") if isinstance(progress.get("processedUids"), dict) else {}
+        scanned_bvids = progress.get("scannedBvids") if isinstance(progress.get("scannedBvids"), list) else []
+        stats = progress.get("stats") if isinstance(progress.get("stats"), dict) else {}
+        users = database.get("users") if isinstance(database.get("users"), dict) else {}
+        target_uids = [uid for uid in uid_comments if self._uid_in_range(uid, start, end)]
+        processed_targets = sum(1 for uid in target_uids if uid in processed_uids)
+        normalized_stats = {
+            "videosScanned": _js_number_or(stats.get("videosScanned"), 0) if stats.get("videosScanned") else 0,
+            "uidsFound": _js_number_or(stats.get("uidsFound"), len(uid_comments)) if stats.get("uidsFound") else len(uid_comments),
+            "targetUidsFound": _js_number_or(stats.get("targetUidsFound"), len(target_uids)) if stats.get("targetUidsFound") else len(target_uids),
+            "commentsCollected": _js_number_or(stats.get("commentsCollected"), 0) if stats.get("commentsCollected") else 0,
+            "analyzed": _js_number_or(stats.get("analyzed"), 0) if stats.get("analyzed") else 0,
+            "skipped": _js_number_or(stats.get("skipped"), 0) if stats.get("skipped") else 0,
+            "errors": _js_number_or(stats.get("errors"), 0) if stats.get("errors") else 0,
+        }
+        return {
+            "ok": True,
+            "input": {"start": start, "end": end, "pages": pages, "phase2Only": phase2_only},
+            "phase1": {
+                "enabled": not phase2_only,
+                "scannedBvids": len(scanned_bvids),
+                "maxPages": pages,
+                "popularPageSize": self.POPULAR_PAGE_SIZE,
+                "commentPagesPerVideo": self.COMMENT_PAGES_PER_VIDEO,
+            },
+            "phase2": {"targetUids": len(target_uids), "processed": processed_targets, "remaining": max(0, len(target_uids) - processed_targets), "userDbUsers": len(users)},
+            "stats": normalized_stats,
+            "pacing": {
+                "delayBetweenVideosMs": self.DELAY_BETWEEN_VIDEOS_MS,
+                "delayBetweenUidsMs": self.DELAY_BETWEEN_UIDS_MS,
+                "lockRetryDelayMs": self.LOCK_RETRY_DELAY_MS,
+                "lockMaxRetries": self.LOCK_MAX_RETRIES,
+                "saveInterval": self.SAVE_INTERVAL,
+            },
+        }
+
+    def _uid_in_range(self, uid: Any, start: int, end: int) -> bool:
+        try:
+            value = int(float(str(uid)))
+        except (TypeError, ValueError):
+            return False
+        return start <= value <= end
