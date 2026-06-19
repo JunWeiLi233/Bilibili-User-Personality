@@ -76,7 +76,7 @@ async function trainWithRetry(payload, options, maxRetries = LOCK_MAX_RETRIES) {
     // Always try to remove stale locks before each attempt
     await forceRemoveLock();
     try {
-      return await trainKeywordDictionary(payload, options);
+      return await trainKeywordDictionary({ ...payload, multiagent: true }, { ...options, multiagent: true });
     } catch (error) {
       if ((error.message || '').includes('lock')) {
         console.log(`  Lock held, retry ${attempt}/${maxRetries}...`);

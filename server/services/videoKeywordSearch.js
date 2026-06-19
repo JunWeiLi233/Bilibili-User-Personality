@@ -975,6 +975,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
           text: trainingText,
           source: `Bilibili public search-discovered video${videoObjectEvidenceText ? ' object evidence' : ' context'}: ${contextSourceUrls.join(', ')}`,
           existingTermsOnly,
+          multiagent: true,
           ...(targetExistingTerms.length ? { targetExistingTerms } : {}),
         });
         return {
@@ -1209,6 +1210,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
       fullText: fullCommentText,
       source: `${mergedScan.source}${videoObjectEvidenceText ? ' plus video object evidence' : ''}${videoContextText ? ' plus video context' : ''}: ${contextSourceUrls.join(', ')}`,
       existingTermsOnly,
+      multiagent: true,
       ...(effectiveTargetExistingTerms.length ? { targetExistingTerms: effectiveTargetExistingTerms } : {}),
     },
     payload.abortSignal ? { signal: payload.abortSignal } : {},

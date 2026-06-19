@@ -31,4 +31,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Refresh README stats graph
-          file_pattern: README.md docs/stats/corpus-keyword-stats.svg docs/stats/corpus-keyword-stats.json
+          file_pattern: README.md docs/stats/corpus-keyword-stats.svg docs/stats/corpus-keyword-stats.json docs/stats/corpus-growth-timeline.svg docs/stats/corpus-growth-timeline.json

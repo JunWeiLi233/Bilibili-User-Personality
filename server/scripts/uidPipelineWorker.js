@@ -42,7 +42,7 @@ async function saveJson(path, data) {
 async function trainWithRetry(payload, options, maxRetries = LOCK_MAX_RETRIES) {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      return await trainKeywordDictionary(payload, options);
+      return await trainKeywordDictionary({ ...payload, multiagent: true }, { ...options, multiagent: true });
     } catch (error) {
       if ((error.message || '').includes('lock')) {
         await wait(LOCK_RETRY_DELAY_MS);

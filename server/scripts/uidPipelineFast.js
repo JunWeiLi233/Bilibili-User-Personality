@@ -73,7 +73,7 @@ async function directFetchJson(url, referer) {
 async function trainWithRetry(payload, options, maxRetries = 15) {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      return await trainKeywordDictionary(payload, options);
+      return await trainKeywordDictionary({ ...payload, multiagent: true }, { ...options, multiagent: true });
     } catch (error) {
       if ((error.message || '').includes('lock')) {
         // Wait longer between retries, only force-clean after many attempts

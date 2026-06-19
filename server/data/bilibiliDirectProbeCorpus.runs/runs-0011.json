@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T05:57:11.258Z",
+  "updatedAt": "2026-06-19T06:17:24.728Z",
   "shard": 11,
   "shardCount": 11,
   "runs": [
@@ -338,6 +338,103 @@
       "warnings": [],
       "commentsCollected": 570,
       "commentsAdded": 362
+    },
+    {
+      "at": "2026-06-19T06:17:24.728Z",
+      "actions": [
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论"
+        },
+        {
+          "term": "分不清轻重就乱套",
+          "query": "分不清轻重就乱套 评论回复"
+        },
+        {
+          "term": "给官方剪片子",
+          "query": "给官方剪片子 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1VKVK66E8K",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1VKVK66E8K",
+          "title": "existing evidence source for 都说八百遍了"
+        },
+        {
+          "key": "bvid:BV1y6DkBXEHA",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1y6DkBXEHA",
+          "aid": 116386013708354,
+          "title": "跟你<em class=\"keyword\">说了八百遍了</em>，不要叫它数字方块12"
+        },
+        {
+          "key": "bvid:BV1VyLD6gEQN",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1VyLD6gEQN",
+          "aid": 116763719243414,
+          "title": "这跳一下要800？"
+        },
+        {
+          "key": "bvid:BV1Hk9fBTEqq",
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论",
+          "bvid": "BV1Hk9fBTEqq",
+          "aid": 116510332820435,
+          "title": "游戏试玩counter <em class=\"keyword\">attack</em>,估计得收到V社的律师函"
+        },
+        {
+          "key": "bvid:BV1aMjP63Efs",
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论",
+          "bvid": "BV1aMjP63Efs",
+          "aid": 116770681658957,
+          "title": "260618 MCOUNTDOWN LOVE <em class=\"keyword\">ATTACK</em> - RESCENE | 打歌舞台"
+        },
+        {
+          "key": "bvid:BV1mfLu6mEs5",
+          "term": "分不清轻重就乱套",
+          "query": "分不清轻重就乱套 评论回复",
+          "bvid": "BV1mfLu6mEs5",
+          "aid": 116583447921997,
+          "title": "慕残专属话题#非圈勿入#不喜勿喷"
+        },
+        {
+          "key": "bvid:BV17yfVY4Ey7",
+          "term": "分不清轻重就乱套",
+          "query": "分不清轻重就乱套 评论回复",
+          "bvid": "BV17yfVY4Ey7",
+          "aid": 113878742601352,
+          "title": "神预言！原来多年前他们就预言了今天…（国外比较<em class=\"keyword\">乱套</em>，成天勾心斗角。今天内阁下台，明天首相被炒。闹完金融危机，又要弹劾领导。纵观世界风云，风景这边独好！）"
+        },
+        {
+          "key": "bvid:BV1eqkpYNE8t",
+          "term": "给官方剪片子",
+          "query": "给官方剪片子 评论回复",
+          "bvid": "BV1eqkpYNE8t",
+          "aid": 113670470239106,
+          "title": "已站片，但是真的🔞"
+        },
+        {
+          "key": "bvid:BV1c21yYJEmN",
+          "term": "给官方剪片子",
+          "query": "给官方剪片子 评论回复",
+          "bvid": "BV1c21yYJEmN",
+          "aid": 113265082370022,
+          "title": "论片哥片姐的二维码里到底有什么"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 2100,
+      "commentsAdded": 258
     }
   ]
 }

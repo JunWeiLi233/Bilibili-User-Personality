@@ -3,7 +3,7 @@
 
 import { analyzeUid } from '../services/bilibiliCrawler.js';
 import { searchVideoKeywords } from '../services/videoKeywordSearch.js';
-import { readKeywordDictionary, trainKeywordDictionary } from '../services/deepseekKeywordTrainer.js';
+import { trainKeywordDictionary } from '../services/deepseekKeywordTrainer.js';
 
 const args = process.argv.slice(2);
 const params = {};
@@ -39,11 +39,13 @@ if (params.uid) {
   console.log(`Comment text length: ${text.length} chars`);
 
   if (text) {
-    const dict = await readKeywordDictionary();
-    const trainResult = await trainKeywordDictionary(dict, text, {
+    const trainResult = await trainKeywordDictionary({
       source: `Bilibili UID ${params.uid}`,
       uid: params.uid,
+      text,
+      fullText: text,
       existingTermsOnly: true,
+      multiagent: true,
     });
     if (trainResult.ok) {
       console.log(`Dictionary trained: ${trainResult.entries?.length || 0} keywords`);
@@ -67,11 +69,13 @@ if (params.uid) {
   console.log(`Comment text length: ${(result.commentText || '').length} chars`);
 
   if (result.commentText) {
-    const dict = await readKeywordDictionary();
-    const trainResult = await trainKeywordDictionary(dict, result.commentText, {
+    const trainResult = await trainKeywordDictionary({
       source: params.videoLink || params.favoriteLink || 'Bilibili direct link',
       uid: '',
+      text: result.commentText,
+      fullText: result.commentText,
       existingTermsOnly: true,
+      multiagent: true,
     });
     if (trainResult.ok) {
       console.log(`Dictionary trained: ${trainResult.entries?.length || 0} keywords`);

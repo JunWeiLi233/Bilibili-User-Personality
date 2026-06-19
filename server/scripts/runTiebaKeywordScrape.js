@@ -198,6 +198,7 @@ for (const query of options.queries) {
       fullText: result.commentText,
       source: `Tieba public thread scan: ${result.threads.map((thread) => thread.sourceUrl).join(', ')}`,
       existingTermsOnly: options.existingTermsOnly,
+      multiagent: true,
     });
     console.log(`  dictionary entries accepted=${training.entries?.length || 0}`);
   }

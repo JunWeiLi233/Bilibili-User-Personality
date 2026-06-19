@@ -2245,6 +2245,7 @@ test('searchVideoKeywords falls back to popular videos when search discovery is 
   assert.deepEqual(result.videos.map((video) => video.bvid), ['BV1popular12']);
   assert.equal(trainingPayloads[0].text.includes('blocked target'), true);
   assert.deepEqual(trainingPayloads[0].targetExistingTerms, ['blocked target', 'popular comment']);
+  assert.equal(trainingPayloads[0].multiagent, true);
 });
 
 test('searchVideoKeywords excludes already scanned videos from blocked-search popular fallback', async () => {
@@ -2472,6 +2473,7 @@ test('searchVideoKeywords scans video comments and trains keyword dictionary', a
   assert.equal(result.keywordTraining.reasoningEffort, 'medium');
   assert.equal(trainedPayloads.length, 1);
   assert.equal(trainedPayloads[0].uid, 'BV19yGa61Ee6');
+  assert.equal(trainedPayloads[0].multiagent, true);
   assert.equal(trainedPayloads[0].text.includes('不会真有人'), true);
 });
 
@@ -3242,6 +3244,7 @@ test('searchVideoKeywords scans multiple backend video links and trains one merg
   assert.equal(result.entries.length, 2);
   assert.equal(trainedPayloads.length, 1);
   assert.equal(trainedPayloads[0].uid, 'BV19yGa61Ee6,BV1xx411c7mD');
+  assert.equal(trainedPayloads[0].multiagent, true);
   assert.equal(trainedPayloads[0].text.includes('单走一个6'), true);
   assert.equal(trainedPayloads[0].text.includes('问百度'), true);
 });
