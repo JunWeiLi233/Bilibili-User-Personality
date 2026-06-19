@@ -15,7 +15,7 @@ from python_backend.analysis.near_target import NearTargetResolvePlanner
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherHelper, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationReportSummary, RandomVerifier
-from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisValidator
+from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPlanner
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceMatcher, KeywordEvidenceSummary
 from python_backend.cli.comment_coverage import CommentCoverageContractComparator, CommentCoverageRunner
@@ -1618,6 +1618,27 @@ class CorpusContractTests(unittest.TestCase):
                     "js": {"unsupportedQuotes": 0},
                 },
             ],
+        )
+
+    def test_deepseek_analysis_validation_summary_extracts_comparator_contract(self):
+        summary = DeepSeekAnalysisValidationSummary().summarize(
+            {
+                "ok": False,
+                "summary": {"unsupportedQuotes": 1},
+                "unsupportedQuotes": [{"quote": "hallucinated"}],
+                "unsupportedAxisEvidence": [{"axis": "attack"}],
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "ok": False,
+                "summary": {"unsupportedQuotes": 1},
+                "unsupportedQuotes": [{"quote": "hallucinated"}],
+                "unsupportedAxisEvidence": [{"axis": "attack"}],
+            },
         )
 
     def test_contract_comparator_checks_manifest_count_and_audit_terms(self):

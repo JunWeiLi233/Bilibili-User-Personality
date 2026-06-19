@@ -301,3 +301,13 @@ class DeepSeekAnalysisValidator:
 
     def _normalize_quote(self, text: str) -> str:
         return re.sub(r"\s+", "", str(text or "")).lower()
+
+
+class DeepSeekAnalysisValidationSummary:
+    """Shape DeepSeek validation results into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("ok", "summary", "unsupportedQuotes", "unsupportedAxisEvidence")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        source = result if isinstance(result, dict) else {}
+        return {key: source.get(key) for key in self.RESULT_KEYS if key in source}
