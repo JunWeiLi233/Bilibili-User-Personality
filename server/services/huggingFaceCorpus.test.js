@@ -29,6 +29,24 @@ test('parseHuggingFaceRows reads csv comment fields and filters to requested pla
   assert.equal(rows[0].sourceUrl, 'https://www.bilibili.com/video/BV1/');
 });
 
+test('parseHuggingFaceRows reads Midsummra bilibilicomment message csv rows', () => {
+  const csv = [
+    'message,time,timestamp',
+    '\u5341\u5468\u5e74\u5feb\u4e50,2023-06-13--18:11:16,1686679876',
+    '\u56de\u590d @\u7528\u6237 :\u54e6\u54e6\u597d\u7684\u8c22\u8c22,2023-06-14--01:01:34,1686704494',
+  ].join('\n');
+  const rows = parseHuggingFaceRows(csv, {
+    dataset: 'Midsummra/bilibilicomment',
+    file: 'bilibili.csv',
+    platform: 'bilibili',
+    limit: 10,
+  });
+
+  assert.deepEqual(rows.map((row) => row.message), ['\u5341\u5468\u5e74\u5feb\u4e50', '\u56de\u590d @\u7528\u6237 :\u54e6\u54e6\u597d\u7684\u8c22\u8c22']);
+  assert.equal(rows[0].platform, 'bilibili');
+  assert.match(rows[0].source, /Midsummra\/bilibilicomment\/bilibili\.csv/);
+});
+
 test('parseHuggingFaceRows reads Tieba title/detail csv rows', () => {
   const csv = [
     'title,detail,author,num_reply,href',

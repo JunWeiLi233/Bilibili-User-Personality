@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T03:56:00.132Z",
+  "updatedAt": "2026-06-19T05:45:47.823Z",
   "shard": 1,
   "shardCount": 1,
   "runs": [
@@ -673,6 +673,60 @@
       ],
       "addedComments": 500,
       "importedRows": 500
+    },
+    {
+      "at": "2026-06-19T05:44:06.786Z",
+      "sources": [
+        {
+          "dataset": "Midsummra/bilibilicomment",
+          "file": "bilibili.csv",
+          "platform": "bilibili",
+          "maxBytes": 5000000,
+          "limit": 1000,
+          "offset": 0
+        }
+      ],
+      "results": [
+        {
+          "dataset": "Midsummra/bilibilicomment",
+          "file": "bilibili.csv",
+          "platform": "bilibili",
+          "maxBytes": 5000000,
+          "limit": 1000,
+          "offset": 0,
+          "ok": true,
+          "rows": 1000
+        }
+      ],
+      "addedComments": 895,
+      "importedRows": 1000
+    },
+    {
+      "at": "2026-06-19T05:45:45.521Z",
+      "sources": [
+        {
+          "dataset": "Midsummra/bilibilicomment",
+          "file": "bilibili.csv",
+          "platform": "bilibili",
+          "maxBytes": 5000000,
+          "limit": 1000,
+          "offset": 1000
+        }
+      ],
+      "results": [
+        {
+          "dataset": "Midsummra/bilibilicomment",
+          "file": "bilibili.csv",
+          "platform": "bilibili",
+          "maxBytes": 5000000,
+          "limit": 1000,
+          "offset": 1000,
+          "ok": true,
+          "rows": 1000
+        }
+      ],
+      "addedComments": 920,
+      "importedRows": 1000
     }
   ]
 }

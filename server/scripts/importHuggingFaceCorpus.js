@@ -18,6 +18,13 @@ const DEFAULT_SOURCES = [
     limit: 250,
   },
   {
+    dataset: 'Midsummra/bilibilicomment',
+    file: 'bilibili.csv',
+    platform: 'bilibili',
+    maxBytes: 5000000,
+    limit: 1000,
+  },
+  {
     dataset: 'honeray/ai-music-comments-1.5M',
     file: 'final_data.csv',
     platform: 'bilibili',

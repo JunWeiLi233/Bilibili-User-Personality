@@ -73,6 +73,7 @@ function firstTextField(row = {}, options = {}) {
     if (message) return message.content;
   }
   const directText = row.comment
+    || row.message
     || row.content
     || row.text
     || row.instruction
@@ -88,6 +89,7 @@ function firstTextField(row = {}, options = {}) {
       .join(' ');
   }
   return row.comment
+    || row.message
     || row.content
     || row.text
     || row.instruction
