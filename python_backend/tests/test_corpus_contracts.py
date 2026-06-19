@@ -38,7 +38,7 @@ from python_backend.cli.video_relevance import VideoRelevanceContractComparator,
 from python_backend.cli.direct_probe_corpus import DirectProbeCorpusContractComparator, DirectProbeCorpusRunner
 from python_backend.cli.direct_probe_plan import DirectProbePlanContractComparator, DirectProbePlanRunner
 from python_backend.cli.random_verification import RandomVerificationContractComparator, RandomVerificationRunner, json_result_bytes
-from python_backend.cli.tieba_corpus import TiebaCorpusUpdateRunner
+from python_backend.cli.tieba_corpus import TiebaCorpusUpdateContractComparator, TiebaCorpusUpdateRunner
 from python_backend.cli.tieba_html_parse import TiebaHtmlParseRunner
 from python_backend.cli.tieba_timing import TiebaTimingContractComparator, TiebaTimingRunner
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder
@@ -1504,6 +1504,53 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertTrue(result["changed"])
         self.assertEqual(result["corpus"]["comments"][0]["message"], "\u65b0\u8bc4\u8bba")
+
+    def test_tieba_corpus_update_contract_comparator_reports_update_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            existing_path = root / "tieba.json"
+            run_path = root / "run.json"
+            js_report_path = root / "js-tieba-update.json"
+            existing_path.write_text(json.dumps({"version": 1, "runs": [], "comments": []}), encoding="utf-8")
+            run_path.write_text(
+                json.dumps({"at": "2026-06-17T02:00:00.000Z", "results": [{"comments": [{"message": "new tieba comment", "sourceUrl": "https://tieba.baidu.com/p/2"}]}]}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"changed": False, "newComments": [], "corpus": {"version": 1, "runs": [], "comments": []}}),
+                encoding="utf-8",
+            )
+
+            result = TiebaCorpusUpdateContractComparator(
+                existing_path,
+                run_path,
+                js_report_path,
+                generated_at="2026-06-17T02:00:00.000Z",
+            ).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "changed", "python": True, "js": False},
+                {"key": "newComments", "python": [{"message": "new tieba comment", "sourceUrl": "https://tieba.baidu.com/p/2"}], "js": []},
+                {
+                    "key": "corpus",
+                    "python": {
+                        "version": 1,
+                        "updatedAt": "2026-06-17T02:00:00.000Z",
+                        "runs": [
+                            {
+                                "at": "2026-06-17T02:00:00.000Z",
+                                "results": [{"comments": [{"message": "new tieba comment", "sourceUrl": "https://tieba.baidu.com/p/2"}]}],
+                            }
+                        ],
+                        "comments": [{"message": "new tieba comment", "sourceUrl": "https://tieba.baidu.com/p/2"}],
+                    },
+                    "js": {"version": 1, "runs": [], "comments": []},
+                },
+            ],
+        )
 
     def test_tieba_scrape_timing_matches_js_hard_stop_contract(self):
         timing = TiebaScrapeTiming()
