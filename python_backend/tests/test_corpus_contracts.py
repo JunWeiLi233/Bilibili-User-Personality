@@ -28,6 +28,7 @@ from python_backend.cli.direct_probe_corpus import DirectProbeCorpusRunner
 from python_backend.cli.random_verification import RandomVerificationRunner
 from python_backend.cli.tieba_corpus import TiebaCorpusUpdateRunner
 from python_backend.cli.tieba_html_parse import TiebaHtmlParseRunner
+from python_backend.cli.tieba_timing import TiebaTimingRunner
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder
 from python_backend.corpus.history_tags import HistoryTagCorpusManager
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter
@@ -43,6 +44,7 @@ from python_backend.scrapers.bilibili import BilibiliPublicParser
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanner
 from python_backend.scrapers.rate_limiter import RateLimiter
 from python_backend.scrapers.tieba_html import TiebaHtmlParser
+from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 
 
 class CorpusContractTests(unittest.TestCase):
@@ -692,6 +694,30 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertTrue(result["changed"])
         self.assertEqual(result["corpus"]["comments"][0]["message"], "\u65b0\u8bc4\u8bba")
+
+    def test_tieba_scrape_timing_matches_js_hard_stop_contract(self):
+        timing = TiebaScrapeTiming()
+
+        self.assertEqual(
+            timing.compute_hard_stop_ms({"maxQueries": 4, "overallTimeoutMs": 30000, "blockCooldownMs": 120000}),
+            610000,
+        )
+        self.assertEqual(timing.compute_hard_stop_ms({"maxQueries": 0, "overallTimeoutMs": 30000, "blockCooldownMs": 120000}), 160000)
+        self.assertEqual(timing.compute_hard_stop_ms({"maxQueries": 2, "overallTimeoutMs": -1, "blockCooldownMs": -5}), 10000)
+
+    def test_tieba_timing_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps({"maxQueries": 4, "overallTimeoutMs": 30000, "blockCooldownMs": 120000}),
+                encoding="utf-8",
+            )
+
+            result = TiebaTimingRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["hardStopMs"], 610000)
 
     def test_direct_probe_builder_collects_replies_and_danmaku(self):
         builder = DirectProbeCorpusBuilder()
