@@ -53,6 +53,11 @@ class AuditContractComparator:
             js_ok = bool(js_audit.get("ok"))
             if python_ok != js_ok:
                 mismatches.append({"key": "ok", "python": python_ok, "js": js_ok})
+        if "failureReasons" in js_audit:
+            python_reasons = list(python_audit.get("failureReasons") or [])
+            js_reasons = list(js_audit.get("failureReasons") or [])
+            if python_reasons != js_reasons:
+                mismatches.append({"key": "failureReasons", "python": python_reasons, "js": js_reasons})
         if self.strict_total_evidence:
             mismatches.extend(warnings)
             warnings = []
@@ -82,6 +87,7 @@ class AuditContractComparator:
             "ok": report.ok,
             "targetEvidence": report.target_evidence,
             "coverage": {key: coverage.get(key) for key in (*self.GATE_METRIC_KEYS, *self.WARNING_METRIC_KEYS)},
+            "failureReasons": list(audit.get("failureReasons") or []),
         }
 
 

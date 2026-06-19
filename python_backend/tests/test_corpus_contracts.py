@@ -3713,6 +3713,51 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(result["ok"])
         self.assertEqual(result["mismatches"], [{"key": "ok", "python": True, "js": False}])
 
+    def test_audit_contract_comparator_reports_failure_reason_mismatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            js_audit_path = root / "js-audit.json"
+            dictionary_path.write_text(
+                json.dumps({"entries": [{"term": "weak", "family": "attack", "evidenceCount": 1}]}),
+                encoding="utf-8",
+            )
+            js_audit_path.write_text(
+                json.dumps(
+                    {
+                        "ok": False,
+                        "targetEvidence": 3,
+                        "minCoverageRatio": 0,
+                        "coverage": {
+                            "terms": 1,
+                            "totalEvidence": 1,
+                            "weakTerms": 1,
+                            "zeroEvidenceTerms": 0,
+                            "evidenceDeficit": 2,
+                            "coverageRatio": 0,
+                            "sourcedEvidenceTerms": 0,
+                            "unsourcedEvidenceTerms": 1,
+                        },
+                        "failureReasons": ["stale JS reason"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = AuditContractComparator(dictionary_path, js_audit_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {
+                    "key": "failureReasons",
+                    "python": ["1 term(s) are below 3 evidence hit(s)"],
+                    "js": ["stale JS reason"],
+                }
+            ],
+        )
+
     def test_audit_contract_comparator_reports_total_evidence_mismatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
