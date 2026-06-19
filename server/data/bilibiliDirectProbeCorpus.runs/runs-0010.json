@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T00:11:19.017Z",
+  "updatedAt": "2026-06-19T00:19:52.581Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -119,6 +119,64 @@
       "warnings": [],
       "commentsCollected": 916,
       "commentsAdded": 355
+    },
+    {
+      "at": "2026-06-19T00:19:52.581Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 B站评论"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 回复"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 弹幕"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 B站"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1RrLr6JEkr",
+          "term": "德里不饶人",
+          "query": "德里不饶人 B站评论",
+          "bvid": "BV1RrLr6JEkr",
+          "aid": 116601953192773,
+          "title": "对我视频<em class=\"keyword\">评论</em>区的一则声明 是时候管管这群人了"
+        },
+        {
+          "key": "bvid:BV1mhjc6ZEXY",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 回复",
+          "bvid": "BV1mhjc6ZEXY",
+          "aid": 116770178335037,
+          "title": "睁开你的狗眼～"
+        },
+        {
+          "key": "bvid:BV1SaaszJE74",
+          "term": "价格被打下来",
+          "query": "价格被打下来 弹幕",
+          "bvid": "BV1SaaszJE74",
+          "aid": 115130071254663,
+          "title": "钱小佳伤心后，喝酒后被狠狠打了几巴掌。<em class=\"keyword\">被打</em>醒了，笑死我了"
+        },
+        {
+          "key": "bvid:BV1DZxceVEaJ",
+          "term": "抛开其他",
+          "query": "抛开其他 B站",
+          "bvid": "BV1DZxceVEaJ",
+          "aid": 113210489377854,
+          "title": "如果你被一个UP主拉黑，你会受到哪些限制？"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 101,
+      "commentsAdded": 88
     }
   ]
 }
