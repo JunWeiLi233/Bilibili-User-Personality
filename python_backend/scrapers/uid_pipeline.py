@@ -256,6 +256,16 @@ class UidPipelineStateReporter:
         }
 
 
+class UidPipelineStateSummary:
+    """Shape UID pipeline launcher state reports into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("startedAt", "workers", "summary", "stats")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
 class UidPipelineProgressReporter:
     """Summarize one UID pipeline worker progress payload into the JS JSON contract."""
 

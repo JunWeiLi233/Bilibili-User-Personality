@@ -114,7 +114,7 @@ from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner, RangeS
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelProgressReporter, UidParallelProgressSummary
-from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineMergeReporter, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateReporter, UidPipelineWorkerPlanner
+from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineMergeReporter, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter
 from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherPlanner, UidFastPipelinePlanner
 
@@ -5552,6 +5552,27 @@ class CorpusContractTests(unittest.TestCase):
                 {"start": 1, "end": 2, "progressFile": "uid-pipeline-1-2.json", "processed": 2, "total": 2, "complete": True},
                 {"start": 3, "end": 4, "progressFile": "uid-pipeline-3-4.json", "processed": 1, "total": 2, "complete": False},
             ],
+        )
+
+    def test_uid_pipeline_state_summary_extracts_comparator_contract(self):
+        summary = UidPipelineStateSummary().summarize(
+            {
+                "ok": True,
+                "startedAt": "2026-06-19T00:00:00.000Z",
+                "workers": [{"start": 1, "end": 2}],
+                "summary": {"totalProcessed": 2},
+                "stats": {"success": 1},
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "startedAt": "2026-06-19T00:00:00.000Z",
+                "workers": [{"start": 1, "end": 2}],
+                "summary": {"totalProcessed": 2},
+                "stats": {"success": 1},
+            },
         )
 
     def test_uid_pipeline_state_comparator_reports_summary_mismatches(self):
