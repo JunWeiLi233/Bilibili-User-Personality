@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T05:01:23.139Z",
+  "updatedAt": "2026-06-19T05:20:39.040Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -1917,6 +1917,40 @@
       "warnings": [],
       "commentsCollected": 33,
       "commentsAdded": 19
+    },
+    {
+      "at": "2026-06-19T05:20:39.040Z",
+      "actions": [
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1Laf1BNEon",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1Laf1BNEon",
+          "aid": 116124423296837,
+          "title": "【汪好不是狗】新作上线，快来看看！"
+        },
+        {
+          "key": "bvid:BV1PaxezSE5K",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1PaxezSE5K",
+          "aid": 115337471203273,
+          "title": "狗都不……去！去的就是cpsp！"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 7,
+      "commentsAdded": 5
     }
   ]
 }
