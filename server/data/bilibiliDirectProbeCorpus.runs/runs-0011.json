@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T06:38:15.258Z",
+  "updatedAt": "2026-06-19T06:48:28.428Z",
   "shard": 11,
   "shardCount": 11,
   "runs": [
@@ -497,6 +497,36 @@
       "warnings": [],
       "commentsCollected": 1843,
       "commentsAdded": 1116
+    },
+    {
+      "at": "2026-06-19T06:48:28.428Z",
+      "actions": [
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1VTxCzZEna",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1VTxCzZEna",
+          "aid": 115342571536880,
+          "title": "#草狗 #ooc致歉 #蒜偷小狗八 #原创饭圈 我去我觉得我做的这期视频太美了"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 8,
+      "commentsAdded": 8
     }
   ]
 }
