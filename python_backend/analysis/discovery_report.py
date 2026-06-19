@@ -15,6 +15,16 @@ def _number(value: Any) -> int:
         return 0
 
 
+class VideoKeywordDiscoveryReportSummary:
+    """Shape video keyword discovery reports into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("mode", "report", "priorityActionItems", "trainingDiagnostics", "queryDiagnostics", "roundSummary")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
 class VideoKeywordDiscoveryReporter:
     """Serialize video keyword discovery reports using the JS harvest-loop JSON contract."""
 

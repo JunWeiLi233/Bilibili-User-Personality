@@ -7,7 +7,7 @@ from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageA
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressSummary, CoverageProgressTracker
-from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReporter
+from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReporter, VideoKeywordDiscoveryReportSummary
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder
 from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateFinalizer, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
@@ -7787,6 +7787,32 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["report"]["generatedAt"], "2026-06-19T00:00:00.000Z")
         self.assertEqual(result["priorityActionItems"][0]["query"], "next term 评论区")
+
+    def test_video_keyword_discovery_report_summary_extracts_comparator_contract(self):
+        summary = VideoKeywordDiscoveryReportSummary().summarize(
+            {
+                "ok": True,
+                "mode": "report",
+                "report": {"generatedAt": "2026-06-19T00:00:00.000Z"},
+                "priorityActionItems": [{"query": "doge hot"}],
+                "trainingDiagnostics": {"deepseekCalls": 1},
+                "queryDiagnostics": [{"query": "doge hot"}],
+                "roundSummary": {"okResults": 1},
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "mode": "report",
+                "report": {"generatedAt": "2026-06-19T00:00:00.000Z"},
+                "priorityActionItems": [{"query": "doge hot"}],
+                "trainingDiagnostics": {"deepseekCalls": 1},
+                "queryDiagnostics": [{"query": "doge hot"}],
+                "roundSummary": {"okResults": 1},
+            },
+        )
 
     def test_video_keyword_discovery_report_contract_comparator_reports_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
