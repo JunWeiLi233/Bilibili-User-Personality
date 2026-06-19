@@ -1583,6 +1583,109 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["targetReplies"][0]["message"], "target message")
         self.assertEqual(result["danmaku"][0]["rpid"], "danmaku-456-0")
 
+    def test_bilibili_crawler_helper_extracts_dynamic_records(self):
+        helper = BilibiliCrawlerHelper()
+
+        records = helper.extract_dynamic_records(
+            [
+                {
+                    "id_str": "111222333",
+                    "basic": {"comment_type": 17, "comment_id_str": "998877"},
+                    "modules": {
+                        "module_dynamic": {
+                            "desc": {"text": "dynamic opinion text"},
+                        },
+                        "module_author": {"pub_ts": 1710000000, "name": "up"},
+                        "module_stat": {"comment": {"count": 12}},
+                    },
+                },
+                {
+                    "id": 444555666,
+                    "basic": {"comment_type": 0},
+                    "modules": {
+                        "module_dynamic": {
+                            "major": {"archive": {"title": "archive title", "desc": "archive desc"}},
+                        }
+                    },
+                },
+            ],
+            "453244911",
+        )
+
+        self.assertEqual(
+            records["objects"],
+            [
+                {
+                    "id": "dynamic-17-998877",
+                    "kind": "dynamic",
+                    "oid": "998877",
+                    "replyType": 17,
+                    "title": "\u52a8\u6001\uff1adynamic opinion text",
+                    "authorMid": "453244911",
+                    "sourceUrl": "https://t.bilibili.com/111222333",
+                    "replyCount": 12,
+                }
+            ],
+        )
+        self.assertEqual(
+            records["authoredPosts"],
+            [
+                {
+                    "sourceKind": "dynamic-post",
+                    "oid": "998877",
+                    "replyType": 17,
+                    "sourceTitle": "dynamic opinion text",
+                    "sourceUrl": "https://t.bilibili.com/111222333",
+                    "rpid": "dynamic-111222333",
+                    "like": 0,
+                    "ctime": 1710000000,
+                    "uname": "up",
+                    "mid": "453244911",
+                    "message": "dynamic opinion text",
+                },
+                {
+                    "sourceKind": "dynamic-post",
+                    "oid": "444555666",
+                    "replyType": 17,
+                    "sourceTitle": "archive title",
+                    "sourceUrl": "https://t.bilibili.com/444555666",
+                    "rpid": "dynamic-444555666",
+                    "like": 0,
+                    "ctime": 0,
+                    "uname": "",
+                    "mid": "453244911",
+                    "message": "archive desc",
+                },
+            ],
+        )
+
+    def test_bilibili_crawler_runner_exposes_dynamic_records_json_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "uid": "453244911",
+                        "dynamicItems": [
+                            {
+                                "id_str": "111222333",
+                                "basic": {"comment_type": 17, "comment_id_str": "998877"},
+                                "modules": {
+                                    "module_dynamic": {"desc": {"text": "dynamic opinion text"}},
+                                    "module_stat": {"comment": {"count": 12}},
+                                },
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = BilibiliCrawlerRunner(payload_path).run()
+
+        self.assertEqual(result["dynamicRecords"]["objects"][0]["id"], "dynamic-17-998877")
+        self.assertEqual(result["dynamicRecords"]["authoredPosts"][0]["message"], "dynamic opinion text")
+
     def test_bilibili_probe_planner_builds_headers_and_urls(self):
         planner = BilibiliProbePlanner()
 

@@ -111,6 +111,55 @@ class BilibiliCrawlerHelper:
             index += 1
         return items
 
+    def extract_dynamic_records(self, items: list[dict[str, Any]] | None = None, uid: Any = "") -> dict[str, list[dict[str, Any]]]:
+        objects: list[dict[str, Any]] = []
+        authored_posts: list[dict[str, Any]] = []
+        uid_text = str(uid or "")
+
+        for item in items if isinstance(items, list) else []:
+            if not isinstance(item, dict):
+                continue
+            dynamic_id = str(item.get("id_str") or item.get("id") or "")
+            basic = item.get("basic") if isinstance(item.get("basic"), dict) else {}
+            comment_type = self._number(basic.get("comment_type"), 0)
+            comment_oid = str(basic.get("comment_id_str") or basic.get("comment_id") or "")
+            text = self._dynamic_text(item)
+            title = self._dynamic_title(item, text)
+            source_url = f"https://t.bilibili.com/{dynamic_id}" if dynamic_id else f"https://space.bilibili.com/{uid_text}/dynamic"
+
+            if text:
+                authored_posts.append(
+                    {
+                        "sourceKind": "dynamic-post",
+                        "oid": comment_oid or dynamic_id,
+                        "replyType": comment_type or 17,
+                        "sourceTitle": title,
+                        "sourceUrl": source_url,
+                        "rpid": f"dynamic-{dynamic_id or comment_oid}",
+                        "like": 0,
+                        "ctime": self._number(self._path(item, "modules", "module_author", "pub_ts"), 0),
+                        "uname": self._path(item, "modules", "module_author", "name") or "",
+                        "mid": uid_text,
+                        "message": text,
+                    }
+                )
+
+            if comment_type > 0 and comment_oid:
+                objects.append(
+                    {
+                        "id": f"dynamic-{comment_type}-{comment_oid}",
+                        "kind": "dynamic",
+                        "oid": comment_oid,
+                        "replyType": comment_type,
+                        "title": f"\u52a8\u6001\uff1a{self._text_snippet(title, comment_oid)}",
+                        "authorMid": uid_text,
+                        "sourceUrl": source_url,
+                        "replyCount": self._number(self._path(item, "modules", "module_stat", "comment", "count"), 0),
+                    }
+                )
+
+        return {"objects": objects, "authoredPosts": authored_posts}
+
     def _reply_record(self, reply: dict[str, Any], obj: dict[str, Any], mid: str) -> dict[str, Any]:
         member = reply.get("member") or {}
         content = reply.get("content") or {}
@@ -128,6 +177,48 @@ class BilibiliCrawlerHelper:
             "mid": mid,
             "message": content.get("message") or "",
         }
+
+    def _dynamic_text(self, item: dict[str, Any]) -> str:
+        dynamic = self._path(item, "modules", "module_dynamic")
+        dynamic = dynamic if isinstance(dynamic, dict) else {}
+        major = dynamic.get("major") if isinstance(dynamic.get("major"), dict) else {}
+        opus = major.get("opus") if isinstance(major.get("opus"), dict) else {}
+        archive = major.get("archive") if isinstance(major.get("archive"), dict) else {}
+        article = major.get("article") if isinstance(major.get("article"), dict) else {}
+        values = [
+            self._path(dynamic, "desc", "text"),
+            self._path(opus, "summary", "text"),
+            opus.get("title"),
+            archive.get("desc"),
+            archive.get("title"),
+            article.get("desc"),
+            article.get("title"),
+        ]
+        return str(next((value for value in values if value), "")).strip()
+
+    def _dynamic_title(self, item: dict[str, Any], text: str) -> str:
+        dynamic = self._path(item, "modules", "module_dynamic")
+        dynamic = dynamic if isinstance(dynamic, dict) else {}
+        major = dynamic.get("major") if isinstance(dynamic.get("major"), dict) else {}
+        archive = major.get("archive") if isinstance(major.get("archive"), dict) else {}
+        article = major.get("article") if isinstance(major.get("article"), dict) else {}
+        opus = major.get("opus") if isinstance(major.get("opus"), dict) else {}
+        title = archive.get("title") or article.get("title") or opus.get("title")
+        return str(title or self._text_snippet(text, f"\u52a8\u6001 {item.get('id_str') or item.get('id') or ''}"))
+
+    def _text_snippet(self, text: Any, fallback: Any) -> str:
+        clean = re.sub(r"\s+", " ", str(text or "")).strip()
+        if not clean:
+            return str(fallback)
+        return f"{clean[:48]}..." if len(clean) > 48 else clean
+
+    def _path(self, value: Any, *keys: str) -> Any:
+        current = value
+        for key in keys:
+            if not isinstance(current, dict):
+                return None
+            current = current.get(key)
+        return current
 
     def _number(self, value: Any, fallback: int = 0) -> int:
         try:

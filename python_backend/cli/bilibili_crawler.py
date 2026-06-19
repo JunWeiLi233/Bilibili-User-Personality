@@ -42,6 +42,8 @@ class BilibiliCrawlerRunner:
                 payload.get("danmakuXml"),
                 payload.get("video") if isinstance(payload.get("video"), dict) else {},
             )
+        if isinstance(payload.get("dynamicItems"), list):
+            result["dynamicRecords"] = self.helper.extract_dynamic_records(payload.get("dynamicItems"), payload.get("uid"))
         return result
 
     def _read_payload(self) -> dict[str, Any]:
