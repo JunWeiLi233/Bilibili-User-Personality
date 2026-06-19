@@ -19,7 +19,7 @@ from python_backend.cli.bilibili_parse import BilibiliParseRunner
 from python_backend.cli.bilibili_crawler import BilibiliCrawlerRunner
 from python_backend.cli.bilibili_probe_plan import BilibiliProbePlanRunner
 from python_backend.cli.coverage_audit import AuditContractComparator
-from python_backend.cli.coverage_progress import CoverageProgressRunner
+from python_backend.cli.coverage_progress import CoverageProgressContractComparator, CoverageProgressRunner
 from python_backend.cli.discovery_report import VideoKeywordDiscoveryReportRunner
 from python_backend.cli.harvest_options import HarvestOptionsRunner
 from python_backend.cli.harvest_plan import KeywordHarvestPlanContractComparator, KeywordHarvestPlanRunner
@@ -3349,6 +3349,56 @@ class CorpusContractTests(unittest.TestCase):
             result = CoverageProgressRunner(payload_path).run()
 
         self.assertEqual(result["exhaustedTerms"], [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "attempts": 11, "evidence": 0}])
+
+    def test_coverage_progress_contract_comparator_reports_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-progress.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "before": {"totalEvidence": 10, "evidenceDeficit": 5, "zeroEvidenceTerms": 2, "weakTerms": 4},
+                        "after": {"totalEvidence": 12, "evidenceDeficit": 3, "zeroEvidenceTerms": 1, "weakTerms": 3},
+                        "harvestProgress": [{"weakTermsResolved": 0, "zeroEvidenceResolved": 1, "evidenceGained": 2, "evidenceDeficitReduced": 2}],
+                        "beforeActions": [{"term": "rare-term", "needs": 2}],
+                        "afterActions": [{"term": "rare-term", "needs": 1}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps(
+                    {
+                        "delta": {"evidenceDeficitReduced": 0},
+                        "hasGateProgress": False,
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = CoverageProgressContractComparator(payload_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {
+                    "key": "delta",
+                    "python": {
+                        "evidenceDeficitReduced": 2,
+                        "zeroEvidenceResolved": 1,
+                        "weakTermsResolved": 1,
+                        "unsourcedEvidenceReduced": 0,
+                        "totalEvidenceGained": 2,
+                        "termsAdded": 0,
+                        "coverageRatioDelta": 0,
+                    },
+                    "js": {"evidenceDeficitReduced": 0},
+                },
+                {"key": "hasGateProgress", "python": True, "js": False},
+            ],
+        )
 
     def test_coverage_progress_tracker_selects_exhausted_terms_from_harvest_state(self):
         tracker = CoverageProgressTracker()
