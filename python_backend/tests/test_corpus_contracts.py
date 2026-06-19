@@ -116,7 +116,7 @@ from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner, UidDiscov
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelProgressReporter
 from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineMergeReporter, UidPipelineProgressReporter, UidPipelineStateReporter, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorReporter
-from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanner
+from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherPlanner, UidFastPipelinePlanner
 
 
 class CorpusContractTests(unittest.TestCase):
@@ -5914,6 +5914,28 @@ class CorpusContractTests(unittest.TestCase):
                 }
             ],
         )
+
+    def test_fast_pipeline_launcher_planner_builds_powershell_contract_without_filesystem(self):
+        result = FastPipelineLauncherPlanner().build_plan(data_dir="server/data")
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["script"], "server/scripts/uidPipelineFast.js")
+        self.assertEqual(result["shell"], "cmd")
+        self.assertEqual(result["logDir"], str(Path("server/data") / "scraper-logs"))
+        self.assertEqual(result["summary"], {"workers": 5, "totalStart": 1, "totalEnd": 100000, "totalUids": 100000, "launchDelaySeconds": 5})
+        self.assertEqual(
+            result["workers"][0],
+            {
+                "start": 1,
+                "end": 20000,
+                "progressFile": "uid-pipeline-fast-1-20000.json",
+                "logFile": "scraper-logs/uid-pipeline-fast-1-20000.log",
+                "stderrFile": "scraper-logs/uid-pipeline-fast-1-20000-stderr.log",
+                "cmdArgs": '/c node "server/scripts/uidPipelineFast.js" --start=1 --end=20000',
+                "args": ["--start=1", "--end=20000"],
+            },
+        )
+        self.assertEqual(result["workers"][-1]["cmdArgs"], '/c node "server/scripts/uidPipelineFast.js" --start=80001 --end=100000')
 
     def test_fast_pipeline_launcher_plan_runner_matches_powershell_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
