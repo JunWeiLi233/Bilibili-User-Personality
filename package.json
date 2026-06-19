@@ -27,6 +27,7 @@
     "python:compare": "python -m python_backend.cli.compare_contracts",
     "python:coverage-compare": "python -m python_backend.cli.coverage_audit",
     "python:verify-random": "python -m python_backend.cli.random_verification",
+    "python:deepseek-plan": "python -m python_backend.cli.deepseek_analysis_plan",
     "dev:full": "node server/index.js",
     "test": "node --test",
     "build": "vite build",

@@ -8,6 +8,7 @@ from python_backend.analysis.verification import RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient
 from python_backend.cli.coverage_audit import AuditContractComparator
 from python_backend.cli.compare_contracts import ContractComparator
+from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanRunner
 from python_backend.cli.random_verification import RandomVerificationRunner
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
@@ -116,9 +117,86 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(scraper.build_metadata_request(request)["query"], "历史")
         self.assertEqual(
-            analyzer.build_payload(AnalyzerRequest(comments=["狗头保命"], keyword_hints=["狗头"]))["keyword_hints"],
-            ["狗头"],
+            analyzer.build_payload(AnalyzerRequest(comments=["狗头保命"], keyword_hints=["狗头"]))["keywordHints"],
+            [{"term": "狗头", "family": "", "meaning": ""}],
         )
+
+    def test_deepseek_analyzer_builds_standalone_sentence_request(self):
+        sentence = "\u8fd9\u53ea\u662f\u5f15\u7528\u68d2\u7403\u672f\u8bed\uff0c\u4e0d\u662f\u5728\u9a82\u4eba\u3002"
+        analyzer = DeepSeekAnalyzerClient()
+
+        request = analyzer.build_chat_request(
+            AnalyzerRequest(
+                comments=[sentence, sentence],
+                uid="mid standalone",
+                name="standalone tester",
+                keyword_hints=[{"term": "\u9a82\u4eba", "family": "attack", "meaning": "\u653b\u51fb\u6027\u8bcd\u9762"}],
+            )
+        )
+
+        user_prompt = request["messages"][1]["content"]
+        self.assertEqual(request["model"], "deepseek-v4-flash")
+        self.assertEqual(request["reasoning_effort"], "max")
+        self.assertEqual(request["response_format"], {"type": "json_object"})
+        self.assertIn("STANDALONE full-sentence psychologist/speech-act analyzer", user_prompt)
+        self.assertIn("Keyword hints are optional, non-binding context only", user_prompt)
+        self.assertIn("Do not assign radar/personality scores from keyword hits alone", user_prompt)
+        self.assertIn(sentence, user_prompt)
+        self.assertIn("\u653b\u51fb\u6027\u8bcd\u9762", user_prompt)
+        self.assertEqual(user_prompt.count(sentence), 1)
+
+    def test_deepseek_analyzer_builds_multiagent_request_plan(self):
+        sentence = "\u8fd9\u53e5\u662f\u5728\u53cd\u8bbd\u5427[doge]\uff0c\u4e0d\u662f\u771f\u7684\u9a82\u4eba\u3002"
+        analyzer = DeepSeekAnalyzerClient()
+        request = AnalyzerRequest(comments=[sentence], multiagent=True, keyword_hints=["\u9a82\u4eba"])
+
+        plan = analyzer.build_request_plan(request)
+        merge_request = analyzer.build_merge_request(request, [{"id": "lexical-context", "name": "Lexical and emoji context analyst", "ok": True}])
+
+        self.assertEqual(len(plan), 3)
+        self.assertTrue(all(item["messages"][1]["content"].startswith("Agent role:") for item in plan))
+        self.assertIn("Emoji and Bilibili bracket emotes are semantic tone markers", plan[0]["messages"][1]["content"])
+        self.assertIn("keyword or emoji alone", plan[0]["messages"][1]["content"])
+        self.assertIn("Merge the specialist agent outputs", merge_request["messages"][1]["content"])
+        self.assertIn("quality-control agent", merge_request["messages"][0]["content"])
+        self.assertIn("lexical-context", merge_request["messages"][1]["content"])
+
+    def test_deepseek_analysis_plan_runner_reads_js_payload_contract(self):
+        sentence = "\u8fd9\u53e5\u662f\u5728\u53cd\u8bbd\u5427[doge]\uff0c\u4e0d\u662f\u771f\u7684\u9a82\u4eba\u3002"
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "uid": "mid plan",
+                        "name": "plan tester",
+                        "text": sentence,
+                        "multiagent": True,
+                        "keywordHints": [{"term": "\u9a82\u4eba", "family": "attack"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = DeepSeekAnalysisPlanRunner(payload_path).run()
+
+        self.assertEqual(result["mode"], "multiagent")
+        self.assertEqual(len(result["requests"]), 3)
+        self.assertEqual(result["merge"]["mergeAgent"], "quality-merge")
+        self.assertIn(sentence, result["requests"][0]["messages"][1]["content"])
+
+    def test_deepseek_analysis_plan_runner_accepts_utf8_bom_payloads(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "payload.json"
+            payload_path.write_bytes(
+                b"\xef\xbb\xbf"
+                + json.dumps({"text": "\u72d7\u5934\u4fdd\u547d", "keywordHints": ["\u72d7\u5934"]}, ensure_ascii=False).encode("utf-8")
+            )
+
+            result = DeepSeekAnalysisPlanRunner(payload_path).run()
+
+        self.assertEqual(result["mode"], "single")
+        self.assertEqual(len(result["requests"]), 1)
 
     def test_contract_comparator_checks_manifest_count_and_audit_terms(self):
         with tempfile.TemporaryDirectory() as tmp:
