@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T00:35:37.993Z",
+  "updatedAt": "2026-06-19T00:43:13.651Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -293,6 +293,64 @@
       "warnings": [],
       "commentsCollected": 687,
       "commentsAdded": 459
+    },
+    {
+      "at": "2026-06-19T00:43:13.651Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 弹幕"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站评论"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 B站弹幕"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1iC4y167Xv",
+          "term": "德里不饶人",
+          "query": "德里不饶人 弹幕",
+          "bvid": "BV1iC4y167Xv",
+          "aid": 794457967,
+          "title": "明明提到她是那么温柔，嘴上却是<em class=\"keyword\">不饶人</em>"
+        },
+        {
+          "key": "bvid:BV1er4y1g7Ue",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站评论",
+          "bvid": "BV1er4y1g7Ue",
+          "aid": 770319104,
+          "title": "【<em class=\"keyword\">b站</em>特色】咱们的狗子表情包被删除了"
+        },
+        {
+          "key": "bvid:BV1Udt9zQEEb",
+          "term": "价格被打下来",
+          "query": "价格被打下来 B站弹幕",
+          "bvid": "BV1Udt9zQEEb",
+          "aid": 115014526637543,
+          "title": "<em class=\"keyword\">B站弹幕</em>点赞bug"
+        },
+        {
+          "key": "bvid:BV1Aa4y1i7mA",
+          "term": "抛开其他",
+          "query": "抛开其他 评论回复",
+          "bvid": "BV1Aa4y1i7mA",
+          "aid": 668037496,
+          "title": "教程:<em class=\"keyword\">回复</em>拉黑你的人"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 89,
+      "commentsAdded": 76
     }
   ]
 }
