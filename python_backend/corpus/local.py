@@ -194,6 +194,16 @@ class LocalCorpusFlattener:
         return values
 
 
+class LocalCorpusFlattenSummary:
+    """Shape local corpus flatten results into the JS/Python comparator contract."""
+
+    RESULT_KEYS = ("count", "comments")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
 def _evidence_count(entry: dict[str, Any]) -> int:
     count = entry.get("evidenceCount")
     if count is None:

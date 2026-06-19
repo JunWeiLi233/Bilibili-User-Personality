@@ -79,7 +79,7 @@ from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectP
 from python_backend.corpus.history_tags import HistoryTagCorpusManager, HistoryTagScrapePlanner
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceImportPlanner, HuggingFaceImportSummary
 from python_backend.corpus.local import LocalCorpusEvidenceFinder, LocalCorpusEvidenceSummary
-from python_backend.corpus.local import LocalCorpusFlattener
+from python_backend.corpus.local import LocalCorpusFlattenSummary, LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner
 from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner
 from python_backend.corpus.tieba import TiebaCorpusUpdater
@@ -2188,6 +2188,18 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["comments"][0]["uid"], "BVprogress")
+
+    def test_local_corpus_flatten_summary_extracts_comparator_contract(self):
+        summary = LocalCorpusFlattenSummary().summarize(
+            {
+                "ok": True,
+                "count": 2,
+                "comments": [{"message": "one"}, {"message": "two"}],
+                "ignored": "heavy payload",
+            }
+        )
+
+        self.assertEqual(summary, {"count": 2, "comments": [{"message": "one"}, {"message": "two"}]})
 
     def test_local_corpus_flatten_contract_comparator_reports_comment_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
