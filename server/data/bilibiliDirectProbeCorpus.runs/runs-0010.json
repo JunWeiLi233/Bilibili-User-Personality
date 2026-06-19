@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T01:55:45.425Z",
+  "updatedAt": "2026-06-19T02:08:15.931Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -873,6 +873,64 @@
       "warnings": [],
       "commentsCollected": 2774,
       "commentsAdded": 1881
+    },
+    {
+      "at": "2026-06-19T02:08:15.931Z",
+      "actions": [
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV18uRwB4EVW",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV18uRwB4EVW",
+          "aid": 116510869751398,
+          "title": "大狗大狗大狗大狗大狗大狗大狗教教教"
+        },
+        {
+          "key": "bvid:BV1yBjY6VEhg",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1yBjY6VEhg",
+          "aid": 116773382789729,
+          "title": "二狗学长深夜发视频，失去理智神志不清，<em class=\"keyword\">评论区</em>里人间清醒。狗哥起来数钱！"
+        },
+        {
+          "key": "bvid:BV1tmja6EEKk",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV1tmja6EEKk",
+          "aid": 116771789016378,
+          "title": "给点评论和<em class=\"keyword\">弹幕</em>吧"
+        },
+        {
+          "key": "bvid:BV1AAjA6dEVk",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1AAjA6dEVk",
+          "aid": 116771050752604,
+          "title": "癌-我最大胆尝试的一次歌切，用声音当刑具，溃烂后的回响"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 60,
+      "commentsAdded": 47
     }
   ]
 }
