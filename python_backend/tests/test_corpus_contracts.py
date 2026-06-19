@@ -3886,6 +3886,52 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(result["ok"])
         self.assertEqual(result["mismatches"], [{"key": "averageEvidence", "python": 2.0, "js": 1.5}])
 
+    def test_audit_contract_comparator_reports_source_coverage_ratio_mismatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            js_audit_path = root / "js-audit.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {
+                                "term": "covered",
+                                "family": "attack",
+                                "evidenceCount": 3,
+                                "evidenceSources": [{"source": "Bilibili public video comment scan", "sample": "covered"}],
+                            },
+                            {"term": "unsourced", "family": "attack", "evidenceCount": 3},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_audit_path.write_text(
+                json.dumps(
+                    {
+                        "targetEvidence": 3,
+                        "coverage": {
+                            "terms": 2,
+                            "totalEvidence": 4,
+                            "weakTerms": 1,
+                            "zeroEvidenceTerms": 0,
+                            "evidenceDeficit": 2,
+                            "coverageRatio": 0.5,
+                            "sourcedEvidenceTerms": 1,
+                            "sourceCoverageRatio": 1,
+                            "unsourcedEvidenceTerms": 1,
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = AuditContractComparator(dictionary_path, js_audit_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["mismatches"], [{"key": "sourceCoverageRatio", "python": 0.5, "js": 1}])
+
     def test_audit_contract_comparator_reports_total_evidence_mismatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
