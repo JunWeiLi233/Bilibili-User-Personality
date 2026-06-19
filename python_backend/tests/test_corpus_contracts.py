@@ -57,6 +57,7 @@ from python_backend.cli.uid_pipeline_progress import UidPipelineProgressContract
 from python_backend.cli.uid_pipeline_merge import UidPipelineMergeContractComparator, UidPipelineMergeRunner
 from python_backend.cli.uid_pipeline_launcher import UidPipelineLauncherContractComparator, UidPipelineLauncherPlanRunner
 from python_backend.cli.uid_pipeline_state import UidPipelineStateContractComparator, UidPipelineStateRunner
+from python_backend.cli.batch_bilibili_plan import BatchBilibiliPlanContractComparator, BatchBilibiliPlanRunner
 from python_backend.cli.batch_scraper_launcher import BatchScraperLauncherContractComparator, BatchScraperLauncherPlanRunner
 from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContractComparator, RangeScraperLauncherPlanRunner
 from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContractComparator, FastPipelineLauncherPlanRunner
@@ -88,6 +89,7 @@ from python_backend.cli.uid_discovery_progress import UidDiscoveryProgressContra
 from python_backend.scrapers.tieba_html import TiebaHtmlParser
 from python_backend.scrapers.tieba_keyword import TiebaKeywordScrapeOptionsPlanner
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
+from python_backend.scrapers.batch_bilibili import BatchBilibiliScrapePlanner
 
 
 class CorpusContractTests(unittest.TestCase):
@@ -5120,6 +5122,45 @@ class CorpusContractTests(unittest.TestCase):
                     "js": {"processed": 0},
                 },
                 {"key": "combined", "python": {"uidsAnalyzed": 2}, "js": {"uidsAnalyzed": 1}},
+            ],
+        )
+
+    def test_batch_bilibili_planner_matches_js_uid_range_and_resume_contract(self):
+        planner = BatchBilibiliScrapePlanner()
+
+        result = planner.build_plan(["--start=100", "--end=120"], {"lastUid": 105, "completed": 3}, {"users": {"101": {}, "102": {}}})
+        invalid = planner.build_plan(["--start=bad", "--end=0"], {"lastUid": 0}, {"users": {}})
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["input"], {"startUid": 100, "endUid": 120})
+        self.assertEqual(result["range"], {"startUid": 106, "endUid": 120, "total": 15})
+        self.assertEqual(result["resume"], {"lastUid": 105, "resumed": True})
+        self.assertEqual(result["database"], {"users": 2})
+        self.assertEqual(result["limits"], {"maxVideos": 3, "maxComments": 50, "replyPages": 1})
+        self.assertEqual(invalid["range"], {"startUid": 100000, "endUid": 200000, "total": 100001})
+
+    def test_batch_bilibili_plan_runner_and_comparator_read_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "batch-bilibili-plan.json"
+            js_report_path = root / "js-batch-bilibili-plan.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--start=10", "--end=12"], "progress": {"lastUid": 10}, "database": {"users": {"10": {}}}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"range": {"startUid": 10}, "database": {"users": 9}}), encoding="utf-8")
+
+            result = BatchBilibiliPlanRunner(payload_path).run()
+            comparison = BatchBilibiliPlanContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"startUid": 11, "endUid": 12, "total": 2})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "range", "python": {"startUid": 11, "endUid": 12, "total": 2}, "js": {"startUid": 10}},
+                {"key": "database", "python": {"users": 1}, "js": {"users": 9}},
             ],
         )
 
