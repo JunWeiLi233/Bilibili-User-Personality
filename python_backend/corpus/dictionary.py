@@ -45,7 +45,17 @@ class DictionaryLoader:
             term = str(entry.get("term") or "").strip()
             evidence = evidence_by_term.get(term, {})
             merged_entries.append({**entry, **evidence})
-        return KeywordDictionary(manifest={**manifest, "entries": merged_entries}, entries=merged_entries)
+        normalized = {
+            "version": manifest.get("version", 1),
+            "storage": "split",
+            "shardSize": manifest.get("shardSize") or None,
+            "shardMaxBytes": manifest.get("shardMaxBytes") or None,
+            "evidenceStorage": "split" if manifest.get("evidenceFiles") else None,
+            "updatedAt": manifest.get("updatedAt") or None,
+            "entries": merged_entries,
+            "families": manifest.get("families") or {},
+        }
+        return KeywordDictionary(manifest=normalized, entries=merged_entries)
 
     def _hydrate_entry_files(self, files_by_family: dict[str, list[str]]) -> list[dict[str, Any]]:
         entries: list[dict[str, Any]] = []

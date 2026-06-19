@@ -712,7 +712,27 @@ class CorpusContractTests(unittest.TestCase):
 
             dictionary = DictionaryLoader(root / "dict.json").load()
 
-        self.assertEqual(dictionary.manifest["storage"], "split")
+        self.assertEqual(
+            dictionary.manifest,
+            {
+                "version": 1,
+                "storage": "split",
+                "shardSize": None,
+                "shardMaxBytes": None,
+                "evidenceStorage": "split",
+                "updatedAt": None,
+                "entries": [
+                    {
+                        "term": "doge",
+                        "family": "attack",
+                        "evidenceCount": 1,
+                        "evidenceSamples": ["doge satire"],
+                        "evidenceSources": [{"source": "Bilibili public video comment scan", "sample": "doge satire"}],
+                    }
+                ],
+                "families": {},
+            },
+        )
         self.assertEqual(len(dictionary.entries), 1)
         self.assertEqual(dictionary.entries[0]["term"], "doge")
         self.assertEqual(dictionary.entries[0]["evidenceSamples"], ["doge satire"])
