@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T04:16:56.027Z",
+  "updatedAt": "2026-06-19T04:24:46.514Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -1601,6 +1601,52 @@
       "warnings": [],
       "commentsCollected": 32,
       "commentsAdded": 31
+    },
+    {
+      "at": "2026-06-19T04:24:46.514Z",
+      "actions": [
+        {
+          "term": "这还用说",
+          "query": "这还用说 B站评论"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 评论区"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1xm4y1A7LR",
+          "term": "这还用说",
+          "query": "这还用说 B站评论",
+          "bvid": "BV1xm4y1A7LR",
+          "aid": 689011212,
+          "title": "<em class=\"keyword\">B站评论</em>区怎么搞蓝字传送门，怎么搞空降时间，希望这个视频可以帮到你！"
+        },
+        {
+          "key": "bvid:BV1KFVE6AEHE",
+          "term": "抛开其他",
+          "query": "抛开其他 评论区",
+          "bvid": "BV1KFVE6AEHE",
+          "aid": 116667149453567,
+          "title": "<em class=\"keyword\">评论区</em>距离离婚就只差认识了 #搞笑 #抽象 #万万没想到 #"
+        },
+        {
+          "key": "bvid:BV1WH4y127oq",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 评论回复",
+          "bvid": "BV1WH4y127oq",
+          "aid": 963708245,
+          "title": "狗狗走失后 最有可能的四个去处"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 685,
+      "commentsAdded": 311
     }
   ]
 }
