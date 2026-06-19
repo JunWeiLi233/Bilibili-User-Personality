@@ -16,7 +16,7 @@ from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerC
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceMatcher
 from python_backend.cli.comment_coverage import CommentCoverageContractComparator, CommentCoverageRunner
 from python_backend.cli.bilibili_parse import BilibiliParseContractComparator, BilibiliParseRunner
-from python_backend.cli.bilibili_crawler import BilibiliCrawlerRunner
+from python_backend.cli.bilibili_crawler import BilibiliCrawlerContractComparator, BilibiliCrawlerRunner
 from python_backend.cli.bilibili_probe_plan import BilibiliProbePlanRunner
 from python_backend.cli.coverage_audit import AuditContractComparator
 from python_backend.cli.coverage_progress import CoverageProgressContractComparator, CoverageProgressRunner
@@ -2889,6 +2889,31 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["bvids"], ["BV19yGa61Ee6", "BV1xx411c7mD"])
         self.assertEqual(result["bvid"], "BV19yGa61Ee6")
         self.assertTrue(result["blocked"])
+
+    def test_bilibili_crawler_contract_comparator_reports_helper_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-crawler.json"
+            payload_path.write_text(
+                json.dumps({"text": "BV19yGa61Ee6, BV1xx411c7mD", "payload": {"code": -509}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"ok": True, "bvids": ["BV19yGa61Ee6"], "bvid": "BV19yGa61Ee6", "blocked": False}),
+                encoding="utf-8",
+            )
+
+            result = BilibiliCrawlerContractComparator(payload_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "bvids", "python": ["BV19yGa61Ee6", "BV1xx411c7mD"], "js": ["BV19yGa61Ee6"]},
+                {"key": "blocked", "python": True, "js": False},
+            ],
+        )
 
     def test_bilibili_crawler_helper_matches_public_comment_contracts(self):
         helper = BilibiliCrawlerHelper()
