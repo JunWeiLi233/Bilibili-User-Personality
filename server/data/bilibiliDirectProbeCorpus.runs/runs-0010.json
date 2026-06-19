@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T01:16:13.970Z",
+  "updatedAt": "2026-06-19T01:24:01.350Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -583,6 +583,64 @@
       "warnings": [],
       "commentsCollected": 23,
       "commentsAdded": 21
+    },
+    {
+      "at": "2026-06-19T01:24:01.350Z",
+      "actions": [
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 视频评论"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 弹幕"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 B站评论"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "分不清轻重 B站弹幕"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1UVyTYpEU9",
+          "term": "超绝无语",
+          "query": "超绝无语 视频评论",
+          "bvid": "BV1UVyTYpEU9",
+          "aid": 113323114761997,
+          "title": "盘点那些令人<em class=\"keyword\">无语</em>的瞬间"
+        },
+        {
+          "key": "bvid:BV13b411k7ip",
+          "term": "都是同一批",
+          "query": "都是同一批 弹幕",
+          "bvid": "BV13b411k7ip",
+          "aid": 42263395,
+          "title": "怎么才能发多行<em class=\"keyword\">弹幕</em>，好羡慕别人可以发100行啊！<em class=\"keyword\">弹幕</em>多行简便方法"
+        },
+        {
+          "key": "bvid:BV1Xi421a7YF",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 B站评论",
+          "bvid": "BV1Xi421a7YF",
+          "aid": 1455989967,
+          "title": "大型纪录片《<em class=\"keyword\">B站</em>第20000000000条弹幕诞生》"
+        },
+        {
+          "key": "bvid:BV1RGLo6sEWZ",
+          "term": "分不清轻重",
+          "query": "分不清轻重 B站弹幕",
+          "bvid": "BV1RGLo6sEWZ",
+          "aid": 116766638346713,
+          "title": "LoveManiac0.3.4纯好奇就玩了一下，<em class=\"keyword\">弹幕</em>挺简单，但手感太差（无伤）"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 1948,
+      "commentsAdded": 389
     }
   ]
 }
