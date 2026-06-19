@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T02:36:01.850Z",
+  "updatedAt": "2026-06-19T02:48:24.324Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -1105,6 +1105,64 @@
       "warnings": [],
       "commentsCollected": 224,
       "commentsAdded": 186
+    },
+    {
+      "at": "2026-06-19T02:48:24.324Z",
+      "actions": [
+        {
+          "term": "查查资料",
+          "query": "查查资料 教程 评论区"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 吐槽 评论"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "分不清轻重 争议"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5 雷霆 裁判"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1vXVqzUEgH",
+          "term": "查查资料",
+          "query": "查查资料 教程 评论区",
+          "bvid": "BV1vXVqzUEgH",
+          "aid": 114454016559538,
+          "title": "从零带你玩转<em class=\"keyword\">查查</em>（第一期）"
+        },
+        {
+          "key": "bvid:BV1GBja6sESh",
+          "term": "超绝无语",
+          "query": "超绝无语 吐槽 评论",
+          "bvid": "BV1GBja6sESh",
+          "aid": 116771688284485,
+          "title": "看直播能看就看，不能看就滚！路人粉也要战斗了！弹幕刷频让正主网络断案当判官！贴脸影响他们的在我看来就是辱追！"
+        },
+        {
+          "key": "bvid:BV123jF6XEkA",
+          "term": "分不清轻重",
+          "query": "分不清轻重 争议",
+          "bvid": "BV123jF6XEkA",
+          "aid": 116768634896658,
+          "title": "“不蹭流不舔人”的UP主，应该不在意这点争吵热度吧？"
+        },
+        {
+          "key": "bvid:BV1hREr6HEsA",
+          "term": "8打5的雷霆",
+          "query": "8打5 雷霆 裁判",
+          "bvid": "BV1hREr6HEsA",
+          "aid": 116734560307864,
+          "title": "世界杯首战巴西<em class=\"keyword\">裁判</em>因英语水平有限艰难宣布裁决，南非球员听后一脸困惑！"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 63,
+      "commentsAdded": 34
     }
   ]
 }
