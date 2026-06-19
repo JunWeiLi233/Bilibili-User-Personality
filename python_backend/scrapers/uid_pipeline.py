@@ -306,3 +306,13 @@ class UidPipelineProgressReporter:
             if start <= numeric_uid <= end:
                 count += 1
         return count
+
+
+class UidPipelineProgressSummary:
+    """Shape UID pipeline progress reports into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("range", "progress", "stats", "statusCounts", "userDb")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
