@@ -154,3 +154,13 @@ class BatchUidProgressReporter:
             "stats": normalized_stats,
             "lastUpdated": progress.get("lastUpdated") or None,
         }
+
+
+class BatchUidProgressSummary:
+    """Shape batch UID progress reports into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("discovery", "phase2", "comments", "stats")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}

@@ -111,7 +111,7 @@ from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 from python_backend.scrapers.batch_bilibili import BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner, RangeScraperLauncherPlanner, UidRangeProgressReporter
-from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchUidProgressReporter, BatchUidScrapePlanner
+from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner, UidDiscoveryProgressReporter
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelProgressReporter
 from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineMergeReporter, UidPipelineProgressReporter, UidPipelineStateReporter, UidPipelineWorkerPlanner
@@ -6535,6 +6535,28 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["comments"], {"total": 3, "averagePerUid": 1.0, "uidsWithComments": 2})
         self.assertEqual(result["stats"], {"videosScanned": 3, "uidsFound": 3, "uidsAnalyzed": 1, "commentsCollected": 4, "errors": 2})
         self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
+
+    def test_batch_uid_progress_summary_extracts_comparator_contract(self):
+        summary = BatchUidProgressSummary().summarize(
+            {
+                "ok": True,
+                "discovery": {"videosScanned": 3},
+                "phase2": {"processed": 2},
+                "comments": {"total": 5},
+                "stats": {"errors": 1},
+                "lastUpdated": "2026-06-19T00:00:00.000Z",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "discovery": {"videosScanned": 3},
+                "phase2": {"processed": 2},
+                "comments": {"total": 5},
+                "stats": {"errors": 1},
+            },
+        )
 
     def test_batch_uid_progress_comparator_reports_summary_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
