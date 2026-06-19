@@ -20,6 +20,27 @@ def _bounded_number(value: Any, fallback: int, minimum: int, maximum: int) -> in
     return max(minimum, min(number, maximum))
 
 
+class BilibiliProbePlanSummary:
+    """Shape Bilibili probe plans into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = (
+        "mode",
+        "videos",
+        "headers",
+        "scannedKeys",
+        "videosByTerm",
+        "viewUrl",
+        "replyUrl",
+        "replyPageUrl",
+        "replyThreadUrl",
+        "searchUrls",
+    )
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
 class BilibiliProbePlanner:
     """Build deterministic Bilibili probe request contracts without performing network IO."""
 

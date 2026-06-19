@@ -94,7 +94,7 @@ from python_backend.scrapers.aicu import AicuBatchPlanSummary, AicuBatchPlanner,
 from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanSummary, AicuBrowserBatchPlanner
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanner
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerHelper
-from python_backend.scrapers.bilibili_probe import BilibiliProbePlanner
+from python_backend.scrapers.bilibili_probe import BilibiliProbePlanSummary, BilibiliProbePlanner
 from python_backend.runtime.file_lock import FileLockStateInspector
 from python_backend.scrapers.rate_limiter import RateLimiter
 from python_backend.cli.scraper_monitor import ScraperMonitorContractComparator, ScraperMonitorRunner
@@ -4504,6 +4504,40 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             planner.filter_unscanned_probe_videos([{"bvid": "BVold"}, {"bvid": "BVfresh"}, {"bvid": "BVfresh"}, {"aid": "321"}], {"bvid:BVold"}),
             [{"bvid": "BVfresh"}, {"aid": "321"}],
+        )
+
+    def test_bilibili_probe_plan_summary_extracts_comparator_contract(self):
+        summary = BilibiliProbePlanSummary().summarize(
+            {
+                "ok": True,
+                "mode": "urls",
+                "videos": [{"bvid": "BV1"}],
+                "headers": {"referer": "https://search.bilibili.com/all?keyword=x"},
+                "scannedKeys": ["bvid:BV1"],
+                "videosByTerm": {"term": [{"aid": "123"}]},
+                "viewUrl": "https://api.bilibili.com/x/web-interface/view?aid=123",
+                "replyUrl": "https://api.bilibili.com/x/v2/reply/main?oid=123",
+                "replyPageUrl": "https://api.bilibili.com/x/v2/reply?oid=123",
+                "replyThreadUrl": "https://api.bilibili.com/x/v2/reply/reply?oid=123",
+                "searchUrls": ["https://api.bilibili.com/x/web-interface/search/type?keyword=x"],
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "mode": "urls",
+                "videos": [{"bvid": "BV1"}],
+                "headers": {"referer": "https://search.bilibili.com/all?keyword=x"},
+                "scannedKeys": ["bvid:BV1"],
+                "videosByTerm": {"term": [{"aid": "123"}]},
+                "viewUrl": "https://api.bilibili.com/x/web-interface/view?aid=123",
+                "replyUrl": "https://api.bilibili.com/x/v2/reply/main?oid=123",
+                "replyPageUrl": "https://api.bilibili.com/x/v2/reply?oid=123",
+                "replyThreadUrl": "https://api.bilibili.com/x/v2/reply/reply?oid=123",
+                "searchUrls": ["https://api.bilibili.com/x/web-interface/search/type?keyword=x"],
+            },
         )
 
     def test_bilibili_probe_plan_runner_reads_json_contracts(self):
