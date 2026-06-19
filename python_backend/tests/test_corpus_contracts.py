@@ -17,7 +17,7 @@ from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, Se
 from python_backend.analysis.verification import RandomVerificationReportSummary, RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisValidator
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPlanner
-from python_backend.analyzers.keyword_evidence import KeywordEvidenceMatcher
+from python_backend.analyzers.keyword_evidence import KeywordEvidenceMatcher, KeywordEvidenceSummary
 from python_backend.cli.comment_coverage import CommentCoverageContractComparator, CommentCoverageRunner
 from python_backend.cli.corpus_shard_writer import CorpusShardWriteContractComparator, CorpusShardWriteRunner
 from python_backend.cli.bilibili_parse import BilibiliParseContractComparator, BilibiliParseRunner
@@ -1008,6 +1008,27 @@ class CorpusContractTests(unittest.TestCase):
                     "js": [],
                 }
             ],
+        )
+
+    def test_keyword_evidence_summary_extracts_comparator_contract(self):
+        summary = KeywordEvidenceSummary().summarize(
+            {
+                "ok": True,
+                "mode": "entries",
+                "count": 1,
+                "entries": [{"term": "yygq"}],
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "ok": True,
+                "mode": "entries",
+                "count": 1,
+                "entries": [{"term": "yygq"}],
+            },
         )
 
     def test_semantic_matcher_helper_matches_js_chunk_and_cosine_contracts(self):
