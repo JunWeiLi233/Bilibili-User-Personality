@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditBuilder, CoverageAuditContractSummary, CoverageAuditReport
+from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractSummary, CoverageAuditReport
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressTracker
@@ -8523,6 +8523,29 @@ class CorpusContractTests(unittest.TestCase):
             )
             self.assertEqual(result["queryFilePath"], str(query_file))
             self.assertEqual(result["actionFilePath"], str(action_file))
+
+    def test_coverage_audit_artifacts_summary_extracts_comparator_contract(self):
+        summary = CoverageAuditArtifactsSummary().summarize(
+            {
+                "ok": True,
+                "recommendedQueries": ["doge hot"],
+                "recommendedQueryText": "doge hot\n",
+                "priorityActionItems": [{"term": "doge", "query": "doge hot"}],
+                "priorityActionJson": '[{"term":"doge"}]\n',
+                "queryFilePath": "queries.txt",
+                "actionFilePath": "actions.json",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "recommendedQueries": ["doge hot"],
+                "recommendedQueryText": "doge hot\n",
+                "priorityActionItems": [{"term": "doge", "query": "doge hot"}],
+                "priorityActionJson": '[{"term":"doge"}]\n',
+            },
+        )
 
     def test_coverage_audit_artifacts_runner_and_comparator_use_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:

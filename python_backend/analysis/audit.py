@@ -100,6 +100,16 @@ class CoverageAuditArtifactWriter:
         return f"{json.dumps(payload, ensure_ascii=True, indent=2)}\n"
 
 
+class CoverageAuditArtifactsSummary:
+    """Shape coverage-audit artifact results into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("recommendedQueries", "recommendedQueryText", "priorityActionItems", "priorityActionJson")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
 class CoverageAuditContractSummary:
     """Shape coverage-audit reports into the JS/Python comparator summary contract."""
 
