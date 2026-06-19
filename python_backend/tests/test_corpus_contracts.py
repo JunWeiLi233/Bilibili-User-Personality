@@ -14,7 +14,7 @@ from python_backend.analysis.semantic_matcher import SemanticMatcherHelper
 from python_backend.analysis.verification import RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceMatcher
-from python_backend.cli.comment_coverage import CommentCoverageRunner
+from python_backend.cli.comment_coverage import CommentCoverageContractComparator, CommentCoverageRunner
 from python_backend.cli.bilibili_parse import BilibiliParseRunner
 from python_backend.cli.bilibili_crawler import BilibiliCrawlerRunner
 from python_backend.cli.bilibili_probe_plan import BilibiliProbePlanRunner
@@ -2795,6 +2795,49 @@ class CorpusContractTests(unittest.TestCase):
             result = CommentCoverageRunner(dictionary_path, comments_path).run()
 
         self.assertEqual(result["summary"]["byMode"], {"keyword": 1, "neutral": 0, "uncovered": 0})
+
+    def test_comment_coverage_contract_comparator_reports_summary_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            comments_path = root / "comments.json"
+            js_report_path = root / "js-comment-coverage.json"
+            dictionary_path.write_text(
+                json.dumps({"entries": [{"term": "\u7f51\u76d8\u89c1", "family": "evasion"}]}),
+                encoding="utf-8",
+            )
+            comments_path.write_text(
+                json.dumps({"comments": [{"message": "\u7f51\u76d8\u89c1"}, {"message": "\u666e\u901a\u8bc4\u8bba"}]}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps(
+                    {
+                        "summary": {
+                            "total": 2,
+                            "covered": 1,
+                            "uncovered": 1,
+                            "coverageRatio": 0.5,
+                            "byMode": {"keyword": 1, "neutral": 0, "uncovered": 1},
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = CommentCoverageContractComparator(dictionary_path, comments_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "covered", "python": 2, "js": 1},
+                {"key": "uncovered", "python": 0, "js": 1},
+                {"key": "coverageRatio", "python": 1.0, "js": 0.5},
+                {"key": "byMode.neutral", "python": 1, "js": 0},
+                {"key": "byMode.uncovered", "python": 0, "js": 1},
+            ],
+        )
 
     def test_coverage_progress_tracker_matches_js_delta_and_gate_contract(self):
         tracker = CoverageProgressTracker()
