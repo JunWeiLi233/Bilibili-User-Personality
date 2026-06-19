@@ -148,6 +148,24 @@ class DirectProbeCorpusSummary:
         }
 
 
+class DirectProbePlanSummary:
+    """Extract comparator-friendly summaries from direct Bilibili probe plans."""
+
+    PLAN_KEYS = (
+        "nextReplyCursor",
+        "viewUrl",
+        "replyUrl",
+        "replyPageUrl",
+        "replyThreadUrl",
+        "searchUrls",
+        "syntheticCookie",
+    )
+
+    def summarize(self, plan: dict[str, Any] | None = None) -> dict[str, Any]:
+        plan = plan if isinstance(plan, dict) else {}
+        return {key: plan.get(key) for key in self.PLAN_KEYS if key in plan}
+
+
 class DirectProbeCorpusBuilder:
     """Pure Python contract helpers for Bilibili direct evidence probe data."""
 

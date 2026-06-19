@@ -75,7 +75,7 @@ from python_backend.cli.batch_uid_scrape_plan import BatchUidScrapePlanContractC
 from python_backend.cli.batch_scraper_launcher import BatchScraperLauncherContractComparator, BatchScraperLauncherPlanRunner
 from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContractComparator, RangeScraperLauncherPlanRunner
 from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContractComparator, FastPipelineLauncherPlanRunner
-from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusSummary
+from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusSummary, DirectProbePlanSummary
 from python_backend.corpus.history_tags import HistoryTagCorpusManager, HistoryTagScrapePlanner
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceImportPlanner, HuggingFaceImportSummary
 from python_backend.corpus.local import LocalCorpusEvidenceFinder, LocalCorpusEvidenceSummary
@@ -2938,6 +2938,34 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             builder.filter_unscanned_probe_videos([{"bvid": "BVold"}, {"bvid": "BVfresh"}, {"bvid": "BVfresh"}, {"aid": "321"}], {"bvid:BVold"}),
             [{"bvid": "BVfresh"}, {"aid": "321"}],
+        )
+
+    def test_direct_probe_plan_summary_extracts_comparator_contract(self):
+        summary = DirectProbePlanSummary().summarize(
+            {
+                "ok": True,
+                "nextReplyCursor": {"pagination_str": "abc"},
+                "viewUrl": "https://api.bilibili.com/x/web-interface/view?bvid=BV1",
+                "replyUrl": "https://api.bilibili.com/x/v2/reply/wbi/main?oid=1",
+                "replyPageUrl": "https://api.bilibili.com/x/v2/reply?oid=1",
+                "replyThreadUrl": "https://api.bilibili.com/x/v2/reply/reply?oid=1",
+                "searchUrls": ["https://search.bilibili.com/all?keyword=x"],
+                "syntheticCookie": "buvid3=abc;",
+                "rankedVideos": [{"bvid": "BV1"}],
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "nextReplyCursor": {"pagination_str": "abc"},
+                "viewUrl": "https://api.bilibili.com/x/web-interface/view?bvid=BV1",
+                "replyUrl": "https://api.bilibili.com/x/v2/reply/wbi/main?oid=1",
+                "replyPageUrl": "https://api.bilibili.com/x/v2/reply?oid=1",
+                "replyThreadUrl": "https://api.bilibili.com/x/v2/reply/reply?oid=1",
+                "searchUrls": ["https://search.bilibili.com/all?keyword=x"],
+                "syntheticCookie": "buvid3=abc;",
+            },
         )
 
     def test_direct_probe_plan_runner_reads_json_contracts(self):
