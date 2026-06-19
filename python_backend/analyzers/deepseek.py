@@ -229,3 +229,75 @@ class DeepSeekAnalyzerClient:
                     seen.add(sentence)
                     values.append(sentence)
         return values
+
+
+class DeepSeekAnalysisValidator:
+    """Validate DeepSeek analysis JSON against the original source comments."""
+
+    def validate(self, comments: list[str], analysis: dict[str, Any]) -> dict[str, Any]:
+        source_sentences = self._source_sentences(comments)
+        source_normalized = [self._normalize_quote(sentence) for sentence in source_sentences]
+        sentence_analyses = analysis.get("sentenceAnalyses") if isinstance(analysis.get("sentenceAnalyses"), list) else []
+        axes = analysis.get("axes") if isinstance(analysis.get("axes"), list) else []
+        unsupported_quotes = self._unsupported_sentence_quotes(sentence_analyses, source_normalized)
+        unsupported_axis_evidence = self._unsupported_axis_evidence(axes, source_normalized)
+        summary = {
+            "sourceSentences": len(source_sentences),
+            "sentenceAnalyses": len(sentence_analyses),
+            "axes": len(axes),
+            "unsupportedQuotes": len(unsupported_quotes),
+            "unsupportedAxisEvidence": len(unsupported_axis_evidence),
+        }
+        return {
+            "ok": not unsupported_quotes and not unsupported_axis_evidence,
+            "summary": summary,
+            "unsupportedQuotes": unsupported_quotes,
+            "unsupportedAxisEvidence": unsupported_axis_evidence,
+        }
+
+    def _source_sentences(self, comments: list[str]) -> list[str]:
+        return DeepSeekAnalyzerClient()._split_sentences("\n".join(str(comment) for comment in comments))
+
+    def _unsupported_sentence_quotes(self, sentence_analyses: list[Any], source_normalized: list[str]) -> list[dict[str, str]]:
+        unsupported = []
+        for index, item in enumerate(sentence_analyses):
+            if not isinstance(item, dict):
+                continue
+            quote = str(item.get("quote") or item.get("text") or "").strip()
+            if quote and not self._is_supported_quote(quote, source_normalized):
+                unsupported.append({"path": f"sentenceAnalyses[{index}].quote", "quote": quote})
+        return unsupported
+
+    def _unsupported_axis_evidence(self, axes: list[Any], source_normalized: list[str]) -> list[dict[str, str]]:
+        unsupported = []
+        for index, axis in enumerate(axes):
+            if not isinstance(axis, dict):
+                continue
+            axis_name = str(axis.get("axis") or axis.get("name") or "").strip()
+            for evidence in self._axis_evidence_values(axis):
+                if evidence and not self._is_supported_quote(evidence, source_normalized):
+                    unsupported.append({"path": f"axes[{index}].evidence", "quote": evidence, "axis": axis_name})
+        return unsupported
+
+    def _axis_evidence_values(self, axis: dict[str, Any]) -> list[str]:
+        raw = axis.get("evidence")
+        if raw is None:
+            raw = axis.get("quote")
+        if isinstance(raw, list):
+            return [str(item).strip() for item in raw if str(item).strip()]
+        if isinstance(raw, dict):
+            values = []
+            for key in ("quote", "text", "evidence"):
+                value = str(raw.get(key) or "").strip()
+                if value:
+                    values.append(value)
+            return values
+        value = str(raw or "").strip()
+        return [value] if value else []
+
+    def _is_supported_quote(self, quote: str, source_normalized: list[str]) -> bool:
+        normalized_quote = self._normalize_quote(quote)
+        return bool(normalized_quote) and any(normalized_quote in sentence for sentence in source_normalized)
+
+    def _normalize_quote(self, text: str) -> str:
+        return re.sub(r"\s+", "", str(text or "")).lower()

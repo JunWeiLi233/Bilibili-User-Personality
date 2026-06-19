@@ -12,7 +12,7 @@ from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder
 from python_backend.analysis.semantic_matcher import SemanticMatcherHelper
 from python_backend.analysis.verification import RandomVerifier
-from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient
+from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisValidator
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceMatcher
 from python_backend.cli.comment_coverage import CommentCoverageContractComparator, CommentCoverageRunner
 from python_backend.cli.bilibili_parse import BilibiliParseContractComparator, BilibiliParseRunner
@@ -28,6 +28,7 @@ from python_backend.cli.readme_stats import ReadmeStatsContractComparator, Readm
 from python_backend.cli.semantic_matcher import SemanticMatcherContractComparator, SemanticMatcherRunner
 from python_backend.cli.compare_contracts import ContractComparator
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanContractComparator, DeepSeekAnalysisPlanRunner
+from python_backend.cli.deepseek_analysis_validate import DeepSeekAnalysisValidateContractComparator, DeepSeekAnalysisValidateRunner
 from python_backend.cli.exhausted_terms_prune_plan import ExhaustedTermsPrunePlanContractComparator, ExhaustedTermsPrunePlanRunner
 from python_backend.cli.keyword_evidence import KeywordEvidenceContractComparator, KeywordEvidenceRunner
 from python_backend.cli.history_tag_corpus import HistoryTagCorpusContractComparator, HistoryTagCorpusRunner
@@ -846,6 +847,80 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "requestCount", "python": 3, "js": 1},
                 {"key": "requests[0].model", "python": "deepseek-v4-flash", "js": "deepseek-v4-pro"},
                 {"key": "requests[0].max_tokens", "python": 1600, "js": 2000},
+            ],
+        )
+
+    def test_deepseek_analysis_validator_rejects_hallucinated_quotes(self):
+        validator = DeepSeekAnalysisValidator()
+
+        result = validator.validate(
+            comments=[
+                "\u8fd9\u53e5\u662f\u5728\u53cd\u8bbd\u5427[doge]\uff0c\u4e0d\u662f\u771f\u7684\u9a82\u4eba\u3002",
+                "\u6211\u53ea\u662f\u5efa\u8bae\u67e5\u67e5\u8d44\u6599\u518d\u8bf4\u3002",
+            ],
+            analysis={
+                "axes": [
+                    {"axis": "attack", "score": 82, "evidence": "\u4f60\u771f\u662f\u50bb\u903c"},
+                    {"axis": "\u4fee\u6b63\u610f\u613f", "score": 55, "evidence": "\u67e5\u67e5\u8d44\u6599"},
+                ],
+                "sentenceAnalyses": [
+                    {"quote": "\u8fd9\u53e5\u662f\u5728\u53cd\u8bbd\u5427[doge]\uff0c\u4e0d\u662f\u771f\u7684\u9a82\u4eba\u3002", "risk": "low"},
+                    {"quote": "\u4f60\u771f\u662f\u50bb\u903c", "risk": "high"},
+                ],
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["summary"], {"sourceSentences": 2, "sentenceAnalyses": 2, "axes": 2, "unsupportedQuotes": 1, "unsupportedAxisEvidence": 1})
+        self.assertEqual(result["unsupportedQuotes"], [{"path": "sentenceAnalyses[1].quote", "quote": "\u4f60\u771f\u662f\u50bb\u903c"}])
+        self.assertEqual(result["unsupportedAxisEvidence"], [{"path": "axes[0].evidence", "quote": "\u4f60\u771f\u662f\u50bb\u903c", "axis": "attack"}])
+
+    def test_deepseek_analysis_validate_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            analysis_path = root / "analysis.json"
+            payload_path.write_text(
+                json.dumps({"text": "\u72d7\u5934\u4fdd\u547d[doge]\n\u5efa\u8bae\u67e5\u67e5\u8d44\u6599"}),
+                encoding="utf-8",
+            )
+            analysis_path.write_text(
+                json.dumps(
+                    {
+                        "sentenceAnalyses": [{"quote": "\u72d7\u5934\u4fdd\u547d[doge]", "risk": "low"}],
+                        "axes": [{"axis": "evidence", "score": 60, "evidence": "\u67e5\u67e5\u8d44\u6599"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = DeepSeekAnalysisValidateRunner(payload_path, analysis_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["summary"], {"sourceSentences": 2, "sentenceAnalyses": 1, "axes": 1, "unsupportedQuotes": 0, "unsupportedAxisEvidence": 0})
+
+    def test_deepseek_analysis_validate_comparator_reports_summary_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            analysis_path = root / "analysis.json"
+            js_report_path = root / "js-validation.json"
+            payload_path.write_text(json.dumps({"comments": ["\u539f\u59cb\u8bc4\u8bba"]}), encoding="utf-8")
+            analysis_path.write_text(json.dumps({"sentenceAnalyses": [{"quote": "\u5e7b\u89c9\u5f15\u7528"}]}), encoding="utf-8")
+            js_report_path.write_text(json.dumps({"ok": True, "summary": {"unsupportedQuotes": 0}}), encoding="utf-8")
+
+            result = DeepSeekAnalysisValidateContractComparator(payload_path, analysis_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "ok", "python": False, "js": True},
+                {
+                    "key": "summary",
+                    "python": {"sourceSentences": 1, "sentenceAnalyses": 1, "axes": 0, "unsupportedQuotes": 1, "unsupportedAxisEvidence": 0},
+                    "js": {"unsupportedQuotes": 0},
+                },
             ],
         )
 
