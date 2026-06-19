@@ -8,6 +8,7 @@ from python_backend.analysis.comment_coverage import CommentCoverageClassifier
 from python_backend.analysis.coverage_progress import CoverageProgressTracker
 from python_backend.analysis.discovery_report import VideoKeywordDiscoveryReporter
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, VideoKeywordDiscoveryOptionsBuilder
+from python_backend.analysis.semantic_matcher import SemanticMatcherHelper
 from python_backend.analysis.verification import RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient
 from python_backend.cli.comment_coverage import CommentCoverageRunner
@@ -18,6 +19,7 @@ from python_backend.cli.coverage_audit import AuditContractComparator
 from python_backend.cli.coverage_progress import CoverageProgressRunner
 from python_backend.cli.discovery_report import VideoKeywordDiscoveryReportRunner
 from python_backend.cli.harvest_options import HarvestOptionsRunner
+from python_backend.cli.semantic_matcher import SemanticMatcherRunner
 from python_backend.cli.compare_contracts import ContractComparator
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanRunner
 from python_backend.cli.history_tag_corpus import HistoryTagCorpusRunner
@@ -26,7 +28,7 @@ from python_backend.cli.local_corpus_evidence import LocalCorpusEvidenceRunner
 from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenRunner
 from python_backend.cli.video_comment_filter import VideoCommentFilterRunner
 from python_backend.cli.direct_probe_corpus import DirectProbeCorpusRunner
-from python_backend.cli.random_verification import RandomVerificationRunner
+from python_backend.cli.random_verification import RandomVerificationRunner, json_result_bytes
 from python_backend.cli.tieba_corpus import TiebaCorpusUpdateRunner
 from python_backend.cli.tieba_html_parse import TiebaHtmlParseRunner
 from python_backend.cli.tieba_timing import TiebaTimingRunner
@@ -176,6 +178,58 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn(sentence, user_prompt)
         self.assertIn("\u653b\u51fb\u6027\u8bcd\u9762", user_prompt)
         self.assertEqual(user_prompt.count(sentence), 1)
+
+    def test_semantic_matcher_helper_matches_js_chunk_and_cosine_contracts(self):
+        matcher = SemanticMatcherHelper()
+
+        self.assertEqual(matcher.chunk_comment_text("短句"), [])
+        self.assertEqual(matcher.chunk_comment_text("abcdefgh"), ["abcdefgh"])
+        self.assertEqual(
+            matcher.chunk_comment_text("这是一句足够长的话。第二句也足够长！short enough? another; done"),
+            ["这是一句足够长的话", "short enough"],
+        )
+        self.assertEqual(
+            matcher.chunk_comment_text("line one long enough\nline two long enough"),
+            ["line one long enough", "line two long enough"],
+        )
+        self.assertEqual(matcher.cosine_similarity([1, 2, 3], [1, 2, 3]), 1)
+        self.assertEqual(matcher.cosine_similarity([0, 0], [1, 2]), 0)
+        self.assertEqual(matcher.cosine_similarity([1, 0, 9], [0, 1]), 0)
+
+    def test_semantic_matcher_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "semantic.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "text": "alpha chunk? beta chunk",
+                        "vectors": {"left": [1, 0], "right": [0.8, 0.6]},
+                        "chunks": ["alpha chunk", "beta chunk"],
+                        "chunkEmbeddings": [[1, 0], [0.8, 0.6]],
+                        "termEmbeddings": {
+                            "term-a": [1, 0],
+                            "term-b": [0, 1],
+                        },
+                        "threshold": 0.5,
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = SemanticMatcherRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["chunks"], ["alpha chunk", "beta chunk"])
+        self.assertAlmostEqual(result["cosine"], 0.8, places=4)
+        self.assertEqual(
+            result["matches"],
+            [
+                {"term": "term-a", "chunk": "alpha chunk", "score": 1.0},
+                {"term": "term-a", "chunk": "beta chunk", "score": 0.8},
+                {"term": "term-b", "chunk": "beta chunk", "score": 0.6},
+            ],
+        )
 
     def test_deepseek_analyzer_builds_multiagent_request_plan(self):
         sentence = "\u8fd9\u53e5\u662f\u5728\u53cd\u8bbd\u5427[doge]\uff0c\u4e0d\u662f\u771f\u7684\u9a82\u4eba\u3002"
@@ -1910,6 +1964,14 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["neutral"], 1)
         self.assertEqual(result["uncovered"], 0)
         self.assertEqual(result["dictionaryTerms"], 2)
+
+    def test_random_verification_json_output_is_utf8_safe(self):
+        payload = {"ok": True, "samples": [{"message": "emoji 😭 and hangul 눈"}]}
+
+        encoded = json_result_bytes(payload)
+        decoded = encoded.decode("utf-8")
+
+        self.assertIn("emoji 😭 and hangul 눈", decoded)
 
 
 if __name__ == "__main__":

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from dataclasses import asdict
 from pathlib import Path
 from typing import Any
@@ -44,6 +45,10 @@ class RandomVerificationRunner:
         }
 
 
+def json_result_bytes(result: dict[str, Any]) -> bytes:
+    return (json.dumps(result, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Run Python random verification over JS-compatible corpus and dictionary JSON.")
     parser.add_argument("--corpus", default="server/data/bilibiliDirectProbeCorpus.json")
@@ -52,7 +57,7 @@ def main() -> int:
     parser.add_argument("--seed", type=int, default=1)
     args = parser.parse_args()
     result = RandomVerificationRunner(args.corpus, args.dictionary, sample_size=args.sample_size, seed=args.seed).run()
-    print(json.dumps(result, ensure_ascii=False, indent=2))
+    sys.stdout.buffer.write(json_result_bytes(result))
     return 0 if result["ok"] else 1
 
 

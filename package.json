@@ -31,6 +31,7 @@
     "python:harvest-options": "python -m python_backend.cli.harvest_options",
     "python:verify-random": "python -m python_backend.cli.random_verification",
     "python:comment-coverage": "python -m python_backend.cli.comment_coverage",
+    "python:semantic-match": "python -m python_backend.cli.semantic_matcher",
     "python:deepseek-plan": "python -m python_backend.cli.deepseek_analysis_plan",
     "python:huggingface-import": "python -m python_backend.cli.huggingface_corpus",
     "python:history-tags": "python -m python_backend.cli.history_tag_corpus",
