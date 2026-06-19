@@ -105,7 +105,7 @@ from python_backend.cli.file_lock_state import FileLockStateContractComparator, 
 from python_backend.cli.batch_scrape_progress import BatchScrapeProgressContractComparator, BatchScrapeProgressRunner
 from python_backend.cli.batch_uid_progress import BatchUidProgressContractComparator, BatchUidProgressRunner
 from python_backend.cli.uid_discovery_progress import UidDiscoveryProgressContractComparator, UidDiscoveryProgressRunner
-from python_backend.scrapers.tieba_html import TiebaHtmlParser
+from python_backend.scrapers.tieba_html import TiebaHtmlParseSummary, TiebaHtmlParser
 from python_backend.scrapers.tieba_keyword import TiebaKeywordScrapeOptionsPlanner
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
@@ -4126,6 +4126,26 @@ class CorpusContractTests(unittest.TestCase):
                     "js": [],
                 }
             ],
+        )
+
+    def test_tieba_html_parse_summary_extracts_parser_contract(self):
+        summary = TiebaHtmlParseSummary().summarize(
+            {
+                "ok": True,
+                "mode": "discovery-comments",
+                "threads": [{"id": "1234"}],
+                "comments": [{"message": "tieba title"}],
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "mode": "discovery-comments",
+                "threads": [{"id": "1234"}],
+                "comments": [{"message": "tieba title"}],
+            },
         )
 
     def test_bilibili_public_parser_matches_bvid_contracts(self):

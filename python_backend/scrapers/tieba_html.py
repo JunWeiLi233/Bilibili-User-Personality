@@ -63,6 +63,16 @@ def _extract_data_field(block: str) -> str:
     return _extract_first(r"\bdata-field='([^']*)'", block) or _extract_first(r'\bdata-field="([^"]*)"', block)
 
 
+class TiebaHtmlParseSummary:
+    """Shape Tieba HTML parser output into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("mode", "threads", "comments")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        source = result if isinstance(result, dict) else {}
+        return {key: source.get(key) for key in self.RESULT_KEYS if key in source}
+
+
 class TiebaHtmlParser:
     """Parse saved Tieba HTML into the JS scraper JSON contract."""
 
