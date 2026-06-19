@@ -28,6 +28,17 @@ def _unique(items: list[Any]) -> list[Any]:
     return result
 
 
+TERM_EVIDENCE_ALIASES = {
+    "问百度": ["不会百度", "自己百度", "你不会百度吗", "不会自己百度吗"],
+    "问百度有什么用": ["不会百度", "自己百度", "你不会百度吗", "问百度"],
+    "猪鼻": ["猪逼", "猪比", "猪币"],
+    "自己查": ["自己搜", "你自己搜", "自己查去"],
+    "自己查去": ["自己查", "自己搜"],
+    "自己搜": ["自己查"],
+    "出处": ["求出处", "有出处吗", "原文出处", "出处呢", "发出处"],
+}
+
+
 class KeywordEvidenceMatcher:
     """Match DeepSeek keyword entries against direct source text evidence."""
 
@@ -35,7 +46,8 @@ class KeywordEvidenceMatcher:
         clean = _clean_keyword_term(term)
         if not clean:
             return []
-        return _unique([clean])
+        aliases = TERM_EVIDENCE_ALIASES.get(_clean_text(term), []) + TERM_EVIDENCE_ALIASES.get(clean, [])
+        return _unique([clean, *[_clean_evidence_text(alias) for alias in aliases]])
 
     def filter_entries_by_evidence(
         self,

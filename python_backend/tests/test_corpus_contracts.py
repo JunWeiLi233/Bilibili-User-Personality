@@ -230,6 +230,23 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(entries[0]["evidenceCount"], 1)
         self.assertEqual(entries[1]["evidenceSamples"], ["\u5efa\u8bae\u67e5\u67e5\u8d44\u6599\u518d\u8bf4"])
 
+    def test_keyword_evidence_matcher_maps_js_term_aliases_to_dictionary_terms(self):
+        matcher = KeywordEvidenceMatcher()
+
+        entries = matcher.find_dictionary_entries_with_text_evidence(
+            {
+                "entries": [
+                    {"term": "\u95ee\u767e\u5ea6", "family": "evasion", "meaning": "\u628a\u89e3\u91ca\u8d23\u4efb\u8f6c\u7ed9\u641c\u7d22\u5f15\u64ce"},
+                    {"term": "\u732a\u9f3b", "family": "attack", "meaning": "\u77ed\u4fc3\u8d2c\u635f"},
+                ]
+            },
+            "\u4f60\u4e0d\u4f1a\u767e\u5ea6\u5417\n\u8fd9\u64cd\u4f5c\u771f\u732a\u903c",
+        )
+
+        self.assertEqual([entry["term"] for entry in entries], ["\u95ee\u767e\u5ea6", "\u732a\u9f3b"])
+        self.assertEqual(entries[0]["evidenceSamples"], ["\u4f60\u4e0d\u4f1a\u767e\u5ea6\u5417"])
+        self.assertEqual(entries[1]["evidenceSamples"], ["\u8fd9\u64cd\u4f5c\u771f\u732a\u903c"])
+
     def test_keyword_evidence_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
