@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T02:18:27.944Z",
+  "updatedAt": "2026-06-19T02:27:42.928Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -989,6 +989,64 @@
       "warnings": [],
       "commentsCollected": 56,
       "commentsAdded": 50
+    },
+    {
+      "at": "2026-06-19T02:27:42.928Z",
+      "actions": [
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重就乱套",
+          "query": "分不清轻重就乱套 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1uud8YyEP8",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1uud8YyEP8",
+          "aid": 114324278351082,
+          "title": "学会5个品茶暗号，你也是真正的高手！"
+        },
+        {
+          "key": "bvid:BV1jp4y1R7cu",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1jp4y1R7cu",
+          "aid": 965546832,
+          "title": "[<em class=\"keyword\">互动</em>视频] 你像纸嫁衣当中的那位角色？"
+        },
+        {
+          "key": "bvid:BV1RPLX65Ea8",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1RPLX65Ea8",
+          "aid": 116764994180860,
+          "title": "这期艺术成分很高‼️"
+        },
+        {
+          "key": "bvid:BV1oYijBhEBo",
+          "term": "分不清轻重就乱套",
+          "query": "分不清轻重就乱套 评论回复",
+          "bvid": "BV1oYijBhEBo",
+          "aid": 115835620300190,
+          "title": "给紧弱玩家的5个建议"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 227,
+      "commentsAdded": 160
     }
   ]
 }
