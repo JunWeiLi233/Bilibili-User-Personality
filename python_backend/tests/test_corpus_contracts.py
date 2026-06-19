@@ -42,6 +42,7 @@ from python_backend.cli.video_context import VideoContextContractComparator, Vid
 from python_backend.cli.video_relevance import VideoRelevanceContractComparator, VideoRelevanceRunner
 from python_backend.cli.direct_probe_corpus import DirectProbeCorpusContractComparator, DirectProbeCorpusRunner
 from python_backend.cli.direct_probe_plan import DirectProbePlanContractComparator, DirectProbePlanRunner
+from python_backend.cli.video_link_direct_plan import VideoLinkDirectPlanContractComparator, VideoLinkDirectPlanRunner
 from python_backend.cli.random_verification import RandomVerificationContractComparator, RandomVerificationRunner, json_result_bytes
 from python_backend.cli.tieba_corpus import TiebaCorpusUpdateContractComparator, TiebaCorpusUpdateRunner
 from python_backend.cli.tieba_html_parse import TiebaHtmlParseContractComparator, TiebaHtmlParseRunner
@@ -68,6 +69,7 @@ from python_backend.corpus.writer import CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliPublicParser
 from python_backend.scrapers.aicu import AicuScrapePlanner
+from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanner
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerHelper
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanner
 from python_backend.runtime.file_lock import FileLockStateInspector
@@ -470,6 +472,50 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {"key": "uids", "python": ["42", "43"], "js": ["42"]},
                 {"key": "summary", "python": {"uids": 2, "commentPagesPerUid": 2, "danmakuPagesPerUid": 2, "delayBetweenUidsMs": 15000}, "js": {"uids": 1}},
+            ],
+        )
+
+    def test_video_link_direct_planner_matches_js_cli_mode_contract(self):
+        planner = VideoLinkDirectPlanner()
+
+        uid_plan = planner.build_plan(["--uid", "2333", "--pages", "4", "--cookie", "SESSDATA=x"])
+        video_plan = planner.build_plan(["--video-link", "https://www.bilibili.com/video/BV1abc/", "--pages", "3"])
+        favorite_plan = planner.build_plan(["-f", "https://space.bilibili.com/1/favlist?fid=2", "-p", "bad"])
+
+        self.assertTrue(uid_plan["ok"])
+        self.assertEqual(uid_plan["mode"], "uid")
+        self.assertEqual(uid_plan["input"], {"uid": "2333", "videoLink": "", "favoriteLink": "", "pages": 4, "hasCookie": True})
+        self.assertEqual(uid_plan["collect"], {"function": "analyzeUid", "pagesPerObject": 4, "forwardsCookie": True})
+        self.assertEqual(uid_plan["training"], {"existingTermsOnly": True, "multiagent": True, "source": "Bilibili UID 2333", "uid": "2333"})
+        self.assertEqual(video_plan["mode"], "video")
+        self.assertEqual(video_plan["collect"], {"function": "searchVideoKeywords", "pages": 3, "forwardsCookie": False})
+        self.assertEqual(video_plan["training"]["source"], "https://www.bilibili.com/video/BV1abc/")
+        self.assertEqual(favorite_plan["mode"], "favorite")
+        self.assertEqual(favorite_plan["input"]["pages"], 2)
+
+    def test_video_link_direct_plan_runner_and_comparator_read_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "direct-video.json"
+            js_report_path = root / "js-direct-video.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--video-link", "https://www.bilibili.com/video/BV1abc/", "--pages", "5"]}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"mode": "uid", "input": {"pages": 2}}), encoding="utf-8")
+
+            result = VideoLinkDirectPlanRunner(payload_path).run()
+            comparison = VideoLinkDirectPlanContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "video")
+        self.assertEqual(result["input"]["pages"], 5)
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "mode", "python": "video", "js": "uid"},
+                {"key": "input", "python": {"uid": "", "videoLink": "https://www.bilibili.com/video/BV1abc/", "favoriteLink": "", "pages": 5, "hasCookie": False}, "js": {"pages": 2}},
             ],
         )
 
