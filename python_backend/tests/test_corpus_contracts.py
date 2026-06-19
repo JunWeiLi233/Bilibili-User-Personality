@@ -81,7 +81,7 @@ from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliPublicParser
-from python_backend.scrapers.aicu import AicuScrapePlanner
+from python_backend.scrapers.aicu import AicuBatchPlanner, AicuScrapePlanner
 from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanner
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanner
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerHelper
@@ -90,6 +90,7 @@ from python_backend.runtime.file_lock import FileLockStateInspector
 from python_backend.scrapers.rate_limiter import RateLimiter
 from python_backend.cli.scraper_monitor import ScraperMonitorContractComparator, ScraperMonitorRunner
 from python_backend.cli.aicu_scrape_plan import AicuScrapePlanContractComparator, AicuScrapePlanRunner
+from python_backend.cli.aicu_batch_plan import AicuBatchPlanContractComparator, AicuBatchPlanRunner
 from python_backend.cli.aicu_browser_batch_plan import AicuBrowserBatchPlanContractComparator, AicuBrowserBatchPlanRunner
 from python_backend.cli.file_lock_state import FileLockStateContractComparator, FileLockStateRunner
 from python_backend.cli.batch_scrape_progress import BatchScrapeProgressContractComparator, BatchScrapeProgressRunner
@@ -496,6 +497,61 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {"key": "uids", "python": ["42", "43"], "js": ["42"]},
                 {"key": "summary", "python": {"uids": 2, "commentPagesPerUid": 2, "danmakuPagesPerUid": 2, "delayBetweenUidsMs": 15000}, "js": {"uids": 1}},
+            ],
+        )
+
+    def test_aicu_batch_planner_matches_js_resume_waf_and_request_contract(self):
+        planner = AicuBatchPlanner()
+        progress = {"lastUid": 100002, "completed": 4, "errors": [{"uid": "100001", "error": "HTTP 429"}]}
+        database = {"users": {"100003": {}, "100010": {}}}
+
+        result = planner.build_plan(["--start=100000", "--end=100005"], progress, database)
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"requestedStart": 100000, "effectiveStart": 100003, "end": 100005, "total": 3})
+        self.assertEqual(result["progress"], {"lastUid": 100002, "completed": 4, "errors": 1})
+        self.assertEqual(result["database"], {"users": 2, "existingInEffectiveRange": 1})
+        self.assertEqual(result["limits"], {"maxPages": 3, "pageSize": 20, "saveEveryAttempts": 5})
+        self.assertEqual(result["pacing"], {"delayBetweenPagesMs": 10000, "delayBetweenUidsMs": 20000, "delayAfterWafMs": 120000})
+        self.assertEqual(result["retry"], {"maxRetries": 3, "wafStatuses": [429, 468, 1015], "headers": {"accept": "application/json", "referer": "https://www.aicu.cc/", "hasUserAgent": True}})
+        self.assertEqual(
+            result["sampleRequests"],
+            {
+                "uid": "100003",
+                "commentsUrl": "https://api.aicu.cc/api/v3/search/getreply?uid=100003&pn=1&ps=20&mode=0&keyword=",
+                "danmakuUrl": "https://api.aicu.cc/api/v3/search/getvideodm?uid=100003&pn=1&ps=20&keyword=",
+            },
+        )
+
+    def test_aicu_batch_plan_runner_and_comparator_read_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "aicu-batch-plan.json"
+            js_report_path = root / "js-aicu-batch-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--start=1", "--end=3"],
+                        "progress": {"lastUid": 1, "completed": 1},
+                        "database": {"users": {"2": {}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"range": {"effectiveStart": 1}, "limits": {"maxPages": 10}}), encoding="utf-8")
+
+            result = AicuBatchPlanRunner(payload_path).run()
+            comparison = AicuBatchPlanContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"requestedStart": 1, "effectiveStart": 2, "end": 3, "total": 2})
+        self.assertEqual(result["database"], {"users": 1, "existingInEffectiveRange": 1})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "range", "python": {"requestedStart": 1, "effectiveStart": 2, "end": 3, "total": 2}, "js": {"effectiveStart": 1}},
+                {"key": "limits", "python": {"maxPages": 3, "pageSize": 20, "saveEveryAttempts": 5}, "js": {"maxPages": 10}},
             ],
         )
 
