@@ -10,7 +10,7 @@ from python_backend.analysis.coverage_progress import CoverageProgressTracker
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReporter
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder
-from python_backend.analysis.harvest_state import HarvestTermAttemptUpdater, term_attempt_key
+from python_backend.analysis.harvest_state import HarvestStateFinalizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherHelper
 from python_backend.analysis.verification import RandomVerifier
@@ -7424,6 +7424,109 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertTrue(result["ok"])
         self.assertEqual(result["termAttempts"][term_attempt_key("\u72d7\u5934")]["successfulAttempts"], 1)
+
+    def test_harvest_state_finalizer_matches_js_persisted_state_contract(self):
+        prior_runs = [{"at": f"2026-06-18T00:{index:02d}:00.000Z", "strategyVersion": 7, "queries": index} for index in range(52)]
+        finalizer = HarvestStateFinalizer(strategy_version=7)
+
+        state = finalizer.finalize_state(
+            previous_state={
+                "version": 1,
+                "harvestStrategyVersion": 7,
+                "runs": [{"at": "old", "strategyVersion": 6, "queries": 999}, *prior_runs],
+            },
+            searched_queries=["seed two", "seed one", "seed two"],
+            scanned_bvids=["BV2", "BV1", "BV2"],
+            term_attempts={"ZG9nZQ": {"term": "doge", "attempts": 1}},
+            queries=["seed one", "seed two"],
+            results=[
+                {"query": "seed one", "result": {"ok": True, "videos": [{"bvid": "BV1"}], "comments": [{"message": "a"}, {"message": "b"}]}},
+                {"query": "seed two", "result": {"ok": False, "videos": [], "comments": [], "error": "blocked"}},
+            ],
+            warnings=["seed two: blocked", "minor warning"],
+            growth={"before": 10, "after": 12, "added": 2},
+            coverage={"weakTerms": 4, "zeroEvidenceTerms": 1},
+            coverage_progress={"weakTermsResolved": 1, "zeroEvidenceResolved": 0, "evidenceGained": 3, "evidenceDeficitReduced": 2},
+            training_diagnostics={"evidenceRejected": 5},
+            query_diagnostics=[{"query": "seed one"}],
+            accepted_evidence_count=2,
+            coverage_increasing_accepted_evidence_count=1,
+            term_attempt_summary={"attemptedTerms": 3, "successfulTerms": 1, "unattemptedTerms": 7, "exhaustedTerms": 2},
+            backfilled_attempts=4,
+            finished_at="2026-06-19T00:00:00.000Z",
+        )
+
+        self.assertEqual(state["version"], 1)
+        self.assertEqual(state["harvestStrategyVersion"], 7)
+        self.assertEqual(state["updatedAt"], "2026-06-19T00:00:00.000Z")
+        self.assertEqual(state["searchedQueries"], ["seed one", "seed two"])
+        self.assertEqual(state["scannedBvids"], ["BV1", "BV2"])
+        self.assertEqual(state["termAttempts"], {"ZG9nZQ": {"term": "doge", "attempts": 1}})
+        self.assertEqual(len(state["runs"]), 50)
+        self.assertEqual(state["runs"][0]["queries"], 3)
+        run = state["runs"][-1]
+        self.assertEqual(run["at"], "2026-06-19T00:00:00.000Z")
+        self.assertEqual(run["strategyVersion"], 7)
+        self.assertEqual(run["queries"], 2)
+        self.assertEqual(run["successfulQueries"], 1)
+        self.assertEqual(run["videosScanned"], 1)
+        self.assertEqual(run["commentsCollected"], 2)
+        self.assertEqual(run["evidenceRejected"], 5)
+        self.assertEqual(run["trainingDiagnostics"], {"evidenceRejected": 5})
+        self.assertEqual(run["queryDiagnostics"], [{"query": "seed one"}])
+        self.assertEqual(run["acceptedEvidenceCount"], 2)
+        self.assertEqual(run["coverageIncreasingAcceptedEvidenceCount"], 1)
+        self.assertEqual(run["dictionaryBefore"], 10)
+        self.assertEqual(run["dictionaryAfter"], 12)
+        self.assertEqual(run["dictionaryAdded"], 2)
+        self.assertEqual(run["weakTermsResolved"], 1)
+        self.assertEqual(run["zeroEvidenceResolved"], 0)
+        self.assertEqual(run["evidenceGained"], 3)
+        self.assertEqual(run["evidenceDeficitReduced"], 2)
+        self.assertEqual(run["attemptedTerms"], 3)
+        self.assertEqual(run["successfulTerms"], 1)
+        self.assertEqual(run["unattemptedTerms"], 7)
+        self.assertEqual(run["exhaustedTerms"], 2)
+        self.assertEqual(run["backfilledAttempts"], 4)
+        self.assertEqual(run["weakTerms"], 4)
+        self.assertEqual(run["zeroEvidenceTerms"], 1)
+        self.assertEqual(run["warnings"], 2)
+
+    def test_harvest_state_runner_supports_finalize_mode(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "harvest-state-finalize.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "finalize",
+                        "strategyVersion": 7,
+                        "finishedAt": "2026-06-19T00:00:00.000Z",
+                        "previousState": {"harvestStrategyVersion": 6, "runs": [{"strategyVersion": 6, "queries": 99}]},
+                        "searchedQueries": ["b", "a"],
+                        "scannedBvids": ["BV2", "BV1"],
+                        "termAttempts": {},
+                        "queries": ["a"],
+                        "results": [{"result": {"ok": True, "videos": [], "comments": []}}],
+                        "warnings": [],
+                        "growth": {"before": 1, "after": 1, "added": 0},
+                        "coverage": {"weakTerms": 0, "zeroEvidenceTerms": 0},
+                        "coverageProgress": {},
+                        "trainingDiagnostics": {},
+                        "queryDiagnostics": [],
+                        "termAttemptSummary": {},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = HarvestStateRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["state"]["searchedQueries"], ["a", "b"])
+        self.assertEqual(result["state"]["scannedBvids"], ["BV1", "BV2"])
+        self.assertEqual(len(result["state"]["runs"]), 1)
+        self.assertEqual(result["state"]["runs"][0]["queries"], 1)
 
     def test_keyword_harvest_plan_builder_expands_repeated_misses_to_untried_variants(self):
         plan = KeywordHarvestPlanBuilder().build_query_plan(

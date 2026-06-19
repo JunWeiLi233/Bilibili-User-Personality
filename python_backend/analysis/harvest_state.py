@@ -32,6 +32,90 @@ def _now_iso() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
 
+class HarvestStateFinalizer:
+    """Build the persisted keyword-harvest state JSON contract after a run."""
+
+    def __init__(self, strategy_version: int = 7):
+        self.strategy_version = max(0, int(_number(strategy_version)))
+
+    def finalize_state(
+        self,
+        previous_state: dict[str, Any] | None = None,
+        searched_queries: list[Any] | None = None,
+        scanned_bvids: list[Any] | None = None,
+        term_attempts: dict[str, Any] | None = None,
+        queries: list[Any] | None = None,
+        results: list[dict[str, Any]] | None = None,
+        warnings: list[Any] | None = None,
+        growth: dict[str, Any] | None = None,
+        coverage: dict[str, Any] | None = None,
+        coverage_progress: dict[str, Any] | None = None,
+        training_diagnostics: dict[str, Any] | None = None,
+        query_diagnostics: list[dict[str, Any]] | None = None,
+        accepted_evidence_count: int = 0,
+        coverage_increasing_accepted_evidence_count: int = 0,
+        term_attempt_summary: dict[str, Any] | None = None,
+        backfilled_attempts: int = 0,
+        finished_at: str | None = None,
+    ) -> dict[str, Any]:
+        previous_state = previous_state if isinstance(previous_state, dict) else {}
+        results = results if isinstance(results, list) else []
+        warnings = warnings if isinstance(warnings, list) else []
+        growth = growth if isinstance(growth, dict) else {}
+        coverage = coverage if isinstance(coverage, dict) else {}
+        coverage_progress = coverage_progress if isinstance(coverage_progress, dict) else {}
+        training_diagnostics = training_diagnostics if isinstance(training_diagnostics, dict) else {}
+        query_diagnostics = query_diagnostics if isinstance(query_diagnostics, list) else []
+        term_attempt_summary = term_attempt_summary if isinstance(term_attempt_summary, dict) else {}
+        finished_at = finished_at or _now_iso()
+        prior_runs = self._current_strategy_runs(previous_state)
+        run = {
+            "at": finished_at,
+            "strategyVersion": self.strategy_version,
+            "queries": len(queries if isinstance(queries, list) else []),
+            "successfulQueries": sum(1 for item in results if isinstance(item, dict) and (item.get("result") or {}).get("ok")),
+            "videosScanned": sum(len((item.get("result") or {}).get("videos") or []) for item in results if isinstance(item, dict)),
+            "commentsCollected": sum(len((item.get("result") or {}).get("comments") or []) for item in results if isinstance(item, dict)),
+            "evidenceRejected": _non_negative_int(training_diagnostics.get("evidenceRejected")),
+            "trainingDiagnostics": training_diagnostics,
+            "queryDiagnostics": query_diagnostics,
+            "acceptedEvidenceCount": _non_negative_int(accepted_evidence_count),
+            "coverageIncreasingAcceptedEvidenceCount": _non_negative_int(coverage_increasing_accepted_evidence_count),
+            "dictionaryBefore": _non_negative_int(growth.get("before")),
+            "dictionaryAfter": _non_negative_int(growth.get("after")),
+            "dictionaryAdded": _non_negative_int(growth.get("added")),
+            "weakTermsResolved": _non_negative_int(coverage_progress.get("weakTermsResolved")),
+            "zeroEvidenceResolved": _non_negative_int(coverage_progress.get("zeroEvidenceResolved")),
+            "evidenceGained": _non_negative_int(coverage_progress.get("evidenceGained")),
+            "evidenceDeficitReduced": _non_negative_int(coverage_progress.get("evidenceDeficitReduced")),
+            "attemptedTerms": _non_negative_int(term_attempt_summary.get("attemptedTerms")),
+            "successfulTerms": _non_negative_int(term_attempt_summary.get("successfulTerms")),
+            "unattemptedTerms": _non_negative_int(term_attempt_summary.get("unattemptedTerms")),
+            "exhaustedTerms": _non_negative_int(term_attempt_summary.get("exhaustedTerms")),
+            "backfilledAttempts": _non_negative_int(backfilled_attempts),
+            "weakTerms": _non_negative_int(coverage.get("weakTerms")),
+            "zeroEvidenceTerms": _non_negative_int(coverage.get("zeroEvidenceTerms")),
+            "warnings": len(warnings),
+        }
+        return {
+            "version": 1,
+            "harvestStrategyVersion": self.strategy_version,
+            "updatedAt": finished_at,
+            "searchedQueries": sorted({_clean_text(query) for query in searched_queries or [] if _clean_text(query)}),
+            "scannedBvids": sorted({_clean_text(bvid) for bvid in scanned_bvids or [] if _clean_text(bvid)}),
+            "termAttempts": term_attempts if isinstance(term_attempts, dict) else {},
+            "runs": [*prior_runs[-49:], run],
+        }
+
+    def _current_strategy_runs(self, state: dict[str, Any]) -> list[dict[str, Any]]:
+        runs = [run for run in state.get("runs") or [] if isinstance(run, dict)]
+        if "harvestStrategyVersion" not in state:
+            return runs
+        if _number(state.get("harvestStrategyVersion")) < self.strategy_version:
+            return []
+        return [run for run in runs if _number(run.get("strategyVersion")) >= self.strategy_version]
+
+
 class HarvestTermAttemptUpdater:
     """Update keyword-harvest termAttempts using the JS keywordHarvest state contract."""
 

@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.harvest_state import HarvestTermAttemptUpdater
+from python_backend.analysis.harvest_state import HarvestStateFinalizer, HarvestTermAttemptUpdater
 
 
 class HarvestStateRunner:
@@ -22,6 +22,28 @@ class HarvestStateRunner:
         term_attempts = payload.get("termAttempts") if isinstance(payload.get("termAttempts"), dict) else {}
         if isinstance(payload.get("state"), dict) and isinstance(payload["state"].get("termAttempts"), dict):
             term_attempts = payload["state"]["termAttempts"]
+        if str(payload.get("mode") or "").strip().lower() == "finalize":
+            finalizer = HarvestStateFinalizer(strategy_version=payload.get("strategyVersion") or options.get("harvestStrategyVersion") or 7)
+            state = finalizer.finalize_state(
+                previous_state=payload.get("previousState") if isinstance(payload.get("previousState"), dict) else payload.get("state"),
+                searched_queries=payload.get("searchedQueries") if isinstance(payload.get("searchedQueries"), list) else [],
+                scanned_bvids=payload.get("scannedBvids") if isinstance(payload.get("scannedBvids"), list) else [],
+                term_attempts=term_attempts,
+                queries=payload.get("queries") if isinstance(payload.get("queries"), list) else [],
+                results=payload.get("results") if isinstance(payload.get("results"), list) else [],
+                warnings=payload.get("warnings") if isinstance(payload.get("warnings"), list) else [],
+                growth=payload.get("growth") if isinstance(payload.get("growth"), dict) else {},
+                coverage=payload.get("coverage") if isinstance(payload.get("coverage"), dict) else {},
+                coverage_progress=payload.get("coverageProgress") if isinstance(payload.get("coverageProgress"), dict) else {},
+                training_diagnostics=payload.get("trainingDiagnostics") if isinstance(payload.get("trainingDiagnostics"), dict) else {},
+                query_diagnostics=payload.get("queryDiagnostics") if isinstance(payload.get("queryDiagnostics"), list) else [],
+                accepted_evidence_count=payload.get("acceptedEvidenceCount") or 0,
+                coverage_increasing_accepted_evidence_count=payload.get("coverageIncreasingAcceptedEvidenceCount") or 0,
+                term_attempt_summary=payload.get("termAttemptSummary") if isinstance(payload.get("termAttemptSummary"), dict) else {},
+                backfilled_attempts=payload.get("backfilledAttempts") or 0,
+                finished_at=payload.get("finishedAt"),
+            )
+            return {"ok": True, "state": state}
         if str(payload.get("mode") or "").strip().lower() == "backfill":
             dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}
             searched_queries = payload.get("searchedQueries") if isinstance(payload.get("searchedQueries"), list) else []
