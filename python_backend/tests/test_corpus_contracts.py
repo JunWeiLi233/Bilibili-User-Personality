@@ -109,7 +109,7 @@ from python_backend.scrapers.tieba_html import TiebaHtmlParser
 from python_backend.scrapers.tieba_keyword import TiebaKeywordScrapeOptionsPlanner
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 from python_backend.scrapers.batch_bilibili import BatchBilibiliScrapePlanner
-from python_backend.scrapers.batch_popular import BatchPopularScrapePlanner
+from python_backend.scrapers.batch_popular import BatchPopularPlanSummary, BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner, RangeScraperLauncherPlanner, UidRangeProgressReporter, UidRangeProgressSummary
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
@@ -6415,6 +6415,38 @@ class CorpusContractTests(unittest.TestCase):
             {
                 "popularUrl": "https://api.bilibili.com/x/web-interface/popular?ps=20&pn=4",
                 "replyUrl": "https://api.bilibili.com/x/v2/reply?type=1&oid=123&pn=1&ps=20&sort=1",
+            },
+        )
+
+    def test_batch_popular_plan_summary_extracts_comparator_contract(self):
+        summary = BatchPopularPlanSummary().summarize(
+            {
+                "ok": True,
+                "input": {"maxPages": 8},
+                "range": {"startPage": 4},
+                "progress": {"pagesScanned": 3},
+                "database": {"users": 2},
+                "limits": {"popularPageSize": 20},
+                "pacing": {"delayMs": 3000},
+                "retry": {"rateLimitCodes": [-799, -412]},
+                "collection": {"storesNestedReplies": True},
+                "sampleRequests": {"popularUrl": "https://api.bilibili.com/x/web-interface/popular?ps=20&pn=4"},
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "input": {"maxPages": 8},
+                "range": {"startPage": 4},
+                "progress": {"pagesScanned": 3},
+                "database": {"users": 2},
+                "limits": {"popularPageSize": 20},
+                "pacing": {"delayMs": 3000},
+                "retry": {"rateLimitCodes": [-799, -412]},
+                "collection": {"storesNestedReplies": True},
+                "sampleRequests": {"popularUrl": "https://api.bilibili.com/x/web-interface/popular?ps=20&pn=4"},
             },
         )
 
