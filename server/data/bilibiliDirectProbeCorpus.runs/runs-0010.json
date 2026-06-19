@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-19T00:01:23.849Z",
+  "shard": 10,
+  "shardCount": 10,
+  "runs": [
+    {
+      "at": "2026-06-19T00:01:23.849Z",
+      "actions": [
+        {
+          "term": "这还用说",
+          "query": "这还用说 弹幕"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 评论区"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 视频"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "分不清轻重 B站"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1T44y147Zp",
+          "term": "这还用说",
+          "query": "这还用说 弹幕",
+          "bvid": "BV1T44y147Zp",
+          "aid": 976161545,
+          "title": "如何更新哔哩哔哩缓存视频的<em class=\"keyword\">弹幕</em>"
+        },
+        {
+          "key": "bvid:BV1z9jA6DEag",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 评论区",
+          "bvid": "BV1z9jA6DEag",
+          "aid": 116770497109867,
+          "title": "[ Murder ! Karmatic Time Trio VS Dusted Karmas ]Encounter1 Causal Insanity"
+        },
+        {
+          "key": "bvid:BV1wWrSBLE7i",
+          "term": "查查资料",
+          "query": "查查资料 视频",
+          "bvid": "BV1wWrSBLE7i",
+          "aid": 115910329245014,
+          "title": "<em class=\"keyword\">视频</em>加载中，速速查收惊喜！"
+        },
+        {
+          "key": "bvid:BV1EMFYe2E98",
+          "term": "分不清轻重",
+          "query": "分不清轻重 B站",
+          "bvid": "BV1EMFYe2E98",
+          "aid": 113910132774574,
+          "title": "合集，但里面视频的分p点不动"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 29,
+      "commentsAdded": 24
+    }
+  ]
+}
