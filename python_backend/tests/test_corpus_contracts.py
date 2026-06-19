@@ -771,6 +771,36 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(dictionary.entries[0]["evidenceSamples"], ["doge"])
         self.assertEqual(dictionary.entries[0]["evidenceSources"], [{"sample": "doge"}])
 
+    def test_dictionary_loader_matches_js_family_bucket_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "dict.entries").mkdir()
+            (root / "dict.json").write_text(
+                json.dumps(
+                    {
+                        "storage": "split",
+                        "entryFiles": {
+                            "attack": ["dict.entries/attack-001.json"],
+                            "unsupported": ["dict.entries/unsupported-001.json"],
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (root / "dict.entries" / "attack-001.json").write_text(
+                json.dumps({"entries": [{"term": "bucket-family"}]}),
+                encoding="utf-8",
+            )
+            (root / "dict.entries" / "unsupported-001.json").write_text(
+                json.dumps({"entries": [{"term": "ignored", "family": "unsupported"}]}),
+                encoding="utf-8",
+            )
+
+            dictionary = DictionaryLoader(root / "dict.json").load()
+
+        self.assertEqual([entry["term"] for entry in dictionary.entries], ["bucket-family"])
+        self.assertEqual(dictionary.entries[0]["family"], "attack")
+
     def test_dictionary_loader_merges_duplicate_split_evidence_terms(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

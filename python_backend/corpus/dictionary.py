@@ -6,6 +6,9 @@ from pathlib import Path
 from typing import Any
 
 
+SUPPORTED_FAMILIES = {"attack", "absolutes", "evidence", "evasion", "cooperation", "correction"}
+
+
 @dataclass(frozen=True)
 class KeywordDictionary:
     manifest: dict[str, Any]
@@ -34,17 +37,21 @@ class DictionaryLoader:
 
     def _hydrate_entry_files(self, files_by_family: dict[str, list[str]]) -> list[dict[str, Any]]:
         entries: list[dict[str, Any]] = []
-        for file_spec in files_by_family.values():
+        for family, file_spec in files_by_family.items():
+            if family not in SUPPORTED_FAMILIES:
+                continue
             for relative_path in self._file_list(file_spec):
                 shard = self._read_json(self.path.parent / relative_path)
                 shard_entries = shard.get("entries") or []
                 if isinstance(shard_entries, list):
-                    entries.extend(shard_entries)
+                    entries.extend({**entry, "family": entry.get("family") or family} for entry in shard_entries)
         return entries
 
     def _hydrate_evidence_files(self, files_by_family: dict[str, list[str]]) -> dict[str, dict[str, Any]]:
         evidence_by_term: dict[str, dict[str, Any]] = {}
-        for file_spec in files_by_family.values():
+        for family, file_spec in files_by_family.items():
+            if family not in SUPPORTED_FAMILIES:
+                continue
             for relative_path in self._file_list(file_spec):
                 shard = self._read_json(self.path.parent / relative_path)
                 shard_evidence = shard.get("evidence") or []
