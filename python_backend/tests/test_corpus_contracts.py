@@ -152,6 +152,20 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(loaded.runs, [{"at": "now"}])
         self.assertEqual(loaded.manifest["storage"], "split")
 
+    def test_writer_uses_js_minimum_shard_size_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output = root / "out.json"
+            CorpusShardWriter(output, max_shard_bytes=1).write(
+                comments=[{"message": "tiny"}],
+                runs=[],
+                manifest={"version": 1},
+            )
+
+            loaded = CorpusLoader(output).load()
+
+        self.assertEqual(loaded.manifest["shardMaxBytes"], 1024)
+
     def test_writer_removes_stale_split_shards_after_smaller_rewrite(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

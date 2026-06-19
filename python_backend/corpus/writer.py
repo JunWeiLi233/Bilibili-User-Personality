@@ -11,7 +11,7 @@ class CorpusShardWriter:
 
     def __init__(self, path: str | Path, max_shard_bytes: int = 64 * 1024):
         self.path = Path(path)
-        self.max_shard_bytes = max(128, int(max_shard_bytes))
+        self.max_shard_bytes = max(1024, int(max_shard_bytes))
 
     def write(
         self,
