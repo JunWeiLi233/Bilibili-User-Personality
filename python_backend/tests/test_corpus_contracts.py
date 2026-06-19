@@ -92,6 +92,37 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(corpus.runs[0]["at"], "2026-06-19T00:00:00.000Z")
         self.assertEqual(corpus.manifest["storage"], "split")
 
+    def test_loader_accepts_utf8_bom_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "demo.comments").mkdir()
+            (root / "demo.runs").mkdir()
+            (root / "demo.json").write_text(
+                "\ufeff"
+                + json.dumps(
+                    {
+                        "version": 1,
+                        "storage": "split",
+                        "commentFiles": ["demo.comments/comments-0001.json"],
+                        "runFiles": ["demo.runs/runs-0001.json"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (root / "demo.comments" / "comments-0001.json").write_text(
+                "\ufeff" + json.dumps({"comments": [{"message": "bom comment", "source": "bilibili"}]}),
+                encoding="utf-8",
+            )
+            (root / "demo.runs" / "runs-0001.json").write_text(
+                "\ufeff" + json.dumps({"runs": [{"at": "2026-06-19T00:00:00.000Z"}]}),
+                encoding="utf-8",
+            )
+
+            corpus = CorpusLoader(root / "demo.json").load()
+
+        self.assertEqual(corpus.comments[0]["message"], "bom comment")
+        self.assertEqual(corpus.runs[0]["at"], "2026-06-19T00:00:00.000Z")
+
     def test_writer_round_trips_small_split_corpus(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
