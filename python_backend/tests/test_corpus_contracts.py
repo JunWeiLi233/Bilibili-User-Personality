@@ -61,6 +61,7 @@ from python_backend.scrapers.bilibili import BilibiliPublicParser
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerHelper
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanner
 from python_backend.scrapers.rate_limiter import RateLimiter
+from python_backend.cli.scraper_monitor import ScraperMonitorContractComparator, ScraperMonitorRunner
 from python_backend.scrapers.tieba_html import TiebaHtmlParser
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 
@@ -4189,6 +4190,69 @@ class CorpusContractTests(unittest.TestCase):
         self.assertNotIn("processed", result)
         self.assertEqual(result["summary"]["totalProcessed"], 1)
         self.assertEqual(result["stats"]["success"], 1)
+
+    def test_scraper_monitor_runner_summarizes_discovery_and_pipeline_progress(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            (data_dir / "uid-discovery-progress.json").write_text(
+                json.dumps({"stats": {"uidsAnalyzed": 4, "uidsFound": 10, "errors": 2}}),
+                encoding="utf-8",
+            )
+            (data_dir / "uid-pipeline-1-2.json").write_text(
+                json.dumps({"processed": {"1": "success", "2": "no_comments"}, "stats": {"success": 1, "noComments": 1}}),
+                encoding="utf-8",
+            )
+            (data_dir / "uid-pipeline-3-4.json").write_text(
+                json.dumps({"processed": {"3": "no_videos"}, "stats": {"noVideos": 1, "errors": 1}}),
+                encoding="utf-8",
+            )
+
+            result = ScraperMonitorRunner(data_dir, total_start=1, total_end=4, workers=2, pipeline_rate_per_minute=2).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["discovery"], {"analyzed": 4, "found": 10, "remaining": 6, "errors": 2})
+        self.assertEqual(
+            result["pipeline"],
+            {
+                "processed": 3,
+                "success": 1,
+                "noComments": 1,
+                "noVideos": 1,
+                "noUser": 0,
+                "errors": 1,
+                "remaining": 1,
+                "etaMinutes": 1,
+                "etaHours": 0.0,
+            },
+        )
+        self.assertEqual(result["combined"], {"uidsAnalyzed": 5})
+
+    def test_scraper_monitor_comparator_reports_pipeline_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            js_report_path = root / "js-monitor.json"
+            (data_dir / "uid-discovery-progress.json").write_text(json.dumps({"stats": {"uidsAnalyzed": 1, "uidsFound": 2}}), encoding="utf-8")
+            (data_dir / "uid-pipeline-1-1.json").write_text(json.dumps({"processed": {"1": "success"}, "stats": {"success": 1}}), encoding="utf-8")
+            js_report_path.write_text(json.dumps({"combined": {"uidsAnalyzed": 1}, "pipeline": {"processed": 0}}), encoding="utf-8")
+
+            result = ScraperMonitorContractComparator(data_dir, js_report_path, total_start=1, total_end=1, workers=1).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {
+                    "key": "pipeline",
+                    "python": {"processed": 1, "success": 1, "noComments": 0, "noVideos": 0, "noUser": 0, "errors": 0, "remaining": 0, "etaMinutes": 0, "etaHours": 0.0},
+                    "js": {"processed": 0},
+                },
+                {"key": "combined", "python": {"uidsAnalyzed": 2}, "js": {"uidsAnalyzed": 1}},
+            ],
+        )
 
     def test_near_target_resolve_plan_runner_selects_source_backed_terms(self):
         with tempfile.TemporaryDirectory() as tmp:
