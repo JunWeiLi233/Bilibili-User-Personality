@@ -37,6 +37,7 @@ from python_backend.cli.history_tag_corpus import HistoryTagCorpusContractCompar
 from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportContractComparator, HuggingFaceCorpusImportRunner
 from python_backend.cli.local_corpus_evidence import LocalCorpusEvidenceContractComparator, LocalCorpusEvidenceRunner
 from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenContractComparator, LocalCorpusFlattenRunner
+from python_backend.cli.local_corpus_mine_plan import LocalCorpusMinePlanContractComparator, LocalCorpusMinePlanRunner
 from python_backend.cli.merge_agent_dictionaries_plan import MergeAgentDictionariesPlanContractComparator, MergeAgentDictionariesPlanRunner
 from python_backend.cli.near_target_resolve_plan import NearTargetResolvePlanContractComparator, NearTargetResolvePlanRunner
 from python_backend.cli.video_comment_filter import VideoCommentFilterContractComparator, VideoCommentFilterRunner
@@ -64,6 +65,7 @@ from python_backend.corpus.history_tags import HistoryTagCorpusManager
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter
 from python_backend.corpus.local import LocalCorpusEvidenceFinder
 from python_backend.corpus.local import LocalCorpusFlattener
+from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner
 from python_backend.corpus.tieba import TiebaCorpusUpdater
 from python_backend.analysis.video_filter import VideoCommentFilter, VideoContextBuilder, VideoRelevanceFilter
 from python_backend.corpus.dictionary import DictionaryLoader
@@ -1902,6 +1904,58 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "terms", "python": ["\u61c2\u7684\u90fd\u61c2"], "js": ["wrong"]},
                 {"key": "evidence", "python": {"\u61c2\u7684\u90fd\u61c2": ["\u8fd9\u4e8b\u61c2\u7684\u90fd\u61c2"]}, "js": {"wrong": ["wrong sample"]}},
             ],
+        )
+
+    def test_local_corpus_mine_options_planner_matches_js_cli_env_contract(self):
+        planner = LocalCorpusMineOptionsPlanner()
+
+        result = planner.build_options(
+            argv=[
+                "--corpus=one.json,two.json|three.txt",
+                "--actions=actions.json",
+                "--target-evidence=99",
+                "--max-samples-per-term=0",
+                "--no-comment-backed",
+                "--write",
+            ],
+            env={
+                "LOCAL_BILIBILI_CORPUS_PATH": "env-one.json;env-two.json",
+                "BILIBILI_COVERAGE_TARGET_EVIDENCE": "2",
+                "LOCAL_CORPUS_MAX_SAMPLES_PER_TERM": "4",
+                "LOCAL_CORPUS_REQUIRE_COMMENT_BACKED": "1",
+                "LOCAL_CORPUS_WRITE": "0",
+            },
+        )
+
+        self.assertEqual(result["corpusPaths"], ["one.json", "two.json", "three.txt"])
+        self.assertEqual(result["actionFile"], "actions.json")
+        self.assertEqual(result["targetEvidence"], 20)
+        self.assertEqual(result["maxSamplesPerTerm"], 3)
+        self.assertFalse(result["requireCommentBackedEvidence"])
+        self.assertTrue(result["write"])
+
+    def test_local_corpus_mine_plan_runner_and_comparator_read_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "local-mine-plan.json"
+            js_report_path = root / "js-local-mine-plan.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--corpus=one.json", "--target-evidence=5"], "env": {"LOCAL_CORPUS_WRITE": "1"}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"options": {"corpusPaths": ["stale"], "targetEvidence": 3}}), encoding="utf-8")
+
+            result = LocalCorpusMinePlanRunner(payload_path).run()
+            comparison = LocalCorpusMinePlanContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["options"]["corpusPaths"], ["one.json"])
+        self.assertEqual(result["options"]["targetEvidence"], 5)
+        self.assertTrue(result["options"]["write"])
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [{"key": "options", "python": result["options"], "js": {"corpusPaths": ["stale"], "targetEvidence": 3}}],
         )
 
     def test_tieba_corpus_updater_leaves_corpus_unchanged_without_comments(self):

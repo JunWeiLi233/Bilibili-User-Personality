@@ -68,6 +68,7 @@
     "python:tieba-timing": "python -m python_backend.cli.tieba_timing",
     "python:flatten-local": "python -m python_backend.cli.local_corpus_flatten",
     "python:local-evidence": "python -m python_backend.cli.local_corpus_evidence",
+    "python:local-mine-plan": "python -m python_backend.cli.local_corpus_mine_plan",
     "python:video-comment-filter": "python -m python_backend.cli.video_comment_filter",
     "python:video-context": "python -m python_backend.cli.video_context",
     "python:video-relevance": "python -m python_backend.cli.video_relevance",
