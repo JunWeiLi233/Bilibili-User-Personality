@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.readme_stats import ReadmeStatsBuilder
+from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSvgRenderer
 
 
 class ReadmeStatsRunner:
@@ -23,9 +23,12 @@ class ReadmeStatsRunner:
         dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}
         coverage = payload.get("coverage") if isinstance(payload.get("coverage"), dict) else {}
         stats = builder.build_stats(sources, dictionary, coverage, generated_at=generated_at)
+        renderer = ReadmeStatsSvgRenderer()
         return {
             "ok": True,
             "stats": stats,
+            "svg": renderer.render_summary_svg(stats),
+            "timelineSvg": renderer.render_timeline_svg(stats["timeline"], stats["generatedAt"]),
             "summary": {
                 "comments": stats["comments"],
                 "danmaku": stats["danmaku"],
@@ -43,7 +46,7 @@ class ReadmeStatsRunner:
 class ReadmeStatsContractComparator:
     """Compare Python README stats output against a saved JS-compatible report."""
 
-    RESULT_KEYS = ("ok", "summary", "stats")
+    RESULT_KEYS = ("ok", "summary", "stats", "svg", "timelineSvg")
 
     def __init__(self, payload_path: str | Path, js_report_path: str | Path):
         self.payload_path = Path(payload_path)

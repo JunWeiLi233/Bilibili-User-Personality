@@ -9,7 +9,7 @@ from python_backend.analysis.coverage_progress import CoverageProgressTracker
 from python_backend.analysis.discovery_report import VideoKeywordDiscoveryReporter
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder
-from python_backend.analysis.readme_stats import ReadmeStatsBuilder
+from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticMatcherHelper
 from python_backend.analysis.verification import RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisValidator
@@ -992,6 +992,41 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["stats"]["coverageRatioLabel"], "87.50%")
         self.assertEqual(result["stats"]["timeline"]["finalTotal"], 2)
         self.assertEqual(result["summary"], {"comments": 1, "danmaku": 1, "keywordTerms": 2, "timelinePoints": 1})
+
+    def test_readme_stats_svg_renderer_builds_summary_and_timeline_graphs(self):
+        renderer = ReadmeStatsSvgRenderer()
+        stats = {
+            "generatedAt": "2026-06-19T00:00:00.000Z",
+            "comments": 100,
+            "danmaku": 40,
+            "keywordTerms": 25,
+            "coverageRatioLabel": "97.09%",
+            "weakTerms": 46,
+            "evidenceDeficit": 86,
+            "timeline": {
+                "finalComments": 100,
+                "finalDanmaku": 40,
+                "finalTotal": 140,
+                "points": [
+                    {"date": "2026-06-17T10:00:00.000Z", "source": "direct", "added": 80, "comments": 60, "danmaku": 20, "total": 80},
+                    {"date": "2026-06-18T10:00:00.000Z", "source": "direct", "added": 60, "comments": 100, "danmaku": 40, "total": 140},
+                ],
+            },
+        }
+
+        summary_svg = renderer.render_summary_svg(stats)
+        timeline_svg = renderer.render_timeline_svg(stats["timeline"], stats["generatedAt"])
+
+        self.assertIn("<title id=\"title\">Bilibili User Personality data collection and keyword analysis stats</title>", summary_svg)
+        self.assertIn("Corpus Collection + Keyword Analysis", summary_svg)
+        self.assertIn("Coverage: 97.09% | Weak terms: 46 | Evidence deficit: 86", summary_svg)
+        self.assertIn("<title id=\"timeline-title\">Comment and danmaku collection growth over time</title>", timeline_svg)
+        self.assertIn("Corpus Growth Over Time", timeline_svg)
+        self.assertIn("Total 140", timeline_svg)
+        self.assertIn("Comments 100", timeline_svg)
+        self.assertIn("Danmaku 40", timeline_svg)
+        self.assertEqual(renderer.padded_timeline_max(140), 160)
+        self.assertNotIn("-10.0", timeline_svg)
 
     def test_readme_stats_contract_comparator_reports_summary_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
