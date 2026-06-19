@@ -9,6 +9,7 @@ from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerC
 from python_backend.cli.coverage_audit import AuditContractComparator
 from python_backend.cli.compare_contracts import ContractComparator
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanRunner
+from python_backend.cli.history_tag_corpus import HistoryTagCorpusRunner
 from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportRunner
 from python_backend.cli.local_corpus_evidence import LocalCorpusEvidenceRunner
 from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenRunner
@@ -16,6 +17,7 @@ from python_backend.cli.direct_probe_corpus import DirectProbeCorpusRunner
 from python_backend.cli.random_verification import RandomVerificationRunner
 from python_backend.cli.tieba_corpus import TiebaCorpusUpdateRunner
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder
+from python_backend.corpus.history_tags import HistoryTagCorpusManager
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter
 from python_backend.corpus.local import LocalCorpusEvidenceFinder
 from python_backend.corpus.local import LocalCorpusFlattener
@@ -782,6 +784,56 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["corpus"]["comments"][0]["message"], "\u65b0\u8bc4\u8bba")
         self.assertEqual(result["corpus"]["runs"][0]["commentsAdded"], 1)
+
+    def test_history_tag_corpus_manager_merges_and_searches_videos(self):
+        manager = HistoryTagCorpusManager(generated_at="2026-06-19T00:00:00.000Z")
+        merged = manager.merge(
+            {
+                "tags": [{"name": "\u5386\u53f2", "source": "seed"}],
+                "videos": [{"bvid": "BVhistory001", "title": "\u4e7e\u9686\u8001\u513f", "tags": ["\u5386\u53f2"], "replyCount": 1}],
+                "runs": [],
+            },
+            {
+                "tags": [{"name": "\u6e05\u671d", "source": "seed"}],
+                "videos": [
+                    {"bvid": "BVhistory001", "title": "\u4e7e\u9686\u8001\u513f\u5386\u53f2\u590d\u76d8", "tags": ["\u6e05\u671d", "\u5386\u53f2"], "replyCount": 99},
+                    {"bvid": "BVhistory002", "title": "\u666e\u901a\u5a31\u4e50\u89c6\u9891", "tags": ["\u5a31\u4e50"], "replyCount": 100},
+                ],
+                "runs": [{"at": "now"}],
+            },
+        )
+
+        matches = manager.videos_for_search(merged, ["\u4e7e\u9686\u8001\u513f \u8bc4\u8bba\u533a"], ["\u4e7e\u9686\u8001\u513f"], 5)
+
+        self.assertEqual(merged["updatedAt"], "2026-06-19T00:00:00.000Z")
+        self.assertEqual(len(merged["videos"]), 2)
+        self.assertEqual(merged["videos"][0]["replyCount"], 1)
+        self.assertEqual([video["bvid"] for video in matches], ["BVhistory001"])
+        self.assertEqual(matches[0]["source"], "bilibili-history-tags")
+
+    def test_history_tag_corpus_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            current_path = root / "current.json"
+            update_path = root / "update.json"
+            current_path.write_text(json.dumps({"tags": [], "videos": [], "runs": []}), encoding="utf-8")
+            update_path.write_text(
+                json.dumps(
+                    {
+                        "tags": [{"name": "\u5386\u53f2"}],
+                        "videos": [{"bvid": "BVhistory", "aid": 100, "title": "<em>\u5386\u53f2</em>\u89c6\u9891", "tags": "\u5386\u53f2,\u6e05\u671d"}],
+                        "runs": [{"at": "run"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = HistoryTagCorpusRunner(current_path, update_path, generated_at="2026-06-19T01:00:00.000Z").run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["corpus"]["updatedAt"], "2026-06-19T01:00:00.000Z")
+        self.assertEqual(result["corpus"]["videos"][0]["title"], "\u5386\u53f2\u89c6\u9891")
+        self.assertEqual(result["corpus"]["videos"][0]["tags"], ["\u5386\u53f2", "\u6e05\u671d"])
 
     def test_coverage_audit_builder_matches_js_metric_contract(self):
         dictionary = {

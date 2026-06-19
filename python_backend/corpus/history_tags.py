@@ -1,0 +1,139 @@
+from __future__ import annotations
+
+import html
+import re
+import unicodedata
+from datetime import datetime, timezone
+from typing import Any
+
+
+def _parse_list(value: Any) -> list[str]:
+    if isinstance(value, list):
+        return [str(item or "").strip() for item in value if str(item or "").strip()]
+    return [item.strip() for item in re.split(r"[\r\n,;|]+", str(value or "")) if item.strip()]
+
+
+def _clean_text(value: Any) -> str:
+    text = unicodedata.normalize("NFKC", str(value or ""))
+    text = re.sub(r"<[^>]+>", " ", text)
+    text = re.sub(r"[^\w\u3400-\u9fff]+", "", text, flags=re.UNICODE)
+    return text.lower()
+
+
+def _clean_title(value: Any, fallback: str = "") -> str:
+    text = str(value or "")
+    text = re.sub(r"<[^>]+>", "", text)
+    text = html.unescape(text)
+    text = re.sub(r"\s+", " ", text).strip()
+    return text or fallback
+
+
+def _unique_by(items: list[Any], key_fn) -> list[Any]:
+    seen = set()
+    result = []
+    for item in items:
+        key = key_fn(item)
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        result.append(item)
+    return result
+
+
+def _query_needles(search_queries: Any = None, target_terms: Any = None) -> list[str]:
+    values = []
+    for item in [*_parse_list(search_queries), *_parse_list(target_terms)]:
+        values.extend([item, *str(item).split()])
+    return _unique_by([_clean_text(item) for item in values if len(_clean_text(item)) >= 2], lambda item: item)
+
+
+def _video_text(video: dict[str, Any]) -> str:
+    values = [video.get("title"), video.get("description"), video.get("desc"), video.get("dynamic"), *(video.get("tags") or [])]
+    return _clean_text(" ".join(str(value) for value in values if value))
+
+
+def _score_history_video(video: dict[str, Any], needles: list[str]) -> int:
+    text = _video_text(video)
+    if not text:
+        return 0
+    score = 0
+    for needle in needles:
+        if needle in text:
+            score += 3 if len(needle) >= 4 else 1
+    if any("\u5386\u53f2" in _clean_text(tag) for tag in video.get("tags") or []):
+        score += 2
+    if "\u5386\u53f2" in _clean_text(video.get("sourceQuery")):
+        score += 1
+    return score
+
+
+class HistoryTagCorpusManager:
+    """Merge and query Bilibili history-tag video corpus JSON contracts."""
+
+    def __init__(self, generated_at: str | None = None):
+        self.generated_at = generated_at or datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+    def merge(self, current: dict[str, Any] | None, update: dict[str, Any] | None) -> dict[str, Any]:
+        current = current if isinstance(current, dict) else {}
+        update = update if isinstance(update, dict) else {}
+        tags = _unique_by([*(current.get("tags") or []), *(update.get("tags") or [])], lambda tag: _clean_text(tag.get("name") if isinstance(tag, dict) else tag))
+        videos = _unique_by(
+            [self._normalize_video(video) for video in [*(current.get("videos") or []), *(update.get("videos") or [])] if isinstance(video, dict)],
+            lambda video: video.get("bvid") or video.get("sourceUrl"),
+        )
+        return {
+            "version": 1,
+            "updatedAt": self.generated_at,
+            "tags": tags,
+            "videos": videos,
+            "runs": [*(current.get("runs") or []), *(update.get("runs") or [])],
+        }
+
+    def videos_for_search(self, corpus: dict[str, Any] | None, search_queries: Any = None, target_terms: Any = None, limit: int = 20) -> list[dict[str, Any]]:
+        needles = _query_needles(search_queries, target_terms)
+        fallback_needles = ["\u5386\u53f2"]
+        scored = []
+        for video in (corpus or {}).get("videos") or []:
+            if not isinstance(video, dict):
+                continue
+            score = _score_history_video(video, needles if needles else fallback_needles)
+            if video.get("bvid") and score > 0:
+                scored.append({"video": video, "score": score})
+        scored.sort(key=lambda item: (-item["score"], -float(item["video"].get("replyCount") or 0)))
+        capped = scored[: max(1, int(limit or 20))]
+        return _unique_by([self._search_result(item["video"]) for item in capped], lambda video: video.get("bvid"))
+
+    def _normalize_video(self, video: dict[str, Any]) -> dict[str, Any]:
+        bvid = str(video.get("bvid") or "").strip()
+        aid = "" if video.get("aid") is None else str(video.get("aid"))
+        return {
+            **video,
+            "bvid": bvid,
+            "aid": aid,
+            "title": _clean_title(video.get("title"), bvid),
+            "sourceUrl": video.get("sourceUrl") or (f"https://www.bilibili.com/video/{bvid}/" if bvid else ""),
+            "tags": _unique_by(_parse_list(video.get("tags")), _clean_text),
+            "sourceQuery": str(video.get("sourceQuery") or "").strip(),
+            "replyCount": self._number(video.get("replyCount")),
+        }
+
+    def _search_result(self, video: dict[str, Any]) -> dict[str, Any]:
+        return {
+            "id": f"video-1-{video.get('aid') or video.get('bvid')}",
+            "kind": "video",
+            "bvid": video.get("bvid"),
+            "oid": str(video.get("aid") or ""),
+            "replyType": 1,
+            "title": video.get("title") or video.get("bvid"),
+            "desc": video.get("description") or video.get("desc") or "",
+            "sourceUrl": video.get("sourceUrl") or f"https://www.bilibili.com/video/{video.get('bvid')}/",
+            "replyCount": self._number(video.get("replyCount")),
+            "tags": video.get("tags") if isinstance(video.get("tags"), list) else [],
+            "source": "bilibili-history-tags",
+        }
+
+    def _number(self, value: Any) -> int:
+        try:
+            return int(float(value or 0))
+        except (TypeError, ValueError):
+            return 0
