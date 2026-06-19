@@ -11,6 +11,7 @@ from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKe
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder
 from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateFinalizer, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
+from python_backend.analysis.near_target import NearTargetResolvePlanner
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherHelper
 from python_backend.analysis.verification import RandomVerifier
@@ -6324,7 +6325,7 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
-    def test_near_target_resolve_plan_runner_selects_source_backed_terms(self):
+    def test_near_target_resolve_plan_runner_selects_comment_backed_near_target_terms(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             dictionary_path = root / "dictionary.json"
@@ -6367,7 +6368,7 @@ class CorpusContractTests(unittest.TestCase):
             result = NearTargetResolvePlanRunner(dictionary_path, state_path, max_need=1, batch=2, videos_per_term=2, pages=4).run()
 
         self.assertTrue(result["ok"])
-        self.assertEqual(result["candidateCount"], 2)
+        self.assertEqual(result["candidateCount"], 1)
         self.assertEqual(result["plannedCount"], 1)
         self.assertEqual(
             result["plans"],
@@ -6378,11 +6379,45 @@ class CorpusContractTests(unittest.TestCase):
                     "evidenceNeeded": 1,
                     "bvids": ["BV1NearAAA1"],
                     "pages": 4,
-                    "targetExistingTerms": ["\u5dee\u4e00\u6761", "\u6ca1\u6709\u6765\u6e90"],
+                    "targetExistingTerms": ["\u5dee\u4e00\u6761"],
                 }
             ],
         )
-        self.assertEqual(result["summary"], {"candidateCount": 2, "plannedCount": 1, "videosPlanned": 1})
+        self.assertEqual(result["summary"], {"candidateCount": 1, "plannedCount": 1, "videosPlanned": 1})
+
+    def test_near_target_resolve_planner_requires_comment_backed_candidates_like_js(self):
+        planner = NearTargetResolvePlanner(max_need=1, batch=5, videos_per_term=2, pages=4)
+        dictionary = {
+            "entries": [
+                {
+                    "term": "comment-backed",
+                    "family": "attack",
+                    "evidenceCount": 2,
+                    "evidenceSamples": ["comment one", "comment two"],
+                    "evidenceSources": [
+                        {"source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1Comment1/", "sample": "comment one"},
+                        {"source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1Comment1/", "sample": "comment two"},
+                    ],
+                },
+                {
+                    "term": "video-context-only",
+                    "family": "attack",
+                    "evidenceCount": 2,
+                    "evidenceSamples": ["Bilibili video context: title one", "Bilibili video context: title two"],
+                    "evidenceSources": [
+                        {"source": "Bilibili search-discovered video context https://www.bilibili.com/video/BV1Context1/", "sample": "Bilibili video context: title one"},
+                        {"source": "Bilibili search-discovered video context https://www.bilibili.com/video/BV1Context2/", "sample": "Bilibili video context: title two"},
+                    ],
+                },
+            ]
+        }
+
+        result = planner.build_plan(dictionary)
+
+        self.assertEqual(result["candidateTerms"], ["comment-backed"])
+        self.assertEqual(result["candidateCount"], 1)
+        self.assertEqual(result["plannedCount"], 1)
+        self.assertEqual(result["plans"][0]["bvids"], ["BV1Comment1"])
 
     def test_near_target_resolve_plan_runner_honors_override_terms(self):
         with tempfile.TemporaryDirectory() as tmp:
