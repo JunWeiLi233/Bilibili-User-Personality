@@ -9,7 +9,9 @@ from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerC
 from python_backend.cli.coverage_audit import AuditContractComparator
 from python_backend.cli.compare_contracts import ContractComparator
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanRunner
+from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportRunner
 from python_backend.cli.random_verification import RandomVerificationRunner
+from python_backend.corpus.huggingface import HuggingFaceCorpusImporter
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriter
@@ -293,6 +295,97 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(dictionary.entries[0]["evidenceSamples"], ["sample one", "sample two"])
         self.assertEqual([source["sample"] for source in dictionary.entries[0]["evidenceSources"]], ["sample one", "sample two"])
+
+    def test_huggingface_importer_reads_jsonl_conversations(self):
+        importer = HuggingFaceCorpusImporter()
+        rows = importer.parse_rows(
+            '{"messages":[{"role":"user","content":"\u8d34\u5427\u539f\u59cb\u53d1\u8a00"},{"role":"assistant","content":"\u56de\u590d\u5ffd\u7565"}]}\n'
+            '{"instruction":"\u67e5\u67e5\u8d44\u6599\u518d\u8bf4"}',
+            {"dataset": "Orphanage/Baidu_Tieba_SunXiaochuan", "file": "train.jsonl", "platform": "tieba", "limit": 10},
+        )
+
+        self.assertEqual([row["message"] for row in rows], ["\u8d34\u5427\u539f\u59cb\u53d1\u8a00", "\u67e5\u67e5\u8d44\u6599\u518d\u8bf4"])
+        self.assertEqual(rows[0]["platform"], "tieba")
+        self.assertIn("Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl", rows[0]["source"])
+
+    def test_huggingface_importer_reads_bilibili_and_tieba_csv_shapes(self):
+        importer = HuggingFaceCorpusImporter()
+        bilibili_rows = importer.parse_rows(
+            "message,time,timestamp\n"
+            "\u5341\u5468\u5e74\u5feb\u4e50,2023-06-13--18:11:16,1686679876\n"
+            "\u56de\u590d @\u7528\u6237 :\u54e6\u54e6\u597d\u7684\u8c22\u8c22,2023-06-14--01:01:34,1686704494\n",
+            {"dataset": "Midsummra/bilibilicomment", "file": "bilibili.csv", "platform": "bilibili", "limit": 10},
+        )
+        tieba_rows = importer.parse_rows(
+            'title,detail,author,num_reply,href\n'
+            '"\u4e3a\u4ec0\u4e48\u6709\u8fdb\u6b65\uff1f","\u56e0\u4e3a\u6709\u4e86\u843d\u540e\u7684\u6807\u51c6\u6240\u4ee5\u5c31\u6709\u4e86\u8fdb\u6b65",tester,2,https://tieba.baidu.com/p/8712791904\n',
+            {"dataset": "kirp/ruozhiba-raw", "file": "wisdomBar_raw.csv", "platform": "tieba", "limit": 10},
+        )
+
+        self.assertEqual([row["message"] for row in bilibili_rows], ["\u5341\u5468\u5e74\u5feb\u4e50", "\u56de\u590d @\u7528\u6237 :\u54e6\u54e6\u597d\u7684\u8c22\u8c22"])
+        self.assertEqual(bilibili_rows[0]["platform"], "bilibili")
+        self.assertIn("Midsummra/bilibilicomment/bilibili.csv", bilibili_rows[0]["source"])
+        self.assertIn("\u4e3a\u4ec0\u4e48\u6709\u8fdb\u6b65", tieba_rows[0]["message"])
+        self.assertIn("\u843d\u540e\u7684\u6807\u51c6", tieba_rows[0]["message"])
+        self.assertEqual(tieba_rows[0]["sourceUrl"], "https://tieba.baidu.com/p/8712791904")
+        self.assertEqual(tieba_rows[0]["uid"], "tester")
+
+    def test_huggingface_importer_offsets_accepted_rows_and_updates_corpus(self):
+        importer = HuggingFaceCorpusImporter()
+        rows = importer.parse_rows(
+            "comment\nskip english\n\u7b2c\u4e00\u6761\n\u7b2c\u4e8c\u6761\n\u7b2c\u4e09\u6761\n",
+            {"dataset": "sample/tieba", "file": "comments.csv", "platform": "tieba", "offset": 1, "limit": 1},
+        )
+        update = importer.build_update(
+            {"version": 1, "comments": [{"message": "\u65e7\u8bc4\u8bba", "platform": "tieba", "sourceUrl": "hf://old"}], "runs": []},
+            [
+                {"message": "\u65e7\u8bc4\u8bba", "platform": "tieba", "sourceUrl": "hf://old"},
+                {"message": "\u65b0\u8bc4\u8bba", "platform": "bilibili", "sourceUrl": "hf://new"},
+            ],
+            {"dataset": "sample/dataset", "file": "data.jsonl"},
+            "2026-06-17T00:00:00.000Z",
+        )
+
+        self.assertEqual([row["message"] for row in rows], ["\u7b2c\u4e8c\u6761"])
+        self.assertTrue(update["changed"])
+        self.assertEqual([row["message"] for row in update["corpus"]["comments"]], ["\u65e7\u8bc4\u8bba", "\u65b0\u8bc4\u8bba"])
+        self.assertEqual(update["corpus"]["runs"][0]["addedComments"], 1)
+
+    def test_huggingface_importer_matches_js_object_value_json_parsing(self):
+        importer = HuggingFaceCorpusImporter()
+        single_object_rows = importer.parse_rows(
+            json.dumps({"comment": "\u4e0d\u5e94\u8be5\u88ab\u5f53\u6210\u6574\u884c"}),
+            {"dataset": "sample/object", "file": "data.json", "platform": "bilibili", "limit": 10},
+        )
+        nested_rows = importer.parse_rows(
+            json.dumps({"rows": [{"comment": "\u5e94\u8be5\u88ab\u89e3\u6790"}]}),
+            {"dataset": "sample/object", "file": "data.json", "platform": "bilibili", "limit": 10},
+        )
+
+        self.assertEqual(single_object_rows, [])
+        self.assertEqual([row["message"] for row in nested_rows], ["\u5e94\u8be5\u88ab\u89e3\u6790"])
+
+    def test_huggingface_import_runner_reads_raw_and_existing_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            raw_path = root / "rows.csv"
+            existing_path = root / "existing.json"
+            raw_path.write_text("message\n\u5341\u5468\u5e74\u5feb\u4e50\n", encoding="utf-8")
+            existing_path.write_text(json.dumps({"version": 1, "comments": [], "runs": []}), encoding="utf-8")
+
+            result = HuggingFaceCorpusImportRunner(
+                raw_path=raw_path,
+                existing_path=existing_path,
+                dataset="Midsummra/bilibilicomment",
+                file="bilibili.csv",
+                platform="bilibili",
+                generated_at="2026-06-17T00:00:00.000Z",
+            ).run()
+
+        self.assertTrue(result["changed"])
+        self.assertEqual(result["importedRows"], 1)
+        self.assertEqual(result["addedComments"], 1)
+        self.assertEqual(result["corpus"]["comments"][0]["message"], "\u5341\u5468\u5e74\u5feb\u4e50")
 
     def test_coverage_audit_builder_matches_js_metric_contract(self):
         dictionary = {
