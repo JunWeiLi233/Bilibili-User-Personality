@@ -138,6 +138,134 @@ class HarvestTermAttemptSummarizer:
         return exhausted[:20]
 
 
+class HarvestCoverageActionBuilder:
+    """Build state-aware harvest coverage actions using the JS keyword-harvest JSON shape."""
+
+    def __init__(self, strategy_version: int = 7):
+        self.strategy_version = max(0, int(_number(strategy_version)))
+        self.plan_builder = KeywordHarvestPlanBuilder()
+
+    def build_actions(
+        self,
+        dictionary: dict[str, Any] | None = None,
+        state: dict[str, Any] | None = None,
+        options: dict[str, Any] | None = None,
+    ) -> list[dict[str, Any]]:
+        dictionary = dictionary if isinstance(dictionary, dict) else {}
+        state = state if isinstance(state, dict) else {}
+        options = options if isinstance(options, dict) else {}
+        target_evidence = max(1, int(_number(options.get("targetEvidence")) or 3))
+        require_comment = options.get("requireCommentBackedEvidence") is True
+        require_source = options.get("requireSourceBackedEvidence") is True or require_comment
+        audit = CoverageAuditBuilder(
+            target_evidence=target_evidence,
+            require_source_backed_evidence=require_source,
+            require_comment_backed_evidence=require_comment,
+        )
+        entries = audit._sort_entries_for_coverage([entry for entry in dictionary.get("entries") or [] if isinstance(entry, dict)])
+        attempts = self._current_attempts(state)
+        searched_queries = {_clean_text(query) for query in state.get("searchedQueries") or [] if _clean_text(query)}
+        return [self._action_for_entry(entry, attempts, searched_queries, audit, target_evidence, options) for entry in entries]
+
+    def _action_for_entry(
+        self,
+        entry: dict[str, Any],
+        attempts: dict[str, Any],
+        searched_queries: set[str],
+        audit: CoverageAuditBuilder,
+        target_evidence: int,
+        options: dict[str, Any],
+    ) -> dict[str, Any]:
+        term = _clean_text(entry.get("term"))
+        family = _clean_text(entry.get("family") or "attack")
+        attempt = self._get_attempt(attempts, term)
+        count = audit._evidence_count(entry)
+        coverage_count = audit._coverage_evidence_count(entry)
+        attempts_count = _non_negative_int((attempt or {}).get("attempts"))
+        successful_attempts = self._effective_successful_attempts(attempt or {})
+        tried_queries = self._attempted_queries(attempt or {}) | searched_queries
+        needs_source_refresh = (
+            (options.get("requireSourceBackedEvidence") is True or options.get("requireCommentBackedEvidence") is True)
+            and count > 0
+            and not audit._has_coverage_evidence_source(entry)
+        )
+        exhausted = self._is_exhausted(term, family, attempt or {}, tried_queries)
+        next_variant = self._next_variant(term, family, tried_queries)
+        status = "covered"
+        action = "none"
+        if needs_source_refresh:
+            status = "source_gap"
+            action = "refresh_source_metadata" if next_variant else "add_query_template"
+        elif coverage_count < target_evidence and exhausted:
+            status = "exhausted"
+            action = "add_query_template"
+        elif coverage_count < target_evidence and attempts_count == 0:
+            status = "weak_unattempted"
+            action = "harvest"
+        elif coverage_count < target_evidence and successful_attempts == 0:
+            status = "weak_missed"
+            action = "retry_with_new_variant" if next_variant else "add_query_template"
+        elif coverage_count < target_evidence:
+            status = "weak_partial"
+            action = "harvest_more_evidence"
+        return {
+            "term": term,
+            "family": family,
+            "status": status,
+            "action": action,
+            "evidenceCount": count,
+            "coverageEvidenceCount": coverage_count,
+            "sourcedEvidence": audit._has_coverage_evidence_source(entry),
+            "recommendationGroup": term,
+            "targetEvidence": target_evidence,
+            "evidenceNeeded": max(0, target_evidence - coverage_count),
+            "attempts": attempts_count,
+            "successfulAttempts": successful_attempts,
+            "duplicateAcceptedNoProgress": False,
+            "currentCommentMisses": 0,
+            "exhausted": exhausted,
+            "nextQuery": next_variant.get("query") if action != "none" and next_variant else "",
+            "suggestedQueries": [],
+            "lastQuery": (attempt or {}).get("lastQuery") or "",
+            "lastError": (attempt or {}).get("lastError") or "",
+        }
+
+    def _current_attempts(self, state: dict[str, Any]) -> dict[str, Any]:
+        if "harvestStrategyVersion" in state and _number(state.get("harvestStrategyVersion")) < self.strategy_version:
+            return {}
+        attempts = state.get("termAttempts")
+        return attempts if isinstance(attempts, dict) else {}
+
+    def _get_attempt(self, attempts: dict[str, Any], term: str) -> dict[str, Any] | None:
+        raw = attempts.get(term_attempt_key(term)) or attempts.get(term)
+        return raw if isinstance(raw, dict) else None
+
+    def _effective_successful_attempts(self, attempt: dict[str, Any]) -> int:
+        successful = _non_negative_int(attempt.get("successfulAttempts"))
+        if successful == 0 or "lastEvidenceCount" not in attempt:
+            return successful
+        return successful if _number(attempt.get("lastEvidenceCount")) != _number(attempt.get("evidenceAtPlanTime")) else 0
+
+    def _attempted_queries(self, attempt: dict[str, Any]) -> set[str]:
+        return {
+            _clean_text(item.get("query"))
+            for item in attempt.get("queries") or []
+            if isinstance(item, dict) and _clean_text(item.get("query"))
+        }
+
+    def _next_variant(self, term: str, family: str, tried_queries: set[str]) -> dict[str, Any] | None:
+        for variant in self.plan_builder._query_variants_for_term(term, family, 10000):
+            if _clean_text(variant.get("query")) not in tried_queries:
+                return variant
+        return None
+
+    def _is_exhausted(self, term: str, family: str, attempt: dict[str, Any], tried_queries: set[str]) -> bool:
+        if not attempt or self._effective_successful_attempts(attempt) > 0 or not tried_queries:
+            return False
+        variants = self.plan_builder._query_variants_for_term(term, family, 10000)
+        return bool(variants) and all(_clean_text(variant.get("query")) in tried_queries for variant in variants)
+
+
 class HarvestStateFinalizer:
     """Build the persisted keyword-harvest state JSON contract after a run."""
 

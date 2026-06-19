@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.harvest_state import HarvestStateFinalizer, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater
+from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateFinalizer, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater
 
 
 class HarvestStateRunner:
@@ -27,6 +27,11 @@ class HarvestStateRunner:
             state = payload.get("state") if isinstance(payload.get("state"), dict) else {"termAttempts": term_attempts}
             dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}
             return {"ok": True, "termAttemptSummary": summarizer.summarize(state, dictionary, options=options)}
+        if str(payload.get("mode") or "").strip().lower() == "coverage-actions":
+            builder = HarvestCoverageActionBuilder(strategy_version=payload.get("strategyVersion") or options.get("harvestStrategyVersion") or 7)
+            state = payload.get("state") if isinstance(payload.get("state"), dict) else {"termAttempts": term_attempts}
+            dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}
+            return {"ok": True, "coverageActions": builder.build_actions(dictionary, state, options=options)}
         if str(payload.get("mode") or "").strip().lower() == "finalize":
             finalizer = HarvestStateFinalizer(strategy_version=payload.get("strategyVersion") or options.get("harvestStrategyVersion") or 7)
             state = finalizer.finalize_state(

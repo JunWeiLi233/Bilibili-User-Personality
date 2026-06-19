@@ -10,7 +10,7 @@ from python_backend.analysis.coverage_progress import CoverageProgressTracker
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReporter
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder
-from python_backend.analysis.harvest_state import HarvestStateFinalizer, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
+from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateFinalizer, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherHelper
 from python_backend.analysis.verification import RandomVerifier
@@ -7614,6 +7614,96 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["termAttemptSummary"]["attemptedTerms"], 1)
         self.assertEqual(result["termAttemptSummary"]["successfulTerms"], 1)
         self.assertEqual(result["termAttemptSummary"]["unattemptedTerms"], 0)
+
+    def test_harvest_coverage_action_builder_matches_core_js_action_contract(self):
+        dictionary = {
+            "entries": [
+                {
+                    "term": "covered",
+                    "family": "attack",
+                    "evidenceCount": 3,
+                    "evidenceSources": [
+                        {"source": "Bilibili public comment scan", "sample": "covered one"},
+                        {"source": "Bilibili public comment scan", "sample": "covered two"},
+                        {"source": "Bilibili public comment scan", "sample": "covered three"},
+                    ],
+                },
+                {"term": "fresh", "family": "attack", "evidenceCount": 0},
+                {"term": "missed", "family": "cooperation", "evidenceCount": 0},
+                {"term": "partial", "family": "evidence", "evidenceCount": 2, "evidenceSources": [{"source": "Bilibili public comment scan", "sample": "partial"}]},
+                {"term": "sourceGap", "family": "evidence", "evidenceCount": 2},
+            ]
+        }
+        state = {
+            "harvestStrategyVersion": 7,
+            "termAttempts": {
+                term_attempt_key("missed"): {
+                    "term": "missed",
+                    "family": "cooperation",
+                    "attempts": 2,
+                    "successfulAttempts": 0,
+                    "lastQuery": "missed \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
+                    "lastError": "no hit",
+                    "queries": [{"query": "missed \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4", "strategyVersion": 7}],
+                },
+                term_attempt_key("partial"): {
+                    "term": "partial",
+                    "family": "evidence",
+                    "attempts": 1,
+                    "successfulAttempts": 1,
+                    "evidenceAtPlanTime": 1,
+                    "lastEvidenceCount": 2,
+                    "lastQuery": "partial \u8bc4\u8bba\u533a",
+                },
+            },
+        }
+
+        actions = HarvestCoverageActionBuilder(strategy_version=7).build_actions(
+            dictionary,
+            state,
+            {"targetEvidence": 3, "requireSourceBackedEvidence": True},
+        )
+        by_term = {item["term"]: item for item in actions}
+
+        self.assertEqual(by_term["covered"]["status"], "covered")
+        self.assertEqual(by_term["covered"]["action"], "none")
+        self.assertEqual(by_term["fresh"]["status"], "weak_unattempted")
+        self.assertEqual(by_term["fresh"]["action"], "harvest")
+        self.assertEqual(by_term["fresh"]["nextQuery"], "fresh \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4")
+        self.assertEqual(by_term["missed"]["status"], "weak_missed")
+        self.assertEqual(by_term["missed"]["action"], "retry_with_new_variant")
+        self.assertEqual(by_term["missed"]["attempts"], 2)
+        self.assertEqual(by_term["missed"]["successfulAttempts"], 0)
+        self.assertEqual(by_term["missed"]["lastError"], "no hit")
+        self.assertEqual(by_term["missed"]["nextQuery"], "missed \u8bc4\u8bba\u533a")
+        self.assertEqual(by_term["partial"]["status"], "weak_partial")
+        self.assertEqual(by_term["partial"]["action"], "harvest_more_evidence")
+        self.assertEqual(by_term["partial"]["successfulAttempts"], 1)
+        self.assertEqual(by_term["sourceGap"]["status"], "source_gap")
+        self.assertEqual(by_term["sourceGap"]["action"], "refresh_source_metadata")
+
+    def test_harvest_state_runner_supports_coverage_actions_mode(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "harvest-state-actions.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "coverage-actions",
+                        "strategyVersion": 7,
+                        "dictionary": {"entries": [{"term": "fresh", "family": "attack", "evidenceCount": 0}]},
+                        "state": {"harvestStrategyVersion": 7, "termAttempts": {}},
+                        "options": {"targetEvidence": 3},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = HarvestStateRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["coverageActions"][0]["term"], "fresh")
+        self.assertEqual(result["coverageActions"][0]["action"], "harvest")
 
     def test_keyword_harvest_plan_builder_expands_repeated_misses_to_untried_variants(self):
         plan = KeywordHarvestPlanBuilder().build_query_plan(
