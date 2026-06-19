@@ -111,7 +111,7 @@ from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularPlanSummary, BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherPlanner, UidRangeProgressReporter, UidRangeProgressSummary
-from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanner
+from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelProgressReporter, UidParallelProgressSummary
 from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineMergeReporter, UidPipelineMergeSummary, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
@@ -6819,6 +6819,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["stats"], {"videosScanned": 2, "uidsFound": 3, "uidsAnalyzed": 1, "commentsCollected": 4, "errors": 0})
         self.assertEqual(result["training"], {"multiagent": True, "existingTermsOnly": False, "saveEveryAnalyzed": 10})
         self.assertEqual(result["pacing"], {"delayBetweenVideosMs": 2000, "lockRetryDelayMs": 10000, "lockMaxRetries": 10})
+
+    def test_batch_uid_scrape_plan_summary_extracts_comparator_contract(self):
+        summary = BatchUidScrapePlanSummary().summarize(
+            {
+                "ok": True,
+                "discovery": {"uidsDiscovered": 3},
+                "phase2": {"trainable": 1},
+                "stats": {"videosScanned": 2},
+                "training": {"multiagent": True},
+                "pacing": {"lockRetryDelayMs": 10000},
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "discovery": {"uidsDiscovered": 3},
+                "phase2": {"trainable": 1},
+                "stats": {"videosScanned": 2},
+                "training": {"multiagent": True},
+                "pacing": {"lockRetryDelayMs": 10000},
+            },
+        )
 
     def test_batch_uid_scrape_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:

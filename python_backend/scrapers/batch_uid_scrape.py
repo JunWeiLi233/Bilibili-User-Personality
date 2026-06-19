@@ -80,6 +80,16 @@ class BatchUidScrapePlanner:
         return "\n".join(str(comment.get("message") or "") for comment in comments if isinstance(comment, dict))
 
 
+class BatchUidScrapePlanSummary:
+    """Shape batch UID scrape dry-run plans into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("discovery", "phase2", "stats", "training", "pacing")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
 class BatchScraperLauncherPlanner:
     """Build a dry-run launch plan compatible with launchAllScrapers.js ranges."""
 
