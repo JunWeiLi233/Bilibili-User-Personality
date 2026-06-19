@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T02:08:15.931Z",
+  "updatedAt": "2026-06-19T02:18:27.944Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -931,6 +931,64 @@
       "warnings": [],
       "commentsCollected": 60,
       "commentsAdded": 47
+    },
+    {
+      "at": "2026-06-19T02:18:27.944Z",
+      "actions": [
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1H8LX6tEyL",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1H8LX6tEyL",
+          "aid": 116764776209970,
+          "title": "蛋仔派对：蛋仔最新bug！超绝<em class=\"keyword\">雷霆</em>大摩托、超大字幕和超大蛋仔！"
+        },
+        {
+          "key": "bvid:BV1hbCpYeEv4",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1hbCpYeEv4",
+          "aid": 113724559986677,
+          "title": "<em class=\"keyword\">b站评论</em>屏蔽过滤器2.0"
+        },
+        {
+          "key": "bvid:BV13S4y1G7b3",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV13S4y1G7b3",
+          "aid": 681372660,
+          "title": "为什么<em class=\"keyword\">回复</em>了一个<em class=\"keyword\">评论</em>？播放量突然降低了？新手看过来不要踩坑了"
+        },
+        {
+          "key": "bvid:BV1FpZtBsE1A",
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论",
+          "bvid": "BV1FpZtBsE1A",
+          "aid": 116075232564640,
+          "title": "《<em class=\"keyword\">轻重</em>有别》"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 56,
+      "commentsAdded": 50
     }
   ]
 }
