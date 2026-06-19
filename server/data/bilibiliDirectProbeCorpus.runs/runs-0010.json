@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T04:39:28.717Z",
+  "updatedAt": "2026-06-19T04:48:28.321Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -1755,6 +1755,64 @@
       "warnings": [],
       "commentsCollected": 87,
       "commentsAdded": 78
+    },
+    {
+      "at": "2026-06-19T04:48:28.321Z",
+      "actions": [
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄 洗钱 过审"
+        },
+        {
+          "term": "都是同一批",
+          "query": "同一批 换个地方再就业"
+        },
+        {
+          "term": "基本没有音乐理解",
+          "query": "音乐理解 乐手 鼓手"
+        },
+        {
+          "term": "就算六个齐上也不是我对手",
+          "query": "六个齐上 不是我对手"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1ys4y1U7FS",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄 洗钱 过审",
+          "bvid": "BV1ys4y1U7FS",
+          "aid": 994472879,
+          "title": "揭秘：如何利用一场艺术拍卖<em class=\"keyword\">洗钱</em>？"
+        },
+        {
+          "key": "bvid:BV1MCZ4YrEzM",
+          "term": "都是同一批",
+          "query": "同一批 换个地方再就业",
+          "bvid": "BV1MCZ4YrEzM",
+          "aid": 114260474597951,
+          "title": "搞群像追的就是这份不需要客套的家属感"
+        },
+        {
+          "key": "bvid:BV1va4y1H76t",
+          "term": "基本没有音乐理解",
+          "query": "音乐理解 乐手 鼓手",
+          "bvid": "BV1va4y1H76t",
+          "aid": 670656906,
+          "title": "【入门<em class=\"keyword\">乐手</em>101】为不是<em class=\"keyword\">鼓手</em>的<em class=\"keyword\">乐手</em>准备的<em class=\"keyword\">鼓手</em>入门"
+        },
+        {
+          "key": "bvid:BV1d5jc6zEss",
+          "term": "就算六个齐上也不是我对手",
+          "query": "六个齐上 不是我对手",
+          "bvid": "BV1d5jc6zEss",
+          "aid": 116770362885579,
+          "title": "当所有老友同时上线凑齐五黑"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 74,
+      "commentsAdded": 41
     }
   ]
 }
