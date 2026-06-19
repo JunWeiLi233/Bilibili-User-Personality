@@ -21,7 +21,7 @@ from python_backend.cli.bilibili_probe_plan import BilibiliProbePlanRunner
 from python_backend.cli.coverage_audit import AuditContractComparator
 from python_backend.cli.coverage_progress import CoverageProgressContractComparator, CoverageProgressRunner
 from python_backend.cli.discovery_report import VideoKeywordDiscoveryReportRunner
-from python_backend.cli.harvest_options import HarvestOptionsRunner
+from python_backend.cli.harvest_options import HarvestOptionsContractComparator, HarvestOptionsRunner
 from python_backend.cli.harvest_plan import KeywordHarvestPlanContractComparator, KeywordHarvestPlanRunner
 from python_backend.cli.readme_stats import ReadmeStatsRunner
 from python_backend.cli.semantic_matcher import SemanticMatcherRunner
@@ -3674,6 +3674,55 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["options"]["requireCommentBackedEvidence"])
         self.assertTrue(result["options"]["includeHistoryTags"])
         self.assertEqual(result["options"]["priorityQueries"], ["target 评论区"])
+
+    def test_harvest_options_contract_comparator_reports_option_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-options.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "coverage-runtime",
+                        "env": {"BILIBILI_COVERAGE_AUDIT_REQUIRE_COMMENTS": "1"},
+                        "argv": ["--target-evidence", "2", "--max-actions=5"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "coverage-runtime",
+                        "options": {"targetEvidence": 3, "maxActions": 5},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = HarvestOptionsContractComparator(payload_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {
+                    "key": "options",
+                    "python": {
+                        "targetEvidence": 2,
+                        "maxActions": 5,
+                        "minCoverageRatio": 1.0,
+                        "requireComplete": True,
+                        "requireSourceBackedEvidence": True,
+                        "requireCommentBackedEvidence": True,
+                        "prioritizeSourceGaps": True,
+                        "retryBeforeUnattemptedLimit": 1,
+                        "strict": False,
+                    },
+                    "js": {"targetEvidence": 3, "maxActions": 5},
+                }
+            ],
+        )
 
     def test_keyword_harvest_plan_builder_matches_js_priority_and_dictionary_contract(self):
         builder = KeywordHarvestPlanBuilder()
