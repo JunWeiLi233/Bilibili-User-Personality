@@ -48,6 +48,7 @@ from python_backend.cli.video_link_direct_plan import VideoLinkDirectPlanContrac
 from python_backend.cli.random_verification import RandomVerificationContractComparator, RandomVerificationRunner, json_result_bytes
 from python_backend.cli.tieba_corpus import TiebaCorpusUpdateContractComparator, TiebaCorpusUpdateRunner
 from python_backend.cli.tieba_html_parse import TiebaHtmlParseContractComparator, TiebaHtmlParseRunner
+from python_backend.cli.tieba_keyword_plan import TiebaKeywordPlanContractComparator, TiebaKeywordPlanRunner
 from python_backend.cli.tieba_timing import TiebaTimingContractComparator, TiebaTimingRunner
 from python_backend.cli.uid_range_progress import UidRangeProgressContractComparator, UidRangeProgressRunner
 from python_backend.cli.uid_parallel_progress import UidParallelProgressContractComparator, UidParallelProgressRunner
@@ -83,6 +84,7 @@ from python_backend.cli.batch_scrape_progress import BatchScrapeProgressContract
 from python_backend.cli.batch_uid_progress import BatchUidProgressContractComparator, BatchUidProgressRunner
 from python_backend.cli.uid_discovery_progress import UidDiscoveryProgressContractComparator, UidDiscoveryProgressRunner
 from python_backend.scrapers.tieba_html import TiebaHtmlParser
+from python_backend.scrapers.tieba_keyword import TiebaKeywordScrapeOptionsPlanner
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 
 
@@ -2010,6 +2012,88 @@ class CorpusContractTests(unittest.TestCase):
                     },
                     "js": {"version": 1, "runs": [], "comments": []},
                 },
+            ],
+        )
+
+    def test_tieba_keyword_options_planner_matches_js_cli_env_contract(self):
+        planner = TiebaKeywordScrapeOptionsPlanner(cwd="D:/repo")
+
+        result = planner.build_options(
+            argv=[
+                "--query=doge",
+                "--queries=doge;yygq|抽象",
+                "--thread-url=https://tieba.baidu.com/p/123",
+                "--thread-urls=https://tieba.baidu.com/p/123,https://tieba.baidu.com/p/456",
+                "--actions=actions.json",
+                "--output=out.json",
+                "--max-queries=99",
+                "--forum-pages=0",
+                "--thread-limit=bad",
+                "--thread-pages=12",
+                "--min-delay-ms=-1",
+                "--jitter-ms=999999",
+                "--block-cooldown-ms=NaN",
+                "--request-timeout-ms=20",
+                "--overall-timeout-ms=999999",
+                "--discovery-mode=mobile",
+                "--discovery-titles-only",
+                "--train",
+                "--new-terms",
+                "额外词",
+            ],
+            env={
+                "TIEBA_CORPUS_PATH": "env.json",
+                "TIEBA_MAX_QUERIES": "2",
+                "TIEBA_EXISTING_TERMS_ONLY": "1",
+            },
+        )
+
+        self.assertEqual(result["queries"], ["doge", "yygq", "抽象", "额外词"])
+        self.assertEqual(result["threadUrls"], ["https://tieba.baidu.com/p/123", "https://tieba.baidu.com/p/456"])
+        self.assertEqual(result["actionFile"], "actions.json")
+        self.assertEqual(result["outputPath"], "out.json")
+        self.assertEqual(result["maxQueries"], 50)
+        self.assertEqual(result["forumPages"], 1)
+        self.assertEqual(result["threadLimit"], 4)
+        self.assertEqual(result["threadPages"], 10)
+        self.assertEqual(result["minDelayMs"], 0)
+        self.assertEqual(result["jitterMs"], 60000)
+        self.assertEqual(result["blockCooldownMs"], 120000)
+        self.assertEqual(result["requestTimeoutMs"], 1000)
+        self.assertEqual(result["overallTimeoutMs"], 120000)
+        self.assertEqual(result["discoveryMode"], "mobile")
+        self.assertTrue(result["includeDiscoveryTitles"])
+        self.assertTrue(result["discoveryTitlesOnly"])
+        self.assertTrue(result["train"])
+        self.assertFalse(result["existingTermsOnly"])
+
+    def test_tieba_keyword_plan_runner_and_comparator_read_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "tieba-plan.json"
+            js_report_path = root / "js-tieba-plan.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--query=doge", "--max-queries=3"], "env": {"TIEBA_DISCOVERY_MODE": "bad"}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"options": {"queries": ["stale"], "maxQueries": 1}}), encoding="utf-8")
+
+            result = TiebaKeywordPlanRunner(payload_path).run()
+            comparison = TiebaKeywordPlanContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["options"]["queries"], ["doge"])
+        self.assertEqual(result["options"]["maxQueries"], 3)
+        self.assertEqual(result["options"]["discoveryMode"], "desktop")
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {
+                    "key": "options",
+                    "python": result["options"],
+                    "js": {"queries": ["stale"], "maxQueries": 1},
+                }
             ],
         )
 
