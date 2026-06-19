@@ -48,6 +48,7 @@ from python_backend.cli.tieba_timing import TiebaTimingContractComparator, Tieba
 from python_backend.cli.uid_range_progress import UidRangeProgressContractComparator, UidRangeProgressRunner
 from python_backend.cli.uid_pipeline_merge import UidPipelineMergeContractComparator, UidPipelineMergeRunner
 from python_backend.cli.uid_pipeline_launcher import UidPipelineLauncherContractComparator, UidPipelineLauncherPlanRunner
+from python_backend.cli.batch_scraper_launcher import BatchScraperLauncherContractComparator, BatchScraperLauncherPlanRunner
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder
 from python_backend.corpus.history_tags import HistoryTagCorpusManager
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter
@@ -4262,6 +4263,61 @@ class CorpusContractTests(unittest.TestCase):
                     "key": "workers",
                     "python": [{"start": 1, "end": 2, "progressFile": "uid-pipeline-1-2.json"}],
                     "js": [{"start": 1, "end": 2, "progressFile": "stale.json"}],
+                }
+            ],
+        )
+
+    def test_batch_scraper_launcher_plan_runner_matches_js_range_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+
+            result = BatchScraperLauncherPlanRunner(data_dir).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["script"], "server/scripts/batchUidScrape.js")
+        self.assertEqual(result["logDir"], str(data_dir / "scraper-logs"))
+        self.assertEqual(result["summary"], {"workers": 5, "totalStart": 1, "totalEnd": 100000, "totalUids": 100000})
+        self.assertEqual(
+            result["workers"][0],
+            {
+                "start": 1,
+                "end": 20000,
+                "progressFile": "batch-uid-progress-1-20000.json",
+                "logFile": "scraper-logs/scraper-1-20000.log",
+                "args": ["--start=1", "--end=20000", "--progress=batch-uid-progress-1-20000.json"],
+            },
+        )
+        self.assertEqual(result["workers"][-1]["progressFile"], "batch-uid-progress-80001-100000.json")
+
+    def test_batch_scraper_launcher_comparator_reports_worker_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            js_report_path = root / "js-batch-launcher.json"
+            js_report_path.write_text(
+                json.dumps({"workers": [{"start": 1, "end": 20000, "progressFile": "stale.json"}]}),
+                encoding="utf-8",
+            )
+
+            result = BatchScraperLauncherContractComparator(data_dir, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {
+                    "key": "workers",
+                    "python": [
+                        {"start": 1, "end": 20000, "progressFile": "batch-uid-progress-1-20000.json"},
+                        {"start": 20001, "end": 40000, "progressFile": "batch-uid-progress-20001-40000.json"},
+                        {"start": 40001, "end": 60000, "progressFile": "batch-uid-progress-40001-60000.json"},
+                        {"start": 60001, "end": 80000, "progressFile": "batch-uid-progress-60001-80000.json"},
+                        {"start": 80001, "end": 100000, "progressFile": "batch-uid-progress-80001-100000.json"},
+                    ],
+                    "js": [{"start": 1, "end": 20000, "progressFile": "stale.json"}],
                 }
             ],
         )
