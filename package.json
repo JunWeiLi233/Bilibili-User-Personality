@@ -36,6 +36,7 @@
     "python:near-target-plan": "python -m python_backend.cli.near_target_resolve_plan",
     "python:merge-agent-plan": "python -m python_backend.cli.merge_agent_dictionaries_plan",
     "python:batch-scraper-launcher": "python -m python_backend.cli.batch_scraper_launcher",
+    "python:range-scraper-launcher": "python -m python_backend.cli.range_scraper_launcher",
     "python:uid-pipeline-launcher": "python -m python_backend.cli.uid_pipeline_launcher",
     "python:uid-pipeline-merge": "python -m python_backend.cli.uid_pipeline_merge --summary-only",
     "python:scraper-monitor": "python -m python_backend.cli.scraper_monitor",

@@ -49,6 +49,7 @@ from python_backend.cli.uid_range_progress import UidRangeProgressContractCompar
 from python_backend.cli.uid_pipeline_merge import UidPipelineMergeContractComparator, UidPipelineMergeRunner
 from python_backend.cli.uid_pipeline_launcher import UidPipelineLauncherContractComparator, UidPipelineLauncherPlanRunner
 from python_backend.cli.batch_scraper_launcher import BatchScraperLauncherContractComparator, BatchScraperLauncherPlanRunner
+from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContractComparator, RangeScraperLauncherPlanRunner
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder
 from python_backend.corpus.history_tags import HistoryTagCorpusManager
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter
@@ -4316,6 +4317,62 @@ class CorpusContractTests(unittest.TestCase):
                         {"start": 40001, "end": 60000, "progressFile": "batch-uid-progress-40001-60000.json"},
                         {"start": 60001, "end": 80000, "progressFile": "batch-uid-progress-60001-80000.json"},
                         {"start": 80001, "end": 100000, "progressFile": "batch-uid-progress-80001-100000.json"},
+                    ],
+                    "js": [{"start": 1, "end": 20000, "progressFile": "stale.json"}],
+                }
+            ],
+        )
+
+    def test_range_scraper_launcher_plan_runner_matches_powershell_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+
+            result = RangeScraperLauncherPlanRunner(data_dir).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["script"], "server/scripts/uidRangeScrape.js")
+        self.assertEqual(result["logDir"], str(data_dir / "scraper-logs"))
+        self.assertEqual(result["summary"], {"workers": 5, "totalStart": 1, "totalEnd": 100000, "totalUids": 100000, "launchDelaySeconds": 3})
+        self.assertEqual(
+            result["workers"][0],
+            {
+                "start": 1,
+                "end": 20000,
+                "progressFile": "uid-range-progress-1-20000.json",
+                "logFile": "scraper-logs/uid-range-1-20000.log",
+                "stderrFile": "scraper-logs/uid-range-1-20000-stderr.log",
+                "args": ["--start=1", "--end=20000", "--progress=uid-range-progress-1-20000.json"],
+            },
+        )
+        self.assertEqual(result["workers"][-1]["stderrFile"], "scraper-logs/uid-range-80001-100000-stderr.log")
+
+    def test_range_scraper_launcher_comparator_reports_progress_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            js_report_path = root / "js-range-launcher.json"
+            js_report_path.write_text(
+                json.dumps({"workers": [{"start": 1, "end": 20000, "progressFile": "stale.json"}]}),
+                encoding="utf-8",
+            )
+
+            result = RangeScraperLauncherContractComparator(data_dir, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {
+                    "key": "workers",
+                    "python": [
+                        {"start": 1, "end": 20000, "progressFile": "uid-range-progress-1-20000.json"},
+                        {"start": 20001, "end": 40000, "progressFile": "uid-range-progress-20001-40000.json"},
+                        {"start": 40001, "end": 60000, "progressFile": "uid-range-progress-40001-60000.json"},
+                        {"start": 60001, "end": 80000, "progressFile": "uid-range-progress-60001-80000.json"},
+                        {"start": 80001, "end": 100000, "progressFile": "uid-range-progress-80001-100000.json"},
                     ],
                     "js": [{"start": 1, "end": 20000, "progressFile": "stale.json"}],
                 }
