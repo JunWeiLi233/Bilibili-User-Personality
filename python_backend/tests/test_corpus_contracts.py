@@ -106,7 +106,7 @@ from python_backend.cli.batch_scrape_progress import BatchScrapeProgressContract
 from python_backend.cli.batch_uid_progress import BatchUidProgressContractComparator, BatchUidProgressRunner
 from python_backend.cli.uid_discovery_progress import UidDiscoveryProgressContractComparator, UidDiscoveryProgressRunner
 from python_backend.scrapers.tieba_html import TiebaHtmlParseSummary, TiebaHtmlParser
-from python_backend.scrapers.tieba_keyword import TiebaKeywordScrapeOptionsPlanner
+from python_backend.scrapers.tieba_keyword import TiebaKeywordPlanSummary, TiebaKeywordScrapeOptionsPlanner
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularPlanSummary, BatchPopularScrapePlanner
@@ -2821,6 +2821,17 @@ class CorpusContractTests(unittest.TestCase):
                 }
             ],
         )
+
+    def test_tieba_keyword_plan_summary_extracts_comparator_contract(self):
+        summary = TiebaKeywordPlanSummary().summarize(
+            {
+                "ok": True,
+                "options": {"queries": ["doge"], "maxQueries": 3},
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(summary, {"options": {"queries": ["doge"], "maxQueries": 3}})
 
     def test_tieba_scrape_timing_matches_js_hard_stop_contract(self):
         timing = TiebaScrapeTiming()

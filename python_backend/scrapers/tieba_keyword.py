@@ -48,6 +48,16 @@ def _unique(values: list[str]) -> list[str]:
     return result
 
 
+class TiebaKeywordPlanSummary:
+    """Shape Tieba keyword scrape option plans into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("options",)
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        source = result if isinstance(result, dict) else {}
+        return {key: source.get(key) for key in self.RESULT_KEYS if key in source}
+
+
 class TiebaKeywordScrapeOptionsPlanner:
     """Build runTiebaKeywordScrape.js-compatible dry-run options."""
 
