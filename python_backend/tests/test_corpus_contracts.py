@@ -10,8 +10,10 @@ from python_backend.cli.coverage_audit import AuditContractComparator
 from python_backend.cli.compare_contracts import ContractComparator
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanRunner
 from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportRunner
+from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenRunner
 from python_backend.cli.random_verification import RandomVerificationRunner
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter
+from python_backend.corpus.local import LocalCorpusFlattener
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriter
@@ -386,6 +388,133 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["importedRows"], 1)
         self.assertEqual(result["addedComments"], 1)
         self.assertEqual(result["corpus"]["comments"][0]["message"], "\u5341\u5468\u5e74\u5feb\u4e50")
+
+    def test_local_corpus_flattener_reads_uid_maps_and_plain_text(self):
+        flattener = LocalCorpusFlattener()
+
+        uid_comments = flattener.flatten(
+            {
+                "100": [
+                    {"message": "\u61c2\u7684\u90fd\u61c2\uff0c\u4e0d\u5c55\u5f00\u4e86", "uname": "u1", "bvid": "BVabc"},
+                    {"message": "", "uname": "u2", "bvid": "BVempty"},
+                ]
+            }
+        )
+        plain_comments = flattener.flatten(["discover: HTTP 403 from https://tieba.baidu.com/f?kw=dog", "\u67e5\u67e5\u8d44\u6599\u518d\u8bf4"])
+
+        self.assertEqual(
+            uid_comments,
+            [
+                {
+                    "message": "\u61c2\u7684\u90fd\u61c2\uff0c\u4e0d\u5c55\u5f00\u4e86",
+                    "platform": "bilibili",
+                    "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BVabc/",
+                    "uid": "BVabc",
+                    "uname": "u1",
+                }
+            ],
+        )
+        self.assertEqual([comment["message"] for comment in plain_comments], ["\u67e5\u67e5\u8d44\u6599\u518d\u8bf4"])
+
+    def test_local_corpus_flattener_reads_aicu_and_scraped_user_shapes(self):
+        flattener = LocalCorpusFlattener()
+        comments = flattener.flatten(
+            {
+                "users": {
+                    "123": {
+                        "comments": [{"message": "\u767e\u5ea6\u4e00\u4e0b\u5c31\u77e5\u9053\u4e86", "oid": "9988"}],
+                        "danmaku": [{"content": "\u8fd9\u8c01\u80fd\u7ef7\u5f97\u4f4f", "oid": "7766"}],
+                    },
+                    "860": {
+                        "uid": "860",
+                        "uname": "sample-user",
+                        "commentText": "first comment\nsecond comment",
+                        "bvids": ["BVone", "BVtwo"],
+                    },
+                }
+            }
+        )
+
+        self.assertIn(
+            {
+                "message": "\u767e\u5ea6\u4e00\u4e0b\u5c31\u77e5\u9053\u4e86",
+                "platform": "bilibili",
+                "source": "Bilibili local AICU corpus: https://www.bilibili.com/video/av9988/",
+                "uid": "123",
+                "uname": "",
+            },
+            comments,
+        )
+        self.assertIn(
+            {
+                "message": "second comment",
+                "platform": "bilibili",
+                "source": "Bilibili local scraped user corpus: https://www.bilibili.com/video/BVtwo/",
+                "uid": "860",
+                "uname": "sample-user",
+            },
+            comments,
+        )
+
+    def test_local_corpus_flattener_reads_tieba_runs_and_direct_comments(self):
+        flattener = LocalCorpusFlattener()
+        tieba_comments = flattener.flatten(
+            {
+                "version": 1,
+                "runs": [
+                    {
+                        "results": [
+                            {
+                                "comments": [
+                                    {
+                                        "message": "\u72d7\u53bb\u54ea\u91cc\u4e86: discover: HTTP 403 from https://tieba.baidu.com/mo/q/m?kw=dog",
+                                        "sourceUrl": "https://tieba.baidu.com/f?kw=dog",
+                                        "platform": "tieba",
+                                    },
+                                    {
+                                        "message": "\u771f\u4eba\u56e2 \u63a5\u63a5\u63a5",
+                                        "sourceUrl": "https://tieba.baidu.com/p/10792024244",
+                                        "platform": "tieba",
+                                    },
+                                ]
+                            }
+                        ]
+                    }
+                ],
+            }
+        )
+        direct_comments = flattener.flatten(
+            {
+                "version": 1,
+                "comments": [
+                    {
+                        "message": "\u76f4\u63a5\u63a2\u6d4b\u8bc4\u8bba",
+                        "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BVprobe/",
+                        "uid": "123",
+                    }
+                ],
+                "runs": [{"at": "2026-06-17T00:00:00.000Z", "commentsCollected": 1}],
+            }
+        )
+
+        self.assertEqual([comment["message"] for comment in tieba_comments], ["\u771f\u4eba\u56e2 \u63a5\u63a5\u63a5"])
+        self.assertEqual(tieba_comments[0]["source"], "Tieba public thread scan: https://tieba.baidu.com/p/10792024244")
+        self.assertEqual(direct_comments[0]["source"], "Bilibili public direct comment probe: https://www.bilibili.com/video/BVprobe/")
+
+    def test_local_corpus_flatten_runner_reads_json_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            input_path = root / "local.json"
+            input_path.write_text(
+                json.dumps({"_uidComments": {"42": [{"message": "alpha phrase appears here", "uname": "tester", "bvid": "BVprogress"}]}}),
+                encoding="utf-8",
+            )
+
+            result = LocalCorpusFlattenRunner(input_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["comments"][0]["uid"], "BVprogress")
 
     def test_coverage_audit_builder_matches_js_metric_contract(self):
         dictionary = {
