@@ -123,6 +123,19 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(corpus.comments[0]["message"], "bom comment")
         self.assertEqual(corpus.runs[0]["at"], "2026-06-19T00:00:00.000Z")
 
+    def test_loader_returns_fallback_when_corpus_file_is_missing(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+
+            corpus = CorpusLoader(
+                root / "missing.json",
+                fallback={"version": 1, "comments": [{"message": "fallback"}], "runs": [{"at": "fallback-run"}]},
+            ).load()
+
+        self.assertEqual(corpus.manifest["version"], 1)
+        self.assertEqual(corpus.comments, [{"message": "fallback"}])
+        self.assertEqual(corpus.runs, [{"at": "fallback-run"}])
+
     def test_writer_round_trips_small_split_corpus(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

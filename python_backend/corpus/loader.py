@@ -16,11 +16,15 @@ class Corpus:
 class CorpusLoader:
     """Read corpus JSON in either monolithic or JS split-shard format."""
 
-    def __init__(self, path: str | Path):
+    def __init__(self, path: str | Path, fallback: dict[str, Any] | None = None):
         self.path = Path(path)
+        self.fallback = fallback
 
     def load(self) -> Corpus:
-        manifest = self._read_json(self.path)
+        try:
+            manifest = self._read_json(self.path)
+        except FileNotFoundError:
+            manifest = dict(self.fallback or {"version": 1, "comments": [], "runs": []})
         if manifest.get("storage") != "split":
             return Corpus(
                 manifest=manifest,
