@@ -8,6 +8,7 @@ from python_backend.analysis.comment_coverage import CommentCoverageClassifier
 from python_backend.analysis.coverage_progress import CoverageProgressTracker
 from python_backend.analysis.discovery_report import VideoKeywordDiscoveryReporter
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, VideoKeywordDiscoveryOptionsBuilder
+from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder
 from python_backend.analysis.semantic_matcher import SemanticMatcherHelper
 from python_backend.analysis.verification import RandomVerifier
@@ -21,6 +22,7 @@ from python_backend.cli.coverage_audit import AuditContractComparator
 from python_backend.cli.coverage_progress import CoverageProgressRunner
 from python_backend.cli.discovery_report import VideoKeywordDiscoveryReportRunner
 from python_backend.cli.harvest_options import HarvestOptionsRunner
+from python_backend.cli.harvest_plan import KeywordHarvestPlanRunner
 from python_backend.cli.readme_stats import ReadmeStatsRunner
 from python_backend.cli.semantic_matcher import SemanticMatcherRunner
 from python_backend.cli.compare_contracts import ContractComparator
@@ -2789,6 +2791,85 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["options"]["requireCommentBackedEvidence"])
         self.assertTrue(result["options"]["includeHistoryTags"])
         self.assertEqual(result["options"]["priorityQueries"], ["target 评论区"])
+
+    def test_keyword_harvest_plan_builder_matches_js_priority_and_dictionary_contract(self):
+        builder = KeywordHarvestPlanBuilder()
+
+        plan = builder.build_query_plan(
+            {"entries": [{"term": "doge", "family": "cooperation", "evidenceCount": 0}]},
+            {
+                "priorityQueries": [{"term": "doge", "family": "cooperation", "nextQuery": "manual doge query", "attempts": 2}],
+                "seedQueries": ["seed topic"],
+                "coverageMode": "all-weak",
+                "maxQueries": 4,
+                "queryVariantsPerTerm": 2,
+            },
+        )
+
+        self.assertEqual(
+            plan,
+            [
+                {
+                    "query": "manual doge query",
+                    "source": "priority",
+                    "term": "doge",
+                    "family": "cooperation",
+                    "priorAttempts": 2,
+                    "variantIndex": None,
+                    "builtInVariant": True,
+                    "previouslyTried": False,
+                },
+                {
+                    "query": "doge \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
+                    "source": "dictionary",
+                    "term": "doge",
+                    "family": "cooperation",
+                    "evidenceCount": 0,
+                    "sourcedEvidence": False,
+                    "recommendationGroup": "doge",
+                    "priorAttempts": 0,
+                    "priorSuccessfulAttempts": 0,
+                    "variantIndex": 0,
+                    "builtInVariant": True,
+                    "previouslyTried": False,
+                },
+                {
+                    "query": "doge \u8bc4\u8bba\u533a",
+                    "source": "dictionary",
+                    "term": "doge",
+                    "family": "cooperation",
+                    "evidenceCount": 0,
+                    "sourcedEvidence": False,
+                    "recommendationGroup": "doge",
+                    "priorAttempts": 0,
+                    "priorSuccessfulAttempts": 0,
+                    "variantIndex": 1,
+                    "builtInVariant": True,
+                    "previouslyTried": False,
+                },
+                {"query": "seed topic", "source": "seed"},
+            ],
+        )
+
+    def test_keyword_harvest_plan_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "harvest-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "dictionary": {"entries": [{"term": "weak", "family": "attack", "evidenceCount": 0}]},
+                        "options": {"coverageMode": "all-weak", "maxQueries": 2, "queryVariantsPerTerm": 1, "seedQueries": ["seed topic"]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = KeywordHarvestPlanRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["queries"], ["weak \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4", "seed topic"])
+        self.assertEqual(result["plan"][0]["source"], "dictionary")
 
     def test_coverage_audit_builder_matches_js_metric_contract(self):
         dictionary = {

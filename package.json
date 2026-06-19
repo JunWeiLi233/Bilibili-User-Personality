@@ -30,6 +30,7 @@
     "python:readme-stats": "python -m python_backend.cli.readme_stats",
     "python:discovery-report": "python -m python_backend.cli.discovery_report",
     "python:harvest-options": "python -m python_backend.cli.harvest_options",
+    "python:harvest-plan": "python -m python_backend.cli.harvest_plan",
     "python:verify-random": "python -m python_backend.cli.random_verification",
     "python:comment-coverage": "python -m python_backend.cli.comment_coverage",
     "python:semantic-match": "python -m python_backend.cli.semantic_matcher",
