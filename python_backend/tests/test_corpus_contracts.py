@@ -7,6 +7,7 @@ from python_backend.analysis.audit import CoverageAuditBuilder, CoverageAuditRep
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier
 from python_backend.analysis.coverage_progress import CoverageProgressTracker
 from python_backend.analysis.discovery_report import VideoKeywordDiscoveryReporter
+from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.verification import RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient
 from python_backend.cli.comment_coverage import CommentCoverageRunner
@@ -15,6 +16,7 @@ from python_backend.cli.bilibili_probe_plan import BilibiliProbePlanRunner
 from python_backend.cli.coverage_audit import AuditContractComparator
 from python_backend.cli.coverage_progress import CoverageProgressRunner
 from python_backend.cli.discovery_report import VideoKeywordDiscoveryReportRunner
+from python_backend.cli.harvest_options import HarvestOptionsRunner
 from python_backend.cli.compare_contracts import ContractComparator
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanRunner
 from python_backend.cli.history_tag_corpus import HistoryTagCorpusRunner
@@ -1556,6 +1558,111 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["report"]["generatedAt"], "2026-06-19T00:00:00.000Z")
         self.assertEqual(result["priorityActionItems"][0]["query"], "next term 评论区")
+
+    def test_video_keyword_discovery_options_builder_matches_strict_comment_contract(self):
+        builder = VideoKeywordDiscoveryOptionsBuilder(cwd="D:/Bilibili_User_Personality")
+        options = builder.build(
+            env={
+                "BILIBILI_HARVEST_REQUIRE_SOURCES": "1",
+                "BILIBILI_COVERAGE_AUDIT_REQUIRE_COMMENTS": "1",
+                "BILIBILI_HARVEST_EXISTING_TERMS_ONLY": "1",
+                "BILIBILI_HARVEST_QUERY_TIMEOUT_MS": "45000",
+                "BILIBILI_HARVEST_EXPAND_TARGETS_FROM_COMMENTS": "1",
+            },
+            priority_queries=["contextOnly 评论区"],
+            seed_queries=[],
+        )
+
+        self.assertTrue(options["requireSourceBackedEvidence"])
+        self.assertTrue(options["requireCommentBackedEvidence"])
+        self.assertTrue(options["prioritizeSourceGaps"])
+        self.assertTrue(options["existingTermsOnly"])
+        self.assertEqual(options["retryBeforeUnattemptedLimit"], 1)
+        self.assertEqual(options["perQueryTimeoutMs"], 45000)
+        self.assertTrue(options["expandTargetsFromComments"])
+        self.assertEqual(options["priorityQueries"], ["contextOnly 评论区"])
+
+    def test_video_keyword_discovery_options_builder_applies_history_tag_cli_flags(self):
+        options = VideoKeywordDiscoveryOptionsBuilder(cwd="D:/Bilibili_User_Personality").build(
+            env={},
+            argv=["--include-history-tags", "--history-tag-corpus=server/data/custom-history.json", "--history-tag-limit=33"],
+        )
+
+        self.assertTrue(options["includeHistoryTags"])
+        self.assertEqual(options["historyTagCorpusPath"], "server/data/custom-history.json")
+        self.assertEqual(options["historyTagVideoLimit"], 33)
+
+    def test_video_keyword_discovery_options_builder_parses_priority_query_content(self):
+        builder = VideoKeywordDiscoveryOptionsBuilder()
+        structured = builder.parse_priority_query_content(
+            json.dumps(
+                [
+                    {"term": "车圈", "family": "attack", "query": "车圈 热评", "nextQuery": "车圈 热评", "suggestedQueries": ["小米汽车 控评"]},
+                    {"term": "没有车圈", "family": "attack", "nextQuery": "车圈 热评"},
+                ]
+            )
+        )
+        legacy = builder.parse_priority_query_content("车圈 热评\n不会百度 回复 评论区 热评\n")
+        json_lines = builder.parse_priority_query_content(
+            "\n".join(
+                [
+                    json.dumps({"term": "问百度", "family": "evasion", "nextQuery": "不会百度 回复 评论区 热评"}),
+                    json.dumps({"term": "问百度有什么用", "family": "evasion", "nextQuery": "不会百度 回复 评论区 热评"}),
+                ]
+            )
+        )
+
+        self.assertEqual([(item["term"], item["query"], item["nextQuery"]) for item in structured], [("车圈", "车圈 热评", "车圈 热评"), ("没有车圈", "车圈 热评", "车圈 热评")])
+        self.assertEqual(legacy, ["车圈 热评", "不会百度 回复 评论区 热评"])
+        self.assertEqual([item["term"] for item in json_lines], ["问百度", "问百度有什么用"])
+
+    def test_coverage_runtime_options_builder_matches_cli_env_contract(self):
+        builder = CoverageRuntimeOptionsBuilder()
+        strict = builder.build(argv=["--strict-comment-backed", "--target-evidence", "2", "--max-actions", "7"], env={})
+        override = builder.build(
+            argv=["--target-evidence=2", "--max-actions=5", "--min-ratio=0.75"],
+            env={
+                "BILIBILI_HARVEST_TARGET_EVIDENCE": "3",
+                "BILIBILI_COVERAGE_AUDIT_MAX_ACTIONS": "12",
+                "BILIBILI_COVERAGE_AUDIT_MIN_RATIO": "1",
+            },
+        )
+        retry = builder.build(argv=["--strict-comment-backed", "--retry-before-unattempted", "4"], env={})
+
+        self.assertTrue(strict["requireCommentBackedEvidence"])
+        self.assertTrue(strict["requireSourceBackedEvidence"])
+        self.assertTrue(strict["prioritizeSourceGaps"])
+        self.assertEqual(strict["targetEvidence"], 2)
+        self.assertEqual(strict["maxActions"], 7)
+        self.assertEqual(strict["retryBeforeUnattemptedLimit"], 1)
+        self.assertEqual(override["targetEvidence"], 2)
+        self.assertEqual(override["maxActions"], 5)
+        self.assertEqual(override["minCoverageRatio"], 0.75)
+        self.assertEqual(retry["retryBeforeUnattemptedLimit"], 4)
+
+    def test_harvest_options_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "video-keyword",
+                        "env": {"BILIBILI_COVERAGE_AUDIT_REQUIRE_COMMENTS": "1"},
+                        "argv": ["--include-history-tags"],
+                        "priorityQueries": ["target 评论区"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = HarvestOptionsRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "video-keyword")
+        self.assertTrue(result["options"]["requireCommentBackedEvidence"])
+        self.assertTrue(result["options"]["includeHistoryTags"])
+        self.assertEqual(result["options"]["priorityQueries"], ["target 评论区"])
 
     def test_coverage_audit_builder_matches_js_metric_contract(self):
         dictionary = {
