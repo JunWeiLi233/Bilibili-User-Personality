@@ -11,8 +11,10 @@ from python_backend.cli.compare_contracts import ContractComparator
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanRunner
 from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportRunner
 from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenRunner
+from python_backend.cli.direct_probe_corpus import DirectProbeCorpusRunner
 from python_backend.cli.random_verification import RandomVerificationRunner
 from python_backend.cli.tieba_corpus import TiebaCorpusUpdateRunner
+from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter
 from python_backend.corpus.local import LocalCorpusFlattener
 from python_backend.corpus.tieba import TiebaCorpusUpdater
@@ -581,6 +583,114 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertTrue(result["changed"])
         self.assertEqual(result["corpus"]["comments"][0]["message"], "\u65b0\u8bc4\u8bba")
+
+    def test_direct_probe_builder_collects_replies_and_danmaku(self):
+        builder = DirectProbeCorpusBuilder()
+
+        replies = builder.collect_reply_messages(
+            [
+                {
+                    "mid": 100,
+                    "content": {"message": "top level comment"},
+                    "replies": [{"member": {"mid": 200}, "content": {"message": "nested comment"}}],
+                }
+            ],
+            {"bvid": "BVdirect"},
+        )
+        danmaku = builder.collect_danmaku_messages("<d> \u67e5&amp;\u67e5\u8d44\u6599 </d><d> </d>", {"aid": "12345"})
+
+        self.assertEqual(
+            replies,
+            [
+                {
+                    "message": "top level comment",
+                    "uid": "100",
+                    "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BVdirect/",
+                },
+                {
+                    "message": "nested comment",
+                    "uid": "200",
+                    "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BVdirect/",
+                },
+            ],
+        )
+        self.assertEqual(
+            danmaku,
+            [
+                {
+                    "message": "\u67e5&\u67e5\u8d44\u6599",
+                    "uid": "12345",
+                    "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av12345/",
+                }
+            ],
+        )
+
+    def test_direct_probe_builder_extracts_fresh_evidence_entries(self):
+        dictionary = {
+            "entries": [
+                {
+                    "term": "\u67e5\u67e5\u8d44\u6599",
+                    "family": "evidence",
+                    "meaning": "asks for verification",
+                    "evidenceCount": 1,
+                    "evidenceSamples": ["\u65e7\u6837\u672c\u67e5\u67e5\u8d44\u6599"],
+                },
+                {"term": "\u5403\u76f8\u592a\u96be\u770b", "family": "attack", "evidenceCount": 0},
+                {"term": "\u5df2\u7ecf\u591f\u4e86", "family": "evasion", "evidenceCount": 3},
+            ]
+        }
+        comments = [
+            {"message": "\u65e7\u6837\u672c\u67e5\u67e5\u8d44\u6599", "source": "duplicate"},
+            {"message": "\u5efa\u8bae\u5148\u67e5\u67e5\u8d44\u6599\u518d\u8bc4\u8bba", "source": "fresh source", "uid": "42"},
+            {"message": "\u8fd9\u5403\u76f8\u96be\u770b\u5230\u79bb\u8c31", "source": "alias source", "uid": "43"},
+            {"message": "\u5df2\u7ecf\u591f\u4e86\u5427", "source": "complete"},
+        ]
+
+        entries = DirectProbeCorpusBuilder().build_fresh_evidence_entries(dictionary, comments)
+
+        self.assertEqual([entry["term"] for entry in entries], ["\u67e5\u67e5\u8d44\u6599", "\u5403\u76f8\u592a\u96be\u770b"])
+        self.assertEqual(entries[0]["evidence"], ["\u5efa\u8bae\u5148\u67e5\u67e5\u8d44\u6599\u518d\u8bc4\u8bba"])
+        self.assertEqual(entries[1]["evidence"], ["\u8fd9\u5403\u76f8\u96be\u770b\u5230\u79bb\u8c31"])
+
+    def test_direct_probe_builder_builds_probe_corpus_with_han_dedupe(self):
+        existing = {
+            "version": 2,
+            "comments": [
+                {"message": "\u65e7\u8bc4\u8bba", "source": "old", "uid": "1"},
+                {"message": "plain ascii should be dropped", "source": "old", "uid": "2"},
+            ],
+            "runs": [{"at": "old-run"}],
+        }
+        comments = [
+            {"message": "\u65e7\u8bc4\u8bba", "source": "duplicate", "uid": "1"},
+            {"message": "\u65b0\u5f39\u5e55\u8bc4\u8bba", "source": "fresh", "uid": "BV1"},
+            {"message": "ascii only", "source": "skip", "uid": "3"},
+        ]
+        run = {"at": "2026-06-18T00:00:00.000Z", "videos": [{"bvid": "BV1"}]}
+
+        corpus = DirectProbeCorpusBuilder().build_probe_corpus(existing, comments, run)
+
+        self.assertEqual(corpus["version"], 2)
+        self.assertEqual([comment["message"] for comment in corpus["comments"]], ["\u65e7\u8bc4\u8bba", "\u65b0\u5f39\u5e55\u8bc4\u8bba"])
+        self.assertEqual(corpus["runs"][-1]["commentsCollected"], 3)
+        self.assertEqual(corpus["runs"][-1]["commentsAdded"], 1)
+        self.assertEqual(corpus["updatedAt"], "2026-06-18T00:00:00.000Z")
+
+    def test_direct_probe_corpus_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            existing_path = root / "existing.json"
+            comments_path = root / "comments.json"
+            run_path = root / "run.json"
+            existing_path.write_text(json.dumps({"version": 1, "comments": [], "runs": []}), encoding="utf-8")
+            comments_path.write_text(json.dumps({"comments": [{"message": "\u65b0\u8bc4\u8bba", "source": "fresh", "uid": "9"}]}), encoding="utf-8")
+            run_path.write_text(json.dumps({"at": "2026-06-18T01:00:00.000Z"}), encoding="utf-8")
+
+            result = DirectProbeCorpusRunner(existing_path, comments_path, run_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["corpus"]["comments"][0]["message"], "\u65b0\u8bc4\u8bba")
+        self.assertEqual(result["corpus"]["runs"][0]["commentsAdded"], 1)
 
     def test_coverage_audit_builder_matches_js_metric_contract(self):
         dictionary = {
