@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T00:43:13.651Z",
+  "updatedAt": "2026-06-19T00:50:37.575Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -351,6 +351,64 @@
       "warnings": [],
       "commentsCollected": 89,
       "commentsAdded": 76
+    },
+    {
+      "at": "2026-06-19T00:50:37.575Z",
+      "actions": [
+        {
+          "term": "这还用说",
+          "query": "这还用说 B站评论"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 B站评论"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 回复区"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 B站"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV15g411T7Un",
+          "term": "这还用说",
+          "query": "这还用说 B站评论",
+          "bvid": "BV15g411T7Un",
+          "aid": 506673585,
+          "title": "【教学】如何把视频链接分享到<em class=\"keyword\">评论</em>区"
+        },
+        {
+          "key": "bvid:BV13XEt6jELL",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 B站评论",
+          "bvid": "BV13XEt6jELL",
+          "aid": 116708958345290,
+          "title": "这个更新好<em class=\"keyword\">雷霆</em>"
+        },
+        {
+          "key": "bvid:BV1PCFpzpE4x",
+          "term": "查查资料",
+          "query": "查查资料 回复区",
+          "bvid": "BV1PCFpzpE4x",
+          "aid": 116027920816006,
+          "title": "绝区零2.6新增成就：精选后的新世界+精选帖核心受众——Fairy精选/绳网成就/绳匠业务"
+        },
+        {
+          "key": "bvid:BV1cz2FBSEMq",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 B站",
+          "bvid": "BV1cz2FBSEMq",
+          "aid": 115501871209059,
+          "title": "内行人打死都不喝，茶圈公认的4大垃圾茶！"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 79,
+      "commentsAdded": 68
     }
   ]
 }
