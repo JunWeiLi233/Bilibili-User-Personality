@@ -46,6 +46,60 @@ class CoverageAuditReport:
         return queries
 
 
+class CoverageAuditArtifactWriter:
+    """Serialize coverage-audit query and priority-action artifacts like the JS audit script."""
+
+    def build_artifacts(self, audit: dict[str, Any]) -> dict[str, Any]:
+        recommended_queries = [str(query).strip() for query in audit.get("recommendedQueries") or [] if str(query).strip()]
+        priority_items = self.priority_action_items_from_audit(audit)
+        return {
+            "ok": True,
+            "recommendedQueries": recommended_queries,
+            "recommendedQueryText": "".join(f"{query}\n" for query in recommended_queries),
+            "priorityActionItems": priority_items,
+            "priorityActionJson": self.ascii_json(priority_items) if priority_items else "",
+        }
+
+    def write(self, audit: dict[str, Any], query_file_path: str | Path, action_file_path: str | Path) -> dict[str, Any]:
+        artifacts = self.build_artifacts(audit)
+        query_path = Path(query_file_path)
+        action_path = Path(action_file_path)
+        if artifacts["recommendedQueries"]:
+            query_path.parent.mkdir(parents=True, exist_ok=True)
+            query_path.write_text(artifacts["recommendedQueryText"], encoding="utf-8")
+        if artifacts["priorityActionItems"]:
+            action_path.parent.mkdir(parents=True, exist_ok=True)
+            action_path.write_text(artifacts["priorityActionJson"], encoding="utf-8")
+        return {
+            **artifacts,
+            "queryFilePath": str(query_path),
+            "actionFilePath": str(action_path),
+        }
+
+    def priority_action_items_from_audit(self, audit: dict[str, Any]) -> list[dict[str, Any]]:
+        result: list[dict[str, Any]] = []
+        actions = audit.get("nextActions") if isinstance(audit, dict) else []
+        for item in actions if isinstance(actions, list) else []:
+            if not isinstance(item, dict):
+                continue
+            queries = [item.get("nextQuery")]
+            suggested = item.get("suggestedQueries")
+            if isinstance(suggested, list):
+                queries.extend(suggested)
+            for raw_query in queries:
+                query = str(raw_query or "").strip()
+                if not query:
+                    continue
+                normalized = dict(item)
+                normalized["query"] = query
+                normalized["nextQuery"] = query
+                result.append(normalized)
+        return result
+
+    def ascii_json(self, payload: Any) -> str:
+        return f"{json.dumps(payload, ensure_ascii=True, indent=2)}\n"
+
+
 class CoverageAuditBuilder:
     """Build the stable JS coverage-audit JSON contract from dictionary entries."""
 

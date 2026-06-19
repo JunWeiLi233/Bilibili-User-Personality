@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from python_backend.analysis.audit import CoverageAuditBuilder, CoverageAuditReport
+from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditBuilder, CoverageAuditReport
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressTracker
@@ -21,6 +21,7 @@ from python_backend.cli.bilibili_parse import BilibiliParseContractComparator, B
 from python_backend.cli.bilibili_crawler import BilibiliCrawlerContractComparator, BilibiliCrawlerRunner
 from python_backend.cli.bilibili_probe_plan import BilibiliProbePlanContractComparator, BilibiliProbePlanRunner
 from python_backend.cli.coverage_audit import AuditContractComparator
+from python_backend.cli.coverage_audit_artifacts import CoverageAuditArtifactsContractComparator, CoverageAuditArtifactsRunner
 from python_backend.cli.coverage_loop_plan import CoverageHarvestLoopPlanContractComparator, CoverageHarvestLoopPlanRunner
 from python_backend.cli.coverage_progress import CoverageProgressContractComparator, CoverageProgressRunner
 from python_backend.cli.discovery_report import VideoKeywordDiscoveryReportContractComparator, VideoKeywordDiscoveryReportRunner
@@ -7034,6 +7035,87 @@ class CorpusContractTests(unittest.TestCase):
         audit = CoverageAuditBuilder(target_evidence=3).build(dictionary)
 
         self.assertEqual(audit["coverage"]["totalEvidence"], 5)
+
+    def test_coverage_audit_artifact_writer_matches_js_query_and_action_files(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            query_file = root / "keywordCoverageQueries.txt"
+            action_file = root / "keywordCoverageActions.json"
+            audit = {
+                "recommendedQueries": ["查查资料 评论区", "doge hot"],
+                "nextActions": [
+                    {"term": "查查资料", "family": "evidence", "nextQuery": "查查资料 评论区", "suggestedQueries": ["查查资料 弹幕", ""]},
+                    {"term": "doge", "family": "attack", "nextQuery": "doge hot"},
+                    {"term": "empty", "family": "attack", "nextQuery": ""},
+                ],
+            }
+
+            result = CoverageAuditArtifactWriter().write(audit, query_file, action_file)
+
+            action_text = action_file.read_text(encoding="utf-8")
+            self.assertEqual(query_file.read_text(encoding="utf-8"), "查查资料 评论区\ndoge hot\n")
+            self.assertIn("\\u67e5\\u67e5\\u8d44\\u6599", action_text)
+            self.assertNotIn("查查资料", action_text)
+            self.assertEqual(
+                result["priorityActionItems"],
+                [
+                    {"term": "查查资料", "family": "evidence", "nextQuery": "查查资料 评论区", "suggestedQueries": ["查查资料 弹幕", ""], "query": "查查资料 评论区"},
+                    {"term": "查查资料", "family": "evidence", "nextQuery": "查查资料 弹幕", "suggestedQueries": ["查查资料 弹幕", ""], "query": "查查资料 弹幕"},
+                    {"term": "doge", "family": "attack", "nextQuery": "doge hot", "query": "doge hot"},
+                ],
+            )
+            self.assertEqual(result["queryFilePath"], str(query_file))
+            self.assertEqual(result["actionFilePath"], str(action_file))
+
+    def test_coverage_audit_artifacts_runner_and_comparator_use_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-artifacts.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "audit": {
+                            "recommendedQueries": ["doge hot"],
+                            "nextActions": [{"term": "doge", "nextQuery": "doge hot", "suggestedQueries": ["doge comments"]}],
+                        },
+                        "queryFilePath": str(root / "queries.txt"),
+                        "actionFilePath": str(root / "actions.json"),
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps(
+                    {
+                        "recommendedQueryText": "wrong\n",
+                        "priorityActionItems": [{"term": "doge", "nextQuery": "doge hot", "query": "doge hot"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            runner_result = CoverageAuditArtifactsRunner(payload_path).run()
+            comparison = CoverageAuditArtifactsContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(runner_result["ok"])
+        self.assertEqual(runner_result["recommendedQueryText"], "doge hot\n")
+        self.assertEqual([item["query"] for item in runner_result["priorityActionItems"]], ["doge hot", "doge comments"])
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "recommendedQueryText", "python": "doge hot\n", "js": "wrong\n"},
+                {
+                    "key": "priorityActionItems",
+                    "python": [
+                        {"term": "doge", "nextQuery": "doge hot", "suggestedQueries": ["doge comments"], "query": "doge hot"},
+                        {"term": "doge", "nextQuery": "doge comments", "suggestedQueries": ["doge comments"], "query": "doge comments"},
+                    ],
+                    "js": [{"term": "doge", "nextQuery": "doge hot", "query": "doge hot"}],
+                },
+            ],
+        )
 
     def test_audit_contract_comparator_reports_metric_parity(self):
         with tempfile.TemporaryDirectory() as tmp:
