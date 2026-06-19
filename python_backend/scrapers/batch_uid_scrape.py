@@ -1,0 +1,70 @@
+from __future__ import annotations
+
+from typing import Any
+
+
+def _int_or_zero(value: Any) -> int:
+    try:
+        return int(float(str(value)))
+    except (TypeError, ValueError):
+        return 0
+
+
+class BatchUidScrapePlanner:
+    """Build a dry-run plan for batchUidScrape.js video-based UID discovery."""
+
+    POPULAR_PAGES = 50
+    VIDEOS_PER_PAGE = 20
+    COMMENT_PAGES_PER_VIDEO = 3
+    DELAY_BETWEEN_VIDEOS_MS = 2000
+    LOCK_RETRY_DELAY_MS = 10000
+    LOCK_MAX_RETRIES = 10
+    SAVE_EVERY_ANALYZED = 10
+
+    def build_plan(self, progress: dict[str, Any] | None = None, database: dict[str, Any] | None = None) -> dict[str, Any]:
+        progress = progress or {}
+        database = database or {}
+        uid_comments = progress.get("_uidComments") if isinstance(progress.get("_uidComments"), dict) else {}
+        processed_uids = progress.get("processedUids") if isinstance(progress.get("processedUids"), dict) else {}
+        scanned_bvids = progress.get("scannedBvids") if isinstance(progress.get("scannedBvids"), list) else []
+        stats = progress.get("stats") if isinstance(progress.get("stats"), dict) else {}
+        users = database.get("users") if isinstance(database.get("users"), dict) else {}
+        pending_items = [(uid, comments) for uid, comments in uid_comments.items() if uid not in processed_uids]
+        skippable_no_text = sum(1 for _, comments in pending_items if not self._comment_text(comments).strip())
+        trainable = len(pending_items) - skippable_no_text
+        normalized_stats = {
+            "videosScanned": _int_or_zero(stats.get("videosScanned")),
+            "uidsFound": _int_or_zero(stats.get("uidsFound")) or len(uid_comments),
+            "uidsAnalyzed": _int_or_zero(stats.get("uidsAnalyzed")),
+            "commentsCollected": _int_or_zero(stats.get("commentsCollected")),
+            "errors": _int_or_zero(stats.get("errors")),
+        }
+        return {
+            "ok": True,
+            "discovery": {
+                "popularPages": self.POPULAR_PAGES,
+                "videosPerPage": self.VIDEOS_PER_PAGE,
+                "commentPagesPerVideo": self.COMMENT_PAGES_PER_VIDEO,
+                "scannedBvids": len(scanned_bvids),
+                "uidsDiscovered": len(uid_comments),
+            },
+            "phase2": {
+                "processed": len(processed_uids),
+                "pending": len(pending_items),
+                "skippableNoText": skippable_no_text,
+                "trainable": trainable,
+                "userDbUsers": len(users),
+            },
+            "stats": normalized_stats,
+            "training": {"multiagent": True, "existingTermsOnly": False, "saveEveryAnalyzed": self.SAVE_EVERY_ANALYZED},
+            "pacing": {
+                "delayBetweenVideosMs": self.DELAY_BETWEEN_VIDEOS_MS,
+                "lockRetryDelayMs": self.LOCK_RETRY_DELAY_MS,
+                "lockMaxRetries": self.LOCK_MAX_RETRIES,
+            },
+        }
+
+    def _comment_text(self, comments: Any) -> str:
+        if not isinstance(comments, list):
+            return ""
+        return "\n".join(str(comment.get("message") or "") for comment in comments if isinstance(comment, dict))

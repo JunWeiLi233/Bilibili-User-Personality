@@ -60,6 +60,7 @@ from python_backend.cli.uid_pipeline_state import UidPipelineStateContractCompar
 from python_backend.cli.batch_bilibili_plan import BatchBilibiliPlanContractComparator, BatchBilibiliPlanRunner
 from python_backend.cli.batch_popular_plan import BatchPopularPlanContractComparator, BatchPopularPlanRunner
 from python_backend.cli.batch_uid_range_plan import BatchUidRangePlanContractComparator, BatchUidRangePlanRunner
+from python_backend.cli.batch_uid_scrape_plan import BatchUidScrapePlanContractComparator, BatchUidScrapePlanRunner
 from python_backend.cli.batch_scraper_launcher import BatchScraperLauncherContractComparator, BatchScraperLauncherPlanRunner
 from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContractComparator, RangeScraperLauncherPlanRunner
 from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContractComparator, FastPipelineLauncherPlanRunner
@@ -94,6 +95,7 @@ from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 from python_backend.scrapers.batch_bilibili import BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner
+from python_backend.scrapers.batch_uid_scrape import BatchUidScrapePlanner
 
 
 class CorpusContractTests(unittest.TestCase):
@@ -5341,6 +5343,63 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {"key": "discovery", "python": {"videosScanned": 1, "uidsDiscovered": 1, "commentsCollected": 0}, "js": {"videosScanned": 0}},
                 {"key": "phase2", "python": {"processed": 1, "success": 1, "errors": 0, "skipped": 0, "remaining": 0}, "js": {"processed": 0}},
+            ],
+        )
+
+    def test_batch_uid_scrape_planner_matches_js_discovery_and_training_contract(self):
+        planner = BatchUidScrapePlanner()
+        progress = {
+            "scannedBvids": ["BV1", "BV2"],
+            "_uidComments": {
+                "100": [{"message": "one", "bvid": "BV1"}, {"message": "two", "bvid": "BV2"}],
+                "101": [{"message": "", "bvid": "BV2"}],
+                "102": [{"message": "three", "bvid": "BV2"}],
+            },
+            "processedUids": {"100": "success"},
+            "stats": {"videosScanned": 2, "uidsFound": 3, "uidsAnalyzed": 1, "commentsCollected": 4, "errors": 0},
+        }
+
+        result = planner.build_plan(progress, {"users": {"100": {}, "999": {}}})
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["discovery"], {"popularPages": 50, "videosPerPage": 20, "commentPagesPerVideo": 3, "scannedBvids": 2, "uidsDiscovered": 3})
+        self.assertEqual(result["phase2"], {"processed": 1, "pending": 2, "skippableNoText": 1, "trainable": 1, "userDbUsers": 2})
+        self.assertEqual(result["stats"], {"videosScanned": 2, "uidsFound": 3, "uidsAnalyzed": 1, "commentsCollected": 4, "errors": 0})
+        self.assertEqual(result["training"], {"multiagent": True, "existingTermsOnly": False, "saveEveryAnalyzed": 10})
+        self.assertEqual(result["pacing"], {"delayBetweenVideosMs": 2000, "lockRetryDelayMs": 10000, "lockMaxRetries": 10})
+
+    def test_batch_uid_scrape_plan_runner_and_comparator_read_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "batch-uid-scrape-plan.json"
+            js_report_path = root / "js-batch-uid-scrape-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "progress": {
+                            "scannedBvids": ["BV1"],
+                            "_uidComments": {"12": [{"message": "x"}], "30": [{"message": ""}]},
+                            "processedUids": {},
+                            "stats": {"videosScanned": 1},
+                        },
+                        "database": {"users": {"12": {}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"phase2": {"trainable": 9}, "training": {"multiagent": False}}), encoding="utf-8")
+
+            result = BatchUidScrapePlanRunner(payload_path).run()
+            comparison = BatchUidScrapePlanContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["phase2"], {"processed": 0, "pending": 2, "skippableNoText": 1, "trainable": 1, "userDbUsers": 1})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "phase2", "python": {"processed": 0, "pending": 2, "skippableNoText": 1, "trainable": 1, "userDbUsers": 1}, "js": {"trainable": 9}},
+                {"key": "training", "python": {"multiagent": True, "existingTermsOnly": False, "saveEveryAnalyzed": 10}, "js": {"multiagent": False}},
             ],
         )
 
