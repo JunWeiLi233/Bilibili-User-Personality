@@ -67,6 +67,7 @@ from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerHelper
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanner
 from python_backend.scrapers.rate_limiter import RateLimiter
 from python_backend.cli.scraper_monitor import ScraperMonitorContractComparator, ScraperMonitorRunner
+from python_backend.cli.batch_scrape_progress import BatchScrapeProgressContractComparator, BatchScrapeProgressRunner
 from python_backend.cli.batch_uid_progress import BatchUidProgressContractComparator, BatchUidProgressRunner
 from python_backend.cli.uid_discovery_progress import UidDiscoveryProgressContractComparator, UidDiscoveryProgressRunner
 from python_backend.scrapers.tieba_html import TiebaHtmlParser
@@ -4500,6 +4501,92 @@ class CorpusContractTests(unittest.TestCase):
                     "js": {"processed": 0},
                 },
                 {"key": "combined", "python": {"uidsAnalyzed": 2}, "js": {"uidsAnalyzed": 1}},
+            ],
+        )
+
+    def test_batch_scrape_progress_runner_summarizes_uid_range_progress_and_user_db(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            (data_dir / "batch-scrape-bilibili-progress.json").write_text(
+                json.dumps(
+                    {
+                        "lastUid": 105,
+                        "completed": 3,
+                        "errors": [{"uid": "104", "error": "blocked"}, {"uid": "105", "error": "timeout"}],
+                        "startTime": "2026-06-19T00:00:00.000Z",
+                        "endTime": "2026-06-19T00:10:00.000Z",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (data_dir / "aicu-user-database.json").write_text(
+                json.dumps(
+                    {
+                        "users": {
+                            "100": {"commentCount": 2, "danmakuCount": 1, "comments": [{"message": "a"}, {"message": "b"}], "danmaku": [{"content": "c"}]},
+                            "101": {"commentText": "one\ntwo", "danmakuText": "dm"},
+                        },
+                        "lastUpdated": "2026-06-19T00:11:00.000Z",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = BatchScrapeProgressRunner(
+                data_dir,
+                progress_file="batch-scrape-bilibili-progress.json",
+                database_file="aicu-user-database.json",
+                mode="uid-range",
+                start_uid=100,
+                end_uid=110,
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "uid-range")
+        self.assertEqual(result["progress"], {"lastUid": 105, "completed": 3, "errors": 2, "remaining": 5, "rangeTotal": 11})
+        self.assertEqual(result["database"], {"users": 2, "withComments": 2, "comments": 4, "danmaku": 2})
+        self.assertEqual(result["timestamps"]["endTime"], "2026-06-19T00:10:00.000Z")
+
+    def test_batch_scrape_progress_runner_summarizes_popular_progress(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            (data_dir / "batch-scrape-popular-progress.json").write_text(
+                json.dumps({"scraped": 4, "videosScanned": 40, "pagesScanned": 2, "startTime": "start", "endTime": "end"}),
+                encoding="utf-8",
+            )
+            (data_dir / "aicu-user-database.json").write_text(
+                json.dumps({"users": {"200": {"comments": [{"message": "x"}]}, "201": {"danmaku": [{"content": "y"}, {"content": "z"}]}}}),
+                encoding="utf-8",
+            )
+
+            result = BatchScrapeProgressRunner(data_dir, progress_file="batch-scrape-popular-progress.json", mode="popular", pages=5).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "popular")
+        self.assertEqual(result["progress"], {"scraped": 4, "videosScanned": 40, "pagesScanned": 2, "remainingPages": 3, "targetPages": 5})
+        self.assertEqual(result["database"], {"users": 2, "withComments": 1, "comments": 1, "danmaku": 2})
+
+    def test_batch_scrape_progress_comparator_reports_summary_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            js_report_path = root / "js-batch-scrape-progress.json"
+            (data_dir / "batch-scrape-progress.json").write_text(json.dumps({"lastUid": 2, "completed": 1, "errors": []}), encoding="utf-8")
+            js_report_path.write_text(json.dumps({"progress": {"completed": 0}, "database": {"users": 9}}), encoding="utf-8")
+
+            result = BatchScrapeProgressContractComparator(data_dir, js_report_path, start_uid=1, end_uid=3).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "progress", "python": {"lastUid": 2, "completed": 1, "errors": 0, "remaining": 1, "rangeTotal": 3}, "js": {"completed": 0}},
+                {"key": "database", "python": {"users": 0, "withComments": 0, "comments": 0, "danmaku": 0}, "js": {"users": 9}},
             ],
         )
 
