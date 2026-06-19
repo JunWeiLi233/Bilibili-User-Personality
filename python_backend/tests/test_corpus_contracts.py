@@ -26,7 +26,7 @@ from python_backend.cli.harvest_plan import KeywordHarvestPlanRunner
 from python_backend.cli.readme_stats import ReadmeStatsRunner
 from python_backend.cli.semantic_matcher import SemanticMatcherRunner
 from python_backend.cli.compare_contracts import ContractComparator
-from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanRunner
+from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanContractComparator, DeepSeekAnalysisPlanRunner
 from python_backend.cli.keyword_evidence import KeywordEvidenceRunner
 from python_backend.cli.history_tag_corpus import HistoryTagCorpusRunner
 from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportRunner
@@ -654,6 +654,51 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(result["mode"], "single")
         self.assertEqual(len(result["requests"]), 1)
+
+    def test_deepseek_analysis_plan_contract_comparator_reports_plan_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_plan_path = root / "js-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "text": "\u8fd9\u53e5\u662f\u5728\u53cd\u8bbd\u5427[doge]\uff0c\u4e0d\u662f\u771f\u7684\u9a82\u4eba\u3002",
+                        "multiagent": True,
+                        "keywordHints": ["\u9a82\u4eba"],
+                        "model": "deepseek-v4-flash",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_plan_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "single",
+                        "requests": [
+                            {
+                                "model": "deepseek-v4-pro",
+                                "reasoning_effort": "max",
+                                "max_tokens": 2000,
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = DeepSeekAnalysisPlanContractComparator(payload_path, js_plan_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "mode", "python": "multiagent", "js": "single"},
+                {"key": "requestCount", "python": 3, "js": 1},
+                {"key": "requests[0].model", "python": "deepseek-v4-flash", "js": "deepseek-v4-pro"},
+                {"key": "requests[0].max_tokens", "python": 1600, "js": 2000},
+            ],
+        )
 
     def test_contract_comparator_checks_manifest_count_and_audit_terms(self):
         with tempfile.TemporaryDirectory() as tmp:
