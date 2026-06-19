@@ -1446,6 +1446,143 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["bvid"], "BV19yGa61Ee6")
         self.assertTrue(result["blocked"])
 
+    def test_bilibili_crawler_helper_matches_public_comment_contracts(self):
+        helper = BilibiliCrawlerHelper()
+        bucket = []
+
+        helper.collect_reply_for_uid(
+            {
+                "rpid": 1,
+                "mid": 100,
+                "member": {"mid": "100", "uname": "other"},
+                "content": {"message": "root"},
+                "replies": [
+                    {
+                        "rpid": 2,
+                        "mid": 453244911,
+                        "member": {"mid": "453244911", "uname": "target"},
+                        "content": {"message": "target message"},
+                        "like": 6,
+                        "ctime": 1710000000,
+                    }
+                ],
+            },
+            "453244911",
+            {
+                "kind": "video",
+                "bvid": "BV19yGa61Ee6",
+                "oid": 123,
+                "replyType": 1,
+                "title": "test video",
+                "sourceUrl": "https://www.bilibili.com/video/BV19yGa61Ee6/",
+            },
+            bucket,
+        )
+
+        self.assertEqual(
+            bucket,
+            [
+                {
+                    "sourceKind": "video",
+                    "bvid": "BV19yGa61Ee6",
+                    "oid": "123",
+                    "replyType": 1,
+                    "sourceTitle": "test video",
+                    "sourceUrl": "https://www.bilibili.com/video/BV19yGa61Ee6/",
+                    "rpid": "2",
+                    "like": 6,
+                    "ctime": 1710000000,
+                    "uname": "target",
+                    "mid": "453244911",
+                    "message": "target message",
+                }
+            ],
+        )
+        self.assertEqual(
+            helper.dedupe_public_objects(
+                [
+                    {"kind": "video", "oid": 123, "replyType": 1, "title": "A"},
+                    {"kind": "video", "oid": "123", "replyType": 1, "title": "A duplicate"},
+                    {"kind": "dynamic", "oid": "123", "replyType": 17, "title": "different comment target"},
+                    {"kind": "invalid", "replyType": 1, "title": "missing oid"},
+                ]
+            ),
+            [
+                {"kind": "video", "oid": "123", "replyType": 1, "title": "A"},
+                {"kind": "dynamic", "oid": "123", "replyType": 17, "title": "different comment target"},
+            ],
+        )
+
+    def test_bilibili_crawler_helper_matches_cookie_and_danmaku_contracts(self):
+        helper = BilibiliCrawlerHelper()
+
+        self.assertEqual(
+            helper.normalize_bilibili_cookie(" SESSDATA=abc ; invalid ; bad:name=value ; empty= ; good=x=y ; newline=a\nb "),
+            "SESSDATA=abc; good=x=y",
+        )
+        self.assertEqual(
+            helper.parse_danmaku_xml(
+                '<i><d p="1,1,25,16777215,1710000000,0,12345,0">hello &amp; world</d><d>ignored</d></i>',
+                {
+                    "bvid": "BV1danmaku",
+                    "oid": "123",
+                    "replyType": 1,
+                    "title": "danmaku video",
+                    "sourceUrl": "https://www.bilibili.com/video/BV1danmaku/",
+                    "cid": "456",
+                },
+            ),
+            [
+                {
+                    "bvid": "BV1danmaku",
+                    "oid": "123",
+                    "replyType": 1,
+                    "sourceTitle": "danmaku video",
+                    "sourceUrl": "https://www.bilibili.com/video/BV1danmaku/",
+                    "rpid": "danmaku-456-0",
+                    "like": 0,
+                    "ctime": 1710000000,
+                    "uname": "",
+                    "mid": "12345",
+                    "message": "hello & world",
+                    "kind": "danmaku",
+                }
+            ],
+        )
+
+    def test_bilibili_crawler_runner_exposes_public_comment_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "cookie": " SESSDATA=abc ; invalid ; good=x=y ",
+                        "objects": [
+                            {"kind": "video", "oid": 123, "replyType": 1, "title": "A"},
+                            {"kind": "video", "oid": "123", "replyType": 1, "title": "A duplicate"},
+                        ],
+                        "reply": {
+                            "rpid": 2,
+                            "mid": 453244911,
+                            "member": {"mid": "453244911", "uname": "target"},
+                            "content": {"message": "target message"},
+                        },
+                        "targetUid": "453244911",
+                        "object": {"kind": "video", "oid": 123, "replyType": 1, "title": "A"},
+                        "danmakuXml": '<i><d p="1,1,25,16777215,1710000000,0,12345,0">hello</d></i>',
+                        "video": {"bvid": "BV1danmaku", "oid": "123", "cid": "456"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = BilibiliCrawlerRunner(payload_path).run()
+
+        self.assertEqual(result["cookie"], "SESSDATA=abc; good=x=y")
+        self.assertEqual(len(result["objects"]), 1)
+        self.assertEqual(result["targetReplies"][0]["message"], "target message")
+        self.assertEqual(result["danmaku"][0]["rpid"], "danmaku-456-0")
+
     def test_bilibili_probe_planner_builds_headers_and_urls(self):
         planner = BilibiliProbePlanner()
 
