@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.corpus.local import LocalCorpusEvidenceFinder, LocalCorpusFlattener
+from python_backend.corpus.local import LocalCorpusEvidenceFinder, LocalCorpusEvidenceSummary, LocalCorpusFlattener
 
 
 class LocalCorpusEvidenceRunner:
@@ -81,6 +81,7 @@ class LocalCorpusEvidenceContractComparator:
         self.max_samples_per_term = max_samples_per_term
         self.require_comment_backed_evidence = require_comment_backed_evidence
         self.target_terms = target_terms or []
+        self.summary = LocalCorpusEvidenceSummary()
 
     def compare(self) -> dict[str, Any]:
         python_result = LocalCorpusEvidenceRunner(
@@ -92,8 +93,8 @@ class LocalCorpusEvidenceContractComparator:
             target_terms=self.target_terms,
         ).run()
         js_result = self._read_js_report()
-        python_summary = self._summary(python_result)
-        js_summary = self._summary(js_result)
+        python_summary = self.summary.summarize(python_result)
+        js_summary = self.summary.summarize(js_result)
         mismatches = [
             {"key": key, "python": python_summary.get(key), "js": js_summary.get(key)}
             for key in self.SUMMARY_KEYS
@@ -112,29 +113,6 @@ class LocalCorpusEvidenceContractComparator:
         with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
-
-    def _summary(self, result: dict[str, Any]) -> dict[str, Any]:
-        entries = result.get("entries") if isinstance(result.get("entries"), list) else []
-        terms = [entry.get("term") for entry in entries if isinstance(entry, dict)]
-        return {
-            "count": result.get("count", len(entries)),
-            "terms": terms,
-            "evidence": {
-                entry.get("term"): self._entry_evidence(entry)
-                for entry in entries
-                if isinstance(entry, dict) and entry.get("term") is not None
-            },
-        }
-
-    def _entry_evidence(self, entry: dict[str, Any]) -> list[Any]:
-        evidence = entry.get("evidence")
-        if isinstance(evidence, list):
-            return evidence
-        samples = entry.get("evidenceSamples")
-        if isinstance(samples, list):
-            return samples
-        return []
-
 
 def main() -> int:
     if hasattr(sys.stdout, "reconfigure"):

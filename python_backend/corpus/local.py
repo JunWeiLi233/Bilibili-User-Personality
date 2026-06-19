@@ -419,3 +419,30 @@ class LocalCorpusEvidenceFinder:
                 }
             )
         return entries
+
+
+class LocalCorpusEvidenceSummary:
+    """Shape local corpus evidence results into the JS/Python comparator contract."""
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        entries = result.get("entries") if isinstance(result.get("entries"), list) else []
+        terms = [entry.get("term") for entry in entries if isinstance(entry, dict)]
+        return {
+            "count": result.get("count", len(entries)),
+            "terms": terms,
+            "evidence": {
+                entry.get("term"): self.entry_evidence(entry)
+                for entry in entries
+                if isinstance(entry, dict) and entry.get("term") is not None
+            },
+        }
+
+    def entry_evidence(self, entry: dict[str, Any]) -> list[Any]:
+        evidence = entry.get("evidence")
+        if isinstance(evidence, list):
+            return evidence
+        samples = entry.get("evidenceSamples")
+        if isinstance(samples, list):
+            return samples
+        return []

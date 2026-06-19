@@ -78,7 +78,7 @@ from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContra
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusSummary
 from python_backend.corpus.history_tags import HistoryTagCorpusManager, HistoryTagScrapePlanner
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceImportPlanner, HuggingFaceImportSummary
-from python_backend.corpus.local import LocalCorpusEvidenceFinder
+from python_backend.corpus.local import LocalCorpusEvidenceFinder, LocalCorpusEvidenceSummary
 from python_backend.corpus.local import LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner
 from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner
@@ -2314,6 +2314,26 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["entries"][0]["term"], "\u61c2\u7684\u90fd\u61c2")
+
+    def test_local_corpus_evidence_summary_extracts_comparator_contract(self):
+        summary = LocalCorpusEvidenceSummary().summarize(
+            {
+                "count": 2,
+                "entries": [
+                    {"term": "alpha", "evidence": ["sample one"]},
+                    {"term": "beta", "evidenceSamples": ["sample two"]},
+                ],
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "count": 2,
+                "terms": ["alpha", "beta"],
+                "evidence": {"alpha": ["sample one"], "beta": ["sample two"]},
+            },
+        )
 
     def test_local_corpus_evidence_contract_comparator_reports_entry_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
