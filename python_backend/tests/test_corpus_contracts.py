@@ -31,7 +31,7 @@ from python_backend.cli.keyword_evidence import KeywordEvidenceRunner
 from python_backend.cli.history_tag_corpus import HistoryTagCorpusContractComparator, HistoryTagCorpusRunner
 from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportRunner
 from python_backend.cli.local_corpus_evidence import LocalCorpusEvidenceContractComparator, LocalCorpusEvidenceRunner
-from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenRunner
+from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenContractComparator, LocalCorpusFlattenRunner
 from python_backend.cli.video_comment_filter import VideoCommentFilterContractComparator, VideoCommentFilterRunner
 from python_backend.cli.video_context import VideoContextContractComparator, VideoContextRunner
 from python_backend.cli.video_relevance import VideoRelevanceContractComparator, VideoRelevanceRunner
@@ -1278,6 +1278,43 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["comments"][0]["uid"], "BVprogress")
+
+    def test_local_corpus_flatten_contract_comparator_reports_comment_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            input_path = root / "local.json"
+            js_report_path = root / "js-flatten.json"
+            input_path.write_text(
+                json.dumps({"_uidComments": {"42": [{"message": "alpha phrase appears here", "uname": "tester", "bvid": "BVprogress"}]}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"count": 0, "comments": []}),
+                encoding="utf-8",
+            )
+
+            result = LocalCorpusFlattenContractComparator(input_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "count", "python": 1, "js": 0},
+                {
+                    "key": "comments",
+                    "python": [
+                        {
+                            "message": "alpha phrase appears here",
+                            "platform": "bilibili",
+                            "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BVprogress/",
+                            "uid": "BVprogress",
+                            "uname": "tester",
+                        }
+                    ],
+                    "js": [],
+                },
+            ],
+        )
 
     def test_local_corpus_evidence_finder_selects_weak_and_strict_comment_backed_terms(self):
         finder = LocalCorpusEvidenceFinder()
