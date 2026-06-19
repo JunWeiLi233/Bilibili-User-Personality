@@ -1030,6 +1030,48 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["viewUrl"], "https://api.bilibili.com/x/web-interface/view?aid=116663559131570")
         self.assertIn("keyword=%E6%9F%A5%E6%9F%A5%E8%B5%84%E6%96%99+B%E7%AB%99%E8%AF%84%E8%AE%BA", result["searchUrls"][0])
 
+    def test_direct_probe_builder_creates_browser_identity_contract(self):
+        builder = DirectProbeCorpusBuilder()
+
+        cookie = builder.make_synthetic_bilibili_cookie(random_fn=lambda: 0.5, now_ms=1700000000000)
+        headers = builder.build_bilibili_web_headers("https://search.bilibili.com/all?keyword=x", {"cookie": "a=b"})
+
+        self.assertEqual(
+            cookie,
+            "buvid3=88888888-8888-8888-8888-8888888888888infoc; "
+            "buvid4=88888888-8888-8888-8888-888888888888-1700000000-1; "
+            "b_nut=1700000000; "
+            "_uuid=88888888-8888-8888-8888-888888888888888infoc; "
+            "b_lsid=88888888_8888888888",
+        )
+        self.assertEqual(headers["origin"], "https://search.bilibili.com")
+        self.assertEqual(headers["cookie"], "a=b")
+        self.assertIn("Chrome/125.0.0.0", headers["user-agent"])
+        self.assertEqual(headers["sec-fetch-site"], "same-site")
+
+    def test_direct_probe_plan_runner_exposes_browser_identity_json_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "referer": "https://search.bilibili.com/all?keyword=x",
+                        "cookie": "a=b",
+                        "syntheticCookie": {"randomValue": 0.5, "nowMs": 1700000000000},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = DirectProbePlanRunner(payload_path).run()
+
+        self.assertEqual(result["headers"]["origin"], "https://search.bilibili.com")
+        self.assertEqual(result["headers"]["cookie"], "a=b")
+        self.assertEqual(
+            result["syntheticCookie"],
+            DirectProbeCorpusBuilder().make_synthetic_bilibili_cookie(random_fn=lambda: 0.5, now_ms=1700000000000),
+        )
+
     def test_direct_probe_builder_recovers_existing_evidence_source_videos(self):
         builder = DirectProbeCorpusBuilder()
 

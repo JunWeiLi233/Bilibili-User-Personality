@@ -31,7 +31,7 @@ class DirectProbePlanRunner:
             "maxPerAction": payload.get("maxPerAction", 0),
             "corpus": payload.get("corpus") if isinstance(payload.get("corpus"), dict) else {},
         }
-        return {
+        result = {
             "ok": True,
             "needles": self.builder.probe_search_needles(action),
             "rankedVideos": self.builder.rank_probe_videos_for_action(videos, action),
@@ -49,6 +49,22 @@ class DirectProbePlanRunner:
             ),
             "searchUrls": self.builder.build_bilibili_search_urls(query, payload.get("searchOptions") if isinstance(payload.get("searchOptions"), dict) else {}),
         }
+        if payload.get("referer"):
+            result["headers"] = self.builder.build_bilibili_web_headers(
+                payload.get("referer"),
+                {
+                    "cookie": payload.get("cookie"),
+                    "userAgent": payload.get("userAgent"),
+                },
+            )
+        synthetic_cookie = payload.get("syntheticCookie") if isinstance(payload.get("syntheticCookie"), dict) else None
+        if synthetic_cookie is not None:
+            random_value = synthetic_cookie.get("randomValue", 0.5)
+            result["syntheticCookie"] = self.builder.make_synthetic_bilibili_cookie(
+                random_fn=lambda: random_value,
+                now_ms=synthetic_cookie.get("nowMs"),
+            )
+        return result
 
     def _read_payload(self) -> dict[str, Any]:
         with self.payload_path.open("r", encoding="utf-8-sig") as handle:

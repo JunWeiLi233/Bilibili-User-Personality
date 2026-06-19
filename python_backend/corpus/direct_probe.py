@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import html
+import random
 import re
+import time
 from datetime import datetime, timezone
+from typing import Any, Callable
 from urllib.parse import urlencode, urlparse
-from typing import Any
 
 
 def _clean_text(value: Any) -> str:
@@ -363,6 +365,28 @@ class DirectProbeCorpusBuilder:
         if options.get("cookie"):
             headers["cookie"] = _clean_text(options.get("cookie"))
         return headers
+
+    def make_synthetic_bilibili_cookie(self, random_fn: Callable[[], float] | None = None, now_ms: Any | None = None) -> str:
+        rand = random_fn or random.random
+        now_value = _number(now_ms) if now_ms is not None else time.time() * 1000
+        epoch = int(now_value // 1000)
+
+        def hex_chars(length: int) -> str:
+            chars = []
+            for _index in range(length):
+                value = max(0, min(int(_number(rand()) * 16), 15))
+                chars.append(format(value, "x").upper())
+            return "".join(chars)
+
+        return "; ".join(
+            [
+                f"buvid3={hex_chars(8)}-{hex_chars(4)}-{hex_chars(4)}-{hex_chars(4)}-{hex_chars(13)}infoc",
+                f"buvid4={hex_chars(8)}-{hex_chars(4)}-{hex_chars(4)}-{hex_chars(4)}-{hex_chars(12)}-{epoch}-1",
+                f"b_nut={epoch}",
+                f"_uuid={hex_chars(8)}-{hex_chars(4)}-{hex_chars(4)}-{hex_chars(4)}-{hex_chars(15)}infoc",
+                f"b_lsid={hex_chars(8)}_{hex_chars(10)}",
+            ]
+        )
 
     def build_evidence_source_videos_for_actions(
         self,
