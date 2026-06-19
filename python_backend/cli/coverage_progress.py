@@ -28,11 +28,15 @@ class CoverageProgressRunner:
         delta = self.tracker.coverage_delta(before, after)
         harvest_delta = self.tracker.coverage_delta_from_harvest(before, after, harvest_progress)
         action_delta = self.tracker.action_progress_delta(options["beforeActions"], options["afterActions"])
+        dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}
+        state = payload.get("state") if isinstance(payload.get("state"), dict) else {}
+        exhausted_options = payload.get("exhaustedOptions") if isinstance(payload.get("exhaustedOptions"), dict) else {}
         return {
             "ok": True,
             "delta": delta,
             "harvestDelta": harvest_delta,
             "actionDelta": action_delta,
+            "exhaustedTerms": self.tracker.select_exhausted_terms(dictionary, state, exhausted_options),
             "hasDeltaProgress": self.tracker.has_coverage_delta_progress(delta),
             "hasHarvestProgress": self.tracker.has_coverage_delta_progress(harvest_delta),
             "hasGateProgress": self.tracker.has_coverage_gate_progress(before, after, options),

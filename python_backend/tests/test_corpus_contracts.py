@@ -2496,6 +2496,59 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["hasGateProgress"])
         self.assertTrue(result["hasHarvestProgress"])
 
+    def test_coverage_progress_runner_reports_exhausted_terms_from_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "dictionary": {"entries": [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "evidenceCount": 0}]},
+                        "state": {"termAttempts": {"6Zu26K-B5o2u": {"attempts": 11}}},
+                        "exhaustedOptions": {"targetEvidence": 3, "attemptThreshold": 10},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = CoverageProgressRunner(payload_path).run()
+
+        self.assertEqual(result["exhaustedTerms"], [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "attempts": 11, "evidence": 0}])
+
+    def test_coverage_progress_tracker_selects_exhausted_terms_from_harvest_state(self):
+        tracker = CoverageProgressTracker()
+        dictionary = {
+            "entries": [
+                {"term": "\u96f6\u8bc1\u636e", "family": "attack", "evidenceCount": 0},
+                {"term": "\u90e8\u5206\u8bc1\u636e", "family": "evidence", "evidenceCount": 1, "evidenceSamples": ["sample"]},
+                {"term": "\u5df2\u8986\u76d6", "family": "meme", "evidenceCount": 3, "evidenceSamples": ["a", "b", "c"]},
+                {"term": "\u672a\u5c1d\u8bd5", "family": "attack", "evidenceCount": 0},
+            ]
+        }
+        state = {
+            "termAttempts": {
+                "6Zu26K-B5o2u": {"attempts": 10},
+                "\u90e8\u5206\u8bc1\u636e": {"attempts": 12},
+                "\u672a\u5c1d\u8bd5": {"attempts": 2},
+            }
+        }
+
+        strict = tracker.select_exhausted_terms(dictionary, state, {"targetEvidence": 3, "attemptThreshold": 10})
+        broad = tracker.select_exhausted_terms(
+            dictionary,
+            state,
+            {"targetEvidence": 3, "attemptThreshold": 10, "requireZeroEvidence": False},
+        )
+
+        self.assertEqual(strict, [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "attempts": 10, "evidence": 0}])
+        self.assertEqual(
+            broad,
+            [
+                {"term": "\u96f6\u8bc1\u636e", "family": "attack", "attempts": 10, "evidence": 0},
+                {"term": "\u90e8\u5206\u8bc1\u636e", "family": "evidence", "attempts": 12, "evidence": 1},
+            ],
+        )
+
     def test_video_keyword_discovery_reporter_keeps_query_diagnostics(self):
         reporter = VideoKeywordDiscoveryReporter(now=lambda: "2026-06-19T00:00:00.000Z")
         report = reporter.serialize_report(

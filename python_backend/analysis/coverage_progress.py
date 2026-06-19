@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import base64
 from typing import Any
+
+from python_backend.analysis.audit import CoverageAuditBuilder
 
 
 def _number(value: Any) -> float:
@@ -127,5 +130,59 @@ class CoverageProgressTracker:
             "coverageRatioDelta": 0,
         }
 
+    def select_exhausted_terms(
+        self,
+        dictionary: dict[str, Any] | None = None,
+        state: dict[str, Any] | None = None,
+        options: dict[str, Any] | None = None,
+    ) -> list[dict[str, Any]]:
+        options = options or {}
+        target_evidence = _positive_int(options.get("targetEvidence"), 3, 1000)
+        attempt_threshold = _positive_int(options.get("attemptThreshold"), 10, 100000)
+        require_zero_evidence = options.get("requireZeroEvidence") is not False
+        audit_builder = CoverageAuditBuilder(
+            target_evidence=target_evidence,
+            require_source_backed_evidence=options.get("requireSourceBackedEvidence") is True,
+            require_comment_backed_evidence=options.get("requireCommentBackedEvidence") is True,
+        )
+        term_attempts = state.get("termAttempts") if isinstance(state, dict) and isinstance(state.get("termAttempts"), dict) else {}
+        exhausted: list[dict[str, Any]] = []
+        entries = dictionary.get("entries") if isinstance(dictionary, dict) and isinstance(dictionary.get("entries"), list) else []
+        for entry in entries:
+            if not isinstance(entry, dict):
+                continue
+            term = str(entry.get("term") or "").strip()
+            if not term:
+                continue
+            evidence = audit_builder._coverage_evidence_count(entry)
+            if evidence >= target_evidence:
+                continue
+            if require_zero_evidence and evidence > 0:
+                continue
+            attempts = max(0, int(_number((self._term_attempt(term_attempts, term) or {}).get("attempts"))))
+            if attempts >= attempt_threshold:
+                exhausted.append({"term": term, "family": entry.get("family") or "", "attempts": attempts, "evidence": evidence})
+        return exhausted
+
     def _action_need(self, action: dict[str, Any]) -> int | float:
         return max(0, _number(action.get("needs")))
+
+    def _term_attempt(self, term_attempts: dict[str, Any], term: str) -> dict[str, Any] | None:
+        raw = term_attempts.get(term)
+        if isinstance(raw, dict):
+            return raw
+        encoded = term_attempts.get(_term_attempt_key(term))
+        return encoded if isinstance(encoded, dict) else None
+
+
+def _positive_int(value: Any, fallback: int, max_value: int) -> int:
+    try:
+        parsed = int(value)
+    except (TypeError, ValueError):
+        parsed = fallback
+    return min(max_value, max(1, parsed))
+
+
+def _term_attempt_key(term: str) -> str:
+    encoded = base64.urlsafe_b64encode(term.encode("utf-8")).decode("ascii")
+    return encoded.rstrip("=")
