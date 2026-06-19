@@ -190,7 +190,10 @@ export async function scrapeBilibiliHistoryTags(options = {}, deps = {}) {
   const seeds = parseList(options.seeds).length ? parseList(options.seeds) : DEFAULT_HISTORY_TAG_SEEDS;
   const pages = Math.max(1, Math.min(Number(options.pages || 1), 10));
   const pageSize = Math.max(1, Math.min(Number(options.pageSize || 20), 50));
+  const delayMs = Math.max(0, Number(options.delayMs || 0));
+  const jitterMs = Math.max(0, Number(options.jitterMs || 0));
   const requestJson = deps.fetchJson;
+  const waitFn = deps.waitFn || ((ms) => new Promise((resolve) => setTimeout(resolve, ms)));
   if (typeof requestJson !== 'function') throw new Error('scrapeBilibiliHistoryTags requires a fetchJson dependency.');
 
   const videos = [];
@@ -199,6 +202,10 @@ export async function scrapeBilibiliHistoryTags(options = {}, deps = {}) {
 
   for (const seed of seeds) {
     for (let page = 1; page <= pages; page += 1) {
+      if (videos.length > 0 && delayMs > 0) {
+        const jitter = jitterMs > 0 ? Math.floor(Math.random() * jitterMs) : 0;
+        await waitFn(delayMs + jitter);
+      }
       const url = new URL('https://api.bilibili.com/x/web-interface/search/type');
       url.searchParams.set('search_type', 'video');
       url.searchParams.set('keyword', seed);

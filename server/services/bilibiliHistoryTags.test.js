@@ -40,6 +40,37 @@ test('scrapeBilibiliHistoryTags collects only tag/video metadata', async () => {
   assert.equal(urls.some((url) => url.includes('/x/v2/reply') || url.includes('dm/web')), false);
 });
 
+test('scrapeBilibiliHistoryTags paces repeated metadata requests', async () => {
+  const waits = [];
+  let calls = 0;
+  await scrapeBilibiliHistoryTags(
+    { seeds: ['history', 'qing'], pages: 1, pageSize: 1, delayMs: 50, jitterMs: 0 },
+    {
+      waitFn: async (ms) => waits.push(ms),
+      fetchJson: async () => {
+        calls += 1;
+        return { code: 0, data: { result: [{ bvid: `BVhistory00${calls}`, aid: calls, title: 'history video' }] } };
+      },
+    },
+  );
+
+  assert.equal(calls, 2);
+  assert.deepEqual(waits, [50]);
+});
+
+test('scrapeBilibiliHistoryTags does not wait before the first metadata request', async () => {
+  const waits = [];
+  await scrapeBilibiliHistoryTags(
+    { seeds: ['history'], pages: 1, pageSize: 1, delayMs: 50, jitterMs: 0 },
+    {
+      waitFn: async (ms) => waits.push(ms),
+      fetchJson: async () => ({ code: 0, data: { result: [] } }),
+    },
+  );
+
+  assert.deepEqual(waits, []);
+});
+
 test('mergeBilibiliHistoryTagCorpus deduplicates videos and preserves history tag lookup', () => {
   const merged = mergeBilibiliHistoryTagCorpus(
     {

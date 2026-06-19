@@ -23,6 +23,8 @@
     "aicu:batch": "node server/scripts/batchScrapeAicu.js",
     "aicu:test": "node server/scripts/testAicuApi.js",
     "stats:update": "node server/scripts/updateReadmeStatsGraph.js",
+    "python:test": "python -m unittest discover python_backend/tests",
+    "python:compare": "python -m python_backend.cli.compare_contracts",
     "dev:full": "node server/index.js",
     "test": "node --test",
     "build": "vite build",
