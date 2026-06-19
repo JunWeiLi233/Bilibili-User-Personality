@@ -24,7 +24,7 @@ from python_backend.cli.discovery_report import VideoKeywordDiscoveryReportContr
 from python_backend.cli.harvest_options import HarvestOptionsContractComparator, HarvestOptionsRunner
 from python_backend.cli.harvest_plan import KeywordHarvestPlanContractComparator, KeywordHarvestPlanRunner
 from python_backend.cli.readme_stats import ReadmeStatsRunner
-from python_backend.cli.semantic_matcher import SemanticMatcherRunner
+from python_backend.cli.semantic_matcher import SemanticMatcherContractComparator, SemanticMatcherRunner
 from python_backend.cli.compare_contracts import ContractComparator
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanContractComparator, DeepSeekAnalysisPlanRunner
 from python_backend.cli.keyword_evidence import KeywordEvidenceRunner
@@ -520,6 +520,39 @@ class CorpusContractTests(unittest.TestCase):
                 {"term": "term-a", "chunk": "alpha chunk", "score": 1.0},
                 {"term": "term-a", "chunk": "beta chunk", "score": 0.8},
                 {"term": "term-b", "chunk": "beta chunk", "score": 0.6},
+            ],
+        )
+
+    def test_semantic_matcher_contract_comparator_reports_match_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "semantic.json"
+            js_report_path = root / "js-semantic.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "chunks": ["alpha chunk"],
+                        "vectors": {"left": [1, 0], "right": [0.8, 0.6]},
+                        "chunkEmbeddings": [[1, 0]],
+                        "termEmbeddings": {"term-a": [1, 0]},
+                        "threshold": 0.7,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"ok": True, "chunks": ["alpha chunk"], "cosine": 0.7, "matches": []}),
+                encoding="utf-8",
+            )
+
+            result = SemanticMatcherContractComparator(payload_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "cosine", "python": 0.8, "js": 0.7},
+                {"key": "matches", "python": [{"term": "term-a", "chunk": "alpha chunk", "score": 1.0}], "js": []},
             ],
         )
 
