@@ -47,6 +47,7 @@ from python_backend.cli.tieba_html_parse import TiebaHtmlParseContractComparator
 from python_backend.cli.tieba_timing import TiebaTimingContractComparator, TiebaTimingRunner
 from python_backend.cli.uid_range_progress import UidRangeProgressContractComparator, UidRangeProgressRunner
 from python_backend.cli.uid_pipeline_merge import UidPipelineMergeContractComparator, UidPipelineMergeRunner
+from python_backend.cli.uid_pipeline_launcher import UidPipelineLauncherContractComparator, UidPipelineLauncherPlanRunner
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder
 from python_backend.corpus.history_tags import HistoryTagCorpusManager
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter
@@ -4191,6 +4192,79 @@ class CorpusContractTests(unittest.TestCase):
         self.assertNotIn("processed", result)
         self.assertEqual(result["summary"]["totalProcessed"], 1)
         self.assertEqual(result["stats"]["success"], 1)
+
+    def test_uid_pipeline_launcher_plan_runner_matches_js_launcher_state_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+
+            result = UidPipelineLauncherPlanRunner(
+                data_dir,
+                total_start=1,
+                total_end=5,
+                workers=2,
+                now=lambda: "2026-06-19T00:00:00.000Z",
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["startedAt"], "2026-06-19T00:00:00.000Z")
+        self.assertEqual(result["range"], {"start": 1, "end": 5, "workers": 2, "chunkSize": 3})
+        self.assertEqual(
+            result["workers"],
+            [
+                {
+                    "start": 1,
+                    "end": 3,
+                    "progressFile": "uid-pipeline-1-3.json",
+                    "logFile": "scraper-logs/uid-pipeline-1-3.log",
+                    "args": ["--start=1", "--end=3"],
+                },
+                {
+                    "start": 4,
+                    "end": 5,
+                    "progressFile": "uid-pipeline-4-5.json",
+                    "logFile": "scraper-logs/uid-pipeline-4-5.log",
+                    "args": ["--start=4", "--end=5"],
+                },
+            ],
+        )
+        self.assertEqual(
+            result["state"],
+            {
+                "startedAt": "2026-06-19T00:00:00.000Z",
+                "workers": [
+                    {"start": 1, "end": 3, "progressFile": "uid-pipeline-1-3.json"},
+                    {"start": 4, "end": 5, "progressFile": "uid-pipeline-4-5.json"},
+                ],
+            },
+        )
+        self.assertFalse((data_dir / "uid-pipeline-launcher.json").exists())
+
+    def test_uid_pipeline_launcher_comparator_reports_worker_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            js_report_path = root / "uid-pipeline-launcher.json"
+            js_report_path.write_text(
+                json.dumps({"startedAt": "", "workers": [{"start": 1, "end": 2, "progressFile": "stale.json"}]}),
+                encoding="utf-8",
+            )
+
+            result = UidPipelineLauncherContractComparator(data_dir, js_report_path, total_start=1, total_end=2, workers=1).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {
+                    "key": "workers",
+                    "python": [{"start": 1, "end": 2, "progressFile": "uid-pipeline-1-2.json"}],
+                    "js": [{"start": 1, "end": 2, "progressFile": "stale.json"}],
+                }
+            ],
+        )
 
     def test_scraper_monitor_runner_summarizes_discovery_and_pipeline_progress(self):
         with tempfile.TemporaryDirectory() as tmp:
