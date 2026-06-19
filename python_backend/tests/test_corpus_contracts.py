@@ -2871,6 +2871,38 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["queries"], ["weak \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4", "seed topic"])
         self.assertEqual(result["plan"][0]["source"], "dictionary")
 
+    def test_keyword_harvest_plan_builder_expands_repeated_misses_to_untried_variants(self):
+        plan = KeywordHarvestPlanBuilder().build_query_plan(
+            {"entries": [{"term": "doge", "family": "cooperation", "evidenceCount": 0}]},
+            {
+                "seedQueries": [],
+                "coverageMode": "all-weak",
+                "maxQueries": 4,
+                "queryVariantsPerTerm": 2,
+                "termAttempts": {
+                    "doge": {
+                        "term": "doge",
+                        "attempts": 2,
+                        "successfulAttempts": 0,
+                        "queries": [
+                            {"query": "doge \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4"},
+                            {"query": "doge \u8bc4\u8bba\u533a"},
+                        ],
+                    }
+                },
+            },
+        )
+
+        self.assertEqual(
+            [[item["query"], item["variantIndex"], item["previouslyTried"]] for item in plan],
+            [
+                ["doge \u70ed\u8bc4", 2, False],
+                ["doge \u5f39\u5e55", 3, False],
+                ["doge \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4", 0, True],
+                ["doge \u8bc4\u8bba\u533a", 1, True],
+            ],
+        )
+
     def test_coverage_audit_builder_matches_js_metric_contract(self):
         dictionary = {
             "entries": [

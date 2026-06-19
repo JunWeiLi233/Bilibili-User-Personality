@@ -109,7 +109,13 @@ class KeywordHarvestPlanBuilder:
             attempts = max(0, int(float(attempt.get("attempts") or 0)))
             successful = self._effective_successful_attempts(attempt)
             tried = {_clean_text(item.get("query")) for item in attempt.get("queries") or [] if isinstance(item, dict) and _clean_text(item.get("query"))}
-            variants = self._query_variants_for_term(term, family, variants_per_term)
+            adaptive_variants_per_term = variants_per_term
+            if coverage_mode == "all-weak" and attempts > 0 and successful == 0:
+                adaptive_variants_per_term = min(
+                    self._query_variant_count_for_term(term, family),
+                    max(variants_per_term, attempts + variants_per_term),
+                )
+            variants = self._query_variants_for_term(term, family, adaptive_variants_per_term)
             if coverage_mode == "all-weak":
                 variants = [*([item for item in variants if item["query"] not in tried]), *([item for item in variants if item["query"] in tried])]
             for variant in variants:
@@ -200,6 +206,9 @@ class KeywordHarvestPlanBuilder:
         ]
         variants = [{"query": self._normalize_query(query), "variantIndex": index, "builtInVariant": True} for index, query in enumerate(queries)]
         return _unique(variants)[:limit]
+
+    def _query_variant_count_for_term(self, term: str, family: str) -> int:
+        return len(self._query_variants_for_term(term, family, 10000))
 
     def _dedupe_and_limit(self, items: list[dict[str, Any]], max_queries: int) -> list[dict[str, Any]]:
         seen = set()
