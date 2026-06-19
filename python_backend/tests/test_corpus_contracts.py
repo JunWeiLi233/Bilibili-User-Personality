@@ -12,6 +12,7 @@ from python_backend.analysis.verification import RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient
 from python_backend.cli.comment_coverage import CommentCoverageRunner
 from python_backend.cli.bilibili_parse import BilibiliParseRunner
+from python_backend.cli.bilibili_crawler import BilibiliCrawlerRunner
 from python_backend.cli.bilibili_probe_plan import BilibiliProbePlanRunner
 from python_backend.cli.coverage_audit import AuditContractComparator
 from python_backend.cli.coverage_progress import CoverageProgressRunner
@@ -41,6 +42,7 @@ from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliPublicParser
+from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerHelper
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanner
 from python_backend.scrapers.rate_limiter import RateLimiter
 from python_backend.scrapers.tieba_html import TiebaHtmlParser
@@ -1094,6 +1096,42 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["mode"], "danmaku")
         self.assertEqual(result["comments"][0]["message"], "\u5f39\u5e55\u8bc4\u8bba")
         self.assertEqual(result["comments"][0]["rpid"], "danmaku-200-0")
+
+    def test_bilibili_crawler_helper_matches_bvid_and_block_contracts(self):
+        helper = BilibiliCrawlerHelper()
+
+        self.assertEqual(
+            helper.parse_bvid_pool("BV19yGa61Ee6, BV1xx411c7mD，BVabc1234567  bad-id"),
+            ["BV19yGa61Ee6", "BV1xx411c7mD", "BVabc1234567"],
+        )
+        self.assertEqual(helper.extract_bvid("BV19yGa61Ee6"), "BV19yGa61Ee6")
+        self.assertEqual(helper.extract_bvid("https://www.bilibili.com/video/BV19yGa61Ee6/?vd_source=abc"), "BV19yGa61Ee6")
+        self.assertEqual(helper.extract_bvid("https://b23.tv/BV1xx411c7mD"), "BV1xx411c7mD")
+        self.assertEqual(helper.extract_bvid("not-a-video"), "")
+        self.assertTrue(helper.is_block_response({"code": -352}))
+        self.assertTrue(helper.is_block_response({"code": "-412"}))
+        self.assertFalse(helper.is_block_response({"code": 0}))
+
+    def test_bilibili_crawler_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "text": "BV19yGa61Ee6, BV1xx411c7mD",
+                        "payload": {"code": -509},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = BilibiliCrawlerRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["bvids"], ["BV19yGa61Ee6", "BV1xx411c7mD"])
+        self.assertEqual(result["bvid"], "BV19yGa61Ee6")
+        self.assertTrue(result["blocked"])
 
     def test_bilibili_probe_planner_builds_headers_and_urls(self):
         planner = BilibiliProbePlanner()

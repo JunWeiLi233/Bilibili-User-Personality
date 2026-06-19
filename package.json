@@ -34,6 +34,7 @@
     "python:deepseek-plan": "python -m python_backend.cli.deepseek_analysis_plan",
     "python:huggingface-import": "python -m python_backend.cli.huggingface_corpus",
     "python:history-tags": "python -m python_backend.cli.history_tag_corpus",
+    "python:bilibili-crawler": "python -m python_backend.cli.bilibili_crawler",
     "python:bilibili-parse": "python -m python_backend.cli.bilibili_parse",
     "python:bilibili-probe-plan": "python -m python_backend.cli.bilibili_probe_plan",
     "python:tieba-html-parse": "python -m python_backend.cli.tieba_html_parse",
