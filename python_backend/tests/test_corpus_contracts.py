@@ -34,7 +34,7 @@ from python_backend.cli.deepseek_analysis_validate import DeepSeekAnalysisValida
 from python_backend.cli.exhausted_terms_prune_plan import ExhaustedTermsPrunePlanContractComparator, ExhaustedTermsPrunePlanRunner
 from python_backend.cli.keyword_evidence import KeywordEvidenceContractComparator, KeywordEvidenceRunner
 from python_backend.cli.history_tag_corpus import HistoryTagCorpusContractComparator, HistoryTagCorpusRunner
-from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportContractComparator, HuggingFaceCorpusImportRunner
+from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportContractComparator, HuggingFaceCorpusImportPlanContractComparator, HuggingFaceCorpusImportPlanRunner, HuggingFaceCorpusImportRunner
 from python_backend.cli.local_corpus_evidence import LocalCorpusEvidenceContractComparator, LocalCorpusEvidenceRunner
 from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenContractComparator, LocalCorpusFlattenRunner
 from python_backend.cli.local_corpus_mine_plan import LocalCorpusMinePlanContractComparator, LocalCorpusMinePlanRunner
@@ -70,7 +70,7 @@ from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContra
 from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContractComparator, FastPipelineLauncherPlanRunner
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder
 from python_backend.corpus.history_tags import HistoryTagCorpusManager
-from python_backend.corpus.huggingface import HuggingFaceCorpusImporter
+from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceImportPlanner
 from python_backend.corpus.local import LocalCorpusEvidenceFinder
 from python_backend.corpus.local import LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner
@@ -1688,6 +1688,66 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(single_object_rows, [])
         self.assertEqual([row["message"] for row in nested_rows], ["\u5e94\u8be5\u88ab\u89e3\u6790"])
+
+    def test_huggingface_import_planner_matches_js_default_source_and_fetch_contract(self):
+        planner = HuggingFaceImportPlanner(default_output="server/data/huggingFaceKeywordCorpus.json")
+
+        result = planner.build_plan(["--max-sources=3", "--request-timeout-ms=999999", "--write"])
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["outputPath"], "server/data/huggingFaceKeywordCorpus.json")
+        self.assertEqual(result["write"], True)
+        self.assertEqual(result["requestTimeoutMs"], 120000)
+        self.assertEqual(result["summary"], {"sources": 3, "maxSources": 3, "fetchAttempts": 3})
+        self.assertEqual(
+            result["sources"][0],
+            {
+                "dataset": "Orphanage/Baidu_Tieba_SunXiaochuan",
+                "file": "train.jsonl",
+                "platform": "tieba",
+                "maxBytes": 750000,
+                "limit": 250,
+                "offset": 0,
+                "resolveUrl": "https://huggingface.co/datasets/Orphanage/Baidu_Tieba_SunXiaochuan/resolve/main/train.jsonl",
+                "rangeHeader": "bytes=0-749999",
+            },
+        )
+        self.assertEqual(result["sources"][2]["dataset"], "Midsummra/bilibilicomment")
+        self.assertEqual(result["sources"][2]["resolveUrl"], "https://huggingface.co/datasets/Midsummra/bilibilicomment/resolve/main/bilibili.csv")
+
+    def test_huggingface_import_plan_runner_and_comparator_read_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "hf-plan.json"
+            js_report_path = root / "js-hf-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--source=demo/dataset::data/comments.csv::bilibili::10000::7::2", "--request-timeout-ms=50"],
+                        "env": {"HUGGINGFACE_CORPUS_WRITE": "1"},
+                        "defaultOutput": "server/data/hf.json",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"requestTimeoutMs": 50, "write": False}), encoding="utf-8")
+
+            result = HuggingFaceCorpusImportPlanRunner(payload_path).run()
+            comparison = HuggingFaceCorpusImportPlanContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["requestTimeoutMs"], 1000)
+        self.assertEqual(result["write"], True)
+        self.assertEqual(result["sources"][0]["offset"], 2)
+        self.assertEqual(result["sources"][0]["rangeHeader"], "bytes=0-9999")
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "requestTimeoutMs", "python": 1000, "js": 50},
+                {"key": "write", "python": True, "js": False},
+            ],
+        )
 
     def test_huggingface_import_runner_reads_raw_and_existing_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -67,6 +67,7 @@
     "python:deepseek-cli-plan": "python -m python_backend.cli.deepseek_analyze_cli_plan",
     "python:deepseek-validate": "python -m python_backend.cli.deepseek_analysis_validate",
     "python:keyword-evidence": "python -m python_backend.cli.keyword_evidence",
+    "python:huggingface-plan": "python -m python_backend.cli.huggingface_corpus --plan-payload",
     "python:huggingface-import": "python -m python_backend.cli.huggingface_corpus",
     "python:history-tags": "python -m python_backend.cli.history_tag_corpus",
     "python:bilibili-crawler": "python -m python_backend.cli.bilibili_crawler",

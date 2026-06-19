@@ -182,3 +182,91 @@ class HuggingFaceCorpusImporter:
         provider = source.provider or ("Kaggle dataset" if source.dataset.startswith("kaggle:") else "Hugging Face dataset")
         prefix = f"{provider}: {source.dataset}{('/' + source.file) if source.file else ''}"
         return f"{prefix}: {url}" if url else prefix
+
+
+class HuggingFaceImportPlanner:
+    """Build a dry-run fetch plan compatible with importHuggingFaceCorpus.js."""
+
+    DEFAULT_SOURCES = (
+        {"dataset": "Orphanage/Baidu_Tieba_SunXiaochuan", "file": "train.jsonl", "platform": "tieba", "maxBytes": 750000, "limit": 250},
+        {"dataset": "Orphanage/Baidu_Tieba_KangYaBeiGuo", "file": "data/tieba_post_detail_page_1~106/tieba_post_detail_page_1.json", "platform": "tieba", "maxBytes": 750000, "limit": 250},
+        {"dataset": "Midsummra/bilibilicomment", "file": "bilibili.csv", "platform": "bilibili", "maxBytes": 5000000, "limit": 1000},
+        {"dataset": "honeray/ai-music-comments-1.5M", "file": "final_data.csv", "platform": "bilibili", "maxBytes": 1000000, "limit": 250},
+        {"dataset": "wencan2024/bilibili-masterpieces", "file": "bilibili-masterpieces-v0.jsonl", "platform": "bilibili", "maxBytes": 750000, "limit": 100},
+        {"dataset": "JunyuLu/ToxiCN", "file": "ToxiCN_1.0.csv", "platform": "tieba", "maxBytes": 1000000, "limit": 250},
+    )
+
+    def __init__(self, *, default_output: str = "server/data/huggingFaceKeywordCorpus.json"):
+        self.default_output = default_output
+
+    def build_plan(self, argv: list[Any] | None = None, env: dict[str, Any] | None = None) -> dict[str, Any]:
+        argv = argv or []
+        env = env or {}
+        output_path = _clean_text(env.get("HUGGINGFACE_CORPUS_PATH") or self.default_output)
+        max_sources = self._number(env.get("HUGGINGFACE_MAX_SOURCES"), len(self.DEFAULT_SOURCES))
+        request_timeout_ms = self._number(env.get("HUGGINGFACE_REQUEST_TIMEOUT_MS"), 30000)
+        write = str(env.get("HUGGINGFACE_CORPUS_WRITE") or "") == "1"
+        sources: list[dict[str, Any]] = []
+        for raw in argv:
+            arg = str(raw or "")
+            if arg.startswith("--output="):
+                output_path = arg.split("=", 1)[1].strip()
+            elif arg.startswith("--source="):
+                sources.append(self._parse_source(arg.split("=", 1)[1]))
+            elif arg.startswith("--max-sources="):
+                max_sources = self._number(arg.split("=", 1)[1], max_sources)
+            elif arg.startswith("--request-timeout-ms="):
+                request_timeout_ms = self._number(arg.split("=", 1)[1], request_timeout_ms)
+            elif arg == "--write":
+                write = True
+        selected = [source for source in (sources or list(self.DEFAULT_SOURCES)) if source.get("dataset") and source.get("file")]
+        bounded_max_sources = max(1, min(max_sources or len(self.DEFAULT_SOURCES), 20))
+        request_timeout_ms = max(1000, min(request_timeout_ms or 30000, 120000))
+        planned_sources = [self._source_plan(source) for source in selected[:bounded_max_sources]]
+        return {
+            "ok": True,
+            "outputPath": output_path,
+            "write": write,
+            "requestTimeoutMs": request_timeout_ms,
+            "sources": planned_sources,
+            "summary": {"sources": len(planned_sources), "maxSources": bounded_max_sources, "fetchAttempts": 3},
+        }
+
+    def _parse_source(self, value: Any) -> dict[str, Any]:
+        parts = str(value or "").split("::")
+        dataset = _clean_text(parts[0] if len(parts) > 0 else "")
+        file = _clean_text(parts[1] if len(parts) > 1 else "")
+        platform = _clean_text(parts[2] if len(parts) > 2 else "huggingface") or "huggingface"
+        max_bytes = self._number(parts[3] if len(parts) > 3 else 750000, 750000)
+        limit = self._number(parts[4] if len(parts) > 4 else 250, 250)
+        offset = self._number(parts[5] if len(parts) > 5 else 0, 0)
+        return {"dataset": dataset, "file": file, "platform": platform, "maxBytes": max_bytes, "limit": limit, "offset": offset}
+
+    def _source_plan(self, source: dict[str, Any]) -> dict[str, Any]:
+        max_bytes = max(1000, min(self._number(source.get("maxBytes"), 750000), 5000000))
+        offset = self._number(source.get("offset"), 0)
+        return {
+            "dataset": _clean_text(source.get("dataset")),
+            "file": _clean_text(source.get("file")),
+            "platform": _clean_text(source.get("platform") or "huggingface"),
+            "maxBytes": max_bytes,
+            "limit": self._number(source.get("limit"), 250),
+            "offset": max(0, offset),
+            "resolveUrl": self._resolve_url(source),
+            "rangeHeader": f"bytes=0-{max_bytes - 1}",
+        }
+
+    def _resolve_url(self, source: dict[str, Any]) -> str:
+        encoded_file = "/".join(self._encode_segment(segment) for segment in str(source.get("file") or "").split("/"))
+        return f"https://huggingface.co/datasets/{source.get('dataset')}/resolve/main/{encoded_file}"
+
+    def _encode_segment(self, value: Any) -> str:
+        from urllib.parse import quote
+
+        return quote(str(value or ""), safe="")
+
+    def _number(self, value: Any, fallback: int) -> int:
+        try:
+            return int(float(str(value)))
+        except (TypeError, ValueError):
+            return fallback

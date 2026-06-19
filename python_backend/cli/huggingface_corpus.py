@@ -6,7 +6,64 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from python_backend.corpus.huggingface import HuggingFaceCorpusImporter
+from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceImportPlanner
+
+
+class HuggingFaceCorpusImportPlanRunner:
+    """Read a JS-compatible HuggingFace import option payload and emit a fetch plan."""
+
+    def __init__(self, payload_path: str | Path):
+        self.payload_path = Path(payload_path)
+
+    def run(self) -> dict[str, Any]:
+        payload = self._read_payload()
+        planner = HuggingFaceImportPlanner(default_output=str(payload.get("defaultOutput") or "server/data/huggingFaceKeywordCorpus.json"))
+        return planner.build_plan(
+            argv=payload.get("argv") if isinstance(payload.get("argv"), list) else [],
+            env=payload.get("env") if isinstance(payload.get("env"), dict) else {},
+        )
+
+    def _read_payload(self) -> dict[str, Any]:
+        with self.payload_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        if not isinstance(payload, dict):
+            raise ValueError("HuggingFace import plan payload must be a JSON object.")
+        return payload
+
+
+class HuggingFaceCorpusImportPlanContractComparator:
+    """Compare Python HuggingFace import fetch plans against saved JS-compatible JSON."""
+
+    RESULT_KEYS = ("outputPath", "requestTimeoutMs", "write", "sources", "summary")
+
+    def __init__(self, payload_path: str | Path, js_report_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.js_report_path = Path(js_report_path)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = HuggingFaceCorpusImportPlanRunner(self.payload_path).run()
+        js_result = self._read_js_report()
+        mismatches = [
+            {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
+            for key in self.RESULT_KEYS
+            if key in js_result and python_result.get(key) != js_result.get(key)
+        ]
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": self._summary(python_result),
+            "js": self._summary(js_result),
+        }
+
+    def _read_js_report(self) -> dict[str, Any]:
+        if not self.js_report_path.exists():
+            return {}
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
+
+    def _summary(self, result: dict[str, Any]) -> dict[str, Any]:
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
 
 
 class HuggingFaceCorpusImportRunner:
@@ -129,17 +186,25 @@ class HuggingFaceCorpusImportContractComparator:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Parse a local HuggingFace/Kaggle corpus file into the JS-compatible corpus contract.")
-    parser.add_argument("--raw", required=True, help="Path to downloaded JSON/JSONL/CSV source rows.")
+    parser.add_argument("--plan-payload", default="", help="Path to a JS-compatible import option payload for dry-run fetch planning.")
+    parser.add_argument("--raw", default="", help="Path to downloaded JSON/JSONL/CSV source rows.")
     parser.add_argument("--existing", default="server/data/huggingFaceKeywordCorpus.json", help="Existing corpus JSON manifest.")
-    parser.add_argument("--dataset", required=True)
-    parser.add_argument("--file", required=True)
+    parser.add_argument("--dataset", default="")
+    parser.add_argument("--file", default="")
     parser.add_argument("--platform", default="huggingface")
     parser.add_argument("--limit", type=int, default=500)
     parser.add_argument("--offset", type=int, default=0)
     parser.add_argument("--generated-at", default="")
     parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible HuggingFace/Kaggle import report to compare.")
     args = parser.parse_args()
-    if args.compare_js_report:
+    if args.plan_payload:
+        if args.compare_js_report:
+            result = HuggingFaceCorpusImportPlanContractComparator(args.plan_payload, args.compare_js_report).compare()
+        else:
+            result = HuggingFaceCorpusImportPlanRunner(args.plan_payload).run()
+    elif not args.raw or not args.dataset or not args.file:
+        parser.error("--raw, --dataset, and --file are required unless --plan-payload is provided.")
+    elif args.compare_js_report:
         result = HuggingFaceCorpusImportContractComparator(
             raw_path=args.raw,
             existing_path=args.existing,
