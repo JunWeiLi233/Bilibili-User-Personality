@@ -3758,6 +3758,59 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_audit_contract_comparator_reports_family_gap_mismatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            js_audit_path = root / "js-audit.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {"term": "weak", "family": "attack", "evidenceCount": 1},
+                            {"term": "covered", "family": "cooperation", "evidenceCount": 3},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_audit_path.write_text(
+                json.dumps(
+                    {
+                        "targetEvidence": 3,
+                        "coverage": {
+                            "terms": 2,
+                            "totalEvidence": 4,
+                            "weakTerms": 1,
+                            "zeroEvidenceTerms": 0,
+                            "evidenceDeficit": 2,
+                            "coverageRatio": 0.5,
+                            "sourcedEvidenceTerms": 0,
+                            "unsourcedEvidenceTerms": 2,
+                        },
+                        "familyGaps": [{"family": "stale", "terms": 2, "weak": 1, "zero": 0, "evidence": 4, "coverageRatio": 0.5}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = AuditContractComparator(dictionary_path, js_audit_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {
+                    "key": "familyGaps",
+                    "python": [
+                        {"family": "attack", "terms": 1, "weak": 1, "zero": 0, "evidence": 1, "coverageRatio": 0},
+                        {"family": "cooperation", "terms": 1, "weak": 0, "zero": 0, "evidence": 3, "coverageRatio": 1},
+                    ],
+                    "js": [{"family": "stale", "terms": 2, "weak": 1, "zero": 0, "evidence": 4, "coverageRatio": 0.5}],
+                }
+            ],
+        )
+
     def test_audit_contract_comparator_reports_total_evidence_mismatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -58,6 +58,11 @@ class AuditContractComparator:
             js_reasons = list(js_audit.get("failureReasons") or [])
             if python_reasons != js_reasons:
                 mismatches.append({"key": "failureReasons", "python": python_reasons, "js": js_reasons})
+        if "familyGaps" in js_audit:
+            python_family_gaps = list(python_audit.get("familyGaps") or [])
+            js_family_gaps = list(js_audit.get("familyGaps") or [])
+            if python_family_gaps != js_family_gaps:
+                mismatches.append({"key": "familyGaps", "python": python_family_gaps, "js": js_family_gaps})
         if self.strict_total_evidence:
             mismatches.extend(warnings)
             warnings = []
@@ -88,6 +93,7 @@ class AuditContractComparator:
             "targetEvidence": report.target_evidence,
             "coverage": {key: coverage.get(key) for key in (*self.GATE_METRIC_KEYS, *self.WARNING_METRIC_KEYS)},
             "failureReasons": list(audit.get("failureReasons") or []),
+            "familyGaps": list(audit.get("familyGaps") or []),
         }
 
 
