@@ -29,7 +29,7 @@ from python_backend.cli.compare_contracts import ContractComparator
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanContractComparator, DeepSeekAnalysisPlanRunner
 from python_backend.cli.keyword_evidence import KeywordEvidenceContractComparator, KeywordEvidenceRunner
 from python_backend.cli.history_tag_corpus import HistoryTagCorpusContractComparator, HistoryTagCorpusRunner
-from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportRunner
+from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportContractComparator, HuggingFaceCorpusImportRunner
 from python_backend.cli.local_corpus_evidence import LocalCorpusEvidenceContractComparator, LocalCorpusEvidenceRunner
 from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenContractComparator, LocalCorpusFlattenRunner
 from python_backend.cli.video_comment_filter import VideoCommentFilterContractComparator, VideoCommentFilterRunner
@@ -1239,6 +1239,41 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["importedRows"], 1)
         self.assertEqual(result["addedComments"], 1)
         self.assertEqual(result["corpus"]["comments"][0]["message"], "\u5341\u5468\u5e74\u5feb\u4e50")
+
+    def test_huggingface_import_contract_comparator_reports_corpus_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            raw_path = root / "rows.csv"
+            existing_path = root / "existing.json"
+            js_report_path = root / "js-huggingface-import.json"
+            raw_path.write_text("message\n\u5341\u5468\u5e74\u5feb\u4e50\n", encoding="utf-8")
+            existing_path.write_text(json.dumps({"version": 1, "comments": [], "runs": []}), encoding="utf-8")
+            js_report_path.write_text(
+                json.dumps(
+                    {
+                        "ok": True,
+                        "importedRows": 1,
+                        "changed": True,
+                        "addedComments": 0,
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = HuggingFaceCorpusImportContractComparator(
+                raw_path=raw_path,
+                existing_path=existing_path,
+                dataset="Midsummra/bilibilicomment",
+                file="bilibili.csv",
+                platform="bilibili",
+                js_report_path=js_report_path,
+                generated_at="2026-06-17T00:00:00.000Z",
+            ).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["mismatches"], [{"key": "addedComments", "python": 1, "js": 0}])
+        self.assertEqual(result["python"]["summary"], {"importedRows": 1, "changed": True, "addedComments": 1})
+        self.assertEqual(result["js"]["summary"], {"importedRows": 1, "changed": True, "addedComments": 0})
 
     def test_local_corpus_flattener_reads_uid_maps_and_plain_text(self):
         flattener = LocalCorpusFlattener()
