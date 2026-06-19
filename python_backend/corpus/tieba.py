@@ -4,6 +4,16 @@ from datetime import datetime, timezone
 from typing import Any
 
 
+class TiebaCorpusUpdateSummary:
+    """Shape Tieba corpus update results into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("changed", "newComments", "corpus")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        source = result if isinstance(result, dict) else {}
+        return {key: source.get(key) for key in self.RESULT_KEYS if key in source}
+
+
 class TiebaCorpusUpdater:
     """Build JS-compatible Tieba corpus updates from a scrape run."""
 

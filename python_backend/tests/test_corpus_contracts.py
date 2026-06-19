@@ -82,7 +82,7 @@ from python_backend.corpus.local import LocalCorpusEvidenceFinder, LocalCorpusEv
 from python_backend.corpus.local import LocalCorpusFlattenSummary, LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner
 from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner
-from python_backend.corpus.tieba import TiebaCorpusUpdater
+from python_backend.corpus.tieba import TiebaCorpusUpdater, TiebaCorpusUpdateSummary
 from python_backend.analysis.video_filter import VideoCommentFilter, VideoContextBuilder, VideoRelevanceFilter
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
@@ -2707,6 +2707,26 @@ class CorpusContractTests(unittest.TestCase):
                     "js": {"version": 1, "runs": [], "comments": []},
                 },
             ],
+        )
+
+    def test_tieba_corpus_update_summary_extracts_comparator_contract(self):
+        summary = TiebaCorpusUpdateSummary().summarize(
+            {
+                "ok": True,
+                "changed": True,
+                "newComments": [{"message": "new tieba comment"}],
+                "corpus": {"comments": []},
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "changed": True,
+                "newComments": [{"message": "new tieba comment"}],
+                "corpus": {"comments": []},
+            },
         )
 
     def test_tieba_keyword_options_planner_matches_js_cli_env_contract(self):
