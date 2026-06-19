@@ -89,7 +89,7 @@ from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriteSummary, CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
-from python_backend.scrapers.bilibili import BilibiliPublicParser
+from python_backend.scrapers.bilibili import BilibiliParseSummary, BilibiliPublicParser
 from python_backend.scrapers.aicu import AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanner
 from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanSummary, AicuBrowserBatchPlanner
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanner
@@ -4345,6 +4345,26 @@ class CorpusContractTests(unittest.TestCase):
                     "js": [],
                 }
             ],
+        )
+
+    def test_bilibili_parse_summary_extracts_parser_contract(self):
+        summary = BilibiliParseSummary().summarize(
+            {
+                "ok": True,
+                "mode": "video-objects",
+                "view": {"bvid": "BVview"},
+                "comments": [{"message": "ignored for this mode"}],
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "mode": "video-objects",
+                "view": {"bvid": "BVview"},
+                "comments": [{"message": "ignored for this mode"}],
+            },
         )
 
     def test_bilibili_crawler_helper_matches_bvid_and_block_contracts(self):

@@ -5,6 +5,16 @@ import re
 from typing import Any
 
 
+class BilibiliParseSummary:
+    """Shape Bilibili parser output into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("mode", "bvids", "bvid", "view", "searchVideos", "popularVideos", "spaceVideos", "comments")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        source = result if isinstance(result, dict) else {}
+        return {key: source.get(key) for key in self.RESULT_KEYS if key in source}
+
+
 class BilibiliPublicParser:
     """Parse public Bilibili identifiers and danmaku into the JS comment contract."""
 
