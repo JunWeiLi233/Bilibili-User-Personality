@@ -27,6 +27,20 @@ def _unique_by_value(items: list[str]) -> list[str]:
     return unique
 
 
+def _squash_text(value: Any) -> str:
+    return re.sub(r"\s+", " ", str(value or "")).strip()
+
+
+def _number_value(value: Any, fallback: int = 0) -> int:
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return fallback
+    if not number == number:
+        return fallback
+    return max(0, int(number))
+
+
 GENERIC_TARGET_SEARCH_NEEDLES = {
     _clean_search_text(item)
     for item in [
@@ -304,3 +318,127 @@ class VideoRelevanceFilter:
             if self.relevance_score_for_video(video, needles) > 0:
                 matched.append(video)
         return matched
+
+
+class VideoContextBuilder:
+    """Build JS-compatible video context, target evidence, and collection diagnostics."""
+
+    def __init__(self):
+        self.relevance = VideoRelevanceFilter()
+
+    def build_video_context_text(self, videos: list[dict[str, Any]] | None = None) -> str:
+        items: list[str] = []
+        for video in videos or []:
+            if not isinstance(video, dict):
+                continue
+            for key in ["title", "desc", "description"]:
+                text = _squash_text(video.get(key))
+                if text:
+                    items.append(text)
+        return "\n".join(f"Bilibili video context: {item}" for item in _unique_by_value(items))
+
+    def build_target_video_object_evidence_text(
+        self,
+        videos: list[dict[str, Any]] | None = None,
+        search_queries: list[Any] | None = None,
+        target_existing_terms: list[Any] | None = None,
+    ) -> str:
+        if not target_existing_terms:
+            return ""
+        needles = self.relevance.search_needles_for_relevance(search_queries or [], target_existing_terms or [])
+        if not needles:
+            return ""
+        items: list[str] = []
+        for video in videos or []:
+            if not isinstance(video, dict):
+                continue
+            for key in ["title", "desc", "description"]:
+                text = _squash_text(video.get(key))
+                if text and any(needle in text for needle in needles):
+                    items.append(text)
+        return "\n".join(f"Bilibili public video title: {item}" for item in _unique_by_value(items))
+
+    def video_context_sources(self, videos: list[dict[str, Any]] | None = None, discovered_videos: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
+        seen: set[str] = set()
+        result: list[dict[str, Any]] = []
+        for video in [*(videos or []), *(discovered_videos or [])]:
+            if not isinstance(video, dict):
+                continue
+            key = f"{video.get('bvid') or ''}\n{video.get('sourceUrl') or ''}\n{video.get('title') or ''}"
+            if key in seen:
+                continue
+            seen.add(key)
+            result.append(video)
+        return result
+
+    def video_context_source_urls(self, videos: list[dict[str, Any]] | None = None, discovered_videos: list[dict[str, Any]] | None = None) -> list[str]:
+        urls = [
+            str(video.get("sourceUrl") or "").strip()
+            for video in [*(videos or []), *(discovered_videos or [])]
+            if isinstance(video, dict) and str(video.get("sourceUrl") or "").strip()
+        ]
+        return _unique_by_value(urls)
+
+    def sample_videos_for_diagnostics(self, videos: list[dict[str, Any]] | None = None) -> list[dict[str, str]]:
+        samples: list[dict[str, str]] = []
+        for video in (videos or [])[:5]:
+            if not isinstance(video, dict):
+                video = {}
+            samples.append(
+                {
+                    "bvid": str(video.get("bvid") or "").strip(),
+                    "title": _squash_text(video.get("title"))[:120],
+                    "sourceUrl": str(video.get("sourceUrl") or "").strip(),
+                }
+            )
+        return samples
+
+    def target_text_hits_for_diagnostics(self, training_text: Any = "", target_existing_terms: list[Any] | None = None) -> list[dict[str, Any]]:
+        haystack = _clean_search_text(training_text)
+        if not haystack:
+            return []
+        hits: list[dict[str, Any]] = []
+        for term in _unique_by_value([str(item or "").strip() for item in target_existing_terms or [] if str(item or "").strip()]):
+            needle = _clean_search_text(term)
+            if len(needle) < 2:
+                continue
+            count = haystack.count(needle)
+            if count > 0:
+                hits.append({"term": term, "count": count})
+        return hits
+
+    def build_collection_diagnostics(
+        self,
+        discovered_videos: list[dict[str, Any]] | None = None,
+        discovery_context_videos: list[dict[str, Any]] | None = None,
+        videos: list[dict[str, Any]] | None = None,
+        comments: list[dict[str, Any]] | None = None,
+        training_text: Any = "",
+        target_existing_terms: list[Any] | None = None,
+        keyword_training: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        discovered_videos = discovered_videos if isinstance(discovered_videos, list) else []
+        discovery_context_videos = discovery_context_videos if isinstance(discovery_context_videos, list) else []
+        videos = videos if isinstance(videos, list) else []
+        comments = comments if isinstance(comments, list) else []
+        keyword_training = keyword_training if isinstance(keyword_training, dict) else {}
+        accepted_terms = _unique_by_value(
+            [
+                str(entry.get("term") or "").strip()
+                for entry in [*(keyword_training.get("entries") or []), *(keyword_training.get("dictionaryEvidenceEntries") or [])]
+                if isinstance(entry, dict) and str(entry.get("term") or "").strip()
+            ]
+        )
+        sample_source = videos if videos else discovery_context_videos if discovery_context_videos else discovered_videos
+        return {
+            "discoveredVideos": len(discovered_videos),
+            "discoveryContextVideos": len(discovery_context_videos),
+            "scannedVideos": len(videos),
+            "commentsCollected": len(comments),
+            "trainingTextChars": len(str(training_text or "")),
+            "targetExistingTerms": target_existing_terms or [],
+            "targetTextHits": self.target_text_hits_for_diagnostics(training_text, target_existing_terms or []),
+            "acceptedTerms": accepted_terms,
+            "evidenceRejected": _number_value(keyword_training.get("evidenceRejected"), 0),
+            "sampleVideos": self.sample_videos_for_diagnostics(sample_source),
+        }

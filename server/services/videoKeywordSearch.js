@@ -379,7 +379,7 @@ export function filterRelevantVideos(videos = [], searchQueries = [], targetExis
   });
 }
 
-function buildVideoContextText(videos = []) {
+export function buildVideoContextText(videos = []) {
   return uniqueByKey(
     videos
       .flatMap((video) => [video.title, video.desc, video.description])
@@ -391,7 +391,7 @@ function buildVideoContextText(videos = []) {
     .join('\n');
 }
 
-function buildTargetVideoObjectEvidenceText(videos = [], searchQueries = [], targetExistingTerms = []) {
+export function buildTargetVideoObjectEvidenceText(videos = [], searchQueries = [], targetExistingTerms = []) {
   if (targetExistingTerms.length === 0) return '';
   const needles = searchNeedlesForRelevance(searchQueries, targetExistingTerms);
   if (needles.length === 0) return '';
@@ -513,14 +513,14 @@ async function expandTargetTermsFromCommentHits({
   return targets;
 }
 
-function videoContextSources(videos = [], discoveredVideos = []) {
+export function videoContextSources(videos = [], discoveredVideos = []) {
   return uniqueByKey(
     [...videos, ...discoveredVideos].filter(Boolean),
     (video) => `${video.bvid || ''}\n${video.sourceUrl || ''}\n${video.title || ''}`,
   );
 }
 
-function videoContextSourceUrls(videos = [], discoveredVideos = []) {
+export function videoContextSourceUrls(videos = [], discoveredVideos = []) {
   return uniqueByKey(
     [...videos, ...discoveredVideos]
       .map((video) => String(video?.sourceUrl || '').trim())
@@ -537,7 +537,7 @@ function sampleVideosForDiagnostics(videos = []) {
   }));
 }
 
-function targetTextHitsForDiagnostics(trainingText = '', targetExistingTerms = []) {
+export function targetTextHitsForDiagnostics(trainingText = '', targetExistingTerms = []) {
   const haystack = cleanSearchText(trainingText);
   if (!haystack) return [];
   return uniqueByKey(targetExistingTerms.map((term) => String(term || '').trim()).filter(Boolean), (term) => term)
@@ -550,7 +550,7 @@ function targetTextHitsForDiagnostics(trainingText = '', targetExistingTerms = [
     .filter(Boolean);
 }
 
-function buildCollectionDiagnostics({
+export function buildCollectionDiagnostics({
   discoveredVideos = [],
   discoveryContextVideos = [],
   videos = [],

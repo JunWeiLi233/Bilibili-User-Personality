@@ -29,6 +29,7 @@ from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportRunner
 from python_backend.cli.local_corpus_evidence import LocalCorpusEvidenceRunner
 from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenRunner
 from python_backend.cli.video_comment_filter import VideoCommentFilterRunner
+from python_backend.cli.video_context import VideoContextRunner
 from python_backend.cli.video_relevance import VideoRelevanceRunner
 from python_backend.cli.direct_probe_corpus import DirectProbeCorpusRunner
 from python_backend.cli.direct_probe_plan import DirectProbePlanRunner
@@ -42,7 +43,7 @@ from python_backend.corpus.huggingface import HuggingFaceCorpusImporter
 from python_backend.corpus.local import LocalCorpusEvidenceFinder
 from python_backend.corpus.local import LocalCorpusFlattener
 from python_backend.corpus.tieba import TiebaCorpusUpdater
-from python_backend.analysis.video_filter import VideoCommentFilter, VideoRelevanceFilter
+from python_backend.analysis.video_filter import VideoCommentFilter, VideoContextBuilder, VideoRelevanceFilter
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriter
@@ -1390,6 +1391,111 @@ class CorpusContractTests(unittest.TestCase):
             ["\u70ed\u95e8\u8bc4\u8bba\u533a", "\u70ed\u95e8\u8bc4\u8bba\u533a", "\u5b85\u7537\u8054\u76df", "\u70ed\u95e8\u8bc4\u8bba\u533a"],
         )
         self.assertEqual([video["bvid"] for video in result["videos"]], ["BV1"])
+
+    def test_video_context_builder_dedupes_context_and_target_evidence_text(self):
+        builder = VideoContextBuilder()
+        videos = [
+            {
+                "bvid": "BV1",
+                "title": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28 \u540d\u573a\u9762",
+                "desc": "\u8bc4\u8bba\u533a   \u590d\u76d8",
+                "description": "\u8bc4\u8bba\u533a \u590d\u76d8",
+            },
+            {
+                "bvid": "BV2",
+                "title": "\u8def\u8fc7\u89c6\u9891",
+                "desc": "",
+                "description": "\u65e0\u5173",
+            },
+            {
+                "bvid": "BV1",
+                "title": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28 \u540d\u573a\u9762",
+                "desc": "\u8bc4\u8bba\u533a   \u590d\u76d8",
+            },
+        ]
+
+        context_text = builder.build_video_context_text(videos)
+        evidence_text = builder.build_target_video_object_evidence_text(
+            videos,
+            ["\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28 \u8bc4\u8bba\u533a"],
+            ["\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"],
+        )
+
+        self.assertEqual(
+            context_text,
+            "\n".join(
+                [
+                    "Bilibili video context: \u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28 \u540d\u573a\u9762",
+                    "Bilibili video context: \u8bc4\u8bba\u533a \u590d\u76d8",
+                    "Bilibili video context: \u8def\u8fc7\u89c6\u9891",
+                    "Bilibili video context: \u65e0\u5173",
+                ]
+            ),
+        )
+        self.assertEqual(
+            evidence_text,
+            "Bilibili public video title: \u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28 \u540d\u573a\u9762",
+        )
+
+    def test_video_context_builder_builds_collection_diagnostics(self):
+        builder = VideoContextBuilder()
+        diagnostics = builder.build_collection_diagnostics(
+            discovered_videos=[{"bvid": "BVD", "title": "\u53d1\u73b0"}],
+            discovery_context_videos=[{"bvid": "BVC", "title": "\u4e0a\u4e0b\u6587"}],
+            videos=[{"bvid": "BV1", "title": "\u6807\u9898\n\u5f88\u957f", "sourceUrl": "https://www.bilibili.com/video/BV1"}],
+            comments=[{"message": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"}, {"message": "\u666e\u901a"}],
+            training_text="\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28 \u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28 \u8def\u8fc7",
+            target_existing_terms=["\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28", "\u8def\u8fc7", "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"],
+            keyword_training={
+                "entries": [{"term": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"}, {"term": "\u8def\u8fc7"}],
+                "dictionaryEvidenceEntries": [{"term": "\u8def\u8fc7"}, {"term": "\u65b0\u8bcd"}],
+                "evidenceRejected": "2",
+            },
+        )
+
+        self.assertEqual(diagnostics["discoveredVideos"], 1)
+        self.assertEqual(diagnostics["discoveryContextVideos"], 1)
+        self.assertEqual(diagnostics["scannedVideos"], 1)
+        self.assertEqual(diagnostics["commentsCollected"], 2)
+        self.assertEqual(diagnostics["trainingTextChars"], 16)
+        self.assertEqual(
+            diagnostics["targetTextHits"],
+            [
+                {"term": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28", "count": 2},
+                {"term": "\u8def\u8fc7", "count": 1},
+            ],
+        )
+        self.assertEqual(diagnostics["acceptedTerms"], ["\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28", "\u8def\u8fc7", "\u65b0\u8bcd"])
+        self.assertEqual(diagnostics["evidenceRejected"], 2)
+        self.assertEqual(diagnostics["sampleVideos"], [{"bvid": "BV1", "title": "\u6807\u9898 \u5f88\u957f", "sourceUrl": "https://www.bilibili.com/video/BV1"}])
+
+    def test_video_context_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "videos": [{"bvid": "BV1", "title": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"}],
+                        "discoveredVideos": [{"bvid": "BVD", "title": "\u53d1\u73b0"}],
+                        "comments": [{"message": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"}],
+                        "trainingText": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28",
+                        "searchQueries": ["\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"],
+                        "targetExistingTerms": ["\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = VideoContextRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(
+            result["videoContextText"],
+            "Bilibili video context: \u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28\nBilibili video context: \u53d1\u73b0",
+        )
+        self.assertEqual(result["videoObjectEvidenceText"], "Bilibili public video title: \u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28")
+        self.assertEqual(result["diagnostics"]["targetTextHits"], [{"term": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28", "count": 1}])
 
     def test_tieba_html_parser_matches_thread_discovery_contract(self):
         parser = TiebaHtmlParser()
