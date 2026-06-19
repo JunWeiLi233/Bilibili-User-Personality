@@ -147,3 +147,93 @@ class VideoKeywordDiscoveryReporter:
 
     def _iso_now(self) -> str:
         return datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
+
+
+class HarvestDiagnostics:
+    """Summarize harvest result diagnostics using the JS keyword-harvest contract."""
+
+    def count_accepted_evidence_hits(self, entries: list[dict[str, Any]] | None = None) -> int:
+        total = 0
+        for entry in entries if isinstance(entries, list) else []:
+            if not isinstance(entry, dict):
+                continue
+            samples: set[str] = set()
+            for sample in entry.get("evidenceSamples") if isinstance(entry.get("evidenceSamples"), list) else []:
+                clean = _clean_text(sample)
+                if clean:
+                    samples.add(clean)
+            for source in entry.get("evidenceSources") if isinstance(entry.get("evidenceSources"), list) else []:
+                if not isinstance(source, dict):
+                    continue
+                clean = _clean_text(source.get("sample"))
+                if clean:
+                    samples.add(clean)
+            total += len(samples) or _number(entry.get("evidenceCount"))
+        return total
+
+    def summarize_training_diagnostics(self, results: list[dict[str, Any]] | None = None) -> dict[str, int]:
+        diagnostics = {
+            "deepseekCalls": 0,
+            "fallbackCalls": 0,
+            "evidenceRejected": 0,
+            "dictionaryEvidenceTerms": 0,
+            "dictionaryEvidenceCount": 0,
+            "generatedTerms": 0,
+        }
+        for item in results if isinstance(results, list) else []:
+            result = item.get("result") if isinstance(item, dict) and isinstance(item.get("result"), dict) else {}
+            training = result.get("keywordTraining") if isinstance(result.get("keywordTraining"), dict) else None
+            if not training:
+                continue
+            if training.get("available") and training.get("keyConfigured"):
+                diagnostics["deepseekCalls"] += 1
+            if training.get("usedFallback"):
+                diagnostics["fallbackCalls"] += 1
+            diagnostics["evidenceRejected"] += _number(training.get("evidenceRejected"))
+            dictionary_entries = training.get("dictionaryEvidenceEntries") if isinstance(training.get("dictionaryEvidenceEntries"), list) else []
+            diagnostics["dictionaryEvidenceTerms"] += len(dictionary_entries)
+            diagnostics["dictionaryEvidenceCount"] += self.count_accepted_evidence_hits(dictionary_entries)
+            generated = training.get("generatedEntries")
+            if isinstance(generated, list):
+                diagnostics["generatedTerms"] += len(generated)
+            else:
+                entries = result.get("entries") if isinstance(result.get("entries"), list) else []
+                diagnostics["generatedTerms"] += len(entries)
+        return diagnostics
+
+    def summarize_query_diagnostics(self, results: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
+        summaries: list[dict[str, Any]] = []
+        for item in results if isinstance(results, list) else []:
+            result = item.get("result") if isinstance(item, dict) and isinstance(item.get("result"), dict) else {}
+            diagnostics = result.get("collectionDiagnostics") if isinstance(result.get("collectionDiagnostics"), dict) else {}
+            summaries.append(
+                {
+                    "query": item.get("query") if isinstance(item, dict) else None,
+                    "ok": bool(result.get("ok")),
+                    "error": result.get("error") or "",
+                    "discoveredVideos": _number(diagnostics.get("discoveredVideos")),
+                    "discoveryContextVideos": _number(diagnostics.get("discoveryContextVideos")),
+                    "scannedVideos": _number(diagnostics.get("scannedVideos")),
+                    "commentsCollected": _number(diagnostics.get("commentsCollected")),
+                    "trainingTextChars": _number(diagnostics.get("trainingTextChars")),
+                    "targetExistingTerms": diagnostics.get("targetExistingTerms") if isinstance(diagnostics.get("targetExistingTerms"), list) else [],
+                    "targetTextHits": diagnostics.get("targetTextHits") if isinstance(diagnostics.get("targetTextHits"), list) else [],
+                    "acceptedTerms": diagnostics.get("acceptedTerms") if isinstance(diagnostics.get("acceptedTerms"), list) else [],
+                    "evidenceRejected": _number(diagnostics.get("evidenceRejected")),
+                    "sampleVideos": diagnostics.get("sampleVideos")[:5] if isinstance(diagnostics.get("sampleVideos"), list) else [],
+                }
+            )
+        return summaries
+
+    def summarize_round(self, round_item: dict[str, Any] | None = None) -> dict[str, Any]:
+        round_item = round_item if isinstance(round_item, dict) else {}
+        results = round_item.get("results") if isinstance(round_item.get("results"), list) else []
+        ok_results = [item for item in results if isinstance(item, dict) and isinstance(item.get("result"), dict) and item["result"].get("ok")]
+        return {
+            "okResults": len(ok_results),
+            "videosScanned": sum(len(item["result"].get("videos") if isinstance(item["result"].get("videos"), list) else []) for item in ok_results),
+            "commentsCollected": sum(len(item["result"].get("comments") if isinstance(item["result"].get("comments"), list) else []) for item in ok_results),
+            "evidenceRejected": sum(_number(item["result"].get("keywordTraining", {}).get("evidenceRejected") if isinstance(item["result"].get("keywordTraining"), dict) else 0) for item in ok_results),
+            "acceptedEvidenceCount": sum(VideoKeywordDiscoveryReporter().count_accepted_evidence_hits_for_result(item.get("result") or {}) for item in ok_results),
+            "existingDictionaryEvidenceTerms": sum(len(item["result"].get("keywordTraining", {}).get("dictionaryEvidenceEntries") or []) if isinstance(item["result"].get("keywordTraining"), dict) else 0 for item in ok_results),
+        }

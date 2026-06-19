@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.discovery_report import VideoKeywordDiscoveryReporter
+from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReporter
 
 
 class VideoKeywordDiscoveryReportRunner:
@@ -17,11 +17,24 @@ class VideoKeywordDiscoveryReportRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
+        mode = str(payload.get("mode") or "report").strip().lower()
+        if mode == "diagnostics":
+            diagnostics = HarvestDiagnostics()
+            results = payload.get("results") if isinstance(payload.get("results"), list) else []
+            round_item = payload.get("round") if isinstance(payload.get("round"), dict) else {"results": results}
+            return {
+                "ok": True,
+                "mode": "diagnostics",
+                "trainingDiagnostics": diagnostics.summarize_training_diagnostics(results),
+                "queryDiagnostics": diagnostics.summarize_query_diagnostics(results),
+                "roundSummary": diagnostics.summarize_round(round_item),
+            }
         reporter = VideoKeywordDiscoveryReporter(now=(lambda: str(payload["generatedAt"])) if payload.get("generatedAt") else None)
         result = payload.get("result") if isinstance(payload.get("result"), dict) else {}
         report = reporter.serialize_report(result, str(payload.get("statePath") or ""), str(payload.get("reportPath") or ""))
         return {
             "ok": True,
+            "mode": "report",
             "report": report,
             "priorityActionItems": reporter.priority_action_items_from_harvest_result(result),
         }
@@ -35,7 +48,7 @@ class VideoKeywordDiscoveryReportRunner:
 class VideoKeywordDiscoveryReportContractComparator:
     """Compare Python discovery reports against saved JS-compatible JSON."""
 
-    RESULT_KEYS = ("report", "priorityActionItems")
+    RESULT_KEYS = ("mode", "report", "priorityActionItems", "trainingDiagnostics", "queryDiagnostics", "roundSummary")
 
     def __init__(self, payload_path: str | Path, js_report_path: str | Path):
         self.payload_path = Path(payload_path)

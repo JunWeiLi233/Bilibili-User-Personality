@@ -7,7 +7,7 @@ from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageA
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressTracker
-from python_backend.analysis.discovery_report import VideoKeywordDiscoveryReporter
+from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReporter
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSvgRenderer
@@ -6499,6 +6499,139 @@ class CorpusContractTests(unittest.TestCase):
         }
 
         self.assertEqual(reporter.count_accepted_evidence_hits_for_result(result), 5)
+
+    def test_harvest_diagnostics_matches_js_training_and_query_summaries(self):
+        diagnostics = HarvestDiagnostics()
+        results = [
+            {
+                "query": "doge hot",
+                "result": {
+                    "ok": True,
+                    "keywordTraining": {
+                        "available": True,
+                        "keyConfigured": True,
+                        "usedFallback": False,
+                        "evidenceRejected": 2,
+                        "dictionaryEvidenceEntries": [
+                            {
+                                "term": "doge",
+                                "evidenceCount": 3,
+                                "evidenceSamples": ["same sample", "same sample"],
+                                "evidenceSources": [{"sample": "fresh sample"}],
+                            }
+                        ],
+                        "generatedEntries": [{"term": "new term"}],
+                    },
+                    "collectionDiagnostics": {
+                        "discoveredVideos": "4",
+                        "discoveryContextVideos": 2,
+                        "scannedVideos": 3,
+                        "commentsCollected": 42,
+                        "trainingTextChars": 2048,
+                        "targetExistingTerms": ["doge"],
+                        "targetTextHits": ["doge"],
+                        "acceptedTerms": ["doge"],
+                        "evidenceRejected": 2,
+                        "sampleVideos": [{"bvid": str(index)} for index in range(7)],
+                    },
+                },
+            },
+            {
+                "query": "fallback query",
+                "result": {
+                    "ok": False,
+                    "error": "blocked",
+                    "keywordTraining": {
+                        "usedFallback": True,
+                        "dictionaryEvidenceEntries": [{"term": "fallback", "evidenceCount": 2}],
+                    },
+                    "collectionDiagnostics": {"commentsCollected": -1, "sampleVideos": "bad"},
+                    "entries": [{"term": "generated from entries"}],
+                },
+            },
+        ]
+
+        self.assertEqual(diagnostics.count_accepted_evidence_hits(results[0]["result"]["keywordTraining"]["dictionaryEvidenceEntries"]), 2)
+        self.assertEqual(
+            diagnostics.summarize_training_diagnostics(results),
+            {
+                "deepseekCalls": 1,
+                "fallbackCalls": 1,
+                "evidenceRejected": 2,
+                "dictionaryEvidenceTerms": 2,
+                "dictionaryEvidenceCount": 4,
+                "generatedTerms": 2,
+            },
+        )
+        self.assertEqual(
+            diagnostics.summarize_query_diagnostics(results),
+            [
+                {
+                    "query": "doge hot",
+                    "ok": True,
+                    "error": "",
+                    "discoveredVideos": 4,
+                    "discoveryContextVideos": 2,
+                    "scannedVideos": 3,
+                    "commentsCollected": 42,
+                    "trainingTextChars": 2048,
+                    "targetExistingTerms": ["doge"],
+                    "targetTextHits": ["doge"],
+                    "acceptedTerms": ["doge"],
+                    "evidenceRejected": 2,
+                    "sampleVideos": [{"bvid": "0"}, {"bvid": "1"}, {"bvid": "2"}, {"bvid": "3"}, {"bvid": "4"}],
+                },
+                {
+                    "query": "fallback query",
+                    "ok": False,
+                    "error": "blocked",
+                    "discoveredVideos": 0,
+                    "discoveryContextVideos": 0,
+                    "scannedVideos": 0,
+                    "commentsCollected": 0,
+                    "trainingTextChars": 0,
+                    "targetExistingTerms": [],
+                    "targetTextHits": [],
+                    "acceptedTerms": [],
+                    "evidenceRejected": 0,
+                    "sampleVideos": [],
+                },
+            ],
+        )
+
+    def test_discovery_report_runner_supports_harvest_diagnostics_mode(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "diagnostics",
+                        "results": [
+                            {
+                                "query": "doge hot",
+                                "result": {
+                                    "ok": True,
+                                    "keywordTraining": {
+                                        "available": True,
+                                        "keyConfigured": True,
+                                        "dictionaryEvidenceEntries": [{"term": "doge", "evidenceCount": 2}],
+                                    },
+                                    "collectionDiagnostics": {"commentsCollected": 3},
+                                },
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = VideoKeywordDiscoveryReportRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "diagnostics")
+        self.assertEqual(result["trainingDiagnostics"]["deepseekCalls"], 1)
+        self.assertEqual(result["queryDiagnostics"][0]["commentsCollected"], 3)
 
     def test_video_keyword_discovery_reporter_expands_priority_actions(self):
         reporter = VideoKeywordDiscoveryReporter()
