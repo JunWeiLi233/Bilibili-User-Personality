@@ -675,6 +675,39 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["corpus"]["comments"], 1)
         self.assertEqual(result["audit"]["terms"], 1)
 
+    def test_contract_comparator_rejects_manifest_run_count_mismatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "corpus.runs").mkdir()
+            corpus_path = root / "corpus.json"
+            audit_path = root / "audit.json"
+            corpus_path.write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "storage": "split",
+                        "comments": [{"message": "ok"}],
+                        "commentCount": 1,
+                        "runFiles": ["corpus.runs/runs-0001.json"],
+                        "runCount": 2,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (root / "corpus.runs" / "runs-0001.json").write_text(
+                json.dumps({"runs": [{"at": "only-run"}]}),
+                encoding="utf-8",
+            )
+            audit_path.write_text(
+                json.dumps({"ok": False, "targetEvidence": 3, "coverage": {"terms": 1, "coverageRatio": 1}}),
+                encoding="utf-8",
+            )
+
+            result = ContractComparator(corpus_path, audit_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["mismatches"], [{"key": "manifestRunCount", "python": 1, "js": 2}])
+
     def test_contract_comparator_reports_dictionary_contract_summary(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
