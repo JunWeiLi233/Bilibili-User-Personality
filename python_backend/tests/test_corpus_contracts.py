@@ -20,7 +20,7 @@ from python_backend.cli.bilibili_crawler import BilibiliCrawlerRunner
 from python_backend.cli.bilibili_probe_plan import BilibiliProbePlanRunner
 from python_backend.cli.coverage_audit import AuditContractComparator
 from python_backend.cli.coverage_progress import CoverageProgressContractComparator, CoverageProgressRunner
-from python_backend.cli.discovery_report import VideoKeywordDiscoveryReportRunner
+from python_backend.cli.discovery_report import VideoKeywordDiscoveryReportContractComparator, VideoKeywordDiscoveryReportRunner
 from python_backend.cli.harvest_options import HarvestOptionsContractComparator, HarvestOptionsRunner
 from python_backend.cli.harvest_plan import KeywordHarvestPlanContractComparator, KeywordHarvestPlanRunner
 from python_backend.cli.readme_stats import ReadmeStatsRunner
@@ -3569,6 +3569,82 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["report"]["generatedAt"], "2026-06-19T00:00:00.000Z")
         self.assertEqual(result["priorityActionItems"][0]["query"], "next term 评论区")
+
+    def test_video_keyword_discovery_report_contract_comparator_reports_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-report.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "statePath": "state.json",
+                        "reportPath": "report.json",
+                        "generatedAt": "2026-06-19T00:00:00.000Z",
+                        "result": {
+                            "requestedRounds": 1,
+                            "growth": {"before": 1, "after": 2},
+                            "coverageActions": [{"term": "next", "action": "retry", "nextQuery": "next comments"}],
+                            "rounds": [{"queries": ["next comments"], "results": []}],
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps(
+                    {
+                        "report": {"generatedAt": "wrong", "requestedRounds": 1},
+                        "priorityActionItems": [],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = VideoKeywordDiscoveryReportContractComparator(payload_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {
+                    "key": "report",
+                    "python": {
+                        "generatedAt": "2026-06-19T00:00:00.000Z",
+                        "statePath": "state.json",
+                        "reportPath": "report.json",
+                        "requestedRounds": 1,
+                        "growth": {"before": 1, "after": 2},
+                        "coverage": None,
+                        "coverageActions": [{"term": "next", "action": "retry", "nextQuery": "next comments"}],
+                        "state": None,
+                        "rounds": [
+                            {
+                                "round": 1,
+                                "queries": ["next comments"],
+                                "candidateQueries": None,
+                                "growth": None,
+                                "coverage": None,
+                                "coverageProgress": None,
+                                "acceptedEvidenceCount": 0,
+                                "coverageIncreasingAcceptedEvidenceCount": 0,
+                                "termAttemptSummary": None,
+                                "trainingDiagnostics": None,
+                                "queryDiagnostics": None,
+                                "warnings": None,
+                                "results": [],
+                            }
+                        ],
+                    },
+                    "js": {"generatedAt": "wrong", "requestedRounds": 1},
+                },
+                {
+                    "key": "priorityActionItems",
+                    "python": [{"term": "next", "action": "retry", "nextQuery": "next comments", "query": "next comments"}],
+                    "js": [],
+                },
+            ],
+        )
 
     def test_video_keyword_discovery_options_builder_matches_strict_comment_contract(self):
         builder = VideoKeywordDiscoveryOptionsBuilder(cwd="D:/Bilibili_User_Personality")
