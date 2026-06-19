@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T03:41:06.021Z",
+  "updatedAt": "2026-06-19T03:47:07.505Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -1417,6 +1417,52 @@
       "warnings": [],
       "commentsCollected": 12,
       "commentsAdded": 9
+    },
+    {
+      "at": "2026-06-19T03:47:07.505Z",
+      "actions": [
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1pe4y1i7x4",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV1pe4y1i7x4",
+          "aid": 561758239,
+          "title": "迷你世界1218：王叔告诉我们一个秘密，我和狗蛋就去寻宝了"
+        },
+        {
+          "key": "bvid:BV1bbVZ62Edu",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV1bbVZ62Edu",
+          "aid": 116674162529894,
+          "title": "<em class=\"keyword\">弹幕</em>说他爱我，可我看不到"
+        },
+        {
+          "key": "bvid:BV1NaJK65EDZ",
+          "term": "这还用说",
+          "query": "这还用说",
+          "bvid": "BV1NaJK65EDZ",
+          "aid": 116749122935037,
+          "title": "废话最有用的一次"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 148,
+      "commentsAdded": 126
     }
   ]
 }

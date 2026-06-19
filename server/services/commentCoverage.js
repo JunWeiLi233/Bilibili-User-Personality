@@ -103,6 +103,12 @@ export function detectEmoteSemanticHits(comment) {
 
 const SUPPLEMENTAL_SEMANTICS = [
   {
+    pattern: /(?:^|[^\p{Letter}\p{Number}_])\u6eda(?:\u5427|\u51fa\u53bb|\u8fdc\u70b9)(?:$|[\s,，.!?！？。；;、"'“”‘’（）()\[\]【】])/u,
+    term: '\u6eda\u5427',
+    family: 'attack',
+    meaning: '\u201c\u6eda/\u6eda\u5427/\u6eda\u51fa\u53bb\u201d\u5728B\u7ad9\u548c\u8d34\u5427\u8bc4\u8bba\u4e2d\u5e38\u662f\u76f4\u63a5\u9a71\u8d76\u5bf9\u65b9\u7684\u653b\u51fb\u6027\u547d\u4ee4\uff0c\u9700\u4e0e\u201c\u5c4f\u5e55\u6eda\u52a8\u201d\u7b49\u7269\u7406\u52a8\u4f5c\u533a\u5206\u3002',
+  },
+  {
     pattern: /(?:你|他|她|它|这人|那人|弹幕|评论).{0,8}狗笑(?:什么|啥|呢|啊)?|狗笑(?:什么|啥|呢|啊)/u,
     term: '狗笑什么',
     family: 'attack',

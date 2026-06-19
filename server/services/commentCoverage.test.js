@@ -848,6 +848,18 @@ test('classifyCommentCoverage captures standalone get-lost insults without match
   assert.equal(literal.hits.length, 0);
 });
 
+test('classifyCommentCoverage captures round 132 direct get-lost dismissal', () => {
+  const insult = classifyCommentCoverage({ entries: [] }, '\u8fd9\u4eba\u5168\u5426\u5b9a\u6027\u4eba\u683c\uff0c\u6eda\u5427');
+  const literal = classifyCommentCoverage({ entries: [] }, '\u5c4f\u5e55\u6eda\u52a8\u4e00\u4e0b');
+
+  assert.equal(insult.covered, true);
+  assert.equal(insult.mode, 'keyword');
+  assert.deepEqual(insult.hits.map((hit) => hit.term), ['\u6eda\u5427']);
+  assert.equal(literal.covered, true);
+  assert.equal(literal.mode, 'neutral');
+  assert.equal(literal.hits.length, 0);
+});
+
 test('classifyCommentCoverage captures sexualized driving slang without matching literal driving', () => {
   const slang = classifyCommentCoverage(dictionary, '眼神开车开始了');
   const literal = classifyCommentCoverage(dictionary, '今天下雨开车慢一点');
