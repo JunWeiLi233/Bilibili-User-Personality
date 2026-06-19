@@ -112,7 +112,7 @@ from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanSummary, Bat
 from python_backend.scrapers.batch_popular import BatchPopularPlanSummary, BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherPlanner, UidRangeProgressReporter, UidRangeProgressSummary
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanSummary, BatchUidScrapePlanner
-from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
+from python_backend.scrapers.uid_discovery import UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelProgressReporter, UidParallelProgressSummary
 from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineMergeReporter, UidPipelineMergeSummary, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter
@@ -7105,6 +7105,32 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["analysis"], {"processed": 2, "pending": 2, "skippableNoText": 1, "trainable": 1, "userDbUsers": 2})
         self.assertEqual(result["stats"], {"videosScanned": 2, "uidsFound": 4, "uidsAnalyzed": 1, "commentsCollected": 5, "errors": 0, "videoQueueSize": 88})
         self.assertEqual(result["training"], {"multiagent": True, "existingTermsOnly": False, "saveEveryAnalyzed": 10, "lockRetryDelayMs": 5000, "lockRetryJitterMs": 2000, "lockMaxRetries": 15})
+
+    def test_uid_discovery_plan_summary_extracts_comparator_contract(self):
+        summary = UidDiscoveryPlanSummary().summarize(
+            {
+                "ok": True,
+                "resume": {"phase": "analysis"},
+                "sources": {"popularPages": 30},
+                "scanning": {"replyPagesPerVideo": 2},
+                "analysis": {"trainable": 1},
+                "stats": {"videoQueueSize": 88},
+                "training": {"multiagent": True},
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "resume": {"phase": "analysis"},
+                "sources": {"popularPages": 30},
+                "scanning": {"replyPagesPerVideo": 2},
+                "analysis": {"trainable": 1},
+                "stats": {"videoQueueSize": 88},
+                "training": {"multiagent": True},
+            },
+        )
 
     def test_uid_discovery_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:

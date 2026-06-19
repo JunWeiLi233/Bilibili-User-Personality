@@ -95,6 +95,16 @@ class UidDiscoveryPlanner:
         return "\n".join(str(entry.get("message") or "") for entry in entries if isinstance(entry, dict))
 
 
+class UidDiscoveryPlanSummary:
+    """Shape UID discovery dry-run plans into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("resume", "sources", "scanning", "analysis", "stats", "training")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
 class UidDiscoveryProgressReporter:
     """Summarize UID discovery progress payloads into the JS-compatible report shape."""
 
