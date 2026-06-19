@@ -3,10 +3,12 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from python_backend.analysis.audit import CoverageAuditReport
+from python_backend.analysis.audit import CoverageAuditBuilder, CoverageAuditReport
 from python_backend.analysis.verification import RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient
+from python_backend.cli.coverage_audit import AuditContractComparator
 from python_backend.cli.compare_contracts import ContractComparator
+from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
@@ -136,6 +138,210 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["corpus"]["comments"], 1)
         self.assertEqual(result["audit"]["terms"], 1)
+
+    def test_dictionary_loader_hydrates_split_entries_and_evidence(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "dict.entries").mkdir()
+            (root / "dict.evidence").mkdir()
+            (root / "dict.json").write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "storage": "split",
+                        "entryFiles": {"attack": ["dict.entries/attack-001.json"]},
+                        "evidenceFiles": {"attack": ["dict.evidence/attack-001.json"]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (root / "dict.entries" / "attack-001.json").write_text(
+                json.dumps({"entries": [{"term": "doge", "family": "attack", "evidenceCount": 1}]}),
+                encoding="utf-8",
+            )
+            (root / "dict.evidence" / "attack-001.json").write_text(
+                json.dumps(
+                    {
+                        "evidence": [
+                            {
+                                "term": "doge",
+                                "evidenceSamples": ["doge satire"],
+                                "evidenceSources": [{"source": "Bilibili public video comment scan", "sample": "doge satire"}],
+                            }
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            dictionary = DictionaryLoader(root / "dict.json").load()
+
+        self.assertEqual(dictionary.manifest["storage"], "split")
+        self.assertEqual(len(dictionary.entries), 1)
+        self.assertEqual(dictionary.entries[0]["term"], "doge")
+        self.assertEqual(dictionary.entries[0]["evidenceSamples"], ["doge satire"])
+        self.assertEqual(dictionary.entries[0]["evidenceSources"][0]["sample"], "doge satire")
+
+    def test_dictionary_loader_merges_duplicate_split_evidence_terms(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "dict.entries").mkdir()
+            (root / "dict.evidence").mkdir()
+            (root / "dict.json").write_text(
+                json.dumps(
+                    {
+                        "storage": "split",
+                        "entryFiles": {"attack": ["dict.entries/attack-001.json"]},
+                        "evidenceFiles": {"attack": ["dict.evidence/attack-001.json", "dict.evidence/attack-002.json"]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (root / "dict.entries" / "attack-001.json").write_text(
+                json.dumps({"entries": [{"term": "doge", "family": "attack", "evidenceCount": 2}]}),
+                encoding="utf-8",
+            )
+            (root / "dict.evidence" / "attack-001.json").write_text(
+                json.dumps({"evidence": [{"term": "doge", "evidenceSamples": ["sample one"], "evidenceSources": [{"sample": "sample one"}]}]}),
+                encoding="utf-8",
+            )
+            (root / "dict.evidence" / "attack-002.json").write_text(
+                json.dumps({"evidence": [{"term": "doge", "evidenceSamples": ["sample two"], "evidenceSources": [{"sample": "sample two"}]}]}),
+                encoding="utf-8",
+            )
+
+            dictionary = DictionaryLoader(root / "dict.json").load()
+
+        self.assertEqual(dictionary.entries[0]["evidenceSamples"], ["sample one", "sample two"])
+        self.assertEqual([source["sample"] for source in dictionary.entries[0]["evidenceSources"]], ["sample one", "sample two"])
+
+    def test_coverage_audit_builder_matches_js_metric_contract(self):
+        dictionary = {
+            "entries": [
+                {
+                    "term": "covered",
+                    "family": "attack",
+                    "evidenceCount": 3,
+                    "evidenceSources": [
+                        {"source": "Bilibili public video comment scan", "sample": "covered sample 1"},
+                        {"source": "Bilibili public video comment scan", "sample": "covered sample 2"},
+                        {"source": "Bilibili public video comment scan", "sample": "covered sample 3"},
+                    ],
+                    "evidenceSamples": ["covered sample 1", "covered sample 2", "covered sample 3"],
+                },
+                {"term": "weak", "family": "attack", "evidenceCount": 1, "evidenceSamples": ["weak sample"]},
+                {"term": "zero", "family": "evidence", "evidenceCount": 0},
+            ]
+        }
+
+        audit = CoverageAuditBuilder(target_evidence=3, max_actions=10, require_source_backed_evidence=True).build(dictionary)
+
+        self.assertFalse(audit["ok"])
+        self.assertEqual(audit["coverage"]["terms"], 3)
+        self.assertEqual(audit["coverage"]["totalEvidence"], 4)
+        self.assertEqual(audit["coverage"]["weakTerms"], 2)
+        self.assertEqual(audit["coverage"]["zeroEvidenceTerms"], 1)
+        self.assertEqual(audit["coverage"]["evidenceDeficit"], 5)
+        self.assertEqual(audit["coverage"]["sourcedEvidenceTerms"], 1)
+        self.assertEqual(audit["coverage"]["unsourcedEvidenceTerms"], 1)
+        self.assertEqual(audit["coverage"]["coverageRatio"], 0.3333)
+        self.assertEqual(audit["familyGaps"][0]["family"], "evidence")
+        self.assertEqual([item["term"] for item in audit["nextActions"]], ["zero", "weak"])
+        self.assertIn("2 term(s) are below 3 evidence hit(s)", audit["failureReasons"])
+
+    def test_coverage_audit_builder_caps_evidence_count_to_sample_units(self):
+        dictionary = {
+            "entries": [
+                {
+                    "term": "inflated",
+                    "family": "attack",
+                    "evidenceCount": 8,
+                    "evidenceSamples": ["same sample"],
+                    "evidenceSources": [{"source": "Bilibili public video comment scan", "sample": "same sample"}],
+                }
+            ]
+        }
+
+        audit = CoverageAuditBuilder(target_evidence=3).build(dictionary)
+
+        self.assertEqual(audit["coverage"]["totalEvidence"], 1)
+        self.assertEqual(audit["coverage"]["weakTerms"], 1)
+        self.assertEqual(audit["coverage"]["evidenceDeficit"], 2)
+
+    def test_audit_contract_comparator_reports_metric_parity(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            js_audit_path = root / "js-audit.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {"term": "covered", "family": "attack", "evidenceCount": 3},
+                            {"term": "weak", "family": "attack", "evidenceCount": 1},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_audit_path.write_text(
+                json.dumps(
+                    {
+                        "targetEvidence": 3,
+                        "coverage": {
+                            "terms": 2,
+                            "totalEvidence": 4,
+                            "weakTerms": 1,
+                            "zeroEvidenceTerms": 0,
+                            "evidenceDeficit": 2,
+                            "coverageRatio": 0.5,
+                            "sourcedEvidenceTerms": 0,
+                            "unsourcedEvidenceTerms": 2,
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = AuditContractComparator(dictionary_path, js_audit_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["python"]["coverage"]["weakTerms"], 1)
+
+    def test_audit_contract_comparator_warns_on_total_evidence_drift_by_default(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            js_audit_path = root / "js-audit.json"
+            dictionary_path.write_text(
+                json.dumps({"entries": [{"term": "covered", "family": "attack", "evidenceCount": 3}]}),
+                encoding="utf-8",
+            )
+            js_audit_path.write_text(
+                json.dumps(
+                    {
+                        "targetEvidence": 3,
+                        "coverage": {
+                            "terms": 1,
+                            "totalEvidence": 2,
+                            "weakTerms": 0,
+                            "zeroEvidenceTerms": 0,
+                            "evidenceDeficit": 0,
+                            "coverageRatio": 1,
+                            "sourcedEvidenceTerms": 0,
+                            "unsourcedEvidenceTerms": 1,
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = AuditContractComparator(dictionary_path, js_audit_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["warnings"], [{"key": "totalEvidence", "python": 3, "js": 2}])
 
 
 if __name__ == "__main__":

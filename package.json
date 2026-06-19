@@ -25,6 +25,7 @@
     "stats:update": "node server/scripts/updateReadmeStatsGraph.js",
     "python:test": "python -m unittest discover python_backend/tests",
     "python:compare": "python -m python_backend.cli.compare_contracts",
+    "python:coverage-compare": "python -m python_backend.cli.coverage_audit",
     "dev:full": "node server/index.js",
     "test": "node --test",
     "build": "vite build",
