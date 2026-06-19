@@ -46,6 +46,7 @@ from python_backend.cli.tieba_corpus import TiebaCorpusUpdateContractComparator,
 from python_backend.cli.tieba_html_parse import TiebaHtmlParseContractComparator, TiebaHtmlParseRunner
 from python_backend.cli.tieba_timing import TiebaTimingContractComparator, TiebaTimingRunner
 from python_backend.cli.uid_range_progress import UidRangeProgressContractComparator, UidRangeProgressRunner
+from python_backend.cli.uid_parallel_progress import UidParallelProgressContractComparator, UidParallelProgressRunner
 from python_backend.cli.uid_pipeline_progress import UidPipelineProgressContractComparator, UidPipelineProgressRunner
 from python_backend.cli.uid_pipeline_merge import UidPipelineMergeContractComparator, UidPipelineMergeRunner
 from python_backend.cli.uid_pipeline_launcher import UidPipelineLauncherContractComparator, UidPipelineLauncherPlanRunner
@@ -4337,6 +4338,73 @@ class CorpusContractTests(unittest.TestCase):
                     "python": {"success": 1, "noComments": 0, "noVideos": 0, "noUser": 0, "trainError": 0, "blocked": 0, "errors": 0},
                     "js": {"success": 0},
                 },
+            ],
+        )
+
+    def test_uid_parallel_progress_runner_summarizes_worker_assignment_and_progress(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            (data_dir / "uid-discovery-comments.json").write_text(
+                json.dumps(
+                    {
+                        "100": [{"message": "a"}],
+                        "101": [{"message": "b"}],
+                        "102": [],
+                        "103": [{"message": "d"}],
+                        "104": [{"message": "e"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            progress_path = data_dir / "uid-parallel-1-progress.json"
+            progress_path.write_text(
+                json.dumps(
+                    {
+                        "processed": {"101": "success", "103": "no_text"},
+                        "stats": {"success": 1, "noText": 1, "errors": 2},
+                        "lastUpdated": "2026-06-19T00:00:00.000Z",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (data_dir / "scraped-users-db.json").write_text(
+                json.dumps({"users": {"101": {"uid": "101"}, "999": {"uid": "999"}}}),
+                encoding="utf-8",
+            )
+
+            result = UidParallelProgressRunner(data_dir, worker_id=1, total_workers=2).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["worker"], {"id": 1, "totalWorkers": 2, "assigned": 2})
+        self.assertEqual(result["progress"], {"processed": 2, "remaining": 0, "completionRatio": 1.0})
+        self.assertEqual(result["stats"], {"success": 1, "noText": 1, "errors": 2})
+        self.assertEqual(result["statusCounts"], {"success": 1, "no_text": 1})
+        self.assertEqual(result["userDb"], {"users": 2, "assignedUsersInDb": 1})
+        self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
+
+    def test_uid_parallel_progress_comparator_reports_summary_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            js_report_path = root / "js-parallel-progress.json"
+            (data_dir / "uid-discovery-comments.json").write_text(json.dumps({"100": [], "101": []}), encoding="utf-8")
+            (data_dir / "uid-parallel-0-progress.json").write_text(
+                json.dumps({"processed": {"100": "error"}, "stats": {"errors": 1}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"progress": {"processed": 0}, "stats": {"errors": 0}}), encoding="utf-8")
+
+            result = UidParallelProgressContractComparator(data_dir, js_report_path, worker_id=0, total_workers=2).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "progress", "python": {"processed": 1, "remaining": 0, "completionRatio": 1.0}, "js": {"processed": 0}},
+                {"key": "stats", "python": {"success": 0, "noText": 0, "errors": 1}, "js": {"errors": 0}},
             ],
         )
 
