@@ -164,6 +164,16 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(summary.samples[0]["matched_terms"], ["YYGQ", "doge"])
         self.assertEqual(summary.samples[0]["coverage"], "keyword")
 
+    def test_random_verifier_keeps_ascii_terms_out_of_longer_latin_words(self):
+        verifier = RandomVerifier(keyword_terms=["md"])
+
+        summary = verifier.verify([{"message": "cmd mode"}, {"message": "MD!"}], sample_size=2, seed=1)
+
+        by_message = {sample["message"]: sample for sample in summary.samples}
+        self.assertEqual(by_message["cmd mode"]["matched_terms"], [])
+        self.assertEqual(by_message["cmd mode"]["coverage"], "neutral")
+        self.assertEqual(by_message["MD!"]["matched_terms"], ["md"])
+
     def test_coverage_audit_report_reads_current_json_shape(self):
         payload = {
             "ok": False,
