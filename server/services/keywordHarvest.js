@@ -3339,6 +3339,15 @@ export async function harvestKeywordDictionary(options = {}, deps = {}) {
       if (options.includeGenericPopular !== undefined) {
         searchPayload.includeGenericPopular = options.includeGenericPopular;
       }
+      if (options.includeHistoryTags !== undefined) {
+        searchPayload.includeHistoryTags = options.includeHistoryTags;
+      }
+      if (options.historyTagCorpusPath) {
+        searchPayload.historyTagCorpusPath = options.historyTagCorpusPath;
+      }
+      if (options.historyTagVideoLimit !== undefined) {
+        searchPayload.historyTagVideoLimit = options.historyTagVideoLimit;
+      }
       if (/\u5f39\u5e55/.test(query)) {
         searchPayload.includeDanmaku = true;
         searchPayload.allowNetworkDanmaku = true;

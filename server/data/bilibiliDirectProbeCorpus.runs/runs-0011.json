@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T06:48:28.428Z",
+  "updatedAt": "2026-06-19T06:57:07.861Z",
   "shard": 11,
   "shardCount": 11,
   "runs": [
@@ -527,6 +527,72 @@
       "warnings": [],
       "commentsCollected": 8,
       "commentsAdded": 8
+    },
+    {
+      "at": "2026-06-19T06:57:07.861Z",
+      "actions": [
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1X4Jg6PELH",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1X4Jg6PELH",
+          "aid": 116753199928508,
+          "title": "小维一个<em class=\"keyword\">雷霆</em>大坐你哲哥能直接把秽息吐干净😇"
+        },
+        {
+          "key": "bvid:BV1hgji6FEXS",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1hgji6FEXS",
+          "aid": 116773869326381,
+          "title": "【战争<em class=\"keyword\">雷霆</em>】铠甲S1打直升机如同无能的丈夫........."
+        },
+        {
+          "key": "bvid:BV1qP411S76u",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1qP411S76u",
+          "aid": 312662644,
+          "title": "终于知道<em class=\"keyword\">b站</em>的笔记在哪里记录和查看了"
+        },
+        {
+          "key": "bvid:BV1btcKzHEsk",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1btcKzHEsk",
+          "aid": 116039178258522,
+          "title": "统一<em class=\"keyword\">回复</em>，我精神状态不OK"
+        },
+        {
+          "key": "bvid:BV1WvVW6CEvP",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1WvVW6CEvP",
+          "aid": 116652737824287,
+          "title": "公式化<em class=\"keyword\">评论</em>区正在摧毁噼里啪啦"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 617,
+      "commentsAdded": 419
     }
   ]
 }

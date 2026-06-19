@@ -75,6 +75,17 @@ test('buildVideoKeywordDiscoveryOptions can enable comment target expansion', ()
   assert.equal(options.expandTargetsFromComments, true);
 });
 
+test('buildVideoKeywordDiscoveryOptions enables Bilibili history tag corpus from CLI flag', () => {
+  const options = buildVideoKeywordDiscoveryOptions({
+    env: {},
+    argv: ['--include-history-tags', '--history-tag-corpus=server/data/custom-history.json', '--history-tag-limit=33'],
+  });
+
+  assert.equal(options.includeHistoryTags, true);
+  assert.equal(options.historyTagCorpusPath, 'server/data/custom-history.json');
+  assert.equal(options.historyTagVideoLimit, 33);
+});
+
 test('parsePriorityQueryContent preserves structured audit action targets', () => {
   const priorityQueries = parsePriorityQueryContent(
     JSON.stringify([

@@ -66,14 +66,31 @@ export function parsePriorityQueryContent(value) {
   return parseList(content);
 }
 
+function envWithCliFlags(env, argv = []) {
+  const next = { ...env };
+  for (const arg of argv) {
+    if (arg === '--include-history-tags') next.BILIBILI_HARVEST_INCLUDE_HISTORY_TAGS = '1';
+    else if (arg === '--no-history-tags') next.BILIBILI_HARVEST_INCLUDE_HISTORY_TAGS = '0';
+    else if (arg.startsWith('--history-tag-corpus=')) {
+      next.BILIBILI_HISTORY_TAG_CORPUS_PATH = arg.slice('--history-tag-corpus='.length).trim();
+    }
+    else if (arg.startsWith('--history-tag-limit=')) {
+      next.BILIBILI_HISTORY_TAG_VIDEO_LIMIT = arg.slice('--history-tag-limit='.length).trim();
+    }
+  }
+  return next;
+}
+
 export function buildVideoKeywordDiscoveryOptions({
   env = process.env,
+  argv = process.argv.slice(2),
   priorityQueries = [],
   seedQueries = [],
   controversyQueries = [],
   extraQueryTemplates = [],
   exhaustedSuggestionTemplates = [],
 } = {}) {
+  env = envWithCliFlags(env, argv);
   const maxQueries = numberFromEnv(env, 'BILIBILI_HARVEST_MAX_QUERIES', seedQueries.length || 12);
   const requireCommentBackedEvidence = env.BILIBILI_COVERAGE_AUDIT_REQUIRE_COMMENTS === '1';
   const requireSourceBackedEvidence =
@@ -112,6 +129,9 @@ export function buildVideoKeywordDiscoveryOptions({
     pages: numberFromEnv(env, 'BILIBILI_VIDEO_COMMENT_PAGES', 2),
     perQueryTimeoutMs: numberFromEnv(env, 'BILIBILI_HARVEST_QUERY_TIMEOUT_MS', 180000),
     expandTargetsFromComments: flagFromEnv(env, 'BILIBILI_HARVEST_EXPAND_TARGETS_FROM_COMMENTS', false),
+    includeHistoryTags: flagFromEnv(env, 'BILIBILI_HARVEST_INCLUDE_HISTORY_TAGS', false),
+    historyTagCorpusPath: env.BILIBILI_HISTORY_TAG_CORPUS_PATH || 'server/data/bilibiliHistoryTagCorpus.json',
+    historyTagVideoLimit: numberFromEnv(env, 'BILIBILI_HISTORY_TAG_VIDEO_LIMIT', 20),
     rounds: numberFromEnv(env, 'BILIBILI_HARVEST_ROUNDS', 1),
     statePath: env.BILIBILI_HARVEST_STATE_PATH || DEFAULT_HARVEST_STATE_PATH,
     reportPath: env.BILIBILI_HARVEST_REPORT_PATH || join(process.cwd(), 'server', 'data', 'keywordHarvestReport.json'),

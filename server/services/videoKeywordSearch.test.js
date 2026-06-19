@@ -866,6 +866,73 @@ test('searchVideoKeywords prefers comment-use aliases over ambiguous exact title
   assert.deepEqual(result.discoveredVideos.map((video) => video.bvid), ['BValias1']);
 });
 
+test('searchVideoKeywords can seed discovery from Bilibili history tag corpus', async () => {
+  const scanned = [];
+  const result = await searchVideoKeywords(
+    {
+      searchQuery: '\u4e7e\u9686\u8001\u513f \u5386\u53f2 \u8bc4\u8bba\u533a',
+      discoveryMode: 'search',
+      discoveryLimit: 1,
+      pages: 1,
+      existingTermsOnly: true,
+      targetExistingTerms: ['\u4e7e\u9686\u8001\u513f'],
+      includeHistoryTags: true,
+    },
+    {
+      discoverVideosByKeyword: async () => [],
+      readBilibiliHistoryTagCorpus: async () => ({
+        version: 1,
+        videos: [
+          {
+            bvid: 'BVhistory001',
+            aid: 1001,
+            title: '\u4e7e\u9686\u8001\u513f\u5386\u53f2\u6742\u8c08',
+            tags: ['\u5386\u53f2', '\u6e05\u671d'],
+            sourceUrl: 'https://www.bilibili.com/video/BVhistory001/',
+            replyCount: 12,
+          },
+        ],
+      }),
+      fetchJson: async (url) => {
+        const textUrl = String(url);
+        const bvid = new URL(textUrl).searchParams.get('bvid');
+        if (textUrl.includes('/x/web-interface/view')) {
+          return {
+            code: 0,
+            data: {
+              aid: 1001,
+              bvid,
+              title: '\u4e7e\u9686\u8001\u513f\u5386\u53f2\u6742\u8c08',
+              owner: { mid: 9, name: 'up' },
+              stat: { reply: 1 },
+            },
+          };
+        }
+        scanned.push(textUrl);
+        return {
+          code: 0,
+          data: {
+            replies: [
+              {
+                rpid: 1,
+                mid: 2,
+                member: { mid: '2', uname: 'viewer' },
+                content: { message: '\u8fd9\u4e7e\u9686\u8001\u513f\u8bf4\u5f97\u592a\u7edd\u4e86' },
+              },
+            ],
+            cursor: { is_end: true, next: 0 },
+          },
+        };
+      },
+      trainKeywordDictionary: async () => ({ ok: true, entries: [], dictionary: { entries: [] } }),
+    },
+  );
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.discoveredVideos.map((video) => video.bvid), ['BVhistory001']);
+  assert.equal(scanned.some((url) => url.includes('/x/v2/reply')), true);
+});
+
 test('searchVideoKeywords filters ambiguous exact title matches when alias queries miss', async () => {
   let fetchCalls = 0;
   const trainedPayloads = [];

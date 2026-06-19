@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T06:51:53.461Z",
+  "updatedAt": "2026-06-19T07:00:18.453Z",
   "family": "cooperation",
   "shard": 84,
   "shardCount": 92,
@@ -8,13 +8,18 @@
     {
       "term": "有没有可能",
       "evidenceSamples": [
+        "很有可能是照着画",
+        "我刷到过几次摸鱼事务所的视频，我觉得摸老师那个话其实不是随便说的，他时不时可能就能说出一句金句。",
         "[doge]有没有可能是amd这五年一点提升都没有， 所以intel才挤牙膏。",
         "你们说有没有可能，英特尔偷偷打钱了！我是说可能",
-        "哈哈，有没有可能是这帮队友说，一绝死里面，让我们刀他[doge]",
-        "有可能是过度解读，人家只是看看美女不一定喜欢你[doge]",
-        "很有可能是照着画"
+        "哈哈，有没有可能是这帮队友说，一绝死里面，让我们刀他[doge]"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV13T4y1974Y/, https://www.bilibili.com/video/BV1NL3AzFEYy/, https://www.bilibili.com/video/BV14hRYBkE5U/, https://www.bilibili.com/video/BV1ZShqzaEoL/, http://www.bilibili.com/video/av934037851",
+          "uid": "BV13T4y1974Y,BV1NL3AzFEYy,BV14hRYBkE5U,BV1ZShqzaEoL",
+          "sample": "很有可能是照着画"
+        },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1NB4y1S7RB/, https://www.bilibili.com/video/BV1sTGd6FEFf/, http://www.bilibili.com/video/av597446864, http://www.bilibili.com/video/av116634534678930, http://www.bilibili.com/video/av113377003176324, http://www.bilibili.com/video/av114126072319763",
           "uid": "BV1NB4y1S7RB,BV1sTGd6FEFf",
@@ -34,11 +39,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1SiGd6uECH/, https://www.bilibili.com/video/BV1kTGH6cETL/, https://www.bilibili.com/video/BV1a44y1c7gn/, http://www.bilibili.com/video/av116636094896106, http://www.bilibili.com/video/av116630222799482, http://www.bilibili.com/video/av999704071",
           "uid": "BV1SiGd6uECH,BV1kTGH6cETL,BV1a44y1c7gn",
           "sample": "有可能是过度解读，人家只是看看美女不一定喜欢你[doge]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV13T4y1974Y/, https://www.bilibili.com/video/BV1NL3AzFEYy/, https://www.bilibili.com/video/BV14hRYBkE5U/, https://www.bilibili.com/video/BV1ZShqzaEoL/, http://www.bilibili.com/video/av934037851",
-          "uid": "BV13T4y1974Y,BV1NL3AzFEYy,BV14hRYBkE5U,BV1ZShqzaEoL",
-          "sample": "很有可能是照着画"
         },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Fi4y197S4/, https://www.bilibili.com/video/BV1diVw6YEKd/, https://www.bilibili.com/video/BV1X84y197Q9/, https://www.bilibili.com/video/BV1RM4m1d7EU/, https://www.bilibili.com/video/BV1SiGd6uECH/, https://www.bilibili.com/video/BV1sm411d77K/, https://www.bilibili.com/video/BV1shV2zRE5S/, https://www.bilibili.com/video/BV1cWoWB5EJ4/, https://www.bilibili.com/video/BV1FC4y177gh/, https://www.bilibili.com/video/BV1E1Vc6BETT/, https://www.bilibili.com/video/BV1ckVc66Evt/, https://www.bilibili.com/video/BV1auVK6BExB/, http://www.bilibili.com/video/av550382449, http://www.bilibili.com/video/av116638930243969",

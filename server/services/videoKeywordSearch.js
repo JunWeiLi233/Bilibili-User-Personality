@@ -1,5 +1,10 @@
 import { depsWithBilibiliCookie, discoverPopularVideos, discoverVideosByFavorite, discoverVideosByKeyword, extractBvid, fetchJson, fetchRepliesForVideo, fetchText } from './bilibiliCrawler.js';
 import {
+  DEFAULT_BILIBILI_HISTORY_TAG_CORPUS_PATH,
+  historyTagVideosForSearch,
+  readBilibiliHistoryTagCorpus,
+} from './bilibiliHistoryTags.js';
+import {
   findDictionaryEntriesWithTextEvidence as defaultFindDictionaryEntriesWithTextEvidence,
   readKeywordDictionary as defaultReadKeywordDictionary,
   trainKeywordDictionary as defaultTrainKeywordDictionary,
@@ -733,6 +738,21 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
   const allowFilteredDiscoveryFallback = payload.allowFilteredDiscoveryFallback === true || deps.allowFilteredDiscoveryFallback === true;
   const preferFilteredDiscoveryFallback = payload.preferFilteredDiscoveryFallback === true || deps.preferFilteredDiscoveryFallback === true;
   const allowPopularDiscoveryOnSearchBlock = payload.allowPopularDiscoveryOnSearchBlock === true || deps.allowPopularDiscoveryOnSearchBlock === true;
+  const includeHistoryTags =
+    payload.includeHistoryTags === true ||
+    deps.includeHistoryTags === true ||
+    process.env.BILIBILI_HARVEST_INCLUDE_HISTORY_TAGS === '1';
+  const historyTagVideoLimit = boundedInt(
+    payload.historyTagVideoLimit ?? deps.historyTagVideoLimit ?? process.env.BILIBILI_HISTORY_TAG_VIDEO_LIMIT ?? Math.max(20, discoveryLimit),
+    Math.max(20, discoveryLimit),
+    discoveryLimit,
+    100,
+  );
+  const historyTagCorpusPath =
+    payload.historyTagCorpusPath ||
+    deps.historyTagCorpusPath ||
+    process.env.BILIBILI_HISTORY_TAG_CORPUS_PATH ||
+    DEFAULT_BILIBILI_HISTORY_TAG_CORPUS_PATH;
   const evidenceSourceVideoFallback =
     payload.evidenceSourceVideoFallback === true ||
     payload.allowEvidenceSourceVideoFallback === true ||
@@ -766,8 +786,20 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
       return [];
     }
   };
+  const loadHistoryTagVideos = async () => {
+    if (!includeHistoryTags) return [];
+    try {
+      const readHistoryTagCorpus = deps.readBilibiliHistoryTagCorpus || readBilibiliHistoryTagCorpus;
+      const corpus = await readHistoryTagCorpus(historyTagCorpusPath);
+      return historyTagVideosForSearch(corpus, searchQueries, targetExistingTerms, historyTagVideoLimit);
+    } catch (error) {
+      warnings.push(`history tag corpus: ${error.message}`);
+      return [];
+    }
+  };
   if (videoLinks.length === 0) {
     const discoveryGroups = [];
+    const historyTagGroup = await loadHistoryTagVideos();
     if (discoveryMode === 'search' || discoveryMode === 'mixed') {
       const discoverVideos = deps.discoverVideosByKeyword || discoverVideosByKeyword;
       const group = [];
@@ -782,6 +814,9 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
         }
       }
       discoveryGroups.push(group);
+    }
+    if (historyTagGroup.length > 0) {
+      discoveryGroups.push(historyTagGroup);
     }
     if (discoveryMode === 'controversial') {
       const discoverVideos = deps.discoverVideosByKeyword || discoverVideosByKeyword;
@@ -916,6 +951,15 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
         eligibleDiscoveryGroups = [evidenceSourceVideos];
         usedEvidenceSourceFallback = true;
       }
+    }
+    if (
+      targetExistingTerms.length > 0 &&
+      eligibleDiscoveryGroups.every((group) => group.length === 0) &&
+      historyTagGroup.length > 0 &&
+      !targetsAskBaiduTerm(targetExistingTerms) &&
+      !targetsRequireStrictRelevance(targetExistingTerms)
+    ) {
+      eligibleDiscoveryGroups = [sortVideosByRelevance(historyTagGroup, searchQueries, targetExistingTerms).slice(0, discoveryLimit)];
     }
     if (
       targetExistingTerms.length > 0 &&
