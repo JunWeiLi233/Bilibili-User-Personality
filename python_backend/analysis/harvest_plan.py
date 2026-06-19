@@ -86,7 +86,13 @@ class KeywordHarvestPlanBuilder:
         )
         entries = sorted(entries, key=lambda entry: (audit._coverage_evidence_count(entry), _clean_text(entry.get("family") or "attack"), self._entry_term(entry)))
         if coverage_mode == "all-weak":
-            weak_entries = [entry for entry in entries if audit._coverage_evidence_count(entry) < target_evidence]
+            require_source = options.get("requireSourceBackedEvidence") is True or options.get("requireCommentBackedEvidence") is True
+            weak_entries = [
+                entry
+                for entry in entries
+                if audit._coverage_evidence_count(entry) < target_evidence
+                or (require_source and audit._evidence_count(entry) > 0 and not audit._has_coverage_evidence_source(entry))
+            ]
             return self._sort_all_weak_entries(weak_entries, options, audit, target_evidence)
         family_counts: dict[str, int] = {}
         limit = _positive_int(options.get("termsPerFamily"), 4, 20)
@@ -121,7 +127,7 @@ class KeywordHarvestPlanBuilder:
             else:
                 group = 2
             evidence_needed = max(0, target_evidence - audit._coverage_evidence_count(entry))
-            return (group, evidence_needed, audit._coverage_evidence_count(entry), _clean_text(entry.get("family") or "attack"), term)
+            return (group, audit._coverage_evidence_count(entry), evidence_needed, _clean_text(entry.get("family") or "attack"), term)
 
         return sorted(entries, key=rank)
 

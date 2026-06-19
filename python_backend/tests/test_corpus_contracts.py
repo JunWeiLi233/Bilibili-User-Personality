@@ -2932,6 +2932,37 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(plan[0]["query"], "missed \u8bc4\u8bba\u533a")
         self.assertFalse(plan[0]["previouslyTried"])
 
+    def test_keyword_harvest_plan_builder_targets_source_metadata_gaps(self):
+        plan = KeywordHarvestPlanBuilder().build_query_plan(
+            {
+                "entries": [
+                    {"term": "coveredNoSource", "family": "attack", "evidenceCount": 3, "evidenceSamples": ["sample one", "sample two", "sample three"]},
+                    {"term": "weak", "family": "attack", "evidenceCount": 0},
+                    {
+                        "term": "coveredWithSource",
+                        "family": "attack",
+                        "evidenceCount": 3,
+                        "evidenceSources": [
+                            {"source": "Bilibili public video comment scan", "sample": "sample one"},
+                            {"source": "Bilibili public video comment scan", "sample": "sample two"},
+                            {"source": "Bilibili public video comment scan", "sample": "sample three"},
+                        ],
+                    },
+                ]
+            },
+            {
+                "seedQueries": [],
+                "coverageMode": "all-weak",
+                "maxQueries": 2,
+                "queryVariantsPerTerm": 1,
+                "requireSourceBackedEvidence": True,
+            },
+        )
+
+        self.assertEqual([item["term"] for item in plan], ["weak", "coveredNoSource"])
+        self.assertEqual(plan[1]["evidenceCount"], 3)
+        self.assertFalse(plan[1]["sourcedEvidence"])
+
     def test_coverage_audit_builder_matches_js_metric_contract(self):
         dictionary = {
             "entries": [
