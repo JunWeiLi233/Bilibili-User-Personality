@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.comment_coverage import CommentCoverageClassifier
+from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageSummary
 
 
 class CommentCoverageRunner:
@@ -60,6 +60,7 @@ class CommentCoverageContractComparator:
         self.comments_path = Path(comments_path)
         self.js_report_path = Path(js_report_path)
         self.sample_size = sample_size
+        self.summary = CommentCoverageSummary()
 
     def compare(self) -> dict[str, Any]:
         python_report = CommentCoverageRunner(self.dictionary_path, self.comments_path, self.sample_size).run()
@@ -71,8 +72,8 @@ class CommentCoverageContractComparator:
         return {
             "ok": not mismatches,
             "mismatches": mismatches,
-            "python": {"summary": self._summary(python_summary)},
-            "js": {"summary": self._summary(js_summary)},
+            "python": {"summary": self.summary.summarize(python_summary)},
+            "js": {"summary": self.summary.summarize(js_summary)},
         }
 
     def _read_js_report(self) -> dict[str, Any]:
@@ -93,17 +94,6 @@ class CommentCoverageContractComparator:
             if key in js_modes and python_modes.get(key) != js_modes.get(key)
         )
         return mismatches
-
-    def _summary(self, summary: dict[str, Any]) -> dict[str, Any]:
-        by_mode = summary.get("byMode") if isinstance(summary.get("byMode"), dict) else {}
-        return {
-            "total": summary.get("total"),
-            "covered": summary.get("covered"),
-            "uncovered": summary.get("uncovered"),
-            "coverageRatio": summary.get("coverageRatio"),
-            "byMode": {key: by_mode.get(key) for key in self.MODE_KEYS},
-        }
-
 
 def _read_json(path: Path) -> Any:
     with path.open("r", encoding="utf-8-sig") as handle:

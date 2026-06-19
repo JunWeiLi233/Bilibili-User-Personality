@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 
 from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditBuilder, CoverageAuditContractSummary, CoverageAuditReport
-from python_backend.analysis.comment_coverage import CommentCoverageClassifier
+from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressTracker
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReporter
@@ -4564,6 +4564,29 @@ class CorpusContractTests(unittest.TestCase):
             result = CommentCoverageRunner(dictionary_path, comments_path).run()
 
         self.assertEqual(result["summary"]["byMode"], {"keyword": 1, "neutral": 0, "uncovered": 0})
+
+    def test_comment_coverage_summary_preserves_comparator_shape(self):
+        summary = CommentCoverageSummary().summarize(
+            {
+                "total": 4,
+                "covered": 3,
+                "uncovered": 1,
+                "coverageRatio": 0.75,
+                "byMode": {"keyword": 2, "neutral": 1, "uncovered": 1, "extra": 9},
+                "samples": [{"comment": "heavy payload"}],
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "total": 4,
+                "covered": 3,
+                "uncovered": 1,
+                "coverageRatio": 0.75,
+                "byMode": {"keyword": 2, "neutral": 1, "uncovered": 1},
+            },
+        )
 
     def test_comment_coverage_contract_comparator_reports_summary_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -108,3 +108,20 @@ class CommentCoverageClassifier:
                     }
                 )
         return hits
+
+
+class CommentCoverageSummary:
+    """Shape comment coverage reports into the JS/Python comparator summary contract."""
+
+    MODE_KEYS = ("keyword", "neutral", "uncovered")
+
+    def summarize(self, summary: dict[str, Any] | None = None) -> dict[str, Any]:
+        summary = summary if isinstance(summary, dict) else {}
+        by_mode = summary.get("byMode") if isinstance(summary.get("byMode"), dict) else {}
+        return {
+            "total": summary.get("total"),
+            "covered": summary.get("covered"),
+            "uncovered": summary.get("uncovered"),
+            "coverageRatio": summary.get("coverageRatio"),
+            "byMode": {key: by_mode.get(key) for key in self.MODE_KEYS},
+        }
