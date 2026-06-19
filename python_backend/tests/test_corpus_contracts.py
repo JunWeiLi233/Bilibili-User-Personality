@@ -821,6 +821,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual([entry["term"] for entry in dictionary.entries], ["bucket-family"])
         self.assertEqual(dictionary.entries[0]["family"], "attack")
 
+    def test_dictionary_loader_returns_js_missing_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+
+            dictionary = DictionaryLoader(root / "missing.json").load()
+
+        self.assertEqual(dictionary.manifest, {"version": 1, "storage": "missing", "updatedAt": None, "entries": [], "families": {}})
+        self.assertEqual(dictionary.entries, [])
+
     def test_dictionary_loader_merges_duplicate_split_evidence_terms(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

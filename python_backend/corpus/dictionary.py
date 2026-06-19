@@ -22,7 +22,11 @@ class DictionaryLoader:
         self.path = Path(path)
 
     def load(self) -> KeywordDictionary:
-        manifest = self._read_json(self.path)
+        try:
+            manifest = self._read_json(self.path)
+        except FileNotFoundError:
+            manifest = {"version": 1, "storage": "missing", "updatedAt": None, "entries": [], "families": {}}
+            return KeywordDictionary(manifest=manifest, entries=[])
         if manifest.get("storage") != "split":
             return KeywordDictionary(manifest=manifest, entries=list(manifest.get("entries") or []))
 
