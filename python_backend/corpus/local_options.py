@@ -13,6 +13,16 @@ DEFAULT_CORPUS_PATHS = [
 DEFAULT_COVERAGE_ACTION_FILE_PATH = "server/data/coverage-actions.json"
 
 
+class LocalCorpusMinePlanSummary:
+    """Shape local corpus mining option plans into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("options",)
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        source = result if isinstance(result, dict) else {}
+        return {key: source.get(key) for key in self.RESULT_KEYS if key in source}
+
+
 def parse_corpus_paths(value: Any) -> list[str]:
     return [item.strip() for item in re.split(r"[\r\n,;|]+", str(value or "")) if item.strip()]
 

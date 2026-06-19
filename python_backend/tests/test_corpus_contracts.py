@@ -80,7 +80,7 @@ from python_backend.corpus.history_tags import HistoryTagCorpusManager, HistoryT
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
 from python_backend.corpus.local import LocalCorpusEvidenceFinder, LocalCorpusEvidenceSummary
 from python_backend.corpus.local import LocalCorpusFlattenSummary, LocalCorpusFlattener
-from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner
+from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanSummary
 from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner
 from python_backend.corpus.tieba import TiebaCorpusUpdater, TiebaCorpusUpdateSummary
 from python_backend.analysis.video_filter import VideoCommentFilter, VideoContextBuilder, VideoRelevanceFilter
@@ -2597,6 +2597,17 @@ class CorpusContractTests(unittest.TestCase):
             comparison["mismatches"],
             [{"key": "options", "python": result["options"], "js": {"corpusPaths": ["stale"], "targetEvidence": 3}}],
         )
+
+    def test_local_corpus_mine_plan_summary_extracts_comparator_contract(self):
+        summary = LocalCorpusMinePlanSummary().summarize(
+            {
+                "ok": True,
+                "options": {"corpusPaths": ["one.json"], "targetEvidence": 3},
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(summary, {"options": {"corpusPaths": ["one.json"], "targetEvidence": 3}})
 
     def test_tieba_corpus_updater_leaves_corpus_unchanged_without_comments(self):
         existing = {
