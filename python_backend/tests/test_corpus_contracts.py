@@ -90,7 +90,7 @@ from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriteSummary, CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliPublicParser
-from python_backend.scrapers.aicu import AicuBatchPlanner, AicuBatchProgressReporter, AicuScrapePlanner
+from python_backend.scrapers.aicu import AicuBatchPlanner, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanner
 from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanner
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanner
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerHelper
@@ -6418,6 +6418,28 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["progress"], {"lastUid": 105, "completed": 3, "errors": 2, "remaining": 5, "rangeTotal": 11})
         self.assertEqual(result["database"], {"users": 3, "withComments": 2, "comments": 4, "danmaku": 2})
         self.assertEqual(result["timestamps"], {"startTime": "2026-06-19T00:00:00.000Z", "endTime": "2026-06-19T00:10:00.000Z", "lastUpdated": "2026-06-19T00:11:00.000Z"})
+
+    def test_aicu_batch_progress_summary_extracts_comparator_contract(self):
+        summary = AicuBatchProgressSummary().summarize(
+            {
+                "ok": True,
+                "mode": "uid-range",
+                "progressFile": "batch-scrape-progress.json",
+                "progress": {"completed": 3},
+                "database": {"users": 2},
+                "timestamps": {"lastUpdated": "2026-06-19T00:11:00.000Z"},
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "mode": "uid-range",
+                "progress": {"completed": 3},
+                "database": {"users": 2},
+                "timestamps": {"lastUpdated": "2026-06-19T00:11:00.000Z"},
+            },
+        )
 
     def test_batch_scrape_progress_runner_summarizes_popular_progress(self):
         with tempfile.TemporaryDirectory() as tmp:

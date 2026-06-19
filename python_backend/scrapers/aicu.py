@@ -262,3 +262,13 @@ class AicuBatchProgressReporter:
             return user["danmakuCount"]
         text = user.get("danmakuText")
         return len([line for line in str(text).splitlines() if line.strip()]) if text else 0
+
+
+class AicuBatchProgressSummary:
+    """Shape AICU batch progress reports into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("mode", "progress", "database", "timestamps")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
