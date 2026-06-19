@@ -8,7 +8,7 @@ from python_backend.analysis.comment_coverage import CommentCoverageClassifier, 
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressSummary, CoverageProgressTracker
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReporter, VideoKeywordDiscoveryReportSummary
-from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, VideoKeywordDiscoveryOptionsBuilder
+from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, HarvestOptionsSummary, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder
 from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateFinalizer, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis.near_target import NearTargetResolvePlanner
@@ -7970,6 +7970,26 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(override["maxActions"], 5)
         self.assertEqual(override["minCoverageRatio"], 0.75)
         self.assertEqual(retry["retryBeforeUnattemptedLimit"], 4)
+
+    def test_harvest_options_summary_extracts_comparator_contract(self):
+        summary = HarvestOptionsSummary().summarize(
+            {
+                "ok": True,
+                "mode": "video-keyword",
+                "options": {"requireCommentBackedEvidence": True},
+                "priorityQueries": [{"query": "doge hot"}],
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "mode": "video-keyword",
+                "options": {"requireCommentBackedEvidence": True},
+                "priorityQueries": [{"query": "doge hot"}],
+            },
+        )
 
     def test_harvest_options_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -45,6 +45,16 @@ def _parse_list(value: Any) -> list[str]:
     return [item.strip() for item in re.split(r"[\r\n,;|]+", str(value or "")) if item.strip()]
 
 
+class HarvestOptionsSummary:
+    """Shape harvest option results into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("mode", "options", "priorityQueries")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
 class VideoKeywordDiscoveryOptionsBuilder:
     """Build keyword-harvest discovery options from JSON-provided env and argv values."""
 
