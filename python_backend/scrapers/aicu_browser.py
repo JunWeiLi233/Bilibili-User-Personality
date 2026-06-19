@@ -82,3 +82,13 @@ class AicuBrowserBatchPlanner:
             "wrapperArgv": ["browserScrapeAicu.py", uid, str(self.MAX_PAGES)] if uid else [],
             "exec": f"{self.BROWSER_COMMAND} -c \"exec(open('{self.WRAPPER_PATH}').read())\"",
         }
+
+
+class AicuBrowserBatchPlanSummary:
+    """Shape AICU browser batch dry-run plans into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("range", "progress", "database", "browser", "pacing", "sampleInvocation")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}

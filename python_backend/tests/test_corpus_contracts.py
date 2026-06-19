@@ -91,7 +91,7 @@ from python_backend.corpus.writer import CorpusShardWriteSummary, CorpusShardWri
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliPublicParser
 from python_backend.scrapers.aicu import AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanner
-from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanner
+from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanSummary, AicuBrowserBatchPlanner
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanner
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerHelper
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanner
@@ -729,6 +729,32 @@ class CorpusContractTests(unittest.TestCase):
                 "uid": "100003",
                 "wrapperArgv": ["browserScrapeAicu.py", "100003", "3"],
                 "exec": "browser-harness -c \"exec(open('server/data/_browser_aicu_tmp.py').read())\"",
+            },
+        )
+
+    def test_aicu_browser_batch_plan_summary_extracts_comparator_contract(self):
+        summary = AicuBrowserBatchPlanSummary().summarize(
+            {
+                "ok": True,
+                "range": {"effectiveStart": 100003},
+                "progress": {"completed": 7},
+                "database": {"users": 2},
+                "browser": {"maxPages": 3},
+                "pacing": {"delayBetweenUidsMs": 5000},
+                "sampleInvocation": {"uid": "100003"},
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "range": {"effectiveStart": 100003},
+                "progress": {"completed": 7},
+                "database": {"users": 2},
+                "browser": {"maxPages": 3},
+                "pacing": {"delayBetweenUidsMs": 5000},
+                "sampleInvocation": {"uid": "100003"},
             },
         )
 
