@@ -10,7 +10,9 @@ function sourceForRow(options = {}, row = {}) {
   const dataset = cleanText(options.dataset);
   const file = cleanText(options.file);
   const url = cleanText(row.url || row.sourceUrl || row.source || row.href);
-  const prefix = `Hugging Face dataset: ${dataset}${file ? `/${file}` : ''}`;
+  const provider = cleanText(options.provider)
+    || (dataset.startsWith('kaggle:') ? 'Kaggle dataset' : 'Hugging Face dataset');
+  const prefix = `${provider}: ${dataset}${file ? `/${file}` : ''}`;
   return url ? `${prefix}: ${url}` : prefix;
 }
 

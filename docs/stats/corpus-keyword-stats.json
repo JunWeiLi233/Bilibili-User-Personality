@@ -1,0 +1,30 @@
+{
+  "generatedAt": "2026-06-19T06:12:38.756Z",
+  "comments": 25636,
+  "danmaku": 152175,
+  "keywordTerms": 1579,
+  "coverageRatio": 0.9709,
+  "coverageRatioLabel": "97.09%",
+  "weakTerms": 46,
+  "evidenceDeficit": 86,
+  "sources": [
+    {
+      "name": "Bilibili direct probe corpus",
+      "total": 161046,
+      "comments": 8871,
+      "danmaku": 152175
+    },
+    {
+      "name": "External Bilibili/Tieba corpus",
+      "total": 16741,
+      "comments": 16741,
+      "danmaku": 0
+    },
+    {
+      "name": "Tieba corpus",
+      "total": 24,
+      "comments": 24,
+      "danmaku": 0
+    }
+  ]
+}

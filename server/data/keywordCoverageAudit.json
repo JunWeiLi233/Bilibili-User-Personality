@@ -1,18 +1,18 @@
 {
   "ok": false,
-  "generatedAt": "2026-06-19T05:51:34.240Z",
+  "generatedAt": "2026-06-19T06:08:16.416Z",
   "targetEvidence": 3,
   "minCoverageRatio": 1,
   "requireComplete": true,
-  "requireSourceBackedEvidence": true,
+  "requireSourceBackedEvidence": false,
   "coverage": {
     "complete": false,
     "targetEvidence": 3,
     "terms": 1579,
-    "totalEvidence": 9131,
+    "totalEvidence": 9133,
     "averageEvidence": 5.78,
     "coverageRatio": 0.9709,
-    "evidenceDeficit": 87,
+    "evidenceDeficit": 86,
     "sourcedEvidenceTerms": 1579,
     "sourceCoverageRatio": 1,
     "unsourcedEvidenceTerms": 0,
@@ -145,7 +145,7 @@
     "byFamily": {
       "absolutes": {
         "terms": 130,
-        "evidence": 732,
+        "evidence": 734,
         "weak": 12,
         "zero": 0,
         "sourced": 130
@@ -456,7 +456,7 @@
       "terms": 130,
       "weak": 12,
       "zero": 0,
-      "evidence": 732,
+      "evidence": 734,
       "coverageRatio": 0.9077
     },
     {

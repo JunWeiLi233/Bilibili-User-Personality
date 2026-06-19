@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T05:51:19.014Z",
+  "updatedAt": "2026-06-19T06:08:04.458Z",
   "family": "absolutes",
   "shard": 24,
   "shardCount": 35,
@@ -211,13 +211,19 @@
     {
       "term": "谁都受不了",
       "evidenceSamples": [
-        "确实，登子大儿子不光是白发人送黑发人的问题，还是登子苦心经营了一辈子的政治人脉资源的继承人一下子没了，这谁都受不住"
+        "确实，登子大儿子不光是白发人送黑发人的问题，还是登子苦心经营了一辈子的政治人脉资源的继承人一下子没了，这谁都受不住",
+        "回复 @音乐盒子Faeries :律师函也只是他维护自己吧，自己被恶意P图鬼畜换谁都受不了吧，还有打篮球确实比律师函更出圈点，只要提到黑梗必是打篮球"
       ],
       "evidenceSources": [
         {
           "source": "Popular video comments UID 1615926 (1 comments from 1 videos)",
           "uid": "1615926",
           "sample": "确实，登子大儿子不光是白发人送黑发人的问题，还是登子苦心经营了一辈子的政治人脉资源的继承人一下子没了，这谁都受不住"
+        },
+        {
+          "source": "Kaggle dataset: kaggle:hongbinmiao/kun-bilibili-b/datasets/kun_complete/top1_kun_comments.csv",
+          "uid": "12267074",
+          "sample": "回复 @音乐盒子Faeries :律师函也只是他维护自己吧，自己被恶意P图鬼畜换谁都受不了吧，还有打篮球确实比律师函更出圈点，只要提到黑梗必是打篮球"
         },
         {
           "source": "Bilibili local scraped user corpus: https://www.bilibili.com/video/BV1GyVS6YEQ8/",

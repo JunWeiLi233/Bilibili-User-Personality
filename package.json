@@ -21,6 +21,7 @@
     "aicu:scrape": "node server/scripts/scrapeAicuUsers.js",
     "aicu:batch": "node server/scripts/batchScrapeAicu.js",
     "aicu:test": "node server/scripts/testAicuApi.js",
+    "stats:update": "node server/scripts/updateReadmeStatsGraph.js",
     "dev:full": "node server/index.js",
     "test": "node --test",
     "build": "vite build",
