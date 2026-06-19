@@ -81,6 +81,7 @@ from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, Hugging
 from python_backend.corpus.local import LocalCorpusEvidenceFinder
 from python_backend.corpus.local import LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner
+from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner
 from python_backend.corpus.tieba import TiebaCorpusUpdater
 from python_backend.analysis.video_filter import VideoCommentFilter, VideoContextBuilder, VideoRelevanceFilter
 from python_backend.corpus.dictionary import DictionaryLoader
@@ -5015,6 +5016,34 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
         self.assertEqual(result["summary"], {"agentCount": 2, "mainEntries": 2, "totalEvidenceGain": 4, "skippedAgents": 0})
+
+    def test_agent_dictionary_merge_planner_counts_sequential_existing_term_gain(self):
+        planner = AgentDictionaryMergePlanner()
+
+        result = planner.build_plan(
+            [
+                {"term": "shared", "family": "attack", "evidenceCount": 1},
+                {"term": "already-high", "family": "evidence", "evidenceCount": 5},
+            ],
+            [
+                {"path": "agent-one", "entries": [{"term": "shared", "evidenceCount": 3}, {"term": "new-only", "evidenceCount": 9}]},
+                {"path": "agent-two", "entries": [{"term": "shared", "evidenceCount": 4}, {"term": "already-high", "evidenceCount": 2}]},
+                {"path": "agent-three", "entries": []},
+            ],
+        )
+
+        self.assertEqual(result["mainEntries"], 2)
+        self.assertEqual(result["agentCount"], 3)
+        self.assertEqual(result["totalEvidenceGain"], 3)
+        self.assertEqual(
+            result["agents"],
+            [
+                {"agent": 1, "path": "agent-one", "entries": 2, "mergeableEntries": 1, "evidenceGain": 2, "skipped": False},
+                {"agent": 2, "path": "agent-two", "entries": 2, "mergeableEntries": 2, "evidenceGain": 1, "skipped": False},
+                {"agent": 3, "path": "agent-three", "entries": 0, "mergeableEntries": 0, "evidenceGain": 0, "skipped": True, "reason": "no_entries"},
+            ],
+        )
+        self.assertEqual(result["summary"], {"agentCount": 3, "mainEntries": 2, "totalEvidenceGain": 3, "skippedAgents": 1})
 
     def test_merge_agent_dictionaries_plan_comparator_reports_gain_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:

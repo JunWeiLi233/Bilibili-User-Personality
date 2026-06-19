@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner
 from python_backend.corpus.dictionary import DictionaryLoader
 
 
@@ -25,34 +26,13 @@ class MergeAgentDictionariesPlanRunner:
 
     def run(self) -> dict[str, Any]:
         main_entries = DictionaryLoader(self.main_dictionary_path).load().entries
-        current_counts = {
-            str(entry.get("term") or "").strip(): max(0, int(float(entry.get("evidenceCount") or 0)))
-            for entry in main_entries
-            if str(entry.get("term") or "").strip()
-        }
         agents = []
-        total_gain = 0
         for index, agent_path in enumerate(self.agent_paths, start=1):
-            agent_result = self._plan_agent(index, agent_path, current_counts)
-            agents.append(agent_result)
-            total_gain += int(agent_result.get("evidenceGain") or 0)
-        skipped_agents = sum(1 for item in agents if item.get("skipped"))
-        return {
-            "ok": True,
-            "mainDictionaryPath": str(self.main_dictionary_path),
-            "agentCount": len(self.agent_paths),
-            "mainEntries": len(main_entries),
-            "totalEvidenceGain": total_gain,
-            "agents": agents,
-            "summary": {
-                "agentCount": len(self.agent_paths),
-                "mainEntries": len(main_entries),
-                "totalEvidenceGain": total_gain,
-                "skippedAgents": skipped_agents,
-            },
-        }
+            agents.append(self._load_agent(index, agent_path))
+        plan = AgentDictionaryMergePlanner().build_plan(main_entries, agents)
+        return {"mainDictionaryPath": str(self.main_dictionary_path), **plan}
 
-    def _plan_agent(self, index: int, agent_path: Path, current_counts: dict[str, int]) -> dict[str, Any]:
+    def _load_agent(self, index: int, agent_path: Path) -> dict[str, Any]:
         dictionary_path = agent_path / self.agent_dictionary_relative_path
         try:
             agent_entries = DictionaryLoader(dictionary_path).load().entries
@@ -60,44 +40,10 @@ class MergeAgentDictionariesPlanRunner:
             return {
                 "agent": index,
                 "path": str(agent_path),
-                "entries": 0,
-                "mergeableEntries": 0,
-                "evidenceGain": 0,
-                "skipped": True,
+                "entries": [],
                 "reason": f"cannot_read_dictionary: {exc}",
             }
-        if not agent_entries:
-            return {
-                "agent": index,
-                "path": str(agent_path),
-                "entries": 0,
-                "mergeableEntries": 0,
-                "evidenceGain": 0,
-                "skipped": True,
-                "reason": "no_entries",
-            }
-        mergeable = []
-        for entry in agent_entries:
-            term = str(entry.get("term") or "").strip()
-            if term in current_counts:
-                mergeable.append(entry)
-        gain = 0
-        for entry in mergeable:
-            term = str(entry.get("term") or "").strip()
-            incoming_count = max(0, int(float(entry.get("evidenceCount") or 0)))
-            before_count = current_counts.get(term, 0)
-            after_count = max(before_count, incoming_count)
-            if after_count > before_count:
-                gain += after_count - before_count
-                current_counts[term] = after_count
-        return {
-            "agent": index,
-            "path": str(agent_path),
-            "entries": len(agent_entries),
-            "mergeableEntries": len(mergeable),
-            "evidenceGain": gain,
-            "skipped": False,
-        }
+        return {"agent": index, "path": str(agent_path), "entries": agent_entries}
 
 
 class MergeAgentDictionariesPlanContractComparator:
