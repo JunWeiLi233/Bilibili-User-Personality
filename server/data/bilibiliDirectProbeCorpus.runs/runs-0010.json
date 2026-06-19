@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T02:27:42.928Z",
+  "updatedAt": "2026-06-19T02:36:01.850Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -1047,6 +1047,64 @@
       "warnings": [],
       "commentsCollected": 227,
       "commentsAdded": 160
+    },
+    {
+      "at": "2026-06-19T02:36:01.850Z",
+      "actions": [
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站评论"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 B站评论"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 B站弹幕"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说 B站评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1Ab4y137Ct",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站评论",
+          "bvid": "BV1Ab4y137Ct",
+          "aid": 620989752,
+          "title": "找<em class=\"keyword\">B站</em>宠物up买狗，两年时间不见狗也没退钱"
+        },
+        {
+          "key": "bvid:BV1Grja6pEwU",
+          "term": "价格被打下来",
+          "query": "价格被打下来 B站评论",
+          "bvid": "BV1Grja6pEwU",
+          "aid": 116771587627768,
+          "title": "6.18硬件<em class=\"keyword\">价格</em>（最拉618当天，毫无好价）"
+        },
+        {
+          "key": "bvid:BV1okZUYDEz5",
+          "term": "抛开其他",
+          "query": "抛开其他 B站弹幕",
+          "bvid": "BV1okZUYDEz5",
+          "aid": 114274617786405,
+          "title": "云视听可以看<em class=\"keyword\">弹幕</em>了？Σ( ° △ °|||)︴"
+        },
+        {
+          "key": "bvid:BV1XfV26xEyV",
+          "term": "这还用说",
+          "query": "这还用说 B站评论",
+          "bvid": "BV1XfV26xEyV",
+          "aid": 116685554123924,
+          "title": "<em class=\"keyword\">b站</em>你到底更新了什么，你怎么把发<em class=\"keyword\">评论</em>的给改了，我用不惯啊"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 224,
+      "commentsAdded": 186
     }
   ]
 }
