@@ -13,7 +13,7 @@ from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder
 from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateFinalizer, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis.near_target import NearTargetResolvePlanner
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSvgRenderer
-from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherHelper
+from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherHelper, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationReportSummary, RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisValidator
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPlanner
@@ -1093,6 +1093,36 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "cosine", "python": 0.8, "js": 0.7},
                 {"key": "matches", "python": [{"term": "term-a", "chunk": "alpha chunk", "score": 1.0}], "js": []},
             ],
+        )
+
+    def test_semantic_matcher_summary_extracts_comparator_contract(self):
+        summary = SemanticMatcherSummary().summarize(
+            {
+                "ok": True,
+                "mode": "match",
+                "chunks": [{"id": "a"}],
+                "cosine": 0.75,
+                "matches": [{"term": "doge"}],
+                "embeddingTexts": ["doge comment"],
+                "cache": {"hits": 1},
+                "count": 2,
+                "entries": [{"term": "doge"}],
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "mode": "match",
+                "chunks": [{"id": "a"}],
+                "cosine": 0.75,
+                "matches": [{"term": "doge"}],
+                "embeddingTexts": ["doge comment"],
+                "cache": {"hits": 1},
+                "count": 2,
+                "entries": [{"term": "doge"}],
+            },
         )
 
     def test_semantic_embedding_cache_matches_js_cache_shape(self):

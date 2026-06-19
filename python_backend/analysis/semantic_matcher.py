@@ -7,6 +7,16 @@ from typing import Any
 MIN_CHUNK_LENGTH = 8
 
 
+class SemanticMatcherSummary:
+    """Shape semantic matcher results into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("mode", "chunks", "cosine", "matches", "embeddingTexts", "cache", "count", "entries")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        source = result if isinstance(result, dict) else {}
+        return {key: source.get(key) for key in self.RESULT_KEYS if key in source}
+
+
 class SemanticMatcherHelper:
     """Deterministic semantic matcher primitives shared through JSON contracts."""
 
