@@ -5,6 +5,7 @@ from pathlib import Path
 
 from python_backend.analysis.audit import CoverageAuditBuilder, CoverageAuditReport
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier
+from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressTracker
 from python_backend.analysis.discovery_report import VideoKeywordDiscoveryReporter
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, VideoKeywordDiscoveryOptionsBuilder
@@ -20,6 +21,7 @@ from python_backend.cli.bilibili_parse import BilibiliParseContractComparator, B
 from python_backend.cli.bilibili_crawler import BilibiliCrawlerContractComparator, BilibiliCrawlerRunner
 from python_backend.cli.bilibili_probe_plan import BilibiliProbePlanContractComparator, BilibiliProbePlanRunner
 from python_backend.cli.coverage_audit import AuditContractComparator
+from python_backend.cli.coverage_loop_plan import CoverageHarvestLoopPlanContractComparator, CoverageHarvestLoopPlanRunner
 from python_backend.cli.coverage_progress import CoverageProgressContractComparator, CoverageProgressRunner
 from python_backend.cli.discovery_report import VideoKeywordDiscoveryReportContractComparator, VideoKeywordDiscoveryReportRunner
 from python_backend.cli.dictionary_prune_summary import DictionaryPruneSummaryContractComparator, DictionaryPruneSummaryRunner
@@ -6613,6 +6615,133 @@ class CorpusContractTests(unittest.TestCase):
                     },
                     "js": {"targetEvidence": 3, "maxActions": 5},
                 }
+            ],
+        )
+
+    def test_coverage_harvest_loop_planner_matches_js_env_contract(self):
+        planner = CoverageHarvestLoopPlanner(cwd="D:/Bilibili_User_Personality")
+        plan = planner.build_plan(
+            env={
+                "DEEPSEEK_MODEL": "ignored-model",
+                "BILIBILI_HARVEST_MODEL": "deepseek-v4-pro",
+                "BILIBILI_HARVEST_REASONING_EFFORT": "max",
+                "DEEPSEEK_KEYWORD_DICTIONARY_PATH": "server/data/custom-dictionary.json",
+                "BILIBILI_HARVEST_STATE_PATH": "server/data/custom-state.json",
+                "BILIBILI_COVERAGE_LOOP_REPORT_PATH": "server/data/custom-loop-report.json",
+                "BILIBILI_COVERAGE_LOOP_MAX_CYCLES": "99",
+                "BILIBILI_COVERAGE_LOOP_ROUNDS_PER_CYCLE": "0",
+                "BILIBILI_HARVEST_ROUNDS": "3",
+                "BILIBILI_HARVEST_MAX_QUERIES": "200",
+                "BILIBILI_VIDEO_SEARCH_QUERIES": "alpha\nbeta;gamma",
+                "BILIBILI_CONTROVERSY_SEARCH_QUERY": "drama",
+                "BILIBILI_HARVEST_EXTRA_QUERY_TEMPLATES": "{term} comments",
+                "BILIBILI_HARVEST_EXHAUSTED_SUGGESTION_TEMPLATES": "{term} danmaku",
+                "BILIBILI_VIDEO_DISCOVERY_MODE": "search",
+                "BILIBILI_VIDEO_DISCOVERY_LIMIT": "99",
+                "BILIBILI_VIDEO_DISCOVERY_PAGES": "9",
+                "BILIBILI_CONTROVERSIAL_POPULAR_QUERY_LIMIT": "-1",
+                "BILIBILI_CONTROVERSIAL_POPULAR_SEARCH_ORDER": "pubdate",
+                "BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR": "yes",
+                "BILIBILI_HARVEST_INCLUDE_DANMAKU": "1",
+                "BILIBILI_VIDEO_COMMENT_PAGES": "99",
+                "BILIBILI_HARVEST_QUERY_TIMEOUT_MS": "999999999",
+                "BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM": "99",
+                "BILIBILI_HARVEST_TERMS_PER_FAMILY": "99",
+                "BILIBILI_HARVEST_MAX_HARD_MISSED_QUERIES": "999",
+                "BILIBILI_HARVEST_STALE_MISSED_DISCOVERY_LIMIT": "99",
+                "BILIBILI_HARVEST_STALE_MISSED_COMMENT_PAGES": "9",
+                "BILIBILI_HARVEST_SKIP_SEEN": "0",
+                "BILIBILI_HARVEST_RESET": "1",
+                "BILIBILI_HARVEST_COMMENT_POOL_TARGET_LIMIT": "500",
+                "BILIBILI_HARVEST_PRIORITY_COMMENT_POOL_TARGETS": "true",
+                "BILIBILI_HARVEST_PREFILTER_COMMENTS": "on",
+                "BILIBILI_HARVEST_DEEPEN_REPLIES": "1",
+                "BILIBILI_HARVEST_VERBOSE": "0",
+                "BILIBILI_HARVEST_PRIORITIZE_NEAR_TARGET": "yes",
+                "BILIBILI_HARVEST_PRUNE_EXHAUSTED_AFTER": "7",
+                "BILIBILI_HARVEST_PRUNE_INCLUDE_PARTIAL": "1",
+                "BILIBILI_HARVEST_EXISTING_TERMS_ONLY": "1",
+                "BILIBILI_COVERAGE_AUDIT_REQUIRE_COMMENTS": "1",
+            },
+        )
+
+        self.assertTrue(plan["ok"])
+        self.assertEqual(plan["deepseek"], {"model": "deepseek-v4-pro", "reasoningEffort": "max"})
+        self.assertEqual(plan["paths"]["dictionaryPath"], "server/data/custom-dictionary.json")
+        self.assertEqual(plan["paths"]["statePath"], "server/data/custom-state.json")
+        self.assertEqual(plan["paths"]["reportPath"], "server/data/custom-loop-report.json")
+        self.assertEqual(plan["loop"], {"maxCycles": 50, "roundsPerCycle": 3, "maxQueries": 100})
+        self.assertEqual(plan["lists"]["seedQueries"], ["alpha", "beta", "gamma"])
+        self.assertEqual(plan["lists"]["controversyQueries"], ["drama"])
+        self.assertEqual(plan["lists"]["extraQueryTemplates"], ["{term} comments"])
+        self.assertEqual(plan["lists"]["exhaustedSuggestionTemplates"], ["{term} danmaku"])
+        self.assertEqual(plan["auditOptions"]["maxActions"], 100)
+        self.assertTrue(plan["auditOptions"]["requireCommentBackedEvidence"])
+        self.assertTrue(plan["auditOptions"]["prioritizeNearTarget"])
+        self.assertEqual(plan["harvestOptions"]["discoveryLimit"], 20)
+        self.assertEqual(plan["harvestOptions"]["discoveryPages"], 5)
+        self.assertEqual(plan["harvestOptions"]["controversialPopularQueryLimit"], 4)
+        self.assertTrue(plan["harvestOptions"]["includeGenericPopular"])
+        self.assertTrue(plan["harvestOptions"]["includeDanmaku"])
+        self.assertEqual(plan["harvestOptions"]["pages"], 20)
+        self.assertEqual(plan["harvestOptions"]["perQueryTimeoutMs"], 1800000)
+        self.assertEqual(plan["harvestOptions"]["queryVariantsPerTerm"], 20)
+        self.assertEqual(plan["harvestOptions"]["termsPerFamily"], 20)
+        self.assertEqual(plan["harvestOptions"]["maxHardMissedQueries"], 100)
+        self.assertEqual(plan["harvestOptions"]["staleMissedDiscoveryLimit"], 20)
+        self.assertEqual(plan["harvestOptions"]["staleMissedPages"], 5)
+        self.assertFalse(plan["harvestOptions"]["skipSeen"])
+        self.assertTrue(plan["harvestOptions"]["resetState"])
+        self.assertEqual(plan["harvestOptions"]["commentPoolTargetTermsLimit"], 200)
+        self.assertTrue(plan["harvestOptions"]["priorityCommentPoolTargets"])
+        self.assertTrue(plan["harvestOptions"]["preFilterCommentsToTargets"])
+        self.assertTrue(plan["harvestOptions"]["deepenReplyThreads"])
+        self.assertFalse(plan["harvestOptions"]["verbose"])
+        self.assertTrue(plan["harvestOptions"]["expandTargetsFromComments"])
+        self.assertEqual(plan["prune"], {"pruneExhaustedAfter": 7, "pruneIncludePartial": True})
+
+    def test_coverage_harvest_loop_runner_reads_json_contracts_and_expands_priority_queries(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "env": {"BILIBILI_HARVEST_MAX_QUERIES": "3"},
+                        "audit": {
+                            "ok": False,
+                            "nextActions": [
+                                {"term": "doge", "family": "meme", "nextQuery": "doge hot", "suggestedQueries": ["doge comments"]},
+                                {"term": "tieba", "family": "platform", "nextQuery": "tieba roast"},
+                            ],
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = CoverageHarvestLoopPlanRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["initialStopReason"], "")
+        self.assertEqual([item["query"] for item in result["priorityQueries"]], ["doge hot", "doge comments", "tieba roast"])
+
+    def test_coverage_harvest_loop_contract_comparator_reports_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-loop-plan.json"
+            payload_path.write_text(json.dumps({"env": {"BILIBILI_COVERAGE_LOOP_MAX_CYCLES": "0"}, "audit": {"ok": False}}), encoding="utf-8")
+            js_report_path.write_text(json.dumps({"loop": {"maxCycles": 1}, "initialStopReason": "coverage_gate_passed"}), encoding="utf-8")
+
+            result = CoverageHarvestLoopPlanContractComparator(payload_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "loop", "python": {"maxCycles": 0, "roundsPerCycle": 1, "maxQueries": 12}, "js": {"maxCycles": 1}},
+                {"key": "initialStopReason", "python": "cycle_limit", "js": "coverage_gate_passed"},
             ],
         )
 

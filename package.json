@@ -26,6 +26,7 @@
     "python:test": "python -m unittest discover python_backend/tests",
     "python:compare": "python -m python_backend.cli.compare_contracts",
     "python:coverage-compare": "python -m python_backend.cli.coverage_audit",
+    "python:coverage-loop-plan": "python -m python_backend.cli.coverage_loop_plan",
     "python:coverage-progress": "python -m python_backend.cli.coverage_progress",
     "python:exhausted-prune-plan": "python -m python_backend.cli.exhausted_terms_prune_plan",
     "python:dictionary-prune-summary": "python -m python_backend.cli.dictionary_prune_summary",
