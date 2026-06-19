@@ -131,6 +131,23 @@ def _existing_samples(entry: dict[str, Any]) -> set[str]:
     return {_clean_text(sample) for sample in samples if _clean_text(sample)}
 
 
+class DirectProbeCorpusSummary:
+    """Extract comparator-friendly summaries from direct probe corpus results."""
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        corpus = result.get("corpus") if isinstance(result.get("corpus"), dict) else {}
+        comments = corpus.get("comments") if isinstance(corpus.get("comments"), list) else []
+        runs = corpus.get("runs") if isinstance(corpus.get("runs"), list) else []
+        return {
+            "commentCount": len(comments),
+            "runCount": len(runs),
+            "commentMessages": [comment.get("message") for comment in comments if isinstance(comment, dict)],
+            "runQueries": [run.get("query") for run in runs if isinstance(run, dict)],
+            "runCommentsAdded": [run.get("commentsAdded") for run in runs if isinstance(run, dict)],
+        }
+
+
 class DirectProbeCorpusBuilder:
     """Pure Python contract helpers for Bilibili direct evidence probe data."""
 

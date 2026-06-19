@@ -75,7 +75,7 @@ from python_backend.cli.batch_uid_scrape_plan import BatchUidScrapePlanContractC
 from python_backend.cli.batch_scraper_launcher import BatchScraperLauncherContractComparator, BatchScraperLauncherPlanRunner
 from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContractComparator, RangeScraperLauncherPlanRunner
 from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContractComparator, FastPipelineLauncherPlanRunner
-from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder
+from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusSummary
 from python_backend.corpus.history_tags import HistoryTagCorpusManager, HistoryTagScrapePlanner
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceImportPlanner
 from python_backend.corpus.local import LocalCorpusEvidenceFinder
@@ -2686,6 +2686,27 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(corpus["runs"][-1]["commentsCollected"], 3)
         self.assertEqual(corpus["runs"][-1]["commentsAdded"], 1)
         self.assertEqual(corpus["updatedAt"], "2026-06-18T00:00:00.000Z")
+
+    def test_direct_probe_corpus_summary_extracts_comparator_contract(self):
+        result = DirectProbeCorpusSummary().summarize(
+            {
+                "corpus": {
+                    "comments": [{"message": "\u65e7\u8bc4\u8bba"}, {"message": "\u65b0\u8bc4\u8bba"}],
+                    "runs": [{"query": "\u65e7", "commentsAdded": 0}, {"query": "\u65b0", "commentsAdded": 2}],
+                }
+            }
+        )
+
+        self.assertEqual(
+            result,
+            {
+                "commentCount": 2,
+                "runCount": 2,
+                "commentMessages": ["\u65e7\u8bc4\u8bba", "\u65b0\u8bc4\u8bba"],
+                "runQueries": ["\u65e7", "\u65b0"],
+                "runCommentsAdded": [0, 2],
+            },
+        )
 
     def test_direct_probe_corpus_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:

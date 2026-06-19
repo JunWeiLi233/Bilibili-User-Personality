@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder
+from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusSummary
 
 
 class DirectProbeCorpusRunner:
@@ -46,12 +46,13 @@ class DirectProbeCorpusContractComparator:
         self.comments_path = Path(comments_path)
         self.run_path = Path(run_path)
         self.js_report_path = Path(js_report_path)
+        self.summary = DirectProbeCorpusSummary()
 
     def compare(self) -> dict[str, Any]:
         python_result = DirectProbeCorpusRunner(self.existing_path, self.comments_path, self.run_path).run()
         js_result = self._read_js_report()
-        python_summary = self._summary(python_result)
-        js_summary = self._summary(js_result)
+        python_summary = self.summary.summarize(python_result)
+        js_summary = self.summary.summarize(js_result)
         mismatches = [
             {"key": key, "python": python_summary.get(key), "js": js_summary.get(key)}
             for key in self.SUMMARY_KEYS
@@ -70,19 +71,6 @@ class DirectProbeCorpusContractComparator:
         with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
-
-    def _summary(self, result: dict[str, Any]) -> dict[str, Any]:
-        corpus = result.get("corpus") if isinstance(result.get("corpus"), dict) else {}
-        comments = corpus.get("comments") if isinstance(corpus.get("comments"), list) else []
-        runs = corpus.get("runs") if isinstance(corpus.get("runs"), list) else []
-        return {
-            "commentCount": len(comments),
-            "runCount": len(runs),
-            "commentMessages": [comment.get("message") for comment in comments if isinstance(comment, dict)],
-            "runQueries": [run.get("query") for run in runs if isinstance(run, dict)],
-            "runCommentsAdded": [run.get("commentsAdded") for run in runs if isinstance(run, dict)],
-        }
-
 
 def main() -> int:
     if hasattr(sys.stdout, "reconfigure"):
