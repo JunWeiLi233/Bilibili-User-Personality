@@ -50,6 +50,7 @@ from python_backend.cli.uid_parallel_progress import UidParallelProgressContract
 from python_backend.cli.uid_pipeline_progress import UidPipelineProgressContractComparator, UidPipelineProgressRunner
 from python_backend.cli.uid_pipeline_merge import UidPipelineMergeContractComparator, UidPipelineMergeRunner
 from python_backend.cli.uid_pipeline_launcher import UidPipelineLauncherContractComparator, UidPipelineLauncherPlanRunner
+from python_backend.cli.uid_pipeline_state import UidPipelineStateContractComparator, UidPipelineStateRunner
 from python_backend.cli.batch_scraper_launcher import BatchScraperLauncherContractComparator, BatchScraperLauncherPlanRunner
 from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContractComparator, RangeScraperLauncherPlanRunner
 from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContractComparator, FastPipelineLauncherPlanRunner
@@ -4271,6 +4272,73 @@ class CorpusContractTests(unittest.TestCase):
                     "python": [{"start": 1, "end": 2, "progressFile": "uid-pipeline-1-2.json"}],
                     "js": [{"start": 1, "end": 2, "progressFile": "stale.json"}],
                 }
+            ],
+        )
+
+    def test_uid_pipeline_state_runner_reads_live_launcher_state_and_worker_progress(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            (data_dir / "uid-pipeline-launcher.json").write_text(
+                json.dumps(
+                    {
+                        "startedAt": "2026-06-19T00:00:00.000Z",
+                        "workers": [
+                            {"start": 1, "end": 2, "progressFile": "uid-pipeline-1-2.json"},
+                            {"start": 3, "end": 4, "progressFile": "uid-pipeline-3-4.json"},
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (data_dir / "uid-pipeline-1-2.json").write_text(
+                json.dumps({"processed": {"1": "success", "2": "blocked"}, "stats": {"success": 1, "blocked": 1}}),
+                encoding="utf-8",
+            )
+            (data_dir / "uid-pipeline-3-4.json").write_text(
+                json.dumps({"processed": {"3": "no_comments"}, "stats": {"noComments": 1}}),
+                encoding="utf-8",
+            )
+
+            result = UidPipelineStateRunner(data_dir).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["startedAt"], "2026-06-19T00:00:00.000Z")
+        self.assertEqual(
+            result["summary"],
+            {"workers": 2, "completedWorkers": 1, "totalProcessed": 3, "totalExpected": 4, "completionRatio": 0.75},
+        )
+        self.assertEqual(result["stats"], {"success": 1, "noComments": 1, "noVideos": 0, "noUser": 0, "trainError": 0, "blocked": 1, "errors": 0})
+        self.assertEqual(
+            result["workers"],
+            [
+                {"start": 1, "end": 2, "progressFile": "uid-pipeline-1-2.json", "processed": 2, "total": 2, "complete": True},
+                {"start": 3, "end": 4, "progressFile": "uid-pipeline-3-4.json", "processed": 1, "total": 2, "complete": False},
+            ],
+        )
+
+    def test_uid_pipeline_state_comparator_reports_summary_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            js_report_path = root / "js-pipeline-state.json"
+            (data_dir / "uid-pipeline-launcher.json").write_text(
+                json.dumps({"workers": [{"start": 1, "end": 1, "progressFile": "uid-pipeline-1-1.json"}]}),
+                encoding="utf-8",
+            )
+            (data_dir / "uid-pipeline-1-1.json").write_text(json.dumps({"processed": {"1": "success"}, "stats": {"success": 1}}), encoding="utf-8")
+            js_report_path.write_text(json.dumps({"summary": {"totalProcessed": 0}, "stats": {"success": 0}}), encoding="utf-8")
+
+            result = UidPipelineStateContractComparator(data_dir, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "summary", "python": {"workers": 1, "completedWorkers": 1, "totalProcessed": 1, "totalExpected": 1, "completionRatio": 1.0}, "js": {"totalProcessed": 0}},
+                {"key": "stats", "python": {"success": 1, "noComments": 0, "noVideos": 0, "noUser": 0, "trainError": 0, "blocked": 0, "errors": 0}, "js": {"success": 0}},
             ],
         )
 
