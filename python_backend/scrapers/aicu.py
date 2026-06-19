@@ -174,6 +174,16 @@ class AicuBatchPlanner:
         }
 
 
+class AicuBatchPlanSummary:
+    """Shape AICU batch dry-run plans into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("range", "progress", "database", "limits", "pacing", "retry", "sampleRequests")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
 class AicuBatchProgressReporter:
     """Summarize legacy AICU batch scrape progress and database payloads."""
 

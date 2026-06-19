@@ -90,7 +90,7 @@ from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriteSummary, CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliPublicParser
-from python_backend.scrapers.aicu import AicuBatchPlanner, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanner
+from python_backend.scrapers.aicu import AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanner
 from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanner
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanner
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerHelper
@@ -647,6 +647,34 @@ class CorpusContractTests(unittest.TestCase):
                 "uid": "100003",
                 "commentsUrl": "https://api.aicu.cc/api/v3/search/getreply?uid=100003&pn=1&ps=20&mode=0&keyword=",
                 "danmakuUrl": "https://api.aicu.cc/api/v3/search/getvideodm?uid=100003&pn=1&ps=20&keyword=",
+            },
+        )
+
+    def test_aicu_batch_plan_summary_extracts_comparator_contract(self):
+        summary = AicuBatchPlanSummary().summarize(
+            {
+                "ok": True,
+                "range": {"effectiveStart": 100003},
+                "progress": {"lastUid": 100002},
+                "database": {"users": 2},
+                "limits": {"maxPages": 3},
+                "pacing": {"delayAfterWafMs": 120000},
+                "retry": {"wafStatuses": [429, 468, 1015]},
+                "sampleRequests": {"uid": "100003"},
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "range": {"effectiveStart": 100003},
+                "progress": {"lastUid": 100002},
+                "database": {"users": 2},
+                "limits": {"maxPages": 3},
+                "pacing": {"delayAfterWafMs": 120000},
+                "retry": {"wafStatuses": [429, 468, 1015]},
+                "sampleRequests": {"uid": "100003"},
             },
         )
 
