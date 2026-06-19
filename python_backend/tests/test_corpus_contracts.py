@@ -34,6 +34,7 @@ from python_backend.cli.history_tag_corpus import HistoryTagCorpusContractCompar
 from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportContractComparator, HuggingFaceCorpusImportRunner
 from python_backend.cli.local_corpus_evidence import LocalCorpusEvidenceContractComparator, LocalCorpusEvidenceRunner
 from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenContractComparator, LocalCorpusFlattenRunner
+from python_backend.cli.merge_agent_dictionaries_plan import MergeAgentDictionariesPlanContractComparator, MergeAgentDictionariesPlanRunner
 from python_backend.cli.near_target_resolve_plan import NearTargetResolvePlanContractComparator, NearTargetResolvePlanRunner
 from python_backend.cli.video_comment_filter import VideoCommentFilterContractComparator, VideoCommentFilterRunner
 from python_backend.cli.video_context import VideoContextContractComparator, VideoContextRunner
@@ -4019,6 +4020,85 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "entries", "python": {"before": 2}, "js": {"before": 1}},
                 {"key": "asciiTerms", "python": {"before": 1}, "js": {"before": 0}},
                 {"key": "summary", "python": {"totalEntries": 2, "asciiEntries": 1}, "js": {"totalEntries": 1, "asciiEntries": 0}},
+            ],
+        )
+
+    def test_merge_agent_dictionaries_plan_runner_estimates_existing_term_evidence_gain(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            main_dictionary_path = root / "main.json"
+            agent_one = root / "agent-one"
+            agent_two = root / "agent-two"
+            agent_one_dict = agent_one / "server" / "data"
+            agent_two_dict = agent_two / "server" / "data"
+            agent_one_dict.mkdir(parents=True)
+            agent_two_dict.mkdir(parents=True)
+            main_dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {"term": "\u5df2\u6709\u8bcd", "family": "attack", "evidenceCount": 1},
+                            {"term": "\u6ee1\u8bc1\u636e", "family": "evidence", "evidenceCount": 4},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (agent_one_dict / "deepseekKeywordDictionary.json").write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {"term": "\u5df2\u6709\u8bcd", "family": "attack", "evidenceCount": 3},
+                            {"term": "\u65b0\u8bcd", "family": "attack", "evidenceCount": 10},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (agent_two_dict / "deepseekKeywordDictionary.json").write_text(
+                json.dumps({"entries": [{"term": "\u5df2\u6709\u8bcd", "family": "attack", "evidenceCount": 5}]}),
+                encoding="utf-8",
+            )
+
+            result = MergeAgentDictionariesPlanRunner(main_dictionary_path, [agent_one, agent_two]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mainEntries"], 2)
+        self.assertEqual(result["agentCount"], 2)
+        self.assertEqual(result["totalEvidenceGain"], 4)
+        self.assertEqual(
+            result["agents"],
+            [
+                {"agent": 1, "path": str(agent_one), "entries": 2, "mergeableEntries": 1, "evidenceGain": 2, "skipped": False},
+                {"agent": 2, "path": str(agent_two), "entries": 1, "mergeableEntries": 1, "evidenceGain": 2, "skipped": False},
+            ],
+        )
+        self.assertEqual(result["summary"], {"agentCount": 2, "mainEntries": 2, "totalEvidenceGain": 4, "skippedAgents": 0})
+
+    def test_merge_agent_dictionaries_plan_comparator_reports_gain_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            main_dictionary_path = root / "main.json"
+            agent_root = root / "agent"
+            agent_dict = agent_root / "server" / "data"
+            js_report_path = root / "js-merge-plan.json"
+            agent_dict.mkdir(parents=True)
+            main_dictionary_path.write_text(json.dumps({"entries": [{"term": "doge", "evidenceCount": 1}]}), encoding="utf-8")
+            (agent_dict / "deepseekKeywordDictionary.json").write_text(json.dumps({"entries": [{"term": "doge", "evidenceCount": 3}]}), encoding="utf-8")
+            js_report_path.write_text(json.dumps({"totalEvidenceGain": 0, "summary": {"agentCount": 1, "mainEntries": 1, "totalEvidenceGain": 0, "skippedAgents": 0}}), encoding="utf-8")
+
+            result = MergeAgentDictionariesPlanContractComparator(main_dictionary_path, [agent_root], js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "totalEvidenceGain", "python": 2, "js": 0},
+                {
+                    "key": "summary",
+                    "python": {"agentCount": 1, "mainEntries": 1, "totalEvidenceGain": 2, "skippedAgents": 0},
+                    "js": {"agentCount": 1, "mainEntries": 1, "totalEvidenceGain": 0, "skippedAgents": 0},
+                },
             ],
         )
 
