@@ -2903,6 +2903,35 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_keyword_harvest_plan_builder_prioritizes_retry_before_fresh_terms(self):
+        plan = KeywordHarvestPlanBuilder().build_query_plan(
+            {
+                "entries": [
+                    {"term": "fresh", "family": "attack", "evidenceCount": 0},
+                    {"term": "missed", "family": "attack", "evidenceCount": 0},
+                ]
+            },
+            {
+                "seedQueries": [],
+                "coverageMode": "all-weak",
+                "maxQueries": 2,
+                "queryVariantsPerTerm": 2,
+                "includeExhaustedFallbackTemplates": False,
+                "termAttempts": {
+                    "missed": {
+                        "term": "missed",
+                        "attempts": 1,
+                        "successfulAttempts": 0,
+                        "queries": [{"query": "missed \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4"}],
+                    }
+                },
+            },
+        )
+
+        self.assertEqual([item["term"] for item in plan], ["missed", "missed"])
+        self.assertEqual(plan[0]["query"], "missed \u8bc4\u8bba\u533a")
+        self.assertFalse(plan[0]["previouslyTried"])
+
     def test_coverage_audit_builder_matches_js_metric_contract(self):
         dictionary = {
             "entries": [

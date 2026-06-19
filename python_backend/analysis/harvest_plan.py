@@ -86,7 +86,8 @@ class KeywordHarvestPlanBuilder:
         )
         entries = sorted(entries, key=lambda entry: (audit._coverage_evidence_count(entry), _clean_text(entry.get("family") or "attack"), self._entry_term(entry)))
         if coverage_mode == "all-weak":
-            return [entry for entry in entries if audit._coverage_evidence_count(entry) < target_evidence]
+            weak_entries = [entry for entry in entries if audit._coverage_evidence_count(entry) < target_evidence]
+            return self._sort_all_weak_entries(weak_entries, options, audit, target_evidence)
         family_counts: dict[str, int] = {}
         limit = _positive_int(options.get("termsPerFamily"), 4, 20)
         selected = []
@@ -97,6 +98,32 @@ class KeywordHarvestPlanBuilder:
             family_counts[family] = family_counts.get(family, 0) + 1
             selected.append(entry)
         return selected
+
+    def _sort_all_weak_entries(
+        self,
+        entries: list[dict[str, Any]],
+        options: dict[str, Any],
+        audit: CoverageAuditBuilder,
+        target_evidence: int,
+    ) -> list[dict[str, Any]]:
+        term_attempts = options.get("termAttempts") if isinstance(options.get("termAttempts"), dict) else {}
+        retry_limit = max(0, int(float(options.get("retryBeforeUnattemptedLimit", 3) or 0)))
+
+        def rank(entry: dict[str, Any]) -> tuple[int, int, int, str, str]:
+            term = self._entry_term(entry)
+            attempt = self._term_attempt(term_attempts, term) or {}
+            attempts = max(0, int(float(attempt.get("attempts") or 0)))
+            successful = self._effective_successful_attempts(attempt)
+            if attempts > 0 and successful == 0 and attempts < retry_limit:
+                group = 0
+            elif attempts == 0:
+                group = 1
+            else:
+                group = 2
+            evidence_needed = max(0, target_evidence - audit._coverage_evidence_count(entry))
+            return (group, evidence_needed, audit._coverage_evidence_count(entry), _clean_text(entry.get("family") or "attack"), term)
+
+        return sorted(entries, key=rank)
 
     def _dictionary_plan(self, entries: list[dict[str, Any]], options: dict[str, Any], coverage_mode: str) -> list[dict[str, Any]]:
         variants_per_term = _positive_int(options.get("queryVariantsPerTerm"), 2)
