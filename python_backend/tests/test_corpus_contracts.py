@@ -6,6 +6,7 @@ from pathlib import Path
 from python_backend.analysis.audit import CoverageAuditBuilder, CoverageAuditReport
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier
 from python_backend.analysis.coverage_progress import CoverageProgressTracker
+from python_backend.analysis.discovery_report import VideoKeywordDiscoveryReporter
 from python_backend.analysis.verification import RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient
 from python_backend.cli.comment_coverage import CommentCoverageRunner
@@ -13,6 +14,7 @@ from python_backend.cli.bilibili_parse import BilibiliParseRunner
 from python_backend.cli.bilibili_probe_plan import BilibiliProbePlanRunner
 from python_backend.cli.coverage_audit import AuditContractComparator
 from python_backend.cli.coverage_progress import CoverageProgressRunner
+from python_backend.cli.discovery_report import VideoKeywordDiscoveryReportRunner
 from python_backend.cli.compare_contracts import ContractComparator
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanRunner
 from python_backend.cli.history_tag_corpus import HistoryTagCorpusRunner
@@ -1418,6 +1420,142 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["actionDelta"], {"actionTermsResolved": 0, "actionEvidenceNeedReduced": 1})
         self.assertTrue(result["hasGateProgress"])
         self.assertTrue(result["hasHarvestProgress"])
+
+    def test_video_keyword_discovery_reporter_keeps_query_diagnostics(self):
+        reporter = VideoKeywordDiscoveryReporter(now=lambda: "2026-06-19T00:00:00.000Z")
+        report = reporter.serialize_report(
+            {
+                "requestedRounds": 1,
+                "growth": {"before": 1, "after": 1},
+                "coverage": {"coverageRatio": 0.5},
+                "coverageActions": [],
+                "state": {"searchedQueries": ["target 评论区"]},
+                "rounds": [
+                    {
+                        "queries": ["target 评论区"],
+                        "candidateQueries": ["target 评论区"],
+                        "growth": {"before": 1, "after": 1},
+                        "coverage": {"evidenceDeficit": 2},
+                        "coverageProgress": {"evidenceGained": 0, "evidenceDeficitReduced": 0},
+                        "termAttemptSummary": {"attemptedTerms": 1},
+                        "warnings": [],
+                        "trainingDiagnostics": {"deepseekCalls": 1, "evidenceRejected": 2, "dictionaryEvidenceTerms": 0},
+                        "queryDiagnostics": [
+                            {
+                                "query": "target 评论区",
+                                "commentsCollected": 240,
+                                "trainingTextChars": 4096,
+                                "targetExistingTerms": ["target"],
+                                "acceptedTerms": [],
+                                "evidenceRejected": 2,
+                            }
+                        ],
+                        "results": [
+                            {
+                                "query": "target 评论区",
+                                "result": {
+                                    "ok": True,
+                                    "videos": [{"bvid": "BV1target", "title": "target title", "sourceUrl": "https://www.bilibili.com/video/BV1target/"}],
+                                    "comments": [{"rpid": 1}],
+                                    "keywordTraining": {"evidenceRejected": 2, "dictionaryEvidenceEntries": []},
+                                    "entries": [],
+                                },
+                            }
+                        ],
+                    }
+                ],
+            },
+            "state.json",
+            "report.json",
+        )
+
+        self.assertEqual(report["generatedAt"], "2026-06-19T00:00:00.000Z")
+        self.assertEqual(report["rounds"][0]["trainingDiagnostics"], {"deepseekCalls": 1, "evidenceRejected": 2, "dictionaryEvidenceTerms": 0})
+        self.assertEqual(report["rounds"][0]["queryDiagnostics"][0]["commentsCollected"], 240)
+        self.assertEqual(report["rounds"][0]["results"][0]["videos"], [{"bvid": "BV1target", "title": "target title", "sourceUrl": "https://www.bilibili.com/video/BV1target/"}])
+        self.assertEqual(report["rounds"][0]["results"][0]["comments"], 1)
+
+    def test_video_keyword_discovery_reporter_counts_unique_accepted_evidence(self):
+        reporter = VideoKeywordDiscoveryReporter(now=lambda: "2026-06-19T00:00:00.000Z")
+        result = {
+            "ok": True,
+            "entries": [
+                {
+                    "term": "sampleTerm",
+                    "family": "attack",
+                    "evidenceCount": 4,
+                    "evidenceSamples": ["sampleTerm first comment", "sampleTerm second comment"],
+                    "evidenceSources": [
+                        {"source": "Bilibili public video comment scan: https://www.bilibili.com/video/BV1111111111/", "uid": "BV1111111111", "sample": "sampleTerm first comment"},
+                        {"source": "Bilibili public video comment scan: https://www.bilibili.com/video/BV1111111111/", "uid": "BV1111111111", "sample": "sampleTerm second comment"},
+                    ],
+                },
+                {"term": "fallbackTerm", "evidenceCount": 3},
+                {"term": "fallbackTerm", "evidenceCount": 1},
+            ],
+        }
+
+        self.assertEqual(reporter.count_accepted_evidence_hits_for_result(result), 5)
+
+    def test_video_keyword_discovery_reporter_expands_priority_actions(self):
+        reporter = VideoKeywordDiscoveryReporter()
+        items = reporter.priority_action_items_from_coverage_actions(
+            [
+                {"term": "old term", "family": "attack", "action": "none", "status": "covered", "nextQuery": "old term", "suggestedQueries": ["old term alt"]},
+                {
+                    "term": "next term",
+                    "family": "evidence",
+                    "action": "retry_with_new_variant",
+                    "status": "weak_missed",
+                    "nextQuery": "next term 评论区",
+                    "suggestedQueries": ["next term 弹幕", ""],
+                },
+            ]
+        )
+        priority_items = reporter.priority_action_items_from_harvest_result(
+            {
+                "coverageActions": [{"term": "timeoutHeavy", "action": "harvest_more_evidence", "nextQuery": "timeoutHeavy 评论区"}],
+                "priorityCoverageActions": [{"term": "betterNext", "action": "retry_with_new_variant", "nextQuery": "betterNext 评论区"}],
+            }
+        )
+
+        self.assertEqual(
+            [{"term": item["term"], "query": item["query"], "nextQuery": item["nextQuery"]} for item in items],
+            [
+                {"term": "next term", "query": "next term 评论区", "nextQuery": "next term 评论区"},
+                {"term": "next term", "query": "next term 弹幕", "nextQuery": "next term 弹幕"},
+            ],
+        )
+        self.assertEqual([item["term"] for item in priority_items], ["betterNext"])
+
+    def test_video_keyword_discovery_report_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "statePath": "state.json",
+                        "reportPath": "report.json",
+                        "generatedAt": "2026-06-19T00:00:00.000Z",
+                        "result": {
+                            "requestedRounds": 1,
+                            "growth": {"before": 1, "after": 2},
+                            "coverage": {"coverageRatio": 0.5},
+                            "coverageActions": [{"term": "next term", "action": "retry", "nextQuery": "next term 评论区"}],
+                            "state": {},
+                            "rounds": [{"queries": [], "candidateQueries": [], "growth": {}, "coverage": {}, "coverageProgress": {}, "results": []}],
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = VideoKeywordDiscoveryReportRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["report"]["generatedAt"], "2026-06-19T00:00:00.000Z")
+        self.assertEqual(result["priorityActionItems"][0]["query"], "next term 评论区")
 
     def test_coverage_audit_builder_matches_js_metric_contract(self):
         dictionary = {
