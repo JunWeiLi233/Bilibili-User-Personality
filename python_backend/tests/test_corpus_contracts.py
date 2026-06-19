@@ -152,6 +152,28 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(loaded.runs, [{"at": "now"}])
         self.assertEqual(loaded.manifest["storage"], "split")
 
+    def test_writer_removes_stale_split_shards_after_smaller_rewrite(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output = root / "out.json"
+            writer = CorpusShardWriter(output, max_shard_bytes=128)
+            writer.write(
+                comments=[{"message": "first" * 30}, {"message": "second" * 30}, {"message": "third" * 30}],
+                runs=[{"at": "old-1"}, {"at": "old-2"}],
+                manifest={"version": 1},
+            )
+            writer.write(
+                comments=[{"message": "kept"}],
+                runs=[{"at": "new"}],
+                manifest={"version": 1},
+            )
+
+            comment_shards = sorted(path.name for path in (root / "out.comments").glob("comments-*.json"))
+            run_shards = sorted(path.name for path in (root / "out.runs").glob("runs-*.json"))
+
+        self.assertEqual(comment_shards, ["comments-0001.json"])
+        self.assertEqual(run_shards, ["runs-0001.json"])
+
     def test_random_verifier_samples_are_deterministic_and_keyword_aware(self):
         verifier = RandomVerifier(keyword_terms=["狗头", "查查资料"])
         comments = [

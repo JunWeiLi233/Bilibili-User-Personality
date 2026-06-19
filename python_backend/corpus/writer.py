@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -33,6 +34,8 @@ class CorpusShardWriter:
             "runCount": len(runs),
         }
         self._write_json(self.path, payload)
+        self._remove_stale_shards(self._comments_dir(), comment_files, r"comments-\d{4}\.json")
+        self._remove_stale_shards(self._runs_dir(), run_files, r"runs-\d{4}\.json")
 
     def _comments_dir(self) -> Path:
         return self.path.with_suffix("").parent / f"{self.path.with_suffix('').name}.comments"
@@ -58,6 +61,15 @@ class CorpusShardWriter:
             )
             files.append(f"{directory.name}/{name}")
         return files
+
+    def _remove_stale_shards(self, directory: Path, kept_files: list[str], pattern: str) -> None:
+        kept_names = {Path(path).name for path in kept_files}
+        regex = re.compile(pattern, re.IGNORECASE)
+        if not directory.exists():
+            return
+        for path in directory.iterdir():
+            if path.is_file() and regex.fullmatch(path.name) and path.name not in kept_names:
+                path.unlink()
 
     def _split_values(self, values: list[dict[str, Any]], key: str) -> list[list[dict[str, Any]]]:
         if not values:
