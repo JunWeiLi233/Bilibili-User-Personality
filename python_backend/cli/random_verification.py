@@ -7,7 +7,7 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.verification import RandomVerifier
+from python_backend.analysis.verification import RandomVerificationReportSummary, RandomVerifier
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
 
@@ -80,6 +80,7 @@ class RandomVerificationContractComparator:
         self.js_report_path = Path(js_report_path)
         self.sample_size = sample_size
         self.seed = seed
+        self.summary = RandomVerificationReportSummary()
 
     def compare(self) -> dict[str, Any]:
         with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
@@ -100,18 +101,8 @@ class RandomVerificationContractComparator:
         return {
             "ok": not mismatches,
             "mismatches": mismatches,
-            "python": self._summary(python_report),
-            "js": self._summary(js_report),
-        }
-
-    def _summary(self, report: dict[str, Any]) -> dict[str, Any]:
-        return {
-            "sampleSize": report.get("sampleSize"),
-            "seed": report.get("seed"),
-            "sampled": report.get("sampled"),
-            "keywordHits": report.get("keywordHits"),
-            "neutral": report.get("neutral"),
-            "uncovered": report.get("uncovered"),
+            "python": self.summary.summarize(python_report),
+            "js": self.summary.summarize(js_report),
         }
 
 

@@ -14,7 +14,7 @@ from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, 
 from python_backend.analysis.near_target import NearTargetResolvePlanner
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherHelper
-from python_backend.analysis.verification import RandomVerifier
+from python_backend.analysis.verification import RandomVerificationReportSummary, RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisValidator
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPlanner
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceMatcher
@@ -9124,6 +9124,31 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["python"]["sampled"], 3)
         self.assertEqual(result["js"]["sampled"], 3)
+
+    def test_random_verification_report_summary_preserves_comparator_shape(self):
+        summary = RandomVerificationReportSummary().summarize(
+            {
+                "sampleSize": 25,
+                "seed": 123,
+                "sampled": 10,
+                "keywordHits": 4,
+                "neutral": 6,
+                "uncovered": 0,
+                "samples": [{"message": "heavy payload"}],
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "sampleSize": 25,
+                "seed": 123,
+                "sampled": 10,
+                "keywordHits": 4,
+                "neutral": 6,
+                "uncovered": 0,
+            },
+        )
 
     def test_random_verification_json_output_is_utf8_safe(self):
         payload = {"ok": True, "samples": [{"message": "emoji 😭 and hangul 눈"}]}

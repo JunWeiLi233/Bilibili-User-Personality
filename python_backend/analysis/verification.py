@@ -17,6 +17,16 @@ class VerificationSummary:
     samples: list[dict[str, Any]]
 
 
+class RandomVerificationReportSummary:
+    """Shape random-verification reports into the JS/Python comparator summary contract."""
+
+    SUMMARY_KEYS = ("sampleSize", "seed", "sampled", "keywordHits", "neutral", "uncovered")
+
+    def summarize(self, report: dict[str, Any] | None = None) -> dict[str, Any]:
+        report = report if isinstance(report, dict) else {}
+        return {key: report.get(key) for key in self.SUMMARY_KEYS}
+
+
 class RandomVerifier:
     """Deterministically sample comments and classify lexical keyword coverage."""
 
