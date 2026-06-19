@@ -19,6 +19,7 @@ from python_backend.cli.video_comment_filter import VideoCommentFilterRunner
 from python_backend.cli.direct_probe_corpus import DirectProbeCorpusRunner
 from python_backend.cli.random_verification import RandomVerificationRunner
 from python_backend.cli.tieba_corpus import TiebaCorpusUpdateRunner
+from python_backend.cli.tieba_html_parse import TiebaHtmlParseRunner
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder
 from python_backend.corpus.history_tags import HistoryTagCorpusManager
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter
@@ -31,6 +32,7 @@ from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.rate_limiter import RateLimiter
+from python_backend.scrapers.tieba_html import TiebaHtmlParser
 
 
 class CorpusContractTests(unittest.TestCase):
@@ -881,6 +883,114 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["applied"])
         self.assertEqual(result["matched"], 2)
         self.assertEqual([comment["rpid"] for comment in result["comments"]], ["1", "2"])
+
+    def test_tieba_html_parser_matches_thread_discovery_contract(self):
+        parser = TiebaHtmlParser()
+        html = """
+        <a href="/p/1234567890" title="&#26080;&#30028;&#21487;&#29233;&#35752;&#35770;">duplicate body</a>
+        <a href="https://tieba.baidu.com/p/222" title="second title">ignored short id</a>
+        <a href="/p/9876543210">\u8d34\u5427\u9ed1\u8bdd\u590d\u76d8</a>
+        <a href="/p/1234567890" title="duplicate">duplicate</a>
+        """
+
+        threads = parser.parse_threads(html, "\u65e0\u754c\u53ef\u7231")
+
+        self.assertEqual(
+            threads,
+            [
+                {
+                    "id": "1234567890",
+                    "kind": "tieba-thread",
+                    "title": "\u65e0\u754c\u53ef\u7231\u8ba8\u8bba",
+                    "keyword": "\u65e0\u754c\u53ef\u7231",
+                    "sourceUrl": "https://tieba.baidu.com/p/1234567890",
+                },
+                {
+                    "id": "222",
+                    "kind": "tieba-thread",
+                    "title": "second title",
+                    "keyword": "\u65e0\u754c\u53ef\u7231",
+                    "sourceUrl": "https://tieba.baidu.com/p/222",
+                },
+                {
+                    "id": "9876543210",
+                    "kind": "tieba-thread",
+                    "title": "\u8d34\u5427\u9ed1\u8bdd\u590d\u76d8",
+                    "keyword": "\u65e0\u754c\u53ef\u7231",
+                    "sourceUrl": "https://tieba.baidu.com/p/9876543210",
+                },
+            ],
+        )
+
+    def test_tieba_html_parser_extracts_thread_comments(self):
+        parser = TiebaHtmlParser()
+        html = """
+        <div class="l_post" data-field='{"author":{"user_name":"\u8001\u54e5"},"content":{"post_id":11}}'>
+          <div class="d_post_content j_d_post_content">\u61c2\u7684\u90fd\u61c2\uff0c\u4e0d\u7ec6\u8bf4\u4e86</div>
+        </div>
+        <div class="l_post" data-field='{"author":{"user_name":"\u53e6\u4e00\u4e2a"},"content":{"post_id":12}}'>
+          <cc><div>\u8fd9\u8c01\u80fd\u7ef7\u5f97\u4f4f\uff0c\u5efa\u8bae\u67e5\u67e5\u8d44\u6599</div></cc>
+        </div>
+        """
+
+        comments = parser.parse_thread_comments(
+            html,
+            {"id": "1234567890", "title": "sample thread", "sourceUrl": "https://tieba.baidu.com/p/1234567890"},
+        )
+
+        self.assertEqual(
+            [
+                {
+                    "rpid": comment["rpid"],
+                    "uname": comment["uname"],
+                    "message": comment["message"],
+                    "sourceKind": comment["sourceKind"],
+                    "sourceUrl": comment["sourceUrl"],
+                }
+                for comment in comments
+            ],
+            [
+                {
+                    "rpid": "tieba-1234567890-11",
+                    "uname": "\u8001\u54e5",
+                    "message": "\u61c2\u7684\u90fd\u61c2\uff0c\u4e0d\u7ec6\u8bf4\u4e86",
+                    "sourceKind": "tieba-thread",
+                    "sourceUrl": "https://tieba.baidu.com/p/1234567890",
+                },
+                {
+                    "rpid": "tieba-1234567890-12",
+                    "uname": "\u53e6\u4e00\u4e2a",
+                    "message": "\u8fd9\u8c01\u80fd\u7ef7\u5f97\u4f4f\uff0c\u5efa\u8bae\u67e5\u67e5\u8d44\u6599",
+                    "sourceKind": "tieba-thread",
+                    "sourceUrl": "https://tieba.baidu.com/p/1234567890",
+                },
+            ],
+        )
+
+    def test_tieba_html_parse_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "comments",
+                        "thread": {"id": "1000", "title": "\u6d4b\u8bd5", "sourceUrl": "https://tieba.baidu.com/p/1000"},
+                        "html": """
+                        <div class="l_post" data-field='{"author":{"user_name":"u"},"content":{"post_id":1}}'>
+                          <div class="d_post_content j_d_post_content">\u65b0\u8d34\u5427\u8bc4\u8bba</div>
+                        </div>
+                        """,
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = TiebaHtmlParseRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "comments")
+        self.assertEqual(result["comments"][0]["message"], "\u65b0\u8d34\u5427\u8bc4\u8bba")
 
     def test_comment_coverage_classifier_matches_core_js_modes(self):
         dictionary = {
