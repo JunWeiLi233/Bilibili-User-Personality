@@ -87,7 +87,7 @@ from python_backend.analysis.video_filter import VideoCommentFilter, VideoContex
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader
-from python_backend.corpus.writer import CorpusShardWriter
+from python_backend.corpus.writer import CorpusShardWriteSummary, CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliPublicParser
 from python_backend.scrapers.aicu import AicuBatchPlanner, AicuBatchProgressReporter, AicuScrapePlanner
@@ -329,6 +329,19 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["runs"], 1)
         self.assertEqual([item["message"] for item in loaded.comments], ["alpha" * 20, "beta"])
         self.assertEqual(loaded.runs, [{"at": "now"}])
+
+    def test_corpus_shard_write_summary_extracts_comparator_contract(self):
+        summary = CorpusShardWriteSummary().summarize(
+            {
+                "ok": True,
+                "outputPath": "out.json",
+                "manifest": {"storage": "split", "commentCount": 2},
+                "comments": 2,
+                "runs": 1,
+            }
+        )
+
+        self.assertEqual(summary, {"manifest": {"storage": "split", "commentCount": 2}, "comments": 2, "runs": 1})
 
     def test_corpus_shard_write_comparator_reports_manifest_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
