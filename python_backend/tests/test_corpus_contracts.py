@@ -741,6 +741,36 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(dictionary.entries[0]["evidenceSamples"], ["bom sample"])
         self.assertEqual(dictionary.entries[0]["evidenceSources"][0]["sample"], "bom sample")
 
+    def test_dictionary_loader_accepts_string_split_file_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "dict.entries").mkdir()
+            (root / "dict.evidence").mkdir()
+            (root / "dict.json").write_text(
+                json.dumps(
+                    {
+                        "storage": "split",
+                        "entryFiles": {"attack": "dict.entries/attack-001.json"},
+                        "evidenceFiles": {"attack": "dict.evidence/attack-001.json"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (root / "dict.entries" / "attack-001.json").write_text(
+                json.dumps({"entries": [{"term": "doge", "family": "attack"}]}),
+                encoding="utf-8",
+            )
+            (root / "dict.evidence" / "attack-001.json").write_text(
+                json.dumps({"evidence": [{"term": "doge", "evidenceSamples": ["doge"], "evidenceSources": [{"sample": "doge"}]}]}),
+                encoding="utf-8",
+            )
+
+            dictionary = DictionaryLoader(root / "dict.json").load()
+
+        self.assertEqual(dictionary.entries[0]["term"], "doge")
+        self.assertEqual(dictionary.entries[0]["evidenceSamples"], ["doge"])
+        self.assertEqual(dictionary.entries[0]["evidenceSources"], [{"sample": "doge"}])
+
     def test_dictionary_loader_merges_duplicate_split_evidence_terms(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

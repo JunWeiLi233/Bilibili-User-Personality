@@ -34,8 +34,8 @@ class DictionaryLoader:
 
     def _hydrate_entry_files(self, files_by_family: dict[str, list[str]]) -> list[dict[str, Any]]:
         entries: list[dict[str, Any]] = []
-        for files in files_by_family.values():
-            for relative_path in files:
+        for file_spec in files_by_family.values():
+            for relative_path in self._file_list(file_spec):
                 shard = self._read_json(self.path.parent / relative_path)
                 shard_entries = shard.get("entries") or []
                 if isinstance(shard_entries, list):
@@ -44,8 +44,8 @@ class DictionaryLoader:
 
     def _hydrate_evidence_files(self, files_by_family: dict[str, list[str]]) -> dict[str, dict[str, Any]]:
         evidence_by_term: dict[str, dict[str, Any]] = {}
-        for files in files_by_family.values():
-            for relative_path in files:
+        for file_spec in files_by_family.values():
+            for relative_path in self._file_list(file_spec):
                 shard = self._read_json(self.path.parent / relative_path)
                 shard_evidence = shard.get("evidence") or []
                 if not isinstance(shard_evidence, list):
@@ -65,6 +65,14 @@ class DictionaryLoader:
     def _read_json(path: Path) -> dict[str, Any]:
         with path.open("r", encoding="utf-8-sig") as handle:
             return json.load(handle)
+
+    @staticmethod
+    def _file_list(value: Any) -> list[str]:
+        if isinstance(value, list):
+            return [str(item) for item in value if item]
+        if value:
+            return [str(value)]
+        return []
 
     @staticmethod
     def _unique(values: list[Any]) -> list[Any]:
