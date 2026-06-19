@@ -28,7 +28,15 @@ class DictionaryLoader:
             manifest = {"version": 1, "storage": "missing", "updatedAt": None, "entries": [], "families": {}}
             return KeywordDictionary(manifest=manifest, entries=[])
         if manifest.get("storage") != "split":
-            return KeywordDictionary(manifest=manifest, entries=list(manifest.get("entries") or []))
+            entries = list(manifest.get("entries") or [])
+            normalized = {
+                "version": manifest.get("version", 1),
+                "storage": "monolith",
+                "updatedAt": manifest.get("updatedAt") or None,
+                "entries": entries,
+                "families": manifest.get("families") or {},
+            }
+            return KeywordDictionary(manifest=normalized, entries=entries)
 
         entries = self._hydrate_entry_files(manifest.get("entryFiles") or {})
         evidence_by_term = self._hydrate_evidence_files(manifest.get("evidenceFiles") or {})
