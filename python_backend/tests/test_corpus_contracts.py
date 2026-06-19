@@ -69,8 +69,10 @@ from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliPublicParser
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerHelper
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanner
+from python_backend.runtime.file_lock import FileLockStateInspector
 from python_backend.scrapers.rate_limiter import RateLimiter
 from python_backend.cli.scraper_monitor import ScraperMonitorContractComparator, ScraperMonitorRunner
+from python_backend.cli.file_lock_state import FileLockStateContractComparator, FileLockStateRunner
 from python_backend.cli.batch_scrape_progress import BatchScrapeProgressContractComparator, BatchScrapeProgressRunner
 from python_backend.cli.batch_uid_progress import BatchUidProgressContractComparator, BatchUidProgressRunner
 from python_backend.cli.uid_discovery_progress import UidDiscoveryProgressContractComparator, UidDiscoveryProgressRunner
@@ -368,6 +370,59 @@ class CorpusContractTests(unittest.TestCase):
         limiter.wait()
 
         self.assertEqual(sleeps, [1.25])
+
+    def test_file_lock_state_inspector_reads_js_owner_contract_and_detects_stale_age(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            lock_path = Path(tmp) / "deepseekKeywordDictionary.json.lock"
+            lock_path.mkdir()
+            (lock_path / "owner.json").write_text(
+                json.dumps(
+                    {
+                        "pid": 12345,
+                        "startedAt": "2026-06-19T00:00:00.000Z",
+                        "command": "node server/scripts/runVideoKeywordDiscovery.js",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = FileLockStateInspector(
+                lock_path,
+                stale_ms=60000,
+                now_ms=lambda: 1781836920000,
+                process_alive=lambda pid: True,
+            ).inspect()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["lockPath"], str(lock_path))
+        self.assertEqual(result["owner"], {"pid": 12345, "startedAt": "2026-06-19T00:00:00.000Z", "command": "node server/scripts/runVideoKeywordDiscovery.js"})
+        self.assertEqual(result["state"], {"exists": True, "hasOwner": True, "staleByAge": True, "staleByPid": False, "stale": True, "shouldRemove": True})
+
+    def test_file_lock_state_runner_and_comparator_read_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            lock_path = root / "harvest.lock"
+            lock_path.mkdir()
+            js_report_path = root / "js-lock-report.json"
+            (lock_path / "owner.json").write_text(json.dumps({"pid": 0, "startedAt": "bad date", "command": "node"}), encoding="utf-8")
+            js_report_path.write_text(json.dumps({"state": {"exists": False}}), encoding="utf-8")
+
+            result = FileLockStateRunner(lock_path, stale_ms=60000, now_ms=lambda: 1781836920000, process_alive=lambda pid: False).run()
+            comparison = FileLockStateContractComparator(lock_path, js_report_path, stale_ms=60000, now_ms=lambda: 1781836920000, process_alive=lambda pid: False).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["state"], {"exists": True, "hasOwner": True, "staleByAge": False, "staleByPid": False, "stale": False, "shouldRemove": False})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {
+                    "key": "state",
+                    "python": {"exists": True, "hasOwner": True, "staleByAge": False, "staleByPid": False, "stale": False, "shouldRemove": False},
+                    "js": {"exists": False},
+                }
+            ],
+        )
 
     def test_scraper_and_analyzer_boundaries_are_class_based(self):
         request = ScrapeRequest(query="历史", limit=3)
