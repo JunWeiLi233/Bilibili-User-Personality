@@ -67,6 +67,7 @@ from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerHelper
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanner
 from python_backend.scrapers.rate_limiter import RateLimiter
 from python_backend.cli.scraper_monitor import ScraperMonitorContractComparator, ScraperMonitorRunner
+from python_backend.cli.batch_uid_progress import BatchUidProgressContractComparator, BatchUidProgressRunner
 from python_backend.scrapers.tieba_html import TiebaHtmlParser
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 
@@ -4498,6 +4499,58 @@ class CorpusContractTests(unittest.TestCase):
                     "js": {"processed": 0},
                 },
                 {"key": "combined", "python": {"uidsAnalyzed": 2}, "js": {"uidsAnalyzed": 1}},
+            ],
+        )
+
+    def test_batch_uid_progress_runner_summarizes_discovery_and_phase2_status(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            progress_path = root / "batch-uid-progress.json"
+            progress_path.write_text(
+                json.dumps(
+                    {
+                        "scannedBvids": ["BV1", "BV2", "BV3"],
+                        "_uidComments": {
+                            "100": [{"message": "one", "bvid": "BV1"}, {"message": "two", "bvid": "BV2"}],
+                            "101": [{"message": "three", "bvid": "BV2"}],
+                            "102": [],
+                        },
+                        "processedUids": {"100": "success", "101": "error", "102": "no_text"},
+                        "stats": {"videosScanned": 3, "uidsFound": 3, "uidsAnalyzed": 1, "commentsCollected": 4, "errors": 2},
+                        "lastUpdated": "2026-06-19T00:00:00.000Z",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = BatchUidProgressRunner(progress_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["discovery"], {"videosScanned": 3, "uidsDiscovered": 3, "commentsCollected": 4})
+        self.assertEqual(result["phase2"], {"processed": 3, "success": 1, "errors": 1, "skipped": 1, "remaining": 0})
+        self.assertEqual(result["comments"], {"total": 3, "averagePerUid": 1.0, "uidsWithComments": 2})
+        self.assertEqual(result["stats"], {"videosScanned": 3, "uidsFound": 3, "uidsAnalyzed": 1, "commentsCollected": 4, "errors": 2})
+        self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
+
+    def test_batch_uid_progress_comparator_reports_summary_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            progress_path = root / "batch-uid-progress.json"
+            js_report_path = root / "js-batch-uid-progress.json"
+            progress_path.write_text(
+                json.dumps({"_uidComments": {"100": [{"message": "x"}]}, "processedUids": {"100": "success"}, "stats": {"videosScanned": 1}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"phase2": {"processed": 0}, "discovery": {"videosScanned": 0}}), encoding="utf-8")
+
+            result = BatchUidProgressContractComparator(progress_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "discovery", "python": {"videosScanned": 1, "uidsDiscovered": 1, "commentsCollected": 0}, "js": {"videosScanned": 0}},
+                {"key": "phase2", "python": {"processed": 1, "success": 1, "errors": 0, "skipped": 0, "remaining": 0}, "js": {"processed": 0}},
             ],
         )
 
