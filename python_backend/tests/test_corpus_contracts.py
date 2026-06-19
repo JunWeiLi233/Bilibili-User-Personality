@@ -67,11 +67,13 @@ from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliPublicParser
+from python_backend.scrapers.aicu import AicuScrapePlanner
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerHelper
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanner
 from python_backend.runtime.file_lock import FileLockStateInspector
 from python_backend.scrapers.rate_limiter import RateLimiter
 from python_backend.cli.scraper_monitor import ScraperMonitorContractComparator, ScraperMonitorRunner
+from python_backend.cli.aicu_scrape_plan import AicuScrapePlanContractComparator, AicuScrapePlanRunner
 from python_backend.cli.file_lock_state import FileLockStateContractComparator, FileLockStateRunner
 from python_backend.cli.batch_scrape_progress import BatchScrapeProgressContractComparator, BatchScrapeProgressRunner
 from python_backend.cli.batch_uid_progress import BatchUidProgressContractComparator, BatchUidProgressRunner
@@ -421,6 +423,53 @@ class CorpusContractTests(unittest.TestCase):
                     "python": {"exists": True, "hasOwner": True, "staleByAge": False, "staleByPid": False, "stale": False, "shouldRemove": False},
                     "js": {"exists": False},
                 }
+            ],
+        )
+
+    def test_aicu_scrape_planner_matches_js_uid_input_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            uid_file = root / "uids.txt"
+            uid_file.write_text("https://space.bilibili.com/456\n789, 456; bad", encoding="utf-8")
+
+            result = AicuScrapePlanner().build_plan(
+                [
+                    "--uid=123",
+                    f"--file={uid_file}",
+                    "https://space.bilibili.com/999?spm_id_from=333",
+                    "not-a-uid",
+                ]
+            )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["uids"], ["123", "456", "789", "999"])
+        self.assertEqual(result["summary"], {"uids": 4, "commentPagesPerUid": 10, "danmakuPagesPerUid": 10, "delayBetweenUidsMs": 15000})
+        self.assertEqual(result["requests"][0]["commentsUrl"], "https://api.aicu.cc/api/v3/search/getreply?uid=123&pn=1&ps=20&mode=0&keyword=")
+        self.assertEqual(result["requests"][0]["danmakuUrl"], "https://api.aicu.cc/api/v3/search/getvideodm?uid=123&pn=1&ps=20&keyword=")
+
+    def test_aicu_scrape_plan_runner_and_comparator_read_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "aicu-plan.json"
+            js_report_path = root / "js-aicu-plan.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--uid=42", "https://space.bilibili.com/43"], "maxPages": 2}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"uids": ["42"], "summary": {"uids": 1}}), encoding="utf-8")
+
+            result = AicuScrapePlanRunner(payload_path).run()
+            comparison = AicuScrapePlanContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["uids"], ["42", "43"])
+        self.assertEqual(result["summary"], {"uids": 2, "commentPagesPerUid": 2, "danmakuPagesPerUid": 2, "delayBetweenUidsMs": 15000})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "uids", "python": ["42", "43"], "js": ["42"]},
+                {"key": "summary", "python": {"uids": 2, "commentPagesPerUid": 2, "danmakuPagesPerUid": 2, "delayBetweenUidsMs": 15000}, "js": {"uids": 1}},
             ],
         )
 
