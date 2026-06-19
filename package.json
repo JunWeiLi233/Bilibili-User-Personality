@@ -50,6 +50,7 @@
     "python:scraper-monitor": "python -m python_backend.cli.scraper_monitor",
     "python:batch-scrape-progress": "python -m python_backend.cli.batch_scrape_progress",
     "python:uid-discovery-progress": "python -m python_backend.cli.uid_discovery_progress",
+    "python:uid-discovery-plan": "python -m python_backend.cli.uid_discovery_plan",
     "python:batch-uid-progress": "python -m python_backend.cli.batch_uid_progress",
     "python:batch-uid-scrape-plan": "python -m python_backend.cli.batch_uid_scrape_plan",
     "python:batch-uid-range-plan": "python -m python_backend.cli.batch_uid_range_plan",

@@ -57,6 +57,7 @@ from python_backend.cli.uid_pipeline_progress import UidPipelineProgressContract
 from python_backend.cli.uid_pipeline_merge import UidPipelineMergeContractComparator, UidPipelineMergeRunner
 from python_backend.cli.uid_pipeline_launcher import UidPipelineLauncherContractComparator, UidPipelineLauncherPlanRunner
 from python_backend.cli.uid_pipeline_state import UidPipelineStateContractComparator, UidPipelineStateRunner
+from python_backend.cli.uid_discovery_plan import UidDiscoveryPlanContractComparator, UidDiscoveryPlanRunner
 from python_backend.cli.batch_bilibili_plan import BatchBilibiliPlanContractComparator, BatchBilibiliPlanRunner
 from python_backend.cli.batch_popular_plan import BatchPopularPlanContractComparator, BatchPopularPlanRunner
 from python_backend.cli.batch_uid_range_plan import BatchUidRangePlanContractComparator, BatchUidRangePlanRunner
@@ -96,6 +97,7 @@ from python_backend.scrapers.batch_bilibili import BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner
 from python_backend.scrapers.batch_uid_scrape import BatchUidScrapePlanner
+from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner
 
 
 class CorpusContractTests(unittest.TestCase):
@@ -5522,6 +5524,64 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {"key": "discovery", "python": {"videosScanned": 1, "videoQueueSize": 0, "uidsDiscovered": 1, "commentsCollected": 0}, "js": {"videosScanned": 0}},
                 {"key": "analysis", "python": {"processed": 1, "success": 1, "errors": 0, "skipped": 0, "remaining": 0}, "js": {"processed": 0}},
+            ],
+        )
+
+    def test_uid_discovery_planner_matches_js_resume_sources_and_training_contract(self):
+        planner = UidDiscoveryPlanner()
+        progress = {
+            "phase": "analysis",
+            "scannedBvids": ["BV1", "BV2"],
+            "processedUids": {"100": "success", "101": "no_text"},
+            "stats": {"videosScanned": 2, "uidsFound": 4, "uidsAnalyzed": 1, "commentsCollected": 5, "errors": 0},
+            "videoQueueSize": 88,
+        }
+        comments = {
+            "100": [{"message": "done", "bvid": "BV1"}],
+            "101": [{"message": "", "bvid": "BV1"}],
+            "102": [{"message": "todo", "bvid": "BV2"}],
+            "103": [],
+        }
+
+        result = planner.build_plan(progress, comments, {"users": {"100": {}, "999": {}}})
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["resume"], {"phase": "analysis", "skipDiscovery": True, "scannedBvids": 2, "savedUidComments": 4})
+        self.assertEqual(result["sources"], {"popularPages": 30, "popularPageSize": 20, "rankingCategories": 94, "searchEnabled": True})
+        self.assertEqual(result["scanning"], {"replyPagesPerVideo": 2, "replyPageSize": 20, "delayMs": 600, "cursorDelayMs": 200, "saveEvery": 100, "emptyBackoffThreshold": 20, "emptyBackoffMs": 15000})
+        self.assertEqual(result["analysis"], {"processed": 2, "pending": 2, "skippableNoText": 1, "trainable": 1, "userDbUsers": 2})
+        self.assertEqual(result["stats"], {"videosScanned": 2, "uidsFound": 4, "uidsAnalyzed": 1, "commentsCollected": 5, "errors": 0, "videoQueueSize": 88})
+        self.assertEqual(result["training"], {"multiagent": True, "existingTermsOnly": False, "saveEveryAnalyzed": 10, "lockRetryDelayMs": 5000, "lockRetryJitterMs": 2000, "lockMaxRetries": 15})
+
+    def test_uid_discovery_plan_runner_and_comparator_read_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "uid-discovery-plan.json"
+            js_report_path = root / "js-uid-discovery-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "progress": {"phase": "discovery", "scannedBvids": ["BV1"], "processedUids": {}, "stats": {"videosScanned": 1}},
+                        "comments": {"12": [{"message": "x"}], "30": [{"message": ""}]},
+                        "database": {"users": {"12": {}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"resume": {"skipDiscovery": True}, "analysis": {"trainable": 9}}), encoding="utf-8")
+
+            result = UidDiscoveryPlanRunner(payload_path).run()
+            comparison = UidDiscoveryPlanContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["resume"], {"phase": "discovery", "skipDiscovery": False, "scannedBvids": 1, "savedUidComments": 2})
+        self.assertEqual(result["analysis"], {"processed": 0, "pending": 2, "skippableNoText": 1, "trainable": 1, "userDbUsers": 1})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "resume", "python": {"phase": "discovery", "skipDiscovery": False, "scannedBvids": 1, "savedUidComments": 2}, "js": {"skipDiscovery": True}},
+                {"key": "analysis", "python": {"processed": 0, "pending": 2, "skippableNoText": 1, "trainable": 1, "userDbUsers": 1}, "js": {"trainable": 9}},
             ],
         )
 
