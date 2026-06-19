@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T00:27:39.152Z",
+  "updatedAt": "2026-06-19T00:35:37.993Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -235,6 +235,64 @@
       "warnings": [],
       "commentsCollected": 40,
       "commentsAdded": 19
+    },
+    {
+      "at": "2026-06-19T00:35:37.993Z",
+      "actions": [
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1pcuAzQEHQ",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1pcuAzQEHQ",
+          "aid": 114845345121751,
+          "title": "网络上的逆天梗图鉴赏"
+        },
+        {
+          "key": "bvid:BV1MnkTB3EqU",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1MnkTB3EqU",
+          "aid": 115903232542804,
+          "title": "起不来的还是<em class=\"keyword\">同一批</em>人"
+        },
+        {
+          "key": "bvid:BV1eMGm6xEfW",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1eMGm6xEfW",
+          "aid": 116645943050902,
+          "title": "老公把车砰砰砰了..."
+        },
+        {
+          "key": "bvid:BV1jvVL6rE46",
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论",
+          "bvid": "BV1jvVL6rE46",
+          "aid": 116664498652944,
+          "title": "Proxy <em class=\"keyword\">attack</em>-blood debt Ust"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 687,
+      "commentsAdded": 459
     }
   ]
 }
