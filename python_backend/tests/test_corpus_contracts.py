@@ -174,6 +174,22 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(by_message["cmd mode"]["coverage"], "neutral")
         self.assertEqual(by_message["MD!"]["matched_terms"], ["md"])
 
+    def test_random_verifier_skips_scrape_diagnostics(self):
+        verifier = RandomVerifier(keyword_terms=["狗头"])
+
+        summary = verifier.verify(
+            [
+                {"message": "HTTP 403 from https://tieba.baidu.com/p/123"},
+                {"message": "狗头保命"},
+            ],
+            sample_size=2,
+            seed=1,
+        )
+
+        self.assertEqual(summary.sampled, 1)
+        self.assertEqual(summary.samples[0]["message"], "狗头保命")
+        self.assertEqual(summary.keyword_hits, 1)
+
     def test_coverage_audit_report_reads_current_json_shape(self):
         payload = {
             "ok": False,

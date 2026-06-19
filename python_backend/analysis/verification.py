@@ -5,6 +5,8 @@ import re
 from dataclasses import dataclass
 from typing import Any
 
+from python_backend.analysis.comment_coverage import _is_scrape_diagnostic
+
 
 @dataclass(frozen=True)
 class VerificationSummary:
@@ -23,7 +25,7 @@ class RandomVerifier:
         self._ascii_terms = {term: re.compile(rf"(?<![0-9a-z_]){re.escape(term.casefold())}(?![0-9a-z_])") for term in self.keyword_terms if term.isascii()}
 
     def verify(self, comments: list[dict[str, Any]], sample_size: int, seed: int) -> VerificationSummary:
-        eligible = [comment for comment in comments if self._message(comment)]
+        eligible = [comment for comment in comments if self._message(comment) and not _is_scrape_diagnostic(self._message(comment))]
         sample_count = min(max(0, sample_size), len(eligible))
         sampled = random.Random(seed).sample(eligible, sample_count) if sample_count else []
         annotated = [self._annotate(comment) for comment in sampled]
