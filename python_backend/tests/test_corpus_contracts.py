@@ -15,7 +15,7 @@ from python_backend.analysis.verification import RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceMatcher
 from python_backend.cli.comment_coverage import CommentCoverageContractComparator, CommentCoverageRunner
-from python_backend.cli.bilibili_parse import BilibiliParseRunner
+from python_backend.cli.bilibili_parse import BilibiliParseContractComparator, BilibiliParseRunner
 from python_backend.cli.bilibili_crawler import BilibiliCrawlerRunner
 from python_backend.cli.bilibili_probe_plan import BilibiliProbePlanRunner
 from python_backend.cli.coverage_audit import AuditContractComparator
@@ -2808,6 +2808,51 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["mode"], "danmaku")
         self.assertEqual(result["comments"][0]["message"], "\u5f39\u5e55\u8bc4\u8bba")
         self.assertEqual(result["comments"][0]["rpid"], "danmaku-200-0")
+
+    def test_bilibili_parse_contract_comparator_reports_parser_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-parse.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "xml": '<i><d p="1,1,25,1670000000,1670000001,0,mid-a,0">python danmaku</d></i>',
+                        "video": {"bvid": "BVparse", "oid": "200", "replyType": 1, "title": "Parser video", "sourceUrl": "https://www.bilibili.com/video/BVparse/"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"ok": True, "mode": "danmaku", "comments": []}), encoding="utf-8")
+
+            result = BilibiliParseContractComparator(payload_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {
+                    "key": "comments",
+                    "python": [
+                        {
+                            "bvid": "BVparse",
+                            "oid": "200",
+                            "replyType": 1,
+                            "sourceTitle": "Parser video",
+                            "sourceUrl": "https://www.bilibili.com/video/BVparse/",
+                            "rpid": "danmaku-200-0",
+                            "like": 0,
+                            "ctime": 1670000001,
+                            "uname": "",
+                            "mid": "mid-a",
+                            "message": "python danmaku",
+                            "kind": "danmaku",
+                        }
+                    ],
+                    "js": [],
+                }
+            ],
+        )
 
     def test_bilibili_crawler_helper_matches_bvid_and_block_contracts(self):
         helper = BilibiliCrawlerHelper()
