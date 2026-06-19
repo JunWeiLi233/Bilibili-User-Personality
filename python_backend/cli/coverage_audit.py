@@ -48,6 +48,11 @@ class AuditContractComparator:
         ).build({"entries": dictionary.entries})
         mismatches = self._metric_mismatches(python_audit, js_audit, self.GATE_METRIC_KEYS)
         warnings = self._metric_mismatches(python_audit, js_audit, self.WARNING_METRIC_KEYS)
+        if "ok" in js_audit:
+            python_ok = bool(python_audit.get("ok"))
+            js_ok = bool(js_audit.get("ok"))
+            if python_ok != js_ok:
+                mismatches.append({"key": "ok", "python": python_ok, "js": js_ok})
         if self.strict_total_evidence:
             mismatches.extend(warnings)
             warnings = []
