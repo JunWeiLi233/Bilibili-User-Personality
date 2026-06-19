@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 from typing import Any, Callable
 
-from python_backend.scrapers.uid_pipeline import UidPipelineMergeReporter
+from python_backend.scrapers.uid_pipeline import UidPipelineMergeReporter, UidPipelineMergeSummary
 
 
 class UidPipelineMergeRunner:
@@ -81,6 +81,7 @@ class UidPipelineMergeContractComparator:
         self.total_start = total_start
         self.total_end = total_end
         self.workers = workers
+        self.summary = UidPipelineMergeSummary()
 
     def compare(self) -> dict[str, Any]:
         python_result = UidPipelineMergeRunner(
@@ -100,8 +101,8 @@ class UidPipelineMergeContractComparator:
         return {
             "ok": not mismatches,
             "mismatches": mismatches,
-            "python": self._summary(python_result),
-            "js": self._summary(js_result),
+            "python": self.summary.summarize(python_result),
+            "js": self.summary.summarize(js_result),
         }
 
     def _read_js_report(self) -> dict[str, Any]:
@@ -110,10 +111,6 @@ class UidPipelineMergeContractComparator:
         with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
-
-    def _summary(self, result: dict[str, Any]) -> dict[str, Any]:
-        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
-
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Build a dry-run UID pipeline merge report.")

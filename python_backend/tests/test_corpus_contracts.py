@@ -114,7 +114,7 @@ from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner, RangeS
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelProgressReporter, UidParallelProgressSummary
-from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineMergeReporter, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
+from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineMergeReporter, UidPipelineMergeSummary, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter
 from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherPlanner, UidFastPipelinePlanner
 
@@ -5317,6 +5317,35 @@ class CorpusContractTests(unittest.TestCase):
                 {"start": 3, "end": 4, "path": "uid-pipeline-3-4.json", "processed": 1, "skipped": False},
                 {"start": 5, "end": 6, "path": "uid-pipeline-5-6.json", "processed": 0, "skipped": True},
             ],
+        )
+
+    def test_uid_pipeline_merge_summary_extracts_comparator_contract(self):
+        summary = UidPipelineMergeSummary().summarize(
+            {
+                "ok": True,
+                "range": {"start": 1, "end": 4},
+                "stats": {"success": 2},
+                "lastUpdated": "2026-06-19T00:00:00.000Z",
+                "chunks": [{"start": 1, "end": 2}],
+                "totalProcessed": 2,
+                "totalExpected": 4,
+                "usersInDb": 3,
+                "processed": {"1": "success"},
+                "summary": {"totalProcessed": 2},
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "totalProcessed": 2,
+                "totalExpected": 4,
+                "usersInDb": 3,
+                "stats": {"success": 2},
+                "processed": {"1": "success"},
+                "chunks": [{"start": 1, "end": 2}],
+                "summary": {"totalProcessed": 2},
+            },
         )
 
     def test_uid_pipeline_merge_comparator_reports_stats_mismatches(self):

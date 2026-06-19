@@ -199,6 +199,16 @@ class UidPipelineMergeReporter:
         return result
 
 
+class UidPipelineMergeSummary:
+    """Shape UID pipeline merge reports into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("totalProcessed", "totalExpected", "usersInDb", "stats", "processed", "chunks", "summary")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
 class UidPipelineStateReporter:
     """Summarize UID pipeline launcher state and worker progress payloads."""
 
