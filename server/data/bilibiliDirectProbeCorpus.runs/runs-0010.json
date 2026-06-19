@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T03:06:55.562Z",
+  "updatedAt": "2026-06-19T03:15:30.545Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -1279,6 +1279,64 @@
       "warnings": [],
       "commentsCollected": 369,
       "commentsAdded": 290
+    },
+    {
+      "at": "2026-06-19T03:15:30.545Z",
+      "actions": [
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "就是要干你",
+          "query": "就是要干你 争议 评论区"
+        },
+        {
+          "term": "就算六个齐上也不是我对手",
+          "query": "就算六个齐上也不是我对手 争议 评论区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1BexrzhEsG",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV1BexrzhEsG",
+          "aid": 115341514507627,
+          "title": "“那么多的优质<em class=\"keyword\">弹幕</em>一个不读？”"
+        },
+        {
+          "key": "bvid:BV1KDja6jEV3",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1KDja6jEV3",
+          "aid": 116771822505630,
+          "title": "雷总微博<em class=\"keyword\">评论区</em>刷屏股票行情变化，已被干沉默"
+        },
+        {
+          "key": "bvid:BV1Y4jA6gEy2",
+          "term": "就是要干你",
+          "query": "就是要干你 争议 评论区",
+          "bvid": "BV1Y4jA6gEy2",
+          "aid": 116770866338592,
+          "title": "你能打开<em class=\"keyword\">评论区</em>向我输"
+        },
+        {
+          "key": "bvid:BV1okLX6EEA1",
+          "term": "就算六个齐上也不是我对手",
+          "query": "就算六个齐上也不是我对手 争议 评论区",
+          "bvid": "BV1okLX6EEA1",
+          "aid": 116764373489357,
+          "title": "真是个难缠的<em class=\"keyword\">对手</em>  (#｀-_ゝ-)"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 71,
+      "commentsAdded": 54
     }
   ]
 }
