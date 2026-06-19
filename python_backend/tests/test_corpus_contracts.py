@@ -13,6 +13,7 @@ from python_backend.analysis.readme_stats import ReadmeStatsBuilder
 from python_backend.analysis.semantic_matcher import SemanticMatcherHelper
 from python_backend.analysis.verification import RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisValidator
+from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPlanner
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceMatcher
 from python_backend.cli.comment_coverage import CommentCoverageContractComparator, CommentCoverageRunner
 from python_backend.cli.bilibili_parse import BilibiliParseContractComparator, BilibiliParseRunner
@@ -27,6 +28,7 @@ from python_backend.cli.harvest_plan import KeywordHarvestPlanContractComparator
 from python_backend.cli.readme_stats import ReadmeStatsContractComparator, ReadmeStatsRunner
 from python_backend.cli.semantic_matcher import SemanticMatcherContractComparator, SemanticMatcherRunner
 from python_backend.cli.compare_contracts import ContractComparator
+from python_backend.cli.deepseek_analyze_cli_plan import DeepSeekAnalyzeCliPlanContractComparator, DeepSeekAnalyzeCliPlanRunner
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanContractComparator, DeepSeekAnalysisPlanRunner
 from python_backend.cli.deepseek_analysis_validate import DeepSeekAnalysisValidateContractComparator, DeepSeekAnalysisValidateRunner
 from python_backend.cli.exhausted_terms_prune_plan import ExhaustedTermsPrunePlanContractComparator, ExhaustedTermsPrunePlanRunner
@@ -917,6 +919,56 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("Merge the specialist agent outputs", merge_request["messages"][1]["content"])
         self.assertIn("quality-control agent", merge_request["messages"][0]["content"])
         self.assertIn("lexical-context", merge_request["messages"][1]["content"])
+
+    def test_deepseek_analyze_cli_planner_matches_js_argument_contract(self):
+        planner = DeepSeekAnalyzeCliPlanner()
+
+        inline_plan = planner.build_plan(
+            [
+                "--text",
+                "\u72d7\u5934\u4fdd\u547d[doge]",
+                "--multi-agent",
+                "--uid=2333",
+                "--name",
+                "\u6d4b\u8bd5\u7528\u6237",
+                "\u8865\u5145\u4e00\u53e5",
+            ]
+        )
+        file_plan = planner.build_plan(["--file=comments.txt", "--multiagent"])
+
+        self.assertTrue(inline_plan["ok"])
+        self.assertEqual(inline_plan["payload"]["text"], "\u72d7\u5934\u4fdd\u547d[doge] \u8865\u5145\u4e00\u53e5")
+        self.assertEqual(inline_plan["payload"]["uid"], "2333")
+        self.assertEqual(inline_plan["payload"]["name"], "\u6d4b\u8bd5\u7528\u6237")
+        self.assertTrue(inline_plan["payload"]["multiagent"])
+        self.assertEqual(inline_plan["input"], {"source": "argv", "file": "", "readsStdin": False, "showHelp": False})
+        self.assertEqual(file_plan["input"], {"source": "file", "file": "comments.txt", "readsStdin": False, "showHelp": False})
+        self.assertTrue(file_plan["payload"]["multiagent"])
+
+    def test_deepseek_analyze_cli_runner_and_comparator_read_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "deepseek-cli.json"
+            js_report_path = root / "js-deepseek-cli.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--text=\u53cd\u8bbd[doge]", "--uid", "42", "--multiagent"], "stdinIsTTY": True}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"payload": {"text": "\u65e7\u6587\u672c"}, "input": {"source": "stdin"}}), encoding="utf-8")
+
+            result = DeepSeekAnalyzeCliPlanRunner(payload_path).run()
+            comparison = DeepSeekAnalyzeCliPlanContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["payload"], {"text": "\u53cd\u8bbd[doge]", "uid": "42", "multiagent": True})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "payload", "python": {"text": "\u53cd\u8bbd[doge]", "uid": "42", "multiagent": True}, "js": {"text": "\u65e7\u6587\u672c"}},
+                {"key": "input", "python": {"source": "argv", "file": "", "readsStdin": False, "showHelp": False}, "js": {"source": "stdin"}},
+            ],
+        )
 
     def test_deepseek_analysis_plan_runner_reads_js_payload_contract(self):
         sentence = "\u8fd9\u53e5\u662f\u5728\u53cd\u8bbd\u5427[doge]\uff0c\u4e0d\u662f\u771f\u7684\u9a82\u4eba\u3002"
