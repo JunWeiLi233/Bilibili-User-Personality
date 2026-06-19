@@ -12,8 +12,10 @@ from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanRunner
 from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportRunner
 from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenRunner
 from python_backend.cli.random_verification import RandomVerificationRunner
+from python_backend.cli.tieba_corpus import TiebaCorpusUpdateRunner
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter
 from python_backend.corpus.local import LocalCorpusFlattener
+from python_backend.corpus.tieba import TiebaCorpusUpdater
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriter
@@ -515,6 +517,70 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["comments"][0]["uid"], "BVprogress")
+
+    def test_tieba_corpus_updater_leaves_corpus_unchanged_without_comments(self):
+        existing = {
+            "version": 1,
+            "updatedAt": "2026-06-17T00:00:00.000Z",
+            "runs": [{"at": "2026-06-17T00:00:00.000Z"}],
+            "comments": [{"message": "\u65e7\u8bc4\u8bba", "sourceUrl": "https://tieba.baidu.com/p/1", "rpid": "tieba-1"}],
+        }
+        blocked_run = {
+            "at": "2026-06-17T01:00:00.000Z",
+            "queries": ["\u5fb7\u91cc\u4e0d\u9965\u4eba"],
+            "results": [{"query": "\u5fb7\u91cc\u4e0d\u9965\u4eba", "comments": [], "warnings": ["Tieba safety verification page returned"]}],
+        }
+
+        update = TiebaCorpusUpdater().build_update(existing, blocked_run, "2026-06-17T01:00:00.000Z")
+
+        self.assertFalse(update["changed"])
+        self.assertEqual(update["corpus"], existing)
+        self.assertEqual(update["newComments"], [])
+
+    def test_tieba_corpus_updater_dedupes_comments_and_limits_runs(self):
+        existing = {
+            "version": 1,
+            "updatedAt": "2026-06-17T00:00:00.000Z",
+            "runs": [{"at": f"old-{index}"} for index in range(55)],
+            "comments": [{"message": "\u65e7\u8bc4\u8bba", "sourceUrl": "https://tieba.baidu.com/p/1", "rpid": "tieba-1"}],
+        }
+        run = {
+            "at": "2026-06-17T02:00:00.000Z",
+            "results": [
+                {
+                    "comments": [
+                        {"message": "\u65e7\u8bc4\u8bba", "sourceUrl": "https://tieba.baidu.com/p/1", "rpid": "tieba-1"},
+                        {"message": "\u65b0\u8bc4\u8bba", "sourceUrl": "https://tieba.baidu.com/p/2", "rpid": "tieba-2"},
+                        {"message": "", "sourceUrl": "https://tieba.baidu.com/p/empty", "rpid": "tieba-empty"},
+                    ]
+                }
+            ],
+        }
+
+        update = TiebaCorpusUpdater().build_update(existing, run, "2026-06-17T02:00:00.000Z")
+
+        self.assertTrue(update["changed"])
+        self.assertEqual([comment["message"] for comment in update["corpus"]["comments"]], ["\u65e7\u8bc4\u8bba", "\u65b0\u8bc4\u8bba"])
+        self.assertEqual([comment["message"] for comment in update["newComments"]], ["\u65e7\u8bc4\u8bba", "\u65b0\u8bc4\u8bba", ""])
+        self.assertEqual(len(update["corpus"]["runs"]), 50)
+        self.assertEqual(update["corpus"]["runs"][0]["at"], "old-6")
+        self.assertEqual(update["corpus"]["updatedAt"], "2026-06-17T02:00:00.000Z")
+
+    def test_tieba_corpus_update_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            existing_path = root / "tieba.json"
+            run_path = root / "run.json"
+            existing_path.write_text(json.dumps({"version": 1, "runs": [], "comments": []}), encoding="utf-8")
+            run_path.write_text(
+                json.dumps({"at": "2026-06-17T02:00:00.000Z", "results": [{"comments": [{"message": "\u65b0\u8bc4\u8bba", "sourceUrl": "https://tieba.baidu.com/p/2"}]}]}),
+                encoding="utf-8",
+            )
+
+            result = TiebaCorpusUpdateRunner(existing_path, run_path, generated_at="2026-06-17T02:00:00.000Z").run()
+
+        self.assertTrue(result["changed"])
+        self.assertEqual(result["corpus"]["comments"][0]["message"], "\u65b0\u8bc4\u8bba")
 
     def test_coverage_audit_builder_matches_js_metric_contract(self):
         dictionary = {
