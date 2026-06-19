@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T04:48:28.321Z",
+  "updatedAt": "2026-06-19T05:01:23.139Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -1813,6 +1813,110 @@
       "warnings": [],
       "commentsCollected": 74,
       "commentsAdded": 41
+    },
+    {
+      "at": "2026-06-19T04:57:25.237Z",
+      "actions": [
+        {
+          "term": "狗去哪里了",
+          "query": "缺点只有一个贵 狗去哪里了 狗舍 德牧"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "鸦片战争 价格被打下来 评论"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 做游戏视频 有质量"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说吗 回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV19V4y1Y7VL",
+          "term": "狗去哪里了",
+          "query": "缺点只有一个贵 狗去哪里了 狗舍 德牧",
+          "bvid": "BV19V4y1Y7VL",
+          "aid": 872344666,
+          "title": "小狗多大月龄入手养最合适，看完这个视频，解答你所有的疑惑！"
+        },
+        {
+          "key": "bvid:BV16iC3BzEeG",
+          "term": "价格被打下来",
+          "query": "鸦片战争 价格被打下来 评论",
+          "bvid": "BV16iC3BzEeG",
+          "aid": 115549099004633,
+          "title": "<em class=\"keyword\">鸦片战争</em>【波兰球之战】"
+        },
+        {
+          "key": "bvid:BV1S4jc6hETn",
+          "term": "抛开其他",
+          "query": "抛开其他 做游戏视频 有质量",
+          "bvid": "BV1S4jc6hETn",
+          "aid": 116769960234241,
+          "title": "没出处决自己做呗"
+        },
+        {
+          "key": "bvid:BV13Mz6YME7d",
+          "term": "这还用说",
+          "query": "这还用说吗 回复",
+          "bvid": "BV13Mz6YME7d",
+          "aid": 113565528819175,
+          "title": "好了 不准说了"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 63,
+      "commentsAdded": 37
+    },
+    {
+      "at": "2026-06-19T05:01:23.139Z",
+      "actions": [
+        {
+          "term": "狗去哪里了",
+          "query": "狗舍 德牧 狗去哪里了 评论区"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "鸦片战争 鸦片出产国 价格被打下来 评论区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他因素 张远 体寒 评论区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1YL4y1s7zU",
+          "term": "狗去哪里了",
+          "query": "狗舍 德牧 狗去哪里了 评论区",
+          "bvid": "BV1YL4y1s7zU",
+          "aid": 851403904,
+          "title": "如何寻找城市里的正规犬舍？cku犬舍宠爱王国app犬舍搜索方法"
+        },
+        {
+          "key": "bvid:BV1Vs4y1h7NN",
+          "term": "价格被打下来",
+          "query": "鸦片战争 鸦片出产国 价格被打下来 评论区",
+          "bvid": "BV1Vs4y1h7NN",
+          "aid": 949638480,
+          "title": "第1课 <em class=\"keyword\">鸦片战争</em> 思维导图"
+        },
+        {
+          "key": "bvid:BV1sh4y1i7uz",
+          "term": "抛开其他",
+          "query": "抛开其他因素 张远 体寒 评论区",
+          "bvid": "BV1sh4y1i7uz",
+          "aid": 662556819,
+          "title": "《青春无恙》--<em class=\"keyword\">张远</em>【Hi-Res无损音质】亲吻骄傲的热浪 拥抱落泪的星光 在一个淡而无味的晚上 一碗平常 满心渴望"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 33,
+      "commentsAdded": 19
     }
   ]
 }
