@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T02:48:24.324Z",
+  "updatedAt": "2026-06-19T02:57:41.049Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -1163,6 +1163,64 @@
       "warnings": [],
       "commentsCollected": 63,
       "commentsAdded": 34
+    },
+    {
+      "at": "2026-06-19T02:57:41.049Z",
+      "actions": [
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "这还用说",
+          "query": "这还用说 弹幕 评论"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV138tnzhEM8",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV138tnzhEM8",
+          "aid": 114975687316706,
+          "title": "你能帮忙找到我的狗吗（原视频）（审核大大让我过吧）"
+        },
+        {
+          "key": "bvid:BV1HdV86sEwc",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1HdV86sEwc",
+          "aid": 116657435645362,
+          "title": "拼多多，低估机会还是价值陷阱"
+        },
+        {
+          "key": "bvid:BV14P546xEhx",
+          "term": "这还用说",
+          "query": "这还用说 弹幕 评论",
+          "bvid": "BV14P546xEhx",
+          "aid": 116555396489006,
+          "title": "F瑜0511<em class=\"keyword\">弹幕说</em>我是男主的炮灰前妻1"
+        },
+        {
+          "key": "bvid:BV18QLX6GE8y",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV18QLX6GE8y",
+          "aid": 116764474084906,
+          "title": "【第489集】仗节死义，正在今日！"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 307,
+      "commentsAdded": 279
     }
   ]
 }
