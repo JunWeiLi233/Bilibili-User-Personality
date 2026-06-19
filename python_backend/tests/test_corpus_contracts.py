@@ -108,7 +108,7 @@ from python_backend.cli.uid_discovery_progress import UidDiscoveryProgressContra
 from python_backend.scrapers.tieba_html import TiebaHtmlParser
 from python_backend.scrapers.tieba_keyword import TiebaKeywordScrapeOptionsPlanner
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
-from python_backend.scrapers.batch_bilibili import BatchBilibiliScrapePlanner
+from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularPlanSummary, BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner, RangeScraperLauncherPlanner, UidRangeProgressReporter, UidRangeProgressSummary
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanner
@@ -6369,6 +6369,40 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
         self.assertEqual(invalid["range"], {"startUid": 100000, "endUid": 200000, "total": 100001})
+
+    def test_batch_bilibili_plan_summary_extracts_comparator_contract(self):
+        summary = BatchBilibiliPlanSummary().summarize(
+            {
+                "ok": True,
+                "input": {"startUid": 100, "endUid": 120},
+                "range": {"startUid": 106},
+                "resume": {"lastUid": 105},
+                "database": {"users": 2},
+                "limits": {"maxVideos": 3},
+                "pacing": {"delayBetweenRequestsMs": 3000},
+                "retry": {"maxRetries": 3},
+                "browser": {"maxVideos": 3},
+                "sampleRequests": {"uid": "106"},
+                "progress": {"completed": 3},
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "input": {"startUid": 100, "endUid": 120},
+                "range": {"startUid": 106},
+                "resume": {"lastUid": 105},
+                "database": {"users": 2},
+                "limits": {"maxVideos": 3},
+                "pacing": {"delayBetweenRequestsMs": 3000},
+                "retry": {"maxRetries": 3},
+                "browser": {"maxVideos": 3},
+                "sampleRequests": {"uid": "106"},
+                "progress": {"completed": 3},
+            },
+        )
 
     def test_batch_bilibili_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -89,3 +89,13 @@ class BatchBilibiliScrapePlanner:
             "replyUrl": "https://api.bilibili.com/x/v2/reply?type=1&oid=123&pn=1&ps=20&sort=1" if uid else "",
             "wrapperArgv": ["browserGetVideos.py", uid, str(self.MAX_VIDEOS)] if uid else [],
         }
+
+
+class BatchBilibiliPlanSummary:
+    """Shape batch Bilibili dry-run plans into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("input", "range", "resume", "database", "limits", "pacing", "retry", "browser", "sampleRequests", "progress")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
