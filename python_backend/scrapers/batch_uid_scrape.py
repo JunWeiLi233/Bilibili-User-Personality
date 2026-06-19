@@ -68,3 +68,47 @@ class BatchUidScrapePlanner:
         if not isinstance(comments, list):
             return ""
         return "\n".join(str(comment.get("message") or "") for comment in comments if isinstance(comment, dict))
+
+
+class BatchUidProgressReporter:
+    """Summarize batch UID scrape progress payloads into the JS-compatible report shape."""
+
+    def build_report(self, payload: Any) -> dict[str, Any]:
+        progress = payload if isinstance(payload, dict) else {}
+        uid_comments = progress.get("_uidComments") if isinstance(progress.get("_uidComments"), dict) else {}
+        processed_uids = progress.get("processedUids") if isinstance(progress.get("processedUids"), dict) else {}
+        stats = progress.get("stats") if isinstance(progress.get("stats"), dict) else {}
+        comment_total = sum(len(comments) for comments in uid_comments.values() if isinstance(comments, list))
+        uid_count = len(uid_comments)
+        success_count = sum(1 for status in processed_uids.values() if status == "success")
+        error_count = sum(1 for status in processed_uids.values() if str(status).startswith("error"))
+        skipped_count = sum(1 for status in processed_uids.values() if status == "no_text")
+        normalized_stats = {
+            "videosScanned": _int_or_zero(stats.get("videosScanned")) or len(progress.get("scannedBvids") or []),
+            "uidsFound": _int_or_zero(stats.get("uidsFound")) or uid_count,
+            "uidsAnalyzed": _int_or_zero(stats.get("uidsAnalyzed")) or success_count,
+            "commentsCollected": _int_or_zero(stats.get("commentsCollected")),
+            "errors": _int_or_zero(stats.get("errors")),
+        }
+        return {
+            "ok": True,
+            "discovery": {
+                "videosScanned": normalized_stats["videosScanned"],
+                "uidsDiscovered": uid_count,
+                "commentsCollected": normalized_stats["commentsCollected"],
+            },
+            "phase2": {
+                "processed": len(processed_uids),
+                "success": success_count,
+                "errors": error_count,
+                "skipped": skipped_count,
+                "remaining": max(0, uid_count - len(processed_uids)),
+            },
+            "comments": {
+                "total": comment_total,
+                "averagePerUid": round(comment_total / uid_count, 2) if uid_count else 0,
+                "uidsWithComments": sum(1 for comments in uid_comments.values() if isinstance(comments, list) and comments),
+            },
+            "stats": normalized_stats,
+            "lastUpdated": progress.get("lastUpdated") or None,
+        }

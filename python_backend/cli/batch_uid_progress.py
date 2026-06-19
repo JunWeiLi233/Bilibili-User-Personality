@@ -6,6 +6,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from python_backend.scrapers.batch_uid_scrape import BatchUidProgressReporter
+
 
 class BatchUidProgressRunner:
     """Summarize batchUidScrape.js progress JSON without mutating scraper state."""
@@ -15,43 +17,7 @@ class BatchUidProgressRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_json(self.progress_path, {})
-        uid_comments = payload.get("_uidComments") if isinstance(payload.get("_uidComments"), dict) else {}
-        processed_uids = payload.get("processedUids") if isinstance(payload.get("processedUids"), dict) else {}
-        stats = payload.get("stats") if isinstance(payload.get("stats"), dict) else {}
-        comment_total = sum(len(comments) for comments in uid_comments.values() if isinstance(comments, list))
-        uid_count = len(uid_comments)
-        success_count = sum(1 for status in processed_uids.values() if status == "success")
-        error_count = sum(1 for status in processed_uids.values() if str(status).startswith("error"))
-        skipped_count = sum(1 for status in processed_uids.values() if status == "no_text")
-        normalized_stats = {
-            "videosScanned": int(stats.get("videosScanned") or len(payload.get("scannedBvids") or [])),
-            "uidsFound": int(stats.get("uidsFound") or uid_count),
-            "uidsAnalyzed": int(stats.get("uidsAnalyzed") or success_count),
-            "commentsCollected": int(stats.get("commentsCollected") or 0),
-            "errors": int(stats.get("errors") or 0),
-        }
-        return {
-            "ok": True,
-            "discovery": {
-                "videosScanned": normalized_stats["videosScanned"],
-                "uidsDiscovered": uid_count,
-                "commentsCollected": normalized_stats["commentsCollected"],
-            },
-            "phase2": {
-                "processed": len(processed_uids),
-                "success": success_count,
-                "errors": error_count,
-                "skipped": skipped_count,
-                "remaining": max(0, uid_count - len(processed_uids)),
-            },
-            "comments": {
-                "total": comment_total,
-                "averagePerUid": round(comment_total / uid_count, 2) if uid_count else 0,
-                "uidsWithComments": sum(1 for comments in uid_comments.values() if isinstance(comments, list) and comments),
-            },
-            "stats": normalized_stats,
-            "lastUpdated": payload.get("lastUpdated") or None,
-        }
+        return BatchUidProgressReporter().build_report(payload)
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
         if not path.exists():

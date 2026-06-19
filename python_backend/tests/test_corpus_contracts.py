@@ -111,7 +111,7 @@ from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 from python_backend.scrapers.batch_bilibili import BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner, UidRangeProgressReporter
-from python_backend.scrapers.batch_uid_scrape import BatchUidScrapePlanner
+from python_backend.scrapers.batch_uid_scrape import BatchUidProgressReporter, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner, UidDiscoveryProgressReporter
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelProgressReporter
 from python_backend.scrapers.uid_pipeline import UidPipelineMergeReporter, UidPipelineProgressReporter, UidPipelineWorkerPlanner
@@ -6185,6 +6185,30 @@ class CorpusContractTests(unittest.TestCase):
             )
 
             result = BatchUidProgressRunner(progress_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["discovery"], {"videosScanned": 3, "uidsDiscovered": 3, "commentsCollected": 4})
+        self.assertEqual(result["phase2"], {"processed": 3, "success": 1, "errors": 1, "skipped": 1, "remaining": 0})
+        self.assertEqual(result["comments"], {"total": 3, "averagePerUid": 1.0, "uidsWithComments": 2})
+        self.assertEqual(result["stats"], {"videosScanned": 3, "uidsFound": 3, "uidsAnalyzed": 1, "commentsCollected": 4, "errors": 2})
+        self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
+
+    def test_batch_uid_progress_reporter_summarizes_payload_without_filesystem(self):
+        reporter = BatchUidProgressReporter()
+
+        result = reporter.build_report(
+            {
+                "scannedBvids": ["BV1", "BV2", "BV3"],
+                "_uidComments": {
+                    "100": [{"message": "one"}, {"message": "two"}],
+                    "101": [{"message": "three"}],
+                    "102": [],
+                },
+                "processedUids": {"100": "success", "101": "error_timeout", "102": "no_text"},
+                "stats": {"videosScanned": "3", "uidsFound": "3", "uidsAnalyzed": "1", "commentsCollected": "4", "errors": "2"},
+                "lastUpdated": "2026-06-19T00:00:00.000Z",
+            }
+        )
 
         self.assertTrue(result["ok"])
         self.assertEqual(result["discovery"], {"videosScanned": 3, "uidsDiscovered": 3, "commentsCollected": 4})
