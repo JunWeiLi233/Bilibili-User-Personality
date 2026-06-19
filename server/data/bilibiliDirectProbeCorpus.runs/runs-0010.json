@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T03:28:05.439Z",
+  "updatedAt": "2026-06-19T03:41:06.021Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -1371,6 +1371,52 @@
       "warnings": [],
       "commentsCollected": 95,
       "commentsAdded": 64
+    },
+    {
+      "at": "2026-06-19T03:41:06.021Z",
+      "actions": [
+        {
+          "term": "来电了",
+          "query": "来电了 互动"
+        },
+        {
+          "term": "给官方剪片子",
+          "query": "给官方剪片子 评论回复"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1uFVp6UEaR",
+          "term": "来电了",
+          "query": "来电了 互动",
+          "bvid": "BV1uFVp6UEaR",
+          "aid": 116651697639308,
+          "title": "本视频虚拟电话号码"
+        },
+        {
+          "key": "bvid:BV1WzQUBrEvJ",
+          "term": "给官方剪片子",
+          "query": "给官方剪片子 评论回复",
+          "bvid": "BV1WzQUBrEvJ",
+          "aid": 116289997637848,
+          "title": "警惕最近<em class=\"keyword\">评论</em>区出现的大量片哥！不要点进链接！"
+        },
+        {
+          "key": "bvid:BV1xbjM6VEv7",
+          "term": "价格被打下来",
+          "query": "价格被打下来 评论",
+          "bvid": "BV1xbjM6VEv7",
+          "aid": 116757024997962,
+          "title": "男人一份烧鹅卖15元被质疑<em class=\"keyword\">价格</em>低用料差  #厨房总监我不干了转身去卖低价盒饭"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 12,
+      "commentsAdded": 9
     }
   ]
 }
