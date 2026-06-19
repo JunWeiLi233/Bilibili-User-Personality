@@ -12,6 +12,25 @@ def _parse_number_or(value: Any, fallback: int) -> int:
     return parsed
 
 
+class ScraperMonitorPipelinePayloadPlanner:
+    """Plan UID pipeline progress filenames for scraper monitor reads."""
+
+    def progress_files(self, *, total_start: int = 1, total_end: int = 100000, workers: int = 5) -> list[str]:
+        total_start = int(total_start)
+        total_end = int(total_end)
+        workers = max(1, int(workers))
+        total_expected = max(0, total_end - total_start + 1)
+        chunk_size = math.ceil(total_expected / workers) if total_expected else 0
+        progress_files = []
+        for worker_index in range(workers):
+            start = total_start + worker_index * chunk_size
+            end = min(start + chunk_size - 1, total_end)
+            if start > total_end:
+                break
+            progress_files.append(f"uid-pipeline-{start}-{end}.json")
+        return progress_files
+
+
 class ScraperMonitorReporter:
     """Build compact discovery and UID pipeline monitor summaries from JSON payloads."""
 

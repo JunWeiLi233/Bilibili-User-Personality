@@ -2,13 +2,12 @@ from __future__ import annotations
 
 import argparse
 import json
-import math
 import sys
 from pathlib import Path
 from typing import Any
 
 from python_backend.cli.uid_pipeline_merge import UidPipelineMergeRunner
-from python_backend.scrapers.scraper_monitor import ScraperMonitorReporter
+from python_backend.scrapers.scraper_monitor import ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter
 
 
 class ScraperMonitorRunner:
@@ -47,16 +46,8 @@ class ScraperMonitorRunner:
         )
 
     def _pipeline_progress_payloads(self) -> list[Any]:
-        total_expected = max(0, self.total_end - self.total_start + 1)
-        chunk_size = math.ceil(total_expected / self.workers) if total_expected else 0
-        payloads: list[Any] = []
-        for worker_index in range(self.workers):
-            start = self.total_start + worker_index * chunk_size
-            end = min(start + chunk_size - 1, self.total_end)
-            if start > self.total_end:
-                break
-            payloads.append(self._read_json(self.data_dir / f"uid-pipeline-{start}-{end}.json", {}))
-        return payloads
+        progress_files = ScraperMonitorPipelinePayloadPlanner().progress_files(total_start=self.total_start, total_end=self.total_end, workers=self.workers)
+        return [self._read_json(self.data_dir / progress_file, {}) for progress_file in progress_files]
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
         if not path.exists():

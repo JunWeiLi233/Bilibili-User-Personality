@@ -115,7 +115,7 @@ from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner, UidDiscoveryProgressReporter
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelProgressReporter
 from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineMergeReporter, UidPipelineProgressReporter, UidPipelineStateReporter, UidPipelineWorkerPlanner
-from python_backend.scrapers.scraper_monitor import ScraperMonitorReporter
+from python_backend.scrapers.scraper_monitor import ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter
 from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherPlanner, UidFastPipelinePlanner
 
 
@@ -6013,6 +6013,11 @@ class CorpusContractTests(unittest.TestCase):
                 }
             ],
         )
+
+    def test_scraper_monitor_pipeline_payload_planner_builds_worker_progress_filenames(self):
+        result = ScraperMonitorPipelinePayloadPlanner().progress_files(total_start=1, total_end=5, workers=2)
+
+        self.assertEqual(result, ["uid-pipeline-1-3.json", "uid-pipeline-4-5.json"])
 
     def test_scraper_monitor_runner_summarizes_discovery_and_pipeline_progress(self):
         with tempfile.TemporaryDirectory() as tmp:
