@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T00:58:17.587Z",
+  "updatedAt": "2026-06-19T01:06:02.004Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -467,6 +467,64 @@
       "warnings": [],
       "commentsCollected": 1237,
       "commentsAdded": 294
+    },
+    {
+      "at": "2026-06-19T01:06:02.004Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 B站弹幕"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 弹幕"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 回复区"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 B站弹幕"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV14WL16EE8t",
+          "term": "德里不饶人",
+          "query": "德里不饶人 B站弹幕",
+          "bvid": "BV14WL16EE8t",
+          "aid": 116606164339854,
+          "title": "以防你不知道，网页版<em class=\"keyword\">B站弹幕</em>数量显示被删除了"
+        },
+        {
+          "key": "bvid:BV1sm41197Nj",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 弹幕",
+          "bvid": "BV1sm41197Nj",
+          "aid": 1900180041,
+          "title": "【B站<em class=\"keyword\">弹幕</em>附】狗.眼.①.瞎"
+        },
+        {
+          "key": "bvid:BV1494y1e72C",
+          "term": "价格被打下来",
+          "query": "价格被打下来 回复区",
+          "bvid": "BV1494y1e72C",
+          "aid": 361686295,
+          "title": "网约车预估<em class=\"keyword\">价格</em>和实际<em class=\"keyword\">价格</em>不一样，用这招轻松退回！"
+        },
+        {
+          "key": "bvid:BV1eCE8zgECV",
+          "term": "抛开其他",
+          "query": "抛开其他 B站弹幕",
+          "bvid": "BV1eCE8zgECV",
+          "aid": 114519900686046,
+          "title": "关于<em class=\"keyword\">b站</em>无法自动播放合集内分p的解决办法"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 95,
+      "commentsAdded": 80
     }
   ]
 }
