@@ -27,6 +27,7 @@
     "python:compare": "python -m python_backend.cli.compare_contracts",
     "python:coverage-compare": "python -m python_backend.cli.coverage_audit",
     "python:coverage-progress": "python -m python_backend.cli.coverage_progress",
+    "python:exhausted-prune-plan": "python -m python_backend.cli.exhausted_terms_prune_plan",
     "python:readme-stats": "python -m python_backend.cli.readme_stats",
     "python:discovery-report": "python -m python_backend.cli.discovery_report",
     "python:harvest-options": "python -m python_backend.cli.harvest_options",

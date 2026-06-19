@@ -27,6 +27,7 @@ from python_backend.cli.readme_stats import ReadmeStatsContractComparator, Readm
 from python_backend.cli.semantic_matcher import SemanticMatcherContractComparator, SemanticMatcherRunner
 from python_backend.cli.compare_contracts import ContractComparator
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanContractComparator, DeepSeekAnalysisPlanRunner
+from python_backend.cli.exhausted_terms_prune_plan import ExhaustedTermsPrunePlanContractComparator, ExhaustedTermsPrunePlanRunner
 from python_backend.cli.keyword_evidence import KeywordEvidenceContractComparator, KeywordEvidenceRunner
 from python_backend.cli.history_tag_corpus import HistoryTagCorpusContractComparator, HistoryTagCorpusRunner
 from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportContractComparator, HuggingFaceCorpusImportRunner
@@ -3894,6 +3895,76 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {"term": "\u96f6\u8bc1\u636e", "family": "attack", "attempts": 10, "evidence": 0},
                 {"term": "\u90e8\u5206\u8bc1\u636e", "family": "evidence", "attempts": 12, "evidence": 1},
+            ],
+        )
+
+    def test_exhausted_terms_prune_plan_runner_reads_dictionary_and_state_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            state_path = root / "state.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {"term": "\u96f6\u8bc1\u636e", "family": "attack", "evidenceCount": 0},
+                            {"term": "\u90e8\u5206\u8bc1\u636e", "family": "evidence", "evidenceCount": 1},
+                            {"term": "\u8db3\u591f\u8bc1\u636e", "family": "cooperation", "evidenceCount": 3},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            state_path.write_text(
+                json.dumps(
+                    {
+                        "termAttempts": {
+                            "\u96f6\u8bc1\u636e": {"attempts": 10},
+                            "\u90e8\u5206\u8bc1\u636e": {"attempts": 10},
+                            "\u8db3\u591f\u8bc1\u636e": {"attempts": 10},
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = ExhaustedTermsPrunePlanRunner(dictionary_path, state_path, attempt_threshold=10).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["candidates"], [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "attempts": 10, "evidence": 0}])
+        self.assertEqual(result["summary"], {"attemptThreshold": 10, "requireZeroEvidence": True, "candidates": 1})
+
+    def test_exhausted_terms_prune_plan_comparator_reports_candidate_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            state_path = root / "state.json"
+            js_report_path = root / "js-exhausted.json"
+            dictionary_path.write_text(
+                json.dumps({"entries": [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "evidenceCount": 0}]}),
+                encoding="utf-8",
+            )
+            state_path.write_text(json.dumps({"termAttempts": {"\u96f6\u8bc1\u636e": {"attempts": 11}}}), encoding="utf-8")
+            js_report_path.write_text(json.dumps({"count": 0, "candidates": []}), encoding="utf-8")
+
+            result = ExhaustedTermsPrunePlanContractComparator(
+                dictionary_path,
+                state_path,
+                js_report_path,
+                attempt_threshold=10,
+            ).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "count", "python": 1, "js": 0},
+                {
+                    "key": "candidates",
+                    "python": [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "attempts": 11, "evidence": 0}],
+                    "js": [],
+                },
             ],
         )
 
