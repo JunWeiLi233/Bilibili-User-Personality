@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T05:42:34.259Z",
+  "updatedAt": "2026-06-19T05:57:11.258Z",
   "shard": 11,
   "shardCount": 11,
   "runs": [
@@ -264,6 +264,80 @@
       "warnings": [],
       "commentsCollected": 809,
       "commentsAdded": 629
+    },
+    {
+      "at": "2026-06-19T05:57:11.258Z",
+      "actions": [
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1JPVA65EDb",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1JPVA65EDb",
+          "aid": 116638561077289,
+          "title": "藏在高端茶叶店里的秘密"
+        },
+        {
+          "key": "bvid:BV1BctqzsEs3",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1BctqzsEs3",
+          "aid": 114986777054308,
+          "title": "茶甜甜做的特级茉莉花茶骗了谁？！"
+        },
+        {
+          "key": "bvid:BV1eAE56GEwc",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1eAE56GEwc",
+          "aid": 116715887268146,
+          "title": "快手刷到绷不住了，给哔哩哔哩的神人看看"
+        },
+        {
+          "key": "bvid:BV1vhEk6oELQ",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1vhEk6oELQ",
+          "aid": 116734426159011,
+          "title": "所有人请保持血压平稳，我知道这很难，但这是命令（第80期）"
+        },
+        {
+          "key": "bvid:BV1uwDqB5Ep8",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1uwDqB5Ep8",
+          "aid": 116363616066102,
+          "title": "空洞骑士大型<em class=\"keyword\">互动</em>视频（含三个结局）"
+        },
+        {
+          "key": "bvid:BV1SnuMzVEqe",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1SnuMzVEqe",
+          "aid": 114833265529418,
+          "title": "【<em class=\"keyword\">互动</em>视频】【FNF】站内首个<em class=\"keyword\">互动</em>音游（也许只是FNF首个），你的选择将决定无厘头将唱什么曲子！【vs Nonsense】"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 570,
+      "commentsAdded": 362
     }
   ]
 }
