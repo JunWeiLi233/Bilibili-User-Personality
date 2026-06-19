@@ -6,6 +6,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from python_backend.scrapers.aicu import AicuBatchProgressReporter
+
 
 class BatchScrapeProgressRunner:
     """Summarize legacy batch scrape progress JSON without mutating scraper state."""
@@ -32,75 +34,14 @@ class BatchScrapeProgressRunner:
     def run(self) -> dict[str, Any]:
         progress = self._read_json(self.progress_path, {})
         database = self._read_json(self.database_path, {})
-        if not isinstance(progress, dict):
-            progress = {}
-        return {
-            "ok": True,
-            "mode": self.mode,
-            "progressFile": self.progress_path.name,
-            "progress": self._progress_summary(progress),
-            "database": self._database_summary(database),
-            "timestamps": {
-                "startTime": progress.get("startTime") or None,
-                "endTime": progress.get("endTime") or None,
-                "lastUpdated": database.get("lastUpdated") if isinstance(database, dict) else None,
-            },
-        }
-
-    def _progress_summary(self, progress: dict[str, Any]) -> dict[str, Any]:
-        if self.mode == "popular":
-            pages_scanned = int(progress.get("pagesScanned") or 0)
-            return {
-                "scraped": int(progress.get("scraped") or 0),
-                "videosScanned": int(progress.get("videosScanned") or 0),
-                "pagesScanned": pages_scanned,
-                "remainingPages": max(0, self.pages - pages_scanned),
-                "targetPages": self.pages,
-            }
-
-        last_uid = int(progress.get("lastUid") or 0)
-        range_total = max(0, self.end_uid - self.start_uid + 1)
-        remaining = self.end_uid - max(last_uid, self.start_uid - 1)
-        errors = progress.get("errors") if isinstance(progress.get("errors"), list) else []
-        return {
-            "lastUid": last_uid,
-            "completed": int(progress.get("completed") or 0),
-            "errors": len(errors),
-            "remaining": max(0, remaining),
-            "rangeTotal": range_total,
-        }
-
-    def _database_summary(self, database: Any) -> dict[str, int]:
-        users = database.get("users") if isinstance(database, dict) and isinstance(database.get("users"), dict) else {}
-        comments = 0
-        danmaku = 0
-        with_comments = 0
-        for user in users.values():
-            if not isinstance(user, dict):
-                continue
-            comment_count = self._count_comments(user)
-            danmaku_count = self._count_danmaku(user)
-            comments += comment_count
-            danmaku += danmaku_count
-            if comment_count > 0:
-                with_comments += 1
-        return {"users": len(users), "withComments": with_comments, "comments": comments, "danmaku": danmaku}
-
-    def _count_comments(self, user: dict[str, Any]) -> int:
-        if isinstance(user.get("comments"), list):
-            return len(user["comments"])
-        if isinstance(user.get("commentCount"), int):
-            return user["commentCount"]
-        text = user.get("commentText")
-        return len([line for line in str(text).splitlines() if line.strip()]) if text else 0
-
-    def _count_danmaku(self, user: dict[str, Any]) -> int:
-        if isinstance(user.get("danmaku"), list):
-            return len(user["danmaku"])
-        if isinstance(user.get("danmakuCount"), int):
-            return user["danmakuCount"]
-        text = user.get("danmakuText")
-        return len([line for line in str(text).splitlines() if line.strip()]) if text else 0
+        reporter = AicuBatchProgressReporter(
+            mode=self.mode,
+            progress_file=self.progress_path.name,
+            start_uid=self.start_uid,
+            end_uid=self.end_uid,
+            pages=self.pages,
+        )
+        return reporter.build_report(progress, database)
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
         if not path.exists():

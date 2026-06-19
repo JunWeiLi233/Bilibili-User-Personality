@@ -172,3 +172,93 @@ class AicuBatchPlanner:
             "commentsUrl": f"{AICU_COMMENTS_API}?uid={uid}&pn=1&ps={self.PAGE_SIZE}&mode=0&keyword=" if uid else "",
             "danmakuUrl": f"{AICU_DANMAKU_API}?uid={uid}&pn=1&ps={self.PAGE_SIZE}&keyword=" if uid else "",
         }
+
+
+class AicuBatchProgressReporter:
+    """Summarize legacy AICU batch scrape progress and database payloads."""
+
+    def __init__(
+        self,
+        *,
+        mode: str = "uid-range",
+        progress_file: str = "batch-scrape-progress.json",
+        start_uid: int = 100000,
+        end_uid: int = 200000,
+        pages: int = 50,
+    ):
+        self.mode = mode
+        self.progress_file = str(progress_file)
+        self.start_uid = int(start_uid)
+        self.end_uid = int(end_uid)
+        self.pages = int(pages)
+
+    def build_report(self, progress: Any, database: Any) -> dict[str, Any]:
+        progress_payload = progress if isinstance(progress, dict) else {}
+        database_payload = database if isinstance(database, dict) else {}
+        return {
+            "ok": True,
+            "mode": self.mode,
+            "progressFile": self.progress_file,
+            "progress": self._progress_summary(progress_payload),
+            "database": self._database_summary(database_payload),
+            "timestamps": {
+                "startTime": progress_payload.get("startTime") or None,
+                "endTime": progress_payload.get("endTime") or None,
+                "lastUpdated": database_payload.get("lastUpdated"),
+            },
+        }
+
+    def _progress_summary(self, progress: dict[str, Any]) -> dict[str, Any]:
+        if self.mode == "popular":
+            pages_scanned = _parse_int_or(progress.get("pagesScanned"), 0)
+            return {
+                "scraped": _parse_int_or(progress.get("scraped"), 0),
+                "videosScanned": _parse_int_or(progress.get("videosScanned"), 0),
+                "pagesScanned": pages_scanned,
+                "remainingPages": max(0, self.pages - pages_scanned),
+                "targetPages": self.pages,
+            }
+
+        last_uid = _parse_int_or(progress.get("lastUid"), 0)
+        range_total = max(0, self.end_uid - self.start_uid + 1)
+        remaining = self.end_uid - max(last_uid, self.start_uid - 1)
+        errors = progress.get("errors") if isinstance(progress.get("errors"), list) else []
+        return {
+            "lastUid": last_uid,
+            "completed": _parse_int_or(progress.get("completed"), 0),
+            "errors": len(errors),
+            "remaining": max(0, remaining),
+            "rangeTotal": range_total,
+        }
+
+    def _database_summary(self, database: dict[str, Any]) -> dict[str, int]:
+        users = database.get("users") if isinstance(database.get("users"), dict) else {}
+        comments = 0
+        danmaku = 0
+        with_comments = 0
+        for user in users.values():
+            if not isinstance(user, dict):
+                continue
+            comment_count = self._count_comments(user)
+            danmaku_count = self._count_danmaku(user)
+            comments += comment_count
+            danmaku += danmaku_count
+            if comment_count > 0:
+                with_comments += 1
+        return {"users": len(users), "withComments": with_comments, "comments": comments, "danmaku": danmaku}
+
+    def _count_comments(self, user: dict[str, Any]) -> int:
+        if isinstance(user.get("comments"), list):
+            return len(user["comments"])
+        if isinstance(user.get("commentCount"), int):
+            return user["commentCount"]
+        text = user.get("commentText")
+        return len([line for line in str(text).splitlines() if line.strip()]) if text else 0
+
+    def _count_danmaku(self, user: dict[str, Any]) -> int:
+        if isinstance(user.get("danmaku"), list):
+            return len(user["danmaku"])
+        if isinstance(user.get("danmakuCount"), int):
+            return user["danmakuCount"]
+        text = user.get("danmakuText")
+        return len([line for line in str(text).splitlines() if line.strip()]) if text else 0

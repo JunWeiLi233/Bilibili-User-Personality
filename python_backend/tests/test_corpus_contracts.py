@@ -90,7 +90,7 @@ from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliPublicParser
-from python_backend.scrapers.aicu import AicuBatchPlanner, AicuScrapePlanner
+from python_backend.scrapers.aicu import AicuBatchPlanner, AicuBatchProgressReporter, AicuScrapePlanner
 from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanner
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanner
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerHelper
@@ -6121,6 +6121,34 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["progress"], {"lastUid": 105, "completed": 3, "errors": 2, "remaining": 5, "rangeTotal": 11})
         self.assertEqual(result["database"], {"users": 2, "withComments": 2, "comments": 4, "danmaku": 2})
         self.assertEqual(result["timestamps"]["endTime"], "2026-06-19T00:10:00.000Z")
+
+    def test_aicu_batch_progress_reporter_summarizes_uid_range_payload_without_filesystem(self):
+        reporter = AicuBatchProgressReporter(mode="uid-range", progress_file="batch-scrape-bilibili-progress.json", start_uid=100, end_uid=110)
+
+        result = reporter.build_report(
+            progress={
+                "lastUid": "105",
+                "completed": "3",
+                "errors": [{"uid": "104", "error": "blocked"}, {"uid": "105", "error": "timeout"}],
+                "startTime": "2026-06-19T00:00:00.000Z",
+                "endTime": "2026-06-19T00:10:00.000Z",
+            },
+            database={
+                "users": {
+                    "100": {"commentCount": 2, "danmakuCount": 1, "comments": [{"message": "a"}, {"message": "b"}], "danmaku": [{"content": "c"}]},
+                    "101": {"commentText": "one\ntwo", "danmakuText": "dm"},
+                    "102": {"commentText": "\n"},
+                },
+                "lastUpdated": "2026-06-19T00:11:00.000Z",
+            },
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "uid-range")
+        self.assertEqual(result["progressFile"], "batch-scrape-bilibili-progress.json")
+        self.assertEqual(result["progress"], {"lastUid": 105, "completed": 3, "errors": 2, "remaining": 5, "rangeTotal": 11})
+        self.assertEqual(result["database"], {"users": 3, "withComments": 2, "comments": 4, "danmaku": 2})
+        self.assertEqual(result["timestamps"], {"startTime": "2026-06-19T00:00:00.000Z", "endTime": "2026-06-19T00:10:00.000Z", "lastUpdated": "2026-06-19T00:11:00.000Z"})
 
     def test_batch_scrape_progress_runner_summarizes_popular_progress(self):
         with tempfile.TemporaryDirectory() as tmp:
