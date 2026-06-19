@@ -9,6 +9,7 @@ from python_backend.analysis.verification import RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient
 from python_backend.cli.comment_coverage import CommentCoverageRunner
 from python_backend.cli.bilibili_parse import BilibiliParseRunner
+from python_backend.cli.bilibili_probe_plan import BilibiliProbePlanRunner
 from python_backend.cli.coverage_audit import AuditContractComparator
 from python_backend.cli.compare_contracts import ContractComparator
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanRunner
@@ -33,6 +34,7 @@ from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliPublicParser
+from python_backend.scrapers.bilibili_probe import BilibiliProbePlanner
 from python_backend.scrapers.rate_limiter import RateLimiter
 from python_backend.scrapers.tieba_html import TiebaHtmlParser
 
@@ -1060,6 +1062,69 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["mode"], "danmaku")
         self.assertEqual(result["comments"][0]["message"], "\u5f39\u5e55\u8bc4\u8bba")
         self.assertEqual(result["comments"][0]["rpid"], "danmaku-200-0")
+
+    def test_bilibili_probe_planner_builds_headers_and_urls(self):
+        planner = BilibiliProbePlanner()
+
+        headers = planner.build_web_headers("https://search.bilibili.com/all?keyword=x", {"cookie": "a=b"})
+        search_urls = planner.build_search_urls("\u67e5\u67e5\u8d44\u6599 B\u7ad9\u8bc4\u8bba", {"pages": 3, "pageSize": 8})
+
+        self.assertEqual(headers["origin"], "https://search.bilibili.com")
+        self.assertEqual(headers["cookie"], "a=b")
+        self.assertIn("Chrome", headers["user-agent"])
+        self.assertEqual(headers["cache-control"], "no-cache")
+        self.assertEqual(headers["pragma"], "no-cache")
+        self.assertEqual(headers["sec-fetch-site"], "same-site")
+        self.assertEqual(search_urls[0], "https://api.bilibili.com/x/web-interface/search/type?search_type=video&keyword=%E6%9F%A5%E6%9F%A5%E8%B5%84%E6%96%99+B%E7%AB%99%E8%AF%84%E8%AE%BA&page=1&page_size=8")
+        self.assertEqual(search_urls[1].split("page=")[1].split("&")[0], "2")
+        self.assertEqual(search_urls[2].split("page_size=")[1], "8")
+
+    def test_bilibili_probe_planner_builds_reply_urls_and_filters_scanned_videos(self):
+        planner = BilibiliProbePlanner()
+
+        self.assertEqual(planner.build_view_url({"bvid": "BVlookup"}), "https://api.bilibili.com/x/web-interface/view?bvid=BVlookup")
+        self.assertEqual(planner.build_view_url({"aid": "123"}), "https://api.bilibili.com/x/web-interface/view?aid=123")
+        self.assertIsNone(planner.build_view_url({}))
+        self.assertEqual(
+            planner.build_reply_url({"aid": "123"}, page=2, page_size=100),
+            "https://api.bilibili.com/x/v2/reply/main?type=1&oid=123&mode=3&next=2&ps=50",
+        )
+        self.assertEqual(
+            planner.build_reply_page_url({"aid": "456"}, page=0, page_size=100),
+            "https://api.bilibili.com/x/v2/reply?type=1&oid=456&sort=2&pn=1&ps=50",
+        )
+        self.assertEqual(
+            planner.build_reply_thread_url({"aid": "789", "rootRpid": "456"}, page=2, page_size=100),
+            "https://api.bilibili.com/x/v2/reply/reply?type=1&oid=789&root=456&pn=2&ps=50",
+        )
+        self.assertEqual(
+            planner.filter_unscanned_probe_videos([{"bvid": "BVold"}, {"bvid": "BVfresh"}, {"bvid": "BVfresh"}, {"aid": "321"}], {"bvid:BVold"}),
+            [{"bvid": "BVfresh"}, {"aid": "321"}],
+        )
+
+    def test_bilibili_probe_plan_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "urls",
+                        "query": "\u67e5\u67e5\u8d44\u6599",
+                        "search": {"pages": 1, "pageSize": 8},
+                        "video": {"aid": "123", "rootRpid": "456"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = BilibiliProbePlanRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "urls")
+        self.assertEqual(result["viewUrl"], "https://api.bilibili.com/x/web-interface/view?aid=123")
+        self.assertEqual(result["replyThreadUrl"], "https://api.bilibili.com/x/v2/reply/reply?type=1&oid=123&root=456&pn=1&ps=20")
+        self.assertEqual(len(result["searchUrls"]), 1)
 
     def test_comment_coverage_classifier_matches_core_js_modes(self):
         dictionary = {
