@@ -76,7 +76,7 @@ from python_backend.cli.batch_scraper_launcher import BatchScraperLauncherContra
 from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContractComparator, RangeScraperLauncherPlanRunner
 from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContractComparator, FastPipelineLauncherPlanRunner
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusSummary, DirectProbePlanSummary
-from python_backend.corpus.history_tags import HistoryTagCorpusManager, HistoryTagScrapePlanner
+from python_backend.corpus.history_tags import HistoryTagCorpusManager, HistoryTagCorpusSummary, HistoryTagScrapePlanner, HistoryTagScrapePlanSummary
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceImportPlanner, HuggingFaceImportSummary
 from python_backend.corpus.local import LocalCorpusEvidenceFinder, LocalCorpusEvidenceSummary
 from python_backend.corpus.local import LocalCorpusFlattenSummary, LocalCorpusFlattener
@@ -3341,6 +3341,28 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_history_tag_corpus_summary_extracts_comparator_contract(self):
+        summary = HistoryTagCorpusSummary().summarize(
+            {
+                "ok": True,
+                "corpus": {"version": 1},
+                "tags": 2,
+                "videos": 3,
+                "runs": 1,
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "corpus": {"version": 1},
+                "tags": 2,
+                "videos": 3,
+                "runs": 1,
+            },
+        )
+
     def test_history_tag_scrape_planner_matches_js_options_and_request_contract(self):
         plan = HistoryTagScrapePlanner(project_dir="D:/repo").build_plan(
             argv=[
@@ -3420,6 +3442,38 @@ class CorpusContractTests(unittest.TestCase):
                     "js": {"seeds": 1, "requests": 3, "commentDanmakuScraping": False},
                 },
             ],
+        )
+
+    def test_history_tag_scrape_plan_summary_extracts_comparator_contract(self):
+        summary = HistoryTagScrapePlanSummary().summarize(
+            {
+                "ok": True,
+                "outputPath": "history.json",
+                "pages": 2,
+                "pageSize": 20,
+                "delayMs": 1000,
+                "jitterMs": 500,
+                "write": False,
+                "seeds": ["history"],
+                "requests": [{"page": 1}],
+                "summary": {"requests": 1},
+                "collectComments": False,
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "outputPath": "history.json",
+                "pages": 2,
+                "pageSize": 20,
+                "delayMs": 1000,
+                "jitterMs": 500,
+                "write": False,
+                "seeds": ["history"],
+                "requests": [{"page": 1}],
+                "summary": {"requests": 1},
+            },
         )
 
     def test_video_comment_filter_matches_needles_inside_noisy_text(self):

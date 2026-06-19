@@ -188,6 +188,26 @@ class HistoryTagScrapePlanner:
         return requests
 
 
+class HistoryTagCorpusSummary:
+    """Shape history-tag corpus merge results into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("corpus", "tags", "videos", "runs")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        source = result if isinstance(result, dict) else {}
+        return {key: source.get(key) for key in self.RESULT_KEYS if key in source}
+
+
+class HistoryTagScrapePlanSummary:
+    """Shape history-tag scrape plans into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("outputPath", "pages", "pageSize", "delayMs", "jitterMs", "write", "seeds", "requests", "summary")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        source = result if isinstance(result, dict) else {}
+        return {key: source.get(key) for key in self.RESULT_KEYS if key in source}
+
+
 class HistoryTagCorpusManager:
     """Merge and query Bilibili history-tag video corpus JSON contracts."""
 
