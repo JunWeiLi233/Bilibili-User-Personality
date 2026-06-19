@@ -45,6 +45,7 @@ from python_backend.cli.random_verification import RandomVerificationContractCom
 from python_backend.cli.tieba_corpus import TiebaCorpusUpdateContractComparator, TiebaCorpusUpdateRunner
 from python_backend.cli.tieba_html_parse import TiebaHtmlParseContractComparator, TiebaHtmlParseRunner
 from python_backend.cli.tieba_timing import TiebaTimingContractComparator, TiebaTimingRunner
+from python_backend.cli.uid_range_progress import UidRangeProgressContractComparator, UidRangeProgressRunner
 from python_backend.cli.uid_pipeline_merge import UidPipelineMergeContractComparator, UidPipelineMergeRunner
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder
 from python_backend.corpus.history_tags import HistoryTagCorpusManager
@@ -4251,6 +4252,63 @@ class CorpusContractTests(unittest.TestCase):
                     "js": {"processed": 0},
                 },
                 {"key": "combined", "python": {"uidsAnalyzed": 2}, "js": {"uidsAnalyzed": 1}},
+            ],
+        )
+
+    def test_uid_range_progress_runner_summarizes_discovery_and_phase2_status(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            progress_path = root / "batch-uid-range-progress.json"
+            progress_path.write_text(
+                json.dumps(
+                    {
+                        "scannedBvids": ["BV1", "BV2"],
+                        "_uidComments": {
+                            "199999": [{"message": "outside", "bvid": "BV1"}],
+                            "200000": [{"message": "inside one", "bvid": "BV1"}, {"message": "inside two", "bvid": "BV2"}],
+                            "250000": [{"message": "inside", "bvid": "BV2"}],
+                            "300001": [{"message": "outside", "bvid": "BV2"}],
+                        },
+                        "processedUids": {
+                            "200000": "success",
+                            "250000": "error: lock",
+                            "300001": "success",
+                        },
+                        "stats": {"videosScanned": 2, "uidsFound": 4, "targetUidsFound": 2, "commentsCollected": 5, "analyzed": 1, "skipped": 1, "errors": 1},
+                        "lastUpdated": "2026-06-19T00:00:00.000Z",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = UidRangeProgressRunner(progress_path, start=200000, end=300000).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"start": 200000, "end": 300000})
+        self.assertEqual(result["discovery"], {"videosScanned": 2, "uidsDiscovered": 4, "targetUidsDiscovered": 2, "commentsCollected": 5})
+        self.assertEqual(result["phase2"], {"processed": 2, "success": 1, "errors": 1, "skipped": 1, "remaining": 0})
+        self.assertEqual(result["comments"], {"totalForTargetUids": 3, "averagePerTargetUid": 1.5})
+        self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
+
+    def test_uid_range_progress_comparator_reports_summary_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            progress_path = root / "batch-uid-range-progress.json"
+            js_report_path = root / "js-uid-range.json"
+            progress_path.write_text(
+                json.dumps({"_uidComments": {"200000": [{"message": "x"}]}, "processedUids": {"200000": "success"}, "stats": {"videosScanned": 1}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"phase2": {"processed": 0}, "discovery": {"videosScanned": 0}}), encoding="utf-8")
+
+            result = UidRangeProgressContractComparator(progress_path, js_report_path, start=200000, end=300000).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "discovery", "python": {"videosScanned": 1, "uidsDiscovered": 1, "targetUidsDiscovered": 1, "commentsCollected": 0}, "js": {"videosScanned": 0}},
+                {"key": "phase2", "python": {"processed": 1, "success": 1, "errors": 0, "skipped": 0, "remaining": 0}, "js": {"processed": 0}},
             ],
         )
 
