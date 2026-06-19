@@ -32,6 +32,112 @@ def _now_iso() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
 
+class HarvestTermAttemptSummarizer:
+    """Summarize harvest termAttempts using the JS keyword-harvest JSON shape."""
+
+    def __init__(self, strategy_version: int = 7):
+        self.strategy_version = max(0, int(_number(strategy_version)))
+        self.audit = CoverageAuditBuilder()
+        self.plan_builder = KeywordHarvestPlanBuilder()
+
+    def summarize(
+        self,
+        state: dict[str, Any] | None = None,
+        dictionary: dict[str, Any] | None = None,
+        options: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        state = state if isinstance(state, dict) else {}
+        dictionary = dictionary if isinstance(dictionary, dict) else {}
+        options = options if isinstance(options, dict) else {}
+        entries = [entry for entry in dictionary.get("entries") or [] if isinstance(entry, dict)]
+        attempts = self._current_attempts(state)
+        attempted_terms = [item for item in attempts.values() if isinstance(item, dict) and _number(item.get("attempts")) > 0]
+        successful_terms = [item for item in attempted_terms if self._effective_successful_attempts(item) > 0]
+        entry_terms = {_clean_text(entry.get("term")) for entry in entries if _clean_text(entry.get("term"))}
+        unattempted = [
+            {"term": entry.get("term"), "family": entry.get("family"), "evidenceCount": self.audit._evidence_count(entry)}
+            for entry in entries
+            if _clean_text(entry.get("term")) and not self._get_attempt(attempts, _clean_text(entry.get("term")))
+        ]
+        repeatedly_missed = [
+            {
+                "term": item.get("term"),
+                "family": item.get("family"),
+                "attempts": _non_negative_int(item.get("attempts")),
+                "lastQuery": item.get("lastQuery") or "",
+                "lastError": item.get("lastError") or "",
+            }
+            for item in sorted(
+                [item for item in attempted_terms if self._effective_successful_attempts(item) == 0],
+                key=lambda item: (-_non_negative_int(item.get("attempts")), _clean_text(item.get("term"))),
+            )[:20]
+        ]
+        exhausted = self._exhausted_terms(entries, attempts, options)
+        return {
+            "attemptedTerms": len([item for item in attempted_terms if _clean_text(item.get("term")) in entry_terms]),
+            "successfulTerms": len([item for item in successful_terms if _clean_text(item.get("term")) in entry_terms]),
+            "unattemptedTerms": len(unattempted),
+            "unattemptedSamples": self.audit._sample_entries(unattempted)[:20],
+            "repeatedlyMissedTerms": repeatedly_missed,
+            "exhaustedTerms": len(exhausted),
+            "exhaustedSamples": exhausted,
+        }
+
+    def _current_attempts(self, state: dict[str, Any]) -> dict[str, Any]:
+        if "harvestStrategyVersion" in state and _number(state.get("harvestStrategyVersion")) < self.strategy_version:
+            return {}
+        attempts = state.get("termAttempts")
+        return attempts if isinstance(attempts, dict) else {}
+
+    def _get_attempt(self, attempts: dict[str, Any], term: str) -> dict[str, Any] | None:
+        raw = attempts.get(term_attempt_key(term)) or attempts.get(term)
+        return raw if isinstance(raw, dict) else None
+
+    def _effective_successful_attempts(self, attempt: dict[str, Any]) -> int:
+        successful = _non_negative_int(attempt.get("successfulAttempts"))
+        if successful == 0 or "lastEvidenceCount" not in attempt:
+            return successful
+        return successful if _number(attempt.get("lastEvidenceCount")) != _number(attempt.get("evidenceAtPlanTime")) else 0
+
+    def _attempted_queries(self, attempt: dict[str, Any]) -> set[str]:
+        return {
+            _clean_text(item.get("query"))
+            for item in attempt.get("queries") or []
+            if isinstance(item, dict) and _clean_text(item.get("query"))
+        }
+
+    def _exhausted_terms(self, entries: list[dict[str, Any]], attempts: dict[str, Any], options: dict[str, Any]) -> list[dict[str, Any]]:
+        exhausted = []
+        for entry in entries:
+            term = _clean_text(entry.get("term"))
+            if not term:
+                continue
+            family = _clean_text(entry.get("family") or "attack")
+            attempt = self._get_attempt(attempts, term)
+            if not attempt or self._effective_successful_attempts(attempt) > 0:
+                continue
+            tried = self._attempted_queries(attempt)
+            if not tried:
+                continue
+            variants = self.plan_builder._query_variants_for_term(term, family, 10000)
+            if not variants or not all(_clean_text(item.get("query")) in tried for item in variants):
+                continue
+            exhausted.append(
+                {
+                    "term": term,
+                    "family": family,
+                    "evidenceCount": self.audit._evidence_count(entry),
+                    "attempts": _non_negative_int(attempt.get("attempts")),
+                    "variantsTried": len(variants),
+                    "lastQuery": attempt.get("lastQuery") or "",
+                    "lastError": attempt.get("lastError") or "",
+                    "suggestedQueries": [],
+                }
+            )
+        exhausted.sort(key=lambda item: (item["evidenceCount"], item["term"]))
+        return exhausted[:20]
+
+
 class HarvestStateFinalizer:
     """Build the persisted keyword-harvest state JSON contract after a run."""
 

@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.harvest_state import HarvestStateFinalizer, HarvestTermAttemptUpdater
+from python_backend.analysis.harvest_state import HarvestStateFinalizer, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater
 
 
 class HarvestStateRunner:
@@ -22,6 +22,11 @@ class HarvestStateRunner:
         term_attempts = payload.get("termAttempts") if isinstance(payload.get("termAttempts"), dict) else {}
         if isinstance(payload.get("state"), dict) and isinstance(payload["state"].get("termAttempts"), dict):
             term_attempts = payload["state"]["termAttempts"]
+        if str(payload.get("mode") or "").strip().lower() == "summary":
+            summarizer = HarvestTermAttemptSummarizer(strategy_version=payload.get("strategyVersion") or options.get("harvestStrategyVersion") or 7)
+            state = payload.get("state") if isinstance(payload.get("state"), dict) else {"termAttempts": term_attempts}
+            dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}
+            return {"ok": True, "termAttemptSummary": summarizer.summarize(state, dictionary, options=options)}
         if str(payload.get("mode") or "").strip().lower() == "finalize":
             finalizer = HarvestStateFinalizer(strategy_version=payload.get("strategyVersion") or options.get("harvestStrategyVersion") or 7)
             state = finalizer.finalize_state(

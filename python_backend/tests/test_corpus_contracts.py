@@ -10,7 +10,7 @@ from python_backend.analysis.coverage_progress import CoverageProgressTracker
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReporter
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder
-from python_backend.analysis.harvest_state import HarvestStateFinalizer, HarvestTermAttemptUpdater, term_attempt_key
+from python_backend.analysis.harvest_state import HarvestStateFinalizer, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherHelper
 from python_backend.analysis.verification import RandomVerifier
@@ -7527,6 +7527,93 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["state"]["scannedBvids"], ["BV1", "BV2"])
         self.assertEqual(len(result["state"]["runs"]), 1)
         self.assertEqual(result["state"]["runs"][0]["queries"], 1)
+
+    def test_harvest_term_attempt_summarizer_matches_js_summary_contract(self):
+        dictionary = {
+            "entries": [
+                {"term": "doge", "family": "cooperation", "evidenceCount": 2},
+                {"term": "weak", "family": "attack", "evidenceCount": 0},
+                {"term": "fresh", "family": "evidence", "evidenceCount": 1},
+                {"term": "stale", "family": "attack", "evidenceCount": 0},
+            ]
+        }
+        state = {
+            "harvestStrategyVersion": 7,
+            "termAttempts": {
+                term_attempt_key("doge"): {
+                    "term": "doge",
+                    "family": "cooperation",
+                    "attempts": 2,
+                    "successfulAttempts": 1,
+                    "evidenceAtPlanTime": 1,
+                    "lastEvidenceCount": 2,
+                    "lastQuery": "doge \u8bc4\u8bba\u533a",
+                },
+                term_attempt_key("weak"): {
+                    "term": "weak",
+                    "family": "attack",
+                    "attempts": 4,
+                    "successfulAttempts": 0,
+                    "lastQuery": "weak \u8bc4\u8bba\u533a",
+                    "lastError": "no comment evidence",
+                },
+                "external": {"term": "external", "family": "attack", "attempts": 3, "successfulAttempts": 1},
+            },
+        }
+
+        summary = HarvestTermAttemptSummarizer(strategy_version=7).summarize(state, dictionary)
+
+        self.assertEqual(summary["attemptedTerms"], 2)
+        self.assertEqual(summary["successfulTerms"], 1)
+        self.assertEqual(summary["unattemptedTerms"], 2)
+        self.assertEqual(
+            summary["unattemptedSamples"],
+            [
+                {"term": "stale", "family": "attack", "evidenceCount": 0},
+                {"term": "fresh", "family": "evidence", "evidenceCount": 1},
+            ],
+        )
+        self.assertEqual(
+            summary["repeatedlyMissedTerms"],
+            [{"term": "weak", "family": "attack", "attempts": 4, "lastQuery": "weak \u8bc4\u8bba\u533a", "lastError": "no comment evidence"}],
+        )
+        self.assertEqual(summary["exhaustedTerms"], 0)
+        self.assertEqual(summary["exhaustedSamples"], [])
+
+    def test_harvest_state_runner_supports_summary_mode(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "harvest-state-summary.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "summary",
+                        "strategyVersion": 7,
+                        "state": {
+                            "harvestStrategyVersion": 7,
+                            "termAttempts": {
+                                term_attempt_key("doge"): {
+                                    "term": "doge",
+                                    "family": "cooperation",
+                                    "attempts": 1,
+                                    "successfulAttempts": 1,
+                                    "evidenceAtPlanTime": 0,
+                                    "lastEvidenceCount": 1,
+                                }
+                            },
+                        },
+                        "dictionary": {"entries": [{"term": "doge", "family": "cooperation", "evidenceCount": 1}]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = HarvestStateRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["termAttemptSummary"]["attemptedTerms"], 1)
+        self.assertEqual(result["termAttemptSummary"]["successfulTerms"], 1)
+        self.assertEqual(result["termAttemptSummary"]["unattemptedTerms"], 0)
 
     def test_keyword_harvest_plan_builder_expands_repeated_misses_to_untried_variants(self):
         plan = KeywordHarvestPlanBuilder().build_query_plan(
