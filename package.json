@@ -17,6 +17,7 @@
     "dictionary:huggingface": "node server/scripts/importHuggingFaceCorpus.js",
     "dictionary:mine-local": "node server/scripts/mineLocalCorpusEvidence.js",
     "dictionary:probe-bilibili": "node server/scripts/probeBilibiliCommentEvidence.js",
+    "deepseek:analyze": "node server/scripts/analyzeDeepSeekComments.js",
     "aicu:scrape": "node server/scripts/scrapeAicuUsers.js",
     "aicu:batch": "node server/scripts/batchScrapeAicu.js",
     "aicu:test": "node server/scripts/testAicuApi.js",

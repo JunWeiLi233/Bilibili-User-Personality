@@ -264,6 +264,88 @@ test('analyzeCommentsWithDeepSeek treats keyword hints as non-binding standalone
   assert.deepEqual(result.sentenceAnalyses.map((item) => item.quote), [sentence]);
 });
 
+test('analyzeCommentsWithDeepSeek runs multi-agent analysis and merge when requested', async () => {
+  const sentence = '\u8fd9\u53e5\u662f\u5728\u53cd\u8bbd\u5427[doge]\uff0c\u4e0d\u662f\u771f\u7684\u9a82\u4eba\u3002';
+  const chatRequests = [];
+  const result = await analyzeCommentsWithDeepSeek(
+    {
+      uid: 'mid multiagent',
+      name: 'multiagent tester',
+      text: sentence,
+      multiagent: true,
+      keywordHints: [{ term: '\u9a82\u4eba', family: 'attack', meaning: '\u653b\u51fb\u6027\u8bcd\u9762' }],
+    },
+    {
+      env: {
+        DEEPSEEK_API_KEY: 'test-key',
+        DEEPSEEK_BASE_URL: 'https://api.deepseek.com',
+        DEEPSEEK_MODEL: 'deepseek-v4-flash',
+      },
+      fetch: async (url, options = {}) => {
+        if (String(url).endsWith('/models')) {
+          return { ok: true, json: async () => ({ data: [{ id: 'deepseek-v4-flash' }] }) };
+        }
+        const body = JSON.parse(options.body);
+        chatRequests.push(body);
+        const content =
+          chatRequests.length < 4
+            ? JSON.stringify({
+                agentId: `agent-${chatRequests.length}`,
+                observations: [{ quote: sentence, finding: '\u8fd9\u662f\u8868\u60c5\u7f13\u51b2\u7684\u53cd\u8bbd\u89c2\u5bdf\u3002', confidence: 0.8 }],
+                axisSuggestions: [{ axis: 'cooperation', score: 68, evidence: [sentence], reasoning: '\u5b8c\u6574\u53e5\u5b50\u5728\u6f84\u6e05\u8bed\u6c14\u3002' }],
+                risks: ['keyword-only attack reading would be a false positive'],
+              })
+            : JSON.stringify({
+                axes: [
+                  {
+                    axis: 'cooperation',
+                    score: 72,
+                    evidence: [sentence],
+                    reasoning: '\u5408\u5e76\u540e\u5224\u65ad\u4e3a\u4f4e\u5bf9\u6297\u6f84\u6e05\uff0c[doge]\u63d0\u793a\u53cd\u8bbd\u8bed\u6c14\u3002',
+                  },
+                ],
+                sentenceAnalyses: [
+                  {
+                    quote: sentence,
+                    speechAct: '\u53cd\u8bbd\u6f84\u6e05',
+                    target: '\u8bed\u6c14\u8bef\u8bfb',
+                    stance: '\u4f4e\u5bf9\u6297',
+                    contextRole: '\u7528\u8868\u60c5\u8bf4\u660e\u53cd\u8bbd\u548c\u4e0d\u662f\u771f\u653b\u51fb',
+                    risk: 'low',
+                    axisImpacts: [
+                      {
+                        axis: 'cooperation',
+                        direction: 'positive',
+                        strength: 0.7,
+                        reasoning: '\u6574\u53e5\u4e3b\u8981\u662f\u6f84\u6e05\u8bed\u6c14\uff0c\u4e0d\u662f\u6309\u5173\u952e\u8bcd\u653b\u51fb\u3002',
+                      },
+                    ],
+                    reasoning: '\u9700\u8981\u5408\u5e76\u5173\u952e\u8bcd\u3001\u8868\u60c5\u548c\u6574\u53e5\u8bed\u6c14\uff0c\u4e0d\u80fd\u53ea\u770b\u9a82\u4eba\u4e00\u8bcd\u3002',
+                  },
+                ],
+                overall: { riskBand: '\u4f4e\u98ce\u9669\u8ba8\u8bba\u578b', summary: '\u8868\u60c5\u4f7f\u8bed\u6c14\u66f4\u504f\u53cd\u8bbd\u548c\u6f84\u6e05\u3002' },
+                confidence: 0.84,
+              });
+        return {
+          ok: true,
+          json: async () => ({ choices: [{ message: { content } }] }),
+        };
+      },
+    },
+  );
+
+  assert.equal(result.ok, true);
+  assert.equal(chatRequests.length, 4);
+  assert.equal(chatRequests.slice(0, 3).every((request) => request.messages[1].content.includes('Agent role:')), true);
+  assert.equal(chatRequests[3].messages[1].content.includes('Merge the specialist agent outputs'), true);
+  assert.equal(chatRequests[3].messages[1].content.includes('agent-1'), true);
+  assert.equal(result.multiagent.enabled, true);
+  assert.equal(result.multiagent.mergeAgent, 'quality-merge');
+  assert.deepEqual(result.multiagent.agents.map((agent) => agent.ok), [true, true, true]);
+  assert.equal(result.axes.find((axis) => axis.score === 72).reasoning.includes('[doge]'), true);
+  assert.deepEqual(result.sentenceAnalyses.map((item) => item.quote), [sentence]);
+});
+
 test('analyzeCommentsWithDeepSeek grounds sentence radar quotes to original comments', async () => {
   const originalSentence = '\u4e0d\u662f\u6211\u6760\uff0c\u4f60\u8fd9\u4e2a\u8bc1\u636e\u94fe\u53ea\u8986\u76d6\u4e00\u4e2a\u6837\u672c\uff0c\u5148\u522b\u6025\u7740\u6263\u5e3d\u5b50\u3002';
   const result = await analyzeCommentsWithDeepSeek(

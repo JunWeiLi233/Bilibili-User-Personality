@@ -4091,6 +4091,119 @@ Return this exact JSON shape:
   ];
 }
 
+const ANALYSIS_MULTIAGENTS = [
+  {
+    id: 'lexical-context',
+    name: 'Lexical and emoji context analyst',
+    focus:
+      'Explain the literal wording, Bilibili slang, emoji/bracket-emote tone, meme/copypasta function, and whether any keyword hit is actually meaningful in the complete sentence.',
+  },
+  {
+    id: 'speech-act',
+    name: 'Full sentence speech-act analyst',
+    focus:
+      'Analyze each complete sentence as a speech act: target, stance, satire, burden of proof, cooperation, correction, and how the sentence maps to radar axes.',
+  },
+  {
+    id: 'skeptic',
+    name: 'False-positive and quality skeptic',
+    focus:
+      'Challenge overconfident keyword-only readings, reject hallucinated quotes, identify ambiguity, and mark unsupported axis scores as neutral.',
+  },
+];
+
+function shouldUseMultiAgentAnalysis(payload = {}, options = {}) {
+  return payload?.multiagent === true || payload?.multiAgent === true || options?.multiagent === true || options?.multiAgent === true;
+}
+
+function buildMultiAgentAnalysisMessages(payload, { agent, compact = false } = {}) {
+  const input = buildStandaloneAnalysisInput(payload, { compact });
+  return [
+    {
+      role: 'system',
+      content:
+        'You are one specialist agent in a multi-agent Chinese online speech-act analysis pipeline. Return valid JSON only; no markdown.',
+    },
+    {
+      role: 'user',
+      content: `Agent role: ${agent.name}
+Agent focus: ${agent.focus}
+
+Analyze only from the complete sentence/comment text. Keyword hints are optional and non-binding.
+Emoji and Bilibili bracket emotes are semantic tone markers, especially for satire, sarcasm, face-saving joking, mockery, and onlooker stance.
+Do not treat a keyword or emoji alone as proof of hostility. Preserve original quotes exactly.
+
+Input JSON:
+${JSON.stringify(input, null, 2)}
+
+Return JSON:
+{
+  "agentId": "${agent.id}",
+  "observations": [
+    {"quote": "exact original quote", "finding": "sentence-level finding", "confidence": 0.0}
+  ],
+  "axisSuggestions": [
+    {"axis": "attack|closure|evidence|logic|cooperation|correction", "score": 50, "evidence": ["exact original quote"], "reasoning": "why"}
+  ],
+  "risks": ["unsupported or ambiguous points the merge agent must check"]
+}`,
+    },
+  ];
+}
+
+function buildMultiAgentMergeMessages(payload, { agentResults, compact = false } = {}) {
+  const input = buildStandaloneAnalysisInput(payload, { compact });
+  const outputs = agentResults.map((result) => ({
+    agentId: result.id,
+    name: result.name,
+    ok: result.ok,
+    parsed: result.parsed || null,
+    error: result.error || '',
+  }));
+  return [
+    {
+      role: 'system',
+      content:
+        'You are the merge and quality-control agent for Chinese online speech-act analysis. Return valid JSON only; no markdown.',
+    },
+    {
+      role: 'user',
+      content: `Merge the specialist agent outputs into one final standalone analysis.
+
+Quality rules:
+- The complete sentence/comment text is authoritative.
+- Keep only claims supported by exact source quotes from Input JSON.
+- Resolve disagreements conservatively. If evidence is weak, use neutral 40-60 axis scores and say evidence is insufficient.
+- Reject hallucinated quotes, keyword-only claims, and emoji-only hostility claims.
+- Preserve emoji/bracket-emote tone analysis when it changes satire, sarcasm, joking, mockery, or indirect stance.
+- Output the same final schema as the single-agent analyzer.
+
+Input JSON:
+${JSON.stringify(input, null, 2)}
+
+Specialist agent outputs:
+${JSON.stringify(outputs, null, 2)}
+
+Return this exact JSON shape:
+{
+  "axes": [
+    {"axis": "瀵规姉鎬у姩鏈?, "score": 0, "evidence": ["鍘熸枃 quote"], "reasoning": "sentence-level reason"},
+    {"axis": "璁ょ煡闂悎", "score": 0, "evidence": ["鍘熸枃 quote"], "reasoning": "sentence-level reason"},
+    {"axis": "璇佹嵁鏁忔劅", "score": 0, "evidence": ["鍘熸枃 quote"], "reasoning": "sentence-level reason"},
+    {"axis": "閫昏緫涓€鑷?, "score": 0, "evidence": ["鍘熸枃 quote"], "reasoning": "sentence-level reason"},
+    {"axis": "鍚堜綔璁ㄨ", "score": 0, "evidence": ["鍘熸枃 quote"], "reasoning": "sentence-level reason"},
+    {"axis": "淇鎰忔効", "score": 0, "evidence": ["鍘熸枃 quote"], "reasoning": "sentence-level reason"}
+  ],
+  "sentenceAnalyses": [
+    {"quote": "瀹屾暣鍘熷彞", "speechAct": "璇濊琛屼负", "target": "瀵硅薄/鍛介", "stance": "绔嬪満璇皵", "contextRole": "涓婁笅鏂囦綔鐢?, "risk": "high|medium|low|positive|neutral", "axisImpacts": [{"axis": "瀵规姉鎬у姩鏈簗璁ょ煡闂悎|璇佹嵁鏁忔劅|閫昏緫涓€鑷磡鍚堜綔璁ㄨ|淇鎰忔効", "direction": "risk|positive", "strength": 0.0, "reasoning": "full sentence reason"}], "reasoning": "why keyword-only judgment would be wrong"}
+  ],
+  "overall": {"riskBand": "楂橀闄╁鎶楀瀷|娣峰悎浜夎京鍨媩浣庨闄╄璁哄瀷", "summary": "summary"},
+  "confidence": 0.0
+}`,
+    },
+  ];
+}
+
 function sourceHasChinese(text) {
   return /[\p{Script=Han}]/u.test(String(text || ''));
 }
@@ -4167,13 +4280,13 @@ function axisHasUsableEvidence(axis, sourceText) {
   return evidence.some((item) => String(item || '').trim());
 }
 
-async function requestDeepSeekAnalysis({ config, fetchImpl, payload, options, compact = false }) {
+async function requestDeepSeekMessages({ config, fetchImpl, messages, options, maxTokens = 2000 }) {
   const requestBody = {
     model: config.model,
-    messages: buildStandaloneAnalysisMessages(payload, { compact }),
+    messages,
     response_format: { type: 'json_object' },
     stream: false,
-    max_tokens: compact ? 6000 : 2000,
+    max_tokens: maxTokens,
   };
 
   const response = await fetchImpl(`${config.baseUrl}/chat/completions`, {
@@ -4189,6 +4302,61 @@ async function requestDeepSeekAnalysis({ config, fetchImpl, payload, options, co
   const data = await response.json();
   const raw = data.choices?.[0]?.message?.content || '';
   return { raw, parsed: extractJsonObject(raw) };
+}
+
+async function requestDeepSeekAnalysis({ config, fetchImpl, payload, options, compact = false }) {
+  return requestDeepSeekMessages({
+    config,
+    fetchImpl,
+    messages: buildStandaloneAnalysisMessages(payload, { compact }),
+    options,
+    maxTokens: compact ? 6000 : 2000,
+  });
+}
+
+async function requestDeepSeekMultiAgentAnalysis({ config, fetchImpl, payload, options, compact = false }) {
+  const agentResults = [];
+  for (const agent of ANALYSIS_MULTIAGENTS) {
+    try {
+      const { raw, parsed } = await requestDeepSeekMessages({
+        config,
+        fetchImpl,
+        messages: buildMultiAgentAnalysisMessages(payload, { agent, compact }),
+        options,
+        maxTokens: 1600,
+      });
+      agentResults.push({ id: agent.id, name: agent.name, ok: true, raw, parsed });
+    } catch (error) {
+      agentResults.push({ id: agent.id, name: agent.name, ok: false, error: error.message });
+    }
+  }
+
+  if (!agentResults.some((result) => result.ok)) {
+    throw new Error('DeepSeek multi-agent analysis failed: all specialist agents failed.');
+  }
+
+  const { raw, parsed } = await requestDeepSeekMessages({
+    config,
+    fetchImpl,
+    messages: buildMultiAgentMergeMessages(payload, { agentResults, compact }),
+    options,
+    maxTokens: compact ? 6000 : 2600,
+  });
+
+  return {
+    raw,
+    parsed,
+    meta: {
+      enabled: true,
+      mergeAgent: 'quality-merge',
+      agents: agentResults.map((result) => ({
+        id: result.id,
+        name: result.name,
+        ok: result.ok,
+        error: result.error || undefined,
+      })),
+    },
+  };
 }
 
 export async function analyzeCommentsWithDeepSeek(payload, options = {}) {
@@ -4207,15 +4375,29 @@ export async function analyzeCommentsWithDeepSeek(payload, options = {}) {
     let retriedCompactPrompt = false;
     let raw = '';
     let parsed = null;
+    let multiagent = null;
+    const useMultiagent = shouldUseMultiAgentAnalysis(payload, options);
     try {
-      ({ raw, parsed } = await requestDeepSeekAnalysis({ config, fetchImpl, payload, options }));
+      if (useMultiagent) {
+        ({ raw, parsed, meta: multiagent } = await requestDeepSeekMultiAgentAnalysis({ config, fetchImpl, payload, options }));
+      } else {
+        ({ raw, parsed } = await requestDeepSeekAnalysis({ config, fetchImpl, payload, options }));
+      }
     } catch (error) {
       if (!(error instanceof SyntaxError)) throw error;
-      ({ raw, parsed } = await requestDeepSeekAnalysis({ config, fetchImpl, payload, options, compact: true }));
+      if (useMultiagent) {
+        ({ raw, parsed, meta: multiagent } = await requestDeepSeekMultiAgentAnalysis({ config, fetchImpl, payload, options, compact: true }));
+      } else {
+        ({ raw, parsed } = await requestDeepSeekAnalysis({ config, fetchImpl, payload, options, compact: true }));
+      }
       retriedCompactPrompt = true;
     }
     if (parsedAnalysisLooksGarbled(parsed, raw, payload?.text)) {
-      ({ raw, parsed } = await requestDeepSeekAnalysis({ config, fetchImpl, payload, options, compact: true }));
+      if (useMultiagent) {
+        ({ raw, parsed, meta: multiagent } = await requestDeepSeekMultiAgentAnalysis({ config, fetchImpl, payload, options, compact: true }));
+      } else {
+        ({ raw, parsed } = await requestDeepSeekAnalysis({ config, fetchImpl, payload, options, compact: true }));
+      }
       retriedCompactPrompt = true;
     }
     if (parsedAnalysisLooksGarbled(parsed, raw, payload?.text)) {
@@ -4293,6 +4475,7 @@ export async function analyzeCommentsWithDeepSeek(payload, options = {}) {
       overall,
       confidence: Math.max(0.45, Math.min(0.92, Number(parsed.confidence) || 0.7)),
       raw,
+      ...(multiagent ? { multiagent } : {}),
     };
   } catch (error) {
     return {
