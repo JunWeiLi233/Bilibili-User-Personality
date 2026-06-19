@@ -100,6 +100,39 @@ class CoverageAuditArtifactWriter:
         return f"{json.dumps(payload, ensure_ascii=True, indent=2)}\n"
 
 
+class CoverageAuditContractSummary:
+    """Shape coverage-audit reports into the JS/Python comparator summary contract."""
+
+    GATE_METRIC_KEYS = (
+        "terms",
+        "weakTerms",
+        "zeroEvidenceTerms",
+        "evidenceDeficit",
+        "coverageRatio",
+        "sourcedEvidenceTerms",
+        "unsourcedEvidenceTerms",
+        "totalEvidence",
+    )
+    WARNING_METRIC_KEYS: tuple[str, ...] = ()
+    COVERAGE_STATUS_KEYS = ("complete",)
+    OPTIONAL_COVERAGE_METRIC_KEYS = ("targetEvidence", "averageEvidence", "sourceCoverageRatio")
+
+    def summarize(self, audit: dict[str, Any] | None = None) -> dict[str, Any]:
+        audit = audit if isinstance(audit, dict) else {}
+        report = CoverageAuditReport.from_json(audit)
+        coverage = audit.get("coverage") if isinstance(audit.get("coverage"), dict) else {}
+        return {
+            "ok": report.ok,
+            "targetEvidence": report.target_evidence,
+            "coverage": {
+                key: coverage.get(key)
+                for key in (*self.COVERAGE_STATUS_KEYS, *self.GATE_METRIC_KEYS, *self.OPTIONAL_COVERAGE_METRIC_KEYS, *self.WARNING_METRIC_KEYS)
+            },
+            "failureReasons": list(audit.get("failureReasons") or []),
+            "familyGaps": list(audit.get("familyGaps") or []),
+        }
+
+
 class CoverageAuditBuilder:
     """Build the stable JS coverage-audit JSON contract from dictionary entries."""
 

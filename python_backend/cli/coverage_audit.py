@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.audit import CoverageAuditBuilder, CoverageAuditReport
+from python_backend.analysis.audit import CoverageAuditBuilder, CoverageAuditContractSummary
 from python_backend.corpus.dictionary import DictionaryLoader
 
 
@@ -31,6 +31,7 @@ class AuditContractComparator:
         self.dictionary_path = Path(dictionary_path)
         self.js_audit_path = Path(js_audit_path)
         self.strict_total_evidence = strict_total_evidence
+        self.summary = CoverageAuditContractSummary()
 
     def compare(self) -> dict[str, Any]:
         with self.js_audit_path.open("r", encoding="utf-8-sig") as handle:
@@ -74,8 +75,8 @@ class AuditContractComparator:
             "ok": len(mismatches) == 0,
             "mismatches": mismatches,
             "warnings": warnings,
-            "python": self._summary(python_audit),
-            "js": self._summary(js_audit),
+            "python": self.summary.summarize(python_audit),
+            "js": self.summary.summarize(js_audit),
         }
 
     def _metric_mismatches(self, python_audit: dict[str, Any], js_audit: dict[str, Any], keys: tuple[str, ...]) -> list[dict[str, Any]]:
@@ -101,21 +102,6 @@ class AuditContractComparator:
             if python_value != js_value:
                 mismatches.append({"key": key, "python": python_value, "js": js_value})
         return mismatches
-
-    def _summary(self, audit: dict[str, Any]) -> dict[str, Any]:
-        report = CoverageAuditReport.from_json(audit)
-        coverage = audit.get("coverage") or {}
-        return {
-            "ok": report.ok,
-            "targetEvidence": report.target_evidence,
-            "coverage": {
-                key: coverage.get(key)
-                for key in (*self.COVERAGE_STATUS_KEYS, *self.GATE_METRIC_KEYS, *self.OPTIONAL_COVERAGE_METRIC_KEYS, *self.WARNING_METRIC_KEYS)
-            },
-            "failureReasons": list(audit.get("failureReasons") or []),
-            "familyGaps": list(audit.get("familyGaps") or []),
-        }
-
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Compare Python coverage-audit metrics against the current JS audit report.")

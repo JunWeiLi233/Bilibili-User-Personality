@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditBuilder, CoverageAuditReport
+from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditBuilder, CoverageAuditContractSummary, CoverageAuditReport
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressTracker
@@ -477,6 +477,34 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(report.terms, 2)
         self.assertEqual(report.weak_terms, 1)
         self.assertEqual(report.next_queries(), ["bom query"])
+
+    def test_coverage_audit_contract_summary_preserves_js_comparator_shape(self):
+        summary = CoverageAuditContractSummary().summarize(
+            {
+                "ok": False,
+                "targetEvidence": 3,
+                "coverage": {
+                    "complete": False,
+                    "terms": 2,
+                    "weakTerms": 1,
+                    "zeroEvidenceTerms": 0,
+                    "evidenceDeficit": 2,
+                    "coverageRatio": 0.5,
+                    "sourcedEvidenceTerms": 1,
+                    "unsourcedEvidenceTerms": 1,
+                    "totalEvidence": 4,
+                },
+                "failureReasons": ["1 term(s) are below 3 evidence hit(s)"],
+                "familyGaps": [{"family": "attack", "weak": 1}],
+            }
+        )
+
+        self.assertEqual(summary["ok"], False)
+        self.assertEqual(summary["targetEvidence"], 3)
+        self.assertEqual(summary["coverage"]["terms"], 2)
+        self.assertIsNone(summary["coverage"]["averageEvidence"])
+        self.assertEqual(summary["failureReasons"], ["1 term(s) are below 3 evidence hit(s)"])
+        self.assertEqual(summary["familyGaps"], [{"family": "attack", "weak": 1}])
 
     def test_rate_limiter_uses_injected_sleep_without_real_waiting(self):
         sleeps = []
