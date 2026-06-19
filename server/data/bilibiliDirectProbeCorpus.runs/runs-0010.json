@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T04:09:25.149Z",
+  "updatedAt": "2026-06-19T04:16:56.027Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -1555,6 +1555,52 @@
       "warnings": [],
       "commentsCollected": 22,
       "commentsAdded": 15
+    },
+    {
+      "at": "2026-06-19T04:16:56.027Z",
+      "actions": [
+        {
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论"
+        },
+        {
+          "term": "分不清轻重就乱套",
+          "query": "分不清轻重就乱套 评论回复"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1jSUSYYEtm",
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论",
+          "bvid": "BV1jSUSYYEtm",
+          "aid": 113519341079191,
+          "title": "测一把不知名玻片清弓，<em class=\"keyword\">轻重</em>箭测速"
+        },
+        {
+          "key": "bvid:BV1r1jv6jEHN",
+          "term": "分不清轻重就乱套",
+          "query": "分不清轻重就乱套 评论回复",
+          "bvid": "BV1r1jv6jEHN",
+          "aid": 116774137761468,
+          "title": "吓哭了！6月19号清雨小号又被封了！全网怒喷五月食伍不装了，起号成功！清雨已10倍赔偿！现在清雨风评反转，网友深扒：1亿哈弗币只值几百块！"
+        },
+        {
+          "key": "bvid:BV1w5QCBWELu",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1w5QCBWELu",
+          "aid": 116287111955892,
+          "title": "北京顾客来店买了十斤咱家经典花茶"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 32,
+      "commentsAdded": 31
     }
   ]
 }
