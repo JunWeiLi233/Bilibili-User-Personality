@@ -120,9 +120,121 @@ class BilibiliProbePlanner:
     def probe_video_key(self, video: dict[str, Any] | None = None) -> str:
         video = video or {}
         if video.get("bvid"):
-            return f"bvid:{_clean_text(video.get('bvid'))}"
+            bvid = _clean_text(video.get("bvid")).rstrip("/")
+            return f"bvid:{bvid}" if bvid else ""
         if video.get("aid"):
-            return f"aid:{_clean_text(video.get('aid'))}"
-        if video.get("key"):
-            return _clean_text(video.get("key"))
+            aid = re.sub(r"^av", "", _clean_text(video.get("aid")).rstrip("/"), flags=re.I)
+            return f"aid:{aid}" if aid else ""
         return ""
+
+    def extract_video_refs(self, text: Any = "") -> list[dict[str, str]]:
+        refs: list[dict[str, str]] = []
+        seen: set[str] = set()
+        source = str(text or "")
+        pattern = re.compile(r"(?:https?://)?(?:www\.)?bilibili\.com/video/((?:BV[0-9A-Za-z]+)|(?:av\d+))")
+        for match in pattern.finditer(source):
+            video_id = match.group(1)
+            ref = {"bvid": video_id} if video_id.startswith("BV") else {"aid": video_id[2:]}
+            tail = source[match.start() : match.end() + 200]
+            reply_match = re.search(r"[?&]reply=(\d+)", tail)
+            if reply_match:
+                ref["rootRpid"] = reply_match.group(1)
+            key = f"bvid:{ref['bvid']}" if "bvid" in ref else f"aid:{ref['aid']}"
+            if key in seen:
+                continue
+            seen.add(key)
+            refs.append(ref)
+        return refs
+
+    def collect_scanned_probe_video_keys(self, corpus: dict[str, Any] | None = None) -> list[str]:
+        corpus = corpus or {}
+        keys: set[str] = set()
+        for run in corpus.get("runs") if isinstance(corpus.get("runs"), list) else []:
+            for video in run.get("videos") if isinstance(run, dict) and isinstance(run.get("videos"), list) else []:
+                if not isinstance(video, dict):
+                    continue
+                key = _clean_text(video.get("key")) or self.probe_video_key(video)
+                if key:
+                    keys.add(key)
+        for comment in corpus.get("comments") if isinstance(corpus.get("comments"), list) else []:
+            if not isinstance(comment, dict):
+                continue
+            for ref in self.extract_video_refs(comment.get("source")):
+                key = self.probe_video_key(ref)
+                if key:
+                    keys.add(key)
+        return sorted(keys)
+
+    def build_evidence_source_videos_for_actions(
+        self,
+        dictionary: dict[str, Any] | None = None,
+        actions: list[dict[str, Any]] | None = None,
+        options: dict[str, Any] | None = None,
+    ) -> dict[str, list[dict[str, str]]]:
+        dictionary = dictionary or {}
+        options = options or {}
+        max_per_action = max(0, min(_bounded_number(options.get("maxPerAction"), 0, 0, 50), 50))
+        if not max_per_action:
+            return {}
+
+        entries: dict[str, dict[str, Any]] = {}
+        raw_entries = dictionary.get("entries") if isinstance(dictionary.get("entries"), list) else []
+        for entry in raw_entries:
+            if isinstance(entry, dict) and _clean_text(entry.get("term")):
+                entries[_clean_text(entry.get("term"))] = entry
+        corpus_sources_by_message: dict[str, str] = {}
+        corpus = options.get("corpus") if isinstance(options.get("corpus"), dict) else {}
+        for comment in corpus.get("comments") if isinstance(corpus.get("comments"), list) else []:
+            if not isinstance(comment, dict):
+                continue
+            message = _clean_text(comment.get("message"))
+            if not message:
+                continue
+            source = _clean_text(comment.get("source"))
+            existing = corpus_sources_by_message.get(message)
+            if not existing or self._source_recovery_priority(source) < self._source_recovery_priority(existing):
+                corpus_sources_by_message[message] = source
+
+        result: dict[str, list[dict[str, str]]] = {}
+        for action in actions if isinstance(actions, list) else []:
+            if not isinstance(action, dict):
+                continue
+            term = _clean_text(action.get("term"))
+            entry = entries.get(term)
+            if not term or not entry:
+                continue
+            candidate_sources: list[str] = []
+            raw_sources = entry.get("evidenceSources") if isinstance(entry.get("evidenceSources"), list) else []
+            for source in raw_sources:
+                if isinstance(source, dict):
+                    candidate_sources.append(_clean_text(source.get("source")))
+            if isinstance(entry.get("evidenceSamples"), list):
+                candidate_sources.extend(corpus_sources_by_message.get(_clean_text(sample), "") for sample in entry.get("evidenceSamples"))
+            videos: list[dict[str, str]] = []
+            seen: set[str] = set()
+            for source in sorted(candidate_sources, key=self._source_recovery_priority):
+                for ref in self.extract_video_refs(source):
+                    key = self.probe_video_key(ref)
+                    if not key or key in seen:
+                        continue
+                    seen.add(key)
+                    video = dict(ref)
+                    video["title"] = f"existing evidence source for {term}"
+                    videos.append(video)
+                    if len(videos) >= max_per_action:
+                        break
+                if len(videos) >= max_per_action:
+                    break
+            if videos:
+                result[term] = videos
+        return result
+
+    def _source_recovery_priority(self, source: Any = "") -> int:
+        text = _clean_text(source)
+        if re.search(r"[?&]reply=\d+", text):
+            return 0
+        if "comment probe" in text or "reply detail probe" in text:
+            return 1
+        if "danmaku" in text:
+            return 3
+        return 2

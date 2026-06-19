@@ -34,6 +34,22 @@ class BilibiliProbePlanRunner:
                 "mode": "headers",
                 "headers": self.planner.build_web_headers(str(payload.get("referer") or ""), payload.get("options") if isinstance(payload.get("options"), dict) else {}),
             }
+        if mode == "scanned-keys":
+            return {
+                "ok": True,
+                "mode": "scanned-keys",
+                "scannedKeys": self.planner.collect_scanned_probe_video_keys(payload.get("corpus") if isinstance(payload.get("corpus"), dict) else {}),
+            }
+        if mode in {"source-videos", "evidence-source-videos"}:
+            return {
+                "ok": True,
+                "mode": mode,
+                "videosByTerm": self.planner.build_evidence_source_videos_for_actions(
+                    payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {},
+                    payload.get("actions") if isinstance(payload.get("actions"), list) else [],
+                    payload.get("options") if isinstance(payload.get("options"), dict) else {},
+                ),
+            }
 
         video = payload.get("video") if isinstance(payload.get("video"), dict) else {}
         search = payload.get("search") if isinstance(payload.get("search"), dict) else {}

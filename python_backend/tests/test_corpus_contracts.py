@@ -1126,6 +1126,72 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["replyThreadUrl"], "https://api.bilibili.com/x/v2/reply/reply?type=1&oid=123&root=456&pn=1&ps=20")
         self.assertEqual(len(result["searchUrls"]), 1)
 
+    def test_bilibili_probe_planner_recovers_existing_source_videos(self):
+        planner = BilibiliProbePlanner()
+        refs = planner.extract_video_refs(
+            "https://www.bilibili.com/video/BV1abc/ and http://www.bilibili.com/video/av123 plus https://www.bilibili.com/video/BV1abc/"
+        )
+        reply_refs = planner.extract_video_refs(
+            "Bilibili public reply detail probe: https://www.bilibili.com/video/av116663559131570/?reply=301234384593"
+        )
+        scanned_keys = planner.collect_scanned_probe_video_keys(
+            {
+                "comments": [{"source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BVcomment/"}],
+                "runs": [{"videos": [{"bvid": "BVrun"}, {"key": "aid:123"}]}],
+            }
+        )
+        videos_by_term = planner.build_evidence_source_videos_for_actions(
+            {
+                "entries": [
+                    {
+                        "term": "rare-term",
+                        "evidenceSources": [
+                            {"source": "https://www.bilibili.com/video/BVsource1/ https://www.bilibili.com/video/av456"},
+                            {"source": "https://www.bilibili.com/video/BVsource2/"},
+                        ],
+                    },
+                    {"term": "other-term", "evidenceSources": [{"source": "https://www.bilibili.com/video/BVother/"}]},
+                ]
+            },
+            [{"term": "rare-term", "query": "rare-term comments"}],
+            {"maxPerAction": 2},
+        )
+
+        self.assertEqual(refs, [{"bvid": "BV1abc"}, {"aid": "123"}])
+        self.assertEqual(reply_refs, [{"aid": "116663559131570", "rootRpid": "301234384593"}])
+        self.assertEqual(scanned_keys, ["aid:123", "bvid:BVcomment", "bvid:BVrun"])
+        self.assertEqual(
+            videos_by_term,
+            {
+                "rare-term": [
+                    {"bvid": "BVsource1", "title": "existing evidence source for rare-term"},
+                    {"aid": "456", "title": "existing evidence source for rare-term"},
+                ]
+            },
+        )
+
+    def test_bilibili_probe_plan_runner_recovers_source_videos_from_json(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "source-videos",
+                        "dictionary": {"entries": [{"term": "rare-term", "evidenceSources": [{"source": "https://www.bilibili.com/video/BVsource1/"}]}]},
+                        "actions": [{"term": "rare-term"}],
+                        "options": {"maxPerAction": 1},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = BilibiliProbePlanRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "source-videos")
+        self.assertEqual(result["videosByTerm"], {"rare-term": [{"bvid": "BVsource1", "title": "existing evidence source for rare-term"}]})
+
     def test_comment_coverage_classifier_matches_core_js_modes(self):
         dictionary = {
             "entries": [
