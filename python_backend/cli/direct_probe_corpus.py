@@ -36,6 +36,54 @@ class DirectProbeCorpusRunner:
         return payload if isinstance(payload, dict) else fallback
 
 
+class DirectProbeCorpusContractComparator:
+    """Compare Python direct-probe corpus updates against saved JS-compatible JSON."""
+
+    SUMMARY_KEYS = ("commentMessages", "runQueries", "runCommentsAdded")
+
+    def __init__(self, existing_path: str | Path, comments_path: str | Path, run_path: str | Path, js_report_path: str | Path):
+        self.existing_path = Path(existing_path)
+        self.comments_path = Path(comments_path)
+        self.run_path = Path(run_path)
+        self.js_report_path = Path(js_report_path)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = DirectProbeCorpusRunner(self.existing_path, self.comments_path, self.run_path).run()
+        js_result = self._read_js_report()
+        python_summary = self._summary(python_result)
+        js_summary = self._summary(js_result)
+        mismatches = [
+            {"key": key, "python": python_summary.get(key), "js": js_summary.get(key)}
+            for key in self.SUMMARY_KEYS
+            if key in js_summary and python_summary.get(key) != js_summary.get(key)
+        ]
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": python_summary,
+            "js": js_summary,
+        }
+
+    def _read_js_report(self) -> dict[str, Any]:
+        if not self.js_report_path.exists():
+            return {}
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
+
+    def _summary(self, result: dict[str, Any]) -> dict[str, Any]:
+        corpus = result.get("corpus") if isinstance(result.get("corpus"), dict) else {}
+        comments = corpus.get("comments") if isinstance(corpus.get("comments"), list) else []
+        runs = corpus.get("runs") if isinstance(corpus.get("runs"), list) else []
+        return {
+            "commentCount": len(comments),
+            "runCount": len(runs),
+            "commentMessages": [comment.get("message") for comment in comments if isinstance(comment, dict)],
+            "runQueries": [run.get("query") for run in runs if isinstance(run, dict)],
+            "runCommentsAdded": [run.get("commentsAdded") for run in runs if isinstance(run, dict)],
+        }
+
+
 def main() -> int:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
@@ -43,8 +91,12 @@ def main() -> int:
     parser.add_argument("--existing", default="server/data/bilibiliDirectProbeCorpus.json")
     parser.add_argument("--comments", required=True, help="JSON list or object with a comments array.")
     parser.add_argument("--run", required=True, help="Direct probe run JSON object.")
+    parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible direct probe corpus report to compare.")
     args = parser.parse_args()
-    result = DirectProbeCorpusRunner(args.existing, args.comments, args.run).run()
+    if args.compare_js_report:
+        result = DirectProbeCorpusContractComparator(args.existing, args.comments, args.run, args.compare_js_report).compare()
+    else:
+        result = DirectProbeCorpusRunner(args.existing, args.comments, args.run).run()
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0 if result["ok"] else 1
 

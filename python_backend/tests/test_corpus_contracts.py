@@ -35,7 +35,7 @@ from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenRunner
 from python_backend.cli.video_comment_filter import VideoCommentFilterContractComparator, VideoCommentFilterRunner
 from python_backend.cli.video_context import VideoContextContractComparator, VideoContextRunner
 from python_backend.cli.video_relevance import VideoRelevanceContractComparator, VideoRelevanceRunner
-from python_backend.cli.direct_probe_corpus import DirectProbeCorpusRunner
+from python_backend.cli.direct_probe_corpus import DirectProbeCorpusContractComparator, DirectProbeCorpusRunner
 from python_backend.cli.direct_probe_plan import DirectProbePlanContractComparator, DirectProbePlanRunner
 from python_backend.cli.random_verification import RandomVerificationContractComparator, RandomVerificationRunner, json_result_bytes
 from python_backend.cli.tieba_corpus import TiebaCorpusUpdateRunner
@@ -1579,6 +1579,43 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["corpus"]["comments"][0]["message"], "\u65b0\u8bc4\u8bba")
         self.assertEqual(result["corpus"]["runs"][0]["commentsAdded"], 1)
+
+    def test_direct_probe_corpus_contract_comparator_reports_corpus_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            existing_path = root / "existing.json"
+            comments_path = root / "comments.json"
+            run_path = root / "run.json"
+            js_report_path = root / "js-report.json"
+            existing_path.write_text(json.dumps({"version": 1, "comments": [], "runs": []}), encoding="utf-8")
+            comments_path.write_text(
+                json.dumps({"comments": [{"message": "\u65b0\u8bc4\u8bba", "source": "fresh", "uid": "9"}]}),
+                encoding="utf-8",
+            )
+            run_path.write_text(json.dumps({"at": "2026-06-18T01:00:00.000Z", "query": "\u65b0"}), encoding="utf-8")
+            js_report_path.write_text(
+                json.dumps(
+                    {
+                        "corpus": {
+                            "comments": [{"message": "\u8def\u8fc7", "source": "wrong", "uid": "2"}],
+                            "runs": [{"query": "wrong", "commentsAdded": 0}],
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = DirectProbeCorpusContractComparator(existing_path, comments_path, run_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "commentMessages", "python": ["\u65b0\u8bc4\u8bba"], "js": ["\u8def\u8fc7"]},
+                {"key": "runQueries", "python": ["\u65b0"], "js": ["wrong"]},
+                {"key": "runCommentsAdded", "python": [1], "js": [0]},
+            ],
+        )
 
     def test_direct_probe_builder_plans_search_and_video_rescans(self):
         builder = DirectProbeCorpusBuilder()
