@@ -8,6 +8,7 @@ from python_backend.analysis.verification import RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient
 from python_backend.cli.coverage_audit import AuditContractComparator
 from python_backend.cli.compare_contracts import ContractComparator
+from python_backend.cli.random_verification import RandomVerificationRunner
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriter
@@ -342,6 +343,37 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["mismatches"], [])
         self.assertEqual(result["warnings"], [{"key": "totalEvidence", "python": 3, "js": 2}])
+
+    def test_random_verification_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            dictionary_path = root / "dictionary.json"
+            corpus_path.write_text(
+                json.dumps(
+                    {
+                        "comments": [
+                            {"message": "ordinary"},
+                            {"message": "doge satire"},
+                            {"message": "check source"},
+                        ],
+                        "runs": [],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            dictionary_path.write_text(
+                json.dumps({"entries": [{"term": "doge", "family": "attack"}, {"term": "source", "family": "evidence"}]}),
+                encoding="utf-8",
+            )
+
+            result = RandomVerificationRunner(corpus_path, dictionary_path, sample_size=3, seed=1).run()
+
+        self.assertEqual(result["sampled"], 3)
+        self.assertEqual(result["keywordHits"], 2)
+        self.assertEqual(result["neutral"], 1)
+        self.assertEqual(result["uncovered"], 0)
+        self.assertEqual(result["dictionaryTerms"], 2)
 
 
 if __name__ == "__main__":
