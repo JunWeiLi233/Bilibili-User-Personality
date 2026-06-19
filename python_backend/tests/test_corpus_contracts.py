@@ -3642,6 +3642,43 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["python"]["coverage"]["sourcedEvidenceTerms"], 0)
         self.assertEqual(result["python"]["coverage"]["unsourcedEvidenceTerms"], 1)
 
+    def test_audit_contract_comparator_honors_js_gate_options(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            js_audit_path = root / "js-audit.json"
+            dictionary_path.write_text(
+                json.dumps({"entries": [{"term": "weak", "family": "attack", "evidenceCount": 0}]}),
+                encoding="utf-8",
+            )
+            js_audit_path.write_text(
+                json.dumps(
+                    {
+                        "ok": True,
+                        "targetEvidence": 3,
+                        "minCoverageRatio": 0,
+                        "requireComplete": False,
+                        "coverage": {
+                            "terms": 1,
+                            "totalEvidence": 0,
+                            "weakTerms": 1,
+                            "zeroEvidenceTerms": 1,
+                            "evidenceDeficit": 3,
+                            "coverageRatio": 0,
+                            "sourcedEvidenceTerms": 0,
+                            "unsourcedEvidenceTerms": 0,
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = AuditContractComparator(dictionary_path, js_audit_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertTrue(result["python"]["ok"])
+
     def test_audit_contract_comparator_reports_total_evidence_mismatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

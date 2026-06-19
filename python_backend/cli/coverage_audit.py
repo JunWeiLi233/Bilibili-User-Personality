@@ -34,11 +34,15 @@ class AuditContractComparator:
         with self.js_audit_path.open("r", encoding="utf-8-sig") as handle:
             js_audit = json.load(handle)
         target_evidence = int(js_audit.get("targetEvidence") or js_audit.get("coverage", {}).get("targetEvidence") or 3)
+        min_coverage_ratio = float(js_audit.get("minCoverageRatio") if js_audit.get("minCoverageRatio") is not None else 1)
+        require_complete = js_audit.get("requireComplete") is not False
         require_source_backed = bool(js_audit.get("requireSourceBackedEvidence"))
         require_comment_backed = bool(js_audit.get("requireCommentBackedEvidence"))
         dictionary = DictionaryLoader(self.dictionary_path).load()
         python_audit = CoverageAuditBuilder(
             target_evidence=target_evidence,
+            min_coverage_ratio=min_coverage_ratio,
+            require_complete=require_complete,
             require_source_backed_evidence=require_source_backed,
             require_comment_backed_evidence=require_comment_backed,
         ).build({"entries": dictionary.entries})
