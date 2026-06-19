@@ -34,7 +34,7 @@ from python_backend.cli.local_corpus_evidence import LocalCorpusEvidenceRunner
 from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenRunner
 from python_backend.cli.video_comment_filter import VideoCommentFilterRunner
 from python_backend.cli.video_context import VideoContextRunner
-from python_backend.cli.video_relevance import VideoRelevanceRunner
+from python_backend.cli.video_relevance import VideoRelevanceContractComparator, VideoRelevanceRunner
 from python_backend.cli.direct_probe_corpus import DirectProbeCorpusRunner
 from python_backend.cli.direct_probe_plan import DirectProbePlanContractComparator, DirectProbePlanRunner
 from python_backend.cli.random_verification import RandomVerificationContractComparator, RandomVerificationRunner, json_result_bytes
@@ -2050,6 +2050,57 @@ class CorpusContractTests(unittest.TestCase):
             ["\u70ed\u95e8\u8bc4\u8bba\u533a", "\u70ed\u95e8\u8bc4\u8bba\u533a", "\u5b85\u7537\u8054\u76df", "\u70ed\u95e8\u8bc4\u8bba\u533a"],
         )
         self.assertEqual([video["bvid"] for video in result["videos"]], ["BV1"])
+
+    def test_video_relevance_contract_comparator_reports_video_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-report.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "videos": [
+                            {"bvid": "BV1", "title": "\u5b85\u7537\u8054\u76df \u539f\u7247"},
+                            {"bvid": "BV2", "title": "\u70ed\u95e8\u8bc4\u8bba\u533a"},
+                        ],
+                        "searchQueries": ["\u70ed\u95e8 \u8bc4\u8bba\u533a"],
+                        "targetExistingTerms": ["\u5b85\u7537\u8054\u76df"],
+                        "operation": "filter",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps(
+                    {
+                        "operation": "sort",
+                        "needles": ["wrong"],
+                        "videos": [{"bvid": "BV2", "title": "\u70ed\u95e8\u8bc4\u8bba\u533a"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = VideoRelevanceContractComparator(payload_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "operation", "python": "filter", "js": "sort"},
+                {
+                    "key": "needles",
+                    "python": [
+                        "\u70ed\u95e8\u8bc4\u8bba\u533a",
+                        "\u70ed\u95e8\u8bc4\u8bba\u533a",
+                        "\u5b85\u7537\u8054\u76df",
+                        "\u70ed\u95e8\u8bc4\u8bba\u533a",
+                    ],
+                    "js": ["wrong"],
+                },
+                {"key": "videos", "python": ["BV1"], "js": ["BV2"]},
+            ],
+        )
 
     def test_video_context_builder_dedupes_context_and_target_evidence_text(self):
         builder = VideoContextBuilder()
