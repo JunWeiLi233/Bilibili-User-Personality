@@ -35,7 +35,7 @@ class BatchPopularPlanRunner:
 class BatchPopularPlanContractComparator:
     """Compare Python popular-video dry-run plans against saved JS-compatible JSON."""
 
-    RESULT_KEYS = ("input", "range", "progress", "database", "limits", "pacing")
+    RESULT_KEYS = ("input", "range", "progress", "database", "limits", "pacing", "retry", "collection", "sampleRequests")
 
     def __init__(self, payload_path: str | Path, js_report_path: str | Path):
         self.payload_path = Path(payload_path)

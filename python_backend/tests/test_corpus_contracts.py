@@ -5473,6 +5473,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["database"], {"users": 2})
         self.assertEqual(result["limits"], {"popularPageSize": 20, "replyPagesPerVideo": 10, "replyPageSize": 20})
         self.assertEqual(result["pacing"], {"delayMs": 3000, "delayAfterLimitMs": 60000, "maxRetries": 5})
+        self.assertEqual(result["retry"], {"rateLimitCodes": [-799, -412], "htmlWafDetection": True, "hasUserAgent": True, "referer": "https://www.bilibili.com/"})
+        self.assertEqual(result["collection"], {"storesTopLevelReplies": True, "storesNestedReplies": True, "dedupesByRpid": True, "updatesCombinedTextFromComments": True})
+        self.assertEqual(
+            result["sampleRequests"],
+            {
+                "popularUrl": "https://api.bilibili.com/x/web-interface/popular?ps=20&pn=4",
+                "replyUrl": "https://api.bilibili.com/x/v2/reply?type=1&oid=123&pn=1&ps=20&sort=1",
+            },
+        )
 
     def test_batch_popular_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -5483,7 +5492,7 @@ class CorpusContractTests(unittest.TestCase):
                 json.dumps({"argv": ["--pages=5"], "progress": {"pagesScanned": 2}, "database": {"users": {"1": {}}}}),
                 encoding="utf-8",
             )
-            js_report_path.write_text(json.dumps({"range": {"startPage": 2}, "database": {"users": 9}}), encoding="utf-8")
+            js_report_path.write_text(json.dumps({"range": {"startPage": 2}, "database": {"users": 9}, "collection": {"storesNestedReplies": False}}), encoding="utf-8")
 
             result = BatchPopularPlanRunner(payload_path).run()
             comparison = BatchPopularPlanContractComparator(payload_path, js_report_path).compare()
@@ -5496,6 +5505,7 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {"key": "range", "python": {"startPage": 3, "maxPages": 5, "remainingPages": 3}, "js": {"startPage": 2}},
                 {"key": "database", "python": {"users": 1}, "js": {"users": 9}},
+                {"key": "collection", "python": {"storesTopLevelReplies": True, "storesNestedReplies": True, "dedupesByRpid": True, "updatesCombinedTextFromComments": True}, "js": {"storesNestedReplies": False}},
             ],
         )
 

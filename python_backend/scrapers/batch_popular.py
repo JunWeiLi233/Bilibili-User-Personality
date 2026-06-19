@@ -20,6 +20,7 @@ class BatchPopularScrapePlanner:
     DELAY_MS = 3000
     DELAY_AFTER_LIMIT_MS = 60000
     MAX_RETRIES = 5
+    RATE_LIMIT_CODES = (-799, -412)
 
     def build_plan(self, argv: list[Any] | None = None, progress: dict[str, Any] | None = None, database: dict[str, Any] | None = None) -> dict[str, Any]:
         argv = argv or []
@@ -47,4 +48,20 @@ class BatchPopularScrapePlanner:
                 "replyPageSize": self.REPLY_PAGE_SIZE,
             },
             "pacing": {"delayMs": self.DELAY_MS, "delayAfterLimitMs": self.DELAY_AFTER_LIMIT_MS, "maxRetries": self.MAX_RETRIES},
+            "retry": {
+                "rateLimitCodes": list(self.RATE_LIMIT_CODES),
+                "htmlWafDetection": True,
+                "hasUserAgent": True,
+                "referer": "https://www.bilibili.com/",
+            },
+            "collection": {
+                "storesTopLevelReplies": True,
+                "storesNestedReplies": True,
+                "dedupesByRpid": True,
+                "updatesCombinedTextFromComments": True,
+            },
+            "sampleRequests": {
+                "popularUrl": f"https://api.bilibili.com/x/web-interface/popular?ps={self.POPULAR_PAGE_SIZE}&pn={start_page}",
+                "replyUrl": "https://api.bilibili.com/x/v2/reply?type=1&oid=123&pn=1&ps=20&sort=1",
+            },
         }
