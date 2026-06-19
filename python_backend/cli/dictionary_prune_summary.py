@@ -2,15 +2,12 @@ from __future__ import annotations
 
 import argparse
 import json
-import re
 import sys
 from pathlib import Path
 from typing import Any
 
 from python_backend.corpus.dictionary import DictionaryLoader
-
-
-ASCII_TERM_PATTERN = re.compile(r"^[A-Za-z0-9]+$")
+from python_backend.corpus.dictionary_prune import DictionaryPrunePlanner
 
 
 class DictionaryPruneSummaryRunner:
@@ -22,16 +19,11 @@ class DictionaryPruneSummaryRunner:
     def run(self) -> dict[str, Any]:
         loaded = DictionaryLoader(self.dictionary_path).load()
         entries = loaded.entries
-        ascii_entries = [entry for entry in entries if ASCII_TERM_PATTERN.fullmatch(str(entry.get("term") or ""))]
+        plan = DictionaryPrunePlanner().build(entries)
         return {
             "ok": True,
             "dictionaryPath": str(self.dictionary_path),
-            "entries": {"before": len(entries)},
-            "asciiTerms": {"before": len(ascii_entries)},
-            "summary": {
-                "totalEntries": len(entries),
-                "asciiEntries": len(ascii_entries),
-            },
+            **plan,
         }
 
 

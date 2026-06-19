@@ -4596,10 +4596,11 @@ class CorpusContractTests(unittest.TestCase):
                 json.dumps(
                     {
                         "entries": [
-                            {"term": "doge", "family": "attack"},
-                            {"term": "YYGQ", "family": "attack"},
-                            {"term": "\u9634\u9633\u602a\u6c14", "family": "attack"},
-                            {"term": "md5", "family": "evasion"},
+                            {"term": "doge", "family": "attack", "meaning": "ascii emoji name noise"},
+                            {"term": "YYGQ", "family": "attack", "meaning": "allowed pinyin acronym"},
+                            {"term": "\u9634\u9633\u602a\u6c14", "family": "attack", "meaning": "satirical tone"},
+                            {"term": "md5", "family": "evasion", "meaning": "random ascii hash fragment"},
+                            {"term": "BV1xx411c7mD", "family": "evidence", "meaning": "video id fragment"},
                         ]
                     }
                 ),
@@ -4610,9 +4611,11 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertTrue(result["ok"])
         self.assertEqual(result["dictionaryPath"], str(dictionary_path))
-        self.assertEqual(result["entries"]["before"], 4)
-        self.assertEqual(result["asciiTerms"]["before"], 3)
-        self.assertEqual(result["summary"], {"totalEntries": 4, "asciiEntries": 3})
+        self.assertEqual(result["entries"], {"before": 5, "after": 2, "removed": 3})
+        self.assertEqual(result["asciiTerms"], {"before": 4, "after": 1, "removed": 3})
+        self.assertEqual(result["removedTerms"], ["BV1xx411c7mD", "doge", "md5"])
+        self.assertEqual(result["keptTerms"], ["yygq", "\u9634\u9633\u602a\u6c14"])
+        self.assertEqual(result["summary"], {"totalEntries": 5, "asciiEntries": 4, "afterEntries": 2, "afterAsciiEntries": 1})
 
     def test_dictionary_prune_summary_comparator_reports_js_summary_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -4634,9 +4637,13 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             result["mismatches"],
             [
-                {"key": "entries", "python": {"before": 2}, "js": {"before": 1}},
-                {"key": "asciiTerms", "python": {"before": 1}, "js": {"before": 0}},
-                {"key": "summary", "python": {"totalEntries": 2, "asciiEntries": 1}, "js": {"totalEntries": 1, "asciiEntries": 0}},
+                {"key": "entries", "python": {"before": 2, "after": 0, "removed": 2}, "js": {"before": 1}},
+                {"key": "asciiTerms", "python": {"before": 1, "after": 0, "removed": 1}, "js": {"before": 0}},
+                {
+                    "key": "summary",
+                    "python": {"totalEntries": 2, "asciiEntries": 1, "afterEntries": 0, "afterAsciiEntries": 0},
+                    "js": {"totalEntries": 1, "asciiEntries": 0},
+                },
             ],
         )
 
