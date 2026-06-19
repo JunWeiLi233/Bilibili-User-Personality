@@ -112,7 +112,7 @@ from python_backend.scrapers.batch_bilibili import BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner, RangeScraperLauncherPlanner, UidRangeProgressReporter, UidRangeProgressSummary
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanner
-from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner, UidDiscoveryProgressReporter
+from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelProgressReporter
 from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineMergeReporter, UidPipelineProgressReporter, UidPipelineStateReporter, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter
@@ -6763,6 +6763,32 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["stats"], {"videosScanned": 2, "uidsFound": 3, "uidsAnalyzed": 1, "commentsCollected": 4, "errors": 1})
         self.assertEqual(result["userDb"], {"users": 2})
         self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
+
+    def test_uid_discovery_progress_summary_extracts_comparator_contract(self):
+        summary = UidDiscoveryProgressSummary().summarize(
+            {
+                "ok": True,
+                "phase": "analysis",
+                "discovery": {"videosScanned": 2},
+                "analysis": {"processed": 3},
+                "comments": {"total": 3},
+                "stats": {"errors": 1},
+                "userDb": {"users": 2},
+                "lastUpdated": "2026-06-19T00:00:00.000Z",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "phase": "analysis",
+                "discovery": {"videosScanned": 2},
+                "analysis": {"processed": 3},
+                "comments": {"total": 3},
+                "stats": {"errors": 1},
+                "userDb": {"users": 2},
+            },
+        )
 
     def test_uid_discovery_progress_comparator_reports_summary_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:

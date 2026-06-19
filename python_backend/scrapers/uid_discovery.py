@@ -142,3 +142,13 @@ class UidDiscoveryProgressReporter:
             "userDb": {"users": len(user_map)},
             "lastUpdated": progress_payload.get("lastUpdated") or None,
         }
+
+
+class UidDiscoveryProgressSummary:
+    """Shape UID discovery progress reports into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("phase", "discovery", "analysis", "comments", "stats", "userDb")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
