@@ -106,6 +106,16 @@ class BatchUidRangePlanner:
         return start <= value <= end
 
 
+class BatchUidRangePlanSummary:
+    """Shape batch UID range dry-run plans into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("input", "phase1", "phase2", "stats", "pacing")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
 class RangeScraperLauncherPlanner:
     """Build a dry-run launch plan compatible with launchRangeScrapers.ps1."""
 

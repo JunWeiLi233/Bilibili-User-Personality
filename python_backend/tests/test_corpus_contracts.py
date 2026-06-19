@@ -110,7 +110,7 @@ from python_backend.scrapers.tieba_keyword import TiebaKeywordScrapeOptionsPlann
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularPlanSummary, BatchPopularScrapePlanner
-from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner, RangeScraperLauncherPlanner, UidRangeProgressReporter, UidRangeProgressSummary
+from python_backend.scrapers.batch_uid_range import BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherPlanner, UidRangeProgressReporter, UidRangeProgressSummary
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelProgressReporter, UidParallelProgressSummary
@@ -6877,6 +6877,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["phase2"], {"targetUids": 2, "processed": 2, "remaining": 0, "userDbUsers": 1})
         self.assertEqual(result["stats"], {"videosScanned": 2, "uidsFound": 4, "targetUidsFound": 2, "commentsCollected": 4, "analyzed": 1, "skipped": 1, "errors": 0})
         self.assertEqual(result["pacing"], {"delayBetweenVideosMs": 2000, "delayBetweenUidsMs": 1500, "lockRetryDelayMs": 3000, "lockMaxRetries": 10, "saveInterval": 5})
+
+    def test_batch_uid_range_plan_summary_extracts_comparator_contract(self):
+        summary = BatchUidRangePlanSummary().summarize(
+            {
+                "ok": True,
+                "input": {"start": 200000},
+                "phase1": {"enabled": False},
+                "phase2": {"targetUids": 2},
+                "stats": {"analyzed": 1},
+                "pacing": {"delayBetweenUidsMs": 1500},
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "input": {"start": 200000},
+                "phase1": {"enabled": False},
+                "phase2": {"targetUids": 2},
+                "stats": {"analyzed": 1},
+                "pacing": {"delayBetweenUidsMs": 1500},
+            },
+        )
 
     def test_batch_uid_range_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
