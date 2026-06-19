@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T01:39:52.905Z",
+  "updatedAt": "2026-06-19T01:47:35.711Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -757,6 +757,64 @@
       "warnings": [],
       "commentsCollected": 148,
       "commentsAdded": 88
+    },
+    {
+      "at": "2026-06-19T01:47:35.711Z",
+      "actions": [
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 互动"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1cnmnBjEkd",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1cnmnBjEkd",
+          "aid": 115689255864383,
+          "title": "人类炫压抑视频集锦#69"
+        },
+        {
+          "key": "bvid:BV1hgji6FEWo",
+          "term": "都是同一批",
+          "query": "都是同一批 互动",
+          "bvid": "BV1hgji6FEWo",
+          "aid": 116773869329022,
+          "title": "算是<em class=\"keyword\">互动</em>吗？！"
+        },
+        {
+          "key": "bvid:BV1XvSFYXEqA",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 评论回复",
+          "bvid": "BV1XvSFYXEqA",
+          "aid": 113508704389812,
+          "title": "《陆总合集》持续更新  已和小说进度同步《雪城三活宝》《领走女主》，穿越成为小说反派，本想苟到大结局......陆总，反派系统《舔狗反派只想苟 女主不按套路走》"
+        },
+        {
+          "key": "bvid:BV1Ac7X6NEam",
+          "term": "分不清轻重",
+          "query": "attack 分不清轻重 评论",
+          "bvid": "BV1Ac7X6NEam",
+          "aid": 116686476873667,
+          "title": "穿过最弹的乒乓球鞋，来自361度家的乒羽鞋Swift <em class=\"keyword\">Attack</em> 够弹 够缓震"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 500,
+      "commentsAdded": 292
     }
   ]
 }
