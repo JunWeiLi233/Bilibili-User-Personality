@@ -21,6 +21,7 @@ from python_backend.cli.bilibili_probe_plan import BilibiliProbePlanContractComp
 from python_backend.cli.coverage_audit import AuditContractComparator
 from python_backend.cli.coverage_progress import CoverageProgressContractComparator, CoverageProgressRunner
 from python_backend.cli.discovery_report import VideoKeywordDiscoveryReportContractComparator, VideoKeywordDiscoveryReportRunner
+from python_backend.cli.dictionary_prune_summary import DictionaryPruneSummaryContractComparator, DictionaryPruneSummaryRunner
 from python_backend.cli.harvest_options import HarvestOptionsContractComparator, HarvestOptionsRunner
 from python_backend.cli.harvest_plan import KeywordHarvestPlanContractComparator, KeywordHarvestPlanRunner
 from python_backend.cli.readme_stats import ReadmeStatsContractComparator, ReadmeStatsRunner
@@ -3966,6 +3967,58 @@ class CorpusContractTests(unittest.TestCase):
                     "python": [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "attempts": 11, "evidence": 0}],
                     "js": [],
                 },
+            ],
+        )
+
+    def test_dictionary_prune_summary_runner_counts_js_prune_metrics(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {"term": "doge", "family": "attack"},
+                            {"term": "YYGQ", "family": "attack"},
+                            {"term": "\u9634\u9633\u602a\u6c14", "family": "attack"},
+                            {"term": "md5", "family": "evasion"},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = DictionaryPruneSummaryRunner(dictionary_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["dictionaryPath"], str(dictionary_path))
+        self.assertEqual(result["entries"]["before"], 4)
+        self.assertEqual(result["asciiTerms"]["before"], 3)
+        self.assertEqual(result["summary"], {"totalEntries": 4, "asciiEntries": 3})
+
+    def test_dictionary_prune_summary_comparator_reports_js_summary_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            js_report_path = root / "js-prune-summary.json"
+            dictionary_path.write_text(
+                json.dumps({"entries": [{"term": "doge"}, {"term": "\u72d7\u5934"}]}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"entries": {"before": 1}, "asciiTerms": {"before": 0}, "summary": {"totalEntries": 1, "asciiEntries": 0}}),
+                encoding="utf-8",
+            )
+
+            result = DictionaryPruneSummaryContractComparator(dictionary_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "entries", "python": {"before": 2}, "js": {"before": 1}},
+                {"key": "asciiTerms", "python": {"before": 1}, "js": {"before": 0}},
+                {"key": "summary", "python": {"totalEntries": 2, "asciiEntries": 1}, "js": {"totalEntries": 1, "asciiEntries": 0}},
             ],
         )
 
