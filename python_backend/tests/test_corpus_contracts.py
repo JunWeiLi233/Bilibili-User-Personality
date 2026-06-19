@@ -269,6 +269,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(audit["coverage"]["weakTerms"], 1)
         self.assertEqual(audit["coverage"]["evidenceDeficit"], 2)
 
+    def test_coverage_audit_builder_matches_js_canonical_evidence_overrides(self):
+        dictionary = {
+            "entries": [
+                {
+                    "term": "\u7cbe\u795e\u5916\u56fd\u4eba",
+                    "family": "attack",
+                    "evidenceCount": 6,
+                    "evidenceSamples": ["one", "two", "three", "four", "five"],
+                    "evidenceSources": [
+                        {"source": "Bilibili public video comment scan", "sample": "one"},
+                        {"source": "Bilibili public video comment scan", "sample": "two"},
+                        {"source": "Bilibili public video comment scan", "sample": "three"},
+                        {"source": "Bilibili public video comment scan", "sample": "four"},
+                        {"source": "Bilibili public video comment scan", "sample": "five"},
+                        {"source": "Bilibili public video comment scan", "uid": "source-only"},
+                    ],
+                }
+            ]
+        }
+
+        audit = CoverageAuditBuilder(target_evidence=3).build(dictionary)
+
+        self.assertEqual(audit["coverage"]["totalEvidence"], 5)
+
     def test_audit_contract_comparator_reports_metric_parity(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -310,7 +334,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["mismatches"], [])
         self.assertEqual(result["python"]["coverage"]["weakTerms"], 1)
 
-    def test_audit_contract_comparator_warns_on_total_evidence_drift_by_default(self):
+    def test_audit_contract_comparator_reports_total_evidence_mismatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             dictionary_path = root / "dictionary.json"
@@ -340,9 +364,9 @@ class CorpusContractTests(unittest.TestCase):
 
             result = AuditContractComparator(dictionary_path, js_audit_path).compare()
 
-        self.assertTrue(result["ok"])
-        self.assertEqual(result["mismatches"], [])
-        self.assertEqual(result["warnings"], [{"key": "totalEvidence", "python": 3, "js": 2}])
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["mismatches"], [{"key": "totalEvidence", "python": 3, "js": 2}])
+        self.assertEqual(result["warnings"], [])
 
     def test_random_verification_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:

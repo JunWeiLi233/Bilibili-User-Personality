@@ -20,9 +20,10 @@ class AuditContractComparator:
         "coverageRatio",
         "sourcedEvidenceTerms",
         "unsourcedEvidenceTerms",
+        "totalEvidence",
     )
 
-    WARNING_METRIC_KEYS = ("totalEvidence",)
+    WARNING_METRIC_KEYS: tuple[str, ...] = ()
 
     def __init__(self, dictionary_path: str | Path, js_audit_path: str | Path, strict_total_evidence: bool = False):
         self.dictionary_path = Path(dictionary_path)
