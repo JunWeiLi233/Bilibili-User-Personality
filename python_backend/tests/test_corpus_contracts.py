@@ -22,7 +22,7 @@ from python_backend.cli.coverage_audit import AuditContractComparator
 from python_backend.cli.coverage_progress import CoverageProgressRunner
 from python_backend.cli.discovery_report import VideoKeywordDiscoveryReportRunner
 from python_backend.cli.harvest_options import HarvestOptionsRunner
-from python_backend.cli.harvest_plan import KeywordHarvestPlanRunner
+from python_backend.cli.harvest_plan import KeywordHarvestPlanContractComparator, KeywordHarvestPlanRunner
 from python_backend.cli.readme_stats import ReadmeStatsRunner
 from python_backend.cli.semantic_matcher import SemanticMatcherRunner
 from python_backend.cli.compare_contracts import ContractComparator
@@ -3703,6 +3703,48 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["queries"], ["weak \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4", "seed topic"])
         self.assertEqual(result["plan"][0]["source"], "dictionary")
+
+    def test_keyword_harvest_plan_contract_comparator_reports_plan_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "harvest-plan.json"
+            js_plan_path = root / "js-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "dictionary": {"entries": [{"term": "weak", "family": "attack", "evidenceCount": 0}]},
+                        "options": {"coverageMode": "all-weak", "maxQueries": 2, "queryVariantsPerTerm": 1, "seedQueries": ["seed topic"]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_plan_path.write_text(
+                json.dumps(
+                    {
+                        "queries": ["wrong query"],
+                        "plan": [{"query": "wrong query", "source": "seed", "term": "wrong", "family": "wrong"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = KeywordHarvestPlanContractComparator(payload_path, js_plan_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "queries", "python": ["weak \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4", "seed topic"], "js": ["wrong query"]},
+                {
+                    "key": "plan",
+                    "python": [
+                        {"query": "weak \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4", "source": "dictionary", "term": "weak", "family": "attack"},
+                        {"query": "seed topic", "source": "seed", "term": None, "family": None},
+                    ],
+                    "js": [{"query": "wrong query", "source": "seed", "term": "wrong", "family": "wrong"}],
+                },
+            ],
+        )
 
     def test_keyword_harvest_plan_builder_expands_repeated_misses_to_untried_variants(self):
         plan = KeywordHarvestPlanBuilder().build_query_plan(
