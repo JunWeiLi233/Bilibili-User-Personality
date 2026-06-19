@@ -72,18 +72,63 @@ class DirectProbePlanRunner:
         return payload if isinstance(payload, dict) else {}
 
 
+class DirectProbePlanContractComparator:
+    """Compare Python direct-probe plans against saved JS-compatible plan JSON."""
+
+    PLAN_KEYS = (
+        "nextReplyCursor",
+        "viewUrl",
+        "replyUrl",
+        "replyPageUrl",
+        "replyThreadUrl",
+        "searchUrls",
+        "syntheticCookie",
+    )
+
+    def __init__(self, payload_path: str | Path, js_plan_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.js_plan_path = Path(js_plan_path)
+
+    def compare(self) -> dict[str, Any]:
+        python_plan = DirectProbePlanRunner(self.payload_path).run()
+        js_plan = self._read_js_plan()
+        mismatches = [
+            {"key": key, "python": python_plan.get(key), "js": js_plan.get(key)}
+            for key in self.PLAN_KEYS
+            if key in js_plan and python_plan.get(key) != js_plan.get(key)
+        ]
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": self._summary(python_plan),
+            "js": self._summary(js_plan),
+        }
+
+    def _read_js_plan(self) -> dict[str, Any]:
+        with self.js_plan_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
+
+    def _summary(self, plan: dict[str, Any]) -> dict[str, Any]:
+        return {key: plan.get(key) for key in self.PLAN_KEYS if key in plan}
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Build direct Bilibili probe planning JSON from a payload.")
     parser.add_argument("--payload", required=True, help="Path to direct probe plan JSON payload.")
+    parser.add_argument("--compare-js-plan", default="", help="Optional JS-compatible direct probe plan JSON to compare.")
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    result = DirectProbePlanRunner(args.payload).run()
+    if args.compare_js_plan:
+        result = DirectProbePlanContractComparator(args.payload, args.compare_js_plan).compare()
+    else:
+        result = DirectProbePlanRunner(args.payload).run()
     json.dump(result, sys.stdout, ensure_ascii=False, indent=2)
     sys.stdout.write("\n")
-    return 0
+    return 0 if result["ok"] else 1
 
 
 if __name__ == "__main__":

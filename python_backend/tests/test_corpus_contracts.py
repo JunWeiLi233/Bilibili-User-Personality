@@ -36,7 +36,7 @@ from python_backend.cli.video_comment_filter import VideoCommentFilterRunner
 from python_backend.cli.video_context import VideoContextRunner
 from python_backend.cli.video_relevance import VideoRelevanceRunner
 from python_backend.cli.direct_probe_corpus import DirectProbeCorpusRunner
-from python_backend.cli.direct_probe_plan import DirectProbePlanRunner
+from python_backend.cli.direct_probe_plan import DirectProbePlanContractComparator, DirectProbePlanRunner
 from python_backend.cli.random_verification import RandomVerificationContractComparator, RandomVerificationRunner, json_result_bytes
 from python_backend.cli.tieba_corpus import TiebaCorpusUpdateRunner
 from python_backend.cli.tieba_html_parse import TiebaHtmlParseRunner
@@ -1644,6 +1644,52 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["nextReplyCursor"], 1)
         self.assertEqual(result["viewUrl"], "https://api.bilibili.com/x/web-interface/view?aid=116663559131570")
         self.assertIn("keyword=%E6%9F%A5%E6%9F%A5%E8%B5%84%E6%96%99+B%E7%AB%99%E8%AF%84%E8%AE%BA", result["searchUrls"][0])
+
+    def test_direct_probe_plan_contract_comparator_reports_plan_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "probe-plan.json"
+            js_plan_path = root / "js-probe-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "action": {"term": "\u67e5\u67e5\u8d44\u6599", "query": "\u67e5\u67e5\u8d44\u6599 B\u7ad9\u8bc4\u8bba"},
+                        "source": "https://www.bilibili.com/video/av116663559131570/?reply=301234384593",
+                        "cursorPayload": {"data": {"cursor": {"is_end": False, "next": 0}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_plan_path.write_text(
+                json.dumps(
+                    {
+                        "nextReplyCursor": 2,
+                        "viewUrl": "https://api.bilibili.com/x/web-interface/view?aid=wrong",
+                        "searchUrls": ["https://api.bilibili.com/x/web-interface/search/type?keyword=wrong"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = DirectProbePlanContractComparator(payload_path, js_plan_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "nextReplyCursor", "python": 1, "js": 2},
+                {
+                    "key": "viewUrl",
+                    "python": "https://api.bilibili.com/x/web-interface/view?aid=116663559131570",
+                    "js": "https://api.bilibili.com/x/web-interface/view?aid=wrong",
+                },
+                {
+                    "key": "searchUrls",
+                    "python": ["https://api.bilibili.com/x/web-interface/search/type?search_type=video&keyword=%E6%9F%A5%E6%9F%A5%E8%B5%84%E6%96%99+B%E7%AB%99%E8%AF%84%E8%AE%BA&page=1&page_size=20"],
+                    "js": ["https://api.bilibili.com/x/web-interface/search/type?keyword=wrong"],
+                },
+            ],
+        )
 
     def test_direct_probe_builder_creates_browser_identity_contract(self):
         builder = DirectProbeCorpusBuilder()
