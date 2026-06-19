@@ -4,12 +4,10 @@ import argparse
 import json
 import math
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
 
-
-STAT_KEYS = ("success", "noComments", "noUser", "trainError", "blocked", "errors")
+from python_backend.scrapers.uid_pipeline import UidPipelineMergeReporter
 
 
 class UidPipelineMergeRunner:
@@ -30,13 +28,11 @@ class UidPipelineMergeRunner:
         self.total_end = int(total_end)
         self.workers = max(1, int(workers))
         self.summary_only = summary_only
-        self.now = now or (lambda: datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z"))
+        self.now = now
 
     def run(self) -> dict[str, Any]:
         total_expected = max(0, self.total_end - self.total_start + 1)
         chunk_size = math.ceil(total_expected / self.workers) if total_expected else 0
-        merged_processed: dict[str, Any] = {}
-        merged_stats = {key: 0 for key in STAT_KEYS}
         chunks = []
         for worker_index in range(self.workers):
             start = self.total_start + worker_index * chunk_size
@@ -45,36 +41,18 @@ class UidPipelineMergeRunner:
                 break
             progress_path = self.data_dir / f"uid-pipeline-{start}-{end}.json"
             progress = self._read_json(progress_path, {"processed": {}, "stats": {}})
-            processed = progress.get("processed") if isinstance(progress.get("processed"), dict) else {}
-            stats = progress.get("stats") if isinstance(progress.get("stats"), dict) else {}
-            if not processed:
-                chunks.append({"start": start, "end": end, "path": str(progress_path), "processed": 0, "skipped": True})
-                continue
-            merged_processed.update(processed)
-            for key in STAT_KEYS:
-                merged_stats[key] += int(stats.get(key) or 0)
-            chunks.append({"start": start, "end": end, "path": str(progress_path), "processed": len(processed), "skipped": False})
+            chunks.append({"start": start, "end": end, "path": str(progress_path), "progress": progress})
         user_db = self._read_json(self.data_dir / "scraped-users-db.json", {"users": {}})
         users = user_db.get("users") if isinstance(user_db.get("users"), dict) else {}
-        result = {
-            "ok": True,
-            "range": {"start": self.total_start, "end": self.total_end, "workers": self.workers, "chunkSize": chunk_size},
-            "stats": merged_stats,
-            "lastUpdated": self.now(),
-            "chunks": chunks,
-            "totalProcessed": len(merged_processed),
-            "totalExpected": total_expected,
-            "usersInDb": len(users),
-            "summary": {
-                "totalProcessed": len(merged_processed),
-                "totalExpected": total_expected,
-                "usersInDb": len(users),
-                "stats": merged_stats,
-            },
-        }
-        if not self.summary_only:
-            result["processed"] = merged_processed
-        return result
+        return UidPipelineMergeReporter(now=self.now).build_report(
+            chunks,
+            users=users,
+            total_start=self.total_start,
+            total_end=self.total_end,
+            workers=self.workers,
+            chunk_size=chunk_size,
+            summary_only=self.summary_only,
+        )
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
         if not path.exists():

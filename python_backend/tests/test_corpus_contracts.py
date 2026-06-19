@@ -114,7 +114,7 @@ from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner
 from python_backend.scrapers.batch_uid_scrape import BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner
-from python_backend.scrapers.uid_pipeline import UidPipelineWorkerPlanner
+from python_backend.scrapers.uid_pipeline import UidPipelineMergeReporter, UidPipelineWorkerPlanner
 from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanner
 
 
@@ -5144,6 +5144,49 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
         self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
+
+    def test_uid_pipeline_merge_reporter_merges_worker_chunks_without_filesystem(self):
+        reporter = UidPipelineMergeReporter(now=lambda: "2026-06-19T00:00:00.000Z")
+        chunks = [
+            {
+                "start": 1,
+                "end": 2,
+                "path": "uid-pipeline-1-2.json",
+                "progress": {"processed": {"1": "success", "2": "no_comments"}, "stats": {"success": 1, "noComments": 1, "noVideos": 99}},
+            },
+            {
+                "start": 3,
+                "end": 4,
+                "path": "uid-pipeline-3-4.json",
+                "progress": {"processed": {"3": "blocked"}, "stats": {"blocked": 1, "errors": 1}},
+            },
+            {"start": 5, "end": 6, "path": "uid-pipeline-5-6.json", "progress": {"processed": {}, "stats": {"success": 9}}},
+        ]
+
+        result = reporter.build_report(
+            chunks,
+            users={"1": {}, "4": {}, "outside": {}},
+            total_start=1,
+            total_end=6,
+            workers=3,
+            chunk_size=2,
+            summary_only=True,
+        )
+
+        self.assertNotIn("processed", result)
+        self.assertEqual(result["range"], {"start": 1, "end": 6, "workers": 3, "chunkSize": 2})
+        self.assertEqual(result["stats"], {"success": 1, "noComments": 1, "noUser": 0, "trainError": 0, "blocked": 1, "errors": 1})
+        self.assertEqual(result["totalProcessed"], 3)
+        self.assertEqual(result["totalExpected"], 6)
+        self.assertEqual(result["usersInDb"], 3)
+        self.assertEqual(
+            result["chunks"],
+            [
+                {"start": 1, "end": 2, "path": "uid-pipeline-1-2.json", "processed": 2, "skipped": False},
+                {"start": 3, "end": 4, "path": "uid-pipeline-3-4.json", "processed": 1, "skipped": False},
+                {"start": 5, "end": 6, "path": "uid-pipeline-5-6.json", "processed": 0, "skipped": True},
+            ],
+        )
 
     def test_uid_pipeline_merge_comparator_reports_stats_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:

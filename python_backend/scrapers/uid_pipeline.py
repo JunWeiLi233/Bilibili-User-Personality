@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+from datetime import datetime, timezone
 from typing import Any
 
 
 STAT_KEYS = ("success", "noComments", "noVideos", "noUser", "trainError", "blocked", "errors")
+MERGE_STAT_KEYS = ("success", "noComments", "noUser", "trainError", "blocked", "errors")
 
 
 def _parse_number_or(value: Any, fallback: int) -> int:
@@ -90,3 +92,64 @@ class UidPipelineWorkerPlanner:
             if start <= numeric_uid <= end:
                 count += 1
         return count
+
+
+class UidPipelineMergeReporter:
+    """Merge UID pipeline worker progress payloads into the JS report contract."""
+
+    def __init__(self, now: Any | None = None):
+        self.now = now or (lambda: datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z"))
+
+    def build_report(
+        self,
+        chunks: list[dict[str, Any]] | None = None,
+        *,
+        users: dict[str, Any] | None = None,
+        total_start: int = 1,
+        total_end: int = 100000,
+        workers: int = 5,
+        chunk_size: int = 0,
+        summary_only: bool = False,
+    ) -> dict[str, Any]:
+        chunks = chunks if isinstance(chunks, list) else []
+        users = users if isinstance(users, dict) else {}
+        total_start = int(total_start)
+        total_end = int(total_end)
+        workers = max(1, int(workers))
+        total_expected = max(0, total_end - total_start + 1)
+        merged_processed: dict[str, Any] = {}
+        merged_stats = {key: 0 for key in MERGE_STAT_KEYS}
+        chunk_summaries = []
+        for chunk in chunks:
+            progress = chunk.get("progress") if isinstance(chunk, dict) and isinstance(chunk.get("progress"), dict) else {}
+            processed = progress.get("processed") if isinstance(progress.get("processed"), dict) else {}
+            stats = progress.get("stats") if isinstance(progress.get("stats"), dict) else {}
+            start = int(chunk.get("start") or 0) if isinstance(chunk, dict) else 0
+            end = int(chunk.get("end") or 0) if isinstance(chunk, dict) else 0
+            path = str(chunk.get("path") or "") if isinstance(chunk, dict) else ""
+            if not processed:
+                chunk_summaries.append({"start": start, "end": end, "path": path, "processed": 0, "skipped": True})
+                continue
+            merged_processed.update(processed)
+            for key in MERGE_STAT_KEYS:
+                merged_stats[key] += _parse_number_or(stats.get(key), 0)
+            chunk_summaries.append({"start": start, "end": end, "path": path, "processed": len(processed), "skipped": False})
+        result = {
+            "ok": True,
+            "range": {"start": total_start, "end": total_end, "workers": workers, "chunkSize": max(0, int(chunk_size))},
+            "stats": merged_stats,
+            "lastUpdated": self.now(),
+            "chunks": chunk_summaries,
+            "totalProcessed": len(merged_processed),
+            "totalExpected": total_expected,
+            "usersInDb": len(users),
+            "summary": {
+                "totalProcessed": len(merged_processed),
+                "totalExpected": total_expected,
+                "usersInDb": len(users),
+                "stats": merged_stats,
+            },
+        }
+        if not summary_only:
+            result["processed"] = merged_processed
+        return result
