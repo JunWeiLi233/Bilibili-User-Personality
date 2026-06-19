@@ -675,6 +675,60 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["corpus"]["comments"], 1)
         self.assertEqual(result["audit"]["terms"], 1)
 
+    def test_contract_comparator_reports_dictionary_contract_summary(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "dict.entries").mkdir()
+            (root / "dict.evidence").mkdir()
+            corpus_path = root / "corpus.json"
+            audit_path = root / "audit.json"
+            dictionary_path = root / "dict.json"
+            corpus_path.write_text(
+                json.dumps({"version": 1, "comments": [{"message": "ok"}], "runs": []}),
+                encoding="utf-8",
+            )
+            audit_path.write_text(
+                json.dumps({"ok": False, "targetEvidence": 3, "coverage": {"terms": 1, "coverageRatio": 1}}),
+                encoding="utf-8",
+            )
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "version": 2,
+                        "storage": "split",
+                        "shardSize": 500,
+                        "entryFiles": {"attack": ["dict.entries/attack-001.json"]},
+                        "evidenceFiles": {"attack": ["dict.evidence/attack-001.json"]},
+                        "families": {"attack": 1},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (root / "dict.entries" / "attack-001.json").write_text(
+                json.dumps({"entries": [{"term": "doge", "family": "attack", "evidenceCount": 1}]}),
+                encoding="utf-8",
+            )
+            (root / "dict.evidence" / "attack-001.json").write_text(
+                json.dumps({"evidence": [{"term": "doge", "evidenceSamples": ["doge"], "evidenceSources": [{"sample": "doge"}]}]}),
+                encoding="utf-8",
+            )
+
+            result = ContractComparator(corpus_path, audit_path, dictionary_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(
+            result["dictionary"],
+            {
+                "terms": 1,
+                "storage": "split",
+                "version": 2,
+                "shardSize": 500,
+                "shardMaxBytes": None,
+                "evidenceStorage": "split",
+                "families": {"attack": 1},
+            },
+        )
+
     def test_dictionary_loader_hydrates_split_entries_and_evidence(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
