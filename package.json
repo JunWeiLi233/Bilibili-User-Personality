@@ -32,6 +32,7 @@
     "python:history-tags": "python -m python_backend.cli.history_tag_corpus",
     "python:flatten-local": "python -m python_backend.cli.local_corpus_flatten",
     "python:local-evidence": "python -m python_backend.cli.local_corpus_evidence",
+    "python:video-comment-filter": "python -m python_backend.cli.video_comment_filter",
     "python:tieba-update": "python -m python_backend.cli.tieba_corpus",
     "python:direct-probe-update": "python -m python_backend.cli.direct_probe_corpus",
     "dev:full": "node server/index.js",

@@ -13,6 +13,7 @@ from python_backend.cli.history_tag_corpus import HistoryTagCorpusRunner
 from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportRunner
 from python_backend.cli.local_corpus_evidence import LocalCorpusEvidenceRunner
 from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenRunner
+from python_backend.cli.video_comment_filter import VideoCommentFilterRunner
 from python_backend.cli.direct_probe_corpus import DirectProbeCorpusRunner
 from python_backend.cli.random_verification import RandomVerificationRunner
 from python_backend.cli.tieba_corpus import TiebaCorpusUpdateRunner
@@ -22,6 +23,7 @@ from python_backend.corpus.huggingface import HuggingFaceCorpusImporter
 from python_backend.corpus.local import LocalCorpusEvidenceFinder
 from python_backend.corpus.local import LocalCorpusFlattener
 from python_backend.corpus.tieba import TiebaCorpusUpdater
+from python_backend.analysis.video_filter import VideoCommentFilter
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriter
@@ -834,6 +836,49 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["corpus"]["updatedAt"], "2026-06-19T01:00:00.000Z")
         self.assertEqual(result["corpus"]["videos"][0]["title"], "\u5386\u53f2\u89c6\u9891")
         self.assertEqual(result["corpus"]["videos"][0]["tags"], ["\u5386\u53f2", "\u6e05\u671d"])
+
+    def test_video_comment_filter_matches_needles_inside_noisy_text(self):
+        comment_filter = VideoCommentFilter()
+        needles = {"\u7f51\u76d8\u89c1", "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"}
+
+        self.assertTrue(comment_filter.comment_matches_needle_set("\u54c8\u54c8\u54c8 \u7f51 \u76d8 \u89c1\uff01", needles))
+        self.assertTrue(comment_filter.comment_matches_needle_set("\u8fd9\u5c31\u662f\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28\u4e86", needles))
+        self.assertFalse(comment_filter.comment_matches_needle_set("\u5b8c\u5168\u65e0\u5173\u7684\u8bc4\u8bba", needles))
+        self.assertFalse(comment_filter.comment_matches_needle_set("\u7f51\u76d8\u89c1", set()))
+
+    def test_video_comment_filter_routes_matching_comments_and_falls_back(self):
+        comments = [
+            {"rpid": "1", "message": "\u7f51\u76d8\u89c1\uff0c\u61c2\u7684\u90fd\u61c2"},
+            {"rpid": "2", "message": "\u8def\u8fc7\u968f\u4fbf\u770b\u770b"},
+            {"rpid": "3", "message": "\u8fd9\u4e0d\u5c31\u662f\u5178\u578b\u7684\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"},
+        ]
+
+        result = VideoCommentFilter().filter_comments(comments, {"\u7f51\u76d8\u89c1"}, ["\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"])
+        fallback = VideoCommentFilter().filter_comments(comments, {"\u5b8c\u5168\u4e0d\u5b58\u5728\u7684\u8bcd"})
+
+        self.assertTrue(result["applied"])
+        self.assertEqual(result["matched"], 2)
+        self.assertEqual([comment["rpid"] for comment in result["comments"]], ["1", "3"])
+        self.assertFalse(fallback["applied"])
+        self.assertEqual(len(fallback["comments"]), 3)
+
+    def test_video_comment_filter_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            comments_path = root / "comments.json"
+            needles_path = root / "needles.json"
+            comments_path.write_text(
+                json.dumps({"comments": [{"rpid": "1", "message": "\u7f51\u76d8\u89c1"}, {"rpid": "2", "message": "\u8def\u8fc7"}]}),
+                encoding="utf-8",
+            )
+            needles_path.write_text(json.dumps({"needles": ["\u7f51\u76d8\u89c1"]}), encoding="utf-8")
+
+            result = VideoCommentFilterRunner(comments_path, needles_path, extra_needles=["\\u8def\\u8fc7"]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertTrue(result["applied"])
+        self.assertEqual(result["matched"], 2)
+        self.assertEqual([comment["rpid"] for comment in result["comments"]], ["1", "2"])
 
     def test_coverage_audit_builder_matches_js_metric_contract(self):
         dictionary = {
