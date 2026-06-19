@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T01:24:01.350Z",
+  "updatedAt": "2026-06-19T01:31:56.854Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -641,6 +641,64 @@
       "warnings": [],
       "commentsCollected": 1948,
       "commentsAdded": 389
+    },
+    {
+      "at": "2026-06-19T01:31:56.854Z",
+      "actions": [
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复"
+        },
+        {
+          "term": "德里不饶人",
+          "query": "得理不饶人 评论回复"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站"
+        },
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV16Qjv6GEwM",
+          "term": "德里不饶人",
+          "query": "德里不饶人 评论回复",
+          "bvid": "BV16Qjv6GEwM",
+          "aid": 116773802220131,
+          "title": "我道歉了还得理<em class=\"keyword\">不饶人</em>？主动挑事还说我精神胜利？"
+        },
+        {
+          "key": "bvid:BV1PiV26GEVE",
+          "term": "德里不饶人",
+          "query": "得理不饶人 评论回复",
+          "bvid": "BV1PiV26GEVE",
+          "aid": 116683658299487,
+          "title": "骂人是错误行为，他就要明白"
+        },
+        {
+          "key": "bvid:BV15JNdz1E9P",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站",
+          "bvid": "BV15JNdz1E9P",
+          "aid": 114710540256783,
+          "title": "狗：狗：【白给梗科普】狗：是什么梗？"
+        },
+        {
+          "key": "bvid:BV1bKja6jEEx",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1bKja6jEEx",
+          "aid": 116772241939974,
+          "title": "看<em class=\"keyword\">评论区</em>，肯定又有人来骂我说我想恰饭，眼镜就是越便宜质量越好……"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 50,
+      "commentsAdded": 44
     }
   ]
 }
