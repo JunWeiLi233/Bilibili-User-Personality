@@ -56,6 +56,7 @@ from python_backend.cli.uid_parallel_plan import UidParallelPlanContractComparat
 from python_backend.cli.uid_parallel_progress import UidParallelProgressContractComparator, UidParallelProgressRunner
 from python_backend.cli.uid_pipeline_plan import UidPipelinePlanContractComparator, UidPipelinePlanRunner
 from python_backend.cli.uid_pipeline_progress import UidPipelineProgressContractComparator, UidPipelineProgressRunner
+from python_backend.cli.uid_fast_pipeline_plan import UidFastPipelinePlanContractComparator, UidFastPipelinePlanRunner
 from python_backend.cli.uid_pipeline_merge import UidPipelineMergeContractComparator, UidPipelineMergeRunner
 from python_backend.cli.uid_pipeline_launcher import UidPipelineLauncherContractComparator, UidPipelineLauncherPlanRunner
 from python_backend.cli.uid_pipeline_state import UidPipelineStateContractComparator, UidPipelineStateRunner
@@ -102,6 +103,7 @@ from python_backend.scrapers.batch_uid_scrape import BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner
 from python_backend.scrapers.uid_pipeline import UidPipelineWorkerPlanner
+from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanner
 
 
 class CorpusContractTests(unittest.TestCase):
@@ -4886,6 +4888,58 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {"key": "progress", "python": {"processed": 1, "remaining": 2, "completionRatio": 0.3333}, "js": {"processed": 0}},
                 {"key": "training", "python": {"multiagent": True, "existingTermsOnly": False, "lockRetryDelayMs": 10000, "lockMaxRetries": 5}, "js": {"multiagent": False}},
+            ],
+        )
+
+    def test_uid_fast_pipeline_plan_matches_js_direct_fetch_and_backoff_contract(self):
+        planner = UidFastPipelinePlanner()
+        progress = {
+            "processed": {"10": "success", "11": "no_videos"},
+            "stats": {"success": 1, "noComments": 0, "noVideos": 1, "noUser": 0, "trainError": 0, "blocked": 0, "errors": 0},
+        }
+
+        result = planner.build_plan(["--start=10", "--end=14"], progress, {"users": {"10": {}, "99": {}}})
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"start": 10, "end": 14, "total": 5})
+        self.assertEqual(result["progress"], {"processed": 2, "remaining": 3, "completionRatio": 0.4})
+        self.assertEqual(result["limits"], {"videosPerUser": 3, "commentPagesPerVideo": 2, "replyPageSize": 20, "commentTextMinChars": 10, "commentTextLimit": 8000})
+        self.assertEqual(result["network"], {"mode": "directFetchJson", "usesCrawlerRateLimiter": False, "hasUserAgent": True})
+        self.assertEqual(result["pacing"], {"delayUidMs": 3500, "delayFastFailUidMs": 1800, "delayRequestMs": 1800, "cursorDelayMs": 200, "saveEvery": 20})
+        self.assertEqual(result["training"], {"multiagent": True, "existingTermsOnly": False, "lockRetryDelayMs": 5000, "lockRetryJitterMs": 2000, "lockMaxRetries": 15, "forceCleanLockAfterAttempt": 10})
+        self.assertEqual(result["blockPolicy"], {"blockedCodes": [-799, -352], "consecutiveBlockThreshold": 3, "blockBackoffBaseMs": 15000, "blockBackoffMaxMultiplier": 10})
+        self.assertEqual(result["stats"], {"success": 1, "noComments": 0, "noVideos": 1, "noUser": 0, "trainError": 0, "blocked": 0, "errors": 0})
+        self.assertEqual(result["userDb"], {"users": 2, "usersInRange": 1})
+
+    def test_uid_fast_pipeline_plan_runner_and_comparator_read_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "uid-fast-pipeline-plan.json"
+            js_report_path = root / "js-uid-fast-pipeline-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--start=1", "--end=4"],
+                        "progress": {"processed": {"1": "success"}, "stats": {"success": 1}},
+                        "database": {"users": {"1": {}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"network": {"usesCrawlerRateLimiter": True}, "training": {"lockMaxRetries": 5}}), encoding="utf-8")
+
+            result = UidFastPipelinePlanRunner(payload_path).run()
+            comparison = UidFastPipelinePlanContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"start": 1, "end": 4, "total": 4})
+        self.assertEqual(result["progress"], {"processed": 1, "remaining": 3, "completionRatio": 0.25})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "network", "python": {"mode": "directFetchJson", "usesCrawlerRateLimiter": False, "hasUserAgent": True}, "js": {"usesCrawlerRateLimiter": True}},
+                {"key": "training", "python": {"multiagent": True, "existingTermsOnly": False, "lockRetryDelayMs": 5000, "lockRetryJitterMs": 2000, "lockMaxRetries": 15, "forceCleanLockAfterAttempt": 10}, "js": {"lockMaxRetries": 5}},
             ],
         )
 
