@@ -7266,6 +7266,82 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(comparison["ok"])
         self.assertEqual(comparison["mismatches"][0]["key"], "termAttempts")
 
+    def test_harvest_state_backfills_searched_queries_like_js_contract(self):
+        updater = HarvestTermAttemptUpdater(strategy_version=7)
+
+        result = updater.backfill_searched_queries(
+            {
+                "ZG9nZQ": {
+                    "key": "ZG9nZQ",
+                    "term": "doge",
+                    "family": "cooperation",
+                    "attempts": 1,
+                    "successfulAttempts": 0,
+                    "lastAttemptAt": "2026-06-18T00:00:00.000Z",
+                    "lastError": "previous miss",
+                    "lastEvidenceCount": 1,
+                    "queries": [{"query": "doge \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4"}],
+                }
+            },
+            {
+                "entries": [
+                    {"term": "doge", "family": "cooperation", "evidenceCount": 2},
+                    {"term": "\u672a\u547d\u4e2d", "family": "attack", "evidenceCount": 0},
+                ]
+            },
+            [
+                "doge \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
+                "doge \u8bc4\u8bba\u533a",
+                "\u672a\u547d\u4e2d \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
+            ],
+            options={"harvestStrategyVersion": 7, "backfilledAt": "2026-06-19T00:00:00.000Z", "queryVariantsPerTerm": 2},
+        )
+
+        self.assertEqual(result["backfilled"], 2)
+        doge = result["termAttempts"]["ZG9nZQ"]
+        self.assertEqual(doge["attempts"], 2)
+        self.assertEqual(doge["successfulAttempts"], 0)
+        self.assertEqual(doge["evidenceAtPlanTime"], 2)
+        self.assertEqual(doge["lastVariantIndex"], 1)
+        self.assertEqual(doge["lastAttemptAt"], "2026-06-18T00:00:00.000Z")
+        self.assertEqual(doge["lastQuery"], "doge \u8bc4\u8bba\u533a")
+        self.assertEqual(doge["lastError"], "previous miss")
+        self.assertEqual(doge["lastEvidenceCount"], 1)
+        self.assertEqual(doge["queries"][-1]["at"], "2026-06-18T00:00:00.000Z")
+        self.assertEqual(doge["queries"][-1]["strategyVersion"], 7)
+        self.assertFalse(doge["queries"][-1]["hit"])
+        self.assertEqual(doge["queries"][-1]["error"], "backfilled from searched query history")
+
+        miss = result["termAttempts"]["5pyq5ZG95Lit"]
+        self.assertEqual(miss["attempts"], 1)
+        self.assertEqual(miss["family"], "attack")
+        self.assertEqual(miss["lastAttemptAt"], "2026-06-19T00:00:00.000Z")
+        self.assertEqual(miss["lastVariantIndex"], 0)
+        self.assertEqual(miss["lastQuery"], "\u672a\u547d\u4e2d \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4")
+
+    def test_harvest_state_runner_supports_backfill_mode(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "harvest-state-backfill.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "backfill",
+                        "termAttempts": {},
+                        "dictionary": {"entries": [{"term": "doge", "family": "cooperation", "evidenceCount": 0}]},
+                        "searchedQueries": ["doge \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4"],
+                        "options": {"harvestStrategyVersion": 7, "backfilledAt": "2026-06-19T00:00:00.000Z", "queryVariantsPerTerm": 1},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = HarvestStateRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["backfilled"], 1)
+        self.assertEqual(result["termAttempts"]["ZG9nZQ"]["lastQuery"], "doge \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4")
+
     def test_keyword_harvest_plan_builder_expands_repeated_misses_to_untried_variants(self):
         plan = KeywordHarvestPlanBuilder().build_query_plan(
             {"entries": [{"term": "doge", "family": "cooperation", "evidenceCount": 0}]},

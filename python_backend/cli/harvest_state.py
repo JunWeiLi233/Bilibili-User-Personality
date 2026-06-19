@@ -22,6 +22,11 @@ class HarvestStateRunner:
         term_attempts = payload.get("termAttempts") if isinstance(payload.get("termAttempts"), dict) else {}
         if isinstance(payload.get("state"), dict) and isinstance(payload["state"].get("termAttempts"), dict):
             term_attempts = payload["state"]["termAttempts"]
+        if str(payload.get("mode") or "").strip().lower() == "backfill":
+            dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}
+            searched_queries = payload.get("searchedQueries") if isinstance(payload.get("searchedQueries"), list) else []
+            result = updater.backfill_searched_queries(term_attempts, dictionary, searched_queries, options=options)
+            return {"ok": True, **result}
         next_attempts = updater.update_term_attempt(
             term_attempts,
             payload.get("planItem") if isinstance(payload.get("planItem"), dict) else {},
@@ -51,7 +56,7 @@ class HarvestStateContractComparator:
         js_summary = self._summary(js_result)
         mismatches = [
             {"key": key, "python": python_summary.get(key), "js": js_summary.get(key)}
-            for key in ("termAttempts",)
+            for key in ("termAttempts", "backfilled")
             if key in js_summary and python_summary.get(key) != js_summary.get(key)
         ]
         return {"ok": not mismatches, "mismatches": mismatches, "python": python_summary, "js": js_summary}
@@ -65,7 +70,10 @@ class HarvestStateContractComparator:
 
     def _summary(self, result: dict[str, Any]) -> dict[str, Any]:
         attempts = result.get("termAttempts") if isinstance(result.get("termAttempts"), dict) else {}
-        return {"termAttempts": attempts}
+        summary: dict[str, Any] = {"termAttempts": attempts}
+        if "backfilled" in result:
+            summary["backfilled"] = result.get("backfilled")
+        return summary
 
 
 def build_parser() -> argparse.ArgumentParser:

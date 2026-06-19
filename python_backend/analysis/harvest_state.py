@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 from typing import Any
 
 from python_backend.analysis.audit import CoverageAuditBuilder
+from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder
 
 
 def term_attempt_key(term: Any) -> str:
@@ -36,6 +37,7 @@ class HarvestTermAttemptUpdater:
 
     def __init__(self, strategy_version: int = 0):
         self.strategy_version = max(0, int(_number(strategy_version)))
+        self.plan_builder = KeywordHarvestPlanBuilder()
 
     def update_term_attempt(
         self,
@@ -98,6 +100,71 @@ class HarvestTermAttemptUpdater:
             "queries": [*previous_queries, query_record][-20:],
         }
         return attempts
+
+    def backfill_searched_queries(
+        self,
+        term_attempts: dict[str, Any] | None,
+        dictionary: dict[str, Any] | None,
+        searched_queries: list[Any] | None,
+        options: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        attempts = dict(term_attempts or {})
+        dictionary = dictionary if isinstance(dictionary, dict) else {}
+        options = options if isinstance(options, dict) else {}
+        searched = {_clean_text(query) for query in searched_queries or [] if _clean_text(query)}
+        backfilled_at = _clean_text(options.get("backfilledAt")) or _now_iso()
+        strategy_version = max(0, int(_number(options.get("harvestStrategyVersion", self.strategy_version))))
+        backfilled = 0
+        entries = [entry for entry in dictionary.get("entries") or [] if isinstance(entry, dict)]
+
+        for entry in entries:
+            term = _clean_text(entry.get("term"))
+            if not term:
+                continue
+            family = _clean_text(entry.get("family") or "attack")
+            key = term_attempt_key(term)
+            current = dict(self._get_term_attempt(attempts, term) or {})
+            tried = {
+                _clean_text(item.get("query"))
+                for item in current.get("queries") or []
+                if isinstance(item, dict) and _clean_text(item.get("query"))
+            }
+            for variant in self.plan_builder._query_variants_for_term(term, family, 10000):
+                query = _clean_text(variant.get("query"))
+                if not query or query not in searched or query in tried:
+                    continue
+                at = current.get("lastAttemptAt") or backfilled_at
+                query_record = {
+                    "at": at,
+                    "query": query,
+                    "strategyVersion": strategy_version,
+                    "ok": True,
+                    "hit": False,
+                    "videos": 0,
+                    "comments": 0,
+                    "error": "backfilled from searched query history",
+                }
+                previous_queries = current.get("queries") if isinstance(current.get("queries"), list) else []
+                next_attempt = {
+                    "key": key,
+                    "term": term,
+                    "family": current.get("family") or family,
+                    "evidenceAtPlanTime": current.get("evidenceAtPlanTime", _non_negative_int(entry.get("evidenceCount"))),
+                    "lastVariantIndex": variant.get("variantIndex"),
+                    "attempts": _non_negative_int(current.get("attempts")) + 1,
+                    "successfulAttempts": _non_negative_int(current.get("successfulAttempts")),
+                    "lastAttemptAt": at,
+                    "lastSuccessfulAt": current.get("lastSuccessfulAt") or None,
+                    "lastQuery": query,
+                    "lastError": current.get("lastError") or "",
+                    "lastEvidenceCount": _non_negative_int(current.get("lastEvidenceCount")),
+                    "queries": [*previous_queries, query_record][-20:],
+                }
+                attempts[key] = next_attempt
+                current = dict(next_attempt)
+                tried.add(query)
+                backfilled += 1
+        return {"termAttempts": attempts, "backfilled": backfilled}
 
     def _get_term_attempt(self, term_attempts: dict[str, Any], term: str) -> dict[str, Any] | None:
         encoded = term_attempt_key(term)
