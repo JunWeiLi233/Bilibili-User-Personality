@@ -23,7 +23,7 @@ from python_backend.cli.coverage_progress import CoverageProgressContractCompara
 from python_backend.cli.discovery_report import VideoKeywordDiscoveryReportContractComparator, VideoKeywordDiscoveryReportRunner
 from python_backend.cli.harvest_options import HarvestOptionsContractComparator, HarvestOptionsRunner
 from python_backend.cli.harvest_plan import KeywordHarvestPlanContractComparator, KeywordHarvestPlanRunner
-from python_backend.cli.readme_stats import ReadmeStatsRunner
+from python_backend.cli.readme_stats import ReadmeStatsContractComparator, ReadmeStatsRunner
 from python_backend.cli.semantic_matcher import SemanticMatcherContractComparator, SemanticMatcherRunner
 from python_backend.cli.compare_contracts import ContractComparator
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanContractComparator, DeepSeekAnalysisPlanRunner
@@ -689,6 +689,50 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["stats"]["coverageRatioLabel"], "87.50%")
         self.assertEqual(result["stats"]["timeline"]["finalTotal"], 2)
         self.assertEqual(result["summary"], {"comments": 1, "danmaku": 1, "keywordTerms": 2, "timelinePoints": 1})
+
+    def test_readme_stats_contract_comparator_reports_summary_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "stats.json"
+            js_report_path = root / "js-readme-stats.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "generatedAt": "2026-06-19T00:00:00.000Z",
+                        "sources": [
+                            {
+                                "name": "direct",
+                                "runs": [{"at": "2026-06-17T10:00:00.000Z", "commentsAdded": 2}],
+                                "comments": [
+                                    {"message": "\u8bc4\u8bba", "source": "comment"},
+                                    {"message": "\u5f39\u5e55", "source": "danmaku"},
+                                ],
+                            }
+                        ],
+                        "dictionary": {"entries": [{"term": "doge"}]},
+                        "coverage": {"coverageRatio": 0.5},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"ok": True, "summary": {"comments": 2, "danmaku": 1, "keywordTerms": 1, "timelinePoints": 1}}),
+                encoding="utf-8",
+            )
+
+            result = ReadmeStatsContractComparator(payload_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {
+                    "key": "summary",
+                    "python": {"comments": 1, "danmaku": 1, "keywordTerms": 1, "timelinePoints": 1},
+                    "js": {"comments": 2, "danmaku": 1, "keywordTerms": 1, "timelinePoints": 1},
+                }
+            ],
+        )
 
     def test_deepseek_analyzer_builds_multiagent_request_plan(self):
         sentence = "\u8fd9\u53e5\u662f\u5728\u53cd\u8bbd\u5427[doge]\uff0c\u4e0d\u662f\u771f\u7684\u9a82\u4eba\u3002"
