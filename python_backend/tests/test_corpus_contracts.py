@@ -17,6 +17,7 @@ from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerC
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPlanner
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceMatcher
 from python_backend.cli.comment_coverage import CommentCoverageContractComparator, CommentCoverageRunner
+from python_backend.cli.corpus_shard_writer import CorpusShardWriteContractComparator, CorpusShardWriteRunner
 from python_backend.cli.bilibili_parse import BilibiliParseContractComparator, BilibiliParseRunner
 from python_backend.cli.bilibili_crawler import BilibiliCrawlerContractComparator, BilibiliCrawlerRunner
 from python_backend.cli.bilibili_probe_plan import BilibiliProbePlanContractComparator, BilibiliProbePlanRunner
@@ -291,6 +292,82 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(comment_shards, ["comments-0001.json"])
         self.assertEqual(run_shards, ["runs-0001.json"])
+
+    def test_corpus_shard_write_runner_uses_json_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            output_path = root / "out.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "outputPath": str(output_path),
+                        "maxShardBytes": 128,
+                        "manifest": {"version": 2, "updatedAt": "2026-06-19T00:00:00.000Z", "source": "contract"},
+                        "comments": [{"message": "alpha" * 20}, {"message": "beta"}],
+                        "runs": [{"at": "now"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = CorpusShardWriteRunner(payload_path).run()
+            loaded = CorpusLoader(output_path).load()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["manifest"]["storage"], "split")
+        self.assertEqual(result["manifest"]["version"], 2)
+        self.assertEqual(result["manifest"]["commentCount"], 2)
+        self.assertEqual(result["manifest"]["runCount"], 1)
+        self.assertEqual(result["comments"], 2)
+        self.assertEqual(result["runs"], 1)
+        self.assertEqual([item["message"] for item in loaded.comments], ["alpha" * 20, "beta"])
+        self.assertEqual(loaded.runs, [{"at": "now"}])
+
+    def test_corpus_shard_write_comparator_reports_manifest_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-write-report.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "outputPath": str(root / "out.json"),
+                        "maxShardBytes": 1,
+                        "manifest": {"version": 1},
+                        "comments": [{"message": "kept"}],
+                        "runs": [],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"manifest": {"storage": "split", "shardMaxBytes": 64}, "comments": 999}),
+                encoding="utf-8",
+            )
+
+            result = CorpusShardWriteContractComparator(payload_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {
+                    "key": "manifest",
+                    "python": {
+                        "version": 1,
+                        "storage": "split",
+                        "shardMaxBytes": 1024,
+                        "commentFiles": ["out.comments/comments-0001.json"],
+                        "commentCount": 1,
+                        "runFiles": ["out.runs/runs-0001.json"],
+                        "runCount": 0,
+                    },
+                    "js": {"storage": "split", "shardMaxBytes": 64},
+                },
+                {"key": "comments", "python": 1, "js": 999},
+            ],
+        )
 
     def test_random_verifier_samples_are_deterministic_and_keyword_aware(self):
         verifier = RandomVerifier(keyword_terms=["狗头", "查查资料"])
