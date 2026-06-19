@@ -44,6 +44,7 @@
     "python:flatten-local": "python -m python_backend.cli.local_corpus_flatten",
     "python:local-evidence": "python -m python_backend.cli.local_corpus_evidence",
     "python:video-comment-filter": "python -m python_backend.cli.video_comment_filter",
+    "python:video-relevance": "python -m python_backend.cli.video_relevance",
     "python:tieba-update": "python -m python_backend.cli.tieba_corpus",
     "python:direct-probe-update": "python -m python_backend.cli.direct_probe_corpus",
     "python:direct-probe-plan": "python -m python_backend.cli.direct_probe_plan",

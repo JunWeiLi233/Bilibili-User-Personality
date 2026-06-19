@@ -7,7 +7,105 @@ from typing import Any
 
 def _clean_search_text(value: Any) -> str:
     text = unicodedata.normalize("NFKC", str(value or ""))
-    return re.sub(r"[^\w\u3400-\u9fff]+", "", text, flags=re.UNICODE).lower()
+    return "".join(char for char in text if char.isalnum()).lower()
+
+
+def _parse_list(value: Any) -> list[str]:
+    if isinstance(value, list):
+        return [str(item or "").strip() for item in value if str(item or "").strip()]
+    return [item.strip() for item in re.split(r"[\r\n,;|]+", str(value or "")) if item.strip()]
+
+
+def _unique_by_value(items: list[str]) -> list[str]:
+    seen: set[str] = set()
+    unique: list[str] = []
+    for item in items:
+        if item in seen:
+            continue
+        seen.add(item)
+        unique.append(item)
+    return unique
+
+
+GENERIC_TARGET_SEARCH_NEEDLES = {
+    _clean_search_text(item)
+    for item in [
+        "b站",
+        "bilibili",
+        "视频",
+        "投稿",
+        "合集",
+        "全集",
+        "完整版",
+        "免费观看",
+        "评论",
+        "评论区",
+        "弹幕",
+        "热评",
+        "回复",
+        "互动",
+        "讨论",
+        "争议",
+        "热点",
+        "热门",
+        "梗图",
+        "名场面",
+        "切片",
+        "盘点",
+        "复盘",
+        "链接",
+        "自取",
+        "出处",
+        "来源",
+        "是什么梗",
+        "什么意思",
+    ]
+}
+
+AMBIGUOUS_ALIAS_ONLY_TARGET_NEEDLES = {
+    _clean_search_text(item)
+    for item in [
+        "问百度",
+        "问百度有什么用",
+    ]
+}
+
+STRICT_TARGET_RELEVANCE_NEEDLES = {
+    _clean_search_text(item)
+    for item in [
+        "国际宅男联盟",
+        "宅男联盟",
+        "果蝇play",
+        "不一一",
+        "不一一评价",
+        "就不一一评价了",
+        "怕被删评",
+        "怕被删评故发图",
+        "单车变摩托",
+        "第一次就看懂了",
+        "鼻子占领大脑",
+        "并非偶遇",
+    ]
+}
+
+ASK_BAIDU_PRODUCT_NOISE_NEEDLES = [
+    _clean_search_text(item)
+    for item in [
+        "百度文库",
+        "百度网盘",
+        "百度云",
+        "百度APP",
+        "百度地图",
+        "百度百科",
+        "百度贴吧",
+        "百度翻译",
+        "百度输入法",
+        "百度公关",
+        "公关一号位",
+        "问百度陈睿",
+        "陈睿演唱",
+    ]
+]
 
 
 class VideoCommentFilter:
@@ -84,3 +182,125 @@ class VideoCommentFilter:
             "before": len(comments),
             "after": len(result["comments"]),
         }
+
+
+class VideoRelevanceFilter:
+    """Rank and filter Bilibili video objects with JS-compatible relevance rules."""
+
+    def search_query_needles(self, query: Any) -> list[str]:
+        raw = str(query or "").strip()
+        if not raw:
+            return []
+        return [_clean_search_text(item) for item in [raw, *re.split(r"\s+", raw)] if len(_clean_search_text(item)) >= 2]
+
+    def is_generic_target_search_needle(self, needle: Any) -> bool:
+        return _clean_search_text(needle) in GENERIC_TARGET_SEARCH_NEEDLES
+
+    def search_needles_for_relevance(self, search_queries: list[Any] | None = None, target_existing_terms: list[Any] | None = None) -> list[str]:
+        target_needles = _unique_by_value([_clean_search_text(item) for item in target_existing_terms or [] if len(_clean_search_text(item)) >= 2])
+        query_needles: list[str] = []
+        for query in search_queries or []:
+            for item in _parse_list(query):
+                query_needles.extend(self.search_query_needles(item))
+        if target_needles:
+            query_needles = [item for item in query_needles if not self.is_generic_target_search_needle(item)]
+        unique_query_needles = _unique_by_value([_clean_search_text(item) for item in query_needles if len(_clean_search_text(item)) >= 2])
+        if not target_needles:
+            return unique_query_needles
+        query_needle_set = set(unique_query_needles)
+        target_in_query = any(needle in query_needle_set for needle in target_needles)
+        alias_query_needles = [needle for needle in unique_query_needles if needle not in target_needles]
+        if alias_query_needles and not target_in_query:
+            if any(needle in AMBIGUOUS_ALIAS_ONLY_TARGET_NEEDLES for needle in target_needles):
+                return [*alias_query_needles, *alias_query_needles, *unique_query_needles]
+            return [*alias_query_needles, *alias_query_needles, *target_needles, *unique_query_needles]
+        return [*target_needles, *target_needles, *unique_query_needles]
+
+    def video_search_text(self, video: dict[str, Any] | None = None) -> str:
+        video = video if isinstance(video, dict) else {}
+        return _clean_search_text(" ".join(str(video.get(key) or "") for key in ["title", "desc", "description", "dynamic"]))
+
+    def relevance_score_for_video(self, video: dict[str, Any] | None = None, needles: list[Any] | None = None) -> int:
+        text = self.video_search_text(video)
+        if not text:
+            return 0
+        score = 0
+        for needle in needles or []:
+            clean = _clean_search_text(needle)
+            if clean and clean in text:
+                score += min(12, max(1, len(clean)))
+        return score
+
+    def strict_target_relevance_score_for_video(self, video: dict[str, Any] | None = None, target_existing_terms: list[Any] | None = None) -> int:
+        target_needles = _unique_by_value([_clean_search_text(item) for item in target_existing_terms or [] if len(_clean_search_text(item)) >= 2])
+        return self.relevance_score_for_video(video, target_needles)
+
+    def sort_videos_by_relevance(
+        self,
+        videos: list[dict[str, Any]] | None = None,
+        search_queries: list[Any] | None = None,
+        target_existing_terms: list[Any] | None = None,
+    ) -> list[dict[str, Any]]:
+        videos = videos if isinstance(videos, list) else []
+        needles = self.search_needles_for_relevance(search_queries or [], target_existing_terms or [])
+        if not needles:
+            return videos
+        indexed = [
+            {"video": video, "index": index, "score": self.relevance_score_for_video(video if isinstance(video, dict) else {}, needles)}
+            for index, video in enumerate(videos)
+        ]
+        indexed.sort(key=lambda item: (-item["score"], item["index"]))
+        return [item["video"] for item in indexed]
+
+    def required_ascii_anchors_for_search(self, search_queries: list[Any] | None = None) -> list[str]:
+        anchors: list[str] = []
+        for query in search_queries or []:
+            for item in _parse_list(query):
+                for token in re.split(r"\s+", str(item or "")):
+                    if not token or self.is_generic_target_search_needle(token):
+                        continue
+                    text = _clean_search_text(token)
+                    if not re.search(r"[\u3400-\u9fff]", text):
+                        continue
+                    anchors.extend(match.group(0).lower() for match in re.finditer(r"[a-z0-9]{2,}", text, flags=re.IGNORECASE))
+        return _unique_by_value(anchors)
+
+    def targets_ask_baidu_term(self, target_existing_terms: list[Any] | None = None) -> bool:
+        return any(_clean_search_text(item) in AMBIGUOUS_ALIAS_ONLY_TARGET_NEEDLES for item in target_existing_terms or [])
+
+    def targets_require_strict_relevance(self, target_existing_terms: list[Any] | None = None) -> bool:
+        return any(_clean_search_text(item) in STRICT_TARGET_RELEVANCE_NEEDLES for item in target_existing_terms or [])
+
+    def is_ask_baidu_product_noise_video(self, video: dict[str, Any] | None = None) -> bool:
+        text = self.video_search_text(video)
+        return bool(text and any(needle and needle in text for needle in ASK_BAIDU_PRODUCT_NOISE_NEEDLES))
+
+    def filter_relevant_videos(
+        self,
+        videos: list[dict[str, Any]] | None = None,
+        search_queries: list[Any] | None = None,
+        target_existing_terms: list[Any] | None = None,
+    ) -> list[dict[str, Any]]:
+        videos = videos if isinstance(videos, list) else []
+        search_queries = search_queries or []
+        target_existing_terms = target_existing_terms or []
+        needles = self.search_needles_for_relevance(search_queries, target_existing_terms)
+        if not needles:
+            return videos
+        reject_ask_baidu_product_noise = self.targets_ask_baidu_term(target_existing_terms)
+        require_strict_target_relevance = self.targets_require_strict_relevance(target_existing_terms)
+        required_ascii_anchors = self.required_ascii_anchors_for_search(search_queries)
+        matched: list[dict[str, Any]] = []
+        for video in videos:
+            if reject_ask_baidu_product_noise and self.is_ask_baidu_product_noise_video(video):
+                continue
+            text = self.video_search_text(video)
+            if required_ascii_anchors and not any(anchor in text for anchor in required_ascii_anchors):
+                continue
+            if require_strict_target_relevance:
+                if self.strict_target_relevance_score_for_video(video, target_existing_terms) > 0:
+                    matched.append(video)
+                continue
+            if self.relevance_score_for_video(video, needles) > 0:
+                matched.append(video)
+        return matched

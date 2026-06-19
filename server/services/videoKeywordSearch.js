@@ -300,7 +300,7 @@ function isBlockedDiscoveryWarning(warning) {
   return /\bHTTP\s+(?:403|412|429)\b/iu.test(String(warning || ''));
 }
 
-function searchNeedlesForRelevance(searchQueries = [], targetExistingTerms = []) {
+export function searchNeedlesForRelevance(searchQueries = [], targetExistingTerms = []) {
   const targetNeedles = uniqueByKey(
     targetExistingTerms.map(cleanSearchText).filter((item) => item.length >= 2),
     (item) => item,
@@ -341,7 +341,7 @@ function discoveryQueriesForSearch(searchQueries = [], targetExistingTerms = [])
   );
 }
 
-function relevanceScoreForVideo(video, needles = []) {
+export function relevanceScoreForVideo(video, needles = []) {
   const text = videoSearchText(video);
   if (!text) return 0;
   return needles.reduce((score, needle) => {
@@ -355,7 +355,7 @@ function strictTargetRelevanceScoreForVideo(video, targetExistingTerms = []) {
   return relevanceScoreForVideo(video, targetNeedles);
 }
 
-function sortVideosByRelevance(videos = [], searchQueries = [], targetExistingTerms = []) {
+export function sortVideosByRelevance(videos = [], searchQueries = [], targetExistingTerms = []) {
   const needles = searchNeedlesForRelevance(searchQueries, targetExistingTerms);
   if (needles.length === 0) return videos;
   return videos
@@ -364,7 +364,7 @@ function sortVideosByRelevance(videos = [], searchQueries = [], targetExistingTe
     .map((item) => item.video);
 }
 
-function filterRelevantVideos(videos = [], searchQueries = [], targetExistingTerms = []) {
+export function filterRelevantVideos(videos = [], searchQueries = [], targetExistingTerms = []) {
   const needles = searchNeedlesForRelevance(searchQueries, targetExistingTerms);
   if (needles.length === 0) return videos;
   const rejectAskBaiduProductNoise = targetsAskBaiduTerm(targetExistingTerms);

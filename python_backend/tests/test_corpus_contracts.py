@@ -29,6 +29,7 @@ from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportRunner
 from python_backend.cli.local_corpus_evidence import LocalCorpusEvidenceRunner
 from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenRunner
 from python_backend.cli.video_comment_filter import VideoCommentFilterRunner
+from python_backend.cli.video_relevance import VideoRelevanceRunner
 from python_backend.cli.direct_probe_corpus import DirectProbeCorpusRunner
 from python_backend.cli.direct_probe_plan import DirectProbePlanRunner
 from python_backend.cli.random_verification import RandomVerificationRunner, json_result_bytes
@@ -41,7 +42,7 @@ from python_backend.corpus.huggingface import HuggingFaceCorpusImporter
 from python_backend.corpus.local import LocalCorpusEvidenceFinder
 from python_backend.corpus.local import LocalCorpusFlattener
 from python_backend.corpus.tieba import TiebaCorpusUpdater
-from python_backend.analysis.video_filter import VideoCommentFilter
+from python_backend.analysis.video_filter import VideoCommentFilter, VideoRelevanceFilter
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriter
@@ -1305,6 +1306,90 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["before"], 2)
         self.assertEqual(result["after"], 1)
         self.assertEqual(result["comments"][0]["rpid"], "1")
+
+    def test_video_relevance_filter_weights_alias_queries_and_stably_ranks(self):
+        relevance = VideoRelevanceFilter()
+        videos = [
+            {"bvid": "BV0", "title": "\u8def\u8fc7\u89c6\u9891"},
+            {"bvid": "BV1", "title": "\u5b9d\u5b9d\u4e89\u8bae"},
+            {"bvid": "BV2", "title": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28\u540d\u573a\u9762"},
+            {"bvid": "BV3", "title": "\u5b9d\u5b9d \u5b9d\u5b9d"},
+        ]
+
+        needles = relevance.search_needles_for_relevance(["\u5b9d\u5b9d \u8bc4\u8bba\u533a"], ["\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"])
+        ranked = relevance.sort_videos_by_relevance(videos, ["\u5b9d\u5b9d \u8bc4\u8bba\u533a"], ["\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"])
+        filtered = relevance.filter_relevant_videos(videos, ["\u5b9d\u5b9d \u8bc4\u8bba\u533a"], ["\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"])
+
+        self.assertEqual(
+            needles,
+            [
+                "\u5b9d\u5b9d\u8bc4\u8bba\u533a",
+                "\u5b9d\u5b9d",
+                "\u5b9d\u5b9d\u8bc4\u8bba\u533a",
+                "\u5b9d\u5b9d",
+                "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28",
+                "\u5b9d\u5b9d\u8bc4\u8bba\u533a",
+                "\u5b9d\u5b9d",
+            ],
+        )
+        self.assertEqual([video["bvid"] for video in ranked], ["BV2", "BV1", "BV3", "BV0"])
+        self.assertEqual([video["bvid"] for video in filtered], ["BV1", "BV2", "BV3"])
+
+    def test_video_relevance_filter_rejects_ask_baidu_product_noise(self):
+        relevance = VideoRelevanceFilter()
+        videos = [
+            {"bvid": "BV1", "title": "\u767e\u5ea6\u8fd9\u4e2a\u6897\u600e\u4e48\u7528"},
+            {"bvid": "BV2", "title": "\u767e\u5ea6\u7f51\u76d8\u8d44\u6e90\u5206\u4eab"},
+        ]
+
+        filtered = relevance.filter_relevant_videos(videos, ["\u767e\u5ea6"], ["\u95ee\u767e\u5ea6"])
+
+        self.assertEqual([video["bvid"] for video in filtered], ["BV1"])
+
+    def test_video_relevance_filter_enforces_mixed_ascii_anchor_and_strict_targets(self):
+        relevance = VideoRelevanceFilter()
+        anchor_videos = [
+            {"bvid": "BV1", "title": "AI \u8bc4\u8bba\u533a \u5f88\u70ed"},
+            {"bvid": "BV2", "title": "\u8bc4\u8bba\u533a \u5f88\u70ed"},
+        ]
+        strict_videos = [
+            {"bvid": "BV3", "title": "\u5b85\u7537\u8054\u76df \u5207\u7247"},
+            {"bvid": "BV4", "title": "\u56fd\u9645\u65b0\u95fb \u8bc4\u8bba\u533a"},
+        ]
+
+        anchored = relevance.filter_relevant_videos(anchor_videos, ["AI\u4e89\u8bae \u8bc4\u8bba\u533a"], [])
+        strict = relevance.filter_relevant_videos(strict_videos, ["\u56fd\u9645 \u8bc4\u8bba\u533a"], ["\u5b85\u7537\u8054\u76df"])
+
+        self.assertEqual([video["bvid"] for video in anchored], ["BV1"])
+        self.assertEqual([video["bvid"] for video in strict], ["BV3"])
+
+    def test_video_relevance_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "videos": [
+                            {"bvid": "BV1", "title": "\u5b85\u7537\u8054\u76df \u539f\u7247"},
+                            {"bvid": "BV2", "title": "\u70ed\u95e8\u8bc4\u8bba\u533a"},
+                        ],
+                        "searchQueries": ["\u70ed\u95e8 \u8bc4\u8bba\u533a"],
+                        "targetExistingTerms": ["\u5b85\u7537\u8054\u76df"],
+                        "operation": "filter",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = VideoRelevanceRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(
+            result["needles"],
+            ["\u70ed\u95e8\u8bc4\u8bba\u533a", "\u70ed\u95e8\u8bc4\u8bba\u533a", "\u5b85\u7537\u8054\u76df", "\u70ed\u95e8\u8bc4\u8bba\u533a"],
+        )
+        self.assertEqual([video["bvid"] for video in result["videos"]], ["BV1"])
 
     def test_tieba_html_parser_matches_thread_discovery_contract(self):
         parser = TiebaHtmlParser()
