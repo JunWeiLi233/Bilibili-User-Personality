@@ -58,6 +58,7 @@ from python_backend.cli.uid_pipeline_merge import UidPipelineMergeContractCompar
 from python_backend.cli.uid_pipeline_launcher import UidPipelineLauncherContractComparator, UidPipelineLauncherPlanRunner
 from python_backend.cli.uid_pipeline_state import UidPipelineStateContractComparator, UidPipelineStateRunner
 from python_backend.cli.batch_bilibili_plan import BatchBilibiliPlanContractComparator, BatchBilibiliPlanRunner
+from python_backend.cli.batch_popular_plan import BatchPopularPlanContractComparator, BatchPopularPlanRunner
 from python_backend.cli.batch_scraper_launcher import BatchScraperLauncherContractComparator, BatchScraperLauncherPlanRunner
 from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContractComparator, RangeScraperLauncherPlanRunner
 from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContractComparator, FastPipelineLauncherPlanRunner
@@ -90,6 +91,7 @@ from python_backend.scrapers.tieba_html import TiebaHtmlParser
 from python_backend.scrapers.tieba_keyword import TiebaKeywordScrapeOptionsPlanner
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 from python_backend.scrapers.batch_bilibili import BatchBilibiliScrapePlanner
+from python_backend.scrapers.batch_popular import BatchPopularScrapePlanner
 
 
 class CorpusContractTests(unittest.TestCase):
@@ -5160,6 +5162,44 @@ class CorpusContractTests(unittest.TestCase):
             comparison["mismatches"],
             [
                 {"key": "range", "python": {"startUid": 11, "endUid": 12, "total": 2}, "js": {"startUid": 10}},
+                {"key": "database", "python": {"users": 1}, "js": {"users": 9}},
+            ],
+        )
+
+    def test_batch_popular_planner_matches_js_pages_and_resume_contract(self):
+        planner = BatchPopularScrapePlanner()
+
+        result = planner.build_plan(["--pages=8"], {"pagesScanned": 3, "videosScanned": 20, "scraped": 4}, {"users": {"10": {}, "20": {}}})
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["input"], {"maxPages": 8})
+        self.assertEqual(result["range"], {"startPage": 4, "maxPages": 8, "remainingPages": 5})
+        self.assertEqual(result["progress"], {"pagesScanned": 3, "videosScanned": 20, "scraped": 4})
+        self.assertEqual(result["database"], {"users": 2})
+        self.assertEqual(result["limits"], {"popularPageSize": 20, "replyPagesPerVideo": 10, "replyPageSize": 20})
+        self.assertEqual(result["pacing"], {"delayMs": 3000, "delayAfterLimitMs": 60000, "maxRetries": 5})
+
+    def test_batch_popular_plan_runner_and_comparator_read_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "batch-popular-plan.json"
+            js_report_path = root / "js-batch-popular-plan.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--pages=5"], "progress": {"pagesScanned": 2}, "database": {"users": {"1": {}}}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"range": {"startPage": 2}, "database": {"users": 9}}), encoding="utf-8")
+
+            result = BatchPopularPlanRunner(payload_path).run()
+            comparison = BatchPopularPlanContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"startPage": 3, "maxPages": 5, "remainingPages": 3})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "range", "python": {"startPage": 3, "maxPages": 5, "remainingPages": 3}, "js": {"startPage": 2}},
                 {"key": "database", "python": {"users": 1}, "js": {"users": 9}},
             ],
         )

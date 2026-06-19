@@ -1,0 +1,50 @@
+from __future__ import annotations
+
+from typing import Any
+
+
+def _parse_int(value: Any, fallback: int) -> int:
+    try:
+        return int(float(str(value)))
+    except (TypeError, ValueError):
+        return fallback
+
+
+class BatchPopularScrapePlanner:
+    """Build a dry-run plan for batchScrapePopular.js popular-video scanning."""
+
+    DEFAULT_MAX_PAGES = 50
+    POPULAR_PAGE_SIZE = 20
+    REPLY_PAGES_PER_VIDEO = 10
+    REPLY_PAGE_SIZE = 20
+    DELAY_MS = 3000
+    DELAY_AFTER_LIMIT_MS = 60000
+    MAX_RETRIES = 5
+
+    def build_plan(self, argv: list[Any] | None = None, progress: dict[str, Any] | None = None, database: dict[str, Any] | None = None) -> dict[str, Any]:
+        argv = argv or []
+        progress = progress or {}
+        database = database or {}
+        max_pages = self.DEFAULT_MAX_PAGES
+        for raw in argv:
+            arg = str(raw or "")
+            if arg.startswith("--pages="):
+                max_pages = _parse_int(arg.split("=", 1)[1], max_pages)
+        pages_scanned = _parse_int(progress.get("pagesScanned"), 0)
+        videos_scanned = _parse_int(progress.get("videosScanned"), 0)
+        scraped = _parse_int(progress.get("scraped"), 0)
+        start_page = pages_scanned + 1
+        users = database.get("users") if isinstance(database.get("users"), dict) else {}
+        return {
+            "ok": True,
+            "input": {"maxPages": max_pages},
+            "range": {"startPage": start_page, "maxPages": max_pages, "remainingPages": max(0, max_pages - start_page + 1)},
+            "progress": {"pagesScanned": pages_scanned, "videosScanned": videos_scanned, "scraped": scraped},
+            "database": {"users": len(users)},
+            "limits": {
+                "popularPageSize": self.POPULAR_PAGE_SIZE,
+                "replyPagesPerVideo": self.REPLY_PAGES_PER_VIDEO,
+                "replyPageSize": self.REPLY_PAGE_SIZE,
+            },
+            "pacing": {"delayMs": self.DELAY_MS, "delayAfterLimitMs": self.DELAY_AFTER_LIMIT_MS, "maxRetries": self.MAX_RETRIES},
+        }
