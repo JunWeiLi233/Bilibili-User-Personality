@@ -11,6 +11,51 @@ def _parse_number_or(value: Any, fallback: int) -> int:
     return parsed
 
 
+class UidParallelProgressReporter:
+    """Build a JS-compatible progress summary for one UID parallel worker."""
+
+    STAT_KEYS = ("success", "noText", "errors")
+
+    def __init__(self, *, worker_id: int = 0, total_workers: int = 4):
+        self.worker_id = int(worker_id)
+        self.total_workers = max(1, int(total_workers))
+
+    def build_report(self, all_comments: Any, progress_payload: Any, users: Any) -> dict[str, Any]:
+        progress = progress_payload if isinstance(progress_payload, dict) else {}
+        processed = progress.get("processed") if isinstance(progress.get("processed"), dict) else {}
+        stats = progress.get("stats") if isinstance(progress.get("stats"), dict) else {}
+        assigned_uids = self._assigned_uids(all_comments)
+        assigned_count = len(assigned_uids)
+        processed_count = len(processed)
+        assigned_set = set(assigned_uids)
+        user_map = users if isinstance(users, dict) else {}
+        return {
+            "ok": True,
+            "worker": {"id": self.worker_id, "totalWorkers": self.total_workers, "assigned": assigned_count},
+            "progress": {
+                "processed": processed_count,
+                "remaining": max(0, assigned_count - processed_count),
+                "completionRatio": round(processed_count / assigned_count, 4) if assigned_count else 0,
+            },
+            "stats": {key: _parse_number_or(stats.get(key), 0) for key in self.STAT_KEYS},
+            "statusCounts": self._status_counts(processed),
+            "userDb": {"users": len(user_map), "assignedUsersInDb": sum(1 for uid in user_map if uid in assigned_set)},
+            "lastUpdated": progress.get("lastUpdated") or None,
+        }
+
+    def _assigned_uids(self, all_comments: Any) -> list[str]:
+        if not isinstance(all_comments, dict):
+            return []
+        return [uid for index, uid in enumerate(all_comments.keys()) if index % self.total_workers == self.worker_id]
+
+    def _status_counts(self, processed: dict[str, Any]) -> dict[str, int]:
+        counts: dict[str, int] = {}
+        for status in processed.values():
+            key = str(status)
+            counts[key] = counts.get(key, 0) + 1
+        return counts
+
+
 class UidParallelAnalyzerPlanner:
     """Build a dry-run plan for uidParallelAnalyzer.js worker assignment."""
 

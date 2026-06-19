@@ -113,7 +113,7 @@ from python_backend.scrapers.batch_popular import BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner
 from python_backend.scrapers.batch_uid_scrape import BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner
-from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner
+from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelProgressReporter
 from python_backend.scrapers.uid_pipeline import UidPipelineMergeReporter, UidPipelineProgressReporter, UidPipelineWorkerPlanner
 from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanner
 
@@ -5604,6 +5604,32 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["stats"], {"success": 1, "noText": 1, "errors": 2})
         self.assertEqual(result["statusCounts"], {"success": 1, "no_text": 1})
         self.assertEqual(result["userDb"], {"users": 2, "assignedUsersInDb": 1})
+        self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
+
+    def test_uid_parallel_progress_reporter_summarizes_assigned_worker_payload(self):
+        reporter = UidParallelProgressReporter(worker_id=1, total_workers=2)
+
+        result = reporter.build_report(
+            all_comments={
+                "100": [{"message": "a"}],
+                "101": [{"message": "b"}],
+                "102": [],
+                "103": [{"message": "d"}],
+            },
+            progress_payload={
+                "processed": {"101": "success", "103": "no_text"},
+                "stats": {"success": "1", "noText": 1.0, "errors": "2"},
+                "lastUpdated": "2026-06-19T00:00:00.000Z",
+            },
+            users={"101": {}, "102": {}, "103": {}},
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["worker"], {"id": 1, "totalWorkers": 2, "assigned": 2})
+        self.assertEqual(result["progress"], {"processed": 2, "remaining": 0, "completionRatio": 1.0})
+        self.assertEqual(result["stats"], {"success": 1, "noText": 1, "errors": 2})
+        self.assertEqual(result["statusCounts"], {"success": 1, "no_text": 1})
+        self.assertEqual(result["userDb"], {"users": 3, "assignedUsersInDb": 2})
         self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
 
     def test_uid_parallel_progress_comparator_reports_summary_mismatches(self):

@@ -6,8 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-
-STAT_KEYS = ("success", "noText", "errors")
+from python_backend.scrapers.uid_parallel import UidParallelProgressReporter
 
 
 class UidParallelProgressRunner:
@@ -32,45 +31,10 @@ class UidParallelProgressRunner:
     def run(self) -> dict[str, Any]:
         all_comments = self._read_json(self.comments_path, {})
         progress = self._read_json(self.progress_path, {})
-        processed = progress.get("processed") if isinstance(progress.get("processed"), dict) else {}
-        stats = progress.get("stats") if isinstance(progress.get("stats"), dict) else {}
-        assigned_uids = self._assigned_uids(all_comments)
-        processed_count = len(processed)
-        assigned_count = len(assigned_uids)
-        return {
-            "ok": True,
-            "worker": {"id": self.worker_id, "totalWorkers": self.total_workers, "assigned": assigned_count},
-            "progress": {
-                "processed": processed_count,
-                "remaining": max(0, assigned_count - processed_count),
-                "completionRatio": round(processed_count / assigned_count, 4) if assigned_count else 0,
-            },
-            "stats": {key: int(stats.get(key) or 0) for key in STAT_KEYS},
-            "statusCounts": self._status_counts(processed),
-            "userDb": self._user_db_summary(assigned_uids),
-            "lastUpdated": progress.get("lastUpdated") or None,
-        }
-
-    def _assigned_uids(self, all_comments: Any) -> list[str]:
-        if not isinstance(all_comments, dict):
-            return []
-        return [uid for index, uid in enumerate(all_comments.keys()) if index % self.total_workers == self.worker_id]
-
-    def _status_counts(self, processed: dict[str, Any]) -> dict[str, int]:
-        counts: dict[str, int] = {}
-        for status in processed.values():
-            key = str(status)
-            counts[key] = counts.get(key, 0) + 1
-        return counts
-
-    def _user_db_summary(self, assigned_uids: list[str]) -> dict[str, int]:
         user_db = self._read_json(self.user_db_path, {})
         users = user_db.get("users") if isinstance(user_db.get("users"), dict) else {}
-        assigned_set = set(assigned_uids)
-        return {
-            "users": len(users),
-            "assignedUsersInDb": sum(1 for uid in users if uid in assigned_set),
-        }
+        reporter = UidParallelProgressReporter(worker_id=self.worker_id, total_workers=self.total_workers)
+        return reporter.build_report(all_comments, progress, users)
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
         if not path.exists():
