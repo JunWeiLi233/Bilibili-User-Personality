@@ -110,7 +110,7 @@ from python_backend.scrapers.tieba_keyword import TiebaKeywordScrapeOptionsPlann
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 from python_backend.scrapers.batch_bilibili import BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularScrapePlanner
-from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner, RangeScraperLauncherPlanner, UidRangeProgressReporter
+from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner, RangeScraperLauncherPlanner, UidRangeProgressReporter, UidRangeProgressSummary
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner, UidDiscoveryProgressReporter
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelProgressReporter
@@ -6906,6 +6906,28 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["phase2"], {"processed": 2, "success": 1, "errors": 1, "skipped": 1, "remaining": 0})
         self.assertEqual(result["comments"], {"totalForTargetUids": 3, "averagePerTargetUid": 1.5})
         self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
+
+    def test_uid_range_progress_summary_extracts_comparator_contract(self):
+        summary = UidRangeProgressSummary().summarize(
+            {
+                "ok": True,
+                "range": {"start": 200000, "end": 300000},
+                "discovery": {"videosScanned": 2},
+                "phase2": {"processed": 1},
+                "comments": {"totalForTargetUids": 3},
+                "lastUpdated": "2026-06-19T00:00:00.000Z",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "range": {"start": 200000, "end": 300000},
+                "discovery": {"videosScanned": 2},
+                "phase2": {"processed": 1},
+                "comments": {"totalForTargetUids": 3},
+            },
+        )
 
     def test_uid_range_progress_comparator_reports_summary_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:

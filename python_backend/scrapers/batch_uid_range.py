@@ -200,3 +200,13 @@ class UidRangeProgressReporter:
         except ValueError:
             return False
         return self.start <= value <= self.end
+
+
+class UidRangeProgressSummary:
+    """Shape UID range progress reports into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("range", "discovery", "phase2", "comments")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
