@@ -166,6 +166,24 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(loaded.manifest["shardMaxBytes"], 1024)
 
+    def test_writer_shards_include_js_metadata_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output = root / "out.json"
+            CorpusShardWriter(output, max_shard_bytes=200).write(
+                comments=[{"message": "metadata"}],
+                runs=[{"at": "now"}],
+                manifest={"version": 7, "updatedAt": "2026-06-19T00:00:00.000Z"},
+            )
+
+            comment_shard = json.loads((root / "out.comments" / "comments-0001.json").read_text(encoding="utf-8"))
+            run_shard = json.loads((root / "out.runs" / "runs-0001.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(comment_shard["version"], 7)
+        self.assertEqual(comment_shard["updatedAt"], "2026-06-19T00:00:00.000Z")
+        self.assertEqual(run_shard["version"], 7)
+        self.assertEqual(run_shard["updatedAt"], "2026-06-19T00:00:00.000Z")
+
     def test_writer_removes_stale_split_shards_after_smaller_rewrite(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

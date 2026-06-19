@@ -21,8 +21,8 @@ class CorpusShardWriter:
         manifest: dict[str, Any] | None = None,
     ) -> None:
         manifest = dict(manifest or {})
-        comment_files = self._write_shards(comments, "comments", self._comments_dir(), "comments")
-        run_files = self._write_shards(runs, "runs", self._runs_dir(), "runs")
+        comment_files = self._write_shards(comments, "comments", self._comments_dir(), "comments", manifest)
+        run_files = self._write_shards(runs, "runs", self._runs_dir(), "runs", manifest)
         payload = {
             **manifest,
             "version": manifest.get("version", 1),
@@ -43,7 +43,14 @@ class CorpusShardWriter:
     def _runs_dir(self) -> Path:
         return self.path.with_suffix("").parent / f"{self.path.with_suffix('').name}.runs"
 
-    def _write_shards(self, values: list[dict[str, Any]], file_stem: str, directory: Path, key: str) -> list[str]:
+    def _write_shards(
+        self,
+        values: list[dict[str, Any]],
+        file_stem: str,
+        directory: Path,
+        key: str,
+        manifest: dict[str, Any],
+    ) -> list[str]:
         directory.mkdir(parents=True, exist_ok=True)
         shards = self._split_values(values, key)
         files: list[str] = []
@@ -53,7 +60,8 @@ class CorpusShardWriter:
             self._write_json(
                 shard_path,
                 {
-                    "version": 1,
+                    "version": manifest.get("version", 1),
+                    "updatedAt": manifest.get("updatedAt") or None,
                     "shard": index,
                     "shardCount": len(shards),
                     key: shard_values,
