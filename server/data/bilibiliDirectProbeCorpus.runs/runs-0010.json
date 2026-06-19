@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T00:19:52.581Z",
+  "updatedAt": "2026-06-19T00:27:39.152Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -177,6 +177,64 @@
       "warnings": [],
       "commentsCollected": 101,
       "commentsAdded": 88
+    },
+    {
+      "at": "2026-06-19T00:27:39.152Z",
+      "actions": [
+        {
+          "term": "这还用说",
+          "query": "这还用说 回复"
+        },
+        {
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1vxGx6eEZ1",
+          "term": "这还用说",
+          "query": "这还用说 回复",
+          "bvid": "BV1vxGx6eEZ1",
+          "aid": 116634098337959,
+          "title": "都叫麻麻了那<em class=\"keyword\">还说</em>啥了，给你用"
+        },
+        {
+          "key": "bvid:BV1vBLj6LEEu",
+          "term": "8打5的雷霆",
+          "query": "8打5的雷霆 直播切片",
+          "bvid": "BV1vBLj6LEEu",
+          "aid": 116587944221974,
+          "title": "25-26季后赛次轮G5 湖人VS<em class=\"keyword\">雷霆</em> SGA内外兼修 詹姆斯仍能打出高水平比赛！"
+        },
+        {
+          "key": "bvid:BV1z3411y7uX",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1z3411y7uX",
+          "aid": 420793894,
+          "title": "<em class=\"keyword\">哔哩哔哩</em>最新获取全弹幕方式（全教程）"
+        },
+        {
+          "key": "bvid:BV1pFaRz9EDx",
+          "term": "茶庄10个有9个洗钱的",
+          "query": "茶庄10个有9个洗钱的 回复区",
+          "bvid": "BV1pFaRz9EDx",
+          "aid": 115166880535952,
+          "title": "天喔<em class=\"keyword\">茶庄</em> 蜂蜜柚子茶 凉茶0脂肪果味饮料小包便携饮品250ml_16整箱装"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 40,
+      "commentsAdded": 19
     }
   ]
 }
