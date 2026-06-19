@@ -36,6 +36,7 @@
     "python:discovery-report": "python -m python_backend.cli.discovery_report",
     "python:harvest-options": "python -m python_backend.cli.harvest_options",
     "python:harvest-plan": "python -m python_backend.cli.harvest_plan",
+    "python:harvest-state": "python -m python_backend.cli.harvest_state",
     "python:near-target-plan": "python -m python_backend.cli.near_target_resolve_plan",
     "python:merge-agent-plan": "python -m python_backend.cli.merge_agent_dictionaries_plan",
     "python:file-lock-state": "python -m python_backend.cli.file_lock_state",

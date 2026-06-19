@@ -10,6 +10,7 @@ from python_backend.analysis.coverage_progress import CoverageProgressTracker
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReporter
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder
+from python_backend.analysis.harvest_state import HarvestTermAttemptUpdater
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherHelper
 from python_backend.analysis.verification import RandomVerifier
@@ -29,6 +30,7 @@ from python_backend.cli.discovery_report import VideoKeywordDiscoveryReportContr
 from python_backend.cli.dictionary_prune_summary import DictionaryPruneSummaryContractComparator, DictionaryPruneSummaryRunner
 from python_backend.cli.harvest_options import HarvestOptionsContractComparator, HarvestOptionsRunner
 from python_backend.cli.harvest_plan import KeywordHarvestPlanContractComparator, KeywordHarvestPlanRunner
+from python_backend.cli.harvest_state import HarvestStateContractComparator, HarvestStateRunner
 from python_backend.cli.readme_stats import ReadmeStatsContractComparator, ReadmeStatsRunner
 from python_backend.cli.semantic_matcher import SemanticMatcherContractComparator, SemanticMatcherRunner
 from python_backend.cli.compare_contracts import ContractComparator
@@ -7170,6 +7172,99 @@ class CorpusContractTests(unittest.TestCase):
                 },
             ],
         )
+
+    def test_harvest_term_attempt_updater_matches_js_attempt_state_contract(self):
+        updater = HarvestTermAttemptUpdater(strategy_version=5)
+        term_attempts = {
+            "\u67e5\u67e5\u8d44\u6599": {
+                "term": "\u67e5\u67e5\u8d44\u6599",
+                "family": "evidence",
+                "attempts": 2,
+                "successfulAttempts": 0,
+                "lastEvidenceCount": 1,
+                "queries": [{"query": "\u8001\u67e5\u8be2"}],
+            }
+        }
+
+        updated = updater.update_term_attempt(
+            term_attempts,
+            {
+                "term": "\u67e5\u67e5\u8d44\u6599",
+                "family": "evidence",
+                "query": "\u67e5\u67e5\u8d44\u6599 \u8bc4\u8bba\u533a",
+                "variantIndex": 1,
+                "evidenceCount": 1,
+            },
+            {
+                "ok": True,
+                "videos": [{"bvid": "BV1111111111"}],
+                "comments": [{"message": "\u6709\u4eba\u8d34\u4e86\u6765\u6e90"}],
+                "entries": [],
+                "keywordTraining": {"dictionaryEvidenceEntries": []},
+                "dictionary": {"entries": [{"term": "\u67e5\u67e5\u8d44\u6599", "family": "evidence", "evidenceCount": 2}]},
+                "collectionDiagnostics": {"acceptedTerms": ["\u67e5\u67e5\u8d44\u6599"]},
+            },
+            finished_at="2026-06-19T00:00:00.000Z",
+        )
+
+        key = "5p-l5p-l6LWE5paZ"
+        attempt = updated[key]
+        self.assertIn("\u67e5\u67e5\u8d44\u6599", updated)
+        self.assertEqual(attempt["key"], key)
+        self.assertEqual(attempt["term"], "\u67e5\u67e5\u8d44\u6599")
+        self.assertEqual(attempt["family"], "evidence")
+        self.assertEqual(attempt["evidenceAtPlanTime"], 1)
+        self.assertEqual(attempt["lastVariantIndex"], 1)
+        self.assertEqual(attempt["attempts"], 3)
+        self.assertEqual(attempt["successfulAttempts"], 1)
+        self.assertEqual(attempt["lastAttemptAt"], "2026-06-19T00:00:00.000Z")
+        self.assertEqual(attempt["lastSuccessfulAt"], "2026-06-19T00:00:00.000Z")
+        self.assertEqual(attempt["lastQuery"], "\u67e5\u67e5\u8d44\u6599 \u8bc4\u8bba\u533a")
+        self.assertEqual(attempt["lastError"], "")
+        self.assertEqual(attempt["lastEvidenceCount"], 2)
+        self.assertEqual(attempt["queries"][-1]["strategyVersion"], 5)
+        self.assertTrue(attempt["queries"][-1]["ok"])
+        self.assertTrue(attempt["queries"][-1]["hit"])
+        self.assertEqual(attempt["queries"][-1]["videos"], 1)
+        self.assertEqual(attempt["queries"][-1]["comments"], 1)
+
+    def test_harvest_state_runner_and_comparator_use_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "harvest-state.json"
+            js_state_path = root / "js-state.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "strategyVersion": 5,
+                        "finishedAt": "2026-06-19T00:00:00.000Z",
+                        "termAttempts": {},
+                        "planItem": {
+                            "term": "\u672a\u547d\u4e2d",
+                            "family": "attack",
+                            "query": "\u672a\u547d\u4e2d \u8bc4\u8bba\u533a",
+                            "variantIndex": 0,
+                            "evidenceCount": 0,
+                        },
+                        "result": {"ok": False, "error": "timeout", "videos": [], "comments": []},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_state_path.write_text(json.dumps({"termAttempts": {"wrong": {"term": "wrong", "attempts": 9}}}), encoding="utf-8")
+
+            result = HarvestStateRunner(payload_path).run()
+            comparison = HarvestStateContractComparator(payload_path, js_state_path).compare()
+
+        key = "5pyq5ZG95Lit"
+        attempt = result["termAttempts"][key]
+        self.assertTrue(result["ok"])
+        self.assertEqual(attempt["attempts"], 1)
+        self.assertEqual(attempt["successfulAttempts"], 0)
+        self.assertEqual(attempt["lastError"], "timeout")
+        self.assertEqual(attempt["queries"][0]["error"], "timeout")
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(comparison["mismatches"][0]["key"], "termAttempts")
 
     def test_keyword_harvest_plan_builder_expands_repeated_misses_to_untried_variants(self):
         plan = KeywordHarvestPlanBuilder().build_query_plan(
