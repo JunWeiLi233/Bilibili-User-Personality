@@ -46,6 +46,7 @@ from python_backend.cli.tieba_corpus import TiebaCorpusUpdateContractComparator,
 from python_backend.cli.tieba_html_parse import TiebaHtmlParseContractComparator, TiebaHtmlParseRunner
 from python_backend.cli.tieba_timing import TiebaTimingContractComparator, TiebaTimingRunner
 from python_backend.cli.uid_range_progress import UidRangeProgressContractComparator, UidRangeProgressRunner
+from python_backend.cli.uid_pipeline_progress import UidPipelineProgressContractComparator, UidPipelineProgressRunner
 from python_backend.cli.uid_pipeline_merge import UidPipelineMergeContractComparator, UidPipelineMergeRunner
 from python_backend.cli.uid_pipeline_launcher import UidPipelineLauncherContractComparator, UidPipelineLauncherPlanRunner
 from python_backend.cli.batch_scraper_launcher import BatchScraperLauncherContractComparator, BatchScraperLauncherPlanRunner
@@ -4269,6 +4270,73 @@ class CorpusContractTests(unittest.TestCase):
                     "python": [{"start": 1, "end": 2, "progressFile": "uid-pipeline-1-2.json"}],
                     "js": [{"start": 1, "end": 2, "progressFile": "stale.json"}],
                 }
+            ],
+        )
+
+    def test_uid_pipeline_progress_runner_summarizes_worker_progress_and_user_db(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            progress_path = data_dir / "uid-pipeline-10-15.json"
+            progress_path.write_text(
+                json.dumps(
+                    {
+                        "processed": {
+                            "10": "success",
+                            "11": "no_comments",
+                            "12": "no_videos",
+                            "13": "no_user",
+                            "14": "train_error",
+                            "15": "blocked",
+                        },
+                        "stats": {"success": 1, "noComments": 1, "noVideos": 1, "noUser": 1, "trainError": 1, "blocked": 1, "errors": 2},
+                        "lastUpdated": "2026-06-19T00:00:00.000Z",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (data_dir / "scraped-users-db.json").write_text(
+                json.dumps({"users": {"10": {"uid": "10", "commentCount": 3}, "99": {"uid": "99", "commentCount": 1}}}),
+                encoding="utf-8",
+            )
+
+            result = UidPipelineProgressRunner(progress_path, start=10, end=15, user_db_path=data_dir / "scraped-users-db.json").run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"start": 10, "end": 15, "total": 6})
+        self.assertEqual(result["progress"], {"processed": 6, "remaining": 0, "completionRatio": 1.0})
+        self.assertEqual(
+            result["stats"],
+            {"success": 1, "noComments": 1, "noVideos": 1, "noUser": 1, "trainError": 1, "blocked": 1, "errors": 2},
+        )
+        self.assertEqual(result["statusCounts"], {"success": 1, "no_comments": 1, "no_videos": 1, "no_user": 1, "train_error": 1, "blocked": 1})
+        self.assertEqual(result["userDb"], {"users": 2, "usersInRange": 1})
+        self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
+
+    def test_uid_pipeline_progress_comparator_reports_summary_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            progress_path = root / "uid-pipeline-1-2.json"
+            js_report_path = root / "js-pipeline-progress.json"
+            progress_path.write_text(
+                json.dumps({"processed": {"1": "success"}, "stats": {"success": 1}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"progress": {"processed": 0}, "stats": {"success": 0}}), encoding="utf-8")
+
+            result = UidPipelineProgressContractComparator(progress_path, js_report_path, start=1, end=2).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "progress", "python": {"processed": 1, "remaining": 1, "completionRatio": 0.5}, "js": {"processed": 0}},
+                {
+                    "key": "stats",
+                    "python": {"success": 1, "noComments": 0, "noVideos": 0, "noUser": 0, "trainError": 0, "blocked": 0, "errors": 0},
+                    "js": {"success": 0},
+                },
             ],
         )
 
