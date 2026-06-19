@@ -3,11 +3,19 @@ from __future__ import annotations
 import html
 import re
 from datetime import datetime, timezone
+from urllib.parse import urlencode, urlparse
 from typing import Any
 
 
 def _clean_text(value: Any) -> str:
     return re.sub(r"\s+", " ", str(value or "")).strip()
+
+
+def _number(value: Any) -> float:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return 0.0
 
 
 def _has_han(value: Any) -> bool:
@@ -123,6 +131,238 @@ def _existing_samples(entry: dict[str, Any]) -> set[str]:
 
 class DirectProbeCorpusBuilder:
     """Pure Python contract helpers for Bilibili direct evidence probe data."""
+
+    GENERIC_QUERY_TOKENS = {
+        "attack",
+        "b站",
+        "bilibili",
+        "评论",
+        "评论区",
+        "评论回复",
+        "回复",
+        "回复区",
+        "热评",
+        "弹幕",
+        "梗",
+        "节奏",
+        "b站评论",
+    }
+
+    def bounded_probe_videos_per_query(self, value: Any, fallback: int = 5) -> int:
+        return self._bounded_int(value, fallback, 0, 20)
+
+    def bounded_reply_cursor_skip_pages(self, value: Any, fallback: int = 0) -> int:
+        return self._bounded_int(value, fallback, 0, 20)
+
+    def probe_search_needles(self, action: dict[str, Any] | None = None) -> list[str]:
+        action = action if isinstance(action, dict) else {}
+        term = _clean_text(action.get("term"))
+        query = _clean_text(action.get("query"))
+        candidates = [term, *re.split(r"[\s,，、;；]+", query)]
+        seen: set[str] = set()
+        needles: list[str] = []
+        for candidate in candidates:
+            token = _clean_text(re.sub(r"^[\"'!?！？。；，,、()[\]【】]+|[\"'!?！？。；，,、()[\]【】]+$", "", candidate))
+            if len(token) < 2 or token.lower() in self.GENERIC_QUERY_TOKENS or token in seen:
+                continue
+            seen.add(token)
+            needles.append(token)
+        return needles
+
+    def score_probe_video_for_action(self, video: dict[str, Any] | None = None, action: dict[str, Any] | None = None) -> int:
+        video = video if isinstance(video, dict) else {}
+        action = action if isinstance(action, dict) else {}
+        title = self._normalize_probe_text(video.get("title") or video.get("name") or video.get("description"))
+        if not title:
+            return 0
+        score = 0
+        term = self._normalize_probe_text(action.get("term"))
+        if term and term in title:
+            score += 100
+        for needle in self.probe_search_needles(action):
+            normalized = self._normalize_probe_text(needle)
+            if not normalized or normalized == term:
+                continue
+            if normalized in title:
+                score += 20 if len(normalized) >= 4 else 8
+        return score
+
+    def rank_probe_videos_for_action(self, videos: list[dict[str, Any]] | None, action: dict[str, Any] | None = None) -> list[dict[str, Any]]:
+        scored = [
+            (self.score_probe_video_for_action(video, action), index, video)
+            for index, video in enumerate(videos if isinstance(videos, list) else [])
+            if isinstance(video, dict)
+        ]
+        return [item[2] for item in sorted(scored, key=lambda item: (-item[0], item[1]))]
+
+    def probe_video_key(self, video: dict[str, Any] | None = None) -> str:
+        video = video if isinstance(video, dict) else {}
+        bvid = _clean_text(video.get("bvid")).rstrip("/")
+        if bvid:
+            return f"bvid:{bvid}"
+        aid = re.sub(r"^av", "", _clean_text(video.get("aid")).rstrip("/"), flags=re.IGNORECASE)
+        if aid:
+            return f"aid:{aid}"
+        return ""
+
+    def extract_bilibili_video_refs(self, text: Any = "") -> list[dict[str, str]]:
+        refs: list[dict[str, str]] = []
+        seen: set[str] = set()
+        source = str(text or "")
+        pattern = re.compile(r"(?:https?://)?(?:www\.)?bilibili\.com/video/((?:BV[0-9A-Za-z]+)|(?:av\d+))")
+        for match in pattern.finditer(source):
+            video_id = match.group(1)
+            ref: dict[str, str] = {"bvid": video_id} if video_id.startswith("BV") else {"aid": video_id[2:]}
+            tail = source[match.start() : match.end() + 200]
+            reply_match = re.search(r"[?&]reply=(\d+)", tail)
+            if reply_match:
+                ref["rootRpid"] = reply_match.group(1)
+            key = f"bvid:{ref['bvid']}" if "bvid" in ref else f"aid:{ref['aid']}"
+            if key in seen:
+                continue
+            seen.add(key)
+            refs.append(ref)
+        return refs
+
+    def collect_scanned_probe_video_keys(self, corpus: dict[str, Any] | None = None) -> list[str]:
+        corpus = corpus if isinstance(corpus, dict) else {}
+        keys: set[str] = set()
+        for run in corpus.get("runs") if isinstance(corpus.get("runs"), list) else []:
+            if not isinstance(run, dict):
+                continue
+            for video in run.get("videos") if isinstance(run.get("videos"), list) else []:
+                if not isinstance(video, dict):
+                    continue
+                key = _clean_text(video.get("key")) or self.probe_video_key(video)
+                if key:
+                    keys.add(key)
+        for comment in corpus.get("comments") if isinstance(corpus.get("comments"), list) else []:
+            if not isinstance(comment, dict):
+                continue
+            for ref in self.extract_bilibili_video_refs(comment.get("source")):
+                key = self.probe_video_key(ref)
+                if key:
+                    keys.add(key)
+        return sorted(keys)
+
+    def filter_unscanned_probe_videos(self, videos: list[dict[str, Any]] | None = None, scanned_keys: set[str] | list[str] | None = None) -> list[dict[str, Any]]:
+        scanned = set(scanned_keys or [])
+        seen: set[str] = set()
+        result: list[dict[str, Any]] = []
+        for video in videos if isinstance(videos, list) else []:
+            if not isinstance(video, dict):
+                continue
+            key = self.probe_video_key(video)
+            if not key or key in seen or key in scanned:
+                continue
+            seen.add(key)
+            result.append(video)
+        return result
+
+    def build_bilibili_view_url(self, video: dict[str, Any] | None = None) -> str | None:
+        video = video if isinstance(video, dict) else {}
+        params: dict[str, str] = {}
+        if video.get("bvid"):
+            params["bvid"] = _clean_text(video.get("bvid"))
+        elif video.get("aid"):
+            params["aid"] = _clean_text(video.get("aid"))
+        else:
+            return None
+        return f"https://api.bilibili.com/x/web-interface/view?{urlencode(params)}"
+
+    def build_bilibili_reply_url(self, video: dict[str, Any] | None = None, page: Any = 0, page_size: Any = 20) -> str | None:
+        video = video if isinstance(video, dict) else {}
+        if not video.get("aid"):
+            return None
+        params = {
+            "type": "1",
+            "oid": _clean_text(video.get("aid")),
+            "mode": "3",
+            "next": str(max(0, int(_number(page)))),
+            "ps": str(max(1, min(int(_number(page_size) or 20), 50))),
+        }
+        return f"https://api.bilibili.com/x/v2/reply/main?{urlencode(params)}"
+
+    def build_bilibili_reply_page_url(self, video: dict[str, Any] | None = None, page: Any = 1, page_size: Any = 20) -> str | None:
+        video = video if isinstance(video, dict) else {}
+        if not video.get("aid"):
+            return None
+        params = {
+            "type": "1",
+            "oid": _clean_text(video.get("aid")),
+            "sort": "2",
+            "pn": str(max(1, int(_number(page) or 1))),
+            "ps": str(max(1, min(int(_number(page_size) or 20), 50))),
+        }
+        return f"https://api.bilibili.com/x/v2/reply?{urlencode(params)}"
+
+    def build_bilibili_reply_thread_url(self, video: dict[str, Any] | None = None, root_rpid: Any = None, page: Any = 1, page_size: Any = 20) -> str | None:
+        video = video if isinstance(video, dict) else {}
+        root = root_rpid if root_rpid is not None else video.get("rootRpid")
+        if not video.get("aid") or not root:
+            return None
+        params = {
+            "type": "1",
+            "oid": _clean_text(video.get("aid")),
+            "root": _clean_text(root),
+            "pn": str(max(1, int(_number(page) or 1))),
+            "ps": str(max(1, min(int(_number(page_size) or 20), 50))),
+        }
+        return f"https://api.bilibili.com/x/v2/reply/reply?{urlencode(params)}"
+
+    def next_reply_cursor(self, payload: dict[str, Any] | None = None, fallback: Any = 0) -> int | None:
+        payload = payload if isinstance(payload, dict) else {}
+        data = payload.get("data") if isinstance(payload.get("data"), dict) else {}
+        cursor = data.get("cursor") if isinstance(data.get("cursor"), dict) else {}
+        if cursor.get("is_end") is True or cursor.get("is_end") == 1:
+            return None
+        next_value = _number(cursor.get("next"))
+        if next_value > 0:
+            return int(next_value)
+        return max(0, int(_number(fallback))) + 1
+
+    def build_bilibili_search_urls(self, query: Any, options: dict[str, Any] | None = None) -> list[str]:
+        options = options if isinstance(options, dict) else {}
+        pages = max(1, min(int(_number(options.get("pages")) or 1), 10))
+        page_size = max(1, min(int(_number(options.get("pageSize")) or 20), 20))
+        urls = []
+        for index in range(pages):
+            params = {
+                "search_type": "video",
+                "keyword": _clean_text(query),
+                "page": str(index + 1),
+                "page_size": str(page_size),
+            }
+            urls.append(f"https://api.bilibili.com/x/web-interface/search/type?{urlencode(params)}")
+        return urls
+
+    def build_bilibili_web_headers(self, referer: Any, options: dict[str, Any] | None = None) -> dict[str, str]:
+        options = options if isinstance(options, dict) else {}
+        referer_text = _clean_text(referer)
+        user_agent = options.get("userAgent") or (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+            "(KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
+        )
+        parsed = urlparse(referer_text)
+        origin = f"{parsed.scheme}://{parsed.netloc}" if parsed.scheme and parsed.netloc else "https://www.bilibili.com"
+        headers = {
+            "user-agent": user_agent,
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
+            "cache-control": "no-cache",
+            "pragma": "no-cache",
+            "referer": referer_text,
+            "origin": origin,
+            "sec-ch-ua": '"Chromium";v="125", "Google Chrome";v="125", "Not.A/Brand";v="99"',
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": '"Windows"',
+            "sec-fetch-mode": "cors",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-site": "same-site",
+        }
+        if options.get("cookie"):
+            headers["cookie"] = _clean_text(options.get("cookie"))
+        return headers
 
     def collect_reply_messages(self, replies: list[Any] | None, video: dict[str, Any] | None = None, bucket: list[dict[str, str]] | None = None) -> list[dict[str, str]]:
         video = video or {}
@@ -244,3 +484,15 @@ class DirectProbeCorpusBuilder:
         if aid:
             return f"{prefix}: https://www.bilibili.com/video/av{aid}/"
         return prefix
+
+    def _bounded_int(self, value: Any, fallback: int, minimum: int, maximum: int) -> int:
+        try:
+            number = int(float(value))
+        except (TypeError, ValueError):
+            number = fallback
+        return max(minimum, min(number, maximum))
+
+    def _normalize_probe_text(self, value: Any) -> str:
+        text = re.sub(r"<[^>]+>", "", _clean_text(value))
+        text = re.sub(r"&[^;\s]+;", " ", text)
+        return text.lower()

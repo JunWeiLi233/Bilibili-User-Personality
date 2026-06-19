@@ -46,6 +46,7 @@
     "python:video-comment-filter": "python -m python_backend.cli.video_comment_filter",
     "python:tieba-update": "python -m python_backend.cli.tieba_corpus",
     "python:direct-probe-update": "python -m python_backend.cli.direct_probe_corpus",
+    "python:direct-probe-plan": "python -m python_backend.cli.direct_probe_plan",
     "dev:full": "node server/index.js",
     "test": "node --test",
     "build": "vite build",

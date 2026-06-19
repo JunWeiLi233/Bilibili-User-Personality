@@ -30,6 +30,7 @@ from python_backend.cli.local_corpus_evidence import LocalCorpusEvidenceRunner
 from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenRunner
 from python_backend.cli.video_comment_filter import VideoCommentFilterRunner
 from python_backend.cli.direct_probe_corpus import DirectProbeCorpusRunner
+from python_backend.cli.direct_probe_plan import DirectProbePlanRunner
 from python_backend.cli.random_verification import RandomVerificationRunner, json_result_bytes
 from python_backend.cli.tieba_corpus import TiebaCorpusUpdateRunner
 from python_backend.cli.tieba_html_parse import TiebaHtmlParseRunner
@@ -963,6 +964,71 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["corpus"]["comments"][0]["message"], "\u65b0\u8bc4\u8bba")
         self.assertEqual(result["corpus"]["runs"][0]["commentsAdded"], 1)
+
+    def test_direct_probe_builder_plans_search_and_video_rescans(self):
+        builder = DirectProbeCorpusBuilder()
+
+        self.assertEqual(builder.bounded_probe_videos_per_query("0", 5), 0)
+        self.assertEqual(builder.bounded_probe_videos_per_query("25", 5), 20)
+        self.assertEqual(builder.bounded_probe_videos_per_query("bad", 5), 5)
+        self.assertEqual(builder.bounded_reply_cursor_skip_pages("200", 3), 20)
+        self.assertEqual(builder.probe_search_needles({"term": "\u8d85\u7edd\u65e0\u8bed", "query": "\u8d85\u7edd\u65e0\u8bed \u8bc4\u8bba\u56de\u590d"}), ["\u8d85\u7edd\u65e0\u8bed"])
+        self.assertEqual(
+            [video["bvid"] for video in builder.rank_probe_videos_for_action(
+                [
+                    {"bvid": "BVnoise", "title": "\u70ed\u95e8\u56de\u590d\u5408\u96c6"},
+                    {"bvid": "BVexact", "title": "\u8d85\u7edd\u65e0\u8bed\u7684\u4e00\u96c6"},
+                    {"bvid": "BVother", "title": "\u666e\u901a\u8bc4\u8bba\u533a\u53cd\u5e94"},
+                ],
+                {"term": "\u8d85\u7edd\u65e0\u8bed", "query": "\u8d85\u7edd\u65e0\u8bed \u8bc4\u8bba\u56de\u590d"},
+            )],
+            ["BVexact", "BVnoise", "BVother"],
+        )
+        self.assertEqual(
+            builder.extract_bilibili_video_refs(
+                "https://www.bilibili.com/video/BV1abc/ and http://www.bilibili.com/video/av123 plus https://www.bilibili.com/video/BV1abc/"
+            ),
+            [{"bvid": "BV1abc"}, {"aid": "123"}],
+        )
+        self.assertEqual(
+            builder.extract_bilibili_video_refs(
+                "Bilibili public reply detail probe: https://www.bilibili.com/video/av116663559131570/?reply=301234384593"
+            ),
+            [{"aid": "116663559131570", "rootRpid": "301234384593"}],
+        )
+        self.assertEqual(builder.probe_video_key({"bvid": "BVsource1/"}), "bvid:BVsource1")
+        self.assertEqual(builder.probe_video_key({"aid": "av456"}), "aid:456")
+        self.assertEqual(builder.collect_scanned_probe_video_keys({"runs": [{"videos": [{"bvid": "BVrun"}, {"key": "aid:123"}]}]}), ["aid:123", "bvid:BVrun"])
+        self.assertEqual(
+            builder.filter_unscanned_probe_videos([{"bvid": "BVold"}, {"bvid": "BVfresh"}, {"bvid": "BVfresh"}, {"aid": "321"}], {"bvid:BVold"}),
+            [{"bvid": "BVfresh"}, {"aid": "321"}],
+        )
+
+    def test_direct_probe_plan_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "probe-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "action": {"term": "\u67e5\u67e5\u8d44\u6599", "query": "\u67e5\u67e5\u8d44\u6599 B\u7ad9\u8bc4\u8bba"},
+                        "videos": [{"bvid": "BVnoise", "title": "\u70ed\u95e8\u56de\u590d"}, {"bvid": "BVexact", "title": "\u67e5\u67e5\u8d44\u6599\u5408\u96c6"}],
+                        "source": "https://www.bilibili.com/video/av116663559131570/?reply=301234384593",
+                        "cursorPayload": {"data": {"cursor": {"is_end": False, "next": 0}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = DirectProbePlanRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["needles"], ["\u67e5\u67e5\u8d44\u6599"])
+        self.assertEqual([video["bvid"] for video in result["rankedVideos"]], ["BVexact", "BVnoise"])
+        self.assertEqual(result["sourceRefs"], [{"aid": "116663559131570", "rootRpid": "301234384593"}])
+        self.assertEqual(result["nextReplyCursor"], 1)
+        self.assertEqual(result["viewUrl"], "https://api.bilibili.com/x/web-interface/view?aid=116663559131570")
+        self.assertIn("keyword=%E6%9F%A5%E6%9F%A5%E8%B5%84%E6%96%99+B%E7%AB%99%E8%AF%84%E8%AE%BA", result["searchUrls"][0])
 
     def test_history_tag_corpus_manager_merges_and_searches_videos(self):
         manager = HistoryTagCorpusManager(generated_at="2026-06-19T00:00:00.000Z")
