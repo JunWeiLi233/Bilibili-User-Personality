@@ -1,6 +1,16 @@
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
+
+
+RANGE_LAUNCHER_RANGES = (
+    {"start": 1, "end": 20000, "progressFile": "uid-range-progress-1-20000.json"},
+    {"start": 20001, "end": 40000, "progressFile": "uid-range-progress-20001-40000.json"},
+    {"start": 40001, "end": 60000, "progressFile": "uid-range-progress-40001-60000.json"},
+    {"start": 60001, "end": 80000, "progressFile": "uid-range-progress-60001-80000.json"},
+    {"start": 80001, "end": 100000, "progressFile": "uid-range-progress-80001-100000.json"},
+)
 
 
 def _js_number_or(value: Any, fallback: int) -> int:
@@ -94,6 +104,53 @@ class BatchUidRangePlanner:
         except (TypeError, ValueError):
             return False
         return start <= value <= end
+
+
+class RangeScraperLauncherPlanner:
+    """Build a dry-run launch plan compatible with launchRangeScrapers.ps1."""
+
+    def build_plan(
+        self,
+        *,
+        data_dir: str | Path,
+        script: str = "server/scripts/uidRangeScrape.js",
+        launch_delay_seconds: int = 3,
+    ) -> dict[str, Any]:
+        data_dir = Path(data_dir)
+        launch_delay_seconds = int(launch_delay_seconds)
+        workers = []
+        for item in RANGE_LAUNCHER_RANGES:
+            start = int(item["start"])
+            end = int(item["end"])
+            progress_file = str(item["progressFile"])
+            log_name = f"uid-range-{start}-{end}.log"
+            workers.append(
+                {
+                    "start": start,
+                    "end": end,
+                    "progressFile": progress_file,
+                    "logFile": f"scraper-logs/{log_name}",
+                    "stderrFile": f"scraper-logs/{log_name.replace('.log', '-stderr.log')}",
+                    "args": [f"--start={start}", f"--end={end}", f"--progress={progress_file}"],
+                }
+            )
+
+        total_start = workers[0]["start"] if workers else 0
+        total_end = workers[-1]["end"] if workers else 0
+        total_uids = sum(worker["end"] - worker["start"] + 1 for worker in workers)
+        return {
+            "ok": True,
+            "script": script,
+            "logDir": str(data_dir / "scraper-logs"),
+            "workers": workers,
+            "summary": {
+                "workers": len(workers),
+                "totalStart": total_start,
+                "totalEnd": total_end,
+                "totalUids": total_uids,
+                "launchDelaySeconds": launch_delay_seconds,
+            },
+        }
 
 
 class UidRangeProgressReporter:

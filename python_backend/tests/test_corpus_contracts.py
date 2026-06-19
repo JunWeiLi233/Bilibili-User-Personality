@@ -110,7 +110,7 @@ from python_backend.scrapers.tieba_keyword import TiebaKeywordScrapeOptionsPlann
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 from python_backend.scrapers.batch_bilibili import BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularScrapePlanner
-from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner, UidRangeProgressReporter
+from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner, RangeScraperLauncherPlanner, UidRangeProgressReporter
 from python_backend.scrapers.batch_uid_scrape import BatchUidProgressReporter, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner, UidDiscoveryProgressReporter
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelProgressReporter
@@ -5838,6 +5838,26 @@ class CorpusContractTests(unittest.TestCase):
                 }
             ],
         )
+
+    def test_range_scraper_launcher_planner_builds_powershell_contract_without_filesystem(self):
+        result = RangeScraperLauncherPlanner().build_plan(data_dir="server/data")
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["script"], "server/scripts/uidRangeScrape.js")
+        self.assertEqual(result["logDir"], str(Path("server/data") / "scraper-logs"))
+        self.assertEqual(result["summary"], {"workers": 5, "totalStart": 1, "totalEnd": 100000, "totalUids": 100000, "launchDelaySeconds": 3})
+        self.assertEqual(
+            result["workers"][0],
+            {
+                "start": 1,
+                "end": 20000,
+                "progressFile": "uid-range-progress-1-20000.json",
+                "logFile": "scraper-logs/uid-range-1-20000.log",
+                "stderrFile": "scraper-logs/uid-range-1-20000-stderr.log",
+                "args": ["--start=1", "--end=20000", "--progress=uid-range-progress-1-20000.json"],
+            },
+        )
+        self.assertEqual(result["workers"][-1]["stderrFile"], "scraper-logs/uid-range-80001-100000-stderr.log")
 
     def test_range_scraper_launcher_plan_runner_matches_powershell_contract(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -6,14 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-
-DEFAULT_RANGES = (
-    {"start": 1, "end": 20000, "progressFile": "uid-range-progress-1-20000.json"},
-    {"start": 20001, "end": 40000, "progressFile": "uid-range-progress-20001-40000.json"},
-    {"start": 40001, "end": 60000, "progressFile": "uid-range-progress-40001-60000.json"},
-    {"start": 60001, "end": 80000, "progressFile": "uid-range-progress-60001-80000.json"},
-    {"start": 80001, "end": 100000, "progressFile": "uid-range-progress-80001-100000.json"},
-)
+from python_backend.scrapers.batch_uid_range import RangeScraperLauncherPlanner
 
 
 class RangeScraperLauncherPlanRunner:
@@ -31,39 +24,7 @@ class RangeScraperLauncherPlanRunner:
         self.launch_delay_seconds = int(launch_delay_seconds)
 
     def run(self) -> dict[str, Any]:
-        workers = []
-        for item in DEFAULT_RANGES:
-            start = item["start"]
-            end = item["end"]
-            progress_file = item["progressFile"]
-            log_name = f"uid-range-{start}-{end}.log"
-            workers.append(
-                {
-                    "start": start,
-                    "end": end,
-                    "progressFile": progress_file,
-                    "logFile": f"scraper-logs/{log_name}",
-                    "stderrFile": f"scraper-logs/{log_name.replace('.log', '-stderr.log')}",
-                    "args": [f"--start={start}", f"--end={end}", f"--progress={progress_file}"],
-                }
-            )
-
-        total_start = workers[0]["start"] if workers else 0
-        total_end = workers[-1]["end"] if workers else 0
-        total_uids = sum(worker["end"] - worker["start"] + 1 for worker in workers)
-        return {
-            "ok": True,
-            "script": self.script,
-            "logDir": str(self.data_dir / "scraper-logs"),
-            "workers": workers,
-            "summary": {
-                "workers": len(workers),
-                "totalStart": total_start,
-                "totalEnd": total_end,
-                "totalUids": total_uids,
-                "launchDelaySeconds": self.launch_delay_seconds,
-            },
-        }
+        return RangeScraperLauncherPlanner().build_plan(data_dir=self.data_dir, script=self.script, launch_delay_seconds=self.launch_delay_seconds)
 
 
 class RangeScraperLauncherContractComparator:
