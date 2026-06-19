@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T00:50:37.575Z",
+  "updatedAt": "2026-06-19T00:58:17.587Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -409,6 +409,64 @@
       "warnings": [],
       "commentsCollected": 79,
       "commentsAdded": 68
+    },
+    {
+      "at": "2026-06-19T00:58:17.587Z",
+      "actions": [
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 B站弹幕"
+        },
+        {
+          "term": "都是同一批",
+          "query": "都是同一批 B站评论"
+        },
+        {
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 B站弹幕"
+        },
+        {
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1iUjh6ZE7P",
+          "term": "超绝无语",
+          "query": "超绝无语 B站弹幕",
+          "bvid": "BV1iUjh6ZE7P",
+          "aid": 116772225157729,
+          "title": "<em class=\"keyword\">弹幕</em>还没做好。"
+        },
+        {
+          "key": "bvid:BV1Uz9kBNEVq",
+          "term": "都是同一批",
+          "query": "都是同一批 B站评论",
+          "bvid": "BV1Uz9kBNEVq",
+          "aid": 116481945902369,
+          "title": "<em class=\"keyword\">B站</em>新版本bug，无法删除<em class=\"keyword\">评论</em>"
+        },
+        {
+          "key": "bvid:BV1LN411a7ZY",
+          "term": "都说八百遍了",
+          "query": "都说八百遍了 B站弹幕",
+          "bvid": "BV1LN411a7ZY",
+          "aid": 489413583,
+          "title": "见识一下<em class=\"keyword\">B站</em>曾经的辉煌吧！目前全站还原度最高！【炮姐/AMV】我永远都会守护在你身边 全<em class=\"keyword\">弹幕</em>装填"
+        },
+        {
+          "key": "bvid:BV1xb411d7fd",
+          "term": "分不清轻重",
+          "query": "分不清轻重 评论回复",
+          "bvid": "BV1xb411d7fd",
+          "aid": 226257935,
+          "title": "［倪海厦］如果有人向你问鼎<em class=\"keyword\">轻重</em>，请小心此人。当你的话没人听，又该如何应对？"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 1237,
+      "commentsAdded": 294
     }
   ]
 }
