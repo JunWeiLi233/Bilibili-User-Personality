@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T03:47:07.505Z",
+  "updatedAt": "2026-06-19T04:01:41.687Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -1463,6 +1463,52 @@
       "warnings": [],
       "commentsCollected": 148,
       "commentsAdded": 126
+    },
+    {
+      "at": "2026-06-19T04:01:41.687Z",
+      "actions": [
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "查查资料",
+          "query": "查查资料 B站评论"
+        },
+        {
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1xyjj6NEW5",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1xyjj6NEW5",
+          "aid": 116762410485531,
+          "title": "网店卖棉被遭遇仅退款，60岁女店主跨3000公里寻人：要追查薅羊毛的团伙，不然生意都做不成，顾客：仅退款的行为不对，我道歉"
+        },
+        {
+          "key": "bvid:BV1Kf4y1t7Np",
+          "term": "查查资料",
+          "query": "查查资料 B站评论",
+          "bvid": "BV1Kf4y1t7Np",
+          "aid": 289624803,
+          "title": "如何观看<em class=\"keyword\">B站</em>排行榜？（教程）"
+        },
+        {
+          "key": "bvid:BV1qpEk6AEUE",
+          "term": "超绝无语",
+          "query": "超绝无语 评论回复",
+          "bvid": "BV1qpEk6AEUE",
+          "aid": 116734459709595,
+          "title": "拼尽全力，无法绷住！"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 159,
+      "commentsAdded": 129
     }
   ]
 }
