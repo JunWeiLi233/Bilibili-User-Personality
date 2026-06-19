@@ -22,8 +22,12 @@ class ContractComparator:
         audit = CoverageAuditReport.load(self.audit_path)
         dictionary = DictionaryLoader(self.dictionary_path).load() if self.dictionary_path else None
         manifest_comment_count = corpus.manifest.get("commentCount")
+        mismatches = []
+        if manifest_comment_count not in (None, len(corpus.comments)):
+            mismatches.append({"key": "manifestCommentCount", "python": len(corpus.comments), "js": manifest_comment_count})
         result: dict[str, object] = {
-            "ok": manifest_comment_count in (None, len(corpus.comments)) and audit.terms > 0,
+            "ok": audit.terms > 0,
+            "mismatches": mismatches,
             "corpus": {
                 "comments": len(corpus.comments),
                 "runs": len(corpus.runs),
@@ -47,6 +51,9 @@ class ContractComparator:
                 "evidenceStorage": dictionary.manifest.get("evidenceStorage"),
                 "families": dictionary.manifest.get("families") or {},
             }
+            if len(dictionary.entries) != audit.terms:
+                mismatches.append({"key": "dictionaryTerms", "python": len(dictionary.entries), "js": audit.terms})
+        result["ok"] = bool(result["ok"]) and len(mismatches) == 0
         return result
 
 

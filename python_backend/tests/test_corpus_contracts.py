@@ -729,6 +729,30 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_contract_comparator_rejects_dictionary_audit_term_mismatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            audit_path = root / "audit.json"
+            dictionary_path = root / "dict.json"
+            corpus_path.write_text(
+                json.dumps({"version": 1, "comments": [{"message": "ok"}], "runs": []}),
+                encoding="utf-8",
+            )
+            audit_path.write_text(
+                json.dumps({"ok": False, "targetEvidence": 3, "coverage": {"terms": 2, "coverageRatio": 1}}),
+                encoding="utf-8",
+            )
+            dictionary_path.write_text(
+                json.dumps({"version": 1, "entries": [{"term": "doge", "family": "attack"}]}),
+                encoding="utf-8",
+            )
+
+            result = ContractComparator(corpus_path, audit_path, dictionary_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["mismatches"], [{"key": "dictionaryTerms", "python": 1, "js": 2}])
+
     def test_dictionary_loader_hydrates_split_entries_and_evidence(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
