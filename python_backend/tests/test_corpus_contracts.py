@@ -184,6 +184,20 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(run_shard["version"], 7)
         self.assertEqual(run_shard["updatedAt"], "2026-06-19T00:00:00.000Z")
 
+    def test_writer_splits_using_full_js_shard_payload_size(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output = root / "out.json"
+            CorpusShardWriter(output, max_shard_bytes=1024).write(
+                comments=[{"message": "x" * 430}, {"message": "y" * 430}],
+                runs=[],
+                manifest={"version": 1},
+            )
+
+            loaded = CorpusLoader(output).load()
+
+        self.assertEqual(loaded.manifest["commentFiles"], ["out.comments/comments-0001.json", "out.comments/comments-0002.json"])
+
     def test_writer_removes_stale_split_shards_after_smaller_rewrite(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

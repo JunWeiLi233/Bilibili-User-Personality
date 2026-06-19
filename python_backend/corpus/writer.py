@@ -52,20 +52,14 @@ class CorpusShardWriter:
         manifest: dict[str, Any],
     ) -> list[str]:
         directory.mkdir(parents=True, exist_ok=True)
-        shards = self._split_values(values, key)
+        shards = self._split_values(values, key, manifest)
         files: list[str] = []
         for index, shard_values in enumerate(shards, start=1):
             name = f"{file_stem}-{index:04d}.json"
             shard_path = directory / name
             self._write_json(
                 shard_path,
-                {
-                    "version": manifest.get("version", 1),
-                    "updatedAt": manifest.get("updatedAt") or None,
-                    "shard": index,
-                    "shardCount": len(shards),
-                    key: shard_values,
-                },
+                self._build_shard_payload(manifest, index, len(shards), key, shard_values),
             )
             files.append(f"{directory.name}/{name}")
         return files
@@ -79,14 +73,14 @@ class CorpusShardWriter:
             if path.is_file() and regex.fullmatch(path.name) and path.name not in kept_names:
                 path.unlink()
 
-    def _split_values(self, values: list[dict[str, Any]], key: str) -> list[list[dict[str, Any]]]:
+    def _split_values(self, values: list[dict[str, Any]], key: str, manifest: dict[str, Any]) -> list[list[dict[str, Any]]]:
         if not values:
             return [[]]
         shards: list[list[dict[str, Any]]] = []
         current: list[dict[str, Any]] = []
         for value in values:
             candidate = [*current, value]
-            if current and len(json.dumps({key: candidate}, ensure_ascii=False, indent=2).encode("utf-8")) > self.max_shard_bytes:
+            if current and self._json_bytes(self._build_shard_payload(manifest, 9999, 9999, key, candidate)) > self.max_shard_bytes:
                 shards.append(current)
                 current = [value]
             else:
@@ -94,6 +88,26 @@ class CorpusShardWriter:
         if current:
             shards.append(current)
         return shards
+
+    @staticmethod
+    def _build_shard_payload(
+        manifest: dict[str, Any],
+        shard: int,
+        shard_count: int,
+        key: str,
+        values: list[dict[str, Any]],
+    ) -> dict[str, Any]:
+        return {
+            "version": manifest.get("version", 1),
+            "updatedAt": manifest.get("updatedAt") or None,
+            "shard": shard,
+            "shardCount": shard_count,
+            key: values,
+        }
+
+    @staticmethod
+    def _json_bytes(payload: dict[str, Any]) -> int:
+        return len((json.dumps(payload, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
 
     @staticmethod
     def _write_json(path: Path, payload: dict[str, Any]) -> None:
