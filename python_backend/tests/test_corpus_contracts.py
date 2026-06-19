@@ -8,6 +8,7 @@ from python_backend.analysis.comment_coverage import CommentCoverageClassifier
 from python_backend.analysis.coverage_progress import CoverageProgressTracker
 from python_backend.analysis.discovery_report import VideoKeywordDiscoveryReporter
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, VideoKeywordDiscoveryOptionsBuilder
+from python_backend.analysis.readme_stats import ReadmeStatsBuilder
 from python_backend.analysis.semantic_matcher import SemanticMatcherHelper
 from python_backend.analysis.verification import RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient
@@ -19,6 +20,7 @@ from python_backend.cli.coverage_audit import AuditContractComparator
 from python_backend.cli.coverage_progress import CoverageProgressRunner
 from python_backend.cli.discovery_report import VideoKeywordDiscoveryReportRunner
 from python_backend.cli.harvest_options import HarvestOptionsRunner
+from python_backend.cli.readme_stats import ReadmeStatsRunner
 from python_backend.cli.semantic_matcher import SemanticMatcherRunner
 from python_backend.cli.compare_contracts import ContractComparator
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanRunner
@@ -230,6 +232,85 @@ class CorpusContractTests(unittest.TestCase):
                 {"term": "term-b", "chunk": "beta chunk", "score": 0.6},
             ],
         )
+
+    def test_readme_stats_builder_matches_js_timeline_contract(self):
+        builder = ReadmeStatsBuilder(now=lambda: "2026-06-19T00:00:00.000Z")
+        timeline = builder.build_collection_timeline(
+            [
+                {
+                    "name": "direct",
+                    "runs": [
+                        {"at": "2026-06-17T10:00:00.000Z", "commentsAdded": 3},
+                        {"at": "2026-06-17T11:00:00.000Z", "commentsAdded": 2},
+                    ],
+                    "comments": [
+                        {"message": "\u8bc4\u8bba\u4e00", "source": "Bilibili public direct comment probe"},
+                        {"message": "\u5f39\u5e55\u4e00", "source": "Bilibili public direct danmaku probe"},
+                        {"message": "\u5f39\u5e55\u4e8c", "source": "Bilibili public direct danmaku probe"},
+                        {"message": "\u8bc4\u8bba\u4e8c", "source": "Bilibili public direct comment probe"},
+                        {"message": "\u8bc4\u8bba\u4e09", "source": "Bilibili public direct comment probe"},
+                    ],
+                },
+                {
+                    "name": "external",
+                    "runs": [{"at": "2026-06-17T12:00:00.000Z", "addedComments": 2}],
+                    "comments": [
+                        {"message": "\u6570\u636e\u4e00", "source": "Kaggle dataset"},
+                        {"message": "\u6570\u636e\u4e8c", "source": "Kaggle dataset"},
+                    ],
+                },
+            ]
+        )
+
+        self.assertEqual(
+            [point["date"] for point in timeline["points"]],
+            [
+                "2026-06-17T10:00:00.000Z",
+                "2026-06-17T11:00:00.000Z",
+                "2026-06-17T12:00:00.000Z",
+            ],
+        )
+        self.assertEqual([[point["comments"], point["danmaku"]] for point in timeline["points"]], [[2, 1], [3, 2], [5, 2]])
+        self.assertEqual(timeline["finalComments"], 5)
+        self.assertEqual(timeline["finalDanmaku"], 2)
+        self.assertEqual(builder.padded_timeline_max(179185), 200000)
+
+    def test_readme_stats_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "stats.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "generatedAt": "2026-06-19T00:00:00.000Z",
+                        "sources": [
+                            {
+                                "name": "direct",
+                                "runs": [{"at": "2026-06-17T10:00:00.000Z", "commentsAdded": 2}],
+                                "comments": [
+                                    {"message": "\u91cd\u590d", "source": "comment"},
+                                    {"message": "\u91cd\u590d", "source": "comment"},
+                                    {"message": "\u5f39\u5e55", "source": "danmaku"},
+                                    {"message": "latin only", "source": "comment"},
+                                ],
+                            }
+                        ],
+                        "dictionary": {"entries": [{"term": "doge"}, {"term": "\u67e5\u8d44\u6599"}]},
+                        "coverage": {"coverage": {"coverageRatio": 0.875, "weakTerms": 4, "evidenceDeficit": 6}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = ReadmeStatsRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["stats"]["comments"], 1)
+        self.assertEqual(result["stats"]["danmaku"], 1)
+        self.assertEqual(result["stats"]["keywordTerms"], 2)
+        self.assertEqual(result["stats"]["coverageRatioLabel"], "87.50%")
+        self.assertEqual(result["stats"]["timeline"]["finalTotal"], 2)
+        self.assertEqual(result["summary"], {"comments": 1, "danmaku": 1, "keywordTerms": 2, "timelinePoints": 1})
 
     def test_deepseek_analyzer_builds_multiagent_request_plan(self):
         sentence = "\u8fd9\u53e5\u662f\u5728\u53cd\u8bbd\u5427[doge]\uff0c\u4e0d\u662f\u771f\u7684\u9a82\u4eba\u3002"
