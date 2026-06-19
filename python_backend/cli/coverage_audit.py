@@ -35,10 +35,12 @@ class AuditContractComparator:
             js_audit = json.load(handle)
         target_evidence = int(js_audit.get("targetEvidence") or js_audit.get("coverage", {}).get("targetEvidence") or 3)
         require_source_backed = bool(js_audit.get("requireSourceBackedEvidence"))
+        require_comment_backed = bool(js_audit.get("requireCommentBackedEvidence"))
         dictionary = DictionaryLoader(self.dictionary_path).load()
         python_audit = CoverageAuditBuilder(
             target_evidence=target_evidence,
             require_source_backed_evidence=require_source_backed,
+            require_comment_backed_evidence=require_comment_backed,
         ).build({"entries": dictionary.entries})
         mismatches = self._metric_mismatches(python_audit, js_audit, self.GATE_METRIC_KEYS)
         warnings = self._metric_mismatches(python_audit, js_audit, self.WARNING_METRIC_KEYS)
