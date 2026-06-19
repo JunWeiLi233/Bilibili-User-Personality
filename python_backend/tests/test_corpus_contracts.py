@@ -112,7 +112,7 @@ from python_backend.scrapers.batch_bilibili import BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner
 from python_backend.scrapers.batch_uid_scrape import BatchUidScrapePlanner
-from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner
+from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner, UidDiscoveryProgressReporter
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelProgressReporter
 from python_backend.scrapers.uid_pipeline import UidPipelineMergeReporter, UidPipelineProgressReporter, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorReporter
@@ -6367,6 +6367,35 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["discovery"], {"videosScanned": 2, "videoQueueSize": 7, "uidsDiscovered": 3, "commentsCollected": 4})
         self.assertEqual(result["analysis"], {"processed": 3, "success": 1, "errors": 1, "skipped": 1, "remaining": 0})
         self.assertEqual(result["comments"], {"total": 3, "averagePerUid": 1.0, "uidsWithComments": 2})
+        self.assertEqual(result["userDb"], {"users": 2})
+        self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
+
+    def test_uid_discovery_progress_reporter_summarizes_payloads_without_filesystem(self):
+        reporter = UidDiscoveryProgressReporter()
+
+        result = reporter.build_report(
+            progress={
+                "scannedBvids": ["BV1", "BV2"],
+                "processedUids": {"100": "success", "101": "error_timeout", "102": "no_text"},
+                "stats": {"videosScanned": "2", "uidsFound": 3.0, "uidsAnalyzed": "1", "commentsCollected": "4", "errors": "1"},
+                "phase": "analysis",
+                "videoQueueSize": "7",
+                "lastUpdated": "2026-06-19T00:00:00.000Z",
+            },
+            uid_comments={
+                "100": [{"message": "one"}, {"message": "two"}],
+                "101": [{"message": "three"}],
+                "102": [],
+            },
+            users={"100": {}, "101": {}},
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["phase"], "analysis")
+        self.assertEqual(result["discovery"], {"videosScanned": 2, "videoQueueSize": 7, "uidsDiscovered": 3, "commentsCollected": 4})
+        self.assertEqual(result["analysis"], {"processed": 3, "success": 1, "errors": 1, "skipped": 1, "remaining": 0})
+        self.assertEqual(result["comments"], {"total": 3, "averagePerUid": 1.0, "uidsWithComments": 2})
+        self.assertEqual(result["stats"], {"videosScanned": 2, "uidsFound": 3, "uidsAnalyzed": 1, "commentsCollected": 4, "errors": 1})
         self.assertEqual(result["userDb"], {"users": 2})
         self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
 

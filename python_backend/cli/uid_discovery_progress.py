@@ -6,6 +6,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from python_backend.scrapers.uid_discovery import UidDiscoveryProgressReporter
+
 
 class UidDiscoveryProgressRunner:
     """Summarize uidDiscoveryScrape.js JSON artifacts without mutating scraper state."""
@@ -27,54 +29,8 @@ class UidDiscoveryProgressRunner:
         progress = self._read_json(self.progress_path, {})
         uid_comments = self._read_json(self.comments_path, {})
         user_db = self._read_json(self.user_db_path, {})
-
-        if not isinstance(progress, dict):
-            progress = {}
-        if not isinstance(uid_comments, dict):
-            uid_comments = {}
         users = user_db.get("users") if isinstance(user_db, dict) and isinstance(user_db.get("users"), dict) else {}
-        processed_uids = progress.get("processedUids") if isinstance(progress.get("processedUids"), dict) else {}
-        stats = progress.get("stats") if isinstance(progress.get("stats"), dict) else {}
-
-        comment_total = sum(len(comments) for comments in uid_comments.values() if isinstance(comments, list))
-        uid_count = len(uid_comments)
-        success_count = sum(1 for status in processed_uids.values() if status == "success")
-        error_count = sum(1 for status in processed_uids.values() if str(status).startswith("error"))
-        skipped_count = sum(1 for status in processed_uids.values() if status == "no_text")
-        scanned_bvids = progress.get("scannedBvids") if isinstance(progress.get("scannedBvids"), list) else []
-        videos_scanned = int(stats.get("videosScanned") or len(scanned_bvids))
-
-        return {
-            "ok": True,
-            "phase": progress.get("phase") or "discovery",
-            "discovery": {
-                "videosScanned": videos_scanned,
-                "videoQueueSize": int(progress.get("videoQueueSize") or 0),
-                "uidsDiscovered": int(stats.get("uidsFound") or uid_count),
-                "commentsCollected": int(stats.get("commentsCollected") or 0),
-            },
-            "analysis": {
-                "processed": len(processed_uids),
-                "success": success_count,
-                "errors": error_count,
-                "skipped": skipped_count,
-                "remaining": max(0, uid_count - len(processed_uids)),
-            },
-            "comments": {
-                "total": comment_total,
-                "averagePerUid": round(comment_total / uid_count, 2) if uid_count else 0,
-                "uidsWithComments": sum(1 for comments in uid_comments.values() if isinstance(comments, list) and comments),
-            },
-            "stats": {
-                "videosScanned": videos_scanned,
-                "uidsFound": int(stats.get("uidsFound") or uid_count),
-                "uidsAnalyzed": int(stats.get("uidsAnalyzed") or success_count),
-                "commentsCollected": int(stats.get("commentsCollected") or 0),
-                "errors": int(stats.get("errors") or 0),
-            },
-            "userDb": {"users": len(users)},
-            "lastUpdated": progress.get("lastUpdated") or None,
-        }
+        return UidDiscoveryProgressReporter().build_report(progress, uid_comments, users)
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
         if not path.exists():
