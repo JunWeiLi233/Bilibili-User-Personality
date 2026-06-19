@@ -113,7 +113,7 @@ from python_backend.scrapers.batch_popular import BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanner, RangeScraperLauncherPlanner, UidRangeProgressReporter, UidRangeProgressSummary
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
-from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelProgressReporter
+from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelProgressReporter, UidParallelProgressSummary
 from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineMergeReporter, UidPipelineProgressReporter, UidPipelineStateReporter, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter
 from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherPlanner, UidFastPipelinePlanner
@@ -5835,6 +5835,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["statusCounts"], {"success": 1, "no_text": 1})
         self.assertEqual(result["userDb"], {"users": 3, "assignedUsersInDb": 2})
         self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
+
+    def test_uid_parallel_progress_summary_extracts_comparator_contract(self):
+        summary = UidParallelProgressSummary().summarize(
+            {
+                "ok": True,
+                "worker": {"id": 1},
+                "progress": {"processed": 2},
+                "stats": {"errors": 1},
+                "statusCounts": {"success": 1},
+                "userDb": {"users": 3},
+                "lastUpdated": "2026-06-19T00:00:00.000Z",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "worker": {"id": 1},
+                "progress": {"processed": 2},
+                "stats": {"errors": 1},
+                "statusCounts": {"success": 1},
+                "userDb": {"users": 3},
+            },
+        )
 
     def test_uid_parallel_progress_comparator_reports_summary_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
