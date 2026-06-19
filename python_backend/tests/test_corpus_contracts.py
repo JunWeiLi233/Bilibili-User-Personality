@@ -12,6 +12,7 @@ from python_backend.analysis.readme_stats import ReadmeStatsBuilder
 from python_backend.analysis.semantic_matcher import SemanticMatcherHelper
 from python_backend.analysis.verification import RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient
+from python_backend.analyzers.keyword_evidence import KeywordEvidenceMatcher
 from python_backend.cli.comment_coverage import CommentCoverageRunner
 from python_backend.cli.bilibili_parse import BilibiliParseRunner
 from python_backend.cli.bilibili_crawler import BilibiliCrawlerRunner
@@ -24,6 +25,7 @@ from python_backend.cli.readme_stats import ReadmeStatsRunner
 from python_backend.cli.semantic_matcher import SemanticMatcherRunner
 from python_backend.cli.compare_contracts import ContractComparator
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanRunner
+from python_backend.cli.keyword_evidence import KeywordEvidenceRunner
 from python_backend.cli.history_tag_corpus import HistoryTagCorpusRunner
 from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportRunner
 from python_backend.cli.local_corpus_evidence import LocalCorpusEvidenceRunner
@@ -183,6 +185,74 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn(sentence, user_prompt)
         self.assertIn("\u653b\u51fb\u6027\u8bcd\u9762", user_prompt)
         self.assertEqual(user_prompt.count(sentence), 1)
+
+    def test_keyword_evidence_matcher_filters_entries_by_direct_text_evidence(self):
+        matcher = KeywordEvidenceMatcher()
+
+        entries = matcher.filter_entries_by_evidence(
+            [
+                {"term": "YYGQ", "family": "attack", "meaning": "Chinese initialism"},
+                {"term": "notpresent", "family": "attack", "meaning": "model hallucination"},
+            ],
+            "this Bilibili comment uses YYGQ only\nsecond yygq sample",
+            source="Bilibili public video comment scan: https://www.bilibili.com/video/BV1source/",
+            uid="BV1source",
+        )
+
+        self.assertEqual([entry["term"] for entry in entries], ["yygq"])
+        self.assertEqual(entries[0]["evidenceCount"], 2)
+        self.assertEqual(entries[0]["evidenceSamples"], ["this Bilibili comment uses YYGQ only", "second yygq sample"])
+        self.assertEqual(
+            entries[0]["evidenceSources"][0],
+            {
+                "source": "Bilibili public video comment scan: https://www.bilibili.com/video/BV1source/",
+                "uid": "BV1source",
+                "sample": "this Bilibili comment uses YYGQ only",
+            },
+        )
+
+    def test_keyword_evidence_matcher_finds_dictionary_entries_and_excludes_terms(self):
+        matcher = KeywordEvidenceMatcher()
+
+        entries = matcher.find_dictionary_entries_with_text_evidence(
+            {
+                "entries": [
+                    {"term": "yygq", "family": "attack", "meaning": "Chinese initialism", "evidenceCount": 0},
+                    {"term": "\u67e5\u67e5\u8d44\u6599", "family": "evidence", "meaning": "asks for verification", "evidenceCount": 0},
+                    {"term": "missing", "family": "attack", "meaning": "not present", "evidenceCount": 0},
+                ]
+            },
+            "first YYGQ comment\n\u5efa\u8bae\u67e5\u67e5\u8d44\u6599\u518d\u8bf4",
+            exclude_terms=["missing"],
+        )
+
+        self.assertEqual([entry["term"] for entry in entries], ["yygq", "\u67e5\u67e5\u8d44\u6599"])
+        self.assertEqual(entries[0]["evidenceCount"], 1)
+        self.assertEqual(entries[1]["evidenceSamples"], ["\u5efa\u8bae\u67e5\u67e5\u8d44\u6599\u518d\u8bf4"])
+
+    def test_keyword_evidence_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "dictionary": {"entries": [{"term": "YYGQ", "family": "attack", "meaning": "Chinese initialism"}]},
+                        "text": "YYGQ once\nyygq twice",
+                        "source": "Bilibili public comment target expansion",
+                        "uid": "mid-1",
+                        "mode": "dictionary",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = KeywordEvidenceRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["entries"][0]["term"], "yygq")
+        self.assertEqual(result["entries"][0]["evidenceCount"], 2)
 
     def test_semantic_matcher_helper_matches_js_chunk_and_cosine_contracts(self):
         matcher = SemanticMatcherHelper()

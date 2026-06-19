@@ -34,6 +34,7 @@
     "python:comment-coverage": "python -m python_backend.cli.comment_coverage",
     "python:semantic-match": "python -m python_backend.cli.semantic_matcher",
     "python:deepseek-plan": "python -m python_backend.cli.deepseek_analysis_plan",
+    "python:keyword-evidence": "python -m python_backend.cli.keyword_evidence",
     "python:huggingface-import": "python -m python_backend.cli.huggingface_corpus",
     "python:history-tags": "python -m python_backend.cli.history_tag_corpus",
     "python:bilibili-crawler": "python -m python_backend.cli.bilibili_crawler",
