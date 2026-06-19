@@ -6,7 +6,7 @@ from pathlib import Path
 from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractSummary, CoverageAuditReport
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanner
-from python_backend.analysis.coverage_progress import CoverageProgressTracker
+from python_backend.analysis.coverage_progress import CoverageProgressSummary, CoverageProgressTracker
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReporter
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder
@@ -4954,6 +4954,34 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
         self.assertTrue(tracker.has_coverage_delta_progress(real_delta))
+
+    def test_coverage_progress_summary_extracts_comparator_contract(self):
+        summary = CoverageProgressSummary().summarize(
+            {
+                "ok": True,
+                "delta": {"totalEvidenceGained": 2},
+                "harvestDelta": {"zeroEvidenceResolved": 1},
+                "actionDelta": {"actionTermsResolved": 1},
+                "exhaustedTerms": [{"term": "rare-term"}],
+                "hasDeltaProgress": True,
+                "hasHarvestProgress": True,
+                "hasGateProgress": True,
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "delta": {"totalEvidenceGained": 2},
+                "harvestDelta": {"zeroEvidenceResolved": 1},
+                "actionDelta": {"actionTermsResolved": 1},
+                "exhaustedTerms": [{"term": "rare-term"}],
+                "hasDeltaProgress": True,
+                "hasHarvestProgress": True,
+                "hasGateProgress": True,
+            },
+        )
 
     def test_coverage_progress_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:

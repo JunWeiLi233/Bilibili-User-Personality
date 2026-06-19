@@ -25,6 +25,24 @@ def _json_number(value: float) -> int | float:
     return int(value) if float(value).is_integer() else value
 
 
+class CoverageProgressSummary:
+    """Shape coverage-progress results into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = (
+        "delta",
+        "harvestDelta",
+        "actionDelta",
+        "exhaustedTerms",
+        "hasDeltaProgress",
+        "hasHarvestProgress",
+        "hasGateProgress",
+    )
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
 class CoverageProgressTracker:
     """Evaluate coverage-gate progress using the same JSON fields as JS harvest loops."""
 
