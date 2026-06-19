@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T01:47:35.711Z",
+  "updatedAt": "2026-06-19T01:55:45.425Z",
   "shard": 10,
   "shardCount": 10,
   "runs": [
@@ -815,6 +815,64 @@
       "warnings": [],
       "commentsCollected": 500,
       "commentsAdded": 292
+    },
+    {
+      "at": "2026-06-19T01:55:45.425Z",
+      "actions": [
+        {
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区"
+        },
+        {
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站评论"
+        },
+        {
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕"
+        },
+        {
+          "term": "德里不饶人",
+          "query": "德里不饶人 回复区"
+        }
+      ],
+      "videos": [
+        {
+          "key": "bvid:BV1694y1f7pV",
+          "term": "价格被打下来",
+          "query": "价格被打下来 争议 评论区",
+          "bvid": "BV1694y1f7pV",
+          "aid": 340168662,
+          "title": "up主“艾玛的书房”，删除的“皮肤饥渴，肢体接触”视频中我认为的<em class=\"keyword\">争议</em>片段，应该就是这里导致<em class=\"keyword\">评论区</em>吵起来了吧"
+        },
+        {
+          "key": "bvid:BV1tmZJYRECC",
+          "term": "狗去哪里了",
+          "query": "狗去哪里了 B站评论",
+          "bvid": "BV1tmZJYRECC",
+          "aid": 114256431285849,
+          "title": "我爷爷每天在家里滑狗······"
+        },
+        {
+          "key": "bvid:BV117411u7EM",
+          "term": "抛开其他",
+          "query": "抛开其他 弹幕",
+          "bvid": "BV117411u7EM",
+          "aid": 91481119,
+          "title": "手机怎么发各种<em class=\"keyword\">弹幕</em>?教你发各种骚<em class=\"keyword\">弹幕</em>"
+        },
+        {
+          "key": "bvid:BV13TzbYuEPv",
+          "term": "德里不饶人",
+          "query": "德里不饶人 回复区",
+          "bvid": "BV13TzbYuEPv",
+          "aid": 113559874832821,
+          "title": "从<em class=\"keyword\">德里</em>到新<em class=\"keyword\">德里</em>，印度当年为什么要迁都？【百国千城】"
+        }
+      ],
+      "warnings": [],
+      "commentsCollected": 2774,
+      "commentsAdded": 1881
     }
   ]
 }

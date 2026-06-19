@@ -1,30 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T17:43:48.743Z",
+  "updatedAt": "2026-06-19T01:56:26.499Z",
   "shard": 1,
   "shardCount": 1,
   "runs": [
-    {
-      "at": "2026-06-17T11:40:47.462Z",
-      "queries": [
-        "查查资料"
-      ],
-      "threadUrls": [],
-      "results": [
-        {
-          "query": "查查资料",
-          "ok": false,
-          "threads": [],
-          "comments": [],
-          "warnings": [
-            "discover: HTTP 403 from https://tieba.baidu.com/mo/q/m?kw=%E6%9F%A5%E6%9F%A5%E8%B5%84%E6%96%99"
-          ]
-        }
-      ],
-      "warnings": [
-        "查查资料: discover: HTTP 403 from https://tieba.baidu.com/mo/q/m?kw=%E6%9F%A5%E6%9F%A5%E8%B5%84%E6%96%99"
-      ]
-    },
     {
       "at": "2026-06-17T12:01:18.993Z",
       "queries": [
@@ -1465,6 +1444,45 @@
         "价格被打下来 弹幕: discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E4%BB%B7%E6%A0%BC%E8%A2%AB%E6%89%93%E4%B8%8B%E6%9D%A5+%E5%BC%B9%E5%B9%95&pn=0",
         "这还用说 评论区: discover: HTTP 403 from https://tieba.baidu.com/f?kw=%E8%BF%99%E8%BF%98%E7%94%A8%E8%AF%B4+%E8%AF%84%E8%AE%BA%E5%8C%BA&pn=0"
       ]
+    },
+    {
+      "at": "2026-06-19T01:56:21.529Z",
+      "queries": [
+        "价格被打下来"
+      ],
+      "threadUrls": [],
+      "results": [
+        {
+          "query": "价格被打下来",
+          "ok": true,
+          "threads": [
+            {
+              "id": "6158304406",
+              "kind": "tieba-thread",
+              "title": "价格吧吧主招募结果公示",
+              "keyword": "价格被打下来",
+              "sourceUrl": "https://tieba.baidu.com/p/6158304406"
+            }
+          ],
+          "comments": [
+            {
+              "sourceKind": "tieba-discovery",
+              "sourceTitle": "价格吧吧主招募结果公示",
+              "sourceUrl": "https://tieba.baidu.com/p/6158304406",
+              "rpid": "tieba-discovery-6158304406",
+              "like": 0,
+              "ctime": 0,
+              "uname": "",
+              "mid": "",
+              "message": "价格吧吧主招募结果公示",
+              "platform": "tieba",
+              "keyword": "价格被打下来"
+            }
+          ],
+          "warnings": []
+        }
+      ],
+      "warnings": []
     }
   ]
 }

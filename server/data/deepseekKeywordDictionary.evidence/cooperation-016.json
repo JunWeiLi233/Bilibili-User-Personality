@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-18T14:30:52.666Z",
+  "updatedAt": "2026-06-19T01:57:55.738Z",
   "family": "cooperation",
   "shard": 16,
   "shardCount": 92,
@@ -60,10 +60,18 @@
     {
       "term": "德里不饶人",
       "evidenceSamples": [
+        "德里—德里不饶人",
         "印度高温哭也没用，毕竟德里不饶人",
-        "德里不饶人"
+        "德里不饶人",
+        "当初尼赫鲁是想不饶人的，结果被揍趴但是也被饶了。德里不饶人是不行了，重新做德里",
+        "因为 德里不饶人"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV13TzbYuEPv/",
+          "uid": "BV13TzbYuEPv",
+          "sample": "德里—德里不饶人"
+        },
         {
           "source": "Popular video comments UID 7793740 (1 comments from 1 videos)",
           "uid": "7793740",
@@ -75,9 +83,24 @@
           "sample": "德里不饶人"
         },
         {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV13TzbYuEPv/",
+          "uid": "BV13TzbYuEPv",
+          "sample": "当初尼赫鲁是想不饶人的，结果被揍趴但是也被饶了。德里不饶人是不行了，重新做德里"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV13TzbYuEPv/",
+          "uid": "BV13TzbYuEPv",
+          "sample": "因为 德里不饶人"
+        },
+        {
           "source": "Bilibili local scraped user corpus: https://www.bilibili.com/video/BV18EGm6UEqa/",
           "uid": "7793740",
           "sample": "印度高温哭也没用，毕竟德里不饶人"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV13TzbYuEPv/",
+          "uid": "BV13TzbYuEPv",
+          "sample": "全称是德里不饶人"
         }
       ]
     },
