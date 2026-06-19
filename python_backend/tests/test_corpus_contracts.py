@@ -5,12 +5,14 @@ from pathlib import Path
 
 from python_backend.analysis.audit import CoverageAuditBuilder, CoverageAuditReport
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier
+from python_backend.analysis.coverage_progress import CoverageProgressTracker
 from python_backend.analysis.verification import RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient
 from python_backend.cli.comment_coverage import CommentCoverageRunner
 from python_backend.cli.bilibili_parse import BilibiliParseRunner
 from python_backend.cli.bilibili_probe_plan import BilibiliProbePlanRunner
 from python_backend.cli.coverage_audit import AuditContractComparator
+from python_backend.cli.coverage_progress import CoverageProgressRunner
 from python_backend.cli.compare_contracts import ContractComparator
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanRunner
 from python_backend.cli.history_tag_corpus import HistoryTagCorpusRunner
@@ -1251,6 +1253,171 @@ class CorpusContractTests(unittest.TestCase):
             result = CommentCoverageRunner(dictionary_path, comments_path).run()
 
         self.assertEqual(result["summary"]["byMode"], {"keyword": 1, "neutral": 0, "uncovered": 0})
+
+    def test_coverage_progress_tracker_matches_js_delta_and_gate_contract(self):
+        tracker = CoverageProgressTracker()
+        before = {
+            "terms": 100,
+            "totalEvidence": 300,
+            "coverageRatio": 0.35,
+            "evidenceDeficit": 120,
+            "weakTerms": 70,
+            "zeroEvidenceTerms": 0,
+            "sourcedEvidenceTerms": 100,
+            "unsourcedEvidenceTerms": 0,
+        }
+        after = {
+            "terms": 102,
+            "totalEvidence": 305,
+            "coverageRatio": 0.34,
+            "evidenceDeficit": 120,
+            "weakTerms": 72,
+            "zeroEvidenceTerms": 0,
+            "sourcedEvidenceTerms": 102,
+            "unsourcedEvidenceTerms": 0,
+        }
+
+        self.assertEqual(
+            tracker.coverage_delta(before, after),
+            {
+                "evidenceDeficitReduced": 0,
+                "zeroEvidenceResolved": 0,
+                "weakTermsResolved": 0,
+                "unsourcedEvidenceReduced": 0,
+                "totalEvidenceGained": 5,
+                "termsAdded": 2,
+                "coverageRatioDelta": -0.01,
+            },
+        )
+        self.assertFalse(tracker.has_coverage_gate_progress(before, after))
+        self.assertTrue(tracker.has_coverage_gate_progress({"evidenceDeficit": 4}, {"evidenceDeficit": 3}))
+        self.assertTrue(tracker.has_coverage_gate_progress({"zeroEvidenceTerms": 2}, {"zeroEvidenceTerms": 1}))
+        self.assertTrue(tracker.has_coverage_gate_progress({"weakTerms": 4}, {"weakTerms": 3}))
+        self.assertTrue(tracker.has_coverage_gate_progress({"unsourcedEvidenceTerms": 2}, {"unsourcedEvidenceTerms": 1}))
+
+    def test_coverage_progress_tracker_accounts_for_target_action_progress(self):
+        tracker = CoverageProgressTracker()
+        before_coverage = {
+            "terms": 100,
+            "totalEvidence": 300,
+            "coverageRatio": 0.35,
+            "evidenceDeficit": 120,
+            "weakTerms": 70,
+            "zeroEvidenceTerms": 0,
+            "unsourcedEvidenceTerms": 0,
+        }
+        after_coverage = {
+            "terms": 104,
+            "totalEvidence": 313,
+            "coverageRatio": 0.3567,
+            "evidenceDeficit": 123,
+            "weakTerms": 72,
+            "zeroEvidenceTerms": 0,
+            "unsourcedEvidenceTerms": 0,
+        }
+
+        self.assertEqual(
+            tracker.action_progress_delta(
+                [{"term": "\u626e\u6f14\u5c0f\u4e11", "needs": 2}, {"term": "\u8865\u836f\u554a", "needs": 2}],
+                [{"term": "\u8865\u836f\u554a", "needs": 2}],
+            ),
+            {"actionTermsResolved": 1, "actionEvidenceNeedReduced": 2},
+        )
+        self.assertTrue(
+            tracker.has_coverage_gate_progress(
+                before_coverage,
+                after_coverage,
+                {
+                    "beforeActions": [{"term": "\u626e\u6f14\u5c0f\u4e11", "needs": 2}, {"term": "\u8865\u836f\u554a", "needs": 2}],
+                    "afterActions": [{"term": "\u8865\u836f\u554a", "needs": 2}],
+                },
+            )
+        )
+
+    def test_coverage_progress_tracker_filters_audit_only_harvest_drift(self):
+        tracker = CoverageProgressTracker()
+        before = {
+            "terms": 2157,
+            "totalEvidence": 6033,
+            "coverageRatio": 0.5415,
+            "evidenceDeficit": 2086,
+            "weakTerms": 989,
+            "zeroEvidenceTerms": 227,
+            "unsourcedEvidenceTerms": 0,
+        }
+        after = {
+            "terms": 2157,
+            "totalEvidence": 6035,
+            "coverageRatio": 0.5415,
+            "evidenceDeficit": 2084,
+            "weakTerms": 989,
+            "zeroEvidenceTerms": 225,
+            "unsourcedEvidenceTerms": 0,
+        }
+
+        drift_delta = tracker.coverage_delta_from_harvest(
+            before,
+            after,
+            [{"weakTermsResolved": 0, "zeroEvidenceResolved": 0, "evidenceGained": 0, "evidenceDeficitReduced": 0}],
+        )
+        real_delta = tracker.coverage_delta_from_harvest(
+            {"totalEvidence": 10, "evidenceDeficit": 5, "zeroEvidenceTerms": 2, "weakTerms": 4},
+            {"totalEvidence": 12, "evidenceDeficit": 3, "zeroEvidenceTerms": 1, "weakTerms": 3},
+            [{"weakTermsResolved": 0, "zeroEvidenceResolved": 1, "evidenceGained": 2, "evidenceDeficitReduced": 2}],
+        )
+
+        self.assertEqual(
+            drift_delta,
+            {
+                "evidenceDeficitReduced": 0,
+                "zeroEvidenceResolved": 0,
+                "weakTermsResolved": 0,
+                "unsourcedEvidenceReduced": 0,
+                "totalEvidenceGained": 0,
+                "termsAdded": 0,
+                "coverageRatioDelta": 0,
+            },
+        )
+        self.assertFalse(tracker.has_coverage_delta_progress(drift_delta))
+        self.assertEqual(
+            real_delta,
+            {
+                "evidenceDeficitReduced": 2,
+                "zeroEvidenceResolved": 1,
+                "weakTermsResolved": 1,
+                "unsourcedEvidenceReduced": 0,
+                "totalEvidenceGained": 2,
+                "termsAdded": 0,
+                "coverageRatioDelta": 0,
+            },
+        )
+        self.assertTrue(tracker.has_coverage_delta_progress(real_delta))
+
+    def test_coverage_progress_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "before": {"totalEvidence": 10, "evidenceDeficit": 5, "zeroEvidenceTerms": 2, "weakTerms": 4},
+                        "after": {"totalEvidence": 12, "evidenceDeficit": 3, "zeroEvidenceTerms": 1, "weakTerms": 3},
+                        "harvestProgress": [{"weakTermsResolved": 0, "zeroEvidenceResolved": 1, "evidenceGained": 2, "evidenceDeficitReduced": 2}],
+                        "beforeActions": [{"term": "rare-term", "needs": 2}],
+                        "afterActions": [{"term": "rare-term", "needs": 1}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = CoverageProgressRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["delta"]["evidenceDeficitReduced"], 2)
+        self.assertEqual(result["harvestDelta"]["totalEvidenceGained"], 2)
+        self.assertEqual(result["actionDelta"], {"actionTermsResolved": 0, "actionEvidenceNeedReduced": 1})
+        self.assertTrue(result["hasGateProgress"])
+        self.assertTrue(result["hasHarvestProgress"])
 
     def test_coverage_audit_builder_matches_js_metric_contract(self):
         dictionary = {
