@@ -12,6 +12,16 @@ def _parse_number_or(value: Any, fallback: int) -> int:
     return parsed
 
 
+class ScraperMonitorSummary:
+    """Shape scraper monitor reports into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("discovery", "pipeline", "combined")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        source = result if isinstance(result, dict) else {}
+        return {key: source.get(key) for key in self.RESULT_KEYS if key in source}
+
+
 class ScraperMonitorPipelinePayloadPlanner:
     """Plan UID pipeline progress filenames for scraper monitor reads."""
 

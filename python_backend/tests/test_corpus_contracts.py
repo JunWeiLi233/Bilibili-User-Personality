@@ -115,7 +115,7 @@ from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelProgressReporter, UidParallelProgressSummary
 from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineMergeReporter, UidPipelineMergeSummary, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
-from python_backend.scrapers.scraper_monitor import ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter
+from python_backend.scrapers.scraper_monitor import ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter, ScraperMonitorSummary
 from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherPlanner, UidFastPipelinePlanner
 
 
@@ -6765,6 +6765,26 @@ class CorpusContractTests(unittest.TestCase):
                 },
                 {"key": "combined", "python": {"uidsAnalyzed": 2}, "js": {"uidsAnalyzed": 1}},
             ],
+        )
+
+    def test_scraper_monitor_summary_extracts_comparator_contract(self):
+        summary = ScraperMonitorSummary().summarize(
+            {
+                "ok": True,
+                "discovery": {"analyzed": 1},
+                "pipeline": {"processed": 2},
+                "combined": {"uidsAnalyzed": 3},
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "discovery": {"analyzed": 1},
+                "pipeline": {"processed": 2},
+                "combined": {"uidsAnalyzed": 3},
+            },
         )
 
     def test_batch_bilibili_planner_matches_js_uid_range_and_resume_contract(self):
