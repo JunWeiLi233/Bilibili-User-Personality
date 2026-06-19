@@ -4,8 +4,10 @@ import unittest
 from pathlib import Path
 
 from python_backend.analysis.audit import CoverageAuditBuilder, CoverageAuditReport
+from python_backend.analysis.comment_coverage import CommentCoverageClassifier
 from python_backend.analysis.verification import RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient
+from python_backend.cli.comment_coverage import CommentCoverageRunner
 from python_backend.cli.coverage_audit import AuditContractComparator
 from python_backend.cli.compare_contracts import ContractComparator
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanRunner
@@ -879,6 +881,66 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["applied"])
         self.assertEqual(result["matched"], 2)
         self.assertEqual([comment["rpid"] for comment in result["comments"]], ["1", "2"])
+
+    def test_comment_coverage_classifier_matches_core_js_modes(self):
+        dictionary = {
+            "entries": [
+                {"term": "\u7f51\u76d8\u89c1", "family": "evasion", "aliases": ["\u94fe\u63a5\u81ea\u53d6"]},
+                {"term": "\u61c2\u7684\u90fd\u61c2", "family": "evasion"},
+            ]
+        }
+        classifier = CommentCoverageClassifier()
+
+        keyword = classifier.classify(dictionary, {"message": "\u7f51\u76d8\u89c1\uff0c\u61c2\u7684\u90fd\u61c2"})
+        neutral = classifier.classify(dictionary, {"message": "\u8def\u8fc7\u770b\u770b"})
+        diagnostic = classifier.classify(dictionary, {"message": "discover: HTTP 403 from https://api.bilibili.com/x"})
+        unsupported = classifier.classify(dictionary, {"message": "plain ascii only"})
+
+        self.assertEqual(keyword["mode"], "keyword")
+        self.assertEqual([hit["term"] for hit in keyword["hits"]], ["\u7f51\u76d8\u89c1", "\u61c2\u7684\u90fd\u61c2"])
+        self.assertEqual(neutral["mode"], "neutral")
+        self.assertEqual(diagnostic["reason"], "scrape diagnostic line, not user speech")
+        self.assertFalse(unsupported["covered"])
+
+    def test_comment_coverage_classifier_samples_comments(self):
+        dictionary = {"entries": [{"term": "\u7f51\u76d8\u89c1", "family": "evasion"}]}
+        comments = [
+            {"message": "\u7f51\u76d8\u89c1"},
+            {"message": "\u666e\u901a\u8bc4\u8bba"},
+            {"message": "ascii only"},
+        ]
+
+        summary = CommentCoverageClassifier().sample(dictionary, comments)
+
+        self.assertEqual(summary["total"], 3)
+        self.assertEqual(summary["covered"], 2)
+        self.assertEqual(summary["uncovered"], 1)
+        self.assertEqual(summary["byMode"], {"keyword": 1, "neutral": 1, "uncovered": 1})
+
+    def test_comment_coverage_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            comments_path = root / "comments.json"
+            dictionary_path.write_text(json.dumps({"entries": [{"term": "\u7f51\u76d8\u89c1", "family": "evasion"}]}), encoding="utf-8")
+            comments_path.write_text(json.dumps({"comments": [{"message": "\u7f51\u76d8\u89c1"}, {"message": "ascii only"}]}), encoding="utf-8")
+
+            result = CommentCoverageRunner(dictionary_path, comments_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["summary"]["byMode"], {"keyword": 1, "neutral": 0, "uncovered": 1})
+
+    def test_comment_coverage_runner_accepts_utf8_bom_json(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            comments_path = root / "comments.json"
+            dictionary_path.write_text(json.dumps({"entries": [{"term": "\u7f51\u76d8\u89c1"}]}), encoding="utf-8-sig")
+            comments_path.write_text(json.dumps([{"message": "\u7f51\u76d8\u89c1"}]), encoding="utf-8-sig")
+
+            result = CommentCoverageRunner(dictionary_path, comments_path).run()
+
+        self.assertEqual(result["summary"]["byMode"], {"keyword": 1, "neutral": 0, "uncovered": 0})
 
     def test_coverage_audit_builder_matches_js_metric_contract(self):
         dictionary = {
