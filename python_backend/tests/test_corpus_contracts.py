@@ -33,6 +33,7 @@ from python_backend.cli.history_tag_corpus import HistoryTagCorpusContractCompar
 from python_backend.cli.huggingface_corpus import HuggingFaceCorpusImportContractComparator, HuggingFaceCorpusImportRunner
 from python_backend.cli.local_corpus_evidence import LocalCorpusEvidenceContractComparator, LocalCorpusEvidenceRunner
 from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenContractComparator, LocalCorpusFlattenRunner
+from python_backend.cli.near_target_resolve_plan import NearTargetResolvePlanContractComparator, NearTargetResolvePlanRunner
 from python_backend.cli.video_comment_filter import VideoCommentFilterContractComparator, VideoCommentFilterRunner
 from python_backend.cli.video_context import VideoContextContractComparator, VideoContextRunner
 from python_backend.cli.video_relevance import VideoRelevanceContractComparator, VideoRelevanceRunner
@@ -3967,6 +3968,132 @@ class CorpusContractTests(unittest.TestCase):
                 },
             ],
         )
+
+    def test_near_target_resolve_plan_runner_selects_source_backed_terms(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            state_path = root / "state.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {
+                                "term": "\u5dee\u4e00\u6761",
+                                "family": "attack",
+                                "evidenceCount": 2,
+                                "evidenceSamples": ["sample one", "sample two"],
+                                "evidenceSources": [
+                                    {"source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1NearAAA1/", "sample": "sample one"},
+                                    {"source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1NearAAA1/", "sample": "sample two"},
+                                ],
+                            },
+                            {
+                                "term": "\u6ca1\u6709\u6765\u6e90",
+                                "family": "evidence",
+                                "evidenceCount": 2,
+                                "evidenceSamples": ["source gap sample one", "source gap sample two"],
+                                "evidenceSources": [],
+                            },
+                            {
+                                "term": "\u5df2\u6ee1",
+                                "family": "cooperation",
+                                "evidenceCount": 3,
+                                "evidenceSamples": ["a", "b", "c"],
+                                "evidenceSources": [{"source": "https://www.bilibili.com/video/BV1Covered1/", "sample": "a"}],
+                            },
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            state_path.write_text(json.dumps({"termAttempts": {}}), encoding="utf-8")
+
+            result = NearTargetResolvePlanRunner(dictionary_path, state_path, max_need=1, batch=2, videos_per_term=2, pages=4).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["candidateCount"], 2)
+        self.assertEqual(result["plannedCount"], 1)
+        self.assertEqual(
+            result["plans"],
+            [
+                {
+                    "term": "\u5dee\u4e00\u6761",
+                    "family": "attack",
+                    "evidenceNeeded": 1,
+                    "bvids": ["BV1NearAAA1"],
+                    "pages": 4,
+                    "targetExistingTerms": ["\u5dee\u4e00\u6761", "\u6ca1\u6709\u6765\u6e90"],
+                }
+            ],
+        )
+        self.assertEqual(result["summary"], {"candidateCount": 2, "plannedCount": 1, "videosPlanned": 1})
+
+    def test_near_target_resolve_plan_runner_honors_override_terms(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            state_path = root / "state.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {
+                                "term": "\u6307\u5b9a\u8bcd",
+                                "family": "attack",
+                                "evidenceCount": 0,
+                                "evidenceSources": [{"source": "Bilibili source https://www.bilibili.com/video/BV1Override1/"}],
+                            },
+                            {
+                                "term": "\u5176\u4ed6\u8bcd",
+                                "family": "attack",
+                                "evidenceCount": 2,
+                                "evidenceSources": [{"source": "Bilibili source https://www.bilibili.com/video/BV1Other111/"}],
+                            },
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            state_path.write_text(json.dumps({}), encoding="utf-8")
+
+            result = NearTargetResolvePlanRunner(dictionary_path, state_path, override_terms=["\u6307\u5b9a\u8bcd"]).run()
+
+        self.assertEqual(result["candidateTerms"], ["\u6307\u5b9a\u8bcd"])
+        self.assertEqual(result["plans"][0]["bvids"], ["BV1Override1"])
+
+    def test_near_target_resolve_plan_comparator_reports_plan_mismatches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            state_path = root / "state.json"
+            js_plan_path = root / "js-near-target.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {
+                                "term": "\u5dee\u4e00\u6761",
+                                "family": "attack",
+                                "evidenceCount": 2,
+                                "evidenceSamples": ["sample one", "sample two"],
+                                "evidenceSources": [
+                                    {"source": "Bilibili source https://www.bilibili.com/video/BV1NearAAA1/", "sample": "sample one"},
+                                    {"source": "Bilibili source https://www.bilibili.com/video/BV1NearAAA1/", "sample": "sample two"},
+                                ],
+                            }
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            state_path.write_text(json.dumps({}), encoding="utf-8")
+            js_plan_path.write_text(json.dumps({"plannedCount": 0, "plans": []}), encoding="utf-8")
+
+            result = NearTargetResolvePlanContractComparator(dictionary_path, state_path, js_plan_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual([item["key"] for item in result["mismatches"]], ["plannedCount", "plans"])
 
     def test_video_keyword_discovery_reporter_keeps_query_diagnostics(self):
         reporter = VideoKeywordDiscoveryReporter(now=lambda: "2026-06-19T00:00:00.000Z")
