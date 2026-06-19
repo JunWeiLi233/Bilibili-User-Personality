@@ -10,7 +10,7 @@ from python_backend.analysis.coverage_progress import CoverageProgressTracker
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReporter
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder
-from python_backend.analysis.harvest_state import HarvestTermAttemptUpdater
+from python_backend.analysis.harvest_state import HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherHelper
 from python_backend.analysis.verification import RandomVerifier
@@ -7341,6 +7341,89 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["backfilled"], 1)
         self.assertEqual(result["termAttempts"]["ZG9nZQ"]["lastQuery"], "doge \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4")
+
+    def test_harvest_state_updates_related_target_attempts_like_js_contract(self):
+        updater = HarvestTermAttemptUpdater(strategy_version=7)
+        primary = "\u4e3b\u8bcd"
+        direct_related = "\u76f4\u63a5\u76f8\u5173"
+        accepted_related = "\u63a5\u53d7\u76f8\u5173"
+        untouched = "\u6c60\u5b50\u672a\u547d\u4e2d"
+
+        updated = updater.update_related_target_attempts(
+            {},
+            {
+                "entries": [
+                    {"term": primary, "family": "attack", "evidenceCount": 0},
+                    {"term": direct_related, "family": "attack", "evidenceCount": 1},
+                    {"term": accepted_related, "family": "evasion", "evidenceCount": 1},
+                    {"term": untouched, "family": "attack", "evidenceCount": 1},
+                ]
+            },
+            {"term": primary, "family": "attack", "query": "\u4e3b\u8bcd \u8bc4\u8bba\u533a", "variantIndex": 2, "evidenceCount": 0},
+            {
+                "ok": True,
+                "videos": [{"bvid": "BV1111111111"}],
+                "comments": [{"message": "\u6837\u672c"}],
+                "entries": [],
+                "dictionary": {"entries": [{"term": accepted_related, "family": "evasion", "evidenceCount": 2}]},
+                "collectionDiagnostics": {
+                    "targetExistingTerms": [primary, direct_related, accepted_related, untouched],
+                    "acceptedTerms": [accepted_related],
+                },
+            },
+            finished_at="2026-06-19T00:00:00.000Z",
+            options={"relatedAttemptTerms": [direct_related]},
+        )
+
+        self.assertNotIn(term_attempt_key(primary), updated)
+        self.assertNotIn(term_attempt_key(untouched), updated)
+        direct = updated[term_attempt_key(direct_related)]
+        accepted = updated[term_attempt_key(accepted_related)]
+        self.assertEqual(direct["attempts"], 1)
+        self.assertEqual(direct["successfulAttempts"], 0)
+        self.assertEqual(direct["family"], "attack")
+        self.assertEqual(direct["evidenceAtPlanTime"], 1)
+        self.assertEqual(direct["lastQuery"], "\u4e3b\u8bcd \u8bc4\u8bba\u533a")
+        self.assertFalse(direct["queries"][0]["hit"])
+        self.assertEqual(accepted["attempts"], 1)
+        self.assertEqual(accepted["successfulAttempts"], 1)
+        self.assertEqual(accepted["family"], "evasion")
+        self.assertEqual(accepted["evidenceAtPlanTime"], 1)
+        self.assertEqual(accepted["lastEvidenceCount"], 2)
+        self.assertTrue(accepted["queries"][0]["hit"])
+
+    def test_harvest_state_runner_supports_related_mode(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "harvest-state-related.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "related",
+                        "strategyVersion": 7,
+                        "finishedAt": "2026-06-19T00:00:00.000Z",
+                        "termAttempts": {},
+                        "dictionary": {
+                            "entries": [
+                                {"term": "doge", "family": "cooperation", "evidenceCount": 0},
+                                {"term": "\u72d7\u5934", "family": "cooperation", "evidenceCount": 0},
+                            ]
+                        },
+                        "planItem": {"term": "doge", "family": "cooperation", "query": "doge \u8bc4\u8bba\u533a", "evidenceCount": 0},
+                        "result": {
+                            "ok": True,
+                            "collectionDiagnostics": {"targetExistingTerms": ["doge", "\u72d7\u5934"], "acceptedTerms": ["\u72d7\u5934"]},
+                            "dictionary": {"entries": [{"term": "\u72d7\u5934", "family": "cooperation", "evidenceCount": 1}]},
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = HarvestStateRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["termAttempts"][term_attempt_key("\u72d7\u5934")]["successfulAttempts"], 1)
 
     def test_keyword_harvest_plan_builder_expands_repeated_misses_to_untried_variants(self):
         plan = KeywordHarvestPlanBuilder().build_query_plan(

@@ -27,6 +27,17 @@ class HarvestStateRunner:
             searched_queries = payload.get("searchedQueries") if isinstance(payload.get("searchedQueries"), list) else []
             result = updater.backfill_searched_queries(term_attempts, dictionary, searched_queries, options=options)
             return {"ok": True, **result}
+        if str(payload.get("mode") or "").strip().lower() == "related":
+            dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}
+            next_attempts = updater.update_related_target_attempts(
+                term_attempts,
+                dictionary,
+                payload.get("planItem") if isinstance(payload.get("planItem"), dict) else {},
+                payload.get("result") if isinstance(payload.get("result"), dict) else {},
+                finished_at=payload.get("finishedAt") or payload.get("attemptFinishedAt"),
+                options=options,
+            )
+            return {"ok": True, "termAttempts": next_attempts}
         next_attempts = updater.update_term_attempt(
             term_attempts,
             payload.get("planItem") if isinstance(payload.get("planItem"), dict) else {},

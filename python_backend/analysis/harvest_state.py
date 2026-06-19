@@ -166,6 +166,55 @@ class HarvestTermAttemptUpdater:
                 backfilled += 1
         return {"termAttempts": attempts, "backfilled": backfilled}
 
+    def update_related_target_attempts(
+        self,
+        term_attempts: dict[str, Any] | None,
+        dictionary: dict[str, Any] | None,
+        plan_item: dict[str, Any] | None,
+        result: dict[str, Any] | None,
+        finished_at: str | None = None,
+        options: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        attempts = dict(term_attempts or {})
+        dictionary = dictionary if isinstance(dictionary, dict) else {}
+        plan_item = plan_item if isinstance(plan_item, dict) else {}
+        result = result if isinstance(result, dict) else {}
+        options = options if isinstance(options, dict) else {}
+        primary_term = _clean_text(plan_item.get("term"))
+        if not primary_term:
+            return attempts
+
+        diagnostics = result.get("collectionDiagnostics") if isinstance(result.get("collectionDiagnostics"), dict) else {}
+        targets = [_clean_text(term) for term in diagnostics.get("targetExistingTerms") or [] if _clean_text(term)]
+        if not targets:
+            return attempts
+        entries = {
+            _clean_text(entry.get("term")): entry
+            for entry in dictionary.get("entries") or []
+            if isinstance(entry, dict) and _clean_text(entry.get("term"))
+        }
+        related_attempt_terms = {_clean_text(term) for term in options.get("relatedAttemptTerms") or [] if _clean_text(term)}
+        accepted_terms = self._accepted_result_terms(result)
+        for term in targets:
+            if not term or term == primary_term:
+                continue
+            if related_attempt_terms and term not in related_attempt_terms and term not in accepted_terms:
+                continue
+            entry = entries.get(term)
+            attempts = self.update_term_attempt(
+                attempts,
+                {
+                    **plan_item,
+                    "term": term,
+                    "family": (entry or {}).get("family") or plan_item.get("family"),
+                    "evidenceCount": _non_negative_int((entry or {}).get("evidenceCount")) if entry else plan_item.get("evidenceCount"),
+                },
+                result,
+                finished_at=finished_at,
+                options=options,
+            )
+        return attempts
+
     def _get_term_attempt(self, term_attempts: dict[str, Any], term: str) -> dict[str, Any] | None:
         encoded = term_attempt_key(term)
         raw = term_attempts.get(encoded)
