@@ -155,6 +155,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertGreaterEqual(first.keyword_hits, 1)
         self.assertEqual(first.uncovered, 0)
 
+    def test_random_verifier_matches_ascii_terms_case_insensitively(self):
+        verifier = RandomVerifier(keyword_terms=["YYGQ", "doge"])
+
+        summary = verifier.verify([{"message": "this yyGq comment uses DOGE satire"}], sample_size=1, seed=1)
+
+        self.assertEqual(summary.keyword_hits, 1)
+        self.assertEqual(summary.samples[0]["matched_terms"], ["YYGQ", "doge"])
+        self.assertEqual(summary.samples[0]["coverage"], "keyword")
+
     def test_coverage_audit_report_reads_current_json_shape(self):
         payload = {
             "ok": False,

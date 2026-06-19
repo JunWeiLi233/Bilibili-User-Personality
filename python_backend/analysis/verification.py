@@ -19,6 +19,7 @@ class RandomVerifier:
 
     def __init__(self, keyword_terms: list[str]):
         self.keyword_terms = [term for term in keyword_terms if term]
+        self._ascii_terms = {term: term.casefold() for term in self.keyword_terms if term.isascii()}
 
     def verify(self, comments: list[dict[str, Any]], sample_size: int, seed: int) -> VerificationSummary:
         eligible = [comment for comment in comments if self._message(comment)]
@@ -36,7 +37,12 @@ class RandomVerifier:
 
     def _annotate(self, comment: dict[str, Any]) -> dict[str, Any]:
         message = self._message(comment)
-        matched = [term for term in self.keyword_terms if term in message]
+        folded_message = message.casefold()
+        matched = [
+            term
+            for term in self.keyword_terms
+            if (self._ascii_terms.get(term) in folded_message if term in self._ascii_terms else term in message)
+        ]
         return {**comment, "matched_terms": matched, "coverage": "keyword" if matched else "neutral"}
 
     @staticmethod
