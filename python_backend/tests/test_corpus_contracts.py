@@ -3811,6 +3811,40 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_audit_contract_comparator_reports_complete_mismatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            js_audit_path = root / "js-audit.json"
+            dictionary_path.write_text(
+                json.dumps({"entries": [{"term": "weak", "family": "attack", "evidenceCount": 1}]}),
+                encoding="utf-8",
+            )
+            js_audit_path.write_text(
+                json.dumps(
+                    {
+                        "targetEvidence": 3,
+                        "coverage": {
+                            "complete": True,
+                            "terms": 1,
+                            "totalEvidence": 1,
+                            "weakTerms": 1,
+                            "zeroEvidenceTerms": 0,
+                            "evidenceDeficit": 2,
+                            "coverageRatio": 0,
+                            "sourcedEvidenceTerms": 0,
+                            "unsourcedEvidenceTerms": 1,
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = AuditContractComparator(dictionary_path, js_audit_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["mismatches"], [{"key": "complete", "python": False, "js": True}])
+
     def test_audit_contract_comparator_reports_total_evidence_mismatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
