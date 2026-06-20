@@ -176,3 +176,22 @@ class FastPipelineLauncherPlanner:
                 "launchDelaySeconds": launch_delay_seconds,
             },
         }
+
+
+class FastPipelineLauncherSummary:
+    """Shape fast pipeline launcher plans into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("workers", "summary")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        summary: dict[str, Any] = {}
+        if "workers" in result:
+            summary["workers"] = [
+                {"start": worker["start"], "end": worker["end"], "progressFile": worker["progressFile"]}
+                for worker in result.get("workers", [])
+                if isinstance(worker, dict)
+            ]
+        if "summary" in result:
+            summary["summary"] = result.get("summary")
+        return summary

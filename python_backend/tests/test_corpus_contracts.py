@@ -116,7 +116,7 @@ from python_backend.scrapers.uid_discovery import UidDiscoveryPlanSummary, UidDi
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanSummary, UidParallelProgressReporter, UidParallelProgressSummary
 from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineMergeReporter, UidPipelineMergeSummary, UidPipelinePlanSummary, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter, ScraperMonitorSummary
-from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherPlanner, UidFastPipelinePlanSummary, UidFastPipelinePlanner
+from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherPlanner, FastPipelineLauncherSummary, UidFastPipelinePlanSummary, UidFastPipelinePlanner
 
 
 class CorpusContractTests(unittest.TestCase):
@@ -6804,6 +6804,34 @@ class CorpusContractTests(unittest.TestCase):
                     "js": [{"start": 1, "end": 20000, "progressFile": "stale.json"}],
                 }
             ],
+        )
+
+    def test_fast_pipeline_launcher_summary_extracts_comparator_contract(self):
+        summary = FastPipelineLauncherSummary().summarize(
+            {
+                "ok": True,
+                "workers": [
+                    {
+                        "start": 1,
+                        "end": 2,
+                        "progressFile": "uid-pipeline-fast-1-2.json",
+                        "logFile": "scraper-logs/uid-pipeline-fast-1-2.log",
+                        "stderrFile": "scraper-logs/uid-pipeline-fast-1-2-stderr.log",
+                        "cmdArgs": "/c node script.js --start=1 --end=2",
+                        "args": ["--start=1"],
+                    }
+                ],
+                "summary": {"workers": 1, "totalUids": 2, "launchDelaySeconds": 5},
+                "script": "server/scripts/uidPipelineFast.js",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "workers": [{"start": 1, "end": 2, "progressFile": "uid-pipeline-fast-1-2.json"}],
+                "summary": {"workers": 1, "totalUids": 2, "launchDelaySeconds": 5},
+            },
         )
 
     def test_scraper_monitor_pipeline_payload_planner_builds_worker_progress_filenames(self):
