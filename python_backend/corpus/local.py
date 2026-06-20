@@ -383,16 +383,20 @@ def _entry_needles(entry: dict[str, Any]) -> list[str]:
 
 def _existing_samples(entry: dict[str, Any]) -> set[str]:
     samples = []
-    samples.extend(entry.get("evidence") or [])
-    samples.extend(entry.get("evidenceSamples") or [])
-    samples.extend(source.get("sample") for source in entry.get("evidenceSources") or [] if isinstance(source, dict))
+    evidence = entry.get("evidence") if isinstance(entry.get("evidence"), list) else []
+    evidence_samples = entry.get("evidenceSamples") if isinstance(entry.get("evidenceSamples"), list) else []
+    evidence_sources = entry.get("evidenceSources") if isinstance(entry.get("evidenceSources"), list) else []
+    samples.extend(evidence)
+    samples.extend(evidence_samples)
+    samples.extend(source.get("sample") for source in evidence_sources if isinstance(source, dict))
     return {clean_text(sample) for sample in samples if clean_text(sample)}
 
 
 def _source_backed_samples(entry: dict[str, Any]) -> set[str]:
+    evidence_sources = entry.get("evidenceSources") if isinstance(entry.get("evidenceSources"), list) else []
     return {
         clean_text(source.get("sample"))
-        for source in entry.get("evidenceSources") or []
+        for source in evidence_sources
         if isinstance(source, dict) and clean_text(source.get("sample"))
     }
 

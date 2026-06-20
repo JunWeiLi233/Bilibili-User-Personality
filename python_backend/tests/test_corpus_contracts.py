@@ -4455,6 +4455,26 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(entries, [])
 
+    def test_local_corpus_evidence_finder_ignores_non_array_existing_evidence_fields(self):
+        dictionary = {
+            "entries": [
+                {
+                    "term": "\u72d7\u5934",
+                    "family": "attack",
+                    "evidenceCount": 0,
+                    "evidence": {"\u72d7\u5934": True},
+                    "evidenceSamples": {"\u72d7\u5934": True},
+                    "evidenceSources": {"sample": "\u72d7\u5934"},
+                }
+            ]
+        }
+        comments = [{"message": "\u72d7\u5934", "source": "local", "uid": "1"}]
+
+        entries = LocalCorpusEvidenceFinder().find_entries(dictionary, comments, {"targetEvidence": 3})
+
+        self.assertEqual([entry["term"] for entry in entries], ["\u72d7\u5934"])
+        self.assertEqual(entries[0]["evidence"], ["\u72d7\u5934"])
+
     def test_local_corpus_evidence_finder_owns_result_contract(self):
         result = LocalCorpusEvidenceFinder().find_entries_result(
             {"entries": [{"term": "\u61c2\u7684\u90fd\u61c2", "family": "evasion", "meaning": "\u6697\u793a", "evidenceCount": 0}]},
