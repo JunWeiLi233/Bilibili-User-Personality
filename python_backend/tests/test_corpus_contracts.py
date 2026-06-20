@@ -1583,6 +1583,14 @@ class CorpusContractTests(unittest.TestCase):
             [{"term": "狗头", "family": "", "meaning": ""}],
         )
 
+    def test_scrape_request_builds_from_js_json_payload_contract(self):
+        request = ScrapeRequest.from_payload({"query": "历史", "pageSize": "4", "source": "tieba"})
+        fallback_request = ScrapeRequest.from_payload({"keyword": "弹幕", "limit": "bad"})
+        scraper = ScraperAdapter(rate_limiter=RateLimiter(delay_seconds=0, sleep=lambda _: None))
+
+        self.assertEqual(scraper.build_metadata_request(request), {"source": "tieba", "query": "历史", "limit": 4})
+        self.assertEqual(scraper.build_metadata_request(fallback_request), {"source": "bilibili", "query": "弹幕", "limit": 20})
+
     def test_deepseek_analyzer_builds_standalone_sentence_request(self):
         sentence = "\u8fd9\u53ea\u662f\u5f15\u7528\u68d2\u7403\u672f\u8bed\uff0c\u4e0d\u662f\u5728\u9a82\u4eba\u3002"
         analyzer = DeepSeekAnalyzerClient()

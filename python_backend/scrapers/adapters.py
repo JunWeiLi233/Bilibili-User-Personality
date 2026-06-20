@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Any
 
 from .rate_limiter import RateLimiter
 
@@ -10,6 +11,17 @@ class ScrapeRequest:
     query: str
     limit: int = 20
     source: str = "bilibili"
+
+    @classmethod
+    def from_payload(cls, payload: dict[str, Any] | None = None) -> "ScrapeRequest":
+        payload = payload if isinstance(payload, dict) else {}
+        query = str(payload.get("query", payload.get("keyword", "")))
+        source = str(payload.get("source", "bilibili"))
+        try:
+            limit = int(payload.get("limit", payload.get("pageSize", 20)))
+        except (TypeError, ValueError):
+            limit = 20
+        return cls(query=query, limit=limit, source=source)
 
 
 class ScraperAdapter:
