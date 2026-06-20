@@ -93,7 +93,7 @@ from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriteSummary, CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
-from python_backend.scrapers.bilibili import BilibiliParseSummary, BilibiliPublicParser
+from python_backend.scrapers.bilibili import BilibiliParseContractComparator as BilibiliParsePayloadComparator, BilibiliParseSummary, BilibiliPublicParser
 from python_backend.scrapers.aicu import AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanSummary, AicuScrapePlanner
 from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanSummary, AicuBrowserBatchPlanner
 from python_backend.scrapers import video_link_direct
@@ -4979,6 +4979,17 @@ class CorpusContractTests(unittest.TestCase):
                 "comments": [{"message": "ignored for this mode"}],
             },
         )
+
+    def test_bilibili_parse_payload_comparator_owns_result_key_mismatch_contract(self):
+        result = BilibiliParsePayloadComparator().compare(
+            {"mode": "danmaku", "comments": [{"message": "python"}], "extra": "ignored"},
+            {"mode": "danmaku", "comments": []},
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["mismatches"], [{"key": "comments", "python": [{"message": "python"}], "js": []}])
+        self.assertEqual(result["python"], {"mode": "danmaku", "comments": [{"message": "python"}]})
+        self.assertEqual(result["js"], {"mode": "danmaku", "comments": []})
 
     def test_bilibili_crawler_helper_matches_bvid_and_block_contracts(self):
         helper = BilibiliCrawlerHelper()
