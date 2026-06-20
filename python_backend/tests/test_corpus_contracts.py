@@ -1443,6 +1443,18 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_aicu_scrape_plan_runner_defaults_non_object_payload_root(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "aicu-plan.json"
+            payload_path.write_text(json.dumps(["bad", "payload"]), encoding="utf-8")
+
+            result = AicuScrapePlanRunner(payload_path).run()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["uids"], [])
+        self.assertEqual(result["summary"], {"uids": 0, "commentPagesPerUid": 10, "danmakuPagesPerUid": 10, "delayBetweenUidsMs": 15000})
+        self.assertEqual(result["requests"], [])
+
     def test_aicu_scrape_plan_summary_extracts_comparator_contract(self):
         summary = AicuScrapePlanSummary().summarize(
             {
