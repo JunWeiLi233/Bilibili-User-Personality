@@ -9,7 +9,7 @@ from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanSummary
 from python_backend.analysis.coverage_progress import CoverageProgressSummary, CoverageProgressTracker
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReporter, VideoKeywordDiscoveryReportSummary
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, HarvestOptionsSummary, VideoKeywordDiscoveryOptionsBuilder
-from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder
+from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, KeywordHarvestPlanSummary
 from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateFinalizer, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetResolvePlanner
@@ -9064,6 +9064,13 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["queries"], ["weak \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4", "seed topic"])
         self.assertEqual(result["plan"][0]["source"], "dictionary")
+
+    def test_keyword_harvest_plan_comparator_uses_backend_summary_contract_keys(self):
+        self.assertFalse(hasattr(KeywordHarvestPlanContractComparator, "PLAN_KEYS"))
+        self.assertEqual(
+            KeywordHarvestPlanContractComparator(Path("payload.json"), Path("js-plan.json")).summary.PLAN_KEYS,
+            KeywordHarvestPlanSummary.PLAN_KEYS,
+        )
 
     def test_keyword_harvest_plan_contract_comparator_reports_plan_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:

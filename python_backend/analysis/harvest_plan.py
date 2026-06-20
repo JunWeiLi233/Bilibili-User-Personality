@@ -288,3 +288,21 @@ class KeywordHarvestPlanBuilder:
                 seen.add(token)
                 tokens.append(token)
         return " ".join(tokens)
+
+
+class KeywordHarvestPlanSummary:
+    """Shape keyword harvest plans into the JS/Python comparator contract."""
+
+    PLAN_KEYS = ("query", "source", "term", "family")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        plan = result.get("plan") if isinstance(result.get("plan"), list) else []
+        return {
+            "queries": result.get("queries") if isinstance(result.get("queries"), list) else [item.get("query") for item in plan if isinstance(item, dict)],
+            "plan": [
+                {key: item.get(key) for key in self.PLAN_KEYS}
+                for item in plan
+                if isinstance(item, dict)
+            ],
+        }

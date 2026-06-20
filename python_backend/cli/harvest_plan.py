@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder
+from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, KeywordHarvestPlanSummary
 
 
 class KeywordHarvestPlanRunner:
@@ -32,17 +32,16 @@ class KeywordHarvestPlanRunner:
 class KeywordHarvestPlanContractComparator:
     """Compare Python keyword-harvest plans against saved JS-compatible plan JSON."""
 
-    PLAN_KEYS = ("query", "source", "term", "family")
-
     def __init__(self, payload_path: str | Path, js_plan_path: str | Path):
         self.payload_path = Path(payload_path)
         self.js_plan_path = Path(js_plan_path)
+        self.summary = KeywordHarvestPlanSummary()
 
     def compare(self) -> dict[str, Any]:
         python_result = KeywordHarvestPlanRunner(self.payload_path).run()
         js_result = self._read_js_plan()
-        python_summary = self._summary(python_result)
-        js_summary = self._summary(js_result)
+        python_summary = self.summary.summarize(python_result)
+        js_summary = self.summary.summarize(js_result)
         mismatches = [
             {"key": key, "python": python_summary.get(key), "js": js_summary.get(key)}
             for key in ("queries", "plan")
@@ -61,18 +60,6 @@ class KeywordHarvestPlanContractComparator:
         with self.js_plan_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
-
-    def _summary(self, result: dict[str, Any]) -> dict[str, Any]:
-        plan = result.get("plan") if isinstance(result.get("plan"), list) else []
-        return {
-            "queries": result.get("queries") if isinstance(result.get("queries"), list) else [item.get("query") for item in plan if isinstance(item, dict)],
-            "plan": [
-                {key: item.get(key) for key in self.PLAN_KEYS}
-                for item in plan
-                if isinstance(item, dict)
-            ],
-        }
-
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Build a JS-compatible keyword harvest query plan from JSON.")
