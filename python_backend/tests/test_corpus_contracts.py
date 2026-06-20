@@ -9,6 +9,7 @@ from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanContrac
 from python_backend.analysis.coverage_progress import CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressPayloadContractComparator, CoverageProgressRunner as CoverageProgressPayloadRunner, CoverageProgressSummary, CoverageProgressTracker
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReportContractComparator as VideoKeywordDiscoveryReportPayloadComparator, VideoKeywordDiscoveryReportPayloadContractComparator, VideoKeywordDiscoveryReporter, VideoKeywordDiscoveryReportRunner as VideoKeywordDiscoveryReportPayloadRunner, VideoKeywordDiscoveryReportSummary
 from python_backend.analysis import harvest_options as harvest_options_module
+from python_backend.analysis import verification as verification_module
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, HarvestOptionsContractComparator as HarvestOptionsPayloadComparator, HarvestOptionsPayloadContractComparator, HarvestOptionsRunner as HarvestOptionsPayloadRunner, HarvestOptionsSummary, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, KeywordHarvestPlanContractComparator as KeywordHarvestPlanPayloadComparator, KeywordHarvestPlanPayloadContractComparator, KeywordHarvestPlanRunner as KeywordHarvestPayloadPlanRunner, KeywordHarvestPlanSummary
 from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateContractComparator as HarvestStatePayloadComparator, HarvestStatePayloadContractComparator, HarvestStateFinalizer, HarvestStatePayloadProcessor, HarvestStateRunner as HarvestStatePayloadRunner, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
@@ -565,6 +566,59 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(summary.sampled, 1)
         self.assertEqual(summary.samples[0]["message"], "狗头保命")
         self.assertEqual(summary.keyword_hits, 1)
+
+    def test_random_verification_payload_runner_accepts_inline_json_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "random-verification.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "sampleSize": 3,
+                        "seed": 4,
+                        "corpus": {
+                            "comments": [
+                                {"message": "plain comment"},
+                                {"message": "doge satire"},
+                                {"message": "HTTP 403 from https://tieba.baidu.com/p/1"},
+                                {"message": "YYGQ reply"},
+                            ],
+                            "runs": [{"at": "now"}],
+                            "manifest": {"storage": "inline"},
+                        },
+                        "dictionary": {"entries": [{"term": "doge"}, {"term": "YYGQ"}]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = verification_module.RandomVerificationPayloadRunner(payload_path).run()
+
+        self.assertEqual(result["sampleSize"], 3)
+        self.assertEqual(result["seed"], 4)
+        self.assertEqual(result["corpus"], {"comments": 4, "runs": 1, "storage": "inline"})
+        self.assertEqual(result["sampled"], 3)
+        self.assertEqual(result["uncovered"], 0)
+        self.assertEqual(result["keywordHits"], 2)
+
+    def test_random_verification_cli_runner_accepts_payload_flag(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "random-verification.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "sampleSize": 1,
+                        "seed": 1,
+                        "corpus": {"comments": [{"message": "doge"}]},
+                        "dictionary": {"entries": [{"term": "doge"}]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = RandomVerificationRunner(["--payload", str(payload_path)]).run()
+
+        self.assertEqual(result["sampleSize"], 1)
+        self.assertEqual(result["keywordHits"], 1)
 
     def test_coverage_audit_report_reads_current_json_shape(self):
         payload = {
