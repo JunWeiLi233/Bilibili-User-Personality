@@ -10,6 +10,7 @@ from python_backend.cli import local_corpus_flatten as local_corpus_flatten_cli
 from python_backend.cli import direct_probe_corpus as direct_probe_corpus_cli
 from python_backend.cli import comment_coverage as comment_coverage_cli
 from python_backend.cli import compare_contracts as compare_contracts_cli
+from python_backend.cli import corpus_shard_writer as corpus_shard_writer_cli
 from python_backend.cli import coverage_audit as coverage_audit_cli
 from python_backend.cli import coverage_audit_artifacts as coverage_audit_artifacts_cli
 from python_backend.cli import deepseek_analysis_plan as deepseek_analysis_plan_cli
@@ -535,6 +536,33 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["runs"], 1)
         self.assertEqual([item["message"] for item in loaded.comments], ["alpha" * 20, "beta"])
         self.assertEqual(loaded.runs, [{"at": "now"}])
+
+    def test_corpus_shard_write_cli_runner_accepts_argv_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            output_path = root / "out.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "outputPath": str(output_path),
+                        "maxShardBytes": 128,
+                        "manifest": {"version": 2, "updatedAt": "2026-06-19T00:00:00.000Z", "source": "contract"},
+                        "comments": [{"message": "alpha" * 20}, {"message": "beta"}],
+                        "runs": [{"at": "now"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = corpus_shard_writer_cli.CorpusShardWriteCliRunner(["--payload", str(payload_path)]).run()
+            loaded = CorpusLoader(output_path).load()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["manifest"]["storage"], "split")
+        self.assertEqual(result["comments"], 2)
+        self.assertEqual(result["runs"], 1)
+        self.assertEqual([item["message"] for item in loaded.comments], ["alpha" * 20, "beta"])
 
     def test_compare_contracts_cli_accepts_argv_contract_paths(self):
         with tempfile.TemporaryDirectory() as tmp:
