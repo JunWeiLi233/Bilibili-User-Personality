@@ -14410,6 +14410,19 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["progress"], {"scraped": 4, "videosScanned": 40, "pagesScanned": 2, "remainingPages": 3, "targetPages": 5})
         self.assertEqual(result["database"], {"users": 2, "withComments": 1, "comments": 1, "danmaku": 2})
 
+    def test_batch_scrape_progress_runner_defaults_invalid_numeric_options(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            data_dir = Path(tmp) / "server" / "data"
+            data_dir.mkdir(parents=True)
+            (data_dir / "batch-scrape-popular-progress.json").write_text(
+                json.dumps({"scraped": 4, "videosScanned": 40, "pagesScanned": 2}),
+                encoding="utf-8",
+            )
+
+            result = BatchScrapeProgressPayloadRunner(data_dir, progress_file="batch-scrape-popular-progress.json", mode="popular", pages="bad").run()  # type: ignore[arg-type]
+
+        self.assertEqual(result["progress"], {"scraped": 4, "videosScanned": 40, "pagesScanned": 2, "remainingPages": 48, "targetPages": 50})
+
     def test_batch_scrape_progress_comparator_reports_summary_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

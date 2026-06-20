@@ -351,9 +351,9 @@ class AicuBatchProgressReporter:
     ):
         self.mode = mode
         self.progress_file = str(progress_file)
-        self.start_uid = int(start_uid)
-        self.end_uid = int(end_uid)
-        self.pages = int(pages)
+        self.start_uid = _parse_int_or(start_uid, 100000)
+        self.end_uid = _parse_int_or(end_uid, 200000)
+        self.pages = _parse_int_or(pages, 50)
 
     def build_report(self, progress: Any, database: Any) -> dict[str, Any]:
         progress_payload = progress if isinstance(progress, dict) else {}
@@ -445,9 +445,9 @@ class BatchScrapeProgressRunner:
         self.progress_path = self.data_dir / progress_file
         self.database_path = self.data_dir / database_file
         self.mode = mode
-        self.start_uid = int(start_uid)
-        self.end_uid = int(end_uid)
-        self.pages = int(pages)
+        self.start_uid = _parse_int_or(start_uid, 100000)
+        self.end_uid = _parse_int_or(end_uid, 200000)
+        self.pages = _parse_int_or(pages, 50)
 
     def run(self) -> dict[str, Any]:
         progress = self._read_json(self.progress_path, {})
