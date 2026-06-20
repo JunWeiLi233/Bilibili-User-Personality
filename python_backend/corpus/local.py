@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+from pathlib import Path
 import re
 import unicodedata
 from typing import Any
@@ -232,6 +234,41 @@ class LocalCorpusFlattenContractComparator:
             "python": self.summary.summarize(python_result),
             "js": self.summary.summarize(js_result),
         }
+
+
+class LocalCorpusFlattenRunner:
+    """Flatten local corpus JSON into the shared comment contract."""
+
+    def __init__(self, input_path: str | Path):
+        self.input_path = Path(input_path)
+        self.flattener = LocalCorpusFlattener()
+
+    def run(self) -> dict[str, Any]:
+        with self.input_path.open("r", encoding="utf-8-sig") as handle:
+            raw = json.load(handle)
+        return self.flattener.flatten_to_result(raw)
+
+
+class LocalCorpusFlattenPayloadContractComparator:
+    """Compare local-corpus flatten payload output against saved JS-compatible JSON."""
+
+    def __init__(self, input_path: str | Path, js_report_path: str | Path):
+        self.input_path = Path(input_path)
+        self.js_report_path = Path(js_report_path)
+        self.summary = LocalCorpusFlattenSummary()
+        self.comparator = LocalCorpusFlattenContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = LocalCorpusFlattenRunner(self.input_path).run()
+        js_result = self._read_js_report()
+        return self.comparator.compare(python_result, js_result)
+
+    def _read_js_report(self) -> dict[str, Any]:
+        if not self.js_report_path.exists():
+            return {}
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
 
 
 def _evidence_count(entry: dict[str, Any]) -> int:
