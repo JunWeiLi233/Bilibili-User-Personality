@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
+from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceCorpusImportPlanContractComparator, HuggingFaceImportPlanner, HuggingFaceImportSummary
 
 
 class HuggingFaceCorpusImportPlanRunner:
@@ -29,37 +29,6 @@ class HuggingFaceCorpusImportPlanRunner:
         if not isinstance(payload, dict):
             raise ValueError("HuggingFace import plan payload must be a JSON object.")
         return payload
-
-
-class HuggingFaceCorpusImportPlanContractComparator:
-    """Compare Python HuggingFace import fetch plans against saved JS-compatible JSON."""
-
-    def __init__(self, payload_path: str | Path, js_report_path: str | Path):
-        self.payload_path = Path(payload_path)
-        self.js_report_path = Path(js_report_path)
-        self.summary = HuggingFaceImportPlanSummary()
-
-    def compare(self) -> dict[str, Any]:
-        python_result = HuggingFaceCorpusImportPlanRunner(self.payload_path).run()
-        js_result = self._read_js_report()
-        mismatches = [
-            {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
-            for key in self.summary.RESULT_KEYS
-            if key in js_result and python_result.get(key) != js_result.get(key)
-        ]
-        return {
-            "ok": not mismatches,
-            "mismatches": mismatches,
-            "python": self.summary.summarize(python_result),
-            "js": self.summary.summarize(js_result),
-        }
-
-    def _read_js_report(self) -> dict[str, Any]:
-        if not self.js_report_path.exists():
-            return {}
-        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else {}
 
 
 class HuggingFaceCorpusImportRunner:
