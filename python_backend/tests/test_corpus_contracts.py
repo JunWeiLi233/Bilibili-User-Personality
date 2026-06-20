@@ -7855,6 +7855,25 @@ class CorpusContractTests(unittest.TestCase):
             BatchUidRangePlanSummary.RESULT_KEYS,
         )
 
+    def test_batch_uid_range_planner_builds_plan_from_json_payload_contract(self):
+        result = BatchUidRangePlanner.build_plan_from_payload(
+            {
+                "argv": ["--start=50", "--end=60", "--pages=4", "--phase2-only"],
+                "progress": {
+                    "scannedBvids": ["BV1"],
+                    "_uidComments": {"49": [{"message": "below"}], "50": [{"message": "inside"}], "61": [{"message": "above"}]},
+                    "processedUids": {"50": "success"},
+                    "stats": {"videosScanned": "1", "uidsFound": "3", "targetUidsFound": "1", "commentsCollected": "3", "analyzed": "1", "skipped": "0", "errors": "0"},
+                },
+                "database": {"users": {"50": {}, "99": {}}},
+            }
+        )
+
+        self.assertEqual(result["input"], {"start": 50, "end": 60, "pages": 4, "phase2Only": True})
+        self.assertEqual(result["phase1"]["enabled"], False)
+        self.assertEqual(result["phase2"], {"targetUids": 1, "processed": 1, "remaining": 0, "userDbUsers": 2})
+        self.assertEqual(result["stats"]["targetUidsFound"], 1)
+
     def test_batch_uid_range_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
