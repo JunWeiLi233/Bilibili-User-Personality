@@ -98,7 +98,7 @@ from python_backend.scrapers.aicu import AicuBatchPlanSummary, AicuBatchPlanner,
 from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanSummary, AicuBrowserBatchPlanner
 from python_backend.scrapers import video_link_direct
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanner
-from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerHelper, BilibiliCrawlerSummary
+from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerContractComparator as BilibiliCrawlerPayloadComparator, BilibiliCrawlerHelper, BilibiliCrawlerSummary
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanSummary, BilibiliProbePlanner
 from python_backend.runtime.file_lock import FileLockStateInspector, FileLockStateSummary
 from python_backend.scrapers.rate_limiter import RateLimiter
@@ -5104,6 +5104,33 @@ class CorpusContractTests(unittest.TestCase):
                 "dynamicRecords": {"objects": []},
             },
         )
+
+    def test_bilibili_crawler_payload_comparator_owns_result_key_mismatch_contract(self):
+        result = BilibiliCrawlerPayloadComparator().compare(
+            {
+                "ok": True,
+                "bvids": ["BVpython"],
+                "bvid": "BVpython",
+                "blocked": False,
+                "extra": "ignored",
+            },
+            {"ok": True, "bvids": [], "bvid": "BVjs", "blocked": True},
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "bvids", "python": ["BVpython"], "js": []},
+                {"key": "bvid", "python": "BVpython", "js": "BVjs"},
+                {"key": "blocked", "python": False, "js": True},
+            ],
+        )
+        self.assertEqual(
+            result["python"],
+            {"bvids": ["BVpython"], "bvid": "BVpython", "blocked": False},
+        )
+        self.assertEqual(result["js"], {"bvids": [], "bvid": "BVjs", "blocked": True})
 
     def test_bilibili_crawler_helper_matches_public_comment_contracts(self):
         helper = BilibiliCrawlerHelper()
