@@ -350,6 +350,20 @@ class HarvestStateFinalizer:
         return [run for run in runs if _number(run.get("strategyVersion")) >= self.strategy_version]
 
 
+class HarvestStateSummary:
+    """Shape harvest-state updates into the JS/Python comparator contract."""
+
+    SUMMARY_KEYS = ("termAttempts", "backfilled")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        attempts = result.get("termAttempts") if isinstance(result.get("termAttempts"), dict) else {}
+        summary: dict[str, Any] = {"termAttempts": attempts}
+        if "backfilled" in result:
+            summary["backfilled"] = result.get("backfilled")
+        return summary
+
+
 class HarvestTermAttemptUpdater:
     """Update keyword-harvest termAttempts using the JS keywordHarvest state contract."""
 

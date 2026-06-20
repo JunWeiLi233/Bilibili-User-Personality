@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateFinalizer, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater
+from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateFinalizer, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater
 
 
 class HarvestStateRunner:
@@ -91,15 +91,16 @@ class HarvestStateContractComparator:
     def __init__(self, payload_path: str | Path, js_state_path: str | Path):
         self.payload_path = Path(payload_path)
         self.js_state_path = Path(js_state_path)
+        self.summary = HarvestStateSummary()
 
     def compare(self) -> dict[str, Any]:
         python_result = HarvestStateRunner(self.payload_path).run()
         js_result = self._read_js_state()
-        python_summary = self._summary(python_result)
-        js_summary = self._summary(js_result)
+        python_summary = self.summary.summarize(python_result)
+        js_summary = self.summary.summarize(js_result)
         mismatches = [
             {"key": key, "python": python_summary.get(key), "js": js_summary.get(key)}
-            for key in ("termAttempts", "backfilled")
+            for key in self.summary.SUMMARY_KEYS
             if key in js_summary and python_summary.get(key) != js_summary.get(key)
         ]
         return {"ok": not mismatches, "mismatches": mismatches, "python": python_summary, "js": js_summary}
@@ -110,13 +111,6 @@ class HarvestStateContractComparator:
         with self.js_state_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
-
-    def _summary(self, result: dict[str, Any]) -> dict[str, Any]:
-        attempts = result.get("termAttempts") if isinstance(result.get("termAttempts"), dict) else {}
-        summary: dict[str, Any] = {"termAttempts": attempts}
-        if "backfilled" in result:
-            summary["backfilled"] = result.get("backfilled")
-        return summary
 
 
 def build_parser() -> argparse.ArgumentParser:
