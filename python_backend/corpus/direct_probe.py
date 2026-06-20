@@ -204,6 +204,26 @@ class DirectProbeCorpusRunner:
         return payload if isinstance(payload, dict) else fallback
 
 
+class DirectProbeCorpusPayloadRunner:
+    """Build a direct Bilibili probe corpus update from one JSON payload file."""
+
+    def __init__(self, payload_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.builder = DirectProbeCorpusBuilder()
+
+    def run(self) -> dict[str, Any]:
+        payload = self._read_payload()
+        existing = payload.get("existing") if isinstance(payload.get("existing"), dict) else {"version": 1, "comments": [], "runs": []}
+        comments_payload = payload.get("comments") if isinstance(payload.get("comments"), list) else []
+        run = payload.get("run") if isinstance(payload.get("run"), dict) else {}
+        return self.builder.build_probe_corpus_result(existing, comments_payload, run)
+
+    def _read_payload(self) -> dict[str, Any]:
+        with self.payload_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
+
+
 class DirectProbeCorpusPayloadContractComparator:
     """Compare file-backed direct-probe corpus updates against saved JS-compatible JSON."""
 
