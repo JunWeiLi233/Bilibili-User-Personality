@@ -28,6 +28,14 @@ class RandomVerificationRunner:
                 return RandomVerificationJsonPayloadContractComparator(args.payload, args.compare_js_report).compare()
             if args.payload:
                 return RandomVerificationPayloadRunner(args.payload).run()
+            if args.compare_js_report:
+                return RandomVerificationContractComparator(
+                    args.corpus,
+                    args.dictionary,
+                    args.compare_js_report,
+                    sample_size=args.sample_size,
+                    seed=args.seed,
+                ).compare()
             return AnalysisRandomVerificationRunner(
                 args.corpus,
                 args.dictionary,

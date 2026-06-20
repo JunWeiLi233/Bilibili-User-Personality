@@ -981,6 +981,37 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(result["ok"])
         self.assertEqual([item["key"] for item in result["mismatches"]], ["keywordHits", "neutral"])
 
+    def test_random_verification_cli_runner_compares_path_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            dictionary_path = root / "dictionary.json"
+            js_report_path = root / "js-random-verification.json"
+            corpus_path.write_text(json.dumps({"comments": [{"message": "doge"}, {"message": "plain"}]}), encoding="utf-8")
+            dictionary_path.write_text(json.dumps({"entries": [{"term": "doge"}]}), encoding="utf-8")
+            js_report_path.write_text(
+                json.dumps({"sampleSize": 2, "seed": 1, "sampled": 2, "keywordHits": 0, "neutral": 2, "uncovered": 0}),
+                encoding="utf-8",
+            )
+
+            result = RandomVerificationRunner(
+                [
+                    "--corpus",
+                    str(corpus_path),
+                    "--dictionary",
+                    str(dictionary_path),
+                    "--compare-js-report",
+                    str(js_report_path),
+                    "--sample-size",
+                    "2",
+                    "--seed",
+                    "1",
+                ]
+            ).run()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual([item["key"] for item in result["mismatches"]], ["keywordHits", "neutral"])
+
     def test_coverage_audit_report_reads_current_json_shape(self):
         payload = {
             "ok": False,
