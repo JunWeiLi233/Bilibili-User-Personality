@@ -65,8 +65,6 @@ class RandomVerificationRunner:
 class RandomVerificationContractComparator:
     """Compare Python random verification against a persisted JS-compatible report."""
 
-    METRIC_KEYS = ("sampled", "keywordHits", "neutral", "uncovered")
-
     def __init__(
         self,
         corpus_path: str | Path,
@@ -93,9 +91,10 @@ class RandomVerificationContractComparator:
             sample_size=sample_size,
             seed=seed,
         ).run()
+        metric_keys = tuple(key for key in self.summary.SUMMARY_KEYS if key not in ("sampleSize", "seed"))
         mismatches = [
             {"key": key, "python": python_report.get(key), "js": js_report.get(key)}
-            for key in self.METRIC_KEYS
+            for key in metric_keys
             if key in js_report and python_report.get(key) != js_report.get(key)
         ]
         return {

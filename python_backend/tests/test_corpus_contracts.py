@@ -10265,6 +10265,13 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["python"]["sampled"], 3)
         self.assertEqual(result["js"]["sampled"], 3)
 
+    def test_random_verification_comparator_uses_summary_metric_keys(self):
+        self.assertFalse(hasattr(RandomVerificationContractComparator, "METRIC_KEYS"))
+        self.assertEqual(
+            RandomVerificationContractComparator(Path("corpus.json"), Path("dictionary.json"), Path("js.json")).summary.SUMMARY_KEYS,
+            RandomVerificationReportSummary.SUMMARY_KEYS,
+        )
+
     def test_random_verification_report_summary_preserves_comparator_shape(self):
         summary = RandomVerificationReportSummary().summarize(
             {
