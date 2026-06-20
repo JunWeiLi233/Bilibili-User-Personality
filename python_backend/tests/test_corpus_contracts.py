@@ -740,6 +740,19 @@ class CorpusContractTests(unittest.TestCase):
             AicuBatchPlanSummary.RESULT_KEYS,
         )
 
+    def test_aicu_batch_planner_builds_plan_from_json_payload_contract(self):
+        result = AicuBatchPlanner.build_plan_from_payload(
+            {
+                "argv": ["--start=10", "--end=12"],
+                "progress": {"lastUid": 10, "completed": "4", "errors": [{"uid": "10"}]},
+                "database": {"users": {"11": {}, "99": {}}},
+            }
+        )
+
+        self.assertEqual(result["range"], {"requestedStart": 10, "effectiveStart": 11, "end": 12, "total": 2})
+        self.assertEqual(result["progress"], {"lastUid": 10, "completed": 4, "errors": 1})
+        self.assertEqual(result["database"], {"users": 2, "existingInEffectiveRange": 1})
+
     def test_aicu_batch_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

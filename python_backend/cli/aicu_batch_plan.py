@@ -17,11 +17,7 @@ class AicuBatchPlanRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
-        return AicuBatchPlanner().build_plan(
-            argv=payload.get("argv") if isinstance(payload.get("argv"), list) else [],
-            progress=payload.get("progress") if isinstance(payload.get("progress"), dict) else {},
-            database=payload.get("database") if isinstance(payload.get("database"), dict) else {},
-        )
+        return AicuBatchPlanner.build_plan_from_payload(payload)
 
     def _read_payload(self) -> dict[str, Any]:
         with self.payload_path.open("r", encoding="utf-8-sig") as handle:
