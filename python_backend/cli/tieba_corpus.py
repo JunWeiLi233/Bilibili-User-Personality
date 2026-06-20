@@ -21,7 +21,7 @@ class TiebaCorpusUpdateRunner:
     def run(self) -> dict[str, Any]:
         existing = self._read_json(self.existing_path, {"version": 1, "updatedAt": None, "runs": [], "comments": []})
         run = self._read_json(self.run_path, {})
-        return {"ok": True, **self.updater.build_update(existing, run, self.generated_at)}
+        return self.updater.build_update_result(existing, run, self.generated_at)
 
     def _read_json(self, path: Path, fallback: dict[str, Any]) -> dict[str, Any]:
         if not path.exists():

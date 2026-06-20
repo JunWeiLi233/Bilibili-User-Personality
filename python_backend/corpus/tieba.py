@@ -17,6 +17,9 @@ class TiebaCorpusUpdateSummary:
 class TiebaCorpusUpdater:
     """Build JS-compatible Tieba corpus updates from a scrape run."""
 
+    def build_update_result(self, corpus: dict[str, Any] | None, run: dict[str, Any] | None, generated_at: str | None = None) -> dict[str, Any]:
+        return {"ok": True, **self.build_update(corpus, run, generated_at)}
+
     def build_update(self, corpus: dict[str, Any] | None, run: dict[str, Any] | None, generated_at: str | None = None) -> dict[str, Any]:
         generated_at = generated_at or datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
         existing = corpus if isinstance(corpus, dict) and isinstance(corpus.get("runs"), list) else {"version": 1, "updatedAt": None, "runs": [], "comments": []}

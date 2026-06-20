@@ -2944,6 +2944,17 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(update["corpus"]["runs"][0]["at"], "old-6")
         self.assertEqual(update["corpus"]["updatedAt"], "2026-06-17T02:00:00.000Z")
 
+    def test_tieba_corpus_updater_owns_update_result_contract(self):
+        result = TiebaCorpusUpdater().build_update_result(
+            {"version": 1, "runs": [], "comments": []},
+            {"at": "2026-06-17T02:00:00.000Z", "results": [{"comments": [{"message": "\u65b0\u8bc4\u8bba"}]}]},
+            "2026-06-17T02:00:00.000Z",
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertTrue(result["changed"])
+        self.assertEqual(result["corpus"]["comments"][0]["message"], "\u65b0\u8bc4\u8bba")
+
     def test_tieba_corpus_update_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
