@@ -49,7 +49,7 @@ class CorpusLoader:
             return Corpus(
                 manifest=manifest,
                 comments=self._normalize_comments(manifest.get("comments") or []),
-                runs=list(manifest.get("runs") or []),
+                runs=self._normalize_runs(manifest.get("runs") or []),
             )
 
         comments = (
@@ -60,7 +60,7 @@ class CorpusLoader:
         runs = (
             self._hydrate_files(manifest.get("runFiles") or [], "runs")
             if isinstance(manifest.get("runFiles"), list)
-            else list(manifest.get("runs") or [])
+            else self._normalize_runs(manifest.get("runs") or [])
         )
         return Corpus(manifest={**manifest, "comments": comments, "runs": runs}, comments=comments, runs=runs)
 
@@ -86,6 +86,10 @@ class CorpusLoader:
             if text:
                 comments.append({"message": text})
         return comments
+
+    @staticmethod
+    def _normalize_runs(values: Any) -> list[dict[str, Any]]:
+        return list(values) if isinstance(values, list) else []
 
     @staticmethod
     def _read_json(path: Path) -> Any:

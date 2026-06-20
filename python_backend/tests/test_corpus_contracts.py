@@ -241,6 +241,26 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(corpus.comments, [{"message": "inline comment"}])
         self.assertEqual(corpus.runs, [{"at": "inline-run"}])
 
+    def test_loader_ignores_non_array_inline_runs_when_split_file_lists_are_missing(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "demo.json").write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "storage": "split",
+                        "comments": [{"message": "inline comment"}],
+                        "runs": {"bad": "run shape"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            corpus = CorpusLoader(root / "demo.json").load()
+
+        self.assertEqual(corpus.comments, [{"message": "inline comment"}])
+        self.assertEqual(corpus.runs, [])
+
     def test_loader_ignores_non_object_split_shard_payloads(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
