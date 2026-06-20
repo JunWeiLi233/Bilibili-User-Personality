@@ -1591,6 +1591,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(scraper.build_metadata_request(request), {"source": "tieba", "query": "历史", "limit": 4})
         self.assertEqual(scraper.build_metadata_request(fallback_request), {"source": "bilibili", "query": "弹幕", "limit": 20})
 
+    def test_scraper_adapter_builds_metadata_request_from_json_payload_contract(self):
+        sleeps = []
+        scraper = ScraperAdapter(rate_limiter=RateLimiter(delay_seconds=0.5, sleep=sleeps.append))
+
+        result = scraper.build_metadata_request_from_payload({"keyword": "弹幕", "pageSize": 0, "source": "bilibili"})
+
+        self.assertEqual(result, {"source": "bilibili", "query": "弹幕", "limit": 1})
+        self.assertEqual(sleeps, [0.5])
+
     def test_deepseek_analyzer_builds_standalone_sentence_request(self):
         sentence = "\u8fd9\u53ea\u662f\u5f15\u7528\u68d2\u7403\u672f\u8bed\uff0c\u4e0d\u662f\u5728\u9a82\u4eba\u3002"
         analyzer = DeepSeekAnalyzerClient()

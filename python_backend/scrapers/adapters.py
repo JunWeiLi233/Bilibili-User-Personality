@@ -36,3 +36,7 @@ class ScraperAdapter:
             "query": request.query,
             "limit": max(1, int(request.limit)),
         }
+
+    def build_metadata_request_from_payload(self, payload: dict[str, Any] | None = None) -> dict[str, object]:
+        self.rate_limiter.wait()
+        return self.build_metadata_request(ScrapeRequest.from_payload(payload))
