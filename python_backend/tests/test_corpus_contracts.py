@@ -7152,6 +7152,13 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_batch_popular_plan_comparator_uses_summary_contract_keys(self):
+        self.assertFalse(hasattr(BatchPopularPlanContractComparator, "RESULT_KEYS"))
+        self.assertEqual(
+            BatchPopularPlanContractComparator(Path("payload.json"), Path("js.json")).summary.RESULT_KEYS,
+            BatchPopularPlanSummary.RESULT_KEYS,
+        )
+
     def test_batch_popular_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
