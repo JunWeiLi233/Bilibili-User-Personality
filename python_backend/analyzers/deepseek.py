@@ -252,6 +252,11 @@ class DeepSeekAnalyzerClient:
 class DeepSeekAnalysisValidator:
     """Validate DeepSeek analysis JSON against the original source comments."""
 
+    def validate_payloads(self, source_payload: dict[str, Any] | None = None, analysis_payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        source_payload = source_payload if isinstance(source_payload, dict) else {}
+        analysis_payload = analysis_payload if isinstance(analysis_payload, dict) else {}
+        return self.validate(self._comments_from_payload(source_payload), self._analysis_from_payload(analysis_payload))
+
     def validate(self, comments: list[str], analysis: dict[str, Any]) -> dict[str, Any]:
         source_sentences = self._source_sentences(comments)
         source_normalized = [self._normalize_quote(sentence) for sentence in source_sentences]
@@ -275,6 +280,22 @@ class DeepSeekAnalysisValidator:
 
     def _source_sentences(self, comments: list[str]) -> list[str]:
         return DeepSeekAnalyzerClient()._split_sentences("\n".join(str(comment) for comment in comments))
+
+    def _comments_from_payload(self, payload: dict[str, Any]) -> list[str]:
+        comments = payload.get("comments")
+        if isinstance(comments, list):
+            return [str(item) for item in comments if str(item).strip()]
+        text = str(payload.get("text") or payload.get("fullText") or "").strip()
+        return [text] if text else []
+
+    def _analysis_from_payload(self, payload: dict[str, Any]) -> dict[str, Any]:
+        parsed = payload.get("parsed")
+        if isinstance(parsed, dict):
+            return parsed
+        analysis = payload.get("analysis")
+        if isinstance(analysis, dict):
+            return analysis
+        return payload
 
     def _unsupported_sentence_quotes(self, sentence_analyses: list[Any], source_normalized: list[str]) -> list[dict[str, str]]:
         unsupported = []

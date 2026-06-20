@@ -1719,6 +1719,20 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["unsupportedQuotes"], [{"path": "sentenceAnalyses[1].quote", "quote": "\u4f60\u771f\u662f\u50bb\u903c"}])
         self.assertEqual(result["unsupportedAxisEvidence"], [{"path": "axes[0].evidence", "quote": "\u4f60\u771f\u662f\u50bb\u903c", "axis": "attack"}])
 
+    def test_deepseek_analysis_validator_validates_js_payload_wrappers_without_cli(self):
+        result = DeepSeekAnalysisValidator().validate_payloads(
+            {"fullText": "\u72d7\u5934\u4fdd\u547d[doge]\n\u5efa\u8bae\u67e5\u67e5\u8d44\u6599"},
+            {
+                "parsed": {
+                    "sentenceAnalyses": [{"quote": "\u72d7\u5934\u4fdd\u547d[doge]", "risk": "low"}],
+                    "axes": [{"axis": "evidence", "score": 60, "evidence": "\u67e5\u67e5\u8d44\u6599"}],
+                }
+            },
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["summary"], {"sourceSentences": 2, "sentenceAnalyses": 1, "axes": 1, "unsupportedQuotes": 0, "unsupportedAxisEvidence": 0})
+
     def test_deepseek_analysis_validate_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

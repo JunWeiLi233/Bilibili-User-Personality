@@ -19,8 +19,8 @@ class DeepSeekAnalysisValidateRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_json(self.payload_path)
-        analysis = self._analysis_from_payload(self._read_json(self.analysis_path))
-        return self.validator.validate(self._comments_from_payload(payload), analysis)
+        analysis_payload = self._read_json(self.analysis_path)
+        return self.validator.validate_payloads(payload, analysis_payload)
 
     def _read_json(self, path: Path) -> dict[str, Any]:
         with path.open("r", encoding="utf-8-sig") as handle:
@@ -28,22 +28,6 @@ class DeepSeekAnalysisValidateRunner:
         if not isinstance(payload, dict):
             raise ValueError(f"{path} must contain a JSON object.")
         return payload
-
-    def _analysis_from_payload(self, payload: dict[str, Any]) -> dict[str, Any]:
-        parsed = payload.get("parsed")
-        if isinstance(parsed, dict):
-            return parsed
-        analysis = payload.get("analysis")
-        if isinstance(analysis, dict):
-            return analysis
-        return payload
-
-    def _comments_from_payload(self, payload: dict[str, Any]) -> list[str]:
-        comments = payload.get("comments")
-        if isinstance(comments, list):
-            return [str(item) for item in comments if str(item).strip()]
-        text = str(payload.get("text") or payload.get("fullText") or "").strip()
-        return [text] if text else []
 
 
 class DeepSeekAnalysisValidateContractComparator:
