@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import math
 import re
 from pathlib import Path
@@ -148,3 +149,54 @@ class TiebaKeywordScrapeOptionsPlanner:
         discovery_mode = str(options["discoveryMode"]).lower()
         options["discoveryMode"] = discovery_mode if discovery_mode in {"desktop", "mobile"} else "desktop"
         return options
+
+
+class TiebaKeywordPlanRunner:
+    """Read a JS-compatible Tieba scrape payload and emit parsed options."""
+
+    def __init__(self, payload_path: str | Path):
+        self.payload_path = Path(payload_path)
+
+    def run(self) -> dict[str, Any]:
+        payload = self._read_payload()
+        options = TiebaKeywordScrapeOptionsPlanner(cwd=payload.get("cwd") if payload.get("cwd") else None).build_options(
+            argv=payload.get("argv") if isinstance(payload.get("argv"), list) else [],
+            env=payload.get("env") if isinstance(payload.get("env"), dict) else {},
+        )
+        return {"ok": True, "options": options}
+
+    def _read_payload(self) -> dict[str, Any]:
+        with self.payload_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        if not isinstance(payload, dict):
+            raise ValueError("Tieba keyword plan payload must be a JSON object.")
+        return payload
+
+
+class TiebaKeywordPlanContractComparator:
+    """Compare Python Tieba scrape plans against saved JS-compatible JSON."""
+
+    def __init__(self, payload_path: str | Path, js_report_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.js_report_path = Path(js_report_path)
+        self.summary = TiebaKeywordPlanSummary()
+
+    def compare(self) -> dict[str, Any]:
+        python_result = TiebaKeywordPlanRunner(self.payload_path).run()
+        js_result = self._read_js_report()
+        mismatches = [
+            {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
+            for key in self.summary.RESULT_KEYS
+            if key in js_result and python_result.get(key) != js_result.get(key)
+        ]
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": self.summary.summarize(python_result),
+            "js": self.summary.summarize(js_result),
+        }
+
+    def _read_js_report(self) -> dict[str, Any]:
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}

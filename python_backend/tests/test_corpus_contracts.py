@@ -111,7 +111,7 @@ from python_backend.cli.batch_scrape_progress import BatchScrapeProgressContract
 from python_backend.cli.batch_uid_progress import BatchUidProgressContractComparator, BatchUidProgressRunner
 from python_backend.cli.uid_discovery_progress import UidDiscoveryProgressContractComparator, UidDiscoveryProgressRunner
 from python_backend.scrapers.tieba_html import TiebaHtmlParseContractComparator as TiebaHtmlParsePayloadComparator, TiebaHtmlParseSummary, TiebaHtmlParser
-from python_backend.scrapers.tieba_keyword import TiebaKeywordPlanSummary, TiebaKeywordScrapeOptionsPlanner
+from python_backend.scrapers.tieba_keyword import TiebaKeywordPlanContractComparator as TiebaKeywordPlanPayloadComparator, TiebaKeywordPlanRunner as TiebaKeywordPayloadPlanRunner, TiebaKeywordPlanSummary, TiebaKeywordScrapeOptionsPlanner
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming, TiebaTimingContractComparator as TiebaTimingPayloadComparator
 from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanContractComparator as BatchBilibiliPlanPayloadComparator, BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularPlanContractComparator as BatchPopularPlanPayloadComparator, BatchPopularPlanSummary, BatchPopularScrapePlanner
@@ -3634,6 +3634,42 @@ class CorpusContractTests(unittest.TestCase):
                     "key": "options",
                     "python": result["options"],
                     "js": {"queries": ["stale"], "maxQueries": 1},
+                }
+            ],
+        )
+
+    def test_tieba_keyword_payload_comparator_lives_with_scraper_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "tieba-scraper-plan.json"
+            js_report_path = root / "js-tieba-scraper-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--queries=doge;yygq", "--thread-pages=2", "--discovery-titles-only"],
+                        "env": {"TIEBA_MAX_QUERIES": "2", "TIEBA_DISCOVERY_MODE": "mobile"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"options": {"queries": ["stale"], "threadPages": 1}}), encoding="utf-8")
+
+            result = TiebaKeywordPayloadPlanRunner(payload_path).run()
+            comparison = TiebaKeywordPlanPayloadComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["options"]["queries"], ["doge", "yygq"])
+        self.assertEqual(result["options"]["threadPages"], 2)
+        self.assertEqual(result["options"]["discoveryMode"], "mobile")
+        self.assertTrue(result["options"]["includeDiscoveryTitles"])
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {
+                    "key": "options",
+                    "python": result["options"],
+                    "js": {"queries": ["stale"], "threadPages": 1},
                 }
             ],
         )
