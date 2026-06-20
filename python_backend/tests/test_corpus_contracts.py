@@ -59,6 +59,7 @@ from python_backend.cli import uid_pipeline_state as uid_pipeline_state_cli
 from python_backend.cli import uid_range_progress as uid_range_progress_cli
 from python_backend.cli import video_comment_filter as video_comment_filter_cli
 from python_backend.cli import video_context as video_context_cli
+from python_backend.cli import video_link_direct_plan as video_link_direct_plan_cli
 from python_backend.cli import video_relevance as video_relevance_cli
 from python_backend.cli import range_scraper_launcher as range_scraper_launcher_cli
 from python_backend.cli import fast_pipeline_launcher as fast_pipeline_launcher_cli
@@ -2108,6 +2109,22 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "input", "python": {"uid": "", "videoLink": "https://www.bilibili.com/video/BV1abc/", "favoriteLink": "", "pages": 5, "hasCookie": False}, "js": {"pages": 2}},
             ],
         )
+
+    def test_video_link_direct_plan_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "direct-video.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--video-link", "https://www.bilibili.com/video/BV1abc/", "--pages", "5"]}),
+                encoding="utf-8",
+            )
+
+            result = video_link_direct_plan_cli.VideoLinkDirectPlanCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "video")
+        self.assertEqual(result["input"]["pages"], 5)
+        self.assertEqual(result["collect"], {"function": "searchVideoKeywords", "pages": 5, "forwardsCookie": False})
 
     def test_video_link_direct_payload_comparator_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
