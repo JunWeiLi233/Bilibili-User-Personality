@@ -16,21 +16,29 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(argv: list[str] | None = None) -> int:
-    args = build_parser().parse_args(argv)
-    if args.compare_js_report:
-        result = MergeAgentDictionariesPlanContractComparator(
-            args.dictionary,
-            args.agent_paths,
-            args.compare_js_report,
-            agent_dictionary_relative_path=args.agent_dictionary_relative_path,
-        ).compare()
-    else:
-        result = MergeAgentDictionariesPlanRunner(
+class MergeAgentDictionariesPlanCliRunner:
+    def __init__(self, argv: list[str] | None = None):
+        self.argv = argv
+
+    def run(self) -> dict:
+        argv = [str(item) for item in self.argv] if self.argv is not None else None
+        args = build_parser().parse_args(argv)
+        if args.compare_js_report:
+            return MergeAgentDictionariesPlanContractComparator(
+                args.dictionary,
+                args.agent_paths,
+                args.compare_js_report,
+                agent_dictionary_relative_path=args.agent_dictionary_relative_path,
+            ).compare()
+        return MergeAgentDictionariesPlanRunner(
             args.dictionary,
             args.agent_paths,
             agent_dictionary_relative_path=args.agent_dictionary_relative_path,
         ).run()
+
+
+def main(argv: list[str] | None = None) -> int:
+    result = MergeAgentDictionariesPlanCliRunner(argv).run()
     json.dump(result, sys.stdout, ensure_ascii=False, indent=2)
     sys.stdout.write("\n")
     return 0 if result["ok"] else 1

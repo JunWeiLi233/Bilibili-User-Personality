@@ -39,6 +39,7 @@ from python_backend.cli import history_tag_corpus as history_tag_corpus_cli
 from python_backend.cli import huggingface_corpus as huggingface_corpus_cli
 from python_backend.cli import keyword_evidence as keyword_evidence_cli
 from python_backend.cli import local_corpus_mine_plan as local_corpus_mine_plan_cli
+from python_backend.cli import merge_agent_dictionaries_plan as merge_agent_dictionaries_plan_cli
 from python_backend.cli import random_verification as random_verification_cli
 from python_backend.cli import tieba_corpus as tieba_corpus_cli
 from python_backend.cli import tieba_html_parse as tieba_html_parse_cli
@@ -12659,6 +12660,29 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
         self.assertEqual(result["summary"], {"agentCount": 2, "mainEntries": 2, "totalEvidenceGain": 4, "skippedAgents": 0})
+
+    def test_merge_agent_dictionaries_plan_cli_runner_estimates_existing_term_evidence_gain(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            main_dictionary_path = root / "main.json"
+            agent_root = root / "agent"
+            agent_dict = agent_root / "server" / "data"
+            agent_dict.mkdir(parents=True)
+            main_dictionary_path.write_text(json.dumps({"entries": [{"term": "doge", "family": "attack", "evidenceCount": 1}]}), encoding="utf-8")
+            (agent_dict / "deepseekKeywordDictionary.json").write_text(
+                json.dumps({"entries": [{"term": "doge", "family": "attack", "evidenceCount": 3}]}),
+                encoding="utf-8",
+            )
+
+            result = merge_agent_dictionaries_plan_cli.MergeAgentDictionariesPlanCliRunner(
+                ["--dictionary", str(main_dictionary_path), str(agent_root)]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["agentCount"], 1)
+        self.assertEqual(result["mainEntries"], 1)
+        self.assertEqual(result["totalEvidenceGain"], 2)
+        self.assertEqual(result["summary"], {"agentCount": 1, "mainEntries": 1, "totalEvidenceGain": 2, "skippedAgents": 0})
 
     def test_agent_dictionary_merge_planner_counts_sequential_existing_term_gain(self):
         planner = AgentDictionaryMergePlanner()
