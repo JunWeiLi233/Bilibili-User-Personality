@@ -3489,6 +3489,21 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(len(result["requests"]), 3)
         self.assertIn(sentence, result["requests"][0]["messages"][1]["content"])
 
+    def test_deepseek_analysis_plan_cli_runner_accepts_argv_payload_contract(self):
+        sentence = "\u8fd9\u53e5\u662f\u5728\u53cd\u8bbd\u5427[doge]"
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "payload.json"
+            payload_path.write_text(
+                json.dumps({"text": sentence, "keywordHints": ["\u53cd\u8bbd"], "multiagent": True}),
+                encoding="utf-8",
+            )
+
+            result = deepseek_analysis_plan_cli.DeepSeekAnalysisPlanCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertEqual(result["mode"], "multiagent")
+        self.assertEqual(len(result["requests"]), 3)
+        self.assertIn(sentence, result["requests"][0]["messages"][1]["content"])
+
     def test_deepseek_analysis_plan_contract_comparator_reports_plan_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
