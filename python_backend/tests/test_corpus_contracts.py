@@ -7418,6 +7418,13 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_batch_uid_progress_comparator_uses_summary_contract_keys(self):
+        self.assertFalse(hasattr(BatchUidProgressContractComparator, "RESULT_KEYS"))
+        self.assertEqual(
+            BatchUidProgressContractComparator(Path("progress.json"), Path("js.json")).summary.RESULT_KEYS,
+            BatchUidProgressSummary.RESULT_KEYS,
+        )
+
     def test_batch_uid_progress_comparator_reports_summary_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

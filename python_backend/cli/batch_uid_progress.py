@@ -30,8 +30,6 @@ class BatchUidProgressRunner:
 class BatchUidProgressContractComparator:
     """Compare Python batch UID progress reports against saved JS-compatible JSON."""
 
-    RESULT_KEYS = ("discovery", "phase2", "comments", "stats")
-
     def __init__(self, progress_path: str | Path, js_report_path: str | Path):
         self.progress_path = Path(progress_path)
         self.js_report_path = Path(js_report_path)
@@ -42,7 +40,7 @@ class BatchUidProgressContractComparator:
         js_result = self._read_js_report()
         mismatches = [
             {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
-            for key in self.RESULT_KEYS
+            for key in self.summary.RESULT_KEYS
             if key in js_result and python_result.get(key) != js_result.get(key)
         ]
         return {
