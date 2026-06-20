@@ -87,7 +87,7 @@ from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner, Agent
 from python_backend.corpus.tieba import TiebaCorpusUpdateContractComparator as TiebaCorpusUpdatePayloadComparator, TiebaCorpusUpdater, TiebaCorpusUpdateRunner as TiebaCorpusUpdatePayloadRunner, TiebaCorpusUpdateSummary
 from python_backend.corpus import dictionary_prune
 from python_backend.analysis import video_filter
-from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoContextBuilder, VideoContextContractComparator as VideoContextPayloadComparator, VideoContextRunner as VideoContextPayloadRunner, VideoRelevanceContractComparator as VideoRelevancePayloadComparator, VideoRelevanceFilter, VideoRelevancePayloadContractComparator, VideoRelevancePayloadRunner
+from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoCommentFilterPayloadContractComparator, VideoCommentFilterPayloadRunner, VideoContextBuilder, VideoContextContractComparator as VideoContextPayloadComparator, VideoContextRunner as VideoContextPayloadRunner, VideoRelevanceContractComparator as VideoRelevancePayloadComparator, VideoRelevanceFilter, VideoRelevancePayloadContractComparator, VideoRelevancePayloadRunner
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader
@@ -4762,6 +4762,54 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["before"], 2)
         self.assertEqual(result["after"], 1)
         self.assertEqual(result["comments"][0]["rpid"], "1")
+
+    def test_video_comment_filter_payload_runner_lives_with_analysis_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            comments_path = root / "comments.json"
+            needles_path = root / "needles.json"
+            js_report_path = root / "js-report.json"
+            comments_path.write_text(
+                json.dumps(
+                    {
+                        "comments": [
+                            {"rpid": "1", "message": "\u5f39\u5e55\u9634\u9633\u602a\u6c14"},
+                            {"rpid": "2", "message": "\u666e\u901a\u8def\u8fc7"},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            needles_path.write_text(json.dumps({"needles": ["\u9634\u9633\u602a\u6c14"]}), encoding="utf-8")
+            js_report_path.write_text(
+                json.dumps(
+                    {
+                        "applied": False,
+                        "matched": 0,
+                        "after": 2,
+                        "comments": [{"rpid": "2"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = VideoCommentFilterPayloadRunner(comments_path, needles_path).run()
+            comparison = VideoCommentFilterPayloadContractComparator(comments_path, needles_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertTrue(result["applied"])
+        self.assertEqual(result["matched"], 1)
+        self.assertEqual([comment["rpid"] for comment in result["comments"]], ["1"])
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "applied", "python": True, "js": False},
+                {"key": "matched", "python": 1, "js": 0},
+                {"key": "after", "python": 1, "js": 2},
+                {"key": "comments", "python": ["1"], "js": ["2"]},
+            ],
+        )
 
     def test_video_comment_filter_comparator_uses_backend_summary_contract_keys(self):
         self.assertTrue(hasattr(video_filter, "VideoCommentFilterSummary"))
