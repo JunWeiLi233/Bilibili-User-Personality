@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner
+from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchScraperLauncherSummary
 
 
 class BatchScraperLauncherPlanRunner:
@@ -23,34 +23,25 @@ class BatchScraperLauncherPlanRunner:
 class BatchScraperLauncherContractComparator:
     """Compare Python batch scraper launch plans against saved JS-compatible JSON."""
 
-    RESULT_KEYS = ("workers", "summary")
-
     def __init__(self, data_dir: str | Path, js_report_path: str | Path):
         self.data_dir = Path(data_dir)
         self.js_report_path = Path(js_report_path)
+        self.summary = BatchScraperLauncherSummary()
 
     def compare(self) -> dict[str, Any]:
-        python_result = self._contract_summary(BatchScraperLauncherPlanRunner(self.data_dir).run())
+        python_result = self.summary.summarize(BatchScraperLauncherPlanRunner(self.data_dir).run())
         js_result = self._read_js_report()
         mismatches = [
             {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
-            for key in self.RESULT_KEYS
+            for key in self.summary.RESULT_KEYS
             if key in js_result and python_result.get(key) != js_result.get(key)
         ]
         return {
             "ok": not mismatches,
             "mismatches": mismatches,
-            "python": {key: python_result.get(key) for key in self.RESULT_KEYS if key in python_result},
-            "js": {key: js_result.get(key) for key in self.RESULT_KEYS if key in js_result},
+            "python": self.summary.summarize(python_result),
+            "js": self.summary.summarize(js_result),
         }
-
-    def _contract_summary(self, result: dict[str, Any]) -> dict[str, Any]:
-        workers = [
-            {"start": worker["start"], "end": worker["end"], "progressFile": worker["progressFile"]}
-            for worker in result.get("workers", [])
-            if isinstance(worker, dict)
-        ]
-        return {"workers": workers, "summary": result.get("summary")}
 
     def _read_js_report(self) -> dict[str, Any]:
         if not self.js_report_path.exists():

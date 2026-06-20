@@ -111,7 +111,7 @@ from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularPlanSummary, BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherPlanner, UidRangeProgressReporter, UidRangeProgressSummary
-from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanSummary, BatchUidScrapePlanner
+from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchScraperLauncherSummary, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanSummary, UidParallelProgressReporter, UidParallelProgressSummary
 from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineMergeReporter, UidPipelineMergeSummary, UidPipelinePlanSummary, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
@@ -6595,6 +6595,32 @@ class CorpusContractTests(unittest.TestCase):
                     "js": [{"start": 1, "end": 20000, "progressFile": "stale.json"}],
                 }
             ],
+        )
+
+    def test_batch_scraper_launcher_summary_extracts_comparator_contract(self):
+        summary = BatchScraperLauncherSummary().summarize(
+            {
+                "ok": True,
+                "workers": [
+                    {
+                        "start": 1,
+                        "end": 2,
+                        "progressFile": "batch-uid-progress-1-2.json",
+                        "logFile": "scraper-logs/scraper-1-2.log",
+                        "args": ["--start=1"],
+                    }
+                ],
+                "summary": {"workers": 1, "totalUids": 2},
+                "script": "server/scripts/batchUidScrape.js",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "workers": [{"start": 1, "end": 2, "progressFile": "batch-uid-progress-1-2.json"}],
+                "summary": {"workers": 1, "totalUids": 2},
+            },
         )
 
     def test_range_scraper_launcher_planner_builds_powershell_contract_without_filesystem(self):
