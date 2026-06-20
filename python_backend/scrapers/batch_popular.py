@@ -22,6 +22,15 @@ class BatchPopularScrapePlanner:
     MAX_RETRIES = 5
     RATE_LIMIT_CODES = (-799, -412)
 
+    @classmethod
+    def build_plan_from_payload(cls, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        return cls().build_plan(
+            argv=payload.get("argv") if isinstance(payload.get("argv"), list) else [],
+            progress=payload.get("progress") if isinstance(payload.get("progress"), dict) else {},
+            database=payload.get("database") if isinstance(payload.get("database"), dict) else {},
+        )
+
     def build_plan(self, argv: list[Any] | None = None, progress: dict[str, Any] | None = None, database: dict[str, Any] | None = None) -> dict[str, Any]:
         argv = argv or []
         progress = progress or {}

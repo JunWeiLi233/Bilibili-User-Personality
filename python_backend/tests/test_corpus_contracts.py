@@ -7408,6 +7408,20 @@ class CorpusContractTests(unittest.TestCase):
             BatchPopularPlanSummary.RESULT_KEYS,
         )
 
+    def test_batch_popular_planner_builds_plan_from_json_payload_contract(self):
+        result = BatchPopularScrapePlanner.build_plan_from_payload(
+            {
+                "argv": ["--pages=9"],
+                "progress": {"pagesScanned": "4", "videosScanned": "30", "scraped": "7"},
+                "database": {"users": {"100": {}, "200": {}}},
+            }
+        )
+
+        self.assertEqual(result["input"], {"maxPages": 9})
+        self.assertEqual(result["range"], {"startPage": 5, "maxPages": 9, "remainingPages": 5})
+        self.assertEqual(result["progress"], {"pagesScanned": 4, "videosScanned": 30, "scraped": 7})
+        self.assertEqual(result["database"], {"users": 2})
+
     def test_batch_popular_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
