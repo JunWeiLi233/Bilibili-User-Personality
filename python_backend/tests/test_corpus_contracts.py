@@ -17,6 +17,7 @@ from python_backend.cli import keyword_evidence as keyword_evidence_cli
 from python_backend.cli import random_verification as random_verification_cli
 from python_backend.cli import tieba_corpus as tieba_corpus_cli
 from python_backend.cli import video_context as video_context_cli
+from python_backend.cli import video_relevance as video_relevance_cli
 from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditPayloadContractComparator, CoverageAuditReport
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageJsonPayloadRunner, CommentCoveragePayloadContractComparator, CommentCoverageRunner as CommentCoveragePayloadRunner, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanPayloadContractComparator, CoverageHarvestLoopPlanRunner as CoverageHarvestLoopPayloadPlanRunner, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
@@ -6024,6 +6025,35 @@ class CorpusContractTests(unittest.TestCase):
             result["needles"],
             ["\u70ed\u95e8\u8bc4\u8bba\u533a", "\u70ed\u95e8\u8bc4\u8bba\u533a", "\u5b85\u7537\u8054\u76df", "\u70ed\u95e8\u8bc4\u8bba\u533a"],
         )
+        self.assertEqual([video["bvid"] for video in result["videos"]], ["BV1"])
+
+    def test_video_relevance_cli_accepts_argv_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "operation": "filter",
+                        "videos": [
+                            {"bvid": "BV1", "title": "\u5f39\u5e55\u9634\u9633\u602a\u6c14"},
+                            {"bvid": "BV2", "title": "\u666e\u901a\u89c6\u9891"},
+                        ],
+                        "searchQueries": ["\u5f39\u5e55\u9634\u9633\u602a\u6c14"],
+                        "targetExistingTerms": ["\u5f39\u5e55\u9634\u9633\u602a\u6c14"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                exit_code = video_relevance_cli.main(["--payload", str(payload_path)])
+
+        result = json.loads(output.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["operation"], "filter")
         self.assertEqual([video["bvid"] for video in result["videos"]], ["BV1"])
 
     def test_video_relevance_payload_runner_lives_with_analysis_logic(self):
