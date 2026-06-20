@@ -335,7 +335,8 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(loaded.runs, [{"at": "now"}])
 
     def test_corpus_shard_write_summary_extracts_comparator_contract(self):
-        summary = CorpusShardWriteSummary().summarize(
+        summary_builder = CorpusShardWriteSummary()
+        summary = summary_builder.summarize(
             {
                 "ok": True,
                 "outputPath": "out.json",
@@ -346,6 +347,10 @@ class CorpusContractTests(unittest.TestCase):
         )
 
         self.assertEqual(summary, {"manifest": {"storage": "split", "commentCount": 2}, "comments": 2, "runs": 1})
+        self.assertEqual(
+            summary_builder.summarize_manifest({"storage": "split", "commentCount": 2, "ignored": True}),
+            {"storage": "split", "commentCount": 2},
+        )
 
     def test_corpus_shard_write_comparator_uses_summary_contract_keys(self):
         self.assertFalse(hasattr(CorpusShardWriteContractComparator, "RESULT_KEYS"))

@@ -27,11 +27,7 @@ class CorpusShardWriteRunner:
         writer = CorpusShardWriter(output_path, max_shard_bytes=int(payload.get("maxShardBytes") or 64 * 1024))
         writer.write(comments=comments, runs=runs, manifest=manifest)
         loaded = CorpusLoader(output_path).load()
-        manifest_summary = {
-            key: loaded.manifest.get(key)
-            for key in ("version", "updatedAt", "source", "storage", "shardMaxBytes", "commentFiles", "commentCount", "runFiles", "runCount")
-            if key in loaded.manifest
-        }
+        manifest_summary = CorpusShardWriteSummary().summarize_manifest(loaded.manifest)
         return {
             "ok": True,
             "outputPath": str(output_path),

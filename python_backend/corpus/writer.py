@@ -119,7 +119,12 @@ class CorpusShardWriteSummary:
     """Shape split-corpus write results into the JS/Python comparator contract."""
 
     RESULT_KEYS = ("manifest", "comments", "runs")
+    MANIFEST_KEYS = ("version", "updatedAt", "source", "storage", "shardMaxBytes", "commentFiles", "commentCount", "runFiles", "runCount")
 
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
         result = result if isinstance(result, dict) else {}
         return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+    def summarize_manifest(self, manifest: dict[str, Any] | None = None) -> dict[str, Any]:
+        manifest = manifest if isinstance(manifest, dict) else {}
+        return {key: manifest.get(key) for key in self.MANIFEST_KEYS if key in manifest}
