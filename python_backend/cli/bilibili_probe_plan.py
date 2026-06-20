@@ -14,12 +14,21 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+class BilibiliProbePlanCliRunner:
+    """CLI-compatible Bilibili probe planner for JS/Python JSON contracts."""
+
+    def __init__(self, argv: list[str] | None = None):
+        self.argv = argv
+
+    def run(self) -> dict:
+        args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        if args.compare_js_report:
+            return BilibiliProbePlanContractComparator(args.payload, args.compare_js_report).compare()
+        return BilibiliProbePlanRunner(args.payload).run()
+
+
 def main(argv: list[str] | None = None) -> int:
-    args = build_parser().parse_args(argv)
-    if args.compare_js_report:
-        result = BilibiliProbePlanContractComparator(args.payload, args.compare_js_report).compare()
-    else:
-        result = BilibiliProbePlanRunner(args.payload).run()
+    result = BilibiliProbePlanCliRunner(argv).run()
     json.dump(result, sys.stdout, ensure_ascii=False, indent=2)
     sys.stdout.write("\n")
     return 0 if result["ok"] else 1

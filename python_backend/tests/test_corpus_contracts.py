@@ -7,6 +7,7 @@ from pathlib import Path
 
 from python_backend.cli import local_corpus_evidence as local_corpus_evidence_cli
 from python_backend.cli import local_corpus_flatten as local_corpus_flatten_cli
+from python_backend.cli import bilibili_probe_plan as bilibili_probe_plan_cli
 from python_backend.cli import bilibili_parse as bilibili_parse_cli
 from python_backend.cli import direct_probe_corpus as direct_probe_corpus_cli
 from python_backend.cli import comment_coverage as comment_coverage_cli
@@ -11020,6 +11021,28 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["viewUrl"], "https://api.bilibili.com/x/web-interface/view?aid=123")
         self.assertEqual(result["replyThreadUrl"], "https://api.bilibili.com/x/v2/reply/reply?type=1&oid=123&root=456&pn=1&ps=20")
         self.assertEqual(len(result["searchUrls"]), 1)
+
+    def test_bilibili_probe_plan_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "headers",
+                        "referer": "https://www.bilibili.com/video/BVcli",
+                        "options": {"cookie": "SESSDATA=test"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = bilibili_probe_plan_cli.BilibiliProbePlanCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "headers")
+        self.assertEqual(result["headers"]["origin"], "https://www.bilibili.com")
+        self.assertEqual(result["headers"]["cookie"], "SESSDATA=test")
 
     def test_bilibili_probe_plan_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
