@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import html
+import json
 import re
 import unicodedata
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 from urllib.parse import quote
 
@@ -326,3 +328,101 @@ class HistoryTagCorpusManager:
             return int(float(value or 0))
         except (TypeError, ValueError):
             return 0
+
+
+class HistoryTagCorpusRunner:
+    """Merge Bilibili history-tag corpus JSON contracts from files."""
+
+    def __init__(self, current_path: str | Path, update_path: str | Path, generated_at: str | None = None):
+        self.current_path = Path(current_path)
+        self.update_path = Path(update_path)
+        self.manager = HistoryTagCorpusManager(generated_at=generated_at)
+
+    def run(self) -> dict[str, Any]:
+        current = self._read_json_object(self.current_path, {"version": 1, "updatedAt": None, "tags": [], "videos": [], "runs": []})
+        update = self._read_json_object(self.update_path, {"tags": [], "videos": [], "runs": []})
+        return self.manager.merge_result(current, update)
+
+    def _read_json_object(self, path: Path, fallback: dict[str, Any]) -> dict[str, Any]:
+        if not path.exists():
+            return fallback
+        with path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else fallback
+
+
+class HistoryTagCorpusPayloadContractComparator:
+    """Compare file-backed history-tag corpus merges against saved JS-compatible JSON."""
+
+    def __init__(
+        self,
+        current_path: str | Path,
+        update_path: str | Path,
+        js_report_path: str | Path,
+        generated_at: str | None = None,
+    ):
+        self.current_path = Path(current_path)
+        self.update_path = Path(update_path)
+        self.js_report_path = Path(js_report_path)
+        self.generated_at = generated_at
+        self.summary = HistoryTagCorpusSummary()
+        self.comparator = HistoryTagCorpusContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = HistoryTagCorpusRunner(self.current_path, self.update_path, generated_at=self.generated_at).run()
+        js_result = self._read_js_report()
+        return self.comparator.compare(python_result, js_result)
+
+    def _read_js_report(self) -> dict[str, Any]:
+        if not self.js_report_path.exists():
+            return {}
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
+
+
+class HistoryTagScrapePlanRunner:
+    """Read a JS-compatible history-tag scrape payload and emit a dry-run request plan."""
+
+    def __init__(self, payload_path: str | Path):
+        self.payload_path = Path(payload_path)
+
+    def run(self) -> dict[str, Any]:
+        payload = self._read_json_object(self.payload_path, {})
+        if not isinstance(payload, dict):
+            raise ValueError("History-tag scrape plan payload must be a JSON object.")
+        planner = HistoryTagScrapePlanner(project_dir=str(payload.get("projectDir") or payload.get("project_dir") or ""))
+        return planner.build_plan(
+            argv=payload.get("argv") if isinstance(payload.get("argv"), list) else [],
+            env=payload.get("env") if isinstance(payload.get("env"), dict) else {},
+            seed_files=payload.get("seedFiles") if isinstance(payload.get("seedFiles"), dict) else {},
+        )
+
+    def _read_json_object(self, path: Path, fallback: dict[str, Any]) -> dict[str, Any]:
+        if not path.exists():
+            return fallback
+        with path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else fallback
+
+
+class HistoryTagScrapePlanPayloadContractComparator:
+    """Compare file-backed history-tag scrape plans against saved JS-compatible JSON."""
+
+    def __init__(self, payload_path: str | Path, js_report_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.js_report_path = Path(js_report_path)
+        self.summary = HistoryTagScrapePlanSummary()
+        self.comparator = HistoryTagScrapePlanContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = HistoryTagScrapePlanRunner(self.payload_path).run()
+        js_result = self._read_js_report()
+        return self.comparator.compare(python_result, js_result)
+
+    def _read_js_report(self) -> dict[str, Any]:
+        if not self.js_report_path.exists():
+            return {}
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
