@@ -61,21 +61,38 @@ class RandomVerificationContractComparator:
 class RandomVerificationRunner:
     """Run deterministic random corpus verification from JS-compatible JSON files."""
 
-    def __init__(self, corpus_path: str | Path, dictionary_path: str | Path, sample_size: Any = 50, seed: Any = 1):
+    def __init__(
+        self,
+        corpus_path: str | Path,
+        dictionary_path: str | Path,
+        sample_size: Any = 50,
+        seed: Any = 1,
+        extra_corpus_paths: list[str | Path] | None = None,
+    ):
         self.corpus_path = Path(corpus_path)
         self.dictionary_path = Path(dictionary_path)
         self.sample_size = _non_negative_int(sample_size, 50)
         self.seed = _int_or(seed, 1)
+        self.extra_corpus_paths = [Path(path) for path in (extra_corpus_paths or [])]
 
     def run(self) -> dict[str, Any]:
         corpus = CorpusLoader(self.corpus_path).load()
+        comments = list(corpus.comments)
+        runs = list(corpus.runs)
+        storage = str(corpus.manifest.get("storage", "monolith"))
+        for extra_path in self.extra_corpus_paths:
+            extra_corpus = CorpusLoader(extra_path).load()
+            comments.extend(extra_corpus.comments)
+            runs.extend(extra_corpus.runs)
+        if self.extra_corpus_paths:
+            storage = "combined"
         dictionary = DictionaryLoader(self.dictionary_path).load()
         return RandomVerifier.from_dictionary_entries(dictionary.entries).report(
-            corpus.comments,
+            comments,
             corpus={
-                "comments": len(corpus.comments),
-                "runs": len(corpus.runs),
-                "storage": corpus.manifest.get("storage", "monolith"),
+                "comments": len(comments),
+                "runs": len(runs),
+                "storage": storage,
             },
             sample_size=self.sample_size,
             seed=self.seed,
@@ -137,12 +154,14 @@ class RandomVerificationPayloadContractComparator:
         js_report_path: str | Path,
         sample_size: int | None = None,
         seed: int | None = None,
+        extra_corpus_paths: list[str | Path] | None = None,
     ):
         self.corpus_path = Path(corpus_path)
         self.dictionary_path = Path(dictionary_path)
         self.js_report_path = Path(js_report_path)
         self.sample_size = sample_size
         self.seed = seed
+        self.extra_corpus_paths = extra_corpus_paths or []
         self.summary = RandomVerificationReportSummary()
         self.comparator = RandomVerificationContractComparator(self.summary)
 
@@ -156,6 +175,7 @@ class RandomVerificationPayloadContractComparator:
             self.dictionary_path,
             sample_size=sample_size,
             seed=seed,
+            extra_corpus_paths=self.extra_corpus_paths,
         ).run()
         return self.comparator.compare(python_report, js_report)
 

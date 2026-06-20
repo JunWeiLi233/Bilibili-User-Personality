@@ -35,12 +35,14 @@ class RandomVerificationRunner:
                     args.compare_js_report,
                     sample_size=args.sample_size,
                     seed=args.seed,
+                    extra_corpus_paths=args.extra_corpus,
                 ).compare()
             return AnalysisRandomVerificationRunner(
                 args.corpus,
                 args.dictionary,
                 sample_size=args.sample_size if args.sample_size is not None else 50,
                 seed=args.seed if args.seed is not None else 1,
+                extra_corpus_paths=args.extra_corpus,
             ).run()
         return AnalysisRandomVerificationRunner(
             self.corpus_or_argv,
@@ -54,6 +56,7 @@ class RandomVerificationRunner:
         parser = argparse.ArgumentParser(description="Run Python random verification over JS-compatible corpus and dictionary JSON.")
         parser.add_argument("--payload", default="")
         parser.add_argument("--corpus", default="server/data/bilibiliDirectProbeCorpus.json")
+        parser.add_argument("--extra-corpus", action="append", default=[])
         parser.add_argument("--dictionary", default="server/data/deepseekKeywordDictionary.json")
         parser.add_argument("--sample-size", type=int)
         parser.add_argument("--seed", type=int)
@@ -80,12 +83,14 @@ class RandomVerificationCliRunner:
                 args.compare_js_report,
                 sample_size=args.sample_size,
                 seed=args.seed,
+                extra_corpus_paths=args.extra_corpus,
             ).compare()
         return AnalysisRandomVerificationRunner(
             args.corpus,
             args.dictionary,
             sample_size=args.sample_size if args.sample_size is not None else 50,
             seed=args.seed if args.seed is not None else 1,
+            extra_corpus_paths=args.extra_corpus,
         ).run()
 
 

@@ -1097,6 +1097,89 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["sampleSize"], 1)
         self.assertEqual(result["keywordHits"], 1)
 
+    def test_random_verification_cli_runner_combines_extra_corpus(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            tieba_path = root / "tiebaKeywordCorpus.json"
+            tieba_comments_dir = root / "tiebaKeywordCorpus.comments"
+            tieba_runs_dir = root / "tiebaKeywordCorpus.runs"
+            dictionary_path = root / "dictionary.json"
+            tieba_comments_dir.mkdir()
+            tieba_runs_dir.mkdir()
+            corpus_path.write_text(
+                json.dumps({"comments": [{"message": "plain bilibili"}, {"message": "another neutral"}], "runs": [{"source": "bilibili"}]}),
+                encoding="utf-8",
+            )
+            (tieba_comments_dir / "comments-0001.json").write_text(json.dumps({"comments": [{"message": "tieba slang"}]}), encoding="utf-8")
+            (tieba_runs_dir / "runs-0001.json").write_text(json.dumps({"runs": [{"source": "tieba"}]}), encoding="utf-8")
+            tieba_path.write_text(
+                json.dumps(
+                    {
+                        "storage": "split",
+                        "commentFiles": ["tiebaKeywordCorpus.comments/comments-0001.json"],
+                        "runFiles": ["tiebaKeywordCorpus.runs/runs-0001.json"],
+                        "commentCount": 1,
+                        "runCount": 1,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            dictionary_path.write_text(json.dumps({"entries": [{"term": "tieba"}]}), encoding="utf-8")
+
+            result = random_verification_cli.RandomVerificationCliRunner(
+                [
+                    "--corpus",
+                    str(corpus_path),
+                    "--extra-corpus",
+                    str(tieba_path),
+                    "--dictionary",
+                    str(dictionary_path),
+                    "--sample-size",
+                    "10",
+                    "--seed",
+                    "1",
+                ]
+            ).run()
+
+        self.assertEqual(result["corpus"], {"comments": 3, "runs": 2, "storage": "combined"})
+        self.assertEqual(result["sampled"], 3)
+        self.assertEqual(result["keywordHits"], 1)
+        self.assertEqual(result["neutral"], 2)
+
+    def test_random_verification_cli_compare_uses_extra_corpus(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            tieba_path = root / "tiebaKeywordCorpus.json"
+            dictionary_path = root / "dictionary.json"
+            js_report_path = root / "js-random.json"
+            corpus_path.write_text(json.dumps({"comments": [{"message": "plain"}], "runs": []}), encoding="utf-8")
+            tieba_path.write_text(json.dumps({"comments": [{"message": "tieba slang"}], "runs": [{"source": "tieba"}]}), encoding="utf-8")
+            dictionary_path.write_text(json.dumps({"entries": [{"term": "tieba"}]}), encoding="utf-8")
+            js_report_path.write_text(json.dumps({"sampled": 2, "keywordHits": 1, "neutral": 1, "uncovered": 0}), encoding="utf-8")
+
+            result = random_verification_cli.RandomVerificationCliRunner(
+                [
+                    "--corpus",
+                    str(corpus_path),
+                    "--extra-corpus",
+                    str(tieba_path),
+                    "--dictionary",
+                    str(dictionary_path),
+                    "--sample-size",
+                    "10",
+                    "--seed",
+                    "1",
+                    "--compare-js-report",
+                    str(js_report_path),
+                ]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["python"]["sampled"], 2)
+
     def test_random_verification_cli_main_accepts_argv_payload_contract(self):
         class BinaryStdout:
             def __init__(self):
