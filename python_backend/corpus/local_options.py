@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import json
 import re
+from pathlib import Path
 from typing import Any
 
 
@@ -75,3 +77,54 @@ class LocalCorpusMineOptionsPlanner:
         options["targetEvidence"] = _bounded(options["targetEvidence"], 3, 1, 20)
         options["maxSamplesPerTerm"] = _bounded(options["maxSamplesPerTerm"], 3, 1, 20)
         return options
+
+
+class LocalCorpusMinePlanRunner:
+    """Read a JS-compatible local corpus mining payload and emit parsed options."""
+
+    def __init__(self, payload_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.planner = LocalCorpusMineOptionsPlanner()
+
+    def run(self) -> dict[str, Any]:
+        payload = self._read_payload()
+        return self.planner.build_plan(
+            argv=payload.get("argv") if isinstance(payload.get("argv"), list) else [],
+            env=payload.get("env") if isinstance(payload.get("env"), dict) else {},
+        )
+
+    def _read_payload(self) -> dict[str, Any]:
+        with self.payload_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        if not isinstance(payload, dict):
+            raise ValueError("Local corpus mine plan payload must be a JSON object.")
+        return payload
+
+
+class LocalCorpusMinePlanContractComparator:
+    """Compare Python local-corpus mine plans against saved JS-compatible JSON."""
+
+    def __init__(self, payload_path: str | Path, js_report_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.js_report_path = Path(js_report_path)
+        self.summary = LocalCorpusMinePlanSummary()
+
+    def compare(self) -> dict[str, Any]:
+        python_result = LocalCorpusMinePlanRunner(self.payload_path).run()
+        js_result = self._read_js_report()
+        mismatches = [
+            {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
+            for key in self.summary.RESULT_KEYS
+            if key in js_result and python_result.get(key) != js_result.get(key)
+        ]
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": self.summary.summarize(python_result),
+            "js": self.summary.summarize(js_result),
+        }
+
+    def _read_js_report(self) -> dict[str, Any]:
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}

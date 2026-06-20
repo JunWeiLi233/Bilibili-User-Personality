@@ -82,7 +82,7 @@ from python_backend.corpus.history_tags import HistoryTagCorpusContractComparato
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceCorpusImportContractComparator as HuggingFaceCorpusImportPayloadComparator, HuggingFaceCorpusImportPlanContractComparator as HuggingFaceCorpusImportPlanPayloadComparator, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
 from python_backend.corpus.local import LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidenceSummary
 from python_backend.corpus.local import LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenSummary, LocalCorpusFlattener
-from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanSummary
+from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanContractComparator as LocalCorpusMinePlanPayloadComparator, LocalCorpusMinePlanSummary
 from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner, AgentDictionaryMergePlanSummary
 from python_backend.corpus.tieba import TiebaCorpusUpdater, TiebaCorpusUpdateSummary
 from python_backend.corpus import dictionary_prune
@@ -3358,6 +3358,24 @@ class CorpusContractTests(unittest.TestCase):
             comparison["mismatches"],
             [{"key": "options", "python": result["options"], "js": {"corpusPaths": ["stale"], "targetEvidence": 3}}],
         )
+
+    def test_local_corpus_mine_plan_payload_comparator_lives_with_corpus_options(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "local-mine-plan.json"
+            js_report_path = root / "js-local-mine-plan.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--corpus=one.json", "--max-samples-per-term=6"], "env": {"LOCAL_CORPUS_WRITE": "1"}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"options": {"corpusPaths": ["one.json"], "maxSamplesPerTerm": 3}}), encoding="utf-8")
+
+            comparison = LocalCorpusMinePlanPayloadComparator(payload_path, js_report_path).compare()
+
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(comparison["mismatches"][0]["key"], "options")
+        self.assertEqual(comparison["mismatches"][0]["python"]["maxSamplesPerTerm"], 6)
+        self.assertEqual(comparison["mismatches"][0]["js"], {"corpusPaths": ["one.json"], "maxSamplesPerTerm": 3})
 
     def test_local_corpus_mine_plan_summary_extracts_comparator_contract(self):
         summary = LocalCorpusMinePlanSummary().summarize(
