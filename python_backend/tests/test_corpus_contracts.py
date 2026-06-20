@@ -4183,6 +4183,39 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["entries"][0]["term"], "\u67e5\u67e5\u8d44\u6599")
         self.assertEqual(result["entries"][0]["evidenceSources"][0]["uid"], "BVpayload")
 
+    def test_local_corpus_evidence_json_payload_runner_uses_loader_payload_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "local-evidence.json"
+            dictionary_path = root / "dictionary.json"
+            corpus_path = root / "corpus.json"
+            dictionary_path.write_text(
+                json.dumps({"entries": [{"term": "\u67e5\u67e5\u8d44\u6599", "family": "evidence", "meaning": "\u7d22\u8981\u8bc1\u636e", "evidenceCount": 0}]}),
+                encoding="utf-8",
+            )
+            corpus_path.write_text(
+                json.dumps({"comments": [{"message": "\u4f60\u5148\u67e5\u67e5\u8d44\u6599\u518d\u8bf4", "source": "local", "uid": "BVpayload-path"}]}),
+                encoding="utf-8",
+            )
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "dictionaryPath": str(dictionary_path),
+                        "corpusPath": str(corpus_path),
+                        "targetEvidence": 3,
+                        "maxSamplesPerTerm": 1,
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = LocalCorpusEvidenceJsonPayloadRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["entries"][0]["term"], "\u67e5\u67e5\u8d44\u6599")
+        self.assertEqual(result["entries"][0]["evidenceSources"][0]["uid"], "BVpayload-path")
+
     def test_local_corpus_evidence_cli_accepts_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

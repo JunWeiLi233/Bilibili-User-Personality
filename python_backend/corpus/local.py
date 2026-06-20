@@ -622,10 +622,12 @@ class LocalCorpusEvidenceJsonPayloadRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_json_object(self.payload_path, {})
-        dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {"entries": []}
-        comments_payload = payload.get("comments") if "comments" in payload else payload.get("corpus", [])
-        comments = comments_payload if isinstance(comments_payload, list) else []
-        if not isinstance(comments_payload, list) or any(not isinstance(comment, dict) or "message" not in comment for comment in comments):
+        loaded_dictionary = DictionaryLoader.load_from_payload(self._dictionary_payload(payload))
+        dictionary = {**loaded_dictionary.manifest, "entries": loaded_dictionary.entries}
+        loaded_corpus = CorpusLoader.load_from_payload(self._corpus_payload(payload))
+        comments_payload = {**loaded_corpus.manifest, "comments": loaded_corpus.comments, "runs": loaded_corpus.runs}
+        comments = loaded_corpus.comments
+        if not isinstance(comments, list) or any(not isinstance(comment, dict) or "message" not in comment for comment in comments):
             comments = self.flattener.flatten(comments_payload)
         return self.finder.find_entries_result(
             dictionary,
@@ -637,6 +639,16 @@ class LocalCorpusEvidenceJsonPayloadRunner:
                 "targetTerms": payload.get("targetTerms") if isinstance(payload.get("targetTerms"), list) else [],
             },
         )
+
+    def _dictionary_payload(self, payload: dict[str, Any]) -> dict[str, Any]:
+        if "dictionary" in payload or payload.get("dictionaryPath"):
+            return payload
+        return {"dictionary": {"entries": []}}
+
+    def _corpus_payload(self, payload: dict[str, Any]) -> dict[str, Any]:
+        if "corpus" in payload or payload.get("corpusPath") or payload.get("path"):
+            return payload
+        return {"corpus": {"comments": payload.get("comments") if isinstance(payload.get("comments"), list) else []}}
 
     def _read_json_object(self, path: Path, fallback: dict[str, Any]) -> dict[str, Any]:
         if not path.exists():
