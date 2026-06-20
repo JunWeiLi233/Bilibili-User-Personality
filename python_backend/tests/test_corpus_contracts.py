@@ -6456,6 +6456,25 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["stats"], {"success": 1, "noComments": 0, "noVideos": 0, "noUser": 1, "trainError": 0, "blocked": 1, "errors": 0})
         self.assertEqual(result["userDb"], {"users": 2, "usersInRange": 1})
 
+    def test_uid_pipeline_worker_planner_builds_plan_from_json_payload_contract(self):
+        result = UidPipelineWorkerPlanner.build_plan_from_payload(
+            {
+                "argv": ["--start=20", "--end=24"],
+                "progress": {
+                    "processed": {"20": "success", "21": "blocked"},
+                    "stats": {"success": "1", "blocked": "1", "errors": "2"},
+                },
+                "database": {"users": {"20": {}, "24": {}, "99": {}}},
+                "ignored": ["runner-only"],
+            }
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"start": 20, "end": 24, "total": 5})
+        self.assertEqual(result["progress"], {"processed": 2, "remaining": 3, "completionRatio": 0.4})
+        self.assertEqual(result["stats"], {"success": 1, "noComments": 0, "noVideos": 0, "noUser": 0, "trainError": 0, "blocked": 1, "errors": 2})
+        self.assertEqual(result["userDb"], {"users": 3, "usersInRange": 2})
+
     def test_uid_pipeline_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
