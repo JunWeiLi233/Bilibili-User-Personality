@@ -6642,6 +6642,7 @@ class CorpusContractTests(unittest.TestCase):
                 "object": {"kind": "video", "oid": 123, "replyType": 1, "title": "A"},
                 "danmakuXml": '<i><d p="1,1,25,16777215,1710000000,0,12345,0">hello</d></i>',
                 "video": {"bvid": "BV1danmaku", "oid": "123", "cid": "456"},
+                "syntheticCookie": {"randomValue": 0.5, "nowMs": 1700000000000},
                 "env": {
                     "BILIBILI_CRAWLER_MIN_DELAY_MS": -5,
                     "BILIBILI_CRAWLER_JITTER_MS": 999999,
@@ -6667,6 +6668,18 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["targetReplies"][0]["message"], "target message")
         self.assertEqual(result["danmaku"][0]["rpid"], "danmaku-456-0")
         self.assertEqual(
+            result["syntheticCookieJar"],
+            {
+                "buvid3": "88888888-8888-8888-8888-8888888888888infoc",
+                "buvid4": "88888888-8888-8888-8888-888888888888-1700000000-1",
+                "b_nut": "1700000000",
+                "_uuid": "88888888-8888-8888-8888-888888888888888infoc",
+                "b_lsid": "88888888_8888888888",
+                "bsource": "search_bing",
+                "home_feed": "recommend",
+            },
+        )
+        self.assertEqual(
             result["crawlerConfig"],
             {
                 "minDelayMs": 0,
@@ -6681,6 +6694,20 @@ class CorpusContractTests(unittest.TestCase):
                 "objectPauseMinMs": 500,
                 "objectPauseMaxMs": 7000,
                 "requestTimeoutMs": 0,
+            },
+        )
+
+    def test_bilibili_crawler_helper_builds_synthetic_cookie_jar_contract(self):
+        self.assertEqual(
+            BilibiliCrawlerHelper().make_synthetic_cookie_jar(random_fn=lambda: 0.5, now_ms=1700000000000),
+            {
+                "buvid3": "88888888-8888-8888-8888-8888888888888infoc",
+                "buvid4": "88888888-8888-8888-8888-888888888888-1700000000-1",
+                "b_nut": "1700000000",
+                "_uuid": "88888888-8888-8888-8888-888888888888888infoc",
+                "b_lsid": "88888888_8888888888",
+                "bsource": "search_bing",
+                "home_feed": "recommend",
             },
         )
 
@@ -6738,6 +6765,7 @@ class CorpusContractTests(unittest.TestCase):
                 "bvid": "BV1",
                 "blocked": False,
                 "crawlerConfig": {"minDelayMs": 2500},
+                "syntheticCookieJar": {"b_nut": "1700000000"},
                 "dynamicRecords": {"objects": []},
                 "extra": "ignored",
             }
@@ -6750,6 +6778,7 @@ class CorpusContractTests(unittest.TestCase):
                 "bvid": "BV1",
                 "blocked": False,
                 "crawlerConfig": {"minDelayMs": 2500},
+                "syntheticCookieJar": {"b_nut": "1700000000"},
                 "dynamicRecords": {"objects": []},
             },
         )

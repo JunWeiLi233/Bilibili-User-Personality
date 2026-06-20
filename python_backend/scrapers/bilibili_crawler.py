@@ -61,6 +61,7 @@ class BilibiliCrawlerSummary:
         "danmaku",
         "dynamicRecords",
         "crawlerConfig",
+        "syntheticCookieJar",
     )
 
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -162,10 +163,38 @@ class BilibiliCrawlerHelper:
             result["dynamicRecords"] = self.extract_dynamic_records(payload.get("dynamicItems"), payload.get("uid"))
         if isinstance(payload.get("env"), dict):
             result["crawlerConfig"] = self.build_crawler_config(payload.get("env"))
+        synthetic_cookie = payload.get("syntheticCookie") if isinstance(payload.get("syntheticCookie"), dict) else None
+        if synthetic_cookie is not None:
+            result["syntheticCookieJar"] = self.make_synthetic_cookie_jar(
+                random_fn=lambda: synthetic_cookie.get("randomValue", 0.5),
+                now_ms=synthetic_cookie.get("nowMs"),
+            )
         return result
 
     def build_crawler_config(self, env: dict[str, Any] | None = None) -> dict[str, int | float]:
         return BilibiliCrawlerConfigBuilder().build(env)
+
+    def make_synthetic_cookie_jar(self, random_fn: Any | None = None, now_ms: Any | None = None) -> dict[str, str]:
+        rand = random_fn if callable(random_fn) else (lambda: 0.5)
+        now_value = self._number(now_ms, 0) if now_ms is not None else 0
+        epoch = int(now_value // 1000)
+
+        def random_hex(length: int) -> str:
+            chars = []
+            for _index in range(length):
+                value = max(0, min(int(float(rand()) * 16), 15))
+                chars.append(format(value, "x").upper())
+            return "".join(chars)
+
+        return {
+            "buvid3": f"{random_hex(8)}-{random_hex(4)}-{random_hex(4)}-{random_hex(4)}-{random_hex(13)}infoc",
+            "buvid4": f"{random_hex(8)}-{random_hex(4)}-{random_hex(4)}-{random_hex(4)}-{random_hex(12)}-{epoch}-1",
+            "b_nut": str(epoch),
+            "_uuid": f"{random_hex(8)}-{random_hex(4)}-{random_hex(4)}-{random_hex(4)}-{random_hex(15)}infoc",
+            "b_lsid": f"{random_hex(8)}_{random_hex(10)}",
+            "bsource": "search_bing",
+            "home_feed": "recommend",
+        }
 
     def parse_bvid_pool(self, raw: Any = "") -> list[str]:
         text = str(raw or "")
