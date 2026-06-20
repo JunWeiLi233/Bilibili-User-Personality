@@ -119,9 +119,7 @@ class AicuBrowserBatchPlanRunner:
     def _read_payload(self) -> dict[str, Any]:
         with self.payload_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
-        if not isinstance(payload, dict):
-            raise ValueError("AICU browser batch plan payload must be a JSON object.")
-        return payload
+        return payload if isinstance(payload, dict) else {}
 
 
 class AicuBrowserBatchPlanContractComparator:

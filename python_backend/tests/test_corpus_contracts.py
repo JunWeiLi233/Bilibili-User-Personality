@@ -1804,6 +1804,18 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_aicu_browser_batch_plan_runner_defaults_non_object_payload_root(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "aicu-browser-plan.json"
+            payload_path.write_text(json.dumps(["bad", "payload"]), encoding="utf-8")
+
+            result = AicuBrowserBatchPlanRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"requestedStart": 100000, "effectiveStart": 100000, "end": 200000, "total": 100001})
+        self.assertEqual(result["progress"], {"lastUid": 0, "completed": 0, "errors": 0})
+        self.assertEqual(result["browser"], {"command": "browser-harness", "script": "server/scripts/browserScrapeAicu.py", "wrapper": "server/data/_browser_aicu_tmp.py", "timeoutMs": 120000, "maxPages": 3})
+
     def test_aicu_browser_batch_plan_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
