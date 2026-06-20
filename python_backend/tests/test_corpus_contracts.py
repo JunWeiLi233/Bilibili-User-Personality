@@ -7369,6 +7369,47 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(result["humanPause"], {"waitMs": 1100, "willWait": True})
 
+    def test_bilibili_crawler_helper_plans_fetch_config_signal_contract(self):
+        helper = BilibiliCrawlerHelper()
+
+        self.assertEqual(
+            helper.plan_fetch_config_with_signal({"minDelayMs": 100, "signal": "old"}, has_signal=False),
+            {
+                "config": {"minDelayMs": 100, "signal": "old"},
+                "forwardsSignal": False,
+            },
+        )
+        self.assertEqual(
+            helper.plan_fetch_config_with_signal(
+                {"minDelayMs": 100, "signal": "old"},
+                has_signal=True,
+                signal_token="caller-abort",
+            ),
+            {
+                "config": {"minDelayMs": 100, "signal": "caller-abort"},
+                "forwardsSignal": True,
+            },
+        )
+
+    def test_bilibili_crawler_helper_builds_payload_fetch_config_signal_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "fetchConfig": {
+                    "config": {"minDelayMs": 1200},
+                    "hasSignal": True,
+                    "signalToken": "caller-abort",
+                }
+            }
+        )
+
+        self.assertEqual(
+            result["fetchConfig"],
+            {
+                "config": {"minDelayMs": 1200, "signal": "caller-abort"},
+                "forwardsSignal": True,
+            },
+        )
+
     def test_bilibili_crawler_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -7436,6 +7477,7 @@ class CorpusContractTests(unittest.TestCase):
                 "sessionIdentity": {"sessionUaPicked": True},
                 "cookieInitialization": {"source": "env"},
                 "humanPause": {"waitMs": 850},
+                "fetchConfig": {"forwardsSignal": True},
                 "dynamicRecords": {"objects": []},
                 "extra": "ignored",
             }
@@ -7461,6 +7503,7 @@ class CorpusContractTests(unittest.TestCase):
                 "sessionIdentity": {"sessionUaPicked": True},
                 "cookieInitialization": {"source": "env"},
                 "humanPause": {"waitMs": 850},
+                "fetchConfig": {"forwardsSignal": True},
                 "dynamicRecords": {"objects": []},
             },
         )

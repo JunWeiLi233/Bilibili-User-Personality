@@ -85,6 +85,7 @@ class BilibiliCrawlerSummary:
         "sessionIdentity",
         "cookieInitialization",
         "humanPause",
+        "fetchConfig",
     )
 
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -298,10 +299,30 @@ class BilibiliCrawlerHelper:
                 human_pause.get("maxMs", 0),
                 random_value=human_pause.get("randomValue", 0),
             )
+        if isinstance(payload.get("fetchConfig"), dict):
+            fetch_config = payload.get("fetchConfig") or {}
+            result["fetchConfig"] = self.plan_fetch_config_with_signal(
+                fetch_config.get("config") if isinstance(fetch_config.get("config"), dict) else {},
+                has_signal=bool(fetch_config.get("hasSignal", False)),
+                signal_token=fetch_config.get("signalToken", fetch_config.get("signal", "signal")),
+            )
         return result
 
     def build_crawler_config(self, env: dict[str, Any] | None = None) -> dict[str, int | float]:
         return BilibiliCrawlerConfigBuilder().build(env)
+
+    def plan_fetch_config_with_signal(
+        self,
+        config: dict[str, Any] | None = None,
+        *,
+        has_signal: bool = False,
+        signal_token: Any = "signal",
+    ) -> dict[str, Any]:
+        base_config = dict(config) if isinstance(config, dict) else {}
+        if not has_signal:
+            return {"config": base_config, "forwardsSignal": False}
+        merged = {**base_config, "signal": signal_token}
+        return {"config": merged, "forwardsSignal": True}
 
     def plan_human_pause(self, min_ms: Any = 0, max_ms: Any = 0, random_value: Any = 0) -> dict[str, Any]:
         minimum = self._number(min_ms, 0)
