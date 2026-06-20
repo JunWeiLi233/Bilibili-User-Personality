@@ -198,6 +198,24 @@ class VideoCommentFilter:
         }
 
 
+class VideoCommentFilterSummary:
+    """Shape comment-filter output into the JS/Python comparator contract."""
+
+    RESULT_KEYS = ("applied", "matched", "before", "after", "needleCount", "comments")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: self.normalized_value(result.get(key)) for key in self.RESULT_KEYS if key in result}
+
+    def normalized_value(self, value: Any) -> Any:
+        if isinstance(value, list) and all(isinstance(item, dict) for item in value):
+            return [self.comment_id(item) for item in value]
+        return value
+
+    def comment_id(self, comment: dict[str, Any]) -> Any:
+        return comment.get("rpid") or comment.get("id") or comment.get("uid") or comment.get("message") or comment
+
+
 class VideoRelevanceFilter:
     """Rank and filter Bilibili video objects with JS-compatible relevance rules."""
 

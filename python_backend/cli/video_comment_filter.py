@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.video_filter import VideoCommentFilter
+from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterSummary
 
 
 class VideoCommentFilterRunner:
@@ -64,8 +64,6 @@ class VideoCommentFilterRunner:
 class VideoCommentFilterContractComparator:
     """Compare Python comment filtering output against saved JS-compatible JSON."""
 
-    RESULT_KEYS = ("applied", "matched", "before", "after", "needleCount", "comments")
-
     def __init__(
         self,
         comments_path: str | Path,
@@ -81,6 +79,7 @@ class VideoCommentFilterContractComparator:
         self.extra_needles = extra_needles or []
         self.dictionary_mode = dictionary_mode
         self.existing_terms_only = existing_terms_only
+        self.summary = VideoCommentFilterSummary()
 
     def compare(self) -> dict[str, Any]:
         python_result = VideoCommentFilterRunner(
@@ -92,15 +91,15 @@ class VideoCommentFilterContractComparator:
         ).run()
         js_result = self._read_js_report()
         mismatches = [
-            {"key": key, "python": self._normalized_value(python_result.get(key)), "js": self._normalized_value(js_result.get(key))}
-            for key in self.RESULT_KEYS
-            if key in js_result and self._normalized_value(python_result.get(key)) != self._normalized_value(js_result.get(key))
+            {"key": key, "python": self.summary.normalized_value(python_result.get(key)), "js": self.summary.normalized_value(js_result.get(key))}
+            for key in self.summary.RESULT_KEYS
+            if key in js_result and self.summary.normalized_value(python_result.get(key)) != self.summary.normalized_value(js_result.get(key))
         ]
         return {
             "ok": not mismatches,
             "mismatches": mismatches,
-            "python": self._summary(python_result),
-            "js": self._summary(js_result),
+            "python": self.summary.summarize(python_result),
+            "js": self.summary.summarize(js_result),
         }
 
     def _read_js_report(self) -> dict[str, Any]:
@@ -109,17 +108,6 @@ class VideoCommentFilterContractComparator:
         with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
-
-    def _summary(self, result: dict[str, Any]) -> dict[str, Any]:
-        return {key: self._normalized_value(result.get(key)) for key in self.RESULT_KEYS if key in result}
-
-    def _normalized_value(self, value: Any) -> Any:
-        if isinstance(value, list) and all(isinstance(item, dict) for item in value):
-            return [self._comment_id(item) for item in value]
-        return value
-
-    def _comment_id(self, comment: dict[str, Any]) -> Any:
-        return comment.get("rpid") or comment.get("id") or comment.get("uid") or comment.get("message") or comment
 
 
 def main() -> int:

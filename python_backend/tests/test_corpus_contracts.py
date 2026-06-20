@@ -3750,6 +3750,14 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["after"], 1)
         self.assertEqual(result["comments"][0]["rpid"], "1")
 
+    def test_video_comment_filter_comparator_uses_backend_summary_contract_keys(self):
+        self.assertTrue(hasattr(video_filter, "VideoCommentFilterSummary"))
+        self.assertFalse(hasattr(VideoCommentFilterContractComparator, "RESULT_KEYS"))
+        self.assertEqual(
+            VideoCommentFilterContractComparator(Path("comments.json"), Path("needles.json"), Path("js-report.json")).summary.RESULT_KEYS,
+            video_filter.VideoCommentFilterSummary.RESULT_KEYS,
+        )
+
     def test_video_comment_filter_contract_comparator_reports_filter_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
