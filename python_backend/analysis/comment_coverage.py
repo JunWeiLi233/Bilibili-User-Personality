@@ -6,6 +6,9 @@ import unicodedata
 from pathlib import Path
 from typing import Any
 
+from python_backend.corpus.dictionary import DictionaryLoader
+from python_backend.corpus.loader import CorpusLoader
+
 
 def _clean_text(value: Any) -> str:
     return re.sub(r"\s+", " ", str(value or "")).strip()
@@ -205,9 +208,9 @@ class CommentCoverageJsonPayloadRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
-        dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {"entries": []}
-        comments_payload = payload.get("comments") if "comments" in payload else []
-        comments = comments_payload if isinstance(comments_payload, list) else []
+        loaded_dictionary = DictionaryLoader.load_from_payload(self._dictionary_payload(payload))
+        dictionary = {**loaded_dictionary.manifest, "entries": loaded_dictionary.entries}
+        comments = CorpusLoader.load_from_payload(self._corpus_payload(payload)).comments
         options = {}
         if payload.get("sampleSize") is not None:
             options["sampleSize"] = payload.get("sampleSize")
@@ -216,6 +219,16 @@ class CommentCoverageJsonPayloadRunner:
     def _read_payload(self) -> dict[str, Any]:
         payload = _read_json(self.payload_path)
         return payload if isinstance(payload, dict) else {}
+
+    def _dictionary_payload(self, payload: dict[str, Any]) -> dict[str, Any]:
+        if "dictionary" in payload or payload.get("dictionaryPath"):
+            return payload
+        return {"dictionary": {"entries": []}}
+
+    def _corpus_payload(self, payload: dict[str, Any]) -> dict[str, Any]:
+        if "corpus" in payload or payload.get("corpusPath") or payload.get("path"):
+            return payload
+        return {"corpus": {"comments": payload.get("comments") if isinstance(payload.get("comments"), list) else []}}
 
 
 class CommentCoveragePayloadContractComparator:

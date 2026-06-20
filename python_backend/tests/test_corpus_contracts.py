@@ -9318,6 +9318,31 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["summary"]["total"], 2)
         self.assertEqual(result["summary"]["byMode"], {"keyword": 1, "neutral": 1, "uncovered": 0})
 
+    def test_comment_coverage_json_payload_runner_uses_loader_payload_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "comment-coverage.json"
+            dictionary_path = root / "dictionary.json"
+            corpus_path = root / "corpus.json"
+            dictionary_path.write_text(
+                json.dumps({"entries": [{"term": "\u72d7\u5934", "family": "cooperation"}]}),
+                encoding="utf-8",
+            )
+            corpus_path.write_text(
+                json.dumps({"comments": [{"message": "\u72d7\u5934\u4fdd\u547d"}, {"message": "\u666e\u901a\u8bc4\u8bba"}]}),
+                encoding="utf-8",
+            )
+            payload_path.write_text(
+                json.dumps({"dictionaryPath": str(dictionary_path), "corpusPath": str(corpus_path), "sampleSize": 2}),
+                encoding="utf-8",
+            )
+
+            result = CommentCoverageJsonPayloadRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["summary"]["total"], 2)
+        self.assertEqual(result["summary"]["byMode"], {"keyword": 1, "neutral": 1, "uncovered": 0})
+
     def test_comment_coverage_cli_accepts_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "comment-coverage.json"
