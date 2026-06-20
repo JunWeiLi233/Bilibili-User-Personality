@@ -14998,6 +14998,19 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_batch_uid_range_plan_runner_defaults_non_object_payload_root(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "batch-uid-range-plan.json"
+            payload_path.write_text(json.dumps(["bad", "payload"]), encoding="utf-8")
+
+            result = BatchUidRangePlanRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["input"], {"start": 200000, "end": 300000, "pages": 200, "phase2Only": False})
+        self.assertEqual(result["phase1"], {"enabled": True, "scannedBvids": 0, "maxPages": 200, "popularPageSize": 20, "commentPagesPerVideo": 3})
+        self.assertEqual(result["phase2"], {"targetUids": 0, "processed": 0, "remaining": 0, "userDbUsers": 0})
+        self.assertEqual(result["stats"], {"videosScanned": 0, "uidsFound": 0, "targetUidsFound": 0, "commentsCollected": 0, "analyzed": 0, "skipped": 0, "errors": 0})
+
     def test_batch_uid_range_plan_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
