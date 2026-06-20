@@ -1087,6 +1087,22 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["entries"][0]["term"], "yygq")
         self.assertEqual(result["entries"][0]["evidenceCount"], 2)
 
+    def test_keyword_evidence_matcher_owns_payload_contract(self):
+        result = KeywordEvidenceMatcher().run_from_payload(
+            {
+                "entries": [{"term": "YYGQ", "family": "attack", "meaning": "Chinese initialism"}],
+                "text": "YYGQ once\nyygq twice",
+                "source": "Bilibili public comment target expansion",
+                "uid": "mid-1",
+            }
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "entries")
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["entries"][0]["term"], "yygq")
+        self.assertEqual(result["entries"][0]["evidenceCount"], 2)
+
     def test_keyword_evidence_contract_comparator_reports_entry_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

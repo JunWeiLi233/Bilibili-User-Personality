@@ -18,27 +18,7 @@ class KeywordEvidenceRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_json(self.payload_path, {})
-        text = payload.get("text") or ""
-        source = payload.get("source") or ""
-        uid = payload.get("uid") or ""
-        mode = str(payload.get("mode") or "entries").strip().lower()
-        if mode == "dictionary":
-            entries = self.matcher.find_dictionary_entries_with_text_evidence(
-                payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {},
-                text,
-                source=source,
-                uid=uid,
-                exclude_terms=payload.get("excludeTerms") if isinstance(payload.get("excludeTerms"), list) else [],
-            )
-        else:
-            entries = self.matcher.filter_entries_by_evidence(
-                payload.get("entries") if isinstance(payload.get("entries"), list) else [],
-                text,
-                source=source,
-                uid=uid,
-            )
-            mode = "entries"
-        return {"ok": True, "mode": mode, "count": len(entries), "entries": entries}
+        return self.matcher.run_from_payload(payload)
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
         if not path.exists():

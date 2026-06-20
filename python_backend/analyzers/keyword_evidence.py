@@ -52,6 +52,30 @@ class KeywordEvidenceSummary:
 class KeywordEvidenceMatcher:
     """Match DeepSeek keyword entries against direct source text evidence."""
 
+    def run_from_payload(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        text = payload.get("text") or ""
+        source = payload.get("source") or ""
+        uid = payload.get("uid") or ""
+        mode = str(payload.get("mode") or "entries").strip().lower()
+        if mode == "dictionary":
+            entries = self.find_dictionary_entries_with_text_evidence(
+                payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {},
+                text,
+                source=source,
+                uid=uid,
+                exclude_terms=payload.get("excludeTerms") if isinstance(payload.get("excludeTerms"), list) else [],
+            )
+        else:
+            entries = self.filter_entries_by_evidence(
+                payload.get("entries") if isinstance(payload.get("entries"), list) else [],
+                text,
+                source=source,
+                uid=uid,
+            )
+            mode = "entries"
+        return {"ok": True, "mode": mode, "count": len(entries), "entries": entries}
+
     def evidence_needles_for_term(self, term: Any) -> list[str]:
         clean = _clean_keyword_term(term)
         if not clean:
