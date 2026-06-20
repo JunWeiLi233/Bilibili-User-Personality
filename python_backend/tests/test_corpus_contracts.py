@@ -4780,6 +4780,37 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["bvid"], "BV19yGa61Ee6")
         self.assertTrue(result["blocked"])
 
+    def test_bilibili_crawler_helper_owns_payload_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "text": "BV19yGa61Ee6, BV1xx411c7mD",
+                "payload": {"code": -509},
+                "cookie": " SESSDATA=abc ; invalid ; good=x=y ",
+                "objects": [
+                    {"kind": "video", "oid": 123, "replyType": 1, "title": "A"},
+                    {"kind": "video", "oid": "123", "replyType": 1, "title": "A duplicate"},
+                ],
+                "reply": {
+                    "rpid": 2,
+                    "mid": 453244911,
+                    "member": {"mid": "453244911", "uname": "target"},
+                    "content": {"message": "target message"},
+                },
+                "targetUid": "453244911",
+                "object": {"kind": "video", "oid": 123, "replyType": 1, "title": "A"},
+                "danmakuXml": '<i><d p="1,1,25,16777215,1710000000,0,12345,0">hello</d></i>',
+                "video": {"bvid": "BV1danmaku", "oid": "123", "cid": "456"},
+            }
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["bvids"], ["BV19yGa61Ee6", "BV1xx411c7mD"])
+        self.assertTrue(result["blocked"])
+        self.assertEqual(result["cookie"], "SESSDATA=abc; good=x=y")
+        self.assertEqual(len(result["objects"]), 1)
+        self.assertEqual(result["targetReplies"][0]["message"], "target message")
+        self.assertEqual(result["danmaku"][0]["rpid"], "danmaku-456-0")
+
     def test_bilibili_crawler_contract_comparator_reports_helper_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

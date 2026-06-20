@@ -30,6 +30,36 @@ class BilibiliCrawlerSummary:
 class BilibiliCrawlerHelper:
     """Normalize Bilibili crawler identifiers and block responses without network IO."""
 
+    def run_from_payload(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        text = payload.get("text") or payload.get("input") or ""
+        block_payload = payload.get("payload") if isinstance(payload.get("payload"), dict) else {}
+        result = {
+            "ok": True,
+            "bvids": self.parse_bvid_pool(text),
+            "bvid": self.extract_bvid(text),
+            "blocked": self.is_block_response(block_payload),
+        }
+        if "cookie" in payload:
+            result["cookie"] = self.normalize_bilibili_cookie(payload.get("cookie"))
+        if isinstance(payload.get("objects"), list):
+            result["objects"] = self.dedupe_public_objects(payload.get("objects"))
+        if isinstance(payload.get("reply"), dict):
+            result["targetReplies"] = self.collect_reply_for_uid(
+                payload.get("reply"),
+                payload.get("targetUid"),
+                payload.get("object") if isinstance(payload.get("object"), dict) else {},
+                [],
+            )
+        if "danmakuXml" in payload:
+            result["danmaku"] = self.parse_danmaku_xml(
+                payload.get("danmakuXml"),
+                payload.get("video") if isinstance(payload.get("video"), dict) else {},
+            )
+        if isinstance(payload.get("dynamicItems"), list):
+            result["dynamicRecords"] = self.extract_dynamic_records(payload.get("dynamicItems"), payload.get("uid"))
+        return result
+
     def parse_bvid_pool(self, raw: Any = "") -> list[str]:
         text = str(raw or "")
         return [
