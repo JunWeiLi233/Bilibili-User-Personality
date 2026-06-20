@@ -10,6 +10,16 @@ from python_backend.analysis.audit import CoverageAuditBuilder
 BVID_PATTERN = re.compile(r"(BV[0-9A-Za-z]{8,})")
 
 
+class NearTargetResolvePlanSummary:
+    """Shape near-target resolver plans into the JS/Python comparator contract."""
+
+    RESULT_KEYS = ("candidateCount", "candidateTerms", "plannedCount", "videosPlanned", "plans", "skipped", "summary")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
 class NearTargetResolvePlanner:
     """Build near-target resolver plans from dictionary entries and audit actions."""
 

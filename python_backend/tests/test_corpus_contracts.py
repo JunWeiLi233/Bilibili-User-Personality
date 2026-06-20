@@ -11,6 +11,7 @@ from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKe
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, HarvestOptionsSummary, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder
 from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateFinalizer, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
+from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetResolvePlanner
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherHelper, SemanticMatcherSummary
@@ -8169,6 +8170,14 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(result["candidateTerms"], ["\u6307\u5b9a\u8bcd"])
         self.assertEqual(result["plans"][0]["bvids"], ["BV1Override1"])
+
+    def test_near_target_resolve_comparator_uses_backend_summary_contract_keys(self):
+        self.assertTrue(hasattr(near_target, "NearTargetResolvePlanSummary"))
+        self.assertFalse(hasattr(NearTargetResolvePlanContractComparator, "RESULT_KEYS"))
+        self.assertEqual(
+            NearTargetResolvePlanContractComparator(Path("dictionary.json"), Path("state.json"), Path("js-plan.json")).summary.RESULT_KEYS,
+            near_target.NearTargetResolvePlanSummary.RESULT_KEYS,
+        )
 
     def test_near_target_resolve_plan_comparator_reports_plan_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:

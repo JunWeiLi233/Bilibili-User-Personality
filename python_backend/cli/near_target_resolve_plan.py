@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.near_target import NearTargetResolvePlanner
+from python_backend.analysis.near_target import NearTargetResolvePlanner, NearTargetResolvePlanSummary
 from python_backend.corpus.dictionary import DictionaryLoader
 
 
@@ -51,8 +51,6 @@ class NearTargetResolvePlanRunner:
 class NearTargetResolvePlanContractComparator:
     """Compare Python near-target resolve plans against saved JS-compatible JSON."""
 
-    RESULT_KEYS = ("candidateCount", "candidateTerms", "plannedCount", "videosPlanned", "plans", "skipped", "summary")
-
     def __init__(
         self,
         dictionary_path: str | Path,
@@ -75,6 +73,7 @@ class NearTargetResolvePlanContractComparator:
         self.videos_per_term = videos_per_term
         self.pages = pages
         self.override_terms = override_terms or []
+        self.summary = NearTargetResolvePlanSummary()
 
     def compare(self) -> dict[str, Any]:
         python_result = NearTargetResolvePlanRunner(
@@ -90,14 +89,14 @@ class NearTargetResolvePlanContractComparator:
         js_result = self._read_js_plan()
         mismatches = [
             {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
-            for key in self.RESULT_KEYS
+            for key in self.summary.RESULT_KEYS
             if key in js_result and python_result.get(key) != js_result.get(key)
         ]
         return {
             "ok": not mismatches,
             "mismatches": mismatches,
-            "python": self._summary(python_result),
-            "js": self._summary(js_result),
+            "python": self.summary.summarize(python_result),
+            "js": self.summary.summarize(js_result),
         }
 
     def _read_js_plan(self) -> dict[str, Any]:
@@ -106,9 +105,6 @@ class NearTargetResolvePlanContractComparator:
         with self.js_plan_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
-
-    def _summary(self, result: dict[str, Any]) -> dict[str, Any]:
-        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
 
 
 def _parse_terms(value: str) -> list[str]:
