@@ -307,6 +307,24 @@ class BatchUidProgressReporter:
         }
 
 
+class BatchUidProgressRunner:
+    """Summarize batchUidScrape.js progress JSON without mutating scraper state."""
+
+    def __init__(self, progress_path: str | Path):
+        self.progress_path = Path(progress_path)
+
+    def run(self) -> dict[str, Any]:
+        payload = self._read_json(self.progress_path, {})
+        return BatchUidProgressReporter().build_report(payload)
+
+    def _read_json(self, path: Path, fallback: Any) -> Any:
+        if not path.exists():
+            return fallback
+        with path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else fallback
+
+
 class BatchUidProgressSummary:
     """Shape batch UID progress reports into the JS/Python comparator summary contract."""
 
@@ -337,3 +355,25 @@ class BatchUidProgressContractComparator:
             "python": self.summary.summarize(python_result),
             "js": self.summary.summarize(js_result),
         }
+
+
+class BatchUidProgressPayloadContractComparator:
+    """Compare batch UID progress reports against saved JS-compatible JSON."""
+
+    def __init__(self, progress_path: str | Path, js_report_path: str | Path):
+        self.progress_path = Path(progress_path)
+        self.js_report_path = Path(js_report_path)
+        self.summary = BatchUidProgressSummary()
+        self.comparator = BatchUidProgressContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = BatchUidProgressRunner(self.progress_path).run()
+        js_result = self._read_js_report()
+        return self.comparator.compare(python_result, js_result)
+
+    def _read_js_report(self) -> dict[str, Any]:
+        if not self.js_report_path.exists():
+            return {}
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
