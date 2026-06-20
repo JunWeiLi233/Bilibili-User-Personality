@@ -36,6 +36,7 @@ from python_backend.cli import tieba_keyword_plan as tieba_keyword_plan_cli
 from python_backend.cli import tieba_timing as tieba_timing_cli
 from python_backend.cli import uid_discovery_plan as uid_discovery_plan_cli
 from python_backend.cli import uid_discovery_progress as uid_discovery_progress_cli
+from python_backend.cli import uid_fast_pipeline_plan as uid_fast_pipeline_plan_cli
 from python_backend.cli import uid_pipeline_launcher as uid_pipeline_launcher_cli
 from python_backend.cli import uid_pipeline_plan as uid_pipeline_plan_cli
 from python_backend.cli import uid_range_progress as uid_range_progress_cli
@@ -13640,6 +13641,28 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "training", "python": {"multiagent": True, "existingTermsOnly": False, "lockRetryDelayMs": 5000, "lockRetryJitterMs": 2000, "lockMaxRetries": 15, "forceCleanLockAfterAttempt": 10}, "js": {"lockMaxRetries": 5}},
             ],
         )
+
+    def test_uid_fast_pipeline_plan_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "uid-fast-pipeline-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--start=1", "--end=4"],
+                        "progress": {"processed": {"1": "success"}, "stats": {"success": 1}},
+                        "database": {"users": {"1": {}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = uid_fast_pipeline_plan_cli.UidFastPipelinePlanCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"start": 1, "end": 4, "total": 4})
+        self.assertEqual(result["progress"], {"processed": 1, "remaining": 3, "completionRatio": 0.25})
+        self.assertEqual(result["userDb"], {"users": 1, "usersInRange": 1})
 
     def test_uid_fast_pipeline_plan_runner_defaults_non_object_payload_root(self):
         with tempfile.TemporaryDirectory() as tmp:
