@@ -586,3 +586,84 @@ class HarvestTermAttemptUpdater:
             return 0
         audit = CoverageAuditBuilder(require_comment_backed_evidence=options.get("requireCommentBackedEvidence") is True)
         return audit._coverage_evidence_count(entry)
+
+
+class HarvestStatePayloadProcessor:
+    """Dispatch JS-compatible harvest-state JSON payloads to class-owned state operations."""
+
+    def process(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        options = payload.get("options") if isinstance(payload.get("options"), dict) else {}
+        strategy_version = payload.get("strategyVersion") or options.get("harvestStrategyVersion") or 0
+        summary_strategy_version = payload.get("strategyVersion") or options.get("harvestStrategyVersion") or 7
+        term_attempts = self._term_attempts_from_payload(payload)
+        mode = str(payload.get("mode") or "").strip().lower()
+
+        if mode == "summary":
+            summarizer = HarvestTermAttemptSummarizer(strategy_version=summary_strategy_version)
+            state = payload.get("state") if isinstance(payload.get("state"), dict) else {"termAttempts": term_attempts}
+            dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}
+            return {"ok": True, "termAttemptSummary": summarizer.summarize(state, dictionary, options=options)}
+
+        if mode == "coverage-actions":
+            builder = HarvestCoverageActionBuilder(strategy_version=summary_strategy_version)
+            state = payload.get("state") if isinstance(payload.get("state"), dict) else {"termAttempts": term_attempts}
+            dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}
+            return {"ok": True, "coverageActions": builder.build_actions(dictionary, state, options=options)}
+
+        if mode == "finalize":
+            finalizer = HarvestStateFinalizer(strategy_version=summary_strategy_version)
+            state = finalizer.finalize_state(
+                previous_state=payload.get("previousState") if isinstance(payload.get("previousState"), dict) else payload.get("state"),
+                searched_queries=payload.get("searchedQueries") if isinstance(payload.get("searchedQueries"), list) else [],
+                scanned_bvids=payload.get("scannedBvids") if isinstance(payload.get("scannedBvids"), list) else [],
+                term_attempts=term_attempts,
+                queries=payload.get("queries") if isinstance(payload.get("queries"), list) else [],
+                results=payload.get("results") if isinstance(payload.get("results"), list) else [],
+                warnings=payload.get("warnings") if isinstance(payload.get("warnings"), list) else [],
+                growth=payload.get("growth") if isinstance(payload.get("growth"), dict) else {},
+                coverage=payload.get("coverage") if isinstance(payload.get("coverage"), dict) else {},
+                coverage_progress=payload.get("coverageProgress") if isinstance(payload.get("coverageProgress"), dict) else {},
+                training_diagnostics=payload.get("trainingDiagnostics") if isinstance(payload.get("trainingDiagnostics"), dict) else {},
+                query_diagnostics=payload.get("queryDiagnostics") if isinstance(payload.get("queryDiagnostics"), list) else [],
+                accepted_evidence_count=payload.get("acceptedEvidenceCount") or 0,
+                coverage_increasing_accepted_evidence_count=payload.get("coverageIncreasingAcceptedEvidenceCount") or 0,
+                term_attempt_summary=payload.get("termAttemptSummary") if isinstance(payload.get("termAttemptSummary"), dict) else {},
+                backfilled_attempts=payload.get("backfilledAttempts") or 0,
+                finished_at=payload.get("finishedAt"),
+            )
+            return {"ok": True, "state": state}
+
+        updater = HarvestTermAttemptUpdater(strategy_version=strategy_version)
+        if mode == "backfill":
+            dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}
+            searched_queries = payload.get("searchedQueries") if isinstance(payload.get("searchedQueries"), list) else []
+            result = updater.backfill_searched_queries(term_attempts, dictionary, searched_queries, options=options)
+            return {"ok": True, **result}
+
+        if mode == "related":
+            dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}
+            next_attempts = updater.update_related_target_attempts(
+                term_attempts,
+                dictionary,
+                payload.get("planItem") if isinstance(payload.get("planItem"), dict) else {},
+                payload.get("result") if isinstance(payload.get("result"), dict) else {},
+                finished_at=payload.get("finishedAt") or payload.get("attemptFinishedAt"),
+                options=options,
+            )
+            return {"ok": True, "termAttempts": next_attempts}
+
+        next_attempts = updater.update_term_attempt(
+            term_attempts,
+            payload.get("planItem") if isinstance(payload.get("planItem"), dict) else {},
+            payload.get("result") if isinstance(payload.get("result"), dict) else {},
+            finished_at=payload.get("finishedAt") or payload.get("attemptFinishedAt"),
+            options=options,
+        )
+        return {"ok": True, "termAttempts": next_attempts}
+
+    def _term_attempts_from_payload(self, payload: dict[str, Any]) -> dict[str, Any]:
+        term_attempts = payload.get("termAttempts") if isinstance(payload.get("termAttempts"), dict) else {}
+        if isinstance(payload.get("state"), dict) and isinstance(payload["state"].get("termAttempts"), dict):
+            return payload["state"]["termAttempts"]
+        return term_attempts

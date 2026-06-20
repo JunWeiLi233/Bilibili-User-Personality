@@ -10,7 +10,7 @@ from python_backend.analysis.coverage_progress import CoverageProgressSummary, C
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReporter, VideoKeywordDiscoveryReportSummary
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, HarvestOptionsSummary, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, KeywordHarvestPlanSummary
-from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateFinalizer, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
+from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateFinalizer, HarvestStatePayloadProcessor, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetResolvePlanner
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSummary, ReadmeStatsSvgRenderer
@@ -9437,6 +9437,32 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(attempt["queries"][0]["error"], "timeout")
         self.assertFalse(comparison["ok"])
         self.assertEqual(comparison["mismatches"][0]["key"], "termAttempts")
+
+    def test_harvest_state_payload_processor_handles_summary_json_contract_without_cli(self):
+        result = HarvestStatePayloadProcessor().process(
+            {
+                "mode": "summary",
+                "strategyVersion": 7,
+                "options": {"targetEvidence": 3},
+                "state": {
+                    "harvestStrategyVersion": 7,
+                    "termAttempts": {
+                        term_attempt_key("狗头"): {"term": "狗头", "attempts": 2, "successfulAttempts": 1},
+                    },
+                },
+                "dictionary": {
+                    "entries": [
+                        {"term": "狗头", "family": "attack", "evidence": [{"text": "x"}, {"text": "y"}, {"text": "z"}]},
+                        {"term": "没懂", "family": "evasion", "evidence": []},
+                    ]
+                },
+            }
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["termAttemptSummary"]["attemptedTerms"], 1)
+        self.assertEqual(result["termAttemptSummary"]["successfulTerms"], 1)
+        self.assertEqual(result["termAttemptSummary"]["unattemptedTerms"], 1)
 
     def test_harvest_state_comparator_uses_backend_summary_contract_keys(self):
         summary = HarvestStateSummary()
