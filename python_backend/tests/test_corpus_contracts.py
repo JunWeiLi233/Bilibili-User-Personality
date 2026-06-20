@@ -120,7 +120,7 @@ from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanContractComparator as UidDiscoveryPlanPayloadComparator, UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
 from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanContractComparator as UidFastPipelinePlanPayloadComparator
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanContractComparator as UidParallelPlanPayloadComparator, UidParallelPlanSummary, UidParallelProgressReporter, UidParallelProgressSummary
-from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineLauncherSummary, UidPipelineMergeReporter, UidPipelineMergeSummary, UidPipelinePlanContractComparator as UidPipelinePlanPayloadComparator, UidPipelinePlanSummary, UidPipelineProgressContractComparator as UidPipelineProgressPayloadComparator, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
+from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineLauncherSummary, UidPipelineMergeReporter, UidPipelineMergeSummary, UidPipelinePlanContractComparator as UidPipelinePlanPayloadComparator, UidPipelinePlanSummary, UidPipelineProgressContractComparator as UidPipelineProgressPayloadComparator, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateContractComparator as UidPipelineStatePayloadComparator, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter, ScraperMonitorSummary
 from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherPlanner, FastPipelineLauncherSummary, UidFastPipelinePlanSummary, UidFastPipelinePlanner
 
@@ -6757,6 +6757,40 @@ class CorpusContractTests(unittest.TestCase):
             UidPipelineStateContractComparator(Path("data"), Path("js.json")).summary.RESULT_KEYS,
             UidPipelineStateSummary.RESULT_KEYS,
         )
+
+    def test_uid_pipeline_state_payload_comparator_owns_result_key_mismatch_contract(self):
+        result = UidPipelineStatePayloadComparator().compare(
+            {
+                "startedAt": "2026-06-19T00:00:00.000Z",
+                "workers": [{"start": 1, "end": 1, "processed": 1}],
+                "summary": {"totalProcessed": 1, "completionRatio": 1.0},
+                "stats": {"success": 1},
+            },
+            {
+                "summary": {"totalProcessed": 0},
+                "stats": {"success": 0},
+                "lastUpdated": "ignored",
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "summary", "python": {"totalProcessed": 1, "completionRatio": 1.0}, "js": {"totalProcessed": 0}},
+                {"key": "stats", "python": {"success": 1}, "js": {"success": 0}},
+            ],
+        )
+        self.assertEqual(
+            result["python"],
+            {
+                "startedAt": "2026-06-19T00:00:00.000Z",
+                "workers": [{"start": 1, "end": 1, "processed": 1}],
+                "summary": {"totalProcessed": 1, "completionRatio": 1.0},
+                "stats": {"success": 1},
+            },
+        )
+        self.assertEqual(result["js"], {"summary": {"totalProcessed": 0}, "stats": {"success": 0}})
 
     def test_uid_pipeline_state_comparator_reports_summary_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
