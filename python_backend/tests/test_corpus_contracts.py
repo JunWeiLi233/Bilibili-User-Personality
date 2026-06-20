@@ -2682,6 +2682,28 @@ class CorpusContractTests(unittest.TestCase):
             [{"term": "\u9634\u9633\u602a\u6c14", "family": "attack", "meaning": "\u8bbd\u523a\u6027\u8868\u8fbe"}],
         )
 
+    def test_deepseek_analyzer_builds_comments_from_corpus_path_payload(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            corpus_path.write_text(
+                json.dumps(
+                    {
+                        "comments": [
+                            {"message": "\u72d7\u5934\u4fdd\u547d[doge]", "source": "bilibili"},
+                            {"commentText": "\u5efa\u8bae\u67e5\u67e5\u8d44\u6599", "source": "tieba"},
+                            {"message": ""},
+                        ],
+                        "runs": [],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            request = DeepSeekAnalyzerClient().build_request_from_payload({"corpusPath": str(corpus_path)})
+
+        self.assertEqual(request.comments, ["\u72d7\u5934\u4fdd\u547d[doge]", "\u5efa\u8bae\u67e5\u67e5\u8d44\u6599"])
+
     def test_deepseek_analyzer_extracts_text_from_comment_object_payloads(self):
         request = DeepSeekAnalyzerClient().build_request_from_payload(
             {
@@ -3015,6 +3037,36 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["summary"]["unsupportedQuotes"], 0)
         self.assertEqual(result["summary"]["unsupportedAxisEvidence"], 1)
         self.assertEqual(result["unsupportedAxisEvidence"], [{"path": "axes[1].evidence", "quote": "bilibili", "axis": "metadata"}])
+
+    def test_deepseek_analysis_validator_extracts_source_quotes_from_corpus_path(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            corpus_path.write_text(
+                json.dumps(
+                    {
+                        "comments": [
+                            {"message": "\u72d7\u5934\u4fdd\u547d[doge]", "source": "bilibili"},
+                            {"commentText": "\u5efa\u8bae\u67e5\u67e5\u8d44\u6599", "source": "tieba"},
+                        ],
+                        "runs": [],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = DeepSeekAnalysisValidator().validate_payloads(
+                {"corpusPath": str(corpus_path)},
+                {
+                    "parsed": {
+                        "sentenceAnalyses": [{"quote": "\u72d7\u5934\u4fdd\u547d[doge]", "risk": "low"}],
+                        "axes": [{"axis": "evidence", "score": 60, "evidence": "\u5efa\u8bae\u67e5\u67e5\u8d44\u6599"}],
+                    }
+                },
+            )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["summary"], {"sourceSentences": 2, "sentenceAnalyses": 1, "axes": 1, "unsupportedQuotes": 0, "unsupportedAxisEvidence": 0})
 
     def test_deepseek_analysis_validate_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:

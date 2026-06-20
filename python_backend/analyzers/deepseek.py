@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.dictionary import DictionaryLoader
 
 
@@ -268,6 +269,9 @@ class DeepSeekAnalyzerClient:
                 if text:
                     comments.append(text)
             return comments
+        if isinstance(payload.get("corpus"), dict) or payload.get("corpusPath"):
+            corpus = CorpusLoader.load_from_payload(payload)
+            return [text for item in corpus.comments if (text := self._comment_text(item))]
         text = str(payload.get("text") or payload.get("fullText") or "").strip()
         return [text] if text else []
 
@@ -325,12 +329,7 @@ class DeepSeekAnalysisValidator:
         return DeepSeekAnalyzerClient()._split_sentences("\n".join(str(comment) for comment in comments))
 
     def _comments_from_payload(self, payload: dict[str, Any]) -> list[str]:
-        comments = payload.get("comments")
-        if isinstance(comments, list):
-            client = DeepSeekAnalyzerClient()
-            return [text for item in comments if (text := client._comment_text(item))]
-        text = str(payload.get("text") or payload.get("fullText") or "").strip()
-        return [text] if text else []
+        return DeepSeekAnalyzerClient()._comments_from_payload(payload)
 
     def _analysis_from_payload(self, payload: dict[str, Any]) -> dict[str, Any]:
         parsed = payload.get("parsed")
