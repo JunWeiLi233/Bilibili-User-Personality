@@ -5628,6 +5628,24 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["hasGateProgress"])
         self.assertTrue(result["hasHarvestProgress"])
 
+    def test_coverage_progress_tracker_owns_payload_contract(self):
+        result = CoverageProgressTracker().run_from_payload(
+            {
+                "before": {"totalEvidence": 10, "evidenceDeficit": 5, "zeroEvidenceTerms": 2, "weakTerms": 4},
+                "after": {"totalEvidence": 12, "evidenceDeficit": 3, "zeroEvidenceTerms": 1, "weakTerms": 3},
+                "harvestProgress": [{"weakTermsResolved": 0, "zeroEvidenceResolved": 1, "evidenceGained": 2, "evidenceDeficitReduced": 2}],
+                "beforeActions": [{"term": "rare-term", "needs": 2}],
+                "afterActions": [{"term": "rare-term", "needs": 1}],
+            }
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["delta"]["evidenceDeficitReduced"], 2)
+        self.assertEqual(result["harvestDelta"]["totalEvidenceGained"], 2)
+        self.assertEqual(result["actionDelta"], {"actionTermsResolved": 0, "actionEvidenceNeedReduced": 1})
+        self.assertTrue(result["hasGateProgress"])
+        self.assertTrue(result["hasHarvestProgress"])
+
     def test_coverage_progress_runner_reports_exhausted_terms_from_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

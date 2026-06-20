@@ -46,6 +46,32 @@ class CoverageProgressSummary:
 class CoverageProgressTracker:
     """Evaluate coverage-gate progress using the same JSON fields as JS harvest loops."""
 
+    def run_from_payload(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        before = payload.get("before") if isinstance(payload.get("before"), dict) else {}
+        after = payload.get("after") if isinstance(payload.get("after"), dict) else {}
+        harvest_progress = payload.get("harvestProgress") if isinstance(payload.get("harvestProgress"), list) else []
+        options = {
+            "beforeActions": payload.get("beforeActions") if isinstance(payload.get("beforeActions"), list) else [],
+            "afterActions": payload.get("afterActions") if isinstance(payload.get("afterActions"), list) else [],
+        }
+        delta = self.coverage_delta(before, after)
+        harvest_delta = self.coverage_delta_from_harvest(before, after, harvest_progress)
+        action_delta = self.action_progress_delta(options["beforeActions"], options["afterActions"])
+        dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}
+        state = payload.get("state") if isinstance(payload.get("state"), dict) else {}
+        exhausted_options = payload.get("exhaustedOptions") if isinstance(payload.get("exhaustedOptions"), dict) else {}
+        return {
+            "ok": True,
+            "delta": delta,
+            "harvestDelta": harvest_delta,
+            "actionDelta": action_delta,
+            "exhaustedTerms": self.select_exhausted_terms(dictionary, state, exhausted_options),
+            "hasDeltaProgress": self.has_coverage_delta_progress(delta),
+            "hasHarvestProgress": self.has_coverage_delta_progress(harvest_delta),
+            "hasGateProgress": self.has_coverage_gate_progress(before, after, options),
+        }
+
     def coverage_delta(self, before: dict[str, Any] | None = None, after: dict[str, Any] | None = None) -> dict[str, int | float]:
         before = before or {}
         after = after or {}

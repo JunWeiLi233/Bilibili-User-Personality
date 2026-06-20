@@ -18,29 +18,7 @@ class CoverageProgressRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
-        before = payload.get("before") if isinstance(payload.get("before"), dict) else {}
-        after = payload.get("after") if isinstance(payload.get("after"), dict) else {}
-        harvest_progress = payload.get("harvestProgress") if isinstance(payload.get("harvestProgress"), list) else []
-        options = {
-            "beforeActions": payload.get("beforeActions") if isinstance(payload.get("beforeActions"), list) else [],
-            "afterActions": payload.get("afterActions") if isinstance(payload.get("afterActions"), list) else [],
-        }
-        delta = self.tracker.coverage_delta(before, after)
-        harvest_delta = self.tracker.coverage_delta_from_harvest(before, after, harvest_progress)
-        action_delta = self.tracker.action_progress_delta(options["beforeActions"], options["afterActions"])
-        dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}
-        state = payload.get("state") if isinstance(payload.get("state"), dict) else {}
-        exhausted_options = payload.get("exhaustedOptions") if isinstance(payload.get("exhaustedOptions"), dict) else {}
-        return {
-            "ok": True,
-            "delta": delta,
-            "harvestDelta": harvest_delta,
-            "actionDelta": action_delta,
-            "exhaustedTerms": self.tracker.select_exhausted_terms(dictionary, state, exhausted_options),
-            "hasDeltaProgress": self.tracker.has_coverage_delta_progress(delta),
-            "hasHarvestProgress": self.tracker.has_coverage_delta_progress(harvest_delta),
-            "hasGateProgress": self.tracker.has_coverage_gate_progress(before, after, options),
-        }
+        return self.tracker.run_from_payload(payload)
 
     def _read_payload(self) -> dict[str, Any]:
         with self.payload_path.open("r", encoding="utf-8-sig") as handle:
