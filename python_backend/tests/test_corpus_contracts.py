@@ -32,6 +32,7 @@ from python_backend.cli import tieba_keyword_plan as tieba_keyword_plan_cli
 from python_backend.cli import tieba_timing as tieba_timing_cli
 from python_backend.cli import uid_discovery_plan as uid_discovery_plan_cli
 from python_backend.cli import uid_discovery_progress as uid_discovery_progress_cli
+from python_backend.cli import uid_range_progress as uid_range_progress_cli
 from python_backend.cli import video_comment_filter as video_comment_filter_cli
 from python_backend.cli import video_context as video_context_cli
 from python_backend.cli import video_relevance as video_relevance_cli
@@ -16161,6 +16162,31 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["phase2"], {"processed": 1, "success": 1, "errors": 0, "skipped": 0, "remaining": 0})
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["phase2"])
+
+    def test_uid_range_progress_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            progress_path = root / "batch-uid-range-progress.json"
+            progress_path.write_text(
+                json.dumps(
+                    {
+                        "_uidComments": {"200000": [{"message": "x"}], "300001": [{"message": "outside"}]},
+                        "processedUids": {"200000": "success", "250000": "error_timeout"},
+                        "stats": {"videosScanned": 2, "targetUidsFound": 1, "commentsCollected": 2, "skipped": 1},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = uid_range_progress_cli.UidRangeProgressCliRunner(
+                ["--progress", str(progress_path), "--start", "200000", "--end", "300000"]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"start": 200000, "end": 300000})
+        self.assertEqual(result["discovery"], {"videosScanned": 2, "uidsDiscovered": 2, "targetUidsDiscovered": 1, "commentsCollected": 2})
+        self.assertEqual(result["phase2"], {"processed": 2, "success": 1, "errors": 1, "skipped": 1, "remaining": 0})
+        self.assertEqual(result["comments"], {"totalForTargetUids": 1, "averagePerTargetUid": 1.0})
 
     def test_uid_range_progress_summary_extracts_comparator_contract(self):
         summary = UidRangeProgressSummary().summarize(
