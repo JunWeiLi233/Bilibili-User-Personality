@@ -84,6 +84,7 @@ class BilibiliCrawlerSummary:
         "requestStateReset",
         "sessionIdentity",
         "cookieInitialization",
+        "humanPause",
     )
 
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -290,10 +291,30 @@ class BilibiliCrawlerHelper:
                 random_fn=lambda: random_value,
                 now_ms=cookie_initialization.get("nowMs", 0),
             )
+        if isinstance(payload.get("humanPause"), dict):
+            human_pause = payload.get("humanPause") or {}
+            result["humanPause"] = self.plan_human_pause(
+                human_pause.get("minMs", 0),
+                human_pause.get("maxMs", 0),
+                random_value=human_pause.get("randomValue", 0),
+            )
         return result
 
     def build_crawler_config(self, env: dict[str, Any] | None = None) -> dict[str, int | float]:
         return BilibiliCrawlerConfigBuilder().build(env)
+
+    def plan_human_pause(self, min_ms: Any = 0, max_ms: Any = 0, random_value: Any = 0) -> dict[str, Any]:
+        minimum = self._number(min_ms, 0)
+        maximum = self._number(max_ms, 0)
+        if maximum <= 0:
+            return {"waitMs": 0, "willWait": False}
+        if maximum <= minimum:
+            return {"waitMs": minimum, "willWait": True}
+        random_number = self._bounded_float(random_value, 0, 0, 1)
+        return {
+            "waitMs": minimum + math.floor(random_number * (maximum - minimum)),
+            "willWait": True,
+        }
 
     def plan_cookie_initialization(
         self,

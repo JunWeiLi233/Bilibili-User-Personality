@@ -7340,6 +7340,35 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_bilibili_crawler_helper_plans_human_pause_contract(self):
+        helper = BilibiliCrawlerHelper()
+
+        self.assertEqual(
+            helper.plan_human_pause(600, 1600, random_value=0.25),
+            {"waitMs": 850, "willWait": True},
+        )
+        self.assertEqual(
+            helper.plan_human_pause(1600, 600, random_value=0.9),
+            {"waitMs": 1600, "willWait": True},
+        )
+        self.assertEqual(
+            helper.plan_human_pause(600, 0, random_value=0.9),
+            {"waitMs": 0, "willWait": False},
+        )
+
+    def test_bilibili_crawler_helper_builds_payload_human_pause_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "humanPause": {
+                    "minMs": 700,
+                    "maxMs": 1700,
+                    "randomValue": 0.4,
+                }
+            }
+        )
+
+        self.assertEqual(result["humanPause"], {"waitMs": 1100, "willWait": True})
+
     def test_bilibili_crawler_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -7406,6 +7435,7 @@ class CorpusContractTests(unittest.TestCase):
                 "requestStateReset": {"consecutiveBlocks": 0},
                 "sessionIdentity": {"sessionUaPicked": True},
                 "cookieInitialization": {"source": "env"},
+                "humanPause": {"waitMs": 850},
                 "dynamicRecords": {"objects": []},
                 "extra": "ignored",
             }
@@ -7430,6 +7460,7 @@ class CorpusContractTests(unittest.TestCase):
                 "requestStateReset": {"consecutiveBlocks": 0},
                 "sessionIdentity": {"sessionUaPicked": True},
                 "cookieInitialization": {"source": "env"},
+                "humanPause": {"waitMs": 850},
                 "dynamicRecords": {"objects": []},
             },
         )
