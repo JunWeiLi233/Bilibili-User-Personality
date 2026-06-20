@@ -95,7 +95,7 @@ from python_backend.corpus.writer import CorpusShardWriteContractComparator as C
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliParseContractComparator as BilibiliParsePayloadComparator, BilibiliParsePayloadContractComparator, BilibiliParseRunner as BilibiliParsePayloadRunner, BilibiliParseSummary, BilibiliPublicParser
 from python_backend.scrapers.aicu import AicuBatchPlanContractComparator as AicuBatchPlanPayloadComparator, AicuBatchPlanPayloadContractComparator, AicuBatchPlanRunner as AicuBatchPayloadPlanRunner, AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanContractComparator as AicuScrapePlanPayloadComparator, AicuScrapePlanPayloadContractComparator, AicuScrapePlanRunner as AicuScrapePayloadPlanRunner, AicuScrapePlanSummary, AicuScrapePlanner
-from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanContractComparator as AicuBrowserBatchPlanPayloadComparator, AicuBrowserBatchPlanSummary, AicuBrowserBatchPlanner
+from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanContractComparator as AicuBrowserBatchPlanPayloadComparator, AicuBrowserBatchPlanPayloadContractComparator, AicuBrowserBatchPlanRunner as AicuBrowserBatchPayloadPlanRunner, AicuBrowserBatchPlanSummary, AicuBrowserBatchPlanner
 from python_backend.scrapers import video_link_direct
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanContractComparator as VideoLinkDirectPlanPayloadComparator, VideoLinkDirectPlanner, VideoLinkDirectPlanRunner as VideoLinkDirectPayloadPlanRunner
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerContractComparator as BilibiliCrawlerPayloadComparator, BilibiliCrawlerPayloadContractComparator, BilibiliCrawlerRunner as BilibiliCrawlerPayloadRunner, BilibiliCrawlerHelper, BilibiliCrawlerSummary
@@ -1195,6 +1195,33 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "browser", "python": {"command": "browser-harness", "script": "server/scripts/browserScrapeAicu.py", "wrapper": "server/data/_browser_aicu_tmp.py", "timeoutMs": 120000, "maxPages": 3}, "js": {"maxPages": 10}},
             ],
         )
+
+    def test_aicu_browser_batch_plan_payload_runner_lives_with_scraper_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "aicu-browser-plan.json"
+            js_report_path = root / "js-aicu-browser-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--start=30", "--end=32"],
+                        "progress": {"lastUid": 30, "completed": "4", "errors": [{"uid": "30"}]},
+                        "database": {"users": {"31": {}, "99": {}}},
+                        "projectDir": "D:/repo",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"range": {"effectiveStart": 30}, "progress": {"completed": 0}}), encoding="utf-8")
+
+            result = AicuBrowserBatchPayloadPlanRunner(payload_path).run()
+            comparison = AicuBrowserBatchPlanPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"requestedStart": 30, "effectiveStart": 31, "end": 32, "total": 2})
+        self.assertEqual(result["progress"], {"lastUid": 30, "completed": 4, "errors": 1})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["range", "progress"])
 
     def test_video_link_direct_planner_matches_js_cli_mode_contract(self):
         planner = VideoLinkDirectPlanner()

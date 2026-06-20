@@ -3,48 +3,9 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from pathlib import Path
-from typing import Any
 
-from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanContractComparator as AicuBrowserBatchPlanPayloadComparator, AicuBrowserBatchPlanSummary, AicuBrowserBatchPlanner
+from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanPayloadContractComparator as AicuBrowserBatchPlanContractComparator, AicuBrowserBatchPlanRunner
 
-
-class AicuBrowserBatchPlanRunner:
-    """Read a JS-compatible batchScrapeAicuBrowser payload and emit a dry-run plan."""
-
-    def __init__(self, payload_path: str | Path):
-        self.payload_path = Path(payload_path)
-
-    def run(self) -> dict[str, Any]:
-        payload = self._read_payload()
-        return AicuBrowserBatchPlanner.build_plan_from_payload(payload)
-
-    def _read_payload(self) -> dict[str, Any]:
-        with self.payload_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        if not isinstance(payload, dict):
-            raise ValueError("AICU browser batch plan payload must be a JSON object.")
-        return payload
-
-
-class AicuBrowserBatchPlanContractComparator:
-    """Compare Python AICU browser batch plans against saved JS-compatible JSON."""
-
-    def __init__(self, payload_path: str | Path, js_report_path: str | Path):
-        self.payload_path = Path(payload_path)
-        self.js_report_path = Path(js_report_path)
-        self.summary = AicuBrowserBatchPlanSummary()
-        self.comparator = AicuBrowserBatchPlanPayloadComparator(self.summary)
-
-    def compare(self) -> dict[str, Any]:
-        python_result = AicuBrowserBatchPlanRunner(self.payload_path).run()
-        js_result = self._read_js_report()
-        return self.comparator.compare(python_result, js_result)
-
-    def _read_js_report(self) -> dict[str, Any]:
-        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else {}
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Build a batchScrapeAicuBrowser.js-compatible dry-run plan.")
