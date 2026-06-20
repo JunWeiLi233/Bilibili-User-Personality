@@ -15,7 +15,7 @@ from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, 
 from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetResolvePlanner
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSummary, ReadmeStatsSvgRenderer
-from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherHelper, SemanticMatcherSummary
+from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationReportSummary, RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary
@@ -1501,6 +1501,23 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "matches", "python": [{"term": "term-a", "chunk": "alpha chunk", "score": 1.0}], "js": []},
             ],
         )
+
+    def test_semantic_matcher_payload_comparator_owns_match_mismatch_contract(self):
+        result = SemanticMatcherPayloadComparator().compare(
+            {"ok": True, "mode": "match", "chunks": ["alpha chunk"], "cosine": 0.8, "matches": [{"term": "term-a"}], "extra": "ignored"},
+            {"ok": True, "mode": "match", "chunks": ["alpha chunk"], "cosine": 0.7, "matches": []},
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "cosine", "python": 0.8, "js": 0.7},
+                {"key": "matches", "python": [{"term": "term-a"}], "js": []},
+            ],
+        )
+        self.assertEqual(result["python"], {"mode": "match", "chunks": ["alpha chunk"], "cosine": 0.8, "matches": [{"term": "term-a"}]})
+        self.assertEqual(result["js"], {"mode": "match", "chunks": ["alpha chunk"], "cosine": 0.7, "matches": []})
 
     def test_semantic_matcher_summary_extracts_comparator_contract(self):
         summary = SemanticMatcherSummary().summarize(
