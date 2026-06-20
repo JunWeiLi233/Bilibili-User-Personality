@@ -26,6 +26,7 @@ from python_backend.cli import huggingface_corpus as huggingface_corpus_cli
 from python_backend.cli import keyword_evidence as keyword_evidence_cli
 from python_backend.cli import random_verification as random_verification_cli
 from python_backend.cli import tieba_corpus as tieba_corpus_cli
+from python_backend.cli import tieba_html_parse as tieba_html_parse_cli
 from python_backend.cli import video_comment_filter as video_comment_filter_cli
 from python_backend.cli import video_context as video_context_cli
 from python_backend.cli import video_relevance as video_relevance_cli
@@ -8664,6 +8665,28 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["mode"], "comments")
         self.assertEqual(result["comments"][0]["message"], "\u65b0\u8d34\u5427\u8bc4\u8bba")
+
+    def test_tieba_html_parse_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "threads",
+                        "keyword": "\u8d34\u5427\u6897",
+                        "html": '<a href="/p/1234567890" title="\u8d34\u5427\u6897\u8ba8\u8bba">body</a>',
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = tieba_html_parse_cli.TiebaHtmlParseCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "threads")
+        self.assertEqual(result["threads"][0]["id"], "1234567890")
+        self.assertEqual(result["threads"][0]["keyword"], "\u8d34\u5427\u6897")
 
     def test_tieba_html_parser_owns_payload_comments_contract(self):
         result = TiebaHtmlParser().parse_from_payload(
