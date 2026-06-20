@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.analyzers.deepseek import DeepSeekAnalysisValidateContractComparator, DeepSeekAnalysisValidateRunner
+from python_backend.analyzers.deepseek import DeepSeekAnalysisValidateContractComparator, DeepSeekAnalysisValidateRequest, DeepSeekAnalysisValidateRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -23,9 +23,11 @@ class DeepSeekAnalysisValidateCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.compare_js_report:
-            return DeepSeekAnalysisValidateContractComparator(args.payload, args.analysis, args.compare_js_report).compare()
-        return DeepSeekAnalysisValidateRunner(args.payload, args.analysis).run()
+        return DeepSeekAnalysisValidateRequest(
+            payload_path=args.payload,
+            analysis_path=args.analysis,
+            compare_js_report_path=args.compare_js_report or None,
+        ).run()
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -554,3 +554,21 @@ class DeepSeekAnalysisValidateContractComparator:
         with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
+
+
+@dataclass(frozen=True)
+class DeepSeekAnalysisValidateRequest:
+    """Analyzer-layer request object for DeepSeek validation JSON contract modes."""
+
+    payload_path: str | Path
+    analysis_path: str | Path
+    compare_js_report_path: str | Path | None = None
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_report_path:
+            return DeepSeekAnalysisValidateContractComparator(
+                self.payload_path,
+                self.analysis_path,
+                self.compare_js_report_path,
+            ).compare()
+        return DeepSeekAnalysisValidateRunner(self.payload_path, self.analysis_path).run()
