@@ -7306,6 +7306,21 @@ class CorpusContractTests(unittest.TestCase):
             BatchBilibiliPlanSummary.RESULT_KEYS,
         )
 
+    def test_batch_bilibili_planner_builds_plan_from_json_payload_contract(self):
+        result = BatchBilibiliScrapePlanner.build_plan_from_payload(
+            {
+                "argv": ["--start=30", "--end=32"],
+                "progress": {"lastUid": 30, "completed": "6", "errors": [{"uid": "30"}]},
+                "database": {"users": {"30": {}, "31": {}}},
+            }
+        )
+
+        self.assertEqual(result["input"], {"startUid": 30, "endUid": 32})
+        self.assertEqual(result["range"], {"startUid": 31, "endUid": 32, "total": 2})
+        self.assertEqual(result["resume"], {"lastUid": 30, "resumed": True})
+        self.assertEqual(result["database"], {"users": 2})
+        self.assertEqual(result["progress"], {"completed": 6, "errors": 1})
+
     def test_batch_bilibili_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
