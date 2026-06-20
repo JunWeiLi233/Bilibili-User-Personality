@@ -4876,6 +4876,13 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_bilibili_probe_plan_comparator_uses_summary_contract_keys(self):
+        self.assertFalse(hasattr(BilibiliProbePlanContractComparator, "RESULT_KEYS"))
+        self.assertEqual(
+            BilibiliProbePlanContractComparator(Path("payload.json"), Path("js-report.json")).summary.RESULT_KEYS,
+            BilibiliProbePlanSummary.RESULT_KEYS,
+        )
+
     def test_bilibili_probe_plan_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
