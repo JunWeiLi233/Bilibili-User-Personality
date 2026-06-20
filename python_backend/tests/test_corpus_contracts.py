@@ -79,7 +79,7 @@ from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContra
 from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContractComparator, FastPipelineLauncherPlanRunner
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusContractComparator as DirectProbeCorpusPayloadComparator, DirectProbeCorpusPayloadContractComparator, DirectProbeCorpusRunner as DirectProbePayloadCorpusRunner, DirectProbeCorpusSummary, DirectProbePlanContractComparator as DirectProbePlanPayloadComparator, DirectProbePlanPayloadContractComparator, DirectProbePlanRunner as DirectProbePayloadPlanRunner, DirectProbePlanSummary
 from python_backend.corpus.history_tags import HistoryTagCorpusContractComparator as HistoryTagCorpusPayloadComparator, HistoryTagCorpusManager, HistoryTagCorpusPayloadContractComparator, HistoryTagCorpusRunner as HistoryTagPayloadCorpusRunner, HistoryTagCorpusSummary, HistoryTagScrapePlanner, HistoryTagScrapePlanContractComparator as HistoryTagScrapePlanPayloadComparator, HistoryTagScrapePlanPayloadContractComparator, HistoryTagScrapePlanRunner as HistoryTagScrapePayloadPlanRunner, HistoryTagScrapePlanSummary
-from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceCorpusImportContractComparator as HuggingFaceCorpusImportPayloadComparator, HuggingFaceCorpusImportPlanContractComparator as HuggingFaceCorpusImportPlanPayloadComparator, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
+from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceCorpusImportContractComparator as HuggingFaceCorpusImportPayloadComparator, HuggingFaceCorpusImportPlanContractComparator as HuggingFaceCorpusImportPlanPayloadComparator, HuggingFaceCorpusImportPlanRunner as HuggingFaceCorpusImportPayloadPlanRunner, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
 from python_backend.corpus.local import LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidencePayloadContractComparator, LocalCorpusEvidenceRunner as LocalCorpusEvidencePayloadRunner, LocalCorpusEvidenceSummary
 from python_backend.corpus.local import LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenPayloadContractComparator, LocalCorpusFlattenRunner as LocalCorpusFlattenPayloadRunner, LocalCorpusFlattenSummary, LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanContractComparator as LocalCorpusMinePlanPayloadComparator, LocalCorpusMinePlanSummary
@@ -3026,6 +3026,29 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "summary", "python": {"sources": 1, "maxSources": 6, "fetchAttempts": 3}, "js": {"sources": 2}},
             ],
         )
+
+    def test_huggingface_import_plan_payload_runner_lives_with_corpus_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "hf-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--source=Midsummra/bilibilicomment::bilibili.csv::bilibili::5000::9::3", "--output=server/data/custom-hf.json"],
+                        "env": {"HUGGINGFACE_REQUEST_TIMEOUT_MS": "2500"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = HuggingFaceCorpusImportPayloadPlanRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["outputPath"], "server/data/custom-hf.json")
+        self.assertEqual(result["requestTimeoutMs"], 2500)
+        self.assertEqual(result["sources"][0]["dataset"], "Midsummra/bilibilicomment")
+        self.assertEqual(result["sources"][0]["offset"], 3)
+        self.assertEqual(result["sources"][0]["rangeHeader"], "bytes=0-4999")
 
     def test_huggingface_import_plan_summary_extracts_comparator_contract(self):
         summary = HuggingFaceImportPlanSummary().summarize(

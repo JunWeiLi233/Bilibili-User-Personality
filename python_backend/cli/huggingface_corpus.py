@@ -2,32 +2,8 @@ from __future__ import annotations
 
 import argparse
 import json
-from pathlib import Path
-from typing import Any
 
-from python_backend.corpus.huggingface import HuggingFaceCorpusImportContractComparator, HuggingFaceCorpusImportPlanContractComparator, HuggingFaceCorpusImportRunner, HuggingFaceImportPlanner
-
-
-class HuggingFaceCorpusImportPlanRunner:
-    """Read a JS-compatible HuggingFace import option payload and emit a fetch plan."""
-
-    def __init__(self, payload_path: str | Path):
-        self.payload_path = Path(payload_path)
-
-    def run(self) -> dict[str, Any]:
-        payload = self._read_payload()
-        planner = HuggingFaceImportPlanner(default_output=str(payload.get("defaultOutput") or "server/data/huggingFaceKeywordCorpus.json"))
-        return planner.build_plan(
-            argv=payload.get("argv") if isinstance(payload.get("argv"), list) else [],
-            env=payload.get("env") if isinstance(payload.get("env"), dict) else {},
-        )
-
-    def _read_payload(self) -> dict[str, Any]:
-        with self.payload_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        if not isinstance(payload, dict):
-            raise ValueError("HuggingFace import plan payload must be a JSON object.")
-        return payload
+from python_backend.corpus.huggingface import HuggingFaceCorpusImportContractComparator, HuggingFaceCorpusImportPlanContractComparator, HuggingFaceCorpusImportPlanRunner, HuggingFaceCorpusImportRunner
 
 
 def main() -> int:
