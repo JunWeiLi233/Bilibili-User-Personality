@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.corpus.local import LocalCorpusEvidenceJsonPayloadRunner, LocalCorpusEvidencePayloadContractComparator as LocalCorpusEvidenceContractComparator, LocalCorpusEvidenceRunner
+from python_backend.corpus.local import LocalCorpusEvidenceJsonPayloadContractComparator, LocalCorpusEvidenceJsonPayloadRunner, LocalCorpusEvidencePayloadContractComparator as LocalCorpusEvidenceContractComparator, LocalCorpusEvidenceRunner
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -21,7 +21,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible local corpus evidence report to compare.")
     args = parser.parse_args(argv)
     if args.payload:
-        result = LocalCorpusEvidenceJsonPayloadRunner(args.payload).run()
+        if args.compare_js_report:
+            result = LocalCorpusEvidenceJsonPayloadContractComparator(args.payload, args.compare_js_report).compare()
+        else:
+            result = LocalCorpusEvidenceJsonPayloadRunner(args.payload).run()
     elif args.compare_js_report:
         if not args.comments:
             parser.error("--comments is required unless --payload is provided")

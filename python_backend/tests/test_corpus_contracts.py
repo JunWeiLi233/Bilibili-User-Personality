@@ -4323,6 +4323,36 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(exit_code, 0)
         self.assertEqual(json.loads(output.getvalue())["entries"][0]["term"], "\u61c2\u7684\u90fd\u61c2")
 
+    def test_local_corpus_evidence_cli_compares_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "local-evidence.json"
+            js_report_path = root / "js-report.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "dictionary": {"entries": [{"term": "\u61c2\u7684\u90fd\u61c2", "family": "evasion", "meaning": "\u6697\u793a", "evidenceCount": 0}]},
+                        "comments": [{"message": "\u8fd9\u4e8b\u61c2\u7684\u90fd\u61c2", "source": "local", "uid": "BVpayload-compare"}],
+                        "targetEvidence": 3,
+                        "maxSamplesPerTerm": 1,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"count": 1, "entries": [{"term": "wrong", "evidence": ["wrong sample"]}]}),
+                encoding="utf-8",
+            )
+
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                exit_code = local_corpus_evidence_cli.main(["--payload", str(payload_path), "--compare-js-report", str(js_report_path)])
+
+        result = json.loads(output.getvalue())
+        self.assertEqual(exit_code, 1)
+        self.assertFalse(result["ok"])
+        self.assertEqual([item["key"] for item in result["mismatches"]], ["terms", "evidence"])
+
     def test_local_corpus_evidence_summary_extracts_comparator_contract(self):
         summary = LocalCorpusEvidenceSummary().summarize(
             {
