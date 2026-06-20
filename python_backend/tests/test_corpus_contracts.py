@@ -9596,6 +9596,13 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_coverage_audit_artifacts_comparator_uses_summary_contract_keys(self):
+        self.assertFalse(hasattr(CoverageAuditArtifactsContractComparator, "RESULT_KEYS"))
+        self.assertEqual(
+            CoverageAuditArtifactsContractComparator(Path("payload.json"), Path("js.json")).summary.RESULT_KEYS,
+            CoverageAuditArtifactsSummary.RESULT_KEYS,
+        )
+
     def test_coverage_audit_artifacts_runner_and_comparator_use_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
