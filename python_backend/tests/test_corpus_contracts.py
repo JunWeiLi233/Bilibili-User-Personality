@@ -87,7 +87,7 @@ from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner, Agent
 from python_backend.corpus.tieba import TiebaCorpusUpdater, TiebaCorpusUpdateSummary
 from python_backend.corpus import dictionary_prune
 from python_backend.analysis import video_filter
-from python_backend.analysis.video_filter import VideoCommentFilter, VideoContextBuilder, VideoRelevanceFilter
+from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoContextBuilder, VideoRelevanceFilter
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader
@@ -4564,6 +4564,61 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             VideoCommentFilterContractComparator(Path("comments.json"), Path("needles.json"), Path("js-report.json")).summary.RESULT_KEYS,
             video_filter.VideoCommentFilterSummary.RESULT_KEYS,
+        )
+
+    def test_video_comment_filter_payload_comparator_owns_filter_mismatch_contract(self):
+        result = VideoCommentFilterPayloadComparator().compare(
+            {
+                "ok": True,
+                "applied": True,
+                "matched": 1,
+                "before": 2,
+                "after": 1,
+                "needleCount": 1,
+                "comments": [{"rpid": "1", "message": "\u7f51\u76d8\u89c1"}],
+            },
+            {
+                "ok": True,
+                "applied": False,
+                "matched": 0,
+                "before": 2,
+                "after": 2,
+                "needleCount": 1,
+                "comments": [{"rpid": "2", "message": "\u8def\u8fc7"}],
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "applied", "python": True, "js": False},
+                {"key": "matched", "python": 1, "js": 0},
+                {"key": "after", "python": 1, "js": 2},
+                {"key": "comments", "python": ["1"], "js": ["2"]},
+            ],
+        )
+        self.assertEqual(
+            result["python"],
+            {
+                "applied": True,
+                "matched": 1,
+                "before": 2,
+                "after": 1,
+                "needleCount": 1,
+                "comments": ["1"],
+            },
+        )
+        self.assertEqual(
+            result["js"],
+            {
+                "applied": False,
+                "matched": 0,
+                "before": 2,
+                "after": 2,
+                "needleCount": 1,
+                "comments": ["2"],
+            },
         )
 
     def test_video_comment_filter_contract_comparator_reports_filter_mismatches(self):

@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterSummary
+from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoCommentFilterSummary
 
 
 class VideoCommentFilterRunner:
@@ -70,6 +70,7 @@ class VideoCommentFilterContractComparator:
         self.dictionary_mode = dictionary_mode
         self.existing_terms_only = existing_terms_only
         self.summary = VideoCommentFilterSummary()
+        self.comparator = VideoCommentFilterPayloadComparator(self.summary)
 
     def compare(self) -> dict[str, Any]:
         python_result = VideoCommentFilterRunner(
@@ -80,17 +81,7 @@ class VideoCommentFilterContractComparator:
             self.existing_terms_only,
         ).run()
         js_result = self._read_js_report()
-        mismatches = [
-            {"key": key, "python": self.summary.normalized_value(python_result.get(key)), "js": self.summary.normalized_value(js_result.get(key))}
-            for key in self.summary.RESULT_KEYS
-            if key in js_result and self.summary.normalized_value(python_result.get(key)) != self.summary.normalized_value(js_result.get(key))
-        ]
-        return {
-            "ok": not mismatches,
-            "mismatches": mismatches,
-            "python": self.summary.summarize(python_result),
-            "js": self.summary.summarize(js_result),
-        }
+        return self.comparator.compare(python_result, js_result)
 
     def _read_js_report(self) -> dict[str, Any]:
         if not self.js_report_path.exists():
