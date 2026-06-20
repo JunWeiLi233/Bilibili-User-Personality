@@ -18,13 +18,10 @@ class LocalCorpusMinePlanRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
-        return {
-            "ok": True,
-            "options": self.planner.build_options(
-                argv=payload.get("argv") if isinstance(payload.get("argv"), list) else [],
-                env=payload.get("env") if isinstance(payload.get("env"), dict) else {},
-            ),
-        }
+        return self.planner.build_plan(
+            argv=payload.get("argv") if isinstance(payload.get("argv"), list) else [],
+            env=payload.get("env") if isinstance(payload.get("env"), dict) else {},
+        )
 
     def _read_payload(self) -> dict[str, Any]:
         with self.payload_path.open("r", encoding="utf-8-sig") as handle:

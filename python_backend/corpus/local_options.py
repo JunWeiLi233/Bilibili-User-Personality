@@ -43,6 +43,9 @@ def _bounded(value: Any, fallback: int, minimum: int, maximum: int) -> int:
 class LocalCorpusMineOptionsPlanner:
     """Build mineLocalCorpusEvidence.js-compatible option contracts."""
 
+    def build_plan(self, argv: list[Any] | None = None, env: dict[str, Any] | None = None) -> dict[str, Any]:
+        return {"ok": True, "options": self.build_options(argv=argv, env=env)}
+
     def build_options(self, argv: list[Any] | None = None, env: dict[str, Any] | None = None) -> dict[str, Any]:
         argv = argv or []
         env = env or {}

@@ -2872,6 +2872,17 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(result["requireCommentBackedEvidence"])
         self.assertTrue(result["write"])
 
+    def test_local_corpus_mine_options_planner_owns_plan_contract(self):
+        result = LocalCorpusMineOptionsPlanner().build_plan(
+            argv=["--corpus=one.json", "--target-evidence=5"],
+            env={"LOCAL_CORPUS_WRITE": "1"},
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["options"]["corpusPaths"], ["one.json"])
+        self.assertEqual(result["options"]["targetEvidence"], 5)
+        self.assertTrue(result["options"]["write"])
+
     def test_local_corpus_mine_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
