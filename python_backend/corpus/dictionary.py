@@ -86,6 +86,8 @@ class DictionaryLoader:
                 continue
             for relative_path in self._file_list(file_spec):
                 shard = self._read_json(self.path.parent / relative_path)
+                if not isinstance(shard, dict):
+                    continue
                 shard_entries = shard.get("entries") or []
                 if isinstance(shard_entries, list):
                     entries.extend({**entry, "family": entry.get("family") or family} for entry in self._normalize_entries(shard_entries))
@@ -98,6 +100,8 @@ class DictionaryLoader:
                 continue
             for relative_path in self._file_list(file_spec):
                 shard = self._read_json(self.path.parent / relative_path)
+                if not isinstance(shard, dict):
+                    continue
                 shard_evidence = shard.get("evidence") or []
                 if not isinstance(shard_evidence, list):
                     continue
