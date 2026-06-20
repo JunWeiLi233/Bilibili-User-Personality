@@ -17,6 +17,7 @@ from python_backend.cli import coverage_progress as coverage_progress_cli
 from python_backend.cli import deepseek_analysis_plan as deepseek_analysis_plan_cli
 from python_backend.cli import harvest_options as harvest_options_cli
 from python_backend.cli import harvest_plan as harvest_plan_cli
+from python_backend.cli import harvest_state as harvest_state_cli
 from python_backend.cli import history_tag_corpus as history_tag_corpus_cli
 from python_backend.cli import huggingface_corpus as huggingface_corpus_cli
 from python_backend.cli import keyword_evidence as keyword_evidence_cli
@@ -17378,6 +17379,35 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(attempt["queries"][0]["error"], "timeout")
         self.assertFalse(comparison["ok"])
         self.assertEqual(comparison["mismatches"][0]["key"], "termAttempts")
+
+    def test_harvest_state_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "harvest-state.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "strategyVersion": 5,
+                        "finishedAt": "2026-06-19T00:00:00.000Z",
+                        "termAttempts": {},
+                        "planItem": {
+                            "term": "\u672a\u547d\u4e2d",
+                            "family": "attack",
+                            "query": "\u672a\u547d\u4e2d \u8bc4\u8bba\u533a",
+                            "variantIndex": 0,
+                            "evidenceCount": 0,
+                        },
+                        "result": {"ok": False, "error": "timeout", "videos": [], "comments": []},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = harvest_state_cli.HarvestStateCliRunner(["--payload", str(payload_path)]).run()
+
+        attempt = result["termAttempts"]["5pyq5ZG95Lit"]
+        self.assertEqual(attempt["attempts"], 1)
+        self.assertEqual(attempt["lastError"], "timeout")
 
     def test_harvest_state_payload_runner_lives_with_analysis_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
