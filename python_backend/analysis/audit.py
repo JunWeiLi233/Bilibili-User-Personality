@@ -141,6 +141,44 @@ class CoverageAuditArtifactsContractComparator:
         }
 
 
+class CoverageAuditArtifactsRunner:
+    """Build or write coverage-audit query/action artifacts from a JSON compatibility payload."""
+
+    def __init__(self, payload_path: str | Path):
+        self.payload_path = Path(payload_path)
+
+    def run(self) -> dict[str, Any]:
+        payload = self._read_payload()
+        return CoverageAuditArtifactWriter().build_from_payload(payload)
+
+    def _read_payload(self) -> dict[str, Any]:
+        with self.payload_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
+
+
+class CoverageAuditArtifactsPayloadContractComparator:
+    """Compare Python coverage-audit artifacts against saved JS-compatible JSON."""
+
+    def __init__(self, payload_path: str | Path, js_report_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.js_report_path = Path(js_report_path)
+        self.summary = CoverageAuditArtifactsSummary()
+        self.comparator = CoverageAuditArtifactsContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = CoverageAuditArtifactsRunner(self.payload_path).run()
+        js_result = self._read_js_report()
+        return self.comparator.compare(python_result, js_result)
+
+    def _read_js_report(self) -> dict[str, Any]:
+        if not self.js_report_path.exists():
+            return {}
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
+
+
 class CoverageAuditContractSummary:
     """Shape coverage-audit reports into the JS/Python comparator summary contract."""
 

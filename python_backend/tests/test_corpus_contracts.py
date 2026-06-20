@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditReport
+from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditReport
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressPayloadContractComparator, CoverageProgressRunner as CoverageProgressPayloadRunner, CoverageProgressSummary, CoverageProgressTracker
@@ -12794,6 +12794,56 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["recommendedQueryText"], "doge hot\n")
         self.assertEqual([item["query"] for item in result["priorityActionItems"]], ["doge hot", "doge comments"])
+
+    def test_coverage_audit_artifacts_payload_runner_lives_with_analysis_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-artifacts.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "audit": {
+                            "recommendedQueries": ["doge hot"],
+                            "nextActions": [{"term": "doge", "nextQuery": "doge hot", "suggestedQueries": ["doge comments"]}],
+                        },
+                        "queryFilePath": str(root / "queries.txt"),
+                        "actionFilePath": str(root / "actions.json"),
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps(
+                    {
+                        "recommendedQueryText": "wrong\n",
+                        "priorityActionItems": [{"term": "doge", "nextQuery": "doge hot", "query": "doge hot"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            runner_result = CoverageAuditArtifactsPayloadRunner(payload_path).run()
+            comparison = CoverageAuditArtifactsPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(runner_result["ok"])
+        self.assertEqual(runner_result["recommendedQueryText"], "doge hot\n")
+        self.assertEqual([item["query"] for item in runner_result["priorityActionItems"]], ["doge hot", "doge comments"])
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "recommendedQueryText", "python": "doge hot\n", "js": "wrong\n"},
+                {
+                    "key": "priorityActionItems",
+                    "python": [
+                        {"term": "doge", "nextQuery": "doge hot", "suggestedQueries": ["doge comments"], "query": "doge hot"},
+                        {"term": "doge", "nextQuery": "doge comments", "suggestedQueries": ["doge comments"], "query": "doge comments"},
+                    ],
+                    "js": [{"term": "doge", "nextQuery": "doge hot", "query": "doge hot"}],
+                },
+            ],
+        )
 
     def test_coverage_audit_artifacts_runner_and_comparator_use_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
