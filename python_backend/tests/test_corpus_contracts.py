@@ -14832,6 +14832,19 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_batch_uid_scrape_plan_runner_defaults_non_object_payload_root(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "batch-uid-scrape-plan.json"
+            payload_path.write_text(json.dumps(["bad", "payload"]), encoding="utf-8")
+
+            result = BatchUidScrapePlanRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["discovery"], {"popularPages": 50, "videosPerPage": 20, "commentPagesPerVideo": 3, "scannedBvids": 0, "uidsDiscovered": 0})
+        self.assertEqual(result["phase2"], {"processed": 0, "pending": 0, "skippableNoText": 0, "trainable": 0, "userDbUsers": 0})
+        self.assertEqual(result["stats"], {"videosScanned": 0, "uidsFound": 0, "uidsAnalyzed": 0, "commentsCollected": 0, "errors": 0})
+        self.assertEqual(result["training"], {"multiagent": True, "existingTermsOnly": False, "saveEveryAnalyzed": 10})
+
     def test_batch_uid_scrape_plan_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
