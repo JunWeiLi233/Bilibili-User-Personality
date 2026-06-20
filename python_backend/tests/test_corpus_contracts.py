@@ -5079,6 +5079,47 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["corpus"]["comments"][0]["message"], "\u65b0\u8bc4\u8bba")
         self.assertEqual(result["corpus"]["runs"][0]["commentsAdded"], 1)
 
+    def test_direct_probe_corpus_runner_uses_corpus_loader_for_split_existing_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            existing_path = root / "existing.json"
+            comments_path = root / "comments.json"
+            run_path = root / "run.json"
+            (root / "comments").mkdir()
+            (root / "runs").mkdir()
+            (root / "comments" / "comments-0001.json").write_text(
+                json.dumps({"comments": [{"message": "\u65e7\u5206\u7247\u8bc4\u8bba", "source": "old", "uid": "1"}]}),
+                encoding="utf-8",
+            )
+            (root / "runs" / "runs-0001.json").write_text(
+                json.dumps({"runs": [{"query": "\u65e7\u5206\u7247", "commentsAdded": 1}]}),
+                encoding="utf-8",
+            )
+            existing_path.write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "storage": "split",
+                        "commentFiles": ["comments/comments-0001.json"],
+                        "runFiles": ["runs/runs-0001.json"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            comments_path.write_text(
+                json.dumps({"comments": [{"message": "\u65b0\u5206\u7247\u8bc4\u8bba", "source": "fresh", "uid": "9"}]}),
+                encoding="utf-8",
+            )
+            run_path.write_text(json.dumps({"at": "2026-06-18T01:00:00.000Z", "query": "\u65b0\u5206\u7247"}), encoding="utf-8")
+
+            result = DirectProbeCorpusRunner(existing_path, comments_path, run_path).run()
+
+        self.assertEqual(
+            [comment["message"] for comment in result["corpus"]["comments"]],
+            ["\u65e7\u5206\u7247\u8bc4\u8bba", "\u65b0\u5206\u7247\u8bc4\u8bba"],
+        )
+        self.assertEqual([run["query"] for run in result["corpus"]["runs"]], ["\u65e7\u5206\u7247", "\u65b0\u5206\u7247"])
+
     def test_direct_probe_corpus_payload_runner_accepts_single_json_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "direct-probe-corpus.json"

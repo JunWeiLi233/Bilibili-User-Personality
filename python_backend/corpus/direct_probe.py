@@ -188,7 +188,8 @@ class DirectProbeCorpusRunner:
         self.builder = DirectProbeCorpusBuilder()
 
     def run(self) -> dict[str, Any]:
-        existing = self._read_json_object(self.existing_path, {"version": 1, "comments": [], "runs": []})
+        loaded = CorpusLoader(self.existing_path, fallback={"version": 1, "comments": [], "runs": []}).load()
+        existing = {**loaded.manifest, "comments": loaded.comments, "runs": loaded.runs}
         comments_payload = self._read_json(self.comments_path, [])
         comments = comments_payload.get("comments") if isinstance(comments_payload, dict) else comments_payload
         run = self._read_json_object(self.run_path, {})
