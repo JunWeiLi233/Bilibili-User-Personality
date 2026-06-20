@@ -7,6 +7,7 @@ from pathlib import Path
 
 from python_backend.cli import aicu_batch_plan as aicu_batch_plan_cli
 from python_backend.cli import aicu_scrape_plan as aicu_scrape_plan_cli
+from python_backend.cli import batch_bilibili_plan as batch_bilibili_plan_cli
 from python_backend.cli import local_corpus_evidence as local_corpus_evidence_cli
 from python_backend.cli import local_corpus_flatten as local_corpus_flatten_cli
 from python_backend.cli import bilibili_probe_plan as bilibili_probe_plan_cli
@@ -15062,6 +15063,27 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "browser", "python": {"command": "browser-harness", "script": "server/scripts/browserGetVideos.py", "wrapper": "server/data/_browser_tmp.py", "timeoutMs": 45000, "maxVideos": 3}, "js": {"maxVideos": 10}},
             ],
         )
+
+    def test_batch_bilibili_plan_cli_runner_reads_json_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "batch-bilibili-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--start=20", "--end=22"],
+                        "progress": {"lastUid": 20, "completed": 1},
+                        "database": {"users": {"21": {}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = batch_bilibili_plan_cli.BatchBilibiliPlanCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"startUid": 21, "endUid": 22, "total": 2})
+        self.assertEqual(result["database"], {"users": 1})
+        self.assertEqual(result["progress"], {"completed": 1, "errors": 0})
 
     def test_batch_bilibili_plan_runner_defaults_non_object_payload_root(self):
         with tempfile.TemporaryDirectory() as tmp:
