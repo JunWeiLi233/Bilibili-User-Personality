@@ -340,9 +340,9 @@ class CoverageAuditBuilder:
         require_source_backed_evidence: bool = False,
         require_comment_backed_evidence: bool = False,
     ):
-        self.target_evidence = max(1, int(target_evidence))
-        self.max_actions = max(1, int(max_actions))
-        self.min_coverage_ratio = min(1, max(0, float(min_coverage_ratio)))
+        self.target_evidence = max(1, _int_or(target_evidence, 3))
+        self.max_actions = max(1, _int_or(max_actions, 20))
+        self.min_coverage_ratio = min(1, max(0, _float_or(min_coverage_ratio, 1)))
         self.require_complete = bool(require_complete)
         self.require_source_backed_evidence = bool(require_source_backed_evidence or require_comment_backed_evidence)
         self.require_comment_backed_evidence = bool(require_comment_backed_evidence)

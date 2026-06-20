@@ -17528,6 +17528,25 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual([item["term"] for item in audit["nextActions"]], ["zero", "weak"])
         self.assertIn("2 term(s) are below 3 evidence hit(s)", audit["failureReasons"])
 
+    def test_coverage_audit_builder_defaults_invalid_numeric_options(self):
+        audit = CoverageAuditBuilder(
+            target_evidence="bad",
+            max_actions="bad",
+            min_coverage_ratio="bad",
+        ).build(
+            {
+                "entries": [
+                    {"term": "weak", "family": "attack", "evidenceCount": 1},
+                    {"term": "zero", "family": "attack", "evidenceCount": 0},
+                ]
+            }
+        )
+
+        self.assertEqual(audit["targetEvidence"], 3)
+        self.assertEqual(audit["minCoverageRatio"], 1)
+        self.assertEqual(audit["coverage"]["targetEvidence"], 3)
+        self.assertEqual(len(audit["nextActions"]), 2)
+
     def test_coverage_audit_builder_caps_evidence_count_to_sample_units(self):
         dictionary = {
             "entries": [
