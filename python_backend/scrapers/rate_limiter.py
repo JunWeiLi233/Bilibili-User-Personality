@@ -1,7 +1,35 @@
 from __future__ import annotations
 
+import math
 import time
 from collections.abc import Callable
+from dataclasses import dataclass
+
+
+def _bounded_ms(value: object, fallback: int, minimum: int, maximum: int) -> int:
+    try:
+        number = float(str(value))
+    except (TypeError, ValueError):
+        return fallback
+    if not math.isfinite(number):
+        return fallback
+    return int(max(minimum, min(number, maximum)))
+
+
+@dataclass(frozen=True)
+class RateLimitPolicy:
+    """Normalize scraper pacing values into JS-compatible millisecond contracts."""
+
+    min_delay_ms: object
+    jitter_ms: object
+    block_cooldown_ms: object
+
+    def to_tieba_options(self) -> dict[str, int]:
+        return {
+            "minDelayMs": _bounded_ms(self.min_delay_ms, 5000, 0, 60000),
+            "jitterMs": _bounded_ms(self.jitter_ms, 3000, 0, 60000),
+            "blockCooldownMs": _bounded_ms(self.block_cooldown_ms, 120000, 0, 300000),
+        }
 
 
 class RateLimiter:

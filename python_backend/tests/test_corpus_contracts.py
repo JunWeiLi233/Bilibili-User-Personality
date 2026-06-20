@@ -102,7 +102,7 @@ from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanContrac
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerContractComparator as BilibiliCrawlerPayloadComparator, BilibiliCrawlerPayloadContractComparator, BilibiliCrawlerRunner as BilibiliCrawlerPayloadRunner, BilibiliCrawlerHelper, BilibiliCrawlerSummary
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanContractComparator as BilibiliProbePlanPayloadComparator, BilibiliProbePlanPayloadContractComparator, BilibiliProbePlanRunner as BilibiliProbePayloadPlanRunner, BilibiliProbePlanSummary, BilibiliProbePlanner
 from python_backend.runtime.file_lock import FileLockStateContractComparator as FileLockStatePayloadComparator, FileLockStateInspector, FileLockStateRunner as FileLockStatePayloadRunner, FileLockStateSummary
-from python_backend.scrapers.rate_limiter import RateLimiter
+from python_backend.scrapers.rate_limiter import RateLimitPolicy, RateLimiter
 from python_backend.cli.scraper_monitor import ScraperMonitorContractComparator, ScraperMonitorRunner
 from python_backend.cli.aicu_scrape_plan import AicuScrapePlanContractComparator, AicuScrapePlanRunner
 from python_backend.cli.aicu_batch_plan import AicuBatchPlanContractComparator, AicuBatchPlanRunner
@@ -758,6 +758,14 @@ class CorpusContractTests(unittest.TestCase):
         limiter.wait()
 
         self.assertEqual(sleeps, [1.25])
+
+    def test_rate_limit_policy_normalizes_scraper_pacing_contract(self):
+        policy = RateLimitPolicy(min_delay_ms=-10, jitter_ms=999999, block_cooldown_ms="bad")
+
+        self.assertEqual(
+            policy.to_tieba_options(),
+            {"minDelayMs": 0, "jitterMs": 60000, "blockCooldownMs": 120000},
+        )
 
     def test_file_lock_state_inspector_reads_js_owner_contract_and_detects_stale_age(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -4149,6 +4157,10 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["minDelayMs"], 0)
         self.assertEqual(result["jitterMs"], 60000)
         self.assertEqual(result["blockCooldownMs"], 120000)
+        self.assertEqual(
+            {key: result[key] for key in ("minDelayMs", "jitterMs", "blockCooldownMs")},
+            RateLimitPolicy(min_delay_ms=-1, jitter_ms=999999, block_cooldown_ms="NaN").to_tieba_options(),
+        )
         self.assertEqual(result["requestTimeoutMs"], 1000)
         self.assertEqual(result["overallTimeoutMs"], 120000)
         self.assertEqual(result["discoveryMode"], "mobile")

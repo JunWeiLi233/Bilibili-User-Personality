@@ -6,6 +6,8 @@ import re
 from pathlib import Path
 from typing import Any
 
+from python_backend.scrapers.rate_limiter import RateLimitPolicy
+
 
 DEFAULT_COVERAGE_ACTION_FILE_PATH = "server/data/coverage-actions.json"
 DEFAULT_TIEBA_CORPUS_PATH = "server/data/tiebaKeywordCorpus.json"
@@ -141,9 +143,13 @@ class TiebaKeywordScrapeOptionsPlanner:
         options["forumPages"] = _bounded_positive(options["forumPages"], 1, 1, 10)
         options["threadLimit"] = _bounded_positive(options["threadLimit"], 4, 1, 50)
         options["threadPages"] = _bounded_positive(options["threadPages"], 1, 1, 10)
-        options["minDelayMs"] = _bounded_number(options["minDelayMs"], 5000, 0, 60000)
-        options["jitterMs"] = _bounded_number(options["jitterMs"], 3000, 0, 60000)
-        options["blockCooldownMs"] = _bounded_number(options["blockCooldownMs"], 120000, 0, 300000)
+        options.update(
+            RateLimitPolicy(
+                min_delay_ms=options["minDelayMs"],
+                jitter_ms=options["jitterMs"],
+                block_cooldown_ms=options["blockCooldownMs"],
+            ).to_tieba_options()
+        )
         options["requestTimeoutMs"] = _bounded_positive(options["requestTimeoutMs"], 15000, 1000, 60000)
         options["overallTimeoutMs"] = _bounded_positive(options["overallTimeoutMs"], 30000, 1000, 120000)
         discovery_mode = str(options["discoveryMode"]).lower()
