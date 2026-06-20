@@ -49,6 +49,15 @@ class CoverageAuditReport:
 class CoverageAuditArtifactWriter:
     """Serialize coverage-audit query and priority-action artifacts like the JS audit script."""
 
+    def build_from_payload(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        audit = payload.get("audit") if isinstance(payload.get("audit"), dict) else {}
+        query_path = str(payload.get("queryFilePath") or "").strip()
+        action_path = str(payload.get("actionFilePath") or "").strip()
+        if query_path and action_path:
+            return self.write(audit, query_path, action_path)
+        return self.build_artifacts(audit)
+
     def build_artifacts(self, audit: dict[str, Any]) -> dict[str, Any]:
         recommended_queries = [str(query).strip() for query in audit.get("recommendedQueries") or [] if str(query).strip()]
         priority_items = self.priority_action_items_from_audit(audit)

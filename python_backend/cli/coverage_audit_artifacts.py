@@ -17,13 +17,7 @@ class CoverageAuditArtifactsRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
-        audit = payload.get("audit") if isinstance(payload.get("audit"), dict) else {}
-        writer = CoverageAuditArtifactWriter()
-        query_path = str(payload.get("queryFilePath") or "").strip()
-        action_path = str(payload.get("actionFilePath") or "").strip()
-        if query_path and action_path:
-            return writer.write(audit, query_path, action_path)
-        return writer.build_artifacts(audit)
+        return CoverageAuditArtifactWriter().build_from_payload(payload)
 
     def _read_payload(self) -> dict[str, Any]:
         with self.payload_path.open("r", encoding="utf-8-sig") as handle:

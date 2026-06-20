@@ -10395,6 +10395,27 @@ class CorpusContractTests(unittest.TestCase):
             CoverageAuditArtifactsSummary.RESULT_KEYS,
         )
 
+    def test_coverage_audit_artifact_writer_owns_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            result = CoverageAuditArtifactWriter().build_from_payload(
+                {
+                    "audit": {
+                        "recommendedQueries": ["doge hot"],
+                        "nextActions": [{"term": "doge", "nextQuery": "doge hot", "suggestedQueries": ["doge comments"]}],
+                    },
+                    "queryFilePath": str(root / "queries.txt"),
+                    "actionFilePath": str(root / "actions.json"),
+                }
+            )
+
+            self.assertEqual((root / "queries.txt").read_text(encoding="utf-8"), "doge hot\n")
+            self.assertTrue((root / "actions.json").exists())
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["recommendedQueryText"], "doge hot\n")
+        self.assertEqual([item["query"] for item in result["priorityActionItems"]], ["doge hot", "doge comments"])
+
     def test_coverage_audit_artifacts_runner_and_comparator_use_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
