@@ -52,3 +52,13 @@ class DeepSeekAnalyzeCliPlanner:
                 "showHelp": show_help,
             },
         }
+
+
+class DeepSeekAnalyzeCliPlanSummary:
+    """Shape DeepSeek analyze CLI plans into the JS/Python comparator contract."""
+
+    RESULT_KEYS = ("payload", "input")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
