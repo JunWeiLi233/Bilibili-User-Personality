@@ -10,7 +10,7 @@ from python_backend.analysis.video_filter import (
 )
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description="Filter Bilibili comments by dictionary needle JSON.")
@@ -20,7 +20,7 @@ def main() -> int:
     parser.add_argument("--dictionary-mode", action="store_true", help="Treat --needles as a dictionary JSON payload.")
     parser.add_argument("--existing-terms-only", action="store_true", help="Apply filtering only for existing-term dictionary refreshes.")
     parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible comment filter report to compare.")
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     if args.compare_js_report:
         result = VideoCommentFilterContractComparator(
             args.comments,

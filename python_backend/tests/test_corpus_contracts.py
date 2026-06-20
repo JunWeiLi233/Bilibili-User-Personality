@@ -16,6 +16,7 @@ from python_backend.cli import huggingface_corpus as huggingface_corpus_cli
 from python_backend.cli import keyword_evidence as keyword_evidence_cli
 from python_backend.cli import random_verification as random_verification_cli
 from python_backend.cli import tieba_corpus as tieba_corpus_cli
+from python_backend.cli import video_comment_filter as video_comment_filter_cli
 from python_backend.cli import video_context as video_context_cli
 from python_backend.cli import video_relevance as video_relevance_cli
 from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditPayloadContractComparator, CoverageAuditReport
@@ -5701,6 +5702,29 @@ class CorpusContractTests(unittest.TestCase):
             result = VideoCommentFilterRunner(comments_path, needles_path, extra_needles=["\\u8def\\u8fc7"]).run()
 
         self.assertTrue(result["ok"])
+        self.assertTrue(result["applied"])
+        self.assertEqual(result["matched"], 2)
+        self.assertEqual([comment["rpid"] for comment in result["comments"]], ["1", "2"])
+
+    def test_video_comment_filter_cli_accepts_argv_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            comments_path = root / "comments.json"
+            needles_path = root / "needles.json"
+            comments_path.write_text(
+                json.dumps({"comments": [{"rpid": "1", "message": "\u7f51\u76d8\u89c1"}, {"rpid": "2", "message": "\u8def\u8fc7"}]}),
+                encoding="utf-8",
+            )
+            needles_path.write_text(json.dumps({"needles": ["\u7f51\u76d8\u89c1"]}), encoding="utf-8")
+
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                exit_code = video_comment_filter_cli.main(
+                    ["--comments", str(comments_path), "--needles", str(needles_path), "--extra-needle", "\\u8def\\u8fc7"]
+                )
+
+        result = json.loads(output.getvalue())
+        self.assertEqual(exit_code, 0)
         self.assertTrue(result["applied"])
         self.assertEqual(result["matched"], 2)
         self.assertEqual([comment["rpid"] for comment in result["comments"]], ["1", "2"])
