@@ -4,9 +4,8 @@ import argparse
 import sys
 
 from python_backend.analysis.verification import (
-    RandomVerificationJsonPayloadContractComparator,
-    RandomVerificationPayloadRunner,
     RandomVerificationPayloadContractComparator as RandomVerificationContractComparator,
+    RandomVerificationRequest,
     RandomVerificationRunner as AnalysisRandomVerificationRunner,
     json_result_bytes,
 )
@@ -24,25 +23,14 @@ class RandomVerificationRunner:
     def run(self) -> dict:
         if isinstance(self.corpus_or_argv, list):
             args = self._parser().parse_args([str(item) for item in self.corpus_or_argv])
-            if args.payload and args.compare_js_report:
-                return RandomVerificationJsonPayloadContractComparator(args.payload, args.compare_js_report).compare()
-            if args.payload:
-                return RandomVerificationPayloadRunner(args.payload).run()
-            if args.compare_js_report:
-                return RandomVerificationContractComparator(
-                    args.corpus,
-                    args.dictionary,
-                    args.compare_js_report,
-                    sample_size=args.sample_size,
-                    seed=args.seed,
-                    extra_corpus_paths=args.extra_corpus,
-                ).compare()
-            return AnalysisRandomVerificationRunner(
-                args.corpus,
-                args.dictionary,
-                sample_size=args.sample_size if args.sample_size is not None else 50,
-                seed=args.seed if args.seed is not None else 1,
+            return RandomVerificationRequest(
+                corpus_path=args.corpus,
+                dictionary_path=args.dictionary,
+                sample_size=args.sample_size,
+                seed=args.seed,
                 extra_corpus_paths=args.extra_corpus,
+                payload_path=args.payload or None,
+                compare_js_report_path=args.compare_js_report or None,
             ).run()
         return AnalysisRandomVerificationRunner(
             self.corpus_or_argv,
@@ -72,25 +60,14 @@ class RandomVerificationCliRunner:
 
     def run(self) -> dict:
         args = RandomVerificationRunner._parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.payload and args.compare_js_report:
-            return RandomVerificationJsonPayloadContractComparator(args.payload, args.compare_js_report).compare()
-        if args.payload:
-            return RandomVerificationPayloadRunner(args.payload).run()
-        if args.compare_js_report:
-            return RandomVerificationContractComparator(
-                args.corpus,
-                args.dictionary,
-                args.compare_js_report,
-                sample_size=args.sample_size,
-                seed=args.seed,
-                extra_corpus_paths=args.extra_corpus,
-            ).compare()
-        return AnalysisRandomVerificationRunner(
-            args.corpus,
-            args.dictionary,
-            sample_size=args.sample_size if args.sample_size is not None else 50,
-            seed=args.seed if args.seed is not None else 1,
+        return RandomVerificationRequest(
+            corpus_path=args.corpus,
+            dictionary_path=args.dictionary,
+            sample_size=args.sample_size,
+            seed=args.seed,
             extra_corpus_paths=args.extra_corpus,
+            payload_path=args.payload or None,
+            compare_js_report_path=args.compare_js_report or None,
         ).run()
 
 

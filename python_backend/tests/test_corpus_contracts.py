@@ -80,7 +80,7 @@ from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetOverrideTermsParser, NearTargetResolvePlanContractComparator as NearTargetResolvePlanPayloadComparator, NearTargetResolvePlanner, NearTargetResolvePlanRunner as NearTargetResolvePayloadPlanRunner
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsPayloadContractComparator, ReadmeStatsRunner as ReadmeStatsPayloadRunner, ReadmeStatsSummary, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
-from python_backend.analysis.verification import RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationPayloadContractComparator, RandomVerificationReportSummary, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerifier, json_result_bytes as random_verification_payload_json_result_bytes
+from python_backend.analysis.verification import RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationPayloadContractComparator, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerifier, json_result_bytes as random_verification_payload_json_result_bytes
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisPlanContractComparator as DeepSeekAnalysisPayloadPlanContractComparator, DeepSeekAnalysisPlanRunner as DeepSeekAnalysisPayloadPlanRunner, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidateContractComparator as DeepSeekAnalysisPayloadValidateContractComparator, DeepSeekAnalysisValidateRunner as DeepSeekAnalysisPayloadValidateRunner, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPayloadPlanContractComparator, DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanRunner as DeepSeekAnalyzeCliPayloadPlanRunner, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceContractComparator as KeywordEvidencePayloadComparator, KeywordEvidenceMatcher, KeywordEvidencePayloadContractComparator, KeywordEvidencePayloadRunner, KeywordEvidenceSummary
@@ -1153,6 +1153,29 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["keywordHits"], 1)
         self.assertEqual(result["neutral"], 2)
 
+    def test_random_verification_request_runs_path_contract_with_extra_corpus(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            tieba_path = root / "tiebaKeywordCorpus.json"
+            dictionary_path = root / "dictionary.json"
+            corpus_path.write_text(json.dumps({"comments": [{"message": "plain bilibili"}], "runs": [{"source": "bilibili"}]}), encoding="utf-8")
+            tieba_path.write_text(json.dumps({"comments": [{"message": "tieba slang"}], "runs": [{"source": "tieba"}]}), encoding="utf-8")
+            dictionary_path.write_text(json.dumps({"entries": [{"term": "tieba"}]}), encoding="utf-8")
+
+            result = RandomVerificationRequest(
+                corpus_path=corpus_path,
+                dictionary_path=dictionary_path,
+                sample_size=10,
+                seed=1,
+                extra_corpus_paths=[tieba_path],
+            ).run()
+
+        self.assertEqual(result["corpus"], {"comments": 2, "runs": 2, "storage": "combined"})
+        self.assertEqual(result["sampled"], 2)
+        self.assertEqual(result["keywordHits"], 1)
+        self.assertEqual(result["neutral"], 1)
+
     def test_random_verification_cli_compare_uses_extra_corpus(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -1185,6 +1208,37 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["mismatches"], [])
         self.assertEqual(result["python"]["sampled"], 2)
+
+    def test_random_verification_cli_compare_keeps_js_sample_defaults(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            dictionary_path = root / "dictionary.json"
+            js_report_path = root / "js-random.json"
+            corpus_path.write_text(
+                json.dumps({"comments": [{"message": "doge one"}, {"message": "doge two"}, {"message": "doge three"}], "runs": []}),
+                encoding="utf-8",
+            )
+            dictionary_path.write_text(json.dumps({"entries": [{"term": "doge"}]}), encoding="utf-8")
+            js_report_path.write_text(
+                json.dumps({"sampleSize": 2, "seed": 1, "sampled": 2, "keywordHits": 2, "neutral": 0, "uncovered": 0}),
+                encoding="utf-8",
+            )
+
+            result = random_verification_cli.RandomVerificationCliRunner(
+                [
+                    "--corpus",
+                    str(corpus_path),
+                    "--dictionary",
+                    str(dictionary_path),
+                    "--compare-js-report",
+                    str(js_report_path),
+                ]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["python"]["sampleSize"], 2)
+        self.assertEqual(result["python"]["seed"], 1)
 
     def test_random_verification_cli_main_accepts_argv_payload_contract(self):
         class BinaryStdout:
