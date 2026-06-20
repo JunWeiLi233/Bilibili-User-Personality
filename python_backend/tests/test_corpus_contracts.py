@@ -6774,6 +6774,29 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(fallback["applied"])
         self.assertEqual(fallback["after"], 3)
 
+    def test_video_comment_filter_ignores_object_needles_in_dictionary_contract(self):
+        dictionary = {
+            "entries": [
+                {
+                    "term": {"": "\u72d7\u5934"},
+                    "aliases": [{"": "\u67e5\u8d44\u6599"}],
+                    "examples": [{"": "\u7f51\u76d8\u89c1"}],
+                }
+            ]
+        }
+        comments = [
+            {"rpid": "1", "message": "\u72d7\u5934"},
+            {"rpid": "2", "message": "\u5efa\u8bae\u67e5\u8d44\u6599"},
+            {"rpid": "3", "message": "\u7f51\u76d8\u89c1"},
+        ]
+
+        result = VideoCommentFilter().prefilter_comments_to_dictionary(comments, dictionary, existing_terms_only=True)
+
+        self.assertFalse(result["applied"])
+        self.assertEqual(result["needleCount"], 0)
+        self.assertEqual(result["after"], 3)
+        self.assertEqual([comment["rpid"] for comment in result["comments"]], ["1", "2", "3"])
+
     def test_video_comment_filter_runner_accepts_dictionary_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

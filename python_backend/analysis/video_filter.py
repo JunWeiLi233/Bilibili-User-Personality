@@ -6,6 +6,8 @@ import unicodedata
 from pathlib import Path
 from typing import Any
 
+from python_backend.analysis.comment_coverage import _is_contract_scalar
+
 
 def _clean_search_text(value: Any) -> str:
     text = unicodedata.normalize("NFKC", str(value or ""))
@@ -189,6 +191,8 @@ class VideoCommentFilter:
         seen: set[str] = set()
         needles: list[str] = []
         for value in values:
+            if not _is_contract_scalar(value):
+                continue
             clean = _clean_search_text(value)
             if len(clean) < 2 or clean in seen:
                 continue
