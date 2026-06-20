@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchScraperLauncherSummary
+from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherContractComparator as BatchScraperLauncherPayloadComparator, BatchScraperLauncherPlanner, BatchScraperLauncherSummary
 
 
 class BatchScraperLauncherPlanRunner:
@@ -27,21 +27,12 @@ class BatchScraperLauncherContractComparator:
         self.data_dir = Path(data_dir)
         self.js_report_path = Path(js_report_path)
         self.summary = BatchScraperLauncherSummary()
+        self.comparator = BatchScraperLauncherPayloadComparator(self.summary)
 
     def compare(self) -> dict[str, Any]:
-        python_result = self.summary.summarize(BatchScraperLauncherPlanRunner(self.data_dir).run())
+        python_result = BatchScraperLauncherPlanRunner(self.data_dir).run()
         js_result = self._read_js_report()
-        mismatches = [
-            {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
-            for key in self.summary.RESULT_KEYS
-            if key in js_result and python_result.get(key) != js_result.get(key)
-        ]
-        return {
-            "ok": not mismatches,
-            "mismatches": mismatches,
-            "python": self.summary.summarize(python_result),
-            "js": self.summary.summarize(js_result),
-        }
+        return self.comparator.compare(python_result, js_result)
 
     def _read_js_report(self) -> dict[str, Any]:
         if not self.js_report_path.exists():
