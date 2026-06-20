@@ -258,6 +258,28 @@ class DirectProbeCorpusPayloadContractComparator:
         return payload if isinstance(payload, dict) else {}
 
 
+class DirectProbeCorpusJsonPayloadContractComparator:
+    """Compare one-file direct-probe corpus payload output against saved JS-compatible JSON."""
+
+    def __init__(self, payload_path: str | Path, js_report_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.js_report_path = Path(js_report_path)
+        self.summary = DirectProbeCorpusSummary()
+        self.comparator = DirectProbeCorpusContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = DirectProbeCorpusPayloadRunner(self.payload_path).run()
+        js_result = self._read_js_report()
+        return self.comparator.compare(python_result, js_result)
+
+    def _read_js_report(self) -> dict[str, Any]:
+        if not self.js_report_path.exists():
+            return {}
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
+
+
 class DirectProbePlanSummary:
     """Extract comparator-friendly summaries from direct Bilibili probe plans."""
 

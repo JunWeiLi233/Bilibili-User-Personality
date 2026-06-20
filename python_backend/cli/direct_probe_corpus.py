@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.corpus.direct_probe import DirectProbeCorpusPayloadContractComparator as DirectProbeCorpusContractComparator, DirectProbeCorpusPayloadRunner, DirectProbeCorpusRunner
+from python_backend.corpus.direct_probe import DirectProbeCorpusJsonPayloadContractComparator, DirectProbeCorpusPayloadContractComparator as DirectProbeCorpusContractComparator, DirectProbeCorpusPayloadRunner, DirectProbeCorpusRunner
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -17,7 +17,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--run", default="", help="Direct probe run JSON object.")
     parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible direct probe corpus report to compare.")
     args = parser.parse_args(argv)
-    if args.payload:
+    if args.payload and args.compare_js_report:
+        result = DirectProbeCorpusJsonPayloadContractComparator(args.payload, args.compare_js_report).compare()
+    elif args.payload:
         result = DirectProbeCorpusPayloadRunner(args.payload).run()
     elif args.compare_js_report:
         if not args.comments or not args.run:
