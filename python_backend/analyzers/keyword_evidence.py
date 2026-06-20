@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import re
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -113,6 +114,19 @@ class KeywordEvidencePayloadContractComparator:
         with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
+
+
+@dataclass(frozen=True)
+class KeywordEvidenceRequest:
+    """Analyzer-layer request object for keyword evidence JSON contract modes."""
+
+    payload_path: str | Path
+    compare_js_report_path: str | Path | None = None
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_report_path:
+            return KeywordEvidencePayloadContractComparator(self.payload_path, self.compare_js_report_path).compare()
+        return KeywordEvidencePayloadRunner(self.payload_path).run()
 
 
 class KeywordEvidenceMatcher:

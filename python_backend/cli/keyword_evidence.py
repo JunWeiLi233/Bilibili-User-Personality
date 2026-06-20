@@ -6,6 +6,7 @@ import sys
 
 from python_backend.analyzers.keyword_evidence import (
     KeywordEvidencePayloadContractComparator as KeywordEvidenceContractComparator,
+    KeywordEvidenceRequest,
     KeywordEvidencePayloadRunner as KeywordEvidenceRunner,
 )
 
@@ -18,9 +19,10 @@ class KeywordEvidenceCliRunner:
 
     def run(self) -> dict:
         args = parse_args(self.argv)
-        if args.compare_js_report:
-            return KeywordEvidenceContractComparator(args.payload, args.compare_js_report).compare()
-        return KeywordEvidenceRunner(args.payload).run()
+        return KeywordEvidenceRequest(
+            payload_path=args.payload,
+            compare_js_report_path=args.compare_js_report or None,
+        ).run()
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
