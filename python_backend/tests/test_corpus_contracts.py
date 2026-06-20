@@ -114,7 +114,7 @@ from python_backend.scrapers.tieba_html import TiebaHtmlParseSummary, TiebaHtmlP
 from python_backend.scrapers.tieba_keyword import TiebaKeywordPlanSummary, TiebaKeywordScrapeOptionsPlanner
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanContractComparator as BatchBilibiliPlanPayloadComparator, BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
-from python_backend.scrapers.batch_popular import BatchPopularPlanSummary, BatchPopularScrapePlanner
+from python_backend.scrapers.batch_popular import BatchPopularPlanContractComparator as BatchPopularPlanPayloadComparator, BatchPopularPlanSummary, BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherPlanner, RangeScraperLauncherSummary, UidRangeProgressReporter, UidRangeProgressSummary
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchScraperLauncherSummary, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
@@ -7947,6 +7947,23 @@ class CorpusContractTests(unittest.TestCase):
             BatchPopularPlanContractComparator(Path("payload.json"), Path("js.json")).summary.RESULT_KEYS,
             BatchPopularPlanSummary.RESULT_KEYS,
         )
+
+    def test_batch_popular_payload_comparator_owns_result_key_mismatch_contract(self):
+        result = BatchPopularPlanPayloadComparator().compare(
+            {"range": {"startPage": 3}, "database": {"users": 1}, "extra": "ignored"},
+            {"range": {"startPage": 2}, "database": {"users": 9}},
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "range", "python": {"startPage": 3}, "js": {"startPage": 2}},
+                {"key": "database", "python": {"users": 1}, "js": {"users": 9}},
+            ],
+        )
+        self.assertEqual(result["python"], {"range": {"startPage": 3}, "database": {"users": 1}})
+        self.assertEqual(result["js"], {"range": {"startPage": 2}, "database": {"users": 9}})
 
     def test_batch_popular_planner_builds_plan_from_json_payload_contract(self):
         result = BatchPopularScrapePlanner.build_plan_from_payload(
