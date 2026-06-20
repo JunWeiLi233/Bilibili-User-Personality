@@ -6,8 +6,8 @@ import json
 from python_backend.analysis.audit import CoverageAuditPayloadContractComparator as AuditContractComparator
 
 
-class CoverageAuditRunner:
-    """CLI-compatible coverage-audit comparator runner for JS/Python contract checks."""
+class CoverageAuditCliRunner:
+    """Dedicated argv-based coverage-audit comparator runner for JS/Python contracts."""
 
     def __init__(self, argv: list[str] | None = None):
         self.argv = argv
@@ -15,6 +15,10 @@ class CoverageAuditRunner:
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
         return AuditContractComparator(args.dictionary, args.js_audit, strict_total_evidence=args.strict_total_evidence).compare()
+
+
+class CoverageAuditRunner(CoverageAuditCliRunner):
+    """Backward-compatible coverage-audit runner alias."""
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -26,7 +30,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
-    result = CoverageAuditRunner(argv).run()
+    result = CoverageAuditCliRunner(argv).run()
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0 if result["ok"] else 1
 
