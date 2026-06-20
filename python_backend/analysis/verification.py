@@ -7,7 +7,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.comment_coverage import _clean_needle, _is_scrape_diagnostic
+from python_backend.analysis.comment_coverage import _clean_needle, _is_scrape_diagnostic, _strip_mention_scaffolding
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
 
@@ -220,8 +220,9 @@ class RandomVerifier:
 
     def _annotate(self, comment: dict[str, Any]) -> dict[str, Any]:
         message = self._message(comment)
-        folded_message = message.casefold()
-        clean_message = _clean_needle(message)
+        attributable_message = _strip_mention_scaffolding(message)
+        folded_message = attributable_message.casefold()
+        clean_message = _clean_needle(attributable_message)
         matched = [
             term
             for term in self.keyword_terms

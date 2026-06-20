@@ -678,6 +678,23 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(summary.samples[0]["matched_terms"], ["\u7f51\u76d8\u89c1"])
         self.assertEqual(summary.samples[0]["coverage"], "keyword")
 
+    def test_random_verifier_ignores_keywords_inside_reply_usernames(self):
+        verifier = RandomVerifier(keyword_terms=["\u72d7\u5934", "\u67e5\u8d44\u6599"])
+
+        summary = verifier.verify(
+            [
+                {"message": "\u56de\u590d @\u72d7\u5934 : \u666e\u901a\u8bc4\u8bba"},
+                {"message": "\u56de\u590d @\u666e\u901a\u7528\u6237 : \u5efa\u8bae\u67e5\u8d44\u6599"},
+            ],
+            sample_size=2,
+            seed=1,
+        )
+        by_message = {sample["message"]: sample for sample in summary.samples}
+
+        self.assertEqual(by_message["\u56de\u590d @\u72d7\u5934 : \u666e\u901a\u8bc4\u8bba"]["matched_terms"], [])
+        self.assertEqual(by_message["\u56de\u590d @\u72d7\u5934 : \u666e\u901a\u8bc4\u8bba"]["coverage"], "neutral")
+        self.assertEqual(by_message["\u56de\u590d @\u666e\u901a\u7528\u6237 : \u5efa\u8bae\u67e5\u8d44\u6599"]["matched_terms"], ["\u67e5\u8d44\u6599"])
+
     def test_random_verifier_skips_scrape_diagnostics(self):
         verifier = RandomVerifier(keyword_terms=["狗头"])
 
