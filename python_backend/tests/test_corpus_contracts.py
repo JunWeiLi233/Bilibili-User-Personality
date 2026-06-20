@@ -19,6 +19,7 @@ from python_backend.cli import batch_uid_range_plan as batch_uid_range_plan_cli
 from python_backend.cli import batch_uid_scrape_plan as batch_uid_scrape_plan_cli
 from python_backend.cli import batch_scraper_launcher as batch_scraper_launcher_cli
 from python_backend.cli import direct_probe_corpus as direct_probe_corpus_cli
+from python_backend.cli import direct_probe_plan as direct_probe_plan_cli
 from python_backend.cli import comment_coverage as comment_coverage_cli
 from python_backend.cli import compare_contracts as compare_contracts_cli
 from python_backend.cli import corpus_shard_writer as corpus_shard_writer_cli
@@ -6887,6 +6888,29 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["nextReplyCursor"], 1)
         self.assertEqual(result["viewUrl"], "https://api.bilibili.com/x/web-interface/view?aid=116663559131570")
         self.assertIn("keyword=%E6%9F%A5%E6%9F%A5%E8%B5%84%E6%96%99+B%E7%AB%99%E8%AF%84%E8%AE%BA", result["searchUrls"][0])
+
+    def test_direct_probe_plan_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "probe-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "action": {"term": "\u67e5\u67e5\u8d44\u6599", "query": "\u67e5\u67e5\u8d44\u6599 B\u7ad9\u8bc4\u8bba"},
+                        "videos": [{"bvid": "BVnoise", "title": "\u70ed\u95e8\u56de\u590d"}, {"bvid": "BVexact", "title": "\u67e5\u67e5\u8d44\u6599\u5408\u96c6"}],
+                        "source": "https://www.bilibili.com/video/av116663559131570/?reply=301234384593",
+                        "cursorPayload": {"data": {"cursor": {"is_end": False, "next": 0}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = direct_probe_plan_cli.DirectProbePlanCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["needles"], ["\u67e5\u67e5\u8d44\u6599"])
+        self.assertEqual([video["bvid"] for video in result["rankedVideos"]], ["BVexact", "BVnoise"])
+        self.assertEqual(result["sourceRefs"], [{"aid": "116663559131570", "rootRpid": "301234384593"}])
 
     def test_direct_probe_builder_owns_plan_payload_contract(self):
         result = DirectProbeCorpusBuilder().build_plan_from_payload(
