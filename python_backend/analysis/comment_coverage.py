@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import json
 import re
 import unicodedata
+from pathlib import Path
 from typing import Any
 
 
@@ -161,3 +163,66 @@ class CommentCoverageContractComparator:
             if key in js_modes and python_modes.get(key) != js_modes.get(key)
         )
         return mismatches
+
+
+class CommentCoverageRunner:
+    """Run comment coverage classification from JSON dictionary/comment contracts."""
+
+    def __init__(
+        self,
+        dictionary_path: str | Path,
+        comments_path: str | Path,
+        sample_size: int | None = None,
+    ) -> None:
+        self.dictionary_path = Path(dictionary_path)
+        self.comments_path = Path(comments_path)
+        self.sample_size = sample_size
+        self.classifier = CommentCoverageClassifier()
+
+    def run(self) -> dict[str, Any]:
+        dictionary = self._read_dictionary()
+        comments = self._read_comments()
+        options = {"sampleSize": self.sample_size} if self.sample_size is not None else {}
+        return self.classifier.sample_result(dictionary, comments, options)
+
+    def _read_dictionary(self) -> dict[str, Any]:
+        payload = _read_json(self.dictionary_path)
+        return payload if isinstance(payload, dict) else {"entries": []}
+
+    def _read_comments(self) -> list[Any]:
+        payload = _read_json(self.comments_path)
+        if isinstance(payload, dict) and isinstance(payload.get("comments"), list):
+            return payload["comments"]
+        return payload if isinstance(payload, list) else []
+
+
+class CommentCoveragePayloadContractComparator:
+    """Compare file-backed Python comment coverage against a persisted JS-compatible report."""
+
+    def __init__(
+        self,
+        dictionary_path: str | Path,
+        comments_path: str | Path,
+        js_report_path: str | Path,
+        sample_size: int | None = None,
+    ) -> None:
+        self.dictionary_path = Path(dictionary_path)
+        self.comments_path = Path(comments_path)
+        self.js_report_path = Path(js_report_path)
+        self.sample_size = sample_size
+        self.summary = CommentCoverageSummary()
+        self.comparator = CommentCoverageContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_report = CommentCoverageRunner(self.dictionary_path, self.comments_path, self.sample_size).run()
+        js_report = self._read_js_report()
+        return self.comparator.compare(python_report, js_report)
+
+    def _read_js_report(self) -> dict[str, Any]:
+        payload = _read_json(self.js_report_path)
+        return payload if isinstance(payload, dict) else {}
+
+
+def _read_json(path: Path) -> Any:
+    with path.open("r", encoding="utf-8-sig") as handle:
+        return json.load(handle)
