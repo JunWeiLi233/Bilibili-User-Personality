@@ -80,7 +80,7 @@ from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContra
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusContractComparator as DirectProbeCorpusPayloadComparator, DirectProbeCorpusPayloadContractComparator, DirectProbeCorpusRunner as DirectProbePayloadCorpusRunner, DirectProbeCorpusSummary, DirectProbePlanContractComparator as DirectProbePlanPayloadComparator, DirectProbePlanPayloadContractComparator, DirectProbePlanRunner as DirectProbePayloadPlanRunner, DirectProbePlanSummary
 from python_backend.corpus.history_tags import HistoryTagCorpusContractComparator as HistoryTagCorpusPayloadComparator, HistoryTagCorpusManager, HistoryTagCorpusSummary, HistoryTagScrapePlanner, HistoryTagScrapePlanContractComparator as HistoryTagScrapePlanPayloadComparator, HistoryTagScrapePlanSummary
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceCorpusImportContractComparator as HuggingFaceCorpusImportPayloadComparator, HuggingFaceCorpusImportPlanContractComparator as HuggingFaceCorpusImportPlanPayloadComparator, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
-from python_backend.corpus.local import LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidenceSummary
+from python_backend.corpus.local import LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidencePayloadContractComparator, LocalCorpusEvidenceRunner as LocalCorpusEvidencePayloadRunner, LocalCorpusEvidenceSummary
 from python_backend.corpus.local import LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenPayloadContractComparator, LocalCorpusFlattenRunner as LocalCorpusFlattenPayloadRunner, LocalCorpusFlattenSummary, LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanContractComparator as LocalCorpusMinePlanPayloadComparator, LocalCorpusMinePlanSummary
 from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner, AgentDictionaryMergePlanSummary, MergeAgentDictionariesPlanContractComparator as MergeAgentDictionariesPlanPayloadComparator, MergeAgentDictionariesPlanRunner as MergeAgentDictionariesPayloadPlanRunner
@@ -3441,6 +3441,47 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["entries"][0]["term"], "\u61c2\u7684\u90fd\u61c2")
+
+    def test_local_corpus_evidence_payload_runner_lives_with_corpus_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            comments_path = root / "comments.json"
+            js_report_path = root / "js-report.json"
+            dictionary_path.write_text(
+                json.dumps({"entries": [{"term": "\u67e5\u67e5\u8d44\u6599", "family": "evidence", "meaning": "\u7d22\u8981\u8bc1\u636e", "evidenceCount": 0}]}),
+                encoding="utf-8",
+            )
+            comments_path.write_text(
+                json.dumps({"comments": [{"message": "\u4f60\u5148\u67e5\u67e5\u8d44\u6599\u518d\u8bf4", "source": "local", "uid": "BVdomain"}]}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"count": 1, "entries": [{"term": "wrong", "evidence": ["wrong sample"]}]}),
+                encoding="utf-8",
+            )
+
+            result = LocalCorpusEvidencePayloadRunner(
+                dictionary_path,
+                comments_path,
+                target_evidence=3,
+                max_samples_per_term=1,
+                target_terms=["\u67e5\u67e5\u8d44\u6599"],
+            ).run()
+            comparison = LocalCorpusEvidencePayloadContractComparator(
+                dictionary_path,
+                comments_path,
+                js_report_path,
+                target_evidence=3,
+                max_samples_per_term=1,
+                target_terms=["\u67e5\u67e5\u8d44\u6599"],
+            ).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["entries"][0]["term"], "\u67e5\u67e5\u8d44\u6599")
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["terms", "evidence"])
 
     def test_local_corpus_evidence_summary_extracts_comparator_contract(self):
         summary = LocalCorpusEvidenceSummary().summarize(

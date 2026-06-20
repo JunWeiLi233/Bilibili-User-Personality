@@ -556,3 +556,95 @@ class LocalCorpusEvidenceContractComparator:
             "python": python_summary,
             "js": js_summary,
         }
+
+
+class LocalCorpusEvidenceRunner:
+    """Find dictionary evidence from local corpus JSON contracts."""
+
+    def __init__(
+        self,
+        dictionary_path: str | Path,
+        comments_path: str | Path,
+        target_evidence: int = 3,
+        max_samples_per_term: int = 3,
+        require_comment_backed_evidence: bool = False,
+        target_terms: list[str] | None = None,
+    ):
+        self.dictionary_path = Path(dictionary_path)
+        self.comments_path = Path(comments_path)
+        self.target_evidence = target_evidence
+        self.max_samples_per_term = max_samples_per_term
+        self.require_comment_backed_evidence = require_comment_backed_evidence
+        self.target_terms = target_terms or []
+        self.finder = LocalCorpusEvidenceFinder()
+        self.flattener = LocalCorpusFlattener()
+
+    def run(self) -> dict[str, Any]:
+        dictionary = self._read_json_object(self.dictionary_path, {"entries": []})
+        comments_payload = self._read_json(self.comments_path, [])
+        comments = comments_payload.get("comments") if isinstance(comments_payload, dict) else comments_payload
+        if not isinstance(comments, list) or any(not isinstance(comment, dict) or "message" not in comment for comment in comments):
+            comments = self.flattener.flatten(comments_payload)
+        return self.finder.find_entries_result(
+            dictionary,
+            comments if isinstance(comments, list) else [],
+            {
+                "targetEvidence": self.target_evidence,
+                "maxSamplesPerTerm": self.max_samples_per_term,
+                "requireCommentBackedEvidence": self.require_comment_backed_evidence,
+                "targetTerms": self.target_terms,
+            },
+        )
+
+    def _read_json(self, path: Path, fallback: Any) -> Any:
+        if not path.exists():
+            return fallback
+        with path.open("r", encoding="utf-8-sig") as handle:
+            return json.load(handle)
+
+    def _read_json_object(self, path: Path, fallback: dict[str, Any]) -> dict[str, Any]:
+        payload = self._read_json(path, fallback)
+        return payload if isinstance(payload, dict) else fallback
+
+
+class LocalCorpusEvidencePayloadContractComparator:
+    """Compare local-corpus evidence payload output against saved JS-compatible JSON."""
+
+    def __init__(
+        self,
+        dictionary_path: str | Path,
+        comments_path: str | Path,
+        js_report_path: str | Path,
+        target_evidence: int = 3,
+        max_samples_per_term: int = 3,
+        require_comment_backed_evidence: bool = False,
+        target_terms: list[str] | None = None,
+    ):
+        self.dictionary_path = Path(dictionary_path)
+        self.comments_path = Path(comments_path)
+        self.js_report_path = Path(js_report_path)
+        self.target_evidence = target_evidence
+        self.max_samples_per_term = max_samples_per_term
+        self.require_comment_backed_evidence = require_comment_backed_evidence
+        self.target_terms = target_terms or []
+        self.summary = LocalCorpusEvidenceSummary()
+        self.comparator = LocalCorpusEvidenceContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = LocalCorpusEvidenceRunner(
+            self.dictionary_path,
+            self.comments_path,
+            target_evidence=self.target_evidence,
+            max_samples_per_term=self.max_samples_per_term,
+            require_comment_backed_evidence=self.require_comment_backed_evidence,
+            target_terms=self.target_terms,
+        ).run()
+        js_result = self._read_js_report()
+        return self.comparator.compare(python_result, js_result)
+
+    def _read_js_report(self) -> dict[str, Any]:
+        if not self.js_report_path.exists():
+            return {}
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
