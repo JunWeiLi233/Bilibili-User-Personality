@@ -767,6 +767,11 @@ class CorpusContractTests(unittest.TestCase):
             {"minDelayMs": 0, "jitterMs": 60000, "blockCooldownMs": 120000},
         )
 
+    def test_rate_limit_policy_normalizes_history_tag_pacing_contract(self):
+        policy = RateLimitPolicy(min_delay_ms=-5, jitter_ms=999999, block_cooldown_ms=0)
+
+        self.assertEqual(policy.to_history_tag_options(), {"delayMs": 0, "jitterMs": 120000})
+
     def test_file_lock_state_inspector_reads_js_owner_contract_and_detects_stale_age(self):
         with tempfile.TemporaryDirectory() as tmp:
             lock_path = Path(tmp) / "deepseekKeywordDictionary.json.lock"
@@ -5125,6 +5130,10 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(plan["pageSize"], 1)
         self.assertEqual(plan["delayMs"], 0)
         self.assertEqual(plan["jitterMs"], 120000)
+        self.assertEqual(
+            {key: plan[key] for key in ("delayMs", "jitterMs")},
+            RateLimitPolicy(min_delay_ms=-5, jitter_ms=999999, block_cooldown_ms=0).to_history_tag_options(),
+        )
         self.assertTrue(plan["write"])
         self.assertEqual(plan["seeds"], ["\u73af\u5883\u79cd\u5b50", "\u660e\u671d", "\u6e05\u671d", "\u4e09\u56fd", "\u8003\u53e4", "\u6587\u7269"])
         self.assertEqual(plan["summary"], {"seeds": 6, "requests": 60, "commentDanmakuScraping": False})

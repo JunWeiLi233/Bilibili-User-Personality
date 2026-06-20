@@ -9,6 +9,8 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import quote
 
+from python_backend.scrapers.rate_limiter import RateLimitPolicy
+
 
 DEFAULT_BILIBILI_HISTORY_TAG_CORPUS_PATH = "server/data/bilibiliHistoryTagCorpus.json"
 DEFAULT_HISTORY_TAG_SEEDS = [
@@ -152,6 +154,13 @@ class HistoryTagScrapePlanner:
         options["seeds"] = _unique_by([seed for seed in options["seeds"] if seed], lambda seed: seed)
         if not options["seeds"]:
             options["seeds"] = list(DEFAULT_HISTORY_TAG_SEEDS)
+        options.update(
+            RateLimitPolicy(
+                min_delay_ms=options["delayMs"],
+                jitter_ms=options["jitterMs"],
+                block_cooldown_ms=0,
+            ).to_history_tag_options()
+        )
 
         requests = self._requests(options["seeds"], options["pages"], options["pageSize"])
         return {

@@ -31,6 +31,12 @@ class RateLimitPolicy:
             "blockCooldownMs": _bounded_ms(self.block_cooldown_ms, 120000, 0, 300000),
         }
 
+    def to_history_tag_options(self) -> dict[str, int]:
+        return {
+            "delayMs": _bounded_ms(self.min_delay_ms, 5000, 0, 120000),
+            "jitterMs": _bounded_ms(self.jitter_ms, 2500, 0, 120000),
+        }
+
 
 class RateLimiter:
     """Injectable sleep boundary for slow, platform-friendly scrapers."""
