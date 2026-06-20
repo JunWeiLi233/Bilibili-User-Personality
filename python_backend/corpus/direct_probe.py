@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any, Callable
 from urllib.parse import urlencode, urlparse
 
+from python_backend.corpus.loader import CorpusLoader
 from python_backend.scrapers.rate_limiter import RateLimitPolicy
 
 
@@ -213,10 +214,18 @@ class DirectProbeCorpusPayloadRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
-        existing = payload.get("existing") if isinstance(payload.get("existing"), dict) else {"version": 1, "comments": [], "runs": []}
+        loaded = CorpusLoader.load_from_payload(self._existing_corpus_payload(payload))
+        existing = {**loaded.manifest, "comments": loaded.comments, "runs": loaded.runs}
         comments_payload = payload.get("comments") if isinstance(payload.get("comments"), list) else []
         run = payload.get("run") if isinstance(payload.get("run"), dict) else {}
         return self.builder.build_probe_corpus_result(existing, comments_payload, run)
+
+    def _existing_corpus_payload(self, payload: dict[str, Any]) -> dict[str, Any]:
+        if isinstance(payload.get("existing"), dict):
+            return {"corpus": payload["existing"]}
+        if isinstance(payload.get("corpus"), dict) or payload.get("corpusPath") or payload.get("path"):
+            return payload
+        return {"corpus": {"version": 1, "comments": [], "runs": []}}
 
     def _read_payload(self) -> dict[str, Any]:
         with self.payload_path.open("r", encoding="utf-8-sig") as handle:
