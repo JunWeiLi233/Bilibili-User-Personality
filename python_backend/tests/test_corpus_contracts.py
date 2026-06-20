@@ -7749,6 +7749,23 @@ class CorpusContractTests(unittest.TestCase):
             BatchUidScrapePlanSummary.RESULT_KEYS,
         )
 
+    def test_batch_uid_scrape_planner_builds_plan_from_json_payload_contract(self):
+        result = BatchUidScrapePlanner.build_plan_from_payload(
+            {
+                "progress": {
+                    "scannedBvids": ["BV1", "BV2", "BV3"],
+                    "_uidComments": {"42": [{"message": "hit"}], "43": [{"message": ""}]},
+                    "processedUids": {"42": "success"},
+                    "stats": {"videosScanned": "3", "uidsFound": "2", "uidsAnalyzed": "1", "commentsCollected": "5", "errors": "1"},
+                },
+                "database": {"users": {"42": {}, "99": {}}},
+            }
+        )
+
+        self.assertEqual(result["discovery"]["scannedBvids"], 3)
+        self.assertEqual(result["phase2"], {"processed": 1, "pending": 1, "skippableNoText": 1, "trainable": 0, "userDbUsers": 2})
+        self.assertEqual(result["stats"], {"videosScanned": 3, "uidsFound": 2, "uidsAnalyzed": 1, "commentsCollected": 5, "errors": 1})
+
     def test_batch_uid_scrape_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
