@@ -38,6 +38,7 @@ from python_backend.cli import uid_discovery_plan as uid_discovery_plan_cli
 from python_backend.cli import uid_discovery_progress as uid_discovery_progress_cli
 from python_backend.cli import uid_fast_pipeline_plan as uid_fast_pipeline_plan_cli
 from python_backend.cli import uid_parallel_plan as uid_parallel_plan_cli
+from python_backend.cli import uid_parallel_progress as uid_parallel_progress_cli
 from python_backend.cli import uid_pipeline_merge as uid_pipeline_merge_cli
 from python_backend.cli import uid_pipeline_launcher as uid_pipeline_launcher_cli
 from python_backend.cli import uid_pipeline_plan as uid_pipeline_plan_cli
@@ -13893,6 +13894,28 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["statusCounts"], {"success": 1, "no_text": 1})
         self.assertEqual(result["userDb"], {"users": 2, "assignedUsersInDb": 1})
         self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
+
+    def test_uid_parallel_progress_cli_runner_reads_data_dir_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            (data_dir / "uid-discovery-comments.json").write_text(
+                json.dumps({"100": [{"message": "a"}], "101": [{"message": "b"}], "102": [], "103": [{"message": "d"}]}),
+                encoding="utf-8",
+            )
+            (data_dir / "uid-parallel-1-progress.json").write_text(
+                json.dumps({"processed": {"101": "success", "103": "no_text"}, "stats": {"success": 1, "noText": 1}}),
+                encoding="utf-8",
+            )
+            (data_dir / "scraped-users-db.json").write_text(json.dumps({"users": {"101": {}, "999": {}}}), encoding="utf-8")
+
+            result = uid_parallel_progress_cli.UidParallelProgressCliRunner(["--data-dir", str(data_dir), "--worker=1", "--workers=2"]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["worker"], {"id": 1, "totalWorkers": 2, "assigned": 2})
+        self.assertEqual(result["progress"], {"processed": 2, "remaining": 0, "completionRatio": 1.0})
+        self.assertEqual(result["userDb"], {"users": 2, "assignedUsersInDb": 1})
 
     def test_uid_parallel_progress_reporter_summarizes_assigned_worker_payload(self):
         reporter = UidParallelProgressReporter(worker_id=1, total_workers=2)
