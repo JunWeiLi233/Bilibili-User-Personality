@@ -5210,6 +5210,27 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(exit_code, 0)
         self.assertEqual(json.loads(output.getvalue())["entries"][0]["term"], "\u61c2\u7684\u90fd\u61c2")
 
+    def test_local_corpus_evidence_cli_runner_accepts_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "local-evidence.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "dictionary": {"entries": [{"term": "\u61c2\u7684\u90fd\u61c2", "family": "evasion", "meaning": "\u6697\u793a", "evidenceCount": 0}]},
+                        "comments": [{"message": "\u8fd9\u4e8b\u61c2\u7684\u90fd\u61c2", "source": "local", "uid": "BVcli-runner"}],
+                        "targetEvidence": 3,
+                        "maxSamplesPerTerm": 1,
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = local_corpus_evidence_cli.LocalCorpusEvidenceCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["entries"][0]["evidenceSources"][0]["uid"], "BVcli-runner")
+
     def test_local_corpus_evidence_cli_compares_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
