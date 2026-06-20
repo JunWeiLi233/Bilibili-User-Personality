@@ -27,6 +27,7 @@ from python_backend.cli import keyword_evidence as keyword_evidence_cli
 from python_backend.cli import random_verification as random_verification_cli
 from python_backend.cli import tieba_corpus as tieba_corpus_cli
 from python_backend.cli import tieba_html_parse as tieba_html_parse_cli
+from python_backend.cli import tieba_keyword_plan as tieba_keyword_plan_cli
 from python_backend.cli import tieba_timing as tieba_timing_cli
 from python_backend.cli import video_comment_filter as video_comment_filter_cli
 from python_backend.cli import video_context as video_context_cli
@@ -6046,6 +6047,22 @@ class CorpusContractTests(unittest.TestCase):
                 }
             ],
         )
+
+    def test_tieba_keyword_plan_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "tieba-plan.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--queries=doge;yygq", "--thread-pages=2"], "env": {"TIEBA_DISCOVERY_MODE": "mobile"}}),
+                encoding="utf-8",
+            )
+
+            result = tieba_keyword_plan_cli.TiebaKeywordPlanCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["options"]["queries"], ["doge", "yygq"])
+        self.assertEqual(result["options"]["threadPages"], 2)
+        self.assertEqual(result["options"]["discoveryMode"], "mobile")
 
     def test_tieba_keyword_payload_comparator_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:

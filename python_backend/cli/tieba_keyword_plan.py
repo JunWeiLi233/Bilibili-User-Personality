@@ -6,6 +6,7 @@ import sys
 
 from python_backend.scrapers.tieba_keyword import TiebaKeywordPlanContractComparator, TiebaKeywordPlanRunner
 
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Build a runTiebaKeywordScrape.js-compatible dry-run option plan.")
     parser.add_argument("--payload", required=True)
@@ -13,12 +14,21 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+class TiebaKeywordPlanCliRunner:
+    """CLI-compatible Tieba keyword scrape planner for JS/Python JSON contracts."""
+
+    def __init__(self, argv: list[str] | None = None):
+        self.argv = argv
+
+    def run(self) -> dict:
+        args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        if args.compare_js_report:
+            return TiebaKeywordPlanContractComparator(args.payload, args.compare_js_report).compare()
+        return TiebaKeywordPlanRunner(args.payload).run()
+
+
 def main(argv: list[str] | None = None) -> int:
-    args = build_parser().parse_args(argv)
-    if args.compare_js_report:
-        result = TiebaKeywordPlanContractComparator(args.payload, args.compare_js_report).compare()
-    else:
-        result = TiebaKeywordPlanRunner(args.payload).run()
+    result = TiebaKeywordPlanCliRunner(argv).run()
     json.dump(result, sys.stdout, ensure_ascii=False, indent=2)
     sys.stdout.write("\n")
     return 0 if result["ok"] else 1
