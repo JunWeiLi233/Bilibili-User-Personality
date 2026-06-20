@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from python_backend.corpus.dictionary import DictionaryLoader
-from python_backend.corpus.dictionary_prune import DictionaryPrunePlanner
+from python_backend.corpus.dictionary_prune import DictionaryPrunePlanner, DictionaryPruneSummary
 
 
 class DictionaryPruneSummaryRunner:
@@ -30,25 +30,24 @@ class DictionaryPruneSummaryRunner:
 class DictionaryPruneSummaryContractComparator:
     """Compare Python prune summaries against a saved JS-compatible JSON report."""
 
-    RESULT_KEYS = ("entries", "asciiTerms", "summary")
-
     def __init__(self, dictionary_path: str | Path, js_report_path: str | Path):
         self.dictionary_path = Path(dictionary_path)
         self.js_report_path = Path(js_report_path)
+        self.summary = DictionaryPruneSummary()
 
     def compare(self) -> dict[str, Any]:
         python_result = DictionaryPruneSummaryRunner(self.dictionary_path).run()
         js_result = self._read_js_report()
         mismatches = [
             {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
-            for key in self.RESULT_KEYS
+            for key in self.summary.RESULT_KEYS
             if key in js_result and python_result.get(key) != js_result.get(key)
         ]
         return {
             "ok": not mismatches,
             "mismatches": mismatches,
-            "python": self._summary(python_result),
-            "js": self._summary(js_result),
+            "python": self.summary.summarize(python_result),
+            "js": self.summary.summarize(js_result),
         }
 
     def _read_js_report(self) -> dict[str, Any]:
@@ -57,9 +56,6 @@ class DictionaryPruneSummaryContractComparator:
         with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
-
-    def _summary(self, result: dict[str, Any]) -> dict[str, Any]:
-        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
 
 
 def build_parser() -> argparse.ArgumentParser:

@@ -83,6 +83,7 @@ from python_backend.corpus.local import LocalCorpusFlattenSummary, LocalCorpusFl
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanSummary
 from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner
 from python_backend.corpus.tieba import TiebaCorpusUpdater, TiebaCorpusUpdateSummary
+from python_backend.corpus import dictionary_prune
 from python_backend.analysis.video_filter import VideoCommentFilter, VideoContextBuilder, VideoRelevanceFilter
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
@@ -5605,6 +5606,14 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["removedTerms"], ["BV1xx411c7mD", "doge", "md5"])
         self.assertEqual(result["keptTerms"], ["yygq", "\u9634\u9633\u602a\u6c14"])
         self.assertEqual(result["summary"], {"totalEntries": 5, "asciiEntries": 4, "afterEntries": 2, "afterAsciiEntries": 1})
+
+    def test_dictionary_prune_comparator_uses_backend_summary_contract_keys(self):
+        self.assertTrue(hasattr(dictionary_prune, "DictionaryPruneSummary"))
+        self.assertFalse(hasattr(DictionaryPruneSummaryContractComparator, "RESULT_KEYS"))
+        self.assertEqual(
+            DictionaryPruneSummaryContractComparator(Path("dictionary.json"), Path("js-report.json")).summary.RESULT_KEYS,
+            dictionary_prune.DictionaryPruneSummary.RESULT_KEYS,
+        )
 
     def test_dictionary_prune_summary_comparator_reports_js_summary_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
