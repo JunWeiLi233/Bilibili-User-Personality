@@ -115,7 +115,7 @@ from python_backend.scrapers.tieba_keyword import TiebaKeywordPlanSummary, Tieba
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanContractComparator as BatchBilibiliPlanPayloadComparator, BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularPlanContractComparator as BatchPopularPlanPayloadComparator, BatchPopularPlanSummary, BatchPopularScrapePlanner
-from python_backend.scrapers.batch_uid_range import BatchUidRangePlanContractComparator as BatchUidRangePlanPayloadComparator, BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherPlanner, RangeScraperLauncherSummary, UidRangeProgressContractComparator as UidRangeProgressPayloadComparator, UidRangeProgressReporter, UidRangeProgressSummary
+from python_backend.scrapers.batch_uid_range import BatchUidRangePlanContractComparator as BatchUidRangePlanPayloadComparator, BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherContractComparator as RangeScraperLauncherPayloadComparator, RangeScraperLauncherPlanner, RangeScraperLauncherSummary, UidRangeProgressContractComparator as UidRangeProgressPayloadComparator, UidRangeProgressReporter, UidRangeProgressSummary
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchScraperLauncherSummary, BatchUidProgressContractComparator as BatchUidProgressPayloadComparator, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanContractComparator as BatchUidScrapePlanPayloadComparator, BatchUidScrapePlanSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanContractComparator as UidDiscoveryPlanPayloadComparator, UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressContractComparator as UidDiscoveryProgressPayloadComparator, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
 from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanContractComparator as UidFastPipelinePlanPayloadComparator
@@ -8476,6 +8476,35 @@ class CorpusContractTests(unittest.TestCase):
                     ],
                     "js": [{"start": 1, "end": 20000, "progressFile": "stale.json"}],
                 }
+            ],
+        )
+
+    def test_range_scraper_launcher_payload_comparator_owns_progress_mismatch_contract(self):
+        result = RangeScraperLauncherPayloadComparator().compare(
+            {
+                "workers": [{"start": 1, "end": 20000, "progressFile": "uid-range-progress-1-20000.json"}],
+                "summary": {"workers": 1, "totalUids": 20000, "launchDelaySeconds": 3},
+            },
+            {
+                "workers": [{"start": 1, "end": 20000, "progressFile": "stale.json"}],
+                "summary": {"workers": 1, "totalUids": 20000, "launchDelaySeconds": 1},
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {
+                    "key": "workers",
+                    "python": [{"start": 1, "end": 20000, "progressFile": "uid-range-progress-1-20000.json"}],
+                    "js": [{"start": 1, "end": 20000, "progressFile": "stale.json"}],
+                },
+                {
+                    "key": "summary",
+                    "python": {"workers": 1, "totalUids": 20000, "launchDelaySeconds": 3},
+                    "js": {"workers": 1, "totalUids": 20000, "launchDelaySeconds": 1},
+                },
             ],
         )
 
