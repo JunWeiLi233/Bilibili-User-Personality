@@ -6759,6 +6759,66 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("SESSDATA=from-request", result["headers"]["cookie"])
         self.assertIn("b_nut=1700000000", result["headers"]["cookie"])
 
+    def test_bilibili_crawler_helper_plans_request_schedule_contract(self):
+        self.assertEqual(
+            BilibiliCrawlerHelper().plan_request_schedule(
+                config={
+                    "minDelayMs": 100,
+                    "jitterMs": 50,
+                    "longPauseProbability": 0.25,
+                    "longPauseMinMs": 1000,
+                    "longPauseMaxMs": 2000,
+                },
+                state={"nextRequestAt": 1250, "cooldownUntil": 1100},
+                now_ms=1000,
+                random_values=[0.9, 0.5, 0.4],
+            ),
+            {
+                "waitMs": 250,
+                "longPauseMs": 1500,
+                "jitterMs": 20,
+                "nextRequestAt": 2870,
+                "cooldownUntil": 1100,
+            },
+        )
+
+    def test_bilibili_crawler_helper_plans_block_cooldown_contract(self):
+        self.assertEqual(
+            BilibiliCrawlerHelper().plan_block_cooldown(
+                config={"blockCooldownMs": 1000},
+                state={"consecutiveBlocks": 3},
+                now_ms=5000,
+            ),
+            {
+                "consecutiveBlocks": 4,
+                "cooldownMultiplier": 8,
+                "cooldownUntil": 13000,
+            },
+        )
+
+    def test_bilibili_crawler_helper_builds_payload_request_schedule_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "schedule": {
+                    "config": {"minDelayMs": 100, "jitterMs": 50, "longPauseProbability": 0},
+                    "state": {"nextRequestAt": 1250, "cooldownUntil": 1100},
+                    "nowMs": 1000,
+                    "randomValues": [0.4],
+                }
+            }
+        )
+
+        self.assertEqual(
+            result["requestSchedule"],
+            {
+                "waitMs": 250,
+                "longPauseMs": 0,
+                "jitterMs": 20,
+                "nextRequestAt": 1370,
+                "cooldownUntil": 1100,
+            },
+        )
+
     def test_bilibili_crawler_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -6815,6 +6875,7 @@ class CorpusContractTests(unittest.TestCase):
                 "crawlerConfig": {"minDelayMs": 2500},
                 "syntheticCookieJar": {"b_nut": "1700000000"},
                 "headers": {"sec-fetch-site": "same-site"},
+                "requestSchedule": {"waitMs": 250},
                 "dynamicRecords": {"objects": []},
                 "extra": "ignored",
             }
@@ -6829,6 +6890,7 @@ class CorpusContractTests(unittest.TestCase):
                 "crawlerConfig": {"minDelayMs": 2500},
                 "syntheticCookieJar": {"b_nut": "1700000000"},
                 "headers": {"sec-fetch-site": "same-site"},
+                "requestSchedule": {"waitMs": 250},
                 "dynamicRecords": {"objects": []},
             },
         )

@@ -67,6 +67,7 @@ class BilibiliCrawlerSummary:
         "crawlerConfig",
         "syntheticCookieJar",
         "headers",
+        "requestSchedule",
     )
 
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -184,10 +185,75 @@ class BilibiliCrawlerHelper:
                 request_cookie=request.get("cookie") or request.get("bilibiliCookie") or "",
                 synthetic_cookie=synthetic_cookie_jar,
             )
+        if isinstance(payload.get("schedule"), dict):
+            schedule = payload.get("schedule") or {}
+            result["requestSchedule"] = self.plan_request_schedule(
+                config=schedule.get("config") if isinstance(schedule.get("config"), dict) else {},
+                state=schedule.get("state") if isinstance(schedule.get("state"), dict) else {},
+                now_ms=schedule.get("nowMs", 0),
+                random_values=schedule.get("randomValues") if isinstance(schedule.get("randomValues"), list) else [],
+            )
         return result
 
     def build_crawler_config(self, env: dict[str, Any] | None = None) -> dict[str, int | float]:
         return BilibiliCrawlerConfigBuilder().build(env)
+
+    def plan_request_schedule(
+        self,
+        config: dict[str, Any] | None = None,
+        state: dict[str, Any] | None = None,
+        now_ms: Any = 0,
+        random_values: list[Any] | None = None,
+    ) -> dict[str, int]:
+        cfg = {**self.build_crawler_config({}), **(config if isinstance(config, dict) else {})}
+        state = state if isinstance(state, dict) else {}
+        randoms = iter(random_values if isinstance(random_values, list) else [])
+        now = self._number(now_ms, 0)
+        cooldown_until = self._number(state.get("cooldownUntil"), 0)
+        next_request_at = self._number(state.get("nextRequestAt"), 0)
+        wait_ms = max(0, max(cooldown_until, next_request_at) - now)
+        effective_now = now + wait_ms
+
+        long_pause_ms = 0
+        long_pause_probability = self._bounded_float(cfg.get("longPauseProbability"), 0.15, 0, 1)
+        long_pause_min_ms = self._number(cfg.get("longPauseMinMs"), 3000)
+        long_pause_max_ms = self._number(cfg.get("longPauseMaxMs"), 8000)
+        if (
+            long_pause_probability > 0
+            and long_pause_max_ms > long_pause_min_ms
+            and self._next_random(randoms) > 1 - long_pause_probability
+        ):
+            long_pause_ms = long_pause_min_ms + math.floor(
+                self._next_random(randoms) * (long_pause_max_ms - long_pause_min_ms)
+            )
+            effective_now += long_pause_ms
+
+        jitter_cap = max(0, self._number(cfg.get("jitterMs"), 2000))
+        jitter_ms = math.floor(self._next_random(randoms) * jitter_cap)
+        return {
+            "waitMs": wait_ms,
+            "longPauseMs": long_pause_ms,
+            "jitterMs": jitter_ms,
+            "nextRequestAt": effective_now + max(0, self._number(cfg.get("minDelayMs"), 2500)) + jitter_ms,
+            "cooldownUntil": cooldown_until,
+        }
+
+    def plan_block_cooldown(
+        self,
+        config: dict[str, Any] | None = None,
+        state: dict[str, Any] | None = None,
+        now_ms: Any = 0,
+    ) -> dict[str, int]:
+        cfg = {**self.build_crawler_config({}), **(config if isinstance(config, dict) else {})}
+        state = state if isinstance(state, dict) else {}
+        consecutive_blocks = self._number(state.get("consecutiveBlocks"), 0) + 1
+        multiplier = min(2 ** (consecutive_blocks - 1), 8)
+        cooldown_ms = max(0, self._number(cfg.get("blockCooldownMs"), 120000))
+        return {
+            "consecutiveBlocks": consecutive_blocks,
+            "cooldownMultiplier": multiplier,
+            "cooldownUntil": self._number(now_ms, 0) + cooldown_ms * multiplier,
+        }
 
     def build_request_headers(
         self,
@@ -485,6 +551,22 @@ class BilibiliCrawlerHelper:
         if parts.scheme and parts.netloc:
             return f"{parts.scheme}://{parts.netloc}"
         return "https://www.bilibili.com"
+
+    def _next_random(self, values: Any) -> float:
+        try:
+            value = next(values)
+        except StopIteration:
+            value = 0
+        return self._bounded_float(value, 0, 0, 1)
+
+    def _bounded_float(self, value: Any, fallback: float, minimum: float, maximum: float) -> float:
+        try:
+            number = float(str(value))
+        except (TypeError, ValueError):
+            number = fallback
+        if not math.isfinite(number):
+            number = fallback
+        return max(minimum, min(number, maximum))
 
     def _number(self, value: Any, fallback: int = 0) -> int:
         try:
