@@ -9,6 +9,8 @@ from io import StringIO
 from pathlib import Path
 from typing import Any
 
+from python_backend.corpus.loader import CorpusLoader
+
 
 def _clean_text(value: Any) -> str:
     return re.sub(r"\s+", " ", str(value or "")).strip()
@@ -396,11 +398,8 @@ class HuggingFaceCorpusImportRunner:
         }
 
     def _read_existing(self) -> dict[str, Any]:
-        if not self.existing_path.exists():
-            return {"version": 1, "updatedAt": None, "runs": [], "comments": []}
-        with self.existing_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else {"version": 1, "updatedAt": None, "runs": [], "comments": []}
+        loaded = CorpusLoader(self.existing_path, fallback={"version": 1, "updatedAt": None, "runs": [], "comments": []}).load()
+        return {**loaded.manifest, "comments": loaded.comments, "runs": loaded.runs}
 
 
 class HuggingFaceCorpusImportContractComparator:

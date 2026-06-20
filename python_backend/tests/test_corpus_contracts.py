@@ -3660,6 +3660,50 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["addedComments"], 1)
         self.assertEqual(result["corpus"]["comments"][0]["message"], "\u5341\u5468\u5e74\u5feb\u4e50")
 
+    def test_huggingface_import_runner_uses_corpus_loader_for_split_existing_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            raw_path = root / "rows.csv"
+            existing_path = root / "existing.json"
+            (root / "comments").mkdir()
+            (root / "runs").mkdir()
+            raw_path.write_text("message\n\u65b0\u6570\u636e\u96c6\u8bc4\u8bba\n", encoding="utf-8")
+            (root / "comments" / "comments-0001.json").write_text(
+                json.dumps({"comments": [{"message": "\u65e7\u6570\u636e\u96c6\u8bc4\u8bba", "source": "old", "uid": "1"}]}),
+                encoding="utf-8",
+            )
+            (root / "runs" / "runs-0001.json").write_text(
+                json.dumps({"runs": [{"at": "old", "sources": []}]}),
+                encoding="utf-8",
+            )
+            existing_path.write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "storage": "split",
+                        "commentFiles": ["comments/comments-0001.json"],
+                        "runFiles": ["runs/runs-0001.json"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = HuggingFaceCorpusImportRunner(
+                raw_path=raw_path,
+                existing_path=existing_path,
+                dataset="Midsummra/bilibilicomment",
+                file="bilibili.csv",
+                platform="bilibili",
+                generated_at="2026-06-17T00:00:00.000Z",
+            ).run()
+
+        self.assertTrue(result["changed"])
+        self.assertEqual(
+            [comment["message"] for comment in result["corpus"]["comments"]],
+            ["\u65e7\u6570\u636e\u96c6\u8bc4\u8bba", "\u65b0\u6570\u636e\u96c6\u8bc4\u8bba"],
+        )
+        self.assertEqual([run["at"] for run in result["corpus"]["runs"]], ["old", "2026-06-17T00:00:00.000Z"])
+
     def test_huggingface_import_summary_extracts_comparator_contract(self):
         summary = HuggingFaceImportSummary().summarize(
             {
