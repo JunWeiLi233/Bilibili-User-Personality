@@ -396,6 +396,35 @@ class VideoContextBuilder:
     def __init__(self):
         self.relevance = VideoRelevanceFilter()
 
+    def build_from_payload(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        videos = self._list_value(payload.get("videos"))
+        discovered_videos = self._list_value(payload.get("discoveredVideos"))
+        discovery_context_videos = self._list_value(payload.get("discoveryContextVideos"))
+        comments = self._list_value(payload.get("comments"))
+        search_queries = self._list_value(payload.get("searchQueries") or payload.get("searchQuery"))
+        target_existing_terms = self._list_value(
+            payload.get("targetExistingTerms") or payload.get("targetExistingTerm") or payload.get("targetTerms") or payload.get("targetTerm")
+        )
+        training_text = payload.get("trainingText") or ""
+        keyword_training = payload.get("keywordTraining") if isinstance(payload.get("keywordTraining"), dict) else None
+        context_videos = self.video_context_sources(videos, discovery_context_videos if discovery_context_videos else discovered_videos)
+        return {
+            "ok": True,
+            "videoContextText": self.build_video_context_text(context_videos),
+            "videoObjectEvidenceText": self.build_target_video_object_evidence_text(context_videos, search_queries, target_existing_terms),
+            "contextSourceUrls": self.video_context_source_urls(context_videos),
+            "diagnostics": self.build_collection_diagnostics(
+                discovered_videos=discovered_videos,
+                discovery_context_videos=discovery_context_videos,
+                videos=videos,
+                comments=comments,
+                training_text=training_text,
+                target_existing_terms=target_existing_terms,
+                keyword_training=keyword_training,
+            ),
+        }
+
     def build_video_context_text(self, videos: list[dict[str, Any]] | None = None) -> str:
         items: list[str] = []
         for video in videos or []:
@@ -448,6 +477,13 @@ class VideoContextBuilder:
             if isinstance(video, dict) and str(video.get("sourceUrl") or "").strip()
         ]
         return _unique_by_value(urls)
+
+    def _list_value(self, value: Any) -> list[Any]:
+        if isinstance(value, list):
+            return value
+        if value is None:
+            return []
+        return [value]
 
     def sample_videos_for_diagnostics(self, videos: list[dict[str, Any]] | None = None) -> list[dict[str, str]]:
         samples: list[dict[str, str]] = []

@@ -4210,6 +4210,26 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["videoObjectEvidenceText"], "Bilibili public video title: \u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28")
         self.assertEqual(result["diagnostics"]["targetTextHits"], [{"term": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28", "count": 1}])
 
+    def test_video_context_builder_owns_payload_contract(self):
+        result = VideoContextBuilder().build_from_payload(
+            {
+                "videos": [{"bvid": "BV1", "title": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"}],
+                "discoveredVideos": [{"bvid": "BVD", "title": "\u53d1\u73b0"}],
+                "comments": [{"message": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"}],
+                "trainingText": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28",
+                "searchQueries": ["\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"],
+                "targetExistingTerms": ["\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"],
+            }
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(
+            result["videoContextText"],
+            "Bilibili video context: \u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28\nBilibili video context: \u53d1\u73b0",
+        )
+        self.assertEqual(result["videoObjectEvidenceText"], "Bilibili public video title: \u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28")
+        self.assertEqual(result["diagnostics"]["targetTextHits"], [{"term": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28", "count": 1}])
+
     def test_video_context_comparator_uses_backend_summary_contract_keys(self):
         self.assertTrue(hasattr(video_filter, "VideoContextSummary"))
         self.assertFalse(hasattr(VideoContextContractComparator, "TOP_LEVEL_KEYS"))
