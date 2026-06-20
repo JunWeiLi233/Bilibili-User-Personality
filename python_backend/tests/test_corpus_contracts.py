@@ -16,7 +16,7 @@ from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetResolvePlanner
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSummary, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherHelper, SemanticMatcherSummary
-from python_backend.analysis.verification import RandomVerificationReportSummary, RandomVerifier
+from python_backend.analysis.verification import RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationReportSummary, RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceMatcher, KeywordEvidenceSummary
@@ -12060,6 +12060,60 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             RandomVerificationContractComparator(Path("corpus.json"), Path("dictionary.json"), Path("js.json")).summary.SUMMARY_KEYS,
             RandomVerificationReportSummary.SUMMARY_KEYS,
+        )
+
+    def test_random_verification_payload_comparator_owns_metric_mismatch_contract(self):
+        result = RandomVerificationPayloadComparator().compare(
+            {
+                "ok": True,
+                "sampleSize": 25,
+                "seed": 123,
+                "sampled": 25,
+                "keywordHits": 20,
+                "neutral": 5,
+                "uncovered": 0,
+                "samples": [{"message": "python-only payload"}],
+            },
+            {
+                "ok": True,
+                "sampleSize": 50,
+                "seed": 456,
+                "sampled": 25,
+                "keywordHits": 18,
+                "neutral": 7,
+                "uncovered": 0,
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "keywordHits", "python": 20, "js": 18},
+                {"key": "neutral", "python": 5, "js": 7},
+            ],
+        )
+        self.assertEqual(
+            result["python"],
+            {
+                "sampleSize": 25,
+                "seed": 123,
+                "sampled": 25,
+                "keywordHits": 20,
+                "neutral": 5,
+                "uncovered": 0,
+            },
+        )
+        self.assertEqual(
+            result["js"],
+            {
+                "sampleSize": 50,
+                "seed": 456,
+                "sampled": 25,
+                "keywordHits": 18,
+                "neutral": 7,
+                "uncovered": 0,
+            },
         )
 
     def test_random_verification_report_summary_preserves_comparator_shape(self):

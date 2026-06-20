@@ -27,6 +27,29 @@ class RandomVerificationReportSummary:
         return {key: report.get(key) for key in self.SUMMARY_KEYS}
 
 
+class RandomVerificationContractComparator:
+    """Compare random-verification reports using the JS/Python metric contract."""
+
+    def __init__(self, summary: RandomVerificationReportSummary | None = None):
+        self.summary = summary or RandomVerificationReportSummary()
+
+    def compare(self, python_report: dict[str, Any] | None, js_report: dict[str, Any] | None) -> dict[str, Any]:
+        python_report = python_report if isinstance(python_report, dict) else {}
+        js_report = js_report if isinstance(js_report, dict) else {}
+        metric_keys = tuple(key for key in self.summary.SUMMARY_KEYS if key not in ("sampleSize", "seed"))
+        mismatches = [
+            {"key": key, "python": python_report.get(key), "js": js_report.get(key)}
+            for key in metric_keys
+            if key in js_report and python_report.get(key) != js_report.get(key)
+        ]
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": self.summary.summarize(python_report),
+            "js": self.summary.summarize(js_report),
+        }
+
+
 class RandomVerifier:
     """Deterministically sample comments and classify lexical keyword coverage."""
 

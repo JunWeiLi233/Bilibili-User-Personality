@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.verification import RandomVerificationReportSummary, RandomVerifier
+from python_backend.analysis.verification import RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationReportSummary, RandomVerifier
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
 
@@ -52,6 +52,7 @@ class RandomVerificationContractComparator:
         self.sample_size = sample_size
         self.seed = seed
         self.summary = RandomVerificationReportSummary()
+        self.comparator = RandomVerificationPayloadComparator(self.summary)
 
     def compare(self) -> dict[str, Any]:
         with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
@@ -64,18 +65,7 @@ class RandomVerificationContractComparator:
             sample_size=sample_size,
             seed=seed,
         ).run()
-        metric_keys = tuple(key for key in self.summary.SUMMARY_KEYS if key not in ("sampleSize", "seed"))
-        mismatches = [
-            {"key": key, "python": python_report.get(key), "js": js_report.get(key)}
-            for key in metric_keys
-            if key in js_report and python_report.get(key) != js_report.get(key)
-        ]
-        return {
-            "ok": not mismatches,
-            "mismatches": mismatches,
-            "python": self.summary.summarize(python_report),
-            "js": self.summary.summarize(js_report),
-        }
+        return self.comparator.compare(python_report, js_report)
 
 
 def json_result_bytes(result: dict[str, Any]) -> bytes:
