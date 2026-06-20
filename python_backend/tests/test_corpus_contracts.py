@@ -6846,6 +6846,44 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["publicReplies"][0]["message"], "root message")
         self.assertEqual(result["publicReplies"][0]["sourceKind"], "video")
 
+    def test_bilibili_crawler_helper_uniques_replies_by_rpid_contract(self):
+        result = BilibiliCrawlerHelper().unique_by_rpid(
+            [
+                {"rpid": "1", "message": "first"},
+                {"rpid": "", "message": "ignored"},
+                {"message": "missing ignored"},
+                {"rpid": "2", "message": "second"},
+                {"rpid": "1", "message": "replacement"},
+            ]
+        )
+
+        self.assertEqual(
+            result,
+            [
+                {"rpid": "1", "message": "replacement"},
+                {"rpid": "2", "message": "second"},
+            ],
+        )
+
+    def test_bilibili_crawler_helper_builds_payload_unique_replies_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "uniqueReplies": [
+                    {"rpid": "1", "message": "first"},
+                    {"rpid": "2", "message": "second"},
+                    {"rpid": "1", "message": "replacement"},
+                ]
+            }
+        )
+
+        self.assertEqual(
+            result["uniqueReplies"],
+            [
+                {"rpid": "1", "message": "replacement"},
+                {"rpid": "2", "message": "second"},
+            ],
+        )
+
     def test_bilibili_crawler_helper_plans_request_schedule_contract(self):
         self.assertEqual(
             BilibiliCrawlerHelper().plan_request_schedule(
@@ -7608,6 +7646,7 @@ class CorpusContractTests(unittest.TestCase):
                 "fetchConfig": {"forwardsSignal": True},
                 "requestInit": {"hasSignal": True},
                 "publicReplies": [{"message": "root message"}],
+                "uniqueReplies": [{"rpid": "1"}],
                 "dynamicRecords": {"objects": []},
                 "extra": "ignored",
             }
@@ -7636,6 +7675,7 @@ class CorpusContractTests(unittest.TestCase):
                 "fetchConfig": {"forwardsSignal": True},
                 "requestInit": {"hasSignal": True},
                 "publicReplies": [{"message": "root message"}],
+                "uniqueReplies": [{"rpid": "1"}],
                 "dynamicRecords": {"objects": []},
             },
         )

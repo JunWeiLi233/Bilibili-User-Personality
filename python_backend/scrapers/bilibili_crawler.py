@@ -70,6 +70,7 @@ class BilibiliCrawlerSummary:
         "objects",
         "targetReplies",
         "publicReplies",
+        "uniqueReplies",
         "danmaku",
         "dynamicRecords",
         "crawlerConfig",
@@ -186,6 +187,8 @@ class BilibiliCrawlerHelper:
                 public_reply.get("reply") if isinstance(public_reply.get("reply"), dict) else {},
                 public_reply.get("object") if isinstance(public_reply.get("object"), dict) else {},
             )
+        if isinstance(payload.get("uniqueReplies"), list):
+            result["uniqueReplies"] = self.unique_by_rpid(payload.get("uniqueReplies"))
         if "danmakuXml" in payload:
             result["danmaku"] = self.parse_danmaku_xml(
                 payload.get("danmakuXml"),
@@ -849,6 +852,14 @@ class BilibiliCrawlerHelper:
         for child in reply.get("replies") if isinstance(reply.get("replies"), list) else []:
             self.collect_public_reply(child, obj, bucket)
         return bucket
+
+    def unique_by_rpid(self, items: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
+        keyed: dict[str, dict[str, Any]] = {}
+        for item in items if isinstance(items, list) else []:
+            if not isinstance(item, dict) or not item.get("rpid"):
+                continue
+            keyed[str(item.get("rpid"))] = item
+        return list(keyed.values())
 
     def dedupe_public_objects(self, objects: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
         seen: set[str] = set()
