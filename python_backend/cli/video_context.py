@@ -7,13 +7,13 @@ import sys
 from python_backend.analysis.video_filter import VideoContextContractComparator, VideoContextRunner
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description="Build Bilibili video context/evidence diagnostics from JSON.")
     parser.add_argument("--payload", required=True, help="JSON payload with videos, comments, search queries, and target terms.")
     parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible video context report to compare.")
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     if args.compare_js_report:
         result = VideoContextContractComparator(args.payload, args.compare_js_report).compare()
     else:

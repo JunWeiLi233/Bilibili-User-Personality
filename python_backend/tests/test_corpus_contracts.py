@@ -16,6 +16,7 @@ from python_backend.cli import huggingface_corpus as huggingface_corpus_cli
 from python_backend.cli import keyword_evidence as keyword_evidence_cli
 from python_backend.cli import random_verification as random_verification_cli
 from python_backend.cli import tieba_corpus as tieba_corpus_cli
+from python_backend.cli import video_context as video_context_cli
 from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditPayloadContractComparator, CoverageAuditReport
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageJsonPayloadRunner, CommentCoveragePayloadContractComparator, CommentCoverageRunner as CommentCoveragePayloadRunner, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanPayloadContractComparator, CoverageHarvestLoopPlanRunner as CoverageHarvestLoopPayloadPlanRunner, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
@@ -6294,6 +6295,32 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["videoObjectEvidenceText"], "Bilibili public video title: \u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28")
         self.assertEqual(result["diagnostics"]["targetTextHits"], [{"term": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28", "count": 1}])
+
+    def test_video_context_cli_accepts_argv_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "videos": [{"bvid": "BV1", "title": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"}],
+                        "comments": [{"message": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"}],
+                        "trainingText": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28",
+                        "searchQueries": ["\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"],
+                        "targetExistingTerms": ["\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                exit_code = video_context_cli.main(["--payload", str(payload_path)])
+
+        result = json.loads(output.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["videoObjectEvidenceText"], "Bilibili public video title: \u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28")
 
     def test_video_context_payload_comparator_lives_with_analysis_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
