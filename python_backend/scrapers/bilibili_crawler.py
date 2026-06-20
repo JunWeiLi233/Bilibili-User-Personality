@@ -68,6 +68,7 @@ class BilibiliCrawlerSummary:
         "syntheticCookieJar",
         "headers",
         "requestSchedule",
+        "responseCache",
     )
 
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -193,10 +194,45 @@ class BilibiliCrawlerHelper:
                 now_ms=schedule.get("nowMs", 0),
                 random_values=schedule.get("randomValues") if isinstance(schedule.get("randomValues"), list) else [],
             )
+        if isinstance(payload.get("cache"), dict):
+            cache = payload.get("cache") or {}
+            result["responseCache"] = self.plan_response_cache(
+                url=cache.get("url"),
+                referer=cache.get("referer", "https://www.bilibili.com"),
+                request_cookie=cache.get("cookie") or cache.get("bilibiliCookie") or "",
+                config=cache.get("config") if isinstance(cache.get("config"), dict) else {},
+                cached=cache.get("cached") if isinstance(cache.get("cached"), dict) else None,
+                now_ms=cache.get("nowMs", 0),
+                payload=cache.get("payload") if isinstance(cache.get("payload"), dict) else None,
+            )
         return result
 
     def build_crawler_config(self, env: dict[str, Any] | None = None) -> dict[str, int | float]:
         return BilibiliCrawlerConfigBuilder().build(env)
+
+    def plan_response_cache(
+        self,
+        url: Any,
+        referer: Any = "https://www.bilibili.com",
+        request_cookie: Any = "",
+        config: dict[str, Any] | None = None,
+        cached: dict[str, Any] | None = None,
+        now_ms: Any = 0,
+        payload: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        cfg = {**self.build_crawler_config({}), **(config if isinstance(config, dict) else {})}
+        ttl_ms = max(0, self._number(cfg.get("cacheTtlMs"), 300000))
+        key = "" if self.normalize_bilibili_cookie(request_cookie) else self.cache_key(url, referer)
+        now = self._number(now_ms, 0)
+        if key and ttl_ms > 0 and isinstance(cached, dict) and self._number(cached.get("expiresAt"), 0) > now:
+            return {"key": key, "hit": True, "payload": cached.get("payload"), "write": None}
+        write = None
+        if key and ttl_ms > 0 and isinstance(payload, dict) and payload.get("code") == 0:
+            write = {"expiresAt": now + ttl_ms, "payload": payload}
+        return {"key": key, "hit": False, "payload": None, "write": write}
+
+    def cache_key(self, url: Any, referer: Any = "") -> str:
+        return f"{referer or ''} {str(url)}"
 
     def plan_request_schedule(
         self,

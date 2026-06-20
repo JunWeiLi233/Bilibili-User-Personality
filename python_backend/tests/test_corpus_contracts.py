@@ -6819,6 +6819,79 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_bilibili_crawler_helper_plans_response_cache_contract(self):
+        helper = BilibiliCrawlerHelper()
+
+        self.assertEqual(
+            helper.plan_response_cache(
+                url="https://api.bilibili.com/x/web-interface/view?bvid=BV1",
+                referer="https://www.bilibili.com/video/BV1/",
+                config={"cacheTtlMs": 300000},
+                cached={"expiresAt": 1700000000500, "payload": {"code": 0, "data": {"cached": True}}},
+                now_ms=1700000000000,
+            ),
+            {
+                "key": "https://www.bilibili.com/video/BV1/ https://api.bilibili.com/x/web-interface/view?bvid=BV1",
+                "hit": True,
+                "payload": {"code": 0, "data": {"cached": True}},
+                "write": None,
+            },
+        )
+        self.assertEqual(
+            helper.plan_response_cache(
+                url="https://api.bilibili.com/x/web-interface/view?bvid=BV1",
+                referer="https://www.bilibili.com/video/BV1/",
+                request_cookie="SESSDATA=abc",
+                config={"cacheTtlMs": 300000},
+                cached={"expiresAt": 1700000000500, "payload": {"code": 0}},
+                now_ms=1700000000000,
+                payload={"code": 0, "data": {"fresh": True}},
+            ),
+            {"key": "", "hit": False, "payload": None, "write": None},
+        )
+        self.assertEqual(
+            helper.plan_response_cache(
+                url="https://api.bilibili.com/x/web-interface/view?bvid=BV1",
+                referer="https://www.bilibili.com/video/BV1/",
+                config={"cacheTtlMs": 300000},
+                cached={"expiresAt": 1699999999999, "payload": {"code": 0}},
+                now_ms=1700000000000,
+                payload={"code": 0, "data": {"fresh": True}},
+            ),
+            {
+                "key": "https://www.bilibili.com/video/BV1/ https://api.bilibili.com/x/web-interface/view?bvid=BV1",
+                "hit": False,
+                "payload": None,
+                "write": {
+                    "expiresAt": 1700000300000,
+                    "payload": {"code": 0, "data": {"fresh": True}},
+                },
+            },
+        )
+
+    def test_bilibili_crawler_helper_builds_payload_response_cache_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "cache": {
+                    "url": "https://api.bilibili.com/x/v2/reply?oid=123",
+                    "referer": "https://www.bilibili.com/video/BV1/",
+                    "config": {"cacheTtlMs": 1000},
+                    "nowMs": 1700000000000,
+                    "payload": {"code": 0, "data": {"ok": True}},
+                }
+            }
+        )
+
+        self.assertEqual(
+            result["responseCache"],
+            {
+                "key": "https://www.bilibili.com/video/BV1/ https://api.bilibili.com/x/v2/reply?oid=123",
+                "hit": False,
+                "payload": None,
+                "write": {"expiresAt": 1700000001000, "payload": {"code": 0, "data": {"ok": True}}},
+            },
+        )
+
     def test_bilibili_crawler_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -6876,6 +6949,7 @@ class CorpusContractTests(unittest.TestCase):
                 "syntheticCookieJar": {"b_nut": "1700000000"},
                 "headers": {"sec-fetch-site": "same-site"},
                 "requestSchedule": {"waitMs": 250},
+                "responseCache": {"hit": False},
                 "dynamicRecords": {"objects": []},
                 "extra": "ignored",
             }
@@ -6891,6 +6965,7 @@ class CorpusContractTests(unittest.TestCase):
                 "syntheticCookieJar": {"b_nut": "1700000000"},
                 "headers": {"sec-fetch-site": "same-site"},
                 "requestSchedule": {"waitMs": 250},
+                "responseCache": {"hit": False},
                 "dynamicRecords": {"objects": []},
             },
         )
