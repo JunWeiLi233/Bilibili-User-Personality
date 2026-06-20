@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 
-from python_backend.corpus.tieba import TiebaCorpusPayloadRunner, TiebaCorpusUpdateContractComparator, TiebaCorpusUpdateRunner
+from python_backend.corpus.tieba import TiebaCorpusJsonPayloadContractComparator, TiebaCorpusPayloadRunner, TiebaCorpusUpdateContractComparator, TiebaCorpusUpdateRunner
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -14,7 +14,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--generated-at", default="")
     parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible Tieba corpus update report to compare.")
     args = parser.parse_args(argv)
-    if args.payload:
+    if args.payload and args.compare_js_report:
+        result = TiebaCorpusJsonPayloadContractComparator(args.payload, args.compare_js_report).compare()
+    elif args.payload:
         result = TiebaCorpusPayloadRunner(args.payload).run()
     elif args.compare_js_report:
         if not args.run:

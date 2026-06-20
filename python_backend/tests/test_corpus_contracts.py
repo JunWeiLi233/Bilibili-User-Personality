@@ -104,7 +104,7 @@ from python_backend.corpus.local import LocalCorpusFlattenContractComparator as 
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanContractComparator as LocalCorpusMinePlanPayloadComparator, LocalCorpusMinePlanSummary
 from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner, AgentDictionaryMergePlanSummary, MergeAgentDictionariesPlanContractComparator as MergeAgentDictionariesPlanPayloadComparator, MergeAgentDictionariesPlanRunner as MergeAgentDictionariesPayloadPlanRunner
 from python_backend.corpus.contracts import ContractComparator, ContractComparator as CorpusContractPayloadComparator, CorpusContractSummary
-from python_backend.corpus.tieba import TiebaCorpusPayloadRunner, TiebaCorpusUpdateContractComparator as TiebaCorpusUpdatePayloadComparator, TiebaCorpusUpdater, TiebaCorpusUpdateRunner as TiebaCorpusUpdatePayloadRunner, TiebaCorpusUpdateSummary
+from python_backend.corpus.tieba import TiebaCorpusJsonPayloadContractComparator, TiebaCorpusPayloadRunner, TiebaCorpusUpdateContractComparator as TiebaCorpusUpdatePayloadComparator, TiebaCorpusUpdater, TiebaCorpusUpdateRunner as TiebaCorpusUpdatePayloadRunner, TiebaCorpusUpdateSummary
 from python_backend.corpus import dictionary_prune
 from python_backend.analysis import video_filter
 from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoCommentFilterPayloadContractComparator, VideoCommentFilterPayloadRunner, VideoContextBuilder, VideoContextContractComparator as VideoContextPayloadComparator, VideoContextRunner as VideoContextPayloadRunner, VideoRelevanceContractComparator as VideoRelevancePayloadComparator, VideoRelevanceFilter, VideoRelevancePayloadContractComparator, VideoRelevancePayloadRunner
@@ -4711,6 +4711,38 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(exit_code, 0)
         self.assertEqual(json.loads(output.getvalue())["newComments"][0]["message"], "\u5355\u6587\u4ef6\u8d34\u5427")
+
+    def test_tieba_corpus_cli_compares_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "tieba-payload.json"
+            js_report_path = root / "js-tieba-update.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "existing": {"version": 1, "runs": [], "comments": []},
+                        "run": {"results": [{"comments": [{"message": "\u5355\u6587\u4ef6\u8d34\u5427\u5bf9\u6bd4", "sourceUrl": "https://tieba.baidu.com/p/5"}]}]},
+                        "generatedAt": "2026-06-17T05:00:00.000Z",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"changed": False, "newComments": []}), encoding="utf-8")
+
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                exit_code = tieba_corpus_cli.main(["--payload", str(payload_path), "--compare-js-report", str(js_report_path)])
+
+        result = json.loads(output.getvalue())
+        self.assertEqual(exit_code, 1)
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "changed", "python": True, "js": False},
+                {"key": "newComments", "python": [{"message": "\u5355\u6587\u4ef6\u8d34\u5427\u5bf9\u6bd4", "sourceUrl": "https://tieba.baidu.com/p/5"}], "js": []},
+            ],
+        )
 
     def test_tieba_corpus_update_contract_comparator_reports_update_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
