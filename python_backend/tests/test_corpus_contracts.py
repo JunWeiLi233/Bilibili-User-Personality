@@ -1892,6 +1892,12 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(scraper.build_metadata_request(request), {"source": "tieba", "query": "历史", "limit": 4})
         self.assertEqual(scraper.build_metadata_request(fallback_request), {"source": "bilibili", "query": "弹幕", "limit": 20})
 
+    def test_scraper_adapter_defaults_malformed_direct_request_limit(self):
+        request = ScrapeRequest(query="history", limit="bad")  # type: ignore[arg-type]
+        scraper = ScraperAdapter(rate_limiter=RateLimiter(delay_seconds=0, sleep=lambda _: None))
+
+        self.assertEqual(scraper.build_metadata_request(request), {"source": "bilibili", "query": "history", "limit": 20})
+
     def test_scraper_adapter_builds_metadata_request_from_json_payload_contract(self):
         sleeps = []
         scraper = ScraperAdapter(rate_limiter=RateLimiter(delay_seconds=0.5, sleep=sleeps.append))
