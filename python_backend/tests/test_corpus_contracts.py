@@ -30,6 +30,7 @@ from python_backend.cli import tieba_html_parse as tieba_html_parse_cli
 from python_backend.cli import tieba_keyword_plan as tieba_keyword_plan_cli
 from python_backend.cli import tieba_timing as tieba_timing_cli
 from python_backend.cli import uid_discovery_plan as uid_discovery_plan_cli
+from python_backend.cli import uid_discovery_progress as uid_discovery_progress_cli
 from python_backend.cli import video_comment_filter as video_comment_filter_cli
 from python_backend.cli import video_context as video_context_cli
 from python_backend.cli import video_relevance as video_relevance_cli
@@ -15701,6 +15702,28 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["comments"], {"total": 3, "averagePerUid": 1.0, "uidsWithComments": 2})
         self.assertEqual(result["userDb"], {"users": 2})
         self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
+
+    def test_uid_discovery_progress_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            (data_dir / "uid-discovery-progress.json").write_text(
+                json.dumps({"processedUids": {"100": "success"}, "stats": {"uidsFound": 1}, "phase": "analysis"}),
+                encoding="utf-8",
+            )
+            (data_dir / "uid-discovery-comments.json").write_text(
+                json.dumps({"100": [{"message": "one"}]}),
+                encoding="utf-8",
+            )
+            (data_dir / "scraped-users-db.json").write_text(json.dumps({"users": {"100": {}}}), encoding="utf-8")
+
+            result = uid_discovery_progress_cli.UidDiscoveryProgressCliRunner(["--data-dir", str(data_dir)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["phase"], "analysis")
+        self.assertEqual(result["analysis"]["success"], 1)
+        self.assertEqual(result["comments"]["total"], 1)
 
     def test_uid_discovery_progress_reporter_summarizes_payloads_without_filesystem(self):
         reporter = UidDiscoveryProgressReporter()
