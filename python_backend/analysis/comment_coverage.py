@@ -141,7 +141,9 @@ class CommentCoverageClassifier:
         for entry in dictionary.get("entries") or []:
             if not isinstance(entry, dict):
                 continue
-            needles = [entry.get("term"), *(entry.get("aliases") or []), *(entry.get("examples") or [])]
+            aliases = entry.get("aliases") if isinstance(entry.get("aliases"), list) else []
+            examples = entry.get("examples") if isinstance(entry.get("examples"), list) else []
+            needles = [entry.get("term"), *aliases, *examples]
             normalized = [_clean_needle(needle) for needle in needles if len(_clean_needle(needle)) >= 2]
             if any(needle in clean_message for needle in normalized):
                 hits.append(

@@ -10097,6 +10097,27 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(body_hit["mode"], "keyword")
         self.assertEqual(body_hit["hits"][0]["term"], "\u67e5\u8d44\u6599")
 
+    def test_comment_coverage_classifier_ignores_non_array_alias_contract_fields(self):
+        dictionary = {
+            "entries": [
+                {
+                    "term": "\u4e0d\u5339\u914d",
+                    "family": "attack",
+                    "aliases": {"\u72d7\u5934": True},
+                    "examples": {"\u67e5\u8d44\u6599": True},
+                }
+            ]
+        }
+        classifier = CommentCoverageClassifier()
+
+        alias_object = classifier.classify(dictionary, "\u72d7\u5934\u4fdd\u547d")
+        example_object = classifier.classify(dictionary, "\u5efa\u8bae\u67e5\u8d44\u6599")
+
+        self.assertEqual(alias_object["mode"], "neutral")
+        self.assertEqual(alias_object["hits"], [])
+        self.assertEqual(example_object["mode"], "neutral")
+        self.assertEqual(example_object["hits"], [])
+
     def test_comment_coverage_classifier_samples_comments(self):
         dictionary = {"entries": [{"term": "\u7f51\u76d8\u89c1", "family": "evasion"}]}
         comments = [
