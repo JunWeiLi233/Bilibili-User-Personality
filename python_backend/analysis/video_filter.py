@@ -320,6 +320,29 @@ class VideoRelevanceFilter:
         return matched
 
 
+class VideoRelevanceSummary:
+    """Shape video relevance output into the JS/Python comparator contract."""
+
+    RESULT_KEYS = ("operation", "needles", "videos", "scores")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: self.normalized_value(result.get(key)) for key in self.RESULT_KEYS if key in result}
+
+    def normalized_value(self, value: Any) -> Any:
+        if isinstance(value, list) and all(isinstance(item, dict) for item in value):
+            if all("video" in item and "score" in item for item in value):
+                return [{"bvid": self.video_id(item.get("video")), "score": item.get("score")} for item in value]
+            if all("bvid" in item or "aid" in item for item in value):
+                return [self.video_id(item) for item in value]
+        return value
+
+    def video_id(self, video: Any) -> Any:
+        if not isinstance(video, dict):
+            return video
+        return video.get("bvid") or video.get("aid") or video.get("id") or video
+
+
 class VideoContextBuilder:
     """Build JS-compatible video context, target evidence, and collection diagnostics."""
 

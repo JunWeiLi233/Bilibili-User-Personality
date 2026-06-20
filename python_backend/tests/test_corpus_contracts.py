@@ -85,6 +85,7 @@ from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, L
 from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner
 from python_backend.corpus.tieba import TiebaCorpusUpdater, TiebaCorpusUpdateSummary
 from python_backend.corpus import dictionary_prune
+from python_backend.analysis import video_filter
 from python_backend.analysis.video_filter import VideoCommentFilter, VideoContextBuilder, VideoRelevanceFilter
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
@@ -3876,6 +3877,14 @@ class CorpusContractTests(unittest.TestCase):
             ["\u70ed\u95e8\u8bc4\u8bba\u533a", "\u70ed\u95e8\u8bc4\u8bba\u533a", "\u5b85\u7537\u8054\u76df", "\u70ed\u95e8\u8bc4\u8bba\u533a"],
         )
         self.assertEqual([video["bvid"] for video in result["videos"]], ["BV1"])
+
+    def test_video_relevance_comparator_uses_backend_summary_contract_keys(self):
+        self.assertTrue(hasattr(video_filter, "VideoRelevanceSummary"))
+        self.assertFalse(hasattr(VideoRelevanceContractComparator, "RESULT_KEYS"))
+        self.assertEqual(
+            VideoRelevanceContractComparator(Path("payload.json"), Path("js-report.json")).summary.RESULT_KEYS,
+            video_filter.VideoRelevanceSummary.RESULT_KEYS,
+        )
 
     def test_video_relevance_contract_comparator_reports_video_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
