@@ -10056,6 +10056,18 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(combined_text["mode"], "keyword")
         self.assertEqual(text["mode"], "neutral")
 
+    def test_comment_coverage_classifier_treats_emoji_only_comments_as_neutral_tone(self):
+        classifier = CommentCoverageClassifier()
+
+        emoji = classifier.classify({"entries": []}, "\U0001f602\U0001f602\U0001f602")
+        emoticon = classifier.classify({"entries": []}, "^_^")
+
+        self.assertTrue(emoji["covered"])
+        self.assertEqual(emoji["mode"], "neutral")
+        self.assertEqual(emoji["reason"], "emoji/emoticon-only comment; analyzable as neutral tone without lexical risk term")
+        self.assertTrue(emoticon["covered"])
+        self.assertEqual(emoticon["mode"], "neutral")
+
     def test_comment_coverage_classifier_samples_comments(self):
         dictionary = {"entries": [{"term": "\u7f51\u76d8\u89c1", "family": "evasion"}]}
         comments = [

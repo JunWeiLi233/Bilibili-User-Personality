@@ -31,6 +31,21 @@ def _is_scrape_diagnostic(value: Any) -> bool:
     )
 
 
+def _is_emoji_or_emoticon_only(value: Any) -> bool:
+    message = _clean_text(value)
+    if not message:
+        return False
+    allowed_ascii = set("()<>[]=^_^;-:,.!?/\\|~*'\"` ")
+    for char in message:
+        if char in allowed_ascii:
+            continue
+        category = unicodedata.category(char)
+        if category[0] in {"P", "S"}:
+            continue
+        return False
+    return True
+
+
 class CommentCoverageClassifier:
     """Classify comment coverage against dictionary lexical evidence contracts."""
 
@@ -61,6 +76,14 @@ class CommentCoverageClassifier:
                 "covered": True,
                 "mode": "neutral",
                 "reason": "no dictionary risk term matched; comment remains analyzable as neutral/no-keyword speech",
+                "hits": [],
+                "comment": message,
+            }
+        if _is_emoji_or_emoticon_only(message):
+            return {
+                "covered": True,
+                "mode": "neutral",
+                "reason": "emoji/emoticon-only comment; analyzable as neutral tone without lexical risk term",
                 "hits": [],
                 "comment": message,
             }
