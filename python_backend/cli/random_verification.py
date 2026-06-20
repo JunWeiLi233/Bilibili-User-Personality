@@ -1,18 +1,13 @@
 from __future__ import annotations
 
 import argparse
-import json
 import sys
-from typing import Any
 
 from python_backend.analysis.verification import (
     RandomVerificationPayloadContractComparator as RandomVerificationContractComparator,
     RandomVerificationRunner,
+    json_result_bytes,
 )
-
-
-def json_result_bytes(result: dict[str, Any]) -> bytes:
-    return (json.dumps(result, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
 
 
 def main() -> int:

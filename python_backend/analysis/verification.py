@@ -21,6 +21,10 @@ class VerificationSummary:
     samples: list[dict[str, Any]]
 
 
+def json_result_bytes(result: dict[str, Any]) -> bytes:
+    return (json.dumps(result, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
+
+
 class RandomVerificationReportSummary:
     """Shape random-verification reports into the JS/Python comparator summary contract."""
 

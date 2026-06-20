@@ -16,7 +16,7 @@ from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetResolvePlanContractComparator as NearTargetResolvePlanPayloadComparator, NearTargetResolvePlanner, NearTargetResolvePlanRunner as NearTargetResolvePayloadPlanRunner
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsPayloadContractComparator, ReadmeStatsRunner as ReadmeStatsPayloadRunner, ReadmeStatsSummary, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
-from python_backend.analysis.verification import RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationPayloadContractComparator, RandomVerificationReportSummary, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerifier
+from python_backend.analysis.verification import RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationPayloadContractComparator, RandomVerificationReportSummary, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerifier, json_result_bytes as random_verification_payload_json_result_bytes
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisPlanContractComparator as DeepSeekAnalysisPayloadPlanContractComparator, DeepSeekAnalysisPlanRunner as DeepSeekAnalysisPayloadPlanRunner, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidateContractComparator as DeepSeekAnalysisPayloadValidateContractComparator, DeepSeekAnalysisValidateRunner as DeepSeekAnalysisPayloadValidateRunner, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPayloadPlanContractComparator, DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanRunner as DeepSeekAnalyzeCliPayloadPlanRunner, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceContractComparator as KeywordEvidencePayloadComparator, KeywordEvidenceMatcher, KeywordEvidencePayloadContractComparator, KeywordEvidencePayloadRunner, KeywordEvidenceSummary
@@ -14996,6 +14996,13 @@ class CorpusContractTests(unittest.TestCase):
         decoded = encoded.decode("utf-8")
 
         self.assertIn("emoji 😭 and hangul 눈", decoded)
+
+    def test_random_verification_json_result_bytes_lives_with_analysis_contract(self):
+        payload = {"ok": True, "samples": [{"message": "contract output"}]}
+
+        encoded = random_verification_payload_json_result_bytes(payload)
+
+        self.assertEqual(encoded, json_result_bytes(payload))
 
 
 if __name__ == "__main__":
