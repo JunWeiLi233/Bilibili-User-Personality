@@ -7,7 +7,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.comment_coverage import _clean_needle, _is_scrape_diagnostic, _strip_mention_scaffolding
+from python_backend.analysis.comment_coverage import _clean_needle, _is_contract_scalar, _is_scrape_diagnostic, _strip_mention_scaffolding
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
 
@@ -182,6 +182,8 @@ class RandomVerifier:
                 *(entry.get("examples") if isinstance(entry.get("examples"), list) else []),
             ]
             for value in values:
+                if not _is_contract_scalar(value):
+                    continue
                 term = str(value or "").strip()
                 if not term or term in seen:
                     continue

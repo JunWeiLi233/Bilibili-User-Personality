@@ -695,6 +695,31 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(by_message["\u56de\u590d @\u72d7\u5934 : \u666e\u901a\u8bc4\u8bba"]["coverage"], "neutral")
         self.assertEqual(by_message["\u56de\u590d @\u666e\u901a\u7528\u6237 : \u5efa\u8bae\u67e5\u8d44\u6599"]["matched_terms"], ["\u67e5\u8d44\u6599"])
 
+    def test_random_verifier_ignores_object_needles_in_dictionary_contract(self):
+        verifier = RandomVerifier.from_dictionary_entries(
+            [
+                {
+                    "term": {"": "\u72d7\u5934"},
+                    "aliases": [{"": "\u67e5\u8d44\u6599"}],
+                    "examples": [{"": "\u7f51\u76d8\u89c1"}],
+                }
+            ]
+        )
+
+        summary = verifier.verify(
+            [
+                {"message": "\u72d7\u5934"},
+                {"message": "\u5efa\u8bae\u67e5\u8d44\u6599"},
+                {"message": "\u7f51\u76d8\u89c1"},
+            ],
+            sample_size=3,
+            seed=1,
+        )
+
+        self.assertEqual(verifier.keyword_terms, [])
+        self.assertEqual(summary.keyword_hits, 0)
+        self.assertEqual([sample["matched_terms"] for sample in summary.samples], [[], [], []])
+
     def test_random_verifier_skips_scrape_diagnostics(self):
         verifier = RandomVerifier(keyword_terms=["狗头"])
 
