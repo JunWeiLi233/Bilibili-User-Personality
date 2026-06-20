@@ -4,6 +4,7 @@ import argparse
 import sys
 
 from python_backend.analysis.verification import (
+    RandomVerificationJsonPayloadContractComparator,
     RandomVerificationPayloadRunner,
     RandomVerificationPayloadContractComparator as RandomVerificationContractComparator,
     RandomVerificationRunner as AnalysisRandomVerificationRunner,
@@ -23,6 +24,8 @@ class RandomVerificationRunner:
     def run(self) -> dict:
         if isinstance(self.corpus_or_argv, list):
             args = self._parser().parse_args([str(item) for item in self.corpus_or_argv])
+            if args.payload and args.compare_js_report:
+                return RandomVerificationJsonPayloadContractComparator(args.payload, args.compare_js_report).compare()
             if args.payload:
                 return RandomVerificationPayloadRunner(args.payload).run()
             return AnalysisRandomVerificationRunner(
@@ -53,7 +56,9 @@ class RandomVerificationRunner:
 def main(argv: list[str] | None = None) -> int:
     parser = RandomVerificationRunner._parser()
     args = parser.parse_args(argv)
-    if args.payload:
+    if args.payload and args.compare_js_report:
+        result = RandomVerificationJsonPayloadContractComparator(args.payload, args.compare_js_report).compare()
+    elif args.payload:
         result = RandomVerificationPayloadRunner(args.payload).run()
     elif args.compare_js_report:
         result = RandomVerificationContractComparator(

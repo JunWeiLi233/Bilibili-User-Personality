@@ -111,6 +111,22 @@ class RandomVerificationPayloadRunner:
         return payload if isinstance(payload, dict) else {}
 
 
+class RandomVerificationJsonPayloadContractComparator:
+    """Compare single-payload random verification output against a persisted JS-compatible report."""
+
+    def __init__(self, payload_path: str | Path, js_report_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.js_report_path = Path(js_report_path)
+        self.summary = RandomVerificationReportSummary()
+        self.comparator = RandomVerificationContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            js_report = json.load(handle)
+        python_report = RandomVerificationPayloadRunner(self.payload_path).run()
+        return self.comparator.compare(python_report, js_report if isinstance(js_report, dict) else {})
+
+
 class RandomVerificationPayloadContractComparator:
     """Compare Python random verification against a persisted JS-compatible report."""
 

@@ -753,6 +753,40 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["sampleSize"], 1)
         self.assertEqual(result["keywordHits"], 1)
 
+    def test_random_verification_cli_compares_payload_contract(self):
+        class BinaryStdout:
+            def __init__(self):
+                self.buffer = io.BytesIO()
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "random-verification.json"
+            js_report_path = root / "js-random-verification.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "sampleSize": 2,
+                        "seed": 1,
+                        "corpus": {"comments": [{"message": "doge"}, {"message": "plain"}]},
+                        "dictionary": {"entries": [{"term": "doge"}]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"sampleSize": 2, "seed": 1, "sampled": 2, "keywordHits": 0, "neutral": 2, "uncovered": 0}),
+                encoding="utf-8",
+            )
+
+            output = BinaryStdout()
+            with contextlib.redirect_stdout(output):
+                exit_code = random_verification_cli.main(["--payload", str(payload_path), "--compare-js-report", str(js_report_path)])
+
+        result = json.loads(output.buffer.getvalue().decode("utf-8"))
+        self.assertEqual(exit_code, 1)
+        self.assertFalse(result["ok"])
+        self.assertEqual([item["key"] for item in result["mismatches"]], ["keywordHits", "neutral"])
+
     def test_coverage_audit_report_reads_current_json_shape(self):
         payload = {
             "ok": False,
