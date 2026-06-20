@@ -3796,6 +3796,25 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(dictionary.entries, [{"term": "doge", "family": "attack"}])
 
+    def test_dictionary_loader_normalizes_non_object_root_like_js(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "dict.json").write_text(json.dumps("bad dictionary root"), encoding="utf-8")
+
+            dictionary = DictionaryLoader(root / "dict.json").load()
+
+        self.assertEqual(
+            dictionary.manifest,
+            {
+                "version": 1,
+                "storage": "monolith",
+                "updatedAt": None,
+                "entries": [],
+                "families": {},
+            },
+        )
+        self.assertEqual(dictionary.entries, [])
+
     def test_dictionary_loader_merges_duplicate_split_evidence_terms(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -46,6 +46,7 @@ class DictionaryLoader:
         except FileNotFoundError:
             manifest = {"version": 1, "storage": "missing", "updatedAt": None, "entries": [], "families": {}}
             return KeywordDictionary(manifest=manifest, entries=[])
+        manifest = manifest if isinstance(manifest, dict) else {}
         if manifest.get("storage") != "split":
             entries = self._normalize_entries(manifest.get("entries") or [])
             normalized = {
