@@ -53,17 +53,17 @@ class AicuScrapePlanner:
     """Build a read-only plan compatible with scrapeAicuUsers.js UID inputs."""
 
     def __init__(self, *, max_pages: int = 10, page_size: int = 20, delay_between_uids_ms: int = 15000):
-        self.max_pages = int(max_pages)
-        self.page_size = int(page_size)
-        self.delay_between_uids_ms = int(delay_between_uids_ms)
+        self.max_pages = _parse_int_or(max_pages, 10)
+        self.page_size = _parse_int_or(page_size, 20)
+        self.delay_between_uids_ms = _parse_int_or(delay_between_uids_ms, 15000)
 
     @classmethod
     def build_plan_from_payload(cls, payload: dict[str, Any] | None = None) -> dict[str, Any]:
         payload = payload if isinstance(payload, dict) else {}
         argv = payload.get("argv") if isinstance(payload.get("argv"), list) else []
-        max_pages = int(payload.get("maxPages") or payload.get("max_pages") or 10)
-        page_size = int(payload.get("pageSize") or payload.get("page_size") or 20)
-        delay_between_uids_ms = int(payload.get("delayBetweenUidsMs") or payload.get("delay_between_uids_ms") or 15000)
+        max_pages = _parse_int_or(payload.get("maxPages") or payload.get("max_pages"), 10)
+        page_size = _parse_int_or(payload.get("pageSize") or payload.get("page_size"), 20)
+        delay_between_uids_ms = _parse_int_or(payload.get("delayBetweenUidsMs") or payload.get("delay_between_uids_ms"), 15000)
         return cls(
             max_pages=max_pages,
             page_size=page_size,
@@ -71,7 +71,7 @@ class AicuScrapePlanner:
         ).build_plan([str(item) for item in argv], max_pages=max_pages)
 
     def build_plan(self, argv: list[str], *, max_pages: int | None = None) -> dict[str, Any]:
-        pages = int(max_pages if max_pages is not None else self.max_pages)
+        pages = _parse_int_or(max_pages if max_pages is not None else self.max_pages, self.max_pages)
         uids = self.extract_uids(argv)
         return {
             "ok": bool(uids),
