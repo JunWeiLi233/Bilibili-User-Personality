@@ -9,6 +9,7 @@ from python_backend.cli import local_corpus_evidence as local_corpus_evidence_cl
 from python_backend.cli import local_corpus_flatten as local_corpus_flatten_cli
 from python_backend.cli import bilibili_probe_plan as bilibili_probe_plan_cli
 from python_backend.cli import bilibili_parse as bilibili_parse_cli
+from python_backend.cli import batch_scrape_progress as batch_scrape_progress_cli
 from python_backend.cli import direct_probe_corpus as direct_probe_corpus_cli
 from python_backend.cli import comment_coverage as comment_coverage_cli
 from python_backend.cli import compare_contracts as compare_contracts_cli
@@ -15094,6 +15095,29 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["mode"], "popular")
         self.assertEqual(result["progress"], {"scraped": 4, "videosScanned": 40, "pagesScanned": 2, "remainingPages": 3, "targetPages": 5})
         self.assertEqual(result["database"], {"users": 2, "withComments": 1, "comments": 1, "danmaku": 2})
+
+    def test_batch_scrape_progress_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            (data_dir / "batch-scrape-popular-progress.json").write_text(
+                json.dumps({"scraped": 4, "videosScanned": 40, "pagesScanned": 2}),
+                encoding="utf-8",
+            )
+            (data_dir / "aicu-user-database.json").write_text(
+                json.dumps({"users": {"200": {"comments": [{"message": "x"}]}}}),
+                encoding="utf-8",
+            )
+
+            result = batch_scrape_progress_cli.BatchScrapeProgressCliRunner(
+                ["--data-dir", str(data_dir), "--progress-file", "batch-scrape-popular-progress.json", "--mode", "popular", "--pages", "5"]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "popular")
+        self.assertEqual(result["progress"], {"scraped": 4, "videosScanned": 40, "pagesScanned": 2, "remainingPages": 3, "targetPages": 5})
+        self.assertEqual(result["database"], {"users": 1, "withComments": 1, "comments": 1, "danmaku": 0})
 
     def test_batch_scrape_progress_runner_defaults_invalid_numeric_options(self):
         with tempfile.TemporaryDirectory() as tmp:
