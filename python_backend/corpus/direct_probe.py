@@ -151,6 +151,28 @@ class DirectProbeCorpusSummary:
         return summary
 
 
+class DirectProbeCorpusContractComparator:
+    """Compare direct-probe corpus updates using summarized JSON contract fields."""
+
+    def __init__(self, summary: DirectProbeCorpusSummary | None = None):
+        self.summary = summary or DirectProbeCorpusSummary()
+
+    def compare(self, python_result: dict[str, Any] | None, js_result: dict[str, Any] | None) -> dict[str, Any]:
+        python_summary = self.summary.summarize(python_result)
+        js_summary = self.summary.summarize(js_result)
+        mismatches = [
+            {"key": key, "python": python_summary.get(key), "js": js_summary.get(key)}
+            for key in self.summary.SUMMARY_KEYS
+            if key in js_summary and python_summary.get(key) != js_summary.get(key)
+        ]
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": python_summary,
+            "js": js_summary,
+        }
+
+
 class DirectProbePlanSummary:
     """Extract comparator-friendly summaries from direct Bilibili probe plans."""
 

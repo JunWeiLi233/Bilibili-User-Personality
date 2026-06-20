@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusSummary
+from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusContractComparator as DirectProbeCorpusPayloadComparator, DirectProbeCorpusSummary
 
 
 class DirectProbeCorpusRunner:
@@ -45,23 +45,12 @@ class DirectProbeCorpusContractComparator:
         self.run_path = Path(run_path)
         self.js_report_path = Path(js_report_path)
         self.summary = DirectProbeCorpusSummary()
+        self.comparator = DirectProbeCorpusPayloadComparator(self.summary)
 
     def compare(self) -> dict[str, Any]:
         python_result = DirectProbeCorpusRunner(self.existing_path, self.comments_path, self.run_path).run()
         js_result = self._read_js_report()
-        python_summary = self.summary.summarize(python_result)
-        js_summary = self.summary.summarize(js_result)
-        mismatches = [
-            {"key": key, "python": python_summary.get(key), "js": js_summary.get(key)}
-            for key in self.summary.SUMMARY_KEYS
-            if key in js_summary and python_summary.get(key) != js_summary.get(key)
-        ]
-        return {
-            "ok": not mismatches,
-            "mismatches": mismatches,
-            "python": python_summary,
-            "js": js_summary,
-        }
+        return self.comparator.compare(python_result, js_result)
 
     def _read_js_report(self) -> dict[str, Any]:
         if not self.js_report_path.exists():

@@ -77,7 +77,7 @@ from python_backend.cli.batch_uid_scrape_plan import BatchUidScrapePlanContractC
 from python_backend.cli.batch_scraper_launcher import BatchScraperLauncherContractComparator, BatchScraperLauncherPlanRunner
 from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContractComparator, RangeScraperLauncherPlanRunner
 from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContractComparator, FastPipelineLauncherPlanRunner
-from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusSummary, DirectProbePlanContractComparator as DirectProbePlanPayloadComparator, DirectProbePlanSummary
+from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusContractComparator as DirectProbeCorpusPayloadComparator, DirectProbeCorpusSummary, DirectProbePlanContractComparator as DirectProbePlanPayloadComparator, DirectProbePlanSummary
 from python_backend.corpus.history_tags import HistoryTagCorpusContractComparator as HistoryTagCorpusPayloadComparator, HistoryTagCorpusManager, HistoryTagCorpusSummary, HistoryTagScrapePlanner, HistoryTagScrapePlanContractComparator as HistoryTagScrapePlanPayloadComparator, HistoryTagScrapePlanSummary
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
 from python_backend.corpus.local import LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidenceSummary
@@ -3650,6 +3650,52 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             DirectProbeCorpusContractComparator(Path("existing.json"), Path("comments.json"), Path("run.json"), Path("js.json")).summary.SUMMARY_KEYS,
             DirectProbeCorpusSummary.SUMMARY_KEYS,
+        )
+
+    def test_direct_probe_corpus_payload_comparator_owns_summary_mismatch_contract(self):
+        result = DirectProbeCorpusPayloadComparator().compare(
+            {
+                "corpus": {
+                    "comments": [{"message": "\u65b0\u8bc4\u8bba"}],
+                    "runs": [{"query": "\u65b0", "commentsAdded": 1}],
+                }
+            },
+            {
+                "corpus": {
+                    "comments": [{"message": "\u8def\u8fc7"}],
+                    "runs": [{"query": "wrong", "commentsAdded": 0}],
+                }
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "commentMessages", "python": ["\u65b0\u8bc4\u8bba"], "js": ["\u8def\u8fc7"]},
+                {"key": "runQueries", "python": ["\u65b0"], "js": ["wrong"]},
+                {"key": "runCommentsAdded", "python": [1], "js": [0]},
+            ],
+        )
+        self.assertEqual(
+            result["python"],
+            {
+                "commentCount": 1,
+                "runCount": 1,
+                "commentMessages": ["\u65b0\u8bc4\u8bba"],
+                "runQueries": ["\u65b0"],
+                "runCommentsAdded": [1],
+            },
+        )
+        self.assertEqual(
+            result["js"],
+            {
+                "commentCount": 1,
+                "runCount": 1,
+                "commentMessages": ["\u8def\u8fc7"],
+                "runQueries": ["wrong"],
+                "runCommentsAdded": [0],
+            },
         )
 
     def test_direct_probe_corpus_runner_reads_json_contracts(self):
