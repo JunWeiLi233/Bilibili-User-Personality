@@ -21,6 +21,12 @@ class DictionaryLoader:
     def __init__(self, path: str | Path):
         self.path = Path(path)
 
+    @classmethod
+    def load_from_payload(cls, payload: dict[str, Any] | None = None) -> KeywordDictionary:
+        payload = payload if isinstance(payload, dict) else {}
+        path = payload.get("dictionaryPath", payload.get("path", "server/data/deepseekKeywordDictionary.json"))
+        return cls(path).load()
+
     def load(self) -> KeywordDictionary:
         try:
             manifest = self._read_json(self.path)

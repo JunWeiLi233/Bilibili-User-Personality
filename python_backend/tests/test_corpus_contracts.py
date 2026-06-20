@@ -3255,6 +3255,23 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(dictionary.manifest, {"version": 1, "storage": "missing", "updatedAt": None, "entries": [], "families": {}})
         self.assertEqual(dictionary.entries, [])
 
+    def test_dictionary_loader_builds_from_js_json_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            dictionary_path.write_text(
+                json.dumps({"version": 2, "entries": [{"term": "doge", "family": "attack"}]}),
+                encoding="utf-8",
+            )
+
+            loaded = DictionaryLoader.load_from_payload({"dictionaryPath": str(dictionary_path)})
+            missing = DictionaryLoader.load_from_payload({"path": str(root / "missing.json")})
+
+        self.assertEqual(loaded.manifest["version"], 2)
+        self.assertEqual(loaded.entries, [{"term": "doge", "family": "attack"}])
+        self.assertEqual(missing.manifest["storage"], "missing")
+        self.assertEqual(missing.entries, [])
+
     def test_dictionary_loader_normalizes_monolith_manifest_like_js(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
