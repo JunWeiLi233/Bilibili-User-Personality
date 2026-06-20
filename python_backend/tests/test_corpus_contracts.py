@@ -132,7 +132,7 @@ from python_backend.cli.scraper_monitor import ScraperMonitorContractComparator,
 from python_backend.cli.aicu_scrape_plan import AicuScrapePlanContractComparator, AicuScrapePlanRunner
 from python_backend.cli.aicu_batch_plan import AicuBatchPlanContractComparator, AicuBatchPlanRunner
 from python_backend.cli.aicu_browser_batch_plan import AicuBrowserBatchPlanContractComparator, AicuBrowserBatchPlanRunner
-from python_backend.cli.file_lock_state import FileLockStateContractComparator, FileLockStateRunner
+from python_backend.cli.file_lock_state import FileLockStateCliRunner, FileLockStateContractComparator, FileLockStateRunner
 from python_backend.cli.batch_scrape_progress import BatchScrapeProgressContractComparator, BatchScrapeProgressRunner
 from python_backend.cli.batch_uid_progress import BatchUidProgressContractComparator, BatchUidProgressRunner
 from python_backend.cli.uid_discovery_progress import UidDiscoveryProgressContractComparator, UidDiscoveryProgressRunner
@@ -1388,6 +1388,21 @@ class CorpusContractTests(unittest.TestCase):
                 }
             ],
         )
+
+    def test_file_lock_state_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            lock_path = Path(tmp) / "harvest.lock"
+            lock_path.mkdir()
+            (lock_path / "owner.json").write_text(
+                json.dumps({"pid": 0, "startedAt": "2026-06-19T00:00:00.000Z", "command": "node"}),
+                encoding="utf-8",
+            )
+
+            result = FileLockStateCliRunner(["--lock", str(lock_path), "--stale-ms", "60000"]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["owner"], {"pid": 0, "startedAt": "2026-06-19T00:00:00.000Z", "command": "node"})
+        self.assertTrue(result["state"]["exists"])
 
     def test_file_lock_state_payload_comparator_lives_with_runtime_logic(self):
         with tempfile.TemporaryDirectory() as tmp:

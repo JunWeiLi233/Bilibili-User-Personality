@@ -15,12 +15,21 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+class FileLockStateCliRunner:
+    """CLI-compatible file-lock state runner for JSON contract checks."""
+
+    def __init__(self, argv: list[str] | None = None):
+        self.argv = argv
+
+    def run(self) -> dict:
+        args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        if args.compare_js_report:
+            return FileLockStateContractComparator(args.lock, args.compare_js_report, stale_ms=args.stale_ms).compare()
+        return FileLockStateRunner(args.lock, stale_ms=args.stale_ms).run()
+
+
 def main(argv: list[str] | None = None) -> int:
-    args = build_parser().parse_args(argv)
-    if args.compare_js_report:
-        result = FileLockStateContractComparator(args.lock, args.compare_js_report, stale_ms=args.stale_ms).compare()
-    else:
-        result = FileLockStateRunner(args.lock, stale_ms=args.stale_ms).run()
+    result = FileLockStateCliRunner(argv).run()
     json.dump(result, sys.stdout, ensure_ascii=False, indent=2)
     sys.stdout.write("\n")
     return 0 if result["ok"] else 1
