@@ -9519,6 +9519,18 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["queries"], ["weak \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4", "seed topic"])
         self.assertEqual(result["plan"][0]["source"], "dictionary")
 
+    def test_keyword_harvest_plan_builder_owns_payload_contract(self):
+        result = KeywordHarvestPlanBuilder().build_from_payload(
+            {
+                "dictionary": {"entries": [{"term": "weak", "family": "attack", "evidenceCount": 0}]},
+                "options": {"coverageMode": "all-weak", "maxQueries": 2, "queryVariantsPerTerm": 1, "seedQueries": ["seed topic"]},
+            }
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["queries"], ["weak \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4", "seed topic"])
+        self.assertEqual(result["plan"][0]["source"], "dictionary")
+
     def test_keyword_harvest_plan_comparator_uses_backend_summary_contract_keys(self):
         self.assertFalse(hasattr(KeywordHarvestPlanContractComparator, "PLAN_KEYS"))
         self.assertEqual(KeywordHarvestPlanSummary.RESULT_KEYS, ("queries", "plan"))

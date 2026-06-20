@@ -57,6 +57,13 @@ def _unique(items: list[Any]) -> list[Any]:
 class KeywordHarvestPlanBuilder:
     """Build the JS keyword-harvest query-plan JSON contract from dictionary/state data."""
 
+    def build_from_payload(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}
+        options = payload.get("options") if isinstance(payload.get("options"), dict) else {}
+        plan = self.build_query_plan(dictionary, options)
+        return {"ok": True, "plan": plan, "queries": [item["query"] for item in plan]}
+
     def build_query_plan(self, dictionary: dict[str, Any] | None = None, options: dict[str, Any] | None = None) -> list[dict[str, Any]]:
         dictionary = dictionary if isinstance(dictionary, dict) else {}
         options = options if isinstance(options, dict) else {}

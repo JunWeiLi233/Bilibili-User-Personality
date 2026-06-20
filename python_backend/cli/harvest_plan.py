@@ -18,10 +18,7 @@ class KeywordHarvestPlanRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
-        dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}
-        options = payload.get("options") if isinstance(payload.get("options"), dict) else {}
-        plan = self.builder.build_query_plan(dictionary, options)
-        return {"ok": True, "plan": plan, "queries": [item["query"] for item in plan]}
+        return self.builder.build_from_payload(payload)
 
     def _read_payload(self) -> dict[str, Any]:
         with self.payload_path.open("r", encoding="utf-8-sig") as handle:
