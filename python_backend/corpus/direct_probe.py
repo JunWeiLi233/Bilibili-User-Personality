@@ -169,6 +169,28 @@ class DirectProbePlanSummary:
         return {key: plan.get(key) for key in self.PLAN_KEYS if key in plan}
 
 
+class DirectProbePlanContractComparator:
+    """Compare direct-probe plans using the JS/Python JSON contract."""
+
+    def __init__(self, summary: DirectProbePlanSummary | None = None):
+        self.summary = summary or DirectProbePlanSummary()
+
+    def compare(self, python_plan: dict[str, Any] | None, js_plan: dict[str, Any] | None) -> dict[str, Any]:
+        python_plan = python_plan if isinstance(python_plan, dict) else {}
+        js_plan = js_plan if isinstance(js_plan, dict) else {}
+        mismatches = [
+            {"key": key, "python": python_plan.get(key), "js": js_plan.get(key)}
+            for key in self.summary.PLAN_KEYS
+            if key in js_plan and python_plan.get(key) != js_plan.get(key)
+        ]
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": self.summary.summarize(python_plan),
+            "js": self.summary.summarize(js_plan),
+        }
+
+
 class DirectProbeCorpusBuilder:
     """Pure Python contract helpers for Bilibili direct evidence probe data."""
 

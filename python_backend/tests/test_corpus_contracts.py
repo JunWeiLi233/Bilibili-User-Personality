@@ -77,7 +77,7 @@ from python_backend.cli.batch_uid_scrape_plan import BatchUidScrapePlanContractC
 from python_backend.cli.batch_scraper_launcher import BatchScraperLauncherContractComparator, BatchScraperLauncherPlanRunner
 from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContractComparator, RangeScraperLauncherPlanRunner
 from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContractComparator, FastPipelineLauncherPlanRunner
-from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusSummary, DirectProbePlanSummary
+from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusSummary, DirectProbePlanContractComparator as DirectProbePlanPayloadComparator, DirectProbePlanSummary
 from python_backend.corpus.history_tags import HistoryTagCorpusContractComparator as HistoryTagCorpusPayloadComparator, HistoryTagCorpusManager, HistoryTagCorpusSummary, HistoryTagScrapePlanner, HistoryTagScrapePlanContractComparator as HistoryTagScrapePlanPayloadComparator, HistoryTagScrapePlanSummary
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
 from python_backend.corpus.local import LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidenceSummary
@@ -3867,6 +3867,53 @@ class CorpusContractTests(unittest.TestCase):
                     "js": ["https://api.bilibili.com/x/web-interface/search/type?keyword=wrong"],
                 },
             ],
+        )
+
+    def test_direct_probe_plan_payload_comparator_owns_plan_mismatch_contract(self):
+        result = DirectProbePlanPayloadComparator().compare(
+            {
+                "ok": True,
+                "nextReplyCursor": 1,
+                "viewUrl": "https://api.bilibili.com/x/web-interface/view?aid=116663559131570",
+                "searchUrls": ["https://api.bilibili.com/x/web-interface/search/type?keyword=x"],
+                "rankedVideos": [{"bvid": "BVignored"}],
+            },
+            {
+                "ok": True,
+                "nextReplyCursor": 2,
+                "viewUrl": "https://api.bilibili.com/x/web-interface/view?aid=wrong",
+                "searchUrls": [],
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "nextReplyCursor", "python": 1, "js": 2},
+                {
+                    "key": "viewUrl",
+                    "python": "https://api.bilibili.com/x/web-interface/view?aid=116663559131570",
+                    "js": "https://api.bilibili.com/x/web-interface/view?aid=wrong",
+                },
+                {"key": "searchUrls", "python": ["https://api.bilibili.com/x/web-interface/search/type?keyword=x"], "js": []},
+            ],
+        )
+        self.assertEqual(
+            result["python"],
+            {
+                "nextReplyCursor": 1,
+                "viewUrl": "https://api.bilibili.com/x/web-interface/view?aid=116663559131570",
+                "searchUrls": ["https://api.bilibili.com/x/web-interface/search/type?keyword=x"],
+            },
+        )
+        self.assertEqual(
+            result["js"],
+            {
+                "nextReplyCursor": 2,
+                "viewUrl": "https://api.bilibili.com/x/web-interface/view?aid=wrong",
+                "searchUrls": [],
+            },
         )
 
     def test_direct_probe_plan_comparator_uses_backend_summary_contract_keys(self):
