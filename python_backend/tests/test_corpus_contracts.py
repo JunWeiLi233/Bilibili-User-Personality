@@ -94,7 +94,7 @@ from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriteContractComparator as CorpusShardWritePayloadComparator, CorpusShardWritePayloadContractComparator, CorpusShardWriteRunner as CorpusShardWritePayloadRunner, CorpusShardWriteSummary, CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliParseContractComparator as BilibiliParsePayloadComparator, BilibiliParsePayloadContractComparator, BilibiliParseRunner as BilibiliParsePayloadRunner, BilibiliParseSummary, BilibiliPublicParser
-from python_backend.scrapers.aicu import AicuBatchPlanContractComparator as AicuBatchPlanPayloadComparator, AicuBatchPlanPayloadContractComparator, AicuBatchPlanRunner as AicuBatchPayloadPlanRunner, AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanContractComparator as AicuScrapePlanPayloadComparator, AicuScrapePlanPayloadContractComparator, AicuScrapePlanRunner as AicuScrapePayloadPlanRunner, AicuScrapePlanSummary, AicuScrapePlanner
+from python_backend.scrapers.aicu import AicuBatchPlanContractComparator as AicuBatchPlanPayloadComparator, AicuBatchPlanPayloadContractComparator, AicuBatchPlanRunner as AicuBatchPayloadPlanRunner, AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressPayloadContractComparator, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanContractComparator as AicuScrapePlanPayloadComparator, AicuScrapePlanPayloadContractComparator, AicuScrapePlanRunner as AicuScrapePayloadPlanRunner, AicuScrapePlanSummary, AicuScrapePlanner, BatchScrapeProgressRunner as BatchScrapeProgressPayloadRunner
 from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanContractComparator as AicuBrowserBatchPlanPayloadComparator, AicuBrowserBatchPlanPayloadContractComparator, AicuBrowserBatchPlanRunner as AicuBrowserBatchPayloadPlanRunner, AicuBrowserBatchPlanSummary, AicuBrowserBatchPlanner
 from python_backend.scrapers import video_link_direct
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanContractComparator as VideoLinkDirectPlanPayloadComparator, VideoLinkDirectPlanner, VideoLinkDirectPlanRunner as VideoLinkDirectPayloadPlanRunner
@@ -10183,6 +10183,31 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "database", "python": {"users": 0, "withComments": 0, "comments": 0, "danmaku": 0}, "js": {"users": 9}},
             ],
         )
+
+    def test_batch_scrape_progress_payload_runner_lives_with_aicu_scraper_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            js_report_path = root / "js-batch-scrape-progress.json"
+            (data_dir / "batch-scrape-progress.json").write_text(
+                json.dumps({"lastUid": 2, "completed": 1, "errors": []}),
+                encoding="utf-8",
+            )
+            (data_dir / "aicu-user-database.json").write_text(
+                json.dumps({"users": {"1": {"comments": [{"message": "x"}], "danmaku": [{"content": "y"}]}}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"progress": {"completed": 0}}), encoding="utf-8")
+
+            result = BatchScrapeProgressPayloadRunner(data_dir, start_uid=1, end_uid=3).run()
+            comparison = AicuBatchProgressPayloadContractComparator(data_dir, js_report_path, start_uid=1, end_uid=3).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["progress"], {"lastUid": 2, "completed": 1, "errors": 0, "remaining": 1, "rangeTotal": 3})
+        self.assertEqual(result["database"], {"users": 1, "withComments": 1, "comments": 1, "danmaku": 1})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["progress"])
 
     def test_aicu_batch_progress_payload_comparator_owns_result_key_mismatch_contract(self):
         result = AicuBatchProgressPayloadComparator().compare(

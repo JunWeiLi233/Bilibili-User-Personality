@@ -3,75 +3,8 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from pathlib import Path
-from typing import Any
 
-from python_backend.scrapers.aicu import AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressReporter, AicuBatchProgressSummary
-
-
-class BatchScrapeProgressRunner:
-    """Summarize legacy batch scrape progress JSON without mutating scraper state."""
-
-    def __init__(
-        self,
-        data_dir: str | Path,
-        *,
-        progress_file: str = "batch-scrape-progress.json",
-        database_file: str = "aicu-user-database.json",
-        mode: str = "uid-range",
-        start_uid: int = 100000,
-        end_uid: int = 200000,
-        pages: int = 50,
-    ):
-        self.data_dir = Path(data_dir)
-        self.progress_path = self.data_dir / progress_file
-        self.database_path = self.data_dir / database_file
-        self.mode = mode
-        self.start_uid = int(start_uid)
-        self.end_uid = int(end_uid)
-        self.pages = int(pages)
-
-    def run(self) -> dict[str, Any]:
-        progress = self._read_json(self.progress_path, {})
-        database = self._read_json(self.database_path, {})
-        reporter = AicuBatchProgressReporter(
-            mode=self.mode,
-            progress_file=self.progress_path.name,
-            start_uid=self.start_uid,
-            end_uid=self.end_uid,
-            pages=self.pages,
-        )
-        return reporter.build_report(progress, database)
-
-    def _read_json(self, path: Path, fallback: Any) -> Any:
-        if not path.exists():
-            return fallback
-        with path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else fallback
-
-
-class BatchScrapeProgressContractComparator:
-    """Compare Python legacy batch scrape progress reports against saved JS-compatible JSON."""
-
-    def __init__(self, data_dir: str | Path, js_report_path: str | Path, **runner_options: Any):
-        self.data_dir = Path(data_dir)
-        self.js_report_path = Path(js_report_path)
-        self.runner_options = runner_options
-        self.summary = AicuBatchProgressSummary()
-        self.comparator = AicuBatchProgressPayloadComparator(self.summary)
-
-    def compare(self) -> dict[str, Any]:
-        python_result = BatchScrapeProgressRunner(self.data_dir, **self.runner_options).run()
-        js_result = self._read_js_report()
-        return self.comparator.compare(python_result, js_result)
-
-    def _read_js_report(self) -> dict[str, Any]:
-        if not self.js_report_path.exists():
-            return {}
-        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else {}
+from python_backend.scrapers.aicu import AicuBatchProgressPayloadContractComparator as BatchScrapeProgressContractComparator, BatchScrapeProgressRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
