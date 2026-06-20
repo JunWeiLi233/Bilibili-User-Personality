@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any, Callable
 
-from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineLauncherSummary
+from python_backend.scrapers.uid_pipeline import UidPipelineLauncherContractComparator as UidPipelineLauncherPayloadComparator, UidPipelineLauncherPlanner, UidPipelineLauncherSummary
 
 
 class UidPipelineLauncherPlanRunner:
@@ -56,6 +56,7 @@ class UidPipelineLauncherContractComparator:
         self.total_end = total_end
         self.workers = workers
         self.summary = UidPipelineLauncherSummary()
+        self.comparator = UidPipelineLauncherPayloadComparator(self.summary)
 
     def compare(self) -> dict[str, Any]:
         python_state = UidPipelineLauncherPlanRunner(
@@ -66,19 +67,7 @@ class UidPipelineLauncherContractComparator:
             now=lambda: "",
         ).run()["state"]
         js_state = self._read_js_report()
-        python_summary = self.summary.summarize(python_state)
-        js_summary = self.summary.summarize(js_state)
-        mismatches = [
-            {"key": key, "python": python_summary.get(key), "js": js_summary.get(key)}
-            for key in self.summary.RESULT_KEYS
-            if key in js_summary and python_summary.get(key) != js_summary.get(key)
-        ]
-        return {
-            "ok": not mismatches,
-            "mismatches": mismatches,
-            "python": {"startedAt": python_state.get("startedAt"), **python_summary},
-            "js": {"startedAt": js_state.get("startedAt"), **js_summary} if "startedAt" in js_state else js_summary,
-        }
+        return self.comparator.compare(python_state, js_state)
 
     def _read_js_report(self) -> dict[str, Any]:
         if not self.js_report_path.exists():

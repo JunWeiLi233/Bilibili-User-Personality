@@ -199,6 +199,30 @@ class UidPipelineLauncherSummary:
         }
 
 
+class UidPipelineLauncherContractComparator:
+    """Compare UID pipeline launcher payloads with the shared JS/Python contract."""
+
+    def __init__(self, summary: UidPipelineLauncherSummary | None = None):
+        self.summary = summary or UidPipelineLauncherSummary()
+
+    def compare(self, python_state: dict[str, Any] | None, js_state: dict[str, Any] | None) -> dict[str, Any]:
+        python_state = python_state if isinstance(python_state, dict) else {}
+        js_state = js_state if isinstance(js_state, dict) else {}
+        python_summary = self.summary.summarize(python_state)
+        js_summary = self.summary.summarize(js_state)
+        mismatches = [
+            {"key": key, "python": python_summary.get(key), "js": js_summary.get(key)}
+            for key in self.summary.RESULT_KEYS
+            if key in js_summary and python_summary.get(key) != js_summary.get(key)
+        ]
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": {"startedAt": python_state.get("startedAt"), **python_summary},
+            "js": {"startedAt": js_state.get("startedAt"), **js_summary} if "startedAt" in js_state else js_summary,
+        }
+
+
 class UidPipelineMergeReporter:
     """Merge UID pipeline worker progress payloads into the JS report contract."""
 
