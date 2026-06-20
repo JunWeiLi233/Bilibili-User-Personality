@@ -10,7 +10,7 @@ from python_backend.analysis.coverage_progress import CoverageProgressContractCo
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReportContractComparator as VideoKeywordDiscoveryReportPayloadComparator, VideoKeywordDiscoveryReporter, VideoKeywordDiscoveryReportSummary
 from python_backend.analysis import harvest_options as harvest_options_module
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, HarvestOptionsContractComparator as HarvestOptionsPayloadComparator, HarvestOptionsPayloadContractComparator, HarvestOptionsRunner as HarvestOptionsPayloadRunner, HarvestOptionsSummary, VideoKeywordDiscoveryOptionsBuilder
-from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, KeywordHarvestPlanContractComparator as KeywordHarvestPlanPayloadComparator, KeywordHarvestPlanSummary
+from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, KeywordHarvestPlanContractComparator as KeywordHarvestPlanPayloadComparator, KeywordHarvestPlanPayloadContractComparator, KeywordHarvestPlanRunner as KeywordHarvestPayloadPlanRunner, KeywordHarvestPlanSummary
 from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateContractComparator as HarvestStatePayloadComparator, HarvestStateFinalizer, HarvestStatePayloadProcessor, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetResolvePlanContractComparator as NearTargetResolvePlanPayloadComparator, NearTargetResolvePlanner, NearTargetResolvePlanRunner as NearTargetResolvePayloadPlanRunner
@@ -11877,6 +11877,51 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["queries"], ["weak \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4", "seed topic"])
         self.assertEqual(result["plan"][0]["source"], "dictionary")
+
+    def test_keyword_harvest_plan_payload_runner_lives_with_analysis_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "harvest-plan.json"
+            js_plan_path = root / "js-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "dictionary": {"entries": [{"term": "weak", "family": "attack", "evidenceCount": 0}]},
+                        "options": {"coverageMode": "all-weak", "maxQueries": 2, "queryVariantsPerTerm": 1, "seedQueries": ["seed topic"]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_plan_path.write_text(
+                json.dumps(
+                    {
+                        "queries": ["wrong query"],
+                        "plan": [{"query": "wrong query", "source": "seed", "term": "wrong", "family": "wrong"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = KeywordHarvestPayloadPlanRunner(payload_path).run()
+            comparison = KeywordHarvestPlanPayloadContractComparator(payload_path, js_plan_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["queries"], ["weak \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4", "seed topic"])
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "queries", "python": ["weak \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4", "seed topic"], "js": ["wrong query"]},
+                {
+                    "key": "plan",
+                    "python": [
+                        {"query": "weak \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4", "source": "dictionary", "term": "weak", "family": "attack"},
+                        {"query": "seed topic", "source": "seed", "term": None, "family": None},
+                    ],
+                    "js": [{"query": "wrong query", "source": "seed", "term": "wrong", "family": "wrong"}],
+                },
+            ],
+        )
 
     def test_keyword_harvest_plan_comparator_uses_backend_summary_contract_keys(self):
         self.assertFalse(hasattr(KeywordHarvestPlanContractComparator, "PLAN_KEYS"))
