@@ -5818,6 +5818,13 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_uid_pipeline_merge_comparator_uses_summary_contract_keys(self):
+        self.assertFalse(hasattr(UidPipelineMergeContractComparator, "RESULT_KEYS"))
+        self.assertEqual(
+            UidPipelineMergeContractComparator(Path("data"), Path("js.json")).summary.RESULT_KEYS,
+            UidPipelineMergeSummary.RESULT_KEYS,
+        )
+
     def test_uid_pipeline_merge_comparator_reports_stats_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
