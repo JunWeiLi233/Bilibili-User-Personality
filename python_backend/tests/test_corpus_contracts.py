@@ -17,7 +17,7 @@ from python_backend.analysis.near_target import NearTargetResolvePlanContractCom
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsPayloadContractComparator, ReadmeStatsRunner as ReadmeStatsPayloadRunner, ReadmeStatsSummary, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationPayloadContractComparator, RandomVerificationReportSummary, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerifier
-from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisPlanContractComparator as DeepSeekAnalysisPayloadPlanContractComparator, DeepSeekAnalysisPlanRunner as DeepSeekAnalysisPayloadPlanRunner, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator
+from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisPlanContractComparator as DeepSeekAnalysisPayloadPlanContractComparator, DeepSeekAnalysisPlanRunner as DeepSeekAnalysisPayloadPlanRunner, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidateContractComparator as DeepSeekAnalysisPayloadValidateContractComparator, DeepSeekAnalysisValidateRunner as DeepSeekAnalysisPayloadValidateRunner, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceContractComparator as KeywordEvidencePayloadComparator, KeywordEvidenceMatcher, KeywordEvidencePayloadContractComparator, KeywordEvidencePayloadRunner, KeywordEvidenceSummary
 from python_backend.cli.comment_coverage import CommentCoverageContractComparator, CommentCoverageRunner
@@ -2514,6 +2514,24 @@ class CorpusContractTests(unittest.TestCase):
                 },
             ],
         )
+
+    def test_deepseek_analysis_payload_validate_runner_lives_with_analyzer_validator(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            analysis_path = root / "analysis.json"
+            js_report_path = root / "js-validation.json"
+            payload_path.write_text(json.dumps({"comments": ["\u539f\u59cb\u8bc4\u8bba"]}), encoding="utf-8")
+            analysis_path.write_text(json.dumps({"sentenceAnalyses": [{"quote": "\u5e7b\u89c9\u5f15\u7528"}]}), encoding="utf-8")
+            js_report_path.write_text(json.dumps({"ok": True, "summary": {"unsupportedQuotes": 0}}), encoding="utf-8")
+
+            result = DeepSeekAnalysisPayloadValidateRunner(payload_path, analysis_path).run()
+            comparison = DeepSeekAnalysisPayloadValidateContractComparator(payload_path, analysis_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["unsupportedQuotes"], [{"path": "sentenceAnalyses[0].quote", "quote": "\u5e7b\u89c9\u5f15\u7528"}])
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["ok", "summary"])
 
     def test_deepseek_analysis_validation_summary_extracts_comparator_contract(self):
         summary = DeepSeekAnalysisValidationSummary().summarize(

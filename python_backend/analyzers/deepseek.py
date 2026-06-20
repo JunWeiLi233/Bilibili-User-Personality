@@ -447,3 +447,54 @@ class DeepSeekAnalysisValidationSummary:
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
         source = result if isinstance(result, dict) else {}
         return {key: source.get(key) for key in self.RESULT_KEYS if key in source}
+
+
+class DeepSeekAnalysisValidateRunner:
+    """Validate a DeepSeek analysis JSON file against the original JS-compatible payload."""
+
+    def __init__(self, payload_path: str | Path, analysis_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.analysis_path = Path(analysis_path)
+        self.validator = DeepSeekAnalysisValidator()
+
+    def run(self) -> dict[str, Any]:
+        payload = self._read_json(self.payload_path)
+        analysis_payload = self._read_json(self.analysis_path)
+        return self.validator.validate_payloads(payload, analysis_payload)
+
+    def _read_json(self, path: Path) -> dict[str, Any]:
+        with path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        if not isinstance(payload, dict):
+            raise ValueError(f"{path} must contain a JSON object.")
+        return payload
+
+
+class DeepSeekAnalysisValidateContractComparator:
+    """Compare Python DeepSeek validation output against a saved JS-compatible report."""
+
+    def __init__(self, payload_path: str | Path, analysis_path: str | Path, js_report_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.analysis_path = Path(analysis_path)
+        self.js_report_path = Path(js_report_path)
+        self.summary = DeepSeekAnalysisValidationSummary()
+
+    def compare(self) -> dict[str, Any]:
+        python_result = DeepSeekAnalysisValidateRunner(self.payload_path, self.analysis_path).run()
+        js_result = self._read_js_report()
+        mismatches = [
+            {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
+            for key in self.summary.RESULT_KEYS
+            if key in js_result and python_result.get(key) != js_result.get(key)
+        ]
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": self.summary.summarize(python_result),
+            "js": self.summary.summarize(js_result),
+        }
+
+    def _read_js_report(self) -> dict[str, Any]:
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
