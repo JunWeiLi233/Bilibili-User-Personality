@@ -196,6 +196,28 @@ class CommentCoverageRunner:
         return payload if isinstance(payload, list) else []
 
 
+class CommentCoverageJsonPayloadRunner:
+    """Run comment coverage from one JS/Python payload JSON file."""
+
+    def __init__(self, payload_path: str | Path) -> None:
+        self.payload_path = Path(payload_path)
+        self.classifier = CommentCoverageClassifier()
+
+    def run(self) -> dict[str, Any]:
+        payload = self._read_payload()
+        dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {"entries": []}
+        comments_payload = payload.get("comments") if "comments" in payload else []
+        comments = comments_payload if isinstance(comments_payload, list) else []
+        options = {}
+        if payload.get("sampleSize") is not None:
+            options["sampleSize"] = payload.get("sampleSize")
+        return self.classifier.sample_result(dictionary, comments, options)
+
+    def _read_payload(self) -> dict[str, Any]:
+        payload = _read_json(self.payload_path)
+        return payload if isinstance(payload, dict) else {}
+
+
 class CommentCoveragePayloadContractComparator:
     """Compare file-backed Python comment coverage against a persisted JS-compatible report."""
 

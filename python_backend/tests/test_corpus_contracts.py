@@ -7,9 +7,10 @@ from pathlib import Path
 
 from python_backend.cli import local_corpus_evidence as local_corpus_evidence_cli
 from python_backend.cli import direct_probe_corpus as direct_probe_corpus_cli
+from python_backend.cli import comment_coverage as comment_coverage_cli
 from python_backend.cli import tieba_corpus as tieba_corpus_cli
 from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditPayloadContractComparator, CoverageAuditReport
-from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoveragePayloadContractComparator, CommentCoverageRunner as CommentCoveragePayloadRunner, CommentCoverageSummary
+from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageJsonPayloadRunner, CommentCoveragePayloadContractComparator, CommentCoverageRunner as CommentCoveragePayloadRunner, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanPayloadContractComparator, CoverageHarvestLoopPlanRunner as CoverageHarvestLoopPayloadPlanRunner, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressPayloadContractComparator, CoverageProgressRunner as CoverageProgressPayloadRunner, CoverageProgressSummary, CoverageProgressTracker
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReportContractComparator as VideoKeywordDiscoveryReportPayloadComparator, VideoKeywordDiscoveryReportPayloadContractComparator, VideoKeywordDiscoveryReporter, VideoKeywordDiscoveryReportRunner as VideoKeywordDiscoveryReportPayloadRunner, VideoKeywordDiscoveryReportSummary
@@ -8934,6 +8935,47 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["summary"]["byMode"], {"keyword": 1, "neutral": 1, "uncovered": 0})
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["covered", "byMode.keyword"])
+
+    def test_comment_coverage_json_payload_runner_accepts_single_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "comment-coverage.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "dictionary": {"entries": [{"term": "\u7f51\u76d8\u89c1", "family": "evasion"}]},
+                        "comments": [{"message": "\u7f51\u76d8\u89c1"}, {"message": "\u666e\u901a\u8bc4\u8bba"}, {"message": "ascii only"}],
+                        "sampleSize": 2,
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = CommentCoverageJsonPayloadRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["summary"]["total"], 2)
+        self.assertEqual(result["summary"]["byMode"], {"keyword": 1, "neutral": 1, "uncovered": 0})
+
+    def test_comment_coverage_cli_accepts_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "comment-coverage.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "dictionary": {"entries": [{"term": "\u61c2\u7684\u90fd\u61c2", "family": "evasion"}]},
+                        "comments": [{"message": "\u8fd9\u4e8b\u61c2\u7684\u90fd\u61c2"}, {"message": "plain ascii"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                exit_code = comment_coverage_cli.main(["--payload", str(payload_path)])
+
+        result = json.loads(output.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(result["summary"]["byMode"], {"keyword": 1, "neutral": 0, "uncovered": 1})
 
     def test_comment_coverage_summary_preserves_comparator_shape(self):
         summary = CommentCoverageSummary().summarize(
