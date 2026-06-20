@@ -37,6 +37,29 @@ class CorpusShardWriter:
         self._remove_stale_shards(self._comments_dir(), comment_files, r"comments-\d{4}\.json")
         self._remove_stale_shards(self._runs_dir(), run_files, r"runs-\d{4}\.json")
 
+    @classmethod
+    def write_from_payload(cls, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        from python_backend.corpus.loader import CorpusLoader
+
+        payload = payload if isinstance(payload, dict) else {}
+        output_path = Path(str(payload.get("outputPath") or ""))
+        if not str(output_path):
+            raise ValueError("payload outputPath is required")
+        comments = payload.get("comments") if isinstance(payload.get("comments"), list) else []
+        runs = payload.get("runs") if isinstance(payload.get("runs"), list) else []
+        manifest = payload.get("manifest") if isinstance(payload.get("manifest"), dict) else {}
+        writer = cls(output_path, max_shard_bytes=int(payload.get("maxShardBytes") or 64 * 1024))
+        writer.write(comments=comments, runs=runs, manifest=manifest)
+        loaded = CorpusLoader(output_path).load()
+        manifest_summary = CorpusShardWriteSummary().summarize_manifest(loaded.manifest)
+        return {
+            "ok": True,
+            "outputPath": str(output_path),
+            "manifest": manifest_summary,
+            "comments": len(loaded.comments),
+            "runs": len(loaded.runs),
+        }
+
     def _comments_dir(self) -> Path:
         return self.path.with_suffix("").parent / f"{self.path.with_suffix('').name}.comments"
 

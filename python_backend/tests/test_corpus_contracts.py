@@ -334,6 +334,33 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual([item["message"] for item in loaded.comments], ["alpha" * 20, "beta"])
         self.assertEqual(loaded.runs, [{"at": "now"}])
 
+    def test_corpus_shard_writer_owns_json_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output_path = root / "out.json"
+
+            result = CorpusShardWriter.write_from_payload(
+                {
+                    "outputPath": str(output_path),
+                    "maxShardBytes": 128,
+                    "manifest": {"version": 3, "updatedAt": "2026-06-19T00:00:00.000Z", "source": "class"},
+                    "comments": [{"message": "gamma" * 20}, {"message": "delta"}],
+                    "runs": [{"at": "later"}],
+                }
+            )
+            loaded = CorpusLoader(output_path).load()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["outputPath"], str(output_path))
+        self.assertEqual(result["manifest"]["storage"], "split")
+        self.assertEqual(result["manifest"]["version"], 3)
+        self.assertEqual(result["manifest"]["commentCount"], 2)
+        self.assertEqual(result["manifest"]["runCount"], 1)
+        self.assertEqual(result["comments"], 2)
+        self.assertEqual(result["runs"], 1)
+        self.assertEqual([item["message"] for item in loaded.comments], ["gamma" * 20, "delta"])
+        self.assertEqual(loaded.runs, [{"at": "later"}])
+
     def test_corpus_shard_write_summary_extracts_comparator_contract(self):
         summary_builder = CorpusShardWriteSummary()
         summary = summary_builder.summarize(

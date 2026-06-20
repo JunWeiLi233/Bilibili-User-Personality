@@ -6,7 +6,6 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriter, CorpusShardWriteSummary
 
 
@@ -18,23 +17,7 @@ class CorpusShardWriteRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
-        output_path = Path(str(payload.get("outputPath") or ""))
-        if not str(output_path):
-            raise ValueError("payload outputPath is required")
-        comments = payload.get("comments") if isinstance(payload.get("comments"), list) else []
-        runs = payload.get("runs") if isinstance(payload.get("runs"), list) else []
-        manifest = payload.get("manifest") if isinstance(payload.get("manifest"), dict) else {}
-        writer = CorpusShardWriter(output_path, max_shard_bytes=int(payload.get("maxShardBytes") or 64 * 1024))
-        writer.write(comments=comments, runs=runs, manifest=manifest)
-        loaded = CorpusLoader(output_path).load()
-        manifest_summary = CorpusShardWriteSummary().summarize_manifest(loaded.manifest)
-        return {
-            "ok": True,
-            "outputPath": str(output_path),
-            "manifest": manifest_summary,
-            "comments": len(loaded.comments),
-            "runs": len(loaded.runs),
-        }
+        return CorpusShardWriter.write_from_payload(payload)
 
     def _read_payload(self) -> dict[str, Any]:
         with self.payload_path.open("r", encoding="utf-8-sig") as handle:
