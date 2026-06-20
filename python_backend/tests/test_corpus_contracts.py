@@ -113,7 +113,7 @@ from python_backend.cli.batch_uid_progress import BatchUidProgressContractCompar
 from python_backend.cli.uid_discovery_progress import UidDiscoveryProgressContractComparator, UidDiscoveryProgressRunner
 from python_backend.scrapers.tieba_html import TiebaHtmlParseContractComparator as TiebaHtmlParsePayloadComparator, TiebaHtmlParsePayloadContractComparator, TiebaHtmlParseRunner as TiebaHtmlParsePayloadRunner, TiebaHtmlParseSummary, TiebaHtmlParser
 from python_backend.scrapers.tieba_keyword import TiebaKeywordPlanContractComparator as TiebaKeywordPlanPayloadComparator, TiebaKeywordPlanRunner as TiebaKeywordPayloadPlanRunner, TiebaKeywordPlanSummary, TiebaKeywordScrapeOptionsPlanner
-from python_backend.scrapers.tieba_timing import TiebaScrapeTiming, TiebaTimingContractComparator as TiebaTimingPayloadComparator
+from python_backend.scrapers.tieba_timing import TiebaScrapeTiming, TiebaTimingContractComparator as TiebaTimingPayloadComparator, TiebaTimingRunner as TiebaTimingPayloadRunner
 from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanContractComparator as BatchBilibiliPlanPayloadComparator, BatchBilibiliPlanPayloadContractComparator, BatchBilibiliPlanRunner as BatchBilibiliPayloadPlanRunner, BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularPlanContractComparator as BatchPopularPlanPayloadComparator, BatchPopularPlanPayloadContractComparator, BatchPopularPlanRunner as BatchPopularPayloadPlanRunner, BatchPopularPlanSummary, BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanContractComparator as BatchUidRangePlanPayloadComparator, BatchUidRangePlanPayloadContractComparator, BatchUidRangePlanRunner as BatchUidRangePayloadPlanRunner, BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherContractComparator as RangeScraperLauncherPayloadComparator, RangeScraperLauncherPayloadContractComparator, RangeScraperLauncherPlanner, RangeScraperLauncherPlanRunner as RangeScraperLauncherPayloadPlanRunner, RangeScraperLauncherSummary, UidRangeProgressContractComparator as UidRangeProgressPayloadComparator, UidRangeProgressPayloadContractComparator, UidRangeProgressReporter, UidRangeProgressRunner as UidRangeProgressPayloadRunner, UidRangeProgressSummary
@@ -4214,6 +4214,19 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertTrue(result["ok"])
         self.assertEqual(result["hardStopMs"], 610000)
+
+    def test_tieba_timing_payload_runner_lives_with_scraper_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps({"maxQueries": 2, "overallTimeoutMs": 4000, "blockCooldownMs": 500}),
+                encoding="utf-8",
+            )
+
+            result = TiebaTimingPayloadRunner(payload_path).run()
+
+        self.assertEqual(result, {"ok": True, "hardStopMs": 19000})
 
     def test_tieba_timing_contract_comparator_reports_hard_stop_mismatch(self):
         with tempfile.TemporaryDirectory() as tmp:

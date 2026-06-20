@@ -26,6 +26,26 @@ class TiebaScrapeTiming:
         return int(hard_stop)
 
 
+class TiebaTimingRunner:
+    """Compute Tieba scrape timing budgets from a JSON payload."""
+
+    def __init__(self, payload_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.timing = TiebaScrapeTiming()
+
+    def run(self) -> dict[str, Any]:
+        payload = self._read_payload()
+        return {
+            "ok": True,
+            "hardStopMs": self.timing.compute_hard_stop_ms(payload),
+        }
+
+    def _read_payload(self) -> dict[str, Any]:
+        with self.payload_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
+
+
 class TiebaTimingContractComparator:
     """Compare Python Tieba timing budgets against a saved JS-compatible result."""
 
