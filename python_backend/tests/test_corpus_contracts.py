@@ -6646,6 +6646,15 @@ class CorpusContractTests(unittest.TestCase):
                     "BILIBILI_CRAWLER_MIN_DELAY_MS": -5,
                     "BILIBILI_CRAWLER_JITTER_MS": 999999,
                     "BILIBILI_CRAWLER_BLOCK_COOLDOWN_MS": "bad",
+                    "BILIBILI_CRAWLER_CACHE_TTL_MS": -1,
+                    "BILIBILI_CRAWLER_LONG_PAUSE_PROBABILITY": 2,
+                    "BILIBILI_CRAWLER_LONG_PAUSE_MIN_MS": -5,
+                    "BILIBILI_CRAWLER_LONG_PAUSE_MAX_MS": 9000,
+                    "BILIBILI_CRAWLER_PAGE_PAUSE_MIN_MS": -1,
+                    "BILIBILI_CRAWLER_PAGE_PAUSE_MAX_MS": 4000,
+                    "BILIBILI_CRAWLER_OBJECT_PAUSE_MIN_MS": 500,
+                    "BILIBILI_CRAWLER_OBJECT_PAUSE_MAX_MS": 7000,
+                    "BILIBILI_CRAWLER_REQUEST_TIMEOUT_MS": -1,
                 },
             }
         )
@@ -6657,7 +6666,23 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(len(result["objects"]), 1)
         self.assertEqual(result["targetReplies"][0]["message"], "target message")
         self.assertEqual(result["danmaku"][0]["rpid"], "danmaku-456-0")
-        self.assertEqual(result["crawlerConfig"], {"minDelayMs": 0, "jitterMs": 60000, "blockCooldownMs": 120000})
+        self.assertEqual(
+            result["crawlerConfig"],
+            {
+                "minDelayMs": 0,
+                "jitterMs": 60000,
+                "blockCooldownMs": 120000,
+                "cacheTtlMs": 0,
+                "longPauseProbability": 1,
+                "longPauseMinMs": 0,
+                "longPauseMaxMs": 9000,
+                "pagePauseMinMs": 0,
+                "pagePauseMaxMs": 4000,
+                "objectPauseMinMs": 500,
+                "objectPauseMaxMs": 7000,
+                "requestTimeoutMs": 0,
+            },
+        )
 
     def test_bilibili_crawler_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -6726,6 +6751,25 @@ class CorpusContractTests(unittest.TestCase):
                 "blocked": False,
                 "crawlerConfig": {"minDelayMs": 2500},
                 "dynamicRecords": {"objects": []},
+            },
+        )
+
+    def test_bilibili_crawler_helper_builds_full_default_runtime_config(self):
+        self.assertEqual(
+            BilibiliCrawlerHelper().build_crawler_config({}),
+            {
+                "minDelayMs": 2500,
+                "jitterMs": 2000,
+                "blockCooldownMs": 120000,
+                "cacheTtlMs": 300000,
+                "longPauseProbability": 0.15,
+                "longPauseMinMs": 3000,
+                "longPauseMaxMs": 8000,
+                "pagePauseMinMs": 1500,
+                "pagePauseMaxMs": 3000,
+                "objectPauseMinMs": 2000,
+                "objectPauseMaxMs": 5000,
+                "requestTimeoutMs": 30000,
             },
         )
 

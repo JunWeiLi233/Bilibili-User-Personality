@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import html
 import json
+import math
 import re
 from pathlib import Path
 from typing import Any
@@ -10,6 +11,41 @@ from python_backend.scrapers.rate_limiter import RateLimitPolicy
 
 
 BLOCK_CODES = {-101, -111, -352, -412, -509, -799}
+
+
+def _bounded_number(value: Any, fallback: float, minimum: float, maximum: float) -> float:
+    try:
+        number = float(str(value))
+    except (TypeError, ValueError):
+        number = fallback
+    if not math.isfinite(number):
+        number = fallback
+    bounded = max(minimum, min(number, maximum))
+    return int(bounded) if float(bounded).is_integer() else bounded
+
+
+class BilibiliCrawlerConfigBuilder:
+    """Build JS-compatible Bilibili crawler runtime config from environment payloads."""
+
+    def build(self, env: dict[str, Any] | None = None) -> dict[str, int | float]:
+        env = env if isinstance(env, dict) else {}
+        pacing = RateLimitPolicy(
+            min_delay_ms=env.get("BILIBILI_CRAWLER_MIN_DELAY_MS", 2500),
+            jitter_ms=env.get("BILIBILI_CRAWLER_JITTER_MS", 2000),
+            block_cooldown_ms=env.get("BILIBILI_CRAWLER_BLOCK_COOLDOWN_MS", 120000),
+        ).to_bilibili_crawler_options()
+        return {
+            **pacing,
+            "cacheTtlMs": _bounded_number(env.get("BILIBILI_CRAWLER_CACHE_TTL_MS", 300000), 300000, 0, 300000),
+            "longPauseProbability": _bounded_number(env.get("BILIBILI_CRAWLER_LONG_PAUSE_PROBABILITY", 0.15), 0.15, 0, 1),
+            "longPauseMinMs": _bounded_number(env.get("BILIBILI_CRAWLER_LONG_PAUSE_MIN_MS", 3000), 3000, 0, 60000),
+            "longPauseMaxMs": _bounded_number(env.get("BILIBILI_CRAWLER_LONG_PAUSE_MAX_MS", 8000), 8000, 0, 60000),
+            "pagePauseMinMs": _bounded_number(env.get("BILIBILI_CRAWLER_PAGE_PAUSE_MIN_MS", 1500), 1500, 0, 60000),
+            "pagePauseMaxMs": _bounded_number(env.get("BILIBILI_CRAWLER_PAGE_PAUSE_MAX_MS", 3000), 3000, 0, 60000),
+            "objectPauseMinMs": _bounded_number(env.get("BILIBILI_CRAWLER_OBJECT_PAUSE_MIN_MS", 2000), 2000, 0, 60000),
+            "objectPauseMaxMs": _bounded_number(env.get("BILIBILI_CRAWLER_OBJECT_PAUSE_MAX_MS", 5000), 5000, 0, 60000),
+            "requestTimeoutMs": _bounded_number(env.get("BILIBILI_CRAWLER_REQUEST_TIMEOUT_MS", 30000), 30000, 0, 120000),
+        }
 
 
 class BilibiliCrawlerSummary:
@@ -128,13 +164,8 @@ class BilibiliCrawlerHelper:
             result["crawlerConfig"] = self.build_crawler_config(payload.get("env"))
         return result
 
-    def build_crawler_config(self, env: dict[str, Any] | None = None) -> dict[str, int]:
-        env = env if isinstance(env, dict) else {}
-        return RateLimitPolicy(
-            min_delay_ms=env.get("BILIBILI_CRAWLER_MIN_DELAY_MS", 2500),
-            jitter_ms=env.get("BILIBILI_CRAWLER_JITTER_MS", 2000),
-            block_cooldown_ms=env.get("BILIBILI_CRAWLER_BLOCK_COOLDOWN_MS", 120000),
-        ).to_bilibili_crawler_options()
+    def build_crawler_config(self, env: dict[str, Any] | None = None) -> dict[str, int | float]:
+        return BilibiliCrawlerConfigBuilder().build(env)
 
     def parse_bvid_pool(self, raw: Any = "") -> list[str]:
         text = str(raw or "")
