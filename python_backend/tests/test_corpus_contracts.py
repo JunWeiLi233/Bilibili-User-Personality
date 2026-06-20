@@ -797,6 +797,13 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_aicu_browser_batch_plan_comparator_uses_summary_contract_keys(self):
+        self.assertFalse(hasattr(AicuBrowserBatchPlanContractComparator, "RESULT_KEYS"))
+        self.assertEqual(
+            AicuBrowserBatchPlanContractComparator(Path("payload.json"), Path("js.json")).summary.RESULT_KEYS,
+            AicuBrowserBatchPlanSummary.RESULT_KEYS,
+        )
+
     def test_aicu_browser_batch_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
