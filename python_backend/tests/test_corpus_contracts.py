@@ -6,6 +6,7 @@ import unittest
 from pathlib import Path
 
 from python_backend.cli import aicu_batch_plan as aicu_batch_plan_cli
+from python_backend.cli import aicu_scrape_plan as aicu_scrape_plan_cli
 from python_backend.cli import local_corpus_evidence as local_corpus_evidence_cli
 from python_backend.cli import local_corpus_flatten as local_corpus_flatten_cli
 from python_backend.cli import bilibili_probe_plan as bilibili_probe_plan_cli
@@ -1580,6 +1581,21 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "summary", "python": {"uids": 2, "commentPagesPerUid": 2, "danmakuPagesPerUid": 2, "delayBetweenUidsMs": 15000}, "js": {"uids": 1}},
             ],
         )
+
+    def test_aicu_scrape_plan_cli_runner_reads_json_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "aicu-plan.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--uid=42"], "maxPages": 1, "pageSize": 5}),
+                encoding="utf-8",
+            )
+
+            result = aicu_scrape_plan_cli.AicuScrapePlanCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["uids"], ["42"])
+        self.assertEqual(result["summary"], {"uids": 1, "commentPagesPerUid": 1, "danmakuPagesPerUid": 1, "delayBetweenUidsMs": 15000})
+        self.assertEqual(result["requests"][0]["commentsUrl"], "https://api.aicu.cc/api/v3/search/getreply?uid=42&pn=1&ps=5&mode=0&keyword=")
 
     def test_aicu_scrape_plan_runner_defaults_non_object_payload_root(self):
         with tempfile.TemporaryDirectory() as tmp:
