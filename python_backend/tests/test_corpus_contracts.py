@@ -10118,6 +10118,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(example_object["mode"], "neutral")
         self.assertEqual(example_object["hits"], [])
 
+    def test_comment_coverage_classifier_ignores_object_needles_in_dictionary_contract(self):
+        dictionary = {
+            "entries": [
+                {
+                    "term": {"": "\u72d7\u5934"},
+                    "family": "attack",
+                    "aliases": [{"": "\u67e5\u8d44\u6599"}],
+                    "examples": [{"": "\u7f51\u76d8\u89c1"}],
+                }
+            ]
+        }
+        classifier = CommentCoverageClassifier()
+
+        term_object = classifier.classify(dictionary, "\u72d7\u5934")
+        example_object = classifier.classify(dictionary, "\u5efa\u8bae\u67e5\u8d44\u6599")
+        alias_object = classifier.classify(dictionary, "\u7f51\u76d8\u89c1")
+
+        self.assertEqual(term_object["mode"], "neutral")
+        self.assertEqual(term_object["hits"], [])
+        self.assertEqual(alias_object["mode"], "neutral")
+        self.assertEqual(alias_object["hits"], [])
+        self.assertEqual(example_object["mode"], "neutral")
+        self.assertEqual(example_object["hits"], [])
+
     def test_comment_coverage_classifier_samples_comments(self):
         dictionary = {"entries": [{"term": "\u7f51\u76d8\u89c1", "family": "evasion"}]}
         comments = [

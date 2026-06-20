@@ -19,6 +19,10 @@ def _clean_needle(value: Any) -> str:
     return re.sub(r"[^\w\u3400-\u9fff]+", "", text, flags=re.UNICODE).lower()
 
 
+def _is_contract_scalar(value: Any) -> bool:
+    return isinstance(value, (str, int, float, bool))
+
+
 def _has_chinese(value: Any) -> bool:
     return bool(re.search(r"[\u3400-\u9fff]", str(value or "")))
 
@@ -144,7 +148,13 @@ class CommentCoverageClassifier:
             aliases = entry.get("aliases") if isinstance(entry.get("aliases"), list) else []
             examples = entry.get("examples") if isinstance(entry.get("examples"), list) else []
             needles = [entry.get("term"), *aliases, *examples]
-            normalized = [_clean_needle(needle) for needle in needles if len(_clean_needle(needle)) >= 2]
+            normalized = []
+            for needle in needles:
+                if not _is_contract_scalar(needle):
+                    continue
+                clean_needle = _clean_needle(needle)
+                if len(clean_needle) >= 2:
+                    normalized.append(clean_needle)
             if any(needle in clean_message for needle in normalized):
                 hits.append(
                     {
