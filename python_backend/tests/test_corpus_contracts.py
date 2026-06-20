@@ -840,6 +840,21 @@ class CorpusContractTests(unittest.TestCase):
             AicuBrowserBatchPlanSummary.RESULT_KEYS,
         )
 
+    def test_aicu_browser_batch_planner_builds_plan_from_json_payload_contract(self):
+        result = AicuBrowserBatchPlanner.build_plan_from_payload(
+            {
+                "argv": ["--start=20", "--end=22"],
+                "progress": {"lastUid": 20, "completed": "5", "errors": [{"uid": "20"}]},
+                "database": {"users": {"21": {}, "99": {}}},
+                "project_dir": "D:/repo",
+            }
+        )
+
+        self.assertEqual(result["range"], {"requestedStart": 20, "effectiveStart": 21, "end": 22, "total": 2})
+        self.assertEqual(result["progress"], {"lastUid": 20, "completed": 5, "errors": 1})
+        self.assertEqual(result["database"], {"users": 2, "existingInEffectiveRange": 1})
+        self.assertEqual(result["sampleInvocation"]["wrapperArgv"], ["browserScrapeAicu.py", "21", "3"])
+
     def test_aicu_browser_batch_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -26,6 +26,16 @@ class AicuBrowserBatchPlanner:
     def __init__(self, *, project_dir: str = ""):
         self.project_dir = project_dir
 
+    @classmethod
+    def build_plan_from_payload(cls, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        planner = cls(project_dir=str(payload.get("projectDir") or payload.get("project_dir") or ""))
+        return planner.build_plan(
+            argv=payload.get("argv") if isinstance(payload.get("argv"), list) else [],
+            progress=payload.get("progress") if isinstance(payload.get("progress"), dict) else {},
+            database=payload.get("database") if isinstance(payload.get("database"), dict) else {},
+        )
+
     def build_plan(self, argv: list[Any] | None = None, progress: dict[str, Any] | None = None, database: dict[str, Any] | None = None) -> dict[str, Any]:
         argv = argv or []
         progress = progress or {}
