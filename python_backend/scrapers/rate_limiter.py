@@ -43,6 +43,13 @@ class RateLimitPolicy:
             "jitterMs": _bounded_ms(self.jitter_ms, 1500, 0, 60000),
         }
 
+    def to_bilibili_crawler_options(self) -> dict[str, int]:
+        return {
+            "minDelayMs": _bounded_ms(self.min_delay_ms, 2500, 0, 60000),
+            "jitterMs": _bounded_ms(self.jitter_ms, 2000, 0, 60000),
+            "blockCooldownMs": _bounded_ms(self.block_cooldown_ms, 120000, 0, 300000),
+        }
+
 
 class RateLimiter:
     """Injectable sleep boundary for slow, platform-friendly scrapers."""

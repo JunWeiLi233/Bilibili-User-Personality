@@ -6,6 +6,8 @@ import re
 from pathlib import Path
 from typing import Any
 
+from python_backend.scrapers.rate_limiter import RateLimitPolicy
+
 
 BLOCK_CODES = {-101, -111, -352, -412, -509, -799}
 
@@ -22,6 +24,7 @@ class BilibiliCrawlerSummary:
         "targetReplies",
         "danmaku",
         "dynamicRecords",
+        "crawlerConfig",
     )
 
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -121,7 +124,17 @@ class BilibiliCrawlerHelper:
             )
         if isinstance(payload.get("dynamicItems"), list):
             result["dynamicRecords"] = self.extract_dynamic_records(payload.get("dynamicItems"), payload.get("uid"))
+        if isinstance(payload.get("env"), dict):
+            result["crawlerConfig"] = self.build_crawler_config(payload.get("env"))
         return result
+
+    def build_crawler_config(self, env: dict[str, Any] | None = None) -> dict[str, int]:
+        env = env if isinstance(env, dict) else {}
+        return RateLimitPolicy(
+            min_delay_ms=env.get("BILIBILI_CRAWLER_MIN_DELAY_MS", 2500),
+            jitter_ms=env.get("BILIBILI_CRAWLER_JITTER_MS", 2000),
+            block_cooldown_ms=env.get("BILIBILI_CRAWLER_BLOCK_COOLDOWN_MS", 120000),
+        ).to_bilibili_crawler_options()
 
     def parse_bvid_pool(self, raw: Any = "") -> list[str]:
         text = str(raw or "")

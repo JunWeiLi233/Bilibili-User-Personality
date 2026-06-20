@@ -777,6 +777,14 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(policy.to_direct_probe_options(), {"delayMs": 1000, "jitterMs": 60000})
 
+    def test_rate_limit_policy_normalizes_bilibili_crawler_pacing_contract(self):
+        policy = RateLimitPolicy(min_delay_ms=-5, jitter_ms=999999, block_cooldown_ms="bad")
+
+        self.assertEqual(
+            policy.to_bilibili_crawler_options(),
+            {"minDelayMs": 0, "jitterMs": 60000, "blockCooldownMs": 120000},
+        )
+
     def test_file_lock_state_inspector_reads_js_owner_contract_and_detects_stale_age(self):
         with tempfile.TemporaryDirectory() as tmp:
             lock_path = Path(tmp) / "deepseekKeywordDictionary.json.lock"
@@ -6634,6 +6642,11 @@ class CorpusContractTests(unittest.TestCase):
                 "object": {"kind": "video", "oid": 123, "replyType": 1, "title": "A"},
                 "danmakuXml": '<i><d p="1,1,25,16777215,1710000000,0,12345,0">hello</d></i>',
                 "video": {"bvid": "BV1danmaku", "oid": "123", "cid": "456"},
+                "env": {
+                    "BILIBILI_CRAWLER_MIN_DELAY_MS": -5,
+                    "BILIBILI_CRAWLER_JITTER_MS": 999999,
+                    "BILIBILI_CRAWLER_BLOCK_COOLDOWN_MS": "bad",
+                },
             }
         )
 
@@ -6644,6 +6657,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(len(result["objects"]), 1)
         self.assertEqual(result["targetReplies"][0]["message"], "target message")
         self.assertEqual(result["danmaku"][0]["rpid"], "danmaku-456-0")
+        self.assertEqual(result["crawlerConfig"], {"minDelayMs": 0, "jitterMs": 60000, "blockCooldownMs": 120000})
 
     def test_bilibili_crawler_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -6698,6 +6712,7 @@ class CorpusContractTests(unittest.TestCase):
                 "bvids": ["BV1"],
                 "bvid": "BV1",
                 "blocked": False,
+                "crawlerConfig": {"minDelayMs": 2500},
                 "dynamicRecords": {"objects": []},
                 "extra": "ignored",
             }
@@ -6709,6 +6724,7 @@ class CorpusContractTests(unittest.TestCase):
                 "bvids": ["BV1"],
                 "bvid": "BV1",
                 "blocked": False,
+                "crawlerConfig": {"minDelayMs": 2500},
                 "dynamicRecords": {"objects": []},
             },
         )
