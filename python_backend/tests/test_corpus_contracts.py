@@ -7023,6 +7023,77 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["videoScanInput"]["pages"], 2)
         self.assertEqual(result["videoScanInput"]["includeDanmaku"], True)
 
+    def test_bilibili_crawler_helper_normalizes_video_object_contract(self):
+        helper = BilibiliCrawlerHelper()
+
+        self.assertEqual(
+            helper.video_object(
+                "view",
+                {
+                    "aid": 123,
+                    "title": "View Title",
+                    "owner": {"mid": 456},
+                    "stat": {"reply": 7},
+                    "pages": [{"cid": 888}],
+                },
+                bvid="BV1view",
+            ),
+            {
+                "id": "video-1-123",
+                "kind": "video",
+                "bvid": "BV1view",
+                "oid": "123",
+                "replyType": 1,
+                "title": "View Title",
+                "authorMid": "456",
+                "sourceUrl": "https://www.bilibili.com/video/BV1view/",
+                "replyCount": 7,
+                "cid": "888",
+            },
+        )
+        self.assertEqual(
+            helper.video_object(
+                "search",
+                {
+                    "id": 99,
+                    "bvid": "BV1search",
+                    "title": "<em>Search</em> &amp; &#39;Title&#39;",
+                    "author_mid": 321,
+                    "arcurl": "https://b23.tv/example",
+                    "review": 11,
+                },
+            )["title"],
+            "Search & 'Title'",
+        )
+        self.assertEqual(
+            helper.video_object(
+                "popular",
+                {"bvid": "BV1popular", "owner": {"mid": 654}, "stat": {"danmaku": 9}},
+            )["replyCount"],
+            9,
+        )
+
+    def test_bilibili_crawler_helper_builds_payload_video_objects_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "videoObjects": [
+                    {
+                        "source": "space",
+                        "uid": "2333",
+                        "item": {"aid": 12, "bvid": "BV1space", "title": "", "comment": 4},
+                    },
+                    {
+                        "source": "search",
+                        "item": {"aid": 13, "bvid": "BV1search", "title": "<b>Hit</b>", "comment": 5},
+                    },
+                ]
+            }
+        )
+
+        self.assertEqual(result["videoObjects"][0]["authorMid"], "2333")
+        self.assertEqual(result["videoObjects"][0]["title"], "BV1space")
+        self.assertEqual(result["videoObjects"][1]["title"], "Hit")
+
     def test_bilibili_crawler_helper_uniques_replies_by_rpid_contract(self):
         result = BilibiliCrawlerHelper().unique_by_rpid(
             [
@@ -7956,6 +8027,7 @@ class CorpusContractTests(unittest.TestCase):
                 "replyUrls": {"mainUrl": "https://api.bilibili.com/x/v2/reply/main?type=1&oid=123&mode=3&next=0&ps=20"},
                 "videoCommentResult": {"confidenceHint": "small video comment sample"},
                 "videoScanInput": {"bvid": "BV1"},
+                "videoObjects": [{"bvid": "BV1"}],
                 "uniqueReplies": [{"rpid": "1"}],
                 "uidResult": {"uid": "2333"},
                 "uidPlan": {"uid": "2333"},
@@ -7992,6 +8064,7 @@ class CorpusContractTests(unittest.TestCase):
                 "replyUrls": {"mainUrl": "https://api.bilibili.com/x/v2/reply/main?type=1&oid=123&mode=3&next=0&ps=20"},
                 "videoCommentResult": {"confidenceHint": "small video comment sample"},
                 "videoScanInput": {"bvid": "BV1"},
+                "videoObjects": [{"bvid": "BV1"}],
                 "uniqueReplies": [{"rpid": "1"}],
                 "uidResult": {"uid": "2333"},
                 "uidPlan": {"uid": "2333"},

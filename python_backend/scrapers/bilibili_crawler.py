@@ -75,6 +75,7 @@ class BilibiliCrawlerSummary:
         "replyUrls",
         "videoCommentResult",
         "videoScanInput",
+        "videoObjects",
         "uniqueReplies",
         "uidResult",
         "uidPlan",
@@ -230,6 +231,17 @@ class BilibiliCrawlerHelper:
                 video_scan.get("input", ""),
                 video_scan.get("options") if isinstance(video_scan.get("options"), dict) else {},
             )
+        if isinstance(payload.get("videoObjects"), list):
+            result["videoObjects"] = [
+                self.video_object(
+                    video_object.get("source", ""),
+                    video_object.get("item") if isinstance(video_object.get("item"), dict) else {},
+                    bvid=video_object.get("bvid", ""),
+                    uid=video_object.get("uid", ""),
+                )
+                for video_object in payload.get("videoObjects")
+                if isinstance(video_object, dict)
+            ]
         if isinstance(payload.get("uniqueReplies"), list):
             result["uniqueReplies"] = self.unique_by_rpid(payload.get("uniqueReplies"))
         if isinstance(payload.get("uidResult"), dict):
@@ -1026,6 +1038,69 @@ class BilibiliCrawlerHelper:
             "includeDanmaku": options.get("includeDanmaku") is True,
         }
 
+    def video_object(self, source: Any, item: dict[str, Any] | None = None, bvid: Any = "", uid: Any = "") -> dict[str, Any]:
+        item = item if isinstance(item, dict) else {}
+        source_key = str(source or "").strip().lower()
+        if source_key == "view":
+            video_bvid = str(bvid or item.get("bvid") or "")
+            pages = item.get("pages") if isinstance(item.get("pages"), list) else []
+            first_page = pages[0] if pages and isinstance(pages[0], dict) else {}
+            aid = item.get("aid")
+            return {
+                "id": f"video-1-{aid}",
+                "kind": "video",
+                "bvid": video_bvid,
+                "oid": str(aid),
+                "replyType": 1,
+                "title": item.get("title") or video_bvid,
+                "authorMid": str(self._path(item, "owner", "mid") or ""),
+                "sourceUrl": f"https://www.bilibili.com/video/{video_bvid}/",
+                "replyCount": self._number(self._path(item, "stat", "reply") or 0, 0),
+                "cid": str(item.get("cid") or first_page.get("cid") or ""),
+            }
+        if source_key == "space":
+            video_bvid = str(item.get("bvid") or bvid or "")
+            aid = item.get("aid")
+            return {
+                "id": f"video-1-{aid}",
+                "kind": "video",
+                "bvid": video_bvid,
+                "oid": str(aid),
+                "replyType": 1,
+                "title": item.get("title") or video_bvid,
+                "authorMid": str(item.get("mid") or uid or ""),
+                "sourceUrl": f"https://www.bilibili.com/video/{video_bvid}/",
+                "replyCount": self._number(item.get("comment") or 0, 0),
+            }
+        if source_key == "popular":
+            video_bvid = str(item.get("bvid") or bvid or "")
+            aid = item.get("aid") or video_bvid
+            reply = self._path(item, "stat", "reply")
+            return {
+                "id": f"video-1-{aid}",
+                "kind": "video",
+                "bvid": video_bvid,
+                "oid": str(item.get("aid") or ""),
+                "replyType": 1,
+                "title": item.get("title") or video_bvid,
+                "authorMid": str(self._path(item, "owner", "mid") or item.get("mid") or ""),
+                "sourceUrl": item.get("short_link_v2") or f"https://www.bilibili.com/video/{video_bvid}/",
+                "replyCount": self._number(reply if reply is not None else self._path(item, "stat", "danmaku") or 0, 0),
+            }
+        video_bvid = str(item.get("bvid") or bvid or "")
+        aid = item.get("aid") or item.get("id") or video_bvid
+        return {
+            "id": f"video-1-{aid}",
+            "kind": "video",
+            "bvid": video_bvid,
+            "oid": str(item.get("aid") or item.get("id") or ""),
+            "replyType": 1,
+            "title": self._clean_search_title(item.get("title"), video_bvid),
+            "authorMid": str(item.get("mid") or item.get("author_mid") or ""),
+            "sourceUrl": item.get("arcurl") or f"https://www.bilibili.com/video/{video_bvid}/",
+            "replyCount": self._number(item.get("review") or item.get("comment") or 0, 0),
+        }
+
     def build_uid_analysis_result(
         self,
         uid: Any = "",
@@ -1245,6 +1320,12 @@ class BilibiliCrawlerHelper:
         if not clean:
             return str(fallback)
         return f"{clean[:48]}..." if len(clean) > 48 else clean
+
+    def _clean_search_title(self, title: Any, fallback: Any) -> str:
+        clean = re.sub(r"<[^>]+>", "", str(title or ""))
+        clean = html.unescape(clean)
+        clean = re.sub(r"\s+", " ", clean).strip()
+        return clean or str(fallback)
 
     def _path(self, value: Any, *keys: str) -> Any:
         current = value
