@@ -6934,6 +6934,35 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(result["deepenRootPlan"], {"queued": True, "rpid": "10", "roots": ["9", "10"]})
 
+    def test_bilibili_crawler_helper_builds_video_reply_url_plan_contract(self):
+        helper = BilibiliCrawlerHelper()
+
+        self.assertEqual(
+            helper.reply_urls({"replyType": 1, "oid": "oid 123"}, next_cursor=2, legacy_page=3, root_rpid="root 9"),
+            {
+                "mainUrl": "https://api.bilibili.com/x/v2/reply/main?type=1&oid=oid%20123&mode=3&next=2&ps=20",
+                "legacyUrl": "https://api.bilibili.com/x/v2/reply?type=1&oid=oid%20123&pn=3&ps=20&sort=2",
+                "threadUrl": "https://api.bilibili.com/x/v2/reply/reply?type=1&oid=oid%20123&root=root%209&pn=1&ps=20",
+            },
+        )
+
+    def test_bilibili_crawler_helper_builds_payload_video_reply_url_plan_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "replyUrls": {
+                    "video": {"replyType": 1, "oid": "oid 123"},
+                    "next": 2,
+                    "legacyPage": 3,
+                    "rootRpid": "root 9",
+                }
+            }
+        )
+
+        self.assertEqual(
+            result["replyUrls"]["mainUrl"],
+            "https://api.bilibili.com/x/v2/reply/main?type=1&oid=oid%20123&mode=3&next=2&ps=20",
+        )
+
     def test_bilibili_crawler_helper_uniques_replies_by_rpid_contract(self):
         result = BilibiliCrawlerHelper().unique_by_rpid(
             [
@@ -7859,6 +7888,7 @@ class CorpusContractTests(unittest.TestCase):
                 "publicReplies": [{"message": "root message"}],
                 "publicHistoryObject": {"sourceUrl": "https://www.bilibili.com/video/BV1history/"},
                 "deepenRootPlan": {"queued": True},
+                "replyUrls": {"mainUrl": "https://api.bilibili.com/x/v2/reply/main?type=1&oid=123&mode=3&next=0&ps=20"},
                 "uniqueReplies": [{"rpid": "1"}],
                 "uidResult": {"uid": "2333"},
                 "uidPlan": {"uid": "2333"},
@@ -7892,6 +7922,7 @@ class CorpusContractTests(unittest.TestCase):
                 "publicReplies": [{"message": "root message"}],
                 "publicHistoryObject": {"sourceUrl": "https://www.bilibili.com/video/BV1history/"},
                 "deepenRootPlan": {"queued": True},
+                "replyUrls": {"mainUrl": "https://api.bilibili.com/x/v2/reply/main?type=1&oid=123&mode=3&next=0&ps=20"},
                 "uniqueReplies": [{"rpid": "1"}],
                 "uidResult": {"uid": "2333"},
                 "uidPlan": {"uid": "2333"},

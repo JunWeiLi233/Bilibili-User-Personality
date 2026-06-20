@@ -6,7 +6,7 @@ import math
 import re
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlparse
+from urllib.parse import quote, urlparse
 
 from python_backend.scrapers.rate_limiter import RateLimitPolicy
 
@@ -72,6 +72,7 @@ class BilibiliCrawlerSummary:
         "publicReplies",
         "publicHistoryObject",
         "deepenRootPlan",
+        "replyUrls",
         "uniqueReplies",
         "uidResult",
         "uidPlan",
@@ -205,6 +206,15 @@ class BilibiliCrawlerHelper:
                 existing_roots=deepen_root.get("existingRoots") if isinstance(deepen_root.get("existingRoots"), list) else [],
                 shown=deepen_root.get("shown"),
                 limit=deepen_root.get("limit", 6),
+            )
+        if isinstance(payload.get("replyUrls"), dict):
+            reply_urls = payload.get("replyUrls") or {}
+            result["replyUrls"] = self.reply_urls(
+                reply_urls.get("video") if isinstance(reply_urls.get("video"), dict) else {},
+                next_cursor=reply_urls.get("next", 0),
+                legacy_page=reply_urls.get("legacyPage", 1),
+                root_rpid=reply_urls.get("rootRpid", ""),
+                thread_page=reply_urls.get("threadPage", 1),
             )
         if isinstance(payload.get("uniqueReplies"), list):
             result["uniqueReplies"] = self.unique_by_rpid(payload.get("uniqueReplies"))
@@ -932,6 +942,27 @@ class BilibiliCrawlerHelper:
             and self.reply_subtree_matches(reply, needles)
         )
         return {"queued": queued, "rpid": rpid, "roots": roots + [rpid] if queued else roots}
+
+    def reply_urls(
+        self,
+        video: dict[str, Any] | None = None,
+        next_cursor: Any = 0,
+        legacy_page: Any = 1,
+        root_rpid: Any = "",
+        thread_page: Any = 1,
+    ) -> dict[str, str]:
+        video = video if isinstance(video, dict) else {}
+        reply_type = quote(str(video.get("replyType") or 1), safe="")
+        oid = quote(str(video.get("oid") or ""), safe="")
+        next_value = quote(str(next_cursor), safe="")
+        legacy_page_value = quote(str(legacy_page), safe="")
+        root = quote(str(root_rpid or ""), safe="")
+        thread_page_value = quote(str(thread_page), safe="")
+        return {
+            "mainUrl": f"https://api.bilibili.com/x/v2/reply/main?type={reply_type}&oid={oid}&mode=3&next={next_value}&ps=20",
+            "legacyUrl": f"https://api.bilibili.com/x/v2/reply?type={reply_type}&oid={oid}&pn={legacy_page_value}&ps=20&sort=2",
+            "threadUrl": f"https://api.bilibili.com/x/v2/reply/reply?type={reply_type}&oid={oid}&root={root}&pn={thread_page_value}&ps=20",
+        }
 
     def unique_by_rpid(self, items: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
         keyed: dict[str, dict[str, Any]] = {}
