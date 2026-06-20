@@ -72,7 +72,7 @@ from python_backend.cli.local_corpus_evidence import LocalCorpusEvidenceContract
 from python_backend.cli.local_corpus_flatten import LocalCorpusFlattenContractComparator, LocalCorpusFlattenRunner
 from python_backend.cli.local_corpus_mine_plan import LocalCorpusMinePlanContractComparator, LocalCorpusMinePlanRunner
 from python_backend.cli.merge_agent_dictionaries_plan import MergeAgentDictionariesPlanContractComparator, MergeAgentDictionariesPlanRunner
-from python_backend.cli.near_target_resolve_plan import NearTargetResolvePlanContractComparator, NearTargetResolvePlanRunner
+from python_backend.cli.near_target_resolve_plan import NearTargetResolvePlanCliRunner, NearTargetResolvePlanContractComparator, NearTargetResolvePlanRunner
 from python_backend.cli.video_comment_filter import VideoCommentFilterContractComparator, VideoCommentFilterRunner
 from python_backend.cli.video_context import VideoContextContractComparator, VideoContextRunner
 from python_backend.cli.video_relevance import VideoRelevanceContractComparator, VideoRelevanceRunner
@@ -15979,6 +15979,36 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(result["candidateTerms"], ["\u6307\u5b9a\u8bcd"])
         self.assertEqual(result["plans"][0]["bvids"], ["BV1Override1"])
+
+    def test_near_target_resolve_plan_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            state_path = root / "state.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {
+                                "term": "\u6307\u5b9a\u8bcd",
+                                "family": "attack",
+                                "evidenceCount": 0,
+                                "evidenceSources": [{"source": "Bilibili source https://www.bilibili.com/video/BV1Override1/"}],
+                            }
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            state_path.write_text(json.dumps({}), encoding="utf-8")
+
+            result = NearTargetResolvePlanCliRunner(
+                ["--dictionary", str(dictionary_path), "--state", str(state_path), "--override-terms", "\u6307\u5b9a\u8bcd"]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["candidateTerms"], ["\u6307\u5b9a\u8bcd"])
+        self.assertEqual(result["plannedCount"], 1)
 
     def test_near_target_override_terms_parser_lives_with_analysis_logic(self):
         parser = NearTargetOverrideTermsParser()
