@@ -731,6 +731,12 @@ class CorpusContractTests(unittest.TestCase):
             {"comments": 1, "runs": 1, "manifestCommentCount": 1, "manifestRunCount": 1, "storage": "split"},
         )
 
+    def test_package_verify_random_script_includes_tieba_corpus(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        command = package["scripts"]["python:verify-random"]
+
+        self.assertIn("--extra-corpus server/data/tiebaKeywordCorpus.json", command)
+
     def test_corpus_shard_writer_owns_json_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
