@@ -114,7 +114,7 @@ from python_backend.scrapers.batch_uid_range import BatchUidRangePlanSummary, Ba
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelProgressReporter, UidParallelProgressSummary
-from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineMergeReporter, UidPipelineMergeSummary, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
+from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineMergeReporter, UidPipelineMergeSummary, UidPipelinePlanSummary, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter, ScraperMonitorSummary
 from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherPlanner, UidFastPipelinePlanner
 
@@ -6210,6 +6210,36 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "progress", "python": {"processed": 1, "remaining": 2, "completionRatio": 0.3333}, "js": {"processed": 0}},
                 {"key": "training", "python": {"multiagent": True, "existingTermsOnly": False, "lockRetryDelayMs": 10000, "lockMaxRetries": 5}, "js": {"multiagent": False}},
             ],
+        )
+
+    def test_uid_pipeline_plan_summary_extracts_comparator_contract(self):
+        summary = UidPipelinePlanSummary().summarize(
+            {
+                "ok": True,
+                "range": {"start": 1, "end": 3, "total": 3},
+                "progress": {"processed": 1},
+                "limits": {"videosPerUser": 3},
+                "pacing": {"delayUidMs": 1500},
+                "training": {"multiagent": True},
+                "blockPolicy": {"blockedCodes": [-799, -352]},
+                "stats": {"success": 1},
+                "userDb": {"users": 2},
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "range": {"start": 1, "end": 3, "total": 3},
+                "progress": {"processed": 1},
+                "limits": {"videosPerUser": 3},
+                "pacing": {"delayUidMs": 1500},
+                "training": {"multiagent": True},
+                "blockPolicy": {"blockedCodes": [-799, -352]},
+                "stats": {"success": 1},
+                "userDb": {"users": 2},
+            },
         )
 
     def test_uid_fast_pipeline_plan_matches_js_direct_fetch_and_backoff_contract(self):
