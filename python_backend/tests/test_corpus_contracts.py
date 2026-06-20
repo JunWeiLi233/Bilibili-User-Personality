@@ -18,7 +18,7 @@ from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStats
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherHelper, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationReportSummary, RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator
-from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary
+from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceMatcher, KeywordEvidenceSummary
 from python_backend.cli.comment_coverage import CommentCoverageContractComparator, CommentCoverageRunner
 from python_backend.cli.corpus_shard_writer import CorpusShardWriteContractComparator, CorpusShardWriteRunner
@@ -1885,6 +1885,40 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             DeepSeekAnalyzeCliPlanContractComparator(Path("payload.json"), Path("js-report.json")).summary.RESULT_KEYS,
             DeepSeekAnalyzeCliPlanSummary.RESULT_KEYS,
+        )
+
+    def test_deepseek_analyze_cli_payload_comparator_owns_result_mismatch_contract(self):
+        result = DeepSeekAnalyzeCliPlanPayloadComparator().compare(
+            {
+                "ok": True,
+                "payload": {"text": "\u53cd\u8bbd[doge]", "uid": "42", "multiagent": True},
+                "input": {"source": "argv", "file": "", "readsStdin": False, "showHelp": False},
+            },
+            {
+                "ok": True,
+                "payload": {"text": "\u65e7\u6587\u672c"},
+                "input": {"source": "stdin"},
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "payload", "python": {"text": "\u53cd\u8bbd[doge]", "uid": "42", "multiagent": True}, "js": {"text": "\u65e7\u6587\u672c"}},
+                {"key": "input", "python": {"source": "argv", "file": "", "readsStdin": False, "showHelp": False}, "js": {"source": "stdin"}},
+            ],
+        )
+        self.assertEqual(
+            result["python"],
+            {
+                "payload": {"text": "\u53cd\u8bbd[doge]", "uid": "42", "multiagent": True},
+                "input": {"source": "argv", "file": "", "readsStdin": False, "showHelp": False},
+            },
+        )
+        self.assertEqual(
+            result["js"],
+            {"payload": {"text": "\u65e7\u6587\u672c"}, "input": {"source": "stdin"}},
         )
 
     def test_deepseek_analysis_plan_runner_reads_js_payload_contract(self):
