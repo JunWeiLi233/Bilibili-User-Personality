@@ -2634,6 +2634,31 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(request.effort, "max")
         self.assertTrue(request.multiagent)
 
+    def test_deepseek_analyzer_extracts_text_from_comment_object_payloads(self):
+        request = DeepSeekAnalyzerClient().build_request_from_payload(
+            {
+                "comments": [
+                    {"message": "\u72d7\u5934\u4fdd\u547d[doge]", "uid": "BVemoji"},
+                    {"text": "\u5efa\u8bae\u67e5\u67e5\u8d44\u6599", "source": "tieba"},
+                    {"commentText": "\u8fd9\u53e5\u662f\u53cd\u8bbd"},
+                    {"combinedText": "\u5f39\u5e55\u8868\u60c5\u4e5f\u662f\u8bed\u6c14"},
+                    {"message": ""},
+                    "\u76f4\u63a5\u5b57\u7b26\u4e32",
+                ]
+            }
+        )
+
+        self.assertEqual(
+            request.comments,
+            [
+                "\u72d7\u5934\u4fdd\u547d[doge]",
+                "\u5efa\u8bae\u67e5\u67e5\u8d44\u6599",
+                "\u8fd9\u53e5\u662f\u53cd\u8bbd",
+                "\u5f39\u5e55\u8868\u60c5\u4e5f\u662f\u8bed\u6c14",
+                "\u76f4\u63a5\u5b57\u7b26\u4e32",
+            ],
+        )
+
     def test_deepseek_analyze_cli_planner_matches_js_argument_contract(self):
         planner = DeepSeekAnalyzeCliPlanner()
 

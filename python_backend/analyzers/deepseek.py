@@ -234,9 +234,23 @@ class DeepSeekAnalyzerClient:
 
     def _comments_from_payload(self, payload: dict[str, Any]) -> list[str]:
         if isinstance(payload.get("comments"), list):
-            return [str(item) for item in payload["comments"] if str(item).strip()]
+            comments = []
+            for item in payload["comments"]:
+                text = self._comment_text(item)
+                if text:
+                    comments.append(text)
+            return comments
         text = str(payload.get("text") or payload.get("fullText") or "").strip()
         return [text] if text else []
+
+    def _comment_text(self, item: Any) -> str:
+        if isinstance(item, dict):
+            for key in ("message", "text", "commentText", "combinedText", "content"):
+                text = str(item.get(key) or "").strip()
+                if text:
+                    return text
+            return ""
+        return str(item or "").strip()
 
     def _split_sentences(self, text: str) -> list[str]:
         values = []
