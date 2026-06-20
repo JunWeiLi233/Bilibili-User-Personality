@@ -6,6 +6,7 @@ import unittest
 from pathlib import Path
 
 from python_backend.cli import aicu_batch_plan as aicu_batch_plan_cli
+from python_backend.cli import aicu_browser_batch_plan as aicu_browser_batch_plan_cli
 from python_backend.cli import aicu_scrape_plan as aicu_scrape_plan_cli
 from python_backend.cli import batch_bilibili_plan as batch_bilibili_plan_cli
 from python_backend.cli import batch_popular_plan as batch_popular_plan_cli
@@ -2009,6 +2010,29 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "browser", "python": {"command": "browser-harness", "script": "server/scripts/browserScrapeAicu.py", "wrapper": "server/data/_browser_aicu_tmp.py", "timeoutMs": 120000, "maxPages": 3}, "js": {"maxPages": 10}},
             ],
         )
+
+    def test_aicu_browser_batch_plan_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "aicu-browser-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--start=11", "--end=13"],
+                        "progress": {"lastUid": 11, "completed": 1},
+                        "database": {"users": {"12": {}, "99": {}}},
+                        "projectDir": "D:/repo",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = aicu_browser_batch_plan_cli.AicuBrowserBatchPlanCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"requestedStart": 11, "effectiveStart": 12, "end": 13, "total": 2})
+        self.assertEqual(result["database"], {"users": 2, "existingInEffectiveRange": 1})
+        self.assertEqual(result["sampleInvocation"]["wrapperArgv"], ["browserScrapeAicu.py", "12", "3"])
 
     def test_aicu_browser_batch_plan_runner_defaults_non_object_payload_root(self):
         with tempfile.TemporaryDirectory() as tmp:
