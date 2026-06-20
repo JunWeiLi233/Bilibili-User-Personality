@@ -12788,6 +12788,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["stats"], {"success": 1, "noComments": 0, "noVideos": 0, "noUser": 0, "trainError": 0, "blocked": 1, "errors": 2})
         self.assertEqual(result["userDb"], {"users": 3, "usersInRange": 2})
 
+    def test_uid_pipeline_plan_runner_defaults_non_object_payload_root(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "uid-pipeline-plan.json"
+            payload_path.write_text(json.dumps(["not", "an", "object"]), encoding="utf-8")
+
+            result = UidPipelinePlanRunner(payload_path).run()
+
+        self.assertEqual(result, UidPipelineWorkerPlanner.build_plan_from_payload({}))
+
     def test_uid_pipeline_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
