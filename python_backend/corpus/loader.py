@@ -23,6 +23,16 @@ class CorpusLoader:
     @classmethod
     def load_from_payload(cls, payload: dict[str, Any] | None = None) -> Corpus:
         payload = payload if isinstance(payload, dict) else {}
+        corpus_payload = payload.get("corpus") if isinstance(payload.get("corpus"), dict) else None
+        if corpus_payload is not None:
+            comments = [comment for comment in corpus_payload.get("comments", []) if isinstance(comment, dict)]
+            runs = [run for run in corpus_payload.get("runs", []) if isinstance(run, dict)]
+            manifest = corpus_payload.get("manifest") if isinstance(corpus_payload.get("manifest"), dict) else {}
+            return Corpus(
+                manifest={**manifest, "storage": manifest.get("storage") or corpus_payload.get("storage") or "inline"},
+                comments=comments,
+                runs=runs,
+            )
         path = payload.get("corpusPath", payload.get("path", "server/data/bilibiliDirectProbeCorpus.json"))
         fallback = payload.get("fallback") if isinstance(payload.get("fallback"), dict) else None
         return cls(path, fallback=fallback).load()

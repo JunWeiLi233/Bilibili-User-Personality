@@ -24,6 +24,19 @@ class DictionaryLoader:
     @classmethod
     def load_from_payload(cls, payload: dict[str, Any] | None = None) -> KeywordDictionary:
         payload = payload if isinstance(payload, dict) else {}
+        dictionary_payload = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else None
+        if dictionary_payload is not None:
+            entries = [entry for entry in dictionary_payload.get("entries", []) if isinstance(entry, dict)]
+            return KeywordDictionary(
+                manifest={
+                    "version": dictionary_payload.get("version", 1),
+                    "storage": dictionary_payload.get("storage") or "inline",
+                    "updatedAt": dictionary_payload.get("updatedAt") or None,
+                    "entries": entries,
+                    "families": dictionary_payload.get("families") or {},
+                },
+                entries=entries,
+            )
         path = payload.get("dictionaryPath", payload.get("path", "server/data/deepseekKeywordDictionary.json"))
         return cls(path).load()
 

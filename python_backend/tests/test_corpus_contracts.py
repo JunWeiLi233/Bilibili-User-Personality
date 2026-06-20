@@ -263,6 +263,22 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(fallback.comments, [{"message": "fallback"}])
         self.assertEqual(fallback.runs, [{"at": "fallback-run"}])
 
+    def test_loader_accepts_inline_js_json_payload_contract(self):
+        loaded = CorpusLoader.load_from_payload(
+            {
+                "corpus": {
+                    "comments": [{"message": "inline comment"}, "ignored"],
+                    "runs": [{"at": "inline-run"}, "ignored"],
+                    "manifest": {"storage": "inline", "source": "payload"},
+                }
+            }
+        )
+
+        self.assertEqual(loaded.manifest["storage"], "inline")
+        self.assertEqual(loaded.manifest["source"], "payload")
+        self.assertEqual(loaded.comments, [{"message": "inline comment"}])
+        self.assertEqual(loaded.runs, [{"at": "inline-run"}])
+
     def test_writer_round_trips_small_split_corpus(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -3271,6 +3287,22 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(loaded.entries, [{"term": "doge", "family": "attack"}])
         self.assertEqual(missing.manifest["storage"], "missing")
         self.assertEqual(missing.entries, [])
+
+    def test_dictionary_loader_accepts_inline_js_json_payload_contract(self):
+        loaded = DictionaryLoader.load_from_payload(
+            {
+                "dictionary": {
+                    "version": 3,
+                    "entries": [{"term": "doge", "family": "attack"}, "ignored"],
+                    "families": {"attack": 1},
+                }
+            }
+        )
+
+        self.assertEqual(loaded.manifest["version"], 3)
+        self.assertEqual(loaded.manifest["storage"], "inline")
+        self.assertEqual(loaded.manifest["families"], {"attack": 1})
+        self.assertEqual(loaded.entries, [{"term": "doge", "family": "attack"}])
 
     def test_dictionary_loader_normalizes_monolith_manifest_like_js(self):
         with tempfile.TemporaryDirectory() as tmp:

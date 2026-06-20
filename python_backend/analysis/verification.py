@@ -92,11 +92,15 @@ class RandomVerificationPayloadRunner:
         payload = self._read_payload()
         sample_size = max(0, int(payload.get("sampleSize") or 50))
         seed = int(payload.get("seed") or 1)
-        comments, runs, storage = self._corpus(payload)
-        entries = self._dictionary_entries(payload)
-        return RandomVerifier.from_dictionary_entries(entries).report(
-            comments,
-            corpus={"comments": len(comments), "runs": len(runs), "storage": storage},
+        corpus = CorpusLoader.load_from_payload(payload)
+        dictionary = DictionaryLoader.load_from_payload(payload)
+        return RandomVerifier.from_dictionary_entries(dictionary.entries).report(
+            corpus.comments,
+            corpus={
+                "comments": len(corpus.comments),
+                "runs": len(corpus.runs),
+                "storage": str(corpus.manifest.get("storage", "monolith")),
+            },
             sample_size=sample_size,
             seed=seed,
         )
@@ -105,22 +109,6 @@ class RandomVerificationPayloadRunner:
         with self.payload_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
-
-    def _corpus(self, payload: dict[str, Any]) -> tuple[list[dict[str, Any]], list[dict[str, Any]], str]:
-        if payload.get("corpusPath"):
-            corpus = CorpusLoader(payload.get("corpusPath")).load()
-            return corpus.comments, corpus.runs, str(corpus.manifest.get("storage", "monolith"))
-        corpus_payload = payload.get("corpus") if isinstance(payload.get("corpus"), dict) else {}
-        comments = [comment for comment in corpus_payload.get("comments", []) if isinstance(comment, dict)]
-        runs = [run for run in corpus_payload.get("runs", []) if isinstance(run, dict)]
-        manifest = corpus_payload.get("manifest") if isinstance(corpus_payload.get("manifest"), dict) else {}
-        return comments, runs, str(manifest.get("storage") or corpus_payload.get("storage") or "inline")
-
-    def _dictionary_entries(self, payload: dict[str, Any]) -> list[dict[str, Any]]:
-        if payload.get("dictionaryPath"):
-            return DictionaryLoader(payload.get("dictionaryPath")).load().entries
-        dictionary_payload = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}
-        return [entry for entry in dictionary_payload.get("entries", []) if isinstance(entry, dict)]
 
 
 class RandomVerificationPayloadContractComparator:
