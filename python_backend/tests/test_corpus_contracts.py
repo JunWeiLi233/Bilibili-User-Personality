@@ -37,6 +37,7 @@ from python_backend.cli import tieba_timing as tieba_timing_cli
 from python_backend.cli import uid_discovery_plan as uid_discovery_plan_cli
 from python_backend.cli import uid_discovery_progress as uid_discovery_progress_cli
 from python_backend.cli import uid_pipeline_launcher as uid_pipeline_launcher_cli
+from python_backend.cli import uid_pipeline_plan as uid_pipeline_plan_cli
 from python_backend.cli import uid_range_progress as uid_range_progress_cli
 from python_backend.cli import video_comment_filter as video_comment_filter_cli
 from python_backend.cli import video_context as video_context_cli
@@ -13447,6 +13448,28 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "training", "python": {"multiagent": True, "existingTermsOnly": False, "lockRetryDelayMs": 10000, "lockMaxRetries": 5}, "js": {"multiagent": False}},
             ],
         )
+
+    def test_uid_pipeline_plan_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "uid-pipeline-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--start=1", "--end=3"],
+                        "progress": {"processed": {"1": "success"}, "stats": {"success": 1}},
+                        "database": {"users": {"1": {}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = uid_pipeline_plan_cli.UidPipelinePlanCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"start": 1, "end": 3, "total": 3})
+        self.assertEqual(result["progress"], {"processed": 1, "remaining": 2, "completionRatio": 0.3333})
+        self.assertEqual(result["userDb"], {"users": 1, "usersInRange": 1})
 
     def test_uid_pipeline_plan_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
