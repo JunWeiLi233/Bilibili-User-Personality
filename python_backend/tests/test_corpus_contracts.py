@@ -6759,6 +6759,93 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("SESSDATA=from-request", result["headers"]["cookie"])
         self.assertIn("b_nut=1700000000", result["headers"]["cookie"])
 
+    def test_bilibili_crawler_helper_collects_public_reply_contract(self):
+        result = BilibiliCrawlerHelper().collect_public_reply(
+            {
+                "rpid": 10,
+                "like": 7,
+                "ctime": 1710000000,
+                "mid": 111,
+                "member": {"mid": 222, "uname": "root-user"},
+                "content": {"message": "root message"},
+                "replies": [
+                    {
+                        "rpid": 11,
+                        "like": "3",
+                        "ctime": "1710000001",
+                        "member": {"mid": 333, "uname": "child-user"},
+                        "content": {"message": "child message"},
+                    },
+                    {"rpid": 12, "member": {"mid": 444}, "content": {}},
+                ],
+            },
+            {
+                "kind": "video",
+                "bvid": "BV1public",
+                "oid": 123,
+                "replyType": 1,
+                "title": "Public Replies",
+                "sourceUrl": "https://www.bilibili.com/video/BV1public",
+            },
+        )
+
+        self.assertEqual(
+            result,
+            [
+                {
+                    "sourceKind": "video",
+                    "bvid": "BV1public",
+                    "oid": "123",
+                    "replyType": 1,
+                    "sourceTitle": "Public Replies",
+                    "sourceUrl": "https://www.bilibili.com/video/BV1public",
+                    "rpid": "10",
+                    "like": 7,
+                    "ctime": 1710000000,
+                    "uname": "root-user",
+                    "mid": "111",
+                    "message": "root message",
+                },
+                {
+                    "sourceKind": "video",
+                    "bvid": "BV1public",
+                    "oid": "123",
+                    "replyType": 1,
+                    "sourceTitle": "Public Replies",
+                    "sourceUrl": "https://www.bilibili.com/video/BV1public",
+                    "rpid": "11",
+                    "like": 3,
+                    "ctime": 1710000001,
+                    "uname": "child-user",
+                    "mid": "333",
+                    "message": "child message",
+                },
+            ],
+        )
+
+    def test_bilibili_crawler_helper_builds_payload_public_reply_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "publicReply": {
+                    "reply": {
+                        "rpid": 10,
+                        "member": {"mid": 222, "uname": "root-user"},
+                        "content": {"message": "root message"},
+                    },
+                    "object": {
+                        "kind": "video",
+                        "bvid": "BV1public",
+                        "oid": 123,
+                        "replyType": 1,
+                        "title": "Public Replies",
+                    },
+                }
+            }
+        )
+
+        self.assertEqual(result["publicReplies"][0]["message"], "root message")
+        self.assertEqual(result["publicReplies"][0]["sourceKind"], "video")
+
     def test_bilibili_crawler_helper_plans_request_schedule_contract(self):
         self.assertEqual(
             BilibiliCrawlerHelper().plan_request_schedule(
@@ -7520,6 +7607,7 @@ class CorpusContractTests(unittest.TestCase):
                 "humanPause": {"waitMs": 850},
                 "fetchConfig": {"forwardsSignal": True},
                 "requestInit": {"hasSignal": True},
+                "publicReplies": [{"message": "root message"}],
                 "dynamicRecords": {"objects": []},
                 "extra": "ignored",
             }
@@ -7547,6 +7635,7 @@ class CorpusContractTests(unittest.TestCase):
                 "humanPause": {"waitMs": 850},
                 "fetchConfig": {"forwardsSignal": True},
                 "requestInit": {"hasSignal": True},
+                "publicReplies": [{"message": "root message"}],
                 "dynamicRecords": {"objects": []},
             },
         )

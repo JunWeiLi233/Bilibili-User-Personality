@@ -69,6 +69,7 @@ class BilibiliCrawlerSummary:
         "cookie",
         "objects",
         "targetReplies",
+        "publicReplies",
         "danmaku",
         "dynamicRecords",
         "crawlerConfig",
@@ -178,6 +179,12 @@ class BilibiliCrawlerHelper:
                 payload.get("targetUid"),
                 payload.get("object") if isinstance(payload.get("object"), dict) else {},
                 [],
+            )
+        if isinstance(payload.get("publicReply"), dict):
+            public_reply = payload.get("publicReply") or {}
+            result["publicReplies"] = self.collect_public_reply(
+                public_reply.get("reply") if isinstance(public_reply.get("reply"), dict) else {},
+                public_reply.get("object") if isinstance(public_reply.get("object"), dict) else {},
             )
         if "danmakuXml" in payload:
             result["danmaku"] = self.parse_danmaku_xml(
@@ -821,6 +828,26 @@ class BilibiliCrawlerHelper:
             bucket.append(self._reply_record(reply, obj, mid))
         for child in reply.get("replies") if isinstance(reply.get("replies"), list) else []:
             self.collect_reply_for_uid(child, target_uid, obj, bucket)
+        return bucket
+
+    def collect_public_reply(
+        self,
+        reply: dict[str, Any] | None,
+        obj: dict[str, Any] | None,
+        bucket: list[dict[str, Any]] | None = None,
+    ) -> list[dict[str, Any]]:
+        bucket = bucket if bucket is not None else []
+        if not isinstance(reply, dict) or not isinstance(reply.get("content"), dict) or not isinstance(reply.get("member"), dict):
+            return bucket
+        content = reply.get("content") or {}
+        if not content.get("message"):
+            return bucket
+        obj = obj if isinstance(obj, dict) else {}
+        member = reply.get("member") or {}
+        mid = str(reply.get("mid") or member.get("mid") or "")
+        bucket.append(self._reply_record(reply, obj, mid))
+        for child in reply.get("replies") if isinstance(reply.get("replies"), list) else []:
+            self.collect_public_reply(child, obj, bucket)
         return bucket
 
     def dedupe_public_objects(self, objects: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
