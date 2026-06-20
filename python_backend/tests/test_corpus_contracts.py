@@ -94,7 +94,7 @@ from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriteSummary, CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliParseContractComparator as BilibiliParsePayloadComparator, BilibiliParseSummary, BilibiliPublicParser
-from python_backend.scrapers.aicu import AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanSummary, AicuScrapePlanner
+from python_backend.scrapers.aicu import AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanContractComparator as AicuScrapePlanPayloadComparator, AicuScrapePlanSummary, AicuScrapePlanner
 from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanSummary, AicuBrowserBatchPlanner
 from python_backend.scrapers import video_link_direct
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanner
@@ -774,6 +774,30 @@ class CorpusContractTests(unittest.TestCase):
         )
 
         self.assertEqual(summary, {"uids": ["42", "43"], "summary": {"uids": 2}, "requests": [{"uid": "42"}]})
+
+    def test_aicu_scrape_plan_payload_comparator_owns_result_key_mismatch_contract(self):
+        result = AicuScrapePlanPayloadComparator().compare(
+            {
+                "ok": True,
+                "uids": ["42", "43"],
+                "summary": {"uids": 2},
+                "requests": [{"uid": "42"}],
+                "extra": "ignored",
+            },
+            {"ok": True, "uids": ["42"], "summary": {"uids": 1}, "requests": []},
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "uids", "python": ["42", "43"], "js": ["42"]},
+                {"key": "summary", "python": {"uids": 2}, "js": {"uids": 1}},
+                {"key": "requests", "python": [{"uid": "42"}], "js": []},
+            ],
+        )
+        self.assertEqual(result["python"], {"uids": ["42", "43"], "summary": {"uids": 2}, "requests": [{"uid": "42"}]})
+        self.assertEqual(result["js"], {"uids": ["42"], "summary": {"uids": 1}, "requests": []})
 
     def test_aicu_batch_planner_matches_js_resume_waf_and_request_contract(self):
         planner = AicuBatchPlanner()
