@@ -148,6 +148,26 @@ class UidPipelineLauncherPlanner:
         }
 
 
+class UidPipelineLauncherSummary:
+    """Shape UID pipeline launcher state into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("workers",)
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        raw_state = result.get("state") if isinstance(result.get("state"), dict) else result
+        raw_workers = raw_state.get("workers") if isinstance(raw_state.get("workers"), list) else None
+        if raw_workers is None:
+            return {}
+        return {
+            "workers": [
+                {"start": worker.get("start"), "end": worker.get("end"), "progressFile": worker.get("progressFile")}
+                for worker in raw_workers
+                if isinstance(worker, dict)
+            ]
+        }
+
+
 class UidPipelineMergeReporter:
     """Merge UID pipeline worker progress payloads into the JS report contract."""
 

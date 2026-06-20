@@ -114,7 +114,7 @@ from python_backend.scrapers.batch_uid_range import BatchUidRangePlanSummary, Ba
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchScraperLauncherSummary, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanSummary, UidParallelProgressReporter, UidParallelProgressSummary
-from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineMergeReporter, UidPipelineMergeSummary, UidPipelinePlanSummary, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
+from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineLauncherSummary, UidPipelineMergeReporter, UidPipelineMergeSummary, UidPipelinePlanSummary, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter, ScraperMonitorSummary
 from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherPlanner, FastPipelineLauncherSummary, UidFastPipelinePlanSummary, UidFastPipelinePlanner
 
@@ -5900,6 +5900,29 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
         self.assertFalse((data_dir / "uid-pipeline-launcher.json").exists())
+
+    def test_uid_pipeline_launcher_summary_extracts_comparator_contract(self):
+        result = UidPipelineLauncherSummary().summarize(
+            {
+                "ok": True,
+                "startedAt": "2026-06-19T00:00:00.000Z",
+                "workers": [
+                    {
+                        "start": 1,
+                        "end": 2,
+                        "progressFile": "uid-pipeline-1-2.json",
+                        "logFile": "scraper-logs/uid-pipeline-1-2.log",
+                        "args": ["--start=1", "--end=2"],
+                    }
+                ],
+                "state": {
+                    "startedAt": "2026-06-19T00:00:00.000Z",
+                    "workers": [{"start": 1, "end": 2, "progressFile": "uid-pipeline-1-2.json"}],
+                },
+            }
+        )
+
+        self.assertEqual(result, {"workers": [{"start": 1, "end": 2, "progressFile": "uid-pipeline-1-2.json"}]})
 
     def test_uid_pipeline_launcher_comparator_reports_worker_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:

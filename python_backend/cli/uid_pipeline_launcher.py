@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any, Callable
 
-from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner
+from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineLauncherSummary
 
 
 class UidPipelineLauncherPlanRunner:
@@ -41,8 +41,6 @@ class UidPipelineLauncherPlanRunner:
 class UidPipelineLauncherContractComparator:
     """Compare the Python dry-run launcher state against JS launcher state JSON."""
 
-    RESULT_KEYS = ("workers",)
-
     def __init__(
         self,
         data_dir: str | Path,
@@ -57,6 +55,7 @@ class UidPipelineLauncherContractComparator:
         self.total_start = total_start
         self.total_end = total_end
         self.workers = workers
+        self.summary = UidPipelineLauncherSummary()
 
     def compare(self) -> dict[str, Any]:
         python_state = UidPipelineLauncherPlanRunner(
@@ -67,16 +66,18 @@ class UidPipelineLauncherContractComparator:
             now=lambda: "",
         ).run()["state"]
         js_state = self._read_js_report()
+        python_summary = self.summary.summarize(python_state)
+        js_summary = self.summary.summarize(js_state)
         mismatches = [
-            {"key": key, "python": python_state.get(key), "js": js_state.get(key)}
-            for key in self.RESULT_KEYS
-            if key in js_state and python_state.get(key) != js_state.get(key)
+            {"key": key, "python": python_summary.get(key), "js": js_summary.get(key)}
+            for key in self.summary.RESULT_KEYS
+            if key in js_summary and python_summary.get(key) != js_summary.get(key)
         ]
         return {
             "ok": not mismatches,
             "mismatches": mismatches,
-            "python": {key: python_state.get(key) for key in ("startedAt", "workers")},
-            "js": {key: js_state.get(key) for key in ("startedAt", "workers") if key in js_state},
+            "python": {"startedAt": python_state.get("startedAt"), **python_summary},
+            "js": {"startedAt": js_state.get("startedAt"), **js_summary} if "startedAt" in js_state else js_summary,
         }
 
     def _read_js_report(self) -> dict[str, Any]:
