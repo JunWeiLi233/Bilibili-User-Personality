@@ -3056,6 +3056,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(file_plan["input"], {"source": "file", "file": "comments.txt", "readsStdin": False, "showHelp": False})
         self.assertTrue(file_plan["payload"]["multiagent"])
 
+    def test_deepseek_analyze_cli_runner_defaults_non_object_payload_root(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "deepseek-cli.json"
+            payload_path.write_text(json.dumps(["not", "an", "object"]), encoding="utf-8")
+
+            result = DeepSeekAnalyzeCliPlanRunner(payload_path).run()
+
+        self.assertEqual(result, DeepSeekAnalyzeCliPlanner().build_plan([], stdin_is_tty=True))
+
     def test_deepseek_analyze_cli_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
