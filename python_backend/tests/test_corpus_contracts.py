@@ -279,6 +279,17 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(loaded.comments, [{"message": "inline comment"}])
         self.assertEqual(loaded.runs, [{"at": "inline-run"}])
 
+    def test_loader_accepts_top_level_comment_array_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            corpus_path = Path(tmp) / "comments.json"
+            corpus_path.write_text(json.dumps([{"message": "array comment"}, "ignored"]), encoding="utf-8")
+
+            loaded = CorpusLoader(corpus_path).load()
+
+        self.assertEqual(loaded.manifest["storage"], "array")
+        self.assertEqual(loaded.comments, [{"message": "array comment"}])
+        self.assertEqual(loaded.runs, [])
+
     def test_writer_round_trips_small_split_corpus(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -9279,6 +9290,35 @@ class CorpusContractTests(unittest.TestCase):
             result = CommentCoverageRunner(dictionary_path, comments_path).run()
 
         self.assertEqual(result["summary"]["byMode"], {"keyword": 1, "neutral": 0, "uncovered": 0})
+
+    def test_comment_coverage_runner_hydrates_split_loader_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            comments_path = root / "corpus.json"
+            (root / "dictionary.entries").mkdir()
+            (root / "corpus.comments").mkdir()
+            dictionary_path.write_text(
+                json.dumps({"storage": "split", "entryFiles": {"attack": ["dictionary.entries/attack-001.json"]}}),
+                encoding="utf-8",
+            )
+            (root / "dictionary.entries" / "attack-001.json").write_text(
+                json.dumps({"entries": [{"term": "\u72d7\u5934", "family": "cooperation"}]}),
+                encoding="utf-8",
+            )
+            comments_path.write_text(
+                json.dumps({"storage": "split", "commentFiles": ["corpus.comments/comments-001.json"]}),
+                encoding="utf-8",
+            )
+            (root / "corpus.comments" / "comments-001.json").write_text(
+                json.dumps({"comments": [{"message": "\u72d7\u5934\u4fdd\u547d"}, {"message": "\u666e\u901a\u8bc4\u8bba"}]}),
+                encoding="utf-8",
+            )
+
+            result = CommentCoverageRunner(dictionary_path, comments_path).run()
+
+        self.assertEqual(result["summary"]["total"], 2)
+        self.assertEqual(result["summary"]["byMode"], {"keyword": 1, "neutral": 1, "uncovered": 0})
 
     def test_comment_coverage_payload_runner_lives_with_analysis_logic(self):
         with tempfile.TemporaryDirectory() as tmp:

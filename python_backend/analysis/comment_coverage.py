@@ -189,14 +189,11 @@ class CommentCoverageRunner:
         return self.classifier.sample_result(dictionary, comments, options)
 
     def _read_dictionary(self) -> dict[str, Any]:
-        payload = _read_json(self.dictionary_path)
-        return payload if isinstance(payload, dict) else {"entries": []}
+        loaded = DictionaryLoader(self.dictionary_path).load()
+        return {**loaded.manifest, "entries": loaded.entries}
 
     def _read_comments(self) -> list[Any]:
-        payload = _read_json(self.comments_path)
-        if isinstance(payload, dict) and isinstance(payload.get("comments"), list):
-            return payload["comments"]
-        return payload if isinstance(payload, list) else []
+        return CorpusLoader(self.comments_path).load().comments
 
 
 class CommentCoverageJsonPayloadRunner:

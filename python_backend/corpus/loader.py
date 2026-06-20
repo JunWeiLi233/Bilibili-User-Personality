@@ -42,6 +42,9 @@ class CorpusLoader:
             manifest = self._read_json(self.path)
         except FileNotFoundError:
             manifest = dict(self.fallback or {"version": 1, "comments": [], "runs": []})
+        if isinstance(manifest, list):
+            comments = [comment for comment in manifest if isinstance(comment, dict)]
+            return Corpus(manifest={"version": 1, "storage": "array", "comments": comments, "runs": []}, comments=comments, runs=[])
         if manifest.get("storage") != "split":
             return Corpus(
                 manifest=manifest,
