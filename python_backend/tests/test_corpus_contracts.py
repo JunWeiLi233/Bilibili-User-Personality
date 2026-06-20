@@ -6479,6 +6479,26 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["corpus"]["comments"][0]["message"], "\u76f4\u63a5\u63a2\u6d4b\u8bc4\u8bba")
         self.assertEqual(result["corpus"]["runs"][0]["commentsAdded"], 1)
 
+    def test_direct_probe_corpus_cli_runner_reads_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "direct-probe-corpus.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "existing": {"version": 1, "comments": [], "runs": []},
+                        "comments": [{"message": "\u76f4\u63a5\u8ddf\u8fdb\u8bc4\u8bba", "source": "fresh", "uid": "84"}],
+                        "run": {"at": "2026-06-18T02:00:00.000Z", "query": "\u76f4\u63a5\u8ddf\u8fdb"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = direct_probe_corpus_cli.DirectProbeCorpusCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["corpus"]["comments"][0]["message"], "\u76f4\u63a5\u8ddf\u8fdb\u8bc4\u8bba")
+        self.assertEqual(result["corpus"]["runs"][0]["commentsAdded"], 1)
+
     def test_direct_probe_corpus_cli_compares_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
