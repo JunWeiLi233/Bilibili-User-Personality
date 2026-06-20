@@ -100,7 +100,7 @@ from python_backend.scrapers import video_link_direct
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanner
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerContractComparator as BilibiliCrawlerPayloadComparator, BilibiliCrawlerHelper, BilibiliCrawlerSummary
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanContractComparator as BilibiliProbePlanPayloadComparator, BilibiliProbePlanSummary, BilibiliProbePlanner
-from python_backend.runtime.file_lock import FileLockStateInspector, FileLockStateSummary
+from python_backend.runtime.file_lock import FileLockStateContractComparator as FileLockStatePayloadComparator, FileLockStateInspector, FileLockStateSummary
 from python_backend.scrapers.rate_limiter import RateLimiter
 from python_backend.cli.scraper_monitor import ScraperMonitorContractComparator, ScraperMonitorRunner
 from python_backend.cli.aicu_scrape_plan import AicuScrapePlanContractComparator, AicuScrapePlanRunner
@@ -727,6 +727,31 @@ class CorpusContractTests(unittest.TestCase):
                 }
             ],
         )
+
+    def test_file_lock_state_payload_comparator_lives_with_runtime_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            lock_path = root / "harvest.lock"
+            lock_path.mkdir()
+            js_report_path = root / "js-lock-report.json"
+            (lock_path / "owner.json").write_text(
+                json.dumps({"pid": 0, "startedAt": "2026-06-19T00:00:00.000Z", "command": "node"}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"state": {"exists": False}}), encoding="utf-8")
+
+            comparison = FileLockStatePayloadComparator(
+                lock_path,
+                js_report_path,
+                stale_ms=60000,
+                now_ms=lambda: 1781836920000,
+                process_alive=lambda pid: False,
+            ).compare()
+
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(comparison["mismatches"][0]["key"], "state")
+        self.assertEqual(comparison["mismatches"][0]["python"]["exists"], True)
+        self.assertEqual(comparison["mismatches"][0]["js"], {"exists": False})
 
     def test_file_lock_state_summary_extracts_comparator_contract(self):
         summary = FileLockStateSummary().summarize(
