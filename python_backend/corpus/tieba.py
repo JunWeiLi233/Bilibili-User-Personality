@@ -88,6 +88,28 @@ class TiebaCorpusUpdateRunner:
         return payload if isinstance(payload, dict) else fallback
 
 
+class TiebaCorpusPayloadRunner:
+    """Run a Tieba corpus update from one JS/Python payload JSON file."""
+
+    def __init__(self, payload_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.updater = TiebaCorpusUpdater()
+
+    def run(self) -> dict[str, Any]:
+        payload = self._read_payload()
+        existing = payload.get("existing") if isinstance(payload.get("existing"), dict) else {"version": 1, "updatedAt": None, "runs": [], "comments": []}
+        run = payload.get("run") if isinstance(payload.get("run"), dict) else {}
+        generated_at = payload.get("generatedAt") if isinstance(payload.get("generatedAt"), str) else None
+        return self.updater.build_update_result(existing, run, generated_at)
+
+    def _read_payload(self) -> dict[str, Any]:
+        if not self.payload_path.exists():
+            return {}
+        with self.payload_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
+
+
 class TiebaCorpusUpdateContractComparator:
     """Compare Python Tieba corpus updates against saved JS-compatible JSON."""
 

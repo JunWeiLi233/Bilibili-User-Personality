@@ -1,8 +1,11 @@
+import contextlib
+import io
 import json
 import tempfile
 import unittest
 from pathlib import Path
 
+from python_backend.cli import tieba_corpus as tieba_corpus_cli
 from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditPayloadContractComparator, CoverageAuditReport
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoveragePayloadContractComparator, CommentCoverageRunner as CommentCoveragePayloadRunner, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanPayloadContractComparator, CoverageHarvestLoopPlanRunner as CoverageHarvestLoopPayloadPlanRunner, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
@@ -87,7 +90,7 @@ from python_backend.corpus.local import LocalCorpusFlattenContractComparator as 
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanContractComparator as LocalCorpusMinePlanPayloadComparator, LocalCorpusMinePlanSummary
 from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner, AgentDictionaryMergePlanSummary, MergeAgentDictionariesPlanContractComparator as MergeAgentDictionariesPlanPayloadComparator, MergeAgentDictionariesPlanRunner as MergeAgentDictionariesPayloadPlanRunner
 from python_backend.corpus.contracts import ContractComparator, ContractComparator as CorpusContractPayloadComparator, CorpusContractSummary
-from python_backend.corpus.tieba import TiebaCorpusUpdateContractComparator as TiebaCorpusUpdatePayloadComparator, TiebaCorpusUpdater, TiebaCorpusUpdateRunner as TiebaCorpusUpdatePayloadRunner, TiebaCorpusUpdateSummary
+from python_backend.corpus.tieba import TiebaCorpusPayloadRunner, TiebaCorpusUpdateContractComparator as TiebaCorpusUpdatePayloadComparator, TiebaCorpusUpdater, TiebaCorpusUpdateRunner as TiebaCorpusUpdatePayloadRunner, TiebaCorpusUpdateSummary
 from python_backend.corpus import dictionary_prune
 from python_backend.analysis import video_filter
 from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoCommentFilterPayloadContractComparator, VideoCommentFilterPayloadRunner, VideoContextBuilder, VideoContextContractComparator as VideoContextPayloadComparator, VideoContextRunner as VideoContextPayloadRunner, VideoRelevanceContractComparator as VideoRelevancePayloadComparator, VideoRelevanceFilter, VideoRelevancePayloadContractComparator, VideoRelevancePayloadRunner
@@ -4086,6 +4089,65 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertTrue(result["changed"])
         self.assertEqual(result["corpus"]["comments"][0]["message"], "\u65b0\u8bc4\u8bba")
+
+    def test_tieba_corpus_payload_runner_accepts_single_json_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "tieba-payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "existing": {
+                            "version": 1,
+                            "updatedAt": "2026-06-16T00:00:00.000Z",
+                            "runs": [{"at": "old"}],
+                            "comments": [{"message": "\u65e7\u8bc4\u8bba", "sourceUrl": "https://tieba.baidu.com/p/1", "rpid": "tieba-1"}],
+                        },
+                        "run": {
+                            "at": "2026-06-17T04:00:00.000Z",
+                            "results": [
+                                {
+                                    "comments": [
+                                        {"message": "\u65e7\u8bc4\u8bba", "sourceUrl": "https://tieba.baidu.com/p/1", "rpid": "tieba-1"},
+                                        {"message": "\u65b0\u8bc4\u8bba", "sourceUrl": "https://tieba.baidu.com/p/4", "rpid": "tieba-4"},
+                                    ]
+                                }
+                            ],
+                        },
+                        "generatedAt": "2026-06-17T04:00:00.000Z",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = TiebaCorpusPayloadRunner(payload_path).run()
+
+        self.assertTrue(result["changed"])
+        self.assertEqual([comment["message"] for comment in result["corpus"]["comments"]], ["\u65e7\u8bc4\u8bba", "\u65b0\u8bc4\u8bba"])
+        self.assertEqual([comment["message"] for comment in result["newComments"]], ["\u65e7\u8bc4\u8bba", "\u65b0\u8bc4\u8bba"])
+        self.assertEqual(result["corpus"]["updatedAt"], "2026-06-17T04:00:00.000Z")
+
+    def test_tieba_corpus_cli_accepts_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "tieba-payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "existing": {"version": 1, "runs": [], "comments": []},
+                        "run": {"results": [{"comments": [{"message": "\u5355\u6587\u4ef6\u8d34\u5427", "sourceUrl": "https://tieba.baidu.com/p/5"}]}]},
+                        "generatedAt": "2026-06-17T05:00:00.000Z",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                exit_code = tieba_corpus_cli.main(["--payload", str(payload_path)])
+
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(json.loads(output.getvalue())["newComments"][0]["message"], "\u5355\u6587\u4ef6\u8d34\u5427")
 
     def test_tieba_corpus_update_contract_comparator_reports_update_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
