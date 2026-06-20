@@ -97,7 +97,7 @@ from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContra
 from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContractComparator, FastPipelineLauncherPlanRunner
 from python_backend.corpus import direct_probe as direct_probe_module
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusContractComparator as DirectProbeCorpusPayloadComparator, DirectProbeCorpusPayloadContractComparator, DirectProbeCorpusRunner as DirectProbePayloadCorpusRunner, DirectProbeCorpusSummary, DirectProbePlanContractComparator as DirectProbePlanPayloadComparator, DirectProbePlanPayloadContractComparator, DirectProbePlanRunner as DirectProbePayloadPlanRunner, DirectProbePlanSummary
-from python_backend.corpus.history_tags import HistoryTagCorpusContractComparator as HistoryTagCorpusPayloadComparator, HistoryTagCorpusLoader, HistoryTagCorpusManager, HistoryTagCorpusPayloadContractComparator, HistoryTagCorpusRunner as HistoryTagPayloadCorpusRunner, HistoryTagCorpusShardWriter, HistoryTagCorpusSummary, HistoryTagScrapePlanner, HistoryTagScrapePlanContractComparator as HistoryTagScrapePlanPayloadComparator, HistoryTagScrapePlanPayloadContractComparator, HistoryTagScrapePlanRunner as HistoryTagScrapePayloadPlanRunner, HistoryTagScrapePlanSummary
+from python_backend.corpus.history_tags import HistoryTagCorpusContractComparator as HistoryTagCorpusPayloadComparator, HistoryTagCorpusLoader, HistoryTagCorpusManager, HistoryTagCorpusPayloadContractComparator, HistoryTagCorpusRunner as HistoryTagPayloadCorpusRunner, HistoryTagCorpusShardWritePayloadContractComparator, HistoryTagCorpusShardWriteRunner, HistoryTagCorpusShardWriteSummary, HistoryTagCorpusShardWriter, HistoryTagCorpusSummary, HistoryTagScrapePlanner, HistoryTagScrapePlanContractComparator as HistoryTagScrapePlanPayloadComparator, HistoryTagScrapePlanPayloadContractComparator, HistoryTagScrapePlanRunner as HistoryTagScrapePayloadPlanRunner, HistoryTagScrapePlanSummary
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceCorpusImportContractComparator as HuggingFaceCorpusImportPayloadComparator, HuggingFaceCorpusImportPlanContractComparator as HuggingFaceCorpusImportPlanPayloadComparator, HuggingFaceCorpusImportPlanRunner as HuggingFaceCorpusImportPayloadPlanRunner, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
 from python_backend.corpus.local import LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidenceJsonPayloadRunner, LocalCorpusEvidencePayloadContractComparator, LocalCorpusEvidenceRunner as LocalCorpusEvidencePayloadRunner, LocalCorpusEvidenceSummary
 from python_backend.corpus.local import LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenPayloadContractComparator, LocalCorpusFlattenRunner as LocalCorpusFlattenPayloadRunner, LocalCorpusFlattenSummary, LocalCorpusFlattener
@@ -5897,6 +5897,98 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(loaded["tags"], tags)
         self.assertEqual(loaded["videos"], videos)
         self.assertEqual(loaded["runs"], runs)
+
+    def test_history_tag_corpus_shard_write_runner_reports_json_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output_path = root / "history-tags.json"
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-report.json"
+            payload = {
+                "outputPath": str(output_path),
+                "maxShardBytes": 1024,
+                "manifest": {"updatedAt": "2026-06-20T00:00:00.000Z"},
+                "tags": [{"name": "\u5386\u53f2"}],
+                "videos": [{"bvid": "BVhistory", "title": "\u5386\u53f2\u89c6\u9891", "tags": ["\u5386\u53f2"]}],
+                "runs": [{"at": "run"}],
+            }
+            payload_path.write_text(json.dumps(payload), encoding="utf-8")
+            js_report_path.write_text(
+                json.dumps(
+                    {
+                        "ok": True,
+                        "manifest": {
+                            "version": 1,
+                            "updatedAt": "2026-06-20T00:00:00.000Z",
+                            "storage": "split",
+                            "shardMaxBytes": 1024,
+                            "tagCount": 1,
+                            "videoCount": 1,
+                            "runCount": 1,
+                        },
+                        "tags": 1,
+                        "videos": 1,
+                        "runs": 1,
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = HistoryTagCorpusShardWriteRunner(payload_path).run()
+            comparison = HistoryTagCorpusShardWritePayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["tags"], 1)
+        self.assertEqual(result["videos"], 1)
+        self.assertEqual(result["runs"], 1)
+        self.assertEqual(
+            HistoryTagCorpusShardWriteSummary().summarize(result),
+            {
+                "manifest": {
+                    "version": 1,
+                    "updatedAt": "2026-06-20T00:00:00.000Z",
+                    "storage": "split",
+                    "shardMaxBytes": 1024,
+                    "tagCount": 1,
+                    "videoCount": 1,
+                    "runCount": 1,
+                },
+                "tags": 1,
+                "videos": 1,
+                "runs": 1,
+            },
+        )
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+
+    def test_history_tag_corpus_cli_writes_split_payload(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output_path = root / "history-tags.json"
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "outputPath": str(output_path),
+                        "maxShardBytes": 1024,
+                        "tags": [{"name": "\u5386\u53f2"}],
+                        "videos": [{"bvid": "BVhistory", "title": "\u5386\u53f2\u89c6\u9891"}],
+                        "runs": [{"at": "run"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            stdout = io.StringIO()
+
+            with contextlib.redirect_stdout(stdout):
+                exit_code = history_tag_corpus_cli.main(["--write-payload", str(payload_path)])
+            result = json.loads(stdout.getvalue())
+
+        self.assertEqual(exit_code, 0)
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["tags"], 1)
+        self.assertEqual(result["videos"], 1)
+        self.assertEqual(result["runs"], 1)
 
     def test_history_tag_corpus_contract_comparator_reports_corpus_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:

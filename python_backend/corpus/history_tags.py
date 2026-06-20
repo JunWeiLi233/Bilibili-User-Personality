@@ -504,6 +504,101 @@ class HistoryTagCorpusShardWriter:
         path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+class HistoryTagCorpusShardWriteSummary:
+    """Shape history-tag split write results into the JS/Python comparator contract."""
+
+    RESULT_KEYS = ("manifest", "tags", "videos", "runs")
+    MANIFEST_KEYS = (
+        "version",
+        "updatedAt",
+        "storage",
+        "shardMaxBytes",
+        "tagCount",
+        "videoCount",
+        "runCount",
+    )
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+    def summarize_manifest(self, manifest: dict[str, Any] | None = None) -> dict[str, Any]:
+        manifest = manifest if isinstance(manifest, dict) else {}
+        return {key: manifest.get(key) for key in self.MANIFEST_KEYS if key in manifest}
+
+
+class HistoryTagCorpusShardWriteContractComparator:
+    """Compare history-tag split write summaries using the JS/Python JSON contract."""
+
+    def __init__(self, summary: HistoryTagCorpusShardWriteSummary | None = None):
+        self.summary = summary or HistoryTagCorpusShardWriteSummary()
+
+    def compare(self, python_result: dict[str, Any] | None, js_result: dict[str, Any] | None) -> dict[str, Any]:
+        python_result = self.summary.summarize(python_result)
+        js_result = self.summary.summarize(js_result)
+        mismatches = [
+            {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
+            for key in self.summary.RESULT_KEYS
+            if key in js_result and python_result.get(key) != js_result.get(key)
+        ]
+        return {"ok": not mismatches, "mismatches": mismatches, "python": python_result, "js": js_result}
+
+
+class HistoryTagCorpusShardWriteRunner:
+    """Write a JS-compatible split history-tag corpus from a JSON payload file."""
+
+    def __init__(self, payload_path: str | Path):
+        self.payload_path = Path(payload_path)
+
+    def run(self) -> dict[str, Any]:
+        payload = self._read_payload()
+        output_path = Path(str(payload.get("outputPath") or ""))
+        if not str(output_path):
+            raise ValueError("payload outputPath is required")
+        tags = payload.get("tags") if isinstance(payload.get("tags"), list) else []
+        videos = payload.get("videos") if isinstance(payload.get("videos"), list) else []
+        runs = payload.get("runs") if isinstance(payload.get("runs"), list) else []
+        manifest = payload.get("manifest") if isinstance(payload.get("manifest"), dict) else {}
+        writer = HistoryTagCorpusShardWriter(output_path, max_shard_bytes=int(payload.get("maxShardBytes") or 64 * 1024))
+        writer.write(tags=tags, videos=videos, runs=runs, manifest=manifest)
+        loaded = HistoryTagCorpusLoader(output_path).load()
+        return {
+            "ok": True,
+            "outputPath": str(output_path),
+            "manifest": HistoryTagCorpusShardWriteSummary().summarize_manifest(loaded),
+            "tags": len(loaded.get("tags") or []),
+            "videos": len(loaded.get("videos") or []),
+            "runs": len(loaded.get("runs") or []),
+        }
+
+    def _read_payload(self) -> dict[str, Any]:
+        with self.payload_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
+
+
+class HistoryTagCorpusShardWritePayloadContractComparator:
+    """Compare history-tag split write payload output against saved JS-compatible JSON."""
+
+    def __init__(self, payload_path: str | Path, js_report_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.js_report_path = Path(js_report_path)
+        self.summary = HistoryTagCorpusShardWriteSummary()
+        self.comparator = HistoryTagCorpusShardWriteContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = HistoryTagCorpusShardWriteRunner(self.payload_path).run()
+        js_result = self._read_js_report()
+        return self.comparator.compare(python_result, js_result)
+
+    def _read_js_report(self) -> dict[str, Any]:
+        if not self.js_report_path.exists():
+            return {}
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
+
+
 class HistoryTagCorpusRunner:
     """Merge Bilibili history-tag corpus JSON contracts from files."""
 

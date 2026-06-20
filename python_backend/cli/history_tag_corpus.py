@@ -7,6 +7,8 @@ import sys
 from python_backend.corpus.history_tags import (
     HistoryTagCorpusPayloadContractComparator as HistoryTagCorpusContractComparator,
     HistoryTagCorpusRunner,
+    HistoryTagCorpusShardWritePayloadContractComparator as HistoryTagCorpusShardWriteContractComparator,
+    HistoryTagCorpusShardWriteRunner,
     HistoryTagScrapePlanPayloadContractComparator as HistoryTagScrapePlanContractComparator,
     HistoryTagScrapePlanRunner,
 )
@@ -21,8 +23,13 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--generated-at", default="")
     parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible history-tag corpus report to compare.")
     parser.add_argument("--plan-payload", default="", help="Optional JSON payload for scrape option/request planning.")
+    parser.add_argument("--write-payload", default="", help="Optional JSON payload for split history-tag corpus writing.")
     args = parser.parse_args(argv)
-    if args.plan_payload and args.compare_js_report:
+    if args.write_payload and args.compare_js_report:
+        result = HistoryTagCorpusShardWriteContractComparator(args.write_payload, args.compare_js_report).compare()
+    elif args.write_payload:
+        result = HistoryTagCorpusShardWriteRunner(args.write_payload).run()
+    elif args.plan_payload and args.compare_js_report:
         result = HistoryTagScrapePlanContractComparator(args.plan_payload, args.compare_js_report).compare()
     elif args.plan_payload:
         result = HistoryTagScrapePlanRunner(args.plan_payload).run()
