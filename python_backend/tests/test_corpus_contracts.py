@@ -80,7 +80,7 @@ from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContra
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusSummary, DirectProbePlanSummary
 from python_backend.corpus.history_tags import HistoryTagCorpusManager, HistoryTagCorpusSummary, HistoryTagScrapePlanner, HistoryTagScrapePlanSummary
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
-from python_backend.corpus.local import LocalCorpusEvidenceFinder, LocalCorpusEvidenceSummary
+from python_backend.corpus.local import LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidenceSummary
 from python_backend.corpus.local import LocalCorpusFlattenSummary, LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanSummary
 from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner, AgentDictionaryMergePlanSummary
@@ -2871,6 +2871,23 @@ class CorpusContractTests(unittest.TestCase):
             LocalCorpusEvidenceContractComparator(Path("dictionary.json"), Path("comments.json"), Path("js.json")).summary.SUMMARY_KEYS,
             LocalCorpusEvidenceSummary.SUMMARY_KEYS,
         )
+
+    def test_local_corpus_evidence_payload_comparator_owns_summary_mismatch_contract(self):
+        result = LocalCorpusEvidencePayloadComparator().compare(
+            {"count": 1, "entries": [{"term": "alpha", "evidence": ["sample one"]}]},
+            {"count": 1, "entries": [{"term": "beta", "evidence": ["sample two"]}]},
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "terms", "python": ["alpha"], "js": ["beta"]},
+                {"key": "evidence", "python": {"alpha": ["sample one"]}, "js": {"beta": ["sample two"]}},
+            ],
+        )
+        self.assertEqual(result["python"]["count"], 1)
+        self.assertEqual(result["js"]["count"], 1)
 
     def test_local_corpus_evidence_contract_comparator_reports_entry_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:

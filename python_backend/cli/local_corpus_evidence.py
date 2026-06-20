@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.corpus.local import LocalCorpusEvidenceFinder, LocalCorpusEvidenceSummary, LocalCorpusFlattener
+from python_backend.corpus.local import LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidenceSummary, LocalCorpusFlattener
 
 
 class LocalCorpusEvidenceRunner:
@@ -79,6 +79,7 @@ class LocalCorpusEvidenceContractComparator:
         self.require_comment_backed_evidence = require_comment_backed_evidence
         self.target_terms = target_terms or []
         self.summary = LocalCorpusEvidenceSummary()
+        self.comparator = LocalCorpusEvidencePayloadComparator(self.summary)
 
     def compare(self) -> dict[str, Any]:
         python_result = LocalCorpusEvidenceRunner(
@@ -90,19 +91,7 @@ class LocalCorpusEvidenceContractComparator:
             target_terms=self.target_terms,
         ).run()
         js_result = self._read_js_report()
-        python_summary = self.summary.summarize(python_result)
-        js_summary = self.summary.summarize(js_result)
-        mismatches = [
-            {"key": key, "python": python_summary.get(key), "js": js_summary.get(key)}
-            for key in self.summary.SUMMARY_KEYS
-            if key in js_summary and python_summary.get(key) != js_summary.get(key)
-        ]
-        return {
-            "ok": not mismatches,
-            "mismatches": mismatches,
-            "python": python_summary,
-            "js": js_summary,
-        }
+        return self.comparator.compare(python_result, js_result)
 
     def _read_js_report(self) -> dict[str, Any]:
         if not self.js_report_path.exists():
