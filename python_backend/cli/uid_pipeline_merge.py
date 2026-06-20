@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 from typing import Any, Callable
 
-from python_backend.scrapers.uid_pipeline import UidPipelineMergeReporter, UidPipelineMergeSummary
+from python_backend.scrapers.uid_pipeline import UidPipelineMergeContractComparator as UidPipelineMergePayloadComparator, UidPipelineMergeReporter, UidPipelineMergeSummary
 
 
 class UidPipelineMergeRunner:
@@ -80,6 +80,7 @@ class UidPipelineMergeContractComparator:
         self.total_end = total_end
         self.workers = workers
         self.summary = UidPipelineMergeSummary()
+        self.comparator = UidPipelineMergePayloadComparator(self.summary)
 
     def compare(self) -> dict[str, Any]:
         python_result = UidPipelineMergeRunner(
@@ -91,17 +92,7 @@ class UidPipelineMergeContractComparator:
         ).run()
         python_result.pop("lastUpdated", None)
         js_result = self._read_js_report()
-        mismatches = [
-            {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
-            for key in self.summary.RESULT_KEYS
-            if key in js_result and python_result.get(key) != js_result.get(key)
-        ]
-        return {
-            "ok": not mismatches,
-            "mismatches": mismatches,
-            "python": self.summary.summarize(python_result),
-            "js": self.summary.summarize(js_result),
-        }
+        return self.comparator.compare(python_result, js_result)
 
     def _read_js_report(self) -> dict[str, Any]:
         if not self.js_report_path.exists():
