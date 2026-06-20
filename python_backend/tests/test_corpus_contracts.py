@@ -2213,6 +2213,27 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["entries"][0]["term"], "yygq")
 
+    def test_keyword_evidence_cli_runner_accepts_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [{"term": "YYGQ", "family": "attack", "meaning": "Chinese initialism"}],
+                        "text": "YYGQ once",
+                        "source": "Bilibili public comment target expansion",
+                        "uid": "mid-cli-runner",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = keyword_evidence_cli.KeywordEvidenceCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["entries"][0]["evidenceSources"][0]["uid"], "mid-cli-runner")
+
     def test_keyword_evidence_matcher_owns_payload_contract(self):
         result = KeywordEvidenceMatcher().run_from_payload(
             {
