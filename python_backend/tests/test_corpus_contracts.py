@@ -2389,6 +2389,13 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(summary, {"count": 2, "comments": [{"message": "one"}, {"message": "two"}]})
 
+    def test_local_corpus_flatten_comparator_uses_summary_contract_keys(self):
+        self.assertFalse(hasattr(LocalCorpusFlattenContractComparator, "RESULT_KEYS"))
+        self.assertEqual(
+            LocalCorpusFlattenContractComparator(Path("local.json"), Path("js.json")).summary.RESULT_KEYS,
+            LocalCorpusFlattenSummary.RESULT_KEYS,
+        )
+
     def test_local_corpus_flatten_contract_comparator_reports_comment_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
