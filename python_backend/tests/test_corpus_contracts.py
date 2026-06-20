@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditReport
+from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditReport
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressSummary, CoverageProgressTracker
@@ -11251,6 +11251,53 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             CoverageAuditArtifactsContractComparator(Path("payload.json"), Path("js.json")).summary.RESULT_KEYS,
             CoverageAuditArtifactsSummary.RESULT_KEYS,
+        )
+
+    def test_coverage_audit_artifacts_payload_comparator_owns_result_key_mismatch_contract(self):
+        result = CoverageAuditArtifactsPayloadComparator().compare(
+            {
+                "ok": True,
+                "recommendedQueries": ["doge hot"],
+                "recommendedQueryText": "doge hot\n",
+                "priorityActionItems": [{"term": "doge", "query": "doge hot"}],
+                "extra": "ignored",
+            },
+            {
+                "ok": True,
+                "recommendedQueries": ["doge cold"],
+                "recommendedQueryText": "wrong\n",
+                "priorityActionItems": [{"term": "doge", "query": "doge cold"}],
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "recommendedQueries", "python": ["doge hot"], "js": ["doge cold"]},
+                {"key": "recommendedQueryText", "python": "doge hot\n", "js": "wrong\n"},
+                {
+                    "key": "priorityActionItems",
+                    "python": [{"term": "doge", "query": "doge hot"}],
+                    "js": [{"term": "doge", "query": "doge cold"}],
+                },
+            ],
+        )
+        self.assertEqual(
+            result["python"],
+            {
+                "recommendedQueries": ["doge hot"],
+                "recommendedQueryText": "doge hot\n",
+                "priorityActionItems": [{"term": "doge", "query": "doge hot"}],
+            },
+        )
+        self.assertEqual(
+            result["js"],
+            {
+                "recommendedQueries": ["doge cold"],
+                "recommendedQueryText": "wrong\n",
+                "priorityActionItems": [{"term": "doge", "query": "doge cold"}],
+            },
         )
 
     def test_coverage_audit_artifact_writer_owns_payload_contract(self):

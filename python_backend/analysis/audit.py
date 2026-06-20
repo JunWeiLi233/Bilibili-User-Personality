@@ -119,6 +119,28 @@ class CoverageAuditArtifactsSummary:
         return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
 
 
+class CoverageAuditArtifactsContractComparator:
+    """Compare coverage-audit artifact payloads using the JS/Python summary contract."""
+
+    def __init__(self, summary: CoverageAuditArtifactsSummary | None = None):
+        self.summary = summary or CoverageAuditArtifactsSummary()
+
+    def compare(self, python_result: dict[str, Any] | None, js_result: dict[str, Any] | None) -> dict[str, Any]:
+        python_result = python_result if isinstance(python_result, dict) else {}
+        js_result = js_result if isinstance(js_result, dict) else {}
+        mismatches = [
+            {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
+            for key in self.summary.RESULT_KEYS
+            if key in js_result and python_result.get(key) != js_result.get(key)
+        ]
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": self.summary.summarize(python_result),
+            "js": self.summary.summarize(js_result),
+        }
+
+
 class CoverageAuditContractSummary:
     """Shape coverage-audit reports into the JS/Python comparator summary contract."""
 
