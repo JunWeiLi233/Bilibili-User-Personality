@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 import base64
+import json
 import re
 import unicodedata
+from pathlib import Path
 from typing import Any
 
 from python_backend.analysis.audit import CoverageAuditBuilder
+from python_backend.corpus.dictionary import DictionaryLoader
 
 
 SUPPORTED_FAMILIES = ("attack", "absolutes", "evidence", "evasion", "cooperation", "correction")
@@ -61,6 +64,44 @@ class DictionaryPruneSummaryContractComparator:
         }
 
 
+class DictionaryPruneSummaryRunner:
+    """Build a Python dry-run summary for the JS dictionary prune command."""
+
+    def __init__(self, dictionary_path: str | Path):
+        self.dictionary_path = Path(dictionary_path)
+
+    def run(self) -> dict[str, Any]:
+        loaded = DictionaryLoader(self.dictionary_path).load()
+        plan = DictionaryPrunePlanner().build(loaded.entries)
+        return {
+            "ok": True,
+            "dictionaryPath": str(self.dictionary_path),
+            **plan,
+        }
+
+
+class DictionaryPruneSummaryPayloadContractComparator:
+    """Compare file-backed Python prune summaries against a saved JS-compatible JSON report."""
+
+    def __init__(self, dictionary_path: str | Path, js_report_path: str | Path):
+        self.dictionary_path = Path(dictionary_path)
+        self.js_report_path = Path(js_report_path)
+        self.summary = DictionaryPruneSummary()
+        self.comparator = DictionaryPruneSummaryContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = DictionaryPruneSummaryRunner(self.dictionary_path).run()
+        js_result = self._read_js_report()
+        return self.comparator.compare(python_result, js_result)
+
+    def _read_js_report(self) -> dict[str, Any]:
+        if not self.js_report_path.exists():
+            return {}
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
+
+
 class ExhaustedTermsPrunePlanSummary:
     """Shape exhausted-term prune plans into the JS/Python comparator contract."""
 
@@ -91,6 +132,95 @@ class ExhaustedTermsPrunePlanContractComparator:
             "python": self.summary.summarize(python_result),
             "js": self.summary.summarize(js_result),
         }
+
+
+class ExhaustedTermsPrunePlanRunner:
+    """Build a dry-run prune plan for repeatedly missed dictionary terms."""
+
+    def __init__(
+        self,
+        dictionary_path: str | Path,
+        state_path: str | Path,
+        *,
+        target_evidence: int = 3,
+        attempt_threshold: int = 10,
+        require_zero_evidence: bool = True,
+        require_source_backed_evidence: bool = False,
+        require_comment_backed_evidence: bool = False,
+    ):
+        self.dictionary_path = Path(dictionary_path)
+        self.state_path = Path(state_path)
+        self.target_evidence = target_evidence
+        self.attempt_threshold = attempt_threshold
+        self.require_zero_evidence = require_zero_evidence
+        self.require_source_backed_evidence = require_source_backed_evidence
+        self.require_comment_backed_evidence = require_comment_backed_evidence
+
+    def run(self) -> dict[str, Any]:
+        loaded_dictionary = DictionaryLoader(self.dictionary_path).load()
+        dictionary = {**loaded_dictionary.manifest, "entries": loaded_dictionary.entries}
+        state = self._read_json(self.state_path, {"termAttempts": {}})
+        return ExhaustedTermsPrunePlanner(
+            target_evidence=self.target_evidence,
+            attempt_threshold=self.attempt_threshold,
+            require_zero_evidence=self.require_zero_evidence,
+            require_source_backed_evidence=self.require_source_backed_evidence,
+            require_comment_backed_evidence=self.require_comment_backed_evidence,
+        ).build_plan(dictionary, state)
+
+    def _read_json(self, path: Path, fallback: Any) -> Any:
+        if not path.exists():
+            return fallback
+        with path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else fallback
+
+
+class ExhaustedTermsPrunePlanPayloadContractComparator:
+    """Compare file-backed exhausted-term prune plans against saved JS-compatible JSON."""
+
+    def __init__(
+        self,
+        dictionary_path: str | Path,
+        state_path: str | Path,
+        js_report_path: str | Path,
+        *,
+        target_evidence: int = 3,
+        attempt_threshold: int = 10,
+        require_zero_evidence: bool = True,
+        require_source_backed_evidence: bool = False,
+        require_comment_backed_evidence: bool = False,
+    ):
+        self.dictionary_path = Path(dictionary_path)
+        self.state_path = Path(state_path)
+        self.js_report_path = Path(js_report_path)
+        self.target_evidence = target_evidence
+        self.attempt_threshold = attempt_threshold
+        self.require_zero_evidence = require_zero_evidence
+        self.require_source_backed_evidence = require_source_backed_evidence
+        self.require_comment_backed_evidence = require_comment_backed_evidence
+        self.summary = ExhaustedTermsPrunePlanSummary()
+        self.comparator = ExhaustedTermsPrunePlanContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = ExhaustedTermsPrunePlanRunner(
+            self.dictionary_path,
+            self.state_path,
+            target_evidence=self.target_evidence,
+            attempt_threshold=self.attempt_threshold,
+            require_zero_evidence=self.require_zero_evidence,
+            require_source_backed_evidence=self.require_source_backed_evidence,
+            require_comment_backed_evidence=self.require_comment_backed_evidence,
+        ).run()
+        js_result = self._read_js_report()
+        return self.comparator.compare(python_result, js_result)
+
+    def _read_js_report(self) -> dict[str, Any]:
+        if not self.js_report_path.exists():
+            return {}
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
 
 
 class DictionaryPrunePlanner:

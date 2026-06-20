@@ -30,6 +30,7 @@ from python_backend.cli.coverage_audit_artifacts import CoverageAuditArtifactsCo
 from python_backend.cli.coverage_loop_plan import CoverageHarvestLoopPlanContractComparator, CoverageHarvestLoopPlanRunner
 from python_backend.cli.coverage_progress import CoverageProgressContractComparator, CoverageProgressRunner
 from python_backend.cli.discovery_report import VideoKeywordDiscoveryReportContractComparator, VideoKeywordDiscoveryReportRunner
+from python_backend.corpus.dictionary_prune import DictionaryPruneSummaryPayloadContractComparator, DictionaryPruneSummaryRunner as DictionaryPrunePayloadRunner, ExhaustedTermsPrunePlanPayloadContractComparator, ExhaustedTermsPrunePlanRunner as ExhaustedTermsPrunePayloadPlanRunner
 from python_backend.cli.dictionary_prune_summary import DictionaryPruneSummaryContractComparator, DictionaryPruneSummaryRunner
 from python_backend.cli.harvest_options import HarvestOptionsContractComparator, HarvestOptionsRunner
 from python_backend.cli.harvest_plan import KeywordHarvestPlanContractComparator, KeywordHarvestPlanRunner
@@ -7844,6 +7845,47 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["removedTerms"], ["BV1xx411c7mD", "doge", "md5"])
         self.assertEqual(result["keptTerms"], ["yygq", "\u9634\u9633\u602a\u6c14"])
         self.assertEqual(result["summary"], {"totalEntries": 5, "asciiEntries": 4, "afterEntries": 2, "afterAsciiEntries": 1})
+
+    def test_dictionary_prune_file_backed_runners_live_with_corpus_prune_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            state_path = root / "state.json"
+            js_prune_path = root / "js-prune.json"
+            js_exhausted_path = root / "js-exhausted.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {"term": "doge", "family": "attack", "meaning": "ascii emoji name noise", "evidenceCount": 0},
+                            {"term": "\u96f6\u8bc1\u636e", "family": "attack", "meaning": "needs evidence", "evidenceCount": 0},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            state_path.write_text(json.dumps({"termAttempts": {"\u96f6\u8bc1\u636e": {"attempts": 12}}}), encoding="utf-8")
+            js_prune_path.write_text(json.dumps({"entries": {"before": 1}, "asciiTerms": {"before": 0}}), encoding="utf-8")
+            js_exhausted_path.write_text(json.dumps({"count": 0, "candidates": []}), encoding="utf-8")
+
+            prune_result = DictionaryPrunePayloadRunner(dictionary_path).run()
+            prune_comparison = DictionaryPruneSummaryPayloadContractComparator(dictionary_path, js_prune_path).compare()
+            exhausted_result = ExhaustedTermsPrunePayloadPlanRunner(dictionary_path, state_path, attempt_threshold=10).run()
+            exhausted_comparison = ExhaustedTermsPrunePlanPayloadContractComparator(
+                dictionary_path,
+                state_path,
+                js_exhausted_path,
+                attempt_threshold=10,
+            ).compare()
+
+        self.assertTrue(prune_result["ok"])
+        self.assertEqual(prune_result["entries"], {"before": 2, "after": 1, "removed": 1})
+        self.assertFalse(prune_comparison["ok"])
+        self.assertEqual([item["key"] for item in prune_comparison["mismatches"]], ["entries", "asciiTerms"])
+        self.assertTrue(exhausted_result["ok"])
+        self.assertEqual(exhausted_result["candidates"], [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "attempts": 12, "evidence": 0}])
+        self.assertFalse(exhausted_comparison["ok"])
+        self.assertEqual([item["key"] for item in exhausted_comparison["mismatches"]], ["count", "candidates"])
 
     def test_dictionary_prune_comparator_uses_backend_summary_contract_keys(self):
         self.assertTrue(hasattr(dictionary_prune, "DictionaryPruneSummary"))
