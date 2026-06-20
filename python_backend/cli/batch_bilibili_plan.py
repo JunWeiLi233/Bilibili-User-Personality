@@ -35,8 +35,6 @@ class BatchBilibiliPlanRunner:
 class BatchBilibiliPlanContractComparator:
     """Compare Python batch Bilibili dry-run plans against saved JS-compatible JSON."""
 
-    RESULT_KEYS = ("input", "range", "resume", "database", "limits", "pacing", "retry", "browser", "sampleRequests", "progress")
-
     def __init__(self, payload_path: str | Path, js_report_path: str | Path):
         self.payload_path = Path(payload_path)
         self.js_report_path = Path(js_report_path)
@@ -47,7 +45,7 @@ class BatchBilibiliPlanContractComparator:
         js_result = self._read_js_report()
         mismatches = [
             {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
-            for key in self.RESULT_KEYS
+            for key in self.summary.RESULT_KEYS
             if key in js_result and python_result.get(key) != js_result.get(key)
         ]
         return {
