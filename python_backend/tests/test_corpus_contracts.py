@@ -5493,6 +5493,16 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(summary["uncovered"], 1)
         self.assertEqual(summary["byMode"], {"keyword": 1, "neutral": 1, "uncovered": 1})
 
+    def test_comment_coverage_classifier_owns_sample_result_contract(self):
+        result = CommentCoverageClassifier().sample_result(
+            {"entries": [{"term": "\u7f51\u76d8\u89c1", "family": "evasion"}]},
+            [{"message": "\u7f51\u76d8\u89c1"}, {"message": "ascii only"}],
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["summary"]["total"], 2)
+        self.assertEqual(result["summary"]["byMode"], {"keyword": 1, "neutral": 0, "uncovered": 1})
+
     def test_comment_coverage_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -27,10 +27,7 @@ class CommentCoverageRunner:
         dictionary = self._read_dictionary()
         comments = self._read_comments()
         options = {"sampleSize": self.sample_size} if self.sample_size is not None else {}
-        return {
-            "ok": True,
-            "summary": self.classifier.sample(dictionary, comments, options),
-        }
+        return self.classifier.sample_result(dictionary, comments, options)
 
     def _read_dictionary(self) -> dict[str, Any]:
         payload = _read_json(self.dictionary_path)

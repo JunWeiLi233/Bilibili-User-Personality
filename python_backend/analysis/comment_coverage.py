@@ -86,6 +86,9 @@ class CommentCoverageClassifier:
             "samples": samples,
         }
 
+    def sample_result(self, dictionary: dict[str, Any] | None, comments: list[Any] | None = None, options: dict[str, Any] | None = None) -> dict[str, Any]:
+        return {"ok": True, "summary": self.sample(dictionary, comments, options)}
+
     def _comment_message(self, comment: Any) -> str:
         if isinstance(comment, dict):
             return _clean_text(comment.get("message"))
