@@ -92,6 +92,7 @@ from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliParseSummary, BilibiliPublicParser
 from python_backend.scrapers.aicu import AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanSummary, AicuScrapePlanner
 from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanSummary, AicuBrowserBatchPlanner
+from python_backend.scrapers import video_link_direct
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanner
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerHelper, BilibiliCrawlerSummary
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanSummary, BilibiliProbePlanner
@@ -854,6 +855,14 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(video_plan["training"]["source"], "https://www.bilibili.com/video/BV1abc/")
         self.assertEqual(favorite_plan["mode"], "favorite")
         self.assertEqual(favorite_plan["input"]["pages"], 2)
+
+    def test_video_link_direct_comparator_uses_backend_summary_contract_keys(self):
+        self.assertTrue(hasattr(video_link_direct, "VideoLinkDirectPlanSummary"))
+        self.assertFalse(hasattr(VideoLinkDirectPlanContractComparator, "RESULT_KEYS"))
+        self.assertEqual(
+            VideoLinkDirectPlanContractComparator(Path("payload.json"), Path("js-report.json")).summary.RESULT_KEYS,
+            video_link_direct.VideoLinkDirectPlanSummary.RESULT_KEYS,
+        )
 
     def test_video_link_direct_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:

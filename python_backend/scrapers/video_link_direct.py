@@ -3,6 +3,16 @@ from __future__ import annotations
 from typing import Any
 
 
+class VideoLinkDirectPlanSummary:
+    """Shape direct-link dry-run plans into the JS/Python comparator contract."""
+
+    RESULT_KEYS = ("mode", "input", "collect", "training")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
 class VideoLinkDirectPlanner:
     """Build a dry-run plan compatible with runVideoLinkDirect.js CLI routing."""
 
