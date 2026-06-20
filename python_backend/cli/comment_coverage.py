@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.analysis.comment_coverage import CommentCoverageJsonPayloadContractComparator, CommentCoverageJsonPayloadRunner, CommentCoveragePayloadContractComparator as CommentCoverageContractComparator, CommentCoverageRunner
+from python_backend.analysis.comment_coverage import CommentCoveragePayloadContractComparator as CommentCoverageContractComparator, CommentCoverageRequest, CommentCoverageRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -30,17 +30,15 @@ class CommentCoverageCliRunner:
     def run(self) -> dict:
         parser = build_parser()
         args = parser.parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.payload and args.compare_js_report:
-            return CommentCoverageJsonPayloadContractComparator(args.payload, args.compare_js_report).compare()
-        if args.payload:
-            return CommentCoverageJsonPayloadRunner(args.payload).run()
-        if args.compare_js_report:
-            if not args.comments:
-                parser.error("--comments is required unless --payload is provided")
-            return CommentCoverageContractComparator(args.dictionary, args.comments, args.compare_js_report, args.sample_size).compare()
-        if not args.comments:
+        if not args.payload and not args.comments:
             parser.error("--comments is required unless --payload is provided")
-        return CommentCoverageRunner(args.dictionary, args.comments, args.sample_size).run()
+        return CommentCoverageRequest(
+            dictionary_path=args.dictionary,
+            comments_path=args.comments or None,
+            sample_size=args.sample_size,
+            payload_path=args.payload or None,
+            compare_js_report_path=args.compare_js_report or None,
+        ).run()
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -67,7 +67,7 @@ from python_backend.cli import video_relevance as video_relevance_cli
 from python_backend.cli import range_scraper_launcher as range_scraper_launcher_cli
 from python_backend.cli import fast_pipeline_launcher as fast_pipeline_launcher_cli
 from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditPayloadContractComparator, CoverageAuditReport, CoverageAuditRequest
-from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageJsonPayloadContractComparator, CommentCoverageJsonPayloadRunner, CommentCoveragePayloadContractComparator, CommentCoverageRunner as CommentCoveragePayloadRunner, CommentCoverageSummary
+from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageJsonPayloadContractComparator, CommentCoverageJsonPayloadRunner, CommentCoveragePayloadContractComparator, CommentCoverageRequest, CommentCoverageRunner as CommentCoveragePayloadRunner, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanPayloadContractComparator, CoverageHarvestLoopPlanRunner as CoverageHarvestLoopPayloadPlanRunner, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressPayloadContractComparator, CoverageProgressRunner as CoverageProgressPayloadRunner, CoverageProgressSummary, CoverageProgressTracker
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReportContractComparator as VideoKeywordDiscoveryReportPayloadComparator, VideoKeywordDiscoveryReportPayloadContractComparator, VideoKeywordDiscoveryReporter, VideoKeywordDiscoveryReportRunner as VideoKeywordDiscoveryReportPayloadRunner, VideoKeywordDiscoveryReportSummary
@@ -11945,6 +11945,27 @@ class CorpusContractTests(unittest.TestCase):
 
         result = json.loads(output.getvalue())
         self.assertEqual(exit_code, 1)
+        self.assertFalse(result["ok"])
+        self.assertEqual([item["key"] for item in result["mismatches"]], ["covered", "byMode.keyword"])
+
+    def test_comment_coverage_request_compares_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "comment-coverage.json"
+            js_report_path = root / "js-comment-coverage.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "dictionary": {"entries": [{"term": "\u61c2\u7684\u90fd\u61c2", "family": "evasion"}]},
+                        "comments": [{"message": "\u8fd9\u4e8b\u61c2\u7684\u90fd\u61c2"}, {"message": "\u666e\u901a\u8bc4\u8bba"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"summary": {"total": 2, "covered": 1, "byMode": {"keyword": 0}}}), encoding="utf-8")
+
+            result = CommentCoverageRequest(payload_path=payload_path, compare_js_report_path=js_report_path).run()
+
         self.assertFalse(result["ok"])
         self.assertEqual([item["key"] for item in result["mismatches"]], ["covered", "byMode.keyword"])
 

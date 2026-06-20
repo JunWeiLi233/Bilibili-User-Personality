@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import re
 import unicodedata
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -320,6 +321,36 @@ class CommentCoverageJsonPayloadContractComparator:
     def _read_js_report(self) -> dict[str, Any]:
         payload = _read_json(self.js_report_path)
         return payload if isinstance(payload, dict) else {}
+
+
+@dataclass(frozen=True)
+class CommentCoverageRequest:
+    """Analysis-layer request object for comment coverage JSON contract modes."""
+
+    dictionary_path: str | Path = "server/data/keywordDictionary.json"
+    comments_path: str | Path | None = None
+    sample_size: int | None = None
+    payload_path: str | Path | None = None
+    compare_js_report_path: str | Path | None = None
+
+    def run(self) -> dict[str, Any]:
+        if self.payload_path and self.compare_js_report_path:
+            return CommentCoverageJsonPayloadContractComparator(self.payload_path, self.compare_js_report_path).compare()
+        if self.payload_path:
+            return CommentCoverageJsonPayloadRunner(self.payload_path).run()
+        if self.compare_js_report_path:
+            return CommentCoveragePayloadContractComparator(
+                self.dictionary_path,
+                self._required_comments_path(),
+                self.compare_js_report_path,
+                self.sample_size,
+            ).compare()
+        return CommentCoverageRunner(self.dictionary_path, self._required_comments_path(), self.sample_size).run()
+
+    def _required_comments_path(self) -> str | Path:
+        if not self.comments_path:
+            raise ValueError("comments_path is required unless payload_path is provided")
+        return self.comments_path
 
 
 def _read_json(path: Path) -> Any:
