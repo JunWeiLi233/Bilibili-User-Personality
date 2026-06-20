@@ -8,6 +8,7 @@ from pathlib import Path
 from python_backend.cli import aicu_batch_plan as aicu_batch_plan_cli
 from python_backend.cli import aicu_scrape_plan as aicu_scrape_plan_cli
 from python_backend.cli import batch_bilibili_plan as batch_bilibili_plan_cli
+from python_backend.cli import batch_popular_plan as batch_popular_plan_cli
 from python_backend.cli import local_corpus_evidence as local_corpus_evidence_cli
 from python_backend.cli import local_corpus_flatten as local_corpus_flatten_cli
 from python_backend.cli import bilibili_probe_plan as bilibili_probe_plan_cli
@@ -15237,6 +15238,27 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "collection", "python": {"storesTopLevelReplies": True, "storesNestedReplies": True, "dedupesByRpid": True, "updatesCombinedTextFromComments": True}, "js": {"storesNestedReplies": False}},
             ],
         )
+
+    def test_batch_popular_plan_cli_runner_reads_json_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "batch-popular-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--pages=6"],
+                        "progress": {"pagesScanned": 2, "videosScanned": 12, "scraped": 3},
+                        "database": {"users": {"10": {}, "20": {}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = batch_popular_plan_cli.BatchPopularPlanCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"startPage": 3, "maxPages": 6, "remainingPages": 4})
+        self.assertEqual(result["progress"], {"pagesScanned": 2, "videosScanned": 12, "scraped": 3})
+        self.assertEqual(result["database"], {"users": 2})
 
     def test_batch_popular_plan_runner_defaults_non_object_payload_root(self):
         with tempfile.TemporaryDirectory() as tmp:
