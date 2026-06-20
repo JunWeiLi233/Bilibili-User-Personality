@@ -117,7 +117,7 @@ from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanContractComp
 from python_backend.scrapers.batch_popular import BatchPopularPlanContractComparator as BatchPopularPlanPayloadComparator, BatchPopularPlanSummary, BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanContractComparator as BatchUidRangePlanPayloadComparator, BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherPlanner, RangeScraperLauncherSummary, UidRangeProgressReporter, UidRangeProgressSummary
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchScraperLauncherSummary, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanContractComparator as BatchUidScrapePlanPayloadComparator, BatchUidScrapePlanSummary, BatchUidScrapePlanner
-from python_backend.scrapers.uid_discovery import UidDiscoveryPlanContractComparator as UidDiscoveryPlanPayloadComparator, UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
+from python_backend.scrapers.uid_discovery import UidDiscoveryPlanContractComparator as UidDiscoveryPlanPayloadComparator, UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressContractComparator as UidDiscoveryProgressPayloadComparator, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
 from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanContractComparator as UidFastPipelinePlanPayloadComparator
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanContractComparator as UidParallelPlanPayloadComparator, UidParallelPlanSummary, UidParallelProgressContractComparator as UidParallelProgressPayloadComparator, UidParallelProgressReporter, UidParallelProgressSummary
 from python_backend.scrapers.uid_pipeline import UidPipelineLauncherContractComparator as UidPipelineLauncherPayloadComparator, UidPipelineLauncherPlanner, UidPipelineLauncherSummary, UidPipelineMergeContractComparator as UidPipelineMergePayloadComparator, UidPipelineMergeReporter, UidPipelineMergeSummary, UidPipelinePlanContractComparator as UidPipelinePlanPayloadComparator, UidPipelinePlanSummary, UidPipelineProgressContractComparator as UidPipelineProgressPayloadComparator, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateContractComparator as UidPipelineStatePayloadComparator, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
@@ -8866,6 +8866,33 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "analysis", "python": {"processed": 1, "success": 1, "errors": 0, "skipped": 0, "remaining": 0}, "js": {"processed": 0}},
             ],
         )
+
+    def test_uid_discovery_progress_payload_comparator_owns_result_key_mismatch_contract(self):
+        result = UidDiscoveryProgressPayloadComparator().compare(
+            {
+                "phase": "analysis",
+                "discovery": {"videosScanned": 2},
+                "analysis": {"processed": 3},
+                "comments": {"total": 4},
+                "lastUpdated": "ignored",
+            },
+            {
+                "discovery": {"videosScanned": 0},
+                "analysis": {"processed": 0},
+                "lastUpdated": "ignored",
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "discovery", "python": {"videosScanned": 2}, "js": {"videosScanned": 0}},
+                {"key": "analysis", "python": {"processed": 3}, "js": {"processed": 0}},
+            ],
+        )
+        self.assertEqual(result["python"], {"phase": "analysis", "discovery": {"videosScanned": 2}, "analysis": {"processed": 3}, "comments": {"total": 4}})
+        self.assertEqual(result["js"], {"discovery": {"videosScanned": 0}, "analysis": {"processed": 0}})
 
     def test_uid_discovery_planner_matches_js_resume_sources_and_training_contract(self):
         planner = UidDiscoveryPlanner()
