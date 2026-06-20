@@ -135,3 +135,13 @@ class UidParallelAnalyzerPlanner:
         if not isinstance(entries, list):
             return ""
         return "\n".join(str(entry.get("message") or "") for entry in entries if isinstance(entry, dict))
+
+
+class UidParallelPlanSummary:
+    """Shape UID parallel analyzer plans into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("worker", "assignment", "training", "pacing", "stats", "userDb")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}

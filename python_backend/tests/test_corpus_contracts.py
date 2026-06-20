@@ -113,7 +113,7 @@ from python_backend.scrapers.batch_popular import BatchPopularPlanSummary, Batch
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherPlanner, UidRangeProgressReporter, UidRangeProgressSummary
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
-from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelProgressReporter, UidParallelProgressSummary
+from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanSummary, UidParallelProgressReporter, UidParallelProgressSummary
 from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineMergeReporter, UidPipelineMergeSummary, UidPipelinePlanSummary, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter, ScraperMonitorSummary
 from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherPlanner, UidFastPipelinePlanner
@@ -6463,6 +6463,32 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "assignment", "python": {"assignedUids": ["100", "102"], "alreadyProcessed": 1, "pending": 1, "trainable": 1, "skippableNoText": 0}, "js": {"trainable": 9}},
                 {"key": "training", "python": {"multiagent": True, "existingTermsOnly": False, "commentTextLimit": 5000, "saveEvery": 20}, "js": {"multiagent": False}},
             ],
+        )
+
+    def test_uid_parallel_plan_summary_extracts_comparator_contract(self):
+        summary = UidParallelPlanSummary().summarize(
+            {
+                "ok": True,
+                "worker": {"id": 1},
+                "assignment": {"pending": 2},
+                "training": {"multiagent": True},
+                "pacing": {"lockMaxRetries": 15},
+                "stats": {"success": 1},
+                "userDb": {"users": 3},
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "worker": {"id": 1},
+                "assignment": {"pending": 2},
+                "training": {"multiagent": True},
+                "pacing": {"lockMaxRetries": 15},
+                "stats": {"success": 1},
+                "userDb": {"users": 3},
+            },
         )
 
     def test_batch_scraper_launcher_planner_builds_js_range_contract_without_filesystem(self):
