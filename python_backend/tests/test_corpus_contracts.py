@@ -13,6 +13,7 @@ from python_backend.cli import batch_scrape_progress as batch_scrape_progress_cl
 from python_backend.cli import batch_uid_progress as batch_uid_progress_cli
 from python_backend.cli import batch_uid_range_plan as batch_uid_range_plan_cli
 from python_backend.cli import batch_uid_scrape_plan as batch_uid_scrape_plan_cli
+from python_backend.cli import batch_scraper_launcher as batch_scraper_launcher_cli
 from python_backend.cli import direct_probe_corpus as direct_probe_corpus_cli
 from python_backend.cli import comment_coverage as comment_coverage_cli
 from python_backend.cli import compare_contracts as compare_contracts_cli
@@ -14101,6 +14102,19 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
         self.assertEqual(result["workers"][-1]["progressFile"], "batch-uid-progress-80001-100000.json")
+
+    def test_batch_scraper_launcher_cli_runner_builds_json_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+
+            result = batch_scraper_launcher_cli.BatchScraperLauncherCliRunner(["--data-dir", str(data_dir)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["script"], "server/scripts/batchUidScrape.js")
+        self.assertEqual(result["summary"], {"workers": 5, "totalStart": 1, "totalEnd": 100000, "totalUids": 100000})
+        self.assertEqual(result["workers"][0]["progressFile"], "batch-uid-progress-1-20000.json")
 
     def test_batch_scraper_launcher_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
