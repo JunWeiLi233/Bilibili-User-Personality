@@ -9,6 +9,7 @@ from python_backend.cli import local_corpus_evidence as local_corpus_evidence_cl
 from python_backend.cli import local_corpus_flatten as local_corpus_flatten_cli
 from python_backend.cli import direct_probe_corpus as direct_probe_corpus_cli
 from python_backend.cli import comment_coverage as comment_coverage_cli
+from python_backend.cli import compare_contracts as compare_contracts_cli
 from python_backend.cli import coverage_audit as coverage_audit_cli
 from python_backend.cli import deepseek_analysis_plan as deepseek_analysis_plan_cli
 from python_backend.cli import history_tag_corpus as history_tag_corpus_cli
@@ -354,6 +355,44 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["runs"], 1)
         self.assertEqual([item["message"] for item in loaded.comments], ["alpha" * 20, "beta"])
         self.assertEqual(loaded.runs, [{"at": "now"}])
+
+    def test_compare_contracts_cli_accepts_argv_contract_paths(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            audit_path = root / "audit.json"
+            dictionary_path = root / "dictionary.json"
+            corpus_path.write_text(
+                json.dumps(
+                    {
+                        "comments": [{"message": "sample"}],
+                        "runs": [{"at": "now"}],
+                        "commentCount": 1,
+                        "runCount": 1,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            audit_path.write_text(
+                json.dumps({"coverage": {"terms": 1, "weakTerms": 0, "coverageRatio": 1.0, "targetEvidence": 3}}),
+                encoding="utf-8",
+            )
+            dictionary_path.write_text(
+                json.dumps({"version": 1, "entries": [{"term": "sample", "family": "evidence"}]}),
+                encoding="utf-8",
+            )
+
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                exit_code = compare_contracts_cli.main(
+                    ["--corpus", str(corpus_path), "--audit", str(audit_path), "--dictionary", str(dictionary_path)]
+                )
+
+        result = json.loads(output.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["corpus"]["comments"], 1)
+        self.assertEqual(result["dictionary"]["terms"], 1)
 
     def test_corpus_shard_writer_owns_json_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
