@@ -7,7 +7,7 @@ from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageA
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressSummary, CoverageProgressTracker
-from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReporter, VideoKeywordDiscoveryReportSummary
+from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReportContractComparator as VideoKeywordDiscoveryReportPayloadComparator, VideoKeywordDiscoveryReporter, VideoKeywordDiscoveryReportSummary
 from python_backend.analysis import harvest_options as harvest_options_module
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, HarvestOptionsSummary, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, KeywordHarvestPlanSummary
@@ -10130,6 +10130,32 @@ class CorpusContractTests(unittest.TestCase):
             VideoKeywordDiscoveryReportContractComparator(Path("payload.json"), Path("js.json")).summary.RESULT_KEYS,
             VideoKeywordDiscoveryReportSummary.RESULT_KEYS,
         )
+
+    def test_video_keyword_discovery_report_payload_comparator_owns_mismatch_contract(self):
+        result = VideoKeywordDiscoveryReportPayloadComparator().compare(
+            {
+                "ok": True,
+                "mode": "report",
+                "report": {"generatedAt": "2026-06-19T00:00:00.000Z"},
+                "priorityActionItems": [{"query": "next comments"}],
+                "extra": "ignored",
+            },
+            {"ok": True, "mode": "report", "report": {"generatedAt": "wrong"}, "priorityActionItems": []},
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "report", "python": {"generatedAt": "2026-06-19T00:00:00.000Z"}, "js": {"generatedAt": "wrong"}},
+                {"key": "priorityActionItems", "python": [{"query": "next comments"}], "js": []},
+            ],
+        )
+        self.assertEqual(
+            result["python"],
+            {"mode": "report", "report": {"generatedAt": "2026-06-19T00:00:00.000Z"}, "priorityActionItems": [{"query": "next comments"}]},
+        )
+        self.assertEqual(result["js"], {"mode": "report", "report": {"generatedAt": "wrong"}, "priorityActionItems": []})
 
     def test_video_keyword_discovery_report_contract_comparator_reports_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
