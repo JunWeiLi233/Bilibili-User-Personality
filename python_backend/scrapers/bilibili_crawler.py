@@ -71,6 +71,7 @@ class BilibiliCrawlerSummary:
         "responseCache",
         "capturedCookies",
         "requestTimeout",
+        "responseOutcome",
     )
 
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -223,10 +224,79 @@ class BilibiliCrawlerHelper:
                 caller_signal=bool(timeout.get("callerSignal", False)),
                 caller_aborted=bool(timeout.get("callerAborted", False)),
             )
+        if isinstance(payload.get("response"), dict):
+            response = payload.get("response") or {}
+            result["responseOutcome"] = self.plan_response_outcome(
+                response.get("url"),
+                referer=response.get("referer", "https://www.bilibili.com"),
+                response_ok=bool(response.get("ok", True)),
+                status=response.get("status", 200),
+                payload=response.get("payload") if isinstance(response.get("payload"), dict) else None,
+                config=response.get("config") if isinstance(response.get("config"), dict) else {},
+                state=response.get("state") if isinstance(response.get("state"), dict) else {},
+                now_ms=response.get("nowMs", 0),
+                request_cookie=response.get("cookie") or response.get("bilibiliCookie") or "",
+            )
         return result
 
     def build_crawler_config(self, env: dict[str, Any] | None = None) -> dict[str, int | float]:
         return BilibiliCrawlerConfigBuilder().build(env)
+
+    def plan_response_outcome(
+        self,
+        url: Any,
+        referer: Any = "https://www.bilibili.com",
+        response_ok: bool = True,
+        status: Any = 200,
+        payload: dict[str, Any] | None = None,
+        config: dict[str, Any] | None = None,
+        state: dict[str, Any] | None = None,
+        now_ms: Any = 0,
+        request_cookie: Any = "",
+    ) -> dict[str, Any]:
+        status_number = self._number(status, 0)
+        state = state if isinstance(state, dict) else {}
+        if not response_ok:
+            cooldown = self.plan_block_cooldown(config, state, now_ms) if status_number in {403, 412, 429, 503} else None
+            return {
+                "ok": False,
+                "error": f"HTTP {status_number} from {url}",
+                "blocked": cooldown is not None,
+                "consecutiveBlocks": cooldown["consecutiveBlocks"] if cooldown else self._number(state.get("consecutiveBlocks"), 0),
+                "cooldownUntil": cooldown["cooldownUntil"] if cooldown else None,
+                "cacheWrite": None,
+            }
+
+        payload = payload if isinstance(payload, dict) else {}
+        if self.is_block_response(payload):
+            cooldown = self.plan_block_cooldown(config, state, now_ms)
+            return {
+                "ok": True,
+                "error": "",
+                "blocked": True,
+                "consecutiveBlocks": cooldown["consecutiveBlocks"],
+                "cooldownUntil": cooldown["cooldownUntil"],
+                "cacheWrite": None,
+            }
+
+        cache = self.plan_response_cache(
+            url=url,
+            referer=referer,
+            request_cookie=request_cookie,
+            config=config,
+            now_ms=now_ms,
+            payload=payload,
+        )
+        write = cache.get("write") if payload.get("code") == 0 else None
+        cache_write = {"key": cache.get("key"), **write} if isinstance(write, dict) else None
+        return {
+            "ok": True,
+            "error": "",
+            "blocked": False,
+            "consecutiveBlocks": 0 if payload.get("code") == 0 else self._number(state.get("consecutiveBlocks"), 0),
+            "cooldownUntil": None,
+            "cacheWrite": cache_write,
+        }
 
     def plan_fetch_timeout(
         self,

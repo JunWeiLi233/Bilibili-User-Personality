@@ -6988,6 +6988,87 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_bilibili_crawler_helper_plans_response_outcome_contract(self):
+        helper = BilibiliCrawlerHelper()
+
+        self.assertEqual(
+            helper.plan_response_outcome(
+                "https://api.bilibili.com/x/web-interface/view?bvid=BV1",
+                response_ok=False,
+                status=429,
+                config={"blockCooldownMs": 1000},
+                state={"consecutiveBlocks": 1},
+                now_ms=5000,
+            ),
+            {
+                "ok": False,
+                "error": "HTTP 429 from https://api.bilibili.com/x/web-interface/view?bvid=BV1",
+                "blocked": True,
+                "consecutiveBlocks": 2,
+                "cooldownUntil": 7000,
+                "cacheWrite": None,
+            },
+        )
+        self.assertEqual(
+            helper.plan_response_outcome(
+                "https://api.bilibili.com/x/web-interface/view?bvid=BV1",
+                response_ok=True,
+                payload={"code": -352, "message": "blocked"},
+                config={"blockCooldownMs": 1000},
+                state={"consecutiveBlocks": 0},
+                now_ms=5000,
+            ),
+            {
+                "ok": True,
+                "error": "",
+                "blocked": True,
+                "consecutiveBlocks": 1,
+                "cooldownUntil": 6000,
+                "cacheWrite": None,
+            },
+        )
+        self.assertEqual(
+            helper.plan_response_outcome(
+                "https://api.bilibili.com/x/web-interface/view?bvid=BV1",
+                referer="https://www.bilibili.com/video/BV1/",
+                response_ok=True,
+                payload={"code": 0, "data": {"fresh": True}},
+                config={"cacheTtlMs": 1000},
+                state={"consecutiveBlocks": 3},
+                now_ms=5000,
+            ),
+            {
+                "ok": True,
+                "error": "",
+                "blocked": False,
+                "consecutiveBlocks": 0,
+                "cooldownUntil": None,
+                "cacheWrite": {
+                    "key": "https://www.bilibili.com/video/BV1/ https://api.bilibili.com/x/web-interface/view?bvid=BV1",
+                    "expiresAt": 6000,
+                    "payload": {"code": 0, "data": {"fresh": True}},
+                },
+            },
+        )
+
+    def test_bilibili_crawler_helper_builds_payload_response_outcome_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "response": {
+                    "url": "https://api.bilibili.com/x/v2/reply?oid=123",
+                    "referer": "https://www.bilibili.com/video/BV1/",
+                    "ok": True,
+                    "payload": {"code": 0, "data": {"ok": True}},
+                    "config": {"cacheTtlMs": 1000},
+                    "state": {"consecutiveBlocks": 2},
+                    "nowMs": 1700000000000,
+                }
+            }
+        )
+
+        self.assertEqual(result["responseOutcome"]["consecutiveBlocks"], 0)
+        self.assertEqual(result["responseOutcome"]["cacheWrite"]["expiresAt"], 1700000001000)
+
     def test_bilibili_crawler_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -7048,6 +7129,7 @@ class CorpusContractTests(unittest.TestCase):
                 "responseCache": {"hit": False},
                 "capturedCookies": {"buvid3": "fresh"},
                 "requestTimeout": {"timeoutMs": 750},
+                "responseOutcome": {"blocked": False},
                 "dynamicRecords": {"objects": []},
                 "extra": "ignored",
             }
@@ -7066,6 +7148,7 @@ class CorpusContractTests(unittest.TestCase):
                 "responseCache": {"hit": False},
                 "capturedCookies": {"buvid3": "fresh"},
                 "requestTimeout": {"timeoutMs": 750},
+                "responseOutcome": {"blocked": False},
                 "dynamicRecords": {"objects": []},
             },
         )
