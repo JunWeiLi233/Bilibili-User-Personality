@@ -9016,6 +9016,26 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["report"]["generatedAt"], "2026-06-19T00:00:00.000Z")
         self.assertEqual(result["priorityActionItems"][0]["query"], "next term 评论区")
 
+    def test_video_keyword_discovery_reporter_owns_payload_contract(self):
+        result = VideoKeywordDiscoveryReporter().build_from_payload(
+            {
+                "statePath": "state.json",
+                "reportPath": "report.json",
+                "generatedAt": "2026-06-19T00:00:00.000Z",
+                "result": {
+                    "requestedRounds": 1,
+                    "growth": {"before": 1, "after": 2},
+                    "coverageActions": [{"term": "next term", "action": "retry", "nextQuery": "next term comments"}],
+                    "rounds": [{"queries": [], "results": []}],
+                },
+            }
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "report")
+        self.assertEqual(result["report"]["generatedAt"], "2026-06-19T00:00:00.000Z")
+        self.assertEqual(result["priorityActionItems"][0]["query"], "next term comments")
+
     def test_video_keyword_discovery_report_summary_extracts_comparator_contract(self):
         summary = VideoKeywordDiscoveryReportSummary().summarize(
             {

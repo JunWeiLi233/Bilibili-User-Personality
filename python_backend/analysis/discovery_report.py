@@ -31,6 +31,18 @@ class VideoKeywordDiscoveryReporter:
     def __init__(self, now: Callable[[], str] | None = None):
         self.now = now or self._iso_now
 
+    def build_from_payload(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        reporter = VideoKeywordDiscoveryReporter(now=(lambda: str(payload["generatedAt"])) if payload.get("generatedAt") else self.now)
+        result = payload.get("result") if isinstance(payload.get("result"), dict) else {}
+        report = reporter.serialize_report(result, str(payload.get("statePath") or ""), str(payload.get("reportPath") or ""))
+        return {
+            "ok": True,
+            "mode": "report",
+            "report": report,
+            "priorityActionItems": reporter.priority_action_items_from_harvest_result(result),
+        }
+
     def priority_action_items_from_coverage_actions(self, actions: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
         items: list[dict[str, Any]] = []
         for action in actions if isinstance(actions, list) else []:
@@ -161,6 +173,18 @@ class VideoKeywordDiscoveryReporter:
 
 class HarvestDiagnostics:
     """Summarize harvest result diagnostics using the JS keyword-harvest contract."""
+
+    def build_from_payload(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        results = payload.get("results") if isinstance(payload.get("results"), list) else []
+        round_item = payload.get("round") if isinstance(payload.get("round"), dict) else {"results": results}
+        return {
+            "ok": True,
+            "mode": "diagnostics",
+            "trainingDiagnostics": self.summarize_training_diagnostics(results),
+            "queryDiagnostics": self.summarize_query_diagnostics(results),
+            "roundSummary": self.summarize_round(round_item),
+        }
 
     def count_accepted_evidence_hits(self, entries: list[dict[str, Any]] | None = None) -> int:
         total = 0

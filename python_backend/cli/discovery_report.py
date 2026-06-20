@@ -19,25 +19,8 @@ class VideoKeywordDiscoveryReportRunner:
         payload = self._read_payload()
         mode = str(payload.get("mode") or "report").strip().lower()
         if mode == "diagnostics":
-            diagnostics = HarvestDiagnostics()
-            results = payload.get("results") if isinstance(payload.get("results"), list) else []
-            round_item = payload.get("round") if isinstance(payload.get("round"), dict) else {"results": results}
-            return {
-                "ok": True,
-                "mode": "diagnostics",
-                "trainingDiagnostics": diagnostics.summarize_training_diagnostics(results),
-                "queryDiagnostics": diagnostics.summarize_query_diagnostics(results),
-                "roundSummary": diagnostics.summarize_round(round_item),
-            }
-        reporter = VideoKeywordDiscoveryReporter(now=(lambda: str(payload["generatedAt"])) if payload.get("generatedAt") else None)
-        result = payload.get("result") if isinstance(payload.get("result"), dict) else {}
-        report = reporter.serialize_report(result, str(payload.get("statePath") or ""), str(payload.get("reportPath") or ""))
-        return {
-            "ok": True,
-            "mode": "report",
-            "report": report,
-            "priorityActionItems": reporter.priority_action_items_from_harvest_result(result),
-        }
+            return HarvestDiagnostics().build_from_payload(payload)
+        return VideoKeywordDiscoveryReporter().build_from_payload(payload)
 
     def _read_payload(self) -> dict[str, Any]:
         with self.payload_path.open("r", encoding="utf-8-sig") as handle:
