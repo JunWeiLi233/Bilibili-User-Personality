@@ -19,6 +19,7 @@ from python_backend.cli import batch_uid_progress as batch_uid_progress_cli
 from python_backend.cli import batch_uid_range_plan as batch_uid_range_plan_cli
 from python_backend.cli import batch_uid_scrape_plan as batch_uid_scrape_plan_cli
 from python_backend.cli import batch_scraper_launcher as batch_scraper_launcher_cli
+from python_backend.cli import bilibili_crawler as bilibili_crawler_cli
 from python_backend.cli import direct_probe_corpus as direct_probe_corpus_cli
 from python_backend.cli import direct_probe_plan as direct_probe_plan_cli
 from python_backend.cli import comment_coverage as comment_coverage_cli
@@ -9402,6 +9403,27 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["bvids"], ["BV19yGa61Ee6", "BV1xx411c7mD"])
         self.assertEqual(result["bvid"], "BV19yGa61Ee6")
         self.assertTrue(result["blocked"])
+
+    def test_bilibili_crawler_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "text": "BV19yGa61Ee6, BV1xx411c7mD",
+                        "payload": {"code": 0},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = bilibili_crawler_cli.BilibiliCrawlerCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["bvids"], ["BV19yGa61Ee6", "BV1xx411c7mD"])
+        self.assertEqual(result["bvid"], "BV19yGa61Ee6")
+        self.assertFalse(result["blocked"])
 
     def test_bilibili_crawler_helper_owns_payload_contract(self):
         result = BilibiliCrawlerHelper().run_from_payload(
