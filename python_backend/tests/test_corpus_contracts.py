@@ -17199,6 +17199,28 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(audit["coverage"]["weakTerms"], 1)
         self.assertEqual(audit["coverage"]["evidenceDeficit"], 2)
 
+    def test_coverage_audit_builder_ignores_non_array_evidence_sources_for_source_backing(self):
+        dictionary = {
+            "entries": [
+                {
+                    "term": "malformed-source",
+                    "family": "attack",
+                    "evidenceCount": 3,
+                    "evidenceSamples": {"one": "sample one", "two": "sample two", "three": "sample three"},
+                    "evidenceSources": {"source": "Bilibili public video comment scan", "sample": "sample one"},
+                }
+            ]
+        }
+
+        audit = CoverageAuditBuilder(target_evidence=3, max_actions=10, require_source_backed_evidence=True).build(dictionary)
+
+        self.assertEqual(audit["coverage"]["totalEvidence"], 3)
+        self.assertEqual(audit["coverage"]["weakTerms"], 0)
+        self.assertEqual(audit["coverage"]["sourcedEvidenceTerms"], 0)
+        self.assertEqual(audit["coverage"]["unsourcedEvidenceTerms"], 1)
+        self.assertEqual(audit["nextActions"][0]["term"], "malformed-source")
+        self.assertFalse(audit["nextActions"][0]["sourcedEvidence"])
+
     def test_coverage_audit_builder_matches_js_canonical_evidence_overrides(self):
         dictionary = {
             "entries": [

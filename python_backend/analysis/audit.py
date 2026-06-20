@@ -505,13 +505,19 @@ class CoverageAuditBuilder:
         term = str(entry.get("term") or "").strip()
         return self.JS_CANONICAL_EVIDENCE_COUNT_OVERRIDES.get((family, term))
 
+    def _list_field(self, entry: dict[str, Any], key: str) -> list[Any]:
+        value = entry.get(key) if isinstance(entry, dict) else None
+        return value if isinstance(value, list) else []
+
     def _evidence_unit_count(self, entry: dict[str, Any]) -> int:
         units = set()
-        for sample in entry.get("evidenceSamples") or []:
+        for sample in self._list_field(entry, "evidenceSamples"):
             sample_text = str(sample or "").strip()
             if sample_text:
                 units.add(f"sample:{sample_text}")
-        for source in entry.get("evidenceSources") or []:
+        for source in self._list_field(entry, "evidenceSources"):
+            if not isinstance(source, dict):
+                continue
             sample = str(source.get("sample") or "").strip()
             if sample:
                 units.add(f"sample:{sample}")
@@ -528,7 +534,7 @@ class CoverageAuditBuilder:
         return self._evidence_count(entry)
 
     def _has_coverage_evidence_source(self, entry: dict[str, Any]) -> bool:
-        if self._evidence_count(entry) == 0 or not entry.get("evidenceSources"):
+        if self._evidence_count(entry) == 0 or not self._list_field(entry, "evidenceSources"):
             return False
         if not self.require_comment_backed_evidence:
             return True
@@ -536,7 +542,9 @@ class CoverageAuditBuilder:
 
     def _comment_backed_evidence_count(self, entry: dict[str, Any]) -> int:
         samples = set()
-        for source in entry.get("evidenceSources") or []:
+        for source in self._list_field(entry, "evidenceSources"):
+            if not isinstance(source, dict):
+                continue
             sample = str(source.get("sample") or "").strip()
             source_text = str(source.get("source") or "").strip()
             is_context = sample.startswith("Bilibili video context:") or sample.startswith("Bilibili public video title:") or "search-discovered video context" in source_text
