@@ -157,7 +157,7 @@ from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommen
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader
-from python_backend.corpus.writer import CorpusShardWriteContractComparator as CorpusShardWritePayloadComparator, CorpusShardWritePayloadContractComparator, CorpusShardWriteRunner as CorpusShardWritePayloadRunner, CorpusShardWriteSummary, CorpusShardWriter
+from python_backend.corpus.writer import CorpusShardWriteContractComparator as CorpusShardWritePayloadComparator, CorpusShardWritePayloadContractComparator, CorpusShardWriteRequest, CorpusShardWriteRunner as CorpusShardWritePayloadRunner, CorpusShardWriteSummary, CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliParseContractComparator as BilibiliParsePayloadComparator, BilibiliParsePayloadContractComparator, BilibiliParseRunner as BilibiliParsePayloadRunner, BilibiliParseSummary, BilibiliPublicParser
 from python_backend.scrapers.aicu import AicuBatchPlanContractComparator as AicuBatchPlanPayloadComparator, AicuBatchPlanPayloadContractComparator, AicuBatchPlanRunner as AicuBatchPayloadPlanRunner, AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressPayloadContractComparator, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanContractComparator as AicuScrapePlanPayloadComparator, AicuScrapePlanPayloadContractComparator, AicuScrapePlanRunner as AicuScrapePayloadPlanRunner, AicuScrapePlanSummary, AicuScrapePlanner, BatchScrapeProgressRunner as BatchScrapeProgressPayloadRunner
@@ -796,6 +796,36 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["comments"], 1)
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["manifest", "comments"])
+
+    def test_corpus_shard_write_request_compares_js_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-write-report.json"
+            output_path = root / "out.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "outputPath": str(output_path),
+                        "maxShardBytes": 512,
+                        "comments": [{"message": "request-owned"}],
+                        "runs": [],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"manifest": {"storage": "monolith"}, "comments": 1, "runs": 0}),
+                encoding="utf-8",
+            )
+
+            result = CorpusShardWriteRequest(
+                payload_path=payload_path,
+                compare_js_report_path=js_report_path,
+            ).run()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual([item["key"] for item in result["mismatches"]], ["manifest"])
 
     def test_corpus_shard_write_summary_extracts_comparator_contract(self):
         summary_builder = CorpusShardWriteSummary()
