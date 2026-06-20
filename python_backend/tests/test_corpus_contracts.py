@@ -121,7 +121,7 @@ from python_backend.scrapers.uid_discovery import UidDiscoveryPlanContractCompar
 from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanContractComparator as UidFastPipelinePlanPayloadComparator
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanContractComparator as UidParallelPlanPayloadComparator, UidParallelPlanSummary, UidParallelProgressContractComparator as UidParallelProgressPayloadComparator, UidParallelProgressReporter, UidParallelProgressSummary
 from python_backend.scrapers.uid_pipeline import UidPipelineLauncherContractComparator as UidPipelineLauncherPayloadComparator, UidPipelineLauncherPlanner, UidPipelineLauncherSummary, UidPipelineMergeContractComparator as UidPipelineMergePayloadComparator, UidPipelineMergeReporter, UidPipelineMergeSummary, UidPipelinePlanContractComparator as UidPipelinePlanPayloadComparator, UidPipelinePlanSummary, UidPipelineProgressContractComparator as UidPipelineProgressPayloadComparator, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateContractComparator as UidPipelineStatePayloadComparator, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
-from python_backend.scrapers.scraper_monitor import ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter, ScraperMonitorSummary
+from python_backend.scrapers.scraper_monitor import ScraperMonitorContractComparator as ScraperMonitorPayloadComparator, ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter, ScraperMonitorSummary
 from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherContractComparator as FastPipelineLauncherPayloadComparator, FastPipelineLauncherPlanner, FastPipelineLauncherSummary, UidFastPipelinePlanSummary, UidFastPipelinePlanner
 
 
@@ -8798,6 +8798,30 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "combined", "python": {"uidsAnalyzed": 2}, "js": {"uidsAnalyzed": 1}},
             ],
         )
+
+    def test_scraper_monitor_payload_comparator_owns_report_mismatch_contract(self):
+        result = ScraperMonitorPayloadComparator().compare(
+            {
+                "discovery": {"analyzed": 1, "found": 2},
+                "pipeline": {"processed": 1},
+                "combined": {"uidsAnalyzed": 2},
+            },
+            {
+                "pipeline": {"processed": 0},
+                "combined": {"uidsAnalyzed": 1},
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "pipeline", "python": {"processed": 1}, "js": {"processed": 0}},
+                {"key": "combined", "python": {"uidsAnalyzed": 2}, "js": {"uidsAnalyzed": 1}},
+            ],
+        )
+        self.assertEqual(result["python"]["discovery"], {"analyzed": 1, "found": 2})
+        self.assertNotIn("discovery", result["js"])
 
     def test_scraper_monitor_summary_extracts_comparator_contract(self):
         summary = ScraperMonitorSummary().summarize(

@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from python_backend.cli.uid_pipeline_merge import UidPipelineMergeRunner
-from python_backend.scrapers.scraper_monitor import ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter, ScraperMonitorSummary
+from python_backend.scrapers.scraper_monitor import ScraperMonitorContractComparator as ScraperMonitorPayloadComparator, ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter, ScraperMonitorSummary
 
 
 class ScraperMonitorRunner:
@@ -77,6 +77,7 @@ class ScraperMonitorContractComparator:
         self.workers = workers
         self.pipeline_rate_per_minute = pipeline_rate_per_minute
         self.summary = ScraperMonitorSummary()
+        self.comparator = ScraperMonitorPayloadComparator(self.summary)
 
     def compare(self) -> dict[str, Any]:
         python_result = ScraperMonitorRunner(
@@ -87,17 +88,7 @@ class ScraperMonitorContractComparator:
             pipeline_rate_per_minute=self.pipeline_rate_per_minute,
         ).run()
         js_result = self._read_js_report()
-        mismatches = [
-            {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
-            for key in self.summary.RESULT_KEYS
-            if key in js_result and python_result.get(key) != js_result.get(key)
-        ]
-        return {
-            "ok": not mismatches,
-            "mismatches": mismatches,
-            "python": self.summary.summarize(python_result),
-            "js": self.summary.summarize(js_result),
-        }
+        return self.comparator.compare(python_result, js_result)
 
     def _read_js_report(self) -> dict[str, Any]:
         if not self.js_report_path.exists():
