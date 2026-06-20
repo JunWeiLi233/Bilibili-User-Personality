@@ -46,6 +46,13 @@ def _is_emoji_or_emoticon_only(value: Any) -> bool:
     return True
 
 
+def _strip_mention_scaffolding(value: Any) -> str:
+    message = _clean_text(value)
+    message = re.sub(r"(?:回复|回復|reply)\s*@[^:：\s]+[\s:：]*", "", message, flags=re.IGNORECASE)
+    message = re.sub(r"@[^:：\s]+", "", message)
+    return message.strip()
+
+
 class CommentCoverageClassifier:
     """Classify comment coverage against dictionary lexical evidence contracts."""
 
@@ -62,7 +69,7 @@ class CommentCoverageClassifier:
                 "comment": message,
             }
 
-        hits = self._lexical_hits(dictionary or {}, message)
+        hits = self._lexical_hits(dictionary or {}, _strip_mention_scaffolding(message))
         if hits:
             return {
                 "covered": True,

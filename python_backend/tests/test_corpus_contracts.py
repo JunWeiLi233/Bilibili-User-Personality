@@ -10068,6 +10068,18 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(emoticon["covered"])
         self.assertEqual(emoticon["mode"], "neutral")
 
+    def test_comment_coverage_classifier_ignores_keywords_inside_reply_usernames(self):
+        dictionary = {"entries": [{"term": "\u72d7\u5934", "family": "attack"}, {"term": "\u67e5\u8d44\u6599", "family": "evidence"}]}
+        classifier = CommentCoverageClassifier()
+
+        username_only = classifier.classify(dictionary, "\u56de\u590d @\u72d7\u5934 : \u666e\u901a\u8bc4\u8bba")
+        body_hit = classifier.classify(dictionary, "\u56de\u590d @\u666e\u901a\u7528\u6237 : \u5efa\u8bae\u67e5\u8d44\u6599")
+
+        self.assertEqual(username_only["mode"], "neutral")
+        self.assertEqual(username_only["hits"], [])
+        self.assertEqual(body_hit["mode"], "keyword")
+        self.assertEqual(body_hit["hits"][0]["term"], "\u67e5\u8d44\u6599")
+
     def test_comment_coverage_classifier_samples_comments(self):
         dictionary = {"entries": [{"term": "\u7f51\u76d8\u89c1", "family": "evasion"}]}
         comments = [
