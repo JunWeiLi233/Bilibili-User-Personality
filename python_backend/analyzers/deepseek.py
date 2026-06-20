@@ -6,6 +6,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from python_backend.corpus.dictionary import DictionaryLoader
+
 
 @dataclass(frozen=True)
 class AnalyzerRequest:
@@ -238,20 +240,25 @@ class DeepSeekAnalyzerClient:
             return list(explicit_hints)
         dictionary = payload.get("dictionary")
         if isinstance(dictionary, dict) and isinstance(dictionary.get("entries"), list):
-            hints = []
-            seen = set()
-            for entry in dictionary["entries"]:
-                if not isinstance(entry, dict):
-                    continue
-                key = (
-                    str(entry.get("term") or entry.get("keyword") or entry.get("text") or "").strip(),
-                    str(entry.get("family") or entry.get("axis") or "").strip(),
-                )
-                if key[0] and key not in seen:
-                    seen.add(key)
-                    hints.append(entry)
-            return hints
+            return self._dictionary_entries_to_hints(dictionary["entries"])
+        if payload.get("dictionaryPath"):
+            return self._dictionary_entries_to_hints(DictionaryLoader.load_from_payload(payload).entries)
         return []
+
+    def _dictionary_entries_to_hints(self, entries: list[Any]) -> list[dict[str, Any]]:
+        hints = []
+        seen = set()
+        for entry in entries:
+            if not isinstance(entry, dict):
+                continue
+            key = (
+                str(entry.get("term") or entry.get("keyword") or entry.get("text") or "").strip(),
+                str(entry.get("family") or entry.get("axis") or "").strip(),
+            )
+            if key[0] and key not in seen:
+                seen.add(key)
+                hints.append(entry)
+        return hints
 
     def _comments_from_payload(self, payload: dict[str, Any]) -> list[str]:
         if isinstance(payload.get("comments"), list):

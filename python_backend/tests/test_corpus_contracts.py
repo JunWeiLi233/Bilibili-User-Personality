@@ -2655,6 +2655,33 @@ class CorpusContractTests(unittest.TestCase):
             [{"term": "\u72d7\u5934", "family": "evasion", "meaning": "\u53cd\u8bbd\u6216\u4fdd\u547d\u8bed\u6c14"}],
         )
 
+    def test_deepseek_analyzer_builds_keyword_hints_from_dictionary_path_payload(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {"term": "\u9634\u9633\u602a\u6c14", "family": "attack", "meaning": "\u8bbd\u523a\u6027\u8868\u8fbe"},
+                            {"term": "\u9634\u9633\u602a\u6c14", "family": "attack", "meaning": "\u91cd\u590d"},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            payload = DeepSeekAnalyzerClient().build_payload(
+                DeepSeekAnalyzerClient().build_request_from_payload(
+                    {"text": "\u8fd9\u53e5\u6709\u70b9\u9634\u9633\u602a\u6c14", "dictionaryPath": str(dictionary_path)}
+                )
+            )
+
+        self.assertEqual(
+            payload["keywordHints"],
+            [{"term": "\u9634\u9633\u602a\u6c14", "family": "attack", "meaning": "\u8bbd\u523a\u6027\u8868\u8fbe"}],
+        )
+
     def test_deepseek_analyzer_extracts_text_from_comment_object_payloads(self):
         request = DeepSeekAnalyzerClient().build_request_from_payload(
             {
