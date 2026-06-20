@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditReport
+from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditPayloadContractComparator, CoverageAuditReport
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanPayloadContractComparator, CoverageHarvestLoopPlanRunner as CoverageHarvestLoopPayloadPlanRunner, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressPayloadContractComparator, CoverageProgressRunner as CoverageProgressPayloadRunner, CoverageProgressSummary, CoverageProgressTracker
@@ -700,6 +700,56 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["warnings"], [])
         self.assertEqual(result["python"]["coverage"]["totalEvidence"], 3)
         self.assertEqual(result["js"]["coverage"]["totalEvidence"], 2)
+
+    def test_coverage_audit_payload_comparator_lives_with_analysis_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            js_audit_path = root / "js-audit.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {
+                                "term": "\u5f31\u8bcd",
+                                "family": "attack",
+                                "evidenceCount": 1,
+                                "evidenceSamples": ["sample one"],
+                                "evidenceSources": [{"sample": "sample one", "source": "bilibili"}],
+                            }
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_audit_path.write_text(
+                json.dumps(
+                    {
+                        "ok": True,
+                        "targetEvidence": 3,
+                        "coverage": {
+                            "complete": True,
+                            "terms": 1,
+                            "weakTerms": 0,
+                            "zeroEvidenceTerms": 0,
+                            "evidenceDeficit": 0,
+                            "coverageRatio": 1,
+                            "sourcedEvidenceTerms": 1,
+                            "unsourcedEvidenceTerms": 0,
+                            "totalEvidence": 3,
+                            "targetEvidence": 3,
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = CoverageAuditPayloadContractComparator(dictionary_path, js_audit_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual([item["key"] for item in result["mismatches"]], ["weakTerms", "evidenceDeficit", "coverageRatio", "totalEvidence", "complete", "ok"])
+        self.assertEqual(result["python"]["coverage"]["terms"], 1)
+        self.assertEqual(result["js"]["coverage"]["terms"], 1)
 
     def test_rate_limiter_uses_injected_sleep_without_real_waiting(self):
         sleeps = []
