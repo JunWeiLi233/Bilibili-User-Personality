@@ -75,16 +75,6 @@ class DirectProbePlanRunner:
 class DirectProbePlanContractComparator:
     """Compare Python direct-probe plans against saved JS-compatible plan JSON."""
 
-    PLAN_KEYS = (
-        "nextReplyCursor",
-        "viewUrl",
-        "replyUrl",
-        "replyPageUrl",
-        "replyThreadUrl",
-        "searchUrls",
-        "syntheticCookie",
-    )
-
     def __init__(self, payload_path: str | Path, js_plan_path: str | Path):
         self.payload_path = Path(payload_path)
         self.js_plan_path = Path(js_plan_path)
@@ -95,7 +85,7 @@ class DirectProbePlanContractComparator:
         js_plan = self._read_js_plan()
         mismatches = [
             {"key": key, "python": python_plan.get(key), "js": js_plan.get(key)}
-            for key in self.PLAN_KEYS
+            for key in self.summary.PLAN_KEYS
             if key in js_plan and python_plan.get(key) != js_plan.get(key)
         ]
         return {

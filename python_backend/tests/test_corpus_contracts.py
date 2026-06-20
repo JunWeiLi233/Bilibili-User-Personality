@@ -3294,6 +3294,15 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_direct_probe_plan_comparator_uses_backend_summary_contract_keys(self):
+        summary = DirectProbePlanSummary()
+
+        self.assertFalse(hasattr(DirectProbePlanContractComparator, "PLAN_KEYS"))
+        self.assertEqual(
+            summary.summarize({"nextReplyCursor": 1, "viewUrl": "view", "rankedVideos": [{"bvid": "BVignored"}]}),
+            {"nextReplyCursor": 1, "viewUrl": "view"},
+        )
+
     def test_direct_probe_builder_creates_browser_identity_contract(self):
         builder = DirectProbeCorpusBuilder()
 
