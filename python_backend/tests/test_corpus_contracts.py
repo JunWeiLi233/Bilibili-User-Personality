@@ -83,7 +83,7 @@ from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, Hugging
 from python_backend.corpus.local import LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidenceSummary
 from python_backend.corpus.local import LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenSummary, LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanContractComparator as LocalCorpusMinePlanPayloadComparator, LocalCorpusMinePlanSummary
-from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner, AgentDictionaryMergePlanSummary
+from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner, AgentDictionaryMergePlanSummary, MergeAgentDictionariesPlanContractComparator as MergeAgentDictionariesPlanPayloadComparator, MergeAgentDictionariesPlanRunner as MergeAgentDictionariesPayloadPlanRunner
 from python_backend.corpus.tieba import TiebaCorpusUpdater, TiebaCorpusUpdateSummary
 from python_backend.corpus import dictionary_prune
 from python_backend.analysis import video_filter
@@ -7189,6 +7189,25 @@ class CorpusContractTests(unittest.TestCase):
                 },
             ],
         )
+
+    def test_merge_agent_dictionaries_payload_comparator_lives_with_corpus_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            main_dictionary_path = root / "main.json"
+            agent_root = root / "agent"
+            agent_dict = agent_root / "server" / "data"
+            js_report_path = root / "js-merge-plan.json"
+            agent_dict.mkdir(parents=True)
+            main_dictionary_path.write_text(json.dumps({"entries": [{"term": "doge", "evidenceCount": 1}]}), encoding="utf-8")
+            (agent_dict / "deepseekKeywordDictionary.json").write_text(json.dumps({"entries": [{"term": "doge", "evidenceCount": 4}]}), encoding="utf-8")
+            js_report_path.write_text(json.dumps({"totalEvidenceGain": 1}), encoding="utf-8")
+
+            run_result = MergeAgentDictionariesPayloadPlanRunner(main_dictionary_path, [agent_root]).run()
+            comparison = MergeAgentDictionariesPlanPayloadComparator(main_dictionary_path, [agent_root], js_report_path).compare()
+
+        self.assertEqual(run_result["totalEvidenceGain"], 3)
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [{"key": "totalEvidenceGain", "python": 3, "js": 1}])
 
     def test_merge_agent_dictionaries_plan_comparator_uses_backend_summary_contract_keys(self):
         summary = AgentDictionaryMergePlanSummary()
