@@ -16,7 +16,7 @@ from python_backend.analysis.near_target import NearTargetResolvePlanner
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherHelper, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationReportSummary, RandomVerifier
-from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator
+from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceMatcher, KeywordEvidenceSummary
 from python_backend.cli.comment_coverage import CommentCoverageContractComparator, CommentCoverageRunner
@@ -1609,6 +1609,14 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "requests[0].model", "python": "deepseek-v4-flash", "js": "deepseek-v4-pro"},
                 {"key": "requests[0].max_tokens", "python": 1600, "js": 2000},
             ],
+        )
+
+    def test_deepseek_analysis_plan_comparator_uses_backend_summary_contract_keys(self):
+        self.assertTrue(hasattr(DeepSeekAnalysisPlanContractComparator(Path("payload.json"), Path("js-plan.json")), "summary"))
+        self.assertFalse(hasattr(DeepSeekAnalysisPlanContractComparator, "REQUEST_KEYS"))
+        self.assertEqual(
+            DeepSeekAnalysisPlanContractComparator(Path("payload.json"), Path("js-plan.json")).summary.REQUEST_KEYS,
+            DeepSeekAnalysisPlanSummary.REQUEST_KEYS,
         )
 
     def test_deepseek_analysis_validator_rejects_hallucinated_quotes(self):

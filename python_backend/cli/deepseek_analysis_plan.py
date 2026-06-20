@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient
+from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisPlanSummary
 
 
 class DeepSeekAnalysisPlanRunner:
@@ -65,12 +65,11 @@ class DeepSeekAnalysisPlanRunner:
 class DeepSeekAnalysisPlanContractComparator:
     """Compare Python-built DeepSeek request plans against saved JS-compatible plans."""
 
-    REQUEST_KEYS = ("model", "reasoning_effort", "max_tokens")
-
     def __init__(self, payload_path: str | Path, js_plan_path: str | Path, compact: bool = False):
         self.payload_path = Path(payload_path)
         self.js_plan_path = Path(js_plan_path)
         self.compact = compact
+        self.summary = DeepSeekAnalysisPlanSummary()
 
     def compare(self) -> dict[str, Any]:
         python_plan = DeepSeekAnalysisPlanRunner(self.payload_path, compact=self.compact).run()
@@ -79,8 +78,8 @@ class DeepSeekAnalysisPlanContractComparator:
         return {
             "ok": not mismatches,
             "mismatches": mismatches,
-            "python": self._summary(python_plan),
-            "js": self._summary(js_plan),
+            "python": self.summary.summarize(python_plan),
+            "js": self.summary.summarize(js_plan),
         }
 
     def _read_js_plan(self) -> dict[str, Any]:
@@ -99,21 +98,10 @@ class DeepSeekAnalysisPlanContractComparator:
         for index, (python_request, js_request) in enumerate(zip(python_requests, js_requests)):
             if not isinstance(python_request, dict) or not isinstance(js_request, dict):
                 continue
-            for key in self.REQUEST_KEYS:
+            for key in self.summary.REQUEST_KEYS:
                 if key in js_request and python_request.get(key) != js_request.get(key):
                     mismatches.append({"key": f"requests[{index}].{key}", "python": python_request.get(key), "js": js_request.get(key)})
         return mismatches
-
-    def _summary(self, plan: dict[str, Any]) -> dict[str, Any]:
-        requests = plan.get("requests") if isinstance(plan.get("requests"), list) else []
-        return {
-            "mode": plan.get("mode"),
-            "requestCount": len(requests),
-            "requests": [
-                {key: request.get(key) for key in self.REQUEST_KEYS if isinstance(request, dict)}
-                for request in requests
-            ],
-        }
 
 
 def main() -> int:

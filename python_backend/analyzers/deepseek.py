@@ -303,6 +303,24 @@ class DeepSeekAnalysisValidator:
         return re.sub(r"\s+", "", str(text or "")).lower()
 
 
+class DeepSeekAnalysisPlanSummary:
+    """Shape DeepSeek request plans into the JS/Python comparator summary contract."""
+
+    REQUEST_KEYS = ("model", "reasoning_effort", "max_tokens")
+
+    def summarize(self, plan: dict[str, Any] | None = None) -> dict[str, Any]:
+        plan = plan if isinstance(plan, dict) else {}
+        requests = plan.get("requests") if isinstance(plan.get("requests"), list) else []
+        return {
+            "mode": plan.get("mode"),
+            "requestCount": len(requests),
+            "requests": [
+                {key: request.get(key) for key in self.REQUEST_KEYS if isinstance(request, dict)}
+                for request in requests
+            ],
+        }
+
+
 class DeepSeekAnalysisValidationSummary:
     """Shape DeepSeek validation results into the JS/Python comparator summary contract."""
 
