@@ -125,6 +125,32 @@ ASK_BAIDU_PRODUCT_NOISE_NEEDLES = [
 class VideoCommentFilter:
     """Pre-filter Bilibili comments by normalized dictionary needles."""
 
+    def run_from_payload(
+        self,
+        comments_payload: Any,
+        needles_payload: Any,
+        extra_needles: list[Any] | None = None,
+        dictionary_mode: bool = False,
+        existing_terms_only: bool = False,
+    ) -> dict[str, Any]:
+        comments = comments_payload.get("comments") if isinstance(comments_payload, dict) else comments_payload
+        if dictionary_mode:
+            result = self.prefilter_comments_to_dictionary(
+                comments if isinstance(comments, list) else [],
+                needles_payload if isinstance(needles_payload, dict) else {},
+                existing_terms_only=existing_terms_only,
+                target_existing_terms=extra_needles or [],
+            )
+            return {"ok": True, **result}
+        needles = needles_payload.get("needles") if isinstance(needles_payload, dict) else needles_payload
+        result = self.filter_comments(
+            comments if isinstance(comments, list) else [],
+            needles if isinstance(needles, list) else [],
+            extra_needles or [],
+        )
+        source_comments = comments if isinstance(comments, list) else []
+        return {"ok": True, "before": len(source_comments), "after": len(result["comments"]), **result}
+
     def comment_matches_needle_set(self, message: Any, needle_set: set[str] | list[str] | tuple[str, ...]) -> bool:
         if not needle_set:
             return False

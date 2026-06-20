@@ -3819,6 +3819,18 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["matched"], 2)
         self.assertEqual([comment["rpid"] for comment in result["comments"]], ["1", "2"])
 
+    def test_video_comment_filter_owns_payload_contract(self):
+        result = VideoCommentFilter().run_from_payload(
+            {"comments": [{"rpid": "1", "message": "\u7f51\u76d8\u89c1"}, {"rpid": "2", "message": "\u8def\u8fc7"}]},
+            {"needles": ["\u7f51\u76d8\u89c1"]},
+            extra_needles=["\u8def\u8fc7"],
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertTrue(result["applied"])
+        self.assertEqual(result["matched"], 2)
+        self.assertEqual([comment["rpid"] for comment in result["comments"]], ["1", "2"])
+
     def test_video_comment_filter_builds_dictionary_needles_and_prefilter_envelope(self):
         comments = [
             {"rpid": "1", "message": "\u5efa\u8bae\u7f51 \u76d8 \u89c1"},

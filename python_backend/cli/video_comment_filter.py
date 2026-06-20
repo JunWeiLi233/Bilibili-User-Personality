@@ -29,24 +29,14 @@ class VideoCommentFilterRunner:
 
     def run(self) -> dict[str, Any]:
         comments_payload = self._read_json(self.comments_path, [])
-        comments = comments_payload.get("comments") if isinstance(comments_payload, dict) else comments_payload
         needles_payload = self._read_json(self.needles_path, [])
-        if self.dictionary_mode:
-            result = self.comment_filter.prefilter_comments_to_dictionary(
-                comments if isinstance(comments, list) else [],
-                needles_payload if isinstance(needles_payload, dict) else {},
-                existing_terms_only=self.existing_terms_only,
-                target_existing_terms=self.extra_needles,
-            )
-            return {"ok": True, **result}
-        needles = needles_payload.get("needles") if isinstance(needles_payload, dict) else needles_payload
-        result = self.comment_filter.filter_comments(
-            comments if isinstance(comments, list) else [],
-            needles if isinstance(needles, list) else [],
-            self.extra_needles,
+        return self.comment_filter.run_from_payload(
+            comments_payload,
+            needles_payload,
+            extra_needles=self.extra_needles,
+            dictionary_mode=self.dictionary_mode,
+            existing_terms_only=self.existing_terms_only,
         )
-        source_comments = comments if isinstance(comments, list) else []
-        return {"ok": True, "before": len(source_comments), "after": len(result["comments"]), **result}
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
         if not path.exists():
