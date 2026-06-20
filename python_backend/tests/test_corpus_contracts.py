@@ -9,6 +9,7 @@ from python_backend.cli import local_corpus_evidence as local_corpus_evidence_cl
 from python_backend.cli import local_corpus_flatten as local_corpus_flatten_cli
 from python_backend.cli import direct_probe_corpus as direct_probe_corpus_cli
 from python_backend.cli import comment_coverage as comment_coverage_cli
+from python_backend.cli import keyword_evidence as keyword_evidence_cli
 from python_backend.cli import tieba_corpus as tieba_corpus_cli
 from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditPayloadContractComparator, CoverageAuditReport
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageJsonPayloadRunner, CommentCoveragePayloadContractComparator, CommentCoverageRunner as CommentCoveragePayloadRunner, CommentCoverageSummary
@@ -1601,6 +1602,31 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["entries"][0]["term"], "yygq")
         self.assertEqual(result["entries"][0]["evidenceCount"], 2)
+
+    def test_keyword_evidence_cli_accepts_argv_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [{"term": "YYGQ", "family": "attack", "meaning": "Chinese initialism"}],
+                        "text": "YYGQ once",
+                        "source": "Bilibili public comment target expansion",
+                        "uid": "mid-1",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                exit_code = keyword_evidence_cli.main(["--payload", str(payload_path)])
+
+        result = json.loads(output.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["entries"][0]["term"], "yygq")
 
     def test_keyword_evidence_matcher_owns_payload_contract(self):
         result = KeywordEvidenceMatcher().run_from_payload(
