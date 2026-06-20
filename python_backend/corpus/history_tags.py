@@ -339,6 +339,58 @@ class HistoryTagCorpusManager:
             return 0
 
 
+class HistoryTagCorpusLoader:
+    """Read history-tag corpus contracts from monolithic JSON or split shard manifests."""
+
+    DEFAULT_CORPUS = {"version": 1, "updatedAt": None, "tags": [], "videos": [], "runs": []}
+
+    def __init__(self, path: str | Path, fallback: dict[str, Any] | None = None):
+        self.path = Path(path)
+        self.fallback = dict(fallback or self.DEFAULT_CORPUS)
+
+    def load(self) -> dict[str, Any]:
+        if not self.path.exists():
+            return dict(self.fallback)
+        payload = self._read_json_object(self.path)
+        if not isinstance(payload, dict):
+            return dict(self.fallback)
+        if payload.get("storage") != "split":
+            return self._with_lists(payload)
+        return {
+            **payload,
+            "tags": self._hydrate_files(payload.get("tagFiles"), "tags", payload.get("tags")),
+            "videos": self._hydrate_files(payload.get("videoFiles"), "videos", payload.get("videos")),
+            "runs": self._hydrate_files(payload.get("runFiles"), "runs", payload.get("runs")),
+        }
+
+    def _with_lists(self, payload: dict[str, Any]) -> dict[str, Any]:
+        return {
+            **payload,
+            "tags": payload.get("tags") if isinstance(payload.get("tags"), list) else [],
+            "videos": payload.get("videos") if isinstance(payload.get("videos"), list) else [],
+            "runs": payload.get("runs") if isinstance(payload.get("runs"), list) else [],
+        }
+
+    def _hydrate_files(self, file_paths: Any, key: str, fallback: Any = None) -> list[Any]:
+        if not isinstance(file_paths, list):
+            return list(fallback) if isinstance(fallback, list) else []
+        items = []
+        for file_path in file_paths:
+            if not isinstance(file_path, str) or not file_path.strip():
+                continue
+            shard = self._read_json_object(self.path.parent / file_path)
+            if isinstance(shard, dict) and isinstance(shard.get(key), list):
+                items.extend(shard[key])
+        return items
+
+    def _read_json_object(self, path: Path) -> dict[str, Any] | None:
+        if not path.exists():
+            return None
+        with path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else None
+
+
 class HistoryTagCorpusRunner:
     """Merge Bilibili history-tag corpus JSON contracts from files."""
 
@@ -348,16 +400,9 @@ class HistoryTagCorpusRunner:
         self.manager = HistoryTagCorpusManager(generated_at=generated_at)
 
     def run(self) -> dict[str, Any]:
-        current = self._read_json_object(self.current_path, {"version": 1, "updatedAt": None, "tags": [], "videos": [], "runs": []})
-        update = self._read_json_object(self.update_path, {"tags": [], "videos": [], "runs": []})
+        current = HistoryTagCorpusLoader(self.current_path).load()
+        update = HistoryTagCorpusLoader(self.update_path, fallback={"tags": [], "videos": [], "runs": []}).load()
         return self.manager.merge_result(current, update)
-
-    def _read_json_object(self, path: Path, fallback: dict[str, Any]) -> dict[str, Any]:
-        if not path.exists():
-            return fallback
-        with path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else fallback
 
 
 class HistoryTagCorpusPayloadContractComparator:

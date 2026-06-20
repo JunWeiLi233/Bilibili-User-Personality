@@ -5822,6 +5822,55 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["corpus"]["videos"][0]["title"], "\u5386\u53f2\u89c6\u9891")
         self.assertEqual(result["corpus"]["videos"][0]["tags"], ["\u5386\u53f2", "\u6e05\u671d"])
 
+    def test_history_tag_corpus_runner_uses_loader_for_split_current_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            current_path = root / "current.json"
+            update_path = root / "update.json"
+            (root / "tags").mkdir()
+            (root / "videos").mkdir()
+            (root / "runs").mkdir()
+            (root / "tags" / "tags-0001.json").write_text(
+                json.dumps({"tags": [{"name": "\u5386\u53f2", "source": "old"}]}),
+                encoding="utf-8",
+            )
+            (root / "videos" / "videos-0001.json").write_text(
+                json.dumps({"videos": [{"bvid": "BVoldhistory", "title": "\u65e7\u5386\u53f2\u89c6\u9891", "tags": ["\u5386\u53f2"], "replyCount": 1}]}),
+                encoding="utf-8",
+            )
+            (root / "runs" / "runs-0001.json").write_text(
+                json.dumps({"runs": [{"at": "old"}]}),
+                encoding="utf-8",
+            )
+            current_path.write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "storage": "split",
+                        "tagFiles": ["tags/tags-0001.json"],
+                        "videoFiles": ["videos/videos-0001.json"],
+                        "runFiles": ["runs/runs-0001.json"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            update_path.write_text(
+                json.dumps(
+                    {
+                        "tags": [{"name": "\u6e05\u671d", "source": "new"}],
+                        "videos": [{"bvid": "BVnewhistory", "title": "\u65b0\u5386\u53f2\u89c6\u9891", "tags": ["\u6e05\u671d"], "replyCount": 2}],
+                        "runs": [{"at": "new"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = HistoryTagCorpusRunner(current_path, update_path, generated_at="2026-06-19T01:00:00.000Z").run()
+
+        self.assertEqual([tag["name"] for tag in result["corpus"]["tags"]], ["\u5386\u53f2", "\u6e05\u671d"])
+        self.assertEqual([video["bvid"] for video in result["corpus"]["videos"]], ["BVoldhistory", "BVnewhistory"])
+        self.assertEqual([run["at"] for run in result["corpus"]["runs"]], ["old", "new"])
+
     def test_history_tag_corpus_contract_comparator_reports_corpus_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
