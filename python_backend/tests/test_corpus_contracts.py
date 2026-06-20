@@ -81,7 +81,7 @@ from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectP
 from python_backend.corpus.history_tags import HistoryTagCorpusManager, HistoryTagCorpusSummary, HistoryTagScrapePlanner, HistoryTagScrapePlanSummary
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
 from python_backend.corpus.local import LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidenceSummary
-from python_backend.corpus.local import LocalCorpusFlattenSummary, LocalCorpusFlattener
+from python_backend.corpus.local import LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenSummary, LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanSummary
 from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner, AgentDictionaryMergePlanSummary
 from python_backend.corpus.tieba import TiebaCorpusUpdater, TiebaCorpusUpdateSummary
@@ -2873,6 +2873,47 @@ class CorpusContractTests(unittest.TestCase):
             LocalCorpusFlattenContractComparator(Path("local.json"), Path("js.json")).summary.RESULT_KEYS,
             LocalCorpusFlattenSummary.RESULT_KEYS,
         )
+
+    def test_local_corpus_flatten_payload_comparator_owns_result_mismatch_contract(self):
+        result = LocalCorpusFlattenPayloadComparator().compare(
+            {
+                "ok": True,
+                "count": 1,
+                "comments": [
+                    {
+                        "message": "alpha phrase appears here",
+                        "platform": "bilibili",
+                        "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BVprogress/",
+                        "uid": "BVprogress",
+                        "uname": "tester",
+                    }
+                ],
+            },
+            {"ok": True, "count": 0, "comments": []},
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "count", "python": 1, "js": 0},
+                {
+                    "key": "comments",
+                    "python": [
+                        {
+                            "message": "alpha phrase appears here",
+                            "platform": "bilibili",
+                            "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BVprogress/",
+                            "uid": "BVprogress",
+                            "uname": "tester",
+                        }
+                    ],
+                    "js": [],
+                },
+            ],
+        )
+        self.assertEqual(result["python"]["count"], 1)
+        self.assertEqual(result["js"]["comments"], [])
 
     def test_local_corpus_flatten_contract_comparator_reports_comment_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
