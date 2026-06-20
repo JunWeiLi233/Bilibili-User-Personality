@@ -7505,6 +7505,21 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["summary"], {"seeds": 2, "requests": 4, "commentDanmakuScraping": False})
         self.assertEqual(len(result["requests"]), 4)
 
+    def test_history_tag_corpus_cli_runner_reads_plan_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--pages=2", "--page-size=3", "--seed=\u5386\u53f2", "--seed=\u660e\u671d"]}),
+                encoding="utf-8",
+            )
+
+            result = history_tag_corpus_cli.HistoryTagCorpusCliRunner(["--plan-payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["summary"], {"seeds": 2, "requests": 4, "commentDanmakuScraping": False})
+        self.assertEqual(len(result["requests"]), 4)
+
     def test_history_tag_file_contract_runners_live_with_corpus_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
