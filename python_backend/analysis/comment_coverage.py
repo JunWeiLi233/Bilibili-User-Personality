@@ -125,3 +125,39 @@ class CommentCoverageSummary:
         result = {key: summary.get(key) for key in self.SUMMARY_KEYS}
         result["byMode"] = {key: by_mode.get(key) for key in self.MODE_KEYS}
         return result
+
+
+class CommentCoverageContractComparator:
+    """Compare comment coverage summaries using the JS/Python JSON contract."""
+
+    def __init__(self, summary: CommentCoverageSummary | None = None):
+        self.summary = summary or CommentCoverageSummary()
+
+    def compare(self, python_report: dict[str, Any] | None, js_report: dict[str, Any] | None) -> dict[str, Any]:
+        python_report = python_report if isinstance(python_report, dict) else {}
+        js_report = js_report if isinstance(js_report, dict) else {}
+        python_summary = python_report.get("summary") if isinstance(python_report.get("summary"), dict) else {}
+        js_summary = js_report.get("summary") if isinstance(js_report.get("summary"), dict) else js_report
+        js_summary = js_summary if isinstance(js_summary, dict) else {}
+        mismatches = self._summary_mismatches(python_summary, js_summary)
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": {"summary": self.summary.summarize(python_summary)},
+            "js": {"summary": self.summary.summarize(js_summary)},
+        }
+
+    def _summary_mismatches(self, python_summary: dict[str, Any], js_summary: dict[str, Any]) -> list[dict[str, Any]]:
+        mismatches = [
+            {"key": key, "python": python_summary.get(key), "js": js_summary.get(key)}
+            for key in self.summary.SUMMARY_KEYS
+            if key in js_summary and python_summary.get(key) != js_summary.get(key)
+        ]
+        python_modes = python_summary.get("byMode") if isinstance(python_summary.get("byMode"), dict) else {}
+        js_modes = js_summary.get("byMode") if isinstance(js_summary.get("byMode"), dict) else {}
+        mismatches.extend(
+            {"key": f"byMode.{key}", "python": python_modes.get(key), "js": js_modes.get(key)}
+            for key in self.summary.MODE_KEYS
+            if key in js_modes and python_modes.get(key) != js_modes.get(key)
+        )
+        return mismatches

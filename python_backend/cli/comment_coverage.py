@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageSummary
+from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageSummary
 
 
 class CommentCoverageRunner:
@@ -55,39 +55,16 @@ class CommentCoverageContractComparator:
         self.js_report_path = Path(js_report_path)
         self.sample_size = sample_size
         self.summary = CommentCoverageSummary()
+        self.comparator = CommentCoveragePayloadComparator(self.summary)
 
     def compare(self) -> dict[str, Any]:
         python_report = CommentCoverageRunner(self.dictionary_path, self.comments_path, self.sample_size).run()
         js_report = self._read_js_report()
-        python_summary = python_report.get("summary") or {}
-        js_summary = js_report.get("summary") if isinstance(js_report.get("summary"), dict) else js_report
-        js_summary = js_summary if isinstance(js_summary, dict) else {}
-        mismatches = self._summary_mismatches(python_summary, js_summary)
-        return {
-            "ok": not mismatches,
-            "mismatches": mismatches,
-            "python": {"summary": self.summary.summarize(python_summary)},
-            "js": {"summary": self.summary.summarize(js_summary)},
-        }
+        return self.comparator.compare(python_report, js_report)
 
     def _read_js_report(self) -> dict[str, Any]:
         payload = _read_json(self.js_report_path)
         return payload if isinstance(payload, dict) else {}
-
-    def _summary_mismatches(self, python_summary: dict[str, Any], js_summary: dict[str, Any]) -> list[dict[str, Any]]:
-        mismatches = [
-            {"key": key, "python": python_summary.get(key), "js": js_summary.get(key)}
-            for key in self.summary.SUMMARY_KEYS
-            if key in js_summary and python_summary.get(key) != js_summary.get(key)
-        ]
-        python_modes = python_summary.get("byMode") if isinstance(python_summary.get("byMode"), dict) else {}
-        js_modes = js_summary.get("byMode") if isinstance(js_summary.get("byMode"), dict) else {}
-        mismatches.extend(
-            {"key": f"byMode.{key}", "python": python_modes.get(key), "js": js_modes.get(key)}
-            for key in self.summary.MODE_KEYS
-            if key in js_modes and python_modes.get(key) != js_modes.get(key)
-        )
-        return mismatches
 
 def _read_json(path: Path) -> Any:
     with path.open("r", encoding="utf-8-sig") as handle:

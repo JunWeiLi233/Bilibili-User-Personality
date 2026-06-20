@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 
 from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditReport
-from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageSummary
+from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressSummary, CoverageProgressTracker
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReportContractComparator as VideoKeywordDiscoveryReportPayloadComparator, VideoKeywordDiscoveryReporter, VideoKeywordDiscoveryReportSummary
@@ -6128,6 +6128,64 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(hasattr(CommentCoverageContractComparator, "MODE_KEYS"))
         self.assertEqual(comparator.summary.SUMMARY_KEYS, CommentCoverageSummary.SUMMARY_KEYS)
         self.assertEqual(comparator.summary.MODE_KEYS, CommentCoverageSummary.MODE_KEYS)
+
+    def test_comment_coverage_payload_comparator_owns_summary_mismatch_contract(self):
+        result = CommentCoveragePayloadComparator().compare(
+            {
+                "summary": {
+                    "total": 2,
+                    "covered": 2,
+                    "uncovered": 0,
+                    "coverageRatio": 1.0,
+                    "byMode": {"keyword": 1, "neutral": 1, "uncovered": 0},
+                }
+            },
+            {
+                "summary": {
+                    "total": 2,
+                    "covered": 1,
+                    "uncovered": 1,
+                    "coverageRatio": 0.5,
+                    "byMode": {"keyword": 1, "neutral": 0, "uncovered": 1},
+                }
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "covered", "python": 2, "js": 1},
+                {"key": "uncovered", "python": 0, "js": 1},
+                {"key": "coverageRatio", "python": 1.0, "js": 0.5},
+                {"key": "byMode.neutral", "python": 1, "js": 0},
+                {"key": "byMode.uncovered", "python": 0, "js": 1},
+            ],
+        )
+        self.assertEqual(
+            result["python"],
+            {
+                "summary": {
+                    "total": 2,
+                    "covered": 2,
+                    "uncovered": 0,
+                    "coverageRatio": 1.0,
+                    "byMode": {"keyword": 1, "neutral": 1, "uncovered": 0},
+                }
+            },
+        )
+        self.assertEqual(
+            result["js"],
+            {
+                "summary": {
+                    "total": 2,
+                    "covered": 1,
+                    "uncovered": 1,
+                    "coverageRatio": 0.5,
+                    "byMode": {"keyword": 1, "neutral": 0, "uncovered": 1},
+                }
+            },
+        )
 
     def test_comment_coverage_contract_comparator_reports_summary_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
