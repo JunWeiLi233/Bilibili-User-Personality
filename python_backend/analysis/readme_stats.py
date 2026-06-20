@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import json
 import math
 import re
 import html
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any, Callable
 
 
@@ -292,6 +294,44 @@ class ReadmeStatsContractComparator:
             "python": self.summary.summarize(python_result),
             "js": self.summary.summarize(js_result),
         }
+
+
+class ReadmeStatsRunner:
+    """Build README stats and timeline JSON from a compatibility payload."""
+
+    def __init__(self, payload_path: str | Path):
+        self.payload_path = Path(payload_path)
+
+    def run(self) -> dict[str, Any]:
+        payload = self._read_payload()
+        return ReadmeStatsBuilder().build_from_payload(payload)
+
+    def _read_payload(self) -> dict[str, Any]:
+        with self.payload_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
+
+
+class ReadmeStatsPayloadContractComparator:
+    """Compare Python README stats output against a saved JS-compatible report."""
+
+    def __init__(self, payload_path: str | Path, js_report_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.js_report_path = Path(js_report_path)
+        self.summary = ReadmeStatsSummary()
+        self.comparator = ReadmeStatsContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = ReadmeStatsRunner(self.payload_path).run()
+        js_result = self._read_js_report()
+        return self.comparator.compare(python_result, js_result)
+
+    def _read_js_report(self) -> dict[str, Any]:
+        if not self.js_report_path.exists():
+            return {}
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
 
 
 class ReadmeStatsSvgRenderer:
