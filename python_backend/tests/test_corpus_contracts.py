@@ -4760,6 +4760,20 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["comments"][0]["uid"], "BVflat")
 
+    def test_local_corpus_flatten_cli_runner_accepts_payload_alias(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "local.json"
+            payload_path.write_text(
+                json.dumps({"_uidComments": {"42": [{"message": "\u672c\u5730\u8bed\u6599\u8bc4\u8bba", "uname": "tester", "bvid": "BVflat"}]}}),
+                encoding="utf-8",
+            )
+
+            result = local_corpus_flatten_cli.LocalCorpusFlattenCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["comments"][0]["uid"], "BVflat")
+
     def test_local_corpus_flatten_summary_extracts_comparator_contract(self):
         summary = LocalCorpusFlattenSummary().summarize(
             {
