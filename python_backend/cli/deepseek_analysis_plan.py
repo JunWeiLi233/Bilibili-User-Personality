@@ -6,12 +6,12 @@ import json
 from python_backend.analyzers.deepseek import DeepSeekAnalysisPlanContractComparator, DeepSeekAnalysisPlanRunner
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Build a Python-owned DeepSeek analyzer request plan from a JS-compatible JSON payload.")
     parser.add_argument("--payload", required=True, help="Path to a JSON payload containing text/comments and optional keywordHints.")
     parser.add_argument("--compact", action="store_true", help="Build the compact retry prompt variant.")
     parser.add_argument("--compare-js-plan", default="", help="Optional JS-compatible DeepSeek plan JSON to compare.")
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     if args.compare_js_plan:
         result = DeepSeekAnalysisPlanContractComparator(args.payload, args.compare_js_plan, compact=args.compact).compare()
     else:
