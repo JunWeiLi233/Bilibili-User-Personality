@@ -3,61 +3,9 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from pathlib import Path
-from typing import Any
 
-from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusContractComparator as DirectProbeCorpusPayloadComparator, DirectProbeCorpusSummary
+from python_backend.corpus.direct_probe import DirectProbeCorpusPayloadContractComparator as DirectProbeCorpusContractComparator, DirectProbeCorpusRunner
 
-
-class DirectProbeCorpusRunner:
-    """Build a direct Bilibili probe corpus update from JSON contract files."""
-
-    def __init__(self, existing_path: str | Path, comments_path: str | Path, run_path: str | Path):
-        self.existing_path = Path(existing_path)
-        self.comments_path = Path(comments_path)
-        self.run_path = Path(run_path)
-        self.builder = DirectProbeCorpusBuilder()
-
-    def run(self) -> dict[str, Any]:
-        existing = self._read_json_object(self.existing_path, {"version": 1, "comments": [], "runs": []})
-        comments_payload = self._read_json(self.comments_path, [])
-        comments = comments_payload.get("comments") if isinstance(comments_payload, dict) else comments_payload
-        run = self._read_json_object(self.run_path, {})
-        return self.builder.build_probe_corpus_result(existing, comments if isinstance(comments, list) else [], run)
-
-    def _read_json(self, path: Path, fallback: Any) -> Any:
-        if not path.exists():
-            return fallback
-        with path.open("r", encoding="utf-8-sig") as handle:
-            return json.load(handle)
-
-    def _read_json_object(self, path: Path, fallback: dict[str, Any]) -> dict[str, Any]:
-        payload = self._read_json(path, fallback)
-        return payload if isinstance(payload, dict) else fallback
-
-
-class DirectProbeCorpusContractComparator:
-    """Compare Python direct-probe corpus updates against saved JS-compatible JSON."""
-
-    def __init__(self, existing_path: str | Path, comments_path: str | Path, run_path: str | Path, js_report_path: str | Path):
-        self.existing_path = Path(existing_path)
-        self.comments_path = Path(comments_path)
-        self.run_path = Path(run_path)
-        self.js_report_path = Path(js_report_path)
-        self.summary = DirectProbeCorpusSummary()
-        self.comparator = DirectProbeCorpusPayloadComparator(self.summary)
-
-    def compare(self) -> dict[str, Any]:
-        python_result = DirectProbeCorpusRunner(self.existing_path, self.comments_path, self.run_path).run()
-        js_result = self._read_js_report()
-        return self.comparator.compare(python_result, js_result)
-
-    def _read_js_report(self) -> dict[str, Any]:
-        if not self.js_report_path.exists():
-            return {}
-        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else {}
 
 def main() -> int:
     if hasattr(sys.stdout, "reconfigure"):

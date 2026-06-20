@@ -77,7 +77,7 @@ from python_backend.cli.batch_uid_scrape_plan import BatchUidScrapePlanContractC
 from python_backend.cli.batch_scraper_launcher import BatchScraperLauncherContractComparator, BatchScraperLauncherPlanRunner
 from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContractComparator, RangeScraperLauncherPlanRunner
 from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContractComparator, FastPipelineLauncherPlanRunner
-from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusContractComparator as DirectProbeCorpusPayloadComparator, DirectProbeCorpusSummary, DirectProbePlanContractComparator as DirectProbePlanPayloadComparator, DirectProbePlanPayloadContractComparator, DirectProbePlanRunner as DirectProbePayloadPlanRunner, DirectProbePlanSummary
+from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusContractComparator as DirectProbeCorpusPayloadComparator, DirectProbeCorpusPayloadContractComparator, DirectProbeCorpusRunner as DirectProbePayloadCorpusRunner, DirectProbeCorpusSummary, DirectProbePlanContractComparator as DirectProbePlanPayloadComparator, DirectProbePlanPayloadContractComparator, DirectProbePlanRunner as DirectProbePayloadPlanRunner, DirectProbePlanSummary
 from python_backend.corpus.history_tags import HistoryTagCorpusContractComparator as HistoryTagCorpusPayloadComparator, HistoryTagCorpusManager, HistoryTagCorpusSummary, HistoryTagScrapePlanner, HistoryTagScrapePlanContractComparator as HistoryTagScrapePlanPayloadComparator, HistoryTagScrapePlanSummary
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceCorpusImportContractComparator as HuggingFaceCorpusImportPayloadComparator, HuggingFaceCorpusImportPlanContractComparator as HuggingFaceCorpusImportPlanPayloadComparator, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
 from python_backend.corpus.local import LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidenceSummary
@@ -4109,6 +4109,28 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["corpus"]["comments"][0]["message"], "\u65b0\u8bc4\u8bba")
         self.assertEqual(result["corpus"]["runs"][0]["commentsAdded"], 1)
+
+    def test_direct_probe_corpus_payload_runner_lives_with_corpus_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            existing_path = root / "existing.json"
+            comments_path = root / "comments.json"
+            run_path = root / "run.json"
+            js_report_path = root / "js-report.json"
+            existing_path.write_text(json.dumps({"version": 1, "comments": [], "runs": []}), encoding="utf-8")
+            comments_path.write_text(json.dumps({"comments": [{"message": "\u65b0\u8bc4\u8bba", "source": "fresh", "uid": "9"}]}), encoding="utf-8")
+            run_path.write_text(json.dumps({"at": "2026-06-18T01:00:00.000Z", "query": "\u65b0"}), encoding="utf-8")
+            js_report_path.write_text(
+                json.dumps({"corpus": {"comments": [{"message": "\u8def\u8fc7"}], "runs": [{"query": "wrong", "commentsAdded": 0}]}}),
+                encoding="utf-8",
+            )
+
+            result = DirectProbePayloadCorpusRunner(existing_path, comments_path, run_path).run()
+            comparison = DirectProbeCorpusPayloadContractComparator(existing_path, comments_path, run_path, js_report_path).compare()
+
+        self.assertEqual(result["corpus"]["comments"][0]["message"], "\u65b0\u8bc4\u8bba")
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["commentMessages", "runQueries", "runCommentsAdded"])
 
     def test_direct_probe_corpus_contract_comparator_reports_corpus_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
