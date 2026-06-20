@@ -252,7 +252,11 @@ class VideoCommentFilterContractComparator:
         python_result = python_result if isinstance(python_result, dict) else {}
         js_result = js_result if isinstance(js_result, dict) else {}
         mismatches = [
-            {"key": key, "python": self.summary.normalized_value(python_result.get(key)), "js": self.summary.normalized_value(js_result.get(key))}
+            {
+                "key": key,
+                "python": self.summary.normalized_value(python_result.get(key)),
+                "js": self.summary.normalized_value(js_result.get(key)),
+            }
             for key in self.summary.RESULT_KEYS
             if key in js_result and self.summary.normalized_value(python_result.get(key)) != self.summary.normalized_value(js_result.get(key))
         ]
@@ -436,6 +440,28 @@ class VideoRelevanceSummary:
         if not isinstance(video, dict):
             return video
         return video.get("bvid") or video.get("aid") or video.get("id") or video
+
+
+class VideoRelevanceContractComparator:
+    """Compare video relevance payloads using normalized JS/Python contract fields."""
+
+    def __init__(self, summary: VideoRelevanceSummary | None = None):
+        self.summary = summary or VideoRelevanceSummary()
+
+    def compare(self, python_result: dict[str, Any] | None, js_result: dict[str, Any] | None) -> dict[str, Any]:
+        python_result = python_result if isinstance(python_result, dict) else {}
+        js_result = js_result if isinstance(js_result, dict) else {}
+        mismatches = [
+            {"key": key, "python": self.summary.normalized_value(python_result.get(key)), "js": self.summary.normalized_value(js_result.get(key))}
+            for key in self.summary.RESULT_KEYS
+            if key in js_result and self.summary.normalized_value(python_result.get(key)) != self.summary.normalized_value(js_result.get(key))
+        ]
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": self.summary.summarize(python_result),
+            "js": self.summary.summarize(js_result),
+        }
 
 
 class VideoContextBuilder:

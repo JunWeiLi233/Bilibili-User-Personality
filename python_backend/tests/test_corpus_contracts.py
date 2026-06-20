@@ -87,7 +87,7 @@ from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner, Agent
 from python_backend.corpus.tieba import TiebaCorpusUpdater, TiebaCorpusUpdateSummary
 from python_backend.corpus import dictionary_prune
 from python_backend.analysis import video_filter
-from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoContextBuilder, VideoRelevanceFilter
+from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoContextBuilder, VideoRelevanceContractComparator as VideoRelevancePayloadComparator, VideoRelevanceFilter
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader
@@ -4775,6 +4775,48 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             VideoRelevanceContractComparator(Path("payload.json"), Path("js-report.json")).summary.RESULT_KEYS,
             video_filter.VideoRelevanceSummary.RESULT_KEYS,
+        )
+
+    def test_video_relevance_payload_comparator_owns_video_mismatch_contract(self):
+        result = VideoRelevancePayloadComparator().compare(
+            {
+                "ok": True,
+                "operation": "filter",
+                "needles": ["\u5b85\u7537\u8054\u76df"],
+                "videos": [{"bvid": "BV1", "title": "\u5b85\u7537\u8054\u76df \u539f\u7247"}],
+            },
+            {
+                "ok": True,
+                "operation": "sort",
+                "needles": ["wrong"],
+                "videos": [{"bvid": "BV2", "title": "\u70ed\u95e8\u8bc4\u8bba\u533a"}],
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "operation", "python": "filter", "js": "sort"},
+                {"key": "needles", "python": ["\u5b85\u7537\u8054\u76df"], "js": ["wrong"]},
+                {"key": "videos", "python": ["BV1"], "js": ["BV2"]},
+            ],
+        )
+        self.assertEqual(
+            result["python"],
+            {
+                "operation": "filter",
+                "needles": ["\u5b85\u7537\u8054\u76df"],
+                "videos": ["BV1"],
+            },
+        )
+        self.assertEqual(
+            result["js"],
+            {
+                "operation": "sort",
+                "needles": ["wrong"],
+                "videos": ["BV2"],
+            },
         )
 
     def test_video_relevance_contract_comparator_reports_video_mismatches(self):
