@@ -7924,6 +7924,13 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_uid_range_progress_comparator_uses_summary_contract_keys(self):
+        self.assertFalse(hasattr(UidRangeProgressContractComparator, "RESULT_KEYS"))
+        self.assertEqual(
+            UidRangeProgressContractComparator(Path("progress.json"), Path("js.json")).summary.RESULT_KEYS,
+            UidRangeProgressSummary.RESULT_KEYS,
+        )
+
     def test_uid_range_progress_comparator_reports_summary_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

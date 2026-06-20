@@ -32,8 +32,6 @@ class UidRangeProgressRunner:
 class UidRangeProgressContractComparator:
     """Compare Python UID range progress reports against saved JS-compatible JSON."""
 
-    RESULT_KEYS = ("range", "discovery", "phase2", "comments")
-
     def __init__(self, progress_path: str | Path, js_report_path: str | Path, *, start: int = 200000, end: int = 300000):
         self.progress_path = Path(progress_path)
         self.js_report_path = Path(js_report_path)
@@ -46,7 +44,7 @@ class UidRangeProgressContractComparator:
         js_result = self._read_js_report()
         mismatches = [
             {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
-            for key in self.RESULT_KEYS
+            for key in self.summary.RESULT_KEYS
             if key in js_result and python_result.get(key) != js_result.get(key)
         ]
         return {
