@@ -1869,6 +1869,15 @@ class CorpusContractTests(unittest.TestCase):
             video_link_direct.VideoLinkDirectPlanSummary.RESULT_KEYS,
         )
 
+    def test_video_link_direct_plan_runner_defaults_non_object_payload_root(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "direct-video.json"
+            payload_path.write_text(json.dumps(["not", "an", "object"]), encoding="utf-8")
+
+            result = VideoLinkDirectPlanRunner(payload_path).run()
+
+        self.assertEqual(result, VideoLinkDirectPlanner().build_plan([]))
+
     def test_video_link_direct_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
