@@ -10,6 +10,7 @@ from python_backend.cli import local_corpus_flatten as local_corpus_flatten_cli
 from python_backend.cli import bilibili_probe_plan as bilibili_probe_plan_cli
 from python_backend.cli import bilibili_parse as bilibili_parse_cli
 from python_backend.cli import batch_scrape_progress as batch_scrape_progress_cli
+from python_backend.cli import batch_uid_progress as batch_uid_progress_cli
 from python_backend.cli import direct_probe_corpus as direct_probe_corpus_cli
 from python_backend.cli import comment_coverage as comment_coverage_cli
 from python_backend.cli import compare_contracts as compare_contracts_cli
@@ -15279,6 +15280,29 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["phase2"], {"processed": 1, "success": 1, "errors": 0, "skipped": 0, "remaining": 0})
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["phase2"])
+
+    def test_batch_uid_progress_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            progress_path = root / "batch-uid-progress.json"
+            progress_path.write_text(
+                json.dumps(
+                    {
+                        "_uidComments": {"100": [{"message": "x"}], "101": []},
+                        "processedUids": {"100": "success", "101": "no_text"},
+                        "stats": {"videosScanned": 2, "uidsFound": 2, "uidsAnalyzed": 1, "commentsCollected": 1},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = batch_uid_progress_cli.BatchUidProgressCliRunner(["--progress", str(progress_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["discovery"], {"videosScanned": 2, "uidsDiscovered": 2, "commentsCollected": 1})
+        self.assertEqual(result["phase2"], {"processed": 2, "success": 1, "errors": 0, "skipped": 1, "remaining": 0})
+        self.assertEqual(result["comments"], {"total": 1, "averagePerUid": 0.5, "uidsWithComments": 1})
+        self.assertEqual(result["stats"], {"videosScanned": 2, "uidsFound": 2, "uidsAnalyzed": 1, "commentsCollected": 1, "errors": 0})
 
     def test_batch_uid_progress_summary_extracts_comparator_contract(self):
         summary = BatchUidProgressSummary().summarize(
