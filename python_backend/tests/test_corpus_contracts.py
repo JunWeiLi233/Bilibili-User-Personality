@@ -16,6 +16,7 @@ from python_backend.cli import coverage_audit as coverage_audit_cli
 from python_backend.cli import coverage_audit_artifacts as coverage_audit_artifacts_cli
 from python_backend.cli import coverage_progress as coverage_progress_cli
 from python_backend.cli import deepseek_analysis_plan as deepseek_analysis_plan_cli
+from python_backend.cli import deepseek_analysis_validate as deepseek_analysis_validate_cli
 from python_backend.cli import harvest_options as harvest_options_cli
 from python_backend.cli import harvest_plan as harvest_plan_cli
 from python_backend.cli import harvest_state as harvest_state_cli
@@ -3602,6 +3603,28 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertTrue(result["ok"])
         self.assertEqual(result["summary"], {"sourceSentences": 2, "sentenceAnalyses": 1, "axes": 1, "unsupportedQuotes": 0, "unsupportedAxisEvidence": 0})
+
+    def test_deepseek_analysis_validate_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            analysis_path = root / "analysis.json"
+            payload_path.write_text(
+                json.dumps({"comments": ["\u72d7\u5934\u4fdd\u547d[doge]", "\u5efa\u8bae\u67e5\u67e5\u8d44\u6599"]}),
+                encoding="utf-8",
+            )
+            analysis_path.write_text(
+                json.dumps({"sentenceAnalyses": [{"quote": "\u72d7\u5934\u4fdd\u547d[doge]", "risk": "low"}]}),
+                encoding="utf-8",
+            )
+
+            result = deepseek_analysis_validate_cli.DeepSeekAnalysisValidateCliRunner(
+                ["--payload", str(payload_path), "--analysis", str(analysis_path)]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["summary"]["sourceSentences"], 2)
+        self.assertEqual(result["summary"]["unsupportedQuotes"], 0)
 
     def test_deepseek_analysis_validate_runner_defaults_non_object_json_roots(self):
         with tempfile.TemporaryDirectory() as tmp:
