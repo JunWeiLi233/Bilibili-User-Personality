@@ -9,9 +9,9 @@ from typing import Any
 class CorpusShardWriter:
     """Write a small split corpus using the same manifest keys as JS."""
 
-    def __init__(self, path: str | Path, max_shard_bytes: int = 64 * 1024):
+    def __init__(self, path: str | Path, max_shard_bytes: Any = 64 * 1024):
         self.path = Path(path)
-        self.max_shard_bytes = max(1024, int(max_shard_bytes))
+        self.max_shard_bytes = max(1024, self._payload_max_shard_bytes(max_shard_bytes))
 
     def write(
         self,

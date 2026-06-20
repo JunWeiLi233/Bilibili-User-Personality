@@ -397,6 +397,21 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(loaded.manifest["shardMaxBytes"], 1024)
 
+    def test_writer_constructor_defaults_invalid_max_shard_bytes_like_js(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output = root / "out.json"
+            CorpusShardWriter(output, max_shard_bytes="not-a-number").write(
+                comments=[{"message": "constructor comment"}],
+                runs=[],
+                manifest={"version": 1},
+            )
+
+            loaded = CorpusLoader(output).load()
+
+        self.assertEqual(loaded.manifest["shardMaxBytes"], 64 * 1024)
+        self.assertEqual(loaded.comments, [{"message": "constructor comment"}])
+
     def test_writer_payload_defaults_invalid_max_shard_bytes_like_js(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
