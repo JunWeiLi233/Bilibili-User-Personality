@@ -29,6 +29,7 @@ from python_backend.cli import tieba_corpus as tieba_corpus_cli
 from python_backend.cli import tieba_html_parse as tieba_html_parse_cli
 from python_backend.cli import tieba_keyword_plan as tieba_keyword_plan_cli
 from python_backend.cli import tieba_timing as tieba_timing_cli
+from python_backend.cli import uid_discovery_plan as uid_discovery_plan_cli
 from python_backend.cli import video_comment_filter as video_comment_filter_cli
 from python_backend.cli import video_context as video_context_cli
 from python_backend.cli import video_relevance as video_relevance_cli
@@ -15963,6 +15964,28 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "analysis", "python": {"processed": 0, "pending": 2, "skippableNoText": 1, "trainable": 1, "userDbUsers": 1}, "js": {"trainable": 9}},
             ],
         )
+
+    def test_uid_discovery_plan_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "uid-discovery-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "progress": {"phase": "analysis", "scannedBvids": ["BV1"], "processedUids": {"12": "success"}},
+                        "comments": {"12": [{"message": "x"}], "30": [{"message": "next"}]},
+                        "database": {"users": {"12": {}, "30": {}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = uid_discovery_plan_cli.UidDiscoveryPlanCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["resume"]["phase"], "analysis")
+        self.assertTrue(result["resume"]["skipDiscovery"])
+        self.assertEqual(result["analysis"]["pending"], 1)
 
     def test_uid_discovery_plan_runner_defaults_non_object_payload_root(self):
         with tempfile.TemporaryDirectory() as tmp:
