@@ -7600,6 +7600,26 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["matched"], 2)
         self.assertEqual([comment["rpid"] for comment in result["comments"]], ["1", "2"])
 
+    def test_video_comment_filter_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            comments_path = root / "comments.json"
+            needles_path = root / "needles.json"
+            comments_path.write_text(
+                json.dumps({"comments": [{"rpid": "1", "message": "\u7f51\u76d8\u89c1"}, {"rpid": "2", "message": "\u8def\u8fc7"}]}),
+                encoding="utf-8",
+            )
+            needles_path.write_text(json.dumps({"needles": ["\u7f51\u76d8\u89c1"]}), encoding="utf-8")
+
+            result = video_comment_filter_cli.VideoCommentFilterCliRunner(
+                ["--comments", str(comments_path), "--needles", str(needles_path), "--extra-needle", "\\u8def\\u8fc7"]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertTrue(result["applied"])
+        self.assertEqual(result["matched"], 2)
+        self.assertEqual([comment["rpid"] for comment in result["comments"]], ["1", "2"])
+
     def test_video_comment_filter_owns_payload_contract(self):
         result = VideoCommentFilter().run_from_payload(
             {"comments": [{"rpid": "1", "message": "\u7f51\u76d8\u89c1"}, {"rpid": "2", "message": "\u8def\u8fc7"}]},
