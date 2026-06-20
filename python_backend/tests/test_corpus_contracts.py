@@ -7059,6 +7059,9 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["statements"][0]["message"], "post replacement")
         self.assertEqual(result["statements"][1]["message"], "comment replacement")
+        self.assertEqual(result["commentText"], "post replacement\ncomment replacement\nsecond")
+        self.assertEqual(result["source"], "Bilibili public UID object scan")
+        self.assertEqual(result["confidenceHint"], "sample insufficient")
         self.assertEqual(result["warnings"], ["uploads: HTTP 429"])
 
     def test_bilibili_crawler_helper_builds_empty_uid_analysis_result_contract(self):
@@ -7099,6 +7102,8 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["uidResult"]["ok"])
         self.assertEqual(result["uidResult"]["uname"], "Profile Name")
         self.assertEqual([item["message"] for item in result["uidResult"]["statements"]], ["post", "comment"])
+        self.assertEqual(result["uidResult"]["commentText"], "post\ncomment")
+        self.assertEqual(result["uidResult"]["confidenceHint"], "sample insufficient")
 
     def test_bilibili_crawler_helper_plans_uid_analysis_contract(self):
         helper = BilibiliCrawlerHelper()

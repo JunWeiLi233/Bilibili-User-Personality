@@ -1029,6 +1029,15 @@ class BilibiliCrawlerHelper:
         uname = next((str(comment.get("uname")) for comment in unique_comments if comment.get("uname")), "")
         if not uname:
             uname = str(user_info.get("name") or f"UID {uid_text}")
+        statements = [*unique_posts, *unique_comments]
+        comment_text = "\n".join(str(item.get("message")) for item in statements if item.get("message"))
+        confidence = (
+            "sample sufficient"
+            if len(statements) >= 12
+            else "low-medium confidence"
+            if len(statements) >= 5
+            else "sample insufficient"
+        )
         return {
             "ok": True,
             "uid": uid_text,
@@ -1039,8 +1048,11 @@ class BilibiliCrawlerHelper:
             "dynamics": [item for item in object_list if item.get("kind") == "dynamic"],
             "authoredPosts": unique_posts,
             "comments": unique_comments,
-            "statements": [*unique_posts, *unique_comments],
+            "statements": statements,
+            "commentText": comment_text,
+            "source": "Bilibili public UID object scan",
             "warnings": warning_list,
+            "confidenceHint": confidence,
         }
 
     def plan_uid_analysis(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
