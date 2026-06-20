@@ -6,7 +6,7 @@ from pathlib import Path
 from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditReport
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
-from python_backend.analysis.coverage_progress import CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressSummary, CoverageProgressTracker
+from python_backend.analysis.coverage_progress import CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressPayloadContractComparator, CoverageProgressRunner as CoverageProgressPayloadRunner, CoverageProgressSummary, CoverageProgressTracker
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReportContractComparator as VideoKeywordDiscoveryReportPayloadComparator, VideoKeywordDiscoveryReporter, VideoKeywordDiscoveryReportSummary
 from python_backend.analysis import harvest_options as harvest_options_module
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, HarvestOptionsContractComparator as HarvestOptionsPayloadComparator, HarvestOptionsPayloadContractComparator, HarvestOptionsRunner as HarvestOptionsPayloadRunner, HarvestOptionsSummary, VideoKeywordDiscoveryOptionsBuilder
@@ -7064,6 +7064,60 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["actionDelta"], {"actionTermsResolved": 0, "actionEvidenceNeedReduced": 1})
         self.assertTrue(result["hasGateProgress"])
         self.assertTrue(result["hasHarvestProgress"])
+
+    def test_coverage_progress_payload_runner_lives_with_analysis_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-progress.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "before": {"totalEvidence": 10, "evidenceDeficit": 5, "zeroEvidenceTerms": 2, "weakTerms": 4},
+                        "after": {"totalEvidence": 12, "evidenceDeficit": 3, "zeroEvidenceTerms": 1, "weakTerms": 3},
+                        "harvestProgress": [{"weakTermsResolved": 0, "zeroEvidenceResolved": 1, "evidenceGained": 2, "evidenceDeficitReduced": 2}],
+                        "beforeActions": [{"term": "rare-term", "needs": 2}],
+                        "afterActions": [{"term": "rare-term", "needs": 1}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps(
+                    {
+                        "delta": {"evidenceDeficitReduced": 0},
+                        "hasGateProgress": False,
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = CoverageProgressPayloadRunner(payload_path).run()
+            comparison = CoverageProgressPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["delta"]["evidenceDeficitReduced"], 2)
+        self.assertEqual(result["harvestDelta"]["totalEvidenceGained"], 2)
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {
+                    "key": "delta",
+                    "python": {
+                        "evidenceDeficitReduced": 2,
+                        "zeroEvidenceResolved": 1,
+                        "weakTermsResolved": 1,
+                        "unsourcedEvidenceReduced": 0,
+                        "totalEvidenceGained": 2,
+                        "termsAdded": 0,
+                        "coverageRatioDelta": 0,
+                    },
+                    "js": {"evidenceDeficitReduced": 0},
+                },
+                {"key": "hasGateProgress", "python": True, "js": False},
+            ],
+        )
 
     def test_coverage_progress_tracker_owns_payload_contract(self):
         result = CoverageProgressTracker().run_from_payload(
