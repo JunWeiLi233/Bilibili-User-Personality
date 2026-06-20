@@ -86,6 +86,7 @@ class BilibiliCrawlerSummary:
         "cookieInitialization",
         "humanPause",
         "fetchConfig",
+        "requestInit",
     )
 
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -306,10 +307,49 @@ class BilibiliCrawlerHelper:
                 has_signal=bool(fetch_config.get("hasSignal", False)),
                 signal_token=fetch_config.get("signalToken", fetch_config.get("signal", "signal")),
             )
+        if isinstance(payload.get("requestInit"), dict):
+            request_init = payload.get("requestInit") or {}
+            result["requestInit"] = self.plan_request_init(
+                request_init.get("url"),
+                referer=request_init.get("referer", "https://www.bilibili.com"),
+                request_cookie=request_init.get("cookie") or request_init.get("bilibiliCookie") or "",
+                config=request_init.get("config") if isinstance(request_init.get("config"), dict) else {},
+                synthetic_cookie=request_init.get("syntheticCookie")
+                if isinstance(request_init.get("syntheticCookie"), dict)
+                else None,
+            )
         return result
 
     def build_crawler_config(self, env: dict[str, Any] | None = None) -> dict[str, int | float]:
         return BilibiliCrawlerConfigBuilder().build(env)
+
+    def plan_request_init(
+        self,
+        url: Any,
+        referer: Any = "https://www.bilibili.com",
+        request_cookie: Any = "",
+        config: dict[str, Any] | None = None,
+        synthetic_cookie: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        cfg = config if isinstance(config, dict) else {}
+        init: dict[str, Any] = {
+            "headers": self.build_request_headers(
+                url,
+                referer,
+                request_cookie=request_cookie,
+                synthetic_cookie=synthetic_cookie,
+            )
+        }
+        signal = cfg.get("signal")
+        if signal:
+            init["signal"] = signal
+        return {
+            "method": "GET",
+            "url": str(url or ""),
+            "referer": str(referer or "https://www.bilibili.com"),
+            "hasSignal": bool(signal),
+            "init": init,
+        }
 
     def plan_fetch_config_with_signal(
         self,

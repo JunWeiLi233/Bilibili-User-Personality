@@ -7410,6 +7410,47 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_bilibili_crawler_helper_plans_request_init_contract(self):
+        helper = BilibiliCrawlerHelper()
+
+        without_signal = helper.plan_request_init(
+            "https://api.bilibili.com/x/web-interface/view?bvid=BV1xx411c7mD",
+            referer="https://www.bilibili.com/video/BV1xx411c7mD",
+            request_cookie=" SESSDATA=abc ; empty= ",
+            config={"minDelayMs": 100},
+        )
+        with_signal = helper.plan_request_init(
+            "https://api.bilibili.com/x/web-interface/view?bvid=BV1xx411c7mD",
+            referer="https://www.bilibili.com/video/BV1xx411c7mD",
+            request_cookie="SESSDATA=abc",
+            config={"signal": "caller-abort"},
+        )
+
+        self.assertEqual(without_signal["method"], "GET")
+        self.assertEqual(without_signal["hasSignal"], False)
+        self.assertNotIn("signal", without_signal["init"])
+        self.assertEqual(without_signal["init"]["headers"]["cookie"], "SESSDATA=abc")
+        self.assertEqual(without_signal["init"]["headers"]["sec-fetch-site"], "same-site")
+        self.assertEqual(with_signal["method"], "GET")
+        self.assertEqual(with_signal["hasSignal"], True)
+        self.assertEqual(with_signal["init"]["signal"], "caller-abort")
+
+    def test_bilibili_crawler_helper_builds_payload_request_init_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "requestInit": {
+                    "url": "https://api.bilibili.com/x/web-interface/view?bvid=BV1xx411c7mD",
+                    "referer": "https://www.bilibili.com/video/BV1xx411c7mD",
+                    "cookie": "SESSDATA=abc",
+                    "config": {"signal": "caller-abort"},
+                }
+            }
+        )
+
+        self.assertEqual(result["requestInit"]["init"]["signal"], "caller-abort")
+        self.assertEqual(result["requestInit"]["init"]["headers"]["cookie"], "SESSDATA=abc")
+        self.assertTrue(result["requestInit"]["hasSignal"])
+
     def test_bilibili_crawler_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -7478,6 +7519,7 @@ class CorpusContractTests(unittest.TestCase):
                 "cookieInitialization": {"source": "env"},
                 "humanPause": {"waitMs": 850},
                 "fetchConfig": {"forwardsSignal": True},
+                "requestInit": {"hasSignal": True},
                 "dynamicRecords": {"objects": []},
                 "extra": "ignored",
             }
@@ -7504,6 +7546,7 @@ class CorpusContractTests(unittest.TestCase):
                 "cookieInitialization": {"source": "env"},
                 "humanPause": {"waitMs": 850},
                 "fetchConfig": {"forwardsSignal": True},
+                "requestInit": {"hasSignal": True},
                 "dynamicRecords": {"objects": []},
             },
         )
