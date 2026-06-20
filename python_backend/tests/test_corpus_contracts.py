@@ -115,7 +115,7 @@ from python_backend.scrapers.tieba_keyword import TiebaKeywordPlanSummary, Tieba
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanContractComparator as BatchBilibiliPlanPayloadComparator, BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularPlanContractComparator as BatchPopularPlanPayloadComparator, BatchPopularPlanSummary, BatchPopularScrapePlanner
-from python_backend.scrapers.batch_uid_range import BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherPlanner, RangeScraperLauncherSummary, UidRangeProgressReporter, UidRangeProgressSummary
+from python_backend.scrapers.batch_uid_range import BatchUidRangePlanContractComparator as BatchUidRangePlanPayloadComparator, BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherPlanner, RangeScraperLauncherSummary, UidRangeProgressReporter, UidRangeProgressSummary
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchScraperLauncherSummary, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanContractComparator as BatchUidScrapePlanPayloadComparator, BatchUidScrapePlanSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanSummary, UidParallelProgressReporter, UidParallelProgressSummary
@@ -8428,6 +8428,23 @@ class CorpusContractTests(unittest.TestCase):
             BatchUidRangePlanContractComparator(Path("payload.json"), Path("js.json")).summary.RESULT_KEYS,
             BatchUidRangePlanSummary.RESULT_KEYS,
         )
+
+    def test_batch_uid_range_payload_comparator_owns_result_key_mismatch_contract(self):
+        result = BatchUidRangePlanPayloadComparator().compare(
+            {"input": {"start": 10}, "phase2": {"targetUids": 1}, "extra": "ignored"},
+            {"input": {"start": 20}, "phase2": {"targetUids": 9}},
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "input", "python": {"start": 10}, "js": {"start": 20}},
+                {"key": "phase2", "python": {"targetUids": 1}, "js": {"targetUids": 9}},
+            ],
+        )
+        self.assertEqual(result["python"], {"input": {"start": 10}, "phase2": {"targetUids": 1}})
+        self.assertEqual(result["js"], {"input": {"start": 20}, "phase2": {"targetUids": 9}})
 
     def test_batch_uid_range_planner_builds_plan_from_json_payload_contract(self):
         result = BatchUidRangePlanner.build_plan_from_payload(
