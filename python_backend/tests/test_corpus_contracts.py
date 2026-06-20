@@ -97,7 +97,7 @@ from python_backend.scrapers.bilibili import BilibiliParseContractComparator as 
 from python_backend.scrapers.aicu import AicuBatchPlanContractComparator as AicuBatchPlanPayloadComparator, AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanContractComparator as AicuScrapePlanPayloadComparator, AicuScrapePlanSummary, AicuScrapePlanner
 from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanContractComparator as AicuBrowserBatchPlanPayloadComparator, AicuBrowserBatchPlanSummary, AicuBrowserBatchPlanner
 from python_backend.scrapers import video_link_direct
-from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanner
+from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanContractComparator as VideoLinkDirectPlanPayloadComparator, VideoLinkDirectPlanner, VideoLinkDirectPlanRunner as VideoLinkDirectPayloadPlanRunner
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerContractComparator as BilibiliCrawlerPayloadComparator, BilibiliCrawlerHelper, BilibiliCrawlerSummary
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanContractComparator as BilibiliProbePlanPayloadComparator, BilibiliProbePlanSummary, BilibiliProbePlanner
 from python_backend.runtime.file_lock import FileLockStateContractComparator as FileLockStatePayloadComparator, FileLockStateInspector, FileLockStateSummary
@@ -1186,6 +1186,32 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {"key": "mode", "python": "video", "js": "uid"},
                 {"key": "input", "python": {"uid": "", "videoLink": "https://www.bilibili.com/video/BV1abc/", "favoriteLink": "", "pages": 5, "hasCookie": False}, "js": {"pages": 2}},
+            ],
+        )
+
+    def test_video_link_direct_payload_comparator_lives_with_scraper_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "direct-uid.json"
+            js_report_path = root / "js-direct-uid.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--uid", "2333", "--pages", "4", "--cookie", "SESSDATA=x"]}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"mode": "video", "collect": {"pages": 1}}), encoding="utf-8")
+
+            result = VideoLinkDirectPayloadPlanRunner(payload_path).run()
+            comparison = VideoLinkDirectPlanPayloadComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "uid")
+        self.assertEqual(result["collect"], {"function": "analyzeUid", "pagesPerObject": 4, "forwardsCookie": True})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "mode", "python": "uid", "js": "video"},
+                {"key": "collect", "python": {"function": "analyzeUid", "pagesPerObject": 4, "forwardsCookie": True}, "js": {"pages": 1}},
             ],
         )
 
