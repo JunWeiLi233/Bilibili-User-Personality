@@ -4607,6 +4607,45 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual([comment["message"] for comment in result["newComments"]], ["\u65e7\u8bc4\u8bba", "\u65b0\u8bc4\u8bba"])
         self.assertEqual(result["corpus"]["updatedAt"], "2026-06-17T04:00:00.000Z")
 
+    def test_tieba_corpus_payload_runner_uses_corpus_loader_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "tieba-existing.json"
+            payload_path = root / "tieba-payload.json"
+            corpus_path.write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "updatedAt": "2026-06-16T00:00:00.000Z",
+                        "runs": [{"at": "old"}],
+                        "comments": [{"message": "\u65e7\u8d34\u5427\u8f7d\u5165", "sourceUrl": "https://tieba.baidu.com/p/1", "rpid": "tieba-1"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "corpusPath": str(corpus_path),
+                        "run": {
+                            "at": "2026-06-17T06:00:00.000Z",
+                            "results": [{"comments": [{"message": "\u65b0\u8d34\u5427\u8f7d\u5165", "sourceUrl": "https://tieba.baidu.com/p/6", "rpid": "tieba-6"}]}],
+                        },
+                        "generatedAt": "2026-06-17T06:00:00.000Z",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = TiebaCorpusPayloadRunner(payload_path).run()
+
+        self.assertTrue(result["changed"])
+        self.assertEqual(
+            [comment["message"] for comment in result["corpus"]["comments"]],
+            ["\u65e7\u8d34\u5427\u8f7d\u5165", "\u65b0\u8d34\u5427\u8f7d\u5165"],
+        )
+        self.assertEqual([run["at"] for run in result["corpus"]["runs"]], ["old", "2026-06-17T06:00:00.000Z"])
+
     def test_tieba_corpus_cli_accepts_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

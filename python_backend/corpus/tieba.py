@@ -100,10 +100,19 @@ class TiebaCorpusPayloadRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
-        existing = payload.get("existing") if isinstance(payload.get("existing"), dict) else {"version": 1, "updatedAt": None, "runs": [], "comments": []}
+        loaded = CorpusLoader.load_from_payload(self._existing_corpus_payload(payload))
+        existing = {**loaded.manifest, "comments": loaded.comments, "runs": loaded.runs}
         run = payload.get("run") if isinstance(payload.get("run"), dict) else {}
         generated_at = payload.get("generatedAt") if isinstance(payload.get("generatedAt"), str) else None
         return self.updater.build_update_result(existing, run, generated_at)
+
+    def _existing_corpus_payload(self, payload: dict[str, Any]) -> dict[str, Any]:
+        fallback = {"version": 1, "updatedAt": None, "runs": [], "comments": []}
+        if isinstance(payload.get("existing"), dict):
+            return {"corpus": payload["existing"]}
+        if isinstance(payload.get("corpus"), dict) or payload.get("corpusPath") or payload.get("path"):
+            return {**payload, "fallback": fallback}
+        return {"corpus": fallback}
 
     def _read_payload(self) -> dict[str, Any]:
         if not self.payload_path.exists():
