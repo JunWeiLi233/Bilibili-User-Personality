@@ -12,6 +12,7 @@ from python_backend.cli import bilibili_parse as bilibili_parse_cli
 from python_backend.cli import batch_scrape_progress as batch_scrape_progress_cli
 from python_backend.cli import batch_uid_progress as batch_uid_progress_cli
 from python_backend.cli import batch_uid_range_plan as batch_uid_range_plan_cli
+from python_backend.cli import batch_uid_scrape_plan as batch_uid_scrape_plan_cli
 from python_backend.cli import direct_probe_corpus as direct_probe_corpus_cli
 from python_backend.cli import comment_coverage as comment_coverage_cli
 from python_backend.cli import compare_contracts as compare_contracts_cli
@@ -15503,6 +15504,32 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "training", "python": {"multiagent": True, "existingTermsOnly": False, "saveEveryAnalyzed": 10}, "js": {"multiagent": False}},
             ],
         )
+
+    def test_batch_uid_scrape_plan_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "batch-uid-scrape-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "progress": {
+                            "scannedBvids": ["BV1"],
+                            "_uidComments": {"12": [{"message": "x"}], "30": [{"message": ""}]},
+                            "processedUids": {},
+                            "stats": {"videosScanned": 1},
+                        },
+                        "database": {"users": {"12": {}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = batch_uid_scrape_plan_cli.BatchUidScrapePlanCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["discovery"]["scannedBvids"], 1)
+        self.assertEqual(result["phase2"], {"processed": 0, "pending": 2, "skippableNoText": 1, "trainable": 1, "userDbUsers": 1})
+        self.assertEqual(result["training"], {"multiagent": True, "existingTermsOnly": False, "saveEveryAnalyzed": 10})
 
     def test_batch_uid_scrape_plan_runner_defaults_non_object_payload_root(self):
         with tempfile.TemporaryDirectory() as tmp:
