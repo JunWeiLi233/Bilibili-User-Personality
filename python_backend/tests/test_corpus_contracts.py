@@ -29,6 +29,7 @@ from python_backend.cli import coverage_progress as coverage_progress_cli
 from python_backend.cli import deepseek_analyze_cli_plan as deepseek_analyze_cli_plan_cli
 from python_backend.cli import deepseek_analysis_plan as deepseek_analysis_plan_cli
 from python_backend.cli import deepseek_analysis_validate as deepseek_analysis_validate_cli
+from python_backend.cli import dictionary_prune_summary as dictionary_prune_summary_cli
 from python_backend.cli import harvest_options as harvest_options_cli
 from python_backend.cli import harvest_plan as harvest_plan_cli
 from python_backend.cli import harvest_state as harvest_state_cli
@@ -12389,6 +12390,35 @@ class CorpusContractTests(unittest.TestCase):
             )
 
             result = DictionaryPruneSummaryRunner(dictionary_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["dictionaryPath"], str(dictionary_path))
+        self.assertEqual(result["entries"], {"before": 5, "after": 2, "removed": 3})
+        self.assertEqual(result["asciiTerms"], {"before": 4, "after": 1, "removed": 3})
+        self.assertEqual(result["removedTerms"], ["BV1xx411c7mD", "doge", "md5"])
+        self.assertEqual(result["keptTerms"], ["yygq", "\u9634\u9633\u602a\u6c14"])
+        self.assertEqual(result["summary"], {"totalEntries": 5, "asciiEntries": 4, "afterEntries": 2, "afterAsciiEntries": 1})
+
+    def test_dictionary_prune_summary_cli_runner_counts_js_prune_metrics(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {"term": "doge", "family": "attack", "meaning": "ascii emoji name noise"},
+                            {"term": "YYGQ", "family": "attack", "meaning": "allowed pinyin acronym"},
+                            {"term": "\u9634\u9633\u602a\u6c14", "family": "attack", "meaning": "satirical tone"},
+                            {"term": "md5", "family": "evasion", "meaning": "random ascii hash fragment"},
+                            {"term": "BV1xx411c7mD", "family": "evidence", "meaning": "video id fragment"},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = dictionary_prune_summary_cli.DictionaryPruneSummaryCliRunner(["--dictionary", str(dictionary_path)]).run()
 
         self.assertTrue(result["ok"])
         self.assertEqual(result["dictionaryPath"], str(dictionary_path))

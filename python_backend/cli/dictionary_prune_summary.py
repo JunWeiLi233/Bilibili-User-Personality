@@ -14,12 +14,20 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+class DictionaryPruneSummaryCliRunner:
+    def __init__(self, argv: list[str] | None = None):
+        self.argv = argv
+
+    def run(self) -> dict:
+        argv = [str(item) for item in self.argv] if self.argv is not None else None
+        args = build_parser().parse_args(argv)
+        if args.compare_js_report:
+            return DictionaryPruneSummaryContractComparator(args.dictionary, args.compare_js_report).compare()
+        return DictionaryPruneSummaryRunner(args.dictionary).run()
+
+
 def main(argv: list[str] | None = None) -> int:
-    args = build_parser().parse_args(argv)
-    if args.compare_js_report:
-        result = DictionaryPruneSummaryContractComparator(args.dictionary, args.compare_js_report).compare()
-    else:
-        result = DictionaryPruneSummaryRunner(args.dictionary).run()
+    result = DictionaryPruneSummaryCliRunner(argv).run()
     json.dump(result, sys.stdout, ensure_ascii=False, indent=2)
     sys.stdout.write("\n")
     return 0 if result["ok"] else 1
