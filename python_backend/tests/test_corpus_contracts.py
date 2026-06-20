@@ -6786,6 +6786,29 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["stats"], {"success": 0, "noText": 1, "errors": 0})
         self.assertEqual(result["userDb"], {"users": 2, "assignedUsersInDb": 1})
 
+    def test_uid_parallel_analyzer_planner_builds_plan_from_json_payload_contract(self):
+        result = UidParallelAnalyzerPlanner.build_plan_from_payload(
+            {
+                "argv": ["--worker=2", "--workers=3"],
+                "comments": {
+                    "200": [{"message": "a"}],
+                    "201": [{"message": "b"}],
+                    "202": [{"message": ""}],
+                    "203": [{"message": "d"}],
+                    "204": [{"message": "e"}],
+                },
+                "progress": {"processed": {"202": "no_text"}, "stats": {"success": "2", "noText": "1", "errors": "4"}},
+                "database": {"users": {"202": {}, "204": {}, "999": {}}},
+                "ignored": "runner-only",
+            }
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["worker"], {"id": 2, "totalWorkers": 3, "assigned": 1})
+        self.assertEqual(result["assignment"], {"assignedUids": ["202"], "alreadyProcessed": 1, "pending": 0, "trainable": 0, "skippableNoText": 0})
+        self.assertEqual(result["stats"], {"success": 2, "noText": 1, "errors": 4})
+        self.assertEqual(result["userDb"], {"users": 3, "assignedUsersInDb": 1})
+
     def test_uid_parallel_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

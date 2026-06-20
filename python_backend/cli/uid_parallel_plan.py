@@ -14,16 +14,10 @@ class UidParallelPlanRunner:
 
     def __init__(self, payload_path: str | Path):
         self.payload_path = Path(payload_path)
-        self.planner = UidParallelAnalyzerPlanner()
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
-        return self.planner.build_plan(
-            argv=payload.get("argv") if isinstance(payload.get("argv"), list) else [],
-            comments=payload.get("comments") if isinstance(payload.get("comments"), dict) else {},
-            progress=payload.get("progress") if isinstance(payload.get("progress"), dict) else {},
-            database=payload.get("database") if isinstance(payload.get("database"), dict) else {},
-        )
+        return UidParallelAnalyzerPlanner.build_plan_from_payload(payload)
 
     def _read_payload(self) -> dict[str, Any]:
         with self.payload_path.open("r", encoding="utf-8-sig") as handle:

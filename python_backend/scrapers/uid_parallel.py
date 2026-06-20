@@ -78,6 +78,16 @@ class UidParallelAnalyzerPlanner:
     SAVE_EVERY = 20
     COMMENT_TEXT_LIMIT = 5000
 
+    @classmethod
+    def build_plan_from_payload(cls, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        return cls().build_plan(
+            argv=payload.get("argv") if isinstance(payload.get("argv"), list) else [],
+            comments=payload.get("comments") if isinstance(payload.get("comments"), dict) else {},
+            progress=payload.get("progress") if isinstance(payload.get("progress"), dict) else {},
+            database=payload.get("database") if isinstance(payload.get("database"), dict) else {},
+        )
+
     def build_plan(
         self,
         argv: list[Any] | None = None,
