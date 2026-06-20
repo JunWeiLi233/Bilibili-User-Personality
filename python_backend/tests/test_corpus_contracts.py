@@ -11,6 +11,7 @@ from python_backend.cli import direct_probe_corpus as direct_probe_corpus_cli
 from python_backend.cli import comment_coverage as comment_coverage_cli
 from python_backend.cli import compare_contracts as compare_contracts_cli
 from python_backend.cli import coverage_audit as coverage_audit_cli
+from python_backend.cli import coverage_audit_artifacts as coverage_audit_artifacts_cli
 from python_backend.cli import deepseek_analysis_plan as deepseek_analysis_plan_cli
 from python_backend.cli import history_tag_corpus as history_tag_corpus_cli
 from python_backend.cli import huggingface_corpus as huggingface_corpus_cli
@@ -18139,6 +18140,34 @@ class CorpusContractTests(unittest.TestCase):
                 },
             ],
         )
+
+    def test_coverage_audit_artifacts_cli_runner_accepts_argv_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-artifacts.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "audit": {
+                            "recommendedQueries": ["doge hot"],
+                            "nextActions": [{"term": "doge", "nextQuery": "doge hot", "suggestedQueries": ["doge comments"]}],
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"recommendedQueryText": "wrong\n", "priorityActionItems": []}),
+                encoding="utf-8",
+            )
+
+            result = coverage_audit_artifacts_cli.CoverageAuditArtifactsCliRunner(
+                ["--payload", str(payload_path), "--compare-js-report", str(js_report_path)]
+            ).run()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual([item["key"] for item in result["mismatches"]], ["recommendedQueryText", "priorityActionItems"])
 
     def test_audit_contract_comparator_reports_metric_parity(self):
         with tempfile.TemporaryDirectory() as tmp:
