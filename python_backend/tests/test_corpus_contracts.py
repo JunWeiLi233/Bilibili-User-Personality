@@ -30,6 +30,7 @@ from python_backend.cli import deepseek_analyze_cli_plan as deepseek_analyze_cli
 from python_backend.cli import deepseek_analysis_plan as deepseek_analysis_plan_cli
 from python_backend.cli import deepseek_analysis_validate as deepseek_analysis_validate_cli
 from python_backend.cli import dictionary_prune_summary as dictionary_prune_summary_cli
+from python_backend.cli import discovery_report as discovery_report_cli
 from python_backend.cli import exhausted_terms_prune_plan as exhausted_terms_prune_plan_cli
 from python_backend.cli import harvest_options as harvest_options_cli
 from python_backend.cli import harvest_plan as harvest_plan_cli
@@ -17289,6 +17290,34 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["report"]["generatedAt"], "2026-06-19T00:00:00.000Z")
         self.assertEqual(result["priorityActionItems"][0]["query"], "next term 评论区")
+
+    def test_video_keyword_discovery_report_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "statePath": "state.json",
+                        "reportPath": "report.json",
+                        "generatedAt": "2026-06-19T00:00:00.000Z",
+                        "result": {
+                            "requestedRounds": 1,
+                            "growth": {"before": 1, "after": 2},
+                            "coverageActions": [{"term": "next term", "action": "retry", "nextQuery": "next term comments"}],
+                            "state": {},
+                            "rounds": [{"queries": [], "candidateQueries": [], "growth": {}, "coverage": {}, "coverageProgress": {}, "results": []}],
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = discovery_report_cli.VideoKeywordDiscoveryReportCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["report"]["generatedAt"], "2026-06-19T00:00:00.000Z")
+        self.assertEqual(result["priorityActionItems"][0]["query"], "next term comments")
 
     def test_video_keyword_discovery_reporter_owns_payload_contract(self):
         result = VideoKeywordDiscoveryReporter().build_from_payload(
