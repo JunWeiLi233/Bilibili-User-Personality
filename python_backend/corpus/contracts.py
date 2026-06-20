@@ -1,0 +1,59 @@
+from __future__ import annotations
+
+from pathlib import Path
+
+from python_backend.analysis.audit import CoverageAuditReport
+from python_backend.corpus.dictionary import DictionaryLoader
+from python_backend.corpus.loader import CorpusLoader
+
+
+class ContractComparator:
+    """Compare Python-read JSON contracts against manifest/audit invariants."""
+
+    def __init__(self, corpus_path: str | Path, audit_path: str | Path, dictionary_path: str | Path | None = None):
+        self.corpus_path = Path(corpus_path)
+        self.audit_path = Path(audit_path)
+        self.dictionary_path = Path(dictionary_path) if dictionary_path else None
+
+    def compare(self) -> dict[str, object]:
+        corpus = CorpusLoader(self.corpus_path).load()
+        audit = CoverageAuditReport.load(self.audit_path)
+        dictionary = DictionaryLoader(self.dictionary_path).load() if self.dictionary_path else None
+        manifest_comment_count = corpus.manifest.get("commentCount")
+        manifest_run_count = corpus.manifest.get("runCount")
+        mismatches = []
+        if manifest_comment_count not in (None, len(corpus.comments)):
+            mismatches.append({"key": "manifestCommentCount", "python": len(corpus.comments), "js": manifest_comment_count})
+        if manifest_run_count not in (None, len(corpus.runs)):
+            mismatches.append({"key": "manifestRunCount", "python": len(corpus.runs), "js": manifest_run_count})
+        result: dict[str, object] = {
+            "ok": audit.terms > 0,
+            "mismatches": mismatches,
+            "corpus": {
+                "comments": len(corpus.comments),
+                "runs": len(corpus.runs),
+                "manifestCommentCount": manifest_comment_count,
+                "manifestRunCount": manifest_run_count,
+                "storage": corpus.manifest.get("storage", "monolith"),
+            },
+            "audit": {
+                "terms": audit.terms,
+                "weakTerms": audit.weak_terms,
+                "coverageRatio": audit.coverage_ratio,
+                "targetEvidence": audit.target_evidence,
+            },
+        }
+        if dictionary:
+            result["dictionary"] = {
+                "terms": len(dictionary.entries),
+                "storage": dictionary.manifest.get("storage"),
+                "version": dictionary.manifest.get("version"),
+                "shardSize": dictionary.manifest.get("shardSize"),
+                "shardMaxBytes": dictionary.manifest.get("shardMaxBytes"),
+                "evidenceStorage": dictionary.manifest.get("evidenceStorage"),
+                "families": dictionary.manifest.get("families") or {},
+            }
+            if len(dictionary.entries) != audit.terms:
+                mismatches.append({"key": "dictionaryTerms", "python": len(dictionary.entries), "js": audit.terms})
+        result["ok"] = bool(result["ok"]) and len(mismatches) == 0
+        return result

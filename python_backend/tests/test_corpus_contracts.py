@@ -85,6 +85,7 @@ from python_backend.corpus.local import LocalCorpusEvidenceContractComparator as
 from python_backend.corpus.local import LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenPayloadContractComparator, LocalCorpusFlattenRunner as LocalCorpusFlattenPayloadRunner, LocalCorpusFlattenSummary, LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanContractComparator as LocalCorpusMinePlanPayloadComparator, LocalCorpusMinePlanSummary
 from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner, AgentDictionaryMergePlanSummary, MergeAgentDictionariesPlanContractComparator as MergeAgentDictionariesPlanPayloadComparator, MergeAgentDictionariesPlanRunner as MergeAgentDictionariesPayloadPlanRunner
+from python_backend.corpus.contracts import ContractComparator as CorpusContractPayloadComparator
 from python_backend.corpus.tieba import TiebaCorpusUpdateContractComparator as TiebaCorpusUpdatePayloadComparator, TiebaCorpusUpdater, TiebaCorpusUpdateRunner as TiebaCorpusUpdatePayloadRunner, TiebaCorpusUpdateSummary
 from python_backend.corpus import dictionary_prune
 from python_backend.analysis import video_filter
@@ -2664,6 +2665,26 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["corpus"]["comments"], 1)
         self.assertEqual(result["audit"]["terms"], 1)
+
+    def test_contract_comparator_payload_lives_with_corpus_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            audit_path = root / "audit.json"
+            corpus_path.write_text(
+                json.dumps({"version": 1, "comments": [{"message": "ok"}], "runs": []}),
+                encoding="utf-8",
+            )
+            audit_path.write_text(
+                json.dumps({"ok": False, "targetEvidence": 3, "coverage": {"terms": 1, "coverageRatio": 1}}),
+                encoding="utf-8",
+            )
+
+            result = CorpusContractPayloadComparator(corpus_path, audit_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["corpus"]["storage"], "monolith")
+        self.assertEqual(result["audit"]["targetEvidence"], 3)
 
     def test_contract_comparator_rejects_manifest_run_count_mismatch(self):
         with tempfile.TemporaryDirectory() as tmp:
