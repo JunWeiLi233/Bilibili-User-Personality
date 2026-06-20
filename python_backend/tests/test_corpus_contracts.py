@@ -111,7 +111,7 @@ from python_backend.cli.file_lock_state import FileLockStateContractComparator, 
 from python_backend.cli.batch_scrape_progress import BatchScrapeProgressContractComparator, BatchScrapeProgressRunner
 from python_backend.cli.batch_uid_progress import BatchUidProgressContractComparator, BatchUidProgressRunner
 from python_backend.cli.uid_discovery_progress import UidDiscoveryProgressContractComparator, UidDiscoveryProgressRunner
-from python_backend.scrapers.tieba_html import TiebaHtmlParseContractComparator as TiebaHtmlParsePayloadComparator, TiebaHtmlParseSummary, TiebaHtmlParser
+from python_backend.scrapers.tieba_html import TiebaHtmlParseContractComparator as TiebaHtmlParsePayloadComparator, TiebaHtmlParsePayloadContractComparator, TiebaHtmlParseRunner as TiebaHtmlParsePayloadRunner, TiebaHtmlParseSummary, TiebaHtmlParser
 from python_backend.scrapers.tieba_keyword import TiebaKeywordPlanContractComparator as TiebaKeywordPlanPayloadComparator, TiebaKeywordPlanRunner as TiebaKeywordPayloadPlanRunner, TiebaKeywordPlanSummary, TiebaKeywordScrapeOptionsPlanner
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming, TiebaTimingContractComparator as TiebaTimingPayloadComparator
 from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanContractComparator as BatchBilibiliPlanPayloadComparator, BatchBilibiliPlanPayloadContractComparator, BatchBilibiliPlanRunner as BatchBilibiliPayloadPlanRunner, BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
@@ -6058,6 +6058,48 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["mode"], "comments")
         self.assertEqual(result["comments"][0]["message"], "\u65b0\u8d34\u5427\u8bc4\u8bba")
+
+    def test_tieba_html_parse_payload_runner_lives_with_scraper_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-tieba-html.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "threads",
+                        "keyword": "\u8d34\u5427\u6897",
+                        "html": '<a href="/p/1234567890" title="\u8d34\u5427\u6897\u8ba8\u8bba">body</a>',
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps(
+                    {
+                        "ok": True,
+                        "mode": "threads",
+                        "threads": [
+                            {
+                                "id": "1234567890",
+                                "kind": "tieba-thread",
+                                "title": "\u8d34\u5427\u6897\u8ba8\u8bba",
+                                "keyword": "\u8d34\u5427\u6897",
+                                "sourceUrl": "https://tieba.baidu.com/p/1234567890",
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = TiebaHtmlParsePayloadRunner(payload_path).run()
+            comparison = TiebaHtmlParsePayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["threads"][0]["title"], "\u8d34\u5427\u6897\u8ba8\u8bba")
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["python"], comparison["js"])
 
     def test_tieba_html_parse_contract_comparator_reports_parse_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:

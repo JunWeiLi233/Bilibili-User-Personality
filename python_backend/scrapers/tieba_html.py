@@ -3,6 +3,7 @@ from __future__ import annotations
 import html
 import json
 import re
+from pathlib import Path
 from typing import Any
 from urllib.parse import quote, urlparse, urlunparse
 
@@ -93,6 +94,44 @@ class TiebaHtmlParseContractComparator:
             "python": python_summary,
             "js": js_summary,
         }
+
+
+class TiebaHtmlParseRunner:
+    """Parse stored Tieba HTML payloads into JSON contracts."""
+
+    def __init__(self, payload_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.parser = TiebaHtmlParser()
+
+    def run(self) -> dict[str, Any]:
+        payload = self._read_payload()
+        return self.parser.parse_from_payload(payload)
+
+    def _read_payload(self) -> dict[str, Any]:
+        with self.payload_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
+
+
+class TiebaHtmlParsePayloadContractComparator:
+    """Compare file-backed Tieba HTML parse output against saved JS-compatible JSON."""
+
+    def __init__(self, payload_path: str | Path, js_report_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.js_report_path = Path(js_report_path)
+        self.comparator = TiebaHtmlParseContractComparator(TiebaHtmlParseSummary())
+
+    def compare(self) -> dict[str, Any]:
+        python_result = TiebaHtmlParseRunner(self.payload_path).run()
+        js_result = self._read_js_report()
+        return self.comparator.compare(python_result, js_result)
+
+    def _read_js_report(self) -> dict[str, Any]:
+        if not self.js_report_path.exists():
+            return {}
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
 
 
 class TiebaHtmlParser:
