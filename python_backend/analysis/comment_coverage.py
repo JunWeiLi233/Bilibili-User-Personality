@@ -255,6 +255,25 @@ class CommentCoveragePayloadContractComparator:
         return payload if isinstance(payload, dict) else {}
 
 
+class CommentCoverageJsonPayloadContractComparator:
+    """Compare one-file comment coverage payload output against a JS-compatible report."""
+
+    def __init__(self, payload_path: str | Path, js_report_path: str | Path) -> None:
+        self.payload_path = Path(payload_path)
+        self.js_report_path = Path(js_report_path)
+        self.summary = CommentCoverageSummary()
+        self.comparator = CommentCoverageContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_report = CommentCoverageJsonPayloadRunner(self.payload_path).run()
+        js_report = self._read_js_report()
+        return self.comparator.compare(python_report, js_report)
+
+    def _read_js_report(self) -> dict[str, Any]:
+        payload = _read_json(self.js_report_path)
+        return payload if isinstance(payload, dict) else {}
+
+
 def _read_json(path: Path) -> Any:
     with path.open("r", encoding="utf-8-sig") as handle:
         return json.load(handle)

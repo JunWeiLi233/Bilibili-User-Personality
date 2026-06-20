@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.analysis.comment_coverage import CommentCoverageJsonPayloadRunner, CommentCoveragePayloadContractComparator as CommentCoverageContractComparator, CommentCoverageRunner
+from python_backend.analysis.comment_coverage import CommentCoverageJsonPayloadContractComparator, CommentCoverageJsonPayloadRunner, CommentCoveragePayloadContractComparator as CommentCoverageContractComparator, CommentCoverageRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -24,7 +24,9 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
-    if args.payload:
+    if args.payload and args.compare_js_report:
+        result = CommentCoverageJsonPayloadContractComparator(args.payload, args.compare_js_report).compare()
+    elif args.payload:
         result = CommentCoverageJsonPayloadRunner(args.payload).run()
     elif args.compare_js_report:
         if not args.comments:
