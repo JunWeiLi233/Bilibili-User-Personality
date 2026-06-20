@@ -71,6 +71,7 @@ class BilibiliCrawlerSummary:
         "targetReplies",
         "publicReplies",
         "publicHistoryObject",
+        "deepenRootPlan",
         "uniqueReplies",
         "uidResult",
         "uidPlan",
@@ -195,6 +196,15 @@ class BilibiliCrawlerHelper:
             result["publicHistoryObject"] = self.public_history_object(
                 public_history.get("reply") if isinstance(public_history.get("reply"), dict) else {},
                 uid=public_history.get("uid", ""),
+            )
+        if isinstance(payload.get("deepenRoot"), dict):
+            deepen_root = payload.get("deepenRoot") or {}
+            result["deepenRootPlan"] = self.plan_deepen_root(
+                deepen_root.get("reply") if isinstance(deepen_root.get("reply"), dict) else {},
+                needles=deepen_root.get("needles") if isinstance(deepen_root.get("needles"), list) else [],
+                existing_roots=deepen_root.get("existingRoots") if isinstance(deepen_root.get("existingRoots"), list) else [],
+                shown=deepen_root.get("shown"),
+                limit=deepen_root.get("limit", 6),
             )
         if isinstance(payload.get("uniqueReplies"), list):
             result["uniqueReplies"] = self.unique_by_rpid(payload.get("uniqueReplies"))
@@ -888,6 +898,40 @@ class BilibiliCrawlerHelper:
             "title": reply.get("title") or "",
             "sourceUrl": str(source_url or ""),
         }
+
+    def reply_subtree_matches(self, reply: dict[str, Any] | None = None, needles: list[Any] | None = None) -> bool:
+        reply = reply if isinstance(reply, dict) else {}
+        terms = [str(needle or "").strip() for needle in needles if str(needle or "").strip()] if isinstance(needles, list) else []
+        message = str(self._path(reply, "content", "message") or "")
+        if any(term in message for term in terms):
+            return True
+        for child in reply.get("replies") if isinstance(reply.get("replies"), list) else []:
+            if self.reply_subtree_matches(child, terms):
+                return True
+        return False
+
+    def plan_deepen_root(
+        self,
+        reply: dict[str, Any] | None = None,
+        needles: list[Any] | None = None,
+        existing_roots: list[Any] | None = None,
+        shown: Any = None,
+        limit: Any = 6,
+    ) -> dict[str, Any]:
+        reply = reply if isinstance(reply, dict) else {}
+        roots = [str(root).strip() for root in existing_roots if str(root).strip()] if isinstance(existing_roots, list) else []
+        rpid = str(reply.get("rpid") or "").strip()
+        root_limit = max(0, min(self._number(limit, 6), 30))
+        shown_count = self._number(shown if shown is not None else len(reply.get("replies") if isinstance(reply.get("replies"), list) else []), 0)
+        total_count = self._number(reply.get("rcount"), 0)
+        queued = bool(
+            rpid
+            and rpid not in roots
+            and len(roots) < root_limit
+            and total_count > shown_count
+            and self.reply_subtree_matches(reply, needles)
+        )
+        return {"queued": queued, "rpid": rpid, "roots": roots + [rpid] if queued else roots}
 
     def unique_by_rpid(self, items: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
         keyed: dict[str, dict[str, Any]] = {}

@@ -6899,6 +6899,41 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["publicHistoryObject"]["sourceUrl"], "https://www.bilibili.com/video/BV1history/")
         self.assertEqual(result["publicHistoryObject"]["kind"], "video")
 
+    def test_bilibili_crawler_helper_matches_reply_subtree_for_deepening_contract(self):
+        helper = BilibiliCrawlerHelper()
+        reply = {
+            "rpid": 10,
+            "content": {"message": "root without target"},
+            "replies": [
+                {"rpid": 11, "content": {"message": "nested rare slang"}},
+                {"rpid": 12, "content": {"message": "other"}},
+            ],
+        }
+
+        self.assertTrue(helper.reply_subtree_matches(reply, ["rare slang"]))
+        self.assertFalse(helper.reply_subtree_matches(reply, ["missing"]))
+        self.assertFalse(helper.reply_subtree_matches({"content": {"message": ""}}, ["rare slang"]))
+
+    def test_bilibili_crawler_helper_builds_payload_deepen_root_plan_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "deepenRoot": {
+                    "reply": {
+                        "rpid": 10,
+                        "rcount": 5,
+                        "content": {"message": "root"},
+                        "replies": [{"content": {"message": "nested rare slang"}}],
+                    },
+                    "needles": ["rare slang"],
+                    "shown": 1,
+                    "existingRoots": ["9"],
+                    "limit": 6,
+                }
+            }
+        )
+
+        self.assertEqual(result["deepenRootPlan"], {"queued": True, "rpid": "10", "roots": ["9", "10"]})
+
     def test_bilibili_crawler_helper_uniques_replies_by_rpid_contract(self):
         result = BilibiliCrawlerHelper().unique_by_rpid(
             [
@@ -7823,6 +7858,7 @@ class CorpusContractTests(unittest.TestCase):
                 "requestInit": {"hasSignal": True},
                 "publicReplies": [{"message": "root message"}],
                 "publicHistoryObject": {"sourceUrl": "https://www.bilibili.com/video/BV1history/"},
+                "deepenRootPlan": {"queued": True},
                 "uniqueReplies": [{"rpid": "1"}],
                 "uidResult": {"uid": "2333"},
                 "uidPlan": {"uid": "2333"},
@@ -7855,6 +7891,7 @@ class CorpusContractTests(unittest.TestCase):
                 "requestInit": {"hasSignal": True},
                 "publicReplies": [{"message": "root message"}],
                 "publicHistoryObject": {"sourceUrl": "https://www.bilibili.com/video/BV1history/"},
+                "deepenRootPlan": {"queued": True},
                 "uniqueReplies": [{"rpid": "1"}],
                 "uidResult": {"uid": "2333"},
                 "uidPlan": {"uid": "2333"},
