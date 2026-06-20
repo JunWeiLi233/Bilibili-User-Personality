@@ -25,7 +25,7 @@ class CorpusLoader:
         payload = payload if isinstance(payload, dict) else {}
         corpus_payload = payload.get("corpus") if isinstance(payload.get("corpus"), dict) else None
         if corpus_payload is not None:
-            comments = [comment for comment in corpus_payload.get("comments", []) if isinstance(comment, dict)]
+            comments = cls._normalize_comments(corpus_payload.get("comments", []))
             runs = [run for run in corpus_payload.get("runs", []) if isinstance(run, dict)]
             manifest = corpus_payload.get("manifest") if isinstance(corpus_payload.get("manifest"), dict) else {}
             return Corpus(
@@ -43,19 +43,19 @@ class CorpusLoader:
         except FileNotFoundError:
             manifest = dict(self.fallback or {"version": 1, "comments": [], "runs": []})
         if isinstance(manifest, list):
-            comments = [comment for comment in manifest if isinstance(comment, dict)]
+            comments = self._normalize_comments(manifest)
             return Corpus(manifest={"version": 1, "storage": "array", "comments": comments, "runs": []}, comments=comments, runs=[])
         if manifest.get("storage") != "split":
             return Corpus(
                 manifest=manifest,
-                comments=list(manifest.get("comments") or []),
+                comments=self._normalize_comments(manifest.get("comments") or []),
                 runs=list(manifest.get("runs") or []),
             )
 
         comments = (
             self._hydrate_files(manifest.get("commentFiles") or [], "comments")
             if isinstance(manifest.get("commentFiles"), list)
-            else list(manifest.get("comments") or [])
+            else self._normalize_comments(manifest.get("comments") or [])
         )
         runs = (
             self._hydrate_files(manifest.get("runFiles") or [], "runs")
@@ -70,8 +70,20 @@ class CorpusLoader:
             shard = self._read_json(self.path.parent / relative_path)
             shard_values = shard.get(key) or []
             if isinstance(shard_values, list):
-                values.extend(shard_values)
+                values.extend(self._normalize_comments(shard_values) if key == "comments" else shard_values)
         return values
+
+    @staticmethod
+    def _normalize_comments(values: Any) -> list[dict[str, Any]]:
+        comments: list[dict[str, Any]] = []
+        for value in values if isinstance(values, list) else []:
+            if isinstance(value, dict):
+                comments.append(value)
+                continue
+            text = str(value or "").strip()
+            if text:
+                comments.append({"message": text})
+        return comments
 
     @staticmethod
     def _read_json(path: Path) -> dict[str, Any]:

@@ -267,7 +267,7 @@ class CorpusContractTests(unittest.TestCase):
         loaded = CorpusLoader.load_from_payload(
             {
                 "corpus": {
-                    "comments": [{"message": "inline comment"}, "ignored"],
+                    "comments": [{"message": "inline comment"}, "plain text comment"],
                     "runs": [{"at": "inline-run"}, "ignored"],
                     "manifest": {"storage": "inline", "source": "payload"},
                 }
@@ -276,18 +276,40 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(loaded.manifest["storage"], "inline")
         self.assertEqual(loaded.manifest["source"], "payload")
-        self.assertEqual(loaded.comments, [{"message": "inline comment"}])
+        self.assertEqual(loaded.comments, [{"message": "inline comment"}, {"message": "plain text comment"}])
         self.assertEqual(loaded.runs, [{"at": "inline-run"}])
+
+    def test_loader_normalizes_inline_plain_text_comment_payloads(self):
+        loaded = CorpusLoader.load_from_payload(
+            {
+                "corpus": {
+                    "comments": [
+                        "\u72d7\u5934\u4fdd\u547d[doge]",
+                        {"text": "\u5efa\u8bae\u67e5\u67e5\u8d44\u6599", "source": "tieba"},
+                        "",
+                    ],
+                    "runs": [],
+                }
+            }
+        )
+
+        self.assertEqual(
+            loaded.comments,
+            [
+                {"message": "\u72d7\u5934\u4fdd\u547d[doge]"},
+                {"text": "\u5efa\u8bae\u67e5\u67e5\u8d44\u6599", "source": "tieba"},
+            ],
+        )
 
     def test_loader_accepts_top_level_comment_array_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             corpus_path = Path(tmp) / "comments.json"
-            corpus_path.write_text(json.dumps([{"message": "array comment"}, "ignored"]), encoding="utf-8")
+            corpus_path.write_text(json.dumps([{"message": "array comment"}, "plain text comment"]), encoding="utf-8")
 
             loaded = CorpusLoader(corpus_path).load()
 
         self.assertEqual(loaded.manifest["storage"], "array")
-        self.assertEqual(loaded.comments, [{"message": "array comment"}])
+        self.assertEqual(loaded.comments, [{"message": "array comment"}, {"message": "plain text comment"}])
         self.assertEqual(loaded.runs, [])
 
     def test_writer_round_trips_small_split_corpus(self):
