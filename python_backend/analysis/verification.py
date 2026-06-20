@@ -231,4 +231,11 @@ class RandomVerifier:
 
     @staticmethod
     def _message(comment: dict[str, Any]) -> str:
-        return str(comment.get("message") or comment.get("text") or comment.get("content") or "").strip()
+        return str(
+            comment.get("message")
+            or comment.get("text")
+            or comment.get("commentText")
+            or comment.get("combinedText")
+            or comment.get("content")
+            or ""
+        ).strip()

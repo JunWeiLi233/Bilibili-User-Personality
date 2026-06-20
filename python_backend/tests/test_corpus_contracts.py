@@ -17774,6 +17774,34 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["neutral"], 1)
         self.assertEqual(result["dictionaryTerms"], 3)
 
+    def test_random_verification_runner_reads_scraper_comment_text_fields(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            dictionary_path = root / "dictionary.json"
+            corpus_path.write_text(
+                json.dumps(
+                    {
+                        "comments": [
+                            {"commentText": "\u72d7\u5934\u4fdd\u547d[doge]", "source": "scraped-user"},
+                            {"combinedText": "\u5efa\u8bae\u67e5\u67e5\u8d44\u6599", "source": "scraped-user"},
+                        ],
+                        "runs": [],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            dictionary_path.write_text(
+                json.dumps({"entries": [{"term": "\u72d7\u5934"}, {"term": "\u67e5\u8d44\u6599"}]}),
+                encoding="utf-8",
+            )
+
+            result = RandomVerificationRunner(corpus_path, dictionary_path, sample_size=2, seed=1).run()
+
+        self.assertEqual(result["sampled"], 2)
+        self.assertEqual(result["keywordHits"], 2)
+        self.assertEqual(result["neutral"], 0)
+
     def test_random_verification_payload_runner_lives_with_analysis_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
