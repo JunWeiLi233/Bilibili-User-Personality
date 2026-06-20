@@ -99,7 +99,7 @@ from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanContractCom
 from python_backend.scrapers import video_link_direct
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanner
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerContractComparator as BilibiliCrawlerPayloadComparator, BilibiliCrawlerHelper, BilibiliCrawlerSummary
-from python_backend.scrapers.bilibili_probe import BilibiliProbePlanSummary, BilibiliProbePlanner
+from python_backend.scrapers.bilibili_probe import BilibiliProbePlanContractComparator as BilibiliProbePlanPayloadComparator, BilibiliProbePlanSummary, BilibiliProbePlanner
 from python_backend.runtime.file_lock import FileLockStateInspector, FileLockStateSummary
 from python_backend.scrapers.rate_limiter import RateLimiter
 from python_backend.cli.scraper_monitor import ScraperMonitorContractComparator, ScraperMonitorRunner
@@ -5680,6 +5680,36 @@ class CorpusContractTests(unittest.TestCase):
             BilibiliProbePlanContractComparator(Path("payload.json"), Path("js-report.json")).summary.RESULT_KEYS,
             BilibiliProbePlanSummary.RESULT_KEYS,
         )
+
+    def test_bilibili_probe_plan_payload_comparator_owns_plan_mismatch_contract(self):
+        result = BilibiliProbePlanPayloadComparator().compare(
+            {
+                "ok": True,
+                "mode": "urls",
+                "viewUrl": "https://api.bilibili.com/x/web-interface/view?aid=123",
+                "searchUrls": ["https://api.bilibili.com/x/web-interface/search/type?keyword=x"],
+                "extra": "ignored",
+            },
+            {"ok": True, "mode": "urls", "viewUrl": "wrong", "searchUrls": []},
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "viewUrl", "python": "https://api.bilibili.com/x/web-interface/view?aid=123", "js": "wrong"},
+                {"key": "searchUrls", "python": ["https://api.bilibili.com/x/web-interface/search/type?keyword=x"], "js": []},
+            ],
+        )
+        self.assertEqual(
+            result["python"],
+            {
+                "mode": "urls",
+                "viewUrl": "https://api.bilibili.com/x/web-interface/view?aid=123",
+                "searchUrls": ["https://api.bilibili.com/x/web-interface/search/type?keyword=x"],
+            },
+        )
+        self.assertEqual(result["js"], {"mode": "urls", "viewUrl": "wrong", "searchUrls": []})
 
     def test_bilibili_probe_plan_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
