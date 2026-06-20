@@ -5,6 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from python_backend.cli import aicu_batch_plan as aicu_batch_plan_cli
 from python_backend.cli import local_corpus_evidence as local_corpus_evidence_cli
 from python_backend.cli import local_corpus_flatten as local_corpus_flatten_cli
 from python_backend.cli import bilibili_probe_plan as bilibili_probe_plan_cli
@@ -1765,6 +1766,27 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "limits", "python": {"maxPages": 3, "pageSize": 20, "saveEveryAttempts": 5}, "js": {"maxPages": 10}},
             ],
         )
+
+    def test_aicu_batch_plan_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "aicu-batch-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--start=1", "--end=3"],
+                        "progress": {"lastUid": 1, "completed": 1},
+                        "database": {"users": {"2": {}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = aicu_batch_plan_cli.AicuBatchPlanCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"requestedStart": 1, "effectiveStart": 2, "end": 3, "total": 2})
+        self.assertEqual(result["database"], {"users": 1, "existingInEffectiveRange": 1})
 
     def test_aicu_batch_plan_runner_defaults_non_object_payload_root(self):
         with tempfile.TemporaryDirectory() as tmp:
