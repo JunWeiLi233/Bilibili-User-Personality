@@ -6433,6 +6433,49 @@ class CorpusContractTests(unittest.TestCase):
             dictionary_prune.DictionaryPruneSummary.RESULT_KEYS,
         )
 
+    def test_dictionary_prune_payload_comparator_owns_summary_mismatch_contract(self):
+        result = dictionary_prune.DictionaryPruneSummaryContractComparator().compare(
+            {
+                "ok": True,
+                "entries": {"before": 2, "after": 0, "removed": 2},
+                "asciiTerms": {"before": 1, "after": 0, "removed": 1},
+                "summary": {"totalEntries": 2, "asciiEntries": 1, "afterEntries": 0, "afterAsciiEntries": 0},
+                "removedTerms": ["doge"],
+            },
+            {
+                "ok": True,
+                "entries": {"before": 1},
+                "asciiTerms": {"before": 0},
+                "summary": {"totalEntries": 1, "asciiEntries": 0},
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "entries", "python": {"before": 2, "after": 0, "removed": 2}, "js": {"before": 1}},
+                {"key": "asciiTerms", "python": {"before": 1, "after": 0, "removed": 1}, "js": {"before": 0}},
+                {
+                    "key": "summary",
+                    "python": {"totalEntries": 2, "asciiEntries": 1, "afterEntries": 0, "afterAsciiEntries": 0},
+                    "js": {"totalEntries": 1, "asciiEntries": 0},
+                },
+            ],
+        )
+        self.assertEqual(
+            result["python"],
+            {
+                "entries": {"before": 2, "after": 0, "removed": 2},
+                "asciiTerms": {"before": 1, "after": 0, "removed": 1},
+                "summary": {"totalEntries": 2, "asciiEntries": 1, "afterEntries": 0, "afterAsciiEntries": 0},
+            },
+        )
+        self.assertEqual(
+            result["js"],
+            {"entries": {"before": 1}, "asciiTerms": {"before": 0}, "summary": {"totalEntries": 1, "asciiEntries": 0}},
+        )
+
     def test_dictionary_prune_summary_comparator_reports_js_summary_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
