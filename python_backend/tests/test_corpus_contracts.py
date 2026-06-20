@@ -6363,6 +6363,53 @@ class CorpusContractTests(unittest.TestCase):
             dictionary_prune.ExhaustedTermsPrunePlanSummary.RESULT_KEYS,
         )
 
+    def test_exhausted_terms_prune_payload_comparator_owns_candidate_mismatch_contract(self):
+        result = dictionary_prune.ExhaustedTermsPrunePlanContractComparator().compare(
+            {
+                "ok": True,
+                "count": 1,
+                "candidates": [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "attempts": 11, "evidence": 0}],
+                "summary": {"attemptThreshold": 10, "requireZeroEvidence": True, "candidates": 1},
+                "targetEvidence": 3,
+            },
+            {
+                "ok": True,
+                "count": 0,
+                "candidates": [],
+                "summary": {"attemptThreshold": 10, "requireZeroEvidence": True, "candidates": 0},
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "count", "python": 1, "js": 0},
+                {
+                    "key": "candidates",
+                    "python": [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "attempts": 11, "evidence": 0}],
+                    "js": [],
+                },
+                {
+                    "key": "summary",
+                    "python": {"attemptThreshold": 10, "requireZeroEvidence": True, "candidates": 1},
+                    "js": {"attemptThreshold": 10, "requireZeroEvidence": True, "candidates": 0},
+                },
+            ],
+        )
+        self.assertEqual(
+            result["python"],
+            {
+                "count": 1,
+                "candidates": [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "attempts": 11, "evidence": 0}],
+                "summary": {"attemptThreshold": 10, "requireZeroEvidence": True, "candidates": 1},
+            },
+        )
+        self.assertEqual(
+            result["js"],
+            {"count": 0, "candidates": [], "summary": {"attemptThreshold": 10, "requireZeroEvidence": True, "candidates": 0}},
+        )
+
     def test_exhausted_terms_prune_plan_comparator_reports_candidate_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
