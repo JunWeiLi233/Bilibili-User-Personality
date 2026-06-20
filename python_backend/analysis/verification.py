@@ -61,11 +61,11 @@ class RandomVerificationContractComparator:
 class RandomVerificationRunner:
     """Run deterministic random corpus verification from JS-compatible JSON files."""
 
-    def __init__(self, corpus_path: str | Path, dictionary_path: str | Path, sample_size: int = 50, seed: int = 1):
+    def __init__(self, corpus_path: str | Path, dictionary_path: str | Path, sample_size: Any = 50, seed: Any = 1):
         self.corpus_path = Path(corpus_path)
         self.dictionary_path = Path(dictionary_path)
-        self.sample_size = max(0, int(sample_size))
-        self.seed = int(seed)
+        self.sample_size = _non_negative_int(sample_size, 50)
+        self.seed = _int_or(seed, 1)
 
     def run(self) -> dict[str, Any]:
         corpus = CorpusLoader(self.corpus_path).load()
@@ -90,8 +90,8 @@ class RandomVerificationPayloadRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
-        sample_size = max(0, int(payload.get("sampleSize") or 50))
-        seed = int(payload.get("seed") or 1)
+        sample_size = _non_negative_int(payload.get("sampleSize"), 50)
+        seed = _int_or(payload.get("seed"), 1)
         corpus = CorpusLoader.load_from_payload(payload)
         dictionary = DictionaryLoader.load_from_payload(payload)
         return RandomVerifier.from_dictionary_entries(dictionary.entries).report(
@@ -149,8 +149,8 @@ class RandomVerificationPayloadContractComparator:
     def compare(self) -> dict[str, Any]:
         with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
             js_report = json.load(handle)
-        sample_size = self.sample_size if self.sample_size is not None else int(js_report.get("sampleSize") or 50)
-        seed = self.seed if self.seed is not None else int(js_report.get("seed") or 1)
+        sample_size = self.sample_size if self.sample_size is not None else _non_negative_int(js_report.get("sampleSize"), 50)
+        seed = self.seed if self.seed is not None else _int_or(js_report.get("seed"), 1)
         python_report = RandomVerificationRunner(
             self.corpus_path,
             self.dictionary_path,
@@ -158,6 +158,17 @@ class RandomVerificationPayloadContractComparator:
             seed=seed,
         ).run()
         return self.comparator.compare(python_report, js_report)
+
+
+def _int_or(value: Any, fallback: int) -> int:
+    try:
+        return int(value if value is not None else fallback)
+    except (TypeError, ValueError):
+        return fallback
+
+
+def _non_negative_int(value: Any, fallback: int) -> int:
+    return max(0, _int_or(value, fallback))
 
 
 class RandomVerifier:

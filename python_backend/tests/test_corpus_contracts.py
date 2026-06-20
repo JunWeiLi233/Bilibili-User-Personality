@@ -877,6 +877,28 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["uncovered"], 0)
         self.assertEqual(result["keywordHits"], 2)
 
+    def test_random_verification_payload_runner_defaults_invalid_numeric_contract_fields(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "random-verification.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "sampleSize": "not-a-number",
+                        "seed": "also-invalid",
+                        "corpus": {"comments": [{"message": "doge"}, {"message": "plain"}]},
+                        "dictionary": {"entries": [{"term": "doge"}]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = verification_module.RandomVerificationPayloadRunner(payload_path).run()
+
+        self.assertEqual(result["sampleSize"], 50)
+        self.assertEqual(result["seed"], 1)
+        self.assertEqual(result["sampled"], 2)
+        self.assertEqual(result["keywordHits"], 1)
+
     def test_random_verification_cli_runner_accepts_payload_flag(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "random-verification.json"
