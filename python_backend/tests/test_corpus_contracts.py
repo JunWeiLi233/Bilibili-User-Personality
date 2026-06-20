@@ -6892,6 +6892,44 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_bilibili_crawler_helper_captures_set_cookie_contract(self):
+        self.assertEqual(
+            BilibiliCrawlerHelper().capture_set_cookies(
+                [
+                    "SESSDATA=session-value; Path=/; HttpOnly",
+                    " invalid ",
+                    "empty=; Path=/",
+                    "buvid3=new-buvid; Domain=.bilibili.com",
+                    "b_nut=1700000000; Path=/",
+                ],
+                cookie_jar={"buvid3": "old-buvid", "home_feed": "recommend"},
+            ),
+            {
+                "buvid3": "new-buvid",
+                "home_feed": "recommend",
+                "SESSDATA": "session-value",
+                "b_nut": "1700000000",
+            },
+        )
+
+    def test_bilibili_crawler_helper_builds_payload_captured_cookie_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "setCookie": {
+                    "cookieJar": {"buvid3": "old-buvid"},
+                    "headers": [
+                        "buvid3=fresh-buvid; Path=/",
+                        "b_lsid=ABC_123; Path=/",
+                    ],
+                }
+            }
+        )
+
+        self.assertEqual(
+            result["capturedCookies"],
+            {"buvid3": "fresh-buvid", "b_lsid": "ABC_123"},
+        )
+
     def test_bilibili_crawler_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -6950,6 +6988,7 @@ class CorpusContractTests(unittest.TestCase):
                 "headers": {"sec-fetch-site": "same-site"},
                 "requestSchedule": {"waitMs": 250},
                 "responseCache": {"hit": False},
+                "capturedCookies": {"buvid3": "fresh"},
                 "dynamicRecords": {"objects": []},
                 "extra": "ignored",
             }
@@ -6966,6 +7005,7 @@ class CorpusContractTests(unittest.TestCase):
                 "headers": {"sec-fetch-site": "same-site"},
                 "requestSchedule": {"waitMs": 250},
                 "responseCache": {"hit": False},
+                "capturedCookies": {"buvid3": "fresh"},
                 "dynamicRecords": {"objects": []},
             },
         )

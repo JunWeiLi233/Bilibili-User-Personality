@@ -69,6 +69,7 @@ class BilibiliCrawlerSummary:
         "headers",
         "requestSchedule",
         "responseCache",
+        "capturedCookies",
     )
 
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -205,10 +206,37 @@ class BilibiliCrawlerHelper:
                 now_ms=cache.get("nowMs", 0),
                 payload=cache.get("payload") if isinstance(cache.get("payload"), dict) else None,
             )
+        if isinstance(payload.get("setCookie"), dict):
+            set_cookie = payload.get("setCookie") or {}
+            result["capturedCookies"] = self.capture_set_cookies(
+                set_cookie.get("headers") if isinstance(set_cookie.get("headers"), list) else [],
+                cookie_jar=set_cookie.get("cookieJar") if isinstance(set_cookie.get("cookieJar"), dict) else {},
+            )
         return result
 
     def build_crawler_config(self, env: dict[str, Any] | None = None) -> dict[str, int | float]:
         return BilibiliCrawlerConfigBuilder().build(env)
+
+    def capture_set_cookies(
+        self,
+        set_cookie_headers: list[Any] | None = None,
+        cookie_jar: dict[str, Any] | None = None,
+    ) -> dict[str, str]:
+        captured = {
+            str(name): str(value)
+            for name, value in (cookie_jar if isinstance(cookie_jar, dict) else {}).items()
+            if str(name or "").strip() and str(value or "").strip()
+        }
+        for line in set_cookie_headers if isinstance(set_cookie_headers, list) else []:
+            first = str(line or "").split(";")[0]
+            eq = first.find("=")
+            if eq <= 0:
+                continue
+            name = first[:eq].strip()
+            value = first[eq + 1 :].strip()
+            if name and value:
+                captured[name] = value
+        return captured
 
     def plan_response_cache(
         self,
