@@ -110,7 +110,7 @@ from python_backend.scrapers.tieba_keyword import TiebaKeywordPlanSummary, Tieba
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularPlanSummary, BatchPopularScrapePlanner
-from python_backend.scrapers.batch_uid_range import BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherPlanner, UidRangeProgressReporter, UidRangeProgressSummary
+from python_backend.scrapers.batch_uid_range import BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherPlanner, RangeScraperLauncherSummary, UidRangeProgressReporter, UidRangeProgressSummary
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchScraperLauncherSummary, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanSummary, UidParallelProgressReporter, UidParallelProgressSummary
@@ -6697,6 +6697,33 @@ class CorpusContractTests(unittest.TestCase):
                     "js": [{"start": 1, "end": 20000, "progressFile": "stale.json"}],
                 }
             ],
+        )
+
+    def test_range_scraper_launcher_summary_extracts_comparator_contract(self):
+        summary = RangeScraperLauncherSummary().summarize(
+            {
+                "ok": True,
+                "workers": [
+                    {
+                        "start": 1,
+                        "end": 2,
+                        "progressFile": "uid-range-progress-1-2.json",
+                        "logFile": "scraper-logs/uid-range-1-2.log",
+                        "stderrFile": "scraper-logs/uid-range-1-2-stderr.log",
+                        "args": ["--start=1"],
+                    }
+                ],
+                "summary": {"workers": 1, "totalUids": 2, "launchDelaySeconds": 3},
+                "script": "server/scripts/uidRangeScrape.js",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "workers": [{"start": 1, "end": 2, "progressFile": "uid-range-progress-1-2.json"}],
+                "summary": {"workers": 1, "totalUids": 2, "launchDelaySeconds": 3},
+            },
         )
 
     def test_fast_pipeline_launcher_planner_builds_powershell_contract_without_filesystem(self):
