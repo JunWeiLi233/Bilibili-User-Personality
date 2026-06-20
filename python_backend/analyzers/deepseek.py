@@ -53,7 +53,7 @@ class DeepSeekAnalyzerClient:
         payload = payload if isinstance(payload, dict) else {}
         return AnalyzerRequest(
             comments=self._comments_from_payload(payload),
-            keyword_hints=list(payload.get("keywordHints") or payload.get("keyword_hints") or []),
+            keyword_hints=self._keyword_hints_from_payload(payload),
             uid=str(payload.get("uid") or "unknown"),
             name=str(payload.get("name") or "unknown"),
             model=str(payload.get("model") or "deepseek-v4-flash"),
@@ -231,6 +231,27 @@ class DeepSeekAnalyzerClient:
             if len(normalized) >= 80:
                 break
         return normalized
+
+    def _keyword_hints_from_payload(self, payload: dict[str, Any]) -> list[Any]:
+        explicit_hints = payload.get("keywordHints") or payload.get("keyword_hints")
+        if isinstance(explicit_hints, list):
+            return list(explicit_hints)
+        dictionary = payload.get("dictionary")
+        if isinstance(dictionary, dict) and isinstance(dictionary.get("entries"), list):
+            hints = []
+            seen = set()
+            for entry in dictionary["entries"]:
+                if not isinstance(entry, dict):
+                    continue
+                key = (
+                    str(entry.get("term") or entry.get("keyword") or entry.get("text") or "").strip(),
+                    str(entry.get("family") or entry.get("axis") or "").strip(),
+                )
+                if key[0] and key not in seen:
+                    seen.add(key)
+                    hints.append(entry)
+            return hints
+        return []
 
     def _comments_from_payload(self, payload: dict[str, Any]) -> list[str]:
         if isinstance(payload.get("comments"), list):

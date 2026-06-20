@@ -2634,6 +2634,27 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(request.effort, "max")
         self.assertTrue(request.multiagent)
 
+    def test_deepseek_analyzer_builds_keyword_hints_from_dictionary_payload(self):
+        payload = DeepSeekAnalyzerClient().build_payload(
+            DeepSeekAnalyzerClient().build_request_from_payload(
+                {
+                    "text": "\u72d7\u5934\u4fdd\u547d[doge]",
+                    "dictionary": {
+                        "entries": [
+                            {"term": "\u72d7\u5934", "family": "evasion", "meaning": "\u53cd\u8bbd\u6216\u4fdd\u547d\u8bed\u6c14"},
+                            {"term": "\u72d7\u5934", "family": "evasion", "meaning": "\u91cd\u590d\u9879"},
+                            {"term": "", "family": "attack"},
+                        ]
+                    },
+                }
+            )
+        )
+
+        self.assertEqual(
+            payload["keywordHints"],
+            [{"term": "\u72d7\u5934", "family": "evasion", "meaning": "\u53cd\u8bbd\u6216\u4fdd\u547d\u8bed\u6c14"}],
+        )
+
     def test_deepseek_analyzer_extracts_text_from_comment_object_payloads(self):
         request = DeepSeekAnalyzerClient().build_request_from_payload(
             {
