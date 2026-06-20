@@ -5464,6 +5464,27 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(entries[0]["evidence"], ["\u5efa\u8bae\u5148\u67e5\u67e5\u8d44\u6599\u518d\u8bc4\u8bba"])
         self.assertEqual(entries[1]["evidence"], ["\u8fd9\u5403\u76f8\u96be\u770b\u5230\u79bb\u8c31"])
 
+    def test_direct_probe_builder_ignores_non_array_alias_fields(self):
+        dictionary = {
+            "entries": [
+                {
+                    "term": "\u4e0d\u5339\u914d",
+                    "family": "attack",
+                    "evidenceCount": 0,
+                    "aliases": {"\u72d7\u5934": True},
+                    "examples": {"\u67e5\u8d44\u6599": True},
+                }
+            ]
+        }
+        comments = [
+            {"message": "\u72d7\u5934", "source": "direct", "uid": "1"},
+            {"message": "\u5efa\u8bae\u67e5\u8d44\u6599", "source": "direct", "uid": "2"},
+        ]
+
+        entries = DirectProbeCorpusBuilder().build_fresh_evidence_entries(dictionary, comments)
+
+        self.assertEqual(entries, [])
+
     def test_direct_probe_builder_builds_probe_corpus_with_han_dedupe(self):
         existing = {
             "version": 2,

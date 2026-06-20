@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any, Callable
 from urllib.parse import urlencode, urlparse
 
+from python_backend.analysis.comment_coverage import _is_contract_scalar
 from python_backend.corpus.loader import CorpusLoader
 from python_backend.scrapers.rate_limiter import RateLimitPolicy
 
@@ -119,10 +120,12 @@ def _generated_colloquial_aliases(term: str) -> list[str]:
 
 
 def _evidence_needles(entry: dict[str, Any]) -> list[str]:
+    aliases = entry.get("aliases") if isinstance(entry.get("aliases"), list) else []
+    examples = entry.get("examples") if isinstance(entry.get("examples"), list) else []
     values = [
         _clean_text(entry.get("term")),
-        *[_clean_text(alias) for alias in entry.get("aliases") or []],
-        *[_clean_text(example) for example in entry.get("examples") or []],
+        *[_clean_text(alias) for alias in aliases if _is_contract_scalar(alias)],
+        *[_clean_text(example) for example in examples if _is_contract_scalar(example)],
     ]
     values.extend(_generated_colloquial_aliases(values[0]) if values and values[0] else [])
     return [value for value in _unique(values) if len(value) >= 2]
