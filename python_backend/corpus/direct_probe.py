@@ -172,6 +172,56 @@ class DirectProbePlanSummary:
 class DirectProbeCorpusBuilder:
     """Pure Python contract helpers for Bilibili direct evidence probe data."""
 
+    def build_plan_from_payload(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        action = payload.get("action") if isinstance(payload.get("action"), dict) else {}
+        videos = payload.get("videos") if isinstance(payload.get("videos"), list) else []
+        source = payload.get("source") or ""
+        source_refs = self.extract_bilibili_video_refs(source)
+        primary_ref = source_refs[0] if source_refs else {}
+        cursor_payload = payload.get("cursorPayload") if isinstance(payload.get("cursorPayload"), dict) else {}
+        query = action.get("query") or action.get("term") or ""
+        dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}
+        actions = payload.get("actions") if isinstance(payload.get("actions"), list) else ([action] if action else [])
+        source_video_options = {
+            "maxPerAction": payload.get("maxPerAction", 0),
+            "corpus": payload.get("corpus") if isinstance(payload.get("corpus"), dict) else {},
+        }
+        result = {
+            "ok": True,
+            "needles": self.probe_search_needles(action),
+            "rankedVideos": self.rank_probe_videos_for_action(videos, action),
+            "sourceRefs": source_refs,
+            "evidenceSourceVideos": self.build_evidence_source_videos_for_actions(dictionary, actions, source_video_options),
+            "nextReplyCursor": self.next_reply_cursor(cursor_payload, payload.get("cursorFallback", 0)),
+            "viewUrl": self.build_bilibili_view_url(primary_ref),
+            "replyUrl": self.build_bilibili_reply_url(primary_ref, payload.get("replyPage", 0), payload.get("pageSize", 20)),
+            "replyPageUrl": self.build_bilibili_reply_page_url(primary_ref, payload.get("replyPageNumber", 1), payload.get("pageSize", 20)),
+            "replyThreadUrl": self.build_bilibili_reply_thread_url(
+                primary_ref,
+                primary_ref.get("rootRpid"),
+                payload.get("replyThreadPage", 1),
+                payload.get("pageSize", 20),
+            ),
+            "searchUrls": self.build_bilibili_search_urls(query, payload.get("searchOptions") if isinstance(payload.get("searchOptions"), dict) else {}),
+        }
+        if payload.get("referer"):
+            result["headers"] = self.build_bilibili_web_headers(
+                payload.get("referer"),
+                {
+                    "cookie": payload.get("cookie"),
+                    "userAgent": payload.get("userAgent"),
+                },
+            )
+        synthetic_cookie = payload.get("syntheticCookie") if isinstance(payload.get("syntheticCookie"), dict) else None
+        if synthetic_cookie is not None:
+            random_value = synthetic_cookie.get("randomValue", 0.5)
+            result["syntheticCookie"] = self.make_synthetic_bilibili_cookie(
+                random_fn=lambda: random_value,
+                now_ms=synthetic_cookie.get("nowMs"),
+            )
+        return result
+
     GENERIC_QUERY_TOKENS = {
         "attack",
         "b站",

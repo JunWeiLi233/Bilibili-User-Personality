@@ -3357,6 +3357,31 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["viewUrl"], "https://api.bilibili.com/x/web-interface/view?aid=116663559131570")
         self.assertIn("keyword=%E6%9F%A5%E6%9F%A5%E8%B5%84%E6%96%99+B%E7%AB%99%E8%AF%84%E8%AE%BA", result["searchUrls"][0])
 
+    def test_direct_probe_builder_owns_plan_payload_contract(self):
+        result = DirectProbeCorpusBuilder().build_plan_from_payload(
+            {
+                "action": {"term": "\u67e5\u67e5\u8d44\u6599", "query": "\u67e5\u67e5\u8d44\u6599 B\u7ad9\u8bc4\u8bba"},
+                "videos": [{"bvid": "BVnoise", "title": "\u70ed\u95e8\u56de\u590d"}, {"bvid": "BVexact", "title": "\u67e5\u67e5\u8d44\u6599\u5408\u96c6"}],
+                "source": "https://www.bilibili.com/video/av116663559131570/?reply=301234384593",
+                "cursorPayload": {"data": {"cursor": {"is_end": False, "next": 0}}},
+                "referer": "https://search.bilibili.com/all?keyword=x",
+                "cookie": "a=b",
+                "syntheticCookie": {"randomValue": 0.5, "nowMs": 1700000000000},
+            }
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["needles"], ["\u67e5\u67e5\u8d44\u6599"])
+        self.assertEqual([video["bvid"] for video in result["rankedVideos"]], ["BVexact", "BVnoise"])
+        self.assertEqual(result["sourceRefs"], [{"aid": "116663559131570", "rootRpid": "301234384593"}])
+        self.assertEqual(result["nextReplyCursor"], 1)
+        self.assertEqual(result["viewUrl"], "https://api.bilibili.com/x/web-interface/view?aid=116663559131570")
+        self.assertEqual(result["headers"]["origin"], "https://search.bilibili.com")
+        self.assertEqual(
+            result["syntheticCookie"],
+            DirectProbeCorpusBuilder().make_synthetic_bilibili_cookie(random_fn=lambda: 0.5, now_ms=1700000000000),
+        )
+
     def test_direct_probe_plan_contract_comparator_reports_plan_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
