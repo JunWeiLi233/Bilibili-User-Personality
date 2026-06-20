@@ -114,7 +114,7 @@ from python_backend.scrapers.tieba_html import TiebaHtmlParseContractComparator 
 from python_backend.scrapers.tieba_keyword import TiebaKeywordPlanContractComparator as TiebaKeywordPlanPayloadComparator, TiebaKeywordPlanRunner as TiebaKeywordPayloadPlanRunner, TiebaKeywordPlanSummary, TiebaKeywordScrapeOptionsPlanner
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming, TiebaTimingContractComparator as TiebaTimingPayloadComparator
 from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanContractComparator as BatchBilibiliPlanPayloadComparator, BatchBilibiliPlanPayloadContractComparator, BatchBilibiliPlanRunner as BatchBilibiliPayloadPlanRunner, BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
-from python_backend.scrapers.batch_popular import BatchPopularPlanContractComparator as BatchPopularPlanPayloadComparator, BatchPopularPlanSummary, BatchPopularScrapePlanner
+from python_backend.scrapers.batch_popular import BatchPopularPlanContractComparator as BatchPopularPlanPayloadComparator, BatchPopularPlanPayloadContractComparator, BatchPopularPlanRunner as BatchPopularPayloadPlanRunner, BatchPopularPlanSummary, BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanContractComparator as BatchUidRangePlanPayloadComparator, BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherContractComparator as RangeScraperLauncherPayloadComparator, RangeScraperLauncherPlanner, RangeScraperLauncherSummary, UidRangeProgressContractComparator as UidRangeProgressPayloadComparator, UidRangeProgressReporter, UidRangeProgressSummary
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherContractComparator as BatchScraperLauncherPayloadComparator, BatchScraperLauncherPlanner, BatchScraperLauncherSummary, BatchUidProgressContractComparator as BatchUidProgressPayloadComparator, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanContractComparator as BatchUidScrapePlanPayloadComparator, BatchUidScrapePlanSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanContractComparator as UidDiscoveryPlanPayloadComparator, UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressContractComparator as UidDiscoveryProgressPayloadComparator, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
@@ -9971,6 +9971,27 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "collection", "python": {"storesTopLevelReplies": True, "storesNestedReplies": True, "dedupesByRpid": True, "updatesCombinedTextFromComments": True}, "js": {"storesNestedReplies": False}},
             ],
         )
+
+    def test_batch_popular_plan_payload_runner_lives_with_scraper_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "batch-popular-plan.json"
+            js_report_path = root / "js-batch-popular-plan.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--pages=7"], "progress": {"pagesScanned": "3", "videosScanned": "12", "scraped": "5"}, "database": {"users": {"1": {}, "2": {}}}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"range": {"startPage": 3}, "progress": {"scraped": 0}}), encoding="utf-8")
+
+            result = BatchPopularPayloadPlanRunner(payload_path).run()
+            comparison = BatchPopularPlanPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["input"], {"maxPages": 7})
+        self.assertEqual(result["range"], {"startPage": 4, "maxPages": 7, "remainingPages": 4})
+        self.assertEqual(result["progress"], {"pagesScanned": 3, "videosScanned": 12, "scraped": 5})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["range", "progress"])
 
     def test_batch_scrape_progress_runner_summarizes_uid_range_progress_and_user_db(self):
         with tempfile.TemporaryDirectory() as tmp:
