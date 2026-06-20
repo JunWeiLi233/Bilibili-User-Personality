@@ -1014,6 +1014,26 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["sampleSize"], 1)
         self.assertEqual(result["keywordHits"], 1)
 
+    def test_random_verification_dedicated_cli_runner_accepts_payload_flag(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "random-verification.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "sampleSize": 1,
+                        "seed": 1,
+                        "corpus": {"comments": [{"message": "doge"}]},
+                        "dictionary": {"entries": [{"term": "doge"}]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = random_verification_cli.RandomVerificationCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertEqual(result["sampleSize"], 1)
+        self.assertEqual(result["keywordHits"], 1)
+
     def test_random_verification_cli_main_accepts_argv_payload_contract(self):
         class BinaryStdout:
             def __init__(self):

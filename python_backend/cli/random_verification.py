@@ -61,28 +61,36 @@ class RandomVerificationRunner:
         return parser
 
 
-def main(argv: list[str] | None = None) -> int:
-    parser = RandomVerificationRunner._parser()
-    args = parser.parse_args(argv)
-    if args.payload and args.compare_js_report:
-        result = RandomVerificationJsonPayloadContractComparator(args.payload, args.compare_js_report).compare()
-    elif args.payload:
-        result = RandomVerificationPayloadRunner(args.payload).run()
-    elif args.compare_js_report:
-        result = RandomVerificationContractComparator(
-            args.corpus,
-            args.dictionary,
-            args.compare_js_report,
-            sample_size=args.sample_size,
-            seed=args.seed,
-        ).compare()
-    else:
-        result = RandomVerificationRunner(
+class RandomVerificationCliRunner:
+    """Dedicated argv-based random verification runner for JS/Python JSON contracts."""
+
+    def __init__(self, argv: list[str] | None = None):
+        self.argv = argv
+
+    def run(self) -> dict:
+        args = RandomVerificationRunner._parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        if args.payload and args.compare_js_report:
+            return RandomVerificationJsonPayloadContractComparator(args.payload, args.compare_js_report).compare()
+        if args.payload:
+            return RandomVerificationPayloadRunner(args.payload).run()
+        if args.compare_js_report:
+            return RandomVerificationContractComparator(
+                args.corpus,
+                args.dictionary,
+                args.compare_js_report,
+                sample_size=args.sample_size,
+                seed=args.seed,
+            ).compare()
+        return AnalysisRandomVerificationRunner(
             args.corpus,
             args.dictionary,
             sample_size=args.sample_size if args.sample_size is not None else 50,
             seed=args.seed if args.seed is not None else 1,
         ).run()
+
+
+def main(argv: list[str] | None = None) -> int:
+    result = RandomVerificationCliRunner(argv).run()
     sys.stdout.buffer.write(json_result_bytes(result))
     return 0 if result["ok"] else 1
 
