@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+from pathlib import Path
 from typing import Any
 
 
@@ -183,6 +185,37 @@ class UidDiscoveryProgressReporter:
         }
 
 
+class UidDiscoveryProgressRunner:
+    """Summarize uidDiscoveryScrape.js JSON artifacts without mutating scraper state."""
+
+    def __init__(
+        self,
+        data_dir: str | Path,
+        *,
+        progress_file: str = "uid-discovery-progress.json",
+        comments_file: str = "uid-discovery-comments.json",
+        user_db_file: str = "scraped-users-db.json",
+    ):
+        self.data_dir = Path(data_dir)
+        self.progress_path = self.data_dir / progress_file
+        self.comments_path = self.data_dir / comments_file
+        self.user_db_path = self.data_dir / user_db_file
+
+    def run(self) -> dict[str, Any]:
+        progress = self._read_json(self.progress_path, {})
+        uid_comments = self._read_json(self.comments_path, {})
+        user_db = self._read_json(self.user_db_path, {})
+        users = user_db.get("users") if isinstance(user_db, dict) and isinstance(user_db.get("users"), dict) else {}
+        return UidDiscoveryProgressReporter().build_report(progress, uid_comments, users)
+
+    def _read_json(self, path: Path, fallback: Any) -> Any:
+        if not path.exists():
+            return fallback
+        with path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else fallback
+
+
 class UidDiscoveryProgressSummary:
     """Shape UID discovery progress reports into the JS/Python comparator summary contract."""
 
@@ -213,3 +246,25 @@ class UidDiscoveryProgressContractComparator:
             "python": self.summary.summarize(python_result),
             "js": self.summary.summarize(js_result),
         }
+
+
+class UidDiscoveryProgressPayloadContractComparator:
+    """Compare UID discovery summaries against saved JS-compatible JSON."""
+
+    def __init__(self, data_dir: str | Path, js_report_path: str | Path):
+        self.data_dir = Path(data_dir)
+        self.js_report_path = Path(js_report_path)
+        self.summary = UidDiscoveryProgressSummary()
+        self.comparator = UidDiscoveryProgressContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = UidDiscoveryProgressRunner(self.data_dir).run()
+        js_result = self._read_js_report()
+        return self.comparator.compare(python_result, js_result)
+
+    def _read_js_report(self) -> dict[str, Any]:
+        if not self.js_report_path.exists():
+            return {}
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
