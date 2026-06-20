@@ -6884,6 +6884,82 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_bilibili_crawler_helper_builds_uid_analysis_result_contract(self):
+        result = BilibiliCrawlerHelper().build_uid_analysis_result(
+            uid="2333",
+            user={"mid": "2333", "name": "Profile Name", "sign": "bio"},
+            objects=[
+                {"kind": "video", "bvid": "BV1", "oid": "1", "replyType": 1, "title": "Video"},
+                {"kind": "dynamic", "oid": "2", "replyType": 17, "title": "Dynamic"},
+            ],
+            authored_posts=[
+                {"rpid": "p1", "message": "post old"},
+                {"rpid": "p1", "message": "post replacement"},
+            ],
+            comments=[
+                {"rpid": "c1", "message": "comment", "uname": "Comment User"},
+                {"rpid": "c1", "message": "comment replacement", "uname": "Comment User"},
+                {"rpid": "c2", "message": "second", "uname": ""},
+            ],
+            warnings=["uploads: HTTP 429"],
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["uid"], "2333")
+        self.assertEqual(result["uname"], "Comment User")
+        self.assertEqual(len(result["videos"]), 1)
+        self.assertEqual(len(result["dynamics"]), 1)
+        self.assertEqual(result["authoredPosts"], [{"rpid": "p1", "message": "post replacement"}])
+        self.assertEqual(
+            result["comments"],
+            [
+                {"rpid": "c1", "message": "comment replacement", "uname": "Comment User"},
+                {"rpid": "c2", "message": "second", "uname": ""},
+            ],
+        )
+        self.assertEqual(result["statements"][0]["message"], "post replacement")
+        self.assertEqual(result["statements"][1]["message"], "comment replacement")
+        self.assertEqual(result["warnings"], ["uploads: HTTP 429"])
+
+    def test_bilibili_crawler_helper_builds_empty_uid_analysis_result_contract(self):
+        result = BilibiliCrawlerHelper().build_uid_analysis_result(
+            uid="2333",
+            user={"mid": "2333", "name": "Profile Name"},
+            objects=[],
+            authored_posts=[],
+            comments=[],
+            warnings=["profile: HTTP 403"],
+        )
+
+        self.assertEqual(
+            result,
+            {
+                "ok": False,
+                "error": "No public Bilibili objects were discoverable for this UID.",
+                "details": "profile: HTTP 403",
+                "warnings": ["profile: HTTP 403"],
+                "needsPublicObjects": True,
+            },
+        )
+
+    def test_bilibili_crawler_helper_builds_payload_uid_analysis_result_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "uidResult": {
+                    "uid": "2333",
+                    "user": {"mid": "2333", "name": "Profile Name"},
+                    "objects": [{"kind": "video", "bvid": "BV1", "oid": "1", "replyType": 1}],
+                    "authoredPosts": [{"rpid": "p1", "message": "post"}],
+                    "comments": [{"rpid": "c1", "message": "comment", "uname": ""}],
+                    "warnings": [],
+                }
+            }
+        )
+
+        self.assertTrue(result["uidResult"]["ok"])
+        self.assertEqual(result["uidResult"]["uname"], "Profile Name")
+        self.assertEqual([item["message"] for item in result["uidResult"]["statements"]], ["post", "comment"])
+
     def test_bilibili_crawler_helper_plans_request_schedule_contract(self):
         self.assertEqual(
             BilibiliCrawlerHelper().plan_request_schedule(
@@ -7647,6 +7723,7 @@ class CorpusContractTests(unittest.TestCase):
                 "requestInit": {"hasSignal": True},
                 "publicReplies": [{"message": "root message"}],
                 "uniqueReplies": [{"rpid": "1"}],
+                "uidResult": {"uid": "2333"},
                 "dynamicRecords": {"objects": []},
                 "extra": "ignored",
             }
@@ -7676,6 +7753,7 @@ class CorpusContractTests(unittest.TestCase):
                 "requestInit": {"hasSignal": True},
                 "publicReplies": [{"message": "root message"}],
                 "uniqueReplies": [{"rpid": "1"}],
+                "uidResult": {"uid": "2333"},
                 "dynamicRecords": {"objects": []},
             },
         )

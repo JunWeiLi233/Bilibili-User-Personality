@@ -71,6 +71,7 @@ class BilibiliCrawlerSummary:
         "targetReplies",
         "publicReplies",
         "uniqueReplies",
+        "uidResult",
         "danmaku",
         "dynamicRecords",
         "crawlerConfig",
@@ -189,6 +190,16 @@ class BilibiliCrawlerHelper:
             )
         if isinstance(payload.get("uniqueReplies"), list):
             result["uniqueReplies"] = self.unique_by_rpid(payload.get("uniqueReplies"))
+        if isinstance(payload.get("uidResult"), dict):
+            uid_result = payload.get("uidResult") or {}
+            result["uidResult"] = self.build_uid_analysis_result(
+                uid=uid_result.get("uid", ""),
+                user=uid_result.get("user") if isinstance(uid_result.get("user"), dict) else {},
+                objects=uid_result.get("objects") if isinstance(uid_result.get("objects"), list) else [],
+                authored_posts=uid_result.get("authoredPosts") if isinstance(uid_result.get("authoredPosts"), list) else [],
+                comments=uid_result.get("comments") if isinstance(uid_result.get("comments"), list) else [],
+                warnings=uid_result.get("warnings") if isinstance(uid_result.get("warnings"), list) else [],
+            )
         if "danmakuXml" in payload:
             result["danmaku"] = self.parse_danmaku_xml(
                 payload.get("danmakuXml"),
@@ -860,6 +871,46 @@ class BilibiliCrawlerHelper:
                 continue
             keyed[str(item.get("rpid"))] = item
         return list(keyed.values())
+
+    def build_uid_analysis_result(
+        self,
+        uid: Any = "",
+        user: dict[str, Any] | None = None,
+        objects: list[dict[str, Any]] | None = None,
+        authored_posts: list[dict[str, Any]] | None = None,
+        comments: list[dict[str, Any]] | None = None,
+        warnings: list[Any] | None = None,
+    ) -> dict[str, Any]:
+        uid_text = str(uid or "").strip()
+        user_info = user if isinstance(user, dict) else {}
+        object_list = [item for item in objects if isinstance(item, dict)] if isinstance(objects, list) else []
+        warning_list = [str(item) for item in warnings] if isinstance(warnings, list) else []
+        unique_posts = self.unique_by_rpid(authored_posts)
+        unique_comments = self.unique_by_rpid(comments)
+        if not object_list and not unique_posts:
+            return {
+                "ok": False,
+                "error": "No public Bilibili objects were discoverable for this UID.",
+                "details": "; ".join(warning_list),
+                "warnings": warning_list,
+                "needsPublicObjects": True,
+            }
+        uname = next((str(comment.get("uname")) for comment in unique_comments if comment.get("uname")), "")
+        if not uname:
+            uname = str(user_info.get("name") or f"UID {uid_text}")
+        return {
+            "ok": True,
+            "uid": uid_text,
+            "uname": uname,
+            "user": user_info or {"mid": uid_text, "name": f"UID {uid_text}", "sign": ""},
+            "objects": object_list,
+            "videos": [item for item in object_list if item.get("kind") == "video"],
+            "dynamics": [item for item in object_list if item.get("kind") == "dynamic"],
+            "authoredPosts": unique_posts,
+            "comments": unique_comments,
+            "statements": [*unique_posts, *unique_comments],
+            "warnings": warning_list,
+        }
 
     def dedupe_public_objects(self, objects: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
         seen: set[str] = set()
