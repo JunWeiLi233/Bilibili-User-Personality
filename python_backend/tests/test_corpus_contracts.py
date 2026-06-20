@@ -629,6 +629,20 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["requests"][0]["commentsUrl"], "https://api.aicu.cc/api/v3/search/getreply?uid=123&pn=1&ps=20&mode=0&keyword=")
         self.assertEqual(result["requests"][0]["danmakuUrl"], "https://api.aicu.cc/api/v3/search/getvideodm?uid=123&pn=1&ps=20&keyword=")
 
+    def test_aicu_scrape_planner_builds_plan_from_json_payload_contract(self):
+        result = AicuScrapePlanner.build_plan_from_payload(
+            {
+                "argv": ["--uid=42"],
+                "max_pages": "3",
+                "page_size": "5",
+                "delay_between_uids_ms": "77",
+            }
+        )
+
+        self.assertEqual(result["uids"], ["42"])
+        self.assertEqual(result["summary"], {"uids": 1, "commentPagesPerUid": 3, "danmakuPagesPerUid": 3, "delayBetweenUidsMs": 77})
+        self.assertEqual(result["requests"][0]["commentsUrl"], "https://api.aicu.cc/api/v3/search/getreply?uid=42&pn=1&ps=5&mode=0&keyword=")
+
     def test_aicu_scrape_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

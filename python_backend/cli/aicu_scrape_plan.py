@@ -17,14 +17,7 @@ class AicuScrapePlanRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
-        argv = payload.get("argv") if isinstance(payload.get("argv"), list) else []
-        max_pages = int(payload.get("maxPages") or payload.get("max_pages") or 10)
-        page_size = int(payload.get("pageSize") or payload.get("page_size") or 20)
-        delay_between_uids_ms = int(payload.get("delayBetweenUidsMs") or payload.get("delay_between_uids_ms") or 15000)
-        return AicuScrapePlanner(max_pages=max_pages, page_size=page_size, delay_between_uids_ms=delay_between_uids_ms).build_plan(
-            [str(item) for item in argv],
-            max_pages=max_pages,
-        )
+        return AicuScrapePlanner.build_plan_from_payload(payload)
 
     def _read_payload(self) -> dict[str, Any]:
         with self.payload_path.open("r", encoding="utf-8-sig") as handle:

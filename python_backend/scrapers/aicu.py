@@ -34,6 +34,19 @@ class AicuScrapePlanner:
         self.page_size = int(page_size)
         self.delay_between_uids_ms = int(delay_between_uids_ms)
 
+    @classmethod
+    def build_plan_from_payload(cls, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        argv = payload.get("argv") if isinstance(payload.get("argv"), list) else []
+        max_pages = int(payload.get("maxPages") or payload.get("max_pages") or 10)
+        page_size = int(payload.get("pageSize") or payload.get("page_size") or 20)
+        delay_between_uids_ms = int(payload.get("delayBetweenUidsMs") or payload.get("delay_between_uids_ms") or 15000)
+        return cls(
+            max_pages=max_pages,
+            page_size=page_size,
+            delay_between_uids_ms=delay_between_uids_ms,
+        ).build_plan([str(item) for item in argv], max_pages=max_pages)
+
     def build_plan(self, argv: list[str], *, max_pages: int | None = None) -> dict[str, Any]:
         pages = int(max_pages if max_pages is not None else self.max_pages)
         uids = self.extract_uids(argv)
