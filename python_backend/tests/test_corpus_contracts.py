@@ -14163,6 +14163,20 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_batch_bilibili_plan_runner_defaults_non_object_payload_root(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "batch-bilibili-plan.json"
+            payload_path.write_text(json.dumps(["bad", "payload"]), encoding="utf-8")
+
+            result = BatchBilibiliPlanRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["input"], {"startUid": 100000, "endUid": 200000})
+        self.assertEqual(result["range"], {"startUid": 100000, "endUid": 200000, "total": 100001})
+        self.assertEqual(result["resume"], {"lastUid": 0, "resumed": False})
+        self.assertEqual(result["database"], {"users": 0})
+        self.assertEqual(result["progress"], {"completed": 0, "errors": 0})
+
     def test_batch_bilibili_plan_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
