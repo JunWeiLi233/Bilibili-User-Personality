@@ -25,12 +25,12 @@ class CoverageAuditReport:
         coverage = payload.get("coverage") or {}
         return cls(
             ok=bool(payload.get("ok")),
-            target_evidence=int(payload.get("targetEvidence") or coverage.get("targetEvidence") or 0),
-            terms=int(coverage.get("terms") or 0),
-            coverage_ratio=float(coverage.get("coverageRatio") or 0),
-            weak_terms=int(coverage.get("weakTerms") or 0),
-            zero_evidence_terms=int(coverage.get("zeroEvidenceTerms") or 0),
-            evidence_deficit=int(coverage.get("evidenceDeficit") or 0),
+            target_evidence=_int_or(payload.get("targetEvidence") or coverage.get("targetEvidence"), 0),
+            terms=_int_or(coverage.get("terms"), 0),
+            coverage_ratio=_float_or(coverage.get("coverageRatio"), 0),
+            weak_terms=_int_or(coverage.get("weakTerms"), 0),
+            zero_evidence_terms=_int_or(coverage.get("zeroEvidenceTerms"), 0),
+            evidence_deficit=_int_or(coverage.get("evidenceDeficit"), 0),
             next_actions=list(payload.get("nextActions") or []),
         )
 
@@ -46,6 +46,20 @@ class CoverageAuditReport:
             if query:
                 queries.append(query)
         return queries
+
+
+def _int_or(value: Any, fallback: int) -> int:
+    try:
+        return int(value if value is not None else fallback)
+    except (TypeError, ValueError):
+        return fallback
+
+
+def _float_or(value: Any, fallback: float) -> float:
+    try:
+        return float(value if value is not None else fallback)
+    except (TypeError, ValueError):
+        return fallback
 
 
 class CoverageAuditArtifactWriter:

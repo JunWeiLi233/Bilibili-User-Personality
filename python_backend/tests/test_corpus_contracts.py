@@ -1002,6 +1002,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(report.weak_terms, 2)
         self.assertEqual(report.next_queries(), ["查查资料 B站评论"])
 
+    def test_coverage_audit_report_defaults_invalid_numeric_json_fields(self):
+        payload = {
+            "ok": False,
+            "targetEvidence": "not-a-number",
+            "coverage": {
+                "terms": "bad",
+                "coverageRatio": "bad",
+                "weakTerms": "bad",
+                "zeroEvidenceTerms": "bad",
+                "evidenceDeficit": "bad",
+            },
+            "nextActions": [{"nextQuery": "still usable"}],
+        }
+
+        report = CoverageAuditReport.from_json(payload)
+
+        self.assertEqual(report.target_evidence, 0)
+        self.assertEqual(report.terms, 0)
+        self.assertEqual(report.coverage_ratio, 0)
+        self.assertEqual(report.weak_terms, 0)
+        self.assertEqual(report.zero_evidence_terms, 0)
+        self.assertEqual(report.evidence_deficit, 0)
+        self.assertEqual(report.next_queries(), ["still usable"])
+
     def test_coverage_audit_report_load_accepts_utf8_bom_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             audit_path = Path(tmp) / "audit.json"
