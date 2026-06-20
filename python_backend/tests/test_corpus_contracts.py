@@ -8701,6 +8701,13 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_coverage_harvest_loop_comparator_uses_summary_contract_keys(self):
+        self.assertFalse(hasattr(CoverageHarvestLoopPlanContractComparator, "RESULT_KEYS"))
+        self.assertEqual(
+            CoverageHarvestLoopPlanContractComparator(Path("payload.json"), Path("js.json")).summary.RESULT_KEYS,
+            CoverageHarvestLoopPlanSummary.RESULT_KEYS,
+        )
+
     def test_coverage_harvest_loop_contract_comparator_reports_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
