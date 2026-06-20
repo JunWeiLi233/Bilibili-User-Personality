@@ -6,7 +6,7 @@ from pathlib import Path
 from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditReport
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
-from python_backend.analysis.coverage_progress import CoverageProgressSummary, CoverageProgressTracker
+from python_backend.analysis.coverage_progress import CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressSummary, CoverageProgressTracker
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReporter, VideoKeywordDiscoveryReportSummary
 from python_backend.analysis import harvest_options as harvest_options_module
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, HarvestOptionsSummary, VideoKeywordDiscoveryOptionsBuilder
@@ -5877,6 +5877,23 @@ class CorpusContractTests(unittest.TestCase):
     def test_coverage_progress_comparator_uses_summary_contract_keys(self):
         self.assertFalse(hasattr(CoverageProgressContractComparator, "RESULT_KEYS"))
         self.assertEqual(CoverageProgressContractComparator(Path("payload.json"), Path("js.json")).summary.RESULT_KEYS, CoverageProgressSummary.RESULT_KEYS)
+
+    def test_coverage_progress_payload_comparator_owns_result_key_mismatch_contract(self):
+        result = CoverageProgressPayloadComparator().compare(
+            {"delta": {"totalEvidenceGained": 2}, "hasGateProgress": True, "extra": "ignored"},
+            {"delta": {"totalEvidenceGained": 0}, "hasGateProgress": False},
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "delta", "python": {"totalEvidenceGained": 2}, "js": {"totalEvidenceGained": 0}},
+                {"key": "hasGateProgress", "python": True, "js": False},
+            ],
+        )
+        self.assertEqual(result["python"], {"delta": {"totalEvidenceGained": 2}, "hasGateProgress": True})
+        self.assertEqual(result["js"], {"delta": {"totalEvidenceGained": 0}, "hasGateProgress": False})
 
     def test_coverage_progress_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:

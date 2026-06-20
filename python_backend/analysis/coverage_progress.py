@@ -43,6 +43,26 @@ class CoverageProgressSummary:
         return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
 
 
+class CoverageProgressContractComparator:
+    """Compare coverage-progress payloads using the JS/Python summary contract."""
+
+    def __init__(self, summary: CoverageProgressSummary | None = None):
+        self.summary = summary or CoverageProgressSummary()
+
+    def compare(self, python_result: dict[str, Any], js_result: dict[str, Any]) -> dict[str, Any]:
+        mismatches = [
+            {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
+            for key in self.summary.RESULT_KEYS
+            if key in js_result and python_result.get(key) != js_result.get(key)
+        ]
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": self.summary.summarize(python_result),
+            "js": self.summary.summarize(js_result),
+        }
+
+
 class CoverageProgressTracker:
     """Evaluate coverage-gate progress using the same JSON fields as JS harvest loops."""
 
