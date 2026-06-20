@@ -11,7 +11,7 @@ from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKe
 from python_backend.analysis import harvest_options as harvest_options_module
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, HarvestOptionsSummary, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, KeywordHarvestPlanSummary
-from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateFinalizer, HarvestStatePayloadProcessor, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
+from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateContractComparator as HarvestStatePayloadComparator, HarvestStateFinalizer, HarvestStatePayloadProcessor, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetResolvePlanner
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSummary, ReadmeStatsSvgRenderer
@@ -9981,6 +9981,23 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertFalse(hasattr(HarvestStateContractComparator, "_summary"))
         self.assertEqual(result, {"termAttempts": {"term": {"attempts": 1}}, "backfilled": 2})
+
+    def test_harvest_state_payload_comparator_owns_summary_mismatch_contract(self):
+        comparison = HarvestStatePayloadComparator().compare(
+            {"termAttempts": {"alpha": {"attempts": 1}}, "backfilled": 1},
+            {"termAttempts": {"beta": {"attempts": 2}}, "backfilled": 0},
+        )
+
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "termAttempts", "python": {"alpha": {"attempts": 1}}, "js": {"beta": {"attempts": 2}}},
+                {"key": "backfilled", "python": 1, "js": 0},
+            ],
+        )
+        self.assertEqual(comparison["python"], {"termAttempts": {"alpha": {"attempts": 1}}, "backfilled": 1})
+        self.assertEqual(comparison["js"], {"termAttempts": {"beta": {"attempts": 2}}, "backfilled": 0})
 
     def test_harvest_state_backfills_searched_queries_like_js_contract(self):
         updater = HarvestTermAttemptUpdater(strategy_version=7)

@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.harvest_state import HarvestStatePayloadProcessor, HarvestStateSummary
+from python_backend.analysis.harvest_state import HarvestStateContractComparator as HarvestStatePayloadComparator, HarvestStatePayloadProcessor, HarvestStateSummary
 
 
 class HarvestStateRunner:
@@ -32,18 +32,12 @@ class HarvestStateContractComparator:
         self.payload_path = Path(payload_path)
         self.js_state_path = Path(js_state_path)
         self.summary = HarvestStateSummary()
+        self.comparator = HarvestStatePayloadComparator(self.summary)
 
     def compare(self) -> dict[str, Any]:
         python_result = HarvestStateRunner(self.payload_path).run()
         js_result = self._read_js_state()
-        python_summary = self.summary.summarize(python_result)
-        js_summary = self.summary.summarize(js_result)
-        mismatches = [
-            {"key": key, "python": python_summary.get(key), "js": js_summary.get(key)}
-            for key in self.summary.SUMMARY_KEYS
-            if key in js_summary and python_summary.get(key) != js_summary.get(key)
-        ]
-        return {"ok": not mismatches, "mismatches": mismatches, "python": python_summary, "js": js_summary}
+        return self.comparator.compare(python_result, js_result)
 
     def _read_js_state(self) -> dict[str, Any]:
         if not self.js_state_path.exists():
