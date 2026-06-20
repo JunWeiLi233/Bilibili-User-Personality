@@ -94,7 +94,7 @@ from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriteContractComparator as CorpusShardWritePayloadComparator, CorpusShardWritePayloadContractComparator, CorpusShardWriteRunner as CorpusShardWritePayloadRunner, CorpusShardWriteSummary, CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliParseContractComparator as BilibiliParsePayloadComparator, BilibiliParsePayloadContractComparator, BilibiliParseRunner as BilibiliParsePayloadRunner, BilibiliParseSummary, BilibiliPublicParser
-from python_backend.scrapers.aicu import AicuBatchPlanContractComparator as AicuBatchPlanPayloadComparator, AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanContractComparator as AicuScrapePlanPayloadComparator, AicuScrapePlanSummary, AicuScrapePlanner
+from python_backend.scrapers.aicu import AicuBatchPlanContractComparator as AicuBatchPlanPayloadComparator, AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanContractComparator as AicuScrapePlanPayloadComparator, AicuScrapePlanPayloadContractComparator, AicuScrapePlanRunner as AicuScrapePayloadPlanRunner, AicuScrapePlanSummary, AicuScrapePlanner
 from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanContractComparator as AicuBrowserBatchPlanPayloadComparator, AicuBrowserBatchPlanSummary, AicuBrowserBatchPlanner
 from python_backend.scrapers import video_link_direct
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanContractComparator as VideoLinkDirectPlanPayloadComparator, VideoLinkDirectPlanner, VideoLinkDirectPlanRunner as VideoLinkDirectPayloadPlanRunner
@@ -1247,6 +1247,27 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "collect", "python": {"function": "analyzeUid", "pagesPerObject": 4, "forwardsCookie": True}, "js": {"pages": 1}},
             ],
         )
+
+    def test_aicu_scrape_plan_payload_runner_lives_with_scraper_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "aicu-plan.json"
+            js_report_path = root / "js-aicu-plan.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--uid=100", "https://space.bilibili.com/101"], "maxPages": 4, "pageSize": 8}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"uids": ["100"], "summary": {"uids": 1}}), encoding="utf-8")
+
+            result = AicuScrapePayloadPlanRunner(payload_path).run()
+            comparison = AicuScrapePlanPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["uids"], ["100", "101"])
+        self.assertEqual(result["summary"]["commentPagesPerUid"], 4)
+        self.assertEqual(result["requests"][0]["commentsUrl"], "https://api.aicu.cc/api/v3/search/getreply?uid=100&pn=1&ps=8&mode=0&keyword=")
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["uids", "summary"])
 
     def test_scraper_and_analyzer_boundaries_are_class_based(self):
         request = ScrapeRequest(query="历史", limit=3)
