@@ -87,7 +87,7 @@ from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner, Agent
 from python_backend.corpus.tieba import TiebaCorpusUpdater, TiebaCorpusUpdateSummary
 from python_backend.corpus import dictionary_prune
 from python_backend.analysis import video_filter
-from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoContextBuilder, VideoRelevanceContractComparator as VideoRelevancePayloadComparator, VideoRelevanceFilter
+from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoContextBuilder, VideoContextContractComparator as VideoContextPayloadComparator, VideoContextRunner as VideoContextPayloadRunner, VideoRelevanceContractComparator as VideoRelevancePayloadComparator, VideoRelevanceFilter
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader
@@ -5085,6 +5085,45 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["videoObjectEvidenceText"], "Bilibili public video title: \u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28")
         self.assertEqual(result["diagnostics"]["targetTextHits"], [{"term": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28", "count": 1}])
+
+    def test_video_context_payload_comparator_lives_with_analysis_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-report.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "videos": [{"bvid": "BV1", "title": "\u5f39\u5e55\u9634\u9633\u602a\u6c14"}],
+                        "discoveredVideos": [{"bvid": "BVD", "title": "\u8865\u5145\u7d20\u6750"}],
+                        "comments": [{"message": "\u5f39\u5e55\u9634\u9633\u602a\u6c14"}],
+                        "trainingText": "\u5f39\u5e55\u9634\u9633\u602a\u6c14",
+                        "searchQueries": ["\u5f39\u5e55\u9634\u9633\u602a\u6c14"],
+                        "targetExistingTerms": ["\u5f39\u5e55\u9634\u9633\u602a\u6c14"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"videoContextText": "wrong context"}), encoding="utf-8")
+
+            run_result = VideoContextPayloadRunner(payload_path).run()
+            comparison = VideoContextPayloadComparator(payload_path, js_report_path).compare()
+
+        self.assertEqual(
+            run_result["videoContextText"],
+            "Bilibili video context: \u5f39\u5e55\u9634\u9633\u602a\u6c14\nBilibili video context: \u8865\u5145\u7d20\u6750",
+        )
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {
+                    "key": "videoContextText",
+                    "python": "Bilibili video context: \u5f39\u5e55\u9634\u9633\u602a\u6c14\nBilibili video context: \u8865\u5145\u7d20\u6750",
+                    "js": "wrong context",
+                }
+            ],
+        )
 
     def test_video_context_builder_owns_payload_contract(self):
         result = VideoContextBuilder().build_from_payload(
