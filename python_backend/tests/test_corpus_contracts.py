@@ -14,7 +14,7 @@ from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, Keyw
 from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateContractComparator as HarvestStatePayloadComparator, HarvestStateFinalizer, HarvestStatePayloadProcessor, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetResolvePlanner
-from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSummary, ReadmeStatsSvgRenderer
+from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsSummary, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationReportSummary, RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator
@@ -1787,6 +1787,53 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             ReadmeStatsContractComparator(Path("payload.json"), Path("js-report.json")).summary.RESULT_KEYS,
             ReadmeStatsSummary.RESULT_KEYS,
+        )
+
+    def test_readme_stats_payload_comparator_owns_result_mismatch_contract(self):
+        result = ReadmeStatsPayloadComparator().compare(
+            {
+                "ok": True,
+                "summary": {"comments": 1, "danmaku": 1, "keywordTerms": 2, "timelinePoints": 1},
+                "stats": {"comments": 1},
+                "svg": "<svg>python</svg>",
+                "timelineSvg": "<svg>timeline</svg>",
+            },
+            {
+                "ok": True,
+                "summary": {"comments": 2, "danmaku": 1, "keywordTerms": 2, "timelinePoints": 1},
+                "stats": {"comments": 2},
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {
+                    "key": "summary",
+                    "python": {"comments": 1, "danmaku": 1, "keywordTerms": 2, "timelinePoints": 1},
+                    "js": {"comments": 2, "danmaku": 1, "keywordTerms": 2, "timelinePoints": 1},
+                },
+                {"key": "stats", "python": {"comments": 1}, "js": {"comments": 2}},
+            ],
+        )
+        self.assertEqual(
+            result["python"],
+            {
+                "ok": True,
+                "summary": {"comments": 1, "danmaku": 1, "keywordTerms": 2, "timelinePoints": 1},
+                "stats": {"comments": 1},
+                "svg": "<svg>python</svg>",
+                "timelineSvg": "<svg>timeline</svg>",
+            },
+        )
+        self.assertEqual(
+            result["js"],
+            {
+                "ok": True,
+                "summary": {"comments": 2, "danmaku": 1, "keywordTerms": 2, "timelinePoints": 1},
+                "stats": {"comments": 2},
+            },
         )
 
     def test_readme_stats_contract_comparator_reports_summary_mismatches(self):
