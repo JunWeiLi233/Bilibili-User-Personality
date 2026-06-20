@@ -4081,6 +4081,37 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["entries"][0]["term"], "\u61c2\u7684\u90fd\u61c2")
 
+    def test_local_corpus_evidence_runner_hydrates_split_loader_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            comments_path = root / "corpus.json"
+            (root / "dictionary.entries").mkdir()
+            (root / "corpus.comments").mkdir()
+            dictionary_path.write_text(
+                json.dumps({"storage": "split", "entryFiles": {"evidence": ["dictionary.entries/evidence-001.json"]}}),
+                encoding="utf-8",
+            )
+            (root / "dictionary.entries" / "evidence-001.json").write_text(
+                json.dumps({"entries": [{"term": "\u67e5\u67e5\u8d44\u6599", "family": "evidence", "meaning": "\u7d22\u8981\u8bc1\u636e", "evidenceCount": 0}]}),
+                encoding="utf-8",
+            )
+            comments_path.write_text(
+                json.dumps({"storage": "split", "commentFiles": ["corpus.comments/comments-001.json"]}),
+                encoding="utf-8",
+            )
+            (root / "corpus.comments" / "comments-001.json").write_text(
+                json.dumps({"comments": [{"message": "\u4f60\u5148\u67e5\u67e5\u8d44\u6599\u518d\u8bf4", "source": "local", "uid": "BVsplit"}]}),
+                encoding="utf-8",
+            )
+
+            result = LocalCorpusEvidenceRunner(dictionary_path, comments_path, target_evidence=3, max_samples_per_term=1).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["entries"][0]["term"], "\u67e5\u67e5\u8d44\u6599")
+        self.assertEqual(result["entries"][0]["evidenceSources"][0]["uid"], "BVsplit")
+
     def test_local_corpus_evidence_payload_runner_lives_with_corpus_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

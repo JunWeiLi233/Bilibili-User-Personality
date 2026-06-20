@@ -6,6 +6,9 @@ import re
 import unicodedata
 from typing import Any
 
+from python_backend.corpus.dictionary import DictionaryLoader
+from python_backend.corpus.loader import CorpusLoader
+
 
 def clean_text(value: Any) -> str:
     return re.sub(r"\s+", " ", str(value or "")).strip()
@@ -580,9 +583,11 @@ class LocalCorpusEvidenceRunner:
         self.flattener = LocalCorpusFlattener()
 
     def run(self) -> dict[str, Any]:
-        dictionary = self._read_json_object(self.dictionary_path, {"entries": []})
-        comments_payload = self._read_json(self.comments_path, [])
-        comments = comments_payload.get("comments") if isinstance(comments_payload, dict) else comments_payload
+        loaded_dictionary = DictionaryLoader(self.dictionary_path).load()
+        dictionary = {**loaded_dictionary.manifest, "entries": loaded_dictionary.entries}
+        loaded_corpus = CorpusLoader(self.comments_path).load()
+        comments_payload = {**loaded_corpus.manifest, "comments": loaded_corpus.comments, "runs": loaded_corpus.runs}
+        comments = loaded_corpus.comments
         if not isinstance(comments, list) or any(not isinstance(comment, dict) or "message" not in comment for comment in comments):
             comments = self.flattener.flatten(comments_payload)
         return self.finder.find_entries_result(
