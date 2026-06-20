@@ -14302,6 +14302,19 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_batch_popular_plan_runner_defaults_non_object_payload_root(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "batch-popular-plan.json"
+            payload_path.write_text(json.dumps(["bad", "payload"]), encoding="utf-8")
+
+            result = BatchPopularPlanRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["input"], {"maxPages": 50})
+        self.assertEqual(result["range"], {"startPage": 1, "maxPages": 50, "remainingPages": 50})
+        self.assertEqual(result["progress"], {"pagesScanned": 0, "videosScanned": 0, "scraped": 0})
+        self.assertEqual(result["database"], {"users": 0})
+
     def test_batch_popular_plan_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
