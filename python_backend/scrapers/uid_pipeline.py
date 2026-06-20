@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import json
 import math
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 
 
@@ -314,6 +316,98 @@ class UidPipelineMergeContractComparator:
             "python": self.summary.summarize(python_result),
             "js": self.summary.summarize(js_result),
         }
+
+
+class UidPipelineMergeRunner:
+    """Build a Python dry-run merge report for UID pipeline worker progress files."""
+
+    def __init__(
+        self,
+        data_dir: str | Path,
+        *,
+        total_start: int = 1,
+        total_end: int = 100000,
+        workers: int = 5,
+        summary_only: bool = False,
+        now: Any | None = None,
+    ):
+        self.data_dir = Path(data_dir)
+        self.total_start = int(total_start)
+        self.total_end = int(total_end)
+        self.workers = max(1, int(workers))
+        self.summary_only = summary_only
+        self.now = now
+
+    def run(self) -> dict[str, Any]:
+        total_expected = max(0, self.total_end - self.total_start + 1)
+        chunk_size = math.ceil(total_expected / self.workers) if total_expected else 0
+        chunks = []
+        for worker_index in range(self.workers):
+            start = self.total_start + worker_index * chunk_size
+            end = min(start + chunk_size - 1, self.total_end)
+            if start > self.total_end:
+                break
+            progress_path = self.data_dir / f"uid-pipeline-{start}-{end}.json"
+            progress = self._read_json(progress_path, {"processed": {}, "stats": {}})
+            chunks.append({"start": start, "end": end, "path": str(progress_path), "progress": progress})
+        user_db = self._read_json(self.data_dir / "scraped-users-db.json", {"users": {}})
+        users = user_db.get("users") if isinstance(user_db.get("users"), dict) else {}
+        return UidPipelineMergeReporter(now=self.now).build_report(
+            chunks,
+            users=users,
+            total_start=self.total_start,
+            total_end=self.total_end,
+            workers=self.workers,
+            chunk_size=chunk_size,
+            summary_only=self.summary_only,
+        )
+
+    def _read_json(self, path: Path, fallback: Any) -> Any:
+        if not path.exists():
+            return fallback
+        with path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else fallback
+
+
+class UidPipelineMergePayloadContractComparator:
+    """Compare file-backed Python UID merge reports against saved JS-compatible JSON."""
+
+    def __init__(
+        self,
+        data_dir: str | Path,
+        js_report_path: str | Path,
+        *,
+        total_start: int = 1,
+        total_end: int = 100000,
+        workers: int = 5,
+    ):
+        self.data_dir = Path(data_dir)
+        self.js_report_path = Path(js_report_path)
+        self.total_start = total_start
+        self.total_end = total_end
+        self.workers = workers
+        self.summary = UidPipelineMergeSummary()
+        self.comparator = UidPipelineMergeContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = UidPipelineMergeRunner(
+            self.data_dir,
+            total_start=self.total_start,
+            total_end=self.total_end,
+            workers=self.workers,
+            now=lambda: "",
+        ).run()
+        python_result.pop("lastUpdated", None)
+        js_result = self._read_js_report()
+        return self.comparator.compare(python_result, js_result)
+
+    def _read_js_report(self) -> dict[str, Any]:
+        if not self.js_report_path.exists():
+            return {}
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
 
 
 class UidPipelineStateReporter:
