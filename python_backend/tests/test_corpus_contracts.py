@@ -7145,6 +7145,53 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_bilibili_crawler_helper_plans_dependency_cookie_forwarding_contract(self):
+        helper = BilibiliCrawlerHelper()
+
+        self.assertEqual(
+            helper.plan_dependency_cookie_forwarding(
+                " SESSDATA=abc ; invalid ; good=x=y ; newline=a\nb ",
+                fetch_json_options={"headers": {"x-test": "1"}, "bilibiliCookie": "old"},
+                fetch_text_options={"signal": True, "cookie": "legacy=1"},
+            ),
+            {
+                "enabled": True,
+                "bilibiliCookie": "SESSDATA=abc; good=x=y",
+                "fetchJsonOptions": {"headers": {"x-test": "1"}, "bilibiliCookie": "SESSDATA=abc; good=x=y"},
+                "fetchTextOptions": {"signal": True, "cookie": "legacy=1", "bilibiliCookie": "SESSDATA=abc; good=x=y"},
+            },
+        )
+        self.assertEqual(
+            helper.plan_dependency_cookie_forwarding(" invalid ; empty= "),
+            {
+                "enabled": False,
+                "bilibiliCookie": "",
+                "fetchJsonOptions": None,
+                "fetchTextOptions": None,
+            },
+        )
+
+    def test_bilibili_crawler_helper_builds_payload_dependency_cookie_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "dependencyCookie": {
+                    "cookie": " SESSDATA=abc ; good=x=y ",
+                    "fetchJsonOptions": {"mode": "json"},
+                    "fetchTextOptions": {"mode": "text"},
+                }
+            }
+        )
+
+        self.assertEqual(
+            result["dependencyCookie"],
+            {
+                "enabled": True,
+                "bilibiliCookie": "SESSDATA=abc; good=x=y",
+                "fetchJsonOptions": {"mode": "json", "bilibiliCookie": "SESSDATA=abc; good=x=y"},
+                "fetchTextOptions": {"mode": "text", "bilibiliCookie": "SESSDATA=abc; good=x=y"},
+            },
+        )
+
     def test_bilibili_crawler_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -7207,6 +7254,7 @@ class CorpusContractTests(unittest.TestCase):
                 "requestTimeout": {"timeoutMs": 750},
                 "responseOutcome": {"blocked": False},
                 "textResponseOutcome": {"blocked": True},
+                "dependencyCookie": {"enabled": True},
                 "dynamicRecords": {"objects": []},
                 "extra": "ignored",
             }
@@ -7227,6 +7275,7 @@ class CorpusContractTests(unittest.TestCase):
                 "requestTimeout": {"timeoutMs": 750},
                 "responseOutcome": {"blocked": False},
                 "textResponseOutcome": {"blocked": True},
+                "dependencyCookie": {"enabled": True},
                 "dynamicRecords": {"objects": []},
             },
         )

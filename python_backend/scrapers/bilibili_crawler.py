@@ -73,6 +73,7 @@ class BilibiliCrawlerSummary:
         "requestTimeout",
         "responseOutcome",
         "textResponseOutcome",
+        "dependencyCookie",
     )
 
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -248,10 +249,44 @@ class BilibiliCrawlerHelper:
                 state=text_response.get("state") if isinstance(text_response.get("state"), dict) else {},
                 now_ms=text_response.get("nowMs", 0),
             )
+        if isinstance(payload.get("dependencyCookie"), dict):
+            dependency_cookie = payload.get("dependencyCookie") or {}
+            result["dependencyCookie"] = self.plan_dependency_cookie_forwarding(
+                dependency_cookie.get("cookie") or dependency_cookie.get("bilibiliCookie") or "",
+                fetch_json_options=dependency_cookie.get("fetchJsonOptions")
+                if isinstance(dependency_cookie.get("fetchJsonOptions"), dict)
+                else None,
+                fetch_text_options=dependency_cookie.get("fetchTextOptions")
+                if isinstance(dependency_cookie.get("fetchTextOptions"), dict)
+                else None,
+            )
         return result
 
     def build_crawler_config(self, env: dict[str, Any] | None = None) -> dict[str, int | float]:
         return BilibiliCrawlerConfigBuilder().build(env)
+
+    def plan_dependency_cookie_forwarding(
+        self,
+        cookie: Any = "",
+        fetch_json_options: dict[str, Any] | None = None,
+        fetch_text_options: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        bilibili_cookie = self.normalize_bilibili_cookie(cookie)
+        if not bilibili_cookie:
+            return {
+                "enabled": False,
+                "bilibiliCookie": "",
+                "fetchJsonOptions": None,
+                "fetchTextOptions": None,
+            }
+        json_options = {**(fetch_json_options if isinstance(fetch_json_options, dict) else {}), "bilibiliCookie": bilibili_cookie}
+        text_options = {**(fetch_text_options if isinstance(fetch_text_options, dict) else {}), "bilibiliCookie": bilibili_cookie}
+        return {
+            "enabled": True,
+            "bilibiliCookie": bilibili_cookie,
+            "fetchJsonOptions": json_options,
+            "fetchTextOptions": text_options,
+        }
 
     def plan_text_response_outcome(
         self,
