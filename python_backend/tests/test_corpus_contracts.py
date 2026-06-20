@@ -7069,6 +7069,82 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["responseOutcome"]["consecutiveBlocks"], 0)
         self.assertEqual(result["responseOutcome"]["cacheWrite"]["expiresAt"], 1700000001000)
 
+    def test_bilibili_crawler_helper_plans_text_response_outcome_contract(self):
+        helper = BilibiliCrawlerHelper()
+
+        self.assertEqual(
+            helper.plan_text_response_outcome(
+                "https://api.bilibili.com/x/player/wbi/v2?bvid=BV1",
+                response_ok=False,
+                status=503,
+                config={"blockCooldownMs": 1000},
+                state={"consecutiveBlocks": 2},
+                now_ms=5000,
+            ),
+            {
+                "ok": False,
+                "error": "HTTP 503 from https://api.bilibili.com/x/player/wbi/v2?bvid=BV1",
+                "blocked": True,
+                "consecutiveBlocks": 3,
+                "cooldownUntil": 9000,
+            },
+        )
+        self.assertEqual(
+            helper.plan_text_response_outcome(
+                "https://api.bilibili.com/x/player/wbi/v2?bvid=BV1",
+                response_ok=False,
+                status=404,
+                state={"consecutiveBlocks": 2},
+                now_ms=5000,
+            ),
+            {
+                "ok": False,
+                "error": "HTTP 404 from https://api.bilibili.com/x/player/wbi/v2?bvid=BV1",
+                "blocked": False,
+                "consecutiveBlocks": 2,
+                "cooldownUntil": None,
+            },
+        )
+        self.assertEqual(
+            helper.plan_text_response_outcome(
+                "https://api.bilibili.com/x/player/wbi/v2?bvid=BV1",
+                response_ok=True,
+                state={"consecutiveBlocks": 2},
+            ),
+            {
+                "ok": True,
+                "error": "",
+                "blocked": False,
+                "consecutiveBlocks": 0,
+                "cooldownUntil": None,
+            },
+        )
+
+    def test_bilibili_crawler_helper_builds_payload_text_response_outcome_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "textResponse": {
+                    "url": "https://api.bilibili.com/x/player/wbi/v2?bvid=BV1",
+                    "ok": False,
+                    "status": 412,
+                    "config": {"blockCooldownMs": 1000},
+                    "state": {"consecutiveBlocks": 1},
+                    "nowMs": 1700000000000,
+                }
+            }
+        )
+
+        self.assertEqual(
+            result["textResponseOutcome"],
+            {
+                "ok": False,
+                "error": "HTTP 412 from https://api.bilibili.com/x/player/wbi/v2?bvid=BV1",
+                "blocked": True,
+                "consecutiveBlocks": 2,
+                "cooldownUntil": 1700000002000,
+            },
+        )
+
     def test_bilibili_crawler_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -7130,6 +7206,7 @@ class CorpusContractTests(unittest.TestCase):
                 "capturedCookies": {"buvid3": "fresh"},
                 "requestTimeout": {"timeoutMs": 750},
                 "responseOutcome": {"blocked": False},
+                "textResponseOutcome": {"blocked": True},
                 "dynamicRecords": {"objects": []},
                 "extra": "ignored",
             }
@@ -7149,6 +7226,7 @@ class CorpusContractTests(unittest.TestCase):
                 "capturedCookies": {"buvid3": "fresh"},
                 "requestTimeout": {"timeoutMs": 750},
                 "responseOutcome": {"blocked": False},
+                "textResponseOutcome": {"blocked": True},
                 "dynamicRecords": {"objects": []},
             },
         )

@@ -72,6 +72,7 @@ class BilibiliCrawlerSummary:
         "capturedCookies",
         "requestTimeout",
         "responseOutcome",
+        "textResponseOutcome",
     )
 
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -237,10 +238,49 @@ class BilibiliCrawlerHelper:
                 now_ms=response.get("nowMs", 0),
                 request_cookie=response.get("cookie") or response.get("bilibiliCookie") or "",
             )
+        if isinstance(payload.get("textResponse"), dict):
+            text_response = payload.get("textResponse") or {}
+            result["textResponseOutcome"] = self.plan_text_response_outcome(
+                text_response.get("url"),
+                response_ok=bool(text_response.get("ok", True)),
+                status=text_response.get("status", 200),
+                config=text_response.get("config") if isinstance(text_response.get("config"), dict) else {},
+                state=text_response.get("state") if isinstance(text_response.get("state"), dict) else {},
+                now_ms=text_response.get("nowMs", 0),
+            )
         return result
 
     def build_crawler_config(self, env: dict[str, Any] | None = None) -> dict[str, int | float]:
         return BilibiliCrawlerConfigBuilder().build(env)
+
+    def plan_text_response_outcome(
+        self,
+        url: Any,
+        response_ok: bool = True,
+        status: Any = 200,
+        config: dict[str, Any] | None = None,
+        state: dict[str, Any] | None = None,
+        now_ms: Any = 0,
+    ) -> dict[str, Any]:
+        status_number = self._number(status, 0)
+        state = state if isinstance(state, dict) else {}
+        if not response_ok:
+            cooldown = self.plan_block_cooldown(config, state, now_ms) if status_number in {403, 412, 429, 503} else None
+            return {
+                "ok": False,
+                "error": f"HTTP {status_number} from {url}",
+                "blocked": cooldown is not None,
+                "consecutiveBlocks": cooldown["consecutiveBlocks"] if cooldown else self._number(state.get("consecutiveBlocks"), 0),
+                "cooldownUntil": cooldown["cooldownUntil"] if cooldown else None,
+            }
+
+        return {
+            "ok": True,
+            "error": "",
+            "blocked": False,
+            "consecutiveBlocks": 0,
+            "cooldownUntil": None,
+        }
 
     def plan_response_outcome(
         self,
