@@ -59,7 +59,7 @@ from python_backend.cli.dictionary_prune_summary import DictionaryPruneSummaryCo
 from python_backend.cli.harvest_options import HarvestOptionsContractComparator, HarvestOptionsRunner
 from python_backend.cli.harvest_plan import KeywordHarvestPlanContractComparator, KeywordHarvestPlanRunner
 from python_backend.cli.harvest_state import HarvestStateContractComparator, HarvestStateRunner
-from python_backend.cli.readme_stats import ReadmeStatsContractComparator, ReadmeStatsRunner
+from python_backend.cli.readme_stats import ReadmeStatsCliRunner, ReadmeStatsContractComparator, ReadmeStatsRunner
 from python_backend.cli.semantic_matcher import SemanticMatcherContractComparator, SemanticMatcherRunner
 from python_backend.cli.deepseek_analyze_cli_plan import DeepSeekAnalyzeCliPlanContractComparator, DeepSeekAnalyzeCliPlanRunner
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanContractComparator, DeepSeekAnalysisPlanRunner
@@ -2899,6 +2899,37 @@ class CorpusContractTests(unittest.TestCase):
                 }
             ],
         )
+
+    def test_readme_stats_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "readme-stats.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "generatedAt": "2026-06-19T00:00:00.000Z",
+                        "sources": [
+                            {
+                                "name": "direct",
+                                "runs": [{"at": "2026-06-17T10:00:00.000Z", "commentsAdded": 2}],
+                                "comments": [
+                                    {"message": "\u8bc4\u8bba", "source": "comment"},
+                                    {"message": "\u5f39\u5e55", "source": "danmaku"},
+                                ],
+                            }
+                        ],
+                        "dictionary": {"entries": [{"term": "doge"}]},
+                        "coverage": {"coverageRatio": 0.5},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = ReadmeStatsCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["summary"], {"comments": 1, "danmaku": 1, "keywordTerms": 1, "timelinePoints": 1})
+        self.assertIn("Corpus Growth Over Time", result["timelineSvg"])
 
     def test_readme_stats_svg_renderer_builds_summary_and_timeline_graphs(self):
         renderer = ReadmeStatsSvgRenderer()
