@@ -607,6 +607,40 @@ class LocalCorpusEvidenceRunner:
         return payload if isinstance(payload, dict) else fallback
 
 
+class LocalCorpusEvidenceJsonPayloadRunner:
+    """Find local corpus evidence from one JS/Python payload JSON file."""
+
+    def __init__(self, payload_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.finder = LocalCorpusEvidenceFinder()
+        self.flattener = LocalCorpusFlattener()
+
+    def run(self) -> dict[str, Any]:
+        payload = self._read_json_object(self.payload_path, {})
+        dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {"entries": []}
+        comments_payload = payload.get("comments") if "comments" in payload else payload.get("corpus", [])
+        comments = comments_payload if isinstance(comments_payload, list) else []
+        if not isinstance(comments_payload, list) or any(not isinstance(comment, dict) or "message" not in comment for comment in comments):
+            comments = self.flattener.flatten(comments_payload)
+        return self.finder.find_entries_result(
+            dictionary,
+            comments if isinstance(comments, list) else [],
+            {
+                "targetEvidence": payload.get("targetEvidence", 3),
+                "maxSamplesPerTerm": payload.get("maxSamplesPerTerm", 3),
+                "requireCommentBackedEvidence": bool(payload.get("requireCommentBackedEvidence")),
+                "targetTerms": payload.get("targetTerms") if isinstance(payload.get("targetTerms"), list) else [],
+            },
+        )
+
+    def _read_json_object(self, path: Path, fallback: dict[str, Any]) -> dict[str, Any]:
+        if not path.exists():
+            return fallback
+        with path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else fallback
+
+
 class LocalCorpusEvidencePayloadContractComparator:
     """Compare local-corpus evidence payload output against saved JS-compatible JSON."""
 
