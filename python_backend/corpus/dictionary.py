@@ -99,13 +99,15 @@ class DictionaryLoader:
                 if not isinstance(shard_evidence, list):
                     continue
                 for item in shard_evidence:
+                    if not isinstance(item, dict):
+                        continue
                     term = str(item.get("term") or "").strip()
                     if term:
                         existing = evidence_by_term.get(term, {"evidenceSamples": [], "evidenceSources": []})
                         evidence_by_term[term] = {
                             "term": term,
-                            "evidenceSamples": self._unique([*existing.get("evidenceSamples", []), *(item.get("evidenceSamples") or [])]),
-                            "evidenceSources": self._unique_sources([*existing.get("evidenceSources", []), *(item.get("evidenceSources") or [])]),
+                            "evidenceSamples": self._unique([*self._list_field(existing, "evidenceSamples"), *self._list_field(item, "evidenceSamples")]),
+                            "evidenceSources": self._unique_sources([*self._list_field(existing, "evidenceSources"), *self._list_field(item, "evidenceSources")]),
                         }
         return evidence_by_term
 
@@ -121,6 +123,11 @@ class DictionaryLoader:
         if value:
             return [str(value)]
         return []
+
+    @staticmethod
+    def _list_field(value: dict[str, Any], key: str) -> list[Any]:
+        field = value.get(key) if isinstance(value, dict) else None
+        return field if isinstance(field, list) else []
 
     @staticmethod
     def _normalize_entries(values: Any) -> list[dict[str, Any]]:

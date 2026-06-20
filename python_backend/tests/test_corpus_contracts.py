@@ -3457,6 +3457,76 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(dictionary.entries[0]["evidenceSamples"], ["doge satire"])
         self.assertEqual(dictionary.entries[0]["evidenceSources"][0]["sample"], "doge satire")
 
+    def test_dictionary_loader_ignores_non_array_split_evidence_fields(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "dict.entries").mkdir()
+            (root / "dict.evidence").mkdir()
+            (root / "dict.json").write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "storage": "split",
+                        "entryFiles": {"attack": ["dict.entries/attack-001.json"]},
+                        "evidenceFiles": {"attack": ["dict.evidence/attack-001.json"]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (root / "dict.entries" / "attack-001.json").write_text(
+                json.dumps({"entries": [{"term": "doge", "family": "attack", "evidenceCount": 1}]}),
+                encoding="utf-8",
+            )
+            (root / "dict.evidence" / "attack-001.json").write_text(
+                json.dumps(
+                    {
+                        "evidence": [
+                            {
+                                "term": "doge",
+                                "evidenceSamples": {"bad sample": True},
+                                "evidenceSources": {"sample": "bad sample"},
+                            }
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            dictionary = DictionaryLoader(root / "dict.json").load()
+
+        self.assertEqual(dictionary.entries[0]["evidenceSamples"], [])
+        self.assertEqual(dictionary.entries[0]["evidenceSources"], [])
+
+    def test_dictionary_loader_ignores_non_object_split_evidence_items(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "dict.entries").mkdir()
+            (root / "dict.evidence").mkdir()
+            (root / "dict.json").write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "storage": "split",
+                        "entryFiles": {"attack": ["dict.entries/attack-001.json"]},
+                        "evidenceFiles": {"attack": ["dict.evidence/attack-001.json"]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (root / "dict.entries" / "attack-001.json").write_text(
+                json.dumps({"entries": [{"term": "doge", "family": "attack", "evidenceCount": 1}]}),
+                encoding="utf-8",
+            )
+            (root / "dict.evidence" / "attack-001.json").write_text(
+                json.dumps({"evidence": ["bad item", {"term": "doge", "evidenceSamples": ["doge satire"], "evidenceSources": [{"sample": "doge satire"}]}]}),
+                encoding="utf-8",
+            )
+
+            dictionary = DictionaryLoader(root / "dict.json").load()
+
+        self.assertEqual(dictionary.entries[0]["evidenceSamples"], ["doge satire"])
+        self.assertEqual(dictionary.entries[0]["evidenceSources"], [{"sample": "doge satire"}])
+
     def test_dictionary_loader_normalizes_plain_text_entries(self):
         dictionary = DictionaryLoader.load_from_payload(
             {
