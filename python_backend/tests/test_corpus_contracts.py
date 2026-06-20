@@ -6846,6 +6846,59 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["publicReplies"][0]["message"], "root message")
         self.assertEqual(result["publicReplies"][0]["sourceKind"], "video")
 
+    def test_bilibili_crawler_helper_builds_public_history_object_contract(self):
+        helper = BilibiliCrawlerHelper()
+
+        self.assertEqual(
+            helper.public_history_object(
+                {
+                    "otype": 12,
+                    "bvid": "",
+                    "oid": 987,
+                    "type": "12",
+                    "title": "Article reply",
+                    "url": "https://www.bilibili.com/read/cv987",
+                },
+                uid="2333",
+            ),
+            {
+                "kind": "article",
+                "bvid": "",
+                "oid": "987",
+                "replyType": 12,
+                "title": "Article reply",
+                "sourceUrl": "https://www.bilibili.com/read/cv987",
+            },
+        )
+        self.assertEqual(
+            helper.public_history_object({"bvid": "BV1history", "oid": 123, "replyType": "1"}, uid="2333"),
+            {
+                "kind": "video",
+                "bvid": "BV1history",
+                "oid": "123",
+                "replyType": 1,
+                "title": "",
+                "sourceUrl": "https://www.bilibili.com/video/BV1history/",
+            },
+        )
+        self.assertEqual(
+            helper.public_history_object({"oid": 456}, uid="2333")["sourceUrl"],
+            "https://space.bilibili.com/2333",
+        )
+
+    def test_bilibili_crawler_helper_builds_payload_public_history_object_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "publicHistoryObject": {
+                    "uid": "2333",
+                    "reply": {"bvid": "BV1history", "oid": 123, "replyType": "1"},
+                }
+            }
+        )
+
+        self.assertEqual(result["publicHistoryObject"]["sourceUrl"], "https://www.bilibili.com/video/BV1history/")
+        self.assertEqual(result["publicHistoryObject"]["kind"], "video")
+
     def test_bilibili_crawler_helper_uniques_replies_by_rpid_contract(self):
         result = BilibiliCrawlerHelper().unique_by_rpid(
             [
@@ -7769,6 +7822,7 @@ class CorpusContractTests(unittest.TestCase):
                 "fetchConfig": {"forwardsSignal": True},
                 "requestInit": {"hasSignal": True},
                 "publicReplies": [{"message": "root message"}],
+                "publicHistoryObject": {"sourceUrl": "https://www.bilibili.com/video/BV1history/"},
                 "uniqueReplies": [{"rpid": "1"}],
                 "uidResult": {"uid": "2333"},
                 "uidPlan": {"uid": "2333"},
@@ -7800,6 +7854,7 @@ class CorpusContractTests(unittest.TestCase):
                 "fetchConfig": {"forwardsSignal": True},
                 "requestInit": {"hasSignal": True},
                 "publicReplies": [{"message": "root message"}],
+                "publicHistoryObject": {"sourceUrl": "https://www.bilibili.com/video/BV1history/"},
                 "uniqueReplies": [{"rpid": "1"}],
                 "uidResult": {"uid": "2333"},
                 "uidPlan": {"uid": "2333"},

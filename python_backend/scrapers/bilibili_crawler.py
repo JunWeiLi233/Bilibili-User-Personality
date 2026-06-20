@@ -70,6 +70,7 @@ class BilibiliCrawlerSummary:
         "objects",
         "targetReplies",
         "publicReplies",
+        "publicHistoryObject",
         "uniqueReplies",
         "uidResult",
         "uidPlan",
@@ -188,6 +189,12 @@ class BilibiliCrawlerHelper:
             result["publicReplies"] = self.collect_public_reply(
                 public_reply.get("reply") if isinstance(public_reply.get("reply"), dict) else {},
                 public_reply.get("object") if isinstance(public_reply.get("object"), dict) else {},
+            )
+        if isinstance(payload.get("publicHistoryObject"), dict):
+            public_history = payload.get("publicHistoryObject") or {}
+            result["publicHistoryObject"] = self.public_history_object(
+                public_history.get("reply") if isinstance(public_history.get("reply"), dict) else {},
+                uid=public_history.get("uid", ""),
             )
         if isinstance(payload.get("uniqueReplies"), list):
             result["uniqueReplies"] = self.unique_by_rpid(payload.get("uniqueReplies"))
@@ -866,6 +873,21 @@ class BilibiliCrawlerHelper:
         for child in reply.get("replies") if isinstance(reply.get("replies"), list) else []:
             self.collect_public_reply(child, obj, bucket)
         return bucket
+
+    def public_history_object(self, reply: dict[str, Any] | None = None, uid: Any = "") -> dict[str, Any]:
+        reply = reply if isinstance(reply, dict) else {}
+        bvid = str(reply.get("bvid") or "")
+        source_url = reply.get("url") or (
+            f"https://www.bilibili.com/video/{bvid}/" if bvid else f"https://space.bilibili.com/{str(uid or '').strip()}"
+        )
+        return {
+            "kind": "article" if reply.get("otype") == 12 else "video",
+            "bvid": bvid,
+            "oid": str(reply.get("oid") or ""),
+            "replyType": self._number(reply.get("type") or reply.get("replyType") or 1, 1),
+            "title": reply.get("title") or "",
+            "sourceUrl": str(source_url or ""),
+        }
 
     def unique_by_rpid(self, items: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
         keyed: dict[str, dict[str, Any]] = {}
