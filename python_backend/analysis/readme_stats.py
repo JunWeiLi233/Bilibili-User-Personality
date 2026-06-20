@@ -240,6 +240,16 @@ class ReadmeStatsBuilder:
         return datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
 
+class ReadmeStatsSummary:
+    """Shape README stats output into the JS/Python comparator contract."""
+
+    RESULT_KEYS = ("ok", "summary", "stats", "svg", "timelineSvg")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
 class ReadmeStatsSvgRenderer:
     """Render README stats SVGs from Python-built stats JSON contracts."""
 

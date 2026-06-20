@@ -13,7 +13,7 @@ from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder
 from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateFinalizer, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetResolvePlanner
-from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSvgRenderer
+from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSummary, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherHelper, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationReportSummary, RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator
@@ -1411,6 +1411,13 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("Danmaku 40", timeline_svg)
         self.assertEqual(renderer.padded_timeline_max(140), 160)
         self.assertNotIn("-10.0", timeline_svg)
+
+    def test_readme_stats_comparator_uses_backend_summary_contract_keys(self):
+        self.assertFalse(hasattr(ReadmeStatsContractComparator, "RESULT_KEYS"))
+        self.assertEqual(
+            ReadmeStatsContractComparator(Path("payload.json"), Path("js-report.json")).summary.RESULT_KEYS,
+            ReadmeStatsSummary.RESULT_KEYS,
+        )
 
     def test_readme_stats_contract_comparator_reports_summary_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
