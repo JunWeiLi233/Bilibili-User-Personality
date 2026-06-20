@@ -3054,6 +3054,13 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_direct_probe_corpus_comparator_uses_summary_contract_keys(self):
+        self.assertFalse(hasattr(DirectProbeCorpusContractComparator, "SUMMARY_KEYS"))
+        self.assertEqual(
+            DirectProbeCorpusContractComparator(Path("existing.json"), Path("comments.json"), Path("run.json"), Path("js.json")).summary.SUMMARY_KEYS,
+            DirectProbeCorpusSummary.SUMMARY_KEYS,
+        )
+
     def test_direct_probe_corpus_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

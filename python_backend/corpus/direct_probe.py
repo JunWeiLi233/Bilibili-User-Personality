@@ -134,18 +134,21 @@ def _existing_samples(entry: dict[str, Any]) -> set[str]:
 class DirectProbeCorpusSummary:
     """Extract comparator-friendly summaries from direct probe corpus results."""
 
+    SUMMARY_KEYS = ("commentMessages", "runQueries", "runCommentsAdded")
+
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
         result = result if isinstance(result, dict) else {}
         corpus = result.get("corpus") if isinstance(result.get("corpus"), dict) else {}
         comments = corpus.get("comments") if isinstance(corpus.get("comments"), list) else []
         runs = corpus.get("runs") if isinstance(corpus.get("runs"), list) else []
-        return {
+        summary = {
             "commentCount": len(comments),
             "runCount": len(runs),
             "commentMessages": [comment.get("message") for comment in comments if isinstance(comment, dict)],
             "runQueries": [run.get("query") for run in runs if isinstance(run, dict)],
             "runCommentsAdded": [run.get("commentsAdded") for run in runs if isinstance(run, dict)],
         }
+        return summary
 
 
 class DirectProbePlanSummary:
