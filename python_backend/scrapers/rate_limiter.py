@@ -37,6 +37,12 @@ class RateLimitPolicy:
             "jitterMs": _bounded_ms(self.jitter_ms, 2500, 0, 120000),
         }
 
+    def to_direct_probe_options(self) -> dict[str, int]:
+        return {
+            "delayMs": _bounded_ms(self.min_delay_ms, 3000, 1000, 60000),
+            "jitterMs": _bounded_ms(self.jitter_ms, 1500, 0, 60000),
+        }
+
 
 class RateLimiter:
     """Injectable sleep boundary for slow, platform-friendly scrapers."""

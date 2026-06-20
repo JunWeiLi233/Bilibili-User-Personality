@@ -10,6 +10,8 @@ from pathlib import Path
 from typing import Any, Callable
 from urllib.parse import urlencode, urlparse
 
+from python_backend.scrapers.rate_limiter import RateLimitPolicy
+
 
 def _clean_text(value: Any) -> str:
     return re.sub(r"\s+", " ", str(value or "")).strip()
@@ -338,6 +340,11 @@ class DirectProbeCorpusBuilder:
                 payload.get("pageSize", 20),
             ),
             "searchUrls": self.build_bilibili_search_urls(query, payload.get("searchOptions") if isinstance(payload.get("searchOptions"), dict) else {}),
+            "pacing": RateLimitPolicy(
+                min_delay_ms=payload.get("delayMs", 3000),
+                jitter_ms=payload.get("jitterMs", 1500),
+                block_cooldown_ms=0,
+            ).to_direct_probe_options(),
         }
         if payload.get("referer"):
             result["headers"] = self.build_bilibili_web_headers(

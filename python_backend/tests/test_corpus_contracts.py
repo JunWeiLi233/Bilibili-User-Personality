@@ -772,6 +772,11 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(policy.to_history_tag_options(), {"delayMs": 0, "jitterMs": 120000})
 
+    def test_rate_limit_policy_normalizes_direct_probe_pacing_contract(self):
+        policy = RateLimitPolicy(min_delay_ms=0, jitter_ms=999999, block_cooldown_ms=0)
+
+        self.assertEqual(policy.to_direct_probe_options(), {"delayMs": 1000, "jitterMs": 60000})
+
     def test_file_lock_state_inspector_reads_js_owner_contract_and_detects_stale_age(self):
         with tempfile.TemporaryDirectory() as tmp:
             lock_path = Path(tmp) / "deepseekKeywordDictionary.json.lock"
@@ -4674,6 +4679,8 @@ class CorpusContractTests(unittest.TestCase):
                 "cursorPayload": {"data": {"cursor": {"is_end": False, "next": 0}}},
                 "referer": "https://search.bilibili.com/all?keyword=x",
                 "cookie": "a=b",
+                "delayMs": 0,
+                "jitterMs": 999999,
                 "syntheticCookie": {"randomValue": 0.5, "nowMs": 1700000000000},
             }
         )
@@ -4684,6 +4691,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["sourceRefs"], [{"aid": "116663559131570", "rootRpid": "301234384593"}])
         self.assertEqual(result["nextReplyCursor"], 1)
         self.assertEqual(result["viewUrl"], "https://api.bilibili.com/x/web-interface/view?aid=116663559131570")
+        self.assertEqual(result["pacing"], {"delayMs": 1000, "jitterMs": 60000})
         self.assertEqual(result["headers"]["origin"], "https://search.bilibili.com")
         self.assertEqual(
             result["syntheticCookie"],
