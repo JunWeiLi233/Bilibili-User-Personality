@@ -4449,6 +4449,26 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["requestTimeoutMs"], 2500)
         self.assertEqual(result["sources"][0]["dataset"], "Midsummra/bilibilicomment")
 
+    def test_huggingface_import_cli_runner_reads_plan_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "hf-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--source=Midsummra/bilibilicomment::bilibili.csv::bilibili::5000::9::3"],
+                        "env": {"HUGGINGFACE_REQUEST_TIMEOUT_MS": "2500"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = huggingface_corpus_cli.HuggingFaceCorpusCliRunner(["--plan-payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["requestTimeoutMs"], 2500)
+        self.assertEqual(result["sources"][0]["dataset"], "Midsummra/bilibilicomment")
+
     def test_huggingface_import_plan_payload_comparator_lives_with_corpus_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
