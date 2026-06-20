@@ -13,7 +13,7 @@ from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilde
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, KeywordHarvestPlanContractComparator as KeywordHarvestPlanPayloadComparator, KeywordHarvestPlanSummary
 from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateContractComparator as HarvestStatePayloadComparator, HarvestStateFinalizer, HarvestStatePayloadProcessor, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis import near_target
-from python_backend.analysis.near_target import NearTargetResolvePlanner
+from python_backend.analysis.near_target import NearTargetResolvePlanContractComparator as NearTargetResolvePlanPayloadComparator, NearTargetResolvePlanner, NearTargetResolvePlanRunner as NearTargetResolvePayloadPlanRunner
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsSummary, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationReportSummary, RandomVerifier
@@ -10377,6 +10377,41 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertFalse(result["ok"])
         self.assertEqual([item["key"] for item in result["mismatches"]], ["plannedCount", "plans"])
+
+    def test_near_target_resolve_payload_comparator_lives_with_analysis_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            state_path = root / "state.json"
+            js_plan_path = root / "js-near-target.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {
+                                "term": "\u5dee\u4e00\u6761",
+                                "family": "attack",
+                                "evidenceCount": 2,
+                                "evidenceSamples": ["sample one", "sample two"],
+                                "evidenceSources": [
+                                    {"source": "Bilibili source https://www.bilibili.com/video/BV1NearAAA1/", "sample": "sample one"},
+                                    {"source": "Bilibili source https://www.bilibili.com/video/BV1NearAAA1/", "sample": "sample two"},
+                                ],
+                            }
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            state_path.write_text(json.dumps({}), encoding="utf-8")
+            js_plan_path.write_text(json.dumps({"plannedCount": 0}), encoding="utf-8")
+
+            run_result = NearTargetResolvePayloadPlanRunner(dictionary_path, state_path).run()
+            comparison = NearTargetResolvePlanPayloadComparator(dictionary_path, state_path, js_plan_path).compare()
+
+        self.assertEqual(run_result["plannedCount"], 1)
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [{"key": "plannedCount", "python": 1, "js": 0}])
 
     def test_video_keyword_discovery_reporter_keeps_query_diagnostics(self):
         reporter = VideoKeywordDiscoveryReporter(now=lambda: "2026-06-19T00:00:00.000Z")
