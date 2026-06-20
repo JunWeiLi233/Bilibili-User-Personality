@@ -122,7 +122,7 @@ from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanContrac
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanContractComparator as UidParallelPlanPayloadComparator, UidParallelPlanSummary, UidParallelProgressContractComparator as UidParallelProgressPayloadComparator, UidParallelProgressReporter, UidParallelProgressSummary
 from python_backend.scrapers.uid_pipeline import UidPipelineLauncherContractComparator as UidPipelineLauncherPayloadComparator, UidPipelineLauncherPlanner, UidPipelineLauncherSummary, UidPipelineMergeContractComparator as UidPipelineMergePayloadComparator, UidPipelineMergeReporter, UidPipelineMergeSummary, UidPipelinePlanContractComparator as UidPipelinePlanPayloadComparator, UidPipelinePlanSummary, UidPipelineProgressContractComparator as UidPipelineProgressPayloadComparator, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateContractComparator as UidPipelineStatePayloadComparator, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter, ScraperMonitorSummary
-from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherPlanner, FastPipelineLauncherSummary, UidFastPipelinePlanSummary, UidFastPipelinePlanner
+from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherContractComparator as FastPipelineLauncherPayloadComparator, FastPipelineLauncherPlanner, FastPipelineLauncherSummary, UidFastPipelinePlanSummary, UidFastPipelinePlanner
 
 
 class CorpusContractTests(unittest.TestCase):
@@ -8583,6 +8583,35 @@ class CorpusContractTests(unittest.TestCase):
                     ],
                     "js": [{"start": 1, "end": 20000, "progressFile": "stale.json"}],
                 }
+            ],
+        )
+
+    def test_fast_pipeline_launcher_payload_comparator_owns_worker_mismatch_contract(self):
+        result = FastPipelineLauncherPayloadComparator().compare(
+            {
+                "workers": [{"start": 1, "end": 20000, "progressFile": "uid-pipeline-fast-1-20000.json"}],
+                "summary": {"workers": 1, "totalUids": 20000, "launchDelaySeconds": 5},
+            },
+            {
+                "workers": [{"start": 1, "end": 20000, "progressFile": "stale.json"}],
+                "summary": {"workers": 1, "totalUids": 20000, "launchDelaySeconds": 1},
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {
+                    "key": "workers",
+                    "python": [{"start": 1, "end": 20000, "progressFile": "uid-pipeline-fast-1-20000.json"}],
+                    "js": [{"start": 1, "end": 20000, "progressFile": "stale.json"}],
+                },
+                {
+                    "key": "summary",
+                    "python": {"workers": 1, "totalUids": 20000, "launchDelaySeconds": 5},
+                    "js": {"workers": 1, "totalUids": 20000, "launchDelaySeconds": 1},
+                },
             ],
         )
 

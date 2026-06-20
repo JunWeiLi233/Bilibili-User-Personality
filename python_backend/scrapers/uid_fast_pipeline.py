@@ -226,3 +226,25 @@ class FastPipelineLauncherSummary:
         if "summary" in result:
             summary["summary"] = result.get("summary")
         return summary
+
+
+class FastPipelineLauncherContractComparator:
+    """Compare fast pipeline launcher payloads with the shared JS/Python contract."""
+
+    def __init__(self, summary: FastPipelineLauncherSummary | None = None):
+        self.summary = summary or FastPipelineLauncherSummary()
+
+    def compare(self, python_result: dict[str, Any] | None, js_result: dict[str, Any] | None) -> dict[str, Any]:
+        python_summary = self.summary.summarize(python_result)
+        js_summary = self.summary.summarize(js_result)
+        mismatches = [
+            {"key": key, "python": python_summary.get(key), "js": js_summary.get(key)}
+            for key in self.summary.RESULT_KEYS
+            if key in js_summary and python_summary.get(key) != js_summary.get(key)
+        ]
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": python_summary,
+            "js": js_summary,
+        }
