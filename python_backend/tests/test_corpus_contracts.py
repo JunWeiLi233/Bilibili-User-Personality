@@ -9380,6 +9380,25 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["initialStopReason"], "")
         self.assertEqual([item["query"] for item in result["priorityQueries"]], ["doge hot", "doge comments", "tieba roast"])
 
+    def test_coverage_harvest_loop_planner_owns_payload_contract(self):
+        result = CoverageHarvestLoopPlanner().build_from_payload(
+            {
+                "env": {"BILIBILI_HARVEST_MAX_QUERIES": "3"},
+                "audit": {
+                    "ok": False,
+                    "nextActions": [
+                        {"term": "doge", "family": "meme", "nextQuery": "doge hot", "suggestedQueries": ["doge comments"]},
+                        {"term": "tieba", "family": "platform", "nextQuery": "tieba roast"},
+                    ],
+                },
+            }
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["loop"]["maxQueries"], 3)
+        self.assertEqual(result["initialStopReason"], "")
+        self.assertEqual([item["query"] for item in result["priorityQueries"]], ["doge hot", "doge comments", "tieba roast"])
+
     def test_coverage_harvest_loop_plan_summary_extracts_comparator_contract(self):
         summary = CoverageHarvestLoopPlanSummary().summarize(
             {

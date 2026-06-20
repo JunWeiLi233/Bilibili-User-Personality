@@ -17,18 +17,7 @@ class CoverageHarvestLoopPlanRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
-        planner = CoverageHarvestLoopPlanner(cwd=payload.get("cwd") if payload.get("cwd") else None)
-        plan = planner.build_plan(
-            env=payload.get("env") if isinstance(payload.get("env"), dict) else {},
-            argv=payload.get("argv") if isinstance(payload.get("argv"), list) else [],
-        )
-        audit = payload.get("audit") if isinstance(payload.get("audit"), dict) else {}
-        priority_queries = planner.priority_query_items_from_audit(audit, plan["loop"]["maxQueries"])
-        return {
-            **plan,
-            "priorityQueries": priority_queries,
-            "initialStopReason": planner.initial_stop_reason(audit, plan["loop"]["maxCycles"]),
-        }
+        return CoverageHarvestLoopPlanner().build_from_payload(payload)
 
     def _read_payload(self) -> dict[str, Any]:
         with self.payload_path.open("r", encoding="utf-8-sig") as handle:

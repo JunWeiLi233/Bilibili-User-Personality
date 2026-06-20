@@ -66,6 +66,21 @@ class CoverageHarvestLoopPlanner:
     def __init__(self, cwd: str | Path | None = None):
         self.cwd = Path(cwd) if cwd is not None else Path.cwd()
 
+    def build_from_payload(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        planner = self if not payload.get("cwd") else CoverageHarvestLoopPlanner(cwd=payload.get("cwd"))
+        plan = planner.build_plan(
+            env=payload.get("env") if isinstance(payload.get("env"), dict) else {},
+            argv=payload.get("argv") if isinstance(payload.get("argv"), list) else [],
+        )
+        audit = payload.get("audit") if isinstance(payload.get("audit"), dict) else {}
+        priority_queries = planner.priority_query_items_from_audit(audit, plan["loop"]["maxQueries"])
+        return {
+            **plan,
+            "priorityQueries": priority_queries,
+            "initialStopReason": planner.initial_stop_reason(audit, plan["loop"]["maxCycles"]),
+        }
+
     def build_plan(self, env: dict[str, Any] | None = None, argv: list[Any] | None = None) -> dict[str, Any]:
         env = env or {}
         argv = argv or []
