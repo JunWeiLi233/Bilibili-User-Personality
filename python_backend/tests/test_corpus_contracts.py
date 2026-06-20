@@ -4050,6 +4050,14 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["videoObjectEvidenceText"], "Bilibili public video title: \u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28")
         self.assertEqual(result["diagnostics"]["targetTextHits"], [{"term": "\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28", "count": 1}])
 
+    def test_video_context_comparator_uses_backend_summary_contract_keys(self):
+        self.assertTrue(hasattr(video_filter, "VideoContextSummary"))
+        self.assertFalse(hasattr(VideoContextContractComparator, "TOP_LEVEL_KEYS"))
+        self.assertEqual(
+            VideoContextContractComparator(Path("payload.json"), Path("js-report.json")).summary.RESULT_KEYS,
+            video_filter.VideoContextSummary.RESULT_KEYS,
+        )
+
     def test_video_context_contract_comparator_reports_context_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

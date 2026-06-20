@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.video_filter import VideoContextBuilder
+from python_backend.analysis.video_filter import VideoContextBuilder, VideoContextSummary
 
 
 class VideoContextRunner:
@@ -62,11 +62,10 @@ class VideoContextRunner:
 class VideoContextContractComparator:
     """Compare Python video context output against saved JS-compatible JSON."""
 
-    TOP_LEVEL_KEYS = ("videoContextText", "videoObjectEvidenceText", "contextSourceUrls")
-
     def __init__(self, payload_path: str | Path, js_report_path: str | Path):
         self.payload_path = Path(payload_path)
         self.js_report_path = Path(js_report_path)
+        self.summary = VideoContextSummary()
 
     def compare(self) -> dict[str, Any]:
         python_result = VideoContextRunner(self.payload_path).run()
@@ -76,8 +75,8 @@ class VideoContextContractComparator:
         return {
             "ok": not mismatches,
             "mismatches": mismatches,
-            "python": self._summary(python_result),
-            "js": self._summary(js_result),
+            "python": self.summary.summarize(python_result),
+            "js": self.summary.summarize(js_result),
         }
 
     def _read_js_report(self) -> dict[str, Any]:
@@ -90,7 +89,7 @@ class VideoContextContractComparator:
     def _top_level_mismatches(self, python_result: dict[str, Any], js_result: dict[str, Any]) -> list[dict[str, Any]]:
         return [
             {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
-            for key in self.TOP_LEVEL_KEYS
+            for key in self.summary.RESULT_KEYS
             if key in js_result and python_result.get(key) != js_result.get(key)
         ]
 
@@ -102,14 +101,6 @@ class VideoContextContractComparator:
             for key, js_value in js_diagnostics.items()
             if python_diagnostics.get(key) != js_value
         ]
-
-    def _summary(self, result: dict[str, Any]) -> dict[str, Any]:
-        summary = {key: result.get(key) for key in self.TOP_LEVEL_KEYS if key in result}
-        diagnostics = result.get("diagnostics") if isinstance(result.get("diagnostics"), dict) else None
-        if diagnostics is not None:
-            summary["diagnostics"] = diagnostics
-        return summary
-
 
 def main() -> int:
     if hasattr(sys.stdout, "reconfigure"):
