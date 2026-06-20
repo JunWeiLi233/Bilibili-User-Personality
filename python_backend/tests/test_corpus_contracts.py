@@ -93,7 +93,7 @@ from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriteContractComparator as CorpusShardWritePayloadComparator, CorpusShardWriteSummary, CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
-from python_backend.scrapers.bilibili import BilibiliParseContractComparator as BilibiliParsePayloadComparator, BilibiliParseSummary, BilibiliPublicParser
+from python_backend.scrapers.bilibili import BilibiliParseContractComparator as BilibiliParsePayloadComparator, BilibiliParsePayloadContractComparator, BilibiliParseRunner as BilibiliParsePayloadRunner, BilibiliParseSummary, BilibiliPublicParser
 from python_backend.scrapers.aicu import AicuBatchPlanContractComparator as AicuBatchPlanPayloadComparator, AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanContractComparator as AicuScrapePlanPayloadComparator, AicuScrapePlanSummary, AicuScrapePlanner
 from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanContractComparator as AicuBrowserBatchPlanPayloadComparator, AicuBrowserBatchPlanSummary, AicuBrowserBatchPlanner
 from python_backend.scrapers import video_link_direct
@@ -5931,6 +5931,29 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["mode"], "danmaku")
         self.assertEqual(result["comments"][0]["message"], "\u5f39\u5e55\u8bc4\u8bba")
         self.assertEqual(result["comments"][0]["rpid"], "danmaku-200-0")
+
+    def test_bilibili_parse_payload_runner_lives_with_scraper_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-parse.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "extract-bvid",
+                        "input": "https://www.bilibili.com/video/BV19yGa61Ee6/?vd_source=abc",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"ok": True, "mode": "extract-bvid", "bvid": "wrong"}), encoding="utf-8")
+
+            result = BilibiliParsePayloadRunner(payload_path).run()
+            comparison = BilibiliParsePayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertEqual(result["bvid"], "BV19yGa61Ee6")
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [{"key": "bvid", "python": "BV19yGa61Ee6", "js": "wrong"}])
 
     def test_bilibili_parse_contract_comparator_reports_parser_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
