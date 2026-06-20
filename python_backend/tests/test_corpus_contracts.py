@@ -5687,6 +5687,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["train"])
         self.assertFalse(result["existingTermsOnly"])
 
+    def test_tieba_keyword_plan_runner_defaults_non_object_payload_root(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "tieba-plan.json"
+            payload_path.write_text(json.dumps(["not", "an", "object"]), encoding="utf-8")
+
+            result = TiebaKeywordPlanRunner(payload_path).run()
+
+        self.assertEqual(result, {"ok": True, "options": TiebaKeywordScrapeOptionsPlanner().build_options([], {})})
+
     def test_tieba_keyword_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
