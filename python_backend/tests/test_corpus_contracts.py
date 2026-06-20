@@ -19,7 +19,7 @@ from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, Se
 from python_backend.analysis.verification import RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationReportSummary, RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary
-from python_backend.analyzers.keyword_evidence import KeywordEvidenceContractComparator as KeywordEvidencePayloadComparator, KeywordEvidenceMatcher, KeywordEvidenceSummary
+from python_backend.analyzers.keyword_evidence import KeywordEvidenceContractComparator as KeywordEvidencePayloadComparator, KeywordEvidenceMatcher, KeywordEvidencePayloadContractComparator, KeywordEvidencePayloadRunner, KeywordEvidenceSummary
 from python_backend.cli.comment_coverage import CommentCoverageContractComparator, CommentCoverageRunner
 from python_backend.cli.corpus_shard_writer import CorpusShardWriteContractComparator, CorpusShardWriteRunner
 from python_backend.cli.bilibili_parse import BilibiliParseContractComparator, BilibiliParseRunner
@@ -1350,6 +1350,65 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["entries"][0]["term"], "yygq")
         self.assertEqual(result["entries"][0]["evidenceCount"], 2)
+
+    def test_keyword_evidence_payload_runner_lives_with_analyzer_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "keyword-evidence.json"
+            js_report_path = root / "js-keyword-evidence.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {"term": "YYGQ", "family": "attack", "meaning": "Chinese initialism"},
+                            {"term": "missing", "family": "attack", "meaning": "not present"},
+                        ],
+                        "text": "YYGQ once",
+                        "source": "Bilibili public comment target expansion",
+                        "uid": "mid-1",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"ok": True, "mode": "entries", "count": 0, "entries": []}),
+                encoding="utf-8",
+            )
+
+            result = KeywordEvidencePayloadRunner(payload_path).run()
+            comparison = KeywordEvidencePayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "entries")
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["entries"][0]["term"], "yygq")
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "count", "python": 1, "js": 0},
+                {
+                    "key": "entries",
+                    "python": [
+                        {
+                            "term": "yygq",
+                            "family": "attack",
+                            "meaning": "Chinese initialism",
+                            "evidenceCount": 1,
+                            "evidenceSamples": ["YYGQ once"],
+                            "evidenceSources": [
+                                {
+                                    "source": "Bilibili public comment target expansion",
+                                    "uid": "mid-1",
+                                    "sample": "YYGQ once",
+                                }
+                            ],
+                        }
+                    ],
+                    "js": [],
+                },
+            ],
+        )
 
     def test_keyword_evidence_contract_comparator_reports_entry_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
