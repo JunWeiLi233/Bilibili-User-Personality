@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 
-from python_backend.analysis.audit import CoverageAuditPayloadContractComparator as AuditContractComparator
+from python_backend.analysis.audit import CoverageAuditPayloadContractComparator as AuditContractComparator, CoverageAuditRequest
 
 
 class CoverageAuditCliRunner:
@@ -14,7 +14,11 @@ class CoverageAuditCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        return AuditContractComparator(args.dictionary, args.js_audit, strict_total_evidence=args.strict_total_evidence).compare()
+        return CoverageAuditRequest(
+            dictionary_path=args.dictionary,
+            js_audit_path=args.js_audit,
+            strict_total_evidence=args.strict_total_evidence,
+        ).run()
 
 
 class CoverageAuditRunner(CoverageAuditCliRunner):

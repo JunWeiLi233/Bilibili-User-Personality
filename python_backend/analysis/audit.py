@@ -321,6 +321,22 @@ class CoverageAuditPayloadContractComparator:
         return self.comparator.compare(python_audit, js_audit)
 
 
+@dataclass(frozen=True)
+class CoverageAuditRequest:
+    """Analysis-layer request object for file-backed coverage-audit JSON contracts."""
+
+    dictionary_path: str | Path = "server/data/deepseekKeywordDictionary.json"
+    js_audit_path: str | Path = "server/data/keywordCoverageAudit.json"
+    strict_total_evidence: bool = False
+
+    def run(self) -> dict[str, Any]:
+        return CoverageAuditPayloadContractComparator(
+            self.dictionary_path,
+            self.js_audit_path,
+            strict_total_evidence=self.strict_total_evidence,
+        ).compare()
+
+
 class CoverageAuditBuilder:
     """Build the stable JS coverage-audit JSON contract from dictionary entries."""
 
