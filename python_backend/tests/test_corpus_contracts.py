@@ -1486,6 +1486,31 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["stats"]["timeline"]["finalTotal"], 2)
         self.assertEqual(result["summary"], {"comments": 1, "danmaku": 1, "keywordTerms": 2, "timelinePoints": 1})
 
+    def test_readme_stats_builder_owns_payload_contract(self):
+        result = ReadmeStatsBuilder().build_from_payload(
+            {
+                "generatedAt": "2026-06-19T00:00:00.000Z",
+                "sources": [
+                    {
+                        "name": "direct",
+                        "runs": [{"at": "2026-06-17T10:00:00.000Z", "commentsAdded": 2}],
+                        "comments": [
+                            {"message": "\u91cd\u590d", "source": "comment"},
+                            {"message": "\u5f39\u5e55", "source": "danmaku"},
+                        ],
+                    }
+                ],
+                "dictionary": {"entries": [{"term": "doge"}]},
+                "coverage": {"coverage": {"coverageRatio": 0.5}},
+            }
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["stats"]["comments"], 1)
+        self.assertEqual(result["stats"]["danmaku"], 1)
+        self.assertEqual(result["summary"], {"comments": 1, "danmaku": 1, "keywordTerms": 1, "timelinePoints": 1})
+        self.assertIn("Corpus Collection + Keyword Analysis", result["svg"])
+
     def test_readme_stats_svg_renderer_builds_summary_and_timeline_graphs(self):
         renderer = ReadmeStatsSvgRenderer()
         stats = {

@@ -28,6 +28,28 @@ class ReadmeStatsBuilder:
     def __init__(self, now: Callable[[], str] | None = None):
         self.now = now or self._iso_now
 
+    def build_from_payload(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        generated_at = str(payload["generatedAt"]) if payload.get("generatedAt") else None
+        builder = ReadmeStatsBuilder(now=(lambda: generated_at) if generated_at else self.now)
+        sources = payload.get("sources") if isinstance(payload.get("sources"), list) else []
+        dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}
+        coverage = payload.get("coverage") if isinstance(payload.get("coverage"), dict) else {}
+        stats = builder.build_stats(sources, dictionary, coverage, generated_at=generated_at)
+        renderer = ReadmeStatsSvgRenderer()
+        return {
+            "ok": True,
+            "stats": stats,
+            "svg": renderer.render_summary_svg(stats),
+            "timelineSvg": renderer.render_timeline_svg(stats["timeline"], stats["generatedAt"]),
+            "summary": {
+                "comments": stats["comments"],
+                "danmaku": stats["danmaku"],
+                "keywordTerms": stats["keywordTerms"],
+                "timelinePoints": len(stats["timeline"]["points"]),
+            },
+        }
+
     def unique_comments(self, comments: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
         seen: set[str] = set()
         unique: list[dict[str, Any]] = []

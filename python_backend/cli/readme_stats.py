@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSummary, ReadmeStatsSvgRenderer
+from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsSummary
 
 
 class ReadmeStatsRunner:
@@ -17,25 +17,7 @@ class ReadmeStatsRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
-        generated_at = str(payload["generatedAt"]) if payload.get("generatedAt") else None
-        builder = ReadmeStatsBuilder(now=(lambda: generated_at) if generated_at else None)
-        sources = payload.get("sources") if isinstance(payload.get("sources"), list) else []
-        dictionary = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}
-        coverage = payload.get("coverage") if isinstance(payload.get("coverage"), dict) else {}
-        stats = builder.build_stats(sources, dictionary, coverage, generated_at=generated_at)
-        renderer = ReadmeStatsSvgRenderer()
-        return {
-            "ok": True,
-            "stats": stats,
-            "svg": renderer.render_summary_svg(stats),
-            "timelineSvg": renderer.render_timeline_svg(stats["timeline"], stats["generatedAt"]),
-            "summary": {
-                "comments": stats["comments"],
-                "danmaku": stats["danmaku"],
-                "keywordTerms": stats["keywordTerms"],
-                "timelinePoints": len(stats["timeline"]["points"]),
-            },
-        }
+        return ReadmeStatsBuilder().build_from_payload(payload)
 
     def _read_payload(self) -> dict[str, Any]:
         with self.payload_path.open("r", encoding="utf-8-sig") as handle:
