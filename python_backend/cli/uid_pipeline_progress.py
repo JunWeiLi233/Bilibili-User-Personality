@@ -17,15 +17,24 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+class UidPipelineProgressCliRunner:
+    """CLI-compatible UID pipeline progress runner for JS/Python JSON contracts."""
+
+    def __init__(self, argv: list[str] | None = None):
+        self.argv = argv
+
+    def run(self) -> dict:
+        args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        runner_options = {"start": args.start, "end": args.end}
+        if args.user_db:
+            runner_options["user_db_path"] = args.user_db
+        if args.compare_js_report:
+            return UidPipelineProgressContractComparator(args.progress, args.compare_js_report, **runner_options).compare()
+        return UidPipelineProgressRunner(args.progress, **runner_options).run()
+
+
 def main(argv: list[str] | None = None) -> int:
-    args = build_parser().parse_args(argv)
-    runner_options = {"start": args.start, "end": args.end}
-    if args.user_db:
-        runner_options["user_db_path"] = args.user_db
-    if args.compare_js_report:
-        result = UidPipelineProgressContractComparator(args.progress, args.compare_js_report, **runner_options).compare()
-    else:
-        result = UidPipelineProgressRunner(args.progress, **runner_options).run()
+    result = UidPipelineProgressCliRunner(argv).run()
     json.dump(result, sys.stdout, ensure_ascii=False, indent=2)
     sys.stdout.write("\n")
     return 0 if result["ok"] else 1

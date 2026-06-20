@@ -41,6 +41,7 @@ from python_backend.cli import uid_parallel_plan as uid_parallel_plan_cli
 from python_backend.cli import uid_pipeline_merge as uid_pipeline_merge_cli
 from python_backend.cli import uid_pipeline_launcher as uid_pipeline_launcher_cli
 from python_backend.cli import uid_pipeline_plan as uid_pipeline_plan_cli
+from python_backend.cli import uid_pipeline_progress as uid_pipeline_progress_cli
 from python_backend.cli import uid_range_progress as uid_range_progress_cli
 from python_backend.cli import video_comment_filter as video_comment_filter_cli
 from python_backend.cli import video_context as video_context_cli
@@ -13260,6 +13261,32 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["statusCounts"], {"success": 1, "no_comments": 1, "no_videos": 1, "no_user": 1, "train_error": 1, "blocked": 1})
         self.assertEqual(result["userDb"], {"users": 2, "usersInRange": 1})
         self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
+
+    def test_uid_pipeline_progress_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            progress_path = root / "uid-pipeline-10-12.json"
+            user_db_path = root / "scraped-users-db.json"
+            progress_path.write_text(
+                json.dumps(
+                    {
+                        "processed": {"10": "success", "11": "no_comments"},
+                        "stats": {"success": 1, "noComments": 1},
+                        "lastUpdated": "2026-06-19T00:00:00.000Z",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            user_db_path.write_text(json.dumps({"users": {"10": {"uid": "10"}, "99": {"uid": "99"}}}), encoding="utf-8")
+
+            result = uid_pipeline_progress_cli.UidPipelineProgressCliRunner(
+                ["--progress", str(progress_path), "--start=10", "--end=12", "--user-db", str(user_db_path)]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"start": 10, "end": 12, "total": 3})
+        self.assertEqual(result["progress"], {"processed": 2, "remaining": 1, "completionRatio": 0.6667})
+        self.assertEqual(result["userDb"], {"users": 2, "usersInRange": 1})
 
     def test_uid_pipeline_progress_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
