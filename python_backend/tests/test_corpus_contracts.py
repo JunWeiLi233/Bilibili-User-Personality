@@ -5071,6 +5071,14 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_comment_coverage_comparator_uses_summary_contract_keys(self):
+        comparator = CommentCoverageContractComparator(Path("dictionary.json"), Path("comments.json"), Path("js.json"))
+
+        self.assertFalse(hasattr(CommentCoverageContractComparator, "SUMMARY_KEYS"))
+        self.assertFalse(hasattr(CommentCoverageContractComparator, "MODE_KEYS"))
+        self.assertEqual(comparator.summary.SUMMARY_KEYS, CommentCoverageSummary.SUMMARY_KEYS)
+        self.assertEqual(comparator.summary.MODE_KEYS, CommentCoverageSummary.MODE_KEYS)
+
     def test_comment_coverage_contract_comparator_reports_summary_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -46,9 +46,6 @@ class CommentCoverageRunner:
 class CommentCoverageContractComparator:
     """Compare Python comment coverage against a persisted JS-compatible report."""
 
-    SUMMARY_KEYS = ("total", "covered", "uncovered", "coverageRatio")
-    MODE_KEYS = ("keyword", "neutral", "uncovered")
-
     def __init__(
         self,
         dictionary_path: str | Path,
@@ -83,14 +80,14 @@ class CommentCoverageContractComparator:
     def _summary_mismatches(self, python_summary: dict[str, Any], js_summary: dict[str, Any]) -> list[dict[str, Any]]:
         mismatches = [
             {"key": key, "python": python_summary.get(key), "js": js_summary.get(key)}
-            for key in self.SUMMARY_KEYS
+            for key in self.summary.SUMMARY_KEYS
             if key in js_summary and python_summary.get(key) != js_summary.get(key)
         ]
         python_modes = python_summary.get("byMode") if isinstance(python_summary.get("byMode"), dict) else {}
         js_modes = js_summary.get("byMode") if isinstance(js_summary.get("byMode"), dict) else {}
         mismatches.extend(
             {"key": f"byMode.{key}", "python": python_modes.get(key), "js": js_modes.get(key)}
-            for key in self.MODE_KEYS
+            for key in self.summary.MODE_KEYS
             if key in js_modes and python_modes.get(key) != js_modes.get(key)
         )
         return mismatches
