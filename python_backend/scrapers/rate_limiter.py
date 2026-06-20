@@ -4,6 +4,7 @@ import math
 import time
 from collections.abc import Callable
 from dataclasses import dataclass
+from typing import Any
 
 
 def _bounded_ms(value: object, fallback: int, minimum: int, maximum: int) -> int:
@@ -23,6 +24,14 @@ class RateLimitPolicy:
     min_delay_ms: object
     jitter_ms: object
     block_cooldown_ms: object
+
+    @classmethod
+    def from_payload(cls, payload: dict[str, Any] | None = None) -> "RateLimitPolicy":
+        payload = payload if isinstance(payload, dict) else {}
+        min_delay_ms = payload.get("minDelayMs", payload.get("delayMs", 5000))
+        jitter_ms = payload.get("jitterMs", 3000)
+        block_cooldown_ms = payload.get("blockCooldownMs", payload.get("cooldownMs", 120000))
+        return cls(min_delay_ms=min_delay_ms, jitter_ms=jitter_ms, block_cooldown_ms=block_cooldown_ms)
 
     def to_tieba_options(self) -> dict[str, int]:
         return {
