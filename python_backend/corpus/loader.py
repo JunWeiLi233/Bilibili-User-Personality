@@ -68,6 +68,8 @@ class CorpusLoader:
         values: list[dict[str, Any]] = []
         for relative_path in files:
             shard = self._read_json(self.path.parent / relative_path)
+            if not isinstance(shard, dict):
+                continue
             shard_values = shard.get(key) or []
             if isinstance(shard_values, list):
                 values.extend(self._normalize_comments(shard_values) if key == "comments" else shard_values)
@@ -86,6 +88,6 @@ class CorpusLoader:
         return comments
 
     @staticmethod
-    def _read_json(path: Path) -> dict[str, Any]:
+    def _read_json(path: Path) -> Any:
         with path.open("r", encoding="utf-8-sig") as handle:
             return json.load(handle)

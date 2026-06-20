@@ -241,6 +241,41 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(corpus.comments, [{"message": "inline comment"}])
         self.assertEqual(corpus.runs, [{"at": "inline-run"}])
 
+    def test_loader_ignores_non_object_split_shard_payloads(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "demo.comments").mkdir()
+            (root / "demo.runs").mkdir()
+            (root / "demo.json").write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "storage": "split",
+                        "commentFiles": ["demo.comments/comments-0001.json", "demo.comments/comments-0002.json"],
+                        "runFiles": ["demo.runs/runs-0001.json", "demo.runs/runs-0002.json"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (root / "demo.comments" / "comments-0001.json").write_text(
+                json.dumps(["bad comment shard"]),
+                encoding="utf-8",
+            )
+            (root / "demo.comments" / "comments-0002.json").write_text(
+                json.dumps({"comments": [{"message": "valid comment"}]}),
+                encoding="utf-8",
+            )
+            (root / "demo.runs" / "runs-0001.json").write_text(json.dumps("bad run shard"), encoding="utf-8")
+            (root / "demo.runs" / "runs-0002.json").write_text(
+                json.dumps({"runs": [{"at": "valid-run"}]}),
+                encoding="utf-8",
+            )
+
+            corpus = CorpusLoader(root / "demo.json").load()
+
+        self.assertEqual(corpus.comments, [{"message": "valid comment"}])
+        self.assertEqual(corpus.runs, [{"at": "valid-run"}])
+
     def test_loader_builds_from_js_json_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
