@@ -25,6 +25,7 @@ from python_backend.cli import corpus_shard_writer as corpus_shard_writer_cli
 from python_backend.cli import coverage_audit as coverage_audit_cli
 from python_backend.cli import coverage_audit_artifacts as coverage_audit_artifacts_cli
 from python_backend.cli import coverage_progress as coverage_progress_cli
+from python_backend.cli import deepseek_analyze_cli_plan as deepseek_analyze_cli_plan_cli
 from python_backend.cli import deepseek_analysis_plan as deepseek_analysis_plan_cli
 from python_backend.cli import deepseek_analysis_validate as deepseek_analysis_validate_cli
 from python_backend.cli import harvest_options as harvest_options_cli
@@ -3361,6 +3362,20 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "input", "python": {"source": "argv", "file": "", "readsStdin": False, "showHelp": False}, "js": {"source": "stdin"}},
             ],
         )
+
+    def test_deepseek_analyze_cli_plan_cli_runner_reads_json_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "deepseek-cli.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--text=\u53cd\u8bbd[doge]", "--uid", "42", "--multiagent"], "stdinIsTTY": True}),
+                encoding="utf-8",
+            )
+
+            result = deepseek_analyze_cli_plan_cli.DeepSeekAnalyzeCliPlanCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["payload"], {"text": "\u53cd\u8bbd[doge]", "uid": "42", "multiagent": True})
+        self.assertEqual(result["input"], {"source": "argv", "file": "", "readsStdin": False, "showHelp": False})
 
     def test_deepseek_analyze_cli_comparator_uses_backend_summary_contract_keys(self):
         self.assertFalse(hasattr(DeepSeekAnalyzeCliPlanContractComparator, "RESULT_KEYS"))
