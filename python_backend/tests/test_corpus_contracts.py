@@ -79,7 +79,7 @@ from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContra
 from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContractComparator, FastPipelineLauncherPlanRunner
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusContractComparator as DirectProbeCorpusPayloadComparator, DirectProbeCorpusSummary, DirectProbePlanContractComparator as DirectProbePlanPayloadComparator, DirectProbePlanSummary
 from python_backend.corpus.history_tags import HistoryTagCorpusContractComparator as HistoryTagCorpusPayloadComparator, HistoryTagCorpusManager, HistoryTagCorpusSummary, HistoryTagScrapePlanner, HistoryTagScrapePlanContractComparator as HistoryTagScrapePlanPayloadComparator, HistoryTagScrapePlanSummary
-from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceCorpusImportPlanContractComparator as HuggingFaceCorpusImportPlanPayloadComparator, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
+from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceCorpusImportContractComparator as HuggingFaceCorpusImportPayloadComparator, HuggingFaceCorpusImportPlanContractComparator as HuggingFaceCorpusImportPlanPayloadComparator, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
 from python_backend.corpus.local import LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidenceSummary
 from python_backend.corpus.local import LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenSummary, LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanSummary
@@ -2858,6 +2858,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["mismatches"], [{"key": "addedComments", "python": 1, "js": 0}])
         self.assertEqual(result["python"]["summary"], {"importedRows": 1, "changed": True, "addedComments": 1})
         self.assertEqual(result["js"]["summary"], {"importedRows": 1, "changed": True, "addedComments": 0})
+
+    def test_huggingface_import_payload_comparator_lives_with_corpus_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            raw_path = root / "rows.csv"
+            existing_path = root / "existing.json"
+            js_report_path = root / "js-huggingface-import.json"
+            raw_path.write_text("message\n\u65b0\u8bc4\u8bba\n", encoding="utf-8")
+            existing_path.write_text(json.dumps({"version": 1, "comments": [], "runs": []}), encoding="utf-8")
+            js_report_path.write_text(json.dumps({"importedRows": 1, "changed": True, "addedComments": 0}), encoding="utf-8")
+
+            result = HuggingFaceCorpusImportPayloadComparator(
+                raw_path=raw_path,
+                existing_path=existing_path,
+                dataset="Midsummra/bilibilicomment",
+                file="bilibili.csv",
+                platform="bilibili",
+                js_report_path=js_report_path,
+                generated_at="2026-06-17T00:00:00.000Z",
+            ).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["mismatches"], [{"key": "addedComments", "python": 1, "js": 0}])
+        self.assertEqual(result["python"]["summary"], {"importedRows": 1, "changed": True, "addedComments": 1})
 
     def test_local_corpus_flattener_reads_uid_maps_and_plain_text(self):
         flattener = LocalCorpusFlattener()
