@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
+from python_backend.scrapers.tieba_timing import TiebaScrapeTiming, TiebaTimingContractComparator
 
 
 class TiebaTimingRunner:
@@ -25,32 +25,6 @@ class TiebaTimingRunner:
 
     def _read_payload(self) -> dict[str, Any]:
         with self.payload_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else {}
-
-
-class TiebaTimingContractComparator:
-    """Compare Python Tieba timing budgets against a saved JS-compatible result."""
-
-    def __init__(self, payload_path: str | Path, js_report_path: str | Path):
-        self.payload_path = Path(payload_path)
-        self.js_report_path = Path(js_report_path)
-
-    def compare(self) -> dict[str, Any]:
-        python_result = TiebaTimingRunner(self.payload_path).run()
-        js_result = self._read_js_report()
-        mismatches = []
-        if "hardStopMs" in js_result and python_result.get("hardStopMs") != js_result.get("hardStopMs"):
-            mismatches.append({"key": "hardStopMs", "python": python_result.get("hardStopMs"), "js": js_result.get("hardStopMs")})
-        return {
-            "ok": not mismatches,
-            "mismatches": mismatches,
-            "python": {"hardStopMs": python_result.get("hardStopMs")},
-            "js": {"hardStopMs": js_result.get("hardStopMs")},
-        }
-
-    def _read_js_report(self) -> dict[str, Any]:
-        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
 

@@ -112,7 +112,7 @@ from python_backend.cli.batch_uid_progress import BatchUidProgressContractCompar
 from python_backend.cli.uid_discovery_progress import UidDiscoveryProgressContractComparator, UidDiscoveryProgressRunner
 from python_backend.scrapers.tieba_html import TiebaHtmlParseContractComparator as TiebaHtmlParsePayloadComparator, TiebaHtmlParseSummary, TiebaHtmlParser
 from python_backend.scrapers.tieba_keyword import TiebaKeywordPlanSummary, TiebaKeywordScrapeOptionsPlanner
-from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
+from python_backend.scrapers.tieba_timing import TiebaScrapeTiming, TiebaTimingContractComparator as TiebaTimingPayloadComparator
 from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanContractComparator as BatchBilibiliPlanPayloadComparator, BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularPlanContractComparator as BatchPopularPlanPayloadComparator, BatchPopularPlanSummary, BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanContractComparator as BatchUidRangePlanPayloadComparator, BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherContractComparator as RangeScraperLauncherPayloadComparator, RangeScraperLauncherPlanner, RangeScraperLauncherSummary, UidRangeProgressContractComparator as UidRangeProgressPayloadComparator, UidRangeProgressReporter, UidRangeProgressSummary
@@ -3567,6 +3567,22 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertFalse(result["ok"])
         self.assertEqual(result["mismatches"], [{"key": "hardStopMs", "python": 610000, "js": 600000}])
+
+    def test_tieba_timing_payload_comparator_lives_with_scraper_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-timing.json"
+            payload_path.write_text(
+                json.dumps({"maxQueries": 2, "overallTimeoutMs": 4000, "blockCooldownMs": 500}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"hardStopMs": 18000}), encoding="utf-8")
+
+            result = TiebaTimingPayloadComparator(payload_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["mismatches"], [{"key": "hardStopMs", "python": 19000, "js": 18000}])
 
     def test_direct_probe_builder_collects_replies_and_danmaku(self):
         builder = DirectProbeCorpusBuilder()
