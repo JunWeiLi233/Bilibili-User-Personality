@@ -1231,6 +1231,24 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_semantic_matcher_helper_owns_payload_contract(self):
+        result = SemanticMatcherHelper().run_from_payload(
+            {
+                "text": "alpha chunk? beta chunk",
+                "vectors": {"left": [1, 0], "right": [0.8, 0.6]},
+                "chunks": ["alpha chunk", "beta chunk"],
+                "chunkEmbeddings": [[1, 0], [0.8, 0.6]],
+                "termEmbeddings": {"term-a": [1, 0], "term-b": [0, 1]},
+                "threshold": 0.5,
+            }
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "match")
+        self.assertEqual(result["chunks"], ["alpha chunk", "beta chunk"])
+        self.assertAlmostEqual(result["cosine"], 0.8, places=4)
+        self.assertEqual(result["matches"][0], {"term": "term-a", "chunk": "alpha chunk", "score": 1.0})
+
     def test_semantic_matcher_contract_comparator_reports_match_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -20,6 +20,48 @@ class SemanticMatcherSummary:
 class SemanticMatcherHelper:
     """Deterministic semantic matcher primitives shared through JSON contracts."""
 
+    def run_from_payload(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        mode = str(payload.get("mode") or "match").strip().lower()
+        if mode == "cache":
+            cache = SemanticEmbeddingCache(now=lambda: str(payload.get("now") or ""))
+            return {
+                "ok": True,
+                "mode": "cache",
+                "embeddingTexts": cache.embedding_texts(payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}),
+                "cache": cache.build_cache_payload(
+                    payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {},
+                    payload.get("embeddings") if isinstance(payload.get("embeddings"), dict) else {},
+                ),
+            }
+        if mode == "evidence":
+            builder = SemanticEvidenceBuilder(now=lambda: str(payload.get("now") or ""))
+            entries = builder.build_evidence_entries(
+                payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {},
+                payload.get("matches") if isinstance(payload.get("matches"), list) else [],
+                target_evidence=int(payload.get("targetEvidence") or 3),
+                source=str(payload.get("source") or "Bilibili public comment semantic match"),
+                uid=str(payload.get("uid") or ""),
+            )
+            return {"ok": True, "mode": "evidence", "count": len(entries), "entries": entries}
+        chunks = payload.get("chunks")
+        if not isinstance(chunks, list):
+            chunks = self.chunk_comment_text(payload.get("text", ""))
+        vectors = payload.get("vectors") if isinstance(payload.get("vectors"), dict) else {}
+        term_embeddings = payload.get("termEmbeddings")
+        if not isinstance(term_embeddings, dict):
+            term_embeddings = {}
+        chunk_embeddings = payload.get("chunkEmbeddings")
+        if not isinstance(chunk_embeddings, list):
+            chunk_embeddings = []
+        return {
+            "ok": True,
+            "mode": "match",
+            "chunks": chunks,
+            "cosine": round(self.cosine_similarity(vectors.get("left", []), vectors.get("right", [])), 4),
+            "matches": self.match_comment_to_terms(chunks, chunk_embeddings, term_embeddings, self._float_value(payload.get("threshold"), 0.72)),
+        }
+
     def chunk_comment_text(self, text: Any = "") -> list[str]:
         raw = str(text or "").strip()
         if not raw:
@@ -88,6 +130,12 @@ class SemanticMatcherHelper:
             except (TypeError, ValueError):
                 vector.append(0.0)
         return vector
+
+    def _float_value(self, value: Any, fallback: float) -> float:
+        try:
+            return float(value)
+        except (TypeError, ValueError):
+            return fallback
 
 
 class SemanticEmbeddingCache:

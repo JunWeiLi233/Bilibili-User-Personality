@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.semantic_matcher import SemanticEmbeddingCache, SemanticEvidenceBuilder, SemanticMatcherHelper, SemanticMatcherSummary
+from python_backend.analysis.semantic_matcher import SemanticMatcherHelper, SemanticMatcherSummary
 
 
 class SemanticMatcherRunner:
@@ -18,60 +18,12 @@ class SemanticMatcherRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
-        mode = str(payload.get("mode") or "match").strip().lower()
-        if mode == "cache":
-            cache = SemanticEmbeddingCache(now=lambda: str(payload.get("now") or ""))
-            return {
-                "ok": True,
-                "mode": "cache",
-                "embeddingTexts": cache.embedding_texts(payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {}),
-                "cache": cache.build_cache_payload(
-                    payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {},
-                    payload.get("embeddings") if isinstance(payload.get("embeddings"), dict) else {},
-                ),
-            }
-        if mode == "evidence":
-            builder = SemanticEvidenceBuilder(now=lambda: str(payload.get("now") or ""))
-            entries = builder.build_evidence_entries(
-                payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {},
-                payload.get("matches") if isinstance(payload.get("matches"), list) else [],
-                target_evidence=int(payload.get("targetEvidence") or 3),
-                source=str(payload.get("source") or "Bilibili public comment semantic match"),
-                uid=str(payload.get("uid") or ""),
-            )
-            return {"ok": True, "mode": "evidence", "count": len(entries), "entries": entries}
-        chunks = payload.get("chunks")
-        if not isinstance(chunks, list):
-            chunks = self.matcher.chunk_comment_text(payload.get("text", ""))
-        vectors = payload.get("vectors") if isinstance(payload.get("vectors"), dict) else {}
-        left = vectors.get("left", [])
-        right = vectors.get("right", [])
-        term_embeddings = payload.get("termEmbeddings")
-        if not isinstance(term_embeddings, dict):
-            term_embeddings = {}
-        chunk_embeddings = payload.get("chunkEmbeddings")
-        if not isinstance(chunk_embeddings, list):
-            chunk_embeddings = []
-        threshold = self._float_value(payload.get("threshold"), 0.72)
-
-        return {
-            "ok": True,
-            "mode": "match",
-            "chunks": chunks,
-            "cosine": round(self.matcher.cosine_similarity(left, right), 4),
-            "matches": self.matcher.match_comment_to_terms(chunks, chunk_embeddings, term_embeddings, threshold),
-        }
+        return self.matcher.run_from_payload(payload)
 
     def _read_payload(self) -> dict[str, Any]:
         with self.payload_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
-
-    def _float_value(self, value: Any, fallback: float) -> float:
-        try:
-            return float(value)
-        except (TypeError, ValueError):
-            return fallback
 
 
 class SemanticMatcherContractComparator:
