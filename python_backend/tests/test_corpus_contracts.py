@@ -1337,6 +1337,26 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["state"]["staleByPid"], True)
         self.assertEqual(result["state"]["shouldRemove"], True)
 
+    def test_file_lock_state_runner_defaults_invalid_stale_ms_like_js(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            lock_path = Path(tmp) / "harvest.lock"
+            lock_path.mkdir()
+            (lock_path / "owner.json").write_text(
+                json.dumps({"pid": 0, "startedAt": "2026-06-19T00:00:00.000Z", "command": "node"}),
+                encoding="utf-8",
+            )
+
+            result = FileLockStatePayloadRunner(
+                lock_path,
+                stale_ms="bad",  # type: ignore[arg-type]
+                now_ms=lambda: 1781836920000,
+                process_alive=lambda pid: False,
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["state"]["staleByAge"], True)
+        self.assertEqual(result["state"]["shouldRemove"], True)
+
     def test_file_lock_state_summary_extracts_comparator_contract(self):
         summary = FileLockStateSummary().summarize(
             {

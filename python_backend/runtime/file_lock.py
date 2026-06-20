@@ -7,6 +7,14 @@ from pathlib import Path
 from typing import Any, Callable
 
 
+def _stale_ms_or_default(value: Any, default: int = 60000) -> int:
+    try:
+        parsed = int(value)
+    except (TypeError, ValueError):
+        return default
+    return parsed if parsed > 0 else default
+
+
 class FileLockStateSummary:
     """Shape file-lock state reports into the JS/Python comparator summary contract."""
 
@@ -29,7 +37,7 @@ class FileLockStateInspector:
         process_alive: Callable[[int], bool] | None = None,
     ):
         self.lock_path = Path(lock_path)
-        self.stale_ms = int(stale_ms) if int(stale_ms or 0) > 0 else 60000
+        self.stale_ms = _stale_ms_or_default(stale_ms)
         self.now_ms = now_ms or self._now_ms
         self.process_alive = process_alive or self._process_alive
 
@@ -124,7 +132,7 @@ class FileLockStateRunner:
         process_alive: Callable[[int], bool] | None = None,
     ):
         self.lock_path = Path(lock_path)
-        self.stale_ms = int(stale_ms)
+        self.stale_ms = _stale_ms_or_default(stale_ms)
         self.now_ms = now_ms
         self.process_alive = process_alive
 
@@ -151,7 +159,7 @@ class FileLockStateContractComparator:
     ):
         self.lock_path = Path(lock_path)
         self.js_report_path = Path(js_report_path)
-        self.stale_ms = int(stale_ms)
+        self.stale_ms = _stale_ms_or_default(stale_ms)
         self.now_ms = now_ms
         self.process_alive = process_alive
         self.summary = FileLockStateSummary()
