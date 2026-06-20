@@ -13,7 +13,7 @@ from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilde
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, KeywordHarvestPlanContractComparator as KeywordHarvestPlanPayloadComparator, KeywordHarvestPlanPayloadContractComparator, KeywordHarvestPlanRunner as KeywordHarvestPayloadPlanRunner, KeywordHarvestPlanSummary
 from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateContractComparator as HarvestStatePayloadComparator, HarvestStatePayloadContractComparator, HarvestStateFinalizer, HarvestStatePayloadProcessor, HarvestStateRunner as HarvestStatePayloadRunner, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis import near_target
-from python_backend.analysis.near_target import NearTargetResolvePlanContractComparator as NearTargetResolvePlanPayloadComparator, NearTargetResolvePlanner, NearTargetResolvePlanRunner as NearTargetResolvePayloadPlanRunner
+from python_backend.analysis.near_target import NearTargetOverrideTermsParser, NearTargetResolvePlanContractComparator as NearTargetResolvePlanPayloadComparator, NearTargetResolvePlanner, NearTargetResolvePlanRunner as NearTargetResolvePayloadPlanRunner
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsPayloadContractComparator, ReadmeStatsRunner as ReadmeStatsPayloadRunner, ReadmeStatsSummary, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationPayloadContractComparator, RandomVerificationReportSummary, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerifier, json_result_bytes as random_verification_payload_json_result_bytes
@@ -11910,6 +11910,13 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(result["candidateTerms"], ["\u6307\u5b9a\u8bcd"])
         self.assertEqual(result["plans"][0]["bvids"], ["BV1Override1"])
+
+    def test_near_target_override_terms_parser_lives_with_analysis_logic(self):
+        parser = NearTargetOverrideTermsParser()
+
+        terms = parser.parse(" alpha, beta;\ngamma| delta || ")
+
+        self.assertEqual(terms, ["alpha", "beta", "gamma", "delta"])
 
     def test_near_target_resolve_comparator_uses_backend_summary_contract_keys(self):
         self.assertTrue(hasattr(near_target, "NearTargetResolvePlanSummary"))

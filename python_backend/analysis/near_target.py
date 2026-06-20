@@ -12,6 +12,13 @@ from python_backend.corpus.dictionary import DictionaryLoader
 BVID_PATTERN = re.compile(r"(BV[0-9A-Za-z]{8,})")
 
 
+class NearTargetOverrideTermsParser:
+    """Parse CLI/API override term lists for near-target planning."""
+
+    def parse(self, value: str) -> list[str]:
+        return [item.strip() for item in re.split(r"[\r\n,;|]+", str(value or "")) if item.strip()]
+
+
 class NearTargetResolvePlanSummary:
     """Shape near-target resolver plans into the JS/Python comparator contract."""
 

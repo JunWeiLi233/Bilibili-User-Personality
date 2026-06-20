@@ -2,14 +2,9 @@ from __future__ import annotations
 
 import argparse
 import json
-import re
 import sys
 
-from python_backend.analysis.near_target import NearTargetResolvePlanContractComparator, NearTargetResolvePlanRunner
-
-
-def _parse_terms(value: str) -> list[str]:
-    return [item.strip() for item in re.split(r"[\r\n,;|]+", str(value or "")) if item.strip()]
+from python_backend.analysis.near_target import NearTargetOverrideTermsParser, NearTargetResolvePlanContractComparator, NearTargetResolvePlanRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -28,7 +23,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    override_terms = _parse_terms(args.override_terms)
+    override_terms = NearTargetOverrideTermsParser().parse(args.override_terms)
     if args.compare_js_plan:
         result = NearTargetResolvePlanContractComparator(
             args.dictionary,
