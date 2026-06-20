@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, HarvestOptionsSummary, VideoKeywordDiscoveryOptionsBuilder
+from python_backend.analysis.harvest_options import HarvestOptionsPayloadBuilder, HarvestOptionsSummary
 
 
 class HarvestOptionsRunner:
@@ -17,31 +17,7 @@ class HarvestOptionsRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
-        mode = str(payload.get("mode") or "video-keyword").strip().lower()
-        if mode == "coverage-runtime":
-            options = CoverageRuntimeOptionsBuilder().build(
-                argv=payload.get("argv") if isinstance(payload.get("argv"), list) else [],
-                env=payload.get("env") if isinstance(payload.get("env"), dict) else {},
-                max_actions_fallback=int(payload.get("maxActionsFallback") or 20),
-            )
-            return {"ok": True, "mode": mode, "options": options}
-        builder = VideoKeywordDiscoveryOptionsBuilder(cwd=payload.get("cwd") if payload.get("cwd") else None)
-        if mode == "priority-query-content":
-            return {
-                "ok": True,
-                "mode": mode,
-                "priorityQueries": builder.parse_priority_query_content(payload.get("content")),
-            }
-        options = builder.build(
-            env=payload.get("env") if isinstance(payload.get("env"), dict) else {},
-            argv=payload.get("argv") if isinstance(payload.get("argv"), list) else [],
-            priority_queries=payload.get("priorityQueries") if isinstance(payload.get("priorityQueries"), list) else [],
-            seed_queries=payload.get("seedQueries") if isinstance(payload.get("seedQueries"), list) else [],
-            controversy_queries=payload.get("controversyQueries") if isinstance(payload.get("controversyQueries"), list) else [],
-            extra_query_templates=payload.get("extraQueryTemplates") if isinstance(payload.get("extraQueryTemplates"), list) else [],
-            exhausted_suggestion_templates=payload.get("exhaustedSuggestionTemplates") if isinstance(payload.get("exhaustedSuggestionTemplates"), list) else [],
-        )
-        return {"ok": True, "mode": "video-keyword", "options": options}
+        return HarvestOptionsPayloadBuilder().build_from_payload(payload)
 
     def _read_payload(self) -> dict[str, Any]:
         with self.payload_path.open("r", encoding="utf-8-sig") as handle:

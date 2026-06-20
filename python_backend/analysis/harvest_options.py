@@ -55,6 +55,38 @@ class HarvestOptionsSummary:
         return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
 
 
+class HarvestOptionsPayloadBuilder:
+    """Build harvest option result envelopes from JS-compatible JSON payloads."""
+
+    def build_from_payload(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        mode = str(payload.get("mode") or "video-keyword").strip().lower()
+        if mode == "coverage-runtime":
+            options = CoverageRuntimeOptionsBuilder().build(
+                argv=payload.get("argv") if isinstance(payload.get("argv"), list) else [],
+                env=payload.get("env") if isinstance(payload.get("env"), dict) else {},
+                max_actions_fallback=int(payload.get("maxActionsFallback") or 20),
+            )
+            return {"ok": True, "mode": mode, "options": options}
+        builder = VideoKeywordDiscoveryOptionsBuilder(cwd=payload.get("cwd") if payload.get("cwd") else None)
+        if mode == "priority-query-content":
+            return {
+                "ok": True,
+                "mode": mode,
+                "priorityQueries": builder.parse_priority_query_content(payload.get("content")),
+            }
+        options = builder.build(
+            env=payload.get("env") if isinstance(payload.get("env"), dict) else {},
+            argv=payload.get("argv") if isinstance(payload.get("argv"), list) else [],
+            priority_queries=payload.get("priorityQueries") if isinstance(payload.get("priorityQueries"), list) else [],
+            seed_queries=payload.get("seedQueries") if isinstance(payload.get("seedQueries"), list) else [],
+            controversy_queries=payload.get("controversyQueries") if isinstance(payload.get("controversyQueries"), list) else [],
+            extra_query_templates=payload.get("extraQueryTemplates") if isinstance(payload.get("extraQueryTemplates"), list) else [],
+            exhausted_suggestion_templates=payload.get("exhaustedSuggestionTemplates") if isinstance(payload.get("exhaustedSuggestionTemplates"), list) else [],
+        )
+        return {"ok": True, "mode": "video-keyword", "options": options}
+
+
 class VideoKeywordDiscoveryOptionsBuilder:
     """Build keyword-harvest discovery options from JSON-provided env and argv values."""
 

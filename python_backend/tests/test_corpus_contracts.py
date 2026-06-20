@@ -8,6 +8,7 @@ from python_backend.analysis.comment_coverage import CommentCoverageClassifier, 
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressSummary, CoverageProgressTracker
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReporter, VideoKeywordDiscoveryReportSummary
+from python_backend.analysis import harvest_options as harvest_options_module
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, HarvestOptionsSummary, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, KeywordHarvestPlanSummary
 from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateFinalizer, HarvestStatePayloadProcessor, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
@@ -9276,6 +9277,22 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["options"]["requireCommentBackedEvidence"])
         self.assertTrue(result["options"]["includeHistoryTags"])
         self.assertEqual(result["options"]["priorityQueries"], ["target 评论区"])
+
+    def test_harvest_options_payload_builder_owns_json_contract(self):
+        result = harvest_options_module.HarvestOptionsPayloadBuilder().build_from_payload(
+            {
+                "mode": "video-keyword",
+                "env": {"BILIBILI_COVERAGE_AUDIT_REQUIRE_COMMENTS": "1"},
+                "argv": ["--include-history-tags"],
+                "priorityQueries": ["target comments"],
+            }
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "video-keyword")
+        self.assertTrue(result["options"]["requireCommentBackedEvidence"])
+        self.assertTrue(result["options"]["includeHistoryTags"])
+        self.assertEqual(result["options"]["priorityQueries"], ["target comments"])
 
     def test_harvest_options_contract_comparator_reports_option_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
