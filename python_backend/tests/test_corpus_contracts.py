@@ -8309,6 +8309,13 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_video_keyword_discovery_report_comparator_uses_summary_contract_keys(self):
+        self.assertFalse(hasattr(VideoKeywordDiscoveryReportContractComparator, "RESULT_KEYS"))
+        self.assertEqual(
+            VideoKeywordDiscoveryReportContractComparator(Path("payload.json"), Path("js.json")).summary.RESULT_KEYS,
+            VideoKeywordDiscoveryReportSummary.RESULT_KEYS,
+        )
+
     def test_video_keyword_discovery_report_contract_comparator_reports_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
