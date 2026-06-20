@@ -2944,6 +2944,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["summary"], {"sourceSentences": 2, "sentenceAnalyses": 1, "axes": 1, "unsupportedQuotes": 0, "unsupportedAxisEvidence": 0})
 
+    def test_deepseek_analysis_validator_extracts_source_quotes_from_comment_objects(self):
+        result = DeepSeekAnalysisValidator().validate_payloads(
+            {
+                "comments": [
+                    {"message": "\u72d7\u5934\u4fdd\u547d[doge]", "source": "bilibili"},
+                    {"commentText": "\u5efa\u8bae\u67e5\u67e5\u8d44\u6599", "source": "tieba"},
+                ]
+            },
+            {
+                "parsed": {
+                    "sentenceAnalyses": [{"quote": "\u72d7\u5934\u4fdd\u547d[doge]", "risk": "low"}],
+                    "axes": [
+                        {"axis": "evidence", "score": 60, "evidence": "\u5efa\u8bae\u67e5\u67e5\u8d44\u6599"},
+                        {"axis": "metadata", "score": 90, "evidence": "bilibili"},
+                    ],
+                }
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["summary"]["unsupportedQuotes"], 0)
+        self.assertEqual(result["summary"]["unsupportedAxisEvidence"], 1)
+        self.assertEqual(result["unsupportedAxisEvidence"], [{"path": "axes[1].evidence", "quote": "bilibili", "axis": "metadata"}])
+
     def test_deepseek_analysis_validate_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

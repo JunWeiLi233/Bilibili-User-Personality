@@ -299,7 +299,8 @@ class DeepSeekAnalysisValidator:
     def _comments_from_payload(self, payload: dict[str, Any]) -> list[str]:
         comments = payload.get("comments")
         if isinstance(comments, list):
-            return [str(item) for item in comments if str(item).strip()]
+            client = DeepSeekAnalyzerClient()
+            return [text for item in comments if (text := client._comment_text(item))]
         text = str(payload.get("text") or payload.get("fullText") or "").strip()
         return [text] if text else []
 
