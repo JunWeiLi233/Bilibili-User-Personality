@@ -82,7 +82,7 @@ from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, Hugging
 from python_backend.corpus.local import LocalCorpusEvidenceFinder, LocalCorpusEvidenceSummary
 from python_backend.corpus.local import LocalCorpusFlattenSummary, LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanSummary
-from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner
+from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner, AgentDictionaryMergePlanSummary
 from python_backend.corpus.tieba import TiebaCorpusUpdater, TiebaCorpusUpdateSummary
 from python_backend.corpus import dictionary_prune
 from python_backend.analysis import video_filter
@@ -5806,6 +5806,32 @@ class CorpusContractTests(unittest.TestCase):
                     "js": {"agentCount": 1, "mainEntries": 1, "totalEvidenceGain": 0, "skippedAgents": 0},
                 },
             ],
+        )
+
+    def test_merge_agent_dictionaries_plan_comparator_uses_backend_summary_contract_keys(self):
+        summary = AgentDictionaryMergePlanSummary()
+        result = summary.summarize(
+            {
+                "ok": True,
+                "agentCount": 1,
+                "mainEntries": 2,
+                "totalEvidenceGain": 3,
+                "agents": [{"agent": 1}],
+                "summary": {"agentCount": 1, "mainEntries": 2, "totalEvidenceGain": 3, "skippedAgents": 0},
+                "ignored": "not part of contract",
+            }
+        )
+
+        self.assertFalse(hasattr(MergeAgentDictionariesPlanContractComparator, "_summary"))
+        self.assertEqual(
+            result,
+            {
+                "agentCount": 1,
+                "mainEntries": 2,
+                "totalEvidenceGain": 3,
+                "agents": [{"agent": 1}],
+                "summary": {"agentCount": 1, "mainEntries": 2, "totalEvidenceGain": 3, "skippedAgents": 0},
+            },
         )
 
     def test_uid_pipeline_merge_runner_matches_js_worker_range_contract(self):

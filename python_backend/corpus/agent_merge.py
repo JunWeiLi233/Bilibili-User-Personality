@@ -78,3 +78,13 @@ class AgentDictionaryMergePlanner:
             return max(0, int(float(entry.get("evidenceCount") or 0)))
         except (TypeError, ValueError):
             return 0
+
+
+class AgentDictionaryMergePlanSummary:
+    """Shape merge-agent dictionary plans into the JS/Python comparator contract."""
+
+    RESULT_KEYS = ("agentCount", "mainEntries", "totalEvidenceGain", "agents", "summary")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
