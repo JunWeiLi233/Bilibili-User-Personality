@@ -48,7 +48,7 @@ class CorpusShardWriter:
         comments = payload.get("comments") if isinstance(payload.get("comments"), list) else []
         runs = payload.get("runs") if isinstance(payload.get("runs"), list) else []
         manifest = payload.get("manifest") if isinstance(payload.get("manifest"), dict) else {}
-        writer = cls(output_path, max_shard_bytes=int(payload.get("maxShardBytes") or 64 * 1024))
+        writer = cls(output_path, max_shard_bytes=cls._payload_max_shard_bytes(payload.get("maxShardBytes")))
         writer.write(comments=comments, runs=runs, manifest=manifest)
         loaded = CorpusLoader(output_path).load()
         manifest_summary = CorpusShardWriteSummary().summarize_manifest(loaded.manifest)
@@ -59,6 +59,13 @@ class CorpusShardWriter:
             "comments": len(loaded.comments),
             "runs": len(loaded.runs),
         }
+
+    @staticmethod
+    def _payload_max_shard_bytes(value: Any) -> int:
+        try:
+            return int(value or 64 * 1024)
+        except (TypeError, ValueError):
+            return 64 * 1024
 
     def _comments_dir(self) -> Path:
         return self.path.with_suffix("").parent / f"{self.path.with_suffix('').name}.comments"
