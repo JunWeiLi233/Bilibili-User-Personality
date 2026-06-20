@@ -4569,6 +4569,25 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["popularVideos"][0]["replyCount"], 3)
         self.assertEqual(result["spaceVideos"][0]["authorMid"], "42")
 
+    def test_bilibili_public_parser_owns_payload_video_object_contracts(self):
+        result = BilibiliPublicParser().parse_from_payload(
+            {
+                "mode": "video-objects",
+                "bvid": "BVlookup",
+                "uid": "42",
+                "view": {"aid": 789, "title": "view sample", "owner": {"mid": 7}, "stat": {"reply": 5}, "cid": 456},
+                "searchItems": [{"aid": 123, "bvid": "BVsearch", "title": "<em>x</em>", "author_mid": 9, "comment": 2}],
+                "popularItems": [{"bvid": "BVpop", "title": "popular", "mid": 8, "stat": {"danmaku": 3}}],
+                "spaceItems": [{"aid": 321, "bvid": "BVspace", "title": "space", "comment": 4}],
+            }
+        )
+
+        self.assertEqual(result["mode"], "video-objects")
+        self.assertEqual(result["view"]["cid"], "456")
+        self.assertEqual(result["searchVideos"][0]["sourceUrl"], "https://www.bilibili.com/video/BVsearch/")
+        self.assertEqual(result["popularVideos"][0]["replyCount"], 3)
+        self.assertEqual(result["spaceVideos"][0]["authorMid"], "42")
+
     def test_bilibili_parse_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

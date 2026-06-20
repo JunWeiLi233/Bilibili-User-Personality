@@ -18,6 +18,38 @@ class BilibiliParseSummary:
 class BilibiliPublicParser:
     """Parse public Bilibili identifiers and danmaku into the JS comment contract."""
 
+    def parse_from_payload(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        mode = str(payload.get("mode") or "danmaku").strip().lower()
+        if mode == "bvid-pool":
+            return {"ok": True, "mode": "bvid-pool", "bvids": self.parse_bvid_pool(payload.get("raw"))}
+        if mode == "extract-bvid":
+            return {"ok": True, "mode": "extract-bvid", "bvid": self.extract_bvid(payload.get("input"))}
+        if mode == "video-objects":
+            return {
+                "ok": True,
+                "mode": "video-objects",
+                "view": self.video_object_from_view(payload.get("bvid"), payload.get("view") if isinstance(payload.get("view"), dict) else {}),
+                "searchVideos": [
+                    self.video_object_from_search_item(item)
+                    for item in (payload.get("searchItems") if isinstance(payload.get("searchItems"), list) else [])
+                    if isinstance(item, dict)
+                ],
+                "popularVideos": [
+                    self.video_object_from_popular_item(item)
+                    for item in (payload.get("popularItems") if isinstance(payload.get("popularItems"), list) else [])
+                    if isinstance(item, dict)
+                ],
+                "spaceVideos": [
+                    self.video_object_from_space_item(item, payload.get("uid"))
+                    for item in (payload.get("spaceItems") if isinstance(payload.get("spaceItems"), list) else [])
+                    if isinstance(item, dict)
+                ],
+            }
+
+        video = payload.get("video") if isinstance(payload.get("video"), dict) else {}
+        return {"ok": True, "mode": "danmaku", "comments": self.parse_danmaku_xml(payload.get("xml") or "", video)}
+
     def parse_bvid_pool(self, raw: Any) -> list[str]:
         values = re.split(r"[\s,\uFF0C]+", str(raw or ""))
         return [value.strip() for value in values if re.match(r"^BV[0-9A-Za-z]+$", value.strip())]

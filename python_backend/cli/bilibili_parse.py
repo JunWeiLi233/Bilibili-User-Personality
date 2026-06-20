@@ -18,35 +18,7 @@ class BilibiliParseRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
-        mode = str(payload.get("mode") or "danmaku").strip().lower()
-        if mode == "bvid-pool":
-            return {"ok": True, "mode": "bvid-pool", "bvids": self.parser.parse_bvid_pool(payload.get("raw"))}
-        if mode == "extract-bvid":
-            return {"ok": True, "mode": "extract-bvid", "bvid": self.parser.extract_bvid(payload.get("input"))}
-        if mode == "video-objects":
-            return {
-                "ok": True,
-                "mode": "video-objects",
-                "view": self.parser.video_object_from_view(payload.get("bvid"), payload.get("view") if isinstance(payload.get("view"), dict) else {}),
-                "searchVideos": [
-                    self.parser.video_object_from_search_item(item)
-                    for item in (payload.get("searchItems") if isinstance(payload.get("searchItems"), list) else [])
-                    if isinstance(item, dict)
-                ],
-                "popularVideos": [
-                    self.parser.video_object_from_popular_item(item)
-                    for item in (payload.get("popularItems") if isinstance(payload.get("popularItems"), list) else [])
-                    if isinstance(item, dict)
-                ],
-                "spaceVideos": [
-                    self.parser.video_object_from_space_item(item, payload.get("uid"))
-                    for item in (payload.get("spaceItems") if isinstance(payload.get("spaceItems"), list) else [])
-                    if isinstance(item, dict)
-                ],
-            }
-
-        video = payload.get("video") if isinstance(payload.get("video"), dict) else {}
-        return {"ok": True, "mode": "danmaku", "comments": self.parser.parse_danmaku_xml(payload.get("xml") or "", video)}
+        return self.parser.parse_from_payload(payload)
 
     def _read_payload(self) -> dict[str, Any]:
         with self.payload_path.open("r", encoding="utf-8-sig") as handle:
