@@ -8486,6 +8486,13 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_harvest_options_comparator_uses_summary_contract_keys(self):
+        self.assertFalse(hasattr(HarvestOptionsContractComparator, "RESULT_KEYS"))
+        self.assertEqual(
+            HarvestOptionsContractComparator(Path("payload.json"), Path("js.json")).summary.RESULT_KEYS,
+            HarvestOptionsSummary.RESULT_KEYS,
+        )
+
     def test_harvest_options_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
