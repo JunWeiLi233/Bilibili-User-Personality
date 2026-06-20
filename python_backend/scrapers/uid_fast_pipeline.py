@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 from typing import Any
 
@@ -209,6 +210,28 @@ class FastPipelineLauncherPlanner:
         }
 
 
+class FastPipelineLauncherPlanRunner:
+    """Build a dry-run launch plan compatible with launchFastWorkers.ps1."""
+
+    def __init__(
+        self,
+        data_dir: str | Path,
+        *,
+        script: str = "server/scripts/uidPipelineFast.js",
+        launch_delay_seconds: int = 5,
+    ):
+        self.data_dir = Path(data_dir)
+        self.script = script
+        self.launch_delay_seconds = int(launch_delay_seconds)
+
+    def run(self) -> dict[str, Any]:
+        return FastPipelineLauncherPlanner().build_plan(
+            data_dir=self.data_dir,
+            script=self.script,
+            launch_delay_seconds=self.launch_delay_seconds,
+        )
+
+
 class FastPipelineLauncherSummary:
     """Shape fast pipeline launcher plans into the JS/Python comparator summary contract."""
 
@@ -248,3 +271,25 @@ class FastPipelineLauncherContractComparator:
             "python": python_summary,
             "js": js_summary,
         }
+
+
+class FastPipelineLauncherPayloadContractComparator:
+    """Compare fast pipeline launcher plans against saved JS-compatible JSON."""
+
+    def __init__(self, data_dir: str | Path, js_report_path: str | Path):
+        self.data_dir = Path(data_dir)
+        self.js_report_path = Path(js_report_path)
+        self.summary = FastPipelineLauncherSummary()
+        self.comparator = FastPipelineLauncherContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = FastPipelineLauncherPlanRunner(self.data_dir).run()
+        js_result = self._read_js_report()
+        return self.comparator.compare(python_result, js_result)
+
+    def _read_js_report(self) -> dict[str, Any]:
+        if not self.js_report_path.exists():
+            return {}
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
