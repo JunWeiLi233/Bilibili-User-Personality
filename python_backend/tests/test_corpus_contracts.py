@@ -42,6 +42,7 @@ from python_backend.cli import uid_pipeline_merge as uid_pipeline_merge_cli
 from python_backend.cli import uid_pipeline_launcher as uid_pipeline_launcher_cli
 from python_backend.cli import uid_pipeline_plan as uid_pipeline_plan_cli
 from python_backend.cli import uid_pipeline_progress as uid_pipeline_progress_cli
+from python_backend.cli import uid_pipeline_state as uid_pipeline_state_cli
 from python_backend.cli import uid_range_progress as uid_range_progress_cli
 from python_backend.cli import video_comment_filter as video_comment_filter_cli
 from python_backend.cli import video_context as video_context_cli
@@ -13101,6 +13102,27 @@ class CorpusContractTests(unittest.TestCase):
                 {"start": 3, "end": 4, "progressFile": "uid-pipeline-3-4.json", "processed": 1, "total": 2, "complete": False},
             ],
         )
+
+    def test_uid_pipeline_state_cli_runner_reads_data_dir_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            (data_dir / "uid-pipeline-launcher.json").write_text(
+                json.dumps({"startedAt": "2026-06-19T00:00:00.000Z", "workers": [{"start": 1, "end": 2, "progressFile": "uid-pipeline-1-2.json"}]}),
+                encoding="utf-8",
+            )
+            (data_dir / "uid-pipeline-1-2.json").write_text(
+                json.dumps({"processed": {"1": "success"}, "stats": {"success": 1}}),
+                encoding="utf-8",
+            )
+
+            result = uid_pipeline_state_cli.UidPipelineStateCliRunner(["--data-dir", str(data_dir)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["startedAt"], "2026-06-19T00:00:00.000Z")
+        self.assertEqual(result["summary"], {"workers": 1, "completedWorkers": 0, "totalProcessed": 1, "totalExpected": 2, "completionRatio": 0.5})
+        self.assertEqual(result["stats"], {"success": 1, "noComments": 0, "noVideos": 0, "noUser": 0, "trainError": 0, "blocked": 0, "errors": 0})
 
     def test_uid_pipeline_state_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
