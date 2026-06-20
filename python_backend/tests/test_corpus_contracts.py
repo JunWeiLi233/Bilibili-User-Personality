@@ -94,7 +94,7 @@ from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriteSummary, CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliParseSummary, BilibiliPublicParser
-from python_backend.scrapers.aicu import AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanSummary, AicuScrapePlanner
+from python_backend.scrapers.aicu import AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanSummary, AicuScrapePlanner
 from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanSummary, AicuBrowserBatchPlanner
 from python_backend.scrapers import video_link_direct
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanner
@@ -8388,6 +8388,35 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "database", "python": {"users": 0, "withComments": 0, "comments": 0, "danmaku": 0}, "js": {"users": 9}},
             ],
         )
+
+    def test_aicu_batch_progress_payload_comparator_owns_result_key_mismatch_contract(self):
+        result = AicuBatchProgressPayloadComparator().compare(
+            {
+                "mode": "uid-range",
+                "progress": {"completed": 2},
+                "database": {"users": 3},
+                "timestamps": {"lastUpdated": "python"},
+                "progressFile": "ignored.json",
+            },
+            {
+                "progress": {"completed": 0},
+                "database": {"users": 0},
+                "timestamps": {"lastUpdated": "js"},
+                "progressFile": "ignored.json",
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "progress", "python": {"completed": 2}, "js": {"completed": 0}},
+                {"key": "database", "python": {"users": 3}, "js": {"users": 0}},
+                {"key": "timestamps", "python": {"lastUpdated": "python"}, "js": {"lastUpdated": "js"}},
+            ],
+        )
+        self.assertEqual(result["python"], {"mode": "uid-range", "progress": {"completed": 2}, "database": {"users": 3}, "timestamps": {"lastUpdated": "python"}})
+        self.assertEqual(result["js"], {"progress": {"completed": 0}, "database": {"users": 0}, "timestamps": {"lastUpdated": "js"}})
 
     def test_batch_uid_progress_runner_summarizes_discovery_and_phase2_status(self):
         with tempfile.TemporaryDirectory() as tmp:
