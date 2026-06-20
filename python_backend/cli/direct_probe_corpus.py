@@ -23,7 +23,7 @@ class DirectProbeCorpusRunner:
         comments_payload = self._read_json(self.comments_path, [])
         comments = comments_payload.get("comments") if isinstance(comments_payload, dict) else comments_payload
         run = self._read_json_object(self.run_path, {})
-        return {"ok": True, "corpus": self.builder.build_probe_corpus(existing, comments if isinstance(comments, list) else [], run)}
+        return self.builder.build_probe_corpus_result(existing, comments if isinstance(comments, list) else [], run)
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
         if not path.exists():

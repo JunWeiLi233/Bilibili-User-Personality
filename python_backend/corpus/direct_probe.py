@@ -650,6 +650,9 @@ class DirectProbeCorpusBuilder:
             "updatedAt": at,
         }
 
+    def build_probe_corpus_result(self, existing: dict[str, Any] | None, comments: list[Any] | None, run: dict[str, Any] | None = None) -> dict[str, Any]:
+        return {"ok": True, "corpus": self.build_probe_corpus(existing, comments, run)}
+
     def is_analyzable_message(self, value: Any) -> bool:
         return _has_han(value)
 

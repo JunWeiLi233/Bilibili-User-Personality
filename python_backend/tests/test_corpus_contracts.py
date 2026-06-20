@@ -3252,6 +3252,17 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(corpus["runs"][-1]["commentsAdded"], 1)
         self.assertEqual(corpus["updatedAt"], "2026-06-18T00:00:00.000Z")
 
+    def test_direct_probe_builder_owns_probe_corpus_result_contract(self):
+        result = DirectProbeCorpusBuilder().build_probe_corpus_result(
+            {"version": 1, "comments": [], "runs": []},
+            [{"message": "\u65b0\u8bc4\u8bba", "source": "fresh", "uid": "9"}],
+            {"at": "2026-06-18T01:00:00.000Z"},
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["corpus"]["comments"][0]["message"], "\u65b0\u8bc4\u8bba")
+        self.assertEqual(result["corpus"]["runs"][0]["commentsAdded"], 1)
+
     def test_direct_probe_corpus_summary_extracts_comparator_contract(self):
         result = DirectProbeCorpusSummary().summarize(
             {
