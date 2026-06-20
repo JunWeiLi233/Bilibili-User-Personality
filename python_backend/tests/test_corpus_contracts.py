@@ -5,7 +5,7 @@ from pathlib import Path
 
 from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditReport
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageSummary
-from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
+from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressSummary, CoverageProgressTracker
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReporter, VideoKeywordDiscoveryReportSummary
 from python_backend.analysis import harvest_options as harvest_options_module
@@ -10279,6 +10279,41 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             CoverageHarvestLoopPlanContractComparator(Path("payload.json"), Path("js.json")).summary.RESULT_KEYS,
             CoverageHarvestLoopPlanSummary.RESULT_KEYS,
+        )
+
+    def test_coverage_harvest_loop_payload_comparator_owns_result_key_mismatch_contract(self):
+        result = CoverageHarvestLoopPlanPayloadComparator().compare(
+            {
+                "ok": True,
+                "deepseek": {"model": "deepseek-v4-flash"},
+                "loop": {"maxCycles": 0, "roundsPerCycle": 1, "maxQueries": 12},
+                "initialStopReason": "cycle_limit",
+                "extra": "ignored",
+            },
+            {
+                "ok": True,
+                "deepseek": {"model": "deepseek-v4-pro"},
+                "loop": {"maxCycles": 1},
+                "initialStopReason": "coverage_gate_passed",
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "deepseek", "python": {"model": "deepseek-v4-flash"}, "js": {"model": "deepseek-v4-pro"}},
+                {"key": "loop", "python": {"maxCycles": 0, "roundsPerCycle": 1, "maxQueries": 12}, "js": {"maxCycles": 1}},
+                {"key": "initialStopReason", "python": "cycle_limit", "js": "coverage_gate_passed"},
+            ],
+        )
+        self.assertEqual(
+            result["python"],
+            {"deepseek": {"model": "deepseek-v4-flash"}, "loop": {"maxCycles": 0, "roundsPerCycle": 1, "maxQueries": 12}, "initialStopReason": "cycle_limit"},
+        )
+        self.assertEqual(
+            result["js"],
+            {"deepseek": {"model": "deepseek-v4-pro"}, "loop": {"maxCycles": 1}, "initialStopReason": "coverage_gate_passed"},
         )
 
     def test_coverage_harvest_loop_contract_comparator_reports_mismatches(self):
