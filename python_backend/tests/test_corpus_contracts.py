@@ -6557,6 +6557,26 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["stats"], {"success": 1, "noComments": 0, "noVideos": 1, "noUser": 0, "trainError": 0, "blocked": 0, "errors": 0})
         self.assertEqual(result["userDb"], {"users": 2, "usersInRange": 1})
 
+    def test_uid_fast_pipeline_planner_builds_plan_from_json_payload_contract(self):
+        result = UidFastPipelinePlanner.build_plan_from_payload(
+            {
+                "argv": ["--start=30", "--end=34"],
+                "progress": {
+                    "processed": {"30": "success", "31": "no_comments"},
+                    "stats": {"success": "1", "noComments": "1", "errors": "3"},
+                },
+                "database": {"users": {"30": {}, "34": {}, "88": {}}},
+                "ignored": {"runner": "only"},
+            }
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"start": 30, "end": 34, "total": 5})
+        self.assertEqual(result["progress"], {"processed": 2, "remaining": 3, "completionRatio": 0.4})
+        self.assertEqual(result["network"], {"mode": "directFetchJson", "usesCrawlerRateLimiter": False, "hasUserAgent": True})
+        self.assertEqual(result["stats"], {"success": 1, "noComments": 1, "noVideos": 0, "noUser": 0, "trainError": 0, "blocked": 0, "errors": 3})
+        self.assertEqual(result["userDb"], {"users": 3, "usersInRange": 2})
+
     def test_uid_fast_pipeline_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
