@@ -7285,6 +7285,61 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["sessionIdentity"]["sessionPlatform"], "Windows")
         self.assertTrue(result["sessionIdentity"]["sessionUaPicked"])
 
+    def test_bilibili_crawler_helper_plans_cookie_initialization_contract(self):
+        helper = BilibiliCrawlerHelper()
+
+        self.assertEqual(
+            helper.plan_cookie_initialization(
+                {"cookiesInitialized": True, "cookieJar": {"buvid3": "existing"}},
+                env_cookie="SESSDATA=ignored",
+            ),
+            {
+                "cookiesInitialized": True,
+                "cookieJar": {"buvid3": "existing"},
+                "source": "existing",
+            },
+        )
+        self.assertEqual(
+            helper.plan_cookie_initialization(
+                {"cookiesInitialized": False},
+                env_cookie=" SESSDATA=abc ; invalid ; empty= ; good=x=y ",
+            ),
+            {
+                "cookiesInitialized": True,
+                "cookieJar": {"SESSDATA": "abc", "good": "x=y"},
+                "source": "env",
+            },
+        )
+        self.assertEqual(
+            helper.plan_cookie_initialization(
+                {},
+                random_fn=lambda: 0.5,
+                now_ms=1700000000000,
+            )["cookieJar"]["b_nut"],
+            "1700000000",
+        )
+
+    def test_bilibili_crawler_helper_builds_payload_cookie_initialization_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "cookieInitialization": {
+                    "state": {"cookiesInitialized": False},
+                    "envCookie": " SESSDATA=abc ; good=x=y ",
+                    "randomValue": 0.5,
+                    "nowMs": 1700000000000,
+                }
+            }
+        )
+
+        self.assertEqual(
+            result["cookieInitialization"],
+            {
+                "cookiesInitialized": True,
+                "cookieJar": {"SESSDATA": "abc", "good": "x=y"},
+                "source": "env",
+            },
+        )
+
     def test_bilibili_crawler_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -7350,6 +7405,7 @@ class CorpusContractTests(unittest.TestCase):
                 "dependencyCookie": {"enabled": True},
                 "requestStateReset": {"consecutiveBlocks": 0},
                 "sessionIdentity": {"sessionUaPicked": True},
+                "cookieInitialization": {"source": "env"},
                 "dynamicRecords": {"objects": []},
                 "extra": "ignored",
             }
@@ -7373,6 +7429,7 @@ class CorpusContractTests(unittest.TestCase):
                 "dependencyCookie": {"enabled": True},
                 "requestStateReset": {"consecutiveBlocks": 0},
                 "sessionIdentity": {"sessionUaPicked": True},
+                "cookieInitialization": {"source": "env"},
                 "dynamicRecords": {"objects": []},
             },
         )

@@ -83,6 +83,7 @@ class BilibiliCrawlerSummary:
         "dependencyCookie",
         "requestStateReset",
         "sessionIdentity",
+        "cookieInitialization",
     )
 
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -280,10 +281,49 @@ class BilibiliCrawlerHelper:
                 session_identity.get("state") if isinstance(session_identity.get("state"), dict) else {},
                 random_value=session_identity.get("randomValue", 0),
             )
+        if isinstance(payload.get("cookieInitialization"), dict):
+            cookie_initialization = payload.get("cookieInitialization") or {}
+            random_value = cookie_initialization.get("randomValue", 0.5)
+            result["cookieInitialization"] = self.plan_cookie_initialization(
+                cookie_initialization.get("state") if isinstance(cookie_initialization.get("state"), dict) else {},
+                env_cookie=cookie_initialization.get("envCookie", ""),
+                random_fn=lambda: random_value,
+                now_ms=cookie_initialization.get("nowMs", 0),
+            )
         return result
 
     def build_crawler_config(self, env: dict[str, Any] | None = None) -> dict[str, int | float]:
         return BilibiliCrawlerConfigBuilder().build(env)
+
+    def plan_cookie_initialization(
+        self,
+        state: dict[str, Any] | None = None,
+        env_cookie: Any = "",
+        random_fn: Any | None = None,
+        now_ms: Any | None = None,
+    ) -> dict[str, Any]:
+        state = state if isinstance(state, dict) else {}
+        if bool(state.get("cookiesInitialized")):
+            cookie_jar = state.get("cookieJar") if isinstance(state.get("cookieJar"), dict) else {}
+            return {
+                "cookiesInitialized": True,
+                "cookieJar": {str(name): str(value) for name, value in cookie_jar.items() if str(name or "").strip() and str(value or "").strip()},
+                "source": "existing",
+            }
+
+        cookie_jar = self._cookie_pairs(env_cookie)
+        if cookie_jar:
+            return {
+                "cookiesInitialized": True,
+                "cookieJar": cookie_jar,
+                "source": "env",
+            }
+
+        return {
+            "cookiesInitialized": True,
+            "cookieJar": self.make_synthetic_cookie_jar(random_fn=random_fn, now_ms=now_ms),
+            "source": "synthetic",
+        }
 
     def plan_session_identity(
         self,
