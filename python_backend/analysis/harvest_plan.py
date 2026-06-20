@@ -293,6 +293,7 @@ class KeywordHarvestPlanBuilder:
 class KeywordHarvestPlanSummary:
     """Shape keyword harvest plans into the JS/Python comparator contract."""
 
+    RESULT_KEYS = ("queries", "plan")
     PLAN_KEYS = ("query", "source", "term", "family")
 
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:

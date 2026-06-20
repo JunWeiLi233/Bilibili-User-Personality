@@ -44,7 +44,7 @@ class KeywordHarvestPlanContractComparator:
         js_summary = self.summary.summarize(js_result)
         mismatches = [
             {"key": key, "python": python_summary.get(key), "js": js_summary.get(key)}
-            for key in ("queries", "plan")
+            for key in self.summary.RESULT_KEYS
             if key in js_summary and python_summary.get(key) != js_summary.get(key)
         ]
         return {

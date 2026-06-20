@@ -9102,6 +9102,7 @@ class CorpusContractTests(unittest.TestCase):
 
     def test_keyword_harvest_plan_comparator_uses_backend_summary_contract_keys(self):
         self.assertFalse(hasattr(KeywordHarvestPlanContractComparator, "PLAN_KEYS"))
+        self.assertEqual(KeywordHarvestPlanSummary.RESULT_KEYS, ("queries", "plan"))
         self.assertEqual(
             KeywordHarvestPlanContractComparator(Path("payload.json"), Path("js-plan.json")).summary.PLAN_KEYS,
             KeywordHarvestPlanSummary.PLAN_KEYS,
