@@ -278,11 +278,16 @@ class LocalCorpusFlattenPayloadContractComparator:
 def _evidence_count(entry: dict[str, Any]) -> int:
     count = entry.get("evidenceCount")
     if count is None:
-        count = len(entry.get("evidence") or entry.get("evidenceSamples") or [])
+        count = len(_list_field(entry, "evidence") or _list_field(entry, "evidenceSamples"))
     try:
         return max(0, int(count))
     except (TypeError, ValueError):
         return 0
+
+
+def _list_field(entry: dict[str, Any], key: str) -> list[Any]:
+    value = entry.get(key) if isinstance(entry, dict) else None
+    return value if isinstance(value, list) else []
 
 
 def _is_video_context_evidence_source(source: dict[str, Any]) -> bool:
@@ -305,7 +310,7 @@ def _is_comment_backed_sample(sample: Any) -> bool:
 
 
 def _has_bilibili_comment_scan_source(entry: dict[str, Any]) -> bool:
-    for source in entry.get("evidenceSources") or []:
+    for source in _list_field(entry, "evidenceSources"):
         source_text = clean_text(source.get("source") if isinstance(source, dict) else "")
         if source_text.startswith("Bilibili public ") and "comment scan" in source_text:
             return True
@@ -317,14 +322,14 @@ def _comment_backed_evidence_count(entry: dict[str, Any]) -> int:
     if raw_count == 0:
         return 0
     samples = set()
-    for source in entry.get("evidenceSources") or []:
+    for source in _list_field(entry, "evidenceSources"):
         if not isinstance(source, dict):
             continue
         sample = clean_text(source.get("sample"))
         if sample and not _is_video_context_evidence_source(source) and _is_comment_backed_sample(sample):
             samples.add(sample)
     if _has_bilibili_comment_scan_source(entry):
-        for sample in entry.get("evidenceSamples") or []:
+        for sample in _list_field(entry, "evidenceSamples"):
             sample_text = clean_text(sample)
             if _is_comment_backed_sample(sample_text):
                 samples.add(sample_text)
@@ -383,9 +388,9 @@ def _entry_needles(entry: dict[str, Any]) -> list[str]:
 
 def _existing_samples(entry: dict[str, Any]) -> set[str]:
     samples = []
-    evidence = entry.get("evidence") if isinstance(entry.get("evidence"), list) else []
-    evidence_samples = entry.get("evidenceSamples") if isinstance(entry.get("evidenceSamples"), list) else []
-    evidence_sources = entry.get("evidenceSources") if isinstance(entry.get("evidenceSources"), list) else []
+    evidence = _list_field(entry, "evidence")
+    evidence_samples = _list_field(entry, "evidenceSamples")
+    evidence_sources = _list_field(entry, "evidenceSources")
     samples.extend(evidence)
     samples.extend(evidence_samples)
     samples.extend(source.get("sample") for source in evidence_sources if isinstance(source, dict))
@@ -393,7 +398,7 @@ def _existing_samples(entry: dict[str, Any]) -> set[str]:
 
 
 def _source_backed_samples(entry: dict[str, Any]) -> set[str]:
-    evidence_sources = entry.get("evidenceSources") if isinstance(entry.get("evidenceSources"), list) else []
+    evidence_sources = _list_field(entry, "evidenceSources")
     return {
         clean_text(source.get("sample"))
         for source in evidence_sources
@@ -409,7 +414,7 @@ def _has_recoverable_video_source(entry: dict[str, Any], sample: Any) -> bool:
     target_sample = clean_text(sample)
     if not target_sample:
         return False
-    for source in entry.get("evidenceSources") or []:
+    for source in _list_field(entry, "evidenceSources"):
         if not isinstance(source, dict):
             continue
         if clean_text(source.get("sample")) == target_sample and _source_has_recoverable_video_url(source.get("source")):
