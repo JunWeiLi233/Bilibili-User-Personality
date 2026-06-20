@@ -116,7 +116,7 @@ from python_backend.scrapers.uid_discovery import UidDiscoveryPlanSummary, UidDi
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanSummary, UidParallelProgressReporter, UidParallelProgressSummary
 from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineMergeReporter, UidPipelineMergeSummary, UidPipelinePlanSummary, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter, ScraperMonitorSummary
-from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherPlanner, UidFastPipelinePlanner
+from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherPlanner, UidFastPipelinePlanSummary, UidFastPipelinePlanner
 
 
 class CorpusContractTests(unittest.TestCase):
@@ -6292,6 +6292,38 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "network", "python": {"mode": "directFetchJson", "usesCrawlerRateLimiter": False, "hasUserAgent": True}, "js": {"usesCrawlerRateLimiter": True}},
                 {"key": "training", "python": {"multiagent": True, "existingTermsOnly": False, "lockRetryDelayMs": 5000, "lockRetryJitterMs": 2000, "lockMaxRetries": 15, "forceCleanLockAfterAttempt": 10}, "js": {"lockMaxRetries": 5}},
             ],
+        )
+
+    def test_uid_fast_pipeline_plan_summary_extracts_comparator_contract(self):
+        summary = UidFastPipelinePlanSummary().summarize(
+            {
+                "ok": True,
+                "range": {"start": 1, "end": 3, "total": 3},
+                "progress": {"processed": 1},
+                "limits": {"replyPageSize": 20},
+                "network": {"mode": "directFetchJson"},
+                "pacing": {"delayUidMs": 3500},
+                "training": {"multiagent": True},
+                "blockPolicy": {"blockedCodes": [-799, -352]},
+                "stats": {"success": 1},
+                "userDb": {"users": 2},
+                "extra": "ignored",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "range": {"start": 1, "end": 3, "total": 3},
+                "progress": {"processed": 1},
+                "limits": {"replyPageSize": 20},
+                "network": {"mode": "directFetchJson"},
+                "pacing": {"delayUidMs": 3500},
+                "training": {"multiagent": True},
+                "blockPolicy": {"blockedCodes": [-799, -352]},
+                "stats": {"success": 1},
+                "userDb": {"users": 2},
+            },
         )
 
     def test_uid_parallel_progress_runner_summarizes_worker_assignment_and_progress(self):

@@ -119,6 +119,16 @@ class UidFastPipelinePlanner:
         return count
 
 
+class UidFastPipelinePlanSummary:
+    """Shape UID fast pipeline plans into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("range", "progress", "limits", "network", "pacing", "training", "blockPolicy", "stats", "userDb")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
 class FastPipelineLauncherPlanner:
     """Build a dry-run launch plan compatible with launchFastWorkers.ps1."""
 
