@@ -7329,6 +7329,13 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_batch_scrape_progress_comparator_uses_summary_contract_keys(self):
+        self.assertFalse(hasattr(BatchScrapeProgressContractComparator, "RESULT_KEYS"))
+        self.assertEqual(
+            BatchScrapeProgressContractComparator(Path("data"), Path("js.json")).summary.RESULT_KEYS,
+            AicuBatchProgressSummary.RESULT_KEYS,
+        )
+
     def test_batch_scrape_progress_runner_summarizes_popular_progress(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
