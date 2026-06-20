@@ -391,6 +391,119 @@ class HistoryTagCorpusLoader:
         return payload if isinstance(payload, dict) else None
 
 
+class HistoryTagCorpusShardWriter:
+    """Write history-tag corpora into split tag, video, and run shard manifests."""
+
+    def __init__(self, path: str | Path, max_shard_bytes: int = 64 * 1024):
+        self.path = Path(path)
+        self.max_shard_bytes = max(1024, int(max_shard_bytes))
+
+    def write(
+        self,
+        *,
+        tags: list[Any],
+        videos: list[dict[str, Any]],
+        runs: list[dict[str, Any]],
+        manifest: dict[str, Any] | None = None,
+    ) -> None:
+        manifest = dict(manifest or {})
+        tag_files = self._write_shards(tags, "tags", self._tags_dir(), "tags", manifest)
+        video_files = self._write_shards(videos, "videos", self._videos_dir(), "videos", manifest)
+        run_files = self._write_shards(runs, "runs", self._runs_dir(), "runs", manifest)
+        payload = {
+            **manifest,
+            "version": manifest.get("version", 1),
+            "storage": "split",
+            "shardMaxBytes": self.max_shard_bytes,
+            "tagFiles": tag_files,
+            "tagCount": len(tags),
+            "videoFiles": video_files,
+            "videoCount": len(videos),
+            "runFiles": run_files,
+            "runCount": len(runs),
+        }
+        self._write_json(self.path, payload)
+        self._remove_stale_shards(self._tags_dir(), tag_files, r"tags-\d{4}\.json")
+        self._remove_stale_shards(self._videos_dir(), video_files, r"videos-\d{4}\.json")
+        self._remove_stale_shards(self._runs_dir(), run_files, r"runs-\d{4}\.json")
+
+    def _tags_dir(self) -> Path:
+        return self.path.with_suffix("").parent / f"{self.path.with_suffix('').name}.tags"
+
+    def _videos_dir(self) -> Path:
+        return self.path.with_suffix("").parent / f"{self.path.with_suffix('').name}.videos"
+
+    def _runs_dir(self) -> Path:
+        return self.path.with_suffix("").parent / f"{self.path.with_suffix('').name}.runs"
+
+    def _write_shards(
+        self,
+        values: list[Any],
+        file_stem: str,
+        directory: Path,
+        key: str,
+        manifest: dict[str, Any],
+    ) -> list[str]:
+        directory.mkdir(parents=True, exist_ok=True)
+        shards = self._split_values(values, key, manifest)
+        files: list[str] = []
+        for index, shard_values in enumerate(shards, start=1):
+            name = f"{file_stem}-{index:04d}.json"
+            self._write_json(directory / name, self._build_shard_payload(manifest, index, len(shards), key, shard_values))
+            files.append(f"{directory.name}/{name}")
+        return files
+
+    def _split_values(self, values: list[Any], key: str, manifest: dict[str, Any]) -> list[list[Any]]:
+        if not values:
+            return [[]]
+        shards: list[list[Any]] = []
+        current: list[Any] = []
+        for value in values:
+            candidate = [*current, value]
+            if current and self._json_bytes(self._build_shard_payload(manifest, 9999, 9999, key, candidate)) > self.max_shard_bytes:
+                shards.append(current)
+                current = [value]
+            else:
+                current = candidate
+        if current:
+            shards.append(current)
+        return shards
+
+    def _remove_stale_shards(self, directory: Path, kept_files: list[str], pattern: str) -> None:
+        kept_names = {Path(path).name for path in kept_files}
+        regex = re.compile(pattern, re.IGNORECASE)
+        if not directory.exists():
+            return
+        for path in directory.iterdir():
+            if path.is_file() and regex.fullmatch(path.name) and path.name not in kept_names:
+                path.unlink()
+
+    @staticmethod
+    def _build_shard_payload(
+        manifest: dict[str, Any],
+        shard: int,
+        shard_count: int,
+        key: str,
+        values: list[Any],
+    ) -> dict[str, Any]:
+        return {
+            "version": manifest.get("version", 1),
+            "updatedAt": manifest.get("updatedAt") or None,
+            "shard": shard,
+            "shardCount": shard_count,
+            key: values,
+        }
+
+    @staticmethod
+    def _json_bytes(payload: dict[str, Any]) -> int:
+        return len((json.dumps(payload, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
+
+    @staticmethod
+    def _write_json(path: Path, payload: dict[str, Any]) -> None:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
 class HistoryTagCorpusRunner:
     """Merge Bilibili history-tag corpus JSON contracts from files."""
 

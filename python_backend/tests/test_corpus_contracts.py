@@ -97,7 +97,7 @@ from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContra
 from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContractComparator, FastPipelineLauncherPlanRunner
 from python_backend.corpus import direct_probe as direct_probe_module
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusContractComparator as DirectProbeCorpusPayloadComparator, DirectProbeCorpusPayloadContractComparator, DirectProbeCorpusRunner as DirectProbePayloadCorpusRunner, DirectProbeCorpusSummary, DirectProbePlanContractComparator as DirectProbePlanPayloadComparator, DirectProbePlanPayloadContractComparator, DirectProbePlanRunner as DirectProbePayloadPlanRunner, DirectProbePlanSummary
-from python_backend.corpus.history_tags import HistoryTagCorpusContractComparator as HistoryTagCorpusPayloadComparator, HistoryTagCorpusManager, HistoryTagCorpusPayloadContractComparator, HistoryTagCorpusRunner as HistoryTagPayloadCorpusRunner, HistoryTagCorpusSummary, HistoryTagScrapePlanner, HistoryTagScrapePlanContractComparator as HistoryTagScrapePlanPayloadComparator, HistoryTagScrapePlanPayloadContractComparator, HistoryTagScrapePlanRunner as HistoryTagScrapePayloadPlanRunner, HistoryTagScrapePlanSummary
+from python_backend.corpus.history_tags import HistoryTagCorpusContractComparator as HistoryTagCorpusPayloadComparator, HistoryTagCorpusLoader, HistoryTagCorpusManager, HistoryTagCorpusPayloadContractComparator, HistoryTagCorpusRunner as HistoryTagPayloadCorpusRunner, HistoryTagCorpusShardWriter, HistoryTagCorpusSummary, HistoryTagScrapePlanner, HistoryTagScrapePlanContractComparator as HistoryTagScrapePlanPayloadComparator, HistoryTagScrapePlanPayloadContractComparator, HistoryTagScrapePlanRunner as HistoryTagScrapePayloadPlanRunner, HistoryTagScrapePlanSummary
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceCorpusImportContractComparator as HuggingFaceCorpusImportPayloadComparator, HuggingFaceCorpusImportPlanContractComparator as HuggingFaceCorpusImportPlanPayloadComparator, HuggingFaceCorpusImportPlanRunner as HuggingFaceCorpusImportPayloadPlanRunner, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
 from python_backend.corpus.local import LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidenceJsonPayloadRunner, LocalCorpusEvidencePayloadContractComparator, LocalCorpusEvidenceRunner as LocalCorpusEvidencePayloadRunner, LocalCorpusEvidenceSummary
 from python_backend.corpus.local import LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenPayloadContractComparator, LocalCorpusFlattenRunner as LocalCorpusFlattenPayloadRunner, LocalCorpusFlattenSummary, LocalCorpusFlattener
@@ -5870,6 +5870,33 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual([tag["name"] for tag in result["corpus"]["tags"]], ["\u5386\u53f2", "\u6e05\u671d"])
         self.assertEqual([video["bvid"] for video in result["corpus"]["videos"]], ["BVoldhistory", "BVnewhistory"])
         self.assertEqual([run["at"] for run in result["corpus"]["runs"]], ["old", "new"])
+
+    def test_history_tag_corpus_shard_writer_round_trips_through_loader(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output_path = root / "history-tags.json"
+            tags = [{"name": f"\u5386\u53f2{i}", "source": "seed"} for i in range(3)]
+            videos = [
+                {"bvid": f"BVhistory{i}", "title": f"\u5386\u53f2\u89c6\u9891{i}", "tags": ["\u5386\u53f2"], "replyCount": i}
+                for i in range(3)
+            ]
+            runs = [{"at": f"run-{i}"} for i in range(2)]
+
+            HistoryTagCorpusShardWriter(output_path, max_shard_bytes=1024).write(
+                tags=tags,
+                videos=videos,
+                runs=runs,
+                manifest={"updatedAt": "2026-06-20T00:00:00.000Z"},
+            )
+            loaded = HistoryTagCorpusLoader(output_path).load()
+
+        self.assertEqual(loaded["storage"], "split")
+        self.assertEqual(loaded["tagCount"], 3)
+        self.assertEqual(loaded["videoCount"], 3)
+        self.assertEqual(loaded["runCount"], 2)
+        self.assertEqual(loaded["tags"], tags)
+        self.assertEqual(loaded["videos"], videos)
+        self.assertEqual(loaded["runs"], runs)
 
     def test_history_tag_corpus_contract_comparator_reports_corpus_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
