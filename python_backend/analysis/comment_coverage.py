@@ -96,7 +96,13 @@ class CommentCoverageClassifier:
 
     def _comment_message(self, comment: Any) -> str:
         if isinstance(comment, dict):
-            return _clean_text(comment.get("message"))
+            return _clean_text(
+                comment.get("message")
+                or comment.get("text")
+                or comment.get("commentText")
+                or comment.get("combinedText")
+                or comment.get("content")
+            )
         return _clean_text(comment)
 
     def _lexical_hits(self, dictionary: dict[str, Any], message: str) -> list[dict[str, Any]]:

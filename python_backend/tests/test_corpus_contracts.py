@@ -10044,6 +10044,18 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(diagnostic["reason"], "scrape diagnostic line, not user speech")
         self.assertFalse(unsupported["covered"])
 
+    def test_comment_coverage_classifier_reads_scraper_comment_text_fields(self):
+        dictionary = {"entries": [{"term": "\u72d7\u5934", "family": "evasion"}, {"term": "\u67e5\u8d44\u6599", "family": "evidence"}]}
+        classifier = CommentCoverageClassifier()
+
+        comment_text = classifier.classify(dictionary, {"commentText": "\u72d7\u5934\u4fdd\u547d[doge]"})
+        combined_text = classifier.classify(dictionary, {"combinedText": "\u5efa\u8bae\u67e5\u67e5\u8d44\u6599"})
+        text = classifier.classify(dictionary, {"text": "\u666e\u901a\u8bc4\u8bba"})
+
+        self.assertEqual(comment_text["mode"], "keyword")
+        self.assertEqual(combined_text["mode"], "keyword")
+        self.assertEqual(text["mode"], "neutral")
+
     def test_comment_coverage_classifier_samples_comments(self):
         dictionary = {"entries": [{"term": "\u7f51\u76d8\u89c1", "family": "evasion"}]}
         comments = [
