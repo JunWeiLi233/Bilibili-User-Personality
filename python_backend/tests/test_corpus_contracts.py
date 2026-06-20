@@ -11,7 +11,7 @@ from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKe
 from python_backend.analysis import harvest_options as harvest_options_module
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, HarvestOptionsContractComparator as HarvestOptionsPayloadComparator, HarvestOptionsPayloadContractComparator, HarvestOptionsRunner as HarvestOptionsPayloadRunner, HarvestOptionsSummary, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, KeywordHarvestPlanContractComparator as KeywordHarvestPlanPayloadComparator, KeywordHarvestPlanPayloadContractComparator, KeywordHarvestPlanRunner as KeywordHarvestPayloadPlanRunner, KeywordHarvestPlanSummary
-from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateContractComparator as HarvestStatePayloadComparator, HarvestStateFinalizer, HarvestStatePayloadProcessor, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
+from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateContractComparator as HarvestStatePayloadComparator, HarvestStatePayloadContractComparator, HarvestStateFinalizer, HarvestStatePayloadProcessor, HarvestStateRunner as HarvestStatePayloadRunner, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetResolvePlanContractComparator as NearTargetResolvePlanPayloadComparator, NearTargetResolvePlanner, NearTargetResolvePlanRunner as NearTargetResolvePayloadPlanRunner
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsPayloadContractComparator, ReadmeStatsRunner as ReadmeStatsPayloadRunner, ReadmeStatsSummary, ReadmeStatsSvgRenderer
@@ -12090,6 +12090,43 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(attempt["successfulAttempts"], 0)
         self.assertEqual(attempt["lastError"], "timeout")
         self.assertEqual(attempt["queries"][0]["error"], "timeout")
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(comparison["mismatches"][0]["key"], "termAttempts")
+
+    def test_harvest_state_payload_runner_lives_with_analysis_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "harvest-state.json"
+            js_state_path = root / "js-state.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "strategyVersion": 5,
+                        "finishedAt": "2026-06-19T00:00:00.000Z",
+                        "termAttempts": {},
+                        "planItem": {
+                            "term": "\u672a\u547d\u4e2d",
+                            "family": "attack",
+                            "query": "\u672a\u547d\u4e2d \u8bc4\u8bba\u533a",
+                            "variantIndex": 0,
+                            "evidenceCount": 0,
+                        },
+                        "result": {"ok": False, "error": "timeout", "videos": [], "comments": []},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_state_path.write_text(json.dumps({"termAttempts": {"wrong": {"term": "wrong", "attempts": 9}}}), encoding="utf-8")
+
+            result = HarvestStatePayloadRunner(payload_path).run()
+            comparison = HarvestStatePayloadContractComparator(payload_path, js_state_path).compare()
+
+        key = "5pyq5ZG95Lit"
+        attempt = result["termAttempts"][key]
+        self.assertTrue(result["ok"])
+        self.assertEqual(attempt["attempts"], 1)
+        self.assertEqual(attempt["successfulAttempts"], 0)
+        self.assertEqual(attempt["lastError"], "timeout")
         self.assertFalse(comparison["ok"])
         self.assertEqual(comparison["mismatches"][0]["key"], "termAttempts")
 
