@@ -84,7 +84,7 @@ from python_backend.corpus.local import LocalCorpusEvidenceContractComparator as
 from python_backend.corpus.local import LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenSummary, LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanContractComparator as LocalCorpusMinePlanPayloadComparator, LocalCorpusMinePlanSummary
 from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner, AgentDictionaryMergePlanSummary, MergeAgentDictionariesPlanContractComparator as MergeAgentDictionariesPlanPayloadComparator, MergeAgentDictionariesPlanRunner as MergeAgentDictionariesPayloadPlanRunner
-from python_backend.corpus.tieba import TiebaCorpusUpdater, TiebaCorpusUpdateSummary
+from python_backend.corpus.tieba import TiebaCorpusUpdateContractComparator as TiebaCorpusUpdatePayloadComparator, TiebaCorpusUpdater, TiebaCorpusUpdateRunner as TiebaCorpusUpdatePayloadRunner, TiebaCorpusUpdateSummary
 from python_backend.corpus import dictionary_prune
 from python_backend.analysis import video_filter
 from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoContextBuilder, VideoContextContractComparator as VideoContextPayloadComparator, VideoContextRunner as VideoContextPayloadRunner, VideoRelevanceContractComparator as VideoRelevancePayloadComparator, VideoRelevanceFilter
@@ -3533,6 +3533,38 @@ class CorpusContractTests(unittest.TestCase):
                     },
                     "js": {"version": 1, "runs": [], "comments": []},
                 },
+            ],
+        )
+
+    def test_tieba_corpus_payload_comparator_lives_with_corpus_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            existing_path = root / "tieba.json"
+            run_path = root / "run.json"
+            js_report_path = root / "js-tieba-update.json"
+            existing_path.write_text(json.dumps({"version": 1, "runs": [], "comments": []}), encoding="utf-8")
+            run_path.write_text(
+                json.dumps({"at": "2026-06-17T03:00:00.000Z", "results": [{"comments": [{"message": "payload tieba comment", "sourceUrl": "https://tieba.baidu.com/p/3"}]}]}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"changed": False, "newComments": []}), encoding="utf-8")
+
+            result = TiebaCorpusUpdatePayloadRunner(existing_path, run_path, generated_at="2026-06-17T03:00:00.000Z").run()
+            comparison = TiebaCorpusUpdatePayloadComparator(
+                existing_path,
+                run_path,
+                js_report_path,
+                generated_at="2026-06-17T03:00:00.000Z",
+            ).compare()
+
+        self.assertTrue(result["changed"])
+        self.assertEqual(result["newComments"], [{"message": "payload tieba comment", "sourceUrl": "https://tieba.baidu.com/p/3"}])
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "changed", "python": True, "js": False},
+                {"key": "newComments", "python": [{"message": "payload tieba comment", "sourceUrl": "https://tieba.baidu.com/p/3"}], "js": []},
             ],
         )
 

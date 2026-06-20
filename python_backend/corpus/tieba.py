@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import json
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 
 
@@ -62,3 +64,64 @@ class TiebaCorpusUpdater:
                 if isinstance(result_comments, list):
                     comments.extend(result_comments)
         return comments
+
+
+class TiebaCorpusUpdateRunner:
+    """Run a Tieba corpus update from existing corpus and scrape-run JSON files."""
+
+    def __init__(self, existing_path: str | Path, run_path: str | Path, generated_at: str | None = None):
+        self.existing_path = Path(existing_path)
+        self.run_path = Path(run_path)
+        self.generated_at = generated_at or datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+        self.updater = TiebaCorpusUpdater()
+
+    def run(self) -> dict[str, Any]:
+        existing = self._read_json(self.existing_path, {"version": 1, "updatedAt": None, "runs": [], "comments": []})
+        run = self._read_json(self.run_path, {})
+        return self.updater.build_update_result(existing, run, self.generated_at)
+
+    def _read_json(self, path: Path, fallback: dict[str, Any]) -> dict[str, Any]:
+        if not path.exists():
+            return fallback
+        with path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else fallback
+
+
+class TiebaCorpusUpdateContractComparator:
+    """Compare Python Tieba corpus updates against saved JS-compatible JSON."""
+
+    def __init__(
+        self,
+        existing_path: str | Path,
+        run_path: str | Path,
+        js_report_path: str | Path,
+        generated_at: str | None = None,
+    ):
+        self.existing_path = Path(existing_path)
+        self.run_path = Path(run_path)
+        self.js_report_path = Path(js_report_path)
+        self.generated_at = generated_at
+        self.summary = TiebaCorpusUpdateSummary()
+
+    def compare(self) -> dict[str, Any]:
+        python_result = TiebaCorpusUpdateRunner(self.existing_path, self.run_path, generated_at=self.generated_at).run()
+        js_result = self._read_js_report()
+        mismatches = [
+            {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
+            for key in self.summary.RESULT_KEYS
+            if key in js_result and python_result.get(key) != js_result.get(key)
+        ]
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": self.summary.summarize(python_result),
+            "js": self.summary.summarize(js_result),
+        }
+
+    def _read_js_report(self) -> dict[str, Any]:
+        if not self.js_report_path.exists():
+            return {}
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
