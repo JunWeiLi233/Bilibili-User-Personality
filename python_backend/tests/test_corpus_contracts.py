@@ -37,6 +37,7 @@ from python_backend.cli import tieba_timing as tieba_timing_cli
 from python_backend.cli import uid_discovery_plan as uid_discovery_plan_cli
 from python_backend.cli import uid_discovery_progress as uid_discovery_progress_cli
 from python_backend.cli import uid_fast_pipeline_plan as uid_fast_pipeline_plan_cli
+from python_backend.cli import uid_parallel_plan as uid_parallel_plan_cli
 from python_backend.cli import uid_pipeline_launcher as uid_pipeline_launcher_cli
 from python_backend.cli import uid_pipeline_plan as uid_pipeline_plan_cli
 from python_backend.cli import uid_range_progress as uid_range_progress_cli
@@ -14049,6 +14050,29 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "training", "python": {"multiagent": True, "existingTermsOnly": False, "commentTextLimit": 5000, "saveEvery": 20}, "js": {"multiagent": False}},
             ],
         )
+
+    def test_uid_parallel_plan_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "uid-parallel-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--worker=0", "--workers=2"],
+                        "comments": {"100": [{"message": "a"}], "101": [{"message": ""}], "102": [{"message": "c"}]},
+                        "progress": {"processed": {"100": "success"}, "stats": {"success": 1}},
+                        "database": {"users": {"100": {}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = uid_parallel_plan_cli.UidParallelPlanCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["worker"], {"id": 0, "totalWorkers": 2, "assigned": 2})
+        self.assertEqual(result["assignment"], {"assignedUids": ["100", "102"], "alreadyProcessed": 1, "pending": 1, "trainable": 1, "skippableNoText": 0})
+        self.assertEqual(result["userDb"], {"users": 1, "assignedUsersInDb": 1})
 
     def test_uid_parallel_plan_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
