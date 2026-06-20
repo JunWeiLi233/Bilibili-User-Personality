@@ -19,7 +19,7 @@ from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, Se
 from python_backend.analysis.verification import RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationReportSummary, RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary
-from python_backend.analyzers.keyword_evidence import KeywordEvidenceMatcher, KeywordEvidenceSummary
+from python_backend.analyzers.keyword_evidence import KeywordEvidenceContractComparator as KeywordEvidencePayloadComparator, KeywordEvidenceMatcher, KeywordEvidenceSummary
 from python_backend.cli.comment_coverage import CommentCoverageContractComparator, CommentCoverageRunner
 from python_backend.cli.corpus_shard_writer import CorpusShardWriteContractComparator, CorpusShardWriteRunner
 from python_backend.cli.bilibili_parse import BilibiliParseContractComparator, BilibiliParseRunner
@@ -1354,6 +1354,29 @@ class CorpusContractTests(unittest.TestCase):
                 }
             ],
         )
+
+    def test_keyword_evidence_payload_comparator_owns_entry_mismatch_contract(self):
+        result = KeywordEvidencePayloadComparator().compare(
+            {
+                "ok": True,
+                "mode": "entries",
+                "count": 1,
+                "entries": [{"term": "yygq", "evidenceCount": 2}],
+                "extra": "ignored",
+            },
+            {"ok": True, "mode": "entries", "count": 1, "entries": []},
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [{"key": "entries", "python": [{"term": "yygq", "evidenceCount": 2}], "js": []}],
+        )
+        self.assertEqual(
+            result["python"],
+            {"ok": True, "mode": "entries", "count": 1, "entries": [{"term": "yygq", "evidenceCount": 2}]},
+        )
+        self.assertEqual(result["js"], {"ok": True, "mode": "entries", "count": 1, "entries": []})
 
     def test_keyword_evidence_summary_extracts_comparator_contract(self):
         summary = KeywordEvidenceSummary().summarize(
