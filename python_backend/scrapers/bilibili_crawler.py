@@ -74,6 +74,7 @@ class BilibiliCrawlerSummary:
         "deepenRootPlan",
         "replyUrls",
         "videoCommentResult",
+        "videoScanInput",
         "uniqueReplies",
         "uidResult",
         "uidPlan",
@@ -222,6 +223,12 @@ class BilibiliCrawlerHelper:
             result["videoCommentResult"] = self.video_comment_result(
                 video_comment_result.get("video") if isinstance(video_comment_result.get("video"), dict) else {},
                 video_comment_result.get("comments") if isinstance(video_comment_result.get("comments"), list) else [],
+            )
+        if isinstance(payload.get("videoScanInput"), dict):
+            video_scan = payload.get("videoScanInput") or {}
+            result["videoScanInput"] = self.video_scan_input(
+                video_scan.get("input", ""),
+                video_scan.get("options") if isinstance(video_scan.get("options"), dict) else {},
             )
         if isinstance(payload.get("uniqueReplies"), list):
             result["uniqueReplies"] = self.unique_by_rpid(payload.get("uniqueReplies"))
@@ -1001,6 +1008,22 @@ class BilibiliCrawlerHelper:
             "commentText": comment_text,
             "source": "Bilibili public video comment scan",
             "confidenceHint": confidence,
+        }
+
+    def video_scan_input(self, value: Any = "", options: dict[str, Any] | None = None) -> dict[str, Any]:
+        bvid = self.extract_bvid(value)
+        if not bvid:
+            return {"ok": False, "error": "Video link must contain a valid BV id."}
+        options = options if isinstance(options, dict) else {}
+        has_deepen_match = bool(options.get("deepenMatch") or options.get("deepenNeedles"))
+        return {
+            "ok": True,
+            "bvid": bvid,
+            "pages": max(1, min(self._number(options.get("pages") or 2, 2), 5)),
+            "deepenPages": max(1, min(self._number(options.get("deepenPages", 2), 2), 5)),
+            "deepenRootLimit": max(0, min(self._number(options.get("deepenRootLimit", 6), 6), 30)) if has_deepen_match else 0,
+            "hasDeepenMatch": has_deepen_match,
+            "includeDanmaku": options.get("includeDanmaku") is True,
         }
 
     def build_uid_analysis_result(

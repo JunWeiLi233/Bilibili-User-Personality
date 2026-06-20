@@ -6986,6 +6986,43 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["videoCommentResult"]["confidenceHint"], "medium video comment sample")
         self.assertEqual(result["videoCommentResult"]["commentText"].split("\n")[0], "message 0")
 
+    def test_bilibili_crawler_helper_builds_video_scan_input_contract(self):
+        helper = BilibiliCrawlerHelper()
+
+        self.assertEqual(
+            helper.video_scan_input("not a bilibili link", {"pages": 99, "deepenPages": 99, "deepenRootLimit": 99}),
+            {"ok": False, "error": "Video link must contain a valid BV id."},
+        )
+        self.assertEqual(
+            helper.video_scan_input(
+                "https://www.bilibili.com/video/BV1xx411c7mD/",
+                {"pages": 99, "deepenPages": 99, "deepenRootLimit": 99, "deepenNeedles": ["term"]},
+            ),
+            {
+                "ok": True,
+                "bvid": "BV1xx411c7mD",
+                "pages": 5,
+                "deepenPages": 5,
+                "deepenRootLimit": 30,
+                "hasDeepenMatch": True,
+                "includeDanmaku": False,
+            },
+        )
+
+    def test_bilibili_crawler_helper_builds_payload_video_scan_input_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "videoScanInput": {
+                    "input": "https://www.bilibili.com/video/BV1xx411c7mD/",
+                    "options": {"pages": 0, "includeDanmaku": True},
+                }
+            }
+        )
+
+        self.assertEqual(result["videoScanInput"]["bvid"], "BV1xx411c7mD")
+        self.assertEqual(result["videoScanInput"]["pages"], 2)
+        self.assertEqual(result["videoScanInput"]["includeDanmaku"], True)
+
     def test_bilibili_crawler_helper_uniques_replies_by_rpid_contract(self):
         result = BilibiliCrawlerHelper().unique_by_rpid(
             [
@@ -7918,6 +7955,7 @@ class CorpusContractTests(unittest.TestCase):
                 "deepenRootPlan": {"queued": True},
                 "replyUrls": {"mainUrl": "https://api.bilibili.com/x/v2/reply/main?type=1&oid=123&mode=3&next=0&ps=20"},
                 "videoCommentResult": {"confidenceHint": "small video comment sample"},
+                "videoScanInput": {"bvid": "BV1"},
                 "uniqueReplies": [{"rpid": "1"}],
                 "uidResult": {"uid": "2333"},
                 "uidPlan": {"uid": "2333"},
@@ -7953,6 +7991,7 @@ class CorpusContractTests(unittest.TestCase):
                 "deepenRootPlan": {"queued": True},
                 "replyUrls": {"mainUrl": "https://api.bilibili.com/x/v2/reply/main?type=1&oid=123&mode=3&next=0&ps=20"},
                 "videoCommentResult": {"confidenceHint": "small video comment sample"},
+                "videoScanInput": {"bvid": "BV1"},
                 "uniqueReplies": [{"rpid": "1"}],
                 "uidResult": {"uid": "2333"},
                 "uidPlan": {"uid": "2333"},
