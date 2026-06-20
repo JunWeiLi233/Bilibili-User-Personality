@@ -118,6 +118,7 @@ from python_backend.scrapers.batch_popular import BatchPopularPlanContractCompar
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanContractComparator as BatchUidRangePlanPayloadComparator, BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherPlanner, RangeScraperLauncherSummary, UidRangeProgressReporter, UidRangeProgressSummary
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchScraperLauncherSummary, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanContractComparator as BatchUidScrapePlanPayloadComparator, BatchUidScrapePlanSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanContractComparator as UidDiscoveryPlanPayloadComparator, UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
+from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanContractComparator as UidFastPipelinePlanPayloadComparator
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanContractComparator as UidParallelPlanPayloadComparator, UidParallelPlanSummary, UidParallelProgressReporter, UidParallelProgressSummary
 from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineLauncherSummary, UidPipelineMergeReporter, UidPipelineMergeSummary, UidPipelinePlanSummary, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter, ScraperMonitorSummary
@@ -7101,6 +7102,43 @@ class CorpusContractTests(unittest.TestCase):
                 "userDb": {"users": 2},
             },
         )
+
+    def test_uid_fast_pipeline_payload_comparator_owns_result_key_mismatch_contract(self):
+        result = UidFastPipelinePlanPayloadComparator().compare(
+            {
+                "range": {"start": 1, "end": 4, "total": 4},
+                "network": {"mode": "directFetchJson", "usesCrawlerRateLimiter": False},
+                "training": {"multiagent": True, "lockMaxRetries": 15},
+                "ignored": "python-only",
+            },
+            {
+                "network": {"usesCrawlerRateLimiter": True},
+                "training": {"lockMaxRetries": 5},
+                "ignored": "js-only",
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {
+                    "key": "network",
+                    "python": {"mode": "directFetchJson", "usesCrawlerRateLimiter": False},
+                    "js": {"usesCrawlerRateLimiter": True},
+                },
+                {"key": "training", "python": {"multiagent": True, "lockMaxRetries": 15}, "js": {"lockMaxRetries": 5}},
+            ],
+        )
+        self.assertEqual(
+            result["python"],
+            {
+                "range": {"start": 1, "end": 4, "total": 4},
+                "network": {"mode": "directFetchJson", "usesCrawlerRateLimiter": False},
+                "training": {"multiagent": True, "lockMaxRetries": 15},
+            },
+        )
+        self.assertEqual(result["js"], {"network": {"usesCrawlerRateLimiter": True}, "training": {"lockMaxRetries": 5}})
 
     def test_uid_parallel_progress_runner_summarizes_worker_assignment_and_progress(self):
         with tempfile.TemporaryDirectory() as tmp:
