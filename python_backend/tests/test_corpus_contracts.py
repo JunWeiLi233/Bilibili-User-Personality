@@ -91,7 +91,7 @@ from python_backend.analysis.video_filter import VideoCommentFilter, VideoContex
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader
-from python_backend.corpus.writer import CorpusShardWriteSummary, CorpusShardWriter
+from python_backend.corpus.writer import CorpusShardWriteContractComparator as CorpusShardWritePayloadComparator, CorpusShardWriteSummary, CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliParseContractComparator as BilibiliParsePayloadComparator, BilibiliParseSummary, BilibiliPublicParser
 from python_backend.scrapers.aicu import AicuBatchPlanContractComparator as AicuBatchPlanPayloadComparator, AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanContractComparator as AicuScrapePlanPayloadComparator, AicuScrapePlanSummary, AicuScrapePlanner
@@ -386,6 +386,45 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             CorpusShardWriteContractComparator(Path("payload.json"), Path("js.json")).summary.RESULT_KEYS,
             CorpusShardWriteSummary.RESULT_KEYS,
+        )
+
+    def test_corpus_shard_write_payload_comparator_owns_result_mismatch_contract(self):
+        result = CorpusShardWritePayloadComparator().compare(
+            {
+                "ok": True,
+                "outputPath": "python.json",
+                "manifest": {"storage": "split", "commentCount": 2, "runCount": 1},
+                "comments": 2,
+                "runs": 1,
+            },
+            {
+                "ok": True,
+                "outputPath": "js.json",
+                "manifest": {"storage": "split", "commentCount": 1, "runCount": 1},
+                "comments": 1,
+                "runs": 1,
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {
+                    "key": "manifest",
+                    "python": {"storage": "split", "commentCount": 2, "runCount": 1},
+                    "js": {"storage": "split", "commentCount": 1, "runCount": 1},
+                },
+                {"key": "comments", "python": 2, "js": 1},
+            ],
+        )
+        self.assertEqual(
+            result["python"],
+            {"manifest": {"storage": "split", "commentCount": 2, "runCount": 1}, "comments": 2, "runs": 1},
+        )
+        self.assertEqual(
+            result["js"],
+            {"manifest": {"storage": "split", "commentCount": 1, "runCount": 1}, "comments": 1, "runs": 1},
         )
 
     def test_corpus_shard_write_comparator_reports_manifest_mismatches(self):
