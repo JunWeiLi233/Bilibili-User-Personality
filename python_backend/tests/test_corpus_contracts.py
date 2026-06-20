@@ -116,7 +116,7 @@ from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanContractComparator as BatchBilibiliPlanPayloadComparator, BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularPlanContractComparator as BatchPopularPlanPayloadComparator, BatchPopularPlanSummary, BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherPlanner, RangeScraperLauncherSummary, UidRangeProgressReporter, UidRangeProgressSummary
-from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchScraperLauncherSummary, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanSummary, BatchUidScrapePlanner
+from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchScraperLauncherSummary, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanContractComparator as BatchUidScrapePlanPayloadComparator, BatchUidScrapePlanSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanSummary, UidParallelProgressReporter, UidParallelProgressSummary
 from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineLauncherSummary, UidPipelineMergeReporter, UidPipelineMergeSummary, UidPipelinePlanSummary, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
@@ -8305,6 +8305,23 @@ class CorpusContractTests(unittest.TestCase):
             BatchUidScrapePlanContractComparator(Path("payload.json"), Path("js.json")).summary.RESULT_KEYS,
             BatchUidScrapePlanSummary.RESULT_KEYS,
         )
+
+    def test_batch_uid_scrape_payload_comparator_owns_result_key_mismatch_contract(self):
+        result = BatchUidScrapePlanPayloadComparator().compare(
+            {"phase2": {"trainable": 1}, "training": {"multiagent": True}, "extra": "ignored"},
+            {"phase2": {"trainable": 9}, "training": {"multiagent": False}},
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "phase2", "python": {"trainable": 1}, "js": {"trainable": 9}},
+                {"key": "training", "python": {"multiagent": True}, "js": {"multiagent": False}},
+            ],
+        )
+        self.assertEqual(result["python"], {"phase2": {"trainable": 1}, "training": {"multiagent": True}})
+        self.assertEqual(result["js"], {"phase2": {"trainable": 9}, "training": {"multiagent": False}})
 
     def test_batch_uid_scrape_planner_builds_plan_from_json_payload_contract(self):
         result = BatchUidScrapePlanner.build_plan_from_payload(
