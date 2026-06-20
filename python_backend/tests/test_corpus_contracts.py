@@ -11154,6 +11154,24 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(exit_code, 0)
         self.assertEqual(result["summary"]["byMode"], {"keyword": 1, "neutral": 0, "uncovered": 1})
 
+    def test_comment_coverage_cli_runner_accepts_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "comment-coverage.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "dictionary": {"entries": [{"term": "\u61c2\u7684\u90fd\u61c2", "family": "evasion"}]},
+                        "comments": [{"message": "\u8fd9\u4e8b\u61c2\u7684\u90fd\u61c2"}, {"message": "plain ascii"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = comment_coverage_cli.CommentCoverageCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertEqual(result["summary"]["total"], 2)
+        self.assertEqual(result["summary"]["byMode"], {"keyword": 1, "neutral": 0, "uncovered": 1})
+
     def test_comment_coverage_cli_compares_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

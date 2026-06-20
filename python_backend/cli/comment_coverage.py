@@ -21,21 +21,30 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+class CommentCoverageCliRunner:
+    """CLI-compatible comment coverage runner for JS/Python JSON contracts."""
+
+    def __init__(self, argv: list[str] | None = None):
+        self.argv = argv
+
+    def run(self) -> dict:
+        parser = build_parser()
+        args = parser.parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        if args.payload and args.compare_js_report:
+            return CommentCoverageJsonPayloadContractComparator(args.payload, args.compare_js_report).compare()
+        if args.payload:
+            return CommentCoverageJsonPayloadRunner(args.payload).run()
+        if args.compare_js_report:
+            if not args.comments:
+                parser.error("--comments is required unless --payload is provided")
+            return CommentCoverageContractComparator(args.dictionary, args.comments, args.compare_js_report, args.sample_size).compare()
+        if not args.comments:
+            parser.error("--comments is required unless --payload is provided")
+        return CommentCoverageRunner(args.dictionary, args.comments, args.sample_size).run()
+
+
 def main(argv: list[str] | None = None) -> int:
-    parser = build_parser()
-    args = parser.parse_args(argv)
-    if args.payload and args.compare_js_report:
-        result = CommentCoverageJsonPayloadContractComparator(args.payload, args.compare_js_report).compare()
-    elif args.payload:
-        result = CommentCoverageJsonPayloadRunner(args.payload).run()
-    elif args.compare_js_report:
-        if not args.comments:
-            parser.error("--comments is required unless --payload is provided")
-        result = CommentCoverageContractComparator(args.dictionary, args.comments, args.compare_js_report, args.sample_size).compare()
-    else:
-        if not args.comments:
-            parser.error("--comments is required unless --payload is provided")
-        result = CommentCoverageRunner(args.dictionary, args.comments, args.sample_size).run()
+    result = CommentCoverageCliRunner(argv).run()
     json.dump(result, sys.stdout, ensure_ascii=False, indent=2)
     sys.stdout.write("\n")
     return 0 if result["ok"] else 1
