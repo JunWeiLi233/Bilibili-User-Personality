@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import html
+import json
 import random
 import re
 import time
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any, Callable
 from urllib.parse import urlencode, urlparse
 
@@ -211,6 +213,43 @@ class DirectProbePlanContractComparator:
             "python": self.summary.summarize(python_plan),
             "js": self.summary.summarize(js_plan),
         }
+
+
+class DirectProbePlanRunner:
+    """Build deterministic direct Bilibili probe planning outputs from JSON."""
+
+    def __init__(self, payload_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.builder = DirectProbeCorpusBuilder()
+
+    def run(self) -> dict[str, Any]:
+        payload = self._read_payload()
+        return self.builder.build_plan_from_payload(payload)
+
+    def _read_payload(self) -> dict[str, Any]:
+        with self.payload_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
+
+
+class DirectProbePlanPayloadContractComparator:
+    """Compare file-backed direct-probe plans against saved JS-compatible plan JSON."""
+
+    def __init__(self, payload_path: str | Path, js_plan_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.js_plan_path = Path(js_plan_path)
+        self.summary = DirectProbePlanSummary()
+        self.comparator = DirectProbePlanContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_plan = DirectProbePlanRunner(self.payload_path).run()
+        js_plan = self._read_js_plan()
+        return self.comparator.compare(python_plan, js_plan)
+
+    def _read_js_plan(self) -> dict[str, Any]:
+        with self.js_plan_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
 
 
 class DirectProbeCorpusBuilder:
