@@ -6,11 +6,15 @@ import math
 import re
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 from python_backend.scrapers.rate_limiter import RateLimitPolicy
 
 
 BLOCK_CODES = {-101, -111, -352, -412, -509, -799}
+DEFAULT_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+ACCEPT_LANGUAGE = "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7"
+SEC_CH_UA = '"Chromium";v="124", "Google Chrome";v="124", "Not.A/Brand";v="99"'
 
 
 def _bounded_number(value: Any, fallback: float, minimum: float, maximum: float) -> float:
@@ -62,6 +66,7 @@ class BilibiliCrawlerSummary:
         "dynamicRecords",
         "crawlerConfig",
         "syntheticCookieJar",
+        "headers",
     )
 
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -164,15 +169,76 @@ class BilibiliCrawlerHelper:
         if isinstance(payload.get("env"), dict):
             result["crawlerConfig"] = self.build_crawler_config(payload.get("env"))
         synthetic_cookie = payload.get("syntheticCookie") if isinstance(payload.get("syntheticCookie"), dict) else None
+        synthetic_cookie_jar = None
         if synthetic_cookie is not None:
-            result["syntheticCookieJar"] = self.make_synthetic_cookie_jar(
+            synthetic_cookie_jar = self.make_synthetic_cookie_jar(
                 random_fn=lambda: synthetic_cookie.get("randomValue", 0.5),
                 now_ms=synthetic_cookie.get("nowMs"),
+            )
+            result["syntheticCookieJar"] = synthetic_cookie_jar
+        if isinstance(payload.get("request"), dict):
+            request = payload.get("request") or {}
+            result["headers"] = self.build_request_headers(
+                request.get("url"),
+                request.get("referer", "https://www.bilibili.com"),
+                request_cookie=request.get("cookie") or request.get("bilibiliCookie") or "",
+                synthetic_cookie=synthetic_cookie_jar,
             )
         return result
 
     def build_crawler_config(self, env: dict[str, Any] | None = None) -> dict[str, int | float]:
         return BilibiliCrawlerConfigBuilder().build(env)
+
+    def build_request_headers(
+        self,
+        url: Any,
+        referer: Any = "https://www.bilibili.com",
+        request_cookie: Any = "",
+        synthetic_cookie: dict[str, Any] | None = None,
+        user_agent: Any = DEFAULT_USER_AGENT,
+    ) -> dict[str, str]:
+        ua = str(user_agent or DEFAULT_USER_AGENT)
+        referer_text = str(referer or "https://www.bilibili.com")
+        headers = {
+            "user-agent": ua,
+            "referer": referer_text,
+            "origin": self._origin(referer_text),
+            "accept": "application/json, text/plain, */*",
+            "accept-language": ACCEPT_LANGUAGE,
+            "cache-control": "no-cache",
+            "pragma": "no-cache",
+            "sec-ch-ua": SEC_CH_UA,
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": '"macOS"' if "Macintosh" in ua else '"Windows"',
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": self.site_relation(url, referer_text),
+        }
+        cookie = self.cookie_header(request_cookie, synthetic_cookie)
+        if cookie:
+            headers["cookie"] = cookie
+        return headers
+
+    def site_relation(self, url: Any, referer: Any) -> str:
+        url_parts = urlparse(str(url or ""))
+        referer_parts = urlparse(str(referer or ""))
+        if not url_parts.netloc or not referer_parts.netloc:
+            return "cross-site"
+        if url_parts.netloc == referer_parts.netloc:
+            return "same-origin"
+        url_base = ".".join(url_parts.hostname.split(".")[-2:]) if url_parts.hostname else ""
+        referer_base = ".".join(referer_parts.hostname.split(".")[-2:]) if referer_parts.hostname else ""
+        return "same-site" if url_base and url_base == referer_base else "cross-site"
+
+    def cookie_header(self, request_cookie: Any = "", synthetic_cookie: dict[str, Any] | None = None) -> str:
+        merged: dict[str, str] = {}
+        for name, value in (synthetic_cookie or {}).items():
+            name_text = str(name or "").strip()
+            value_text = str(value or "").strip()
+            if name_text and value_text:
+                merged[name_text] = value_text
+        merged.update(self._cookie_pairs(request_cookie))
+        return "; ".join(f"{name}={value}" for name, value in merged.items())
 
     def make_synthetic_cookie_jar(self, random_fn: Any | None = None, now_ms: Any | None = None) -> dict[str, str]:
         rand = random_fn if callable(random_fn) else (lambda: 0.5)
@@ -231,6 +297,15 @@ class BilibiliCrawlerHelper:
                 continue
             parts.append(f"{name}={cookie_value}")
         return "; ".join(parts)
+
+    def _cookie_pairs(self, value: Any = "") -> dict[str, str]:
+        pairs: dict[str, str] = {}
+        for part in re.split(r";\s*", self.normalize_bilibili_cookie(value)):
+            eq = part.find("=")
+            if eq <= 0:
+                continue
+            pairs[part[:eq].strip()] = part[eq + 1 :].strip()
+        return pairs
 
     def collect_reply_for_uid(
         self,
@@ -404,6 +479,12 @@ class BilibiliCrawlerHelper:
                 return None
             current = current.get(key)
         return current
+
+    def _origin(self, referer: str) -> str:
+        parts = urlparse(referer)
+        if parts.scheme and parts.netloc:
+            return f"{parts.scheme}://{parts.netloc}"
+        return "https://www.bilibili.com"
 
     def _number(self, value: Any, fallback: int = 0) -> int:
         try:

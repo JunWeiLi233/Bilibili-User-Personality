@@ -6711,6 +6711,54 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_bilibili_crawler_helper_builds_request_headers_contract(self):
+        headers = BilibiliCrawlerHelper().build_request_headers(
+            "https://api.bilibili.com/x/web-interface/view?bvid=BV19yGa61Ee6",
+            "https://www.bilibili.com/video/BV19yGa61Ee6/",
+            request_cookie="SESSDATA=override; invalid ; buvid3=caller",
+            synthetic_cookie={
+                "buvid3": "synthetic",
+                "b_nut": "1700000000",
+                "home_feed": "recommend",
+            },
+        )
+
+        self.assertEqual(
+            headers,
+            {
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+                "referer": "https://www.bilibili.com/video/BV19yGa61Ee6/",
+                "origin": "https://www.bilibili.com",
+                "accept": "application/json, text/plain, */*",
+                "accept-language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
+                "cache-control": "no-cache",
+                "pragma": "no-cache",
+                "sec-ch-ua": '"Chromium";v="124", "Google Chrome";v="124", "Not.A/Brand";v="99"',
+                "sec-ch-ua-mobile": "?0",
+                "sec-ch-ua-platform": '"Windows"',
+                "sec-fetch-dest": "empty",
+                "sec-fetch-mode": "cors",
+                "sec-fetch-site": "same-site",
+                "cookie": "buvid3=caller; b_nut=1700000000; home_feed=recommend; SESSDATA=override",
+            },
+        )
+
+    def test_bilibili_crawler_helper_builds_payload_request_headers_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "request": {
+                    "url": "https://api.bilibili.com/x/v2/reply?oid=123",
+                    "referer": "https://www.bilibili.com/video/BV19yGa61Ee6/",
+                    "cookie": "SESSDATA=from-request",
+                },
+                "syntheticCookie": {"randomValue": 0.5, "nowMs": 1700000000000},
+            }
+        )
+
+        self.assertEqual(result["headers"]["sec-fetch-site"], "same-site")
+        self.assertIn("SESSDATA=from-request", result["headers"]["cookie"])
+        self.assertIn("b_nut=1700000000", result["headers"]["cookie"])
+
     def test_bilibili_crawler_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -6766,6 +6814,7 @@ class CorpusContractTests(unittest.TestCase):
                 "blocked": False,
                 "crawlerConfig": {"minDelayMs": 2500},
                 "syntheticCookieJar": {"b_nut": "1700000000"},
+                "headers": {"sec-fetch-site": "same-site"},
                 "dynamicRecords": {"objects": []},
                 "extra": "ignored",
             }
@@ -6779,6 +6828,7 @@ class CorpusContractTests(unittest.TestCase):
                 "blocked": False,
                 "crawlerConfig": {"minDelayMs": 2500},
                 "syntheticCookieJar": {"b_nut": "1700000000"},
+                "headers": {"sec-fetch-site": "same-site"},
                 "dynamicRecords": {"objects": []},
             },
         )
