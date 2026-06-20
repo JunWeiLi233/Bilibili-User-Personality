@@ -2578,6 +2578,13 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_local_corpus_evidence_comparator_uses_summary_contract_keys(self):
+        self.assertFalse(hasattr(LocalCorpusEvidenceContractComparator, "SUMMARY_KEYS"))
+        self.assertEqual(
+            LocalCorpusEvidenceContractComparator(Path("dictionary.json"), Path("comments.json"), Path("js.json")).summary.SUMMARY_KEYS,
+            LocalCorpusEvidenceSummary.SUMMARY_KEYS,
+        )
+
     def test_local_corpus_evidence_contract_comparator_reports_entry_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

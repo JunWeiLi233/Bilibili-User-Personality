@@ -434,6 +434,8 @@ class LocalCorpusEvidenceFinder:
 class LocalCorpusEvidenceSummary:
     """Shape local corpus evidence results into the JS/Python comparator contract."""
 
+    SUMMARY_KEYS = ("count", "terms", "evidence")
+
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
         result = result if isinstance(result, dict) else {}
         entries = result.get("entries") if isinstance(result.get("entries"), list) else []
