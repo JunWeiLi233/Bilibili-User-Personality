@@ -112,6 +112,31 @@ class FileLockStateInspector:
         return True
 
 
+class FileLockStateRunner:
+    """Emit a JS-compatible file-lock owner state report."""
+
+    def __init__(
+        self,
+        lock_path: str | Path,
+        *,
+        stale_ms: int = 60000,
+        now_ms: Callable[[], int] | None = None,
+        process_alive: Callable[[int], bool] | None = None,
+    ):
+        self.lock_path = Path(lock_path)
+        self.stale_ms = int(stale_ms)
+        self.now_ms = now_ms
+        self.process_alive = process_alive
+
+    def run(self) -> dict[str, Any]:
+        return FileLockStateInspector(
+            self.lock_path,
+            stale_ms=self.stale_ms,
+            now_ms=self.now_ms,
+            process_alive=self.process_alive,
+        ).inspect()
+
+
 class FileLockStateContractComparator:
     """Compare Python file-lock reports against saved JS-compatible JSON."""
 

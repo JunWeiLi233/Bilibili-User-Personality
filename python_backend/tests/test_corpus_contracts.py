@@ -101,7 +101,7 @@ from python_backend.scrapers import video_link_direct
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanContractComparator as VideoLinkDirectPlanPayloadComparator, VideoLinkDirectPlanner, VideoLinkDirectPlanRunner as VideoLinkDirectPayloadPlanRunner
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerContractComparator as BilibiliCrawlerPayloadComparator, BilibiliCrawlerPayloadContractComparator, BilibiliCrawlerRunner as BilibiliCrawlerPayloadRunner, BilibiliCrawlerHelper, BilibiliCrawlerSummary
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanContractComparator as BilibiliProbePlanPayloadComparator, BilibiliProbePlanPayloadContractComparator, BilibiliProbePlanRunner as BilibiliProbePayloadPlanRunner, BilibiliProbePlanSummary, BilibiliProbePlanner
-from python_backend.runtime.file_lock import FileLockStateContractComparator as FileLockStatePayloadComparator, FileLockStateInspector, FileLockStateSummary
+from python_backend.runtime.file_lock import FileLockStateContractComparator as FileLockStatePayloadComparator, FileLockStateInspector, FileLockStateRunner as FileLockStatePayloadRunner, FileLockStateSummary
 from python_backend.scrapers.rate_limiter import RateLimiter
 from python_backend.cli.scraper_monitor import ScraperMonitorContractComparator, ScraperMonitorRunner
 from python_backend.cli.aicu_scrape_plan import AicuScrapePlanContractComparator, AicuScrapePlanRunner
@@ -836,6 +836,27 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(comparison["mismatches"][0]["key"], "state")
         self.assertEqual(comparison["mismatches"][0]["python"]["exists"], True)
         self.assertEqual(comparison["mismatches"][0]["js"], {"exists": False})
+
+    def test_file_lock_state_payload_runner_lives_with_runtime_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            lock_path = Path(tmp) / "harvest.lock"
+            lock_path.mkdir()
+            (lock_path / "owner.json").write_text(
+                json.dumps({"pid": 12345, "startedAt": "2026-06-19T00:00:00.000Z", "command": "node"}),
+                encoding="utf-8",
+            )
+
+            result = FileLockStatePayloadRunner(
+                lock_path,
+                stale_ms=60000,
+                now_ms=lambda: 1781836920000,
+                process_alive=lambda pid: False,
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["owner"]["pid"], 12345)
+        self.assertEqual(result["state"]["staleByPid"], True)
+        self.assertEqual(result["state"]["shouldRemove"], True)
 
     def test_file_lock_state_summary_extracts_comparator_contract(self):
         summary = FileLockStateSummary().summarize(

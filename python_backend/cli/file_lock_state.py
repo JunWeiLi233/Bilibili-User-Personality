@@ -3,35 +3,8 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from pathlib import Path
-from typing import Any, Callable
 
-from python_backend.runtime.file_lock import FileLockStateContractComparator, FileLockStateInspector
-
-
-class FileLockStateRunner:
-    """Emit a JS-compatible file-lock owner state report."""
-
-    def __init__(
-        self,
-        lock_path: str | Path,
-        *,
-        stale_ms: int = 60000,
-        now_ms: Callable[[], int] | None = None,
-        process_alive: Callable[[int], bool] | None = None,
-    ):
-        self.lock_path = Path(lock_path)
-        self.stale_ms = int(stale_ms)
-        self.now_ms = now_ms
-        self.process_alive = process_alive
-
-    def run(self) -> dict[str, Any]:
-        return FileLockStateInspector(
-            self.lock_path,
-            stale_ms=self.stale_ms,
-            now_ms=self.now_ms,
-            process_alive=self.process_alive,
-        ).inspect()
+from python_backend.runtime.file_lock import FileLockStateContractComparator, FileLockStateRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
