@@ -4526,6 +4526,50 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["changed"])
         self.assertEqual(result["corpus"]["comments"][0]["message"], "\u65b0\u8bc4\u8bba")
 
+    def test_tieba_corpus_update_runner_uses_corpus_loader_for_split_existing_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            existing_path = root / "tieba.json"
+            run_path = root / "run.json"
+            (root / "comments").mkdir()
+            (root / "runs").mkdir()
+            (root / "comments" / "comments-0001.json").write_text(
+                json.dumps({"comments": [{"message": "\u65e7\u8d34\u5427\u8bc4\u8bba", "sourceUrl": "https://tieba.baidu.com/p/1", "rpid": "tieba-1"}]}),
+                encoding="utf-8",
+            )
+            (root / "runs" / "runs-0001.json").write_text(
+                json.dumps({"runs": [{"at": "old", "commentsAdded": 1}]}),
+                encoding="utf-8",
+            )
+            existing_path.write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "storage": "split",
+                        "commentFiles": ["comments/comments-0001.json"],
+                        "runFiles": ["runs/runs-0001.json"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            run_path.write_text(
+                json.dumps(
+                    {
+                        "at": "2026-06-17T02:00:00.000Z",
+                        "results": [{"comments": [{"message": "\u65b0\u8d34\u5427\u8bc4\u8bba", "sourceUrl": "https://tieba.baidu.com/p/2", "rpid": "tieba-2"}]}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = TiebaCorpusUpdateRunner(existing_path, run_path, generated_at="2026-06-17T02:00:00.000Z").run()
+
+        self.assertEqual(
+            [comment["message"] for comment in result["corpus"]["comments"]],
+            ["\u65e7\u8d34\u5427\u8bc4\u8bba", "\u65b0\u8d34\u5427\u8bc4\u8bba"],
+        )
+        self.assertEqual([run["at"] for run in result["corpus"]["runs"]], ["old", "2026-06-17T02:00:00.000Z"])
+
     def test_tieba_corpus_payload_runner_accepts_single_json_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

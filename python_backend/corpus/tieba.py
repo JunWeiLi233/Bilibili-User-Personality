@@ -5,6 +5,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from python_backend.corpus.loader import CorpusLoader
+
 
 class TiebaCorpusUpdateSummary:
     """Shape Tieba corpus update results into the JS/Python comparator summary contract."""
@@ -76,7 +78,8 @@ class TiebaCorpusUpdateRunner:
         self.updater = TiebaCorpusUpdater()
 
     def run(self) -> dict[str, Any]:
-        existing = self._read_json(self.existing_path, {"version": 1, "updatedAt": None, "runs": [], "comments": []})
+        loaded = CorpusLoader(self.existing_path, fallback={"version": 1, "updatedAt": None, "runs": [], "comments": []}).load()
+        existing = {**loaded.manifest, "comments": loaded.comments, "runs": loaded.runs}
         run = self._read_json(self.run_path, {})
         return self.updater.build_update_result(existing, run, self.generated_at)
 
