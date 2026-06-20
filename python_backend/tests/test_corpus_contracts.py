@@ -343,6 +343,13 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(summary, {"manifest": {"storage": "split", "commentCount": 2}, "comments": 2, "runs": 1})
 
+    def test_corpus_shard_write_comparator_uses_summary_contract_keys(self):
+        self.assertFalse(hasattr(CorpusShardWriteContractComparator, "RESULT_KEYS"))
+        self.assertEqual(
+            CorpusShardWriteContractComparator(Path("payload.json"), Path("js.json")).summary.RESULT_KEYS,
+            CorpusShardWriteSummary.RESULT_KEYS,
+        )
+
     def test_corpus_shard_write_comparator_reports_manifest_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
