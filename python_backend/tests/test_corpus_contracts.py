@@ -94,7 +94,7 @@ from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriteSummary, CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliParseContractComparator as BilibiliParsePayloadComparator, BilibiliParseSummary, BilibiliPublicParser
-from python_backend.scrapers.aicu import AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanContractComparator as AicuScrapePlanPayloadComparator, AicuScrapePlanSummary, AicuScrapePlanner
+from python_backend.scrapers.aicu import AicuBatchPlanContractComparator as AicuBatchPlanPayloadComparator, AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanContractComparator as AicuScrapePlanPayloadComparator, AicuScrapePlanSummary, AicuScrapePlanner
 from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanSummary, AicuBrowserBatchPlanner
 from python_backend.scrapers import video_link_direct
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanner
@@ -855,6 +855,40 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             AicuBatchPlanContractComparator(Path("payload.json"), Path("js.json")).summary.RESULT_KEYS,
             AicuBatchPlanSummary.RESULT_KEYS,
+        )
+
+    def test_aicu_batch_plan_payload_comparator_owns_result_key_mismatch_contract(self):
+        result = AicuBatchPlanPayloadComparator().compare(
+            {
+                "ok": True,
+                "range": {"effectiveStart": 2},
+                "limits": {"maxPages": 3},
+                "pacing": {"delayAfterWafMs": 120000},
+                "extra": "ignored",
+            },
+            {
+                "ok": True,
+                "range": {"effectiveStart": 1},
+                "limits": {"maxPages": 10},
+                "pacing": {"delayAfterWafMs": 120000},
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "range", "python": {"effectiveStart": 2}, "js": {"effectiveStart": 1}},
+                {"key": "limits", "python": {"maxPages": 3}, "js": {"maxPages": 10}},
+            ],
+        )
+        self.assertEqual(
+            result["python"],
+            {"range": {"effectiveStart": 2}, "limits": {"maxPages": 3}, "pacing": {"delayAfterWafMs": 120000}},
+        )
+        self.assertEqual(
+            result["js"],
+            {"range": {"effectiveStart": 1}, "limits": {"maxPages": 10}, "pacing": {"delayAfterWafMs": 120000}},
         )
 
     def test_aicu_batch_planner_builds_plan_from_json_payload_contract(self):
