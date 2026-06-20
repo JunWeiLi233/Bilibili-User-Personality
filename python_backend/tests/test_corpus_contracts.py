@@ -16,7 +16,7 @@ from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetResolvePlanContractComparator as NearTargetResolvePlanPayloadComparator, NearTargetResolvePlanner, NearTargetResolvePlanRunner as NearTargetResolvePayloadPlanRunner
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsPayloadContractComparator, ReadmeStatsRunner as ReadmeStatsPayloadRunner, ReadmeStatsSummary, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
-from python_backend.analysis.verification import RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationReportSummary, RandomVerifier
+from python_backend.analysis.verification import RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationPayloadContractComparator, RandomVerificationReportSummary, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerifier
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceContractComparator as KeywordEvidencePayloadComparator, KeywordEvidenceMatcher, KeywordEvidencePayloadContractComparator, KeywordEvidencePayloadRunner, KeywordEvidenceSummary
@@ -13413,6 +13413,58 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["keywordHits"], 2)
         self.assertEqual(result["neutral"], 1)
         self.assertEqual(result["dictionaryTerms"], 3)
+
+    def test_random_verification_payload_runner_lives_with_analysis_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            dictionary_path = root / "dictionary.json"
+            js_report_path = root / "js-random-verification.json"
+            corpus_path.write_text(
+                json.dumps(
+                    {
+                        "comments": [
+                            {"message": "ordinary"},
+                            {"message": "doge satire"},
+                            {"message": "source check"},
+                        ],
+                        "runs": [],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            dictionary_path.write_text(
+                json.dumps({"entries": [{"term": "doge"}, {"term": "source"}]}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps(
+                    {
+                        "sampleSize": 3,
+                        "seed": 1,
+                        "sampled": 3,
+                        "keywordHits": 1,
+                        "neutral": 2,
+                        "uncovered": 0,
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = RandomVerificationPayloadRunner(corpus_path, dictionary_path, sample_size=3, seed=1).run()
+            comparison = RandomVerificationPayloadContractComparator(corpus_path, dictionary_path, js_report_path).compare()
+
+        self.assertEqual(result["sampled"], 3)
+        self.assertEqual(result["keywordHits"], 2)
+        self.assertEqual(result["neutral"], 1)
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "keywordHits", "python": 2, "js": 1},
+                {"key": "neutral", "python": 1, "js": 2},
+            ],
+        )
 
     def test_random_verifier_owns_report_contract_from_dictionary_entries(self):
         result = RandomVerifier.from_dictionary_entries(
