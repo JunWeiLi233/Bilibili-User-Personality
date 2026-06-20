@@ -87,7 +87,7 @@ from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner, Agent
 from python_backend.corpus.tieba import TiebaCorpusUpdateContractComparator as TiebaCorpusUpdatePayloadComparator, TiebaCorpusUpdater, TiebaCorpusUpdateRunner as TiebaCorpusUpdatePayloadRunner, TiebaCorpusUpdateSummary
 from python_backend.corpus import dictionary_prune
 from python_backend.analysis import video_filter
-from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoContextBuilder, VideoContextContractComparator as VideoContextPayloadComparator, VideoContextRunner as VideoContextPayloadRunner, VideoRelevanceContractComparator as VideoRelevancePayloadComparator, VideoRelevanceFilter
+from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoContextBuilder, VideoContextContractComparator as VideoContextPayloadComparator, VideoContextRunner as VideoContextPayloadRunner, VideoRelevanceContractComparator as VideoRelevancePayloadComparator, VideoRelevanceFilter, VideoRelevancePayloadContractComparator, VideoRelevancePayloadRunner
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader
@@ -4953,6 +4953,50 @@ class CorpusContractTests(unittest.TestCase):
             ["\u70ed\u95e8\u8bc4\u8bba\u533a", "\u70ed\u95e8\u8bc4\u8bba\u533a", "\u5b85\u7537\u8054\u76df", "\u70ed\u95e8\u8bc4\u8bba\u533a"],
         )
         self.assertEqual([video["bvid"] for video in result["videos"]], ["BV1"])
+
+    def test_video_relevance_payload_runner_lives_with_analysis_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "video-relevance.json"
+            js_report_path = root / "js-video-relevance.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "operation": "filter",
+                        "videos": [
+                            {"bvid": "BV1", "title": "\u5f39\u5e55\u9634\u9633\u602a\u6c14"},
+                            {"bvid": "BV2", "title": "\u666e\u901a\u89c6\u9891"},
+                        ],
+                        "searchQueries": ["\u5f39\u5e55\u9634\u9633\u602a\u6c14"],
+                        "targetExistingTerms": ["\u5f39\u5e55\u9634\u9633\u602a\u6c14"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps(
+                    {
+                        "operation": "sort",
+                        "videos": [{"bvid": "BV2"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = VideoRelevancePayloadRunner(payload_path).run()
+            comparison = VideoRelevancePayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["operation"], "filter")
+        self.assertEqual([video["bvid"] for video in result["videos"]], ["BV1"])
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "operation", "python": "filter", "js": "sort"},
+                {"key": "videos", "python": ["BV1"], "js": ["BV2"]},
+            ],
+        )
 
     def test_video_relevance_filter_owns_payload_contract(self):
         result = VideoRelevanceFilter().run_from_payload(
