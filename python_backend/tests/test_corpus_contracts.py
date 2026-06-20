@@ -7192,6 +7192,16 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_history_tag_scrape_plan_runner_defaults_non_object_payload_root_without_strict_guard(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "payload.json"
+            payload_path.write_text(json.dumps(["not", "an", "object"]), encoding="utf-8")
+
+            result = HistoryTagScrapePlanRunner(payload_path).run()
+
+        self.assertEqual(result, HistoryTagScrapePlanner().build_plan([], {}, {}))
+        self.assertNotIn("must be a JSON object", Path("python_backend/corpus/history_tags.py").read_text(encoding="utf-8"))
+
     def test_history_tag_corpus_cli_accepts_argv_plan_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -668,8 +668,6 @@ class HistoryTagScrapePlanRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_json_object(self.payload_path, {})
-        if not isinstance(payload, dict):
-            raise ValueError("History-tag scrape plan payload must be a JSON object.")
         planner = HistoryTagScrapePlanner(project_dir=str(payload.get("projectDir") or payload.get("project_dir") or ""))
         return planner.build_plan(
             argv=payload.get("argv") if isinstance(payload.get("argv"), list) else [],
