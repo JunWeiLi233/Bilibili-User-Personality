@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import json
 import re
+from pathlib import Path
 from typing import Any
 from urllib.parse import quote_plus, urlparse
 
@@ -61,6 +63,88 @@ class BilibiliProbePlanContractComparator:
             "python": self.summary.summarize(python_result),
             "js": self.summary.summarize(js_result),
         }
+
+
+class BilibiliProbePlanRunner:
+    """Build Bilibili direct-probe URL/header plans from JSON payloads."""
+
+    def __init__(self, payload_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.planner = BilibiliProbePlanner()
+
+    def run(self) -> dict[str, Any]:
+        payload = self._read_payload()
+        mode = str(payload.get("mode") or "urls").strip().lower()
+        if mode == "filter-videos":
+            return {
+                "ok": True,
+                "mode": "filter-videos",
+                "videos": self.planner.filter_unscanned_probe_videos(
+                    payload.get("videos") if isinstance(payload.get("videos"), list) else [],
+                    payload.get("scannedKeys") if isinstance(payload.get("scannedKeys"), list) else [],
+                ),
+            }
+        if mode == "headers":
+            return {
+                "ok": True,
+                "mode": "headers",
+                "headers": self.planner.build_web_headers(str(payload.get("referer") or ""), payload.get("options") if isinstance(payload.get("options"), dict) else {}),
+            }
+        if mode == "scanned-keys":
+            return {
+                "ok": True,
+                "mode": "scanned-keys",
+                "scannedKeys": self.planner.collect_scanned_probe_video_keys(payload.get("corpus") if isinstance(payload.get("corpus"), dict) else {}),
+            }
+        if mode in {"source-videos", "evidence-source-videos"}:
+            return {
+                "ok": True,
+                "mode": mode,
+                "videosByTerm": self.planner.build_evidence_source_videos_for_actions(
+                    payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {},
+                    payload.get("actions") if isinstance(payload.get("actions"), list) else [],
+                    payload.get("options") if isinstance(payload.get("options"), dict) else {},
+                ),
+            }
+
+        video = payload.get("video") if isinstance(payload.get("video"), dict) else {}
+        search = payload.get("search") if isinstance(payload.get("search"), dict) else {}
+        return {
+            "ok": True,
+            "mode": "urls",
+            "viewUrl": self.planner.build_view_url(video),
+            "replyUrl": self.planner.build_reply_url(video),
+            "replyPageUrl": self.planner.build_reply_page_url(video),
+            "replyThreadUrl": self.planner.build_reply_thread_url(video),
+            "searchUrls": self.planner.build_search_urls(payload.get("query") or "", search),
+        }
+
+    def _read_payload(self) -> dict[str, Any]:
+        with self.payload_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
+
+
+class BilibiliProbePlanPayloadContractComparator:
+    """Compare file-backed Bilibili probe plans against saved JS-compatible JSON."""
+
+    def __init__(self, payload_path: str | Path, js_report_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.js_report_path = Path(js_report_path)
+        self.summary = BilibiliProbePlanSummary()
+        self.comparator = BilibiliProbePlanContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = BilibiliProbePlanRunner(self.payload_path).run()
+        js_result = self._read_js_report()
+        return self.comparator.compare(python_result, js_result)
+
+    def _read_js_report(self) -> dict[str, Any]:
+        if not self.js_report_path.exists():
+            return {}
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
 
 
 class BilibiliProbePlanner:
