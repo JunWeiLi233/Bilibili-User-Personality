@@ -241,6 +241,28 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(corpus.comments, [{"message": "inline comment"}])
         self.assertEqual(corpus.runs, [{"at": "inline-run"}])
 
+    def test_loader_builds_from_js_json_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "payload-corpus.json"
+            corpus_path.write_text(
+                json.dumps({"version": 1, "comments": [{"message": "payload comment"}], "runs": [{"at": "payload-run"}]}),
+                encoding="utf-8",
+            )
+
+            loaded = CorpusLoader.load_from_payload({"corpusPath": str(corpus_path)})
+            fallback = CorpusLoader.load_from_payload(
+                {
+                    "path": str(root / "missing.json"),
+                    "fallback": {"version": 1, "comments": [{"message": "fallback"}], "runs": [{"at": "fallback-run"}]},
+                }
+            )
+
+        self.assertEqual(loaded.comments, [{"message": "payload comment"}])
+        self.assertEqual(loaded.runs, [{"at": "payload-run"}])
+        self.assertEqual(fallback.comments, [{"message": "fallback"}])
+        self.assertEqual(fallback.runs, [{"at": "fallback-run"}])
+
     def test_writer_round_trips_small_split_corpus(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

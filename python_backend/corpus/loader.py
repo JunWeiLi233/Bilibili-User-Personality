@@ -20,6 +20,13 @@ class CorpusLoader:
         self.path = Path(path)
         self.fallback = fallback
 
+    @classmethod
+    def load_from_payload(cls, payload: dict[str, Any] | None = None) -> Corpus:
+        payload = payload if isinstance(payload, dict) else {}
+        path = payload.get("corpusPath", payload.get("path", "server/data/bilibiliDirectProbeCorpus.json"))
+        fallback = payload.get("fallback") if isinstance(payload.get("fallback"), dict) else None
+        return cls(path, fallback=fallback).load()
+
     def load(self) -> Corpus:
         try:
             manifest = self._read_json(self.path)
