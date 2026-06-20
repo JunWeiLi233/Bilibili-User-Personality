@@ -118,7 +118,7 @@ from python_backend.scrapers.batch_popular import BatchPopularPlanContractCompar
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanContractComparator as BatchUidRangePlanPayloadComparator, BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherPlanner, RangeScraperLauncherSummary, UidRangeProgressReporter, UidRangeProgressSummary
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchScraperLauncherSummary, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanContractComparator as BatchUidScrapePlanPayloadComparator, BatchUidScrapePlanSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanContractComparator as UidDiscoveryPlanPayloadComparator, UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
-from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanSummary, UidParallelProgressReporter, UidParallelProgressSummary
+from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanContractComparator as UidParallelPlanPayloadComparator, UidParallelPlanSummary, UidParallelProgressReporter, UidParallelProgressSummary
 from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineLauncherSummary, UidPipelineMergeReporter, UidPipelineMergeSummary, UidPipelinePlanSummary, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter, ScraperMonitorSummary
 from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherPlanner, FastPipelineLauncherSummary, UidFastPipelinePlanSummary, UidFastPipelinePlanner
@@ -7302,6 +7302,23 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "training", "python": {"multiagent": True, "existingTermsOnly": False, "commentTextLimit": 5000, "saveEvery": 20}, "js": {"multiagent": False}},
             ],
         )
+
+    def test_uid_parallel_payload_comparator_owns_result_key_mismatch_contract(self):
+        result = UidParallelPlanPayloadComparator().compare(
+            {"assignment": {"trainable": 1}, "training": {"multiagent": True}, "extra": "ignored"},
+            {"assignment": {"trainable": 9}, "training": {"multiagent": False}},
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "assignment", "python": {"trainable": 1}, "js": {"trainable": 9}},
+                {"key": "training", "python": {"multiagent": True}, "js": {"multiagent": False}},
+            ],
+        )
+        self.assertEqual(result["python"], {"assignment": {"trainable": 1}, "training": {"multiagent": True}})
+        self.assertEqual(result["js"], {"assignment": {"trainable": 9}, "training": {"multiagent": False}})
 
     def test_uid_parallel_plan_summary_extracts_comparator_contract(self):
         summary = UidParallelPlanSummary().summarize(
