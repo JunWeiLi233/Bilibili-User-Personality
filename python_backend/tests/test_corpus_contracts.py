@@ -7974,6 +7974,31 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["operation"], "filter")
         self.assertEqual([video["bvid"] for video in result["videos"]], ["BV1"])
 
+    def test_video_relevance_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "operation": "filter",
+                        "videos": [
+                            {"bvid": "BV1", "title": "\u5f39\u5e55\u9634\u9633\u602a\u6c14"},
+                            {"bvid": "BV2", "title": "\u666e\u901a\u89c6\u9891"},
+                        ],
+                        "searchQueries": ["\u5f39\u5e55\u9634\u9633\u602a\u6c14"],
+                        "targetExistingTerms": ["\u5f39\u5e55\u9634\u9633\u602a\u6c14"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = video_relevance_cli.VideoRelevanceCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["operation"], "filter")
+        self.assertEqual([video["bvid"] for video in result["videos"]], ["BV1"])
+
     def test_video_relevance_payload_runner_lives_with_analysis_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
