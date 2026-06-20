@@ -12,6 +12,7 @@ from python_backend.cli import comment_coverage as comment_coverage_cli
 from python_backend.cli import deepseek_analysis_plan as deepseek_analysis_plan_cli
 from python_backend.cli import huggingface_corpus as huggingface_corpus_cli
 from python_backend.cli import keyword_evidence as keyword_evidence_cli
+from python_backend.cli import random_verification as random_verification_cli
 from python_backend.cli import tieba_corpus as tieba_corpus_cli
 from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditPayloadContractComparator, CoverageAuditReport
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageJsonPayloadRunner, CommentCoveragePayloadContractComparator, CommentCoverageRunner as CommentCoveragePayloadRunner, CommentCoverageSummary
@@ -628,6 +629,34 @@ class CorpusContractTests(unittest.TestCase):
 
             result = RandomVerificationRunner(["--payload", str(payload_path)]).run()
 
+        self.assertEqual(result["sampleSize"], 1)
+        self.assertEqual(result["keywordHits"], 1)
+
+    def test_random_verification_cli_main_accepts_argv_payload_contract(self):
+        class BinaryStdout:
+            def __init__(self):
+                self.buffer = io.BytesIO()
+
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "random-verification.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "sampleSize": 1,
+                        "seed": 1,
+                        "corpus": {"comments": [{"message": "doge"}]},
+                        "dictionary": {"entries": [{"term": "doge"}]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            output = BinaryStdout()
+            with contextlib.redirect_stdout(output):
+                exit_code = random_verification_cli.main(["--payload", str(payload_path)])
+
+        result = json.loads(output.buffer.getvalue().decode("utf-8"))
+        self.assertEqual(exit_code, 0)
         self.assertEqual(result["sampleSize"], 1)
         self.assertEqual(result["keywordHits"], 1)
 

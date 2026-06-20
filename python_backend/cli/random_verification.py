@@ -50,9 +50,9 @@ class RandomVerificationRunner:
         return parser
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = RandomVerificationRunner._parser()
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     if args.payload:
         result = RandomVerificationPayloadRunner(args.payload).run()
     elif args.compare_js_report:
