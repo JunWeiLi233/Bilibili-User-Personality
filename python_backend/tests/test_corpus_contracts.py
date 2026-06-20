@@ -5,7 +5,7 @@ from pathlib import Path
 
 from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditReport
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageSummary
-from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
+from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanPayloadContractComparator, CoverageHarvestLoopPlanRunner as CoverageHarvestLoopPayloadPlanRunner, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressPayloadContractComparator, CoverageProgressRunner as CoverageProgressPayloadRunner, CoverageProgressSummary, CoverageProgressTracker
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReportContractComparator as VideoKeywordDiscoveryReportPayloadComparator, VideoKeywordDiscoveryReporter, VideoKeywordDiscoveryReportSummary
 from python_backend.analysis import harvest_options as harvest_options_module
@@ -11651,6 +11651,46 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["loop"]["maxQueries"], 3)
         self.assertEqual(result["initialStopReason"], "")
         self.assertEqual([item["query"] for item in result["priorityQueries"]], ["doge hot", "doge comments", "tieba roast"])
+
+    def test_coverage_harvest_loop_payload_runner_lives_with_analysis_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-loop-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "env": {"BILIBILI_COVERAGE_LOOP_MAX_CYCLES": "0", "BILIBILI_HARVEST_MAX_QUERIES": "3"},
+                        "audit": {
+                            "ok": False,
+                            "nextActions": [
+                                {"term": "doge", "family": "meme", "nextQuery": "doge hot", "suggestedQueries": ["doge comments"]},
+                                {"term": "tieba", "family": "platform", "nextQuery": "tieba roast"},
+                            ],
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"loop": {"maxCycles": 1}, "initialStopReason": "coverage_gate_passed"}),
+                encoding="utf-8",
+            )
+
+            result = CoverageHarvestLoopPayloadPlanRunner(payload_path).run()
+            comparison = CoverageHarvestLoopPlanPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["loop"], {"maxCycles": 0, "roundsPerCycle": 1, "maxQueries": 3})
+        self.assertEqual([item["query"] for item in result["priorityQueries"]], ["doge hot", "doge comments", "tieba roast"])
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(
+            comparison["mismatches"],
+            [
+                {"key": "loop", "python": {"maxCycles": 0, "roundsPerCycle": 1, "maxQueries": 3}, "js": {"maxCycles": 1}},
+                {"key": "initialStopReason", "python": "cycle_limit", "js": "coverage_gate_passed"},
+            ],
+        )
 
     def test_coverage_harvest_loop_plan_summary_extracts_comparator_contract(self):
         summary = CoverageHarvestLoopPlanSummary().summarize(
