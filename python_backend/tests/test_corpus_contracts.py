@@ -38,6 +38,7 @@ from python_backend.cli import harvest_state as harvest_state_cli
 from python_backend.cli import history_tag_corpus as history_tag_corpus_cli
 from python_backend.cli import huggingface_corpus as huggingface_corpus_cli
 from python_backend.cli import keyword_evidence as keyword_evidence_cli
+from python_backend.cli import local_corpus_mine_plan as local_corpus_mine_plan_cli
 from python_backend.cli import random_verification as random_verification_cli
 from python_backend.cli import tieba_corpus as tieba_corpus_cli
 from python_backend.cli import tieba_html_parse as tieba_html_parse_cli
@@ -5666,6 +5667,22 @@ class CorpusContractTests(unittest.TestCase):
             comparison["mismatches"],
             [{"key": "options", "python": result["options"], "js": {"corpusPaths": ["stale"], "targetEvidence": 3}}],
         )
+
+    def test_local_corpus_mine_plan_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "local-mine-plan.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--corpus=one.json", "--target-evidence=5"], "env": {"LOCAL_CORPUS_WRITE": "1"}}),
+                encoding="utf-8",
+            )
+
+            result = local_corpus_mine_plan_cli.LocalCorpusMinePlanCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["options"]["corpusPaths"], ["one.json"])
+        self.assertEqual(result["options"]["targetEvidence"], 5)
+        self.assertTrue(result["options"]["write"])
 
     def test_local_corpus_mine_plan_payload_comparator_lives_with_corpus_options(self):
         with tempfile.TemporaryDirectory() as tmp:
