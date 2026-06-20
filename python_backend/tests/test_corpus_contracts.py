@@ -11,6 +11,7 @@ from python_backend.cli import bilibili_probe_plan as bilibili_probe_plan_cli
 from python_backend.cli import bilibili_parse as bilibili_parse_cli
 from python_backend.cli import batch_scrape_progress as batch_scrape_progress_cli
 from python_backend.cli import batch_uid_progress as batch_uid_progress_cli
+from python_backend.cli import batch_uid_range_plan as batch_uid_range_plan_cli
 from python_backend.cli import direct_probe_corpus as direct_probe_corpus_cli
 from python_backend.cli import comment_coverage as comment_coverage_cli
 from python_backend.cli import compare_contracts as compare_contracts_cli
@@ -15668,6 +15669,28 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "phase2", "python": {"targetUids": 1, "processed": 0, "remaining": 1, "userDbUsers": 1}, "js": {"targetUids": 9}},
             ],
         )
+
+    def test_batch_uid_range_plan_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "batch-uid-range-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--start=10", "--end=20", "--pages=3"],
+                        "progress": {"scannedBvids": ["BV1"], "_uidComments": {"12": [{"message": "x"}]}, "processedUids": {}},
+                        "database": {"users": {"12": {}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = batch_uid_range_plan_cli.BatchUidRangePlanCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["input"], {"start": 10, "end": 20, "pages": 3, "phase2Only": False})
+        self.assertEqual(result["phase1"]["enabled"], True)
+        self.assertEqual(result["phase2"], {"targetUids": 1, "processed": 0, "remaining": 1, "userDbUsers": 1})
 
     def test_batch_uid_range_plan_runner_defaults_non_object_payload_root(self):
         with tempfile.TemporaryDirectory() as tmp:
