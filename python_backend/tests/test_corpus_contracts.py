@@ -119,7 +119,7 @@ from python_backend.scrapers.batch_popular import BatchPopularPlanContractCompar
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanContractComparator as BatchUidRangePlanPayloadComparator, BatchUidRangePlanPayloadContractComparator, BatchUidRangePlanRunner as BatchUidRangePayloadPlanRunner, BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherContractComparator as RangeScraperLauncherPayloadComparator, RangeScraperLauncherPayloadContractComparator, RangeScraperLauncherPlanner, RangeScraperLauncherPlanRunner as RangeScraperLauncherPayloadPlanRunner, RangeScraperLauncherSummary, UidRangeProgressContractComparator as UidRangeProgressPayloadComparator, UidRangeProgressPayloadContractComparator, UidRangeProgressReporter, UidRangeProgressRunner as UidRangeProgressPayloadRunner, UidRangeProgressSummary
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherContractComparator as BatchScraperLauncherPayloadComparator, BatchScraperLauncherPayloadContractComparator, BatchScraperLauncherPlanner, BatchScraperLauncherPlanRunner as BatchScraperLauncherPayloadPlanRunner, BatchScraperLauncherSummary, BatchUidProgressContractComparator as BatchUidProgressPayloadComparator, BatchUidProgressPayloadContractComparator, BatchUidProgressReporter, BatchUidProgressRunner as BatchUidProgressPayloadRunner, BatchUidProgressSummary, BatchUidScrapePlanContractComparator as BatchUidScrapePlanPayloadComparator, BatchUidScrapePlanPayloadContractComparator, BatchUidScrapePlanRunner as BatchUidScrapePayloadPlanRunner, BatchUidScrapePlanSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanContractComparator as UidDiscoveryPlanPayloadComparator, UidDiscoveryPlanPayloadContractComparator, UidDiscoveryPlanRunner as UidDiscoveryPayloadPlanRunner, UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressContractComparator as UidDiscoveryProgressPayloadComparator, UidDiscoveryProgressPayloadContractComparator, UidDiscoveryProgressReporter, UidDiscoveryProgressRunner as UidDiscoveryProgressPayloadRunner, UidDiscoveryProgressSummary
-from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanContractComparator as UidFastPipelinePlanPayloadComparator
+from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanContractComparator as UidFastPipelinePlanPayloadComparator, UidFastPipelinePlanPayloadContractComparator, UidFastPipelinePlanRunner as UidFastPipelinePayloadPlanRunner
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanContractComparator as UidParallelPlanPayloadComparator, UidParallelPlanPayloadContractComparator, UidParallelPlanRunner as UidParallelPayloadPlanRunner, UidParallelPlanSummary, UidParallelProgressContractComparator as UidParallelProgressPayloadComparator, UidParallelProgressPayloadContractComparator, UidParallelProgressReporter, UidParallelProgressRunner as UidParallelProgressPayloadRunner, UidParallelProgressSummary
 from python_backend.scrapers.uid_pipeline import UidPipelineLauncherContractComparator as UidPipelineLauncherPayloadComparator, UidPipelineLauncherPayloadContractComparator, UidPipelineLauncherPlanner, UidPipelineLauncherPlanRunner as UidPipelineLauncherPayloadPlanRunner, UidPipelineLauncherSummary, UidPipelineMergeContractComparator as UidPipelineMergePayloadComparator, UidPipelineMergePayloadContractComparator, UidPipelineMergeReporter, UidPipelineMergeRunner as UidPipelineMergePayloadRunner, UidPipelineMergeSummary, UidPipelinePlanContractComparator as UidPipelinePlanPayloadComparator, UidPipelinePlanPayloadContractComparator, UidPipelinePlanRunner as UidPipelinePayloadPlanRunner, UidPipelinePlanSummary, UidPipelineProgressContractComparator as UidPipelineProgressPayloadComparator, UidPipelineProgressPayloadContractComparator, UidPipelineProgressReporter, UidPipelineProgressRunner as UidPipelineProgressPayloadRunner, UidPipelineProgressSummary, UidPipelineStateContractComparator as UidPipelineStatePayloadComparator, UidPipelineStatePayloadContractComparator, UidPipelineStateReporter, UidPipelineStateRunner as UidPipelineStatePayloadRunner, UidPipelineStateSummary, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorContractComparator as ScraperMonitorPayloadComparator, ScraperMonitorPayloadContractComparator, ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter, ScraperMonitorRunner as ScraperMonitorPayloadRunner, ScraperMonitorSummary
@@ -9265,6 +9265,31 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "training", "python": {"multiagent": True, "existingTermsOnly": False, "lockRetryDelayMs": 5000, "lockRetryJitterMs": 2000, "lockMaxRetries": 15, "forceCleanLockAfterAttempt": 10}, "js": {"lockMaxRetries": 5}},
             ],
         )
+
+    def test_uid_fast_pipeline_payload_runner_lives_with_scraper_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "uid-fast-pipeline-plan.json"
+            js_report_path = root / "js-uid-fast-pipeline-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--start=40", "--end=42"],
+                        "progress": {"processed": {"40": "success", "41": "blocked"}, "stats": {"success": 1, "blocked": 1}},
+                        "database": {"users": {"40": {}, "100": {}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            result = UidFastPipelinePayloadPlanRunner(payload_path).run()
+            js_report_path.write_text(json.dumps(result), encoding="utf-8")
+
+            comparison = UidFastPipelinePlanPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertEqual(result["range"], {"start": 40, "end": 42, "total": 3})
+        self.assertEqual(result["userDb"], {"users": 2, "usersInRange": 1})
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
 
     def test_uid_fast_pipeline_plan_summary_extracts_comparator_contract(self):
         summary = UidFastPipelinePlanSummary().summarize(
