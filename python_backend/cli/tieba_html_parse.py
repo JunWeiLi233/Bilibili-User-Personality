@@ -18,22 +18,7 @@ class TiebaHtmlParseRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
-        mode = str(payload.get("mode") or "threads").strip().lower()
-        html_text = payload.get("html") or ""
-        keyword = str(payload.get("keyword") or "")
-
-        if mode == "comments":
-            comments = self.parser.parse_thread_comments(html_text, payload.get("thread") if isinstance(payload.get("thread"), dict) else {})
-            return {"ok": True, "mode": "comments", "comments": comments}
-        if mode == "discovery-comments":
-            threads = payload.get("threads")
-            if not isinstance(threads, list):
-                threads = self.parser.parse_threads(html_text, keyword)
-            comments = self.parser.threads_to_discovery_comments(threads, keyword)
-            return {"ok": True, "mode": "discovery-comments", "threads": threads, "comments": comments}
-
-        threads = self.parser.parse_threads(html_text, keyword)
-        return {"ok": True, "mode": "threads", "threads": threads}
+        return self.parser.parse_from_payload(payload)
 
     def _read_payload(self) -> dict[str, Any]:
         with self.payload_path.open("r", encoding="utf-8-sig") as handle:

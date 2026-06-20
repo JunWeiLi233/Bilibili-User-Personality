@@ -4358,6 +4358,23 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["mode"], "comments")
         self.assertEqual(result["comments"][0]["message"], "\u65b0\u8d34\u5427\u8bc4\u8bba")
 
+    def test_tieba_html_parser_owns_payload_comments_contract(self):
+        result = TiebaHtmlParser().parse_from_payload(
+            {
+                "mode": "comments",
+                "thread": {"id": "1000", "title": "\u6d4b\u8bd5", "sourceUrl": "https://tieba.baidu.com/p/1000"},
+                "html": """
+                <div class="l_post" data-field='{"author":{"user_name":"u"},"content":{"post_id":1}}'>
+                  <div class="d_post_content j_d_post_content">\u65b0\u8d34\u5427\u8bc4\u8bba</div>
+                </div>
+                """,
+            }
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "comments")
+        self.assertEqual(result["comments"][0]["message"], "\u65b0\u8d34\u5427\u8bc4\u8bba")
+
     def test_tieba_html_parse_contract_comparator_reports_parse_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

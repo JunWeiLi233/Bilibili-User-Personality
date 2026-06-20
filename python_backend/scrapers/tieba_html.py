@@ -76,6 +76,25 @@ class TiebaHtmlParseSummary:
 class TiebaHtmlParser:
     """Parse saved Tieba HTML into the JS scraper JSON contract."""
 
+    def parse_from_payload(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        mode = str(payload.get("mode") or "threads").strip().lower()
+        html_text = payload.get("html") or ""
+        keyword = str(payload.get("keyword") or "")
+
+        if mode == "comments":
+            comments = self.parse_thread_comments(html_text, payload.get("thread") if isinstance(payload.get("thread"), dict) else {})
+            return {"ok": True, "mode": "comments", "comments": comments}
+        if mode == "discovery-comments":
+            threads = payload.get("threads")
+            if not isinstance(threads, list):
+                threads = self.parse_threads(html_text, keyword)
+            comments = self.threads_to_discovery_comments(threads, keyword)
+            return {"ok": True, "mode": "discovery-comments", "threads": threads, "comments": comments}
+
+        threads = self.parse_threads(html_text, keyword)
+        return {"ok": True, "mode": "threads", "threads": threads}
+
     def thread_from_url(self, value: Any, keyword: str = "") -> dict[str, Any] | None:
         text = str(value or "").strip()
         if not text:
