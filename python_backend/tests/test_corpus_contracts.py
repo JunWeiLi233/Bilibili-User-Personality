@@ -60,7 +60,7 @@ from python_backend.cli.harvest_options import HarvestOptionsContractComparator,
 from python_backend.cli.harvest_plan import KeywordHarvestPlanContractComparator, KeywordHarvestPlanRunner
 from python_backend.cli.harvest_state import HarvestStateContractComparator, HarvestStateRunner
 from python_backend.cli.readme_stats import ReadmeStatsCliRunner, ReadmeStatsContractComparator, ReadmeStatsRunner
-from python_backend.cli.semantic_matcher import SemanticMatcherContractComparator, SemanticMatcherRunner
+from python_backend.cli.semantic_matcher import SemanticMatcherCliRunner, SemanticMatcherContractComparator, SemanticMatcherRunner
 from python_backend.cli.deepseek_analyze_cli_plan import DeepSeekAnalyzeCliPlanContractComparator, DeepSeekAnalyzeCliPlanRunner
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanContractComparator, DeepSeekAnalysisPlanRunner
 from python_backend.cli.deepseek_analysis_validate import DeepSeekAnalysisValidateContractComparator, DeepSeekAnalysisValidateRunner
@@ -2536,6 +2536,29 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["chunks"], ["alpha chunk", "beta chunk"])
         self.assertAlmostEqual(result["cosine"], 0.8, places=4)
         self.assertEqual(result["matches"][0], {"term": "term-a", "chunk": "alpha chunk", "score": 1.0})
+
+    def test_semantic_matcher_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "semantic.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "chunks": ["alpha chunk"],
+                        "vectors": {"left": [1, 0], "right": [0.8, 0.6]},
+                        "chunkEmbeddings": [[1, 0]],
+                        "termEmbeddings": {"term-a": [1, 0]},
+                        "threshold": 0.7,
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = SemanticMatcherCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "match")
+        self.assertEqual(result["matches"], [{"term": "term-a", "chunk": "alpha chunk", "score": 1.0}])
 
     def test_semantic_matcher_payload_runner_lives_with_analysis_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
