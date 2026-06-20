@@ -8061,6 +8061,27 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["stats"], {"videosScanned": 2, "uidsFound": 4, "uidsAnalyzed": 1, "commentsCollected": 5, "errors": 0, "videoQueueSize": 88})
         self.assertEqual(result["training"], {"multiagent": True, "existingTermsOnly": False, "saveEveryAnalyzed": 10, "lockRetryDelayMs": 5000, "lockRetryJitterMs": 2000, "lockMaxRetries": 15})
 
+    def test_uid_discovery_planner_builds_plan_from_json_payload_contract(self):
+        result = UidDiscoveryPlanner.build_plan_from_payload(
+            {
+                "progress": {
+                    "phase": "analysis",
+                    "scannedBvids": ["BV1"],
+                    "processedUids": {"100": "success"},
+                    "stats": {"videosScanned": "3", "uidsFound": "7"},
+                    "videoQueueSize": "12",
+                },
+                "comments": {"100": [{"message": "done"}], "101": [{"message": "todo"}]},
+                "database": {"users": {"100": {}, "101": {}, "102": {}}},
+                "ignored": {"not": "runner-owned"},
+            }
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["resume"], {"phase": "analysis", "skipDiscovery": True, "scannedBvids": 1, "savedUidComments": 2})
+        self.assertEqual(result["analysis"], {"processed": 1, "pending": 1, "skippableNoText": 0, "trainable": 1, "userDbUsers": 3})
+        self.assertEqual(result["stats"], {"videosScanned": 3, "uidsFound": 7, "uidsAnalyzed": 0, "commentsCollected": 0, "errors": 0, "videoQueueSize": 12})
+
     def test_uid_discovery_plan_summary_extracts_comparator_contract(self):
         summary = UidDiscoveryPlanSummary().summarize(
             {

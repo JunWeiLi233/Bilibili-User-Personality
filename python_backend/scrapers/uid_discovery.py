@@ -28,6 +28,15 @@ class UidDiscoveryPlanner:
     LOCK_MAX_RETRIES = 15
     SAVE_EVERY_ANALYZED = 10
 
+    @classmethod
+    def build_plan_from_payload(cls, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        return cls().build_plan(
+            progress=payload.get("progress") if isinstance(payload.get("progress"), dict) else {},
+            comments=payload.get("comments") if isinstance(payload.get("comments"), dict) else {},
+            database=payload.get("database") if isinstance(payload.get("database"), dict) else {},
+        )
+
     def build_plan(self, progress: dict[str, Any] | None = None, comments: dict[str, Any] | None = None, database: dict[str, Any] | None = None) -> dict[str, Any]:
         progress = progress or {}
         comments = comments or {}
