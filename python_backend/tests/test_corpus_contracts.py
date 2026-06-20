@@ -4182,6 +4182,18 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["sources"][2]["dataset"], "Midsummra/bilibilicomment")
         self.assertEqual(result["sources"][2]["resolveUrl"], "https://huggingface.co/datasets/Midsummra/bilibilicomment/resolve/main/bilibili.csv")
 
+    def test_huggingface_import_plan_runner_defaults_non_object_payload_root(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "hf-plan.json"
+            payload_path.write_text(json.dumps(["not", "an", "object"]), encoding="utf-8")
+
+            result = HuggingFaceCorpusImportPlanRunner(payload_path).run()
+
+        self.assertEqual(
+            result,
+            HuggingFaceImportPlanner(default_output="server/data/huggingFaceKeywordCorpus.json").build_plan([], {}),
+        )
+
     def test_huggingface_import_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
