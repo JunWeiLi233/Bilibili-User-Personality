@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerPayloadContractComparator as BilibiliCrawlerContractComparator, BilibiliCrawlerRunner
+from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerPayloadContractComparator as BilibiliCrawlerContractComparator, BilibiliCrawlerRequest, BilibiliCrawlerRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -22,9 +22,10 @@ class BilibiliCrawlerCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.compare_js_report:
-            return BilibiliCrawlerContractComparator(args.payload, args.compare_js_report).compare()
-        return BilibiliCrawlerRunner(args.payload).run()
+        return BilibiliCrawlerRequest(
+            payload_path=args.payload,
+            compare_js_report_path=args.compare_js_report or None,
+        ).run()
 
 
 def main(argv: list[str] | None = None) -> int:

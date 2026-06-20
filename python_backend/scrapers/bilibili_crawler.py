@@ -165,6 +165,22 @@ class BilibiliCrawlerPayloadContractComparator:
         return payload if isinstance(payload, dict) else {}
 
 
+class BilibiliCrawlerRequest:
+    """Scraper-layer request object for Bilibili crawler JSON contract modes."""
+
+    def __init__(self, payload_path: str | Path, compare_js_report_path: str | Path | None = None):
+        self.payload_path = Path(payload_path)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_report_path:
+            return BilibiliCrawlerPayloadContractComparator(
+                self.payload_path,
+                self.compare_js_report_path,
+            ).compare()
+        return BilibiliCrawlerRunner(self.payload_path).run()
+
+
 class BilibiliCrawlerHelper:
     """Normalize Bilibili crawler identifiers and block responses without network IO."""
 

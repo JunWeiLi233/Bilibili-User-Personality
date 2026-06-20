@@ -164,7 +164,7 @@ from python_backend.scrapers.aicu import AicuBatchPlanContractComparator as Aicu
 from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanContractComparator as AicuBrowserBatchPlanPayloadComparator, AicuBrowserBatchPlanPayloadContractComparator, AicuBrowserBatchPlanRunner as AicuBrowserBatchPayloadPlanRunner, AicuBrowserBatchPlanSummary, AicuBrowserBatchPlanner
 from python_backend.scrapers import video_link_direct
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanContractComparator as VideoLinkDirectPlanPayloadComparator, VideoLinkDirectPlanner, VideoLinkDirectPlanRunner as VideoLinkDirectPayloadPlanRunner
-from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerContractComparator as BilibiliCrawlerPayloadComparator, BilibiliCrawlerPayloadContractComparator, BilibiliCrawlerRunner as BilibiliCrawlerPayloadRunner, BilibiliCrawlerHelper, BilibiliCrawlerSummary
+from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerContractComparator as BilibiliCrawlerPayloadComparator, BilibiliCrawlerPayloadContractComparator, BilibiliCrawlerRequest, BilibiliCrawlerRunner as BilibiliCrawlerPayloadRunner, BilibiliCrawlerHelper, BilibiliCrawlerSummary
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanContractComparator as BilibiliProbePlanPayloadComparator, BilibiliProbePlanPayloadContractComparator, BilibiliProbePlanRunner as BilibiliProbePayloadPlanRunner, BilibiliProbePlanSummary, BilibiliProbePlanner
 from python_backend.runtime.file_lock import FileLockStateContractComparator as FileLockStatePayloadComparator, FileLockStateInspector, FileLockStateRunner as FileLockStatePayloadRunner, FileLockStateSummary
 from python_backend.scrapers.rate_limiter import RateLimitPolicy, RateLimiter
@@ -11064,6 +11064,28 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["bvids"], ["BV19yGa61Ee6", "BV1xx411c7mD"])
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["bvids", "blocked"])
+
+    def test_bilibili_crawler_request_compares_js_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-crawler.json"
+            payload_path.write_text(
+                json.dumps({"text": "BV19yGa61Ee6, BV1xx411c7mD", "payload": {"code": -509}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"ok": True, "bvids": ["BV19yGa61Ee6"], "bvid": "BV19yGa61Ee6", "blocked": False}),
+                encoding="utf-8",
+            )
+
+            result = BilibiliCrawlerRequest(
+                payload_path=payload_path,
+                compare_js_report_path=js_report_path,
+            ).run()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual([item["key"] for item in result["mismatches"]], ["bvids", "blocked"])
 
     def test_bilibili_crawler_contract_comparator_reports_helper_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
