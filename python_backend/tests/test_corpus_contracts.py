@@ -43,6 +43,7 @@ from python_backend.cli import keyword_evidence as keyword_evidence_cli
 from python_backend.cli import local_corpus_mine_plan as local_corpus_mine_plan_cli
 from python_backend.cli import merge_agent_dictionaries_plan as merge_agent_dictionaries_plan_cli
 from python_backend.cli import random_verification as random_verification_cli
+from python_backend.cli import scraper_monitor as scraper_monitor_cli
 from python_backend.cli import tieba_corpus as tieba_corpus_cli
 from python_backend.cli import tieba_html_parse as tieba_html_parse_cli
 from python_backend.cli import tieba_keyword_plan as tieba_keyword_plan_cli
@@ -15123,6 +15124,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["combined"], {"uidsAnalyzed": 2})
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["pipeline", "combined"])
+
+    def test_scraper_monitor_cli_runner_reads_progress_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            (data_dir / "uid-discovery-progress.json").write_text(
+                json.dumps({"stats": {"uidsAnalyzed": 2, "uidsFound": 5, "errors": 1}}),
+                encoding="utf-8",
+            )
+            (data_dir / "uid-pipeline-1-2.json").write_text(
+                json.dumps({"processed": {"1": "success", "2": "no_user"}, "stats": {"success": 1, "noUser": 1}}),
+                encoding="utf-8",
+            )
+
+            result = scraper_monitor_cli.ScraperMonitorCliRunner(
+                ["--data-dir", str(data_dir), "--total-start", "1", "--total-end", "2", "--workers", "1", "--pipeline-rate-per-minute", "2"]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["discovery"], {"analyzed": 2, "found": 5, "remaining": 3, "errors": 1})
+        self.assertEqual(result["pipeline"]["success"], 1)
+        self.assertEqual(result["pipeline"]["noUser"], 1)
+        self.assertEqual(result["combined"], {"uidsAnalyzed": 3})
 
     def test_scraper_monitor_payload_comparator_owns_report_mismatch_contract(self):
         result = ScraperMonitorPayloadComparator().compare(
