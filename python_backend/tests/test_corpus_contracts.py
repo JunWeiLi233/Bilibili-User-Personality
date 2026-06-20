@@ -116,7 +116,7 @@ from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanContractComparator as BatchBilibiliPlanPayloadComparator, BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularPlanContractComparator as BatchPopularPlanPayloadComparator, BatchPopularPlanSummary, BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanContractComparator as BatchUidRangePlanPayloadComparator, BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherPlanner, RangeScraperLauncherSummary, UidRangeProgressReporter, UidRangeProgressSummary
-from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchScraperLauncherSummary, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanContractComparator as BatchUidScrapePlanPayloadComparator, BatchUidScrapePlanSummary, BatchUidScrapePlanner
+from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchScraperLauncherSummary, BatchUidProgressContractComparator as BatchUidProgressPayloadComparator, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanContractComparator as BatchUidScrapePlanPayloadComparator, BatchUidScrapePlanSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanContractComparator as UidDiscoveryPlanPayloadComparator, UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressContractComparator as UidDiscoveryProgressPayloadComparator, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
 from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanContractComparator as UidFastPipelinePlanPayloadComparator
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanContractComparator as UidParallelPlanPayloadComparator, UidParallelPlanSummary, UidParallelProgressContractComparator as UidParallelProgressPayloadComparator, UidParallelProgressReporter, UidParallelProgressSummary
@@ -8493,6 +8493,32 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "phase2", "python": {"processed": 1, "success": 1, "errors": 0, "skipped": 0, "remaining": 0}, "js": {"processed": 0}},
             ],
         )
+
+    def test_batch_uid_progress_payload_comparator_owns_result_key_mismatch_contract(self):
+        result = BatchUidProgressPayloadComparator().compare(
+            {
+                "discovery": {"videosScanned": 2},
+                "phase2": {"processed": 3},
+                "comments": {"total": 4},
+                "lastUpdated": "ignored",
+            },
+            {
+                "discovery": {"videosScanned": 0},
+                "phase2": {"processed": 0},
+                "lastUpdated": "ignored",
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "discovery", "python": {"videosScanned": 2}, "js": {"videosScanned": 0}},
+                {"key": "phase2", "python": {"processed": 3}, "js": {"processed": 0}},
+            ],
+        )
+        self.assertEqual(result["python"], {"discovery": {"videosScanned": 2}, "phase2": {"processed": 3}, "comments": {"total": 4}})
+        self.assertEqual(result["js"], {"discovery": {"videosScanned": 0}, "phase2": {"processed": 0}})
 
     def test_batch_uid_scrape_planner_matches_js_discovery_and_training_contract(self):
         planner = BatchUidScrapePlanner()
