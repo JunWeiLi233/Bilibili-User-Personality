@@ -680,6 +680,57 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["corpus"]["comments"], 1)
         self.assertEqual(result["dictionary"]["terms"], 1)
 
+    def test_compare_contracts_runner_includes_tieba_corpus_summary(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            audit_path = root / "audit.json"
+            dictionary_path = root / "dictionary.json"
+            tieba_path = root / "tiebaKeywordCorpus.json"
+            tieba_comments_dir = root / "tiebaKeywordCorpus.comments"
+            tieba_runs_dir = root / "tiebaKeywordCorpus.runs"
+            tieba_comments_dir.mkdir()
+            tieba_runs_dir.mkdir()
+            corpus_path.write_text(json.dumps({"comments": [], "runs": []}), encoding="utf-8")
+            audit_path.write_text(json.dumps({"coverage": {"terms": 1, "weakTerms": 0, "coverageRatio": 1.0, "targetEvidence": 3}}), encoding="utf-8")
+            dictionary_path.write_text(json.dumps({"version": 1, "entries": [{"term": "tieba", "family": "evidence"}]}), encoding="utf-8")
+            (tieba_comments_dir / "comments-0001.json").write_text(
+                json.dumps({"comments": [{"message": "tieba sample"}]}),
+                encoding="utf-8",
+            )
+            (tieba_runs_dir / "runs-0001.json").write_text(json.dumps({"runs": [{"query": "tieba"}]}), encoding="utf-8")
+            tieba_path.write_text(
+                json.dumps(
+                    {
+                        "storage": "split",
+                        "commentFiles": ["tiebaKeywordCorpus.comments/comments-0001.json"],
+                        "runFiles": ["tiebaKeywordCorpus.runs/runs-0001.json"],
+                        "commentCount": 1,
+                        "runCount": 1,
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = compare_contracts_cli.CompareContractsRunner(
+                [
+                    "--corpus",
+                    str(corpus_path),
+                    "--audit",
+                    str(audit_path),
+                    "--dictionary",
+                    str(dictionary_path),
+                    "--tieba-corpus",
+                    str(tieba_path),
+                ]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(
+            result["tiebaCorpus"],
+            {"comments": 1, "runs": 1, "manifestCommentCount": 1, "manifestRunCount": 1, "storage": "split"},
+        )
+
     def test_corpus_shard_writer_owns_json_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

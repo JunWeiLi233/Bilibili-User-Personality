@@ -14,7 +14,7 @@ class CompareContractsRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        return ContractComparator(args.corpus, args.audit, args.dictionary).compare()
+        return ContractComparator(args.corpus, args.audit, args.dictionary, args.tieba_corpus).compare()
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -22,6 +22,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--corpus", default="server/data/bilibiliDirectProbeCorpus.json")
     parser.add_argument("--audit", default="server/data/keywordCoverageAudit.json")
     parser.add_argument("--dictionary", default="server/data/deepseekKeywordDictionary.json")
+    parser.add_argument("--tieba-corpus", default="server/data/tiebaKeywordCorpus.json")
     return parser
 
 

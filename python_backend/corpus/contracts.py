@@ -10,7 +10,7 @@ from python_backend.corpus.loader import CorpusLoader
 class CorpusContractSummary:
     """Shape corpus/audit/dictionary contract comparisons for stable JSON output."""
 
-    RESULT_KEYS = ("ok", "mismatches", "corpus", "audit", "dictionary")
+    RESULT_KEYS = ("ok", "mismatches", "corpus", "audit", "dictionary", "tiebaCorpus")
 
     def summarize(self, result: dict[str, object] | None = None) -> dict[str, object]:
         result = result if isinstance(result, dict) else {}
@@ -25,11 +25,13 @@ class ContractComparator:
         corpus_path: str | Path,
         audit_path: str | Path,
         dictionary_path: str | Path | None = None,
+        tieba_corpus_path: str | Path | None = None,
         summary: CorpusContractSummary | None = None,
     ):
         self.corpus_path = Path(corpus_path)
         self.audit_path = Path(audit_path)
         self.dictionary_path = Path(dictionary_path) if dictionary_path else None
+        self.tieba_corpus_path = Path(tieba_corpus_path) if tieba_corpus_path else None
         self.summary = summary or CorpusContractSummary()
 
     def compare(self) -> dict[str, object]:
@@ -72,5 +74,20 @@ class ContractComparator:
             }
             if len(dictionary.entries) != audit.terms:
                 mismatches.append({"key": "dictionaryTerms", "python": len(dictionary.entries), "js": audit.terms})
+        if self.tieba_corpus_path:
+            tieba_corpus = CorpusLoader(self.tieba_corpus_path).load()
+            tieba_manifest_comment_count = tieba_corpus.manifest.get("commentCount")
+            tieba_manifest_run_count = tieba_corpus.manifest.get("runCount")
+            result["tiebaCorpus"] = {
+                "comments": len(tieba_corpus.comments),
+                "runs": len(tieba_corpus.runs),
+                "manifestCommentCount": tieba_manifest_comment_count,
+                "manifestRunCount": tieba_manifest_run_count,
+                "storage": tieba_corpus.manifest.get("storage", "monolith"),
+            }
+            if tieba_manifest_comment_count not in (None, len(tieba_corpus.comments)):
+                mismatches.append({"key": "tiebaManifestCommentCount", "python": len(tieba_corpus.comments), "js": tieba_manifest_comment_count})
+            if tieba_manifest_run_count not in (None, len(tieba_corpus.runs)):
+                mismatches.append({"key": "tiebaManifestRunCount", "python": len(tieba_corpus.runs), "js": tieba_manifest_run_count})
         result["ok"] = bool(result["ok"]) and len(mismatches) == 0
         return self.summary.summarize(result)
