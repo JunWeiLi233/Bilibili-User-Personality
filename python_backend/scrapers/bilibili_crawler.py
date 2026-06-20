@@ -73,6 +73,7 @@ class BilibiliCrawlerSummary:
         "publicHistoryObject",
         "deepenRootPlan",
         "replyUrls",
+        "videoCommentResult",
         "uniqueReplies",
         "uidResult",
         "uidPlan",
@@ -215,6 +216,12 @@ class BilibiliCrawlerHelper:
                 legacy_page=reply_urls.get("legacyPage", 1),
                 root_rpid=reply_urls.get("rootRpid", ""),
                 thread_page=reply_urls.get("threadPage", 1),
+            )
+        if isinstance(payload.get("videoCommentResult"), dict):
+            video_comment_result = payload.get("videoCommentResult") or {}
+            result["videoCommentResult"] = self.video_comment_result(
+                video_comment_result.get("video") if isinstance(video_comment_result.get("video"), dict) else {},
+                video_comment_result.get("comments") if isinstance(video_comment_result.get("comments"), list) else [],
             )
         if isinstance(payload.get("uniqueReplies"), list):
             result["uniqueReplies"] = self.unique_by_rpid(payload.get("uniqueReplies"))
@@ -971,6 +978,30 @@ class BilibiliCrawlerHelper:
                 continue
             keyed[str(item.get("rpid"))] = item
         return list(keyed.values())
+
+    def video_comment_result(
+        self,
+        video: dict[str, Any] | None = None,
+        comments: list[dict[str, Any]] | None = None,
+    ) -> dict[str, Any]:
+        unique_comments = self.unique_by_rpid(comments)
+        comment_text = "\n".join(str(comment.get("message")) for comment in unique_comments if comment.get("message"))
+        count = len(unique_comments)
+        confidence = (
+            "large video comment sample"
+            if count >= 80
+            else "medium video comment sample"
+            if count >= 20
+            else "small video comment sample"
+        )
+        return {
+            "ok": True,
+            "video": video if isinstance(video, dict) else {},
+            "comments": unique_comments,
+            "commentText": comment_text,
+            "source": "Bilibili public video comment scan",
+            "confidenceHint": confidence,
+        }
 
     def build_uid_analysis_result(
         self,

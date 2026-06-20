@@ -6963,6 +6963,29 @@ class CorpusContractTests(unittest.TestCase):
             "https://api.bilibili.com/x/v2/reply/main?type=1&oid=oid%20123&mode=3&next=2&ps=20",
         )
 
+    def test_bilibili_crawler_helper_builds_video_comment_result_contract(self):
+        comments = [
+            {"rpid": "1", "message": "first"},
+            {"rpid": "2", "message": ""},
+            {"rpid": "1", "message": "updated first"},
+        ]
+        result = BilibiliCrawlerHelper().video_comment_result({"bvid": "BV1", "title": "sample"}, comments)
+
+        self.assertEqual(result["ok"], True)
+        self.assertEqual(result["comments"], [{"rpid": "1", "message": "updated first"}, {"rpid": "2", "message": ""}])
+        self.assertEqual(result["commentText"], "updated first")
+        self.assertEqual(result["source"], "Bilibili public video comment scan")
+        self.assertEqual(result["confidenceHint"], "small video comment sample")
+
+    def test_bilibili_crawler_helper_builds_payload_video_comment_result_contract(self):
+        comments = [{"rpid": str(index), "message": f"message {index}"} for index in range(20)]
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {"videoCommentResult": {"video": {"bvid": "BV1"}, "comments": comments}}
+        )
+
+        self.assertEqual(result["videoCommentResult"]["confidenceHint"], "medium video comment sample")
+        self.assertEqual(result["videoCommentResult"]["commentText"].split("\n")[0], "message 0")
+
     def test_bilibili_crawler_helper_uniques_replies_by_rpid_contract(self):
         result = BilibiliCrawlerHelper().unique_by_rpid(
             [
@@ -7889,6 +7912,7 @@ class CorpusContractTests(unittest.TestCase):
                 "publicHistoryObject": {"sourceUrl": "https://www.bilibili.com/video/BV1history/"},
                 "deepenRootPlan": {"queued": True},
                 "replyUrls": {"mainUrl": "https://api.bilibili.com/x/v2/reply/main?type=1&oid=123&mode=3&next=0&ps=20"},
+                "videoCommentResult": {"confidenceHint": "small video comment sample"},
                 "uniqueReplies": [{"rpid": "1"}],
                 "uidResult": {"uid": "2333"},
                 "uidPlan": {"uid": "2333"},
@@ -7923,6 +7947,7 @@ class CorpusContractTests(unittest.TestCase):
                 "publicHistoryObject": {"sourceUrl": "https://www.bilibili.com/video/BV1history/"},
                 "deepenRootPlan": {"queued": True},
                 "replyUrls": {"mainUrl": "https://api.bilibili.com/x/v2/reply/main?type=1&oid=123&mode=3&next=0&ps=20"},
+                "videoCommentResult": {"confidenceHint": "small video comment sample"},
                 "uniqueReplies": [{"rpid": "1"}],
                 "uidResult": {"uid": "2333"},
                 "uidPlan": {"uid": "2333"},
