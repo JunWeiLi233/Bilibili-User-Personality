@@ -3415,6 +3415,38 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(dictionary.entries[0]["evidenceSamples"], ["doge satire"])
         self.assertEqual(dictionary.entries[0]["evidenceSources"][0]["sample"], "doge satire")
 
+    def test_dictionary_loader_normalizes_plain_text_entries(self):
+        dictionary = DictionaryLoader.load_from_payload(
+            {
+                "dictionary": {
+                    "entries": [
+                        "\u72d7\u5934",
+                        {"term": "\u67e5\u8d44\u6599", "family": "evidence"},
+                        "",
+                    ]
+                }
+            }
+        )
+
+        self.assertEqual(dictionary.entries, [{"term": "\u72d7\u5934"}, {"term": "\u67e5\u8d44\u6599", "family": "evidence"}])
+
+    def test_dictionary_loader_normalizes_plain_text_split_entries(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "dict.entries").mkdir()
+            (root / "dict.json").write_text(
+                json.dumps({"storage": "split", "entryFiles": {"evasion": ["dict.entries/evasion-001.json"]}}),
+                encoding="utf-8",
+            )
+            (root / "dict.entries" / "evasion-001.json").write_text(
+                json.dumps({"entries": ["\u72d7\u5934", {"term": "\u4fdd\u547d", "family": "evasion"}, ""]}),
+                encoding="utf-8",
+            )
+
+            dictionary = DictionaryLoader(root / "dict.json").load()
+
+        self.assertEqual(dictionary.entries, [{"term": "\u72d7\u5934", "family": "evasion"}, {"term": "\u4fdd\u547d", "family": "evasion"}])
+
     def test_dictionary_loader_accepts_utf8_bom_split_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -3549,7 +3581,7 @@ class CorpusContractTests(unittest.TestCase):
             {
                 "dictionary": {
                     "version": 3,
-                    "entries": [{"term": "doge", "family": "attack"}, "ignored"],
+                    "entries": [{"term": "doge", "family": "attack"}, ""],
                     "families": {"attack": 1},
                 }
             }

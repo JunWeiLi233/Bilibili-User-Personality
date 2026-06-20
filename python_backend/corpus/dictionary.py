@@ -26,7 +26,7 @@ class DictionaryLoader:
         payload = payload if isinstance(payload, dict) else {}
         dictionary_payload = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else None
         if dictionary_payload is not None:
-            entries = [entry for entry in dictionary_payload.get("entries", []) if isinstance(entry, dict)]
+            entries = cls._normalize_entries(dictionary_payload.get("entries", []))
             return KeywordDictionary(
                 manifest={
                     "version": dictionary_payload.get("version", 1),
@@ -47,7 +47,7 @@ class DictionaryLoader:
             manifest = {"version": 1, "storage": "missing", "updatedAt": None, "entries": [], "families": {}}
             return KeywordDictionary(manifest=manifest, entries=[])
         if manifest.get("storage") != "split":
-            entries = list(manifest.get("entries") or [])
+            entries = self._normalize_entries(manifest.get("entries") or [])
             normalized = {
                 "version": manifest.get("version", 1),
                 "storage": "monolith",
@@ -85,7 +85,7 @@ class DictionaryLoader:
                 shard = self._read_json(self.path.parent / relative_path)
                 shard_entries = shard.get("entries") or []
                 if isinstance(shard_entries, list):
-                    entries.extend({**entry, "family": entry.get("family") or family} for entry in shard_entries)
+                    entries.extend({**entry, "family": entry.get("family") or family} for entry in self._normalize_entries(shard_entries))
         return entries
 
     def _hydrate_evidence_files(self, files_by_family: dict[str, list[str]]) -> dict[str, dict[str, Any]]:
@@ -121,6 +121,18 @@ class DictionaryLoader:
         if value:
             return [str(value)]
         return []
+
+    @staticmethod
+    def _normalize_entries(values: Any) -> list[dict[str, Any]]:
+        entries: list[dict[str, Any]] = []
+        for value in values if isinstance(values, list) else []:
+            if isinstance(value, dict):
+                entries.append(value)
+                continue
+            term = str(value or "").strip()
+            if term:
+                entries.append({"term": term})
+        return entries
 
     @staticmethod
     def _unique(values: list[Any]) -> list[Any]:
