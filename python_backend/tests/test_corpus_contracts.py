@@ -6658,6 +6658,26 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(loaded["videos"], videos)
         self.assertEqual(loaded["runs"], runs)
 
+    def test_history_tag_corpus_shard_writer_ignores_non_array_values_like_js(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output_path = root / "history-tags.json"
+
+            HistoryTagCorpusShardWriter(output_path).write(
+                tags={"bad": "tag shape"},
+                videos={"bad": "video shape"},
+                runs={"bad": "run shape"},
+                manifest={"version": 1},
+            )
+            loaded = HistoryTagCorpusLoader(output_path).load()
+
+        self.assertEqual(loaded["tagCount"], 0)
+        self.assertEqual(loaded["videoCount"], 0)
+        self.assertEqual(loaded["runCount"], 0)
+        self.assertEqual(loaded["tags"], [])
+        self.assertEqual(loaded["videos"], [])
+        self.assertEqual(loaded["runs"], [])
+
     def test_history_tag_corpus_shard_write_runner_reports_json_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

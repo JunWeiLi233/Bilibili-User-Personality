@@ -401,12 +401,15 @@ class HistoryTagCorpusShardWriter:
     def write(
         self,
         *,
-        tags: list[Any],
-        videos: list[dict[str, Any]],
-        runs: list[dict[str, Any]],
+        tags: Any,
+        videos: Any,
+        runs: Any,
         manifest: dict[str, Any] | None = None,
     ) -> None:
         manifest = dict(manifest or {})
+        tags = self._array_values(tags)
+        videos = self._array_values(videos)
+        runs = self._array_values(runs)
         tag_files = self._write_shards(tags, "tags", self._tags_dir(), "tags", manifest)
         video_files = self._write_shards(videos, "videos", self._videos_dir(), "videos", manifest)
         run_files = self._write_shards(runs, "runs", self._runs_dir(), "runs", manifest)
@@ -426,6 +429,10 @@ class HistoryTagCorpusShardWriter:
         self._remove_stale_shards(self._tags_dir(), tag_files, r"tags-\d{4}\.json")
         self._remove_stale_shards(self._videos_dir(), video_files, r"videos-\d{4}\.json")
         self._remove_stale_shards(self._runs_dir(), run_files, r"runs-\d{4}\.json")
+
+    @staticmethod
+    def _array_values(value: Any) -> list[Any]:
+        return value if isinstance(value, list) else []
 
     def _tags_dir(self) -> Path:
         return self.path.with_suffix("").parent / f"{self.path.with_suffix('').name}.tags"
