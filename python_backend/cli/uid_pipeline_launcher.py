@@ -18,24 +18,33 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(argv: list[str] | None = None) -> int:
-    args = build_parser().parse_args(argv)
-    if args.compare_js_report:
-        result = UidPipelineLauncherContractComparator(
-            args.data_dir,
-            args.compare_js_report,
-            total_start=args.total_start,
-            total_end=args.total_end,
-            workers=args.workers,
-        ).compare()
-    else:
-        result = UidPipelineLauncherPlanRunner(
+class UidPipelineLauncherCliRunner:
+    """CLI-compatible UID pipeline launcher runner for JS/Python JSON contracts."""
+
+    def __init__(self, argv: list[str] | None = None):
+        self.argv = argv
+
+    def run(self) -> dict:
+        args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        if args.compare_js_report:
+            return UidPipelineLauncherContractComparator(
+                args.data_dir,
+                args.compare_js_report,
+                total_start=args.total_start,
+                total_end=args.total_end,
+                workers=args.workers,
+            ).compare()
+        return UidPipelineLauncherPlanRunner(
             args.data_dir,
             total_start=args.total_start,
             total_end=args.total_end,
             workers=args.workers,
             write_state=args.write_state,
         ).run()
+
+
+def main(argv: list[str] | None = None) -> int:
+    result = UidPipelineLauncherCliRunner(argv).run()
     json.dump(result, sys.stdout, ensure_ascii=False, indent=2)
     sys.stdout.write("\n")
     return 0 if result["ok"] else 1

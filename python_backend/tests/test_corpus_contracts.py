@@ -36,6 +36,7 @@ from python_backend.cli import tieba_keyword_plan as tieba_keyword_plan_cli
 from python_backend.cli import tieba_timing as tieba_timing_cli
 from python_backend.cli import uid_discovery_plan as uid_discovery_plan_cli
 from python_backend.cli import uid_discovery_progress as uid_discovery_progress_cli
+from python_backend.cli import uid_pipeline_launcher as uid_pipeline_launcher_cli
 from python_backend.cli import uid_range_progress as uid_range_progress_cli
 from python_backend.cli import video_comment_filter as video_comment_filter_cli
 from python_backend.cli import video_context as video_context_cli
@@ -12872,6 +12873,26 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
         self.assertFalse((data_dir / "uid-pipeline-launcher.json").exists())
+
+    def test_uid_pipeline_launcher_cli_runner_builds_json_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+
+            result = uid_pipeline_launcher_cli.UidPipelineLauncherCliRunner(
+                ["--data-dir", str(data_dir), "--total-start", "1", "--total-end", "5", "--workers", "2"]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"start": 1, "end": 5, "workers": 2, "chunkSize": 3})
+        self.assertEqual(
+            result["workers"],
+            [
+                {"start": 1, "end": 3, "progressFile": "uid-pipeline-1-3.json", "logFile": "scraper-logs/uid-pipeline-1-3.log", "args": ["--start=1", "--end=3"]},
+                {"start": 4, "end": 5, "progressFile": "uid-pipeline-4-5.json", "logFile": "scraper-logs/uid-pipeline-4-5.log", "args": ["--start=4", "--end=5"]},
+            ],
+        )
 
     def test_uid_pipeline_launcher_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
