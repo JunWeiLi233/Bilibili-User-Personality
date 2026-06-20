@@ -108,3 +108,23 @@ class BatchBilibiliPlanSummary:
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
         result = result if isinstance(result, dict) else {}
         return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
+class BatchBilibiliPlanContractComparator:
+    """Compare batch Bilibili plan payloads using the JS/Python summary contract."""
+
+    def __init__(self, summary: BatchBilibiliPlanSummary | None = None):
+        self.summary = summary or BatchBilibiliPlanSummary()
+
+    def compare(self, python_result: dict[str, Any], js_result: dict[str, Any]) -> dict[str, Any]:
+        mismatches = [
+            {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
+            for key in self.summary.RESULT_KEYS
+            if key in js_result and python_result.get(key) != js_result.get(key)
+        ]
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": self.summary.summarize(python_result),
+            "js": self.summary.summarize(js_result),
+        }

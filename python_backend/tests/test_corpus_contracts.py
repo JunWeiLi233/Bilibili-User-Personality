@@ -113,7 +113,7 @@ from python_backend.cli.uid_discovery_progress import UidDiscoveryProgressContra
 from python_backend.scrapers.tieba_html import TiebaHtmlParseSummary, TiebaHtmlParser
 from python_backend.scrapers.tieba_keyword import TiebaKeywordPlanSummary, TiebaKeywordScrapeOptionsPlanner
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
-from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
+from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanContractComparator as BatchBilibiliPlanPayloadComparator, BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularPlanSummary, BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherPlanner, RangeScraperLauncherSummary, UidRangeProgressReporter, UidRangeProgressSummary
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchScraperLauncherSummary, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanSummary, BatchUidScrapePlanner
@@ -7828,6 +7828,23 @@ class CorpusContractTests(unittest.TestCase):
             BatchBilibiliPlanContractComparator(Path("payload.json"), Path("js.json")).summary.RESULT_KEYS,
             BatchBilibiliPlanSummary.RESULT_KEYS,
         )
+
+    def test_batch_bilibili_payload_comparator_owns_result_key_mismatch_contract(self):
+        result = BatchBilibiliPlanPayloadComparator().compare(
+            {"range": {"startUid": 11}, "database": {"users": 1}, "extra": "ignored"},
+            {"range": {"startUid": 10}, "database": {"users": 9}},
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "range", "python": {"startUid": 11}, "js": {"startUid": 10}},
+                {"key": "database", "python": {"users": 1}, "js": {"users": 9}},
+            ],
+        )
+        self.assertEqual(result["python"], {"range": {"startUid": 11}, "database": {"users": 1}})
+        self.assertEqual(result["js"], {"range": {"startUid": 10}, "database": {"users": 9}})
 
     def test_batch_bilibili_planner_builds_plan_from_json_payload_contract(self):
         result = BatchBilibiliScrapePlanner.build_plan_from_payload(
