@@ -3,68 +3,8 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from pathlib import Path
-from typing import Any
 
-from python_backend.scrapers.uid_parallel import UidParallelProgressContractComparator as UidParallelProgressPayloadComparator, UidParallelProgressReporter, UidParallelProgressSummary
-
-
-class UidParallelProgressRunner:
-    """Summarize one uidParallelAnalyzer.js worker progress JSON file."""
-
-    def __init__(
-        self,
-        data_dir: str | Path,
-        *,
-        worker_id: int = 0,
-        total_workers: int = 4,
-        comments_file: str = "uid-discovery-comments.json",
-        user_db_file: str = "scraped-users-db.json",
-    ):
-        self.data_dir = Path(data_dir)
-        self.worker_id = int(worker_id)
-        self.total_workers = max(1, int(total_workers))
-        self.comments_path = self.data_dir / comments_file
-        self.user_db_path = self.data_dir / user_db_file
-        self.progress_path = self.data_dir / f"uid-parallel-{self.worker_id}-progress.json"
-
-    def run(self) -> dict[str, Any]:
-        all_comments = self._read_json(self.comments_path, {})
-        progress = self._read_json(self.progress_path, {})
-        user_db = self._read_json(self.user_db_path, {})
-        users = user_db.get("users") if isinstance(user_db.get("users"), dict) else {}
-        reporter = UidParallelProgressReporter(worker_id=self.worker_id, total_workers=self.total_workers)
-        return reporter.build_report(all_comments, progress, users)
-
-    def _read_json(self, path: Path, fallback: Any) -> Any:
-        if not path.exists():
-            return fallback
-        with path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else fallback
-
-
-class UidParallelProgressContractComparator:
-    """Compare a Python UID parallel progress summary against saved JS-compatible JSON."""
-
-    def __init__(self, data_dir: str | Path, js_report_path: str | Path, **runner_options: Any):
-        self.data_dir = Path(data_dir)
-        self.js_report_path = Path(js_report_path)
-        self.runner_options = runner_options
-        self.summary = UidParallelProgressSummary()
-        self.comparator = UidParallelProgressPayloadComparator(self.summary)
-
-    def compare(self) -> dict[str, Any]:
-        python_result = UidParallelProgressRunner(self.data_dir, **self.runner_options).run()
-        js_result = self._read_js_report()
-        return self.comparator.compare(python_result, js_result)
-
-    def _read_js_report(self) -> dict[str, Any]:
-        if not self.js_report_path.exists():
-            return {}
-        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else {}
+from python_backend.scrapers.uid_parallel import UidParallelProgressPayloadContractComparator as UidParallelProgressContractComparator, UidParallelProgressRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
