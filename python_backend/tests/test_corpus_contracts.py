@@ -117,7 +117,7 @@ from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanContractComp
 from python_backend.scrapers.batch_popular import BatchPopularPlanContractComparator as BatchPopularPlanPayloadComparator, BatchPopularPlanSummary, BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanContractComparator as BatchUidRangePlanPayloadComparator, BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherPlanner, RangeScraperLauncherSummary, UidRangeProgressReporter, UidRangeProgressSummary
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner, BatchScraperLauncherSummary, BatchUidProgressReporter, BatchUidProgressSummary, BatchUidScrapePlanContractComparator as BatchUidScrapePlanPayloadComparator, BatchUidScrapePlanSummary, BatchUidScrapePlanner
-from python_backend.scrapers.uid_discovery import UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
+from python_backend.scrapers.uid_discovery import UidDiscoveryPlanContractComparator as UidDiscoveryPlanPayloadComparator, UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanSummary, UidParallelProgressReporter, UidParallelProgressSummary
 from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineLauncherSummary, UidPipelineMergeReporter, UidPipelineMergeSummary, UidPipelinePlanSummary, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter, ScraperMonitorSummary
@@ -8705,6 +8705,23 @@ class CorpusContractTests(unittest.TestCase):
             UidDiscoveryPlanContractComparator(Path("payload.json"), Path("js.json")).summary.RESULT_KEYS,
             UidDiscoveryPlanSummary.RESULT_KEYS,
         )
+
+    def test_uid_discovery_payload_comparator_owns_result_key_mismatch_contract(self):
+        result = UidDiscoveryPlanPayloadComparator().compare(
+            {"resume": {"skipDiscovery": False}, "analysis": {"trainable": 1}, "extra": "ignored"},
+            {"resume": {"skipDiscovery": True}, "analysis": {"trainable": 9}},
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "resume", "python": {"skipDiscovery": False}, "js": {"skipDiscovery": True}},
+                {"key": "analysis", "python": {"trainable": 1}, "js": {"trainable": 9}},
+            ],
+        )
+        self.assertEqual(result["python"], {"resume": {"skipDiscovery": False}, "analysis": {"trainable": 1}})
+        self.assertEqual(result["js"], {"resume": {"skipDiscovery": True}, "analysis": {"trainable": 9}})
 
     def test_uid_discovery_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:

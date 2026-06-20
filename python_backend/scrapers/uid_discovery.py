@@ -114,6 +114,26 @@ class UidDiscoveryPlanSummary:
         return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
 
 
+class UidDiscoveryPlanContractComparator:
+    """Compare UID discovery plan payloads using the JS/Python summary contract."""
+
+    def __init__(self, summary: UidDiscoveryPlanSummary | None = None):
+        self.summary = summary or UidDiscoveryPlanSummary()
+
+    def compare(self, python_result: dict[str, Any], js_result: dict[str, Any]) -> dict[str, Any]:
+        mismatches = [
+            {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
+            for key in self.summary.RESULT_KEYS
+            if key in js_result and python_result.get(key) != js_result.get(key)
+        ]
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": self.summary.summarize(python_result),
+            "js": self.summary.summarize(js_result),
+        }
+
+
 class UidDiscoveryProgressReporter:
     """Summarize UID discovery progress payloads into the JS-compatible report shape."""
 
