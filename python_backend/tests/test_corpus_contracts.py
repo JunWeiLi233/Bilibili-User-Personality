@@ -10,7 +10,7 @@ from python_backend.analysis.coverage_progress import CoverageProgressContractCo
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReportContractComparator as VideoKeywordDiscoveryReportPayloadComparator, VideoKeywordDiscoveryReporter, VideoKeywordDiscoveryReportSummary
 from python_backend.analysis import harvest_options as harvest_options_module
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, HarvestOptionsContractComparator as HarvestOptionsPayloadComparator, HarvestOptionsSummary, VideoKeywordDiscoveryOptionsBuilder
-from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, KeywordHarvestPlanSummary
+from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, KeywordHarvestPlanContractComparator as KeywordHarvestPlanPayloadComparator, KeywordHarvestPlanSummary
 from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateContractComparator as HarvestStatePayloadComparator, HarvestStateFinalizer, HarvestStatePayloadProcessor, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetResolvePlanner
@@ -11076,6 +11076,33 @@ class CorpusContractTests(unittest.TestCase):
             KeywordHarvestPlanContractComparator(Path("payload.json"), Path("js-plan.json")).summary.PLAN_KEYS,
             KeywordHarvestPlanSummary.PLAN_KEYS,
         )
+
+    def test_keyword_harvest_plan_payload_comparator_owns_summary_mismatches(self):
+        result = KeywordHarvestPlanPayloadComparator().compare(
+            {
+                "queries": ["weak \u8bc4\u8bba\u533a"],
+                "plan": [{"query": "weak \u8bc4\u8bba\u533a", "source": "dictionary", "term": "weak", "family": "attack"}],
+            },
+            {
+                "queries": ["wrong query"],
+                "plan": [{"query": "wrong query", "source": "seed", "term": "wrong", "family": "wrong"}],
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "queries", "python": ["weak \u8bc4\u8bba\u533a"], "js": ["wrong query"]},
+                {
+                    "key": "plan",
+                    "python": [{"query": "weak \u8bc4\u8bba\u533a", "source": "dictionary", "term": "weak", "family": "attack"}],
+                    "js": [{"query": "wrong query", "source": "seed", "term": "wrong", "family": "wrong"}],
+                },
+            ],
+        )
+        self.assertEqual(result["python"]["queries"], ["weak \u8bc4\u8bba\u533a"])
+        self.assertEqual(result["js"]["queries"], ["wrong query"])
 
     def test_keyword_harvest_plan_contract_comparator_reports_plan_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
