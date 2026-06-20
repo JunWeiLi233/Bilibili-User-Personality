@@ -16,11 +16,13 @@ class CorpusShardWriter:
     def write(
         self,
         *,
-        comments: list[dict[str, Any]],
-        runs: list[dict[str, Any]],
+        comments: Any,
+        runs: Any,
         manifest: dict[str, Any] | None = None,
     ) -> None:
         manifest = dict(manifest or {})
+        comments = self._array_values(comments)
+        runs = self._array_values(runs)
         comment_files = self._write_shards(comments, "comments", self._comments_dir(), "comments", manifest)
         run_files = self._write_shards(runs, "runs", self._runs_dir(), "runs", manifest)
         payload = {
@@ -66,6 +68,10 @@ class CorpusShardWriter:
             return int(value or 64 * 1024)
         except (TypeError, ValueError):
             return 64 * 1024
+
+    @staticmethod
+    def _array_values(value: Any) -> list[Any]:
+        return value if isinstance(value, list) else []
 
     def _comments_dir(self) -> Path:
         return self.path.with_suffix("").parent / f"{self.path.with_suffix('').name}.comments"

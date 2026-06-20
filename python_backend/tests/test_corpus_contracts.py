@@ -412,6 +412,23 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(loaded.manifest["shardMaxBytes"], 64 * 1024)
         self.assertEqual(loaded.comments, [{"message": "constructor comment"}])
 
+    def test_writer_ignores_non_array_comment_and_run_values_like_js(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output = root / "out.json"
+            CorpusShardWriter(output).write(
+                comments={"bad": "comment shape"},
+                runs={"bad": "run shape"},
+                manifest={"version": 1},
+            )
+
+            loaded = CorpusLoader(output).load()
+
+        self.assertEqual(loaded.manifest["commentCount"], 0)
+        self.assertEqual(loaded.manifest["runCount"], 0)
+        self.assertEqual(loaded.comments, [])
+        self.assertEqual(loaded.runs, [])
+
     def test_writer_payload_defaults_invalid_max_shard_bytes_like_js(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
