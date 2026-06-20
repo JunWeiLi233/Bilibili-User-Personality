@@ -120,8 +120,6 @@ class HuggingFaceCorpusImportRunner:
 class HuggingFaceCorpusImportContractComparator:
     """Compare Python HuggingFace/Kaggle corpus imports against saved JS-compatible JSON."""
 
-    RESULT_KEYS = ("importedRows", "changed", "addedComments", "corpus")
-
     def __init__(
         self,
         raw_path: str | Path,
@@ -159,7 +157,7 @@ class HuggingFaceCorpusImportContractComparator:
         js_result = self._read_js_report()
         mismatches = [
             {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
-            for key in self.RESULT_KEYS
+            for key in self.summary.RESULT_KEYS
             if key in js_result and python_result.get(key) != js_result.get(key)
         ]
         return {

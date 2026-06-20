@@ -2215,6 +2215,21 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(summary, {"importedRows": 3, "changed": True, "addedComments": 2})
 
+    def test_huggingface_import_comparator_uses_summary_contract_keys(self):
+        self.assertFalse(hasattr(HuggingFaceCorpusImportContractComparator, "RESULT_KEYS"))
+        self.assertEqual(
+            HuggingFaceCorpusImportContractComparator(
+                raw_path=Path("rows.csv"),
+                existing_path=Path("existing.json"),
+                dataset="Midsummra/bilibilicomment",
+                file="bilibili.csv",
+                platform="bilibili",
+                js_report_path=Path("js.json"),
+            ).summary.RESULT_KEYS,
+            HuggingFaceImportSummary.RESULT_KEYS,
+        )
+        self.assertIn("corpus", HuggingFaceImportSummary.RESULT_KEYS)
+
     def test_huggingface_import_contract_comparator_reports_corpus_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

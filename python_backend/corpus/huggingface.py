@@ -187,6 +187,7 @@ class HuggingFaceCorpusImporter:
 class HuggingFaceImportSummary:
     """Shape local corpus import results into the JS comparator summary contract."""
 
+    RESULT_KEYS = ("importedRows", "changed", "addedComments", "corpus")
     SUMMARY_KEYS = ("importedRows", "changed", "addedComments")
 
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
