@@ -189,6 +189,17 @@ class BatchScraperLauncherPlanner:
         }
 
 
+class BatchScraperLauncherPlanRunner:
+    """Build a dry-run launch plan compatible with launchAllScrapers.js ranges."""
+
+    def __init__(self, data_dir: str | Path, *, script: str = "server/scripts/batchUidScrape.js"):
+        self.data_dir = Path(data_dir)
+        self.script = script
+
+    def run(self) -> dict[str, Any]:
+        return BatchScraperLauncherPlanner().build_plan(data_dir=self.data_dir, script=self.script)
+
+
 class BatchScraperLauncherSummary:
     """Shape batch scraper launcher plans into the JS/Python comparator summary contract."""
 
@@ -228,6 +239,28 @@ class BatchScraperLauncherContractComparator:
             "python": python_summary,
             "js": js_summary,
         }
+
+
+class BatchScraperLauncherPayloadContractComparator:
+    """Compare batch scraper launcher plans against saved JS-compatible JSON."""
+
+    def __init__(self, data_dir: str | Path, js_report_path: str | Path):
+        self.data_dir = Path(data_dir)
+        self.js_report_path = Path(js_report_path)
+        self.summary = BatchScraperLauncherSummary()
+        self.comparator = BatchScraperLauncherContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = BatchScraperLauncherPlanRunner(self.data_dir).run()
+        js_result = self._read_js_report()
+        return self.comparator.compare(python_result, js_result)
+
+    def _read_js_report(self) -> dict[str, Any]:
+        if not self.js_report_path.exists():
+            return {}
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
 
 
 class BatchUidProgressReporter:
