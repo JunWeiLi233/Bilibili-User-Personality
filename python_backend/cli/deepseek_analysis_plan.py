@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 
-from python_backend.analyzers.deepseek import DeepSeekAnalysisPlanContractComparator, DeepSeekAnalysisPlanRunner
+from python_backend.analyzers.deepseek import DeepSeekAnalysisPlanContractComparator, DeepSeekAnalysisPlanRequest, DeepSeekAnalysisPlanRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -22,9 +22,11 @@ class DeepSeekAnalysisPlanCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.compare_js_plan:
-            return DeepSeekAnalysisPlanContractComparator(args.payload, args.compare_js_plan, compact=args.compact).compare()
-        return DeepSeekAnalysisPlanRunner(args.payload, compact=args.compact).run()
+        return DeepSeekAnalysisPlanRequest(
+            payload_path=args.payload,
+            compact=args.compact,
+            compare_js_plan_path=args.compare_js_plan or None,
+        ).run()
 
 
 def main(argv: list[str] | None = None) -> int:

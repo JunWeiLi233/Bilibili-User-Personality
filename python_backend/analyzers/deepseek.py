@@ -479,6 +479,24 @@ class DeepSeekAnalysisPlanContractComparator:
         return mismatches
 
 
+@dataclass(frozen=True)
+class DeepSeekAnalysisPlanRequest:
+    """Analyzer-layer request object for DeepSeek plan JSON contract modes."""
+
+    payload_path: str | Path
+    compact: bool = False
+    compare_js_plan_path: str | Path | None = None
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_plan_path:
+            return DeepSeekAnalysisPlanContractComparator(
+                self.payload_path,
+                self.compare_js_plan_path,
+                compact=self.compact,
+            ).compare()
+        return DeepSeekAnalysisPlanRunner(self.payload_path, compact=self.compact).run()
+
+
 class DeepSeekAnalysisValidationSummary:
     """Shape DeepSeek validation results into the JS/Python comparator summary contract."""
 
