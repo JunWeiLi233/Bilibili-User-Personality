@@ -1526,6 +1526,27 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("quality-control agent", merge_request["messages"][0]["content"])
         self.assertIn("lexical-context", merge_request["messages"][1]["content"])
 
+    def test_deepseek_analyzer_builds_request_from_js_payload_contract(self):
+        request = DeepSeekAnalyzerClient().build_request_from_payload(
+            {
+                "comments": ["\u72d7\u5934\u4fdd\u547d[doge]", "", "\u786e\u5b9e\u6709\u70b9\u53cd\u8bbd"],
+                "keyword_hints": [{"keyword": "\u72d7\u5934", "axis": "satire"}],
+                "uid": 2333,
+                "name": "\u6d4b\u8bd5\u7528\u6237",
+                "model": "deepseek-v4-flash",
+                "reasoning_effort": "max",
+                "multiAgent": True,
+            }
+        )
+
+        self.assertEqual(request.comments, ["\u72d7\u5934\u4fdd\u547d[doge]", "\u786e\u5b9e\u6709\u70b9\u53cd\u8bbd"])
+        self.assertEqual(request.keyword_hints, [{"keyword": "\u72d7\u5934", "axis": "satire"}])
+        self.assertEqual(request.uid, "2333")
+        self.assertEqual(request.name, "\u6d4b\u8bd5\u7528\u6237")
+        self.assertEqual(request.model, "deepseek-v4-flash")
+        self.assertEqual(request.effort, "max")
+        self.assertTrue(request.multiagent)
+
     def test_deepseek_analyze_cli_planner_matches_js_argument_contract(self):
         planner = DeepSeekAnalyzeCliPlanner()
 

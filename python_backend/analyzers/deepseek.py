@@ -48,6 +48,18 @@ class DeepSeekAnalyzerClient:
         },
     )
 
+    def build_request_from_payload(self, payload: dict[str, Any] | None = None) -> AnalyzerRequest:
+        payload = payload if isinstance(payload, dict) else {}
+        return AnalyzerRequest(
+            comments=self._comments_from_payload(payload),
+            keyword_hints=list(payload.get("keywordHints") or payload.get("keyword_hints") or []),
+            uid=str(payload.get("uid") or "unknown"),
+            name=str(payload.get("name") or "unknown"),
+            model=str(payload.get("model") or "deepseek-v4-flash"),
+            effort=str(payload.get("reasoningEffort") or payload.get("reasoning_effort") or payload.get("effort") or "max"),
+            multiagent=bool(payload.get("multiagent") or payload.get("multiAgent")),
+        )
+
     def build_payload(self, request: AnalyzerRequest) -> dict[str, object]:
         return {
             "model": request.model,
@@ -218,6 +230,12 @@ class DeepSeekAnalyzerClient:
             if len(normalized) >= 80:
                 break
         return normalized
+
+    def _comments_from_payload(self, payload: dict[str, Any]) -> list[str]:
+        if isinstance(payload.get("comments"), list):
+            return [str(item) for item in payload["comments"] if str(item).strip()]
+        text = str(payload.get("text") or payload.get("fullText") or "").strip()
+        return [text] if text else []
 
     def _split_sentences(self, text: str) -> list[str]:
         values = []

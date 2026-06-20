@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisPlanSummary
+from python_backend.analyzers.deepseek import DeepSeekAnalyzerClient, DeepSeekAnalysisPlanSummary
 
 
 class DeepSeekAnalysisPlanRunner:
@@ -18,7 +18,7 @@ class DeepSeekAnalysisPlanRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
-        request = self._request_from_payload(payload)
+        request = self.client.build_request_from_payload(payload)
         requests = self.client.build_request_plan(request, compact=self.compact)
         if request.multiagent:
             return {
@@ -42,24 +42,6 @@ class DeepSeekAnalysisPlanRunner:
         if not isinstance(payload, dict):
             raise ValueError("DeepSeek analysis payload must be a JSON object.")
         return payload
-
-    def _request_from_payload(self, payload: dict[str, Any]) -> AnalyzerRequest:
-        comments = self._comments_from_payload(payload)
-        return AnalyzerRequest(
-            comments=comments,
-            keyword_hints=list(payload.get("keywordHints") or payload.get("keyword_hints") or []),
-            uid=str(payload.get("uid") or "unknown"),
-            name=str(payload.get("name") or "unknown"),
-            model=str(payload.get("model") or "deepseek-v4-flash"),
-            effort=str(payload.get("reasoningEffort") or payload.get("reasoning_effort") or payload.get("effort") or "max"),
-            multiagent=bool(payload.get("multiagent") or payload.get("multiAgent")),
-        )
-
-    def _comments_from_payload(self, payload: dict[str, Any]) -> list[str]:
-        if isinstance(payload.get("comments"), list):
-            return [str(item) for item in payload["comments"] if str(item).strip()]
-        text = str(payload.get("text") or payload.get("fullText") or "").strip()
-        return [text] if text else []
 
 
 class DeepSeekAnalysisPlanContractComparator:
