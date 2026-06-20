@@ -91,7 +91,7 @@ from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommen
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader
-from python_backend.corpus.writer import CorpusShardWriteContractComparator as CorpusShardWritePayloadComparator, CorpusShardWriteSummary, CorpusShardWriter
+from python_backend.corpus.writer import CorpusShardWriteContractComparator as CorpusShardWritePayloadComparator, CorpusShardWritePayloadContractComparator, CorpusShardWriteRunner as CorpusShardWritePayloadRunner, CorpusShardWriteSummary, CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliParseContractComparator as BilibiliParsePayloadComparator, BilibiliParsePayloadContractComparator, BilibiliParseRunner as BilibiliParsePayloadRunner, BilibiliParseSummary, BilibiliPublicParser
 from python_backend.scrapers.aicu import AicuBatchPlanContractComparator as AicuBatchPlanPayloadComparator, AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanContractComparator as AicuScrapePlanPayloadComparator, AicuScrapePlanSummary, AicuScrapePlanner
@@ -362,6 +362,39 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["runs"], 1)
         self.assertEqual([item["message"] for item in loaded.comments], ["gamma" * 20, "delta"])
         self.assertEqual(loaded.runs, [{"at": "later"}])
+
+    def test_corpus_shard_write_payload_runner_lives_with_writer_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-write-report.json"
+            output_path = root / "out.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "outputPath": str(output_path),
+                        "maxShardBytes": 1,
+                        "manifest": {"version": 4, "updatedAt": "2026-06-20T00:00:00.000Z"},
+                        "comments": [{"message": "domain-owned"}],
+                        "runs": [{"at": "run"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"manifest": {"storage": "split", "shardMaxBytes": 64}, "comments": 0, "runs": 1}),
+                encoding="utf-8",
+            )
+
+            result = CorpusShardWritePayloadRunner(payload_path).run()
+            comparison = CorpusShardWritePayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["manifest"]["version"], 4)
+        self.assertEqual(result["manifest"]["shardMaxBytes"], 1024)
+        self.assertEqual(result["comments"], 1)
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["manifest", "comments"])
 
     def test_corpus_shard_write_summary_extracts_comparator_contract(self):
         summary_builder = CorpusShardWriteSummary()
