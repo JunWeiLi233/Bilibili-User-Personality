@@ -9,7 +9,7 @@ from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanContrac
 from python_backend.analysis.coverage_progress import CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressSummary, CoverageProgressTracker
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReportContractComparator as VideoKeywordDiscoveryReportPayloadComparator, VideoKeywordDiscoveryReporter, VideoKeywordDiscoveryReportSummary
 from python_backend.analysis import harvest_options as harvest_options_module
-from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, HarvestOptionsSummary, VideoKeywordDiscoveryOptionsBuilder
+from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, HarvestOptionsContractComparator as HarvestOptionsPayloadComparator, HarvestOptionsSummary, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, KeywordHarvestPlanSummary
 from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateContractComparator as HarvestStatePayloadComparator, HarvestStateFinalizer, HarvestStatePayloadProcessor, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis import near_target
@@ -10340,6 +10340,20 @@ class CorpusContractTests(unittest.TestCase):
             HarvestOptionsContractComparator(Path("payload.json"), Path("js.json")).summary.RESULT_KEYS,
             HarvestOptionsSummary.RESULT_KEYS,
         )
+
+    def test_harvest_options_payload_comparator_owns_option_mismatch_contract(self):
+        result = HarvestOptionsPayloadComparator().compare(
+            {"ok": True, "mode": "coverage-runtime", "options": {"targetEvidence": 2}, "priorityQueries": ["ignored"], "extra": "ignored"},
+            {"ok": True, "mode": "coverage-runtime", "options": {"targetEvidence": 3}},
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [{"key": "options", "python": {"targetEvidence": 2}, "js": {"targetEvidence": 3}}],
+        )
+        self.assertEqual(result["python"], {"mode": "coverage-runtime", "options": {"targetEvidence": 2}, "priorityQueries": ["ignored"]})
+        self.assertEqual(result["js"], {"mode": "coverage-runtime", "options": {"targetEvidence": 3}})
 
     def test_harvest_options_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
