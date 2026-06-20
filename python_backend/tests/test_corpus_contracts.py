@@ -13,6 +13,7 @@ from python_backend.cli import compare_contracts as compare_contracts_cli
 from python_backend.cli import corpus_shard_writer as corpus_shard_writer_cli
 from python_backend.cli import coverage_audit as coverage_audit_cli
 from python_backend.cli import coverage_audit_artifacts as coverage_audit_artifacts_cli
+from python_backend.cli import coverage_progress as coverage_progress_cli
 from python_backend.cli import deepseek_analysis_plan as deepseek_analysis_plan_cli
 from python_backend.cli import history_tag_corpus as history_tag_corpus_cli
 from python_backend.cli import huggingface_corpus as huggingface_corpus_cli
@@ -11566,6 +11567,29 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["actionDelta"], {"actionTermsResolved": 0, "actionEvidenceNeedReduced": 1})
         self.assertTrue(result["hasGateProgress"])
         self.assertTrue(result["hasHarvestProgress"])
+
+    def test_coverage_progress_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "before": {"totalEvidence": 10, "evidenceDeficit": 5, "zeroEvidenceTerms": 2, "weakTerms": 4},
+                        "after": {"totalEvidence": 12, "evidenceDeficit": 3, "zeroEvidenceTerms": 1, "weakTerms": 3},
+                        "harvestProgress": [{"weakTermsResolved": 0, "zeroEvidenceResolved": 1, "evidenceGained": 2, "evidenceDeficitReduced": 2}],
+                        "beforeActions": [{"term": "rare-term", "needs": 2}],
+                        "afterActions": [{"term": "rare-term", "needs": 1}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = coverage_progress_cli.CoverageProgressCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertEqual(result["delta"]["evidenceDeficitReduced"], 2)
+        self.assertEqual(result["actionDelta"], {"actionTermsResolved": 0, "actionEvidenceNeedReduced": 1})
+        self.assertTrue(result["hasGateProgress"])
 
     def test_coverage_progress_payload_runner_lives_with_analysis_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
