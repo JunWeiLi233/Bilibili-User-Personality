@@ -214,6 +214,10 @@ class HistoryTagCorpusManager:
     def __init__(self, generated_at: str | None = None):
         self.generated_at = generated_at or datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
+    def merge_result(self, current: dict[str, Any] | None, update: dict[str, Any] | None) -> dict[str, Any]:
+        corpus = self.merge(current, update)
+        return {"ok": True, "corpus": corpus, "tags": len(corpus["tags"]), "videos": len(corpus["videos"]), "runs": len(corpus["runs"])}
+
     def merge(self, current: dict[str, Any] | None, update: dict[str, Any] | None) -> dict[str, Any]:
         current = current if isinstance(current, dict) else {}
         update = update if isinstance(update, dict) else {}

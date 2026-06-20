@@ -3677,6 +3677,22 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual([video["bvid"] for video in matches], ["BVhistory001"])
         self.assertEqual(matches[0]["source"], "bilibili-history-tags")
 
+    def test_history_tag_corpus_manager_owns_merge_result_contract(self):
+        result = HistoryTagCorpusManager(generated_at="2026-06-19T01:00:00.000Z").merge_result(
+            {"tags": [], "videos": [], "runs": []},
+            {
+                "tags": [{"name": "\u5386\u53f2"}],
+                "videos": [{"bvid": "BVhistory", "aid": 100, "title": "<em>\u5386\u53f2</em>\u89c6\u9891", "tags": "\u5386\u53f2,\u6e05\u671d"}],
+                "runs": [{"at": "run"}],
+            },
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["tags"], 1)
+        self.assertEqual(result["videos"], 1)
+        self.assertEqual(result["runs"], 1)
+        self.assertEqual(result["corpus"]["videos"][0]["title"], "\u5386\u53f2\u89c6\u9891")
+
     def test_history_tag_corpus_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

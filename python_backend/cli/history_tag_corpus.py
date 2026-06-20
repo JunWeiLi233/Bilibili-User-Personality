@@ -20,8 +20,7 @@ class HistoryTagCorpusRunner:
     def run(self) -> dict[str, Any]:
         current = self._read_json_object(self.current_path, {"version": 1, "updatedAt": None, "tags": [], "videos": [], "runs": []})
         update = self._read_json_object(self.update_path, {"tags": [], "videos": [], "runs": []})
-        corpus = self.manager.merge(current, update)
-        return {"ok": True, "corpus": corpus, "tags": len(corpus["tags"]), "videos": len(corpus["videos"]), "runs": len(corpus["runs"])}
+        return self.manager.merge_result(current, update)
 
     def _read_json_object(self, path: Path, fallback: dict[str, Any]) -> dict[str, Any]:
         if not path.exists():
