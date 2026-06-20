@@ -37,7 +37,6 @@ from python_backend.cli.harvest_plan import KeywordHarvestPlanContractComparator
 from python_backend.cli.harvest_state import HarvestStateContractComparator, HarvestStateRunner
 from python_backend.cli.readme_stats import ReadmeStatsContractComparator, ReadmeStatsRunner
 from python_backend.cli.semantic_matcher import SemanticMatcherContractComparator, SemanticMatcherRunner
-from python_backend.cli.compare_contracts import ContractComparator
 from python_backend.cli.deepseek_analyze_cli_plan import DeepSeekAnalyzeCliPlanContractComparator, DeepSeekAnalyzeCliPlanRunner
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanContractComparator, DeepSeekAnalysisPlanRunner
 from python_backend.cli.deepseek_analysis_validate import DeepSeekAnalysisValidateContractComparator, DeepSeekAnalysisValidateRunner
@@ -85,7 +84,7 @@ from python_backend.corpus.local import LocalCorpusEvidenceContractComparator as
 from python_backend.corpus.local import LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenPayloadContractComparator, LocalCorpusFlattenRunner as LocalCorpusFlattenPayloadRunner, LocalCorpusFlattenSummary, LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanContractComparator as LocalCorpusMinePlanPayloadComparator, LocalCorpusMinePlanSummary
 from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner, AgentDictionaryMergePlanSummary, MergeAgentDictionariesPlanContractComparator as MergeAgentDictionariesPlanPayloadComparator, MergeAgentDictionariesPlanRunner as MergeAgentDictionariesPayloadPlanRunner
-from python_backend.corpus.contracts import ContractComparator as CorpusContractPayloadComparator
+from python_backend.corpus.contracts import ContractComparator, ContractComparator as CorpusContractPayloadComparator, CorpusContractSummary
 from python_backend.corpus.tieba import TiebaCorpusUpdateContractComparator as TiebaCorpusUpdatePayloadComparator, TiebaCorpusUpdater, TiebaCorpusUpdateRunner as TiebaCorpusUpdatePayloadRunner, TiebaCorpusUpdateSummary
 from python_backend.corpus import dictionary_prune
 from python_backend.analysis import video_filter
@@ -2685,6 +2684,29 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["corpus"]["storage"], "monolith")
         self.assertEqual(result["audit"]["targetEvidence"], 3)
+
+    def test_contract_comparator_summary_lives_with_corpus_logic(self):
+        summary = CorpusContractSummary().summarize(
+            {
+                "ok": True,
+                "mismatches": [],
+                "corpus": {"comments": 2},
+                "audit": {"terms": 1},
+                "dictionary": {"terms": 1},
+                "ignored": "not part of contract",
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "ok": True,
+                "mismatches": [],
+                "corpus": {"comments": 2},
+                "audit": {"terms": 1},
+                "dictionary": {"terms": 1},
+            },
+        )
 
     def test_contract_comparator_rejects_manifest_run_count_mismatch(self):
         with tempfile.TemporaryDirectory() as tmp:

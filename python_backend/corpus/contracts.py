@@ -7,13 +7,30 @@ from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
 
 
+class CorpusContractSummary:
+    """Shape corpus/audit/dictionary contract comparisons for stable JSON output."""
+
+    RESULT_KEYS = ("ok", "mismatches", "corpus", "audit", "dictionary")
+
+    def summarize(self, result: dict[str, object] | None = None) -> dict[str, object]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
 class ContractComparator:
     """Compare Python-read JSON contracts against manifest/audit invariants."""
 
-    def __init__(self, corpus_path: str | Path, audit_path: str | Path, dictionary_path: str | Path | None = None):
+    def __init__(
+        self,
+        corpus_path: str | Path,
+        audit_path: str | Path,
+        dictionary_path: str | Path | None = None,
+        summary: CorpusContractSummary | None = None,
+    ):
         self.corpus_path = Path(corpus_path)
         self.audit_path = Path(audit_path)
         self.dictionary_path = Path(dictionary_path) if dictionary_path else None
+        self.summary = summary or CorpusContractSummary()
 
     def compare(self) -> dict[str, object]:
         corpus = CorpusLoader(self.corpus_path).load()
@@ -56,4 +73,4 @@ class ContractComparator:
             if len(dictionary.entries) != audit.terms:
                 mismatches.append({"key": "dictionaryTerms", "python": len(dictionary.entries), "js": audit.terms})
         result["ok"] = bool(result["ok"]) and len(mismatches) == 0
-        return result
+        return self.summary.summarize(result)
