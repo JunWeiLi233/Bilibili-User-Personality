@@ -5753,6 +5753,27 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(exit_code, 0)
         self.assertEqual(json.loads(output.getvalue())["newComments"][0]["message"], "\u5355\u6587\u4ef6\u8d34\u5427")
 
+    def test_tieba_corpus_cli_runner_reads_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "tieba-payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "existing": {"version": 1, "runs": [], "comments": []},
+                        "run": {"results": [{"comments": [{"message": "\u8ddf\u8fdb\u8d34\u5427\u8bed\u6599", "sourceUrl": "https://tieba.baidu.com/p/6"}]}]},
+                        "generatedAt": "2026-06-17T05:00:00.000Z",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = tieba_corpus_cli.TiebaCorpusCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertTrue(result["changed"])
+        self.assertEqual(result["newComments"][0]["message"], "\u8ddf\u8fdb\u8d34\u5427\u8bed\u6599")
+
     def test_tieba_corpus_cli_compares_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
