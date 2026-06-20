@@ -7,7 +7,7 @@ from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageA
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanPayloadContractComparator, CoverageHarvestLoopPlanRunner as CoverageHarvestLoopPayloadPlanRunner, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressPayloadContractComparator, CoverageProgressRunner as CoverageProgressPayloadRunner, CoverageProgressSummary, CoverageProgressTracker
-from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReportContractComparator as VideoKeywordDiscoveryReportPayloadComparator, VideoKeywordDiscoveryReporter, VideoKeywordDiscoveryReportSummary
+from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReportContractComparator as VideoKeywordDiscoveryReportPayloadComparator, VideoKeywordDiscoveryReportPayloadContractComparator, VideoKeywordDiscoveryReporter, VideoKeywordDiscoveryReportRunner as VideoKeywordDiscoveryReportPayloadRunner, VideoKeywordDiscoveryReportSummary
 from python_backend.analysis import harvest_options as harvest_options_module
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, HarvestOptionsContractComparator as HarvestOptionsPayloadComparator, HarvestOptionsPayloadContractComparator, HarvestOptionsRunner as HarvestOptionsPayloadRunner, HarvestOptionsSummary, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, KeywordHarvestPlanContractComparator as KeywordHarvestPlanPayloadComparator, KeywordHarvestPlanPayloadContractComparator, KeywordHarvestPlanRunner as KeywordHarvestPayloadPlanRunner, KeywordHarvestPlanSummary
@@ -11124,6 +11124,40 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["mode"], "report")
         self.assertEqual(result["report"]["generatedAt"], "2026-06-19T00:00:00.000Z")
         self.assertEqual(result["priorityActionItems"][0]["query"], "next term comments")
+
+    def test_video_keyword_discovery_report_payload_runner_lives_with_analysis_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-report.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "statePath": "state.json",
+                        "reportPath": "report.json",
+                        "generatedAt": "2026-06-19T00:00:00.000Z",
+                        "result": {
+                            "requestedRounds": 1,
+                            "growth": {"before": 1, "after": 2},
+                            "coverageActions": [{"term": "next", "action": "retry", "nextQuery": "next comments"}],
+                            "rounds": [{"queries": ["next comments"], "results": []}],
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"report": {"generatedAt": "wrong", "requestedRounds": 1}, "priorityActionItems": []}),
+                encoding="utf-8",
+            )
+
+            result = VideoKeywordDiscoveryReportPayloadRunner(payload_path).run()
+            comparison = VideoKeywordDiscoveryReportPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["report"]["generatedAt"], "2026-06-19T00:00:00.000Z")
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["report", "priorityActionItems"])
 
     def test_video_keyword_discovery_report_summary_extracts_comparator_contract(self):
         summary = VideoKeywordDiscoveryReportSummary().summarize(
