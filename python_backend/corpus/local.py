@@ -25,6 +25,14 @@ def clean_comment_message(value: Any) -> str:
 class LocalCorpusFlattener:
     """Flatten local Bilibili/Tieba corpus shapes into the JS comment contract."""
 
+    def flatten_to_result(self, raw: Any) -> dict[str, Any]:
+        comments = self.flatten(raw)
+        return {
+            "ok": True,
+            "count": len(comments),
+            "comments": comments,
+        }
+
     def flatten(self, raw: Any) -> list[dict[str, str]]:
         if isinstance(raw, list) and all(isinstance(item, str) for item in raw):
             return [

@@ -2616,6 +2616,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["comments"][0]["uid"], "BVprogress")
 
+    def test_local_corpus_flattener_owns_result_contract(self):
+        result = LocalCorpusFlattener().flatten_to_result(
+            {"_uidComments": {"42": [{"message": "alpha phrase appears here", "uname": "tester", "bvid": "BVprogress"}]}}
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["comments"][0]["uid"], "BVprogress")
+
     def test_local_corpus_flatten_summary_extracts_comparator_contract(self):
         summary = LocalCorpusFlattenSummary().summarize(
             {

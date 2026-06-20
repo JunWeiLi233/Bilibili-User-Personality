@@ -18,12 +18,7 @@ class LocalCorpusFlattenRunner:
     def run(self) -> dict[str, Any]:
         with self.input_path.open("r", encoding="utf-8-sig") as handle:
             raw = json.load(handle)
-        comments = self.flattener.flatten(raw)
-        return {
-            "ok": True,
-            "count": len(comments),
-            "comments": comments,
-        }
+        return self.flattener.flatten_to_result(raw)
 
 
 class LocalCorpusFlattenContractComparator:
