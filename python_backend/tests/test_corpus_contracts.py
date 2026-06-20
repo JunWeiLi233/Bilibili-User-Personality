@@ -30,6 +30,7 @@ from python_backend.cli import deepseek_analyze_cli_plan as deepseek_analyze_cli
 from python_backend.cli import deepseek_analysis_plan as deepseek_analysis_plan_cli
 from python_backend.cli import deepseek_analysis_validate as deepseek_analysis_validate_cli
 from python_backend.cli import dictionary_prune_summary as dictionary_prune_summary_cli
+from python_backend.cli import exhausted_terms_prune_plan as exhausted_terms_prune_plan_cli
 from python_backend.cli import harvest_options as harvest_options_cli
 from python_backend.cli import harvest_plan as harvest_plan_cli
 from python_backend.cli import harvest_state as harvest_state_cli
@@ -12276,6 +12277,45 @@ class CorpusContractTests(unittest.TestCase):
             )
 
             result = ExhaustedTermsPrunePlanRunner(dictionary_path, state_path, attempt_threshold=10).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["candidates"], [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "attempts": 10, "evidence": 0}])
+        self.assertEqual(result["summary"], {"attemptThreshold": 10, "requireZeroEvidence": True, "candidates": 1})
+
+    def test_exhausted_terms_prune_plan_cli_runner_reads_dictionary_and_state_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            state_path = root / "state.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {"term": "\u96f6\u8bc1\u636e", "family": "attack", "evidenceCount": 0},
+                            {"term": "\u90e8\u5206\u8bc1\u636e", "family": "evidence", "evidenceCount": 1},
+                            {"term": "\u8db3\u591f\u8bc1\u636e", "family": "cooperation", "evidenceCount": 3},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            state_path.write_text(
+                json.dumps(
+                    {
+                        "termAttempts": {
+                            "\u96f6\u8bc1\u636e": {"attempts": 10},
+                            "\u90e8\u5206\u8bc1\u636e": {"attempts": 10},
+                            "\u8db3\u591f\u8bc1\u636e": {"attempts": 10},
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = exhausted_terms_prune_plan_cli.ExhaustedTermsPrunePlanCliRunner(
+                ["--dictionary", str(dictionary_path), "--state", str(state_path), "--attempt-threshold", "10"]
+            ).run()
 
         self.assertTrue(result["ok"])
         self.assertEqual(result["count"], 1)

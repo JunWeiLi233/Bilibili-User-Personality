@@ -20,22 +20,26 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(argv: list[str] | None = None) -> int:
-    args = build_parser().parse_args(argv)
-    require_zero_evidence = not args.include_partial
-    if args.compare_js_report:
-        result = ExhaustedTermsPrunePlanContractComparator(
-            args.dictionary,
-            args.state,
-            args.compare_js_report,
-            target_evidence=args.target_evidence,
-            attempt_threshold=args.attempt_threshold,
-            require_zero_evidence=require_zero_evidence,
-            require_source_backed_evidence=args.require_source_backed_evidence,
-            require_comment_backed_evidence=args.require_comment_backed_evidence,
-        ).compare()
-    else:
-        result = ExhaustedTermsPrunePlanRunner(
+class ExhaustedTermsPrunePlanCliRunner:
+    def __init__(self, argv: list[str] | None = None):
+        self.argv = argv
+
+    def run(self) -> dict:
+        argv = [str(item) for item in self.argv] if self.argv is not None else None
+        args = build_parser().parse_args(argv)
+        require_zero_evidence = not args.include_partial
+        if args.compare_js_report:
+            return ExhaustedTermsPrunePlanContractComparator(
+                args.dictionary,
+                args.state,
+                args.compare_js_report,
+                target_evidence=args.target_evidence,
+                attempt_threshold=args.attempt_threshold,
+                require_zero_evidence=require_zero_evidence,
+                require_source_backed_evidence=args.require_source_backed_evidence,
+                require_comment_backed_evidence=args.require_comment_backed_evidence,
+            ).compare()
+        return ExhaustedTermsPrunePlanRunner(
             args.dictionary,
             args.state,
             target_evidence=args.target_evidence,
@@ -44,6 +48,10 @@ def main(argv: list[str] | None = None) -> int:
             require_source_backed_evidence=args.require_source_backed_evidence,
             require_comment_backed_evidence=args.require_comment_backed_evidence,
         ).run()
+
+
+def main(argv: list[str] | None = None) -> int:
+    result = ExhaustedTermsPrunePlanCliRunner(argv).run()
     json.dump(result, sys.stdout, ensure_ascii=False, indent=2)
     sys.stdout.write("\n")
     return 0 if result["ok"] else 1
