@@ -18,39 +18,13 @@ class VideoRelevanceRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_json(self.payload_path, {})
-        videos = payload.get("videos") if isinstance(payload.get("videos"), list) else []
-        search_queries = self._list_value(payload.get("searchQueries") or payload.get("searchQuery"))
-        target_existing_terms = self._list_value(
-            payload.get("targetExistingTerms") or payload.get("targetExistingTerm") or payload.get("targetTerms") or payload.get("targetTerm")
-        )
-        operation = str(payload.get("operation") or "sort").strip().lower()
-        needles = self.relevance.search_needles_for_relevance(search_queries, target_existing_terms)
-        if operation == "filter":
-            result_videos = self.relevance.filter_relevant_videos(videos, search_queries, target_existing_terms)
-        elif operation == "score":
-            scores = [
-                {"video": video, "score": self.relevance.relevance_score_for_video(video if isinstance(video, dict) else {}, needles)}
-                for video in videos
-            ]
-            return {"ok": True, "operation": operation, "needles": needles, "scores": scores}
-        else:
-            operation = "sort"
-            result_videos = self.relevance.sort_videos_by_relevance(videos, search_queries, target_existing_terms)
-        return {"ok": True, "operation": operation, "needles": needles, "videos": result_videos}
+        return self.relevance.run_from_payload(payload)
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
         if not path.exists():
             return fallback
         with path.open("r", encoding="utf-8-sig") as handle:
             return json.load(handle)
-
-    def _list_value(self, value: Any) -> list[Any]:
-        if isinstance(value, list):
-            return value
-        if value is None:
-            return []
-        return [value]
-
 
 class VideoRelevanceContractComparator:
     """Compare Python video relevance results against saved JS-compatible JSON."""

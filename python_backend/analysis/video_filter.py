@@ -219,11 +219,40 @@ class VideoCommentFilterSummary:
 class VideoRelevanceFilter:
     """Rank and filter Bilibili video objects with JS-compatible relevance rules."""
 
+    def run_from_payload(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        videos = payload.get("videos") if isinstance(payload.get("videos"), list) else []
+        search_queries = self._list_value(payload.get("searchQueries") or payload.get("searchQuery"))
+        target_existing_terms = self._list_value(
+            payload.get("targetExistingTerms") or payload.get("targetExistingTerm") or payload.get("targetTerms") or payload.get("targetTerm")
+        )
+        operation = str(payload.get("operation") or "sort").strip().lower()
+        needles = self.search_needles_for_relevance(search_queries, target_existing_terms)
+        if operation == "filter":
+            result_videos = self.filter_relevant_videos(videos, search_queries, target_existing_terms)
+        elif operation == "score":
+            scores = [
+                {"video": video, "score": self.relevance_score_for_video(video if isinstance(video, dict) else {}, needles)}
+                for video in videos
+            ]
+            return {"ok": True, "operation": operation, "needles": needles, "scores": scores}
+        else:
+            operation = "sort"
+            result_videos = self.sort_videos_by_relevance(videos, search_queries, target_existing_terms)
+        return {"ok": True, "operation": operation, "needles": needles, "videos": result_videos}
+
     def search_query_needles(self, query: Any) -> list[str]:
         raw = str(query or "").strip()
         if not raw:
             return []
         return [_clean_search_text(item) for item in [raw, *re.split(r"\s+", raw)] if len(_clean_search_text(item)) >= 2]
+
+    def _list_value(self, value: Any) -> list[Any]:
+        if isinstance(value, list):
+            return value
+        if value is None:
+            return []
+        return [value]
 
     def is_generic_target_search_needle(self, needle: Any) -> bool:
         return _clean_search_text(needle) in GENERIC_TARGET_SEARCH_NEEDLES

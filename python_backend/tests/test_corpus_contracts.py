@@ -4026,6 +4026,26 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual([video["bvid"] for video in result["videos"]], ["BV1"])
 
+    def test_video_relevance_filter_owns_payload_contract(self):
+        result = VideoRelevanceFilter().run_from_payload(
+            {
+                "videos": [
+                    {"bvid": "BV1", "title": "\u5b85\u7537\u8054\u76df \u539f\u7247"},
+                    {"bvid": "BV2", "title": "\u70ed\u95e8\u8bc4\u8bba\u533a"},
+                ],
+                "searchQueries": ["\u70ed\u95e8 \u8bc4\u8bba\u533a"],
+                "targetExistingTerms": ["\u5b85\u7537\u8054\u76df"],
+                "operation": "filter",
+            }
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(
+            result["needles"],
+            ["\u70ed\u95e8\u8bc4\u8bba\u533a", "\u70ed\u95e8\u8bc4\u8bba\u533a", "\u5b85\u7537\u8054\u76df", "\u70ed\u95e8\u8bc4\u8bba\u533a"],
+        )
+        self.assertEqual([video["bvid"] for video in result["videos"]], ["BV1"])
+
     def test_video_relevance_comparator_uses_backend_summary_contract_keys(self):
         self.assertTrue(hasattr(video_filter, "VideoRelevanceSummary"))
         self.assertFalse(hasattr(VideoRelevanceContractComparator, "RESULT_KEYS"))
