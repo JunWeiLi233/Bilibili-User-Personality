@@ -74,6 +74,7 @@ class BilibiliCrawlerSummary:
         "responseOutcome",
         "textResponseOutcome",
         "dependencyCookie",
+        "requestStateReset",
     )
 
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -260,10 +261,29 @@ class BilibiliCrawlerHelper:
                 if isinstance(dependency_cookie.get("fetchTextOptions"), dict)
                 else None,
             )
+        if isinstance(payload.get("requestStateReset"), dict):
+            state_reset = payload.get("requestStateReset") or {}
+            result["requestStateReset"] = self.plan_request_state_reset(
+                state_reset.get("state") if isinstance(state_reset.get("state"), dict) else state_reset
+            )
         return result
 
     def build_crawler_config(self, env: dict[str, Any] | None = None) -> dict[str, int | float]:
         return BilibiliCrawlerConfigBuilder().build(env)
+
+    def plan_request_state_reset(self, state: dict[str, Any] | None = None) -> dict[str, Any]:
+        state = state if isinstance(state, dict) else {}
+        return {
+            "responseCacheSize": 0,
+            "cookieJar": {},
+            "nextRequestAt": 0,
+            "cooldownUntil": 0,
+            "consecutiveBlocks": 0,
+            "sessionUaPicked": False,
+            "cookiesInitialized": False,
+            "sessionUserAgent": str(state.get("sessionUserAgent") or DEFAULT_USER_AGENT),
+            "sessionPlatform": str(state.get("sessionPlatform") or "Windows"),
+        }
 
     def plan_dependency_cookie_forwarding(
         self,

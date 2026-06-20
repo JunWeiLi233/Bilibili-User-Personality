@@ -7192,6 +7192,56 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_bilibili_crawler_helper_plans_request_state_reset_contract(self):
+        self.assertEqual(
+            BilibiliCrawlerHelper().plan_request_state_reset(
+                {
+                    "responseCache": {"a": {"payload": {"code": 0}}},
+                    "cookieJar": {"buvid3": "old", "SESSDATA": "abc"},
+                    "nextRequestAt": 1700000001000,
+                    "cooldownUntil": 1700000002000,
+                    "consecutiveBlocks": 3,
+                    "sessionUaPicked": True,
+                    "cookiesInitialized": True,
+                    "sessionUserAgent": "custom ua",
+                    "sessionPlatform": "macOS",
+                }
+            ),
+            {
+                "responseCacheSize": 0,
+                "cookieJar": {},
+                "nextRequestAt": 0,
+                "cooldownUntil": 0,
+                "consecutiveBlocks": 0,
+                "sessionUaPicked": False,
+                "cookiesInitialized": False,
+                "sessionUserAgent": "custom ua",
+                "sessionPlatform": "macOS",
+            },
+        )
+
+    def test_bilibili_crawler_helper_builds_payload_request_state_reset_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "requestStateReset": {
+                    "state": {
+                        "responseCache": {"cached": True},
+                        "cookieJar": {"b_nut": "1700000000"},
+                        "nextRequestAt": 1,
+                        "cooldownUntil": 2,
+                        "consecutiveBlocks": 3,
+                        "sessionUaPicked": True,
+                        "cookiesInitialized": True,
+                    }
+                }
+            }
+        )
+
+        self.assertEqual(result["requestStateReset"]["responseCacheSize"], 0)
+        self.assertEqual(result["requestStateReset"]["cookieJar"], {})
+        self.assertFalse(result["requestStateReset"]["sessionUaPicked"])
+        self.assertFalse(result["requestStateReset"]["cookiesInitialized"])
+
     def test_bilibili_crawler_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -7255,6 +7305,7 @@ class CorpusContractTests(unittest.TestCase):
                 "responseOutcome": {"blocked": False},
                 "textResponseOutcome": {"blocked": True},
                 "dependencyCookie": {"enabled": True},
+                "requestStateReset": {"consecutiveBlocks": 0},
                 "dynamicRecords": {"objects": []},
                 "extra": "ignored",
             }
@@ -7276,6 +7327,7 @@ class CorpusContractTests(unittest.TestCase):
                 "responseOutcome": {"blocked": False},
                 "textResponseOutcome": {"blocked": True},
                 "dependencyCookie": {"enabled": True},
+                "requestStateReset": {"consecutiveBlocks": 0},
                 "dynamicRecords": {"objects": []},
             },
         )
