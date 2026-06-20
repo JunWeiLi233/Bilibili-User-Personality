@@ -11,6 +11,7 @@ from python_backend.cli import direct_probe_corpus as direct_probe_corpus_cli
 from python_backend.cli import comment_coverage as comment_coverage_cli
 from python_backend.cli import coverage_audit as coverage_audit_cli
 from python_backend.cli import deepseek_analysis_plan as deepseek_analysis_plan_cli
+from python_backend.cli import history_tag_corpus as history_tag_corpus_cli
 from python_backend.cli import huggingface_corpus as huggingface_corpus_cli
 from python_backend.cli import keyword_evidence as keyword_evidence_cli
 from python_backend.cli import random_verification as random_verification_cli
@@ -5549,6 +5550,25 @@ class CorpusContractTests(unittest.TestCase):
                 },
             ],
         )
+
+    def test_history_tag_corpus_cli_accepts_argv_plan_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--pages=2", "--page-size=3", "--seed=\u5386\u53f2", "--seed=\u660e\u671d"]}),
+                encoding="utf-8",
+            )
+
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                exit_code = history_tag_corpus_cli.main(["--plan-payload", str(payload_path)])
+
+        result = json.loads(output.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["summary"], {"seeds": 2, "requests": 4, "commentDanmakuScraping": False})
+        self.assertEqual(len(result["requests"]), 4)
 
     def test_history_tag_file_contract_runners_live_with_corpus_logic(self):
         with tempfile.TemporaryDirectory() as tmp:

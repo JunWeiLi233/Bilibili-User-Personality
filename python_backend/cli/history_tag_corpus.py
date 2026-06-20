@@ -12,7 +12,7 @@ from python_backend.corpus.history_tags import (
 )
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description="Merge JS-compatible Bilibili history tag corpus JSON.")
@@ -21,7 +21,7 @@ def main() -> int:
     parser.add_argument("--generated-at", default="")
     parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible history-tag corpus report to compare.")
     parser.add_argument("--plan-payload", default="", help="Optional JSON payload for scrape option/request planning.")
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     if args.plan_payload and args.compare_js_report:
         result = HistoryTagScrapePlanContractComparator(args.plan_payload, args.compare_js_report).compare()
     elif args.plan_payload:
