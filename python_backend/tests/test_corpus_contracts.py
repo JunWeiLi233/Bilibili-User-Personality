@@ -16,6 +16,7 @@ from python_backend.cli import coverage_audit_artifacts as coverage_audit_artifa
 from python_backend.cli import coverage_progress as coverage_progress_cli
 from python_backend.cli import deepseek_analysis_plan as deepseek_analysis_plan_cli
 from python_backend.cli import harvest_options as harvest_options_cli
+from python_backend.cli import harvest_plan as harvest_plan_cli
 from python_backend.cli import history_tag_corpus as history_tag_corpus_cli
 from python_backend.cli import huggingface_corpus as huggingface_corpus_cli
 from python_backend.cli import keyword_evidence as keyword_evidence_cli
@@ -17129,6 +17130,25 @@ class CorpusContractTests(unittest.TestCase):
             result = KeywordHarvestPlanRunner(payload_path).run()
 
         self.assertTrue(result["ok"])
+        self.assertEqual(result["queries"], ["weak \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4", "seed topic"])
+        self.assertEqual(result["plan"][0]["source"], "dictionary")
+
+    def test_keyword_harvest_plan_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "harvest-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "dictionary": {"entries": [{"term": "weak", "family": "attack", "evidenceCount": 0}]},
+                        "options": {"coverageMode": "all-weak", "maxQueries": 2, "queryVariantsPerTerm": 1, "seedQueries": ["seed topic"]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = harvest_plan_cli.KeywordHarvestPlanCliRunner(["--payload", str(payload_path)]).run()
+
         self.assertEqual(result["queries"], ["weak \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4", "seed topic"])
         self.assertEqual(result["plan"][0]["source"], "dictionary")
 
