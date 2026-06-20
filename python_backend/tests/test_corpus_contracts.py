@@ -120,7 +120,7 @@ from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherPlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanContractComparator as UidDiscoveryPlanPayloadComparator, UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressReporter, UidDiscoveryProgressSummary
 from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanContractComparator as UidFastPipelinePlanPayloadComparator
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanContractComparator as UidParallelPlanPayloadComparator, UidParallelPlanSummary, UidParallelProgressReporter, UidParallelProgressSummary
-from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineLauncherSummary, UidPipelineMergeReporter, UidPipelineMergeSummary, UidPipelinePlanSummary, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
+from python_backend.scrapers.uid_pipeline import UidPipelineLauncherPlanner, UidPipelineLauncherSummary, UidPipelineMergeReporter, UidPipelineMergeSummary, UidPipelinePlanContractComparator as UidPipelinePlanPayloadComparator, UidPipelinePlanSummary, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter, ScraperMonitorSummary
 from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherPlanner, FastPipelineLauncherSummary, UidFastPipelinePlanSummary, UidFastPipelinePlanner
 
@@ -6998,6 +6998,39 @@ class CorpusContractTests(unittest.TestCase):
                 "userDb": {"users": 2},
             },
         )
+
+    def test_uid_pipeline_plan_payload_comparator_owns_result_key_mismatch_contract(self):
+        result = UidPipelinePlanPayloadComparator().compare(
+            {
+                "range": {"start": 1, "end": 3, "total": 3},
+                "progress": {"processed": 1, "remaining": 2, "completionRatio": 0.3333},
+                "training": {"multiagent": True, "lockMaxRetries": 5},
+                "ignored": "python-only",
+            },
+            {
+                "progress": {"processed": 0},
+                "training": {"multiagent": False},
+                "ignored": "js-only",
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "progress", "python": {"processed": 1, "remaining": 2, "completionRatio": 0.3333}, "js": {"processed": 0}},
+                {"key": "training", "python": {"multiagent": True, "lockMaxRetries": 5}, "js": {"multiagent": False}},
+            ],
+        )
+        self.assertEqual(
+            result["python"],
+            {
+                "range": {"start": 1, "end": 3, "total": 3},
+                "progress": {"processed": 1, "remaining": 2, "completionRatio": 0.3333},
+                "training": {"multiagent": True, "lockMaxRetries": 5},
+            },
+        )
+        self.assertEqual(result["js"], {"progress": {"processed": 0}, "training": {"multiagent": False}})
 
     def test_uid_fast_pipeline_plan_matches_js_direct_fetch_and_backoff_contract(self):
         planner = UidFastPipelinePlanner()
