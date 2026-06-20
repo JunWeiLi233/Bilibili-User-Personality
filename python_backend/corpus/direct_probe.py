@@ -30,10 +30,15 @@ def _has_han(value: Any) -> bool:
     return bool(re.search(r"[\u3400-\u9fff]", _clean_text(value)))
 
 
+def _list_field(entry: dict[str, Any], key: str) -> list[Any]:
+    value = entry.get(key) if isinstance(entry, dict) else None
+    return value if isinstance(value, list) else []
+
+
 def _evidence_count(entry: dict[str, Any]) -> int:
     count = entry.get("evidenceCount")
     if count is None:
-        count = len(entry.get("evidence") or entry.get("evidenceSamples") or [])
+        count = len(_list_field(entry, "evidence") or _list_field(entry, "evidenceSamples"))
     try:
         return max(0, int(count))
     except (TypeError, ValueError):
@@ -60,7 +65,7 @@ def _is_comment_backed_sample(sample: Any) -> bool:
 
 
 def _has_comment_scan_source(entry: dict[str, Any]) -> bool:
-    for source in entry.get("evidenceSources") or []:
+    for source in _list_field(entry, "evidenceSources"):
         source_text = _clean_text(source.get("source") if isinstance(source, dict) else "")
         if source_text.startswith("Bilibili public ") and "comment scan" in source_text:
             return True
@@ -72,14 +77,14 @@ def _comment_backed_evidence_count(entry: dict[str, Any]) -> int:
     if raw_count == 0:
         return 0
     samples = set()
-    for source in entry.get("evidenceSources") or []:
+    for source in _list_field(entry, "evidenceSources"):
         if not isinstance(source, dict):
             continue
         sample = _clean_text(source.get("sample"))
         if sample and not _is_video_context_source(source) and _is_comment_backed_sample(sample):
             samples.add(sample)
     if _has_comment_scan_source(entry):
-        for sample in entry.get("evidenceSamples") or []:
+        for sample in _list_field(entry, "evidenceSamples"):
             sample_text = _clean_text(sample)
             if _is_comment_backed_sample(sample_text):
                 samples.add(sample_text)
@@ -133,9 +138,9 @@ def _evidence_needles(entry: dict[str, Any]) -> list[str]:
 
 def _existing_samples(entry: dict[str, Any]) -> set[str]:
     samples = []
-    samples.extend(entry.get("evidence") or [])
-    samples.extend(entry.get("evidenceSamples") or [])
-    samples.extend(source.get("sample") for source in entry.get("evidenceSources") or [] if isinstance(source, dict))
+    samples.extend(_list_field(entry, "evidence"))
+    samples.extend(_list_field(entry, "evidenceSamples"))
+    samples.extend(source.get("sample") for source in _list_field(entry, "evidenceSources") if isinstance(source, dict))
     return {_clean_text(sample) for sample in samples if _clean_text(sample)}
 
 
@@ -713,12 +718,12 @@ class DirectProbeCorpusBuilder:
             candidate_sources: list[Any] = []
             candidate_sources.extend(
                 source.get("source")
-                for source in entry.get("evidenceSources") or []
+                for source in _list_field(entry, "evidenceSources")
                 if isinstance(source, dict)
             )
             candidate_sources.extend(
                 corpus_sources_by_message.get(_clean_text(sample))
-                for sample in entry.get("evidenceSamples") or []
+                for sample in _list_field(entry, "evidenceSamples")
             )
             candidate_sources = sorted(candidate_sources, key=self._corpus_source_recovery_priority)
             videos: list[dict[str, str]] = []

@@ -5505,6 +5505,26 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(entries, [])
 
+    def test_direct_probe_builder_ignores_non_array_existing_evidence_fields(self):
+        dictionary = {
+            "entries": [
+                {
+                    "term": "\u72d7\u5934",
+                    "family": "attack",
+                    "evidenceCount": 0,
+                    "evidence": {"\u72d7\u5934": True},
+                    "evidenceSamples": {"\u72d7\u5934": True},
+                    "evidenceSources": {"sample": "\u72d7\u5934"},
+                }
+            ]
+        }
+        comments = [{"message": "\u72d7\u5934", "source": "direct", "uid": "1"}]
+
+        entries = DirectProbeCorpusBuilder().build_fresh_evidence_entries(dictionary, comments)
+
+        self.assertEqual([entry["term"] for entry in entries], ["\u72d7\u5934"])
+        self.assertEqual(entries[0]["evidence"], ["\u72d7\u5934"])
+
     def test_direct_probe_builder_builds_probe_corpus_with_han_dedupe(self):
         existing = {
             "version": 2,
@@ -6190,6 +6210,29 @@ class CorpusContractTests(unittest.TestCase):
                 },
             },
         )
+        malformed = builder.build_evidence_source_videos_for_actions(
+            {
+                "entries": [
+                    {
+                        "term": "bad-evidence",
+                        "evidenceSamples": {"bad sample": True},
+                        "evidenceSources": {"source": "https://www.bilibili.com/video/BVbadsource/"},
+                    }
+                ]
+            },
+            [{"term": "bad-evidence", "query": "bad-evidence comments"}],
+            {
+                "maxPerAction": 2,
+                "corpus": {
+                    "comments": [
+                        {
+                            "message": "bad sample",
+                            "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BVfromMalformed/",
+                        }
+                    ]
+                },
+            },
+        )
 
         self.assertEqual(
             direct,
@@ -6208,6 +6251,7 @@ class CorpusContractTests(unittest.TestCase):
                 ]
             },
         )
+        self.assertEqual(malformed, {})
 
     def test_history_tag_corpus_manager_merges_and_searches_videos(self):
         manager = HistoryTagCorpusManager(generated_at="2026-06-19T00:00:00.000Z")
