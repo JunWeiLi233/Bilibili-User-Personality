@@ -13,6 +13,13 @@ from python_backend.scrapers.rate_limiter import RateLimitPolicy
 
 BLOCK_CODES = {-101, -111, -352, -412, -509, -799}
 DEFAULT_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+USER_AGENTS = (
+    DEFAULT_USER_AGENT,
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+)
 ACCEPT_LANGUAGE = "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7"
 SEC_CH_UA = '"Chromium";v="124", "Google Chrome";v="124", "Not.A/Brand";v="99"'
 
@@ -75,6 +82,7 @@ class BilibiliCrawlerSummary:
         "textResponseOutcome",
         "dependencyCookie",
         "requestStateReset",
+        "sessionIdentity",
     )
 
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -266,10 +274,47 @@ class BilibiliCrawlerHelper:
             result["requestStateReset"] = self.plan_request_state_reset(
                 state_reset.get("state") if isinstance(state_reset.get("state"), dict) else state_reset
             )
+        if isinstance(payload.get("sessionIdentity"), dict):
+            session_identity = payload.get("sessionIdentity") or {}
+            result["sessionIdentity"] = self.plan_session_identity(
+                session_identity.get("state") if isinstance(session_identity.get("state"), dict) else {},
+                random_value=session_identity.get("randomValue", 0),
+            )
         return result
 
     def build_crawler_config(self, env: dict[str, Any] | None = None) -> dict[str, int | float]:
         return BilibiliCrawlerConfigBuilder().build(env)
+
+    def plan_session_identity(
+        self,
+        state: dict[str, Any] | None = None,
+        random_value: Any = 0,
+    ) -> dict[str, Any]:
+        state = state if isinstance(state, dict) else {}
+        if bool(state.get("sessionUaPicked")):
+            user_agent = str(state.get("sessionUserAgent") or DEFAULT_USER_AGENT)
+            return {
+                "sessionUaPicked": True,
+                "sessionUserAgent": user_agent,
+                "sessionPlatform": str(state.get("sessionPlatform") or self._platform_for_user_agent(user_agent)),
+                "pickedIndex": None,
+            }
+
+        try:
+            random_number = float(random_value)
+        except (TypeError, ValueError):
+            random_number = 0.0
+        if not math.isfinite(random_number):
+            random_number = 0.0
+        pick = math.floor(random_number * len(USER_AGENTS))
+        index = pick % len(USER_AGENTS)
+        user_agent = USER_AGENTS[index] or USER_AGENTS[0]
+        return {
+            "sessionUaPicked": True,
+            "sessionUserAgent": user_agent,
+            "sessionPlatform": self._platform_for_user_agent(user_agent),
+            "pickedIndex": index,
+        }
 
     def plan_request_state_reset(self, state: dict[str, Any] | None = None) -> dict[str, Any]:
         state = state if isinstance(state, dict) else {}
@@ -556,6 +601,9 @@ class BilibiliCrawlerHelper:
         url_base = ".".join(url_parts.hostname.split(".")[-2:]) if url_parts.hostname else ""
         referer_base = ".".join(referer_parts.hostname.split(".")[-2:]) if referer_parts.hostname else ""
         return "same-site" if url_base and url_base == referer_base else "cross-site"
+
+    def _platform_for_user_agent(self, user_agent: Any) -> str:
+        return "macOS" if "Macintosh" in str(user_agent or "") else "Windows"
 
     def cookie_header(self, request_cookie: Any = "", synthetic_cookie: dict[str, Any] | None = None) -> str:
         merged: dict[str, str] = {}

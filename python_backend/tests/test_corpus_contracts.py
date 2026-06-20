@@ -7242,6 +7242,49 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(result["requestStateReset"]["sessionUaPicked"])
         self.assertFalse(result["requestStateReset"]["cookiesInitialized"])
 
+    def test_bilibili_crawler_helper_plans_session_identity_contract(self):
+        helper = BilibiliCrawlerHelper()
+
+        self.assertEqual(
+            helper.plan_session_identity({"sessionUaPicked": False}, random_value=0.72),
+            {
+                "sessionUaPicked": True,
+                "sessionUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+                "sessionPlatform": "macOS",
+                "pickedIndex": 3,
+            },
+        )
+        self.assertEqual(
+            helper.plan_session_identity(
+                {
+                    "sessionUaPicked": True,
+                    "sessionUserAgent": "existing ua",
+                    "sessionPlatform": "Windows",
+                },
+                random_value=0.99,
+            ),
+            {
+                "sessionUaPicked": True,
+                "sessionUserAgent": "existing ua",
+                "sessionPlatform": "Windows",
+                "pickedIndex": None,
+            },
+        )
+
+    def test_bilibili_crawler_helper_builds_payload_session_identity_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "sessionIdentity": {
+                    "state": {"sessionUaPicked": False},
+                    "randomValue": 0.2,
+                }
+            }
+        )
+
+        self.assertEqual(result["sessionIdentity"]["pickedIndex"], 1)
+        self.assertEqual(result["sessionIdentity"]["sessionPlatform"], "Windows")
+        self.assertTrue(result["sessionIdentity"]["sessionUaPicked"])
+
     def test_bilibili_crawler_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -7306,6 +7349,7 @@ class CorpusContractTests(unittest.TestCase):
                 "textResponseOutcome": {"blocked": True},
                 "dependencyCookie": {"enabled": True},
                 "requestStateReset": {"consecutiveBlocks": 0},
+                "sessionIdentity": {"sessionUaPicked": True},
                 "dynamicRecords": {"objects": []},
                 "extra": "ignored",
             }
@@ -7328,6 +7372,7 @@ class CorpusContractTests(unittest.TestCase):
                 "textResponseOutcome": {"blocked": True},
                 "dependencyCookie": {"enabled": True},
                 "requestStateReset": {"consecutiveBlocks": 0},
+                "sessionIdentity": {"sessionUaPicked": True},
                 "dynamicRecords": {"objects": []},
             },
         )
