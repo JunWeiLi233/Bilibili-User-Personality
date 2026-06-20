@@ -10,6 +10,7 @@ from python_backend.cli import local_corpus_flatten as local_corpus_flatten_cli
 from python_backend.cli import direct_probe_corpus as direct_probe_corpus_cli
 from python_backend.cli import comment_coverage as comment_coverage_cli
 from python_backend.cli import deepseek_analysis_plan as deepseek_analysis_plan_cli
+from python_backend.cli import huggingface_corpus as huggingface_corpus_cli
 from python_backend.cli import keyword_evidence as keyword_evidence_cli
 from python_backend.cli import tieba_corpus as tieba_corpus_cli
 from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditPayloadContractComparator, CoverageAuditReport
@@ -3311,6 +3312,30 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "write", "python": True, "js": False},
             ],
         )
+
+    def test_huggingface_import_cli_accepts_argv_plan_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "hf-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--source=Midsummra/bilibilicomment::bilibili.csv::bilibili::5000::9::3"],
+                        "env": {"HUGGINGFACE_REQUEST_TIMEOUT_MS": "2500"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                exit_code = huggingface_corpus_cli.main(["--plan-payload", str(payload_path)])
+
+        result = json.loads(output.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["requestTimeoutMs"], 2500)
+        self.assertEqual(result["sources"][0]["dataset"], "Midsummra/bilibilicomment")
 
     def test_huggingface_import_plan_payload_comparator_lives_with_corpus_logic(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -6,7 +6,7 @@ import json
 from python_backend.corpus.huggingface import HuggingFaceCorpusImportContractComparator, HuggingFaceCorpusImportPlanContractComparator, HuggingFaceCorpusImportPlanRunner, HuggingFaceCorpusImportRunner
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Parse a local HuggingFace/Kaggle corpus file into the JS-compatible corpus contract.")
     parser.add_argument("--plan-payload", default="", help="Path to a JS-compatible import option payload for dry-run fetch planning.")
     parser.add_argument("--raw", default="", help="Path to downloaded JSON/JSONL/CSV source rows.")
@@ -18,7 +18,7 @@ def main() -> int:
     parser.add_argument("--offset", type=int, default=0)
     parser.add_argument("--generated-at", default="")
     parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible HuggingFace/Kaggle import report to compare.")
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     if args.plan_payload:
         if args.compare_js_report:
             result = HuggingFaceCorpusImportPlanContractComparator(args.plan_payload, args.compare_js_report).compare()
