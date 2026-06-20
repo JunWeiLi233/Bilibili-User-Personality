@@ -15,6 +15,7 @@ from python_backend.cli import coverage_audit as coverage_audit_cli
 from python_backend.cli import coverage_audit_artifacts as coverage_audit_artifacts_cli
 from python_backend.cli import coverage_progress as coverage_progress_cli
 from python_backend.cli import deepseek_analysis_plan as deepseek_analysis_plan_cli
+from python_backend.cli import harvest_options as harvest_options_cli
 from python_backend.cli import history_tag_corpus as history_tag_corpus_cli
 from python_backend.cli import huggingface_corpus as huggingface_corpus_cli
 from python_backend.cli import keyword_evidence as keyword_evidence_cli
@@ -16648,6 +16649,28 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["options"]["requireCommentBackedEvidence"])
         self.assertTrue(result["options"]["includeHistoryTags"])
         self.assertEqual(result["options"]["priorityQueries"], ["target 评论区"])
+
+    def test_harvest_options_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "video-keyword",
+                        "env": {"BILIBILI_COVERAGE_AUDIT_REQUIRE_COMMENTS": "1"},
+                        "argv": ["--include-history-tags"],
+                        "priorityQueries": ["target comments"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = harvest_options_cli.HarvestOptionsCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["options"]["requireCommentBackedEvidence"])
+        self.assertTrue(result["options"]["includeHistoryTags"])
+        self.assertEqual(result["options"]["priorityQueries"], ["target comments"])
 
     def test_harvest_options_payload_builder_owns_json_contract(self):
         result = harvest_options_module.HarvestOptionsPayloadBuilder().build_from_payload(
