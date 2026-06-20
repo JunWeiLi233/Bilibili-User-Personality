@@ -110,7 +110,7 @@ from python_backend.cli.file_lock_state import FileLockStateContractComparator, 
 from python_backend.cli.batch_scrape_progress import BatchScrapeProgressContractComparator, BatchScrapeProgressRunner
 from python_backend.cli.batch_uid_progress import BatchUidProgressContractComparator, BatchUidProgressRunner
 from python_backend.cli.uid_discovery_progress import UidDiscoveryProgressContractComparator, UidDiscoveryProgressRunner
-from python_backend.scrapers.tieba_html import TiebaHtmlParseSummary, TiebaHtmlParser
+from python_backend.scrapers.tieba_html import TiebaHtmlParseContractComparator as TiebaHtmlParsePayloadComparator, TiebaHtmlParseSummary, TiebaHtmlParser
 from python_backend.scrapers.tieba_keyword import TiebaKeywordPlanSummary, TiebaKeywordScrapeOptionsPlanner
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming
 from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanContractComparator as BatchBilibiliPlanPayloadComparator, BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
@@ -5218,6 +5218,26 @@ class CorpusContractTests(unittest.TestCase):
                 }
             ],
         )
+
+    def test_tieba_html_parse_payload_comparator_owns_parse_mismatch_contract(self):
+        result = TiebaHtmlParsePayloadComparator().compare(
+            {
+                "mode": "threads",
+                "threads": [{"id": "1234567890", "title": "\u8d34\u5427\u8ba8\u8bba"}],
+            },
+            {"mode": "comments", "threads": []},
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "mode", "python": "threads", "js": "comments"},
+                {"key": "threads", "python": [{"id": "1234567890", "title": "\u8d34\u5427\u8ba8\u8bba"}], "js": []},
+            ],
+        )
+        self.assertEqual(result["python"]["mode"], "threads")
+        self.assertEqual(result["js"]["mode"], "comments")
 
     def test_tieba_html_parse_summary_extracts_parser_contract(self):
         summary = TiebaHtmlParseSummary().summarize(
