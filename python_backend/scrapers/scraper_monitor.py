@@ -1,7 +1,11 @@
 from __future__ import annotations
 
+import json
 import math
+from pathlib import Path
 from typing import Any
+
+from python_backend.scrapers.uid_pipeline import UidPipelineMergeRunner
 
 
 def _parse_number_or(value: Any, fallback: int) -> int:
@@ -42,6 +46,94 @@ class ScraperMonitorContractComparator:
             "python": python_summary,
             "js": js_summary,
         }
+
+
+class ScraperMonitorRunner:
+    """Build a compact monitor report for discovery and UID pipeline progress."""
+
+    def __init__(
+        self,
+        data_dir: str | Path,
+        *,
+        total_start: int = 1,
+        total_end: int = 100000,
+        workers: int = 5,
+        pipeline_rate_per_minute: int = 50,
+    ):
+        self.data_dir = Path(data_dir)
+        self.total_start = int(total_start)
+        self.total_end = int(total_end)
+        self.workers = max(1, int(workers))
+        self.pipeline_rate_per_minute = max(1, int(pipeline_rate_per_minute))
+
+    def run(self) -> dict[str, Any]:
+        discovery = self._read_json(self.data_dir / "uid-discovery-progress.json", {})
+        pipeline_report = UidPipelineMergeRunner(
+            self.data_dir,
+            total_start=self.total_start,
+            total_end=self.total_end,
+            workers=self.workers,
+            summary_only=True,
+            now=lambda: "",
+        ).run()
+        reporter = ScraperMonitorReporter(pipeline_rate_per_minute=self.pipeline_rate_per_minute)
+        return reporter.build_report(
+            discovery_progress=discovery,
+            pipeline_report=pipeline_report,
+            pipeline_progress_payloads=self._pipeline_progress_payloads(),
+        )
+
+    def _pipeline_progress_payloads(self) -> list[Any]:
+        progress_files = ScraperMonitorPipelinePayloadPlanner().progress_files(total_start=self.total_start, total_end=self.total_end, workers=self.workers)
+        return [self._read_json(self.data_dir / progress_file, {}) for progress_file in progress_files]
+
+    def _read_json(self, path: Path, fallback: Any) -> Any:
+        if not path.exists():
+            return fallback
+        with path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else fallback
+
+
+class ScraperMonitorPayloadContractComparator:
+    """Compare file-backed Python monitor reports against saved JS-compatible JSON."""
+
+    def __init__(
+        self,
+        data_dir: str | Path,
+        js_report_path: str | Path,
+        *,
+        total_start: int = 1,
+        total_end: int = 100000,
+        workers: int = 5,
+        pipeline_rate_per_minute: int = 50,
+    ):
+        self.data_dir = Path(data_dir)
+        self.js_report_path = Path(js_report_path)
+        self.total_start = total_start
+        self.total_end = total_end
+        self.workers = workers
+        self.pipeline_rate_per_minute = pipeline_rate_per_minute
+        self.summary = ScraperMonitorSummary()
+        self.comparator = ScraperMonitorContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = ScraperMonitorRunner(
+            self.data_dir,
+            total_start=self.total_start,
+            total_end=self.total_end,
+            workers=self.workers,
+            pipeline_rate_per_minute=self.pipeline_rate_per_minute,
+        ).run()
+        js_result = self._read_js_report()
+        return self.comparator.compare(python_result, js_result)
+
+    def _read_js_report(self) -> dict[str, Any]:
+        if not self.js_report_path.exists():
+            return {}
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
 
 
 class ScraperMonitorPipelinePayloadPlanner:

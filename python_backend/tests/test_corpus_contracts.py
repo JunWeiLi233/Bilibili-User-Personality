@@ -122,7 +122,7 @@ from python_backend.scrapers.uid_discovery import UidDiscoveryPlanContractCompar
 from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanContractComparator as UidFastPipelinePlanPayloadComparator
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanContractComparator as UidParallelPlanPayloadComparator, UidParallelPlanSummary, UidParallelProgressContractComparator as UidParallelProgressPayloadComparator, UidParallelProgressReporter, UidParallelProgressSummary
 from python_backend.scrapers.uid_pipeline import UidPipelineLauncherContractComparator as UidPipelineLauncherPayloadComparator, UidPipelineLauncherPlanner, UidPipelineLauncherSummary, UidPipelineMergeContractComparator as UidPipelineMergePayloadComparator, UidPipelineMergePayloadContractComparator, UidPipelineMergeReporter, UidPipelineMergeRunner as UidPipelineMergePayloadRunner, UidPipelineMergeSummary, UidPipelinePlanContractComparator as UidPipelinePlanPayloadComparator, UidPipelinePlanSummary, UidPipelineProgressContractComparator as UidPipelineProgressPayloadComparator, UidPipelineProgressReporter, UidPipelineProgressSummary, UidPipelineStateContractComparator as UidPipelineStatePayloadComparator, UidPipelineStateReporter, UidPipelineStateSummary, UidPipelineWorkerPlanner
-from python_backend.scrapers.scraper_monitor import ScraperMonitorContractComparator as ScraperMonitorPayloadComparator, ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter, ScraperMonitorSummary
+from python_backend.scrapers.scraper_monitor import ScraperMonitorContractComparator as ScraperMonitorPayloadComparator, ScraperMonitorPayloadContractComparator, ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter, ScraperMonitorRunner as ScraperMonitorPayloadRunner, ScraperMonitorSummary
 from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherContractComparator as FastPipelineLauncherPayloadComparator, FastPipelineLauncherPayloadContractComparator, FastPipelineLauncherPlanner, FastPipelineLauncherPlanRunner as FastPipelineLauncherPayloadPlanRunner, FastPipelineLauncherSummary, UidFastPipelinePlanSummary, UidFastPipelinePlanner
 
 
@@ -9970,6 +9970,24 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "combined", "python": {"uidsAnalyzed": 2}, "js": {"uidsAnalyzed": 1}},
             ],
         )
+
+    def test_scraper_monitor_payload_runner_lives_with_scraper_monitor_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            js_report_path = root / "js-monitor.json"
+            (data_dir / "uid-discovery-progress.json").write_text(json.dumps({"stats": {"uidsAnalyzed": 1, "uidsFound": 3}}), encoding="utf-8")
+            (data_dir / "uid-pipeline-1-1.json").write_text(json.dumps({"processed": {"1": "success"}, "stats": {"success": 1}}), encoding="utf-8")
+            js_report_path.write_text(json.dumps({"combined": {"uidsAnalyzed": 1}, "pipeline": {"processed": 0}}), encoding="utf-8")
+
+            result = ScraperMonitorPayloadRunner(data_dir, total_start=1, total_end=1, workers=1).run()
+            comparison = ScraperMonitorPayloadContractComparator(data_dir, js_report_path, total_start=1, total_end=1, workers=1).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["combined"], {"uidsAnalyzed": 2})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["pipeline", "combined"])
 
     def test_scraper_monitor_payload_comparator_owns_report_mismatch_contract(self):
         result = ScraperMonitorPayloadComparator().compare(
