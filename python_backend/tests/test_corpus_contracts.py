@@ -27,6 +27,7 @@ from python_backend.cli import keyword_evidence as keyword_evidence_cli
 from python_backend.cli import random_verification as random_verification_cli
 from python_backend.cli import tieba_corpus as tieba_corpus_cli
 from python_backend.cli import tieba_html_parse as tieba_html_parse_cli
+from python_backend.cli import tieba_timing as tieba_timing_cli
 from python_backend.cli import video_comment_filter as video_comment_filter_cli
 from python_backend.cli import video_context as video_context_cli
 from python_backend.cli import video_relevance as video_relevance_cli
@@ -6116,6 +6117,20 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertTrue(result["ok"])
         self.assertEqual(result["hardStopMs"], 610000)
+
+    def test_tieba_timing_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps({"maxQueries": 2, "overallTimeoutMs": 4000, "blockCooldownMs": 500}),
+                encoding="utf-8",
+            )
+
+            result = tieba_timing_cli.TiebaTimingCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["hardStopMs"], 19000)
 
     def test_tieba_timing_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
