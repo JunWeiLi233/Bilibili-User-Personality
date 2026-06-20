@@ -39,6 +39,16 @@ class DictionaryPruneSummary:
         return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
 
 
+class ExhaustedTermsPrunePlanSummary:
+    """Shape exhausted-term prune plans into the JS/Python comparator contract."""
+
+    RESULT_KEYS = ("count", "candidates", "summary")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
 class DictionaryPrunePlanner:
     """Plan JS-compatible dictionary canonicalization without writing shards."""
 

@@ -5545,6 +5545,14 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["candidates"], [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "attempts": 10, "evidence": 0}])
         self.assertEqual(result["summary"], {"attemptThreshold": 10, "requireZeroEvidence": True, "candidates": 1})
 
+    def test_exhausted_terms_prune_comparator_uses_backend_summary_contract_keys(self):
+        self.assertTrue(hasattr(dictionary_prune, "ExhaustedTermsPrunePlanSummary"))
+        self.assertFalse(hasattr(ExhaustedTermsPrunePlanContractComparator, "RESULT_KEYS"))
+        self.assertEqual(
+            ExhaustedTermsPrunePlanContractComparator(Path("dictionary.json"), Path("state.json"), Path("js-report.json")).summary.RESULT_KEYS,
+            dictionary_prune.ExhaustedTermsPrunePlanSummary.RESULT_KEYS,
+        )
+
     def test_exhausted_terms_prune_plan_comparator_reports_candidate_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
