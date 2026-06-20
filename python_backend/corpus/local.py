@@ -6,6 +6,7 @@ import re
 import unicodedata
 from typing import Any
 
+from python_backend.analysis.comment_coverage import _is_contract_scalar
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
 
@@ -369,11 +370,13 @@ def _generated_colloquial_aliases(term: str) -> list[str]:
 
 def _entry_needles(entry: dict[str, Any]) -> list[str]:
     term = clean_text(entry.get("term"))
+    aliases = entry.get("aliases") if isinstance(entry.get("aliases"), list) else []
+    examples = entry.get("examples") if isinstance(entry.get("examples"), list) else []
     values = [
         term,
         *_generated_colloquial_aliases(term),
-        *[clean_text(alias) for alias in entry.get("aliases") or []],
-        *[clean_text(example) for example in entry.get("examples") or []],
+        *[clean_text(alias) for alias in aliases if _is_contract_scalar(alias)],
+        *[clean_text(example) for example in examples if _is_contract_scalar(example)],
     ]
     return [value for value in _unique([_normalize_needle(item) for item in values]) if len(value) >= 2]
 

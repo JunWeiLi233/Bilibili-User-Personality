@@ -4413,6 +4413,48 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(entries[0]["evidenceSources"][0]["uid"], "BV1")
         self.assertEqual(entries[1]["evidence"], ["\u8fd9\u5403\u76f8\u96be\u770b\u5230\u79bb\u8c31"])
 
+    def test_local_corpus_evidence_finder_ignores_object_alias_needles(self):
+        dictionary = {
+            "entries": [
+                {
+                    "term": "\u4e0d\u5339\u914d",
+                    "family": "attack",
+                    "evidenceCount": 0,
+                    "aliases": [{"": "\u72d7\u5934"}],
+                    "examples": [{"": "\u67e5\u8d44\u6599"}],
+                }
+            ]
+        }
+        comments = [
+            {"message": "\u72d7\u5934", "source": "local", "uid": "1"},
+            {"message": "\u5efa\u8bae\u67e5\u8d44\u6599", "source": "local", "uid": "2"},
+        ]
+
+        entries = LocalCorpusEvidenceFinder().find_entries(dictionary, comments, {"targetEvidence": 3})
+
+        self.assertEqual(entries, [])
+
+    def test_local_corpus_evidence_finder_ignores_non_array_alias_fields(self):
+        dictionary = {
+            "entries": [
+                {
+                    "term": "\u4e0d\u5339\u914d",
+                    "family": "attack",
+                    "evidenceCount": 0,
+                    "aliases": {"\u72d7\u5934": True},
+                    "examples": {"\u67e5\u8d44\u6599": True},
+                }
+            ]
+        }
+        comments = [
+            {"message": "\u72d7\u5934", "source": "local", "uid": "1"},
+            {"message": "\u5efa\u8bae\u67e5\u8d44\u6599", "source": "local", "uid": "2"},
+        ]
+
+        entries = LocalCorpusEvidenceFinder().find_entries(dictionary, comments, {"targetEvidence": 3})
+
+        self.assertEqual(entries, [])
+
     def test_local_corpus_evidence_finder_owns_result_contract(self):
         result = LocalCorpusEvidenceFinder().find_entries_result(
             {"entries": [{"term": "\u61c2\u7684\u90fd\u61c2", "family": "evasion", "meaning": "\u6697\u793a", "evidenceCount": 0}]},
