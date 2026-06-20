@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractSummary, CoverageAuditReport
+from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditReport
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressSummary, CoverageProgressTracker
@@ -562,6 +562,70 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIsNone(summary["coverage"]["averageEvidence"])
         self.assertEqual(summary["failureReasons"], ["1 term(s) are below 3 evidence hit(s)"])
         self.assertEqual(summary["familyGaps"], [{"family": "attack", "weak": 1}])
+
+    def test_coverage_audit_contract_comparator_owns_metric_mismatch_contract(self):
+        comparator = CoverageAuditContractComparator(strict_total_evidence=True)
+        python_audit = {
+            "ok": False,
+            "targetEvidence": 3,
+            "coverage": {
+                "complete": False,
+                "terms": 1,
+                "weakTerms": 1,
+                "zeroEvidenceTerms": 0,
+                "evidenceDeficit": 2,
+                "coverageRatio": 0,
+                "sourcedEvidenceTerms": 0,
+                "unsourcedEvidenceTerms": 1,
+                "totalEvidence": 3,
+                "averageEvidence": 3.0,
+            },
+            "failureReasons": ["1 term(s) are below 3 evidence hit(s)"],
+            "familyGaps": [{"family": "attack", "terms": 1, "weak": 1, "zero": 0, "evidence": 3, "coverageRatio": 0}],
+        }
+        js_audit = {
+            "ok": True,
+            "targetEvidence": 3,
+            "coverage": {
+                "complete": True,
+                "terms": 1,
+                "weakTerms": 0,
+                "zeroEvidenceTerms": 0,
+                "evidenceDeficit": 0,
+                "coverageRatio": 1,
+                "sourcedEvidenceTerms": 0,
+                "unsourcedEvidenceTerms": 1,
+                "totalEvidence": 2,
+                "averageEvidence": 2.0,
+            },
+            "failureReasons": [],
+            "familyGaps": [],
+        }
+
+        result = comparator.compare(python_audit, js_audit)
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "weakTerms", "python": 1, "js": 0},
+                {"key": "evidenceDeficit", "python": 2, "js": 0},
+                {"key": "coverageRatio", "python": 0, "js": 1},
+                {"key": "totalEvidence", "python": 3, "js": 2},
+                {"key": "complete", "python": False, "js": True},
+                {"key": "averageEvidence", "python": 3.0, "js": 2.0},
+                {"key": "ok", "python": False, "js": True},
+                {"key": "failureReasons", "python": ["1 term(s) are below 3 evidence hit(s)"], "js": []},
+                {
+                    "key": "familyGaps",
+                    "python": [{"family": "attack", "terms": 1, "weak": 1, "zero": 0, "evidence": 3, "coverageRatio": 0}],
+                    "js": [],
+                },
+            ],
+        )
+        self.assertEqual(result["warnings"], [])
+        self.assertEqual(result["python"]["coverage"]["totalEvidence"], 3)
+        self.assertEqual(result["js"]["coverage"]["totalEvidence"], 2)
 
     def test_rate_limiter_uses_injected_sleep_without_real_waiting(self):
         sleeps = []
