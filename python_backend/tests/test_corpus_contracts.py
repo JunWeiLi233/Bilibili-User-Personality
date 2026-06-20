@@ -6,6 +6,7 @@ import unittest
 from pathlib import Path
 
 from python_backend.cli import local_corpus_evidence as local_corpus_evidence_cli
+from python_backend.cli import direct_probe_corpus as direct_probe_corpus_cli
 from python_backend.cli import tieba_corpus as tieba_corpus_cli
 from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditPayloadContractComparator, CoverageAuditReport
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoveragePayloadContractComparator, CommentCoverageRunner as CommentCoveragePayloadRunner, CommentCoverageSummary
@@ -4726,6 +4727,29 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["corpus"]["runs"][-1]["query"], "\u65b0")
         self.assertEqual(result["corpus"]["runs"][-1]["commentsCollected"], 3)
         self.assertEqual(result["corpus"]["runs"][-1]["commentsAdded"], 1)
+
+    def test_direct_probe_corpus_cli_accepts_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "direct-probe-corpus.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "existing": {"version": 1, "comments": [], "runs": []},
+                        "comments": [{"message": "\u76f4\u63a5\u63a2\u6d4b\u8bc4\u8bba", "source": "fresh", "uid": "42"}],
+                        "run": {"at": "2026-06-18T02:00:00.000Z", "query": "\u76f4\u63a5"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                exit_code = direct_probe_corpus_cli.main(["--payload", str(payload_path)])
+
+        result = json.loads(output.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(result["corpus"]["comments"][0]["message"], "\u76f4\u63a5\u63a2\u6d4b\u8bc4\u8bba")
+        self.assertEqual(result["corpus"]["runs"][0]["commentsAdded"], 1)
 
     def test_direct_probe_corpus_payload_runner_lives_with_corpus_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
