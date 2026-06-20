@@ -24,6 +24,7 @@ from python_backend.cli import compare_contracts as compare_contracts_cli
 from python_backend.cli import corpus_shard_writer as corpus_shard_writer_cli
 from python_backend.cli import coverage_audit as coverage_audit_cli
 from python_backend.cli import coverage_audit_artifacts as coverage_audit_artifacts_cli
+from python_backend.cli import coverage_loop_plan as coverage_loop_plan_cli
 from python_backend.cli import coverage_progress as coverage_progress_cli
 from python_backend.cli import deepseek_analyze_cli_plan as deepseek_analyze_cli_plan_cli
 from python_backend.cli import deepseek_analysis_plan as deepseek_analysis_plan_cli
@@ -17798,6 +17799,32 @@ class CorpusContractTests(unittest.TestCase):
             )
 
             result = CoverageHarvestLoopPlanRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["initialStopReason"], "")
+        self.assertEqual([item["query"] for item in result["priorityQueries"]], ["doge hot", "doge comments", "tieba roast"])
+
+    def test_coverage_harvest_loop_plan_cli_runner_reads_json_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "env": {"BILIBILI_HARVEST_MAX_QUERIES": "3"},
+                        "audit": {
+                            "ok": False,
+                            "nextActions": [
+                                {"term": "doge", "family": "meme", "nextQuery": "doge hot", "suggestedQueries": ["doge comments"]},
+                                {"term": "tieba", "family": "platform", "nextQuery": "tieba roast"},
+                            ],
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = coverage_loop_plan_cli.CoverageHarvestLoopPlanCliRunner(["--payload", str(payload_path)]).run()
 
         self.assertTrue(result["ok"])
         self.assertEqual(result["initialStopReason"], "")
