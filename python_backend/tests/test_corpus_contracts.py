@@ -6678,6 +6678,22 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(loaded["videos"], [])
         self.assertEqual(loaded["runs"], [])
 
+    def test_history_tag_corpus_shard_writer_defaults_invalid_max_shard_bytes_like_js(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output_path = root / "history-tags.json"
+
+            HistoryTagCorpusShardWriter(output_path, max_shard_bytes="not-a-number").write(
+                tags=[{"name": "\u5386\u53f2"}],
+                videos=[],
+                runs=[],
+                manifest={"version": 1},
+            )
+            loaded = HistoryTagCorpusLoader(output_path).load()
+
+        self.assertEqual(loaded["shardMaxBytes"], 64 * 1024)
+        self.assertEqual(loaded["tagCount"], 1)
+
     def test_history_tag_corpus_shard_write_runner_reports_json_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -6740,6 +6756,28 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertTrue(comparison["ok"])
         self.assertEqual(comparison["mismatches"], [])
+
+    def test_history_tag_corpus_shard_write_runner_defaults_invalid_max_shard_bytes_like_js(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output_path = root / "history-tags.json"
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "outputPath": str(output_path),
+                        "maxShardBytes": "not-a-number",
+                        "tags": [{"name": "\u5386\u53f2"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            report = HistoryTagCorpusShardWriteRunner(payload_path).run()
+
+        self.assertEqual(report["ok"], True)
+        self.assertEqual(report["manifest"]["shardMaxBytes"], 64 * 1024)
+        self.assertEqual(report["manifest"]["tagCount"], 1)
 
     def test_history_tag_corpus_cli_writes_split_payload(self):
         with tempfile.TemporaryDirectory() as tmp:

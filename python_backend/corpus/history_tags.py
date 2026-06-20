@@ -394,9 +394,9 @@ class HistoryTagCorpusLoader:
 class HistoryTagCorpusShardWriter:
     """Write history-tag corpora into split tag, video, and run shard manifests."""
 
-    def __init__(self, path: str | Path, max_shard_bytes: int = 64 * 1024):
+    def __init__(self, path: str | Path, max_shard_bytes: Any = 64 * 1024):
         self.path = Path(path)
-        self.max_shard_bytes = max(1024, int(max_shard_bytes))
+        self.max_shard_bytes = max(1024, self._payload_max_shard_bytes(max_shard_bytes))
 
     def write(
         self,
@@ -433,6 +433,13 @@ class HistoryTagCorpusShardWriter:
     @staticmethod
     def _array_values(value: Any) -> list[Any]:
         return value if isinstance(value, list) else []
+
+    @staticmethod
+    def _payload_max_shard_bytes(value: Any) -> int:
+        try:
+            return int(value or 64 * 1024)
+        except (TypeError, ValueError):
+            return 64 * 1024
 
     def _tags_dir(self) -> Path:
         return self.path.with_suffix("").parent / f"{self.path.with_suffix('').name}.tags"
@@ -566,7 +573,10 @@ class HistoryTagCorpusShardWriteRunner:
         videos = payload.get("videos") if isinstance(payload.get("videos"), list) else []
         runs = payload.get("runs") if isinstance(payload.get("runs"), list) else []
         manifest = payload.get("manifest") if isinstance(payload.get("manifest"), dict) else {}
-        writer = HistoryTagCorpusShardWriter(output_path, max_shard_bytes=int(payload.get("maxShardBytes") or 64 * 1024))
+        writer = HistoryTagCorpusShardWriter(
+            output_path,
+            max_shard_bytes=HistoryTagCorpusShardWriter._payload_max_shard_bytes(payload.get("maxShardBytes")),
+        )
         writer.write(tags=tags, videos=videos, runs=runs, manifest=manifest)
         loaded = HistoryTagCorpusLoader(output_path).load()
         return {
