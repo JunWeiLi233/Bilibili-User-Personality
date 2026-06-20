@@ -7,6 +7,7 @@ from pathlib import Path
 
 from python_backend.cli import local_corpus_evidence as local_corpus_evidence_cli
 from python_backend.cli import local_corpus_flatten as local_corpus_flatten_cli
+from python_backend.cli import bilibili_parse as bilibili_parse_cli
 from python_backend.cli import direct_probe_corpus as direct_probe_corpus_cli
 from python_backend.cli import comment_coverage as comment_coverage_cli
 from python_backend.cli import compare_contracts as compare_contracts_cli
@@ -8970,6 +8971,27 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["mode"], "danmaku")
         self.assertEqual(result["comments"][0]["message"], "\u5f39\u5e55\u8bc4\u8bba")
         self.assertEqual(result["comments"][0]["rpid"], "danmaku-200-0")
+
+    def test_bilibili_parse_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "danmaku",
+                        "video": {"bvid": "BVcli", "oid": "100", "cid": "200", "title": "cli video"},
+                        "xml": '<i><d p="0,1,25,16777215,1710000001,0,42,0">\u5f39\u5e55\u8bc4\u8bba</d></i>',
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = bilibili_parse_cli.BilibiliParseCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "danmaku")
+        self.assertEqual(result["comments"][0]["message"], "\u5f39\u5e55\u8bc4\u8bba")
 
     def test_bilibili_parse_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
