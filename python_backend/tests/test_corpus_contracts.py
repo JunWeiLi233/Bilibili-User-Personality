@@ -38,6 +38,7 @@ from python_backend.cli import uid_discovery_plan as uid_discovery_plan_cli
 from python_backend.cli import uid_discovery_progress as uid_discovery_progress_cli
 from python_backend.cli import uid_fast_pipeline_plan as uid_fast_pipeline_plan_cli
 from python_backend.cli import uid_parallel_plan as uid_parallel_plan_cli
+from python_backend.cli import uid_pipeline_merge as uid_pipeline_merge_cli
 from python_backend.cli import uid_pipeline_launcher as uid_pipeline_launcher_cli
 from python_backend.cli import uid_pipeline_plan as uid_pipeline_plan_cli
 from python_backend.cli import uid_range_progress as uid_range_progress_cli
@@ -12617,6 +12618,34 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
         self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
+
+    def test_uid_pipeline_merge_cli_runner_reads_data_dir_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            (data_dir / "uid-pipeline-1-2.json").write_text(
+                json.dumps({"processed": {"1": "success", "2": "no_comments"}, "stats": {"success": 1, "noComments": 1}}),
+                encoding="utf-8",
+            )
+            (data_dir / "uid-pipeline-3-4.json").write_text(
+                json.dumps({"processed": {"3": "no_user"}, "stats": {"noUser": 1, "errors": 1}}),
+                encoding="utf-8",
+            )
+            (data_dir / "scraped-users-db.json").write_text(
+                json.dumps({"users": {"1": {"uid": "1"}, "3": {"uid": "3"}}}),
+                encoding="utf-8",
+            )
+
+            result = uid_pipeline_merge_cli.UidPipelineMergeCliRunner(
+                ["--data-dir", str(data_dir), "--total-start=1", "--total-end=4", "--workers=2", "--summary-only"]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertNotIn("processed", result)
+        self.assertEqual(result["range"], {"start": 1, "end": 4, "workers": 2, "chunkSize": 2})
+        self.assertEqual(result["stats"], {"success": 1, "noComments": 1, "noUser": 1, "trainError": 0, "blocked": 0, "errors": 1})
+        self.assertEqual(result["usersInDb"], 2)
 
     def test_uid_pipeline_merge_reporter_merges_worker_chunks_without_filesystem(self):
         reporter = UidPipelineMergeReporter(now=lambda: "2026-06-19T00:00:00.000Z")
