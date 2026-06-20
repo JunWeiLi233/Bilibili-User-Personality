@@ -6930,6 +6930,64 @@ class CorpusContractTests(unittest.TestCase):
             {"buvid3": "fresh-buvid", "b_lsid": "ABC_123"},
         )
 
+    def test_bilibili_crawler_helper_plans_fetch_timeout_contract(self):
+        self.assertEqual(
+            BilibiliCrawlerHelper().plan_fetch_timeout(
+                "https://api.bilibili.com/x/v2/reply?oid=123",
+                config={"requestTimeoutMs": 500},
+                has_abort_controller=True,
+                has_abort_signal_any=True,
+                caller_signal=True,
+                caller_aborted=False,
+            ),
+            {
+                "timeoutMs": 500,
+                "usesAbortController": True,
+                "forwardsCallerSignal": True,
+                "combinesSignals": True,
+                "timeoutError": "Bilibili request timed out after 500ms: https://api.bilibili.com/x/v2/reply?oid=123",
+            },
+        )
+        self.assertEqual(
+            BilibiliCrawlerHelper().plan_fetch_timeout(
+                "https://api.bilibili.com/x/v2/reply?oid=123",
+                config={"requestTimeoutMs": 0},
+                has_abort_controller=True,
+                caller_signal=True,
+            ),
+            {
+                "timeoutMs": 0,
+                "usesAbortController": False,
+                "forwardsCallerSignal": True,
+                "combinesSignals": False,
+                "timeoutError": "",
+            },
+        )
+
+    def test_bilibili_crawler_helper_builds_payload_fetch_timeout_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "timeout": {
+                    "url": "https://api.bilibili.com/x/web-interface/view?bvid=BV1",
+                    "config": {"requestTimeoutMs": 750},
+                    "hasAbortController": True,
+                    "hasAbortSignalAny": False,
+                    "callerSignal": True,
+                }
+            }
+        )
+
+        self.assertEqual(
+            result["requestTimeout"],
+            {
+                "timeoutMs": 750,
+                "usesAbortController": True,
+                "forwardsCallerSignal": True,
+                "combinesSignals": False,
+                "timeoutError": "Bilibili request timed out after 750ms: https://api.bilibili.com/x/web-interface/view?bvid=BV1",
+            },
+        )
+
     def test_bilibili_crawler_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -6989,6 +7047,7 @@ class CorpusContractTests(unittest.TestCase):
                 "requestSchedule": {"waitMs": 250},
                 "responseCache": {"hit": False},
                 "capturedCookies": {"buvid3": "fresh"},
+                "requestTimeout": {"timeoutMs": 750},
                 "dynamicRecords": {"objects": []},
                 "extra": "ignored",
             }
@@ -7006,6 +7065,7 @@ class CorpusContractTests(unittest.TestCase):
                 "requestSchedule": {"waitMs": 250},
                 "responseCache": {"hit": False},
                 "capturedCookies": {"buvid3": "fresh"},
+                "requestTimeout": {"timeoutMs": 750},
                 "dynamicRecords": {"objects": []},
             },
         )

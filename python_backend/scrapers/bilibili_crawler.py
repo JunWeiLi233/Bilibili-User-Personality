@@ -70,6 +70,7 @@ class BilibiliCrawlerSummary:
         "requestSchedule",
         "responseCache",
         "capturedCookies",
+        "requestTimeout",
     )
 
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -212,10 +213,41 @@ class BilibiliCrawlerHelper:
                 set_cookie.get("headers") if isinstance(set_cookie.get("headers"), list) else [],
                 cookie_jar=set_cookie.get("cookieJar") if isinstance(set_cookie.get("cookieJar"), dict) else {},
             )
+        if isinstance(payload.get("timeout"), dict):
+            timeout = payload.get("timeout") or {}
+            result["requestTimeout"] = self.plan_fetch_timeout(
+                timeout.get("url"),
+                config=timeout.get("config") if isinstance(timeout.get("config"), dict) else {},
+                has_abort_controller=bool(timeout.get("hasAbortController", True)),
+                has_abort_signal_any=bool(timeout.get("hasAbortSignalAny", False)),
+                caller_signal=bool(timeout.get("callerSignal", False)),
+                caller_aborted=bool(timeout.get("callerAborted", False)),
+            )
         return result
 
     def build_crawler_config(self, env: dict[str, Any] | None = None) -> dict[str, int | float]:
         return BilibiliCrawlerConfigBuilder().build(env)
+
+    def plan_fetch_timeout(
+        self,
+        url: Any,
+        config: dict[str, Any] | None = None,
+        has_abort_controller: bool = True,
+        has_abort_signal_any: bool = False,
+        caller_signal: bool = False,
+        caller_aborted: bool = False,
+    ) -> dict[str, Any]:
+        cfg = {**self.build_crawler_config({}), **(config if isinstance(config, dict) else {})}
+        timeout_ms = max(0, self._number(cfg.get("requestTimeoutMs"), 30000))
+        uses_abort_controller = bool(timeout_ms and has_abort_controller)
+        combines_signals = bool(uses_abort_controller and caller_signal and has_abort_signal_any)
+        return {
+            "timeoutMs": timeout_ms,
+            "usesAbortController": uses_abort_controller,
+            "forwardsCallerSignal": bool(caller_signal),
+            "combinesSignals": combines_signals,
+            "timeoutError": f"Bilibili request timed out after {timeout_ms}ms: {url}" if uses_abort_controller else "",
+        }
 
     def capture_set_cookies(
         self,
