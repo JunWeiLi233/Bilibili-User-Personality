@@ -3632,6 +3632,20 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(dictionary.entries[0]["evidenceSamples"], ["doge"])
         self.assertEqual(dictionary.entries[0]["evidenceSources"], [{"sample": "doge"}])
 
+    def test_dictionary_loader_ignores_non_object_split_file_maps(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "dict.json").write_text(
+                json.dumps({"version": 1, "storage": "split", "entryFiles": ["bad"], "evidenceFiles": ["bad"]}),
+                encoding="utf-8",
+            )
+
+            dictionary = DictionaryLoader(root / "dict.json").load()
+
+        self.assertEqual(dictionary.entries, [])
+        self.assertEqual(dictionary.manifest["storage"], "split")
+        self.assertEqual(dictionary.manifest["evidenceStorage"], None)
+
     def test_dictionary_loader_matches_js_family_bucket_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

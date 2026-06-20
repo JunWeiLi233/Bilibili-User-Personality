@@ -57,8 +57,10 @@ class DictionaryLoader:
             }
             return KeywordDictionary(manifest=normalized, entries=entries)
 
-        entries = self._hydrate_entry_files(manifest.get("entryFiles") or {})
-        evidence_by_term = self._hydrate_evidence_files(manifest.get("evidenceFiles") or {})
+        entry_files = self._dict_field(manifest, "entryFiles")
+        evidence_files = self._dict_field(manifest, "evidenceFiles")
+        entries = self._hydrate_entry_files(entry_files)
+        evidence_by_term = self._hydrate_evidence_files(evidence_files)
         merged_entries = []
         for entry in entries:
             term = str(entry.get("term") or "").strip()
@@ -69,7 +71,7 @@ class DictionaryLoader:
             "storage": "split",
             "shardSize": manifest.get("shardSize") or None,
             "shardMaxBytes": manifest.get("shardMaxBytes") or None,
-            "evidenceStorage": "split" if manifest.get("evidenceFiles") else None,
+            "evidenceStorage": "split" if evidence_files else None,
             "updatedAt": manifest.get("updatedAt") or None,
             "entries": merged_entries,
             "families": manifest.get("families") or {},
@@ -115,6 +117,11 @@ class DictionaryLoader:
     def _read_json(path: Path) -> dict[str, Any]:
         with path.open("r", encoding="utf-8-sig") as handle:
             return json.load(handle)
+
+    @staticmethod
+    def _dict_field(value: dict[str, Any], key: str) -> dict[str, Any]:
+        field = value.get(key) if isinstance(value, dict) else None
+        return field if isinstance(field, dict) else {}
 
     @staticmethod
     def _file_list(value: Any) -> list[str]:
