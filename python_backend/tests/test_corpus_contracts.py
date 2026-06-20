@@ -11210,6 +11210,36 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["neutral"], 1)
         self.assertEqual(result["dictionaryTerms"], 3)
 
+    def test_random_verifier_owns_report_contract_from_dictionary_entries(self):
+        result = RandomVerifier.from_dictionary_entries(
+            [
+                {
+                    "term": "\u61c2\u7684\u90fd\u61c2",
+                    "aliases": ["dddd"],
+                    "examples": ["\u5927\u5bb6\u90fd\u61c2"],
+                }
+            ]
+        ).report(
+            comments=[
+                {"message": "dddd"},
+                {"message": "\u5927\u5bb6\u90fd\u61c2"},
+                {"message": "ordinary"},
+            ],
+            corpus={"comments": 3, "runs": 2, "storage": "sharded"},
+            sample_size=3,
+            seed=1,
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["corpus"], {"comments": 3, "runs": 2, "storage": "sharded"})
+        self.assertEqual(result["dictionaryTerms"], 3)
+        self.assertEqual(result["sampleSize"], 3)
+        self.assertEqual(result["seed"], 1)
+        self.assertEqual(result["sampled"], 3)
+        self.assertEqual(result["keywordHits"], 2)
+        self.assertEqual(result["neutral"], 1)
+        self.assertEqual(result["uncovered"], 0)
+
     def test_random_verification_contract_comparator_reports_metric_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

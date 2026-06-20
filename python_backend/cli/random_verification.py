@@ -3,7 +3,6 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
@@ -24,42 +23,16 @@ class RandomVerificationRunner:
     def run(self) -> dict[str, Any]:
         corpus = CorpusLoader(self.corpus_path).load()
         dictionary = DictionaryLoader(self.dictionary_path).load()
-        terms = self._keyword_terms(dictionary.entries)
-        summary = RandomVerifier(terms).verify(corpus.comments, sample_size=self.sample_size, seed=self.seed)
-        payload = asdict(summary)
-        return {
-            "ok": True,
-            "corpus": {
+        return RandomVerifier.from_dictionary_entries(dictionary.entries).report(
+            corpus.comments,
+            corpus={
                 "comments": len(corpus.comments),
                 "runs": len(corpus.runs),
                 "storage": corpus.manifest.get("storage", "monolith"),
             },
-            "dictionaryTerms": len([term for term in terms if term]),
-            "sampleSize": self.sample_size,
-            "seed": self.seed,
-            "sampled": payload["sampled"],
-            "keywordHits": payload["keyword_hits"],
-            "neutral": payload["neutral"],
-            "uncovered": payload["uncovered"],
-            "samples": payload["samples"],
-        }
-
-    def _keyword_terms(self, entries: list[dict[str, Any]]) -> list[str]:
-        seen: set[str] = set()
-        terms: list[str] = []
-        for entry in entries:
-            values = [
-                entry.get("term"),
-                *(entry.get("aliases") if isinstance(entry.get("aliases"), list) else []),
-                *(entry.get("examples") if isinstance(entry.get("examples"), list) else []),
-            ]
-            for value in values:
-                term = str(value or "").strip()
-                if not term or term in seen:
-                    continue
-                seen.add(term)
-                terms.append(term)
-        return terms
+            sample_size=self.sample_size,
+            seed=self.seed,
+        )
 
 
 class RandomVerificationContractComparator:

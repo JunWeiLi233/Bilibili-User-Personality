@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import random
 import re
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from typing import Any
 
 from python_backend.analysis.comment_coverage import _clean_needle, _is_scrape_diagnostic
@@ -34,6 +34,28 @@ class RandomVerifier:
         self.keyword_terms = [term for term in keyword_terms if term]
         self._ascii_terms = {term: re.compile(rf"(?<![0-9a-z_]){re.escape(term.casefold())}(?![0-9a-z_])") for term in self.keyword_terms if term.isascii()}
 
+    @classmethod
+    def from_dictionary_entries(cls, entries: list[dict[str, Any]]) -> "RandomVerifier":
+        return cls(cls.keyword_terms_from_entries(entries))
+
+    @staticmethod
+    def keyword_terms_from_entries(entries: list[dict[str, Any]]) -> list[str]:
+        seen: set[str] = set()
+        terms: list[str] = []
+        for entry in entries:
+            values = [
+                entry.get("term"),
+                *(entry.get("aliases") if isinstance(entry.get("aliases"), list) else []),
+                *(entry.get("examples") if isinstance(entry.get("examples"), list) else []),
+            ]
+            for value in values:
+                term = str(value or "").strip()
+                if not term or term in seen:
+                    continue
+                seen.add(term)
+                terms.append(term)
+        return terms
+
     def verify(self, comments: list[dict[str, Any]], sample_size: int, seed: int) -> VerificationSummary:
         eligible = [comment for comment in comments if self._message(comment) and not _is_scrape_diagnostic(self._message(comment))]
         sample_count = min(max(0, sample_size), len(eligible))
@@ -47,6 +69,21 @@ class RandomVerifier:
             uncovered=0,
             samples=annotated,
         )
+
+    def report(self, comments: list[dict[str, Any]], corpus: dict[str, Any], sample_size: int, seed: int) -> dict[str, Any]:
+        summary = asdict(self.verify(comments, sample_size=sample_size, seed=seed))
+        return {
+            "ok": True,
+            "corpus": corpus,
+            "dictionaryTerms": len(self.keyword_terms),
+            "sampleSize": sample_size,
+            "seed": seed,
+            "sampled": summary["sampled"],
+            "keywordHits": summary["keyword_hits"],
+            "neutral": summary["neutral"],
+            "uncovered": summary["uncovered"],
+            "samples": summary["samples"],
+        }
 
     def _annotate(self, comment: dict[str, Any]) -> dict[str, Any]:
         message = self._message(comment)
