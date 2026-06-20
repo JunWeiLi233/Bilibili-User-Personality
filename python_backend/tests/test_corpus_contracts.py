@@ -78,7 +78,7 @@ from python_backend.cli.batch_scraper_launcher import BatchScraperLauncherContra
 from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContractComparator, RangeScraperLauncherPlanRunner
 from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContractComparator, FastPipelineLauncherPlanRunner
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusSummary, DirectProbePlanSummary
-from python_backend.corpus.history_tags import HistoryTagCorpusManager, HistoryTagCorpusSummary, HistoryTagScrapePlanner, HistoryTagScrapePlanSummary
+from python_backend.corpus.history_tags import HistoryTagCorpusContractComparator as HistoryTagCorpusPayloadComparator, HistoryTagCorpusManager, HistoryTagCorpusSummary, HistoryTagScrapePlanner, HistoryTagScrapePlanContractComparator as HistoryTagScrapePlanPayloadComparator, HistoryTagScrapePlanSummary
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
 from python_backend.corpus.local import LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidenceSummary
 from python_backend.corpus.local import LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenSummary, LocalCorpusFlattener
@@ -4128,6 +4128,23 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_history_tag_corpus_payload_comparator_owns_merge_mismatch_contract(self):
+        result = HistoryTagCorpusPayloadComparator().compare(
+            {"ok": True, "corpus": {"videos": [{"bvid": "BV1"}]}, "tags": 1, "videos": 1, "runs": 1, "extra": "ignored"},
+            {"ok": True, "corpus": {"videos": []}, "tags": 1, "videos": 0, "runs": 1},
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "corpus", "python": {"videos": [{"bvid": "BV1"}]}, "js": {"videos": []}},
+                {"key": "videos", "python": 1, "js": 0},
+            ],
+        )
+        self.assertEqual(result["python"], {"corpus": {"videos": [{"bvid": "BV1"}]}, "tags": 1, "videos": 1, "runs": 1})
+        self.assertEqual(result["js"], {"corpus": {"videos": []}, "tags": 1, "videos": 0, "runs": 1})
+
     def test_history_tag_scrape_planner_matches_js_options_and_request_contract(self):
         plan = HistoryTagScrapePlanner(project_dir="D:/repo").build_plan(
             argv=[
@@ -4240,6 +4257,23 @@ class CorpusContractTests(unittest.TestCase):
                 "summary": {"requests": 1},
             },
         )
+
+    def test_history_tag_scrape_plan_payload_comparator_owns_request_mismatch_contract(self):
+        result = HistoryTagScrapePlanPayloadComparator().compare(
+            {"ok": True, "outputPath": "history.json", "pages": 1, "pageSize": 20, "requests": [{"seed": "history"}], "extra": "ignored"},
+            {"ok": True, "outputPath": "history.json", "pages": 1, "pageSize": 10, "requests": []},
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "pageSize", "python": 20, "js": 10},
+                {"key": "requests", "python": [{"seed": "history"}], "js": []},
+            ],
+        )
+        self.assertEqual(result["python"], {"outputPath": "history.json", "pages": 1, "pageSize": 20, "requests": [{"seed": "history"}]})
+        self.assertEqual(result["js"], {"outputPath": "history.json", "pages": 1, "pageSize": 10, "requests": []})
 
     def test_video_comment_filter_matches_needles_inside_noisy_text(self):
         comment_filter = VideoCommentFilter()
