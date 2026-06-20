@@ -9,6 +9,7 @@ from python_backend.cli import local_corpus_evidence as local_corpus_evidence_cl
 from python_backend.cli import local_corpus_flatten as local_corpus_flatten_cli
 from python_backend.cli import direct_probe_corpus as direct_probe_corpus_cli
 from python_backend.cli import comment_coverage as comment_coverage_cli
+from python_backend.cli import coverage_audit as coverage_audit_cli
 from python_backend.cli import deepseek_analysis_plan as deepseek_analysis_plan_cli
 from python_backend.cli import huggingface_corpus as huggingface_corpus_cli
 from python_backend.cli import keyword_evidence as keyword_evidence_cli
@@ -16061,6 +16062,51 @@ class CorpusContractTests(unittest.TestCase):
 
             result = AuditContractComparator(dictionary_path, js_audit_path).compare()
 
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["python"]["coverage"]["weakTerms"], 1)
+
+    def test_coverage_audit_cli_main_accepts_argv_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            js_audit_path = root / "js-audit.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {"term": "covered", "family": "attack", "evidenceCount": 3},
+                            {"term": "weak", "family": "attack", "evidenceCount": 1},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_audit_path.write_text(
+                json.dumps(
+                    {
+                        "targetEvidence": 3,
+                        "coverage": {
+                            "terms": 2,
+                            "totalEvidence": 4,
+                            "weakTerms": 1,
+                            "zeroEvidenceTerms": 0,
+                            "evidenceDeficit": 2,
+                            "coverageRatio": 0.5,
+                            "sourcedEvidenceTerms": 0,
+                            "unsourcedEvidenceTerms": 2,
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                exit_code = coverage_audit_cli.main(["--dictionary", str(dictionary_path), "--js-audit", str(js_audit_path)])
+
+        result = json.loads(output.getvalue())
+        self.assertEqual(exit_code, 0)
         self.assertTrue(result["ok"])
         self.assertEqual(result["mismatches"], [])
         self.assertEqual(result["python"]["coverage"]["weakTerms"], 1)
