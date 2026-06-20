@@ -5,6 +5,8 @@ import re
 from pathlib import Path
 from typing import Any
 
+from python_backend.corpus.dictionary import DictionaryLoader
+
 
 def _clean_text(value: Any) -> str:
     return re.sub(r"\s+", " ", str(value or "")).strip()
@@ -123,8 +125,9 @@ class KeywordEvidenceMatcher:
         uid = payload.get("uid") or ""
         mode = str(payload.get("mode") or "entries").strip().lower()
         if mode == "dictionary":
+            dictionary = DictionaryLoader.load_from_payload(self._dictionary_payload(payload))
             entries = self.find_dictionary_entries_with_text_evidence(
-                payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else {},
+                {**dictionary.manifest, "entries": dictionary.entries},
                 text,
                 source=source,
                 uid=uid,
@@ -139,6 +142,11 @@ class KeywordEvidenceMatcher:
             )
             mode = "entries"
         return {"ok": True, "mode": mode, "count": len(entries), "entries": entries}
+
+    def _dictionary_payload(self, payload: dict[str, Any]) -> dict[str, Any]:
+        if isinstance(payload.get("dictionary"), dict) or payload.get("dictionaryPath") or payload.get("path"):
+            return payload
+        return {"dictionary": {"entries": []}}
 
     def evidence_needles_for_term(self, term: Any) -> list[str]:
         clean = _clean_keyword_term(term)

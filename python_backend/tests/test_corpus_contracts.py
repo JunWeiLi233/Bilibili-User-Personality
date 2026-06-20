@@ -1858,6 +1858,46 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_keyword_evidence_payload_runner_uses_dictionary_loader_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            payload_path = root / "keyword-evidence.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {
+                                "term": "\u67e5\u67e5\u8d44\u6599",
+                                "family": "evidence",
+                                "meaning": "\u7d22\u8981\u8bc1\u636e",
+                            }
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "dictionary",
+                        "dictionaryPath": str(dictionary_path),
+                        "text": "\u4f60\u5148\u67e5\u67e5\u8d44\u6599\u518d\u8bf4",
+                        "source": "local",
+                        "uid": "BVkeyword-path",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = KeywordEvidencePayloadRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "dictionary")
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["entries"][0]["term"], "\u67e5\u67e5\u8d44\u6599")
+        self.assertEqual(result["entries"][0]["evidenceSources"][0]["uid"], "BVkeyword-path")
+
     def test_keyword_evidence_contract_comparator_reports_entry_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
