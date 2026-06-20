@@ -72,6 +72,7 @@ class BilibiliCrawlerSummary:
         "publicReplies",
         "uniqueReplies",
         "uidResult",
+        "uidPlan",
         "danmaku",
         "dynamicRecords",
         "crawlerConfig",
@@ -200,6 +201,8 @@ class BilibiliCrawlerHelper:
                 comments=uid_result.get("comments") if isinstance(uid_result.get("comments"), list) else [],
                 warnings=uid_result.get("warnings") if isinstance(uid_result.get("warnings"), list) else [],
             )
+        if isinstance(payload.get("uidPlan"), dict):
+            result["uidPlan"] = self.plan_uid_analysis(payload.get("uidPlan"))
         if "danmakuXml" in payload:
             result["danmaku"] = self.parse_danmaku_xml(
                 payload.get("danmakuXml"),
@@ -910,6 +913,28 @@ class BilibiliCrawlerHelper:
             "comments": unique_comments,
             "statements": [*unique_posts, *unique_comments],
             "warnings": warning_list,
+        }
+
+    def plan_uid_analysis(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        uid = str(payload.get("uid") or "").strip()
+        if not re.fullmatch(r"\d+", uid):
+            return {"ok": False, "error": "UID must be a numeric Bilibili mid."}
+        object_limit_raw = payload.get("objectLimit") or payload.get("videoLimit") or 8
+        pages_raw = payload.get("pagesPerObject") or payload.get("pagesPerVideo") or 2
+        object_limit = max(1, min(self._number(object_limit_raw, 8), 12))
+        dynamic_limit = max(0, min(self._number(payload.get("dynamicLimit", 8), 8), 12))
+        pages_per_object = max(1, min(self._number(pages_raw, 2), 5))
+        bvid_pool = self.parse_bvid_pool(payload.get("bvidPool", ""))
+        return {
+            "ok": True,
+            "uid": uid,
+            "objectLimit": object_limit,
+            "dynamicLimit": dynamic_limit,
+            "pagesPerObject": pages_per_object,
+            "bvidPool": bvid_pool,
+            "objectSliceLimit": object_limit + len(bvid_pool),
+            "defaultUser": {"mid": uid, "name": f"UID {uid}", "sign": ""},
         }
 
     def dedupe_public_objects(self, objects: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:

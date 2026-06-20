@@ -6960,6 +6960,53 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["uidResult"]["uname"], "Profile Name")
         self.assertEqual([item["message"] for item in result["uidResult"]["statements"]], ["post", "comment"])
 
+    def test_bilibili_crawler_helper_plans_uid_analysis_contract(self):
+        helper = BilibiliCrawlerHelper()
+
+        self.assertEqual(
+            helper.plan_uid_analysis(
+                {
+                    "uid": " 2333 ",
+                    "objectLimit": 99,
+                    "dynamicLimit": -2,
+                    "pagesPerObject": 9,
+                    "bvidPool": "BV19yGa61Ee6, BV1xx411c7mD",
+                }
+            ),
+            {
+                "ok": True,
+                "uid": "2333",
+                "objectLimit": 12,
+                "dynamicLimit": 0,
+                "pagesPerObject": 5,
+                "bvidPool": ["BV19yGa61Ee6", "BV1xx411c7mD"],
+                "objectSliceLimit": 14,
+                "defaultUser": {"mid": "2333", "name": "UID 2333", "sign": ""},
+            },
+        )
+        self.assertEqual(
+            helper.plan_uid_analysis({"uid": "not-a-uid"}),
+            {"ok": False, "error": "UID must be a numeric Bilibili mid."},
+        )
+
+    def test_bilibili_crawler_helper_builds_payload_uid_analysis_plan_contract(self):
+        result = BilibiliCrawlerHelper().run_from_payload(
+            {
+                "uidPlan": {
+                    "uid": "2333",
+                    "videoLimit": 4,
+                    "dynamicLimit": 15,
+                    "pagesPerVideo": 0,
+                    "bvidPool": "BV19yGa61Ee6",
+                }
+            }
+        )
+
+        self.assertEqual(result["uidPlan"]["objectLimit"], 4)
+        self.assertEqual(result["uidPlan"]["dynamicLimit"], 12)
+        self.assertEqual(result["uidPlan"]["pagesPerObject"], 2)
+        self.assertEqual(result["uidPlan"]["objectSliceLimit"], 5)
+
     def test_bilibili_crawler_helper_plans_request_schedule_contract(self):
         self.assertEqual(
             BilibiliCrawlerHelper().plan_request_schedule(
@@ -7724,6 +7771,7 @@ class CorpusContractTests(unittest.TestCase):
                 "publicReplies": [{"message": "root message"}],
                 "uniqueReplies": [{"rpid": "1"}],
                 "uidResult": {"uid": "2333"},
+                "uidPlan": {"uid": "2333"},
                 "dynamicRecords": {"objects": []},
                 "extra": "ignored",
             }
@@ -7754,6 +7802,7 @@ class CorpusContractTests(unittest.TestCase):
                 "publicReplies": [{"message": "root message"}],
                 "uniqueReplies": [{"rpid": "1"}],
                 "uidResult": {"uid": "2333"},
+                "uidPlan": {"uid": "2333"},
                 "dynamicRecords": {"objects": []},
             },
         )
