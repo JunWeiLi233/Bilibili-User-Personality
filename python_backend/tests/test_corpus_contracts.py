@@ -6,6 +6,7 @@ import unittest
 from pathlib import Path
 
 from python_backend.cli import local_corpus_evidence as local_corpus_evidence_cli
+from python_backend.cli import local_corpus_flatten as local_corpus_flatten_cli
 from python_backend.cli import direct_probe_corpus as direct_probe_corpus_cli
 from python_backend.cli import comment_coverage as comment_coverage_cli
 from python_backend.cli import tieba_corpus as tieba_corpus_cli
@@ -3607,6 +3608,24 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["comments"][0]["uid"], "BVdomain")
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["count", "comments"])
+
+    def test_local_corpus_flatten_cli_accepts_payload_alias(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "local.json"
+            payload_path.write_text(
+                json.dumps({"_uidComments": {"42": [{"message": "\u672c\u5730\u8bed\u6599\u8bc4\u8bba", "uname": "tester", "bvid": "BVflat"}]}}),
+                encoding="utf-8",
+            )
+
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                exit_code = local_corpus_flatten_cli.main(["--payload", str(payload_path)])
+
+        result = json.loads(output.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["comments"][0]["uid"], "BVflat")
 
     def test_local_corpus_flatten_summary_extracts_comparator_contract(self):
         summary = LocalCorpusFlattenSummary().summarize(
