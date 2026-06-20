@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import json
 import math
 import re
+from pathlib import Path
 from typing import Any
 
 MIN_CHUNK_LENGTH = 8
@@ -37,6 +39,45 @@ class SemanticMatcherContractComparator:
             "python": self.summary.summarize(python_result),
             "js": self.summary.summarize(js_result),
         }
+
+
+class SemanticMatcherRunner:
+    """Run deterministic semantic matcher primitives from a JSON payload."""
+
+    def __init__(self, payload_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.matcher = SemanticMatcherHelper()
+
+    def run(self) -> dict[str, Any]:
+        payload = self._read_payload()
+        return self.matcher.run_from_payload(payload)
+
+    def _read_payload(self) -> dict[str, Any]:
+        with self.payload_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
+
+
+class SemanticMatcherPayloadContractComparator:
+    """Compare Python semantic matcher output against saved JS-compatible JSON."""
+
+    def __init__(self, payload_path: str | Path, js_report_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.js_report_path = Path(js_report_path)
+        self.summary = SemanticMatcherSummary()
+        self.comparator = SemanticMatcherContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = SemanticMatcherRunner(self.payload_path).run()
+        js_result = self._read_js_report()
+        return self.comparator.compare(python_result, js_result)
+
+    def _read_js_report(self) -> dict[str, Any]:
+        if not self.js_report_path.exists():
+            return {}
+        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+        return payload if isinstance(payload, dict) else {}
 
 
 class SemanticMatcherHelper:
