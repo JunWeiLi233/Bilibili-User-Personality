@@ -13343,6 +13343,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["stats"], {"success": 2, "noText": 1, "errors": 4})
         self.assertEqual(result["userDb"], {"users": 3, "assignedUsersInDb": 1})
 
+    def test_uid_parallel_plan_runner_defaults_non_object_payload_root(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "uid-parallel-plan.json"
+            payload_path.write_text(json.dumps(["not", "an", "object"]), encoding="utf-8")
+
+            result = UidParallelPlanRunner(payload_path).run()
+
+        self.assertEqual(result, UidParallelAnalyzerPlanner.build_plan_from_payload({}))
+
     def test_uid_parallel_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
