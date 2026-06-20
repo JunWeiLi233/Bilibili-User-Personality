@@ -2750,6 +2750,17 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(entries[0]["evidenceSources"][0]["uid"], "BV1")
         self.assertEqual(entries[1]["evidence"], ["\u8fd9\u5403\u76f8\u96be\u770b\u5230\u79bb\u8c31"])
 
+    def test_local_corpus_evidence_finder_owns_result_contract(self):
+        result = LocalCorpusEvidenceFinder().find_entries_result(
+            {"entries": [{"term": "\u61c2\u7684\u90fd\u61c2", "family": "evasion", "meaning": "\u6697\u793a", "evidenceCount": 0}]},
+            [{"message": "\u8fd9\u4e8b\u61c2\u7684\u90fd\u61c2", "source": "local", "uid": "42"}],
+            {"targetEvidence": 3, "maxSamplesPerTerm": 1},
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["entries"][0]["term"], "\u61c2\u7684\u90fd\u61c2")
+
     def test_local_corpus_evidence_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

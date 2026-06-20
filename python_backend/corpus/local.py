@@ -374,6 +374,15 @@ def _local_evidence_sample_score(match: dict[str, Any], entry: dict[str, Any]) -
 class LocalCorpusEvidenceFinder:
     """Find merge-ready dictionary evidence from already-flattened local corpora."""
 
+    def find_entries_result(
+        self,
+        dictionary: dict[str, Any] | None,
+        comments: list[Any] | None,
+        options: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        entries = self.find_entries(dictionary, comments, options)
+        return {"ok": True, "count": len(entries), "entries": entries}
+
     def build_weak_term_set(self, dictionary: dict[str, Any] | None, options: dict[str, Any] | None = None) -> dict[str, dict[str, Any]]:
         options = options or {}
         target_evidence = max(1, int(options.get("targetEvidence") or 3))

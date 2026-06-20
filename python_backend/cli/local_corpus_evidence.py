@@ -36,7 +36,7 @@ class LocalCorpusEvidenceRunner:
         comments = comments_payload.get("comments") if isinstance(comments_payload, dict) else comments_payload
         if not isinstance(comments, list) or any(not isinstance(comment, dict) or "message" not in comment for comment in comments):
             comments = self.flattener.flatten(comments_payload)
-        entries = self.finder.find_entries(
+        return self.finder.find_entries_result(
             dictionary,
             comments if isinstance(comments, list) else [],
             {
@@ -46,7 +46,6 @@ class LocalCorpusEvidenceRunner:
                 "targetTerms": self.target_terms,
             },
         )
-        return {"ok": True, "count": len(entries), "entries": entries}
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
         if not path.exists():
