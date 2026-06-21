@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 
-from python_backend.corpus.tieba import TiebaCorpusJsonPayloadContractComparator, TiebaCorpusPayloadRunner, TiebaCorpusUpdateContractComparator, TiebaCorpusUpdateRunner
+from python_backend.corpus.tieba import TiebaCorpusJsonPayloadContractComparator, TiebaCorpusPayloadRunner, TiebaCorpusRequest, TiebaCorpusUpdateContractComparator, TiebaCorpusUpdateRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -25,22 +25,15 @@ class TiebaCorpusCliRunner:
     def run(self) -> dict:
         parser = build_parser()
         args = parser.parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.payload and args.compare_js_report:
-            return TiebaCorpusJsonPayloadContractComparator(args.payload, args.compare_js_report).compare()
-        if args.payload:
-            return TiebaCorpusPayloadRunner(args.payload).run()
-        if args.compare_js_report:
-            if not args.run:
-                parser.error("--run is required unless --payload is provided")
-            return TiebaCorpusUpdateContractComparator(
-                args.existing,
-                args.run,
-                args.compare_js_report,
-                generated_at=args.generated_at or None,
-            ).compare()
-        if not args.run:
+        if not args.payload and not args.run:
             parser.error("--run is required unless --payload is provided")
-        return TiebaCorpusUpdateRunner(args.existing, args.run, generated_at=args.generated_at or None).run()
+        return TiebaCorpusRequest(
+            existing_path=args.existing,
+            run_path=args.run or None,
+            payload_path=args.payload or None,
+            compare_js_report_path=args.compare_js_report or None,
+            generated_at=args.generated_at or None,
+        ).run()
 
 
 def main(argv: list[str] | None = None) -> int:

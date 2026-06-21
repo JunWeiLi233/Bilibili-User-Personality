@@ -190,3 +190,41 @@ class TiebaCorpusJsonPayloadContractComparator:
         with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
+
+
+class TiebaCorpusRequest:
+    """Corpus-layer request object for Tieba corpus update JSON contract modes."""
+
+    def __init__(
+        self,
+        existing_path: str | Path | None = None,
+        run_path: str | Path | None = None,
+        *,
+        payload_path: str | Path | None = None,
+        compare_js_report_path: str | Path | None = None,
+        generated_at: str | None = None,
+    ):
+        self.existing_path = Path(existing_path) if existing_path else None
+        self.run_path = Path(run_path) if run_path else None
+        self.payload_path = Path(payload_path) if payload_path else None
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+        self.generated_at = generated_at
+
+    def run(self) -> dict[str, Any]:
+        if self.payload_path:
+            if self.compare_js_report_path:
+                return TiebaCorpusJsonPayloadContractComparator(
+                    self.payload_path,
+                    self.compare_js_report_path,
+                ).compare()
+            return TiebaCorpusPayloadRunner(self.payload_path).run()
+        if self.existing_path is None or self.run_path is None:
+            raise ValueError("existing_path and run_path are required when payload_path is not provided")
+        if self.compare_js_report_path:
+            return TiebaCorpusUpdateContractComparator(
+                self.existing_path,
+                self.run_path,
+                self.compare_js_report_path,
+                generated_at=self.generated_at,
+            ).compare()
+        return TiebaCorpusUpdateRunner(self.existing_path, self.run_path, generated_at=self.generated_at).run()
