@@ -275,6 +275,22 @@ class LocalCorpusFlattenPayloadContractComparator:
         return payload if isinstance(payload, dict) else {}
 
 
+class LocalCorpusFlattenRequest:
+    """Corpus-layer request object for local corpus flatten JSON contract modes."""
+
+    def __init__(self, input_path: str | Path, compare_js_report_path: str | Path | None = None):
+        self.input_path = Path(input_path)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_report_path:
+            return LocalCorpusFlattenPayloadContractComparator(
+                self.input_path,
+                self.compare_js_report_path,
+            ).compare()
+        return LocalCorpusFlattenRunner(self.input_path).run()
+
+
 def _evidence_count(entry: dict[str, Any]) -> int:
     count = entry.get("evidenceCount")
     if count is None:

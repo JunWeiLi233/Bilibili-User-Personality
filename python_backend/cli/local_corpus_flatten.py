@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 
-from python_backend.corpus.local import LocalCorpusFlattenPayloadContractComparator as LocalCorpusFlattenContractComparator, LocalCorpusFlattenRunner
+from python_backend.corpus.local import LocalCorpusFlattenPayloadContractComparator as LocalCorpusFlattenContractComparator, LocalCorpusFlattenRequest, LocalCorpusFlattenRunner
 
 
 class LocalCorpusFlattenCliRunner:
@@ -15,9 +15,10 @@ class LocalCorpusFlattenCliRunner:
     def run(self) -> dict:
         args = parse_args(self.argv)
         input_path = args.payload or args.input
-        if args.compare_js_report:
-            return LocalCorpusFlattenContractComparator(input_path, args.compare_js_report).compare()
-        return LocalCorpusFlattenRunner(input_path).run()
+        return LocalCorpusFlattenRequest(
+            input_path=input_path,
+            compare_js_report_path=args.compare_js_report or None,
+        ).run()
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
