@@ -73,7 +73,7 @@ from python_backend.analysis.coverage_progress import CoverageProgressContractCo
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReportContractComparator as VideoKeywordDiscoveryReportPayloadComparator, VideoKeywordDiscoveryReportPayloadContractComparator, VideoKeywordDiscoveryReporter, VideoKeywordDiscoveryReportRunner as VideoKeywordDiscoveryReportPayloadRunner, VideoKeywordDiscoveryReportSummary
 from python_backend.analysis import harvest_options as harvest_options_module
 from python_backend.analysis import verification as verification_module
-from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, HarvestOptionsContractComparator as HarvestOptionsPayloadComparator, HarvestOptionsPayloadContractComparator, HarvestOptionsRunner as HarvestOptionsPayloadRunner, HarvestOptionsSummary, VideoKeywordDiscoveryOptionsBuilder
+from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, HarvestOptionsContractComparator as HarvestOptionsPayloadComparator, HarvestOptionsPayloadContractComparator, HarvestOptionsRequest, HarvestOptionsRunner as HarvestOptionsPayloadRunner, HarvestOptionsSummary, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, KeywordHarvestPlanContractComparator as KeywordHarvestPlanPayloadComparator, KeywordHarvestPlanPayloadContractComparator, KeywordHarvestPlanRunner as KeywordHarvestPayloadPlanRunner, KeywordHarvestPlanSummary
 from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateContractComparator as HarvestStatePayloadComparator, HarvestStatePayloadContractComparator, HarvestStateFinalizer, HarvestStatePayloadProcessor, HarvestStateRunner as HarvestStatePayloadRunner, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis import near_target
@@ -18372,6 +18372,31 @@ class CorpusContractTests(unittest.TestCase):
                 }
             ],
         )
+
+    def test_harvest_options_request_compares_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "harvest-options.json"
+            js_report_path = root / "js-harvest-options.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "coverage-runtime",
+                        "env": {"BILIBILI_COVERAGE_AUDIT_REQUIRE_COMMENTS": "1"},
+                        "argv": ["--target-evidence", "2", "--max-actions=5"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"mode": "coverage-runtime", "options": {"targetEvidence": 3, "maxActions": 5}}),
+                encoding="utf-8",
+            )
+
+            result = HarvestOptionsRequest(payload_path=payload_path, compare_js_report_path=js_report_path).run()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual([item["key"] for item in result["mismatches"]], ["options"])
 
     def test_harvest_options_contract_comparator_reports_option_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
