@@ -6,6 +6,7 @@ import sys
 
 from python_backend.analysis.coverage_loop import (
     CoverageHarvestLoopPlanPayloadContractComparator as CoverageHarvestLoopPlanContractComparator,
+    CoverageHarvestLoopPlanRequest,
     CoverageHarvestLoopPlanRunner,
 )
 
@@ -23,9 +24,10 @@ class CoverageHarvestLoopPlanCliRunner:
     def run(self) -> dict:
         argv = [str(item) for item in self.argv] if self.argv is not None else None
         args = build_parser().parse_args(argv)
-        if args.compare_js_report:
-            return CoverageHarvestLoopPlanContractComparator(args.payload, args.compare_js_report).compare()
-        return CoverageHarvestLoopPlanRunner(args.payload).run()
+        return CoverageHarvestLoopPlanRequest(
+            payload_path=args.payload,
+            compare_js_report_path=args.compare_js_report or None,
+        ).run()
 
 
 def main(argv: list[str] | None = None) -> int:
