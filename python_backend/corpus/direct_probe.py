@@ -288,6 +288,44 @@ class DirectProbeCorpusJsonPayloadContractComparator:
         return payload if isinstance(payload, dict) else {}
 
 
+class DirectProbeCorpusRequest:
+    """Corpus-layer request object for direct Bilibili probe corpus JSON contract modes."""
+
+    def __init__(
+        self,
+        existing_path: str | Path | None = None,
+        comments_path: str | Path | None = None,
+        run_path: str | Path | None = None,
+        *,
+        payload_path: str | Path | None = None,
+        compare_js_report_path: str | Path | None = None,
+    ):
+        self.existing_path = Path(existing_path) if existing_path else None
+        self.comments_path = Path(comments_path) if comments_path else None
+        self.run_path = Path(run_path) if run_path else None
+        self.payload_path = Path(payload_path) if payload_path else None
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+
+    def run(self) -> dict[str, Any]:
+        if self.payload_path:
+            if self.compare_js_report_path:
+                return DirectProbeCorpusJsonPayloadContractComparator(
+                    self.payload_path,
+                    self.compare_js_report_path,
+                ).compare()
+            return DirectProbeCorpusPayloadRunner(self.payload_path).run()
+        if self.existing_path is None or self.comments_path is None or self.run_path is None:
+            raise ValueError("existing_path, comments_path, and run_path are required when payload_path is not provided")
+        if self.compare_js_report_path:
+            return DirectProbeCorpusPayloadContractComparator(
+                self.existing_path,
+                self.comments_path,
+                self.run_path,
+                self.compare_js_report_path,
+            ).compare()
+        return DirectProbeCorpusRunner(self.existing_path, self.comments_path, self.run_path).run()
+
+
 class DirectProbePlanSummary:
     """Extract comparator-friendly summaries from direct Bilibili probe plans."""
 

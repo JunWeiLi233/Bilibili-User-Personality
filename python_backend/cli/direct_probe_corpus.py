@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.corpus.direct_probe import DirectProbeCorpusJsonPayloadContractComparator, DirectProbeCorpusPayloadContractComparator as DirectProbeCorpusContractComparator, DirectProbeCorpusPayloadRunner, DirectProbeCorpusRunner
+from python_backend.corpus.direct_probe import DirectProbeCorpusJsonPayloadContractComparator, DirectProbeCorpusPayloadContractComparator as DirectProbeCorpusContractComparator, DirectProbeCorpusPayloadRunner, DirectProbeCorpusRequest, DirectProbeCorpusRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -26,17 +26,15 @@ class DirectProbeCorpusCliRunner:
     def run(self) -> dict:
         parser = build_parser()
         args = parser.parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.payload and args.compare_js_report:
-            return DirectProbeCorpusJsonPayloadContractComparator(args.payload, args.compare_js_report).compare()
-        if args.payload:
-            return DirectProbeCorpusPayloadRunner(args.payload).run()
-        if args.compare_js_report:
-            if not args.comments or not args.run:
-                parser.error("--comments and --run are required unless --payload is provided")
-            return DirectProbeCorpusContractComparator(args.existing, args.comments, args.run, args.compare_js_report).compare()
-        if not args.comments or not args.run:
+        if not args.payload and (not args.comments or not args.run):
             parser.error("--comments and --run are required unless --payload is provided")
-        return DirectProbeCorpusRunner(args.existing, args.comments, args.run).run()
+        return DirectProbeCorpusRequest(
+            existing_path=args.existing,
+            comments_path=args.comments,
+            run_path=args.run,
+            payload_path=args.payload,
+            compare_js_report_path=args.compare_js_report,
+        ).run()
 
 
 def main(argv: list[str] | None = None) -> int:
