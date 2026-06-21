@@ -6,6 +6,7 @@ import sys
 
 from python_backend.analysis.coverage_progress import (
     CoverageProgressPayloadContractComparator as CoverageProgressContractComparator,
+    CoverageProgressRequest,
     CoverageProgressRunner,
 )
 
@@ -24,9 +25,10 @@ class CoverageProgressCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.compare_js_report:
-            return CoverageProgressContractComparator(args.payload, args.compare_js_report).compare()
-        return CoverageProgressRunner(args.payload).run()
+        return CoverageProgressRequest(
+            payload_path=args.payload,
+            compare_js_report_path=args.compare_js_report or None,
+        ).run()
 
 
 def main(argv: list[str] | None = None) -> int:
