@@ -749,3 +749,57 @@ class LocalCorpusEvidencePayloadContractComparator:
         with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
+
+
+class LocalCorpusEvidenceRequest:
+    """Corpus-layer request object for local corpus evidence JSON contract modes."""
+
+    def __init__(
+        self,
+        dictionary_path: str | Path | None = None,
+        comments_path: str | Path | None = None,
+        *,
+        payload_path: str | Path | None = None,
+        compare_js_report_path: str | Path | None = None,
+        target_evidence: int = 3,
+        max_samples_per_term: int = 3,
+        require_comment_backed_evidence: bool = False,
+        target_terms: list[str] | None = None,
+    ):
+        self.dictionary_path = Path(dictionary_path) if dictionary_path else None
+        self.comments_path = Path(comments_path) if comments_path else None
+        self.payload_path = Path(payload_path) if payload_path else None
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+        self.target_evidence = target_evidence
+        self.max_samples_per_term = max_samples_per_term
+        self.require_comment_backed_evidence = require_comment_backed_evidence
+        self.target_terms = target_terms or []
+
+    def run(self) -> dict[str, Any]:
+        if self.payload_path:
+            if self.compare_js_report_path:
+                return LocalCorpusEvidenceJsonPayloadContractComparator(
+                    self.payload_path,
+                    self.compare_js_report_path,
+                ).compare()
+            return LocalCorpusEvidenceJsonPayloadRunner(self.payload_path).run()
+        if self.dictionary_path is None or self.comments_path is None:
+            raise ValueError("dictionary_path and comments_path are required when payload_path is not provided")
+        if self.compare_js_report_path:
+            return LocalCorpusEvidencePayloadContractComparator(
+                self.dictionary_path,
+                self.comments_path,
+                self.compare_js_report_path,
+                target_evidence=self.target_evidence,
+                max_samples_per_term=self.max_samples_per_term,
+                require_comment_backed_evidence=self.require_comment_backed_evidence,
+                target_terms=self.target_terms,
+            ).compare()
+        return LocalCorpusEvidenceRunner(
+            self.dictionary_path,
+            self.comments_path,
+            target_evidence=self.target_evidence,
+            max_samples_per_term=self.max_samples_per_term,
+            require_comment_backed_evidence=self.require_comment_backed_evidence,
+            target_terms=self.target_terms,
+        ).run()

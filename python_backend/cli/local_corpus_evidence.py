@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.corpus.local import LocalCorpusEvidenceJsonPayloadContractComparator, LocalCorpusEvidenceJsonPayloadRunner, LocalCorpusEvidencePayloadContractComparator as LocalCorpusEvidenceContractComparator, LocalCorpusEvidenceRunner
+from python_backend.corpus.local import LocalCorpusEvidenceJsonPayloadContractComparator, LocalCorpusEvidenceJsonPayloadRunner, LocalCorpusEvidencePayloadContractComparator as LocalCorpusEvidenceContractComparator, LocalCorpusEvidenceRequest, LocalCorpusEvidenceRunner
 
 
 class LocalCorpusEvidenceCliRunner:
@@ -15,23 +15,11 @@ class LocalCorpusEvidenceCliRunner:
 
     def run(self) -> dict:
         args = parse_args(self.argv)
-        if args.payload:
-            if args.compare_js_report:
-                return LocalCorpusEvidenceJsonPayloadContractComparator(args.payload, args.compare_js_report).compare()
-            return LocalCorpusEvidenceJsonPayloadRunner(args.payload).run()
-        if args.compare_js_report:
-            return LocalCorpusEvidenceContractComparator(
-                args.dictionary,
-                args.comments,
-                args.compare_js_report,
-                target_evidence=args.target_evidence,
-                max_samples_per_term=args.max_samples_per_term,
-                require_comment_backed_evidence=args.require_comment_backed_evidence,
-                target_terms=args.target_term,
-            ).compare()
-        return LocalCorpusEvidenceRunner(
-            args.dictionary,
-            args.comments,
+        return LocalCorpusEvidenceRequest(
+            dictionary_path=args.dictionary,
+            comments_path=args.comments,
+            payload_path=args.payload or None,
+            compare_js_report_path=args.compare_js_report or None,
             target_evidence=args.target_evidence,
             max_samples_per_term=args.max_samples_per_term,
             require_comment_backed_evidence=args.require_comment_backed_evidence,
