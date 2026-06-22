@@ -148,7 +148,7 @@ from python_backend.corpus.local import LocalCorpusEvidenceContractComparator as
 from python_backend.corpus.local import LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenPayloadContractComparator, LocalCorpusFlattenRequest, LocalCorpusFlattenRunner as LocalCorpusFlattenPayloadRunner, LocalCorpusFlattenSummary, LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanContractComparator as LocalCorpusMinePlanPayloadComparator, LocalCorpusMinePlanRequest, LocalCorpusMinePlanSummary
 from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner, AgentDictionaryMergePlanRequest, AgentDictionaryMergePlanSummary, MergeAgentDictionariesPlanContractComparator as MergeAgentDictionariesPlanPayloadComparator, MergeAgentDictionariesPlanRunner as MergeAgentDictionariesPayloadPlanRunner
-from python_backend.corpus.contracts import ContractComparator, ContractComparator as CorpusContractPayloadComparator, CorpusContractSummary
+from python_backend.corpus.contracts import CompareContractsRequest, ContractComparator, ContractComparator as CorpusContractPayloadComparator, CorpusContractSummary
 from python_backend.corpus.tieba import TiebaCorpusJsonPayloadContractComparator, TiebaCorpusPayloadRunner, TiebaCorpusRequest, TiebaCorpusUpdateContractComparator as TiebaCorpusUpdatePayloadComparator, TiebaCorpusUpdater, TiebaCorpusUpdateRunner as TiebaCorpusUpdatePayloadRunner, TiebaCorpusUpdateSummary
 from python_backend.corpus import dictionary_prune
 from python_backend.analysis import video_filter
@@ -728,6 +728,31 @@ class CorpusContractTests(unittest.TestCase):
             result["tiebaCorpus"],
             {"comments": 1, "runs": 1, "manifestCommentCount": 1, "manifestRunCount": 1, "storage": "split"},
         )
+
+    def test_compare_contracts_request_owns_cli_dispatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            audit_path = root / "audit.json"
+            dictionary_path = root / "dictionary.json"
+            corpus_path.write_text(
+                json.dumps({"comments": [{"message": "sample"}], "runs": [{"at": "now"}], "commentCount": 1, "runCount": 1}),
+                encoding="utf-8",
+            )
+            audit_path.write_text(
+                json.dumps({"coverage": {"terms": 1, "weakTerms": 0, "coverageRatio": 1.0, "targetEvidence": 3}}),
+                encoding="utf-8",
+            )
+            dictionary_path.write_text(
+                json.dumps({"version": 1, "entries": [{"term": "sample", "family": "evidence"}]}),
+                encoding="utf-8",
+            )
+
+            result = CompareContractsRequest(corpus_path, audit_path, dictionary_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["corpus"]["comments"], 1)
+        self.assertEqual(result["dictionary"]["terms"], 1)
 
     def test_package_verify_random_script_includes_tieba_corpus(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))

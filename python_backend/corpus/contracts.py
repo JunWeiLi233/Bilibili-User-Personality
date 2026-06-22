@@ -91,3 +91,27 @@ class ContractComparator:
                 mismatches.append({"key": "tiebaManifestRunCount", "python": len(tieba_corpus.runs), "js": tieba_manifest_run_count})
         result["ok"] = bool(result["ok"]) and len(mismatches) == 0
         return self.summary.summarize(result)
+
+
+class CompareContractsRequest:
+    """Corpus-layer request for JS/Python JSON compatibility comparisons."""
+
+    def __init__(
+        self,
+        corpus_path: str | Path,
+        audit_path: str | Path,
+        dictionary_path: str | Path | None = None,
+        tieba_corpus_path: str | Path | None = None,
+    ):
+        self.corpus_path = Path(corpus_path)
+        self.audit_path = Path(audit_path)
+        self.dictionary_path = Path(dictionary_path) if dictionary_path else None
+        self.tieba_corpus_path = Path(tieba_corpus_path) if tieba_corpus_path else None
+
+    def run(self) -> dict[str, object]:
+        return ContractComparator(
+            self.corpus_path,
+            self.audit_path,
+            self.dictionary_path,
+            self.tieba_corpus_path,
+        ).compare()

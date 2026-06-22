@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 
-from python_backend.corpus.contracts import ContractComparator
+from python_backend.corpus.contracts import CompareContractsRequest
 
 
 class CompareContractsRunner:
@@ -14,7 +14,7 @@ class CompareContractsRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        return ContractComparator(args.corpus, args.audit, args.dictionary, args.tieba_corpus).compare()
+        return CompareContractsRequest(args.corpus, args.audit, args.dictionary, args.tieba_corpus).run()
 
 
 def build_parser() -> argparse.ArgumentParser:
