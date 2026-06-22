@@ -94,7 +94,7 @@ from python_backend.cli.coverage_audit_artifacts import CoverageAuditArtifactsCo
 from python_backend.cli.coverage_loop_plan import CoverageHarvestLoopPlanContractComparator, CoverageHarvestLoopPlanRunner
 from python_backend.cli.coverage_progress import CoverageProgressContractComparator, CoverageProgressRunner
 from python_backend.cli.discovery_report import VideoKeywordDiscoveryReportContractComparator, VideoKeywordDiscoveryReportRunner
-from python_backend.corpus.dictionary_prune import DictionaryPruneSummaryCommandRequest, DictionaryPruneSummaryPayloadContractComparator, DictionaryPruneSummaryRequest, DictionaryPruneSummaryRunner as DictionaryPrunePayloadRunner, ExhaustedTermsPrunePlanPayloadContractComparator, ExhaustedTermsPrunePlanRequest, ExhaustedTermsPrunePlanRunner as ExhaustedTermsPrunePayloadPlanRunner
+from python_backend.corpus.dictionary_prune import DictionaryPruneSummaryCommandRequest, DictionaryPruneSummaryPayloadContractComparator, DictionaryPruneSummaryRequest, DictionaryPruneSummaryRunner as DictionaryPrunePayloadRunner, ExhaustedTermsPrunePlanCommandRequest, ExhaustedTermsPrunePlanPayloadContractComparator, ExhaustedTermsPrunePlanRequest, ExhaustedTermsPrunePlanRunner as ExhaustedTermsPrunePayloadPlanRunner
 from python_backend.cli.dictionary_prune_summary import DictionaryPruneSummaryContractComparator, DictionaryPruneSummaryRunner
 from python_backend.cli.harvest_options import HarvestOptionsContractComparator, HarvestOptionsRunner
 from python_backend.cli.harvest_plan import KeywordHarvestPlanContractComparator, KeywordHarvestPlanRunner
@@ -13932,6 +13932,66 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertTrue(result["ok"])
         self.assertEqual(result["candidates"], [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "attempts": 12, "evidence": 0}])
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["count", "candidates"])
+
+    def test_exhausted_terms_prune_plan_command_request_lives_with_corpus_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            state_path = root / "state.json"
+            js_report_path = root / "js-exhausted.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {"term": "\u96f6\u8bc1\u636e", "family": "attack", "evidenceCount": 0},
+                            {"term": "\u90e8\u5206\u8bc1\u636e", "family": "evidence", "evidenceCount": 1},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            state_path.write_text(
+                json.dumps(
+                    {
+                        "termAttempts": {
+                            "\u96f6\u8bc1\u636e": {"attempts": 12},
+                            "\u90e8\u5206\u8bc1\u636e": {"attempts": 12},
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"count": 0, "candidates": []}), encoding="utf-8")
+
+            result = ExhaustedTermsPrunePlanCommandRequest(
+                [
+                    "--dictionary",
+                    dictionary_path,
+                    "--state",
+                    state_path,
+                    "--attempt-threshold",
+                    "10",
+                    "--include-partial",
+                ]
+            ).run()
+            comparison = ExhaustedTermsPrunePlanCommandRequest(
+                [
+                    "--dictionary",
+                    dictionary_path,
+                    "--state",
+                    state_path,
+                    "--attempt-threshold",
+                    "10",
+                    "--compare-js-report",
+                    js_report_path,
+                ]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["count"], 2)
+        self.assertEqual(result["summary"], {"attemptThreshold": 10, "requireZeroEvidence": False, "candidates": 2})
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["count", "candidates"])
 

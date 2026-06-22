@@ -4,40 +4,15 @@ import argparse
 import json
 import sys
 
-from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanPayloadContractComparator as ExhaustedTermsPrunePlanContractComparator, ExhaustedTermsPrunePlanRequest, ExhaustedTermsPrunePlanRunner
+from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanCommandRequest, ExhaustedTermsPrunePlanPayloadContractComparator as ExhaustedTermsPrunePlanContractComparator, ExhaustedTermsPrunePlanRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Build a dry-run prune plan for exhausted dictionary terms.")
-    parser.add_argument("--dictionary", default="server/data/deepseekKeywordDictionary.json")
-    parser.add_argument("--state", default="server/data/keywordHarvestState.json")
-    parser.add_argument("--target-evidence", type=int, default=3)
-    parser.add_argument("--attempt-threshold", type=int, default=10)
-    parser.add_argument("--include-partial", action="store_true", help="Include terms below target evidence, not only zero-evidence terms.")
-    parser.add_argument("--require-source-backed-evidence", action="store_true")
-    parser.add_argument("--require-comment-backed-evidence", action="store_true")
-    parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible exhausted-term prune report to compare.")
-    return parser
+    return ExhaustedTermsPrunePlanCommandRequest([]).parser()
 
 
-class ExhaustedTermsPrunePlanCliRunner:
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        argv = [str(item) for item in self.argv] if self.argv is not None else None
-        args = build_parser().parse_args(argv)
-        require_zero_evidence = not args.include_partial
-        return ExhaustedTermsPrunePlanRequest(
-            args.dictionary,
-            args.state,
-            compare_js_report_path=args.compare_js_report or None,
-            target_evidence=args.target_evidence,
-            attempt_threshold=args.attempt_threshold,
-            require_zero_evidence=require_zero_evidence,
-            require_source_backed_evidence=args.require_source_backed_evidence,
-            require_comment_backed_evidence=args.require_comment_backed_evidence,
-        ).run()
+class ExhaustedTermsPrunePlanCliRunner(ExhaustedTermsPrunePlanCommandRequest):
+    """Compatibility wrapper for the corpus-owned exhausted-term prune command."""
 
 
 def main(argv: list[str] | None = None) -> int:

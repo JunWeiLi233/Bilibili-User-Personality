@@ -297,6 +297,39 @@ class ExhaustedTermsPrunePlanRequest:
         return ExhaustedTermsPrunePlanRunner(self.dictionary_path, self.state_path, **options).run()
 
 
+class ExhaustedTermsPrunePlanCommandRequest:
+    """Argv-backed corpus-layer command request for exhausted-term prune planning."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    def parser(self) -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Build a dry-run prune plan for exhausted dictionary terms.")
+        parser.add_argument("--dictionary", default="server/data/deepseekKeywordDictionary.json")
+        parser.add_argument("--state", default="server/data/keywordHarvestState.json")
+        parser.add_argument("--target-evidence", type=int, default=3)
+        parser.add_argument("--attempt-threshold", type=int, default=10)
+        parser.add_argument("--include-partial", action="store_true", help="Include terms below target evidence, not only zero-evidence terms.")
+        parser.add_argument("--require-source-backed-evidence", action="store_true")
+        parser.add_argument("--require-comment-backed-evidence", action="store_true")
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible exhausted-term prune report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        argv = [str(item) for item in self.argv] if self.argv is not None else None
+        args = self.parser().parse_args(argv)
+        return ExhaustedTermsPrunePlanRequest(
+            args.dictionary,
+            args.state,
+            compare_js_report_path=args.compare_js_report or None,
+            target_evidence=args.target_evidence,
+            attempt_threshold=args.attempt_threshold,
+            require_zero_evidence=not args.include_partial,
+            require_source_backed_evidence=args.require_source_backed_evidence,
+            require_comment_backed_evidence=args.require_comment_backed_evidence,
+        ).run()
+
+
 class DictionaryPrunePlanner:
     """Plan JS-compatible dictionary canonicalization without writing shards."""
 
