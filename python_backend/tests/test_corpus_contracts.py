@@ -153,7 +153,7 @@ from python_backend.corpus.contracts import ContractComparator, ContractComparat
 from python_backend.corpus.tieba import TiebaCorpusJsonPayloadContractComparator, TiebaCorpusPayloadRunner, TiebaCorpusRequest, TiebaCorpusUpdateContractComparator as TiebaCorpusUpdatePayloadComparator, TiebaCorpusUpdater, TiebaCorpusUpdateRunner as TiebaCorpusUpdatePayloadRunner, TiebaCorpusUpdateSummary
 from python_backend.corpus import dictionary_prune
 from python_backend.analysis import video_filter
-from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoCommentFilterPayloadContractComparator, VideoCommentFilterPayloadRunner, VideoContextBuilder, VideoContextContractComparator as VideoContextPayloadComparator, VideoContextRunner as VideoContextPayloadRunner, VideoRelevanceContractComparator as VideoRelevancePayloadComparator, VideoRelevanceFilter, VideoRelevancePayloadContractComparator, VideoRelevancePayloadRunner
+from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoCommentFilterPayloadContractComparator, VideoCommentFilterPayloadRunner, VideoContextBuilder, VideoContextContractComparator as VideoContextPayloadComparator, VideoContextRequest, VideoContextRunner as VideoContextPayloadRunner, VideoRelevanceContractComparator as VideoRelevancePayloadComparator, VideoRelevanceFilter, VideoRelevancePayloadContractComparator, VideoRelevancePayloadRunner
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader
@@ -9256,6 +9256,34 @@ class CorpusContractTests(unittest.TestCase):
                 }
             ],
         )
+
+    def test_video_context_request_owns_cli_dispatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-report.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "videos": [{"bvid": "BV1", "title": "\u5f39\u5e55\u9634\u9633\u602a\u6c14"}],
+                        "discoveredVideos": [{"bvid": "BVD", "title": "\u8865\u5145\u7d20\u6750"}],
+                        "comments": [{"message": "\u5f39\u5e55\u9634\u9633\u602a\u6c14"}],
+                        "trainingText": "\u5f39\u5e55\u9634\u9633\u602a\u6c14",
+                        "searchQueries": ["\u5f39\u5e55\u9634\u9633\u602a\u6c14"],
+                        "targetExistingTerms": ["\u5f39\u5e55\u9634\u9633\u602a\u6c14"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"videoContextText": "stale context"}), encoding="utf-8")
+
+            result = VideoContextRequest(payload_path).run()
+            comparison = VideoContextRequest(payload_path, compare_js_report_path=js_report_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertIn("Bilibili video context: \u5f39\u5e55\u9634\u9633\u602a\u6c14", result["videoContextText"])
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["videoContextText"])
 
     def test_video_context_builder_owns_payload_contract(self):
         result = VideoContextBuilder().build_from_payload(
