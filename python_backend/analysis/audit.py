@@ -195,6 +195,19 @@ class CoverageAuditArtifactsPayloadContractComparator:
         return payload if isinstance(payload, dict) else {}
 
 
+class CoverageAuditArtifactsRequest:
+    """Analysis-layer request for coverage-audit artifact JSON contract commands."""
+
+    def __init__(self, payload_path: str | Path, compare_js_report_path: str | Path | None = None):
+        self.payload_path = Path(payload_path)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_report_path:
+            return CoverageAuditArtifactsPayloadContractComparator(self.payload_path, self.compare_js_report_path).compare()
+        return CoverageAuditArtifactsRunner(self.payload_path).run()
+
+
 class CoverageAuditContractSummary:
     """Shape coverage-audit reports into the JS/Python comparator summary contract."""
 
