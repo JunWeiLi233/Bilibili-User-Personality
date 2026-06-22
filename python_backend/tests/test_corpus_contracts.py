@@ -156,7 +156,7 @@ from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommen
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader
-from python_backend.corpus.writer import CorpusShardWriteContractComparator as CorpusShardWritePayloadComparator, CorpusShardWritePayloadContractComparator, CorpusShardWriteRequest, CorpusShardWriteRunner as CorpusShardWritePayloadRunner, CorpusShardWriteSummary, CorpusShardWriter
+from python_backend.corpus.writer import CorpusShardWriteCommandRequest, CorpusShardWriteContractComparator as CorpusShardWritePayloadComparator, CorpusShardWritePayloadContractComparator, CorpusShardWriteRequest, CorpusShardWriteRunner as CorpusShardWritePayloadRunner, CorpusShardWriteSummary, CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliParseContractComparator as BilibiliParsePayloadComparator, BilibiliParsePayloadContractComparator, BilibiliParseRequest, BilibiliParseRunner as BilibiliParsePayloadRunner, BilibiliParseSummary, BilibiliPublicParser
 from python_backend.scrapers.aicu import AicuBatchPlanContractComparator as AicuBatchPlanPayloadComparator, AicuBatchPlanPayloadContractComparator, AicuBatchPlanRequest, AicuBatchPlanRunner as AicuBatchPayloadPlanRunner, AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressPayloadContractComparator, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanContractComparator as AicuScrapePlanPayloadComparator, AicuScrapePlanPayloadContractComparator, AicuScrapePlanRequest, AicuScrapePlanRunner as AicuScrapePayloadPlanRunner, AicuScrapePlanSummary, AicuScrapePlanner, BatchScrapeProgressRequest, BatchScrapeProgressRunner as BatchScrapeProgressPayloadRunner
@@ -849,6 +849,31 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertFalse(result["ok"])
         self.assertEqual([item["key"] for item in result["mismatches"]], ["manifest"])
+
+    def test_corpus_shard_write_command_request_owns_cli_dispatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            output_path = root / "out.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "outputPath": str(output_path),
+                        "maxShardBytes": 512,
+                        "manifest": {"source": "command-request"},
+                        "comments": [{"message": "shard me"}],
+                        "runs": [{"id": "run-1"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = CorpusShardWriteCommandRequest(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["comments"], 1)
+        self.assertEqual(result["runs"], 1)
+        self.assertEqual(result["manifest"]["source"], "command-request")
 
     def test_corpus_shard_write_summary_extracts_comparator_contract(self):
         summary_builder = CorpusShardWriteSummary()
