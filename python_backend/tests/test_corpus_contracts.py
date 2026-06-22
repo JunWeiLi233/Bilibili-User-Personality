@@ -186,7 +186,7 @@ from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherContrac
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanContractComparator as UidDiscoveryPlanPayloadComparator, UidDiscoveryPlanPayloadContractComparator, UidDiscoveryPlanRunner as UidDiscoveryPayloadPlanRunner, UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressContractComparator as UidDiscoveryProgressPayloadComparator, UidDiscoveryProgressPayloadContractComparator, UidDiscoveryProgressReporter, UidDiscoveryProgressRequest, UidDiscoveryProgressRunner as UidDiscoveryProgressPayloadRunner, UidDiscoveryProgressSummary
 from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanContractComparator as UidFastPipelinePlanPayloadComparator, UidFastPipelinePlanPayloadContractComparator, UidFastPipelinePlanRunner as UidFastPipelinePayloadPlanRunner
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanContractComparator as UidParallelPlanPayloadComparator, UidParallelPlanPayloadContractComparator, UidParallelPlanRunner as UidParallelPayloadPlanRunner, UidParallelPlanSummary, UidParallelProgressContractComparator as UidParallelProgressPayloadComparator, UidParallelProgressPayloadContractComparator, UidParallelProgressReporter, UidParallelProgressRunner as UidParallelProgressPayloadRunner, UidParallelProgressSummary
-from python_backend.scrapers.uid_pipeline import UidPipelineLauncherContractComparator as UidPipelineLauncherPayloadComparator, UidPipelineLauncherPayloadContractComparator, UidPipelineLauncherPlanner, UidPipelineLauncherPlanRunner as UidPipelineLauncherPayloadPlanRunner, UidPipelineLauncherSummary, UidPipelineMergeContractComparator as UidPipelineMergePayloadComparator, UidPipelineMergePayloadContractComparator, UidPipelineMergeReporter, UidPipelineMergeRunner as UidPipelineMergePayloadRunner, UidPipelineMergeSummary, UidPipelinePlanContractComparator as UidPipelinePlanPayloadComparator, UidPipelinePlanPayloadContractComparator, UidPipelinePlanRunner as UidPipelinePayloadPlanRunner, UidPipelinePlanSummary, UidPipelineProgressContractComparator as UidPipelineProgressPayloadComparator, UidPipelineProgressPayloadContractComparator, UidPipelineProgressReporter, UidPipelineProgressRequest, UidPipelineProgressRunner as UidPipelineProgressPayloadRunner, UidPipelineProgressSummary, UidPipelineStateContractComparator as UidPipelineStatePayloadComparator, UidPipelineStatePayloadContractComparator, UidPipelineStateReporter, UidPipelineStateRequest, UidPipelineStateRunner as UidPipelineStatePayloadRunner, UidPipelineStateSummary, UidPipelineWorkerPlanner
+from python_backend.scrapers.uid_pipeline import UidPipelineLauncherContractComparator as UidPipelineLauncherPayloadComparator, UidPipelineLauncherPayloadContractComparator, UidPipelineLauncherPlanner, UidPipelineLauncherPlanRunner as UidPipelineLauncherPayloadPlanRunner, UidPipelineLauncherSummary, UidPipelineMergeContractComparator as UidPipelineMergePayloadComparator, UidPipelineMergePayloadContractComparator, UidPipelineMergeReporter, UidPipelineMergeRequest, UidPipelineMergeRunner as UidPipelineMergePayloadRunner, UidPipelineMergeSummary, UidPipelinePlanContractComparator as UidPipelinePlanPayloadComparator, UidPipelinePlanPayloadContractComparator, UidPipelinePlanRunner as UidPipelinePayloadPlanRunner, UidPipelinePlanSummary, UidPipelineProgressContractComparator as UidPipelineProgressPayloadComparator, UidPipelineProgressPayloadContractComparator, UidPipelineProgressReporter, UidPipelineProgressRequest, UidPipelineProgressRunner as UidPipelineProgressPayloadRunner, UidPipelineProgressSummary, UidPipelineStateContractComparator as UidPipelineStatePayloadComparator, UidPipelineStatePayloadContractComparator, UidPipelineStateReporter, UidPipelineStateRequest, UidPipelineStateRunner as UidPipelineStatePayloadRunner, UidPipelineStateSummary, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorContractComparator as ScraperMonitorPayloadComparator, ScraperMonitorPayloadContractComparator, ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter, ScraperMonitorRunner as ScraperMonitorPayloadRunner, ScraperMonitorSummary
 from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherContractComparator as FastPipelineLauncherPayloadComparator, FastPipelineLauncherPayloadContractComparator, FastPipelineLauncherPlanner, FastPipelineLauncherPlanRunner as FastPipelineLauncherPayloadPlanRunner, FastPipelineLauncherSummary, UidFastPipelinePlanSummary, UidFastPipelinePlanner
 
@@ -13711,6 +13711,27 @@ class CorpusContractTests(unittest.TestCase):
 
             result = UidPipelineMergePayloadRunner(data_dir, total_start=1, total_end=1, workers=1, summary_only=True, now=lambda: "").run()
             comparison = UidPipelineMergePayloadContractComparator(data_dir, js_report_path, total_start=1, total_end=1, workers=1).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertNotIn("processed", result)
+        self.assertEqual(result["totalProcessed"], 1)
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["totalProcessed", "stats"])
+
+    def test_uid_pipeline_merge_request_owns_cli_dispatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            js_report_path = root / "js-uid-merge.json"
+            (data_dir / "uid-pipeline-1-1.json").write_text(
+                json.dumps({"processed": {"1": "success"}, "stats": {"success": 1}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"totalProcessed": 0, "stats": {"success": 0}}), encoding="utf-8")
+
+            result = UidPipelineMergeRequest(data_dir, total_start=1, total_end=1, workers=1, summary_only=True, now=lambda: "").run()
+            comparison = UidPipelineMergeRequest(data_dir, compare_js_report_path=js_report_path, total_start=1, total_end=1, workers=1).run()
 
         self.assertTrue(result["ok"])
         self.assertNotIn("processed", result)

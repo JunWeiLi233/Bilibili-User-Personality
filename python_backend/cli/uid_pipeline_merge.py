@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.scrapers.uid_pipeline import UidPipelineMergePayloadContractComparator as UidPipelineMergeContractComparator, UidPipelineMergeRunner
+from python_backend.scrapers.uid_pipeline import UidPipelineMergePayloadContractComparator as UidPipelineMergeContractComparator, UidPipelineMergeRequest, UidPipelineMergeRunner
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Build a dry-run UID pipeline merge report.")
@@ -25,16 +25,9 @@ class UidPipelineMergeCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.compare_js_report:
-            return UidPipelineMergeContractComparator(
-                args.data_dir,
-                args.compare_js_report,
-                total_start=args.total_start,
-                total_end=args.total_end,
-                workers=args.workers,
-            ).compare()
-        return UidPipelineMergeRunner(
+        return UidPipelineMergeRequest(
             args.data_dir,
+            compare_js_report_path=args.compare_js_report,
             total_start=args.total_start,
             total_end=args.total_end,
             workers=args.workers,

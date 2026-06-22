@@ -515,6 +515,47 @@ class UidPipelineMergePayloadContractComparator:
         return payload if isinstance(payload, dict) else {}
 
 
+class UidPipelineMergeRequest:
+    """Scraper-layer request for UID pipeline merge JSON contract commands."""
+
+    def __init__(
+        self,
+        data_dir: str | Path,
+        compare_js_report_path: str | Path | None = None,
+        *,
+        total_start: int = 1,
+        total_end: int = 100000,
+        workers: int = 5,
+        summary_only: bool = False,
+        now: Any = None,
+    ):
+        self.data_dir = Path(data_dir)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+        self.total_start = int(total_start)
+        self.total_end = int(total_end)
+        self.workers = int(workers)
+        self.summary_only = bool(summary_only)
+        self.now = now
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_report_path:
+            return UidPipelineMergePayloadContractComparator(
+                self.data_dir,
+                self.compare_js_report_path,
+                total_start=self.total_start,
+                total_end=self.total_end,
+                workers=self.workers,
+            ).compare()
+        return UidPipelineMergeRunner(
+            self.data_dir,
+            total_start=self.total_start,
+            total_end=self.total_end,
+            workers=self.workers,
+            summary_only=self.summary_only,
+            now=self.now,
+        ).run()
+
+
 class UidPipelineStateReporter:
     """Summarize UID pipeline launcher state and worker progress payloads."""
 
