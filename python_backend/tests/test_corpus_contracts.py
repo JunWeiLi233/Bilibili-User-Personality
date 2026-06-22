@@ -23211,6 +23211,12 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["recommendedQueryText"], "doge hot\n")
         self.assertEqual([item["query"] for item in result["priorityActionItems"]], ["doge hot", "doge comments"])
 
+    def test_coverage_audit_artifact_writer_defaults_malformed_recommended_queries(self):
+        result = CoverageAuditArtifactWriter().build_artifacts({"recommendedQueries": "bad query root"})
+
+        self.assertEqual(result["recommendedQueries"], [])
+        self.assertEqual(result["recommendedQueryText"], "")
+
     def test_coverage_audit_artifacts_payload_runner_lives_with_analysis_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
