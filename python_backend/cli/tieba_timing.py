@@ -4,28 +4,15 @@ import argparse
 import json
 import sys
 
-from python_backend.scrapers.tieba_timing import TiebaTimingContractComparator, TiebaTimingRequest, TiebaTimingRunner
+from python_backend.scrapers.tieba_timing import TiebaTimingCommandRequest, TiebaTimingContractComparator, TiebaTimingRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Compute Tieba scrape timing budgets from a JSON payload.")
-    parser.add_argument("--payload", required=True, help="Path to timing payload JSON.")
-    parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible timing report to compare.")
-    return parser
+    return TiebaTimingCommandRequest.parser()
 
 
-class TiebaTimingCliRunner:
+class TiebaTimingCliRunner(TiebaTimingCommandRequest):
     """CLI-compatible Tieba timing runner for JS/Python JSON contracts."""
-
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        return TiebaTimingRequest(
-            payload_path=args.payload,
-            compare_js_report_path=args.compare_js_report or None,
-        ).run()
 
 
 def main(argv: list[str] | None = None) -> int:

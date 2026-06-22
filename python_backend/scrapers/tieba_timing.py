@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 from typing import Any
@@ -85,3 +86,24 @@ class TiebaTimingRequest:
         if self.compare_js_report_path:
             return TiebaTimingContractComparator(self.payload_path, self.compare_js_report_path).compare()
         return TiebaTimingRunner(self.payload_path).run()
+
+
+class TiebaTimingCommandRequest:
+    """Argv-backed scraper-layer request for Tieba timing contracts."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Compute Tieba scrape timing budgets from a JSON payload.")
+        parser.add_argument("--payload", required=True, help="Path to timing payload JSON.")
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible timing report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return TiebaTimingRequest(
+            payload_path=args.payload,
+            compare_js_report_path=args.compare_js_report or None,
+        ).run()
