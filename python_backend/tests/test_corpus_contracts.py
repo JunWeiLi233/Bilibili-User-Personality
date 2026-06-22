@@ -5175,6 +5175,46 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(dictionary.entries[0]["evidenceSamples"], ["doge satire"])
         self.assertEqual(dictionary.entries[0]["evidenceSources"], [{"sample": "doge satire"}])
 
+    def test_dictionary_loader_ignores_non_object_split_evidence_sources(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "dict.entries").mkdir()
+            (root / "dict.evidence").mkdir()
+            (root / "dict.json").write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "storage": "split",
+                        "entryFiles": {"attack": ["dict.entries/attack-001.json"]},
+                        "evidenceFiles": {"attack": ["dict.evidence/attack-001.json"]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (root / "dict.entries" / "attack-001.json").write_text(
+                json.dumps({"entries": [{"term": "doge", "family": "attack", "evidenceCount": 1}]}),
+                encoding="utf-8",
+            )
+            (root / "dict.evidence" / "attack-001.json").write_text(
+                json.dumps(
+                    {
+                        "evidence": [
+                            {
+                                "term": "doge",
+                                "evidenceSamples": ["doge satire"],
+                                "evidenceSources": ["bad source", {"sample": "doge satire"}, None],
+                            }
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            dictionary = DictionaryLoader(root / "dict.json").load()
+
+        self.assertEqual(dictionary.entries[0]["evidenceSamples"], ["doge satire"])
+        self.assertEqual(dictionary.entries[0]["evidenceSources"], [{"sample": "doge satire"}])
+
     def test_dictionary_loader_ignores_non_object_split_shard_payloads(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

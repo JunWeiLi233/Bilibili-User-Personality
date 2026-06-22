@@ -169,6 +169,8 @@ class DictionaryLoader:
         seen = set()
         unique_sources = []
         for source in sources:
+            if not isinstance(source, dict):
+                continue
             key = json.dumps(source, sort_keys=True, ensure_ascii=False)
             if key not in seen:
                 seen.add(key)
