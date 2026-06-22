@@ -498,6 +498,28 @@ class DeepSeekAnalysisPlanRequest:
         return DeepSeekAnalysisPlanRunner(self.payload_path, compact=self.compact).run()
 
 
+class DeepSeekAnalysisPlanCommandRequest:
+    """Parse CLI argv for DeepSeek plan generation while keeping ownership in analyzers."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    def parser(self) -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Build a Python-owned DeepSeek analyzer request plan from a JS-compatible JSON payload.")
+        parser.add_argument("--payload", required=True, help="Path to a JSON payload containing text/comments and optional keywordHints.")
+        parser.add_argument("--compact", action="store_true", help="Build the compact retry prompt variant.")
+        parser.add_argument("--compare-js-plan", default="", help="Optional JS-compatible DeepSeek plan JSON to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return DeepSeekAnalysisPlanRequest(
+            payload_path=args.payload,
+            compact=args.compact,
+            compare_js_plan_path=args.compare_js_plan or None,
+        ).run()
+
+
 class DeepSeekAnalysisValidationSummary:
     """Shape DeepSeek validation results into the JS/Python comparator summary contract."""
 
