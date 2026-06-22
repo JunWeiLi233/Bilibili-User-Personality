@@ -178,7 +178,7 @@ from python_backend.scrapers.tieba_html import TiebaHtmlParseContractComparator 
 from python_backend.scrapers.tieba_keyword import TiebaKeywordPlanContractComparator as TiebaKeywordPlanPayloadComparator, TiebaKeywordPlanRequest, TiebaKeywordPlanRunner as TiebaKeywordPayloadPlanRunner, TiebaKeywordPlanSummary, TiebaKeywordScrapeOptionsPlanner
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming, TiebaTimingContractComparator as TiebaTimingPayloadComparator, TiebaTimingRequest, TiebaTimingRunner as TiebaTimingPayloadRunner
 from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanContractComparator as BatchBilibiliPlanPayloadComparator, BatchBilibiliPlanPayloadContractComparator, BatchBilibiliPlanRequest, BatchBilibiliPlanRunner as BatchBilibiliPayloadPlanRunner, BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
-from python_backend.scrapers.batch_popular import BatchPopularPlanContractComparator as BatchPopularPlanPayloadComparator, BatchPopularPlanPayloadContractComparator, BatchPopularPlanRequest, BatchPopularPlanRunner as BatchPopularPayloadPlanRunner, BatchPopularPlanSummary, BatchPopularScrapePlanner
+from python_backend.scrapers.batch_popular import BatchPopularPlanCommandRequest, BatchPopularPlanContractComparator as BatchPopularPlanPayloadComparator, BatchPopularPlanPayloadContractComparator, BatchPopularPlanRequest, BatchPopularPlanRunner as BatchPopularPayloadPlanRunner, BatchPopularPlanSummary, BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanCommandRequest, BatchUidRangePlanContractComparator as BatchUidRangePlanPayloadComparator, BatchUidRangePlanPayloadContractComparator, BatchUidRangePlanRequest, BatchUidRangePlanRunner as BatchUidRangePayloadPlanRunner, BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherCommandRequest, RangeScraperLauncherContractComparator as RangeScraperLauncherPayloadComparator, RangeScraperLauncherPayloadContractComparator, RangeScraperLauncherPlanner, RangeScraperLauncherPlanRunner as RangeScraperLauncherPayloadPlanRunner, RangeScraperLauncherRequest, RangeScraperLauncherSummary, UidRangeProgressCommandRequest, UidRangeProgressContractComparator as UidRangeProgressPayloadComparator, UidRangeProgressPayloadContractComparator, UidRangeProgressReporter, UidRangeProgressRequest, UidRangeProgressRunner as UidRangeProgressPayloadRunner, UidRangeProgressSummary
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherCommandRequest, BatchScraperLauncherContractComparator as BatchScraperLauncherPayloadComparator, BatchScraperLauncherPayloadContractComparator, BatchScraperLauncherPlanner, BatchScraperLauncherPlanRunner as BatchScraperLauncherPayloadPlanRunner, BatchScraperLauncherRequest, BatchScraperLauncherSummary, BatchUidProgressCommandRequest, BatchUidProgressContractComparator as BatchUidProgressPayloadComparator, BatchUidProgressPayloadContractComparator, BatchUidProgressReporter, BatchUidProgressRequest, BatchUidProgressRunner as BatchUidProgressPayloadRunner, BatchUidProgressSummary, BatchUidScrapePlanCommandRequest, BatchUidScrapePlanContractComparator as BatchUidScrapePlanPayloadComparator, BatchUidScrapePlanPayloadContractComparator, BatchUidScrapePlanRequest, BatchUidScrapePlanRunner as BatchUidScrapePayloadPlanRunner, BatchUidScrapePlanSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanContractComparator as UidDiscoveryPlanPayloadComparator, UidDiscoveryPlanPayloadContractComparator, UidDiscoveryPlanRequest, UidDiscoveryPlanRunner as UidDiscoveryPayloadPlanRunner, UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressContractComparator as UidDiscoveryProgressPayloadComparator, UidDiscoveryProgressPayloadContractComparator, UidDiscoveryProgressReporter, UidDiscoveryProgressRequest, UidDiscoveryProgressRunner as UidDiscoveryProgressPayloadRunner, UidDiscoveryProgressSummary
@@ -17785,6 +17785,27 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["progress"], {"pagesScanned": 4, "videosScanned": 16, "scraped": 6})
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["range", "progress"])
+
+    def test_batch_popular_plan_command_request_lives_with_scraper_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "batch-popular-plan.json"
+            js_report_path = root / "js-batch-popular-plan.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--pages=9"], "progress": {"pagesScanned": "5", "videosScanned": "20", "scraped": "7"}, "database": {"users": {"1": {}, "2": {}, "3": {}}}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"range": {"startPage": 5}, "database": {"users": 0}}), encoding="utf-8")
+
+            result = BatchPopularPlanCommandRequest(["--payload", payload_path]).run()
+            comparison = BatchPopularPlanCommandRequest(["--payload", payload_path, "--compare-js-report", js_report_path]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["input"], {"maxPages": 9})
+        self.assertEqual(result["range"], {"startPage": 6, "maxPages": 9, "remainingPages": 4})
+        self.assertEqual(result["database"], {"users": 3})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["range", "database"])
 
     def test_batch_scrape_progress_runner_summarizes_uid_range_progress_and_user_db(self):
         with tempfile.TemporaryDirectory() as tmp:
