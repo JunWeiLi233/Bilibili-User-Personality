@@ -6,6 +6,7 @@ import sys
 
 from python_backend.analysis.harvest_plan import (
     KeywordHarvestPlanPayloadContractComparator as KeywordHarvestPlanContractComparator,
+    KeywordHarvestPlanRequest,
     KeywordHarvestPlanRunner,
 )
 
@@ -24,9 +25,10 @@ class KeywordHarvestPlanCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.compare_js_plan:
-            return KeywordHarvestPlanContractComparator(args.payload, args.compare_js_plan).compare()
-        return KeywordHarvestPlanRunner(args.payload).run()
+        return KeywordHarvestPlanRequest(
+            payload_path=args.payload,
+            compare_js_plan_path=args.compare_js_plan or None,
+        ).run()
 
 
 def main(argv: list[str] | None = None) -> int:

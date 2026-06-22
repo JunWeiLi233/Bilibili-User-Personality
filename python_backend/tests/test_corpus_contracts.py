@@ -74,7 +74,7 @@ from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKe
 from python_backend.analysis import harvest_options as harvest_options_module
 from python_backend.analysis import verification as verification_module
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, HarvestOptionsContractComparator as HarvestOptionsPayloadComparator, HarvestOptionsPayloadContractComparator, HarvestOptionsRequest, HarvestOptionsRunner as HarvestOptionsPayloadRunner, HarvestOptionsSummary, VideoKeywordDiscoveryOptionsBuilder
-from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, KeywordHarvestPlanContractComparator as KeywordHarvestPlanPayloadComparator, KeywordHarvestPlanPayloadContractComparator, KeywordHarvestPlanRunner as KeywordHarvestPayloadPlanRunner, KeywordHarvestPlanSummary
+from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, KeywordHarvestPlanContractComparator as KeywordHarvestPlanPayloadComparator, KeywordHarvestPlanPayloadContractComparator, KeywordHarvestPlanRequest, KeywordHarvestPlanRunner as KeywordHarvestPayloadPlanRunner, KeywordHarvestPlanSummary
 from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateContractComparator as HarvestStatePayloadComparator, HarvestStatePayloadContractComparator, HarvestStateFinalizer, HarvestStatePayloadProcessor, HarvestStateRunner as HarvestStatePayloadRunner, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetOverrideTermsParser, NearTargetResolvePlanContractComparator as NearTargetResolvePlanPayloadComparator, NearTargetResolvePlanner, NearTargetResolvePlanRunner as NearTargetResolvePayloadPlanRunner
@@ -18908,6 +18908,30 @@ class CorpusContractTests(unittest.TestCase):
                 },
             ],
         )
+
+    def test_keyword_harvest_plan_request_compares_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "harvest-plan.json"
+            js_plan_path = root / "js-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "dictionary": {"entries": [{"term": "weak", "family": "attack", "evidenceCount": 0}]},
+                        "options": {"coverageMode": "all-weak", "maxQueries": 2, "queryVariantsPerTerm": 1, "seedQueries": ["seed topic"]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_plan_path.write_text(
+                json.dumps({"queries": ["wrong query"], "plan": [{"query": "wrong query", "source": "seed", "term": "wrong", "family": "wrong"}]}),
+                encoding="utf-8",
+            )
+
+            result = KeywordHarvestPlanRequest(payload_path=payload_path, compare_js_plan_path=js_plan_path).run()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual([item["key"] for item in result["mismatches"]], ["queries", "plan"])
 
     def test_keyword_harvest_plan_comparator_uses_backend_summary_contract_keys(self):
         self.assertFalse(hasattr(KeywordHarvestPlanContractComparator, "PLAN_KEYS"))

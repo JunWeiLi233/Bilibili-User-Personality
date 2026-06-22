@@ -377,3 +377,19 @@ class KeywordHarvestPlanPayloadContractComparator:
         with self.js_plan_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
+
+
+class KeywordHarvestPlanRequest:
+    """Analysis-layer request object for keyword harvest plan JSON contract modes."""
+
+    def __init__(self, payload_path: str | Path, compare_js_plan_path: str | Path | None = None):
+        self.payload_path = Path(payload_path)
+        self.compare_js_plan_path = Path(compare_js_plan_path) if compare_js_plan_path else None
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_plan_path:
+            return KeywordHarvestPlanPayloadContractComparator(
+                self.payload_path,
+                self.compare_js_plan_path,
+            ).compare()
+        return KeywordHarvestPlanRunner(self.payload_path).run()
