@@ -23105,6 +23105,17 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(audit["coverage"]["totalEvidence"], 0)
         self.assertEqual(audit["nextActions"], [])
 
+    def test_coverage_audit_builder_defaults_malformed_dictionary_entries(self):
+        malformed_root = CoverageAuditBuilder(target_evidence=3).build({"entries": "bad entries root"})
+        mixed_entries = CoverageAuditBuilder(target_evidence=3).build(
+            {"entries": ["bad entry", {"term": "weak", "family": "attack", "evidenceCount": 1}, None]}
+        )
+
+        self.assertEqual(malformed_root["coverage"]["terms"], 0)
+        self.assertEqual(malformed_root["nextActions"], [])
+        self.assertEqual(mixed_entries["coverage"]["terms"], 1)
+        self.assertEqual([item["term"] for item in mixed_entries["nextActions"]], ["weak"])
+
     def test_coverage_audit_builder_defaults_malformed_entry_evidence_counts_like_js(self):
         audit = CoverageAuditBuilder(target_evidence=3, max_actions=10).build(
             {

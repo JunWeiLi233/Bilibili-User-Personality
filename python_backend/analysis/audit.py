@@ -446,7 +446,8 @@ class CoverageAuditBuilder:
 
     def build(self, dictionary: dict[str, Any]) -> dict[str, Any]:
         dictionary = dictionary if isinstance(dictionary, dict) else {}
-        entries = list(dictionary.get("entries") or [])
+        raw_entries = dictionary.get("entries") if isinstance(dictionary.get("entries"), list) else []
+        entries = [entry for entry in raw_entries if isinstance(entry, dict)]
         coverage = self._coverage(entries)
         actions = [self._action_for_entry(entry) for entry in self._sort_entries_for_coverage(entries)]
         next_actions = [action for action in actions if action["action"] != "none"][: self.max_actions]
