@@ -149,7 +149,7 @@ from python_backend.corpus.local import LocalCorpusFlattenCommandRequest, LocalC
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanCommandRequest, LocalCorpusMinePlanContractComparator as LocalCorpusMinePlanPayloadComparator, LocalCorpusMinePlanRequest, LocalCorpusMinePlanSummary
 from python_backend.corpus.agent_merge import AgentDictionaryMergePlanCommandRequest, AgentDictionaryMergePlanner, AgentDictionaryMergePlanRequest, AgentDictionaryMergePlanSummary, MergeAgentDictionariesPlanContractComparator as MergeAgentDictionariesPlanPayloadComparator, MergeAgentDictionariesPlanRunner as MergeAgentDictionariesPayloadPlanRunner
 from python_backend.corpus.contracts import CompareContractsCommandRequest, CompareContractsRequest, ContractComparator, ContractComparator as CorpusContractPayloadComparator, CorpusContractSummary
-from python_backend.corpus.tieba import TiebaCorpusJsonPayloadContractComparator, TiebaCorpusPayloadRunner, TiebaCorpusRequest, TiebaCorpusUpdateContractComparator as TiebaCorpusUpdatePayloadComparator, TiebaCorpusUpdater, TiebaCorpusUpdateRunner as TiebaCorpusUpdatePayloadRunner, TiebaCorpusUpdateSummary
+from python_backend.corpus.tieba import TiebaCorpusCommandRequest, TiebaCorpusJsonPayloadContractComparator, TiebaCorpusPayloadRunner, TiebaCorpusRequest, TiebaCorpusUpdateContractComparator as TiebaCorpusUpdatePayloadComparator, TiebaCorpusUpdater, TiebaCorpusUpdateRunner as TiebaCorpusUpdatePayloadRunner, TiebaCorpusUpdateSummary
 from python_backend.corpus import dictionary_prune
 from python_backend.analysis import video_filter
 from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoCommentFilterPayloadContractComparator, VideoCommentFilterPayloadRunner, VideoCommentFilterRequest, VideoContextBuilder, VideoContextContractComparator as VideoContextPayloadComparator, VideoContextRequest, VideoContextRunner as VideoContextPayloadRunner, VideoRelevanceContractComparator as VideoRelevancePayloadComparator, VideoRelevanceFilter, VideoRelevancePayloadContractComparator, VideoRelevancePayloadRunner, VideoRelevanceRequest
@@ -6953,6 +6953,28 @@ class CorpusContractTests(unittest.TestCase):
                 payload_path=payload_path,
                 compare_js_report_path=js_report_path,
             ).run()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual([item["key"] for item in result["mismatches"]], ["changed", "newComments"])
+
+    def test_tieba_corpus_command_request_lives_with_corpus_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "tieba-payload.json"
+            js_report_path = root / "js-tieba-update.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "existing": {"version": 1, "runs": [], "comments": []},
+                        "run": {"results": [{"comments": [{"message": "\u547d\u4ee4\u8d34\u5427\u5bf9\u6bd4", "sourceUrl": "https://tieba.baidu.com/p/8"}]}]},
+                        "generatedAt": "2026-06-17T08:00:00.000Z",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"changed": False, "newComments": []}), encoding="utf-8")
+
+            result = TiebaCorpusCommandRequest(["--payload", payload_path, "--compare-js-report", js_report_path]).run()
 
         self.assertFalse(result["ok"])
         self.assertEqual([item["key"] for item in result["mismatches"]], ["changed", "newComments"])
