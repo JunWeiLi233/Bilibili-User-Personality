@@ -12,7 +12,7 @@ from python_backend.analysis.semantic_matcher import (
 
 
 def build_parser() -> argparse.ArgumentParser:
-    return SemanticMatcherCommandRequest([]).parser()
+    return SemanticMatcherCommandRequest.parser()
 
 
 class SemanticMatcherCliRunner(SemanticMatcherCommandRequest):

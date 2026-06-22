@@ -3307,6 +3307,14 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["mode"], "match")
         self.assertEqual(result["matches"], [{"term": "term-a", "chunk": "alpha chunk", "score": 1.0}])
 
+    def test_semantic_matcher_command_request_owns_parser_factory(self):
+        args = SemanticMatcherCommandRequest.parser().parse_args(
+            ["--payload", "semantic.json", "--compare-js-report", "js-semantic.json"]
+        )
+
+        self.assertEqual(args.payload, "semantic.json")
+        self.assertEqual(args.compare_js_report, "js-semantic.json")
+
     def test_semantic_matcher_payload_runner_lives_with_analysis_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

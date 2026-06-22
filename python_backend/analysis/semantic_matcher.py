@@ -100,7 +100,8 @@ class SemanticMatcherCommandRequest:
     def __init__(self, argv: list[Any] | None = None):
         self.argv = argv
 
-    def parser(self) -> argparse.ArgumentParser:
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(description="Run semantic matcher helper functions from a JSON payload.")
         parser.add_argument("--payload", required=True, help="Path to semantic matcher payload JSON.")
         parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible semantic matcher report to compare.")
