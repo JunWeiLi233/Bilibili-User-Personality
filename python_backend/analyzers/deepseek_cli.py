@@ -150,7 +150,8 @@ class DeepSeekAnalyzeCliPlanCommandRequest:
     def __init__(self, argv: list[Any] | None = None):
         self.argv = argv
 
-    def parser(self) -> argparse.ArgumentParser:
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(description="Build an analyzeDeepSeekComments.js-compatible CLI input plan.")
         parser.add_argument("--payload", required=True)
         parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible CLI parse report to compare.")

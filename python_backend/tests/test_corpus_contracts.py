@@ -4173,6 +4173,14 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["payload"], {"text": "\u53cd\u8bbd[doge]", "uid": "42", "multiagent": True})
         self.assertEqual(result["input"], {"source": "argv", "file": "", "readsStdin": False, "showHelp": False})
 
+    def test_deepseek_analyze_cli_plan_command_request_owns_parser_factory(self):
+        args = DeepSeekAnalyzeCliPlanCommandRequest.parser().parse_args(
+            ["--payload", "deepseek-cli.json", "--compare-js-report", "js-deepseek-cli.json"]
+        )
+
+        self.assertEqual(args.payload, "deepseek-cli.json")
+        self.assertEqual(args.compare_js_report, "js-deepseek-cli.json")
+
     def test_deepseek_analyze_cli_comparator_uses_backend_summary_contract_keys(self):
         self.assertFalse(hasattr(DeepSeekAnalyzeCliPayloadPlanContractComparator, "RESULT_KEYS"))
         self.assertEqual(

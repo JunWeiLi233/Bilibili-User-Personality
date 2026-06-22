@@ -8,7 +8,7 @@ from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPlanCommandR
 
 
 def build_parser() -> argparse.ArgumentParser:
-    return DeepSeekAnalyzeCliPlanCommandRequest([]).parser()
+    return DeepSeekAnalyzeCliPlanCommandRequest.parser()
 
 
 class DeepSeekAnalyzeCliPlanCliRunner(DeepSeekAnalyzeCliPlanCommandRequest):
