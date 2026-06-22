@@ -1101,6 +1101,14 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(summary.keyword_hits, 0)
         self.assertEqual([sample["matched_terms"] for sample in summary.samples], [[], [], []])
 
+    def test_random_verifier_ignores_malformed_dictionary_entry_records(self):
+        verifier = RandomVerifier.from_dictionary_entries(["bad entry", {"term": "doge"}])
+
+        summary = verifier.verify([{"message": "doge satire"}], sample_size=1, seed=1)
+
+        self.assertEqual(verifier.keyword_terms, ["doge"])
+        self.assertEqual(summary.keyword_hits, 1)
+
     def test_random_verifier_skips_scrape_diagnostics(self):
         verifier = RandomVerifier(keyword_terms=["狗头"])
 

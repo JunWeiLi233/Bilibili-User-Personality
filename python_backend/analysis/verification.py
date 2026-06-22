@@ -275,6 +275,8 @@ class RandomVerifier:
         seen: set[str] = set()
         terms: list[str] = []
         for entry in entries:
+            if not isinstance(entry, dict):
+                continue
             values = [
                 entry.get("term"),
                 *(entry.get("aliases") if isinstance(entry.get("aliases"), list) else []),
