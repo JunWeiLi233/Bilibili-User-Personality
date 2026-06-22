@@ -159,7 +159,7 @@ from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriteCommandRequest, CorpusShardWriteContractComparator as CorpusShardWritePayloadComparator, CorpusShardWritePayloadContractComparator, CorpusShardWriteRequest, CorpusShardWriteRunner as CorpusShardWritePayloadRunner, CorpusShardWriteSummary, CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliParseCommandRequest, BilibiliParseContractComparator as BilibiliParsePayloadComparator, BilibiliParsePayloadContractComparator, BilibiliParseRequest, BilibiliParseRunner as BilibiliParsePayloadRunner, BilibiliParseSummary, BilibiliPublicParser
-from python_backend.scrapers.aicu import AicuBatchPlanCommandRequest, AicuBatchPlanContractComparator as AicuBatchPlanPayloadComparator, AicuBatchPlanPayloadContractComparator, AicuBatchPlanRequest, AicuBatchPlanRunner as AicuBatchPayloadPlanRunner, AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressPayloadContractComparator, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanCommandRequest, AicuScrapePlanContractComparator as AicuScrapePlanPayloadComparator, AicuScrapePlanPayloadContractComparator, AicuScrapePlanRequest, AicuScrapePlanRunner as AicuScrapePayloadPlanRunner, AicuScrapePlanSummary, AicuScrapePlanner, BatchScrapeProgressRequest, BatchScrapeProgressRunner as BatchScrapeProgressPayloadRunner
+from python_backend.scrapers.aicu import AicuBatchPlanCommandRequest, AicuBatchPlanContractComparator as AicuBatchPlanPayloadComparator, AicuBatchPlanPayloadContractComparator, AicuBatchPlanRequest, AicuBatchPlanRunner as AicuBatchPayloadPlanRunner, AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressPayloadContractComparator, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanCommandRequest, AicuScrapePlanContractComparator as AicuScrapePlanPayloadComparator, AicuScrapePlanPayloadContractComparator, AicuScrapePlanRequest, AicuScrapePlanRunner as AicuScrapePayloadPlanRunner, AicuScrapePlanSummary, AicuScrapePlanner, BatchScrapeProgressCommandRequest, BatchScrapeProgressRequest, BatchScrapeProgressRunner as BatchScrapeProgressPayloadRunner
 from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanCommandRequest, AicuBrowserBatchPlanContractComparator as AicuBrowserBatchPlanPayloadComparator, AicuBrowserBatchPlanPayloadContractComparator, AicuBrowserBatchPlanRequest, AicuBrowserBatchPlanRunner as AicuBrowserBatchPayloadPlanRunner, AicuBrowserBatchPlanSummary, AicuBrowserBatchPlanner
 from python_backend.scrapers import video_link_direct
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanCommandRequest, VideoLinkDirectPlanContractComparator as VideoLinkDirectPlanPayloadComparator, VideoLinkDirectPlanner, VideoLinkDirectPlanRequest, VideoLinkDirectPlanRunner as VideoLinkDirectPayloadPlanRunner
@@ -18006,6 +18006,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["progress"], {"lastUid": 2, "completed": 1, "errors": 0, "remaining": 1, "rangeTotal": 3})
         self.assertEqual(result["database"], {"users": 1, "withComments": 1, "comments": 1, "danmaku": 0})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["progress"])
+
+    def test_batch_scrape_progress_command_request_lives_with_aicu_scraper_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            js_report_path = root / "js-batch-scrape-progress.json"
+            (data_dir / "batch-scrape-progress.json").write_text(json.dumps({"lastUid": 3, "completed": 2, "errors": ["x"]}), encoding="utf-8")
+            (data_dir / "aicu-user-database.json").write_text(
+                json.dumps({"users": {"1": {"comments": [{"message": "x"}]}, "2": {"danmaku": [{"content": "y"}]}}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"progress": {"completed": 0}}), encoding="utf-8")
+
+            result = BatchScrapeProgressCommandRequest(["--data-dir", data_dir, "--start-uid", "1", "--end-uid", "4"]).run()
+            comparison = BatchScrapeProgressCommandRequest(
+                ["--data-dir", data_dir, "--start-uid", "1", "--end-uid", "4", "--compare-js-report", js_report_path]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["progress"], {"lastUid": 3, "completed": 2, "errors": 1, "remaining": 1, "rangeTotal": 4})
+        self.assertEqual(result["database"], {"users": 2, "withComments": 1, "comments": 1, "danmaku": 1})
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["progress"])
 
