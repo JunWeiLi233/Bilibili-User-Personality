@@ -21965,6 +21965,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(attempt["attempts"], 1)
         self.assertEqual(attempt["lastError"], "timeout")
 
+    def test_harvest_state_cli_runner_is_command_request_wrapper(self):
+        self.assertTrue(issubclass(harvest_state_cli.HarvestStateCliRunner, HarvestStateCommandRequest))
+
     def test_harvest_state_payload_processor_handles_summary_json_contract_without_cli(self):
         result = HarvestStatePayloadProcessor().process(
             {
