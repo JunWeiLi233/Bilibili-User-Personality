@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import base64
 import json
 import re
@@ -113,6 +114,24 @@ class DictionaryPruneSummaryRequest:
         if self.compare_js_report_path:
             return DictionaryPruneSummaryPayloadContractComparator(self.dictionary_path, self.compare_js_report_path).compare()
         return DictionaryPruneSummaryRunner(self.dictionary_path).run()
+
+
+class DictionaryPruneSummaryCommandRequest:
+    """Argv-backed corpus-layer command request for dictionary prune summary commands."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    def parser(self) -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Build a dry-run summary for dictionary pruning compatibility.")
+        parser.add_argument("--dictionary", default="server/data/deepseekKeywordDictionary.json")
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible prune summary JSON to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        argv = [str(item) for item in self.argv] if self.argv is not None else None
+        args = self.parser().parse_args(argv)
+        return DictionaryPruneSummaryRequest(args.dictionary, compare_js_report_path=args.compare_js_report or None).run()
 
 
 class ExhaustedTermsPrunePlanSummary:
