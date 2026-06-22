@@ -941,3 +941,31 @@ class UidPipelineProgressRequest:
                 **self.runner_options,
             ).compare()
         return UidPipelineProgressRunner(self.progress_path, **self.runner_options).run()
+
+
+class UidPipelineProgressCommandRequest:
+    """Argv-backed scraper-layer request for UID pipeline progress contracts."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Summarize one UID pipeline worker progress JSON file.")
+        parser.add_argument("--progress", default="server/data/uid-pipeline-1-100000.json")
+        parser.add_argument("--start", type=int)
+        parser.add_argument("--end", type=int)
+        parser.add_argument("--user-db", default="")
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible UID pipeline progress report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        runner_options = {"start": args.start, "end": args.end}
+        if args.user_db:
+            runner_options["user_db_path"] = args.user_db
+        return UidPipelineProgressRequest(
+            args.progress,
+            compare_js_report_path=args.compare_js_report or None,
+            **runner_options,
+        ).run()

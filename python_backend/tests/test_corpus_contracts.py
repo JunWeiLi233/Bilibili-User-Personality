@@ -184,7 +184,7 @@ from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherCommand
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanCommandRequest, UidDiscoveryPlanContractComparator as UidDiscoveryPlanPayloadComparator, UidDiscoveryPlanPayloadContractComparator, UidDiscoveryPlanRequest, UidDiscoveryPlanRunner as UidDiscoveryPayloadPlanRunner, UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressContractComparator as UidDiscoveryProgressPayloadComparator, UidDiscoveryProgressPayloadContractComparator, UidDiscoveryProgressReporter, UidDiscoveryProgressRequest, UidDiscoveryProgressRunner as UidDiscoveryProgressPayloadRunner, UidDiscoveryProgressSummary
 from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanCommandRequest, UidFastPipelinePlanContractComparator as UidFastPipelinePlanPayloadComparator, UidFastPipelinePlanPayloadContractComparator, UidFastPipelinePlanRequest, UidFastPipelinePlanRunner as UidFastPipelinePayloadPlanRunner
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanCommandRequest, UidParallelPlanContractComparator as UidParallelPlanPayloadComparator, UidParallelPlanPayloadContractComparator, UidParallelPlanRequest, UidParallelPlanRunner as UidParallelPayloadPlanRunner, UidParallelPlanSummary, UidParallelProgressContractComparator as UidParallelProgressPayloadComparator, UidParallelProgressPayloadContractComparator, UidParallelProgressReporter, UidParallelProgressRequest, UidParallelProgressRunner as UidParallelProgressPayloadRunner, UidParallelProgressSummary
-from python_backend.scrapers.uid_pipeline import UidPipelineLauncherContractComparator as UidPipelineLauncherPayloadComparator, UidPipelineLauncherPayloadContractComparator, UidPipelineLauncherPlanner, UidPipelineLauncherPlanRunner as UidPipelineLauncherPayloadPlanRunner, UidPipelineLauncherRequest, UidPipelineLauncherSummary, UidPipelineMergeContractComparator as UidPipelineMergePayloadComparator, UidPipelineMergePayloadContractComparator, UidPipelineMergeReporter, UidPipelineMergeRequest, UidPipelineMergeRunner as UidPipelineMergePayloadRunner, UidPipelineMergeSummary, UidPipelinePlanCommandRequest, UidPipelinePlanContractComparator as UidPipelinePlanPayloadComparator, UidPipelinePlanPayloadContractComparator, UidPipelinePlanRequest, UidPipelinePlanRunner as UidPipelinePayloadPlanRunner, UidPipelinePlanSummary, UidPipelineProgressContractComparator as UidPipelineProgressPayloadComparator, UidPipelineProgressPayloadContractComparator, UidPipelineProgressReporter, UidPipelineProgressRequest, UidPipelineProgressRunner as UidPipelineProgressPayloadRunner, UidPipelineProgressSummary, UidPipelineStateContractComparator as UidPipelineStatePayloadComparator, UidPipelineStatePayloadContractComparator, UidPipelineStateReporter, UidPipelineStateRequest, UidPipelineStateRunner as UidPipelineStatePayloadRunner, UidPipelineStateSummary, UidPipelineWorkerPlanner
+from python_backend.scrapers.uid_pipeline import UidPipelineLauncherContractComparator as UidPipelineLauncherPayloadComparator, UidPipelineLauncherPayloadContractComparator, UidPipelineLauncherPlanner, UidPipelineLauncherPlanRunner as UidPipelineLauncherPayloadPlanRunner, UidPipelineLauncherRequest, UidPipelineLauncherSummary, UidPipelineMergeContractComparator as UidPipelineMergePayloadComparator, UidPipelineMergePayloadContractComparator, UidPipelineMergeReporter, UidPipelineMergeRequest, UidPipelineMergeRunner as UidPipelineMergePayloadRunner, UidPipelineMergeSummary, UidPipelinePlanCommandRequest, UidPipelinePlanContractComparator as UidPipelinePlanPayloadComparator, UidPipelinePlanPayloadContractComparator, UidPipelinePlanRequest, UidPipelinePlanRunner as UidPipelinePayloadPlanRunner, UidPipelinePlanSummary, UidPipelineProgressCommandRequest, UidPipelineProgressContractComparator as UidPipelineProgressPayloadComparator, UidPipelineProgressPayloadContractComparator, UidPipelineProgressReporter, UidPipelineProgressRequest, UidPipelineProgressRunner as UidPipelineProgressPayloadRunner, UidPipelineProgressSummary, UidPipelineStateContractComparator as UidPipelineStatePayloadComparator, UidPipelineStatePayloadContractComparator, UidPipelineStateReporter, UidPipelineStateRequest, UidPipelineStateRunner as UidPipelineStatePayloadRunner, UidPipelineStateSummary, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorContractComparator as ScraperMonitorPayloadComparator, ScraperMonitorPayloadContractComparator, ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter, ScraperMonitorRequest, ScraperMonitorRunner as ScraperMonitorPayloadRunner, ScraperMonitorSummary
 from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherCommandRequest, FastPipelineLauncherContractComparator as FastPipelineLauncherPayloadComparator, FastPipelineLauncherPayloadContractComparator, FastPipelineLauncherPlanner, FastPipelineLauncherPlanRunner as FastPipelineLauncherPayloadPlanRunner, FastPipelineLauncherRequest, FastPipelineLauncherSummary, UidFastPipelinePlanSummary, UidFastPipelinePlanner
 
@@ -15631,6 +15631,41 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["range"], {"start": 21, "end": 23, "total": 3})
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["progress"])
+
+    def test_uid_pipeline_progress_command_request_lives_with_scraper_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            progress_path = root / "uid-pipeline-31-33.json"
+            user_db_path = root / "scraped-users-db.json"
+            js_report_path = root / "js-progress.json"
+            progress_path.write_text(
+                json.dumps({"processed": {"31": "success", "32": "no_user"}, "stats": {"success": 1, "noUser": 1}}),
+                encoding="utf-8",
+            )
+            user_db_path.write_text(json.dumps({"users": {"31": {}, "99": {}}}), encoding="utf-8")
+            js_report_path.write_text(json.dumps({"progress": {"processed": 0}, "userDb": {"usersInRange": 0}}), encoding="utf-8")
+
+            result = UidPipelineProgressCommandRequest(
+                ["--progress", progress_path, "--start=31", "--end=33", "--user-db", user_db_path]
+            ).run()
+            comparison = UidPipelineProgressCommandRequest(
+                [
+                    "--progress",
+                    progress_path,
+                    "--start=31",
+                    "--end=33",
+                    "--user-db",
+                    user_db_path,
+                    "--compare-js-report",
+                    js_report_path,
+                ]
+            ).run()
+
+        self.assertEqual(result["range"], {"start": 31, "end": 33, "total": 3})
+        self.assertEqual(result["progress"], {"processed": 2, "remaining": 1, "completionRatio": 0.6667})
+        self.assertEqual(result["userDb"], {"users": 2, "usersInRange": 1})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["progress", "userDb"])
 
     def test_uid_pipeline_progress_reporter_summarizes_payload_without_filesystem(self):
         reporter = UidPipelineProgressReporter()
