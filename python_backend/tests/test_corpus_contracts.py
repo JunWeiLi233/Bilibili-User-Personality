@@ -165,7 +165,7 @@ from python_backend.scrapers import video_link_direct
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanCommandRequest, VideoLinkDirectPlanContractComparator as VideoLinkDirectPlanPayloadComparator, VideoLinkDirectPlanner, VideoLinkDirectPlanRequest, VideoLinkDirectPlanRunner as VideoLinkDirectPayloadPlanRunner
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerCommandRequest, BilibiliCrawlerContractComparator as BilibiliCrawlerPayloadComparator, BilibiliCrawlerPayloadContractComparator, BilibiliCrawlerRequest, BilibiliCrawlerRunner as BilibiliCrawlerPayloadRunner, BilibiliCrawlerHelper, BilibiliCrawlerSummary
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanCommandRequest, BilibiliProbePlanContractComparator as BilibiliProbePlanPayloadComparator, BilibiliProbePlanPayloadContractComparator, BilibiliProbePlanRequest, BilibiliProbePlanRunner as BilibiliProbePayloadPlanRunner, BilibiliProbePlanSummary, BilibiliProbePlanner
-from python_backend.runtime.file_lock import FileLockStateContractComparator as FileLockStatePayloadComparator, FileLockStateInspector, FileLockStateRequest, FileLockStateRunner as FileLockStatePayloadRunner, FileLockStateSummary
+from python_backend.runtime.file_lock import FileLockStateCommandRequest, FileLockStateContractComparator as FileLockStatePayloadComparator, FileLockStateInspector, FileLockStateRequest, FileLockStateRunner as FileLockStatePayloadRunner, FileLockStateSummary
 from python_backend.scrapers.rate_limiter import RateLimitPolicy, RateLimiter
 from python_backend.cli.aicu_scrape_plan import AicuScrapePlanContractComparator, AicuScrapePlanRunner
 from python_backend.cli.aicu_batch_plan import AicuBatchPlanContractComparator, AicuBatchPlanRunner
@@ -1840,6 +1840,27 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["owner"]["pid"], 12345)
         self.assertEqual(result["state"]["staleByPid"], True)
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(comparison["mismatches"][0]["key"], "state")
+
+    def test_file_lock_state_command_request_lives_with_runtime_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            lock_path = root / "harvest.lock"
+            lock_path.mkdir()
+            js_report_path = root / "js-lock-report.json"
+            (lock_path / "owner.json").write_text(
+                json.dumps({"pid": 0, "startedAt": "2026-06-19T00:00:00.000Z", "command": "node"}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"state": {"exists": False}}), encoding="utf-8")
+
+            result = FileLockStateCommandRequest(["--lock", lock_path, "--stale-ms", "60000"]).run()
+            comparison = FileLockStateCommandRequest(["--lock", lock_path, "--stale-ms", "60000", "--compare-js-report", js_report_path]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["owner"]["pid"], 0)
+        self.assertEqual(result["state"]["exists"], True)
         self.assertFalse(comparison["ok"])
         self.assertEqual(comparison["mismatches"][0]["key"], "state")
 
