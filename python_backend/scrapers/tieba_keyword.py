@@ -204,3 +204,16 @@ class TiebaKeywordPlanContractComparator:
         with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
+
+
+class TiebaKeywordPlanRequest:
+    """Scraper-layer request for Tieba keyword plan JSON contract commands."""
+
+    def __init__(self, payload_path: str | Path, compare_js_report_path: str | Path | None = None):
+        self.payload_path = Path(payload_path)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_report_path:
+            return TiebaKeywordPlanContractComparator(self.payload_path, self.compare_js_report_path).compare()
+        return TiebaKeywordPlanRunner(self.payload_path).run()

@@ -177,7 +177,7 @@ from python_backend.cli.batch_scrape_progress import BatchScrapeProgressContract
 from python_backend.cli.batch_uid_progress import BatchUidProgressContractComparator, BatchUidProgressRunner
 from python_backend.cli.uid_discovery_progress import UidDiscoveryProgressContractComparator, UidDiscoveryProgressRunner
 from python_backend.scrapers.tieba_html import TiebaHtmlParseContractComparator as TiebaHtmlParsePayloadComparator, TiebaHtmlParsePayloadContractComparator, TiebaHtmlParseRequest, TiebaHtmlParseRunner as TiebaHtmlParsePayloadRunner, TiebaHtmlParseSummary, TiebaHtmlParser
-from python_backend.scrapers.tieba_keyword import TiebaKeywordPlanContractComparator as TiebaKeywordPlanPayloadComparator, TiebaKeywordPlanRunner as TiebaKeywordPayloadPlanRunner, TiebaKeywordPlanSummary, TiebaKeywordScrapeOptionsPlanner
+from python_backend.scrapers.tieba_keyword import TiebaKeywordPlanContractComparator as TiebaKeywordPlanPayloadComparator, TiebaKeywordPlanRequest, TiebaKeywordPlanRunner as TiebaKeywordPayloadPlanRunner, TiebaKeywordPlanSummary, TiebaKeywordScrapeOptionsPlanner
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming, TiebaTimingContractComparator as TiebaTimingPayloadComparator, TiebaTimingRequest, TiebaTimingRunner as TiebaTimingPayloadRunner
 from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanContractComparator as BatchBilibiliPlanPayloadComparator, BatchBilibiliPlanPayloadContractComparator, BatchBilibiliPlanRequest, BatchBilibiliPlanRunner as BatchBilibiliPayloadPlanRunner, BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularPlanContractComparator as BatchPopularPlanPayloadComparator, BatchPopularPlanPayloadContractComparator, BatchPopularPlanRequest, BatchPopularPlanRunner as BatchPopularPayloadPlanRunner, BatchPopularPlanSummary, BatchPopularScrapePlanner
@@ -6754,6 +6754,31 @@ class CorpusContractTests(unittest.TestCase):
                 }
             ],
         )
+
+    def test_tieba_keyword_plan_request_owns_cli_dispatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "tieba-scraper-plan.json"
+            js_report_path = root / "js-tieba-scraper-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--query=doge", "--thread-limit=2"],
+                        "env": {"TIEBA_DISCOVERY_MODE": "mobile"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"options": {"queries": ["stale"], "threadLimit": 9}}), encoding="utf-8")
+
+            result = TiebaKeywordPlanRequest(payload_path).run()
+            comparison = TiebaKeywordPlanRequest(payload_path, compare_js_report_path=js_report_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["options"]["queries"], ["doge"])
+        self.assertEqual(result["options"]["threadLimit"], 2)
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["options"])
 
     def test_tieba_keyword_plan_summary_extracts_comparator_contract(self):
         summary = TiebaKeywordPlanSummary().summarize(
