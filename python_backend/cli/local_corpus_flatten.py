@@ -6,14 +6,8 @@ import json
 from python_backend.corpus.local import LocalCorpusFlattenCommandRequest, LocalCorpusFlattenPayloadContractComparator as LocalCorpusFlattenContractComparator, LocalCorpusFlattenRunner
 
 
-class LocalCorpusFlattenCliRunner:
+class LocalCorpusFlattenCliRunner(LocalCorpusFlattenCommandRequest):
     """CLI-compatible local corpus flatten runner for JSON contract checks."""
-
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        return LocalCorpusFlattenCommandRequest(self.argv).run()
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:

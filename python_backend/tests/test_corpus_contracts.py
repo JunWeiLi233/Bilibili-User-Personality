@@ -6033,6 +6033,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["comments"][0]["uid"], "BVflat")
 
+    def test_local_corpus_flatten_cli_runner_is_command_request_wrapper(self):
+        self.assertTrue(issubclass(local_corpus_flatten_cli.LocalCorpusFlattenCliRunner, LocalCorpusFlattenCommandRequest))
+
     def test_local_corpus_flatten_command_request_lives_with_corpus_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
