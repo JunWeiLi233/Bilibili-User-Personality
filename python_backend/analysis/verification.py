@@ -263,6 +263,7 @@ class RandomVerifier:
     """Deterministically sample comments and classify lexical keyword coverage."""
 
     def __init__(self, keyword_terms: list[str]):
+        keyword_terms = keyword_terms if isinstance(keyword_terms, list) else []
         self.keyword_terms = [term for term in keyword_terms if term]
         self._ascii_terms = {term: re.compile(rf"(?<![0-9a-z_]){re.escape(term.casefold())}(?![0-9a-z_])") for term in self.keyword_terms if term.isascii()}
 
