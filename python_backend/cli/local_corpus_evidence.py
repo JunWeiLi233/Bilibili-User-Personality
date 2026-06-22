@@ -12,7 +12,7 @@ class LocalCorpusEvidenceCliRunner(LocalCorpusEvidenceCommandRequest):
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    return LocalCorpusEvidenceCommandRequest(argv).parse_args()
+    return LocalCorpusEvidenceCommandRequest.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> int:

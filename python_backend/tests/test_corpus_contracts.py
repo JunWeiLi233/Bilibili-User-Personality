@@ -6658,6 +6658,13 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(args.target_term, ["doge"])
         self.assertEqual(args.compare_js_report, "js-evidence.json")
 
+    def test_local_corpus_evidence_command_request_owns_parse_validation(self):
+        args = LocalCorpusEvidenceCommandRequest.parse_args(["--comments", "comments.json", "--target-term", "doge"])
+
+        self.assertEqual(args.comments, "comments.json")
+        self.assertEqual(args.payload, "")
+        self.assertEqual(args.target_term, ["doge"])
+
     def test_local_corpus_evidence_cli_runner_is_command_request_wrapper(self):
         self.assertTrue(issubclass(local_corpus_evidence_cli.LocalCorpusEvidenceCliRunner, LocalCorpusEvidenceCommandRequest))
 
