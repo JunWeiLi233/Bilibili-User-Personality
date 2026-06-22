@@ -504,7 +504,8 @@ class DeepSeekAnalysisPlanCommandRequest:
     def __init__(self, argv: list[Any] | None = None):
         self.argv = argv
 
-    def parser(self) -> argparse.ArgumentParser:
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(description="Build a Python-owned DeepSeek analyzer request plan from a JS-compatible JSON payload.")
         parser.add_argument("--payload", required=True, help="Path to a JSON payload containing text/comments and optional keywordHints.")
         parser.add_argument("--compact", action="store_true", help="Build the compact retry prompt variant.")

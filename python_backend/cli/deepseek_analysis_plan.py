@@ -11,7 +11,7 @@ from python_backend.analyzers.deepseek import (
 
 
 def build_parser() -> argparse.ArgumentParser:
-    return DeepSeekAnalysisPlanCommandRequest([]).parser()
+    return DeepSeekAnalysisPlanCommandRequest.parser()
 
 
 class DeepSeekAnalysisPlanCliRunner(DeepSeekAnalysisPlanCommandRequest):

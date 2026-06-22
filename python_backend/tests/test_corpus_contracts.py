@@ -4358,6 +4358,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(len(result["requests"]), 3)
         self.assertEqual(result["requests"][0]["max_tokens"], 1600)
 
+    def test_deepseek_analysis_plan_command_request_owns_parser_factory(self):
+        args = DeepSeekAnalysisPlanCommandRequest.parser().parse_args(
+            ["--payload", "payload.json", "--compact", "--compare-js-plan", "js-plan.json"]
+        )
+
+        self.assertEqual(args.payload, "payload.json")
+        self.assertTrue(args.compact)
+        self.assertEqual(args.compare_js_plan, "js-plan.json")
+
     def test_deepseek_analysis_plan_contract_comparator_reports_plan_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
