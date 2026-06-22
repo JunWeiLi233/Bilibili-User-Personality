@@ -211,6 +211,24 @@ class UidFastPipelinePlanRequest:
         return UidFastPipelinePlanRunner(self.payload_path).run()
 
 
+class UidFastPipelinePlanCommandRequest:
+    """Argv-backed scraper-layer request for UID fast pipeline plan contracts."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Build a uidPipelineFast.js-compatible dry-run plan.")
+        parser.add_argument("--payload", required=True)
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible UID fast pipeline plan report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return UidFastPipelinePlanRequest(args.payload, compare_js_report_path=args.compare_js_report or None).run()
+
+
 class FastPipelineLauncherPlanner:
     """Build a dry-run launch plan compatible with launchFastWorkers.ps1."""
 
