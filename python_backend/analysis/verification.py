@@ -149,7 +149,8 @@ class RandomVerificationRunner:
         self.dictionary_path = Path(dictionary_path)
         self.sample_size = _non_negative_int(sample_size, 50)
         self.seed = _int_or(seed, 1)
-        self.extra_corpus_paths = [Path(path) for path in (extra_corpus_paths or [])]
+        extra_corpus_paths = extra_corpus_paths if isinstance(extra_corpus_paths, list) else []
+        self.extra_corpus_paths = [Path(path) for path in extra_corpus_paths]
 
     def run(self) -> dict[str, Any]:
         corpus = CorpusLoader(self.corpus_path).load()

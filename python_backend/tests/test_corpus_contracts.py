@@ -1361,6 +1361,26 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["keywordHits"], 1)
         self.assertEqual(result["neutral"], 1)
 
+    def test_random_verification_payload_runner_defaults_non_list_extra_corpus_paths(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            dictionary_path = root / "dictionary.json"
+            corpus_path.write_text(json.dumps({"comments": [{"message": "plain bilibili"}], "runs": [{"source": "bilibili"}]}), encoding="utf-8")
+            dictionary_path.write_text(json.dumps({"entries": [{"term": "tieba"}]}), encoding="utf-8")
+
+            result = RandomVerificationPayloadRunner(
+                corpus_path,
+                dictionary_path,
+                sample_size=10,
+                seed=1,
+                extra_corpus_paths="tiebaKeywordCorpus.json",
+            ).run()
+
+        self.assertEqual(result["corpus"], {"comments": 1, "runs": 1, "storage": "monolith"})
+        self.assertEqual(result["sampled"], 1)
+        self.assertEqual(result["keywordHits"], 0)
+
     def test_random_verification_command_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
