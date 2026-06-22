@@ -703,3 +703,50 @@ class HistoryTagScrapePlanPayloadContractComparator:
         with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
+
+
+class HistoryTagCorpusRequest:
+    """Corpus-layer request for history-tag merge, scrape-plan, and split-write JSON contracts."""
+
+    def __init__(
+        self,
+        current_path: str | Path = DEFAULT_BILIBILI_HISTORY_TAG_CORPUS_PATH,
+        update_path: str | Path | None = None,
+        *,
+        generated_at: str | None = None,
+        compare_js_report_path: str | Path | None = None,
+        plan_payload_path: str | Path | None = None,
+        write_payload_path: str | Path | None = None,
+    ):
+        self.current_path = Path(current_path)
+        self.update_path = Path(update_path) if update_path else None
+        self.generated_at = generated_at
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+        self.plan_payload_path = Path(plan_payload_path) if plan_payload_path else None
+        self.write_payload_path = Path(write_payload_path) if write_payload_path else None
+
+    def run(self) -> dict[str, Any]:
+        if self.write_payload_path and self.compare_js_report_path:
+            return HistoryTagCorpusShardWritePayloadContractComparator(
+                self.write_payload_path,
+                self.compare_js_report_path,
+            ).compare()
+        if self.write_payload_path:
+            return HistoryTagCorpusShardWriteRunner(self.write_payload_path).run()
+        if self.plan_payload_path and self.compare_js_report_path:
+            return HistoryTagScrapePlanPayloadContractComparator(
+                self.plan_payload_path,
+                self.compare_js_report_path,
+            ).compare()
+        if self.plan_payload_path:
+            return HistoryTagScrapePlanRunner(self.plan_payload_path).run()
+        if not self.update_path:
+            raise ValueError("update_path is required unless plan_payload_path or write_payload_path is provided")
+        if self.compare_js_report_path:
+            return HistoryTagCorpusPayloadContractComparator(
+                self.current_path,
+                self.update_path,
+                self.compare_js_report_path,
+                generated_at=self.generated_at,
+            ).compare()
+        return HistoryTagCorpusRunner(self.current_path, self.update_path, generated_at=self.generated_at).run()

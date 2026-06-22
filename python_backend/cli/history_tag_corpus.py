@@ -6,6 +6,7 @@ import sys
 
 from python_backend.corpus.history_tags import (
     HistoryTagCorpusPayloadContractComparator as HistoryTagCorpusContractComparator,
+    HistoryTagCorpusRequest,
     HistoryTagCorpusRunner,
     HistoryTagCorpusShardWritePayloadContractComparator as HistoryTagCorpusShardWriteContractComparator,
     HistoryTagCorpusShardWriteRunner,
@@ -34,24 +35,16 @@ class HistoryTagCorpusCliRunner:
     def run(self) -> dict:
         parser = build_parser()
         args = parser.parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.write_payload and args.compare_js_report:
-            return HistoryTagCorpusShardWriteContractComparator(args.write_payload, args.compare_js_report).compare()
-        if args.write_payload:
-            return HistoryTagCorpusShardWriteRunner(args.write_payload).run()
-        if args.plan_payload and args.compare_js_report:
-            return HistoryTagScrapePlanContractComparator(args.plan_payload, args.compare_js_report).compare()
-        if args.plan_payload:
-            return HistoryTagScrapePlanRunner(args.plan_payload).run()
-        if args.compare_js_report:
-            return HistoryTagCorpusContractComparator(
-                args.current,
-                args.update,
-                args.compare_js_report,
-                generated_at=args.generated_at or None,
-            ).compare()
-        if not args.update:
+        if not args.update and not args.plan_payload and not args.write_payload:
             parser.error("--update is required unless --plan-payload is used")
-        return HistoryTagCorpusRunner(args.current, args.update, generated_at=args.generated_at or None).run()
+        return HistoryTagCorpusRequest(
+            current_path=args.current,
+            update_path=args.update or None,
+            generated_at=args.generated_at or None,
+            compare_js_report_path=args.compare_js_report or None,
+            plan_payload_path=args.plan_payload or None,
+            write_payload_path=args.write_payload or None,
+        ).run()
 
 
 def main(argv: list[str] | None = None) -> int:

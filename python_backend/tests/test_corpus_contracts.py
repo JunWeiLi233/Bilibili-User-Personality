@@ -143,7 +143,7 @@ from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContra
 from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContractComparator, FastPipelineLauncherPlanRunner
 from python_backend.corpus import direct_probe as direct_probe_module
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusContractComparator as DirectProbeCorpusPayloadComparator, DirectProbeCorpusJsonPayloadContractComparator, DirectProbeCorpusPayloadContractComparator, DirectProbeCorpusRequest, DirectProbeCorpusRunner as DirectProbePayloadCorpusRunner, DirectProbeCorpusSummary, DirectProbePlanContractComparator as DirectProbePlanPayloadComparator, DirectProbePlanPayloadContractComparator, DirectProbePlanRequest, DirectProbePlanRunner as DirectProbePayloadPlanRunner, DirectProbePlanSummary
-from python_backend.corpus.history_tags import HistoryTagCorpusContractComparator as HistoryTagCorpusPayloadComparator, HistoryTagCorpusLoader, HistoryTagCorpusManager, HistoryTagCorpusPayloadContractComparator, HistoryTagCorpusRunner as HistoryTagPayloadCorpusRunner, HistoryTagCorpusShardWritePayloadContractComparator, HistoryTagCorpusShardWriteRunner, HistoryTagCorpusShardWriteSummary, HistoryTagCorpusShardWriter, HistoryTagCorpusSummary, HistoryTagScrapePlanner, HistoryTagScrapePlanContractComparator as HistoryTagScrapePlanPayloadComparator, HistoryTagScrapePlanPayloadContractComparator, HistoryTagScrapePlanRunner as HistoryTagScrapePayloadPlanRunner, HistoryTagScrapePlanSummary
+from python_backend.corpus.history_tags import HistoryTagCorpusContractComparator as HistoryTagCorpusPayloadComparator, HistoryTagCorpusLoader, HistoryTagCorpusManager, HistoryTagCorpusPayloadContractComparator, HistoryTagCorpusRequest, HistoryTagCorpusRunner as HistoryTagPayloadCorpusRunner, HistoryTagCorpusShardWritePayloadContractComparator, HistoryTagCorpusShardWriteRunner, HistoryTagCorpusShardWriteSummary, HistoryTagCorpusShardWriter, HistoryTagCorpusSummary, HistoryTagScrapePlanner, HistoryTagScrapePlanContractComparator as HistoryTagScrapePlanPayloadComparator, HistoryTagScrapePlanPayloadContractComparator, HistoryTagScrapePlanRunner as HistoryTagScrapePayloadPlanRunner, HistoryTagScrapePlanSummary
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceCorpusImportContractComparator as HuggingFaceCorpusImportPayloadComparator, HuggingFaceCorpusImportPlanContractComparator as HuggingFaceCorpusImportPlanPayloadComparator, HuggingFaceCorpusImportPlanRunner as HuggingFaceCorpusImportPayloadPlanRunner, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
 from python_backend.corpus.local import LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidenceJsonPayloadRunner, LocalCorpusEvidencePayloadContractComparator, LocalCorpusEvidenceRequest, LocalCorpusEvidenceRunner as LocalCorpusEvidencePayloadRunner, LocalCorpusEvidenceSummary
 from python_backend.corpus.local import LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenPayloadContractComparator, LocalCorpusFlattenRequest, LocalCorpusFlattenRunner as LocalCorpusFlattenPayloadRunner, LocalCorpusFlattenSummary, LocalCorpusFlattener
@@ -8448,6 +8448,51 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(plan["ok"])
         self.assertEqual(plan["summary"]["requests"], 2)
         self.assertEqual([item["key"] for item in plan_comparison["mismatches"]], ["pages"])
+
+    def test_history_tag_corpus_request_owns_cli_dispatch_modes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            current_path = root / "current.json"
+            update_path = root / "update.json"
+            write_payload_path = root / "write-payload.json"
+            plan_payload_path = root / "plan-payload.json"
+            js_plan_report_path = root / "js-plan.json"
+            js_corpus_report_path = root / "js-history-tags.json"
+            output_path = root / "history-tags.json"
+            current_path.write_text(json.dumps({"tags": [], "videos": [], "runs": []}), encoding="utf-8")
+            update_path.write_text(
+                json.dumps(
+                    {
+                        "tags": [{"name": "\u5386\u53f2"}],
+                        "videos": [{"bvid": "BVhistory", "aid": 100, "title": "<em>\u5386\u53f2</em>\u89c6\u9891", "tags": "\u5386\u53f2"}],
+                        "runs": [{"at": "run"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            write_payload_path.write_text(
+                json.dumps({"outputPath": str(output_path), "tags": [{"name": "\u5386\u53f2"}], "videos": [{"bvid": "BVhistory"}], "runs": [{"at": "run"}]}),
+                encoding="utf-8",
+            )
+            plan_payload_path.write_text(json.dumps({"argv": ["--pages=2", "--seed=\u5386\u53f2"]}), encoding="utf-8")
+            js_plan_report_path.write_text(json.dumps({"pages": 1, "seeds": ["\u5386\u53f2"]}), encoding="utf-8")
+            js_corpus_report_path.write_text(json.dumps({"tags": 0, "videos": 0, "runs": 0}), encoding="utf-8")
+
+            write_result = HistoryTagCorpusRequest(write_payload_path=write_payload_path).run()
+            plan_comparison = HistoryTagCorpusRequest(plan_payload_path=plan_payload_path, compare_js_report_path=js_plan_report_path).run()
+            corpus_comparison = HistoryTagCorpusRequest(
+                current_path=current_path,
+                update_path=update_path,
+                compare_js_report_path=js_corpus_report_path,
+                generated_at="2026-06-19T01:00:00.000Z",
+            ).run()
+
+        self.assertTrue(write_result["ok"])
+        self.assertEqual(write_result["videos"], 1)
+        self.assertFalse(plan_comparison["ok"])
+        self.assertEqual([item["key"] for item in plan_comparison["mismatches"]], ["pages"])
+        self.assertFalse(corpus_comparison["ok"])
+        self.assertEqual([item["key"] for item in corpus_comparison["mismatches"]], ["tags", "videos", "runs"])
 
     def test_history_tag_scrape_plan_summary_extracts_comparator_contract(self):
         summary = HistoryTagScrapePlanSummary().summarize(
