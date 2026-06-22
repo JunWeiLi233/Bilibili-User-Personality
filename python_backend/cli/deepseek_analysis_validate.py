@@ -15,14 +15,8 @@ def build_parser() -> argparse.ArgumentParser:
     return DeepSeekAnalysisValidateCommandRequest([]).parser()
 
 
-class DeepSeekAnalysisValidateCliRunner:
+class DeepSeekAnalysisValidateCliRunner(DeepSeekAnalysisValidateCommandRequest):
     """CLI-compatible DeepSeek validation runner for JS/Python JSON contracts."""
-
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        return DeepSeekAnalysisValidateCommandRequest(self.argv).run()
 
 
 def main(argv: list[str] | None = None) -> int:

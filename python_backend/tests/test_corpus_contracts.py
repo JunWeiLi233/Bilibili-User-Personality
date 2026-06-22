@@ -4592,6 +4592,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["summary"]["sourceSentences"], 2)
         self.assertEqual(result["summary"]["unsupportedQuotes"], 0)
 
+    def test_deepseek_analysis_validate_cli_runner_is_command_request_wrapper(self):
+        self.assertTrue(issubclass(deepseek_analysis_validate_cli.DeepSeekAnalysisValidateCliRunner, DeepSeekAnalysisValidateCommandRequest))
+
     def test_deepseek_analysis_validate_command_request_lives_with_analyzer(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
