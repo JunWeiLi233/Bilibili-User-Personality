@@ -69,7 +69,7 @@ from python_backend.cli import fast_pipeline_launcher as fast_pipeline_launcher_
 from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsCommandRequest, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRequest, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditCommandRequest, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditPayloadContractComparator, CoverageAuditReport, CoverageAuditRequest
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageCommandRequest, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageJsonPayloadContractComparator, CommentCoverageJsonPayloadRunner, CommentCoveragePayloadContractComparator, CommentCoverageRequest, CommentCoverageRunner as CommentCoveragePayloadRunner, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanPayloadContractComparator, CoverageHarvestLoopPlanRequest, CoverageHarvestLoopPlanRunner as CoverageHarvestLoopPayloadPlanRunner, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
-from python_backend.analysis.coverage_progress import CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressPayloadContractComparator, CoverageProgressRequest, CoverageProgressRunner as CoverageProgressPayloadRunner, CoverageProgressSummary, CoverageProgressTracker
+from python_backend.analysis.coverage_progress import CoverageProgressCommandRequest, CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressPayloadContractComparator, CoverageProgressRequest, CoverageProgressRunner as CoverageProgressPayloadRunner, CoverageProgressSummary, CoverageProgressTracker
 from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKeywordDiscoveryReportContractComparator as VideoKeywordDiscoveryReportPayloadComparator, VideoKeywordDiscoveryReportPayloadContractComparator, VideoKeywordDiscoveryReporter, VideoKeywordDiscoveryReportRequest, VideoKeywordDiscoveryReportRunner as VideoKeywordDiscoveryReportPayloadRunner, VideoKeywordDiscoveryReportSummary
 from python_backend.analysis import harvest_options as harvest_options_module
 from python_backend.analysis import verification as verification_module
@@ -13294,6 +13294,30 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertFalse(result["ok"])
         self.assertEqual([item["key"] for item in result["mismatches"]], ["delta", "hasGateProgress"])
+
+    def test_coverage_progress_command_request_owns_cli_dispatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "before": {"totalEvidence": 10, "evidenceDeficit": 5, "zeroEvidenceTerms": 2, "weakTerms": 4},
+                        "after": {"totalEvidence": 12, "evidenceDeficit": 3, "zeroEvidenceTerms": 1, "weakTerms": 3},
+                        "harvestProgress": [{"weakTermsResolved": 0, "zeroEvidenceResolved": 1, "evidenceGained": 2, "evidenceDeficitReduced": 2}],
+                        "beforeActions": [{"term": "rare-term", "needs": 2}],
+                        "afterActions": [{"term": "rare-term", "needs": 1}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = CoverageProgressCommandRequest(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["delta"]["evidenceDeficitReduced"], 2)
+        self.assertEqual(result["actionDelta"], {"actionTermsResolved": 0, "actionEvidenceNeedReduced": 1})
+        self.assertTrue(result["hasGateProgress"])
 
     def test_coverage_progress_tracker_owns_payload_contract(self):
         result = CoverageProgressTracker().run_from_payload(

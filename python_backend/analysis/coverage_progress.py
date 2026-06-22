@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import base64
 import json
 from pathlib import Path
@@ -118,6 +119,27 @@ class CoverageProgressRequest:
                 self.compare_js_report_path,
             ).compare()
         return CoverageProgressRunner(self.payload_path).run()
+
+
+class CoverageProgressCommandRequest:
+    """Analysis-layer command request for coverage-progress JSON contract modes."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return CoverageProgressRequest(
+            payload_path=args.payload,
+            compare_js_report_path=args.compare_js_report or None,
+        ).run()
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Evaluate coverage progress from a JSON payload.")
+        parser.add_argument("--payload", required=True, help="Path to coverage progress JSON payload.")
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible coverage progress report to compare.")
+        return parser
 
 
 class CoverageProgressTracker:
