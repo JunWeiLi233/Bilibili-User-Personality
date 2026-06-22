@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 
-from python_backend.analysis.audit import CoverageAuditPayloadContractComparator as AuditContractComparator, CoverageAuditRequest
+from python_backend.analysis.audit import CoverageAuditCommandRequest, CoverageAuditPayloadContractComparator as AuditContractComparator
 
 
 class CoverageAuditCliRunner:
@@ -13,12 +13,7 @@ class CoverageAuditCliRunner:
         self.argv = argv
 
     def run(self) -> dict:
-        args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        return CoverageAuditRequest(
-            dictionary_path=args.dictionary,
-            js_audit_path=args.js_audit,
-            strict_total_evidence=args.strict_total_evidence,
-        ).run()
+        return CoverageAuditCommandRequest(self.argv).run()
 
 
 class CoverageAuditRunner(CoverageAuditCliRunner):
@@ -26,11 +21,7 @@ class CoverageAuditRunner(CoverageAuditCliRunner):
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Compare Python coverage-audit metrics against the current JS audit report.")
-    parser.add_argument("--dictionary", default="server/data/deepseekKeywordDictionary.json")
-    parser.add_argument("--js-audit", default="server/data/keywordCoverageAudit.json")
-    parser.add_argument("--strict-total-evidence", action="store_true")
-    return parser
+    return CoverageAuditCommandRequest.parser()
 
 
 def main(argv: list[str] | None = None) -> int:

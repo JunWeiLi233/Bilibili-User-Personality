@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -348,6 +349,29 @@ class CoverageAuditRequest:
             self.js_audit_path,
             strict_total_evidence=self.strict_total_evidence,
         ).compare()
+
+
+class CoverageAuditCommandRequest:
+    """Analysis-layer command request for file-backed coverage-audit JSON contracts."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return CoverageAuditRequest(
+            dictionary_path=args.dictionary,
+            js_audit_path=args.js_audit,
+            strict_total_evidence=args.strict_total_evidence,
+        ).run()
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Compare Python coverage-audit metrics against the current JS audit report.")
+        parser.add_argument("--dictionary", default="server/data/deepseekKeywordDictionary.json")
+        parser.add_argument("--js-audit", default="server/data/keywordCoverageAudit.json")
+        parser.add_argument("--strict-total-evidence", action="store_true")
+        return parser
 
 
 class CoverageAuditBuilder:

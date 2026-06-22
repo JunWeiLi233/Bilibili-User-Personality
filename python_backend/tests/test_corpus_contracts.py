@@ -66,7 +66,7 @@ from python_backend.cli import video_link_direct_plan as video_link_direct_plan_
 from python_backend.cli import video_relevance as video_relevance_cli
 from python_backend.cli import range_scraper_launcher as range_scraper_launcher_cli
 from python_backend.cli import fast_pipeline_launcher as fast_pipeline_launcher_cli
-from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRequest, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditPayloadContractComparator, CoverageAuditReport, CoverageAuditRequest
+from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRequest, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditCommandRequest, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditPayloadContractComparator, CoverageAuditReport, CoverageAuditRequest
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageCommandRequest, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageJsonPayloadContractComparator, CommentCoverageJsonPayloadRunner, CommentCoveragePayloadContractComparator, CommentCoverageRequest, CommentCoverageRunner as CommentCoveragePayloadRunner, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanPayloadContractComparator, CoverageHarvestLoopPlanRequest, CoverageHarvestLoopPlanRunner as CoverageHarvestLoopPayloadPlanRunner, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressPayloadContractComparator, CoverageProgressRequest, CoverageProgressRunner as CoverageProgressPayloadRunner, CoverageProgressSummary, CoverageProgressTracker
@@ -21550,6 +21550,47 @@ class CorpusContractTests(unittest.TestCase):
             )
 
             result = CoverageAuditRequest(dictionary_path=dictionary_path, js_audit_path=js_audit_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["python"]["coverage"]["weakTerms"], 1)
+
+    def test_coverage_audit_command_request_owns_cli_dispatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            js_audit_path = root / "js-audit.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {"term": "covered", "family": "attack", "evidenceCount": 3},
+                            {"term": "weak", "family": "attack", "evidenceCount": 1},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_audit_path.write_text(
+                json.dumps(
+                    {
+                        "targetEvidence": 3,
+                        "coverage": {
+                            "terms": 2,
+                            "totalEvidence": 4,
+                            "weakTerms": 1,
+                            "zeroEvidenceTerms": 0,
+                            "evidenceDeficit": 2,
+                            "coverageRatio": 0.5,
+                            "sourcedEvidenceTerms": 0,
+                            "unsourcedEvidenceTerms": 2,
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = CoverageAuditCommandRequest(["--dictionary", str(dictionary_path), "--js-audit", str(js_audit_path)]).run()
 
         self.assertTrue(result["ok"])
         self.assertEqual(result["mismatches"], [])
