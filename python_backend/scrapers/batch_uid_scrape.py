@@ -274,6 +274,19 @@ class BatchScraperLauncherPayloadContractComparator:
         return payload if isinstance(payload, dict) else {}
 
 
+class BatchScraperLauncherRequest:
+    """Scraper-layer request for batch scraper launcher JSON contract commands."""
+
+    def __init__(self, data_dir: str | Path, compare_js_report_path: str | Path | None = None):
+        self.data_dir = Path(data_dir)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_report_path:
+            return BatchScraperLauncherPayloadContractComparator(self.data_dir, self.compare_js_report_path).compare()
+        return BatchScraperLauncherPlanRunner(self.data_dir).run()
+
+
 class BatchUidProgressReporter:
     """Summarize batch UID scrape progress payloads into the JS-compatible report shape."""
 

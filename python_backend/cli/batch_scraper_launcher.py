@@ -7,6 +7,7 @@ import sys
 from python_backend.scrapers.batch_uid_scrape import (
     BatchScraperLauncherPayloadContractComparator as BatchScraperLauncherContractComparator,
     BatchScraperLauncherPlanRunner,
+    BatchScraperLauncherRequest,
 )
 
 
@@ -25,9 +26,7 @@ class BatchScraperLauncherCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.compare_js_report:
-            return BatchScraperLauncherContractComparator(args.data_dir, args.compare_js_report).compare()
-        return BatchScraperLauncherPlanRunner(args.data_dir).run()
+        return BatchScraperLauncherRequest(args.data_dir, compare_js_report_path=args.compare_js_report).run()
 
 
 def main(argv: list[str] | None = None) -> int:
