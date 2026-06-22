@@ -167,6 +167,31 @@ class UidParallelProgressRequest:
         return UidParallelProgressRunner(self.data_dir, **self.runner_options).run()
 
 
+class UidParallelProgressCommandRequest:
+    """Argv-backed scraper-layer request for UID parallel progress contracts."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Summarize one UID parallel analyzer worker progress JSON file.")
+        parser.add_argument("--data-dir", default="server/data")
+        parser.add_argument("--worker", type=int, default=0)
+        parser.add_argument("--workers", type=int, default=4)
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible UID parallel progress report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return UidParallelProgressRequest(
+            args.data_dir,
+            compare_js_report_path=args.compare_js_report or None,
+            worker_id=args.worker,
+            total_workers=args.workers,
+        ).run()
+
+
 class UidParallelAnalyzerPlanner:
     """Build a dry-run plan for uidParallelAnalyzer.js worker assignment."""
 
