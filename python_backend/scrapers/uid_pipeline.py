@@ -403,6 +403,35 @@ class UidPipelineLauncherRequest:
         ).run()
 
 
+class UidPipelineLauncherCommandRequest:
+    """Argv-backed scraper-layer request for UID pipeline launcher contracts."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Build a dry-run UID pipeline launcher plan.")
+        parser.add_argument("--data-dir", default="server/data")
+        parser.add_argument("--total-start", type=int, default=1)
+        parser.add_argument("--total-end", type=int, default=100000)
+        parser.add_argument("--workers", type=int, default=5)
+        parser.add_argument("--write-state", action="store_true", help="Write uid-pipeline-launcher.json without launching workers.")
+        parser.add_argument("--compare-js-report", default="", help="Optional JS uid-pipeline-launcher.json to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return UidPipelineLauncherRequest(
+            args.data_dir,
+            compare_js_report_path=args.compare_js_report or None,
+            total_start=args.total_start,
+            total_end=args.total_end,
+            workers=args.workers,
+            write_state=args.write_state,
+        ).run()
+
+
 class UidPipelineMergeReporter:
     """Merge UID pipeline worker progress payloads into the JS report contract."""
 
