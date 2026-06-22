@@ -1647,6 +1647,13 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(report.coverage_ratio, 0)
         self.assertEqual(report.next_queries(), [])
 
+    def test_coverage_audit_report_defaults_malformed_ok_flags(self):
+        false_string = CoverageAuditReport.from_json({"ok": "false"})
+        true_boolean = CoverageAuditReport.from_json({"ok": True})
+
+        self.assertFalse(false_string.ok)
+        self.assertTrue(true_boolean.ok)
+
     def test_coverage_audit_report_defaults_non_object_coverage_payloads(self):
         report = CoverageAuditReport.from_json({"ok": False, "targetEvidence": 3, "coverage": ["bad coverage"]})
 

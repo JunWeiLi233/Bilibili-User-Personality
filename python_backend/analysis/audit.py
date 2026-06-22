@@ -26,7 +26,7 @@ class CoverageAuditReport:
         payload = payload if isinstance(payload, dict) else {}
         coverage = payload.get("coverage") if isinstance(payload.get("coverage"), dict) else {}
         return cls(
-            ok=bool(payload.get("ok")),
+            ok=_bool_or(payload.get("ok"), False),
             target_evidence=_int_or(payload.get("targetEvidence") or coverage.get("targetEvidence"), 0),
             terms=_int_or(coverage.get("terms"), 0),
             coverage_ratio=_float_or(coverage.get("coverageRatio"), 0),
@@ -62,6 +62,10 @@ def _float_or(value: Any, fallback: float) -> float:
         return float(value if value is not None else fallback)
     except (TypeError, ValueError):
         return fallback
+
+
+def _bool_or(value: Any, fallback: bool) -> bool:
+    return value if isinstance(value, bool) else fallback
 
 
 def _object_or_empty(value: Any) -> dict[str, Any]:
