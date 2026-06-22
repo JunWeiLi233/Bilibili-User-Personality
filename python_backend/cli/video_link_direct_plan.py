@@ -4,24 +4,15 @@ import argparse
 import json
 import sys
 
-from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanContractComparator, VideoLinkDirectPlanRequest, VideoLinkDirectPlanRunner
+from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanCommandRequest, VideoLinkDirectPlanContractComparator, VideoLinkDirectPlanRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Build a runVideoLinkDirect.js-compatible dry-run routing plan.")
-    parser.add_argument("--payload", required=True)
-    parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible direct-link plan report to compare.")
-    return parser
+    return VideoLinkDirectPlanCommandRequest.parser()
 
 
-class VideoLinkDirectPlanCliRunner:
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        argv = [str(item) for item in self.argv] if self.argv is not None else None
-        args = build_parser().parse_args(argv)
-        return VideoLinkDirectPlanRequest(args.payload, compare_js_report_path=args.compare_js_report or None).run()
+class VideoLinkDirectPlanCliRunner(VideoLinkDirectPlanCommandRequest):
+    """CLI-compatible direct-link plan runner for JS/Python JSON contracts."""
 
 
 def main(argv: list[str] | None = None) -> int:
