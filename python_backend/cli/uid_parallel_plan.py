@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.scrapers.uid_parallel import UidParallelPlanPayloadContractComparator as UidParallelPlanContractComparator, UidParallelPlanRunner
+from python_backend.scrapers.uid_parallel import UidParallelPlanPayloadContractComparator as UidParallelPlanContractComparator, UidParallelPlanRequest, UidParallelPlanRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -22,9 +22,7 @@ class UidParallelPlanCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.compare_js_report:
-            return UidParallelPlanContractComparator(args.payload, args.compare_js_report).compare()
-        return UidParallelPlanRunner(args.payload).run()
+        return UidParallelPlanRequest(args.payload, compare_js_report_path=args.compare_js_report).run()
 
 
 def main(argv: list[str] | None = None) -> int:
