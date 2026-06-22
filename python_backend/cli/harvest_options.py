@@ -14,14 +14,8 @@ def build_parser() -> argparse.ArgumentParser:
     return HarvestOptionsCommandRequest.parser()
 
 
-class HarvestOptionsCliRunner:
+class HarvestOptionsCliRunner(HarvestOptionsCommandRequest):
     """CLI-compatible harvest options runner for JSON contract checks."""
-
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        return HarvestOptionsCommandRequest(self.argv).run()
 
 
 def main(argv: list[str] | None = None) -> int:

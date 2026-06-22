@@ -21074,6 +21074,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["options"]["includeHistoryTags"])
         self.assertEqual(result["options"]["priorityQueries"], ["target comments"])
 
+    def test_harvest_options_cli_runner_is_command_request_wrapper(self):
+        self.assertTrue(issubclass(harvest_options_cli.HarvestOptionsCliRunner, HarvestOptionsCommandRequest))
+
     def test_harvest_options_contract_comparator_reports_option_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
