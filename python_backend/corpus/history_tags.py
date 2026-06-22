@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import html
 import json
 import re
@@ -750,3 +751,35 @@ class HistoryTagCorpusRequest:
                 generated_at=self.generated_at,
             ).compare()
         return HistoryTagCorpusRunner(self.current_path, self.update_path, generated_at=self.generated_at).run()
+
+
+class HistoryTagCorpusCommandRequest:
+    """Argv-backed corpus-layer request for history-tag corpus commands."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Merge JS-compatible Bilibili history tag corpus JSON.")
+        parser.add_argument("--current", default=DEFAULT_BILIBILI_HISTORY_TAG_CORPUS_PATH)
+        parser.add_argument("--update", default="", help="History-tag scrape update JSON object.")
+        parser.add_argument("--generated-at", default="")
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible history-tag corpus report to compare.")
+        parser.add_argument("--plan-payload", default="", help="Optional JSON payload for scrape option/request planning.")
+        parser.add_argument("--write-payload", default="", help="Optional JSON payload for split history-tag corpus writing.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        parser = self.parser()
+        args = parser.parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        if not args.update and not args.plan_payload and not args.write_payload:
+            parser.error("--update is required unless --plan-payload is used")
+        return HistoryTagCorpusRequest(
+            current_path=args.current,
+            update_path=args.update or None,
+            generated_at=args.generated_at or None,
+            compare_js_report_path=args.compare_js_report or None,
+            plan_payload_path=args.plan_payload or None,
+            write_payload_path=args.write_payload or None,
+        ).run()
