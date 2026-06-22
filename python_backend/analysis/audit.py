@@ -292,6 +292,8 @@ class CoverageAuditContractComparator:
         )
 
     def compare(self, python_audit: dict[str, Any], js_audit: dict[str, Any]) -> dict[str, Any]:
+        python_audit = python_audit if isinstance(python_audit, dict) else {}
+        js_audit = js_audit if isinstance(js_audit, dict) else {}
         mismatches = self._metric_mismatches(python_audit, js_audit, self.GATE_METRIC_KEYS)
         mismatches.extend(self._optional_metric_mismatches(python_audit, js_audit, self.COVERAGE_STATUS_KEYS))
         mismatches.extend(self._optional_metric_mismatches(python_audit, js_audit, self.OPTIONAL_COVERAGE_METRIC_KEYS))
