@@ -456,3 +456,56 @@ class HuggingFaceCorpusImportContractComparator:
         with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
+
+
+class HuggingFaceCorpusImportRequest:
+    """Corpus-layer request for HuggingFace/Kaggle import plan and local import JSON contracts."""
+
+    def __init__(
+        self,
+        *,
+        plan_payload_path: str | Path | None = None,
+        raw_path: str | Path | None = None,
+        existing_path: str | Path = "server/data/huggingFaceKeywordCorpus.json",
+        dataset: str = "",
+        file: str = "",
+        platform: str = "huggingface",
+        limit: int = 500,
+        offset: int = 0,
+        generated_at: str | None = None,
+        compare_js_report_path: str | Path | None = None,
+    ):
+        self.plan_payload_path = Path(plan_payload_path) if plan_payload_path else None
+        self.raw_path = Path(raw_path) if raw_path else None
+        self.existing_path = Path(existing_path)
+        self.dataset = dataset
+        self.file = file
+        self.platform = platform
+        self.limit = limit
+        self.offset = offset
+        self.generated_at = generated_at
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+
+    def run(self) -> dict[str, Any]:
+        if self.plan_payload_path and self.compare_js_report_path:
+            return HuggingFaceCorpusImportPlanContractComparator(self.plan_payload_path, self.compare_js_report_path).compare()
+        if self.plan_payload_path:
+            return HuggingFaceCorpusImportPlanRunner(self.plan_payload_path).run()
+        if not self.raw_path or not self.dataset or not self.file:
+            raise ValueError("raw_path, dataset, and file are required unless plan_payload_path is provided")
+        options = {
+            "raw_path": self.raw_path,
+            "existing_path": self.existing_path,
+            "dataset": self.dataset,
+            "file": self.file,
+            "platform": self.platform,
+            "limit": self.limit,
+            "offset": self.offset,
+            "generated_at": self.generated_at,
+        }
+        if self.compare_js_report_path:
+            return HuggingFaceCorpusImportContractComparator(
+                **options,
+                js_report_path=self.compare_js_report_path,
+            ).compare()
+        return HuggingFaceCorpusImportRunner(**options).run()

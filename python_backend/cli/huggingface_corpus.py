@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 
-from python_backend.corpus.huggingface import HuggingFaceCorpusImportContractComparator, HuggingFaceCorpusImportPlanContractComparator, HuggingFaceCorpusImportPlanRunner, HuggingFaceCorpusImportRunner
+from python_backend.corpus.huggingface import HuggingFaceCorpusImportContractComparator, HuggingFaceCorpusImportPlanContractComparator, HuggingFaceCorpusImportPlanRunner, HuggingFaceCorpusImportRequest, HuggingFaceCorpusImportRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -30,25 +30,11 @@ class HuggingFaceCorpusCliRunner:
     def run(self) -> dict:
         parser = build_parser()
         args = parser.parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.plan_payload:
-            if args.compare_js_report:
-                return HuggingFaceCorpusImportPlanContractComparator(args.plan_payload, args.compare_js_report).compare()
-            return HuggingFaceCorpusImportPlanRunner(args.plan_payload).run()
         if not args.raw or not args.dataset or not args.file:
-            parser.error("--raw, --dataset, and --file are required unless --plan-payload is provided.")
-        if args.compare_js_report:
-            return HuggingFaceCorpusImportContractComparator(
-                raw_path=args.raw,
-                existing_path=args.existing,
-                dataset=args.dataset,
-                file=args.file,
-                platform=args.platform,
-                limit=args.limit,
-                offset=args.offset,
-                js_report_path=args.compare_js_report,
-                generated_at=args.generated_at or None,
-            ).compare()
-        return HuggingFaceCorpusImportRunner(
+            if not args.plan_payload:
+                parser.error("--raw, --dataset, and --file are required unless --plan-payload is provided.")
+        return HuggingFaceCorpusImportRequest(
+            plan_payload_path=args.plan_payload or None,
             raw_path=args.raw,
             existing_path=args.existing,
             dataset=args.dataset,
@@ -57,6 +43,7 @@ class HuggingFaceCorpusCliRunner:
             limit=args.limit,
             offset=args.offset,
             generated_at=args.generated_at or None,
+            compare_js_report_path=args.compare_js_report or None,
         ).run()
 
 
