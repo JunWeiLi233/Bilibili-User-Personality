@@ -6556,6 +6556,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["entries"][0]["evidenceSources"][0]["uid"], "BVcommand")
 
+    def test_local_corpus_evidence_cli_runner_is_command_request_wrapper(self):
+        self.assertTrue(issubclass(local_corpus_evidence_cli.LocalCorpusEvidenceCliRunner, LocalCorpusEvidenceCommandRequest))
+
     def test_local_corpus_evidence_cli_compares_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

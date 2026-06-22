@@ -7,14 +7,8 @@ import sys
 from python_backend.corpus.local import LocalCorpusEvidenceCommandRequest, LocalCorpusEvidenceJsonPayloadContractComparator, LocalCorpusEvidenceJsonPayloadRunner, LocalCorpusEvidencePayloadContractComparator as LocalCorpusEvidenceContractComparator, LocalCorpusEvidenceRunner
 
 
-class LocalCorpusEvidenceCliRunner:
+class LocalCorpusEvidenceCliRunner(LocalCorpusEvidenceCommandRequest):
     """CLI-compatible local corpus evidence runner for JSON contract checks."""
-
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        return LocalCorpusEvidenceCommandRequest(self.argv).run()
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
