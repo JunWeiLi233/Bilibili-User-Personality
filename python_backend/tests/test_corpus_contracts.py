@@ -21661,6 +21661,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["queries"], ["weak \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4", "seed topic"])
         self.assertEqual(result["plan"][0]["source"], "dictionary")
 
+    def test_keyword_harvest_plan_cli_runner_is_command_request_wrapper(self):
+        self.assertTrue(issubclass(harvest_plan_cli.KeywordHarvestPlanCliRunner, KeywordHarvestPlanCommandRequest))
+
     def test_keyword_harvest_plan_comparator_uses_backend_summary_contract_keys(self):
         self.assertFalse(hasattr(KeywordHarvestPlanContractComparator, "PLAN_KEYS"))
         self.assertEqual(KeywordHarvestPlanSummary.RESULT_KEYS, ("queries", "plan"))

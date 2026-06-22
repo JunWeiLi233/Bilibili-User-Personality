@@ -14,14 +14,8 @@ def build_parser() -> argparse.ArgumentParser:
     return KeywordHarvestPlanCommandRequest.parser()
 
 
-class KeywordHarvestPlanCliRunner:
+class KeywordHarvestPlanCliRunner(KeywordHarvestPlanCommandRequest):
     """CLI-compatible keyword harvest plan runner for JSON contract checks."""
-
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        return KeywordHarvestPlanCommandRequest(self.argv).run()
 
 
 def main(argv: list[str] | None = None) -> int:
