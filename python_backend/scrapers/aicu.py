@@ -378,6 +378,24 @@ class AicuBatchPlanRequest:
         return AicuBatchPlanRunner(self.payload_path).run()
 
 
+class AicuBatchPlanCommandRequest:
+    """Argv-backed scraper-layer request for AICU batch plan contracts."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Build a batchScrapeAicu.js-compatible dry-run plan.")
+        parser.add_argument("--payload", required=True)
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible AICU batch plan report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return AicuBatchPlanRequest(args.payload, compare_js_report_path=args.compare_js_report or None).run()
+
+
 class AicuBatchProgressReporter:
     """Summarize legacy AICU batch scrape progress and database payloads."""
 
