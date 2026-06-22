@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import html
 import json
 import random
@@ -324,6 +325,36 @@ class DirectProbeCorpusRequest:
                 self.compare_js_report_path,
             ).compare()
         return DirectProbeCorpusRunner(self.existing_path, self.comments_path, self.run_path).run()
+
+
+class DirectProbeCorpusCommandRequest:
+    """Argv-backed corpus-layer request for direct probe corpus updates."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Build a JS-compatible Bilibili direct probe corpus update.")
+        parser.add_argument("--payload", default="", help="Single JSON payload containing existing, comments, and run.")
+        parser.add_argument("--existing", default="server/data/bilibiliDirectProbeCorpus.json")
+        parser.add_argument("--comments", default="", help="JSON list or object with a comments array.")
+        parser.add_argument("--run", default="", help="Direct probe run JSON object.")
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible direct probe corpus report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        parser = self.parser()
+        args = parser.parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        if not args.payload and (not args.comments or not args.run):
+            parser.error("--comments and --run are required unless --payload is provided")
+        return DirectProbeCorpusRequest(
+            existing_path=args.existing,
+            comments_path=args.comments,
+            run_path=args.run,
+            payload_path=args.payload,
+            compare_js_report_path=args.compare_js_report,
+        ).run()
 
 
 class DirectProbePlanSummary:
