@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 import math
 import re
@@ -91,6 +92,23 @@ class SemanticMatcherRequest:
         if self.compare_js_report_path:
             return SemanticMatcherPayloadContractComparator(self.payload_path, self.compare_js_report_path).compare()
         return SemanticMatcherRunner(self.payload_path).run()
+
+
+class SemanticMatcherCommandRequest:
+    """Parse CLI argv for semantic matcher while keeping request ownership in analysis."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    def parser(self) -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Run semantic matcher helper functions from a JSON payload.")
+        parser.add_argument("--payload", required=True, help="Path to semantic matcher payload JSON.")
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible semantic matcher report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return SemanticMatcherRequest(args.payload, compare_js_report_path=args.compare_js_report or None).run()
 
 
 class SemanticMatcherHelper:
