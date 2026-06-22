@@ -186,7 +186,7 @@ from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanContrac
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanContractComparator as UidParallelPlanPayloadComparator, UidParallelPlanPayloadContractComparator, UidParallelPlanRequest, UidParallelPlanRunner as UidParallelPayloadPlanRunner, UidParallelPlanSummary, UidParallelProgressContractComparator as UidParallelProgressPayloadComparator, UidParallelProgressPayloadContractComparator, UidParallelProgressReporter, UidParallelProgressRequest, UidParallelProgressRunner as UidParallelProgressPayloadRunner, UidParallelProgressSummary
 from python_backend.scrapers.uid_pipeline import UidPipelineLauncherContractComparator as UidPipelineLauncherPayloadComparator, UidPipelineLauncherPayloadContractComparator, UidPipelineLauncherPlanner, UidPipelineLauncherPlanRunner as UidPipelineLauncherPayloadPlanRunner, UidPipelineLauncherRequest, UidPipelineLauncherSummary, UidPipelineMergeContractComparator as UidPipelineMergePayloadComparator, UidPipelineMergePayloadContractComparator, UidPipelineMergeReporter, UidPipelineMergeRequest, UidPipelineMergeRunner as UidPipelineMergePayloadRunner, UidPipelineMergeSummary, UidPipelinePlanContractComparator as UidPipelinePlanPayloadComparator, UidPipelinePlanPayloadContractComparator, UidPipelinePlanRequest, UidPipelinePlanRunner as UidPipelinePayloadPlanRunner, UidPipelinePlanSummary, UidPipelineProgressContractComparator as UidPipelineProgressPayloadComparator, UidPipelineProgressPayloadContractComparator, UidPipelineProgressReporter, UidPipelineProgressRequest, UidPipelineProgressRunner as UidPipelineProgressPayloadRunner, UidPipelineProgressSummary, UidPipelineStateContractComparator as UidPipelineStatePayloadComparator, UidPipelineStatePayloadContractComparator, UidPipelineStateReporter, UidPipelineStateRequest, UidPipelineStateRunner as UidPipelineStatePayloadRunner, UidPipelineStateSummary, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorContractComparator as ScraperMonitorPayloadComparator, ScraperMonitorPayloadContractComparator, ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter, ScraperMonitorRequest, ScraperMonitorRunner as ScraperMonitorPayloadRunner, ScraperMonitorSummary
-from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherContractComparator as FastPipelineLauncherPayloadComparator, FastPipelineLauncherPayloadContractComparator, FastPipelineLauncherPlanner, FastPipelineLauncherPlanRunner as FastPipelineLauncherPayloadPlanRunner, FastPipelineLauncherRequest, FastPipelineLauncherSummary, UidFastPipelinePlanSummary, UidFastPipelinePlanner
+from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherCommandRequest, FastPipelineLauncherContractComparator as FastPipelineLauncherPayloadComparator, FastPipelineLauncherPayloadContractComparator, FastPipelineLauncherPlanner, FastPipelineLauncherPlanRunner as FastPipelineLauncherPayloadPlanRunner, FastPipelineLauncherRequest, FastPipelineLauncherSummary, UidFastPipelinePlanSummary, UidFastPipelinePlanner
 
 
 class CorpusContractTests(unittest.TestCase):
@@ -17116,6 +17116,22 @@ class CorpusContractTests(unittest.TestCase):
 
             result = FastPipelineLauncherRequest(data_dir).run()
             comparison = FastPipelineLauncherRequest(data_dir, compare_js_report_path=js_report_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["summary"], {"workers": 5, "totalStart": 1, "totalEnd": 100000, "totalUids": 100000, "launchDelaySeconds": 5})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["summary"])
+
+    def test_fast_pipeline_launcher_command_request_lives_with_scraper_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            js_report_path = root / "js-fast-launcher.json"
+            js_report_path.write_text(json.dumps({"summary": {"workers": 0}}), encoding="utf-8")
+
+            result = FastPipelineLauncherCommandRequest(["--data-dir", data_dir]).run()
+            comparison = FastPipelineLauncherCommandRequest(["--data-dir", data_dir, "--compare-js-report", js_report_path]).run()
 
         self.assertTrue(result["ok"])
         self.assertEqual(result["summary"], {"workers": 5, "totalStart": 1, "totalEnd": 100000, "totalUids": 100000, "launchDelaySeconds": 5})

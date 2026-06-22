@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 from typing import Any
@@ -355,3 +356,21 @@ class FastPipelineLauncherRequest:
         if self.compare_js_report_path:
             return FastPipelineLauncherPayloadContractComparator(self.data_dir, self.compare_js_report_path).compare()
         return FastPipelineLauncherPlanRunner(self.data_dir).run()
+
+
+class FastPipelineLauncherCommandRequest:
+    """Argv-backed scraper-layer request for fast pipeline launcher contracts."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Build a dry-run fast UID pipeline launcher plan.")
+        parser.add_argument("--data-dir", default="server/data")
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible fast pipeline launcher report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return FastPipelineLauncherRequest(args.data_dir, compare_js_report_path=args.compare_js_report or None).run()
