@@ -340,6 +340,31 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(corpus.comments, [{"message": "valid comment"}])
         self.assertEqual(corpus.runs, [{"at": "valid-run"}])
 
+    def test_loader_filters_non_object_runs_across_json_contract_modes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            monolith_path = root / "monolith.json"
+            split_path = root / "split.json"
+            (root / "split.runs").mkdir()
+            monolith_path.write_text(
+                json.dumps({"comments": [], "runs": [{"source": "object"}, "bad scalar", None]}),
+                encoding="utf-8",
+            )
+            (root / "split.runs" / "runs-0001.json").write_text(
+                json.dumps({"runs": [{"source": "split-object"}, "bad shard scalar", 0]}),
+                encoding="utf-8",
+            )
+            split_path.write_text(
+                json.dumps({"storage": "split", "commentFiles": [], "runFiles": ["split.runs/runs-0001.json"]}),
+                encoding="utf-8",
+            )
+
+            monolith = CorpusLoader(monolith_path).load()
+            split = CorpusLoader(split_path).load()
+
+        self.assertEqual(monolith.runs, [{"source": "object"}])
+        self.assertEqual(split.runs, [{"source": "split-object"}])
+
     def test_loader_builds_from_js_json_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

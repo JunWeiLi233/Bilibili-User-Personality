@@ -72,7 +72,7 @@ class CorpusLoader:
                 continue
             shard_values = shard.get(key) or []
             if isinstance(shard_values, list):
-                values.extend(self._normalize_comments(shard_values) if key == "comments" else shard_values)
+                values.extend(self._normalize_comments(shard_values) if key == "comments" else self._normalize_runs(shard_values))
         return values
 
     @staticmethod
@@ -89,7 +89,7 @@ class CorpusLoader:
 
     @staticmethod
     def _normalize_runs(values: Any) -> list[dict[str, Any]]:
-        return list(values) if isinstance(values, list) else []
+        return [run for run in values if isinstance(run, dict)] if isinstance(values, list) else []
 
     @staticmethod
     def _read_json(path: Path) -> Any:
