@@ -1547,6 +1547,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(report.coverage_ratio, 0)
         self.assertEqual(report.weak_terms, 0)
 
+    def test_coverage_audit_report_filters_malformed_next_actions(self):
+        string_actions = CoverageAuditReport.from_json({"nextActions": "bad action root"})
+        mixed_actions = CoverageAuditReport.from_json({"nextActions": ["bad item", {"nextQuery": "usable query"}, None]})
+
+        self.assertEqual(string_actions.next_actions, [])
+        self.assertEqual(string_actions.next_queries(), [])
+        self.assertEqual(mixed_actions.next_actions, [{"nextQuery": "usable query"}])
+        self.assertEqual(mixed_actions.next_queries(), ["usable query"])
+
     def test_coverage_audit_report_load_accepts_utf8_bom_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             audit_path = Path(tmp) / "audit.json"

@@ -33,7 +33,7 @@ class CoverageAuditReport:
             weak_terms=_int_or(coverage.get("weakTerms"), 0),
             zero_evidence_terms=_int_or(coverage.get("zeroEvidenceTerms"), 0),
             evidence_deficit=_int_or(coverage.get("evidenceDeficit"), 0),
-            next_actions=list(payload.get("nextActions") or []),
+            next_actions=_object_list(payload.get("nextActions")),
         )
 
     @classmethod
@@ -62,6 +62,12 @@ def _float_or(value: Any, fallback: float) -> float:
         return float(value if value is not None else fallback)
     except (TypeError, ValueError):
         return fallback
+
+
+def _object_list(value: Any) -> list[dict[str, Any]]:
+    if not isinstance(value, list):
+        return []
+    return [item for item in value if isinstance(item, dict)]
 
 
 class CoverageAuditArtifactWriter:
