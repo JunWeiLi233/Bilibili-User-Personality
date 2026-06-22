@@ -6630,6 +6630,28 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["entries"][0]["evidenceSources"][0]["uid"], "BVcommand")
 
+    def test_local_corpus_evidence_command_request_owns_parser_factory(self):
+        args = LocalCorpusEvidenceCommandRequest.parser().parse_args(
+            [
+                "--payload",
+                "local-evidence.json",
+                "--target-evidence",
+                "5",
+                "--max-samples-per-term",
+                "2",
+                "--target-term",
+                "doge",
+                "--compare-js-report",
+                "js-evidence.json",
+            ]
+        )
+
+        self.assertEqual(args.payload, "local-evidence.json")
+        self.assertEqual(args.target_evidence, 5)
+        self.assertEqual(args.max_samples_per_term, 2)
+        self.assertEqual(args.target_term, ["doge"])
+        self.assertEqual(args.compare_js_report, "js-evidence.json")
+
     def test_local_corpus_evidence_cli_runner_is_command_request_wrapper(self):
         self.assertTrue(issubclass(local_corpus_evidence_cli.LocalCorpusEvidenceCliRunner, LocalCorpusEvidenceCommandRequest))
 

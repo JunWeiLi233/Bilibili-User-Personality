@@ -841,7 +841,8 @@ class LocalCorpusEvidenceCommandRequest:
     def __init__(self, argv: list[Any] | None = None):
         self.argv = argv
 
-    def parser(self) -> argparse.ArgumentParser:
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(description="Find merge-ready dictionary evidence from a local corpus JSON contract.")
         parser.add_argument("--payload", default="", help="Single JSON payload containing dictionary, comments/corpus, and options.")
         parser.add_argument("--dictionary", default="server/data/keywordDictionary.json")
