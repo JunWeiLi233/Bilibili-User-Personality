@@ -182,7 +182,7 @@ from python_backend.scrapers.tieba_timing import TiebaScrapeTiming, TiebaTimingC
 from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanContractComparator as BatchBilibiliPlanPayloadComparator, BatchBilibiliPlanPayloadContractComparator, BatchBilibiliPlanRunner as BatchBilibiliPayloadPlanRunner, BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularPlanContractComparator as BatchPopularPlanPayloadComparator, BatchPopularPlanPayloadContractComparator, BatchPopularPlanRunner as BatchPopularPayloadPlanRunner, BatchPopularPlanSummary, BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanContractComparator as BatchUidRangePlanPayloadComparator, BatchUidRangePlanPayloadContractComparator, BatchUidRangePlanRunner as BatchUidRangePayloadPlanRunner, BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherContractComparator as RangeScraperLauncherPayloadComparator, RangeScraperLauncherPayloadContractComparator, RangeScraperLauncherPlanner, RangeScraperLauncherPlanRunner as RangeScraperLauncherPayloadPlanRunner, RangeScraperLauncherSummary, UidRangeProgressContractComparator as UidRangeProgressPayloadComparator, UidRangeProgressPayloadContractComparator, UidRangeProgressReporter, UidRangeProgressRunner as UidRangeProgressPayloadRunner, UidRangeProgressSummary
-from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherContractComparator as BatchScraperLauncherPayloadComparator, BatchScraperLauncherPayloadContractComparator, BatchScraperLauncherPlanner, BatchScraperLauncherPlanRunner as BatchScraperLauncherPayloadPlanRunner, BatchScraperLauncherSummary, BatchUidProgressContractComparator as BatchUidProgressPayloadComparator, BatchUidProgressPayloadContractComparator, BatchUidProgressReporter, BatchUidProgressRunner as BatchUidProgressPayloadRunner, BatchUidProgressSummary, BatchUidScrapePlanContractComparator as BatchUidScrapePlanPayloadComparator, BatchUidScrapePlanPayloadContractComparator, BatchUidScrapePlanRunner as BatchUidScrapePayloadPlanRunner, BatchUidScrapePlanSummary, BatchUidScrapePlanner
+from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherContractComparator as BatchScraperLauncherPayloadComparator, BatchScraperLauncherPayloadContractComparator, BatchScraperLauncherPlanner, BatchScraperLauncherPlanRunner as BatchScraperLauncherPayloadPlanRunner, BatchScraperLauncherSummary, BatchUidProgressContractComparator as BatchUidProgressPayloadComparator, BatchUidProgressPayloadContractComparator, BatchUidProgressReporter, BatchUidProgressRunner as BatchUidProgressPayloadRunner, BatchUidProgressSummary, BatchUidScrapePlanContractComparator as BatchUidScrapePlanPayloadComparator, BatchUidScrapePlanPayloadContractComparator, BatchUidScrapePlanRequest, BatchUidScrapePlanRunner as BatchUidScrapePayloadPlanRunner, BatchUidScrapePlanSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanContractComparator as UidDiscoveryPlanPayloadComparator, UidDiscoveryPlanPayloadContractComparator, UidDiscoveryPlanRunner as UidDiscoveryPayloadPlanRunner, UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressContractComparator as UidDiscoveryProgressPayloadComparator, UidDiscoveryProgressPayloadContractComparator, UidDiscoveryProgressReporter, UidDiscoveryProgressRunner as UidDiscoveryProgressPayloadRunner, UidDiscoveryProgressSummary
 from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanContractComparator as UidFastPipelinePlanPayloadComparator, UidFastPipelinePlanPayloadContractComparator, UidFastPipelinePlanRunner as UidFastPipelinePayloadPlanRunner
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanContractComparator as UidParallelPlanPayloadComparator, UidParallelPlanPayloadContractComparator, UidParallelPlanRunner as UidParallelPayloadPlanRunner, UidParallelPlanSummary, UidParallelProgressContractComparator as UidParallelProgressPayloadComparator, UidParallelProgressPayloadContractComparator, UidParallelProgressReporter, UidParallelProgressRunner as UidParallelProgressPayloadRunner, UidParallelProgressSummary
@@ -16782,6 +16782,36 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["discovery"]["scannedBvids"], 2)
         self.assertEqual(result["phase2"], {"processed": 1, "pending": 2, "skippableNoText": 1, "trainable": 1, "userDbUsers": 2})
         self.assertEqual(result["stats"]["commentsCollected"], 3)
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["phase2", "training"])
+
+    def test_batch_uid_scrape_plan_request_owns_cli_dispatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "batch-uid-scrape-plan.json"
+            js_report_path = root / "js-batch-uid-scrape-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "progress": {
+                            "scannedBvids": ["BV1", "BV2", "BV3"],
+                            "_uidComments": {"31": [{"message": "hit"}], "32": [{"message": ""}], "33": [{"message": "pending"}]},
+                            "processedUids": {"31": "success"},
+                            "stats": {"videosScanned": "3", "uidsFound": "3", "uidsAnalyzed": "1", "commentsCollected": "4"},
+                        },
+                        "database": {"users": {"31": {}, "40": {}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"phase2": {"trainable": 0}, "training": {"multiagent": False}}), encoding="utf-8")
+
+            result = BatchUidScrapePlanRequest(payload_path).run()
+            comparison = BatchUidScrapePlanRequest(payload_path, compare_js_report_path=js_report_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["discovery"]["scannedBvids"], 3)
+        self.assertEqual(result["phase2"], {"processed": 1, "pending": 2, "skippableNoText": 1, "trainable": 1, "userDbUsers": 2})
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["phase2", "training"])
 
