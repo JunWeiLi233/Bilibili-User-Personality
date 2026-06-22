@@ -304,7 +304,8 @@ class ExhaustedTermsPrunePlanCommandRequest:
     def __init__(self, argv: list[Any] | None = None):
         self.argv = argv
 
-    def parser(self) -> argparse.ArgumentParser:
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(description="Build a dry-run prune plan for exhausted dictionary terms.")
         parser.add_argument("--dictionary", default="server/data/deepseekKeywordDictionary.json")
         parser.add_argument("--state", default="server/data/keywordHarvestState.json")

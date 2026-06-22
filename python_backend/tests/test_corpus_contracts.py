@@ -14576,6 +14576,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["count", "candidates"])
 
+    def test_exhausted_terms_prune_plan_command_request_owns_parser_factory(self):
+        args = ExhaustedTermsPrunePlanCommandRequest.parser().parse_args(
+            ["--state", "custom-state.json", "--attempt-threshold", "12", "--include-partial"]
+        )
+
+        self.assertEqual(args.state, "custom-state.json")
+        self.assertEqual(args.attempt_threshold, 12)
+        self.assertTrue(args.include_partial)
+
     def test_dictionary_prune_summary_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

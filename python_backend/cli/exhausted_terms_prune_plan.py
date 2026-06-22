@@ -8,7 +8,7 @@ from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanComman
 
 
 def build_parser() -> argparse.ArgumentParser:
-    return ExhaustedTermsPrunePlanCommandRequest([]).parser()
+    return ExhaustedTermsPrunePlanCommandRequest.parser()
 
 
 class ExhaustedTermsPrunePlanCliRunner(ExhaustedTermsPrunePlanCommandRequest):
