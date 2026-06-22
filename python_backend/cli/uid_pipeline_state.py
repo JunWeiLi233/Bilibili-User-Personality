@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.scrapers.uid_pipeline import UidPipelineStatePayloadContractComparator as UidPipelineStateContractComparator, UidPipelineStateRunner
+from python_backend.scrapers.uid_pipeline import UidPipelineStatePayloadContractComparator as UidPipelineStateContractComparator, UidPipelineStateRequest, UidPipelineStateRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -22,9 +22,7 @@ class UidPipelineStateCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.compare_js_report:
-            return UidPipelineStateContractComparator(args.data_dir, args.compare_js_report).compare()
-        return UidPipelineStateRunner(args.data_dir).run()
+        return UidPipelineStateRequest(args.data_dir, compare_js_report_path=args.compare_js_report).run()
 
 
 def main(argv: list[str] | None = None) -> int:

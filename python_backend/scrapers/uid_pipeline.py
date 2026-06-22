@@ -654,6 +654,19 @@ class UidPipelineStatePayloadContractComparator:
         return payload if isinstance(payload, dict) else {}
 
 
+class UidPipelineStateRequest:
+    """Scraper-layer request for UID pipeline state JSON contract commands."""
+
+    def __init__(self, data_dir: str | Path, compare_js_report_path: str | Path | None = None):
+        self.data_dir = Path(data_dir)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_report_path:
+            return UidPipelineStatePayloadContractComparator(self.data_dir, self.compare_js_report_path).compare()
+        return UidPipelineStateRunner(self.data_dir).run()
+
+
 class UidPipelineProgressReporter:
     """Summarize one UID pipeline worker progress payload into the JS JSON contract."""
 
