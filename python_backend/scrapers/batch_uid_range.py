@@ -527,3 +527,28 @@ class UidRangeProgressRequest:
                 end=self.end,
             ).compare()
         return UidRangeProgressRunner(self.progress_path, start=self.start, end=self.end).run()
+
+
+class UidRangeProgressCommandRequest:
+    """Argv-backed scraper-layer request for UID range progress contracts."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Summarize batch UID range progress JSON.")
+        parser.add_argument("--progress", default="server/data/batch-uid-range-progress.json")
+        parser.add_argument("--start", type=int, default=200000)
+        parser.add_argument("--end", type=int, default=300000)
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible UID range report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return UidRangeProgressRequest(
+            args.progress,
+            compare_js_report_path=args.compare_js_report or None,
+            start=args.start,
+            end=args.end,
+        ).run()
