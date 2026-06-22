@@ -90,6 +90,19 @@ class VideoKeywordDiscoveryReportPayloadContractComparator:
         return payload if isinstance(payload, dict) else {}
 
 
+class VideoKeywordDiscoveryReportRequest:
+    """Analysis-layer request for discovery report JSON contract commands."""
+
+    def __init__(self, payload_path: str | Path, compare_js_report_path: str | Path | None = None):
+        self.payload_path = Path(payload_path)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_report_path:
+            return VideoKeywordDiscoveryReportPayloadContractComparator(self.payload_path, self.compare_js_report_path).compare()
+        return VideoKeywordDiscoveryReportRunner(self.payload_path).run()
+
+
 class VideoKeywordDiscoveryReporter:
     """Serialize video keyword discovery reports using the JS harvest-loop JSON contract."""
 
