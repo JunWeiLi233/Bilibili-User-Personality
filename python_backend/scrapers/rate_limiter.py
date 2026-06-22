@@ -64,7 +64,13 @@ class RateLimiter:
     """Injectable sleep boundary for slow, platform-friendly scrapers."""
 
     def __init__(self, delay_seconds: float, sleep: Callable[[float], None] | None = None):
-        self.delay_seconds = max(0.0, float(delay_seconds))
+        try:
+            delay = float(delay_seconds)
+        except (TypeError, ValueError):
+            delay = 0.0
+        if not math.isfinite(delay):
+            delay = 0.0
+        self.delay_seconds = max(0.0, delay)
         self._sleep = sleep or time.sleep
 
     def wait(self) -> None:

@@ -1666,6 +1666,15 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(sleeps, [1.25])
 
+    def test_rate_limiter_treats_invalid_delay_as_no_wait(self):
+        sleeps = []
+        limiter = RateLimiter(delay_seconds="bad", sleep=sleeps.append)
+
+        limiter.wait()
+
+        self.assertEqual(limiter.delay_seconds, 0.0)
+        self.assertEqual(sleeps, [])
+
     def test_rate_limit_policy_normalizes_scraper_pacing_contract(self):
         policy = RateLimitPolicy(min_delay_ms=-10, jitter_ms=999999, block_cooldown_ms="bad")
 
