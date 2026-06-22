@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 import re
@@ -802,4 +803,43 @@ class LocalCorpusEvidenceRequest:
             max_samples_per_term=self.max_samples_per_term,
             require_comment_backed_evidence=self.require_comment_backed_evidence,
             target_terms=self.target_terms,
+        ).run()
+
+
+class LocalCorpusEvidenceCommandRequest:
+    """Parse CLI argv for local corpus evidence while keeping ownership in corpus."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    def parser(self) -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Find merge-ready dictionary evidence from a local corpus JSON contract.")
+        parser.add_argument("--payload", default="", help="Single JSON payload containing dictionary, comments/corpus, and options.")
+        parser.add_argument("--dictionary", default="server/data/keywordDictionary.json")
+        parser.add_argument("--comments", default="", help="Flattened comments JSON or a raw local corpus shape.")
+        parser.add_argument("--target-evidence", type=int, default=3)
+        parser.add_argument("--max-samples-per-term", type=int, default=3)
+        parser.add_argument("--require-comment-backed-evidence", action="store_true")
+        parser.add_argument("--target-term", action="append", default=[])
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible local corpus evidence report to compare.")
+        return parser
+
+    def parse_args(self) -> argparse.Namespace:
+        parser = self.parser()
+        args = parser.parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        if not args.payload and not args.comments:
+            parser.error("--comments is required unless --payload is provided")
+        return args
+
+    def run(self) -> dict[str, Any]:
+        args = self.parse_args()
+        return LocalCorpusEvidenceRequest(
+            dictionary_path=args.dictionary,
+            comments_path=args.comments,
+            payload_path=args.payload or None,
+            compare_js_report_path=args.compare_js_report or None,
+            target_evidence=args.target_evidence,
+            max_samples_per_term=args.max_samples_per_term,
+            require_comment_backed_evidence=args.require_comment_backed_evidence,
+            target_terms=args.target_term,
         ).run()

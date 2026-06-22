@@ -144,7 +144,7 @@ from python_backend.corpus import direct_probe as direct_probe_module
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusContractComparator as DirectProbeCorpusPayloadComparator, DirectProbeCorpusJsonPayloadContractComparator, DirectProbeCorpusPayloadContractComparator, DirectProbeCorpusRequest, DirectProbeCorpusRunner as DirectProbePayloadCorpusRunner, DirectProbeCorpusSummary, DirectProbePlanContractComparator as DirectProbePlanPayloadComparator, DirectProbePlanPayloadContractComparator, DirectProbePlanRequest, DirectProbePlanRunner as DirectProbePayloadPlanRunner, DirectProbePlanSummary
 from python_backend.corpus.history_tags import HistoryTagCorpusContractComparator as HistoryTagCorpusPayloadComparator, HistoryTagCorpusLoader, HistoryTagCorpusManager, HistoryTagCorpusPayloadContractComparator, HistoryTagCorpusRequest, HistoryTagCorpusRunner as HistoryTagPayloadCorpusRunner, HistoryTagCorpusShardWritePayloadContractComparator, HistoryTagCorpusShardWriteRunner, HistoryTagCorpusShardWriteSummary, HistoryTagCorpusShardWriter, HistoryTagCorpusSummary, HistoryTagScrapePlanner, HistoryTagScrapePlanContractComparator as HistoryTagScrapePlanPayloadComparator, HistoryTagScrapePlanPayloadContractComparator, HistoryTagScrapePlanRunner as HistoryTagScrapePayloadPlanRunner, HistoryTagScrapePlanSummary
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceCorpusImportContractComparator as HuggingFaceCorpusImportPayloadComparator, HuggingFaceCorpusImportPlanContractComparator as HuggingFaceCorpusImportPlanPayloadComparator, HuggingFaceCorpusImportPlanRunner as HuggingFaceCorpusImportPayloadPlanRunner, HuggingFaceCorpusImportRequest, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
-from python_backend.corpus.local import LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidenceJsonPayloadRunner, LocalCorpusEvidencePayloadContractComparator, LocalCorpusEvidenceRequest, LocalCorpusEvidenceRunner as LocalCorpusEvidencePayloadRunner, LocalCorpusEvidenceSummary
+from python_backend.corpus.local import LocalCorpusEvidenceCommandRequest, LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidenceJsonPayloadRunner, LocalCorpusEvidencePayloadContractComparator, LocalCorpusEvidenceRequest, LocalCorpusEvidenceRunner as LocalCorpusEvidencePayloadRunner, LocalCorpusEvidenceSummary
 from python_backend.corpus.local import LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenPayloadContractComparator, LocalCorpusFlattenRequest, LocalCorpusFlattenRunner as LocalCorpusFlattenPayloadRunner, LocalCorpusFlattenSummary, LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanContractComparator as LocalCorpusMinePlanPayloadComparator, LocalCorpusMinePlanRequest, LocalCorpusMinePlanSummary
 from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner, AgentDictionaryMergePlanRequest, AgentDictionaryMergePlanSummary, MergeAgentDictionariesPlanContractComparator as MergeAgentDictionariesPlanPayloadComparator, MergeAgentDictionariesPlanRunner as MergeAgentDictionariesPayloadPlanRunner
@@ -6292,6 +6292,28 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["entries"][0]["evidenceSources"][0]["uid"], "BVcli-runner")
+
+    def test_local_corpus_evidence_command_request_lives_with_corpus_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "local-evidence.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "dictionary": {"entries": [{"term": "\u61c2\u7684\u90fd\u61c2", "family": "evasion", "meaning": "\u6697\u793a", "evidenceCount": 0}]},
+                        "comments": [{"message": "\u8fd9\u4e8b\u61c2\u7684\u90fd\u61c2", "source": "local", "uid": "BVcommand"}],
+                        "targetEvidence": 3,
+                        "maxSamplesPerTerm": 1,
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = LocalCorpusEvidenceCommandRequest(["--payload", payload_path]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["entries"][0]["evidenceSources"][0]["uid"], "BVcommand")
 
     def test_local_corpus_evidence_cli_compares_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
