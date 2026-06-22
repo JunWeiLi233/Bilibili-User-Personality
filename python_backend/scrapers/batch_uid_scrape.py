@@ -306,6 +306,24 @@ class BatchScraperLauncherRequest:
         return BatchScraperLauncherPlanRunner(self.data_dir).run()
 
 
+class BatchScraperLauncherCommandRequest:
+    """Argv-backed scraper-layer request for batch scraper launcher contracts."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Build a dry-run batch UID scraper launcher plan.")
+        parser.add_argument("--data-dir", default="server/data")
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible batch launcher report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return BatchScraperLauncherRequest(args.data_dir, compare_js_report_path=args.compare_js_report or None).run()
+
+
 class BatchUidProgressReporter:
     """Summarize batch UID scrape progress payloads into the JS-compatible report shape."""
 
