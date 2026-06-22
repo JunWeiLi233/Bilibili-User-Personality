@@ -1705,6 +1705,13 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["python"]["targetEvidence"], 0)
         self.assertEqual(result["js"]["targetEvidence"], 0)
 
+    def test_coverage_audit_builder_defaults_non_object_js_audit_roots(self):
+        audit = CoverageAuditContractComparator().builder_from_js_audit(["bad audit root"]).build({"entries": []})
+
+        self.assertEqual(audit["targetEvidence"], 3)
+        self.assertEqual(audit["coverage"]["targetEvidence"], 3)
+        self.assertEqual(audit["coverage"]["terms"], 0)
+
     def test_coverage_audit_payload_comparator_lives_with_analysis_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
