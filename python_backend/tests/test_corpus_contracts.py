@@ -164,7 +164,7 @@ from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanContractCom
 from python_backend.scrapers import video_link_direct
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanContractComparator as VideoLinkDirectPlanPayloadComparator, VideoLinkDirectPlanner, VideoLinkDirectPlanRequest, VideoLinkDirectPlanRunner as VideoLinkDirectPayloadPlanRunner
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerCommandRequest, BilibiliCrawlerContractComparator as BilibiliCrawlerPayloadComparator, BilibiliCrawlerPayloadContractComparator, BilibiliCrawlerRequest, BilibiliCrawlerRunner as BilibiliCrawlerPayloadRunner, BilibiliCrawlerHelper, BilibiliCrawlerSummary
-from python_backend.scrapers.bilibili_probe import BilibiliProbePlanContractComparator as BilibiliProbePlanPayloadComparator, BilibiliProbePlanPayloadContractComparator, BilibiliProbePlanRequest, BilibiliProbePlanRunner as BilibiliProbePayloadPlanRunner, BilibiliProbePlanSummary, BilibiliProbePlanner
+from python_backend.scrapers.bilibili_probe import BilibiliProbePlanCommandRequest, BilibiliProbePlanContractComparator as BilibiliProbePlanPayloadComparator, BilibiliProbePlanPayloadContractComparator, BilibiliProbePlanRequest, BilibiliProbePlanRunner as BilibiliProbePayloadPlanRunner, BilibiliProbePlanSummary, BilibiliProbePlanner
 from python_backend.runtime.file_lock import FileLockStateContractComparator as FileLockStatePayloadComparator, FileLockStateInspector, FileLockStateRequest, FileLockStateRunner as FileLockStatePayloadRunner, FileLockStateSummary
 from python_backend.scrapers.rate_limiter import RateLimitPolicy, RateLimiter
 from python_backend.cli.aicu_scrape_plan import AicuScrapePlanContractComparator, AicuScrapePlanRunner
@@ -12841,6 +12841,34 @@ class CorpusContractTests(unittest.TestCase):
             compare_result = BilibiliProbePlanRequest(payload_path, compare_js_report_path=js_report_path).run()
 
         self.assertEqual(run_result["viewUrl"], "https://api.bilibili.com/x/web-interface/view?aid=123")
+        self.assertFalse(compare_result["ok"])
+        self.assertEqual([item["key"] for item in compare_result["mismatches"]], ["viewUrl", "searchUrls"])
+
+    def test_bilibili_probe_plan_command_request_lives_with_scraper_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-probe-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "urls",
+                        "query": "\u6307\u5411\u6027\u641c\u7d22",
+                        "search": {"pages": 1, "pageSize": 4},
+                        "video": {"aid": "789", "rootRpid": "456"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"ok": True, "mode": "urls", "viewUrl": "stale", "searchUrls": []}),
+                encoding="utf-8",
+            )
+
+            run_result = BilibiliProbePlanCommandRequest(["--payload", payload_path]).run()
+            compare_result = BilibiliProbePlanCommandRequest(["--payload", payload_path, "--compare-js-report", js_report_path]).run()
+
+        self.assertEqual(run_result["viewUrl"], "https://api.bilibili.com/x/web-interface/view?aid=789")
         self.assertFalse(compare_result["ok"])
         self.assertEqual([item["key"] for item in compare_result["mismatches"]], ["viewUrl", "searchUrls"])
 
