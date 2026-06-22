@@ -6,6 +6,7 @@ import sys
 
 from python_backend.scrapers.batch_uid_scrape import (
     BatchUidProgressPayloadContractComparator as BatchUidProgressContractComparator,
+    BatchUidProgressRequest,
     BatchUidProgressRunner,
 )
 
@@ -25,9 +26,7 @@ class BatchUidProgressCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.compare_js_report:
-            return BatchUidProgressContractComparator(args.progress, args.compare_js_report).compare()
-        return BatchUidProgressRunner(args.progress).run()
+        return BatchUidProgressRequest(args.progress, compare_js_report_path=args.compare_js_report).run()
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -388,3 +388,16 @@ class BatchUidProgressPayloadContractComparator:
         with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
+
+
+class BatchUidProgressRequest:
+    """Scraper-layer request for batch UID progress JSON contract commands."""
+
+    def __init__(self, progress_path: str | Path, compare_js_report_path: str | Path | None = None):
+        self.progress_path = Path(progress_path)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_report_path:
+            return BatchUidProgressPayloadContractComparator(self.progress_path, self.compare_js_report_path).compare()
+        return BatchUidProgressRunner(self.progress_path).run()
