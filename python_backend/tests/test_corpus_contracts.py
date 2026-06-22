@@ -163,7 +163,7 @@ from python_backend.scrapers.bilibili import BilibiliParseContractComparator as 
 from python_backend.scrapers.aicu import AicuBatchPlanContractComparator as AicuBatchPlanPayloadComparator, AicuBatchPlanPayloadContractComparator, AicuBatchPlanRunner as AicuBatchPayloadPlanRunner, AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressPayloadContractComparator, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanContractComparator as AicuScrapePlanPayloadComparator, AicuScrapePlanPayloadContractComparator, AicuScrapePlanRunner as AicuScrapePayloadPlanRunner, AicuScrapePlanSummary, AicuScrapePlanner, BatchScrapeProgressRunner as BatchScrapeProgressPayloadRunner
 from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanContractComparator as AicuBrowserBatchPlanPayloadComparator, AicuBrowserBatchPlanPayloadContractComparator, AicuBrowserBatchPlanRunner as AicuBrowserBatchPayloadPlanRunner, AicuBrowserBatchPlanSummary, AicuBrowserBatchPlanner
 from python_backend.scrapers import video_link_direct
-from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanContractComparator as VideoLinkDirectPlanPayloadComparator, VideoLinkDirectPlanner, VideoLinkDirectPlanRunner as VideoLinkDirectPayloadPlanRunner
+from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanContractComparator as VideoLinkDirectPlanPayloadComparator, VideoLinkDirectPlanner, VideoLinkDirectPlanRequest, VideoLinkDirectPlanRunner as VideoLinkDirectPayloadPlanRunner
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerContractComparator as BilibiliCrawlerPayloadComparator, BilibiliCrawlerPayloadContractComparator, BilibiliCrawlerRequest, BilibiliCrawlerRunner as BilibiliCrawlerPayloadRunner, BilibiliCrawlerHelper, BilibiliCrawlerSummary
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanContractComparator as BilibiliProbePlanPayloadComparator, BilibiliProbePlanPayloadContractComparator, BilibiliProbePlanRequest, BilibiliProbePlanRunner as BilibiliProbePayloadPlanRunner, BilibiliProbePlanSummary, BilibiliProbePlanner
 from python_backend.runtime.file_lock import FileLockStateContractComparator as FileLockStatePayloadComparator, FileLockStateInspector, FileLockStateRunner as FileLockStatePayloadRunner, FileLockStateSummary
@@ -2401,6 +2401,25 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "collect", "python": {"function": "analyzeUid", "pagesPerObject": 4, "forwardsCookie": True}, "js": {"pages": 1}},
             ],
         )
+
+    def test_video_link_direct_plan_request_owns_cli_dispatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "direct-uid.json"
+            js_report_path = root / "js-direct-uid.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--uid", "2333", "--pages", "4", "--cookie", "SESSDATA=x"]}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"mode": "video", "collect": {"pages": 1}}), encoding="utf-8")
+
+            run_result = VideoLinkDirectPlanRequest(payload_path).run()
+            compare_result = VideoLinkDirectPlanRequest(payload_path, compare_js_report_path=js_report_path).run()
+
+        self.assertTrue(run_result["ok"])
+        self.assertEqual(run_result["mode"], "uid")
+        self.assertFalse(compare_result["ok"])
+        self.assertEqual([item["key"] for item in compare_result["mismatches"]], ["mode", "collect"])
 
     def test_aicu_scrape_plan_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:

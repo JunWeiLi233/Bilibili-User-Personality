@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanContractComparator, VideoLinkDirectPlanRunner
+from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanContractComparator, VideoLinkDirectPlanRequest, VideoLinkDirectPlanRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -21,9 +21,7 @@ class VideoLinkDirectPlanCliRunner:
     def run(self) -> dict:
         argv = [str(item) for item in self.argv] if self.argv is not None else None
         args = build_parser().parse_args(argv)
-        if args.compare_js_report:
-            return VideoLinkDirectPlanContractComparator(args.payload, args.compare_js_report).compare()
-        return VideoLinkDirectPlanRunner(args.payload).run()
+        return VideoLinkDirectPlanRequest(args.payload, compare_js_report_path=args.compare_js_report or None).run()
 
 
 def main(argv: list[str] | None = None) -> int:
