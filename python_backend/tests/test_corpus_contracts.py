@@ -94,7 +94,7 @@ from python_backend.cli.coverage_audit_artifacts import CoverageAuditArtifactsCo
 from python_backend.cli.coverage_loop_plan import CoverageHarvestLoopPlanContractComparator, CoverageHarvestLoopPlanRunner
 from python_backend.cli.coverage_progress import CoverageProgressContractComparator, CoverageProgressRunner
 from python_backend.cli.discovery_report import VideoKeywordDiscoveryReportContractComparator, VideoKeywordDiscoveryReportRunner
-from python_backend.corpus.dictionary_prune import DictionaryPruneSummaryPayloadContractComparator, DictionaryPruneSummaryRequest, DictionaryPruneSummaryRunner as DictionaryPrunePayloadRunner, ExhaustedTermsPrunePlanPayloadContractComparator, ExhaustedTermsPrunePlanRunner as ExhaustedTermsPrunePayloadPlanRunner
+from python_backend.corpus.dictionary_prune import DictionaryPruneSummaryPayloadContractComparator, DictionaryPruneSummaryRequest, DictionaryPruneSummaryRunner as DictionaryPrunePayloadRunner, ExhaustedTermsPrunePlanPayloadContractComparator, ExhaustedTermsPrunePlanRequest, ExhaustedTermsPrunePlanRunner as ExhaustedTermsPrunePayloadPlanRunner
 from python_backend.cli.dictionary_prune_summary import DictionaryPruneSummaryContractComparator, DictionaryPruneSummaryRunner
 from python_backend.cli.harvest_options import HarvestOptionsContractComparator, HarvestOptionsRunner
 from python_backend.cli.harvest_plan import KeywordHarvestPlanContractComparator, KeywordHarvestPlanRunner
@@ -13561,6 +13561,32 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(exhausted_result["candidates"], [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "attempts": 12, "evidence": 0}])
         self.assertFalse(exhausted_comparison["ok"])
         self.assertEqual([item["key"] for item in exhausted_comparison["mismatches"]], ["count", "candidates"])
+
+    def test_exhausted_terms_prune_plan_request_owns_cli_dispatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            state_path = root / "state.json"
+            js_report_path = root / "js-exhausted.json"
+            dictionary_path.write_text(
+                json.dumps({"entries": [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "evidenceCount": 0}]}),
+                encoding="utf-8",
+            )
+            state_path.write_text(json.dumps({"termAttempts": {"\u96f6\u8bc1\u636e": {"attempts": 12}}}), encoding="utf-8")
+            js_report_path.write_text(json.dumps({"count": 0, "candidates": []}), encoding="utf-8")
+
+            result = ExhaustedTermsPrunePlanRequest(dictionary_path, state_path, attempt_threshold=10).run()
+            comparison = ExhaustedTermsPrunePlanRequest(
+                dictionary_path,
+                state_path,
+                compare_js_report_path=js_report_path,
+                attempt_threshold=10,
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["candidates"], [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "attempts": 12, "evidence": 0}])
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["count", "candidates"])
 
     def test_dictionary_prune_summary_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:

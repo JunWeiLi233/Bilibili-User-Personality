@@ -236,6 +236,48 @@ class ExhaustedTermsPrunePlanPayloadContractComparator:
         return payload if isinstance(payload, dict) else {}
 
 
+class ExhaustedTermsPrunePlanRequest:
+    """Corpus-layer request for exhausted-term prune plan JSON contract commands."""
+
+    def __init__(
+        self,
+        dictionary_path: str | Path,
+        state_path: str | Path,
+        *,
+        compare_js_report_path: str | Path | None = None,
+        target_evidence: int = 3,
+        attempt_threshold: int = 10,
+        require_zero_evidence: bool = True,
+        require_source_backed_evidence: bool = False,
+        require_comment_backed_evidence: bool = False,
+    ):
+        self.dictionary_path = Path(dictionary_path)
+        self.state_path = Path(state_path)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+        self.target_evidence = target_evidence
+        self.attempt_threshold = attempt_threshold
+        self.require_zero_evidence = require_zero_evidence
+        self.require_source_backed_evidence = require_source_backed_evidence
+        self.require_comment_backed_evidence = require_comment_backed_evidence
+
+    def run(self) -> dict[str, Any]:
+        options = {
+            "target_evidence": self.target_evidence,
+            "attempt_threshold": self.attempt_threshold,
+            "require_zero_evidence": self.require_zero_evidence,
+            "require_source_backed_evidence": self.require_source_backed_evidence,
+            "require_comment_backed_evidence": self.require_comment_backed_evidence,
+        }
+        if self.compare_js_report_path:
+            return ExhaustedTermsPrunePlanPayloadContractComparator(
+                self.dictionary_path,
+                self.state_path,
+                self.compare_js_report_path,
+                **options,
+            ).compare()
+        return ExhaustedTermsPrunePlanRunner(self.dictionary_path, self.state_path, **options).run()
+
+
 class DictionaryPrunePlanner:
     """Plan JS-compatible dictionary canonicalization without writing shards."""
 

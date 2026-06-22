@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanPayloadContractComparator as ExhaustedTermsPrunePlanContractComparator, ExhaustedTermsPrunePlanRunner
+from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanPayloadContractComparator as ExhaustedTermsPrunePlanContractComparator, ExhaustedTermsPrunePlanRequest, ExhaustedTermsPrunePlanRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -28,20 +28,10 @@ class ExhaustedTermsPrunePlanCliRunner:
         argv = [str(item) for item in self.argv] if self.argv is not None else None
         args = build_parser().parse_args(argv)
         require_zero_evidence = not args.include_partial
-        if args.compare_js_report:
-            return ExhaustedTermsPrunePlanContractComparator(
-                args.dictionary,
-                args.state,
-                args.compare_js_report,
-                target_evidence=args.target_evidence,
-                attempt_threshold=args.attempt_threshold,
-                require_zero_evidence=require_zero_evidence,
-                require_source_backed_evidence=args.require_source_backed_evidence,
-                require_comment_backed_evidence=args.require_comment_backed_evidence,
-            ).compare()
-        return ExhaustedTermsPrunePlanRunner(
+        return ExhaustedTermsPrunePlanRequest(
             args.dictionary,
             args.state,
+            compare_js_report_path=args.compare_js_report or None,
             target_evidence=args.target_evidence,
             attempt_threshold=args.attempt_threshold,
             require_zero_evidence=require_zero_evidence,
