@@ -23097,6 +23097,14 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(audit["coverage"]["targetEvidence"], 3)
         self.assertEqual(len(audit["nextActions"]), 2)
 
+    def test_coverage_audit_builder_defaults_non_object_dictionary_roots(self):
+        audit = CoverageAuditBuilder(target_evidence=3).build(["bad dictionary root"])
+
+        self.assertTrue(audit["ok"])
+        self.assertEqual(audit["coverage"]["terms"], 0)
+        self.assertEqual(audit["coverage"]["totalEvidence"], 0)
+        self.assertEqual(audit["nextActions"], [])
+
     def test_coverage_audit_builder_defaults_malformed_entry_evidence_counts_like_js(self):
         audit = CoverageAuditBuilder(target_evidence=3, max_actions=10).build(
             {

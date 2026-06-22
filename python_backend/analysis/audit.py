@@ -445,6 +445,7 @@ class CoverageAuditBuilder:
         self.require_comment_backed_evidence = bool(require_comment_backed_evidence)
 
     def build(self, dictionary: dict[str, Any]) -> dict[str, Any]:
+        dictionary = dictionary if isinstance(dictionary, dict) else {}
         entries = list(dictionary.get("entries") or [])
         coverage = self._coverage(entries)
         actions = [self._action_for_entry(entry) for entry in self._sort_entries_for_coverage(entries)]
