@@ -272,6 +272,7 @@ class RandomVerifier:
 
     @staticmethod
     def keyword_terms_from_entries(entries: list[dict[str, Any]]) -> list[str]:
+        entries = entries if isinstance(entries, list) else []
         seen: set[str] = set()
         terms: list[str] = []
         for entry in entries:

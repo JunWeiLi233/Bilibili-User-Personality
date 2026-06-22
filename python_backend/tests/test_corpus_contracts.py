@@ -1109,6 +1109,14 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(verifier.keyword_terms, ["doge"])
         self.assertEqual(summary.keyword_hits, 1)
 
+    def test_random_verifier_defaults_non_list_dictionary_entry_roots(self):
+        verifier = RandomVerifier.from_dictionary_entries(None)
+
+        summary = verifier.verify([{"message": "doge satire"}], sample_size=1, seed=1)
+
+        self.assertEqual(verifier.keyword_terms, [])
+        self.assertEqual(summary.keyword_hits, 0)
+
     def test_random_verifier_skips_scrape_diagnostics(self):
         verifier = RandomVerifier(keyword_terms=["狗头"])
 
