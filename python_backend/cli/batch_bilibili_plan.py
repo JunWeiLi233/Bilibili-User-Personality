@@ -4,25 +4,15 @@ import argparse
 import json
 import sys
 
-from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanPayloadContractComparator as BatchBilibiliPlanContractComparator, BatchBilibiliPlanRequest, BatchBilibiliPlanRunner
+from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanCommandRequest, BatchBilibiliPlanPayloadContractComparator as BatchBilibiliPlanContractComparator, BatchBilibiliPlanRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Build a batchScrapeBilibili.js-compatible dry-run UID range plan.")
-    parser.add_argument("--payload", required=True)
-    parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible batch Bilibili plan report to compare.")
-    return parser
+    return BatchBilibiliPlanCommandRequest.parser()
 
 
-class BatchBilibiliPlanCliRunner:
+class BatchBilibiliPlanCliRunner(BatchBilibiliPlanCommandRequest):
     """CLI-compatible batch Bilibili plan runner for JS/Python JSON contracts."""
-
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        return BatchBilibiliPlanRequest(args.payload, compare_js_report_path=args.compare_js_report).run()
 
 
 def main(argv: list[str] | None = None) -> int:

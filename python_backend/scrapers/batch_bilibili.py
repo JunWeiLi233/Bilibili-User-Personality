@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 from typing import Any
@@ -179,3 +180,21 @@ class BatchBilibiliPlanRequest:
         if self.compare_js_report_path:
             return BatchBilibiliPlanPayloadContractComparator(self.payload_path, self.compare_js_report_path).compare()
         return BatchBilibiliPlanRunner(self.payload_path).run()
+
+
+class BatchBilibiliPlanCommandRequest:
+    """Argv-backed scraper-layer request for batch Bilibili plan contracts."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Build a batchScrapeBilibili.js-compatible dry-run UID range plan.")
+        parser.add_argument("--payload", required=True)
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible batch Bilibili plan report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return BatchBilibiliPlanRequest(args.payload, compare_js_report_path=args.compare_js_report or None).run()
