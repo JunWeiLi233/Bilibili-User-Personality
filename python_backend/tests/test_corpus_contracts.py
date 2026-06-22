@@ -14836,6 +14836,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["totalEvidenceGain"], 2)
         self.assertEqual(result["summary"], {"agentCount": 1, "mainEntries": 1, "totalEvidenceGain": 2, "skippedAgents": 0})
 
+    def test_merge_agent_dictionaries_plan_command_request_owns_parser_factory(self):
+        args = AgentDictionaryMergePlanCommandRequest.parser().parse_args(
+            ["--dictionary", "main.json", "--agent-dictionary-relative-path", "custom/dictionary.json", "agent-one", "agent-two"]
+        )
+
+        self.assertEqual(args.dictionary, "main.json")
+        self.assertEqual(args.agent_dictionary_relative_path, "custom/dictionary.json")
+        self.assertEqual(args.agent_paths, ["agent-one", "agent-two"])
+
     def test_agent_dictionary_merge_planner_counts_sequential_existing_term_gain(self):
         planner = AgentDictionaryMergePlanner()
 

@@ -8,7 +8,7 @@ from python_backend.corpus.agent_merge import AgentDictionaryMergePlanCommandReq
 
 
 def build_parser() -> argparse.ArgumentParser:
-    return AgentDictionaryMergePlanCommandRequest([]).parser()
+    return AgentDictionaryMergePlanCommandRequest.parser()
 
 
 class MergeAgentDictionariesPlanCliRunner(AgentDictionaryMergePlanCommandRequest):
