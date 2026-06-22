@@ -6,14 +6,8 @@ import json
 from python_backend.corpus.contracts import CompareContractsCommandRequest
 
 
-class CompareContractsRunner:
+class CompareContractsRunner(CompareContractsCommandRequest):
     """CLI-compatible JS/Python contract comparator runner."""
-
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        return CompareContractsCommandRequest(self.argv).run()
 
 
 def build_parser() -> argparse.ArgumentParser:

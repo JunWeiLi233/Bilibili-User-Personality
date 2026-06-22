@@ -729,6 +729,9 @@ class CorpusContractTests(unittest.TestCase):
             {"comments": 1, "runs": 1, "manifestCommentCount": 1, "manifestRunCount": 1, "storage": "split"},
         )
 
+    def test_compare_contracts_runner_is_command_request_wrapper(self):
+        self.assertTrue(issubclass(compare_contracts_cli.CompareContractsRunner, CompareContractsCommandRequest))
+
     def test_compare_contracts_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
