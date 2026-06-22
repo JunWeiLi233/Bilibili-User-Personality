@@ -7,6 +7,7 @@ import sys
 from python_backend.scrapers.uid_fast_pipeline import (
     FastPipelineLauncherPayloadContractComparator as FastPipelineLauncherContractComparator,
     FastPipelineLauncherPlanRunner,
+    FastPipelineLauncherRequest,
 )
 
 
@@ -25,9 +26,7 @@ class FastPipelineLauncherCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.compare_js_report:
-            return FastPipelineLauncherContractComparator(args.data_dir, args.compare_js_report).compare()
-        return FastPipelineLauncherPlanRunner(args.data_dir).run()
+        return FastPipelineLauncherRequest(args.data_dir, compare_js_report_path=args.compare_js_report).run()
 
 
 def main(argv: list[str] | None = None) -> int:
