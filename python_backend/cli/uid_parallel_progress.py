@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.scrapers.uid_parallel import UidParallelProgressPayloadContractComparator as UidParallelProgressContractComparator, UidParallelProgressRunner
+from python_backend.scrapers.uid_parallel import UidParallelProgressPayloadContractComparator as UidParallelProgressContractComparator, UidParallelProgressRequest, UidParallelProgressRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -25,9 +25,7 @@ class UidParallelProgressCliRunner:
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
         runner_options = {"worker_id": args.worker, "total_workers": args.workers}
-        if args.compare_js_report:
-            return UidParallelProgressContractComparator(args.data_dir, args.compare_js_report, **runner_options).compare()
-        return UidParallelProgressRunner(args.data_dir, **runner_options).run()
+        return UidParallelProgressRequest(args.data_dir, compare_js_report_path=args.compare_js_report, **runner_options).run()
 
 
 def main(argv: list[str] | None = None) -> int:
