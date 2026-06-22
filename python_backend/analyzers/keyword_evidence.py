@@ -136,7 +136,8 @@ class KeywordEvidenceCommandRequest:
     def __init__(self, argv: list[Any] | None = None):
         self.argv = argv
 
-    def parser(self) -> argparse.ArgumentParser:
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(description="Match keyword dictionary entries against direct text evidence.")
         parser.add_argument("--payload", required=True, help="JSON payload with entries or dictionary plus text.")
         parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible keyword evidence report to compare.")

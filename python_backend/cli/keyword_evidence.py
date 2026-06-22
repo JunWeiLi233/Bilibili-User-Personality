@@ -16,7 +16,7 @@ class KeywordEvidenceCliRunner(KeywordEvidenceCommandRequest):
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    return KeywordEvidenceCommandRequest(argv).parser().parse_args([str(item) for item in argv] if argv is not None else None)
+    return KeywordEvidenceCommandRequest.parser().parse_args([str(item) for item in argv] if argv is not None else None)
 
 
 def main(argv: list[str] | None = None) -> int:
