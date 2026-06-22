@@ -1538,6 +1538,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(report.coverage_ratio, 0)
         self.assertEqual(report.next_queries(), [])
 
+    def test_coverage_audit_report_defaults_non_object_coverage_payloads(self):
+        report = CoverageAuditReport.from_json({"ok": False, "targetEvidence": 3, "coverage": ["bad coverage"]})
+
+        self.assertFalse(report.ok)
+        self.assertEqual(report.target_evidence, 3)
+        self.assertEqual(report.terms, 0)
+        self.assertEqual(report.coverage_ratio, 0)
+        self.assertEqual(report.weak_terms, 0)
+
     def test_coverage_audit_report_load_accepts_utf8_bom_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             audit_path = Path(tmp) / "audit.json"

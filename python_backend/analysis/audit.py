@@ -24,7 +24,7 @@ class CoverageAuditReport:
     @classmethod
     def from_json(cls, payload: dict[str, Any]) -> "CoverageAuditReport":
         payload = payload if isinstance(payload, dict) else {}
-        coverage = payload.get("coverage") or {}
+        coverage = payload.get("coverage") if isinstance(payload.get("coverage"), dict) else {}
         return cls(
             ok=bool(payload.get("ok")),
             target_evidence=_int_or(payload.get("targetEvidence") or coverage.get("targetEvidence"), 0),
