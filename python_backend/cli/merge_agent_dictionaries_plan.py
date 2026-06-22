@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.corpus.agent_merge import MergeAgentDictionariesPlanContractComparator, MergeAgentDictionariesPlanRunner
+from python_backend.corpus.agent_merge import AgentDictionaryMergePlanRequest, MergeAgentDictionariesPlanContractComparator, MergeAgentDictionariesPlanRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -23,17 +23,11 @@ class MergeAgentDictionariesPlanCliRunner:
     def run(self) -> dict:
         argv = [str(item) for item in self.argv] if self.argv is not None else None
         args = build_parser().parse_args(argv)
-        if args.compare_js_report:
-            return MergeAgentDictionariesPlanContractComparator(
-                args.dictionary,
-                args.agent_paths,
-                args.compare_js_report,
-                agent_dictionary_relative_path=args.agent_dictionary_relative_path,
-            ).compare()
-        return MergeAgentDictionariesPlanRunner(
+        return AgentDictionaryMergePlanRequest(
             args.dictionary,
             args.agent_paths,
             agent_dictionary_relative_path=args.agent_dictionary_relative_path,
+            compare_js_report_path=args.compare_js_report or None,
         ).run()
 
 
