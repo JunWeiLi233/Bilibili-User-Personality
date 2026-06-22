@@ -6114,6 +6114,14 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["comments"][0]["uid"], "BVcommand-flat")
 
+    def test_local_corpus_flatten_command_request_owns_parser_factory(self):
+        args = LocalCorpusFlattenCommandRequest.parser().parse_args(
+            ["--payload", "local.json", "--compare-js-report", "js-flatten.json"]
+        )
+
+        self.assertEqual(args.payload, "local.json")
+        self.assertEqual(args.compare_js_report, "js-flatten.json")
+
     def test_local_corpus_flatten_summary_extracts_comparator_contract(self):
         summary = LocalCorpusFlattenSummary().summarize(
             {

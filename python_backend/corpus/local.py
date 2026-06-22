@@ -298,7 +298,8 @@ class LocalCorpusFlattenCommandRequest:
     def __init__(self, argv: list[Any] | None = None):
         self.argv = argv
 
-    def parser(self) -> argparse.ArgumentParser:
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(description="Flatten local Bilibili/Tieba corpus JSON into JS-compatible comments.")
         parser.add_argument("--payload", default="", help="Alias for --input; JSON file to flatten.")
         parser.add_argument("--input", default="", help="Input JSON file to flatten.")
