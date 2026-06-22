@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.scrapers.aicu import AicuBatchProgressPayloadContractComparator as BatchScrapeProgressContractComparator, BatchScrapeProgressRunner
+from python_backend.scrapers.aicu import AicuBatchProgressPayloadContractComparator as BatchScrapeProgressContractComparator, BatchScrapeProgressRequest, BatchScrapeProgressRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -36,9 +36,7 @@ class BatchScrapeProgressCliRunner:
             "end_uid": args.end_uid,
             "pages": args.pages,
         }
-        if args.compare_js_report:
-            return BatchScrapeProgressContractComparator(args.data_dir, args.compare_js_report, **runner_options).compare()
-        return BatchScrapeProgressRunner(args.data_dir, **runner_options).run()
+        return BatchScrapeProgressRequest(args.data_dir, compare_js_report_path=args.compare_js_report, **runner_options).run()
 
 
 def main(argv: list[str] | None = None) -> int:

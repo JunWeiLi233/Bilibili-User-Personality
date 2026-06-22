@@ -544,3 +544,17 @@ class AicuBatchProgressPayloadContractComparator:
         with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
+
+
+class BatchScrapeProgressRequest:
+    """Scraper-layer request for AICU batch scrape progress JSON contract commands."""
+
+    def __init__(self, data_dir: str | Path, compare_js_report_path: str | Path | None = None, **runner_options: Any):
+        self.data_dir = Path(data_dir)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+        self.runner_options = runner_options
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_report_path:
+            return AicuBatchProgressPayloadContractComparator(self.data_dir, self.compare_js_report_path, **self.runner_options).compare()
+        return BatchScrapeProgressRunner(self.data_dir, **self.runner_options).run()
