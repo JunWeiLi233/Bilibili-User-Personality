@@ -33,7 +33,14 @@ class RandomVerificationReportSummary:
 
     def summarize(self, report: dict[str, Any] | None = None) -> dict[str, Any]:
         report = report if isinstance(report, dict) else {}
-        return {key: report.get(key) for key in self.SUMMARY_KEYS}
+        return {
+            "sampleSize": _non_negative_int(report.get("sampleSize"), 50),
+            "seed": _int_or(report.get("seed"), 1),
+            "sampled": _non_negative_int(report.get("sampled"), 0),
+            "keywordHits": _non_negative_int(report.get("keywordHits"), 0),
+            "neutral": _non_negative_int(report.get("neutral"), 0),
+            "uncovered": _non_negative_int(report.get("uncovered"), 0),
+        }
 
 
 class RandomVerificationContractComparator:

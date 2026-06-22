@@ -24490,6 +24490,30 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_random_verification_report_summary_defaults_malformed_metrics(self):
+        summary = RandomVerificationReportSummary().summarize(
+            {
+                "sampleSize": "bad",
+                "seed": "bad",
+                "sampled": "bad",
+                "keywordHits": {"bad": True},
+                "neutral": ["bad"],
+                "uncovered": None,
+            }
+        )
+
+        self.assertEqual(
+            summary,
+            {
+                "sampleSize": 50,
+                "seed": 1,
+                "sampled": 0,
+                "keywordHits": 0,
+                "neutral": 0,
+                "uncovered": 0,
+            },
+        )
+
     def test_random_verification_json_output_is_utf8_safe(self):
         payload = {"ok": True, "samples": [{"message": "emoji 😭 and hangul 눈"}]}
 
