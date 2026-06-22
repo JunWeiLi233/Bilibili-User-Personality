@@ -289,8 +289,9 @@ class RandomVerifier:
                 terms.append(term)
         return terms
 
-    def verify(self, comments: list[dict[str, Any]], sample_size: int, seed: int) -> VerificationSummary:
-        eligible = [comment for comment in comments if self._message(comment) and not _is_scrape_diagnostic(self._message(comment))]
+    def verify(self, comments: list[Any], sample_size: int, seed: int) -> VerificationSummary:
+        normalized_comments = [self._normalize_comment(comment) for comment in comments]
+        eligible = [comment for comment in normalized_comments if self._message(comment) and not _is_scrape_diagnostic(self._message(comment))]
         sample_count = min(max(0, sample_size), len(eligible))
         sampled = random.Random(seed).sample(eligible, sample_count) if sample_count else []
         annotated = [self._annotate(comment) for comment in sampled]
@@ -340,3 +341,10 @@ class RandomVerifier:
             or comment.get("content")
             or ""
         ).strip()
+
+    @classmethod
+    def _normalize_comment(cls, comment: Any) -> dict[str, Any]:
+        if isinstance(comment, dict):
+            return comment
+        text = str(comment or "").strip()
+        return {"message": text} if text else {}

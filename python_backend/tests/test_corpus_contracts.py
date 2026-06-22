@@ -1117,6 +1117,16 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(summary.samples[0]["message"], "狗头保命")
         self.assertEqual(summary.keyword_hits, 1)
 
+    def test_random_verifier_normalizes_plain_string_comments_at_class_boundary(self):
+        verifier = RandomVerifier(keyword_terms=["doge"])
+
+        summary = verifier.verify(["doge satire", {"message": "plain comment"}, ""], sample_size=3, seed=1)
+
+        self.assertEqual(summary.sampled, 2)
+        self.assertEqual(summary.keyword_hits, 1)
+        self.assertEqual(summary.neutral, 1)
+        self.assertEqual(summary.samples[0]["message"], "doge satire")
+
     def test_random_verification_payload_runner_accepts_inline_json_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "random-verification.json"
