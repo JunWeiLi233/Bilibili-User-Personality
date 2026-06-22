@@ -295,6 +295,7 @@ class RandomVerifier:
         return terms
 
     def verify(self, comments: list[Any], sample_size: int, seed: int) -> VerificationSummary:
+        comments = comments if isinstance(comments, list) else []
         normalized_comments = [self._normalize_comment(comment) for comment in comments]
         eligible = [comment for comment in normalized_comments if self._message(comment) and not _is_scrape_diagnostic(self._message(comment))]
         sample_count = min(max(0, sample_size), len(eligible))

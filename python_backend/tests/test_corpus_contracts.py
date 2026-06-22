@@ -1160,6 +1160,16 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(summary.neutral, 1)
         self.assertEqual(summary.samples[0]["message"], "doge satire")
 
+    def test_random_verifier_defaults_non_list_comment_roots(self):
+        verifier = RandomVerifier(keyword_terms=["doge"])
+
+        summary = verifier.verify(None, sample_size=3, seed=1)
+
+        self.assertEqual(summary.sampled, 0)
+        self.assertEqual(summary.keyword_hits, 0)
+        self.assertEqual(summary.neutral, 0)
+        self.assertEqual(summary.samples, [])
+
     def test_random_verification_payload_runner_accepts_inline_json_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "random-verification.json"
