@@ -145,7 +145,7 @@ from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectP
 from python_backend.corpus.history_tags import HistoryTagCorpusContractComparator as HistoryTagCorpusPayloadComparator, HistoryTagCorpusLoader, HistoryTagCorpusManager, HistoryTagCorpusPayloadContractComparator, HistoryTagCorpusRequest, HistoryTagCorpusRunner as HistoryTagPayloadCorpusRunner, HistoryTagCorpusShardWritePayloadContractComparator, HistoryTagCorpusShardWriteRunner, HistoryTagCorpusShardWriteSummary, HistoryTagCorpusShardWriter, HistoryTagCorpusSummary, HistoryTagScrapePlanner, HistoryTagScrapePlanContractComparator as HistoryTagScrapePlanPayloadComparator, HistoryTagScrapePlanPayloadContractComparator, HistoryTagScrapePlanRunner as HistoryTagScrapePayloadPlanRunner, HistoryTagScrapePlanSummary
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceCorpusImportContractComparator as HuggingFaceCorpusImportPayloadComparator, HuggingFaceCorpusImportPlanContractComparator as HuggingFaceCorpusImportPlanPayloadComparator, HuggingFaceCorpusImportPlanRunner as HuggingFaceCorpusImportPayloadPlanRunner, HuggingFaceCorpusImportRequest, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
 from python_backend.corpus.local import LocalCorpusEvidenceCommandRequest, LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidenceJsonPayloadRunner, LocalCorpusEvidencePayloadContractComparator, LocalCorpusEvidenceRequest, LocalCorpusEvidenceRunner as LocalCorpusEvidencePayloadRunner, LocalCorpusEvidenceSummary
-from python_backend.corpus.local import LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenPayloadContractComparator, LocalCorpusFlattenRequest, LocalCorpusFlattenRunner as LocalCorpusFlattenPayloadRunner, LocalCorpusFlattenSummary, LocalCorpusFlattener
+from python_backend.corpus.local import LocalCorpusFlattenCommandRequest, LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenPayloadContractComparator, LocalCorpusFlattenRequest, LocalCorpusFlattenRunner as LocalCorpusFlattenPayloadRunner, LocalCorpusFlattenSummary, LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanContractComparator as LocalCorpusMinePlanPayloadComparator, LocalCorpusMinePlanRequest, LocalCorpusMinePlanSummary
 from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner, AgentDictionaryMergePlanRequest, AgentDictionaryMergePlanSummary, MergeAgentDictionariesPlanContractComparator as MergeAgentDictionariesPlanPayloadComparator, MergeAgentDictionariesPlanRunner as MergeAgentDictionariesPayloadPlanRunner
 from python_backend.corpus.contracts import CompareContractsRequest, ContractComparator, ContractComparator as CorpusContractPayloadComparator, CorpusContractSummary
@@ -5806,6 +5806,21 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["comments"][0]["uid"], "BVflat")
+
+    def test_local_corpus_flatten_command_request_lives_with_corpus_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "local.json"
+            payload_path.write_text(
+                json.dumps({"_uidComments": {"42": [{"message": "\u672c\u5730\u8bed\u6599\u8bc4\u8bba", "uname": "tester", "bvid": "BVcommand-flat"}]}}),
+                encoding="utf-8",
+            )
+
+            result = LocalCorpusFlattenCommandRequest(["--payload", payload_path]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["comments"][0]["uid"], "BVcommand-flat")
 
     def test_local_corpus_flatten_summary_extracts_comparator_contract(self):
         summary = LocalCorpusFlattenSummary().summarize(
