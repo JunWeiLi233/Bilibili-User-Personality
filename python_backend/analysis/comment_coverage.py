@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import unicodedata
@@ -351,6 +352,40 @@ class CommentCoverageRequest:
         if not self.comments_path:
             raise ValueError("comments_path is required unless payload_path is provided")
         return self.comments_path
+
+
+class CommentCoverageCommandRequest:
+    """Analysis-layer command request for comment coverage CLI JSON contracts."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    def run(self) -> dict[str, Any]:
+        parser = self.parser()
+        args = parser.parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        if not args.payload and not args.comments:
+            parser.error("--comments is required unless --payload is provided")
+        return CommentCoverageRequest(
+            dictionary_path=args.dictionary,
+            comments_path=args.comments or None,
+            sample_size=args.sample_size,
+            payload_path=args.payload or None,
+            compare_js_report_path=args.compare_js_report or None,
+        ).run()
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Classify comment coverage using the Python backend.")
+        parser.add_argument("--payload", default="", help="Single JSON payload containing dictionary, comments, and optional sampleSize.")
+        parser.add_argument(
+            "--dictionary",
+            default="server/data/keywordDictionary.json",
+            help="Path to keyword dictionary JSON.",
+        )
+        parser.add_argument("--comments", default="", help="Path to comment JSON array or object with comments array.")
+        parser.add_argument("--sample-size", type=int, default=None, help="Maximum number of comments to classify.")
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible comment coverage report to compare.")
+        return parser
 
 
 def _read_json(path: Path) -> Any:
