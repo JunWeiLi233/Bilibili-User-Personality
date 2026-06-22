@@ -152,7 +152,7 @@ from python_backend.corpus.contracts import CompareContractsCommandRequest, Comp
 from python_backend.corpus.tieba import TiebaCorpusCommandRequest, TiebaCorpusJsonPayloadContractComparator, TiebaCorpusPayloadRunner, TiebaCorpusRequest, TiebaCorpusUpdateContractComparator as TiebaCorpusUpdatePayloadComparator, TiebaCorpusUpdater, TiebaCorpusUpdateRunner as TiebaCorpusUpdatePayloadRunner, TiebaCorpusUpdateSummary
 from python_backend.corpus import dictionary_prune
 from python_backend.analysis import video_filter
-from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterCommandRequest, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoCommentFilterPayloadContractComparator, VideoCommentFilterPayloadRunner, VideoCommentFilterRequest, VideoContextBuilder, VideoContextCommandRequest, VideoContextContractComparator as VideoContextPayloadComparator, VideoContextRequest, VideoContextRunner as VideoContextPayloadRunner, VideoRelevanceContractComparator as VideoRelevancePayloadComparator, VideoRelevanceFilter, VideoRelevancePayloadContractComparator, VideoRelevancePayloadRunner, VideoRelevanceRequest
+from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterCommandRequest, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoCommentFilterPayloadContractComparator, VideoCommentFilterPayloadRunner, VideoCommentFilterRequest, VideoContextBuilder, VideoContextCommandRequest, VideoContextContractComparator as VideoContextPayloadComparator, VideoContextRequest, VideoContextRunner as VideoContextPayloadRunner, VideoRelevanceCommandRequest, VideoRelevanceContractComparator as VideoRelevancePayloadComparator, VideoRelevanceFilter, VideoRelevancePayloadContractComparator, VideoRelevancePayloadRunner, VideoRelevanceRequest
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader
@@ -9662,6 +9662,35 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertTrue(result["ok"])
         self.assertEqual(result["operation"], "filter")
+        self.assertEqual([video["bvid"] for video in result["videos"]], ["BV1"])
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["operation", "videos"])
+
+    def test_video_relevance_command_request_lives_with_analysis_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "video-relevance.json"
+            js_report_path = root / "js-video-relevance.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "operation": "filter",
+                        "videos": [
+                            {"bvid": "BV1", "title": "\u6307\u5411\u6027\u9634\u9633\u602a\u6c14"},
+                            {"bvid": "BV2", "title": "\u666e\u901a\u5207\u7247"},
+                        ],
+                        "searchQueries": ["\u6307\u5411\u6027\u9634\u9633\u602a\u6c14"],
+                        "targetExistingTerms": ["\u6307\u5411\u6027\u9634\u9633\u602a\u6c14"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"operation": "sort", "videos": [{"bvid": "BV2"}]}), encoding="utf-8")
+
+            result = VideoRelevanceCommandRequest(["--payload", payload_path]).run()
+            comparison = VideoRelevanceCommandRequest(["--payload", payload_path, "--compare-js-report", js_report_path]).run()
+
+        self.assertTrue(result["ok"])
         self.assertEqual([video["bvid"] for video in result["videos"]], ["BV1"])
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["operation", "videos"])
