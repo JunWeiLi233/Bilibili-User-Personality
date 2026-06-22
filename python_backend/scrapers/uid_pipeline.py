@@ -629,6 +629,35 @@ class UidPipelineMergeRequest:
         ).run()
 
 
+class UidPipelineMergeCommandRequest:
+    """Argv-backed scraper-layer request for UID pipeline merge contracts."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Build a dry-run UID pipeline merge report.")
+        parser.add_argument("--data-dir", default="server/data")
+        parser.add_argument("--total-start", type=int, default=1)
+        parser.add_argument("--total-end", type=int, default=100000)
+        parser.add_argument("--workers", type=int, default=5)
+        parser.add_argument("--summary-only", action="store_true", help="Omit the large processed UID map from output.")
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible UID merge report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return UidPipelineMergeRequest(
+            args.data_dir,
+            compare_js_report_path=args.compare_js_report or None,
+            total_start=args.total_start,
+            total_end=args.total_end,
+            workers=args.workers,
+            summary_only=args.summary_only,
+        ).run()
+
+
 class UidPipelineStateReporter:
     """Summarize UID pipeline launcher state and worker progress payloads."""
 
