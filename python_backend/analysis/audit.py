@@ -70,6 +70,12 @@ def _object_list(value: Any) -> list[dict[str, Any]]:
     return [item for item in value if isinstance(item, dict)]
 
 
+def _string_list(value: Any) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    return [str(item) for item in value if isinstance(item, str)]
+
+
 class CoverageAuditArtifactWriter:
     """Serialize coverage-audit query and priority-action artifacts like the JS audit script."""
 
@@ -265,8 +271,8 @@ class CoverageAuditContractSummary:
                 key: coverage.get(key)
                 for key in (*self.COVERAGE_STATUS_KEYS, *self.GATE_METRIC_KEYS, *self.OPTIONAL_COVERAGE_METRIC_KEYS, *self.WARNING_METRIC_KEYS)
             },
-            "failureReasons": list(audit.get("failureReasons") or []),
-            "familyGaps": list(audit.get("familyGaps") or []),
+            "failureReasons": _string_list(audit.get("failureReasons")),
+            "familyGaps": _object_list(audit.get("familyGaps")),
         }
 
 

@@ -1632,6 +1632,17 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(summary["failureReasons"], ["1 term(s) are below 3 evidence hit(s)"])
         self.assertEqual(summary["familyGaps"], [{"family": "attack", "weak": 1}])
 
+    def test_coverage_audit_contract_summary_defaults_malformed_list_fields(self):
+        summary = CoverageAuditContractSummary().summarize(
+            {
+                "failureReasons": "bad reasons root",
+                "familyGaps": "bad gaps root",
+            }
+        )
+
+        self.assertEqual(summary["failureReasons"], [])
+        self.assertEqual(summary["familyGaps"], [])
+
     def test_coverage_audit_contract_comparator_owns_metric_mismatch_contract(self):
         comparator = CoverageAuditContractComparator(strict_total_evidence=True)
         python_audit = {
