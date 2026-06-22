@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.scrapers.batch_popular import BatchPopularPlanPayloadContractComparator as BatchPopularPlanContractComparator, BatchPopularPlanRunner
+from python_backend.scrapers.batch_popular import BatchPopularPlanPayloadContractComparator as BatchPopularPlanContractComparator, BatchPopularPlanRequest, BatchPopularPlanRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -22,9 +22,7 @@ class BatchPopularPlanCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.compare_js_report:
-            return BatchPopularPlanContractComparator(args.payload, args.compare_js_report).compare()
-        return BatchPopularPlanRunner(args.payload).run()
+        return BatchPopularPlanRequest(args.payload, compare_js_report_path=args.compare_js_report).run()
 
 
 def main(argv: list[str] | None = None) -> int:
