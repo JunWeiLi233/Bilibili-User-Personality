@@ -34,14 +34,8 @@ class RandomVerificationRunner:
         return RandomVerificationCommandRequest.parser()
 
 
-class RandomVerificationCliRunner:
+class RandomVerificationCliRunner(RandomVerificationCommandRequest):
     """Dedicated argv-based random verification runner for JS/Python JSON contracts."""
-
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        return RandomVerificationCommandRequest(self.argv).run()
 
 
 def main(argv: list[str] | None = None) -> int:

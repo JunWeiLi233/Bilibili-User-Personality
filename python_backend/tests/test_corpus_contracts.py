@@ -1184,6 +1184,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["sampleSize"], 1)
         self.assertEqual(result["keywordHits"], 1)
 
+    def test_random_verification_dedicated_cli_runner_is_command_request_wrapper(self):
+        self.assertTrue(issubclass(random_verification_cli.RandomVerificationCliRunner, RandomVerificationCommandRequest))
+
     def test_random_verification_cli_runner_combines_extra_corpus(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
