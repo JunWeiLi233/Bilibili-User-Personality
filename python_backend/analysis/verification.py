@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 import random
 import re
@@ -91,6 +92,37 @@ class RandomVerificationRequest:
             seed=self.seed if self.seed is not None else 1,
             extra_corpus_paths=self.extra_corpus_paths,
         ).run()
+
+
+class RandomVerificationCommandRequest:
+    """Analysis-layer command request for random-verification CLI JSON contracts."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return RandomVerificationRequest(
+            corpus_path=args.corpus,
+            dictionary_path=args.dictionary,
+            sample_size=args.sample_size,
+            seed=args.seed,
+            extra_corpus_paths=args.extra_corpus,
+            payload_path=args.payload or None,
+            compare_js_report_path=args.compare_js_report or None,
+        ).run()
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Run Python random verification over JS-compatible corpus and dictionary JSON.")
+        parser.add_argument("--payload", default="")
+        parser.add_argument("--corpus", default="server/data/bilibiliDirectProbeCorpus.json")
+        parser.add_argument("--extra-corpus", action="append", default=[])
+        parser.add_argument("--dictionary", default="server/data/deepseekKeywordDictionary.json")
+        parser.add_argument("--sample-size", type=int)
+        parser.add_argument("--seed", type=int)
+        parser.add_argument("--compare-js-report", default="")
+        return parser
 
 
 class RandomVerificationRunner:
