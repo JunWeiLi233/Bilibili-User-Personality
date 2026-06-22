@@ -295,9 +295,10 @@ class CoverageAuditContractComparator:
 
     def builder_from_js_audit(self, js_audit: dict[str, Any]) -> "CoverageAuditBuilder":
         js_audit = js_audit if isinstance(js_audit, dict) else {}
+        coverage = js_audit.get("coverage") if isinstance(js_audit.get("coverage"), dict) else {}
         return CoverageAuditBuilder(
-            target_evidence=int(js_audit.get("targetEvidence") or js_audit.get("coverage", {}).get("targetEvidence") or 3),
-            min_coverage_ratio=float(js_audit.get("minCoverageRatio") if js_audit.get("minCoverageRatio") is not None else 1),
+            target_evidence=_int_or(js_audit.get("targetEvidence") or coverage.get("targetEvidence"), 3),
+            min_coverage_ratio=_float_or(js_audit.get("minCoverageRatio"), 1),
             require_complete=js_audit.get("requireComplete") is not False,
             require_source_backed_evidence=bool(js_audit.get("requireSourceBackedEvidence")),
             require_comment_backed_evidence=bool(js_audit.get("requireCommentBackedEvidence")),
