@@ -147,6 +147,19 @@ class BilibiliProbePlanPayloadContractComparator:
         return payload if isinstance(payload, dict) else {}
 
 
+class BilibiliProbePlanRequest:
+    """Scraper-layer request for Bilibili probe plan JSON contract commands."""
+
+    def __init__(self, payload_path: str | Path, compare_js_report_path: str | Path | None = None):
+        self.payload_path = Path(payload_path)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_report_path:
+            return BilibiliProbePlanPayloadContractComparator(self.payload_path, self.compare_js_report_path).compare()
+        return BilibiliProbePlanRunner(self.payload_path).run()
+
+
 class BilibiliProbePlanner:
     """Build deterministic Bilibili probe request contracts without performing network IO."""
 
