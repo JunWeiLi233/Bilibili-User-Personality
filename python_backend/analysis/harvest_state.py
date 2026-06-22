@@ -421,6 +421,19 @@ class HarvestStatePayloadContractComparator:
         return payload if isinstance(payload, dict) else {}
 
 
+class HarvestStateRequest:
+    """Analysis-layer request for harvest-state JSON contract commands."""
+
+    def __init__(self, payload_path: str | Path, compare_js_state_path: str | Path | None = None):
+        self.payload_path = Path(payload_path)
+        self.compare_js_state_path = Path(compare_js_state_path) if compare_js_state_path else None
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_state_path:
+            return HarvestStatePayloadContractComparator(self.payload_path, self.compare_js_state_path).compare()
+        return HarvestStateRunner(self.payload_path).run()
+
+
 class HarvestTermAttemptUpdater:
     """Update keyword-harvest termAttempts using the JS keywordHarvest state contract."""
 

@@ -6,6 +6,7 @@ import sys
 
 from python_backend.analysis.harvest_state import (
     HarvestStatePayloadContractComparator as HarvestStateContractComparator,
+    HarvestStateRequest,
     HarvestStateRunner,
 )
 
@@ -25,9 +26,7 @@ class HarvestStateCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.compare_js_state:
-            return HarvestStateContractComparator(args.payload, args.compare_js_state).compare()
-        return HarvestStateRunner(args.payload).run()
+        return HarvestStateRequest(args.payload, compare_js_state_path=args.compare_js_state or None).run()
 
 
 def main(argv: list[str] | None = None) -> int:
