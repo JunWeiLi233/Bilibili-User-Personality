@@ -82,7 +82,7 @@ from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStats
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRequest, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationPayloadContractComparator, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerifier, json_result_bytes as random_verification_payload_json_result_bytes
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisPlanContractComparator as DeepSeekAnalysisPayloadPlanContractComparator, DeepSeekAnalysisPlanRequest, DeepSeekAnalysisPlanRunner as DeepSeekAnalysisPayloadPlanRunner, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidateContractComparator as DeepSeekAnalysisPayloadValidateContractComparator, DeepSeekAnalysisValidateRequest, DeepSeekAnalysisValidateRunner as DeepSeekAnalysisPayloadValidateRunner, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator
-from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPayloadPlanContractComparator, DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanRunner as DeepSeekAnalyzeCliPayloadPlanRunner, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary
+from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPayloadPlanContractComparator, DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanRequest, DeepSeekAnalyzeCliPlanRunner as DeepSeekAnalyzeCliPayloadPlanRunner, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceContractComparator as KeywordEvidencePayloadComparator, KeywordEvidenceMatcher, KeywordEvidencePayloadContractComparator, KeywordEvidencePayloadRunner, KeywordEvidenceRequest, KeywordEvidenceSummary
 from python_backend.cli.comment_coverage import CommentCoverageContractComparator, CommentCoverageRunner
 from python_backend.cli.corpus_shard_writer import CorpusShardWriteContractComparator, CorpusShardWriteRunner
@@ -101,7 +101,6 @@ from python_backend.cli.harvest_plan import KeywordHarvestPlanContractComparator
 from python_backend.cli.harvest_state import HarvestStateContractComparator, HarvestStateRunner
 from python_backend.cli.readme_stats import ReadmeStatsCliRunner, ReadmeStatsContractComparator, ReadmeStatsRunner
 from python_backend.cli.semantic_matcher import SemanticMatcherCliRunner, SemanticMatcherContractComparator, SemanticMatcherRunner
-from python_backend.cli.deepseek_analyze_cli_plan import DeepSeekAnalyzeCliPlanContractComparator, DeepSeekAnalyzeCliPlanRunner
 from python_backend.cli.deepseek_analysis_plan import DeepSeekAnalysisPlanContractComparator, DeepSeekAnalysisPlanRunner
 from python_backend.cli.deepseek_analysis_validate import DeepSeekAnalysisValidateContractComparator, DeepSeekAnalysisValidateRunner
 from python_backend.cli.exhausted_terms_prune_plan import ExhaustedTermsPrunePlanContractComparator, ExhaustedTermsPrunePlanRunner
@@ -3819,7 +3818,7 @@ class CorpusContractTests(unittest.TestCase):
             payload_path = Path(tmp) / "deepseek-cli.json"
             payload_path.write_text(json.dumps(["not", "an", "object"]), encoding="utf-8")
 
-            result = DeepSeekAnalyzeCliPlanRunner(payload_path).run()
+            result = DeepSeekAnalyzeCliPayloadPlanRunner(payload_path).run()
 
         self.assertEqual(result, DeepSeekAnalyzeCliPlanner().build_plan([], stdin_is_tty=True))
 
@@ -3834,8 +3833,8 @@ class CorpusContractTests(unittest.TestCase):
             )
             js_report_path.write_text(json.dumps({"payload": {"text": "\u65e7\u6587\u672c"}, "input": {"source": "stdin"}}), encoding="utf-8")
 
-            result = DeepSeekAnalyzeCliPlanRunner(payload_path).run()
-            comparison = DeepSeekAnalyzeCliPlanContractComparator(payload_path, js_report_path).compare()
+            result = DeepSeekAnalyzeCliPayloadPlanRunner(payload_path).run()
+            comparison = DeepSeekAnalyzeCliPayloadPlanContractComparator(payload_path, js_report_path).compare()
 
         self.assertTrue(result["ok"])
         self.assertEqual(result["payload"], {"text": "\u53cd\u8bbd[doge]", "uid": "42", "multiagent": True})
@@ -3863,9 +3862,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["input"], {"source": "argv", "file": "", "readsStdin": False, "showHelp": False})
 
     def test_deepseek_analyze_cli_comparator_uses_backend_summary_contract_keys(self):
-        self.assertFalse(hasattr(DeepSeekAnalyzeCliPlanContractComparator, "RESULT_KEYS"))
+        self.assertFalse(hasattr(DeepSeekAnalyzeCliPayloadPlanContractComparator, "RESULT_KEYS"))
         self.assertEqual(
-            DeepSeekAnalyzeCliPlanContractComparator(Path("payload.json"), Path("js-report.json")).summary.RESULT_KEYS,
+            DeepSeekAnalyzeCliPayloadPlanContractComparator(Path("payload.json"), Path("js-report.json")).summary.RESULT_KEYS,
             DeepSeekAnalyzeCliPlanSummary.RESULT_KEYS,
         )
 
@@ -3882,6 +3881,25 @@ class CorpusContractTests(unittest.TestCase):
 
             result = DeepSeekAnalyzeCliPayloadPlanRunner(payload_path).run()
             comparison = DeepSeekAnalyzeCliPayloadPlanContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["payload"], {"text": "\u53cd\u8bbd[doge]", "uid": "42", "multiagent": True})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["payload", "input"])
+
+    def test_deepseek_analyze_cli_plan_request_owns_cli_dispatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "deepseek-cli.json"
+            js_report_path = root / "js-deepseek-cli.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--text=\u53cd\u8bbd[doge]", "--uid", "42", "--multiagent"], "stdinIsTTY": True}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"payload": {"text": "\u65e7\u6587\u672c"}, "input": {"source": "stdin"}}), encoding="utf-8")
+
+            result = DeepSeekAnalyzeCliPlanRequest(payload_path).run()
+            comparison = DeepSeekAnalyzeCliPlanRequest(payload_path, compare_js_report_path=js_report_path).run()
 
         self.assertTrue(result["ok"])
         self.assertEqual(result["payload"], {"text": "\u53cd\u8bbd[doge]", "uid": "42", "multiagent": True})

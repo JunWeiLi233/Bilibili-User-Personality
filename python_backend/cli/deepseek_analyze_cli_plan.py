@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPayloadPlanContractComparator as DeepSeekAnalyzeCliPlanContractComparator, DeepSeekAnalyzeCliPlanRunner
+from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPlanRequest
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -22,9 +22,10 @@ class DeepSeekAnalyzeCliPlanCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.compare_js_report:
-            return DeepSeekAnalyzeCliPlanContractComparator(args.payload, args.compare_js_report).compare()
-        return DeepSeekAnalyzeCliPlanRunner(args.payload).run()
+        return DeepSeekAnalyzeCliPlanRequest(
+            args.payload,
+            compare_js_report_path=args.compare_js_report or None,
+        ).run()
 
 
 def main(argv: list[str] | None = None) -> int:
