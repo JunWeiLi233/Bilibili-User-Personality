@@ -311,13 +311,13 @@ class CoverageAuditContractComparator:
             if python_ok != js_ok:
                 mismatches.append({"key": "ok", "python": python_ok, "js": js_ok})
         if "failureReasons" in js_audit:
-            python_reasons = list(python_audit.get("failureReasons") or [])
-            js_reasons = list(js_audit.get("failureReasons") or [])
+            python_reasons = _string_list(python_audit.get("failureReasons"))
+            js_reasons = _string_list(js_audit.get("failureReasons"))
             if python_reasons != js_reasons:
                 mismatches.append({"key": "failureReasons", "python": python_reasons, "js": js_reasons})
         if "familyGaps" in js_audit:
-            python_family_gaps = list(python_audit.get("familyGaps") or [])
-            js_family_gaps = list(js_audit.get("familyGaps") or [])
+            python_family_gaps = _object_list(python_audit.get("familyGaps"))
+            js_family_gaps = _object_list(js_audit.get("familyGaps"))
             if python_family_gaps != js_family_gaps:
                 mismatches.append({"key": "familyGaps", "python": python_family_gaps, "js": js_family_gaps})
         if self.strict_total_evidence:
