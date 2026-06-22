@@ -604,7 +604,8 @@ class DeepSeekAnalysisValidateCommandRequest:
     def __init__(self, argv: list[Any] | None = None):
         self.argv = argv
 
-    def parser(self) -> argparse.ArgumentParser:
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(description="Validate DeepSeek analysis quotes against source comments.")
         parser.add_argument("--payload", required=True, help="Path to the original JS-compatible analysis payload.")
         parser.add_argument("--analysis", required=True, help="Path to the DeepSeek analysis JSON or wrapper containing parsed/analysis.")

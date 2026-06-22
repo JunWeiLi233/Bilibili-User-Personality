@@ -12,7 +12,7 @@ from python_backend.analyzers.deepseek import (
 
 
 def build_parser() -> argparse.ArgumentParser:
-    return DeepSeekAnalysisValidateCommandRequest([]).parser()
+    return DeepSeekAnalysisValidateCommandRequest.parser()
 
 
 class DeepSeekAnalysisValidateCliRunner(DeepSeekAnalysisValidateCommandRequest):

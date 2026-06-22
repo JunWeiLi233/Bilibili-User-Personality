@@ -4634,6 +4634,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["summary"]["sourceSentences"], 2)
         self.assertEqual(result["summary"]["unsupportedQuotes"], 0)
 
+    def test_deepseek_analysis_validate_command_request_owns_parser_factory(self):
+        args = DeepSeekAnalysisValidateCommandRequest.parser().parse_args(
+            ["--payload", "payload.json", "--analysis", "analysis.json", "--compare-js-report", "js-validation.json"]
+        )
+
+        self.assertEqual(args.payload, "payload.json")
+        self.assertEqual(args.analysis, "analysis.json")
+        self.assertEqual(args.compare_js_report, "js-validation.json")
+
     def test_deepseek_analysis_validate_runner_defaults_non_object_json_roots(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
