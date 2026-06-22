@@ -14,12 +14,8 @@ def build_parser() -> argparse.ArgumentParser:
     return CoverageHarvestLoopPlanCommandRequest.parser()
 
 
-class CoverageHarvestLoopPlanCliRunner:
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        return CoverageHarvestLoopPlanCommandRequest(self.argv).run()
+class CoverageHarvestLoopPlanCliRunner(CoverageHarvestLoopPlanCommandRequest):
+    """CLI-compatible coverage harvest loop planner for JSON contract checks."""
 
 
 def main(argv: list[str] | None = None) -> int:

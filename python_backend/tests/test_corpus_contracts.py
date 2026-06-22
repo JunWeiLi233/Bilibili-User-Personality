@@ -21358,6 +21358,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["loop"]["maxQueries"], 3)
         self.assertEqual([item["query"] for item in result["priorityQueries"]], ["doge hot", "doge comments", "tieba roast"])
 
+    def test_coverage_harvest_loop_plan_cli_runner_is_command_request_wrapper(self):
+        self.assertTrue(issubclass(coverage_loop_plan_cli.CoverageHarvestLoopPlanCliRunner, CoverageHarvestLoopPlanCommandRequest))
+
     def test_coverage_harvest_loop_plan_summary_extracts_comparator_contract(self):
         summary = CoverageHarvestLoopPlanSummary().summarize(
             {
