@@ -1391,6 +1391,32 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["python"]["sampleSize"], 2)
         self.assertEqual(result["python"]["seed"], 1)
 
+    def test_random_verification_cli_compare_defaults_non_object_js_reports(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            dictionary_path = root / "dictionary.json"
+            js_report_path = root / "js-random.json"
+            corpus_path.write_text(json.dumps({"comments": [{"message": "doge"}], "runs": []}), encoding="utf-8")
+            dictionary_path.write_text(json.dumps({"entries": [{"term": "doge"}]}), encoding="utf-8")
+            js_report_path.write_text(json.dumps(["bad report root"]), encoding="utf-8")
+
+            result = random_verification_cli.RandomVerificationCliRunner(
+                [
+                    "--corpus",
+                    str(corpus_path),
+                    "--dictionary",
+                    str(dictionary_path),
+                    "--compare-js-report",
+                    str(js_report_path),
+                ]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["python"]["sampleSize"], 50)
+        self.assertEqual(result["python"]["seed"], 1)
+
     def test_random_verification_cli_main_accepts_argv_payload_contract(self):
         class BinaryStdout:
             def __init__(self):
