@@ -4,14 +4,11 @@ import argparse
 import json
 import sys
 
-from python_backend.corpus.local_options import LocalCorpusMinePlanContractComparator, LocalCorpusMinePlanRequest, LocalCorpusMinePlanRunner
+from python_backend.corpus.local_options import LocalCorpusMinePlanCommandRequest, LocalCorpusMinePlanContractComparator, LocalCorpusMinePlanRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Build a mineLocalCorpusEvidence.js-compatible dry-run option plan.")
-    parser.add_argument("--payload", required=True)
-    parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible local-corpus mine option report to compare.")
-    return parser
+    return LocalCorpusMinePlanCommandRequest([]).parser()
 
 
 class LocalCorpusMinePlanCliRunner:
@@ -19,9 +16,7 @@ class LocalCorpusMinePlanCliRunner:
         self.argv = argv
 
     def run(self) -> dict:
-        argv = [str(item) for item in self.argv] if self.argv is not None else None
-        args = build_parser().parse_args(argv)
-        return LocalCorpusMinePlanRequest(args.payload, compare_js_report_path=args.compare_js_report or None).run()
+        return LocalCorpusMinePlanCommandRequest(self.argv).run()
 
 
 def main(argv: list[str] | None = None) -> int:

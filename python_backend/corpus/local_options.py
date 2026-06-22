@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 import re
 from pathlib import Path
@@ -139,3 +140,23 @@ class LocalCorpusMinePlanRequest:
         if self.compare_js_report_path:
             return LocalCorpusMinePlanContractComparator(self.payload_path, self.compare_js_report_path).compare()
         return LocalCorpusMinePlanRunner(self.payload_path).run()
+
+
+class LocalCorpusMinePlanCommandRequest:
+    """Parse CLI argv for local corpus mine plans while keeping ownership in corpus."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    def parser(self) -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Build a mineLocalCorpusEvidence.js-compatible dry-run option plan.")
+        parser.add_argument("--payload", required=True)
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible local-corpus mine option report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return LocalCorpusMinePlanRequest(
+            args.payload,
+            compare_js_report_path=args.compare_js_report or None,
+        ).run()
