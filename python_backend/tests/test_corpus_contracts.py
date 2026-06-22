@@ -143,7 +143,7 @@ from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContra
 from python_backend.corpus import direct_probe as direct_probe_module
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusContractComparator as DirectProbeCorpusPayloadComparator, DirectProbeCorpusJsonPayloadContractComparator, DirectProbeCorpusPayloadContractComparator, DirectProbeCorpusRequest, DirectProbeCorpusRunner as DirectProbePayloadCorpusRunner, DirectProbeCorpusSummary, DirectProbePlanContractComparator as DirectProbePlanPayloadComparator, DirectProbePlanPayloadContractComparator, DirectProbePlanRequest, DirectProbePlanRunner as DirectProbePayloadPlanRunner, DirectProbePlanSummary
 from python_backend.corpus.history_tags import HistoryTagCorpusCommandRequest, HistoryTagCorpusContractComparator as HistoryTagCorpusPayloadComparator, HistoryTagCorpusLoader, HistoryTagCorpusManager, HistoryTagCorpusPayloadContractComparator, HistoryTagCorpusRequest, HistoryTagCorpusRunner as HistoryTagPayloadCorpusRunner, HistoryTagCorpusShardWritePayloadContractComparator, HistoryTagCorpusShardWriteRunner, HistoryTagCorpusShardWriteSummary, HistoryTagCorpusShardWriter, HistoryTagCorpusSummary, HistoryTagScrapePlanner, HistoryTagScrapePlanContractComparator as HistoryTagScrapePlanPayloadComparator, HistoryTagScrapePlanPayloadContractComparator, HistoryTagScrapePlanRunner as HistoryTagScrapePayloadPlanRunner, HistoryTagScrapePlanSummary
-from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceCorpusImportContractComparator as HuggingFaceCorpusImportPayloadComparator, HuggingFaceCorpusImportPlanContractComparator as HuggingFaceCorpusImportPlanPayloadComparator, HuggingFaceCorpusImportPlanRunner as HuggingFaceCorpusImportPayloadPlanRunner, HuggingFaceCorpusImportRequest, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
+from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceCorpusImportCommandRequest, HuggingFaceCorpusImportContractComparator as HuggingFaceCorpusImportPayloadComparator, HuggingFaceCorpusImportPlanContractComparator as HuggingFaceCorpusImportPlanPayloadComparator, HuggingFaceCorpusImportPlanRunner as HuggingFaceCorpusImportPayloadPlanRunner, HuggingFaceCorpusImportRequest, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
 from python_backend.corpus.local import LocalCorpusEvidenceCommandRequest, LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidenceJsonPayloadRunner, LocalCorpusEvidencePayloadContractComparator, LocalCorpusEvidenceRequest, LocalCorpusEvidenceRunner as LocalCorpusEvidencePayloadRunner, LocalCorpusEvidenceSummary
 from python_backend.corpus.local import LocalCorpusFlattenCommandRequest, LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenPayloadContractComparator, LocalCorpusFlattenRequest, LocalCorpusFlattenRunner as LocalCorpusFlattenPayloadRunner, LocalCorpusFlattenSummary, LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanCommandRequest, LocalCorpusMinePlanContractComparator as LocalCorpusMinePlanPayloadComparator, LocalCorpusMinePlanRequest, LocalCorpusMinePlanSummary
@@ -5610,6 +5610,55 @@ class CorpusContractTests(unittest.TestCase):
                 platform="bilibili",
                 compare_js_report_path=js_import_path,
                 generated_at="2026-06-17T00:00:00.000Z",
+            ).run()
+
+        self.assertFalse(plan_comparison["ok"])
+        self.assertEqual(plan_comparison["mismatches"], [{"key": "requestTimeoutMs", "python": 2500, "js": 1000}])
+        self.assertFalse(import_comparison["ok"])
+        self.assertEqual(import_comparison["mismatches"], [{"key": "addedComments", "python": 1, "js": 0}])
+
+    def test_huggingface_import_command_request_lives_with_corpus_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "hf-plan.json"
+            raw_path = root / "rows.csv"
+            existing_path = root / "existing.json"
+            js_plan_path = root / "js-plan.json"
+            js_import_path = root / "js-import.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--source=Midsummra/bilibilicomment::bilibili.csv::bilibili::5000::9::3"],
+                        "env": {"HUGGINGFACE_REQUEST_TIMEOUT_MS": "2500"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            raw_path.write_text("message\n\u65b0\u8bc4\u8bba\n", encoding="utf-8")
+            existing_path.write_text(json.dumps({"version": 1, "comments": [], "runs": []}), encoding="utf-8")
+            js_plan_path.write_text(json.dumps({"requestTimeoutMs": 1000}), encoding="utf-8")
+            js_import_path.write_text(json.dumps({"importedRows": 1, "changed": True, "addedComments": 0}), encoding="utf-8")
+
+            plan_comparison = HuggingFaceCorpusImportCommandRequest(
+                ["--plan-payload", payload_path, "--compare-js-report", js_plan_path]
+            ).run()
+            import_comparison = HuggingFaceCorpusImportCommandRequest(
+                [
+                    "--raw",
+                    raw_path,
+                    "--existing",
+                    existing_path,
+                    "--dataset",
+                    "Midsummra/bilibilicomment",
+                    "--file",
+                    "bilibili.csv",
+                    "--platform",
+                    "bilibili",
+                    "--compare-js-report",
+                    js_import_path,
+                    "--generated-at",
+                    "2026-06-17T00:00:00.000Z",
+                ]
             ).run()
 
         self.assertFalse(plan_comparison["ok"])
