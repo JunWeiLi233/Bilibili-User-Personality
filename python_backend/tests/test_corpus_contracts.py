@@ -6820,6 +6820,11 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["options"]["targetEvidence"], 5)
         self.assertTrue(result["options"]["write"])
 
+    def test_local_corpus_mine_plan_command_request_owns_parser_factory(self):
+        args = LocalCorpusMinePlanCommandRequest.parser().parse_args(["--payload", "mine-plan.json"])
+
+        self.assertEqual(args.payload, "mine-plan.json")
+
     def test_local_corpus_mine_plan_payload_comparator_lives_with_corpus_options(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -8,7 +8,7 @@ from python_backend.corpus.local_options import LocalCorpusMinePlanCommandReques
 
 
 def build_parser() -> argparse.ArgumentParser:
-    return LocalCorpusMinePlanCommandRequest([]).parser()
+    return LocalCorpusMinePlanCommandRequest.parser()
 
 
 class LocalCorpusMinePlanCliRunner(LocalCorpusMinePlanCommandRequest):

@@ -148,7 +148,8 @@ class LocalCorpusMinePlanCommandRequest:
     def __init__(self, argv: list[Any] | None = None):
         self.argv = argv
 
-    def parser(self) -> argparse.ArgumentParser:
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(description="Build a mineLocalCorpusEvidence.js-compatible dry-run option plan.")
         parser.add_argument("--payload", required=True)
         parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible local-corpus mine option report to compare.")
