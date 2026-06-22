@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.scrapers.aicu import AicuScrapePlanPayloadContractComparator as AicuScrapePlanContractComparator, AicuScrapePlanRunner
+from python_backend.scrapers.aicu import AicuScrapePlanPayloadContractComparator as AicuScrapePlanContractComparator, AicuScrapePlanRequest, AicuScrapePlanRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -22,9 +22,7 @@ class AicuScrapePlanCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.compare_js_report:
-            return AicuScrapePlanContractComparator(args.payload, args.compare_js_report).compare()
-        return AicuScrapePlanRunner(args.payload).run()
+        return AicuScrapePlanRequest(args.payload, compare_js_report_path=args.compare_js_report or None).run()
 
 
 def main(argv: list[str] | None = None) -> int:

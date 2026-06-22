@@ -181,6 +181,19 @@ class AicuScrapePlanPayloadContractComparator:
         return payload if isinstance(payload, dict) else {}
 
 
+class AicuScrapePlanRequest:
+    """Scraper-layer request for AICU scrape plan JSON contract commands."""
+
+    def __init__(self, payload_path: str | Path, compare_js_report_path: str | Path | None = None):
+        self.payload_path = Path(payload_path)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_report_path:
+            return AicuScrapePlanPayloadContractComparator(self.payload_path, self.compare_js_report_path).compare()
+        return AicuScrapePlanRunner(self.payload_path).run()
+
+
 class AicuBatchPlanner:
     """Build a dry-run plan for batchScrapeAicu.js range-based AICU scraping."""
 
