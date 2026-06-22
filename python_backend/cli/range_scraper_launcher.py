@@ -7,6 +7,7 @@ import sys
 from python_backend.scrapers.batch_uid_range import (
     RangeScraperLauncherPayloadContractComparator as RangeScraperLauncherContractComparator,
     RangeScraperLauncherPlanRunner,
+    RangeScraperLauncherRequest,
 )
 
 
@@ -25,9 +26,7 @@ class RangeScraperLauncherCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.compare_js_report:
-            return RangeScraperLauncherContractComparator(args.data_dir, args.compare_js_report).compare()
-        return RangeScraperLauncherPlanRunner(args.data_dir).run()
+        return RangeScraperLauncherRequest(args.data_dir, compare_js_report_path=args.compare_js_report).run()
 
 
 def main(argv: list[str] | None = None) -> int:
