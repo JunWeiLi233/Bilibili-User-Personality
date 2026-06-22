@@ -447,6 +447,24 @@ class DirectProbePlanRequest:
         return DirectProbePlanRunner(self.payload_path).run()
 
 
+class DirectProbePlanCommandRequest:
+    """Argv-backed corpus-layer request for direct probe planning commands."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Build direct Bilibili probe planning JSON from a payload.")
+        parser.add_argument("--payload", required=True, help="Path to direct probe plan JSON payload.")
+        parser.add_argument("--compare-js-plan", default="", help="Optional JS-compatible direct probe plan JSON to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return DirectProbePlanRequest(args.payload, compare_js_plan_path=args.compare_js_plan or None).run()
+
+
 class DirectProbeCorpusBuilder:
     """Pure Python contract helpers for Bilibili direct evidence probe data."""
 
