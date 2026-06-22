@@ -5,16 +5,13 @@ import json
 import sys
 
 from python_backend.analysis.harvest_options import (
+    HarvestOptionsCommandRequest,
     HarvestOptionsPayloadContractComparator as HarvestOptionsContractComparator,
-    HarvestOptionsRequest,
     HarvestOptionsRunner,
 )
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Build harvest option objects from a JSON payload.")
-    parser.add_argument("--payload", required=True, help="Path to harvest options payload JSON.")
-    parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible harvest options report to compare.")
-    return parser
+    return HarvestOptionsCommandRequest.parser()
 
 
 class HarvestOptionsCliRunner:
@@ -24,11 +21,7 @@ class HarvestOptionsCliRunner:
         self.argv = argv
 
     def run(self) -> dict:
-        args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        return HarvestOptionsRequest(
-            payload_path=args.payload,
-            compare_js_report_path=args.compare_js_report or None,
-        ).run()
+        return HarvestOptionsCommandRequest(self.argv).run()
 
 
 def main(argv: list[str] | None = None) -> int:
