@@ -579,7 +579,7 @@ class CoverageAuditBuilder:
         return sorted(entries, key=lambda entry: (self._coverage_evidence_count(entry), str(entry.get("family") or ""), str(entry.get("term") or "")))
 
     def _evidence_count(self, entry: dict[str, Any]) -> int:
-        raw_count = max(0, int(entry.get("evidenceCount") or 0))
+        raw_count = max(0, _int_or(entry.get("evidenceCount"), 0))
         override_count = self._js_canonical_evidence_count_override(entry)
         if override_count is not None:
             return min(raw_count, override_count)
