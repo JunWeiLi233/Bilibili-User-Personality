@@ -179,7 +179,7 @@ from python_backend.cli.uid_discovery_progress import UidDiscoveryProgressContra
 from python_backend.scrapers.tieba_html import TiebaHtmlParseContractComparator as TiebaHtmlParsePayloadComparator, TiebaHtmlParsePayloadContractComparator, TiebaHtmlParseRunner as TiebaHtmlParsePayloadRunner, TiebaHtmlParseSummary, TiebaHtmlParser
 from python_backend.scrapers.tieba_keyword import TiebaKeywordPlanContractComparator as TiebaKeywordPlanPayloadComparator, TiebaKeywordPlanRunner as TiebaKeywordPayloadPlanRunner, TiebaKeywordPlanSummary, TiebaKeywordScrapeOptionsPlanner
 from python_backend.scrapers.tieba_timing import TiebaScrapeTiming, TiebaTimingContractComparator as TiebaTimingPayloadComparator, TiebaTimingRequest, TiebaTimingRunner as TiebaTimingPayloadRunner
-from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanContractComparator as BatchBilibiliPlanPayloadComparator, BatchBilibiliPlanPayloadContractComparator, BatchBilibiliPlanRunner as BatchBilibiliPayloadPlanRunner, BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
+from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanContractComparator as BatchBilibiliPlanPayloadComparator, BatchBilibiliPlanPayloadContractComparator, BatchBilibiliPlanRequest, BatchBilibiliPlanRunner as BatchBilibiliPayloadPlanRunner, BatchBilibiliPlanSummary, BatchBilibiliScrapePlanner
 from python_backend.scrapers.batch_popular import BatchPopularPlanContractComparator as BatchPopularPlanPayloadComparator, BatchPopularPlanPayloadContractComparator, BatchPopularPlanRunner as BatchPopularPayloadPlanRunner, BatchPopularPlanSummary, BatchPopularScrapePlanner
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanContractComparator as BatchUidRangePlanPayloadComparator, BatchUidRangePlanPayloadContractComparator, BatchUidRangePlanRequest, BatchUidRangePlanRunner as BatchUidRangePayloadPlanRunner, BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherContractComparator as RangeScraperLauncherPayloadComparator, RangeScraperLauncherPayloadContractComparator, RangeScraperLauncherPlanner, RangeScraperLauncherPlanRunner as RangeScraperLauncherPayloadPlanRunner, RangeScraperLauncherSummary, UidRangeProgressContractComparator as UidRangeProgressPayloadComparator, UidRangeProgressPayloadContractComparator, UidRangeProgressReporter, UidRangeProgressRunner as UidRangeProgressPayloadRunner, UidRangeProgressSummary
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherContractComparator as BatchScraperLauncherPayloadComparator, BatchScraperLauncherPayloadContractComparator, BatchScraperLauncherPlanner, BatchScraperLauncherPlanRunner as BatchScraperLauncherPayloadPlanRunner, BatchScraperLauncherSummary, BatchUidProgressContractComparator as BatchUidProgressPayloadComparator, BatchUidProgressPayloadContractComparator, BatchUidProgressReporter, BatchUidProgressRunner as BatchUidProgressPayloadRunner, BatchUidProgressSummary, BatchUidScrapePlanContractComparator as BatchUidScrapePlanPayloadComparator, BatchUidScrapePlanPayloadContractComparator, BatchUidScrapePlanRequest, BatchUidScrapePlanRunner as BatchUidScrapePayloadPlanRunner, BatchUidScrapePlanSummary, BatchUidScrapePlanner
@@ -16011,6 +16011,27 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["input"], {"startUid": 40, "endUid": 42})
         self.assertEqual(result["range"], {"startUid": 41, "endUid": 42, "total": 2})
         self.assertEqual(result["progress"], {"completed": 8, "errors": 0})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["range", "progress"])
+
+    def test_batch_bilibili_plan_request_owns_cli_dispatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "batch-bilibili-plan.json"
+            js_report_path = root / "js-batch-bilibili-plan.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--start=50", "--end=52"], "progress": {"lastUid": 50, "completed": "3"}, "database": {"users": {"50": {}, "51": {}}}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"range": {"startUid": 50}, "progress": {"completed": 0}}), encoding="utf-8")
+
+            result = BatchBilibiliPlanRequest(payload_path).run()
+            comparison = BatchBilibiliPlanRequest(payload_path, compare_js_report_path=js_report_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["input"], {"startUid": 50, "endUid": 52})
+        self.assertEqual(result["range"], {"startUid": 51, "endUid": 52, "total": 2})
+        self.assertEqual(result["progress"], {"completed": 3, "errors": 0})
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["range", "progress"])
 

@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanPayloadContractComparator as BatchBilibiliPlanContractComparator, BatchBilibiliPlanRunner
+from python_backend.scrapers.batch_bilibili import BatchBilibiliPlanPayloadContractComparator as BatchBilibiliPlanContractComparator, BatchBilibiliPlanRequest, BatchBilibiliPlanRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -22,9 +22,7 @@ class BatchBilibiliPlanCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.compare_js_report:
-            return BatchBilibiliPlanContractComparator(args.payload, args.compare_js_report).compare()
-        return BatchBilibiliPlanRunner(args.payload).run()
+        return BatchBilibiliPlanRequest(args.payload, compare_js_report_path=args.compare_js_report).run()
 
 
 def main(argv: list[str] | None = None) -> int:
