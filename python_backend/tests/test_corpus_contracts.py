@@ -1179,6 +1179,17 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(summary.keyword_hits, 1)
         self.assertEqual(summary.neutral, 0)
 
+    def test_random_verifier_report_defaults_malformed_metadata(self):
+        verifier = RandomVerifier(keyword_terms=["doge"])
+
+        report = verifier.report(None, corpus=None, sample_size="bad", seed="bad")
+
+        self.assertTrue(report["ok"])
+        self.assertEqual(report["corpus"], {})
+        self.assertEqual(report["sampleSize"], 50)
+        self.assertEqual(report["seed"], 1)
+        self.assertEqual(report["sampled"], 0)
+
     def test_random_verification_payload_runner_accepts_inline_json_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "random-verification.json"

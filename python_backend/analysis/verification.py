@@ -313,6 +313,9 @@ class RandomVerifier:
         )
 
     def report(self, comments: list[dict[str, Any]], corpus: dict[str, Any], sample_size: int, seed: int) -> dict[str, Any]:
+        corpus = corpus if isinstance(corpus, dict) else {}
+        sample_size = _non_negative_int(sample_size, 50)
+        seed = _int_or(seed, 1)
         summary = asdict(self.verify(comments, sample_size=sample_size, seed=seed))
         return {
             "ok": True,
