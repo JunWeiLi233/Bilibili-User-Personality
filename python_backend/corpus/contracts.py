@@ -125,7 +125,8 @@ class CompareContractsCommandRequest:
     def __init__(self, argv: list[Any] | None = None):
         self.argv = argv
 
-    def parser(self) -> argparse.ArgumentParser:
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(description="Validate Python compatibility with JS JSON corpus/audit contracts.")
         parser.add_argument("--corpus", default="server/data/bilibiliDirectProbeCorpus.json")
         parser.add_argument("--audit", default="server/data/keywordCoverageAudit.json")

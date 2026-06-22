@@ -11,7 +11,7 @@ class CompareContractsRunner(CompareContractsCommandRequest):
 
 
 def build_parser() -> argparse.ArgumentParser:
-    return CompareContractsCommandRequest([]).parser()
+    return CompareContractsCommandRequest.parser()
 
 
 def main(argv: list[str] | None = None) -> int:

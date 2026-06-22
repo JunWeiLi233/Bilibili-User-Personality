@@ -4773,6 +4773,12 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["corpus"]["comments"], 1)
         self.assertEqual(result["audit"]["terms"], 1)
 
+    def test_compare_contracts_command_request_owns_parser_factory(self):
+        args = CompareContractsCommandRequest.parser().parse_args(["--corpus", "custom-corpus.json", "--audit", "custom-audit.json"])
+
+        self.assertEqual(args.corpus, "custom-corpus.json")
+        self.assertEqual(args.audit, "custom-audit.json")
+
     def test_contract_comparator_summary_lives_with_corpus_logic(self):
         summary = CorpusContractSummary().summarize(
             {
