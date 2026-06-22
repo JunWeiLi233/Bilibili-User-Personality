@@ -13540,6 +13540,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["summary"]["total"], 1)
         self.assertEqual(result["summary"]["byMode"]["keyword"], 1)
 
+    def test_comment_coverage_cli_runner_is_command_request_wrapper(self):
+        self.assertTrue(issubclass(comment_coverage_cli.CommentCoverageCliRunner, CommentCoverageCommandRequest))
+
     def test_comment_coverage_summary_preserves_comparator_shape(self):
         summary = CommentCoverageSummary().summarize(
             {

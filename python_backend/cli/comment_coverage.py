@@ -11,14 +11,8 @@ def build_parser() -> argparse.ArgumentParser:
     return CommentCoverageCommandRequest.parser()
 
 
-class CommentCoverageCliRunner:
+class CommentCoverageCliRunner(CommentCoverageCommandRequest):
     """CLI-compatible comment coverage runner for JS/Python JSON contracts."""
-
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        return CommentCoverageCommandRequest(self.argv).run()
 
 
 def main(argv: list[str] | None = None) -> int:
