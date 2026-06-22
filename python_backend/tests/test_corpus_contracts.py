@@ -83,7 +83,7 @@ from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, Se
 from python_backend.analysis.verification import RandomVerificationCommandRequest, RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationPayloadContractComparator, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerifier, json_result_bytes as random_verification_payload_json_result_bytes
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisPlanCommandRequest, DeepSeekAnalysisPlanContractComparator as DeepSeekAnalysisPayloadPlanContractComparator, DeepSeekAnalysisPlanRequest, DeepSeekAnalysisPlanRunner as DeepSeekAnalysisPayloadPlanRunner, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidateCommandRequest, DeepSeekAnalysisValidateContractComparator as DeepSeekAnalysisPayloadValidateContractComparator, DeepSeekAnalysisValidateRequest, DeepSeekAnalysisValidateRunner as DeepSeekAnalysisPayloadValidateRunner, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPayloadPlanContractComparator, DeepSeekAnalyzeCliPlanCommandRequest, DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanRequest, DeepSeekAnalyzeCliPlanRunner as DeepSeekAnalyzeCliPayloadPlanRunner, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary
-from python_backend.analyzers.keyword_evidence import KeywordEvidenceContractComparator as KeywordEvidencePayloadComparator, KeywordEvidenceMatcher, KeywordEvidencePayloadContractComparator, KeywordEvidencePayloadRunner, KeywordEvidenceRequest, KeywordEvidenceSummary
+from python_backend.analyzers.keyword_evidence import KeywordEvidenceCommandRequest, KeywordEvidenceContractComparator as KeywordEvidencePayloadComparator, KeywordEvidenceMatcher, KeywordEvidencePayloadContractComparator, KeywordEvidencePayloadRunner, KeywordEvidenceRequest, KeywordEvidenceSummary
 from python_backend.cli.comment_coverage import CommentCoverageContractComparator, CommentCoverageRunner
 from python_backend.cli.corpus_shard_writer import CorpusShardWriteContractComparator, CorpusShardWriteRunner
 from python_backend.cli.bilibili_parse import BilibiliParseContractComparator, BilibiliParseRunner
@@ -2809,6 +2809,28 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["entries"][0]["evidenceSources"][0]["uid"], "mid-cli-runner")
+
+    def test_keyword_evidence_command_request_lives_with_analyzer(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [{"term": "YYGQ", "family": "attack", "meaning": "Chinese initialism"}],
+                        "text": "YYGQ once",
+                        "source": "Bilibili public comment target expansion",
+                        "uid": "mid-command",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = KeywordEvidenceCommandRequest(["--payload", payload_path]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["entries"][0]["evidenceSources"][0]["uid"], "mid-command")
 
     def test_keyword_evidence_matcher_owns_payload_contract(self):
         result = KeywordEvidenceMatcher().run_from_payload(

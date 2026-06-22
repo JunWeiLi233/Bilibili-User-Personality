@@ -5,8 +5,8 @@ import json
 import sys
 
 from python_backend.analyzers.keyword_evidence import (
+    KeywordEvidenceCommandRequest,
     KeywordEvidencePayloadContractComparator as KeywordEvidenceContractComparator,
-    KeywordEvidenceRequest,
     KeywordEvidencePayloadRunner as KeywordEvidenceRunner,
 )
 
@@ -18,18 +18,11 @@ class KeywordEvidenceCliRunner:
         self.argv = argv
 
     def run(self) -> dict:
-        args = parse_args(self.argv)
-        return KeywordEvidenceRequest(
-            payload_path=args.payload,
-            compare_js_report_path=args.compare_js_report or None,
-        ).run()
+        return KeywordEvidenceCommandRequest(self.argv).run()
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Match keyword dictionary entries against direct text evidence.")
-    parser.add_argument("--payload", required=True, help="JSON payload with entries or dictionary plus text.")
-    parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible keyword evidence report to compare.")
-    return parser.parse_args([str(item) for item in argv] if argv is not None else None)
+    return KeywordEvidenceCommandRequest(argv).parser().parse_args([str(item) for item in argv] if argv is not None else None)
 
 
 def main(argv: list[str] | None = None) -> int:
