@@ -4326,6 +4326,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(len(result["requests"]), 3)
         self.assertIn(sentence, result["requests"][0]["messages"][1]["content"])
 
+    def test_deepseek_analysis_plan_cli_runner_is_command_request_wrapper(self):
+        self.assertTrue(issubclass(deepseek_analysis_plan_cli.DeepSeekAnalysisPlanCliRunner, DeepSeekAnalysisPlanCommandRequest))
+
     def test_deepseek_analysis_plan_command_request_lives_with_analyzer(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "payload.json"

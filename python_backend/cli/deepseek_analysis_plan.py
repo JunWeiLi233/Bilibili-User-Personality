@@ -14,14 +14,8 @@ def build_parser() -> argparse.ArgumentParser:
     return DeepSeekAnalysisPlanCommandRequest([]).parser()
 
 
-class DeepSeekAnalysisPlanCliRunner:
+class DeepSeekAnalysisPlanCliRunner(DeepSeekAnalysisPlanCommandRequest):
     """CLI-compatible DeepSeek analysis plan runner for JS/Python JSON contracts."""
-
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        return DeepSeekAnalysisPlanCommandRequest(self.argv).run()
 
 
 def main(argv: list[str] | None = None) -> int:
