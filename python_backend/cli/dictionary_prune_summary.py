@@ -8,7 +8,7 @@ from python_backend.corpus.dictionary_prune import DictionaryPruneSummaryCommand
 
 
 def build_parser() -> argparse.ArgumentParser:
-    return DictionaryPruneSummaryCommandRequest([]).parser()
+    return DictionaryPruneSummaryCommandRequest.parser()
 
 
 class DictionaryPruneSummaryCliRunner(DictionaryPruneSummaryCommandRequest):

@@ -14631,6 +14631,11 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["entries", "asciiTerms"])
 
+    def test_dictionary_prune_summary_command_request_owns_parser_factory(self):
+        args = DictionaryPruneSummaryCommandRequest.parser().parse_args(["--dictionary", "custom-dictionary.json"])
+
+        self.assertEqual(args.dictionary, "custom-dictionary.json")
+
     def test_dictionary_prune_comparator_uses_backend_summary_contract_keys(self):
         self.assertTrue(hasattr(dictionary_prune, "DictionaryPruneSummary"))
         self.assertFalse(hasattr(DictionaryPruneSummaryContractComparator, "RESULT_KEYS"))

@@ -122,7 +122,8 @@ class DictionaryPruneSummaryCommandRequest:
     def __init__(self, argv: list[Any] | None = None):
         self.argv = argv
 
-    def parser(self) -> argparse.ArgumentParser:
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(description="Build a dry-run summary for dictionary pruning compatibility.")
         parser.add_argument("--dictionary", default="server/data/deepseekKeywordDictionary.json")
         parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible prune summary JSON to compare.")
