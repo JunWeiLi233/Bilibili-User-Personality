@@ -3363,6 +3363,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(compare_result["ok"])
         self.assertEqual([item["key"] for item in compare_result["mismatches"]], ["cosine", "matches"])
 
+    def test_semantic_matcher_cli_runner_is_command_request_wrapper(self):
+        self.assertTrue(issubclass(SemanticMatcherCliRunner, SemanticMatcherCommandRequest))
+
     def test_semantic_matcher_contract_comparator_reports_match_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

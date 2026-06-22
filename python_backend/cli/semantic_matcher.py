@@ -15,14 +15,8 @@ def build_parser() -> argparse.ArgumentParser:
     return SemanticMatcherCommandRequest([]).parser()
 
 
-class SemanticMatcherCliRunner:
+class SemanticMatcherCliRunner(SemanticMatcherCommandRequest):
     """CLI-compatible semantic matcher runner for JSON contract checks."""
-
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        return SemanticMatcherCommandRequest(self.argv).run()
 
 
 def main(argv: list[str] | None = None) -> int:
