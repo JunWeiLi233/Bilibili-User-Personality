@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 from typing import Any
@@ -193,6 +194,24 @@ class BatchUidRangePlanRequest:
         if self.compare_js_report_path:
             return BatchUidRangePlanPayloadContractComparator(self.payload_path, self.compare_js_report_path).compare()
         return BatchUidRangePlanRunner(self.payload_path).run()
+
+
+class BatchUidRangePlanCommandRequest:
+    """Argv-backed scraper-layer request for batch UID range plan contracts."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Build a batchUidRange.js-compatible dry-run plan.")
+        parser.add_argument("--payload", required=True)
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible batch UID range plan report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return BatchUidRangePlanRequest(args.payload, compare_js_report_path=args.compare_js_report or None).run()
 
 
 class RangeScraperLauncherPlanner:
