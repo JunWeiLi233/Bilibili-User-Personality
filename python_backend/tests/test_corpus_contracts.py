@@ -24465,6 +24465,30 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_random_verification_payload_comparator_defaults_malformed_metrics_before_compare(self):
+        result = RandomVerificationPayloadComparator().compare(
+            {
+                "sampleSize": "bad",
+                "seed": "bad",
+                "sampled": "bad",
+                "keywordHits": {"bad": True},
+                "neutral": ["bad"],
+                "uncovered": None,
+            },
+            {
+                "sampleSize": 50,
+                "seed": 1,
+                "sampled": 0,
+                "keywordHits": 0,
+                "neutral": 0,
+                "uncovered": 0,
+            },
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["python"], result["js"])
+
     def test_random_verification_report_summary_preserves_comparator_shape(self):
         summary = RandomVerificationReportSummary().summarize(
             {

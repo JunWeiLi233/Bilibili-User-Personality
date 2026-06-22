@@ -52,17 +52,19 @@ class RandomVerificationContractComparator:
     def compare(self, python_report: dict[str, Any] | None, js_report: dict[str, Any] | None) -> dict[str, Any]:
         python_report = python_report if isinstance(python_report, dict) else {}
         js_report = js_report if isinstance(js_report, dict) else {}
+        python_summary = self.summary.summarize(python_report)
+        js_summary = self.summary.summarize(js_report)
         metric_keys = tuple(key for key in self.summary.SUMMARY_KEYS if key not in ("sampleSize", "seed"))
         mismatches = [
-            {"key": key, "python": python_report.get(key), "js": js_report.get(key)}
+            {"key": key, "python": python_summary.get(key), "js": js_summary.get(key)}
             for key in metric_keys
-            if key in js_report and python_report.get(key) != js_report.get(key)
+            if key in js_report and python_summary.get(key) != js_summary.get(key)
         ]
         return {
             "ok": not mismatches,
             "mismatches": mismatches,
-            "python": self.summary.summarize(python_report),
-            "js": self.summary.summarize(js_report),
+            "python": python_summary,
+            "js": js_summary,
         }
 
 
