@@ -4,25 +4,15 @@ import argparse
 import json
 import sys
 
-from python_backend.analysis.video_filter import VideoContextContractComparator, VideoContextRequest, VideoContextRunner
+from python_backend.analysis.video_filter import VideoContextCommandRequest, VideoContextContractComparator, VideoContextRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Build Bilibili video context/evidence diagnostics from JSON.")
-    parser.add_argument("--payload", required=True, help="JSON payload with videos, comments, search queries, and target terms.")
-    parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible video context report to compare.")
-    return parser
+    return VideoContextCommandRequest.parser()
 
 
-class VideoContextCliRunner:
+class VideoContextCliRunner(VideoContextCommandRequest):
     """CLI-compatible video context runner for JS/Python JSON contracts."""
-
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        return VideoContextRequest(args.payload, compare_js_report_path=args.compare_js_report or None).run()
 
 
 def main(argv: list[str] | None = None) -> int:

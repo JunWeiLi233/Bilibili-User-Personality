@@ -920,3 +920,21 @@ class VideoContextRequest:
         if self.compare_js_report_path:
             return VideoContextContractComparator(self.payload_path, self.compare_js_report_path).compare()
         return VideoContextRunner(self.payload_path).run()
+
+
+class VideoContextCommandRequest:
+    """Argv-backed analysis-layer request for video context diagnostics."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Build Bilibili video context/evidence diagnostics from JSON.")
+        parser.add_argument("--payload", required=True, help="JSON payload with videos, comments, search queries, and target terms.")
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible video context report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return VideoContextRequest(args.payload, compare_js_report_path=args.compare_js_report or None).run()
