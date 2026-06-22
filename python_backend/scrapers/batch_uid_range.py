@@ -182,6 +182,19 @@ class BatchUidRangePlanPayloadContractComparator:
         return payload if isinstance(payload, dict) else {}
 
 
+class BatchUidRangePlanRequest:
+    """Scraper-layer request for batch UID range plan JSON contract commands."""
+
+    def __init__(self, payload_path: str | Path, compare_js_report_path: str | Path | None = None):
+        self.payload_path = Path(payload_path)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_report_path:
+            return BatchUidRangePlanPayloadContractComparator(self.payload_path, self.compare_js_report_path).compare()
+        return BatchUidRangePlanRunner(self.payload_path).run()
+
+
 class RangeScraperLauncherPlanner:
     """Build a dry-run launch plan compatible with launchRangeScrapers.ps1."""
 
