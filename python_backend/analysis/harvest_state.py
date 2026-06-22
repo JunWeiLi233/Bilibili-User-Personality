@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import base64
 import json
 from datetime import datetime, timezone
@@ -432,6 +433,27 @@ class HarvestStateRequest:
         if self.compare_js_state_path:
             return HarvestStatePayloadContractComparator(self.payload_path, self.compare_js_state_path).compare()
         return HarvestStateRunner(self.payload_path).run()
+
+
+class HarvestStateCommandRequest:
+    """Analysis-layer command request for harvest-state JSON contract modes."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return HarvestStateRequest(
+            args.payload,
+            compare_js_state_path=args.compare_js_state or None,
+        ).run()
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Update JS-compatible keyword harvest term-attempt state from JSON.")
+        parser.add_argument("--payload", required=True, help="Path to harvest-state JSON payload.")
+        parser.add_argument("--compare-js-state", default="", help="Optional JS-compatible harvest state JSON to compare.")
+        return parser
 
 
 class HarvestTermAttemptUpdater:

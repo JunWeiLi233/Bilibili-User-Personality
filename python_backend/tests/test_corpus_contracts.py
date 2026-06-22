@@ -75,7 +75,7 @@ from python_backend.analysis import harvest_options as harvest_options_module
 from python_backend.analysis import verification as verification_module
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, HarvestOptionsCommandRequest, HarvestOptionsContractComparator as HarvestOptionsPayloadComparator, HarvestOptionsPayloadContractComparator, HarvestOptionsRequest, HarvestOptionsRunner as HarvestOptionsPayloadRunner, HarvestOptionsSummary, VideoKeywordDiscoveryOptionsBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, KeywordHarvestPlanCommandRequest, KeywordHarvestPlanContractComparator as KeywordHarvestPlanPayloadComparator, KeywordHarvestPlanPayloadContractComparator, KeywordHarvestPlanRequest, KeywordHarvestPlanRunner as KeywordHarvestPayloadPlanRunner, KeywordHarvestPlanSummary
-from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateContractComparator as HarvestStatePayloadComparator, HarvestStatePayloadContractComparator, HarvestStateFinalizer, HarvestStatePayloadProcessor, HarvestStateRequest, HarvestStateRunner as HarvestStatePayloadRunner, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
+from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateCommandRequest, HarvestStateContractComparator as HarvestStatePayloadComparator, HarvestStatePayloadContractComparator, HarvestStateFinalizer, HarvestStatePayloadProcessor, HarvestStateRequest, HarvestStateRunner as HarvestStatePayloadRunner, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetOverrideTermsParser, NearTargetResolvePlanContractComparator as NearTargetResolvePlanPayloadComparator, NearTargetResolvePlanRequest, NearTargetResolvePlanner, NearTargetResolvePlanRunner as NearTargetResolvePayloadPlanRunner
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsPayloadContractComparator, ReadmeStatsRequest, ReadmeStatsRunner as ReadmeStatsPayloadRunner, ReadmeStatsSummary, ReadmeStatsSvgRenderer
@@ -20520,6 +20520,36 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(attempt["lastError"], "timeout")
         self.assertFalse(comparison["ok"])
         self.assertEqual(comparison["mismatches"][0]["key"], "termAttempts")
+
+    def test_harvest_state_command_request_owns_cli_dispatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "harvest-state.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "strategyVersion": 5,
+                        "finishedAt": "2026-06-19T00:00:00.000Z",
+                        "termAttempts": {},
+                        "planItem": {
+                            "term": "\u672a\u547d\u4e2d",
+                            "family": "attack",
+                            "query": "\u672a\u547d\u4e2d \u8bc4\u8bba\u533a",
+                            "variantIndex": 0,
+                            "evidenceCount": 0,
+                        },
+                        "result": {"ok": False, "error": "timeout", "videos": [], "comments": []},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = HarvestStateCommandRequest(["--payload", str(payload_path)]).run()
+
+        attempt = result["termAttempts"]["5pyq5ZG95Lit"]
+        self.assertTrue(result["ok"])
+        self.assertEqual(attempt["attempts"], 1)
+        self.assertEqual(attempt["lastError"], "timeout")
 
     def test_harvest_state_payload_processor_handles_summary_json_contract_without_cli(self):
         result = HarvestStatePayloadProcessor().process(
