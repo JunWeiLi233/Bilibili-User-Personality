@@ -6,6 +6,7 @@ import sys
 
 from python_backend.scrapers.batch_uid_range import (
     UidRangeProgressPayloadContractComparator as UidRangeProgressContractComparator,
+    UidRangeProgressRequest,
     UidRangeProgressRunner,
 )
 
@@ -27,9 +28,12 @@ class UidRangeProgressCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.compare_js_report:
-            return UidRangeProgressContractComparator(args.progress, args.compare_js_report, start=args.start, end=args.end).compare()
-        return UidRangeProgressRunner(args.progress, start=args.start, end=args.end).run()
+        return UidRangeProgressRequest(
+            args.progress,
+            compare_js_report_path=args.compare_js_report,
+            start=args.start,
+            end=args.end,
+        ).run()
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -450,3 +450,30 @@ class UidRangeProgressPayloadContractComparator:
         with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
+
+
+class UidRangeProgressRequest:
+    """Scraper-layer request for UID range progress JSON contract commands."""
+
+    def __init__(
+        self,
+        progress_path: str | Path,
+        compare_js_report_path: str | Path | None = None,
+        *,
+        start: int = 200000,
+        end: int = 300000,
+    ):
+        self.progress_path = Path(progress_path)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+        self.start = int(start)
+        self.end = int(end)
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_report_path:
+            return UidRangeProgressPayloadContractComparator(
+                self.progress_path,
+                self.compare_js_report_path,
+                start=self.start,
+                end=self.end,
+            ).compare()
+        return UidRangeProgressRunner(self.progress_path, start=self.start, end=self.end).run()
