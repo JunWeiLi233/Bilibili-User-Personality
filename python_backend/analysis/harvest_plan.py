@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import base64
 import json
 import re
@@ -393,3 +394,24 @@ class KeywordHarvestPlanRequest:
                 self.compare_js_plan_path,
             ).compare()
         return KeywordHarvestPlanRunner(self.payload_path).run()
+
+
+class KeywordHarvestPlanCommandRequest:
+    """Analysis-layer command request for keyword harvest plan JSON contract modes."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return KeywordHarvestPlanRequest(
+            payload_path=args.payload,
+            compare_js_plan_path=args.compare_js_plan or None,
+        ).run()
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Build a JS-compatible keyword harvest query plan from JSON.")
+        parser.add_argument("--payload", required=True, help="Path to harvest-plan JSON payload.")
+        parser.add_argument("--compare-js-plan", default="", help="Optional JS-compatible keyword harvest plan JSON to compare.")
+        return parser
