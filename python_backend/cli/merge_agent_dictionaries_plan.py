@@ -11,12 +11,8 @@ def build_parser() -> argparse.ArgumentParser:
     return AgentDictionaryMergePlanCommandRequest([]).parser()
 
 
-class MergeAgentDictionariesPlanCliRunner:
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        return AgentDictionaryMergePlanCommandRequest(self.argv).run()
+class MergeAgentDictionariesPlanCliRunner(AgentDictionaryMergePlanCommandRequest):
+    """CLI-compatible merge-agent dictionary plan runner for JSON contract checks."""
 
 
 def main(argv: list[str] | None = None) -> int:

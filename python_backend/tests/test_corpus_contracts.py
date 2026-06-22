@@ -14778,6 +14778,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["totalEvidenceGain"], 2)
         self.assertEqual(result["summary"], {"agentCount": 1, "mainEntries": 1, "totalEvidenceGain": 2, "skippedAgents": 0})
 
+    def test_merge_agent_dictionaries_plan_cli_runner_is_command_request_wrapper(self):
+        self.assertTrue(issubclass(merge_agent_dictionaries_plan_cli.MergeAgentDictionariesPlanCliRunner, AgentDictionaryMergePlanCommandRequest))
+
     def test_merge_agent_dictionaries_plan_command_request_lives_with_corpus_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
