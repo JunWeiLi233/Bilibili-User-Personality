@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanPayloadContractComparator as UidFastPipelinePlanContractComparator, UidFastPipelinePlanRunner
+from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanPayloadContractComparator as UidFastPipelinePlanContractComparator, UidFastPipelinePlanRequest, UidFastPipelinePlanRunner
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Build a uidPipelineFast.js-compatible dry-run plan.")
@@ -21,9 +21,7 @@ class UidFastPipelinePlanCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.compare_js_report:
-            return UidFastPipelinePlanContractComparator(args.payload, args.compare_js_report).compare()
-        return UidFastPipelinePlanRunner(args.payload).run()
+        return UidFastPipelinePlanRequest(args.payload, compare_js_report_path=args.compare_js_report).run()
 
 
 def main(argv: list[str] | None = None) -> int:
