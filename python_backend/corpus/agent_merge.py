@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 from typing import Any
@@ -202,4 +203,28 @@ class AgentDictionaryMergePlanRequest:
             self.main_dictionary_path,
             self.agent_paths,
             agent_dictionary_relative_path=self.agent_dictionary_relative_path,
+        ).run()
+
+
+class AgentDictionaryMergePlanCommandRequest:
+    """Parse CLI argv for merge-agent plans while keeping ownership in corpus."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    def parser(self) -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Build a dry-run plan for merging agent dictionaries into the main dictionary.")
+        parser.add_argument("agent_paths", nargs="*", help="Agent worktree paths containing server/data/deepseekKeywordDictionary.json.")
+        parser.add_argument("--dictionary", default="server/data/deepseekKeywordDictionary.json")
+        parser.add_argument("--agent-dictionary-relative-path", default="server/data/deepseekKeywordDictionary.json")
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible merge-agent report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return AgentDictionaryMergePlanRequest(
+            args.dictionary,
+            args.agent_paths,
+            agent_dictionary_relative_path=args.agent_dictionary_relative_path,
+            compare_js_report_path=args.compare_js_report or None,
         ).run()

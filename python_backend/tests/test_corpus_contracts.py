@@ -147,7 +147,7 @@ from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, Hugging
 from python_backend.corpus.local import LocalCorpusEvidenceCommandRequest, LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidenceJsonPayloadRunner, LocalCorpusEvidencePayloadContractComparator, LocalCorpusEvidenceRequest, LocalCorpusEvidenceRunner as LocalCorpusEvidencePayloadRunner, LocalCorpusEvidenceSummary
 from python_backend.corpus.local import LocalCorpusFlattenCommandRequest, LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenPayloadContractComparator, LocalCorpusFlattenRequest, LocalCorpusFlattenRunner as LocalCorpusFlattenPayloadRunner, LocalCorpusFlattenSummary, LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanCommandRequest, LocalCorpusMinePlanContractComparator as LocalCorpusMinePlanPayloadComparator, LocalCorpusMinePlanRequest, LocalCorpusMinePlanSummary
-from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner, AgentDictionaryMergePlanRequest, AgentDictionaryMergePlanSummary, MergeAgentDictionariesPlanContractComparator as MergeAgentDictionariesPlanPayloadComparator, MergeAgentDictionariesPlanRunner as MergeAgentDictionariesPayloadPlanRunner
+from python_backend.corpus.agent_merge import AgentDictionaryMergePlanCommandRequest, AgentDictionaryMergePlanner, AgentDictionaryMergePlanRequest, AgentDictionaryMergePlanSummary, MergeAgentDictionariesPlanContractComparator as MergeAgentDictionariesPlanPayloadComparator, MergeAgentDictionariesPlanRunner as MergeAgentDictionariesPayloadPlanRunner
 from python_backend.corpus.contracts import CompareContractsRequest, ContractComparator, ContractComparator as CorpusContractPayloadComparator, CorpusContractSummary
 from python_backend.corpus.tieba import TiebaCorpusJsonPayloadContractComparator, TiebaCorpusPayloadRunner, TiebaCorpusRequest, TiebaCorpusUpdateContractComparator as TiebaCorpusUpdatePayloadComparator, TiebaCorpusUpdater, TiebaCorpusUpdateRunner as TiebaCorpusUpdatePayloadRunner, TiebaCorpusUpdateSummary
 from python_backend.corpus import dictionary_prune
@@ -14090,6 +14090,27 @@ class CorpusContractTests(unittest.TestCase):
             result = merge_agent_dictionaries_plan_cli.MergeAgentDictionariesPlanCliRunner(
                 ["--dictionary", str(main_dictionary_path), str(agent_root)]
             ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["agentCount"], 1)
+        self.assertEqual(result["mainEntries"], 1)
+        self.assertEqual(result["totalEvidenceGain"], 2)
+        self.assertEqual(result["summary"], {"agentCount": 1, "mainEntries": 1, "totalEvidenceGain": 2, "skippedAgents": 0})
+
+    def test_merge_agent_dictionaries_plan_command_request_lives_with_corpus_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            main_dictionary_path = root / "main.json"
+            agent_root = root / "agent"
+            agent_dict = agent_root / "server" / "data"
+            agent_dict.mkdir(parents=True)
+            main_dictionary_path.write_text(json.dumps({"entries": [{"term": "doge", "family": "attack", "evidenceCount": 1}]}), encoding="utf-8")
+            (agent_dict / "deepseekKeywordDictionary.json").write_text(
+                json.dumps({"entries": [{"term": "doge", "family": "attack", "evidenceCount": 3}]}),
+                encoding="utf-8",
+            )
+
+            result = AgentDictionaryMergePlanCommandRequest(["--dictionary", main_dictionary_path, agent_root]).run()
 
         self.assertTrue(result["ok"])
         self.assertEqual(result["agentCount"], 1)
