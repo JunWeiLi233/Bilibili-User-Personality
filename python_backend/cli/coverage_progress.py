@@ -14,14 +14,8 @@ def build_parser() -> argparse.ArgumentParser:
     return CoverageProgressCommandRequest.parser()
 
 
-class CoverageProgressCliRunner:
+class CoverageProgressCliRunner(CoverageProgressCommandRequest):
     """CLI-compatible coverage progress runner for JSON contract checks."""
-
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        return CoverageProgressCommandRequest(self.argv).run()
 
 
 def main(argv: list[str] | None = None) -> int:

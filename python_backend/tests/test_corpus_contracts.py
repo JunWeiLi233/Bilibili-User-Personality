@@ -14036,6 +14036,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["actionDelta"], {"actionTermsResolved": 0, "actionEvidenceNeedReduced": 1})
         self.assertTrue(result["hasGateProgress"])
 
+    def test_coverage_progress_cli_runner_is_command_request_wrapper(self):
+        self.assertTrue(issubclass(coverage_progress_cli.CoverageProgressCliRunner, CoverageProgressCommandRequest))
+
     def test_coverage_progress_tracker_owns_payload_contract(self):
         result = CoverageProgressTracker().run_from_payload(
             {
