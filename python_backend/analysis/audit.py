@@ -64,6 +64,10 @@ def _float_or(value: Any, fallback: float) -> float:
         return fallback
 
 
+def _object_or_empty(value: Any) -> dict[str, Any]:
+    return value if isinstance(value, dict) else {}
+
+
 def _object_list(value: Any) -> list[dict[str, Any]]:
     if not isinstance(value, list):
         return []
@@ -333,8 +337,8 @@ class CoverageAuditContractComparator:
 
     def _metric_mismatches(self, python_audit: dict[str, Any], js_audit: dict[str, Any], keys: tuple[str, ...]) -> list[dict[str, Any]]:
         mismatches = []
-        python_coverage = python_audit.get("coverage") or {}
-        js_coverage = js_audit.get("coverage") or {}
+        python_coverage = _object_or_empty(python_audit.get("coverage"))
+        js_coverage = _object_or_empty(js_audit.get("coverage"))
         for key in keys:
             python_value = python_coverage.get(key)
             js_value = js_coverage.get(key)
@@ -344,8 +348,8 @@ class CoverageAuditContractComparator:
 
     def _optional_metric_mismatches(self, python_audit: dict[str, Any], js_audit: dict[str, Any], keys: tuple[str, ...]) -> list[dict[str, Any]]:
         mismatches = []
-        python_coverage = python_audit.get("coverage") or {}
-        js_coverage = js_audit.get("coverage") or {}
+        python_coverage = _object_or_empty(python_audit.get("coverage"))
+        js_coverage = _object_or_empty(js_audit.get("coverage"))
         for key in keys:
             if key not in js_coverage:
                 continue
