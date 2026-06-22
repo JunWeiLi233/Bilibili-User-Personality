@@ -159,7 +159,7 @@ from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.writer import CorpusShardWriteContractComparator as CorpusShardWritePayloadComparator, CorpusShardWritePayloadContractComparator, CorpusShardWriteRequest, CorpusShardWriteRunner as CorpusShardWritePayloadRunner, CorpusShardWriteSummary, CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
-from python_backend.scrapers.bilibili import BilibiliParseContractComparator as BilibiliParsePayloadComparator, BilibiliParsePayloadContractComparator, BilibiliParseRunner as BilibiliParsePayloadRunner, BilibiliParseSummary, BilibiliPublicParser
+from python_backend.scrapers.bilibili import BilibiliParseContractComparator as BilibiliParsePayloadComparator, BilibiliParsePayloadContractComparator, BilibiliParseRequest, BilibiliParseRunner as BilibiliParsePayloadRunner, BilibiliParseSummary, BilibiliPublicParser
 from python_backend.scrapers.aicu import AicuBatchPlanContractComparator as AicuBatchPlanPayloadComparator, AicuBatchPlanPayloadContractComparator, AicuBatchPlanRunner as AicuBatchPayloadPlanRunner, AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressPayloadContractComparator, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanContractComparator as AicuScrapePlanPayloadComparator, AicuScrapePlanPayloadContractComparator, AicuScrapePlanRunner as AicuScrapePayloadPlanRunner, AicuScrapePlanSummary, AicuScrapePlanner, BatchScrapeProgressRunner as BatchScrapeProgressPayloadRunner
 from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanContractComparator as AicuBrowserBatchPlanPayloadComparator, AicuBrowserBatchPlanPayloadContractComparator, AicuBrowserBatchPlanRunner as AicuBrowserBatchPayloadPlanRunner, AicuBrowserBatchPlanSummary, AicuBrowserBatchPlanner
 from python_backend.scrapers import video_link_direct
@@ -9727,6 +9727,29 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["bvid"], "BV19yGa61Ee6")
         self.assertFalse(comparison["ok"])
         self.assertEqual(comparison["mismatches"], [{"key": "bvid", "python": "BV19yGa61Ee6", "js": "wrong"}])
+
+    def test_bilibili_parse_request_owns_cli_dispatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-parse.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "extract-bvid",
+                        "input": "https://www.bilibili.com/video/BV19yGa61Ee6/?vd_source=abc",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"ok": True, "mode": "extract-bvid", "bvid": "wrong"}), encoding="utf-8")
+
+            run_result = BilibiliParseRequest(payload_path).run()
+            compare_result = BilibiliParseRequest(payload_path, compare_js_report_path=js_report_path).run()
+
+        self.assertEqual(run_result["bvid"], "BV19yGa61Ee6")
+        self.assertFalse(compare_result["ok"])
+        self.assertEqual(compare_result["mismatches"], [{"key": "bvid", "python": "BV19yGa61Ee6", "js": "wrong"}])
 
     def test_bilibili_parse_contract_comparator_reports_parser_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
