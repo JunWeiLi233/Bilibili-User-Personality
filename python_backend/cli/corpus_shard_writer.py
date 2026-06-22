@@ -11,14 +11,8 @@ def build_parser() -> argparse.ArgumentParser:
     return CorpusShardWriteCommandRequest.parser()
 
 
-class CorpusShardWriteCliRunner:
+class CorpusShardWriteCliRunner(CorpusShardWriteCommandRequest):
     """CLI-compatible corpus shard writer runner for JSON contract checks."""
-
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        return CorpusShardWriteCommandRequest(self.argv).run()
 
 
 def main(argv: list[str] | None = None) -> int:

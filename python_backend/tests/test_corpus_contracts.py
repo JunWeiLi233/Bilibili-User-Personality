@@ -875,6 +875,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["runs"], 1)
         self.assertEqual(result["manifest"]["source"], "command-request")
 
+    def test_corpus_shard_write_cli_runner_is_command_request_wrapper(self):
+        self.assertTrue(issubclass(corpus_shard_writer_cli.CorpusShardWriteCliRunner, CorpusShardWriteCommandRequest))
+
     def test_corpus_shard_write_summary_extracts_comparator_contract(self):
         summary_builder = CorpusShardWriteSummary()
         summary = summary_builder.summarize(
