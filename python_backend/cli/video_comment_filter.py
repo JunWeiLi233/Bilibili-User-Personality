@@ -7,6 +7,7 @@ import sys
 from python_backend.analysis.video_filter import (
     VideoCommentFilterPayloadContractComparator as VideoCommentFilterContractComparator,
     VideoCommentFilterPayloadRunner as VideoCommentFilterRunner,
+    VideoCommentFilterRequest,
 )
 
 
@@ -29,21 +30,13 @@ class VideoCommentFilterCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.compare_js_report:
-            return VideoCommentFilterContractComparator(
-                args.comments,
-                args.needles,
-                args.compare_js_report,
-                args.extra_needle,
-                args.dictionary_mode,
-                args.existing_terms_only,
-            ).compare()
-        return VideoCommentFilterRunner(
+        return VideoCommentFilterRequest(
             args.comments,
             args.needles,
             args.extra_needle,
             args.dictionary_mode,
             args.existing_terms_only,
+            compare_js_report_path=args.compare_js_report or None,
         ).run()
 
 

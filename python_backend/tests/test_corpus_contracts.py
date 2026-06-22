@@ -153,7 +153,7 @@ from python_backend.corpus.contracts import ContractComparator, ContractComparat
 from python_backend.corpus.tieba import TiebaCorpusJsonPayloadContractComparator, TiebaCorpusPayloadRunner, TiebaCorpusRequest, TiebaCorpusUpdateContractComparator as TiebaCorpusUpdatePayloadComparator, TiebaCorpusUpdater, TiebaCorpusUpdateRunner as TiebaCorpusUpdatePayloadRunner, TiebaCorpusUpdateSummary
 from python_backend.corpus import dictionary_prune
 from python_backend.analysis import video_filter
-from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoCommentFilterPayloadContractComparator, VideoCommentFilterPayloadRunner, VideoContextBuilder, VideoContextContractComparator as VideoContextPayloadComparator, VideoContextRequest, VideoContextRunner as VideoContextPayloadRunner, VideoRelevanceContractComparator as VideoRelevancePayloadComparator, VideoRelevanceFilter, VideoRelevancePayloadContractComparator, VideoRelevancePayloadRunner, VideoRelevanceRequest
+from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoCommentFilterPayloadContractComparator, VideoCommentFilterPayloadRunner, VideoCommentFilterRequest, VideoContextBuilder, VideoContextContractComparator as VideoContextPayloadComparator, VideoContextRequest, VideoContextRunner as VideoContextPayloadRunner, VideoRelevanceContractComparator as VideoRelevancePayloadComparator, VideoRelevanceFilter, VideoRelevancePayloadContractComparator, VideoRelevancePayloadRunner, VideoRelevanceRequest
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader
@@ -8654,6 +8654,34 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "comments", "python": ["1"], "js": ["2"]},
             ],
         )
+
+    def test_video_comment_filter_request_owns_cli_dispatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            comments_path = root / "comments.json"
+            needles_path = root / "needles.json"
+            js_report_path = root / "js-report.json"
+            comments_path.write_text(
+                json.dumps(
+                    {
+                        "comments": [
+                            {"rpid": "1", "message": "\u5f39\u5e55\u9634\u9633\u602a\u6c14"},
+                            {"rpid": "2", "message": "\u666e\u901a\u8def\u8fc7"},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            needles_path.write_text(json.dumps({"needles": ["\u9634\u9633\u602a\u6c14"]}), encoding="utf-8")
+            js_report_path.write_text(json.dumps({"applied": False, "matched": 0, "comments": [{"rpid": "2"}]}), encoding="utf-8")
+
+            result = VideoCommentFilterRequest(comments_path, needles_path).run()
+            comparison = VideoCommentFilterRequest(comments_path, needles_path, compare_js_report_path=js_report_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual([comment["rpid"] for comment in result["comments"]], ["1"])
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["applied", "matched", "comments"])
 
     def test_video_comment_filter_comparator_uses_backend_summary_contract_keys(self):
         self.assertTrue(hasattr(video_filter, "VideoCommentFilterSummary"))
