@@ -15,14 +15,8 @@ def build_parser() -> argparse.ArgumentParser:
     return CoverageAuditArtifactsCommandRequest.parser()
 
 
-class CoverageAuditArtifactsCliRunner:
+class CoverageAuditArtifactsCliRunner(CoverageAuditArtifactsCommandRequest):
     """CLI-compatible coverage-audit artifact runner for JSON contract checks."""
-
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        return CoverageAuditArtifactsCommandRequest(self.argv).run()
 
 
 def main(argv: list[str] | None = None) -> int:
