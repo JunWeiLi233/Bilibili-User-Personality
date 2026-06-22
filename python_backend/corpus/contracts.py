@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import argparse
 from pathlib import Path
+from typing import Any
 
 from python_backend.analysis.audit import CoverageAuditReport
 from python_backend.corpus.dictionary import DictionaryLoader
@@ -115,3 +117,22 @@ class CompareContractsRequest:
             self.dictionary_path,
             self.tieba_corpus_path,
         ).compare()
+
+
+class CompareContractsCommandRequest:
+    """Parse CLI argv for JS/Python contract comparison in the corpus layer."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    def parser(self) -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Validate Python compatibility with JS JSON corpus/audit contracts.")
+        parser.add_argument("--corpus", default="server/data/bilibiliDirectProbeCorpus.json")
+        parser.add_argument("--audit", default="server/data/keywordCoverageAudit.json")
+        parser.add_argument("--dictionary", default="server/data/deepseekKeywordDictionary.json")
+        parser.add_argument("--tieba-corpus", default="server/data/tiebaKeywordCorpus.json")
+        return parser
+
+    def run(self) -> dict[str, object]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return CompareContractsRequest(args.corpus, args.audit, args.dictionary, args.tieba_corpus).run()

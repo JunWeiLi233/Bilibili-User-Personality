@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 
-from python_backend.corpus.contracts import CompareContractsRequest
+from python_backend.corpus.contracts import CompareContractsCommandRequest
 
 
 class CompareContractsRunner:
@@ -13,17 +13,11 @@ class CompareContractsRunner:
         self.argv = argv
 
     def run(self) -> dict:
-        args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        return CompareContractsRequest(args.corpus, args.audit, args.dictionary, args.tieba_corpus).run()
+        return CompareContractsCommandRequest(self.argv).run()
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Validate Python compatibility with JS JSON corpus/audit contracts.")
-    parser.add_argument("--corpus", default="server/data/bilibiliDirectProbeCorpus.json")
-    parser.add_argument("--audit", default="server/data/keywordCoverageAudit.json")
-    parser.add_argument("--dictionary", default="server/data/deepseekKeywordDictionary.json")
-    parser.add_argument("--tieba-corpus", default="server/data/tiebaKeywordCorpus.json")
-    return parser
+    return CompareContractsCommandRequest([]).parser()
 
 
 def main(argv: list[str] | None = None) -> int:
