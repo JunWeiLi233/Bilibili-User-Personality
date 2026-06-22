@@ -209,6 +209,27 @@ class CoverageAuditArtifactsRequest:
         return CoverageAuditArtifactsRunner(self.payload_path).run()
 
 
+class CoverageAuditArtifactsCommandRequest:
+    """Analysis-layer command request for coverage-audit artifact JSON contracts."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return CoverageAuditArtifactsRequest(
+            args.payload,
+            compare_js_report_path=args.compare_js_report or None,
+        ).run()
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Build coverage-audit query/action artifacts from a JSON payload.")
+        parser.add_argument("--payload", required=True, help="Path to coverage-audit artifact payload JSON.")
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible artifact report to compare.")
+        return parser
+
+
 class CoverageAuditContractSummary:
     """Shape coverage-audit reports into the JS/Python comparator summary contract."""
 
