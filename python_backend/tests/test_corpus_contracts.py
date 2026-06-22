@@ -2945,6 +2945,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["entries"][0]["evidenceSources"][0]["uid"], "mid-command")
 
+    def test_keyword_evidence_cli_runner_is_command_request_wrapper(self):
+        self.assertTrue(issubclass(keyword_evidence_cli.KeywordEvidenceCliRunner, KeywordEvidenceCommandRequest))
+
     def test_keyword_evidence_matcher_owns_payload_contract(self):
         result = KeywordEvidenceMatcher().run_from_payload(
             {

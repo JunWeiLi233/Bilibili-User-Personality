@@ -11,14 +11,8 @@ from python_backend.analyzers.keyword_evidence import (
 )
 
 
-class KeywordEvidenceCliRunner:
+class KeywordEvidenceCliRunner(KeywordEvidenceCommandRequest):
     """CLI-compatible keyword evidence runner for analyzer JSON contracts."""
-
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        return KeywordEvidenceCommandRequest(self.argv).run()
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
