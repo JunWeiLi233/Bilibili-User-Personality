@@ -4,25 +4,15 @@ import argparse
 import json
 import sys
 
-from python_backend.scrapers.bilibili import BilibiliParsePayloadContractComparator as BilibiliParseContractComparator, BilibiliParseRequest, BilibiliParseRunner
+from python_backend.scrapers.bilibili import BilibiliParseCommandRequest, BilibiliParsePayloadContractComparator as BilibiliParseContractComparator, BilibiliParseRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Parse Bilibili public payloads into Python backend JSON contracts.")
-    parser.add_argument("--payload", required=True, help="Path to JSON payload with mode-specific fields.")
-    parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible Bilibili parser report to compare.")
-    return parser
+    return BilibiliParseCommandRequest.parser()
 
 
-class BilibiliParseCliRunner:
+class BilibiliParseCliRunner(BilibiliParseCommandRequest):
     """CLI-compatible Bilibili parser runner for JS/Python JSON contracts."""
-
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        return BilibiliParseRequest(args.payload, compare_js_report_path=args.compare_js_report or None).run()
 
 
 def main(argv: list[str] | None = None) -> int:
