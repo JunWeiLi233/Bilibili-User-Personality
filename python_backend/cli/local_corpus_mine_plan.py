@@ -11,12 +11,8 @@ def build_parser() -> argparse.ArgumentParser:
     return LocalCorpusMinePlanCommandRequest([]).parser()
 
 
-class LocalCorpusMinePlanCliRunner:
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        return LocalCorpusMinePlanCommandRequest(self.argv).run()
+class LocalCorpusMinePlanCliRunner(LocalCorpusMinePlanCommandRequest):
+    """CLI-compatible local corpus mining plan runner for JSON contract checks."""
 
 
 def main(argv: list[str] | None = None) -> int:

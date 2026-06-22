@@ -6783,6 +6783,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["options"]["targetEvidence"], 5)
         self.assertTrue(result["options"]["write"])
 
+    def test_local_corpus_mine_plan_cli_runner_is_command_request_wrapper(self):
+        self.assertTrue(issubclass(local_corpus_mine_plan_cli.LocalCorpusMinePlanCliRunner, LocalCorpusMinePlanCommandRequest))
+
     def test_local_corpus_mine_plan_command_request_lives_with_corpus_options(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
