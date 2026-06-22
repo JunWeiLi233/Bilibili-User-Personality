@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 import re
 from dataclasses import dataclass, field
@@ -572,3 +573,25 @@ class DeepSeekAnalysisValidateRequest:
                 self.compare_js_report_path,
             ).compare()
         return DeepSeekAnalysisValidateRunner(self.payload_path, self.analysis_path).run()
+
+
+class DeepSeekAnalysisValidateCommandRequest:
+    """Parse CLI argv for DeepSeek validation while keeping request ownership in analyzers."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    def parser(self) -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Validate DeepSeek analysis quotes against source comments.")
+        parser.add_argument("--payload", required=True, help="Path to the original JS-compatible analysis payload.")
+        parser.add_argument("--analysis", required=True, help="Path to the DeepSeek analysis JSON or wrapper containing parsed/analysis.")
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible validation report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return DeepSeekAnalysisValidateRequest(
+            payload_path=args.payload,
+            analysis_path=args.analysis,
+            compare_js_report_path=args.compare_js_report or None,
+        ).run()
