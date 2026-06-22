@@ -62,7 +62,7 @@ class DeepSeekAnalyzerClient:
             name=str(payload.get("name") or "unknown"),
             model=str(payload.get("model") or "deepseek-v4-flash"),
             effort=str(payload.get("reasoningEffort") or payload.get("reasoning_effort") or payload.get("effort") or "max"),
-            multiagent=bool(payload.get("multiagent") or payload.get("multiAgent")),
+            multiagent=payload.get("multiagent") is True or payload.get("multiAgent") is True,
         )
 
     def build_payload(self, request: AnalyzerRequest) -> dict[str, object]:

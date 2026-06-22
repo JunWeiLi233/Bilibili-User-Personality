@@ -2832,6 +2832,18 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("\u653b\u51fb\u6027\u8bcd\u9762", user_prompt)
         self.assertEqual(user_prompt.count(sentence), 1)
 
+    def test_deepseek_analyzer_splits_chinese_terminal_punctuation_like_js(self):
+        analyzer = DeepSeekAnalyzerClient()
+
+        payload = analyzer.build_payload(
+            AnalyzerRequest(comments=["\u7b2c\u4e00\u53e5\u3002\u7b2c\u4e8c\u53e5\uff01\u7b2c\u4e09\u53e5\uff1f\u7b2c\u56db\u53e5!"])
+        )
+
+        self.assertEqual(
+            payload["comments"],
+            ["\u7b2c\u4e00\u53e5\u3002", "\u7b2c\u4e8c\u53e5\uff01", "\u7b2c\u4e09\u53e5\uff1f", "\u7b2c\u56db\u53e5!"],
+        )
+
     def test_keyword_evidence_matcher_filters_entries_by_direct_text_evidence(self):
         matcher = KeywordEvidenceMatcher()
 
@@ -4029,6 +4041,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(request.model, "deepseek-v4-flash")
         self.assertEqual(request.effort, "max")
         self.assertTrue(request.multiagent)
+
+    def test_deepseek_analyzer_requires_boolean_true_for_multiagent_like_js(self):
+        client = DeepSeekAnalyzerClient()
+
+        string_flag = client.build_request_from_payload({"text": "\u53cd\u8bbd[doge]", "multiagent": "false"})
+        boolean_flag = client.build_request_from_payload({"text": "\u53cd\u8bbd[doge]", "multiAgent": True})
+
+        self.assertFalse(string_flag.multiagent)
+        self.assertTrue(boolean_flag.multiagent)
 
     def test_deepseek_analyzer_builds_keyword_hints_from_dictionary_payload(self):
         payload = DeepSeekAnalyzerClient().build_payload(
