@@ -23190,6 +23190,10 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["mismatches"], [])
         self.assertEqual(result["python"]["coverage"]["weakTerms"], 1)
 
+    def test_coverage_audit_cli_runner_is_command_request_wrapper(self):
+        self.assertTrue(issubclass(coverage_audit_cli.CoverageAuditCliRunner, CoverageAuditCommandRequest))
+        self.assertTrue(issubclass(coverage_audit_cli.CoverageAuditRunner, CoverageAuditCommandRequest))
+
     def test_coverage_audit_dedicated_cli_runner_accepts_argv_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

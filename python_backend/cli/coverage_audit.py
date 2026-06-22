@@ -6,14 +6,8 @@ import json
 from python_backend.analysis.audit import CoverageAuditCommandRequest, CoverageAuditPayloadContractComparator as AuditContractComparator
 
 
-class CoverageAuditCliRunner:
+class CoverageAuditCliRunner(CoverageAuditCommandRequest):
     """Dedicated argv-based coverage-audit comparator runner for JS/Python contracts."""
-
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        return CoverageAuditCommandRequest(self.argv).run()
 
 
 class CoverageAuditRunner(CoverageAuditCliRunner):
