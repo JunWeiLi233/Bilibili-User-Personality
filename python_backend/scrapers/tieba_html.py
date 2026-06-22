@@ -134,6 +134,19 @@ class TiebaHtmlParsePayloadContractComparator:
         return payload if isinstance(payload, dict) else {}
 
 
+class TiebaHtmlParseRequest:
+    """Scraper-layer request for Tieba HTML parser JSON contract commands."""
+
+    def __init__(self, payload_path: str | Path, compare_js_report_path: str | Path | None = None):
+        self.payload_path = Path(payload_path)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_report_path:
+            return TiebaHtmlParsePayloadContractComparator(self.payload_path, self.compare_js_report_path).compare()
+        return TiebaHtmlParseRunner(self.payload_path).run()
+
+
 class TiebaHtmlParser:
     """Parse saved Tieba HTML into the JS scraper JSON contract."""
 
