@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 from typing import Any
@@ -141,3 +142,23 @@ class DeepSeekAnalyzeCliPlanRequest:
                 self.compare_js_report_path,
             ).compare()
         return DeepSeekAnalyzeCliPlanRunner(self.payload_path).run()
+
+
+class DeepSeekAnalyzeCliPlanCommandRequest:
+    """Parse CLI argv for analyzeDeepSeekComments plan contracts in the analyzer layer."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    def parser(self) -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Build an analyzeDeepSeekComments.js-compatible CLI input plan.")
+        parser.add_argument("--payload", required=True)
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible CLI parse report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return DeepSeekAnalyzeCliPlanRequest(
+            args.payload,
+            compare_js_report_path=args.compare_js_report or None,
+        ).run()
