@@ -147,7 +147,7 @@ from python_backend.corpus.history_tags import HistoryTagCorpusContractComparato
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceCorpusImportContractComparator as HuggingFaceCorpusImportPayloadComparator, HuggingFaceCorpusImportPlanContractComparator as HuggingFaceCorpusImportPlanPayloadComparator, HuggingFaceCorpusImportPlanRunner as HuggingFaceCorpusImportPayloadPlanRunner, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
 from python_backend.corpus.local import LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidenceJsonPayloadRunner, LocalCorpusEvidencePayloadContractComparator, LocalCorpusEvidenceRequest, LocalCorpusEvidenceRunner as LocalCorpusEvidencePayloadRunner, LocalCorpusEvidenceSummary
 from python_backend.corpus.local import LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenPayloadContractComparator, LocalCorpusFlattenRequest, LocalCorpusFlattenRunner as LocalCorpusFlattenPayloadRunner, LocalCorpusFlattenSummary, LocalCorpusFlattener
-from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanContractComparator as LocalCorpusMinePlanPayloadComparator, LocalCorpusMinePlanSummary
+from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanContractComparator as LocalCorpusMinePlanPayloadComparator, LocalCorpusMinePlanRequest, LocalCorpusMinePlanSummary
 from python_backend.corpus.agent_merge import AgentDictionaryMergePlanner, AgentDictionaryMergePlanSummary, MergeAgentDictionariesPlanContractComparator as MergeAgentDictionariesPlanPayloadComparator, MergeAgentDictionariesPlanRunner as MergeAgentDictionariesPayloadPlanRunner
 from python_backend.corpus.contracts import ContractComparator, ContractComparator as CorpusContractPayloadComparator, CorpusContractSummary
 from python_backend.corpus.tieba import TiebaCorpusJsonPayloadContractComparator, TiebaCorpusPayloadRunner, TiebaCorpusRequest, TiebaCorpusUpdateContractComparator as TiebaCorpusUpdatePayloadComparator, TiebaCorpusUpdater, TiebaCorpusUpdateRunner as TiebaCorpusUpdatePayloadRunner, TiebaCorpusUpdateSummary
@@ -6206,6 +6206,26 @@ class CorpusContractTests(unittest.TestCase):
             comparison["mismatches"],
             [{"key": "options", "python": result["options"], "js": {"corpusPaths": ["stale"], "targetEvidence": 3}}],
         )
+
+    def test_local_corpus_mine_plan_request_owns_cli_dispatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "local-mine-plan.json"
+            js_report_path = root / "js-local-mine-plan.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--corpus=one.json", "--target-evidence=5"], "env": {"LOCAL_CORPUS_WRITE": "1"}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"options": {"corpusPaths": ["stale"], "targetEvidence": 3}}), encoding="utf-8")
+
+            result = LocalCorpusMinePlanRequest(payload_path).run()
+            comparison = LocalCorpusMinePlanRequest(payload_path, compare_js_report_path=js_report_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["options"]["corpusPaths"], ["one.json"])
+        self.assertEqual(result["options"]["targetEvidence"], 5)
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(comparison["mismatches"][0]["key"], "options")
 
     def test_local_corpus_mine_plan_cli_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
