@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 import re
 from pathlib import Path
@@ -276,3 +277,38 @@ class NearTargetResolvePlanRequest:
                 **options,
             ).compare()
         return NearTargetResolvePlanRunner(self.dictionary_path, self.state_path, **options).run()
+
+
+class NearTargetResolvePlanCommandRequest:
+    """Argv-backed analysis-layer request for near-target resolve plans."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Build a dry-run near-target resolver plan from dictionary source videos.")
+        parser.add_argument("--dictionary", default="server/data/deepseekKeywordDictionary.json")
+        parser.add_argument("--state", default="server/data/keywordHarvestState.json")
+        parser.add_argument("--target-evidence", type=int, default=3)
+        parser.add_argument("--max-need", type=int, default=1)
+        parser.add_argument("--batch", type=int, default=12)
+        parser.add_argument("--videos-per-term", type=int, default=3)
+        parser.add_argument("--pages", type=int, default=3)
+        parser.add_argument("--override-terms", default="", help="Comma/newline/pipe separated terms to plan even when not near target.")
+        parser.add_argument("--compare-js-plan", default="", help="Optional JS-compatible near-target resolve plan to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return NearTargetResolvePlanRequest(
+            args.dictionary,
+            args.state,
+            compare_js_plan_path=args.compare_js_plan or None,
+            target_evidence=args.target_evidence,
+            max_need=args.max_need,
+            batch=args.batch,
+            videos_per_term=args.videos_per_term,
+            pages=args.pages,
+            override_terms=NearTargetOverrideTermsParser().parse(args.override_terms),
+        ).run()

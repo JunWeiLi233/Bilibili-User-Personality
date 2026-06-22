@@ -77,7 +77,7 @@ from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilde
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, KeywordHarvestPlanCommandRequest, KeywordHarvestPlanContractComparator as KeywordHarvestPlanPayloadComparator, KeywordHarvestPlanPayloadContractComparator, KeywordHarvestPlanRequest, KeywordHarvestPlanRunner as KeywordHarvestPayloadPlanRunner, KeywordHarvestPlanSummary
 from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateCommandRequest, HarvestStateContractComparator as HarvestStatePayloadComparator, HarvestStatePayloadContractComparator, HarvestStateFinalizer, HarvestStatePayloadProcessor, HarvestStateRequest, HarvestStateRunner as HarvestStatePayloadRunner, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis import near_target
-from python_backend.analysis.near_target import NearTargetOverrideTermsParser, NearTargetResolvePlanContractComparator as NearTargetResolvePlanPayloadComparator, NearTargetResolvePlanRequest, NearTargetResolvePlanner, NearTargetResolvePlanRunner as NearTargetResolvePayloadPlanRunner
+from python_backend.analysis.near_target import NearTargetOverrideTermsParser, NearTargetResolvePlanCommandRequest, NearTargetResolvePlanContractComparator as NearTargetResolvePlanPayloadComparator, NearTargetResolvePlanRequest, NearTargetResolvePlanner, NearTargetResolvePlanRunner as NearTargetResolvePayloadPlanRunner
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsPayloadContractComparator, ReadmeStatsRequest, ReadmeStatsRunner as ReadmeStatsPayloadRunner, ReadmeStatsSummary, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherCommandRequest, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRequest, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationCommandRequest, RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationPayloadContractComparator, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerifier, json_result_bytes as random_verification_payload_json_result_bytes
@@ -20094,6 +20094,42 @@ class CorpusContractTests(unittest.TestCase):
 
             result = NearTargetResolvePlanRequest(dictionary_path, state_path).run()
             comparison = NearTargetResolvePlanRequest(dictionary_path, state_path, compare_js_plan_path=js_plan_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["plannedCount"], 1)
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["plannedCount", "plans"])
+
+    def test_near_target_resolve_plan_command_request_lives_with_analysis_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            state_path = root / "state.json"
+            js_plan_path = root / "js-near-target.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {
+                                "term": "\u5dee\u4e00\u6761",
+                                "family": "attack",
+                                "evidenceCount": 2,
+                                "evidenceSamples": ["sample one", "sample two"],
+                                "evidenceSources": [
+                                    {"source": "Bilibili source https://www.bilibili.com/video/BV1NearAAA1/", "sample": "sample one"},
+                                    {"source": "Bilibili source https://www.bilibili.com/video/BV1NearAAA1/", "sample": "sample two"},
+                                ],
+                            }
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            state_path.write_text(json.dumps({}), encoding="utf-8")
+            js_plan_path.write_text(json.dumps({"plannedCount": 0, "plans": []}), encoding="utf-8")
+
+            result = NearTargetResolvePlanCommandRequest(["--dictionary", dictionary_path, "--state", state_path]).run()
+            comparison = NearTargetResolvePlanCommandRequest(["--dictionary", dictionary_path, "--state", state_path, "--compare-js-plan", js_plan_path]).run()
 
         self.assertTrue(result["ok"])
         self.assertEqual(result["plannedCount"], 1)
