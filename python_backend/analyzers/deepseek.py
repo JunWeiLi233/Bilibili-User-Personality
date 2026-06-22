@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import unicodedata
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -383,7 +384,7 @@ class DeepSeekAnalysisValidator:
         return bool(normalized_quote) and any(normalized_quote in sentence for sentence in source_normalized)
 
     def _normalize_quote(self, text: str) -> str:
-        return re.sub(r"\s+", "", str(text or "")).lower()
+        return re.sub(r"\s+", "", unicodedata.normalize("NFKC", str(text or "")).lower())
 
 
 class DeepSeekAnalysisPlanSummary:

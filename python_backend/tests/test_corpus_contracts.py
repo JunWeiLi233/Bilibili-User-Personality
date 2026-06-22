@@ -4580,6 +4580,19 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["summary"], {"sourceSentences": 2, "sentenceAnalyses": 1, "axes": 1, "unsupportedQuotes": 0, "unsupportedAxisEvidence": 0})
 
+    def test_deepseek_analysis_validator_normalizes_fullwidth_quotes_like_js(self):
+        result = DeepSeekAnalysisValidator().validate(
+            comments=["\uff21\uff22\uff23 \uff11\uff12\uff13 \u662f\u5f39\u5e55\u539f\u6587"],
+            analysis={
+                "sentenceAnalyses": [{"quote": "abc123", "risk": "neutral"}],
+                "axes": [{"axis": "evidence", "score": 55, "evidence": "\uff21\uff22\uff23 123"}],
+            },
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["summary"]["unsupportedQuotes"], 0)
+        self.assertEqual(result["summary"]["unsupportedAxisEvidence"], 0)
+
     def test_deepseek_analysis_validator_extracts_source_quotes_from_comment_objects(self):
         result = DeepSeekAnalysisValidator().validate_payloads(
             {
