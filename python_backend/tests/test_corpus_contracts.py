@@ -4148,6 +4148,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["payload"], {"text": "\u53cd\u8bbd[doge]", "uid": "42", "multiagent": True})
         self.assertEqual(result["input"], {"source": "argv", "file": "", "readsStdin": False, "showHelp": False})
 
+    def test_deepseek_analyze_cli_plan_cli_runner_is_command_request_wrapper(self):
+        self.assertTrue(issubclass(deepseek_analyze_cli_plan_cli.DeepSeekAnalyzeCliPlanCliRunner, DeepSeekAnalyzeCliPlanCommandRequest))
+
     def test_deepseek_analyze_cli_plan_command_request_lives_with_analyzer_cli_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "deepseek-cli.json"
