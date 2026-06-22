@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import unicodedata
@@ -391,6 +392,35 @@ class VideoCommentFilterRequest:
             self.extra_needles,
             self.dictionary_mode,
             self.existing_terms_only,
+        ).run()
+
+
+class VideoCommentFilterCommandRequest:
+    """Argv-backed analysis-layer request for video comment filtering."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Filter Bilibili comments by dictionary needle JSON.")
+        parser.add_argument("--comments", required=True, help="JSON list or object with a comments array.")
+        parser.add_argument("--needles", required=True, help="JSON list or object with a needles array.")
+        parser.add_argument("--extra-needle", action="append", default=[])
+        parser.add_argument("--dictionary-mode", action="store_true", help="Treat --needles as a dictionary JSON payload.")
+        parser.add_argument("--existing-terms-only", action="store_true", help="Apply filtering only for existing-term dictionary refreshes.")
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible comment filter report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return VideoCommentFilterRequest(
+            args.comments,
+            args.needles,
+            args.extra_needle,
+            args.dictionary_mode,
+            args.existing_terms_only,
+            compare_js_report_path=args.compare_js_report or None,
         ).run()
 
 
