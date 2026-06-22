@@ -451,3 +451,21 @@ class BatchUidProgressRequest:
         if self.compare_js_report_path:
             return BatchUidProgressPayloadContractComparator(self.progress_path, self.compare_js_report_path).compare()
         return BatchUidProgressRunner(self.progress_path).run()
+
+
+class BatchUidProgressCommandRequest:
+    """Argv-backed scraper-layer request for batch UID progress contracts."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Summarize batch UID scrape progress JSON.")
+        parser.add_argument("--progress", default="server/data/batch-uid-progress.json")
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible batch UID progress report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return BatchUidProgressRequest(args.progress, compare_js_report_path=args.compare_js_report or None).run()

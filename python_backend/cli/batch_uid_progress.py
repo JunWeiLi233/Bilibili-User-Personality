@@ -5,28 +5,18 @@ import json
 import sys
 
 from python_backend.scrapers.batch_uid_scrape import (
+    BatchUidProgressCommandRequest,
     BatchUidProgressPayloadContractComparator as BatchUidProgressContractComparator,
-    BatchUidProgressRequest,
     BatchUidProgressRunner,
 )
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Summarize batch UID scrape progress JSON.")
-    parser.add_argument("--progress", default="server/data/batch-uid-progress.json")
-    parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible batch UID progress report to compare.")
-    return parser
+    return BatchUidProgressCommandRequest.parser()
 
 
-class BatchUidProgressCliRunner:
+class BatchUidProgressCliRunner(BatchUidProgressCommandRequest):
     """CLI-compatible batch UID progress runner for JS/Python JSON contracts."""
-
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        return BatchUidProgressRequest(args.progress, compare_js_report_path=args.compare_js_report).run()
 
 
 def main(argv: list[str] | None = None) -> int:
