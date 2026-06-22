@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.corpus.direct_probe import DirectProbePlanPayloadContractComparator as DirectProbePlanContractComparator, DirectProbePlanRunner
+from python_backend.corpus.direct_probe import DirectProbePlanPayloadContractComparator as DirectProbePlanContractComparator, DirectProbePlanRequest, DirectProbePlanRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -21,9 +21,7 @@ class DirectProbePlanCliRunner:
     def run(self) -> dict:
         argv = [str(item) for item in self.argv] if self.argv is not None else None
         args = build_parser().parse_args(argv)
-        if args.compare_js_plan:
-            return DirectProbePlanContractComparator(args.payload, args.compare_js_plan).compare()
-        return DirectProbePlanRunner(args.payload).run()
+        return DirectProbePlanRequest(args.payload, compare_js_plan_path=args.compare_js_plan or None).run()
 
 
 def main(argv: list[str] | None = None) -> int:

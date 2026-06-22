@@ -142,7 +142,7 @@ from python_backend.cli.batch_scraper_launcher import BatchScraperLauncherContra
 from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContractComparator, RangeScraperLauncherPlanRunner
 from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContractComparator, FastPipelineLauncherPlanRunner
 from python_backend.corpus import direct_probe as direct_probe_module
-from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusContractComparator as DirectProbeCorpusPayloadComparator, DirectProbeCorpusJsonPayloadContractComparator, DirectProbeCorpusPayloadContractComparator, DirectProbeCorpusRequest, DirectProbeCorpusRunner as DirectProbePayloadCorpusRunner, DirectProbeCorpusSummary, DirectProbePlanContractComparator as DirectProbePlanPayloadComparator, DirectProbePlanPayloadContractComparator, DirectProbePlanRunner as DirectProbePayloadPlanRunner, DirectProbePlanSummary
+from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusContractComparator as DirectProbeCorpusPayloadComparator, DirectProbeCorpusJsonPayloadContractComparator, DirectProbeCorpusPayloadContractComparator, DirectProbeCorpusRequest, DirectProbeCorpusRunner as DirectProbePayloadCorpusRunner, DirectProbeCorpusSummary, DirectProbePlanContractComparator as DirectProbePlanPayloadComparator, DirectProbePlanPayloadContractComparator, DirectProbePlanRequest, DirectProbePlanRunner as DirectProbePayloadPlanRunner, DirectProbePlanSummary
 from python_backend.corpus.history_tags import HistoryTagCorpusContractComparator as HistoryTagCorpusPayloadComparator, HistoryTagCorpusLoader, HistoryTagCorpusManager, HistoryTagCorpusPayloadContractComparator, HistoryTagCorpusRunner as HistoryTagPayloadCorpusRunner, HistoryTagCorpusShardWritePayloadContractComparator, HistoryTagCorpusShardWriteRunner, HistoryTagCorpusShardWriteSummary, HistoryTagCorpusShardWriter, HistoryTagCorpusSummary, HistoryTagScrapePlanner, HistoryTagScrapePlanContractComparator as HistoryTagScrapePlanPayloadComparator, HistoryTagScrapePlanPayloadContractComparator, HistoryTagScrapePlanRunner as HistoryTagScrapePayloadPlanRunner, HistoryTagScrapePlanSummary
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceCorpusImportContractComparator as HuggingFaceCorpusImportPayloadComparator, HuggingFaceCorpusImportPlanContractComparator as HuggingFaceCorpusImportPlanPayloadComparator, HuggingFaceCorpusImportPlanRunner as HuggingFaceCorpusImportPayloadPlanRunner, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
 from python_backend.corpus.local import LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidenceJsonPayloadRunner, LocalCorpusEvidencePayloadContractComparator, LocalCorpusEvidenceRequest, LocalCorpusEvidenceRunner as LocalCorpusEvidencePayloadRunner, LocalCorpusEvidenceSummary
@@ -7614,6 +7614,31 @@ class CorpusContractTests(unittest.TestCase):
             result = DirectProbePayloadPlanRunner(payload_path).run()
             comparison = DirectProbePlanPayloadContractComparator(payload_path, js_plan_path).compare()
 
+        self.assertEqual(result["nextReplyCursor"], 1)
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["nextReplyCursor", "viewUrl", "searchUrls"])
+
+    def test_direct_probe_plan_request_owns_cli_dispatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "probe-plan.json"
+            js_plan_path = root / "js-probe-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "action": {"term": "\u67e5\u67e5\u8d44\u6599", "query": "\u67e5\u67e5\u8d44\u6599 B\u7ad9\u8bc4\u8bba"},
+                        "source": "https://www.bilibili.com/video/av116663559131570/?reply=301234384593",
+                        "cursorPayload": {"data": {"cursor": {"is_end": False, "next": 0}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_plan_path.write_text(json.dumps({"nextReplyCursor": 2, "viewUrl": "wrong", "searchUrls": []}), encoding="utf-8")
+
+            result = DirectProbePlanRequest(payload_path).run()
+            comparison = DirectProbePlanRequest(payload_path, compare_js_plan_path=js_plan_path).run()
+
+        self.assertTrue(result["ok"])
         self.assertEqual(result["nextReplyCursor"], 1)
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["nextReplyCursor", "viewUrl", "searchUrls"])

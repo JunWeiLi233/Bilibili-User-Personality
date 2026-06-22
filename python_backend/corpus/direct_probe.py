@@ -403,6 +403,19 @@ class DirectProbePlanPayloadContractComparator:
         return payload if isinstance(payload, dict) else {}
 
 
+class DirectProbePlanRequest:
+    """Corpus-layer request for direct probe planning JSON contract commands."""
+
+    def __init__(self, payload_path: str | Path, compare_js_plan_path: str | Path | None = None):
+        self.payload_path = Path(payload_path)
+        self.compare_js_plan_path = Path(compare_js_plan_path) if compare_js_plan_path else None
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_plan_path:
+            return DirectProbePlanPayloadContractComparator(self.payload_path, self.compare_js_plan_path).compare()
+        return DirectProbePlanRunner(self.payload_path).run()
+
+
 class DirectProbeCorpusBuilder:
     """Pure Python contract helpers for Bilibili direct evidence probe data."""
 
