@@ -79,7 +79,7 @@ from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, 
 from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetOverrideTermsParser, NearTargetResolvePlanContractComparator as NearTargetResolvePlanPayloadComparator, NearTargetResolvePlanner, NearTargetResolvePlanRunner as NearTargetResolvePayloadPlanRunner
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsPayloadContractComparator, ReadmeStatsRunner as ReadmeStatsPayloadRunner, ReadmeStatsSummary, ReadmeStatsSvgRenderer
-from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
+from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRequest, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationPayloadContractComparator, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerifier, json_result_bytes as random_verification_payload_json_result_bytes
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisPlanContractComparator as DeepSeekAnalysisPayloadPlanContractComparator, DeepSeekAnalysisPlanRequest, DeepSeekAnalysisPlanRunner as DeepSeekAnalysisPayloadPlanRunner, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidateContractComparator as DeepSeekAnalysisPayloadValidateContractComparator, DeepSeekAnalysisValidateRequest, DeepSeekAnalysisValidateRunner as DeepSeekAnalysisPayloadValidateRunner, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPayloadPlanContractComparator, DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanRunner as DeepSeekAnalyzeCliPayloadPlanRunner, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary
@@ -2979,6 +2979,36 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "matches", "python": [{"term": "term-a", "chunk": "alpha chunk", "score": 1.0}], "js": []},
             ],
         )
+
+    def test_semantic_matcher_request_owns_cli_dispatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "semantic-payload.json"
+            js_report_path = root / "js-semantic.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "chunks": ["alpha chunk"],
+                        "vectors": {"left": [1, 0], "right": [0.8, 0.6]},
+                        "chunkEmbeddings": [[1, 0]],
+                        "termEmbeddings": {"term-a": [1, 0]},
+                        "threshold": 0.7,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"ok": True, "chunks": ["alpha chunk"], "cosine": 0.7, "matches": []}),
+                encoding="utf-8",
+            )
+
+            run_result = SemanticMatcherRequest(payload_path).run()
+            compare_result = SemanticMatcherRequest(payload_path, compare_js_report_path=js_report_path).run()
+
+        self.assertTrue(run_result["ok"])
+        self.assertEqual(run_result["matches"], [{"term": "term-a", "chunk": "alpha chunk", "score": 1.0}])
+        self.assertFalse(compare_result["ok"])
+        self.assertEqual([item["key"] for item in compare_result["mismatches"]], ["cosine", "matches"])
 
     def test_semantic_matcher_contract_comparator_reports_match_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
