@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.scrapers.scraper_monitor import ScraperMonitorPayloadContractComparator as ScraperMonitorContractComparator, ScraperMonitorRunner
+from python_backend.scrapers.scraper_monitor import ScraperMonitorRequest
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Build a compact scraper monitor report.")
@@ -25,17 +25,9 @@ class ScraperMonitorCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.compare_js_report:
-            return ScraperMonitorContractComparator(
-                args.data_dir,
-                args.compare_js_report,
-                total_start=args.total_start,
-                total_end=args.total_end,
-                workers=args.workers,
-                pipeline_rate_per_minute=args.pipeline_rate_per_minute,
-            ).compare()
-        return ScraperMonitorRunner(
+        return ScraperMonitorRequest(
             args.data_dir,
+            compare_js_report_path=args.compare_js_report or None,
             total_start=args.total_start,
             total_end=args.total_end,
             workers=args.workers,

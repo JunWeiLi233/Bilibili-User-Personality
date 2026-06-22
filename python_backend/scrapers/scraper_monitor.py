@@ -136,6 +136,42 @@ class ScraperMonitorPayloadContractComparator:
         return payload if isinstance(payload, dict) else {}
 
 
+class ScraperMonitorRequest:
+    """Scraper-layer request for monitor report JSON contract commands."""
+
+    def __init__(
+        self,
+        data_dir: str | Path,
+        *,
+        compare_js_report_path: str | Path | None = None,
+        total_start: int = 1,
+        total_end: int = 100000,
+        workers: int = 5,
+        pipeline_rate_per_minute: int = 50,
+    ):
+        self.data_dir = Path(data_dir)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+        self.total_start = total_start
+        self.total_end = total_end
+        self.workers = workers
+        self.pipeline_rate_per_minute = pipeline_rate_per_minute
+
+    def run(self) -> dict[str, Any]:
+        options = {
+            "total_start": self.total_start,
+            "total_end": self.total_end,
+            "workers": self.workers,
+            "pipeline_rate_per_minute": self.pipeline_rate_per_minute,
+        }
+        if self.compare_js_report_path:
+            return ScraperMonitorPayloadContractComparator(
+                self.data_dir,
+                self.compare_js_report_path,
+                **options,
+            ).compare()
+        return ScraperMonitorRunner(self.data_dir, **options).run()
+
+
 class ScraperMonitorPipelinePayloadPlanner:
     """Plan UID pipeline progress filenames for scraper monitor reads."""
 
