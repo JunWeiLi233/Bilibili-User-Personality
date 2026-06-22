@@ -231,3 +231,48 @@ class NearTargetResolvePlanContractComparator:
         with self.js_plan_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
+
+
+class NearTargetResolvePlanRequest:
+    """Analysis-layer request for near-target resolve plan JSON contract commands."""
+
+    def __init__(
+        self,
+        dictionary_path: str | Path,
+        state_path: str | Path,
+        *,
+        compare_js_plan_path: str | Path | None = None,
+        target_evidence: int = 3,
+        max_need: int = 1,
+        batch: int = 12,
+        videos_per_term: int = 3,
+        pages: int = 3,
+        override_terms: list[str] | None = None,
+    ):
+        self.dictionary_path = Path(dictionary_path)
+        self.state_path = Path(state_path)
+        self.compare_js_plan_path = Path(compare_js_plan_path) if compare_js_plan_path else None
+        self.target_evidence = target_evidence
+        self.max_need = max_need
+        self.batch = batch
+        self.videos_per_term = videos_per_term
+        self.pages = pages
+        self.override_terms = override_terms or []
+
+    def run(self) -> dict[str, Any]:
+        options = {
+            "target_evidence": self.target_evidence,
+            "max_need": self.max_need,
+            "batch": self.batch,
+            "videos_per_term": self.videos_per_term,
+            "pages": self.pages,
+            "override_terms": self.override_terms,
+        }
+        if self.compare_js_plan_path:
+            return NearTargetResolvePlanContractComparator(
+                self.dictionary_path,
+                self.state_path,
+                self.compare_js_plan_path,
+                **options,
+            ).compare()
+        return NearTargetResolvePlanRunner(self.dictionary_path, self.state_path, **options).run()

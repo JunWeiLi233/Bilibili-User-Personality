@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.analysis.near_target import NearTargetOverrideTermsParser, NearTargetResolvePlanContractComparator, NearTargetResolvePlanRunner
+from python_backend.analysis.near_target import NearTargetOverrideTermsParser, NearTargetResolvePlanContractComparator, NearTargetResolvePlanRequest, NearTargetResolvePlanRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -30,21 +30,10 @@ class NearTargetResolvePlanCliRunner:
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
         override_terms = NearTargetOverrideTermsParser().parse(args.override_terms)
-        if args.compare_js_plan:
-            return NearTargetResolvePlanContractComparator(
-                args.dictionary,
-                args.state,
-                args.compare_js_plan,
-                target_evidence=args.target_evidence,
-                max_need=args.max_need,
-                batch=args.batch,
-                videos_per_term=args.videos_per_term,
-                pages=args.pages,
-                override_terms=override_terms,
-            ).compare()
-        return NearTargetResolvePlanRunner(
+        return NearTargetResolvePlanRequest(
             args.dictionary,
             args.state,
+            compare_js_plan_path=args.compare_js_plan or None,
             target_evidence=args.target_evidence,
             max_need=args.max_need,
             batch=args.batch,
