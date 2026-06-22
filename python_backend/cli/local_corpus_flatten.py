@@ -11,7 +11,7 @@ class LocalCorpusFlattenCliRunner(LocalCorpusFlattenCommandRequest):
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    return LocalCorpusFlattenCommandRequest(argv).parse_args()
+    return LocalCorpusFlattenCommandRequest.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -306,15 +306,16 @@ class LocalCorpusFlattenCommandRequest:
         parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible local corpus flatten report to compare.")
         return parser
 
-    def parse_args(self) -> argparse.Namespace:
-        parser = self.parser()
-        args = parser.parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+    @staticmethod
+    def parse_args(argv: list[Any] | None = None) -> argparse.Namespace:
+        parser = LocalCorpusFlattenCommandRequest.parser()
+        args = parser.parse_args([str(item) for item in argv] if argv is not None else None)
         if not (args.payload or args.input):
             parser.error("--input or --payload is required")
         return args
 
     def run(self) -> dict[str, Any]:
-        args = self.parse_args()
+        args = self.parse_args(self.argv)
         return LocalCorpusFlattenRequest(
             input_path=args.payload or args.input,
             compare_js_report_path=args.compare_js_report or None,

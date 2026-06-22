@@ -6122,6 +6122,12 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(args.payload, "local.json")
         self.assertEqual(args.compare_js_report, "js-flatten.json")
 
+    def test_local_corpus_flatten_command_request_owns_parse_validation(self):
+        args = LocalCorpusFlattenCommandRequest.parse_args(["--input", "local.json"])
+
+        self.assertEqual(args.input, "local.json")
+        self.assertEqual(args.payload, "")
+
     def test_local_corpus_flatten_summary_extracts_comparator_contract(self):
         summary = LocalCorpusFlattenSummary().summarize(
             {
