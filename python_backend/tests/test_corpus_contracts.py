@@ -166,12 +166,12 @@ from python_backend.scrapers import video_link_direct
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanContractComparator as VideoLinkDirectPlanPayloadComparator, VideoLinkDirectPlanner, VideoLinkDirectPlanRequest, VideoLinkDirectPlanRunner as VideoLinkDirectPayloadPlanRunner
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerContractComparator as BilibiliCrawlerPayloadComparator, BilibiliCrawlerPayloadContractComparator, BilibiliCrawlerRequest, BilibiliCrawlerRunner as BilibiliCrawlerPayloadRunner, BilibiliCrawlerHelper, BilibiliCrawlerSummary
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanContractComparator as BilibiliProbePlanPayloadComparator, BilibiliProbePlanPayloadContractComparator, BilibiliProbePlanRequest, BilibiliProbePlanRunner as BilibiliProbePayloadPlanRunner, BilibiliProbePlanSummary, BilibiliProbePlanner
-from python_backend.runtime.file_lock import FileLockStateContractComparator as FileLockStatePayloadComparator, FileLockStateInspector, FileLockStateRunner as FileLockStatePayloadRunner, FileLockStateSummary
+from python_backend.runtime.file_lock import FileLockStateContractComparator as FileLockStatePayloadComparator, FileLockStateInspector, FileLockStateRequest, FileLockStateRunner as FileLockStatePayloadRunner, FileLockStateSummary
 from python_backend.scrapers.rate_limiter import RateLimitPolicy, RateLimiter
 from python_backend.cli.aicu_scrape_plan import AicuScrapePlanContractComparator, AicuScrapePlanRunner
 from python_backend.cli.aicu_batch_plan import AicuBatchPlanContractComparator, AicuBatchPlanRunner
 from python_backend.cli.aicu_browser_batch_plan import AicuBrowserBatchPlanContractComparator, AicuBrowserBatchPlanRunner
-from python_backend.cli.file_lock_state import FileLockStateCliRunner, FileLockStateContractComparator, FileLockStateRunner
+from python_backend.cli.file_lock_state import FileLockStateCliRunner
 from python_backend.cli.batch_scrape_progress import BatchScrapeProgressContractComparator, BatchScrapeProgressRunner
 from python_backend.cli.batch_uid_progress import BatchUidProgressContractComparator, BatchUidProgressRunner
 from python_backend.cli.uid_discovery_progress import UidDiscoveryProgressContractComparator, UidDiscoveryProgressRunner
@@ -1655,8 +1655,8 @@ class CorpusContractTests(unittest.TestCase):
             (lock_path / "owner.json").write_text(json.dumps({"pid": 0, "startedAt": "bad date", "command": "node"}), encoding="utf-8")
             js_report_path.write_text(json.dumps({"state": {"exists": False}}), encoding="utf-8")
 
-            result = FileLockStateRunner(lock_path, stale_ms=60000, now_ms=lambda: 1781836920000, process_alive=lambda pid: False).run()
-            comparison = FileLockStateContractComparator(lock_path, js_report_path, stale_ms=60000, now_ms=lambda: 1781836920000, process_alive=lambda pid: False).compare()
+            result = FileLockStatePayloadRunner(lock_path, stale_ms=60000, now_ms=lambda: 1781836920000, process_alive=lambda pid: False).run()
+            comparison = FileLockStatePayloadComparator(lock_path, js_report_path, stale_ms=60000, now_ms=lambda: 1781836920000, process_alive=lambda pid: False).compare()
 
         self.assertTrue(result["ok"])
         self.assertEqual(result["state"], {"exists": True, "hasOwner": True, "staleByAge": False, "staleByPid": False, "stale": False, "shouldRemove": False})
@@ -1732,6 +1732,38 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["owner"]["pid"], 12345)
         self.assertEqual(result["state"]["staleByPid"], True)
         self.assertEqual(result["state"]["shouldRemove"], True)
+
+    def test_file_lock_state_request_owns_cli_dispatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            lock_path = root / "harvest.lock"
+            lock_path.mkdir()
+            js_report_path = root / "js-lock-report.json"
+            (lock_path / "owner.json").write_text(
+                json.dumps({"pid": 12345, "startedAt": "2026-06-19T00:00:00.000Z", "command": "node"}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"state": {"exists": False}}), encoding="utf-8")
+
+            result = FileLockStateRequest(
+                lock_path,
+                stale_ms=60000,
+                now_ms=lambda: 1781836920000,
+                process_alive=lambda pid: False,
+            ).run()
+            comparison = FileLockStateRequest(
+                lock_path,
+                compare_js_report_path=js_report_path,
+                stale_ms=60000,
+                now_ms=lambda: 1781836920000,
+                process_alive=lambda pid: False,
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["owner"]["pid"], 12345)
+        self.assertEqual(result["state"]["staleByPid"], True)
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(comparison["mismatches"][0]["key"], "state")
 
     def test_file_lock_state_runner_defaults_invalid_stale_ms_like_js(self):
         with tempfile.TemporaryDirectory() as tmp:

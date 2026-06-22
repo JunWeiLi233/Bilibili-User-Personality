@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.runtime.file_lock import FileLockStateContractComparator, FileLockStateRunner
+from python_backend.runtime.file_lock import FileLockStateRequest
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -23,9 +23,11 @@ class FileLockStateCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.compare_js_report:
-            return FileLockStateContractComparator(args.lock, args.compare_js_report, stale_ms=args.stale_ms).compare()
-        return FileLockStateRunner(args.lock, stale_ms=args.stale_ms).run()
+        return FileLockStateRequest(
+            args.lock,
+            compare_js_report_path=args.compare_js_report or None,
+            stale_ms=args.stale_ms,
+        ).run()
 
 
 def main(argv: list[str] | None = None) -> int:

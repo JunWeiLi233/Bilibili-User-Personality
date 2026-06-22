@@ -190,3 +190,36 @@ class FileLockStateContractComparator:
         with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
+
+
+class FileLockStateRequest:
+    """Runtime-layer request for file-lock state JSON contract commands."""
+
+    def __init__(
+        self,
+        lock_path: str | Path,
+        *,
+        compare_js_report_path: str | Path | None = None,
+        stale_ms: int = 60000,
+        now_ms: Callable[[], int] | None = None,
+        process_alive: Callable[[int], bool] | None = None,
+    ):
+        self.lock_path = Path(lock_path)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+        self.stale_ms = _stale_ms_or_default(stale_ms)
+        self.now_ms = now_ms
+        self.process_alive = process_alive
+
+    def run(self) -> dict[str, Any]:
+        options = {
+            "stale_ms": self.stale_ms,
+            "now_ms": self.now_ms,
+            "process_alive": self.process_alive,
+        }
+        if self.compare_js_report_path:
+            return FileLockStateContractComparator(
+                self.lock_path,
+                self.compare_js_report_path,
+                **options,
+            ).compare()
+        return FileLockStateRunner(self.lock_path, **options).run()
