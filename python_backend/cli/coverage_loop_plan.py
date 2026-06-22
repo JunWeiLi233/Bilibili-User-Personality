@@ -5,16 +5,13 @@ import json
 import sys
 
 from python_backend.analysis.coverage_loop import (
+    CoverageHarvestLoopPlanCommandRequest,
     CoverageHarvestLoopPlanPayloadContractComparator as CoverageHarvestLoopPlanContractComparator,
-    CoverageHarvestLoopPlanRequest,
     CoverageHarvestLoopPlanRunner,
 )
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Build a coverage harvest loop plan from a JSON payload.")
-    parser.add_argument("--payload", required=True, help="Path to coverage-loop payload JSON.")
-    parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible coverage-loop report to compare.")
-    return parser
+    return CoverageHarvestLoopPlanCommandRequest.parser()
 
 
 class CoverageHarvestLoopPlanCliRunner:
@@ -22,12 +19,7 @@ class CoverageHarvestLoopPlanCliRunner:
         self.argv = argv
 
     def run(self) -> dict:
-        argv = [str(item) for item in self.argv] if self.argv is not None else None
-        args = build_parser().parse_args(argv)
-        return CoverageHarvestLoopPlanRequest(
-            payload_path=args.payload,
-            compare_js_report_path=args.compare_js_report or None,
-        ).run()
+        return CoverageHarvestLoopPlanCommandRequest(self.argv).run()
 
 
 def main(argv: list[str] | None = None) -> int:
