@@ -5,28 +5,18 @@ import json
 import sys
 
 from python_backend.scrapers.batch_uid_range import (
+    RangeScraperLauncherCommandRequest,
     RangeScraperLauncherPayloadContractComparator as RangeScraperLauncherContractComparator,
     RangeScraperLauncherPlanRunner,
-    RangeScraperLauncherRequest,
 )
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Build a dry-run UID range scraper launcher plan.")
-    parser.add_argument("--data-dir", default="server/data")
-    parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible range launcher report to compare.")
-    return parser
+    return RangeScraperLauncherCommandRequest.parser()
 
 
-class RangeScraperLauncherCliRunner:
+class RangeScraperLauncherCliRunner(RangeScraperLauncherCommandRequest):
     """CLI-compatible UID range scraper launcher runner for JS/Python JSON contracts."""
-
-    def __init__(self, argv: list[str] | None = None):
-        self.argv = argv
-
-    def run(self) -> dict:
-        args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        return RangeScraperLauncherRequest(args.data_dir, compare_js_report_path=args.compare_js_report).run()
 
 
 def main(argv: list[str] | None = None) -> int:
