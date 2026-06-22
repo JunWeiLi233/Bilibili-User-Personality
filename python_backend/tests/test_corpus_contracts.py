@@ -94,7 +94,7 @@ from python_backend.cli.coverage_audit_artifacts import CoverageAuditArtifactsCo
 from python_backend.cli.coverage_loop_plan import CoverageHarvestLoopPlanContractComparator, CoverageHarvestLoopPlanRunner
 from python_backend.cli.coverage_progress import CoverageProgressContractComparator, CoverageProgressRunner
 from python_backend.cli.discovery_report import VideoKeywordDiscoveryReportContractComparator, VideoKeywordDiscoveryReportRunner
-from python_backend.corpus.dictionary_prune import DictionaryPruneSummaryPayloadContractComparator, DictionaryPruneSummaryRunner as DictionaryPrunePayloadRunner, ExhaustedTermsPrunePlanPayloadContractComparator, ExhaustedTermsPrunePlanRunner as ExhaustedTermsPrunePayloadPlanRunner
+from python_backend.corpus.dictionary_prune import DictionaryPruneSummaryPayloadContractComparator, DictionaryPruneSummaryRequest, DictionaryPruneSummaryRunner as DictionaryPrunePayloadRunner, ExhaustedTermsPrunePlanPayloadContractComparator, ExhaustedTermsPrunePlanRunner as ExhaustedTermsPrunePayloadPlanRunner
 from python_backend.cli.dictionary_prune_summary import DictionaryPruneSummaryContractComparator, DictionaryPruneSummaryRunner
 from python_backend.cli.harvest_options import HarvestOptionsContractComparator, HarvestOptionsRunner
 from python_backend.cli.harvest_plan import KeywordHarvestPlanContractComparator, KeywordHarvestPlanRunner
@@ -13395,6 +13395,32 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(exhausted_result["candidates"], [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "attempts": 12, "evidence": 0}])
         self.assertFalse(exhausted_comparison["ok"])
         self.assertEqual([item["key"] for item in exhausted_comparison["mismatches"]], ["count", "candidates"])
+
+    def test_dictionary_prune_summary_request_owns_cli_dispatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            js_report_path = root / "js-prune.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {"term": "doge", "family": "attack", "meaning": "ascii emoji name noise"},
+                            {"term": "\u9634\u9633\u602a\u6c14", "family": "attack", "meaning": "satirical tone"},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(json.dumps({"entries": {"before": 1}, "asciiTerms": {"before": 0}}), encoding="utf-8")
+
+            result = DictionaryPruneSummaryRequest(dictionary_path).run()
+            comparison = DictionaryPruneSummaryRequest(dictionary_path, compare_js_report_path=js_report_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["entries"], {"before": 2, "after": 1, "removed": 1})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual([item["key"] for item in comparison["mismatches"]], ["entries", "asciiTerms"])
 
     def test_dictionary_prune_comparator_uses_backend_summary_contract_keys(self):
         self.assertTrue(hasattr(dictionary_prune, "DictionaryPruneSummary"))

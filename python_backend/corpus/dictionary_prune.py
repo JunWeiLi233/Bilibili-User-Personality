@@ -102,6 +102,19 @@ class DictionaryPruneSummaryPayloadContractComparator:
         return payload if isinstance(payload, dict) else {}
 
 
+class DictionaryPruneSummaryRequest:
+    """Corpus-layer request for dictionary prune summary JSON contract commands."""
+
+    def __init__(self, dictionary_path: str | Path, compare_js_report_path: str | Path | None = None):
+        self.dictionary_path = Path(dictionary_path)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_report_path:
+            return DictionaryPruneSummaryPayloadContractComparator(self.dictionary_path, self.compare_js_report_path).compare()
+        return DictionaryPruneSummaryRunner(self.dictionary_path).run()
+
+
 class ExhaustedTermsPrunePlanSummary:
     """Shape exhausted-term prune plans into the JS/Python comparator contract."""
 
