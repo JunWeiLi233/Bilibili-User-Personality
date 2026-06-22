@@ -6,6 +6,7 @@ import sys
 
 from python_backend.analysis.readme_stats import (
     ReadmeStatsPayloadContractComparator as ReadmeStatsContractComparator,
+    ReadmeStatsRequest,
     ReadmeStatsRunner,
 )
 
@@ -24,9 +25,7 @@ class ReadmeStatsCliRunner:
 
     def run(self) -> dict:
         args = build_parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        if args.compare_js_report:
-            return ReadmeStatsContractComparator(args.payload, args.compare_js_report).compare()
-        return ReadmeStatsRunner(args.payload).run()
+        return ReadmeStatsRequest(args.payload, compare_js_report_path=args.compare_js_report or None).run()
 
 
 def main(argv: list[str] | None = None) -> int:

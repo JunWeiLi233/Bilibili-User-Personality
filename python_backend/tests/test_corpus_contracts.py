@@ -78,7 +78,7 @@ from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, Keyw
 from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateContractComparator as HarvestStatePayloadComparator, HarvestStatePayloadContractComparator, HarvestStateFinalizer, HarvestStatePayloadProcessor, HarvestStateRequest, HarvestStateRunner as HarvestStatePayloadRunner, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetOverrideTermsParser, NearTargetResolvePlanContractComparator as NearTargetResolvePlanPayloadComparator, NearTargetResolvePlanner, NearTargetResolvePlanRunner as NearTargetResolvePayloadPlanRunner
-from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsPayloadContractComparator, ReadmeStatsRunner as ReadmeStatsPayloadRunner, ReadmeStatsSummary, ReadmeStatsSvgRenderer
+from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsPayloadContractComparator, ReadmeStatsRequest, ReadmeStatsRunner as ReadmeStatsPayloadRunner, ReadmeStatsSummary, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRequest, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationPayloadContractComparator, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerifier, json_result_bytes as random_verification_payload_json_result_bytes
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisPlanContractComparator as DeepSeekAnalysisPayloadPlanContractComparator, DeepSeekAnalysisPlanRequest, DeepSeekAnalysisPlanRunner as DeepSeekAnalysisPayloadPlanRunner, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidateContractComparator as DeepSeekAnalysisPayloadValidateContractComparator, DeepSeekAnalysisValidateRequest, DeepSeekAnalysisValidateRunner as DeepSeekAnalysisPayloadValidateRunner, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator
@@ -3423,6 +3423,44 @@ class CorpusContractTests(unittest.TestCase):
                 }
             ],
         )
+
+    def test_readme_stats_request_owns_cli_dispatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "readme-stats.json"
+            js_report_path = root / "js-readme-stats.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "generatedAt": "2026-06-19T00:00:00.000Z",
+                        "sources": [
+                            {
+                                "name": "direct",
+                                "runs": [{"at": "2026-06-17T10:00:00.000Z", "commentsAdded": 2}],
+                                "comments": [
+                                    {"message": "\u8bc4\u8bba", "source": "comment"},
+                                    {"message": "\u5f39\u5e55", "source": "danmaku"},
+                                ],
+                            }
+                        ],
+                        "dictionary": {"entries": [{"term": "doge"}]},
+                        "coverage": {"coverageRatio": 0.5},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"ok": True, "summary": {"comments": 2, "danmaku": 1, "keywordTerms": 1, "timelinePoints": 1}}),
+                encoding="utf-8",
+            )
+
+            result = ReadmeStatsRequest(payload_path).run()
+            comparison = ReadmeStatsRequest(payload_path, compare_js_report_path=js_report_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["summary"], {"comments": 1, "danmaku": 1, "keywordTerms": 1, "timelinePoints": 1})
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(comparison["mismatches"][0]["key"], "summary")
 
     def test_readme_stats_cli_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
