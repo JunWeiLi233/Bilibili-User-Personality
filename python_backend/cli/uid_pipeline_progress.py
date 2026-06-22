@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from python_backend.scrapers.uid_pipeline import UidPipelineProgressPayloadContractComparator as UidPipelineProgressContractComparator, UidPipelineProgressRunner
+from python_backend.scrapers.uid_pipeline import UidPipelineProgressPayloadContractComparator as UidPipelineProgressContractComparator, UidPipelineProgressRequest, UidPipelineProgressRunner
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -28,9 +28,7 @@ class UidPipelineProgressCliRunner:
         runner_options = {"start": args.start, "end": args.end}
         if args.user_db:
             runner_options["user_db_path"] = args.user_db
-        if args.compare_js_report:
-            return UidPipelineProgressContractComparator(args.progress, args.compare_js_report, **runner_options).compare()
-        return UidPipelineProgressRunner(args.progress, **runner_options).run()
+        return UidPipelineProgressRequest(args.progress, compare_js_report_path=args.compare_js_report, **runner_options).run()
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -796,3 +796,21 @@ class UidPipelineProgressPayloadContractComparator:
         with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
         return payload if isinstance(payload, dict) else {}
+
+
+class UidPipelineProgressRequest:
+    """Scraper-layer request for UID pipeline progress JSON contract commands."""
+
+    def __init__(self, progress_path: str | Path, compare_js_report_path: str | Path | None = None, **runner_options: Any):
+        self.progress_path = Path(progress_path)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+        self.runner_options = runner_options
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_report_path:
+            return UidPipelineProgressPayloadContractComparator(
+                self.progress_path,
+                self.compare_js_report_path,
+                **self.runner_options,
+            ).compare()
+        return UidPipelineProgressRunner(self.progress_path, **self.runner_options).run()
