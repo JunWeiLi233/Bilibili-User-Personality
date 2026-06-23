@@ -112,14 +112,16 @@ async function runJsDirectProbeCommand({ payload }) {
     ? payload.explicitAids.map((aid) => String(aid || '').trim()).filter(Boolean)
     : [];
   const includeDanmaku = payload.options?.includeDanmaku === true;
+  const write = payload.options?.write === true;
   const argv = explicitAids.length
     ? [
       ...explicitAids.map((aid) => `--aid=${aid}`),
       ...(includeDanmaku ? ['--include-danmaku'] : []),
+      ...(write ? ['--write'] : []),
       '--delay-ms=1000',
       '--jitter-ms=0',
     ]
-    : [`--query=${query}`, `--term=${term}`, ...(includeDanmaku ? ['--include-danmaku'] : []), '--delay-ms=1000', '--jitter-ms=0'];
+    : [`--query=${query}`, `--term=${term}`, ...(includeDanmaku ? ['--include-danmaku'] : []), ...(write ? ['--write'] : []), '--delay-ms=1000', '--jitter-ms=0'];
   const searchVideos = payload.searchVideos || {};
   const videoComments = payload.videoComments || {};
   const videoDanmaku = payload.videoDanmaku || {};

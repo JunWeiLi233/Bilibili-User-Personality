@@ -1354,6 +1354,7 @@ class CorpusContractTests(unittest.TestCase):
                 {"gate": "command_js_python_fixture", "status": "covered", "source": "python:direct-probe-command-compare"},
                 {"gate": "command_explicit_aid_fixture", "status": "covered", "source": "compareDirectProbeCommand.test.js"},
                 {"gate": "command_explicit_aid_danmaku_fixture", "status": "covered", "source": "compareDirectProbeCommand.test.js"},
+                {"gate": "command_write_mode_fixture", "status": "covered", "source": "compareDirectProbeCommand.test.js"},
                 {"gate": "js_opt_in_python_command_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
                 {"gate": "js_opt_in_python_live_fetch_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
             ],

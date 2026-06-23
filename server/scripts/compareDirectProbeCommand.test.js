@@ -158,3 +158,79 @@ test('compareDirectProbeCommand compares explicit AID danmaku command input', as
   assert.deepEqual(result.python.comments.map((comment) => comment.message), [explicitMessage, danmakuMessage]);
   assert.deepEqual(result.js.comments.map((comment) => comment.message), [explicitMessage, danmakuMessage]);
 });
+
+test('compareDirectProbeCommand compares write-mode corpus output', async () => {
+  const existingMessage = '\u65e7\u8bc4\u8bba';
+  const explicitMessage = `${TERM}\u5199\u5165\u8bc4\u8bba`;
+  const danmakuMessage = `${TERM}\u5199\u5165\u5f39\u5e55`;
+  const result = await compareDirectProbeCommand({
+    payload: {
+      audit: { nextActions: [] },
+      existingCorpus: {
+        version: 1,
+        comments: [{ message: existingMessage, source: 'old corpus fixture' }],
+        runs: [],
+      },
+      dictionary: {
+        entries: [
+          {
+            term: TERM,
+            family: 'evidence',
+            meaning: 'write-mode fixture',
+            evidenceCount: 0,
+            evidenceSamples: [],
+            evidenceSources: [],
+          },
+        ],
+      },
+      options: {
+        maxActions: 1,
+        videosPerQuery: 1,
+        sourceVideosPerAction: 0,
+        replyPages: 1,
+        replyPageSize: 3,
+        includeDanmaku: true,
+        write: true,
+        cookie: 'fixture-cookie',
+        now: '2026-06-23T00:00:00.000Z',
+      },
+      explicitAids: ['1002'],
+      searchVideos: {},
+      videoComments: {
+        'aid:1002': [
+          {
+            message: explicitMessage,
+            source: 'Bilibili public direct comment probe: https://www.bilibili.com/video/av1002/',
+            uid: '12',
+          },
+        ],
+      },
+      videoDanmaku: {
+        'aid:1002': [
+          {
+            message: danmakuMessage,
+            source: 'Bilibili public danmaku probe: https://www.bilibili.com/video/av1002/',
+            uid: '13',
+          },
+        ],
+      },
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.equal(result.python.write, true);
+  assert.equal(result.js.write, true);
+  assert.deepEqual(result.python.corpus.comments.map((comment) => comment.message), [
+    existingMessage,
+    explicitMessage,
+    danmakuMessage,
+  ]);
+  assert.deepEqual(result.js.corpus.comments.map((comment) => comment.message), [
+    existingMessage,
+    explicitMessage,
+    danmakuMessage,
+  ]);
+  assert.equal(result.python.corpus.runs.length, 1);
+  assert.equal(result.js.corpus.runs.length, 1);
+});
