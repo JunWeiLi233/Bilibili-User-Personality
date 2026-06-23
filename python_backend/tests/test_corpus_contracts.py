@@ -26926,6 +26926,25 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["range"], {"start": 7, "end": 8, "total": 2, "progressFile": "uid-range-progress-7-8.json"})
         self.assertEqual(result["resume"]["processed"], 1)
 
+    def test_uid_range_scrape_planner_preserves_js_parse_int_prefix_stats(self):
+        result = UidRangeScrapePlanner().build_plan(
+            argv=["--start=not-a-number", "--end=0"],
+            progress={
+                "processed": {"1": "success"},
+                "stats": {
+                    "success": "12 ok",
+                    "noComments": "2.9x",
+                    "noVideos": "not-a-number",
+                    "errors": "4 errors",
+                    "blocked": "5x",
+                },
+            },
+            database={"users": {}},
+        )
+
+        self.assertEqual(result["range"], {"start": 1, "end": 100000, "total": 100000, "progressFile": "uid-range-progress-1-100000.json"})
+        self.assertEqual(result["stats"], {"success": 12, "noComments": 2, "noVideos": 0, "errors": 4, "blocked": 5})
+
     def test_uid_range_scrape_inventory_validation_gates_cover_js_python_bridge(self):
         self.assertEqual(
             BackendMigrationInventoryScanner._validation_gates(

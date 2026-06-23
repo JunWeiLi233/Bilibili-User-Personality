@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 from pathlib import Path
 from typing import Any
 
@@ -25,9 +26,13 @@ def _js_number_or(value: Any, fallback: int) -> int:
 
 
 def _progress_number_or(value: Any, fallback: int) -> int:
+    text = str(value if value is not None else "").strip()
+    match = re.match(r"^[+-]?\d+", text)
+    if not match:
+        return fallback
     try:
-        return int(float(str(value)))
-    except (TypeError, ValueError):
+        return int(match.group(0))
+    except ValueError:
         return fallback
 
 

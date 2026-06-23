@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { test } from 'node:test';
 
-import { compareUidRangeScrapePlan, compareUidRangeScrapePlanObjects } from './compareUidRangeScrapePlan.js';
+import { compareUidRangeScrapePlan, compareUidRangeScrapePlanObjects, compareUidRangeScrapePlanSuite } from './compareUidRangeScrapePlan.js';
 
 const PLAN = {
   range: { start: 10, end: 12, total: 3, progressFile: 'custom-progress.json' },
@@ -41,6 +41,17 @@ test('compareUidRangeScrapePlan compares JS and Python dry-run plans', async () 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('compareUidRangeScrapePlanSuite covers custom progress, default range, and malformed stats fixtures', async () => {
+  const result = await compareUidRangeScrapePlanSuite();
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.fixtures.map((fixture) => fixture.name), ['custom-progress-resume', 'default-range-empty', 'malformed-progress-stats']);
+  assert.deepEqual(result.fixtures.flatMap((fixture) => fixture.mismatches), []);
+  assert.equal(result.fixtures.find((fixture) => fixture.name === 'default-range-empty').python.range.progressFile, 'uid-range-progress-1-100000.json');
+  assert.equal(result.fixtures.find((fixture) => fixture.name === 'malformed-progress-stats').python.stats.success, 12);
+  assert.equal(result.fixtures.find((fixture) => fixture.name === 'malformed-progress-stats').python.stats.blocked, 5);
 });
 
 test('uidRangeScrape can delegate dry-run planning to Python', () => {

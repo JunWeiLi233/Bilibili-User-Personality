@@ -73,7 +73,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:aicu-compare": "dry_run_plan_inline_missing_file_page_override_fixtures_and_js_python_bridge",
     "python:aicu-batch-compare": "dry_run_plan_resume_empty_range_malformed_payload_fixtures_and_js_python_bridge",
     "python:uid-discovery-compare": "dry_run_plan_analysis_resume_discovery_start_malformed_numeric_fixtures_and_js_python_bridge",
-    "python:uid-range-scrape-compare": "dry_run_plan_fixture_and_js_python_plan_bridge",
+    "python:uid-range-scrape-compare": "dry_run_plan_custom_progress_default_range_malformed_stats_fixtures_and_js_python_bridge",
     "python:huggingface-compare": "full_command",
     "python:local-mine-compare": "full_command",
 }

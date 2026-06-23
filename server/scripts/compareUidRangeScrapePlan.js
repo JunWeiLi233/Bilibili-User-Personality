@@ -20,6 +20,44 @@ export const DEFAULT_PAYLOAD = {
   database: { users: { 10: { uid: '10' } } },
 };
 
+export const UID_RANGE_SCRAPE_PLAN_FIXTURES = {
+  'custom-progress-resume': DEFAULT_PAYLOAD,
+  'default-range-empty': {
+    argv: [],
+    progress: {
+      processed: {},
+      stats: {},
+    },
+    database: {
+      users: {},
+    },
+  },
+  'malformed-progress-stats': {
+    argv: ['--start=not-a-number', '--end=0'],
+    progress: {
+      processed: { 1: 'success' },
+      stats: {
+        success: '12 ok',
+        noComments: '2.9x',
+        noVideos: 'not-a-number',
+        errors: '4 errors',
+        blocked: '5x',
+      },
+    },
+    database: {
+      users: {},
+    },
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = ['custom-progress-resume', 'default-range-empty', 'malformed-progress-stats'];
+
+function resolvePayload({ fixture = 'custom-progress-resume', payload } = {}) {
+  if (payload) return { name: fixture || 'custom', payload };
+  const name = String(fixture || 'custom-progress-resume');
+  return { name, payload: UID_RANGE_SCRAPE_PLAN_FIXTURES[name] || DEFAULT_PAYLOAD };
+}
+
 function summarize(result = {}) {
   return Object.fromEntries(RESULT_KEYS.filter((key) => key in result).map((key) => [key, result[key]]));
 }
@@ -51,17 +89,23 @@ async function runPythonPlan({ payloadPath }) {
   return JSON.parse(stdout);
 }
 
-export async function compareUidRangeScrapePlan({ payload = DEFAULT_PAYLOAD, runJs = runJsPlan, runPython = runPythonPlan } = {}) {
+export async function compareUidRangeScrapePlan({
+  fixture = 'custom-progress-resume',
+  payload,
+  runJs = runJsPlan,
+  runPython = runPythonPlan,
+} = {}) {
+  const resolved = resolvePayload({ fixture, payload });
   const tempDir = await mkdtemp(join(tmpdir(), 'uid-range-scrape-plan-compare-'));
   try {
     const payloadPath = join(tempDir, 'payload.json');
-    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
-    const js = await runJs({ payload, payloadPath });
-    const python = await runPython({ payload, payloadPath });
+    await writeFile(payloadPath, JSON.stringify(resolved.payload, null, 2), 'utf8');
+    const js = await runJs({ payload: resolved.payload, payloadPath });
+    const python = await runPython({ payload: resolved.payload, payloadPath });
     const comparison = compareUidRangeScrapePlanObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { payloadPath },
+      fixture: { name: resolved.name, payloadPath },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -71,8 +115,25 @@ export async function compareUidRangeScrapePlan({ payload = DEFAULT_PAYLOAD, run
   }
 }
 
+export async function compareUidRangeScrapePlanSuite({ fixtures = DEFAULT_FIXTURE_NAMES } = {}) {
+  const results = [];
+  for (const fixture of fixtures) {
+    results.push(await compareUidRangeScrapePlan({ fixture }));
+  }
+  return {
+    ok: results.every((result) => result.ok),
+    fixtures: results.map((result) => ({
+      name: result.fixture.name,
+      ok: result.ok,
+      js: result.js,
+      python: result.python,
+      mismatches: result.mismatches,
+    })),
+  };
+}
+
 async function main() {
-  const result = await compareUidRangeScrapePlan();
+  const result = await compareUidRangeScrapePlanSuite();
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }
