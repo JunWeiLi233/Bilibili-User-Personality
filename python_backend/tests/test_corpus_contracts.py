@@ -18351,6 +18351,23 @@ class CorpusContractTests(unittest.TestCase):
     def test_comment_coverage_cli_runner_is_command_request_wrapper(self):
         self.assertTrue(issubclass(comment_coverage_cli.CommentCoverageCliRunner, CommentCoverageCommandRequest))
 
+    def test_comment_coverage_service_is_legacy_after_python_contract(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertNotIn("server/services/commentCoverage.js", result["migrationCandidateFiles"]["services"])
+        self.assertIn(
+            {"path": "server/services/commentCoverage.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {
+                "script": "python:comment-coverage",
+                "command": "python -m python_backend.cli.comment_coverage",
+                "pipeline": "comment_coverage",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+
     def test_comment_coverage_summary_preserves_comparator_shape(self):
         summary = CommentCoverageSummary().summarize(
             {
