@@ -327,8 +327,9 @@ class DeepSeekAnalyzeRuntime:
 class DeepSeekAnalyzeCommandRequest:
     """Run Python-owned analyzeDeepSeekComments-compatible command modes."""
 
-    def __init__(self, argv: list[Any] | None = None):
+    def __init__(self, argv: list[Any] | None = None, *, stdin_text: str = ""):
         self.argv = [str(item) for item in argv] if argv is not None else None
+        self.stdin_text = str(stdin_text or "")
         self.normalizer = DeepSeekAnalysisNormalizer()
 
     @staticmethod
@@ -399,6 +400,8 @@ class DeepSeekAnalyzeCommandRequest:
                 text = Path(args.file).read_text(encoding="utf-8-sig")
             except OSError:
                 text = ""
+        if not args.file and not text and self.stdin_text:
+            text = self.stdin_text
         if text:
             payload["text"] = text
         if args.uid:

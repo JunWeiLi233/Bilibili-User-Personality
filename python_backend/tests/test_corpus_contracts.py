@@ -6379,6 +6379,46 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_deepseek_analyze_command_request_uses_stdin_text_when_no_explicit_input(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            analysis_path = root / "analysis.json"
+            analysis_path.write_text(
+                json.dumps(
+                    {
+                        "axes": [],
+                        "sentenceAnalyses": [{"quote": "\u5f39\u5e55\u592a\u9634\u9633\u4e86[doge]", "intent": "satire"}],
+                        "confidence": 0.5,
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = DeepSeekAnalyzeCommandRequest(
+                ["--mock-chat-analysis", analysis_path],
+                stdin_text="\u5f39\u5e55\u592a\u9634\u9633\u4e86[doge]",
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["sentenceAnalyses"][0]["quote"], "\u5f39\u5e55\u592a\u9634\u9633\u4e86[doge]")
+
+    def test_deepseek_analyze_cli_reads_stdin_only_without_explicit_input_flags(self):
+        class Pipe(io.StringIO):
+            def isatty(self):
+                return False
+
+        original_stdin = deepseek_analyze_cli.sys.stdin
+        try:
+            deepseek_analyze_cli.sys.stdin = Pipe("\u5f39\u5e55")
+
+            self.assertFalse(deepseek_analyze_cli.should_read_stdin(["--text", "\u5f39\u5e55"]))
+            self.assertFalse(deepseek_analyze_cli.should_read_stdin(["--text=\u5f39\u5e55"]))
+            self.assertFalse(deepseek_analyze_cli.should_read_stdin(["--file", "comments.txt"]))
+            self.assertFalse(deepseek_analyze_cli.should_read_stdin(["--help"]))
+            self.assertTrue(deepseek_analyze_cli.should_read_stdin(["--mock-chat-analysis", "analysis.json"]))
+        finally:
+            deepseek_analyze_cli.sys.stdin = original_stdin
+
     def test_deepseek_analyze_runtime_fails_closed_without_api_key(self):
         result = DeepSeekAnalyzeRuntime(env={}).run({"text": "\u53cd\u8bbd[doge]"})
 

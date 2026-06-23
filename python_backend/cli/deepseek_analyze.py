@@ -15,8 +15,21 @@ class DeepSeekAnalyzeCliRunner(DeepSeekAnalyzeCommandRequest):
     """CLI-compatible Python DeepSeek analyze command runner."""
 
 
+def should_read_stdin(argv: list[str] | None = None) -> bool:
+    args = list(sys.argv[1:] if argv is None else argv)
+    if any(arg in ("--help", "-h") for arg in args):
+        return False
+    for index, arg in enumerate(args):
+        if arg.startswith("--text=") or arg.startswith("--file="):
+            return False
+        if arg in ("--text", "--file") and index + 1 < len(args):
+            return False
+    return not sys.stdin.isatty()
+
+
 def main(argv: list[str] | None = None) -> int:
-    result = DeepSeekAnalyzeCliRunner(argv).run()
+    stdin_text = sys.stdin.read() if should_read_stdin(argv) else ""
+    result = DeepSeekAnalyzeCliRunner(argv, stdin_text=stdin_text).run()
     json.dump(result, sys.stdout, ensure_ascii=False, indent=2)
     sys.stdout.write("\n")
     return 0 if result.get("ok") else 1
