@@ -423,6 +423,23 @@ class CoverageHarvestLoopCycleReportBuilder:
         return value if isinstance(value, list) else []
 
 
+class CoverageHarvestLoopRuntimeGate:
+    """Describe whether the Python coverage-loop command can own the requested runtime."""
+
+    LIVE_HARVEST_BLOCKER = {
+        "blocker": "live_harvest_runtime_not_integrated",
+        "reason": "Python coverage-loop command owns no-live audit and mock cycle contracts, but live harvesting is still delegated to the legacy JS runtime.",
+    }
+
+    def describe(self, *, audit: dict[str, Any] | None = None, max_cycles: int = 0) -> dict[str, Any]:
+        audit = audit if isinstance(audit, dict) else {}
+        if audit.get("ok") is True:
+            return {"runtimeMode": "no_live_audit_gate"}
+        if max_cycles <= 0:
+            return {"runtimeMode": "no_live_cycle_limit"}
+        return {"runtimeMode": "deferred_live_harvest", "replacementBlockers": [dict(self.LIVE_HARVEST_BLOCKER)]}
+
+
 class CoverageHarvestLoopCommandRunner:
     """Run the file-backed coverage harvest-loop command for validated no-live gates."""
 
@@ -448,6 +465,7 @@ class CoverageHarvestLoopCommandRunner:
         self.max_cycles = max(0, min(_non_negative_int(max_cycles, 3), 50))
         self.rounds_per_cycle = max(1, min(_positive_int(rounds_per_cycle, 1), 20))
         self.generated_at = generated_at or self._now()
+        self.runtime_gate = CoverageHarvestLoopRuntimeGate()
         self.audit_builder = CoverageAuditBuilder(
             target_evidence=target_evidence,
             max_actions=max_actions,
@@ -469,6 +487,7 @@ class CoverageHarvestLoopCommandRunner:
             "finalOk": audit.get("ok") is True,
             "finalAudit": audit,
             "cycles": [],
+            **self.runtime_gate.describe(audit=audit, max_cycles=self.max_cycles),
         }
         self._write_report(report)
         return report

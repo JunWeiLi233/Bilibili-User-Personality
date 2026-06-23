@@ -1681,7 +1681,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:coverage-loop-compare",
                     "validationCommand": "node server/scripts/compareCoverageHarvestLoopPlan.js",
-                    "validationScope": "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_mock_write_and_js_python_command_fixture",
+                    "validationScope": "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_mock_write_js_python_command_and_deferred_live_contract",
                 },
                 {
                     "script": "dictionary:tieba",
@@ -1876,7 +1876,7 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["nextOfflineMigrationAction"]["path"], "server/scripts/runCoverageHarvestLoop.js")
         self.assertEqual(result["nextOfflineMigrationAction"]["nodeScript"], "dictionary:auto")
-        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_mock_write_and_js_python_command_fixture")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_mock_write_js_python_command_and_deferred_live_contract")
         self.assertFalse(result["nextOfflineMigrationAction"]["readyToReplace"])
         self.assertIn(
             {"gate": "no_live_command_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
@@ -1900,6 +1900,10 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertIn(
             {"gate": "js_opt_in_python_command_bridge", "status": "covered", "source": "runCoverageHarvestLoopScript.test.js"},
+            result["nextOfflineMigrationAction"]["validationGates"],
+        )
+        self.assertIn(
+            {"gate": "deferred_live_runtime_contract", "status": "covered", "source": "python:coverage-loop-command-compare"},
             result["nextOfflineMigrationAction"]["validationGates"],
         )
         self.assertEqual(result["nextOfflineMigrationAction"]["offlineReason"], "skips_live_api_runtime")
@@ -28145,6 +28149,60 @@ class CorpusContractTests(unittest.TestCase):
             self.assertEqual(json.loads(report_path.read_text(encoding="utf-8")), result)
             self.assertEqual(result["stopReason"], "coverage_gate_passed")
             self.assertEqual(result["cycles"][0]["harvest"]["queries"], ["doge hot"])
+
+    def test_coverage_harvest_loop_command_marks_deferred_live_runtime_contract(self):
+        from python_backend.analysis import coverage_loop as coverage_loop_module
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+            dictionary_path = temp_path / "dictionary.json"
+            report_path = temp_path / "report.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "entries": [
+                            {
+                                "term": "doge",
+                                "family": "meme",
+                                "evidenceCount": 0,
+                                "evidenceSamples": [],
+                                "evidenceSources": [],
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = coverage_loop_module.CoverageHarvestLoopCommandRequest(
+                [
+                    "--dictionary",
+                    dictionary_path,
+                    "--state",
+                    temp_path / "state.json",
+                    "--report",
+                    report_path,
+                    "--max-cycles",
+                    "2",
+                    "--generated-at",
+                    "2026-06-23T00:00:00.000Z",
+                    "--exit-zero",
+                ]
+            ).run()
+
+        self.assertFalse(result["finalOk"])
+        self.assertEqual(result["stopReason"], "live_harvest_not_implemented")
+        self.assertEqual(result["runtimeMode"], "deferred_live_harvest")
+        self.assertEqual(
+            result["replacementBlockers"],
+            [
+                {
+                    "blocker": "live_harvest_runtime_not_integrated",
+                    "reason": "Python coverage-loop command owns no-live audit and mock cycle contracts, but live harvesting is still delegated to the legacy JS runtime.",
+                }
+            ],
+        )
 
     def test_package_coverage_loop_command_compare_script_tracks_no_live_command_gate(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))

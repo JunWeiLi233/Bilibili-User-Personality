@@ -226,6 +226,7 @@ export const MOCK_MULTI_CYCLE_PAYLOAD = {
 const DEFAULT_FIXTURES = [
   { name: 'complete-empty-dictionary', dictionary: DEFAULT_DICTIONARY },
   { name: 'weak-cycle-limit', dictionary: WEAK_DICTIONARY },
+  { name: 'python-deferred-live-contract', dictionary: WEAK_DICTIONARY, pythonOnly: true, maxCycles: 1 },
   { name: 'mock-cycle-report', mockCyclePayload: MOCK_CYCLE_PAYLOAD },
   { name: 'mock-no-progress-cycle', mockCyclePayload: MOCK_NO_PROGRESS_CYCLE_PAYLOAD },
   { name: 'mock-multi-cycle-report', mockCyclePayload: MOCK_MULTI_CYCLE_PAYLOAD },
@@ -272,7 +273,7 @@ async function runJsCoverageLoopCommand({ dictionaryPath, statePath, reportPath 
   return JSON.parse(await readFile(reportPath, 'utf8'));
 }
 
-async function runPythonCoverageLoopCommand({ dictionaryPath, statePath, reportPath }) {
+async function runPythonCoverageLoopCommand({ dictionaryPath, statePath, reportPath, maxCycles = 0 }) {
   const { stdout } = await execFileAsync(
     'python',
     [
@@ -285,7 +286,7 @@ async function runPythonCoverageLoopCommand({ dictionaryPath, statePath, reportP
       '--report',
       reportPath,
       '--max-cycles',
-      '0',
+      String(Number.isFinite(Number(maxCycles)) ? Number(maxCycles) : 0),
       '--generated-at',
       GENERATED_AT,
       '--exit-zero',
@@ -402,6 +403,22 @@ export async function compareCoverageHarvestLoopCommand({
       }
       await writeFile(jsDictionaryPath, JSON.stringify(fixtureDictionary, null, 2), 'utf8');
       await writeFile(pythonDictionaryPath, JSON.stringify(fixtureDictionary, null, 2), 'utf8');
+      if (fixture?.pythonOnly) {
+        const python = await runPython({
+          dictionaryPath: pythonDictionaryPath,
+          statePath: pythonStatePath,
+          reportPath: pythonReportPath,
+          maxCycles: fixture.maxCycles,
+        });
+        results.push({
+          ok: true,
+          fixture: fixtureName,
+          js: {},
+          python,
+          mismatches: [],
+        });
+        continue;
+      }
       const js = await runJs({ dictionaryPath: jsDictionaryPath, statePath: jsStatePath, reportPath: jsReportPath });
       const python = await runPython({ dictionaryPath: pythonDictionaryPath, statePath: pythonStatePath, reportPath: pythonReportPath });
       const comparison = compareCoverageHarvestLoopCommandObjects(python, js);
