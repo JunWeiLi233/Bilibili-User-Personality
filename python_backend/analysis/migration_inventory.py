@@ -405,8 +405,8 @@ class BackendMigrationInventoryScanner:
         if script == "dictionary:probe-bilibili" and validation_scope == "dry_run_plan_and_no_live_command_fixture":
             blockers.append(
                 {
-                    "blocker": "live_bilibili_fetch_not_ported",
-                    "reason": "Validation covers dry-run planning and an injected no-live JS command fixture, but not live Bilibili discovery, reply, or danmaku fetching.",
+                    "blocker": "live_bilibili_command_runtime_not_integrated",
+                    "reason": "Python has a unit-tested live reply/danmaku fetch adapter, but the dictionary:probe-bilibili command still runs the JS live orchestration path.",
                 }
             )
         elif validation_scope != "full_command":
@@ -438,6 +438,7 @@ class BackendMigrationInventoryScanner:
             return [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:direct-probe-compare"},
                 {"gate": "corpus_update_js_runner_fixture", "status": "covered", "source": "python:direct-probe-update-compare"},
+                {"gate": "python_live_fetch_unit", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
             ]
         if validation_scope == "full_command":
             return [{"gate": "full_command", "status": "covered", "source": validation_script}]

@@ -1332,14 +1332,15 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:direct-probe-compare"},
                 {"gate": "corpus_update_js_runner_fixture", "status": "covered", "source": "python:direct-probe-update-compare"},
+                {"gate": "python_live_fetch_unit", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
             ],
         )
         self.assertEqual(
             action["replacementBlockers"],
             [
                 {
-                    "blocker": "live_bilibili_fetch_not_ported",
-                    "reason": "Validation covers dry-run planning and an injected no-live JS command fixture, but not live Bilibili discovery, reply, or danmaku fetching.",
+                    "blocker": "live_bilibili_command_runtime_not_integrated",
+                    "reason": "Python has a unit-tested live reply/danmaku fetch adapter, but the dictionary:probe-bilibili command still runs the JS live orchestration path.",
                 }
             ],
         )
@@ -11167,6 +11168,57 @@ class CorpusContractTests(unittest.TestCase):
                 }
             ],
         )
+
+    def test_direct_probe_live_fetcher_collects_cursor_page_and_danmaku_comments(self):
+        calls = []
+        payloads = {
+            "https://api.bilibili.com/x/web-interface/view?bvid=BVdirect": {
+                "data": {"aid": 12345, "bvid": "BVdirect", "cid": 67890}
+            },
+            "https://api.bilibili.com/x/v2/reply/main?type=1&oid=12345&mode=3&next=0&ps=2": {
+                "data": {
+                    "cursor": {"is_end": False, "next": 2},
+                    "replies": [
+                        {
+                            "mid": 100,
+                            "content": {"message": "\u4e3b\u8bc4\u8bba"},
+                            "replies": [{"member": {"mid": 101}, "content": {"message": "\u5b50\u8bc4\u8bba"}}],
+                        }
+                    ],
+                }
+            },
+            "https://api.bilibili.com/x/v2/reply/main?type=1&oid=12345&mode=3&next=2&ps=2": {
+                "data": {"cursor": {"is_end": True}, "replies": [{"mid": 102, "content": {"message": "\u7b2c\u4e8c\u9875"}}]}
+            },
+            "https://api.bilibili.com/x/v2/reply?type=1&oid=12345&sort=2&pn=1&ps=2": {
+                "data": {"replies": [{"mid": 103, "content": {"message": "\u9875\u7801\u8bc4\u8bba"}}]}
+            },
+            "https://api.bilibili.com/x/v2/reply?type=1&oid=12345&sort=2&pn=2&ps=2": {
+                "data": {"replies": []}
+            },
+        }
+
+        def fetch_json(url, referer, options):
+            calls.append({"kind": "json", "url": url, "referer": referer, "cookie": options.get("cookie")})
+            return payloads[url]
+
+        def fetch_text(url, referer, options):
+            calls.append({"kind": "text", "url": url, "referer": referer, "cookie": options.get("cookie")})
+            return "<i><d>\u5f39\u5e55&amp;\u53cd\u8bbd</d></i>"
+
+        comments = direct_probe_module.DirectProbeLiveFetcher(fetch_json=fetch_json, fetch_text=fetch_text).fetch_video_comments(
+            {"bvid": "BVdirect"},
+            {"replyMode": "both", "replyPages": 2, "replyPageSize": 2, "includeDanmaku": True, "cookie": "SESSDATA=abc"},
+        )
+
+        self.assertEqual([comment["message"] for comment in comments], ["\u4e3b\u8bc4\u8bba", "\u5b50\u8bc4\u8bba", "\u7b2c\u4e8c\u9875", "\u9875\u7801\u8bc4\u8bba", "\u5f39\u5e55&\u53cd\u8bbd"])
+        self.assertEqual({comment["source"] for comment in comments}, {
+            "Bilibili public direct comment probe: https://www.bilibili.com/video/BVdirect/",
+            "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BVdirect/",
+        })
+        self.assertEqual(calls[0]["url"], "https://api.bilibili.com/x/web-interface/view?bvid=BVdirect")
+        self.assertEqual(calls[-1]["url"], "https://api.bilibili.com/x/v1/dm/list.so?oid=67890")
+        self.assertTrue(all(call["cookie"] == "SESSDATA=abc" for call in calls))
 
     def test_direct_probe_builder_extracts_fresh_evidence_entries(self):
         dictionary = {

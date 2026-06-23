@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
 from urllib.parse import urlencode, urlparse
+from urllib.request import Request, urlopen
 
 from python_backend.analysis.comment_coverage import _is_contract_scalar
 from python_backend.corpus.loader import CorpusLoader
@@ -452,6 +453,137 @@ class DirectProbePlanCommandRequest:
     def run(self) -> dict[str, Any]:
         args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
         return DirectProbePlanRequest(args.payload, compare_js_plan_path=args.compare_js_plan or None).run()
+
+
+class DirectProbeLiveFetcher:
+    """Fetch live Bilibili reply and danmaku comments behind an injectable transport seam."""
+
+    def __init__(
+        self,
+        fetch_json: Callable[[str, str, dict[str, Any]], dict[str, Any]] | None = None,
+        fetch_text: Callable[[str, str, dict[str, Any]], str] | None = None,
+        builder: "DirectProbeCorpusBuilder" | None = None,
+    ):
+        self.builder = builder or DirectProbeCorpusBuilder()
+        self.fetch_json = fetch_json or self._fetch_json
+        self.fetch_text = fetch_text or self._fetch_text
+
+    def fetch_video_comments(self, video: dict[str, Any] | None, options: dict[str, Any] | None = None) -> list[dict[str, str]]:
+        options = options if isinstance(options, dict) else {}
+        target = self._resolve_video(video, options)
+        comments: list[dict[str, str]] = []
+        reply_mode = _clean_text(options.get("replyMode")) or "cursor"
+        if reply_mode not in {"cursor", "page", "both"}:
+            reply_mode = "cursor"
+        reply_pages = self.builder._bounded_int(options.get("replyPages"), 2, 1, 5)
+        reply_page_size = self.builder._bounded_int(options.get("replyPageSize"), 20, 1, 50)
+        reply_cursor_skip_pages = self.builder.bounded_reply_cursor_skip_pages(options.get("replyCursorSkipPages"), 0)
+
+        if target.get("rootRpid"):
+            for page in range(1, reply_pages + 1):
+                url = self.builder.build_bilibili_reply_thread_url(target, target.get("rootRpid"), page, reply_page_size)
+                if not url:
+                    raise ValueError("missing video aid/root for reply thread")
+                payload = self.fetch_json(url, self._video_referer(target, reply=target.get("rootRpid")), options)
+                if page >= reply_cursor_skip_pages:
+                    self.builder.collect_reply_messages((payload.get("data") or {}).get("replies"), target, comments)
+                if not ((payload.get("data") or {}).get("replies") or []):
+                    break
+
+        if reply_mode in {"cursor", "both"}:
+            cursor = 0
+            total_pages = reply_cursor_skip_pages + reply_pages
+            for page_index in range(total_pages):
+                url = self.builder.build_bilibili_reply_url(target, cursor, reply_page_size)
+                if not url:
+                    raise ValueError("missing video aid for replies")
+                payload = self.fetch_json(url, self._video_referer(target), options)
+                if page_index >= reply_cursor_skip_pages:
+                    self.builder.collect_reply_messages((payload.get("data") or {}).get("replies"), target, comments)
+                next_cursor = self.builder.next_reply_cursor(payload, cursor)
+                if next_cursor is None:
+                    break
+                cursor = next_cursor
+
+        if reply_mode in {"page", "both"}:
+            start_page = self.builder._bounded_int(options.get("replyStartPage"), 1, 1, 20)
+            for page in range(start_page, start_page + reply_pages):
+                url = self.builder.build_bilibili_reply_page_url(target, page, reply_page_size)
+                if not url:
+                    raise ValueError("missing video aid for page replies")
+                payload = self.fetch_json(url, self._video_referer(target), options)
+                replies = (payload.get("data") or {}).get("replies") or []
+                self.builder.collect_reply_messages(replies, target, comments)
+                if not replies:
+                    break
+
+        if options.get("includeDanmaku") is True:
+            comments.extend(self.fetch_video_danmaku(target, options))
+        return comments
+
+    def fetch_video_danmaku(self, video: dict[str, Any] | None, options: dict[str, Any] | None = None) -> list[dict[str, str]]:
+        options = options if isinstance(options, dict) else {}
+        target = self._resolve_video(video, options)
+        cid = _clean_text(target.get("cid"))
+        if not cid:
+            return []
+        url = f"https://api.bilibili.com/x/v1/dm/list.so?{urlencode({'oid': cid})}"
+        xml = self.fetch_text(url, self._video_referer(target), options)
+        return self.builder.collect_danmaku_messages(xml, target)
+
+    def _resolve_video(self, video: dict[str, Any] | None, options: dict[str, Any]) -> dict[str, Any]:
+        target = dict(video) if isinstance(video, dict) else {}
+        if target.get("aid") and (target.get("cid") or not target.get("bvid")):
+            return target
+        view_url = self.builder.build_bilibili_view_url(target)
+        if not view_url:
+            raise ValueError("missing video aid/bvid")
+        view = self.fetch_json(view_url, self._video_referer(target), options)
+        data = view.get("data") if isinstance(view.get("data"), dict) else {}
+        aid = data.get("aid") or target.get("aid")
+        if not aid:
+            raise ValueError("missing video aid from view response")
+        pages = data.get("pages") if isinstance(data.get("pages"), list) else []
+        first_page = pages[0] if pages and isinstance(pages[0], dict) else {}
+        return {
+            **target,
+            "aid": _clean_text(aid),
+            "bvid": _clean_text(target.get("bvid") or data.get("bvid")),
+            "cid": _clean_text(data.get("cid") or first_page.get("cid") or target.get("cid")),
+        }
+
+    def _video_referer(self, video: dict[str, Any], reply: Any | None = None) -> str:
+        if video.get("bvid"):
+            suffix = f"?reply={_clean_text(reply)}" if reply else ""
+            return f"https://www.bilibili.com/video/{_clean_text(video.get('bvid'))}/{suffix}"
+        if video.get("aid"):
+            suffix = f"?reply={_clean_text(reply)}" if reply else ""
+            return f"https://www.bilibili.com/video/av{_clean_text(video.get('aid'))}/{suffix}"
+        return "https://www.bilibili.com/"
+
+    def _fetch_json(self, url: str, referer: str, options: dict[str, Any]) -> dict[str, Any]:
+        payload = json.loads(self._fetch_text(url, referer, options))
+        if not isinstance(payload, dict):
+            raise ValueError("Bilibili API returned non-object JSON")
+        if payload.get("code") not in (None, 0):
+            raise ValueError(f"code {payload.get('code')}: {payload.get('message') or 'Bilibili API error'}")
+        return payload
+
+    def _fetch_text(self, url: str, referer: str, options: dict[str, Any]) -> str:
+        timeout = max(1.0, _number(options.get("requestTimeoutMs") or 12000) / 1000)
+        headers = self.builder.build_bilibili_web_headers(
+            referer,
+            {
+                "cookie": options.get("cookie"),
+                "userAgent": options.get("userAgent"),
+            },
+        )
+        request = Request(url, headers=headers)
+        with urlopen(request, timeout=timeout) as response:
+            status = getattr(response, "status", 200)
+            if status < 200 or status >= 300:
+                raise ValueError(f"HTTP {status}")
+            return response.read().decode("utf-8", errors="replace")
 
 
 class DirectProbeCorpusBuilder:
