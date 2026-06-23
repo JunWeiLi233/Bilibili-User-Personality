@@ -22472,6 +22472,36 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_uid_parallel_analyzer_has_js_python_validation_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(
+            package["scripts"]["python:uid-parallel-compare"],
+            "node server/scripts/compareUidParallelPlan.js",
+        )
+
+        result = BackendMigrationInventoryScanner(".").scan()
+        self.assertIn(
+            {
+                "script": "python:uid-parallel-compare",
+                "command": "node server/scripts/compareUidParallelPlan.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:uid-parallel-plan",
+                "command": "python -m python_backend.cli.uid_parallel_plan",
+                "pipeline": "uid_parallel_analyzer_plan",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareUidParallelPlan.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_batch_scraper_launcher_planner_builds_js_range_contract_without_filesystem(self):
         result = BatchScraperLauncherPlanner().build_plan(data_dir="server/data")
 

@@ -8,6 +8,8 @@ const args = Object.fromEntries(
     .map(a => { const [k, ...v] = a.slice(2).split('='); return [k, v.join('=')]; })
 );
 
+const hasFlag = (name) => process.argv.slice(2).includes(`--${name}`);
+
 const WORKER_ID = Number(args.worker || 0);
 const TOTAL_WORKERS = Number(args.workers || 4);
 
@@ -21,6 +23,78 @@ const LOCK_MAX_RETRIES = 15;
 const SAVE_EVERY = 20;
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+function parseNumberOr(value, fallback) {
+  const parsed = Number.parseInt(String(value ?? ''), 10);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function parsePlanArgs(argv = []) {
+  const options = { worker: 0, workers: 4 };
+  for (const raw of argv) {
+    const arg = String(raw || '');
+    if (arg.startsWith('--worker=')) options.worker = parseNumberOr(arg.split('=', 2)[1], 0);
+    else if (arg.startsWith('--workers=')) options.workers = parseNumberOr(arg.split('=', 2)[1], 4);
+  }
+  options.workers = Math.max(1, options.workers);
+  return options;
+}
+
+function commentText(entries) {
+  if (!Array.isArray(entries)) return '';
+  return entries
+    .filter((entry) => entry && typeof entry === 'object')
+    .map((entry) => String(entry.message || ''))
+    .join('\n');
+}
+
+function buildUidParallelPlan(payload = {}) {
+  const options = parsePlanArgs(Array.isArray(payload.argv) ? payload.argv : []);
+  const comments = payload.comments && typeof payload.comments === 'object' ? payload.comments : {};
+  const progress = payload.progress && typeof payload.progress === 'object' ? payload.progress : {};
+  const database = payload.database && typeof payload.database === 'object' ? payload.database : {};
+  const processed = progress.processed && typeof progress.processed === 'object' ? progress.processed : {};
+  const stats = progress.stats && typeof progress.stats === 'object' ? progress.stats : {};
+  const users = database.users && typeof database.users === 'object' ? database.users : {};
+  const assignedUids = Object.keys(comments).filter((_, index) => index % options.workers === options.worker);
+  const pendingUids = assignedUids.filter((uid) => !(uid in processed));
+  const skippableNoText = pendingUids.filter((uid) => !commentText(comments[uid]).trim()).length;
+  const assignedSet = new Set(assignedUids);
+
+  return {
+    ok: true,
+    worker: { id: options.worker, totalWorkers: options.workers, assigned: assignedUids.length },
+    assignment: {
+      assignedUids,
+      alreadyProcessed: assignedUids.filter((uid) => uid in processed).length,
+      pending: pendingUids.length,
+      trainable: pendingUids.length - skippableNoText,
+      skippableNoText,
+    },
+    training: { multiagent: true, existingTermsOnly: false, commentTextLimit: 5000, saveEvery: SAVE_EVERY },
+    pacing: {
+      lockRetryDelayMs: LOCK_RETRY_DELAY_MS,
+      lockRetryJitterMs: 2000,
+      lockMaxRetries: LOCK_MAX_RETRIES,
+      staleLockRemovalAfterAttempt: 8,
+    },
+    stats: {
+      success: parseNumberOr(stats.success, 0),
+      noText: parseNumberOr(stats.noText, 0),
+      errors: parseNumberOr(stats.errors, 0),
+    },
+    userDb: {
+      users: Object.keys(users).length,
+      assignedUsersInDb: Object.keys(users).filter((uid) => assignedSet.has(uid)).length,
+    },
+  };
+}
+
+if (hasFlag('plan-json')) {
+  const payload = args.payload ? JSON.parse(await readFile(args.payload, 'utf8')) : {};
+  console.log(JSON.stringify(buildUidParallelPlan(payload), null, 2));
+  process.exit(0);
+}
 
 process.on('uncaughtException', (err) => {
   console.error(`[W${WORKER_ID}] Uncaught:`, err.stack || err.message || err);

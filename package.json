@@ -77,6 +77,7 @@
     "python:uid-pipeline-launcher": "python -m python_backend.cli.uid_pipeline_launcher",
     "python:uid-pipeline-launcher-compare": "node server/scripts/compareUidPipelineLauncherPlan.js",
     "python:uid-parallel-plan": "python -m python_backend.cli.uid_parallel_plan",
+    "python:uid-parallel-compare": "node server/scripts/compareUidParallelPlan.js",
     "python:uid-parallel-progress": "python -m python_backend.cli.uid_parallel_progress",
     "python:uid-pipeline-progress": "python -m python_backend.cli.uid_pipeline_progress",
     "python:uid-pipeline-state": "python -m python_backend.cli.uid_pipeline_state",
