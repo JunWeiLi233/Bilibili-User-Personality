@@ -11521,11 +11521,28 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["hardStopMs"], 19000)
 
     def test_tieba_scrape_timing_service_is_legacy_after_python_contract(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
         result = BackendMigrationInventoryScanner(".").scan()
 
+        self.assertEqual(
+            package["scripts"]["python:tieba-timing-compare"],
+            "node server/scripts/compareTiebaTiming.js",
+        )
         self.assertNotIn("server/services/tiebaScrapeTiming.js", result["migrationCandidateFiles"]["services"])
         self.assertIn(
             {"path": "server/services/tiebaScrapeTiming.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {
+                "script": "python:tieba-timing-compare",
+                "command": "node server/scripts/compareTiebaTiming.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareTiebaTiming.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
         )
         self.assertIn(
