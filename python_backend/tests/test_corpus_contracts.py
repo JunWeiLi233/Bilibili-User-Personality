@@ -10924,6 +10924,33 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_video_comment_filter_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            comments_path = root / "comments.json"
+            needles_path = root / "needles.json"
+            js_report_path = root / "js-report.json"
+            comments_path.write_text(
+                json.dumps(
+                    {
+                        "comments": [
+                            {"rpid": "1", "message": "\u5f39\u5e55\u9634\u9633\u602a\u6c14"},
+                            {"rpid": "2", "message": "\u666e\u901a\u8def\u8fc7"},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            needles_path.write_text(json.dumps({"needles": ["\u9634\u9633\u602a\u6c14"]}), encoding="utf-8")
+            js_report_path.write_text("{not-json", encoding="utf-8")
+
+            comparison = VideoCommentFilterPayloadContractComparator(comments_path, needles_path, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["comments"], ["1"])
+
     def test_video_comment_filter_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -11270,6 +11297,34 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "videos", "python": ["BV1"], "js": ["BV2"]},
             ],
         )
+
+    def test_video_relevance_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "video-relevance.json"
+            js_report_path = root / "js-video-relevance.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "operation": "filter",
+                        "videos": [
+                            {"bvid": "BV1", "title": "\u5f39\u5e55\u9634\u9633\u602a\u6c14"},
+                            {"bvid": "BV2", "title": "\u666e\u901a\u89c6\u9891"},
+                        ],
+                        "searchQueries": ["\u5f39\u5e55\u9634\u9633\u602a\u6c14"],
+                        "targetExistingTerms": ["\u5f39\u5e55\u9634\u9633\u602a\u6c14"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{not-json", encoding="utf-8")
+
+            comparison = VideoRelevancePayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["videos"], ["BV1"])
 
     def test_video_relevance_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -11642,6 +11697,33 @@ class CorpusContractTests(unittest.TestCase):
                 }
             ],
         )
+
+    def test_video_context_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-report.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "videos": [{"bvid": "BV1", "title": "\u5f39\u5e55\u9634\u9633\u602a\u6c14"}],
+                        "discoveredVideos": [{"bvid": "BVD", "title": "\u8865\u5145\u7d20\u6750"}],
+                        "comments": [{"message": "\u5f39\u5e55\u9634\u9633\u602a\u6c14"}],
+                        "trainingText": "\u5f39\u5e55\u9634\u9633\u602a\u6c14",
+                        "searchQueries": ["\u5f39\u5e55\u9634\u9633\u602a\u6c14"],
+                        "targetExistingTerms": ["\u5f39\u5e55\u9634\u9633\u602a\u6c14"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{not-json", encoding="utf-8")
+
+            comparison = VideoContextPayloadComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertIn("Bilibili video context: \u5f39\u5e55\u9634\u9633\u602a\u6c14", comparison["python"]["videoContextText"])
 
     def test_video_context_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
