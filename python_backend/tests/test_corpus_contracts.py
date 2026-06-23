@@ -25581,6 +25581,25 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["js"], {})
         self.assertEqual(result["python"]["recommendedQueryText"], "doge hot\n")
 
+    def test_coverage_audit_artifacts_runner_defaults_corrupt_json_contract_payloads(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-artifacts.json"
+            payload_path.write_text("{bad payload", encoding="utf-8")
+            js_report_path.write_text("{bad report", encoding="utf-8")
+
+            runner_result = CoverageAuditArtifactsPayloadRunner(payload_path).run()
+            comparison = CoverageAuditArtifactsPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(runner_result["ok"])
+        self.assertEqual(runner_result["recommendedQueries"], [])
+        self.assertEqual(runner_result["recommendedQueryText"], "")
+        self.assertEqual(runner_result["priorityActionItems"], [])
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+
     def test_coverage_audit_artifacts_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
