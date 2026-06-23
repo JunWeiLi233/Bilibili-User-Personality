@@ -11396,6 +11396,23 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["hardStopMs"], 19000)
 
+    def test_tieba_scrape_timing_service_is_legacy_after_python_contract(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertNotIn("server/services/tiebaScrapeTiming.js", result["migrationCandidateFiles"]["services"])
+        self.assertIn(
+            {"path": "server/services/tiebaScrapeTiming.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {
+                "script": "python:tieba-timing",
+                "command": "python -m python_backend.cli.tieba_timing",
+                "pipeline": "tieba_timing",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+
     def test_tieba_timing_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
