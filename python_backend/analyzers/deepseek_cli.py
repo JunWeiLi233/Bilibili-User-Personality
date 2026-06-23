@@ -189,9 +189,22 @@ class DeepSeekAnalyzeRuntime:
             }
         if request.multiagent:
             return self._run_multiagent(payload, request, config)
+        retried_compact_prompt = False
         request_body = self.client.build_chat_request(request)
         try:
             parsed = self.transport(request_body, config)
+        except SyntaxError:
+            retried_compact_prompt = True
+            try:
+                parsed = self.transport(self.client.build_chat_request(request, compact=True), config)
+            except Exception as error:  # pragma: no cover - exercised through command-level failures.
+                return {
+                    "ok": False,
+                    "provider": "deepseek",
+                    "model": config["model"],
+                    "reasoningEffort": config["reasoningEffort"],
+                    "error": str(error),
+                }
         except Exception as error:  # pragma: no cover - exercised through command-level failures.
             return {
                 "ok": False,
@@ -207,8 +220,9 @@ class DeepSeekAnalyzeRuntime:
             model=config["model"],
             reasoning_effort=config["reasoningEffort"],
             raw=self._json_text(parsed),
+            retried_compact_prompt=retried_compact_prompt,
         )
-        result["runtime"] = {"mode": "live_chat", "requestCount": 1, "multiagent": request.multiagent}
+        result["runtime"] = {"mode": "live_chat", "requestCount": 2 if retried_compact_prompt else 1, "multiagent": request.multiagent}
         return result
 
     def _run_multiagent(self, payload: dict[str, Any], request: Any, config: dict[str, str]) -> dict[str, Any]:

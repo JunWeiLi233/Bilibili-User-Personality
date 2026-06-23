@@ -6374,6 +6374,32 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["runtime"]["mode"], "live_chat")
         self.assertEqual(result["axes"][0]["score"], 72)
 
+    def test_deepseek_analyze_runtime_retries_compact_prompt_after_parse_error(self):
+        calls = []
+
+        def transport(request_body, config):
+            calls.append({"request": request_body, "config": config})
+            if len(calls) == 1:
+                raise SyntaxError("invalid JSON response")
+            return {
+                "axes": [{"axis": "attack", "score": 61, "evidence": ["\u53cd\u8bbd[doge]"]}],
+                "sentenceAnalyses": [{"quote": "\u53cd\u8bbd[doge]", "intent": "satire"}],
+                "confidence": 0.82,
+            }
+
+        result = DeepSeekAnalyzeRuntime(
+            env={"DEEPSEEK_API_KEY": "test-key", "DEEPSEEK_MODEL": "deepseek-v4-flash", "DEEPSEEK_REASONING_EFFORT": "max"},
+            transport=transport,
+        ).run({"text": "\u53cd\u8bbd[doge]", "uid": "42"})
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(len(calls), 2)
+        self.assertEqual(calls[0]["request"]["max_tokens"], 2000)
+        self.assertEqual(calls[1]["request"]["max_tokens"], 6000)
+        self.assertTrue(result["retriedCompactPrompt"])
+        self.assertEqual(result["runtime"], {"mode": "live_chat", "requestCount": 2, "multiagent": False})
+        self.assertEqual(result["axes"][0]["score"], 61)
+
     def test_deepseek_analyze_runtime_runs_multiagent_transport_and_merge(self):
         calls = []
 
