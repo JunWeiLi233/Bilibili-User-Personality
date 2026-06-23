@@ -129,6 +129,7 @@ PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
     "scraper_monitor": ("python_backend.cli.scraper_monitor",),
     "coverage_progress": ("python_backend.cli.coverage_progress",),
     "discovery_report": ("python_backend.cli.discovery_report",),
+    "harvest_options": ("python_backend.cli.harvest_options",),
 }
 
 RETAINED_JS_FILE_PREFIXES = {
@@ -310,6 +311,12 @@ class BackendMigrationInventoryScanner:
             relative_path == "server/utils/runVideoKeywordDiscoveryReport.js"
             and package_scripts.get("python:discovery-report") == "python -m python_backend.cli.discovery_report"
             and package_scripts.get("python:discovery-report-compare") == "node server/scripts/compareVideoKeywordDiscoveryReport.js"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/utils/runVideoKeywordDiscoveryOptions.js"
+            and package_scripts.get("python:harvest-options") == "python -m python_backend.cli.harvest_options"
+            and package_scripts.get("python:harvest-options-compare") == "node server/scripts/compareHarvestOptions.js"
         ):
             return "legacy_compatibility_after_python_replacement"
         if relative_path in RETAINED_JS_FILES:

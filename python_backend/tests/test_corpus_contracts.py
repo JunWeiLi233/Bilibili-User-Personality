@@ -26934,6 +26934,23 @@ class CorpusContractTests(unittest.TestCase):
             result["retainedJsBackendFiles"],
         )
 
+    def test_video_keyword_discovery_options_utility_is_legacy_after_python_contract(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertNotIn("server/utils/runVideoKeywordDiscoveryOptions.js", result["migrationCandidateFiles"]["utils"])
+        self.assertIn(
+            {"path": "server/utils/runVideoKeywordDiscoveryOptions.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {
+                "script": "python:harvest-options",
+                "command": "python -m python_backend.cli.harvest_options",
+                "pipeline": "harvest_options",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+
     def test_package_coverage_cli_options_compare_script_registers_js_python_bridge(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
 
