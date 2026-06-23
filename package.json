@@ -74,6 +74,7 @@
     "python:batch-popular-compare": "node server/scripts/compareBatchPopularPlan.js",
     "python:batch-scraper-launcher": "python -m python_backend.cli.batch_scraper_launcher",
     "python:range-scraper-launcher": "python -m python_backend.cli.range_scraper_launcher",
+    "python:range-scraper-launcher-compare": "node server/scripts/compareRangeScraperLauncherPlan.js",
     "python:fast-pipeline-launcher": "python -m python_backend.cli.fast_pipeline_launcher",
     "python:fast-pipeline-launcher-compare": "node server/scripts/compareFastPipelineLauncherPlan.js",
     "python:uid-fast-pipeline-plan": "python -m python_backend.cli.uid_fast_pipeline_plan",

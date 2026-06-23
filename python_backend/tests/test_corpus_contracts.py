@@ -23425,6 +23425,36 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_range_scraper_launcher_has_js_python_validation_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(
+            package["scripts"]["python:range-scraper-launcher-compare"],
+            "node server/scripts/compareRangeScraperLauncherPlan.js",
+        )
+
+        result = BackendMigrationInventoryScanner(".").scan()
+        self.assertIn(
+            {
+                "script": "python:range-scraper-launcher-compare",
+                "command": "node server/scripts/compareRangeScraperLauncherPlan.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:range-scraper-launcher",
+                "command": "python -m python_backend.cli.range_scraper_launcher",
+                "pipeline": "range_scraper_launcher",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareRangeScraperLauncherPlan.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_fast_pipeline_launcher_planner_builds_powershell_contract_without_filesystem(self):
         result = FastPipelineLauncherPlanner().build_plan(data_dir="server/data")
 
