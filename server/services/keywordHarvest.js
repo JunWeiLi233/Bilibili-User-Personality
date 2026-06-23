@@ -2847,6 +2847,7 @@ export function buildDictionaryCoverageAudit(dictionary = {}, state = {}, option
     minCoverageRatio,
     requireComplete,
     requireSourceBackedEvidence,
+    requireCommentBackedEvidence: options.requireCommentBackedEvidence === true,
     coverage,
     termAttemptSummary,
     actionSummary,

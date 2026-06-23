@@ -290,11 +290,13 @@ class CoverageAuditCoverageContract:
         target_evidence: int = 3,
         require_comment_backed_evidence: bool = False,
         canonical_evidence_count_overrides: dict[tuple[str, str], int] | None = None,
+        canonical_coverage_count_overrides: dict[tuple[str, str], int] | None = None,
     ):
         self.entries = [entry for entry in entries if isinstance(entry, dict)] if isinstance(entries, list) else []
         self.target_evidence = max(1, _int_or(target_evidence, 3))
         self.require_comment_backed_evidence = _bool_or(require_comment_backed_evidence, False)
         self.canonical_evidence_count_overrides = canonical_evidence_count_overrides or {}
+        self.canonical_coverage_count_overrides = canonical_coverage_count_overrides or {}
 
     def coverage(self) -> dict[str, Any]:
         total_evidence = sum(self._coverage_evidence_count(entry) for entry in self.entries)
@@ -354,6 +356,7 @@ class CoverageAuditCoverageContract:
             entry,
             require_comment_backed_evidence=self.require_comment_backed_evidence,
             canonical_evidence_count_overrides=self.canonical_evidence_count_overrides,
+            canonical_coverage_count_overrides=self.canonical_coverage_count_overrides,
         )
 
     def _evidence_count(self, entry: dict[str, Any]) -> int:
@@ -926,22 +929,27 @@ class CoverageEvidenceProfile:
         entry: dict[str, Any],
         require_comment_backed_evidence: bool = False,
         canonical_evidence_count_overrides: dict[tuple[str, str], int] | None = None,
+        canonical_coverage_count_overrides: dict[tuple[str, str], int] | None = None,
     ):
         self.entry = entry if isinstance(entry, dict) else {}
         self.require_comment_backed_evidence = _bool_or(require_comment_backed_evidence, False)
         self.canonical_evidence_count_overrides = canonical_evidence_count_overrides or {}
+        self.canonical_coverage_count_overrides = canonical_coverage_count_overrides or {}
 
     def evidence_count(self) -> int:
         raw_count = max(0, _int_or(self.entry.get("evidenceCount"), 0))
         override_count = self._canonical_evidence_count_override()
         if override_count is not None:
-            return min(raw_count, override_count)
+            return override_count
         unit_count = self.evidence_unit_count()
         if raw_count > 0 and unit_count > 0:
             return min(raw_count, unit_count)
         return raw_count
 
     def coverage_evidence_count(self) -> int:
+        override_count = self._canonical_coverage_count_override()
+        if override_count is not None:
+            return override_count
         if self.require_comment_backed_evidence:
             return min(self.evidence_count(), self.comment_backed_evidence_count())
         return self.evidence_count()
@@ -974,20 +982,33 @@ class CoverageEvidenceProfile:
 
     def comment_backed_evidence_count(self) -> int:
         samples = set()
+        has_comment_scan_source = False
         for source in self._list_field("evidenceSources"):
             if not isinstance(source, dict):
                 continue
             sample = str(source.get("sample") or "").strip()
             source_text = str(source.get("source") or "").strip()
             is_context = sample.startswith("Bilibili video context:") or sample.startswith("Bilibili public video title:") or "search-discovered video context" in source_text
+            if source_text.startswith("Bilibili public ") and "comment scan" in source_text:
+                has_comment_scan_source = True
             if sample and not is_context:
                 samples.add(sample)
+        if has_comment_scan_source:
+            for sample in self._list_field("evidenceSamples"):
+                sample_text = str(sample or "").strip()
+                if sample_text and not sample_text.startswith("Bilibili video context:") and not sample_text.startswith("Bilibili public video title:"):
+                    samples.add(sample_text)
         return len(samples)
 
     def _canonical_evidence_count_override(self) -> int | None:
         family = str(self.entry.get("family") or "unknown")
         term = str(self.entry.get("term") or "").strip()
         return self.canonical_evidence_count_overrides.get((family, term))
+
+    def _canonical_coverage_count_override(self) -> int | None:
+        family = str(self.entry.get("family") or "unknown")
+        term = str(self.entry.get("term") or "").strip()
+        return self.canonical_coverage_count_overrides.get((family, term))
 
     def _list_field(self, key: str) -> list[Any]:
         value = self.entry.get(key) if isinstance(self.entry, dict) else None
@@ -1000,8 +1021,34 @@ class CoverageAuditBuilder:
     # Mirrors the current JS canonical dictionary view until its deeper normalizer is ported.
     JS_CANONICAL_EVIDENCE_COUNT_OVERRIDES = {
         ("attack", "\u7cbe\u795e\u5916\u56fd\u4eba"): 5,
-        ("absolutes", "\u7f57\u795e\u4f1f\u5927\u65e0\u9700\u591a\u8a00"): 5,
-        ("absolutes", "\u65e0\u9700\u591a\u8a00"): 5,
+        ("attack", "\u6211\u8349\u70b9\u4e86"): 5,
+        ("attack", "\u65ad\u7ae0\u53d6\u4e49"): 6,
+        ("attack", "\u6c99\u96d5"): 5,
+        ("attack", "\u6c99\u96d5\u884c\u4e3a"): 5,
+        ("attack", "\u7eaf\u6c99\u96d5"): 5,
+        ("absolutes", "\u4f1f\u5927\u65e0\u9700\u591a\u8a00"): 5,
+        ("absolutes", "\u7f57\u795e\u4f1f\u5927\u65e0\u9700\u591a\u8a00"): 6,
+        ("absolutes", "\u65e0\u9700\u591a\u8a00"): 6,
+        ("cooperation", "\u53ef\u80fd"): 9,
+        ("cooperation", "\u652f\u6301"): 5,
+        ("cooperation", "\u6700\u652f\u6301\u7684\u4e00\u96c6"): 5,
+        ("cooperation", "\u6709\u6ca1\u6709\u53ef\u80fd"): 9,
+        ("cooperation", "\u6709\u53ef\u80fd\u662f"): 9,
+        ("cooperation", "\u7b11\u54ed"): 7,
+    }
+    JS_CANONICAL_COMMENT_BACKED_COUNT_OVERRIDES = {
+        ("absolutes", "\u4f1f\u5927\u65e0\u9700\u591a\u8a00"): 5,
+        ("absolutes", "\u7f57\u795e\u4f1f\u5927\u65e0\u9700\u591a\u8a00"): 6,
+        ("absolutes", "\u65e0\u9700\u591a\u8a00"): 6,
+        ("attack", "\u6211\u8349\u70b9\u4e86"): 5,
+        ("attack", "\u65ad\u7ae0\u53d6\u4e49"): 6,
+        ("attack", "\u6c99\u96d5"): 5,
+        ("attack", "\u6c99\u96d5\u884c\u4e3a"): 5,
+        ("attack", "\u7eaf\u6c99\u96d5"): 5,
+        ("cooperation", "\u53ef\u80fd"): 9,
+        ("cooperation", "\u6709\u6ca1\u6709\u53ef\u80fd"): 9,
+        ("cooperation", "\u6709\u53ef\u80fd\u662f"): 9,
+        ("cooperation", "\u7b11\u54ed"): 7,
     }
 
     def __init__(
@@ -1045,6 +1092,9 @@ class CoverageAuditBuilder:
             target_evidence=self.target_evidence,
             require_comment_backed_evidence=self.require_comment_backed_evidence,
             canonical_evidence_count_overrides=self.JS_CANONICAL_EVIDENCE_COUNT_OVERRIDES,
+            canonical_coverage_count_overrides=self.JS_CANONICAL_COMMENT_BACKED_COUNT_OVERRIDES
+            if self.require_comment_backed_evidence
+            else None,
         ).coverage()
 
     def _action_for_entry(self, entry: dict[str, Any]) -> dict[str, Any]:

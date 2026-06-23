@@ -121,8 +121,9 @@ class DictionaryLoader:
             term = str(entry.get("term") or "").strip()
             evidence = evidence_by_term.get(term, {})
             merged_entries.append({**entry, **evidence})
+        merged_entries = [self._normalize_loaded_entry(entry) for entry in merged_entries]
         normalized = DictionaryManifestContract(manifest).split(merged_entries)
-        return KeywordDictionary(manifest=normalized, entries=merged_entries)
+        return KeywordDictionary(manifest=normalized, entries=normalized["entries"])
 
     def _hydrate_entry_files(self, files_by_family: dict[str, list[str]]) -> list[dict[str, Any]]:
         entries: list[dict[str, Any]] = []
@@ -168,6 +169,50 @@ class DictionaryLoader:
                             "evidenceSources": self._unique_sources([*self._list_field(existing, "evidenceSources"), *self._list_field(item, "evidenceSources")]),
                         }
         return evidence_by_term
+
+    def _normalize_loaded_entry(self, entry: dict[str, Any]) -> dict[str, Any]:
+        samples = self._unique([str(sample).strip() for sample in self._list_field(entry, "evidenceSamples") if str(sample).strip()])
+        sources = self._unique_sources(self._list_field(entry, "evidenceSources"))
+        raw_count = self._int_value(entry.get("evidenceCount"), 0)
+        if raw_count <= 0 and not samples and not sources:
+            return entry
+        evidence_count = self._canonical_evidence_count(raw_count, samples, sources)
+        return {**entry, "evidenceCount": evidence_count, "evidenceSamples": samples, "evidenceSources": sources}
+
+    @staticmethod
+    def _canonical_evidence_count(raw_count: int, samples: list[Any], sources: list[Any]) -> int:
+        raw_count = max(0, raw_count)
+        unit_count = DictionaryLoader._evidence_unit_count(samples, sources)
+        if raw_count > 0 and unit_count > 0:
+            return min(raw_count, unit_count)
+        return raw_count
+
+    @staticmethod
+    def _evidence_unit_count(samples: list[Any], sources: list[Any]) -> int:
+        units = set()
+        for sample in samples:
+            clean = str(sample or "").strip()
+            if clean:
+                units.add(f"sample:{clean}")
+        for source in sources:
+            if not isinstance(source, dict):
+                continue
+            sample = str(source.get("sample") or "").strip()
+            if sample:
+                units.add(f"sample:{sample}")
+                continue
+            source_text = str(source.get("source") or "").strip()
+            uid = str(source.get("uid") or "").strip()
+            if source_text or uid:
+                units.add(f"source:{source_text}\n{uid}")
+        return len(units)
+
+    @staticmethod
+    def _int_value(value: Any, fallback: int) -> int:
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            return fallback
 
     def _read_json(self, path: Path) -> dict[str, Any]:
         if not path.exists():
@@ -297,6 +342,34 @@ class DictionaryMergeWriter:
             "evidenceSamples": samples,
             "evidenceSources": sources,
         }
+
+    @staticmethod
+    def _canonical_evidence_count(raw_count: int, samples: list[Any], sources: list[Any]) -> int:
+        raw_count = max(0, raw_count)
+        unit_count = DictionaryLoader._evidence_unit_count(samples, sources)
+        if raw_count > 0 and unit_count > 0:
+            return min(raw_count, unit_count)
+        return raw_count
+
+    @staticmethod
+    def _evidence_unit_count(samples: list[Any], sources: list[Any]) -> int:
+        units = set()
+        for sample in samples:
+            clean = str(sample or "").strip()
+            if clean:
+                units.add(f"sample:{clean}")
+        for source in sources:
+            if not isinstance(source, dict):
+                continue
+            sample = str(source.get("sample") or "").strip()
+            if sample:
+                units.add(f"sample:{sample}")
+                continue
+            source_text = str(source.get("source") or "").strip()
+            uid = str(source.get("uid") or "").strip()
+            if source_text or uid:
+                units.add(f"source:{source_text}\n{uid}")
+        return len(units)
 
     def _normalize_entry(self, entry: dict[str, Any]) -> dict[str, Any]:
         term = str(entry.get("term") or "").strip()

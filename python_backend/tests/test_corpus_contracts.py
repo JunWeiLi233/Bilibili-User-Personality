@@ -8017,6 +8017,47 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(dictionary.entries[0]["evidenceSamples"], ["sample one", "sample two"])
         self.assertEqual([source["sample"] for source in dictionary.entries[0]["evidenceSources"]], ["sample one", "sample two"])
 
+    def test_dictionary_loader_caps_split_evidence_count_like_js_canonical_snapshot(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "dict.entries").mkdir()
+            (root / "dict.evidence").mkdir()
+            (root / "dict.json").write_text(
+                json.dumps(
+                    {
+                        "storage": "split",
+                        "entryFiles": {"attack": ["dict.entries/attack-001.json"]},
+                        "evidenceFiles": {"attack": ["dict.evidence/attack-001.json"]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (root / "dict.entries" / "attack-001.json").write_text(
+                json.dumps({"entries": [{"term": "doge", "family": "attack", "evidenceCount": 8}]}),
+                encoding="utf-8",
+            )
+            (root / "dict.evidence" / "attack-001.json").write_text(
+                json.dumps(
+                    {
+                        "evidence": [
+                            {
+                                "term": "doge",
+                                "evidenceSamples": ["sample one", "sample two"],
+                                "evidenceSources": [
+                                    {"source": "Bilibili public video comment scan", "sample": "sample one"},
+                                    {"source": "Bilibili public video comment scan", "sample": "sample two"},
+                                ],
+                            }
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            dictionary = DictionaryLoader(root / "dict.json").load()
+
+        self.assertEqual(dictionary.entries[0]["evidenceCount"], 2)
+
     def test_huggingface_importer_reads_jsonl_conversations(self):
         importer = HuggingFaceCorpusImporter()
         rows = importer.parse_rows(
@@ -27778,6 +27819,45 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(profile.comment_backed_evidence_count(), 2)
         self.assertEqual(profile.coverage_evidence_count(), 2)
         self.assertTrue(profile.has_coverage_evidence_source())
+
+    def test_coverage_evidence_profile_counts_comment_scan_samples_like_js(self):
+        entry = {
+            "term": "comment-scan",
+            "family": "attack",
+            "evidenceCount": 3,
+            "evidenceSamples": ["standalone one", "standalone two", "Bilibili video context: title only"],
+            "evidenceSources": [
+                {"source": "Bilibili public video comment scan", "sample": "standalone one"},
+                {"source": "Bilibili public video comment scan", "uid": "BV1"},
+            ],
+        }
+
+        profile = CoverageEvidenceProfile(entry, require_comment_backed_evidence=True)
+
+        self.assertEqual(profile.comment_backed_evidence_count(), 2)
+        self.assertEqual(profile.coverage_evidence_count(), 2)
+
+    def test_coverage_evidence_profile_uses_exact_canonical_count_overrides(self):
+        entry = {
+            "term": "alias-raised",
+            "family": "cooperation",
+            "evidenceCount": 2,
+            "evidenceSamples": ["one", "two"],
+            "evidenceSources": [
+                {"source": "Bilibili public video comment scan", "sample": "one"},
+                {"source": "Bilibili public video comment scan", "sample": "two"},
+            ],
+        }
+
+        profile = CoverageEvidenceProfile(
+            entry,
+            require_comment_backed_evidence=True,
+            canonical_evidence_count_overrides={("cooperation", "alias-raised"): 3},
+            canonical_coverage_count_overrides={("cooperation", "alias-raised"): 3},
+        )
+
+        self.assertEqual(profile.evidence_count(), 3)
+        self.assertEqual(profile.coverage_evidence_count(), 3)
 
     def test_coverage_audit_builder_caps_evidence_count_to_sample_units(self):
         dictionary = {

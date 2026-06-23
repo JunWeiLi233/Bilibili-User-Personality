@@ -7081,6 +7081,7 @@ test('buildDictionaryCoverageAudit treats comment-backed mode as source-backed m
   );
 
   assert.equal(audit.requireSourceBackedEvidence, true);
+  assert.equal(audit.requireCommentBackedEvidence, true);
   assert.equal(audit.coverage.unsourcedEvidenceTerms, 1);
   assert.equal(audit.nextActions[0].status, 'source_gap');
   assert.equal(audit.nextActions[0].action, 'refresh_source_metadata');
