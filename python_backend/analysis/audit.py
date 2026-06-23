@@ -159,6 +159,8 @@ class CoverageAuditArtifactWriter:
                 if not query:
                     continue
                 normalized = dict(item)
+                if isinstance(normalized.get("suggestedQueries"), list):
+                    normalized["suggestedQueries"] = [suggestion for suggestion in normalized["suggestedQueries"] if isinstance(suggestion, str) and suggestion.strip()]
                 normalized["query"] = query
                 normalized["nextQuery"] = query
                 result.append(normalized)

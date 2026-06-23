@@ -23292,8 +23292,8 @@ class CorpusContractTests(unittest.TestCase):
             self.assertEqual(
                 result["priorityActionItems"],
                 [
-                    {"term": "查查资料", "family": "evidence", "nextQuery": "查查资料 评论区", "suggestedQueries": ["查查资料 弹幕", ""], "query": "查查资料 评论区"},
-                    {"term": "查查资料", "family": "evidence", "nextQuery": "查查资料 弹幕", "suggestedQueries": ["查查资料 弹幕", ""], "query": "查查资料 弹幕"},
+                    {"term": "查查资料", "family": "evidence", "nextQuery": "查查资料 评论区", "suggestedQueries": ["查查资料 弹幕"], "query": "查查资料 评论区"},
+                    {"term": "查查资料", "family": "evidence", "nextQuery": "查查资料 弹幕", "suggestedQueries": ["查查资料 弹幕"], "query": "查查资料 弹幕"},
                     {"term": "doge", "family": "attack", "nextQuery": "doge hot", "query": "doge hot"},
                 ],
             )
@@ -23447,6 +23447,7 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual([item["query"] for item in result["priorityActionItems"]], ["doge hot"])
         self.assertEqual(result["priorityActionItems"][0]["nextQuery"], "doge hot")
+        self.assertEqual(result["priorityActionItems"][0]["suggestedQueries"], ["doge hot"])
 
     def test_coverage_audit_artifact_writer_defaults_malformed_payload_paths(self):
         result = CoverageAuditArtifactWriter().build_from_payload(
