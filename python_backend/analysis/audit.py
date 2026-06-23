@@ -117,14 +117,35 @@ def _string_list(value: Any) -> list[str]:
     return [str(item) for item in value if isinstance(item, str)]
 
 
+class CoverageAuditArtifactPayloadContract:
+    """Normalize coverage-audit artifact payloads from JS-compatible JSON."""
+
+    def __init__(self, payload: dict[str, Any] | None = None):
+        self.payload = payload if isinstance(payload, dict) else {}
+
+    def audit(self) -> dict[str, Any]:
+        audit = self.payload.get("audit")
+        return audit if isinstance(audit, dict) else {}
+
+    def query_file_path(self) -> str:
+        return self._path_field("queryFilePath")
+
+    def action_file_path(self) -> str:
+        return self._path_field("actionFilePath")
+
+    def _path_field(self, key: str) -> str:
+        value = self.payload.get(key)
+        return value.strip() if isinstance(value, str) else ""
+
+
 class CoverageAuditArtifactWriter:
     """Serialize coverage-audit query and priority-action artifacts like the JS audit script."""
 
     def build_from_payload(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
-        payload = payload if isinstance(payload, dict) else {}
-        audit = payload.get("audit") if isinstance(payload.get("audit"), dict) else {}
-        query_path = payload.get("queryFilePath").strip() if isinstance(payload.get("queryFilePath"), str) else ""
-        action_path = payload.get("actionFilePath").strip() if isinstance(payload.get("actionFilePath"), str) else ""
+        contract = CoverageAuditArtifactPayloadContract(payload)
+        audit = contract.audit()
+        query_path = contract.query_file_path()
+        action_path = contract.action_file_path()
         if query_path and action_path:
             return self.write(audit, query_path, action_path)
         return self.build_artifacts(audit)
