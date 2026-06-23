@@ -6212,6 +6212,34 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["runtime"]["mode"], "live_chat")
         self.assertEqual(result["axes"][0]["score"], 72)
 
+    def test_deepseek_analyze_runtime_runs_multiagent_transport_and_merge(self):
+        calls = []
+
+        def transport(request_body, config):
+            calls.append({"request": request_body, "config": config})
+            if len(calls) < 4:
+                return {"agentId": f"agent-{len(calls)}", "observations": ["emoji softens satire"]}
+            self.assertIn("Specialist agent outputs", request_body["messages"][1]["content"])
+            return {
+                "axes": [{"axis": "attack", "score": 44, "evidence": ["\u9634\u9633\u602a\u6c14[doge]"]}],
+                "sentenceAnalyses": [{"quote": "\u9634\u9633\u602a\u6c14[doge]", "intent": "satire"}],
+                "confidence": 0.86,
+            }
+
+        result = DeepSeekAnalyzeRuntime(
+            env={"DEEPSEEK_API_KEY": "test-key", "DEEPSEEK_MODEL": "deepseek-v4-flash", "DEEPSEEK_REASONING_EFFORT": "max"},
+            transport=transport,
+        ).run({"text": "\u9634\u9633\u602a\u6c14[doge]", "multiagent": True})
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(len(calls), 4)
+        self.assertTrue(all(call["request"]["model"] == "deepseek-v4-flash" for call in calls))
+        self.assertEqual(result["runtime"]["mode"], "live_multiagent")
+        self.assertEqual(result["runtime"]["requestCount"], 4)
+        self.assertTrue(result["runtime"]["multiagent"])
+        self.assertEqual(result["multiagent"]["agentCount"], 3)
+        self.assertEqual(result["axes"][0]["score"], 44)
+
     def test_deepseek_analyze_cli_runner_is_command_request_wrapper(self):
         self.assertTrue(issubclass(deepseek_analyze_cli.DeepSeekAnalyzeCliRunner, DeepSeekAnalyzeCommandRequest))
 

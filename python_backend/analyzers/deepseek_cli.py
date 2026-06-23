@@ -187,6 +187,8 @@ class DeepSeekAnalyzeRuntime:
                 "reasoningEffort": config["reasoningEffort"],
                 "error": "DEEPSEEK_API_KEY is not configured.",
             }
+        if request.multiagent:
+            return self._run_multiagent(payload, request, config)
         request_body = self.client.build_chat_request(request)
         try:
             parsed = self.transport(request_body, config)
@@ -207,6 +209,46 @@ class DeepSeekAnalyzeRuntime:
             raw=self._json_text(parsed),
         )
         result["runtime"] = {"mode": "live_chat", "requestCount": 1, "multiagent": request.multiagent}
+        return result
+
+    def _run_multiagent(self, payload: dict[str, Any], request: Any, config: dict[str, str]) -> dict[str, Any]:
+        agent_results: list[dict[str, Any]] = []
+        request_bodies = self.client.build_request_plan(request)
+        try:
+            for index, request_body in enumerate(request_bodies):
+                parsed = self.transport(request_body, config)
+                agent = self.client.MULTIAGENTS[index] if index < len(self.client.MULTIAGENTS) else {}
+                agent_results.append(
+                    {
+                        "id": agent.get("id", f"agent-{index + 1}"),
+                        "name": agent.get("name", f"agent-{index + 1}"),
+                        "ok": isinstance(parsed, dict) and not parsed.get("error"),
+                        "parsed": parsed,
+                    }
+                )
+            merged = self.transport(self.client.build_merge_request(request, agent_results), config)
+        except Exception as error:  # pragma: no cover - exercised through command-level failures.
+            return {
+                "ok": False,
+                "provider": "deepseek",
+                "model": config["model"],
+                "reasoningEffort": config["reasoningEffort"],
+                "error": str(error),
+            }
+        result = self.normalizer.normalize(
+            source_payload=payload,
+            analysis_payload=merged,
+            provider="deepseek",
+            model=config["model"],
+            reasoning_effort=config["reasoningEffort"],
+            raw=self._json_text(merged),
+            multiagent={"agentCount": len(agent_results), "agents": agent_results},
+        )
+        result["runtime"] = {
+            "mode": "live_multiagent",
+            "requestCount": len(request_bodies) + 1,
+            "multiagent": True,
+        }
         return result
 
     def _config(self, request: Any) -> dict[str, str]:
