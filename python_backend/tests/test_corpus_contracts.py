@@ -24381,6 +24381,16 @@ class CorpusContractTests(unittest.TestCase):
             {"path": "server/scripts/compareBatchPopularPlan.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
         )
+        self.assertEqual(
+            BackendMigrationInventoryScanner._validation_gates(
+                validation_script="python:batch-popular-compare",
+                validation_scope="dry_run_plan_fixture_and_js_python_plan_bridge",
+            ),
+            [
+                {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:batch-popular-compare"},
+                {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareBatchPopularPlan.test.js"},
+            ],
+        )
 
     def test_batch_scrape_progress_runner_summarizes_uid_range_progress_and_user_db(self):
         with tempfile.TemporaryDirectory() as tmp:

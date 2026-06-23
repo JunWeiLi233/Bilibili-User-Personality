@@ -1,6 +1,8 @@
+import { execFile } from 'node:child_process';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { promisify } from 'node:util';
 
 const DATA_DIR = join(process.cwd(), 'server', 'data');
 const USER_DB_PATH = join(DATA_DIR, 'aicu-user-database.json');
@@ -14,6 +16,7 @@ const DEFAULT_MAX_PAGES = 50;
 const POPULAR_PAGE_SIZE = 20;
 const REPLY_PAGE_SIZE = 20;
 const RATE_LIMIT_CODES = [-799, -412];
+const execFileAsync = promisify(execFile);
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -83,6 +86,41 @@ async function readPlanPayload(args) {
   } catch {
     return {};
   }
+}
+
+function parsePlanControlArgs(args = []) {
+  let planJson = false;
+  let pythonPlan = false;
+  let jsPlan = false;
+  let payloadPath = '';
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = String(args[index] || '');
+    if (arg === '--plan-json') {
+      planJson = true;
+    } else if (arg === '--python-plan') {
+      pythonPlan = true;
+    } else if (arg === '--js-plan') {
+      jsPlan = true;
+    } else if (arg === '--payload') {
+      payloadPath = String(args[index + 1] || '');
+      index += 1;
+    } else if (arg.startsWith('--payload=')) {
+      payloadPath = arg.slice('--payload='.length);
+    }
+  }
+  if (process.env.BILIBILI_POPULAR_USE_PYTHON_PLAN === '1' && !jsPlan) {
+    pythonPlan = true;
+  }
+  return { planJson, pythonPlan, jsPlan, payloadPath };
+}
+
+async function runPythonBatchPopularPlan(payloadPath) {
+  const { stdout } = await execFileAsync('python', ['-m', 'python_backend.cli.batch_popular_plan', '--payload', payloadPath], {
+    cwd: process.cwd(),
+    env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  return JSON.parse(stdout);
 }
 
 async function fetchJson(url) {
@@ -177,7 +215,12 @@ function addCommentToUser(db, mid, name, reply, aid) {
 
 async function main() {
   const args = process.argv.slice(2);
-  if (args.includes('--plan-json')) {
+  const planControl = parsePlanControlArgs(args);
+  if (planControl.planJson) {
+    if (planControl.pythonPlan && !planControl.jsPlan) {
+      console.log(JSON.stringify(await runPythonBatchPopularPlan(planControl.payloadPath), null, 2));
+      return;
+    }
     const payload = await readPlanPayload(args);
     console.log(JSON.stringify(buildBatchPopularPlan(payload), null, 2));
     return;
