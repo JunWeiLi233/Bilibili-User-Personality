@@ -23,6 +23,32 @@ export const DEFAULT_PAYLOAD = {
   },
 };
 
+export const UID_FAST_PIPELINE_PLAN_FIXTURES = {
+  'default-range': DEFAULT_PAYLOAD,
+  'parseint-prefix': {
+    argv: ['--start=12abc', '--end=14abc'],
+    progress: {
+      processed: { 12: 'success', 13: 'blocked' },
+      stats: { success: '1ok', blocked: '1blocked', errors: '2bad' },
+    },
+    database: {
+      users: {
+        '12abc': { uid: '12abc' },
+        13: { uid: '13' },
+        99: { uid: '99' },
+      },
+    },
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = ['default-range', 'parseint-prefix'];
+
+function resolvePayload({ fixture = 'default-range', payload } = {}) {
+  if (payload) return { name: fixture || 'custom', payload };
+  const name = String(fixture || 'default-range');
+  return { name, payload: UID_FAST_PIPELINE_PLAN_FIXTURES[name] || DEFAULT_PAYLOAD };
+}
+
 function summarize(result = {}) {
   return Object.fromEntries(RESULT_KEYS.filter((key) => key in result).map((key) => [key, result[key]]));
 }
@@ -58,17 +84,25 @@ async function runPythonPlan({ payloadPath }) {
   return JSON.parse(stdout);
 }
 
-export async function compareUidFastPipelinePlan({ payload = DEFAULT_PAYLOAD, runJs = runJsPlan, runPython = runPythonPlan } = {}) {
+export async function compareUidFastPipelinePlan({
+  fixture = 'default-range',
+  fixtureNames,
+  payload,
+  runJs = runJsPlan,
+  runPython = runPythonPlan,
+} = {}) {
+  if (fixtureNames) return compareUidFastPipelinePlanSuite({ fixtures: fixtureNames, runJs, runPython });
+  const resolved = resolvePayload({ fixture, payload });
   const tempDir = await mkdtemp(join(tmpdir(), 'uid-fast-pipeline-plan-compare-'));
   try {
     const payloadPath = join(tempDir, 'payload.json');
-    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
-    const js = await runJs({ payload, payloadPath });
-    const python = await runPython({ payload, payloadPath });
+    await writeFile(payloadPath, JSON.stringify(resolved.payload, null, 2), 'utf8');
+    const js = await runJs({ payload: resolved.payload, payloadPath });
+    const python = await runPython({ payload: resolved.payload, payloadPath });
     const comparison = compareUidFastPipelinePlanObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { payloadPath },
+      fixture: { name: resolved.name, payloadPath },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -78,8 +112,29 @@ export async function compareUidFastPipelinePlan({ payload = DEFAULT_PAYLOAD, ru
   }
 }
 
+export async function compareUidFastPipelinePlanSuite({
+  fixtures = DEFAULT_FIXTURE_NAMES,
+  runJs = runJsPlan,
+  runPython = runPythonPlan,
+} = {}) {
+  const results = [];
+  for (const fixture of fixtures) {
+    results.push(await compareUidFastPipelinePlan({ fixture, runJs, runPython }));
+  }
+  return {
+    ok: results.every((result) => result.ok),
+    fixtures: results.map((result) => ({
+      name: result.fixture.name,
+      ok: result.ok,
+      js: result.js,
+      python: result.python,
+      mismatches: result.mismatches,
+    })),
+  };
+}
+
 async function main() {
-  const result = await compareUidFastPipelinePlan();
+  const result = await compareUidFastPipelinePlanSuite();
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }

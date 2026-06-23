@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 from pathlib import Path
 from typing import Any
 
@@ -18,9 +19,12 @@ FAST_LAUNCHER_RANGES = (
 
 
 def _parse_number_or(value: Any, fallback: int) -> int:
+    match = re.match(r"^[\s]*([+-]?\d+)", str(value if value is not None else ""))
+    if not match:
+        return fallback
     try:
-        return int(float(str(value)))
-    except (TypeError, ValueError):
+        return int(match.group(1))
+    except ValueError:
         return fallback
 
 
@@ -122,10 +126,7 @@ class UidFastPipelinePlanner:
     def _users_in_range(self, users: dict[str, Any], start: int, end: int) -> int:
         count = 0
         for uid in users:
-            try:
-                numeric_uid = int(str(uid))
-            except (TypeError, ValueError):
-                continue
+            numeric_uid = _parse_number_or(uid, start - 1)
             if start <= numeric_uid <= end:
                 count += 1
         return count
