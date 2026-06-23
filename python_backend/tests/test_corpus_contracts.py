@@ -67,7 +67,7 @@ from python_backend.cli import video_link_direct_plan as video_link_direct_plan_
 from python_backend.cli import video_relevance as video_relevance_cli
 from python_backend.cli import range_scraper_launcher as range_scraper_launcher_cli
 from python_backend.cli import fast_pipeline_launcher as fast_pipeline_launcher_cli
-from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsCommandRequest, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRequest, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditCommandRequest, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditPayloadContractComparator, CoverageAuditReport, CoverageAuditRequest, CoverageEvidenceProfile
+from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsCommandRequest, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRequest, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditCommandRequest, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditMetricContract, CoverageAuditPayloadContractComparator, CoverageAuditReport, CoverageAuditRequest, CoverageEvidenceProfile
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageCommandRequest, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageJsonPayloadContractComparator, CommentCoverageJsonPayloadRunner, CommentCoveragePayloadContractComparator, CommentCoverageRequest, CommentCoverageRunner as CommentCoveragePayloadRunner, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanCommandRequest, CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanPayloadContractComparator, CoverageHarvestLoopPlanRequest, CoverageHarvestLoopPlanRunner as CoverageHarvestLoopPayloadPlanRunner, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressCommandRequest, CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressPayloadContractComparator, CoverageProgressRequest, CoverageProgressRunner as CoverageProgressPayloadRunner, CoverageProgressSummary, CoverageProgressTracker
@@ -26014,6 +26014,25 @@ class CorpusContractTests(unittest.TestCase):
         audit = CoverageAuditBuilder(target_evidence=3).build(dictionary)
 
         self.assertEqual(audit["coverage"]["totalEvidence"], 5)
+
+    def test_coverage_audit_metric_contract_owns_js_metric_coercion(self):
+        coverage = {
+            "complete": "bad",
+            "coverageRatio": "0.75",
+            "averageEvidence": "2.5",
+            "sourceCoverageRatio": "bad",
+            "weakTerms": "4",
+            "targetEvidence": None,
+        }
+        contract = CoverageAuditMetricContract(coverage)
+
+        self.assertFalse(contract.value("complete"))
+        self.assertEqual(contract.value("coverageRatio"), 0.75)
+        self.assertEqual(contract.value("averageEvidence"), 2.5)
+        self.assertEqual(contract.value("sourceCoverageRatio"), 0)
+        self.assertEqual(contract.value("weakTerms"), 4)
+        self.assertEqual(contract.value("targetEvidence"), 0)
+        self.assertIsNone(contract.value("missingMetric"))
 
     def test_coverage_audit_artifact_writer_matches_js_query_and_action_files(self):
         with tempfile.TemporaryDirectory() as tmp:

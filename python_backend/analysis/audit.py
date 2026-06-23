@@ -68,14 +68,26 @@ def _bool_or(value: Any, fallback: bool) -> bool:
     return value if isinstance(value, bool) else fallback
 
 
+class CoverageAuditMetricContract:
+    """Normalize coverage-audit metric values from JS-compatible JSON reports."""
+
+    FLOAT_KEYS = frozenset(("coverageRatio", "averageEvidence", "sourceCoverageRatio"))
+
+    def __init__(self, coverage: dict[str, Any] | None = None):
+        self.coverage = coverage if isinstance(coverage, dict) else {}
+
+    def value(self, key: str) -> Any:
+        if key not in self.coverage:
+            return None
+        if key == "complete":
+            return _bool_or(self.coverage.get(key), False)
+        if key in self.FLOAT_KEYS:
+            return _float_or(self.coverage.get(key), 0)
+        return _int_or(self.coverage.get(key), 0)
+
+
 def _coverage_metric_or_none(coverage: dict[str, Any], key: str) -> Any:
-    if key not in coverage:
-        return None
-    if key == "complete":
-        return _bool_or(coverage.get(key), False)
-    if key in ("coverageRatio", "averageEvidence", "sourceCoverageRatio"):
-        return _float_or(coverage.get(key), 0)
-    return _int_or(coverage.get(key), 0)
+    return CoverageAuditMetricContract(coverage).value(key)
 
 
 def _artifact_result_or_none(result: dict[str, Any], key: str) -> Any:
