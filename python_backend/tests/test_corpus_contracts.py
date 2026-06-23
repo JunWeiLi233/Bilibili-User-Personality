@@ -23489,6 +23489,25 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["python"]["mode"], "coverage-runtime")
         self.assertEqual(result["python"]["options"]["targetEvidence"], 2)
 
+    def test_harvest_options_runner_defaults_corrupt_json_contract_payloads(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "harvest-options.json"
+            js_report_path = root / "js-harvest-options.json"
+            payload_path.write_text("{bad payload", encoding="utf-8")
+            js_report_path.write_text("{bad report", encoding="utf-8")
+
+            result = HarvestOptionsPayloadRunner(payload_path).run()
+            comparison = HarvestOptionsPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "video-keyword")
+        self.assertEqual(result["options"]["maxQueries"], 12)
+        self.assertEqual(result["options"]["priorityQueries"], [])
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+
     def test_harvest_options_request_compares_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
