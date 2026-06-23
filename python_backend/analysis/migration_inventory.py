@@ -134,6 +134,7 @@ PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
     "huggingface_corpus": ("python_backend.cli.huggingface_corpus",),
     "tieba_corpus": ("python_backend.cli.tieba_corpus",),
     "local_corpus_mine": ("python_backend.cli.local_corpus_mine",),
+    "semantic_matcher": ("python_backend.cli.semantic_matcher",),
 }
 
 RETAINED_JS_FILE_PREFIXES = {
@@ -288,6 +289,11 @@ class BackendMigrationInventoryScanner:
         if (
             relative_path == "server/services/localCorpusEvidence.js"
             and package_scripts.get("dictionary:mine-local") == "python -m python_backend.cli.local_corpus_mine"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/services/semanticMatcher.js"
+            and package_scripts.get("python:semantic-match") == "python -m python_backend.cli.semantic_matcher"
         ):
             return "legacy_compatibility_after_python_replacement"
         if (

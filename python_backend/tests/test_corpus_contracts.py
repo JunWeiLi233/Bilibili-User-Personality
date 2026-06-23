@@ -5584,6 +5584,23 @@ class CorpusContractTests(unittest.TestCase):
     def test_semantic_matcher_cli_runner_is_command_request_wrapper(self):
         self.assertTrue(issubclass(SemanticMatcherCliRunner, SemanticMatcherCommandRequest))
 
+    def test_semantic_matcher_service_is_legacy_after_python_contract(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertNotIn("server/services/semanticMatcher.js", result["migrationCandidateFiles"]["services"])
+        self.assertIn(
+            {"path": "server/services/semanticMatcher.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {
+                "script": "python:semantic-match",
+                "command": "python -m python_backend.cli.semantic_matcher",
+                "pipeline": "semantic_matcher",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+
     def test_semantic_matcher_contract_comparator_reports_match_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
