@@ -10587,6 +10587,23 @@ class CorpusContractTests(unittest.TestCase):
             retained,
         )
 
+    def test_local_corpus_evidence_service_is_legacy_after_python_mine_contract(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertNotIn("server/services/localCorpusEvidence.js", result["migrationCandidateFiles"]["services"])
+        self.assertIn(
+            {"path": "server/services/localCorpusEvidence.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {
+                "script": "dictionary:mine-local",
+                "command": "python -m python_backend.cli.local_corpus_mine",
+                "pipeline": "local_corpus_mine",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+
     def test_tieba_corpus_updater_leaves_corpus_unchanged_without_comments(self):
         existing = {
             "version": 1,
