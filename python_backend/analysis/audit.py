@@ -358,6 +358,35 @@ class CoverageAuditCoverageContract:
         return self._profile(entry).has_coverage_evidence_source()
 
 
+class CoverageAuditTermAttemptSummaryContract:
+    """Build the JS-compatible term attempt summary for coverage audits."""
+
+    def __init__(
+        self,
+        entries: list[Any] | None = None,
+        require_comment_backed_evidence: bool = False,
+        canonical_evidence_count_overrides: dict[tuple[str, str], int] | None = None,
+    ):
+        self.entries = [entry for entry in entries if isinstance(entry, dict)] if isinstance(entries, list) else []
+        self.require_comment_backed_evidence = _bool_or(require_comment_backed_evidence, False)
+        self.canonical_evidence_count_overrides = canonical_evidence_count_overrides or {}
+
+    def summary(self) -> dict[str, Any]:
+        return {
+            "attemptedTerms": 0,
+            "successfulTerms": 0,
+            "unattemptedTerms": len(self.entries),
+            "unattemptedSamples": CoverageAuditSampleContract(
+                self.entries,
+                require_comment_backed_evidence=self.require_comment_backed_evidence,
+                canonical_evidence_count_overrides=self.canonical_evidence_count_overrides,
+            ).samples(),
+            "repeatedlyMissedTerms": [],
+            "exhaustedTerms": 0,
+            "exhaustedSamples": [],
+        }
+
+
 def _coverage_metric_or_none(coverage: dict[str, Any], key: str) -> Any:
     return CoverageAuditMetricContract(coverage).value(key)
 
@@ -884,15 +913,7 @@ class CoverageAuditBuilder:
             "requireComplete": self.require_complete,
             "requireSourceBackedEvidence": self.require_source_backed_evidence,
             "coverage": coverage,
-            "termAttemptSummary": {
-                "attemptedTerms": 0,
-                "successfulTerms": 0,
-                "unattemptedTerms": len(entries),
-                "unattemptedSamples": self._sample_entries(entries),
-                "repeatedlyMissedTerms": [],
-                "exhaustedTerms": 0,
-                "exhaustedSamples": [],
-            },
+            "termAttemptSummary": self._term_attempt_summary(entries),
             "actionSummary": self._action_summary(actions),
             "familyGaps": family_gaps,
             "nextActions": next_actions,
@@ -931,6 +952,13 @@ class CoverageAuditBuilder:
 
     def _action_summary(self, actions: list[dict[str, Any]]) -> dict[str, int]:
         return CoverageAuditActionSummaryContract(actions).summary()
+
+    def _term_attempt_summary(self, entries: list[dict[str, Any]]) -> dict[str, Any]:
+        return CoverageAuditTermAttemptSummaryContract(
+            entries,
+            require_comment_backed_evidence=self.require_comment_backed_evidence,
+            canonical_evidence_count_overrides=self.JS_CANONICAL_EVIDENCE_COUNT_OVERRIDES,
+        ).summary()
 
     def _family_gaps(self, by_family: dict[str, dict[str, int]]) -> list[dict[str, Any]]:
         return CoverageAuditFamilyGapContract(by_family).gaps()
