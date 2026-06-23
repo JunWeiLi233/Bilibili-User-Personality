@@ -266,6 +266,20 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(corpus.comments, [{"message": "fallback"}])
         self.assertEqual(corpus.runs, [{"at": "fallback-run"}])
 
+    def test_loader_returns_fallback_when_corpus_manifest_is_corrupt(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "demo.json").write_text("{bad json", encoding="utf-8")
+
+            corpus = CorpusLoader(
+                root / "demo.json",
+                fallback={"version": 1, "comments": [{"message": "fallback"}], "runs": [{"at": "fallback-run"}]},
+            ).load()
+
+        self.assertEqual(corpus.manifest["version"], 1)
+        self.assertEqual(corpus.comments, [{"message": "fallback"}])
+        self.assertEqual(corpus.runs, [{"at": "fallback-run"}])
+
     def test_loader_uses_inline_arrays_when_split_file_lists_are_missing(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

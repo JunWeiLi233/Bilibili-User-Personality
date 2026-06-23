@@ -6,6 +6,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from python_backend.runtime.json_contracts import JsonContractReader
+
 
 @dataclass(frozen=True)
 class Corpus:
@@ -20,6 +22,7 @@ class CorpusLoader:
     def __init__(self, path: str | Path, fallback: dict[str, Any] | None = None):
         self.path = Path(path)
         self.fallback = fallback
+        self.reader = JsonContractReader()
 
     @classmethod
     def load_from_payload(cls, payload: dict[str, Any] | None = None) -> Corpus:
@@ -39,10 +42,11 @@ class CorpusLoader:
         return cls(path, fallback=fallback).load()
 
     def load(self) -> Corpus:
+        fallback_manifest = dict(self.fallback or {"version": 1, "comments": [], "runs": []})
         try:
-            manifest = self._read_json(self.path)
+            manifest = self._read_json(self.path, fallback_manifest)
         except FileNotFoundError:
-            manifest = dict(self.fallback or {"version": 1, "comments": [], "runs": []})
+            manifest = fallback_manifest
         if isinstance(manifest, list):
             comments = self._normalize_comments(manifest)
             return Corpus(manifest={"version": 1, "storage": "array", "comments": comments, "runs": []}, comments=comments, runs=[])
@@ -69,7 +73,7 @@ class CorpusLoader:
         values: list[dict[str, Any]] = []
         for relative_path in self._file_list(files):
             try:
-                shard = self._read_json(self.path.parent / relative_path)
+                shard = self._read_json(self.path.parent / relative_path, {})
             except (FileNotFoundError, json.JSONDecodeError):
                 continue
             if not isinstance(shard, dict):
@@ -111,7 +115,7 @@ class CorpusLoader:
             return fallback
         return default
 
-    @staticmethod
-    def _read_json(path: Path) -> Any:
-        with path.open("r", encoding="utf-8-sig") as handle:
-            return json.load(handle)
+    def _read_json(self, path: Path, fallback: Any) -> Any:
+        if not path.exists():
+            raise FileNotFoundError(path)
+        return self.reader.read_value(path, fallback)
