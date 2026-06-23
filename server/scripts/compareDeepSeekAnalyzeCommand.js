@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 
 import { DEFAULT_ANALYSIS, DEFAULT_PAYLOAD } from './compareDeepSeekAnalysisNormalization.js';
+import { compareDeepSeekAnalyzeMockRuntime } from './compareDeepSeekAnalyzeMockRuntime.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -87,8 +88,33 @@ export async function compareDeepSeekAnalyzeCommand({
   }
 }
 
+function prefixMismatches(scope, mismatches = []) {
+  return mismatches.map((mismatch) => ({
+    ...mismatch,
+    scope,
+    key: `${scope}.${mismatch.key}`,
+  }));
+}
+
+export async function compareDeepSeekAnalyzeCommandSuite({
+  compareFixtureCommand = compareDeepSeekAnalyzeCommand,
+  compareMockRuntime = compareDeepSeekAnalyzeMockRuntime,
+} = {}) {
+  const fixtureCommand = await compareFixtureCommand();
+  const mockRuntime = await compareMockRuntime();
+  const mismatches = [
+    ...prefixMismatches('fixtureCommand', fixtureCommand.mismatches || []),
+    ...prefixMismatches('mockRuntime', mockRuntime.mismatches || []),
+  ];
+  return {
+    ok: Boolean(fixtureCommand.ok && mockRuntime.ok && mismatches.length === 0),
+    checks: { fixtureCommand, mockRuntime },
+    mismatches,
+  };
+}
+
 async function main() {
-  const result = await compareDeepSeekAnalyzeCommand();
+  const result = await compareDeepSeekAnalyzeCommandSuite();
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }

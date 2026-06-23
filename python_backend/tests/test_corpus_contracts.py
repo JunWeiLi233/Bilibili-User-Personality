@@ -1432,7 +1432,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:deepseek-analyze-command-compare",
                     "validationCommand": "node server/scripts/compareDeepSeekAnalyzeCommand.js",
-                    "validationScope": "full_command_fixture",
+                    "validationScope": "full_command_mock_runtime",
                 },
             ],
         )
@@ -1468,12 +1468,12 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["replacementNeeded"], [])
 
-    def test_backend_migration_inventory_marks_deepseek_validation_as_fixture_scope(self):
+    def test_backend_migration_inventory_marks_deepseek_validation_as_command_and_mock_runtime_scope(self):
         result = BackendMigrationInventoryScanner(".").scan()
 
         self.assertEqual(result["nextMigrationAction"]["path"], "server/scripts/analyzeDeepSeekComments.js")
         self.assertEqual(result["nextMigrationAction"]["validationScript"], "python:deepseek-analyze-command-compare")
-        self.assertEqual(result["nextMigrationAction"]["validationScope"], "full_command_fixture")
+        self.assertEqual(result["nextMigrationAction"]["validationScope"], "full_command_mock_runtime")
         self.assertFalse(result["nextMigrationAction"]["readyToReplace"])
         self.assertEqual(result["nextMigrationAction"]["recommendation"], "expand_python_runtime_contract_before_replacing_js")
 

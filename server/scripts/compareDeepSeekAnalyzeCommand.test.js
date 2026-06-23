@@ -3,6 +3,7 @@ import { test } from 'node:test';
 
 import {
   compareDeepSeekAnalyzeCommand,
+  compareDeepSeekAnalyzeCommandSuite,
   compareDeepSeekAnalyzeCommandObjects,
 } from './compareDeepSeekAnalyzeCommand.js';
 
@@ -41,4 +42,23 @@ test('compareDeepSeekAnalyzeCommand compares JS and Python fixture commands', as
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('compareDeepSeekAnalyzeCommandSuite requires fixture command and mock runtime parity', async () => {
+  const calls = [];
+  const result = await compareDeepSeekAnalyzeCommandSuite({
+    compareFixtureCommand: async () => {
+      calls.push('fixtureCommand');
+      return { ok: true, mismatches: [] };
+    },
+    compareMockRuntime: async () => {
+      calls.push('mockRuntime');
+      return { ok: true, mismatches: [] };
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.deepEqual(calls, ['fixtureCommand', 'mockRuntime']);
+  assert.deepEqual(Object.keys(result.checks), ['fixtureCommand', 'mockRuntime']);
 });
