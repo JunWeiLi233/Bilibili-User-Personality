@@ -1681,7 +1681,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:coverage-loop-compare",
                     "validationCommand": "node server/scripts/compareCoverageHarvestLoopPlan.js",
-                    "validationScope": "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_and_mock_write_fixture",
+                    "validationScope": "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_mock_write_and_js_python_command_fixture",
                 },
                 {
                     "script": "dictionary:tieba",
@@ -1876,7 +1876,7 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["nextOfflineMigrationAction"]["path"], "server/scripts/runCoverageHarvestLoop.js")
         self.assertEqual(result["nextOfflineMigrationAction"]["nodeScript"], "dictionary:auto")
-        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_and_mock_write_fixture")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_mock_write_and_js_python_command_fixture")
         self.assertFalse(result["nextOfflineMigrationAction"]["readyToReplace"])
         self.assertIn(
             {"gate": "no_live_command_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
@@ -1896,6 +1896,10 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertIn(
             {"gate": "mock_report_write_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
+            result["nextOfflineMigrationAction"]["validationGates"],
+        )
+        self.assertIn(
+            {"gate": "js_opt_in_python_command_bridge", "status": "covered", "source": "runCoverageHarvestLoopScript.test.js"},
             result["nextOfflineMigrationAction"]["validationGates"],
         )
         self.assertEqual(result["nextOfflineMigrationAction"]["offlineReason"], "skips_live_api_runtime")

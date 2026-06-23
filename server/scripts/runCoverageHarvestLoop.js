@@ -249,6 +249,40 @@ async function runPythonCoverageLoopPlan(payloadPath) {
   return JSON.parse(stdout);
 }
 
+async function runPythonCoverageLoopCommand(options = {}) {
+  const args = [
+    '-m',
+    'python_backend.cli.coverage_loop_command',
+    '--dictionary',
+    options.dictionaryPath || DEFAULT_DICTIONARY_PATH,
+    '--state',
+    options.statePath,
+    '--report',
+    options.reportPath,
+    '--max-cycles',
+    String(options.maxCycles),
+    '--rounds-per-cycle',
+    String(options.roundsPerCycle),
+    '--target-evidence',
+    String(options.targetEvidence),
+    '--max-actions',
+    String(options.maxActions),
+    '--min-coverage-ratio',
+    String(options.minCoverageRatio),
+  ];
+  if (!options.requireComplete) args.push('--allow-incomplete');
+  if (options.requireSourceBackedEvidence) args.push('--require-source-backed-evidence');
+  if (options.requireCommentBackedEvidence) args.push('--require-comment-backed-evidence');
+  if (!options.strict) args.push('--exit-zero');
+  const { stdout, stderr } = await execFileAsync('python', args, {
+    cwd: process.cwd(),
+    env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  if (stderr) process.stderr.write(stderr);
+  return stdout;
+}
+
 export async function buildCoverageLoopProgress(payload = {}, { payloadPath = '', strictPython = false } = {}) {
   if (process.env.BILIBILI_COVERAGE_LOOP_USE_JS_PROGRESS === '1' && !strictPython) {
     return buildJsCoverageProgress(payload);
@@ -370,6 +404,23 @@ if (planArgs.coverageProgressJson) {
   const payload = await readPlanPayload(planArgs.payloadPath);
   const progress = await buildCoverageLoopProgress(payload, { payloadPath: planArgs.payloadPath, strictPython: true });
   console.log(JSON.stringify(progress, null, 2));
+  process.exit(0);
+}
+if (process.env.BILIBILI_COVERAGE_LOOP_USE_PYTHON_COMMAND === '1') {
+  process.stdout.write(await runPythonCoverageLoopCommand({
+    dictionaryPath,
+    statePath,
+    reportPath,
+    maxCycles,
+    roundsPerCycle,
+    targetEvidence,
+    maxActions,
+    minCoverageRatio,
+    requireComplete,
+    requireSourceBackedEvidence,
+    requireCommentBackedEvidence,
+    strict,
+  }));
   process.exit(0);
 }
 

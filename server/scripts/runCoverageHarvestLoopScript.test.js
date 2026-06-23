@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -174,6 +174,46 @@ test('runCoverageHarvestLoop.js can delegate coverage progress JSON to Python', 
       termsAdded: 0,
       coverageRatioDelta: 0,
     });
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
+  }
+});
+
+test('runCoverageHarvestLoop.js can delegate no-live command runtime to Python', () => {
+  const tempDir = mkdtempSync(join(tmpdir(), 'coverage-loop-python-command-script-'));
+  try {
+    const dictionaryPath = join(tempDir, 'dictionary.json');
+    const reportPath = join(tempDir, 'report.json');
+    writeFileSync(
+      dictionaryPath,
+      JSON.stringify({
+        version: 1,
+        updatedAt: '2026-01-01T00:00:00.000Z',
+        entries: [],
+      }),
+      'utf8',
+    );
+
+    const result = spawnSync('node', ['server/scripts/runCoverageHarvestLoop.js'], {
+      cwd: process.cwd(),
+      env: {
+        ...process.env,
+        BILIBILI_COVERAGE_LOOP_USE_PYTHON_COMMAND: '1',
+        DEEPSEEK_KEYWORD_DICTIONARY_PATH: dictionaryPath,
+        BILIBILI_HARVEST_STATE_PATH: join(tempDir, 'state.json'),
+        BILIBILI_COVERAGE_LOOP_REPORT_PATH: reportPath,
+        BILIBILI_COVERAGE_LOOP_MAX_CYCLES: '0',
+      },
+      encoding: 'utf8',
+    });
+
+    assert.equal(result.status, 0, result.stderr);
+    const stdoutReport = JSON.parse(result.stdout);
+    const fileReport = JSON.parse(readFileSync(reportPath, 'utf8'));
+    assert.equal(stdoutReport.stopReason, 'coverage_gate_passed');
+    assert.equal(stdoutReport.finalOk, true);
+    assert.deepEqual(fileReport, stdoutReport);
+    assert.deepEqual(stdoutReport.cycles, []);
   } finally {
     rmSync(tempDir, { recursive: true, force: true });
   }
