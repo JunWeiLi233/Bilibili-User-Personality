@@ -138,21 +138,15 @@ class CoverageAuditArtifactPayloadContract:
         return value.strip() if isinstance(value, str) else ""
 
 
-class CoverageAuditArtifactWriter:
-    """Serialize coverage-audit query and priority-action artifacts like the JS audit script."""
+class CoverageAuditArtifactContract:
+    """Build coverage-audit artifact JSON from a normalized audit report."""
 
-    def build_from_payload(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
-        contract = CoverageAuditArtifactPayloadContract(payload)
-        audit = contract.audit()
-        query_path = contract.query_file_path()
-        action_path = contract.action_file_path()
-        if query_path and action_path:
-            return self.write(audit, query_path, action_path)
-        return self.build_artifacts(audit)
+    def __init__(self, audit: dict[str, Any] | None = None):
+        self.audit = audit if isinstance(audit, dict) else {}
 
-    def build_artifacts(self, audit: dict[str, Any]) -> dict[str, Any]:
-        recommended_queries = [query.strip() for query in _string_list(audit.get("recommendedQueries")) if query.strip()]
-        priority_items = self.priority_action_items_from_audit(audit)
+    def build(self) -> dict[str, Any]:
+        recommended_queries = self.recommended_queries()
+        priority_items = self.priority_action_items()
         return {
             "ok": True,
             "recommendedQueries": recommended_queries,
@@ -161,25 +155,12 @@ class CoverageAuditArtifactWriter:
             "priorityActionJson": self.ascii_json(priority_items) if priority_items else "",
         }
 
-    def write(self, audit: dict[str, Any], query_file_path: str | Path, action_file_path: str | Path) -> dict[str, Any]:
-        artifacts = self.build_artifacts(audit)
-        query_path = Path(query_file_path)
-        action_path = Path(action_file_path)
-        if artifacts["recommendedQueries"]:
-            query_path.parent.mkdir(parents=True, exist_ok=True)
-            query_path.write_text(artifacts["recommendedQueryText"], encoding="utf-8")
-        if artifacts["priorityActionItems"]:
-            action_path.parent.mkdir(parents=True, exist_ok=True)
-            action_path.write_text(artifacts["priorityActionJson"], encoding="utf-8")
-        return {
-            **artifacts,
-            "queryFilePath": str(query_path),
-            "actionFilePath": str(action_path),
-        }
+    def recommended_queries(self) -> list[str]:
+        return [query.strip() for query in _string_list(self.audit.get("recommendedQueries")) if query.strip()]
 
-    def priority_action_items_from_audit(self, audit: dict[str, Any]) -> list[dict[str, Any]]:
+    def priority_action_items(self) -> list[dict[str, Any]]:
         result: list[dict[str, Any]] = []
-        actions = audit.get("nextActions") if isinstance(audit, dict) else []
+        actions = self.audit.get("nextActions") if isinstance(self.audit, dict) else []
         for item in actions if isinstance(actions, list) else []:
             if not isinstance(item, dict):
                 continue
@@ -201,6 +182,44 @@ class CoverageAuditArtifactWriter:
 
     def ascii_json(self, payload: Any) -> str:
         return f"{json.dumps(payload, ensure_ascii=True, indent=2)}\n"
+
+
+class CoverageAuditArtifactWriter:
+    """Serialize coverage-audit query and priority-action artifacts like the JS audit script."""
+
+    def build_from_payload(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        contract = CoverageAuditArtifactPayloadContract(payload)
+        audit = contract.audit()
+        query_path = contract.query_file_path()
+        action_path = contract.action_file_path()
+        if query_path and action_path:
+            return self.write(audit, query_path, action_path)
+        return self.build_artifacts(audit)
+
+    def build_artifacts(self, audit: dict[str, Any]) -> dict[str, Any]:
+        return CoverageAuditArtifactContract(audit).build()
+
+    def write(self, audit: dict[str, Any], query_file_path: str | Path, action_file_path: str | Path) -> dict[str, Any]:
+        artifacts = self.build_artifacts(audit)
+        query_path = Path(query_file_path)
+        action_path = Path(action_file_path)
+        if artifacts["recommendedQueries"]:
+            query_path.parent.mkdir(parents=True, exist_ok=True)
+            query_path.write_text(artifacts["recommendedQueryText"], encoding="utf-8")
+        if artifacts["priorityActionItems"]:
+            action_path.parent.mkdir(parents=True, exist_ok=True)
+            action_path.write_text(artifacts["priorityActionJson"], encoding="utf-8")
+        return {
+            **artifacts,
+            "queryFilePath": str(query_path),
+            "actionFilePath": str(action_path),
+        }
+
+    def priority_action_items_from_audit(self, audit: dict[str, Any]) -> list[dict[str, Any]]:
+        return CoverageAuditArtifactContract(audit).priority_action_items()
+
+    def ascii_json(self, payload: Any) -> str:
+        return CoverageAuditArtifactContract({}).ascii_json(payload)
 
 
 class CoverageAuditArtifactsSummary:
