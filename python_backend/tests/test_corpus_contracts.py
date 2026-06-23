@@ -26606,6 +26606,10 @@ class CorpusContractTests(unittest.TestCase):
             {"path": "server/scripts/compareUidDiscoveryProgress.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
         )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:uid-discovery-progress-compare"],
+            "file_backed_default_parseint_stats_prefix_corrupt_inputs_fixtures_and_js_python_bridge",
+        )
 
     def test_uid_discovery_planner_matches_js_resume_sources_and_training_contract(self):
         planner = UidDiscoveryPlanner()

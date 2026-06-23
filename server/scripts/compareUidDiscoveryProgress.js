@@ -26,6 +26,32 @@ export const DEFAULT_PAYLOAD = {
   database: { users: { 100: {}, 101: {} } },
 };
 
+export const UID_DISCOVERY_PROGRESS_FIXTURES = {
+  'default-state': DEFAULT_PAYLOAD,
+  'parseint-stats-prefix': {
+    progress: {
+      scannedBvids: ['BV1', 'BV2'],
+      processedUids: { 100: 'success', 101: 'error_timeout', 102: 'no_text' },
+      stats: { videosScanned: '2videos', uidsFound: '3uids', uidsAnalyzed: '1done', commentsCollected: '4comments', errors: '1err' },
+      phase: 'analysis',
+      videoQueueSize: '7queued',
+    },
+    comments: {
+      100: [{ message: 'one' }, { message: 'two' }],
+      101: [{ message: 'three' }],
+      102: [],
+    },
+    database: { users: { 100: {}, 101: {} } },
+  },
+  'corrupt-inputs': {
+    progressRaw: '{not-json',
+    commentsRaw: '{not-json',
+    databaseRaw: '{not-json',
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = Object.keys(UID_DISCOVERY_PROGRESS_FIXTURES);
+
 function intOrZero(value) {
   const parsed = Number.parseInt(String(value ?? ''), 10);
   return Number.isFinite(parsed) ? parsed : 0;
@@ -117,23 +143,43 @@ async function runPythonProgress({ dataDir }) {
 
 async function writeFixture(dataDir, payload) {
   await mkdir(dataDir, { recursive: true });
-  await writeFile(join(dataDir, 'uid-discovery-progress.json'), JSON.stringify(payload.progress || {}, null, 2), 'utf8');
-  await writeFile(join(dataDir, 'uid-discovery-comments.json'), JSON.stringify(payload.comments || {}, null, 2), 'utf8');
-  await writeFile(join(dataDir, 'scraped-users-db.json'), JSON.stringify(payload.database || { users: {} }, null, 2), 'utf8');
+  await writeFile(
+    join(dataDir, 'uid-discovery-progress.json'),
+    'progressRaw' in payload ? String(payload.progressRaw ?? '') : JSON.stringify(payload.progress || {}, null, 2),
+    'utf8',
+  );
+  await writeFile(
+    join(dataDir, 'uid-discovery-comments.json'),
+    'commentsRaw' in payload ? String(payload.commentsRaw ?? '') : JSON.stringify(payload.comments || {}, null, 2),
+    'utf8',
+  );
+  await writeFile(
+    join(dataDir, 'scraped-users-db.json'),
+    'databaseRaw' in payload ? String(payload.databaseRaw ?? '') : JSON.stringify(payload.database || { users: {} }, null, 2),
+    'utf8',
+  );
 }
 
-export async function compareUidDiscoveryProgress({ payload = DEFAULT_PAYLOAD, runJs = runJsProgress, runPython = runPythonProgress } = {}) {
+function resolvePayload({ payload, fixture } = {}) {
+  if (payload) return { name: fixture?.name || 'custom', payload };
+  const name = typeof fixture === 'string' ? fixture : fixture?.name || 'default-state';
+  return { name, payload: UID_DISCOVERY_PROGRESS_FIXTURES[name] || DEFAULT_PAYLOAD };
+}
+
+async function compareUidDiscoveryProgressSingle({ payload, fixture, runJs = runJsProgress, runPython = runPythonProgress } = {}) {
+  const resolved = resolvePayload({ payload, fixture });
   const tempDir = await mkdtemp(join(tmpdir(), 'uid-discovery-progress-compare-'));
   try {
-    const dataDir = payload.dataDir || join(tempDir, 'data');
-    if (!payload.dataDir) await writeFixture(dataDir, payload);
-    const context = { payload, dataDir };
+    const fixturePayload = resolved.payload;
+    const dataDir = fixturePayload.dataDir || join(tempDir, 'data');
+    if (!fixturePayload.dataDir) await writeFixture(dataDir, fixturePayload);
+    const context = { payload: fixturePayload, fixture: { name: resolved.name }, dataDir };
     const js = await runJs(context);
     const python = await runPython(context);
     const comparison = compareUidDiscoveryProgressObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { dataDir },
+      fixture: { name: resolved.name, dataDir },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -143,8 +189,20 @@ export async function compareUidDiscoveryProgress({ payload = DEFAULT_PAYLOAD, r
   }
 }
 
+export async function compareUidDiscoveryProgress({ payload, fixture, fixtureNames, runJs = runJsProgress, runPython = runPythonProgress } = {}) {
+  if (fixtureNames) {
+    const results = [];
+    for (const name of fixtureNames.length ? fixtureNames : DEFAULT_FIXTURE_NAMES) {
+      results.push(await compareUidDiscoveryProgressSingle({ fixture: name, runJs, runPython }));
+    }
+    const mismatches = results.flatMap((result) => result.mismatches.map((mismatch) => ({ ...mismatch, fixture: result.fixture.name })));
+    return { ok: mismatches.length === 0, fixtures: results.map((result) => result.fixture), results, mismatches };
+  }
+  return compareUidDiscoveryProgressSingle({ payload, fixture, runJs, runPython });
+}
+
 async function main() {
-  const result = await compareUidDiscoveryProgress();
+  const result = await compareUidDiscoveryProgress({ fixtureNames: DEFAULT_FIXTURE_NAMES });
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }
