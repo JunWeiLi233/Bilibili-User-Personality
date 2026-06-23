@@ -1155,6 +1155,17 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["categories"]["utils"], 1)
         self.assertEqual(result["categories"]["root"], 1)
         self.assertEqual(result["files"]["scripts"], ["server/scripts/scrape.js"])
+        self.assertEqual(result["migrationCandidateJsBackendFiles"], 2)
+        self.assertEqual(
+            result["retainedJsBackendFiles"],
+            [
+                {"path": "server/index.js", "reason": "app_api_orchestration"},
+                {"path": "server/routes/api.js", "reason": "app_api_orchestration"},
+                {"path": "server/utils/paths.js", "reason": "shared_runtime_support"},
+            ],
+        )
+        self.assertEqual(result["migrationCandidateFiles"]["scripts"], ["server/scripts/scrape.js"])
+        self.assertEqual(result["migrationCandidateFiles"]["services"], ["server/services/corpus.js"])
 
     def test_backend_migration_inventory_cli_and_package_script_emit_json_contract(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))

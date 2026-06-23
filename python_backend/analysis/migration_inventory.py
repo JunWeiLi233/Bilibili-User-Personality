@@ -39,6 +39,16 @@ DEFAULT_RETAINED_NODE_COMMANDS = {
     "aicu:test": "external_api_smoke_test",
 }
 
+RETAINED_JS_FILE_PREFIXES = {
+    "server/routes/": "app_api_orchestration",
+}
+
+RETAINED_JS_FILES = {
+    "server/index.js": "app_api_orchestration",
+    "server/utils/paths.js": "shared_runtime_support",
+    "server/utils/fileLock.js": "shared_runtime_support",
+}
+
 
 @dataclass(frozen=True)
 class BackendMigrationInventoryScanner:
@@ -49,6 +59,8 @@ class BackendMigrationInventoryScanner:
     def scan(self) -> dict[str, Any]:
         root = Path(self.root)
         backend_files: dict[str, list[str]] = {key: [] for key in (*BACKEND_CATEGORY_PREFIXES.keys(), "root")}
+        migration_candidate_files: dict[str, list[str]] = {key: [] for key in (*BACKEND_CATEGORY_PREFIXES.keys(), "root")}
+        retained_files: list[dict[str, str]] = []
         backend_tests: list[str] = []
 
         for path in sorted((root / "server").rglob("*.js")) if (root / "server").exists() else []:
@@ -59,16 +71,26 @@ class BackendMigrationInventoryScanner:
             category = self._category(relative)
             if category:
                 backend_files[category].append(relative)
+                retained_reason = self._retained_reason(relative)
+                if retained_reason:
+                    retained_files.append({"path": relative, "reason": retained_reason})
+                else:
+                    migration_candidate_files[category].append(relative)
 
         categories = {key: len(value) for key, value in backend_files.items()}
+        migration_candidate_categories = {key: len(value) for key, value in migration_candidate_files.items()}
         package_scripts = PackageCommandMigrationInventory.from_root(root).scan()
         return {
             "ok": True,
             "root": str(root),
             "remainingJsBackendFiles": sum(categories.values()),
+            "migrationCandidateJsBackendFiles": sum(migration_candidate_categories.values()),
             "backendJsTests": len(backend_tests),
             "categories": categories,
             "files": backend_files,
+            "migrationCandidateCategories": migration_candidate_categories,
+            "migrationCandidateFiles": migration_candidate_files,
+            "retainedJsBackendFiles": retained_files,
             "testFiles": backend_tests,
             "packageScripts": package_scripts,
         }
@@ -80,6 +102,15 @@ class BackendMigrationInventoryScanner:
         for category, prefix in BACKEND_CATEGORY_PREFIXES.items():
             if relative_path.startswith(prefix):
                 return category
+        return ""
+
+    @staticmethod
+    def _retained_reason(relative_path: str) -> str:
+        if relative_path in RETAINED_JS_FILES:
+            return RETAINED_JS_FILES[relative_path]
+        for prefix, reason in RETAINED_JS_FILE_PREFIXES.items():
+            if relative_path.startswith(prefix):
+                return reason
         return ""
 
 
