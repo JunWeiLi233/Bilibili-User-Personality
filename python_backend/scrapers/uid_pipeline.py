@@ -16,11 +16,13 @@ MERGE_STAT_KEYS = ("success", "noComments", "noUser", "trainError", "blocked", "
 
 
 def _parse_number_or(value: Any, fallback: int) -> int:
-    try:
-        parsed = int(float(str(value)))
-    except (TypeError, ValueError):
+    match = re.match(r"^[\s]*([+-]?\d+)", str(value if value is not None else ""))
+    if not match:
         return fallback
-    return parsed
+    try:
+        return int(match.group(1))
+    except ValueError:
+        return fallback
 
 
 class UidPipelineWorkerPlanner:
@@ -101,10 +103,7 @@ class UidPipelineWorkerPlanner:
     def _users_in_range(self, users: dict[str, Any], start: int, end: int) -> int:
         count = 0
         for uid in users:
-            try:
-                numeric_uid = int(str(uid))
-            except (TypeError, ValueError):
-                continue
+            numeric_uid = _parse_number_or(uid, start - 1)
             if start <= numeric_uid <= end:
                 count += 1
         return count

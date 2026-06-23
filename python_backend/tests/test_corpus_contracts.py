@@ -21873,6 +21873,23 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["stats"], {"success": 1, "noComments": 0, "noVideos": 0, "noUser": 0, "trainError": 0, "blocked": 1, "errors": 2})
         self.assertEqual(result["userDb"], {"users": 3, "usersInRange": 2})
 
+    def test_uid_pipeline_worker_planner_matches_js_parseint_prefix_contract(self):
+        result = UidPipelineWorkerPlanner.build_plan_from_payload(
+            {
+                "argv": ["--start=12abc", "--end=14abc"],
+                "progress": {
+                    "processed": {"12": "success", "13": "blocked"},
+                    "stats": {"success": "1ok", "blocked": "1blocked", "errors": "2bad"},
+                },
+                "database": {"users": {"12abc": {}, "13": {}, "99": {}}},
+            }
+        )
+
+        self.assertEqual(result["range"], {"start": 12, "end": 14, "total": 3})
+        self.assertEqual(result["progress"], {"processed": 2, "remaining": 1, "completionRatio": 0.6667})
+        self.assertEqual(result["stats"], {"success": 1, "noComments": 0, "noVideos": 0, "noUser": 0, "trainError": 0, "blocked": 1, "errors": 2})
+        self.assertEqual(result["userDb"], {"users": 3, "usersInRange": 2})
+
     def test_uid_pipeline_plan_runner_defaults_non_object_payload_root(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "uid-pipeline-plan.json"
@@ -22151,12 +22168,16 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             BackendMigrationInventoryScanner._validation_gates(
                 validation_script="python:uid-pipeline-worker-compare",
-                validation_scope="dry_run_plan_fixture_and_js_python_plan_bridge",
+                validation_scope="dry_run_plan_default_range_parseint_prefix_fixtures_and_js_python_bridge",
             ),
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-pipeline-worker-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidPipelineWorkerPlan.test.js"},
             ],
+        )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:uid-pipeline-worker-compare"],
+            "dry_run_plan_default_range_parseint_prefix_fixtures_and_js_python_bridge",
         )
 
     def test_uid_fast_pipeline_plan_matches_js_direct_fetch_and_backoff_contract(self):

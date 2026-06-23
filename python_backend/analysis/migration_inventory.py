@@ -83,6 +83,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:uid-fast-pipeline-compare": "dry_run_plan_default_range_parseint_prefix_fixtures_and_js_python_bridge",
     "python:uid-fast-worker-compare": "dry_run_plan_default_worker_number_fallback_parseint_uids_fixtures_and_js_python_bridge",
     "python:uid-pipeline-launcher-compare": "dry_run_plan_default_custom_data_dir_fixtures_and_js_python_bridge",
+    "python:uid-pipeline-worker-compare": "dry_run_plan_default_range_parseint_prefix_fixtures_and_js_python_bridge",
     "python:uid-range-scrape-compare": "dry_run_plan_custom_progress_default_range_malformed_stats_fixtures_and_js_python_bridge",
     "python:huggingface-compare": "full_command",
     "python:local-mine-compare": "full_command",
