@@ -7687,6 +7687,23 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(comparison["mismatches"][0]["python"]["maxSamplesPerTerm"], 6)
         self.assertEqual(comparison["mismatches"][0]["js"], {"corpusPaths": ["one.json"], "maxSamplesPerTerm": 3})
 
+    def test_local_corpus_mine_plan_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "local-mine-plan.json"
+            js_report_path = root / "js-local-mine-plan.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--corpus=one.json", "--max-samples-per-term=6"], "env": {"LOCAL_CORPUS_WRITE": "1"}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            comparison = LocalCorpusMinePlanPayloadComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+
     def test_local_corpus_mine_plan_summary_extracts_comparator_contract(self):
         summary = LocalCorpusMinePlanSummary().summarize(
             {
