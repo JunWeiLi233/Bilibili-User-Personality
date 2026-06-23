@@ -266,7 +266,7 @@ export const FILE_BACKED_MOCK_HARVEST_DICTIONARY = {
   ],
 };
 
-const DEFAULT_FIXTURES = [
+export const COVERAGE_LOOP_COMMAND_FIXTURES = [
   { name: 'complete-empty-dictionary', dictionary: DEFAULT_DICTIONARY },
   { name: 'weak-cycle-limit', dictionary: WEAK_DICTIONARY },
   { name: 'python-deferred-live-contract', dictionary: WEAK_DICTIONARY, pythonOnly: true, maxCycles: 1 },
@@ -483,7 +483,7 @@ export async function compareCoverageHarvestLoopCommand({
 } = {}) {
   const tempDir = await mkdtemp(join(tmpdir(), 'coverage-loop-command-compare-'));
   try {
-    const fixtureList = Array.isArray(fixtures) ? fixtures : dictionary === DEFAULT_DICTIONARY ? DEFAULT_FIXTURES : [{ name: 'custom', dictionary }];
+    const fixtureList = Array.isArray(fixtures) ? fixtures : dictionary === DEFAULT_DICTIONARY ? COVERAGE_LOOP_COMMAND_FIXTURES : [{ name: 'custom', dictionary }];
     const results = [];
     for (const [index, fixture] of fixtureList.entries()) {
       const fixtureName = String(fixture?.name || `fixture-${index + 1}`);

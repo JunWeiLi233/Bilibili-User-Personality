@@ -29432,6 +29432,10 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(package["scripts"]["python:coverage-loop-command"], "python -m python_backend.cli.coverage_loop_command")
         self.assertEqual(package["scripts"]["python:coverage-loop-command-compare"], "node server/scripts/compareCoverageHarvestLoopCommand.js")
         self.assertIn("npm run python:coverage-loop-command-compare", workflow)
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:coverage-loop-command-compare"],
+            "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_and_deferred_live_contract",
+        )
 
     def test_coverage_harvest_loop_runner_reads_json_contracts_and_expands_priority_queries(self):
         with tempfile.TemporaryDirectory() as tmp:
