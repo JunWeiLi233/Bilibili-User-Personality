@@ -6,7 +6,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from python_backend.corpus.dictionary import DictionaryLoader
+from python_backend.corpus.dictionary import DictionaryLoader, DictionaryMergeWriter
 from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.local import LocalCorpusEvidenceFinder, LocalCorpusFlattener
 from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
@@ -205,8 +205,9 @@ class LocalCorpusMineRunner:
             },
         )
         entries = [entry for entry in raw_entries if self._mergeable(entry)]
+        write_result = DictionaryMergeWriter(self.dictionary_path).merge_entries(entries) if self.write else None
         result = {
-            "ok": not self.write,
+            "ok": True,
             "dictionaryPath": str(self.dictionary_path),
             "corpusFiles": [str(path) for path in self.corpus_paths],
             "corpusComments": len(comments),
@@ -220,8 +221,9 @@ class LocalCorpusMineRunner:
             "filteredEntryCount": len(raw_entries) - len(entries),
             "entries": entries,
         }
-        if self.write:
-            result["error"] = "python_dictionary_merge_write_not_implemented"
+        if write_result:
+            result["dictionaryBefore"] = write_result["before"]
+            result["dictionaryAfter"] = write_result["after"]
         return result
 
     def _dictionary(self) -> dict[str, Any]:

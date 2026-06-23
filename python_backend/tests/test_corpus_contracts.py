@@ -158,7 +158,7 @@ from python_backend.corpus.tieba import TiebaCorpusCommandRequest, TiebaCorpusJs
 from python_backend.corpus import dictionary_prune
 from python_backend.analysis import video_filter
 from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterCommandRequest, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoCommentFilterPayloadContractComparator, VideoCommentFilterPayloadRunner, VideoCommentFilterRequest, VideoContextBuilder, VideoContextCommandRequest, VideoContextContractComparator as VideoContextPayloadComparator, VideoContextRequest, VideoContextRunner as VideoContextPayloadRunner, VideoRelevanceCommandRequest, VideoRelevanceContractComparator as VideoRelevancePayloadComparator, VideoRelevanceFilter, VideoRelevancePayloadContractComparator, VideoRelevancePayloadRunner, VideoRelevanceRequest
-from python_backend.corpus.dictionary import DictionaryLoader, DictionaryManifestContract, DictionaryPayloadContract
+from python_backend.corpus.dictionary import DictionaryLoader, DictionaryManifestContract, DictionaryMergeWriter, DictionaryPayloadContract
 from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader, CorpusPayloadContract
 from python_backend.corpus.writer import CorpusShardPlanner, CorpusShardWriteCommandRequest, CorpusShardWriteContractComparator as CorpusShardWritePayloadComparator, CorpusShardWritePayloadContract, CorpusShardWritePayloadContractComparator, CorpusShardWriteRequest, CorpusShardWriteRunner as CorpusShardWritePayloadRunner, CorpusShardWriteSummary, CorpusShardWriter
@@ -7127,6 +7127,8 @@ class CorpusContractTests(unittest.TestCase):
                 "shardMaxBytes": None,
                 "evidenceStorage": "split",
                 "updatedAt": None,
+                "entryFiles": {"attack": ["dict.entries/attack-001.json"]},
+                "evidenceFiles": {"attack": ["dict.evidence/attack-001.json"]},
                 "entries": [
                     {
                         "term": "doge",
@@ -9511,22 +9513,87 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual([entry["term"] for entry in result["entries"]], ["\u9634\u9633\u602a\u6c14", "\u8003\u636e\u5462"])
         self.assertEqual(result["filteredEntryCount"], 0)
 
-    def test_local_corpus_mine_command_rejects_write_until_dictionary_merge_is_python_owned(self):
+    def test_dictionary_merge_writer_updates_split_dictionary_and_round_trips_loader(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            DictionaryMergeWriter(dictionary_path, generated_at="2026-06-23T00:00:00.000Z", max_shard_bytes=1024).write(
+                [
+                    {
+                        "term": "\u9634\u9633\u602a\u6c14",
+                        "family": "attack",
+                        "meaning": "\u6697\u8bbd\u8bbd\u523a",
+                        "risk": "medium",
+                        "confidence": 0.7,
+                        "evidenceCount": 1,
+                        "evidenceSamples": ["\u9634\u9633\u602a\u6c14\u7684\u8bc4\u8bba"],
+                        "evidenceSources": [{"source": "Bilibili local corpus", "sample": "\u9634\u9633\u602a\u6c14\u7684\u8bc4\u8bba"}],
+                    }
+                ]
+            )
+            result = DictionaryMergeWriter(dictionary_path, generated_at="2026-06-23T00:01:00.000Z", max_shard_bytes=1024).merge_entries(
+                [
+                    {
+                        "term": "\u9634\u9633\u602a\u6c14",
+                        "family": "attack",
+                        "meaning": "\u6697\u8bbd\u8bbd\u523a",
+                        "risk": "medium",
+                        "confidence": 0.8,
+                        "evidenceCount": 1,
+                        "evidenceSamples": ["\u7ee7\u7eed\u9634\u9633\u602a\u6c14"],
+                        "evidenceSources": [{"source": "Tieba local corpus", "sample": "\u7ee7\u7eed\u9634\u9633\u602a\u6c14"}],
+                    }
+                ]
+            )
+            loaded = DictionaryLoader(dictionary_path).load()
+            entry_shard_exists = (dictionary_path.parent / loaded.manifest["entryFiles"]["attack"][0]).exists()
+            evidence_shard_exists = (dictionary_path.parent / loaded.manifest["evidenceFiles"]["attack"][0]).exists()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["before"], 1)
+        self.assertEqual(result["after"], 1)
+        self.assertEqual(loaded.manifest["storage"], "split")
+        self.assertEqual(loaded.entries[0]["term"], "\u9634\u9633\u602a\u6c14")
+        self.assertEqual(loaded.entries[0]["evidenceCount"], 2)
+        self.assertEqual(loaded.entries[0]["evidenceSamples"], ["\u9634\u9633\u602a\u6c14\u7684\u8bc4\u8bba", "\u7ee7\u7eed\u9634\u9633\u602a\u6c14"])
+        self.assertTrue(entry_shard_exists)
+        self.assertTrue(evidence_shard_exists)
+
+    def test_local_corpus_mine_command_write_merges_entries_into_split_dictionary(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             dictionary_path = root / "dictionary.json"
             corpus_path = root / "comments.json"
-            dictionary_path.write_text(json.dumps({"entries": []}), encoding="utf-8")
-            corpus_path.write_text(json.dumps({"comments": []}), encoding="utf-8")
+            DictionaryMergeWriter(dictionary_path, generated_at="2026-06-23T00:00:00.000Z", max_shard_bytes=1024).write(
+                [
+                    {
+                        "term": "\u9634\u9633\u602a\u6c14",
+                        "family": "attack",
+                        "meaning": "\u6697\u8bbd\u8bbd\u523a",
+                        "evidenceCount": 0,
+                        "evidenceSamples": [],
+                        "evidenceSources": [],
+                    }
+                ]
+            )
+            corpus_path.write_text(
+                json.dumps({"comments": [{"message": "\u4f60\u8fd9\u9634\u9633\u602a\u6c14\u7684\u8bed\u6c14\u662f\u5427", "source": "Bilibili local corpus"}]}),
+                encoding="utf-8",
+            )
 
             result = LocalCorpusMineCommandRequest(
                 ["--dictionary", dictionary_path, "--corpus", corpus_path, "--write"],
                 env={},
             ).run()
+            loaded = DictionaryLoader(dictionary_path).load()
 
-        self.assertFalse(result["ok"])
-        self.assertEqual(result["error"], "python_dictionary_merge_write_not_implemented")
+        self.assertTrue(result["ok"])
         self.assertTrue(result["write"])
+        self.assertEqual(result["entryCount"], 1)
+        self.assertEqual(result["dictionaryBefore"], 1)
+        self.assertEqual(result["dictionaryAfter"], 1)
+        self.assertEqual(loaded.entries[0]["evidenceCount"], 1)
+        self.assertEqual(loaded.entries[0]["evidenceSamples"], ["\u4f60\u8fd9\u9634\u9633\u602a\u6c14\u7684\u8bed\u6c14\u662f\u5427"])
 
     def test_local_corpus_mine_cli_runner_is_command_request_wrapper(self):
         self.assertTrue(issubclass(local_corpus_mine_cli.LocalCorpusMineCliRunner, LocalCorpusMineCommandRequest))
@@ -9538,7 +9605,7 @@ class CorpusContractTests(unittest.TestCase):
         inventory = PackageCommandMigrationInventory(package).scan()
         mapping = next(item for item in inventory["pythonBackedNodeScripts"] if item["script"] == "dictionary:mine-local")
         self.assertEqual(mapping["pythonScript"], "python:local-mine")
-        self.assertEqual(mapping["replacementScope"], "no_write_runtime")
+        self.assertEqual(mapping["replacementScope"], "write_runtime_needs_full_command_compare")
         self.assertFalse(mapping["readyToReplace"])
 
     def test_tieba_corpus_updater_leaves_corpus_unchanged_without_comments(self):

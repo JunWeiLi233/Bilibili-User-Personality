@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import os
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -10,6 +11,7 @@ from python_backend.runtime.json_contracts import JsonContractReader
 
 
 SUPPORTED_FAMILIES = {"attack", "absolutes", "evidence", "evasion", "cooperation", "correction"}
+SUPPORTED_FAMILY_ORDER = ["attack", "absolutes", "evidence", "evasion", "cooperation", "correction"]
 
 
 @dataclass(frozen=True)
@@ -75,6 +77,8 @@ class DictionaryManifestContract:
             "shardMaxBytes": self.manifest.get("shardMaxBytes") or None,
             "evidenceStorage": "split" if evidence_files else None,
             "updatedAt": self.manifest.get("updatedAt") or None,
+            "entryFiles": DictionaryLoader._dict_field(self.manifest, "entryFiles"),
+            "evidenceFiles": evidence_files,
             "entries": entries,
             "families": self.manifest.get("families") or {},
         }
@@ -227,3 +231,177 @@ class DictionaryLoader:
                 seen.add(key)
                 unique_sources.append(source)
         return unique_sources
+
+
+class DictionaryMergeWriter:
+    """Write and merge JS-compatible split keyword dictionaries."""
+
+    def __init__(self, path: str | Path, *, generated_at: str | None = None, max_shard_bytes: Any = 64 * 1024):
+        self.path = Path(path)
+        self.generated_at = generated_at
+        self.max_shard_bytes = max(1024, self._int_value(max_shard_bytes, 64 * 1024))
+
+    def merge_entries(self, entries: list[dict[str, Any]] | None = None) -> dict[str, Any]:
+        current = DictionaryLoader(self.path).load()
+        before = len(current.entries)
+        merged = self._merge_entry_lists(current.entries, entries or [])
+        self.write(merged, version=current.manifest.get("version", 1))
+        return {"ok": True, "before": before, "after": len(merged), "entries": len(entries or [])}
+
+    def write(self, entries: list[dict[str, Any]] | None = None, *, version: Any = 1) -> dict[str, Any]:
+        entries = [self._normalize_entry(entry) for entry in entries if isinstance(entry, dict)] if isinstance(entries, list) else []
+        entries = sorted(entries, key=lambda entry: (SUPPORTED_FAMILY_ORDER.index(entry["family"]) if entry["family"] in SUPPORTED_FAMILY_ORDER else 999, entry["term"]))
+        updated_at = self.generated_at or datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+        entry_files: dict[str, list[str]] = {}
+        evidence_files: dict[str, list[str]] = {}
+        for family in SUPPORTED_FAMILY_ORDER:
+            family_entries = [entry for entry in entries if entry.get("family") == family]
+            entry_shards = self._split_payloads(family_entries, lambda shard, count, values: self._entry_shard_payload(version, updated_at, family, shard, count, values))
+            evidence_values = [self._evidence_payload_value(entry) for entry in family_entries if self._has_evidence(entry)]
+            evidence_shards = self._split_payloads(evidence_values, lambda shard, count, values: self._evidence_shard_payload(version, updated_at, family, shard, count, values))
+            entry_files[family] = self._write_family_shards(self._entries_dir(), family, "entries", entry_shards)
+            evidence_files[family] = self._write_family_shards(self._evidence_dir(), family, "evidence", evidence_shards)
+        manifest = {
+            "version": self._int_value(version, 1),
+            "storage": "split",
+            "updatedAt": updated_at,
+            "shardMaxBytes": self.max_shard_bytes,
+            "entryFiles": entry_files,
+            "evidenceFiles": evidence_files,
+        }
+        self._write_json(self.path, manifest)
+        self._remove_stale(self._entries_dir(), entry_files)
+        self._remove_stale(self._evidence_dir(), evidence_files)
+        return {"ok": True, "entries": len(entries), "manifest": manifest}
+
+    def _merge_entry_lists(self, current_entries: list[dict[str, Any]], incoming_entries: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        merged: dict[str, dict[str, Any]] = {}
+        for entry in [*current_entries, *incoming_entries]:
+            normalized = self._normalize_entry(entry)
+            term = normalized["term"]
+            if not term:
+                continue
+            merged[term] = self._merge_entry(merged.get(term), normalized)
+        return list(merged.values())
+
+    def _merge_entry(self, existing: dict[str, Any] | None, incoming: dict[str, Any]) -> dict[str, Any]:
+        if not existing:
+            return incoming
+        samples = DictionaryLoader._unique([*DictionaryLoader._list_field(existing, "evidenceSamples"), *DictionaryLoader._list_field(incoming, "evidenceSamples")])
+        sources = DictionaryLoader._unique_sources([*DictionaryLoader._list_field(existing, "evidenceSources"), *DictionaryLoader._list_field(incoming, "evidenceSources")])
+        evidence_count = max(self._int_value(existing.get("evidenceCount"), 0), self._int_value(incoming.get("evidenceCount"), 0), len(samples), len(sources))
+        return {
+            **existing,
+            **{key: value for key, value in incoming.items() if value not in ("", None, [], {})},
+            "evidenceCount": evidence_count,
+            "evidenceSamples": samples,
+            "evidenceSources": sources,
+        }
+
+    def _normalize_entry(self, entry: dict[str, Any]) -> dict[str, Any]:
+        term = str(entry.get("term") or "").strip()
+        family = str(entry.get("family") or "attack").strip()
+        if family not in SUPPORTED_FAMILIES:
+            family = "attack"
+        samples = DictionaryLoader._unique([str(sample).strip() for sample in DictionaryLoader._list_field(entry, "evidenceSamples") if str(sample).strip()])
+        evidence = DictionaryLoader._unique([str(sample).strip() for sample in DictionaryLoader._list_field(entry, "evidence") if str(sample).strip()])
+        samples = DictionaryLoader._unique([*samples, *evidence])
+        sources = DictionaryLoader._unique_sources(DictionaryLoader._list_field(entry, "evidenceSources"))
+        evidence_count = max(self._int_value(entry.get("evidenceCount"), 0), len(samples), len(sources))
+        return {
+            **entry,
+            "term": term,
+            "family": family,
+            "evidenceCount": evidence_count,
+            "evidenceSamples": samples,
+            "evidenceSources": sources,
+        }
+
+    def _split_payloads(self, values: list[dict[str, Any]], payload_builder) -> list[dict[str, Any]]:
+        if not values:
+            return []
+        shards: list[list[dict[str, Any]]] = []
+        current: list[dict[str, Any]] = []
+        for value in values:
+            candidate = [*current, value]
+            if current and self._json_bytes(payload_builder(999, 999, candidate)) > self.max_shard_bytes:
+                shards.append(current)
+                current = [value]
+            else:
+                current = candidate
+        if current:
+            shards.append(current)
+        return [payload_builder(index, len(shards), shard_values) for index, shard_values in enumerate(shards, start=1)]
+
+    def _write_family_shards(self, directory: Path, family: str, stem: str, payloads: list[dict[str, Any]]) -> list[str]:
+        directory.mkdir(parents=True, exist_ok=True)
+        files = []
+        for index, payload in enumerate(payloads, start=1):
+            name = f"{family}-{index:03d}.json"
+            self._write_json(directory / name, payload)
+            files.append(f"{directory.name}/{name}")
+        return files
+
+    def _entry_shard_payload(self, version: Any, updated_at: str, family: str, shard: int, shard_count: int, entries: list[dict[str, Any]]) -> dict[str, Any]:
+        stripped_entries = []
+        for entry in entries:
+            stripped_entries.append({key: value for key, value in entry.items() if key not in {"evidence", "evidenceSamples", "evidenceSources"}})
+        return {
+            "version": self._int_value(version, 1),
+            "updatedAt": updated_at,
+            "family": family,
+            "shard": shard,
+            "shardCount": shard_count,
+            "entries": stripped_entries,
+        }
+
+    def _evidence_shard_payload(self, version: Any, updated_at: str, family: str, shard: int, shard_count: int, evidence: list[dict[str, Any]]) -> dict[str, Any]:
+        return {
+            "version": self._int_value(version, 1),
+            "updatedAt": updated_at,
+            "family": family,
+            "shard": shard,
+            "shardCount": shard_count,
+            "evidence": evidence,
+        }
+
+    def _evidence_payload_value(self, entry: dict[str, Any]) -> dict[str, Any]:
+        return {
+            "term": entry.get("term"),
+            "evidenceSamples": DictionaryLoader._list_field(entry, "evidenceSamples"),
+            "evidenceSources": DictionaryLoader._list_field(entry, "evidenceSources"),
+        }
+
+    @staticmethod
+    def _has_evidence(entry: dict[str, Any]) -> bool:
+        return bool(DictionaryLoader._list_field(entry, "evidenceSamples") or DictionaryLoader._list_field(entry, "evidenceSources"))
+
+    def _entries_dir(self) -> Path:
+        return self.path.with_suffix("").parent / f"{self.path.with_suffix('').name}.entries"
+
+    def _evidence_dir(self) -> Path:
+        return self.path.with_suffix("").parent / f"{self.path.with_suffix('').name}.evidence"
+
+    def _remove_stale(self, directory: Path, file_map: dict[str, list[str]]) -> None:
+        kept = {Path(path).name for paths in file_map.values() for path in paths}
+        if not directory.exists():
+            return
+        for path in directory.iterdir():
+            if path.is_file() and path.name.endswith(".json") and path.name not in kept:
+                path.unlink()
+
+    @staticmethod
+    def _write_json(path: Path, payload: dict[str, Any]) -> None:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+    @staticmethod
+    def _json_bytes(payload: dict[str, Any]) -> int:
+        return len((json.dumps(payload, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
+
+    @staticmethod
+    def _int_value(value: Any, fallback: int) -> int:
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            return fallback

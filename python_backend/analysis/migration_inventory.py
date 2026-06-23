@@ -53,7 +53,7 @@ DEFAULT_PACKAGE_REPLACEMENT_SCOPES = {
     "dictionary:resolve-near": "dry_run_plan",
     "dictionary:auto": "dry_run_plan",
     "dictionary:tieba": "dry_run_plan",
-    "dictionary:mine-local": "no_write_runtime",
+    "dictionary:mine-local": "write_runtime_needs_full_command_compare",
     "dictionary:probe-bilibili": "dry_run_plan",
     "deepseek:analyze": "mocked_runtime",
     "aicu:scrape": "dry_run_plan",
