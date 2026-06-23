@@ -8546,6 +8546,21 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_tieba_keyword_plan_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "tieba-plan.json"
+            js_report_path = root / "js-tieba-plan.json"
+            payload_path.write_text(json.dumps({"argv": ["--query=doge"], "env": {}}), encoding="utf-8")
+            js_report_path.write_text('{"options": ', encoding="utf-8")
+
+            comparison = TiebaKeywordPlanPayloadComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["options"]["queries"], ["doge"])
+
     def test_tieba_keyword_plan_cli_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -19233,6 +19248,23 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_scraper_monitor_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            js_report_path = root / "js-monitor.json"
+            (data_dir / "uid-discovery-progress.json").write_text(json.dumps({"stats": {"uidsAnalyzed": 1, "uidsFound": 2}}), encoding="utf-8")
+            (data_dir / "uid-pipeline-1-1.json").write_text(json.dumps({"processed": {"1": "success"}, "stats": {"success": 1}}), encoding="utf-8")
+            js_report_path.write_text('{"pipeline": ', encoding="utf-8")
+
+            comparison = ScraperMonitorPayloadContractComparator(data_dir, js_report_path, total_start=1, total_end=1, workers=1).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["combined"], {"uidsAnalyzed": 2})
+
     def test_scraper_monitor_payload_runner_lives_with_scraper_monitor_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -19714,6 +19746,21 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "collection", "python": {"storesTopLevelReplies": True, "storesNestedReplies": True, "dedupesByRpid": True, "updatesCombinedTextFromComments": True}, "js": {"storesNestedReplies": False}},
             ],
         )
+
+    def test_batch_popular_plan_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "batch-popular-plan.json"
+            js_report_path = root / "js-batch-popular-plan.json"
+            payload_path.write_text(json.dumps({"argv": ["--pages=5"], "progress": {"pagesScanned": 2}}), encoding="utf-8")
+            js_report_path.write_text('{"range": ', encoding="utf-8")
+
+            comparison = BatchPopularPlanPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["range"], {"startPage": 3, "maxPages": 5, "remainingPages": 3})
 
     def test_batch_popular_plan_cli_runner_reads_json_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
