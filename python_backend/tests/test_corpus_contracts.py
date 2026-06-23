@@ -1136,6 +1136,7 @@ class CorpusContractTests(unittest.TestCase):
                 "package.json",
                 "server/scripts/scrape.js",
                 "server/scripts/scrape.test.js",
+                "server/scripts/compareDeepSeekAnalyzePlan.js",
                 "server/scripts/importHuggingFaceCorpus.js",
                 "server/services/corpus.js",
                 "server/services/huggingFaceCorpus.js",
@@ -1164,20 +1165,24 @@ class CorpusContractTests(unittest.TestCase):
 
             result = BackendMigrationInventoryScanner(root).scan()
 
-        self.assertEqual(result["remainingJsBackendFiles"], 8)
+        self.assertEqual(result["remainingJsBackendFiles"], 9)
         self.assertEqual(result["backendJsTests"], 1)
-        self.assertEqual(result["categories"]["scripts"], 2)
+        self.assertEqual(result["categories"]["scripts"], 3)
         self.assertEqual(result["categories"]["services"], 2)
         self.assertEqual(result["categories"]["routes"], 1)
         self.assertEqual(result["categories"]["utils"], 2)
         self.assertEqual(result["categories"]["root"], 1)
-        self.assertEqual(result["files"]["scripts"], ["server/scripts/importHuggingFaceCorpus.js", "server/scripts/scrape.js"])
+        self.assertEqual(
+            result["files"]["scripts"],
+            ["server/scripts/compareDeepSeekAnalyzePlan.js", "server/scripts/importHuggingFaceCorpus.js", "server/scripts/scrape.js"],
+        )
         self.assertEqual(result["migrationCandidateJsBackendFiles"], 5)
         self.assertEqual(
             result["retainedJsBackendFiles"],
             [
                 {"path": "server/index.js", "reason": "app_api_orchestration"},
                 {"path": "server/routes/api.js", "reason": "app_api_orchestration"},
+                {"path": "server/scripts/compareDeepSeekAnalyzePlan.js", "reason": "js_python_contract_bridge"},
                 {"path": "server/utils/paths.js", "reason": "shared_runtime_support"},
             ],
         )
@@ -1241,6 +1246,7 @@ class CorpusContractTests(unittest.TestCase):
                 "server": "node server/index.js",
                 "aicu:test": "node server/scripts/testAicuApi.js",
                 "dev:full": "node server/index.js",
+                "python:deepseek-cli-compare": "node server/scripts/compareDeepSeekAnalyzePlan.js",
                 "python:coverage-standalone": "python -m python_backend.cli.coverage_audit --standalone",
                 "python:huggingface-import": "python -m python_backend.cli.huggingface_corpus",
                 "python:test": "python -m unittest discover python_backend/tests",
@@ -1249,7 +1255,7 @@ class CorpusContractTests(unittest.TestCase):
 
         result = PackageCommandMigrationInventory(package).scan()
 
-        self.assertEqual(result["nodeServerScripts"], 5)
+        self.assertEqual(result["nodeServerScripts"], 6)
         self.assertEqual(result["pythonBackendScripts"], 2)
         self.assertEqual(
             result["pythonBackedNodeScripts"],
@@ -1274,6 +1280,16 @@ class CorpusContractTests(unittest.TestCase):
                 {"script": "server", "command": "node server/index.js", "reason": "app_api_orchestration"},
                 {"script": "aicu:test", "command": "node server/scripts/testAicuApi.js", "reason": "external_api_smoke_test"},
                 {"script": "dev:full", "command": "node server/index.js", "reason": "app_api_orchestration"},
+            ],
+        )
+        self.assertEqual(
+            result["bridgeNodeScripts"],
+            [
+                {
+                    "script": "python:deepseek-cli-compare",
+                    "command": "node server/scripts/compareDeepSeekAnalyzePlan.js",
+                    "reason": "js_python_contract_bridge",
+                },
             ],
         )
         self.assertEqual(result["replacementNeeded"], [])

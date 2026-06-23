@@ -39,6 +39,10 @@ DEFAULT_RETAINED_NODE_COMMANDS = {
     "aicu:test": "external_api_smoke_test",
 }
 
+DEFAULT_BRIDGE_NODE_COMMANDS = {
+    "python:deepseek-cli-compare": "js_python_contract_bridge",
+}
+
 RETAINED_JS_FILE_PREFIXES = {
     "server/routes/": "app_api_orchestration",
 }
@@ -47,6 +51,7 @@ RETAINED_JS_FILES = {
     "server/index.js": "app_api_orchestration",
     "server/utils/paths.js": "shared_runtime_support",
     "server/utils/fileLock.js": "shared_runtime_support",
+    "server/scripts/compareDeepSeekAnalyzePlan.js": "js_python_contract_bridge",
 }
 
 MIGRATION_PRIORITY_RULES = (
@@ -177,10 +182,12 @@ class PackageCommandMigrationInventory:
         package: dict[str, Any] | None = None,
         equivalents: dict[str, str] | None = None,
         retained_commands: dict[str, str] | None = None,
+        bridge_commands: dict[str, str] | None = None,
     ):
         self.package = package if isinstance(package, dict) else {}
         self.equivalents = equivalents or DEFAULT_PACKAGE_COMMAND_EQUIVALENTS
         self.retained_commands = retained_commands or DEFAULT_RETAINED_NODE_COMMANDS
+        self.bridge_commands = bridge_commands or DEFAULT_BRIDGE_NODE_COMMANDS
 
     @classmethod
     def from_root(cls, root: str | Path = ".") -> "PackageCommandMigrationInventory":
@@ -200,6 +207,7 @@ class PackageCommandMigrationInventory:
         python_scripts = self._python_backend_scripts(scripts)
         python_backed: list[dict[str, str]] = []
         retained: list[dict[str, str]] = []
+        bridge: list[dict[str, str]] = []
         replacement_needed: list[dict[str, str]] = []
 
         for name, command in node_scripts.items():
@@ -216,6 +224,8 @@ class PackageCommandMigrationInventory:
                 )
             elif name in self.retained_commands:
                 retained.append({"script": name, "command": command, "reason": self.retained_commands[name]})
+            elif name in self.bridge_commands:
+                bridge.append({"script": name, "command": command, "reason": self.bridge_commands[name]})
             else:
                 replacement_needed.append({"script": name, "command": command})
 
@@ -224,6 +234,7 @@ class PackageCommandMigrationInventory:
             "pythonBackendScripts": len(python_scripts),
             "pythonBackedNodeScripts": python_backed,
             "retainedNodeScripts": retained,
+            "bridgeNodeScripts": bridge,
             "replacementNeeded": replacement_needed,
         }
 
