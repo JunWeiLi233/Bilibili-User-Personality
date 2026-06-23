@@ -5,7 +5,11 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { test } from 'node:test';
 
-import { compareUidPipelineLauncherPlan, compareUidPipelineLauncherPlanObjects } from './compareUidPipelineLauncherPlan.js';
+import {
+  UID_PIPELINE_LAUNCHER_PLAN_FIXTURES,
+  compareUidPipelineLauncherPlan,
+  compareUidPipelineLauncherPlanObjects,
+} from './compareUidPipelineLauncherPlan.js';
 
 const SUMMARY = {
   workers: [
@@ -45,6 +49,26 @@ test('compareUidPipelineLauncherPlan compares JS and Python launch plans', async
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('compareUidPipelineLauncherPlan exports named compatibility fixtures', async () => {
+  assert.deepEqual(Object.keys(UID_PIPELINE_LAUNCHER_PLAN_FIXTURES), ['default-data-dir', 'custom-data-dir']);
+
+  const dataDirs = [];
+  const result = await compareUidPipelineLauncherPlan({
+    fixtureNames: Object.keys(UID_PIPELINE_LAUNCHER_PLAN_FIXTURES),
+    runJs: async ({ dataDir }) => {
+      dataDirs.push(dataDir);
+      return { ok: true, ...SUMMARY };
+    },
+    runPython: async () => ({ ok: true, state: { startedAt: '', ...SUMMARY } }),
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.fixtures.map((fixture) => fixture.name), ['default-data-dir', 'custom-data-dir']);
+  assert.equal(dataDirs.length, 2);
+  assert.match(dataDirs[0], /server[\\/]data$/);
+  assert.equal(dataDirs[1], UID_PIPELINE_LAUNCHER_PLAN_FIXTURES['custom-data-dir'].dataDir);
 });
 
 test('launchUidPipeline can delegate dry-run launcher planning to Python', () => {
