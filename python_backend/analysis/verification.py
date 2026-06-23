@@ -175,6 +175,30 @@ class RandomVerificationRequest:
     compare_js_report_path: str | Path | None = None
 
     def run(self) -> dict[str, Any]:
+        return RandomVerificationRequestDispatcher(
+            corpus_path=self.corpus_path,
+            dictionary_path=self.dictionary_path,
+            sample_size=self.sample_size,
+            seed=self.seed,
+            extra_corpus_paths=self.extra_corpus_paths,
+            payload_path=self.payload_path,
+            compare_js_report_path=self.compare_js_report_path,
+        ).run()
+
+
+@dataclass(frozen=True)
+class RandomVerificationRequestDispatcher:
+    """Dispatch random-verification request modes without leaking CLI branching."""
+
+    corpus_path: str | Path = "server/data/bilibiliDirectProbeCorpus.json"
+    dictionary_path: str | Path = "server/data/deepseekKeywordDictionary.json"
+    sample_size: Any = 50
+    seed: Any = 1
+    extra_corpus_paths: list[str | Path] | None = None
+    payload_path: str | Path | None = None
+    compare_js_report_path: str | Path | None = None
+
+    def run(self) -> dict[str, Any]:
         if self.payload_path and self.compare_js_report_path:
             return RandomVerificationJsonPayloadContractComparator(self.payload_path, self.compare_js_report_path).compare()
         if self.payload_path:
