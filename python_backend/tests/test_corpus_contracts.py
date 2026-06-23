@@ -40,6 +40,7 @@ from python_backend.cli import harvest_plan as harvest_plan_cli
 from python_backend.cli import harvest_state as harvest_state_cli
 from python_backend.cli import history_tag_corpus as history_tag_corpus_cli
 from python_backend.cli import huggingface_corpus as huggingface_corpus_cli
+from python_backend.cli import json_contract_scan as json_contract_scan_cli
 from python_backend.cli import keyword_evidence as keyword_evidence_cli
 from python_backend.cli import local_corpus_mine_plan as local_corpus_mine_plan_cli
 from python_backend.cli import merge_agent_dictionaries_plan as merge_agent_dictionaries_plan_cli
@@ -168,6 +169,7 @@ from python_backend.scrapers.bilibili_probe import BilibiliProbePlanCommandReque
 from python_backend.runtime.file_lock import FileLockStateCommandRequest, FileLockStateContractComparator as FileLockStatePayloadComparator, FileLockStateInspector, FileLockStateRequest, FileLockStateRunner as FileLockStatePayloadRunner, FileLockStateSummary
 from python_backend.scrapers.rate_limiter import RateLimitPolicy, RateLimiter
 from python_backend.runtime.json_contracts import JsonContractReader
+from python_backend.runtime.json_contract_scan import JsonContractScanner
 from python_backend.cli.aicu_scrape_plan import AicuScrapePlanContractComparator, AicuScrapePlanRunner
 from python_backend.cli.aicu_batch_plan import AicuBatchPlanContractComparator, AicuBatchPlanRunner
 from python_backend.cli.aicu_browser_batch_plan import AicuBrowserBatchPlanContractComparator, AicuBrowserBatchPlanRunner
@@ -5885,6 +5887,41 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(reader.decode_string_literal_content("\\u8def\\u8fc7", fallback="raw"), "\u8def\u8fc7")
         self.assertEqual(reader.decode_string_literal_content("plain text", fallback="raw"), "plain text")
         self.assertEqual(reader.decode_string_literal_content("bad\\", fallback="raw"), "raw")
+
+    def test_json_contract_scanner_flags_direct_production_loads(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            bad_path = root / "python_backend" / "analysis" / "bad_contract.py"
+            allowed_path = root / "python_backend" / "runtime" / "json_contracts.py"
+            bad_path.parent.mkdir(parents=True)
+            allowed_path.parent.mkdir(parents=True)
+            bad_path.write_text("import json\nvalue = json.loads(raw)\n", encoding="utf-8")
+            allowed_path.write_text("import json\nvalue = json.loads(raw)\n", encoding="utf-8")
+
+            result = JsonContractScanner(root).scan()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["summary"]["violations"], 1)
+        self.assertEqual(result["violations"][0]["path"], "python_backend/analysis/bad_contract.py")
+        self.assertEqual(result["violations"][0]["line"], 2)
+        self.assertEqual(result["violations"][0]["pattern"], "json.loads(")
+
+    def test_json_contract_scan_cli_reports_contract_violations(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            bad_path = root / "python_backend" / "corpus" / "bad_contract.py"
+            bad_path.parent.mkdir(parents=True)
+            bad_path.write_text("import json\nvalue = json.load(handle)\n", encoding="utf-8")
+            output = io.StringIO()
+
+            with contextlib.redirect_stdout(output):
+                exit_code = json_contract_scan_cli.main(["--root", str(root)])
+
+            result = json.loads(output.getvalue())
+
+        self.assertEqual(exit_code, 1)
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["violations"][0]["pattern"], "json.load(")
 
     def test_contract_comparator_rejects_manifest_run_count_mismatch(self):
         with tempfile.TemporaryDirectory() as tmp:
