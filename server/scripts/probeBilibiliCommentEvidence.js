@@ -650,6 +650,12 @@ if (planArgs.planJson) {
   process.exit(0);
 }
 
+const result = await runDirectProbeCommand();
+if (result?.bridge) {
+  console.log(JSON.stringify(result, null, 2));
+}
+process.exit(result?.ok === false ? 1 : 0);
+
 const options = parseArgs();
 const audit = await readJson(options.auditPath);
 const existingCorpus = await readJsonCorpus(options.outputPath, { version: 1, comments: [], runs: [] });

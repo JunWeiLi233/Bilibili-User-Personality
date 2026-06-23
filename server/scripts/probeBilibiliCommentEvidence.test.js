@@ -379,3 +379,37 @@ test('probeBilibiliCommentEvidence CLI can delegate a JSON payload to the Python
     await rm(tempDir, { recursive: true, force: true });
   }
 });
+
+test('probeBilibiliCommentEvidence CLI honors Python command runtime env opt-in', async () => {
+  const tempDir = await mkdtemp(join(tmpdir(), 'direct-probe-python-runtime-cli-'));
+  try {
+    const auditPath = join(tempDir, 'audit.json');
+    const corpusPath = join(tempDir, 'corpus.json');
+    await writeFile(auditPath, JSON.stringify({ nextActions: [] }), 'utf8');
+    await writeFile(corpusPath, JSON.stringify({ version: 1, comments: [], runs: [] }), 'utf8');
+
+    const { stdout } = await execFileAsync(
+      'node',
+      ['server/scripts/probeBilibiliCommentEvidence.js', `--audit=${auditPath}`, `--output=${corpusPath}`],
+      {
+        cwd: process.cwd(),
+        env: {
+          ...process.env,
+          BILIBILI_DIRECT_PROBE_USE_PYTHON_COMMAND: '1',
+          PYTHONUTF8: '1',
+          PYTHONIOENCODING: 'utf-8',
+        },
+        timeout: 10000,
+        maxBuffer: 10 * 1024 * 1024,
+      },
+    );
+    const result = JSON.parse(stdout);
+
+    assert.equal(result.ok, true);
+    assert.equal(result.bridge, 'python_direct_probe_command_runtime');
+    assert.deepEqual(result.actions, []);
+    assert.equal(result.commentsCollected, 0);
+  } finally {
+    await rm(tempDir, { recursive: true, force: true });
+  }
+});
