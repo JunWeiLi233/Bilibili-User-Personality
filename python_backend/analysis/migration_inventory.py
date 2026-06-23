@@ -78,6 +78,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:direct-probe-command-compare": "full_command_query_aid_danmaku_write_fixture_matrix",
     "python:aicu-compare": "dry_run_plan_inline_missing_file_page_override_fixtures_and_js_python_bridge",
     "python:aicu-batch-compare": "dry_run_plan_resume_empty_range_malformed_payload_fixtures_and_js_python_bridge",
+    "python:aicu-browser-compare": "dry_run_default_fresh_completed_range_fixtures_and_js_python_plan_bridge",
     "python:batch-bilibili-compare": "dry_run_plan_resume_empty_parseint_prefix_fixtures_and_js_python_bridge",
     "python:batch-popular-compare": "dry_run_plan_resume_empty_parseint_prefix_fixtures_and_js_python_bridge",
     "python:batch-scraper-launcher-compare": "dry_run_plan_default_custom_data_dir_fixtures_and_js_python_bridge",

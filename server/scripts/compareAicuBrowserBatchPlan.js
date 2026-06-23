@@ -25,6 +25,22 @@ export const DEFAULT_PAYLOAD = {
   },
 };
 
+export const AICU_BROWSER_BATCH_PLAN_FIXTURES = {
+  'default-range': DEFAULT_PAYLOAD,
+  'fresh-range': {
+    argv: ['--start=200000', '--end=200002'],
+    progress: {},
+    database: { users: { 200001: { uid: '200001' }, 199999: { uid: '199999' } } },
+  },
+  'completed-range': {
+    argv: ['--start=300000', '--end=300002'],
+    progress: { lastUid: 300002, completed: 3, errors: [] },
+    database: { users: { 300000: { uid: '300000' }, 300001: { uid: '300001' }, 300002: { uid: '300002' } } },
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = Object.keys(AICU_BROWSER_BATCH_PLAN_FIXTURES);
+
 function summarize(result = {}) {
   return Object.fromEntries(RESULT_KEYS.filter((key) => key in result).map((key) => [key, result[key]]));
 }
@@ -58,17 +74,25 @@ async function runPythonPlan({ payloadPath }) {
   return JSON.parse(stdout);
 }
 
-export async function compareAicuBrowserBatchPlan({ payload = DEFAULT_PAYLOAD, runJs = runJsPlan, runPython = runPythonPlan } = {}) {
+function resolvePayload({ payload, fixture } = {}) {
+  if (payload) return { name: fixture?.name || 'custom', payload };
+  const name = typeof fixture === 'string' ? fixture : fixture?.name || 'default-range';
+  return { name, payload: AICU_BROWSER_BATCH_PLAN_FIXTURES[name] || DEFAULT_PAYLOAD };
+}
+
+async function compareAicuBrowserBatchPlanSingle({ payload, fixture, runJs = runJsPlan, runPython = runPythonPlan } = {}) {
+  const resolved = resolvePayload({ payload, fixture });
   const tempDir = await mkdtemp(join(tmpdir(), 'aicu-browser-plan-compare-'));
   try {
     const payloadPath = join(tempDir, 'payload.json');
-    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
-    const js = await runJs({ payload, payloadPath });
-    const python = await runPython({ payload, payloadPath });
+    await writeFile(payloadPath, JSON.stringify(resolved.payload, null, 2), 'utf8');
+    const context = { payload: resolved.payload, fixture: { name: resolved.name }, payloadPath };
+    const js = await runJs(context);
+    const python = await runPython(context);
     const comparison = compareAicuBrowserBatchPlanObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { payloadPath },
+      fixture: { name: resolved.name, payloadPath },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -78,8 +102,20 @@ export async function compareAicuBrowserBatchPlan({ payload = DEFAULT_PAYLOAD, r
   }
 }
 
+export async function compareAicuBrowserBatchPlan({ payload, fixture, fixtureNames, runJs = runJsPlan, runPython = runPythonPlan } = {}) {
+  if (fixtureNames) {
+    const results = [];
+    for (const name of fixtureNames.length ? fixtureNames : DEFAULT_FIXTURE_NAMES) {
+      results.push(await compareAicuBrowserBatchPlanSingle({ fixture: name, runJs, runPython }));
+    }
+    const mismatches = results.flatMap((result) => result.mismatches.map((mismatch) => ({ ...mismatch, fixture: result.fixture.name })));
+    return { ok: mismatches.length === 0, fixtures: results.map((result) => result.fixture), results, mismatches };
+  }
+  return compareAicuBrowserBatchPlanSingle({ payload: payload || DEFAULT_PAYLOAD, fixture, runJs, runPython });
+}
+
 async function main() {
-  const result = await compareAicuBrowserBatchPlan();
+  const result = await compareAicuBrowserBatchPlan({ fixtureNames: DEFAULT_FIXTURE_NAMES });
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }

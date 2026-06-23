@@ -4733,6 +4733,10 @@ class CorpusContractTests(unittest.TestCase):
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareAicuBrowserBatchPlan.test.js"},
             ],
         )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:aicu-browser-compare"],
+            "dry_run_default_fresh_completed_range_fixtures_and_js_python_plan_bridge",
+        )
 
     def test_video_link_direct_planner_matches_js_cli_mode_contract(self):
         planner = VideoLinkDirectPlanner()

@@ -5,7 +5,11 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { test } from 'node:test';
 
-import { compareAicuBrowserBatchPlan, compareAicuBrowserBatchPlanObjects } from './compareAicuBrowserBatchPlan.js';
+import {
+  AICU_BROWSER_BATCH_PLAN_FIXTURES,
+  compareAicuBrowserBatchPlan,
+  compareAicuBrowserBatchPlanObjects,
+} from './compareAicuBrowserBatchPlan.js';
 
 const PLAN = {
   range: {
@@ -66,6 +70,38 @@ test('compareAicuBrowserBatchPlan compares JS and Python dry-run browser batch p
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('compareAicuBrowserBatchPlan exports named payload fixtures', async () => {
+  assert.deepEqual(Object.keys(AICU_BROWSER_BATCH_PLAN_FIXTURES), [
+    'default-range',
+    'fresh-range',
+    'completed-range',
+  ]);
+
+  const calls = [];
+  const result = await compareAicuBrowserBatchPlan({
+    fixtureNames: Object.keys(AICU_BROWSER_BATCH_PLAN_FIXTURES),
+    runJs: async (context) => {
+      calls.push({ js: context.fixture.name, hasPayloadPath: context.payloadPath.endsWith('payload.json') });
+      return { ok: true, ...PLAN };
+    },
+    runPython: async (context) => {
+      calls.push({ python: context.fixture.name, hasPayloadPath: context.payloadPath.endsWith('payload.json') });
+      return { ok: true, ...PLAN };
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.deepEqual(calls, [
+    { js: 'default-range', hasPayloadPath: true },
+    { python: 'default-range', hasPayloadPath: true },
+    { js: 'fresh-range', hasPayloadPath: true },
+    { python: 'fresh-range', hasPayloadPath: true },
+    { js: 'completed-range', hasPayloadPath: true },
+    { python: 'completed-range', hasPayloadPath: true },
+  ]);
 });
 
 test('batchScrapeAicuBrowser can delegate dry-run planning to Python', () => {
