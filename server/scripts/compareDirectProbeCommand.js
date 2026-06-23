@@ -108,10 +108,20 @@ async function runJsDirectProbeCommand({ payload }) {
   const action = payload.audit?.nextActions?.[0] || {};
   const term = action.term || TERM;
   const query = action.nextQuery || action.query || term;
+  const explicitAids = Array.isArray(payload.explicitAids)
+    ? payload.explicitAids.map((aid) => String(aid || '').trim()).filter(Boolean)
+    : [];
+  const argv = explicitAids.length
+    ? [
+      ...explicitAids.map((aid) => `--aid=${aid}`),
+      '--delay-ms=1000',
+      '--jitter-ms=0',
+    ]
+    : [`--query=${query}`, `--term=${term}`, '--delay-ms=1000', '--jitter-ms=0'];
   const searchVideos = payload.searchVideos || {};
   const videoComments = payload.videoComments || {};
   return runDirectProbeCommand({
-    argv: [`--query=${query}`, `--term=${term}`, '--delay-ms=1000', '--jitter-ms=0'],
+    argv,
     env: {},
     readJson: async () => payload.audit || { nextActions: [] },
     readJsonCorpus: async () => payload.existingCorpus || { version: 1, comments: [], runs: [] },

@@ -48,3 +48,54 @@ test('compareDirectProbeCommand runs injected JS and Python command runners', as
     { runner: 'python', videos: 1 },
   ]);
 });
+
+test('compareDirectProbeCommand compares explicit AID command input', async () => {
+  const explicitMessage = `${TERM}\u663e\u5f0fAID\u547d\u4ee4`;
+  const result = await compareDirectProbeCommand({
+    payload: {
+      audit: { nextActions: [] },
+      existingCorpus: { version: 1, comments: [], runs: [] },
+      dictionary: {
+        entries: [
+          {
+            term: TERM,
+            family: 'evidence',
+            meaning: 'explicit aid fixture',
+            evidenceCount: 0,
+            evidenceSamples: [],
+            evidenceSources: [],
+          },
+        ],
+      },
+      options: {
+        maxActions: 1,
+        videosPerQuery: 1,
+        sourceVideosPerAction: 0,
+        replyPages: 1,
+        replyPageSize: 3,
+        includeDanmaku: false,
+        write: false,
+        cookie: 'fixture-cookie',
+        now: '2026-06-23T00:00:00.000Z',
+      },
+      explicitAids: ['999'],
+      searchVideos: {},
+      videoComments: {
+        'aid:999': [
+          {
+            message: explicitMessage,
+            source: 'Bilibili public direct comment probe: https://www.bilibili.com/video/av999/',
+            uid: '9',
+          },
+        ],
+      },
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.deepEqual(result.python.comments.map((comment) => comment.message), [explicitMessage]);
+  assert.deepEqual(result.js.comments.map((comment) => comment.message), [explicitMessage]);
+  assert.deepEqual(result.python.scannedVideos.map((video) => video.key), ['aid:999']);
+  assert.deepEqual(result.js.scannedVideos.map((video) => video.key), ['aid:999']);
+});
