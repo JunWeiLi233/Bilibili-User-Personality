@@ -55,7 +55,6 @@ DEFAULT_PACKAGE_REPLACEMENT_SCOPES = {
     "dictionary:tieba": "dry_run_plan",
     "dictionary:mine-local": "dry_run_plan",
     "dictionary:probe-bilibili": "dry_run_plan",
-    "dictionary:history-tags": "dry_run_plan",
     "deepseek:analyze": "mocked_runtime",
     "aicu:scrape": "dry_run_plan",
     "aicu:batch": "dry_run_plan",
@@ -174,6 +173,11 @@ class BackendMigrationInventoryScanner:
         if (
             relative_path == "server/scripts/runDictionaryCoverageAudit.js"
             and str(package_scripts.get("dictionary:coverage") or "").startswith("python -m python_backend.cli.coverage_audit --standalone")
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/scrapeBilibiliHistoryTags.js"
+            and package_scripts.get("dictionary:history-tags") == "python -m python_backend.cli.history_tag_corpus"
         ):
             return "legacy_compatibility_after_python_replacement"
         if relative_path in RETAINED_JS_FILES:

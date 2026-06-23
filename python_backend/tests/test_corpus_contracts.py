@@ -1,6 +1,7 @@
 import contextlib
 import io
 import json
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -145,7 +146,7 @@ from python_backend.cli.range_scraper_launcher import RangeScraperLauncherContra
 from python_backend.cli.fast_pipeline_launcher import FastPipelineLauncherContractComparator, FastPipelineLauncherPlanRunner
 from python_backend.corpus import direct_probe as direct_probe_module
 from python_backend.corpus.direct_probe import DirectProbeCorpusBuilder, DirectProbeCorpusCommandRequest, DirectProbeCorpusContractComparator as DirectProbeCorpusPayloadComparator, DirectProbeCorpusJsonPayloadContractComparator, DirectProbeCorpusPayloadContractComparator, DirectProbeCorpusRequest, DirectProbeCorpusRunner as DirectProbePayloadCorpusRunner, DirectProbeCorpusSummary, DirectProbePlanCommandRequest, DirectProbePlanContractComparator as DirectProbePlanPayloadComparator, DirectProbePlanPayloadContractComparator, DirectProbePlanRequest, DirectProbePlanRunner as DirectProbePayloadPlanRunner, DirectProbePlanSummary
-from python_backend.corpus.history_tags import HistoryTagCorpusCommandRequest, HistoryTagCorpusContractComparator as HistoryTagCorpusPayloadComparator, HistoryTagCorpusLoader, HistoryTagCorpusManager, HistoryTagCorpusPayloadContractComparator, HistoryTagCorpusRequest, HistoryTagCorpusRunner as HistoryTagPayloadCorpusRunner, HistoryTagCorpusShardWritePayloadContractComparator, HistoryTagCorpusShardWriteRunner, HistoryTagCorpusShardWriteSummary, HistoryTagCorpusShardWriter, HistoryTagCorpusSummary, HistoryTagScrapePlanner, HistoryTagScrapePlanContractComparator as HistoryTagScrapePlanPayloadComparator, HistoryTagScrapePlanPayloadContractComparator, HistoryTagScrapePlanRunner as HistoryTagScrapePayloadPlanRunner, HistoryTagScrapePlanSummary
+from python_backend.corpus.history_tags import HistoryTagCorpusCommandRequest, HistoryTagCorpusContractComparator as HistoryTagCorpusPayloadComparator, HistoryTagCorpusLoader, HistoryTagCorpusManager, HistoryTagCorpusPayloadContractComparator, HistoryTagCorpusRequest, HistoryTagCorpusRunner as HistoryTagPayloadCorpusRunner, HistoryTagCorpusShardWritePayloadContractComparator, HistoryTagCorpusShardWriteRunner, HistoryTagCorpusShardWriteSummary, HistoryTagCorpusShardWriter, HistoryTagCorpusSummary, HistoryTagMetadataScrapeCommandRequest, HistoryTagMetadataScraper, HistoryTagScrapePlanner, HistoryTagScrapePlanContractComparator as HistoryTagScrapePlanPayloadComparator, HistoryTagScrapePlanPayloadContractComparator, HistoryTagScrapePlanRunner as HistoryTagScrapePayloadPlanRunner, HistoryTagScrapePlanSummary
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceCorpusImportCommandRequest, HuggingFaceCorpusImportContractComparator as HuggingFaceCorpusImportPayloadComparator, HuggingFaceCorpusImportPlanContractComparator as HuggingFaceCorpusImportPlanPayloadComparator, HuggingFaceCorpusImportPlanRunner as HuggingFaceCorpusImportPayloadPlanRunner, HuggingFaceCorpusImportRequest, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
 from python_backend.corpus.local import LocalCorpusEvidenceCommandRequest, LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidenceJsonPayloadContractComparator, LocalCorpusEvidenceJsonPayloadRunner, LocalCorpusEvidencePayloadContractComparator, LocalCorpusEvidenceRequest, LocalCorpusEvidenceRunner as LocalCorpusEvidencePayloadRunner, LocalCorpusEvidenceSummary
 from python_backend.corpus.local import LocalCorpusFlattenCommandRequest, LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenPayloadContractComparator, LocalCorpusFlattenRequest, LocalCorpusFlattenRunner as LocalCorpusFlattenPayloadRunner, LocalCorpusFlattenSummary, LocalCorpusFlattener
@@ -11859,6 +11860,150 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertFalse(plan["collectComments"])
         self.assertFalse(plan["collectDanmaku"])
+
+    def test_history_tag_metadata_scraper_collects_only_video_metadata(self):
+        calls = []
+        waits = []
+
+        def fetch_json(url, referer):
+            calls.append({"url": url, "referer": referer})
+            return {
+                "code": 0,
+                "data": {
+                    "result": [
+                        {
+                            "bvid": "BVhistory001",
+                            "aid": 101,
+                            "title": '<em class="keyword">\u5386\u53f2</em>\u89c6\u9891',
+                            "description": "\u6e05\u671d\u5386\u53f2",
+                            "review": 42,
+                            "tag": "\u6e05\u671d,\u5386\u53f2",
+                        }
+                    ]
+                },
+            }
+
+        result = HistoryTagMetadataScraper(
+            fetch_json=fetch_json,
+            wait_fn=lambda ms: waits.append(ms),
+            clock=lambda: "2026-06-23T00:00:00.000Z",
+            jitter_fn=lambda jitter_ms: 0,
+        ).scrape({"seeds": ["\u5386\u53f2", "\u660e\u671d"], "pages": 1, "pageSize": 2, "delayMs": 50, "jitterMs": 0})
+
+        self.assertEqual(len(calls), 2)
+        self.assertTrue(all("/x/web-interface/search/type" in call["url"] for call in calls))
+        self.assertFalse(any("/x/v2/reply" in call["url"] or "dm/web" in call["url"] for call in calls))
+        self.assertEqual(waits, [50])
+        self.assertEqual(result["videos"][0]["bvid"], "BVhistory001")
+        self.assertEqual(result["videos"][0]["title"], "\u5386\u53f2\u89c6\u9891")
+        self.assertEqual(result["videos"][0]["tags"], ["\u5386\u53f2", "\u6e05\u671d"])
+        self.assertEqual(result["runs"][0]["videosFound"], 1)
+        self.assertEqual(result["runs"][0]["warnings"], [])
+
+    def test_history_tag_metadata_command_scrapes_merges_and_keeps_dry_run_file_unchanged(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output_path = root / "history-tags.json"
+            output_path.write_text(
+                json.dumps({"tags": [{"name": "\u5386\u53f2"}], "videos": [{"bvid": "BVold", "title": "old"}], "runs": []}),
+                encoding="utf-8",
+            )
+            calls = []
+
+            def fetch_json(url, referer):
+                calls.append({"url": url, "referer": referer})
+                return {
+                    "code": 0,
+                    "data": {
+                        "result": [
+                            {
+                                "bvid": "BVnew",
+                                "aid": "2026",
+                                "title": "<em>\u660e\u671d</em>\u5386\u53f2",
+                                "desc": "\u5386\u53f2\u89e3\u8bf4",
+                                "comment": 7,
+                                "tags": "\u660e\u671d|\u5386\u53f2",
+                            }
+                        ]
+                    },
+                }
+
+            result = HistoryTagMetadataScrapeCommandRequest(
+                ["--output", str(output_path), "--seed", "\u660e\u671d", "--pages", "1", "--delay-ms", "0"],
+                env={},
+                fetch_json=fetch_json,
+                wait_fn=lambda ms: None,
+                clock=lambda: "2026-06-23T00:00:00.000Z",
+            ).run()
+
+            persisted = json.loads(output_path.read_text(encoding="utf-8"))
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["videosFound"], 1)
+        self.assertEqual(result["corpusVideos"], 2)
+        self.assertFalse(result["write"])
+        self.assertFalse(result["collectComments"])
+        self.assertFalse(result["collectDanmaku"])
+        self.assertEqual(persisted["videos"], [{"bvid": "BVold", "title": "old"}])
+        self.assertEqual(len(calls), 1)
+
+    def test_history_tag_metadata_command_write_preserves_js_monolithic_corpus_shape(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output_path = root / "history-tags.json"
+
+            def fetch_json(url, referer):
+                return {
+                    "code": 0,
+                    "data": {
+                        "result": [
+                            {
+                                "bvid": "BVwrite",
+                                "aid": "123",
+                                "title": "\u5386\u53f2\u5199\u5165",
+                                "review": 3,
+                                "tag": "\u5386\u53f2",
+                            }
+                        ]
+                    },
+                }
+
+            result = HistoryTagMetadataScrapeCommandRequest(
+                ["--output", str(output_path), "--seed", "\u5386\u53f2", "--delay-ms", "0", "--write"],
+                env={},
+                fetch_json=fetch_json,
+                wait_fn=lambda ms: None,
+                clock=lambda: "2026-06-23T00:00:00.000Z",
+            ).run()
+            persisted = json.loads(output_path.read_text(encoding="utf-8"))
+
+        self.assertTrue(result["ok"])
+        self.assertTrue(result["write"])
+        self.assertNotEqual(persisted.get("storage"), "split")
+        self.assertEqual([video["bvid"] for video in persisted["videos"]], ["BVwrite"])
+        self.assertEqual(persisted["runs"][0]["videosFound"], 1)
+
+    def test_history_tag_corpus_command_request_uses_process_argv_for_live_cli(self):
+        original_argv = list(sys.argv)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output_path = root / "history-tags.json"
+            sys.argv = ["history_tag_corpus", "--output", str(output_path), "--seed", "\u5386\u53f2", "--delay-ms", "0"]
+            try:
+                result = HistoryTagCorpusCommandRequest(
+                    None,
+                    env={},
+                    fetch_json=lambda url, referer: {"code": 0, "data": {"result": [{"bvid": "BVargv", "title": "\u5386\u53f2"}]}},
+                    wait_fn=lambda ms: None,
+                    clock=lambda: "2026-06-23T00:00:00.000Z",
+                ).run()
+            finally:
+                sys.argv = original_argv
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["outputPath"], str(output_path))
+        self.assertEqual(result["seeds"], ["\u5386\u53f2"])
+        self.assertEqual(result["videosFound"], 1)
 
     def test_history_tag_scrape_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:

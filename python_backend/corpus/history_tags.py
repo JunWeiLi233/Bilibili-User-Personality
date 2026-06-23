@@ -3,12 +3,17 @@ from __future__ import annotations
 import argparse
 import html
 import json
+import os
+import random
 import re
+import sys
+import time
 import unicodedata
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 from urllib.parse import quote
+from urllib.request import Request, urlopen
 
 from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 from python_backend.scrapers.rate_limiter import RateLimitPolicy
@@ -263,6 +268,224 @@ class HistoryTagScrapePlanContractComparator:
             "python": self.summary.summarize(python_result),
             "js": self.summary.summarize(js_result),
         }
+
+
+class HistoryTagMetadataScraper:
+    """Scrape Bilibili search metadata for the standalone history-tag corpus."""
+
+    def __init__(
+        self,
+        fetch_json=None,
+        wait_fn=None,
+        clock=None,
+        jitter_fn=None,
+    ):
+        self.fetch_json = fetch_json or self._fetch_json
+        self.wait_fn = wait_fn or self._wait
+        self.clock = clock or self._now
+        self.jitter_fn = jitter_fn or self._jitter
+
+    def scrape(self, options: dict[str, Any] | None = None) -> dict[str, Any]:
+        options = options if isinstance(options, dict) else {}
+        seeds = _parse_list(options.get("seeds")) or list(DEFAULT_HISTORY_TAG_SEEDS)
+        pages = _bounded_int(options.get("pages"), 1, 1, 10)
+        page_size = _bounded_int(options.get("pageSize"), 20, 1, 50)
+        delay_ms = max(0, _bounded_int(options.get("delayMs"), 0, 0, 120000))
+        jitter_ms = max(0, _bounded_int(options.get("jitterMs"), 0, 0, 120000))
+        requests = HistoryTagScrapePlanner()._requests(seeds, pages, page_size)
+        videos: list[dict[str, Any]] = []
+        warnings: list[str] = []
+        failed_seeds: set[str] = set()
+
+        for request in requests:
+            if request["seed"] in failed_seeds:
+                continue
+            if videos and delay_ms > 0:
+                self.wait_fn(delay_ms + self.jitter_fn(jitter_ms))
+            try:
+                payload = self.fetch_json(request["url"], request["referer"])
+                if not isinstance(payload, dict) or payload.get("code") != 0:
+                    message = payload.get("message") if isinstance(payload, dict) else ""
+                    raise ValueError(message or f"Bilibili API code {payload.get('code') if isinstance(payload, dict) else 'invalid'}")
+                for item in ((payload.get("data") or {}).get("result") or []):
+                    video = self._video_from_item(item, request["seed"])
+                    if video:
+                        videos.append(video)
+            except Exception as exc:
+                warnings.append(f"{request['seed']} page {request['page']}: {exc}")
+                failed_seeds.add(request["seed"])
+                continue
+
+        unique_videos = _unique_by(videos, lambda video: video.get("bvid"))
+        return {
+            "tags": _unique_by([{"name": seed, "source": "seed"} for seed in seeds], lambda tag: _clean_text(tag.get("name"))),
+            "videos": unique_videos,
+            "runs": [
+                {
+                    "at": self.clock(),
+                    "seeds": seeds,
+                    "pages": pages,
+                    "pageSize": page_size,
+                    "videosFound": len(unique_videos),
+                    "warnings": warnings,
+                }
+            ],
+            "warnings": warnings,
+        }
+
+    def _video_from_item(self, item: Any, seed: str) -> dict[str, Any] | None:
+        if not isinstance(item, dict) or not item.get("bvid"):
+            return None
+        bvid = str(item.get("bvid") or "").strip()
+        return {
+            "bvid": bvid,
+            "aid": item.get("aid") or item.get("id") or "",
+            "title": _clean_title(item.get("title"), bvid),
+            "description": _clean_title(item.get("description") or item.get("desc") or ""),
+            "sourceUrl": item.get("arcurl") or f"https://www.bilibili.com/video/{bvid}/",
+            "replyCount": self._number(item.get("review") or item.get("comment") or 0),
+            "tags": _unique_by([seed, *_parse_list(item.get("tag") or item.get("tags"))], _clean_text),
+            "sourceQuery": seed,
+            "scrapedAt": self.clock(),
+        }
+
+    @staticmethod
+    def _number(value: Any) -> int:
+        try:
+            return int(float(value or 0))
+        except (TypeError, ValueError):
+            return 0
+
+    @staticmethod
+    def _now() -> str:
+        return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+    @staticmethod
+    def _wait(ms: int) -> None:
+        time.sleep(max(0, ms) / 1000)
+
+    @staticmethod
+    def _jitter(jitter_ms: int) -> int:
+        return random.randrange(max(1, int(jitter_ms))) if jitter_ms > 0 else 0
+
+    @staticmethod
+    def _fetch_json(url: str, referer: str) -> dict[str, Any]:
+        request = Request(
+            url,
+            headers={
+                "accept": "application/json, text/plain, */*",
+                "accept-language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
+                "referer": referer,
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+            },
+        )
+        with urlopen(request, timeout=30) as response:
+            return json.loads(response.read().decode("utf-8-sig"))
+
+
+class HistoryTagMetadataScrapeCommandRequest:
+    """Run the standalone Bilibili history-tag metadata scrape command."""
+
+    VALUE_OPTIONS = {
+        "--output",
+        "--pages",
+        "--page-size",
+        "--delay-ms",
+        "--jitter-ms",
+        "--seed",
+        "--seeds",
+        "--seed-file",
+    }
+
+    def __init__(
+        self,
+        argv: list[Any] | None = None,
+        *,
+        env: dict[str, Any] | None = None,
+        fetch_json=None,
+        wait_fn=None,
+        clock=None,
+        jitter_fn=None,
+    ):
+        self.argv = [str(item) for item in argv] if argv is not None else []
+        self.env = env or {}
+        self.scraper = HistoryTagMetadataScraper(fetch_json=fetch_json, wait_fn=wait_fn, clock=clock, jitter_fn=jitter_fn)
+        self.generated_at = clock
+
+    def run(self) -> dict[str, Any]:
+        plan = self._build_plan()
+        scraped = self.scraper.scrape(plan)
+        current = HistoryTagCorpusLoader(plan["outputPath"]).load()
+        merged = HistoryTagCorpusManager(generated_at=self._now()).merge(current, scraped)
+        if plan["write"]:
+            self._write_monolithic_corpus(plan["outputPath"], merged)
+        return {
+            "ok": True,
+            "outputPath": plan["outputPath"],
+            "seeds": plan["seeds"],
+            "pages": plan["pages"],
+            "pageSize": plan["pageSize"],
+            "delayMs": plan["delayMs"],
+            "jitterMs": plan["jitterMs"],
+            "write": plan["write"],
+            "collectComments": False,
+            "collectDanmaku": False,
+            "videosFound": len(scraped.get("videos") or []),
+            "corpusVideos": len(merged.get("videos") or []),
+            "warnings": scraped.get("warnings") or [],
+            "corpus": merged,
+        }
+
+    def _build_plan(self) -> dict[str, Any]:
+        argv = self._normalize_argv(self.argv)
+        seed_files = self._seed_files(argv)
+        return HistoryTagScrapePlanner().build_plan(argv=argv, env=self.env, seed_files=seed_files)
+
+    def _seed_files(self, argv: list[str]) -> dict[str, str]:
+        paths = []
+        env_path = str(self.env.get("BILIBILI_HISTORY_TAG_SEED_FILE") or "").strip()
+        if env_path:
+            paths.append(env_path)
+        for arg in argv:
+            if arg.startswith("--seed-file="):
+                paths.append(arg[len("--seed-file=") :].strip())
+        result = {}
+        for path in paths:
+            if not path:
+                continue
+            try:
+                result[path] = Path(path).read_text(encoding="utf-8-sig")
+            except OSError:
+                result[path] = ""
+        return result
+
+    def _normalize_argv(self, argv: list[str]) -> list[str]:
+        normalized: list[str] = []
+        index = 0
+        while index < len(argv):
+            arg = argv[index]
+            if arg in self.VALUE_OPTIONS and index + 1 < len(argv):
+                normalized.append(f"{arg}={argv[index + 1]}")
+                index += 2
+                continue
+            normalized.append(arg)
+            index += 1
+        return normalized
+
+    def _now(self) -> str:
+        return self.scraper.clock()
+
+    def _write_monolithic_corpus(self, output_path: str | Path, corpus: dict[str, Any]) -> None:
+        payload = {
+            "version": 1,
+            "updatedAt": corpus.get("updatedAt") or self._now(),
+            "tags": corpus.get("tags") if isinstance(corpus.get("tags"), list) else [],
+            "videos": corpus.get("videos") if isinstance(corpus.get("videos"), list) else [],
+            "runs": corpus.get("runs") if isinstance(corpus.get("runs"), list) else [],
+        }
+        path = Path(output_path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
 class HistoryTagCorpusManager:
@@ -738,8 +961,22 @@ class HistoryTagCorpusRequest:
 class HistoryTagCorpusCommandRequest:
     """Argv-backed corpus-layer request for history-tag corpus commands."""
 
-    def __init__(self, argv: list[Any] | None = None):
+    def __init__(
+        self,
+        argv: list[Any] | None = None,
+        *,
+        env: dict[str, Any] | None = None,
+        fetch_json=None,
+        wait_fn=None,
+        clock=None,
+        jitter_fn=None,
+    ):
         self.argv = argv
+        self.env = dict(os.environ) if env is None else env
+        self.fetch_json = fetch_json
+        self.wait_fn = wait_fn
+        self.clock = clock
+        self.jitter_fn = jitter_fn
 
     @staticmethod
     def parser() -> argparse.ArgumentParser:
@@ -750,13 +987,30 @@ class HistoryTagCorpusCommandRequest:
         parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible history-tag corpus report to compare.")
         parser.add_argument("--plan-payload", default="", help="Optional JSON payload for scrape option/request planning.")
         parser.add_argument("--write-payload", default="", help="Optional JSON payload for split history-tag corpus writing.")
+        parser.add_argument("--output", default="")
+        parser.add_argument("--pages", default="")
+        parser.add_argument("--page-size", default="")
+        parser.add_argument("--delay-ms", default="")
+        parser.add_argument("--jitter-ms", default="")
+        parser.add_argument("--seed", action="append", default=[])
+        parser.add_argument("--seeds", default="")
+        parser.add_argument("--seed-file", default="")
+        parser.add_argument("--write", action="store_true")
         return parser
 
     def run(self) -> dict[str, Any]:
         parser = self.parser()
-        args = parser.parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        raw_argv = [str(item) for item in self.argv] if self.argv is not None else None
+        args = parser.parse_args(raw_argv)
         if not args.update and not args.plan_payload and not args.write_payload:
-            parser.error("--update is required unless --plan-payload is used")
+            return HistoryTagMetadataScrapeCommandRequest(
+                raw_argv if raw_argv is not None else sys.argv[1:],
+                env=self.env,
+                fetch_json=self.fetch_json,
+                wait_fn=self.wait_fn,
+                clock=self.clock,
+                jitter_fn=self.jitter_fn,
+            ).run()
         return HistoryTagCorpusRequest(
             current_path=args.current,
             update_path=args.update or None,

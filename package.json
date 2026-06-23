@@ -17,7 +17,7 @@
     "dictionary:huggingface": "python -m python_backend.cli.huggingface_corpus",
     "dictionary:mine-local": "node server/scripts/mineLocalCorpusEvidence.js",
     "dictionary:probe-bilibili": "node server/scripts/probeBilibiliCommentEvidence.js",
-    "dictionary:history-tags": "node server/scripts/scrapeBilibiliHistoryTags.js",
+    "dictionary:history-tags": "python -m python_backend.cli.history_tag_corpus",
     "deepseek:analyze": "node server/scripts/analyzeDeepSeekComments.js",
     "aicu:scrape": "node server/scripts/scrapeAicuUsers.js",
     "aicu:batch": "node server/scripts/batchScrapeAicu.js",
