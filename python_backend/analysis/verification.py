@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import random
 import re
 from dataclasses import asdict, dataclass
@@ -149,8 +150,7 @@ class RandomVerificationRunner:
         self.dictionary_path = Path(dictionary_path)
         self.sample_size = _non_negative_int(sample_size, 50)
         self.seed = _int_or(seed, 1)
-        extra_corpus_paths = extra_corpus_paths if isinstance(extra_corpus_paths, list) else []
-        self.extra_corpus_paths = [Path(path) for path in extra_corpus_paths]
+        self.extra_corpus_paths = _path_list(extra_corpus_paths)
 
     def run(self) -> dict[str, Any]:
         corpus = CorpusLoader(self.corpus_path).load()
@@ -190,7 +190,7 @@ class RandomVerificationPayloadRunner:
         comments = list(corpus.comments)
         runs = list(corpus.runs)
         storage = str(corpus.manifest.get("storage", "monolith"))
-        extra_corpus_paths = payload.get("extraCorpusPaths") if isinstance(payload.get("extraCorpusPaths"), list) else []
+        extra_corpus_paths = _path_list(payload.get("extraCorpusPaths"))
         for extra_path in extra_corpus_paths:
             extra_corpus = CorpusLoader(extra_path).load()
             comments.extend(extra_corpus.comments)
@@ -277,6 +277,19 @@ def _int_or(value: Any, fallback: int) -> int:
 
 def _non_negative_int(value: Any, fallback: int) -> int:
     return max(0, _int_or(value, fallback))
+
+
+def _path_list(value: Any) -> list[Path]:
+    if not isinstance(value, list):
+        return []
+    paths: list[Path] = []
+    for item in value:
+        if isinstance(item, os.PathLike):
+            paths.append(Path(item))
+            continue
+        if isinstance(item, str) and item.strip():
+            paths.append(Path(item))
+    return paths
 
 
 class RandomVerifier:
