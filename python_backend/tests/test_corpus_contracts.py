@@ -23579,6 +23579,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["range", "database"])
 
+    def test_batch_bilibili_plan_has_js_python_validation_bridge(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertIn(
+            {
+                "script": "python:batch-bilibili-compare",
+                "command": "node server/scripts/compareBatchBilibiliPlan.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:batch-bilibili-plan",
+                "command": "python -m python_backend.cli.batch_bilibili_plan",
+                "pipeline": "batch_bilibili_plan",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareBatchBilibiliPlan.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_batch_popular_planner_matches_js_pages_and_resume_contract(self):
         planner = BatchPopularScrapePlanner()
 

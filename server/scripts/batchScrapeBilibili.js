@@ -1,6 +1,7 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { execSync } from 'node:child_process';
 
 const DATA_DIR = join(process.cwd(), 'server', 'data');
@@ -13,8 +14,96 @@ const DELAY_AFTER_RATE_LIMIT = 60000;
 const MAX_RETRIES = 3;
 const MAX_VIDEOS = 3;
 const MAX_COMMENTS = 50;
+const VIDEO_REPLY_PAGES = 1;
+const BROWSER_TIMEOUT_MS = 45000;
+const RATE_LIMIT_CODES = [-799, -412];
+const BROWSER_COMMAND = 'browser-harness';
+const BROWSER_SCRIPT = 'server/scripts/browserGetVideos.py';
+const BROWSER_WRAPPER = 'server/data/_browser_tmp.py';
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+function parseIntOr(value, fallback) {
+  const parsed = Number.parseInt(value, 10);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function buildSampleRequests(uid) {
+  return {
+    uid,
+    cardUrl: uid ? `https://api.bilibili.com/x/web-interface/card?mid=${uid}` : '',
+    replyUrl: uid ? 'https://api.bilibili.com/x/v2/reply?type=1&oid=123&pn=1&ps=20&sort=1' : '',
+    wrapperArgv: uid ? ['browserGetVideos.py', uid, String(MAX_VIDEOS)] : [],
+  };
+}
+
+export function buildBatchBilibiliPlan(payload = {}) {
+  const planPayload = payload && typeof payload === 'object' ? payload : {};
+  const argv = Array.isArray(planPayload.argv) ? planPayload.argv : [];
+  const progress = planPayload.progress && typeof planPayload.progress === 'object' ? planPayload.progress : {};
+  const database = planPayload.database && typeof planPayload.database === 'object' ? planPayload.database : {};
+  const users = database.users && typeof database.users === 'object' ? database.users : {};
+  let startUid = 100000;
+  let endUid = 200000;
+
+  for (const raw of argv) {
+    const arg = String(raw || '');
+    if (arg.startsWith('--start=')) startUid = parseIntOr(arg.split('=')[1], startUid);
+    if (arg.startsWith('--end=')) endUid = parseIntOr(arg.split('=')[1], endUid);
+  }
+  if (startUid <= 0) startUid = 100000;
+  if (endUid <= 0) endUid = 200000;
+
+  const inputStart = startUid;
+  const lastUid = parseIntOr(progress.lastUid, 0);
+  const resumed = lastUid >= startUid;
+  if (resumed) startUid = lastUid + 1;
+  const total = Math.max(0, endUid - startUid + 1);
+  const sampleUid = total ? String(startUid) : '';
+
+  return {
+    ok: true,
+    input: { startUid: inputStart, endUid },
+    range: { startUid, endUid, total },
+    resume: { lastUid, resumed },
+    database: { users: Object.keys(users).length },
+    limits: { maxVideos: MAX_VIDEOS, maxComments: MAX_COMMENTS, replyPages: VIDEO_REPLY_PAGES },
+    pacing: {
+      delayBetweenRequestsMs: DELAY_BETWEEN_REQUESTS,
+      delayBetweenUidsMs: DELAY_BETWEEN_UIDS,
+      delayAfterRateLimitMs: DELAY_AFTER_RATE_LIMIT,
+    },
+    retry: {
+      maxRetries: MAX_RETRIES,
+      rateLimitCodes: RATE_LIMIT_CODES,
+      htmlWafDetection: true,
+      hasUserAgent: true,
+      referer: 'https://www.bilibili.com/',
+    },
+    browser: {
+      command: BROWSER_COMMAND,
+      script: BROWSER_SCRIPT,
+      wrapper: BROWSER_WRAPPER,
+      timeoutMs: BROWSER_TIMEOUT_MS,
+      maxVideos: MAX_VIDEOS,
+    },
+    sampleRequests: buildSampleRequests(sampleUid),
+    progress: {
+      completed: parseIntOr(progress.completed, 0),
+      errors: Array.isArray(progress.errors) ? progress.errors.length : 0,
+    },
+  };
+}
+
+async function readPlanPayload(args) {
+  const payloadIndex = args.indexOf('--payload');
+  if (payloadIndex === -1 || !args[payloadIndex + 1]) return {};
+  try {
+    return JSON.parse(await readFile(args[payloadIndex + 1], 'utf8'));
+  } catch {
+    return {};
+  }
+}
 
 async function fetchJson(url, retries = MAX_RETRIES) {
   for (let attempt = 1; attempt <= retries; attempt++) {
@@ -29,7 +118,7 @@ async function fetchJson(url, retries = MAX_RETRIES) {
       if (text.startsWith('<')) throw new Error('HTML response (WAF/rate limit)');
       const data = JSON.parse(text);
       if (data.code === 0) return data;
-      if (data.code === -799 || data.code === -412) {
+      if (RATE_LIMIT_CODES.includes(data.code)) {
         console.log(`    Rate limited (${data.code}), waiting ${DELAY_AFTER_RATE_LIMIT / 1000}s...`);
         await wait(DELAY_AFTER_RATE_LIMIT);
         continue;
@@ -53,7 +142,7 @@ function getUserVideosViaBrowser(mid) {
     writeFileSync(wrapperPath, wrapper);
     const output = execSync(`browser-harness -c "exec(open('${wrapperPath}').read())"`, {
       encoding: 'utf8',
-      timeout: 45000,
+      timeout: BROWSER_TIMEOUT_MS,
       cwd: process.cwd(),
     });
     return output.trim().split('\n').filter(Boolean).map(line => {
@@ -117,6 +206,12 @@ async function saveProgress(progress) {
 
 async function main() {
   const args = process.argv.slice(2);
+  if (args.includes('--plan-json')) {
+    const payload = await readPlanPayload(args);
+    console.log(JSON.stringify(buildBatchBilibiliPlan(payload), null, 2));
+    return;
+  }
+
   let startUid = 100000;
   let endUid = 200000;
 
@@ -247,7 +342,9 @@ async function main() {
   console.log(`Total in database: ${Object.keys(db.users).length}`);
 }
 
-main().catch((err) => {
-  console.error('Fatal:', err.message);
-  process.exit(1);
-});
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  main().catch((err) => {
+    console.error('Fatal:', err.message);
+    process.exit(1);
+  });
+}

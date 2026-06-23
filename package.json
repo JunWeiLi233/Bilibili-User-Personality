@@ -64,6 +64,7 @@
     "python:aicu-browser-plan": "python -m python_backend.cli.aicu_browser_batch_plan",
     "python:aicu-browser-compare": "node server/scripts/compareAicuBrowserBatchPlan.js",
     "python:batch-bilibili-plan": "python -m python_backend.cli.batch_bilibili_plan",
+    "python:batch-bilibili-compare": "node server/scripts/compareBatchBilibiliPlan.js",
     "python:batch-popular-plan": "python -m python_backend.cli.batch_popular_plan",
     "python:batch-scraper-launcher": "python -m python_backend.cli.batch_scraper_launcher",
     "python:range-scraper-launcher": "python -m python_backend.cli.range_scraper_launcher",
