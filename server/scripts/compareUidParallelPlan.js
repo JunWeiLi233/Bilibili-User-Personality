@@ -30,6 +30,39 @@ export const DEFAULT_PAYLOAD = {
   },
 };
 
+export const UID_PARALLEL_PLAN_FIXTURES = {
+  'default-worker': DEFAULT_PAYLOAD,
+  'parseint-prefix': {
+    argv: ['--worker=1abc', '--workers=3abc'],
+    comments: {
+      300: [{ message: 'worker zero' }],
+      301: [{ message: 'worker one' }],
+      302: [{ message: '' }],
+      303: [{ message: 'worker zero again' }],
+      304: [{ message: 'worker one pending' }],
+    },
+    progress: {
+      processed: { 301: 'success' },
+      stats: { success: '1ok', noText: '2bad', errors: '3err' },
+    },
+    database: {
+      users: {
+        301: {},
+        304: {},
+        999: {},
+      },
+    },
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = ['default-worker', 'parseint-prefix'];
+
+function resolvePayload({ fixture = 'default-worker', payload } = {}) {
+  if (payload) return { name: fixture || 'custom', payload };
+  const name = String(fixture || 'default-worker');
+  return { name, payload: UID_PARALLEL_PLAN_FIXTURES[name] || DEFAULT_PAYLOAD };
+}
+
 function summarize(result = {}) {
   return Object.fromEntries(RESULT_KEYS.filter((key) => key in result).map((key) => [key, result[key]]));
 }
@@ -65,17 +98,25 @@ async function runPythonPlan({ payloadPath }) {
   return JSON.parse(stdout);
 }
 
-export async function compareUidParallelPlan({ payload = DEFAULT_PAYLOAD, runJs = runJsPlan, runPython = runPythonPlan } = {}) {
+export async function compareUidParallelPlan({
+  fixture = 'default-worker',
+  fixtureNames,
+  payload,
+  runJs = runJsPlan,
+  runPython = runPythonPlan,
+} = {}) {
+  if (fixtureNames) return compareUidParallelPlanSuite({ fixtures: fixtureNames, runJs, runPython });
+  const resolved = resolvePayload({ fixture, payload });
   const tempDir = await mkdtemp(join(tmpdir(), 'uid-parallel-plan-compare-'));
   try {
     const payloadPath = join(tempDir, 'payload.json');
-    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
-    const js = await runJs({ payload, payloadPath });
-    const python = await runPython({ payload, payloadPath });
+    await writeFile(payloadPath, JSON.stringify(resolved.payload, null, 2), 'utf8');
+    const js = await runJs({ payload: resolved.payload, payloadPath });
+    const python = await runPython({ payload: resolved.payload, payloadPath });
     const comparison = compareUidParallelPlanObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { payloadPath },
+      fixture: { name: resolved.name, payloadPath },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -85,8 +126,29 @@ export async function compareUidParallelPlan({ payload = DEFAULT_PAYLOAD, runJs 
   }
 }
 
+export async function compareUidParallelPlanSuite({
+  fixtures = DEFAULT_FIXTURE_NAMES,
+  runJs = runJsPlan,
+  runPython = runPythonPlan,
+} = {}) {
+  const results = [];
+  for (const fixture of fixtures) {
+    results.push(await compareUidParallelPlan({ fixture, runJs, runPython }));
+  }
+  return {
+    ok: results.every((result) => result.ok),
+    fixtures: results.map((result) => ({
+      name: result.fixture.name,
+      ok: result.ok,
+      js: result.js,
+      python: result.python,
+      mismatches: result.mismatches,
+    })),
+  };
+}
+
 async function main() {
-  const result = await compareUidParallelPlan();
+  const result = await compareUidParallelPlanSuite();
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }

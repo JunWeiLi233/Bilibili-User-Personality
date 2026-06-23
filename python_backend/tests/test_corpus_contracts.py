@@ -22854,6 +22854,27 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["stats"], {"success": 2, "noText": 1, "errors": 4})
         self.assertEqual(result["userDb"], {"users": 3, "assignedUsersInDb": 1})
 
+    def test_uid_parallel_analyzer_planner_matches_js_parseint_prefix_contract(self):
+        result = UidParallelAnalyzerPlanner.build_plan_from_payload(
+            {
+                "argv": ["--worker=1abc", "--workers=3abc"],
+                "comments": {
+                    "300": [{"message": "worker zero"}],
+                    "301": [{"message": "worker one"}],
+                    "302": [{"message": ""}],
+                    "303": [{"message": "worker zero again"}],
+                    "304": [{"message": "worker one pending"}],
+                },
+                "progress": {"processed": {"301": "success"}, "stats": {"success": "1ok", "noText": "2bad", "errors": "3err"}},
+                "database": {"users": {"301": {}, "304": {}, "999": {}}},
+            }
+        )
+
+        self.assertEqual(result["worker"], {"id": 1, "totalWorkers": 3, "assigned": 2})
+        self.assertEqual(result["assignment"], {"assignedUids": ["301", "304"], "alreadyProcessed": 1, "pending": 1, "trainable": 1, "skippableNoText": 0})
+        self.assertEqual(result["stats"], {"success": 1, "noText": 2, "errors": 3})
+        self.assertEqual(result["userDb"], {"users": 3, "assignedUsersInDb": 2})
+
     def test_uid_parallel_plan_runner_defaults_non_object_payload_root(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "uid-parallel-plan.json"
@@ -23111,12 +23132,16 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             BackendMigrationInventoryScanner._validation_gates(
                 validation_script="python:uid-parallel-compare",
-                validation_scope="dry_run_plan_fixture_and_js_python_plan_bridge",
+                validation_scope="dry_run_plan_default_worker_parseint_prefix_fixtures_and_js_python_bridge",
             ),
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-parallel-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidParallelPlan.test.js"},
             ],
+        )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:uid-parallel-compare"],
+            "dry_run_plan_default_worker_parseint_prefix_fixtures_and_js_python_bridge",
         )
 
     def test_batch_scraper_launcher_planner_builds_js_range_contract_without_filesystem(self):

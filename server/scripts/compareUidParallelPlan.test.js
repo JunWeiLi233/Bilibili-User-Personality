@@ -5,7 +5,11 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { test } from 'node:test';
 
-import { compareUidParallelPlan, compareUidParallelPlanObjects } from './compareUidParallelPlan.js';
+import {
+  UID_PARALLEL_PLAN_FIXTURES,
+  compareUidParallelPlan,
+  compareUidParallelPlanObjects,
+} from './compareUidParallelPlan.js';
 
 const PLAN = {
   worker: { id: 1, totalWorkers: 3, assigned: 2 },
@@ -52,6 +56,27 @@ test('compareUidParallelPlan compares JS and Python dry-run plans', async () => 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('compareUidParallelPlan exports named compatibility fixtures', async () => {
+  assert.deepEqual(Object.keys(UID_PARALLEL_PLAN_FIXTURES), ['default-worker', 'parseint-prefix']);
+
+  const payloads = [];
+  const result = await compareUidParallelPlan({
+    fixtureNames: Object.keys(UID_PARALLEL_PLAN_FIXTURES),
+    runJs: async ({ payload }) => {
+      payloads.push(payload);
+      return { ok: true, ...PLAN };
+    },
+    runPython: async () => ({ ok: true, ...PLAN }),
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.fixtures.map((fixture) => fixture.name), ['default-worker', 'parseint-prefix']);
+  assert.deepEqual(payloads, [
+    UID_PARALLEL_PLAN_FIXTURES['default-worker'],
+    UID_PARALLEL_PLAN_FIXTURES['parseint-prefix'],
+  ]);
 });
 
 test('uidParallelAnalyzer can delegate dry-run planning to Python', () => {

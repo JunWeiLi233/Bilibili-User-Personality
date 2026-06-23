@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 from pathlib import Path
 from typing import Any
 
@@ -8,11 +9,13 @@ from python_backend.runtime.json_contracts import JsonContractReader, safe_read_
 
 
 def _parse_number_or(value: Any, fallback: int) -> int:
-    try:
-        parsed = int(float(str(value)))
-    except (TypeError, ValueError):
+    match = re.match(r"^[\s]*([+-]?\d+)", str(value if value is not None else ""))
+    if not match:
         return fallback
-    return parsed
+    try:
+        return int(match.group(1))
+    except ValueError:
+        return fallback
 
 
 class UidParallelProgressReporter:
