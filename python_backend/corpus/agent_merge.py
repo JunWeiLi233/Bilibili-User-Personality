@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any
 
 from python_backend.corpus.dictionary import DictionaryLoader
+from python_backend.runtime.json_contracts import safe_read_json_object
 
 
 class AgentDictionaryMergePlanner:
@@ -168,11 +169,7 @@ class MergeAgentDictionariesPlanContractComparator:
         }
 
     def _read_js_report(self) -> dict[str, Any]:
-        if not self.js_report_path.exists():
-            return {}
-        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else {}
+        return safe_read_json_object(self.js_report_path)
 
 
 class AgentDictionaryMergePlanRequest:

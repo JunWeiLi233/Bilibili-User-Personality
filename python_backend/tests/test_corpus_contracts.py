@@ -16010,6 +16010,24 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(comparison["ok"])
         self.assertEqual(comparison["mismatches"], [{"key": "totalEvidenceGain", "python": 3, "js": 1}])
 
+    def test_merge_agent_dictionaries_plan_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            main_dictionary_path = root / "main.json"
+            agent_root = root / "agent"
+            agent_dict = agent_root / "server" / "data"
+            js_report_path = root / "js-merge-plan.json"
+            agent_dict.mkdir(parents=True)
+            main_dictionary_path.write_text(json.dumps({"entries": [{"term": "doge", "evidenceCount": 1}]}), encoding="utf-8")
+            (agent_dict / "deepseekKeywordDictionary.json").write_text(json.dumps({"entries": [{"term": "doge", "evidenceCount": 4}]}), encoding="utf-8")
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            result = MergeAgentDictionariesPlanPayloadComparator(main_dictionary_path, [agent_root], js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"], {})
+
     def test_merge_agent_dictionary_plan_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
