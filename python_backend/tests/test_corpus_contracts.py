@@ -16780,6 +16780,25 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["totalProcessed", "stats"])
 
+    def test_uid_pipeline_merge_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            js_report_path = root / "js-uid-merge.json"
+            (data_dir / "uid-pipeline-1-1.json").write_text(
+                json.dumps({"processed": {"1": "success"}, "stats": {"success": 1}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{not-json", encoding="utf-8")
+
+            comparison = UidPipelineMergePayloadContractComparator(data_dir, js_report_path, total_start=1, total_end=1, workers=1).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["totalProcessed"], 1)
+
     def test_uid_pipeline_merge_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -16977,6 +16996,20 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(state_exists)
         self.assertTrue(comparison["ok"])
         self.assertEqual(comparison["mismatches"], [])
+
+    def test_uid_pipeline_launcher_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            js_report_path = root / "js-launcher.json"
+            js_report_path.write_text("{not-json", encoding="utf-8")
+
+            comparison = UidPipelineLauncherPayloadContractComparator(data_dir, js_report_path, total_start=2, total_end=4, workers=2).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(len(comparison["python"]["workers"]), 2)
 
     def test_uid_pipeline_launcher_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -17226,6 +17259,29 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(comparison["ok"])
         self.assertEqual(comparison["mismatches"], [])
 
+    def test_uid_pipeline_state_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            js_report_path = root / "js-state.json"
+            (data_dir / "uid-pipeline-launcher.json").write_text(
+                json.dumps({"startedAt": "2026-06-20T00:00:00.000Z", "workers": [{"start": 7, "end": 8}]}),
+                encoding="utf-8",
+            )
+            (data_dir / "uid-pipeline-7-8.json").write_text(
+                json.dumps({"processed": {"7": "success"}, "stats": {"success": 1}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{not-json", encoding="utf-8")
+
+            comparison = UidPipelineStatePayloadContractComparator(data_dir, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["summary"]["totalProcessed"], 1)
+
     def test_uid_pipeline_state_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -17456,6 +17512,26 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["range"], {"start": 21, "end": 23, "total": 3})
         self.assertTrue(comparison["ok"])
         self.assertEqual(comparison["mismatches"], [])
+
+    def test_uid_pipeline_progress_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            progress_path = root / "uid-pipeline-21-23.json"
+            user_db_path = root / "scraped-users-db.json"
+            js_report_path = root / "js-progress.json"
+            progress_path.write_text(
+                json.dumps({"processed": {"21": "success", "22": "blocked"}, "stats": {"success": 1, "blocked": 1}}),
+                encoding="utf-8",
+            )
+            user_db_path.write_text(json.dumps({"users": {"21": {}, "90": {}}}), encoding="utf-8")
+            js_report_path.write_text("{not-json", encoding="utf-8")
+
+            comparison = UidPipelineProgressPayloadContractComparator(progress_path, js_report_path, user_db_path=user_db_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["progress"]["processed"], 2)
 
     def test_uid_pipeline_progress_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -17756,6 +17832,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["userDb"], {"users": 2, "usersInRange": 2})
         self.assertTrue(comparison["ok"])
         self.assertEqual(comparison["js"]["range"], result["range"])
+
+    def test_uid_pipeline_plan_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "uid-pipeline-plan.json"
+            js_report_path = root / "js-uid-pipeline-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--start=10", "--end=12"],
+                        "progress": {"processed": {"10": "success"}, "stats": {"success": 1}},
+                        "database": {"users": {"10": {}, "11": {}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{not-json", encoding="utf-8")
+
+            comparison = UidPipelinePlanPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["range"], {"start": 10, "end": 12, "total": 3})
 
     def test_uid_pipeline_plan_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
