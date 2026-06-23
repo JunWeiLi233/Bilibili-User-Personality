@@ -13,8 +13,9 @@ from urllib.parse import quote, urlencode, urlparse
 from urllib.request import Request, urlopen
 
 from python_backend.analysis.comment_coverage import _is_contract_scalar
-from python_backend.corpus.dictionary import DictionaryLoader
+from python_backend.corpus.dictionary import DictionaryLoader, DictionaryMergeWriter
 from python_backend.corpus.loader import CorpusLoader
+from python_backend.corpus.writer import CorpusShardWriter
 from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 from python_backend.scrapers.rate_limiter import RateLimitPolicy
 
@@ -700,6 +701,7 @@ class DirectProbeCommandFileRequest:
         explicit_queries: list[dict[str, str]] | None = None,
         explicit_aids: list[str] | None = None,
         options: dict[str, Any] | None = None,
+        payload_overrides: dict[str, Any] | None = None,
     ):
         self.audit_path = Path(audit_path)
         self.output_path = Path(output_path)
@@ -707,6 +709,7 @@ class DirectProbeCommandFileRequest:
         self.explicit_queries = explicit_queries or []
         self.explicit_aids = explicit_aids or []
         self.options = options if isinstance(options, dict) else {}
+        self.payload_overrides = payload_overrides if isinstance(payload_overrides, dict) else {}
 
     def run(self) -> dict[str, Any]:
         loaded_corpus = CorpusLoader(self.output_path, fallback={"version": 1, "comments": [], "runs": []}).load()
@@ -718,8 +721,21 @@ class DirectProbeCommandFileRequest:
             "explicitQueries": self.explicit_queries,
             "explicitAids": self.explicit_aids,
             "options": {**self.options, "outputPath": str(self.output_path)},
+            **self.payload_overrides,
         }
-        return DirectProbeCommandRunner(payload).run()
+        result = DirectProbeCommandRunner(payload).run()
+        if result.get("write") is True and isinstance(result.get("corpus"), dict):
+            result["corpusWrite"] = CorpusShardWriter.write_from_payload(
+                {
+                    "outputPath": str(self.output_path),
+                    "comments": result["corpus"].get("comments") if isinstance(result.get("corpus"), dict) else [],
+                    "runs": result["corpus"].get("runs") if isinstance(result.get("corpus"), dict) else [],
+                    "manifest": {key: value for key, value in result["corpus"].items() if key not in {"comments", "runs"}},
+                }
+            )
+            if isinstance(result.get("entries"), list) and result["entries"]:
+                result["dictionaryWrite"] = DictionaryMergeWriter(self.dictionary_path, generated_at=_clean_text(payload["options"].get("now")) or None).merge_entries(result["entries"])
+        return result
 
 
 class DirectProbeCommandArgvRequest:

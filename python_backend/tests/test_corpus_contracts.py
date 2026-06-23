@@ -1387,6 +1387,7 @@ class CorpusContractTests(unittest.TestCase):
                 {"gate": "js_opt_in_python_command_runtime", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
                 {"gate": "js_python_command_runtime_options", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
                 {"gate": "python_normal_cli_file_runtime", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
+                {"gate": "python_normal_cli_write_persistence", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
                 {"gate": "js_opt_in_python_live_fetch_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
             ],
         )
@@ -12069,6 +12070,49 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["actions"][0]["explicitVideos"], [{"aid": "654", "title": "explicit aid 654"}])
         self.assertEqual(result["scannedVideos"][0]["key"], "aid:654")
         self.assertEqual(result["commentsCollected"], 0)
+
+    def test_direct_probe_file_request_write_mode_persists_corpus_and_dictionary(self):
+        term = "\u67e5\u67e5\u8d44\u6599"
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            audit_path = root / "audit.json"
+            corpus_path = root / "bilibiliDirectProbeCorpus.json"
+            dictionary_path = root / "deepseekKeywordDictionary.json"
+            audit_path.write_text(json.dumps({"nextActions": [{"term": term, "nextQuery": f"{term} B\u7ad9\u8bc4\u8bba"}]}), encoding="utf-8")
+            corpus_path.write_text(json.dumps({"version": 1, "comments": [], "runs": []}), encoding="utf-8")
+            dictionary_path.write_text(json.dumps({"entries": [{"term": term, "family": "evidence", "meaning": "asks for source", "evidenceCount": 0}]}), encoding="utf-8")
+
+            result = direct_probe_module.DirectProbeCommandFileRequest(
+                audit_path=audit_path,
+                output_path=corpus_path,
+                dictionary_path=dictionary_path,
+                explicit_queries=[{"term": term, "query": f"{term} B\u7ad9\u8bc4\u8bba"}],
+                options={"maxActions": 1, "videosPerQuery": 1, "sourceVideosPerAction": 0, "write": True, "now": "2026-06-23T00:00:00.000Z"},
+                payload_overrides={
+                    "searchVideos": {f"{term} B\u7ad9\u8bc4\u8bba": [{"aid": "777", "title": "\u67e5\u8d44\u6599 fixture"}]},
+                    "videoComments": {
+                        "aid:777": [
+                            {
+                                "message": "\u5efa\u8bae\u5148\u67e5\u67e5\u8d44\u6599\u518d\u8bc4\u8bba",
+                                "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/av777/",
+                                "uid": "7",
+                            }
+                        ]
+                    },
+                },
+            ).run()
+
+            loaded_corpus = CorpusLoader(corpus_path).load()
+            loaded_dictionary = DictionaryLoader(dictionary_path).load()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["write"], True)
+        self.assertEqual(result["corpusWrite"]["comments"], 1)
+        self.assertEqual(result["corpusWrite"]["runs"], 1)
+        self.assertEqual(result["dictionaryWrite"]["entries"], 1)
+        self.assertEqual(loaded_corpus.comments[0]["message"], "\u5efa\u8bae\u5148\u67e5\u67e5\u8d44\u6599\u518d\u8bc4\u8bba")
+        self.assertEqual(loaded_dictionary.entries[0]["evidenceCount"], 1)
+        self.assertEqual(loaded_dictionary.entries[0]["evidenceSamples"], ["\u5efa\u8bae\u5148\u67e5\u67e5\u8d44\u6599\u518d\u8bc4\u8bba"])
 
     def test_direct_probe_command_runner_reads_separate_danmaku_payload_contract(self):
         payload = {
