@@ -27084,6 +27084,35 @@ class CorpusContractTests(unittest.TestCase):
             result["retainedJsBackendFiles"],
         )
 
+    def test_keyword_evidence_has_js_python_validation_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertEqual(
+            package["scripts"]["python:keyword-evidence-compare"],
+            "node server/scripts/compareKeywordEvidence.js",
+        )
+        self.assertIn(
+            {
+                "script": "python:keyword-evidence-compare",
+                "command": "node server/scripts/compareKeywordEvidence.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:keyword-evidence",
+                "command": "python -m python_backend.cli.keyword_evidence",
+                "pipeline": "keyword_evidence",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareKeywordEvidence.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_near_target_resolve_plan_runner_selects_comment_backed_near_target_terms(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
