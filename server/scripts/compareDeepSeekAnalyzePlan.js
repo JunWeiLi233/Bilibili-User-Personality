@@ -12,6 +12,47 @@ const execFileAsync = promisify(execFile);
 export const DEFAULT_ARGV = ['--plan-json', '--text=satire [doge]', '--uid', '42', '--multiagent', 'extra sentence'];
 const RESULT_KEYS = ['payload', 'input'];
 
+export const DEEPSEEK_ANALYZE_PLAN_FIXTURES = {
+  'argv-text-multiagent': {
+    argv: DEFAULT_ARGV,
+    stdinIsTTY: true,
+    expected: {
+      ok: true,
+      payload: { text: 'satire [doge] extra sentence', uid: '42', multiagent: true },
+      input: { source: 'argv', file: '', readsStdin: false, showHelp: false },
+    },
+  },
+  'stdin-pipe': {
+    argv: ['--plan-json'],
+    stdinIsTTY: false,
+    expected: {
+      ok: true,
+      payload: {},
+      input: { source: 'stdin', file: '', readsStdin: true, showHelp: false },
+    },
+  },
+  'file-source': {
+    argv: ['--plan-json', '--file', 'comments.txt', '--name=alice'],
+    stdinIsTTY: true,
+    expected: {
+      ok: true,
+      payload: { name: 'alice' },
+      input: { source: 'file', file: 'comments.txt', readsStdin: false, showHelp: false },
+    },
+  },
+  'help-source': {
+    argv: ['--plan-json', '--help'],
+    stdinIsTTY: true,
+    expected: {
+      ok: true,
+      payload: {},
+      input: { source: 'help', file: '', readsStdin: false, showHelp: true },
+    },
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = Object.keys(DEEPSEEK_ANALYZE_PLAN_FIXTURES);
+
 function summarizePlan(plan = {}) {
   return Object.fromEntries(RESULT_KEYS.filter((key) => key in plan).map((key) => [key, plan[key]]));
 }
@@ -50,15 +91,34 @@ async function runPythonCliPlan({ argv, stdinIsTTY }) {
 export async function compareDeepSeekAnalyzePlan({
   argv = DEFAULT_ARGV,
   stdinIsTTY = true,
+  fixture,
+  fixtureNames,
   runPythonPlan = runPythonCliPlan,
 } = {}) {
-  const js = buildPlan(parseArgs(argv), { stdinIsTTY });
-  const python = await runPythonPlan({ argv, stdinIsTTY });
+  if (fixtureNames) {
+    const results = [];
+    for (const name of fixtureNames.length ? fixtureNames : DEFAULT_FIXTURE_NAMES) {
+      results.push(await compareDeepSeekAnalyzePlan({ fixture: name, runPythonPlan }));
+    }
+    const mismatches = results.flatMap((result) => result.mismatches.map((mismatch) => ({ ...mismatch, fixture: result.fixture.name })));
+    return { ok: mismatches.length === 0, fixtures: results.map((result) => result.fixture), results, mismatches };
+  }
+
+  const resolvedFixture = typeof fixture === 'string' ? DEEPSEEK_ANALYZE_PLAN_FIXTURES[fixture] : fixture;
+  const resolvedName = typeof fixture === 'string' ? fixture : fixture?.name || 'custom';
+  const resolvedArgv = resolvedFixture?.argv || argv;
+  const resolvedStdinIsTTY = 'stdinIsTTY' in (resolvedFixture || {}) ? resolvedFixture.stdinIsTTY : stdinIsTTY;
+  const js = buildPlan(parseArgs(resolvedArgv), { stdinIsTTY: resolvedStdinIsTTY });
+  const python = await runPythonPlan({
+    argv: resolvedArgv,
+    stdinIsTTY: resolvedStdinIsTTY,
+    fixture: { name: resolvedName, expected: resolvedFixture?.expected },
+  });
   const comparison = comparePlanObjects(python, js);
 
   return {
     ok: comparison.ok,
-    fixture: { argv, stdinIsTTY },
+    fixture: { name: resolvedName, argv: resolvedArgv, stdinIsTTY: resolvedStdinIsTTY },
     js,
     python,
     mismatches: comparison.mismatches,
@@ -66,7 +126,7 @@ export async function compareDeepSeekAnalyzePlan({
 }
 
 async function main() {
-  const result = await compareDeepSeekAnalyzePlan();
+  const result = await compareDeepSeekAnalyzePlan({ fixtureNames: DEFAULT_FIXTURE_NAMES });
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }

@@ -55,6 +55,7 @@ DEFAULT_PACKAGE_VALIDATION_EQUIVALENTS = {
 
 DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:deepseek-cli-compare": "dry_run_plan",
+    "python:deepseek-cli-plan-js": "dry_run_plan_argv_stdin_file_help_multiagent_fixtures_and_js_python_bridge",
     "python:deepseek-validation-compare": "analysis_validation",
     "python:deepseek-normalization-compare": "analysis_normalization",
     "python:deepseek-analyze-fixture-compare": "full_command_fixture",

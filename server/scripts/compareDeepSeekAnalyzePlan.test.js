@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
 import {
+  DEEPSEEK_ANALYZE_PLAN_FIXTURES,
   compareDeepSeekAnalyzePlan,
   comparePlanObjects,
 } from './compareDeepSeekAnalyzePlan.js';
@@ -48,4 +49,35 @@ test('comparePlanObjects reports payload and input drift using Python/JS keys', 
       js: { source: 'stdin' },
     },
   ]);
+});
+
+test('compareDeepSeekAnalyzePlan exports named CLI route fixtures', async () => {
+  assert.deepEqual(Object.keys(DEEPSEEK_ANALYZE_PLAN_FIXTURES), [
+    'argv-text-multiagent',
+    'stdin-pipe',
+    'file-source',
+    'help-source',
+  ]);
+
+  const calls = [];
+  const result = await compareDeepSeekAnalyzePlan({
+    fixtureNames: Object.keys(DEEPSEEK_ANALYZE_PLAN_FIXTURES),
+    runPythonPlan: async ({ fixture, argv, stdinIsTTY }) => {
+      calls.push({ fixture: fixture.name, argv, stdinIsTTY });
+      return fixture.expected;
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.deepEqual(
+    calls.map((call) => ({ fixture: call.fixture, stdinIsTTY: call.stdinIsTTY })),
+    [
+      { fixture: 'argv-text-multiagent', stdinIsTTY: true },
+      { fixture: 'stdin-pipe', stdinIsTTY: false },
+      { fixture: 'file-source', stdinIsTTY: true },
+      { fixture: 'help-source', stdinIsTTY: true },
+    ],
+  );
+  assert.deepEqual(calls[0].argv, ['--plan-json', '--text=satire [doge]', '--uid', '42', '--multiagent', 'extra sentence']);
 });
