@@ -122,6 +122,8 @@ RETAINED_JS_FILES = {
     "server/scripts/compareDeepSeekAnalyzeCommand.js": "js_python_contract_bridge",
     "server/scripts/compareDeepSeekAnalyzeMockRuntime.js": "js_python_contract_bridge",
     "server/scripts/compareHarvestPlan.js": "js_python_contract_bridge",
+    "server/scripts/compareDictionaryPruneSummary.js": "js_python_contract_bridge",
+    "server/scripts/compareExhaustedTermsPrunePlan.js": "js_python_contract_bridge",
     "server/scripts/compareLocalCorpusMine.js": "js_python_contract_bridge",
     "server/scripts/compareNearTargetResolvePlan.js": "js_python_contract_bridge",
     "server/scripts/compareCoverageHarvestLoopPlan.js": "js_python_contract_bridge",

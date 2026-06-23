@@ -1605,6 +1605,22 @@ class CorpusContractTests(unittest.TestCase):
             result["retainedJsBackendFiles"],
         )
 
+    def test_backend_migration_inventory_retains_dictionary_validation_bridges(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+        retained = result["retainedJsBackendFiles"]
+        candidates = result["migrationCandidateFiles"]["scripts"]
+
+        self.assertNotIn("server/scripts/compareDictionaryPruneSummary.js", candidates)
+        self.assertNotIn("server/scripts/compareExhaustedTermsPrunePlan.js", candidates)
+        self.assertIn(
+            {"path": "server/scripts/compareDictionaryPruneSummary.js", "reason": "js_python_contract_bridge"},
+            retained,
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareExhaustedTermsPrunePlan.js", "reason": "js_python_contract_bridge"},
+            retained,
+        )
+
     def test_package_python_coverage_standalone_write_script_persists_python_artifacts(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
         command = package["scripts"]["python:coverage-standalone:write"]
