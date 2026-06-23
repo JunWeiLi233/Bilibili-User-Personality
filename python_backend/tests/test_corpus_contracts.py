@@ -5443,6 +5443,7 @@ class CorpusContractTests(unittest.TestCase):
             array_path.write_text(json.dumps(["not", "object"]), encoding="utf-8")
             corrupt_path.write_text("{bad json", encoding="utf-8")
             reader = JsonContractReader()
+            fallback_reader = JsonContractReader(default_object={"ok": False, "source": "fallback"})
 
             self.assertEqual(safe_read_json_object(valid_path), {"ok": True, "value": 1})
             self.assertEqual(reader.read_object(valid_path), {"ok": True, "value": 1})
@@ -5452,6 +5453,9 @@ class CorpusContractTests(unittest.TestCase):
             self.assertEqual(reader.read_object(corrupt_path), {})
             self.assertEqual(safe_read_json_object(missing_path), {})
             self.assertEqual(reader.read_object(missing_path), {})
+            fallback = fallback_reader.read_object(corrupt_path)
+            fallback["ok"] = True
+            self.assertEqual(fallback_reader.read_object(missing_path), {"ok": False, "source": "fallback"})
 
     def test_contract_comparator_rejects_manifest_run_count_mismatch(self):
         with tempfile.TemporaryDirectory() as tmp:

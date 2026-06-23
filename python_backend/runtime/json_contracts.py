@@ -8,16 +8,22 @@ from typing import Any
 class JsonContractReader:
     """Read optional JS/Python JSON contract artifacts without aborting comparisons."""
 
+    def __init__(self, default_object: dict[str, Any] | None = None):
+        self.default_object = dict(default_object) if isinstance(default_object, dict) else {}
+
     def read_object(self, path: str | Path) -> dict[str, Any]:
         json_path = Path(path)
         if not json_path.exists():
-            return {}
+            return self._default()
         try:
             with json_path.open("r", encoding="utf-8-sig") as handle:
                 payload = json.load(handle)
         except json.JSONDecodeError:
-            return {}
-        return payload if isinstance(payload, dict) else {}
+            return self._default()
+        return payload if isinstance(payload, dict) else self._default()
+
+    def _default(self) -> dict[str, Any]:
+        return dict(self.default_object)
 
 
 def safe_read_json_object(path: str | Path) -> dict[str, Any]:
