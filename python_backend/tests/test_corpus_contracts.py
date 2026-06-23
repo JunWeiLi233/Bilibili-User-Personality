@@ -25327,6 +25327,35 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["python"], {"discovery": {"videosScanned": 2}, "phase2": {"processed": 3}, "comments": {"total": 4}})
         self.assertEqual(result["js"], {"discovery": {"videosScanned": 0}, "phase2": {"processed": 0}})
 
+    def test_batch_uid_progress_has_js_python_validation_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertEqual(
+            package["scripts"]["python:batch-uid-progress-compare"],
+            "node server/scripts/compareBatchUidProgress.js",
+        )
+        self.assertIn(
+            {
+                "script": "python:batch-uid-progress-compare",
+                "command": "node server/scripts/compareBatchUidProgress.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:batch-uid-progress",
+                "command": "python -m python_backend.cli.batch_uid_progress",
+                "pipeline": "batch_uid_progress",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareBatchUidProgress.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_batch_uid_scrape_planner_matches_js_discovery_and_training_contract(self):
         planner = BatchUidScrapePlanner()
         progress = {

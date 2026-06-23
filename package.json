@@ -105,6 +105,7 @@
     "python:uid-range-scrape-plan": "python -m python_backend.cli.uid_range_scrape_plan",
     "python:uid-range-scrape-compare": "node server/scripts/compareUidRangeScrapePlan.js",
     "python:batch-uid-progress": "python -m python_backend.cli.batch_uid_progress",
+    "python:batch-uid-progress-compare": "node server/scripts/compareBatchUidProgress.js",
     "python:batch-uid-scrape-plan": "python -m python_backend.cli.batch_uid_scrape_plan",
     "python:batch-uid-scrape-compare": "node server/scripts/compareBatchUidScrapePlan.js",
     "python:batch-uid-range-plan": "python -m python_backend.cli.batch_uid_range_plan",
