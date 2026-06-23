@@ -6,6 +6,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from python_backend.runtime.json_contracts import JsonContractReader
+
 
 SUPPORTED_FAMILIES = {"attack", "absolutes", "evidence", "evasion", "cooperation", "correction"}
 
@@ -21,6 +23,7 @@ class DictionaryLoader:
 
     def __init__(self, path: str | Path):
         self.path = Path(path)
+        self.reader = JsonContractReader()
 
     @classmethod
     def load_from_payload(cls, payload: dict[str, Any] | None = None) -> KeywordDictionary:
@@ -125,10 +128,10 @@ class DictionaryLoader:
                         }
         return evidence_by_term
 
-    @staticmethod
-    def _read_json(path: Path) -> dict[str, Any]:
-        with path.open("r", encoding="utf-8-sig") as handle:
-            return json.load(handle)
+    def _read_json(self, path: Path) -> dict[str, Any]:
+        if not path.exists():
+            raise FileNotFoundError(path)
+        return self.reader.read_value(path, {})
 
     @staticmethod
     def _dict_field(value: dict[str, Any], key: str) -> dict[str, Any]:

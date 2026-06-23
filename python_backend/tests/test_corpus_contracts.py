@@ -6446,6 +6446,25 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(dictionary.entries, [])
 
+    def test_dictionary_loader_defaults_corrupt_manifest_like_js_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "dict.json").write_text("{bad json", encoding="utf-8")
+
+            dictionary = DictionaryLoader(root / "dict.json").load()
+
+        self.assertEqual(
+            dictionary.manifest,
+            {
+                "version": 1,
+                "storage": "monolith",
+                "updatedAt": None,
+                "entries": [],
+                "families": {},
+            },
+        )
+        self.assertEqual(dictionary.entries, [])
+
     def test_dictionary_loader_merges_duplicate_split_evidence_terms(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
