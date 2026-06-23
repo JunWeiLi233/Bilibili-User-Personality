@@ -10933,6 +10933,20 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_video_comment_filter_payload_runner_defaults_corrupt_json_contract_inputs(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            comments_path = root / "comments.json"
+            needles_path = root / "needles.json"
+            comments_path.write_text("{not-json", encoding="utf-8")
+            needles_path.write_text("{not-json", encoding="utf-8")
+
+            result = VideoCommentFilterPayloadRunner(comments_path, needles_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertFalse(result["applied"])
+        self.assertEqual(result["comments"], [])
+
     def test_video_comment_filter_payload_comparator_defaults_corrupt_js_report(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -11306,6 +11320,18 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "videos", "python": ["BV1"], "js": ["BV2"]},
             ],
         )
+
+    def test_video_relevance_payload_runner_defaults_corrupt_json_contract_input(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "video-relevance.json"
+            payload_path.write_text("{not-json", encoding="utf-8")
+
+            result = VideoRelevancePayloadRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["operation"], "sort")
+        self.assertEqual(result["videos"], [])
 
     def test_video_relevance_payload_comparator_defaults_corrupt_js_report(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -11706,6 +11732,18 @@ class CorpusContractTests(unittest.TestCase):
                 }
             ],
         )
+
+    def test_video_context_payload_runner_defaults_corrupt_json_contract_input(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            payload_path.write_text("{not-json", encoding="utf-8")
+
+            result = VideoContextPayloadRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["videoContextText"], "")
+        self.assertEqual(result["diagnostics"]["scannedVideos"], 0)
 
     def test_video_context_payload_comparator_defaults_corrupt_js_report(self):
         with tempfile.TemporaryDirectory() as tmp:

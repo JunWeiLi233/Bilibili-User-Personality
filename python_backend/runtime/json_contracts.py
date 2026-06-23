@@ -13,15 +13,18 @@ class JsonContractReader:
         self.default_object = deepcopy(default_object) if isinstance(default_object, dict) else {}
 
     def read_object(self, path: str | Path) -> dict[str, Any]:
+        payload = self.read_value(path, self.default_object)
+        return payload if isinstance(payload, dict) else self._default()
+
+    def read_value(self, path: str | Path, default_value: Any) -> Any:
         json_path = Path(path)
         if not json_path.exists():
-            return self._default()
+            return deepcopy(default_value)
         try:
             with json_path.open("r", encoding="utf-8-sig") as handle:
-                payload = json.load(handle)
+                return json.load(handle)
         except (OSError, UnicodeDecodeError, json.JSONDecodeError):
-            return self._default()
-        return payload if isinstance(payload, dict) else self._default()
+            return deepcopy(default_value)
 
     def _default(self) -> dict[str, Any]:
         return deepcopy(self.default_object)

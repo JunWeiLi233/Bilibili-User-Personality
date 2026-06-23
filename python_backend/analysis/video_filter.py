@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from python_backend.analysis.comment_coverage import _is_contract_scalar
-from python_backend.runtime.json_contracts import safe_read_json_object
+from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 
 
 def _clean_search_text(value: Any) -> str:
@@ -306,10 +306,7 @@ class VideoCommentFilterPayloadRunner:
         )
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
-        if not path.exists():
-            return fallback
-        with path.open("r", encoding="utf-8-sig") as handle:
-            return json.load(handle)
+        return JsonContractReader().read_value(path, fallback)
 
     def _decode_cli_value(self, value: str) -> str:
         try:
@@ -629,10 +626,7 @@ class VideoRelevancePayloadRunner:
         return self.relevance.run_from_payload(payload)
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
-        if not path.exists():
-            return fallback
-        with path.open("r", encoding="utf-8-sig") as handle:
-            return json.load(handle)
+        return JsonContractReader().read_value(path, fallback)
 
 
 class VideoRelevancePayloadContractComparator:
@@ -870,10 +864,7 @@ class VideoContextRunner:
         return self.builder.build_from_payload(payload)
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
-        if not path.exists():
-            return fallback
-        with path.open("r", encoding="utf-8-sig") as handle:
-            return json.load(handle)
+        return JsonContractReader().read_value(path, fallback)
 
 
 class VideoContextContractComparator:
