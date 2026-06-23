@@ -60,6 +60,7 @@ function parseArgs(argv = process.argv.slice(2), env = process.env) {
     outputPath: env.BILIBILI_DIRECT_PROBE_OUTPUT || 'server/data/bilibiliDirectProbeCorpus.json',
     includeDanmaku: env.BILIBILI_DIRECT_PROBE_INCLUDE_DANMAKU === '1',
     rescanSourceVideos: env.BILIBILI_DIRECT_PROBE_RESCAN_SOURCE_VIDEOS === '1',
+    usePythonCommand: env.BILIBILI_DIRECT_PROBE_USE_PYTHON_COMMAND === '1',
     usePythonLiveFetch: env.BILIBILI_DIRECT_PROBE_USE_PYTHON_LIVE_FETCH === '1',
     write: env.BILIBILI_DIRECT_PROBE_WRITE === '1',
   };
@@ -106,6 +107,7 @@ function parseArgs(argv = process.argv.slice(2), env = process.env) {
     } else if (arg.startsWith('--output=')) options.outputPath = arg.slice('--output='.length).trim();
     else if (arg === '--include-danmaku') options.includeDanmaku = true;
     else if (arg === '--rescan-source-videos') options.rescanSourceVideos = true;
+    else if (arg === '--python-runtime' || arg === '--python-command-runtime') options.usePythonCommand = true;
     else if (arg === '--python-live-fetch') options.usePythonLiveFetch = true;
     else if (arg === '--write') options.write = true;
   }
@@ -175,6 +177,18 @@ async function runPythonDirectProbeCommandPayload(payloadPath) {
   return { ...result, bridge: 'python_direct_probe_command' };
 }
 
+async function runPythonDirectProbeCommandRuntimePayload(payload) {
+  const tempDir = await mkdtemp(join(tmpdir(), 'direct-probe-python-runtime-'));
+  try {
+    const payloadPath = join(tempDir, 'payload.json');
+    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
+    const result = await runPythonDirectProbeCommandPayload(payloadPath);
+    return { ...result, bridge: 'python_direct_probe_command_runtime' };
+  } finally {
+    await rm(tempDir, { recursive: true, force: true });
+  }
+}
+
 function extractBilibiliVideoRefs(text = '') {
   const refs = [];
   const seen = new Set();
@@ -237,6 +251,36 @@ export function buildDirectProbePlan(payload = {}) {
     },
   };
   return result;
+}
+
+export function buildDirectProbeCommandPayload({
+  argv = process.argv.slice(2),
+  env = process.env,
+  audit = { nextActions: [] },
+  existingCorpus = { version: 1, comments: [], runs: [] },
+  dictionary = { entries: [] },
+  cookie = '',
+  now = new Date().toISOString(),
+} = {}) {
+  const options = parseArgs(argv, env);
+  return {
+    audit: audit && typeof audit === 'object' ? audit : { nextActions: [] },
+    existingCorpus: existingCorpus && typeof existingCorpus === 'object' ? existingCorpus : { version: 1, comments: [], runs: [] },
+    dictionary: dictionary && typeof dictionary === 'object' ? dictionary : { entries: [] },
+    explicitQueries: options.explicitQueries,
+    explicitAids: options.explicitAids,
+    options: {
+      maxActions: options.maxActions,
+      offset: options.offset,
+      videosPerQuery: options.videosPerQuery,
+      sourceVideosPerAction: options.sourceVideosPerAction,
+      includeDanmaku: options.includeDanmaku,
+      usePythonLiveFetch: options.usePythonLiveFetch,
+      write: options.write,
+      cookie,
+      now,
+    },
+  };
 }
 
 async function readJson(path) {
@@ -444,6 +488,7 @@ export async function runDirectProbeCommand({
   fetchVideoComments: fetchComments = fetchVideoComments,
   fetchVideoDanmaku: fetchDanmaku = fetchVideoDanmaku,
   pythonLiveFetchComments = runPythonDirectProbeLiveFetchComments,
+  runPythonCommandPayload = runPythonDirectProbeCommandRuntimePayload,
   log = console.log,
   now = () => new Date().toISOString(),
   makeCookie = makeSyntheticBilibiliCookie,
@@ -453,6 +498,11 @@ export async function runDirectProbeCommand({
   const existingCorpus = await readCorpus(options.outputPath, { version: 1, comments: [], runs: [] });
   const scannedVideoKeys = collectScannedProbeVideoKeys(existingCorpus);
   const dictionary = await readDictionary();
+  const cookie = makeCookie();
+  if (options.usePythonCommand) {
+    const payload = buildDirectProbeCommandPayload({ argv, env, audit, existingCorpus, dictionary, cookie, now: now() });
+    return runPythonCommandPayload(payload);
+  }
   const actions = options.explicitQueries.length
     ? options.explicitQueries.slice(0, options.maxActions)
     : (audit.nextActions || [])
@@ -469,7 +519,6 @@ export async function runDirectProbeCommand({
       explicitVideos: options.explicitAids.map((aid) => ({ aid, title: `explicit aid ${aid}` })),
     });
   }
-  const cookie = makeCookie();
   const sourceVideosByTerm = buildEvidenceSourceVideosForActions(dictionary, actions, {
     maxPerAction: options.sourceVideosPerAction,
     corpus: existingCorpus,

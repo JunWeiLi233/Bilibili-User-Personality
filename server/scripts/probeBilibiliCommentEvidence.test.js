@@ -238,6 +238,102 @@ test('probeBilibiliCommentEvidence can delegate reply and danmaku fetching to Py
   ]);
 });
 
+test('probeBilibiliCommentEvidence builds a Python command payload from normal CLI inputs', async () => {
+  const script = String.raw`
+    const { buildDirectProbeCommandPayload } = await import('./server/scripts/probeBilibiliCommentEvidence.js');
+    const term = '\u67e5\u67e5\u8d44\u6599';
+    const payload = buildDirectProbeCommandPayload({
+      argv: ['--query=' + term + ' B站评论', '--term=' + term, '--aid=654', '--include-danmaku', '--max-actions=3', '--videos=2', '--source-videos=1', '--write'],
+      env: { BILIBILI_DIRECT_PROBE_USE_PYTHON_COMMAND: '1' },
+      audit: { nextActions: [] },
+      existingCorpus: { version: 1, comments: [{ message: 'old' }], runs: [] },
+      dictionary: { entries: [{ term, family: 'evidence' }] },
+      cookie: 'synthetic=1',
+      now: '2026-06-23T00:00:00.000Z',
+    });
+    console.log(JSON.stringify(payload));
+  `;
+  const { stdout } = await execFileAsync('node', ['--input-type=module', '--eval', script], {
+    cwd: process.cwd(),
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  const payload = JSON.parse(stdout);
+
+  assert.deepEqual(payload.audit, { nextActions: [] });
+  assert.equal(payload.existingCorpus.comments[0].message, 'old');
+  assert.equal(payload.dictionary.entries[0].term, '\u67e5\u67e5\u8d44\u6599');
+  assert.deepEqual(payload.explicitAids, ['654']);
+  assert.deepEqual(payload.explicitQueries, [{ term: '\u67e5\u67e5\u8d44\u6599', query: '\u67e5\u67e5\u8d44\u6599 B站评论' }]);
+  assert.equal(payload.options.maxActions, 3);
+  assert.equal(payload.options.videosPerQuery, 2);
+  assert.equal(payload.options.sourceVideosPerAction, 1);
+  assert.equal(payload.options.includeDanmaku, true);
+  assert.equal(payload.options.write, true);
+  assert.equal(payload.options.cookie, 'synthetic=1');
+  assert.equal(payload.options.now, '2026-06-23T00:00:00.000Z');
+});
+
+test('probeBilibiliCommentEvidence can opt into Python command runtime from normal CLI inputs', async () => {
+  const script = String.raw`
+    const { runDirectProbeCommand } = await import('./server/scripts/probeBilibiliCommentEvidence.js');
+    const calls = [];
+    const term = '\u67e5\u67e5\u8d44\u6599';
+    const result = await runDirectProbeCommand({
+      argv: ['--query=' + term + ' B站评论', '--term=' + term, '--aid=321', '--include-danmaku', '--max-actions=2', '--videos=1', '--source-videos=0'],
+      env: { BILIBILI_DIRECT_PROBE_USE_PYTHON_COMMAND: '1' },
+      readJson: async () => ({ nextActions: [] }),
+      readJsonCorpus: async () => ({ version: 1, comments: [], runs: [] }),
+      readKeywordDictionary: async () => ({ entries: [{ term, family: 'evidence', evidenceCount: 0 }] }),
+      runPythonCommandPayload: async (payload) => {
+        calls.push({
+          explicitAids: payload.explicitAids,
+          explicitQueries: payload.explicitQueries,
+          includeDanmaku: payload.options.includeDanmaku,
+          cookie: payload.options.cookie,
+        });
+        return {
+          ok: true,
+          bridge: 'python_direct_probe_command_runtime',
+          commentsCollected: 1,
+          comments: [{ message: term + ' python runtime' }],
+          entries: [{ term }],
+          actions: payload.explicitQueries,
+        };
+      },
+      discoverVideos: async () => {
+        throw new Error('JS discovery should not run during Python command runtime');
+      },
+      fetchVideoComments: async () => {
+        throw new Error('JS comment fetch should not run during Python command runtime');
+      },
+      fetchVideoDanmaku: async () => {
+        throw new Error('JS danmaku fetch should not run during Python command runtime');
+      },
+      log: () => {},
+      makeCookie: () => 'synthetic=1',
+      now: () => '2026-06-23T00:00:00.000Z',
+    });
+    console.log(JSON.stringify({ result, calls }));
+  `;
+  const { stdout } = await execFileAsync('node', ['--input-type=module', '--eval', script], {
+    cwd: process.cwd(),
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  const output = JSON.parse(stdout);
+
+  assert.equal(output.result.ok, true);
+  assert.equal(output.result.bridge, 'python_direct_probe_command_runtime');
+  assert.equal(output.result.commentsCollected, 1);
+  assert.deepEqual(output.calls, [
+    {
+      explicitAids: ['321'],
+      explicitQueries: [{ term: '\u67e5\u67e5\u8d44\u6599', query: '\u67e5\u67e5\u8d44\u6599 B站评论' }],
+      includeDanmaku: true,
+      cookie: 'synthetic=1',
+    },
+  ]);
+});
+
 test('probeBilibiliCommentEvidence CLI can delegate a JSON payload to the Python command bridge', async () => {
   const tempDir = await mkdtemp(join(tmpdir(), 'direct-probe-python-command-'));
   try {
