@@ -85,6 +85,7 @@ DEFAULT_RETAINED_NODE_COMMANDS = {
     "server": "app_api_orchestration",
     "dev:full": "app_api_orchestration",
     "aicu:test": "external_api_smoke_test",
+    "dictionary:probe-bilibili:js": "legacy_compatibility_after_python_replacement",
 }
 
 DEFAULT_BRIDGE_NODE_COMMANDS = {
@@ -343,6 +344,12 @@ class BackendMigrationInventoryScanner:
         if (
             relative_path == "server/services/commentCoverage.js"
             and package_scripts.get("python:comment-coverage") == "python -m python_backend.cli.comment_coverage"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/probeBilibiliCommentEvidence.js"
+            and package_scripts.get("dictionary:probe-bilibili") == "python -m python_backend.cli.direct_probe_command"
+            and package_scripts.get("dictionary:probe-bilibili:js") == "node server/scripts/probeBilibiliCommentEvidence.js"
         ):
             return "legacy_compatibility_after_python_replacement"
         if (

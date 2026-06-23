@@ -1345,9 +1345,8 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(package["scripts"]["python:direct-probe-live-fetch"], "python -m python_backend.cli.direct_probe_live_fetch")
         self.assertEqual(package["scripts"]["python:direct-probe-command-compare"], "node server/scripts/compareDirectProbeCommand.js")
         self.assertEqual(package["scripts"]["python:direct-probe-update-compare"], "node server/scripts/compareDirectProbeCorpus.js")
-        self.assertEqual(result["nextOfflineMigrationAction"]["pythonScript"], "python:direct-probe-command")
-        self.assertEqual(result["nextOfflineMigrationAction"]["validationScript"], "python:direct-probe-command-compare")
-        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "full_command")
+        self.assertEqual(package["scripts"]["dictionary:probe-bilibili"], "python -m python_backend.cli.direct_probe_command")
+        self.assertEqual(package["scripts"]["dictionary:probe-bilibili:js"], "node server/scripts/probeBilibiliCommentEvidence.js")
         self.assertIn("npm run python:direct-probe-command-compare", workflow)
         self.assertIn("npm run python:direct-probe-update-compare", workflow)
         self.assertIn(
@@ -1366,18 +1365,29 @@ class CorpusContractTests(unittest.TestCase):
             {"path": "server/scripts/compareDirectProbeCorpus.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
         )
+        self.assertIn(
+            {"path": "server/scripts/probeBilibiliCommentEvidence.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {
+                "script": "dictionary:probe-bilibili:js",
+                "command": "node server/scripts/probeBilibiliCommentEvidence.js",
+                "reason": "legacy_compatibility_after_python_replacement",
+            },
+            result["packageScripts"]["retainedNodeScripts"],
+        )
 
     def test_backend_migration_inventory_reports_direct_probe_plan_and_corpus_gates(self):
         result = BackendMigrationInventoryScanner(".").scan()
-        action = result["nextOfflineMigrationAction"]
+        gates = BackendMigrationInventoryScanner._validation_gates(
+            validation_script="python:direct-probe-command-compare",
+            validation_scope="full_command",
+        )
 
-        self.assertEqual(action["nodeScript"], "dictionary:probe-bilibili")
-        self.assertEqual(action["pythonScript"], "python:direct-probe-command")
-        self.assertEqual(action["validationScript"], "python:direct-probe-command-compare")
-        self.assertEqual(action["validationScope"], "full_command")
-        self.assertTrue(action["readyToReplace"])
+        self.assertNotIn("server/scripts/probeBilibiliCommentEvidence.js", result["migrationCandidateFiles"]["scripts"])
         self.assertEqual(
-            action["validationGates"],
+            gates,
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:direct-probe-compare"},
                 {"gate": "corpus_update_js_runner_fixture", "status": "covered", "source": "python:direct-probe-update-compare"},
@@ -1396,7 +1406,6 @@ class CorpusContractTests(unittest.TestCase):
                 {"gate": "js_opt_in_python_live_fetch_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
             ],
         )
-        self.assertNotIn("replacementBlockers", action)
 
     def test_direct_bilibili_probe_service_is_legacy_after_python_contracts(self):
         result = BackendMigrationInventoryScanner(".").scan()
@@ -1422,7 +1431,7 @@ class CorpusContractTests(unittest.TestCase):
             },
             result["packageScripts"]["pythonOwnedDataScripts"],
         )
-        self.assertTrue(result["nextOfflineMigrationAction"]["readyToReplace"])
+        self.assertNotEqual(result["nextOfflineMigrationAction"]["nodeScript"], "dictionary:probe-bilibili")
 
     def test_package_huggingface_dictionary_command_uses_python_after_full_contract_validation(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
@@ -1865,10 +1874,10 @@ class CorpusContractTests(unittest.TestCase):
                 },
             ],
         )
-        self.assertEqual(result["nextOfflineMigrationAction"]["path"], "server/scripts/probeBilibiliCommentEvidence.js")
-        self.assertEqual(result["nextOfflineMigrationAction"]["nodeScript"], "dictionary:probe-bilibili")
-        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "full_command")
-        self.assertTrue(result["nextOfflineMigrationAction"]["readyToReplace"])
+        self.assertEqual(result["nextOfflineMigrationAction"]["path"], "server/scripts/runCoverageHarvestLoop.js")
+        self.assertEqual(result["nextOfflineMigrationAction"]["nodeScript"], "dictionary:auto")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "dry_run_plan_fixture")
+        self.assertFalse(result["nextOfflineMigrationAction"]["readyToReplace"])
         self.assertEqual(result["nextOfflineMigrationAction"]["offlineReason"], "skips_live_api_runtime")
 
     def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):
