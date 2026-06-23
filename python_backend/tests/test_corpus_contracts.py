@@ -1184,6 +1184,8 @@ class CorpusContractTests(unittest.TestCase):
                 "dictionary:coverage": "node server/scripts/runDictionaryCoverageAudit.js",
                 "dictionary:huggingface": "node server/scripts/importHuggingFaceCorpus.js",
                 "server": "node server/index.js",
+                "aicu:test": "node server/scripts/testAicuApi.js",
+                "dev:full": "node server/index.js",
                 "python:coverage-standalone": "python -m python_backend.cli.coverage_audit --standalone",
                 "python:huggingface-import": "python -m python_backend.cli.huggingface_corpus",
                 "python:test": "python -m unittest discover python_backend/tests",
@@ -1192,7 +1194,7 @@ class CorpusContractTests(unittest.TestCase):
 
         result = PackageCommandMigrationInventory(package).scan()
 
-        self.assertEqual(result["nodeServerScripts"], 3)
+        self.assertEqual(result["nodeServerScripts"], 5)
         self.assertEqual(result["pythonBackendScripts"], 2)
         self.assertEqual(
             result["pythonBackedNodeScripts"],
@@ -1211,7 +1213,15 @@ class CorpusContractTests(unittest.TestCase):
                 },
             ],
         )
-        self.assertEqual(result["replacementNeeded"], [{"script": "server", "command": "node server/index.js"}])
+        self.assertEqual(
+            result["retainedNodeScripts"],
+            [
+                {"script": "server", "command": "node server/index.js", "reason": "app_api_orchestration"},
+                {"script": "aicu:test", "command": "node server/scripts/testAicuApi.js", "reason": "external_api_smoke_test"},
+                {"script": "dev:full", "command": "node server/index.js", "reason": "app_api_orchestration"},
+            ],
+        )
+        self.assertEqual(result["replacementNeeded"], [])
 
     def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))

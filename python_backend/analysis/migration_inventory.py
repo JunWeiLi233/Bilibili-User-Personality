@@ -33,6 +33,12 @@ DEFAULT_PACKAGE_COMMAND_EQUIVALENTS = {
     "stats:update": "python:readme-stats",
 }
 
+DEFAULT_RETAINED_NODE_COMMANDS = {
+    "server": "app_api_orchestration",
+    "dev:full": "app_api_orchestration",
+    "aicu:test": "external_api_smoke_test",
+}
+
 
 @dataclass(frozen=True)
 class BackendMigrationInventoryScanner:
@@ -80,9 +86,15 @@ class BackendMigrationInventoryScanner:
 class PackageCommandMigrationInventory:
     """Map node-backed package commands to available Python compatibility commands."""
 
-    def __init__(self, package: dict[str, Any] | None = None, equivalents: dict[str, str] | None = None):
+    def __init__(
+        self,
+        package: dict[str, Any] | None = None,
+        equivalents: dict[str, str] | None = None,
+        retained_commands: dict[str, str] | None = None,
+    ):
         self.package = package if isinstance(package, dict) else {}
         self.equivalents = equivalents or DEFAULT_PACKAGE_COMMAND_EQUIVALENTS
+        self.retained_commands = retained_commands or DEFAULT_RETAINED_NODE_COMMANDS
 
     @classmethod
     def from_root(cls, root: str | Path = ".") -> "PackageCommandMigrationInventory":
@@ -101,6 +113,7 @@ class PackageCommandMigrationInventory:
         node_scripts = self._node_server_scripts(scripts)
         python_scripts = self._python_backend_scripts(scripts)
         python_backed: list[dict[str, str]] = []
+        retained: list[dict[str, str]] = []
         replacement_needed: list[dict[str, str]] = []
 
         for name, command in node_scripts.items():
@@ -115,6 +128,8 @@ class PackageCommandMigrationInventory:
                         "pythonCommand": python_command,
                     }
                 )
+            elif name in self.retained_commands:
+                retained.append({"script": name, "command": command, "reason": self.retained_commands[name]})
             else:
                 replacement_needed.append({"script": name, "command": command})
 
@@ -122,6 +137,7 @@ class PackageCommandMigrationInventory:
             "nodeServerScripts": len(node_scripts),
             "pythonBackendScripts": len(python_scripts),
             "pythonBackedNodeScripts": python_backed,
+            "retainedNodeScripts": retained,
             "replacementNeeded": replacement_needed,
         }
 
