@@ -1619,6 +1619,19 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["nextMigrationAction"]["validationScope"], "full_command_python_runtime_mock_and_multiagent_mock_runtime")
         self.assertFalse(result["nextMigrationAction"]["readyToReplace"])
         self.assertEqual(result["nextMigrationAction"]["recommendation"], "expand_python_runtime_contract_before_replacing_js")
+        self.assertEqual(
+            result["nextMigrationAction"]["replacementBlockers"],
+            [
+                {
+                    "blocker": "validation_scope_not_full_command",
+                    "reason": "Validation covers Python runtime mocks and multiagent mocks, but not a full live command replacement gate.",
+                },
+                {
+                    "blocker": "js_fallback_selectors_still_owned_by_wrapper",
+                    "reason": "The JS wrapper still owns --js-plan, --js-fixture, and --js-runtime fallback selectors.",
+                },
+            ],
+        )
 
     def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))

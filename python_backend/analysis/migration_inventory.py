@@ -281,7 +281,12 @@ class BackendMigrationInventoryScanner:
                 validation_command = str(mapping.get("validationCommand") or "")
                 validation_scope = str(mapping.get("validationScope") or "")
                 ready_to_replace = bool(validation_script and validation_command and validation_scope == "full_command")
-                return {
+                replacement_blockers = BackendMigrationInventoryScanner._replacement_blockers(
+                    script=str(mapping.get("script") or ""),
+                    validation_scope=validation_scope,
+                    ready_to_replace=ready_to_replace,
+                )
+                action = {
                     **first,
                     "nodeScript": str(mapping.get("script") or ""),
                     "nodeCommand": command,
@@ -293,6 +298,9 @@ class BackendMigrationInventoryScanner:
                     "readyToReplace": ready_to_replace,
                     "recommendation": "compare_python_contract_before_replacing_js" if ready_to_replace else "expand_python_runtime_contract_before_replacing_js",
                 }
+                if replacement_blockers:
+                    action["replacementBlockers"] = replacement_blockers
+                return action
         return {
             **first,
             "nodeScript": "",
@@ -303,8 +311,30 @@ class BackendMigrationInventoryScanner:
             "validationCommand": "",
             "validationScope": "",
             "readyToReplace": False,
+            "replacementBlockers": [{"blocker": "missing_python_contract", "reason": "No Python compatibility command is linked to this JS backend file."}],
             "recommendation": "create_python_contract_then_compare_js",
         }
+
+    @staticmethod
+    def _replacement_blockers(*, script: str, validation_scope: str, ready_to_replace: bool) -> list[dict[str, str]]:
+        if ready_to_replace:
+            return []
+        blockers: list[dict[str, str]] = []
+        if validation_scope != "full_command":
+            blockers.append(
+                {
+                    "blocker": "validation_scope_not_full_command",
+                    "reason": "Validation covers Python runtime mocks and multiagent mocks, but not a full live command replacement gate.",
+                }
+            )
+        if script == "deepseek:analyze":
+            blockers.append(
+                {
+                    "blocker": "js_fallback_selectors_still_owned_by_wrapper",
+                    "reason": "The JS wrapper still owns --js-plan, --js-fixture, and --js-runtime fallback selectors.",
+                }
+            )
+        return blockers
 
 
 class PackageCommandMigrationInventory:
