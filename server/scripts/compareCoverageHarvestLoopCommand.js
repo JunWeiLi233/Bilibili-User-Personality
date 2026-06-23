@@ -89,10 +89,56 @@ export const MOCK_CYCLE_PAYLOAD = {
   },
 };
 
+export const MOCK_NO_PROGRESS_CYCLE_PAYLOAD = {
+  generatedAt: GENERATED_AT,
+  maxCycles: 1,
+  roundsPerCycle: 1,
+  cycle: 1,
+  stopReason: 'no_coverage_progress',
+  priorityQueries: [{ query: 'doge retry', term: 'doge' }],
+  beforeAudit: {
+    ok: false,
+    coverage: {
+      terms: 1,
+      weakTerms: 1,
+      zeroEvidenceTerms: 0,
+      unsourcedEvidenceTerms: 0,
+      totalEvidence: 1,
+      evidenceDeficit: 2,
+      coverageRatio: 0.3333,
+    },
+  },
+  afterAudit: {
+    ok: false,
+    coverage: {
+      terms: 1,
+      weakTerms: 1,
+      zeroEvidenceTerms: 0,
+      unsourcedEvidenceTerms: 0,
+      totalEvidence: 1,
+      evidenceDeficit: 2,
+      coverageRatio: 0.3333,
+    },
+  },
+  harvest: {
+    ok: true,
+    rounds: [
+      {
+        queries: ['doge retry'],
+        warnings: ['no fresh evidence'],
+        coverageProgress: { evidenceGained: 0, zeroEvidenceResolved: 0, weakTermsResolved: 0 },
+        trainingDiagnostics: { accepted: 0 },
+        queryDiagnostics: [{ query: 'doge retry', videos: 0 }],
+      },
+    ],
+  },
+};
+
 const DEFAULT_FIXTURES = [
   { name: 'complete-empty-dictionary', dictionary: DEFAULT_DICTIONARY },
   { name: 'weak-cycle-limit', dictionary: WEAK_DICTIONARY },
   { name: 'mock-cycle-report', mockCyclePayload: MOCK_CYCLE_PAYLOAD },
+  { name: 'mock-no-progress-cycle', mockCyclePayload: MOCK_NO_PROGRESS_CYCLE_PAYLOAD },
 ];
 
 function summarize(report = {}) {

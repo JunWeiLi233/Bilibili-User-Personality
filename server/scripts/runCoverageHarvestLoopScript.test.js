@@ -206,10 +206,20 @@ test('compareCoverageHarvestLoopCommand validates complete and weak no-live fixt
   const result = await compareCoverageHarvestLoopCommand();
 
   assert.equal(result.ok, true);
-  assert.equal(result.results.length, 3);
-  assert.deepEqual(result.results.map((item) => item.fixture), ['complete-empty-dictionary', 'weak-cycle-limit', 'mock-cycle-report']);
-  assert.deepEqual(result.results.map((item) => item.python.stopReason), ['coverage_gate_passed', 'cycle_limit', 'coverage_gate_passed']);
-  assert.deepEqual(result.results.map((item) => item.python.finalAudit.coverage.weakTerms), [0, 1, 0]);
+  assert.equal(result.results.length, 4);
+  assert.deepEqual(result.results.map((item) => item.fixture), ['complete-empty-dictionary', 'weak-cycle-limit', 'mock-cycle-report', 'mock-no-progress-cycle']);
+  assert.deepEqual(result.results.map((item) => item.python.stopReason), ['coverage_gate_passed', 'cycle_limit', 'coverage_gate_passed', 'no_coverage_progress']);
+  assert.deepEqual(result.results.map((item) => item.python.finalAudit.coverage.weakTerms), [0, 1, 0, 1]);
   assert.deepEqual(result.results[2].python.cycles[0].coverageDelta, result.results[2].js.cycles[0].coverageDelta);
   assert.deepEqual(result.results[2].python.cycles[0].harvest, result.results[2].js.cycles[0].harvest);
+  assert.deepEqual(result.results[3].python.cycles[0].coverageDelta, {
+    evidenceDeficitReduced: 0,
+    zeroEvidenceResolved: 0,
+    weakTermsResolved: 0,
+    unsourcedEvidenceReduced: 0,
+    totalEvidenceGained: 0,
+    termsAdded: 0,
+    coverageRatioDelta: 0,
+  });
+  assert.deepEqual(result.results[3].python.cycles[0].coverageDelta, result.results[3].js.cycles[0].coverageDelta);
 });
