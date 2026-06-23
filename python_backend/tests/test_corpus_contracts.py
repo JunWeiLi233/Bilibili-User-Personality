@@ -23448,6 +23448,20 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual([item["query"] for item in result["priorityActionItems"]], ["doge hot"])
         self.assertEqual(result["priorityActionItems"][0]["nextQuery"], "doge hot")
 
+    def test_coverage_audit_artifact_writer_defaults_malformed_payload_paths(self):
+        result = CoverageAuditArtifactWriter().build_from_payload(
+            {
+                "audit": {},
+                "queryFilePath": {"bad": True},
+                "actionFilePath": ["bad"],
+            }
+        )
+
+        self.assertNotIn("queryFilePath", result)
+        self.assertNotIn("actionFilePath", result)
+        self.assertEqual(result["recommendedQueries"], [])
+        self.assertEqual(result["priorityActionItems"], [])
+
     def test_coverage_audit_artifacts_payload_runner_lives_with_analysis_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

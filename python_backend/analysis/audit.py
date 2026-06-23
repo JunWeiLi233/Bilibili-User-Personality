@@ -111,8 +111,8 @@ class CoverageAuditArtifactWriter:
     def build_from_payload(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
         payload = payload if isinstance(payload, dict) else {}
         audit = payload.get("audit") if isinstance(payload.get("audit"), dict) else {}
-        query_path = str(payload.get("queryFilePath") or "").strip()
-        action_path = str(payload.get("actionFilePath") or "").strip()
+        query_path = payload.get("queryFilePath").strip() if isinstance(payload.get("queryFilePath"), str) else ""
+        action_path = payload.get("actionFilePath").strip() if isinstance(payload.get("actionFilePath"), str) else ""
         if query_path and action_path:
             return self.write(audit, query_path, action_path)
         return self.build_artifacts(audit)
