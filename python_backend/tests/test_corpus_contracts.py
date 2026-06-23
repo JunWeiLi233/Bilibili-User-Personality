@@ -1317,6 +1317,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("npm run python:test", workflow)
         self.assertIn("npm run python:compare", workflow)
         self.assertIn("npm run python:coverage-compare", workflow)
+        self.assertIn("npm run python:deepseek-cli-compare", workflow)
         self.assertIn("npm run python:verify-random -- --sample-size=25 --seed=20260623", workflow)
         self.assertIn("npm test", workflow)
 

@@ -37,6 +37,9 @@ jobs:
       - name: Compare coverage audit contract
         run: npm run python:coverage-compare
 
+      - name: Compare DeepSeek CLI dry-run contract
+        run: npm run python:deepseek-cli-compare
+
       - name: Verify random corpus sample
         run: npm run python:verify-random -- --sample-size=25 --seed=20260623
 
