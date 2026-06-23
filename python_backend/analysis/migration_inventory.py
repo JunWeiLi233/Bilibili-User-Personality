@@ -349,7 +349,7 @@ class BackendMigrationInventoryScanner:
                 {"gate": "fixture_command", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "mock_runtime_command", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "multiagent_mock_runtime", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
-                {"gate": "live_api_command", "status": "missing", "source": "DEEPSEEK_API_KEY gated live smoke"},
+                {"gate": "live_api_command", "status": "missing", "source": "python:deepseek-live-gate"},
             ]
         if validation_scope == "full_command":
             return [{"gate": "full_command", "status": "covered", "source": validation_script}]

@@ -52,6 +52,9 @@ jobs:
       - name: Compare DeepSeek mocked runtime command
         run: npm run python:deepseek-mock-runtime-compare
 
+      - name: Verify DeepSeek live validation gate
+        run: npm run python:deepseek-live-gate
+
       - name: Verify DeepSeek Python-backed JS plan mode
         run: npm run python:deepseek-cli-plan-js -- --text "satire [doge]" --uid 42 --multiagent
 

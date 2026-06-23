@@ -324,19 +324,49 @@ class DeepSeekAnalyzeRuntime:
         return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
 
 
+class DeepSeekLiveValidationGate:
+    """Report whether the live DeepSeek analyzer command gate can be validated."""
+
+    def __init__(self, *, env: dict[str, Any] | None = None, transport: Any = None):
+        self.env = dict(os.environ) if env is None else dict(env)
+        self.runtime = DeepSeekAnalyzeRuntime(env=self.env, transport=transport)
+
+    def run(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        if not str(self.env.get("DEEPSEEK_API_KEY") or ""):
+            return {
+                "ok": True,
+                "provider": "deepseek",
+                "gate": "live_api_command",
+                "status": "skipped",
+                "reason": "DEEPSEEK_API_KEY is not configured.",
+                "requires": ["DEEPSEEK_API_KEY"],
+            }
+        result = self.runtime.run(payload)
+        return {
+            "ok": bool(result.get("ok")),
+            "provider": "deepseek",
+            "gate": "live_api_command",
+            "status": "covered" if result.get("ok") else "failed",
+            "result": result,
+        }
+
+
 class DeepSeekAnalyzeCommandRequest:
     """Run Python-owned analyzeDeepSeekComments-compatible command modes."""
 
-    def __init__(self, argv: list[Any] | None = None, *, stdin_text: str = "", stdin_is_tty: bool | None = None):
+    def __init__(self, argv: list[Any] | None = None, *, stdin_text: str = "", stdin_is_tty: bool | None = None, env: dict[str, Any] | None = None):
         self.argv = [str(item) for item in argv] if argv is not None else None
         self.stdin_text = str(stdin_text or "")
         self.stdin_is_tty = bool(stdin_is_tty) if stdin_is_tty is not None else not bool(self.stdin_text)
+        self.env = dict(os.environ) if env is None else dict(env)
         self.normalizer = DeepSeekAnalysisNormalizer()
 
     @staticmethod
     def parser() -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(description="Analyze comments with the Python DeepSeek analyzer command contract.")
         parser.add_argument("--plan-json", action="store_true", help="Emit the CLI input plan JSON contract without analyzing.")
+        parser.add_argument("--live-validation-gate", action="store_true", help="Emit the live DeepSeek API validation-gate JSON contract.")
         parser.add_argument("--python-plan", action="store_true", help=argparse.SUPPRESS)
         parser.add_argument("--js-plan", action="store_true", help=argparse.SUPPRESS)
         parser.add_argument("--python-runtime", action="store_true", help=argparse.SUPPRESS)
@@ -360,6 +390,8 @@ class DeepSeekAnalyzeCommandRequest:
         if args.plan_json:
             return DeepSeekAnalyzeCliPlanner().build_plan(self._normalize_argv(self.argv) or [], stdin_is_tty=self.stdin_is_tty)
         payload = self._payload(args)
+        if args.live_validation_gate:
+            return DeepSeekLiveValidationGate(env=self.env).run(payload)
         if args.mock_chat_analysis:
             return self._run_mock_chat(payload, args.mock_chat_analysis)
         if args.fixture_analysis:
