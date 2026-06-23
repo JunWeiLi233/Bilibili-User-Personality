@@ -115,6 +115,7 @@ PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
     "coverage_audit": ("python_backend.cli.coverage_audit",),
     "random_verification": ("python_backend.cli.random_verification",),
     "contract_comparison": ("python_backend.cli.compare_contracts",),
+    "analyzer_validation": ("python_backend.cli.deepseek_analyze --live-validation-gate",),
 }
 
 RETAINED_JS_FILE_PREFIXES = {

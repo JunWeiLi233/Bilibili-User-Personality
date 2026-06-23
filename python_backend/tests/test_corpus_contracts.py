@@ -1131,6 +1131,7 @@ class CorpusContractTests(unittest.TestCase):
                 "python:verify-random:write": "python -m python_backend.cli.random_verification --extra-corpus server/data/tiebaKeywordCorpus.json --output server/data/randomVerificationReport.json",
                 "python:compare:write-full": "python -m python_backend.cli.compare_contracts --random-report server/data/randomVerificationReport.json --output server/data/pythonContractComparison.json",
                 "python:deepseek-cli-compare": "node server/scripts/compareDeepSeekAnalyzePlan.js",
+                "python:deepseek-live-gate": "python -m python_backend.cli.deepseek_analyze --live-validation-gate --text \"狗头保命[doge]\" --multiagent",
             }
         }
 
@@ -1158,6 +1159,11 @@ class CorpusContractTests(unittest.TestCase):
                     "script": "python:compare:write-full",
                     "command": "python -m python_backend.cli.compare_contracts --random-report server/data/randomVerificationReport.json --output server/data/pythonContractComparison.json",
                     "pipeline": "contract_comparison",
+                },
+                {
+                    "script": "python:deepseek-live-gate",
+                    "command": "python -m python_backend.cli.deepseek_analyze --live-validation-gate --text \"狗头保命[doge]\" --multiagent",
+                    "pipeline": "analyzer_validation",
                 },
             ],
         )
