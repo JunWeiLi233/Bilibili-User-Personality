@@ -1452,7 +1452,7 @@ class CorpusContractTests(unittest.TestCase):
             {
                 "script": "python:tieba-update",
                 "command": "python -m python_backend.cli.tieba_corpus",
-                "pipeline": "tieba_corpus",
+                "pipeline": "tieba_corpus_update",
             },
             result["packageScripts"]["pythonOwnedDataScripts"],
         )
@@ -11144,6 +11144,36 @@ class CorpusContractTests(unittest.TestCase):
                 "newComments": [{"message": "new tieba comment"}],
                 "corpus": {"comments": []},
             },
+        )
+
+    def test_tieba_corpus_update_has_js_python_validation_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(
+            package["scripts"]["python:tieba-corpus-compare"],
+            "node server/scripts/compareTiebaCorpusUpdate.js",
+        )
+
+        result = BackendMigrationInventoryScanner(".").scan()
+        self.assertIn(
+            {
+                "script": "python:tieba-corpus-compare",
+                "command": "node server/scripts/compareTiebaCorpusUpdate.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:tieba-corpus",
+                "command": "python -m python_backend.cli.tieba_corpus",
+                "pipeline": "tieba_corpus_update",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareTiebaCorpusUpdate.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
         )
 
     def test_tieba_keyword_options_planner_matches_js_cli_env_contract(self):

@@ -121,6 +121,8 @@
     "python:tieba-html-parse": "python -m python_backend.cli.tieba_html_parse",
     "python:tieba-keyword-plan": "python -m python_backend.cli.tieba_keyword_plan",
     "python:tieba-keyword-compare": "node server/scripts/compareTiebaKeywordPlan.js",
+    "python:tieba-corpus": "python -m python_backend.cli.tieba_corpus",
+    "python:tieba-corpus-compare": "node server/scripts/compareTiebaCorpusUpdate.js",
     "python:tieba-timing": "python -m python_backend.cli.tieba_timing",
     "python:flatten-local": "python -m python_backend.cli.local_corpus_flatten",
     "python:local-evidence": "python -m python_backend.cli.local_corpus_evidence",
