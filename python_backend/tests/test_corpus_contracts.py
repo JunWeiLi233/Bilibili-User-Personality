@@ -26968,6 +26968,35 @@ class CorpusContractTests(unittest.TestCase):
             result["retainedJsBackendFiles"],
         )
 
+    def test_harvest_state_has_js_python_validation_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertEqual(
+            package["scripts"]["python:harvest-state-compare"],
+            "node server/scripts/compareHarvestState.js",
+        )
+        self.assertIn(
+            {
+                "script": "python:harvest-state-compare",
+                "command": "node server/scripts/compareHarvestState.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:harvest-state",
+                "command": "python -m python_backend.cli.harvest_state",
+                "pipeline": "harvest_state",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareHarvestState.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_near_target_resolve_plan_runner_selects_comment_backed_near_target_terms(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
