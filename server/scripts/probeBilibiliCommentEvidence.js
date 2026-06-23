@@ -136,6 +136,23 @@ function parsePlanArgs(argv = process.argv.slice(2)) {
   return { planJson, payloadPath };
 }
 
+function parsePythonCommandBridgeArgs(argv = process.argv.slice(2)) {
+  let pythonCommand = false;
+  let payloadPath = '';
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = String(argv[index] || '');
+    if (arg === '--python-command') {
+      pythonCommand = true;
+    } else if (arg.startsWith('--payload=')) {
+      payloadPath = arg.slice('--payload='.length);
+    } else if (arg === '--payload') {
+      payloadPath = String(argv[index + 1] || '');
+      index += 1;
+    }
+  }
+  return { pythonCommand, payloadPath };
+}
+
 async function readPlanPayload(path) {
   if (!path) return {};
   try {
@@ -143,6 +160,19 @@ async function readPlanPayload(path) {
   } catch {
     return {};
   }
+}
+
+async function runPythonDirectProbeCommandPayload(payloadPath) {
+  if (!payloadPath) {
+    return { ok: false, bridge: 'python_direct_probe_command', error: '--payload is required for --python-command' };
+  }
+  const { stdout } = await execFileAsync('python', ['-m', 'python_backend.cli.direct_probe_command', '--payload', payloadPath], {
+    cwd: process.cwd(),
+    env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  const result = JSON.parse(stdout);
+  return { ...result, bridge: 'python_direct_probe_command' };
 }
 
 function extractBilibiliVideoRefs(text = '') {
@@ -557,6 +587,13 @@ export async function runDirectProbeCommand({
 const isDirectProbeCli = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
 
 if (isDirectProbeCli) {
+const bridgeArgs = parsePythonCommandBridgeArgs();
+if (bridgeArgs.pythonCommand) {
+  const result = await runPythonDirectProbeCommandPayload(bridgeArgs.payloadPath);
+  console.log(JSON.stringify(result, null, 2));
+  process.exit(result.ok ? 0 : 1);
+}
+
 const planArgs = parsePlanArgs();
 if (planArgs.planJson) {
   const payload = await readPlanPayload(planArgs.payloadPath);

@@ -1,6 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
+import { mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { promisify } from 'node:util';
 
 const execFileAsync = promisify(execFile);
@@ -233,4 +236,50 @@ test('probeBilibiliCommentEvidence can delegate reply and danmaku fetching to Py
       hasCookie: true,
     },
   ]);
+});
+
+test('probeBilibiliCommentEvidence CLI can delegate a JSON payload to the Python command bridge', async () => {
+  const tempDir = await mkdtemp(join(tmpdir(), 'direct-probe-python-command-'));
+  try {
+    const term = '\u67e5\u67e5\u8d44\u6599';
+    const query = `${term} B\u7ad9\u8bc4\u8bba`;
+    const payloadPath = join(tempDir, 'payload.json');
+    await writeFile(
+      payloadPath,
+      JSON.stringify(
+        {
+          audit: { nextActions: [{ term, nextQuery: query }] },
+          dictionary: { entries: [{ term, family: 'evidence', evidenceCount: 0 }] },
+          options: { maxActions: 1, videosPerQuery: 1, sourceVideosPerAction: 0 },
+          searchVideos: { [query]: [{ aid: '888', title: 'python bridge fixture' }] },
+          videoComments: {
+            'aid:888': [
+              {
+                message: `${term}\u547d\u4ee4\u6865\u63a5`,
+                source: 'Bilibili public direct comment probe: https://www.bilibili.com/video/av888/',
+                uid: '8',
+              },
+            ],
+          },
+        },
+        null,
+        2,
+      ),
+      'utf8',
+    );
+
+    const { stdout } = await execFileAsync('node', ['server/scripts/probeBilibiliCommentEvidence.js', '--python-command', '--payload', payloadPath], {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    });
+    const result = JSON.parse(stdout);
+
+    assert.equal(result.ok, true);
+    assert.equal(result.bridge, 'python_direct_probe_command');
+    assert.equal(result.commentsCollected, 1);
+    assert.equal(result.comments[0].message, `${term}\u547d\u4ee4\u6865\u63a5`);
+  } finally {
+    await rm(tempDir, { recursive: true, force: true });
+  }
 });

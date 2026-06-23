@@ -1352,6 +1352,7 @@ class CorpusContractTests(unittest.TestCase):
                 {"gate": "python_live_fetch_unit", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
                 {"gate": "python_probe_loop_fixture", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
                 {"gate": "command_js_python_fixture", "status": "covered", "source": "python:direct-probe-command-compare"},
+                {"gate": "js_opt_in_python_command_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
                 {"gate": "js_opt_in_python_live_fetch_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
             ],
         )
@@ -1360,7 +1361,7 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {
                     "blocker": "live_bilibili_command_runtime_not_integrated",
-                    "reason": "Python has fixture-covered probe-loop orchestration, a unit-tested live reply/danmaku fetch adapter, and an opt-in JS bridge, but dictionary:probe-bilibili still defaults to the JS live orchestration path.",
+                    "reason": "Python has fixture-covered probe-loop orchestration, a unit-tested live reply/danmaku fetch adapter, an opt-in JS command bridge, and an opt-in JS live-fetch bridge, but dictionary:probe-bilibili still defaults to the JS live orchestration path.",
                 }
             ],
         )
