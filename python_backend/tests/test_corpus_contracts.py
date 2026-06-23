@@ -67,7 +67,7 @@ from python_backend.cli import video_link_direct_plan as video_link_direct_plan_
 from python_backend.cli import video_relevance as video_relevance_cli
 from python_backend.cli import range_scraper_launcher as range_scraper_launcher_cli
 from python_backend.cli import fast_pipeline_launcher as fast_pipeline_launcher_cli
-from python_backend.analysis.audit import CoverageAuditActionContract, CoverageAuditActionSummaryContract, CoverageAuditArtifactContract, CoverageAuditArtifactPayloadContract, CoverageAuditArtifactWriter, CoverageAuditArtifactsCommandRequest, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRequest, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditCommandRequest, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditCoverageContract, CoverageAuditFamilyGapContract, CoverageAuditGateContract, CoverageAuditJsonResultContract, CoverageAuditMetricContract, CoverageAuditPayloadContract, CoverageAuditPayloadContractComparator, CoverageAuditReport, CoverageAuditRequest, CoverageAuditSampleContract, CoverageAuditTermAttemptSummaryContract, CoverageEvidenceProfile
+from python_backend.analysis.audit import CoverageAuditActionContract, CoverageAuditActionSummaryContract, CoverageAuditArtifactContract, CoverageAuditArtifactPayloadContract, CoverageAuditArtifactWriter, CoverageAuditArtifactsCommandRequest, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsJsonResultContract, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRequest, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditCommandRequest, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditCoverageContract, CoverageAuditFamilyGapContract, CoverageAuditGateContract, CoverageAuditJsonResultContract, CoverageAuditMetricContract, CoverageAuditPayloadContract, CoverageAuditPayloadContractComparator, CoverageAuditReport, CoverageAuditRequest, CoverageAuditSampleContract, CoverageAuditTermAttemptSummaryContract, CoverageEvidenceProfile
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageCommandRequest, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageJsonPayloadContractComparator, CommentCoverageJsonPayloadRunner, CommentCoveragePayloadContractComparator, CommentCoverageRequest, CommentCoverageRunner as CommentCoveragePayloadRunner, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanCommandRequest, CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanPayloadContractComparator, CoverageHarvestLoopPlanRequest, CoverageHarvestLoopPlanRunner as CoverageHarvestLoopPayloadPlanRunner, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressCommandRequest, CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressPayloadContractComparator, CoverageProgressRequest, CoverageProgressRunner as CoverageProgressPayloadRunner, CoverageProgressSummary, CoverageProgressTracker
@@ -26662,6 +26662,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["recommendedQueryText"], "doge hot\n")
         self.assertEqual([item["query"] for item in result["priorityActionItems"]], ["doge hot", "doge comments"])
         self.assertIn("\\u", result["priorityActionJson"])
+
+    def test_coverage_audit_artifacts_json_result_contract_owns_utf8_output_shape(self):
+        payload = {"ok": True, "recommendedQueries": ["B站弹幕 \U0001f602"]}
+
+        encoded = CoverageAuditArtifactsJsonResultContract(payload).to_bytes()
+
+        self.assertEqual(encoded, (json.dumps(payload, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
+        self.assertTrue(encoded.endswith(b"\n"))
+        self.assertIn("B站弹幕 \U0001f602".encode("utf-8"), encoded)
 
     def test_coverage_audit_artifact_writer_defaults_malformed_payload_paths(self):
         result = CoverageAuditArtifactWriter().build_from_payload(

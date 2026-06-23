@@ -1,11 +1,11 @@
 from __future__ import annotations
 
 import argparse
-import json
 import sys
 
 from python_backend.analysis.audit import (
     CoverageAuditArtifactsCommandRequest,
+    CoverageAuditArtifactsJsonResultContract,
     CoverageAuditArtifactsPayloadContractComparator as CoverageAuditArtifactsContractComparator,
     CoverageAuditArtifactsRunner,
 )
@@ -21,8 +21,7 @@ class CoverageAuditArtifactsCliRunner(CoverageAuditArtifactsCommandRequest):
 
 def main(argv: list[str] | None = None) -> int:
     result = CoverageAuditArtifactsCliRunner(argv).run()
-    json.dump(result, sys.stdout, ensure_ascii=False, indent=2)
-    sys.stdout.write("\n")
+    sys.stdout.write(CoverageAuditArtifactsJsonResultContract(result).to_bytes().decode("utf-8"))
     return 0 if result["ok"] else 1
 
 

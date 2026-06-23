@@ -60,6 +60,10 @@ class CoverageAuditJsonResultContract:
         return (json.dumps(self.result, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
 
 
+class CoverageAuditArtifactsJsonResultContract(CoverageAuditJsonResultContract):
+    """Serialize coverage-audit artifact JSON output exactly as the CLI expects."""
+
+
 def _int_or(value: Any, fallback: int) -> int:
     try:
         return int(value if value is not None else fallback)
