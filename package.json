@@ -151,6 +151,7 @@
     "python:tieba-timing": "python -m python_backend.cli.tieba_timing",
     "python:tieba-timing-compare": "node server/scripts/compareTiebaTiming.js",
     "python:flatten-local": "python -m python_backend.cli.local_corpus_flatten",
+    "python:flatten-local-compare": "node server/scripts/compareLocalCorpusFlatten.js",
     "python:local-evidence": "python -m python_backend.cli.local_corpus_evidence",
     "python:local-evidence-compare": "node server/scripts/compareLocalCorpusEvidence.js",
     "python:local-mine": "python -m python_backend.cli.local_corpus_mine",
