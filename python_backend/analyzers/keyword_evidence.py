@@ -1,14 +1,13 @@
 from __future__ import annotations
 
 import argparse
-import json
 import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 from python_backend.corpus.dictionary import DictionaryLoader
-from python_backend.runtime.json_contracts import safe_read_json_object
+from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 
 
 def _clean_text(value: Any) -> str:
@@ -90,10 +89,7 @@ class KeywordEvidencePayloadRunner:
         return self.matcher.run_from_payload(payload)
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
-        if not path.exists():
-            return fallback
-        with path.open("r", encoding="utf-8-sig") as handle:
-            return json.load(handle)
+        return JsonContractReader().read_value(path, fallback)
 
 
 class KeywordEvidencePayloadContractComparator:

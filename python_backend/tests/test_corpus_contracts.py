@@ -3779,6 +3779,15 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_keyword_evidence_payload_runner_defaults_corrupt_payload_json(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "keyword-evidence.json"
+            payload_path.write_text('{"entries": [', encoding="utf-8")
+
+            result = KeywordEvidencePayloadRunner(payload_path).run()
+
+        self.assertEqual(result, {"ok": True, "mode": "entries", "count": 0, "entries": []})
+
     def test_keyword_evidence_payload_comparator_defaults_corrupt_js_report(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
