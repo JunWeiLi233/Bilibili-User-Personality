@@ -36,6 +36,7 @@ DEFAULT_PACKAGE_COMMAND_EQUIVALENTS = {
 DEFAULT_PACKAGE_VALIDATION_EQUIVALENTS = {
     "dictionary:prune": "python:dictionary-prune-compare",
     "dictionary:prune-exhausted": "python:exhausted-prune-compare",
+    "dictionary:resolve-near": "python:near-target-compare",
     "deepseek:analyze": "python:deepseek-analyze-command-compare",
     "dictionary:huggingface": "python:huggingface-compare",
     "dictionary:mine-local": "python:local-mine-compare",
@@ -50,6 +51,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:deepseek-mock-runtime-compare": "mocked_runtime",
     "python:dictionary-prune-compare": "summary_command_fixture",
     "python:exhausted-prune-compare": "dry_run_plan_fixture",
+    "python:near-target-compare": "dry_run_plan_fixture",
     "python:huggingface-compare": "full_command",
     "python:local-mine-compare": "full_command",
 }
@@ -82,6 +84,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:deepseek-mock-runtime-compare": "js_python_contract_bridge",
     "python:dictionary-prune-compare": "js_python_contract_bridge",
     "python:exhausted-prune-compare": "js_python_contract_bridge",
+    "python:near-target-compare": "js_python_contract_bridge",
     "python:local-mine-compare": "js_python_contract_bridge",
 }
 
