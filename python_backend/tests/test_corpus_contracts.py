@@ -3603,6 +3603,30 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_keyword_evidence_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "keyword-evidence.json"
+            js_report_path = root / "js-keyword-evidence.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [{"term": "YYGQ", "family": "attack", "meaning": "Chinese initialism"}],
+                        "text": "YYGQ once",
+                        "source": "Bilibili public comment target expansion",
+                        "uid": "mid-1",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            result = KeywordEvidencePayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"], {})
+
     def test_keyword_evidence_request_compares_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -4866,6 +4890,23 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["payload"], {"text": "\u53cd\u8bbd[doge]", "uid": "42", "multiagent": True})
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["payload", "input"])
+
+    def test_deepseek_analyze_cli_payload_plan_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "deepseek-cli.json"
+            js_report_path = root / "js-deepseek-cli.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--text=\u53cd\u8bbd[doge]", "--uid", "42", "--multiagent"], "stdinIsTTY": True}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            result = DeepSeekAnalyzeCliPayloadPlanContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"], {})
 
     def test_deepseek_analyze_cli_payload_comparator_owns_result_mismatch_contract(self):
         result = DeepSeekAnalyzeCliPlanPayloadComparator().compare(
