@@ -4101,6 +4101,25 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["mismatches"], [])
         self.assertEqual(result["js"], {})
 
+    def test_semantic_matcher_runner_defaults_corrupt_json_contract_payloads(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "semantic-payload.json"
+            js_report_path = root / "js-semantic.json"
+            payload_path.write_text("{bad payload", encoding="utf-8")
+            js_report_path.write_text("{bad report", encoding="utf-8")
+
+            run_result = SemanticMatcherPayloadRunner(payload_path).run()
+            compare_result = SemanticMatcherPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(run_result["ok"])
+        self.assertEqual(run_result["mode"], "match")
+        self.assertEqual(run_result["chunks"], [])
+        self.assertEqual(run_result["matches"], [])
+        self.assertTrue(compare_result["ok"])
+        self.assertEqual(compare_result["mismatches"], [])
+        self.assertEqual(compare_result["js"], {})
+
     def test_semantic_matcher_cli_runner_is_command_request_wrapper(self):
         self.assertTrue(issubclass(SemanticMatcherCliRunner, SemanticMatcherCommandRequest))
 
