@@ -81,7 +81,7 @@ from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetOverrideTermsParser, NearTargetResolvePlanCommandRequest, NearTargetResolvePlanContractComparator as NearTargetResolvePlanPayloadComparator, NearTargetResolvePlanRequest, NearTargetResolvePlanner, NearTargetResolvePlanRunner as NearTargetResolvePayloadPlanRunner
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsCommandRequest, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsPayloadContractComparator, ReadmeStatsRequest, ReadmeStatsRunner as ReadmeStatsPayloadRunner, ReadmeStatsSummary, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherCommandRequest, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRequest, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
-from python_backend.analysis.verification import RandomVerificationAnnotationContract, RandomVerificationCommandRequest, RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationPayloadContractComparator, RandomVerificationReportContract, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRunOptions, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerificationSampleContract, RandomVerifier, VerificationSummary, json_result_bytes as random_verification_payload_json_result_bytes
+from python_backend.analysis.verification import RandomVerificationAnnotationContract, RandomVerificationCommandRequest, RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationPayloadContractComparator, RandomVerificationReportContract, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRunOptions, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerificationSampleContract, RandomVerificationSummaryContract, RandomVerifier, VerificationSummary, json_result_bytes as random_verification_payload_json_result_bytes
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisInputBuilder, DeepSeekAnalysisPlanCommandRequest, DeepSeekAnalysisPlanContractComparator as DeepSeekAnalysisPayloadPlanContractComparator, DeepSeekAnalysisPlanRequest, DeepSeekAnalysisPlanRunner as DeepSeekAnalysisPayloadPlanRunner, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidateCommandRequest, DeepSeekAnalysisValidateContractComparator as DeepSeekAnalysisPayloadValidateContractComparator, DeepSeekAnalysisValidateRequest, DeepSeekAnalysisValidateRunner as DeepSeekAnalysisPayloadValidateRunner, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator, DeepSeekRequestOptionsContract
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPayloadPlanContractComparator, DeepSeekAnalyzeCliPlanCommandRequest, DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanRequest, DeepSeekAnalyzeCliPlanRunner as DeepSeekAnalyzeCliPayloadPlanRunner, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceCommandRequest, KeywordEvidenceContractComparator as KeywordEvidencePayloadComparator, KeywordEvidenceMatcher, KeywordEvidencePayloadContractComparator, KeywordEvidencePayloadRunner, KeywordEvidenceRequest, KeywordEvidenceSummary
@@ -27745,6 +27745,21 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["seed"], 7)
         self.assertEqual(result["keywordHits"], 1)
         self.assertEqual(result["samples"][0]["matched_terms"], ["doge"])
+
+    def test_random_verification_summary_contract_counts_annotated_samples(self):
+        samples = [
+            {"message": "doge", "matched_terms": ["doge"], "coverage": "keyword"},
+            {"message": "ordinary", "matched_terms": [], "coverage": "neutral"},
+            {"message": "YYGQ", "matched_terms": ["YYGQ"], "coverage": "keyword"},
+        ]
+
+        summary = RandomVerificationSummaryContract(samples).build()
+
+        self.assertEqual(summary.sampled, 3)
+        self.assertEqual(summary.keyword_hits, 2)
+        self.assertEqual(summary.neutral, 1)
+        self.assertEqual(summary.uncovered, 0)
+        self.assertEqual(summary.samples, samples)
 
     def test_random_verification_contract_comparator_reports_metric_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:

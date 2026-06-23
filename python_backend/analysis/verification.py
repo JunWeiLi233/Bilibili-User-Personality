@@ -422,6 +422,23 @@ class RandomVerificationAnnotationContract:
         return term in attributable_message
 
 
+class RandomVerificationSummaryContract:
+    """Owns summary metrics for annotated random-verification samples."""
+
+    def __init__(self, samples: list[dict[str, Any]] | None = None):
+        self.samples = samples if isinstance(samples, list) else []
+
+    def build(self) -> VerificationSummary:
+        keyword_hits = sum(1 for item in self.samples if isinstance(item, dict) and item.get("matched_terms"))
+        return VerificationSummary(
+            sampled=len(self.samples),
+            keyword_hits=keyword_hits,
+            neutral=len(self.samples) - keyword_hits,
+            uncovered=0,
+            samples=self.samples,
+        )
+
+
 class RandomVerifier:
     """Deterministically sample comments and classify lexical keyword coverage."""
 
@@ -461,14 +478,7 @@ class RandomVerifier:
         options = RandomVerificationRunOptions.from_values(sample_size=sample_size, seed=seed)
         sampled = RandomVerificationSampleContract(comments, sample_size=options.sample_size, seed=options.seed).sample()
         annotated = [self._annotate(comment) for comment in sampled]
-        keyword_hits = sum(1 for item in annotated if item["matched_terms"])
-        return VerificationSummary(
-            sampled=len(annotated),
-            keyword_hits=keyword_hits,
-            neutral=len(annotated) - keyword_hits,
-            uncovered=0,
-            samples=annotated,
-        )
+        return RandomVerificationSummaryContract(annotated).build()
 
     def report(self, comments: list[dict[str, Any]], corpus: dict[str, Any], sample_size: int, seed: int) -> dict[str, Any]:
         corpus = corpus if isinstance(corpus, dict) else {}
