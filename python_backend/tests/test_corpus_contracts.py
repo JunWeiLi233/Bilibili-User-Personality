@@ -1103,6 +1103,12 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(command, "python -m python_backend.cli.compare_contracts --output server/data/pythonContractComparison.json")
 
+    def test_package_python_validation_write_script_runs_all_python_artifact_writers(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        command = package["scripts"]["python:validation:write"]
+
+        self.assertEqual(command, "npm run python:compare:write && npm run python:coverage-standalone:write && npm run python:verify-random:write")
+
     def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
         command = package["scripts"]["python:coverage-standalone"]
