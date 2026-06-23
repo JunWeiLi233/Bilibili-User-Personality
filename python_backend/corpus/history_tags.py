@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import quote
 
-from python_backend.runtime.json_contracts import safe_read_json_object
+from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 from python_backend.scrapers.rate_limiter import RateLimitPolicy
 
 
@@ -388,8 +388,7 @@ class HistoryTagCorpusLoader:
     def _read_json_object(self, path: Path) -> dict[str, Any] | None:
         if not path.exists():
             return None
-        with path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
+        payload = JsonContractReader().read_value(path, None)
         return payload if isinstance(payload, dict) else None
 
 
@@ -591,9 +590,7 @@ class HistoryTagCorpusShardWriteRunner:
         }
 
     def _read_payload(self) -> dict[str, Any]:
-        with self.payload_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else {}
+        return JsonContractReader().read_object(self.payload_path)
 
 
 class HistoryTagCorpusShardWritePayloadContractComparator:
@@ -670,11 +667,7 @@ class HistoryTagScrapePlanRunner:
         )
 
     def _read_json_object(self, path: Path, fallback: dict[str, Any]) -> dict[str, Any]:
-        if not path.exists():
-            return fallback
-        with path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else fallback
+        return JsonContractReader(fallback).read_object(path)
 
 
 class HistoryTagScrapePlanPayloadContractComparator:
