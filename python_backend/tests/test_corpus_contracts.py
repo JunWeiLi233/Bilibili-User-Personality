@@ -167,6 +167,7 @@ from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerCommandReque
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanCommandRequest, BilibiliProbePlanContractComparator as BilibiliProbePlanPayloadComparator, BilibiliProbePlanPayloadContractComparator, BilibiliProbePlanRequest, BilibiliProbePlanRunner as BilibiliProbePayloadPlanRunner, BilibiliProbePlanSummary, BilibiliProbePlanner
 from python_backend.runtime.file_lock import FileLockStateCommandRequest, FileLockStateContractComparator as FileLockStatePayloadComparator, FileLockStateInspector, FileLockStateRequest, FileLockStateRunner as FileLockStatePayloadRunner, FileLockStateSummary
 from python_backend.scrapers.rate_limiter import RateLimitPolicy, RateLimiter
+from python_backend.runtime.json_contracts import JsonContractReader
 from python_backend.cli.aicu_scrape_plan import AicuScrapePlanContractComparator, AicuScrapePlanRunner
 from python_backend.cli.aicu_batch_plan import AicuBatchPlanContractComparator, AicuBatchPlanRunner
 from python_backend.cli.aicu_browser_batch_plan import AicuBrowserBatchPlanContractComparator, AicuBrowserBatchPlanRunner
@@ -5441,11 +5442,16 @@ class CorpusContractTests(unittest.TestCase):
             valid_path.write_text(json.dumps({"ok": True, "value": 1}), encoding="utf-8")
             array_path.write_text(json.dumps(["not", "object"]), encoding="utf-8")
             corrupt_path.write_text("{bad json", encoding="utf-8")
+            reader = JsonContractReader()
 
             self.assertEqual(safe_read_json_object(valid_path), {"ok": True, "value": 1})
+            self.assertEqual(reader.read_object(valid_path), {"ok": True, "value": 1})
             self.assertEqual(safe_read_json_object(array_path), {})
+            self.assertEqual(reader.read_object(array_path), {})
             self.assertEqual(safe_read_json_object(corrupt_path), {})
+            self.assertEqual(reader.read_object(corrupt_path), {})
             self.assertEqual(safe_read_json_object(missing_path), {})
+            self.assertEqual(reader.read_object(missing_path), {})
 
     def test_contract_comparator_rejects_manifest_run_count_mismatch(self):
         with tempfile.TemporaryDirectory() as tmp:
