@@ -29,6 +29,7 @@
     "python:corpus-write": "python -m python_backend.cli.corpus_shard_writer",
     "python:coverage-compare": "python -m python_backend.cli.coverage_audit",
     "python:coverage-standalone": "python -m python_backend.cli.coverage_audit --standalone",
+    "python:coverage-standalone:write": "python -m python_backend.cli.coverage_audit --standalone --output server/data/keywordCoverageAudit.python.json --query-file server/data/keywordCoverageQueries.python.txt --action-file server/data/keywordCoverageActions.python.json --exit-zero",
     "python:coverage-artifacts": "python -m python_backend.cli.coverage_audit_artifacts",
     "python:coverage-loop-plan": "python -m python_backend.cli.coverage_loop_plan",
     "python:coverage-progress": "python -m python_backend.cli.coverage_progress",

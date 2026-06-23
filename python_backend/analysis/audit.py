@@ -900,6 +900,10 @@ class CoverageAuditCommandRequest:
             action_file_path=args.action_file or None,
         ).run()
 
+    def exit_zero(self) -> bool:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return bool(args.exit_zero)
+
     @staticmethod
     def parser() -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(description="Compare Python coverage-audit metrics against the current JS audit report.")
@@ -910,6 +914,7 @@ class CoverageAuditCommandRequest:
         parser.add_argument("--query-file", default="", help="Optional path to write recommended coverage queries.")
         parser.add_argument("--action-file", default="", help="Optional path to write priority coverage action JSON.")
         parser.add_argument("--strict-total-evidence", action="store_true")
+        parser.add_argument("--exit-zero", action="store_true", help="Write the JSON result but return process exit code 0 even when the audit is incomplete.")
         return parser
 
 

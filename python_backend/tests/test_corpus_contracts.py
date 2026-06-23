@@ -1110,6 +1110,16 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(command, "python -m python_backend.cli.coverage_audit --standalone")
         self.assertEqual(package["scripts"]["dictionary:coverage"], "node server/scripts/runDictionaryCoverageAudit.js")
 
+    def test_package_python_coverage_standalone_write_script_persists_python_artifacts(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        command = package["scripts"]["python:coverage-standalone:write"]
+
+        self.assertEqual(
+            command,
+            "python -m python_backend.cli.coverage_audit --standalone --output server/data/keywordCoverageAudit.python.json --query-file server/data/keywordCoverageQueries.python.txt --action-file server/data/keywordCoverageActions.python.json --exit-zero",
+        )
+        self.assertEqual(package["scripts"]["dictionary:coverage"], "node server/scripts/runDictionaryCoverageAudit.js")
+
     def test_corpus_shard_writer_owns_json_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -27452,6 +27462,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(exit_code, 1)
         self.assertFalse(result["ok"])
         self.assertEqual(result["coverage"]["terms"], 2)
+        self.assertEqual(result["coverage"]["weakTerms"], 1)
+
+    def test_coverage_audit_cli_main_exit_zero_preserves_failed_audit_payload(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {"term": "weak", "family": "attack", "evidenceCount": 1},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                exit_code = coverage_audit_cli.main(["--dictionary", str(dictionary_path), "--standalone", "--exit-zero"])
+
+        result = json.loads(output.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertFalse(result["ok"])
         self.assertEqual(result["coverage"]["weakTerms"], 1)
 
     def test_coverage_audit_cli_main_writes_standalone_output_contract(self):
