@@ -1088,6 +1088,21 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertIn("--extra-corpus server/data/tiebaKeywordCorpus.json", command)
 
+    def test_package_verify_random_write_script_persists_python_report(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        command = package["scripts"]["python:verify-random:write"]
+
+        self.assertEqual(
+            command,
+            "python -m python_backend.cli.random_verification --extra-corpus server/data/tiebaKeywordCorpus.json --output server/data/randomVerificationReport.json",
+        )
+
+    def test_package_compare_write_script_persists_python_contract_report(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        command = package["scripts"]["python:compare:write"]
+
+        self.assertEqual(command, "python -m python_backend.cli.compare_contracts --output server/data/pythonContractComparison.json")
+
     def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
         command = package["scripts"]["python:coverage-standalone"]
