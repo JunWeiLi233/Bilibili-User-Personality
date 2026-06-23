@@ -117,6 +117,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:batch-uid-range-compare": "js_python_contract_bridge",
     "python:batch-scraper-launcher-compare": "js_python_contract_bridge",
     "python:uid-pipeline-launcher-compare": "js_python_contract_bridge",
+    "python:uid-fast-pipeline-compare": "js_python_contract_bridge",
     "python:local-mine-compare": "js_python_contract_bridge",
 }
 
@@ -152,6 +153,7 @@ PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
     "batch_uid_range_plan": ("python_backend.cli.batch_uid_range_plan",),
     "batch_scraper_launcher": ("python_backend.cli.batch_scraper_launcher",),
     "uid_pipeline_launcher": ("python_backend.cli.uid_pipeline_launcher",),
+    "uid_fast_pipeline_plan": ("python_backend.cli.uid_fast_pipeline_plan",),
 }
 
 RETAINED_JS_FILE_PREFIXES = {
@@ -191,6 +193,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareBatchUidRangePlan.js": "js_python_contract_bridge",
     "server/scripts/compareBatchScraperLauncherPlan.js": "js_python_contract_bridge",
     "server/scripts/compareUidPipelineLauncherPlan.js": "js_python_contract_bridge",
+    "server/scripts/compareUidFastPipelinePlan.js": "js_python_contract_bridge",
 }
 
 MIGRATION_PRIORITY_RULES = (

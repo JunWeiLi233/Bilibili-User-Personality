@@ -23125,6 +23125,36 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_uid_fast_pipeline_has_js_python_validation_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(
+            package["scripts"]["python:uid-fast-pipeline-compare"],
+            "node server/scripts/compareUidFastPipelinePlan.js",
+        )
+
+        result = BackendMigrationInventoryScanner(".").scan()
+        self.assertIn(
+            {
+                "script": "python:uid-fast-pipeline-compare",
+                "command": "node server/scripts/compareUidFastPipelinePlan.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:uid-fast-pipeline-plan",
+                "command": "python -m python_backend.cli.uid_fast_pipeline_plan",
+                "pipeline": "uid_fast_pipeline_plan",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareUidFastPipelinePlan.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_scraper_monitor_pipeline_payload_planner_builds_worker_progress_filenames(self):
         result = ScraperMonitorPipelinePayloadPlanner().progress_files(total_start=1, total_end=5, workers=2)
 

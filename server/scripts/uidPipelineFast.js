@@ -8,6 +8,8 @@ const args = Object.fromEntries(
     .map(a => { const [k, ...v] = a.slice(2).split('='); return [k, v.join('=')]; })
 );
 
+const hasFlag = (name) => process.argv.slice(2).includes(`--${name}`);
+
 const START = Number(args.start || 1);
 const END = Number(args.end || 100000);
 const DATA_DIR = join(process.cwd(), 'server', 'data');
@@ -25,6 +27,96 @@ const LOCK_PATH = join(DATA_DIR, 'deepseekKeywordDictionary.json.lock');
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36';
 
 const wait = (ms) => new Promise(r => setTimeout(r, ms));
+
+function parseNumberOr(value, fallback) {
+  const parsed = Number.parseInt(String(value ?? ''), 10);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function parsePlanArgs(argv = []) {
+  const options = { start: 1, end: 100000 };
+  for (const raw of argv) {
+    const arg = String(raw || '');
+    if (arg.startsWith('--start=')) options.start = parseNumberOr(arg.split('=', 2)[1], 1);
+    else if (arg.startsWith('--end=')) options.end = parseNumberOr(arg.split('=', 2)[1], 100000);
+  }
+  return options;
+}
+
+function usersInRange(users = {}, start = 1, end = 100000) {
+  return Object.keys(users).filter((uid) => {
+    const numericUid = Number.parseInt(uid, 10);
+    return Number.isFinite(numericUid) && numericUid >= start && numericUid <= end;
+  }).length;
+}
+
+function buildUidFastPipelinePlan(payload = {}) {
+  const options = parsePlanArgs(Array.isArray(payload.argv) ? payload.argv : []);
+  const start = options.start;
+  const end = options.end;
+  const total = Math.max(0, end - start + 1);
+  const progress = payload.progress && typeof payload.progress === 'object' ? payload.progress : {};
+  const database = payload.database && typeof payload.database === 'object' ? payload.database : {};
+  const processed = progress.processed && typeof progress.processed === 'object' ? progress.processed : {};
+  const stats = progress.stats && typeof progress.stats === 'object' ? progress.stats : {};
+  const users = database.users && typeof database.users === 'object' ? database.users : {};
+  const processedCount = Object.keys(processed).length;
+
+  return {
+    ok: true,
+    range: { start, end, total },
+    progress: {
+      processed: processedCount,
+      remaining: Math.max(0, total - processedCount),
+      completionRatio: total ? Math.round((processedCount / total) * 10000) / 10000 : 0,
+    },
+    limits: {
+      videosPerUser: 3,
+      commentPagesPerVideo: 2,
+      replyPageSize: 20,
+      commentTextMinChars: 10,
+      commentTextLimit: 8000,
+    },
+    network: { mode: 'directFetchJson', usesCrawlerRateLimiter: false, hasUserAgent: true },
+    pacing: {
+      delayUidMs: DELAY_UID_MS,
+      delayFastFailUidMs: 1800,
+      delayRequestMs: DELAY_REQUEST_MS,
+      cursorDelayMs: 200,
+      saveEvery: SAVE_EVERY,
+    },
+    training: {
+      multiagent: true,
+      existingTermsOnly: false,
+      lockRetryDelayMs: LOCK_RETRY_DELAY_MS,
+      lockRetryJitterMs: 2000,
+      lockMaxRetries: 15,
+      forceCleanLockAfterAttempt: 10,
+    },
+    blockPolicy: {
+      blockedCodes: [-799, -352],
+      consecutiveBlockThreshold: 3,
+      blockBackoffBaseMs: BLOCK_BACKOFF_BASE_MS,
+      blockBackoffMaxMultiplier: 10,
+    },
+    stats: {
+      success: parseNumberOr(stats.success, 0),
+      noComments: parseNumberOr(stats.noComments, 0),
+      noVideos: parseNumberOr(stats.noVideos, 0),
+      noUser: parseNumberOr(stats.noUser, 0),
+      trainError: parseNumberOr(stats.trainError, 0),
+      blocked: parseNumberOr(stats.blocked, 0),
+      errors: parseNumberOr(stats.errors, 0),
+    },
+    userDb: { users: Object.keys(users).length, usersInRange: usersInRange(users, start, end) },
+  };
+}
+
+if (hasFlag('plan-json')) {
+  const payload = args.payload ? JSON.parse(await readFile(args.payload, 'utf8')) : {};
+  console.log(JSON.stringify(buildUidFastPipelinePlan(payload), null, 2));
+  process.exit(0);
+}
 
 process.on('uncaughtException', err => {
   console.error('=== UNCAUGHT EXCEPTION ===');
