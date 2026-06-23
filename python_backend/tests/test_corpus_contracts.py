@@ -9971,6 +9971,33 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(comparison["ok"])
         self.assertEqual(comparison["mismatches"], [])
 
+    def test_history_tag_corpus_shard_write_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output_path = root / "history-tags.json"
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-report.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "outputPath": str(output_path),
+                        "maxShardBytes": 1024,
+                        "manifest": {"updatedAt": "2026-06-20T00:00:00.000Z"},
+                        "tags": [{"name": "\u5386\u53f2"}],
+                        "videos": [{"bvid": "BVhistory", "title": "\u5386\u53f2\u89c6\u9891", "tags": ["\u5386\u53f2"]}],
+                        "runs": [{"at": "run"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            result = HistoryTagCorpusShardWritePayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"], {})
+
     def test_history_tag_corpus_shard_write_runner_defaults_invalid_max_shard_bytes_like_js(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -10088,6 +10115,36 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "runs", "python": 1, "js": 0},
             ],
         )
+
+    def test_history_tag_corpus_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            current_path = root / "current.json"
+            update_path = root / "update.json"
+            js_report_path = root / "js-history-tags.json"
+            current_path.write_text(json.dumps({"tags": [], "videos": [], "runs": []}), encoding="utf-8")
+            update_path.write_text(
+                json.dumps(
+                    {
+                        "tags": [{"name": "history"}],
+                        "videos": [{"bvid": "BVhistory", "aid": 100, "title": "<em>history</em> video", "tags": "history,archive"}],
+                        "runs": [{"at": "run"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            result = HistoryTagCorpusPayloadContractComparator(
+                current_path,
+                update_path,
+                js_report_path,
+                generated_at="2026-06-19T01:00:00.000Z",
+            ).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"], {})
 
     def test_history_tag_corpus_summary_extracts_comparator_contract(self):
         summary = HistoryTagCorpusSummary().summarize(
@@ -10297,6 +10354,20 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(plan["ok"])
         self.assertEqual(plan["summary"]["requests"], 2)
         self.assertEqual([item["key"] for item in plan_comparison["mismatches"]], ["pages"])
+
+    def test_history_tag_scrape_plan_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-plan.json"
+            payload_path.write_text(json.dumps({"argv": ["--pages=2", "--seed=\u5386\u53f2"]}), encoding="utf-8")
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            result = HistoryTagScrapePlanPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"], {})
 
     def test_history_tag_corpus_request_owns_cli_dispatch_modes(self):
         with tempfile.TemporaryDirectory() as tmp:
