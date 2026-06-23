@@ -67,7 +67,7 @@ from python_backend.cli import video_link_direct_plan as video_link_direct_plan_
 from python_backend.cli import video_relevance as video_relevance_cli
 from python_backend.cli import range_scraper_launcher as range_scraper_launcher_cli
 from python_backend.cli import fast_pipeline_launcher as fast_pipeline_launcher_cli
-from python_backend.analysis.audit import CoverageAuditActionContract, CoverageAuditActionSummaryContract, CoverageAuditArtifactContract, CoverageAuditArtifactPayloadContract, CoverageAuditArtifactWriter, CoverageAuditArtifactsCommandRequest, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRequest, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditCommandRequest, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditCoverageContract, CoverageAuditFamilyGapContract, CoverageAuditGateContract, CoverageAuditMetricContract, CoverageAuditPayloadContractComparator, CoverageAuditReport, CoverageAuditRequest, CoverageAuditSampleContract, CoverageAuditTermAttemptSummaryContract, CoverageEvidenceProfile
+from python_backend.analysis.audit import CoverageAuditActionContract, CoverageAuditActionSummaryContract, CoverageAuditArtifactContract, CoverageAuditArtifactPayloadContract, CoverageAuditArtifactWriter, CoverageAuditArtifactsCommandRequest, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRequest, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditCommandRequest, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditCoverageContract, CoverageAuditFamilyGapContract, CoverageAuditGateContract, CoverageAuditMetricContract, CoverageAuditPayloadContract, CoverageAuditPayloadContractComparator, CoverageAuditReport, CoverageAuditRequest, CoverageAuditSampleContract, CoverageAuditTermAttemptSummaryContract, CoverageEvidenceProfile
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageCommandRequest, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageJsonPayloadContractComparator, CommentCoverageJsonPayloadRunner, CommentCoveragePayloadContractComparator, CommentCoverageRequest, CommentCoverageRunner as CommentCoveragePayloadRunner, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanCommandRequest, CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanPayloadContractComparator, CoverageHarvestLoopPlanRequest, CoverageHarvestLoopPlanRunner as CoverageHarvestLoopPayloadPlanRunner, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressCommandRequest, CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressPayloadContractComparator, CoverageProgressRequest, CoverageProgressRunner as CoverageProgressPayloadRunner, CoverageProgressSummary, CoverageProgressTracker
@@ -26132,6 +26132,43 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(summary["repeatedlyMissedTerms"], [])
         self.assertEqual(summary["exhaustedTerms"], 0)
         self.assertEqual(summary["exhaustedSamples"], [])
+
+    def test_coverage_audit_payload_contract_builds_top_level_js_shape(self):
+        coverage = {
+            "complete": False,
+            "targetEvidence": 3,
+            "terms": 2,
+            "coverageRatio": 0.5,
+            "weakTerms": 1,
+            "unsourcedEvidenceTerms": 0,
+            "byFamily": {"attack": {"terms": 2, "weak": 1, "zero": 0, "evidence": 4}},
+        }
+        actions = [
+            {"term": "covered", "action": "none", "nextQuery": ""},
+            {"term": "weak", "action": "harvest", "nextQuery": "weak \u8bc4\u8bba\u533a"},
+            {"term": "source", "action": "refresh_source_metadata", "nextQuery": "source \u8bc4\u8bba\u533a"},
+        ]
+
+        payload = CoverageAuditPayloadContract(
+            coverage=coverage,
+            actions=actions,
+            term_attempt_summary={"attemptedTerms": 0},
+            family_gaps=[{"family": "attack"}],
+            target_evidence=3,
+            min_coverage_ratio=1,
+            require_complete=True,
+            require_source_backed_evidence=False,
+            max_actions=1,
+            generated_at="2026-06-23T00:00:00Z",
+        ).build()
+
+        self.assertFalse(payload["ok"])
+        self.assertEqual(payload["generatedAt"], "2026-06-23T00:00:00Z")
+        self.assertEqual(payload["nextActions"], [actions[1]])
+        self.assertEqual(payload["recommendedQueries"], ["weak \u8bc4\u8bba\u533a"])
+        self.assertEqual(payload["failureReasons"], ["coverage ratio 0.5 is below 1", "1 term(s) are below 3 evidence hit(s)"])
+        self.assertEqual(payload["actionSummary"], {"none": 1, "harvest": 1, "refresh_source_metadata": 1})
+        self.assertEqual(payload["termAttemptSummary"], {"attemptedTerms": 0})
 
     def test_coverage_audit_builder_defaults_non_object_dictionary_roots(self):
         audit = CoverageAuditBuilder(target_evidence=3).build(["bad dictionary root"])

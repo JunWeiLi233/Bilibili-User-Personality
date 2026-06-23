@@ -387,6 +387,61 @@ class CoverageAuditTermAttemptSummaryContract:
         }
 
 
+class CoverageAuditPayloadContract:
+    """Build the top-level JS-compatible coverage audit payload."""
+
+    def __init__(
+        self,
+        coverage: dict[str, Any] | None = None,
+        actions: list[Any] | None = None,
+        term_attempt_summary: dict[str, Any] | None = None,
+        family_gaps: list[dict[str, Any]] | None = None,
+        target_evidence: int = 3,
+        min_coverage_ratio: float = 1,
+        require_complete: bool = True,
+        require_source_backed_evidence: bool = False,
+        max_actions: int = 20,
+        generated_at: str | None = None,
+    ):
+        self.coverage = coverage if isinstance(coverage, dict) else {}
+        self.actions = [action for action in actions if isinstance(action, dict)] if isinstance(actions, list) else []
+        self.term_attempt_summary = term_attempt_summary if isinstance(term_attempt_summary, dict) else {}
+        self.family_gaps = family_gaps if isinstance(family_gaps, list) else []
+        self.target_evidence = max(1, _int_or(target_evidence, 3))
+        self.min_coverage_ratio = min(1, max(0, _float_or(min_coverage_ratio, 1)))
+        self.require_complete = _bool_or(require_complete, True)
+        self.require_source_backed_evidence = _bool_or(require_source_backed_evidence, False)
+        self.max_actions = max(1, _int_or(max_actions, 20))
+        self.generated_at = generated_at
+
+    def build(self) -> dict[str, Any]:
+        next_actions = [action for action in self.actions if action.get("action") != "none"][: self.max_actions]
+        recommended_queries = [action["nextQuery"] for action in next_actions if action.get("nextQuery")]
+        gate = CoverageAuditGateContract(
+            self.coverage,
+            target_evidence=self.target_evidence,
+            min_coverage_ratio=self.min_coverage_ratio,
+            require_complete=self.require_complete,
+            require_source_backed_evidence=self.require_source_backed_evidence,
+        )
+        failure_reasons = gate.failure_reasons()
+        return {
+            "ok": gate.ok(),
+            "generatedAt": self.generated_at or datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "targetEvidence": self.target_evidence,
+            "minCoverageRatio": self.min_coverage_ratio,
+            "requireComplete": self.require_complete,
+            "requireSourceBackedEvidence": self.require_source_backed_evidence,
+            "coverage": self.coverage,
+            "termAttemptSummary": self.term_attempt_summary,
+            "actionSummary": CoverageAuditActionSummaryContract(self.actions).summary(),
+            "familyGaps": self.family_gaps,
+            "nextActions": next_actions,
+            "recommendedQueries": recommended_queries,
+            "failureReasons": failure_reasons,
+        }
+
+
 def _coverage_metric_or_none(coverage: dict[str, Any], key: str) -> Any:
     return CoverageAuditMetricContract(coverage).value(key)
 
@@ -900,26 +955,18 @@ class CoverageAuditBuilder:
         entries = [entry for entry in raw_entries if isinstance(entry, dict)]
         coverage = self._coverage(entries)
         actions = [self._action_for_entry(entry) for entry in self._sort_entries_for_coverage(entries)]
-        next_actions = [action for action in actions if action["action"] != "none"][: self.max_actions]
-        recommended_queries = [action["nextQuery"] for action in next_actions if action["nextQuery"]]
         family_gaps = self._family_gaps(coverage["byFamily"])
-        gate = self._gate(coverage)
-        failure_reasons = gate.failure_reasons()
-        return {
-            "ok": gate.ok(),
-            "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-            "targetEvidence": self.target_evidence,
-            "minCoverageRatio": self.min_coverage_ratio,
-            "requireComplete": self.require_complete,
-            "requireSourceBackedEvidence": self.require_source_backed_evidence,
-            "coverage": coverage,
-            "termAttemptSummary": self._term_attempt_summary(entries),
-            "actionSummary": self._action_summary(actions),
-            "familyGaps": family_gaps,
-            "nextActions": next_actions,
-            "recommendedQueries": recommended_queries,
-            "failureReasons": failure_reasons,
-        }
+        return CoverageAuditPayloadContract(
+            coverage=coverage,
+            actions=actions,
+            term_attempt_summary=self._term_attempt_summary(entries),
+            family_gaps=family_gaps,
+            target_evidence=self.target_evidence,
+            min_coverage_ratio=self.min_coverage_ratio,
+            require_complete=self.require_complete,
+            require_source_backed_evidence=self.require_source_backed_evidence,
+            max_actions=self.max_actions,
+        ).build()
 
     def _coverage(self, entries: list[dict[str, Any]]) -> dict[str, Any]:
         return CoverageAuditCoverageContract(
