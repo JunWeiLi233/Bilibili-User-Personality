@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 import html
-import json
 import re
 from pathlib import Path
 from typing import Any
@@ -54,12 +53,11 @@ def _mobile_thread_fetch_url(value: Any, thread_id: str) -> str:
 
 def _parse_data_field(value: str) -> dict[str, Any]:
     decoded = _decode_html(value)
+    reader = JsonContractReader()
     for candidate in (decoded, decoded.replace(r"\"", '"')):
-        try:
-            payload = json.loads(candidate)
-        except json.JSONDecodeError:
-            continue
-        return payload if isinstance(payload, dict) else {}
+        payload = reader.read_text_value(candidate, None)
+        if isinstance(payload, dict):
+            return payload
     return {}
 
 

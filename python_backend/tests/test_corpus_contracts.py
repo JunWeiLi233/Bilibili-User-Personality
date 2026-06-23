@@ -12316,6 +12316,11 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_tieba_html_parser_uses_shared_json_text_reader(self):
+        source = Path("python_backend/scrapers/tieba_html.py").read_text(encoding="utf-8")
+
+        self.assertNotIn("json.loads", source)
+
     def test_tieba_html_parse_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
