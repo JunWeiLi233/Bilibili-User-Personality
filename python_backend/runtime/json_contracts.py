@@ -59,7 +59,13 @@ class JsonResultBytesContract:
         return self.to_bytes().decode("utf-8")
 
     def write_text(self, stream: Any) -> int:
-        return stream.write(self.to_text())
+        try:
+            return stream.write(self.to_text())
+        except UnicodeEncodeError:
+            buffer = getattr(stream, "buffer", None)
+            if buffer is None:
+                raise
+            return buffer.write(self.to_bytes())
 
     def write_bytes(self, stream: Any) -> int:
         return stream.write(self.to_bytes())

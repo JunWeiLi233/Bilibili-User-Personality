@@ -5456,6 +5456,53 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_deepseek_analysis_input_builder_preserves_source_comment_metadata(self):
+        request = DeepSeekAnalyzerClient().build_request_from_payload(
+            {
+                "comments": [
+                    {"message": "\u53cd\u8bbd[doge]\U0001f602", "source": "bilibili", "uid": "42", "videoId": "BVemoji"},
+                    {"text": "\u8d34\u5427\u8bed\u6c14\u5f88\u9634\u9633", "source": "tieba", "threadId": "tid-9"},
+                    {"message": ""},
+                ],
+                "uid": "profile-1",
+            }
+        )
+
+        prompt_input = DeepSeekAnalysisInputBuilder().build(request)
+
+        self.assertEqual(prompt_input["comments"], ["\u53cd\u8bbd[doge]\U0001f602", "\u8d34\u5427\u8bed\u6c14\u5f88\u9634\u9633"])
+        self.assertEqual(
+            prompt_input["sourceComments"],
+            [
+                {"text": "\u53cd\u8bbd[doge]\U0001f602", "source": "bilibili", "uid": "42", "videoId": "BVemoji"},
+                {"text": "\u8d34\u5427\u8bed\u6c14\u5f88\u9634\u9633", "source": "tieba", "threadId": "tid-9"},
+            ],
+        )
+
+    def test_deepseek_analysis_plan_cli_main_emits_utf8_emoji_json_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "deepseek-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "comments": [
+                            {"message": "\u53cd\u8bbd[doge]\U0001f602", "source": "bilibili", "uid": "42", "videoId": "BVemoji"},
+                        ],
+                        "multiagent": True,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            stdout = io.StringIO()
+            with contextlib.redirect_stdout(stdout):
+                exit_code = deepseek_analysis_plan_cli.main(["--payload", str(payload_path)])
+
+        payload = json.loads(stdout.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(payload["mode"], "multiagent")
+        self.assertIn("\U0001f602", payload["requests"][0]["messages"][1]["content"])
+        self.assertIn("BVemoji", payload["requests"][0]["messages"][1]["content"])
+
     def test_deepseek_sentence_splitter_source_has_no_shadowed_mojibake_regex(self):
         source = Path("python_backend/analyzers/deepseek.py").read_text(encoding="utf-8")
 
@@ -28694,6 +28741,22 @@ class CorpusContractTests(unittest.TestCase):
         decoded = encoded.decode("utf-8")
 
         self.assertIn("emoji 😭 and hangul 눈", decoded)
+
+    def test_json_result_contract_falls_back_to_utf8_bytes_when_text_stream_rejects_emoji(self):
+        class RejectingTextStream:
+            def __init__(self):
+                self.buffer = io.BytesIO()
+
+            def write(self, text):
+                raise UnicodeEncodeError("gbk", text, 0, 1, "illegal multibyte sequence")
+
+        stream = RejectingTextStream()
+        contract = JsonResultBytesContract({"ok": True, "message": "\U0001f602"})
+
+        exit_code = contract.run_text(stream)
+
+        self.assertEqual(exit_code, 0)
+        self.assertIn("\U0001f602", stream.buffer.getvalue().decode("utf-8"))
 
     def test_random_verification_json_result_bytes_lives_with_analysis_contract(self):
         payload = {"ok": True, "samples": [{"message": "contract output"}]}

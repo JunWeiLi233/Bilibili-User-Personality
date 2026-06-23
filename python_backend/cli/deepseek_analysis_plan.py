@@ -1,13 +1,14 @@
 from __future__ import annotations
 
 import argparse
-import json
+import sys
 
 from python_backend.analyzers.deepseek import (
     DeepSeekAnalysisPlanCommandRequest,
     DeepSeekAnalysisPlanContractComparator,
     DeepSeekAnalysisPlanRunner,
 )
+from python_backend.runtime.json_contracts import JsonResultBytesContract
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -20,8 +21,7 @@ class DeepSeekAnalysisPlanCliRunner(DeepSeekAnalysisPlanCommandRequest):
 
 def main(argv: list[str] | None = None) -> int:
     result = DeepSeekAnalysisPlanCliRunner(argv).run()
-    print(json.dumps(result, ensure_ascii=False, indent=2))
-    return 0 if result["ok"] else 1
+    return JsonResultBytesContract(result).run_text(sys.stdout)
 
 
 if __name__ == "__main__":

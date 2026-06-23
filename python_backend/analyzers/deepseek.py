@@ -17,6 +17,7 @@ from python_backend.runtime.json_contracts import JsonContractReader, safe_read_
 class AnalyzerRequest:
     comments: list[str]
     keyword_hints: list[Any] = field(default_factory=list)
+    source_comments: list[dict[str, str]] = field(default_factory=list)
     uid: str = "unknown"
     name: str = "unknown"
     model: str = "deepseek-v4-flash"
@@ -57,6 +58,7 @@ class DeepSeekAnalysisInputBuilder:
             "uid": request.uid or "unknown",
             "name": request.name or "unknown",
             "comments": self._split_sentences("\n".join(request.comments))[:limit],
+            "sourceComments": request.source_comments[:limit],
             "keywordHints": self._normalize_hints(request.keyword_hints),
         }
 
@@ -133,6 +135,7 @@ class DeepSeekAnalyzerClient:
         return AnalyzerRequest(
             comments=self._comments_from_payload(payload),
             keyword_hints=self._keyword_hints_from_payload(payload),
+            source_comments=self._source_comments_from_payload(payload),
             uid=str(payload.get("uid") or "unknown"),
             name=str(payload.get("name") or "unknown"),
             model=str(payload.get("model") or "deepseek-v4-flash"),
@@ -147,6 +150,7 @@ class DeepSeekAnalyzerClient:
             "uid": request.uid or "unknown",
             "name": request.name or "unknown",
             "comments": self._split_sentences("\n".join(request.comments)),
+            "sourceComments": request.source_comments,
             "keywordHints": self._normalize_hints(request.keyword_hints),
             "multiagent": request.multiagent,
         }
@@ -337,6 +341,38 @@ class DeepSeekAnalyzerClient:
             return [text for item in corpus.comments if (text := self._comment_text(item))]
         text = str(payload.get("text") or payload.get("fullText") or "").strip()
         return [text] if text else []
+
+    def _source_comments_from_payload(self, payload: dict[str, Any]) -> list[dict[str, str]]:
+        source_comments: list[dict[str, str]] = []
+        comments = payload.get("comments")
+        if isinstance(comments, list):
+            for item in comments:
+                source_comment = self._source_comment(item)
+                if source_comment:
+                    source_comments.append(source_comment)
+            return source_comments
+        if isinstance(payload.get("corpus"), dict) or payload.get("corpusPath"):
+            corpus = CorpusLoader.load_from_payload(payload)
+            for item in corpus.comments:
+                source_comment = self._source_comment(item)
+                if source_comment:
+                    source_comments.append(source_comment)
+            return source_comments
+        text = str(payload.get("text") or payload.get("fullText") or "").strip()
+        return [{"text": text}] if text else []
+
+    def _source_comment(self, item: Any) -> dict[str, str]:
+        text = self._comment_text(item)
+        if not text:
+            return {}
+        if not isinstance(item, dict):
+            return {"text": text}
+        result = {"text": text}
+        for source_key in ("source", "uid", "mid", "videoId", "bvid", "threadId", "postId", "url"):
+            value = str(item.get(source_key) or "").strip()
+            if value:
+                result[source_key] = value
+        return result
 
     def _comment_text(self, item: Any) -> str:
         if isinstance(item, dict):
