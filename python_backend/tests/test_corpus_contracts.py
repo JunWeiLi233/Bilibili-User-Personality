@@ -21388,6 +21388,23 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["userDb"], {"users": 2})
         self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
 
+    def test_uid_discovery_progress_runner_defaults_corrupt_json_contract_inputs(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            (data_dir / "uid-discovery-progress.json").write_text("{not-json", encoding="utf-8")
+            (data_dir / "uid-discovery-comments.json").write_text("{not-json", encoding="utf-8")
+            (data_dir / "scraped-users-db.json").write_text("{not-json", encoding="utf-8")
+
+            result = UidDiscoveryProgressPayloadRunner(data_dir).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["phase"], "discovery")
+        self.assertEqual(result["discovery"], {"videosScanned": 0, "videoQueueSize": 0, "uidsDiscovered": 0, "commentsCollected": 0})
+        self.assertEqual(result["comments"], {"total": 0, "averagePerUid": 0, "uidsWithComments": 0})
+        self.assertEqual(result["userDb"], {"users": 0})
+
     def test_uid_discovery_progress_cli_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
