@@ -5,6 +5,8 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 
+import { runDirectProbeCommand } from './probeBilibiliCommentEvidence.js';
+
 const execFileAsync = promisify(execFile);
 
 const OLD_COMMENT = '\u65e7\u8bc4\u8bba';
@@ -70,19 +72,59 @@ async function runPythonDirectProbeCorpus({ payloadPath, jsReportPath }) {
   return JSON.parse(stdout);
 }
 
+async function runJsDirectProbeCorpus({ payload }) {
+  const query = payload.run?.query || '\u67e5\u67e5\u8d44\u6599 B\u7ad9\u8bc4\u8bba';
+  const term = query.split(/\s+/)[0] || '\u67e5\u67e5\u8d44\u6599';
+  const captured = { corpus: null };
+  const videos = Array.isArray(payload.run?.videos) ? payload.run.videos : [];
+  const result = await runDirectProbeCommand({
+    argv: [`--query=${query}`, `--term=${term}`, '--write', '--delay-ms=1000', '--jitter-ms=0'],
+    env: {},
+    readJson: async () => ({ nextActions: [] }),
+    readJsonCorpus: async () => payload.existing || { version: 1, comments: [], runs: [] },
+    readKeywordDictionary: async () => ({
+      entries: [
+        {
+          term,
+          family: 'evidence',
+          meaning: 'direct probe fixture term',
+          evidenceCount: 0,
+          evidenceSamples: [],
+          evidenceSources: [],
+        },
+      ],
+    }),
+    discoverVideos: async () => videos,
+    fetchVideoComments: async () => payload.comments || [],
+    fetchVideoDanmaku: async () => [],
+    writeJsonCorpus: async (_path, corpus) => {
+      captured.corpus = corpus;
+    },
+    mergeEntriesIntoDictionary: async (entries) => ({ entries }),
+    log: () => {},
+    now: () => payload.run?.at || '2026-06-23T00:00:00.000Z',
+    makeCookie: () => 'fixture-cookie',
+  });
+  return { ok: result.ok, corpus: captured.corpus || result.corpus };
+}
+
 export async function compareDirectProbeCorpus({
   payload = DEFAULT_PAYLOAD,
-  jsReport = DEFAULT_JS_REPORT,
+  jsReport = null,
+  runJs = runJsDirectProbeCorpus,
   runPython = runPythonDirectProbeCorpus,
 } = {}) {
   const tempDir = await mkdtemp(join(tmpdir(), 'direct-probe-corpus-compare-'));
   try {
     const payloadPath = join(tempDir, 'payload.json');
     const jsReportPath = join(tempDir, 'js-report.json');
-    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
-    await writeFile(jsReportPath, JSON.stringify(jsReport, null, 2), 'utf8');
+    const actualJsReport = jsReport || await runJs({ payload });
+    const jsRuns = Array.isArray(actualJsReport?.corpus?.runs) ? actualJsReport.corpus.runs : [];
+    const comparisonPayload = { ...payload, run: jsRuns[jsRuns.length - 1] || payload.run };
+    await writeFile(payloadPath, JSON.stringify(comparisonPayload, null, 2), 'utf8');
+    await writeFile(jsReportPath, JSON.stringify(actualJsReport, null, 2), 'utf8');
 
-    const comparison = await runPython({ payload, jsReport, payloadPath, jsReportPath });
+    const comparison = await runPython({ payload: comparisonPayload, jsReport: actualJsReport, payloadPath, jsReportPath });
     return {
       ok: Boolean(comparison.ok),
       fixture: { payloadPath, jsReportPath },
