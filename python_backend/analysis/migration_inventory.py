@@ -34,6 +34,8 @@ DEFAULT_PACKAGE_COMMAND_EQUIVALENTS = {
 }
 
 DEFAULT_PACKAGE_VALIDATION_EQUIVALENTS = {
+    "video:keywords": "python:harvest-plan-compare",
+    "dictionary:harvest": "python:harvest-plan-compare",
     "dictionary:prune": "python:dictionary-prune-compare",
     "dictionary:prune-exhausted": "python:exhausted-prune-compare",
     "dictionary:resolve-near": "python:near-target-compare",
@@ -54,6 +56,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:deepseek-analyze-fixture-compare": "full_command_fixture",
     "python:deepseek-analyze-command-compare": "full_command_python_runtime_mock_and_multiagent_mock_runtime",
     "python:deepseek-mock-runtime-compare": "mocked_runtime",
+    "python:harvest-plan-compare": "dry_run_plan_fixture",
     "python:dictionary-prune-compare": "summary_command_fixture",
     "python:exhausted-prune-compare": "dry_run_plan_fixture",
     "python:near-target-compare": "dry_run_plan_fixture",
@@ -92,6 +95,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:deepseek-analyze-fixture-compare": "js_python_contract_bridge",
     "python:deepseek-analyze-command-compare": "js_python_contract_bridge",
     "python:deepseek-mock-runtime-compare": "js_python_contract_bridge",
+    "python:harvest-plan-compare": "js_python_contract_bridge",
     "python:dictionary-prune-compare": "js_python_contract_bridge",
     "python:exhausted-prune-compare": "js_python_contract_bridge",
     "python:near-target-compare": "js_python_contract_bridge",
@@ -117,6 +121,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareDeepSeekAnalyzeFixture.js": "js_python_contract_bridge",
     "server/scripts/compareDeepSeekAnalyzeCommand.js": "js_python_contract_bridge",
     "server/scripts/compareDeepSeekAnalyzeMockRuntime.js": "js_python_contract_bridge",
+    "server/scripts/compareHarvestPlan.js": "js_python_contract_bridge",
     "server/scripts/compareLocalCorpusMine.js": "js_python_contract_bridge",
     "server/scripts/compareNearTargetResolvePlan.js": "js_python_contract_bridge",
     "server/scripts/compareCoverageHarvestLoopPlan.js": "js_python_contract_bridge",

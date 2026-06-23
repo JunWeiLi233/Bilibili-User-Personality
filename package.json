@@ -45,6 +45,7 @@
     "python:discovery-report": "python -m python_backend.cli.discovery_report",
     "python:harvest-options": "python -m python_backend.cli.harvest_options",
     "python:harvest-plan": "python -m python_backend.cli.harvest_plan",
+    "python:harvest-plan-compare": "node server/scripts/compareHarvestPlan.js",
     "python:harvest-state": "python -m python_backend.cli.harvest_state",
     "python:near-target-plan": "python -m python_backend.cli.near_target_resolve_plan",
     "python:near-target-compare": "node server/scripts/compareNearTargetResolvePlan.js",

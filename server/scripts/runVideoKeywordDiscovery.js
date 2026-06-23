@@ -2,7 +2,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 
 import { withFileLock } from '../utils/fileLock.js';
-import { buildDictionaryCoverageAudit, countAcceptedEvidenceHitsForResult, harvestKeywordDictionaryRounds } from '../services/keywordHarvest.js';
+import { buildDictionaryCoverageAudit, buildKeywordHarvestQueryPlan, countAcceptedEvidenceHitsForResult, harvestKeywordDictionaryRounds } from '../services/keywordHarvest.js';
 import { priorityActionItemsFromHarvestResult, serializeVideoKeywordDiscoveryReport } from '../utils/runVideoKeywordDiscoveryReport.js';
 import { buildVideoKeywordDiscoveryOptions, parsePriorityQueryContent } from '../utils/runVideoKeywordDiscoveryOptions.js';
 
@@ -44,6 +44,28 @@ async function writeJson(path, payload) {
   await mkdir(dirname(path), { recursive: true });
   const json = JSON.stringify(payload, null, 2).replace(/[\u007f-\uffff]/g, (char) => `\\u${char.charCodeAt(0).toString(16).padStart(4, '0')}`);
   await writeFile(path, `${json}\n`, 'utf8');
+}
+
+async function readPlanPayload(args) {
+  const payloadIndex = args.indexOf('--payload');
+  if (payloadIndex === -1 || !args[payloadIndex + 1]) return {};
+  try {
+    return JSON.parse(await readFile(args[payloadIndex + 1], 'utf8'));
+  } catch {
+    return {};
+  }
+}
+
+export function buildKeywordHarvestPlanFromPayload(payload = {}) {
+  const planPayload = payload && typeof payload === 'object' ? payload : {};
+  const dictionary = planPayload.dictionary && typeof planPayload.dictionary === 'object' ? planPayload.dictionary : {};
+  const options = planPayload.options && typeof planPayload.options === 'object' ? planPayload.options : {};
+  const plan = buildKeywordHarvestQueryPlan(dictionary, options);
+  return {
+    ok: true,
+    plan,
+    queries: plan.map((item) => item.query),
+  };
 }
 
 function summarizeRound(round) {
@@ -94,6 +116,13 @@ function reportRound(round, index, total) {
   console.log(`Successful dictionary terms: ${round.termAttemptSummary.successfulTerms}`);
   console.log(`Unattempted dictionary terms: ${round.termAttemptSummary.unattemptedTerms}`);
   console.log(`Exhausted dictionary terms: ${round.termAttemptSummary.exhaustedTerms}`);
+}
+
+const scriptArgs = process.argv.slice(2);
+if (scriptArgs.includes('--plan-json')) {
+  const payload = await readPlanPayload(scriptArgs);
+  console.log(JSON.stringify(buildKeywordHarvestPlanFromPayload(payload), null, 2));
+  process.exit(0);
 }
 
 const priorityQueries = [

@@ -1283,6 +1283,8 @@ class CorpusContractTests(unittest.TestCase):
     def test_package_command_migration_inventory_maps_node_commands_to_python_contracts(self):
         package = {
             "scripts": {
+                "video:keywords": "node server/scripts/runVideoKeywordDiscovery.js",
+                "dictionary:harvest": "node server/scripts/runVideoKeywordDiscovery.js",
                 "dictionary:coverage": "node server/scripts/runDictionaryCoverageAudit.js",
                 "dictionary:huggingface": "node server/scripts/importHuggingFaceCorpus.js",
                 "dictionary:prune": "node server/scripts/pruneKeywordDictionary.js",
@@ -1302,6 +1304,7 @@ class CorpusContractTests(unittest.TestCase):
                 "python:deepseek-analyze-fixture-compare": "node server/scripts/compareDeepSeekAnalyzeFixture.js",
                 "python:deepseek-analyze-command-compare": "node server/scripts/compareDeepSeekAnalyzeCommand.js",
                 "python:deepseek-mock-runtime-compare": "node server/scripts/compareDeepSeekAnalyzeMockRuntime.js",
+                "python:harvest-plan-compare": "node server/scripts/compareHarvestPlan.js",
                 "python:dictionary-prune-compare": "node server/scripts/compareDictionaryPruneSummary.js",
                 "python:exhausted-prune-compare": "node server/scripts/compareExhaustedTermsPrunePlan.js",
                 "python:near-target-compare": "node server/scripts/compareNearTargetResolvePlan.js",
@@ -1312,6 +1315,7 @@ class CorpusContractTests(unittest.TestCase):
                 "python:aicu-batch-compare": "node server/scripts/compareAicuBatchPlan.js",
                 "python:deepseek-cli-plan-js": "node server/scripts/analyzeDeepSeekComments.js --plan-json --python-plan",
                 "python:deepseek-analyze": "python -m python_backend.cli.deepseek_analyze",
+                "python:harvest-plan": "python -m python_backend.cli.harvest_plan",
                 "python:coverage-standalone": "python -m python_backend.cli.coverage_audit --standalone",
                 "python:huggingface-import": "python -m python_backend.cli.huggingface_corpus",
                 "python:dictionary-prune-summary": "python -m python_backend.cli.dictionary_prune_summary",
@@ -1328,11 +1332,29 @@ class CorpusContractTests(unittest.TestCase):
 
         result = PackageCommandMigrationInventory(package).scan()
 
-        self.assertEqual(result["nodeServerScripts"], 28)
-        self.assertEqual(result["pythonBackendScripts"], 11)
+        self.assertEqual(result["nodeServerScripts"], 31)
+        self.assertEqual(result["pythonBackendScripts"], 12)
         self.assertEqual(
             result["pythonBackedNodeScripts"],
             [
+                {
+                    "script": "video:keywords",
+                    "command": "node server/scripts/runVideoKeywordDiscovery.js",
+                    "pythonScript": "python:harvest-plan",
+                    "pythonCommand": "python -m python_backend.cli.harvest_plan",
+                    "validationScript": "python:harvest-plan-compare",
+                    "validationCommand": "node server/scripts/compareHarvestPlan.js",
+                    "validationScope": "dry_run_plan_fixture",
+                },
+                {
+                    "script": "dictionary:harvest",
+                    "command": "node server/scripts/runVideoKeywordDiscovery.js",
+                    "pythonScript": "python:harvest-plan",
+                    "pythonCommand": "python -m python_backend.cli.harvest_plan",
+                    "validationScript": "python:harvest-plan-compare",
+                    "validationCommand": "node server/scripts/compareHarvestPlan.js",
+                    "validationScope": "dry_run_plan_fixture",
+                },
                 {
                     "script": "dictionary:coverage",
                     "command": "node server/scripts/runDictionaryCoverageAudit.js",
