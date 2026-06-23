@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import json
 import re
 from pathlib import Path
 from typing import Any
@@ -192,24 +191,21 @@ class VideoKeywordDiscoveryOptionsBuilder:
         content = str(value or "").strip()
         if not content:
             return []
-        try:
-            parsed = json.loads(content)
+        reader = JsonContractReader()
+        parsed = reader.read_text_value(content, None)
+        if parsed is not None:
             items = parsed if isinstance(parsed, list) else [parsed]
             normalized = [self._normalize_priority_query_item(item) for item in items]
             normalized = [item for item in normalized if item]
             if normalized:
                 return normalized
-        except json.JSONDecodeError:
-            pass
 
         lines = [item.strip() for item in re.split(r"[\r\n]+", content) if item.strip()]
         if lines and all(line.startswith("{") for line in lines):
             result: list[Any] = []
             for line in lines:
-                try:
-                    result.append(self._normalize_priority_query_item(json.loads(line)) or line)
-                except json.JSONDecodeError:
-                    result.append(line)
+                parsed_line = reader.read_text_value(line, None)
+                result.append(self._normalize_priority_query_item(parsed_line) or line)
             return result
         return _parse_list(content)
 

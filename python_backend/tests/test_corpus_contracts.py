@@ -5860,6 +5860,20 @@ class CorpusContractTests(unittest.TestCase):
             nested_fallback["items"].append("mutated")
             self.assertEqual(nested_fallback_reader.read_object(missing_path), {"summary": {"ok": False}, "items": []})
 
+    def test_json_contract_reader_parses_text_values_with_deepcopy_fallback(self):
+        reader = JsonContractReader()
+        fallback = {"items": []}
+
+        parsed = reader.read_text_value('{"items": ["ok"]}', fallback)
+        missing = reader.read_text_value("", fallback)
+        corrupt = reader.read_text_value('{"items": [', fallback)
+
+        self.assertEqual(parsed, {"items": ["ok"]})
+        missing["items"].append("changed")
+        corrupt["items"].append("bad")
+        self.assertEqual(reader.read_text_value("", fallback), {"items": []})
+        self.assertEqual(reader.read_text_value("{bad json", fallback), {"items": []})
+
     def test_contract_comparator_rejects_manifest_run_count_mismatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

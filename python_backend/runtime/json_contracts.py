@@ -26,6 +26,15 @@ class JsonContractReader:
         except (OSError, UnicodeDecodeError, json.JSONDecodeError):
             return deepcopy(default_value)
 
+    def read_text_value(self, text: Any, default_value: Any) -> Any:
+        content = str(text or "").strip()
+        if not content:
+            return deepcopy(default_value)
+        try:
+            return json.loads(content)
+        except (TypeError, ValueError, json.JSONDecodeError):
+            return deepcopy(default_value)
+
     def _default(self) -> dict[str, Any]:
         return deepcopy(self.default_object)
 
