@@ -78,6 +78,17 @@ def _coverage_metric_or_none(coverage: dict[str, Any], key: str) -> Any:
     return _int_or(coverage.get(key), 0)
 
 
+def _artifact_result_or_none(result: dict[str, Any], key: str) -> Any:
+    if key not in result:
+        return None
+    value = result.get(key)
+    if key in ("recommendedQueries",):
+        return [str(item) for item in value if isinstance(item, str)] if isinstance(value, list) else []
+    if key in ("priorityActionItems",):
+        return _object_list(value)
+    return value if isinstance(value, str) else ""
+
+
 def _object_or_empty(value: Any) -> dict[str, Any]:
     return value if isinstance(value, dict) else {}
 
@@ -165,7 +176,7 @@ class CoverageAuditArtifactsSummary:
 
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
         result = result if isinstance(result, dict) else {}
-        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+        return {key: _artifact_result_or_none(result, key) for key in self.RESULT_KEYS if key in result}
 
 
 class CoverageAuditArtifactsContractComparator:
@@ -177,16 +188,18 @@ class CoverageAuditArtifactsContractComparator:
     def compare(self, python_result: dict[str, Any] | None, js_result: dict[str, Any] | None) -> dict[str, Any]:
         python_result = python_result if isinstance(python_result, dict) else {}
         js_result = js_result if isinstance(js_result, dict) else {}
+        python_summary = self.summary.summarize(python_result)
+        js_summary = self.summary.summarize(js_result)
         mismatches = [
-            {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
+            {"key": key, "python": python_summary.get(key), "js": js_summary.get(key)}
             for key in self.summary.RESULT_KEYS
-            if key in js_result and python_result.get(key) != js_result.get(key)
+            if key in js_result and python_summary.get(key) != js_summary.get(key)
         ]
         return {
             "ok": not mismatches,
             "mismatches": mismatches,
-            "python": self.summary.summarize(python_result),
-            "js": self.summary.summarize(js_result),
+            "python": python_summary,
+            "js": js_summary,
         }
 
 

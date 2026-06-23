@@ -23377,6 +23377,26 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_coverage_audit_artifacts_comparator_defaults_malformed_result_fields(self):
+        result = CoverageAuditArtifactsPayloadComparator().compare(
+            {
+                "recommendedQueries": "bad query root",
+                "recommendedQueryText": ["bad text"],
+                "priorityActionItems": "bad action root",
+                "priorityActionJson": {"bad": True},
+            },
+            {
+                "recommendedQueries": [],
+                "recommendedQueryText": "",
+                "priorityActionItems": [],
+                "priorityActionJson": "",
+            },
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["python"], result["js"])
+
     def test_coverage_audit_artifact_writer_owns_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
