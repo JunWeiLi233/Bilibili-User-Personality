@@ -26997,6 +26997,35 @@ class CorpusContractTests(unittest.TestCase):
             result["retainedJsBackendFiles"],
         )
 
+    def test_file_lock_state_has_js_python_validation_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertEqual(
+            package["scripts"]["python:file-lock-state-compare"],
+            "node server/scripts/compareFileLockState.js",
+        )
+        self.assertIn(
+            {
+                "script": "python:file-lock-state-compare",
+                "command": "node server/scripts/compareFileLockState.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:file-lock-state",
+                "command": "python -m python_backend.cli.file_lock_state",
+                "pipeline": "file_lock_state",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareFileLockState.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_near_target_resolve_plan_runner_selects_comment_backed_near_target_terms(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

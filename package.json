@@ -62,6 +62,7 @@
     "python:merge-agent-plan": "python -m python_backend.cli.merge_agent_dictionaries_plan",
     "python:merge-agent": "python -m python_backend.cli.merge_agent_dictionaries_plan --write",
     "python:file-lock-state": "python -m python_backend.cli.file_lock_state",
+    "python:file-lock-state-compare": "node server/scripts/compareFileLockState.js",
     "python:json-contract-scan": "python -m python_backend.cli.json_contract_scan",
     "python:aicu-plan": "python -m python_backend.cli.aicu_scrape_plan",
     "python:aicu-compare": "node server/scripts/compareAicuScrapePlan.js",
