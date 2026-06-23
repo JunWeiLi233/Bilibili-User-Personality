@@ -23639,6 +23639,36 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_fast_pipeline_launcher_has_js_python_validation_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(
+            package["scripts"]["python:fast-pipeline-launcher-compare"],
+            "node server/scripts/compareFastPipelineLauncherPlan.js",
+        )
+
+        result = BackendMigrationInventoryScanner(".").scan()
+        self.assertIn(
+            {
+                "script": "python:fast-pipeline-launcher-compare",
+                "command": "node server/scripts/compareFastPipelineLauncherPlan.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:fast-pipeline-launcher",
+                "command": "python -m python_backend.cli.fast_pipeline_launcher",
+                "pipeline": "fast_pipeline_launcher",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareFastPipelineLauncherPlan.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_uid_fast_pipeline_has_js_python_validation_bridge(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
 
