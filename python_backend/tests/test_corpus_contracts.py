@@ -13,6 +13,7 @@ from python_backend.cli import batch_bilibili_plan as batch_bilibili_plan_cli
 from python_backend.cli import batch_popular_plan as batch_popular_plan_cli
 from python_backend.cli import local_corpus_evidence as local_corpus_evidence_cli
 from python_backend.cli import local_corpus_flatten as local_corpus_flatten_cli
+from python_backend.cli import local_corpus_mine as local_corpus_mine_cli
 from python_backend.cli import bilibili_probe_plan as bilibili_probe_plan_cli
 from python_backend.cli import bilibili_parse as bilibili_parse_cli
 from python_backend.cli import batch_scrape_progress as batch_scrape_progress_cli
@@ -150,7 +151,7 @@ from python_backend.corpus.history_tags import HistoryTagCorpusCommandRequest, H
 from python_backend.corpus.huggingface import HuggingFaceCorpusImporter, HuggingFaceCorpusImportCommandRequest, HuggingFaceCorpusImportContractComparator as HuggingFaceCorpusImportPayloadComparator, HuggingFaceCorpusImportPlanContractComparator as HuggingFaceCorpusImportPlanPayloadComparator, HuggingFaceCorpusImportPlanRunner as HuggingFaceCorpusImportPayloadPlanRunner, HuggingFaceCorpusImportRequest, HuggingFaceImportPlanner, HuggingFaceImportPlanSummary, HuggingFaceImportSummary
 from python_backend.corpus.local import LocalCorpusEvidenceCommandRequest, LocalCorpusEvidenceContractComparator as LocalCorpusEvidencePayloadComparator, LocalCorpusEvidenceFinder, LocalCorpusEvidenceJsonPayloadContractComparator, LocalCorpusEvidenceJsonPayloadRunner, LocalCorpusEvidencePayloadContractComparator, LocalCorpusEvidenceRequest, LocalCorpusEvidenceRunner as LocalCorpusEvidencePayloadRunner, LocalCorpusEvidenceSummary
 from python_backend.corpus.local import LocalCorpusFlattenCommandRequest, LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenPayloadContractComparator, LocalCorpusFlattenRequest, LocalCorpusFlattenRunner as LocalCorpusFlattenPayloadRunner, LocalCorpusFlattenSummary, LocalCorpusFlattener
-from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanCommandRequest, LocalCorpusMinePlanContractComparator as LocalCorpusMinePlanPayloadComparator, LocalCorpusMinePlanRequest, LocalCorpusMinePlanSummary
+from python_backend.corpus.local_options import LocalCorpusMineCommandRequest, LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanCommandRequest, LocalCorpusMinePlanContractComparator as LocalCorpusMinePlanPayloadComparator, LocalCorpusMinePlanRequest, LocalCorpusMinePlanSummary, LocalCorpusMineRunner
 from python_backend.corpus.agent_merge import AgentDictionaryMergePlanCommandRequest, AgentDictionaryMergePlanner, AgentDictionaryMergePlanRequest, AgentDictionaryMergePlanSummary, MergeAgentDictionariesPlanContractComparator as MergeAgentDictionariesPlanPayloadComparator, MergeAgentDictionariesPlanRunner as MergeAgentDictionariesPayloadPlanRunner
 from python_backend.corpus.contracts import CompareContractsCommandRequest, CompareContractsJsonResultContract, CompareContractsOutputWriter, CompareContractsRequest, ContractComparator, ContractComparator as CorpusContractPayloadComparator, CorpusContractSummary, safe_read_json_object
 from python_backend.corpus.tieba import TiebaCorpusCommandRequest, TiebaCorpusJsonPayloadContractComparator, TiebaCorpusPayloadRunner, TiebaCorpusRequest, TiebaCorpusUpdateContractComparator as TiebaCorpusUpdatePayloadComparator, TiebaCorpusUpdater, TiebaCorpusUpdateRunner as TiebaCorpusUpdatePayloadRunner, TiebaCorpusUpdateSummary
@@ -9455,6 +9456,90 @@ class CorpusContractTests(unittest.TestCase):
         )
 
         self.assertEqual(summary, {"options": {"corpusPaths": ["one.json"], "targetEvidence": 3}})
+
+    def test_local_corpus_mine_runner_reads_multiple_corpora_and_action_terms(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            corpus_a = root / "comments-a.json"
+            corpus_b = root / "comments-b.txt"
+            action_file = root / "actions.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {
+                                "term": "\u9634\u9633\u602a\u6c14",
+                                "family": "attack",
+                                "meaning": "\u7528\u6765\u8bbd\u523a\u548c\u6697\u8bbd",
+                                "evidenceCount": 0,
+                            },
+                            {
+                                "term": "\u8003\u636e\u5462",
+                                "family": "evidence",
+                                "meaning": "\u8981\u6c42\u7ed9\u51fa\u6765\u6e90",
+                                "evidenceCount": 5,
+                            },
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            corpus_a.write_text(
+                json.dumps({"comments": [{"message": "\u4f60\u8fd9\u9634\u9633\u602a\u6c14\u7684\u8bed\u6c14\u662f\u5427", "source": "Bilibili local corpus"}]}),
+                encoding="utf-8",
+            )
+            corpus_b.write_text("\u8003\u636e\u5462\uff1f\u6ca1\u6709\u6765\u6e90\u522b\u4e71\u8bf4\n", encoding="utf-8")
+            action_file.write_text(json.dumps([{"term": "\u8003\u636e\u5462"}]), encoding="utf-8")
+
+            result = LocalCorpusMineRunner(
+                dictionary_path=dictionary_path,
+                corpus_paths=[corpus_a, corpus_b],
+                action_file=action_file,
+                target_evidence=3,
+                max_samples_per_term=2,
+                require_comment_backed_evidence=True,
+                write=False,
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertFalse(result["write"])
+        self.assertEqual(result["corpusFiles"], [str(corpus_a), str(corpus_b)])
+        self.assertEqual(result["corpusComments"], 2)
+        self.assertEqual(result["targetTerms"], ["\u8003\u636e\u5462"])
+        self.assertEqual(result["entryCount"], 2)
+        self.assertEqual([entry["term"] for entry in result["entries"]], ["\u9634\u9633\u602a\u6c14", "\u8003\u636e\u5462"])
+        self.assertEqual(result["filteredEntryCount"], 0)
+
+    def test_local_corpus_mine_command_rejects_write_until_dictionary_merge_is_python_owned(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            corpus_path = root / "comments.json"
+            dictionary_path.write_text(json.dumps({"entries": []}), encoding="utf-8")
+            corpus_path.write_text(json.dumps({"comments": []}), encoding="utf-8")
+
+            result = LocalCorpusMineCommandRequest(
+                ["--dictionary", dictionary_path, "--corpus", corpus_path, "--write"],
+                env={},
+            ).run()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["error"], "python_dictionary_merge_write_not_implemented")
+        self.assertTrue(result["write"])
+
+    def test_local_corpus_mine_cli_runner_is_command_request_wrapper(self):
+        self.assertTrue(issubclass(local_corpus_mine_cli.LocalCorpusMineCliRunner, LocalCorpusMineCommandRequest))
+
+    def test_package_scripts_expose_real_local_mine_python_runtime(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(package["scripts"]["python:local-mine"], "python -m python_backend.cli.local_corpus_mine")
+        inventory = PackageCommandMigrationInventory(package).scan()
+        mapping = next(item for item in inventory["pythonBackedNodeScripts"] if item["script"] == "dictionary:mine-local")
+        self.assertEqual(mapping["pythonScript"], "python:local-mine")
+        self.assertEqual(mapping["replacementScope"], "no_write_runtime")
+        self.assertFalse(mapping["readyToReplace"])
 
     def test_tieba_corpus_updater_leaves_corpus_unchanged_without_comments(self):
         existing = {
