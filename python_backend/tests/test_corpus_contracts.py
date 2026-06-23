@@ -157,7 +157,7 @@ from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommen
 from python_backend.corpus.dictionary import DictionaryLoader, DictionaryManifestContract, DictionaryPayloadContract
 from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader, CorpusPayloadContract
-from python_backend.corpus.writer import CorpusShardPlanner, CorpusShardWriteCommandRequest, CorpusShardWriteContractComparator as CorpusShardWritePayloadComparator, CorpusShardWritePayloadContractComparator, CorpusShardWriteRequest, CorpusShardWriteRunner as CorpusShardWritePayloadRunner, CorpusShardWriteSummary, CorpusShardWriter
+from python_backend.corpus.writer import CorpusShardPlanner, CorpusShardWriteCommandRequest, CorpusShardWriteContractComparator as CorpusShardWritePayloadComparator, CorpusShardWritePayloadContract, CorpusShardWritePayloadContractComparator, CorpusShardWriteRequest, CorpusShardWriteRunner as CorpusShardWritePayloadRunner, CorpusShardWriteSummary, CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliParseCommandRequest, BilibiliParseContractComparator as BilibiliParsePayloadComparator, BilibiliParsePayloadContractComparator, BilibiliParseRequest, BilibiliParseRunner as BilibiliParsePayloadRunner, BilibiliParseSummary, BilibiliPublicParser
 from python_backend.scrapers.aicu import AicuBatchPlanCommandRequest, AicuBatchPlanContractComparator as AicuBatchPlanPayloadComparator, AicuBatchPlanPayloadContractComparator, AicuBatchPlanRequest, AicuBatchPlanRunner as AicuBatchPayloadPlanRunner, AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressPayloadContractComparator, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanCommandRequest, AicuScrapePlanContractComparator as AicuScrapePlanPayloadComparator, AicuScrapePlanPayloadContractComparator, AicuScrapePlanRequest, AicuScrapePlanRunner as AicuScrapePayloadPlanRunner, AicuScrapePlanSummary, AicuScrapePlanner, BatchScrapeProgressCommandRequest, BatchScrapeProgressRequest, BatchScrapeProgressRunner as BatchScrapeProgressPayloadRunner
@@ -661,6 +661,23 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(loaded.manifest["shardMaxBytes"], 64 * 1024)
         self.assertEqual(loaded.comments, [{"message": "payload comment"}])
         self.assertEqual(loaded.runs, [{"at": "payload-run"}])
+
+    def test_corpus_shard_write_payload_contract_owns_payload_normalization(self):
+        contract = CorpusShardWritePayloadContract(
+            {
+                "outputPath": "out.json",
+                "maxShardBytes": "bad",
+                "comments": [{"message": "payload comment"}],
+                "runs": {"bad": True},
+                "manifest": {"version": 7},
+            }
+        )
+
+        self.assertEqual(str(contract.output_path()), "out.json")
+        self.assertEqual(contract.max_shard_bytes(), 64 * 1024)
+        self.assertEqual(contract.comments(), [{"message": "payload comment"}])
+        self.assertEqual(contract.runs(), [])
+        self.assertEqual(contract.manifest(), {"version": 7})
 
     def test_writer_payload_rejects_malformed_output_path(self):
         with self.assertRaisesRegex(ValueError, "payload outputPath is required"):

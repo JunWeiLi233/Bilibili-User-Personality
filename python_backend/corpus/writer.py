@@ -78,6 +78,36 @@ class CorpusShardPlanner:
         return len((json.dumps(payload, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
 
 
+class CorpusShardWritePayloadContract:
+    """Normalize JS-compatible split-corpus write payloads before writing."""
+
+    def __init__(self, payload: dict[str, Any] | None = None):
+        self.payload = payload if isinstance(payload, dict) else {}
+
+    def output_path(self) -> Path:
+        raw_output_path = self.payload.get("outputPath")
+        if not (isinstance(raw_output_path, (str, os.PathLike)) and str(raw_output_path).strip()):
+            raise ValueError("payload outputPath is required")
+        return Path(raw_output_path)
+
+    def comments(self) -> list[Any]:
+        return self._array_field("comments")
+
+    def runs(self) -> list[Any]:
+        return self._array_field("runs")
+
+    def manifest(self) -> dict[str, Any]:
+        manifest = self.payload.get("manifest")
+        return manifest if isinstance(manifest, dict) else {}
+
+    def max_shard_bytes(self) -> int:
+        return CorpusShardWriter._payload_max_shard_bytes(self.payload.get("maxShardBytes"))
+
+    def _array_field(self, key: str) -> list[Any]:
+        value = self.payload.get(key)
+        return value if isinstance(value, list) else []
+
+
 class CorpusShardWriter:
     """Write a small split corpus using the same manifest keys as JS."""
 
@@ -116,15 +146,12 @@ class CorpusShardWriter:
     def write_from_payload(cls, payload: dict[str, Any] | None = None) -> dict[str, Any]:
         from python_backend.corpus.loader import CorpusLoader
 
-        payload = payload if isinstance(payload, dict) else {}
-        raw_output_path = payload.get("outputPath")
-        if not (isinstance(raw_output_path, (str, os.PathLike)) and str(raw_output_path).strip()):
-            raise ValueError("payload outputPath is required")
-        output_path = Path(raw_output_path)
-        comments = payload.get("comments") if isinstance(payload.get("comments"), list) else []
-        runs = payload.get("runs") if isinstance(payload.get("runs"), list) else []
-        manifest = payload.get("manifest") if isinstance(payload.get("manifest"), dict) else {}
-        writer = cls(output_path, max_shard_bytes=cls._payload_max_shard_bytes(payload.get("maxShardBytes")))
+        contract = CorpusShardWritePayloadContract(payload)
+        output_path = contract.output_path()
+        writer = cls(output_path, max_shard_bytes=contract.max_shard_bytes())
+        comments = contract.comments()
+        runs = contract.runs()
+        manifest = contract.manifest()
         writer.write(comments=comments, runs=runs, manifest=manifest)
         loaded = CorpusLoader(output_path).load()
         manifest_summary = CorpusShardWriteSummary().summarize_manifest(loaded.manifest)
