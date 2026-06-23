@@ -1,5 +1,6 @@
 import contextlib
 import io
+import importlib
 import json
 import sys
 import tempfile
@@ -1313,6 +1314,7 @@ class CorpusContractTests(unittest.TestCase):
         workflow = Path(".github/workflows/python-validation.yml").read_text(encoding="utf-8")
 
         self.assertEqual(package["scripts"]["python:direct-probe-update"], "python -m python_backend.cli.direct_probe_corpus")
+        self.assertEqual(package["scripts"]["python:direct-probe-live-fetch"], "python -m python_backend.cli.direct_probe_live_fetch")
         self.assertEqual(package["scripts"]["python:direct-probe-update-compare"], "node server/scripts/compareDirectProbeCorpus.js")
         self.assertIn("npm run python:direct-probe-update-compare", workflow)
         self.assertIn(
@@ -11219,6 +11221,74 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(calls[0]["url"], "https://api.bilibili.com/x/web-interface/view?bvid=BVdirect")
         self.assertEqual(calls[-1]["url"], "https://api.bilibili.com/x/v1/dm/list.so?oid=67890")
         self.assertTrue(all(call["cookie"] == "SESSDATA=abc" for call in calls))
+
+    def test_direct_probe_live_fetch_payload_runner_reads_json_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "direct-probe-live-fetch.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "video": {"bvid": "BVpayload"},
+                        "options": {"replyPages": 1, "replyPageSize": 3, "includeDanmaku": True, "cookie": "SESSDATA=payload"},
+                        "jsonResponses": {
+                            "https://api.bilibili.com/x/web-interface/view?bvid=BVpayload": {
+                                "data": {"aid": 2468, "bvid": "BVpayload", "pages": [{"cid": 1357}]}
+                            },
+                            "https://api.bilibili.com/x/v2/reply/main?type=1&oid=2468&mode=3&next=0&ps=3": {
+                                "data": {"cursor": {"is_end": True}, "replies": [{"mid": 77, "content": {"message": "\u5951\u7ea6\u8bc4\u8bba"}}]}
+                            },
+                        },
+                        "textResponses": {"https://api.bilibili.com/x/v1/dm/list.so?oid=1357": "<d>\u5951\u7ea6\u5f39\u5e55</d>"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = direct_probe_module.DirectProbeLiveFetchPayloadRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual([comment["message"] for comment in result["comments"]], ["\u5951\u7ea6\u8bc4\u8bba", "\u5951\u7ea6\u5f39\u5e55"])
+        self.assertEqual(result["commentCount"], 2)
+        self.assertEqual([request["kind"] for request in result["requests"]], ["json", "json", "text"])
+        self.assertTrue(all(request["cookie"] == "SESSDATA=payload" for request in result["requests"]))
+
+    def test_direct_probe_live_fetch_cli_reads_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "direct-probe-live-fetch.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "video": {"aid": "369", "cid": "258"},
+                        "options": {"replyPages": 1, "replyPageSize": 1, "includeDanmaku": False},
+                        "jsonResponses": {
+                            "https://api.bilibili.com/x/v2/reply/main?type=1&oid=369&mode=3&next=0&ps=1": {
+                                "data": {"cursor": {"is_end": True}, "replies": [{"mid": 9, "content": {"message": "\u547d\u4ee4\u8bc4\u8bba"}}]}
+                            }
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            cli_module = importlib.import_module("python_backend.cli.direct_probe_live_fetch")
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                exit_code = cli_module.main(["--payload", str(payload_path)])
+
+        result = json.loads(output.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["comments"], [{"message": "\u547d\u4ee4\u8bc4\u8bba", "uid": "9", "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/av369/"}])
+
+    def test_direct_probe_live_fetch_payload_runner_reports_invalid_payload_as_json_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "missing-live-fetch.json"
+
+            result = direct_probe_module.DirectProbeLiveFetchPayloadRunner(payload_path).run()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["comments"], [])
+        self.assertIn("missing video aid/bvid", result["error"])
 
     def test_direct_probe_builder_extracts_fresh_evidence_entries(self):
         dictionary = {

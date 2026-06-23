@@ -586,6 +586,101 @@ class DirectProbeLiveFetcher:
             return response.read().decode("utf-8", errors="replace")
 
 
+class DirectProbeLiveFetchPayloadRunner:
+    """Run live direct-probe fetching from a JSON payload contract."""
+
+    def __init__(self, payload_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.reader = JsonContractReader()
+
+    def run(self) -> dict[str, Any]:
+        payload = self._read_payload()
+        request_log: list[dict[str, Any]] = []
+        fetcher = self._build_fetcher(payload, request_log)
+        try:
+            comments = fetcher.fetch_video_comments(
+                payload.get("video") if isinstance(payload.get("video"), dict) else {},
+                payload.get("options") if isinstance(payload.get("options"), dict) else {},
+            )
+        except Exception as error:
+            return {
+                "ok": False,
+                "error": str(error),
+                "comments": [],
+                "commentCount": 0,
+                "requests": request_log,
+            }
+        return {
+            "ok": True,
+            "comments": comments,
+            "commentCount": len(comments),
+            "requests": request_log,
+        }
+
+    def _read_payload(self) -> dict[str, Any]:
+        payload = self.reader.read_value(self.payload_path, {})
+        return payload if isinstance(payload, dict) else {}
+
+    def _build_fetcher(self, payload: dict[str, Any], request_log: list[dict[str, Any]]) -> DirectProbeLiveFetcher:
+        json_responses = payload.get("jsonResponses") if isinstance(payload.get("jsonResponses"), dict) else None
+        text_responses = payload.get("textResponses") if isinstance(payload.get("textResponses"), dict) else None
+        if json_responses is None and text_responses is None:
+            base_fetcher = DirectProbeLiveFetcher()
+
+            def live_json(url: str, referer: str, options: dict[str, Any]) -> dict[str, Any]:
+                request_log.append(self._request_log_entry("json", url, referer, options))
+                return base_fetcher._fetch_json(url, referer, options)
+
+            def live_text(url: str, referer: str, options: dict[str, Any]) -> str:
+                request_log.append(self._request_log_entry("text", url, referer, options))
+                return base_fetcher._fetch_text(url, referer, options)
+
+            return DirectProbeLiveFetcher(fetch_json=live_json, fetch_text=live_text, builder=base_fetcher.builder)
+
+        json_responses = json_responses or {}
+        text_responses = text_responses or {}
+
+        def fixture_json(url: str, referer: str, options: dict[str, Any]) -> dict[str, Any]:
+            request_log.append(self._request_log_entry("json", url, referer, options))
+            response = json_responses.get(url)
+            if not isinstance(response, dict):
+                raise ValueError(f"Missing fixture JSON response for {url}")
+            return response
+
+        def fixture_text(url: str, referer: str, options: dict[str, Any]) -> str:
+            request_log.append(self._request_log_entry("text", url, referer, options))
+            if url not in text_responses:
+                raise ValueError(f"Missing fixture text response for {url}")
+            return str(text_responses.get(url) or "")
+
+        return DirectProbeLiveFetcher(fetch_json=fixture_json, fetch_text=fixture_text)
+
+    def _request_log_entry(self, kind: str, url: str, referer: str, options: dict[str, Any]) -> dict[str, Any]:
+        return {
+            "kind": kind,
+            "url": url,
+            "referer": referer,
+            "cookie": _clean_text(options.get("cookie")),
+        }
+
+
+class DirectProbeLiveFetchCommandRequest:
+    """Argv-backed request for direct-probe live fetch JSON contracts."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Fetch Bilibili direct-probe comments from a JSON payload.")
+        parser.add_argument("--payload", required=True, help="Path to a direct-probe live fetch JSON payload.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return DirectProbeLiveFetchPayloadRunner(args.payload).run()
+
+
 class DirectProbeCorpusBuilder:
     """Pure Python contract helpers for Bilibili direct evidence probe data."""
 

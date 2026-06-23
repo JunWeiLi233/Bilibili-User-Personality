@@ -118,6 +118,7 @@ PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
     "contract_comparison": ("python_backend.cli.compare_contracts",),
     "analyzer_validation": ("python_backend.cli.deepseek_analyze --live-validation-gate",),
     "direct_probe_corpus": ("python_backend.cli.direct_probe_corpus",),
+    "direct_probe_live_fetch": ("python_backend.cli.direct_probe_live_fetch",),
 }
 
 RETAINED_JS_FILE_PREFIXES = {
