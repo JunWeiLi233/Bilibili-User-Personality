@@ -1781,6 +1781,7 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {"gate": "summary_command_fixture", "status": "covered", "source": "python:dictionary-prune-compare"},
                 {"gate": "python_write_mode_split_dictionary", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
+                {"gate": "js_python_write_mode_persisted_terms", "status": "covered", "source": "compareDictionaryPruneSummary.test.js"},
             ],
         )
 

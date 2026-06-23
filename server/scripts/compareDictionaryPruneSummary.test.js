@@ -42,3 +42,26 @@ test('compareDictionaryPruneSummary compares JS and Python fixture summaries', a
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
 });
+
+test('compareDictionaryPruneSummary compares write-mode persisted dictionary terms', async () => {
+  const result = await compareDictionaryPruneSummary({
+    write: true,
+    dictionary: {
+      entries: [
+        { term: 'doge', family: 'attack', meaning: 'ascii emoji name noise' },
+        { term: 'YYGQ', family: 'attack', meaning: 'allowed pinyin acronym', evidenceSamples: ['\u9634\u9633\u602a\u6c14'] },
+        { term: '\u9634\u9633\u602a\u6c14', family: 'attack', meaning: 'satirical tone' },
+        { term: 'md5', family: 'evasion', meaning: 'random ascii hash fragment' },
+      ],
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.deepEqual(result.persisted, {
+    jsTerms: ['yygq', '\u9634\u9633\u602a\u6c14'],
+    pythonTerms: ['yygq', '\u9634\u9633\u602a\u6c14'],
+  });
+  assert.equal(result.python.write, true);
+  assert.equal(result.python.writeResult.entries, 2);
+});

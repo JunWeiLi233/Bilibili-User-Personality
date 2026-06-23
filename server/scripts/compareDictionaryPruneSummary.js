@@ -1,5 +1,5 @@
 import { execFile } from 'node:child_process';
-import { mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -64,8 +64,52 @@ async function runPythonPruneSummary({ dictionaryPath }) {
   return JSON.parse(stdout);
 }
 
+async function runPythonPruneSummaryWrite({ dictionaryPath }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    ['-m', 'python_backend.cli.dictionary_prune_summary', '--dictionary', dictionaryPath, '--write'],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return JSON.parse(stdout);
+}
+
+async function readJson(path, fallback = {}) {
+  try {
+    return JSON.parse(await readFile(path, 'utf8'));
+  } catch {
+    return fallback;
+  }
+}
+
+async function persistedDictionaryTerms(dictionaryPath) {
+  const manifest = await readJson(dictionaryPath, {});
+  if (manifest.storage !== 'split') {
+    return (Array.isArray(manifest.entries) ? manifest.entries : [])
+      .map((entry) => String(entry?.term || '').trim())
+      .filter(Boolean)
+      .sort();
+  }
+  const terms = [];
+  const entryFiles = manifest.entryFiles && typeof manifest.entryFiles === 'object' ? manifest.entryFiles : {};
+  for (const files of Object.values(entryFiles)) {
+    for (const relativePath of Array.isArray(files) ? files : []) {
+      const shard = await readJson(join(dictionaryPath, '..', relativePath), {});
+      for (const entry of Array.isArray(shard.entries) ? shard.entries : []) {
+        const term = String(entry?.term || '').trim();
+        if (term) terms.push(term);
+      }
+    }
+  }
+  return [...new Set(terms)].sort();
+}
+
 export async function compareDictionaryPruneSummary({
   dictionary = DEFAULT_DICTIONARY,
+  write = false,
   runJsSummary = runJsPruneSummary,
   runPythonSummary = runPythonPruneSummary,
 } = {}) {
@@ -76,14 +120,24 @@ export async function compareDictionaryPruneSummary({
     await writeDictionaryFixture(jsDictionaryPath, dictionary);
     await writeDictionaryFixture(pythonDictionaryPath, dictionary);
     const js = await runJsSummary({ dictionaryPath: jsDictionaryPath, dictionary });
-    const python = await runPythonSummary({ dictionaryPath: pythonDictionaryPath, dictionary });
+    const python = await (write ? runPythonPruneSummaryWrite : runPythonSummary)({ dictionaryPath: pythonDictionaryPath, dictionary });
     const comparison = compareDictionaryPruneSummaryObjects(python, js);
+    const persisted = write
+      ? {
+        jsTerms: await persistedDictionaryTerms(jsDictionaryPath),
+        pythonTerms: await persistedDictionaryTerms(pythonDictionaryPath),
+      }
+      : undefined;
+    const persistedMismatches = persisted && JSON.stringify(persisted.jsTerms) !== JSON.stringify(persisted.pythonTerms)
+      ? [{ key: 'persistedTerms', python: persisted.pythonTerms, js: persisted.jsTerms }]
+      : [];
     return {
-      ok: comparison.ok,
+      ok: comparison.ok && persistedMismatches.length === 0,
       fixture: { jsDictionaryPath, pythonDictionaryPath },
       js,
       python,
-      mismatches: comparison.mismatches,
+      persisted,
+      mismatches: [...comparison.mismatches, ...persistedMismatches],
     };
   } finally {
     await rm(tempDir, { recursive: true, force: true });
