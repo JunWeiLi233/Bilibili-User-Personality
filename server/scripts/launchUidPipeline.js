@@ -2,13 +2,72 @@ import { fork } from 'node:child_process';
 import { join } from 'node:path';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 
-const DATA_DIR = join(process.cwd(), 'server', 'data');
+function parseArgs(argv = process.argv.slice(2)) {
+  const options = {
+    planJson: false,
+    dataDir: join(process.cwd(), 'server', 'data'),
+    totalStart: 1,
+    totalEnd: 100000,
+    workers: 5,
+  };
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = String(argv[index] || '');
+    if (arg === '--plan-json') options.planJson = true;
+    else if (arg === '--data-dir') options.dataDir = argv[++index] || options.dataDir;
+    else if (arg.startsWith('--data-dir=')) options.dataDir = arg.split('=', 2)[1] || options.dataDir;
+    else if (arg.startsWith('--total-start=')) options.totalStart = Number.parseInt(arg.split('=', 2)[1], 10) || options.totalStart;
+    else if (arg.startsWith('--total-end=')) options.totalEnd = Number.parseInt(arg.split('=', 2)[1], 10) || options.totalEnd;
+    else if (arg.startsWith('--workers=')) options.workers = Number.parseInt(arg.split('=', 2)[1], 10) || options.workers;
+  }
+  options.workers = Math.max(1, options.workers);
+  return options;
+}
+
+function buildLauncherPlan({ dataDir, totalStart = 1, totalEnd = 100000, workers = 5, startedAt = new Date().toISOString() } = {}) {
+  const total = Math.max(0, totalEnd - totalStart + 1);
+  const chunkSize = total ? Math.ceil(total / workers) : 0;
+  const workerPlans = [];
+  const stateWorkers = [];
+
+  for (let index = 0; index < workers; index += 1) {
+    const start = totalStart + index * chunkSize;
+    const end = Math.min(start + chunkSize - 1, totalEnd);
+    if (start > totalEnd) break;
+    const progressFile = `uid-pipeline-${start}-${end}.json`;
+    workerPlans.push({
+      start,
+      end,
+      progressFile,
+      logFile: `scraper-logs/uid-pipeline-${start}-${end}.log`,
+      args: [`--start=${start}`, `--end=${end}`],
+    });
+    stateWorkers.push({ start, end, progressFile });
+  }
+
+  return {
+    ok: true,
+    startedAt,
+    range: { start: totalStart, end: totalEnd, workers, chunkSize },
+    workers: workerPlans,
+    state: { startedAt, workers: stateWorkers },
+    statePath: join(dataDir, 'uid-pipeline-launcher.json'),
+    writeState: false,
+  };
+}
+
+const options = parseArgs();
+const DATA_DIR = options.dataDir;
 const WORKER_SCRIPT = join(process.cwd(), 'server', 'scripts', 'uidPipelineWorker.js');
 const MERGE_COMMAND = 'python -m python_backend.cli.uid_pipeline_merge --write-state';
-const TOTAL_START = 1;
-const TOTAL_END = 100000;
-const WORKERS = 5;
+const TOTAL_START = options.totalStart;
+const TOTAL_END = options.totalEnd;
+const WORKERS = options.workers;
 const CHUNK_SIZE = Math.ceil((TOTAL_END - TOTAL_START + 1) / WORKERS);
+
+if (options.planJson) {
+  console.log(JSON.stringify(buildLauncherPlan(options), null, 2));
+  process.exit(0);
+}
 
 const ranges = [];
 for (let i = 0; i < WORKERS; i++) {
