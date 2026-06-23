@@ -1298,6 +1298,7 @@ class CorpusContractTests(unittest.TestCase):
                 "python:deepseek-analyze-command-compare": "node server/scripts/compareDeepSeekAnalyzeCommand.js",
                 "python:deepseek-mock-runtime-compare": "node server/scripts/compareDeepSeekAnalyzeMockRuntime.js",
                 "python:dictionary-prune-compare": "node server/scripts/compareDictionaryPruneSummary.js",
+                "python:exhausted-prune-compare": "node server/scripts/compareExhaustedTermsPrunePlan.js",
                 "python:deepseek-cli-plan-js": "node server/scripts/analyzeDeepSeekComments.js --plan-json --python-plan",
                 "python:deepseek-analyze": "python -m python_backend.cli.deepseek_analyze",
                 "python:coverage-standalone": "python -m python_backend.cli.coverage_audit --standalone",
@@ -1311,7 +1312,7 @@ class CorpusContractTests(unittest.TestCase):
 
         result = PackageCommandMigrationInventory(package).scan()
 
-        self.assertEqual(result["nodeServerScripts"], 16)
+        self.assertEqual(result["nodeServerScripts"], 17)
         self.assertEqual(result["pythonBackendScripts"], 6)
         self.assertEqual(
             result["pythonBackedNodeScripts"],
@@ -1346,6 +1347,9 @@ class CorpusContractTests(unittest.TestCase):
                     "pythonCommand": "python -m python_backend.cli.exhausted_terms_prune_plan",
                     "replacementScope": "dry_run_plan",
                     "readyToReplace": False,
+                    "validationScript": "python:exhausted-prune-compare",
+                    "validationCommand": "node server/scripts/compareExhaustedTermsPrunePlan.js",
+                    "validationScope": "dry_run_plan_fixture",
                 },
                 {
                     "script": "dictionary:resolve-near",

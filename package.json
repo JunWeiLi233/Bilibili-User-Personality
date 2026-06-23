@@ -37,6 +37,7 @@
     "python:coverage-loop-plan": "python -m python_backend.cli.coverage_loop_plan",
     "python:coverage-progress": "python -m python_backend.cli.coverage_progress",
     "python:exhausted-prune-plan": "python -m python_backend.cli.exhausted_terms_prune_plan",
+    "python:exhausted-prune-compare": "node server/scripts/compareExhaustedTermsPrunePlan.js",
     "python:dictionary-prune-summary": "python -m python_backend.cli.dictionary_prune_summary",
     "python:dictionary-prune-compare": "node server/scripts/compareDictionaryPruneSummary.js",
     "python:readme-stats": "python -m python_backend.cli.readme_stats",
