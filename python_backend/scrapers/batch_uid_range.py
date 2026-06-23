@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import math
 import re
 from pathlib import Path
 from typing import Any
@@ -17,12 +18,14 @@ RANGE_LAUNCHER_RANGES = (
 )
 
 
-def _js_number_or(value: Any, fallback: int) -> int:
+def _js_number_or(value: Any, fallback: int) -> int | float:
     try:
-        parsed = int(float(str(value)))
+        parsed = float(str(value))
     except (TypeError, ValueError):
         return fallback
-    return parsed or fallback
+    if not math.isfinite(parsed) or parsed == 0:
+        return fallback
+    return int(parsed) if parsed.is_integer() else parsed
 
 
 def _progress_number_or(value: Any, fallback: int) -> int:

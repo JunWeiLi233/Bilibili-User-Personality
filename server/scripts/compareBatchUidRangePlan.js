@@ -37,6 +37,58 @@ export const DEFAULT_PAYLOAD = {
   },
 };
 
+export const BATCH_UID_RANGE_PLAN_FIXTURES = {
+  'phase2-progress': DEFAULT_PAYLOAD,
+  'default-range': {
+    argv: [],
+    progress: {
+      scannedBvids: [],
+      _uidComments: {
+        200000: [{ message: 'inside', bvid: 'BV1' }],
+        300000: [{ message: 'inside upper', bvid: 'BV2' }],
+        300001: [{ message: 'above', bvid: 'BV3' }],
+      },
+      processedUids: {},
+      stats: {},
+    },
+    database: {
+      users: {},
+    },
+  },
+  'decimal-args-malformed-stats': {
+    argv: ['--start=200000.5', '--end=300000.5', '--pages=80.5'],
+    progress: {
+      scannedBvids: ['BV decimal'],
+      _uidComments: {
+        200000: [{ message: 'below decimal start', bvid: 'BV decimal' }],
+        200001: [{ message: 'inside decimal range', bvid: 'BV decimal' }],
+        300001: [{ message: 'above integer upper but inside decimal range', bvid: 'BV decimal' }],
+      },
+      processedUids: {},
+      stats: {
+        videosScanned: 'broken',
+        uidsFound: '0',
+        targetUidsFound: 'NaN',
+        commentsCollected: 'Infinity',
+        analyzed: '',
+        skipped: null,
+        errors: '4',
+      },
+    },
+    database: {
+      users: [],
+    },
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = ['phase2-progress', 'default-range', 'decimal-args-malformed-stats'];
+
+function resolvePayload({ fixture = 'phase2-progress', payload } = {}) {
+  if (payload) return { name: fixture || 'custom', payload };
+  const name = String(fixture || 'phase2-progress');
+  return { name, payload: BATCH_UID_RANGE_PLAN_FIXTURES[name] || DEFAULT_PAYLOAD };
+}
+
 function summarize(result = {}) {
   return Object.fromEntries(RESULT_KEYS.filter((key) => key in result).map((key) => [key, result[key]]));
 }
@@ -70,17 +122,25 @@ async function runPythonPlan({ payloadPath }) {
   return JSON.parse(stdout);
 }
 
-export async function compareBatchUidRangePlan({ payload = DEFAULT_PAYLOAD, runJs = runJsPlan, runPython = runPythonPlan } = {}) {
+export async function compareBatchUidRangePlan({
+  fixture = 'phase2-progress',
+  fixtureNames,
+  payload,
+  runJs = runJsPlan,
+  runPython = runPythonPlan,
+} = {}) {
+  if (fixtureNames) return compareBatchUidRangePlanSuite({ fixtures: fixtureNames, runJs, runPython });
+  const resolved = resolvePayload({ fixture, payload });
   const tempDir = await mkdtemp(join(tmpdir(), 'batch-uid-range-plan-compare-'));
   try {
     const payloadPath = join(tempDir, 'payload.json');
-    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
-    const js = await runJs({ payload, payloadPath });
-    const python = await runPython({ payload, payloadPath });
+    await writeFile(payloadPath, JSON.stringify(resolved.payload, null, 2), 'utf8');
+    const js = await runJs({ payload: resolved.payload, payloadPath });
+    const python = await runPython({ payload: resolved.payload, payloadPath });
     const comparison = compareBatchUidRangePlanObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { payloadPath },
+      fixture: { name: resolved.name, payloadPath },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -90,8 +150,25 @@ export async function compareBatchUidRangePlan({ payload = DEFAULT_PAYLOAD, runJ
   }
 }
 
+export async function compareBatchUidRangePlanSuite({ fixtures = DEFAULT_FIXTURE_NAMES, runJs = runJsPlan, runPython = runPythonPlan } = {}) {
+  const results = [];
+  for (const fixture of fixtures) {
+    results.push(await compareBatchUidRangePlan({ fixture, runJs, runPython }));
+  }
+  return {
+    ok: results.every((result) => result.ok),
+    fixtures: results.map((result) => ({
+      name: result.fixture.name,
+      ok: result.ok,
+      js: result.js,
+      python: result.python,
+      mismatches: result.mismatches,
+    })),
+  };
+}
+
 async function main() {
-  const result = await compareBatchUidRangePlan();
+  const result = await compareBatchUidRangePlanSuite();
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }

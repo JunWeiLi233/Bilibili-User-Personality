@@ -5,7 +5,11 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { test } from 'node:test';
 
-import { compareBatchUidRangePlan, compareBatchUidRangePlanObjects } from './compareBatchUidRangePlan.js';
+import {
+  BATCH_UID_RANGE_PLAN_FIXTURES,
+  compareBatchUidRangePlan,
+  compareBatchUidRangePlanObjects,
+} from './compareBatchUidRangePlan.js';
 
 const PLAN = {
   input: {
@@ -70,6 +74,24 @@ test('compareBatchUidRangePlan compares JS and Python dry-run plans', async () =
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('compareBatchUidRangePlan exports named compatibility fixtures', async () => {
+  assert.deepEqual(Object.keys(BATCH_UID_RANGE_PLAN_FIXTURES), ['phase2-progress', 'default-range', 'decimal-args-malformed-stats']);
+
+  const payloads = [];
+  const result = await compareBatchUidRangePlan({
+    fixtureNames: Object.keys(BATCH_UID_RANGE_PLAN_FIXTURES),
+    runJs: async ({ payload }) => {
+      payloads.push(payload);
+      return { ok: true, ...PLAN };
+    },
+    runPython: async () => ({ ok: true, ...PLAN }),
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.fixtures.map((fixture) => fixture.name), ['phase2-progress', 'default-range', 'decimal-args-malformed-stats']);
+  assert.deepEqual(payloads, Object.values(BATCH_UID_RANGE_PLAN_FIXTURES));
 });
 
 test('batchUidRange can delegate dry-run planning to Python', () => {

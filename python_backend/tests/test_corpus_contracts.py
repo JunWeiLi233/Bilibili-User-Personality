@@ -25779,6 +25779,18 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["stats"], {"videosScanned": 2, "uidsFound": 4, "targetUidsFound": 2, "commentsCollected": 4, "analyzed": 1, "skipped": 1, "errors": 0})
         self.assertEqual(result["pacing"], {"delayBetweenVideosMs": 2000, "delayBetweenUidsMs": 1500, "lockRetryDelayMs": 3000, "lockMaxRetries": 10, "saveInterval": 5})
 
+    def test_batch_uid_range_planner_preserves_js_number_decimal_args(self):
+        result = BatchUidRangePlanner().build_plan(
+            ["--start=200000.5", "--end=300000.5", "--pages=80.5"],
+            {"_uidComments": {"200000": [], "200001": [], "300001": []}, "processedUids": {}, "stats": {"videosScanned": "broken"}},
+            {"users": []},
+        )
+
+        self.assertEqual(result["input"], {"start": 200000.5, "end": 300000.5, "pages": 80.5, "phase2Only": False})
+        self.assertEqual(result["phase1"]["maxPages"], 80.5)
+        self.assertEqual(result["phase2"], {"targetUids": 1, "processed": 0, "remaining": 1, "userDbUsers": 0})
+        self.assertEqual(result["stats"]["videosScanned"], 0)
+
     def test_batch_uid_range_plan_summary_extracts_comparator_contract(self):
         summary = BatchUidRangePlanSummary().summarize(
             {
@@ -26062,7 +26074,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             BackendMigrationInventoryScanner._validation_gates(
                 validation_script="python:batch-uid-range-compare",
-                validation_scope="dry_run_plan_fixture_and_js_python_plan_bridge",
+                validation_scope="dry_run_plan_phase2_default_decimal_malformed_stats_fixtures_and_js_python_bridge",
             ),
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:batch-uid-range-compare"},
