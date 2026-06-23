@@ -840,6 +840,22 @@ class CoverageAuditOutputWriter:
         return audit
 
 
+class CoverageAuditReportArtifactsWriter:
+    """Persist a coverage-audit report plus JS-compatible query/action sidecars."""
+
+    def __init__(self, report_path: str | Path | None = None, query_file_path: str | Path | None = None, action_file_path: str | Path | None = None):
+        self.report_path = Path(report_path) if report_path is not None and str(report_path).strip() else None
+        self.query_file_path = Path(query_file_path) if query_file_path is not None and str(query_file_path).strip() else None
+        self.action_file_path = Path(action_file_path) if action_file_path is not None and str(action_file_path).strip() else None
+
+    def write(self, audit: dict[str, Any]) -> dict[str, Any]:
+        if self.report_path is not None:
+            CoverageAuditOutputWriter(self.report_path).write(audit)
+        if self.query_file_path is not None and self.action_file_path is not None:
+            CoverageAuditArtifactWriter().write(audit, self.query_file_path, self.action_file_path)
+        return audit
+
+
 @dataclass(frozen=True)
 class CoverageAuditRequest:
     """Analysis-layer request object for file-backed coverage-audit JSON contracts."""
@@ -848,6 +864,8 @@ class CoverageAuditRequest:
     js_audit_path: str | Path | None = "server/data/keywordCoverageAudit.json"
     strict_total_evidence: bool = False
     output_path: str | Path | None = None
+    query_file_path: str | Path | None = None
+    action_file_path: str | Path | None = None
 
     def run(self) -> dict[str, Any]:
         if self.js_audit_path is None or str(self.js_audit_path).strip() == "":
@@ -859,7 +877,9 @@ class CoverageAuditRequest:
                 strict_total_evidence=self.strict_total_evidence,
             ).compare()
         if self.output_path is not None and str(self.output_path).strip():
-            return CoverageAuditOutputWriter(self.output_path).write(result)
+            return CoverageAuditReportArtifactsWriter(self.output_path, self.query_file_path, self.action_file_path).write(result)
+        if self.query_file_path is not None and self.action_file_path is not None:
+            return CoverageAuditReportArtifactsWriter(None, self.query_file_path, self.action_file_path).write(result)
         return result
 
 
@@ -876,6 +896,8 @@ class CoverageAuditCommandRequest:
             js_audit_path=None if args.standalone else args.js_audit,
             strict_total_evidence=args.strict_total_evidence,
             output_path=args.output or None,
+            query_file_path=args.query_file or None,
+            action_file_path=args.action_file or None,
         ).run()
 
     @staticmethod
@@ -885,6 +907,8 @@ class CoverageAuditCommandRequest:
         parser.add_argument("--js-audit", default="server/data/keywordCoverageAudit.json")
         parser.add_argument("--standalone", action="store_true", help="Build the Python coverage audit directly without comparing a JS report.")
         parser.add_argument("--output", default="", help="Optional path to write the coverage-audit JSON result.")
+        parser.add_argument("--query-file", default="", help="Optional path to write recommended coverage queries.")
+        parser.add_argument("--action-file", default="", help="Optional path to write priority coverage action JSON.")
         parser.add_argument("--strict-total-evidence", action="store_true")
         return parser
 

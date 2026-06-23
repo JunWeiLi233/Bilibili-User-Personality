@@ -67,7 +67,7 @@ from python_backend.cli import video_link_direct_plan as video_link_direct_plan_
 from python_backend.cli import video_relevance as video_relevance_cli
 from python_backend.cli import range_scraper_launcher as range_scraper_launcher_cli
 from python_backend.cli import fast_pipeline_launcher as fast_pipeline_launcher_cli
-from python_backend.analysis.audit import CoverageAuditActionContract, CoverageAuditActionSummaryContract, CoverageAuditArtifactContract, CoverageAuditArtifactPayloadContract, CoverageAuditArtifactWriter, CoverageAuditArtifactsCommandRequest, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsJsonResultContract, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRequest, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditCommandRequest, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditCoverageContract, CoverageAuditFamilyGapContract, CoverageAuditGateContract, CoverageAuditJsonResultContract, CoverageAuditMetricContract, CoverageAuditOutputWriter, CoverageAuditPayloadContract, CoverageAuditPayloadContractComparator, CoverageAuditReport, CoverageAuditRequest, CoverageAuditSampleContract, CoverageAuditStandaloneRunner, CoverageAuditTermAttemptSummaryContract, CoverageEvidenceProfile
+from python_backend.analysis.audit import CoverageAuditActionContract, CoverageAuditActionSummaryContract, CoverageAuditArtifactContract, CoverageAuditArtifactPayloadContract, CoverageAuditArtifactWriter, CoverageAuditArtifactsCommandRequest, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsJsonResultContract, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRequest, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditCommandRequest, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditCoverageContract, CoverageAuditFamilyGapContract, CoverageAuditGateContract, CoverageAuditJsonResultContract, CoverageAuditMetricContract, CoverageAuditOutputWriter, CoverageAuditPayloadContract, CoverageAuditPayloadContractComparator, CoverageAuditReport, CoverageAuditReportArtifactsWriter, CoverageAuditRequest, CoverageAuditSampleContract, CoverageAuditStandaloneRunner, CoverageAuditTermAttemptSummaryContract, CoverageEvidenceProfile
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageCommandRequest, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageJsonPayloadContractComparator, CommentCoverageJsonPayloadRunner, CommentCoveragePayloadContractComparator, CommentCoverageRequest, CommentCoverageRunner as CommentCoveragePayloadRunner, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanCommandRequest, CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanPayloadContractComparator, CoverageHarvestLoopPlanRequest, CoverageHarvestLoopPlanRunner as CoverageHarvestLoopPayloadPlanRunner, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressCommandRequest, CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressPayloadContractComparator, CoverageProgressRequest, CoverageProgressRunner as CoverageProgressPayloadRunner, CoverageProgressSummary, CoverageProgressTracker
@@ -27186,7 +27186,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(runner_result["ok"])
         self.assertEqual(runner_result["coverage"]["terms"], 2)
         self.assertEqual(runner_result["coverage"]["weakTerms"], 1)
-        self.assertEqual(request_result, runner_result)
+        self.assertIsInstance(runner_result["generatedAt"], str)
+        self.assertIsInstance(request_result["generatedAt"], str)
+        self.assertEqual({key: value for key, value in request_result.items() if key != "generatedAt"}, {key: value for key, value in runner_result.items() if key != "generatedAt"})
 
     def test_coverage_audit_output_writer_persists_json_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -27199,6 +27201,33 @@ class CorpusContractTests(unittest.TestCase):
             self.assertEqual(result, audit)
             self.assertEqual(json.loads(output_path.read_text(encoding="utf-8")), audit)
             self.assertEqual(output_path.read_bytes(), CoverageAuditJsonResultContract(audit).to_bytes())
+
+    def test_coverage_audit_report_artifacts_writer_persists_full_js_sidecars(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            report_path = root / "report" / "coverage.json"
+            query_path = root / "queries" / "next.txt"
+            action_path = root / "actions" / "priority.json"
+            audit = {
+                "ok": False,
+                "coverage": {"terms": 1},
+                "recommendedQueries": ["doge hot"],
+                "nextActions": [
+                    {
+                        "term": "doge",
+                        "family": "attack",
+                        "nextQuery": "doge hot",
+                        "suggestedQueries": ["doge comments"],
+                    }
+                ],
+            }
+
+            result = CoverageAuditReportArtifactsWriter(report_path, query_path, action_path).write(audit)
+
+            self.assertEqual(result, audit)
+            self.assertEqual(json.loads(report_path.read_text(encoding="utf-8")), audit)
+            self.assertEqual(query_path.read_text(encoding="utf-8"), "doge hot\n")
+            self.assertEqual([item["query"] for item in json.loads(action_path.read_text(encoding="utf-8"))], ["doge hot", "doge comments"])
 
     def test_coverage_audit_command_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -27297,6 +27326,46 @@ class CorpusContractTests(unittest.TestCase):
             self.assertEqual(exit_code, 1)
             self.assertEqual(file_result, stdout_result)
             self.assertEqual(output_path.read_bytes(), CoverageAuditJsonResultContract(stdout_result).to_bytes())
+
+    def test_coverage_audit_cli_main_writes_standalone_sidecar_artifacts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            output_path = root / "out" / "coverage.json"
+            query_path = root / "out" / "queries.txt"
+            action_path = root / "out" / "actions.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {"term": "weak", "family": "attack", "evidenceCount": 1},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                exit_code = coverage_audit_cli.main(
+                    [
+                        "--dictionary",
+                        str(dictionary_path),
+                        "--standalone",
+                        "--output",
+                        str(output_path),
+                        "--query-file",
+                        str(query_path),
+                        "--action-file",
+                        str(action_path),
+                    ]
+                )
+
+            stdout_result = json.loads(output.getvalue())
+            self.assertEqual(exit_code, 1)
+            self.assertEqual(json.loads(output_path.read_text(encoding="utf-8")), stdout_result)
+            self.assertEqual(query_path.read_text(encoding="utf-8"), "weak 评论区 梗 热评\n")
+            self.assertEqual(json.loads(action_path.read_text(encoding="utf-8"))[0]["query"], "weak 评论区 梗 热评")
 
     def test_coverage_audit_dedicated_cli_runner_accepts_argv_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
