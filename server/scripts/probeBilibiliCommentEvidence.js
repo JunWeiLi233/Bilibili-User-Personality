@@ -1,4 +1,5 @@
 import { readFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 
 import { readKeywordDictionary, mergeEntriesIntoDictionary } from '../services/deepseekKeywordTrainer.js';
 import {
@@ -366,6 +367,158 @@ async function fetchVideoDanmaku(video, options) {
   return collectBilibiliDanmakuMessages(xml, { ...video, cid });
 }
 
+export async function runDirectProbeCommand({
+  argv = process.argv.slice(2),
+  env = process.env,
+  readJson: readJsonContract = readJson,
+  readJsonCorpus: readCorpus = readJsonCorpus,
+  writeJsonCorpus: writeCorpus = writeJsonCorpus,
+  readKeywordDictionary: readDictionary = readKeywordDictionary,
+  mergeEntriesIntoDictionary: mergeDictionary = mergeEntriesIntoDictionary,
+  discoverVideos: discover = discoverVideos,
+  fetchVideoComments: fetchComments = fetchVideoComments,
+  fetchVideoDanmaku: fetchDanmaku = fetchVideoDanmaku,
+  log = console.log,
+  now = () => new Date().toISOString(),
+  makeCookie = makeSyntheticBilibiliCookie,
+} = {}) {
+  const options = parseArgs(argv, env);
+  const audit = await readJsonContract(options.auditPath);
+  const existingCorpus = await readCorpus(options.outputPath, { version: 1, comments: [], runs: [] });
+  const scannedVideoKeys = collectScannedProbeVideoKeys(existingCorpus);
+  const dictionary = await readDictionary();
+  const actions = options.explicitQueries.length
+    ? options.explicitQueries.slice(0, options.maxActions)
+    : (audit.nextActions || [])
+      .slice(options.offset, options.offset + options.maxActions)
+      .map((action) => ({
+        term: String(action.term || '').trim(),
+        query: String(action.nextQuery || action.query || action.term || '').trim(),
+      }))
+      .filter((action) => action.query);
+  if (options.explicitAids.length) {
+    actions.unshift({
+      term: 'explicit Bilibili AIDs',
+      query: 'explicit Bilibili AIDs',
+      explicitVideos: options.explicitAids.map((aid) => ({ aid, title: `explicit aid ${aid}` })),
+    });
+  }
+  const cookie = makeCookie();
+  const sourceVideosByTerm = buildEvidenceSourceVideosForActions(dictionary, actions, {
+    maxPerAction: options.sourceVideosPerAction,
+    corpus: existingCorpus,
+  });
+  const allComments = [];
+  const scannedVideos = [];
+  const warnings = [];
+
+  log('Direct Bilibili comment evidence probe');
+  log(
+    `Actions: ${actions.length}, search pages/query: ${options.searchPages}, videos/query: ${options.videosPerQuery}, source videos/query: ${options.sourceVideosPerAction}, reply pages/video: ${options.replyPages}`,
+  );
+  log(`Reply mode: ${options.replyMode}`);
+  log(`Reply page size: ${options.replyPageSize}`);
+
+  for (const action of actions) {
+    log(`- ${action.term || '(unknown term)'}: ${action.query}`);
+    let videos = [];
+    const sourceVideos = filterUnscannedProbeVideos(sourceVideosByTerm.get(action.term) || [], scannedVideoKeys);
+    const unfilteredSourceVideos = sourceVideosByTerm.get(action.term) || [];
+    const selectedSourceVideos = options.rescanSourceVideos ? unfilteredSourceVideos : sourceVideos;
+    const explicitVideos = Array.isArray(action.explicitVideos) ? action.explicitVideos : [];
+    if (selectedSourceVideos.length) log(`  existing source videos: ${selectedSourceVideos.length}${options.rescanSourceVideos ? ' (rescan enabled)' : ''}`);
+    if (explicitVideos.length) log(`  explicit videos: ${explicitVideos.length}`);
+    try {
+      const searchVideos = explicitVideos.length ? [] : await discover(action.query, { ...options, cookie, excludedVideoKeys: scannedVideoKeys });
+      const rankedSearchVideos = rankProbeVideosForAction(searchVideos, action);
+      videos = mergeVideos([...explicitVideos, ...selectedSourceVideos], rankedSearchVideos, options.videosPerQuery + selectedSourceVideos.length + explicitVideos.length);
+    } catch (error) {
+      warnings.push(`${action.query}: search ${error.message}`);
+      log(`  search failed: ${error.message}`);
+      videos = [...explicitVideos, ...selectedSourceVideos];
+      if (!videos.length) continue;
+    }
+    log(`  videos: ${videos.length}`);
+    for (const video of videos) {
+      const videoKey = probeVideoKey(video);
+      const videoLabel = video.bvid || (video.aid ? `av${video.aid}` : videoKey || '(unknown video)');
+      if (videoKey) scannedVideoKeys.add(videoKey);
+      scannedVideos.push({
+        key: videoKey,
+        term: action.term,
+        query: action.query,
+        bvid: video.bvid,
+        aid: video.aid,
+        rootRpid: video.rootRpid,
+        title: video.title,
+      });
+      try {
+        const comments = await fetchComments(video, { ...options, cookie });
+        allComments.push(...comments);
+        log(`  ${videoLabel}: ${comments.length} comment(s)`);
+      } catch (error) {
+        warnings.push(`${action.query} ${videoLabel}: replies ${error.message}`);
+        log(`  ${videoLabel}: replies failed: ${error.message}`);
+      }
+      if (options.includeDanmaku || action.query.includes('寮瑰箷')) {
+        try {
+          const danmaku = await fetchDanmaku(video, { ...options, cookie });
+          allComments.push(...danmaku);
+          log(`  ${videoLabel}: ${danmaku.length} danmaku item(s)`);
+        } catch (error) {
+          warnings.push(`${action.query} ${videoLabel}: danmaku ${error.message}`);
+          log(`  ${videoLabel}: danmaku failed: ${error.message}`);
+        }
+      }
+    }
+  }
+
+  const entries = buildFreshEvidenceEntriesFromComments(dictionary, allComments, {
+    targetEvidence: 3,
+    maxSamplesPerTerm: 3,
+    targetTerms: actions.map((action) => action.term),
+    requireCommentBackedEvidence: true,
+  });
+  log(`Comments collected: ${allComments.length}`);
+  log(`Fresh weak-term evidence entries: ${entries.length}`);
+  for (const entry of entries) log(`- [${entry.family}] ${entry.term}: ${entry.evidenceSources.length} sample(s)`);
+  if (warnings.length) {
+    log('Warnings:');
+    for (const warning of warnings) log(`- ${warning}`);
+  }
+
+  const result = { ok: true, write: options.write, options, actions, commentsCollected: allComments.length, comments: allComments, scannedVideos, warnings, entries };
+  if (!options.write) {
+    log('Dry run only. Pass --write to merge evidence into the dictionary.');
+    return result;
+  }
+
+  const corpus = buildProbeCorpus(existingCorpus, allComments, {
+    at: now(),
+    actions,
+    videos: scannedVideos,
+    warnings,
+  });
+  await writeCorpus(options.outputPath, corpus);
+  log(`Probe corpus comments: ${corpus.comments.length}`);
+  log(`Probe corpus: ${options.outputPath}`);
+  result.corpus = corpus;
+
+  if (entries.length) {
+    const before = dictionary.entries?.length || 0;
+    const next = await mergeDictionary(entries);
+    log(`Dictionary entries before: ${before}`);
+    log(`Dictionary entries after: ${next.entries?.length || 0}`);
+    result.dictionaryBefore = before;
+    result.dictionaryAfter = next.entries?.length || 0;
+  }
+
+  return result;
+}
+
+const isDirectProbeCli = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
+
+if (isDirectProbeCli) {
 const planArgs = parsePlanArgs();
 if (planArgs.planJson) {
   const payload = await readPlanPayload(planArgs.payloadPath);
@@ -498,4 +651,5 @@ if (entries.length) {
   const next = await mergeEntriesIntoDictionary(entries);
   console.log(`Dictionary entries before: ${before}`);
   console.log(`Dictionary entries after: ${next.entries?.length || 0}`);
+}
 }
