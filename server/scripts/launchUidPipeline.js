@@ -4,7 +4,7 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 
 const DATA_DIR = join(process.cwd(), 'server', 'data');
 const WORKER_SCRIPT = join(process.cwd(), 'server', 'scripts', 'uidPipelineWorker.js');
-const MERGE_SCRIPT = join(process.cwd(), 'server', 'scripts', 'mergeUidPipelineResults.js');
+const MERGE_COMMAND = 'python -m python_backend.cli.uid_pipeline_merge --write-state';
 const TOTAL_START = 1;
 const TOTAL_END = 100000;
 const WORKERS = 5;
@@ -103,7 +103,7 @@ const monitor = setInterval(async () => {
     // Merge results
     try {
       const { execSync } = await import('node:child_process');
-      execSync(`node ${MERGE_SCRIPT}`, { cwd: process.cwd(), stdio: 'inherit' });
+      execSync(MERGE_COMMAND, { cwd: process.cwd(), stdio: 'inherit' });
     } catch (e) {
       console.error('Merge failed:', e.message);
     }

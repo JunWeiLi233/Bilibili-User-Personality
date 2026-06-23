@@ -531,6 +531,7 @@ class UidPipelineMergeRunner:
         total_end: int = 100000,
         workers: int = 5,
         summary_only: bool = False,
+        write_state: bool = False,
         now: Any | None = None,
     ):
         self.data_dir = Path(data_dir)
@@ -538,6 +539,7 @@ class UidPipelineMergeRunner:
         self.total_end = int(total_end)
         self.workers = max(1, int(workers))
         self.summary_only = summary_only
+        self.write_state = bool(write_state)
         self.now = now
 
     def run(self) -> dict[str, Any]:
@@ -554,7 +556,7 @@ class UidPipelineMergeRunner:
             chunks.append({"start": start, "end": end, "path": str(progress_path), "progress": progress})
         user_db = self._read_json(self.data_dir / "scraped-users-db.json", {"users": {}})
         users = user_db.get("users") if isinstance(user_db.get("users"), dict) else {}
-        return UidPipelineMergeReporter(now=self.now).build_report(
+        report = UidPipelineMergeReporter(now=self.now).build_report(
             chunks,
             users=users,
             total_start=self.total_start,
@@ -563,6 +565,17 @@ class UidPipelineMergeRunner:
             chunk_size=chunk_size,
             summary_only=self.summary_only,
         )
+        if self.write_state:
+            state_path = self.data_dir / "uid-pipeline-merged.json"
+            state_path.parent.mkdir(parents=True, exist_ok=True)
+            state_payload = {
+                "processed": report.get("processed") if isinstance(report.get("processed"), dict) else {},
+                "stats": report.get("stats") if isinstance(report.get("stats"), dict) else {},
+                "lastUpdated": report.get("lastUpdated"),
+            }
+            state_path.write_text(json.dumps(state_payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            report["statePath"] = str(state_path)
+        return report
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
         payload = JsonContractReader().read_value(path, fallback)
@@ -617,6 +630,7 @@ class UidPipelineMergeRequest:
         total_end: int = 100000,
         workers: int = 5,
         summary_only: bool = False,
+        write_state: bool = False,
         now: Any = None,
     ):
         self.data_dir = Path(data_dir)
@@ -625,6 +639,7 @@ class UidPipelineMergeRequest:
         self.total_end = int(total_end)
         self.workers = int(workers)
         self.summary_only = bool(summary_only)
+        self.write_state = bool(write_state)
         self.now = now
 
     def run(self) -> dict[str, Any]:
@@ -642,6 +657,7 @@ class UidPipelineMergeRequest:
             total_end=self.total_end,
             workers=self.workers,
             summary_only=self.summary_only,
+            write_state=self.write_state,
             now=self.now,
         ).run()
 
@@ -660,6 +676,7 @@ class UidPipelineMergeCommandRequest:
         parser.add_argument("--total-end", type=int, default=100000)
         parser.add_argument("--workers", type=int, default=5)
         parser.add_argument("--summary-only", action="store_true", help="Omit the large processed UID map from output.")
+        parser.add_argument("--write-state", action="store_true", help="Write uid-pipeline-merged.json for the launcher merge step.")
         parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible UID merge report to compare.")
         return parser
 
@@ -672,6 +689,7 @@ class UidPipelineMergeCommandRequest:
             total_end=args.total_end,
             workers=args.workers,
             summary_only=args.summary_only,
+            write_state=args.write_state,
         ).run()
 
 

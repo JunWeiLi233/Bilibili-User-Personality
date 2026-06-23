@@ -1394,6 +1394,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("actions/setup-python@v5", workflow)
         self.assertIn("npm run stats:update", workflow)
 
+    def test_uid_pipeline_merge_script_is_legacy_after_launcher_delegates_to_python(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertNotIn("server/scripts/mergeUidPipelineResults.js", result["migrationCandidateFiles"]["scripts"])
+        self.assertIn(
+            {"path": "server/scripts/mergeUidPipelineResults.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_package_command_migration_inventory_maps_node_commands_to_python_contracts(self):
         package = {
             "scripts": {
@@ -20085,6 +20094,31 @@ class CorpusContractTests(unittest.TestCase):
         self.assertNotIn("processed", result)
         self.assertEqual(result["summary"]["totalProcessed"], 1)
         self.assertEqual(result["stats"]["success"], 1)
+
+    def test_uid_pipeline_merge_request_can_write_merged_artifact(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            (data_dir / "uid-pipeline-1-2.json").write_text(
+                json.dumps({"processed": {"1": "success"}, "stats": {"success": 1}}),
+                encoding="utf-8",
+            )
+
+            result = UidPipelineMergeRequest(
+                data_dir,
+                total_start=1,
+                total_end=2,
+                workers=1,
+                write_state=True,
+                now=lambda: "2026-06-19T00:00:00.000Z",
+            ).run()
+            artifact = json.loads((data_dir / "uid-pipeline-merged.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(result["statePath"], str(data_dir / "uid-pipeline-merged.json"))
+        self.assertEqual(artifact["processed"], {"1": "success"})
+        self.assertEqual(artifact["stats"], {"success": 1, "noComments": 0, "noUser": 0, "trainError": 0, "blocked": 0, "errors": 0})
+        self.assertEqual(artifact["lastUpdated"], "2026-06-19T00:00:00.000Z")
 
     def test_uid_pipeline_launcher_planner_builds_state_contract_without_filesystem(self):
         result = UidPipelineLauncherPlanner(now=lambda: "2026-06-19T00:00:00.000Z").build_plan(total_start=5, total_end=9, workers=2)
