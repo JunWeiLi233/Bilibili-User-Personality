@@ -23809,6 +23809,25 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["js"], {})
         self.assertEqual(result["python"]["loop"], {"maxCycles": 0, "roundsPerCycle": 1, "maxQueries": 2})
 
+    def test_coverage_harvest_loop_runner_defaults_corrupt_json_contract_payloads(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-loop-plan.json"
+            payload_path.write_text("{bad payload", encoding="utf-8")
+            js_report_path.write_text("{bad report", encoding="utf-8")
+
+            result = CoverageHarvestLoopPayloadPlanRunner(payload_path).run()
+            comparison = CoverageHarvestLoopPlanPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["loop"], {"maxCycles": 3, "roundsPerCycle": 1, "maxQueries": 12})
+        self.assertEqual(result["priorityQueries"], [])
+        self.assertEqual(result["initialStopReason"], "")
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+
     def test_coverage_harvest_loop_plan_request_compares_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
