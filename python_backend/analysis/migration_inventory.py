@@ -695,6 +695,11 @@ class BackendMigrationInventoryScanner:
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-pipeline-launcher-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidPipelineLauncherPlan.test.js"},
             ]
+        if validation_script == "python:uid-pipeline-worker-compare":
+            return [
+                {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-pipeline-worker-compare"},
+                {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidPipelineWorkerPlan.test.js"},
+            ]
         if validation_scope == "full_command":
             return [{"gate": "full_command", "status": "covered", "source": validation_script}]
         return []

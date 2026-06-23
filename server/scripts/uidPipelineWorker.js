@@ -1,5 +1,7 @@
+import { execFile } from 'node:child_process';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
+import { promisify } from 'node:util';
 import { fetchJson, fetchRepliesForVideo } from '../services/bilibiliCrawler.js';
 import { trainKeywordDictionary, readKeywordDictionary } from '../services/deepseekKeywordTrainer.js';
 
@@ -25,6 +27,7 @@ const SAVE_EVERY = 20;
 const LOCK_RETRY_DELAY_MS = 10000;
 const LOCK_MAX_RETRIES = 5;
 const BLOCK_BACKOFF_BASE_MS = 30000;
+const execFileAsync = promisify(execFile);
 
 const wait = (ms) => new Promise(r => setTimeout(r, ms));
 
@@ -41,6 +44,41 @@ function parsePlanArgs(argv = []) {
     else if (arg.startsWith('--end=')) options.end = parseNumberOr(arg.split('=', 2)[1], 100000);
   }
   return options;
+}
+
+function parsePlanControlArgs(argv = []) {
+  let planJson = false;
+  let pythonPlan = false;
+  let jsPlan = false;
+  let payloadPath = '';
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = String(argv[index] || '');
+    if (arg === '--plan-json') {
+      planJson = true;
+    } else if (arg === '--python-plan') {
+      pythonPlan = true;
+    } else if (arg === '--js-plan') {
+      jsPlan = true;
+    } else if (arg === '--payload') {
+      payloadPath = String(argv[index + 1] || '');
+      index += 1;
+    } else if (arg.startsWith('--payload=')) {
+      payloadPath = arg.slice('--payload='.length);
+    }
+  }
+  if (process.env.BILIBILI_UID_PIPELINE_WORKER_USE_PYTHON_PLAN === '1' && !jsPlan) {
+    pythonPlan = true;
+  }
+  return { planJson, pythonPlan, jsPlan, payloadPath };
+}
+
+async function runPythonUidPipelineWorkerPlan(payloadPath) {
+  const { stdout } = await execFileAsync('python', ['-m', 'python_backend.cli.uid_pipeline_plan', '--payload', payloadPath], {
+    cwd: process.cwd(),
+    env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  return JSON.parse(stdout);
 }
 
 function usersInRange(users = {}, start = 1, end = 100000) {
@@ -106,7 +144,12 @@ function buildUidPipelineWorkerPlan(payload = {}) {
   };
 }
 
-if (hasFlag('plan-json')) {
+const planControl = parsePlanControlArgs(process.argv.slice(2));
+if (planControl.planJson) {
+  if (planControl.pythonPlan && !planControl.jsPlan) {
+    console.log(JSON.stringify(await runPythonUidPipelineWorkerPlan(planControl.payloadPath), null, 2));
+    process.exit(0);
+  }
   const payload = args.payload ? JSON.parse(await readFile(args.payload, 'utf8')) : {};
   console.log(JSON.stringify(buildUidPipelineWorkerPlan(payload), null, 2));
   process.exit(0);

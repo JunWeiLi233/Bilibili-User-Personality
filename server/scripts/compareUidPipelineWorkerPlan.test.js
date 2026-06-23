@@ -1,4 +1,8 @@
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join, resolve } from 'node:path';
 import { test } from 'node:test';
 
 import { compareUidPipelineWorkerPlan, compareUidPipelineWorkerPlanObjects } from './compareUidPipelineWorkerPlan.js';
@@ -58,4 +62,51 @@ test('compareUidPipelineWorkerPlan compares JS and Python dry-run plans', async 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('uidPipelineWorker can delegate dry-run planning to Python', () => {
+  const tempDir = mkdtempSync(join(tmpdir(), 'uid-pipeline-worker-python-plan-'));
+  try {
+    const payloadPath = join(tempDir, 'payload.json');
+    const fakeModuleDir = join(tempDir, 'python_backend', 'cli');
+    writeFileSync(
+      payloadPath,
+      JSON.stringify(
+        {
+          argv: ['--start=10', '--end=12'],
+          progress: { processed: {}, stats: {} },
+          database: { users: {} },
+        },
+        null,
+        2,
+      ),
+      'utf8',
+    );
+    mkdirSync(fakeModuleDir, { recursive: true });
+    writeFileSync(join(tempDir, 'python_backend', '__init__.py'), '', 'utf8');
+    writeFileSync(join(fakeModuleDir, '__init__.py'), '', 'utf8');
+    writeFileSync(
+      join(fakeModuleDir, 'uid_pipeline_plan.py'),
+      'print(\'{"ok":true,"fromPythonUidPipelineWorkerPlan":true,"range":{"start":10,"end":12,"total":3},"progress":{"remaining":3}}\')\n',
+      'utf8',
+    );
+
+    const result = spawnSync('node', [resolve('server/scripts/uidPipelineWorker.js'), '--plan-json', `--payload=${payloadPath}`], {
+      cwd: tempDir,
+      encoding: 'utf8',
+      env: {
+        ...process.env,
+        BILIBILI_UID_PIPELINE_WORKER_USE_PYTHON_PLAN: '1',
+        PYTHONUTF8: '1',
+        PYTHONIOENCODING: 'utf-8',
+      },
+    });
+
+    assert.equal(result.status, 0, result.stderr);
+    const payload = JSON.parse(result.stdout);
+    assert.equal(payload.fromPythonUidPipelineWorkerPlan, true);
+    assert.equal(payload.progress.remaining, 3);
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
+  }
 });
