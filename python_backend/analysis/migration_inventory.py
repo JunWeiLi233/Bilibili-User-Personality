@@ -33,6 +33,10 @@ DEFAULT_PACKAGE_COMMAND_EQUIVALENTS = {
     "stats:update": "python:readme-stats",
 }
 
+DEFAULT_PACKAGE_VALIDATION_EQUIVALENTS = {
+    "deepseek:analyze": "python:deepseek-cli-compare",
+}
+
 DEFAULT_RETAINED_NODE_COMMANDS = {
     "server": "app_api_orchestration",
     "dev:full": "app_api_orchestration",
@@ -181,11 +185,13 @@ class PackageCommandMigrationInventory:
         self,
         package: dict[str, Any] | None = None,
         equivalents: dict[str, str] | None = None,
+        validation_equivalents: dict[str, str] | None = None,
         retained_commands: dict[str, str] | None = None,
         bridge_commands: dict[str, str] | None = None,
     ):
         self.package = package if isinstance(package, dict) else {}
         self.equivalents = equivalents or DEFAULT_PACKAGE_COMMAND_EQUIVALENTS
+        self.validation_equivalents = validation_equivalents or DEFAULT_PACKAGE_VALIDATION_EQUIVALENTS
         self.retained_commands = retained_commands or DEFAULT_RETAINED_NODE_COMMANDS
         self.bridge_commands = bridge_commands or DEFAULT_BRIDGE_NODE_COMMANDS
 
@@ -209,19 +215,26 @@ class PackageCommandMigrationInventory:
         retained: list[dict[str, str]] = []
         bridge: list[dict[str, str]] = []
         replacement_needed: list[dict[str, str]] = []
+        linked_bridge_scripts = self._linked_bridge_scripts(node_scripts, python_scripts)
 
         for name, command in node_scripts.items():
             python_name = self.equivalents.get(name)
             python_command = python_scripts.get(python_name or "")
             if python_name and python_command:
-                python_backed.append(
-                    {
-                        "script": name,
-                        "command": command,
-                        "pythonScript": python_name,
-                        "pythonCommand": python_command,
-                    }
-                )
+                mapping = {
+                    "script": name,
+                    "command": command,
+                    "pythonScript": python_name,
+                    "pythonCommand": python_command,
+                }
+                validation_name = self.validation_equivalents.get(name)
+                validation_command = node_scripts.get(validation_name or "")
+                if validation_name and validation_command:
+                    mapping["validationScript"] = validation_name
+                    mapping["validationCommand"] = validation_command
+                python_backed.append(mapping)
+            elif name in linked_bridge_scripts:
+                continue
             elif name in self.retained_commands:
                 retained.append({"script": name, "command": command, "reason": self.retained_commands[name]})
             elif name in self.bridge_commands:
@@ -237,6 +250,15 @@ class PackageCommandMigrationInventory:
             "bridgeNodeScripts": bridge,
             "replacementNeeded": replacement_needed,
         }
+
+    def _linked_bridge_scripts(self, node_scripts: dict[str, str], python_scripts: dict[str, str]) -> set[str]:
+        linked: set[str] = set()
+        for name in node_scripts:
+            python_name = self.equivalents.get(name)
+            validation_name = self.validation_equivalents.get(name)
+            if python_name and python_scripts.get(python_name) and validation_name and node_scripts.get(validation_name):
+                linked.add(validation_name)
+        return linked
 
     @staticmethod
     def _node_server_scripts(scripts: dict[str, Any]) -> dict[str, str]:

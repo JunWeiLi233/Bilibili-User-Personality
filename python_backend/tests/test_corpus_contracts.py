@@ -1294,6 +1294,33 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["replacementNeeded"], [])
 
+    def test_package_command_migration_inventory_links_validation_bridge_to_node_command(self):
+        package = {
+            "scripts": {
+                "python:deepseek-cli-compare": "node server/scripts/compareDeepSeekAnalyzePlan.js",
+                "deepseek:analyze": "node server/scripts/analyzeDeepSeekComments.js",
+                "python:deepseek-cli-plan": "python -m python_backend.cli.deepseek_analyze_cli_plan",
+            }
+        }
+
+        result = PackageCommandMigrationInventory(package).scan()
+
+        self.assertEqual(
+            result["pythonBackedNodeScripts"],
+            [
+                {
+                    "script": "deepseek:analyze",
+                    "command": "node server/scripts/analyzeDeepSeekComments.js",
+                    "pythonScript": "python:deepseek-cli-plan",
+                    "pythonCommand": "python -m python_backend.cli.deepseek_analyze_cli_plan",
+                    "validationScript": "python:deepseek-cli-compare",
+                    "validationCommand": "node server/scripts/compareDeepSeekAnalyzePlan.js",
+                },
+            ],
+        )
+        self.assertEqual(result["bridgeNodeScripts"], [])
+        self.assertEqual(result["replacementNeeded"], [])
+
     def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
         command = package["scripts"]["python:coverage-standalone"]
