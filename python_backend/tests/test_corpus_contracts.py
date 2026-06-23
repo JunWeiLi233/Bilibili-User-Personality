@@ -28865,6 +28865,10 @@ class CorpusContractTests(unittest.TestCase):
             {"path": "server/scripts/compareHarvestOptions.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
         )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:harvest-options-compare"],
+            "video_keyword_default_priority_query_content_expanded_template_fixtures_and_js_python_bridge",
+        )
 
     def test_video_keyword_discovery_options_utility_is_legacy_after_python_contract(self):
         result = BackendMigrationInventoryScanner(".").scan()

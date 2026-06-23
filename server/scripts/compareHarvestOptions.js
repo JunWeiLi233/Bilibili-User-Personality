@@ -26,6 +26,36 @@ export const DEFAULT_PAYLOAD = {
   seedQueries: ['seed query'],
 };
 
+export const HARVEST_OPTIONS_FIXTURES = {
+  'default-video-keyword': DEFAULT_PAYLOAD,
+  'priority-query-content': {
+    mode: 'priority-query-content',
+    content: JSON.stringify(
+      [
+        { term: 'doge', nextQuery: 'doge hot' },
+        { term: 'tieba', query: 'tieba roast' },
+      ],
+      null,
+      2,
+    ),
+  },
+  'expanded-template-options': {
+    mode: 'video-keyword',
+    env: {
+      BILIBILI_HARVEST_MAX_QUERIES: '3',
+      BILIBILI_HARVEST_EXISTING_TERMS_ONLY: '1',
+    },
+    argv: ['--include-danmaku', '--pages', '3', '--rounds=2'],
+    priorityQueries: [{ term: 'emoji', nextQuery: 'emoji satire' }],
+    seedQueries: ['emoji seed'],
+    controversyQueries: ['controversy seed'],
+    extraQueryTemplates: ['{term} 梗'],
+    exhaustedSuggestionTemplates: ['{term} 重试'],
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = Object.keys(HARVEST_OPTIONS_FIXTURES);
+
 function summarize(result = {}) {
   return Object.fromEntries(RESULT_KEYS.filter((key) => key in result).map((key) => [key, result[key]]));
 }
@@ -77,21 +107,26 @@ async function runPythonOptions({ payloadPath }) {
   return JSON.parse(stdout);
 }
 
-export async function compareHarvestOptions({
-  payload = DEFAULT_PAYLOAD,
-  runJs = runJsOptions,
-  runPython = runPythonOptions,
-} = {}) {
+function resolvePayload({ payload, fixture } = {}) {
+  if (payload) return { name: fixture?.name || 'custom', payload };
+  const name = typeof fixture === 'string' ? fixture : fixture?.name || 'default-video-keyword';
+  return { name, payload: HARVEST_OPTIONS_FIXTURES[name] || DEFAULT_PAYLOAD };
+}
+
+async function compareHarvestOptionsSingle({ payload, fixture, runJs = runJsOptions, runPython = runPythonOptions } = {}) {
+  const resolved = resolvePayload({ payload, fixture });
   const tempDir = await mkdtemp(join(tmpdir(), 'harvest-options-compare-'));
   try {
     const payloadPath = join(tempDir, 'payload.json');
-    await writeFile(payloadPath, JSON.stringify({ cwd: process.cwd(), ...payload }, null, 2), 'utf8');
-    const js = await runJs({ payload: { cwd: process.cwd(), ...payload }, payloadPath });
-    const python = await runPython({ payload: { cwd: process.cwd(), ...payload }, payloadPath });
+    const normalizedPayload = { cwd: process.cwd(), ...resolved.payload };
+    await writeFile(payloadPath, JSON.stringify(normalizedPayload, null, 2), 'utf8');
+    const context = { payload: normalizedPayload, fixture: { name: resolved.name }, payloadPath };
+    const js = await runJs(context);
+    const python = await runPython(context);
     const comparison = compareHarvestOptionsObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { payloadPath },
+      fixture: { name: resolved.name, payloadPath },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -101,8 +136,20 @@ export async function compareHarvestOptions({
   }
 }
 
+export async function compareHarvestOptions({ payload, fixture, fixtureNames, runJs = runJsOptions, runPython = runPythonOptions } = {}) {
+  if (fixtureNames) {
+    const results = [];
+    for (const name of fixtureNames.length ? fixtureNames : DEFAULT_FIXTURE_NAMES) {
+      results.push(await compareHarvestOptionsSingle({ fixture: name, runJs, runPython }));
+    }
+    const mismatches = results.flatMap((result) => result.mismatches.map((mismatch) => ({ ...mismatch, fixture: result.fixture.name })));
+    return { ok: mismatches.length === 0, fixtures: results.map((result) => result.fixture), results, mismatches };
+  }
+  return compareHarvestOptionsSingle({ payload: payload || DEFAULT_PAYLOAD, fixture, runJs, runPython });
+}
+
 async function main() {
-  const result = await compareHarvestOptions();
+  const result = await compareHarvestOptions({ fixtureNames: DEFAULT_FIXTURE_NAMES });
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }

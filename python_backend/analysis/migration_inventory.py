@@ -69,6 +69,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:coverage-loop-compare": "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_mock_write_file_backed_mock_harvest_js_python_command_and_deferred_live_contract",
     "python:coverage-loop-command-compare": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_and_deferred_live_contract",
     "python:coverage-progress-compare": "payload_default_action_progress_corrupt_payload_fixtures_and_js_python_bridge",
+    "python:harvest-options-compare": "video_keyword_default_priority_query_content_expanded_template_fixtures_and_js_python_bridge",
     "python:discovery-report-compare": "report_fixture_rich_discovery_fixture_and_js_python_bridge",
     "python:tieba-keyword-compare": "dry_run_plan_fixture_scrape_fixture_and_js_python_plan_bridge",
     "python:video-link-direct-compare": "dry_run_plan_video_favorite_uid_missing_target_fixtures_and_js_python_bridge",
