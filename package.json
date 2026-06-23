@@ -114,6 +114,7 @@
     "python:tieba-update": "python -m python_backend.cli.tieba_corpus",
     "python:direct-probe-update": "python -m python_backend.cli.direct_probe_corpus",
     "python:direct-probe-plan": "python -m python_backend.cli.direct_probe_plan",
+    "python:direct-probe-compare": "node server/scripts/compareDirectProbePlan.js",
     "dev:full": "node server/index.js",
     "test": "node --test",
     "build": "vite build",

@@ -1290,6 +1290,7 @@ class CorpusContractTests(unittest.TestCase):
                 "dictionary:resolve-near": "node server/scripts/resolveNearTargetTerms.js",
                 "dictionary:auto": "node server/scripts/runCoverageHarvestLoop.js",
                 "dictionary:tieba": "node server/scripts/runTiebaKeywordScrape.js",
+                "dictionary:probe-bilibili": "node server/scripts/probeBilibiliCommentEvidence.js",
                 "server": "node server/index.js",
                 "aicu:test": "node server/scripts/testAicuApi.js",
                 "dev:full": "node server/index.js",
@@ -1304,6 +1305,7 @@ class CorpusContractTests(unittest.TestCase):
                 "python:near-target-compare": "node server/scripts/compareNearTargetResolvePlan.js",
                 "python:coverage-loop-compare": "node server/scripts/compareCoverageHarvestLoopPlan.js",
                 "python:tieba-keyword-compare": "node server/scripts/compareTiebaKeywordPlan.js",
+                "python:direct-probe-compare": "node server/scripts/compareDirectProbePlan.js",
                 "python:deepseek-cli-plan-js": "node server/scripts/analyzeDeepSeekComments.js --plan-json --python-plan",
                 "python:deepseek-analyze": "python -m python_backend.cli.deepseek_analyze",
                 "python:coverage-standalone": "python -m python_backend.cli.coverage_audit --standalone",
@@ -1313,14 +1315,15 @@ class CorpusContractTests(unittest.TestCase):
                 "python:near-target-plan": "python -m python_backend.cli.near_target_resolve_plan",
                 "python:coverage-loop-plan": "python -m python_backend.cli.coverage_loop_plan",
                 "python:tieba-keyword-plan": "python -m python_backend.cli.tieba_keyword_plan",
+                "python:direct-probe-plan": "python -m python_backend.cli.direct_probe_plan",
                 "python:test": "python -m unittest discover python_backend/tests",
             }
         }
 
         result = PackageCommandMigrationInventory(package).scan()
 
-        self.assertEqual(result["nodeServerScripts"], 22)
-        self.assertEqual(result["pythonBackendScripts"], 8)
+        self.assertEqual(result["nodeServerScripts"], 24)
+        self.assertEqual(result["pythonBackendScripts"], 9)
         self.assertEqual(
             result["pythonBackedNodeScripts"],
             [
@@ -1389,6 +1392,17 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:tieba-keyword-compare",
                     "validationCommand": "node server/scripts/compareTiebaKeywordPlan.js",
+                    "validationScope": "dry_run_plan_fixture",
+                },
+                {
+                    "script": "dictionary:probe-bilibili",
+                    "command": "node server/scripts/probeBilibiliCommentEvidence.js",
+                    "pythonScript": "python:direct-probe-plan",
+                    "pythonCommand": "python -m python_backend.cli.direct_probe_plan",
+                    "replacementScope": "dry_run_plan",
+                    "readyToReplace": False,
+                    "validationScript": "python:direct-probe-compare",
+                    "validationCommand": "node server/scripts/compareDirectProbePlan.js",
                     "validationScope": "dry_run_plan_fixture",
                 },
             ],

@@ -111,6 +111,96 @@ function parseArgs(argv = process.argv.slice(2), env = process.env) {
   return options;
 }
 
+function parsePlanArgs(argv = process.argv.slice(2)) {
+  let planJson = false;
+  let payloadPath = '';
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = String(argv[index] || '');
+    if (arg === '--plan-json') {
+      planJson = true;
+    } else if (arg.startsWith('--payload=')) {
+      payloadPath = arg.slice('--payload='.length);
+    } else if (arg === '--payload') {
+      payloadPath = String(argv[index + 1] || '');
+      index += 1;
+    }
+  }
+  return { planJson, payloadPath };
+}
+
+async function readPlanPayload(path) {
+  if (!path) return {};
+  try {
+    return JSON.parse((await readFile(path, 'utf8')).replace(/^\uFEFF/, ''));
+  } catch {
+    return {};
+  }
+}
+
+function extractBilibiliVideoRefs(text = '') {
+  const refs = [];
+  const seen = new Set();
+  const source = String(text || '');
+  const pattern = /(?:https?:\/\/)?(?:www\.)?bilibili\.com\/video\/((?:BV[0-9A-Za-z]+)|(?:av\d+))/g;
+  for (const match of source.matchAll(pattern)) {
+    const videoId = match[1];
+    const ref = videoId.startsWith('BV') ? { bvid: videoId } : { aid: videoId.slice(2) };
+    const tail = source.slice(match.index, match.index + match[0].length + 200);
+    const replyMatch = tail.match(/[?&]reply=(\d+)/);
+    if (replyMatch) ref.rootRpid = replyMatch[1];
+    const key = ref.bvid ? `bvid:${ref.bvid}` : `aid:${ref.aid}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    refs.push(ref);
+  }
+  return refs;
+}
+
+function probeSearchNeedles(action = {}) {
+  const values = [action.term, ...(Array.isArray(action.aliases) ? action.aliases : [])]
+    .map((value) => String(value || '').trim())
+    .filter((value) => value && /[\p{Script=Han}]/u.test(value));
+  return [...new Set(values)];
+}
+
+export function buildDirectProbePlan(payload = {}) {
+  const sourceRefs = extractBilibiliVideoRefs(payload?.source || '');
+  const video = payload?.video && typeof payload.video === 'object'
+    ? payload.video
+    : sourceRefs[0] || (Array.isArray(payload?.videos) ? payload.videos.find((item) => item && typeof item === 'object') : {}) || {};
+  const replyPage = payload?.replyPage ?? 1;
+  const pageSize = payload?.pageSize ?? 20;
+  const synthetic = payload?.syntheticCookie && typeof payload.syntheticCookie === 'object' ? payload.syntheticCookie : {};
+  const randomValue = Number.isFinite(Number(synthetic.randomValue)) ? Number(synthetic.randomValue) : 0.5;
+  const nowMs = Number.isFinite(Number(synthetic.nowMs)) ? Number(synthetic.nowMs) : 1700000000000;
+  const cookie = makeSyntheticBilibiliCookie(() => randomValue, nowMs);
+  const referer = String(payload?.referer || 'https://www.bilibili.com');
+  const rankedVideos = rankProbeVideosForAction(Array.isArray(payload?.videos) ? payload.videos : [], payload?.action || {});
+  const existingCorpus = payload?.corpus && typeof payload.corpus === 'object' ? payload.corpus : {};
+  const scannedKeys = collectScannedProbeVideoKeys(existingCorpus);
+  const result = {
+    ok: true,
+    needles: probeSearchNeedles(payload?.action || {}),
+    rankedVideos,
+    sourceRefs,
+    scannedKeys: [...scannedKeys].sort(),
+    unscannedVideos: filterUnscannedProbeVideos(Array.isArray(payload?.videos) ? payload.videos : [], scannedKeys),
+    nextReplyCursor: nextReplyCursor(payload?.cursorPayload || {}, payload?.cursorFallback || 0),
+    viewUrl: buildBilibiliViewUrl(video)?.toString() || null,
+    replyUrl: buildBilibiliReplyUrl(video, payload?.replyCursor || 0, pageSize)?.toString() || null,
+    replyPageUrl: buildBilibiliReplyPageUrl(video, replyPage, pageSize)?.toString() || null,
+    replyThreadUrl: buildBilibiliReplyThreadUrl(video, payload?.rootRpid ?? video.rootRpid, replyPage, pageSize)?.toString() || null,
+    searchUrls: buildBilibiliSearchUrls(payload?.action?.query || payload?.query || '', { pages: payload?.pages || 1, pageSize }).map((url) => url.toString()),
+    headers: buildBilibiliWebHeaders(referer, { cookie: payload?.cookie || '' }),
+    syntheticCookie: cookie,
+    rateLimit: {
+      delayMs: boundedInt(payload?.delayMs, 3000, 1000, 60000),
+      jitterMs: boundedInt(payload?.jitterMs, 1500, 0, 60000),
+    },
+  };
+  return result;
+}
+
 async function readJson(path) {
   return JSON.parse(await readFile(path, 'utf8'));
 }
@@ -274,6 +364,13 @@ async function fetchVideoDanmaku(video, options) {
     options,
   );
   return collectBilibiliDanmakuMessages(xml, { ...video, cid });
+}
+
+const planArgs = parsePlanArgs();
+if (planArgs.planJson) {
+  const payload = await readPlanPayload(planArgs.payloadPath);
+  console.log(JSON.stringify(buildDirectProbePlan(payload), null, 2));
+  process.exit(0);
 }
 
 const options = parseArgs();

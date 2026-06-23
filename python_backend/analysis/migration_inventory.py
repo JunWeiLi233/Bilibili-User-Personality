@@ -39,6 +39,7 @@ DEFAULT_PACKAGE_VALIDATION_EQUIVALENTS = {
     "dictionary:resolve-near": "python:near-target-compare",
     "dictionary:auto": "python:coverage-loop-compare",
     "dictionary:tieba": "python:tieba-keyword-compare",
+    "dictionary:probe-bilibili": "python:direct-probe-compare",
     "deepseek:analyze": "python:deepseek-analyze-command-compare",
     "dictionary:huggingface": "python:huggingface-compare",
     "dictionary:mine-local": "python:local-mine-compare",
@@ -56,6 +57,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:near-target-compare": "dry_run_plan_fixture",
     "python:coverage-loop-compare": "dry_run_plan_fixture",
     "python:tieba-keyword-compare": "dry_run_plan_fixture",
+    "python:direct-probe-compare": "dry_run_plan_fixture",
     "python:huggingface-compare": "full_command",
     "python:local-mine-compare": "full_command",
 }
@@ -91,6 +93,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:near-target-compare": "js_python_contract_bridge",
     "python:coverage-loop-compare": "js_python_contract_bridge",
     "python:tieba-keyword-compare": "js_python_contract_bridge",
+    "python:direct-probe-compare": "js_python_contract_bridge",
     "python:local-mine-compare": "js_python_contract_bridge",
 }
 
@@ -112,6 +115,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareNearTargetResolvePlan.js": "js_python_contract_bridge",
     "server/scripts/compareCoverageHarvestLoopPlan.js": "js_python_contract_bridge",
     "server/scripts/compareTiebaKeywordPlan.js": "js_python_contract_bridge",
+    "server/scripts/compareDirectProbePlan.js": "js_python_contract_bridge",
 }
 
 MIGRATION_PRIORITY_RULES = (
