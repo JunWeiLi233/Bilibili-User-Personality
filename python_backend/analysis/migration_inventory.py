@@ -430,7 +430,7 @@ class BackendMigrationInventoryScanner:
         if validation_script == "python:direct-probe-compare":
             return [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:direct-probe-compare"},
-                {"gate": "corpus_update_fixture", "status": "covered", "source": "python:direct-probe-update-compare"},
+                {"gate": "corpus_update_js_runner_fixture", "status": "covered", "source": "python:direct-probe-update-compare"},
             ]
         if validation_scope == "full_command":
             return [{"gate": "full_command", "status": "covered", "source": validation_script}]

@@ -1331,7 +1331,7 @@ class CorpusContractTests(unittest.TestCase):
             action["validationGates"],
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:direct-probe-compare"},
-                {"gate": "corpus_update_fixture", "status": "covered", "source": "python:direct-probe-update-compare"},
+                {"gate": "corpus_update_js_runner_fixture", "status": "covered", "source": "python:direct-probe-update-compare"},
             ],
         )
 
