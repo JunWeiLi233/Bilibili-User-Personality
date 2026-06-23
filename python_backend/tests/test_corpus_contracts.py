@@ -22912,6 +22912,37 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(comparison["ok"])
         self.assertEqual(comparison["mismatches"][0]["key"], "termAttempts")
 
+    def test_harvest_state_payload_comparator_defaults_corrupt_js_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "harvest-state.json"
+            js_state_path = root / "js-state.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "strategyVersion": 5,
+                        "finishedAt": "2026-06-19T00:00:00.000Z",
+                        "termAttempts": {},
+                        "planItem": {
+                            "term": "\u672a\u547d\u4e2d",
+                            "family": "attack",
+                            "query": "\u672a\u547d\u4e2d \u8bc4\u8bba\u533a",
+                            "variantIndex": 0,
+                            "evidenceCount": 0,
+                        },
+                        "result": {"ok": False, "error": "timeout", "videos": [], "comments": []},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_state_path.write_text("{bad json", encoding="utf-8")
+
+            comparison = HarvestStatePayloadContractComparator(payload_path, js_state_path).compare()
+
+        self.assertFalse(comparison["ok"])
+        self.assertEqual(comparison["mismatches"][0]["key"], "termAttempts")
+        self.assertEqual(comparison["js"], {"termAttempts": {}})
+
     def test_harvest_state_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

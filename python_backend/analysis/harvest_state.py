@@ -9,6 +9,7 @@ from typing import Any
 
 from python_backend.analysis.audit import CoverageAuditBuilder
 from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder
+from python_backend.runtime.json_contracts import safe_read_json_object
 
 
 def term_attempt_key(term: Any) -> str:
@@ -415,11 +416,7 @@ class HarvestStatePayloadContractComparator:
         return self.comparator.compare(python_result, js_result)
 
     def _read_js_state(self) -> dict[str, Any]:
-        if not self.js_state_path.exists():
-            return {}
-        with self.js_state_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else {}
+        return safe_read_json_object(self.js_state_path)
 
 
 class HarvestStateRequest:
