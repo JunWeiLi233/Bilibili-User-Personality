@@ -2533,6 +2533,21 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_aicu_scrape_plan_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "aicu-plan.json"
+            js_report_path = root / "js-aicu-plan.json"
+            payload_path.write_text(json.dumps({"argv": ["--uid=42"], "maxPages": 1}), encoding="utf-8")
+            js_report_path.write_text('{"uids": ', encoding="utf-8")
+
+            comparison = AicuScrapePlanPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["uids"], ["42"])
+
     def test_aicu_scrape_plan_cli_runner_reads_json_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "aicu-plan.json"
@@ -2733,6 +2748,21 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "limits", "python": {"maxPages": 3, "pageSize": 20, "saveEveryAttempts": 5}, "js": {"maxPages": 10}},
             ],
         )
+
+    def test_aicu_batch_plan_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "aicu-batch-plan.json"
+            js_report_path = root / "js-aicu-batch-plan.json"
+            payload_path.write_text(json.dumps({"argv": ["--start=1", "--end=3"], "progress": {"lastUid": 1}}), encoding="utf-8")
+            js_report_path.write_text('{"range": ', encoding="utf-8")
+
+            comparison = AicuBatchPlanPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["range"], {"requestedStart": 1, "effectiveStart": 2, "end": 3, "total": 2})
 
     def test_aicu_batch_plan_cli_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -2979,6 +3009,24 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "browser", "python": {"command": "browser-harness", "script": "server/scripts/browserScrapeAicu.py", "wrapper": "server/data/_browser_aicu_tmp.py", "timeoutMs": 120000, "maxPages": 3}, "js": {"maxPages": 10}},
             ],
         )
+
+    def test_aicu_browser_batch_plan_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "aicu-browser-plan.json"
+            js_report_path = root / "js-aicu-browser-plan.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--start=5", "--end=8"], "progress": {"lastUid": 5}, "projectDir": "D:/repo"}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text('{"browser": ', encoding="utf-8")
+
+            comparison = AicuBrowserBatchPlanPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["range"], {"requestedStart": 5, "effectiveStart": 6, "end": 8, "total": 3})
 
     def test_aicu_browser_batch_plan_cli_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -20037,6 +20085,22 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "database", "python": {"users": 0, "withComments": 0, "comments": 0, "danmaku": 0}, "js": {"users": 9}},
             ],
         )
+
+    def test_aicu_batch_progress_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            js_report_path = root / "js-batch-scrape-progress.json"
+            (data_dir / "batch-scrape-progress.json").write_text(json.dumps({"lastUid": 2, "completed": 1, "errors": []}), encoding="utf-8")
+            js_report_path.write_text('{"progress": ', encoding="utf-8")
+
+            comparison = AicuBatchProgressPayloadContractComparator(data_dir, js_report_path, start_uid=1, end_uid=3).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["progress"], {"lastUid": 2, "completed": 1, "errors": 0, "remaining": 1, "rangeTotal": 3})
 
     def test_batch_scrape_progress_payload_runner_lives_with_aicu_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
