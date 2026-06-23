@@ -4,6 +4,7 @@ import argparse
 from pathlib import Path
 from typing import Any
 
+from python_backend.analyzers.deepseek import DeepSeekAnalysisNormalizer
 from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 
 
@@ -160,3 +161,84 @@ class DeepSeekAnalyzeCliPlanCommandRequest:
             args.payload,
             compare_js_report_path=args.compare_js_report or None,
         ).run()
+
+
+class DeepSeekAnalyzeCommandRequest:
+    """Run Python-owned analyzeDeepSeekComments-compatible command modes."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = [str(item) for item in argv] if argv is not None else None
+        self.normalizer = DeepSeekAnalysisNormalizer()
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Analyze comments with the Python DeepSeek analyzer command contract.")
+        parser.add_argument("--text", default="")
+        parser.add_argument("--file", default="")
+        parser.add_argument("--uid", default="")
+        parser.add_argument("--name", default="")
+        parser.add_argument("--multiagent", "--multi-agent", action="store_true", dest="multiagent")
+        parser.add_argument("--fixture-analysis", default="")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args(self._normalize_argv(self.argv))
+        payload = self._payload(args)
+        if args.fixture_analysis:
+            analysis = JsonContractReader().read_object(args.fixture_analysis)
+            return self.normalizer.normalize(
+                source_payload=payload,
+                analysis_payload=analysis,
+                provider="deepseek",
+                model="deepseek-v4-flash",
+                reasoning_effort="max",
+                raw=self._json_text(analysis),
+            )
+        return {
+            "ok": False,
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "reasoningEffort": "max",
+            "error": "Live DeepSeek execution is not enabled in the Python command yet; use --fixture-analysis for command parity checks.",
+        }
+
+    def _payload(self, args: argparse.Namespace) -> dict[str, Any]:
+        payload: dict[str, Any] = {}
+        text = str(args.text or "")
+        if args.file and not text:
+            try:
+                text = Path(args.file).read_text(encoding="utf-8-sig")
+            except OSError:
+                text = ""
+        if text:
+            payload["text"] = text
+        if args.uid:
+            payload["uid"] = str(args.uid)
+        if args.name:
+            payload["name"] = str(args.name)
+        if args.multiagent:
+            payload["multiagent"] = True
+        return payload
+
+    @staticmethod
+    def _normalize_argv(argv: list[str] | None) -> list[str] | None:
+        if argv is None:
+            return None
+        normalized: list[str] = []
+        index = 0
+        value_options = {"--text", "--file", "--uid", "--name", "--fixture-analysis"}
+        while index < len(argv):
+            arg = str(argv[index])
+            if arg in value_options and index + 1 < len(argv):
+                normalized.extend([arg, str(argv[index + 1])])
+                index += 2
+                continue
+            normalized.append("--multiagent" if arg == "--multi-agent" else arg)
+            index += 1
+        return normalized
+
+    @staticmethod
+    def _json_text(value: Any) -> str:
+        import json
+
+        return json.dumps(value, ensure_ascii=False, separators=(",", ":"))

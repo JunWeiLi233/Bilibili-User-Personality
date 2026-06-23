@@ -32,6 +32,7 @@ from python_backend.cli import coverage_audit_artifacts as coverage_audit_artifa
 from python_backend.cli import coverage_loop_plan as coverage_loop_plan_cli
 from python_backend.cli import coverage_progress as coverage_progress_cli
 from python_backend.cli import deepseek_analyze_cli_plan as deepseek_analyze_cli_plan_cli
+from python_backend.cli import deepseek_analyze as deepseek_analyze_cli
 from python_backend.cli import deepseek_analysis_plan as deepseek_analysis_plan_cli
 from python_backend.cli import deepseek_analysis_validate as deepseek_analysis_validate_cli
 from python_backend.cli import dictionary_prune_summary as dictionary_prune_summary_cli
@@ -87,7 +88,7 @@ from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStats
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherCommandRequest, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRequest, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationAnnotationContract, RandomVerificationCommandContract, RandomVerificationCommandRequest, RandomVerificationComparisonOptionsContract, RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationCorpusReportBuilder, RandomVerificationDictionaryTermsContract, RandomVerificationExecutionContract, RandomVerificationJsonResultContract, RandomVerificationOutputWriter, RandomVerificationPayloadContractComparator, RandomVerificationReportBuilder, RandomVerificationReportContract, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRequestDispatcher, RandomVerificationRunOptions, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerificationSampleContract, RandomVerificationSummaryContract, RandomVerifier, VerificationSummary, json_result_bytes as random_verification_payload_json_result_bytes
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisInputBuilder, DeepSeekAnalysisPlanCommandRequest, DeepSeekAnalysisPlanContractComparator as DeepSeekAnalysisPayloadPlanContractComparator, DeepSeekAnalysisPlanRequest, DeepSeekAnalysisPlanRunner as DeepSeekAnalysisPayloadPlanRunner, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidateCommandRequest, DeepSeekAnalysisValidateContractComparator as DeepSeekAnalysisPayloadValidateContractComparator, DeepSeekAnalysisValidateRequest, DeepSeekAnalysisValidateRunner as DeepSeekAnalysisPayloadValidateRunner, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator, DeepSeekRequestOptionsContract
-from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPayloadPlanContractComparator, DeepSeekAnalyzeCliPlanCommandRequest, DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanRequest, DeepSeekAnalyzeCliPlanRunner as DeepSeekAnalyzeCliPayloadPlanRunner, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary
+from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCommandRequest, DeepSeekAnalyzeCliPayloadPlanContractComparator, DeepSeekAnalyzeCliPlanCommandRequest, DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanRequest, DeepSeekAnalyzeCliPlanRunner as DeepSeekAnalyzeCliPayloadPlanRunner, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceCommandRequest, KeywordEvidenceContractComparator as KeywordEvidencePayloadComparator, KeywordEvidenceMatcher, KeywordEvidencePayloadContractComparator, KeywordEvidencePayloadRunner, KeywordEvidenceRequest, KeywordEvidenceSummary
 from python_backend.cli.comment_coverage import CommentCoverageContractComparator, CommentCoverageRunner
 from python_backend.cli.corpus_shard_writer import CorpusShardWriteContractComparator, CorpusShardWriteRunner
@@ -1247,6 +1248,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(package["scripts"]["python:deepseek-validation-compare"], "node server/scripts/compareDeepSeekAnalysisValidation.js")
         self.assertEqual(package["scripts"]["python:deepseek-normalization-compare"], "node server/scripts/compareDeepSeekAnalysisNormalization.js")
         self.assertEqual(package["scripts"]["python:deepseek-analyze-fixture-compare"], "node server/scripts/compareDeepSeekAnalyzeFixture.js")
+        self.assertEqual(package["scripts"]["python:deepseek-analyze-command-compare"], "node server/scripts/compareDeepSeekAnalyzeCommand.js")
         self.assertEqual(package["scripts"]["python:deepseek-mock-runtime-compare"], "node server/scripts/compareDeepSeekAnalyzeMockRuntime.js")
         self.assertEqual(
             package["scripts"]["python:deepseek-cli-plan-js"],
@@ -1293,8 +1295,10 @@ class CorpusContractTests(unittest.TestCase):
                 "python:deepseek-validation-compare": "node server/scripts/compareDeepSeekAnalysisValidation.js",
                 "python:deepseek-normalization-compare": "node server/scripts/compareDeepSeekAnalysisNormalization.js",
                 "python:deepseek-analyze-fixture-compare": "node server/scripts/compareDeepSeekAnalyzeFixture.js",
+                "python:deepseek-analyze-command-compare": "node server/scripts/compareDeepSeekAnalyzeCommand.js",
                 "python:deepseek-mock-runtime-compare": "node server/scripts/compareDeepSeekAnalyzeMockRuntime.js",
                 "python:deepseek-cli-plan-js": "node server/scripts/analyzeDeepSeekComments.js --plan-json --python-plan",
+                "python:deepseek-analyze": "python -m python_backend.cli.deepseek_analyze",
                 "python:coverage-standalone": "python -m python_backend.cli.coverage_audit --standalone",
                 "python:huggingface-import": "python -m python_backend.cli.huggingface_corpus",
                 "python:dictionary-prune-summary": "python -m python_backend.cli.dictionary_prune_summary",
@@ -1306,8 +1310,8 @@ class CorpusContractTests(unittest.TestCase):
 
         result = PackageCommandMigrationInventory(package).scan()
 
-        self.assertEqual(result["nodeServerScripts"], 14)
-        self.assertEqual(result["pythonBackendScripts"], 5)
+        self.assertEqual(result["nodeServerScripts"], 15)
+        self.assertEqual(result["pythonBackendScripts"], 6)
         self.assertEqual(
             result["pythonBackedNodeScripts"],
             [
@@ -1381,6 +1385,11 @@ class CorpusContractTests(unittest.TestCase):
                     "reason": "js_python_contract_bridge",
                 },
                 {
+                    "script": "python:deepseek-analyze-command-compare",
+                    "command": "node server/scripts/compareDeepSeekAnalyzeCommand.js",
+                    "reason": "js_python_contract_bridge",
+                },
+                {
                     "script": "python:deepseek-mock-runtime-compare",
                     "command": "node server/scripts/compareDeepSeekAnalyzeMockRuntime.js",
                     "reason": "js_python_contract_bridge",
@@ -1401,8 +1410,10 @@ class CorpusContractTests(unittest.TestCase):
                 "python:deepseek-validation-compare": "node server/scripts/compareDeepSeekAnalysisValidation.js",
                 "python:deepseek-normalization-compare": "node server/scripts/compareDeepSeekAnalysisNormalization.js",
                 "python:deepseek-analyze-fixture-compare": "node server/scripts/compareDeepSeekAnalyzeFixture.js",
+                "python:deepseek-analyze-command-compare": "node server/scripts/compareDeepSeekAnalyzeCommand.js",
                 "python:deepseek-mock-runtime-compare": "node server/scripts/compareDeepSeekAnalyzeMockRuntime.js",
                 "deepseek:analyze": "node server/scripts/analyzeDeepSeekComments.js",
+                "python:deepseek-analyze": "python -m python_backend.cli.deepseek_analyze",
                 "python:deepseek-cli-plan": "python -m python_backend.cli.deepseek_analyze_cli_plan",
             }
         }
@@ -1415,13 +1426,13 @@ class CorpusContractTests(unittest.TestCase):
                 {
                     "script": "deepseek:analyze",
                     "command": "node server/scripts/analyzeDeepSeekComments.js",
-                    "pythonScript": "python:deepseek-cli-plan",
-                    "pythonCommand": "python -m python_backend.cli.deepseek_analyze_cli_plan",
-                    "replacementScope": "mocked_runtime",
+                    "pythonScript": "python:deepseek-analyze",
+                    "pythonCommand": "python -m python_backend.cli.deepseek_analyze",
+                    "replacementScope": "live_api_runtime",
                     "readyToReplace": False,
-                    "validationScript": "python:deepseek-mock-runtime-compare",
-                    "validationCommand": "node server/scripts/compareDeepSeekAnalyzeMockRuntime.js",
-                    "validationScope": "mocked_runtime",
+                    "validationScript": "python:deepseek-analyze-command-compare",
+                    "validationCommand": "node server/scripts/compareDeepSeekAnalyzeCommand.js",
+                    "validationScope": "full_command_fixture",
                 },
             ],
         )
@@ -1448,16 +1459,21 @@ class CorpusContractTests(unittest.TestCase):
                     "command": "node server/scripts/compareDeepSeekAnalyzeFixture.js",
                     "reason": "js_python_contract_bridge",
                 },
+                {
+                    "script": "python:deepseek-mock-runtime-compare",
+                    "command": "node server/scripts/compareDeepSeekAnalyzeMockRuntime.js",
+                    "reason": "js_python_contract_bridge",
+                },
             ],
         )
         self.assertEqual(result["replacementNeeded"], [])
 
-    def test_backend_migration_inventory_marks_deepseek_plan_validation_as_dry_run_scope(self):
+    def test_backend_migration_inventory_marks_deepseek_validation_as_fixture_scope(self):
         result = BackendMigrationInventoryScanner(".").scan()
 
         self.assertEqual(result["nextMigrationAction"]["path"], "server/scripts/analyzeDeepSeekComments.js")
-        self.assertEqual(result["nextMigrationAction"]["validationScript"], "python:deepseek-mock-runtime-compare")
-        self.assertEqual(result["nextMigrationAction"]["validationScope"], "mocked_runtime")
+        self.assertEqual(result["nextMigrationAction"]["validationScript"], "python:deepseek-analyze-command-compare")
+        self.assertEqual(result["nextMigrationAction"]["validationScope"], "full_command_fixture")
         self.assertFalse(result["nextMigrationAction"]["readyToReplace"])
         self.assertEqual(result["nextMigrationAction"]["recommendation"], "expand_python_runtime_contract_before_replacing_js")
 
@@ -6106,17 +6122,43 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "input", "python": {"source": "argv", "file": "", "readsStdin": False, "showHelp": False}, "js": {"source": "stdin"}},
             ],
         )
-        self.assertEqual(
-            result["python"],
-            {
-                "payload": {"text": "\u53cd\u8bbd[doge]", "uid": "42", "multiagent": True},
-                "input": {"source": "argv", "file": "", "readsStdin": False, "showHelp": False},
-            },
-        )
-        self.assertEqual(
-            result["js"],
-            {"payload": {"text": "\u65e7\u6587\u672c"}, "input": {"source": "stdin"}},
-        )
+
+    def test_deepseek_analyze_command_request_normalizes_fixture_analysis(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            analysis_path = root / "analysis.json"
+            analysis_path.write_text(
+                json.dumps(
+                    {
+                        "parsed": {
+                            "axes": [{"axis": "satire", "score": 0.7, "evidence": ["\u53cd\u8bbd[doge]"]}],
+                            "sentenceAnalyses": [{"quote": "\u53cd\u8bbd[doge]", "intent": "satire"}],
+                            "confidence": 0.91,
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = DeepSeekAnalyzeCommandRequest(
+                ["--fixture-analysis", analysis_path, "--text", "\u53cd\u8bbd[doge]", "--uid", "42"]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["provider"], "deepseek")
+        self.assertEqual(result["model"], "deepseek-v4-flash")
+        self.assertEqual(result["reasoningEffort"], "max")
+        self.assertEqual(result["axes"][0]["axis"], "\u5bf9\u6297\u6027\u52a8\u673a")
+        self.assertEqual(result["sentenceAnalyses"][0]["quote"], "\u53cd\u8bbd[doge]")
+
+    def test_deepseek_analyze_cli_runner_is_command_request_wrapper(self):
+        self.assertTrue(issubclass(deepseek_analyze_cli.DeepSeekAnalyzeCliRunner, DeepSeekAnalyzeCommandRequest))
+
+    def test_package_scripts_expose_deepseek_analyze_python_command_compare(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(package["scripts"]["python:deepseek-analyze"], "python -m python_backend.cli.deepseek_analyze")
+        self.assertEqual(package["scripts"]["python:deepseek-analyze-command-compare"], "node server/scripts/compareDeepSeekAnalyzeCommand.js")
 
     def test_deepseek_analysis_plan_runner_reads_js_payload_contract(self):
         sentence = "\u8fd9\u53e5\u662f\u5728\u53cd\u8bbd\u5427[doge]\uff0c\u4e0d\u662f\u771f\u7684\u9a82\u4eba\u3002"

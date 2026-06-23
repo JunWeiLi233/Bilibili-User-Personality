@@ -27,14 +27,14 @@ DEFAULT_PACKAGE_COMMAND_EQUIVALENTS = {
     "dictionary:mine-local": "python:local-mine",
     "dictionary:probe-bilibili": "python:direct-probe-plan",
     "dictionary:history-tags": "python:history-tags",
-    "deepseek:analyze": "python:deepseek-cli-plan",
+    "deepseek:analyze": "python:deepseek-analyze",
     "aicu:scrape": "python:aicu-plan",
     "aicu:batch": "python:aicu-batch-plan",
     "stats:update": "python:readme-stats",
 }
 
 DEFAULT_PACKAGE_VALIDATION_EQUIVALENTS = {
-    "deepseek:analyze": "python:deepseek-mock-runtime-compare",
+    "deepseek:analyze": "python:deepseek-analyze-command-compare",
     "dictionary:huggingface": "python:huggingface-compare",
     "dictionary:mine-local": "python:local-mine-compare",
 }
@@ -44,6 +44,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:deepseek-validation-compare": "analysis_validation",
     "python:deepseek-normalization-compare": "analysis_normalization",
     "python:deepseek-analyze-fixture-compare": "full_command_fixture",
+    "python:deepseek-analyze-command-compare": "full_command_fixture",
     "python:deepseek-mock-runtime-compare": "mocked_runtime",
     "python:huggingface-compare": "full_command",
     "python:local-mine-compare": "full_command",
@@ -56,7 +57,7 @@ DEFAULT_PACKAGE_REPLACEMENT_SCOPES = {
     "dictionary:auto": "dry_run_plan",
     "dictionary:tieba": "dry_run_plan",
     "dictionary:probe-bilibili": "dry_run_plan",
-    "deepseek:analyze": "mocked_runtime",
+    "deepseek:analyze": "live_api_runtime",
     "aicu:scrape": "dry_run_plan",
     "aicu:batch": "dry_run_plan",
 }
@@ -73,6 +74,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:deepseek-validation-compare": "js_python_contract_bridge",
     "python:deepseek-normalization-compare": "js_python_contract_bridge",
     "python:deepseek-analyze-fixture-compare": "js_python_contract_bridge",
+    "python:deepseek-analyze-command-compare": "js_python_contract_bridge",
     "python:deepseek-mock-runtime-compare": "js_python_contract_bridge",
     "python:local-mine-compare": "js_python_contract_bridge",
 }
@@ -89,6 +91,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareDeepSeekAnalysisValidation.js": "js_python_contract_bridge",
     "server/scripts/compareDeepSeekAnalysisNormalization.js": "js_python_contract_bridge",
     "server/scripts/compareDeepSeekAnalyzeFixture.js": "js_python_contract_bridge",
+    "server/scripts/compareDeepSeekAnalyzeCommand.js": "js_python_contract_bridge",
     "server/scripts/compareDeepSeekAnalyzeMockRuntime.js": "js_python_contract_bridge",
     "server/scripts/compareLocalCorpusMine.js": "js_python_contract_bridge",
 }
