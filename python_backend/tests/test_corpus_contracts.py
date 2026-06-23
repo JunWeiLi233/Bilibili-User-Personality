@@ -1135,6 +1135,15 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(package["scripts"]["dictionary:coverage"], "node server/scripts/runDictionaryCoverageAudit.js")
 
+    def test_github_python_validation_workflow_runs_migrated_contract_gates(self):
+        workflow = Path(".github/workflows/python-validation.yml").read_text(encoding="utf-8")
+
+        self.assertIn("npm run python:test", workflow)
+        self.assertIn("npm run python:compare", workflow)
+        self.assertIn("npm run python:coverage-compare", workflow)
+        self.assertIn("npm run python:verify-random -- --sample-size=25 --seed=20260623", workflow)
+        self.assertIn("npm test", workflow)
+
     def test_corpus_shard_writer_owns_json_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
