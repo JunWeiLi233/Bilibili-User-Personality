@@ -965,6 +965,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["manifest", "comments"])
 
+    def test_corpus_shard_write_runner_defaults_corrupt_json_contract_payload(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "payload.json"
+            payload_path.write_text("{bad payload", encoding="utf-8")
+
+            payload = CorpusShardWritePayloadRunner(payload_path)._read_payload()
+
+        self.assertEqual(payload, {})
+
     def test_corpus_shard_write_request_compares_js_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

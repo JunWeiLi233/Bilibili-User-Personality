@@ -7,7 +7,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from python_backend.runtime.json_contracts import safe_read_json_object
+from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 
 
 class CorpusShardWriter:
@@ -204,8 +204,7 @@ class CorpusShardWriteRunner:
         return CorpusShardWriter.write_from_payload(payload)
 
     def _read_payload(self) -> dict[str, Any]:
-        with self.payload_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
+        payload = JsonContractReader().read_value(self.payload_path, {})
         return payload if isinstance(payload, dict) else {}
 
 
