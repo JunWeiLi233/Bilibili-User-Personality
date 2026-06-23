@@ -15,7 +15,7 @@
     "dictionary:auto": "node server/scripts/runCoverageHarvestLoop.js",
     "dictionary:tieba": "node server/scripts/runTiebaKeywordScrape.js",
     "dictionary:huggingface": "python -m python_backend.cli.huggingface_corpus",
-    "dictionary:mine-local": "node server/scripts/mineLocalCorpusEvidence.js",
+    "dictionary:mine-local": "python -m python_backend.cli.local_corpus_mine",
     "dictionary:probe-bilibili": "node server/scripts/probeBilibiliCommentEvidence.js",
     "dictionary:history-tags": "python -m python_backend.cli.history_tag_corpus",
     "deepseek:analyze": "node server/scripts/analyzeDeepSeekComments.js",

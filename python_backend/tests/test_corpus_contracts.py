@@ -9601,15 +9601,17 @@ class CorpusContractTests(unittest.TestCase):
     def test_package_scripts_expose_real_local_mine_python_runtime(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
 
+        self.assertEqual(package["scripts"]["dictionary:mine-local"], "python -m python_backend.cli.local_corpus_mine")
         self.assertEqual(package["scripts"]["python:local-mine"], "python -m python_backend.cli.local_corpus_mine")
         self.assertEqual(package["scripts"]["python:local-mine-compare"], "node server/scripts/compareLocalCorpusMine.js")
         inventory = PackageCommandMigrationInventory(package).scan()
-        mapping = next(item for item in inventory["pythonBackedNodeScripts"] if item["script"] == "dictionary:mine-local")
-        self.assertEqual(mapping["pythonScript"], "python:local-mine")
-        self.assertEqual(mapping["validationScript"], "python:local-mine-compare")
-        self.assertEqual(mapping["validationScope"], "dry_run_command")
-        self.assertEqual(mapping["replacementScope"], "write_runtime_needs_full_command_compare")
-        self.assertFalse(mapping["readyToReplace"])
+        self.assertNotIn("dictionary:mine-local", {item["script"] for item in inventory["pythonBackedNodeScripts"]})
+        self.assertNotIn("dictionary:mine-local", {item["script"] for item in inventory["replacementNeeded"]})
+        retained = BackendMigrationInventoryScanner(".").scan()["retainedJsBackendFiles"]
+        self.assertIn(
+            {"path": "server/scripts/mineLocalCorpusEvidence.js", "reason": "legacy_compatibility_after_python_replacement"},
+            retained,
+        )
 
     def test_tieba_corpus_updater_leaves_corpus_unchanged_without_comments(self):
         existing = {

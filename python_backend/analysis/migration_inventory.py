@@ -46,7 +46,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:deepseek-analyze-fixture-compare": "full_command_fixture",
     "python:deepseek-mock-runtime-compare": "mocked_runtime",
     "python:huggingface-compare": "full_command",
-    "python:local-mine-compare": "dry_run_command",
+    "python:local-mine-compare": "full_command",
 }
 
 DEFAULT_PACKAGE_REPLACEMENT_SCOPES = {
@@ -55,7 +55,6 @@ DEFAULT_PACKAGE_REPLACEMENT_SCOPES = {
     "dictionary:resolve-near": "dry_run_plan",
     "dictionary:auto": "dry_run_plan",
     "dictionary:tieba": "dry_run_plan",
-    "dictionary:mine-local": "write_runtime_needs_full_command_compare",
     "dictionary:probe-bilibili": "dry_run_plan",
     "deepseek:analyze": "mocked_runtime",
     "aicu:scrape": "dry_run_plan",
@@ -182,6 +181,11 @@ class BackendMigrationInventoryScanner:
         if (
             relative_path == "server/scripts/scrapeBilibiliHistoryTags.js"
             and package_scripts.get("dictionary:history-tags") == "python -m python_backend.cli.history_tag_corpus"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/mineLocalCorpusEvidence.js"
+            and package_scripts.get("dictionary:mine-local") == "python -m python_backend.cli.local_corpus_mine"
         ):
             return "legacy_compatibility_after_python_replacement"
         if relative_path in RETAINED_JS_FILES:
