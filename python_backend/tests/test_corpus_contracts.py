@@ -1680,6 +1680,7 @@ class CorpusContractTests(unittest.TestCase):
                 {"gate": "mock_runtime_command", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "multiagent_mock_runtime", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "live_api_command", "status": "covered_offline_skip_contract", "source": "compareDeepSeekAnalyzeCommandSuite"},
+                {"gate": "legacy_selector_compatibility", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
             ],
         )
         self.assertEqual(
@@ -1688,10 +1689,6 @@ class CorpusContractTests(unittest.TestCase):
                 {
                     "blocker": "credentialed_live_api_command_not_verified",
                     "reason": "Validation covers Python runtime mocks, multiagent mocks, and the offline live-gate skip contract, but no credentialed live API command run has been verified.",
-                },
-                {
-                    "blocker": "legacy_js_fallback_modes_not_ported",
-                    "reason": "The Python command rejects --js-plan, --js-fixture, and --js-runtime instead of silently running the wrong path, but those legacy JS fallback modes are not ported.",
                 },
             ],
         )
@@ -6510,21 +6507,32 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(fixture_result["ok"])
         self.assertEqual(fixture_result["sentenceAnalyses"][0]["quote"], "\u53cd\u8bbd[doge]")
 
-    def test_deepseek_analyze_command_request_rejects_legacy_js_selector_flags_as_json_contract(self):
-        selector_cases = [
-            (["--plan-json", "--js-plan", "--text", "satire"], "js_plan"),
-            (["--fixture-analysis", "analysis.json", "--js-fixture", "--text", "satire"], "js_fixture"),
-            (["--mock-chat-analysis", "analysis.json", "--js-runtime", "--text", "satire"], "js_runtime"),
-        ]
+    def test_deepseek_analyze_command_request_accepts_legacy_js_selector_flags_as_compatibility_aliases(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            analysis_path = Path(tmp) / "analysis.json"
+            analysis_path.write_text(
+                json.dumps({"axes": [], "sentenceAnalyses": [{"quote": "satire", "intent": "satire"}], "confidence": 0.5}),
+                encoding="utf-8",
+            )
+            selector_cases = [
+                (["--plan-json", "--js-plan", "--text", "satire"], "js_plan"),
+                (["--fixture-analysis", str(analysis_path), "--js-fixture", "--text", "satire"], "js_fixture"),
+                (["--mock-chat-analysis", str(analysis_path), "--js-runtime", "--text", "satire"], "js_runtime"),
+            ]
 
-        for argv, selector in selector_cases:
-            with self.subTest(selector=selector):
-                result = DeepSeekAnalyzeCommandRequest(argv).run()
+            for argv, selector in selector_cases:
+                with self.subTest(selector=selector):
+                    result = DeepSeekAnalyzeCommandRequest(argv).run()
 
-            self.assertFalse(result["ok"])
-            self.assertEqual(result["error"], "unsupported_legacy_js_selector")
-            self.assertEqual(result["selector"], selector)
-            self.assertEqual(result["provider"], "deepseek")
+                self.assertTrue(result["ok"])
+                self.assertEqual(
+                    result["compatibility"],
+                    {
+                        "legacyJsSelector": selector,
+                        "behavior": "ignored_python_equivalent",
+                        "reason": "Python command cannot execute legacy JS fallback internals; the equivalent Python contract path was used.",
+                    },
+                )
 
     def test_deepseek_analyze_command_request_emits_plan_json_contract(self):
         result = DeepSeekAnalyzeCommandRequest(

@@ -424,13 +424,6 @@ class BackendMigrationInventoryScanner:
                     "reason": "Validation covers Python runtime mocks and multiagent mocks, but not a full live command replacement gate.",
                 }
             )
-        if script == "deepseek:analyze":
-            blockers.append(
-                {
-                    "blocker": "legacy_js_fallback_modes_not_ported",
-                    "reason": "The Python command rejects --js-plan, --js-fixture, and --js-runtime instead of silently running the wrong path, but those legacy JS fallback modes are not ported.",
-                }
-            )
         return blockers
 
     @staticmethod
@@ -441,6 +434,7 @@ class BackendMigrationInventoryScanner:
                 {"gate": "mock_runtime_command", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "multiagent_mock_runtime", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "live_api_command", "status": "covered_offline_skip_contract", "source": "compareDeepSeekAnalyzeCommandSuite"},
+                {"gate": "legacy_selector_compatibility", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
             ]
         if validation_script == "python:direct-probe-compare":
             return [

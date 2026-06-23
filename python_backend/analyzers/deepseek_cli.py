@@ -385,28 +385,30 @@ class DeepSeekAnalyzeCommandRequest:
     def run(self) -> dict[str, Any]:
         args = self.parser().parse_args(self._normalize_argv(self.argv))
         legacy_selector = self._legacy_js_selector(args)
-        if legacy_selector:
-            return self._unsupported_legacy_js_selector(legacy_selector)
         if args.plan_json:
-            return DeepSeekAnalyzeCliPlanner().build_plan(self._normalize_argv(self.argv) or [], stdin_is_tty=self.stdin_is_tty)
+            return self._with_legacy_selector_compatibility(
+                DeepSeekAnalyzeCliPlanner().build_plan(self._normalize_argv(self.argv) or [], stdin_is_tty=self.stdin_is_tty),
+                legacy_selector,
+            )
         payload = self._payload(args)
         if args.live_validation_gate:
-            return DeepSeekLiveValidationGate(env=self.env).run(payload)
+            return self._with_legacy_selector_compatibility(DeepSeekLiveValidationGate(env=self.env).run(payload), legacy_selector)
         if args.mock_chat_analysis:
-            return self._run_mock_chat(payload, args.mock_chat_analysis)
+            return self._with_legacy_selector_compatibility(self._run_mock_chat(payload, args.mock_chat_analysis), legacy_selector)
         if args.fixture_analysis:
             analysis = JsonContractReader().read_object(args.fixture_analysis)
-            return self.normalizer.normalize(
-                source_payload=payload,
-                analysis_payload=analysis,
-                provider="deepseek",
-                model="deepseek-v4-flash",
-                reasoning_effort="max",
-                raw=self._json_text(analysis),
+            return self._with_legacy_selector_compatibility(
+                self.normalizer.normalize(
+                    source_payload=payload,
+                    analysis_payload=analysis,
+                    provider="deepseek",
+                    model="deepseek-v4-flash",
+                    reasoning_effort="max",
+                    raw=self._json_text(analysis),
+                ),
+                legacy_selector,
             )
-        return {
-            **DeepSeekAnalyzeRuntime().run(payload),
-        }
+        return self._with_legacy_selector_compatibility({**DeepSeekAnalyzeRuntime().run(payload)}, legacy_selector)
 
     @staticmethod
     def _legacy_js_selector(args: argparse.Namespace) -> str:
@@ -419,13 +421,16 @@ class DeepSeekAnalyzeCommandRequest:
         return ""
 
     @staticmethod
-    def _unsupported_legacy_js_selector(selector: str) -> dict[str, Any]:
+    def _with_legacy_selector_compatibility(result: dict[str, Any], selector: str) -> dict[str, Any]:
+        if not selector:
+            return result
         return {
-            "ok": False,
-            "provider": "deepseek",
-            "error": "unsupported_legacy_js_selector",
-            "selector": selector,
-            "message": "The Python DeepSeek analyzer command cannot execute legacy JS fallback selector modes.",
+            **result,
+            "compatibility": {
+                "legacyJsSelector": selector,
+                "behavior": "ignored_python_equivalent",
+                "reason": "Python command cannot execute legacy JS fallback internals; the equivalent Python contract path was used.",
+            },
         }
 
     def _run_mock_chat(self, payload: dict[str, Any], analysis_path: str | Path) -> dict[str, Any]:
