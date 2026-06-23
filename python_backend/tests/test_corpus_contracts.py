@@ -148,7 +148,7 @@ from python_backend.corpus.local import LocalCorpusEvidenceCommandRequest, Local
 from python_backend.corpus.local import LocalCorpusFlattenCommandRequest, LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenPayloadContractComparator, LocalCorpusFlattenRequest, LocalCorpusFlattenRunner as LocalCorpusFlattenPayloadRunner, LocalCorpusFlattenSummary, LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanCommandRequest, LocalCorpusMinePlanContractComparator as LocalCorpusMinePlanPayloadComparator, LocalCorpusMinePlanRequest, LocalCorpusMinePlanSummary
 from python_backend.corpus.agent_merge import AgentDictionaryMergePlanCommandRequest, AgentDictionaryMergePlanner, AgentDictionaryMergePlanRequest, AgentDictionaryMergePlanSummary, MergeAgentDictionariesPlanContractComparator as MergeAgentDictionariesPlanPayloadComparator, MergeAgentDictionariesPlanRunner as MergeAgentDictionariesPayloadPlanRunner
-from python_backend.corpus.contracts import CompareContractsCommandRequest, CompareContractsRequest, ContractComparator, ContractComparator as CorpusContractPayloadComparator, CorpusContractSummary
+from python_backend.corpus.contracts import CompareContractsCommandRequest, CompareContractsRequest, ContractComparator, ContractComparator as CorpusContractPayloadComparator, CorpusContractSummary, safe_read_json_object
 from python_backend.corpus.tieba import TiebaCorpusCommandRequest, TiebaCorpusJsonPayloadContractComparator, TiebaCorpusPayloadRunner, TiebaCorpusRequest, TiebaCorpusUpdateContractComparator as TiebaCorpusUpdatePayloadComparator, TiebaCorpusUpdater, TiebaCorpusUpdateRunner as TiebaCorpusUpdatePayloadRunner, TiebaCorpusUpdateSummary
 from python_backend.corpus import dictionary_prune
 from python_backend.analysis import video_filter
@@ -5401,6 +5401,22 @@ class CorpusContractTests(unittest.TestCase):
                 "dictionary": {"terms": 1},
             },
         )
+
+    def test_safe_read_json_object_defaults_invalid_contract_artifacts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            valid_path = root / "valid.json"
+            array_path = root / "array.json"
+            corrupt_path = root / "corrupt.json"
+            missing_path = root / "missing.json"
+            valid_path.write_text(json.dumps({"ok": True, "value": 1}), encoding="utf-8")
+            array_path.write_text(json.dumps(["not", "object"]), encoding="utf-8")
+            corrupt_path.write_text("{bad json", encoding="utf-8")
+
+            self.assertEqual(safe_read_json_object(valid_path), {"ok": True, "value": 1})
+            self.assertEqual(safe_read_json_object(array_path), {})
+            self.assertEqual(safe_read_json_object(corrupt_path), {})
+            self.assertEqual(safe_read_json_object(missing_path), {})
 
     def test_contract_comparator_rejects_manifest_run_count_mismatch(self):
         with tempfile.TemporaryDirectory() as tmp:
