@@ -6632,6 +6632,18 @@ class CorpusContractTests(unittest.TestCase):
             HuggingFaceImportPlanner(default_output="server/data/huggingFaceKeywordCorpus.json").build_plan([], {}),
         )
 
+    def test_huggingface_import_plan_runner_defaults_corrupt_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "hf-plan.json"
+            payload_path.write_text("{bad json", encoding="utf-8")
+
+            result = HuggingFaceCorpusImportPlanRunner(payload_path).run()
+
+        self.assertEqual(
+            result,
+            HuggingFaceImportPlanner(default_output="server/data/huggingFaceKeywordCorpus.json").build_plan([], {}),
+        )
+
     def test_huggingface_import_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
