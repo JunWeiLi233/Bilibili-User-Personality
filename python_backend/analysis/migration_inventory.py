@@ -38,6 +38,11 @@ DEFAULT_PACKAGE_VALIDATION_EQUIVALENTS = {
     "dictionary:huggingface": "python:huggingface-compare",
 }
 
+DEFAULT_PACKAGE_VALIDATION_SCOPES = {
+    "python:deepseek-cli-compare": "dry_run_plan",
+    "python:huggingface-compare": "full_command",
+}
+
 DEFAULT_RETAINED_NODE_COMMANDS = {
     "server": "app_api_orchestration",
     "dev:full": "app_api_orchestration",
@@ -164,6 +169,8 @@ class BackendMigrationInventoryScanner:
             if first["path"] in command:
                 validation_script = str(mapping.get("validationScript") or "")
                 validation_command = str(mapping.get("validationCommand") or "")
+                validation_scope = str(mapping.get("validationScope") or "")
+                ready_to_replace = bool(validation_script and validation_command and validation_scope == "full_command")
                 return {
                     **first,
                     "nodeScript": str(mapping.get("script") or ""),
@@ -172,8 +179,9 @@ class BackendMigrationInventoryScanner:
                     "pythonCommand": str(mapping.get("pythonCommand") or ""),
                     "validationScript": validation_script,
                     "validationCommand": validation_command,
-                    "readyToReplace": bool(validation_script and validation_command),
-                    "recommendation": "compare_python_contract_before_replacing_js",
+                    "validationScope": validation_scope,
+                    "readyToReplace": ready_to_replace,
+                    "recommendation": "compare_python_contract_before_replacing_js" if ready_to_replace else "expand_python_runtime_contract_before_replacing_js",
                 }
         return {
             **first,
@@ -183,6 +191,7 @@ class BackendMigrationInventoryScanner:
             "pythonCommand": "",
             "validationScript": "",
             "validationCommand": "",
+            "validationScope": "",
             "readyToReplace": False,
             "recommendation": "create_python_contract_then_compare_js",
         }
@@ -196,12 +205,14 @@ class PackageCommandMigrationInventory:
         package: dict[str, Any] | None = None,
         equivalents: dict[str, str] | None = None,
         validation_equivalents: dict[str, str] | None = None,
+        validation_scopes: dict[str, str] | None = None,
         retained_commands: dict[str, str] | None = None,
         bridge_commands: dict[str, str] | None = None,
     ):
         self.package = package if isinstance(package, dict) else {}
         self.equivalents = equivalents or DEFAULT_PACKAGE_COMMAND_EQUIVALENTS
         self.validation_equivalents = validation_equivalents or DEFAULT_PACKAGE_VALIDATION_EQUIVALENTS
+        self.validation_scopes = validation_scopes or DEFAULT_PACKAGE_VALIDATION_SCOPES
         self.retained_commands = retained_commands or DEFAULT_RETAINED_NODE_COMMANDS
         self.bridge_commands = bridge_commands or DEFAULT_BRIDGE_NODE_COMMANDS
 
@@ -242,6 +253,7 @@ class PackageCommandMigrationInventory:
                 if validation_name and validation_command:
                     mapping["validationScript"] = validation_name
                     mapping["validationCommand"] = validation_command
+                    mapping["validationScope"] = self.validation_scopes.get(validation_name, "full_command")
                 python_backed.append(mapping)
             elif name in linked_bridge_scripts:
                 continue

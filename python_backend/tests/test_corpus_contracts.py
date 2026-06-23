@@ -1210,6 +1210,7 @@ class CorpusContractTests(unittest.TestCase):
                 "pythonCommand": "python -m python_backend.cli.huggingface_corpus",
                 "validationScript": "python:huggingface-compare",
                 "validationCommand": "node server/scripts/compareHuggingFaceCorpus.js",
+                "validationScope": "full_command",
                 "readyToReplace": True,
                 "recommendation": "compare_python_contract_before_replacing_js",
             },
@@ -1329,11 +1330,21 @@ class CorpusContractTests(unittest.TestCase):
                     "pythonCommand": "python -m python_backend.cli.deepseek_analyze_cli_plan",
                     "validationScript": "python:deepseek-cli-compare",
                     "validationCommand": "node server/scripts/compareDeepSeekAnalyzePlan.js",
+                    "validationScope": "dry_run_plan",
                 },
             ],
         )
         self.assertEqual(result["bridgeNodeScripts"], [])
         self.assertEqual(result["replacementNeeded"], [])
+
+    def test_backend_migration_inventory_marks_deepseek_plan_validation_as_dry_run_scope(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertEqual(result["nextMigrationAction"]["path"], "server/scripts/analyzeDeepSeekComments.js")
+        self.assertEqual(result["nextMigrationAction"]["validationScript"], "python:deepseek-cli-compare")
+        self.assertEqual(result["nextMigrationAction"]["validationScope"], "dry_run_plan")
+        self.assertFalse(result["nextMigrationAction"]["readyToReplace"])
+        self.assertEqual(result["nextMigrationAction"]["recommendation"], "expand_python_runtime_contract_before_replacing_js")
 
     def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
