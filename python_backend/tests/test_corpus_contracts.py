@@ -417,6 +417,20 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(fallback.comments, [{"message": "fallback"}])
         self.assertEqual(fallback.runs, [{"at": "fallback-run"}])
 
+    def test_loader_payload_uses_path_when_preferred_corpus_path_is_malformed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "payload-corpus.json"
+            corpus_path.write_text(
+                json.dumps({"version": 1, "comments": [{"message": "fallback path comment"}], "runs": [{"at": "fallback-path-run"}]}),
+                encoding="utf-8",
+            )
+
+            loaded = CorpusLoader.load_from_payload({"corpusPath": {"bad": True}, "path": str(corpus_path)})
+
+        self.assertEqual(loaded.comments, [{"message": "fallback path comment"}])
+        self.assertEqual(loaded.runs, [{"at": "fallback-path-run"}])
+
     def test_loader_accepts_inline_js_json_payload_contract(self):
         loaded = CorpusLoader.load_from_payload(
             {
@@ -5812,6 +5826,20 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(loaded.entries, [{"term": "doge", "family": "attack"}])
         self.assertEqual(missing.manifest["storage"], "missing")
         self.assertEqual(missing.entries, [])
+
+    def test_dictionary_loader_payload_uses_path_when_preferred_dictionary_path_is_malformed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            dictionary_path.write_text(
+                json.dumps({"version": 2, "entries": [{"term": "fallback-doge", "family": "attack"}]}),
+                encoding="utf-8",
+            )
+
+            loaded = DictionaryLoader.load_from_payload({"dictionaryPath": {"bad": True}, "path": str(dictionary_path)})
+
+        self.assertEqual(loaded.manifest["version"], 2)
+        self.assertEqual(loaded.entries, [{"term": "fallback-doge", "family": "attack"}])
 
     def test_dictionary_loader_accepts_inline_js_json_payload_contract(self):
         loaded = DictionaryLoader.load_from_payload(

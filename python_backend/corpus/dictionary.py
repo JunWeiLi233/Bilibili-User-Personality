@@ -38,7 +38,7 @@ class DictionaryLoader:
                 },
                 entries=entries,
             )
-        path = payload.get("dictionaryPath", payload.get("path", "server/data/deepseekKeywordDictionary.json"))
+        path = cls._payload_path(payload, "dictionaryPath", "server/data/deepseekKeywordDictionary.json")
         return cls(path).load()
 
     def load(self) -> KeywordDictionary:
@@ -136,6 +136,16 @@ class DictionaryLoader:
         if isinstance(value, (str, os.PathLike)) and str(value).strip():
             return [str(value)]
         return []
+
+    @staticmethod
+    def _payload_path(payload: dict[str, Any], preferred_key: str, default: str) -> str | os.PathLike:
+        preferred = payload.get(preferred_key)
+        if isinstance(preferred, (str, os.PathLike)) and str(preferred).strip():
+            return preferred
+        fallback = payload.get("path")
+        if isinstance(fallback, (str, os.PathLike)) and str(fallback).strip():
+            return fallback
+        return default
 
     @staticmethod
     def _list_field(value: dict[str, Any], key: str) -> list[Any]:

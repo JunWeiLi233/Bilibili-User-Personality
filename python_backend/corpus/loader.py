@@ -34,7 +34,7 @@ class CorpusLoader:
                 comments=comments,
                 runs=runs,
             )
-        path = payload.get("corpusPath", payload.get("path", "server/data/bilibiliDirectProbeCorpus.json"))
+        path = cls._payload_path(payload, "corpusPath", "server/data/bilibiliDirectProbeCorpus.json")
         fallback = payload.get("fallback") if isinstance(payload.get("fallback"), dict) else None
         return cls(path, fallback=fallback).load()
 
@@ -97,6 +97,16 @@ class CorpusLoader:
         if not isinstance(value, list):
             return []
         return [str(item) for item in value if isinstance(item, (str, os.PathLike)) and str(item).strip()]
+
+    @staticmethod
+    def _payload_path(payload: dict[str, Any], preferred_key: str, default: str) -> str | os.PathLike:
+        preferred = payload.get(preferred_key)
+        if isinstance(preferred, (str, os.PathLike)) and str(preferred).strip():
+            return preferred
+        fallback = payload.get("path")
+        if isinstance(fallback, (str, os.PathLike)) and str(fallback).strip():
+            return fallback
+        return default
 
     @staticmethod
     def _read_json(path: Path) -> Any:
