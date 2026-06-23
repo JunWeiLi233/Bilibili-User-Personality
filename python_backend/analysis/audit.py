@@ -273,6 +273,91 @@ class CoverageAuditSampleContract:
         )
 
 
+class CoverageAuditCoverageContract:
+    """Build the JS-compatible coverage metrics payload from dictionary entries."""
+
+    def __init__(
+        self,
+        entries: list[Any] | None = None,
+        target_evidence: int = 3,
+        require_comment_backed_evidence: bool = False,
+        canonical_evidence_count_overrides: dict[tuple[str, str], int] | None = None,
+    ):
+        self.entries = [entry for entry in entries if isinstance(entry, dict)] if isinstance(entries, list) else []
+        self.target_evidence = max(1, _int_or(target_evidence, 3))
+        self.require_comment_backed_evidence = _bool_or(require_comment_backed_evidence, False)
+        self.canonical_evidence_count_overrides = canonical_evidence_count_overrides or {}
+
+    def coverage(self) -> dict[str, Any]:
+        total_evidence = sum(self._coverage_evidence_count(entry) for entry in self.entries)
+        weak_entries = [entry for entry in self.entries if self._coverage_evidence_count(entry) < self.target_evidence]
+        zero_entries = [entry for entry in self.entries if self._coverage_evidence_count(entry) == 0]
+        sourced_entries = [entry for entry in self.entries if self._has_coverage_evidence_source(entry)]
+        unsourced_entries = [
+            entry
+            for entry in self.entries
+            if self._evidence_count(entry) > 0 and not self._has_coverage_evidence_source(entry)
+        ]
+        by_family: dict[str, dict[str, int]] = {}
+        for entry in self.entries:
+            family = str(entry.get("family") or "unknown")
+            count = self._coverage_evidence_count(entry)
+            if family not in by_family:
+                by_family[family] = {"terms": 0, "evidence": 0, "weak": 0, "zero": 0, "sourced": 0}
+            by_family[family]["terms"] += 1
+            by_family[family]["evidence"] += count
+            if count < self.target_evidence:
+                by_family[family]["weak"] += 1
+            if count == 0:
+                by_family[family]["zero"] += 1
+            if self._has_coverage_evidence_source(entry):
+                by_family[family]["sourced"] += 1
+
+        terms = len(self.entries)
+        return {
+            "complete": len(weak_entries) == 0,
+            "targetEvidence": self.target_evidence,
+            "terms": terms,
+            "totalEvidence": total_evidence,
+            "averageEvidence": round(total_evidence / terms, 2) if terms else 0,
+            "coverageRatio": round((terms - len(weak_entries)) / terms, 4) if terms else 1,
+            "evidenceDeficit": sum(max(0, self.target_evidence - self._coverage_evidence_count(entry)) for entry in weak_entries),
+            "sourcedEvidenceTerms": len(sourced_entries),
+            "sourceCoverageRatio": round(len(sourced_entries) / terms, 4) if terms else 1,
+            "unsourcedEvidenceTerms": len(unsourced_entries),
+            "weakTerms": len(weak_entries),
+            "zeroEvidenceTerms": len(zero_entries),
+            "weakSamples": self._sample_entries(weak_entries, include_coverage=True),
+            "zeroEvidenceSamples": self._sample_entries(zero_entries),
+            "unsourcedEvidenceSamples": self._sample_entries(unsourced_entries, include_coverage=True),
+            "byFamily": by_family,
+        }
+
+    def _sample_entries(self, entries: list[dict[str, Any]], include_coverage: bool = False) -> list[dict[str, Any]]:
+        return CoverageAuditSampleContract(
+            entries,
+            include_coverage=include_coverage,
+            require_comment_backed_evidence=self.require_comment_backed_evidence,
+            canonical_evidence_count_overrides=self.canonical_evidence_count_overrides,
+        ).samples()
+
+    def _profile(self, entry: dict[str, Any]) -> "CoverageEvidenceProfile":
+        return CoverageEvidenceProfile(
+            entry,
+            require_comment_backed_evidence=self.require_comment_backed_evidence,
+            canonical_evidence_count_overrides=self.canonical_evidence_count_overrides,
+        )
+
+    def _evidence_count(self, entry: dict[str, Any]) -> int:
+        return self._profile(entry).evidence_count()
+
+    def _coverage_evidence_count(self, entry: dict[str, Any]) -> int:
+        return self._profile(entry).coverage_evidence_count()
+
+    def _has_coverage_evidence_source(self, entry: dict[str, Any]) -> bool:
+        return self._profile(entry).has_coverage_evidence_source()
+
+
 def _coverage_metric_or_none(coverage: dict[str, Any], key: str) -> Any:
     return CoverageAuditMetricContract(coverage).value(key)
 
@@ -816,44 +901,12 @@ class CoverageAuditBuilder:
         }
 
     def _coverage(self, entries: list[dict[str, Any]]) -> dict[str, Any]:
-        total_evidence = sum(self._coverage_evidence_count(entry) for entry in entries)
-        weak_entries = [entry for entry in entries if self._coverage_evidence_count(entry) < self.target_evidence]
-        zero_entries = [entry for entry in entries if self._coverage_evidence_count(entry) == 0]
-        sourced_entries = [entry for entry in entries if self._has_coverage_evidence_source(entry)]
-        unsourced_entries = [entry for entry in entries if self._evidence_count(entry) > 0 and not self._has_coverage_evidence_source(entry)]
-        by_family: dict[str, dict[str, int]] = {}
-        for entry in entries:
-            family = str(entry.get("family") or "unknown")
-            count = self._coverage_evidence_count(entry)
-            if family not in by_family:
-                by_family[family] = {"terms": 0, "evidence": 0, "weak": 0, "zero": 0, "sourced": 0}
-            by_family[family]["terms"] += 1
-            by_family[family]["evidence"] += count
-            if count < self.target_evidence:
-                by_family[family]["weak"] += 1
-            if count == 0:
-                by_family[family]["zero"] += 1
-            if self._has_coverage_evidence_source(entry):
-                by_family[family]["sourced"] += 1
-
-        return {
-            "complete": len(weak_entries) == 0,
-            "targetEvidence": self.target_evidence,
-            "terms": len(entries),
-            "totalEvidence": total_evidence,
-            "averageEvidence": round(total_evidence / len(entries), 2) if entries else 0,
-            "coverageRatio": round((len(entries) - len(weak_entries)) / len(entries), 4) if entries else 1,
-            "evidenceDeficit": sum(max(0, self.target_evidence - self._coverage_evidence_count(entry)) for entry in weak_entries),
-            "sourcedEvidenceTerms": len(sourced_entries),
-            "sourceCoverageRatio": round(len(sourced_entries) / len(entries), 4) if entries else 1,
-            "unsourcedEvidenceTerms": len(unsourced_entries),
-            "weakTerms": len(weak_entries),
-            "zeroEvidenceTerms": len(zero_entries),
-            "weakSamples": self._sample_entries(weak_entries, include_coverage=True),
-            "zeroEvidenceSamples": self._sample_entries(zero_entries),
-            "unsourcedEvidenceSamples": self._sample_entries(unsourced_entries, include_coverage=True),
-            "byFamily": by_family,
-        }
+        return CoverageAuditCoverageContract(
+            entries,
+            target_evidence=self.target_evidence,
+            require_comment_backed_evidence=self.require_comment_backed_evidence,
+            canonical_evidence_count_overrides=self.JS_CANONICAL_EVIDENCE_COUNT_OVERRIDES,
+        ).coverage()
 
     def _action_for_entry(self, entry: dict[str, Any]) -> dict[str, Any]:
         return CoverageAuditActionContract(

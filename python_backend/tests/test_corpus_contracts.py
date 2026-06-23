@@ -67,7 +67,7 @@ from python_backend.cli import video_link_direct_plan as video_link_direct_plan_
 from python_backend.cli import video_relevance as video_relevance_cli
 from python_backend.cli import range_scraper_launcher as range_scraper_launcher_cli
 from python_backend.cli import fast_pipeline_launcher as fast_pipeline_launcher_cli
-from python_backend.analysis.audit import CoverageAuditActionContract, CoverageAuditActionSummaryContract, CoverageAuditArtifactContract, CoverageAuditArtifactPayloadContract, CoverageAuditArtifactWriter, CoverageAuditArtifactsCommandRequest, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRequest, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditCommandRequest, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditFamilyGapContract, CoverageAuditGateContract, CoverageAuditMetricContract, CoverageAuditPayloadContractComparator, CoverageAuditReport, CoverageAuditRequest, CoverageAuditSampleContract, CoverageEvidenceProfile
+from python_backend.analysis.audit import CoverageAuditActionContract, CoverageAuditActionSummaryContract, CoverageAuditArtifactContract, CoverageAuditArtifactPayloadContract, CoverageAuditArtifactWriter, CoverageAuditArtifactsCommandRequest, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRequest, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditCommandRequest, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditCoverageContract, CoverageAuditFamilyGapContract, CoverageAuditGateContract, CoverageAuditMetricContract, CoverageAuditPayloadContractComparator, CoverageAuditReport, CoverageAuditRequest, CoverageAuditSampleContract, CoverageEvidenceProfile
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageCommandRequest, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageJsonPayloadContractComparator, CommentCoverageJsonPayloadRunner, CommentCoveragePayloadContractComparator, CommentCoverageRequest, CommentCoverageRunner as CommentCoveragePayloadRunner, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanCommandRequest, CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanPayloadContractComparator, CoverageHarvestLoopPlanRequest, CoverageHarvestLoopPlanRunner as CoverageHarvestLoopPayloadPlanRunner, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressCommandRequest, CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressPayloadContractComparator, CoverageProgressRequest, CoverageProgressRunner as CoverageProgressPayloadRunner, CoverageProgressSummary, CoverageProgressTracker
@@ -26079,6 +26079,42 @@ class CorpusContractTests(unittest.TestCase):
                 {"term": "zeta", "family": "attack", "evidenceCount": 1, "coverageEvidenceCount": 0},
             ],
         )
+
+    def test_coverage_audit_coverage_contract_builds_js_metric_payload(self):
+        entries = [
+            {
+                "term": "covered",
+                "family": "attack",
+                "evidenceCount": 3,
+                "evidenceSources": [
+                    {"source": "Bilibili public video comment scan", "sample": "covered sample 1"},
+                    {"source": "Bilibili public video comment scan", "sample": "covered sample 2"},
+                    {"source": "Bilibili public video comment scan", "sample": "covered sample 3"},
+                ],
+            },
+            {"term": "weak", "family": "attack", "evidenceCount": 1, "evidenceSamples": ["weak sample"]},
+            {"term": "zero", "family": "evidence", "evidenceCount": 0},
+        ]
+
+        coverage = CoverageAuditCoverageContract(entries, target_evidence=3).coverage()
+
+        self.assertFalse(coverage["complete"])
+        self.assertEqual(coverage["targetEvidence"], 3)
+        self.assertEqual(coverage["terms"], 3)
+        self.assertEqual(coverage["totalEvidence"], 4)
+        self.assertEqual(coverage["averageEvidence"], 1.33)
+        self.assertEqual(coverage["coverageRatio"], 0.3333)
+        self.assertEqual(coverage["evidenceDeficit"], 5)
+        self.assertEqual(coverage["sourcedEvidenceTerms"], 1)
+        self.assertEqual(coverage["sourceCoverageRatio"], 0.3333)
+        self.assertEqual(coverage["unsourcedEvidenceTerms"], 1)
+        self.assertEqual(coverage["weakTerms"], 2)
+        self.assertEqual(coverage["zeroEvidenceTerms"], 1)
+        self.assertEqual([item["term"] for item in coverage["weakSamples"]], ["zero", "weak"])
+        self.assertEqual([item["term"] for item in coverage["zeroEvidenceSamples"]], ["zero"])
+        self.assertEqual([item["term"] for item in coverage["unsourcedEvidenceSamples"]], ["weak"])
+        self.assertEqual(coverage["byFamily"]["attack"], {"terms": 2, "evidence": 4, "weak": 1, "zero": 0, "sourced": 1})
+        self.assertEqual(coverage["byFamily"]["evidence"], {"terms": 1, "evidence": 0, "weak": 1, "zero": 1, "sourced": 0})
 
     def test_coverage_audit_builder_defaults_non_object_dictionary_roots(self):
         audit = CoverageAuditBuilder(target_evidence=3).build(["bad dictionary root"])
