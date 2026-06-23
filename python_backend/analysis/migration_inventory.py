@@ -141,6 +141,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:uid-parallel-compare": "js_python_contract_bridge",
     "python:uid-parallel-progress-compare": "js_python_contract_bridge",
     "python:uid-pipeline-progress-compare": "js_python_contract_bridge",
+    "python:scraper-monitor-compare": "js_python_contract_bridge",
     "python:local-mine-compare": "js_python_contract_bridge",
     "python:bilibili-parse-compare": "js_python_contract_bridge",
 }
@@ -243,6 +244,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareUidParallelPlan.js": "js_python_contract_bridge",
     "server/scripts/compareUidParallelProgress.js": "js_python_contract_bridge",
     "server/scripts/compareUidPipelineProgress.js": "js_python_contract_bridge",
+    "server/scripts/compareScraperMonitor.js": "js_python_contract_bridge",
     "server/scripts/compareBilibiliParse.js": "js_python_contract_bridge",
 }
 

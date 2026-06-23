@@ -24131,6 +24131,35 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_scraper_monitor_has_js_python_validation_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertEqual(
+            package["scripts"]["python:scraper-monitor-compare"],
+            "node server/scripts/compareScraperMonitor.js",
+        )
+        self.assertIn(
+            {
+                "script": "python:scraper-monitor-compare",
+                "command": "node server/scripts/compareScraperMonitor.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:scraper-monitor",
+                "command": "python -m python_backend.cli.scraper_monitor",
+                "pipeline": "scraper_monitor",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareScraperMonitor.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_batch_bilibili_planner_matches_js_uid_range_and_resume_contract(self):
         planner = BatchBilibiliScrapePlanner()
 
