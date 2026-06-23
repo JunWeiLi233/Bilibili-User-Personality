@@ -40,6 +40,26 @@ class RandomVerificationCorpus:
         }
 
 
+@dataclass(frozen=True)
+class RandomVerificationRunOptions:
+    """Normalize random-verification run controls from JS-compatible payloads."""
+
+    sample_size: int = 50
+    seed: int = 1
+
+    @classmethod
+    def from_payload(cls, payload: dict[str, Any] | None = None) -> "RandomVerificationRunOptions":
+        payload = payload if isinstance(payload, dict) else {}
+        return cls.from_values(sample_size=payload.get("sampleSize"), seed=payload.get("seed"))
+
+    @classmethod
+    def from_values(cls, sample_size: Any = 50, seed: Any = 1) -> "RandomVerificationRunOptions":
+        return cls(sample_size=_non_negative_int(sample_size, 50), seed=_int_or(seed, 1))
+
+    def as_report_fields(self) -> dict[str, int]:
+        return {"sampleSize": self.sample_size, "seed": self.seed}
+
+
 def json_result_bytes(result: dict[str, Any]) -> bytes:
     return (json.dumps(result, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
 
@@ -165,8 +185,9 @@ class RandomVerificationRunner:
     ):
         self.corpus_path = Path(corpus_path)
         self.dictionary_path = Path(dictionary_path)
-        self.sample_size = _non_negative_int(sample_size, 50)
-        self.seed = _int_or(seed, 1)
+        self.options = RandomVerificationRunOptions.from_values(sample_size=sample_size, seed=seed)
+        self.sample_size = self.options.sample_size
+        self.seed = self.options.seed
         self.extra_corpus_paths = _path_list(extra_corpus_paths)
 
     def run(self) -> dict[str, Any]:
@@ -188,15 +209,14 @@ class RandomVerificationPayloadRunner:
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
-        sample_size = _non_negative_int(payload.get("sampleSize"), 50)
-        seed = _int_or(payload.get("seed"), 1)
+        options = RandomVerificationRunOptions.from_payload(payload)
         corpus = RandomVerificationCorpusAssembler.from_payload(payload).assemble()
         dictionary = DictionaryLoader.load_from_payload(payload)
         return RandomVerifier.from_dictionary_entries(dictionary.entries).report(
             corpus.comments,
             corpus=corpus.as_report_corpus(),
-            sample_size=sample_size,
-            seed=seed,
+            sample_size=options.sample_size,
+            seed=options.seed,
         )
 
     def _read_payload(self) -> dict[str, Any]:
@@ -242,13 +262,15 @@ class RandomVerificationPayloadContractComparator:
 
     def compare(self) -> dict[str, Any]:
         js_report = safe_read_json_object(self.js_report_path)
-        sample_size = self.sample_size if self.sample_size is not None else _non_negative_int(js_report.get("sampleSize"), 50)
-        seed = self.seed if self.seed is not None else _int_or(js_report.get("seed"), 1)
+        options = RandomVerificationRunOptions.from_values(
+            sample_size=self.sample_size if self.sample_size is not None else js_report.get("sampleSize"),
+            seed=self.seed if self.seed is not None else js_report.get("seed"),
+        )
         python_report = RandomVerificationRunner(
             self.corpus_path,
             self.dictionary_path,
-            sample_size=sample_size,
-            seed=seed,
+            sample_size=options.sample_size,
+            seed=options.seed,
             extra_corpus_paths=self.extra_corpus_paths,
         ).run()
         return self.comparator.compare(python_report, js_report)
@@ -348,12 +370,11 @@ class RandomVerifier:
 
     def verify(self, comments: list[Any], sample_size: int, seed: int) -> VerificationSummary:
         comments = comments if isinstance(comments, list) else []
-        sample_size = _non_negative_int(sample_size, 50)
-        seed = _int_or(seed, 1)
+        options = RandomVerificationRunOptions.from_values(sample_size=sample_size, seed=seed)
         normalized_comments = [self._normalize_comment(comment) for comment in comments]
         eligible = [comment for comment in normalized_comments if self._message(comment) and not _is_scrape_diagnostic(self._message(comment))]
-        sample_count = min(max(0, sample_size), len(eligible))
-        sampled = random.Random(seed).sample(eligible, sample_count) if sample_count else []
+        sample_count = min(max(0, options.sample_size), len(eligible))
+        sampled = random.Random(options.seed).sample(eligible, sample_count) if sample_count else []
         annotated = [self._annotate(comment) for comment in sampled]
         keyword_hits = sum(1 for item in annotated if item["matched_terms"])
         return VerificationSummary(
@@ -366,15 +387,13 @@ class RandomVerifier:
 
     def report(self, comments: list[dict[str, Any]], corpus: dict[str, Any], sample_size: int, seed: int) -> dict[str, Any]:
         corpus = corpus if isinstance(corpus, dict) else {}
-        sample_size = _non_negative_int(sample_size, 50)
-        seed = _int_or(seed, 1)
-        summary = asdict(self.verify(comments, sample_size=sample_size, seed=seed))
+        options = RandomVerificationRunOptions.from_values(sample_size=sample_size, seed=seed)
+        summary = asdict(self.verify(comments, sample_size=options.sample_size, seed=options.seed))
         return {
             "ok": True,
             "corpus": corpus,
             "dictionaryTerms": len(self.keyword_terms),
-            "sampleSize": sample_size,
-            "seed": seed,
+            **options.as_report_fields(),
             "sampled": summary["sampled"],
             "keywordHits": summary["keyword_hits"],
             "neutral": summary["neutral"],
