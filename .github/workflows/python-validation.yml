@@ -49,6 +49,9 @@ jobs:
       - name: Compare DeepSeek analyze fixture command
         run: npm run python:deepseek-analyze-fixture-compare
 
+      - name: Compare DeepSeek mocked runtime command
+        run: npm run python:deepseek-mock-runtime-compare
+
       - name: Verify DeepSeek Python-backed JS plan mode
         run: npm run python:deepseek-cli-plan-js -- --text "satire [doge]" --uid 42 --multiagent
 

@@ -1245,6 +1245,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(package["scripts"]["python:deepseek-validation-compare"], "node server/scripts/compareDeepSeekAnalysisValidation.js")
         self.assertEqual(package["scripts"]["python:deepseek-normalization-compare"], "node server/scripts/compareDeepSeekAnalysisNormalization.js")
         self.assertEqual(package["scripts"]["python:deepseek-analyze-fixture-compare"], "node server/scripts/compareDeepSeekAnalyzeFixture.js")
+        self.assertEqual(package["scripts"]["python:deepseek-mock-runtime-compare"], "node server/scripts/compareDeepSeekAnalyzeMockRuntime.js")
         self.assertEqual(
             package["scripts"]["python:deepseek-cli-plan-js"],
             "node server/scripts/analyzeDeepSeekComments.js --plan-json --python-plan",
@@ -1262,6 +1263,7 @@ class CorpusContractTests(unittest.TestCase):
                 "python:deepseek-validation-compare": "node server/scripts/compareDeepSeekAnalysisValidation.js",
                 "python:deepseek-normalization-compare": "node server/scripts/compareDeepSeekAnalysisNormalization.js",
                 "python:deepseek-analyze-fixture-compare": "node server/scripts/compareDeepSeekAnalyzeFixture.js",
+                "python:deepseek-mock-runtime-compare": "node server/scripts/compareDeepSeekAnalyzeMockRuntime.js",
                 "python:deepseek-cli-plan-js": "node server/scripts/analyzeDeepSeekComments.js --plan-json --python-plan",
                 "python:coverage-standalone": "python -m python_backend.cli.coverage_audit --standalone",
                 "python:huggingface-import": "python -m python_backend.cli.huggingface_corpus",
@@ -1271,7 +1273,7 @@ class CorpusContractTests(unittest.TestCase):
 
         result = PackageCommandMigrationInventory(package).scan()
 
-        self.assertEqual(result["nodeServerScripts"], 10)
+        self.assertEqual(result["nodeServerScripts"], 11)
         self.assertEqual(result["pythonBackendScripts"], 2)
         self.assertEqual(
             result["pythonBackedNodeScripts"],
@@ -1322,6 +1324,11 @@ class CorpusContractTests(unittest.TestCase):
                     "reason": "js_python_contract_bridge",
                 },
                 {
+                    "script": "python:deepseek-mock-runtime-compare",
+                    "command": "node server/scripts/compareDeepSeekAnalyzeMockRuntime.js",
+                    "reason": "js_python_contract_bridge",
+                },
+                {
                     "script": "python:deepseek-cli-plan-js",
                     "command": "node server/scripts/analyzeDeepSeekComments.js --plan-json --python-plan",
                     "reason": "js_python_contract_bridge",
@@ -1337,6 +1344,7 @@ class CorpusContractTests(unittest.TestCase):
                 "python:deepseek-validation-compare": "node server/scripts/compareDeepSeekAnalysisValidation.js",
                 "python:deepseek-normalization-compare": "node server/scripts/compareDeepSeekAnalysisNormalization.js",
                 "python:deepseek-analyze-fixture-compare": "node server/scripts/compareDeepSeekAnalyzeFixture.js",
+                "python:deepseek-mock-runtime-compare": "node server/scripts/compareDeepSeekAnalyzeMockRuntime.js",
                 "deepseek:analyze": "node server/scripts/analyzeDeepSeekComments.js",
                 "python:deepseek-cli-plan": "python -m python_backend.cli.deepseek_analyze_cli_plan",
             }
@@ -1352,9 +1360,9 @@ class CorpusContractTests(unittest.TestCase):
                     "command": "node server/scripts/analyzeDeepSeekComments.js",
                     "pythonScript": "python:deepseek-cli-plan",
                     "pythonCommand": "python -m python_backend.cli.deepseek_analyze_cli_plan",
-                    "validationScript": "python:deepseek-analyze-fixture-compare",
-                    "validationCommand": "node server/scripts/compareDeepSeekAnalyzeFixture.js",
-                    "validationScope": "full_command_fixture",
+                    "validationScript": "python:deepseek-mock-runtime-compare",
+                    "validationCommand": "node server/scripts/compareDeepSeekAnalyzeMockRuntime.js",
+                    "validationScope": "mocked_runtime",
                 },
             ],
         )
@@ -1376,6 +1384,11 @@ class CorpusContractTests(unittest.TestCase):
                     "command": "node server/scripts/compareDeepSeekAnalysisNormalization.js",
                     "reason": "js_python_contract_bridge",
                 },
+                {
+                    "script": "python:deepseek-analyze-fixture-compare",
+                    "command": "node server/scripts/compareDeepSeekAnalyzeFixture.js",
+                    "reason": "js_python_contract_bridge",
+                },
             ],
         )
         self.assertEqual(result["replacementNeeded"], [])
@@ -1384,8 +1397,8 @@ class CorpusContractTests(unittest.TestCase):
         result = BackendMigrationInventoryScanner(".").scan()
 
         self.assertEqual(result["nextMigrationAction"]["path"], "server/scripts/analyzeDeepSeekComments.js")
-        self.assertEqual(result["nextMigrationAction"]["validationScript"], "python:deepseek-analyze-fixture-compare")
-        self.assertEqual(result["nextMigrationAction"]["validationScope"], "full_command_fixture")
+        self.assertEqual(result["nextMigrationAction"]["validationScript"], "python:deepseek-mock-runtime-compare")
+        self.assertEqual(result["nextMigrationAction"]["validationScope"], "mocked_runtime")
         self.assertFalse(result["nextMigrationAction"]["readyToReplace"])
         self.assertEqual(result["nextMigrationAction"]["recommendation"], "expand_python_runtime_contract_before_replacing_js")
 
@@ -1416,6 +1429,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("npm run python:deepseek-validation-compare", workflow)
         self.assertIn("npm run python:deepseek-normalization-compare", workflow)
         self.assertIn("npm run python:deepseek-analyze-fixture-compare", workflow)
+        self.assertIn("npm run python:deepseek-mock-runtime-compare", workflow)
         self.assertIn("npm run python:deepseek-cli-plan-js -- --text \"satire [doge]\" --uid 42 --multiagent", workflow)
         self.assertIn("npm run python:verify-random -- --sample-size=25 --seed=20260623", workflow)
         self.assertIn("npm test", workflow)

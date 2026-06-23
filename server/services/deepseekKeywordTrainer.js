@@ -4386,9 +4386,9 @@ export function normalizeDeepSeekAnalysisResult({
       axis: normalizedAxis,
       score: hasEvidence ? score : 50,
       evidence,
-      reasoning: hasEvidence || /evidence insufficient/.test(reasoning)
+      reasoning: hasEvidence || /证据不足/.test(reasoning)
         ? reasoning
-        : `${reasoning}${reasoning ? ' ' : ''}evidence insufficient; neutralized`,
+        : `${reasoning}${reasoning ? ' ' : ''}证据不足，按中性分处理。`,
     };
   }).filter(Boolean);
 
@@ -4568,6 +4568,15 @@ export async function analyzeCommentsWithDeepSeek(payload, options = {}) {
     if (parsedAnalysisLooksGarbled(parsed, raw, payload?.text)) {
       throw new Error('DeepSeek returned garbled Chinese analysis after compact retry.');
     }
+
+    return normalizeDeepSeekAnalysisResult({
+      parsed,
+      payload,
+      config,
+      raw,
+      retriedCompactPrompt,
+      multiagent,
+    });
 
     const axes = (Array.isArray(parsed.axes) ? parsed.axes : []).map((axis) => {
       const evidence = Array.isArray(axis.evidence) ? axis.evidence.slice(0, 5) : [];

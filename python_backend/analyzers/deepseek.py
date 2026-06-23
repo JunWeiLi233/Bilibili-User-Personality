@@ -573,8 +573,8 @@ class DeepSeekAnalysisNormalizer:
             evidence = [str(item) for item in evidence[:5]]
             has_evidence = self._axis_has_usable_evidence(label, evidence, axis.get("reasoning"), source_text)
             reasoning = str(axis.get("reasoning") or "")[:500]
-            if not has_evidence and "evidence insufficient" not in reasoning:
-                reasoning = f"{reasoning}{' ' if reasoning else ''}evidence insufficient; neutralized"
+            if not has_evidence and "证据不足" not in reasoning:
+                reasoning = f"{reasoning}{' ' if reasoning else ''}证据不足，按中性分处理。"
             axes_by_label[label] = {
                 "axis": label,
                 "score": self._clamp_number(axis.get("score"), minimum=0, maximum=100, default=50) if has_evidence else 50,
