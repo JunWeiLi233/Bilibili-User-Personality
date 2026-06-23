@@ -1,5 +1,7 @@
+import { execFile } from 'node:child_process';
 import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
+import { promisify } from 'node:util';
 import { trainKeywordDictionary, readKeywordDictionary } from '../services/deepseekKeywordTrainer.js';
 
 const args = Object.fromEntries(
@@ -21,6 +23,7 @@ const LOCK_PATH = join(DATA_DIR, 'deepseekKeywordDictionary.json.lock');
 const LOCK_RETRY_DELAY_MS = 3000;
 const LOCK_MAX_RETRIES = 15;
 const SAVE_EVERY = 20;
+const execFileAsync = promisify(execFile);
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -38,6 +41,41 @@ function parsePlanArgs(argv = []) {
   }
   options.workers = Math.max(1, options.workers);
   return options;
+}
+
+function parsePlanControlArgs(argv = []) {
+  let planJson = false;
+  let pythonPlan = false;
+  let jsPlan = false;
+  let payloadPath = '';
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = String(argv[index] || '');
+    if (arg === '--plan-json') {
+      planJson = true;
+    } else if (arg === '--python-plan') {
+      pythonPlan = true;
+    } else if (arg === '--js-plan') {
+      jsPlan = true;
+    } else if (arg === '--payload') {
+      payloadPath = String(argv[index + 1] || '');
+      index += 1;
+    } else if (arg.startsWith('--payload=')) {
+      payloadPath = arg.slice('--payload='.length);
+    }
+  }
+  if (process.env.BILIBILI_UID_PARALLEL_USE_PYTHON_PLAN === '1' && !jsPlan) {
+    pythonPlan = true;
+  }
+  return { planJson, pythonPlan, jsPlan, payloadPath };
+}
+
+async function runPythonUidParallelPlan(payloadPath) {
+  const { stdout } = await execFileAsync('python', ['-m', 'python_backend.cli.uid_parallel_plan', '--payload', payloadPath], {
+    cwd: process.cwd(),
+    env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  return JSON.parse(stdout);
 }
 
 function commentText(entries) {
@@ -90,7 +128,12 @@ function buildUidParallelPlan(payload = {}) {
   };
 }
 
-if (hasFlag('plan-json')) {
+const planControl = parsePlanControlArgs(process.argv.slice(2));
+if (planControl.planJson) {
+  if (planControl.pythonPlan && !planControl.jsPlan) {
+    console.log(JSON.stringify(await runPythonUidParallelPlan(planControl.payloadPath), null, 2));
+    process.exit(0);
+  }
   const payload = args.payload ? JSON.parse(await readFile(args.payload, 'utf8')) : {};
   console.log(JSON.stringify(buildUidParallelPlan(payload), null, 2));
   process.exit(0);
