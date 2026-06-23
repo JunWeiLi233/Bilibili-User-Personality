@@ -816,15 +816,29 @@ class CoverageAuditPayloadContractComparator:
         return self.comparator.compare(python_audit, js_audit)
 
 
+class CoverageAuditStandaloneRunner:
+    """Build a Python coverage-audit report directly from a dictionary JSON contract."""
+
+    def __init__(self, dictionary_path: str | Path, builder: CoverageAuditBuilder | None = None):
+        self.dictionary_path = Path(dictionary_path)
+        self.builder = builder or CoverageAuditBuilder()
+
+    def run(self) -> dict[str, Any]:
+        dictionary = DictionaryLoader(self.dictionary_path).load()
+        return self.builder.build({"entries": dictionary.entries})
+
+
 @dataclass(frozen=True)
 class CoverageAuditRequest:
     """Analysis-layer request object for file-backed coverage-audit JSON contracts."""
 
     dictionary_path: str | Path = "server/data/deepseekKeywordDictionary.json"
-    js_audit_path: str | Path = "server/data/keywordCoverageAudit.json"
+    js_audit_path: str | Path | None = "server/data/keywordCoverageAudit.json"
     strict_total_evidence: bool = False
 
     def run(self) -> dict[str, Any]:
+        if self.js_audit_path is None or str(self.js_audit_path).strip() == "":
+            return CoverageAuditStandaloneRunner(self.dictionary_path).run()
         return CoverageAuditPayloadContractComparator(
             self.dictionary_path,
             self.js_audit_path,
@@ -842,7 +856,7 @@ class CoverageAuditCommandRequest:
         args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
         return CoverageAuditRequest(
             dictionary_path=args.dictionary,
-            js_audit_path=args.js_audit,
+            js_audit_path=None if args.standalone else args.js_audit,
             strict_total_evidence=args.strict_total_evidence,
         ).run()
 
@@ -851,6 +865,7 @@ class CoverageAuditCommandRequest:
         parser = argparse.ArgumentParser(description="Compare Python coverage-audit metrics against the current JS audit report.")
         parser.add_argument("--dictionary", default="server/data/deepseekKeywordDictionary.json")
         parser.add_argument("--js-audit", default="server/data/keywordCoverageAudit.json")
+        parser.add_argument("--standalone", action="store_true", help="Build the Python coverage audit directly without comparing a JS report.")
         parser.add_argument("--strict-total-evidence", action="store_true")
         return parser
 
