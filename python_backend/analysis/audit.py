@@ -68,6 +68,16 @@ def _bool_or(value: Any, fallback: bool) -> bool:
     return value if isinstance(value, bool) else fallback
 
 
+def _coverage_metric_or_none(coverage: dict[str, Any], key: str) -> Any:
+    if key not in coverage:
+        return None
+    if key == "complete":
+        return _bool_or(coverage.get(key), False)
+    if key in ("coverageRatio", "averageEvidence", "sourceCoverageRatio"):
+        return _float_or(coverage.get(key), 0)
+    return _int_or(coverage.get(key), 0)
+
+
 def _object_or_empty(value: Any) -> dict[str, Any]:
     return value if isinstance(value, dict) else {}
 
@@ -277,7 +287,7 @@ class CoverageAuditContractSummary:
             "ok": report.ok,
             "targetEvidence": report.target_evidence,
             "coverage": {
-                key: coverage.get(key)
+                key: _coverage_metric_or_none(coverage, key)
                 for key in (*self.COVERAGE_STATUS_KEYS, *self.GATE_METRIC_KEYS, *self.OPTIONAL_COVERAGE_METRIC_KEYS, *self.WARNING_METRIC_KEYS)
             },
             "failureReasons": _string_list(audit.get("failureReasons")),
@@ -346,8 +356,8 @@ class CoverageAuditContractComparator:
         python_coverage = _object_or_empty(python_audit.get("coverage"))
         js_coverage = _object_or_empty(js_audit.get("coverage"))
         for key in keys:
-            python_value = python_coverage.get(key)
-            js_value = js_coverage.get(key)
+            python_value = _coverage_metric_or_none(python_coverage, key)
+            js_value = _coverage_metric_or_none(js_coverage, key)
             if python_value != js_value:
                 mismatches.append({"key": key, "python": python_value, "js": js_value})
         return mismatches
@@ -359,8 +369,8 @@ class CoverageAuditContractComparator:
         for key in keys:
             if key not in js_coverage:
                 continue
-            python_value = python_coverage.get(key)
-            js_value = js_coverage.get(key)
+            python_value = _coverage_metric_or_none(python_coverage, key)
+            js_value = _coverage_metric_or_none(js_coverage, key)
             if python_value != js_value:
                 mismatches.append({"key": key, "python": python_value, "js": js_value})
         return mismatches

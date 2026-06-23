@@ -1815,6 +1815,38 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(result["ok"])
         self.assertEqual(result["mismatches"], [{"key": "terms", "python": None, "js": 1}])
 
+    def test_coverage_audit_contract_comparator_defaults_malformed_gate_metrics(self):
+        result = CoverageAuditContractComparator().compare(
+            {
+                "coverage": {
+                    "terms": "bad",
+                    "weakTerms": {"bad": True},
+                    "zeroEvidenceTerms": ["bad"],
+                    "evidenceDeficit": None,
+                    "coverageRatio": "bad",
+                    "sourcedEvidenceTerms": "bad",
+                    "unsourcedEvidenceTerms": "bad",
+                    "totalEvidence": "bad",
+                }
+            },
+            {
+                "coverage": {
+                    "terms": 0,
+                    "weakTerms": 0,
+                    "zeroEvidenceTerms": 0,
+                    "evidenceDeficit": 0,
+                    "coverageRatio": 0,
+                    "sourcedEvidenceTerms": 0,
+                    "unsourcedEvidenceTerms": 0,
+                    "totalEvidence": 0,
+                }
+            },
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["python"]["coverage"], result["js"]["coverage"])
+
     def test_coverage_audit_contract_comparator_defaults_non_object_roots(self):
         result = CoverageAuditContractComparator().compare(["bad python root"], ["bad js root"])
 
