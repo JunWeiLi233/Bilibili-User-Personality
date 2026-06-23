@@ -23432,6 +23432,22 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["recommendedQueries"], ["doge hot"])
         self.assertEqual(result["recommendedQueryText"], "doge hot\n")
 
+    def test_coverage_audit_artifact_writer_filters_malformed_priority_query_items(self):
+        result = CoverageAuditArtifactWriter().build_artifacts(
+            {
+                "nextActions": [
+                    {
+                        "term": "doge",
+                        "nextQuery": {"bad": True},
+                        "suggestedQueries": ["doge hot", ["bad"], None, ""],
+                    }
+                ]
+            }
+        )
+
+        self.assertEqual([item["query"] for item in result["priorityActionItems"]], ["doge hot"])
+        self.assertEqual(result["priorityActionItems"][0]["nextQuery"], "doge hot")
+
     def test_coverage_audit_artifacts_payload_runner_lives_with_analysis_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

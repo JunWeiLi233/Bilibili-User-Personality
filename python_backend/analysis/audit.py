@@ -150,10 +150,10 @@ class CoverageAuditArtifactWriter:
         for item in actions if isinstance(actions, list) else []:
             if not isinstance(item, dict):
                 continue
-            queries = [item.get("nextQuery")]
+            queries = [item.get("nextQuery")] if isinstance(item.get("nextQuery"), str) else []
             suggested = item.get("suggestedQueries")
             if isinstance(suggested, list):
-                queries.extend(suggested)
+                queries.extend(query for query in suggested if isinstance(query, str))
             for raw_query in queries:
                 query = str(raw_query or "").strip()
                 if not query:
