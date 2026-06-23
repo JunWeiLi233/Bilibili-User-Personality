@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from python_backend.corpus.dictionary import DictionaryLoader
+from python_backend.runtime.json_contracts import safe_read_json_object
 
 
 @dataclass(frozen=True)
@@ -399,9 +400,7 @@ class CoverageAuditPayloadContractComparator:
         self.comparator = CoverageAuditContractComparator(strict_total_evidence=strict_total_evidence)
 
     def compare(self) -> dict[str, Any]:
-        with self.js_audit_path.open("r", encoding="utf-8-sig") as handle:
-            js_audit = json.load(handle)
-        js_audit = js_audit if isinstance(js_audit, dict) else {}
+        js_audit = safe_read_json_object(self.js_audit_path)
         dictionary = DictionaryLoader(self.dictionary_path).load()
         python_audit = self.comparator.builder_from_js_audit(js_audit).build({"entries": dictionary.entries})
         return self.comparator.compare(python_audit, js_audit)

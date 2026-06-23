@@ -7,7 +7,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from python_backend.corpus.contracts import safe_read_json_object
+from python_backend.runtime.json_contracts import safe_read_json_object
 
 
 class CorpusShardWriter:

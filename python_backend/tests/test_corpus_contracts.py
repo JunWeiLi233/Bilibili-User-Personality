@@ -2173,6 +2173,35 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["python"]["targetEvidence"], 3)
         self.assertIn("terms", [item["key"] for item in result["mismatches"]])
 
+    def test_coverage_audit_payload_comparator_defaults_corrupt_js_audits(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            js_audit_path = root / "js-audit.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {
+                                "term": "\u72d7\u5934",
+                                "family": "attack",
+                                "evidenceCount": 1,
+                                "evidenceSamples": ["sample one"],
+                            }
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_audit_path.write_text("{bad json", encoding="utf-8")
+
+            result = CoverageAuditPayloadContractComparator(dictionary_path, js_audit_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["js"]["targetEvidence"], 0)
+        self.assertEqual(result["python"]["targetEvidence"], 3)
+        self.assertIn("terms", [item["key"] for item in result["mismatches"]])
+
     def test_rate_limiter_uses_injected_sleep_without_real_waiting(self):
         sleeps = []
         limiter = RateLimiter(delay_seconds=1.25, sleep=sleeps.append)
