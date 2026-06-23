@@ -22156,6 +22156,18 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["analysis"], {"processed": 0, "pending": 0, "skippableNoText": 0, "trainable": 0, "userDbUsers": 0})
         self.assertEqual(result["stats"], {"videosScanned": 0, "uidsFound": 0, "uidsAnalyzed": 0, "commentsCollected": 0, "errors": 0, "videoQueueSize": 0})
 
+    def test_uid_discovery_payload_runner_defaults_corrupt_json_contract_payload(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "uid-discovery-plan.json"
+            payload_path.write_text('{"progress": ', encoding="utf-8")
+
+            result = UidDiscoveryPayloadPlanRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["resume"], {"phase": "discovery", "skipDiscovery": False, "scannedBvids": 0, "savedUidComments": 0})
+        self.assertEqual(result["analysis"], {"processed": 0, "pending": 0, "skippableNoText": 0, "trainable": 0, "userDbUsers": 0})
+        self.assertEqual(result["stats"], {"videosScanned": 0, "uidsFound": 0, "uidsAnalyzed": 0, "commentsCollected": 0, "errors": 0, "videoQueueSize": 0})
+
     def test_uid_discovery_plan_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
