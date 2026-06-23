@@ -92,6 +92,7 @@
     "python:uid-pipeline-progress": "python -m python_backend.cli.uid_pipeline_progress",
     "python:uid-pipeline-progress-compare": "node server/scripts/compareUidPipelineProgress.js",
     "python:uid-pipeline-state": "python -m python_backend.cli.uid_pipeline_state",
+    "python:uid-pipeline-state-compare": "node server/scripts/compareUidPipelineState.js",
     "python:uid-pipeline-merge": "python -m python_backend.cli.uid_pipeline_merge --summary-only",
     "python:scraper-monitor": "python -m python_backend.cli.scraper_monitor",
     "python:scraper-monitor-compare": "node server/scripts/compareScraperMonitor.js",

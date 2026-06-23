@@ -21423,6 +21423,35 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_uid_pipeline_state_has_js_python_validation_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertEqual(
+            package["scripts"]["python:uid-pipeline-state-compare"],
+            "node server/scripts/compareUidPipelineState.js",
+        )
+        self.assertIn(
+            {
+                "script": "python:uid-pipeline-state-compare",
+                "command": "node server/scripts/compareUidPipelineState.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:uid-pipeline-state",
+                "command": "python -m python_backend.cli.uid_pipeline_state",
+                "pipeline": "uid_pipeline_state",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareUidPipelineState.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_uid_pipeline_progress_runner_summarizes_worker_progress_and_user_db(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
