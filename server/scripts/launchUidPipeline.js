@@ -1,10 +1,15 @@
-import { fork } from 'node:child_process';
+import { execFile, fork } from 'node:child_process';
 import { join } from 'node:path';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { promisify } from 'node:util';
+
+const execFileAsync = promisify(execFile);
 
 function parseArgs(argv = process.argv.slice(2)) {
   const options = {
     planJson: false,
+    pythonPlan: false,
+    jsPlan: false,
     dataDir: join(process.cwd(), 'server', 'data'),
     totalStart: 1,
     totalEnd: 100000,
@@ -13,14 +18,43 @@ function parseArgs(argv = process.argv.slice(2)) {
   for (let index = 0; index < argv.length; index += 1) {
     const arg = String(argv[index] || '');
     if (arg === '--plan-json') options.planJson = true;
+    else if (arg === '--python-plan') options.pythonPlan = true;
+    else if (arg === '--js-plan') options.jsPlan = true;
     else if (arg === '--data-dir') options.dataDir = argv[++index] || options.dataDir;
     else if (arg.startsWith('--data-dir=')) options.dataDir = arg.split('=', 2)[1] || options.dataDir;
     else if (arg.startsWith('--total-start=')) options.totalStart = Number.parseInt(arg.split('=', 2)[1], 10) || options.totalStart;
     else if (arg.startsWith('--total-end=')) options.totalEnd = Number.parseInt(arg.split('=', 2)[1], 10) || options.totalEnd;
     else if (arg.startsWith('--workers=')) options.workers = Number.parseInt(arg.split('=', 2)[1], 10) || options.workers;
   }
+  if (process.env.BILIBILI_UID_PIPELINE_LAUNCHER_USE_PYTHON_PLAN === '1' && !options.jsPlan) {
+    options.pythonPlan = true;
+  }
   options.workers = Math.max(1, options.workers);
   return options;
+}
+
+async function runPythonLauncherPlan({ dataDir, totalStart, totalEnd, workers }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    [
+      '-m',
+      'python_backend.cli.uid_pipeline_launcher',
+      '--data-dir',
+      dataDir,
+      '--total-start',
+      String(totalStart),
+      '--total-end',
+      String(totalEnd),
+      '--workers',
+      String(workers),
+    ],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return JSON.parse(stdout);
 }
 
 function buildLauncherPlan({ dataDir, totalStart = 1, totalEnd = 100000, workers = 5, startedAt = new Date().toISOString() } = {}) {
@@ -65,6 +99,10 @@ const WORKERS = options.workers;
 const CHUNK_SIZE = Math.ceil((TOTAL_END - TOTAL_START + 1) / WORKERS);
 
 if (options.planJson) {
+  if (options.pythonPlan && !options.jsPlan) {
+    console.log(JSON.stringify(await runPythonLauncherPlan(options), null, 2));
+    process.exit(0);
+  }
   console.log(JSON.stringify(buildLauncherPlan(options), null, 2));
   process.exit(0);
 }
