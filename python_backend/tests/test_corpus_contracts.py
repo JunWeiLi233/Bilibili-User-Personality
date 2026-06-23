@@ -67,7 +67,7 @@ from python_backend.cli import video_link_direct_plan as video_link_direct_plan_
 from python_backend.cli import video_relevance as video_relevance_cli
 from python_backend.cli import range_scraper_launcher as range_scraper_launcher_cli
 from python_backend.cli import fast_pipeline_launcher as fast_pipeline_launcher_cli
-from python_backend.analysis.audit import CoverageAuditArtifactContract, CoverageAuditArtifactPayloadContract, CoverageAuditArtifactWriter, CoverageAuditArtifactsCommandRequest, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRequest, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditCommandRequest, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditMetricContract, CoverageAuditPayloadContractComparator, CoverageAuditReport, CoverageAuditRequest, CoverageEvidenceProfile
+from python_backend.analysis.audit import CoverageAuditArtifactContract, CoverageAuditArtifactPayloadContract, CoverageAuditArtifactWriter, CoverageAuditArtifactsCommandRequest, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRequest, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditCommandRequest, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditGateContract, CoverageAuditMetricContract, CoverageAuditPayloadContractComparator, CoverageAuditReport, CoverageAuditRequest, CoverageEvidenceProfile
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageCommandRequest, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageJsonPayloadContractComparator, CommentCoverageJsonPayloadRunner, CommentCoveragePayloadContractComparator, CommentCoverageRequest, CommentCoverageRunner as CommentCoveragePayloadRunner, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanCommandRequest, CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanPayloadContractComparator, CoverageHarvestLoopPlanRequest, CoverageHarvestLoopPlanRunner as CoverageHarvestLoopPayloadPlanRunner, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressCommandRequest, CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressPayloadContractComparator, CoverageProgressRequest, CoverageProgressRunner as CoverageProgressPayloadRunner, CoverageProgressSummary, CoverageProgressTracker
@@ -25955,6 +25955,41 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(audit["ok"])
         self.assertFalse(audit["requireSourceBackedEvidence"])
         self.assertEqual(audit["failureReasons"], [])
+
+    def test_coverage_audit_gate_contract_owns_ok_and_failure_reasons(self):
+        coverage = {
+            "complete": False,
+            "coverageRatio": 0.3333,
+            "weakTerms": 2,
+            "unsourcedEvidenceTerms": 1,
+        }
+
+        strict_gate = CoverageAuditGateContract(
+            coverage,
+            target_evidence=3,
+            min_coverage_ratio=1,
+            require_complete=True,
+            require_source_backed_evidence=True,
+        )
+        relaxed_gate = CoverageAuditGateContract(
+            coverage,
+            target_evidence=3,
+            min_coverage_ratio=0,
+            require_complete=False,
+            require_source_backed_evidence=False,
+        )
+
+        self.assertFalse(strict_gate.ok())
+        self.assertEqual(
+            strict_gate.failure_reasons(),
+            [
+                "coverage ratio 0.3333 is below 1",
+                "2 term(s) are below 3 evidence hit(s)",
+                "1 evidence-backed term(s) are missing Bilibili source metadata",
+            ],
+        )
+        self.assertTrue(relaxed_gate.ok())
+        self.assertEqual(relaxed_gate.failure_reasons(), [])
 
     def test_coverage_audit_builder_defaults_non_object_dictionary_roots(self):
         audit = CoverageAuditBuilder(target_evidence=3).build(["bad dictionary root"])

@@ -86,6 +86,40 @@ class CoverageAuditMetricContract:
         return _int_or(self.coverage.get(key), 0)
 
 
+class CoverageAuditGateContract:
+    """Own the JS-compatible coverage audit pass/fail contract."""
+
+    def __init__(
+        self,
+        coverage: dict[str, Any] | None = None,
+        target_evidence: int = 3,
+        min_coverage_ratio: float = 1,
+        require_complete: bool = True,
+        require_source_backed_evidence: bool = False,
+    ):
+        self.coverage = CoverageAuditMetricContract(coverage)
+        self.target_evidence = max(1, _int_or(target_evidence, 3))
+        self.min_coverage_ratio = min(1, max(0, _float_or(min_coverage_ratio, 1)))
+        self.require_complete = _bool_or(require_complete, True)
+        self.require_source_backed_evidence = _bool_or(require_source_backed_evidence, False)
+
+    def ok(self) -> bool:
+        return len(self.failure_reasons()) == 0
+
+    def failure_reasons(self) -> list[str]:
+        reasons = []
+        coverage_ratio = self.coverage.value("coverageRatio")
+        if coverage_ratio < self.min_coverage_ratio:
+            reasons.append(f"coverage ratio {coverage_ratio} is below {self.min_coverage_ratio}")
+        if self.require_complete and not self.coverage.value("complete"):
+            weak_terms = self.coverage.value("weakTerms")
+            reasons.append(f"{weak_terms} term(s) are below {self.target_evidence} evidence hit(s)")
+        if self.require_source_backed_evidence and self.coverage.value("unsourcedEvidenceTerms") > 0:
+            unsourced_terms = self.coverage.value("unsourcedEvidenceTerms")
+            reasons.append(f"{unsourced_terms} evidence-backed term(s) are missing Bilibili source metadata")
+        return reasons
+
+
 def _coverage_metric_or_none(coverage: dict[str, Any], key: str) -> Any:
     return CoverageAuditMetricContract(coverage).value(key)
 
@@ -602,9 +636,10 @@ class CoverageAuditBuilder:
         next_actions = [action for action in actions if action["action"] != "none"][: self.max_actions]
         recommended_queries = [action["nextQuery"] for action in next_actions if action["nextQuery"]]
         family_gaps = self._family_gaps(coverage["byFamily"])
-        failure_reasons = self._failure_reasons(coverage)
+        gate = self._gate(coverage)
+        failure_reasons = gate.failure_reasons()
         return {
-            "ok": len(failure_reasons) == 0,
+            "ok": gate.ok(),
             "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
             "targetEvidence": self.target_evidence,
             "minCoverageRatio": self.min_coverage_ratio,
@@ -704,14 +739,16 @@ class CoverageAuditBuilder:
         }
 
     def _failure_reasons(self, coverage: dict[str, Any]) -> list[str]:
-        reasons = []
-        if coverage["coverageRatio"] < self.min_coverage_ratio:
-            reasons.append(f"coverage ratio {coverage['coverageRatio']} is below {self.min_coverage_ratio}")
-        if self.require_complete and not coverage["complete"]:
-            reasons.append(f"{coverage['weakTerms']} term(s) are below {self.target_evidence} evidence hit(s)")
-        if self.require_source_backed_evidence and coverage["unsourcedEvidenceTerms"] > 0:
-            reasons.append(f"{coverage['unsourcedEvidenceTerms']} evidence-backed term(s) are missing Bilibili source metadata")
-        return reasons
+        return self._gate(coverage).failure_reasons()
+
+    def _gate(self, coverage: dict[str, Any]) -> CoverageAuditGateContract:
+        return CoverageAuditGateContract(
+            coverage,
+            target_evidence=self.target_evidence,
+            min_coverage_ratio=self.min_coverage_ratio,
+            require_complete=self.require_complete,
+            require_source_backed_evidence=self.require_source_backed_evidence,
+        )
 
     def _action_summary(self, actions: list[dict[str, Any]]) -> dict[str, int]:
         summary: dict[str, int] = {}
