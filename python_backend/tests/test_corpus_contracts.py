@@ -8368,6 +8368,18 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual([comment["message"] for comment in result["newComments"]], ["\u65e7\u8bc4\u8bba", "\u65b0\u8bc4\u8bba"])
         self.assertEqual(result["corpus"]["updatedAt"], "2026-06-17T04:00:00.000Z")
 
+    def test_tieba_corpus_payload_runner_defaults_corrupt_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "tieba-payload.json"
+            payload_path.write_text("{bad json", encoding="utf-8")
+
+            result = TiebaCorpusPayloadRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertFalse(result["changed"])
+        self.assertEqual(result["newComments"], [])
+        self.assertEqual(result["corpus"], {"storage": "inline", "runs": [], "comments": []})
+
     def test_tieba_corpus_payload_runner_uses_corpus_loader_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

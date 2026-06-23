@@ -1,13 +1,12 @@
 from __future__ import annotations
 
 import argparse
-import json
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 from python_backend.corpus.loader import CorpusLoader
-from python_backend.runtime.json_contracts import safe_read_json_object
+from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 
 
 class TiebaCorpusUpdateSummary:
@@ -78,6 +77,7 @@ class TiebaCorpusUpdateRunner:
         self.run_path = Path(run_path)
         self.generated_at = generated_at or datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
         self.updater = TiebaCorpusUpdater()
+        self.reader = JsonContractReader()
 
     def run(self) -> dict[str, Any]:
         loaded = CorpusLoader(self.existing_path, fallback={"version": 1, "updatedAt": None, "runs": [], "comments": []}).load()
@@ -86,10 +86,7 @@ class TiebaCorpusUpdateRunner:
         return self.updater.build_update_result(existing, run, self.generated_at)
 
     def _read_json(self, path: Path, fallback: dict[str, Any]) -> dict[str, Any]:
-        if not path.exists():
-            return fallback
-        with path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
+        payload = self.reader.read_value(path, fallback)
         return payload if isinstance(payload, dict) else fallback
 
 
@@ -99,6 +96,7 @@ class TiebaCorpusPayloadRunner:
     def __init__(self, payload_path: str | Path):
         self.payload_path = Path(payload_path)
         self.updater = TiebaCorpusUpdater()
+        self.reader = JsonContractReader()
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
@@ -117,10 +115,7 @@ class TiebaCorpusPayloadRunner:
         return {"corpus": fallback}
 
     def _read_payload(self) -> dict[str, Any]:
-        if not self.payload_path.exists():
-            return {}
-        with self.payload_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
+        payload = self.reader.read_value(self.payload_path, {})
         return payload if isinstance(payload, dict) else {}
 
 
