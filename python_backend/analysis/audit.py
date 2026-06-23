@@ -828,6 +828,18 @@ class CoverageAuditStandaloneRunner:
         return self.builder.build({"entries": dictionary.entries})
 
 
+class CoverageAuditOutputWriter:
+    """Persist coverage-audit JSON output using the shared CLI result contract."""
+
+    def __init__(self, output_path: str | Path):
+        self.output_path = Path(output_path)
+
+    def write(self, audit: dict[str, Any]) -> dict[str, Any]:
+        self.output_path.parent.mkdir(parents=True, exist_ok=True)
+        self.output_path.write_bytes(CoverageAuditJsonResultContract(audit).to_bytes())
+        return audit
+
+
 @dataclass(frozen=True)
 class CoverageAuditRequest:
     """Analysis-layer request object for file-backed coverage-audit JSON contracts."""
@@ -835,15 +847,20 @@ class CoverageAuditRequest:
     dictionary_path: str | Path = "server/data/deepseekKeywordDictionary.json"
     js_audit_path: str | Path | None = "server/data/keywordCoverageAudit.json"
     strict_total_evidence: bool = False
+    output_path: str | Path | None = None
 
     def run(self) -> dict[str, Any]:
         if self.js_audit_path is None or str(self.js_audit_path).strip() == "":
-            return CoverageAuditStandaloneRunner(self.dictionary_path).run()
-        return CoverageAuditPayloadContractComparator(
-            self.dictionary_path,
-            self.js_audit_path,
-            strict_total_evidence=self.strict_total_evidence,
-        ).compare()
+            result = CoverageAuditStandaloneRunner(self.dictionary_path).run()
+        else:
+            result = CoverageAuditPayloadContractComparator(
+                self.dictionary_path,
+                self.js_audit_path,
+                strict_total_evidence=self.strict_total_evidence,
+            ).compare()
+        if self.output_path is not None and str(self.output_path).strip():
+            return CoverageAuditOutputWriter(self.output_path).write(result)
+        return result
 
 
 class CoverageAuditCommandRequest:
@@ -858,6 +875,7 @@ class CoverageAuditCommandRequest:
             dictionary_path=args.dictionary,
             js_audit_path=None if args.standalone else args.js_audit,
             strict_total_evidence=args.strict_total_evidence,
+            output_path=args.output or None,
         ).run()
 
     @staticmethod
@@ -866,6 +884,7 @@ class CoverageAuditCommandRequest:
         parser.add_argument("--dictionary", default="server/data/deepseekKeywordDictionary.json")
         parser.add_argument("--js-audit", default="server/data/keywordCoverageAudit.json")
         parser.add_argument("--standalone", action="store_true", help="Build the Python coverage audit directly without comparing a JS report.")
+        parser.add_argument("--output", default="", help="Optional path to write the coverage-audit JSON result.")
         parser.add_argument("--strict-total-evidence", action="store_true")
         return parser
 
