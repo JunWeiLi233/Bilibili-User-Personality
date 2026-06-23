@@ -27,6 +27,7 @@
     "python:compare": "python -m python_backend.cli.compare_contracts",
     "python:corpus-write": "python -m python_backend.cli.corpus_shard_writer",
     "python:coverage-compare": "python -m python_backend.cli.coverage_audit",
+    "python:coverage-standalone": "python -m python_backend.cli.coverage_audit --standalone",
     "python:coverage-artifacts": "python -m python_backend.cli.coverage_audit_artifacts",
     "python:coverage-loop-plan": "python -m python_backend.cli.coverage_loop_plan",
     "python:coverage-progress": "python -m python_backend.cli.coverage_progress",

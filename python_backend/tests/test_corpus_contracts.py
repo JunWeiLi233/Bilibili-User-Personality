@@ -992,6 +992,13 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertIn("--extra-corpus server/data/tiebaKeywordCorpus.json", command)
 
+    def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        command = package["scripts"]["python:coverage-standalone"]
+
+        self.assertEqual(command, "python -m python_backend.cli.coverage_audit --standalone")
+        self.assertEqual(package["scripts"]["dictionary:coverage"], "node server/scripts/runDictionaryCoverageAudit.js")
+
     def test_corpus_shard_writer_owns_json_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
