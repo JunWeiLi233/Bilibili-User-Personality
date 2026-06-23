@@ -8,6 +8,7 @@ from typing import Any
 
 from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 from python_backend.scrapers.rate_limiter import RateLimitPolicy
+from python_backend.scrapers.tieba_html import TiebaHtmlParser
 
 
 DEFAULT_COVERAGE_ACTION_FILE_NAME = "keywordCoverageActions.json"
@@ -181,6 +182,71 @@ class TiebaKeywordPlanRunner:
     def _read_payload(self) -> dict[str, Any]:
         payload = JsonContractReader().read_value(self.payload_path, {})
         return payload if isinstance(payload, dict) else {}
+
+
+class TiebaKeywordScrapeFixtureRunner:
+    """Build a JS-compatible Tieba keyword scrape result from saved HTML fixtures."""
+
+    def __init__(self, payload_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.reader = JsonContractReader()
+        self.parser = TiebaHtmlParser()
+
+    def run(self) -> dict[str, Any]:
+        payload = self._read_payload()
+        keyword = str(payload.get("keyword") or "").strip()
+        options = payload.get("options") if isinstance(payload.get("options"), dict) else {}
+        threads = self.parser.parse_threads(payload.get("discoveryHtml") or payload.get("html") or "", keyword)
+        comments = self._comments_for_threads(payload, threads, keyword, options)
+        warnings = payload.get("warnings") if isinstance(payload.get("warnings"), list) else []
+        return {
+            "ok": bool(threads or comments),
+            "keyword": keyword,
+            "threads": threads,
+            "comments": comments,
+            "commentText": "\n".join(str(comment.get("message") or "") for comment in comments if str(comment.get("message") or "")),
+            "source": "Tieba public thread scan",
+            "confidenceHint": self._confidence_hint(len(comments)),
+            "warnings": warnings,
+        }
+
+    def _read_payload(self) -> dict[str, Any]:
+        payload = self.reader.read_value(self.payload_path, {})
+        return payload if isinstance(payload, dict) else {}
+
+    def _comments_for_threads(
+        self,
+        payload: dict[str, Any],
+        threads: list[dict[str, Any]],
+        keyword: str,
+        options: dict[str, Any],
+    ) -> list[dict[str, Any]]:
+        if options.get("discoveryTitlesOnly") is True:
+            return self.parser.threads_to_discovery_comments(threads, keyword)
+        html_by_id = payload.get("threadHtmlById") if isinstance(payload.get("threadHtmlById"), dict) else {}
+        comments: list[dict[str, Any]] = []
+        seen: set[str] = set()
+        for thread in threads:
+            thread_id = str(thread.get("id") or "")
+            for comment in self.parser.parse_thread_comments(html_by_id.get(thread_id) or "", thread):
+                key = f"{comment.get('rpid') or ''}\n{comment.get('message') or ''}"
+                text_key = str(comment.get("message") or "")
+                if key in seen or text_key in seen:
+                    continue
+                seen.add(key)
+                seen.add(text_key)
+                comments.append(comment)
+        if not comments and options.get("includeDiscoveryTitles") is True and threads:
+            return self.parser.threads_to_discovery_comments(threads, keyword)
+        return comments
+
+    @staticmethod
+    def _confidence_hint(comment_count: int) -> str:
+        if comment_count >= 80:
+            return "large Tieba sample"
+        if comment_count >= 20:
+            return "medium Tieba sample"
+        return "small Tieba sample"
 
 
 class TiebaKeywordPlanContractComparator:

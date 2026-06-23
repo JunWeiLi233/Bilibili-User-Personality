@@ -90,3 +90,14 @@ test('runTiebaKeywordScrape can delegate dry-run option planning to Python', () 
     rmSync(tempDir, { recursive: true, force: true });
   }
 });
+
+test('compareTiebaKeywordPlan covers fixture keyword scrape parity', async () => {
+  const { compareTiebaKeywordPlan } = await import('./compareTiebaKeywordPlan.js');
+
+  const result = await compareTiebaKeywordPlan();
+
+  assert.equal(result.ok, true);
+  assert.equal(result.scrape.ok, true);
+  assert.deepEqual(result.scrape.python.commentMessages, ['第一条贴吧评论', '第二条贴吧评论']);
+  assert.deepEqual(result.scrape.python.threadIds, ['1234567890']);
+});

@@ -1696,7 +1696,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:tieba-keyword-compare",
                     "validationCommand": "node server/scripts/compareTiebaKeywordPlan.js",
-                    "validationScope": "dry_run_plan_fixture_and_js_python_plan_bridge",
+                    "validationScope": "dry_run_plan_fixture_scrape_fixture_and_js_python_plan_bridge",
                 },
                 {
                     "script": "dictionary:probe-bilibili",
@@ -11474,6 +11474,42 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["options"]["includeDiscoveryTitles"])
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["options"])
+
+    def test_tieba_keyword_scrape_fixture_runner_builds_js_compatible_result(self):
+        from python_backend.scrapers.tieba_keyword import TiebaKeywordScrapeFixtureRunner
+
+        discovery_html = '<a href="/p/1234567890" title="懂的都懂讨论">懂的都懂讨论</a>'
+        thread_html = (
+            '<div class="l_post" data-field=\'{"content":{"post_id":"1"},"author":{"user_name":"alice"}}\'>'
+            '<div class="d_post_content">第一条贴吧评论</div>'
+            '</div>'
+            '<div class="l_post" data-field=\'{"content":{"post_id":"2"},"author":{"user_name":"bob"}}\'>'
+            '<div class="d_post_content">第二条贴吧评论</div>'
+            '</div>'
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "tieba-scrape.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "keyword": "懂的都懂",
+                        "discoveryHtml": discovery_html,
+                        "threadHtmlById": {"1234567890": thread_html},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = TiebaKeywordScrapeFixtureRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["keyword"], "懂的都懂")
+        self.assertEqual([thread["id"] for thread in result["threads"]], ["1234567890"])
+        self.assertEqual([comment["message"] for comment in result["comments"]], ["第一条贴吧评论", "第二条贴吧评论"])
+        self.assertEqual(result["commentText"], "第一条贴吧评论\n第二条贴吧评论")
+        self.assertEqual(result["source"], "Tieba public thread scan")
+        self.assertEqual(result["confidenceHint"], "small Tieba sample")
+        self.assertEqual(result["warnings"], [])
 
     def test_tieba_keyword_plan_summary_extracts_comparator_contract(self):
         summary = TiebaKeywordPlanSummary().summarize(
