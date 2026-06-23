@@ -1414,6 +1414,23 @@ class CorpusContractTests(unittest.TestCase):
             result["packageScripts"]["pythonOwnedDataScripts"],
         )
 
+    def test_tieba_corpus_service_is_legacy_after_python_update_contract(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertNotIn("server/services/tiebaCorpus.js", result["migrationCandidateFiles"]["services"])
+        self.assertIn(
+            {"path": "server/services/tiebaCorpus.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {
+                "script": "python:tieba-update",
+                "command": "python -m python_backend.cli.tieba_corpus",
+                "pipeline": "tieba_corpus",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+
     def test_package_stats_update_uses_python_repository_updater(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
         result = BackendMigrationInventoryScanner(".").scan()

@@ -132,6 +132,7 @@ PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
     "harvest_options": ("python_backend.cli.harvest_options",),
     "corpus_shard_writer": ("python_backend.cli.corpus_shard_writer",),
     "huggingface_corpus": ("python_backend.cli.huggingface_corpus",),
+    "tieba_corpus": ("python_backend.cli.tieba_corpus",),
 }
 
 RETAINED_JS_FILE_PREFIXES = {
@@ -335,6 +336,11 @@ class BackendMigrationInventoryScanner:
         if (
             relative_path == "server/services/huggingFaceCorpus.js"
             and package_scripts.get("dictionary:huggingface") == "python -m python_backend.cli.huggingface_corpus"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/services/tiebaCorpus.js"
+            and package_scripts.get("python:tieba-update") == "python -m python_backend.cli.tieba_corpus"
         ):
             return "legacy_compatibility_after_python_replacement"
         if relative_path in RETAINED_JS_FILES:
