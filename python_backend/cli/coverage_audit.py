@@ -20,9 +20,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     result = CoverageAuditCliRunner(argv).run()
-    contract = CoverageAuditJsonResultContract(result)
-    contract.write_text(sys.stdout)
-    return contract.exit_code()
+    return CoverageAuditJsonResultContract(result).run_text(sys.stdout)
 
 
 if __name__ == "__main__":

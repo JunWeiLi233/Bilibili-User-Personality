@@ -67,6 +67,14 @@ class JsonResultBytesContract:
     def exit_code(self) -> int:
         return 0 if isinstance(self.result, dict) and self.result.get("ok") is True else 1
 
+    def run_text(self, stream: Any) -> int:
+        self.write_text(stream)
+        return self.exit_code()
+
+    def run_bytes(self, stream: Any) -> int:
+        self.write_bytes(stream)
+        return self.exit_code()
+
 
 def safe_read_json_object(path: str | Path) -> dict[str, Any]:
     """Compatibility wrapper for existing contract comparators."""

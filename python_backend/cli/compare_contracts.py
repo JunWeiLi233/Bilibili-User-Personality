@@ -16,9 +16,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     result = CompareContractsRunner(argv).run()
-    contract = CompareContractsJsonResultContract(result)
-    contract.write_text(sys.stdout)
-    return contract.exit_code()
+    return CompareContractsJsonResultContract(result).run_text(sys.stdout)
 
 
 if __name__ == "__main__":
