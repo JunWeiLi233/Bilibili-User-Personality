@@ -106,6 +106,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:harvest-options-compare": "js_python_contract_bridge",
     "python:tieba-keyword-compare": "js_python_contract_bridge",
     "python:direct-probe-compare": "js_python_contract_bridge",
+    "python:direct-probe-update-compare": "js_python_contract_bridge",
     "python:aicu-compare": "js_python_contract_bridge",
     "python:aicu-batch-compare": "js_python_contract_bridge",
     "python:local-mine-compare": "js_python_contract_bridge",
@@ -145,6 +146,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareHarvestOptions.js": "js_python_contract_bridge",
     "server/scripts/compareTiebaKeywordPlan.js": "js_python_contract_bridge",
     "server/scripts/compareDirectProbePlan.js": "js_python_contract_bridge",
+    "server/scripts/compareDirectProbeCorpus.js": "js_python_contract_bridge",
     "server/scripts/compareAicuScrapePlan.js": "js_python_contract_bridge",
     "server/scripts/compareAicuBatchPlan.js": "js_python_contract_bridge",
 }

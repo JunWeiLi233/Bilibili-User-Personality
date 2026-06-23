@@ -1307,6 +1307,19 @@ class CorpusContractTests(unittest.TestCase):
             "node server/scripts/analyzeDeepSeekComments.js --plan-json --python-plan",
         )
 
+    def test_package_direct_probe_update_compare_script_runs_js_python_corpus_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        result = BackendMigrationInventoryScanner(".").scan()
+        workflow = Path(".github/workflows/python-validation.yml").read_text(encoding="utf-8")
+
+        self.assertEqual(package["scripts"]["python:direct-probe-update"], "python -m python_backend.cli.direct_probe_corpus")
+        self.assertEqual(package["scripts"]["python:direct-probe-update-compare"], "node server/scripts/compareDirectProbeCorpus.js")
+        self.assertIn("npm run python:direct-probe-update-compare", workflow)
+        self.assertIn(
+            {"path": "server/scripts/compareDirectProbeCorpus.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_package_huggingface_dictionary_command_uses_python_after_full_contract_validation(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
         result = BackendMigrationInventoryScanner(".").scan()
