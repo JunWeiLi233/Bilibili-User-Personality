@@ -1,13 +1,12 @@
 from __future__ import annotations
 
 import argparse
-import json
 import os
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
 
-from python_backend.runtime.json_contracts import safe_read_json_object
+from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 
 
 def _stale_ms_or_default(value: Any, default: int = 60000) -> int:
@@ -69,11 +68,7 @@ class FileLockStateInspector:
         owner_path = self.lock_path / "owner.json"
         if not owner_path.exists():
             return None
-        try:
-            with owner_path.open("r", encoding="utf-8-sig") as handle:
-                payload = json.load(handle)
-        except (OSError, json.JSONDecodeError):
-            return None
+        payload = JsonContractReader().read_value(owner_path, None)
         return payload if isinstance(payload, dict) else None
 
     def _owner_summary(self, owner: dict[str, Any] | None) -> dict[str, Any]:

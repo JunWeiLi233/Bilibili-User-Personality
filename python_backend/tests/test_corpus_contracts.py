@@ -2379,6 +2379,11 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(comparison["js"], {})
         self.assertEqual(comparison["python"]["state"], {"exists": True, "hasOwner": True, "staleByAge": False, "staleByPid": False, "stale": False, "shouldRemove": False})
 
+    def test_file_lock_state_inspector_uses_shared_json_reader(self):
+        source = Path("python_backend/runtime/file_lock.py").read_text(encoding="utf-8")
+
+        self.assertNotIn("json.load", source)
+
     def test_file_lock_state_cli_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             lock_path = Path(tmp) / "harvest.lock"
