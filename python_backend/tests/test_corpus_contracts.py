@@ -18510,6 +18510,19 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["stats"], {"success": 0, "noComments": 0, "noVideos": 0, "noUser": 0, "trainError": 0, "blocked": 0, "errors": 0})
         self.assertEqual(result["userDb"], {"users": 0, "usersInRange": 0})
 
+    def test_uid_fast_pipeline_payload_runner_defaults_corrupt_json_contract_payload(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "uid-fast-pipeline-plan.json"
+            payload_path.write_text('{"argv": ', encoding="utf-8")
+
+            result = UidFastPipelinePayloadPlanRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"start": 1, "end": 100000, "total": 100000})
+        self.assertEqual(result["progress"], {"processed": 0, "remaining": 100000, "completionRatio": 0.0})
+        self.assertEqual(result["network"], {"mode": "directFetchJson", "usesCrawlerRateLimiter": False, "hasUserAgent": True})
+        self.assertEqual(result["stats"], {"success": 0, "noComments": 0, "noVideos": 0, "noUser": 0, "trainError": 0, "blocked": 0, "errors": 0})
+
     def test_uid_fast_pipeline_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
