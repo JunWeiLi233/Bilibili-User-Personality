@@ -1,16 +1,16 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import { compareHarvestState, compareHarvestStateObjects } from './compareHarvestState.js';
+import { HARVEST_STATE_FIXTURES, compareHarvestState, compareHarvestStateObjects } from './compareHarvestState.js';
 
 const TERM_ATTEMPTS = {
-  '5rWL6K-V': {
-    key: '5rWL6K-V',
-    term: '测试',
+  'dGVzdC10ZXJt': {
+    key: 'dGVzdC10ZXJt',
+    term: 'test-term',
     family: 'attack',
     attempts: 1,
     successfulAttempts: 1,
-    lastQuery: '测试 评论区',
+    lastQuery: 'test-term comments',
   },
 };
 
@@ -29,7 +29,7 @@ test('compareHarvestStateObjects reports matching state summaries', () => {
 test('compareHarvestState compares JS-compatible and Python harvest state results', async () => {
   const calls = [];
   const result = await compareHarvestState({
-    payload: { mode: 'default', planItem: { term: '测试', query: '测试 评论区' }, result: { ok: true } },
+    payload: { mode: 'default', planItem: { term: 'test-term', query: 'test-term comments' }, result: { ok: true } },
     runJs: async (context) => {
       calls.push({ js: context.payloadPath.endsWith('harvest-state.json') });
       return { ok: true, termAttempts: TERM_ATTEMPTS };
@@ -43,4 +43,32 @@ test('compareHarvestState compares JS-compatible and Python harvest state result
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.deepEqual(calls, [{ js: true }, { python: true }]);
+});
+
+test('compareHarvestState exports named file-backed fixtures', async () => {
+  assert.deepEqual(Object.keys(HARVEST_STATE_FIXTURES), ['default-miss', 'successful-hit', 'corrupt-payload']);
+
+  const calls = [];
+  const result = await compareHarvestState({
+    fixtureNames: Object.keys(HARVEST_STATE_FIXTURES),
+    runJs: async (context) => {
+      calls.push({ js: context.fixture.name, hasPayloadPath: context.payloadPath.endsWith('harvest-state.json') });
+      return { ok: true, termAttempts: TERM_ATTEMPTS };
+    },
+    runPython: async (context) => {
+      calls.push({ python: context.fixture.name, hasPayloadPath: context.payloadPath.endsWith('harvest-state.json') });
+      return { ok: true, termAttempts: TERM_ATTEMPTS };
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.deepEqual(calls, [
+    { js: 'default-miss', hasPayloadPath: true },
+    { python: 'default-miss', hasPayloadPath: true },
+    { js: 'successful-hit', hasPayloadPath: true },
+    { python: 'successful-hit', hasPayloadPath: true },
+    { js: 'corrupt-payload', hasPayloadPath: true },
+    { python: 'corrupt-payload', hasPayloadPath: true },
+  ]);
 });

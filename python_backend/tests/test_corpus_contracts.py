@@ -27362,6 +27362,10 @@ class CorpusContractTests(unittest.TestCase):
             {"path": "server/scripts/compareHarvestState.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
         )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:harvest-state-compare"],
+            "file_backed_default_miss_successful_hit_corrupt_payload_fixtures_and_js_python_bridge",
+        )
 
     def test_file_lock_state_has_js_python_validation_bridge(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))

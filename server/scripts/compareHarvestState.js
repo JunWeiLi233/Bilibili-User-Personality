@@ -1,8 +1,8 @@
 import { execFile } from 'node:child_process';
+import { writeFile, mkdtemp, readFile, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
 import { promisify } from 'node:util';
 
 const execFileAsync = promisify(execFile);
@@ -14,9 +14,9 @@ export const DEFAULT_PAYLOAD = {
   strategyVersion: 7,
   finishedAt: '2026-06-19T00:00:00.000Z',
   planItem: {
-    term: '测试',
+    term: 'test-term',
     family: 'attack',
-    query: '测试 评论区',
+    query: 'test-term comments',
     variantIndex: 1,
     evidenceCount: 0,
   },
@@ -27,6 +27,34 @@ export const DEFAULT_PAYLOAD = {
     comments: [],
   },
 };
+
+export const HARVEST_STATE_FIXTURES = {
+  'default-miss': DEFAULT_PAYLOAD,
+  'successful-hit': {
+    mode: 'default',
+    strategyVersion: 7,
+    finishedAt: '2026-06-19T00:00:00.000Z',
+    planItem: {
+      term: 'test-term',
+      family: 'attack',
+      query: 'test-term comments',
+      variantIndex: 1,
+      evidenceCount: 0,
+    },
+    result: {
+      ok: true,
+      entries: [{ term: 'test-term', evidenceCount: 2 }],
+      lastEvidenceCount: 2,
+      videos: [{ bvid: 'BV1' }],
+      comments: [{ message: 'hit' }, { message: 'hit two' }],
+    },
+  },
+  'corrupt-payload': {
+    payloadRaw: '{not-json',
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = Object.keys(HARVEST_STATE_FIXTURES);
 
 function cleanText(value) {
   return String(value || '').trim();
@@ -124,8 +152,8 @@ async function runJsHarvestState({ payloadPath }) {
     payload.state && typeof payload.state === 'object' && payload.state.termAttempts && typeof payload.state.termAttempts === 'object'
       ? payload.state.termAttempts
       : payload.termAttempts && typeof payload.termAttempts === 'object'
-      ? payload.termAttempts
-      : {};
+        ? payload.termAttempts
+        : {};
   const nextAttempts = updateTermAttempt(
     termAttempts,
     payload.planItem && typeof payload.planItem === 'object' ? payload.planItem : {},
@@ -146,21 +174,29 @@ async function runPythonHarvestState({ payloadPath }) {
 }
 
 async function writeFixture(payloadPath, payload) {
-  await writeFile(payloadPath, JSON.stringify(payload || {}, null, 2), 'utf8');
+  await writeFile(payloadPath, 'payloadRaw' in payload ? String(payload.payloadRaw ?? '') : JSON.stringify(payload || {}, null, 2), 'utf8');
 }
 
-export async function compareHarvestState({ payload = DEFAULT_PAYLOAD, runJs = runJsHarvestState, runPython = runPythonHarvestState } = {}) {
+function resolvePayload({ payload, fixture } = {}) {
+  if (payload) return { name: fixture?.name || 'custom', payload };
+  const name = typeof fixture === 'string' ? fixture : fixture?.name || 'default-miss';
+  return { name, payload: HARVEST_STATE_FIXTURES[name] || DEFAULT_PAYLOAD };
+}
+
+async function compareHarvestStateSingle({ payload, fixture, runJs = runJsHarvestState, runPython = runPythonHarvestState } = {}) {
+  const resolved = resolvePayload({ payload, fixture });
   const tempDir = await mkdtemp(join(tmpdir(), 'harvest-state-compare-'));
   try {
-    const payloadPath = payload.payloadPath || join(tempDir, 'harvest-state.json');
-    if (!payload.payloadPath) await writeFixture(payloadPath, payload);
-    const context = { payload, payloadPath };
+    const fixturePayload = resolved.payload;
+    const payloadPath = fixturePayload.payloadPath || join(tempDir, 'harvest-state.json');
+    if (!fixturePayload.payloadPath) await writeFixture(payloadPath, fixturePayload);
+    const context = { payload: fixturePayload, fixture: { name: resolved.name }, payloadPath };
     const js = await runJs(context);
     const python = await runPython(context);
     const comparison = compareHarvestStateObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { payloadPath },
+      fixture: { name: resolved.name, payloadPath },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -170,8 +206,20 @@ export async function compareHarvestState({ payload = DEFAULT_PAYLOAD, runJs = r
   }
 }
 
+export async function compareHarvestState({ payload, fixture, fixtureNames, runJs = runJsHarvestState, runPython = runPythonHarvestState } = {}) {
+  if (fixtureNames) {
+    const results = [];
+    for (const name of fixtureNames.length ? fixtureNames : DEFAULT_FIXTURE_NAMES) {
+      results.push(await compareHarvestStateSingle({ fixture: name, runJs, runPython }));
+    }
+    const mismatches = results.flatMap((result) => result.mismatches.map((mismatch) => ({ ...mismatch, fixture: result.fixture.name })));
+    return { ok: mismatches.length === 0, fixtures: results.map((result) => result.fixture), results, mismatches };
+  }
+  return compareHarvestStateSingle({ payload, fixture, runJs, runPython });
+}
+
 async function main() {
-  const result = await compareHarvestState();
+  const result = await compareHarvestState({ fixtureNames: DEFAULT_FIXTURE_NAMES });
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }
