@@ -1397,6 +1397,23 @@ class CorpusContractTests(unittest.TestCase):
             result["retainedJsBackendFiles"],
         )
 
+    def test_huggingface_corpus_service_is_legacy_after_python_import_contract(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertNotIn("server/services/huggingFaceCorpus.js", result["migrationCandidateFiles"]["services"])
+        self.assertIn(
+            {"path": "server/services/huggingFaceCorpus.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {
+                "script": "dictionary:huggingface",
+                "command": "python -m python_backend.cli.huggingface_corpus",
+                "pipeline": "huggingface_corpus",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+
     def test_package_stats_update_uses_python_repository_updater(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
         result = BackendMigrationInventoryScanner(".").scan()
