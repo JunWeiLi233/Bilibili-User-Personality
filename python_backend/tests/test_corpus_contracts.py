@@ -21940,6 +21940,20 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["comments"], {"totalForTargetUids": 3, "averagePerTargetUid": 1.5})
         self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
 
+    def test_uid_range_progress_runner_defaults_corrupt_json_contract_input(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            progress_path = root / "batch-uid-range-progress.json"
+            progress_path.write_text("{not-json", encoding="utf-8")
+
+            result = UidRangeProgressPayloadRunner(progress_path, start=200000, end=300000).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"start": 200000, "end": 300000})
+        self.assertEqual(result["discovery"], {"videosScanned": 0, "uidsDiscovered": 0, "targetUidsDiscovered": 0, "commentsCollected": 0})
+        self.assertEqual(result["phase2"], {"processed": 0, "success": 0, "errors": 0, "skipped": 0, "remaining": 0})
+        self.assertEqual(result["comments"], {"totalForTargetUids": 0, "averagePerTargetUid": 0})
+
     def test_uid_range_progress_reporter_summarizes_target_payload_without_filesystem(self):
         reporter = UidRangeProgressReporter(start=200000, end=300000)
 

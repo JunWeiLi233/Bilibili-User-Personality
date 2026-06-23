@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from python_backend.runtime.json_contracts import safe_read_json_object
+from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 
 
 RANGE_LAUNCHER_RANGES = (
@@ -435,10 +435,7 @@ class UidRangeProgressRunner:
         return UidRangeProgressReporter(start=self.start, end=self.end).build_report(payload)
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
-        if not path.exists():
-            return fallback
-        with path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
+        payload = JsonContractReader().read_value(path, fallback)
         return payload if isinstance(payload, dict) else fallback
 
 
