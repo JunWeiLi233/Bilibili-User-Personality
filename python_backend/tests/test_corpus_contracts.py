@@ -2313,6 +2313,22 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_file_lock_state_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            lock_path = root / "harvest.lock"
+            lock_path.mkdir()
+            js_report_path = root / "js-lock-report.json"
+            (lock_path / "owner.json").write_text(json.dumps({"pid": 0, "startedAt": "bad date", "command": "node"}), encoding="utf-8")
+            js_report_path.write_text('{"state": ', encoding="utf-8")
+
+            comparison = FileLockStatePayloadComparator(lock_path, js_report_path, stale_ms=60000, now_ms=lambda: 1781836920000, process_alive=lambda pid: False).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["state"], {"exists": True, "hasOwner": True, "staleByAge": False, "staleByPid": False, "stale": False, "shouldRemove": False})
+
     def test_file_lock_state_cli_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             lock_path = Path(tmp) / "harvest.lock"
@@ -21173,6 +21189,26 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["analysis"])
 
+    def test_uid_discovery_progress_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            js_report_path = root / "js-uid-discovery-progress.json"
+            (data_dir / "uid-discovery-progress.json").write_text(
+                json.dumps({"scannedBvids": ["BV1"], "processedUids": {"100": "success"}, "stats": {"videosScanned": 1}}),
+                encoding="utf-8",
+            )
+            (data_dir / "uid-discovery-comments.json").write_text(json.dumps({"100": [{"message": "x"}]}), encoding="utf-8")
+            js_report_path.write_text('{"analysis": ', encoding="utf-8")
+
+            comparison = UidDiscoveryProgressPayloadContractComparator(data_dir, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["analysis"], {"processed": 1, "success": 1, "errors": 0, "skipped": 0, "remaining": 0})
+
     def test_uid_discovery_progress_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -21427,6 +21463,24 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "analysis", "python": {"processed": 0, "pending": 2, "skippableNoText": 1, "trainable": 1, "userDbUsers": 1}, "js": {"trainable": 9}},
             ],
         )
+
+    def test_uid_discovery_plan_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "uid-discovery-plan.json"
+            js_report_path = root / "js-uid-discovery-plan.json"
+            payload_path.write_text(
+                json.dumps({"progress": {"phase": "discovery", "scannedBvids": ["BV1"], "processedUids": {}, "stats": {"videosScanned": 1}}, "comments": {"12": [{"message": "x"}]}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text('{"analysis": ', encoding="utf-8")
+
+            comparison = UidDiscoveryPlanPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["analysis"], {"processed": 0, "pending": 1, "skippableNoText": 0, "trainable": 1, "userDbUsers": 0})
 
     def test_uid_discovery_plan_cli_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:

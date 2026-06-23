@@ -7,6 +7,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
 
+from python_backend.runtime.json_contracts import safe_read_json_object
+
 
 def _stale_ms_or_default(value: Any, default: int = 60000) -> int:
     try:
@@ -186,11 +188,7 @@ class FileLockStateContractComparator:
         }
 
     def _read_js_report(self) -> dict[str, Any]:
-        if not self.js_report_path.exists():
-            return {}
-        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else {}
+        return safe_read_json_object(self.js_report_path)
 
 
 class FileLockStateRequest:
