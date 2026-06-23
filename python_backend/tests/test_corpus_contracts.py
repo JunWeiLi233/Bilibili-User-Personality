@@ -8799,6 +8799,22 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(result, {"ok": True, "hardStopMs": 19000})
 
+    def test_tieba_timing_runner_defaults_corrupt_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-timing.json"
+            payload_path.write_text("{bad payload", encoding="utf-8")
+            js_report_path.write_text("{bad report", encoding="utf-8")
+
+            result = TiebaTimingPayloadRunner(payload_path).run()
+            comparison = TiebaTimingPayloadComparator(payload_path, js_report_path).compare()
+
+        self.assertEqual(result, {"ok": True, "hardStopMs": 10000})
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["python"], {"hardStopMs": 10000})
+        self.assertEqual(comparison["js"], {"hardStopMs": None})
+
     def test_tieba_timing_contract_comparator_reports_hard_stop_mismatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
