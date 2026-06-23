@@ -19,6 +19,8 @@ def should_read_stdin(argv: list[str] | None = None) -> bool:
     args = list(sys.argv[1:] if argv is None else argv)
     if any(arg in ("--help", "-h") for arg in args):
         return False
+    if "--plan-json" in args:
+        return False
     for index, arg in enumerate(args):
         if arg.startswith("--text=") or arg.startswith("--file="):
             return False
@@ -28,8 +30,9 @@ def should_read_stdin(argv: list[str] | None = None) -> bool:
 
 
 def main(argv: list[str] | None = None) -> int:
+    stdin_is_tty = sys.stdin.isatty()
     stdin_text = sys.stdin.read() if should_read_stdin(argv) else ""
-    result = DeepSeekAnalyzeCliRunner(argv, stdin_text=stdin_text).run()
+    result = DeepSeekAnalyzeCliRunner(argv, stdin_text=stdin_text, stdin_is_tty=stdin_is_tty).run()
     json.dump(result, sys.stdout, ensure_ascii=False, indent=2)
     sys.stdout.write("\n")
     return 0 if result.get("ok") else 1

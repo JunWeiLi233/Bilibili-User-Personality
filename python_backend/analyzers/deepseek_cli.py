@@ -327,14 +327,18 @@ class DeepSeekAnalyzeRuntime:
 class DeepSeekAnalyzeCommandRequest:
     """Run Python-owned analyzeDeepSeekComments-compatible command modes."""
 
-    def __init__(self, argv: list[Any] | None = None, *, stdin_text: str = ""):
+    def __init__(self, argv: list[Any] | None = None, *, stdin_text: str = "", stdin_is_tty: bool | None = None):
         self.argv = [str(item) for item in argv] if argv is not None else None
         self.stdin_text = str(stdin_text or "")
+        self.stdin_is_tty = bool(stdin_is_tty) if stdin_is_tty is not None else not bool(self.stdin_text)
         self.normalizer = DeepSeekAnalysisNormalizer()
 
     @staticmethod
     def parser() -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(description="Analyze comments with the Python DeepSeek analyzer command contract.")
+        parser.add_argument("--plan-json", action="store_true", help="Emit the CLI input plan JSON contract without analyzing.")
+        parser.add_argument("--python-plan", action="store_true", help=argparse.SUPPRESS)
+        parser.add_argument("--js-plan", action="store_true", help=argparse.SUPPRESS)
         parser.add_argument("--text", default="")
         parser.add_argument("--file", default="")
         parser.add_argument("--uid", default="")
@@ -346,6 +350,8 @@ class DeepSeekAnalyzeCommandRequest:
 
     def run(self) -> dict[str, Any]:
         args = self.parser().parse_args(self._normalize_argv(self.argv))
+        if args.plan_json:
+            return DeepSeekAnalyzeCliPlanner().build_plan(self._normalize_argv(self.argv) or [], stdin_is_tty=self.stdin_is_tty)
         payload = self._payload(args)
         if args.mock_chat_analysis:
             return self._run_mock_chat(payload, args.mock_chat_analysis)

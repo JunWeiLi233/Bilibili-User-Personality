@@ -6402,6 +6402,35 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["sentenceAnalyses"][0]["quote"], "\u5f39\u5e55\u592a\u9634\u9633\u4e86[doge]")
 
+    def test_deepseek_analyze_command_request_emits_plan_json_contract(self):
+        result = DeepSeekAnalyzeCommandRequest(
+            ["--plan-json", "--text", "\u53cd\u8bbd[doge]", "--uid", "42", "--multiagent"]
+        ).run()
+
+        self.assertEqual(
+            result,
+            {
+                "ok": True,
+                "payload": {"text": "\u53cd\u8bbd[doge]", "uid": "42", "multiagent": True},
+                "input": {"source": "argv", "file": "", "readsStdin": False, "showHelp": False},
+            },
+        )
+
+    def test_deepseek_analyze_command_request_plan_json_reports_stdin_without_consuming_text(self):
+        result = DeepSeekAnalyzeCommandRequest(
+            ["--plan-json"],
+            stdin_is_tty=False,
+        ).run()
+
+        self.assertEqual(
+            result,
+            {
+                "ok": True,
+                "payload": {},
+                "input": {"source": "stdin", "file": "", "readsStdin": True, "showHelp": False},
+            },
+        )
+
     def test_deepseek_analyze_cli_reads_stdin_only_without_explicit_input_flags(self):
         class Pipe(io.StringIO):
             def isatty(self):
@@ -6415,6 +6444,7 @@ class CorpusContractTests(unittest.TestCase):
             self.assertFalse(deepseek_analyze_cli.should_read_stdin(["--text=\u5f39\u5e55"]))
             self.assertFalse(deepseek_analyze_cli.should_read_stdin(["--file", "comments.txt"]))
             self.assertFalse(deepseek_analyze_cli.should_read_stdin(["--help"]))
+            self.assertFalse(deepseek_analyze_cli.should_read_stdin(["--plan-json"]))
             self.assertTrue(deepseek_analyze_cli.should_read_stdin(["--mock-chat-analysis", "analysis.json"]))
         finally:
             deepseek_analyze_cli.sys.stdin = original_stdin
