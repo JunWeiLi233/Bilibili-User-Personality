@@ -28,6 +28,16 @@ def _parse_number_or(value: Any, fallback: int) -> int:
         return fallback
 
 
+def _parse_js_number_or(value: Any, fallback: int) -> int | float:
+    try:
+        parsed = float(str(value if value is not None else "").strip())
+    except ValueError:
+        return fallback
+    if not parsed:
+        return fallback
+    return int(parsed) if parsed.is_integer() else parsed
+
+
 class UidFastPipelinePlanner:
     """Build a dry-run plan for uidPipelineFast.js direct-fetch range processing."""
 
@@ -303,20 +313,17 @@ class UidFastPipelineWorkerPlanner:
         for raw in argv:
             arg = str(raw or "")
             if arg.startswith("--start="):
-                options["start"] = _parse_number_or(arg.split("=", 1)[1], self.DEFAULT_START)
+                options["start"] = _parse_js_number_or(arg.split("=", 1)[1], self.DEFAULT_START)
             elif arg.startswith("--end="):
-                options["end"] = _parse_number_or(arg.split("=", 1)[1], self.DEFAULT_END)
+                options["end"] = _parse_js_number_or(arg.split("=", 1)[1], self.DEFAULT_END)
             elif arg.startswith("--concurrency="):
-                options["concurrency"] = _parse_number_or(arg.split("=", 1)[1], self.DEFAULT_CONCURRENCY)
+                options["concurrency"] = _parse_js_number_or(arg.split("=", 1)[1], self.DEFAULT_CONCURRENCY)
         return options
 
     def _users_in_range(self, users: dict[str, Any], start: int, end: int) -> int:
         count = 0
         for uid in users:
-            try:
-                numeric_uid = int(str(uid))
-            except (TypeError, ValueError):
-                continue
+            numeric_uid = _parse_number_or(uid, start - 1)
             if start <= numeric_uid <= end:
                 count += 1
         return count

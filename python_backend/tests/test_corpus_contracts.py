@@ -23939,6 +23939,21 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["stats"], {"success": 1, "noComments": 0, "noVideos": 0, "noUser": 1, "trainError": 0, "blocked": 0, "errors": 0})
         self.assertEqual(result["userDb"], {"users": 2, "usersInRange": 1})
 
+    def test_uid_fast_pipeline_worker_matches_js_number_args_and_parseint_counts(self):
+        result = UidFastPipelineWorkerPlanner().build_plan(
+            argv=["--start=12abc", "--end=14abc", "--concurrency=7abc"],
+            progress={
+                "processed": {"12": "success", "13": "blocked"},
+                "stats": {"success": "1ok", "blocked": "1blocked", "errors": "2bad"},
+            },
+            database={"users": {"12abc": {}, "13": {}, "99": {}}},
+        )
+
+        self.assertEqual(result["range"], {"start": 1, "end": 100000, "total": 100000, "concurrency": 5})
+        self.assertEqual(result["progress"], {"processed": 2, "remaining": 99998, "completionRatio": 0.0})
+        self.assertEqual(result["stats"], {"success": 1, "noComments": 0, "noVideos": 0, "noUser": 0, "trainError": 0, "blocked": 1, "errors": 2})
+        self.assertEqual(result["userDb"], {"users": 3, "usersInRange": 3})
+
     def test_uid_fast_pipeline_worker_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -23984,12 +23999,16 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             BackendMigrationInventoryScanner._validation_gates(
                 validation_script="python:uid-fast-worker-compare",
-                validation_scope="dry_run_plan_fixture_and_js_python_plan_bridge",
+                validation_scope="dry_run_plan_default_worker_number_fallback_parseint_uids_fixtures_and_js_python_bridge",
             ),
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-fast-worker-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidFastPipelineWorkerPlan.test.js"},
             ],
+        )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:uid-fast-worker-compare"],
+            "dry_run_plan_default_worker_number_fallback_parseint_uids_fixtures_and_js_python_bridge",
         )
 
     def test_scraper_monitor_pipeline_payload_planner_builds_worker_progress_filenames(self):

@@ -5,7 +5,11 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { test } from 'node:test';
 
-import { compareUidFastPipelineWorkerPlan, compareUidFastPipelineWorkerPlanObjects } from './compareUidFastPipelineWorkerPlan.js';
+import {
+  UID_FAST_WORKER_PLAN_FIXTURES,
+  compareUidFastPipelineWorkerPlan,
+  compareUidFastPipelineWorkerPlanObjects,
+} from './compareUidFastPipelineWorkerPlan.js';
 
 const PLAN = {
   range: { start: 2, end: 4, total: 3, concurrency: 7 },
@@ -44,6 +48,27 @@ test('compareUidFastPipelineWorkerPlan compares JS and Python dry-run plans', as
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('compareUidFastPipelineWorkerPlan exports named compatibility fixtures', async () => {
+  assert.deepEqual(Object.keys(UID_FAST_WORKER_PLAN_FIXTURES), ['default-worker', 'number-fallback-and-parseint-uids']);
+
+  const payloads = [];
+  const result = await compareUidFastPipelineWorkerPlan({
+    fixtureNames: Object.keys(UID_FAST_WORKER_PLAN_FIXTURES),
+    runJs: async ({ payload }) => {
+      payloads.push(payload);
+      return { ok: true, ...PLAN };
+    },
+    runPython: async () => ({ ok: true, ...PLAN }),
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.fixtures.map((fixture) => fixture.name), ['default-worker', 'number-fallback-and-parseint-uids']);
+  assert.deepEqual(payloads, [
+    UID_FAST_WORKER_PLAN_FIXTURES['default-worker'],
+    UID_FAST_WORKER_PLAN_FIXTURES['number-fallback-and-parseint-uids'],
+  ]);
 });
 
 test('uidPipelineFastWorker can delegate dry-run planning to Python', () => {
