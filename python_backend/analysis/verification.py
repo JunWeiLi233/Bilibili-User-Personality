@@ -491,6 +491,37 @@ class RandomVerificationExecutionContract:
         return RandomVerificationSummaryContract(annotated).build()
 
 
+class RandomVerificationReportBuilder:
+    """Owns execution and JS-compatible report payload construction."""
+
+    def __init__(
+        self,
+        comments: list[Any] | None = None,
+        keyword_terms: list[str] | None = None,
+        corpus: dict[str, Any] | None = None,
+        sample_size: Any = 50,
+        seed: Any = 1,
+    ):
+        self.comments = comments
+        self.annotation_contract = RandomVerificationAnnotationContract(keyword_terms)
+        self.keyword_terms = self.annotation_contract.keyword_terms
+        self.corpus = corpus if isinstance(corpus, dict) else {}
+        self.options = RandomVerificationRunOptions.from_values(sample_size=sample_size, seed=seed)
+
+    def build(self) -> dict[str, Any]:
+        summary = RandomVerificationExecutionContract(
+            comments=self.comments,
+            annotation_contract=self.annotation_contract,
+            sample_size=self.options.sample_size,
+            seed=self.options.seed,
+        ).verify()
+        return RandomVerificationReportContract(
+            corpus=self.corpus,
+            dictionary_terms=len(self.keyword_terms),
+            options=self.options,
+        ).build(summary)
+
+
 class RandomVerifier:
     """Deterministically sample comments and classify lexical keyword coverage."""
 
@@ -516,10 +547,13 @@ class RandomVerifier:
         ).verify()
 
     def report(self, comments: list[dict[str, Any]], corpus: dict[str, Any], sample_size: int, seed: int) -> dict[str, Any]:
-        corpus = corpus if isinstance(corpus, dict) else {}
-        options = RandomVerificationRunOptions.from_values(sample_size=sample_size, seed=seed)
-        summary = self.verify(comments, sample_size=options.sample_size, seed=options.seed)
-        return RandomVerificationReportContract(corpus=corpus, dictionary_terms=len(self.keyword_terms), options=options).build(summary)
+        return RandomVerificationReportBuilder(
+            comments=comments,
+            keyword_terms=self.keyword_terms,
+            corpus=corpus,
+            sample_size=sample_size,
+            seed=seed,
+        ).build()
 
     def _annotate(self, comment: dict[str, Any]) -> dict[str, Any]:
         return self.annotation_contract.annotate(comment)
