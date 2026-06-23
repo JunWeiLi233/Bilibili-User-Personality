@@ -3197,6 +3197,23 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_video_link_direct_plan_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "direct-video.json"
+            js_report_path = root / "js-direct-video.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--video-link", "https://www.bilibili.com/video/BV1abc/", "--pages", "5"]}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            result = VideoLinkDirectPlanContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"], {})
+
     def test_video_link_direct_plan_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -14379,6 +14396,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["viewUrl"], "https://api.bilibili.com/x/web-interface/view?aid=123")
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["viewUrl", "searchUrls"])
+
+    def test_bilibili_probe_plan_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-probe-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "urls",
+                        "query": "\u67e5\u67e5\u8d44\u6599",
+                        "search": {"pages": 1, "pageSize": 8},
+                        "video": {"aid": "123", "rootRpid": "456"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            result = BilibiliProbePlanPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"], {})
 
     def test_bilibili_probe_plan_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:

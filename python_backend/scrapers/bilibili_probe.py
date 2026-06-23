@@ -7,6 +7,8 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import quote_plus, urlparse
 
+from python_backend.runtime.json_contracts import safe_read_json_object
+
 
 DEFAULT_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
 
@@ -141,11 +143,7 @@ class BilibiliProbePlanPayloadContractComparator:
         return self.comparator.compare(python_result, js_result)
 
     def _read_js_report(self) -> dict[str, Any]:
-        if not self.js_report_path.exists():
-            return {}
-        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else {}
+        return safe_read_json_object(self.js_report_path)
 
 
 class BilibiliProbePlanRequest:
