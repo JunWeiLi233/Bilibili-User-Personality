@@ -13,6 +13,11 @@ server/data/keywordCoverageAudit.json
 server/data/keywordCoverageActions.json
 server/data/keywordCoverageQueries.txt
 server/data/keywordCoverageLoopReport.json
+server/data/pythonContractComparison.json
+server/data/randomVerificationReport.json
+server/data/keywordCoverageAudit.python.json
+server/data/keywordCoverageQueries.python.txt
+server/data/keywordCoverageActions.python.json
 server/data/.keyword-harvest.lock/
 server/data/*.json.lock/
 set-deepseek-env.ps1

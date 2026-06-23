@@ -1118,6 +1118,15 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(command, "npm run python:coverage-standalone:write && npm run python:verify-random:write && npm run python:compare:write-full")
 
+    def test_gitignore_excludes_generated_python_validation_artifacts(self):
+        ignored = set(Path(".gitignore").read_text(encoding="utf-8").splitlines())
+
+        self.assertIn("server/data/pythonContractComparison.json", ignored)
+        self.assertIn("server/data/randomVerificationReport.json", ignored)
+        self.assertIn("server/data/keywordCoverageAudit.python.json", ignored)
+        self.assertIn("server/data/keywordCoverageQueries.python.txt", ignored)
+        self.assertIn("server/data/keywordCoverageActions.python.json", ignored)
+
     def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
         command = package["scripts"]["python:coverage-standalone"]
