@@ -12857,6 +12857,23 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["runs"], 1)
         self.assertEqual(result["corpus"]["videos"][0]["title"], "\u5386\u53f2\u89c6\u9891")
 
+    def test_bilibili_history_tags_service_is_legacy_after_python_contract(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertNotIn("server/services/bilibiliHistoryTags.js", result["migrationCandidateFiles"]["services"])
+        self.assertIn(
+            {"path": "server/services/bilibiliHistoryTags.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {
+                "script": "dictionary:history-tags",
+                "command": "python -m python_backend.cli.history_tag_corpus",
+                "pipeline": "history_tag_corpus",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+
     def test_history_tag_corpus_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

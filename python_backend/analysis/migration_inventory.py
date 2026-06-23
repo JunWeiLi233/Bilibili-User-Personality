@@ -136,6 +136,7 @@ PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
     "local_corpus_mine": ("python_backend.cli.local_corpus_mine",),
     "semantic_matcher": ("python_backend.cli.semantic_matcher",),
     "comment_coverage": ("python_backend.cli.comment_coverage",),
+    "history_tag_corpus": ("python_backend.cli.history_tag_corpus",),
 }
 
 RETAINED_JS_FILE_PREFIXES = {
@@ -279,6 +280,11 @@ class BackendMigrationInventoryScanner:
             return "legacy_compatibility_after_python_replacement"
         if (
             relative_path == "server/scripts/scrapeBilibiliHistoryTags.js"
+            and package_scripts.get("dictionary:history-tags") == "python -m python_backend.cli.history_tag_corpus"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/services/bilibiliHistoryTags.js"
             and package_scripts.get("dictionary:history-tags") == "python -m python_backend.cli.history_tag_corpus"
         ):
             return "legacy_compatibility_after_python_replacement"
