@@ -440,6 +440,66 @@ class CoverageHarvestLoopRuntimeGate:
         return {"runtimeMode": "deferred_live_harvest", "replacementBlockers": [dict(self.LIVE_HARVEST_BLOCKER)]}
 
 
+class CoverageHarvestLoopMockHarvestRunner:
+    """Run a file-backed coverage loop cycle using a JSON harvest payload."""
+
+    def __init__(
+        self,
+        *,
+        dictionary_path: str | Path,
+        report_path: str | Path,
+        payload_path: str | Path,
+        max_cycles: int = 1,
+        rounds_per_cycle: int = 1,
+        target_evidence: int = 3,
+        max_actions: int = 12,
+        min_coverage_ratio: float = 1,
+        require_complete: bool = True,
+        require_source_backed_evidence: bool = False,
+        require_comment_backed_evidence: bool = False,
+        generated_at: str | None = None,
+    ):
+        self.dictionary_path = Path(dictionary_path)
+        self.report_path = Path(report_path)
+        self.payload_path = Path(payload_path)
+        self.max_actions = max(1, _positive_int(max_actions, 12))
+        self.audit_builder = CoverageAuditBuilder(
+            target_evidence=target_evidence,
+            max_actions=max_actions,
+            min_coverage_ratio=min_coverage_ratio,
+            require_complete=require_complete,
+            require_source_backed_evidence=require_source_backed_evidence,
+            require_comment_backed_evidence=require_comment_backed_evidence,
+        )
+        self.report_builder = CoverageHarvestLoopCycleReportBuilder(
+            generated_at=generated_at or CoverageHarvestLoopCommandRunner._now(),
+            max_cycles=max_cycles,
+            rounds_per_cycle=rounds_per_cycle,
+        )
+
+    def run(self) -> dict[str, Any]:
+        payload = JsonContractReader().read_value(self.payload_path, {})
+        payload = payload if isinstance(payload, dict) else {}
+        before_dictionary = JsonContractReader({"version": 1, "entries": []}).read_object(self.dictionary_path)
+        after_dictionary = payload.get("afterDictionary") if isinstance(payload.get("afterDictionary"), dict) else before_dictionary
+        before_audit = self.audit_builder.build(before_dictionary)
+        after_audit = self.audit_builder.build(after_dictionary)
+        priority_queries = CoverageHarvestLoopPlanner().priority_query_items_from_audit(
+            before_audit,
+            self.max_actions,
+        )
+        report = self.report_builder.build(
+            cycle=payload.get("cycle", 1),
+            priority_queries=priority_queries,
+            harvest=payload.get("harvest") if isinstance(payload.get("harvest"), dict) else {},
+            before_audit=before_audit,
+            after_audit=after_audit,
+            stop_reason=str(payload.get("stopReason") or ""),
+        )
+        CoverageHarvestLoopCommandRunner.write_report_file(self.report_path, report)
+        return report
+
+
 class CoverageHarvestLoopCommandRunner:
     """Run the file-backed coverage harvest-loop command for validated no-live gates."""
 
@@ -584,6 +644,21 @@ class CoverageHarvestLoopCommandRequest:
             )
             CoverageHarvestLoopCommandRunner.write_report_file(args.report, report)
             return report
+        if args.mock_harvest_payload:
+            return CoverageHarvestLoopMockHarvestRunner(
+                dictionary_path=args.dictionary,
+                report_path=args.report,
+                payload_path=args.mock_harvest_payload,
+                max_cycles=args.max_cycles,
+                rounds_per_cycle=args.rounds_per_cycle,
+                target_evidence=args.target_evidence,
+                max_actions=args.max_actions,
+                min_coverage_ratio=args.min_coverage_ratio,
+                require_complete=not args.allow_incomplete,
+                require_source_backed_evidence=args.require_source_backed_evidence,
+                require_comment_backed_evidence=args.require_comment_backed_evidence,
+                generated_at=args.generated_at or None,
+            ).run()
         return CoverageHarvestLoopRequest(
             dictionary_path=args.dictionary,
             state_path=args.state,
@@ -619,5 +694,6 @@ class CoverageHarvestLoopCommandRequest:
         parser.add_argument("--require-comment-backed-evidence", action="store_true")
         parser.add_argument("--generated-at", default="")
         parser.add_argument("--mock-cycle-payload", default="", help="Build a one-cycle report from a JSON payload without live harvesting.")
+        parser.add_argument("--mock-harvest-payload", default="", help="Build a file-backed harvest cycle report from a JSON payload without live network harvesting.")
         parser.add_argument("--exit-zero", action="store_true")
         return parser

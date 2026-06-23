@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import { coverageDeltaFromHarvest } from '../utils/coverageProgress.js';
+import { buildDictionaryCoverageAudit } from '../services/keywordHarvest.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -223,6 +224,48 @@ export const MOCK_MULTI_CYCLE_PAYLOAD = {
   ],
 };
 
+export const FILE_BACKED_MOCK_HARVEST_PAYLOAD = {
+  afterDictionary: {
+    version: 1,
+    updatedAt: '2026-01-01T00:00:00.000Z',
+    entries: [
+      {
+        term: 'doge',
+        family: 'meme',
+        evidenceCount: 3,
+        evidenceSamples: ['doge hot', 'doge reply', 'doge source'],
+        evidenceSources: ['Bilibili comments'],
+      },
+    ],
+  },
+  harvest: {
+    ok: true,
+    rounds: [
+      {
+        queries: ['doge 评论区 热评'],
+        warnings: [],
+        coverageProgress: { evidenceGained: 3, zeroEvidenceResolved: 1, weakTermsResolved: 1 },
+        trainingDiagnostics: { accepted: 3 },
+        queryDiagnostics: [{ query: 'doge 评论区 热评', videos: 1 }],
+      },
+    ],
+  },
+};
+
+export const FILE_BACKED_MOCK_HARVEST_DICTIONARY = {
+  version: 1,
+  updatedAt: '2026-01-01T00:00:00.000Z',
+  entries: [
+    {
+      term: 'doge',
+      family: 'meme',
+      evidenceCount: 0,
+      evidenceSamples: [],
+      evidenceSources: [],
+    },
+  ],
+};
+
 const DEFAULT_FIXTURES = [
   { name: 'complete-empty-dictionary', dictionary: DEFAULT_DICTIONARY },
   { name: 'weak-cycle-limit', dictionary: WEAK_DICTIONARY },
@@ -230,6 +273,7 @@ const DEFAULT_FIXTURES = [
   { name: 'mock-cycle-report', mockCyclePayload: MOCK_CYCLE_PAYLOAD },
   { name: 'mock-no-progress-cycle', mockCyclePayload: MOCK_NO_PROGRESS_CYCLE_PAYLOAD },
   { name: 'mock-multi-cycle-report', mockCyclePayload: MOCK_MULTI_CYCLE_PAYLOAD },
+  { name: 'file-backed-mock-harvest', dictionary: FILE_BACKED_MOCK_HARVEST_DICTIONARY, mockHarvestPayload: FILE_BACKED_MOCK_HARVEST_PAYLOAD },
 ];
 
 function summarize(report = {}) {
@@ -351,12 +395,77 @@ function buildJsMockCycle(payload = {}, fallbackCycle = 1) {
   };
 }
 
+function priorityQueryItemsFromAudit(audit = {}, limit = 12) {
+  return (Array.isArray(audit.nextActions) ? audit.nextActions : [])
+    .flatMap((item) => {
+      const queries = [item.nextQuery, ...(Array.isArray(item.suggestedQueries) ? item.suggestedQueries : [])]
+        .map((query) => String(query || '').trim())
+        .filter(Boolean);
+      return queries.map((query) => ({ ...item, query, nextQuery: query }));
+    })
+    .slice(0, limit);
+}
+
+function buildJsFileBackedMockHarvestReport({ dictionary = DEFAULT_DICTIONARY, payload = {}, maxCycles = 1 } = {}) {
+  const beforeAudit = buildDictionaryCoverageAudit(dictionary);
+  const afterAudit = buildDictionaryCoverageAudit(
+    payload.afterDictionary && typeof payload.afterDictionary === 'object' ? payload.afterDictionary : dictionary,
+  );
+  const cycle = buildJsMockCycle(
+    {
+      cycle: payload.cycle || 1,
+      priorityQueries: priorityQueryItemsFromAudit(beforeAudit, 12),
+      harvest: payload.harvest,
+      beforeAudit,
+      afterAudit,
+    },
+    1,
+  );
+  return {
+    generatedAt: GENERATED_AT,
+    maxCycles: Number(maxCycles || 1),
+    roundsPerCycle: 1,
+    stopReason: payload.stopReason || (afterAudit.ok === true ? 'coverage_gate_passed' : ''),
+    finalOk: afterAudit.ok === true,
+    finalAudit: afterAudit,
+    cycles: [cycle],
+  };
+}
+
 async function runPythonMockCycleReport({ payload, payloadPath }) {
   await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
   const reportPath = payloadPath.replace(/-payload\.json$/, '-report-python.json');
   const { stdout } = await execFileAsync(
     'python',
     ['-m', 'python_backend.cli.coverage_loop_command', '--mock-cycle-payload', payloadPath, '--report', reportPath, '--exit-zero'],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return { stdoutReport: JSON.parse(stdout), fileReport: JSON.parse(await readFile(reportPath, 'utf8')) };
+}
+
+async function runPythonMockHarvestReport({ dictionaryPath, reportPath, payload, payloadPath }) {
+  await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
+  const { stdout } = await execFileAsync(
+    'python',
+    [
+      '-m',
+      'python_backend.cli.coverage_loop_command',
+      '--dictionary',
+      dictionaryPath,
+      '--report',
+      reportPath,
+      '--max-cycles',
+      '1',
+      '--generated-at',
+      GENERATED_AT,
+      '--mock-harvest-payload',
+      payloadPath,
+      '--exit-zero',
+    ],
     {
       cwd: process.cwd(),
       env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
@@ -403,6 +512,31 @@ export async function compareCoverageHarvestLoopCommand({
       }
       await writeFile(jsDictionaryPath, JSON.stringify(fixtureDictionary, null, 2), 'utf8');
       await writeFile(pythonDictionaryPath, JSON.stringify(fixtureDictionary, null, 2), 'utf8');
+      if (fixture?.mockHarvestPayload) {
+        const payloadPath = join(tempDir, `${fixtureName}-payload.json`);
+        const js = buildJsFileBackedMockHarvestReport({
+          dictionary: fixtureDictionary,
+          payload: fixture.mockHarvestPayload,
+          maxCycles: fixture.maxCycles || 1,
+        });
+        const pythonRun = await runPythonMockHarvestReport({
+          dictionaryPath: pythonDictionaryPath,
+          reportPath: pythonReportPath,
+          payload: fixture.mockHarvestPayload,
+          payloadPath,
+        });
+        const python = pythonRun.stdoutReport;
+        const comparison = compareCoverageHarvestLoopCommandObjects(python, js);
+        results.push({
+          ok: comparison.ok,
+          fixture: fixtureName,
+          js,
+          python,
+          pythonReportFile: pythonRun.fileReport,
+          mismatches: comparison.mismatches,
+        });
+        continue;
+      }
       if (fixture?.pythonOnly) {
         const python = await runPython({
           dictionaryPath: pythonDictionaryPath,

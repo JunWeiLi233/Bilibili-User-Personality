@@ -64,7 +64,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:dictionary-prune-compare": "summary_command_fixture",
     "python:exhausted-prune-compare": "dry_run_plan_fixture",
     "python:near-target-compare": "dry_run_plan_fixture",
-    "python:coverage-loop-compare": "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_mock_write_js_python_command_and_deferred_live_contract",
+    "python:coverage-loop-compare": "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_mock_write_file_backed_mock_harvest_js_python_command_and_deferred_live_contract",
     "python:tieba-keyword-compare": "dry_run_plan_fixture_and_js_python_plan_bridge",
     "python:direct-probe-compare": "dry_run_plan_and_no_live_command_fixture",
     "python:direct-probe-command-compare": "full_command",
@@ -707,6 +707,7 @@ class BackendMigrationInventoryScanner:
                 {"gate": "mock_no_progress_cycle_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
                 {"gate": "mock_multi_cycle_report_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
                 {"gate": "mock_report_write_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
+                {"gate": "file_backed_mock_harvest_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
                 {"gate": "js_opt_in_python_command_bridge", "status": "covered", "source": "runCoverageHarvestLoopScript.test.js"},
                 {"gate": "deferred_live_runtime_contract", "status": "covered", "source": "python:coverage-loop-command-compare"},
             ]

@@ -1685,7 +1685,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:coverage-loop-compare",
                     "validationCommand": "node server/scripts/compareCoverageHarvestLoopPlan.js",
-                    "validationScope": "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_mock_write_js_python_command_and_deferred_live_contract",
+                    "validationScope": "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_mock_write_file_backed_mock_harvest_js_python_command_and_deferred_live_contract",
                 },
                 {
                     "script": "dictionary:tieba",
@@ -1881,7 +1881,7 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["nextOfflineMigrationAction"]["path"], "server/scripts/runCoverageHarvestLoop.js")
         self.assertEqual(result["nextOfflineMigrationAction"]["nodeScript"], "dictionary:auto")
-        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_mock_write_js_python_command_and_deferred_live_contract")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_mock_write_file_backed_mock_harvest_js_python_command_and_deferred_live_contract")
         self.assertFalse(result["nextOfflineMigrationAction"]["readyToReplace"])
         self.assertIn(
             {"gate": "no_live_command_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
@@ -1901,6 +1901,10 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertIn(
             {"gate": "mock_report_write_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
+            result["nextOfflineMigrationAction"]["validationGates"],
+        )
+        self.assertIn(
+            {"gate": "file_backed_mock_harvest_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
             result["nextOfflineMigrationAction"]["validationGates"],
         )
         self.assertIn(
@@ -28905,6 +28909,91 @@ class CorpusContractTests(unittest.TestCase):
             self.assertEqual(json.loads(report_path.read_text(encoding="utf-8")), result)
             self.assertEqual(result["stopReason"], "coverage_gate_passed")
             self.assertEqual(result["cycles"][0]["harvest"]["queries"], ["doge hot"])
+
+    def test_coverage_harvest_loop_command_runs_file_backed_mock_harvest_cycle(self):
+        from python_backend.analysis import coverage_loop as coverage_loop_module
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+            dictionary_path = temp_path / "dictionary.json"
+            state_path = temp_path / "state.json"
+            report_path = temp_path / "report.json"
+            payload_path = temp_path / "harvest.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "entries": [
+                            {
+                                "term": "doge",
+                                "family": "meme",
+                                "evidenceCount": 0,
+                                "evidenceSamples": [],
+                                "evidenceSources": [],
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "afterDictionary": {
+                            "version": 1,
+                            "entries": [
+                                {
+                                    "term": "doge",
+                                    "family": "meme",
+                                    "evidenceCount": 3,
+                                    "evidenceSamples": ["doge hot", "doge reply", "doge source"],
+                                    "evidenceSources": ["Bilibili comments"],
+                                }
+                            ],
+                        },
+                        "harvest": {
+                            "ok": True,
+                            "rounds": [
+                                {
+                                    "queries": ["doge 评论区 热评"],
+                                    "warnings": [],
+                                    "coverageProgress": {"evidenceGained": 3, "zeroEvidenceResolved": 1, "weakTermsResolved": 1},
+                                    "trainingDiagnostics": {"accepted": 3},
+                                    "queryDiagnostics": [{"query": "doge 评论区 热评", "videos": 1}],
+                                }
+                            ],
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = coverage_loop_module.CoverageHarvestLoopCommandRequest(
+                [
+                    "--dictionary",
+                    dictionary_path,
+                    "--state",
+                    state_path,
+                    "--report",
+                    report_path,
+                    "--max-cycles",
+                    "1",
+                    "--generated-at",
+                    "2026-06-23T00:00:00.000Z",
+                    "--mock-harvest-payload",
+                    payload_path,
+                    "--exit-zero",
+                ]
+            ).run()
+
+            self.assertEqual(json.loads(report_path.read_text(encoding="utf-8")), result)
+            self.assertTrue(result["finalOk"])
+            self.assertEqual(result["stopReason"], "coverage_gate_passed")
+            self.assertEqual(result["cycles"][0]["coverageBefore"]["weakTerms"], 1)
+            self.assertEqual(result["cycles"][0]["coverageAfter"]["weakTerms"], 0)
+            self.assertEqual(result["cycles"][0]["harvest"]["queries"], ["doge 评论区 热评"])
+            self.assertEqual(result["cycles"][0]["priorityQueries"][0]["term"], "doge")
+            self.assertEqual(result["cycles"][0]["coverageDelta"]["totalEvidenceGained"], 3)
 
     def test_coverage_harvest_loop_command_marks_deferred_live_runtime_contract(self):
         from python_backend.analysis import coverage_loop as coverage_loop_module
