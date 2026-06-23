@@ -120,6 +120,22 @@ class CoverageAuditGateContract:
         return reasons
 
 
+class CoverageAuditActionSummaryContract:
+    """Summarize JS-compatible coverage audit actions by action key."""
+
+    def __init__(self, actions: list[Any] | None = None):
+        self.actions = actions if isinstance(actions, list) else []
+
+    def summary(self) -> dict[str, int]:
+        summary: dict[str, int] = {}
+        for action in self.actions:
+            if not isinstance(action, dict):
+                continue
+            key = str(action.get("action") or "none")
+            summary[key] = summary.get(key, 0) + 1
+        return summary
+
+
 def _coverage_metric_or_none(coverage: dict[str, Any], key: str) -> Any:
     return CoverageAuditMetricContract(coverage).value(key)
 
@@ -751,11 +767,7 @@ class CoverageAuditBuilder:
         )
 
     def _action_summary(self, actions: list[dict[str, Any]]) -> dict[str, int]:
-        summary: dict[str, int] = {}
-        for action in actions:
-            key = str(action.get("action") or "none")
-            summary[key] = summary.get(key, 0) + 1
-        return summary
+        return CoverageAuditActionSummaryContract(actions).summary()
 
     def _family_gaps(self, by_family: dict[str, dict[str, int]]) -> list[dict[str, Any]]:
         gaps = []
