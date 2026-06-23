@@ -986,6 +986,50 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["corpus"]["comments"], 1)
         self.assertEqual(result["dictionary"]["terms"], 1)
 
+    def test_compare_contracts_runner_can_include_random_verification_summary(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            audit_path = root / "audit.json"
+            dictionary_path = root / "dictionary.json"
+            random_report_path = root / "js-random-verification.json"
+            corpus_path.write_text(
+                json.dumps({"comments": [{"message": "doge satire"}, {"message": "plain"}], "runs": [], "commentCount": 2, "runCount": 0}),
+                encoding="utf-8",
+            )
+            audit_path.write_text(
+                json.dumps({"coverage": {"terms": 1, "weakTerms": 0, "coverageRatio": 1.0, "targetEvidence": 3}}),
+                encoding="utf-8",
+            )
+            dictionary_path.write_text(json.dumps({"version": 1, "entries": [{"term": "doge", "family": "evidence"}]}), encoding="utf-8")
+            random_report_path.write_text(
+                json.dumps({"sampleSize": 2, "seed": 1, "sampled": 2, "keywordHits": 1, "neutral": 1, "uncovered": 0}),
+                encoding="utf-8",
+            )
+
+            result = compare_contracts_cli.CompareContractsRunner(
+                [
+                    "--corpus",
+                    str(corpus_path),
+                    "--audit",
+                    str(audit_path),
+                    "--dictionary",
+                    str(dictionary_path),
+                    "--tieba-corpus",
+                    "",
+                    "--random-report",
+                    str(random_report_path),
+                    "--random-sample-size",
+                    "2",
+                    "--random-seed",
+                    "1",
+                ]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["randomVerification"]["mismatches"], [])
+        self.assertEqual(result["randomVerification"]["python"]["keywordHits"], 1)
+
     def test_package_verify_random_script_includes_tieba_corpus(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
         command = package["scripts"]["python:verify-random"]

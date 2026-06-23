@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any
 
 from python_backend.analysis.audit import CoverageAuditReport
+from python_backend.analysis.verification import RandomVerificationPayloadContractComparator
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
 from python_backend.runtime.json_contracts import JsonResultBytesContract, safe_read_json_object
@@ -13,7 +14,7 @@ from python_backend.runtime.json_contracts import JsonResultBytesContract, safe_
 class CorpusContractSummary:
     """Shape corpus/audit/dictionary contract comparisons for stable JSON output."""
 
-    RESULT_KEYS = ("ok", "mismatches", "corpus", "audit", "dictionary", "tiebaCorpus")
+    RESULT_KEYS = ("ok", "mismatches", "corpus", "audit", "dictionary", "tiebaCorpus", "randomVerification")
 
     def summarize(self, result: dict[str, object] | None = None) -> dict[str, object]:
         result = result if isinstance(result, dict) else {}
@@ -33,12 +34,18 @@ class ContractComparator:
         audit_path: str | Path,
         dictionary_path: str | Path | None = None,
         tieba_corpus_path: str | Path | None = None,
+        random_report_path: str | Path | None = None,
+        random_sample_size: int | None = None,
+        random_seed: int | None = None,
         summary: CorpusContractSummary | None = None,
     ):
         self.corpus_path = Path(corpus_path)
         self.audit_path = Path(audit_path)
         self.dictionary_path = Path(dictionary_path) if dictionary_path else None
         self.tieba_corpus_path = Path(tieba_corpus_path) if tieba_corpus_path else None
+        self.random_report_path = Path(random_report_path) if random_report_path else None
+        self.random_sample_size = random_sample_size
+        self.random_seed = random_seed
         self.summary = summary or CorpusContractSummary()
 
     def compare(self) -> dict[str, object]:
@@ -96,6 +103,17 @@ class ContractComparator:
                 mismatches.append({"key": "tiebaManifestCommentCount", "python": len(tieba_corpus.comments), "js": tieba_manifest_comment_count})
             if tieba_manifest_run_count not in (None, len(tieba_corpus.runs)):
                 mismatches.append({"key": "tiebaManifestRunCount", "python": len(tieba_corpus.runs), "js": tieba_manifest_run_count})
+        if self.random_report_path and self.dictionary_path:
+            random_comparison = RandomVerificationPayloadContractComparator(
+                self.corpus_path,
+                self.dictionary_path,
+                self.random_report_path,
+                sample_size=self.random_sample_size,
+                seed=self.random_seed,
+            ).compare()
+            result["randomVerification"] = random_comparison
+            if not random_comparison.get("ok"):
+                mismatches.append({"key": "randomVerification", "python": random_comparison.get("python"), "js": random_comparison.get("js")})
         result["ok"] = bool(result["ok"]) and len(mismatches) == 0
         return self.summary.summarize(result)
 
@@ -109,11 +127,17 @@ class CompareContractsRequest:
         audit_path: str | Path,
         dictionary_path: str | Path | None = None,
         tieba_corpus_path: str | Path | None = None,
+        random_report_path: str | Path | None = None,
+        random_sample_size: int | None = None,
+        random_seed: int | None = None,
     ):
         self.corpus_path = Path(corpus_path)
         self.audit_path = Path(audit_path)
         self.dictionary_path = Path(dictionary_path) if dictionary_path else None
         self.tieba_corpus_path = Path(tieba_corpus_path) if tieba_corpus_path else None
+        self.random_report_path = Path(random_report_path) if random_report_path else None
+        self.random_sample_size = random_sample_size
+        self.random_seed = random_seed
 
     def run(self) -> dict[str, object]:
         return ContractComparator(
@@ -121,6 +145,9 @@ class CompareContractsRequest:
             self.audit_path,
             self.dictionary_path,
             self.tieba_corpus_path,
+            random_report_path=self.random_report_path,
+            random_sample_size=self.random_sample_size,
+            random_seed=self.random_seed,
         ).compare()
 
 
@@ -137,8 +164,19 @@ class CompareContractsCommandRequest:
         parser.add_argument("--audit", default="server/data/keywordCoverageAudit.json")
         parser.add_argument("--dictionary", default="server/data/deepseekKeywordDictionary.json")
         parser.add_argument("--tieba-corpus", default="server/data/tiebaKeywordCorpus.json")
+        parser.add_argument("--random-report", default="", help="Optional JS-compatible random-verification report to compare.")
+        parser.add_argument("--random-sample-size", type=int, default=None)
+        parser.add_argument("--random-seed", type=int, default=None)
         return parser
 
     def run(self) -> dict[str, object]:
         args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        return CompareContractsRequest(args.corpus, args.audit, args.dictionary, args.tieba_corpus).run()
+        return CompareContractsRequest(
+            args.corpus,
+            args.audit,
+            args.dictionary,
+            args.tieba_corpus,
+            random_report_path=args.random_report or None,
+            random_sample_size=args.random_sample_size,
+            random_seed=args.random_seed,
+        ).run()
