@@ -44,6 +44,7 @@ from python_backend.cli import json_contract_scan as json_contract_scan_cli
 from python_backend.cli import keyword_evidence as keyword_evidence_cli
 from python_backend.cli import local_corpus_mine_plan as local_corpus_mine_plan_cli
 from python_backend.cli import merge_agent_dictionaries_plan as merge_agent_dictionaries_plan_cli
+from python_backend.cli import migration_inventory as migration_inventory_cli
 from python_backend.cli import random_verification as random_verification_cli
 from python_backend.cli import scraper_monitor as scraper_monitor_cli
 from python_backend.cli import tieba_corpus as tieba_corpus_cli
@@ -79,6 +80,7 @@ from python_backend.analysis.harvest_plan import DEFAULT_SEED_QUERIES, KeywordHa
 from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateCommandRequest, HarvestStateContractComparator as HarvestStatePayloadComparator, HarvestStatePayloadContractComparator, HarvestStateFinalizer, HarvestStatePayloadProcessor, HarvestStateRequest, HarvestStateRunner as HarvestStatePayloadRunner, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetOverrideTermsParser, NearTargetResolvePlanCommandRequest, NearTargetResolvePlanContractComparator as NearTargetResolvePlanPayloadComparator, NearTargetResolvePlanRequest, NearTargetResolvePlanner, NearTargetResolvePlanRunner as NearTargetResolvePayloadPlanRunner
+from python_backend.analysis.migration_inventory import BackendMigrationInventoryCommandRequest, BackendMigrationInventoryRunner, BackendMigrationInventoryScanner
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsCommandRequest, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsPayloadContractComparator, ReadmeStatsRequest, ReadmeStatsRunner as ReadmeStatsPayloadRunner, ReadmeStatsSummary, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherCommandRequest, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRequest, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationAnnotationContract, RandomVerificationCommandContract, RandomVerificationCommandRequest, RandomVerificationComparisonOptionsContract, RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationCorpusReportBuilder, RandomVerificationDictionaryTermsContract, RandomVerificationExecutionContract, RandomVerificationJsonResultContract, RandomVerificationOutputWriter, RandomVerificationPayloadContractComparator, RandomVerificationReportBuilder, RandomVerificationReportContract, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRequestDispatcher, RandomVerificationRunOptions, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerificationSampleContract, RandomVerificationSummaryContract, RandomVerifier, VerificationSummary, json_result_bytes as random_verification_payload_json_result_bytes
@@ -1126,6 +1128,55 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("server/data/keywordCoverageAudit.python.json", ignored)
         self.assertIn("server/data/keywordCoverageQueries.python.txt", ignored)
         self.assertIn("server/data/keywordCoverageActions.python.json", ignored)
+
+    def test_backend_migration_inventory_counts_remaining_js_backend_files(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            for relative_path in (
+                "server/scripts/scrape.js",
+                "server/scripts/scrape.test.js",
+                "server/services/corpus.js",
+                "server/routes/api.js",
+                "server/utils/paths.js",
+                "server/index.js",
+                "src/frontend.js",
+            ):
+                path = root / relative_path
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("export {};\n", encoding="utf-8")
+
+            result = BackendMigrationInventoryScanner(root).scan()
+
+        self.assertEqual(result["remainingJsBackendFiles"], 5)
+        self.assertEqual(result["backendJsTests"], 1)
+        self.assertEqual(result["categories"]["scripts"], 1)
+        self.assertEqual(result["categories"]["services"], 1)
+        self.assertEqual(result["categories"]["routes"], 1)
+        self.assertEqual(result["categories"]["utils"], 1)
+        self.assertEqual(result["categories"]["root"], 1)
+        self.assertEqual(result["files"]["scripts"], ["server/scripts/scrape.js"])
+
+    def test_backend_migration_inventory_cli_and_package_script_emit_json_contract(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(package["scripts"]["python:migration-inventory"], "python -m python_backend.cli.migration_inventory")
+        self.assertTrue(issubclass(BackendMigrationInventoryRunner, BackendMigrationInventoryCommandRequest))
+        self.assertTrue(issubclass(migration_inventory_cli.BackendMigrationInventoryCliRunner, BackendMigrationInventoryCommandRequest))
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            path = root / "server" / "services" / "corpus.js"
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("export {};\n", encoding="utf-8")
+            stdout = io.StringIO()
+            with contextlib.redirect_stdout(stdout):
+                exit_code = migration_inventory_cli.main(["--root", str(root)])
+
+        payload = json.loads(stdout.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertTrue(payload["ok"])
+        self.assertEqual(payload["remainingJsBackendFiles"], 1)
+        self.assertEqual(payload["categories"]["services"], 1)
 
     def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
