@@ -105,6 +105,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:scraper-monitor-compare": "file_backed_default_parseint_stats_prefix_corrupt_progress_fixtures_and_js_python_bridge",
     "python:huggingface-compare": "full_command",
     "python:local-mine-compare": "full_command",
+    "python:bilibili-parse-compare": "danmaku_xml_extract_bvid_bvid_pool_fixtures_and_js_python_bridge",
 }
 
 DEFAULT_PACKAGE_REPLACEMENT_SCOPES = {

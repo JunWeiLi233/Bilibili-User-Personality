@@ -1276,6 +1276,10 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["migrationCandidateFiles"]["scripts"], ["server/scripts/importHuggingFaceCorpus.js", "server/scripts/scrape.js"])
         self.assertEqual(result["migrationCandidateFiles"]["services"], ["server/services/corpus.js", "server/services/huggingFaceCorpus.js"])
         self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:bilibili-parse-compare"],
+            "danmaku_xml_extract_bvid_bvid_pool_fixtures_and_js_python_bridge",
+        )
+        self.assertEqual(
             result["migrationPriorityFiles"][:3],
             [
                 {"path": "server/scripts/importHuggingFaceCorpus.js", "category": "scripts", "priority": 10, "group": "corpus_analysis_pipeline"},
