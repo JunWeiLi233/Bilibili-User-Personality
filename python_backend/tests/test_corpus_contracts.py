@@ -1851,6 +1851,21 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(audit["coverage"]["targetEvidence"], 3)
         self.assertEqual(audit["minCoverageRatio"], 1)
 
+    def test_coverage_audit_builder_defaults_malformed_js_audit_boolean_config(self):
+        audit = CoverageAuditContractComparator().builder_from_js_audit(
+            {
+                "targetEvidence": 1,
+                "requireComplete": "false",
+                "requireSourceBackedEvidence": "false",
+                "requireCommentBackedEvidence": "false",
+            }
+        ).build({"entries": [{"term": "covered", "family": "attack", "evidenceCount": 1}]})
+
+        self.assertTrue(audit["ok"])
+        self.assertTrue(audit["requireComplete"])
+        self.assertFalse(audit["requireSourceBackedEvidence"])
+        self.assertEqual(audit["failureReasons"], [])
+
     def test_coverage_audit_payload_comparator_lives_with_analysis_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

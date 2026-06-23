@@ -303,9 +303,9 @@ class CoverageAuditContractComparator:
         return CoverageAuditBuilder(
             target_evidence=_int_or(js_audit.get("targetEvidence") or coverage.get("targetEvidence"), 3),
             min_coverage_ratio=_float_or(js_audit.get("minCoverageRatio"), 1),
-            require_complete=js_audit.get("requireComplete") is not False,
-            require_source_backed_evidence=bool(js_audit.get("requireSourceBackedEvidence")),
-            require_comment_backed_evidence=bool(js_audit.get("requireCommentBackedEvidence")),
+            require_complete=js_audit.get("requireComplete", True),
+            require_source_backed_evidence=js_audit.get("requireSourceBackedEvidence"),
+            require_comment_backed_evidence=js_audit.get("requireCommentBackedEvidence"),
         )
 
     def compare(self, python_audit: dict[str, Any], js_audit: dict[str, Any]) -> dict[str, Any]:
