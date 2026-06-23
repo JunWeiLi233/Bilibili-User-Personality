@@ -26403,6 +26403,29 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["analysis"], {"processed": 1, "pending": 1, "skippableNoText": 0, "trainable": 1, "userDbUsers": 3})
         self.assertEqual(result["stats"], {"videosScanned": 3, "uidsFound": 7, "uidsAnalyzed": 0, "commentsCollected": 0, "errors": 0, "videoQueueSize": 12})
 
+    def test_uid_discovery_planner_preserves_js_parse_int_prefix_semantics(self):
+        result = UidDiscoveryPlanner.build_plan_from_payload(
+            {
+                "progress": {
+                    "stats": {
+                        "videosScanned": "12abc",
+                        "uidsFound": "3.9x",
+                        "uidsAnalyzed": "not-a-number",
+                        "commentsCollected": "4 comments",
+                        "errors": "2x",
+                    },
+                    "videoQueueSize": "8 queued",
+                },
+                "comments": {"100": [{"message": "todo"}]},
+                "database": {"users": {}},
+            }
+        )
+
+        self.assertEqual(
+            result["stats"],
+            {"videosScanned": 12, "uidsFound": 3, "uidsAnalyzed": 0, "commentsCollected": 4, "errors": 2, "videoQueueSize": 8},
+        )
+
     def test_uid_discovery_plan_summary_extracts_comparator_contract(self):
         summary = UidDiscoveryPlanSummary().summarize(
             {

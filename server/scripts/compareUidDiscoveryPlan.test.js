@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { test } from 'node:test';
 
-import { compareUidDiscoveryPlan, compareUidDiscoveryPlanObjects } from './compareUidDiscoveryPlan.js';
+import { compareUidDiscoveryPlan, compareUidDiscoveryPlanObjects, compareUidDiscoveryPlanSuite } from './compareUidDiscoveryPlan.js';
 
 const PLAN = {
   resume: {
@@ -79,6 +79,17 @@ test('compareUidDiscoveryPlan compares JS and Python dry-run plans', async () =>
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('compareUidDiscoveryPlanSuite covers analysis resume, discovery start, and malformed numeric fixtures', async () => {
+  const result = await compareUidDiscoveryPlanSuite();
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.fixtures.map((fixture) => fixture.name), ['analysis-resume', 'discovery-start', 'malformed-numeric-stats']);
+  assert.deepEqual(result.fixtures.flatMap((fixture) => fixture.mismatches), []);
+  assert.equal(result.fixtures.find((fixture) => fixture.name === 'discovery-start').python.resume.skipDiscovery, false);
+  assert.equal(result.fixtures.find((fixture) => fixture.name === 'discovery-start').python.analysis.pending, 0);
+  assert.equal(result.fixtures.find((fixture) => fixture.name === 'malformed-numeric-stats').python.stats.videosScanned, 12);
 });
 
 test('uidDiscoveryScrape can delegate dry-run planning to Python', () => {

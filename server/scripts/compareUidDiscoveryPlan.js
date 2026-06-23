@@ -32,6 +32,52 @@ export const DEFAULT_PAYLOAD = {
   },
 };
 
+export const UID_DISCOVERY_PLAN_FIXTURES = {
+  'analysis-resume': DEFAULT_PAYLOAD,
+  'discovery-start': {
+    progress: {
+      phase: 'discovery',
+      scannedBvids: [],
+      processedUids: {},
+      stats: {},
+      videoQueueSize: 0,
+    },
+    comments: {},
+    database: {
+      users: {},
+    },
+  },
+  'malformed-numeric-stats': {
+    progress: {
+      phase: 'analysis',
+      scannedBvids: ['BV malformed'],
+      processedUids: {},
+      stats: {
+        videosScanned: '12abc',
+        uidsFound: '3.9x',
+        uidsAnalyzed: 'not-a-number',
+        commentsCollected: '4 comments',
+        errors: '2x',
+      },
+      videoQueueSize: '8 queued',
+    },
+    comments: {
+      100: [{ message: 'todo', bvid: 'BV malformed' }],
+    },
+    database: {
+      users: {},
+    },
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = ['analysis-resume', 'discovery-start', 'malformed-numeric-stats'];
+
+function resolvePayload({ fixture = 'analysis-resume', payload } = {}) {
+  if (payload) return { name: fixture || 'custom', payload };
+  const name = String(fixture || 'analysis-resume');
+  return { name, payload: UID_DISCOVERY_PLAN_FIXTURES[name] || DEFAULT_PAYLOAD };
+}
+
 function summarize(result = {}) {
   return Object.fromEntries(RESULT_KEYS.filter((key) => key in result).map((key) => [key, result[key]]));
 }
@@ -63,17 +109,23 @@ async function runPythonPlan({ payloadPath }) {
   return JSON.parse(stdout);
 }
 
-export async function compareUidDiscoveryPlan({ payload = DEFAULT_PAYLOAD, runJs = runJsPlan, runPython = runPythonPlan } = {}) {
+export async function compareUidDiscoveryPlan({
+  fixture = 'analysis-resume',
+  payload,
+  runJs = runJsPlan,
+  runPython = runPythonPlan,
+} = {}) {
+  const resolved = resolvePayload({ fixture, payload });
   const tempDir = await mkdtemp(join(tmpdir(), 'uid-discovery-plan-compare-'));
   try {
     const payloadPath = join(tempDir, 'payload.json');
-    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
-    const js = await runJs({ payload, payloadPath });
-    const python = await runPython({ payload, payloadPath });
+    await writeFile(payloadPath, JSON.stringify(resolved.payload, null, 2), 'utf8');
+    const js = await runJs({ payload: resolved.payload, payloadPath });
+    const python = await runPython({ payload: resolved.payload, payloadPath });
     const comparison = compareUidDiscoveryPlanObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { payloadPath },
+      fixture: { name: resolved.name, payloadPath },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -83,8 +135,25 @@ export async function compareUidDiscoveryPlan({ payload = DEFAULT_PAYLOAD, runJs
   }
 }
 
+export async function compareUidDiscoveryPlanSuite({ fixtures = DEFAULT_FIXTURE_NAMES } = {}) {
+  const results = [];
+  for (const fixture of fixtures) {
+    results.push(await compareUidDiscoveryPlan({ fixture }));
+  }
+  return {
+    ok: results.every((result) => result.ok),
+    fixtures: results.map((result) => ({
+      name: result.fixture.name,
+      ok: result.ok,
+      js: result.js,
+      python: result.python,
+      mismatches: result.mismatches,
+    })),
+  };
+}
+
 async function main() {
-  const result = await compareUidDiscoveryPlan();
+  const result = await compareUidDiscoveryPlanSuite();
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }

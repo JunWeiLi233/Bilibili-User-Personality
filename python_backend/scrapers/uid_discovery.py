@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 from pathlib import Path
 from typing import Any
 
@@ -8,9 +9,13 @@ from python_backend.runtime.json_contracts import JsonContractReader, safe_read_
 
 
 def _int_or_zero(value: Any) -> int:
+    text = str(value if value is not None else "").strip()
+    match = re.match(r"^[+-]?\d+", text)
+    if not match:
+        return 0
     try:
-        return int(float(str(value)))
-    except (TypeError, ValueError):
+        return int(match.group(0))
+    except ValueError:
         return 0
 
 
