@@ -74,7 +74,7 @@ from python_backend.analysis.discovery_report import HarvestDiagnostics, VideoKe
 from python_backend.analysis import harvest_options as harvest_options_module
 from python_backend.analysis import verification as verification_module
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder, HarvestOptionsCommandRequest, HarvestOptionsContractComparator as HarvestOptionsPayloadComparator, HarvestOptionsPayloadContractComparator, HarvestOptionsRequest, HarvestOptionsRunner as HarvestOptionsPayloadRunner, HarvestOptionsSummary, VideoKeywordDiscoveryOptionsBuilder
-from python_backend.analysis.harvest_plan import KeywordHarvestPlanBuilder, KeywordHarvestPlanCommandRequest, KeywordHarvestPlanContractComparator as KeywordHarvestPlanPayloadComparator, KeywordHarvestPlanPayloadContractComparator, KeywordHarvestPlanRequest, KeywordHarvestPlanRunner as KeywordHarvestPayloadPlanRunner, KeywordHarvestPlanSummary
+from python_backend.analysis.harvest_plan import DEFAULT_SEED_QUERIES, KeywordHarvestPlanBuilder, KeywordHarvestPlanCommandRequest, KeywordHarvestPlanContractComparator as KeywordHarvestPlanPayloadComparator, KeywordHarvestPlanPayloadContractComparator, KeywordHarvestPlanRequest, KeywordHarvestPlanRunner as KeywordHarvestPayloadPlanRunner, KeywordHarvestPlanSummary
 from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateCommandRequest, HarvestStateContractComparator as HarvestStatePayloadComparator, HarvestStatePayloadContractComparator, HarvestStateFinalizer, HarvestStatePayloadProcessor, HarvestStateRequest, HarvestStateRunner as HarvestStatePayloadRunner, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetOverrideTermsParser, NearTargetResolvePlanCommandRequest, NearTargetResolvePlanContractComparator as NearTargetResolvePlanPayloadComparator, NearTargetResolvePlanRequest, NearTargetResolvePlanner, NearTargetResolvePlanRunner as NearTargetResolvePayloadPlanRunner
@@ -24167,6 +24167,24 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["mismatches"], [])
         self.assertEqual(result["js"], {"queries": [], "plan": []})
         self.assertEqual(result["python"]["queries"], ["weak \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4"])
+
+    def test_keyword_harvest_plan_runner_defaults_corrupt_json_contract_payloads(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "harvest-plan.json"
+            js_plan_path = root / "js-plan.json"
+            payload_path.write_text("{bad payload", encoding="utf-8")
+            js_plan_path.write_text("{bad plan", encoding="utf-8")
+
+            result = KeywordHarvestPayloadPlanRunner(payload_path).run()
+            comparison = KeywordHarvestPlanPayloadContractComparator(payload_path, js_plan_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["queries"], DEFAULT_SEED_QUERIES[:12])
+        self.assertEqual(result["plan"][0], {"query": DEFAULT_SEED_QUERIES[0], "source": "seed"})
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {"queries": [], "plan": []})
 
     def test_keyword_harvest_plan_request_compares_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
