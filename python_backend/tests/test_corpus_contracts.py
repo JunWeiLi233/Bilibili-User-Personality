@@ -1785,6 +1785,51 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_package_dictionary_prune_uses_python_writer_after_contract_validation(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertEqual(
+            package["scripts"]["dictionary:prune"],
+            "python -m python_backend.cli.dictionary_prune_summary --write",
+        )
+        self.assertNotIn("server/scripts/pruneKeywordDictionary.js", result["migrationCandidateFiles"]["scripts"])
+        self.assertIn(
+            {"path": "server/scripts/pruneKeywordDictionary.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {
+                "script": "dictionary:prune",
+                "command": "python -m python_backend.cli.dictionary_prune_summary --write",
+                "pipeline": "dictionary_prune",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+
+    def test_dictionary_prune_python_cli_accepts_legacy_json_flag_with_write(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dictionary_path = Path(tmp) / "dictionary.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {"term": "doge", "family": "attack", "meaning": "ascii emoji name noise"},
+                            {"term": "YYGQ", "family": "attack", "meaning": "allowed pinyin acronym", "evidenceSamples": ["阴阳怪气"]},
+                            {"term": "阴阳怪气", "family": "attack", "meaning": "satirical tone"},
+                        ]
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+
+            result = DictionaryPruneSummaryCommandRequest(["--dictionary", str(dictionary_path), "--json", "--write"]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertTrue(result["write"])
+        self.assertEqual(result["writeResult"]["entries"], 2)
+
     def test_package_python_coverage_standalone_write_script_persists_python_artifacts(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
         command = package["scripts"]["python:coverage-standalone:write"]
