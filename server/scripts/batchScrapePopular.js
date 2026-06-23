@@ -1,5 +1,6 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const DATA_DIR = join(process.cwd(), 'server', 'data');
 const USER_DB_PATH = join(DATA_DIR, 'aicu-user-database.json');
@@ -9,8 +10,80 @@ const DELAY_MS = 3000;
 const DELAY_AFTER_LIMIT = 60000;
 const MAX_RETRIES = 5;
 const MAX_PAGES = 10;
+const DEFAULT_MAX_PAGES = 50;
+const POPULAR_PAGE_SIZE = 20;
+const REPLY_PAGE_SIZE = 20;
+const RATE_LIMIT_CODES = [-799, -412];
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+function parseIntOr(value, fallback) {
+  const parsed = Number.parseInt(value, 10);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+export function buildBatchPopularPlan(payload = {}) {
+  const planPayload = payload && typeof payload === 'object' ? payload : {};
+  const argv = Array.isArray(planPayload.argv) ? planPayload.argv : [];
+  const progress = planPayload.progress && typeof planPayload.progress === 'object' ? planPayload.progress : {};
+  const database = planPayload.database && typeof planPayload.database === 'object' ? planPayload.database : {};
+  const users = database.users && typeof database.users === 'object' ? database.users : {};
+  let maxPages = DEFAULT_MAX_PAGES;
+
+  for (const raw of argv) {
+    const arg = String(raw || '');
+    if (arg.startsWith('--pages=')) maxPages = parseIntOr(arg.split('=')[1], maxPages);
+  }
+
+  const pagesScanned = parseIntOr(progress.pagesScanned, 0);
+  const videosScanned = parseIntOr(progress.videosScanned, 0);
+  const scraped = parseIntOr(progress.scraped, 0);
+  const startPage = pagesScanned + 1;
+
+  return {
+    ok: true,
+    input: { maxPages },
+    range: { startPage, maxPages, remainingPages: Math.max(0, maxPages - startPage + 1) },
+    progress: { pagesScanned, videosScanned, scraped },
+    database: { users: Object.keys(users).length },
+    limits: {
+      popularPageSize: POPULAR_PAGE_SIZE,
+      replyPagesPerVideo: MAX_PAGES,
+      replyPageSize: REPLY_PAGE_SIZE,
+    },
+    pacing: {
+      delayMs: DELAY_MS,
+      delayAfterLimitMs: DELAY_AFTER_LIMIT,
+      maxRetries: MAX_RETRIES,
+    },
+    retry: {
+      rateLimitCodes: RATE_LIMIT_CODES,
+      htmlWafDetection: true,
+      hasUserAgent: true,
+      referer: 'https://www.bilibili.com/',
+    },
+    collection: {
+      storesTopLevelReplies: true,
+      storesNestedReplies: true,
+      dedupesByRpid: true,
+      updatesCombinedTextFromComments: true,
+    },
+    sampleRequests: {
+      popularUrl: `https://api.bilibili.com/x/web-interface/popular?ps=${POPULAR_PAGE_SIZE}&pn=${startPage}`,
+      replyUrl: `https://api.bilibili.com/x/v2/reply?type=1&oid=123&pn=1&ps=${REPLY_PAGE_SIZE}&sort=1`,
+    },
+  };
+}
+
+async function readPlanPayload(args) {
+  const payloadIndex = args.indexOf('--payload');
+  if (payloadIndex === -1 || !args[payloadIndex + 1]) return {};
+  try {
+    return JSON.parse(await readFile(args[payloadIndex + 1], 'utf8'));
+  } catch {
+    return {};
+  }
+}
 
 async function fetchJson(url) {
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
@@ -25,7 +98,7 @@ async function fetchJson(url) {
       if (text.startsWith('<')) throw new Error('HTML/WAF');
       const data = JSON.parse(text);
       if (data.code === 0) return data;
-      if (data.code === -799 || data.code === -412) {
+      if (RATE_LIMIT_CODES.includes(data.code)) {
         console.log(`  Rate limited, waiting ${DELAY_AFTER_LIMIT/1000}s...`);
         await wait(DELAY_AFTER_LIMIT);
         continue;
@@ -40,13 +113,13 @@ async function fetchJson(url) {
 }
 
 async function getPopularVideos(pn = 1) {
-  const url = `https://api.bilibili.com/x/web-interface/popular?ps=20&pn=${pn}`;
+  const url = `https://api.bilibili.com/x/web-interface/popular?ps=${POPULAR_PAGE_SIZE}&pn=${pn}`;
   const data = await fetchJson(url);
   return data?.data?.list || [];
 }
 
 async function getVideoReplies(aid, pn = 1) {
-  const url = `https://api.bilibili.com/x/v2/reply?type=1&oid=${aid}&pn=${pn}&ps=20&sort=1`;
+  const url = `https://api.bilibili.com/x/v2/reply?type=1&oid=${aid}&pn=${pn}&ps=${REPLY_PAGE_SIZE}&sort=1`;
   return fetchJson(url);
 }
 
@@ -104,7 +177,13 @@ function addCommentToUser(db, mid, name, reply, aid) {
 
 async function main() {
   const args = process.argv.slice(2);
-  let maxPages = 50;
+  if (args.includes('--plan-json')) {
+    const payload = await readPlanPayload(args);
+    console.log(JSON.stringify(buildBatchPopularPlan(payload), null, 2));
+    return;
+  }
+
+  let maxPages = DEFAULT_MAX_PAGES;
 
   for (const arg of args) {
     if (arg.startsWith('--pages=')) maxPages = parseInt(arg.split('=')[1]);
@@ -201,7 +280,9 @@ async function main() {
   console.log(`Total in database: ${Object.keys(db.users).length}`);
 }
 
-main().catch((err) => {
-  console.error('Fatal:', err.message);
-  process.exit(1);
-});
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  main().catch((err) => {
+    console.error('Fatal:', err.message);
+    process.exit(1);
+  });
+}

@@ -23845,6 +23845,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["range", "database"])
 
+    def test_batch_popular_plan_has_js_python_validation_bridge(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertIn(
+            {
+                "script": "python:batch-popular-compare",
+                "command": "node server/scripts/compareBatchPopularPlan.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:batch-popular-plan",
+                "command": "python -m python_backend.cli.batch_popular_plan",
+                "pipeline": "batch_popular_plan",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareBatchPopularPlan.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_batch_scrape_progress_runner_summarizes_uid_range_progress_and_user_db(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

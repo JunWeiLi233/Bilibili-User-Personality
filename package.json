@@ -66,6 +66,7 @@
     "python:batch-bilibili-plan": "python -m python_backend.cli.batch_bilibili_plan",
     "python:batch-bilibili-compare": "node server/scripts/compareBatchBilibiliPlan.js",
     "python:batch-popular-plan": "python -m python_backend.cli.batch_popular_plan",
+    "python:batch-popular-compare": "node server/scripts/compareBatchPopularPlan.js",
     "python:batch-scraper-launcher": "python -m python_backend.cli.batch_scraper_launcher",
     "python:range-scraper-launcher": "python -m python_backend.cli.range_scraper_launcher",
     "python:fast-pipeline-launcher": "python -m python_backend.cli.fast_pipeline_launcher",
