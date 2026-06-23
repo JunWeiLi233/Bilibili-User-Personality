@@ -5119,6 +5119,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(result["ok"])
         self.assertEqual([item["key"] for item in result["mismatches"]], ["mode", "requestCount", "requests[0].model"])
 
+    def test_deepseek_analysis_plan_comparator_defaults_corrupt_js_plan(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_plan_path = root / "js-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "text": "\u8fd9\u53e5\u662f\u5728\u53cd\u8bbd\u5427[doge]\uff0c\u4e0d\u662f\u771f\u7684\u9a82\u4eba\u3002",
+                        "multiagent": True,
+                        "keywordHints": ["\u9a82\u4eba"],
+                        "model": "deepseek-v4-flash",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_plan_path.write_text("{bad json", encoding="utf-8")
+
+            result = DeepSeekAnalysisPlanContractComparator(payload_path, js_plan_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"], {"mode": None, "requestCount": 0, "requests": []})
+
     def test_deepseek_analysis_validator_rejects_hallucinated_quotes(self):
         validator = DeepSeekAnalysisValidator()
 
@@ -5379,6 +5403,22 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertFalse(result["ok"])
         self.assertEqual([item["key"] for item in result["mismatches"]], ["ok", "summary"])
+
+    def test_deepseek_analysis_validate_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            analysis_path = root / "analysis.json"
+            js_report_path = root / "js-validation.json"
+            payload_path.write_text(json.dumps({"comments": ["\u539f\u59cb\u8bc4\u8bba"]}), encoding="utf-8")
+            analysis_path.write_text(json.dumps({"sentenceAnalyses": [{"quote": "\u5e7b\u89c9\u5f15\u7528"}]}), encoding="utf-8")
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            result = DeepSeekAnalysisValidateContractComparator(payload_path, analysis_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"], {})
 
     def test_deepseek_analysis_validation_summary_extracts_comparator_contract(self):
         summary = DeepSeekAnalysisValidationSummary().summarize(
