@@ -67,7 +67,7 @@ from python_backend.cli import video_link_direct_plan as video_link_direct_plan_
 from python_backend.cli import video_relevance as video_relevance_cli
 from python_backend.cli import range_scraper_launcher as range_scraper_launcher_cli
 from python_backend.cli import fast_pipeline_launcher as fast_pipeline_launcher_cli
-from python_backend.analysis.audit import CoverageAuditActionSummaryContract, CoverageAuditArtifactContract, CoverageAuditArtifactPayloadContract, CoverageAuditArtifactWriter, CoverageAuditArtifactsCommandRequest, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRequest, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditCommandRequest, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditFamilyGapContract, CoverageAuditGateContract, CoverageAuditMetricContract, CoverageAuditPayloadContractComparator, CoverageAuditReport, CoverageAuditRequest, CoverageAuditSampleContract, CoverageEvidenceProfile
+from python_backend.analysis.audit import CoverageAuditActionContract, CoverageAuditActionSummaryContract, CoverageAuditArtifactContract, CoverageAuditArtifactPayloadContract, CoverageAuditArtifactWriter, CoverageAuditArtifactsCommandRequest, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRequest, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditCommandRequest, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditFamilyGapContract, CoverageAuditGateContract, CoverageAuditMetricContract, CoverageAuditPayloadContractComparator, CoverageAuditReport, CoverageAuditRequest, CoverageAuditSampleContract, CoverageEvidenceProfile
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageCommandRequest, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageJsonPayloadContractComparator, CommentCoverageJsonPayloadRunner, CommentCoveragePayloadContractComparator, CommentCoverageRequest, CommentCoverageRunner as CommentCoveragePayloadRunner, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanCommandRequest, CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanPayloadContractComparator, CoverageHarvestLoopPlanRequest, CoverageHarvestLoopPlanRunner as CoverageHarvestLoopPayloadPlanRunner, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressCommandRequest, CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressPayloadContractComparator, CoverageProgressRequest, CoverageProgressRunner as CoverageProgressPayloadRunner, CoverageProgressSummary, CoverageProgressTracker
@@ -26011,6 +26011,28 @@ class CorpusContractTests(unittest.TestCase):
                 "none": 2,
             },
         )
+
+    def test_coverage_audit_action_contract_builds_js_payload_states(self):
+        source_gap = CoverageAuditActionContract(
+            {"term": "source", "family": "attack", "evidenceCount": 2, "evidenceSamples": ["one", "two"]},
+            target_evidence=3,
+            require_source_backed_evidence=True,
+        ).action()
+        weak = CoverageAuditActionContract({"term": "weak", "family": "evidence", "evidenceCount": 1}, target_evidence=3).action()
+        covered = CoverageAuditActionContract({"term": "covered", "family": "attack", "evidenceCount": 3}, target_evidence=3).action()
+
+        self.assertEqual(source_gap["status"], "source_gap")
+        self.assertEqual(source_gap["action"], "refresh_source_metadata")
+        self.assertEqual(source_gap["evidenceNeeded"], 1)
+        self.assertEqual(source_gap["nextQuery"], "source \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4")
+        self.assertFalse(source_gap["sourcedEvidence"])
+        self.assertEqual(weak["status"], "weak_unattempted")
+        self.assertEqual(weak["action"], "harvest")
+        self.assertEqual(weak["coverageEvidenceCount"], 1)
+        self.assertEqual(covered["status"], "covered")
+        self.assertEqual(covered["action"], "none")
+        self.assertEqual(covered["nextQuery"], "")
+        self.assertEqual(covered["suggestedQueries"], [])
 
     def test_coverage_audit_family_gap_contract_shapes_and_sorts_gaps(self):
         gaps = CoverageAuditFamilyGapContract(

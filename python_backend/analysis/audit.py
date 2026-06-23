@@ -136,6 +136,69 @@ class CoverageAuditActionSummaryContract:
         return summary
 
 
+class CoverageAuditActionContract:
+    """Build one JS-compatible coverage audit action payload."""
+
+    def __init__(
+        self,
+        entry: dict[str, Any] | None = None,
+        target_evidence: int = 3,
+        require_source_backed_evidence: bool = False,
+        require_comment_backed_evidence: bool = False,
+        canonical_evidence_count_overrides: dict[tuple[str, str], int] | None = None,
+    ):
+        self.entry = entry if isinstance(entry, dict) else {}
+        self.target_evidence = max(1, _int_or(target_evidence, 3))
+        self.require_source_backed_evidence = _bool_or(require_source_backed_evidence, False)
+        self.require_comment_backed_evidence = _bool_or(require_comment_backed_evidence, False)
+        self.canonical_evidence_count_overrides = canonical_evidence_count_overrides or {}
+
+    def action(self) -> dict[str, Any]:
+        profile = self._profile()
+        count = profile.evidence_count()
+        coverage_count = profile.coverage_evidence_count()
+        sourced = profile.has_coverage_evidence_source()
+        needs_source_refresh = self.require_source_backed_evidence and count > 0 and not sourced
+        if needs_source_refresh:
+            status = "source_gap"
+            action = "refresh_source_metadata"
+        elif coverage_count < self.target_evidence:
+            status = "weak_unattempted"
+            action = "harvest"
+        else:
+            status = "covered"
+            action = "none"
+        term = str(self.entry.get("term") or "").strip()
+        return {
+            "term": term,
+            "family": self.entry.get("family") or "unknown",
+            "status": status,
+            "action": action,
+            "evidenceCount": count,
+            "coverageEvidenceCount": coverage_count,
+            "sourcedEvidence": sourced,
+            "recommendationGroup": term,
+            "targetEvidence": self.target_evidence,
+            "evidenceNeeded": max(0, self.target_evidence - coverage_count),
+            "attempts": 0,
+            "successfulAttempts": 0,
+            "duplicateAcceptedNoProgress": False,
+            "currentCommentMisses": 0,
+            "exhausted": False,
+            "nextQuery": f"{term} \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4" if action != "none" and term else "",
+            "suggestedQueries": [],
+            "lastQuery": "",
+            "lastError": "",
+        }
+
+    def _profile(self) -> "CoverageEvidenceProfile":
+        return CoverageEvidenceProfile(
+            self.entry,
+            require_comment_backed_evidence=self.require_comment_backed_evidence,
+            canonical_evidence_count_overrides=self.canonical_evidence_count_overrides,
+        )
+
+
 class CoverageAuditFamilyGapContract:
     """Shape JS-compatible per-family coverage gap rows."""
 
@@ -793,40 +856,13 @@ class CoverageAuditBuilder:
         }
 
     def _action_for_entry(self, entry: dict[str, Any]) -> dict[str, Any]:
-        count = self._evidence_count(entry)
-        coverage_count = self._coverage_evidence_count(entry)
-        needs_source_refresh = self.require_source_backed_evidence and count > 0 and not self._has_coverage_evidence_source(entry)
-        if needs_source_refresh:
-            status = "source_gap"
-            action = "refresh_source_metadata"
-        elif coverage_count < self.target_evidence:
-            status = "weak_unattempted"
-            action = "harvest"
-        else:
-            status = "covered"
-            action = "none"
-        term = str(entry.get("term") or "").strip()
-        return {
-            "term": term,
-            "family": entry.get("family") or "unknown",
-            "status": status,
-            "action": action,
-            "evidenceCount": count,
-            "coverageEvidenceCount": coverage_count,
-            "sourcedEvidence": self._has_coverage_evidence_source(entry),
-            "recommendationGroup": term,
-            "targetEvidence": self.target_evidence,
-            "evidenceNeeded": max(0, self.target_evidence - coverage_count),
-            "attempts": 0,
-            "successfulAttempts": 0,
-            "duplicateAcceptedNoProgress": False,
-            "currentCommentMisses": 0,
-            "exhausted": False,
-            "nextQuery": f"{term} 评论区 梗 热评" if action != "none" and term else "",
-            "suggestedQueries": [],
-            "lastQuery": "",
-            "lastError": "",
-        }
+        return CoverageAuditActionContract(
+            entry,
+            target_evidence=self.target_evidence,
+            require_source_backed_evidence=self.require_source_backed_evidence,
+            require_comment_backed_evidence=self.require_comment_backed_evidence,
+            canonical_evidence_count_overrides=self.JS_CANONICAL_EVIDENCE_COUNT_OVERRIDES,
+        ).action()
 
     def _failure_reasons(self, coverage: dict[str, Any]) -> list[str]:
         return self._gate(coverage).failure_reasons()
