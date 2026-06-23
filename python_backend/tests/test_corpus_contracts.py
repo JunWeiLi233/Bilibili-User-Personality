@@ -1209,6 +1209,7 @@ class CorpusContractTests(unittest.TestCase):
                 "server/scripts/scrape.js",
                 "server/scripts/scrape.test.js",
                 "server/scripts/compareDeepSeekAnalyzePlan.js",
+                "server/scripts/compareVideoLinkDirectPlan.js",
                 "server/scripts/importHuggingFaceCorpus.js",
                 "server/services/corpus.js",
                 "server/services/huggingFaceCorpus.js",
@@ -1238,16 +1239,21 @@ class CorpusContractTests(unittest.TestCase):
 
             result = BackendMigrationInventoryScanner(root).scan()
 
-        self.assertEqual(result["remainingJsBackendFiles"], 9)
+        self.assertEqual(result["remainingJsBackendFiles"], 10)
         self.assertEqual(result["backendJsTests"], 1)
-        self.assertEqual(result["categories"]["scripts"], 3)
+        self.assertEqual(result["categories"]["scripts"], 4)
         self.assertEqual(result["categories"]["services"], 2)
         self.assertEqual(result["categories"]["routes"], 1)
         self.assertEqual(result["categories"]["utils"], 2)
         self.assertEqual(result["categories"]["root"], 1)
         self.assertEqual(
             result["files"]["scripts"],
-            ["server/scripts/compareDeepSeekAnalyzePlan.js", "server/scripts/importHuggingFaceCorpus.js", "server/scripts/scrape.js"],
+            [
+                "server/scripts/compareDeepSeekAnalyzePlan.js",
+                "server/scripts/compareVideoLinkDirectPlan.js",
+                "server/scripts/importHuggingFaceCorpus.js",
+                "server/scripts/scrape.js",
+            ],
         )
         self.assertEqual(result["migrationCandidateJsBackendFiles"], 5)
         self.assertEqual(
@@ -1256,6 +1262,7 @@ class CorpusContractTests(unittest.TestCase):
                 {"path": "server/index.js", "reason": "app_api_orchestration"},
                 {"path": "server/routes/api.js", "reason": "app_api_orchestration"},
                 {"path": "server/scripts/compareDeepSeekAnalyzePlan.js", "reason": "js_python_contract_bridge"},
+                {"path": "server/scripts/compareVideoLinkDirectPlan.js", "reason": "js_python_contract_bridge"},
                 {"path": "server/utils/paths.js", "reason": "shared_runtime_support"},
             ],
         )
