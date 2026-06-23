@@ -50,6 +50,36 @@ class DictionaryPayloadContract:
         return default
 
 
+class DictionaryManifestContract:
+    """Build normalized keyword dictionary manifests for JS-compatible loaders."""
+
+    def __init__(self, manifest: dict[str, Any] | None = None):
+        self.manifest = manifest if isinstance(manifest, dict) else {}
+
+    def monolith(self, entries: Any) -> dict[str, Any]:
+        normalized_entries = DictionaryLoader._normalize_entries(entries)
+        return {
+            "version": self.manifest.get("version", 1),
+            "storage": "monolith",
+            "updatedAt": self.manifest.get("updatedAt") or None,
+            "entries": normalized_entries,
+            "families": self.manifest.get("families") or {},
+        }
+
+    def split(self, entries: list[dict[str, Any]]) -> dict[str, Any]:
+        evidence_files = DictionaryLoader._dict_field(self.manifest, "evidenceFiles")
+        return {
+            "version": self.manifest.get("version", 1),
+            "storage": "split",
+            "shardSize": self.manifest.get("shardSize") or None,
+            "shardMaxBytes": self.manifest.get("shardMaxBytes") or None,
+            "evidenceStorage": "split" if evidence_files else None,
+            "updatedAt": self.manifest.get("updatedAt") or None,
+            "entries": entries,
+            "families": self.manifest.get("families") or {},
+        }
+
+
 class DictionaryLoader:
     """Read keyword dictionary JSON in monolithic or JS split-shard format."""
 
@@ -74,14 +104,8 @@ class DictionaryLoader:
             return KeywordDictionary(manifest=manifest, entries=[])
         manifest = manifest if isinstance(manifest, dict) else {}
         if manifest.get("storage") != "split":
-            entries = self._normalize_entries(manifest.get("entries") or [])
-            normalized = {
-                "version": manifest.get("version", 1),
-                "storage": "monolith",
-                "updatedAt": manifest.get("updatedAt") or None,
-                "entries": entries,
-                "families": manifest.get("families") or {},
-            }
+            normalized = DictionaryManifestContract(manifest).monolith(manifest.get("entries") or [])
+            entries = normalized["entries"]
             return KeywordDictionary(manifest=normalized, entries=entries)
 
         entry_files = self._dict_field(manifest, "entryFiles")
@@ -93,16 +117,7 @@ class DictionaryLoader:
             term = str(entry.get("term") or "").strip()
             evidence = evidence_by_term.get(term, {})
             merged_entries.append({**entry, **evidence})
-        normalized = {
-            "version": manifest.get("version", 1),
-            "storage": "split",
-            "shardSize": manifest.get("shardSize") or None,
-            "shardMaxBytes": manifest.get("shardMaxBytes") or None,
-            "evidenceStorage": "split" if evidence_files else None,
-            "updatedAt": manifest.get("updatedAt") or None,
-            "entries": merged_entries,
-            "families": manifest.get("families") or {},
-        }
+        normalized = DictionaryManifestContract(manifest).split(merged_entries)
         return KeywordDictionary(manifest=normalized, entries=merged_entries)
 
     def _hydrate_entry_files(self, files_by_family: dict[str, list[str]]) -> list[dict[str, Any]]:

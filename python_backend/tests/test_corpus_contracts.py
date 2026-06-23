@@ -154,7 +154,7 @@ from python_backend.corpus.tieba import TiebaCorpusCommandRequest, TiebaCorpusJs
 from python_backend.corpus import dictionary_prune
 from python_backend.analysis import video_filter
 from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterCommandRequest, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoCommentFilterPayloadContractComparator, VideoCommentFilterPayloadRunner, VideoCommentFilterRequest, VideoContextBuilder, VideoContextCommandRequest, VideoContextContractComparator as VideoContextPayloadComparator, VideoContextRequest, VideoContextRunner as VideoContextPayloadRunner, VideoRelevanceCommandRequest, VideoRelevanceContractComparator as VideoRelevancePayloadComparator, VideoRelevanceFilter, VideoRelevancePayloadContractComparator, VideoRelevancePayloadRunner, VideoRelevanceRequest
-from python_backend.corpus.dictionary import DictionaryLoader, DictionaryPayloadContract
+from python_backend.corpus.dictionary import DictionaryLoader, DictionaryManifestContract, DictionaryPayloadContract
 from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader, CorpusPayloadContract
 from python_backend.corpus.writer import CorpusShardPlanner, CorpusShardWriteCommandRequest, CorpusShardWriteContractComparator as CorpusShardWritePayloadComparator, CorpusShardWritePayloadContractComparator, CorpusShardWriteRequest, CorpusShardWriteRunner as CorpusShardWritePayloadRunner, CorpusShardWriteSummary, CorpusShardWriter
@@ -6710,6 +6710,28 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
         self.assertEqual(dictionary.entries, [{"term": "doge", "family": "attack"}])
+
+    def test_dictionary_manifest_contract_owns_monolith_and_split_shapes(self):
+        monolith = DictionaryManifestContract({"entries": ["doge"], "families": {"attack": 1}}).monolith(["doge"])
+        split = DictionaryManifestContract({"storage": "split", "shardSize": 10, "shardMaxBytes": 2048, "evidenceFiles": {"attack": ["e.json"]}}).split(
+            [{"term": "doge", "family": "attack"}]
+        )
+
+        self.assertEqual(
+            monolith,
+            {
+                "version": 1,
+                "storage": "monolith",
+                "updatedAt": None,
+                "entries": [{"term": "doge"}],
+                "families": {"attack": 1},
+            },
+        )
+        self.assertEqual(split["storage"], "split")
+        self.assertEqual(split["shardSize"], 10)
+        self.assertEqual(split["shardMaxBytes"], 2048)
+        self.assertEqual(split["evidenceStorage"], "split")
+        self.assertEqual(split["entries"], [{"term": "doge", "family": "attack"}])
 
     def test_dictionary_loader_normalizes_non_object_root_like_js(self):
         with tempfile.TemporaryDirectory() as tmp:
