@@ -21309,6 +21309,40 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(comparison["ok"])
         self.assertEqual(comparison["mismatches"], [{"key": "plannedCount", "python": 1, "js": 0}])
 
+    def test_near_target_resolve_payload_comparator_defaults_corrupt_js_plan(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            state_path = root / "state.json"
+            js_plan_path = root / "js-near-target.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {
+                                "term": "\u5dee\u4e00\u6761",
+                                "family": "attack",
+                                "evidenceCount": 2,
+                                "evidenceSamples": ["sample one", "sample two"],
+                                "evidenceSources": [
+                                    {"source": "Bilibili source https://www.bilibili.com/video/BV1NearAAA1/", "sample": "sample one"},
+                                    {"source": "Bilibili source https://www.bilibili.com/video/BV1NearAAA1/", "sample": "sample two"},
+                                ],
+                            }
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            state_path.write_text(json.dumps({}), encoding="utf-8")
+            js_plan_path.write_text("{bad json", encoding="utf-8")
+
+            comparison = NearTargetResolvePlanPayloadComparator(dictionary_path, state_path, js_plan_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+
     def test_video_keyword_discovery_reporter_keeps_query_diagnostics(self):
         reporter = VideoKeywordDiscoveryReporter(now=lambda: "2026-06-19T00:00:00.000Z")
         report = reporter.serialize_report(
