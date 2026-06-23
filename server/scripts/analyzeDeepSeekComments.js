@@ -20,6 +20,9 @@ export function parseArgs(argv = process.argv.slice(2)) {
   let fixtureAnalysis = '';
   let usePythonFixture = false;
   let useJsFixture = false;
+  let mockChatAnalysis = '';
+  let usePythonRuntime = false;
+  let useJsRuntime = false;
 
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
@@ -40,6 +43,15 @@ export function parseArgs(argv = process.argv.slice(2)) {
       usePythonFixture = true;
     } else if (arg === '--js-fixture') {
       useJsFixture = true;
+    } else if (arg === '--python-runtime') {
+      usePythonRuntime = true;
+    } else if (arg === '--js-runtime') {
+      useJsRuntime = true;
+    } else if (arg.startsWith('--mock-chat-analysis=')) {
+      mockChatAnalysis = arg.slice('--mock-chat-analysis='.length);
+    } else if (arg === '--mock-chat-analysis') {
+      mockChatAnalysis = argv[index + 1] || '';
+      index += 1;
     } else if (arg === '--multiagent' || arg === '--multi-agent') {
       payload.multiagent = true;
     } else if (arg.startsWith('--text=')) {
@@ -73,8 +85,24 @@ export function parseArgs(argv = process.argv.slice(2)) {
   if (fixtureAnalysis && !useJsFixture) {
     usePythonFixture = true;
   }
+  if (mockChatAnalysis && !useJsRuntime) {
+    usePythonRuntime = true;
+  }
 
-  return { payload, file, showHelp, planJson, usePythonPlan, useJsPlan, fixtureAnalysis, usePythonFixture, useJsFixture };
+  return {
+    payload,
+    file,
+    showHelp,
+    planJson,
+    usePythonPlan,
+    useJsPlan,
+    fixtureAnalysis,
+    usePythonFixture,
+    useJsFixture,
+    mockChatAnalysis,
+    usePythonRuntime,
+    useJsRuntime,
+  };
 }
 
 export function buildPlan({ payload = {}, file = '', showHelp = false } = {}, { stdinIsTTY = process.stdin.isTTY } = {}) {
@@ -182,6 +210,31 @@ export async function runFixtureAnalysisMode(
   });
 }
 
+async function runPythonRuntimeAnalysis({ payload, mockChatAnalysis = '' }) {
+  const args = ['-m', 'python_backend.cli.deepseek_analyze'];
+  if (payload.text) args.push('--text', payload.text);
+  if (payload.uid) args.push('--uid', payload.uid);
+  if (payload.name) args.push('--name', payload.name);
+  if (payload.multiagent) args.push('--multiagent');
+  if (mockChatAnalysis) args.push('--mock-chat-analysis', mockChatAnalysis);
+  const { stdout } = await execFileAsync('python', args, {
+    cwd: process.cwd(),
+    env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  return JSON.parse(stdout);
+}
+
+export async function runLiveAnalysisMode(
+  parsed,
+  { runPythonRuntime = runPythonRuntimeAnalysis, analyzeJs = analyzeCommentsWithDeepSeek } = {},
+) {
+  if (parsed.usePythonRuntime && !parsed.useJsRuntime) {
+    return runPythonRuntime({ payload: parsed.payload, mockChatAnalysis: parsed.mockChatAnalysis || '' });
+  }
+  return analyzeJs(parsed.payload);
+}
+
 function readStdin() {
   return new Promise((resolve, reject) => {
     let text = '';
@@ -204,6 +257,10 @@ Options:
   --multiagent        Run three specialist agents plus a merge quality-control agent.
   --text <text>       Analyze inline text.
   --file <path>       Analyze text from a UTF-8 file.
+  --mock-chat-analysis <path>
+                      Run the Python-owned chat runtime against a local analysis JSON without calling DeepSeek.
+  --python-runtime    Run the Python-owned live analyzer runtime.
+  --js-runtime        Use the legacy JS live analyzer runtime.
   --fixture-analysis <path>
                       Normalize a saved analysis JSON through the Python contract without calling DeepSeek.
   --uid <uid>         Optional user id context.
@@ -237,7 +294,7 @@ async function main() {
     return;
   }
 
-  const result = await analyzeCommentsWithDeepSeek(payload);
+  const result = await runLiveAnalysisMode(parsed);
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }

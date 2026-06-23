@@ -47,7 +47,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:deepseek-validation-compare": "analysis_validation",
     "python:deepseek-normalization-compare": "analysis_normalization",
     "python:deepseek-analyze-fixture-compare": "full_command_fixture",
-    "python:deepseek-analyze-command-compare": "full_command_multiagent_mock_runtime",
+    "python:deepseek-analyze-command-compare": "full_command_python_runtime_mock_and_multiagent_mock_runtime",
     "python:deepseek-mock-runtime-compare": "mocked_runtime",
     "python:dictionary-prune-compare": "summary_command_fixture",
     "python:exhausted-prune-compare": "dry_run_plan_fixture",

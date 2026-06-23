@@ -4,7 +4,14 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { test } from 'node:test';
 
-import { buildPlan, parseArgs, readAnalysisFixtureJson, runFixtureAnalysisMode, runPlanMode } from './analyzeDeepSeekComments.js';
+import {
+  buildPlan,
+  parseArgs,
+  readAnalysisFixtureJson,
+  runFixtureAnalysisMode,
+  runLiveAnalysisMode,
+  runPlanMode,
+} from './analyzeDeepSeekComments.js';
 
 test('analyzeDeepSeekComments builds JS/Python comparable dry-run plan', () => {
   const parsed = parseArgs(['--plan-json', '--text=satire [doge]', '--uid', '42', '--multiagent', 'extra sentence']);
@@ -150,4 +157,65 @@ test('analyzeDeepSeekComments reads UTF-8 BOM fixture analysis JSON', async () =
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }
+});
+
+test('analyzeDeepSeekComments parses mock chat analysis mode for Python-owned runtime', () => {
+  const parsed = parseArgs(['--mock-chat-analysis', 'analysis.json', '--text=satire [doge]', '--multiagent']);
+
+  assert.equal(parsed.mockChatAnalysis, 'analysis.json');
+  assert.equal(parsed.usePythonRuntime, true);
+  assert.equal(parsed.useJsRuntime, false);
+  assert.deepEqual(parsed.payload, { text: 'satire [doge]', multiagent: true });
+});
+
+test('analyzeDeepSeekComments delegates mock chat runtime to Python by default', async () => {
+  const calls = [];
+
+  const result = await runLiveAnalysisMode(
+    {
+      payload: { text: 'satire [doge]', multiagent: true },
+      mockChatAnalysis: 'analysis.json',
+      usePythonRuntime: true,
+      useJsRuntime: false,
+    },
+    {
+      runPythonRuntime: async (payload) => {
+        calls.push({ python: payload });
+        return { ok: true, runtime: { mode: 'mock_chat', multiagent: true } };
+      },
+      analyzeJs: async () => ({ ok: false }),
+    },
+  );
+
+  assert.deepEqual(result, { ok: true, runtime: { mode: 'mock_chat', multiagent: true } });
+  assert.deepEqual(calls, [
+    {
+      python: {
+        payload: { text: 'satire [doge]', multiagent: true },
+        mockChatAnalysis: 'analysis.json',
+      },
+    },
+  ]);
+});
+
+test('analyzeDeepSeekComments keeps explicit JS live runtime fallback', async () => {
+  const calls = [];
+
+  const result = await runLiveAnalysisMode(
+    {
+      payload: { text: 'satire [doge]' },
+      usePythonRuntime: false,
+      useJsRuntime: true,
+    },
+    {
+      runPythonRuntime: async () => ({ ok: false }),
+      analyzeJs: async (payload) => {
+        calls.push(payload);
+        return { ok: true, provider: 'deepseek' };
+      },
+    },
+  );
+
+  assert.deepEqual(result, { ok: true, provider: 'deepseek' });
+  assert.deepEqual(calls, [{ text: 'satire [doge]' }]);
 });

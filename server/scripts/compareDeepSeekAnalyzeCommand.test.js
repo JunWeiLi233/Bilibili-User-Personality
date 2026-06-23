@@ -3,6 +3,7 @@ import { test } from 'node:test';
 
 import {
   compareDeepSeekAnalyzeCommand,
+  compareDeepSeekAnalyzeCommandMockRuntime,
   compareDeepSeekAnalyzeCommandSuite,
   compareDeepSeekAnalyzeCommandObjects,
 } from './compareDeepSeekAnalyzeCommand.js';
@@ -44,11 +45,33 @@ test('compareDeepSeekAnalyzeCommand compares JS and Python fixture commands', as
   assert.equal(calls.length, 2);
 });
 
+test('compareDeepSeekAnalyzeCommandMockRuntime compares JS command mock runtime to Python command', async () => {
+  const calls = [];
+  const result = await compareDeepSeekAnalyzeCommandMockRuntime({
+    runJsCommand: async (payload) => {
+      calls.push({ js: payload });
+      return { ...NORMALIZED, runtime: { mode: 'mock_chat' } };
+    },
+    runPythonCommand: async (payload) => {
+      calls.push({ python: payload });
+      return { ...NORMALIZED, runtime: { mode: 'mock_chat' } };
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.equal(calls.length, 2);
+});
+
 test('compareDeepSeekAnalyzeCommandSuite requires fixture command, mock runtime, and multiagent runtime parity', async () => {
   const calls = [];
   const result = await compareDeepSeekAnalyzeCommandSuite({
     compareFixtureCommand: async () => {
       calls.push('fixtureCommand');
+      return { ok: true, mismatches: [] };
+    },
+    compareCommandMockRuntime: async () => {
+      calls.push('commandMockRuntime');
       return { ok: true, mismatches: [] };
     },
     compareMockRuntime: async (options) => {
@@ -59,6 +82,6 @@ test('compareDeepSeekAnalyzeCommandSuite requires fixture command, mock runtime,
 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
-  assert.deepEqual(calls, ['fixtureCommand', { mockRuntime: false }, { mockRuntime: true }]);
-  assert.deepEqual(Object.keys(result.checks), ['fixtureCommand', 'mockRuntime', 'multiagentMockRuntime']);
+  assert.deepEqual(calls, ['fixtureCommand', 'commandMockRuntime', { mockRuntime: false }, { mockRuntime: true }]);
+  assert.deepEqual(Object.keys(result.checks), ['fixtureCommand', 'commandMockRuntime', 'mockRuntime', 'multiagentMockRuntime']);
 });

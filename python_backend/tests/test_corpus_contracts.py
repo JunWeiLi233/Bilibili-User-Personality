@@ -1444,7 +1444,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:deepseek-analyze-command-compare",
                     "validationCommand": "node server/scripts/compareDeepSeekAnalyzeCommand.js",
-                    "validationScope": "full_command_multiagent_mock_runtime",
+                    "validationScope": "full_command_python_runtime_mock_and_multiagent_mock_runtime",
                 },
             ],
         )
@@ -1485,7 +1485,7 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(result["nextMigrationAction"]["path"], "server/scripts/analyzeDeepSeekComments.js")
         self.assertEqual(result["nextMigrationAction"]["validationScript"], "python:deepseek-analyze-command-compare")
-        self.assertEqual(result["nextMigrationAction"]["validationScope"], "full_command_multiagent_mock_runtime")
+        self.assertEqual(result["nextMigrationAction"]["validationScope"], "full_command_python_runtime_mock_and_multiagent_mock_runtime")
         self.assertFalse(result["nextMigrationAction"]["readyToReplace"])
         self.assertEqual(result["nextMigrationAction"]["recommendation"], "expand_python_runtime_contract_before_replacing_js")
 

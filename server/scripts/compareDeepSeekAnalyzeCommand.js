@@ -20,6 +20,7 @@ const RESULT_KEYS = [
   'confidence',
   'fallback',
   'retriedCompactPrompt',
+  'runtime',
 ];
 
 function summarize(result = {}) {
@@ -63,6 +64,45 @@ async function runPythonFixtureCommand({ payload, analysisPath }) {
   return JSON.parse(stdout);
 }
 
+async function runJsMockRuntimeCommand({ payload, analysisPath }) {
+  const args = [
+    'server/scripts/analyzeDeepSeekComments.js',
+    '--mock-chat-analysis',
+    analysisPath,
+    '--text',
+    payload.text || '',
+    '--uid',
+    payload.uid || '',
+  ];
+  if (payload.multiagent) args.push('--multiagent');
+  const { stdout } = await execFileAsync('node', args, {
+    cwd: process.cwd(),
+    env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  return JSON.parse(stdout);
+}
+
+async function runPythonMockRuntimeCommand({ payload, analysisPath }) {
+  const args = [
+    '-m',
+    'python_backend.cli.deepseek_analyze',
+    '--mock-chat-analysis',
+    analysisPath,
+    '--text',
+    payload.text || '',
+    '--uid',
+    payload.uid || '',
+  ];
+  if (payload.multiagent) args.push('--multiagent');
+  const { stdout } = await execFileAsync('python', args, {
+    cwd: process.cwd(),
+    env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  return JSON.parse(stdout);
+}
+
 export async function compareDeepSeekAnalyzeCommand({
   payload = { ...DEFAULT_PAYLOAD, uid: '42' },
   analysis = DEFAULT_ANALYSIS,
@@ -88,6 +128,31 @@ export async function compareDeepSeekAnalyzeCommand({
   }
 }
 
+export async function compareDeepSeekAnalyzeCommandMockRuntime({
+  payload = { ...DEFAULT_PAYLOAD, uid: '42' },
+  analysis = DEFAULT_ANALYSIS,
+  runJsCommand = runJsMockRuntimeCommand,
+  runPythonCommand = runPythonMockRuntimeCommand,
+} = {}) {
+  const tempDir = await mkdtemp(join(tmpdir(), 'deepseek-command-mock-runtime-'));
+  try {
+    const analysisPath = join(tempDir, 'analysis.json');
+    await writeFile(analysisPath, JSON.stringify(analysis.parsed || analysis, null, 2), 'utf8');
+    const js = await runJsCommand({ payload, analysis, analysisPath });
+    const python = await runPythonCommand({ payload, analysis, analysisPath });
+    const comparison = compareDeepSeekAnalyzeCommandObjects(python, js);
+    return {
+      ok: comparison.ok,
+      fixture: { payload, analysisPath },
+      js,
+      python,
+      mismatches: comparison.mismatches,
+    };
+  } finally {
+    await rm(tempDir, { recursive: true, force: true });
+  }
+}
+
 function prefixMismatches(scope, mismatches = []) {
   return mismatches.map((mismatch) => ({
     ...mismatch,
@@ -98,19 +163,22 @@ function prefixMismatches(scope, mismatches = []) {
 
 export async function compareDeepSeekAnalyzeCommandSuite({
   compareFixtureCommand = compareDeepSeekAnalyzeCommand,
+  compareCommandMockRuntime = compareDeepSeekAnalyzeCommandMockRuntime,
   compareMockRuntime = compareDeepSeekAnalyzeMockRuntime,
 } = {}) {
   const fixtureCommand = await compareFixtureCommand();
+  const commandMockRuntime = await compareCommandMockRuntime();
   const mockRuntime = await compareMockRuntime();
   const multiagentMockRuntime = await compareMockRuntime({ payload: { ...DEFAULT_PAYLOAD, multiagent: true } });
   const mismatches = [
     ...prefixMismatches('fixtureCommand', fixtureCommand.mismatches || []),
+    ...prefixMismatches('commandMockRuntime', commandMockRuntime.mismatches || []),
     ...prefixMismatches('mockRuntime', mockRuntime.mismatches || []),
     ...prefixMismatches('multiagentMockRuntime', multiagentMockRuntime.mismatches || []),
   ];
   return {
-    ok: Boolean(fixtureCommand.ok && mockRuntime.ok && multiagentMockRuntime.ok && mismatches.length === 0),
-    checks: { fixtureCommand, mockRuntime, multiagentMockRuntime },
+    ok: Boolean(fixtureCommand.ok && commandMockRuntime.ok && mockRuntime.ok && multiagentMockRuntime.ok && mismatches.length === 0),
+    checks: { fixtureCommand, commandMockRuntime, mockRuntime, multiagentMockRuntime },
     mismatches,
   };
 }
