@@ -87,6 +87,7 @@ class BackendMigrationInventoryScanner:
         migration_candidate_categories = {key: len(value) for key, value in migration_candidate_files.items()}
         migration_priority_files = self._priority_files(migration_candidate_files)
         package_scripts = PackageCommandMigrationInventory.from_root(root).scan()
+        next_migration_action = self._next_migration_action(migration_priority_files, package_scripts)
         return {
             "ok": True,
             "root": str(root),
@@ -98,6 +99,7 @@ class BackendMigrationInventoryScanner:
             "migrationCandidateCategories": migration_candidate_categories,
             "migrationCandidateFiles": migration_candidate_files,
             "migrationPriorityFiles": migration_priority_files,
+            "nextMigrationAction": next_migration_action,
             "retainedJsBackendFiles": retained_files,
             "testFiles": backend_tests,
             "packageScripts": package_scripts,
@@ -138,6 +140,33 @@ class BackendMigrationInventoryScanner:
             if any(needle in compact for needle in needles):
                 return group, priority
         return "uncategorized_pipeline", 40
+
+    @staticmethod
+    def _next_migration_action(priority_files: list[dict[str, Any]], package_scripts: dict[str, Any]) -> dict[str, Any]:
+        if not priority_files:
+            return {}
+        first = dict(priority_files[0])
+        for mapping in package_scripts.get("pythonBackedNodeScripts", []):
+            if not isinstance(mapping, dict):
+                continue
+            command = str(mapping.get("command") or "")
+            if first["path"] in command:
+                return {
+                    **first,
+                    "nodeScript": str(mapping.get("script") or ""),
+                    "nodeCommand": command,
+                    "pythonScript": str(mapping.get("pythonScript") or ""),
+                    "pythonCommand": str(mapping.get("pythonCommand") or ""),
+                    "recommendation": "compare_python_contract_before_replacing_js",
+                }
+        return {
+            **first,
+            "nodeScript": "",
+            "nodeCommand": "",
+            "pythonScript": "",
+            "pythonCommand": "",
+            "recommendation": "create_python_contract_then_compare_js",
+        }
 
 
 class PackageCommandMigrationInventory:

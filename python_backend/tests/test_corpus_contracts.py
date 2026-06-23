@@ -1133,6 +1133,7 @@ class CorpusContractTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             for relative_path in (
+                "package.json",
                 "server/scripts/scrape.js",
                 "server/scripts/scrape.test.js",
                 "server/scripts/importHuggingFaceCorpus.js",
@@ -1146,7 +1147,20 @@ class CorpusContractTests(unittest.TestCase):
             ):
                 path = root / relative_path
                 path.parent.mkdir(parents=True, exist_ok=True)
-                path.write_text("export {};\n", encoding="utf-8")
+                if relative_path == "package.json":
+                    path.write_text(
+                        json.dumps(
+                            {
+                                "scripts": {
+                                    "dictionary:huggingface": "node server/scripts/importHuggingFaceCorpus.js",
+                                    "python:huggingface-import": "python -m python_backend.cli.huggingface_corpus",
+                                }
+                            }
+                        ),
+                        encoding="utf-8",
+                    )
+                else:
+                    path.write_text("export {};\n", encoding="utf-8")
 
             result = BackendMigrationInventoryScanner(root).scan()
 
@@ -1176,6 +1190,20 @@ class CorpusContractTests(unittest.TestCase):
                 {"path": "server/services/corpus.js", "category": "services", "priority": 10, "group": "corpus_analysis_pipeline"},
                 {"path": "server/services/huggingFaceCorpus.js", "category": "services", "priority": 10, "group": "corpus_analysis_pipeline"},
             ],
+        )
+        self.assertEqual(
+            result["nextMigrationAction"],
+            {
+                "path": "server/scripts/importHuggingFaceCorpus.js",
+                "category": "scripts",
+                "priority": 10,
+                "group": "corpus_analysis_pipeline",
+                "nodeScript": "dictionary:huggingface",
+                "nodeCommand": "node server/scripts/importHuggingFaceCorpus.js",
+                "pythonScript": "python:huggingface-import",
+                "pythonCommand": "python -m python_backend.cli.huggingface_corpus",
+                "recommendation": "compare_python_contract_before_replacing_js",
+            },
         )
 
     def test_backend_migration_inventory_cli_and_package_script_emit_json_contract(self):
