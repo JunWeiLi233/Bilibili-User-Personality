@@ -1,11 +1,13 @@
-import { fork } from 'node:child_process';
+import { execFile, fork } from 'node:child_process';
 import { join } from 'node:path';
 import { readFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
+import { promisify } from 'node:util';
 
 const DATA_DIR = join(process.cwd(), 'server', 'data');
 const SCRIPT_PATH = join(process.cwd(), 'server', 'scripts', 'batchUidScrape.js');
 const SCRIPT = 'server/scripts/batchUidScrape.js';
+const execFileAsync = promisify(execFile);
 
 const ranges = [
   { start: 1, end: 20000, progress: 'batch-uid-progress-1-20000.json' },
@@ -23,6 +25,30 @@ function parseArgs(args = process.argv.slice(2)) {
     else if (arg.startsWith('--data-dir=')) options.dataDir = arg.split('=')[1] || DATA_DIR;
   }
   return options;
+}
+
+function parsePlanControlArgs(args = []) {
+  let planJson = false;
+  let pythonPlan = false;
+  let jsPlan = false;
+  for (const arg of args) {
+    if (arg === '--plan-json') planJson = true;
+    else if (arg === '--python-plan') pythonPlan = true;
+    else if (arg === '--js-plan') jsPlan = true;
+  }
+  if (process.env.BILIBILI_BATCH_SCRAPER_USE_PYTHON_PLAN === '1' && !jsPlan) {
+    pythonPlan = true;
+  }
+  return { planJson, pythonPlan, jsPlan };
+}
+
+async function runPythonBatchScraperLauncherPlan(dataDir) {
+  const { stdout } = await execFileAsync('python', ['-m', 'python_backend.cli.batch_scraper_launcher', '--data-dir', dataDir], {
+    cwd: process.cwd(),
+    env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  return JSON.parse(stdout);
 }
 
 export function buildBatchScraperLauncherPlan({ dataDir = DATA_DIR } = {}) {
@@ -54,8 +80,13 @@ export function buildBatchScraperLauncherPlan({ dataDir = DATA_DIR } = {}) {
 async function main() {
   const args = process.argv.slice(2);
   const { dataDir } = parseArgs(args);
+  const planControl = parsePlanControlArgs(args);
 
-  if (args.includes('--plan-json')) {
+  if (planControl.planJson) {
+    if (planControl.pythonPlan && !planControl.jsPlan) {
+      console.log(JSON.stringify(await runPythonBatchScraperLauncherPlan(dataDir), null, 2));
+      return;
+    }
     console.log(JSON.stringify(buildBatchScraperLauncherPlan({ dataDir }), null, 2));
     return;
   }

@@ -675,6 +675,11 @@ class BackendMigrationInventoryScanner:
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:batch-popular-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareBatchPopularPlan.test.js"},
             ]
+        if validation_script == "python:batch-scraper-launcher-compare":
+            return [
+                {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:batch-scraper-launcher-compare"},
+                {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareBatchScraperLauncherPlan.test.js"},
+            ]
         if validation_scope == "full_command":
             return [{"gate": "full_command", "status": "covered", "source": validation_script}]
         return []
