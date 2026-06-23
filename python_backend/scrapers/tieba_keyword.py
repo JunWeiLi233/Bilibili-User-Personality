@@ -10,8 +10,8 @@ from python_backend.runtime.json_contracts import JsonContractReader, safe_read_
 from python_backend.scrapers.rate_limiter import RateLimitPolicy
 
 
-DEFAULT_COVERAGE_ACTION_FILE_PATH = "server/data/coverage-actions.json"
-DEFAULT_TIEBA_CORPUS_PATH = "server/data/tiebaKeywordCorpus.json"
+DEFAULT_COVERAGE_ACTION_FILE_NAME = "keywordCoverageActions.json"
+DEFAULT_TIEBA_CORPUS_FILE_NAME = "tiebaKeywordCorpus.json"
 
 
 def _js_number(value: Any) -> float:
@@ -68,14 +68,17 @@ class TiebaKeywordScrapeOptionsPlanner:
     def __init__(self, cwd: str | Path | None = None):
         self.cwd = Path(cwd) if cwd is not None else Path.cwd()
 
+    def _data_path(self, file_name: str) -> str:
+        return str(self.cwd / "server" / "data" / file_name)
+
     def build_options(self, argv: list[Any] | None = None, env: dict[str, Any] | None = None) -> dict[str, Any]:
         argv = argv or []
         env = env or {}
         options: dict[str, Any] = {
             "queries": [],
             "threadUrls": [],
-            "actionFile": DEFAULT_COVERAGE_ACTION_FILE_PATH,
-            "outputPath": env.get("TIEBA_CORPUS_PATH") or DEFAULT_TIEBA_CORPUS_PATH,
+            "actionFile": self._data_path(DEFAULT_COVERAGE_ACTION_FILE_NAME),
+            "outputPath": env.get("TIEBA_CORPUS_PATH") or self._data_path(DEFAULT_TIEBA_CORPUS_FILE_NAME),
             "maxQueries": _js_number(env.get("TIEBA_MAX_QUERIES") or 8),
             "forumPages": _js_number(env.get("TIEBA_FORUM_PAGES") or 1),
             "threadLimit": _js_number(env.get("TIEBA_THREAD_LIMIT") or 4),

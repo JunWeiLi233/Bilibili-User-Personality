@@ -1289,6 +1289,7 @@ class CorpusContractTests(unittest.TestCase):
                 "dictionary:prune-exhausted": "node server/scripts/pruneExhaustedTerms.js",
                 "dictionary:resolve-near": "node server/scripts/resolveNearTargetTerms.js",
                 "dictionary:auto": "node server/scripts/runCoverageHarvestLoop.js",
+                "dictionary:tieba": "node server/scripts/runTiebaKeywordScrape.js",
                 "server": "node server/index.js",
                 "aicu:test": "node server/scripts/testAicuApi.js",
                 "dev:full": "node server/index.js",
@@ -1302,6 +1303,7 @@ class CorpusContractTests(unittest.TestCase):
                 "python:exhausted-prune-compare": "node server/scripts/compareExhaustedTermsPrunePlan.js",
                 "python:near-target-compare": "node server/scripts/compareNearTargetResolvePlan.js",
                 "python:coverage-loop-compare": "node server/scripts/compareCoverageHarvestLoopPlan.js",
+                "python:tieba-keyword-compare": "node server/scripts/compareTiebaKeywordPlan.js",
                 "python:deepseek-cli-plan-js": "node server/scripts/analyzeDeepSeekComments.js --plan-json --python-plan",
                 "python:deepseek-analyze": "python -m python_backend.cli.deepseek_analyze",
                 "python:coverage-standalone": "python -m python_backend.cli.coverage_audit --standalone",
@@ -1310,14 +1312,15 @@ class CorpusContractTests(unittest.TestCase):
                 "python:exhausted-prune-plan": "python -m python_backend.cli.exhausted_terms_prune_plan",
                 "python:near-target-plan": "python -m python_backend.cli.near_target_resolve_plan",
                 "python:coverage-loop-plan": "python -m python_backend.cli.coverage_loop_plan",
+                "python:tieba-keyword-plan": "python -m python_backend.cli.tieba_keyword_plan",
                 "python:test": "python -m unittest discover python_backend/tests",
             }
         }
 
         result = PackageCommandMigrationInventory(package).scan()
 
-        self.assertEqual(result["nodeServerScripts"], 20)
-        self.assertEqual(result["pythonBackendScripts"], 7)
+        self.assertEqual(result["nodeServerScripts"], 22)
+        self.assertEqual(result["pythonBackendScripts"], 8)
         self.assertEqual(
             result["pythonBackedNodeScripts"],
             [
@@ -1375,6 +1378,17 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:coverage-loop-compare",
                     "validationCommand": "node server/scripts/compareCoverageHarvestLoopPlan.js",
+                    "validationScope": "dry_run_plan_fixture",
+                },
+                {
+                    "script": "dictionary:tieba",
+                    "command": "node server/scripts/runTiebaKeywordScrape.js",
+                    "pythonScript": "python:tieba-keyword-plan",
+                    "pythonCommand": "python -m python_backend.cli.tieba_keyword_plan",
+                    "replacementScope": "dry_run_plan",
+                    "readyToReplace": False,
+                    "validationScript": "python:tieba-keyword-compare",
+                    "validationCommand": "node server/scripts/compareTiebaKeywordPlan.js",
                     "validationScope": "dry_run_plan_fixture",
                 },
             ],
@@ -10289,6 +10303,7 @@ class CorpusContractTests(unittest.TestCase):
 
     def test_tieba_keyword_options_planner_matches_js_cli_env_contract(self):
         planner = TiebaKeywordScrapeOptionsPlanner(cwd="D:/repo")
+        defaults = planner.build_options(argv=[], env={})
 
         result = planner.build_options(
             argv=[
@@ -10322,6 +10337,8 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(result["queries"], ["doge", "yygq", "抽象", "额外词"])
         self.assertEqual(result["threadUrls"], ["https://tieba.baidu.com/p/123", "https://tieba.baidu.com/p/456"])
+        self.assertEqual(defaults["actionFile"], "D:\\repo\\server\\data\\keywordCoverageActions.json")
+        self.assertEqual(defaults["outputPath"], "D:\\repo\\server\\data\\tiebaKeywordCorpus.json")
         self.assertEqual(result["actionFile"], "actions.json")
         self.assertEqual(result["outputPath"], "out.json")
         self.assertEqual(result["maxQueries"], 50)

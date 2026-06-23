@@ -72,6 +72,68 @@ function parseArgs(argv = process.argv.slice(2)) {
   return options;
 }
 
+function parsePlanArgs(argv = process.argv.slice(2)) {
+  let planJson = false;
+  let payloadPath = '';
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = String(argv[index] || '');
+    if (arg === '--plan-json') {
+      planJson = true;
+    } else if (arg.startsWith('--payload=')) {
+      payloadPath = arg.slice('--payload='.length);
+    } else if (arg === '--payload') {
+      payloadPath = String(argv[index + 1] || '');
+      index += 1;
+    }
+  }
+  return { planJson, payloadPath };
+}
+
+async function readPlanPayload(path) {
+  if (!path) return {};
+  try {
+    return JSON.parse((await readFile(path, 'utf8')).replace(/^\uFEFF/, ''));
+  } catch {
+    return {};
+  }
+}
+
+export function buildTiebaKeywordPlan(payload = {}) {
+  const env = payload && typeof payload.env === 'object' && payload.env ? payload.env : {};
+  const argv = Array.isArray(payload?.argv) ? payload.argv : [];
+  const previousEnv = {};
+  const envKeys = [
+    'TIEBA_CORPUS_PATH',
+    'TIEBA_MAX_QUERIES',
+    'TIEBA_FORUM_PAGES',
+    'TIEBA_THREAD_LIMIT',
+    'TIEBA_THREAD_PAGES',
+    'TIEBA_SCRAPER_MIN_DELAY_MS',
+    'TIEBA_SCRAPER_JITTER_MS',
+    'TIEBA_SCRAPER_BLOCK_COOLDOWN_MS',
+    'TIEBA_SCRAPER_REQUEST_TIMEOUT_MS',
+    'TIEBA_SCRAPER_OVERALL_TIMEOUT_MS',
+    'TIEBA_DISCOVERY_MODE',
+    'TIEBA_INCLUDE_DISCOVERY_TITLES',
+    'TIEBA_DISCOVERY_TITLES_ONLY',
+    'TIEBA_TRAIN_DICTIONARY',
+    'TIEBA_EXISTING_TERMS_ONLY',
+  ];
+  for (const key of envKeys) {
+    previousEnv[key] = process.env[key];
+    if (Object.prototype.hasOwnProperty.call(env, key)) process.env[key] = String(env[key]);
+    else delete process.env[key];
+  }
+  try {
+    return { ok: true, options: parseArgs(argv) };
+  } finally {
+    for (const key of envKeys) {
+      if (previousEnv[key] === undefined) delete process.env[key];
+      else process.env[key] = previousEnv[key];
+    }
+  }
+}
+
 async function readJson(path, fallback) {
   try {
     return JSON.parse(await readFile(path, 'utf8'));
@@ -103,6 +165,12 @@ async function loadExistingCorpus(path) {
 }
 
 const options = parseArgs();
+const planArgs = parsePlanArgs();
+if (planArgs.planJson) {
+  const payload = await readPlanPayload(planArgs.payloadPath);
+  console.log(JSON.stringify(buildTiebaKeywordPlan(payload), null, 2));
+  process.exit(0);
+}
 const hardStopMs = computeTiebaScrapeHardStopMs(options);
 const hardStop = setTimeout(() => {
   console.error(`Tieba keyword scrape hard-stopped after ${hardStopMs}ms.`);
