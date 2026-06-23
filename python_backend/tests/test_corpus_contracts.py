@@ -21324,6 +21324,26 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["summary"], {"workers": 1, "completedWorkers": 0, "totalProcessed": 0, "totalExpected": 2, "completionRatio": 0})
         self.assertEqual(result["stats"], {"success": 0, "noComments": 0, "noVideos": 0, "noUser": 0, "trainError": 0, "blocked": 0, "errors": 0})
 
+    def test_uid_pipeline_state_runner_matches_js_parseint_default_progress_file_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            (data_dir / "uid-pipeline-launcher.json").write_text(
+                json.dumps({"startedAt": "2026-06-20T00:00:00.000Z", "workers": [{"start": "7abc", "end": "8abc"}]}),
+                encoding="utf-8",
+            )
+            (data_dir / "uid-pipeline-7-8.json").write_text(
+                json.dumps({"processed": {"7": "success"}, "stats": {"success": "1ok", "blocked": "2bad"}}),
+                encoding="utf-8",
+            )
+
+            result = UidPipelineStatePayloadRunner(data_dir).run()
+
+        self.assertEqual(result["workers"], [{"start": 7, "end": 8, "progressFile": "uid-pipeline-7-8.json", "processed": 1, "total": 2, "complete": False}])
+        self.assertEqual(result["summary"], {"workers": 1, "completedWorkers": 0, "totalProcessed": 1, "totalExpected": 2, "completionRatio": 0.5})
+        self.assertEqual(result["stats"], {"success": 1, "noComments": 0, "noVideos": 0, "noUser": 0, "trainError": 0, "blocked": 2, "errors": 0})
+
     def test_uid_pipeline_state_payload_comparator_defaults_corrupt_js_report(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -21507,6 +21527,10 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn(
             {"path": "server/scripts/compareUidPipelineState.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
+        )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:uid-pipeline-state-compare"],
+            "file_backed_default_parseint_worker_prefix_corrupt_progress_fixtures_and_js_python_bridge",
         )
 
     def test_uid_pipeline_progress_runner_summarizes_worker_progress_and_user_db(self):

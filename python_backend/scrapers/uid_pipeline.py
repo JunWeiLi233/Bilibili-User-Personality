@@ -763,8 +763,8 @@ class UidPipelineStateRunner:
         for raw_worker in raw_workers:
             if not isinstance(raw_worker, dict):
                 continue
-            start = int(raw_worker.get("start") or 0)
-            end = int(raw_worker.get("end") or 0)
+            start = _parse_number_or(raw_worker.get("start"), 0)
+            end = _parse_number_or(raw_worker.get("end"), 0)
             progress_file = str(raw_worker.get("progressFile") or f"uid-pipeline-{start}-{end}.json")
             progress_by_file[progress_file] = self._read_json(self.data_dir / progress_file, {})
         return UidPipelineStateReporter().build_report(state, progress_by_file)

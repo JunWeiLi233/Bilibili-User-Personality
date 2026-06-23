@@ -1,7 +1,11 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import { compareUidPipelineState, compareUidPipelineStateObjects } from './compareUidPipelineState.js';
+import {
+  UID_PIPELINE_STATE_FIXTURES,
+  compareUidPipelineState,
+  compareUidPipelineStateObjects,
+} from './compareUidPipelineState.js';
 
 const SUMMARY = {
   startedAt: '2026-06-19T00:00:00.000Z',
@@ -39,4 +43,32 @@ test('compareUidPipelineState compares JS-compatible and Python launcher state r
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.deepEqual(calls, [{ js: true }, { python: true }]);
+});
+
+test('compareUidPipelineState exports named file-backed fixtures', async () => {
+  assert.deepEqual(Object.keys(UID_PIPELINE_STATE_FIXTURES), ['default-state', 'parseint-worker-prefix', 'corrupt-progress']);
+
+  const contexts = [];
+  const result = await compareUidPipelineState({
+    fixtureNames: Object.keys(UID_PIPELINE_STATE_FIXTURES),
+    runJs: async (context) => {
+      contexts.push({ js: context.fixture.name });
+      return { ok: true, ...SUMMARY };
+    },
+    runPython: async (context) => {
+      contexts.push({ python: context.fixture.name });
+      return { ok: true, ...SUMMARY };
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.fixtures.map((fixture) => fixture.name), ['default-state', 'parseint-worker-prefix', 'corrupt-progress']);
+  assert.deepEqual(contexts, [
+    { js: 'default-state' },
+    { python: 'default-state' },
+    { js: 'parseint-worker-prefix' },
+    { python: 'parseint-worker-prefix' },
+    { js: 'corrupt-progress' },
+    { python: 'corrupt-progress' },
+  ]);
 });

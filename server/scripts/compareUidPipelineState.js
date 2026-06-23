@@ -24,6 +24,36 @@ export const DEFAULT_PAYLOAD = {
   },
 };
 
+export const UID_PIPELINE_STATE_FIXTURES = {
+  'default-state': DEFAULT_PAYLOAD,
+  'parseint-worker-prefix': {
+    startedAt: '2026-06-20T00:00:00.000Z',
+    launcher: {
+      workers: [{ start: '7abc', end: '8abc' }],
+    },
+    progress: {
+      'uid-pipeline-7-8.json': { processed: { 7: 'success' }, stats: { success: '1ok', blocked: '2bad' } },
+    },
+  },
+  'corrupt-progress': {
+    startedAt: '2026-06-21T00:00:00.000Z',
+    launcher: {
+      workers: [{ start: 9, end: 10 }],
+    },
+    progressRaw: {
+      'uid-pipeline-9-10.json': '{not-json',
+    },
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = ['default-state', 'parseint-worker-prefix', 'corrupt-progress'];
+
+function resolvePayload({ fixture = 'default-state', payload } = {}) {
+  if (payload) return { name: fixture || 'custom', payload };
+  const name = String(fixture || 'default-state');
+  return { name, payload: UID_PIPELINE_STATE_FIXTURES[name] || DEFAULT_PAYLOAD };
+}
+
 function intOrZero(value) {
   const parsed = Number.parseInt(String(value ?? ''), 10);
   return Number.isFinite(parsed) ? parsed : 0;
@@ -113,23 +143,33 @@ async function writeFixture(dataDir, payload) {
   };
   await writeFile(join(dataDir, 'uid-pipeline-launcher.json'), JSON.stringify(launcher, null, 2), 'utf8');
   const progress = payload.progress && typeof payload.progress === 'object' && !Array.isArray(payload.progress) ? payload.progress : {};
-  await Promise.all(
-    Object.entries(progress).map(([file, filePayload]) => writeFile(join(dataDir, file), JSON.stringify(filePayload || {}, null, 2), 'utf8')),
-  );
+  const rawProgress = payload.progressRaw && typeof payload.progressRaw === 'object' && !Array.isArray(payload.progressRaw) ? payload.progressRaw : {};
+  await Promise.all([
+    ...Object.entries(progress).map(([file, filePayload]) => writeFile(join(dataDir, file), JSON.stringify(filePayload || {}, null, 2), 'utf8')),
+    ...Object.entries(rawProgress).map(([file, rawPayload]) => writeFile(join(dataDir, file), String(rawPayload), 'utf8')),
+  ]);
 }
 
-export async function compareUidPipelineState({ payload = DEFAULT_PAYLOAD, runJs = runJsState, runPython = runPythonState } = {}) {
+export async function compareUidPipelineState({
+  fixture = 'default-state',
+  fixtureNames,
+  payload,
+  runJs = runJsState,
+  runPython = runPythonState,
+} = {}) {
+  if (fixtureNames) return compareUidPipelineStateSuite({ fixtures: fixtureNames, runJs, runPython });
+  const resolved = resolvePayload({ fixture, payload });
   const tempDir = await mkdtemp(join(tmpdir(), 'uid-pipeline-state-compare-'));
   try {
-    const dataDir = payload.dataDir || join(tempDir, 'data');
-    if (!payload.dataDir) await writeFixture(dataDir, payload);
-    const context = { payload, dataDir };
+    const dataDir = resolved.payload.dataDir || join(tempDir, 'data');
+    if (!resolved.payload.dataDir) await writeFixture(dataDir, resolved.payload);
+    const context = { payload: resolved.payload, fixture: { name: resolved.name }, dataDir };
     const js = await runJs(context);
     const python = await runPython(context);
     const comparison = compareUidPipelineStateObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { dataDir },
+      fixture: { name: resolved.name, dataDir },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -139,8 +179,29 @@ export async function compareUidPipelineState({ payload = DEFAULT_PAYLOAD, runJs
   }
 }
 
+export async function compareUidPipelineStateSuite({
+  fixtures = DEFAULT_FIXTURE_NAMES,
+  runJs = runJsState,
+  runPython = runPythonState,
+} = {}) {
+  const results = [];
+  for (const fixture of fixtures) {
+    results.push(await compareUidPipelineState({ fixture, runJs, runPython }));
+  }
+  return {
+    ok: results.every((result) => result.ok),
+    fixtures: results.map((result) => ({
+      name: result.fixture.name,
+      ok: result.ok,
+      js: result.js,
+      python: result.python,
+      mismatches: result.mismatches,
+    })),
+  };
+}
+
 async function main() {
-  const result = await compareUidPipelineState();
+  const result = await compareUidPipelineStateSuite();
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }
