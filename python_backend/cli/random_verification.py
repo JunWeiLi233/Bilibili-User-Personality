@@ -41,8 +41,9 @@ class RandomVerificationCliRunner(RandomVerificationCommandRequest):
 
 def main(argv: list[str] | None = None) -> int:
     result = RandomVerificationCliRunner(argv).run()
-    RandomVerificationJsonResultContract(result).write_bytes(sys.stdout.buffer)
-    return 0 if result["ok"] else 1
+    contract = RandomVerificationJsonResultContract(result)
+    contract.write_bytes(sys.stdout.buffer)
+    return contract.exit_code()
 
 
 if __name__ == "__main__":

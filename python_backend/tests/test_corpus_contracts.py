@@ -6192,6 +6192,12 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(written, len(output.getvalue()))
         self.assertEqual(output.getvalue(), JsonResultBytesContract(payload).to_bytes())
 
+    def test_json_result_bytes_contract_owns_cli_exit_code(self):
+        self.assertEqual(JsonResultBytesContract({"ok": True}).exit_code(), 0)
+        self.assertEqual(JsonResultBytesContract({"ok": False}).exit_code(), 1)
+        self.assertEqual(JsonResultBytesContract({"ok": "true"}).exit_code(), 1)
+        self.assertEqual(JsonResultBytesContract(["bad result root"]).exit_code(), 1)
+
     def test_json_contract_reader_parses_text_values_with_deepcopy_fallback(self):
         reader = JsonContractReader()
         fallback = {"items": []}
