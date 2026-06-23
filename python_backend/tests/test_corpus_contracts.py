@@ -11968,6 +11968,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(comparison["ok"])
         self.assertEqual(comparison["python"], comparison["js"])
 
+    def test_tieba_html_parse_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-tieba-html.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "threads",
+                        "keyword": "\u8d34\u5427\u6897",
+                        "html": '<a href="/p/1234567890" title="\u8d34\u5427\u6897\u8ba8\u8bba">body</a>',
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{not-json", encoding="utf-8")
+
+            comparison = TiebaHtmlParsePayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["threads"][0]["id"], "1234567890")
+
     def test_tieba_html_parse_contract_comparator_reports_parse_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -13885,6 +13909,24 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["bvids"], ["BV19yGa61Ee6", "BV1xx411c7mD"])
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["bvids", "blocked"])
+
+    def test_bilibili_crawler_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-crawler.json"
+            payload_path.write_text(
+                json.dumps({"text": "BV19yGa61Ee6, BV1xx411c7mD", "payload": {"code": -509}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{not-json", encoding="utf-8")
+
+            comparison = BilibiliCrawlerPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["bvids"], ["BV19yGa61Ee6", "BV1xx411c7mD"])
 
     def test_bilibili_crawler_request_compares_js_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
