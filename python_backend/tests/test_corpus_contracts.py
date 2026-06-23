@@ -18688,6 +18688,21 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["summary"])
 
+    def test_batch_scraper_launcher_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            js_report_path = root / "js-batch-launcher.json"
+            js_report_path.write_text('{"summary": ', encoding="utf-8")
+
+            comparison = BatchScraperLauncherPayloadContractComparator(data_dir, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["summary"], {"workers": 5, "totalStart": 1, "totalEnd": 100000, "totalUids": 100000})
+
     def test_batch_scraper_launcher_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -18875,6 +18890,21 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["summary"], {"workers": 5, "totalStart": 1, "totalEnd": 100000, "totalUids": 100000, "launchDelaySeconds": 3})
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["summary"])
+
+    def test_range_scraper_launcher_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            js_report_path = root / "js-range-launcher.json"
+            js_report_path.write_text('{"summary": ', encoding="utf-8")
+
+            comparison = RangeScraperLauncherPayloadContractComparator(data_dir, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["summary"], {"workers": 5, "totalStart": 1, "totalEnd": 100000, "totalUids": 100000, "launchDelaySeconds": 3})
 
     def test_range_scraper_launcher_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -20272,6 +20302,24 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["phase2"])
 
+    def test_batch_uid_progress_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            progress_path = root / "batch-uid-progress.json"
+            js_report_path = root / "js-batch-uid-progress.json"
+            progress_path.write_text(
+                json.dumps({"_uidComments": {"100": [{"message": "x"}]}, "processedUids": {"100": "success"}, "stats": {"videosScanned": 1}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text('{"phase2": ', encoding="utf-8")
+
+            comparison = BatchUidProgressPayloadContractComparator(progress_path, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["phase2"], {"processed": 1, "success": 1, "errors": 0, "skipped": 0, "remaining": 0})
+
     def test_batch_uid_progress_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -20532,6 +20580,24 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_batch_uid_scrape_plan_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "batch-uid-scrape-plan.json"
+            js_report_path = root / "js-batch-uid-scrape-plan.json"
+            payload_path.write_text(
+                json.dumps({"progress": {"scannedBvids": ["BV1"], "_uidComments": {"12": [{"message": "x"}]}, "processedUids": {}, "stats": {"videosScanned": 1}}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text('{"phase2": ', encoding="utf-8")
+
+            comparison = BatchUidScrapePlanPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["phase2"], {"processed": 0, "pending": 1, "skippableNoText": 0, "trainable": 1, "userDbUsers": 0})
+
     def test_batch_uid_scrape_plan_cli_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -20783,6 +20849,24 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "phase2", "python": {"targetUids": 1, "processed": 0, "remaining": 1, "userDbUsers": 1}, "js": {"targetUids": 9}},
             ],
         )
+
+    def test_batch_uid_range_plan_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "batch-uid-range-plan.json"
+            js_report_path = root / "js-batch-uid-range-plan.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--start=10", "--end=20", "--pages=3"], "progress": {"_uidComments": {"12": [{"message": "x"}]}, "processedUids": {}}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text('{"phase2": ', encoding="utf-8")
+
+            comparison = BatchUidRangePlanPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["phase2"], {"targetUids": 1, "processed": 0, "remaining": 1, "userDbUsers": 0})
 
     def test_batch_uid_range_plan_cli_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -21477,6 +21561,24 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["phase2"], {"processed": 1, "success": 1, "errors": 0, "skipped": 0, "remaining": 0})
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["phase2"])
+
+    def test_uid_range_progress_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            progress_path = root / "batch-uid-range-progress.json"
+            js_report_path = root / "js-uid-range.json"
+            progress_path.write_text(
+                json.dumps({"_uidComments": {"200000": [{"message": "x"}]}, "processedUids": {"200000": "success"}, "stats": {"videosScanned": 1}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text('{"phase2": ', encoding="utf-8")
+
+            comparison = UidRangeProgressPayloadContractComparator(progress_path, js_report_path, start=200000, end=300000).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["phase2"], {"processed": 1, "success": 1, "errors": 0, "skipped": 0, "remaining": 0})
 
     def test_uid_range_progress_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
