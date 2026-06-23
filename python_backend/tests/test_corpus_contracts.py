@@ -21601,6 +21601,35 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(compare_result["ok"])
         self.assertEqual([item["key"] for item in compare_result["mismatches"]], ["report", "priorityActionItems"])
 
+    def test_video_keyword_discovery_report_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-report.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "statePath": "state.json",
+                        "reportPath": "report.json",
+                        "generatedAt": "2026-06-19T00:00:00.000Z",
+                        "result": {
+                            "requestedRounds": 1,
+                            "growth": {"before": 1, "after": 2},
+                            "coverageActions": [{"term": "next", "action": "retry", "nextQuery": "next comments"}],
+                            "rounds": [{"queries": ["next comments"], "results": []}],
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            result = VideoKeywordDiscoveryReportPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"], {})
+
     def test_video_keyword_discovery_report_command_request_lives_with_analysis_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
