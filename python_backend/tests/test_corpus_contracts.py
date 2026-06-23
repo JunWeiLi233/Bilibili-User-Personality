@@ -16453,6 +16453,23 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["mismatches"], [])
         self.assertEqual(result["js"], {})
 
+    def test_exhausted_terms_prune_plan_runner_defaults_corrupt_state_json(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            state_path = root / "state.json"
+            dictionary_path.write_text(
+                json.dumps({"entries": [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "evidenceCount": 0}]}),
+                encoding="utf-8",
+            )
+            state_path.write_text('{"termAttempts": {', encoding="utf-8")
+
+            result = ExhaustedTermsPrunePayloadPlanRunner(dictionary_path, state_path, attempt_threshold=10).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["count"], 0)
+        self.assertEqual(result["candidates"], [])
+
     def test_dictionary_prune_summary_runner_counts_js_prune_metrics(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 import base64
-import json
 import re
 import unicodedata
 from pathlib import Path
@@ -10,7 +9,7 @@ from typing import Any
 
 from python_backend.analysis.audit import CoverageAuditBuilder
 from python_backend.corpus.dictionary import DictionaryLoader
-from python_backend.runtime.json_contracts import safe_read_json_object
+from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 
 
 SUPPORTED_FAMILIES = ("attack", "absolutes", "evidence", "evasion", "cooperation", "correction")
@@ -199,10 +198,7 @@ class ExhaustedTermsPrunePlanRunner:
         ).build_plan(dictionary, state)
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
-        if not path.exists():
-            return fallback
-        with path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
+        payload = JsonContractReader().read_value(path, fallback)
         return payload if isinstance(payload, dict) else fallback
 
 
