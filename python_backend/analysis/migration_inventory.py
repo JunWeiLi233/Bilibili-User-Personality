@@ -47,6 +47,20 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:huggingface-compare": "full_command",
 }
 
+DEFAULT_PACKAGE_REPLACEMENT_SCOPES = {
+    "dictionary:prune": "summary_only",
+    "dictionary:prune-exhausted": "dry_run_plan",
+    "dictionary:resolve-near": "dry_run_plan",
+    "dictionary:auto": "dry_run_plan",
+    "dictionary:tieba": "dry_run_plan",
+    "dictionary:mine-local": "dry_run_plan",
+    "dictionary:probe-bilibili": "dry_run_plan",
+    "dictionary:history-tags": "dry_run_plan",
+    "deepseek:analyze": "mocked_runtime",
+    "aicu:scrape": "dry_run_plan",
+    "aicu:batch": "dry_run_plan",
+}
+
 DEFAULT_RETAINED_NODE_COMMANDS = {
     "server": "app_api_orchestration",
     "dev:full": "app_api_orchestration",
@@ -236,6 +250,7 @@ class PackageCommandMigrationInventory:
         equivalents: dict[str, str] | None = None,
         validation_equivalents: dict[str, str] | None = None,
         validation_scopes: dict[str, str] | None = None,
+        replacement_scopes: dict[str, str] | None = None,
         retained_commands: dict[str, str] | None = None,
         bridge_commands: dict[str, str] | None = None,
     ):
@@ -243,6 +258,7 @@ class PackageCommandMigrationInventory:
         self.equivalents = equivalents or DEFAULT_PACKAGE_COMMAND_EQUIVALENTS
         self.validation_equivalents = validation_equivalents or DEFAULT_PACKAGE_VALIDATION_EQUIVALENTS
         self.validation_scopes = validation_scopes or DEFAULT_PACKAGE_VALIDATION_SCOPES
+        self.replacement_scopes = replacement_scopes or DEFAULT_PACKAGE_REPLACEMENT_SCOPES
         self.retained_commands = retained_commands or DEFAULT_RETAINED_NODE_COMMANDS
         self.bridge_commands = bridge_commands or DEFAULT_BRIDGE_NODE_COMMANDS
 
@@ -278,6 +294,10 @@ class PackageCommandMigrationInventory:
                     "pythonScript": python_name,
                     "pythonCommand": python_command,
                 }
+                replacement_scope = self.replacement_scopes.get(name)
+                if replacement_scope:
+                    mapping["replacementScope"] = replacement_scope
+                    mapping["readyToReplace"] = False
                 validation_name = self.validation_equivalents.get(name)
                 validation_command = node_scripts.get(validation_name or "")
                 if validation_name and validation_command:
