@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { test } from 'node:test';
 
-import { compareAicuBatchPlan, compareAicuBatchPlanObjects } from './compareAicuBatchPlan.js';
+import { compareAicuBatchPlan, compareAicuBatchPlanObjects, compareAicuBatchPlanSuite } from './compareAicuBatchPlan.js';
 
 const PLAN = {
   range: {
@@ -74,6 +74,17 @@ test('compareAicuBatchPlan compares JS and Python dry-run batch plans', async ()
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('compareAicuBatchPlanSuite covers resume, empty range, and malformed payload fixtures', async () => {
+  const result = await compareAicuBatchPlanSuite();
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.fixtures.map((fixture) => fixture.name), ['resume-with-existing-users', 'empty-effective-range', 'malformed-payload']);
+  assert.deepEqual(result.fixtures.flatMap((fixture) => fixture.mismatches), []);
+  assert.equal(result.fixtures.find((fixture) => fixture.name === 'empty-effective-range').python.range.total, 0);
+  assert.equal(result.fixtures.find((fixture) => fixture.name === 'empty-effective-range').python.sampleRequests.uid, '');
+  assert.equal(result.fixtures.find((fixture) => fixture.name === 'malformed-payload').python.range.requestedStart, 100000);
 });
 
 test('batchScrapeAicu can delegate dry-run planning to Python', () => {

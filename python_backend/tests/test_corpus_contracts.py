@@ -1727,7 +1727,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:aicu-batch-compare",
                     "validationCommand": "node server/scripts/compareAicuBatchPlan.js",
-                    "validationScope": "dry_run_plan_fixture_and_js_python_plan_bridge",
+                    "validationScope": "dry_run_plan_resume_empty_range_malformed_payload_fixtures_and_js_python_bridge",
                 },
             ],
         )
@@ -4157,6 +4157,17 @@ class CorpusContractTests(unittest.TestCase):
                 "danmakuUrl": "https://api.aicu.cc/api/v3/search/getvideodm?uid=100003&pn=1&ps=20&keyword=",
             },
         )
+
+    def test_aicu_batch_planner_preserves_js_object_keys_semantics_for_user_arrays(self):
+        result = AicuBatchPlanner().build_plan(
+            ["--start=not-a-number", "--end=not-a-number"],
+            {"lastUid": "not-a-number", "completed": "not-a-number", "errors": {"not": "a-list"}},
+            {"users": ["not", "an", "object"]},
+        )
+
+        self.assertEqual(result["range"], {"requestedStart": 100000, "effectiveStart": 100000, "end": 200000, "total": 100001})
+        self.assertEqual(result["progress"], {"lastUid": 0, "completed": 0, "errors": 0})
+        self.assertEqual(result["database"], {"users": 3, "existingInEffectiveRange": 0})
 
     def test_aicu_batch_plan_summary_extracts_comparator_contract(self):
         summary = AicuBatchPlanSummary().summarize(

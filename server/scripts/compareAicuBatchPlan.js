@@ -25,6 +25,43 @@ export const DEFAULT_PAYLOAD = {
   },
 };
 
+export const AICU_BATCH_PLAN_FIXTURES = {
+  'resume-with-existing-users': DEFAULT_PAYLOAD,
+  'empty-effective-range': {
+    argv: ['--start=100000', '--end=100005'],
+    progress: {
+      lastUid: 100010,
+      completed: 7,
+      errors: [],
+    },
+    database: {
+      users: {
+        100003: { uid: '100003' },
+        100006: { uid: '100006' },
+      },
+    },
+  },
+  'malformed-payload': {
+    argv: ['--start=not-a-number', '--end=not-a-number'],
+    progress: {
+      lastUid: 'not-a-number',
+      completed: 'not-a-number',
+      errors: { not: 'a-list' },
+    },
+    database: {
+      users: ['not', 'an', 'object'],
+    },
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = ['resume-with-existing-users', 'empty-effective-range', 'malformed-payload'];
+
+function resolvePayload({ fixture = 'resume-with-existing-users', payload } = {}) {
+  if (payload) return { name: fixture || 'custom', payload };
+  const name = String(fixture || 'resume-with-existing-users');
+  return { name, payload: AICU_BATCH_PLAN_FIXTURES[name] || DEFAULT_PAYLOAD };
+}
+
 function summarize(result = {}) {
   return Object.fromEntries(RESULT_KEYS.filter((key) => key in result).map((key) => [key, result[key]]));
 }
@@ -58,17 +95,23 @@ async function runPythonPlan({ payloadPath }) {
   return JSON.parse(stdout);
 }
 
-export async function compareAicuBatchPlan({ payload = DEFAULT_PAYLOAD, runJs = runJsPlan, runPython = runPythonPlan } = {}) {
+export async function compareAicuBatchPlan({
+  fixture = 'resume-with-existing-users',
+  payload,
+  runJs = runJsPlan,
+  runPython = runPythonPlan,
+} = {}) {
+  const resolved = resolvePayload({ fixture, payload });
   const tempDir = await mkdtemp(join(tmpdir(), 'aicu-batch-plan-compare-'));
   try {
     const payloadPath = join(tempDir, 'payload.json');
-    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
-    const js = await runJs({ payload, payloadPath });
-    const python = await runPython({ payload, payloadPath });
+    await writeFile(payloadPath, JSON.stringify(resolved.payload, null, 2), 'utf8');
+    const js = await runJs({ payload: resolved.payload, payloadPath });
+    const python = await runPython({ payload: resolved.payload, payloadPath });
     const comparison = compareAicuBatchPlanObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { payloadPath },
+      fixture: { name: resolved.name, payloadPath },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -78,8 +121,25 @@ export async function compareAicuBatchPlan({ payload = DEFAULT_PAYLOAD, runJs = 
   }
 }
 
+export async function compareAicuBatchPlanSuite({ fixtures = DEFAULT_FIXTURE_NAMES } = {}) {
+  const results = [];
+  for (const fixture of fixtures) {
+    results.push(await compareAicuBatchPlan({ fixture }));
+  }
+  return {
+    ok: results.every((result) => result.ok),
+    fixtures: results.map((result) => ({
+      name: result.fixture.name,
+      ok: result.ok,
+      js: result.js,
+      python: result.python,
+      mismatches: result.mismatches,
+    })),
+  };
+}
+
 async function main() {
-  const result = await compareAicuBatchPlan();
+  const result = await compareAicuBatchPlanSuite();
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }

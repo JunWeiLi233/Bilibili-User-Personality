@@ -245,7 +245,7 @@ class AicuBatchPlanner:
         last_uid = _parse_int_or(progress.get("lastUid"), 0)
         effective_start = last_uid + 1 if last_uid >= requested_start else requested_start
         total = max(0, end_uid - effective_start + 1)
-        users = database.get("users") if isinstance(database.get("users"), dict) else {}
+        users = self._user_keys(database.get("users"))
         sample_uid = str(effective_start) if total else ""
         return {
             "ok": True,
@@ -280,7 +280,14 @@ class AicuBatchPlanner:
                 options["end"] = _parse_int_or(arg.split("=", 1)[1], self.DEFAULT_END_UID)
         return options
 
-    def _users_in_range(self, users: dict[str, Any], start: int, end: int) -> int:
+    def _user_keys(self, users: Any) -> list[str]:
+        if isinstance(users, dict):
+            return [str(uid) for uid in users.keys()]
+        if isinstance(users, list):
+            return [str(index) for index in range(len(users))]
+        return []
+
+    def _users_in_range(self, users: list[str], start: int, end: int) -> int:
         count = 0
         for uid in users:
             numeric_uid = _parse_int_or(uid, -1)
