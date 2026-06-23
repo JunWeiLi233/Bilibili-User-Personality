@@ -1681,7 +1681,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:coverage-loop-compare",
                     "validationCommand": "node server/scripts/compareCoverageHarvestLoopPlan.js",
-                    "validationScope": "dry_run_plan_no_live_mock_cycle_and_no_progress_fixture",
+                    "validationScope": "dry_run_plan_no_live_mock_cycle_no_progress_and_multi_cycle_fixture",
                 },
                 {
                     "script": "dictionary:tieba",
@@ -1876,7 +1876,7 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["nextOfflineMigrationAction"]["path"], "server/scripts/runCoverageHarvestLoop.js")
         self.assertEqual(result["nextOfflineMigrationAction"]["nodeScript"], "dictionary:auto")
-        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "dry_run_plan_no_live_mock_cycle_and_no_progress_fixture")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "dry_run_plan_no_live_mock_cycle_no_progress_and_multi_cycle_fixture")
         self.assertFalse(result["nextOfflineMigrationAction"]["readyToReplace"])
         self.assertIn(
             {"gate": "no_live_command_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
@@ -1888,6 +1888,10 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertIn(
             {"gate": "mock_no_progress_cycle_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
+            result["nextOfflineMigrationAction"]["validationGates"],
+        )
+        self.assertIn(
+            {"gate": "mock_multi_cycle_report_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
             result["nextOfflineMigrationAction"]["validationGates"],
         )
         self.assertEqual(result["nextOfflineMigrationAction"]["offlineReason"], "skips_live_api_runtime")
@@ -27988,6 +27992,107 @@ class CorpusContractTests(unittest.TestCase):
                 }
             ],
         )
+
+    def test_coverage_harvest_loop_cycle_report_builder_accumulates_multi_cycle_report(self):
+        from python_backend.analysis import coverage_loop as coverage_loop_module
+
+        cycle_one_before = {
+            "ok": False,
+            "coverage": {
+                "terms": 1,
+                "weakTerms": 1,
+                "zeroEvidenceTerms": 1,
+                "unsourcedEvidenceTerms": 1,
+                "totalEvidence": 0,
+                "evidenceDeficit": 3,
+                "coverageRatio": 0,
+            },
+        }
+        cycle_one_after = {
+            "ok": False,
+            "coverage": {
+                "terms": 1,
+                "weakTerms": 1,
+                "zeroEvidenceTerms": 0,
+                "unsourcedEvidenceTerms": 0,
+                "totalEvidence": 1,
+                "evidenceDeficit": 2,
+                "coverageRatio": 0.3333,
+            },
+        }
+        cycle_two_after = {
+            "ok": True,
+            "coverage": {
+                "terms": 1,
+                "weakTerms": 0,
+                "zeroEvidenceTerms": 0,
+                "unsourcedEvidenceTerms": 0,
+                "totalEvidence": 3,
+                "evidenceDeficit": 0,
+                "coverageRatio": 1,
+            },
+        }
+
+        result = coverage_loop_module.CoverageHarvestLoopCycleReportBuilder(
+            generated_at="2026-06-23T00:00:00.000Z",
+            max_cycles=2,
+            rounds_per_cycle=1,
+        ).build_many(
+            [
+                {
+                    "cycle": 1,
+                    "priorityQueries": [{"query": "doge hot", "term": "doge"}],
+                    "beforeAudit": cycle_one_before,
+                    "afterAudit": cycle_one_after,
+                    "harvest": {
+                        "ok": True,
+                        "rounds": [
+                            {
+                                "queries": ["doge hot"],
+                                "warnings": [],
+                                "coverageProgress": {"evidenceGained": 1, "zeroEvidenceResolved": 1},
+                                "trainingDiagnostics": {"accepted": 1},
+                                "queryDiagnostics": [{"query": "doge hot", "videos": 1}],
+                            }
+                        ],
+                    },
+                },
+                {
+                    "cycle": 2,
+                    "priorityQueries": [{"query": "doge source", "term": "doge"}],
+                    "beforeAudit": cycle_one_after,
+                    "afterAudit": cycle_two_after,
+                    "harvest": {
+                        "ok": True,
+                        "rounds": [
+                            {
+                                "queries": ["doge source"],
+                                "warnings": ["retry source"],
+                                "coverageProgress": {"evidenceGained": 2, "weakTermsResolved": 1},
+                                "trainingDiagnostics": {"accepted": 2},
+                                "queryDiagnostics": [{"query": "doge source", "videos": 2}],
+                            }
+                        ],
+                    },
+                },
+            ],
+            stop_reason="coverage_gate_passed",
+        )
+
+        self.assertTrue(result["finalOk"])
+        self.assertEqual(result["generatedAt"], "2026-06-23T00:00:00.000Z")
+        self.assertEqual(result["maxCycles"], 2)
+        self.assertEqual(result["roundsPerCycle"], 1)
+        self.assertEqual(result["stopReason"], "coverage_gate_passed")
+        self.assertEqual(result["finalAudit"], cycle_two_after)
+        self.assertEqual([cycle["cycle"] for cycle in result["cycles"]], [1, 2])
+        self.assertEqual(result["cycles"][0]["coverageBefore"], cycle_one_before["coverage"])
+        self.assertEqual(result["cycles"][0]["coverageAfter"], cycle_one_after["coverage"])
+        self.assertEqual(result["cycles"][1]["coverageBefore"], cycle_one_after["coverage"])
+        self.assertEqual(result["cycles"][1]["coverageAfter"], cycle_two_after["coverage"])
+        self.assertEqual(result["cycles"][0]["coverageDelta"]["zeroEvidenceResolved"], 1)
+        self.assertEqual(result["cycles"][1]["coverageDelta"]["weakTermsResolved"], 1)
+        self.assertEqual(result["cycles"][1]["harvest"]["warnings"], ["retry source"])
 
     def test_package_coverage_loop_command_compare_script_tracks_no_live_command_gate(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))

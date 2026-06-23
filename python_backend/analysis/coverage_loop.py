@@ -363,6 +363,44 @@ class CoverageHarvestLoopCycleReportBuilder:
             ],
         }
 
+    def build_many(self, cycles: list[dict[str, Any]] | None = None, *, stop_reason: str = "") -> dict[str, Any]:
+        cycle_items = cycles if isinstance(cycles, list) else []
+        normalized_cycles = [self._cycle_report(item, index + 1) for index, item in enumerate(cycle_items) if isinstance(item, dict)]
+        final_audit = self._audit_from_cycle(cycle_items[-1], "afterAudit") if cycle_items and isinstance(cycle_items[-1], dict) else {}
+        return {
+            "generatedAt": self.generated_at,
+            "maxCycles": self.max_cycles,
+            "roundsPerCycle": self.rounds_per_cycle,
+            "stopReason": stop_reason or ("coverage_gate_passed" if final_audit.get("ok") is True else ""),
+            "finalOk": final_audit.get("ok") is True,
+            "finalAudit": final_audit,
+            "cycles": normalized_cycles,
+        }
+
+    def _cycle_report(self, payload: dict[str, Any], fallback_cycle: int) -> dict[str, Any]:
+        before_audit = self._audit_from_cycle(payload, "beforeAudit")
+        after_audit = self._audit_from_cycle(payload, "afterAudit")
+        before_coverage = before_audit.get("coverage") if isinstance(before_audit.get("coverage"), dict) else {}
+        after_coverage = after_audit.get("coverage") if isinstance(after_audit.get("coverage"), dict) else {}
+        harvest_summary = self._harvest_summary(payload.get("harvest") if isinstance(payload.get("harvest"), dict) else {})
+        return {
+            "cycle": _positive_int(payload.get("cycle"), fallback_cycle),
+            "priorityQueries": payload.get("priorityQueries") if isinstance(payload.get("priorityQueries"), list) else [],
+            "harvest": harvest_summary,
+            "coverageDelta": self.progress_tracker.coverage_delta_from_harvest(
+                before_coverage,
+                after_coverage,
+                harvest_summary["coverageProgress"],
+            ),
+            "coverageBefore": before_coverage,
+            "coverageAfter": after_coverage,
+        }
+
+    @staticmethod
+    def _audit_from_cycle(payload: dict[str, Any], key: str) -> dict[str, Any]:
+        audit = payload.get(key) if isinstance(payload, dict) else {}
+        return audit if isinstance(audit, dict) else {}
+
     def _harvest_summary(self, harvest: dict[str, Any] | None = None) -> dict[str, Any]:
         harvest = harvest if isinstance(harvest, dict) else {}
         rounds = harvest.get("rounds") if isinstance(harvest.get("rounds"), list) else []
@@ -500,11 +538,17 @@ class CoverageHarvestLoopCommandRequest:
         if args.mock_cycle_payload:
             payload = JsonContractReader().read_value(args.mock_cycle_payload, {})
             payload = payload if isinstance(payload, dict) else {}
-            return CoverageHarvestLoopCycleReportBuilder(
+            builder = CoverageHarvestLoopCycleReportBuilder(
                 generated_at=payload.get("generatedAt") or args.generated_at or None,
                 max_cycles=payload.get("maxCycles", args.max_cycles),
                 rounds_per_cycle=payload.get("roundsPerCycle", args.rounds_per_cycle),
-            ).build(
+            )
+            if isinstance(payload.get("cycles"), list):
+                return builder.build_many(
+                    payload.get("cycles"),
+                    stop_reason=str(payload.get("stopReason") or ""),
+                )
+            return builder.build(
                 cycle=payload.get("cycle", 1),
                 priority_queries=payload.get("priorityQueries") if isinstance(payload.get("priorityQueries"), list) else [],
                 harvest=payload.get("harvest") if isinstance(payload.get("harvest"), dict) else {},

@@ -134,11 +134,101 @@ export const MOCK_NO_PROGRESS_CYCLE_PAYLOAD = {
   },
 };
 
+export const MOCK_MULTI_CYCLE_PAYLOAD = {
+  generatedAt: GENERATED_AT,
+  maxCycles: 2,
+  roundsPerCycle: 1,
+  stopReason: 'coverage_gate_passed',
+  cycles: [
+    {
+      cycle: 1,
+      priorityQueries: [{ query: 'doge hot', term: 'doge' }],
+      beforeAudit: {
+        ok: false,
+        coverage: {
+          terms: 1,
+          weakTerms: 1,
+          zeroEvidenceTerms: 1,
+          unsourcedEvidenceTerms: 1,
+          totalEvidence: 0,
+          evidenceDeficit: 3,
+          coverageRatio: 0,
+        },
+      },
+      afterAudit: {
+        ok: false,
+        coverage: {
+          terms: 1,
+          weakTerms: 1,
+          zeroEvidenceTerms: 0,
+          unsourcedEvidenceTerms: 0,
+          totalEvidence: 1,
+          evidenceDeficit: 2,
+          coverageRatio: 0.3333,
+        },
+      },
+      harvest: {
+        ok: true,
+        rounds: [
+          {
+            queries: ['doge hot'],
+            warnings: [],
+            coverageProgress: { evidenceGained: 1, zeroEvidenceResolved: 1 },
+            trainingDiagnostics: { accepted: 1 },
+            queryDiagnostics: [{ query: 'doge hot', videos: 1 }],
+          },
+        ],
+      },
+    },
+    {
+      cycle: 2,
+      priorityQueries: [{ query: 'doge source', term: 'doge' }],
+      beforeAudit: {
+        ok: false,
+        coverage: {
+          terms: 1,
+          weakTerms: 1,
+          zeroEvidenceTerms: 0,
+          unsourcedEvidenceTerms: 0,
+          totalEvidence: 1,
+          evidenceDeficit: 2,
+          coverageRatio: 0.3333,
+        },
+      },
+      afterAudit: {
+        ok: true,
+        coverage: {
+          terms: 1,
+          weakTerms: 0,
+          zeroEvidenceTerms: 0,
+          unsourcedEvidenceTerms: 0,
+          totalEvidence: 3,
+          evidenceDeficit: 0,
+          coverageRatio: 1,
+        },
+      },
+      harvest: {
+        ok: true,
+        rounds: [
+          {
+            queries: ['doge source'],
+            warnings: ['retry source'],
+            coverageProgress: { evidenceGained: 2, weakTermsResolved: 1 },
+            trainingDiagnostics: { accepted: 2 },
+            queryDiagnostics: [{ query: 'doge source', videos: 2 }],
+          },
+        ],
+      },
+    },
+  ],
+};
+
 const DEFAULT_FIXTURES = [
   { name: 'complete-empty-dictionary', dictionary: DEFAULT_DICTIONARY },
   { name: 'weak-cycle-limit', dictionary: WEAK_DICTIONARY },
   { name: 'mock-cycle-report', mockCyclePayload: MOCK_CYCLE_PAYLOAD },
   { name: 'mock-no-progress-cycle', mockCyclePayload: MOCK_NO_PROGRESS_CYCLE_PAYLOAD },
+  { name: 'mock-multi-cycle-report', mockCyclePayload: MOCK_MULTI_CYCLE_PAYLOAD },
 ];
 
 function summarize(report = {}) {
@@ -210,6 +300,32 @@ async function runPythonCoverageLoopCommand({ dictionaryPath, statePath, reportP
 }
 
 function buildJsMockCycleReport(payload = {}) {
+  if (Array.isArray(payload.cycles)) {
+    const cycles = payload.cycles.map((cyclePayload, index) => buildJsMockCycle(cyclePayload, index + 1));
+    const finalAudit = payload.cycles.length ? payload.cycles[payload.cycles.length - 1]?.afterAudit || {} : {};
+    return {
+      generatedAt: payload.generatedAt || GENERATED_AT,
+      maxCycles: Number(payload.maxCycles || 1),
+      roundsPerCycle: Number(payload.roundsPerCycle || 1),
+      stopReason: payload.stopReason || (finalAudit.ok === true ? 'coverage_gate_passed' : ''),
+      finalOk: finalAudit.ok === true,
+      finalAudit,
+      cycles,
+    };
+  }
+  const afterAudit = payload.afterAudit && typeof payload.afterAudit === 'object' ? payload.afterAudit : {};
+  return {
+    generatedAt: payload.generatedAt || GENERATED_AT,
+    maxCycles: Number(payload.maxCycles || 1),
+    roundsPerCycle: Number(payload.roundsPerCycle || 1),
+    stopReason: payload.stopReason || (afterAudit.ok === true ? 'coverage_gate_passed' : ''),
+    finalOk: afterAudit.ok === true,
+    finalAudit: afterAudit,
+    cycles: [buildJsMockCycle(payload, 1)],
+  };
+}
+
+function buildJsMockCycle(payload = {}, fallbackCycle = 1) {
   const beforeAudit = payload.beforeAudit && typeof payload.beforeAudit === 'object' ? payload.beforeAudit : {};
   const afterAudit = payload.afterAudit && typeof payload.afterAudit === 'object' ? payload.afterAudit : {};
   const beforeCoverage = beforeAudit.coverage && typeof beforeAudit.coverage === 'object' ? beforeAudit.coverage : {};
@@ -225,22 +341,12 @@ function buildJsMockCycleReport(payload = {}) {
     queryDiagnostics: rounds.map((round) => Array.isArray(round?.queryDiagnostics) ? round.queryDiagnostics : []),
   };
   return {
-    generatedAt: payload.generatedAt || GENERATED_AT,
-    maxCycles: Number(payload.maxCycles || 1),
-    roundsPerCycle: Number(payload.roundsPerCycle || 1),
-    stopReason: payload.stopReason || (afterAudit.ok === true ? 'coverage_gate_passed' : ''),
-    finalOk: afterAudit.ok === true,
-    finalAudit: afterAudit,
-    cycles: [
-      {
-        cycle: Number(payload.cycle || 1),
-        priorityQueries: Array.isArray(payload.priorityQueries) ? payload.priorityQueries : [],
-        harvest,
-        coverageDelta: coverageDeltaFromHarvest(beforeCoverage, afterCoverage, harvest.coverageProgress),
-        coverageBefore: beforeCoverage,
-        coverageAfter: afterCoverage,
-      },
-    ],
+    cycle: Number(payload.cycle || fallbackCycle),
+    priorityQueries: Array.isArray(payload.priorityQueries) ? payload.priorityQueries : [],
+    harvest,
+    coverageDelta: coverageDeltaFromHarvest(beforeCoverage, afterCoverage, harvest.coverageProgress),
+    coverageBefore: beforeCoverage,
+    coverageAfter: afterCoverage,
   };
 }
 
