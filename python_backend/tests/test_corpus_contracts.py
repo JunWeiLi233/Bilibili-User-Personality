@@ -14173,6 +14173,18 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(comparison["js"], {})
         self.assertEqual(comparison["python"]["bvids"], ["BV19yGa61Ee6", "BV1xx411c7mD"])
 
+    def test_bilibili_crawler_runner_defaults_corrupt_json_contract_payload(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "payload.json"
+            payload_path.write_text("{bad payload", encoding="utf-8")
+
+            result = BilibiliCrawlerPayloadRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["bvids"], [])
+        self.assertEqual(result["bvid"], "")
+        self.assertFalse(result["blocked"])
+
     def test_bilibili_crawler_request_compares_js_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
