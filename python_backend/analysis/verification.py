@@ -103,6 +103,40 @@ class RandomVerificationReportSummary:
         }
 
 
+class RandomVerificationSampleContract:
+    """Normalize, filter, and deterministically sample random-verification comments."""
+
+    def __init__(self, comments: list[Any] | None = None, sample_size: Any = 50, seed: Any = 1):
+        self.comments = comments if isinstance(comments, list) else []
+        self.options = RandomVerificationRunOptions.from_values(sample_size=sample_size, seed=seed)
+
+    def sample(self) -> list[dict[str, Any]]:
+        eligible = [comment for comment in self.normalized_comments() if self.message(comment) and not _is_scrape_diagnostic(self.message(comment))]
+        sample_count = min(max(0, self.options.sample_size), len(eligible))
+        return random.Random(self.options.seed).sample(eligible, sample_count) if sample_count else []
+
+    def normalized_comments(self) -> list[dict[str, Any]]:
+        return [self.normalize_comment(comment) for comment in self.comments]
+
+    @staticmethod
+    def message(comment: dict[str, Any]) -> str:
+        return str(
+            comment.get("message")
+            or comment.get("text")
+            or comment.get("commentText")
+            or comment.get("combinedText")
+            or comment.get("content")
+            or ""
+        ).strip()
+
+    @classmethod
+    def normalize_comment(cls, comment: Any) -> dict[str, Any]:
+        if isinstance(comment, dict):
+            return comment
+        text = str(comment or "").strip()
+        return {"message": text} if text else {}
+
+
 class RandomVerificationContractComparator:
     """Compare random-verification reports using the JS/Python metric contract."""
 
@@ -391,12 +425,8 @@ class RandomVerifier:
         return terms
 
     def verify(self, comments: list[Any], sample_size: int, seed: int) -> VerificationSummary:
-        comments = comments if isinstance(comments, list) else []
         options = RandomVerificationRunOptions.from_values(sample_size=sample_size, seed=seed)
-        normalized_comments = [self._normalize_comment(comment) for comment in comments]
-        eligible = [comment for comment in normalized_comments if self._message(comment) and not _is_scrape_diagnostic(self._message(comment))]
-        sample_count = min(max(0, options.sample_size), len(eligible))
-        sampled = random.Random(options.seed).sample(eligible, sample_count) if sample_count else []
+        sampled = RandomVerificationSampleContract(comments, sample_size=options.sample_size, seed=options.seed).sample()
         annotated = [self._annotate(comment) for comment in sampled]
         keyword_hits = sum(1 for item in annotated if item["matched_terms"])
         return VerificationSummary(
@@ -427,18 +457,8 @@ class RandomVerifier:
 
     @staticmethod
     def _message(comment: dict[str, Any]) -> str:
-        return str(
-            comment.get("message")
-            or comment.get("text")
-            or comment.get("commentText")
-            or comment.get("combinedText")
-            or comment.get("content")
-            or ""
-        ).strip()
+        return RandomVerificationSampleContract.message(comment)
 
     @classmethod
     def _normalize_comment(cls, comment: Any) -> dict[str, Any]:
-        if isinstance(comment, dict):
-            return comment
-        text = str(comment or "").strip()
-        return {"message": text} if text else {}
+        return RandomVerificationSampleContract.normalize_comment(comment)
