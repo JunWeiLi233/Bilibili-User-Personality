@@ -8068,6 +8068,29 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(result["ok"])
         self.assertEqual([item["key"] for item in result["mismatches"]], ["changed", "newComments"])
 
+    def test_tieba_corpus_json_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "tieba-payload.json"
+            js_report_path = root / "js-tieba-update.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "existing": {"version": 1, "runs": [], "comments": []},
+                        "run": {"results": [{"comments": [{"message": "\u8bf7\u6c42\u8d34\u5427\u5bf9\u6bd4", "sourceUrl": "https://tieba.baidu.com/p/7"}]}]},
+                        "generatedAt": "2026-06-17T07:00:00.000Z",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            result = TiebaCorpusJsonPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"], {})
+
     def test_tieba_corpus_command_request_lives_with_corpus_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -8168,6 +8191,30 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "newComments", "python": [{"message": "payload tieba comment", "sourceUrl": "https://tieba.baidu.com/p/3"}], "js": []},
             ],
         )
+
+    def test_tieba_corpus_update_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            existing_path = root / "tieba.json"
+            run_path = root / "run.json"
+            js_report_path = root / "js-tieba-update.json"
+            existing_path.write_text(json.dumps({"version": 1, "runs": [], "comments": []}), encoding="utf-8")
+            run_path.write_text(
+                json.dumps({"at": "2026-06-17T03:00:00.000Z", "results": [{"comments": [{"message": "payload tieba comment", "sourceUrl": "https://tieba.baidu.com/p/3"}]}]}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            comparison = TiebaCorpusUpdatePayloadComparator(
+                existing_path,
+                run_path,
+                js_report_path,
+                generated_at="2026-06-17T03:00:00.000Z",
+            ).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
 
     def test_tieba_corpus_update_summary_extracts_comparator_contract(self):
         summary = TiebaCorpusUpdateSummary().summarize(
