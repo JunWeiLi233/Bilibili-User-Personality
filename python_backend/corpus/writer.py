@@ -10,12 +10,81 @@ from typing import Any
 from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 
 
+class CorpusShardPlanner:
+    """Plan JS-compatible split-corpus shard payloads without filesystem IO."""
+
+    def __init__(self, max_shard_bytes: Any = 64 * 1024):
+        self.max_shard_bytes = max(1024, CorpusShardWriter._payload_max_shard_bytes(max_shard_bytes))
+
+    def plan(
+        self,
+        *,
+        values: list[dict[str, Any]],
+        file_stem: str,
+        directory_name: str,
+        key: str,
+        manifest: dict[str, Any],
+    ) -> dict[str, Any]:
+        manifest = manifest if isinstance(manifest, dict) else {}
+        shards = self.split_values(values, key, manifest)
+        planned_shards = []
+        files: list[str] = []
+        for index, shard_values in enumerate(shards, start=1):
+            name = f"{file_stem}-{index:04d}.json"
+            file_name = f"{directory_name}/{name}"
+            files.append(file_name)
+            planned_shards.append(
+                {
+                    "file": file_name,
+                    "payload": self.build_shard_payload(manifest, index, len(shards), key, shard_values),
+                }
+            )
+        return {"files": files, "shards": planned_shards}
+
+    def split_values(self, values: list[dict[str, Any]], key: str, manifest: dict[str, Any]) -> list[list[dict[str, Any]]]:
+        if not values:
+            return [[]]
+        shards: list[list[dict[str, Any]]] = []
+        current: list[dict[str, Any]] = []
+        for value in values:
+            candidate = [*current, value]
+            if current and self.json_bytes(self.build_shard_payload(manifest, 9999, 9999, key, candidate)) > self.max_shard_bytes:
+                shards.append(current)
+                current = [value]
+            else:
+                current = candidate
+        if current:
+            shards.append(current)
+        return shards
+
+    @staticmethod
+    def build_shard_payload(
+        manifest: dict[str, Any],
+        shard: int,
+        shard_count: int,
+        key: str,
+        values: list[dict[str, Any]],
+    ) -> dict[str, Any]:
+        return {
+            "version": manifest.get("version", 1),
+            "updatedAt": manifest.get("updatedAt") or None,
+            "shard": shard,
+            "shardCount": shard_count,
+            key: values,
+        }
+
+    @staticmethod
+    def json_bytes(payload: dict[str, Any]) -> int:
+        return len((json.dumps(payload, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
+
+
 class CorpusShardWriter:
     """Write a small split corpus using the same manifest keys as JS."""
 
     def __init__(self, path: str | Path, max_shard_bytes: Any = 64 * 1024):
         self.path = Path(path)
         self.max_shard_bytes = max(1024, self._payload_max_shard_bytes(max_shard_bytes))
+        self.planner = CorpusShardPlanner(self.max_shard_bytes)
 
     def write(
         self,
@@ -93,17 +162,10 @@ class CorpusShardWriter:
         manifest: dict[str, Any],
     ) -> list[str]:
         directory.mkdir(parents=True, exist_ok=True)
-        shards = self._split_values(values, key, manifest)
-        files: list[str] = []
-        for index, shard_values in enumerate(shards, start=1):
-            name = f"{file_stem}-{index:04d}.json"
-            shard_path = directory / name
-            self._write_json(
-                shard_path,
-                self._build_shard_payload(manifest, index, len(shards), key, shard_values),
-            )
-            files.append(f"{directory.name}/{name}")
-        return files
+        plan = self.planner.plan(values=values, file_stem=file_stem, directory_name=directory.name, key=key, manifest=manifest)
+        for shard in plan["shards"]:
+            self._write_json(directory / Path(shard["file"]).name, shard["payload"])
+        return plan["files"]
 
     def _remove_stale_shards(self, directory: Path, kept_files: list[str], pattern: str) -> None:
         kept_names = {Path(path).name for path in kept_files}
@@ -115,20 +177,7 @@ class CorpusShardWriter:
                 path.unlink()
 
     def _split_values(self, values: list[dict[str, Any]], key: str, manifest: dict[str, Any]) -> list[list[dict[str, Any]]]:
-        if not values:
-            return [[]]
-        shards: list[list[dict[str, Any]]] = []
-        current: list[dict[str, Any]] = []
-        for value in values:
-            candidate = [*current, value]
-            if current and self._json_bytes(self._build_shard_payload(manifest, 9999, 9999, key, candidate)) > self.max_shard_bytes:
-                shards.append(current)
-                current = [value]
-            else:
-                current = candidate
-        if current:
-            shards.append(current)
-        return shards
+        return self.planner.split_values(values, key, manifest)
 
     @staticmethod
     def _build_shard_payload(
@@ -138,17 +187,11 @@ class CorpusShardWriter:
         key: str,
         values: list[dict[str, Any]],
     ) -> dict[str, Any]:
-        return {
-            "version": manifest.get("version", 1),
-            "updatedAt": manifest.get("updatedAt") or None,
-            "shard": shard,
-            "shardCount": shard_count,
-            key: values,
-        }
+        return CorpusShardPlanner.build_shard_payload(manifest, shard, shard_count, key, values)
 
     @staticmethod
     def _json_bytes(payload: dict[str, Any]) -> int:
-        return len((json.dumps(payload, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
+        return CorpusShardPlanner.json_bytes(payload)
 
     @staticmethod
     def _write_json(path: Path, payload: dict[str, Any]) -> None:

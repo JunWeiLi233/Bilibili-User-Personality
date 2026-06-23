@@ -157,7 +157,7 @@ from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommen
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader, CorpusPayloadContract
-from python_backend.corpus.writer import CorpusShardWriteCommandRequest, CorpusShardWriteContractComparator as CorpusShardWritePayloadComparator, CorpusShardWritePayloadContractComparator, CorpusShardWriteRequest, CorpusShardWriteRunner as CorpusShardWritePayloadRunner, CorpusShardWriteSummary, CorpusShardWriter
+from python_backend.corpus.writer import CorpusShardPlanner, CorpusShardWriteCommandRequest, CorpusShardWriteContractComparator as CorpusShardWritePayloadComparator, CorpusShardWritePayloadContractComparator, CorpusShardWriteRequest, CorpusShardWriteRunner as CorpusShardWritePayloadRunner, CorpusShardWriteSummary, CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliParseCommandRequest, BilibiliParseContractComparator as BilibiliParsePayloadComparator, BilibiliParsePayloadContractComparator, BilibiliParseRequest, BilibiliParseRunner as BilibiliParsePayloadRunner, BilibiliParseSummary, BilibiliPublicParser
 from python_backend.scrapers.aicu import AicuBatchPlanCommandRequest, AicuBatchPlanContractComparator as AicuBatchPlanPayloadComparator, AicuBatchPlanPayloadContractComparator, AicuBatchPlanRequest, AicuBatchPlanRunner as AicuBatchPayloadPlanRunner, AicuBatchPlanSummary, AicuBatchPlanner, AicuBatchProgressContractComparator as AicuBatchProgressPayloadComparator, AicuBatchProgressPayloadContractComparator, AicuBatchProgressReporter, AicuBatchProgressSummary, AicuScrapePlanCommandRequest, AicuScrapePlanContractComparator as AicuScrapePlanPayloadComparator, AicuScrapePlanPayloadContractComparator, AicuScrapePlanRequest, AicuScrapePlanRunner as AicuScrapePayloadPlanRunner, AicuScrapePlanSummary, AicuScrapePlanner, BatchScrapeProgressCommandRequest, BatchScrapeProgressRequest, BatchScrapeProgressRunner as BatchScrapeProgressPayloadRunner
@@ -689,6 +689,31 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(comment_shard["updatedAt"], "2026-06-19T00:00:00.000Z")
         self.assertEqual(run_shard["version"], 7)
         self.assertEqual(run_shard["updatedAt"], "2026-06-19T00:00:00.000Z")
+
+    def test_corpus_shard_planner_owns_split_payload_contract(self):
+        planner = CorpusShardPlanner(max_shard_bytes=1024)
+
+        plan = planner.plan(
+            values=[{"message": "x" * 430}, {"message": "y" * 430}],
+            file_stem="comments",
+            directory_name="out.comments",
+            key="comments",
+            manifest={"version": 7, "updatedAt": "2026-06-19T00:00:00.000Z"},
+        )
+        empty_plan = planner.plan(
+            values=[],
+            file_stem="runs",
+            directory_name="out.runs",
+            key="runs",
+            manifest={"version": 7},
+        )
+
+        self.assertEqual(plan["files"], ["out.comments/comments-0001.json", "out.comments/comments-0002.json"])
+        self.assertEqual(plan["shards"][0]["payload"]["shard"], 1)
+        self.assertEqual(plan["shards"][0]["payload"]["shardCount"], 2)
+        self.assertEqual(plan["shards"][0]["payload"]["updatedAt"], "2026-06-19T00:00:00.000Z")
+        self.assertEqual(empty_plan["files"], ["out.runs/runs-0001.json"])
+        self.assertEqual(empty_plan["shards"][0]["payload"]["runs"], [])
 
     def test_writer_splits_using_full_js_shard_payload_size(self):
         with tempfile.TemporaryDirectory() as tmp:
