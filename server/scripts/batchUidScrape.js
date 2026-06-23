@@ -1,6 +1,8 @@
+import { execFile } from 'node:child_process';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { promisify } from 'node:util';
 import { fetchJson, fetchRepliesForVideo, humanPause } from '../services/bilibiliCrawler.js';
 import { trainKeywordDictionary, readKeywordDictionary } from '../services/deepseekKeywordTrainer.js';
 
@@ -15,6 +17,7 @@ const DELAY_BETWEEN_VIDEOS_MS = 2000;
 const LOCK_RETRY_DELAY_MS = 10000;
 const LOCK_MAX_RETRIES = 10;
 const SAVE_EVERY_ANALYZED = 10;
+const execFileAsync = promisify(execFile);
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -95,6 +98,41 @@ async function readPlanPayload(args) {
   }
 }
 
+function parsePlanControlArgs(args = []) {
+  let planJson = false;
+  let pythonPlan = false;
+  let jsPlan = false;
+  let payloadPath = '';
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = String(args[index] || '');
+    if (arg === '--plan-json') {
+      planJson = true;
+    } else if (arg === '--python-plan') {
+      pythonPlan = true;
+    } else if (arg === '--js-plan') {
+      jsPlan = true;
+    } else if (arg === '--payload') {
+      payloadPath = String(args[index + 1] || '');
+      index += 1;
+    } else if (arg.startsWith('--payload=')) {
+      payloadPath = arg.slice('--payload='.length);
+    }
+  }
+  if (process.env.BILIBILI_BATCH_UID_SCRAPE_USE_PYTHON_PLAN === '1' && !jsPlan) {
+    pythonPlan = true;
+  }
+  return { planJson, pythonPlan, jsPlan, payloadPath };
+}
+
+async function runPythonBatchUidScrapePlan(payloadPath) {
+  const { stdout } = await execFileAsync('python', ['-m', 'python_backend.cli.batch_uid_scrape_plan', '--payload', payloadPath], {
+    cwd: process.cwd(),
+    env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  return JSON.parse(stdout);
+}
+
 async function saveJson(path, data) {
   await mkdir(dirname(path), { recursive: true });
   await writeFile(path, JSON.stringify(data, null, 2), 'utf8');
@@ -117,7 +155,12 @@ async function trainWithRetry(payload, options, maxRetries = LOCK_MAX_RETRIES) {
 
 async function main() {
   const args = process.argv.slice(2);
-  if (args.includes('--plan-json')) {
+  const planControl = parsePlanControlArgs(args);
+  if (planControl.planJson) {
+    if (planControl.pythonPlan && !planControl.jsPlan) {
+      console.log(JSON.stringify(await runPythonBatchUidScrapePlan(planControl.payloadPath), null, 2));
+      return;
+    }
     const payload = await readPlanPayload(args);
     console.log(JSON.stringify(buildBatchUidScrapePlan(payload), null, 2));
     return;

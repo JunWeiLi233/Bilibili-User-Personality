@@ -25260,6 +25260,16 @@ class CorpusContractTests(unittest.TestCase):
             {"path": "server/scripts/compareBatchUidScrapePlan.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
         )
+        self.assertEqual(
+            BackendMigrationInventoryScanner._validation_gates(
+                validation_script="python:batch-uid-scrape-compare",
+                validation_scope="dry_run_plan_fixture_and_js_python_plan_bridge",
+            ),
+            [
+                {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:batch-uid-scrape-compare"},
+                {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareBatchUidScrapePlan.test.js"},
+            ],
+        )
 
     def test_batch_uid_range_planner_matches_js_args_resume_and_target_contract(self):
         planner = BatchUidRangePlanner()
