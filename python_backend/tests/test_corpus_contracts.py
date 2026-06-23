@@ -156,7 +156,7 @@ from python_backend.analysis import video_filter
 from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterCommandRequest, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoCommentFilterPayloadContractComparator, VideoCommentFilterPayloadRunner, VideoCommentFilterRequest, VideoContextBuilder, VideoContextCommandRequest, VideoContextContractComparator as VideoContextPayloadComparator, VideoContextRequest, VideoContextRunner as VideoContextPayloadRunner, VideoRelevanceCommandRequest, VideoRelevanceContractComparator as VideoRelevancePayloadComparator, VideoRelevanceFilter, VideoRelevancePayloadContractComparator, VideoRelevancePayloadRunner, VideoRelevanceRequest
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
-from python_backend.corpus.loader import CorpusLoader
+from python_backend.corpus.loader import CorpusLoader, CorpusPayloadContract
 from python_backend.corpus.writer import CorpusShardWriteCommandRequest, CorpusShardWriteContractComparator as CorpusShardWritePayloadComparator, CorpusShardWritePayloadContractComparator, CorpusShardWriteRequest, CorpusShardWriteRunner as CorpusShardWritePayloadRunner, CorpusShardWriteSummary, CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliParseCommandRequest, BilibiliParseContractComparator as BilibiliParsePayloadComparator, BilibiliParsePayloadContractComparator, BilibiliParseRequest, BilibiliParseRunner as BilibiliParsePayloadRunner, BilibiliParseSummary, BilibiliPublicParser
@@ -525,6 +525,26 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(loaded.manifest["source"], "payload")
         self.assertEqual(loaded.comments, [{"message": "inline comment"}, {"message": "plain text comment"}])
         self.assertEqual(loaded.runs, [{"at": "inline-run"}])
+
+    def test_corpus_payload_contract_owns_inline_normalization_and_path_fallback(self):
+        payload = {
+            "corpusPath": {"bad": True},
+            "path": "fallback-corpus.json",
+            "corpus": {
+                "comments": [{"message": "inline comment"}, "plain text comment", ""],
+                "runs": [{"source": "inline"}, "bad run"],
+                "manifest": {"source": "payload"},
+                "storage": "custom-inline",
+            },
+        }
+
+        contract = CorpusPayloadContract(payload)
+        inline = contract.inline_corpus()
+
+        self.assertEqual(contract.path("corpusPath", "default.json"), "fallback-corpus.json")
+        self.assertEqual(inline.manifest, {"source": "payload", "storage": "custom-inline"})
+        self.assertEqual(inline.comments, [{"message": "inline comment"}, {"message": "plain text comment"}])
+        self.assertEqual(inline.runs, [{"source": "inline"}])
 
     def test_loader_normalizes_inline_plain_text_comment_payloads(self):
         loaded = CorpusLoader.load_from_payload(

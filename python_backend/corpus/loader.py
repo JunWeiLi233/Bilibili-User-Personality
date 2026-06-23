@@ -16,6 +16,39 @@ class Corpus:
     runs: list[dict[str, Any]]
 
 
+class CorpusPayloadContract:
+    """Normalize JS-compatible corpus payload shapes before loading."""
+
+    def __init__(self, payload: dict[str, Any] | None = None):
+        self.payload = payload if isinstance(payload, dict) else {}
+
+    def inline_corpus(self) -> Corpus | None:
+        corpus_payload = self.payload.get("corpus") if isinstance(self.payload.get("corpus"), dict) else None
+        if corpus_payload is None:
+            return None
+        comments = CorpusLoader._normalize_comments(corpus_payload.get("comments", []))
+        runs = CorpusLoader._normalize_runs(corpus_payload.get("runs", []))
+        manifest = corpus_payload.get("manifest") if isinstance(corpus_payload.get("manifest"), dict) else {}
+        return Corpus(
+            manifest={**manifest, "storage": manifest.get("storage") or corpus_payload.get("storage") or "inline"},
+            comments=comments,
+            runs=runs,
+        )
+
+    def path(self, preferred_key: str, default: str) -> str | os.PathLike:
+        preferred = self.payload.get(preferred_key)
+        if isinstance(preferred, (str, os.PathLike)) and str(preferred).strip():
+            return preferred
+        fallback = self.payload.get("path")
+        if isinstance(fallback, (str, os.PathLike)) and str(fallback).strip():
+            return fallback
+        return default
+
+    def fallback_manifest(self) -> dict[str, Any] | None:
+        fallback = self.payload.get("fallback")
+        return fallback if isinstance(fallback, dict) else None
+
+
 class CorpusLoader:
     """Read corpus JSON in either monolithic or JS split-shard format."""
 
@@ -26,20 +59,12 @@ class CorpusLoader:
 
     @classmethod
     def load_from_payload(cls, payload: dict[str, Any] | None = None) -> Corpus:
-        payload = payload if isinstance(payload, dict) else {}
-        corpus_payload = payload.get("corpus") if isinstance(payload.get("corpus"), dict) else None
-        if corpus_payload is not None:
-            comments = cls._normalize_comments(corpus_payload.get("comments", []))
-            runs = [run for run in corpus_payload.get("runs", []) if isinstance(run, dict)]
-            manifest = corpus_payload.get("manifest") if isinstance(corpus_payload.get("manifest"), dict) else {}
-            return Corpus(
-                manifest={**manifest, "storage": manifest.get("storage") or corpus_payload.get("storage") or "inline"},
-                comments=comments,
-                runs=runs,
-            )
-        path = cls._payload_path(payload, "corpusPath", "server/data/bilibiliDirectProbeCorpus.json")
-        fallback = payload.get("fallback") if isinstance(payload.get("fallback"), dict) else None
-        return cls(path, fallback=fallback).load()
+        contract = CorpusPayloadContract(payload)
+        inline = contract.inline_corpus()
+        if inline is not None:
+            return inline
+        path = contract.path("corpusPath", "server/data/bilibiliDirectProbeCorpus.json")
+        return cls(path, fallback=contract.fallback_manifest()).load()
 
     def load(self) -> Corpus:
         fallback_manifest = dict(self.fallback or {"version": 1, "comments": [], "runs": []})
@@ -107,13 +132,7 @@ class CorpusLoader:
 
     @staticmethod
     def _payload_path(payload: dict[str, Any], preferred_key: str, default: str) -> str | os.PathLike:
-        preferred = payload.get(preferred_key)
-        if isinstance(preferred, (str, os.PathLike)) and str(preferred).strip():
-            return preferred
-        fallback = payload.get("path")
-        if isinstance(fallback, (str, os.PathLike)) and str(fallback).strip():
-            return fallback
-        return default
+        return CorpusPayloadContract(payload).path(preferred_key, default)
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
         if not path.exists():
