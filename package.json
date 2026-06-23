@@ -123,6 +123,7 @@
     "python:direct-probe-update": "python -m python_backend.cli.direct_probe_corpus",
     "python:direct-probe-command": "python -m python_backend.cli.direct_probe_command",
     "python:direct-probe-live-fetch": "python -m python_backend.cli.direct_probe_live_fetch",
+    "python:direct-probe-command-compare": "node server/scripts/compareDirectProbeCommand.js",
     "python:direct-probe-update-compare": "node server/scripts/compareDirectProbeCorpus.js",
     "python:direct-probe-plan": "python -m python_backend.cli.direct_probe_plan",
     "python:direct-probe-compare": "node server/scripts/compareDirectProbePlan.js",

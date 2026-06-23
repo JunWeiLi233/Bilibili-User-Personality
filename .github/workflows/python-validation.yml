@@ -58,6 +58,9 @@ jobs:
       - name: Verify DeepSeek Python-backed JS plan mode
         run: npm run python:deepseek-cli-plan-js -- --text "satire [doge]" --uid 42 --multiagent
 
+      - name: Compare direct probe command contract
+        run: npm run python:direct-probe-command-compare
+
       - name: Compare direct probe corpus update contract
         run: npm run python:direct-probe-update-compare
 

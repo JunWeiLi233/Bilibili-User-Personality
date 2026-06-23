@@ -1316,8 +1316,14 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(package["scripts"]["python:direct-probe-update"], "python -m python_backend.cli.direct_probe_corpus")
         self.assertEqual(package["scripts"]["python:direct-probe-command"], "python -m python_backend.cli.direct_probe_command")
         self.assertEqual(package["scripts"]["python:direct-probe-live-fetch"], "python -m python_backend.cli.direct_probe_live_fetch")
+        self.assertEqual(package["scripts"]["python:direct-probe-command-compare"], "node server/scripts/compareDirectProbeCommand.js")
         self.assertEqual(package["scripts"]["python:direct-probe-update-compare"], "node server/scripts/compareDirectProbeCorpus.js")
+        self.assertIn("npm run python:direct-probe-command-compare", workflow)
         self.assertIn("npm run python:direct-probe-update-compare", workflow)
+        self.assertIn(
+            {"path": "server/scripts/compareDirectProbeCommand.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
         self.assertIn(
             {
                 "script": "python:direct-probe-command",
@@ -1345,6 +1351,7 @@ class CorpusContractTests(unittest.TestCase):
                 {"gate": "corpus_update_js_runner_fixture", "status": "covered", "source": "python:direct-probe-update-compare"},
                 {"gate": "python_live_fetch_unit", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
                 {"gate": "python_probe_loop_fixture", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
+                {"gate": "command_js_python_fixture", "status": "covered", "source": "python:direct-probe-command-compare"},
                 {"gate": "js_opt_in_python_live_fetch_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
             ],
         )

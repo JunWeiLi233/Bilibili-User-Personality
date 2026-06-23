@@ -106,6 +106,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:harvest-options-compare": "js_python_contract_bridge",
     "python:tieba-keyword-compare": "js_python_contract_bridge",
     "python:direct-probe-compare": "js_python_contract_bridge",
+    "python:direct-probe-command-compare": "js_python_contract_bridge",
     "python:direct-probe-update-compare": "js_python_contract_bridge",
     "python:aicu-compare": "js_python_contract_bridge",
     "python:aicu-batch-compare": "js_python_contract_bridge",
@@ -148,6 +149,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareHarvestOptions.js": "js_python_contract_bridge",
     "server/scripts/compareTiebaKeywordPlan.js": "js_python_contract_bridge",
     "server/scripts/compareDirectProbePlan.js": "js_python_contract_bridge",
+    "server/scripts/compareDirectProbeCommand.js": "js_python_contract_bridge",
     "server/scripts/compareDirectProbeCorpus.js": "js_python_contract_bridge",
     "server/scripts/compareAicuScrapePlan.js": "js_python_contract_bridge",
     "server/scripts/compareAicuBatchPlan.js": "js_python_contract_bridge",
@@ -443,6 +445,7 @@ class BackendMigrationInventoryScanner:
                 {"gate": "corpus_update_js_runner_fixture", "status": "covered", "source": "python:direct-probe-update-compare"},
                 {"gate": "python_live_fetch_unit", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
                 {"gate": "python_probe_loop_fixture", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
+                {"gate": "command_js_python_fixture", "status": "covered", "source": "python:direct-probe-command-compare"},
                 {"gate": "js_opt_in_python_live_fetch_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
             ]
         if validation_scope == "full_command":
