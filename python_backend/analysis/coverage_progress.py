@@ -100,8 +100,11 @@ class CoverageProgressPayloadContractComparator:
     def _read_js_report(self) -> dict[str, Any]:
         if not self.js_report_path.exists():
             return {}
-        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
+        try:
+            with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
+                payload = json.load(handle)
+        except json.JSONDecodeError:
+            return {}
         return payload if isinstance(payload, dict) else {}
 
 

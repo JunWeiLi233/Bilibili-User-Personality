@@ -14848,6 +14848,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(result["ok"])
         self.assertEqual([item["key"] for item in result["mismatches"]], ["delta", "hasGateProgress"])
 
+    def test_coverage_progress_payload_comparator_defaults_corrupt_js_reports(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-progress.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "before": {"totalEvidence": 10, "evidenceDeficit": 5},
+                        "after": {"totalEvidence": 12, "evidenceDeficit": 3},
+                        "harvestProgress": [{"evidenceGained": 2, "evidenceDeficitReduced": 2}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            result = CoverageProgressPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"], {})
+        self.assertEqual(result["python"]["delta"]["evidenceDeficitReduced"], 2)
+
     def test_coverage_progress_command_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
