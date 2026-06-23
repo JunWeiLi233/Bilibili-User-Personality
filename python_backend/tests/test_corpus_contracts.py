@@ -25634,6 +25634,10 @@ class CorpusContractTests(unittest.TestCase):
             {"path": "server/scripts/compareBatchUidProgress.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
         )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:batch-uid-progress-compare"],
+            "file_backed_default_parseint_stats_prefix_corrupt_input_fixtures_and_js_python_bridge",
+        )
 
     def test_batch_uid_scrape_planner_matches_js_discovery_and_training_contract(self):
         planner = BatchUidScrapePlanner()

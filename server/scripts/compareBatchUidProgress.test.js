@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import { compareBatchUidProgress, compareBatchUidProgressObjects } from './compareBatchUidProgress.js';
+import { BATCH_UID_PROGRESS_FIXTURES, compareBatchUidProgress, compareBatchUidProgressObjects } from './compareBatchUidProgress.js';
 
 const SUMMARY = {
   discovery: { videosScanned: 3, uidsDiscovered: 3, commentsCollected: 4 },
@@ -35,4 +35,32 @@ test('compareBatchUidProgress compares JS-compatible and Python progress reports
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.deepEqual(calls, [{ js: true }, { python: true }]);
+});
+
+test('compareBatchUidProgress exports named file-backed fixtures', async () => {
+  assert.deepEqual(Object.keys(BATCH_UID_PROGRESS_FIXTURES), ['default-state', 'parseint-stats-prefix', 'corrupt-input']);
+
+  const calls = [];
+  const result = await compareBatchUidProgress({
+    fixtureNames: Object.keys(BATCH_UID_PROGRESS_FIXTURES),
+    runJs: async (context) => {
+      calls.push({ js: context.fixture.name, hasProgressPath: context.progressPath.endsWith('batch-uid-progress.json') });
+      return { ok: true, ...SUMMARY };
+    },
+    runPython: async (context) => {
+      calls.push({ python: context.fixture.name, hasProgressPath: context.progressPath.endsWith('batch-uid-progress.json') });
+      return { ok: true, ...SUMMARY };
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.deepEqual(calls, [
+    { js: 'default-state', hasProgressPath: true },
+    { python: 'default-state', hasProgressPath: true },
+    { js: 'parseint-stats-prefix', hasProgressPath: true },
+    { python: 'parseint-stats-prefix', hasProgressPath: true },
+    { js: 'corrupt-input', hasProgressPath: true },
+    { python: 'corrupt-input', hasProgressPath: true },
+  ]);
 });
