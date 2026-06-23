@@ -187,13 +187,23 @@ class RandomVerificationPayloadRunner:
         sample_size = _non_negative_int(payload.get("sampleSize"), 50)
         seed = _int_or(payload.get("seed"), 1)
         corpus = CorpusLoader.load_from_payload(payload)
+        comments = list(corpus.comments)
+        runs = list(corpus.runs)
+        storage = str(corpus.manifest.get("storage", "monolith"))
+        extra_corpus_paths = payload.get("extraCorpusPaths") if isinstance(payload.get("extraCorpusPaths"), list) else []
+        for extra_path in extra_corpus_paths:
+            extra_corpus = CorpusLoader(extra_path).load()
+            comments.extend(extra_corpus.comments)
+            runs.extend(extra_corpus.runs)
+        if extra_corpus_paths:
+            storage = "combined"
         dictionary = DictionaryLoader.load_from_payload(payload)
         return RandomVerifier.from_dictionary_entries(dictionary.entries).report(
-            corpus.comments,
+            comments,
             corpus={
-                "comments": len(corpus.comments),
-                "runs": len(corpus.runs),
-                "storage": str(corpus.manifest.get("storage", "monolith")),
+                "comments": len(comments),
+                "runs": len(runs),
+                "storage": storage,
             },
             sample_size=sample_size,
             seed=seed,

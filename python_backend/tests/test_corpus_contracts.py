@@ -1245,6 +1245,34 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["sampled"], 2)
         self.assertEqual(result["keywordHits"], 1)
 
+    def test_random_verification_payload_runner_combines_extra_corpus_paths(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            extra_path = root / "tiebaKeywordCorpus.json"
+            payload_path = root / "random-verification.json"
+            extra_path.write_text(
+                json.dumps({"comments": [{"message": "tieba slang"}], "runs": [{"source": "tieba"}]}),
+                encoding="utf-8",
+            )
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "sampleSize": 10,
+                        "seed": 1,
+                        "extraCorpusPaths": [str(extra_path)],
+                        "corpus": {"comments": [{"message": "plain bilibili"}], "runs": [{"source": "bilibili"}]},
+                        "dictionary": {"entries": [{"term": "tieba"}]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = verification_module.RandomVerificationPayloadRunner(payload_path).run()
+
+        self.assertEqual(result["corpus"], {"comments": 2, "runs": 2, "storage": "combined"})
+        self.assertEqual(result["sampled"], 2)
+        self.assertEqual(result["keywordHits"], 1)
+
     def test_random_verification_cli_runner_accepts_payload_flag(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "random-verification.json"
