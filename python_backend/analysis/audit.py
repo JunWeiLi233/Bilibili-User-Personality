@@ -136,6 +136,32 @@ class CoverageAuditActionSummaryContract:
         return summary
 
 
+class CoverageAuditFamilyGapContract:
+    """Shape JS-compatible per-family coverage gap rows."""
+
+    def __init__(self, by_family: dict[str, Any] | None = None):
+        self.by_family = by_family if isinstance(by_family, dict) else {}
+
+    def gaps(self) -> list[dict[str, Any]]:
+        gaps = []
+        for family, raw_item in self.by_family.items():
+            item = raw_item if isinstance(raw_item, dict) else {}
+            terms = _int_or(item.get("terms"), 0)
+            weak = _int_or(item.get("weak"), 0)
+            zero = _int_or(item.get("zero"), 0)
+            gaps.append(
+                {
+                    "family": family,
+                    "terms": terms,
+                    "weak": weak,
+                    "zero": zero,
+                    "evidence": _int_or(item.get("evidence"), 0),
+                    "coverageRatio": round((terms - weak) / terms, 4) if terms else 1,
+                }
+            )
+        return sorted(gaps, key=lambda item: (-item["weak"], -item["zero"], item["family"]))
+
+
 def _coverage_metric_or_none(coverage: dict[str, Any], key: str) -> Any:
     return CoverageAuditMetricContract(coverage).value(key)
 
@@ -770,20 +796,7 @@ class CoverageAuditBuilder:
         return CoverageAuditActionSummaryContract(actions).summary()
 
     def _family_gaps(self, by_family: dict[str, dict[str, int]]) -> list[dict[str, Any]]:
-        gaps = []
-        for family, item in by_family.items():
-            terms = item["terms"]
-            gaps.append(
-                {
-                    "family": family,
-                    "terms": terms,
-                    "weak": item["weak"],
-                    "zero": item["zero"],
-                    "evidence": item["evidence"],
-                    "coverageRatio": round((terms - item["weak"]) / terms, 4) if terms else 1,
-                }
-            )
-        return sorted(gaps, key=lambda item: (-item["weak"], -item["zero"], item["family"]))
+        return CoverageAuditFamilyGapContract(by_family).gaps()
 
     def _sample_entries(self, entries: list[dict[str, Any]], include_coverage: bool = False) -> list[dict[str, Any]]:
         samples = []
