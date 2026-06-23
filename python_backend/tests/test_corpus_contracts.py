@@ -25874,6 +25874,20 @@ class CorpusContractTests(unittest.TestCase):
             result["retainedJsBackendFiles"],
         )
 
+    def test_package_coverage_cli_options_compare_script_registers_js_python_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(
+            package["scripts"]["python:coverage-cli-options-compare"],
+            "node server/scripts/compareCoverageCliOptions.js",
+        )
+
+        result = BackendMigrationInventoryScanner(".").scan()
+        self.assertIn(
+            {"path": "server/scripts/compareCoverageCliOptions.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_coverage_harvest_loop_planner_matches_js_env_contract(self):
         planner = CoverageHarvestLoopPlanner(cwd="D:/Bilibili_User_Personality")
         plan = planner.build_plan(
