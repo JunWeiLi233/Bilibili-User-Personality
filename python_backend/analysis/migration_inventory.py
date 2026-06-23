@@ -132,6 +132,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:batch-scraper-launcher-compare": "js_python_contract_bridge",
     "python:uid-pipeline-launcher-compare": "js_python_contract_bridge",
     "python:uid-fast-pipeline-compare": "js_python_contract_bridge",
+    "python:uid-fast-worker-compare": "js_python_contract_bridge",
     "python:uid-pipeline-worker-compare": "js_python_contract_bridge",
     "python:uid-parallel-compare": "js_python_contract_bridge",
     "python:local-mine-compare": "js_python_contract_bridge",
@@ -174,6 +175,7 @@ PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
     "batch_scraper_launcher": ("python_backend.cli.batch_scraper_launcher",),
     "uid_pipeline_launcher": ("python_backend.cli.uid_pipeline_launcher",),
     "uid_fast_pipeline_plan": ("python_backend.cli.uid_fast_pipeline_plan",),
+    "uid_fast_pipeline_worker_plan": ("python_backend.cli.uid_fast_pipeline_worker_plan",),
     "uid_pipeline_worker_plan": ("python_backend.cli.uid_pipeline_plan",),
     "uid_parallel_analyzer_plan": ("python_backend.cli.uid_parallel_plan",),
 }
@@ -221,6 +223,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareBatchScraperLauncherPlan.js": "js_python_contract_bridge",
     "server/scripts/compareUidPipelineLauncherPlan.js": "js_python_contract_bridge",
     "server/scripts/compareUidFastPipelinePlan.js": "js_python_contract_bridge",
+    "server/scripts/compareUidFastPipelineWorkerPlan.js": "js_python_contract_bridge",
     "server/scripts/compareUidPipelineWorkerPlan.js": "js_python_contract_bridge",
     "server/scripts/compareUidParallelPlan.js": "js_python_contract_bridge",
     "server/scripts/compareBilibiliParse.js": "js_python_contract_bridge",
@@ -728,6 +731,11 @@ class BackendMigrationInventoryScanner:
             return [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-fast-pipeline-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidFastPipelinePlan.test.js"},
+            ]
+        if validation_script == "python:uid-fast-worker-compare":
+            return [
+                {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-fast-worker-compare"},
+                {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidFastPipelineWorkerPlan.test.js"},
             ]
         if validation_script == "python:uid-parallel-compare":
             return [

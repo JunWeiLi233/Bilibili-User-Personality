@@ -1,7 +1,13 @@
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { execFile } from 'node:child_process';
+import { readFile, writeFile, mkdir, mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { promisify } from 'node:util';
 import { fetchJson, fetchRepliesForVideo } from '../services/bilibiliCrawler.js';
 import { trainKeywordDictionary, readKeywordDictionary } from '../services/deepseekKeywordTrainer.js';
+
+const execFileAsync = promisify(execFile);
 
 const args = Object.fromEntries(
   process.argv.slice(2)
@@ -27,8 +33,133 @@ const BLOCK_BACKOFF_BASE_MS = 20000;
 
 const wait = (ms) => new Promise(r => setTimeout(r, ms));
 
-process.on('uncaughtException', err => console.error('Uncaught:', err.message));
-process.on('unhandledRejection', err => console.error('Unhandled:', err?.message || err));
+function installLiveProcessHandlers() {
+  process.on('uncaughtException', err => console.error('Uncaught:', err.message));
+  process.on('unhandledRejection', err => console.error('Unhandled:', err?.message || err));
+}
+
+function intOrZero(value) {
+  const parsed = Number.parseInt(String(value ?? ''), 10);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function parsePlanControlArgs(argv = process.argv.slice(2)) {
+  let planJson = false;
+  let pythonPlan = process.env.BILIBILI_UID_FAST_WORKER_USE_PYTHON_PLAN === '1';
+  let jsPlan = false;
+  let payloadPath = '';
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = String(argv[index] || '');
+    if (arg === '--plan-json' || arg === '--dry-run-plan-json') {
+      planJson = true;
+    } else if (arg === '--python-plan') {
+      pythonPlan = true;
+    } else if (arg === '--js-plan') {
+      jsPlan = true;
+    } else if (arg === '--payload') {
+      payloadPath = String(argv[index + 1] || '');
+      index += 1;
+    } else if (arg.startsWith('--payload=')) {
+      payloadPath = arg.slice('--payload='.length);
+    }
+  }
+  if (jsPlan) pythonPlan = false;
+  return { planJson, pythonPlan, jsPlan, payloadPath };
+}
+
+function parsePlanArgs(argv = []) {
+  let start = 1;
+  let end = 100000;
+  let concurrency = 5;
+  for (const raw of argv) {
+    const arg = String(raw || '');
+    if (arg.startsWith('--start=')) start = Number(arg.slice('--start='.length)) || 1;
+    else if (arg.startsWith('--end=')) end = Number(arg.slice('--end='.length)) || 100000;
+    else if (arg.startsWith('--concurrency=')) concurrency = Number(arg.slice('--concurrency='.length)) || 5;
+  }
+  return { start, end, concurrency };
+}
+
+export function buildUidFastPipelineWorkerPlan(payload = {}) {
+  const argv = Array.isArray(payload.argv) ? payload.argv : [];
+  const progress = payload && typeof payload.progress === 'object' && !Array.isArray(payload.progress) ? payload.progress : {};
+  const database = payload && typeof payload.database === 'object' && !Array.isArray(payload.database) ? payload.database : {};
+  const options = parsePlanArgs(argv);
+  const total = Math.max(0, options.end - options.start + 1);
+  const processed = progress.processed && typeof progress.processed === 'object' && !Array.isArray(progress.processed) ? progress.processed : {};
+  const stats = progress.stats && typeof progress.stats === 'object' && !Array.isArray(progress.stats) ? progress.stats : {};
+  const users = database.users && typeof database.users === 'object' && !Array.isArray(database.users) ? database.users : {};
+  const processedCount = Object.keys(processed).length;
+  const usersInRange = Object.keys(users).filter((uid) => {
+    const numeric = Number.parseInt(uid, 10);
+    return Number.isFinite(numeric) && numeric >= options.start && numeric <= options.end;
+  }).length;
+  return {
+    ok: true,
+    range: { start: options.start, end: options.end, total, concurrency: options.concurrency },
+    progress: {
+      processed: processedCount,
+      remaining: Math.max(0, total - processedCount),
+      completionRatio: total ? Number((processedCount / total).toFixed(4)) : 0,
+    },
+    limits: {
+      videosPerUser: VIDEOS_PER_USER,
+      commentPagesPerVideo: COMMENT_PAGES_PER_VIDEO,
+      commentTextMinChars: 10,
+      commentTextLimit: 8000,
+    },
+    network: { mode: 'crawlerFetchJson', usesCrawlerRateLimiter: true, usesWorkerLock: true },
+    pacing: { delayUidMs: DELAY_UID_MS, delayRequestMs: DELAY_REQUEST_MS, saveEvery: SAVE_EVERY },
+    training: {
+      multiagent: true,
+      existingTermsOnly: false,
+      lockRetryDelayMs: LOCK_RETRY_DELAY_MS,
+      lockMaxRetries: LOCK_MAX_RETRIES,
+    },
+    blockPolicy: {
+      blockedCodes: [-799, -352],
+      consecutiveBlockThreshold: 3,
+      blockBackoffBaseMs: BLOCK_BACKOFF_BASE_MS,
+    },
+    stats: {
+      success: intOrZero(stats.success),
+      noComments: intOrZero(stats.noComments),
+      noVideos: intOrZero(stats.noVideos),
+      noUser: intOrZero(stats.noUser),
+      trainError: intOrZero(stats.trainError),
+      blocked: intOrZero(stats.blocked),
+      errors: intOrZero(stats.errors),
+    },
+    userDb: { users: Object.keys(users).length, usersInRange },
+  };
+}
+
+async function readPlanPayload(payloadPath) {
+  if (!payloadPath) {
+    return {
+      argv: process.argv.slice(2),
+      progress: await loadJson(PROGRESS_PATH, {}),
+      database: await loadJson(USER_DB_PATH, {}),
+    };
+  }
+  return loadJson(payloadPath, {});
+}
+
+async function runPythonUidFastWorkerPlan(payload) {
+  const tempDir = await mkdtemp(join(tmpdir(), 'uid-fast-worker-plan-'));
+  try {
+    const payloadPath = join(tempDir, 'payload.json');
+    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
+    const { stdout } = await execFileAsync('python', ['-m', 'python_backend.cli.uid_fast_pipeline_worker_plan', '--payload', payloadPath], {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    });
+    return JSON.parse(stdout);
+  } finally {
+    await rm(tempDir, { recursive: true, force: true });
+  }
+}
 
 async function loadJson(path, fallback) {
   try { return JSON.parse(await readFile(path, 'utf8')); }
@@ -158,6 +289,17 @@ function getNextUid(progress) {
 }
 
 async function main() {
+  const control = parsePlanControlArgs();
+  if (control.planJson) {
+    const payload = await readPlanPayload(control.payloadPath);
+    const plan = control.pythonPlan ? await runPythonUidFastWorkerPlan(payload) : buildUidFastPipelineWorkerPlan(payload);
+    console.log(JSON.stringify(plan, null, 2));
+    if (!plan.ok) process.exitCode = 1;
+    return;
+  }
+
+  installLiveProcessHandlers();
+
   const total = END - START + 1;
   const progress = await loadJson(PROGRESS_PATH, {
     processed: {},
@@ -263,7 +405,9 @@ async function main() {
   } catch {}
 }
 
-main().catch(err => {
-  console.error('Fatal:', err.message);
-  process.exit(1);
-});
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  main().catch(err => {
+    console.error('Fatal:', err.message);
+    process.exit(1);
+  });
+}

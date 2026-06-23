@@ -58,6 +58,7 @@ from python_backend.cli import tieba_timing as tieba_timing_cli
 from python_backend.cli import uid_discovery_plan as uid_discovery_plan_cli
 from python_backend.cli import uid_discovery_progress as uid_discovery_progress_cli
 from python_backend.cli import uid_fast_pipeline_plan as uid_fast_pipeline_plan_cli
+from python_backend.cli import uid_fast_pipeline_worker_plan as uid_fast_pipeline_worker_plan_cli
 from python_backend.cli import uid_parallel_plan as uid_parallel_plan_cli
 from python_backend.cli import uid_parallel_progress as uid_parallel_progress_cli
 from python_backend.cli import uid_pipeline_merge as uid_pipeline_merge_cli
@@ -138,6 +139,7 @@ from python_backend.cli.uid_parallel_progress import UidParallelProgressContract
 from python_backend.cli.uid_pipeline_plan import UidPipelinePlanContractComparator, UidPipelinePlanRunner
 from python_backend.cli.uid_pipeline_progress import UidPipelineProgressContractComparator, UidPipelineProgressRunner
 from python_backend.cli.uid_fast_pipeline_plan import UidFastPipelinePlanContractComparator, UidFastPipelinePlanRunner
+from python_backend.cli.uid_fast_pipeline_worker_plan import UidFastPipelineWorkerPlanContractComparator, UidFastPipelineWorkerPlanRunner
 from python_backend.cli.uid_pipeline_merge import UidPipelineMergeContractComparator, UidPipelineMergeRunner
 from python_backend.cli.uid_pipeline_launcher import UidPipelineLauncherContractComparator, UidPipelineLauncherPlanRunner
 from python_backend.cli.uid_pipeline_state import UidPipelineStateContractComparator, UidPipelineStateRunner
@@ -193,11 +195,11 @@ from python_backend.scrapers.batch_popular import BatchPopularPlanCommandRequest
 from python_backend.scrapers.batch_uid_range import BatchUidRangePlanCommandRequest, BatchUidRangePlanContractComparator as BatchUidRangePlanPayloadComparator, BatchUidRangePlanPayloadContractComparator, BatchUidRangePlanRequest, BatchUidRangePlanRunner as BatchUidRangePayloadPlanRunner, BatchUidRangePlanSummary, BatchUidRangePlanner, RangeScraperLauncherCommandRequest, RangeScraperLauncherContractComparator as RangeScraperLauncherPayloadComparator, RangeScraperLauncherPayloadContractComparator, RangeScraperLauncherPlanner, RangeScraperLauncherPlanRunner as RangeScraperLauncherPayloadPlanRunner, RangeScraperLauncherRequest, RangeScraperLauncherSummary, UidRangeProgressCommandRequest, UidRangeProgressContractComparator as UidRangeProgressPayloadComparator, UidRangeProgressPayloadContractComparator, UidRangeProgressReporter, UidRangeProgressRequest, UidRangeProgressRunner as UidRangeProgressPayloadRunner, UidRangeProgressSummary, UidRangeScrapePlanCommandRequest, UidRangeScrapePlanContractComparator as UidRangeScrapePlanPayloadComparator, UidRangeScrapePlanPayloadContractComparator, UidRangeScrapePlanRequest, UidRangeScrapePlanRunner as UidRangeScrapePayloadPlanRunner, UidRangeScrapePlanSummary, UidRangeScrapePlanner
 from python_backend.scrapers.batch_uid_scrape import BatchScraperLauncherCommandRequest, BatchScraperLauncherContractComparator as BatchScraperLauncherPayloadComparator, BatchScraperLauncherPayloadContractComparator, BatchScraperLauncherPlanner, BatchScraperLauncherPlanRunner as BatchScraperLauncherPayloadPlanRunner, BatchScraperLauncherRequest, BatchScraperLauncherSummary, BatchUidProgressCommandRequest, BatchUidProgressContractComparator as BatchUidProgressPayloadComparator, BatchUidProgressPayloadContractComparator, BatchUidProgressReporter, BatchUidProgressRequest, BatchUidProgressRunner as BatchUidProgressPayloadRunner, BatchUidProgressSummary, BatchUidScrapePlanCommandRequest, BatchUidScrapePlanContractComparator as BatchUidScrapePlanPayloadComparator, BatchUidScrapePlanPayloadContractComparator, BatchUidScrapePlanRequest, BatchUidScrapePlanRunner as BatchUidScrapePayloadPlanRunner, BatchUidScrapePlanSummary, BatchUidScrapePlanner
 from python_backend.scrapers.uid_discovery import UidDiscoveryPlanCommandRequest, UidDiscoveryPlanContractComparator as UidDiscoveryPlanPayloadComparator, UidDiscoveryPlanPayloadContractComparator, UidDiscoveryPlanRequest, UidDiscoveryPlanRunner as UidDiscoveryPayloadPlanRunner, UidDiscoveryPlanSummary, UidDiscoveryPlanner, UidDiscoveryProgressCommandRequest, UidDiscoveryProgressContractComparator as UidDiscoveryProgressPayloadComparator, UidDiscoveryProgressPayloadContractComparator, UidDiscoveryProgressReporter, UidDiscoveryProgressRequest, UidDiscoveryProgressRunner as UidDiscoveryProgressPayloadRunner, UidDiscoveryProgressSummary
-from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanCommandRequest, UidFastPipelinePlanContractComparator as UidFastPipelinePlanPayloadComparator, UidFastPipelinePlanPayloadContractComparator, UidFastPipelinePlanRequest, UidFastPipelinePlanRunner as UidFastPipelinePayloadPlanRunner
+from python_backend.scrapers.uid_fast_pipeline import UidFastPipelinePlanCommandRequest, UidFastPipelinePlanContractComparator as UidFastPipelinePlanPayloadComparator, UidFastPipelinePlanPayloadContractComparator, UidFastPipelinePlanRequest, UidFastPipelinePlanRunner as UidFastPipelinePayloadPlanRunner, UidFastPipelineWorkerPlanCommandRequest, UidFastPipelineWorkerPlanContractComparator as UidFastPipelineWorkerPlanPayloadComparator, UidFastPipelineWorkerPlanPayloadContractComparator, UidFastPipelineWorkerPlanRequest, UidFastPipelineWorkerPlanRunner as UidFastPipelineWorkerPayloadPlanRunner
 from python_backend.scrapers.uid_parallel import UidParallelAnalyzerPlanner, UidParallelPlanCommandRequest, UidParallelPlanContractComparator as UidParallelPlanPayloadComparator, UidParallelPlanPayloadContractComparator, UidParallelPlanRequest, UidParallelPlanRunner as UidParallelPayloadPlanRunner, UidParallelPlanSummary, UidParallelProgressCommandRequest, UidParallelProgressContractComparator as UidParallelProgressPayloadComparator, UidParallelProgressPayloadContractComparator, UidParallelProgressReporter, UidParallelProgressRequest, UidParallelProgressRunner as UidParallelProgressPayloadRunner, UidParallelProgressSummary
 from python_backend.scrapers.uid_pipeline import UidPipelineLauncherCommandRequest, UidPipelineLauncherContractComparator as UidPipelineLauncherPayloadComparator, UidPipelineLauncherPayloadContractComparator, UidPipelineLauncherPlanner, UidPipelineLauncherPlanRunner as UidPipelineLauncherPayloadPlanRunner, UidPipelineLauncherRequest, UidPipelineLauncherSummary, UidPipelineMergeCommandRequest, UidPipelineMergeContractComparator as UidPipelineMergePayloadComparator, UidPipelineMergePayloadContractComparator, UidPipelineMergeReporter, UidPipelineMergeRequest, UidPipelineMergeRunner as UidPipelineMergePayloadRunner, UidPipelineMergeSummary, UidPipelinePlanCommandRequest, UidPipelinePlanContractComparator as UidPipelinePlanPayloadComparator, UidPipelinePlanPayloadContractComparator, UidPipelinePlanRequest, UidPipelinePlanRunner as UidPipelinePayloadPlanRunner, UidPipelinePlanSummary, UidPipelineProgressCommandRequest, UidPipelineProgressContractComparator as UidPipelineProgressPayloadComparator, UidPipelineProgressPayloadContractComparator, UidPipelineProgressReporter, UidPipelineProgressRequest, UidPipelineProgressRunner as UidPipelineProgressPayloadRunner, UidPipelineProgressSummary, UidPipelineStateCommandRequest, UidPipelineStateContractComparator as UidPipelineStatePayloadComparator, UidPipelineStatePayloadContractComparator, UidPipelineStateReporter, UidPipelineStateRequest, UidPipelineStateRunner as UidPipelineStatePayloadRunner, UidPipelineStateSummary, UidPipelineWorkerPlanner
 from python_backend.scrapers.scraper_monitor import ScraperMonitorCommandRequest, ScraperMonitorContractComparator as ScraperMonitorPayloadComparator, ScraperMonitorPayloadContractComparator, ScraperMonitorPipelinePayloadPlanner, ScraperMonitorReporter, ScraperMonitorRequest, ScraperMonitorRunner as ScraperMonitorPayloadRunner, ScraperMonitorSummary
-from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherCommandRequest, FastPipelineLauncherContractComparator as FastPipelineLauncherPayloadComparator, FastPipelineLauncherPayloadContractComparator, FastPipelineLauncherPlanner, FastPipelineLauncherPlanRunner as FastPipelineLauncherPayloadPlanRunner, FastPipelineLauncherRequest, FastPipelineLauncherSummary, UidFastPipelinePlanSummary, UidFastPipelinePlanner
+from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherCommandRequest, FastPipelineLauncherContractComparator as FastPipelineLauncherPayloadComparator, FastPipelineLauncherPayloadContractComparator, FastPipelineLauncherPlanner, FastPipelineLauncherPlanRunner as FastPipelineLauncherPayloadPlanRunner, FastPipelineLauncherRequest, FastPipelineLauncherSummary, UidFastPipelinePlanSummary, UidFastPipelinePlanner, UidFastPipelineWorkerPlanSummary, UidFastPipelineWorkerPlanner
 
 
 class CorpusContractTests(unittest.TestCase):
@@ -23617,6 +23619,77 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-fast-pipeline-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidFastPipelinePlan.test.js"},
+            ],
+        )
+
+    def test_uid_fast_pipeline_worker_plan_matches_js_worker_contract(self):
+        result = UidFastPipelineWorkerPlanner().build_plan(
+            argv=["--start=2", "--end=4", "--concurrency=7"],
+            progress={"processed": {"2": "success", "3": "no_user"}, "stats": {"success": 1, "noUser": 1}},
+            database={"users": {"2": {}, "99": {}}},
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"start": 2, "end": 4, "total": 3, "concurrency": 7})
+        self.assertEqual(result["progress"], {"processed": 2, "remaining": 1, "completionRatio": 0.6667})
+        self.assertEqual(result["limits"], {"videosPerUser": 3, "commentPagesPerVideo": 2, "commentTextMinChars": 10, "commentTextLimit": 8000})
+        self.assertEqual(result["network"], {"mode": "crawlerFetchJson", "usesCrawlerRateLimiter": True, "usesWorkerLock": True})
+        self.assertEqual(result["pacing"], {"delayUidMs": 1200, "delayRequestMs": 400, "saveEvery": 20})
+        self.assertEqual(result["training"], {"multiagent": True, "existingTermsOnly": False, "lockRetryDelayMs": 8000, "lockMaxRetries": 3})
+        self.assertEqual(result["blockPolicy"], {"blockedCodes": [-799, -352], "consecutiveBlockThreshold": 3, "blockBackoffBaseMs": 20000})
+        self.assertEqual(result["stats"], {"success": 1, "noComments": 0, "noVideos": 0, "noUser": 1, "trainError": 0, "blocked": 0, "errors": 0})
+        self.assertEqual(result["userDb"], {"users": 2, "usersInRange": 1})
+
+    def test_uid_fast_pipeline_worker_plan_runner_and_comparator_read_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "uid-fast-worker-plan.json"
+            js_report_path = root / "js-uid-fast-worker-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--start=2", "--end=4", "--concurrency=7"],
+                        "progress": {"processed": {"2": "success", "3": "no_user"}, "stats": {"success": 1, "noUser": 1}},
+                        "database": {"users": {"2": {}, "99": {}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"range": {"start": 2, "end": 4, "total": 3, "concurrency": 7}, "progress": {"processed": 2, "remaining": 1, "completionRatio": 0.6667}}),
+                encoding="utf-8",
+            )
+
+            result = UidFastPipelineWorkerPlanRunner(payload_path).run()
+            comparison = UidFastPipelineWorkerPlanContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"]["concurrency"], 7)
+        self.assertTrue(comparison["ok"])
+
+    def test_uid_fast_pipeline_worker_plan_cli_runner_reads_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "uid-fast-worker-plan.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--start=5", "--end=6"], "progress": {"processed": {"5": "success"}}, "database": {"users": {}}}),
+                encoding="utf-8",
+            )
+
+            result = uid_fast_pipeline_worker_plan_cli.UidFastPipelineWorkerPlanCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"start": 5, "end": 6, "total": 2, "concurrency": 5})
+        self.assertEqual(result["progress"]["processed"], 1)
+
+    def test_uid_fast_pipeline_worker_inventory_validation_gates_cover_js_python_bridge(self):
+        self.assertEqual(
+            BackendMigrationInventoryScanner._validation_gates(
+                validation_script="python:uid-fast-worker-compare",
+                validation_scope="dry_run_plan_fixture_and_js_python_plan_bridge",
+            ),
+            [
+                {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-fast-worker-compare"},
+                {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidFastPipelineWorkerPlan.test.js"},
             ],
         )
 

@@ -77,6 +77,8 @@
     "python:fast-pipeline-launcher": "python -m python_backend.cli.fast_pipeline_launcher",
     "python:uid-fast-pipeline-plan": "python -m python_backend.cli.uid_fast_pipeline_plan",
     "python:uid-fast-pipeline-compare": "node server/scripts/compareUidFastPipelinePlan.js",
+    "python:uid-fast-worker-plan": "python -m python_backend.cli.uid_fast_pipeline_worker_plan",
+    "python:uid-fast-worker-compare": "node server/scripts/compareUidFastPipelineWorkerPlan.js",
     "python:uid-pipeline-plan": "python -m python_backend.cli.uid_pipeline_plan",
     "python:uid-pipeline-worker-compare": "node server/scripts/compareUidPipelineWorkerPlan.js",
     "python:uid-pipeline-launcher": "python -m python_backend.cli.uid_pipeline_launcher",

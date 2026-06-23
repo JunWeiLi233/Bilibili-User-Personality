@@ -227,6 +227,190 @@ class UidFastPipelinePlanCommandRequest:
         return UidFastPipelinePlanRequest(args.payload, compare_js_report_path=args.compare_js_report or None).run()
 
 
+class UidFastPipelineWorkerPlanner:
+    """Build a dry-run plan for uidPipelineFastWorker.js crawler-backed workers."""
+
+    DEFAULT_START = 1
+    DEFAULT_END = 100000
+    DEFAULT_CONCURRENCY = 5
+    VIDEOS_PER_USER = 3
+    COMMENT_PAGES_PER_VIDEO = 2
+    DELAY_UID_MS = 1200
+    DELAY_REQUEST_MS = 400
+    SAVE_EVERY = 20
+    LOCK_RETRY_DELAY_MS = 8000
+    LOCK_MAX_RETRIES = 3
+    BLOCK_BACKOFF_BASE_MS = 20000
+    COMMENT_TEXT_MIN_CHARS = 10
+    COMMENT_TEXT_LIMIT = 8000
+    BLOCKED_CODES = (-799, -352)
+
+    @classmethod
+    def build_plan_from_payload(cls, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        return cls().build_plan(
+            argv=payload.get("argv") if isinstance(payload.get("argv"), list) else [],
+            progress=payload.get("progress") if isinstance(payload.get("progress"), dict) else {},
+            database=payload.get("database") if isinstance(payload.get("database"), dict) else {},
+        )
+
+    def build_plan(self, argv: list[Any] | None = None, progress: dict[str, Any] | None = None, database: dict[str, Any] | None = None) -> dict[str, Any]:
+        argv = argv or []
+        progress = progress or {}
+        database = database or {}
+        options = self._parse_args(argv)
+        start = options["start"]
+        end = options["end"]
+        total = max(0, end - start + 1)
+        processed = progress.get("processed") if isinstance(progress.get("processed"), dict) else {}
+        stats = progress.get("stats") if isinstance(progress.get("stats"), dict) else {}
+        users = database.get("users") if isinstance(database.get("users"), dict) else {}
+        processed_count = len(processed)
+        return {
+            "ok": True,
+            "range": {"start": start, "end": end, "total": total, "concurrency": options["concurrency"]},
+            "progress": {
+                "processed": processed_count,
+                "remaining": max(0, total - processed_count),
+                "completionRatio": round(processed_count / total, 4) if total else 0,
+            },
+            "limits": {
+                "videosPerUser": self.VIDEOS_PER_USER,
+                "commentPagesPerVideo": self.COMMENT_PAGES_PER_VIDEO,
+                "commentTextMinChars": self.COMMENT_TEXT_MIN_CHARS,
+                "commentTextLimit": self.COMMENT_TEXT_LIMIT,
+            },
+            "network": {"mode": "crawlerFetchJson", "usesCrawlerRateLimiter": True, "usesWorkerLock": True},
+            "pacing": {"delayUidMs": self.DELAY_UID_MS, "delayRequestMs": self.DELAY_REQUEST_MS, "saveEvery": self.SAVE_EVERY},
+            "training": {
+                "multiagent": True,
+                "existingTermsOnly": False,
+                "lockRetryDelayMs": self.LOCK_RETRY_DELAY_MS,
+                "lockMaxRetries": self.LOCK_MAX_RETRIES,
+            },
+            "blockPolicy": {
+                "blockedCodes": list(self.BLOCKED_CODES),
+                "consecutiveBlockThreshold": 3,
+                "blockBackoffBaseMs": self.BLOCK_BACKOFF_BASE_MS,
+            },
+            "stats": {key: _parse_number_or(stats.get(key), 0) for key in STAT_KEYS},
+            "userDb": {"users": len(users), "usersInRange": self._users_in_range(users, start, end)},
+        }
+
+    def _parse_args(self, argv: list[Any]) -> dict[str, int]:
+        options = {"start": self.DEFAULT_START, "end": self.DEFAULT_END, "concurrency": self.DEFAULT_CONCURRENCY}
+        for raw in argv:
+            arg = str(raw or "")
+            if arg.startswith("--start="):
+                options["start"] = _parse_number_or(arg.split("=", 1)[1], self.DEFAULT_START)
+            elif arg.startswith("--end="):
+                options["end"] = _parse_number_or(arg.split("=", 1)[1], self.DEFAULT_END)
+            elif arg.startswith("--concurrency="):
+                options["concurrency"] = _parse_number_or(arg.split("=", 1)[1], self.DEFAULT_CONCURRENCY)
+        return options
+
+    def _users_in_range(self, users: dict[str, Any], start: int, end: int) -> int:
+        count = 0
+        for uid in users:
+            try:
+                numeric_uid = int(str(uid))
+            except (TypeError, ValueError):
+                continue
+            if start <= numeric_uid <= end:
+                count += 1
+        return count
+
+
+class UidFastPipelineWorkerPlanSummary:
+    """Shape UID fast worker plans into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("range", "progress", "limits", "network", "pacing", "training", "blockPolicy", "stats", "userDb")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
+class UidFastPipelineWorkerPlanContractComparator:
+    """Compare UID fast worker plan payloads with the shared JS/Python contract."""
+
+    def __init__(self, summary: UidFastPipelineWorkerPlanSummary | None = None):
+        self.summary = summary or UidFastPipelineWorkerPlanSummary()
+
+    def compare(self, python_result: dict[str, Any] | None, js_result: dict[str, Any] | None) -> dict[str, Any]:
+        python_result = python_result if isinstance(python_result, dict) else {}
+        js_result = js_result if isinstance(js_result, dict) else {}
+        mismatches = [
+            {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
+            for key in self.summary.RESULT_KEYS
+            if key in js_result and python_result.get(key) != js_result.get(key)
+        ]
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": self.summary.summarize(python_result),
+            "js": self.summary.summarize(js_result),
+        }
+
+
+class UidFastPipelineWorkerPlanRunner:
+    """Read a JS-compatible uidPipelineFastWorker payload and emit its dry-run plan."""
+
+    def __init__(self, payload_path: str | Path):
+        self.payload_path = Path(payload_path)
+
+    def run(self) -> dict[str, Any]:
+        payload = JsonContractReader().read_value(self.payload_path, {})
+        payload = payload if isinstance(payload, dict) else {}
+        return UidFastPipelineWorkerPlanner.build_plan_from_payload(payload)
+
+
+class UidFastPipelineWorkerPlanPayloadContractComparator:
+    """Compare Python UID fast worker dry-run plans against saved JS-compatible JSON."""
+
+    def __init__(self, payload_path: str | Path, js_report_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.js_report_path = Path(js_report_path)
+        self.summary = UidFastPipelineWorkerPlanSummary()
+        self.comparator = UidFastPipelineWorkerPlanContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = UidFastPipelineWorkerPlanRunner(self.payload_path).run()
+        js_result = safe_read_json_object(self.js_report_path)
+        return self.comparator.compare(python_result, js_result)
+
+
+class UidFastPipelineWorkerPlanRequest:
+    """Scraper-layer request for UID fast worker plan JSON contract commands."""
+
+    def __init__(self, payload_path: str | Path, compare_js_report_path: str | Path | None = None):
+        self.payload_path = Path(payload_path)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_report_path:
+            return UidFastPipelineWorkerPlanPayloadContractComparator(self.payload_path, self.compare_js_report_path).compare()
+        return UidFastPipelineWorkerPlanRunner(self.payload_path).run()
+
+
+class UidFastPipelineWorkerPlanCommandRequest:
+    """Argv-backed scraper-layer request for UID fast worker plan contracts."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Build a uidPipelineFastWorker.js-compatible dry-run plan.")
+        parser.add_argument("--payload", required=True)
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible UID fast worker plan report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return UidFastPipelineWorkerPlanRequest(args.payload, compare_js_report_path=args.compare_js_report or None).run()
+
+
 class FastPipelineLauncherPlanner:
     """Build a dry-run launch plan compatible with launchFastWorkers.ps1."""
 
