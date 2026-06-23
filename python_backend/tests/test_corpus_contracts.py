@@ -19564,6 +19564,10 @@ class CorpusContractTests(unittest.TestCase):
             {"path": "server/scripts/compareCoverageProgress.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
         )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:coverage-progress-compare"],
+            "payload_default_action_progress_corrupt_payload_fixtures_and_js_python_bridge",
+        )
 
     def test_coverage_progress_utility_is_legacy_after_python_contract(self):
         result = BackendMigrationInventoryScanner(".").scan()

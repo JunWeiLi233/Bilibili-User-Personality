@@ -1,5 +1,5 @@
 import { execFile } from 'node:child_process';
-import { mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -33,6 +33,25 @@ export const DEFAULT_PAYLOAD = {
   afterActions: [{ term: 'rare-term', needs: 1 }],
 };
 
+export const COVERAGE_PROGRESS_FIXTURES = {
+  'default-progress': DEFAULT_PAYLOAD,
+  'action-progress': {
+    before: { totalEvidence: 8, evidenceDeficit: 4, zeroEvidenceTerms: 2, weakTerms: 4 },
+    after: { totalEvidence: 8, evidenceDeficit: 4, zeroEvidenceTerms: 2, weakTerms: 4 },
+    harvestProgress: [],
+    beforeActions: [
+      { term: 'resolved-term', needs: 2 },
+      { term: 'reduced-term', evidenceNeeded: 3 },
+    ],
+    afterActions: [{ term: 'reduced-term', evidenceNeeded: 1 }],
+  },
+  'corrupt-payload': {
+    payloadRaw: '{not-json',
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = Object.keys(COVERAGE_PROGRESS_FIXTURES);
+
 function summarize(result = {}) {
   return Object.fromEntries(RESULT_KEYS.filter((key) => key in result).map((key) => [key, result[key]]));
 }
@@ -48,12 +67,22 @@ export function compareCoverageProgressObjects(pythonResult = {}, jsResult = {})
   return { ok: mismatches.length === 0, mismatches, python, js };
 }
 
-async function runJsProgress({ payload }) {
-  const before = payload?.before && typeof payload.before === 'object' ? payload.before : {};
-  const after = payload?.after && typeof payload.after === 'object' ? payload.after : {};
-  const harvestProgress = Array.isArray(payload?.harvestProgress) ? payload.harvestProgress : [];
-  const beforeActions = Array.isArray(payload?.beforeActions) ? payload.beforeActions : [];
-  const afterActions = Array.isArray(payload?.afterActions) ? payload.afterActions : [];
+async function readJson(path, fallback) {
+  try {
+    const parsed = JSON.parse(await readFile(path, 'utf8'));
+    return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+async function runJsProgress({ payload, payloadPath }) {
+  const source = payload && !('payloadRaw' in payload) ? payload : await readJson(payloadPath, {});
+  const before = source?.before && typeof source.before === 'object' ? source.before : {};
+  const after = source?.after && typeof source.after === 'object' ? source.after : {};
+  const harvestProgress = Array.isArray(source?.harvestProgress) ? source.harvestProgress : [];
+  const beforeActions = Array.isArray(source?.beforeActions) ? source.beforeActions : [];
+  const afterActions = Array.isArray(source?.afterActions) ? source.afterActions : [];
   const delta = coverageDelta(before, after);
   const harvestDelta = coverageDeltaFromHarvest(before, after, harvestProgress);
   return {
@@ -77,21 +106,29 @@ async function runPythonProgress({ payloadPath }) {
   return JSON.parse(stdout);
 }
 
-export async function compareCoverageProgress({
-  payload = DEFAULT_PAYLOAD,
-  runJs = runJsProgress,
-  runPython = runPythonProgress,
-} = {}) {
+function resolvePayload({ payload, fixture } = {}) {
+  if (payload) return { name: fixture?.name || 'custom', payload };
+  const name = typeof fixture === 'string' ? fixture : fixture?.name || 'default-progress';
+  return { name, payload: COVERAGE_PROGRESS_FIXTURES[name] || DEFAULT_PAYLOAD };
+}
+
+async function writePayload(payloadPath, payload) {
+  await writeFile(payloadPath, 'payloadRaw' in payload ? String(payload.payloadRaw ?? '') : JSON.stringify(payload || {}, null, 2), 'utf8');
+}
+
+async function compareCoverageProgressSingle({ payload, fixture, runJs = runJsProgress, runPython = runPythonProgress } = {}) {
+  const resolved = resolvePayload({ payload, fixture });
   const tempDir = await mkdtemp(join(tmpdir(), 'coverage-progress-compare-'));
   try {
     const payloadPath = join(tempDir, 'payload.json');
-    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
-    const js = await runJs({ payload, payloadPath });
-    const python = await runPython({ payload, payloadPath });
+    await writePayload(payloadPath, resolved.payload);
+    const context = { payload: resolved.payload, fixture: { name: resolved.name }, payloadPath };
+    const js = await runJs(context);
+    const python = await runPython(context);
     const comparison = compareCoverageProgressObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { payloadPath },
+      fixture: { name: resolved.name, payloadPath },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -101,8 +138,20 @@ export async function compareCoverageProgress({
   }
 }
 
+export async function compareCoverageProgress({ payload, fixture, fixtureNames, runJs = runJsProgress, runPython = runPythonProgress } = {}) {
+  if (fixtureNames) {
+    const results = [];
+    for (const name of fixtureNames.length ? fixtureNames : DEFAULT_FIXTURE_NAMES) {
+      results.push(await compareCoverageProgressSingle({ fixture: name, runJs, runPython }));
+    }
+    const mismatches = results.flatMap((result) => result.mismatches.map((mismatch) => ({ ...mismatch, fixture: result.fixture.name })));
+    return { ok: mismatches.length === 0, fixtures: results.map((result) => result.fixture), results, mismatches };
+  }
+  return compareCoverageProgressSingle({ payload: payload || DEFAULT_PAYLOAD, fixture, runJs, runPython });
+}
+
 async function main() {
-  const result = await compareCoverageProgress();
+  const result = await compareCoverageProgress({ fixtureNames: DEFAULT_FIXTURE_NAMES });
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }
