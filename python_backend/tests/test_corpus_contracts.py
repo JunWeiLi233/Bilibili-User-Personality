@@ -149,7 +149,7 @@ from python_backend.corpus.local import LocalCorpusEvidenceCommandRequest, Local
 from python_backend.corpus.local import LocalCorpusFlattenCommandRequest, LocalCorpusFlattenContractComparator as LocalCorpusFlattenPayloadComparator, LocalCorpusFlattenPayloadContractComparator, LocalCorpusFlattenRequest, LocalCorpusFlattenRunner as LocalCorpusFlattenPayloadRunner, LocalCorpusFlattenSummary, LocalCorpusFlattener
 from python_backend.corpus.local_options import LocalCorpusMineOptionsPlanner, LocalCorpusMinePlanCommandRequest, LocalCorpusMinePlanContractComparator as LocalCorpusMinePlanPayloadComparator, LocalCorpusMinePlanRequest, LocalCorpusMinePlanSummary
 from python_backend.corpus.agent_merge import AgentDictionaryMergePlanCommandRequest, AgentDictionaryMergePlanner, AgentDictionaryMergePlanRequest, AgentDictionaryMergePlanSummary, MergeAgentDictionariesPlanContractComparator as MergeAgentDictionariesPlanPayloadComparator, MergeAgentDictionariesPlanRunner as MergeAgentDictionariesPayloadPlanRunner
-from python_backend.corpus.contracts import CompareContractsCommandRequest, CompareContractsRequest, ContractComparator, ContractComparator as CorpusContractPayloadComparator, CorpusContractSummary, safe_read_json_object
+from python_backend.corpus.contracts import CompareContractsCommandRequest, CompareContractsJsonResultContract, CompareContractsRequest, ContractComparator, ContractComparator as CorpusContractPayloadComparator, CorpusContractSummary, safe_read_json_object
 from python_backend.corpus.tieba import TiebaCorpusCommandRequest, TiebaCorpusJsonPayloadContractComparator, TiebaCorpusPayloadRunner, TiebaCorpusRequest, TiebaCorpusUpdateContractComparator as TiebaCorpusUpdatePayloadComparator, TiebaCorpusUpdater, TiebaCorpusUpdateRunner as TiebaCorpusUpdatePayloadRunner, TiebaCorpusUpdateSummary
 from python_backend.corpus import dictionary_prune
 from python_backend.analysis import video_filter
@@ -863,6 +863,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["corpus"]["comments"], 1)
         self.assertEqual(result["dictionary"]["terms"], 1)
+
+    def test_compare_contracts_json_result_contract_owns_utf8_output_shape(self):
+        payload = {"ok": True, "corpus": {"label": "B站弹幕 \U0001f602"}}
+
+        encoded = CompareContractsJsonResultContract(payload).to_bytes()
+
+        self.assertEqual(encoded, (json.dumps(payload, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
+        self.assertTrue(encoded.endswith(b"\n"))
+        self.assertIn("B站弹幕 \U0001f602".encode("utf-8"), encoded)
 
     def test_compare_contracts_runner_accepts_argv_contract_paths(self):
         with tempfile.TemporaryDirectory() as tmp:

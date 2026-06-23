@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import argparse
-import json
+import sys
 
-from python_backend.corpus.contracts import CompareContractsCommandRequest
+from python_backend.corpus.contracts import CompareContractsCommandRequest, CompareContractsJsonResultContract
 
 
 class CompareContractsRunner(CompareContractsCommandRequest):
@@ -16,7 +16,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     result = CompareContractsRunner(argv).run()
-    print(json.dumps(result, ensure_ascii=False, indent=2))
+    sys.stdout.write(CompareContractsJsonResultContract(result).to_bytes().decode("utf-8"))
     return 0 if result["ok"] else 1
 
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 from pathlib import Path
 from typing import Any
 
@@ -18,6 +19,16 @@ class CorpusContractSummary:
     def summarize(self, result: dict[str, object] | None = None) -> dict[str, object]:
         result = result if isinstance(result, dict) else {}
         return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
+class CompareContractsJsonResultContract:
+    """Serialize JS/Python compare-contract results exactly as the CLI expects."""
+
+    def __init__(self, result: dict[str, object]):
+        self.result = result
+
+    def to_bytes(self) -> bytes:
+        return (json.dumps(self.result, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
 
 
 class ContractComparator:
