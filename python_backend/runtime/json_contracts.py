@@ -55,6 +55,9 @@ class JsonResultBytesContract:
     def to_bytes(self) -> bytes:
         return (json.dumps(self.result, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
 
+    def to_text(self) -> str:
+        return self.to_bytes().decode("utf-8")
+
 
 def safe_read_json_object(path: str | Path) -> dict[str, Any]:
     """Compatibility wrapper for existing contract comparators."""

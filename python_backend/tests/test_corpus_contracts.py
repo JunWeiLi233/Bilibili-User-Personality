@@ -6166,6 +6166,14 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(encoded.endswith(b"\n"))
         self.assertIn("B站弹幕 \U0001f602".encode("utf-8"), encoded)
 
+    def test_json_result_bytes_contract_owns_text_stdout_output(self):
+        payload = {"ok": True, "message": "B站弹幕 \U0001f602"}
+
+        text = JsonResultBytesContract(payload).to_text()
+
+        self.assertEqual(text, json.dumps(payload, ensure_ascii=False, indent=2) + "\n")
+        self.assertEqual(text.encode("utf-8"), JsonResultBytesContract(payload).to_bytes())
+
     def test_json_contract_reader_parses_text_values_with_deepcopy_fallback(self):
         reader = JsonContractReader()
         fallback = {"items": []}

@@ -20,7 +20,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     result = CoverageAuditCliRunner(argv).run()
-    sys.stdout.write(CoverageAuditJsonResultContract(result).to_bytes().decode("utf-8"))
+    sys.stdout.write(CoverageAuditJsonResultContract(result).to_text())
     return 0 if result["ok"] else 1
 
 
