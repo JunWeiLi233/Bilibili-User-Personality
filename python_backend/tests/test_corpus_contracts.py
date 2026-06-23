@@ -22627,6 +22627,36 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["js"], {"progress": {"processed": 0}, "stats": {"success": 0}})
 
+    def test_uid_parallel_progress_has_js_python_validation_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(
+            package["scripts"]["python:uid-parallel-progress-compare"],
+            "node server/scripts/compareUidParallelProgress.js",
+        )
+
+        result = BackendMigrationInventoryScanner(".").scan()
+        self.assertIn(
+            {
+                "script": "python:uid-parallel-progress-compare",
+                "command": "node server/scripts/compareUidParallelProgress.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:uid-parallel-progress",
+                "command": "python -m python_backend.cli.uid_parallel_progress",
+                "pipeline": "uid_parallel_progress",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareUidParallelProgress.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_uid_parallel_plan_matches_js_worker_assignment_and_training_contract(self):
         planner = UidParallelAnalyzerPlanner()
         comments = {

@@ -139,6 +139,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:uid-fast-worker-compare": "js_python_contract_bridge",
     "python:uid-pipeline-worker-compare": "js_python_contract_bridge",
     "python:uid-parallel-compare": "js_python_contract_bridge",
+    "python:uid-parallel-progress-compare": "js_python_contract_bridge",
     "python:local-mine-compare": "js_python_contract_bridge",
     "python:bilibili-parse-compare": "js_python_contract_bridge",
 }
@@ -185,6 +186,7 @@ PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
     "uid_fast_pipeline_worker_plan": ("python_backend.cli.uid_fast_pipeline_worker_plan",),
     "uid_pipeline_worker_plan": ("python_backend.cli.uid_pipeline_plan",),
     "uid_parallel_analyzer_plan": ("python_backend.cli.uid_parallel_plan",),
+    "uid_parallel_progress": ("python_backend.cli.uid_parallel_progress",),
 }
 
 RETAINED_JS_FILE_PREFIXES = {
@@ -237,6 +239,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareUidFastPipelineWorkerPlan.js": "js_python_contract_bridge",
     "server/scripts/compareUidPipelineWorkerPlan.js": "js_python_contract_bridge",
     "server/scripts/compareUidParallelPlan.js": "js_python_contract_bridge",
+    "server/scripts/compareUidParallelProgress.js": "js_python_contract_bridge",
     "server/scripts/compareBilibiliParse.js": "js_python_contract_bridge",
 }
 
