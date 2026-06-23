@@ -61,6 +61,7 @@ function parseArgs(argv = process.argv.slice(2), env = process.env) {
     includeDanmaku: env.BILIBILI_DIRECT_PROBE_INCLUDE_DANMAKU === '1',
     rescanSourceVideos: env.BILIBILI_DIRECT_PROBE_RESCAN_SOURCE_VIDEOS === '1',
     usePythonCommand: env.BILIBILI_DIRECT_PROBE_USE_PYTHON_COMMAND === '1',
+    usePythonLiveSearch: env.BILIBILI_DIRECT_PROBE_USE_PYTHON_LIVE_SEARCH === '1',
     usePythonLiveFetch: env.BILIBILI_DIRECT_PROBE_USE_PYTHON_LIVE_FETCH === '1',
     write: env.BILIBILI_DIRECT_PROBE_WRITE === '1',
   };
@@ -108,6 +109,7 @@ function parseArgs(argv = process.argv.slice(2), env = process.env) {
     else if (arg === '--include-danmaku') options.includeDanmaku = true;
     else if (arg === '--rescan-source-videos') options.rescanSourceVideos = true;
     else if (arg === '--python-runtime' || arg === '--python-command-runtime') options.usePythonCommand = true;
+    else if (arg === '--python-live-search') options.usePythonLiveSearch = true;
     else if (arg === '--python-live-fetch') options.usePythonLiveFetch = true;
     else if (arg === '--write') options.write = true;
   }
@@ -273,8 +275,10 @@ export function buildDirectProbeCommandPayload({
       maxActions: options.maxActions,
       offset: options.offset,
       videosPerQuery: options.videosPerQuery,
+      searchPages: options.searchPages,
       sourceVideosPerAction: options.sourceVideosPerAction,
       includeDanmaku: options.includeDanmaku,
+      usePythonLiveSearch: options.usePythonLiveSearch,
       usePythonLiveFetch: options.usePythonLiveFetch,
       write: options.write,
       cookie,

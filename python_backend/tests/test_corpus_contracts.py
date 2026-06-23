@@ -11806,6 +11806,62 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["entries"][0]["evidenceSamples"], ["\u5efa\u8bae\u5148\u67e5\u67e5\u8d44\u6599\u518d\u8bc4\u8bba", "\u67e5\u67e5\u8d44\u6599\u5f39\u5e55"])
         self.assertEqual(result["warnings"], [])
 
+    def test_direct_probe_command_runner_can_use_python_live_search_adapter(self):
+        class FakeLiveSearch:
+            def __init__(self):
+                self.calls = []
+
+            def discover_videos(self, query, options):
+                self.calls.append({"query": query, "pages": options.get("searchPages"), "limit": options.get("videosPerQuery")})
+                return [{"aid": "654", "bvid": "BVsearch", "title": "\u67e5\u8d44\u6599 live search"}]
+
+        live_search = FakeLiveSearch()
+        payload = {
+            "audit": {"nextActions": [{"term": "\u67e5\u67e5\u8d44\u6599", "nextQuery": "\u67e5\u67e5\u8d44\u6599 B\u7ad9\u8bc4\u8bba"}]},
+            "existingCorpus": {"version": 1, "comments": [], "runs": []},
+            "dictionary": {"entries": [{"term": "\u67e5\u67e5\u8d44\u6599", "family": "evidence", "evidenceCount": 0}]},
+            "options": {"maxActions": 1, "videosPerQuery": 1, "searchPages": 2, "sourceVideosPerAction": 0, "usePythonLiveSearch": True},
+            "videoComments": {
+                "bvid:BVsearch": [
+                    {
+                        "message": "\u5efa\u8bae\u5148\u67e5\u67e5\u8d44\u6599",
+                        "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BVsearch/",
+                        "uid": "65",
+                    }
+                ]
+            },
+        }
+
+        result = direct_probe_module.DirectProbeCommandRunner(payload, live_search=live_search).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(live_search.calls, [{"query": "\u67e5\u67e5\u8d44\u6599 B\u7ad9\u8bc4\u8bba", "pages": 2, "limit": 1}])
+        self.assertEqual(result["commentsCollected"], 1)
+        self.assertEqual(result["scannedVideos"][0]["key"], "bvid:BVsearch")
+
+    def test_direct_probe_live_searcher_normalizes_public_search_results(self):
+        calls = []
+
+        def fetch_json(url, referer, options):
+            calls.append({"url": url, "referer": referer, "cookie": options.get("cookie")})
+            return {
+                "data": {
+                    "result": [
+                        {"bvid": "BVzero", "aid": 1, "title": "no comments", "review": 0, "comment": 0},
+                        {"bvid": "BVsearch", "aid": 654, "title": "<em>查资料</em> live", "review": 7},
+                        {"bvid": "BVsearch", "aid": 654, "title": "duplicate", "review": 9},
+                    ]
+                }
+            }
+
+        searcher = direct_probe_module.DirectProbeLiveSearcher(fetch_json=fetch_json)
+
+        videos = searcher.discover_videos("\u67e5\u67e5\u8d44\u6599 B\u7ad9\u8bc4\u8bba", {"searchPages": 1, "videosPerQuery": 2, "cookie": "SESSDATA=search"})
+
+        self.assertEqual(videos, [{"bvid": "BVsearch", "aid": "654", "title": "查资料 live"}])
+        self.assertEqual(calls[0]["referer"], "https://search.bilibili.com/all?keyword=%E6%9F%A5%E6%9F%A5%E8%B5%84%E6%96%99%20B%E7%AB%99%E8%AF%84%E8%AE%BA")
+        self.assertEqual(calls[0]["cookie"], "SESSDATA=search")
+
     def test_direct_probe_command_cli_reads_payload_json_contract(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
         self.assertEqual(package["scripts"]["python:direct-probe-command"], "python -m python_backend.cli.direct_probe_command")

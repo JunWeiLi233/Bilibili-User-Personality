@@ -273,6 +273,29 @@ test('probeBilibiliCommentEvidence builds a Python command payload from normal C
   assert.equal(payload.options.now, '2026-06-23T00:00:00.000Z');
 });
 
+test('probeBilibiliCommentEvidence forwards Python live search flag into command payload', async () => {
+  const script = String.raw`
+    const { buildDirectProbeCommandPayload } = await import('./server/scripts/probeBilibiliCommentEvidence.js');
+    const payload = buildDirectProbeCommandPayload({
+      argv: ['--query=ascii-search', '--term=ascii', '--python-live-search'],
+      env: { BILIBILI_DIRECT_PROBE_USE_PYTHON_COMMAND: '1' },
+      audit: { nextActions: [] },
+      existingCorpus: { version: 1, comments: [], runs: [] },
+      dictionary: { entries: [] },
+      cookie: 'synthetic=1',
+      now: '2026-06-23T00:00:00.000Z',
+    });
+    console.log(JSON.stringify(payload));
+  `;
+  const { stdout } = await execFileAsync('node', ['--input-type=module', '--eval', script], {
+    cwd: process.cwd(),
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  const payload = JSON.parse(stdout);
+
+  assert.equal(payload.options.usePythonLiveSearch, true);
+});
+
 test('probeBilibiliCommentEvidence can opt into Python command runtime from normal CLI inputs', async () => {
   const script = String.raw`
     const { runDirectProbeCommand } = await import('./server/scripts/probeBilibiliCommentEvidence.js');

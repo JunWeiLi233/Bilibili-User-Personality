@@ -9,7 +9,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
-from urllib.parse import urlencode, urlparse
+from urllib.parse import quote, urlencode, urlparse
 from urllib.request import Request, urlopen
 
 from python_backend.analysis.comment_coverage import _is_contract_scalar
@@ -458,9 +458,15 @@ class DirectProbePlanCommandRequest:
 class DirectProbeCommandRunner:
     """Run the direct Bilibili evidence probe loop from a JSON-compatible payload."""
 
-    def __init__(self, payload: dict[str, Any] | None = None, builder: "DirectProbeCorpusBuilder" | None = None):
+    def __init__(
+        self,
+        payload: dict[str, Any] | None = None,
+        builder: "DirectProbeCorpusBuilder" | None = None,
+        live_search: Any | None = None,
+    ):
         self.payload = payload if isinstance(payload, dict) else {}
         self.builder = builder or DirectProbeCorpusBuilder()
+        self.live_search = live_search
 
     def run(self) -> dict[str, Any]:
         options = self._options()
@@ -540,8 +546,10 @@ class DirectProbeCommandRunner:
             "maxActions": self.builder._bounded_int(raw.get("maxActions"), 4, 1, 50),
             "offset": self.builder._bounded_int(raw.get("offset"), 0, 0, 1000),
             "videosPerQuery": self.builder.bounded_probe_videos_per_query(raw.get("videosPerQuery"), 5),
+            "searchPages": self.builder._bounded_int(raw.get("searchPages"), 1, 1, 10),
             "sourceVideosPerAction": self.builder._bounded_int(raw.get("sourceVideosPerAction"), 6, 0, 50),
             "includeDanmaku": raw.get("includeDanmaku") is True,
+            "usePythonLiveSearch": raw.get("usePythonLiveSearch") is True,
             "usePythonLiveFetch": raw.get("usePythonLiveFetch") is True,
             "write": raw.get("write") is True,
             "cookie": _clean_text(raw.get("cookie")),
@@ -593,6 +601,11 @@ class DirectProbeCommandRunner:
         return self._merge_videos([*explicit_videos, *source_videos], ranked, options["videosPerQuery"] + len(source_videos) + len(explicit_videos))
 
     def _search_videos(self, query: str) -> list[dict[str, Any]]:
+        options = self._options()
+        if options.get("usePythonLiveSearch"):
+            live_search = self.live_search or DirectProbeLiveSearcher(builder=self.builder)
+            videos = live_search.discover_videos(query, options)
+            return [video for video in videos if isinstance(video, dict)]
         search_videos = self.payload.get("searchVideos") if isinstance(self.payload.get("searchVideos"), dict) else {}
         videos = search_videos.get(query, [])
         return [video for video in videos if isinstance(video, dict)]
@@ -618,6 +631,76 @@ class DirectProbeCommandRunner:
             if len(videos) >= limit:
                 break
         return videos
+
+
+class DirectProbeLiveSearcher:
+    """Discover public Bilibili videos for direct-probe actions behind an injectable transport seam."""
+
+    def __init__(
+        self,
+        fetch_json: Callable[[str, str, dict[str, Any]], dict[str, Any]] | None = None,
+        builder: "DirectProbeCorpusBuilder" | None = None,
+    ):
+        self.builder = builder or DirectProbeCorpusBuilder()
+        self.fetch_json = fetch_json or self._fetch_json
+
+    def discover_videos(self, query: Any, options: dict[str, Any] | None = None) -> list[dict[str, str]]:
+        options = options if isinstance(options, dict) else {}
+        videos: list[dict[str, str]] = []
+        seen: set[str] = set()
+        limit = self.builder.bounded_probe_videos_per_query(options.get("videosPerQuery"), 5)
+        for url in self.builder.build_bilibili_search_urls(query, {"pages": options.get("searchPages", 1), "pageSize": 20}):
+            if len(videos) >= limit:
+                break
+            payload = self.fetch_json(url, self._search_referer(query), options)
+            results = (payload.get("data") or {}).get("result") if isinstance(payload.get("data"), dict) else []
+            for item in results if isinstance(results, list) else []:
+                if not isinstance(item, dict):
+                    continue
+                candidate = self._candidate_from_result(item)
+                key = self.builder.probe_video_key(candidate)
+                if not candidate.get("bvid") or not key or key in seen:
+                    continue
+                if _number(item.get("review") or item.get("comment")) <= 0:
+                    continue
+                seen.add(key)
+                videos.append(candidate)
+                if len(videos) >= limit:
+                    break
+        return videos
+
+    def _candidate_from_result(self, item: dict[str, Any]) -> dict[str, str]:
+        title = re.sub(r"<[^>]+>", "", _clean_text(item.get("title") or item.get("bvid")))
+        title = html.unescape(title)
+        return {
+            "bvid": _clean_text(item.get("bvid")),
+            "aid": _clean_text(item.get("aid") or item.get("id")),
+            "title": title,
+        }
+
+    def _search_referer(self, query: Any) -> str:
+        return f"https://search.bilibili.com/all?keyword={quote(_clean_text(query), safe='')}"
+
+    def _fetch_json(self, url: str, referer: str, options: dict[str, Any]) -> dict[str, Any]:
+        timeout = max(1.0, _number(options.get("requestTimeoutMs") or 12000) / 1000)
+        headers = self.builder.build_bilibili_web_headers(
+            referer,
+            {
+                "cookie": options.get("cookie"),
+                "userAgent": options.get("userAgent"),
+            },
+        )
+        request = Request(url, headers=headers)
+        with urlopen(request, timeout=timeout) as response:
+            status = getattr(response, "status", 200)
+            if status < 200 or status >= 300:
+                raise ValueError(f"HTTP {status}")
+            payload = json.loads(response.read().decode("utf-8", errors="replace"))
+            if not isinstance(payload, dict):
+                raise ValueError("Bilibili API returned non-object JSON")
+            if payload.get("code") not in (None, 0):
+                raise ValueError(f"code {payload.get('code')}: {payload.get('message') or 'Bilibili API error'}")
+            return payload
 
 
 class DirectProbeLiveFetcher:
