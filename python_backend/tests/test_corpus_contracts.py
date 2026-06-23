@@ -82,7 +82,7 @@ from python_backend.analysis.near_target import NearTargetOverrideTermsParser, N
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsCommandRequest, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsPayloadContractComparator, ReadmeStatsRequest, ReadmeStatsRunner as ReadmeStatsPayloadRunner, ReadmeStatsSummary, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherCommandRequest, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRequest, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationCommandRequest, RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationPayloadContractComparator, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerifier, json_result_bytes as random_verification_payload_json_result_bytes
-from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisPlanCommandRequest, DeepSeekAnalysisPlanContractComparator as DeepSeekAnalysisPayloadPlanContractComparator, DeepSeekAnalysisPlanRequest, DeepSeekAnalysisPlanRunner as DeepSeekAnalysisPayloadPlanRunner, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidateCommandRequest, DeepSeekAnalysisValidateContractComparator as DeepSeekAnalysisPayloadValidateContractComparator, DeepSeekAnalysisValidateRequest, DeepSeekAnalysisValidateRunner as DeepSeekAnalysisPayloadValidateRunner, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator
+from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisInputBuilder, DeepSeekAnalysisPlanCommandRequest, DeepSeekAnalysisPlanContractComparator as DeepSeekAnalysisPayloadPlanContractComparator, DeepSeekAnalysisPlanRequest, DeepSeekAnalysisPlanRunner as DeepSeekAnalysisPayloadPlanRunner, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidateCommandRequest, DeepSeekAnalysisValidateContractComparator as DeepSeekAnalysisPayloadValidateContractComparator, DeepSeekAnalysisValidateRequest, DeepSeekAnalysisValidateRunner as DeepSeekAnalysisPayloadValidateRunner, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPayloadPlanContractComparator, DeepSeekAnalyzeCliPlanCommandRequest, DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanRequest, DeepSeekAnalyzeCliPlanRunner as DeepSeekAnalyzeCliPayloadPlanRunner, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceCommandRequest, KeywordEvidenceContractComparator as KeywordEvidencePayloadComparator, KeywordEvidenceMatcher, KeywordEvidencePayloadContractComparator, KeywordEvidencePayloadRunner, KeywordEvidenceRequest, KeywordEvidenceSummary
 from python_backend.cli.comment_coverage import CommentCoverageContractComparator, CommentCoverageRunner
@@ -4875,6 +4875,33 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("Merge the specialist agent outputs", merge_request["messages"][1]["content"])
         self.assertIn("quality-control agent", merge_request["messages"][0]["content"])
         self.assertIn("lexical-context", merge_request["messages"][1]["content"])
+
+    def test_deepseek_analysis_input_builder_owns_prompt_input_contract(self):
+        request = AnalyzerRequest(
+            uid="2333",
+            name="\u6d4b\u8bd5\u7528\u6237",
+            comments=[f"\u7b2c{index}\u53e5\u3002" for index in range(45)] + ["\u7b2c0\u53e5\u3002"],
+            keyword_hints=[
+                {"keyword": "\u72d7\u5934", "axis": "satire", "reason": "\u4fdd\u547d\u6216\u53cd\u8bbd"},
+                {"term": "\u72d7\u5934", "family": "satire", "meaning": "\u4fdd\u547d\u6216\u53cd\u8bbd"},
+                "",
+                {"term": ""},
+            ],
+        )
+
+        compact_input = DeepSeekAnalysisInputBuilder().build(request, compact=True)
+
+        self.assertEqual(compact_input["uid"], "2333")
+        self.assertEqual(compact_input["name"], "\u6d4b\u8bd5\u7528\u6237")
+        self.assertEqual(len(compact_input["comments"]), 40)
+        self.assertEqual(compact_input["comments"][0], "\u7b2c0\u53e5\u3002")
+        self.assertEqual(compact_input["comments"][-1], "\u7b2c39\u53e5\u3002")
+        self.assertEqual(
+            compact_input["keywordHints"],
+            [
+                {"term": "\u72d7\u5934", "family": "satire", "meaning": "\u4fdd\u547d\u6216\u53cd\u8bbd"},
+            ],
+        )
 
     def test_deepseek_analyzer_builds_request_from_js_payload_contract(self):
         request = DeepSeekAnalyzerClient().build_request_from_payload(

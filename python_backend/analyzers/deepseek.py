@@ -24,6 +24,64 @@ class AnalyzerRequest:
     multiagent: bool = False
 
 
+class DeepSeekAnalysisInputBuilder:
+    """Build the stable input JSON embedded in DeepSeek analyzer prompts."""
+
+    def build(self, request: AnalyzerRequest, *, compact: bool = False) -> dict[str, object]:
+        limit = 40 if compact else 80
+        return {
+            "uid": request.uid or "unknown",
+            "name": request.name or "unknown",
+            "comments": self._split_sentences("\n".join(request.comments))[:limit],
+            "keywordHints": self._normalize_hints(request.keyword_hints),
+        }
+
+    def _normalize_hints(self, hints: list[Any]) -> list[dict[str, str]]:
+        normalized = []
+        seen = set()
+        for hint in hints:
+            if isinstance(hint, str):
+                item = {"term": hint.strip(), "family": "", "meaning": ""}
+            elif isinstance(hint, dict):
+                item = {
+                    "term": str(hint.get("term") or hint.get("keyword") or hint.get("text") or "").strip(),
+                    "family": str(hint.get("family") or hint.get("axis") or "").strip(),
+                    "meaning": str(hint.get("meaning") or hint.get("reason") or hint.get("description") or "").strip(),
+                }
+            else:
+                continue
+            key = (item["term"], item["family"], item["meaning"])
+            if item["term"] and key not in seen:
+                seen.add(key)
+                normalized.append(item)
+            if len(normalized) >= 80:
+                break
+        return normalized
+
+    def _split_sentences(self, text: str) -> list[str]:
+        values = []
+        seen = set()
+        for line in re.split(r"[\r\n]+", str(text or "")):
+            for sentence in re.split(r"(?<=[銆傦紒锛??;锛沒)", line):
+                sentence = sentence.strip()
+                if sentence and sentence not in seen:
+                    seen.add(sentence)
+                    values.append(sentence)
+        return values
+
+
+    def _split_sentences(self, text: str) -> list[str]:
+        values = []
+        seen = set()
+        for line in re.split(r"[\r\n]+", str(text or "")):
+            for sentence in re.split(r"(?<=[。！？!?;；])", line):
+                sentence = sentence.strip()
+                if sentence and sentence not in seen:
+                    seen.add(sentence)
+                    values.append(sentence)
+        return values
+
+
 class DeepSeekAnalyzerClient:
     """Build JS-compatible DeepSeek analyzer request contracts."""
 
@@ -54,6 +112,9 @@ class DeepSeekAnalyzerClient:
             ),
         },
     )
+
+    def __init__(self, input_builder: DeepSeekAnalysisInputBuilder | None = None):
+        self.input_builder = input_builder or DeepSeekAnalysisInputBuilder()
 
     def build_request_from_payload(self, payload: dict[str, Any] | None = None) -> AnalyzerRequest:
         payload = payload if isinstance(payload, dict) else {}
@@ -208,13 +269,7 @@ class DeepSeekAnalyzerClient:
         ]
 
     def _analysis_input(self, request: AnalyzerRequest, *, compact: bool) -> dict[str, object]:
-        limit = 40 if compact else 80
-        return {
-            "uid": request.uid or "unknown",
-            "name": request.name or "unknown",
-            "comments": self._split_sentences("\n".join(request.comments))[:limit],
-            "keywordHints": self._normalize_hints(request.keyword_hints),
-        }
+        return self.input_builder.build(request, compact=compact)
 
     def _normalize_hints(self, hints: list[Any]) -> list[dict[str, str]]:
         normalized = []
@@ -286,6 +341,18 @@ class DeepSeekAnalyzerClient:
                     return text
             return ""
         return str(item or "").strip()
+
+    def _split_sentences(self, text: str) -> list[str]:
+        values = []
+        seen = set()
+        for line in re.split(r"[\r\n]+", str(text or "")):
+            for sentence in re.split(r"(?<=[。！？!?;；])", line):
+                sentence = sentence.strip()
+                if sentence and sentence not in seen:
+                    seen.add(sentence)
+                    values.append(sentence)
+        return values
+
 
     def _split_sentences(self, text: str) -> list[str]:
         values = []
