@@ -1387,6 +1387,20 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["sampled"], 2)
         self.assertEqual(result["keywordHits"], 1)
 
+    def test_random_verification_payload_runner_defaults_corrupt_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "random-verification.json"
+            payload_path.write_text("{bad payload", encoding="utf-8")
+
+            result = verification_module.RandomVerificationPayloadRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["sampleSize"], 50)
+        self.assertEqual(result["seed"], 1)
+        self.assertEqual(result["corpus"], {"comments": 0, "runs": 0, "storage": "inline"})
+        self.assertEqual(result["sampled"], 0)
+        self.assertEqual(result["keywordHits"], 0)
+
     def test_random_verification_payload_runner_combines_extra_corpus_paths(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
