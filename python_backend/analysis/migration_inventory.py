@@ -34,12 +34,13 @@ DEFAULT_PACKAGE_COMMAND_EQUIVALENTS = {
 }
 
 DEFAULT_PACKAGE_VALIDATION_EQUIVALENTS = {
-    "deepseek:analyze": "python:deepseek-cli-compare",
+    "deepseek:analyze": "python:deepseek-validation-compare",
     "dictionary:huggingface": "python:huggingface-compare",
 }
 
 DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:deepseek-cli-compare": "dry_run_plan",
+    "python:deepseek-validation-compare": "analysis_validation",
     "python:huggingface-compare": "full_command",
 }
 
@@ -52,6 +53,7 @@ DEFAULT_RETAINED_NODE_COMMANDS = {
 DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:deepseek-cli-compare": "js_python_contract_bridge",
     "python:deepseek-cli-plan-js": "js_python_contract_bridge",
+    "python:deepseek-validation-compare": "js_python_contract_bridge",
 }
 
 RETAINED_JS_FILE_PREFIXES = {
@@ -63,6 +65,7 @@ RETAINED_JS_FILES = {
     "server/utils/paths.js": "shared_runtime_support",
     "server/utils/fileLock.js": "shared_runtime_support",
     "server/scripts/compareDeepSeekAnalyzePlan.js": "js_python_contract_bridge",
+    "server/scripts/compareDeepSeekAnalysisValidation.js": "js_python_contract_bridge",
 }
 
 MIGRATION_PRIORITY_RULES = (

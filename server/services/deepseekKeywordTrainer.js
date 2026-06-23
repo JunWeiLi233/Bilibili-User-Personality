@@ -927,6 +927,93 @@ function groundSentenceQuote(quote, sourceSentences = []) {
   return best?.score >= 0.45 ? best.sentence : '';
 }
 
+function deepSeekValidationCommentsFromPayload(payload = {}) {
+  if (!payload || typeof payload !== 'object') return [];
+  if (Array.isArray(payload.comments)) {
+    return payload.comments
+      .map((item) => {
+        if (typeof item === 'string') return item;
+        if (!item || typeof item !== 'object') return '';
+        return item.message || item.commentText || item.text || item.content || '';
+      })
+      .map((item) => String(item || '').trim())
+      .filter(Boolean);
+  }
+  const text = payload.text || payload.fullText || payload.sourceText || '';
+  return String(text || '')
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+}
+
+function deepSeekValidationAnalysisFromPayload(payload = {}) {
+  if (!payload || typeof payload !== 'object') return {};
+  if (payload.parsed && typeof payload.parsed === 'object' && !Array.isArray(payload.parsed)) return payload.parsed;
+  if (payload.analysis && typeof payload.analysis === 'object' && !Array.isArray(payload.analysis)) return payload.analysis;
+  return payload;
+}
+
+function deepSeekValidationAxisEvidenceValues(axis = {}) {
+  const raw = axis?.evidence ?? axis?.quote;
+  if (Array.isArray(raw)) return raw.map((item) => String(item || '').trim()).filter(Boolean);
+  if (raw && typeof raw === 'object') {
+    return ['quote', 'text', 'evidence']
+      .map((key) => String(raw[key] || '').trim())
+      .filter(Boolean);
+  }
+  const value = String(raw || '').trim();
+  return value ? [value] : [];
+}
+
+function deepSeekValidationQuoteSupported(quote, sourceNormalized = []) {
+  const normalizedQuote = normalizeAnalysisQuoteText(quote);
+  return Boolean(normalizedQuote) && sourceNormalized.some((sentence) => sentence.includes(normalizedQuote));
+}
+
+export function validateDeepSeekAnalysisPayloads(sourcePayload = {}, analysisPayload = {}) {
+  const comments = deepSeekValidationCommentsFromPayload(sourcePayload);
+  const analysis = deepSeekValidationAnalysisFromPayload(analysisPayload);
+  const sourceSentences = splitAnalysisSourceSentences(comments.join('\n'));
+  const sourceNormalized = sourceSentences.map((sentence) => normalizeAnalysisQuoteText(sentence));
+  const sentenceAnalyses = Array.isArray(analysis.sentenceAnalyses) ? analysis.sentenceAnalyses : [];
+  const axes = Array.isArray(analysis.axes) ? analysis.axes : [];
+  const unsupportedQuotes = [];
+  const unsupportedAxisEvidence = [];
+
+  sentenceAnalyses.forEach((item, index) => {
+    if (!item || typeof item !== 'object') return;
+    const quote = String(item.quote || item.text || '').trim();
+    if (quote && !deepSeekValidationQuoteSupported(quote, sourceNormalized)) {
+      unsupportedQuotes.push({ path: `sentenceAnalyses[${index}].quote`, quote });
+    }
+  });
+
+  axes.forEach((axis, index) => {
+    if (!axis || typeof axis !== 'object') return;
+    const axisName = String(axis.axis || axis.name || '').trim();
+    for (const quote of deepSeekValidationAxisEvidenceValues(axis)) {
+      if (quote && !deepSeekValidationQuoteSupported(quote, sourceNormalized)) {
+        unsupportedAxisEvidence.push({ path: `axes[${index}].evidence`, quote, axis: axisName });
+      }
+    }
+  });
+
+  const summary = {
+    sourceSentences: sourceSentences.length,
+    sentenceAnalyses: sentenceAnalyses.length,
+    axes: axes.length,
+    unsupportedQuotes: unsupportedQuotes.length,
+    unsupportedAxisEvidence: unsupportedAxisEvidence.length,
+  };
+
+  return {
+    ok: unsupportedQuotes.length === 0 && unsupportedAxisEvidence.length === 0,
+    summary,
+    unsupportedQuotes,
+    unsupportedAxisEvidence,
+  };
+}
+
 function authHeaders(apiKey) {
   return {
     'content-type': 'application/json',

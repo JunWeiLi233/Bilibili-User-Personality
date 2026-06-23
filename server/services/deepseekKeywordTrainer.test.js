@@ -16,6 +16,7 @@ import {
   normalizeKeywordEntries,
   readKeywordDictionary,
   trainKeywordDictionary,
+  validateDeepSeekAnalysisPayloads,
   writeJsonFileAtomic,
 } from './deepseekKeywordTrainer.js';
 
@@ -54,6 +55,39 @@ test('reports DeepSeek API key missing without exposing secrets', async () => {
   assert.equal(config.reasoningEffort, 'max');
   assert.equal(config.available, false);
   assert.equal(config.keyConfigured, false);
+});
+
+test('validateDeepSeekAnalysisPayloads emits Python-compatible quote support report', () => {
+  const result = validateDeepSeekAnalysisPayloads(
+    { comments: ['狗头保命[doge]', '建议查查资料再说'] },
+    {
+      parsed: {
+        sentenceAnalyses: [
+          { quote: '狗头保命[doge]', risk: 'low' },
+          { quote: '你真是傻逼', risk: 'high' },
+        ],
+        axes: [
+          { axis: 'attack', score: 82, evidence: ['你真是傻逼'] },
+          { axis: 'evidence', score: 60, evidence: ['查查资料'] },
+        ],
+      },
+    },
+  );
+
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.summary, {
+    sourceSentences: 2,
+    sentenceAnalyses: 2,
+    axes: 2,
+    unsupportedQuotes: 1,
+    unsupportedAxisEvidence: 1,
+  });
+  assert.deepEqual(result.unsupportedQuotes, [
+    { path: 'sentenceAnalyses[1].quote', quote: '你真是傻逼' },
+  ]);
+  assert.deepEqual(result.unsupportedAxisEvidence, [
+    { path: 'axes[0].evidence', quote: '你真是傻逼', axis: 'attack' },
+  ]);
 });
 
 test('defaults complex DeepSeek language work to V4 Pro max effort', async () => {
