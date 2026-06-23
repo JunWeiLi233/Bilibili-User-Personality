@@ -10,6 +10,7 @@ from typing import Any
 from python_backend.analysis.comment_coverage import _is_contract_scalar
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
+from python_backend.runtime.json_contracts import safe_read_json_object
 
 
 def clean_text(value: Any) -> str:
@@ -269,11 +270,7 @@ class LocalCorpusFlattenPayloadContractComparator:
         return self.comparator.compare(python_result, js_result)
 
     def _read_js_report(self) -> dict[str, Any]:
-        if not self.js_report_path.exists():
-            return {}
-        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else {}
+        return safe_read_json_object(self.js_report_path)
 
 
 class LocalCorpusFlattenRequest:
@@ -732,11 +729,7 @@ class LocalCorpusEvidenceJsonPayloadContractComparator:
         return self.comparator.compare(python_result, js_result)
 
     def _read_js_report(self) -> dict[str, Any]:
-        if not self.js_report_path.exists():
-            return {}
-        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else {}
+        return safe_read_json_object(self.js_report_path)
 
 
 class LocalCorpusEvidencePayloadContractComparator:
@@ -775,11 +768,7 @@ class LocalCorpusEvidencePayloadContractComparator:
         return self.comparator.compare(python_result, js_result)
 
     def _read_js_report(self) -> dict[str, Any]:
-        if not self.js_report_path.exists():
-            return {}
-        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else {}
+        return safe_read_json_object(self.js_report_path)
 
 
 class LocalCorpusEvidenceRequest:
