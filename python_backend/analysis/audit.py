@@ -118,8 +118,7 @@ class CoverageAuditArtifactWriter:
         return self.build_artifacts(audit)
 
     def build_artifacts(self, audit: dict[str, Any]) -> dict[str, Any]:
-        queries = audit.get("recommendedQueries") if isinstance(audit.get("recommendedQueries"), list) else []
-        recommended_queries = [str(query).strip() for query in queries if str(query).strip()]
+        recommended_queries = [query.strip() for query in _string_list(audit.get("recommendedQueries")) if query.strip()]
         priority_items = self.priority_action_items_from_audit(audit)
         return {
             "ok": True,
