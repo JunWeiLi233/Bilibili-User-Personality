@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import { compareScraperMonitor, compareScraperMonitorObjects } from './compareScraperMonitor.js';
+import { SCRAPER_MONITOR_FIXTURES, compareScraperMonitor, compareScraperMonitorObjects } from './compareScraperMonitor.js';
 
 const SUMMARY = {
   discovery: { analyzed: 4, found: 10, remaining: 6, errors: 2 },
@@ -47,5 +47,33 @@ test('compareScraperMonitor compares JS-compatible and Python monitor reports', 
   assert.deepEqual(calls, [
     { js: 1, end: 4, workers: 2 },
     { python: 1, end: 4, workers: 2 },
+  ]);
+});
+
+test('compareScraperMonitor exports named file-backed fixtures', async () => {
+  assert.deepEqual(Object.keys(SCRAPER_MONITOR_FIXTURES), ['default-state', 'parseint-stats-prefix', 'corrupt-progress']);
+
+  const calls = [];
+  const result = await compareScraperMonitor({
+    fixtureNames: Object.keys(SCRAPER_MONITOR_FIXTURES),
+    runJs: async (context) => {
+      calls.push({ js: context.fixture.name, start: context.totalStart, end: context.totalEnd, workers: context.workers });
+      return { ok: true, ...SUMMARY };
+    },
+    runPython: async (context) => {
+      calls.push({ python: context.fixture.name, start: context.totalStart, end: context.totalEnd, workers: context.workers });
+      return { ok: true, ...SUMMARY };
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.deepEqual(calls, [
+    { js: 'default-state', start: 1, end: 4, workers: 2 },
+    { python: 'default-state', start: 1, end: 4, workers: 2 },
+    { js: 'parseint-stats-prefix', start: 1, end: 2, workers: 1 },
+    { python: 'parseint-stats-prefix', start: 1, end: 2, workers: 1 },
+    { js: 'corrupt-progress', start: 1, end: 1, workers: 1 },
+    { python: 'corrupt-progress', start: 1, end: 1, workers: 1 },
   ]);
 });

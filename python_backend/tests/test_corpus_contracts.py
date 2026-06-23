@@ -24167,6 +24167,45 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["pipeline"]["noVideos"], 0)
         self.assertEqual(result["combined"], {"uidsAnalyzed": 1})
 
+    def test_scraper_monitor_runner_matches_js_parseint_stats_prefix_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            (data_dir / "uid-discovery-progress.json").write_text(
+                json.dumps({"stats": {"uidsAnalyzed": "4abc", "uidsFound": "10found", "errors": "2bad"}}),
+                encoding="utf-8",
+            )
+            (data_dir / "uid-pipeline-1-2.json").write_text(
+                json.dumps(
+                    {
+                        "processed": {"1": "success", "2": "no_videos"},
+                        "stats": {"success": "1ok", "noVideos": "1video", "errors": "3err"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = ScraperMonitorPayloadRunner(data_dir, total_start=1, total_end=2, workers=1, pipeline_rate_per_minute=2).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["discovery"], {"analyzed": 4, "found": 10, "remaining": 6, "errors": 2})
+        self.assertEqual(
+            result["pipeline"],
+            {
+                "processed": 2,
+                "success": 1,
+                "noComments": 0,
+                "noVideos": 1,
+                "noUser": 0,
+                "errors": 3,
+                "remaining": 0,
+                "etaMinutes": 0,
+                "etaHours": 0.0,
+            },
+        )
+        self.assertEqual(result["combined"], {"uidsAnalyzed": 5})
+
     def test_scraper_monitor_reporter_summarizes_loaded_progress_payloads(self):
         reporter = ScraperMonitorReporter(pipeline_rate_per_minute=2)
 
@@ -24394,6 +24433,10 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn(
             {"path": "server/scripts/compareScraperMonitor.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
+        )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:scraper-monitor-compare"],
+            "file_backed_default_parseint_stats_prefix_corrupt_progress_fixtures_and_js_python_bridge",
         )
 
     def test_batch_bilibili_planner_matches_js_uid_range_and_resume_contract(self):

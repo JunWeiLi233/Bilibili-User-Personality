@@ -22,6 +22,35 @@ export const DEFAULT_PAYLOAD = {
   },
 };
 
+export const SCRAPER_MONITOR_FIXTURES = {
+  'default-state': DEFAULT_PAYLOAD,
+  'parseint-stats-prefix': {
+    totalStart: 1,
+    totalEnd: 2,
+    workers: 1,
+    pipelineRatePerMinute: 2,
+    discovery: { stats: { uidsAnalyzed: '4abc', uidsFound: '10found', errors: '2bad' } },
+    pipeline: {
+      'uid-pipeline-1-2.json': {
+        processed: { 1: 'success', 2: 'no_videos' },
+        stats: { success: '1ok', noVideos: '1video', errors: '3err' },
+      },
+    },
+  },
+  'corrupt-progress': {
+    totalStart: 1,
+    totalEnd: 1,
+    workers: 1,
+    pipelineRatePerMinute: 2,
+    discovery: { stats: { uidsAnalyzed: 1, uidsFound: 2 } },
+    pipelineRaw: {
+      'uid-pipeline-1-1.json': '{not-json',
+    },
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = Object.keys(SCRAPER_MONITOR_FIXTURES);
+
 function intOrZero(value) {
   const parsed = Number.parseInt(String(value ?? ''), 10);
   return Number.isFinite(parsed) ? parsed : 0;
@@ -137,27 +166,37 @@ async function writeFixture(dataDir, payload) {
   await Promise.all(
     Object.entries(pipeline).map(([file, filePayload]) => writeFile(join(dataDir, file), JSON.stringify(filePayload || {}, null, 2), 'utf8')),
   );
+  const pipelineRaw = payload.pipelineRaw && typeof payload.pipelineRaw === 'object' && !Array.isArray(payload.pipelineRaw) ? payload.pipelineRaw : {};
+  await Promise.all(Object.entries(pipelineRaw).map(([file, filePayload]) => writeFile(join(dataDir, file), String(filePayload ?? ''), 'utf8')));
 }
 
-export async function compareScraperMonitor({ payload = DEFAULT_PAYLOAD, runJs = runJsMonitor, runPython = runPythonMonitor } = {}) {
+function resolvePayload({ payload, fixture } = {}) {
+  if (payload) return { name: fixture?.name || 'custom', payload };
+  const name = typeof fixture === 'string' ? fixture : fixture?.name || 'default-state';
+  return { name, payload: SCRAPER_MONITOR_FIXTURES[name] || DEFAULT_PAYLOAD };
+}
+
+async function compareScraperMonitorSingle({ payload, fixture, runJs = runJsMonitor, runPython = runPythonMonitor } = {}) {
+  const resolved = resolvePayload({ payload, fixture });
   const tempDir = await mkdtemp(join(tmpdir(), 'scraper-monitor-compare-'));
   try {
-    const dataDir = payload.dataDir || join(tempDir, 'data');
-    const totalStart = Number.parseInt(String(payload.totalStart ?? DEFAULT_PAYLOAD.totalStart), 10) || 0;
-    const totalEnd = Number.parseInt(String(payload.totalEnd ?? DEFAULT_PAYLOAD.totalEnd), 10) || 0;
-    const workers = Math.max(1, Number.parseInt(String(payload.workers ?? DEFAULT_PAYLOAD.workers), 10) || 1);
+    const fixturePayload = resolved.payload;
+    const dataDir = fixturePayload.dataDir || join(tempDir, 'data');
+    const totalStart = Number.parseInt(String(fixturePayload.totalStart ?? DEFAULT_PAYLOAD.totalStart), 10) || 0;
+    const totalEnd = Number.parseInt(String(fixturePayload.totalEnd ?? DEFAULT_PAYLOAD.totalEnd), 10) || 0;
+    const workers = Math.max(1, Number.parseInt(String(fixturePayload.workers ?? DEFAULT_PAYLOAD.workers), 10) || 1);
     const pipelineRatePerMinute = Math.max(
       1,
-      Number.parseInt(String(payload.pipelineRatePerMinute ?? DEFAULT_PAYLOAD.pipelineRatePerMinute), 10) || 1,
+      Number.parseInt(String(fixturePayload.pipelineRatePerMinute ?? DEFAULT_PAYLOAD.pipelineRatePerMinute), 10) || 1,
     );
-    if (!payload.dataDir) await writeFixture(dataDir, payload);
-    const context = { payload, dataDir, totalStart, totalEnd, workers, pipelineRatePerMinute };
+    if (!fixturePayload.dataDir) await writeFixture(dataDir, fixturePayload);
+    const context = { payload: fixturePayload, fixture: { name: resolved.name }, dataDir, totalStart, totalEnd, workers, pipelineRatePerMinute };
     const js = await runJs(context);
     const python = await runPython(context);
     const comparison = compareScraperMonitorObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { dataDir, totalStart, totalEnd, workers, pipelineRatePerMinute },
+      fixture: { name: resolved.name, dataDir, totalStart, totalEnd, workers, pipelineRatePerMinute },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -167,8 +206,20 @@ export async function compareScraperMonitor({ payload = DEFAULT_PAYLOAD, runJs =
   }
 }
 
+export async function compareScraperMonitor({ payload, fixture, fixtureNames, runJs = runJsMonitor, runPython = runPythonMonitor } = {}) {
+  if (fixtureNames) {
+    const results = [];
+    for (const name of fixtureNames.length ? fixtureNames : DEFAULT_FIXTURE_NAMES) {
+      results.push(await compareScraperMonitorSingle({ fixture: name, runJs, runPython }));
+    }
+    const mismatches = results.flatMap((result) => result.mismatches.map((mismatch) => ({ ...mismatch, fixture: result.fixture.name })));
+    return { ok: mismatches.length === 0, fixtures: results.map((result) => result.fixture), results, mismatches };
+  }
+  return compareScraperMonitorSingle({ payload, fixture, runJs, runPython });
+}
+
 async function main() {
-  const result = await compareScraperMonitor();
+  const result = await compareScraperMonitor({ fixtureNames: DEFAULT_FIXTURE_NAMES });
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }

@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import re
 from pathlib import Path
 from typing import Any
 
@@ -11,11 +12,13 @@ from python_backend.scrapers.uid_pipeline import UidPipelineMergeRunner
 
 
 def _parse_number_or(value: Any, fallback: int) -> int:
-    try:
-        parsed = int(float(str(value)))
-    except (TypeError, ValueError):
+    match = re.match(r"^[\s]*([+-]?\d+)", str(value if value is not None else ""))
+    if not match:
         return fallback
-    return parsed
+    try:
+        return int(match.group(1))
+    except ValueError:
+        return fallback
 
 
 class ScraperMonitorSummary:
