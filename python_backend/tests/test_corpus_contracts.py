@@ -23884,6 +23884,31 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_coverage_audit_artifacts_payload_comparator_defaults_corrupt_js_reports(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-artifacts.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "audit": {
+                            "recommendedQueries": ["doge hot"],
+                            "nextActions": [{"term": "doge", "nextQuery": "doge hot"}],
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            result = CoverageAuditArtifactsPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"], {})
+        self.assertEqual(result["python"]["recommendedQueryText"], "doge hot\n")
+
     def test_coverage_audit_artifacts_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
