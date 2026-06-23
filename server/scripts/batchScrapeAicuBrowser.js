@@ -2,7 +2,8 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { execSync } from 'node:child_process';
+import { execFile, execSync } from 'node:child_process';
+import { promisify } from 'node:util';
 
 const DATA_DIR = join(process.cwd(), 'server', 'data');
 const USER_DB_PATH = join(DATA_DIR, 'aicu-user-database.json');
@@ -15,6 +16,7 @@ const SAVE_EVERY_ATTEMPTS = 10;
 const BROWSER_COMMAND = 'browser-harness';
 const SCRIPT_PATH = 'server/scripts/browserScrapeAicu.py';
 const WRAPPER_PATH = 'server/data/_browser_aicu_tmp.py';
+const execFileAsync = promisify(execFile);
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -97,6 +99,39 @@ async function readPlanPayload(args) {
   }
 }
 
+function parsePlanControlArgs(args = []) {
+  let planJson = false;
+  let pythonPlan = process.env.BILIBILI_AICU_BROWSER_USE_PYTHON_PLAN === '1';
+  let jsPlan = false;
+  let payloadPath = '';
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = String(args[index] || '');
+    if (arg === '--plan-json') {
+      planJson = true;
+    } else if (arg === '--python-plan') {
+      pythonPlan = true;
+    } else if (arg === '--js-plan') {
+      jsPlan = true;
+    } else if (arg === '--payload') {
+      payloadPath = String(args[index + 1] || '');
+      index += 1;
+    } else if (arg.startsWith('--payload=')) {
+      payloadPath = arg.slice('--payload='.length);
+    }
+  }
+  if (jsPlan) pythonPlan = false;
+  return { planJson, pythonPlan, jsPlan, payloadPath };
+}
+
+async function runPythonAicuBrowserBatchPlan(payloadPath) {
+  const { stdout } = await execFileAsync('python', ['-m', 'python_backend.cli.aicu_browser_batch_plan', '--payload', payloadPath], {
+    cwd: process.cwd(),
+    env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  return JSON.parse(stdout);
+}
+
 function scrapeViaBrowser(uid) {
   try {
     const scriptPath = join(process.cwd(), 'server', 'scripts', 'browserScrapeAicu.py').replace(/\\/g, '/');
@@ -145,7 +180,12 @@ async function saveProgress(progress) {
 
 async function main() {
   const args = process.argv.slice(2);
-  if (args.includes('--plan-json')) {
+  const control = parsePlanControlArgs(args);
+  if (control.planJson) {
+    if (control.pythonPlan && control.payloadPath) {
+      console.log(JSON.stringify(await runPythonAicuBrowserBatchPlan(control.payloadPath), null, 2));
+      return;
+    }
     const payload = await readPlanPayload(args);
     console.log(JSON.stringify(buildAicuBrowserBatchPlan(payload), null, 2));
     return;

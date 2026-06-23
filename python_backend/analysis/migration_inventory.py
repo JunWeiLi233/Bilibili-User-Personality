@@ -682,6 +682,11 @@ class BackendMigrationInventoryScanner:
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:aicu-batch-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareAicuBatchPlan.test.js"},
             ]
+        if validation_script == "python:aicu-browser-compare":
+            return [
+                {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:aicu-browser-compare"},
+                {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareAicuBrowserBatchPlan.test.js"},
+            ]
         if validation_script == "python:batch-bilibili-compare":
             return [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:batch-bilibili-compare"},
