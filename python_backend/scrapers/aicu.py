@@ -517,10 +517,7 @@ class BatchScrapeProgressRunner:
         return reporter.build_report(progress, database)
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
-        if not path.exists():
-            return fallback
-        with path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
+        payload = JsonContractReader().read_value(path, fallback)
         return payload if isinstance(payload, dict) else fallback
 
 

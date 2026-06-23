@@ -20740,6 +20740,19 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(result["progress"], {"scraped": 4, "videosScanned": 40, "pagesScanned": 2, "remainingPages": 48, "targetPages": 50})
 
+    def test_batch_scrape_progress_runner_defaults_corrupt_json_contract_files(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            data_dir = Path(tmp) / "server" / "data"
+            data_dir.mkdir(parents=True)
+            (data_dir / "batch-scrape-progress.json").write_text('{"lastUid": ', encoding="utf-8")
+            (data_dir / "aicu-user-database.json").write_text('{"users": ', encoding="utf-8")
+
+            result = BatchScrapeProgressPayloadRunner(data_dir, start_uid=1, end_uid=3).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["progress"], {"lastUid": 0, "completed": 0, "errors": 0, "remaining": 3, "rangeTotal": 3})
+        self.assertEqual(result["database"], {"users": 0, "withComments": 0, "comments": 0, "danmaku": 0})
+
     def test_batch_scrape_progress_comparator_reports_summary_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
