@@ -20614,6 +20614,19 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["stats"], {"videosScanned": 3, "uidsFound": 3, "uidsAnalyzed": 1, "commentsCollected": 4, "errors": 2})
         self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
 
+    def test_batch_uid_progress_runner_defaults_corrupt_json_contract_input(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            progress_path = root / "batch-uid-progress.json"
+            progress_path.write_text("{not-json", encoding="utf-8")
+
+            result = BatchUidProgressPayloadRunner(progress_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["discovery"], {"videosScanned": 0, "uidsDiscovered": 0, "commentsCollected": 0})
+        self.assertEqual(result["phase2"], {"processed": 0, "success": 0, "errors": 0, "skipped": 0, "remaining": 0})
+        self.assertEqual(result["comments"], {"total": 0, "averagePerUid": 0, "uidsWithComments": 0})
+
     def test_batch_uid_progress_reporter_summarizes_payload_without_filesystem(self):
         reporter = BatchUidProgressReporter()
 
