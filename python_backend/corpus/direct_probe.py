@@ -500,7 +500,7 @@ class DirectProbeCommandRunner:
                     }
                 )
                 try:
-                    comments.extend(self._comments_for_video(video))
+                    comments.extend(self._comments_for_video(video, options))
                 except Exception as error:
                     label = video.get("bvid") or (f"av{video.get('aid')}" if video.get("aid") else key or "(unknown video)")
                     warnings.append(f"{action.get('query')} {label}: replies {error}")
@@ -597,10 +597,14 @@ class DirectProbeCommandRunner:
         videos = search_videos.get(query, [])
         return [video for video in videos if isinstance(video, dict)]
 
-    def _comments_for_video(self, video: dict[str, Any]) -> list[dict[str, Any]]:
+    def _comments_for_video(self, video: dict[str, Any], options: dict[str, Any]) -> list[dict[str, Any]]:
         comments_by_video = self.payload.get("videoComments") if isinstance(self.payload.get("videoComments"), dict) else {}
-        comments = comments_by_video.get(self.builder.probe_video_key(video), [])
-        return [comment for comment in comments if isinstance(comment, dict)]
+        video_key = self.builder.probe_video_key(video)
+        comments = [comment for comment in comments_by_video.get(video_key, []) if isinstance(comment, dict)]
+        if options.get("includeDanmaku") is True:
+            danmaku_by_video = self.payload.get("videoDanmaku") if isinstance(self.payload.get("videoDanmaku"), dict) else {}
+            comments.extend(comment for comment in danmaku_by_video.get(video_key, []) if isinstance(comment, dict))
+        return comments
 
     def _merge_videos(self, primary: list[dict[str, Any]], fallback: list[dict[str, Any]], limit: int) -> list[dict[str, Any]]:
         videos: list[dict[str, Any]] = []

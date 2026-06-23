@@ -111,15 +111,18 @@ async function runJsDirectProbeCommand({ payload }) {
   const explicitAids = Array.isArray(payload.explicitAids)
     ? payload.explicitAids.map((aid) => String(aid || '').trim()).filter(Boolean)
     : [];
+  const includeDanmaku = payload.options?.includeDanmaku === true;
   const argv = explicitAids.length
     ? [
       ...explicitAids.map((aid) => `--aid=${aid}`),
+      ...(includeDanmaku ? ['--include-danmaku'] : []),
       '--delay-ms=1000',
       '--jitter-ms=0',
     ]
-    : [`--query=${query}`, `--term=${term}`, '--delay-ms=1000', '--jitter-ms=0'];
+    : [`--query=${query}`, `--term=${term}`, ...(includeDanmaku ? ['--include-danmaku'] : []), '--delay-ms=1000', '--jitter-ms=0'];
   const searchVideos = payload.searchVideos || {};
   const videoComments = payload.videoComments || {};
+  const videoDanmaku = payload.videoDanmaku || {};
   return runDirectProbeCommand({
     argv,
     env: {},
@@ -128,7 +131,7 @@ async function runJsDirectProbeCommand({ payload }) {
     readKeywordDictionary: async () => payload.dictionary || { entries: [] },
     discoverVideos: async (requestedQuery) => searchVideos[requestedQuery] || [],
     fetchVideoComments: async (video) => videoComments[video.bvid ? `bvid:${video.bvid}` : `aid:${video.aid}`] || [],
-    fetchVideoDanmaku: async () => [],
+    fetchVideoDanmaku: async (video) => videoDanmaku[video.bvid ? `bvid:${video.bvid}` : `aid:${video.aid}`] || [],
     writeJsonCorpus: async () => {},
     mergeEntriesIntoDictionary: async (entries) => ({ entries }),
     log: () => {},

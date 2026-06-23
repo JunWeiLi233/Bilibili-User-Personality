@@ -1353,6 +1353,7 @@ class CorpusContractTests(unittest.TestCase):
                 {"gate": "python_probe_loop_fixture", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
                 {"gate": "command_js_python_fixture", "status": "covered", "source": "python:direct-probe-command-compare"},
                 {"gate": "command_explicit_aid_fixture", "status": "covered", "source": "compareDirectProbeCommand.test.js"},
+                {"gate": "command_explicit_aid_danmaku_fixture", "status": "covered", "source": "compareDirectProbeCommand.test.js"},
                 {"gate": "js_opt_in_python_command_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
                 {"gate": "js_opt_in_python_live_fetch_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
             ],
@@ -11423,6 +11424,42 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["commentsCollected"], 1)
         self.assertEqual(result["comments"][0]["message"], "\u67e5\u67e5\u8d44\u6599\u547d\u4ee4\u8bc4\u8bba")
+
+    def test_direct_probe_command_runner_reads_separate_danmaku_payload_contract(self):
+        payload = {
+            "audit": {"nextActions": []},
+            "existingCorpus": {"version": 1, "comments": [], "runs": []},
+            "dictionary": {"entries": [{"term": "\u67e5\u67e5\u8d44\u6599", "family": "evidence", "evidenceCount": 0}]},
+            "options": {"maxActions": 1, "videosPerQuery": 1, "includeDanmaku": True, "write": False},
+            "explicitAids": ["1001"],
+            "videoComments": {
+                "aid:1001": [
+                    {
+                        "message": "\u67e5\u67e5\u8d44\u6599\u663e\u5f0f\u8bc4\u8bba",
+                        "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/av1001/",
+                        "uid": "10",
+                    }
+                ]
+            },
+            "videoDanmaku": {
+                "aid:1001": [
+                    {
+                        "message": "\u67e5\u67e5\u8d44\u6599\u663e\u5f0f\u5f39\u5e55",
+                        "source": "Bilibili public danmaku probe: https://www.bilibili.com/video/av1001/",
+                        "uid": "11",
+                    }
+                ]
+            },
+        }
+
+        result = direct_probe_module.DirectProbeCommandRunner(payload).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["commentsCollected"], 2)
+        self.assertEqual(
+            [comment["message"] for comment in result["comments"]],
+            ["\u67e5\u67e5\u8d44\u6599\u663e\u5f0f\u8bc4\u8bba", "\u67e5\u67e5\u8d44\u6599\u663e\u5f0f\u5f39\u5e55"],
+        )
 
     def test_direct_probe_builder_extracts_fresh_evidence_entries(self):
         dictionary = {
