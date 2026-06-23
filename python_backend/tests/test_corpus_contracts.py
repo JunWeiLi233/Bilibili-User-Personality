@@ -67,7 +67,7 @@ from python_backend.cli import video_link_direct_plan as video_link_direct_plan_
 from python_backend.cli import video_relevance as video_relevance_cli
 from python_backend.cli import range_scraper_launcher as range_scraper_launcher_cli
 from python_backend.cli import fast_pipeline_launcher as fast_pipeline_launcher_cli
-from python_backend.analysis.audit import CoverageAuditActionSummaryContract, CoverageAuditArtifactContract, CoverageAuditArtifactPayloadContract, CoverageAuditArtifactWriter, CoverageAuditArtifactsCommandRequest, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRequest, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditCommandRequest, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditFamilyGapContract, CoverageAuditGateContract, CoverageAuditMetricContract, CoverageAuditPayloadContractComparator, CoverageAuditReport, CoverageAuditRequest, CoverageEvidenceProfile
+from python_backend.analysis.audit import CoverageAuditActionSummaryContract, CoverageAuditArtifactContract, CoverageAuditArtifactPayloadContract, CoverageAuditArtifactWriter, CoverageAuditArtifactsCommandRequest, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRequest, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditCommandRequest, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditFamilyGapContract, CoverageAuditGateContract, CoverageAuditMetricContract, CoverageAuditPayloadContractComparator, CoverageAuditReport, CoverageAuditRequest, CoverageAuditSampleContract, CoverageEvidenceProfile
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageCommandRequest, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageJsonPayloadContractComparator, CommentCoverageJsonPayloadRunner, CommentCoveragePayloadContractComparator, CommentCoverageRequest, CommentCoverageRunner as CommentCoveragePayloadRunner, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanCommandRequest, CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanPayloadContractComparator, CoverageHarvestLoopPlanRequest, CoverageHarvestLoopPlanRunner as CoverageHarvestLoopPayloadPlanRunner, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressCommandRequest, CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressPayloadContractComparator, CoverageProgressRequest, CoverageProgressRunner as CoverageProgressPayloadRunner, CoverageProgressSummary, CoverageProgressTracker
@@ -26029,6 +26029,32 @@ class CorpusContractTests(unittest.TestCase):
                 {"family": "cooperation", "terms": 4, "weak": 2, "zero": 0, "evidence": 9, "coverageRatio": 0.5},
                 {"family": "absolutes", "terms": 3, "weak": 1, "zero": 1, "evidence": 4, "coverageRatio": 0.6667},
                 {"family": "evidence", "terms": 0, "weak": 0, "zero": 0, "evidence": 0, "coverageRatio": 1},
+            ],
+        )
+
+    def test_coverage_audit_sample_contract_sorts_limits_and_includes_coverage_counts(self):
+        entries = [
+            {"term": "zeta", "family": "attack", "evidenceCount": 2, "evidenceSamples": ["same sample"]},
+            {"term": "alpha", "family": "attack", "evidenceCount": 0},
+            {
+                "term": "context-only",
+                "family": "evidence",
+                "evidenceCount": 3,
+                "evidenceSources": [
+                    {"source": "Bilibili public video context", "sample": "Bilibili video context: title only"},
+                ],
+            },
+            {"term": "beta", "family": "attack", "evidenceCount": 0},
+        ]
+
+        samples = CoverageAuditSampleContract(entries, include_coverage=True, limit=3, require_comment_backed_evidence=True).samples()
+
+        self.assertEqual(
+            samples,
+            [
+                {"term": "alpha", "family": "attack", "evidenceCount": 0, "coverageEvidenceCount": 0},
+                {"term": "beta", "family": "attack", "evidenceCount": 0, "coverageEvidenceCount": 0},
+                {"term": "zeta", "family": "attack", "evidenceCount": 1, "coverageEvidenceCount": 0},
             ],
         )
 

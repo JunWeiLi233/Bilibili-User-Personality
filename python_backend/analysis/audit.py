@@ -162,6 +162,54 @@ class CoverageAuditFamilyGapContract:
         return sorted(gaps, key=lambda item: (-item["weak"], -item["zero"], item["family"]))
 
 
+class CoverageAuditSampleContract:
+    """Shape JS-compatible coverage audit entry samples."""
+
+    def __init__(
+        self,
+        entries: list[Any] | None = None,
+        include_coverage: bool = False,
+        limit: int = 20,
+        require_comment_backed_evidence: bool = False,
+        canonical_evidence_count_overrides: dict[tuple[str, str], int] | None = None,
+    ):
+        self.entries = [entry for entry in entries if isinstance(entry, dict)] if isinstance(entries, list) else []
+        self.include_coverage = _bool_or(include_coverage, False)
+        self.limit = max(0, _int_or(limit, 20))
+        self.require_comment_backed_evidence = _bool_or(require_comment_backed_evidence, False)
+        self.canonical_evidence_count_overrides = canonical_evidence_count_overrides or {}
+
+    def samples(self) -> list[dict[str, Any]]:
+        samples = []
+        for entry in self.sorted_entries()[: self.limit]:
+            item = {
+                "term": entry.get("term"),
+                "family": entry.get("family"),
+                "evidenceCount": self._profile(entry).evidence_count(),
+            }
+            if self.include_coverage:
+                item["coverageEvidenceCount"] = self._profile(entry).coverage_evidence_count()
+            samples.append(item)
+        return samples
+
+    def sorted_entries(self) -> list[dict[str, Any]]:
+        return sorted(
+            self.entries,
+            key=lambda entry: (
+                self._profile(entry).coverage_evidence_count(),
+                str(entry.get("family") or ""),
+                str(entry.get("term") or ""),
+            ),
+        )
+
+    def _profile(self, entry: dict[str, Any]) -> "CoverageEvidenceProfile":
+        return CoverageEvidenceProfile(
+            entry,
+            require_comment_backed_evidence=self.require_comment_backed_evidence,
+            canonical_evidence_count_overrides=self.canonical_evidence_count_overrides,
+        )
+
+
 def _coverage_metric_or_none(coverage: dict[str, Any], key: str) -> Any:
     return CoverageAuditMetricContract(coverage).value(key)
 
@@ -799,20 +847,18 @@ class CoverageAuditBuilder:
         return CoverageAuditFamilyGapContract(by_family).gaps()
 
     def _sample_entries(self, entries: list[dict[str, Any]], include_coverage: bool = False) -> list[dict[str, Any]]:
-        samples = []
-        for entry in self._sort_entries_for_coverage(entries)[:20]:
-            item = {
-                "term": entry.get("term"),
-                "family": entry.get("family"),
-                "evidenceCount": self._evidence_count(entry),
-            }
-            if include_coverage:
-                item["coverageEvidenceCount"] = self._coverage_evidence_count(entry)
-            samples.append(item)
-        return samples
+        return self._sample_contract(entries, include_coverage=include_coverage).samples()
 
     def _sort_entries_for_coverage(self, entries: list[dict[str, Any]]) -> list[dict[str, Any]]:
-        return sorted(entries, key=lambda entry: (self._coverage_evidence_count(entry), str(entry.get("family") or ""), str(entry.get("term") or "")))
+        return self._sample_contract(entries).sorted_entries()
+
+    def _sample_contract(self, entries: list[dict[str, Any]], include_coverage: bool = False) -> CoverageAuditSampleContract:
+        return CoverageAuditSampleContract(
+            entries,
+            include_coverage=include_coverage,
+            require_comment_backed_evidence=self.require_comment_backed_evidence,
+            canonical_evidence_count_overrides=self.JS_CANONICAL_EVIDENCE_COUNT_OVERRIDES,
+        )
 
     def _evidence_count(self, entry: dict[str, Any]) -> int:
         return self._profile(entry).evidence_count()
