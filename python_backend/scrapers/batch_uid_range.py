@@ -212,6 +212,159 @@ class BatchUidRangePlanCommandRequest:
         return BatchUidRangePlanRequest(args.payload, compare_js_report_path=args.compare_js_report or None).run()
 
 
+class UidRangeScrapePlanner:
+    """Build a dry-run plan for uidRangeScrape.js range scraping."""
+
+    DEFAULT_START = 1
+    DEFAULT_END = 100000
+    VIDEOS_PER_USER = 3
+    COMMENT_PAGES_PER_VIDEO = 1
+    DELAY_BETWEEN_UIDS_MS = 2500
+    DELAY_BETWEEN_REQUESTS_MS = 800
+    LOCK_RETRY_DELAY_MS = 10000
+    LOCK_MAX_RETRIES = 10
+    SAVE_EVERY = 20
+    BLOCK_BACKOFF_MS = 30000
+
+    @classmethod
+    def build_plan_from_payload(cls, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        return cls().build_plan(
+            argv=payload.get("argv") if isinstance(payload.get("argv"), list) else [],
+            progress=payload.get("progress") if isinstance(payload.get("progress"), dict) else {},
+            database=payload.get("database") if isinstance(payload.get("database"), dict) else {},
+        )
+
+    def build_plan(self, argv: list[Any] | None = None, progress: dict[str, Any] | None = None, database: dict[str, Any] | None = None) -> dict[str, Any]:
+        argv = argv or []
+        progress = progress or {}
+        database = database or {}
+        start = self.DEFAULT_START
+        end = self.DEFAULT_END
+        progress_file = ""
+        for raw in argv:
+            arg = str(raw or "")
+            if arg.startswith("--start="):
+                start = _js_number_or(arg.split("=", 1)[1], self.DEFAULT_START)
+            elif arg.startswith("--end="):
+                end = _js_number_or(arg.split("=", 1)[1], self.DEFAULT_END)
+            elif arg.startswith("--progress="):
+                progress_file = arg.split("=", 1)[1]
+        if not progress_file:
+            progress_file = f"uid-range-progress-{start}-{end}.json"
+        processed = progress.get("processed") if isinstance(progress.get("processed"), dict) else {}
+        stats = progress.get("stats") if isinstance(progress.get("stats"), dict) else {}
+        users = database.get("users") if isinstance(database.get("users"), dict) else {}
+        return {
+            "ok": True,
+            "range": {"start": start, "end": end, "total": end - start + 1, "progressFile": progress_file},
+            "resume": {"processed": len(processed), "userDbUsers": len(users)},
+            "collection": {"videosPerUser": self.VIDEOS_PER_USER, "commentPagesPerVideo": self.COMMENT_PAGES_PER_VIDEO},
+            "stats": {
+                "success": _progress_number_or(stats.get("success"), 0),
+                "noComments": _progress_number_or(stats.get("noComments"), 0),
+                "noVideos": _progress_number_or(stats.get("noVideos"), 0),
+                "errors": _progress_number_or(stats.get("errors"), 0),
+                "blocked": _progress_number_or(stats.get("blocked"), 0),
+            },
+            "pacing": {
+                "delayBetweenUidsMs": self.DELAY_BETWEEN_UIDS_MS,
+                "delayBetweenRequestsMs": self.DELAY_BETWEEN_REQUESTS_MS,
+                "saveEvery": self.SAVE_EVERY,
+                "blockBackoffMs": self.BLOCK_BACKOFF_MS,
+            },
+            "training": {
+                "multiagent": True,
+                "existingTermsOnly": False,
+                "lockRetryDelayMs": self.LOCK_RETRY_DELAY_MS,
+                "lockMaxRetries": self.LOCK_MAX_RETRIES,
+            },
+        }
+
+
+class UidRangeScrapePlanSummary:
+    """Shape uidRangeScrape dry-run plans into the JS/Python comparator summary contract."""
+
+    RESULT_KEYS = ("range", "resume", "collection", "stats", "pacing", "training")
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        result = result if isinstance(result, dict) else {}
+        return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
+
+
+class UidRangeScrapePlanRunner:
+    """Read a JS-compatible uidRangeScrape payload and emit its dry-run plan."""
+
+    def __init__(self, payload_path: str | Path):
+        self.payload_path = Path(payload_path)
+
+    def run(self) -> dict[str, Any]:
+        payload = JsonContractReader().read_value(self.payload_path, {})
+        payload = payload if isinstance(payload, dict) else {}
+        return UidRangeScrapePlanner.build_plan_from_payload(payload)
+
+
+class UidRangeScrapePlanContractComparator:
+    """Compare uidRangeScrape plans using the JS/Python summary contract."""
+
+    def __init__(self, summary: UidRangeScrapePlanSummary | None = None):
+        self.summary = summary or UidRangeScrapePlanSummary()
+
+    def compare(self, python_result: dict[str, Any], js_result: dict[str, Any]) -> dict[str, Any]:
+        mismatches = [
+            {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
+            for key in self.summary.RESULT_KEYS
+            if key in js_result and python_result.get(key) != js_result.get(key)
+        ]
+        return {"ok": not mismatches, "mismatches": mismatches, "python": self.summary.summarize(python_result), "js": self.summary.summarize(js_result)}
+
+
+class UidRangeScrapePlanPayloadContractComparator:
+    """Compare file-backed uidRangeScrape dry-run plans against saved JS-compatible JSON."""
+
+    def __init__(self, payload_path: str | Path, js_report_path: str | Path):
+        self.payload_path = Path(payload_path)
+        self.js_report_path = Path(js_report_path)
+        self.summary = UidRangeScrapePlanSummary()
+        self.comparator = UidRangeScrapePlanContractComparator(self.summary)
+
+    def compare(self) -> dict[str, Any]:
+        python_result = UidRangeScrapePlanRunner(self.payload_path).run()
+        js_result = safe_read_json_object(self.js_report_path)
+        return self.comparator.compare(python_result, js_result)
+
+
+class UidRangeScrapePlanRequest:
+    """Scraper-layer request for uidRangeScrape plan JSON contracts."""
+
+    def __init__(self, payload_path: str | Path, compare_js_report_path: str | Path | None = None):
+        self.payload_path = Path(payload_path)
+        self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+
+    def run(self) -> dict[str, Any]:
+        if self.compare_js_report_path:
+            return UidRangeScrapePlanPayloadContractComparator(self.payload_path, self.compare_js_report_path).compare()
+        return UidRangeScrapePlanRunner(self.payload_path).run()
+
+
+class UidRangeScrapePlanCommandRequest:
+    """Argv-backed scraper-layer request for uidRangeScrape plan contracts."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Build a uidRangeScrape.js-compatible dry-run plan.")
+        parser.add_argument("--payload", required=True)
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible UID range scrape plan report to compare.")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return UidRangeScrapePlanRequest(args.payload, compare_js_report_path=args.compare_js_report or None).run()
+
+
 class RangeScraperLauncherPlanner:
     """Build a dry-run launch plan compatible with launchRangeScrapers.ps1."""
 

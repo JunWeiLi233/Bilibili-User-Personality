@@ -31,6 +31,7 @@ DEFAULT_PACKAGE_COMMAND_EQUIVALENTS = {
     "aicu:scrape": "python:aicu-plan",
     "aicu:batch": "python:aicu-batch-plan",
     "uid:discovery": "python:uid-discovery-plan",
+    "uid:range": "python:uid-range-scrape-plan",
     "stats:update": "python:readme-stats",
 }
 
@@ -49,6 +50,7 @@ DEFAULT_PACKAGE_VALIDATION_EQUIVALENTS = {
     "aicu:scrape": "python:aicu-compare",
     "aicu:batch": "python:aicu-batch-compare",
     "uid:discovery": "python:uid-discovery-compare",
+    "uid:range": "python:uid-range-scrape-compare",
 }
 
 DEFAULT_PACKAGE_VALIDATION_SCOPES = {
@@ -69,6 +71,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:aicu-compare": "dry_run_plan_fixture_and_js_python_plan_bridge",
     "python:aicu-batch-compare": "dry_run_plan_fixture_and_js_python_plan_bridge",
     "python:uid-discovery-compare": "dry_run_plan_fixture_and_js_python_plan_bridge",
+    "python:uid-range-scrape-compare": "dry_run_plan_fixture_and_js_python_plan_bridge",
     "python:huggingface-compare": "full_command",
     "python:local-mine-compare": "full_command",
 }
@@ -83,6 +86,7 @@ DEFAULT_PACKAGE_REPLACEMENT_SCOPES = {
     "aicu:scrape": "dry_run_plan",
     "aicu:batch": "dry_run_plan",
     "uid:discovery": "dry_run_plan",
+    "uid:range": "dry_run_plan",
 }
 
 DEFAULT_RETAINED_NODE_COMMANDS = {
@@ -124,6 +128,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:batch-uid-scrape-compare": "js_python_contract_bridge",
     "python:batch-uid-range-compare": "js_python_contract_bridge",
     "python:uid-discovery-compare": "js_python_contract_bridge",
+    "python:uid-range-scrape-compare": "js_python_contract_bridge",
     "python:batch-scraper-launcher-compare": "js_python_contract_bridge",
     "python:uid-pipeline-launcher-compare": "js_python_contract_bridge",
     "python:uid-fast-pipeline-compare": "js_python_contract_bridge",
@@ -165,6 +170,7 @@ PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
     "batch_uid_scrape_plan": ("python_backend.cli.batch_uid_scrape_plan",),
     "batch_uid_range_plan": ("python_backend.cli.batch_uid_range_plan",),
     "uid_discovery_plan": ("python_backend.cli.uid_discovery_plan",),
+    "uid_range_scrape_plan": ("python_backend.cli.uid_range_scrape_plan",),
     "batch_scraper_launcher": ("python_backend.cli.batch_scraper_launcher",),
     "uid_pipeline_launcher": ("python_backend.cli.uid_pipeline_launcher",),
     "uid_fast_pipeline_plan": ("python_backend.cli.uid_fast_pipeline_plan",),
@@ -211,6 +217,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareBatchUidScrapePlan.js": "js_python_contract_bridge",
     "server/scripts/compareBatchUidRangePlan.js": "js_python_contract_bridge",
     "server/scripts/compareUidDiscoveryPlan.js": "js_python_contract_bridge",
+    "server/scripts/compareUidRangeScrapePlan.js": "js_python_contract_bridge",
     "server/scripts/compareBatchScraperLauncherPlan.js": "js_python_contract_bridge",
     "server/scripts/compareUidPipelineLauncherPlan.js": "js_python_contract_bridge",
     "server/scripts/compareUidFastPipelinePlan.js": "js_python_contract_bridge",
@@ -701,6 +708,11 @@ class BackendMigrationInventoryScanner:
             return [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-discovery-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidDiscoveryPlan.test.js"},
+            ]
+        if validation_script == "python:uid-range-scrape-compare":
+            return [
+                {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-range-scrape-compare"},
+                {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidRangeScrapePlan.test.js"},
             ]
         if validation_script == "python:uid-pipeline-launcher-compare":
             return [
