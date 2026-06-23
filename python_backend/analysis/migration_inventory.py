@@ -60,7 +60,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:dictionary-prune-compare": "summary_command_fixture",
     "python:exhausted-prune-compare": "dry_run_plan_fixture",
     "python:near-target-compare": "dry_run_plan_fixture",
-    "python:coverage-loop-compare": "dry_run_plan_and_no_live_command_fixture",
+    "python:coverage-loop-compare": "dry_run_plan_no_live_and_mock_cycle_fixture",
     "python:tieba-keyword-compare": "dry_run_plan_fixture",
     "python:direct-probe-compare": "dry_run_plan_and_no_live_command_fixture",
     "python:direct-probe-command-compare": "full_command",
@@ -636,6 +636,7 @@ class BackendMigrationInventoryScanner:
             return [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:coverage-loop-compare"},
                 {"gate": "no_live_command_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
+                {"gate": "mock_cycle_report_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
             ]
         if validation_scope == "full_command":
             return [{"gate": "full_command", "status": "covered", "source": validation_script}]

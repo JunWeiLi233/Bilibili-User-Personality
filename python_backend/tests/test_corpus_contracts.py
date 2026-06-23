@@ -1681,7 +1681,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:coverage-loop-compare",
                     "validationCommand": "node server/scripts/compareCoverageHarvestLoopPlan.js",
-                    "validationScope": "dry_run_plan_and_no_live_command_fixture",
+                    "validationScope": "dry_run_plan_no_live_and_mock_cycle_fixture",
                 },
                 {
                     "script": "dictionary:tieba",
@@ -1876,10 +1876,14 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["nextOfflineMigrationAction"]["path"], "server/scripts/runCoverageHarvestLoop.js")
         self.assertEqual(result["nextOfflineMigrationAction"]["nodeScript"], "dictionary:auto")
-        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "dry_run_plan_and_no_live_command_fixture")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "dry_run_plan_no_live_and_mock_cycle_fixture")
         self.assertFalse(result["nextOfflineMigrationAction"]["readyToReplace"])
         self.assertIn(
             {"gate": "no_live_command_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
+            result["nextOfflineMigrationAction"]["validationGates"],
+        )
+        self.assertIn(
+            {"gate": "mock_cycle_report_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
             result["nextOfflineMigrationAction"]["validationGates"],
         )
         self.assertEqual(result["nextOfflineMigrationAction"]["offlineReason"], "skips_live_api_runtime")
@@ -27891,6 +27895,95 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(report, result)
         self.assertEqual(result["finalAudit"]["coverage"]["terms"], 1)
         self.assertEqual(result["finalAudit"]["coverage"]["weakTerms"], 1)
+
+    def test_coverage_harvest_loop_cycle_report_builder_matches_js_cycle_shape(self):
+        from python_backend.analysis import coverage_loop as coverage_loop_module
+
+        before_audit = {
+            "ok": False,
+            "coverage": {
+                "terms": 1,
+                "weakTerms": 1,
+                "zeroEvidenceTerms": 1,
+                "unsourcedEvidenceTerms": 1,
+                "totalEvidence": 0,
+                "evidenceDeficit": 3,
+                "coverageRatio": 0,
+            },
+        }
+        after_audit = {
+            "ok": True,
+            "coverage": {
+                "terms": 1,
+                "weakTerms": 0,
+                "zeroEvidenceTerms": 0,
+                "unsourcedEvidenceTerms": 0,
+                "totalEvidence": 3,
+                "evidenceDeficit": 0,
+                "coverageRatio": 1,
+            },
+        }
+        harvest = {
+            "ok": True,
+            "rounds": [
+                {
+                    "queries": ["doge hot", "doge comments"],
+                    "warnings": ["slow query"],
+                    "coverageProgress": {"evidenceGained": 3, "zeroEvidenceResolved": 1},
+                    "trainingDiagnostics": {"accepted": 2},
+                    "queryDiagnostics": [{"query": "doge hot", "videos": 1}],
+                }
+            ],
+        }
+
+        result = coverage_loop_module.CoverageHarvestLoopCycleReportBuilder(
+            generated_at="2026-06-23T00:00:00.000Z",
+            max_cycles=1,
+            rounds_per_cycle=1,
+        ).build(
+            cycle=1,
+            priority_queries=[{"query": "doge hot", "term": "doge"}],
+            harvest=harvest,
+            before_audit=before_audit,
+            after_audit=after_audit,
+            stop_reason="coverage_gate_passed",
+        )
+
+        self.assertTrue(result["finalOk"])
+        self.assertEqual(result["generatedAt"], "2026-06-23T00:00:00.000Z")
+        self.assertEqual(result["maxCycles"], 1)
+        self.assertEqual(result["roundsPerCycle"], 1)
+        self.assertEqual(result["stopReason"], "coverage_gate_passed")
+        self.assertEqual(result["finalAudit"], after_audit)
+        self.assertEqual(
+            result["cycles"],
+            [
+                {
+                    "cycle": 1,
+                    "priorityQueries": [{"query": "doge hot", "term": "doge"}],
+                    "harvest": {
+                        "ok": True,
+                        "rounds": 1,
+                        "queries": ["doge hot", "doge comments"],
+                        "warnings": ["slow query"],
+                        "coverageProgress": [{"evidenceGained": 3, "zeroEvidenceResolved": 1}],
+                        "trainingDiagnostics": [{"accepted": 2}],
+                        "queryDiagnostics": [[{"query": "doge hot", "videos": 1}]],
+                    },
+                    "coverageDelta": {
+                        "evidenceDeficitReduced": 3,
+                        "zeroEvidenceResolved": 1,
+                        "weakTermsResolved": 1,
+                        "unsourcedEvidenceReduced": 1,
+                        "totalEvidenceGained": 3,
+                        "termsAdded": 0,
+                        "coverageRatioDelta": 1,
+                    },
+                    "coverageBefore": before_audit["coverage"],
+                    "coverageAfter": after_audit["coverage"],
+                }
+            ],
+        )
 
     def test_package_coverage_loop_command_compare_script_tracks_no_live_command_gate(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))

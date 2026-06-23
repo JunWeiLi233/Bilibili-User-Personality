@@ -206,8 +206,10 @@ test('compareCoverageHarvestLoopCommand validates complete and weak no-live fixt
   const result = await compareCoverageHarvestLoopCommand();
 
   assert.equal(result.ok, true);
-  assert.equal(result.results.length, 2);
-  assert.deepEqual(result.results.map((item) => item.fixture), ['complete-empty-dictionary', 'weak-cycle-limit']);
-  assert.deepEqual(result.results.map((item) => item.python.stopReason), ['coverage_gate_passed', 'cycle_limit']);
-  assert.deepEqual(result.results.map((item) => item.python.finalAudit.coverage.weakTerms), [0, 1]);
+  assert.equal(result.results.length, 3);
+  assert.deepEqual(result.results.map((item) => item.fixture), ['complete-empty-dictionary', 'weak-cycle-limit', 'mock-cycle-report']);
+  assert.deepEqual(result.results.map((item) => item.python.stopReason), ['coverage_gate_passed', 'cycle_limit', 'coverage_gate_passed']);
+  assert.deepEqual(result.results.map((item) => item.python.finalAudit.coverage.weakTerms), [0, 1, 0]);
+  assert.deepEqual(result.results[2].python.cycles[0].coverageDelta, result.results[2].js.cycles[0].coverageDelta);
+  assert.deepEqual(result.results[2].python.cycles[0].harvest, result.results[2].js.cycles[0].harvest);
 });

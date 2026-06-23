@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from python_backend.analysis.audit import CoverageAuditBuilder
+from python_backend.analysis.coverage_progress import CoverageProgressTracker
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder
 from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 
@@ -308,6 +309,82 @@ class CoverageHarvestLoopPlanner:
         return "cycle_limit" if max_cycles == 0 else ""
 
 
+class CoverageHarvestLoopCycleReportBuilder:
+    """Build one JS-compatible coverage-loop cycle report from JSON contract payloads."""
+
+    def __init__(
+        self,
+        *,
+        generated_at: str | None = None,
+        max_cycles: int = 1,
+        rounds_per_cycle: int = 1,
+        progress_tracker: CoverageProgressTracker | None = None,
+    ):
+        self.generated_at = generated_at or CoverageHarvestLoopCommandRunner._now()
+        self.max_cycles = max(0, min(_non_negative_int(max_cycles, 1), 50))
+        self.rounds_per_cycle = max(1, min(_positive_int(rounds_per_cycle, 1), 20))
+        self.progress_tracker = progress_tracker or CoverageProgressTracker()
+
+    def build(
+        self,
+        *,
+        cycle: int,
+        priority_queries: list[dict[str, Any]] | None = None,
+        harvest: dict[str, Any] | None = None,
+        before_audit: dict[str, Any] | None = None,
+        after_audit: dict[str, Any] | None = None,
+        stop_reason: str = "",
+    ) -> dict[str, Any]:
+        before_audit = before_audit if isinstance(before_audit, dict) else {}
+        after_audit = after_audit if isinstance(after_audit, dict) else {}
+        before_coverage = before_audit.get("coverage") if isinstance(before_audit.get("coverage"), dict) else {}
+        after_coverage = after_audit.get("coverage") if isinstance(after_audit.get("coverage"), dict) else {}
+        harvest_summary = self._harvest_summary(harvest)
+        return {
+            "generatedAt": self.generated_at,
+            "maxCycles": self.max_cycles,
+            "roundsPerCycle": self.rounds_per_cycle,
+            "stopReason": stop_reason or ("coverage_gate_passed" if after_audit.get("ok") is True else ""),
+            "finalOk": after_audit.get("ok") is True,
+            "finalAudit": after_audit,
+            "cycles": [
+                {
+                    "cycle": _positive_int(cycle, 1),
+                    "priorityQueries": priority_queries if isinstance(priority_queries, list) else [],
+                    "harvest": harvest_summary,
+                    "coverageDelta": self.progress_tracker.coverage_delta_from_harvest(
+                        before_coverage,
+                        after_coverage,
+                        harvest_summary["coverageProgress"],
+                    ),
+                    "coverageBefore": before_coverage,
+                    "coverageAfter": after_coverage,
+                }
+            ],
+        }
+
+    def _harvest_summary(self, harvest: dict[str, Any] | None = None) -> dict[str, Any]:
+        harvest = harvest if isinstance(harvest, dict) else {}
+        rounds = harvest.get("rounds") if isinstance(harvest.get("rounds"), list) else []
+        return {
+            "ok": harvest.get("ok") is True,
+            "rounds": len(rounds),
+            "queries": [query for round_item in rounds if isinstance(round_item, dict) for query in self._list(round_item.get("queries"))],
+            "warnings": [warning for round_item in rounds if isinstance(round_item, dict) for warning in self._list(round_item.get("warnings"))],
+            "coverageProgress": [round_item.get("coverageProgress") for round_item in rounds if isinstance(round_item, dict)],
+            "trainingDiagnostics": [round_item.get("trainingDiagnostics") for round_item in rounds if isinstance(round_item, dict)],
+            "queryDiagnostics": [
+                round_item.get("queryDiagnostics") if isinstance(round_item.get("queryDiagnostics"), list) else []
+                for round_item in rounds
+                if isinstance(round_item, dict)
+            ],
+        }
+
+    @staticmethod
+    def _list(value: Any) -> list[Any]:
+        return value if isinstance(value, list) else []
+
+
 class CoverageHarvestLoopCommandRunner:
     """Run the file-backed coverage harvest-loop command for validated no-live gates."""
 
@@ -420,6 +497,21 @@ class CoverageHarvestLoopCommandRequest:
 
     def run(self) -> dict[str, Any]:
         args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        if args.mock_cycle_payload:
+            payload = JsonContractReader().read_value(args.mock_cycle_payload, {})
+            payload = payload if isinstance(payload, dict) else {}
+            return CoverageHarvestLoopCycleReportBuilder(
+                generated_at=payload.get("generatedAt") or args.generated_at or None,
+                max_cycles=payload.get("maxCycles", args.max_cycles),
+                rounds_per_cycle=payload.get("roundsPerCycle", args.rounds_per_cycle),
+            ).build(
+                cycle=payload.get("cycle", 1),
+                priority_queries=payload.get("priorityQueries") if isinstance(payload.get("priorityQueries"), list) else [],
+                harvest=payload.get("harvest") if isinstance(payload.get("harvest"), dict) else {},
+                before_audit=payload.get("beforeAudit") if isinstance(payload.get("beforeAudit"), dict) else {},
+                after_audit=payload.get("afterAudit") if isinstance(payload.get("afterAudit"), dict) else {},
+                stop_reason=str(payload.get("stopReason") or ""),
+            )
         return CoverageHarvestLoopRequest(
             dictionary_path=args.dictionary,
             state_path=args.state,
@@ -454,5 +546,6 @@ class CoverageHarvestLoopCommandRequest:
         parser.add_argument("--require-source-backed-evidence", action="store_true")
         parser.add_argument("--require-comment-backed-evidence", action="store_true")
         parser.add_argument("--generated-at", default="")
+        parser.add_argument("--mock-cycle-payload", default="", help="Build a one-cycle report from a JSON payload without live harvesting.")
         parser.add_argument("--exit-zero", action="store_true")
         return parser

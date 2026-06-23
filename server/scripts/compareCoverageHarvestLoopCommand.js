@@ -4,6 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
+import { coverageDeltaFromHarvest } from '../utils/coverageProgress.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -43,9 +44,55 @@ export const WEAK_DICTIONARY = {
   ],
 };
 
+export const MOCK_CYCLE_PAYLOAD = {
+  generatedAt: GENERATED_AT,
+  maxCycles: 1,
+  roundsPerCycle: 1,
+  cycle: 1,
+  stopReason: 'coverage_gate_passed',
+  priorityQueries: [{ query: 'doge hot', term: 'doge' }],
+  beforeAudit: {
+    ok: false,
+    coverage: {
+      terms: 1,
+      weakTerms: 1,
+      zeroEvidenceTerms: 1,
+      unsourcedEvidenceTerms: 1,
+      totalEvidence: 0,
+      evidenceDeficit: 3,
+      coverageRatio: 0,
+    },
+  },
+  afterAudit: {
+    ok: true,
+    coverage: {
+      terms: 1,
+      weakTerms: 0,
+      zeroEvidenceTerms: 0,
+      unsourcedEvidenceTerms: 0,
+      totalEvidence: 3,
+      evidenceDeficit: 0,
+      coverageRatio: 1,
+    },
+  },
+  harvest: {
+    ok: true,
+    rounds: [
+      {
+        queries: ['doge hot', 'doge comments'],
+        warnings: ['slow query'],
+        coverageProgress: { evidenceGained: 3, zeroEvidenceResolved: 1 },
+        trainingDiagnostics: { accepted: 2 },
+        queryDiagnostics: [{ query: 'doge hot', videos: 1 }],
+      },
+    ],
+  },
+};
+
 const DEFAULT_FIXTURES = [
   { name: 'complete-empty-dictionary', dictionary: DEFAULT_DICTIONARY },
   { name: 'weak-cycle-limit', dictionary: WEAK_DICTIONARY },
+  { name: 'mock-cycle-report', mockCyclePayload: MOCK_CYCLE_PAYLOAD },
 ];
 
 function summarize(report = {}) {
@@ -116,6 +163,55 @@ async function runPythonCoverageLoopCommand({ dictionaryPath, statePath, reportP
   return JSON.parse(stdout);
 }
 
+function buildJsMockCycleReport(payload = {}) {
+  const beforeAudit = payload.beforeAudit && typeof payload.beforeAudit === 'object' ? payload.beforeAudit : {};
+  const afterAudit = payload.afterAudit && typeof payload.afterAudit === 'object' ? payload.afterAudit : {};
+  const beforeCoverage = beforeAudit.coverage && typeof beforeAudit.coverage === 'object' ? beforeAudit.coverage : {};
+  const afterCoverage = afterAudit.coverage && typeof afterAudit.coverage === 'object' ? afterAudit.coverage : {};
+  const rounds = Array.isArray(payload.harvest?.rounds) ? payload.harvest.rounds : [];
+  const harvest = {
+    ok: payload.harvest?.ok === true,
+    rounds: rounds.length,
+    queries: rounds.flatMap((round) => Array.isArray(round?.queries) ? round.queries : []),
+    warnings: rounds.flatMap((round) => Array.isArray(round?.warnings) ? round.warnings : []),
+    coverageProgress: rounds.map((round) => round?.coverageProgress),
+    trainingDiagnostics: rounds.map((round) => round?.trainingDiagnostics),
+    queryDiagnostics: rounds.map((round) => Array.isArray(round?.queryDiagnostics) ? round.queryDiagnostics : []),
+  };
+  return {
+    generatedAt: payload.generatedAt || GENERATED_AT,
+    maxCycles: Number(payload.maxCycles || 1),
+    roundsPerCycle: Number(payload.roundsPerCycle || 1),
+    stopReason: payload.stopReason || (afterAudit.ok === true ? 'coverage_gate_passed' : ''),
+    finalOk: afterAudit.ok === true,
+    finalAudit: afterAudit,
+    cycles: [
+      {
+        cycle: Number(payload.cycle || 1),
+        priorityQueries: Array.isArray(payload.priorityQueries) ? payload.priorityQueries : [],
+        harvest,
+        coverageDelta: coverageDeltaFromHarvest(beforeCoverage, afterCoverage, harvest.coverageProgress),
+        coverageBefore: beforeCoverage,
+        coverageAfter: afterCoverage,
+      },
+    ],
+  };
+}
+
+async function runPythonMockCycleReport({ payload, payloadPath }) {
+  await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
+  const { stdout } = await execFileAsync(
+    'python',
+    ['-m', 'python_backend.cli.coverage_loop_command', '--mock-cycle-payload', payloadPath, '--exit-zero'],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return JSON.parse(stdout);
+}
+
 export async function compareCoverageHarvestLoopCommand({
   dictionary = DEFAULT_DICTIONARY,
   fixtures = null,
@@ -135,6 +231,20 @@ export async function compareCoverageHarvestLoopCommand({
       const pythonStatePath = join(tempDir, `${fixtureName}-state-python.json`);
       const jsReportPath = join(tempDir, `${fixtureName}-report-js.json`);
       const pythonReportPath = join(tempDir, `${fixtureName}-report-python.json`);
+      if (fixture?.mockCyclePayload) {
+        const payloadPath = join(tempDir, `${fixtureName}-payload.json`);
+        const js = buildJsMockCycleReport(fixture.mockCyclePayload);
+        const python = await runPythonMockCycleReport({ payload: fixture.mockCyclePayload, payloadPath });
+        const comparison = compareCoverageHarvestLoopCommandObjects(python, js);
+        results.push({
+          ok: comparison.ok,
+          fixture: fixtureName,
+          js,
+          python,
+          mismatches: comparison.mismatches,
+        });
+        continue;
+      }
       await writeFile(jsDictionaryPath, JSON.stringify(fixtureDictionary, null, 2), 'utf8');
       await writeFile(pythonDictionaryPath, JSON.stringify(fixtureDictionary, null, 2), 'utf8');
       const js = await runJs({ dictionaryPath: jsDictionaryPath, statePath: jsStatePath, reportPath: jsReportPath });
