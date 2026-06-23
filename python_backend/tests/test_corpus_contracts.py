@@ -80,7 +80,7 @@ from python_backend.analysis.harvest_plan import DEFAULT_SEED_QUERIES, KeywordHa
 from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateCommandRequest, HarvestStateContractComparator as HarvestStatePayloadComparator, HarvestStatePayloadContractComparator, HarvestStateFinalizer, HarvestStatePayloadProcessor, HarvestStateRequest, HarvestStateRunner as HarvestStatePayloadRunner, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetOverrideTermsParser, NearTargetResolvePlanCommandRequest, NearTargetResolvePlanContractComparator as NearTargetResolvePlanPayloadComparator, NearTargetResolvePlanRequest, NearTargetResolvePlanner, NearTargetResolvePlanRunner as NearTargetResolvePayloadPlanRunner
-from python_backend.analysis.migration_inventory import BackendMigrationInventoryCommandRequest, BackendMigrationInventoryRunner, BackendMigrationInventoryScanner
+from python_backend.analysis.migration_inventory import BackendMigrationInventoryCommandRequest, BackendMigrationInventoryRunner, BackendMigrationInventoryScanner, PackageCommandMigrationInventory
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsCommandRequest, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsPayloadContractComparator, ReadmeStatsRequest, ReadmeStatsRunner as ReadmeStatsPayloadRunner, ReadmeStatsSummary, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherCommandRequest, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRequest, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationAnnotationContract, RandomVerificationCommandContract, RandomVerificationCommandRequest, RandomVerificationComparisonOptionsContract, RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationCorpusReportBuilder, RandomVerificationDictionaryTermsContract, RandomVerificationExecutionContract, RandomVerificationJsonResultContract, RandomVerificationOutputWriter, RandomVerificationPayloadContractComparator, RandomVerificationReportBuilder, RandomVerificationReportContract, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRequestDispatcher, RandomVerificationRunOptions, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerificationSampleContract, RandomVerificationSummaryContract, RandomVerifier, VerificationSummary, json_result_bytes as random_verification_payload_json_result_bytes
@@ -1177,6 +1177,41 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(payload["ok"])
         self.assertEqual(payload["remainingJsBackendFiles"], 1)
         self.assertEqual(payload["categories"]["services"], 1)
+
+    def test_package_command_migration_inventory_maps_node_commands_to_python_contracts(self):
+        package = {
+            "scripts": {
+                "dictionary:coverage": "node server/scripts/runDictionaryCoverageAudit.js",
+                "dictionary:huggingface": "node server/scripts/importHuggingFaceCorpus.js",
+                "server": "node server/index.js",
+                "python:coverage-standalone": "python -m python_backend.cli.coverage_audit --standalone",
+                "python:huggingface-import": "python -m python_backend.cli.huggingface_corpus",
+                "python:test": "python -m unittest discover python_backend/tests",
+            }
+        }
+
+        result = PackageCommandMigrationInventory(package).scan()
+
+        self.assertEqual(result["nodeServerScripts"], 3)
+        self.assertEqual(result["pythonBackendScripts"], 2)
+        self.assertEqual(
+            result["pythonBackedNodeScripts"],
+            [
+                {
+                    "script": "dictionary:coverage",
+                    "command": "node server/scripts/runDictionaryCoverageAudit.js",
+                    "pythonScript": "python:coverage-standalone",
+                    "pythonCommand": "python -m python_backend.cli.coverage_audit --standalone",
+                },
+                {
+                    "script": "dictionary:huggingface",
+                    "command": "node server/scripts/importHuggingFaceCorpus.js",
+                    "pythonScript": "python:huggingface-import",
+                    "pythonCommand": "python -m python_backend.cli.huggingface_corpus",
+                },
+            ],
+        )
+        self.assertEqual(result["replacementNeeded"], [{"script": "server", "command": "node server/index.js"}])
 
     def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))

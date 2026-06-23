@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -11,6 +12,25 @@ BACKEND_CATEGORY_PREFIXES = {
     "services": "server/services/",
     "routes": "server/routes/",
     "utils": "server/utils/",
+}
+
+DEFAULT_PACKAGE_COMMAND_EQUIVALENTS = {
+    "video:keywords": "python:harvest-plan",
+    "dictionary:harvest": "python:harvest-plan",
+    "dictionary:coverage": "python:coverage-standalone",
+    "dictionary:prune": "python:dictionary-prune-summary",
+    "dictionary:prune-exhausted": "python:exhausted-prune-plan",
+    "dictionary:resolve-near": "python:near-target-plan",
+    "dictionary:auto": "python:coverage-loop-plan",
+    "dictionary:tieba": "python:tieba-keyword-plan",
+    "dictionary:huggingface": "python:huggingface-import",
+    "dictionary:mine-local": "python:local-mine-plan",
+    "dictionary:probe-bilibili": "python:direct-probe-plan",
+    "dictionary:history-tags": "python:history-tags",
+    "deepseek:analyze": "python:deepseek-cli-plan",
+    "aicu:scrape": "python:aicu-plan",
+    "aicu:batch": "python:aicu-batch-plan",
+    "stats:update": "python:readme-stats",
 }
 
 
@@ -35,6 +55,7 @@ class BackendMigrationInventoryScanner:
                 backend_files[category].append(relative)
 
         categories = {key: len(value) for key, value in backend_files.items()}
+        package_scripts = PackageCommandMigrationInventory.from_root(root).scan()
         return {
             "ok": True,
             "root": str(root),
@@ -43,6 +64,7 @@ class BackendMigrationInventoryScanner:
             "categories": categories,
             "files": backend_files,
             "testFiles": backend_tests,
+            "packageScripts": package_scripts,
         }
 
     @staticmethod
@@ -53,6 +75,71 @@ class BackendMigrationInventoryScanner:
             if relative_path.startswith(prefix):
                 return category
         return ""
+
+
+class PackageCommandMigrationInventory:
+    """Map node-backed package commands to available Python compatibility commands."""
+
+    def __init__(self, package: dict[str, Any] | None = None, equivalents: dict[str, str] | None = None):
+        self.package = package if isinstance(package, dict) else {}
+        self.equivalents = equivalents or DEFAULT_PACKAGE_COMMAND_EQUIVALENTS
+
+    @classmethod
+    def from_root(cls, root: str | Path = ".") -> "PackageCommandMigrationInventory":
+        package_path = Path(root) / "package.json"
+        if not package_path.exists():
+            return cls({})
+        try:
+            payload = json.loads(package_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            payload = {}
+        return cls(payload)
+
+    def scan(self) -> dict[str, Any]:
+        scripts = self.package.get("scripts")
+        scripts = scripts if isinstance(scripts, dict) else {}
+        node_scripts = self._node_server_scripts(scripts)
+        python_scripts = self._python_backend_scripts(scripts)
+        python_backed: list[dict[str, str]] = []
+        replacement_needed: list[dict[str, str]] = []
+
+        for name, command in node_scripts.items():
+            python_name = self.equivalents.get(name)
+            python_command = python_scripts.get(python_name or "")
+            if python_name and python_command:
+                python_backed.append(
+                    {
+                        "script": name,
+                        "command": command,
+                        "pythonScript": python_name,
+                        "pythonCommand": python_command,
+                    }
+                )
+            else:
+                replacement_needed.append({"script": name, "command": command})
+
+        return {
+            "nodeServerScripts": len(node_scripts),
+            "pythonBackendScripts": len(python_scripts),
+            "pythonBackedNodeScripts": python_backed,
+            "replacementNeeded": replacement_needed,
+        }
+
+    @staticmethod
+    def _node_server_scripts(scripts: dict[str, Any]) -> dict[str, str]:
+        return {
+            str(name): str(command)
+            for name, command in scripts.items()
+            if isinstance(command, str) and "node server/" in command
+        }
+
+    @staticmethod
+    def _python_backend_scripts(scripts: dict[str, Any]) -> dict[str, str]:
+        return {
+            str(name): str(command)
+            for name, command in scripts.items()
+            if isinstance(command, str) and "python -m python_backend.cli." in command
+        }
 
 
 @dataclass(frozen=True)
