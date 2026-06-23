@@ -439,6 +439,82 @@ class CoverageAuditCommandRequest:
         return parser
 
 
+class CoverageEvidenceProfile:
+    """Normalize dictionary evidence counts for coverage-audit decisions."""
+
+    def __init__(
+        self,
+        entry: dict[str, Any],
+        require_comment_backed_evidence: bool = False,
+        canonical_evidence_count_overrides: dict[tuple[str, str], int] | None = None,
+    ):
+        self.entry = entry if isinstance(entry, dict) else {}
+        self.require_comment_backed_evidence = _bool_or(require_comment_backed_evidence, False)
+        self.canonical_evidence_count_overrides = canonical_evidence_count_overrides or {}
+
+    def evidence_count(self) -> int:
+        raw_count = max(0, _int_or(self.entry.get("evidenceCount"), 0))
+        override_count = self._canonical_evidence_count_override()
+        if override_count is not None:
+            return min(raw_count, override_count)
+        unit_count = self.evidence_unit_count()
+        if raw_count > 0 and unit_count > 0:
+            return min(raw_count, unit_count)
+        return raw_count
+
+    def coverage_evidence_count(self) -> int:
+        if self.require_comment_backed_evidence:
+            return min(self.evidence_count(), self.comment_backed_evidence_count())
+        return self.evidence_count()
+
+    def has_coverage_evidence_source(self) -> bool:
+        if self.evidence_count() == 0 or not self._list_field("evidenceSources"):
+            return False
+        if not self.require_comment_backed_evidence:
+            return True
+        return self.comment_backed_evidence_count() > 0
+
+    def evidence_unit_count(self) -> int:
+        units = set()
+        for sample in self._list_field("evidenceSamples"):
+            sample_text = str(sample or "").strip()
+            if sample_text:
+                units.add(f"sample:{sample_text}")
+        for source in self._list_field("evidenceSources"):
+            if not isinstance(source, dict):
+                continue
+            sample = str(source.get("sample") or "").strip()
+            if sample:
+                units.add(f"sample:{sample}")
+                continue
+            source_text = str(source.get("source") or "").strip()
+            uid = str(source.get("uid") or "").strip()
+            if source_text or uid:
+                units.add(f"source:{source_text}\n{uid}")
+        return len(units)
+
+    def comment_backed_evidence_count(self) -> int:
+        samples = set()
+        for source in self._list_field("evidenceSources"):
+            if not isinstance(source, dict):
+                continue
+            sample = str(source.get("sample") or "").strip()
+            source_text = str(source.get("source") or "").strip()
+            is_context = sample.startswith("Bilibili video context:") or sample.startswith("Bilibili public video title:") or "search-discovered video context" in source_text
+            if sample and not is_context:
+                samples.add(sample)
+        return len(samples)
+
+    def _canonical_evidence_count_override(self) -> int | None:
+        family = str(self.entry.get("family") or "unknown")
+        term = str(self.entry.get("term") or "").strip()
+        return self.canonical_evidence_count_overrides.get((family, term))
+
+    def _list_field(self, key: str) -> list[Any]:
+        value = self.entry.get(key) if isinstance(self.entry, dict) else None
+        return value if isinstance(value, list) else []
+
+
 class CoverageAuditBuilder:
     """Build the stable JS coverage-audit JSON contract from dictionary entries."""
 
@@ -625,63 +701,29 @@ class CoverageAuditBuilder:
         return sorted(entries, key=lambda entry: (self._coverage_evidence_count(entry), str(entry.get("family") or ""), str(entry.get("term") or "")))
 
     def _evidence_count(self, entry: dict[str, Any]) -> int:
-        raw_count = max(0, _int_or(entry.get("evidenceCount"), 0))
-        override_count = self._js_canonical_evidence_count_override(entry)
-        if override_count is not None:
-            return min(raw_count, override_count)
-        unit_count = self._evidence_unit_count(entry)
-        if raw_count > 0 and unit_count > 0:
-            return min(raw_count, unit_count)
-        return raw_count
+        return self._profile(entry).evidence_count()
 
     def _js_canonical_evidence_count_override(self, entry: dict[str, Any]) -> int | None:
-        family = str(entry.get("family") or "unknown")
-        term = str(entry.get("term") or "").strip()
-        return self.JS_CANONICAL_EVIDENCE_COUNT_OVERRIDES.get((family, term))
+        return self._profile(entry)._canonical_evidence_count_override()
 
     def _list_field(self, entry: dict[str, Any], key: str) -> list[Any]:
-        value = entry.get(key) if isinstance(entry, dict) else None
-        return value if isinstance(value, list) else []
+        return self._profile(entry)._list_field(key)
 
     def _evidence_unit_count(self, entry: dict[str, Any]) -> int:
-        units = set()
-        for sample in self._list_field(entry, "evidenceSamples"):
-            sample_text = str(sample or "").strip()
-            if sample_text:
-                units.add(f"sample:{sample_text}")
-        for source in self._list_field(entry, "evidenceSources"):
-            if not isinstance(source, dict):
-                continue
-            sample = str(source.get("sample") or "").strip()
-            if sample:
-                units.add(f"sample:{sample}")
-                continue
-            source_text = str(source.get("source") or "").strip()
-            uid = str(source.get("uid") or "").strip()
-            if source_text or uid:
-                units.add(f"source:{source_text}\n{uid}")
-        return len(units)
+        return self._profile(entry).evidence_unit_count()
 
     def _coverage_evidence_count(self, entry: dict[str, Any]) -> int:
-        if self.require_comment_backed_evidence:
-            return min(self._evidence_count(entry), self._comment_backed_evidence_count(entry))
-        return self._evidence_count(entry)
+        return self._profile(entry).coverage_evidence_count()
 
     def _has_coverage_evidence_source(self, entry: dict[str, Any]) -> bool:
-        if self._evidence_count(entry) == 0 or not self._list_field(entry, "evidenceSources"):
-            return False
-        if not self.require_comment_backed_evidence:
-            return True
-        return self._comment_backed_evidence_count(entry) > 0
+        return self._profile(entry).has_coverage_evidence_source()
 
     def _comment_backed_evidence_count(self, entry: dict[str, Any]) -> int:
-        samples = set()
-        for source in self._list_field(entry, "evidenceSources"):
-            if not isinstance(source, dict):
-                continue
-            sample = str(source.get("sample") or "").strip()
-            source_text = str(source.get("source") or "").strip()
-            is_context = sample.startswith("Bilibili video context:") or sample.startswith("Bilibili public video title:") or "search-discovered video context" in source_text
-            if sample and not is_context:
-                samples.add(sample)
-        return len(samples)
+        return self._profile(entry).comment_backed_evidence_count()
+
+    def _profile(self, entry: dict[str, Any]) -> CoverageEvidenceProfile:
+        return CoverageEvidenceProfile(
+            entry,
+            require_comment_backed_evidence=self.require_comment_backed_evidence,
+            canonical_evidence_count_overrides=self.JS_CANONICAL_EVIDENCE_COUNT_OVERRIDES,
+        )

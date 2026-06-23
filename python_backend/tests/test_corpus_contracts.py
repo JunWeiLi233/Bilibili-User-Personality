@@ -67,7 +67,7 @@ from python_backend.cli import video_link_direct_plan as video_link_direct_plan_
 from python_backend.cli import video_relevance as video_relevance_cli
 from python_backend.cli import range_scraper_launcher as range_scraper_launcher_cli
 from python_backend.cli import fast_pipeline_launcher as fast_pipeline_launcher_cli
-from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsCommandRequest, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRequest, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditCommandRequest, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditPayloadContractComparator, CoverageAuditReport, CoverageAuditRequest
+from python_backend.analysis.audit import CoverageAuditArtifactWriter, CoverageAuditArtifactsCommandRequest, CoverageAuditArtifactsContractComparator as CoverageAuditArtifactsPayloadComparator, CoverageAuditArtifactsPayloadContractComparator, CoverageAuditArtifactsRequest, CoverageAuditArtifactsRunner as CoverageAuditArtifactsPayloadRunner, CoverageAuditArtifactsSummary, CoverageAuditBuilder, CoverageAuditCommandRequest, CoverageAuditContractComparator, CoverageAuditContractSummary, CoverageAuditPayloadContractComparator, CoverageAuditReport, CoverageAuditRequest, CoverageEvidenceProfile
 from python_backend.analysis.comment_coverage import CommentCoverageClassifier, CommentCoverageCommandRequest, CommentCoverageContractComparator as CommentCoveragePayloadComparator, CommentCoverageJsonPayloadContractComparator, CommentCoverageJsonPayloadRunner, CommentCoveragePayloadContractComparator, CommentCoverageRequest, CommentCoverageRunner as CommentCoveragePayloadRunner, CommentCoverageSummary
 from python_backend.analysis.coverage_loop import CoverageHarvestLoopPlanCommandRequest, CoverageHarvestLoopPlanContractComparator as CoverageHarvestLoopPlanPayloadComparator, CoverageHarvestLoopPlanPayloadContractComparator, CoverageHarvestLoopPlanRequest, CoverageHarvestLoopPlanRunner as CoverageHarvestLoopPayloadPlanRunner, CoverageHarvestLoopPlanSummary, CoverageHarvestLoopPlanner
 from python_backend.analysis.coverage_progress import CoverageProgressCommandRequest, CoverageProgressContractComparator as CoverageProgressPayloadComparator, CoverageProgressPayloadContractComparator, CoverageProgressRequest, CoverageProgressRunner as CoverageProgressPayloadRunner, CoverageProgressSummary, CoverageProgressTracker
@@ -25822,6 +25822,28 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(audit["coverage"]["totalEvidence"], 2)
         self.assertEqual(audit["coverage"]["zeroEvidenceTerms"], 2)
         self.assertEqual([item["term"] for item in audit["nextActions"]], ["bad-nan", "bad-string", "valid"])
+
+    def test_coverage_evidence_profile_caps_counts_and_tracks_source_backing(self):
+        entry = {
+            "term": "inflated",
+            "family": "attack",
+            "evidenceCount": 8,
+            "evidenceSamples": ["same sample", "same sample", "second sample"],
+            "evidenceSources": [
+                {"source": "Bilibili public video comment scan", "sample": "same sample"},
+                {"source": "Bilibili public video comment scan", "sample": "second sample"},
+                {"source": "Bilibili public video context", "sample": "Bilibili video context: title only"},
+                {"source": "Bilibili public video comment scan", "uid": "source-only"},
+                "bad source",
+            ],
+        }
+
+        profile = CoverageEvidenceProfile(entry, require_comment_backed_evidence=True)
+
+        self.assertEqual(profile.evidence_count(), 4)
+        self.assertEqual(profile.comment_backed_evidence_count(), 2)
+        self.assertEqual(profile.coverage_evidence_count(), 2)
+        self.assertTrue(profile.has_coverage_evidence_source())
 
     def test_coverage_audit_builder_caps_evidence_count_to_sample_units(self):
         dictionary = {
