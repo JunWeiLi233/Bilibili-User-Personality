@@ -98,6 +98,7 @@
     "python:scraper-monitor-compare": "node server/scripts/compareScraperMonitor.js",
     "python:batch-scrape-progress": "python -m python_backend.cli.batch_scrape_progress",
     "python:uid-discovery-progress": "python -m python_backend.cli.uid_discovery_progress",
+    "python:uid-discovery-progress-compare": "node server/scripts/compareUidDiscoveryProgress.js",
     "python:uid-discovery-plan": "python -m python_backend.cli.uid_discovery_plan",
     "python:uid-discovery-compare": "node server/scripts/compareUidDiscoveryPlan.js",
     "python:uid-range-scrape-plan": "python -m python_backend.cli.uid_range_scrape_plan",

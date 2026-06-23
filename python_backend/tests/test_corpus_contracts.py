@@ -26212,6 +26212,35 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["python"], {"phase": "analysis", "discovery": {"videosScanned": 2}, "analysis": {"processed": 3}, "comments": {"total": 4}})
         self.assertEqual(result["js"], {"discovery": {"videosScanned": 0}, "analysis": {"processed": 0}})
 
+    def test_uid_discovery_progress_has_js_python_validation_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertEqual(
+            package["scripts"]["python:uid-discovery-progress-compare"],
+            "node server/scripts/compareUidDiscoveryProgress.js",
+        )
+        self.assertIn(
+            {
+                "script": "python:uid-discovery-progress-compare",
+                "command": "node server/scripts/compareUidDiscoveryProgress.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:uid-discovery-progress",
+                "command": "python -m python_backend.cli.uid_discovery_progress",
+                "pipeline": "uid_discovery_progress",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareUidDiscoveryProgress.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_uid_discovery_planner_matches_js_resume_sources_and_training_contract(self):
         planner = UidDiscoveryPlanner()
         progress = {
