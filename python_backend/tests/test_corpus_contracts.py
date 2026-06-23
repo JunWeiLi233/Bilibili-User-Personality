@@ -2848,6 +2848,18 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["progress"], {"lastUid": 0, "completed": 0, "errors": 0})
         self.assertEqual(result["database"], {"users": 0, "existingInEffectiveRange": 0})
 
+    def test_aicu_batch_payload_runner_defaults_corrupt_json_contract_payload(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "aicu-batch-plan.json"
+            payload_path.write_text('{"argv": ', encoding="utf-8")
+
+            result = AicuBatchPayloadPlanRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"requestedStart": 100000, "effectiveStart": 100000, "end": 200000, "total": 100001})
+        self.assertEqual(result["progress"], {"lastUid": 0, "completed": 0, "errors": 0})
+        self.assertEqual(result["database"], {"users": 0, "existingInEffectiveRange": 0})
+
     def test_aicu_batch_plan_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
