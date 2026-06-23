@@ -56,7 +56,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:deepseek-analyze-fixture-compare": "full_command_fixture",
     "python:deepseek-analyze-command-compare": "full_command_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract",
     "python:deepseek-mock-runtime-compare": "mocked_runtime",
-    "python:harvest-plan-compare": "dry_run_plan_fixture",
+    "python:harvest-plan-compare": "dry_run_plan_fixture_and_js_python_plan_bridge",
     "python:dictionary-prune-compare": "summary_command_fixture",
     "python:exhausted-prune-compare": "dry_run_plan_fixture",
     "python:near-target-compare": "dry_run_plan_fixture",
@@ -643,6 +643,11 @@ class BackendMigrationInventoryScanner:
                 {"gate": "mock_report_write_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
                 {"gate": "js_opt_in_python_command_bridge", "status": "covered", "source": "runCoverageHarvestLoopScript.test.js"},
                 {"gate": "deferred_live_runtime_contract", "status": "covered", "source": "python:coverage-loop-command-compare"},
+            ]
+        if validation_script == "python:harvest-plan-compare":
+            return [
+                {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:harvest-plan-compare"},
+                {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareHarvestPlan.test.js"},
             ]
         if validation_script == "python:tieba-keyword-compare":
             return [

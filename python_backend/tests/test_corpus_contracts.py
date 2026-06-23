@@ -1616,7 +1616,7 @@ class CorpusContractTests(unittest.TestCase):
                     "pythonCommand": "python -m python_backend.cli.harvest_plan",
                     "validationScript": "python:harvest-plan-compare",
                     "validationCommand": "node server/scripts/compareHarvestPlan.js",
-                    "validationScope": "dry_run_plan_fixture",
+                    "validationScope": "dry_run_plan_fixture_and_js_python_plan_bridge",
                 },
                 {
                     "script": "dictionary:harvest",
@@ -1625,7 +1625,7 @@ class CorpusContractTests(unittest.TestCase):
                     "pythonCommand": "python -m python_backend.cli.harvest_plan",
                     "validationScript": "python:harvest-plan-compare",
                     "validationCommand": "node server/scripts/compareHarvestPlan.js",
-                    "validationScope": "dry_run_plan_fixture",
+                    "validationScope": "dry_run_plan_fixture_and_js_python_plan_bridge",
                 },
                 {
                     "script": "dictionary:coverage",

@@ -1,10 +1,14 @@
+import { execFile } from 'node:child_process';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
+import { promisify } from 'node:util';
 
 import { withFileLock } from '../utils/fileLock.js';
 import { buildDictionaryCoverageAudit, buildKeywordHarvestQueryPlan, countAcceptedEvidenceHitsForResult, harvestKeywordDictionaryRounds } from '../services/keywordHarvest.js';
 import { priorityActionItemsFromHarvestResult, serializeVideoKeywordDiscoveryReport } from '../utils/runVideoKeywordDiscoveryReport.js';
 import { buildVideoKeywordDiscoveryOptions, parsePriorityQueryContent } from '../utils/runVideoKeywordDiscoveryOptions.js';
+
+const execFileAsync = promisify(execFile);
 
 function parseList(value) {
   return String(value || '')
@@ -54,6 +58,41 @@ async function readPlanPayload(args) {
   } catch {
     return {};
   }
+}
+
+function parsePlanControlArgs(args = []) {
+  let planJson = false;
+  let pythonPlan = false;
+  let jsPlan = false;
+  let payloadPath = '';
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = String(args[index] || '');
+    if (arg === '--plan-json') {
+      planJson = true;
+    } else if (arg === '--python-plan') {
+      pythonPlan = true;
+    } else if (arg === '--js-plan') {
+      jsPlan = true;
+    } else if (arg === '--payload') {
+      payloadPath = String(args[index + 1] || '');
+      index += 1;
+    } else if (arg.startsWith('--payload=')) {
+      payloadPath = arg.slice('--payload='.length);
+    }
+  }
+  if (process.env.BILIBILI_HARVEST_USE_PYTHON_PLAN === '1' && !jsPlan) {
+    pythonPlan = true;
+  }
+  return { planJson, pythonPlan, jsPlan, payloadPath };
+}
+
+async function runPythonKeywordHarvestPlan(payloadPath) {
+  const { stdout } = await execFileAsync('python', ['-m', 'python_backend.cli.harvest_plan', '--payload', payloadPath], {
+    cwd: process.cwd(),
+    env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  return JSON.parse(stdout);
 }
 
 export function buildKeywordHarvestPlanFromPayload(payload = {}) {
@@ -119,7 +158,12 @@ function reportRound(round, index, total) {
 }
 
 const scriptArgs = process.argv.slice(2);
-if (scriptArgs.includes('--plan-json')) {
+const planControl = parsePlanControlArgs(scriptArgs);
+if (planControl.planJson) {
+  if (planControl.pythonPlan && !planControl.jsPlan) {
+    console.log(JSON.stringify(await runPythonKeywordHarvestPlan(planControl.payloadPath), null, 2));
+    process.exit(0);
+  }
   const payload = await readPlanPayload(scriptArgs);
   console.log(JSON.stringify(buildKeywordHarvestPlanFromPayload(payload), null, 2));
   process.exit(0);
