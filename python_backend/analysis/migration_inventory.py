@@ -62,7 +62,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:near-target-compare": "dry_run_plan_fixture",
     "python:coverage-loop-compare": "dry_run_plan_fixture",
     "python:tieba-keyword-compare": "dry_run_plan_fixture",
-    "python:direct-probe-compare": "dry_run_plan_and_corpus_update_fixture",
+    "python:direct-probe-compare": "dry_run_plan_and_no_live_command_fixture",
     "python:aicu-compare": "dry_run_plan_fixture",
     "python:aicu-batch-compare": "dry_run_plan_fixture",
     "python:huggingface-compare": "full_command",
@@ -402,7 +402,14 @@ class BackendMigrationInventoryScanner:
         if ready_to_replace:
             return []
         blockers: list[dict[str, str]] = []
-        if validation_scope != "full_command":
+        if script == "dictionary:probe-bilibili" and validation_scope == "dry_run_plan_and_no_live_command_fixture":
+            blockers.append(
+                {
+                    "blocker": "live_bilibili_fetch_not_ported",
+                    "reason": "Validation covers dry-run planning and an injected no-live JS command fixture, but not live Bilibili discovery, reply, or danmaku fetching.",
+                }
+            )
+        elif validation_scope != "full_command":
             blockers.append(
                 {
                     "blocker": "validation_scope_not_full_command",
