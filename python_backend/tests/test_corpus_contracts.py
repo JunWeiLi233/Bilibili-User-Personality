@@ -8116,6 +8116,15 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(result, LocalCorpusMineOptionsPlanner().build_plan([], {}))
 
+    def test_local_corpus_mine_plan_runner_defaults_corrupt_payload_json(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "local-mine-plan.json"
+            payload_path.write_text('{"argv": [', encoding="utf-8")
+
+            result = LocalCorpusMinePlanRunner(payload_path).run()
+
+        self.assertEqual(result, LocalCorpusMineOptionsPlanner().build_plan([], {}))
+
     def test_local_corpus_mine_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
