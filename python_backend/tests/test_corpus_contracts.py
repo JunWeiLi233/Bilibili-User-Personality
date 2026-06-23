@@ -1292,6 +1292,7 @@ class CorpusContractTests(unittest.TestCase):
                 "dictionary:tieba": "node server/scripts/runTiebaKeywordScrape.js",
                 "dictionary:probe-bilibili": "node server/scripts/probeBilibiliCommentEvidence.js",
                 "aicu:scrape": "node server/scripts/scrapeAicuUsers.js",
+                "aicu:batch": "node server/scripts/batchScrapeAicu.js",
                 "server": "node server/index.js",
                 "aicu:test": "node server/scripts/testAicuApi.js",
                 "dev:full": "node server/index.js",
@@ -1308,6 +1309,7 @@ class CorpusContractTests(unittest.TestCase):
                 "python:tieba-keyword-compare": "node server/scripts/compareTiebaKeywordPlan.js",
                 "python:direct-probe-compare": "node server/scripts/compareDirectProbePlan.js",
                 "python:aicu-compare": "node server/scripts/compareAicuScrapePlan.js",
+                "python:aicu-batch-compare": "node server/scripts/compareAicuBatchPlan.js",
                 "python:deepseek-cli-plan-js": "node server/scripts/analyzeDeepSeekComments.js --plan-json --python-plan",
                 "python:deepseek-analyze": "python -m python_backend.cli.deepseek_analyze",
                 "python:coverage-standalone": "python -m python_backend.cli.coverage_audit --standalone",
@@ -1319,14 +1321,15 @@ class CorpusContractTests(unittest.TestCase):
                 "python:tieba-keyword-plan": "python -m python_backend.cli.tieba_keyword_plan",
                 "python:direct-probe-plan": "python -m python_backend.cli.direct_probe_plan",
                 "python:aicu-plan": "python -m python_backend.cli.aicu_scrape_plan",
+                "python:aicu-batch-plan": "python -m python_backend.cli.aicu_batch_plan",
                 "python:test": "python -m unittest discover python_backend/tests",
             }
         }
 
         result = PackageCommandMigrationInventory(package).scan()
 
-        self.assertEqual(result["nodeServerScripts"], 26)
-        self.assertEqual(result["pythonBackendScripts"], 10)
+        self.assertEqual(result["nodeServerScripts"], 28)
+        self.assertEqual(result["pythonBackendScripts"], 11)
         self.assertEqual(
             result["pythonBackedNodeScripts"],
             [
@@ -1417,6 +1420,17 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:aicu-compare",
                     "validationCommand": "node server/scripts/compareAicuScrapePlan.js",
+                    "validationScope": "dry_run_plan_fixture",
+                },
+                {
+                    "script": "aicu:batch",
+                    "command": "node server/scripts/batchScrapeAicu.js",
+                    "pythonScript": "python:aicu-batch-plan",
+                    "pythonCommand": "python -m python_backend.cli.aicu_batch_plan",
+                    "replacementScope": "dry_run_plan",
+                    "readyToReplace": False,
+                    "validationScript": "python:aicu-batch-compare",
+                    "validationCommand": "node server/scripts/compareAicuBatchPlan.js",
                     "validationScope": "dry_run_plan_fixture",
                 },
             ],

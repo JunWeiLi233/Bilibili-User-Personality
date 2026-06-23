@@ -1,5 +1,6 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const AICU_COMMENTS_API = 'https://api.aicu.cc/api/v3/search/getreply';
 const AICU_DANMAKU_API = 'https://api.aicu.cc/api/v3/search/getvideodm';
@@ -13,8 +14,103 @@ const DELAY_BETWEEN_UIDS = 20000;
 const DELAY_AFTER_WAF = 120000; // 2 minutes after WAF block
 const MAX_RETRIES = 3;
 const MAX_PAGES = 3;
+const PAGE_SIZE = 20;
+const SAVE_EVERY_ATTEMPTS = 5;
+const WAF_STATUSES = [429, 468, 1015];
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+function parseIntOr(value, fallback) {
+  const parsed = Number.parseInt(value, 10);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function parseBatchPlanArgs(argv = []) {
+  const options = { start: 100000, end: 200000 };
+  for (const raw of argv) {
+    const arg = String(raw || '');
+    if (arg.startsWith('--start=')) options.start = parseIntOr(arg.split('=')[1], 100000);
+    if (arg.startsWith('--end=')) options.end = parseIntOr(arg.split('=')[1], 200000);
+  }
+  return options;
+}
+
+function countUsersInRange(users, start, end) {
+  return Object.keys(users).filter((uid) => {
+    const numericUid = parseIntOr(uid, -1);
+    return start <= numericUid && numericUid <= end;
+  }).length;
+}
+
+function sampleRequests(uid) {
+  return {
+    uid,
+    commentsUrl: uid ? `${AICU_COMMENTS_API}?uid=${uid}&pn=1&ps=${PAGE_SIZE}&mode=0&keyword=` : '',
+    danmakuUrl: uid ? `${AICU_DANMAKU_API}?uid=${uid}&pn=1&ps=${PAGE_SIZE}&keyword=` : '',
+  };
+}
+
+export function buildAicuBatchPlan(payload = {}) {
+  const planPayload = payload && typeof payload === 'object' ? payload : {};
+  const argv = Array.isArray(planPayload.argv) ? planPayload.argv : [];
+  const progress = planPayload.progress && typeof planPayload.progress === 'object' ? planPayload.progress : {};
+  const database = planPayload.database && typeof planPayload.database === 'object' ? planPayload.database : {};
+  const users = database.users && typeof database.users === 'object' ? database.users : {};
+  const { start: requestedStart, end } = parseBatchPlanArgs(argv);
+  const lastUid = parseIntOr(progress.lastUid, 0);
+  const effectiveStart = lastUid >= requestedStart ? lastUid + 1 : requestedStart;
+  const total = Math.max(0, end - effectiveStart + 1);
+  const sampleUid = total ? String(effectiveStart) : '';
+
+  return {
+    ok: true,
+    range: {
+      requestedStart,
+      effectiveStart,
+      end,
+      total,
+    },
+    progress: {
+      lastUid,
+      completed: parseIntOr(progress.completed, 0),
+      errors: Array.isArray(progress.errors) ? progress.errors.length : 0,
+    },
+    database: {
+      users: Object.keys(users).length,
+      existingInEffectiveRange: countUsersInRange(users, effectiveStart, end),
+    },
+    limits: {
+      maxPages: MAX_PAGES,
+      pageSize: PAGE_SIZE,
+      saveEveryAttempts: SAVE_EVERY_ATTEMPTS,
+    },
+    pacing: {
+      delayBetweenPagesMs: DELAY_BETWEEN_PAGES,
+      delayBetweenUidsMs: DELAY_BETWEEN_UIDS,
+      delayAfterWafMs: DELAY_AFTER_WAF,
+    },
+    retry: {
+      maxRetries: MAX_RETRIES,
+      wafStatuses: WAF_STATUSES,
+      headers: {
+        accept: 'application/json',
+        referer: 'https://www.aicu.cc/',
+        hasUserAgent: true,
+      },
+    },
+    sampleRequests: sampleRequests(sampleUid),
+  };
+}
+
+async function readPlanPayload(args) {
+  const payloadIndex = args.indexOf('--payload');
+  if (payloadIndex === -1 || !args[payloadIndex + 1]) return {};
+  try {
+    return JSON.parse(await readFile(args[payloadIndex + 1], 'utf8'));
+  } catch {
+    return {};
+  }
+}
 
 async function fetchWithRetry(url, retries = MAX_RETRIES) {
   for (let attempt = 1; attempt <= retries; attempt++) {
@@ -97,6 +193,12 @@ async function saveProgress(progress) {
 
 async function main() {
   const args = process.argv.slice(2);
+  if (args.includes('--plan-json')) {
+    const payload = await readPlanPayload(args);
+    console.log(JSON.stringify(buildAicuBatchPlan(payload), null, 2));
+    return;
+  }
+
   let startUid = 100000;
   let endUid = 200000;
 
@@ -216,7 +318,9 @@ async function main() {
   console.log(`Total in database: ${Object.keys(db.users).length}`);
 }
 
-main().catch((err) => {
-  console.error('Fatal:', err.message);
-  process.exit(1);
-});
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  main().catch((err) => {
+    console.error('Fatal:', err.message);
+    process.exit(1);
+  });
+}

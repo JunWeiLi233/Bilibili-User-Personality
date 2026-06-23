@@ -44,6 +44,7 @@ DEFAULT_PACKAGE_VALIDATION_EQUIVALENTS = {
     "dictionary:huggingface": "python:huggingface-compare",
     "dictionary:mine-local": "python:local-mine-compare",
     "aicu:scrape": "python:aicu-compare",
+    "aicu:batch": "python:aicu-batch-compare",
 }
 
 DEFAULT_PACKAGE_VALIDATION_SCOPES = {
@@ -60,6 +61,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:tieba-keyword-compare": "dry_run_plan_fixture",
     "python:direct-probe-compare": "dry_run_plan_fixture",
     "python:aicu-compare": "dry_run_plan_fixture",
+    "python:aicu-batch-compare": "dry_run_plan_fixture",
     "python:huggingface-compare": "full_command",
     "python:local-mine-compare": "full_command",
 }
@@ -97,6 +99,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:tieba-keyword-compare": "js_python_contract_bridge",
     "python:direct-probe-compare": "js_python_contract_bridge",
     "python:aicu-compare": "js_python_contract_bridge",
+    "python:aicu-batch-compare": "js_python_contract_bridge",
     "python:local-mine-compare": "js_python_contract_bridge",
 }
 
@@ -120,6 +123,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareTiebaKeywordPlan.js": "js_python_contract_bridge",
     "server/scripts/compareDirectProbePlan.js": "js_python_contract_bridge",
     "server/scripts/compareAicuScrapePlan.js": "js_python_contract_bridge",
+    "server/scripts/compareAicuBatchPlan.js": "js_python_contract_bridge",
 }
 
 MIGRATION_PRIORITY_RULES = (
