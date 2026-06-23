@@ -24,6 +24,36 @@ export const DEFAULT_PAYLOAD = {
   },
 };
 
+export const BATCH_POPULAR_PLAN_FIXTURES = {
+  'resume-progress': DEFAULT_PAYLOAD,
+  'empty-progress': {
+    argv: [],
+    progress: {},
+    database: {
+      users: {},
+    },
+  },
+  'parseint-prefix-progress': {
+    argv: ['--pages=8.9 pages'],
+    progress: {
+      pagesScanned: '3.9 pages',
+      videosScanned: '20 videos',
+      scraped: '0x10',
+    },
+    database: {
+      users: [{ uid: 'array-user' }],
+    },
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = ['resume-progress', 'empty-progress', 'parseint-prefix-progress'];
+
+function resolvePayload({ fixture = 'resume-progress', payload } = {}) {
+  if (payload) return { name: fixture || 'custom', payload };
+  const name = String(fixture || 'resume-progress');
+  return { name, payload: BATCH_POPULAR_PLAN_FIXTURES[name] || DEFAULT_PAYLOAD };
+}
+
 function summarize(result = {}) {
   return Object.fromEntries(RESULT_KEYS.filter((key) => key in result).map((key) => [key, result[key]]));
 }
@@ -57,17 +87,25 @@ async function runPythonPlan({ payloadPath }) {
   return JSON.parse(stdout);
 }
 
-export async function compareBatchPopularPlan({ payload = DEFAULT_PAYLOAD, runJs = runJsPlan, runPython = runPythonPlan } = {}) {
+export async function compareBatchPopularPlan({
+  fixture = 'resume-progress',
+  fixtureNames,
+  payload,
+  runJs = runJsPlan,
+  runPython = runPythonPlan,
+} = {}) {
+  if (fixtureNames) return compareBatchPopularPlanSuite({ fixtures: fixtureNames, runJs, runPython });
+  const resolved = resolvePayload({ fixture, payload });
   const tempDir = await mkdtemp(join(tmpdir(), 'batch-popular-plan-compare-'));
   try {
     const payloadPath = join(tempDir, 'payload.json');
-    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
-    const js = await runJs({ payload, payloadPath });
-    const python = await runPython({ payload, payloadPath });
+    await writeFile(payloadPath, JSON.stringify(resolved.payload, null, 2), 'utf8');
+    const js = await runJs({ payload: resolved.payload, payloadPath });
+    const python = await runPython({ payload: resolved.payload, payloadPath });
     const comparison = compareBatchPopularPlanObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { payloadPath },
+      fixture: { name: resolved.name, payloadPath },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -77,8 +115,25 @@ export async function compareBatchPopularPlan({ payload = DEFAULT_PAYLOAD, runJs
   }
 }
 
+export async function compareBatchPopularPlanSuite({ fixtures = DEFAULT_FIXTURE_NAMES, runJs = runJsPlan, runPython = runPythonPlan } = {}) {
+  const results = [];
+  for (const fixture of fixtures) {
+    results.push(await compareBatchPopularPlan({ fixture, runJs, runPython }));
+  }
+  return {
+    ok: results.every((result) => result.ok),
+    fixtures: results.map((result) => ({
+      name: result.fixture.name,
+      ok: result.ok,
+      js: result.js,
+      python: result.python,
+      mismatches: result.mismatches,
+    })),
+  };
+}
+
 async function main() {
-  const result = await compareBatchPopularPlan();
+  const result = await compareBatchPopularPlanSuite();
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }

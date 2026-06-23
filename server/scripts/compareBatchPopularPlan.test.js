@@ -5,7 +5,11 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { test } from 'node:test';
 
-import { compareBatchPopularPlan, compareBatchPopularPlanObjects } from './compareBatchPopularPlan.js';
+import {
+  BATCH_POPULAR_PLAN_FIXTURES,
+  compareBatchPopularPlan,
+  compareBatchPopularPlanObjects,
+} from './compareBatchPopularPlan.js';
 
 const PLAN = {
   input: {
@@ -77,6 +81,24 @@ test('compareBatchPopularPlan compares JS and Python dry-run plans', async () =>
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('compareBatchPopularPlan exports named compatibility fixtures', async () => {
+  assert.deepEqual(Object.keys(BATCH_POPULAR_PLAN_FIXTURES), ['resume-progress', 'empty-progress', 'parseint-prefix-progress']);
+
+  const payloads = [];
+  const result = await compareBatchPopularPlan({
+    fixtureNames: Object.keys(BATCH_POPULAR_PLAN_FIXTURES),
+    runJs: async ({ payload }) => {
+      payloads.push(payload);
+      return { ok: true, ...PLAN };
+    },
+    runPython: async () => ({ ok: true, ...PLAN }),
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.fixtures.map((fixture) => fixture.name), ['resume-progress', 'empty-progress', 'parseint-prefix-progress']);
+  assert.deepEqual(payloads, Object.values(BATCH_POPULAR_PLAN_FIXTURES));
 });
 
 test('batchScrapePopular can delegate dry-run planning to Python', () => {

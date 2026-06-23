@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 from pathlib import Path
 from typing import Any
 
@@ -8,10 +9,22 @@ from python_backend.runtime.json_contracts import JsonContractReader, safe_read_
 
 
 def _parse_int(value: Any, fallback: int) -> int:
-    try:
-        return int(float(str(value)))
-    except (TypeError, ValueError):
+    text = str(value if value is not None else "").strip()
+    match = re.match(r"^[+-]?\d+", text)
+    if not match:
         return fallback
+    try:
+        return int(match.group(0))
+    except ValueError:
+        return fallback
+
+
+def _js_object_key_count(value: Any) -> int:
+    if isinstance(value, dict):
+        return len(value)
+    if isinstance(value, list):
+        return len(value)
+    return 0
 
 
 class BatchPopularScrapePlanner:
@@ -48,13 +61,13 @@ class BatchPopularScrapePlanner:
         videos_scanned = _parse_int(progress.get("videosScanned"), 0)
         scraped = _parse_int(progress.get("scraped"), 0)
         start_page = pages_scanned + 1
-        users = database.get("users") if isinstance(database.get("users"), dict) else {}
+        users = database.get("users")
         return {
             "ok": True,
             "input": {"maxPages": max_pages},
             "range": {"startPage": start_page, "maxPages": max_pages, "remainingPages": max(0, max_pages - start_page + 1)},
             "progress": {"pagesScanned": pages_scanned, "videosScanned": videos_scanned, "scraped": scraped},
-            "database": {"users": len(users)},
+            "database": {"users": _js_object_key_count(users)},
             "limits": {
                 "popularPageSize": self.POPULAR_PAGE_SIZE,
                 "replyPagesPerVideo": self.REPLY_PAGES_PER_VIDEO,

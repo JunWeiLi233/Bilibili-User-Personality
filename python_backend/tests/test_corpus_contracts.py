@@ -24554,6 +24554,18 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_batch_popular_planner_matches_js_parseint_prefix_and_object_keys(self):
+        result = BatchPopularScrapePlanner().build_plan(
+            ["--pages=8.9 pages"],
+            {"pagesScanned": "3.9 pages", "videosScanned": "20 videos", "scraped": "0x10"},
+            {"users": [{"uid": "array-user"}]},
+        )
+
+        self.assertEqual(result["input"], {"maxPages": 8})
+        self.assertEqual(result["range"], {"startPage": 4, "maxPages": 8, "remainingPages": 5})
+        self.assertEqual(result["progress"], {"pagesScanned": 3, "videosScanned": 20, "scraped": 0})
+        self.assertEqual(result["database"], {"users": 1})
+
     def test_batch_popular_plan_summary_extracts_comparator_contract(self):
         summary = BatchPopularPlanSummary().summarize(
             {
@@ -24800,7 +24812,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             BackendMigrationInventoryScanner._validation_gates(
                 validation_script="python:batch-popular-compare",
-                validation_scope="dry_run_plan_fixture_and_js_python_plan_bridge",
+                validation_scope="dry_run_plan_resume_empty_parseint_prefix_fixtures_and_js_python_bridge",
             ),
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:batch-popular-compare"},
