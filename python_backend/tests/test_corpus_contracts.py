@@ -26184,6 +26184,18 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["resume", "analysis"])
 
+    def test_uid_discovery_plan_inventory_validation_gates_cover_js_python_bridge(self):
+        self.assertEqual(
+            BackendMigrationInventoryScanner._validation_gates(
+                validation_script="python:uid-discovery-compare",
+                validation_scope="dry_run_plan_fixture_and_js_python_plan_bridge",
+            ),
+            [
+                {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-discovery-compare"},
+                {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidDiscoveryPlan.test.js"},
+            ],
+        )
+
     def test_uid_range_progress_runner_summarizes_discovery_and_phase2_status(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

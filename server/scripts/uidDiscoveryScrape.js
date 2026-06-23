@@ -1,7 +1,13 @@
-import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
+import { execFile } from 'node:child_process';
+import { readFile, writeFile, mkdir, rm, mkdtemp } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { promisify } from 'node:util';
 import { resetBilibiliRequestState } from '../services/bilibiliCrawler.js';
 import { trainKeywordDictionary, readKeywordDictionary } from '../services/deepseekKeywordTrainer.js';
+
+const execFileAsync = promisify(execFile);
 
 const DATA_DIR = join(process.cwd(), 'server', 'data');
 const PROGRESS_PATH = join(DATA_DIR, 'uid-discovery-progress.json');
@@ -16,16 +22,143 @@ const SAVE_EVERY = 100;
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36';
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+let suppressExitLog = false;
 
-process.on('uncaughtException', (err) => {
-  console.error('Uncaught:', err.stack || err.message || err);
-});
-process.on('unhandledRejection', (err) => {
-  console.error('Unhandled:', err?.stack || err?.message || err);
-});
-process.on('exit', (code) => {
-  console.log(`Process exiting with code ${code}`);
-});
+function intOrZero(value) {
+  const parsed = Number.parseInt(String(value ?? ''), 10);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function commentText(entries) {
+  if (!Array.isArray(entries)) return '';
+  return entries.map((entry) => (entry && typeof entry === 'object' ? String(entry.message || '') : '')).join('\n');
+}
+
+function parseControlArgs(argv = process.argv.slice(2)) {
+  let planJson = false;
+  let pythonPlan = process.env.BILIBILI_UID_DISCOVERY_USE_PYTHON_PLAN === '1';
+  let jsPlan = false;
+  let payloadPath = '';
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = String(argv[index] || '');
+    if (arg === '--plan-json' || arg === '--dry-run-plan-json') {
+      planJson = true;
+    } else if (arg === '--python-plan') {
+      pythonPlan = true;
+    } else if (arg === '--js-plan') {
+      jsPlan = true;
+    } else if (arg === '--payload') {
+      payloadPath = String(argv[index + 1] || '');
+      index += 1;
+    } else if (arg.startsWith('--payload=')) {
+      payloadPath = arg.slice('--payload='.length);
+    }
+  }
+  if (jsPlan) pythonPlan = false;
+  return { planJson, pythonPlan, jsPlan, payloadPath };
+}
+
+export function buildUidDiscoveryPlan(payload = {}) {
+  const progress = payload && typeof payload.progress === 'object' && !Array.isArray(payload.progress) ? payload.progress : {};
+  const comments = payload && typeof payload.comments === 'object' && !Array.isArray(payload.comments) ? payload.comments : {};
+  const database = payload && typeof payload.database === 'object' && !Array.isArray(payload.database) ? payload.database : {};
+  const scannedBvids = Array.isArray(progress.scannedBvids) ? progress.scannedBvids : [];
+  const processedUids = progress.processedUids && typeof progress.processedUids === 'object' && !Array.isArray(progress.processedUids)
+    ? progress.processedUids
+    : {};
+  const stats = progress.stats && typeof progress.stats === 'object' && !Array.isArray(progress.stats) ? progress.stats : {};
+  const users = database.users && typeof database.users === 'object' && !Array.isArray(database.users) ? database.users : {};
+  const pendingItems = Object.entries(comments).filter(([uid]) => !(uid in processedUids));
+  const skippableNoText = pendingItems.filter(([, entries]) => !commentText(entries).trim()).length;
+
+  return {
+    ok: true,
+    resume: {
+      phase: String(progress.phase || 'discovery'),
+      skipDiscovery: progress.phase === 'analysis' && Object.keys(comments).length > 0,
+      scannedBvids: scannedBvids.length,
+      savedUidComments: Object.keys(comments).length,
+    },
+    sources: {
+      popularPages: 30,
+      popularPageSize: 20,
+      rankingCategories: 94,
+      searchEnabled: true,
+    },
+    scanning: {
+      replyPagesPerVideo: 2,
+      replyPageSize: 20,
+      delayMs: DELAY_MS,
+      cursorDelayMs: 200,
+      saveEvery: SAVE_EVERY,
+      emptyBackoffThreshold: 20,
+      emptyBackoffMs: 15000,
+    },
+    analysis: {
+      processed: Object.keys(processedUids).length,
+      pending: pendingItems.length,
+      skippableNoText,
+      trainable: pendingItems.length - skippableNoText,
+      userDbUsers: Object.keys(users).length,
+    },
+    stats: {
+      videosScanned: intOrZero(stats.videosScanned),
+      uidsFound: intOrZero(stats.uidsFound) || Object.keys(comments).length,
+      uidsAnalyzed: intOrZero(stats.uidsAnalyzed),
+      commentsCollected: intOrZero(stats.commentsCollected),
+      errors: intOrZero(stats.errors),
+      videoQueueSize: intOrZero(progress.videoQueueSize),
+    },
+    training: {
+      multiagent: true,
+      existingTermsOnly: false,
+      saveEveryAnalyzed: 10,
+      lockRetryDelayMs: LOCK_RETRY_DELAY_MS,
+      lockRetryJitterMs: 2000,
+      lockMaxRetries: LOCK_MAX_RETRIES,
+    },
+  };
+}
+
+async function readPlanPayload(payloadPath) {
+  if (!payloadPath) {
+    return {
+      progress: await loadJson(PROGRESS_PATH, {}),
+      comments: await loadJson(UID_COMMENTS_PATH, {}),
+      database: await loadJson(USER_DB_PATH, {}),
+    };
+  }
+  return loadJson(payloadPath, {});
+}
+
+async function runPythonUidDiscoveryPlan(payload) {
+  const tempDir = await mkdtemp(join(tmpdir(), 'uid-discovery-plan-'));
+  try {
+    const payloadPath = join(tempDir, 'payload.json');
+    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
+    const { stdout } = await execFileAsync('python', ['-m', 'python_backend.cli.uid_discovery_plan', '--payload', payloadPath], {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    });
+    return JSON.parse(stdout);
+  } finally {
+    await rm(tempDir, { recursive: true, force: true });
+  }
+}
+
+function installLiveProcessHandlers() {
+  process.on('uncaughtException', (err) => {
+    console.error('Uncaught:', err.stack || err.message || err);
+  });
+  process.on('unhandledRejection', (err) => {
+    console.error('Unhandled:', err?.stack || err?.message || err);
+  });
+  process.on('exit', (code) => {
+    if (suppressExitLog) return;
+    console.log(`Process exiting with code ${code}`);
+  });
+}
 
 async function loadJson(path, fallback) {
   try { return JSON.parse(await readFile(path, 'utf8')); }
@@ -225,6 +358,18 @@ async function collectVideoQueue(scannedSet) {
 }
 
 async function main() {
+  const control = parseControlArgs();
+  if (control.planJson) {
+    suppressExitLog = true;
+    const payload = await readPlanPayload(control.payloadPath);
+    const plan = control.pythonPlan ? await runPythonUidDiscoveryPlan(payload) : buildUidDiscoveryPlan(payload);
+    console.log(JSON.stringify(plan, null, 2));
+    if (!plan.ok) process.exitCode = 1;
+    return;
+  }
+
+  installLiveProcessHandlers();
+
   const progress = await loadJson(PROGRESS_PATH, {
     scannedBvids: [],
     processedUids: {},
@@ -361,7 +506,9 @@ async function main() {
   } catch {}
 }
 
-main().catch((err) => {
-  console.error('Fatal:', err.message);
-  process.exit(1);
-});
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  main().catch((err) => {
+    console.error('Fatal:', err.message);
+    process.exit(1);
+  });
+}
