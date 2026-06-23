@@ -4903,6 +4903,14 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_deepseek_sentence_splitter_source_has_no_shadowed_mojibake_regex(self):
+        source = Path("python_backend/analyzers/deepseek.py").read_text(encoding="utf-8")
+
+        self.assertEqual(source.count("def _split_sentences"), 2)
+        self.assertNotIn("\u9286\u50a6", source)
+        self.assertNotIn("\u95b5", source)
+        self.assertNotIn("\u951b", source)
+
     def test_deepseek_analyzer_builds_request_from_js_payload_contract(self):
         request = DeepSeekAnalyzerClient().build_request_from_payload(
             {
