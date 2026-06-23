@@ -1,16 +1,20 @@
 import { readFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 
 import { analyzeCommentsWithDeepSeek } from '../services/deepseekKeywordTrainer.js';
 
-function parseArgs(argv = process.argv.slice(2)) {
+export function parseArgs(argv = process.argv.slice(2)) {
   const payload = {};
   let file = '';
   let showHelp = false;
+  let planJson = false;
 
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
     if (arg === '--help' || arg === '-h') {
       showHelp = true;
+    } else if (arg === '--plan-json') {
+      planJson = true;
     } else if (arg === '--multiagent' || arg === '--multi-agent') {
       payload.multiagent = true;
     } else if (arg.startsWith('--text=')) {
@@ -38,7 +42,22 @@ function parseArgs(argv = process.argv.slice(2)) {
     }
   }
 
-  return { payload, file, showHelp };
+  return { payload, file, showHelp, planJson };
+}
+
+export function buildPlan({ payload = {}, file = '', showHelp = false } = {}, { stdinIsTTY = process.stdin.isTTY } = {}) {
+  const readsStdin = !showHelp && !file && !payload.text && !stdinIsTTY;
+  const source = showHelp ? 'help' : file ? 'file' : readsStdin ? 'stdin' : 'argv';
+  return {
+    ok: true,
+    payload,
+    input: {
+      source,
+      file,
+      readsStdin,
+      showHelp,
+    },
+  };
 }
 
 function readStdin() {
@@ -68,9 +87,15 @@ Options:
 }
 
 async function main() {
-  const { payload, file, showHelp } = parseArgs();
+  const parsed = parseArgs();
+  const { payload, file, showHelp, planJson } = parsed;
   if (showHelp) {
     printHelp();
+    return;
+  }
+
+  if (planJson) {
+    console.log(JSON.stringify(buildPlan(parsed), null, 2));
     return;
   }
 
@@ -85,7 +110,9 @@ async function main() {
   if (!result.ok) process.exitCode = 1;
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  main().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  });
+}

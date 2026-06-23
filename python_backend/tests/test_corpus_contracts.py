@@ -5669,6 +5669,7 @@ class CorpusContractTests(unittest.TestCase):
 
         inline_plan = planner.build_plan(
             [
+                "--plan-json",
                 "--text",
                 "\u72d7\u5934\u4fdd\u547d[doge]",
                 "--multi-agent",
