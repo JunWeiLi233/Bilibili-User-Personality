@@ -21,6 +21,78 @@ export const DEFAULT_PAYLOAD = {
   uid: 'mid-1',
 };
 
+const DEFAULT_ENTRIES_EXPECTED = [
+  {
+    term: 'yygq',
+    family: 'attack',
+    meaning: 'Chinese initialism',
+    evidenceCount: 2,
+    evidenceSamples: ['YYGQ once', 'yygq twice'],
+    evidenceSources: [
+      { source: 'Bilibili public comment target expansion', uid: 'mid-1', sample: 'YYGQ once' },
+      { source: 'Bilibili public comment target expansion', uid: 'mid-1', sample: 'yygq twice' },
+    ],
+  },
+];
+
+export const KEYWORD_EVIDENCE_FIXTURES = {
+  'entries-with-sources': {
+    payload: DEFAULT_PAYLOAD,
+    expected: { ok: true, mode: 'entries', count: 1, entries: DEFAULT_ENTRIES_EXPECTED },
+  },
+  'dictionary-filtered': {
+    payload: {
+      mode: 'dictionary',
+      dictionary: {
+        version: 1,
+        entries: [
+          { term: 'doge', family: 'evasion', meaning: 'emoji sarcasm marker' },
+          { term: 'yygq', family: 'attack', meaning: 'Chinese initialism' },
+          { term: 'skip', family: 'attack', meaning: 'excluded term' },
+        ],
+      },
+      excludeTerms: ['skip'],
+      text: 'doge meme\nYYGQ line\nskip would otherwise match',
+      source: 'Tieba inclusive scrape',
+      uid: 'uid-2',
+    },
+    expected: {
+      ok: true,
+      mode: 'dictionary',
+      count: 2,
+      entries: [
+        {
+          term: 'doge',
+          family: 'evasion',
+          meaning: 'emoji sarcasm marker',
+          evidenceCount: 1,
+          evidenceSamples: ['doge meme'],
+          evidenceSources: [{ source: 'Tieba inclusive scrape', uid: 'uid-2', sample: 'doge meme' }],
+        },
+        {
+          term: 'yygq',
+          family: 'attack',
+          meaning: 'Chinese initialism',
+          evidenceCount: 1,
+          evidenceSamples: ['YYGQ line'],
+          evidenceSources: [{ source: 'Tieba inclusive scrape', uid: 'uid-2', sample: 'YYGQ line' }],
+        },
+      ],
+    },
+  },
+  'empty-evidence': {
+    payload: {
+      entries: [{ term: 'doge', family: 'evasion', meaning: 'emoji sarcasm marker' }],
+      text: 'plain comment without the target token',
+      source: 'Bilibili comments',
+      uid: 'mid-3',
+    },
+    expected: { ok: true, mode: 'entries', count: 0, entries: [] },
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = Object.keys(KEYWORD_EVIDENCE_FIXTURES);
+
 function cleanText(value) {
   return String(value || '').replace(/\s+/g, ' ').trim();
 }
@@ -142,15 +214,25 @@ async function runJsKeywordEvidence({ payloadPath }) {
   const text = payload.text || '';
   const source = payload.source || '';
   const uid = payload.uid || '';
+  const mode = String(payload.mode || 'entries').trim().toLowerCase();
+  const excludeTerms = new Set(
+    Array.isArray(payload.excludeTerms) ? payload.excludeTerms.map((term) => cleanKeywordTerm(term)).filter(Boolean) : [],
+  );
+  const rawEntries =
+    mode === 'dictionary' && payload.dictionary && typeof payload.dictionary === 'object' && Array.isArray(payload.dictionary.entries)
+      ? payload.dictionary.entries
+      : Array.isArray(payload.entries)
+        ? payload.entries
+        : [];
   const entries = [];
-  for (const rawEntry of Array.isArray(payload.entries) ? payload.entries : []) {
+  for (const rawEntry of rawEntries) {
     const entry = normalizeEntry(rawEntry);
-    if (!entry.term) continue;
+    if (!entry.term || excludeTerms.has(entry.term)) continue;
     const evidence = evidenceForTerm(entry.term, text, { source, uid });
     if (evidence.evidenceCount <= 0) continue;
     entries.push({ ...entry, ...evidence });
   }
-  return { ok: true, mode: 'entries', count: entries.length, entries };
+  return { ok: true, mode: mode === 'dictionary' ? 'dictionary' : 'entries', count: entries.length, entries };
 }
 
 async function runPythonKeywordEvidence({ payloadPath }) {
@@ -166,22 +248,35 @@ async function writeFixture(payloadPath, payload) {
   await writeFile(payloadPath, JSON.stringify(payload || {}, null, 2), 'utf8');
 }
 
-export async function compareKeywordEvidence({
-  payload = DEFAULT_PAYLOAD,
+function resolvePayload({ payload, fixture } = {}) {
+  if (payload) return { name: fixture?.name || 'custom', payload, expected: fixture?.expected };
+  const name = typeof fixture === 'string' ? fixture : fixture?.name || 'entries-with-sources';
+  const resolved = KEYWORD_EVIDENCE_FIXTURES[name] || KEYWORD_EVIDENCE_FIXTURES['entries-with-sources'];
+  return { name, payload: resolved.payload, expected: resolved.expected };
+}
+
+async function compareKeywordEvidenceSingle({
+  payload,
+  fixture,
   runJs = runJsKeywordEvidence,
   runPython = runPythonKeywordEvidence,
 } = {}) {
+  const resolved = resolvePayload({ payload, fixture });
   const tempDir = await mkdtemp(join(tmpdir(), 'keyword-evidence-compare-'));
   try {
-    const payloadPath = payload.payloadPath || join(tempDir, 'keyword-evidence.json');
-    if (!payload.payloadPath) await writeFixture(payloadPath, payload);
-    const context = { payload, payloadPath };
+    const payloadPath = resolved.payload.payloadPath || join(tempDir, 'keyword-evidence.json');
+    if (!resolved.payload.payloadPath) await writeFixture(payloadPath, resolved.payload);
+    const context = {
+      payload: resolved.payload,
+      payloadPath,
+      fixture: { name: resolved.name, expected: resolved.expected },
+    };
     const js = await runJs(context);
     const python = await runPython(context);
     const comparison = compareKeywordEvidenceObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { payloadPath },
+      fixture: { name: resolved.name, payloadPath },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -191,8 +286,26 @@ export async function compareKeywordEvidence({
   }
 }
 
+export async function compareKeywordEvidence({
+  payload,
+  fixture,
+  fixtureNames,
+  runJs = runJsKeywordEvidence,
+  runPython = runPythonKeywordEvidence,
+} = {}) {
+  if (fixtureNames) {
+    const results = [];
+    for (const name of fixtureNames.length ? fixtureNames : DEFAULT_FIXTURE_NAMES) {
+      results.push(await compareKeywordEvidenceSingle({ fixture: name, runJs, runPython }));
+    }
+    const mismatches = results.flatMap((result) => result.mismatches.map((mismatch) => ({ ...mismatch, fixture: result.fixture.name })));
+    return { ok: mismatches.length === 0, fixtures: results.map((result) => result.fixture), results, mismatches };
+  }
+  return compareKeywordEvidenceSingle({ payload: payload || DEFAULT_PAYLOAD, fixture, runJs, runPython });
+}
+
 async function main() {
-  const result = await compareKeywordEvidence();
+  const result = await compareKeywordEvidence({ fixtureNames: DEFAULT_FIXTURE_NAMES });
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }

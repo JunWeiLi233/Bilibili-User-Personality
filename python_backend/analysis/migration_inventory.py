@@ -61,6 +61,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:deepseek-analyze-fixture-compare": "full_command_fixture",
     "python:deepseek-analyze-command-compare": "full_command_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract",
     "python:deepseek-mock-runtime-compare": "mocked_runtime",
+    "python:keyword-evidence-compare": "entries_dictionary_filtered_empty_evidence_fixtures_and_js_python_bridge",
     "python:harvest-plan-compare": "dry_run_plan_fixture_and_js_python_plan_bridge",
     "python:harvest-state-compare": "file_backed_default_miss_successful_hit_corrupt_payload_fixtures_and_js_python_bridge",
     "python:file-lock-state-compare": "file_backed_stale_missing_corrupt_owner_fixtures_and_js_python_bridge",

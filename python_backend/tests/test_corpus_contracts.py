@@ -27478,6 +27478,10 @@ class CorpusContractTests(unittest.TestCase):
             package["scripts"]["python:keyword-evidence-compare"],
             "node server/scripts/compareKeywordEvidence.js",
         )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:keyword-evidence-compare"],
+            "entries_dictionary_filtered_empty_evidence_fixtures_and_js_python_bridge",
+        )
         self.assertIn(
             {
                 "script": "python:keyword-evidence-compare",

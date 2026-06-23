@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import { compareKeywordEvidence, compareKeywordEvidenceObjects } from './compareKeywordEvidence.js';
+import { KEYWORD_EVIDENCE_FIXTURES, compareKeywordEvidence, compareKeywordEvidenceObjects } from './compareKeywordEvidence.js';
 
 const ENTRIES = [
   {
@@ -45,4 +45,36 @@ test('compareKeywordEvidence compares JS-compatible and Python keyword evidence 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.deepEqual(calls, [{ js: true }, { python: true }]);
+});
+
+test('compareKeywordEvidence exports named entry and dictionary fixtures', async () => {
+  assert.deepEqual(Object.keys(KEYWORD_EVIDENCE_FIXTURES), [
+    'entries-with-sources',
+    'dictionary-filtered',
+    'empty-evidence',
+  ]);
+
+  const calls = [];
+  const result = await compareKeywordEvidence({
+    fixtureNames: Object.keys(KEYWORD_EVIDENCE_FIXTURES),
+    runJs: async (context) => {
+      calls.push({ js: context.fixture.name, mode: context.payload.mode || 'entries' });
+      return context.fixture.expected;
+    },
+    runPython: async (context) => {
+      calls.push({ python: context.fixture.name, mode: context.payload.mode || 'entries' });
+      return context.fixture.expected;
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.deepEqual(calls, [
+    { js: 'entries-with-sources', mode: 'entries' },
+    { python: 'entries-with-sources', mode: 'entries' },
+    { js: 'dictionary-filtered', mode: 'dictionary' },
+    { python: 'dictionary-filtered', mode: 'dictionary' },
+    { js: 'empty-evidence', mode: 'entries' },
+    { python: 'empty-evidence', mode: 'entries' },
+  ]);
 });
