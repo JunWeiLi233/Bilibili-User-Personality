@@ -18003,6 +18003,20 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_package_coverage_progress_compare_script_registers_js_python_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(
+            package["scripts"]["python:coverage-progress-compare"],
+            "node server/scripts/compareCoverageProgress.js",
+        )
+
+        result = BackendMigrationInventoryScanner(".").scan()
+        self.assertIn(
+            {"path": "server/scripts/compareCoverageProgress.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_coverage_progress_tracker_selects_exhausted_terms_from_harvest_state(self):
         tracker = CoverageProgressTracker()
         dictionary = {
