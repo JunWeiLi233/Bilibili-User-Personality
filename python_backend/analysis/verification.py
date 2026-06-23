@@ -249,12 +249,12 @@ class RandomVerificationRunner:
     def run(self) -> dict[str, Any]:
         corpus = RandomVerificationCorpusAssembler.from_path(self.corpus_path, self.extra_corpus_paths).assemble()
         dictionary = DictionaryLoader(self.dictionary_path).load()
-        return RandomVerifier.from_dictionary_entries(dictionary.entries).report(
-            corpus.comments,
-            corpus=corpus.as_report_corpus(),
+        return RandomVerificationCorpusReportBuilder(
+            corpus=corpus,
+            dictionary_entries=dictionary.entries,
             sample_size=self.sample_size,
             seed=self.seed,
-        )
+        ).build()
 
 
 class RandomVerificationPayloadRunner:
@@ -268,12 +268,12 @@ class RandomVerificationPayloadRunner:
         options = RandomVerificationRunOptions.from_payload(payload)
         corpus = RandomVerificationCorpusAssembler.from_payload(payload).assemble()
         dictionary = DictionaryLoader.load_from_payload(payload)
-        return RandomVerifier.from_dictionary_entries(dictionary.entries).report(
-            corpus.comments,
-            corpus=corpus.as_report_corpus(),
+        return RandomVerificationCorpusReportBuilder(
+            corpus=corpus,
+            dictionary_entries=dictionary.entries,
             sample_size=options.sample_size,
             seed=options.seed,
-        )
+        ).build()
 
     def _read_payload(self) -> dict[str, Any]:
         payload = JsonContractReader().read_value(self.payload_path, {"corpus": {}, "dictionary": {}})
@@ -520,6 +520,31 @@ class RandomVerificationReportBuilder:
             dictionary_terms=len(self.keyword_terms),
             options=self.options,
         ).build(summary)
+
+
+class RandomVerificationCorpusReportBuilder:
+    """Build a random-verification report from assembled corpus and dictionary entries."""
+
+    def __init__(
+        self,
+        corpus: RandomVerificationCorpus,
+        dictionary_entries: list[dict[str, Any]] | None = None,
+        sample_size: Any = 50,
+        seed: Any = 1,
+    ):
+        self.corpus = corpus
+        self.dictionary_entries = dictionary_entries if isinstance(dictionary_entries, list) else []
+        self.options = RandomVerificationRunOptions.from_values(sample_size=sample_size, seed=seed)
+
+    def build(self) -> dict[str, Any]:
+        keyword_terms = RandomVerificationDictionaryTermsContract(self.dictionary_entries).terms()
+        return RandomVerificationReportBuilder(
+            comments=self.corpus.comments,
+            keyword_terms=keyword_terms,
+            corpus=self.corpus.as_report_corpus(),
+            sample_size=self.options.sample_size,
+            seed=self.options.seed,
+        ).build()
 
 
 class RandomVerifier:
