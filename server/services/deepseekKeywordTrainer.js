@@ -4367,6 +4367,84 @@ function axisHasUsableEvidence(axis, sourceText) {
   return evidence.some((item) => String(item || '').trim());
 }
 
+export function normalizeDeepSeekAnalysisResult({
+  parsed = {},
+  payload = {},
+  config = {},
+  raw = '',
+  retriedCompactPrompt = false,
+  multiagent = null,
+} = {}) {
+  const axes = (Array.isArray(parsed.axes) ? parsed.axes : []).map((axis) => {
+    const evidence = Array.isArray(axis.evidence) ? axis.evidence.slice(0, 5) : [];
+    const normalizedAxis = normalizeAnalysisAxisLabel(axis.axis);
+    if (!normalizedAxis) return null;
+    const hasEvidence = axisHasUsableEvidence({ ...axis, axis: normalizedAxis, evidence }, payload?.text);
+    const score = Math.max(0, Math.min(100, Number(axis.score) || 50));
+    const reasoning = String(axis.reasoning || '').slice(0, 500);
+    return {
+      axis: normalizedAxis,
+      score: hasEvidence ? score : 50,
+      evidence,
+      reasoning: hasEvidence || /evidence insufficient/.test(reasoning)
+        ? reasoning
+        : `${reasoning}${reasoning ? ' ' : ''}evidence insufficient; neutralized`,
+    };
+  }).filter(Boolean);
+
+  const validAxes = ANALYSIS_AXIS_LABELS.map((axis) => ({ axis, score: 50, evidence: [], reasoning: '' }));
+
+  for (const item of validAxes) {
+    const found = axes.find((axis) => axis.axis === item.axis);
+    if (found) Object.assign(item, found);
+  }
+
+  const sourceSentences = splitAnalysisSourceSentences(payload?.text);
+  const sentenceAnalyses = removeDuplicateEmptySentenceAnalyses((Array.isArray(parsed.sentenceAnalyses) ? parsed.sentenceAnalyses : [])
+    .map((item) => ({
+      quote: groundSentenceQuote(item.quote, sourceSentences).slice(0, 300),
+      speechAct: String(item.speechAct || '').trim().slice(0, 80),
+      target: String(item.target || '').trim().slice(0, 120),
+      stance: String(item.stance || '').trim().slice(0, 120),
+      contextRole: String(item.contextRole || '').trim().slice(0, 180),
+      risk: String(item.risk || 'neutral').trim().slice(0, 20),
+      axisImpacts: (Array.isArray(item.axisImpacts) ? item.axisImpacts : [])
+        .map((impact) => {
+          const strength = Number(impact.strength);
+          const normalizedAxis = normalizeAnalysisAxisLabel(impact.axis);
+          return {
+            axis: normalizedAxis,
+            direction: String(impact.direction || '').trim().slice(0, 20),
+            strength: Number.isFinite(strength) ? Math.max(0, Math.min(1, strength)) : 0.5,
+            reasoning: String(impact.reasoning || '').trim().slice(0, 240),
+          };
+        })
+        .filter((impact) => impact.axis)
+        .slice(0, 3),
+      reasoning: String(item.reasoning || '').trim().slice(0, 500),
+    }))
+    .filter((item) => item.quote));
+
+  const overall = {
+    riskBand: String(parsed.overall?.riskBand || '混合争辩型').trim(),
+    summary: String(parsed.overall?.summary || '').trim(),
+  };
+
+  return {
+    ok: true,
+    provider: config.provider || 'deepseek',
+    model: config.model || '',
+    reasoningEffort: config.reasoningEffort || 'medium',
+    retriedCompactPrompt,
+    axes: validAxes,
+    sentenceAnalyses,
+    overall,
+    confidence: Math.max(0.45, Math.min(0.92, Number(parsed.confidence) || 0.7)),
+    raw,
+    ...(multiagent ? { multiagent } : {}),
+  };
+}
+
 async function requestDeepSeekMessages({ config, fetchImpl, messages, options, maxTokens = 2000 }) {
   const requestBody = {
     model: config.model,

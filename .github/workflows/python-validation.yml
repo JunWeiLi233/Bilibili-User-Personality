@@ -43,6 +43,9 @@ jobs:
       - name: Compare DeepSeek analysis validation contract
         run: npm run python:deepseek-validation-compare
 
+      - name: Compare DeepSeek analysis normalization contract
+        run: npm run python:deepseek-normalization-compare
+
       - name: Verify DeepSeek Python-backed JS plan mode
         run: npm run python:deepseek-cli-plan-js -- --text "satire [doge]" --uid 42 --multiagent
 

@@ -1243,6 +1243,7 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(package["scripts"]["python:deepseek-cli-compare"], "node server/scripts/compareDeepSeekAnalyzePlan.js")
         self.assertEqual(package["scripts"]["python:deepseek-validation-compare"], "node server/scripts/compareDeepSeekAnalysisValidation.js")
+        self.assertEqual(package["scripts"]["python:deepseek-normalization-compare"], "node server/scripts/compareDeepSeekAnalysisNormalization.js")
         self.assertEqual(
             package["scripts"]["python:deepseek-cli-plan-js"],
             "node server/scripts/analyzeDeepSeekComments.js --plan-json --python-plan",
@@ -1258,6 +1259,7 @@ class CorpusContractTests(unittest.TestCase):
                 "dev:full": "node server/index.js",
                 "python:deepseek-cli-compare": "node server/scripts/compareDeepSeekAnalyzePlan.js",
                 "python:deepseek-validation-compare": "node server/scripts/compareDeepSeekAnalysisValidation.js",
+                "python:deepseek-normalization-compare": "node server/scripts/compareDeepSeekAnalysisNormalization.js",
                 "python:deepseek-cli-plan-js": "node server/scripts/analyzeDeepSeekComments.js --plan-json --python-plan",
                 "python:coverage-standalone": "python -m python_backend.cli.coverage_audit --standalone",
                 "python:huggingface-import": "python -m python_backend.cli.huggingface_corpus",
@@ -1267,7 +1269,7 @@ class CorpusContractTests(unittest.TestCase):
 
         result = PackageCommandMigrationInventory(package).scan()
 
-        self.assertEqual(result["nodeServerScripts"], 8)
+        self.assertEqual(result["nodeServerScripts"], 9)
         self.assertEqual(result["pythonBackendScripts"], 2)
         self.assertEqual(
             result["pythonBackedNodeScripts"],
@@ -1308,6 +1310,11 @@ class CorpusContractTests(unittest.TestCase):
                     "reason": "js_python_contract_bridge",
                 },
                 {
+                    "script": "python:deepseek-normalization-compare",
+                    "command": "node server/scripts/compareDeepSeekAnalysisNormalization.js",
+                    "reason": "js_python_contract_bridge",
+                },
+                {
                     "script": "python:deepseek-cli-plan-js",
                     "command": "node server/scripts/analyzeDeepSeekComments.js --plan-json --python-plan",
                     "reason": "js_python_contract_bridge",
@@ -1321,6 +1328,7 @@ class CorpusContractTests(unittest.TestCase):
             "scripts": {
                 "python:deepseek-cli-compare": "node server/scripts/compareDeepSeekAnalyzePlan.js",
                 "python:deepseek-validation-compare": "node server/scripts/compareDeepSeekAnalysisValidation.js",
+                "python:deepseek-normalization-compare": "node server/scripts/compareDeepSeekAnalysisNormalization.js",
                 "deepseek:analyze": "node server/scripts/analyzeDeepSeekComments.js",
                 "python:deepseek-cli-plan": "python -m python_backend.cli.deepseek_analyze_cli_plan",
             }
@@ -1336,9 +1344,9 @@ class CorpusContractTests(unittest.TestCase):
                     "command": "node server/scripts/analyzeDeepSeekComments.js",
                     "pythonScript": "python:deepseek-cli-plan",
                     "pythonCommand": "python -m python_backend.cli.deepseek_analyze_cli_plan",
-                    "validationScript": "python:deepseek-validation-compare",
-                    "validationCommand": "node server/scripts/compareDeepSeekAnalysisValidation.js",
-                    "validationScope": "analysis_validation",
+                    "validationScript": "python:deepseek-normalization-compare",
+                    "validationCommand": "node server/scripts/compareDeepSeekAnalysisNormalization.js",
+                    "validationScope": "analysis_normalization",
                 },
             ],
         )
@@ -1350,6 +1358,11 @@ class CorpusContractTests(unittest.TestCase):
                     "command": "node server/scripts/compareDeepSeekAnalyzePlan.js",
                     "reason": "js_python_contract_bridge",
                 },
+                {
+                    "script": "python:deepseek-validation-compare",
+                    "command": "node server/scripts/compareDeepSeekAnalysisValidation.js",
+                    "reason": "js_python_contract_bridge",
+                },
             ],
         )
         self.assertEqual(result["replacementNeeded"], [])
@@ -1358,8 +1371,8 @@ class CorpusContractTests(unittest.TestCase):
         result = BackendMigrationInventoryScanner(".").scan()
 
         self.assertEqual(result["nextMigrationAction"]["path"], "server/scripts/analyzeDeepSeekComments.js")
-        self.assertEqual(result["nextMigrationAction"]["validationScript"], "python:deepseek-validation-compare")
-        self.assertEqual(result["nextMigrationAction"]["validationScope"], "analysis_validation")
+        self.assertEqual(result["nextMigrationAction"]["validationScript"], "python:deepseek-normalization-compare")
+        self.assertEqual(result["nextMigrationAction"]["validationScope"], "analysis_normalization")
         self.assertFalse(result["nextMigrationAction"]["readyToReplace"])
         self.assertEqual(result["nextMigrationAction"]["recommendation"], "expand_python_runtime_contract_before_replacing_js")
 
@@ -1388,6 +1401,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("npm run python:coverage-compare", workflow)
         self.assertIn("npm run python:deepseek-cli-compare", workflow)
         self.assertIn("npm run python:deepseek-validation-compare", workflow)
+        self.assertIn("npm run python:deepseek-normalization-compare", workflow)
         self.assertIn("npm run python:deepseek-cli-plan-js -- --text \"satire [doge]\" --uid 42 --multiagent", workflow)
         self.assertIn("npm run python:verify-random -- --sample-size=25 --seed=20260623", workflow)
         self.assertIn("npm test", workflow)
@@ -6524,6 +6538,56 @@ class CorpusContractTests(unittest.TestCase):
                 "unsupportedAxisEvidence": [{"axis": "attack"}],
             },
         )
+
+    def test_deepseek_analysis_normalizer_clamps_js_result_shape(self):
+        from python_backend.analyzers.deepseek import DeepSeekAnalysisNormalizer
+
+        result = DeepSeekAnalysisNormalizer().normalize(
+            source_payload={"text": "狗头保命[doge]\n建议查查资料再说"},
+            analysis_payload={
+                "parsed": {
+                    "axes": [
+                        {"axis": "attack", "score": 120, "evidence": ["狗头保命[doge]"], "reasoning": "meme tone"},
+                        {"axis": "evidence", "score": -5, "evidence": [], "reasoning": "missing"},
+                        {"axis": "unknown", "score": 99, "evidence": ["ignored"]},
+                    ],
+                    "sentenceAnalyses": [
+                        {
+                            "quote": "狗头保命",
+                            "speechAct": "玩梗",
+                            "target": "自我保护",
+                            "stance": "反讽",
+                            "contextRole": "语气标记",
+                            "risk": "low",
+                            "axisImpacts": [
+                                {"axis": "attack", "direction": "risk", "strength": 2, "reasoning": "too strong"},
+                                {"axis": "unknown", "direction": "risk", "strength": 1},
+                            ],
+                            "reasoning": "emoji matters",
+                        },
+                        {"quote": "狗头保命", "risk": "neutral"},
+                    ],
+                    "overall": {"riskBand": "低风险讨论型", "summary": "emoji softens tone"},
+                    "confidence": 2,
+                }
+            },
+            provider="deepseek",
+            model="deepseek-v4-flash",
+            reasoning_effort="max",
+            raw="{}",
+        )
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["provider"], "deepseek")
+        self.assertEqual(result["model"], "deepseek-v4-flash")
+        self.assertEqual(result["reasoningEffort"], "max")
+        self.assertEqual(len(result["axes"]), 6)
+        self.assertEqual(result["axes"][0]["score"], 100)
+        self.assertEqual(result["axes"][2]["score"], 50)
+        self.assertEqual(result["sentenceAnalyses"][0]["quote"], "狗头保命[doge]")
+        self.assertEqual(result["sentenceAnalyses"][0]["axisImpacts"][0]["strength"], 1)
+        self.assertEqual(len(result["sentenceAnalyses"]), 1)
+        self.assertEqual(result["confidence"], 0.92)
 
     def test_contract_comparator_checks_manifest_count_and_audit_terms(self):
         with tempfile.TemporaryDirectory() as tmp:

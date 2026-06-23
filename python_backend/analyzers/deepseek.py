@@ -484,6 +484,238 @@ class DeepSeekAnalysisValidator:
         return re.sub(r"\s+", "", unicodedata.normalize("NFKC", str(text or "")).lower())
 
 
+class DeepSeekAnalysisNormalizer:
+    """Normalize DeepSeek analysis payloads into the JS runtime result contract."""
+
+    AXIS_LABELS = (
+        "对抗性动机",
+        "认知闭合",
+        "证据敏感",
+        "逻辑一致",
+        "合作讨论",
+        "修正意愿",
+    )
+    AXIS_ALIASES = {
+        "attack": AXIS_LABELS[0],
+        "antagonism": AXIS_LABELS[0],
+        "closure": AXIS_LABELS[1],
+        "cognitive_closure": AXIS_LABELS[1],
+        "evidence": AXIS_LABELS[2],
+        "evidence_sensitivity": AXIS_LABELS[2],
+        "logic": AXIS_LABELS[3],
+        "logical_consistency": AXIS_LABELS[3],
+        "cooperation": AXIS_LABELS[4],
+        "collaboration": AXIS_LABELS[4],
+        "correction": AXIS_LABELS[5],
+        "revision": AXIS_LABELS[5],
+    }
+
+    def normalize(
+        self,
+        source_payload: dict[str, Any] | None = None,
+        analysis_payload: dict[str, Any] | None = None,
+        *,
+        provider: str = "deepseek",
+        model: str = "",
+        reasoning_effort: str = "medium",
+        raw: str = "",
+        retried_compact_prompt: bool = False,
+        multiagent: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        source_payload = source_payload if isinstance(source_payload, dict) else {}
+        analysis_payload = analysis_payload if isinstance(analysis_payload, dict) else {}
+        parsed = self._analysis_from_payload(analysis_payload)
+        source_text = "\n".join(DeepSeekAnalysisValidator()._comments_from_payload(source_payload))
+        axes = self._normalized_axes(parsed, source_text)
+        source_sentences = DeepSeekAnalyzerClient()._split_sentences(source_text)
+        sentence_analyses = self._sentence_analyses(parsed, source_sentences)
+        overall_payload = parsed.get("overall") if isinstance(parsed.get("overall"), dict) else {}
+        result: dict[str, Any] = {
+            "ok": True,
+            "provider": str(provider or "deepseek"),
+            "model": str(model or ""),
+            "reasoningEffort": str(reasoning_effort or "medium"),
+            "retriedCompactPrompt": bool(retried_compact_prompt),
+            "axes": axes,
+            "sentenceAnalyses": sentence_analyses,
+            "overall": {
+                "riskBand": str(overall_payload.get("riskBand") or "混合争辩型").strip(),
+                "summary": str(overall_payload.get("summary") or "").strip(),
+            },
+            "confidence": self._clamp_number(parsed.get("confidence"), minimum=0.45, maximum=0.92, default=0.7),
+            "raw": str(raw or ""),
+        }
+        if isinstance(multiagent, dict):
+            result["multiagent"] = multiagent
+        return result
+
+    def _analysis_from_payload(self, payload: dict[str, Any]) -> dict[str, Any]:
+        parsed = payload.get("parsed")
+        if isinstance(parsed, dict):
+            return parsed
+        analysis = payload.get("analysis")
+        if isinstance(analysis, dict):
+            return analysis
+        return payload
+
+    def _normalized_axes(self, parsed: dict[str, Any], source_text: str) -> list[dict[str, Any]]:
+        axes_by_label: dict[str, dict[str, Any]] = {
+            label: {"axis": label, "score": 50, "evidence": [], "reasoning": ""} for label in self.AXIS_LABELS
+        }
+        raw_axes = parsed.get("axes") if isinstance(parsed.get("axes"), list) else []
+        for axis in raw_axes:
+            if not isinstance(axis, dict):
+                continue
+            label = self._normalize_axis_label(axis.get("axis"))
+            if not label:
+                continue
+            evidence = axis.get("evidence") if isinstance(axis.get("evidence"), list) else []
+            evidence = [str(item) for item in evidence[:5]]
+            has_evidence = self._axis_has_usable_evidence(label, evidence, axis.get("reasoning"), source_text)
+            reasoning = str(axis.get("reasoning") or "")[:500]
+            if not has_evidence and "evidence insufficient" not in reasoning:
+                reasoning = f"{reasoning}{' ' if reasoning else ''}evidence insufficient; neutralized"
+            axes_by_label[label] = {
+                "axis": label,
+                "score": self._clamp_number(axis.get("score"), minimum=0, maximum=100, default=50) if has_evidence else 50,
+                "evidence": evidence,
+                "reasoning": reasoning,
+            }
+        return [axes_by_label[label] for label in self.AXIS_LABELS]
+
+    def _sentence_analyses(self, parsed: dict[str, Any], source_sentences: list[str]) -> list[dict[str, Any]]:
+        raw_items = parsed.get("sentenceAnalyses") if isinstance(parsed.get("sentenceAnalyses"), list) else []
+        normalized = []
+        for item in raw_items:
+            if not isinstance(item, dict):
+                continue
+            quote = self._ground_sentence_quote(item.get("quote"), source_sentences)[:300]
+            if not quote:
+                continue
+            normalized.append(
+                {
+                    "quote": quote,
+                    "speechAct": str(item.get("speechAct") or "").strip()[:80],
+                    "target": str(item.get("target") or "").strip()[:120],
+                    "stance": str(item.get("stance") or "").strip()[:120],
+                    "contextRole": str(item.get("contextRole") or "").strip()[:180],
+                    "risk": str(item.get("risk") or "neutral").strip()[:20],
+                    "axisImpacts": self._axis_impacts(item.get("axisImpacts")),
+                    "reasoning": str(item.get("reasoning") or "").strip()[:500],
+                }
+            )
+        return self._remove_duplicate_empty_sentence_analyses(normalized)
+
+    def _axis_impacts(self, impacts: Any) -> list[dict[str, Any]]:
+        if not isinstance(impacts, list):
+            return []
+        normalized = []
+        for impact in impacts:
+            if not isinstance(impact, dict):
+                continue
+            axis = self._normalize_axis_label(impact.get("axis"))
+            if not axis:
+                continue
+            normalized.append(
+                {
+                    "axis": axis,
+                    "direction": str(impact.get("direction") or "").strip()[:20],
+                    "strength": self._clamp_number(impact.get("strength"), minimum=0, maximum=1, default=0.5),
+                    "reasoning": str(impact.get("reasoning") or "").strip()[:240],
+                }
+            )
+            if len(normalized) >= 3:
+                break
+        return normalized
+
+    def _normalize_axis_label(self, axis: Any) -> str:
+        text = str(axis or "").strip()
+        if not text or "|" in text:
+            return ""
+        if text in self.AXIS_LABELS:
+            return text
+        lower = text.lower()
+        if lower in self.AXIS_ALIASES:
+            return self.AXIS_ALIASES[lower]
+        for label in self.AXIS_LABELS:
+            if label in text:
+                return label
+        for alias, label in self.AXIS_ALIASES.items():
+            if alias and alias in lower:
+                return label
+        return ""
+
+    def _axis_has_usable_evidence(self, label: str, evidence: list[str], reasoning: Any, source_text: str) -> bool:
+        evidence_text = "\n".join([str(reasoning or ""), *evidence])
+        if label == "修正意愿":
+            return any(item.strip() for item in evidence) and self._has_explicit_correction_evidence(f"{evidence_text}\n{source_text}")
+        return any(item.strip() for item in evidence)
+
+    def _has_explicit_correction_evidence(self, text: str) -> bool:
+        text = re.sub(r"\u4fee\u6b63\u610f\u613f|\u4fee\u6b63\u8f74|\u4fee\u6b63\u5206", "", str(text or ""))
+        if re.search(r"(?:\u6ca1\u6709|\u672a|\u65e0|\u4e0d)(?:.{0,8})(?:\u627f\u8ba4|\u8ba4\u9519|\u4fee\u6b63|\u66f4\u6b63|\u6539\u7ed3\u8bba|\u63a5\u53d7\u7ea0\u6b63|\u613f\u610f\u6539)", text):
+            return False
+        return bool(re.search(r"(?:\u627f\u8ba4(?:\u9519\u8bef|\u95ee\u9898|\u8bf4\u9519)?|\u8ba4\u9519|\u9519\u4e86|\u8bf4\u9519|\u8bf4\u91cd|\u6211\u6536\u56de|\u6536\u56de|\u4fee\u6b63|\u66f4\u6b63|\u6539\u7ed3\u8bba|\u6539\u53e3|\u6539\u89c2\u70b9|\u964d\u4f4e\u7ed3\u8bba|\u8865\u5145\u4e00\u4e0b|\u8c22\u8c22\u6307\u6b63|\u611f\u8c22\u6307\u6b63|\u613f\u610f\u6539|\u53ef\u4ee5\u6539|\u63a5\u53d7\u7ea0\u6b63|\u88ab\u6307\u51fa)|\b(?:admit|admitted|mistake|wrong|correct(?:ed|ion)?|revise|revision|update conclusion|change my mind|thanks for correcting)\b", text, re.I))
+
+    def _ground_sentence_quote(self, quote: Any, source_sentences: list[str]) -> str:
+        raw_quote = str(quote or "").strip()
+        normalized_quote = self._normalize_quote(raw_quote)
+        if not normalized_quote:
+            return ""
+        for sentence in source_sentences:
+            if raw_quote in sentence:
+                return sentence
+        for sentence in source_sentences:
+            if normalized_quote in self._normalize_quote(sentence):
+                return sentence
+        best_sentence = ""
+        best_score = 0.0
+        for sentence in source_sentences:
+            score = self._text_overlap_score(raw_quote, sentence)
+            if score > best_score:
+                best_score = score
+                best_sentence = sentence
+        return best_sentence if best_score >= 0.45 else ""
+
+    def _remove_duplicate_empty_sentence_analyses(self, items: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        substantive_quotes = {item["quote"] for item in items if item.get("axisImpacts")}
+        seen_empty = set()
+        result = []
+        for item in items:
+            if item.get("axisImpacts"):
+                result.append(item)
+                continue
+            if item["quote"] in substantive_quotes or item["quote"] in seen_empty:
+                continue
+            seen_empty.add(item["quote"])
+            result.append(item)
+        return result
+
+    def _text_units(self, text: str) -> set[str]:
+        normalized = self._normalize_quote(text)
+        if len(normalized) <= 1:
+            return {normalized} if normalized else set()
+        return {normalized[index : index + 2] for index in range(len(normalized) - 1)}
+
+    def _text_overlap_score(self, left: str, right: str) -> float:
+        left_units = self._text_units(left)
+        right_units = self._text_units(right)
+        if not left_units or not right_units:
+            return 0.0
+        return len(left_units & right_units) / min(len(left_units), len(right_units))
+
+    def _normalize_quote(self, text: str) -> str:
+        return re.sub(r"\s+", "", unicodedata.normalize("NFKC", str(text or "")).lower())
+
+    def _clamp_number(self, value: Any, *, minimum: float, maximum: float, default: float) -> float | int:
+        try:
+            number = float(value)
+        except (TypeError, ValueError):
+            number = default
+        number = min(max(number, minimum), maximum)
+        return int(number) if number.is_integer() else number
+
+
 class DeepSeekAnalysisPlanSummary:
     """Shape DeepSeek request plans into the JS/Python comparator summary contract."""
 
@@ -708,4 +940,70 @@ class DeepSeekAnalysisValidateCommandRequest:
             payload_path=args.payload,
             analysis_path=args.analysis,
             compare_js_report_path=args.compare_js_report or None,
+        ).run()
+
+
+class DeepSeekAnalysisNormalizeRunner:
+    """Normalize DeepSeek analysis JSON files into the JS-compatible result contract."""
+
+    def __init__(
+        self,
+        payload_path: str | Path,
+        analysis_path: str | Path,
+        *,
+        provider: str = "deepseek",
+        model: str = "",
+        reasoning_effort: str = "medium",
+        raw: str = "",
+        retried_compact_prompt: bool = False,
+    ):
+        self.payload_path = Path(payload_path)
+        self.analysis_path = Path(analysis_path)
+        self.provider = provider
+        self.model = model
+        self.reasoning_effort = reasoning_effort
+        self.raw = raw
+        self.retried_compact_prompt = retried_compact_prompt
+        self.normalizer = DeepSeekAnalysisNormalizer()
+
+    def run(self) -> dict[str, Any]:
+        return self.normalizer.normalize(
+            source_payload=JsonContractReader().read_object(self.payload_path),
+            analysis_payload=JsonContractReader().read_object(self.analysis_path),
+            provider=self.provider,
+            model=self.model,
+            reasoning_effort=self.reasoning_effort,
+            raw=self.raw,
+            retried_compact_prompt=self.retried_compact_prompt,
+        )
+
+
+class DeepSeekAnalysisNormalizeCommandRequest:
+    """Parse CLI argv for DeepSeek normalized-output JSON contracts."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Normalize DeepSeek analysis JSON into the JS runtime result contract.")
+        parser.add_argument("--payload", required=True, help="Path to the original JS-compatible analysis payload.")
+        parser.add_argument("--analysis", required=True, help="Path to the DeepSeek analysis JSON or wrapper containing parsed/analysis.")
+        parser.add_argument("--provider", default="deepseek")
+        parser.add_argument("--model", default="")
+        parser.add_argument("--reasoning-effort", default="medium")
+        parser.add_argument("--raw", default="")
+        parser.add_argument("--retried-compact-prompt", action="store_true")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return DeepSeekAnalysisNormalizeRunner(
+            payload_path=args.payload,
+            analysis_path=args.analysis,
+            provider=args.provider,
+            model=args.model,
+            reasoning_effort=args.reasoning_effort,
+            raw=args.raw,
+            retried_compact_prompt=args.retried_compact_prompt,
         ).run()
