@@ -18505,6 +18505,23 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["userDb"], {"users": 2, "assignedUsersInDb": 1})
         self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
 
+    def test_uid_parallel_progress_runner_defaults_corrupt_json_contract_inputs(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            (data_dir / "uid-discovery-comments.json").write_text("{not-json", encoding="utf-8")
+            (data_dir / "uid-parallel-1-progress.json").write_text("{not-json", encoding="utf-8")
+            (data_dir / "scraped-users-db.json").write_text("{not-json", encoding="utf-8")
+
+            result = UidParallelProgressPayloadRunner(data_dir, worker_id=1, total_workers=2).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["worker"], {"id": 1, "totalWorkers": 2, "assigned": 0})
+        self.assertEqual(result["progress"], {"processed": 0, "remaining": 0, "completionRatio": 0})
+        self.assertEqual(result["stats"], {"success": 0, "noText": 0, "errors": 0})
+        self.assertEqual(result["userDb"], {"users": 0, "assignedUsersInDb": 0})
+
     def test_uid_parallel_progress_cli_runner_reads_data_dir_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
