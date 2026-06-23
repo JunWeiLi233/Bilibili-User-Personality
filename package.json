@@ -8,7 +8,7 @@
     "server": "node server/index.js",
     "video:keywords": "node server/scripts/runVideoKeywordDiscovery.js",
     "dictionary:harvest": "node server/scripts/runVideoKeywordDiscovery.js",
-    "dictionary:coverage": "node server/scripts/runDictionaryCoverageAudit.js",
+    "dictionary:coverage": "python -m python_backend.cli.coverage_audit --standalone --output server/data/keywordCoverageAudit.json --query-file server/data/keywordCoverageQueries.txt --action-file server/data/keywordCoverageActions.json --exit-zero",
     "dictionary:prune": "node server/scripts/pruneKeywordDictionary.js",
     "dictionary:prune-exhausted": "node server/scripts/pruneExhaustedTerms.js",
     "dictionary:resolve-near": "node server/scripts/resolveNearTargetTerms.js",

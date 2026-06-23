@@ -1432,7 +1432,24 @@ class CorpusContractTests(unittest.TestCase):
         command = package["scripts"]["python:coverage-standalone"]
 
         self.assertEqual(command, "python -m python_backend.cli.coverage_audit --standalone")
-        self.assertEqual(package["scripts"]["dictionary:coverage"], "node server/scripts/runDictionaryCoverageAudit.js")
+        self.assertEqual(
+            package["scripts"]["dictionary:coverage"],
+            "python -m python_backend.cli.coverage_audit --standalone --output server/data/keywordCoverageAudit.json --query-file server/data/keywordCoverageQueries.txt --action-file server/data/keywordCoverageActions.json --exit-zero",
+        )
+
+    def test_package_dictionary_coverage_uses_python_after_contract_validation(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertEqual(
+            package["scripts"]["dictionary:coverage"],
+            "python -m python_backend.cli.coverage_audit --standalone --output server/data/keywordCoverageAudit.json --query-file server/data/keywordCoverageQueries.txt --action-file server/data/keywordCoverageActions.json --exit-zero",
+        )
+        self.assertNotIn("server/scripts/runDictionaryCoverageAudit.js", result["migrationCandidateFiles"]["scripts"])
+        self.assertIn(
+            {"path": "server/scripts/runDictionaryCoverageAudit.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
 
     def test_package_python_coverage_standalone_write_script_persists_python_artifacts(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
@@ -1442,7 +1459,6 @@ class CorpusContractTests(unittest.TestCase):
             command,
             "python -m python_backend.cli.coverage_audit --standalone --output server/data/keywordCoverageAudit.python.json --query-file server/data/keywordCoverageQueries.python.txt --action-file server/data/keywordCoverageActions.python.json --exit-zero",
         )
-        self.assertEqual(package["scripts"]["dictionary:coverage"], "node server/scripts/runDictionaryCoverageAudit.js")
 
     def test_github_python_validation_workflow_runs_migrated_contract_gates(self):
         workflow = Path(".github/workflows/python-validation.yml").read_text(encoding="utf-8")
