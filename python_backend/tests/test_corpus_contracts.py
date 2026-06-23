@@ -25449,6 +25449,20 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_package_discovery_report_compare_script_registers_js_python_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(
+            package["scripts"]["python:discovery-report-compare"],
+            "node server/scripts/compareVideoKeywordDiscoveryReport.js",
+        )
+
+        result = BackendMigrationInventoryScanner(".").scan()
+        self.assertIn(
+            {"path": "server/scripts/compareVideoKeywordDiscoveryReport.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_video_keyword_discovery_options_builder_matches_strict_comment_contract(self):
         builder = VideoKeywordDiscoveryOptionsBuilder(cwd="D:/Bilibili_User_Personality")
         options = builder.build(

@@ -43,6 +43,7 @@
     "python:dictionary-prune-compare": "node server/scripts/compareDictionaryPruneSummary.js",
     "python:readme-stats": "python -m python_backend.cli.readme_stats",
     "python:discovery-report": "python -m python_backend.cli.discovery_report",
+    "python:discovery-report-compare": "node server/scripts/compareVideoKeywordDiscoveryReport.js",
     "python:harvest-options": "python -m python_backend.cli.harvest_options",
     "python:harvest-plan": "python -m python_backend.cli.harvest_plan",
     "python:harvest-plan-compare": "node server/scripts/compareHarvestPlan.js",
