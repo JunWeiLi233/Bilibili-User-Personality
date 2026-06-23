@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from python_backend.corpus.dictionary import DictionaryLoader
+from python_backend.corpus.dictionary import DictionaryLoader, DictionaryMergeWriter
 from python_backend.runtime.json_contracts import safe_read_json_object
 
 
@@ -105,10 +105,14 @@ class MergeAgentDictionariesPlanRunner:
         agent_paths: list[str | Path],
         *,
         agent_dictionary_relative_path: str = "server/data/deepseekKeywordDictionary.json",
+        write: bool = False,
+        generated_at: str | None = None,
     ):
         self.main_dictionary_path = Path(main_dictionary_path)
         self.agent_paths = [Path(path) for path in agent_paths]
         self.agent_dictionary_relative_path = agent_dictionary_relative_path
+        self.write = bool(write)
+        self.generated_at = generated_at
 
     def run(self) -> dict[str, Any]:
         main_entries = DictionaryLoader(self.main_dictionary_path).load().entries
@@ -116,7 +120,15 @@ class MergeAgentDictionariesPlanRunner:
         for index, agent_path in enumerate(self.agent_paths, start=1):
             agents.append(self._load_agent(index, agent_path))
         plan = AgentDictionaryMergePlanner().build_plan(main_entries, agents)
-        return {"mainDictionaryPath": str(self.main_dictionary_path), **plan}
+        result = {"mainDictionaryPath": str(self.main_dictionary_path), "write": self.write, **plan}
+        if self.write:
+            write_result = DictionaryMergeWriter(self.main_dictionary_path, generated_at=self.generated_at).merge_entries(
+                self._mergeable_entries(main_entries, agents)
+            )
+            result["dictionaryBefore"] = write_result["before"]
+            result["dictionaryAfter"] = write_result["after"]
+            result["dictionaryMergedEntries"] = write_result["entries"]
+        return result
 
     def _load_agent(self, index: int, agent_path: Path) -> dict[str, Any]:
         dictionary_path = agent_path / self.agent_dictionary_relative_path
@@ -130,6 +142,22 @@ class MergeAgentDictionariesPlanRunner:
                 "reason": f"cannot_read_dictionary: {exc}",
             }
         return {"agent": index, "path": str(agent_path), "entries": agent_entries}
+
+    def _mergeable_entries(self, main_entries: list[dict[str, Any]], agents: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        current_terms = {
+            str(entry.get("term") or "").strip()
+            for entry in main_entries
+            if isinstance(entry, dict) and str(entry.get("term") or "").strip()
+        }
+        mergeable = []
+        for agent in agents:
+            entries = agent.get("entries") if isinstance(agent.get("entries"), list) else []
+            for entry in entries:
+                if not isinstance(entry, dict):
+                    continue
+                if str(entry.get("term") or "").strip() in current_terms:
+                    mergeable.append(entry)
+        return mergeable
 
 
 class MergeAgentDictionariesPlanContractComparator:
@@ -182,11 +210,15 @@ class AgentDictionaryMergePlanRequest:
         *,
         agent_dictionary_relative_path: str = "server/data/deepseekKeywordDictionary.json",
         compare_js_report_path: str | Path | None = None,
+        write: bool = False,
+        generated_at: str | None = None,
     ):
         self.main_dictionary_path = Path(main_dictionary_path)
         self.agent_paths = agent_paths
         self.agent_dictionary_relative_path = agent_dictionary_relative_path
         self.compare_js_report_path = Path(compare_js_report_path) if compare_js_report_path else None
+        self.write = bool(write)
+        self.generated_at = generated_at
 
     def run(self) -> dict[str, Any]:
         if self.compare_js_report_path:
@@ -200,6 +232,8 @@ class AgentDictionaryMergePlanRequest:
             self.main_dictionary_path,
             self.agent_paths,
             agent_dictionary_relative_path=self.agent_dictionary_relative_path,
+            write=self.write,
+            generated_at=self.generated_at,
         ).run()
 
 
@@ -215,6 +249,8 @@ class AgentDictionaryMergePlanCommandRequest:
         parser.add_argument("agent_paths", nargs="*", help="Agent worktree paths containing server/data/deepseekKeywordDictionary.json.")
         parser.add_argument("--dictionary", default="server/data/deepseekKeywordDictionary.json")
         parser.add_argument("--agent-dictionary-relative-path", default="server/data/deepseekKeywordDictionary.json")
+        parser.add_argument("--write", action="store_true", help="Merge existing-term agent evidence into the main dictionary.")
+        parser.add_argument("--generated-at", default="", help="Optional deterministic updatedAt timestamp for write-mode tests.")
         parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible merge-agent report to compare.")
         return parser
 
@@ -225,4 +261,6 @@ class AgentDictionaryMergePlanCommandRequest:
             args.agent_paths,
             agent_dictionary_relative_path=args.agent_dictionary_relative_path,
             compare_js_report_path=args.compare_js_report or None,
+            write=args.write,
+            generated_at=args.generated_at or None,
         ).run()

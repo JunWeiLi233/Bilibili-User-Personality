@@ -1403,6 +1403,25 @@ class CorpusContractTests(unittest.TestCase):
             result["retainedJsBackendFiles"],
         )
 
+    def test_merge_agent_dictionary_command_uses_python_write_mode(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertEqual(package["scripts"]["python:merge-agent"], "python -m python_backend.cli.merge_agent_dictionaries_plan --write")
+        self.assertNotIn("server/scripts/mergeAgentDictionaries.js", result["migrationCandidateFiles"]["scripts"])
+        self.assertIn(
+            {"path": "server/scripts/mergeAgentDictionaries.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {
+                "script": "python:merge-agent",
+                "command": "python -m python_backend.cli.merge_agent_dictionaries_plan --write",
+                "pipeline": "agent_dictionary_merge",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+
     def test_package_command_migration_inventory_maps_node_commands_to_python_contracts(self):
         package = {
             "scripts": {
@@ -19590,6 +19609,81 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["mainEntries"], 1)
         self.assertEqual(result["totalEvidenceGain"], 2)
         self.assertEqual(result["summary"], {"agentCount": 1, "mainEntries": 1, "totalEvidenceGain": 2, "skippedAgents": 0})
+
+    def test_merge_agent_dictionaries_plan_request_can_write_existing_term_evidence(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            main_dictionary_path = root / "main.json"
+            agent_root = root / "agent"
+            agent_dict = agent_root / "server" / "data"
+            agent_dict.mkdir(parents=True)
+            DictionaryMergeWriter(main_dictionary_path, generated_at="2026-06-23T00:00:00.000Z").write(
+                [
+                    {
+                        "term": "doge",
+                        "family": "attack",
+                        "evidenceCount": 1,
+                        "evidenceSamples": ["old sample"],
+                        "evidenceSources": [{"source": "main", "sample": "old sample"}],
+                    }
+                ]
+            )
+            (agent_dict / "deepseekKeywordDictionary.json").write_text(
+                json.dumps(
+                    {
+                        "entries": [
+                            {
+                                "term": "doge",
+                                "family": "attack",
+                                "evidenceCount": 1,
+                                "evidenceSamples": ["agent sample"],
+                                "evidenceSources": [{"source": "agent", "sample": "agent sample"}],
+                            },
+                            {"term": "new-only", "family": "attack", "evidenceCount": 9, "evidenceSamples": ["ignored"]},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = AgentDictionaryMergePlanRequest(
+                main_dictionary_path,
+                [agent_root],
+                write=True,
+                generated_at="2026-06-23T00:01:00.000Z",
+            ).run()
+            loaded = DictionaryLoader(main_dictionary_path).load()
+
+        self.assertTrue(result["write"])
+        self.assertEqual(result["dictionaryBefore"], 1)
+        self.assertEqual(result["dictionaryAfter"], 1)
+        self.assertEqual([entry["term"] for entry in loaded.entries], ["doge"])
+        self.assertEqual(loaded.entries[0]["evidenceCount"], 2)
+        self.assertEqual(loaded.entries[0]["evidenceSamples"], ["old sample", "agent sample"])
+
+    def test_merge_agent_dictionaries_plan_cli_runner_can_write_existing_term_evidence(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            main_dictionary_path = root / "main.json"
+            agent_root = root / "agent"
+            agent_dict = agent_root / "server" / "data"
+            agent_dict.mkdir(parents=True)
+            DictionaryMergeWriter(main_dictionary_path, generated_at="2026-06-23T00:00:00.000Z").write(
+                [{"term": "doge", "family": "attack", "evidenceCount": 0}]
+            )
+            (agent_dict / "deepseekKeywordDictionary.json").write_text(
+                json.dumps({"entries": [{"term": "doge", "family": "attack", "evidenceCount": 1, "evidenceSamples": ["agent sample"]}]}),
+                encoding="utf-8",
+            )
+
+            result = merge_agent_dictionaries_plan_cli.MergeAgentDictionariesPlanCliRunner(
+                ["--dictionary", str(main_dictionary_path), "--write", str(agent_root)]
+            ).run()
+            loaded = DictionaryLoader(main_dictionary_path).load()
+
+        self.assertTrue(result["write"])
+        self.assertEqual(result["dictionaryAfter"], 1)
+        self.assertEqual(loaded.entries[0]["evidenceSamples"], ["agent sample"])
 
     def test_merge_agent_dictionaries_plan_cli_runner_is_command_request_wrapper(self):
         self.assertTrue(issubclass(merge_agent_dictionaries_plan_cli.MergeAgentDictionariesPlanCliRunner, AgentDictionaryMergePlanCommandRequest))

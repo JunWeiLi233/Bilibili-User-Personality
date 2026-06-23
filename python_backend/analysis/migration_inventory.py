@@ -125,6 +125,7 @@ PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
     "direct_probe_command": ("python_backend.cli.direct_probe_command",),
     "direct_probe_live_fetch": ("python_backend.cli.direct_probe_live_fetch",),
     "uid_pipeline_merge": ("python_backend.cli.uid_pipeline_merge",),
+    "agent_dictionary_merge": ("python_backend.cli.merge_agent_dictionaries_plan --write",),
 }
 
 RETAINED_JS_FILE_PREFIXES = {
@@ -279,6 +280,11 @@ class BackendMigrationInventoryScanner:
         if (
             relative_path == "server/scripts/mergeUidPipelineResults.js"
             and str(package_scripts.get("python:uid-pipeline-merge") or "").startswith("python -m python_backend.cli.uid_pipeline_merge")
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/mergeAgentDictionaries.js"
+            and package_scripts.get("python:merge-agent") == "python -m python_backend.cli.merge_agent_dictionaries_plan --write"
         ):
             return "legacy_compatibility_after_python_replacement"
         if relative_path in RETAINED_JS_FILES:
