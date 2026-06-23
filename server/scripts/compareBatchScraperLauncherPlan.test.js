@@ -5,7 +5,11 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { test } from 'node:test';
 
-import { compareBatchScraperLauncherPlan, compareBatchScraperLauncherPlanObjects } from './compareBatchScraperLauncherPlan.js';
+import {
+  BATCH_SCRAPER_LAUNCHER_PLAN_FIXTURES,
+  compareBatchScraperLauncherPlan,
+  compareBatchScraperLauncherPlanObjects,
+} from './compareBatchScraperLauncherPlan.js';
 
 const SUMMARY = {
   workers: [
@@ -48,6 +52,26 @@ test('compareBatchScraperLauncherPlan compares JS and Python launch plans', asyn
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('compareBatchScraperLauncherPlan exports named compatibility fixtures', async () => {
+  assert.deepEqual(Object.keys(BATCH_SCRAPER_LAUNCHER_PLAN_FIXTURES), ['default-data-dir', 'custom-data-dir']);
+
+  const dataDirs = [];
+  const result = await compareBatchScraperLauncherPlan({
+    fixtureNames: Object.keys(BATCH_SCRAPER_LAUNCHER_PLAN_FIXTURES),
+    runJs: async ({ dataDir }) => {
+      dataDirs.push(dataDir);
+      return { ok: true, ...SUMMARY };
+    },
+    runPython: async () => ({ ok: true, ...SUMMARY }),
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.fixtures.map((fixture) => fixture.name), ['default-data-dir', 'custom-data-dir']);
+  assert.equal(dataDirs.length, 2);
+  assert.match(dataDirs[0], /server[\\/]data$/);
+  assert.equal(dataDirs[1], BATCH_SCRAPER_LAUNCHER_PLAN_FIXTURES['custom-data-dir'].dataDir);
 });
 
 test('launchAllScrapers can delegate dry-run launcher planning to Python', () => {

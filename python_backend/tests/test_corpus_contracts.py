@@ -23230,9 +23230,13 @@ class CorpusContractTests(unittest.TestCase):
             result["retainedJsBackendFiles"],
         )
         self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:batch-scraper-launcher-compare"],
+            "dry_run_plan_default_custom_data_dir_fixtures_and_js_python_bridge",
+        )
+        self.assertEqual(
             BackendMigrationInventoryScanner._validation_gates(
                 validation_script="python:batch-scraper-launcher-compare",
-                validation_scope="dry_run_plan_fixture_and_js_python_plan_bridge",
+                validation_scope="dry_run_plan_default_custom_data_dir_fixtures_and_js_python_bridge",
             ),
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:batch-scraper-launcher-compare"},
