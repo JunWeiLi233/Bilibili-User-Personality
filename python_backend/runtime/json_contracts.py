@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from copy import deepcopy
 from pathlib import Path
 from typing import Any
 
@@ -9,7 +10,7 @@ class JsonContractReader:
     """Read optional JS/Python JSON contract artifacts without aborting comparisons."""
 
     def __init__(self, default_object: dict[str, Any] | None = None):
-        self.default_object = dict(default_object) if isinstance(default_object, dict) else {}
+        self.default_object = deepcopy(default_object) if isinstance(default_object, dict) else {}
 
     def read_object(self, path: str | Path) -> dict[str, Any]:
         json_path = Path(path)
@@ -23,7 +24,7 @@ class JsonContractReader:
         return payload if isinstance(payload, dict) else self._default()
 
     def _default(self) -> dict[str, Any]:
-        return dict(self.default_object)
+        return deepcopy(self.default_object)
 
 
 def safe_read_json_object(path: str | Path) -> dict[str, Any]:

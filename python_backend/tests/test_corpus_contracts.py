@@ -5666,6 +5666,7 @@ class CorpusContractTests(unittest.TestCase):
             undecodable_path.write_bytes(b"\xff\xfe\xfa")
             reader = JsonContractReader()
             fallback_reader = JsonContractReader(default_object={"ok": False, "source": "fallback"})
+            nested_fallback_reader = JsonContractReader(default_object={"summary": {"ok": False}, "items": []})
 
             self.assertEqual(safe_read_json_object(valid_path), {"ok": True, "value": 1})
             self.assertEqual(reader.read_object(valid_path), {"ok": True, "value": 1})
@@ -5680,6 +5681,10 @@ class CorpusContractTests(unittest.TestCase):
             fallback = fallback_reader.read_object(corrupt_path)
             fallback["ok"] = True
             self.assertEqual(fallback_reader.read_object(missing_path), {"ok": False, "source": "fallback"})
+            nested_fallback = nested_fallback_reader.read_object(missing_path)
+            nested_fallback["summary"]["ok"] = True
+            nested_fallback["items"].append("mutated")
+            self.assertEqual(nested_fallback_reader.read_object(missing_path), {"summary": {"ok": False}, "items": []})
 
     def test_contract_comparator_rejects_manifest_run_count_mismatch(self):
         with tempfile.TemporaryDirectory() as tmp:
