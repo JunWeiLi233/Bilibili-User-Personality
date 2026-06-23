@@ -19686,6 +19686,25 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["combined"], {"uidsAnalyzed": 5})
 
+    def test_scraper_monitor_runner_defaults_corrupt_worker_progress_inputs(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            (data_dir / "uid-discovery-progress.json").write_text(
+                json.dumps({"stats": {"uidsAnalyzed": 1, "uidsFound": 2}}),
+                encoding="utf-8",
+            )
+            (data_dir / "uid-pipeline-1-1.json").write_text("{not-json", encoding="utf-8")
+
+            result = ScraperMonitorPayloadRunner(data_dir, total_start=1, total_end=1, workers=1, pipeline_rate_per_minute=2).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["discovery"], {"analyzed": 1, "found": 2, "remaining": 1, "errors": 0})
+        self.assertEqual(result["pipeline"]["processed"], 0)
+        self.assertEqual(result["pipeline"]["noVideos"], 0)
+        self.assertEqual(result["combined"], {"uidsAnalyzed": 1})
+
     def test_scraper_monitor_reporter_summarizes_loaded_progress_payloads(self):
         reporter = ScraperMonitorReporter(pipeline_rate_per_minute=2)
 

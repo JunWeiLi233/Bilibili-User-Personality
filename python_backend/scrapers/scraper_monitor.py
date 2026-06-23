@@ -6,7 +6,7 @@ import math
 from pathlib import Path
 from typing import Any
 
-from python_backend.runtime.json_contracts import safe_read_json_object
+from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 from python_backend.scrapers.uid_pipeline import UidPipelineMergeRunner
 
 
@@ -90,10 +90,7 @@ class ScraperMonitorRunner:
         return [self._read_json(self.data_dir / progress_file, {}) for progress_file in progress_files]
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
-        if not path.exists():
-            return fallback
-        with path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
+        payload = JsonContractReader().read_value(path, fallback)
         return payload if isinstance(payload, dict) else fallback
 
 
