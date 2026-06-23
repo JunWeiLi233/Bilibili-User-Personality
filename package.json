@@ -77,6 +77,7 @@
     "python:semantic-match": "python -m python_backend.cli.semantic_matcher",
     "python:deepseek-plan": "python -m python_backend.cli.deepseek_analysis_plan",
     "python:deepseek-cli-plan": "python -m python_backend.cli.deepseek_analyze_cli_plan",
+    "python:deepseek-cli-compare": "node server/scripts/compareDeepSeekAnalyzePlan.js",
     "python:deepseek-validate": "python -m python_backend.cli.deepseek_analysis_validate",
     "python:keyword-evidence": "python -m python_backend.cli.keyword_evidence",
     "python:huggingface-plan": "python -m python_backend.cli.huggingface_corpus --plan-payload",

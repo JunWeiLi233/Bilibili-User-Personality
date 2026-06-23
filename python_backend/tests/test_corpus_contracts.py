@@ -1228,6 +1228,11 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(payload["remainingJsBackendFiles"], 1)
         self.assertEqual(payload["categories"]["services"], 1)
 
+    def test_package_deepseek_cli_compare_script_runs_js_python_dry_run_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(package["scripts"]["python:deepseek-cli-compare"], "node server/scripts/compareDeepSeekAnalyzePlan.js")
+
     def test_package_command_migration_inventory_maps_node_commands_to_python_contracts(self):
         package = {
             "scripts": {
