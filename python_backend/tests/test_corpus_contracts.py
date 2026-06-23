@@ -5221,6 +5221,17 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(len(result["requests"]), 1)
         self.assertEqual(result["requests"][0]["model"], "deepseek-v4-flash")
 
+    def test_deepseek_analysis_plan_runner_defaults_corrupt_payload_json(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "payload.json"
+            payload_path.write_text('{"comments": [', encoding="utf-8")
+
+            result = DeepSeekAnalysisPlanRunner(payload_path).run()
+
+        self.assertEqual(result["mode"], "single")
+        self.assertEqual(len(result["requests"]), 1)
+        self.assertEqual(result["requests"][0]["model"], "deepseek-v4-flash")
+
     def test_deepseek_analysis_plan_cli_accepts_argv_payload_contract(self):
         sentence = "\u8fd9\u53e5\u662f\u5728\u53cd\u8bbd\u5427[doge]"
         with tempfile.TemporaryDirectory() as tmp:
