@@ -15743,6 +15743,36 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_tieba_html_parse_has_js_python_validation_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(
+            package["scripts"]["python:tieba-html-parse-compare"],
+            "node server/scripts/compareTiebaHtmlParse.js",
+        )
+
+        result = BackendMigrationInventoryScanner(".").scan()
+        self.assertIn(
+            {
+                "script": "python:tieba-html-parse-compare",
+                "command": "node server/scripts/compareTiebaHtmlParse.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareTiebaHtmlParse.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {
+                "script": "python:tieba-html-parse",
+                "command": "python -m python_backend.cli.tieba_html_parse",
+                "pipeline": "tieba_html_parse",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+
     def test_bilibili_public_parser_matches_bvid_contracts(self):
         parser = BilibiliPublicParser()
 

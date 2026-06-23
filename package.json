@@ -131,6 +131,7 @@
     "python:video-link-direct-plan": "python -m python_backend.cli.video_link_direct_plan",
     "python:video-link-direct-compare": "node server/scripts/compareVideoLinkDirectPlan.js",
     "python:tieba-html-parse": "python -m python_backend.cli.tieba_html_parse",
+    "python:tieba-html-parse-compare": "node server/scripts/compareTiebaHtmlParse.js",
     "python:tieba-keyword-plan": "python -m python_backend.cli.tieba_keyword_plan",
     "python:tieba-keyword-compare": "node server/scripts/compareTiebaKeywordPlan.js",
     "python:tieba-corpus": "python -m python_backend.cli.tieba_corpus",
