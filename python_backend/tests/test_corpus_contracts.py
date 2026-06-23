@@ -22257,6 +22257,32 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_coverage_harvest_loop_payload_comparator_defaults_corrupt_js_reports(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-loop-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "env": {"BILIBILI_COVERAGE_LOOP_MAX_CYCLES": "0", "BILIBILI_HARVEST_MAX_QUERIES": "2"},
+                        "audit": {
+                            "ok": False,
+                            "nextActions": [{"term": "doge", "family": "meme", "nextQuery": "doge hot"}],
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            result = CoverageHarvestLoopPlanPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"], {})
+        self.assertEqual(result["python"]["loop"], {"maxCycles": 0, "roundsPerCycle": 1, "maxQueries": 2})
+
     def test_coverage_harvest_loop_plan_request_compares_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
