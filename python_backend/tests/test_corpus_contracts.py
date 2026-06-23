@@ -1155,6 +1155,7 @@ class CorpusContractTests(unittest.TestCase):
                                 "scripts": {
                                     "dictionary:huggingface": "node server/scripts/importHuggingFaceCorpus.js",
                                     "python:huggingface-import": "python -m python_backend.cli.huggingface_corpus",
+                                    "python:huggingface-compare": "node server/scripts/compareHuggingFaceCorpus.js",
                                 }
                             }
                         ),
@@ -1207,6 +1208,9 @@ class CorpusContractTests(unittest.TestCase):
                 "nodeCommand": "node server/scripts/importHuggingFaceCorpus.js",
                 "pythonScript": "python:huggingface-import",
                 "pythonCommand": "python -m python_backend.cli.huggingface_corpus",
+                "validationScript": "python:huggingface-compare",
+                "validationCommand": "node server/scripts/compareHuggingFaceCorpus.js",
+                "readyToReplace": True,
                 "recommendation": "compare_python_contract_before_replacing_js",
             },
         )

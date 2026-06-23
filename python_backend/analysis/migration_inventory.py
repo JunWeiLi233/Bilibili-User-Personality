@@ -35,6 +35,7 @@ DEFAULT_PACKAGE_COMMAND_EQUIVALENTS = {
 
 DEFAULT_PACKAGE_VALIDATION_EQUIVALENTS = {
     "deepseek:analyze": "python:deepseek-cli-compare",
+    "dictionary:huggingface": "python:huggingface-compare",
 }
 
 DEFAULT_RETAINED_NODE_COMMANDS = {
@@ -160,12 +161,17 @@ class BackendMigrationInventoryScanner:
                 continue
             command = str(mapping.get("command") or "")
             if first["path"] in command:
+                validation_script = str(mapping.get("validationScript") or "")
+                validation_command = str(mapping.get("validationCommand") or "")
                 return {
                     **first,
                     "nodeScript": str(mapping.get("script") or ""),
                     "nodeCommand": command,
                     "pythonScript": str(mapping.get("pythonScript") or ""),
                     "pythonCommand": str(mapping.get("pythonCommand") or ""),
+                    "validationScript": validation_script,
+                    "validationCommand": validation_command,
+                    "readyToReplace": bool(validation_script and validation_command),
                     "recommendation": "compare_python_contract_before_replacing_js",
                 }
         return {
@@ -174,6 +180,9 @@ class BackendMigrationInventoryScanner:
             "nodeCommand": "",
             "pythonScript": "",
             "pythonCommand": "",
+            "validationScript": "",
+            "validationCommand": "",
+            "readyToReplace": False,
             "recommendation": "create_python_contract_then_compare_js",
         }
 
