@@ -5658,10 +5658,12 @@ class CorpusContractTests(unittest.TestCase):
             valid_path = root / "valid.json"
             array_path = root / "array.json"
             corrupt_path = root / "corrupt.json"
+            undecodable_path = root / "undecodable.json"
             missing_path = root / "missing.json"
             valid_path.write_text(json.dumps({"ok": True, "value": 1}), encoding="utf-8")
             array_path.write_text(json.dumps(["not", "object"]), encoding="utf-8")
             corrupt_path.write_text("{bad json", encoding="utf-8")
+            undecodable_path.write_bytes(b"\xff\xfe\xfa")
             reader = JsonContractReader()
             fallback_reader = JsonContractReader(default_object={"ok": False, "source": "fallback"})
 
@@ -5671,6 +5673,8 @@ class CorpusContractTests(unittest.TestCase):
             self.assertEqual(reader.read_object(array_path), {})
             self.assertEqual(safe_read_json_object(corrupt_path), {})
             self.assertEqual(reader.read_object(corrupt_path), {})
+            self.assertEqual(safe_read_json_object(undecodable_path), {})
+            self.assertEqual(reader.read_object(undecodable_path), {})
             self.assertEqual(safe_read_json_object(missing_path), {})
             self.assertEqual(reader.read_object(missing_path), {})
             fallback = fallback_reader.read_object(corrupt_path)

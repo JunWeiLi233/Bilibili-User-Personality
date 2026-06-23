@@ -18,7 +18,7 @@ class JsonContractReader:
         try:
             with json_path.open("r", encoding="utf-8-sig") as handle:
                 payload = json.load(handle)
-        except json.JSONDecodeError:
+        except (OSError, UnicodeDecodeError, json.JSONDecodeError):
             return self._default()
         return payload if isinstance(payload, dict) else self._default()
 
