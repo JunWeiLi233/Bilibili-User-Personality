@@ -18,6 +18,38 @@ class KeywordDictionary:
     entries: list[dict[str, Any]]
 
 
+class DictionaryPayloadContract:
+    """Normalize JS-compatible dictionary payload shapes before loading."""
+
+    def __init__(self, payload: dict[str, Any] | None = None):
+        self.payload = payload if isinstance(payload, dict) else {}
+
+    def inline_dictionary(self) -> KeywordDictionary | None:
+        dictionary_payload = self.payload.get("dictionary") if isinstance(self.payload.get("dictionary"), dict) else None
+        if dictionary_payload is None:
+            return None
+        entries = DictionaryLoader._normalize_entries(dictionary_payload.get("entries", []))
+        return KeywordDictionary(
+            manifest={
+                "version": dictionary_payload.get("version", 1),
+                "storage": dictionary_payload.get("storage") or "inline",
+                "updatedAt": dictionary_payload.get("updatedAt") or None,
+                "entries": entries,
+                "families": dictionary_payload.get("families") or {},
+            },
+            entries=entries,
+        )
+
+    def path(self, preferred_key: str, default: str) -> str | os.PathLike:
+        preferred = self.payload.get(preferred_key)
+        if isinstance(preferred, (str, os.PathLike)) and str(preferred).strip():
+            return preferred
+        fallback = self.payload.get("path")
+        if isinstance(fallback, (str, os.PathLike)) and str(fallback).strip():
+            return fallback
+        return default
+
+
 class DictionaryLoader:
     """Read keyword dictionary JSON in monolithic or JS split-shard format."""
 
@@ -27,21 +59,11 @@ class DictionaryLoader:
 
     @classmethod
     def load_from_payload(cls, payload: dict[str, Any] | None = None) -> KeywordDictionary:
-        payload = payload if isinstance(payload, dict) else {}
-        dictionary_payload = payload.get("dictionary") if isinstance(payload.get("dictionary"), dict) else None
-        if dictionary_payload is not None:
-            entries = cls._normalize_entries(dictionary_payload.get("entries", []))
-            return KeywordDictionary(
-                manifest={
-                    "version": dictionary_payload.get("version", 1),
-                    "storage": dictionary_payload.get("storage") or "inline",
-                    "updatedAt": dictionary_payload.get("updatedAt") or None,
-                    "entries": entries,
-                    "families": dictionary_payload.get("families") or {},
-                },
-                entries=entries,
-            )
-        path = cls._payload_path(payload, "dictionaryPath", "server/data/deepseekKeywordDictionary.json")
+        contract = DictionaryPayloadContract(payload)
+        inline = contract.inline_dictionary()
+        if inline is not None:
+            return inline
+        path = contract.path("dictionaryPath", "server/data/deepseekKeywordDictionary.json")
         return cls(path).load()
 
     def load(self) -> KeywordDictionary:
@@ -148,13 +170,7 @@ class DictionaryLoader:
 
     @staticmethod
     def _payload_path(payload: dict[str, Any], preferred_key: str, default: str) -> str | os.PathLike:
-        preferred = payload.get(preferred_key)
-        if isinstance(preferred, (str, os.PathLike)) and str(preferred).strip():
-            return preferred
-        fallback = payload.get("path")
-        if isinstance(fallback, (str, os.PathLike)) and str(fallback).strip():
-            return fallback
-        return default
+        return DictionaryPayloadContract(payload).path(preferred_key, default)
 
     @staticmethod
     def _list_field(value: dict[str, Any], key: str) -> list[Any]:

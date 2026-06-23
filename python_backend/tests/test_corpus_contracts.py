@@ -154,7 +154,7 @@ from python_backend.corpus.tieba import TiebaCorpusCommandRequest, TiebaCorpusJs
 from python_backend.corpus import dictionary_prune
 from python_backend.analysis import video_filter
 from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommentFilterCommandRequest, VideoCommentFilterContractComparator as VideoCommentFilterPayloadComparator, VideoCommentFilterPayloadContractComparator, VideoCommentFilterPayloadRunner, VideoCommentFilterRequest, VideoContextBuilder, VideoContextCommandRequest, VideoContextContractComparator as VideoContextPayloadComparator, VideoContextRequest, VideoContextRunner as VideoContextPayloadRunner, VideoRelevanceCommandRequest, VideoRelevanceContractComparator as VideoRelevancePayloadComparator, VideoRelevanceFilter, VideoRelevancePayloadContractComparator, VideoRelevancePayloadRunner, VideoRelevanceRequest
-from python_backend.corpus.dictionary import DictionaryLoader
+from python_backend.corpus.dictionary import DictionaryLoader, DictionaryPayloadContract
 from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader, CorpusPayloadContract
 from python_backend.corpus.writer import CorpusShardPlanner, CorpusShardWriteCommandRequest, CorpusShardWriteContractComparator as CorpusShardWritePayloadComparator, CorpusShardWritePayloadContractComparator, CorpusShardWriteRequest, CorpusShardWriteRunner as CorpusShardWritePayloadRunner, CorpusShardWriteSummary, CorpusShardWriter
@@ -6665,6 +6665,29 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(loaded.manifest["storage"], "inline")
         self.assertEqual(loaded.manifest["families"], {"attack": 1})
         self.assertEqual(loaded.entries, [{"term": "doge", "family": "attack"}])
+
+    def test_dictionary_payload_contract_owns_inline_normalization_and_path_fallback(self):
+        contract = DictionaryPayloadContract(
+            {
+                "dictionaryPath": {"bad": True},
+                "path": "fallback-dictionary.json",
+                "dictionary": {
+                    "version": 4,
+                    "storage": "custom-inline",
+                    "entries": ["doge", {"term": "yygq", "family": "attack"}, ""],
+                    "families": {"attack": 2},
+                },
+            }
+        )
+
+        inline = contract.inline_dictionary()
+
+        self.assertEqual(contract.path("dictionaryPath", "default.json"), "fallback-dictionary.json")
+        self.assertIsNotNone(inline)
+        self.assertEqual(inline.manifest["version"], 4)
+        self.assertEqual(inline.manifest["storage"], "custom-inline")
+        self.assertEqual(inline.manifest["families"], {"attack": 2})
+        self.assertEqual(inline.entries, [{"term": "doge"}, {"term": "yygq", "family": "attack"}])
 
     def test_dictionary_loader_normalizes_monolith_manifest_like_js(self):
         with tempfile.TemporaryDirectory() as tmp:
