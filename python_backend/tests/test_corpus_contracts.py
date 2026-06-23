@@ -21963,6 +21963,31 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_harvest_options_payload_comparator_defaults_corrupt_js_reports(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "harvest-options.json"
+            js_report_path = root / "js-harvest-options.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "coverage-runtime",
+                        "env": {"BILIBILI_COVERAGE_AUDIT_REQUIRE_COMMENTS": "1"},
+                        "argv": ["--target-evidence", "2", "--max-actions=5"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            result = HarvestOptionsPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"], {})
+        self.assertEqual(result["python"]["mode"], "coverage-runtime")
+        self.assertEqual(result["python"]["options"]["targetEvidence"], 2)
+
     def test_harvest_options_request_compares_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
