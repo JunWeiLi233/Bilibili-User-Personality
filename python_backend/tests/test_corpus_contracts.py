@@ -168,7 +168,7 @@ from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerCommandReque
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanCommandRequest, BilibiliProbePlanContractComparator as BilibiliProbePlanPayloadComparator, BilibiliProbePlanPayloadContractComparator, BilibiliProbePlanRequest, BilibiliProbePlanRunner as BilibiliProbePayloadPlanRunner, BilibiliProbePlanSummary, BilibiliProbePlanner
 from python_backend.runtime.file_lock import FileLockStateCommandRequest, FileLockStateContractComparator as FileLockStatePayloadComparator, FileLockStateInspector, FileLockStateRequest, FileLockStateRunner as FileLockStatePayloadRunner, FileLockStateSummary
 from python_backend.scrapers.rate_limiter import RateLimitOptionsContract, RateLimitPolicy, RateLimiter
-from python_backend.runtime.json_contracts import JsonContractReader
+from python_backend.runtime.json_contracts import JsonContractReader, JsonResultBytesContract
 from python_backend.runtime.json_contract_scan import JsonContractScanner
 from python_backend.cli.aicu_scrape_plan import AicuScrapePlanContractComparator, AicuScrapePlanRunner
 from python_backend.cli.aicu_batch_plan import AicuBatchPlanContractComparator, AicuBatchPlanRunner
@@ -6156,6 +6156,15 @@ class CorpusContractTests(unittest.TestCase):
             nested_fallback["summary"]["ok"] = True
             nested_fallback["items"].append("mutated")
             self.assertEqual(nested_fallback_reader.read_object(missing_path), {"summary": {"ok": False}, "items": []})
+
+    def test_json_result_bytes_contract_owns_pretty_utf8_output(self):
+        payload = {"ok": True, "message": "B站弹幕 \U0001f602"}
+
+        encoded = JsonResultBytesContract(payload).to_bytes()
+
+        self.assertEqual(encoded, (json.dumps(payload, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
+        self.assertTrue(encoded.endswith(b"\n"))
+        self.assertIn("B站弹幕 \U0001f602".encode("utf-8"), encoded)
 
     def test_json_contract_reader_parses_text_values_with_deepcopy_fallback(self):
         reader = JsonContractReader()

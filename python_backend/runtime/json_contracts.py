@@ -46,6 +46,16 @@ class JsonContractReader:
         return deepcopy(self.default_object)
 
 
+class JsonResultBytesContract:
+    """Serialize CLI JSON results using the shared JS/Python compatibility format."""
+
+    def __init__(self, result: Any):
+        self.result = result
+
+    def to_bytes(self) -> bytes:
+        return (json.dumps(self.result, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
+
+
 def safe_read_json_object(path: str | Path) -> dict[str, Any]:
     """Compatibility wrapper for existing contract comparators."""
 

@@ -12,7 +12,7 @@ from typing import Any
 from python_backend.analysis.comment_coverage import _clean_needle, _is_contract_scalar, _is_scrape_diagnostic, _strip_mention_scaffolding
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
-from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
+from python_backend.runtime.json_contracts import JsonContractReader, JsonResultBytesContract, safe_read_json_object
 
 
 @dataclass(frozen=True)
@@ -82,14 +82,8 @@ class RandomVerificationReportContract:
         }
 
 
-class RandomVerificationJsonResultContract:
+class RandomVerificationJsonResultContract(JsonResultBytesContract):
     """Serialize random-verification JSON output exactly as the CLI expects."""
-
-    def __init__(self, result: dict[str, Any]):
-        self.result = result
-
-    def to_bytes(self) -> bytes:
-        return (json.dumps(self.result, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
 
 
 def json_result_bytes(result: dict[str, Any]) -> bytes:

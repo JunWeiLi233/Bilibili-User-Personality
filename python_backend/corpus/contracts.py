@@ -1,14 +1,13 @@
 from __future__ import annotations
 
 import argparse
-import json
 from pathlib import Path
 from typing import Any
 
 from python_backend.analysis.audit import CoverageAuditReport
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
-from python_backend.runtime.json_contracts import safe_read_json_object
+from python_backend.runtime.json_contracts import JsonResultBytesContract, safe_read_json_object
 
 
 class CorpusContractSummary:
@@ -21,14 +20,8 @@ class CorpusContractSummary:
         return {key: result.get(key) for key in self.RESULT_KEYS if key in result}
 
 
-class CompareContractsJsonResultContract:
+class CompareContractsJsonResultContract(JsonResultBytesContract):
     """Serialize JS/Python compare-contract results exactly as the CLI expects."""
-
-    def __init__(self, result: dict[str, object]):
-        self.result = result
-
-    def to_bytes(self) -> bytes:
-        return (json.dumps(self.result, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
 
 
 class ContractComparator:

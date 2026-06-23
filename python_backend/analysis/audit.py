@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from python_backend.corpus.dictionary import DictionaryLoader
-from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
+from python_backend.runtime.json_contracts import JsonContractReader, JsonResultBytesContract, safe_read_json_object
 
 
 @dataclass(frozen=True)
@@ -50,14 +50,8 @@ class CoverageAuditReport:
         return queries
 
 
-class CoverageAuditJsonResultContract:
+class CoverageAuditJsonResultContract(JsonResultBytesContract):
     """Serialize coverage-audit JSON output exactly as the CLI expects."""
-
-    def __init__(self, result: dict[str, Any]):
-        self.result = result
-
-    def to_bytes(self) -> bytes:
-        return (json.dumps(self.result, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
 
 
 class CoverageAuditArtifactsJsonResultContract(CoverageAuditJsonResultContract):
