@@ -25056,6 +25056,35 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["python"], {"mode": "uid-range", "progress": {"completed": 2}, "database": {"users": 3}, "timestamps": {"lastUpdated": "python"}})
         self.assertEqual(result["js"], {"progress": {"completed": 0}, "database": {"users": 0}, "timestamps": {"lastUpdated": "js"}})
 
+    def test_batch_scrape_progress_has_js_python_validation_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertEqual(
+            package["scripts"]["python:batch-scrape-progress-compare"],
+            "node server/scripts/compareBatchScrapeProgress.js",
+        )
+        self.assertIn(
+            {
+                "script": "python:batch-scrape-progress-compare",
+                "command": "node server/scripts/compareBatchScrapeProgress.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:batch-scrape-progress",
+                "command": "python -m python_backend.cli.batch_scrape_progress",
+                "pipeline": "batch_scrape_progress",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareBatchScrapeProgress.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_batch_uid_progress_runner_summarizes_discovery_and_phase2_status(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
