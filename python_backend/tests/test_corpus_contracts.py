@@ -1254,6 +1254,7 @@ class CorpusContractTests(unittest.TestCase):
                 "validationCommand": "node server/scripts/compareHuggingFaceCorpus.js",
                 "validationScope": "full_command",
                 "readyToReplace": True,
+                "validationGates": [{"gate": "full_command", "status": "covered", "source": "python:huggingface-compare"}],
                 "recommendation": "compare_python_contract_before_replacing_js",
             },
         )
@@ -1619,6 +1620,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["nextMigrationAction"]["validationScope"], "full_command_python_runtime_mock_and_multiagent_mock_runtime")
         self.assertFalse(result["nextMigrationAction"]["readyToReplace"])
         self.assertEqual(result["nextMigrationAction"]["recommendation"], "expand_python_runtime_contract_before_replacing_js")
+        self.assertEqual(
+            result["nextMigrationAction"]["validationGates"],
+            [
+                {"gate": "fixture_command", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
+                {"gate": "mock_runtime_command", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
+                {"gate": "multiagent_mock_runtime", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
+                {"gate": "live_api_command", "status": "missing", "source": "DEEPSEEK_API_KEY gated live smoke"},
+            ],
+        )
         self.assertEqual(
             result["nextMigrationAction"]["replacementBlockers"],
             [

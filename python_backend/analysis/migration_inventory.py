@@ -286,6 +286,10 @@ class BackendMigrationInventoryScanner:
                     validation_scope=validation_scope,
                     ready_to_replace=ready_to_replace,
                 )
+                validation_gates = BackendMigrationInventoryScanner._validation_gates(
+                    validation_script=validation_script,
+                    validation_scope=validation_scope,
+                )
                 action = {
                     **first,
                     "nodeScript": str(mapping.get("script") or ""),
@@ -298,6 +302,8 @@ class BackendMigrationInventoryScanner:
                     "readyToReplace": ready_to_replace,
                     "recommendation": "compare_python_contract_before_replacing_js" if ready_to_replace else "expand_python_runtime_contract_before_replacing_js",
                 }
+                if validation_gates:
+                    action["validationGates"] = validation_gates
                 if replacement_blockers:
                     action["replacementBlockers"] = replacement_blockers
                 return action
@@ -335,6 +341,19 @@ class BackendMigrationInventoryScanner:
                 }
             )
         return blockers
+
+    @staticmethod
+    def _validation_gates(*, validation_script: str, validation_scope: str) -> list[dict[str, str]]:
+        if validation_script == "python:deepseek-analyze-command-compare":
+            return [
+                {"gate": "fixture_command", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
+                {"gate": "mock_runtime_command", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
+                {"gate": "multiagent_mock_runtime", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
+                {"gate": "live_api_command", "status": "missing", "source": "DEEPSEEK_API_KEY gated live smoke"},
+            ]
+        if validation_scope == "full_command":
+            return [{"gate": "full_command", "status": "covered", "source": validation_script}]
+        return []
 
 
 class PackageCommandMigrationInventory:
