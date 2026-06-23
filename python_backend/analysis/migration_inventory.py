@@ -37,6 +37,7 @@ DEFAULT_PACKAGE_VALIDATION_EQUIVALENTS = {
     "dictionary:prune": "python:dictionary-prune-compare",
     "dictionary:prune-exhausted": "python:exhausted-prune-compare",
     "dictionary:resolve-near": "python:near-target-compare",
+    "dictionary:auto": "python:coverage-loop-compare",
     "deepseek:analyze": "python:deepseek-analyze-command-compare",
     "dictionary:huggingface": "python:huggingface-compare",
     "dictionary:mine-local": "python:local-mine-compare",
@@ -52,6 +53,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:dictionary-prune-compare": "summary_command_fixture",
     "python:exhausted-prune-compare": "dry_run_plan_fixture",
     "python:near-target-compare": "dry_run_plan_fixture",
+    "python:coverage-loop-compare": "dry_run_plan_fixture",
     "python:huggingface-compare": "full_command",
     "python:local-mine-compare": "full_command",
 }
@@ -85,6 +87,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:dictionary-prune-compare": "js_python_contract_bridge",
     "python:exhausted-prune-compare": "js_python_contract_bridge",
     "python:near-target-compare": "js_python_contract_bridge",
+    "python:coverage-loop-compare": "js_python_contract_bridge",
     "python:local-mine-compare": "js_python_contract_bridge",
 }
 
@@ -104,6 +107,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareDeepSeekAnalyzeMockRuntime.js": "js_python_contract_bridge",
     "server/scripts/compareLocalCorpusMine.js": "js_python_contract_bridge",
     "server/scripts/compareNearTargetResolvePlan.js": "js_python_contract_bridge",
+    "server/scripts/compareCoverageHarvestLoopPlan.js": "js_python_contract_bridge",
 }
 
 MIGRATION_PRIORITY_RULES = (

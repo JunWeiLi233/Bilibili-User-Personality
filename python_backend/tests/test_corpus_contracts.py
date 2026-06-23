@@ -1288,6 +1288,7 @@ class CorpusContractTests(unittest.TestCase):
                 "dictionary:prune": "node server/scripts/pruneKeywordDictionary.js",
                 "dictionary:prune-exhausted": "node server/scripts/pruneExhaustedTerms.js",
                 "dictionary:resolve-near": "node server/scripts/resolveNearTargetTerms.js",
+                "dictionary:auto": "node server/scripts/runCoverageHarvestLoop.js",
                 "server": "node server/index.js",
                 "aicu:test": "node server/scripts/testAicuApi.js",
                 "dev:full": "node server/index.js",
@@ -1300,6 +1301,7 @@ class CorpusContractTests(unittest.TestCase):
                 "python:dictionary-prune-compare": "node server/scripts/compareDictionaryPruneSummary.js",
                 "python:exhausted-prune-compare": "node server/scripts/compareExhaustedTermsPrunePlan.js",
                 "python:near-target-compare": "node server/scripts/compareNearTargetResolvePlan.js",
+                "python:coverage-loop-compare": "node server/scripts/compareCoverageHarvestLoopPlan.js",
                 "python:deepseek-cli-plan-js": "node server/scripts/analyzeDeepSeekComments.js --plan-json --python-plan",
                 "python:deepseek-analyze": "python -m python_backend.cli.deepseek_analyze",
                 "python:coverage-standalone": "python -m python_backend.cli.coverage_audit --standalone",
@@ -1307,14 +1309,15 @@ class CorpusContractTests(unittest.TestCase):
                 "python:dictionary-prune-summary": "python -m python_backend.cli.dictionary_prune_summary",
                 "python:exhausted-prune-plan": "python -m python_backend.cli.exhausted_terms_prune_plan",
                 "python:near-target-plan": "python -m python_backend.cli.near_target_resolve_plan",
+                "python:coverage-loop-plan": "python -m python_backend.cli.coverage_loop_plan",
                 "python:test": "python -m unittest discover python_backend/tests",
             }
         }
 
         result = PackageCommandMigrationInventory(package).scan()
 
-        self.assertEqual(result["nodeServerScripts"], 18)
-        self.assertEqual(result["pythonBackendScripts"], 6)
+        self.assertEqual(result["nodeServerScripts"], 20)
+        self.assertEqual(result["pythonBackendScripts"], 7)
         self.assertEqual(
             result["pythonBackedNodeScripts"],
             [
@@ -1361,6 +1364,17 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:near-target-compare",
                     "validationCommand": "node server/scripts/compareNearTargetResolvePlan.js",
+                    "validationScope": "dry_run_plan_fixture",
+                },
+                {
+                    "script": "dictionary:auto",
+                    "command": "node server/scripts/runCoverageHarvestLoop.js",
+                    "pythonScript": "python:coverage-loop-plan",
+                    "pythonCommand": "python -m python_backend.cli.coverage_loop_plan",
+                    "replacementScope": "dry_run_plan",
+                    "readyToReplace": False,
+                    "validationScript": "python:coverage-loop-compare",
+                    "validationCommand": "node server/scripts/compareCoverageHarvestLoopPlan.js",
                     "validationScope": "dry_run_plan_fixture",
                 },
             ],

@@ -4,6 +4,7 @@ import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { compareCoverageHarvestLoopPlanObjects } from './compareCoverageHarvestLoopPlan.js';
 
 test('runCoverageHarvestLoop.js forces auto coverage to DeepSeek v4 flash max effort', () => {
   const tempDir = mkdtempSync(join(tmpdir(), 'coverage-loop-script-'));
@@ -39,4 +40,67 @@ test('runCoverageHarvestLoop.js forces auto coverage to DeepSeek v4 flash max ef
   } finally {
     rmSync(tempDir, { recursive: true, force: true });
   }
+});
+
+test('runCoverageHarvestLoop.js emits JS/Python comparable dry-run plan without harvesting', () => {
+  const tempDir = mkdtempSync(join(tmpdir(), 'coverage-loop-plan-script-'));
+  try {
+    const payloadPath = join(tempDir, 'payload.json');
+    writeFileSync(
+      payloadPath,
+      JSON.stringify({
+        env: {
+          BILIBILI_COVERAGE_LOOP_MAX_CYCLES: '0',
+          BILIBILI_HARVEST_MAX_QUERIES: '2',
+          BILIBILI_VIDEO_SEARCH_QUERY: 'doge, tieba',
+        },
+        audit: {
+          ok: false,
+          nextActions: [
+            { term: 'doge', family: 'meme', nextQuery: 'doge hot', suggestedQueries: ['doge comments'] },
+          ],
+        },
+      }),
+      'utf8',
+    );
+
+    const result = spawnSync('node', ['server/scripts/runCoverageHarvestLoop.js', '--plan-json', '--payload', payloadPath], {
+      cwd: process.cwd(),
+      env: { ...process.env, BILIBILI_HARVEST_MAX_QUERIES: '99' },
+      encoding: 'utf8',
+    });
+
+    assert.equal(result.status, 0, result.stderr);
+    const plan = JSON.parse(result.stdout);
+    assert.equal(plan.ok, true);
+    assert.deepEqual(plan.loop, { maxCycles: 0, roundsPerCycle: 1, maxQueries: 2 });
+    assert.deepEqual(plan.lists.seedQueries, ['doge', 'tieba']);
+    assert.deepEqual(plan.priorityQueries.map((item) => item.query), ['doge hot', 'doge comments']);
+    assert.equal(plan.initialStopReason, 'cycle_limit');
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
+  }
+});
+
+test('compareCoverageHarvestLoopPlanObjects reports matching dry-run plans', () => {
+  const plan = {
+    deepseek: { model: 'deepseek-v4-flash' },
+    paths: { reportPath: 'server/data/report.json' },
+    loop: { maxCycles: 0 },
+    auditOptions: { targetEvidence: 3 },
+    harvestOptions: { maxQueries: 2 },
+    lists: { seedQueries: ['doge'] },
+    prune: { pruneExhaustedAfter: 0 },
+    strict: false,
+    priorityQueries: [{ query: 'doge hot' }],
+    initialStopReason: 'cycle_limit',
+    ignored: true,
+  };
+
+  const result = compareCoverageHarvestLoopPlanObjects(plan, { ...plan, ignored: false });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.equal(result.python.ignored, undefined);
+  assert.equal(result.js.ignored, undefined);
 });

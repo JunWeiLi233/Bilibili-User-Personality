@@ -35,6 +35,7 @@
     "python:coverage-standalone:write": "python -m python_backend.cli.coverage_audit --standalone --output server/data/keywordCoverageAudit.python.json --query-file server/data/keywordCoverageQueries.python.txt --action-file server/data/keywordCoverageActions.python.json --exit-zero",
     "python:coverage-artifacts": "python -m python_backend.cli.coverage_audit_artifacts",
     "python:coverage-loop-plan": "python -m python_backend.cli.coverage_loop_plan",
+    "python:coverage-loop-compare": "node server/scripts/compareCoverageHarvestLoopPlan.js",
     "python:coverage-progress": "python -m python_backend.cli.coverage_progress",
     "python:exhausted-prune-plan": "python -m python_backend.cli.exhausted_terms_prune_plan",
     "python:exhausted-prune-compare": "node server/scripts/compareExhaustedTermsPrunePlan.js",

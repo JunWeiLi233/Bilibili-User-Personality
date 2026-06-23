@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 
 import { readKeywordDictionary, writeJsonFileAtomic, DEFAULT_DICTIONARY_PATH } from '../services/deepseekKeywordTrainer.js';
@@ -55,6 +55,153 @@ function priorityQueryItemsFromAudit(audit, limit) {
       return queries.map((query) => ({ ...item, query, nextQuery: query }));
     })
     .slice(0, limit);
+}
+
+function parsePlanArgs(argv = process.argv.slice(2)) {
+  let planJson = false;
+  let payloadPath = '';
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = String(argv[index] || '');
+    if (arg === '--plan-json') {
+      planJson = true;
+    } else if (arg.startsWith('--payload=')) {
+      payloadPath = arg.slice('--payload='.length);
+    } else if (arg === '--payload') {
+      payloadPath = String(argv[index + 1] || '');
+      index += 1;
+    }
+  }
+  return { planJson, payloadPath };
+}
+
+async function readPlanPayload(path) {
+  if (!path) return {};
+  try {
+    return JSON.parse((await readFile(path, 'utf8')).replace(/^\uFEFF/, ''));
+  } catch {
+    return {};
+  }
+}
+
+function planPositiveInt(env, name, fallback, max = Number.MAX_SAFE_INTEGER) {
+  const value = Number(env[name]);
+  return Number.isFinite(value) && value > 0 ? Math.min(Math.floor(value), max) : fallback;
+}
+
+function planNonNegativeInt(env, name, fallback, max = Number.MAX_SAFE_INTEGER) {
+  const value = Number(env[name]);
+  return Number.isFinite(value) && value >= 0 ? Math.min(Math.floor(value), max) : fallback;
+}
+
+function planFlag(env, name, fallback = false) {
+  const value = env[name];
+  if (value == null || value === '') return fallback;
+  return ['1', 'true', 'yes', 'on'].includes(String(value).trim().toLowerCase());
+}
+
+export function buildCoverageHarvestLoopPlan(payload = {}) {
+  const env = payload && typeof payload.env === 'object' && payload.env ? payload.env : {};
+  const argv = Array.isArray(payload?.argv) ? payload.argv : [];
+  const cwd = String(payload?.cwd || process.cwd());
+  const dataDir = join(cwd, 'server', 'data');
+  const maxCyclesValue = planNonNegativeInt(env, 'BILIBILI_COVERAGE_LOOP_MAX_CYCLES', 3, 50);
+  const roundsFallback = planPositiveInt(env, 'BILIBILI_HARVEST_ROUNDS', 1);
+  const roundsPerCycleValue = planPositiveInt(env, 'BILIBILI_COVERAGE_LOOP_ROUNDS_PER_CYCLE', roundsFallback, 20);
+  const maxQueriesValue = planPositiveInt(env, 'BILIBILI_HARVEST_MAX_QUERIES', 12, 100);
+  const runtime = buildCoverageRuntimeOptions({ argv, env, maxActionsFallback: maxQueriesValue });
+  const seedQueriesValue = parseList(env.BILIBILI_VIDEO_SEARCH_QUERIES || env.BILIBILI_VIDEO_SEARCH_QUERY);
+  const controversyQueriesValue = parseList(env.BILIBILI_CONTROVERSY_SEARCH_QUERIES || env.BILIBILI_CONTROVERSY_SEARCH_QUERY);
+  const extraTemplates = parseList(env.BILIBILI_HARVEST_EXTRA_QUERY_TEMPLATES);
+  const exhaustedTemplates = parseList(env.BILIBILI_HARVEST_EXHAUSTED_SUGGESTION_TEMPLATES);
+  const existingOnly = env.BILIBILI_HARVEST_EXISTING_TERMS_ONLY === '1';
+  const commentBacked = Boolean(runtime.requireCommentBackedEvidence);
+  const defaultStatePath = join(dataDir, 'keywordHarvestState.json');
+  const defaultReportPath = join(dataDir, 'keywordCoverageLoopReport.json');
+  const prioritizeNear = planFlag(env, 'BILIBILI_HARVEST_PRIORITIZE_NEAR_TARGET', false);
+  const audit = payload && typeof payload.audit === 'object' && payload.audit ? payload.audit : {};
+  const auditOptionsPlan = {
+    dictionaryPath: env.DEEPSEEK_KEYWORD_DICTIONARY_PATH || null,
+    statePath: env.BILIBILI_HARVEST_STATE_PATH || defaultStatePath,
+    targetEvidence: runtime.targetEvidence,
+    maxActions: runtime.maxActions,
+    minCoverageRatio: runtime.minCoverageRatio,
+    requireComplete: runtime.requireComplete,
+    requireSourceBackedEvidence: runtime.requireSourceBackedEvidence,
+    requireCommentBackedEvidence: runtime.requireCommentBackedEvidence,
+    prioritizeSourceGaps: commentBacked,
+    prioritizeNearTarget: prioritizeNear,
+    extraQueryTemplates: extraTemplates,
+    exhaustedSuggestionTemplates: exhaustedTemplates,
+    retryBeforeUnattemptedLimit: runtime.retryBeforeUnattemptedLimit,
+  };
+  const harvestOptionsPlan = {
+    priorityQueries: [],
+    seedQueries: seedQueriesValue,
+    controversyQueries: controversyQueriesValue,
+    maxQueries: maxQueriesValue,
+    termsPerFamily: planPositiveInt(env, 'BILIBILI_HARVEST_TERMS_PER_FAMILY', 4, 20),
+    queryVariantsPerTerm: planPositiveInt(env, 'BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM', 2, 20),
+    extraQueryTemplates: extraTemplates,
+    exhaustedSuggestionTemplates: exhaustedTemplates,
+    retryBeforeUnattemptedLimit: runtime.retryBeforeUnattemptedLimit,
+    maxHardMissedQueries: planNonNegativeInt(env, 'BILIBILI_HARVEST_MAX_HARD_MISSED_QUERIES', Math.max(2, Math.ceil(maxQueriesValue / 2)), 100),
+    staleMissedDiscoveryLimit: planNonNegativeInt(env, 'BILIBILI_HARVEST_STALE_MISSED_DISCOVERY_LIMIT', 4, 20),
+    staleMissedPages: planNonNegativeInt(env, 'BILIBILI_HARVEST_STALE_MISSED_COMMENT_PAGES', 3, 5),
+    targetEvidence: runtime.targetEvidence,
+    coverageMode: String(env.BILIBILI_HARVEST_COVERAGE_MODE || 'all-weak').trim().toLowerCase(),
+    requireSourceBackedEvidence: runtime.requireSourceBackedEvidence,
+    requireCommentBackedEvidence: runtime.requireCommentBackedEvidence,
+    prioritizeSourceGaps: commentBacked,
+    commentPoolTargetTermsLimit: planPositiveInt(env, 'BILIBILI_HARVEST_COMMENT_POOL_TARGET_LIMIT', 24, 200),
+    priorityCommentPoolTargets: planFlag(env, 'BILIBILI_HARVEST_PRIORITY_COMMENT_POOL_TARGETS', false),
+    preFilterCommentsToTargets: planFlag(env, 'BILIBILI_HARVEST_PREFILTER_COMMENTS', false),
+    deepenReplyThreads: planFlag(env, 'BILIBILI_HARVEST_DEEPEN_REPLIES', false),
+    verbose: planFlag(env, 'BILIBILI_HARVEST_VERBOSE', true),
+    prioritizeNearTarget: prioritizeNear,
+    existingTermsOnly: existingOnly,
+    discoveryMode: String(env.BILIBILI_VIDEO_DISCOVERY_MODE || 'controversial').trim().toLowerCase(),
+    discoveryLimit: planPositiveInt(env, 'BILIBILI_VIDEO_DISCOVERY_LIMIT', 6, 20),
+    discoveryPages: planPositiveInt(env, 'BILIBILI_VIDEO_DISCOVERY_PAGES', 1, 5),
+    controversialPopularQueryLimit: planNonNegativeInt(env, 'BILIBILI_CONTROVERSIAL_POPULAR_QUERY_LIMIT', 4, 20),
+    controversialPopularSearchOrder: String(env.BILIBILI_CONTROVERSIAL_POPULAR_SEARCH_ORDER || 'click').trim().toLowerCase(),
+    includeGenericPopular: planFlag(env, 'BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR', false),
+    includeDanmaku: planFlag(env, 'BILIBILI_HARVEST_INCLUDE_DANMAKU', false),
+    pages: planPositiveInt(env, 'BILIBILI_VIDEO_COMMENT_PAGES', 2, 20),
+    perQueryTimeoutMs: planPositiveInt(env, 'BILIBILI_HARVEST_QUERY_TIMEOUT_MS', 180000, 30 * 60 * 1000),
+    expandTargetsFromComments: planFlag(env, 'BILIBILI_HARVEST_EXPAND_TARGETS_FROM_COMMENTS', existingOnly && commentBacked),
+    rounds: roundsPerCycleValue,
+    statePath: auditOptionsPlan.statePath,
+    resetState: env.BILIBILI_HARVEST_RESET === '1',
+    skipSeen: env.BILIBILI_HARVEST_SKIP_SEEN !== '0',
+  };
+  return {
+    ok: true,
+    deepseek: {
+      model: env.BILIBILI_HARVEST_MODEL || 'deepseek-v4-flash',
+      reasoningEffort: env.BILIBILI_HARVEST_REASONING_EFFORT || 'max',
+    },
+    paths: {
+      dictionaryPath: auditOptionsPlan.dictionaryPath,
+      statePath: auditOptionsPlan.statePath,
+      reportPath: env.BILIBILI_COVERAGE_LOOP_REPORT_PATH || defaultReportPath,
+    },
+    loop: { maxCycles: maxCyclesValue, roundsPerCycle: roundsPerCycleValue, maxQueries: maxQueriesValue },
+    auditOptions: auditOptionsPlan,
+    harvestOptions: harvestOptionsPlan,
+    lists: {
+      seedQueries: seedQueriesValue,
+      controversyQueries: controversyQueriesValue,
+      extraQueryTemplates: extraTemplates,
+      exhaustedSuggestionTemplates: exhaustedTemplates,
+    },
+    prune: {
+      pruneExhaustedAfter: planNonNegativeInt(env, 'BILIBILI_HARVEST_PRUNE_EXHAUSTED_AFTER', 0, 100000),
+      pruneIncludePartial: env.BILIBILI_HARVEST_PRUNE_INCLUDE_PARTIAL === '1',
+    },
+    strict: runtime.strict,
+    priorityQueries: priorityQueryItemsFromAudit(audit, maxQueriesValue),
+    initialStopReason: audit.ok ? 'coverage_gate_passed' : maxCyclesValue === 0 ? 'cycle_limit' : '',
+  };
 }
 
 async function writeJson(path, payload) {
@@ -135,6 +282,13 @@ const auditOptions = {
   exhaustedSuggestionTemplates,
   retryBeforeUnattemptedLimit,
 };
+
+const planArgs = parsePlanArgs();
+if (planArgs.planJson) {
+  const payload = await readPlanPayload(planArgs.payloadPath);
+  console.log(JSON.stringify(buildCoverageHarvestLoopPlan(payload), null, 2));
+  process.exit(0);
+}
 
 const cycles = [];
 let audit = await buildAudit(auditOptions);
