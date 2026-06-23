@@ -24,6 +24,30 @@ class AnalyzerRequest:
     multiagent: bool = False
 
 
+class DeepSeekRequestOptionsContract:
+    """Build the stable DeepSeek chat request option payload shared with JS."""
+
+    def __init__(self, request: AnalyzerRequest):
+        self.request = request
+
+    def build(self, messages: list[dict[str, str]], *, max_tokens: int) -> dict[str, object]:
+        return {
+            "model": str(self.request.model or "deepseek-v4-flash"),
+            "reasoning_effort": str(self.request.effort or "max"),
+            "messages": messages,
+            "response_format": {"type": "json_object"},
+            "stream": False,
+            "max_tokens": self._bounded_max_tokens(max_tokens),
+        }
+
+    def _bounded_max_tokens(self, value: object) -> int:
+        try:
+            tokens = int(float(str(value)))
+        except (TypeError, ValueError):
+            return 2000
+        return max(1, tokens)
+
+
 class DeepSeekAnalysisInputBuilder:
     """Build the stable input JSON embedded in DeepSeek analyzer prompts."""
 
@@ -154,14 +178,7 @@ class DeepSeekAnalyzerClient:
         )
 
     def _chat_body(self, request: AnalyzerRequest, messages: list[dict[str, str]], *, max_tokens: int) -> dict[str, object]:
-        return {
-            "model": request.model,
-            "reasoning_effort": request.effort,
-            "messages": messages,
-            "response_format": {"type": "json_object"},
-            "stream": False,
-            "max_tokens": max_tokens,
-        }
+        return DeepSeekRequestOptionsContract(request).build(messages, max_tokens=max_tokens)
 
     def _standalone_messages(self, request: AnalyzerRequest, *, compact: bool) -> list[dict[str, str]]:
         input_payload = self._analysis_input(request, compact=compact)
