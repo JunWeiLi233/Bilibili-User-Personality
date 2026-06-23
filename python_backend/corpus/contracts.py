@@ -25,6 +25,18 @@ class CompareContractsJsonResultContract(JsonResultBytesContract):
     """Serialize JS/Python compare-contract results exactly as the CLI expects."""
 
 
+class CompareContractsOutputWriter:
+    """Persist compare-contract JSON output using the shared CLI result contract."""
+
+    def __init__(self, output_path: str | Path):
+        self.output_path = Path(output_path)
+
+    def write(self, result: dict[str, object]) -> dict[str, object]:
+        self.output_path.parent.mkdir(parents=True, exist_ok=True)
+        self.output_path.write_bytes(CompareContractsJsonResultContract(result).to_bytes())
+        return result
+
+
 class ContractComparator:
     """Compare Python-read JSON contracts against manifest/audit invariants."""
 
@@ -130,6 +142,7 @@ class CompareContractsRequest:
         random_report_path: str | Path | None = None,
         random_sample_size: int | None = None,
         random_seed: int | None = None,
+        output_path: str | Path | None = None,
     ):
         self.corpus_path = Path(corpus_path)
         self.audit_path = Path(audit_path)
@@ -138,9 +151,10 @@ class CompareContractsRequest:
         self.random_report_path = Path(random_report_path) if random_report_path else None
         self.random_sample_size = random_sample_size
         self.random_seed = random_seed
+        self.output_path = Path(output_path) if output_path else None
 
     def run(self) -> dict[str, object]:
-        return ContractComparator(
+        result = ContractComparator(
             self.corpus_path,
             self.audit_path,
             self.dictionary_path,
@@ -149,6 +163,9 @@ class CompareContractsRequest:
             random_sample_size=self.random_sample_size,
             random_seed=self.random_seed,
         ).compare()
+        if self.output_path:
+            return CompareContractsOutputWriter(self.output_path).write(result)
+        return result
 
 
 class CompareContractsCommandRequest:
@@ -167,6 +184,7 @@ class CompareContractsCommandRequest:
         parser.add_argument("--random-report", default="", help="Optional JS-compatible random-verification report to compare.")
         parser.add_argument("--random-sample-size", type=int, default=None)
         parser.add_argument("--random-seed", type=int, default=None)
+        parser.add_argument("--output", default="", help="Optional path to write the compare-contract JSON result.")
         return parser
 
     def run(self) -> dict[str, object]:
@@ -179,4 +197,5 @@ class CompareContractsCommandRequest:
             random_report_path=args.random_report or None,
             random_sample_size=args.random_sample_size,
             random_seed=args.random_seed,
+            output_path=args.output or None,
         ).run()
