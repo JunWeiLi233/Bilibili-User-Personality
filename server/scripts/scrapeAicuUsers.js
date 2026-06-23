@@ -114,8 +114,98 @@ function extractUidFromLink(link) {
   return null;
 }
 
+function parsePlanArgs(argv = process.argv.slice(2)) {
+  let planJson = false;
+  let payloadPath = '';
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = String(argv[index] || '');
+    if (arg === '--plan-json') {
+      planJson = true;
+    } else if (arg.startsWith('--payload=')) {
+      payloadPath = arg.slice('--payload='.length);
+    } else if (arg === '--payload') {
+      payloadPath = String(argv[index + 1] || '');
+      index += 1;
+    }
+  }
+  return { planJson, payloadPath };
+}
+
+async function readPlanPayload(path) {
+  if (!path) return {};
+  try {
+    return JSON.parse((await readFile(path, 'utf8')).replace(/^\uFEFF/, ''));
+  } catch {
+    return {};
+  }
+}
+
+function parseIntOr(value, fallback) {
+  const number = Number(value);
+  return Number.isFinite(number) ? Math.trunc(number) : fallback;
+}
+
+function dedupe(values) {
+  return [...new Set(values.filter(Boolean))];
+}
+
+async function collectPlanUids(argv = []) {
+  const uids = [];
+  for (const raw of argv) {
+    const arg = String(raw || '').trim();
+    if (arg.startsWith('--uid=')) {
+      uids.push(extractUidFromLink(arg.split('=')[1].trim()));
+    } else if (arg.startsWith('--file=')) {
+      try {
+        const filePath = arg.split('=')[1].trim();
+        const content = await readFile(filePath, 'utf8');
+        for (const line of content.split(/[\n,;]+/).map((item) => item.trim()).filter(Boolean)) {
+          uids.push(extractUidFromLink(line));
+        }
+      } catch {
+        // Missing files produce an empty dry-run plan, matching the Python contract.
+      }
+    } else if (!arg.startsWith('-')) {
+      uids.push(extractUidFromLink(arg));
+    }
+  }
+  return dedupe(uids);
+}
+
+export async function buildAicuScrapePlan(payload = {}) {
+  const argv = Array.isArray(payload?.argv) ? payload.argv : [];
+  const uids = await collectPlanUids(argv);
+  const maxPages = parseIntOr(payload?.maxPages ?? payload?.max_pages, 10);
+  const pageSize = parseIntOr(payload?.pageSize ?? payload?.page_size, 20);
+  const delayBetweenUidsMs = parseIntOr(payload?.delayBetweenUidsMs ?? payload?.delay_between_uids_ms, DELAY_MS * 3);
+  return {
+    ok: Boolean(uids.length),
+    uids,
+    requests: uids.map((uid) => ({
+      uid,
+      commentPages: maxPages,
+      danmakuPages: maxPages,
+      commentsUrl: `${AICU_COMMENTS_API}?uid=${uid}&pn=1&ps=${pageSize}&mode=0&keyword=`,
+      danmakuUrl: `${AICU_DANMAKU_API}?uid=${uid}&pn=1&ps=${pageSize}&keyword=`,
+    })),
+    summary: {
+      uids: uids.length,
+      commentPagesPerUid: maxPages,
+      danmakuPagesPerUid: maxPages,
+      delayBetweenUidsMs,
+    },
+  };
+}
+
 async function main() {
   const args = process.argv.slice(2);
+  const planArgs = parsePlanArgs(args);
+  if (planArgs.planJson) {
+    const payload = await readPlanPayload(planArgs.payloadPath);
+    console.log(JSON.stringify(await buildAicuScrapePlan(payload), null, 2));
+    return;
+  }
+
   const uids = [];
 
   for (const arg of args) {

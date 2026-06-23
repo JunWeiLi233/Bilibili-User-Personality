@@ -52,6 +52,7 @@
     "python:file-lock-state": "python -m python_backend.cli.file_lock_state",
     "python:json-contract-scan": "python -m python_backend.cli.json_contract_scan",
     "python:aicu-plan": "python -m python_backend.cli.aicu_scrape_plan",
+    "python:aicu-compare": "node server/scripts/compareAicuScrapePlan.js",
     "python:aicu-batch-plan": "python -m python_backend.cli.aicu_batch_plan",
     "python:aicu-browser-plan": "python -m python_backend.cli.aicu_browser_batch_plan",
     "python:batch-bilibili-plan": "python -m python_backend.cli.batch_bilibili_plan",
