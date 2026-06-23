@@ -23597,6 +23597,16 @@ class CorpusContractTests(unittest.TestCase):
             {"path": "server/scripts/compareUidFastPipelinePlan.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
         )
+        self.assertEqual(
+            BackendMigrationInventoryScanner._validation_gates(
+                validation_script="python:uid-fast-pipeline-compare",
+                validation_scope="dry_run_plan_fixture_and_js_python_plan_bridge",
+            ),
+            [
+                {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-fast-pipeline-compare"},
+                {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidFastPipelinePlan.test.js"},
+            ],
+        )
 
     def test_scraper_monitor_pipeline_payload_planner_builds_worker_progress_filenames(self):
         result = ScraperMonitorPipelinePayloadPlanner().progress_files(total_start=1, total_end=5, workers=2)

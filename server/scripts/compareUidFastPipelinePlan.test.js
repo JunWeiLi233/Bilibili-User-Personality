@@ -1,4 +1,8 @@
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join, resolve } from 'node:path';
 import { test } from 'node:test';
 
 import { compareUidFastPipelinePlan, compareUidFastPipelinePlanObjects } from './compareUidFastPipelinePlan.js';
@@ -64,4 +68,51 @@ test('compareUidFastPipelinePlan compares JS and Python dry-run plans', async ()
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('uidPipelineFast can delegate dry-run planning to Python', () => {
+  const tempDir = mkdtempSync(join(tmpdir(), 'uid-fast-pipeline-python-plan-'));
+  try {
+    const payloadPath = join(tempDir, 'payload.json');
+    const fakeModuleDir = join(tempDir, 'python_backend', 'cli');
+    writeFileSync(
+      payloadPath,
+      JSON.stringify(
+        {
+          argv: ['--start=2', '--end=4'],
+          progress: { processed: {}, stats: {} },
+          database: { users: {} },
+        },
+        null,
+        2,
+      ),
+      'utf8',
+    );
+    mkdirSync(fakeModuleDir, { recursive: true });
+    writeFileSync(join(tempDir, 'python_backend', '__init__.py'), '', 'utf8');
+    writeFileSync(join(fakeModuleDir, '__init__.py'), '', 'utf8');
+    writeFileSync(
+      join(fakeModuleDir, 'uid_fast_pipeline_plan.py'),
+      'print(\'{"ok":true,"fromPythonUidFastPipelinePlan":true,"range":{"start":2,"end":4,"total":3},"network":{"mode":"python-fast-plan"}}\')\n',
+      'utf8',
+    );
+
+    const result = spawnSync('node', [resolve('server/scripts/uidPipelineFast.js'), '--plan-json', `--payload=${payloadPath}`], {
+      cwd: tempDir,
+      encoding: 'utf8',
+      env: {
+        ...process.env,
+        BILIBILI_UID_FAST_PIPELINE_USE_PYTHON_PLAN: '1',
+        PYTHONUTF8: '1',
+        PYTHONIOENCODING: 'utf-8',
+      },
+    });
+
+    assert.equal(result.status, 0, result.stderr);
+    const payload = JSON.parse(result.stdout);
+    assert.equal(payload.fromPythonUidFastPipelinePlan, true);
+    assert.equal(payload.network.mode, 'python-fast-plan');
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
+  }
 });
