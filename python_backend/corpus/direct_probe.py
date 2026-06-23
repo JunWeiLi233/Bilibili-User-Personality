@@ -13,6 +13,7 @@ from urllib.parse import quote, urlencode, urlparse
 from urllib.request import Request, urlopen
 
 from python_backend.analysis.comment_coverage import _is_contract_scalar
+from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
 from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 from python_backend.scrapers.rate_limiter import RateLimitPolicy
@@ -685,6 +686,141 @@ class DirectProbeCommandRunner:
             return str(text_responses.get(url) or "")
 
         return DirectProbeLiveFetcher(fetch_json=fixture_json, fetch_text=fixture_text, builder=self.builder)
+
+
+class DirectProbeCommandFileRequest:
+    """Run direct-probe command logic from normal CLI file inputs instead of a prebuilt payload."""
+
+    def __init__(
+        self,
+        *,
+        audit_path: str | Path = "server/data/keywordCoverageAudit.json",
+        output_path: str | Path = "server/data/bilibiliDirectProbeCorpus.json",
+        dictionary_path: str | Path = "server/data/deepseekKeywordDictionary.json",
+        explicit_queries: list[dict[str, str]] | None = None,
+        explicit_aids: list[str] | None = None,
+        options: dict[str, Any] | None = None,
+    ):
+        self.audit_path = Path(audit_path)
+        self.output_path = Path(output_path)
+        self.dictionary_path = Path(dictionary_path)
+        self.explicit_queries = explicit_queries or []
+        self.explicit_aids = explicit_aids or []
+        self.options = options if isinstance(options, dict) else {}
+
+    def run(self) -> dict[str, Any]:
+        loaded_corpus = CorpusLoader(self.output_path, fallback={"version": 1, "comments": [], "runs": []}).load()
+        loaded_dictionary = DictionaryLoader(self.dictionary_path).load()
+        payload = {
+            "audit": safe_read_json_object(self.audit_path),
+            "existingCorpus": {**loaded_corpus.manifest, "comments": loaded_corpus.comments, "runs": loaded_corpus.runs},
+            "dictionary": {**loaded_dictionary.manifest, "entries": loaded_dictionary.entries},
+            "explicitQueries": self.explicit_queries,
+            "explicitAids": self.explicit_aids,
+            "options": {**self.options, "outputPath": str(self.output_path)},
+        }
+        return DirectProbeCommandRunner(payload).run()
+
+
+class DirectProbeCommandArgvRequest:
+    """Argv-backed direct-probe command request supporting payload and normal file modes."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+        self.reader = JsonContractReader()
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Run a JSON-contract direct Bilibili evidence probe command.")
+        parser.add_argument("--payload", default="", help="Direct probe command payload JSON file.")
+        parser.add_argument("--audit", default="server/data/keywordCoverageAudit.json")
+        parser.add_argument("--output", default="server/data/bilibiliDirectProbeCorpus.json")
+        parser.add_argument("--dictionary", default="server/data/deepseekKeywordDictionary.json")
+        parser.add_argument("--max-actions", dest="max_actions", default=4)
+        parser.add_argument("--offset", default=0)
+        parser.add_argument("--videos", dest="videos_per_query", default=5)
+        parser.add_argument("--search-pages", dest="search_pages", default=1)
+        parser.add_argument("--reply-pages", dest="reply_pages", default=2)
+        parser.add_argument("--reply-start-page", dest="reply_start_page", default=1)
+        parser.add_argument("--reply-page-size", dest="reply_page_size", default=20)
+        parser.add_argument("--reply-cursor-skip-pages", dest="reply_cursor_skip_pages", default=0)
+        parser.add_argument("--reply-mode", dest="reply_mode", default="cursor")
+        parser.add_argument("--source-videos", dest="source_videos_per_action", default=6)
+        parser.add_argument("--query", action="append", default=[])
+        parser.add_argument("--term", action="append", default=[])
+        parser.add_argument("--aid", action="append", default=[])
+        parser.add_argument("--aids", action="append", default=[])
+        parser.add_argument("--delay-ms", dest="delay_ms", default=3000)
+        parser.add_argument("--jitter-ms", dest="jitter_ms", default=1500)
+        parser.add_argument("--request-timeout-ms", dest="request_timeout_ms", default=12000)
+        parser.add_argument("--include-danmaku", action="store_true")
+        parser.add_argument("--rescan-source-videos", action="store_true")
+        parser.add_argument("--python-live-search", action="store_true")
+        parser.add_argument("--python-live-fetch", action="store_true")
+        parser.add_argument("--python-full-runtime", action="store_true")
+        parser.add_argument("--write", action="store_true")
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        if args.payload:
+            payload = self.reader.read_value(Path(args.payload), {})
+            return DirectProbeCommandRunner(payload if isinstance(payload, dict) else {}).run()
+        return DirectProbeCommandFileRequest(
+            audit_path=args.audit,
+            output_path=args.output,
+            dictionary_path=args.dictionary,
+            explicit_queries=self._explicit_queries(args.query, args.term),
+            explicit_aids=self._explicit_aids(args.aid, args.aids),
+            options=self._options(args),
+        ).run()
+
+    def _options(self, args: argparse.Namespace) -> dict[str, Any]:
+        return {
+            "maxActions": args.max_actions,
+            "offset": args.offset,
+            "videosPerQuery": args.videos_per_query,
+            "searchPages": args.search_pages,
+            "replyPages": args.reply_pages,
+            "replyStartPage": args.reply_start_page,
+            "replyPageSize": args.reply_page_size,
+            "replyCursorSkipPages": args.reply_cursor_skip_pages,
+            "replyMode": args.reply_mode,
+            "sourceVideosPerAction": args.source_videos_per_action,
+            "delayMs": args.delay_ms,
+            "jitterMs": args.jitter_ms,
+            "requestTimeoutMs": args.request_timeout_ms,
+            "includeDanmaku": args.include_danmaku,
+            "rescanSourceVideos": args.rescan_source_videos,
+            "usePythonLiveSearch": args.python_live_search or args.python_full_runtime,
+            "usePythonLiveFetch": args.python_live_fetch or args.python_full_runtime,
+            "write": args.write,
+        }
+
+    @staticmethod
+    def _explicit_queries(queries: list[Any], terms: list[Any]) -> list[dict[str, str]]:
+        result = []
+        for index, query in enumerate(queries if isinstance(queries, list) else []):
+            query_text = _clean_text(query)
+            if not query_text:
+                continue
+            term_text = _clean_text(terms[index] if index < len(terms) else query_text)
+            result.append({"term": term_text or query_text, "query": query_text})
+        return result
+
+    @staticmethod
+    def _explicit_aids(aids: list[Any], aid_groups: list[Any]) -> list[str]:
+        values = [_clean_text(aid) for aid in aids if _clean_text(aid)]
+        for group in aid_groups if isinstance(aid_groups, list) else []:
+            values.extend(_clean_text(item) for item in re.split(r"[,;|]", _clean_text(group)) if _clean_text(item))
+        result = []
+        seen = set()
+        for value in values:
+            aid = re.sub(r"^av", "", value, flags=re.IGNORECASE)
+            if re.match(r"^\d+$", aid) and aid not in seen:
+                seen.add(aid)
+                result.append(aid)
+        return result
 
 
 class DirectProbeLiveSearcher:

@@ -1386,6 +1386,7 @@ class CorpusContractTests(unittest.TestCase):
                 {"gate": "js_opt_in_python_command_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
                 {"gate": "js_opt_in_python_command_runtime", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
                 {"gate": "js_python_command_runtime_options", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
+                {"gate": "python_normal_cli_file_runtime", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
                 {"gate": "js_opt_in_python_live_fetch_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
             ],
         )
@@ -12013,6 +12014,61 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["commentsCollected"], 1)
         self.assertEqual(result["comments"][0]["message"], "\u67e5\u67e5\u8d44\u6599\u547d\u4ee4\u8bc4\u8bba")
+
+    def test_direct_probe_command_cli_reads_normal_file_runtime_inputs(self):
+        term = "\u67e5\u67e5\u8d44\u6599"
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            audit_path = root / "audit.json"
+            corpus_path = root / "bilibiliDirectProbeCorpus.json"
+            dictionary_path = root / "deepseekKeywordDictionary.json"
+            audit_path.write_text(json.dumps({"nextActions": [{"term": term, "nextQuery": f"{term} B\u7ad9\u8bc4\u8bba"}]}), encoding="utf-8")
+            corpus_path.write_text(json.dumps({"version": 1, "comments": [], "runs": []}), encoding="utf-8")
+            dictionary_path.write_text(json.dumps({"entries": [{"term": term, "family": "evidence", "evidenceCount": 0}]}), encoding="utf-8")
+
+            cli_module = importlib.import_module("python_backend.cli.direct_probe_command")
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                exit_code = cli_module.main(
+                    [
+                        "--audit",
+                        str(audit_path),
+                        "--output",
+                        str(corpus_path),
+                        "--dictionary",
+                        str(dictionary_path),
+                        "--query",
+                        f"{term} B\u7ad9\u8bc4\u8bba",
+                        "--term",
+                        term,
+                        "--aid",
+                        "654",
+                        "--max-actions",
+                        "2",
+                        "--videos",
+                        "1",
+                        "--source-videos",
+                        "0",
+                        "--reply-pages",
+                        "1",
+                        "--reply-page-size",
+                        "3",
+                        "--delay-ms",
+                        "1000",
+                        "--jitter-ms",
+                        "0",
+                    ]
+                )
+
+        result = json.loads(output.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["options"]["outputPath"], str(corpus_path))
+        self.assertEqual(result["options"]["replyPageSize"], 3)
+        self.assertEqual(result["actions"][0]["term"], "explicit Bilibili AIDs")
+        self.assertEqual(result["actions"][0]["explicitVideos"], [{"aid": "654", "title": "explicit aid 654"}])
+        self.assertEqual(result["scannedVideos"][0]["key"], "aid:654")
+        self.assertEqual(result["commentsCollected"], 0)
 
     def test_direct_probe_command_runner_reads_separate_danmaku_payload_contract(self):
         payload = {
