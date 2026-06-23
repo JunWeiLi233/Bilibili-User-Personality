@@ -9339,6 +9339,18 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual([run["query"] for run in result["corpus"]["runs"]], ["\u65e7\u76f4\u63a5", "\u65b0\u76f4\u63a5"])
 
+    def test_direct_probe_corpus_payload_runner_defaults_corrupt_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "direct-probe-corpus.json"
+            payload_path.write_text("{bad json", encoding="utf-8")
+
+            result = direct_probe_module.DirectProbeCorpusPayloadRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["corpus"]["comments"], [])
+        self.assertEqual(result["corpus"]["runs"][-1]["commentsCollected"], 0)
+        self.assertEqual(result["corpus"]["runs"][-1]["commentsAdded"], 0)
+
     def test_direct_probe_corpus_cli_accepts_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "direct-probe-corpus.json"

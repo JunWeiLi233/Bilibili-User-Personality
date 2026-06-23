@@ -13,7 +13,7 @@ from urllib.parse import urlencode, urlparse
 
 from python_backend.analysis.comment_coverage import _is_contract_scalar
 from python_backend.corpus.loader import CorpusLoader
-from python_backend.runtime.json_contracts import safe_read_json_object
+from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 from python_backend.scrapers.rate_limiter import RateLimitPolicy
 
 
@@ -196,6 +196,7 @@ class DirectProbeCorpusRunner:
         self.comments_path = Path(comments_path)
         self.run_path = Path(run_path)
         self.builder = DirectProbeCorpusBuilder()
+        self.reader = JsonContractReader()
 
     def run(self) -> dict[str, Any]:
         loaded = CorpusLoader(self.existing_path, fallback={"version": 1, "comments": [], "runs": []}).load()
@@ -206,10 +207,7 @@ class DirectProbeCorpusRunner:
         return self.builder.build_probe_corpus_result(existing, comments if isinstance(comments, list) else [], run)
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
-        if not path.exists():
-            return fallback
-        with path.open("r", encoding="utf-8-sig") as handle:
-            return json.load(handle)
+        return self.reader.read_value(path, fallback)
 
     def _read_json_object(self, path: Path, fallback: dict[str, Any]) -> dict[str, Any]:
         payload = self._read_json(path, fallback)
@@ -222,6 +220,7 @@ class DirectProbeCorpusPayloadRunner:
     def __init__(self, payload_path: str | Path):
         self.payload_path = Path(payload_path)
         self.builder = DirectProbeCorpusBuilder()
+        self.reader = JsonContractReader()
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
@@ -239,8 +238,7 @@ class DirectProbeCorpusPayloadRunner:
         return {"corpus": {"version": 1, "comments": [], "runs": []}}
 
     def _read_payload(self) -> dict[str, Any]:
-        with self.payload_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
+        payload = self.reader.read_value(self.payload_path, {})
         return payload if isinstance(payload, dict) else {}
 
 
@@ -396,14 +394,14 @@ class DirectProbePlanRunner:
     def __init__(self, payload_path: str | Path):
         self.payload_path = Path(payload_path)
         self.builder = DirectProbeCorpusBuilder()
+        self.reader = JsonContractReader()
 
     def run(self) -> dict[str, Any]:
         payload = self._read_payload()
         return self.builder.build_plan_from_payload(payload)
 
     def _read_payload(self) -> dict[str, Any]:
-        with self.payload_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
+        payload = self.reader.read_value(self.payload_path, {})
         return payload if isinstance(payload, dict) else {}
 
 
