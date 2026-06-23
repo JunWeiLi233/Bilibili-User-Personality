@@ -5,7 +5,7 @@ import json
 import os
 import random
 import re
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -58,6 +58,28 @@ class RandomVerificationRunOptions:
 
     def as_report_fields(self) -> dict[str, int]:
         return {"sampleSize": self.sample_size, "seed": self.seed}
+
+
+@dataclass(frozen=True)
+class RandomVerificationReportContract:
+    """Build the JS-compatible random verification report payload."""
+
+    corpus: dict[str, Any]
+    dictionary_terms: int
+    options: RandomVerificationRunOptions
+
+    def build(self, summary: VerificationSummary) -> dict[str, Any]:
+        return {
+            "ok": True,
+            "corpus": self.corpus if isinstance(self.corpus, dict) else {},
+            "dictionaryTerms": self.dictionary_terms,
+            **self.options.as_report_fields(),
+            "sampled": summary.sampled,
+            "keywordHits": summary.keyword_hits,
+            "neutral": summary.neutral,
+            "uncovered": summary.uncovered,
+            "samples": summary.samples,
+        }
 
 
 def json_result_bytes(result: dict[str, Any]) -> bytes:
@@ -388,18 +410,8 @@ class RandomVerifier:
     def report(self, comments: list[dict[str, Any]], corpus: dict[str, Any], sample_size: int, seed: int) -> dict[str, Any]:
         corpus = corpus if isinstance(corpus, dict) else {}
         options = RandomVerificationRunOptions.from_values(sample_size=sample_size, seed=seed)
-        summary = asdict(self.verify(comments, sample_size=options.sample_size, seed=options.seed))
-        return {
-            "ok": True,
-            "corpus": corpus,
-            "dictionaryTerms": len(self.keyword_terms),
-            **options.as_report_fields(),
-            "sampled": summary["sampled"],
-            "keywordHits": summary["keyword_hits"],
-            "neutral": summary["neutral"],
-            "uncovered": summary["uncovered"],
-            "samples": summary["samples"],
-        }
+        summary = self.verify(comments, sample_size=options.sample_size, seed=options.seed)
+        return RandomVerificationReportContract(corpus=corpus, dictionary_terms=len(self.keyword_terms), options=options).build(summary)
 
     def _annotate(self, comment: dict[str, Any]) -> dict[str, Any]:
         message = self._message(comment)
