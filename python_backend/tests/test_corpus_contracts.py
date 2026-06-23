@@ -1345,6 +1345,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(package["scripts"]["python:direct-probe-live-fetch"], "python -m python_backend.cli.direct_probe_live_fetch")
         self.assertEqual(package["scripts"]["python:direct-probe-command-compare"], "node server/scripts/compareDirectProbeCommand.js")
         self.assertEqual(package["scripts"]["python:direct-probe-update-compare"], "node server/scripts/compareDirectProbeCorpus.js")
+        self.assertEqual(result["nextOfflineMigrationAction"]["pythonScript"], "python:direct-probe-command")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationScript"], "python:direct-probe-command-compare")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "full_command")
         self.assertIn("npm run python:direct-probe-command-compare", workflow)
         self.assertIn("npm run python:direct-probe-update-compare", workflow)
         self.assertIn(
@@ -1369,8 +1372,10 @@ class CorpusContractTests(unittest.TestCase):
         action = result["nextOfflineMigrationAction"]
 
         self.assertEqual(action["nodeScript"], "dictionary:probe-bilibili")
-        self.assertEqual(action["validationScope"], "dry_run_plan_and_no_live_command_fixture")
-        self.assertFalse(action["readyToReplace"])
+        self.assertEqual(action["pythonScript"], "python:direct-probe-command")
+        self.assertEqual(action["validationScript"], "python:direct-probe-command-compare")
+        self.assertEqual(action["validationScope"], "full_command")
+        self.assertTrue(action["readyToReplace"])
         self.assertEqual(
             action["validationGates"],
             [
@@ -1391,15 +1396,7 @@ class CorpusContractTests(unittest.TestCase):
                 {"gate": "js_opt_in_python_live_fetch_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
             ],
         )
-        self.assertEqual(
-            action["replacementBlockers"],
-            [
-                {
-                    "blocker": "live_bilibili_command_runtime_not_integrated",
-                    "reason": "Python has fixture-covered probe-loop orchestration, a unit-tested live reply/danmaku fetch adapter, an opt-in JS command bridge, an opt-in JS Python command runtime payload bridge, and an opt-in JS live-fetch bridge, but dictionary:probe-bilibili still defaults to the JS live orchestration path.",
-                }
-            ],
-        )
+        self.assertNotIn("replacementBlockers", action)
 
     def test_direct_bilibili_probe_service_is_legacy_after_python_contracts(self):
         result = BackendMigrationInventoryScanner(".").scan()
@@ -1425,7 +1422,7 @@ class CorpusContractTests(unittest.TestCase):
             },
             result["packageScripts"]["pythonOwnedDataScripts"],
         )
-        self.assertFalse(result["nextOfflineMigrationAction"]["readyToReplace"])
+        self.assertTrue(result["nextOfflineMigrationAction"]["readyToReplace"])
 
     def test_package_huggingface_dictionary_command_uses_python_after_full_contract_validation(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
@@ -1575,6 +1572,7 @@ class CorpusContractTests(unittest.TestCase):
                 "python:coverage-loop-compare": "node server/scripts/compareCoverageHarvestLoopPlan.js",
                 "python:tieba-keyword-compare": "node server/scripts/compareTiebaKeywordPlan.js",
                 "python:direct-probe-compare": "node server/scripts/compareDirectProbePlan.js",
+                "python:direct-probe-command-compare": "node server/scripts/compareDirectProbeCommand.js",
                 "python:aicu-compare": "node server/scripts/compareAicuScrapePlan.js",
                 "python:aicu-batch-compare": "node server/scripts/compareAicuBatchPlan.js",
                 "python:deepseek-cli-plan-js": "node server/scripts/analyzeDeepSeekComments.js --plan-json --python-plan",
@@ -1588,6 +1586,7 @@ class CorpusContractTests(unittest.TestCase):
                 "python:coverage-loop-plan": "python -m python_backend.cli.coverage_loop_plan",
                 "python:tieba-keyword-plan": "python -m python_backend.cli.tieba_keyword_plan",
                 "python:direct-probe-plan": "python -m python_backend.cli.direct_probe_plan",
+                "python:direct-probe-command": "python -m python_backend.cli.direct_probe_command",
                 "python:aicu-plan": "python -m python_backend.cli.aicu_scrape_plan",
                 "python:aicu-batch-plan": "python -m python_backend.cli.aicu_batch_plan",
                 "python:test": "python -m unittest discover python_backend/tests",
@@ -1596,8 +1595,8 @@ class CorpusContractTests(unittest.TestCase):
 
         result = PackageCommandMigrationInventory(package).scan()
 
-        self.assertEqual(result["nodeServerScripts"], 31)
-        self.assertEqual(result["pythonBackendScripts"], 12)
+        self.assertEqual(result["nodeServerScripts"], 32)
+        self.assertEqual(result["pythonBackendScripts"], 13)
         self.assertEqual(
             result["pythonBackedNodeScripts"],
             [
@@ -1689,13 +1688,11 @@ class CorpusContractTests(unittest.TestCase):
                 {
                     "script": "dictionary:probe-bilibili",
                     "command": "node server/scripts/probeBilibiliCommentEvidence.js",
-                    "pythonScript": "python:direct-probe-plan",
-                    "pythonCommand": "python -m python_backend.cli.direct_probe_plan",
-                    "replacementScope": "dry_run_plan",
-                    "readyToReplace": False,
-                    "validationScript": "python:direct-probe-compare",
-                    "validationCommand": "node server/scripts/compareDirectProbePlan.js",
-                    "validationScope": "dry_run_plan_and_no_live_command_fixture",
+                    "pythonScript": "python:direct-probe-command",
+                    "pythonCommand": "python -m python_backend.cli.direct_probe_command",
+                    "validationScript": "python:direct-probe-command-compare",
+                    "validationCommand": "node server/scripts/compareDirectProbeCommand.js",
+                    "validationScope": "full_command",
                 },
                 {
                     "script": "aicu:scrape",
@@ -1760,6 +1757,11 @@ class CorpusContractTests(unittest.TestCase):
                 {
                     "script": "python:deepseek-mock-runtime-compare",
                     "command": "node server/scripts/compareDeepSeekAnalyzeMockRuntime.js",
+                    "reason": "js_python_contract_bridge",
+                },
+                {
+                    "script": "python:direct-probe-compare",
+                    "command": "node server/scripts/compareDirectProbePlan.js",
                     "reason": "js_python_contract_bridge",
                 },
                 {
@@ -1865,7 +1867,8 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["nextOfflineMigrationAction"]["path"], "server/scripts/probeBilibiliCommentEvidence.js")
         self.assertEqual(result["nextOfflineMigrationAction"]["nodeScript"], "dictionary:probe-bilibili")
-        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "dry_run_plan_and_no_live_command_fixture")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "full_command")
+        self.assertTrue(result["nextOfflineMigrationAction"]["readyToReplace"])
         self.assertEqual(result["nextOfflineMigrationAction"]["offlineReason"], "skips_live_api_runtime")
 
     def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):

@@ -25,7 +25,7 @@ DEFAULT_PACKAGE_COMMAND_EQUIVALENTS = {
     "dictionary:tieba": "python:tieba-keyword-plan",
     "dictionary:huggingface": "python:huggingface-import",
     "dictionary:mine-local": "python:local-mine",
-    "dictionary:probe-bilibili": "python:direct-probe-plan",
+    "dictionary:probe-bilibili": "python:direct-probe-command",
     "dictionary:history-tags": "python:history-tags",
     "deepseek:analyze": "python:deepseek-analyze",
     "aicu:scrape": "python:aicu-plan",
@@ -41,7 +41,7 @@ DEFAULT_PACKAGE_VALIDATION_EQUIVALENTS = {
     "dictionary:resolve-near": "python:near-target-compare",
     "dictionary:auto": "python:coverage-loop-compare",
     "dictionary:tieba": "python:tieba-keyword-compare",
-    "dictionary:probe-bilibili": "python:direct-probe-compare",
+    "dictionary:probe-bilibili": "python:direct-probe-command-compare",
     "deepseek:analyze": "python:deepseek-analyze-command-compare",
     "dictionary:huggingface": "python:huggingface-compare",
     "dictionary:mine-local": "python:local-mine-compare",
@@ -63,6 +63,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:coverage-loop-compare": "dry_run_plan_fixture",
     "python:tieba-keyword-compare": "dry_run_plan_fixture",
     "python:direct-probe-compare": "dry_run_plan_and_no_live_command_fixture",
+    "python:direct-probe-command-compare": "full_command",
     "python:aicu-compare": "dry_run_plan_fixture",
     "python:aicu-batch-compare": "dry_run_plan_fixture",
     "python:huggingface-compare": "full_command",
@@ -75,7 +76,6 @@ DEFAULT_PACKAGE_REPLACEMENT_SCOPES = {
     "dictionary:resolve-near": "dry_run_plan",
     "dictionary:auto": "dry_run_plan",
     "dictionary:tieba": "dry_run_plan",
-    "dictionary:probe-bilibili": "dry_run_plan",
     "deepseek:analyze": "live_api_runtime",
     "aicu:scrape": "dry_run_plan",
     "aicu:batch": "dry_run_plan",
@@ -598,7 +598,7 @@ class BackendMigrationInventoryScanner:
                 {"gate": "live_api_command", "status": "covered_offline_skip_contract", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "legacy_selector_compatibility", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
             ]
-        if validation_script == "python:direct-probe-compare":
+        if validation_script in {"python:direct-probe-compare", "python:direct-probe-command-compare"}:
             return [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:direct-probe-compare"},
                 {"gate": "corpus_update_js_runner_fixture", "status": "covered", "source": "python:direct-probe-update-compare"},
