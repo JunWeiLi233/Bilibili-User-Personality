@@ -5625,6 +5625,19 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["summary"], {"sourceSentences": 0, "sentenceAnalyses": 0, "axes": 0, "unsupportedQuotes": 0, "unsupportedAxisEvidence": 0})
 
+    def test_deepseek_analysis_validate_runner_defaults_corrupt_json_roots(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            analysis_path = root / "analysis.json"
+            payload_path.write_text('{"comments": [', encoding="utf-8")
+            analysis_path.write_text('{"sentenceAnalyses": [', encoding="utf-8")
+
+            result = DeepSeekAnalysisValidateRunner(payload_path, analysis_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["summary"], {"sourceSentences": 0, "sentenceAnalyses": 0, "axes": 0, "unsupportedQuotes": 0, "unsupportedAxisEvidence": 0})
+
     def test_deepseek_analysis_validate_comparator_reports_summary_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

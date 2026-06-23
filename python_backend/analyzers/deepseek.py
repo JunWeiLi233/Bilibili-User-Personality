@@ -543,9 +543,7 @@ class DeepSeekAnalysisValidateRunner:
         return self.validator.validate_payloads(payload, analysis_payload)
 
     def _read_json(self, path: Path) -> dict[str, Any]:
-        with path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else {}
+        return JsonContractReader().read_object(path)
 
 
 class DeepSeekAnalysisValidateContractComparator:
