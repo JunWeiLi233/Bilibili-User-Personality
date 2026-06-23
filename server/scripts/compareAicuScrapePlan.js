@@ -17,6 +17,27 @@ export const DEFAULT_PAYLOAD = {
   ],
 };
 
+export const AICU_SCRAPE_PLAN_FIXTURES = {
+  'inline-dedupe': DEFAULT_PAYLOAD,
+  'missing-file': {
+    argv: ['--file=server/data/does-not-exist-aicu-uids.txt'],
+  },
+  'page-overrides': {
+    argv: ['--uid=100', 'https://space.bilibili.com/101'],
+    maxPages: 4,
+    pageSize: 8,
+    delayBetweenUidsMs: 2500,
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = ['inline-dedupe', 'missing-file', 'page-overrides'];
+
+function resolvePayload({ fixture = 'inline-dedupe', payload } = {}) {
+  if (payload) return { name: fixture || 'custom', payload };
+  const name = String(fixture || 'inline-dedupe');
+  return { name, payload: AICU_SCRAPE_PLAN_FIXTURES[name] || DEFAULT_PAYLOAD };
+}
+
 function summarize(result = {}) {
   return Object.fromEntries(RESULT_KEYS.filter((key) => key in result).map((key) => [key, result[key]]));
 }
@@ -42,25 +63,37 @@ async function runJsPlan({ payloadPath }) {
 }
 
 async function runPythonPlan({ payloadPath }) {
-  const { stdout } = await execFileAsync('python', ['-m', 'python_backend.cli.aicu_scrape_plan', '--payload', payloadPath], {
-    cwd: process.cwd(),
-    env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
-    maxBuffer: 10 * 1024 * 1024,
-  });
+  let stdout = '';
+  try {
+    ({ stdout } = await execFileAsync('python', ['-m', 'python_backend.cli.aicu_scrape_plan', '--payload', payloadPath], {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    }));
+  } catch (error) {
+    stdout = error?.stdout || '';
+    if (!stdout) throw error;
+  }
   return JSON.parse(stdout);
 }
 
-export async function compareAicuScrapePlan({ payload = DEFAULT_PAYLOAD, runJs = runJsPlan, runPython = runPythonPlan } = {}) {
+export async function compareAicuScrapePlan({
+  fixture = 'inline-dedupe',
+  payload,
+  runJs = runJsPlan,
+  runPython = runPythonPlan,
+} = {}) {
+  const resolved = resolvePayload({ fixture, payload });
   const tempDir = await mkdtemp(join(tmpdir(), 'aicu-scrape-plan-compare-'));
   try {
     const payloadPath = join(tempDir, 'payload.json');
-    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
-    const js = await runJs({ payload, payloadPath });
-    const python = await runPython({ payload, payloadPath });
+    await writeFile(payloadPath, JSON.stringify(resolved.payload, null, 2), 'utf8');
+    const js = await runJs({ payload: resolved.payload, payloadPath });
+    const python = await runPython({ payload: resolved.payload, payloadPath });
     const comparison = compareAicuScrapePlanObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { payloadPath },
+      fixture: { name: resolved.name, payloadPath },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -70,8 +103,25 @@ export async function compareAicuScrapePlan({ payload = DEFAULT_PAYLOAD, runJs =
   }
 }
 
+export async function compareAicuScrapePlanSuite({ fixtures = DEFAULT_FIXTURE_NAMES } = {}) {
+  const results = [];
+  for (const fixture of fixtures) {
+    results.push(await compareAicuScrapePlan({ fixture }));
+  }
+  return {
+    ok: results.every((result) => result.ok),
+    fixtures: results.map((result) => ({
+      name: result.fixture.name,
+      ok: result.ok,
+      js: result.js,
+      python: result.python,
+      mismatches: result.mismatches,
+    })),
+  };
+}
+
 async function main() {
-  const result = await compareAicuScrapePlan();
+  const result = await compareAicuScrapePlanSuite();
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }

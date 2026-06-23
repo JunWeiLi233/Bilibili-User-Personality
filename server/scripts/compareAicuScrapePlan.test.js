@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import { compareAicuScrapePlan, compareAicuScrapePlanObjects } from './compareAicuScrapePlan.js';
+import { compareAicuScrapePlan, compareAicuScrapePlanObjects, compareAicuScrapePlanSuite } from './compareAicuScrapePlan.js';
 
 const PLAN = {
   uids: ['123456', '789012'],
@@ -47,4 +47,15 @@ test('compareAicuScrapePlan compares JS and Python dry-run scrape plans', async 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('compareAicuScrapePlanSuite covers inline, missing-file, and page override fixtures', async () => {
+  const result = await compareAicuScrapePlanSuite();
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.fixtures.map((fixture) => fixture.name), ['inline-dedupe', 'missing-file', 'page-overrides']);
+  assert.deepEqual(result.fixtures.flatMap((fixture) => fixture.mismatches), []);
+  assert.deepEqual(result.fixtures.find((fixture) => fixture.name === 'missing-file').python.uids, []);
+  assert.equal(result.fixtures.find((fixture) => fixture.name === 'page-overrides').python.summary.commentPagesPerUid, 4);
+  assert.equal(result.fixtures.find((fixture) => fixture.name === 'page-overrides').python.requests[0].commentsUrl.includes('ps=8'), true);
 });
