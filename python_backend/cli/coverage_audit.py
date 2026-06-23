@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import argparse
-import json
+import sys
 
-from python_backend.analysis.audit import CoverageAuditCommandRequest, CoverageAuditPayloadContractComparator as AuditContractComparator
+from python_backend.analysis.audit import CoverageAuditCommandRequest, CoverageAuditJsonResultContract, CoverageAuditPayloadContractComparator as AuditContractComparator
 
 
 class CoverageAuditCliRunner(CoverageAuditCommandRequest):
@@ -20,7 +20,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     result = CoverageAuditCliRunner(argv).run()
-    print(json.dumps(result, ensure_ascii=False, indent=2))
+    sys.stdout.write(CoverageAuditJsonResultContract(result).to_bytes().decode("utf-8"))
     return 0 if result["ok"] else 1
 
 

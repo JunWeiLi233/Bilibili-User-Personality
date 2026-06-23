@@ -50,6 +50,16 @@ class CoverageAuditReport:
         return queries
 
 
+class CoverageAuditJsonResultContract:
+    """Serialize coverage-audit JSON output exactly as the CLI expects."""
+
+    def __init__(self, result: dict[str, Any]):
+        self.result = result
+
+    def to_bytes(self) -> bytes:
+        return (json.dumps(self.result, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
+
+
 def _int_or(value: Any, fallback: int) -> int:
     try:
         return int(value if value is not None else fallback)
