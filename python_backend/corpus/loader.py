@@ -70,7 +70,7 @@ class CorpusLoader:
         for relative_path in self._file_list(files):
             try:
                 shard = self._read_json(self.path.parent / relative_path)
-            except FileNotFoundError:
+            except (FileNotFoundError, json.JSONDecodeError):
                 continue
             if not isinstance(shard, dict):
                 continue

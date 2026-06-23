@@ -400,6 +400,38 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(corpus.comments, [{"message": "valid comment"}])
         self.assertEqual(corpus.runs, [{"at": "valid-run"}])
 
+    def test_loader_skips_invalid_json_split_shard_files(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "demo.comments").mkdir()
+            (root / "demo.runs").mkdir()
+            (root / "demo.json").write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "storage": "split",
+                        "commentFiles": ["demo.comments/bad.json", "demo.comments/comments-0001.json"],
+                        "runFiles": ["demo.runs/bad.json", "demo.runs/runs-0001.json"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (root / "demo.comments" / "bad.json").write_text("{bad json", encoding="utf-8")
+            (root / "demo.runs" / "bad.json").write_text("{bad json", encoding="utf-8")
+            (root / "demo.comments" / "comments-0001.json").write_text(
+                json.dumps({"comments": [{"message": "valid comment"}]}),
+                encoding="utf-8",
+            )
+            (root / "demo.runs" / "runs-0001.json").write_text(
+                json.dumps({"runs": [{"at": "valid-run"}]}),
+                encoding="utf-8",
+            )
+
+            corpus = CorpusLoader(root / "demo.json").load()
+
+        self.assertEqual(corpus.comments, [{"message": "valid comment"}])
+        self.assertEqual(corpus.runs, [{"at": "valid-run"}])
+
     def test_loader_filters_non_object_runs_across_json_contract_modes(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -5668,6 +5700,38 @@ class CorpusContractTests(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
+            (root / "dict.entries" / "attack-001.json").write_text(
+                json.dumps({"entries": [{"term": "doge", "family": "attack", "evidenceCount": 1}]}),
+                encoding="utf-8",
+            )
+            (root / "dict.evidence" / "attack-001.json").write_text(
+                json.dumps({"evidence": [{"term": "doge", "evidenceSamples": ["doge"], "evidenceSources": [{"sample": "doge"}]}]}),
+                encoding="utf-8",
+            )
+
+            dictionary = DictionaryLoader(root / "dict.json").load()
+
+        self.assertEqual([entry["term"] for entry in dictionary.entries], ["doge"])
+        self.assertEqual(dictionary.entries[0]["evidenceSamples"], ["doge"])
+
+    def test_dictionary_loader_skips_invalid_json_split_shard_files(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "dict.entries").mkdir()
+            (root / "dict.evidence").mkdir()
+            (root / "dict.json").write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "storage": "split",
+                        "entryFiles": {"attack": ["dict.entries/bad.json", "dict.entries/attack-001.json"]},
+                        "evidenceFiles": {"attack": ["dict.evidence/bad.json", "dict.evidence/attack-001.json"]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (root / "dict.entries" / "bad.json").write_text("{bad json", encoding="utf-8")
+            (root / "dict.evidence" / "bad.json").write_text("{bad json", encoding="utf-8")
             (root / "dict.entries" / "attack-001.json").write_text(
                 json.dumps({"entries": [{"term": "doge", "family": "attack", "evidenceCount": 1}]}),
                 encoding="utf-8",
