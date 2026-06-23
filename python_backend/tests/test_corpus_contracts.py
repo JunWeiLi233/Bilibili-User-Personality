@@ -26939,6 +26939,35 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["js"], {"discovery": {"videosScanned": 0}, "phase2": {"processed": 0}})
 
+    def test_uid_range_progress_has_js_python_validation_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertEqual(
+            package["scripts"]["python:uid-range-progress-compare"],
+            "node server/scripts/compareUidRangeProgress.js",
+        )
+        self.assertIn(
+            {
+                "script": "python:uid-range-progress-compare",
+                "command": "node server/scripts/compareUidRangeProgress.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:uid-range-progress",
+                "command": "python -m python_backend.cli.uid_range_progress",
+                "pipeline": "uid_range_progress",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareUidRangeProgress.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_near_target_resolve_plan_runner_selects_comment_backed_near_target_terms(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

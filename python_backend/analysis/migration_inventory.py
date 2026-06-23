@@ -146,6 +146,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:uid-discovery-progress-compare": "js_python_contract_bridge",
     "python:batch-scrape-progress-compare": "js_python_contract_bridge",
     "python:batch-uid-progress-compare": "js_python_contract_bridge",
+    "python:uid-range-progress-compare": "js_python_contract_bridge",
     "python:local-mine-compare": "js_python_contract_bridge",
     "python:bilibili-parse-compare": "js_python_contract_bridge",
 }
@@ -198,6 +199,7 @@ PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
     "uid_discovery_progress": ("python_backend.cli.uid_discovery_progress",),
     "batch_scrape_progress": ("python_backend.cli.batch_scrape_progress",),
     "batch_uid_progress": ("python_backend.cli.batch_uid_progress",),
+    "uid_range_progress": ("python_backend.cli.uid_range_progress",),
 }
 
 RETAINED_JS_FILE_PREFIXES = {
@@ -257,6 +259,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareUidDiscoveryProgress.js": "js_python_contract_bridge",
     "server/scripts/compareBatchScrapeProgress.js": "js_python_contract_bridge",
     "server/scripts/compareBatchUidProgress.js": "js_python_contract_bridge",
+    "server/scripts/compareUidRangeProgress.js": "js_python_contract_bridge",
     "server/scripts/compareBilibiliParse.js": "js_python_contract_bridge",
 }
 
