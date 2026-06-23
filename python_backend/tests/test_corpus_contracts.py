@@ -1723,7 +1723,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:aicu-batch-compare",
                     "validationCommand": "node server/scripts/compareAicuBatchPlan.js",
-                    "validationScope": "dry_run_plan_fixture",
+                    "validationScope": "dry_run_plan_fixture_and_js_python_plan_bridge",
                 },
             ],
         )

@@ -1,6 +1,8 @@
+import { execFile } from 'node:child_process';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { promisify } from 'node:util';
 
 const AICU_COMMENTS_API = 'https://api.aicu.cc/api/v3/search/getreply';
 const AICU_DANMAKU_API = 'https://api.aicu.cc/api/v3/search/getvideodm';
@@ -17,6 +19,7 @@ const MAX_PAGES = 3;
 const PAGE_SIZE = 20;
 const SAVE_EVERY_ATTEMPTS = 5;
 const WAF_STATUSES = [429, 468, 1015];
+const execFileAsync = promisify(execFile);
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -112,6 +115,42 @@ async function readPlanPayload(args) {
   }
 }
 
+function parsePlanControlArgs(args = []) {
+  let planJson = false;
+  let pythonPlan = false;
+  let jsPlan = false;
+  let payloadPath = '';
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = String(args[index] || '');
+    if (arg === '--plan-json') {
+      planJson = true;
+    } else if (arg === '--python-plan') {
+      pythonPlan = true;
+    } else if (arg === '--js-plan') {
+      jsPlan = true;
+    } else if (arg === '--payload') {
+      payloadPath = String(args[index + 1] || '');
+      index += 1;
+    } else if (arg.startsWith('--payload=')) {
+      payloadPath = arg.slice('--payload='.length);
+    }
+  }
+  if (process.env.AICU_BATCH_USE_PYTHON_PLAN === '1' && !jsPlan) {
+    pythonPlan = true;
+  }
+  return { planJson, pythonPlan, jsPlan, payloadPath };
+}
+
+async function runPythonAicuBatchPlan(payloadPath) {
+  const pythonBin = process.env.AICU_BATCH_PYTHON_BIN || 'python';
+  const { stdout } = await execFileAsync(pythonBin, ['-m', 'python_backend.cli.aicu_batch_plan', '--payload', payloadPath], {
+    cwd: process.cwd(),
+    env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  return JSON.parse(stdout);
+}
+
 async function fetchWithRetry(url, retries = MAX_RETRIES) {
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
@@ -193,7 +232,12 @@ async function saveProgress(progress) {
 
 async function main() {
   const args = process.argv.slice(2);
-  if (args.includes('--plan-json')) {
+  const planControl = parsePlanControlArgs(args);
+  if (planControl.planJson) {
+    if (planControl.pythonPlan && !planControl.jsPlan) {
+      console.log(JSON.stringify(await runPythonAicuBatchPlan(planControl.payloadPath), null, 2));
+      return;
+    }
     const payload = await readPlanPayload(args);
     console.log(JSON.stringify(buildAicuBatchPlan(payload), null, 2));
     return;

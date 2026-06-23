@@ -65,7 +65,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:direct-probe-compare": "dry_run_plan_and_no_live_command_fixture",
     "python:direct-probe-command-compare": "full_command",
     "python:aicu-compare": "dry_run_plan_fixture_and_js_python_plan_bridge",
-    "python:aicu-batch-compare": "dry_run_plan_fixture",
+    "python:aicu-batch-compare": "dry_run_plan_fixture_and_js_python_plan_bridge",
     "python:huggingface-compare": "full_command",
     "python:local-mine-compare": "full_command",
 }
@@ -654,6 +654,11 @@ class BackendMigrationInventoryScanner:
             return [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:aicu-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "scrapeAicuUsers.test.js"},
+            ]
+        if validation_script == "python:aicu-batch-compare":
+            return [
+                {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:aicu-batch-compare"},
+                {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareAicuBatchPlan.test.js"},
             ]
         if validation_scope == "full_command":
             return [{"gate": "full_command", "status": "covered", "source": validation_script}]
