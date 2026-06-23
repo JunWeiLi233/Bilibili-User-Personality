@@ -15405,6 +15405,30 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_exhausted_terms_prune_plan_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            state_path = root / "state.json"
+            js_report_path = root / "js-exhausted.json"
+            dictionary_path.write_text(
+                json.dumps({"entries": [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "evidenceCount": 0}]}),
+                encoding="utf-8",
+            )
+            state_path.write_text(json.dumps({"termAttempts": {"\u96f6\u8bc1\u636e": {"attempts": 11}}}), encoding="utf-8")
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            result = ExhaustedTermsPrunePlanContractComparator(
+                dictionary_path,
+                state_path,
+                js_report_path,
+                attempt_threshold=10,
+            ).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"], {})
+
     def test_dictionary_prune_summary_runner_counts_js_prune_metrics(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -15739,6 +15763,23 @@ class CorpusContractTests(unittest.TestCase):
                 },
             ],
         )
+
+    def test_dictionary_prune_summary_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            js_report_path = root / "js-prune-summary.json"
+            dictionary_path.write_text(
+                json.dumps({"entries": [{"term": "doge"}, {"term": "\u72d7\u5934"}]}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            result = DictionaryPruneSummaryContractComparator(dictionary_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"], {})
 
     def test_merge_agent_dictionaries_plan_runner_estimates_existing_term_evidence_gain(self):
         with tempfile.TemporaryDirectory() as tmp:
