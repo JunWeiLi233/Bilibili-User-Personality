@@ -21590,6 +21590,36 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["js"], {"progress": {"processed": 0}, "training": {"multiagent": False}})
 
+    def test_uid_pipeline_worker_has_js_python_validation_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(
+            package["scripts"]["python:uid-pipeline-worker-compare"],
+            "node server/scripts/compareUidPipelineWorkerPlan.js",
+        )
+
+        result = BackendMigrationInventoryScanner(".").scan()
+        self.assertIn(
+            {
+                "script": "python:uid-pipeline-worker-compare",
+                "command": "node server/scripts/compareUidPipelineWorkerPlan.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:uid-pipeline-plan",
+                "command": "python -m python_backend.cli.uid_pipeline_plan",
+                "pipeline": "uid_pipeline_worker_plan",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareUidPipelineWorkerPlan.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_uid_fast_pipeline_plan_matches_js_direct_fetch_and_backoff_contract(self):
         planner = UidFastPipelinePlanner()
         progress = {
