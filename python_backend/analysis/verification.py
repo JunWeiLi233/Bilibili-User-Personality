@@ -24,6 +24,22 @@ class VerificationSummary:
     samples: list[dict[str, Any]]
 
 
+@dataclass(frozen=True)
+class RandomVerificationCorpus:
+    """Loaded corpus bundle used by random verification reports."""
+
+    comments: list[dict[str, Any]]
+    runs: list[dict[str, Any]]
+    storage: str
+
+    def as_report_corpus(self) -> dict[str, Any]:
+        return {
+            "comments": len(self.comments),
+            "runs": len(self.runs),
+            "storage": self.storage,
+        }
+
+
 def json_result_bytes(result: dict[str, Any]) -> bytes:
     return (json.dumps(result, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
 
@@ -154,24 +170,11 @@ class RandomVerificationRunner:
         self.extra_corpus_paths = _path_list(extra_corpus_paths)
 
     def run(self) -> dict[str, Any]:
-        corpus = CorpusLoader(self.corpus_path).load()
-        comments = list(corpus.comments)
-        runs = list(corpus.runs)
-        storage = str(corpus.manifest.get("storage", "monolith"))
-        for extra_path in self.extra_corpus_paths:
-            extra_corpus = CorpusLoader(extra_path).load()
-            comments.extend(extra_corpus.comments)
-            runs.extend(extra_corpus.runs)
-        if self.extra_corpus_paths:
-            storage = "combined"
+        corpus = RandomVerificationCorpusAssembler.from_path(self.corpus_path, self.extra_corpus_paths).assemble()
         dictionary = DictionaryLoader(self.dictionary_path).load()
         return RandomVerifier.from_dictionary_entries(dictionary.entries).report(
-            comments,
-            corpus={
-                "comments": len(comments),
-                "runs": len(runs),
-                "storage": storage,
-            },
+            corpus.comments,
+            corpus=corpus.as_report_corpus(),
             sample_size=self.sample_size,
             seed=self.seed,
         )
@@ -187,25 +190,11 @@ class RandomVerificationPayloadRunner:
         payload = self._read_payload()
         sample_size = _non_negative_int(payload.get("sampleSize"), 50)
         seed = _int_or(payload.get("seed"), 1)
-        corpus = CorpusLoader.load_from_payload(payload)
-        comments = list(corpus.comments)
-        runs = list(corpus.runs)
-        storage = str(corpus.manifest.get("storage", "monolith"))
-        extra_corpus_paths = _path_list(payload.get("extraCorpusPaths"))
-        for extra_path in extra_corpus_paths:
-            extra_corpus = CorpusLoader(extra_path).load()
-            comments.extend(extra_corpus.comments)
-            runs.extend(extra_corpus.runs)
-        if extra_corpus_paths:
-            storage = "combined"
+        corpus = RandomVerificationCorpusAssembler.from_payload(payload).assemble()
         dictionary = DictionaryLoader.load_from_payload(payload)
         return RandomVerifier.from_dictionary_entries(dictionary.entries).report(
-            comments,
-            corpus={
-                "comments": len(comments),
-                "runs": len(runs),
-                "storage": storage,
-            },
+            corpus.comments,
+            corpus=corpus.as_report_corpus(),
             sample_size=sample_size,
             seed=seed,
         )
@@ -287,6 +276,39 @@ def _path_list(value: Any) -> list[Path]:
         if isinstance(item, str) and item.strip():
             paths.append(Path(item))
     return paths
+
+
+class RandomVerificationCorpusAssembler:
+    """Assemble the base and optional extra corpora for random verification."""
+
+    def __init__(self, base_corpus: Any, extra_corpus_paths: list[str | Path] | None = None):
+        self.base_corpus = base_corpus
+        self.extra_corpus_paths = _path_list(extra_corpus_paths)
+
+    @classmethod
+    def from_path(cls, corpus_path: str | Path, extra_corpus_paths: list[str | Path] | None = None) -> "RandomVerificationCorpusAssembler":
+        return cls(CorpusLoader(corpus_path), extra_corpus_paths)
+
+    @classmethod
+    def from_payload(cls, payload: dict[str, Any] | None = None) -> "RandomVerificationCorpusAssembler":
+        payload = payload if isinstance(payload, dict) else {}
+        return cls(CorpusLoader.load_from_payload(payload), _path_list(payload.get("extraCorpusPaths")))
+
+    def assemble(self) -> RandomVerificationCorpus:
+        base = self._load_base()
+        comments = list(base.comments)
+        runs = list(base.runs)
+        storage = str(base.manifest.get("storage", "monolith"))
+        for extra_path in self.extra_corpus_paths:
+            extra_corpus = CorpusLoader(extra_path).load()
+            comments.extend(extra_corpus.comments)
+            runs.extend(extra_corpus.runs)
+        if self.extra_corpus_paths:
+            storage = "combined"
+        return RandomVerificationCorpus(comments=comments, runs=runs, storage=storage)
+
+    def _load_base(self):
+        return self.base_corpus.load() if hasattr(self.base_corpus, "load") else self.base_corpus
 
 
 class RandomVerifier:

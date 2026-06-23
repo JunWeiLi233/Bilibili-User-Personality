@@ -1481,6 +1481,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["corpus"], {"comments": 2, "runs": 2, "storage": "combined"})
         self.assertEqual(result["keywordHits"], 1)
 
+    def test_random_verification_corpus_assembler_combines_payload_and_extra_corpora(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            extra_path = root / "tiebaKeywordCorpus.json"
+            extra_path.write_text(
+                json.dumps({"comments": ["tieba text"], "runs": [{"source": "tieba"}]}),
+                encoding="utf-8",
+            )
+            payload = {
+                "extraCorpusPaths": [None, "", str(extra_path)],
+                "corpus": {
+                    "comments": [{"message": "bilibili text"}],
+                    "runs": [{"source": "bilibili"}],
+                    "manifest": {"storage": "inline"},
+                },
+            }
+
+            assembled = verification_module.RandomVerificationCorpusAssembler.from_payload(payload).assemble()
+
+        self.assertEqual([comment["message"] for comment in assembled.comments], ["bilibili text", "tieba text"])
+        self.assertEqual(assembled.runs, [{"source": "bilibili"}, {"source": "tieba"}])
+        self.assertEqual(assembled.storage, "combined")
+        self.assertEqual(assembled.as_report_corpus(), {"comments": 2, "runs": 2, "storage": "combined"})
+
     def test_random_verification_cli_runner_accepts_payload_flag(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "random-verification.json"
