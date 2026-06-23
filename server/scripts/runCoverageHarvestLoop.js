@@ -62,12 +62,15 @@ function priorityQueryItemsFromAudit(audit, limit) {
 
 function parsePlanArgs(argv = process.argv.slice(2)) {
   let planJson = false;
+  let pythonPlan = false;
   let coverageProgressJson = false;
   let payloadPath = '';
   for (let index = 0; index < argv.length; index += 1) {
     const arg = String(argv[index] || '');
     if (arg === '--plan-json') {
       planJson = true;
+    } else if (arg === '--python-plan') {
+      pythonPlan = true;
     } else if (arg === '--coverage-progress-json') {
       coverageProgressJson = true;
     } else if (arg.startsWith('--payload=')) {
@@ -77,7 +80,7 @@ function parsePlanArgs(argv = process.argv.slice(2)) {
       index += 1;
     }
   }
-  return { planJson, coverageProgressJson, payloadPath };
+  return { planJson, pythonPlan, coverageProgressJson, payloadPath };
 }
 
 async function readPlanPayload(path) {
@@ -237,6 +240,15 @@ async function runPythonCoverageProgress(payloadPath) {
   return JSON.parse(stdout);
 }
 
+async function runPythonCoverageLoopPlan(payloadPath) {
+  const { stdout } = await execFileAsync('python', ['-m', 'python_backend.cli.coverage_loop_plan', '--payload', payloadPath], {
+    cwd: process.cwd(),
+    env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  return JSON.parse(stdout);
+}
+
 export async function buildCoverageLoopProgress(payload = {}, { payloadPath = '', strictPython = false } = {}) {
   if (process.env.BILIBILI_COVERAGE_LOOP_USE_JS_PROGRESS === '1' && !strictPython) {
     return buildJsCoverageProgress(payload);
@@ -336,7 +348,22 @@ const auditOptions = {
 const planArgs = parsePlanArgs();
 if (planArgs.planJson) {
   const payload = await readPlanPayload(planArgs.payloadPath);
-  console.log(JSON.stringify(buildCoverageHarvestLoopPlan(payload), null, 2));
+  let tempDir = '';
+  let planPayloadPath = planArgs.payloadPath;
+  if (planArgs.pythonPlan) {
+    if (!planPayloadPath) {
+      tempDir = await mkdtemp(join(tmpdir(), 'coverage-loop-plan-'));
+      planPayloadPath = join(tempDir, 'payload.json');
+      await writeFile(planPayloadPath, JSON.stringify(payload, null, 2), 'utf8');
+    }
+    try {
+      console.log(JSON.stringify(await runPythonCoverageLoopPlan(planPayloadPath), null, 2));
+    } finally {
+      if (tempDir) await rm(tempDir, { recursive: true, force: true });
+    }
+  } else {
+    console.log(JSON.stringify(buildCoverageHarvestLoopPlan(payload), null, 2));
+  }
   process.exit(0);
 }
 if (planArgs.coverageProgressJson) {

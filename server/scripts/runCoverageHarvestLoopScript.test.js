@@ -82,6 +82,48 @@ test('runCoverageHarvestLoop.js emits JS/Python comparable dry-run plan without 
   }
 });
 
+test('runCoverageHarvestLoop.js can delegate dry-run plan JSON to Python', () => {
+  const tempDir = mkdtempSync(join(tmpdir(), 'coverage-loop-python-plan-script-'));
+  try {
+    const payloadPath = join(tempDir, 'payload.json');
+    writeFileSync(
+      payloadPath,
+      JSON.stringify({
+        env: {
+          BILIBILI_COVERAGE_LOOP_MAX_CYCLES: '0',
+          BILIBILI_HARVEST_MAX_QUERIES: '2',
+          BILIBILI_VIDEO_SEARCH_QUERY: 'doge, tieba',
+        },
+        audit: {
+          ok: false,
+          nextActions: [{ term: 'doge', family: 'meme', nextQuery: 'doge hot' }],
+        },
+      }),
+      'utf8',
+    );
+
+    const result = spawnSync('node', ['server/scripts/runCoverageHarvestLoop.js', '--plan-json', '--python-plan', '--payload', payloadPath], {
+      cwd: process.cwd(),
+      env: { ...process.env, BILIBILI_HARVEST_MAX_QUERIES: '99' },
+      encoding: 'utf8',
+    });
+    const python = spawnSync('python', ['-m', 'python_backend.cli.coverage_loop_plan', '--payload', payloadPath], {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      encoding: 'utf8',
+    });
+
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(python.status, 0, python.stderr);
+    const plan = JSON.parse(result.stdout);
+    const pythonPlan = JSON.parse(python.stdout);
+    assert.deepEqual(plan, pythonPlan);
+    assert.deepEqual(plan.priorityQueries.map((item) => item.query), ['doge hot']);
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
+  }
+});
+
 test('runCoverageHarvestLoop.js can delegate coverage progress JSON to Python', () => {
   const tempDir = mkdtempSync(join(tmpdir(), 'coverage-loop-progress-script-'));
   try {
