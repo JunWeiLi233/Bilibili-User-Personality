@@ -128,6 +128,7 @@ PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
     "agent_dictionary_merge": ("python_backend.cli.merge_agent_dictionaries_plan --write",),
     "scraper_monitor": ("python_backend.cli.scraper_monitor",),
     "coverage_progress": ("python_backend.cli.coverage_progress",),
+    "discovery_report": ("python_backend.cli.discovery_report",),
 }
 
 RETAINED_JS_FILE_PREFIXES = {
@@ -303,6 +304,12 @@ class BackendMigrationInventoryScanner:
             relative_path == "server/utils/coverageProgress.js"
             and package_scripts.get("python:coverage-progress") == "python -m python_backend.cli.coverage_progress"
             and package_scripts.get("python:coverage-progress-compare") == "node server/scripts/compareCoverageProgress.js"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/utils/runVideoKeywordDiscoveryReport.js"
+            and package_scripts.get("python:discovery-report") == "python -m python_backend.cli.discovery_report"
+            and package_scripts.get("python:discovery-report-compare") == "node server/scripts/compareVideoKeywordDiscoveryReport.js"
         ):
             return "legacy_compatibility_after_python_replacement"
         if relative_path in RETAINED_JS_FILES:

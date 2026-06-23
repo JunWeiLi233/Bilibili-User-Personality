@@ -26520,6 +26520,23 @@ class CorpusContractTests(unittest.TestCase):
             result["retainedJsBackendFiles"],
         )
 
+    def test_discovery_report_utility_is_legacy_after_python_contract(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertNotIn("server/utils/runVideoKeywordDiscoveryReport.js", result["migrationCandidateFiles"]["utils"])
+        self.assertIn(
+            {"path": "server/utils/runVideoKeywordDiscoveryReport.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {
+                "script": "python:discovery-report",
+                "command": "python -m python_backend.cli.discovery_report",
+                "pipeline": "discovery_report",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+
     def test_video_keyword_discovery_options_builder_matches_strict_comment_contract(self):
         builder = VideoKeywordDiscoveryOptionsBuilder(cwd="D:/Bilibili_User_Personality")
         options = builder.build(
