@@ -1123,6 +1123,45 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(command, "npm run python:coverage-standalone:write && npm run python:verify-random:write && npm run python:compare:write-full")
 
+    def test_package_inventory_reports_python_owned_data_pipeline_scripts(self):
+        package = {
+            "scripts": {
+                "python:coverage-standalone:write": "python -m python_backend.cli.coverage_audit --standalone --output server/data/keywordCoverageAudit.python.json",
+                "python:verify-random": "python -m python_backend.cli.random_verification --extra-corpus server/data/tiebaKeywordCorpus.json",
+                "python:verify-random:write": "python -m python_backend.cli.random_verification --extra-corpus server/data/tiebaKeywordCorpus.json --output server/data/randomVerificationReport.json",
+                "python:compare:write-full": "python -m python_backend.cli.compare_contracts --random-report server/data/randomVerificationReport.json --output server/data/pythonContractComparison.json",
+                "python:deepseek-cli-compare": "node server/scripts/compareDeepSeekAnalyzePlan.js",
+            }
+        }
+
+        result = PackageCommandMigrationInventory(package).scan()
+
+        self.assertEqual(
+            result["pythonOwnedDataScripts"],
+            [
+                {
+                    "script": "python:coverage-standalone:write",
+                    "command": "python -m python_backend.cli.coverage_audit --standalone --output server/data/keywordCoverageAudit.python.json",
+                    "pipeline": "coverage_audit",
+                },
+                {
+                    "script": "python:verify-random",
+                    "command": "python -m python_backend.cli.random_verification --extra-corpus server/data/tiebaKeywordCorpus.json",
+                    "pipeline": "random_verification",
+                },
+                {
+                    "script": "python:verify-random:write",
+                    "command": "python -m python_backend.cli.random_verification --extra-corpus server/data/tiebaKeywordCorpus.json --output server/data/randomVerificationReport.json",
+                    "pipeline": "random_verification",
+                },
+                {
+                    "script": "python:compare:write-full",
+                    "command": "python -m python_backend.cli.compare_contracts --random-report server/data/randomVerificationReport.json --output server/data/pythonContractComparison.json",
+                    "pipeline": "contract_comparison",
+                },
+            ],
+        )
+
     def test_gitignore_excludes_generated_python_validation_artifacts(self):
         ignored = set(Path(".gitignore").read_text(encoding="utf-8").splitlines())
 

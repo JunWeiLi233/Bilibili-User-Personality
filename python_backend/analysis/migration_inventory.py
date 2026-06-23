@@ -111,6 +111,12 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:local-mine-compare": "js_python_contract_bridge",
 }
 
+PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
+    "coverage_audit": ("python_backend.cli.coverage_audit",),
+    "random_verification": ("python_backend.cli.random_verification",),
+    "contract_comparison": ("python_backend.cli.compare_contracts",),
+}
+
 RETAINED_JS_FILE_PREFIXES = {
     "server/routes/": "app_api_orchestration",
 }
@@ -381,6 +387,7 @@ class PackageCommandMigrationInventory:
             "retainedNodeScripts": retained,
             "bridgeNodeScripts": bridge,
             "replacementNeeded": replacement_needed,
+            "pythonOwnedDataScripts": self._python_owned_data_scripts(python_scripts),
         }
 
     def _linked_bridge_scripts(self, node_scripts: dict[str, str], python_scripts: dict[str, str]) -> set[str]:
@@ -407,6 +414,22 @@ class PackageCommandMigrationInventory:
             for name, command in scripts.items()
             if isinstance(command, str) and "python -m python_backend.cli." in command
         }
+
+    @classmethod
+    def _python_owned_data_scripts(cls, python_scripts: dict[str, str]) -> list[dict[str, str]]:
+        owned: list[dict[str, str]] = []
+        for name, command in python_scripts.items():
+            pipeline = cls._python_owned_data_pipeline(command)
+            if pipeline:
+                owned.append({"script": name, "command": command, "pipeline": pipeline})
+        return owned
+
+    @staticmethod
+    def _python_owned_data_pipeline(command: str) -> str:
+        for pipeline, module_fragments in PYTHON_OWNED_DATA_PIPELINE_COMMANDS.items():
+            if any(fragment in command for fragment in module_fragments):
+                return pipeline
+        return ""
 
 
 @dataclass(frozen=True)
