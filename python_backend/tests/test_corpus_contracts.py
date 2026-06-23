@@ -22809,6 +22809,10 @@ class CorpusContractTests(unittest.TestCase):
             {"path": "server/scripts/compareUidParallelProgress.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
         )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:uid-parallel-progress-compare"],
+            "file_backed_default_corrupt_inputs_fixtures_and_js_python_bridge",
+        )
 
     def test_uid_parallel_plan_matches_js_worker_assignment_and_training_contract(self):
         planner = UidParallelAnalyzerPlanner()

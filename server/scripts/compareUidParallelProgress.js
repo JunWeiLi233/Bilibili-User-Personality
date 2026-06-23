@@ -30,6 +30,25 @@ export const DEFAULT_PAYLOAD = {
   },
 };
 
+export const UID_PARALLEL_PROGRESS_FIXTURES = {
+  'default-progress': DEFAULT_PAYLOAD,
+  'corrupt-inputs': {
+    worker: 1,
+    workers: 2,
+    commentsRaw: '{not-json',
+    progressRaw: '{not-json',
+    databaseRaw: '{not-json',
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = ['default-progress', 'corrupt-inputs'];
+
+function resolvePayload({ fixture = 'default-progress', payload } = {}) {
+  if (payload) return { name: fixture || 'custom', payload };
+  const name = String(fixture || 'default-progress');
+  return { name, payload: UID_PARALLEL_PROGRESS_FIXTURES[name] || DEFAULT_PAYLOAD };
+}
+
 function intOrZero(value) {
   const parsed = Number.parseInt(String(value ?? ''), 10);
   return Number.isFinite(parsed) ? parsed : 0;
@@ -115,24 +134,33 @@ async function runPythonProgress({ dataDir, worker, workers }) {
 async function writeFixture(dataDir, payload) {
   await mkdir(dataDir, { recursive: true });
   const worker = Number.parseInt(String(payload.worker ?? 0), 10) || 0;
-  await writeFile(join(dataDir, 'uid-discovery-comments.json'), JSON.stringify(payload.comments || {}, null, 2), 'utf8');
-  await writeFile(join(dataDir, `uid-parallel-${worker}-progress.json`), JSON.stringify(payload.progress || {}, null, 2), 'utf8');
-  await writeFile(join(dataDir, 'scraped-users-db.json'), JSON.stringify(payload.database || { users: {} }, null, 2), 'utf8');
+  await writeFile(join(dataDir, 'uid-discovery-comments.json'), payload.commentsRaw ?? JSON.stringify(payload.comments || {}, null, 2), 'utf8');
+  await writeFile(join(dataDir, `uid-parallel-${worker}-progress.json`), payload.progressRaw ?? JSON.stringify(payload.progress || {}, null, 2), 'utf8');
+  await writeFile(join(dataDir, 'scraped-users-db.json'), payload.databaseRaw ?? JSON.stringify(payload.database || { users: {} }, null, 2), 'utf8');
 }
 
-export async function compareUidParallelProgress({ payload = DEFAULT_PAYLOAD, runJs = runJsProgress, runPython = runPythonProgress } = {}) {
+export async function compareUidParallelProgress({
+  fixture = 'default-progress',
+  fixtureNames,
+  payload,
+  runJs = runJsProgress,
+  runPython = runPythonProgress,
+} = {}) {
+  if (fixtureNames) return compareUidParallelProgressSuite({ fixtures: fixtureNames, runJs, runPython });
+  const resolved = resolvePayload({ fixture, payload });
   const tempDir = await mkdtemp(join(tmpdir(), 'uid-parallel-progress-compare-'));
   try {
-    const dataDir = payload.dataDir || join(tempDir, 'server', 'data');
-    const worker = Number.parseInt(String(payload.worker ?? 0), 10) || 0;
-    const workers = Math.max(1, Number.parseInt(String(payload.workers ?? 4), 10) || 4);
-    if (!payload.dataDir) await writeFixture(dataDir, payload);
-    const js = await runJs({ payload, dataDir, worker, workers });
-    const python = await runPython({ payload, dataDir, worker, workers });
+    const dataDir = resolved.payload.dataDir || join(tempDir, 'server', 'data');
+    const worker = Number.parseInt(String(resolved.payload.worker ?? 0), 10) || 0;
+    const workers = Math.max(1, Number.parseInt(String(resolved.payload.workers ?? 4), 10) || 4);
+    if (!resolved.payload.dataDir) await writeFixture(dataDir, resolved.payload);
+    const fixtureContext = { name: resolved.name };
+    const js = await runJs({ payload: resolved.payload, fixture: fixtureContext, dataDir, worker, workers });
+    const python = await runPython({ payload: resolved.payload, fixture: fixtureContext, dataDir, worker, workers });
     const comparison = compareUidParallelProgressObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { dataDir, worker, workers },
+      fixture: { name: resolved.name, dataDir, worker, workers },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -142,8 +170,29 @@ export async function compareUidParallelProgress({ payload = DEFAULT_PAYLOAD, ru
   }
 }
 
+export async function compareUidParallelProgressSuite({
+  fixtures = DEFAULT_FIXTURE_NAMES,
+  runJs = runJsProgress,
+  runPython = runPythonProgress,
+} = {}) {
+  const results = [];
+  for (const fixture of fixtures) {
+    results.push(await compareUidParallelProgress({ fixture, runJs, runPython }));
+  }
+  return {
+    ok: results.every((result) => result.ok),
+    fixtures: results.map((result) => ({
+      name: result.fixture.name,
+      ok: result.ok,
+      js: result.js,
+      python: result.python,
+      mismatches: result.mismatches,
+    })),
+  };
+}
+
 async function main() {
-  const result = await compareUidParallelProgress();
+  const result = await compareUidParallelProgressSuite();
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }

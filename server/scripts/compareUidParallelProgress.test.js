@@ -1,7 +1,11 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import { compareUidParallelProgress, compareUidParallelProgressObjects } from './compareUidParallelProgress.js';
+import {
+  UID_PARALLEL_PROGRESS_FIXTURES,
+  compareUidParallelProgress,
+  compareUidParallelProgressObjects,
+} from './compareUidParallelProgress.js';
 
 const SUMMARY = {
   worker: { id: 1, totalWorkers: 2, assigned: 2 },
@@ -37,4 +41,30 @@ test('compareUidParallelProgress compares JS-compatible and Python progress repo
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.deepEqual(calls, [{ js: 1, workers: 2 }, { python: 1, workers: 2 }]);
+});
+
+test('compareUidParallelProgress exports named file-backed fixtures', async () => {
+  assert.deepEqual(Object.keys(UID_PARALLEL_PROGRESS_FIXTURES), ['default-progress', 'corrupt-inputs']);
+
+  const contexts = [];
+  const result = await compareUidParallelProgress({
+    fixtureNames: Object.keys(UID_PARALLEL_PROGRESS_FIXTURES),
+    runJs: async (context) => {
+      contexts.push({ js: context.fixture.name, worker: context.worker, workers: context.workers });
+      return { ok: true, ...SUMMARY };
+    },
+    runPython: async (context) => {
+      contexts.push({ python: context.fixture.name, worker: context.worker, workers: context.workers });
+      return { ok: true, ...SUMMARY };
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.fixtures.map((fixture) => fixture.name), ['default-progress', 'corrupt-inputs']);
+  assert.deepEqual(contexts, [
+    { js: 'default-progress', worker: 1, workers: 2 },
+    { python: 'default-progress', worker: 1, workers: 2 },
+    { js: 'corrupt-inputs', worker: 1, workers: 2 },
+    { python: 'corrupt-inputs', worker: 1, workers: 2 },
+  ]);
 });
