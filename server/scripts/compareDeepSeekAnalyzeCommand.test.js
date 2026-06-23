@@ -63,7 +63,7 @@ test('compareDeepSeekAnalyzeCommandMockRuntime compares JS command mock runtime 
   assert.equal(calls.length, 2);
 });
 
-test('compareDeepSeekAnalyzeCommandSuite requires fixture command, mock runtime, and multiagent runtime parity', async () => {
+test('compareDeepSeekAnalyzeCommandSuite requires fixture command, mock runtime, multiagent runtime, and live gate contract parity', async () => {
   const calls = [];
   const result = await compareDeepSeekAnalyzeCommandSuite({
     compareFixtureCommand: async () => {
@@ -78,10 +78,14 @@ test('compareDeepSeekAnalyzeCommandSuite requires fixture command, mock runtime,
       calls.push({ mockRuntime: options?.payload?.multiagent || false });
       return { ok: true, mismatches: [] };
     },
+    compareLiveGate: async () => {
+      calls.push('liveValidationGate');
+      return { ok: true, mismatches: [], python: { status: 'skipped' } };
+    },
   });
 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
-  assert.deepEqual(calls, ['fixtureCommand', 'commandMockRuntime', { mockRuntime: false }, { mockRuntime: true }]);
-  assert.deepEqual(Object.keys(result.checks), ['fixtureCommand', 'commandMockRuntime', 'mockRuntime', 'multiagentMockRuntime']);
+  assert.deepEqual(calls, ['fixtureCommand', 'commandMockRuntime', { mockRuntime: false }, { mockRuntime: true }, 'liveValidationGate']);
+  assert.deepEqual(Object.keys(result.checks), ['fixtureCommand', 'commandMockRuntime', 'mockRuntime', 'multiagentMockRuntime', 'liveValidationGate']);
 });

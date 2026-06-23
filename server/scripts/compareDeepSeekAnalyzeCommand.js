@@ -103,6 +103,30 @@ async function runPythonMockRuntimeCommand({ payload, analysisPath }) {
   return JSON.parse(stdout);
 }
 
+async function runPythonLiveGateCommand({ payload }) {
+  const args = [
+    '-m',
+    'python_backend.cli.deepseek_analyze',
+    '--live-validation-gate',
+    '--text',
+    payload.text || '',
+    '--uid',
+    payload.uid || '',
+  ];
+  if (payload.multiagent) args.push('--multiagent');
+  const { stdout } = await execFileAsync('python', args, {
+    cwd: process.cwd(),
+    env: {
+      ...process.env,
+      DEEPSEEK_API_KEY: '',
+      PYTHONUTF8: '1',
+      PYTHONIOENCODING: 'utf-8',
+    },
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  return JSON.parse(stdout);
+}
+
 export async function compareDeepSeekAnalyzeCommand({
   payload = { ...DEFAULT_PAYLOAD, uid: '42' },
   analysis = DEFAULT_ANALYSIS,
@@ -153,6 +177,32 @@ export async function compareDeepSeekAnalyzeCommandMockRuntime({
   }
 }
 
+export async function compareDeepSeekAnalyzeLiveGate({
+  payload = { ...DEFAULT_PAYLOAD, uid: '42', multiagent: true },
+  runPythonCommand = runPythonLiveGateCommand,
+} = {}) {
+  const python = await runPythonCommand({ payload });
+  const ok = Boolean(
+    python.ok &&
+      python.provider === 'deepseek' &&
+      python.gate === 'live_api_command' &&
+      ['covered', 'skipped'].includes(python.status),
+  );
+  return {
+    ok,
+    python,
+    mismatches: ok
+      ? []
+      : [
+          {
+            key: 'liveValidationGate',
+            python,
+            expected: { ok: true, provider: 'deepseek', gate: 'live_api_command', status: 'covered|skipped' },
+          },
+        ],
+  };
+}
+
 function prefixMismatches(scope, mismatches = []) {
   return mismatches.map((mismatch) => ({
     ...mismatch,
@@ -165,20 +215,23 @@ export async function compareDeepSeekAnalyzeCommandSuite({
   compareFixtureCommand = compareDeepSeekAnalyzeCommand,
   compareCommandMockRuntime = compareDeepSeekAnalyzeCommandMockRuntime,
   compareMockRuntime = compareDeepSeekAnalyzeMockRuntime,
+  compareLiveGate = compareDeepSeekAnalyzeLiveGate,
 } = {}) {
   const fixtureCommand = await compareFixtureCommand();
   const commandMockRuntime = await compareCommandMockRuntime();
   const mockRuntime = await compareMockRuntime();
   const multiagentMockRuntime = await compareMockRuntime({ payload: { ...DEFAULT_PAYLOAD, multiagent: true } });
+  const liveValidationGate = await compareLiveGate();
   const mismatches = [
     ...prefixMismatches('fixtureCommand', fixtureCommand.mismatches || []),
     ...prefixMismatches('commandMockRuntime', commandMockRuntime.mismatches || []),
     ...prefixMismatches('mockRuntime', mockRuntime.mismatches || []),
     ...prefixMismatches('multiagentMockRuntime', multiagentMockRuntime.mismatches || []),
+    ...prefixMismatches('liveValidationGate', liveValidationGate.mismatches || []),
   ];
   return {
-    ok: Boolean(fixtureCommand.ok && commandMockRuntime.ok && mockRuntime.ok && multiagentMockRuntime.ok && mismatches.length === 0),
-    checks: { fixtureCommand, commandMockRuntime, mockRuntime, multiagentMockRuntime },
+    ok: Boolean(fixtureCommand.ok && commandMockRuntime.ok && mockRuntime.ok && multiagentMockRuntime.ok && liveValidationGate.ok && mismatches.length === 0),
+    checks: { fixtureCommand, commandMockRuntime, mockRuntime, multiagentMockRuntime, liveValidationGate },
     mismatches,
   };
 }
