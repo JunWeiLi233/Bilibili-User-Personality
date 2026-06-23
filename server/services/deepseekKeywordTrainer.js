@@ -4448,6 +4448,7 @@ export function normalizeDeepSeekAnalysisResult({
 async function requestDeepSeekMessages({ config, fetchImpl, messages, options, maxTokens = 2000 }) {
   const requestBody = {
     model: config.model,
+    reasoning_effort: config.reasoningEffort,
     messages,
     response_format: { type: 'json_object' },
     stream: false,

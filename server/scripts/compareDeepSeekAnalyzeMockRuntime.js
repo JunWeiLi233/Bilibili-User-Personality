@@ -75,9 +75,71 @@ async function runPythonCommandRuntime({ payload, analysis }) {
   }
 }
 
+async function runPythonRequestPlan({ payload }) {
+  const tempDir = await mkdtemp(join(tmpdir(), 'deepseek-mock-runtime-plan-'));
+  try {
+    const payloadPath = join(tempDir, 'payload.json');
+    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
+    const { stdout } = await execFileAsync(
+      'python',
+      ['-m', 'python_backend.cli.deepseek_analysis_plan', '--payload', payloadPath],
+      {
+        cwd: process.cwd(),
+        env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+        maxBuffer: 10 * 1024 * 1024,
+      },
+    );
+    return JSON.parse(stdout);
+  } finally {
+    await rm(tempDir, { recursive: true, force: true });
+  }
+}
+
 function stripRuntimeOnlyFields(result = {}) {
   const { requests: _requests, ...contract } = result;
   return contract;
+}
+
+const REQUEST_KEYS = ['model', 'reasoning_effort', 'max_tokens'];
+
+function summarizeRequest(request = {}) {
+  return Object.fromEntries(REQUEST_KEYS.filter((key) => key in request).map((key) => [key, request[key]]));
+}
+
+function summarizeJsRequests(requests = []) {
+  return requests
+    .map((request) => request?.body || request)
+    .filter((request) => request && typeof request === 'object' && ('model' in request || 'max_tokens' in request))
+    .map((request) => summarizeRequest(request));
+}
+
+function summarizePythonPlan(plan = {}) {
+  const requests = Array.isArray(plan.requests) ? [...plan.requests] : [];
+  const mergeTemplate = plan.merge?.requestTemplate;
+  if (mergeTemplate && typeof mergeTemplate === 'object') requests.push(mergeTemplate);
+  return requests.map((request) => summarizeRequest(request));
+}
+
+function compareRequestPlans(pythonPlan = {}, jsRequests = []) {
+  const python = summarizePythonPlan(pythonPlan);
+  const js = summarizeJsRequests(jsRequests);
+  if (js.length === 0) return { ok: true, mismatches: [], python, js };
+  const mismatches = [];
+  if (python.length !== js.length) {
+    mismatches.push({ key: 'requestPlan.requestCount', python: python.length, js: js.length });
+  }
+  for (let index = 0; index < Math.min(python.length, js.length); index += 1) {
+    for (const key of REQUEST_KEYS) {
+      if (key in js[index] && python[index]?.[key] !== js[index]?.[key]) {
+        mismatches.push({
+          key: `requestPlan.requests[${index}].${key}`,
+          python: python[index]?.[key],
+          js: js[index]?.[key],
+        });
+      }
+    }
+  }
+  return { ok: mismatches.length === 0, mismatches, python, js };
 }
 
 export async function compareDeepSeekAnalyzeMockRuntime({
@@ -87,19 +149,27 @@ export async function compareDeepSeekAnalyzeMockRuntime({
   runJsRuntime = runJsMockRuntime,
   runPythonNormalization,
   runPythonCommand,
+  runPythonPlan = runPythonRequestPlan,
 } = {}) {
   const runPython = runPythonCommand || runPythonNormalization || runPythonCommandRuntime;
   const jsRuntime = await runJsRuntime({ payload, analysis, raw });
   const python = await runPython({ payload, analysis, raw, config: DEFAULT_CONFIG });
   const js = stripRuntimeOnlyFields(jsRuntime);
   const comparison = compareNormalizationObjects(python, js);
+  const requestPlan = await runPythonPlan({ payload, analysis, raw, config: DEFAULT_CONFIG });
+  const requestComparison = compareRequestPlans(requestPlan, jsRuntime.requests || []);
+  const mismatches = [...comparison.mismatches, ...requestComparison.mismatches];
   return {
-    ok: comparison.ok,
+    ok: comparison.ok && requestComparison.ok,
     fixture: { payload, analysis },
     js,
     python,
+    requestPlan: {
+      python: requestComparison.python,
+      js: requestComparison.js,
+    },
     requests: jsRuntime.requests || [],
-    mismatches: comparison.mismatches,
+    mismatches,
   };
 }
 

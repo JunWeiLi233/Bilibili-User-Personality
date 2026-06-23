@@ -52,3 +52,41 @@ test('compareDeepSeekAnalyzeMockRuntime passes mock analysis through the Python 
   assert.equal(calls.length, 2);
   assert.deepEqual(Object.keys(calls[1])[0], 'pythonCommand');
 });
+
+test('compareDeepSeekAnalyzeMockRuntime reports request plan drift', async () => {
+  const result = await compareDeepSeekAnalyzeMockRuntime({
+    runJsRuntime: async () => ({
+      ...NORMALIZED,
+      requests: [
+        {
+          body: {
+            model: 'deepseek-v4-flash',
+            reasoning_effort: 'max',
+            max_tokens: 999,
+          },
+        },
+      ],
+    }),
+    runPythonCommand: async () => NORMALIZED,
+    runPythonPlan: async () => ({
+      ok: true,
+      mode: 'single',
+      requests: [
+        {
+          model: 'deepseek-v4-flash',
+          reasoning_effort: 'max',
+          max_tokens: 2000,
+        },
+      ],
+    }),
+  });
+
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.mismatches, [
+    {
+      key: 'requestPlan.requests[0].max_tokens',
+      python: 2000,
+      js: 999,
+    },
+  ]);
+});
