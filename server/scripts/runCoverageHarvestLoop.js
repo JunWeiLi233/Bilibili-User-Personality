@@ -1,5 +1,8 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { execFile } from 'node:child_process';
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
+import { promisify } from 'node:util';
 
 import { readKeywordDictionary, writeJsonFileAtomic, DEFAULT_DICTIONARY_PATH } from '../services/deepseekKeywordTrainer.js';
 import { coverageDeltaFromHarvest, hasCoverageDeltaProgress } from '../utils/coverageProgress.js';
@@ -59,11 +62,14 @@ function priorityQueryItemsFromAudit(audit, limit) {
 
 function parsePlanArgs(argv = process.argv.slice(2)) {
   let planJson = false;
+  let coverageProgressJson = false;
   let payloadPath = '';
   for (let index = 0; index < argv.length; index += 1) {
     const arg = String(argv[index] || '');
     if (arg === '--plan-json') {
       planJson = true;
+    } else if (arg === '--coverage-progress-json') {
+      coverageProgressJson = true;
     } else if (arg.startsWith('--payload=')) {
       payloadPath = arg.slice('--payload='.length);
     } else if (arg === '--payload') {
@@ -71,7 +77,7 @@ function parsePlanArgs(argv = process.argv.slice(2)) {
       index += 1;
     }
   }
-  return { planJson, payloadPath };
+  return { planJson, coverageProgressJson, payloadPath };
 }
 
 async function readPlanPayload(path) {
@@ -210,6 +216,48 @@ async function writeJson(path, payload) {
   await writeFile(path, `${json}\n`, 'utf8');
 }
 
+function buildJsCoverageProgress(payload = {}) {
+  const before = payload?.before && typeof payload.before === 'object' ? payload.before : {};
+  const after = payload?.after && typeof payload.after === 'object' ? payload.after : {};
+  const harvestProgress = Array.isArray(payload?.harvestProgress) ? payload.harvestProgress : [];
+  const delta = coverageDeltaFromHarvest(before, after, harvestProgress);
+  return {
+    ok: true,
+    harvestDelta: delta,
+    hasHarvestProgress: hasCoverageDeltaProgress(delta),
+  };
+}
+
+async function runPythonCoverageProgress(payloadPath) {
+  const { stdout } = await execFileAsync('python', ['-m', 'python_backend.cli.coverage_progress', '--payload', payloadPath], {
+    cwd: process.cwd(),
+    env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  return JSON.parse(stdout);
+}
+
+export async function buildCoverageLoopProgress(payload = {}, { payloadPath = '', strictPython = false } = {}) {
+  if (process.env.BILIBILI_COVERAGE_LOOP_USE_JS_PROGRESS === '1' && !strictPython) {
+    return buildJsCoverageProgress(payload);
+  }
+  let tempDir = '';
+  try {
+    let progressPayloadPath = payloadPath;
+    if (!progressPayloadPath) {
+      tempDir = await mkdtemp(join(tmpdir(), 'coverage-loop-progress-'));
+      progressPayloadPath = join(tempDir, 'payload.json');
+      await writeFile(progressPayloadPath, JSON.stringify(payload, null, 2), 'utf8');
+    }
+    return await runPythonCoverageProgress(progressPayloadPath);
+  } catch (error) {
+    if (strictPython) throw error;
+    return buildJsCoverageProgress(payload);
+  } finally {
+    if (tempDir) await rm(tempDir, { recursive: true, force: true });
+  }
+}
+
 async function buildAudit(options) {
   const dictionary = await readKeywordDictionary(options.dictionaryPath ? { dictionaryPath: options.dictionaryPath } : {});
   const state = await readKeywordHarvestState(options.statePath);
@@ -219,6 +267,8 @@ async function buildAudit(options) {
 const dictionaryPath = process.env.DEEPSEEK_KEYWORD_DICTIONARY_PATH;
 const statePath = process.env.BILIBILI_HARVEST_STATE_PATH || DEFAULT_HARVEST_STATE_PATH;
 import { DEFAULT_COVERAGE_LOOP_REPORT_PATH } from '../utils/paths.js';
+
+const execFileAsync = promisify(execFile);
 const reportPath = process.env.BILIBILI_COVERAGE_LOOP_REPORT_PATH || DEFAULT_COVERAGE_LOOP_REPORT_PATH;
 const maxCycles = nonNegativeIntFromEnv('BILIBILI_COVERAGE_LOOP_MAX_CYCLES', 3, 50);
 const roundsPerCycle = positiveIntFromEnv('BILIBILI_COVERAGE_LOOP_ROUNDS_PER_CYCLE', positiveIntFromEnv('BILIBILI_HARVEST_ROUNDS', 1), 20);
@@ -289,6 +339,12 @@ if (planArgs.planJson) {
   console.log(JSON.stringify(buildCoverageHarvestLoopPlan(payload), null, 2));
   process.exit(0);
 }
+if (planArgs.coverageProgressJson) {
+  const payload = await readPlanPayload(planArgs.payloadPath);
+  const progress = await buildCoverageLoopProgress(payload, { payloadPath: planArgs.payloadPath, strictPython: true });
+  console.log(JSON.stringify(progress, null, 2));
+  process.exit(0);
+}
 
 const cycles = [];
 let audit = await buildAudit(auditOptions);
@@ -352,7 +408,12 @@ for (let cycle = 1; cycle <= maxCycles && !audit.ok; cycle += 1) {
   const nextAudit = await buildAudit(auditOptions);
   const executedQueries = harvest.rounds.flatMap((round) => round.queries);
   const harvestProgressItems = harvest.rounds.map((round) => round.coverageProgress);
-  const delta = coverageDeltaFromHarvest(audit.coverage, nextAudit.coverage, harvestProgressItems);
+  const progress = await buildCoverageLoopProgress({
+    before: audit.coverage,
+    after: nextAudit.coverage,
+    harvestProgress: harvestProgressItems,
+  });
+  const delta = progress.harvestDelta;
   cycles.push({
     cycle,
     priorityQueries,
@@ -379,7 +440,7 @@ for (let cycle = 1; cycle <= maxCycles && !audit.ok; cycle += 1) {
     break;
   }
   if (
-    !hasCoverageDeltaProgress(delta) &&
+    !progress.hasHarvestProgress &&
     process.env.BILIBILI_COVERAGE_LOOP_STOP_ON_NO_PROGRESS === '1'
   ) {
     stopReason = 'no_coverage_progress';

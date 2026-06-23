@@ -82,6 +82,60 @@ test('runCoverageHarvestLoop.js emits JS/Python comparable dry-run plan without 
   }
 });
 
+test('runCoverageHarvestLoop.js can delegate coverage progress JSON to Python', () => {
+  const tempDir = mkdtempSync(join(tmpdir(), 'coverage-loop-progress-script-'));
+  try {
+    const payloadPath = join(tempDir, 'payload.json');
+    writeFileSync(
+      payloadPath,
+      JSON.stringify({
+        before: { totalEvidence: 10, evidenceDeficit: 5, zeroEvidenceTerms: 2, weakTerms: 4 },
+        after: { totalEvidence: 12, evidenceDeficit: 3, zeroEvidenceTerms: 1, weakTerms: 3 },
+        harvestProgress: [{ weakTermsResolved: 0, zeroEvidenceResolved: 1, evidenceGained: 2, evidenceDeficitReduced: 2 }],
+      }),
+      'utf8',
+    );
+    const dictionaryPath = join(tempDir, 'dictionary.json');
+    writeFileSync(
+      dictionaryPath,
+      JSON.stringify({
+        version: 1,
+        updatedAt: '2026-01-01T00:00:00.000Z',
+        entries: [],
+      }),
+      'utf8',
+    );
+
+    const result = spawnSync('node', ['server/scripts/runCoverageHarvestLoop.js', '--coverage-progress-json', '--payload', payloadPath], {
+      cwd: process.cwd(),
+      env: {
+        ...process.env,
+        DEEPSEEK_KEYWORD_DICTIONARY_PATH: dictionaryPath,
+        BILIBILI_HARVEST_STATE_PATH: join(tempDir, 'state.json'),
+        BILIBILI_COVERAGE_LOOP_REPORT_PATH: join(tempDir, 'report.json'),
+        BILIBILI_COVERAGE_LOOP_MAX_CYCLES: '0',
+      },
+      encoding: 'utf8',
+    });
+
+    assert.equal(result.status, 0, result.stderr);
+    const progress = JSON.parse(result.stdout);
+    assert.equal(progress.ok, true);
+    assert.equal(progress.hasHarvestProgress, true);
+    assert.deepEqual(progress.harvestDelta, {
+      evidenceDeficitReduced: 2,
+      zeroEvidenceResolved: 1,
+      weakTermsResolved: 1,
+      unsourcedEvidenceReduced: 0,
+      totalEvidenceGained: 2,
+      termsAdded: 0,
+      coverageRatioDelta: 0,
+    });
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
+  }
+});
+
 test('compareCoverageHarvestLoopPlanObjects reports matching dry-run plans', () => {
   const plan = {
     deepseek: { model: 'deepseek-v4-flash' },
