@@ -1807,6 +1807,25 @@ class CorpusContractTests(unittest.TestCase):
             result["packageScripts"]["pythonOwnedDataScripts"],
         )
 
+    def test_package_dictionary_prune_exhausted_uses_python_plan_after_contract_validation(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertEqual(package["scripts"]["dictionary:prune-exhausted"], "python -m python_backend.cli.exhausted_terms_prune_plan")
+        self.assertNotIn("server/scripts/pruneExhaustedTerms.js", result["migrationCandidateFiles"]["scripts"])
+        self.assertIn(
+            {"path": "server/scripts/pruneExhaustedTerms.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {
+                "script": "dictionary:prune-exhausted",
+                "command": "python -m python_backend.cli.exhausted_terms_prune_plan",
+                "pipeline": "exhausted_terms_prune",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+
     def test_dictionary_prune_python_cli_accepts_legacy_json_flag_with_write(self):
         with tempfile.TemporaryDirectory() as tmp:
             dictionary_path = Path(tmp) / "dictionary.json"
@@ -1829,6 +1848,31 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertTrue(result["write"])
         self.assertEqual(result["writeResult"]["entries"], 2)
+
+    def test_exhausted_terms_prune_python_cli_accepts_legacy_json_flag(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            state_path = root / "state.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {"entries": [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "evidenceCount": 0}]},
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            state_path.write_text(
+                json.dumps({"termAttempts": {"\u96f6\u8bc1\u636e": {"attempts": 12}}}, ensure_ascii=False),
+                encoding="utf-8",
+            )
+
+            result = ExhaustedTermsPrunePlanCommandRequest(
+                ["--dictionary", dictionary_path, "--state", state_path, "--attempt-threshold", "10", "--json"]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["candidates"], [{"term": "\u96f6\u8bc1\u636e", "family": "attack", "attempts": 12, "evidence": 0}])
 
     def test_package_python_coverage_standalone_write_script_persists_python_artifacts(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))

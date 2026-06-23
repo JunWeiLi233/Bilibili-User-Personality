@@ -324,6 +324,7 @@ class ExhaustedTermsPrunePlanCommandRequest:
         parser.add_argument("--state", default="server/data/keywordHarvestState.json")
         parser.add_argument("--target-evidence", type=int, default=3)
         parser.add_argument("--attempt-threshold", type=int, default=10)
+        parser.add_argument("--json", action="store_true", help="Accepted for JS CLI compatibility; output is always JSON.")
         parser.add_argument("--include-partial", action="store_true", help="Include terms below target evidence, not only zero-evidence terms.")
         parser.add_argument("--require-source-backed-evidence", action="store_true")
         parser.add_argument("--require-comment-backed-evidence", action="store_true")

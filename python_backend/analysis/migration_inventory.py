@@ -116,6 +116,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
 PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
     "coverage_audit": ("python_backend.cli.coverage_audit",),
     "dictionary_prune": ("python_backend.cli.dictionary_prune_summary",),
+    "exhausted_terms_prune": ("python_backend.cli.exhausted_terms_prune_plan",),
     "random_verification": ("python_backend.cli.random_verification",),
     "contract_comparison": ("python_backend.cli.compare_contracts",),
     "analyzer_validation": ("python_backend.cli.deepseek_analyze --live-validation-gate",),
@@ -251,6 +252,11 @@ class BackendMigrationInventoryScanner:
         if (
             relative_path == "server/scripts/pruneKeywordDictionary.js"
             and str(package_scripts.get("dictionary:prune") or "").startswith("python -m python_backend.cli.dictionary_prune_summary --write")
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/pruneExhaustedTerms.js"
+            and package_scripts.get("dictionary:prune-exhausted") == "python -m python_backend.cli.exhausted_terms_prune_plan"
         ):
             return "legacy_compatibility_after_python_replacement"
         if (
