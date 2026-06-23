@@ -319,6 +319,12 @@ class BackendMigrationInventoryScanner:
             and package_scripts.get("python:harvest-options-compare") == "node server/scripts/compareHarvestOptions.js"
         ):
             return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/utils/coverageCliOptions.js"
+            and package_scripts.get("python:harvest-options") == "python -m python_backend.cli.harvest_options"
+            and package_scripts.get("python:coverage-cli-options-compare") == "node server/scripts/compareCoverageCliOptions.js"
+        ):
+            return "legacy_compatibility_after_python_replacement"
         if relative_path in RETAINED_JS_FILES:
             return RETAINED_JS_FILES[relative_path]
         for prefix, reason in RETAINED_JS_FILE_PREFIXES.items():

@@ -26965,6 +26965,23 @@ class CorpusContractTests(unittest.TestCase):
             result["retainedJsBackendFiles"],
         )
 
+    def test_coverage_cli_options_utility_is_legacy_after_python_contract(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertNotIn("server/utils/coverageCliOptions.js", result["migrationCandidateFiles"]["utils"])
+        self.assertIn(
+            {"path": "server/utils/coverageCliOptions.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {
+                "script": "python:harvest-options",
+                "command": "python -m python_backend.cli.harvest_options",
+                "pipeline": "harvest_options",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+
     def test_coverage_harvest_loop_planner_matches_js_env_contract(self):
         planner = CoverageHarvestLoopPlanner(cwd="D:/Bilibili_User_Personality")
         plan = planner.build_plan(
