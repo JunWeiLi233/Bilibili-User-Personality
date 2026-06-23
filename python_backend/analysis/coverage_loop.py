@@ -481,8 +481,13 @@ class CoverageHarvestLoopCommandRunner:
         return "live_harvest_not_implemented"
 
     def _write_report(self, report: dict[str, Any]) -> None:
-        self.report_path.parent.mkdir(parents=True, exist_ok=True)
-        self.report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        self.write_report_file(self.report_path, report)
+
+    @staticmethod
+    def write_report_file(report_path: str | Path, report: dict[str, Any]) -> None:
+        path = Path(report_path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     @staticmethod
     def _now() -> str:
@@ -544,11 +549,13 @@ class CoverageHarvestLoopCommandRequest:
                 rounds_per_cycle=payload.get("roundsPerCycle", args.rounds_per_cycle),
             )
             if isinstance(payload.get("cycles"), list):
-                return builder.build_many(
+                report = builder.build_many(
                     payload.get("cycles"),
                     stop_reason=str(payload.get("stopReason") or ""),
                 )
-            return builder.build(
+                CoverageHarvestLoopCommandRunner.write_report_file(args.report, report)
+                return report
+            report = builder.build(
                 cycle=payload.get("cycle", 1),
                 priority_queries=payload.get("priorityQueries") if isinstance(payload.get("priorityQueries"), list) else [],
                 harvest=payload.get("harvest") if isinstance(payload.get("harvest"), dict) else {},
@@ -556,6 +563,8 @@ class CoverageHarvestLoopCommandRequest:
                 after_audit=payload.get("afterAudit") if isinstance(payload.get("afterAudit"), dict) else {},
                 stop_reason=str(payload.get("stopReason") or ""),
             )
+            CoverageHarvestLoopCommandRunner.write_report_file(args.report, report)
+            return report
         return CoverageHarvestLoopRequest(
             dictionary_path=args.dictionary,
             state_path=args.state,

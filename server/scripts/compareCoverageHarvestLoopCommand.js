@@ -352,16 +352,17 @@ function buildJsMockCycle(payload = {}, fallbackCycle = 1) {
 
 async function runPythonMockCycleReport({ payload, payloadPath }) {
   await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
+  const reportPath = payloadPath.replace(/-payload\.json$/, '-report-python.json');
   const { stdout } = await execFileAsync(
     'python',
-    ['-m', 'python_backend.cli.coverage_loop_command', '--mock-cycle-payload', payloadPath, '--exit-zero'],
+    ['-m', 'python_backend.cli.coverage_loop_command', '--mock-cycle-payload', payloadPath, '--report', reportPath, '--exit-zero'],
     {
       cwd: process.cwd(),
       env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
       maxBuffer: 10 * 1024 * 1024,
     },
   );
-  return JSON.parse(stdout);
+  return { stdoutReport: JSON.parse(stdout), fileReport: JSON.parse(await readFile(reportPath, 'utf8')) };
 }
 
 export async function compareCoverageHarvestLoopCommand({
@@ -386,13 +387,15 @@ export async function compareCoverageHarvestLoopCommand({
       if (fixture?.mockCyclePayload) {
         const payloadPath = join(tempDir, `${fixtureName}-payload.json`);
         const js = buildJsMockCycleReport(fixture.mockCyclePayload);
-        const python = await runPythonMockCycleReport({ payload: fixture.mockCyclePayload, payloadPath });
+        const pythonRun = await runPythonMockCycleReport({ payload: fixture.mockCyclePayload, payloadPath });
+        const python = pythonRun.stdoutReport;
         const comparison = compareCoverageHarvestLoopCommandObjects(python, js);
         results.push({
           ok: comparison.ok,
           fixture: fixtureName,
           js,
           python,
+          pythonReportFile: pythonRun.fileReport,
           mismatches: comparison.mismatches,
         });
         continue;

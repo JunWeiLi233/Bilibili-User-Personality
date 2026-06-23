@@ -237,4 +237,6 @@ test('compareCoverageHarvestLoopCommand validates complete and weak no-live fixt
   assert.equal(result.results[4].python.cycles.length, 2);
   assert.deepEqual(result.results[4].python.cycles.map((cycle) => cycle.coverageDelta), result.results[4].js.cycles.map((cycle) => cycle.coverageDelta));
   assert.deepEqual(result.results[4].python.cycles[1].harvest.warnings, ['retry source']);
+  assert.deepEqual(result.results[4].pythonReportFile, result.results[4].python);
+  assert.deepEqual(result.results[4].pythonReportFile, result.results[4].js);
 });
