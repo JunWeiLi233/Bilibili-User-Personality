@@ -16,7 +16,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     result = CompareContractsRunner(argv).run()
-    sys.stdout.write(CompareContractsJsonResultContract(result).to_text())
+    CompareContractsJsonResultContract(result).write_text(sys.stdout)
     return 0 if result["ok"] else 1
 
 

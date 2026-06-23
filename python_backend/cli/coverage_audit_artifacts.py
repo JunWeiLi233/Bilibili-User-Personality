@@ -21,7 +21,7 @@ class CoverageAuditArtifactsCliRunner(CoverageAuditArtifactsCommandRequest):
 
 def main(argv: list[str] | None = None) -> int:
     result = CoverageAuditArtifactsCliRunner(argv).run()
-    sys.stdout.write(CoverageAuditArtifactsJsonResultContract(result).to_text())
+    CoverageAuditArtifactsJsonResultContract(result).write_text(sys.stdout)
     return 0 if result["ok"] else 1
 
 

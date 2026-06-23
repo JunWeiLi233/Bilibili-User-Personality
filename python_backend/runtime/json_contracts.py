@@ -58,6 +58,9 @@ class JsonResultBytesContract:
     def to_text(self) -> str:
         return self.to_bytes().decode("utf-8")
 
+    def write_text(self, stream: Any) -> int:
+        return stream.write(self.to_text())
+
 
 def safe_read_json_object(path: str | Path) -> dict[str, Any]:
     """Compatibility wrapper for existing contract comparators."""
