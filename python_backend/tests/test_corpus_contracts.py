@@ -370,6 +370,36 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(corpus.comments, [{"message": "valid comment"}])
         self.assertEqual(corpus.runs, [{"at": "valid-run"}])
 
+    def test_loader_skips_missing_split_shard_files(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "demo.comments").mkdir()
+            (root / "demo.runs").mkdir()
+            (root / "demo.json").write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "storage": "split",
+                        "commentFiles": ["demo.comments/missing.json", "demo.comments/comments-0001.json"],
+                        "runFiles": ["demo.runs/missing.json", "demo.runs/runs-0001.json"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (root / "demo.comments" / "comments-0001.json").write_text(
+                json.dumps({"comments": [{"message": "valid comment"}]}),
+                encoding="utf-8",
+            )
+            (root / "demo.runs" / "runs-0001.json").write_text(
+                json.dumps({"runs": [{"at": "valid-run"}]}),
+                encoding="utf-8",
+            )
+
+            corpus = CorpusLoader(root / "demo.json").load()
+
+        self.assertEqual(corpus.comments, [{"message": "valid comment"}])
+        self.assertEqual(corpus.runs, [{"at": "valid-run"}])
+
     def test_loader_filters_non_object_runs_across_json_contract_modes(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -5621,6 +5651,36 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual([entry["term"] for entry in dictionary.entries], ["doge"])
         self.assertEqual(dictionary.entries[0]["evidenceSamples"], ["doge satire"])
         self.assertEqual(dictionary.entries[0]["evidenceSources"], [{"sample": "doge satire"}])
+
+    def test_dictionary_loader_skips_missing_split_shard_files(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "dict.entries").mkdir()
+            (root / "dict.evidence").mkdir()
+            (root / "dict.json").write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "storage": "split",
+                        "entryFiles": {"attack": ["dict.entries/missing.json", "dict.entries/attack-001.json"]},
+                        "evidenceFiles": {"attack": ["dict.evidence/missing.json", "dict.evidence/attack-001.json"]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (root / "dict.entries" / "attack-001.json").write_text(
+                json.dumps({"entries": [{"term": "doge", "family": "attack", "evidenceCount": 1}]}),
+                encoding="utf-8",
+            )
+            (root / "dict.evidence" / "attack-001.json").write_text(
+                json.dumps({"evidence": [{"term": "doge", "evidenceSamples": ["doge"], "evidenceSources": [{"sample": "doge"}]}]}),
+                encoding="utf-8",
+            )
+
+            dictionary = DictionaryLoader(root / "dict.json").load()
+
+        self.assertEqual([entry["term"] for entry in dictionary.entries], ["doge"])
+        self.assertEqual(dictionary.entries[0]["evidenceSamples"], ["doge"])
 
     def test_dictionary_loader_normalizes_plain_text_entries(self):
         dictionary = DictionaryLoader.load_from_payload(

@@ -86,7 +86,10 @@ class DictionaryLoader:
             if family not in SUPPORTED_FAMILIES:
                 continue
             for relative_path in self._file_list(file_spec):
-                shard = self._read_json(self.path.parent / relative_path)
+                try:
+                    shard = self._read_json(self.path.parent / relative_path)
+                except FileNotFoundError:
+                    continue
                 if not isinstance(shard, dict):
                     continue
                 shard_entries = shard.get("entries") or []
@@ -100,7 +103,10 @@ class DictionaryLoader:
             if family not in SUPPORTED_FAMILIES:
                 continue
             for relative_path in self._file_list(file_spec):
-                shard = self._read_json(self.path.parent / relative_path)
+                try:
+                    shard = self._read_json(self.path.parent / relative_path)
+                except FileNotFoundError:
+                    continue
                 if not isinstance(shard, dict):
                     continue
                 shard_evidence = shard.get("evidence") or []

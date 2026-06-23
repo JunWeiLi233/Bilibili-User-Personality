@@ -68,7 +68,10 @@ class CorpusLoader:
     def _hydrate_files(self, files: list[str], key: str) -> list[dict[str, Any]]:
         values: list[dict[str, Any]] = []
         for relative_path in self._file_list(files):
-            shard = self._read_json(self.path.parent / relative_path)
+            try:
+                shard = self._read_json(self.path.parent / relative_path)
+            except FileNotFoundError:
+                continue
             if not isinstance(shard, dict):
                 continue
             shard_values = shard.get(key) or []
