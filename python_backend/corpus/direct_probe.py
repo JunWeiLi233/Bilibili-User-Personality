@@ -463,10 +463,12 @@ class DirectProbeCommandRunner:
         payload: dict[str, Any] | None = None,
         builder: "DirectProbeCorpusBuilder" | None = None,
         live_search: Any | None = None,
+        live_fetch: Any | None = None,
     ):
         self.payload = payload if isinstance(payload, dict) else {}
         self.builder = builder or DirectProbeCorpusBuilder()
         self.live_search = live_search
+        self.live_fetch = live_fetch
 
     def run(self) -> dict[str, Any]:
         options = self._options()
@@ -614,6 +616,9 @@ class DirectProbeCommandRunner:
         comments_by_video = self.payload.get("videoComments") if isinstance(self.payload.get("videoComments"), dict) else {}
         video_key = self.builder.probe_video_key(video)
         comments = [comment for comment in comments_by_video.get(video_key, []) if isinstance(comment, dict)]
+        if options.get("usePythonLiveFetch") and (self.live_fetch is not None or not comments):
+            live_fetch = self.live_fetch or DirectProbeLiveFetcher(builder=self.builder)
+            return [comment for comment in live_fetch.fetch_video_comments(video, options) if isinstance(comment, dict)]
         if options.get("includeDanmaku") is True:
             danmaku_by_video = self.payload.get("videoDanmaku") if isinstance(self.payload.get("videoDanmaku"), dict) else {}
             comments.extend(comment for comment in danmaku_by_video.get(video_key, []) if isinstance(comment, dict))

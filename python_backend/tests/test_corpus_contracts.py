@@ -11839,6 +11839,48 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["commentsCollected"], 1)
         self.assertEqual(result["scannedVideos"][0]["key"], "bvid:BVsearch")
 
+    def test_direct_probe_command_runner_can_use_python_live_fetch_adapter(self):
+        class FakeLiveFetch:
+            def __init__(self):
+                self.calls = []
+
+            def fetch_video_comments(self, video, options):
+                self.calls.append({"video": video, "includeDanmaku": options.get("includeDanmaku"), "cookie": options.get("cookie")})
+                return [
+                    {
+                        "message": "\u5efa\u8bae\u5148\u67e5\u67e5\u8d44\u6599 live fetch",
+                        "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BVfetch/",
+                        "uid": "77",
+                    }
+                ]
+
+        live_fetch = FakeLiveFetch()
+        payload = {
+            "audit": {"nextActions": [{"term": "\u67e5\u67e5\u8d44\u6599", "nextQuery": "\u67e5\u67e5\u8d44\u6599 B\u7ad9\u8bc4\u8bba"}]},
+            "existingCorpus": {"version": 1, "comments": [], "runs": []},
+            "dictionary": {"entries": [{"term": "\u67e5\u67e5\u8d44\u6599", "family": "evidence", "evidenceCount": 0}]},
+            "options": {
+                "maxActions": 1,
+                "videosPerQuery": 1,
+                "sourceVideosPerAction": 0,
+                "includeDanmaku": True,
+                "usePythonLiveFetch": True,
+                "cookie": "SESSDATA=fetch",
+            },
+            "searchVideos": {"\u67e5\u67e5\u8d44\u6599 B\u7ad9\u8bc4\u8bba": [{"bvid": "BVfetch", "aid": "777", "title": "\u67e5\u8d44\u6599 fetch"}]},
+            "videoComments": {"bvid:BVfetch": [{"message": "fixture comment should not be used"}]},
+        }
+
+        result = direct_probe_module.DirectProbeCommandRunner(payload, live_fetch=live_fetch).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(
+            live_fetch.calls,
+            [{"video": {"bvid": "BVfetch", "aid": "777", "title": "\u67e5\u8d44\u6599 fetch"}, "includeDanmaku": True, "cookie": "SESSDATA=fetch"}],
+        )
+        self.assertEqual(result["commentsCollected"], 1)
+        self.assertEqual(result["comments"][0]["message"], "\u5efa\u8bae\u5148\u67e5\u67e5\u8d44\u6599 live fetch")
+
     def test_direct_probe_live_searcher_normalizes_public_search_results(self):
         calls = []
 

@@ -60,9 +60,9 @@ function parseArgs(argv = process.argv.slice(2), env = process.env) {
     outputPath: env.BILIBILI_DIRECT_PROBE_OUTPUT || 'server/data/bilibiliDirectProbeCorpus.json',
     includeDanmaku: env.BILIBILI_DIRECT_PROBE_INCLUDE_DANMAKU === '1',
     rescanSourceVideos: env.BILIBILI_DIRECT_PROBE_RESCAN_SOURCE_VIDEOS === '1',
-    usePythonCommand: env.BILIBILI_DIRECT_PROBE_USE_PYTHON_COMMAND === '1',
-    usePythonLiveSearch: env.BILIBILI_DIRECT_PROBE_USE_PYTHON_LIVE_SEARCH === '1',
-    usePythonLiveFetch: env.BILIBILI_DIRECT_PROBE_USE_PYTHON_LIVE_FETCH === '1',
+    usePythonCommand: env.BILIBILI_DIRECT_PROBE_USE_PYTHON_COMMAND === '1' || env.BILIBILI_DIRECT_PROBE_USE_PYTHON_FULL_RUNTIME === '1',
+    usePythonLiveSearch: env.BILIBILI_DIRECT_PROBE_USE_PYTHON_LIVE_SEARCH === '1' || env.BILIBILI_DIRECT_PROBE_USE_PYTHON_FULL_RUNTIME === '1',
+    usePythonLiveFetch: env.BILIBILI_DIRECT_PROBE_USE_PYTHON_LIVE_FETCH === '1' || env.BILIBILI_DIRECT_PROBE_USE_PYTHON_FULL_RUNTIME === '1',
     write: env.BILIBILI_DIRECT_PROBE_WRITE === '1',
   };
   for (const arg of argv) {
@@ -109,6 +109,11 @@ function parseArgs(argv = process.argv.slice(2), env = process.env) {
     else if (arg === '--include-danmaku') options.includeDanmaku = true;
     else if (arg === '--rescan-source-videos') options.rescanSourceVideos = true;
     else if (arg === '--python-runtime' || arg === '--python-command-runtime') options.usePythonCommand = true;
+    else if (arg === '--python-full-runtime') {
+      options.usePythonCommand = true;
+      options.usePythonLiveSearch = true;
+      options.usePythonLiveFetch = true;
+    }
     else if (arg === '--python-live-search') options.usePythonLiveSearch = true;
     else if (arg === '--python-live-fetch') options.usePythonLiveFetch = true;
     else if (arg === '--write') options.write = true;
