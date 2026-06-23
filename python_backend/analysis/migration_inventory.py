@@ -49,6 +49,12 @@ RETAINED_JS_FILES = {
     "server/utils/fileLock.js": "shared_runtime_support",
 }
 
+MIGRATION_PRIORITY_RULES = (
+    ("corpus_analysis_pipeline", 10, ("Corpus", "Dictionary", "Coverage", "DeepSeek", "Semantic", "Evidence", "Stats", "HuggingFace", "Tieba", "HistoryTags", "Readme")),
+    ("scraper_pipeline", 20, ("Scrape", "Scraper", "Crawler", "Probe", "Uid", "Video", "Aicu", "Bilibili")),
+    ("runtime_support", 30, ("Options", "Progress", "Report", "Monitor", "Lock")),
+)
+
 
 @dataclass(frozen=True)
 class BackendMigrationInventoryScanner:
@@ -79,6 +85,7 @@ class BackendMigrationInventoryScanner:
 
         categories = {key: len(value) for key, value in backend_files.items()}
         migration_candidate_categories = {key: len(value) for key, value in migration_candidate_files.items()}
+        migration_priority_files = self._priority_files(migration_candidate_files)
         package_scripts = PackageCommandMigrationInventory.from_root(root).scan()
         return {
             "ok": True,
@@ -90,6 +97,7 @@ class BackendMigrationInventoryScanner:
             "files": backend_files,
             "migrationCandidateCategories": migration_candidate_categories,
             "migrationCandidateFiles": migration_candidate_files,
+            "migrationPriorityFiles": migration_priority_files,
             "retainedJsBackendFiles": retained_files,
             "testFiles": backend_tests,
             "packageScripts": package_scripts,
@@ -112,6 +120,24 @@ class BackendMigrationInventoryScanner:
             if relative_path.startswith(prefix):
                 return reason
         return ""
+
+    @classmethod
+    def _priority_files(cls, migration_candidate_files: dict[str, list[str]]) -> list[dict[str, Any]]:
+        items: list[dict[str, Any]] = []
+        for category, paths in migration_candidate_files.items():
+            for path in paths:
+                group, priority = cls._priority_for(path)
+                items.append({"path": path, "category": category, "priority": priority, "group": group})
+        return sorted(items, key=lambda item: (item["priority"], item["category"], item["path"]))
+
+    @staticmethod
+    def _priority_for(relative_path: str) -> tuple[str, int]:
+        stem = Path(relative_path).stem
+        compact = stem[:1].upper() + stem[1:]
+        for group, priority, needles in MIGRATION_PRIORITY_RULES:
+            if any(needle in compact for needle in needles):
+                return group, priority
+        return "uncategorized_pipeline", 40
 
 
 class PackageCommandMigrationInventory:
