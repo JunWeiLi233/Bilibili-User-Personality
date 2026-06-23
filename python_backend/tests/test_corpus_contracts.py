@@ -6402,6 +6402,33 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["sentenceAnalyses"][0]["quote"], "\u5f39\u5e55\u592a\u9634\u9633\u4e86[doge]")
 
+    def test_deepseek_analyze_command_request_accepts_python_selector_flags(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            analysis_path = root / "analysis.json"
+            analysis_path.write_text(
+                json.dumps(
+                    {
+                        "axes": [],
+                        "sentenceAnalyses": [{"quote": "\u53cd\u8bbd[doge]", "intent": "satire"}],
+                        "confidence": 0.5,
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            runtime_result = DeepSeekAnalyzeCommandRequest(
+                ["--python-runtime", "--mock-chat-analysis", analysis_path, "--text", "\u53cd\u8bbd[doge]"]
+            ).run()
+            fixture_result = DeepSeekAnalyzeCommandRequest(
+                ["--python-fixture", "--fixture-analysis", analysis_path, "--text", "\u53cd\u8bbd[doge]"]
+            ).run()
+
+        self.assertTrue(runtime_result["ok"])
+        self.assertEqual(runtime_result["runtime"]["mode"], "mock_chat")
+        self.assertTrue(fixture_result["ok"])
+        self.assertEqual(fixture_result["sentenceAnalyses"][0]["quote"], "\u53cd\u8bbd[doge]")
+
     def test_deepseek_analyze_command_request_emits_plan_json_contract(self):
         result = DeepSeekAnalyzeCommandRequest(
             ["--plan-json", "--text", "\u53cd\u8bbd[doge]", "--uid", "42", "--multiagent"]

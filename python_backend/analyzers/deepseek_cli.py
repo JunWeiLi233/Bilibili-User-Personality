@@ -339,6 +339,8 @@ class DeepSeekAnalyzeCommandRequest:
         parser.add_argument("--plan-json", action="store_true", help="Emit the CLI input plan JSON contract without analyzing.")
         parser.add_argument("--python-plan", action="store_true", help=argparse.SUPPRESS)
         parser.add_argument("--js-plan", action="store_true", help=argparse.SUPPRESS)
+        parser.add_argument("--python-runtime", action="store_true", help=argparse.SUPPRESS)
+        parser.add_argument("--python-fixture", action="store_true", help=argparse.SUPPRESS)
         parser.add_argument("--text", default="")
         parser.add_argument("--file", default="")
         parser.add_argument("--uid", default="")
