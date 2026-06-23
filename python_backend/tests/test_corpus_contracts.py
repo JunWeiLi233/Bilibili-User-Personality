@@ -6416,6 +6416,29 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_huggingface_import_plan_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "hf-plan.json"
+            js_report_path = root / "js-hf-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "argv": ["--source=demo/dataset::data/comments.csv::bilibili::10000::7::2"],
+                        "env": {"HUGGINGFACE_REQUEST_TIMEOUT_MS": "500"},
+                        "defaultOutput": "server/data/hf.json",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            result = HuggingFaceCorpusImportPlanPayloadComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"], {})
+
     def test_huggingface_import_plan_payload_runner_lives_with_corpus_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -6615,6 +6638,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(result["ok"])
         self.assertEqual(result["mismatches"], [{"key": "addedComments", "python": 1, "js": 0}])
         self.assertEqual(result["python"]["summary"], {"importedRows": 1, "changed": True, "addedComments": 1})
+
+    def test_huggingface_import_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            raw_path = root / "rows.csv"
+            existing_path = root / "existing.json"
+            js_report_path = root / "js-huggingface-import.json"
+            raw_path.write_text("message\n\u65b0\u8bc4\u8bba\n", encoding="utf-8")
+            existing_path.write_text(json.dumps({"version": 1, "comments": [], "runs": []}), encoding="utf-8")
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            result = HuggingFaceCorpusImportPayloadComparator(
+                raw_path=raw_path,
+                existing_path=existing_path,
+                dataset="Midsummra/bilibilicomment",
+                file="bilibili.csv",
+                platform="bilibili",
+                js_report_path=js_report_path,
+                generated_at="2026-06-17T00:00:00.000Z",
+            ).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"], {"summary": {}})
 
     def test_huggingface_import_request_owns_cli_dispatch_modes(self):
         with tempfile.TemporaryDirectory() as tmp:
