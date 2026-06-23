@@ -177,9 +177,10 @@ class RandomVerificationRequest:
     extra_corpus_paths: list[str | Path] | None = None
     payload_path: str | Path | None = None
     compare_js_report_path: str | Path | None = None
+    output_path: str | Path | None = None
 
     def run(self) -> dict[str, Any]:
-        return RandomVerificationRequestDispatcher(
+        result = RandomVerificationRequestDispatcher(
             corpus_path=self.corpus_path,
             dictionary_path=self.dictionary_path,
             sample_size=self.sample_size,
@@ -188,6 +189,21 @@ class RandomVerificationRequest:
             payload_path=self.payload_path,
             compare_js_report_path=self.compare_js_report_path,
         ).run()
+        if self.output_path is not None and str(self.output_path).strip():
+            return RandomVerificationOutputWriter(self.output_path).write(result)
+        return result
+
+
+class RandomVerificationOutputWriter:
+    """Persist random-verification JSON output using the shared CLI result contract."""
+
+    def __init__(self, output_path: str | Path):
+        self.output_path = Path(output_path)
+
+    def write(self, report: dict[str, Any]) -> dict[str, Any]:
+        self.output_path.parent.mkdir(parents=True, exist_ok=True)
+        self.output_path.write_bytes(RandomVerificationJsonResultContract(report).to_bytes())
+        return report
 
 
 @dataclass(frozen=True)
@@ -255,6 +271,7 @@ class RandomVerificationCommandContract:
             extra_corpus_paths=args.extra_corpus,
             payload_path=args.payload or None,
             compare_js_report_path=args.compare_js_report or None,
+            output_path=args.output or None,
         )
 
     def run(self) -> dict[str, Any]:
@@ -270,6 +287,7 @@ class RandomVerificationCommandContract:
         parser.add_argument("--sample-size", type=int)
         parser.add_argument("--seed", type=int)
         parser.add_argument("--compare-js-report", default="")
+        parser.add_argument("--output", default="", help="Optional path to write the random-verification JSON result.")
         return parser
 
 
