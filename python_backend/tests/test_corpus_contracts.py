@@ -23112,6 +23112,17 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(audit["coverage"]["targetEvidence"], 3)
         self.assertEqual(len(audit["nextActions"]), 2)
 
+    def test_coverage_audit_builder_defaults_malformed_boolean_options(self):
+        audit = CoverageAuditBuilder(
+            target_evidence=1,
+            require_source_backed_evidence="false",
+            require_comment_backed_evidence="false",
+        ).build({"entries": [{"term": "covered", "family": "attack", "evidenceCount": 1}]})
+
+        self.assertTrue(audit["ok"])
+        self.assertFalse(audit["requireSourceBackedEvidence"])
+        self.assertEqual(audit["failureReasons"], [])
+
     def test_coverage_audit_builder_defaults_non_object_dictionary_roots(self):
         audit = CoverageAuditBuilder(target_evidence=3).build(["bad dictionary root"])
 

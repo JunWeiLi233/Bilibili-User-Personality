@@ -444,9 +444,9 @@ class CoverageAuditBuilder:
         self.target_evidence = max(1, _int_or(target_evidence, 3))
         self.max_actions = max(1, _int_or(max_actions, 20))
         self.min_coverage_ratio = min(1, max(0, _float_or(min_coverage_ratio, 1)))
-        self.require_complete = bool(require_complete)
-        self.require_source_backed_evidence = bool(require_source_backed_evidence or require_comment_backed_evidence)
-        self.require_comment_backed_evidence = bool(require_comment_backed_evidence)
+        self.require_complete = _bool_or(require_complete, True)
+        self.require_comment_backed_evidence = _bool_or(require_comment_backed_evidence, False)
+        self.require_source_backed_evidence = _bool_or(require_source_backed_evidence, False) or self.require_comment_backed_evidence
 
     def build(self, dictionary: dict[str, Any]) -> dict[str, Any]:
         dictionary = dictionary if isinstance(dictionary, dict) else {}
