@@ -103,6 +103,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareDeepSeekAnalyzeCommand.js": "js_python_contract_bridge",
     "server/scripts/compareDeepSeekAnalyzeMockRuntime.js": "js_python_contract_bridge",
     "server/scripts/compareLocalCorpusMine.js": "js_python_contract_bridge",
+    "server/scripts/compareNearTargetResolvePlan.js": "js_python_contract_bridge",
 }
 
 MIGRATION_PRIORITY_RULES = (
