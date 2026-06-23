@@ -189,6 +189,12 @@ class BackendMigrationInventoryScanner:
         migration_priority_files = self._priority_files(migration_candidate_files)
         package_scripts = package_inventory.scan()
         next_migration_action = self._next_migration_action(migration_priority_files, package_scripts)
+        next_offline_migration_action = self._next_migration_action(
+            migration_priority_files,
+            package_scripts,
+            skip_replacement_scopes=("live_api_runtime",),
+            offline_reason="skips_live_api_runtime",
+        )
         return {
             "ok": True,
             "root": str(root),
@@ -201,6 +207,7 @@ class BackendMigrationInventoryScanner:
             "migrationCandidateFiles": migration_candidate_files,
             "migrationPriorityFiles": migration_priority_files,
             "nextMigrationAction": next_migration_action,
+            "nextOfflineMigrationAction": next_offline_migration_action,
             "retainedJsBackendFiles": retained_files,
             "testFiles": backend_tests,
             "packageScripts": package_scripts,
@@ -269,9 +276,74 @@ class BackendMigrationInventoryScanner:
         return "uncategorized_pipeline", 40
 
     @staticmethod
-    def _next_migration_action(priority_files: list[dict[str, Any]], package_scripts: dict[str, Any]) -> dict[str, Any]:
+    def _next_migration_action(
+        priority_files: list[dict[str, Any]],
+        package_scripts: dict[str, Any],
+        *,
+        skip_replacement_scopes: tuple[str, ...] = (),
+        offline_reason: str = "",
+    ) -> dict[str, Any]:
         if not priority_files:
             return {}
+        for priority_file in priority_files:
+            first = dict(priority_file)
+            for mapping in package_scripts.get("pythonBackedNodeScripts", []):
+                if not isinstance(mapping, dict):
+                    continue
+                command = str(mapping.get("command") or "")
+                replacement_scope = str(mapping.get("replacementScope") or "")
+                if first["path"] in command and replacement_scope in skip_replacement_scopes:
+                    break
+                if first["path"] in command:
+                    validation_script = str(mapping.get("validationScript") or "")
+                    validation_command = str(mapping.get("validationCommand") or "")
+                    validation_scope = str(mapping.get("validationScope") or "")
+                    ready_to_replace = bool(validation_script and validation_command and validation_scope == "full_command")
+                    replacement_blockers = BackendMigrationInventoryScanner._replacement_blockers(
+                        script=str(mapping.get("script") or ""),
+                        validation_scope=validation_scope,
+                        ready_to_replace=ready_to_replace,
+                    )
+                    validation_gates = BackendMigrationInventoryScanner._validation_gates(
+                        validation_script=validation_script,
+                        validation_scope=validation_scope,
+                    )
+                    action = {
+                        **first,
+                        "nodeScript": str(mapping.get("script") or ""),
+                        "nodeCommand": command,
+                        "pythonScript": str(mapping.get("pythonScript") or ""),
+                        "pythonCommand": str(mapping.get("pythonCommand") or ""),
+                        "validationScript": validation_script,
+                        "validationCommand": validation_command,
+                        "validationScope": validation_scope,
+                        "readyToReplace": ready_to_replace,
+                        "recommendation": "compare_python_contract_before_replacing_js" if ready_to_replace else "expand_python_runtime_contract_before_replacing_js",
+                    }
+                    if offline_reason:
+                        action["offlineReason"] = offline_reason
+                    if validation_gates:
+                        action["validationGates"] = validation_gates
+                    if replacement_blockers:
+                        action["replacementBlockers"] = replacement_blockers
+                    return action
+            else:
+                if skip_replacement_scopes:
+                    return {
+                        **first,
+                        "nodeScript": "",
+                        "nodeCommand": "",
+                        "pythonScript": "",
+                        "pythonCommand": "",
+                        "validationScript": "",
+                        "validationCommand": "",
+                        "validationScope": "",
+                        "readyToReplace": False,
+                        "offlineReason": offline_reason,
+                        "replacementBlockers": [{"blocker": "missing_python_contract", "reason": "No Python compatibility command is linked to this JS backend file."}],
+                        "recommendation": "create_python_contract_then_compare_js",
+                    }
+                break
         first = dict(priority_files[0])
         for mapping in package_scripts.get("pythonBackedNodeScripts", []):
             if not isinstance(mapping, dict):

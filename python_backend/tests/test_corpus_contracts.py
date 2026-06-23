@@ -1648,6 +1648,10 @@ class CorpusContractTests(unittest.TestCase):
                 },
             ],
         )
+        self.assertEqual(result["nextOfflineMigrationAction"]["path"], "server/scripts/probeBilibiliCommentEvidence.js")
+        self.assertEqual(result["nextOfflineMigrationAction"]["nodeScript"], "dictionary:probe-bilibili")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "dry_run_plan_fixture")
+        self.assertEqual(result["nextOfflineMigrationAction"]["offlineReason"], "skips_live_api_runtime")
 
     def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
