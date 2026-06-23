@@ -21720,6 +21720,35 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_uid_pipeline_progress_has_js_python_validation_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertEqual(
+            package["scripts"]["python:uid-pipeline-progress-compare"],
+            "node server/scripts/compareUidPipelineProgress.js",
+        )
+        self.assertIn(
+            {
+                "script": "python:uid-pipeline-progress-compare",
+                "command": "node server/scripts/compareUidPipelineProgress.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:uid-pipeline-progress",
+                "command": "python -m python_backend.cli.uid_pipeline_progress",
+                "pipeline": "uid_pipeline_progress",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareUidPipelineProgress.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_uid_pipeline_plan_matches_js_range_limits_and_training_contract(self):
         planner = UidPipelineWorkerPlanner()
         progress = {

@@ -90,6 +90,7 @@
     "python:uid-parallel-progress": "python -m python_backend.cli.uid_parallel_progress",
     "python:uid-parallel-progress-compare": "node server/scripts/compareUidParallelProgress.js",
     "python:uid-pipeline-progress": "python -m python_backend.cli.uid_pipeline_progress",
+    "python:uid-pipeline-progress-compare": "node server/scripts/compareUidPipelineProgress.js",
     "python:uid-pipeline-state": "python -m python_backend.cli.uid_pipeline_state",
     "python:uid-pipeline-merge": "python -m python_backend.cli.uid_pipeline_merge --summary-only",
     "python:scraper-monitor": "python -m python_backend.cli.scraper_monitor",
