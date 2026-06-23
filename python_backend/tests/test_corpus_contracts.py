@@ -22606,6 +22606,29 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_keyword_harvest_plan_payload_comparator_defaults_corrupt_js_plans(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "harvest-plan.json"
+            js_plan_path = root / "js-plan.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "dictionary": {"entries": [{"term": "weak", "family": "attack", "evidenceCount": 0}]},
+                        "options": {"coverageMode": "all-weak", "maxQueries": 1, "queryVariantsPerTerm": 1, "seedQueries": ["seed topic"]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_plan_path.write_text("{bad json", encoding="utf-8")
+
+            result = KeywordHarvestPlanPayloadContractComparator(payload_path, js_plan_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"], {"queries": [], "plan": []})
+        self.assertEqual(result["python"]["queries"], ["weak \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4"])
+
     def test_keyword_harvest_plan_request_compares_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

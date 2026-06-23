@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from python_backend.analysis.audit import CoverageAuditBuilder
+from python_backend.runtime.json_contracts import safe_read_json_object
 
 
 FAMILY_CONTEXT = {
@@ -331,7 +332,7 @@ class KeywordHarvestPlanContractComparator:
         mismatches = [
             {"key": key, "python": python_summary.get(key), "js": js_summary.get(key)}
             for key in self.summary.RESULT_KEYS
-            if key in js_summary and python_summary.get(key) != js_summary.get(key)
+            if isinstance(js_result, dict) and key in js_result and python_summary.get(key) != js_summary.get(key)
         ]
         return {
             "ok": not mismatches,
@@ -373,11 +374,7 @@ class KeywordHarvestPlanPayloadContractComparator:
         return self.comparator.compare(python_result, js_result)
 
     def _read_js_plan(self) -> dict[str, Any]:
-        if not self.js_plan_path.exists():
-            return {}
-        with self.js_plan_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else {}
+        return safe_read_json_object(self.js_plan_path)
 
 
 class KeywordHarvestPlanRequest:
