@@ -12215,6 +12215,17 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(comparison["js"], {})
         self.assertEqual(comparison["python"]["threads"][0]["id"], "1234567890")
 
+    def test_tieba_html_parse_runner_defaults_corrupt_json_contract_payload(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "payload.json"
+            payload_path.write_text("{bad payload", encoding="utf-8")
+
+            result = TiebaHtmlParsePayloadRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "threads")
+        self.assertEqual(result["threads"], [])
+
     def test_tieba_html_parse_contract_comparator_reports_parse_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
