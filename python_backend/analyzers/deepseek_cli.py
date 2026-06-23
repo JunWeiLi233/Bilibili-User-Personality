@@ -226,21 +226,22 @@ class DeepSeekAnalyzeRuntime:
         return result
 
     def _run_multiagent(self, payload: dict[str, Any], request: Any, config: dict[str, str]) -> dict[str, Any]:
-        agent_results: list[dict[str, Any]] = []
-        request_bodies = self.client.build_request_plan(request)
         try:
-            for index, request_body in enumerate(request_bodies):
-                parsed = self.transport(request_body, config)
-                agent = self.client.MULTIAGENTS[index] if index < len(self.client.MULTIAGENTS) else {}
-                agent_results.append(
-                    {
-                        "id": agent.get("id", f"agent-{index + 1}"),
-                        "name": agent.get("name", f"agent-{index + 1}"),
-                        "ok": isinstance(parsed, dict) and not parsed.get("error"),
-                        "parsed": parsed,
-                    }
-                )
-            merged = self.transport(self.client.build_merge_request(request, agent_results), config)
+            agent_results, request_count, merged = self._run_multiagent_chat(request, config, compact=False)
+            retried_compact_prompt = False
+        except SyntaxError:
+            retried_compact_prompt = True
+            try:
+                agent_results, request_count, merged = self._run_multiagent_chat(request, config, compact=True)
+                request_count += 1
+            except Exception as error:  # pragma: no cover - exercised through command-level failures.
+                return {
+                    "ok": False,
+                    "provider": "deepseek",
+                    "model": config["model"],
+                    "reasoningEffort": config["reasoningEffort"],
+                    "error": str(error),
+                }
         except Exception as error:  # pragma: no cover - exercised through command-level failures.
             return {
                 "ok": False,
@@ -256,14 +257,32 @@ class DeepSeekAnalyzeRuntime:
             model=config["model"],
             reasoning_effort=config["reasoningEffort"],
             raw=self._json_text(merged),
+            retried_compact_prompt=retried_compact_prompt,
             multiagent={"agentCount": len(agent_results), "agents": agent_results},
         )
         result["runtime"] = {
             "mode": "live_multiagent",
-            "requestCount": len(request_bodies) + 1,
+            "requestCount": request_count,
             "multiagent": True,
         }
         return result
+
+    def _run_multiagent_chat(self, request: Any, config: dict[str, str], *, compact: bool) -> tuple[list[dict[str, Any]], int, dict[str, Any]]:
+        agent_results: list[dict[str, Any]] = []
+        request_bodies = self.client.build_request_plan(request, compact=compact)
+        for index, request_body in enumerate(request_bodies):
+            parsed = self.transport(request_body, config)
+            agent = self.client.MULTIAGENTS[index] if index < len(self.client.MULTIAGENTS) else {}
+            agent_results.append(
+                {
+                    "id": agent.get("id", f"agent-{index + 1}"),
+                    "name": agent.get("name", f"agent-{index + 1}"),
+                    "ok": isinstance(parsed, dict) and not parsed.get("error"),
+                    "parsed": parsed,
+                }
+            )
+        merged = self.transport(self.client.build_merge_request(request, agent_results, compact=compact), config)
+        return agent_results, len(request_bodies) + 1, merged
 
     def _config(self, request: Any) -> dict[str, str]:
         return {
