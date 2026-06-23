@@ -1,5 +1,7 @@
+import { execFile } from 'node:child_process';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
+import { promisify } from 'node:util';
 
 const AICU_COMMENTS_API = 'https://api.aicu.cc/api/v3/search/getreply';
 const AICU_DANMAKU_API = 'https://api.aicu.cc/api/v3/search/getvideodm';
@@ -7,6 +9,7 @@ const DATA_DIR = join(process.cwd(), 'server', 'data');
 const USER_DB_PATH = join(DATA_DIR, 'aicu-user-database.json');
 const DELAY_MS = 5000;
 const RETRY_DELAY_MS = 15000;
+const execFileAsync = promisify(execFile);
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -116,11 +119,17 @@ function extractUidFromLink(link) {
 
 function parsePlanArgs(argv = process.argv.slice(2)) {
   let planJson = false;
+  let pythonPlan = false;
+  let jsPlan = false;
   let payloadPath = '';
   for (let index = 0; index < argv.length; index += 1) {
     const arg = String(argv[index] || '');
     if (arg === '--plan-json') {
       planJson = true;
+    } else if (arg === '--python-plan') {
+      pythonPlan = true;
+    } else if (arg === '--js-plan') {
+      jsPlan = true;
     } else if (arg.startsWith('--payload=')) {
       payloadPath = arg.slice('--payload='.length);
     } else if (arg === '--payload') {
@@ -128,7 +137,10 @@ function parsePlanArgs(argv = process.argv.slice(2)) {
       index += 1;
     }
   }
-  return { planJson, payloadPath };
+  if (process.env.AICU_USE_PYTHON_PLAN === '1' && !jsPlan) {
+    pythonPlan = true;
+  }
+  return { planJson, pythonPlan, jsPlan, payloadPath };
 }
 
 async function readPlanPayload(path) {
@@ -197,11 +209,24 @@ export async function buildAicuScrapePlan(payload = {}) {
   };
 }
 
+async function runPythonAicuScrapePlan(payloadPath) {
+  const { stdout } = await execFileAsync('python', ['-m', 'python_backend.cli.aicu_scrape_plan', '--payload', payloadPath], {
+    cwd: process.cwd(),
+    env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  return JSON.parse(stdout);
+}
+
 async function main() {
   const args = process.argv.slice(2);
   const planArgs = parsePlanArgs(args);
   if (planArgs.planJson) {
     const payload = await readPlanPayload(planArgs.payloadPath);
+    if (planArgs.pythonPlan && !planArgs.jsPlan) {
+      console.log(JSON.stringify(await runPythonAicuScrapePlan(planArgs.payloadPath), null, 2));
+      return;
+    }
     console.log(JSON.stringify(await buildAicuScrapePlan(payload), null, 2));
     return;
   }
