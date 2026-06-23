@@ -12255,6 +12255,28 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(comparison["ok"])
         self.assertEqual(comparison["mismatches"], [{"key": "bvid", "python": "BV19yGa61Ee6", "js": "wrong"}])
 
+    def test_bilibili_parse_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-parse.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "extract-bvid",
+                        "input": "https://www.bilibili.com/video/BV19yGa61Ee6/?vd_source=abc",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            result = BilibiliParsePayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"], {})
+
     def test_bilibili_parse_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -19515,6 +19537,23 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["progress"], {"completed": 8, "errors": 0})
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["range", "progress"])
+
+    def test_batch_bilibili_plan_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "batch-bilibili-plan.json"
+            js_report_path = root / "js-batch-bilibili-plan.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--start=40", "--end=42"], "progress": {"lastUid": 40, "completed": "8"}, "database": {"users": {"40": {}, "41": {}}}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            result = BatchBilibiliPlanPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"], {})
 
     def test_batch_bilibili_plan_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
