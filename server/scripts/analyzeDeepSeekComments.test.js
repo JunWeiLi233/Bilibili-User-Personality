@@ -219,3 +219,30 @@ test('analyzeDeepSeekComments keeps explicit JS live runtime fallback', async ()
   assert.deepEqual(result, { ok: true, provider: 'deepseek' });
   assert.deepEqual(calls, [{ text: 'satire [doge]' }]);
 });
+
+test('analyzeDeepSeekComments can opt into Python live runtime from environment', async () => {
+  const parsed = parseArgs(['--text=satire [doge]', '--multiagent'], {
+    BILIBILI_DEEPSEEK_ANALYZE_USE_PYTHON_RUNTIME: '1',
+  });
+  const calls = [];
+
+  const result = await runLiveAnalysisMode(parsed, {
+    runPythonRuntime: async (payload) => {
+      calls.push({ python: payload });
+      return { ok: true, runtime: { mode: 'live_multiagent', multiagent: true } };
+    },
+    analyzeJs: async () => ({ ok: false }),
+  });
+
+  assert.equal(parsed.usePythonRuntime, true);
+  assert.equal(parsed.useJsRuntime, false);
+  assert.deepEqual(result, { ok: true, runtime: { mode: 'live_multiagent', multiagent: true } });
+  assert.deepEqual(calls, [
+    {
+      python: {
+        payload: { text: 'satire [doge]', multiagent: true },
+        mockChatAnalysis: '',
+      },
+    },
+  ]);
+});

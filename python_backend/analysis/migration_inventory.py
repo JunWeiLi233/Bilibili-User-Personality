@@ -54,7 +54,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:deepseek-validation-compare": "analysis_validation",
     "python:deepseek-normalization-compare": "analysis_normalization",
     "python:deepseek-analyze-fixture-compare": "full_command_fixture",
-    "python:deepseek-analyze-command-compare": "full_command_python_runtime_mock_multiagent_and_live_gate_contract",
+    "python:deepseek-analyze-command-compare": "full_command_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract",
     "python:deepseek-mock-runtime-compare": "mocked_runtime",
     "python:harvest-plan-compare": "dry_run_plan_fixture",
     "python:dictionary-prune-compare": "summary_command_fixture",
@@ -582,7 +582,7 @@ class BackendMigrationInventoryScanner:
                     "reason": "Python has fixture-covered probe-loop orchestration, a unit-tested live reply/danmaku fetch adapter, an opt-in JS command bridge, an opt-in JS Python command runtime payload bridge, and an opt-in JS live-fetch bridge, but dictionary:probe-bilibili still defaults to the JS live orchestration path.",
                 }
             )
-        elif script == "deepseek:analyze" and validation_scope == "full_command_python_runtime_mock_multiagent_and_live_gate_contract":
+        elif script == "deepseek:analyze" and validation_scope == "full_command_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract":
             blockers.append(
                 {
                     "blocker": "credentialed_live_api_command_not_verified",
@@ -605,6 +605,7 @@ class BackendMigrationInventoryScanner:
                 {"gate": "fixture_command", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "mock_runtime_command", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "multiagent_mock_runtime", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
+                {"gate": "js_env_python_runtime_bridge", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "live_api_command", "status": "covered_offline_skip_contract", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "legacy_selector_compatibility", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
             ]

@@ -127,6 +127,30 @@ async function runPythonLiveGateCommand({ payload }) {
   return JSON.parse(stdout);
 }
 
+async function runJsEnvPythonRuntimeBridgeCommand({ payload, analysisPath }) {
+  const args = [
+    'server/scripts/analyzeDeepSeekComments.js',
+    '--mock-chat-analysis',
+    analysisPath,
+    '--text',
+    payload.text || '',
+    '--uid',
+    payload.uid || '',
+  ];
+  if (payload.multiagent) args.push('--multiagent');
+  const { stdout } = await execFileAsync('node', args, {
+    cwd: process.cwd(),
+    env: {
+      ...process.env,
+      BILIBILI_DEEPSEEK_ANALYZE_USE_PYTHON_RUNTIME: '1',
+      PYTHONUTF8: '1',
+      PYTHONIOENCODING: 'utf-8',
+    },
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  return JSON.parse(stdout);
+}
+
 export async function compareDeepSeekAnalyzeCommand({
   payload = { ...DEFAULT_PAYLOAD, uid: '42' },
   analysis = DEFAULT_ANALYSIS,
@@ -177,6 +201,20 @@ export async function compareDeepSeekAnalyzeCommandMockRuntime({
   }
 }
 
+export async function compareDeepSeekAnalyzeEnvPythonRuntimeBridge({
+  payload = { ...DEFAULT_PAYLOAD, uid: '42', multiagent: true },
+  analysis = DEFAULT_ANALYSIS,
+  runJsCommand = runJsEnvPythonRuntimeBridgeCommand,
+  runPythonCommand = runPythonMockRuntimeCommand,
+} = {}) {
+  return compareDeepSeekAnalyzeCommandMockRuntime({
+    payload,
+    analysis,
+    runJsCommand,
+    runPythonCommand,
+  });
+}
+
 export async function compareDeepSeekAnalyzeLiveGate({
   payload = { ...DEFAULT_PAYLOAD, uid: '42', multiagent: true },
   runPythonCommand = runPythonLiveGateCommand,
@@ -215,23 +253,34 @@ export async function compareDeepSeekAnalyzeCommandSuite({
   compareFixtureCommand = compareDeepSeekAnalyzeCommand,
   compareCommandMockRuntime = compareDeepSeekAnalyzeCommandMockRuntime,
   compareMockRuntime = compareDeepSeekAnalyzeMockRuntime,
+  compareEnvPythonRuntimeBridge = compareDeepSeekAnalyzeEnvPythonRuntimeBridge,
   compareLiveGate = compareDeepSeekAnalyzeLiveGate,
 } = {}) {
   const fixtureCommand = await compareFixtureCommand();
   const commandMockRuntime = await compareCommandMockRuntime();
   const mockRuntime = await compareMockRuntime();
   const multiagentMockRuntime = await compareMockRuntime({ payload: { ...DEFAULT_PAYLOAD, multiagent: true } });
+  const envPythonRuntimeBridge = await compareEnvPythonRuntimeBridge();
   const liveValidationGate = await compareLiveGate();
   const mismatches = [
     ...prefixMismatches('fixtureCommand', fixtureCommand.mismatches || []),
     ...prefixMismatches('commandMockRuntime', commandMockRuntime.mismatches || []),
     ...prefixMismatches('mockRuntime', mockRuntime.mismatches || []),
     ...prefixMismatches('multiagentMockRuntime', multiagentMockRuntime.mismatches || []),
+    ...prefixMismatches('envPythonRuntimeBridge', envPythonRuntimeBridge.mismatches || []),
     ...prefixMismatches('liveValidationGate', liveValidationGate.mismatches || []),
   ];
   return {
-    ok: Boolean(fixtureCommand.ok && commandMockRuntime.ok && mockRuntime.ok && multiagentMockRuntime.ok && liveValidationGate.ok && mismatches.length === 0),
-    checks: { fixtureCommand, commandMockRuntime, mockRuntime, multiagentMockRuntime, liveValidationGate },
+    ok: Boolean(
+      fixtureCommand.ok &&
+        commandMockRuntime.ok &&
+        mockRuntime.ok &&
+        multiagentMockRuntime.ok &&
+        envPythonRuntimeBridge.ok &&
+        liveValidationGate.ok &&
+        mismatches.length === 0,
+    ),
+    checks: { fixtureCommand, commandMockRuntime, mockRuntime, multiagentMockRuntime, envPythonRuntimeBridge, liveValidationGate },
     mismatches,
   };
 }

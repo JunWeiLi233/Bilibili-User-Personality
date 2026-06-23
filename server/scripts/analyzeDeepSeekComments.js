@@ -10,7 +10,7 @@ import { analyzeCommentsWithDeepSeek, normalizeDeepSeekAnalysisResult } from '..
 
 const execFileAsync = promisify(execFile);
 
-export function parseArgs(argv = process.argv.slice(2)) {
+export function parseArgs(argv = process.argv.slice(2), env = process.env) {
   const payload = {};
   let file = '';
   let showHelp = false;
@@ -86,6 +86,9 @@ export function parseArgs(argv = process.argv.slice(2)) {
     usePythonFixture = true;
   }
   if (mockChatAnalysis && !useJsRuntime) {
+    usePythonRuntime = true;
+  }
+  if (env.BILIBILI_DEEPSEEK_ANALYZE_USE_PYTHON_RUNTIME === '1' && !useJsRuntime) {
     usePythonRuntime = true;
   }
 
