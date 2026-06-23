@@ -114,6 +114,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:batch-bilibili-compare": "js_python_contract_bridge",
     "python:batch-popular-compare": "js_python_contract_bridge",
     "python:batch-uid-scrape-compare": "js_python_contract_bridge",
+    "python:batch-uid-range-compare": "js_python_contract_bridge",
     "python:local-mine-compare": "js_python_contract_bridge",
 }
 
@@ -146,6 +147,7 @@ PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
     "batch_bilibili_plan": ("python_backend.cli.batch_bilibili_plan",),
     "batch_popular_plan": ("python_backend.cli.batch_popular_plan",),
     "batch_uid_scrape_plan": ("python_backend.cli.batch_uid_scrape_plan",),
+    "batch_uid_range_plan": ("python_backend.cli.batch_uid_range_plan",),
 }
 
 RETAINED_JS_FILE_PREFIXES = {
@@ -182,6 +184,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareBatchBilibiliPlan.js": "js_python_contract_bridge",
     "server/scripts/compareBatchPopularPlan.js": "js_python_contract_bridge",
     "server/scripts/compareBatchUidScrapePlan.js": "js_python_contract_bridge",
+    "server/scripts/compareBatchUidRangePlan.js": "js_python_contract_bridge",
 }
 
 MIGRATION_PRIORITY_RULES = (

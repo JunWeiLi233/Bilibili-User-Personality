@@ -9,6 +9,7 @@
  */
 import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { fetchJson, fetchRepliesForVideo, humanPause } from '../services/bilibiliCrawler.js';
 import { trainKeywordDictionary } from '../services/deepseekKeywordTrainer.js';
 
@@ -49,16 +50,84 @@ async function forceRemoveLock() {
   }
 }
 
-function parseArgs() {
-  const args = process.argv.slice(2);
+function jsNumberOr(value, fallback) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed !== 0 ? parsed : fallback;
+}
+
+function parseArgs(args = process.argv.slice(2)) {
   const opts = { start: 200000, end: 300000, pages: 200, phase2Only: false };
   for (const arg of args) {
-    if (arg.startsWith('--start=')) opts.start = Number(arg.split('=')[1]) || 200000;
-    if (arg.startsWith('--end=')) opts.end = Number(arg.split('=')[1]) || 300000;
-    if (arg.startsWith('--pages=')) opts.pages = Number(arg.split('=')[1]) || 200;
+    if (arg.startsWith('--start=')) opts.start = jsNumberOr(arg.split('=')[1], 200000);
+    if (arg.startsWith('--end=')) opts.end = jsNumberOr(arg.split('=')[1], 300000);
+    if (arg.startsWith('--pages=')) opts.pages = jsNumberOr(arg.split('=')[1], 200);
     if (arg === '--phase2-only') opts.phase2Only = true;
   }
   return opts;
+}
+
+function uidInRange(uid, start, end) {
+  const value = Number(uid);
+  return Number.isFinite(value) && value >= start && value <= end;
+}
+
+export function buildBatchUidRangePlan(payload = {}) {
+  const planPayload = payload && typeof payload === 'object' ? payload : {};
+  const argv = Array.isArray(planPayload.argv) ? planPayload.argv : [];
+  const progress = planPayload.progress && typeof planPayload.progress === 'object' ? planPayload.progress : {};
+  const database = planPayload.database && typeof planPayload.database === 'object' ? planPayload.database : {};
+  const { start, end, pages, phase2Only } = parseArgs(argv.map((item) => String(item || '')));
+  const uidComments = progress._uidComments && typeof progress._uidComments === 'object' ? progress._uidComments : {};
+  const processedUids = progress.processedUids && typeof progress.processedUids === 'object' ? progress.processedUids : {};
+  const scannedBvids = Array.isArray(progress.scannedBvids) ? progress.scannedBvids : [];
+  const stats = progress.stats && typeof progress.stats === 'object' ? progress.stats : {};
+  const users = database.users && typeof database.users === 'object' ? database.users : {};
+  const targetUids = Object.keys(uidComments).filter((uid) => uidInRange(uid, start, end));
+  const processedTargets = targetUids.filter((uid) => uid in processedUids).length;
+
+  return {
+    ok: true,
+    input: { start, end, pages, phase2Only },
+    phase1: {
+      enabled: !phase2Only,
+      scannedBvids: scannedBvids.length,
+      maxPages: pages,
+      popularPageSize: 20,
+      commentPagesPerVideo: COMMENT_PAGES_PER_VIDEO,
+    },
+    phase2: {
+      targetUids: targetUids.length,
+      processed: processedTargets,
+      remaining: Math.max(0, targetUids.length - processedTargets),
+      userDbUsers: Object.keys(users).length,
+    },
+    stats: {
+      videosScanned: stats.videosScanned ? jsNumberOr(stats.videosScanned, 0) : 0,
+      uidsFound: stats.uidsFound ? jsNumberOr(stats.uidsFound, Object.keys(uidComments).length) : Object.keys(uidComments).length,
+      targetUidsFound: stats.targetUidsFound ? jsNumberOr(stats.targetUidsFound, targetUids.length) : targetUids.length,
+      commentsCollected: stats.commentsCollected ? jsNumberOr(stats.commentsCollected, 0) : 0,
+      analyzed: stats.analyzed ? jsNumberOr(stats.analyzed, 0) : 0,
+      skipped: stats.skipped ? jsNumberOr(stats.skipped, 0) : 0,
+      errors: stats.errors ? jsNumberOr(stats.errors, 0) : 0,
+    },
+    pacing: {
+      delayBetweenVideosMs: DELAY_BETWEEN_VIDEOS_MS,
+      delayBetweenUidsMs: DELAY_BETWEEN_UIDS_MS,
+      lockRetryDelayMs: LOCK_RETRY_DELAY_MS,
+      lockMaxRetries: LOCK_MAX_RETRIES,
+      saveInterval: SAVE_INTERVAL,
+    },
+  };
+}
+
+async function readPlanPayload(args) {
+  const payloadIndex = args.indexOf('--payload');
+  if (payloadIndex === -1 || !args[payloadIndex + 1]) return {};
+  try {
+    return JSON.parse(await readFile(args[payloadIndex + 1], 'utf8'));
+  } catch {
+    return {};
+  }
 }
 
 async function loadJson(path, fallback) {
@@ -243,7 +312,14 @@ async function analyzeUids(uidComments, processedUids, userDb, stats, startRange
 }
 
 async function main() {
-  const { start, end, pages, phase2Only } = parseArgs();
+  const args = process.argv.slice(2);
+  if (args.includes('--plan-json')) {
+    const payload = await readPlanPayload(args);
+    console.log(JSON.stringify(buildBatchUidRangePlan(payload), null, 2));
+    return;
+  }
+
+  const { start, end, pages, phase2Only } = parseArgs(args);
 
   // Clean up stale locks on startup
   await forceRemoveLock();
@@ -295,7 +371,9 @@ async function main() {
   console.log(`Errors: ${stats.errors}`);
 }
 
-main().catch((err) => {
-  console.error('Fatal:', err.message);
-  process.exit(1);
-});
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  main().catch((err) => {
+    console.error('Fatal:', err.message);
+    process.exit(1);
+  });
+}
