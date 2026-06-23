@@ -88,7 +88,7 @@ from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStats
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherCommandRequest, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRequest, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationAnnotationContract, RandomVerificationCommandContract, RandomVerificationCommandRequest, RandomVerificationComparisonOptionsContract, RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationCorpusReportBuilder, RandomVerificationDictionaryTermsContract, RandomVerificationExecutionContract, RandomVerificationJsonResultContract, RandomVerificationOutputWriter, RandomVerificationPayloadContractComparator, RandomVerificationReportBuilder, RandomVerificationReportContract, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRequestDispatcher, RandomVerificationRunOptions, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerificationSampleContract, RandomVerificationSummaryContract, RandomVerifier, VerificationSummary, json_result_bytes as random_verification_payload_json_result_bytes
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisInputBuilder, DeepSeekAnalysisPlanCommandRequest, DeepSeekAnalysisPlanContractComparator as DeepSeekAnalysisPayloadPlanContractComparator, DeepSeekAnalysisPlanRequest, DeepSeekAnalysisPlanRunner as DeepSeekAnalysisPayloadPlanRunner, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidateCommandRequest, DeepSeekAnalysisValidateContractComparator as DeepSeekAnalysisPayloadValidateContractComparator, DeepSeekAnalysisValidateRequest, DeepSeekAnalysisValidateRunner as DeepSeekAnalysisPayloadValidateRunner, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator, DeepSeekRequestOptionsContract
-from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCommandRequest, DeepSeekAnalyzeCliPayloadPlanContractComparator, DeepSeekAnalyzeCliPlanCommandRequest, DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanRequest, DeepSeekAnalyzeCliPlanRunner as DeepSeekAnalyzeCliPayloadPlanRunner, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary
+from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCommandRequest, DeepSeekAnalyzeCliPayloadPlanContractComparator, DeepSeekAnalyzeCliPlanCommandRequest, DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanRequest, DeepSeekAnalyzeCliPlanRunner as DeepSeekAnalyzeCliPayloadPlanRunner, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary, DeepSeekAnalyzeRuntime
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceCommandRequest, KeywordEvidenceContractComparator as KeywordEvidencePayloadComparator, KeywordEvidenceMatcher, KeywordEvidencePayloadContractComparator, KeywordEvidencePayloadRunner, KeywordEvidenceRequest, KeywordEvidenceSummary
 from python_backend.cli.comment_coverage import CommentCoverageContractComparator, CommentCoverageRunner
 from python_backend.cli.corpus_shard_writer import CorpusShardWriteContractComparator, CorpusShardWriteRunner
@@ -6176,6 +6176,40 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["reasoningEffort"], "max")
         self.assertEqual(result["runtime"]["mode"], "mock_chat")
         self.assertEqual(result["runtime"]["requestCount"], 1)
+        self.assertEqual(result["axes"][0]["score"], 72)
+
+    def test_deepseek_analyze_runtime_fails_closed_without_api_key(self):
+        result = DeepSeekAnalyzeRuntime(env={}).run({"text": "\u53cd\u8bbd[doge]"})
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["provider"], "deepseek")
+        self.assertEqual(result["model"], "deepseek-v4-flash")
+        self.assertEqual(result["reasoningEffort"], "max")
+        self.assertIn("DEEPSEEK_API_KEY", result["error"])
+
+    def test_deepseek_analyze_runtime_uses_injected_transport_and_normalizes_response(self):
+        calls = []
+
+        def transport(request_body, config):
+            calls.append({"request": request_body, "config": config})
+            return {
+                "axes": [{"axis": "attack", "score": 72, "evidence": ["\u9634\u9633\u602a\u6c14[doge]"]}],
+                "sentenceAnalyses": [{"quote": "\u9634\u9633\u602a\u6c14[doge]", "intent": "satire"}],
+                "confidence": 0.88,
+            }
+
+        result = DeepSeekAnalyzeRuntime(
+            env={"DEEPSEEK_API_KEY": "test-key", "DEEPSEEK_MODEL": "deepseek-v4-flash", "DEEPSEEK_REASONING_EFFORT": "max"},
+            transport=transport,
+        ).run({"text": "\u9634\u9633\u602a\u6c14[doge]", "uid": "42"})
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(calls[0]["request"]["model"], "deepseek-v4-flash")
+        self.assertEqual(calls[0]["request"]["reasoning_effort"], "max")
+        self.assertIn("\u9634\u9633\u602a\u6c14[doge]", calls[0]["request"]["messages"][1]["content"])
+        self.assertEqual(calls[0]["config"]["apiKey"], "test-key")
+        self.assertEqual(result["runtime"]["mode"], "live_chat")
         self.assertEqual(result["axes"][0]["score"], 72)
 
     def test_deepseek_analyze_cli_runner_is_command_request_wrapper(self):

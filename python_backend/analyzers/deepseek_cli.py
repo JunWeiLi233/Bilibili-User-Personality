@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import argparse
+import os
+import urllib.error
+import urllib.request
 from pathlib import Path
 from typing import Any
 
@@ -163,6 +166,89 @@ class DeepSeekAnalyzeCliPlanCommandRequest:
         ).run()
 
 
+class DeepSeekAnalyzeRuntime:
+    """Execute the Python DeepSeek analyze chat runtime through an injectable transport."""
+
+    def __init__(self, *, env: dict[str, Any] | None = None, transport: Any = None):
+        self.env = dict(os.environ) if env is None else dict(env)
+        self.transport = transport or self._http_transport
+        self.client = DeepSeekAnalyzerClient()
+        self.normalizer = DeepSeekAnalysisNormalizer()
+
+    def run(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        request = self.client.build_request_from_payload(payload)
+        config = self._config(request)
+        if not config["apiKey"]:
+            return {
+                "ok": False,
+                "provider": "deepseek",
+                "model": config["model"],
+                "reasoningEffort": config["reasoningEffort"],
+                "error": "DEEPSEEK_API_KEY is not configured.",
+            }
+        request_body = self.client.build_chat_request(request)
+        try:
+            parsed = self.transport(request_body, config)
+        except Exception as error:  # pragma: no cover - exercised through command-level failures.
+            return {
+                "ok": False,
+                "provider": "deepseek",
+                "model": config["model"],
+                "reasoningEffort": config["reasoningEffort"],
+                "error": str(error),
+            }
+        result = self.normalizer.normalize(
+            source_payload=payload,
+            analysis_payload=parsed,
+            provider="deepseek",
+            model=config["model"],
+            reasoning_effort=config["reasoningEffort"],
+            raw=self._json_text(parsed),
+        )
+        result["runtime"] = {"mode": "live_chat", "requestCount": 1, "multiagent": request.multiagent}
+        return result
+
+    def _config(self, request: Any) -> dict[str, str]:
+        return {
+            "baseUrl": str(self.env.get("DEEPSEEK_BASE_URL") or "https://api.deepseek.com").rstrip("/"),
+            "apiKey": str(self.env.get("DEEPSEEK_API_KEY") or ""),
+            "model": str(self.env.get("DEEPSEEK_MODEL") or request.model or "deepseek-v4-flash"),
+            "reasoningEffort": str(self.env.get("DEEPSEEK_REASONING_EFFORT") or request.effort or "max").strip().lower() or "max",
+        }
+
+    def _http_transport(self, request_body: dict[str, Any], config: dict[str, str]) -> dict[str, Any]:
+        data = self._json_text(request_body).encode("utf-8")
+        request = urllib.request.Request(
+            f"{config['baseUrl']}/chat/completions",
+            data=data,
+            headers={
+                "content-type": "application/json",
+                "authorization": f"Bearer {config['apiKey']}",
+            },
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=60) as response:
+                payload = JsonContractReader().read_text_value(response.read().decode("utf-8"), {})
+        except urllib.error.HTTPError as error:
+            body = error.read().decode("utf-8", errors="replace")[:200]
+            raise RuntimeError(f"DeepSeek analyze failed with HTTP {error.code}: {body}") from error
+        content = (
+            payload.get("choices", [{}])[0].get("message", {}).get("content")
+            if isinstance(payload.get("choices"), list)
+            else ""
+        )
+        parsed = JsonContractReader().read_text_value(content, {})
+        return parsed if isinstance(parsed, dict) else {}
+
+    @staticmethod
+    def _json_text(value: Any) -> str:
+        import json
+
+        return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
+
+
 class DeepSeekAnalyzeCommandRequest:
     """Run Python-owned analyzeDeepSeekComments-compatible command modes."""
 
@@ -198,11 +284,7 @@ class DeepSeekAnalyzeCommandRequest:
                 raw=self._json_text(analysis),
             )
         return {
-            "ok": False,
-            "provider": "deepseek",
-            "model": "deepseek-v4-flash",
-            "reasoningEffort": "max",
-            "error": "Live DeepSeek execution is not enabled in the Python command yet; use --fixture-analysis for command parity checks.",
+            **DeepSeekAnalyzeRuntime().run(payload),
         }
 
     def _run_mock_chat(self, payload: dict[str, Any], analysis_path: str | Path) -> dict[str, Any]:
