@@ -1692,7 +1692,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:tieba-keyword-compare",
                     "validationCommand": "node server/scripts/compareTiebaKeywordPlan.js",
-                    "validationScope": "dry_run_plan_fixture",
+                    "validationScope": "dry_run_plan_fixture_and_js_python_plan_bridge",
                 },
                 {
                     "script": "dictionary:probe-bilibili",

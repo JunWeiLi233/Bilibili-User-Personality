@@ -1,4 +1,8 @@
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { test } from 'node:test';
 
 import { buildTiebaRuntimeCorpusUpdate } from './runTiebaKeywordScrape.js';
@@ -51,4 +55,38 @@ test('runTiebaKeywordScrape can opt into Python corpus update', async () => {
   assert.equal(result.changed, true);
   assert.deepEqual(result.corpus.comments.map((comment) => comment.message), ['new tieba comment']);
   assert.deepEqual(calls, [{ runner: 'python', comments: 1 }]);
+});
+
+test('runTiebaKeywordScrape can delegate dry-run option planning to Python', () => {
+  const tempDir = mkdtempSync(join(tmpdir(), 'tieba-python-plan-'));
+  try {
+    const payloadPath = join(tempDir, 'payload.json');
+    writeFileSync(
+      payloadPath,
+      JSON.stringify(
+        {
+          cwd: 'D:/tieba-python-plan-root',
+          argv: ['--query=doge'],
+          env: {},
+        },
+        null,
+        2,
+      ),
+      'utf8',
+    );
+
+    const result = spawnSync('node', ['server/scripts/runTiebaKeywordScrape.js', '--plan-json', '--python-plan', '--payload', payloadPath], {
+      cwd: process.cwd(),
+      encoding: 'utf8',
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+    });
+
+    assert.equal(result.status, 0, result.stderr);
+    const payload = JSON.parse(result.stdout);
+    assert.equal(payload.ok, true);
+    assert.equal(payload.options.actionFile, 'D:\\tieba-python-plan-root\\server\\data\\keywordCoverageActions.json');
+    assert.equal(payload.options.outputPath, 'D:\\tieba-python-plan-root\\server\\data\\tiebaKeywordCorpus.json');
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
+  }
 });

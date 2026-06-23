@@ -83,11 +83,17 @@ function parseArgs(argv = process.argv.slice(2)) {
 
 function parsePlanArgs(argv = process.argv.slice(2)) {
   let planJson = false;
+  let pythonPlan = false;
+  let jsPlan = false;
   let payloadPath = '';
   for (let index = 0; index < argv.length; index += 1) {
     const arg = String(argv[index] || '');
     if (arg === '--plan-json') {
       planJson = true;
+    } else if (arg === '--python-plan') {
+      pythonPlan = true;
+    } else if (arg === '--js-plan') {
+      jsPlan = true;
     } else if (arg.startsWith('--payload=')) {
       payloadPath = arg.slice('--payload='.length);
     } else if (arg === '--payload') {
@@ -95,7 +101,10 @@ function parsePlanArgs(argv = process.argv.slice(2)) {
       index += 1;
     }
   }
-  return { planJson, payloadPath };
+  if (process.env.TIEBA_USE_PYTHON_PLAN === '1' && !jsPlan) {
+    pythonPlan = true;
+  }
+  return { planJson, pythonPlan, jsPlan, payloadPath };
 }
 
 async function readPlanPayload(path) {
@@ -142,6 +151,15 @@ export function buildTiebaKeywordPlan(payload = {}) {
       else process.env[key] = previousEnv[key];
     }
   }
+}
+
+async function runPythonTiebaKeywordPlan(payloadPath) {
+  const { stdout } = await execFileAsync('python', ['-m', 'python_backend.cli.tieba_keyword_plan', '--payload', payloadPath], {
+    cwd: process.cwd(),
+    env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  return JSON.parse(stdout);
 }
 
 async function readJson(path, fallback) {
@@ -208,6 +226,10 @@ async function main() {
   const planArgs = parsePlanArgs();
   if (planArgs.planJson) {
     const payload = await readPlanPayload(planArgs.payloadPath);
+    if (planArgs.pythonPlan && !planArgs.jsPlan) {
+      console.log(JSON.stringify(await runPythonTiebaKeywordPlan(planArgs.payloadPath), null, 2));
+      return 0;
+    }
     console.log(JSON.stringify(buildTiebaKeywordPlan(payload), null, 2));
     return 0;
   }
