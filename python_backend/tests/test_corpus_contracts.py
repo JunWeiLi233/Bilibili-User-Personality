@@ -81,7 +81,7 @@ from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetOverrideTermsParser, NearTargetResolvePlanCommandRequest, NearTargetResolvePlanContractComparator as NearTargetResolvePlanPayloadComparator, NearTargetResolvePlanRequest, NearTargetResolvePlanner, NearTargetResolvePlanRunner as NearTargetResolvePayloadPlanRunner
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsCommandRequest, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsPayloadContractComparator, ReadmeStatsRequest, ReadmeStatsRunner as ReadmeStatsPayloadRunner, ReadmeStatsSummary, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherCommandRequest, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRequest, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
-from python_backend.analysis.verification import RandomVerificationCommandRequest, RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationPayloadContractComparator, RandomVerificationReportContract, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRunOptions, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerificationSampleContract, RandomVerifier, VerificationSummary, json_result_bytes as random_verification_payload_json_result_bytes
+from python_backend.analysis.verification import RandomVerificationAnnotationContract, RandomVerificationCommandRequest, RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationPayloadContractComparator, RandomVerificationReportContract, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRunOptions, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerificationSampleContract, RandomVerifier, VerificationSummary, json_result_bytes as random_verification_payload_json_result_bytes
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisInputBuilder, DeepSeekAnalysisPlanCommandRequest, DeepSeekAnalysisPlanContractComparator as DeepSeekAnalysisPayloadPlanContractComparator, DeepSeekAnalysisPlanRequest, DeepSeekAnalysisPlanRunner as DeepSeekAnalysisPayloadPlanRunner, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidateCommandRequest, DeepSeekAnalysisValidateContractComparator as DeepSeekAnalysisPayloadValidateContractComparator, DeepSeekAnalysisValidateRequest, DeepSeekAnalysisValidateRunner as DeepSeekAnalysisPayloadValidateRunner, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator, DeepSeekRequestOptionsContract
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPayloadPlanContractComparator, DeepSeekAnalyzeCliPlanCommandRequest, DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanRequest, DeepSeekAnalyzeCliPlanRunner as DeepSeekAnalyzeCliPayloadPlanRunner, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceCommandRequest, KeywordEvidenceContractComparator as KeywordEvidencePayloadComparator, KeywordEvidenceMatcher, KeywordEvidencePayloadContractComparator, KeywordEvidencePayloadRunner, KeywordEvidenceRequest, KeywordEvidenceSummary
@@ -1378,6 +1378,24 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(verifier.keyword_terms, ["doge", "\U0001f602"])
         self.assertEqual(summary.keyword_hits, 1)
         self.assertEqual(summary.samples[0]["matched_terms"], ["doge", "\U0001f602"])
+
+    def test_random_verification_annotation_contract_owns_keyword_matching_rules(self):
+        contract = RandomVerificationAnnotationContract(["YYGQ", "doge", "md", "\u7f51\u76d8\u89c1", "\u72d7\u5934", "\U0001f602"])
+
+        ascii_hit = contract.annotate({"message": "this yyGq comment uses DOGE satire"})
+        ascii_boundary = contract.annotate({"message": "cmd mode"})
+        chinese_spacing = contract.annotate({"message": "\u54c8\u54c8\u54c8 \u7f51 \u76d8 \u89c1\uff01"})
+        reply_username = contract.annotate({"message": "\u56de\u590d @\u72d7\u5934 : \u666e\u901a\u8bc4\u8bba"})
+        emoji_hit = contract.annotate({"message": "\U0001f602"})
+
+        self.assertEqual(contract.keyword_terms, ["YYGQ", "doge", "md", "\u7f51\u76d8\u89c1", "\u72d7\u5934", "\U0001f602"])
+        self.assertEqual(ascii_hit["matched_terms"], ["YYGQ", "doge"])
+        self.assertEqual(ascii_hit["coverage"], "keyword")
+        self.assertEqual(ascii_boundary["matched_terms"], [])
+        self.assertEqual(ascii_boundary["coverage"], "neutral")
+        self.assertEqual(chinese_spacing["matched_terms"], ["\u7f51\u76d8\u89c1"])
+        self.assertEqual(reply_username["matched_terms"], [])
+        self.assertEqual(emoji_hit["matched_terms"], ["\U0001f602"])
 
     def test_random_verifier_skips_scrape_diagnostics(self):
         verifier = RandomVerifier(keyword_terms=["狗头"])

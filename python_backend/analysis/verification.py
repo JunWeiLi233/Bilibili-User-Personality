@@ -389,13 +389,46 @@ class RandomVerificationCorpusAssembler:
         return self.base_corpus.load() if hasattr(self.base_corpus, "load") else self.base_corpus
 
 
-class RandomVerifier:
-    """Deterministically sample comments and classify lexical keyword coverage."""
+class RandomVerificationAnnotationContract:
+    """Owns keyword matching and coverage fields for sampled verification rows."""
 
     def __init__(self, keyword_terms: list[str]):
         keyword_terms = keyword_terms if isinstance(keyword_terms, list) else []
         self.keyword_terms = [str(term).strip() for term in keyword_terms if _is_contract_scalar(term) and str(term).strip()]
-        self._ascii_terms = {term: re.compile(rf"(?<![0-9a-z_]){re.escape(term.casefold())}(?![0-9a-z_])") for term in self.keyword_terms if term.isascii()}
+        self.ascii_terms = {
+            term: re.compile(rf"(?<![0-9a-z_]){re.escape(term.casefold())}(?![0-9a-z_])")
+            for term in self.keyword_terms
+            if term.isascii()
+        }
+
+    def annotate(self, comment: dict[str, Any]) -> dict[str, Any]:
+        message = RandomVerificationSampleContract.message(comment)
+        attributable_message = _strip_mention_scaffolding(message)
+        folded_message = attributable_message.casefold()
+        clean_message = _clean_needle(attributable_message)
+        matched = [
+            term
+            for term in self.keyword_terms
+            if self._matches(term, folded_message, clean_message, attributable_message)
+        ]
+        return {**comment, "matched_terms": matched, "coverage": "keyword" if matched else "neutral"}
+
+    def _matches(self, term: str, folded_message: str, clean_message: str, attributable_message: str) -> bool:
+        if term in self.ascii_terms:
+            return self.ascii_terms[term].search(folded_message) is not None
+        clean_term = _clean_needle(term)
+        if clean_term:
+            return clean_term in clean_message
+        return term in attributable_message
+
+
+class RandomVerifier:
+    """Deterministically sample comments and classify lexical keyword coverage."""
+
+    def __init__(self, keyword_terms: list[str]):
+        self.annotation_contract = RandomVerificationAnnotationContract(keyword_terms)
+        self.keyword_terms = self.annotation_contract.keyword_terms
+        self._ascii_terms = self.annotation_contract.ascii_terms
 
     @classmethod
     def from_dictionary_entries(cls, entries: list[dict[str, Any]]) -> "RandomVerifier":
@@ -444,16 +477,7 @@ class RandomVerifier:
         return RandomVerificationReportContract(corpus=corpus, dictionary_terms=len(self.keyword_terms), options=options).build(summary)
 
     def _annotate(self, comment: dict[str, Any]) -> dict[str, Any]:
-        message = self._message(comment)
-        attributable_message = _strip_mention_scaffolding(message)
-        folded_message = attributable_message.casefold()
-        clean_message = _clean_needle(attributable_message)
-        matched = [
-            term
-            for term in self.keyword_terms
-            if (self._ascii_terms[term].search(folded_message) if term in self._ascii_terms else _clean_needle(term) in clean_message)
-        ]
-        return {**comment, "matched_terms": matched, "coverage": "keyword" if matched else "neutral"}
+        return self.annotation_contract.annotate(comment)
 
     @staticmethod
     def _message(comment: dict[str, Any]) -> str:
