@@ -24849,6 +24849,33 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_random_verification_payload_comparator_defaults_corrupt_js_reports(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            dictionary_path = root / "dictionary.json"
+            js_report_path = root / "js-random-verification.json"
+            corpus_path.write_text(
+                json.dumps({"comments": [{"message": "doge satire"}], "runs": []}),
+                encoding="utf-8",
+            )
+            dictionary_path.write_text(json.dumps({"entries": [{"term": "doge"}]}), encoding="utf-8")
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            result = RandomVerificationPayloadContractComparator(
+                corpus_path,
+                dictionary_path,
+                js_report_path,
+                sample_size=1,
+                seed=1,
+            ).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(result["js"]["sampled"], 0)
+        self.assertEqual(result["python"]["sampled"], 1)
+        self.assertEqual(result["python"]["keywordHits"], 1)
+
     def test_random_verifier_owns_report_contract_from_dictionary_entries(self):
         result = RandomVerifier.from_dictionary_entries(
             [

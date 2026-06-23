@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any
 
 from python_backend.analysis.comment_coverage import _clean_needle, _is_contract_scalar, _is_scrape_diagnostic, _strip_mention_scaffolding
+from python_backend.corpus.contracts import safe_read_json_object
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
 
@@ -225,10 +226,9 @@ class RandomVerificationJsonPayloadContractComparator:
         self.comparator = RandomVerificationContractComparator(self.summary)
 
     def compare(self) -> dict[str, Any]:
-        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
-            js_report = json.load(handle)
+        js_report = safe_read_json_object(self.js_report_path)
         python_report = RandomVerificationPayloadRunner(self.payload_path).run()
-        return self.comparator.compare(python_report, js_report if isinstance(js_report, dict) else {})
+        return self.comparator.compare(python_report, js_report)
 
 
 class RandomVerificationPayloadContractComparator:
@@ -253,9 +253,7 @@ class RandomVerificationPayloadContractComparator:
         self.comparator = RandomVerificationContractComparator(self.summary)
 
     def compare(self) -> dict[str, Any]:
-        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
-            js_report = json.load(handle)
-        js_report = js_report if isinstance(js_report, dict) else {}
+        js_report = safe_read_json_object(self.js_report_path)
         sample_size = self.sample_size if self.sample_size is not None else _non_negative_int(js_report.get("sampleSize"), 50)
         seed = self.seed if self.seed is not None else _int_or(js_report.get("seed"), 1)
         python_report = RandomVerificationRunner(
