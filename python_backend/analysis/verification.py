@@ -228,6 +228,20 @@ class RandomVerificationCommandRequest:
         self.argv = argv
 
     def run(self) -> dict[str, Any]:
+        return RandomVerificationCommandContract(self.argv).run()
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        return RandomVerificationCommandContract.parser()
+
+
+class RandomVerificationCommandContract:
+    """Own argv parsing and request construction for random verification."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    def request(self) -> RandomVerificationRequest:
         args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
         return RandomVerificationRequest(
             corpus_path=args.corpus,
@@ -237,7 +251,10 @@ class RandomVerificationCommandRequest:
             extra_corpus_paths=args.extra_corpus,
             payload_path=args.payload or None,
             compare_js_report_path=args.compare_js_report or None,
-        ).run()
+        )
+
+    def run(self) -> dict[str, Any]:
+        return self.request().run()
 
     @staticmethod
     def parser() -> argparse.ArgumentParser:
