@@ -4890,6 +4890,12 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(compare_result["ok"])
         self.assertEqual([item["key"] for item in compare_result["mismatches"]], ["mode", "collect"])
 
+    def test_video_link_direct_compare_scope_tracks_multi_mode_fixtures(self):
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:video-link-direct-compare"],
+            "dry_run_plan_video_favorite_uid_missing_target_fixtures_and_js_python_bridge",
+        )
+
     def test_aicu_scrape_plan_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

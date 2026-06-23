@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { compareVideoLinkDirectPlan, compareVideoLinkDirectPlanObjects } from './compareVideoLinkDirectPlan.js';
+import { compareVideoLinkDirectPlan, compareVideoLinkDirectPlanObjects, compareVideoLinkDirectPlanSuite } from './compareVideoLinkDirectPlan.js';
 
 test('compareVideoLinkDirectPlanObjects reports matching direct-link plans', () => {
   const plan = {
@@ -42,4 +42,14 @@ test('compareVideoLinkDirectPlan compares JS and Python dry-run plans', async ()
   assert.equal(result.js.mode, 'uid');
   assert.equal(result.python.mode, 'uid');
   assert.equal(result.python.input.hasCookie, true);
+});
+
+test('compareVideoLinkDirectPlanSuite covers direct video, favorite, uid, and missing target fixtures', async () => {
+  const result = await compareVideoLinkDirectPlanSuite();
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.fixtures.map((fixture) => fixture.name), ['video', 'favorite', 'uid', 'missing-target']);
+  assert.deepEqual(result.fixtures.flatMap((fixture) => fixture.mismatches), []);
+  assert.equal(result.fixtures.find((fixture) => fixture.name === 'favorite').python.mode, 'favorite');
+  assert.equal(result.fixtures.find((fixture) => fixture.name === 'missing-target').python.error, 'missing-target');
 });
