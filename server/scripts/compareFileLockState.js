@@ -1,7 +1,7 @@
 import { execFile } from 'node:child_process';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { promisify } from 'node:util';
 
@@ -16,6 +16,14 @@ export const DEFAULT_OWNER = {
 };
 
 export const DEFAULT_STALE_MS = 60000;
+
+export const FILE_LOCK_STATE_FIXTURES = {
+  'stale-owner': { owner: DEFAULT_OWNER, staleMs: DEFAULT_STALE_MS },
+  'missing-owner': { owner: null, staleMs: DEFAULT_STALE_MS },
+  'corrupt-owner': { ownerRaw: '{not-json', staleMs: DEFAULT_STALE_MS },
+};
+
+const DEFAULT_FIXTURE_NAMES = Object.keys(FILE_LOCK_STATE_FIXTURES);
 
 function summarize(result = {}) {
   return Object.fromEntries(RESULT_KEYS.filter((key) => key in result).map((key) => [key, result[key]]));
@@ -52,9 +60,18 @@ async function readOwner(lockPath) {
   }
 }
 
+async function pathExists(path) {
+  try {
+    await stat(path);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 async function runJsFileLockState({ lockPath, staleMs = DEFAULT_STALE_MS }) {
   const owner = await readOwner(lockPath);
-  const exists = owner !== null;
+  const exists = await pathExists(lockPath);
   const startedAt = Date.parse(owner?.startedAt || '');
   const staleByAge = Number.isFinite(startedAt) && Date.now() - startedAt > staleMs;
   const staleByPid = Boolean(owner?.pid) && !isProcessAlive(owner.pid);
@@ -91,26 +108,34 @@ async function runPythonFileLockState({ lockPath, staleMs = DEFAULT_STALE_MS }) 
 
 async function writeFixture(lockPath, owner) {
   await mkdir(lockPath, { recursive: true });
+  if (owner === null) return;
+  if (owner && typeof owner === 'object' && 'ownerRaw' in owner) {
+    await writeFile(join(lockPath, 'owner.json'), String(owner.ownerRaw ?? ''), 'utf8');
+    return;
+  }
   await writeFile(join(lockPath, 'owner.json'), `${JSON.stringify(owner || DEFAULT_OWNER, null, 2)}\n`, 'utf8');
 }
 
-export async function compareFileLockState({
-  owner = DEFAULT_OWNER,
-  staleMs = DEFAULT_STALE_MS,
-  runJs = runJsFileLockState,
-  runPython = runPythonFileLockState,
-} = {}) {
+function resolveFixture({ owner, fixture, staleMs } = {}) {
+  if (owner !== undefined) return { name: fixture?.name || 'custom', owner, staleMs: staleMs || DEFAULT_STALE_MS };
+  const name = typeof fixture === 'string' ? fixture : fixture?.name || 'stale-owner';
+  const resolved = FILE_LOCK_STATE_FIXTURES[name] || FILE_LOCK_STATE_FIXTURES['stale-owner'];
+  return { name, owner: resolved.ownerRaw !== undefined ? { ownerRaw: resolved.ownerRaw } : resolved.owner, staleMs: resolved.staleMs || DEFAULT_STALE_MS };
+}
+
+async function compareFileLockStateSingle({ owner, fixture, staleMs, runJs = runJsFileLockState, runPython = runPythonFileLockState } = {}) {
+  const resolved = resolveFixture({ owner, fixture, staleMs });
   const tempDir = await mkdtemp(join(tmpdir(), 'file-lock-state-compare-'));
   try {
     const lockPath = join(tempDir, '.fixture.lock');
-    await writeFixture(lockPath, owner);
-    const context = { owner, lockPath, staleMs };
+    await writeFixture(lockPath, resolved.owner);
+    const context = { owner: resolved.owner, fixture: { name: resolved.name }, lockPath, staleMs: resolved.staleMs };
     const js = await runJs(context);
     const python = await runPython(context);
     const comparison = compareFileLockStateObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { lockPath, staleMs },
+      fixture: { name: resolved.name, lockPath, staleMs: resolved.staleMs },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -120,8 +145,20 @@ export async function compareFileLockState({
   }
 }
 
+export async function compareFileLockState({ owner, fixture, fixtureNames, staleMs, runJs = runJsFileLockState, runPython = runPythonFileLockState } = {}) {
+  if (fixtureNames) {
+    const results = [];
+    for (const name of fixtureNames.length ? fixtureNames : DEFAULT_FIXTURE_NAMES) {
+      results.push(await compareFileLockStateSingle({ fixture: name, runJs, runPython }));
+    }
+    const mismatches = results.flatMap((result) => result.mismatches.map((mismatch) => ({ ...mismatch, fixture: result.fixture.name })));
+    return { ok: mismatches.length === 0, fixtures: results.map((result) => result.fixture), results, mismatches };
+  }
+  return compareFileLockStateSingle({ owner: owner === undefined ? DEFAULT_OWNER : owner, fixture, staleMs, runJs, runPython });
+}
+
 async function main() {
-  const result = await compareFileLockState();
+  const result = await compareFileLockState({ fixtureNames: DEFAULT_FIXTURE_NAMES });
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }

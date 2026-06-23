@@ -27399,6 +27399,10 @@ class CorpusContractTests(unittest.TestCase):
             {"path": "server/scripts/compareFileLockState.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
         )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:file-lock-state-compare"],
+            "file_backed_stale_missing_corrupt_owner_fixtures_and_js_python_bridge",
+        )
 
     def test_local_corpus_evidence_has_js_python_validation_bridge(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))

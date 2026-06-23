@@ -62,6 +62,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:deepseek-mock-runtime-compare": "mocked_runtime",
     "python:harvest-plan-compare": "dry_run_plan_fixture_and_js_python_plan_bridge",
     "python:harvest-state-compare": "file_backed_default_miss_successful_hit_corrupt_payload_fixtures_and_js_python_bridge",
+    "python:file-lock-state-compare": "file_backed_stale_missing_corrupt_owner_fixtures_and_js_python_bridge",
     "python:dictionary-prune-compare": "summary_command_fixture",
     "python:exhausted-prune-compare": "dry_run_plan_fixture",
     "python:near-target-compare": "dry_run_plan_fixture",
