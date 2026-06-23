@@ -24272,6 +24272,19 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(invalid["range"], {"startUid": 100000, "endUid": 200000, "total": 100001})
 
+    def test_batch_bilibili_planner_matches_js_parseint_prefix_and_object_keys(self):
+        result = BatchBilibiliScrapePlanner().build_plan(
+            ["--start=100000.9 uid", "--end=100005.9 uid"],
+            {"lastUid": "100002.9 uid", "completed": "2 done", "errors": {"0": {"uid": "100001"}}},
+            {"users": [{"uid": "array-user"}]},
+        )
+
+        self.assertEqual(result["input"], {"startUid": 100000, "endUid": 100005})
+        self.assertEqual(result["range"], {"startUid": 100003, "endUid": 100005, "total": 3})
+        self.assertEqual(result["resume"], {"lastUid": 100002, "resumed": True})
+        self.assertEqual(result["database"], {"users": 1})
+        self.assertEqual(result["progress"], {"completed": 2, "errors": 0})
+
     def test_batch_bilibili_plan_summary_extracts_comparator_contract(self):
         summary = BatchBilibiliPlanSummary().summarize(
             {
@@ -24524,7 +24537,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             BackendMigrationInventoryScanner._validation_gates(
                 validation_script="python:batch-bilibili-compare",
-                validation_scope="dry_run_plan_fixture_and_js_python_plan_bridge",
+                validation_scope="dry_run_plan_resume_empty_parseint_prefix_fixtures_and_js_python_bridge",
             ),
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:batch-bilibili-compare"},

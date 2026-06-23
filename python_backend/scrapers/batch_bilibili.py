@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 from pathlib import Path
 from typing import Any
 
@@ -8,10 +9,22 @@ from python_backend.runtime.json_contracts import JsonContractReader, safe_read_
 
 
 def _parse_int(value: Any, fallback: int) -> int:
-    try:
-        return int(float(str(value)))
-    except (TypeError, ValueError):
+    text = str(value if value is not None else "").strip()
+    match = re.match(r"^[+-]?\d+", text)
+    if not match:
         return fallback
+    try:
+        return int(match.group(0))
+    except ValueError:
+        return fallback
+
+
+def _js_object_key_count(value: Any) -> int:
+    if isinstance(value, dict):
+        return len(value)
+    if isinstance(value, list):
+        return len(value)
+    return 0
 
 
 class BatchBilibiliScrapePlanner:
@@ -61,13 +74,13 @@ class BatchBilibiliScrapePlanner:
         if resumed:
             start_uid = last_uid + 1
         total = max(0, end_uid - start_uid + 1)
-        users = database.get("users") if isinstance(database.get("users"), dict) else {}
+        users = database.get("users")
         return {
             "ok": True,
             "input": {"startUid": input_start, "endUid": end_uid},
             "range": {"startUid": start_uid, "endUid": end_uid, "total": total},
             "resume": {"lastUid": last_uid, "resumed": resumed},
-            "database": {"users": len(users)},
+            "database": {"users": _js_object_key_count(users)},
             "limits": {"maxVideos": self.MAX_VIDEOS, "maxComments": self.MAX_COMMENTS, "replyPages": self.VIDEO_REPLY_PAGES},
             "pacing": {
                 "delayBetweenRequestsMs": self.DELAY_BETWEEN_REQUESTS_MS,

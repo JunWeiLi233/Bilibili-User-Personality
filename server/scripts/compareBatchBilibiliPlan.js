@@ -25,6 +25,36 @@ export const DEFAULT_PAYLOAD = {
   },
 };
 
+export const BATCH_BILIBILI_PLAN_FIXTURES = {
+  'resume-progress': DEFAULT_PAYLOAD,
+  'empty-progress': {
+    argv: [],
+    progress: {},
+    database: {
+      users: {},
+    },
+  },
+  'parseint-prefix-progress': {
+    argv: ['--start=100000.9 uid', '--end=100005.9 uid'],
+    progress: {
+      lastUid: '100002.9 uid',
+      completed: '2 done',
+      errors: { 0: { uid: '100001' } },
+    },
+    database: {
+      users: [{ uid: 'array-user' }],
+    },
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = ['resume-progress', 'empty-progress', 'parseint-prefix-progress'];
+
+function resolvePayload({ fixture = 'resume-progress', payload } = {}) {
+  if (payload) return { name: fixture || 'custom', payload };
+  const name = String(fixture || 'resume-progress');
+  return { name, payload: BATCH_BILIBILI_PLAN_FIXTURES[name] || DEFAULT_PAYLOAD };
+}
+
 function summarize(result = {}) {
   return Object.fromEntries(RESULT_KEYS.filter((key) => key in result).map((key) => [key, result[key]]));
 }
@@ -58,17 +88,25 @@ async function runPythonPlan({ payloadPath }) {
   return JSON.parse(stdout);
 }
 
-export async function compareBatchBilibiliPlan({ payload = DEFAULT_PAYLOAD, runJs = runJsPlan, runPython = runPythonPlan } = {}) {
+export async function compareBatchBilibiliPlan({
+  fixture = 'resume-progress',
+  fixtureNames,
+  payload,
+  runJs = runJsPlan,
+  runPython = runPythonPlan,
+} = {}) {
+  if (fixtureNames) return compareBatchBilibiliPlanSuite({ fixtures: fixtureNames, runJs, runPython });
+  const resolved = resolvePayload({ fixture, payload });
   const tempDir = await mkdtemp(join(tmpdir(), 'batch-bilibili-plan-compare-'));
   try {
     const payloadPath = join(tempDir, 'payload.json');
-    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
-    const js = await runJs({ payload, payloadPath });
-    const python = await runPython({ payload, payloadPath });
+    await writeFile(payloadPath, JSON.stringify(resolved.payload, null, 2), 'utf8');
+    const js = await runJs({ payload: resolved.payload, payloadPath });
+    const python = await runPython({ payload: resolved.payload, payloadPath });
     const comparison = compareBatchBilibiliPlanObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { payloadPath },
+      fixture: { name: resolved.name, payloadPath },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -78,8 +116,25 @@ export async function compareBatchBilibiliPlan({ payload = DEFAULT_PAYLOAD, runJ
   }
 }
 
+export async function compareBatchBilibiliPlanSuite({ fixtures = DEFAULT_FIXTURE_NAMES, runJs = runJsPlan, runPython = runPythonPlan } = {}) {
+  const results = [];
+  for (const fixture of fixtures) {
+    results.push(await compareBatchBilibiliPlan({ fixture, runJs, runPython }));
+  }
+  return {
+    ok: results.every((result) => result.ok),
+    fixtures: results.map((result) => ({
+      name: result.fixture.name,
+      ok: result.ok,
+      js: result.js,
+      python: result.python,
+      mismatches: result.mismatches,
+    })),
+  };
+}
+
 async function main() {
-  const result = await compareBatchBilibiliPlan();
+  const result = await compareBatchBilibiliPlanSuite();
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }

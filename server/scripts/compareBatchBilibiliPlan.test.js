@@ -5,7 +5,11 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { test } from 'node:test';
 
-import { compareBatchBilibiliPlan, compareBatchBilibiliPlanObjects } from './compareBatchBilibiliPlan.js';
+import {
+  BATCH_BILIBILI_PLAN_FIXTURES,
+  compareBatchBilibiliPlan,
+  compareBatchBilibiliPlanObjects,
+} from './compareBatchBilibiliPlan.js';
 
 const PLAN = {
   input: {
@@ -85,6 +89,24 @@ test('compareBatchBilibiliPlan compares JS and Python dry-run plans', async () =
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('compareBatchBilibiliPlan exports named compatibility fixtures', async () => {
+  assert.deepEqual(Object.keys(BATCH_BILIBILI_PLAN_FIXTURES), ['resume-progress', 'empty-progress', 'parseint-prefix-progress']);
+
+  const payloads = [];
+  const result = await compareBatchBilibiliPlan({
+    fixtureNames: Object.keys(BATCH_BILIBILI_PLAN_FIXTURES),
+    runJs: async ({ payload }) => {
+      payloads.push(payload);
+      return { ok: true, ...PLAN };
+    },
+    runPython: async () => ({ ok: true, ...PLAN }),
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.fixtures.map((fixture) => fixture.name), ['resume-progress', 'empty-progress', 'parseint-prefix-progress']);
+  assert.deepEqual(payloads, Object.values(BATCH_BILIBILI_PLAN_FIXTURES));
 });
 
 test('batchScrapeBilibili can delegate dry-run planning to Python', () => {
