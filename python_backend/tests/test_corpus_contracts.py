@@ -5874,6 +5874,13 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(reader.read_text_value("", fallback), {"items": []})
         self.assertEqual(reader.read_text_value("{bad json", fallback), {"items": []})
 
+    def test_json_contract_reader_decodes_string_literal_content(self):
+        reader = JsonContractReader()
+
+        self.assertEqual(reader.decode_string_literal_content("\\u8def\\u8fc7", fallback="raw"), "\u8def\u8fc7")
+        self.assertEqual(reader.decode_string_literal_content("plain text", fallback="raw"), "plain text")
+        self.assertEqual(reader.decode_string_literal_content("bad\\", fallback="raw"), "raw")
+
     def test_contract_comparator_rejects_manifest_run_count_mismatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -35,6 +35,13 @@ class JsonContractReader:
         except (TypeError, ValueError, json.JSONDecodeError):
             return deepcopy(default_value)
 
+    def decode_string_literal_content(self, text: Any, fallback: Any = "") -> Any:
+        escaped = str(text or "")
+        try:
+            return json.loads(f'"{escaped}"')
+        except (TypeError, ValueError, json.JSONDecodeError):
+            return deepcopy(fallback)
+
     def _default(self) -> dict[str, Any]:
         return deepcopy(self.default_object)
 

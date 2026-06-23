@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import json
 import re
 import unicodedata
 from pathlib import Path
@@ -309,10 +308,7 @@ class VideoCommentFilterPayloadRunner:
         return JsonContractReader().read_value(path, fallback)
 
     def _decode_cli_value(self, value: str) -> str:
-        try:
-            return json.loads(f'"{value}"')
-        except json.JSONDecodeError:
-            return value
+        return JsonContractReader().decode_string_literal_content(value, fallback=value)
 
 
 class VideoCommentFilterPayloadContractComparator:
