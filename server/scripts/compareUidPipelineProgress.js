@@ -27,6 +27,39 @@ export const DEFAULT_PAYLOAD = {
   },
 };
 
+export const UID_PIPELINE_PROGRESS_FIXTURES = {
+  'default-progress': DEFAULT_PAYLOAD,
+  'parseint-uid-prefix': {
+    start: 10,
+    end: 14,
+    progress: {
+      processed: { 10: 'success', 11: 'blocked' },
+      stats: { success: '1ok', blocked: '1blocked', errors: '2bad' },
+    },
+    database: {
+      users: {
+        '10abc': { uid: '10abc' },
+        13: { uid: '13' },
+        999: { uid: '999' },
+      },
+    },
+  },
+  'corrupt-inputs': {
+    start: 21,
+    end: 23,
+    progressRaw: '{not-json',
+    databaseRaw: '{not-json',
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = ['default-progress', 'parseint-uid-prefix', 'corrupt-inputs'];
+
+function resolvePayload({ fixture = 'default-progress', payload } = {}) {
+  if (payload) return { name: fixture || 'custom', payload };
+  const name = String(fixture || 'default-progress');
+  return { name, payload: UID_PIPELINE_PROGRESS_FIXTURES[name] || DEFAULT_PAYLOAD };
+}
+
 function intOrZero(value) {
   const parsed = Number.parseInt(String(value ?? ''), 10);
   return Number.isFinite(parsed) ? parsed : 0;
@@ -111,25 +144,33 @@ async function runPythonProgress({ progressPath, userDbPath, start, end }) {
 
 async function writeFixture(progressPath, userDbPath, payload) {
   await mkdir(dirname(progressPath), { recursive: true });
-  await writeFile(progressPath, JSON.stringify(payload.progress || {}, null, 2), 'utf8');
-  await writeFile(userDbPath, JSON.stringify(payload.database || { users: {} }, null, 2), 'utf8');
+  await writeFile(progressPath, payload.progressRaw ?? JSON.stringify(payload.progress || {}, null, 2), 'utf8');
+  await writeFile(userDbPath, payload.databaseRaw ?? JSON.stringify(payload.database || { users: {} }, null, 2), 'utf8');
 }
 
-export async function compareUidPipelineProgress({ payload = DEFAULT_PAYLOAD, runJs = runJsProgress, runPython = runPythonProgress } = {}) {
+export async function compareUidPipelineProgress({
+  fixture = 'default-progress',
+  fixtureNames,
+  payload,
+  runJs = runJsProgress,
+  runPython = runPythonProgress,
+} = {}) {
+  if (fixtureNames) return compareUidPipelineProgressSuite({ fixtures: fixtureNames, runJs, runPython });
+  const resolved = resolvePayload({ fixture, payload });
   const tempDir = await mkdtemp(join(tmpdir(), 'uid-pipeline-progress-compare-'));
   try {
-    const start = Number.parseInt(String(payload.start ?? DEFAULT_PAYLOAD.start), 10) || 0;
-    const end = Number.parseInt(String(payload.end ?? DEFAULT_PAYLOAD.end), 10) || 0;
-    const progressPath = payload.progressPath || join(tempDir, `uid-pipeline-${start}-${end}.json`);
-    const userDbPath = payload.userDbPath || join(tempDir, 'scraped-users-db.json');
-    if (!payload.progressPath) await writeFixture(progressPath, userDbPath, payload);
-    const context = { payload, progressPath, userDbPath, start, end };
+    const start = Number.parseInt(String(resolved.payload.start ?? DEFAULT_PAYLOAD.start), 10) || 0;
+    const end = Number.parseInt(String(resolved.payload.end ?? DEFAULT_PAYLOAD.end), 10) || 0;
+    const progressPath = resolved.payload.progressPath || join(tempDir, `uid-pipeline-${start}-${end}.json`);
+    const userDbPath = resolved.payload.userDbPath || join(tempDir, 'scraped-users-db.json');
+    if (!resolved.payload.progressPath) await writeFixture(progressPath, userDbPath, resolved.payload);
+    const context = { payload: resolved.payload, fixture: { name: resolved.name }, progressPath, userDbPath, start, end };
     const js = await runJs(context);
     const python = await runPython(context);
     const comparison = compareUidPipelineProgressObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { progressPath, userDbPath, start, end },
+      fixture: { name: resolved.name, progressPath, userDbPath, start, end },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -139,8 +180,29 @@ export async function compareUidPipelineProgress({ payload = DEFAULT_PAYLOAD, ru
   }
 }
 
+export async function compareUidPipelineProgressSuite({
+  fixtures = DEFAULT_FIXTURE_NAMES,
+  runJs = runJsProgress,
+  runPython = runPythonProgress,
+} = {}) {
+  const results = [];
+  for (const fixture of fixtures) {
+    results.push(await compareUidPipelineProgress({ fixture, runJs, runPython }));
+  }
+  return {
+    ok: results.every((result) => result.ok),
+    fixtures: results.map((result) => ({
+      name: result.fixture.name,
+      ok: result.ok,
+      js: result.js,
+      python: result.python,
+      mismatches: result.mismatches,
+    })),
+  };
+}
+
 async function main() {
-  const result = await compareUidPipelineProgress();
+  const result = await compareUidPipelineProgressSuite();
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }

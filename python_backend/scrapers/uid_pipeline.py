@@ -898,10 +898,7 @@ class UidPipelineProgressReporter:
     def _users_in_range(self, users: dict[str, Any], start: int, end: int) -> int:
         count = 0
         for uid in users:
-            try:
-                numeric_uid = int(str(uid))
-            except (TypeError, ValueError):
-                continue
+            numeric_uid = _parse_number_or(uid, start - 1)
             if start <= numeric_uid <= end:
                 count += 1
         return count

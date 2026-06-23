@@ -21716,6 +21716,22 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["userDb"], {"users": 3, "usersInRange": 2})
         self.assertEqual(result["lastUpdated"], "2026-06-19T00:00:00.000Z")
 
+    def test_uid_pipeline_progress_reporter_matches_js_parseint_uid_prefix_contract(self):
+        result = UidPipelineProgressReporter().build_report(
+            {
+                "processed": {"10": "success", "11": "blocked"},
+                "stats": {"success": "1ok", "blocked": "1blocked", "errors": "2bad"},
+            },
+            users={"10abc": {}, "13": {}, "999": {}},
+            start=10,
+            end=14,
+        )
+
+        self.assertEqual(result["range"], {"start": 10, "end": 14, "total": 5})
+        self.assertEqual(result["progress"], {"processed": 2, "remaining": 3, "completionRatio": 0.4})
+        self.assertEqual(result["stats"], {"success": 1, "noComments": 0, "noVideos": 0, "noUser": 0, "trainError": 0, "blocked": 1, "errors": 2})
+        self.assertEqual(result["userDb"], {"users": 3, "usersInRange": 2})
+
     def test_uid_pipeline_progress_summary_extracts_comparator_contract(self):
         summary = UidPipelineProgressSummary().summarize(
             {
@@ -21833,6 +21849,10 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn(
             {"path": "server/scripts/compareUidPipelineProgress.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
+        )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:uid-pipeline-progress-compare"],
+            "file_backed_default_parseint_uid_prefix_corrupt_inputs_fixtures_and_js_python_bridge",
         )
 
     def test_uid_pipeline_plan_matches_js_range_limits_and_training_contract(self):
