@@ -611,6 +611,7 @@ class BackendMigrationInventoryScanner:
                 {"gate": "command_full_python_runtime_fixture", "status": "covered", "source": "compareDirectProbeCommand.test.js"},
                 {"gate": "js_opt_in_python_command_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
                 {"gate": "js_opt_in_python_command_runtime", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
+                {"gate": "js_python_command_runtime_options", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
                 {"gate": "js_opt_in_python_live_fetch_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
             ]
         if validation_script == "python:dictionary-prune-compare":

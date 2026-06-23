@@ -273,6 +273,51 @@ test('probeBilibiliCommentEvidence builds a Python command payload from normal C
   assert.equal(payload.options.now, '2026-06-23T00:00:00.000Z');
 });
 
+test('probeBilibiliCommentEvidence forwards Python command runtime operational options', async () => {
+  const script = String.raw`
+    const { buildDirectProbeCommandPayload } = await import('./server/scripts/probeBilibiliCommentEvidence.js');
+    const payload = buildDirectProbeCommandPayload({
+      argv: [
+        '--query=operational options',
+        '--term=operational',
+        '--reply-pages=4',
+        '--reply-start-page=3',
+        '--reply-page-size=7',
+        '--reply-cursor-skip-pages=2',
+        '--reply-mode=both',
+        '--delay-ms=2500',
+        '--jitter-ms=500',
+        '--request-timeout-ms=9000',
+        '--output=server/data/customDirectProbeCorpus.json',
+        '--rescan-source-videos',
+      ],
+      env: { BILIBILI_DIRECT_PROBE_USE_PYTHON_COMMAND: '1' },
+      audit: { nextActions: [] },
+      existingCorpus: { version: 1, comments: [], runs: [] },
+      dictionary: { entries: [] },
+      cookie: 'synthetic=1',
+      now: '2026-06-23T00:00:00.000Z',
+    });
+    console.log(JSON.stringify(payload.options));
+  `;
+  const { stdout } = await execFileAsync('node', ['--input-type=module', '--eval', script], {
+    cwd: process.cwd(),
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  const options = JSON.parse(stdout);
+
+  assert.equal(options.replyPages, 4);
+  assert.equal(options.replyStartPage, 3);
+  assert.equal(options.replyPageSize, 7);
+  assert.equal(options.replyCursorSkipPages, 2);
+  assert.equal(options.replyMode, 'both');
+  assert.equal(options.delayMs, 2500);
+  assert.equal(options.jitterMs, 500);
+  assert.equal(options.requestTimeoutMs, 9000);
+  assert.equal(options.outputPath, 'server/data/customDirectProbeCorpus.json');
+  assert.equal(options.rescanSourceVideos, true);
+});
+
 test('probeBilibiliCommentEvidence forwards Python live search flag into command payload', async () => {
   const script = String.raw`
     const { buildDirectProbeCommandPayload } = await import('./server/scripts/probeBilibiliCommentEvidence.js');

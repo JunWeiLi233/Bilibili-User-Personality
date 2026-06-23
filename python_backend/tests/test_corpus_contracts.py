@@ -1385,6 +1385,7 @@ class CorpusContractTests(unittest.TestCase):
                 {"gate": "command_full_python_runtime_fixture", "status": "covered", "source": "compareDirectProbeCommand.test.js"},
                 {"gate": "js_opt_in_python_command_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
                 {"gate": "js_opt_in_python_command_runtime", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
+                {"gate": "js_python_command_runtime_options", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
                 {"gate": "js_opt_in_python_live_fetch_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
             ],
         )
@@ -11881,6 +11882,77 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["commentsCollected"], 1)
         self.assertEqual(result["comments"][0]["message"], "\u5efa\u8bae\u5148\u67e5\u67e5\u8d44\u6599 live fetch")
+
+    def test_direct_probe_command_runner_honors_operational_options_and_rescans_sources(self):
+        term = "\u67e5\u67e5\u8d44\u6599"
+        payload = {
+            "audit": {"nextActions": [{"term": term, "nextQuery": f"{term} B\u7ad9\u8bc4\u8bba"}]},
+            "existingCorpus": {
+                "version": 1,
+                "comments": [],
+                "runs": [{"videos": [{"key": "bvid:BVsource", "bvid": "BVsource"}]}],
+            },
+            "dictionary": {
+                "entries": [
+                    {
+                        "term": term,
+                        "family": "evidence",
+                        "evidenceCount": 1,
+                        "evidenceSources": [
+                            {
+                                "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BVsource/",
+                                "sample": "\u65e7\u6837\u672c",
+                            }
+                        ],
+                    }
+                ]
+            },
+            "options": {
+                "maxActions": 1,
+                "videosPerQuery": 1,
+                "sourceVideosPerAction": 1,
+                "replyPages": 4,
+                "replyStartPage": 3,
+                "replyPageSize": 7,
+                "replyCursorSkipPages": 2,
+                "replyMode": "both",
+                "delayMs": 2500,
+                "jitterMs": 500,
+                "requestTimeoutMs": 9000,
+                "outputPath": "server/data/customDirectProbeCorpus.json",
+                "rescanSourceVideos": True,
+            },
+            "searchVideos": {},
+            "videoComments": {
+                "bvid:BVsource": [
+                    {
+                        "message": "\u65b0\u6837\u672c\u67e5\u67e5\u8d44\u6599",
+                        "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BVsource/",
+                        "uid": "12",
+                    }
+                ]
+            },
+        }
+
+        result = direct_probe_module.DirectProbeCommandRunner(payload).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["commentsCollected"], 1)
+        self.assertEqual(result["scannedVideos"][0]["key"], "bvid:BVsource")
+        self.assertEqual(
+            {key: result["options"][key] for key in ("replyPages", "replyStartPage", "replyPageSize", "replyCursorSkipPages", "replyMode")},
+            {"replyPages": 4, "replyStartPage": 3, "replyPageSize": 7, "replyCursorSkipPages": 2, "replyMode": "both"},
+        )
+        self.assertEqual(
+            {key: result["options"][key] for key in ("delayMs", "jitterMs", "requestTimeoutMs", "outputPath", "rescanSourceVideos")},
+            {
+                "delayMs": 2500,
+                "jitterMs": 500,
+                "requestTimeoutMs": 9000,
+                "outputPath": "server/data/customDirectProbeCorpus.json",
+                "rescanSourceVideos": True,
+            },
+        )
 
     def test_direct_probe_live_searcher_normalizes_public_search_results(self):
         calls = []

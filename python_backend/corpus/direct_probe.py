@@ -555,7 +555,12 @@ class DirectProbeCommandRunner:
             "replyPageSize": self.builder._bounded_int(raw.get("replyPageSize"), 20, 1, 50),
             "replyCursorSkipPages": self.builder.bounded_reply_cursor_skip_pages(raw.get("replyCursorSkipPages"), 0),
             "replyMode": _clean_text(raw.get("replyMode")) or "cursor",
+            "delayMs": self.builder._bounded_int(raw.get("delayMs"), 3000, 1000, 60000),
+            "jitterMs": self.builder._bounded_int(raw.get("jitterMs"), 1500, 0, 60000),
+            "requestTimeoutMs": self.builder._bounded_int(raw.get("requestTimeoutMs"), 12000, 3000, 120000),
+            "outputPath": _clean_text(raw.get("outputPath")) or "server/data/bilibiliDirectProbeCorpus.json",
             "includeDanmaku": raw.get("includeDanmaku") is True,
+            "rescanSourceVideos": raw.get("rescanSourceVideos") is True,
             "usePythonLiveSearch": raw.get("usePythonLiveSearch") is True,
             "usePythonLiveFetch": raw.get("usePythonLiveFetch") is True,
             "write": raw.get("write") is True,
@@ -602,7 +607,12 @@ class DirectProbeCommandRunner:
         options: dict[str, Any],
     ) -> list[dict[str, Any]]:
         explicit_videos = action.get("explicitVideos") if isinstance(action.get("explicitVideos"), list) else []
-        source_videos = self.builder.filter_unscanned_probe_videos(source_videos_by_term.get(_clean_text(action.get("term"))) or [], scanned_keys)
+        source_candidates = source_videos_by_term.get(_clean_text(action.get("term"))) or []
+        source_videos = (
+            [video for video in source_candidates if isinstance(video, dict)]
+            if options.get("rescanSourceVideos") is True
+            else self.builder.filter_unscanned_probe_videos(source_candidates, scanned_keys)
+        )
         search_videos = [] if explicit_videos else self._search_videos(_clean_text(action.get("query")))
         ranked = self.builder.rank_probe_videos_for_action(search_videos, action)
         return self._merge_videos([*explicit_videos, *source_videos], ranked, options["videosPerQuery"] + len(source_videos) + len(explicit_videos))
