@@ -6183,6 +6183,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(written, len(output.getvalue()))
         self.assertEqual(output.getvalue(), JsonResultBytesContract(payload).to_text())
 
+    def test_json_result_bytes_contract_writes_binary_stream_output(self):
+        payload = {"ok": True, "message": "B站弹幕 \U0001f602"}
+        output = io.BytesIO()
+
+        written = JsonResultBytesContract(payload).write_bytes(output)
+
+        self.assertEqual(written, len(output.getvalue()))
+        self.assertEqual(output.getvalue(), JsonResultBytesContract(payload).to_bytes())
+
     def test_json_contract_reader_parses_text_values_with_deepcopy_fallback(self):
         reader = JsonContractReader()
         fallback = {"items": []}

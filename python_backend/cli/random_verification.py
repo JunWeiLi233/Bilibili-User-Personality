@@ -5,6 +5,7 @@ import sys
 from python_backend.analysis.verification import (
     RandomVerificationPayloadContractComparator as RandomVerificationContractComparator,
     RandomVerificationCommandRequest,
+    RandomVerificationJsonResultContract,
     RandomVerificationRequest,
     json_result_bytes,
 )
@@ -40,7 +41,7 @@ class RandomVerificationCliRunner(RandomVerificationCommandRequest):
 
 def main(argv: list[str] | None = None) -> int:
     result = RandomVerificationCliRunner(argv).run()
-    sys.stdout.buffer.write(json_result_bytes(result))
+    RandomVerificationJsonResultContract(result).write_bytes(sys.stdout.buffer)
     return 0 if result["ok"] else 1
 
 
