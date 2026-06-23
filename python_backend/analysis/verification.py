@@ -318,10 +318,11 @@ class RandomVerificationPayloadContractComparator:
 
     def compare(self) -> dict[str, Any]:
         js_report = safe_read_json_object(self.js_report_path)
-        options = RandomVerificationRunOptions.from_values(
-            sample_size=self.sample_size if self.sample_size is not None else js_report.get("sampleSize"),
-            seed=self.seed if self.seed is not None else js_report.get("seed"),
-        )
+        options = RandomVerificationComparisonOptionsContract(
+            sample_size=self.sample_size,
+            seed=self.seed,
+            js_report=js_report,
+        ).options()
         python_report = RandomVerificationRunner(
             self.corpus_path,
             self.dictionary_path,
@@ -330,6 +331,21 @@ class RandomVerificationPayloadContractComparator:
             extra_corpus_paths=self.extra_corpus_paths,
         ).run()
         return self.comparator.compare(python_report, js_report)
+
+
+class RandomVerificationComparisonOptionsContract:
+    """Resolve comparator run options from explicit overrides or JS report fields."""
+
+    def __init__(self, sample_size: Any = None, seed: Any = None, js_report: dict[str, Any] | None = None):
+        self.sample_size = sample_size
+        self.seed = seed
+        self.js_report = js_report if isinstance(js_report, dict) else {}
+
+    def options(self) -> RandomVerificationRunOptions:
+        return RandomVerificationRunOptions.from_values(
+            sample_size=self.sample_size if self.sample_size is not None else self.js_report.get("sampleSize"),
+            seed=self.seed if self.seed is not None else self.js_report.get("seed"),
+        )
 
 
 def _int_or(value: Any, fallback: int) -> int:
