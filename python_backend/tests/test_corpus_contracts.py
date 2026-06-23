@@ -340,6 +340,36 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(corpus.comments, [{"message": "valid comment"}])
         self.assertEqual(corpus.runs, [{"at": "valid-run"}])
 
+    def test_loader_filters_malformed_split_file_list_items(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "demo.comments").mkdir()
+            (root / "demo.runs").mkdir()
+            (root / "demo.json").write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "storage": "split",
+                        "commentFiles": [None, "", ["bad"], {"bad": True}, "demo.comments/comments-0001.json"],
+                        "runFiles": [None, "", ["bad"], {"bad": True}, "demo.runs/runs-0001.json"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (root / "demo.comments" / "comments-0001.json").write_text(
+                json.dumps({"comments": [{"message": "valid comment"}]}),
+                encoding="utf-8",
+            )
+            (root / "demo.runs" / "runs-0001.json").write_text(
+                json.dumps({"runs": [{"at": "valid-run"}]}),
+                encoding="utf-8",
+            )
+
+            corpus = CorpusLoader(root / "demo.json").load()
+
+        self.assertEqual(corpus.comments, [{"message": "valid comment"}])
+        self.assertEqual(corpus.runs, [{"at": "valid-run"}])
+
     def test_loader_filters_non_object_runs_across_json_contract_modes(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

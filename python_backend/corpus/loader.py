@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -66,7 +67,7 @@ class CorpusLoader:
 
     def _hydrate_files(self, files: list[str], key: str) -> list[dict[str, Any]]:
         values: list[dict[str, Any]] = []
-        for relative_path in files:
+        for relative_path in self._file_list(files):
             shard = self._read_json(self.path.parent / relative_path)
             if not isinstance(shard, dict):
                 continue
@@ -90,6 +91,12 @@ class CorpusLoader:
     @staticmethod
     def _normalize_runs(values: Any) -> list[dict[str, Any]]:
         return [run for run in values if isinstance(run, dict)] if isinstance(values, list) else []
+
+    @staticmethod
+    def _file_list(value: Any) -> list[str]:
+        if not isinstance(value, list):
+            return []
+        return [str(item) for item in value if isinstance(item, (str, os.PathLike)) and str(item).strip()]
 
     @staticmethod
     def _read_json(path: Path) -> Any:
