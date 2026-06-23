@@ -91,6 +91,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:uid-pipeline-state-compare": "file_backed_default_parseint_worker_prefix_corrupt_progress_fixtures_and_js_python_bridge",
     "python:uid-pipeline-worker-compare": "dry_run_plan_default_range_parseint_prefix_fixtures_and_js_python_bridge",
     "python:uid-range-scrape-compare": "dry_run_plan_custom_progress_default_range_malformed_stats_fixtures_and_js_python_bridge",
+    "python:uid-range-progress-compare": "file_backed_default_parseint_stats_prefix_corrupt_input_fixtures_and_js_python_bridge",
     "python:uid-discovery-progress-compare": "file_backed_default_parseint_stats_prefix_corrupt_inputs_fixtures_and_js_python_bridge",
     "python:scraper-monitor-compare": "file_backed_default_parseint_stats_prefix_corrupt_progress_fixtures_and_js_python_bridge",
     "python:huggingface-compare": "full_command",

@@ -27329,6 +27329,10 @@ class CorpusContractTests(unittest.TestCase):
             {"path": "server/scripts/compareUidRangeProgress.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
         )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:uid-range-progress-compare"],
+            "file_backed_default_parseint_stats_prefix_corrupt_input_fixtures_and_js_python_bridge",
+        )
 
     def test_harvest_state_has_js_python_validation_bridge(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))

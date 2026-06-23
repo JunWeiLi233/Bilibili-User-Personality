@@ -31,6 +31,38 @@ export const DEFAULT_PAYLOAD = {
   },
 };
 
+export const UID_RANGE_PROGRESS_FIXTURES = {
+  'default-range': DEFAULT_PAYLOAD,
+  'parseint-stats-prefix': {
+    start: 200000,
+    end: 300000,
+    progressFile: 'batch-uid-range-progress.json',
+    progress: {
+      scannedBvids: ['BV1', 'BV2'],
+      _uidComments: {
+        199999: [{ message: 'outside', bvid: 'BV1' }],
+        200000: [{ message: 'inside one', bvid: 'BV1' }, { message: 'inside two', bvid: 'BV2' }],
+        250000: [{ message: 'inside', bvid: 'BV2' }],
+        300001: [{ message: 'outside', bvid: 'BV2' }],
+      },
+      processedUids: {
+        200000: 'success',
+        250000: 'error: lock',
+        300001: 'success',
+      },
+      stats: { videosScanned: '2videos', uidsFound: '4uids', targetUidsFound: '2targets', commentsCollected: '5comments', skipped: '1skip' },
+    },
+  },
+  'corrupt-input': {
+    start: 200000,
+    end: 300000,
+    progressFile: 'batch-uid-range-progress.json',
+    progressRaw: '{not-json',
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = Object.keys(UID_RANGE_PROGRESS_FIXTURES);
+
 function intOrZero(value) {
   const parsed = Number.parseInt(String(value ?? ''), 10);
   return Number.isFinite(parsed) ? parsed : 0;
@@ -122,24 +154,32 @@ async function runPythonProgress({ progressPath, start, end }) {
 
 async function writeFixture(progressPath, payload) {
   await mkdir(dirname(progressPath), { recursive: true });
-  await writeFile(progressPath, JSON.stringify(payload.progress || {}, null, 2), 'utf8');
+  await writeFile(progressPath, 'progressRaw' in payload ? String(payload.progressRaw ?? '') : JSON.stringify(payload.progress || {}, null, 2), 'utf8');
 }
 
-export async function compareUidRangeProgress({ payload = DEFAULT_PAYLOAD, runJs = runJsProgress, runPython = runPythonProgress } = {}) {
+function resolvePayload({ payload, fixture } = {}) {
+  if (payload) return { name: fixture?.name || 'custom', payload };
+  const name = typeof fixture === 'string' ? fixture : fixture?.name || 'default-range';
+  return { name, payload: UID_RANGE_PROGRESS_FIXTURES[name] || DEFAULT_PAYLOAD };
+}
+
+async function compareUidRangeProgressSingle({ payload, fixture, runJs = runJsProgress, runPython = runPythonProgress } = {}) {
+  const resolved = resolvePayload({ payload, fixture });
   const tempDir = await mkdtemp(join(tmpdir(), 'uid-range-progress-compare-'));
   try {
-    const progressFile = payload.progressFile || DEFAULT_PAYLOAD.progressFile;
-    const progressPath = payload.progressPath || join(tempDir, progressFile);
-    const start = Number.parseInt(String(payload.start ?? DEFAULT_PAYLOAD.start), 10) || DEFAULT_PAYLOAD.start;
-    const end = Number.parseInt(String(payload.end ?? DEFAULT_PAYLOAD.end), 10) || DEFAULT_PAYLOAD.end;
-    if (!payload.progressPath) await writeFixture(progressPath, payload);
-    const context = { payload, progressPath, progressFile, start, end };
+    const fixturePayload = resolved.payload;
+    const progressFile = fixturePayload.progressFile || DEFAULT_PAYLOAD.progressFile;
+    const progressPath = fixturePayload.progressPath || join(tempDir, progressFile);
+    const start = Number.parseInt(String(fixturePayload.start ?? DEFAULT_PAYLOAD.start), 10) || DEFAULT_PAYLOAD.start;
+    const end = Number.parseInt(String(fixturePayload.end ?? DEFAULT_PAYLOAD.end), 10) || DEFAULT_PAYLOAD.end;
+    if (!fixturePayload.progressPath) await writeFixture(progressPath, fixturePayload);
+    const context = { payload: fixturePayload, fixture: { name: resolved.name }, progressPath, progressFile, start, end };
     const js = await runJs(context);
     const python = await runPython(context);
     const comparison = compareUidRangeProgressObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { progressPath, start, end },
+      fixture: { name: resolved.name, progressPath, start, end },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -149,8 +189,20 @@ export async function compareUidRangeProgress({ payload = DEFAULT_PAYLOAD, runJs
   }
 }
 
+export async function compareUidRangeProgress({ payload, fixture, fixtureNames, runJs = runJsProgress, runPython = runPythonProgress } = {}) {
+  if (fixtureNames) {
+    const results = [];
+    for (const name of fixtureNames.length ? fixtureNames : DEFAULT_FIXTURE_NAMES) {
+      results.push(await compareUidRangeProgressSingle({ fixture: name, runJs, runPython }));
+    }
+    const mismatches = results.flatMap((result) => result.mismatches.map((mismatch) => ({ ...mismatch, fixture: result.fixture.name })));
+    return { ok: mismatches.length === 0, fixtures: results.map((result) => result.fixture), results, mismatches };
+  }
+  return compareUidRangeProgressSingle({ payload, fixture, runJs, runPython });
+}
+
 async function main() {
-  const result = await compareUidRangeProgress();
+  const result = await compareUidRangeProgress({ fixtureNames: DEFAULT_FIXTURE_NAMES });
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }
