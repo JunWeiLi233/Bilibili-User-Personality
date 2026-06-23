@@ -123,6 +123,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:uid-pipeline-worker-compare": "js_python_contract_bridge",
     "python:uid-parallel-compare": "js_python_contract_bridge",
     "python:local-mine-compare": "js_python_contract_bridge",
+    "python:bilibili-parse-compare": "js_python_contract_bridge",
 }
 
 PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
@@ -204,6 +205,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareUidFastPipelinePlan.js": "js_python_contract_bridge",
     "server/scripts/compareUidPipelineWorkerPlan.js": "js_python_contract_bridge",
     "server/scripts/compareUidParallelPlan.js": "js_python_contract_bridge",
+    "server/scripts/compareBilibiliParse.js": "js_python_contract_bridge",
 }
 
 MIGRATION_PRIORITY_RULES = (

@@ -1,3 +1,11 @@
+import { execFile } from 'node:child_process';
+import { mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { promisify } from 'node:util';
+
+const execFileAsync = promisify(execFile);
+
 const USER_AGENTS = [
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
@@ -787,11 +795,37 @@ export function parseDanmakuXml(xml, video) {
   return items;
 }
 
+async function runPythonBilibiliParse(payload) {
+  const tempDir = await mkdtemp(join(tmpdir(), 'bilibili-parse-'));
+  try {
+    const payloadPath = join(tempDir, 'payload.json');
+    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
+    const { stdout } = await execFileAsync('python', ['-m', 'python_backend.cli.bilibili_parse', '--payload', payloadPath], {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    });
+    return JSON.parse(stdout);
+  } finally {
+    await rm(tempDir, { recursive: true, force: true });
+  }
+}
+
+export async function parseDanmakuXmlWithPython(xml, video, options = {}) {
+  const payload = { mode: 'danmaku', xml: String(xml || ''), video: video || {} };
+  const runPythonParse = options.runPythonParse || runPythonBilibiliParse;
+  const result = await runPythonParse(payload);
+  return Array.isArray(result?.comments) ? result.comments : [];
+}
+
 async function fetchDanmakuForVideo(video, deps = {}) {
   const cid = String(video?.cid || '').trim();
   if (!cid) return [];
   const requestText = deps.fetchText || fetchText;
   const xml = await requestText(`https://api.bilibili.com/x/v1/dm/list.so?oid=${encodeURIComponent(cid)}`, video.sourceUrl);
+  if (deps.usePythonParser || deps.runPythonParse) {
+    return parseDanmakuXmlWithPython(xml, video, { runPythonParse: deps.runPythonParse });
+  }
   return parseDanmakuXml(xml, video);
 }
 
@@ -909,7 +943,11 @@ export async function fetchRepliesForVideo(input, options = {}, deps = {}) {
 
   if (options.includeDanmaku === true) {
     try {
-      comments.push(...(await fetchDanmakuForVideo(video, deps)));
+      comments.push(...(await fetchDanmakuForVideo(video, {
+        ...deps,
+        usePythonParser: options.usePythonParser,
+        runPythonParse: options.runPythonParse,
+      })));
     } catch {
       // Danmaku is supplemental; keep comment crawling usable when the XML endpoint blocks.
     }

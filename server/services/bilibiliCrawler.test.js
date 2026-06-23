@@ -14,6 +14,7 @@ import {
   fetchRepliesForVideo,
   isBilibiliBlockResponse,
   parseDanmakuXml,
+  parseDanmakuXmlWithPython,
   parseBvidPool,
   resetBilibiliRequestState,
 } from './bilibiliCrawler.js';
@@ -759,6 +760,28 @@ test('parseDanmakuXml extracts public danmaku messages', () => {
   assert.equal(items[0].rpid, 'danmaku-456-0');
 });
 
+test('parseDanmakuXmlWithPython delegates danmaku XML parsing through JSON contracts', async () => {
+  const calls = [];
+  const video = {
+    bvid: 'BVpython',
+    oid: '123',
+    replyType: 1,
+    title: 'python video',
+    sourceUrl: 'https://www.bilibili.com/video/BVpython/',
+    cid: '456',
+  };
+  const xml = '<i><d p="1,1,25,16777215,1710000000,0,12345,0">python bridge</d></i>';
+  const comments = await parseDanmakuXmlWithPython(xml, video, {
+    runPythonParse: async (payload) => {
+      calls.push(payload);
+      return { ok: true, mode: 'danmaku', comments: [{ message: 'python bridge', kind: 'danmaku', rpid: 'danmaku-456-0' }] };
+    },
+  });
+
+  assert.deepEqual(comments, [{ message: 'python bridge', kind: 'danmaku', rpid: 'danmaku-456-0' }]);
+  assert.deepEqual(calls, [{ mode: 'danmaku', xml, video }]);
+});
+
 test('fetchRepliesForVideo can include public danmaku as interaction text', async () => {
   const result = await fetchRepliesForVideo(
     'BV19yGa61Ee6',
@@ -790,6 +813,65 @@ test('fetchRepliesForVideo can include public danmaku as interaction text', asyn
   assert.equal(result.comments.length, 1);
   assert.equal(result.comments[0].kind, 'danmaku');
   assert.equal(result.commentText.includes('轻点喷'), true);
+});
+
+test('fetchRepliesForVideo can opt into Python danmaku parsing', async () => {
+  const parseCalls = [];
+  const result = await fetchRepliesForVideo(
+    'BV19yGa61Ee6',
+    {
+      pages: 1,
+      includeDanmaku: true,
+      usePythonParser: true,
+      runPythonParse: async (payload) => {
+        parseCalls.push(payload);
+        return {
+          ok: true,
+          mode: 'danmaku',
+          comments: [
+            {
+              bvid: payload.video.bvid,
+              oid: payload.video.oid,
+              replyType: payload.video.replyType,
+              sourceTitle: payload.video.title,
+              sourceUrl: payload.video.sourceUrl,
+              rpid: 'danmaku-456-0',
+              like: 0,
+              ctime: 1710000000,
+              uname: '',
+              mid: '12345',
+              message: 'python parsed danmaku',
+              kind: 'danmaku',
+            },
+          ],
+        };
+      },
+    },
+    {
+      fetchJson: async (url) => {
+        if (String(url).includes('/x/web-interface/view')) {
+          return {
+            code: 0,
+            data: {
+              aid: 123,
+              cid: 456,
+              title: 'danmaku source',
+              owner: { mid: 9, name: 'up' },
+              stat: { reply: 0 },
+            },
+          };
+        }
+        return { code: 0, data: { replies: [], cursor: { is_end: true, next: 0 } } };
+      },
+      fetchText: async () => '<i><d p="1,1,25,16777215,1710000000,0,12345,0">js would parse this</d></i>',
+    },
+  );
+
+  assert.equal(result.ok, true);
+  assert.equal(result.comments.length, 1);
+  assert.equal(result.comments[0].message, 'python parsed danmaku');
+  assert.equal(parseCalls.length, 1);
+  assert.equal(parseCalls[0].video.cid, '456');
 });
 
 test('fetchRepliesForVideo falls back to legacy reply pages when main cursor API is blocked', async () => {
