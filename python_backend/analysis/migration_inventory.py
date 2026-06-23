@@ -118,6 +118,7 @@ PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
     "contract_comparison": ("python_backend.cli.compare_contracts",),
     "analyzer_validation": ("python_backend.cli.deepseek_analyze --live-validation-gate",),
     "direct_probe_corpus": ("python_backend.cli.direct_probe_corpus",),
+    "direct_probe_command": ("python_backend.cli.direct_probe_command",),
     "direct_probe_live_fetch": ("python_backend.cli.direct_probe_live_fetch",),
 }
 
@@ -407,7 +408,7 @@ class BackendMigrationInventoryScanner:
             blockers.append(
                 {
                     "blocker": "live_bilibili_command_runtime_not_integrated",
-                    "reason": "Python has a unit-tested live reply/danmaku fetch adapter and an opt-in JS bridge, but dictionary:probe-bilibili still defaults to the JS live orchestration path.",
+                    "reason": "Python has fixture-covered probe-loop orchestration, a unit-tested live reply/danmaku fetch adapter, and an opt-in JS bridge, but dictionary:probe-bilibili still defaults to the JS live orchestration path.",
                 }
             )
         elif script == "deepseek:analyze" and validation_scope == "full_command_python_runtime_mock_multiagent_and_live_gate_contract":
@@ -441,6 +442,7 @@ class BackendMigrationInventoryScanner:
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:direct-probe-compare"},
                 {"gate": "corpus_update_js_runner_fixture", "status": "covered", "source": "python:direct-probe-update-compare"},
                 {"gate": "python_live_fetch_unit", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
+                {"gate": "python_probe_loop_fixture", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
                 {"gate": "js_opt_in_python_live_fetch_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
             ]
         if validation_scope == "full_command":

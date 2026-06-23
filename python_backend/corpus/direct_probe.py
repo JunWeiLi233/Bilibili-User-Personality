@@ -455,6 +455,167 @@ class DirectProbePlanCommandRequest:
         return DirectProbePlanRequest(args.payload, compare_js_plan_path=args.compare_js_plan or None).run()
 
 
+class DirectProbeCommandRunner:
+    """Run the direct Bilibili evidence probe loop from a JSON-compatible payload."""
+
+    def __init__(self, payload: dict[str, Any] | None = None, builder: "DirectProbeCorpusBuilder" | None = None):
+        self.payload = payload if isinstance(payload, dict) else {}
+        self.builder = builder or DirectProbeCorpusBuilder()
+
+    def run(self) -> dict[str, Any]:
+        options = self._options()
+        audit = self.payload.get("audit") if isinstance(self.payload.get("audit"), dict) else {}
+        dictionary = self.payload.get("dictionary") if isinstance(self.payload.get("dictionary"), dict) else {}
+        existing_corpus = self.payload.get("existingCorpus") if isinstance(self.payload.get("existingCorpus"), dict) else {}
+        actions = self._actions(audit, options)
+        scanned_keys = set(self.builder.collect_scanned_probe_video_keys(existing_corpus))
+        source_videos_by_term = self.builder.build_evidence_source_videos_for_actions(
+            dictionary,
+            actions,
+            {"maxPerAction": options["sourceVideosPerAction"], "corpus": existing_corpus},
+        )
+        comments: list[dict[str, Any]] = []
+        scanned_videos: list[dict[str, Any]] = []
+        warnings: list[str] = []
+
+        for action in actions:
+            try:
+                videos = self._videos_for_action(action, source_videos_by_term, scanned_keys, options)
+            except Exception as error:
+                warnings.append(f"{action.get('query')}: search {error}")
+                videos = []
+            for video in videos:
+                key = self.builder.probe_video_key(video)
+                if key:
+                    scanned_keys.add(key)
+                scanned_videos.append(
+                    {
+                        "key": key,
+                        "term": action.get("term"),
+                        "query": action.get("query"),
+                        "bvid": video.get("bvid"),
+                        "aid": video.get("aid"),
+                        "rootRpid": video.get("rootRpid"),
+                        "title": video.get("title"),
+                    }
+                )
+                try:
+                    comments.extend(self._comments_for_video(video))
+                except Exception as error:
+                    label = video.get("bvid") or (f"av{video.get('aid')}" if video.get("aid") else key or "(unknown video)")
+                    warnings.append(f"{action.get('query')} {label}: replies {error}")
+
+        entries = self.builder.build_fresh_evidence_entries(
+            dictionary,
+            comments,
+            {
+                "targetEvidence": 3,
+                "maxSamplesPerTerm": 3,
+                "targetTerms": [action.get("term") for action in actions],
+                "requireCommentBackedEvidence": True,
+            },
+        )
+        result: dict[str, Any] = {
+            "ok": True,
+            "write": options["write"],
+            "options": options,
+            "actions": actions,
+            "commentsCollected": len(comments),
+            "comments": comments,
+            "scannedVideos": scanned_videos,
+            "warnings": warnings,
+            "entries": entries,
+        }
+        if options["write"]:
+            result["corpus"] = self.builder.build_probe_corpus(
+                existing_corpus,
+                comments,
+                {"at": options.get("now"), "actions": actions, "videos": scanned_videos, "warnings": warnings},
+            )
+        return result
+
+    def _options(self) -> dict[str, Any]:
+        raw = self.payload.get("options") if isinstance(self.payload.get("options"), dict) else {}
+        return {
+            "maxActions": self.builder._bounded_int(raw.get("maxActions"), 4, 1, 50),
+            "offset": self.builder._bounded_int(raw.get("offset"), 0, 0, 1000),
+            "videosPerQuery": self.builder.bounded_probe_videos_per_query(raw.get("videosPerQuery"), 5),
+            "sourceVideosPerAction": self.builder._bounded_int(raw.get("sourceVideosPerAction"), 6, 0, 50),
+            "includeDanmaku": raw.get("includeDanmaku") is True,
+            "usePythonLiveFetch": raw.get("usePythonLiveFetch") is True,
+            "write": raw.get("write") is True,
+            "cookie": _clean_text(raw.get("cookie")),
+            "now": _clean_text(raw.get("now")),
+        }
+
+    def _actions(self, audit: dict[str, Any], options: dict[str, Any]) -> list[dict[str, Any]]:
+        explicit_queries = self.payload.get("explicitQueries") if isinstance(self.payload.get("explicitQueries"), list) else []
+        actions = [
+            {"term": _clean_text(item.get("term") or item.get("query")), "query": _clean_text(item.get("query") or item.get("term"))}
+            for item in explicit_queries
+            if isinstance(item, dict) and _clean_text(item.get("query") or item.get("term"))
+        ]
+        if not actions:
+            next_actions = audit.get("nextActions") if isinstance(audit.get("nextActions"), list) else []
+            selected = next_actions[options["offset"] : options["offset"] + options["maxActions"]]
+            actions = [
+                {
+                    "term": _clean_text(action.get("term")),
+                    "query": _clean_text(action.get("nextQuery") or action.get("query") or action.get("term")),
+                }
+                for action in selected
+                if isinstance(action, dict) and _clean_text(action.get("nextQuery") or action.get("query") or action.get("term"))
+            ]
+        explicit_aids = self.payload.get("explicitAids") if isinstance(self.payload.get("explicitAids"), list) else []
+        aids = [_clean_text(aid).removeprefix("av") for aid in explicit_aids if re.match(r"^(?:av)?\d+$", _clean_text(aid), flags=re.IGNORECASE)]
+        if aids:
+            actions.insert(
+                0,
+                {
+                    "term": "explicit Bilibili AIDs",
+                    "query": "explicit Bilibili AIDs",
+                    "explicitVideos": [{"aid": aid, "title": f"explicit aid {aid}"} for aid in aids],
+                },
+            )
+        return actions[: options["maxActions"]]
+
+    def _videos_for_action(
+        self,
+        action: dict[str, Any],
+        source_videos_by_term: dict[str, list[dict[str, Any]]],
+        scanned_keys: set[str],
+        options: dict[str, Any],
+    ) -> list[dict[str, Any]]:
+        explicit_videos = action.get("explicitVideos") if isinstance(action.get("explicitVideos"), list) else []
+        source_videos = self.builder.filter_unscanned_probe_videos(source_videos_by_term.get(_clean_text(action.get("term"))) or [], scanned_keys)
+        search_videos = [] if explicit_videos else self._search_videos(_clean_text(action.get("query")))
+        ranked = self.builder.rank_probe_videos_for_action(search_videos, action)
+        return self._merge_videos([*explicit_videos, *source_videos], ranked, options["videosPerQuery"] + len(source_videos) + len(explicit_videos))
+
+    def _search_videos(self, query: str) -> list[dict[str, Any]]:
+        search_videos = self.payload.get("searchVideos") if isinstance(self.payload.get("searchVideos"), dict) else {}
+        videos = search_videos.get(query, [])
+        return [video for video in videos if isinstance(video, dict)]
+
+    def _comments_for_video(self, video: dict[str, Any]) -> list[dict[str, Any]]:
+        comments_by_video = self.payload.get("videoComments") if isinstance(self.payload.get("videoComments"), dict) else {}
+        comments = comments_by_video.get(self.builder.probe_video_key(video), [])
+        return [comment for comment in comments if isinstance(comment, dict)]
+
+    def _merge_videos(self, primary: list[dict[str, Any]], fallback: list[dict[str, Any]], limit: int) -> list[dict[str, Any]]:
+        videos: list[dict[str, Any]] = []
+        seen: set[str] = set()
+        for video in [*primary, *fallback]:
+            key = self.builder.probe_video_key(video)
+            if not key or key in seen:
+                continue
+            seen.add(key)
+            videos.append(video)
+            if len(videos) >= limit:
+                break
+        return videos
+
+
 class DirectProbeLiveFetcher:
     """Fetch live Bilibili reply and danmaku comments behind an injectable transport seam."""
 

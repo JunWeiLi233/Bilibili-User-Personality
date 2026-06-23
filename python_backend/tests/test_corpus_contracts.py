@@ -1314,9 +1314,18 @@ class CorpusContractTests(unittest.TestCase):
         workflow = Path(".github/workflows/python-validation.yml").read_text(encoding="utf-8")
 
         self.assertEqual(package["scripts"]["python:direct-probe-update"], "python -m python_backend.cli.direct_probe_corpus")
+        self.assertEqual(package["scripts"]["python:direct-probe-command"], "python -m python_backend.cli.direct_probe_command")
         self.assertEqual(package["scripts"]["python:direct-probe-live-fetch"], "python -m python_backend.cli.direct_probe_live_fetch")
         self.assertEqual(package["scripts"]["python:direct-probe-update-compare"], "node server/scripts/compareDirectProbeCorpus.js")
         self.assertIn("npm run python:direct-probe-update-compare", workflow)
+        self.assertIn(
+            {
+                "script": "python:direct-probe-command",
+                "command": "python -m python_backend.cli.direct_probe_command",
+                "pipeline": "direct_probe_command",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
         self.assertIn(
             {"path": "server/scripts/compareDirectProbeCorpus.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
@@ -1335,6 +1344,7 @@ class CorpusContractTests(unittest.TestCase):
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:direct-probe-compare"},
                 {"gate": "corpus_update_js_runner_fixture", "status": "covered", "source": "python:direct-probe-update-compare"},
                 {"gate": "python_live_fetch_unit", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
+                {"gate": "python_probe_loop_fixture", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
                 {"gate": "js_opt_in_python_live_fetch_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
             ],
         )
@@ -1343,7 +1353,7 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {
                     "blocker": "live_bilibili_command_runtime_not_integrated",
-                    "reason": "Python has a unit-tested live reply/danmaku fetch adapter and an opt-in JS bridge, but dictionary:probe-bilibili still defaults to the JS live orchestration path.",
+                    "reason": "Python has fixture-covered probe-loop orchestration, a unit-tested live reply/danmaku fetch adapter, and an opt-in JS bridge, but dictionary:probe-bilibili still defaults to the JS live orchestration path.",
                 }
             ],
         )
@@ -11298,6 +11308,112 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(result["ok"])
         self.assertEqual(result["comments"], [])
         self.assertIn("missing video aid/bvid", result["error"])
+
+    def test_direct_probe_command_runner_builds_no_write_probe_result_from_payload_contract(self):
+        payload = {
+            "audit": {"nextActions": [{"term": "\u67e5\u67e5\u8d44\u6599", "nextQuery": "\u67e5\u67e5\u8d44\u6599 B\u7ad9\u8bc4\u8bba"}]},
+            "existingCorpus": {"version": 1, "comments": [], "runs": []},
+            "dictionary": {
+                "entries": [
+                    {
+                        "term": "\u67e5\u67e5\u8d44\u6599",
+                        "family": "evidence",
+                        "meaning": "asks for sources",
+                        "evidenceCount": 0,
+                        "evidenceSamples": [],
+                        "evidenceSources": [],
+                    }
+                ]
+            },
+            "options": {
+                "maxActions": 1,
+                "videosPerQuery": 2,
+                "sourceVideosPerAction": 0,
+                "replyPages": 1,
+                "replyPageSize": 3,
+                "includeDanmaku": True,
+                "usePythonLiveFetch": True,
+                "write": False,
+                "cookie": "fixture=1",
+                "now": "2026-06-23T00:00:00.000Z",
+            },
+            "searchVideos": {
+                "\u67e5\u67e5\u8d44\u6599 B\u7ad9\u8bc4\u8bba": [{"aid": "456", "title": "\u67e5\u8d44\u6599 fixture"}]
+            },
+            "videoComments": {
+                "aid:456": [
+                    {
+                        "message": "\u5efa\u8bae\u5148\u67e5\u67e5\u8d44\u6599\u518d\u8bc4\u8bba",
+                        "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/av456/",
+                        "uid": "99",
+                    },
+                    {
+                        "message": "\u67e5\u67e5\u8d44\u6599\u5f39\u5e55",
+                        "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av456/",
+                        "uid": "dm",
+                    },
+                ]
+            },
+        }
+
+        result = direct_probe_module.DirectProbeCommandRunner(payload).run()
+
+        self.assertTrue(result["ok"])
+        self.assertFalse(result["write"])
+        self.assertEqual(result["actions"], [{"term": "\u67e5\u67e5\u8d44\u6599", "query": "\u67e5\u67e5\u8d44\u6599 B\u7ad9\u8bc4\u8bba"}])
+        self.assertEqual(result["commentsCollected"], 2)
+        self.assertEqual([comment["message"] for comment in result["comments"]], ["\u5efa\u8bae\u5148\u67e5\u67e5\u8d44\u6599\u518d\u8bc4\u8bba", "\u67e5\u67e5\u8d44\u6599\u5f39\u5e55"])
+        self.assertEqual(result["scannedVideos"], [
+            {
+                "key": "aid:456",
+                "term": "\u67e5\u67e5\u8d44\u6599",
+                "query": "\u67e5\u67e5\u8d44\u6599 B\u7ad9\u8bc4\u8bba",
+                "bvid": None,
+                "aid": "456",
+                "rootRpid": None,
+                "title": "\u67e5\u8d44\u6599 fixture",
+            }
+        ])
+        self.assertEqual([entry["term"] for entry in result["entries"]], ["\u67e5\u67e5\u8d44\u6599"])
+        self.assertEqual(result["entries"][0]["evidenceSamples"], ["\u5efa\u8bae\u5148\u67e5\u67e5\u8d44\u6599\u518d\u8bc4\u8bba", "\u67e5\u67e5\u8d44\u6599\u5f39\u5e55"])
+        self.assertEqual(result["warnings"], [])
+
+    def test_direct_probe_command_cli_reads_payload_json_contract(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        self.assertEqual(package["scripts"]["python:direct-probe-command"], "python -m python_backend.cli.direct_probe_command")
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "direct-probe-command.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "audit": {"nextActions": [{"term": "\u67e5\u67e5\u8d44\u6599", "nextQuery": "\u67e5\u67e5\u8d44\u6599 B\u7ad9\u8bc4\u8bba"}]},
+                        "dictionary": {"entries": [{"term": "\u67e5\u67e5\u8d44\u6599", "family": "evidence", "evidenceCount": 0}]},
+                        "options": {"maxActions": 1, "videosPerQuery": 1},
+                        "searchVideos": {"\u67e5\u67e5\u8d44\u6599 B\u7ad9\u8bc4\u8bba": [{"aid": "777", "title": "\u547d\u4ee4fixture"}]},
+                        "videoComments": {
+                            "aid:777": [
+                                {
+                                    "message": "\u67e5\u67e5\u8d44\u6599\u547d\u4ee4\u8bc4\u8bba",
+                                    "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/av777/",
+                                    "uid": "7",
+                                }
+                            ]
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            cli_module = importlib.import_module("python_backend.cli.direct_probe_command")
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                exit_code = cli_module.main(["--payload", str(payload_path)])
+
+        result = json.loads(output.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["commentsCollected"], 1)
+        self.assertEqual(result["comments"][0]["message"], "\u67e5\u67e5\u8d44\u6599\u547d\u4ee4\u8bc4\u8bba")
 
     def test_direct_probe_builder_extracts_fresh_evidence_entries(self):
         dictionary = {
