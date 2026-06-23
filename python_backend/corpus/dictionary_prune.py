@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from python_backend.analysis.audit import CoverageAuditBuilder
-from python_backend.corpus.dictionary import DictionaryLoader
+from python_backend.corpus.dictionary import DictionaryLoader, DictionaryMergeWriter
 from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 
 
@@ -68,17 +68,37 @@ class DictionaryPruneSummaryContractComparator:
 class DictionaryPruneSummaryRunner:
     """Build a Python dry-run summary for the JS dictionary prune command."""
 
-    def __init__(self, dictionary_path: str | Path):
+    def __init__(
+        self,
+        dictionary_path: str | Path,
+        *,
+        write: bool = False,
+        generated_at: str | None = None,
+        max_shard_bytes: Any = 64 * 1024,
+    ):
         self.dictionary_path = Path(dictionary_path)
+        self.write = write is True
+        self.generated_at = generated_at
+        self.max_shard_bytes = max_shard_bytes
 
     def run(self) -> dict[str, Any]:
         loaded = DictionaryLoader(self.dictionary_path).load()
-        plan = DictionaryPrunePlanner().build(loaded.entries)
-        return {
+        planner = DictionaryPrunePlanner()
+        plan = planner.build(loaded.entries)
+        result = {
             "ok": True,
             "dictionaryPath": str(self.dictionary_path),
             **plan,
         }
+        if self.write:
+            write_result = DictionaryMergeWriter(
+                self.dictionary_path,
+                generated_at=self.generated_at,
+                max_shard_bytes=self.max_shard_bytes,
+            ).write(plan.get("prunedEntries", []), version=loaded.manifest.get("version", 1))
+            result["write"] = True
+            result["writeResult"] = write_result
+        return result
 
 
 class DictionaryPruneSummaryPayloadContractComparator:
@@ -122,12 +142,15 @@ class DictionaryPruneSummaryCommandRequest:
     def parser() -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(description="Build a dry-run summary for dictionary pruning compatibility.")
         parser.add_argument("--dictionary", default="server/data/deepseekKeywordDictionary.json")
+        parser.add_argument("--write", action="store_true", help="Write the pruned dictionary using the Python split dictionary writer.")
         parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible prune summary JSON to compare.")
         return parser
 
     def run(self) -> dict[str, Any]:
         argv = [str(item) for item in self.argv] if self.argv is not None else None
         args = self.parser().parse_args(argv)
+        if args.write:
+            return DictionaryPruneSummaryRunner(args.dictionary, write=True).run()
         return DictionaryPruneSummaryRequest(args.dictionary, compare_js_report_path=args.compare_js_report or None).run()
 
 
@@ -349,6 +372,7 @@ class DictionaryPrunePlanner:
             },
             "removedTerms": sorted(set(removed_terms)),
             "keptTerms": kept_terms,
+            "prunedEntries": normalized_entries,
             "summary": {
                 "totalEntries": len(before_entries),
                 "asciiEntries": before_ascii,
@@ -383,6 +407,7 @@ class DictionaryPrunePlanner:
                 if self._is_noisy_term(term):
                     continue
                 by_term[term] = {
+                    **item,
                     "term": term,
                     "family": family,
                     "meaning": meaning,

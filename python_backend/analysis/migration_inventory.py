@@ -452,6 +452,11 @@ class BackendMigrationInventoryScanner:
                 {"gate": "js_opt_in_python_command_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
                 {"gate": "js_opt_in_python_live_fetch_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
             ]
+        if validation_script == "python:dictionary-prune-compare":
+            return [
+                {"gate": "summary_command_fixture", "status": "covered", "source": "python:dictionary-prune-compare"},
+                {"gate": "python_write_mode_split_dictionary", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
+            ]
         if validation_scope == "full_command":
             return [{"gate": "full_command", "status": "covered", "source": validation_script}]
         return []

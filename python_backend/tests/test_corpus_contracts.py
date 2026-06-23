@@ -1758,6 +1758,32 @@ class CorpusContractTests(unittest.TestCase):
             retained,
         )
 
+    def test_backend_migration_inventory_reports_dictionary_prune_write_gate(self):
+        result = PackageCommandMigrationInventory(
+            {
+                "scripts": {
+                    "dictionary:prune": "node server/scripts/pruneKeywordDictionary.js",
+                    "python:dictionary-prune-summary": "python -m python_backend.cli.dictionary_prune_summary",
+                    "python:dictionary-prune-compare": "node server/scripts/compareDictionaryPruneSummary.js",
+                }
+            }
+        ).scan()
+
+        mapping = result["pythonBackedNodeScripts"][0]
+
+        self.assertEqual(mapping["script"], "dictionary:prune")
+        self.assertEqual(mapping["validationScope"], "summary_command_fixture")
+        self.assertEqual(
+            BackendMigrationInventoryScanner._validation_gates(
+                validation_script=mapping["validationScript"],
+                validation_scope=mapping["validationScope"],
+            ),
+            [
+                {"gate": "summary_command_fixture", "status": "covered", "source": "python:dictionary-prune-compare"},
+                {"gate": "python_write_mode_split_dictionary", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
+            ],
+        )
+
     def test_package_python_coverage_standalone_write_script_persists_python_artifacts(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
         command = package["scripts"]["python:coverage-standalone:write"]
@@ -19011,6 +19037,41 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["removedTerms"], ["BV1xx411c7mD", "doge", "md5"])
         self.assertEqual(result["keptTerms"], ["yygq", "\u9634\u9633\u602a\u6c14"])
         self.assertEqual(result["summary"], {"totalEntries": 5, "asciiEntries": 4, "afterEntries": 2, "afterAsciiEntries": 1})
+
+    def test_dictionary_prune_summary_runner_can_write_pruned_split_dictionary(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "entries": [
+                            {"term": "doge", "family": "attack", "meaning": "ascii emoji name noise"},
+                            {"term": "YYGQ", "family": "attack", "meaning": "allowed pinyin acronym", "evidenceSamples": ["阴阳怪气"]},
+                            {"term": "\u9634\u9633\u602a\u6c14", "family": "attack", "meaning": "satirical tone"},
+                            {"term": "md5", "family": "evasion", "meaning": "random ascii hash fragment"},
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = DictionaryPruneSummaryRunner(
+                dictionary_path,
+                write=True,
+                generated_at="2026-06-23T00:00:00.000Z",
+                max_shard_bytes=1024,
+            ).run()
+            loaded = DictionaryLoader(dictionary_path).load()
+
+        self.assertTrue(result["ok"])
+        self.assertTrue(result["write"])
+        self.assertEqual(result["entries"], {"before": 4, "after": 2, "removed": 2})
+        self.assertEqual(result["writeResult"]["entries"], 2)
+        self.assertEqual(loaded.manifest["storage"], "split")
+        self.assertEqual([entry["term"] for entry in loaded.entries], ["yygq", "\u9634\u9633\u602a\u6c14"])
+        self.assertEqual(loaded.entries[0]["evidenceSamples"], ["阴阳怪气"])
 
     def test_dictionary_prune_file_backed_runners_live_with_corpus_prune_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
