@@ -65,6 +65,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:exhausted-prune-compare": "dry_run_plan_fixture",
     "python:near-target-compare": "dry_run_plan_fixture",
     "python:coverage-loop-compare": "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_mock_write_file_backed_mock_harvest_js_python_command_and_deferred_live_contract",
+    "python:discovery-report-compare": "report_fixture_rich_discovery_fixture_and_js_python_bridge",
     "python:tieba-keyword-compare": "dry_run_plan_fixture_scrape_fixture_and_js_python_plan_bridge",
     "python:direct-probe-compare": "dry_run_plan_and_no_live_command_fixture",
     "python:direct-probe-command-compare": "full_command",

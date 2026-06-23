@@ -41,6 +41,114 @@ export const DEFAULT_PAYLOAD = {
   },
 };
 
+export const RICH_DISCOVERY_PAYLOAD = {
+  generatedAt: '2026-06-23T00:00:00.000Z',
+  statePath: 'server/data/coverageHarvestState.json',
+  reportPath: 'server/data/videoKeywordDiscoveryReport.json',
+  result: {
+    requestedRounds: 1,
+    growth: { before: 4, after: 6 },
+    coverage: { evidenceDeficit: 3, coverageRatio: 0.25 },
+    coverageActions: [{ term: 'fallback', action: 'none', nextQuery: 'fallback old' }],
+    priorityCoverageActions: [
+      {
+        term: 'doge',
+        family: 'evidence',
+        action: 'retry_with_new_variant',
+        status: 'weak_missed',
+        nextQuery: 'doge hot 评论区',
+        suggestedQueries: ['doge hot 弹幕'],
+      },
+    ],
+    state: { searchedQueries: ['doge hot 评论区'] },
+    rounds: [
+      {
+        queries: ['doge hot 评论区'],
+        candidateQueries: ['doge hot 评论区', 'doge hot 弹幕'],
+        growth: { before: 4, after: 6 },
+        coverage: { evidenceDeficit: 3 },
+        coverageProgress: { evidenceGained: 2, evidenceDeficitReduced: 1 },
+        acceptedEvidenceCount: 2,
+        coverageIncreasingAcceptedEvidenceCount: 2,
+        termAttemptSummary: { attemptedTerms: 1, exhaustedTerms: 0 },
+        trainingDiagnostics: {
+          deepseekCalls: 1,
+          fallbackCalls: 0,
+          evidenceRejected: 1,
+          dictionaryEvidenceTerms: 1,
+          dictionaryEvidenceCount: 2,
+          generatedTerms: 1,
+        },
+        queryDiagnostics: [
+          {
+            query: 'doge hot 评论区',
+            ok: true,
+            commentsCollected: 2,
+            trainingTextChars: 128,
+            targetExistingTerms: ['doge'],
+            acceptedTerms: ['doge'],
+            evidenceRejected: 1,
+          },
+        ],
+        warnings: ['fixture warning'],
+        plan: [{ query: 'doge hot 评论区', source: 'priorityCoverageActions', term: 'doge' }],
+        results: [
+          {
+            query: 'doge hot 评论区',
+            result: {
+              ok: true,
+              videos: [
+                {
+                  bvid: 'BV1RichAAA11',
+                  title: 'doge rich fixture',
+                  sourceUrl: 'https://www.bilibili.com/video/BV1RichAAA11/',
+                },
+              ],
+              comments: [{ text: 'doge 第一条' }, { text: 'doge 第二条' }],
+              keywordTraining: {
+                evidenceRejected: 1,
+                dictionaryEvidenceEntries: [
+                  {
+                    term: 'doge',
+                    evidenceCount: 2,
+                    evidenceSamples: ['doge 第一条', 'doge 第二条'],
+                    evidenceSources: [
+                      { source: 'Bilibili public video comment scan', sample: 'doge 第一条' },
+                      { source: 'Bilibili public video comment scan', sample: 'doge 第二条' },
+                    ],
+                  },
+                ],
+              },
+              collectionDiagnostics: {
+                discoveredVideos: 1,
+                scannedVideos: 1,
+                commentsCollected: 2,
+                trainingTextChars: 128,
+              },
+              controversialPopularQueries: ['doge 热评'],
+              controversialPopularSearchOrder: ['doge hot 评论区', 'doge 热评'],
+              entries: [{ term: 'doge', family: 'evidence', evidenceCount: 2 }],
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+
+const FIXTURES = {
+  default: DEFAULT_PAYLOAD,
+  'rich-discovery': RICH_DISCOVERY_PAYLOAD,
+};
+
+const DEFAULT_FIXTURE_NAMES = ['default', 'rich-discovery'];
+
+function resolvePayload({ fixture = 'default', payload } = {}) {
+  if (payload) return { name: fixture || 'custom', payload };
+  const name = String(fixture || 'default');
+  return { name, payload: FIXTURES[name] || DEFAULT_PAYLOAD };
+}
+
 function summarize(result = {}) {
   return Object.fromEntries(RESULT_KEYS.filter((key) => key in result).map((key) => [key, result[key]]));
 }
@@ -78,20 +186,22 @@ async function runPythonReport({ payloadPath }) {
 }
 
 export async function compareVideoKeywordDiscoveryReport({
-  payload = DEFAULT_PAYLOAD,
+  fixture = 'default',
+  payload,
   runJs = runJsReport,
   runPython = runPythonReport,
 } = {}) {
+  const resolved = resolvePayload({ fixture, payload });
   const tempDir = await mkdtemp(join(tmpdir(), 'discovery-report-compare-'));
   try {
     const payloadPath = join(tempDir, 'payload.json');
-    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
-    const js = await runJs({ payload, payloadPath });
-    const python = await runPython({ payload, payloadPath });
+    await writeFile(payloadPath, JSON.stringify(resolved.payload, null, 2), 'utf8');
+    const js = await runJs({ payload: resolved.payload, payloadPath });
+    const python = await runPython({ payload: resolved.payload, payloadPath });
     const comparison = compareVideoKeywordDiscoveryReportObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { payloadPath },
+      fixture: { name: resolved.name, payloadPath },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -101,8 +211,25 @@ export async function compareVideoKeywordDiscoveryReport({
   }
 }
 
+export async function compareVideoKeywordDiscoveryReportSuite({ fixtures = DEFAULT_FIXTURE_NAMES } = {}) {
+  const results = [];
+  for (const fixture of fixtures) {
+    results.push(await compareVideoKeywordDiscoveryReport({ fixture }));
+  }
+  return {
+    ok: results.every((result) => result.ok),
+    fixtures: results.map((result) => ({
+      name: result.fixture.name,
+      ok: result.ok,
+      js: result.js,
+      python: result.python,
+      mismatches: result.mismatches,
+    })),
+  };
+}
+
 async function main() {
-  const result = await compareVideoKeywordDiscoveryReport();
+  const result = await compareVideoKeywordDiscoveryReportSuite();
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }

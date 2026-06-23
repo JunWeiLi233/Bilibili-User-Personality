@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import {
   compareVideoKeywordDiscoveryReport,
   compareVideoKeywordDiscoveryReportObjects,
+  compareVideoKeywordDiscoveryReportSuite,
 } from './compareVideoKeywordDiscoveryReport.js';
 
 test('compareVideoKeywordDiscoveryReportObjects reports discovery report drift', () => {
@@ -51,4 +52,24 @@ test('compareVideoKeywordDiscoveryReport compares injected JS and Python report 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(result.fixture.payloadPath.endsWith('payload.json'), true);
+});
+
+test('compareVideoKeywordDiscoveryReport runs the rich discovery fixture through Python', async () => {
+  const result = await compareVideoKeywordDiscoveryReport({ fixture: 'rich-discovery' });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.fixture.name, 'rich-discovery');
+  assert.deepEqual(result.mismatches, []);
+  assert.equal(result.python.report.rounds[0].results[0].videos[0].bvid, 'BV1RichAAA11');
+  assert.equal(result.python.report.rounds[0].results[0].comments, 2);
+  assert.equal(result.python.report.rounds[0].results[0].acceptedEvidenceCount, 2);
+  assert.deepEqual(result.python.priorityActionItems.map((item) => item.query), ['doge hot 评论区', 'doge hot 弹幕']);
+});
+
+test('compareVideoKeywordDiscoveryReportSuite runs default and rich fixtures', async () => {
+  const result = await compareVideoKeywordDiscoveryReportSuite();
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.fixtures.map((fixture) => fixture.name), ['default', 'rich-discovery']);
+  assert.deepEqual(result.fixtures.flatMap((fixture) => fixture.mismatches), []);
 });
