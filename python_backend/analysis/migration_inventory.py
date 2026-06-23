@@ -113,6 +113,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:aicu-browser-compare": "js_python_contract_bridge",
     "python:batch-bilibili-compare": "js_python_contract_bridge",
     "python:batch-popular-compare": "js_python_contract_bridge",
+    "python:batch-uid-scrape-compare": "js_python_contract_bridge",
     "python:local-mine-compare": "js_python_contract_bridge",
 }
 
@@ -144,6 +145,7 @@ PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
     "aicu_browser_batch_plan": ("python_backend.cli.aicu_browser_batch_plan",),
     "batch_bilibili_plan": ("python_backend.cli.batch_bilibili_plan",),
     "batch_popular_plan": ("python_backend.cli.batch_popular_plan",),
+    "batch_uid_scrape_plan": ("python_backend.cli.batch_uid_scrape_plan",),
 }
 
 RETAINED_JS_FILE_PREFIXES = {
@@ -179,6 +181,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareAicuBrowserBatchPlan.js": "js_python_contract_bridge",
     "server/scripts/compareBatchBilibiliPlan.js": "js_python_contract_bridge",
     "server/scripts/compareBatchPopularPlan.js": "js_python_contract_bridge",
+    "server/scripts/compareBatchUidScrapePlan.js": "js_python_contract_bridge",
 }
 
 MIGRATION_PRIORITY_RULES = (

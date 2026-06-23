@@ -24698,6 +24698,36 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["phase2", "training"])
 
+    def test_batch_uid_scrape_plan_has_js_python_validation_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(
+            package["scripts"]["python:batch-uid-scrape-compare"],
+            "node server/scripts/compareBatchUidScrapePlan.js",
+        )
+
+        result = BackendMigrationInventoryScanner(".").scan()
+        self.assertIn(
+            {
+                "script": "python:batch-uid-scrape-compare",
+                "command": "node server/scripts/compareBatchUidScrapePlan.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:batch-uid-scrape-plan",
+                "command": "python -m python_backend.cli.batch_uid_scrape_plan",
+                "pipeline": "batch_uid_scrape_plan",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareBatchUidScrapePlan.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_batch_uid_range_planner_matches_js_args_resume_and_target_contract(self):
         planner = BatchUidRangePlanner()
         progress = {

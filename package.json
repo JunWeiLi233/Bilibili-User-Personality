@@ -84,6 +84,7 @@
     "python:uid-discovery-plan": "python -m python_backend.cli.uid_discovery_plan",
     "python:batch-uid-progress": "python -m python_backend.cli.batch_uid_progress",
     "python:batch-uid-scrape-plan": "python -m python_backend.cli.batch_uid_scrape_plan",
+    "python:batch-uid-scrape-compare": "node server/scripts/compareBatchUidScrapePlan.js",
     "python:batch-uid-range-plan": "python -m python_backend.cli.batch_uid_range_plan",
     "python:uid-range-progress": "python -m python_backend.cli.uid_range_progress",
     "python:verify-random": "python -m python_backend.cli.random_verification --extra-corpus server/data/tiebaKeywordCorpus.json",

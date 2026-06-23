@@ -1,5 +1,6 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { fetchJson, fetchRepliesForVideo, humanPause } from '../services/bilibiliCrawler.js';
 import { trainKeywordDictionary, readKeywordDictionary } from '../services/deepseekKeywordTrainer.js';
 
@@ -13,6 +14,7 @@ const COMMENT_PAGES_PER_VIDEO = 3;
 const DELAY_BETWEEN_VIDEOS_MS = 2000;
 const LOCK_RETRY_DELAY_MS = 10000;
 const LOCK_MAX_RETRIES = 10;
+const SAVE_EVERY_ANALYZED = 10;
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -26,6 +28,71 @@ process.on('unhandledRejection', (err) => {
 async function loadJson(path, fallback) {
   try { return JSON.parse(await readFile(path, 'utf8')); }
   catch { return fallback; }
+}
+
+function parseIntOr(value, fallback) {
+  const parsed = Number.parseInt(value, 10);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function commentText(comments) {
+  if (!Array.isArray(comments)) return '';
+  return comments.map((comment) => (comment && typeof comment === 'object' ? String(comment.message || '') : '')).join('\n');
+}
+
+export function buildBatchUidScrapePlan(payload = {}) {
+  const planPayload = payload && typeof payload === 'object' ? payload : {};
+  const progress = planPayload.progress && typeof planPayload.progress === 'object' ? planPayload.progress : {};
+  const database = planPayload.database && typeof planPayload.database === 'object' ? planPayload.database : {};
+  const uidComments = progress._uidComments && typeof progress._uidComments === 'object' ? progress._uidComments : {};
+  const processedUids = progress.processedUids && typeof progress.processedUids === 'object' ? progress.processedUids : {};
+  const scannedBvids = Array.isArray(progress.scannedBvids) ? progress.scannedBvids : [];
+  const stats = progress.stats && typeof progress.stats === 'object' ? progress.stats : {};
+  const users = database.users && typeof database.users === 'object' ? database.users : {};
+  const pendingItems = Object.entries(uidComments).filter(([uid]) => !processedUids[uid]);
+  const skippableNoText = pendingItems.filter(([, comments]) => !commentText(comments).trim()).length;
+  const trainable = pendingItems.length - skippableNoText;
+
+  return {
+    ok: true,
+    discovery: {
+      popularPages: POPULAR_PAGES,
+      videosPerPage: VIDEOS_PER_PAGE,
+      commentPagesPerVideo: COMMENT_PAGES_PER_VIDEO,
+      scannedBvids: scannedBvids.length,
+      uidsDiscovered: Object.keys(uidComments).length,
+    },
+    phase2: {
+      processed: Object.keys(processedUids).length,
+      pending: pendingItems.length,
+      skippableNoText,
+      trainable,
+      userDbUsers: Object.keys(users).length,
+    },
+    stats: {
+      videosScanned: parseIntOr(stats.videosScanned, 0),
+      uidsFound: parseIntOr(stats.uidsFound, 0) || Object.keys(uidComments).length,
+      uidsAnalyzed: parseIntOr(stats.uidsAnalyzed, 0),
+      commentsCollected: parseIntOr(stats.commentsCollected, 0),
+      errors: parseIntOr(stats.errors, 0),
+    },
+    training: { multiagent: true, existingTermsOnly: false, saveEveryAnalyzed: SAVE_EVERY_ANALYZED },
+    pacing: {
+      delayBetweenVideosMs: DELAY_BETWEEN_VIDEOS_MS,
+      lockRetryDelayMs: LOCK_RETRY_DELAY_MS,
+      lockMaxRetries: LOCK_MAX_RETRIES,
+    },
+  };
+}
+
+async function readPlanPayload(args) {
+  const payloadIndex = args.indexOf('--payload');
+  if (payloadIndex === -1 || !args[payloadIndex + 1]) return {};
+  try {
+    return JSON.parse(await readFile(args[payloadIndex + 1], 'utf8'));
+  } catch {
+    return {};
+  }
 }
 
 async function saveJson(path, data) {
@@ -49,6 +116,13 @@ async function trainWithRetry(payload, options, maxRetries = LOCK_MAX_RETRIES) {
 }
 
 async function main() {
+  const args = process.argv.slice(2);
+  if (args.includes('--plan-json')) {
+    const payload = await readPlanPayload(args);
+    console.log(JSON.stringify(buildBatchUidScrapePlan(payload), null, 2));
+    return;
+  }
+
   const progress = await loadJson(PROGRESS_PATH, {
     scannedBvids: [],
     processedUids: {},
@@ -177,7 +251,7 @@ async function main() {
       progress.stats.errors++;
     }
 
-    if (analyzed % 10 === 0) {
+    if (analyzed % SAVE_EVERY_ANALYZED === 0) {
       console.log(`  Analyzed ${analyzed}/${uidComments.size - skipped} UIDs...`);
       await saveJson(PROGRESS_PATH, { ...progress, lastUpdated: new Date().toISOString() });
       await saveJson(USER_DB_PATH, userDb);
@@ -201,7 +275,9 @@ async function main() {
   } catch {}
 }
 
-main().catch((err) => {
-  console.error('Fatal:', err.message);
-  process.exit(1);
-});
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  main().catch((err) => {
+    console.error('Fatal:', err.message);
+    process.exit(1);
+  });
+}
