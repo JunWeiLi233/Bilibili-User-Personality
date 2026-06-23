@@ -82,8 +82,18 @@ class RandomVerificationReportContract:
         }
 
 
+class RandomVerificationJsonResultContract:
+    """Serialize random-verification JSON output exactly as the CLI expects."""
+
+    def __init__(self, result: dict[str, Any]):
+        self.result = result
+
+    def to_bytes(self) -> bytes:
+        return (json.dumps(self.result, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
+
+
 def json_result_bytes(result: dict[str, Any]) -> bytes:
-    return (json.dumps(result, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
+    return RandomVerificationJsonResultContract(result).to_bytes()
 
 
 class RandomVerificationReportSummary:
