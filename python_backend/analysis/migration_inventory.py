@@ -293,6 +293,11 @@ class BackendMigrationInventoryScanner:
             and package_scripts.get("python:scraper-monitor") == "python -m python_backend.cli.scraper_monitor"
         ):
             return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/testAicuApi.js"
+            and package_scripts.get("aicu:test") == "node server/scripts/testAicuApi.js"
+        ):
+            return "external_api_smoke_test"
         if relative_path in RETAINED_JS_FILES:
             return RETAINED_JS_FILES[relative_path]
         for prefix, reason in RETAINED_JS_FILE_PREFIXES.items():

@@ -1439,6 +1439,19 @@ class CorpusContractTests(unittest.TestCase):
             result["packageScripts"]["pythonOwnedDataScripts"],
         )
 
+    def test_aicu_api_smoke_test_script_is_retained_js_not_backend_migration(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertNotIn("server/scripts/testAicuApi.js", result["migrationCandidateFiles"]["scripts"])
+        self.assertIn(
+            {"path": "server/scripts/testAicuApi.js", "reason": "external_api_smoke_test"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {"script": "aicu:test", "command": "node server/scripts/testAicuApi.js", "reason": "external_api_smoke_test"},
+            result["packageScripts"]["retainedNodeScripts"],
+        )
+
     def test_package_command_migration_inventory_maps_node_commands_to_python_contracts(self):
         package = {
             "scripts": {
