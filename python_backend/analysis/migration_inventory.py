@@ -92,6 +92,8 @@ class BackendMigrationInventoryScanner:
 
     def scan(self) -> dict[str, Any]:
         root = Path(self.root)
+        package_inventory = PackageCommandMigrationInventory.from_root(root)
+        package_scripts_raw = package_inventory.package.get("scripts") if isinstance(package_inventory.package.get("scripts"), dict) else {}
         backend_files: dict[str, list[str]] = {key: [] for key in (*BACKEND_CATEGORY_PREFIXES.keys(), "root")}
         migration_candidate_files: dict[str, list[str]] = {key: [] for key in (*BACKEND_CATEGORY_PREFIXES.keys(), "root")}
         retained_files: list[dict[str, str]] = []
@@ -105,7 +107,7 @@ class BackendMigrationInventoryScanner:
             category = self._category(relative)
             if category:
                 backend_files[category].append(relative)
-                retained_reason = self._retained_reason(relative)
+                retained_reason = self._retained_reason(relative, package_scripts_raw)
                 if retained_reason:
                     retained_files.append({"path": relative, "reason": retained_reason})
                 else:
@@ -114,7 +116,7 @@ class BackendMigrationInventoryScanner:
         categories = {key: len(value) for key, value in backend_files.items()}
         migration_candidate_categories = {key: len(value) for key, value in migration_candidate_files.items()}
         migration_priority_files = self._priority_files(migration_candidate_files)
-        package_scripts = PackageCommandMigrationInventory.from_root(root).scan()
+        package_scripts = package_inventory.scan()
         next_migration_action = self._next_migration_action(migration_priority_files, package_scripts)
         return {
             "ok": True,
@@ -143,7 +145,13 @@ class BackendMigrationInventoryScanner:
         return ""
 
     @staticmethod
-    def _retained_reason(relative_path: str) -> str:
+    def _retained_reason(relative_path: str, package_scripts: dict[str, Any] | None = None) -> str:
+        package_scripts = package_scripts if isinstance(package_scripts, dict) else {}
+        if (
+            relative_path == "server/scripts/importHuggingFaceCorpus.js"
+            and package_scripts.get("dictionary:huggingface") == "python -m python_backend.cli.huggingface_corpus"
+        ):
+            return "legacy_compatibility_after_python_replacement"
         if relative_path in RETAINED_JS_FILES:
             return RETAINED_JS_FILES[relative_path]
         for prefix, reason in RETAINED_JS_FILE_PREFIXES.items():

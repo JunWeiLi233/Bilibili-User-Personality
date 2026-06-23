@@ -14,7 +14,7 @@
     "dictionary:resolve-near": "node server/scripts/resolveNearTargetTerms.js",
     "dictionary:auto": "node server/scripts/runCoverageHarvestLoop.js",
     "dictionary:tieba": "node server/scripts/runTiebaKeywordScrape.js",
-    "dictionary:huggingface": "node server/scripts/importHuggingFaceCorpus.js",
+    "dictionary:huggingface": "python -m python_backend.cli.huggingface_corpus",
     "dictionary:mine-local": "node server/scripts/mineLocalCorpusEvidence.js",
     "dictionary:probe-bilibili": "node server/scripts/probeBilibiliCommentEvidence.js",
     "dictionary:history-tags": "node server/scripts/scrapeBilibiliHistoryTags.js",

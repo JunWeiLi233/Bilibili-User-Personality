@@ -1251,6 +1251,17 @@ class CorpusContractTests(unittest.TestCase):
             "node server/scripts/analyzeDeepSeekComments.js --plan-json --python-plan",
         )
 
+    def test_package_huggingface_dictionary_command_uses_python_after_full_contract_validation(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertEqual(package["scripts"]["dictionary:huggingface"], "python -m python_backend.cli.huggingface_corpus")
+        self.assertNotIn("server/scripts/importHuggingFaceCorpus.js", result["migrationCandidateFiles"]["scripts"])
+        self.assertIn(
+            {"path": "server/scripts/importHuggingFaceCorpus.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_package_command_migration_inventory_maps_node_commands_to_python_contracts(self):
         package = {
             "scripts": {
