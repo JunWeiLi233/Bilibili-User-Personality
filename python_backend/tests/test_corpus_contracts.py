@@ -23603,6 +23603,10 @@ class CorpusContractTests(unittest.TestCase):
             {"path": "server/scripts/compareRangeScraperLauncherPlan.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
         )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:range-scraper-launcher-compare"],
+            "dry_run_plan_default_custom_data_dir_fixtures_and_js_python_bridge",
+        )
 
     def test_fast_pipeline_launcher_planner_builds_powershell_contract_without_filesystem(self):
         result = FastPipelineLauncherPlanner().build_plan(data_dir="server/data")

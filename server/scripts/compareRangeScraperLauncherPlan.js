@@ -18,6 +18,21 @@ const RANGES = [
 
 export const DEFAULT_PAYLOAD = {};
 
+export const RANGE_SCRAPER_LAUNCHER_PLAN_FIXTURES = {
+  'default-data-dir': DEFAULT_PAYLOAD,
+  'custom-data-dir': {
+    dataDir: join(tmpdir(), 'range-scraper-launcher-custom-data'),
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = ['default-data-dir', 'custom-data-dir'];
+
+function resolvePayload({ fixture = 'default-data-dir', payload } = {}) {
+  if (payload) return { name: fixture || 'custom', payload };
+  const name = String(fixture || 'default-data-dir');
+  return { name, payload: RANGE_SCRAPER_LAUNCHER_PLAN_FIXTURES[name] || DEFAULT_PAYLOAD };
+}
+
 function summarize(result = {}) {
   const summary = {};
   if ('workers' in result) {
@@ -87,16 +102,24 @@ async function runPythonPlan({ dataDir }) {
   return JSON.parse(stdout);
 }
 
-export async function compareRangeScraperLauncherPlan({ payload = DEFAULT_PAYLOAD, runJs = runJsPlan, runPython = runPythonPlan } = {}) {
+export async function compareRangeScraperLauncherPlan({
+  fixture = 'default-data-dir',
+  fixtureNames,
+  payload,
+  runJs = runJsPlan,
+  runPython = runPythonPlan,
+} = {}) {
+  if (fixtureNames) return compareRangeScraperLauncherPlanSuite({ fixtures: fixtureNames, runJs, runPython });
+  const resolved = resolvePayload({ fixture, payload });
   const tempDir = await mkdtemp(join(tmpdir(), 'range-scraper-launcher-compare-'));
   try {
-    const dataDir = payload.dataDir || join(tempDir, 'server', 'data');
-    const js = await runJs({ payload, dataDir });
-    const python = await runPython({ payload, dataDir });
+    const dataDir = resolved.payload.dataDir || join(tempDir, 'server', 'data');
+    const js = await runJs({ payload: resolved.payload, dataDir });
+    const python = await runPython({ payload: resolved.payload, dataDir });
     const comparison = compareRangeScraperLauncherPlanObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { dataDir },
+      fixture: { name: resolved.name, dataDir },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -106,8 +129,29 @@ export async function compareRangeScraperLauncherPlan({ payload = DEFAULT_PAYLOA
   }
 }
 
+export async function compareRangeScraperLauncherPlanSuite({
+  fixtures = DEFAULT_FIXTURE_NAMES,
+  runJs = runJsPlan,
+  runPython = runPythonPlan,
+} = {}) {
+  const results = [];
+  for (const fixture of fixtures) {
+    results.push(await compareRangeScraperLauncherPlan({ fixture, runJs, runPython }));
+  }
+  return {
+    ok: results.every((result) => result.ok),
+    fixtures: results.map((result) => ({
+      name: result.fixture.name,
+      ok: result.ok,
+      js: result.js,
+      python: result.python,
+      mismatches: result.mismatches,
+    })),
+  };
+}
+
 async function main() {
-  const result = await compareRangeScraperLauncherPlan();
+  const result = await compareRangeScraperLauncherPlanSuite();
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }

@@ -1,7 +1,11 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import { compareRangeScraperLauncherPlan, compareRangeScraperLauncherPlanObjects } from './compareRangeScraperLauncherPlan.js';
+import {
+  RANGE_SCRAPER_LAUNCHER_PLAN_FIXTURES,
+  compareRangeScraperLauncherPlan,
+  compareRangeScraperLauncherPlanObjects,
+} from './compareRangeScraperLauncherPlan.js';
 
 const SUMMARY = {
   workers: [
@@ -46,4 +50,24 @@ test('compareRangeScraperLauncherPlan compares JS-compatible and Python launch p
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
   assert.equal(calls[0].js, calls[1].python);
+});
+
+test('compareRangeScraperLauncherPlan exports named compatibility fixtures', async () => {
+  assert.deepEqual(Object.keys(RANGE_SCRAPER_LAUNCHER_PLAN_FIXTURES), ['default-data-dir', 'custom-data-dir']);
+
+  const dataDirs = [];
+  const result = await compareRangeScraperLauncherPlan({
+    fixtureNames: Object.keys(RANGE_SCRAPER_LAUNCHER_PLAN_FIXTURES),
+    runJs: async ({ dataDir }) => {
+      dataDirs.push(dataDir);
+      return { ok: true, ...SUMMARY };
+    },
+    runPython: async () => ({ ok: true, ...SUMMARY }),
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.fixtures.map((fixture) => fixture.name), ['default-data-dir', 'custom-data-dir']);
+  assert.equal(dataDirs.length, 2);
+  assert.match(dataDirs[0], /server[\\/]data$/);
+  assert.equal(dataDirs[1], RANGE_SCRAPER_LAUNCHER_PLAN_FIXTURES['custom-data-dir'].dataDir);
 });
