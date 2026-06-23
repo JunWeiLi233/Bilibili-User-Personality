@@ -19020,6 +19020,15 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(result, UidParallelAnalyzerPlanner.build_plan_from_payload({}))
 
+    def test_uid_parallel_payload_runner_defaults_corrupt_json_contract_payload(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "uid-parallel-plan.json"
+            payload_path.write_text('{"argv": ', encoding="utf-8")
+
+            result = UidParallelPayloadPlanRunner(payload_path).run()
+
+        self.assertEqual(result, UidParallelAnalyzerPlanner.build_plan_from_payload({}))
+
     def test_uid_parallel_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
