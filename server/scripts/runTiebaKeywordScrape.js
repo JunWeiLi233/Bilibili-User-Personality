@@ -1,10 +1,17 @@
-import { readFile } from 'node:fs/promises';
+import { execFile } from 'node:child_process';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { promisify } from 'node:util';
 
 import { buildTiebaCorpusUpdate } from '../services/tiebaCorpus.js';
 import { computeTiebaScrapeHardStopMs } from '../services/tiebaScrapeTiming.js';
 import { scrapeTiebaKeyword, scrapeTiebaThreadUrls } from '../services/tiebaScraper.js';
 import { readJsonCorpus, writeJsonCorpus } from '../services/splitCorpusStorage.js';
 import { DEFAULT_COVERAGE_ACTION_FILE_PATH, DEFAULT_TIEBA_CORPUS_PATH } from '../utils/paths.js';
+
+const execFileAsync = promisify(execFile);
 
 function parseArgs(argv = process.argv.slice(2)) {
   const options = {
@@ -26,6 +33,7 @@ function parseArgs(argv = process.argv.slice(2)) {
     discoveryTitlesOnly: process.env.TIEBA_DISCOVERY_TITLES_ONLY === '1',
     train: process.env.TIEBA_TRAIN_DICTIONARY === '1',
     existingTermsOnly: process.env.TIEBA_EXISTING_TERMS_ONLY !== '0',
+    usePythonCorpusUpdate: process.env.TIEBA_USE_PYTHON_CORPUS_UPDATE === '1',
   };
 
   for (const arg of argv) {
@@ -54,6 +62,7 @@ function parseArgs(argv = process.argv.slice(2)) {
     }
     else if (arg === '--train') options.train = true;
     else if (arg === '--new-terms') options.existingTermsOnly = false;
+    else if (arg === '--python-corpus-update') options.usePythonCorpusUpdate = true;
     else if (arg && !arg.startsWith('--')) options.queries.push(arg.trim());
   }
 
@@ -118,6 +127,7 @@ export function buildTiebaKeywordPlan(payload = {}) {
     'TIEBA_DISCOVERY_TITLES_ONLY',
     'TIEBA_TRAIN_DICTIONARY',
     'TIEBA_EXISTING_TERMS_ONLY',
+    'TIEBA_USE_PYTHON_CORPUS_UPDATE',
   ];
   for (const key of envKeys) {
     previousEnv[key] = process.env[key];
@@ -164,120 +174,162 @@ async function loadExistingCorpus(path) {
   return { version: 1, updatedAt: null, runs: [], comments: [] };
 }
 
-const options = parseArgs();
-const planArgs = parsePlanArgs();
-if (planArgs.planJson) {
-  const payload = await readPlanPayload(planArgs.payloadPath);
-  console.log(JSON.stringify(buildTiebaKeywordPlan(payload), null, 2));
-  process.exit(0);
-}
-const hardStopMs = computeTiebaScrapeHardStopMs(options);
-const hardStop = setTimeout(() => {
-  console.error(`Tieba keyword scrape hard-stopped after ${hardStopMs}ms.`);
-  process.exit(124);
-}, hardStopMs);
-if (typeof hardStop.unref === 'function') hardStop.unref();
-
-if (options.queries.length === 0 && options.threadUrls.length === 0) {
-  options.queries = await queriesFromActions(options.actionFile, options.maxQueries);
-}
-options.queries = options.queries.slice(0, options.maxQueries);
-
-if (options.queries.length === 0 && options.threadUrls.length === 0) {
-  console.log('No Tieba queries or thread URLs were provided and no coverage actions were available.');
-  process.exit(0);
-}
-
-console.log('Tieba keyword corpus scrape');
-console.log(`Queries: ${options.queries.length}`);
-console.log(`Thread URLs: ${options.threadUrls.length}`);
-console.log(`Limits: forumPages=${options.forumPages}, threadLimit=${options.threadLimit}, threadPages=${options.threadPages}`);
-console.log(`Pacing: minDelay=${options.minDelayMs}ms, jitter=${options.jitterMs}ms, blockCooldown=${options.blockCooldownMs}ms`);
-console.log(`Request timeout: ${options.requestTimeoutMs}ms`);
-console.log(`Overall per-step timeout: ${options.overallTimeoutMs}ms`);
-console.log(`Discovery mode: ${options.discoveryMode}`);
-console.log(`Discovery title fallback: ${options.includeDiscoveryTitles ? 'enabled' : 'disabled'}`);
-console.log(`Discovery titles only: ${options.discoveryTitlesOnly ? 'enabled' : 'disabled'}`);
-console.log(`Output: ${options.outputPath}`);
-
-const run = {
-  at: new Date().toISOString(),
-  queries: options.queries,
-  threadUrls: options.threadUrls,
-  results: [],
-  warnings: [],
-};
-
-if (options.threadUrls.length > 0) {
-  console.log('- explicit Tieba thread URLs');
-  const result = await scrapeTiebaThreadUrls(options.threadUrls, {
-    threadPages: options.threadPages,
-    pages: options.threadPages,
-    minDelayMs: options.minDelayMs,
-    jitterMs: options.jitterMs,
-    blockCooldownMs: options.blockCooldownMs,
-    requestTimeoutMs: options.requestTimeoutMs,
-    overallTimeoutMs: options.overallTimeoutMs,
-    discoveryMode: options.discoveryMode,
-    includeDiscoveryTitles: options.includeDiscoveryTitles,
-    discoveryTitlesOnly: options.discoveryTitlesOnly,
-  });
-  console.log(`  threads=${result.threads.length} comments=${result.comments.length} warnings=${result.warnings.length}`);
-  run.results.push({
-    query: 'explicit Tieba thread URLs',
-    ok: result.ok,
-    threads: result.threads,
-    comments: result.comments,
-    warnings: result.warnings,
-  });
-  run.warnings.push(...result.warnings.map((warning) => `explicit Tieba thread URLs: ${warning}`));
-}
-
-for (const query of options.queries) {
-  console.log(`- ${query}`);
-  const result = await scrapeTiebaKeyword(query, {
-    forumPages: options.forumPages,
-    threadLimit: options.threadLimit,
-    threadPages: options.threadPages,
-    minDelayMs: options.minDelayMs,
-    jitterMs: options.jitterMs,
-    blockCooldownMs: options.blockCooldownMs,
-    requestTimeoutMs: options.requestTimeoutMs,
-    overallTimeoutMs: options.overallTimeoutMs,
-    discoveryMode: options.discoveryMode,
-    includeDiscoveryTitles: options.includeDiscoveryTitles,
-    discoveryTitlesOnly: options.discoveryTitlesOnly,
-  });
-  console.log(`  threads=${result.threads.length} comments=${result.comments.length} warnings=${result.warnings.length}`);
-  run.results.push({
-    query,
-    ok: result.ok,
-    threads: result.threads,
-    comments: result.comments,
-    warnings: result.warnings,
-  });
-  run.warnings.push(...result.warnings.map((warning) => `${query}: ${warning}`));
-
-  if (options.train && result.commentText.trim()) {
-    const { trainKeywordDictionary } = await import('../services/deepseekKeywordTrainer.js');
-    const training = await trainKeywordDictionary({
-      uid: `tieba:${query}`,
-      text: result.commentText,
-      fullText: result.commentText,
-      source: `Tieba public thread scan: ${result.threads.map((thread) => thread.sourceUrl).join(', ')}`,
-      existingTermsOnly: options.existingTermsOnly,
-      multiagent: true,
+async function runPythonTiebaCorpusUpdate({ corpus, run }) {
+  const tempDir = await mkdtemp(join(tmpdir(), 'tieba-corpus-runtime-'));
+  try {
+    const payloadPath = join(tempDir, 'payload.json');
+    await writeFile(payloadPath, JSON.stringify({ existing: corpus, run, generatedAt: new Date().toISOString() }, null, 2), 'utf8');
+    const { stdout } = await execFileAsync('python', ['-m', 'python_backend.cli.tieba_corpus', '--payload', payloadPath], {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
     });
-    console.log(`  dictionary entries accepted=${training.entries?.length || 0}`);
+    return JSON.parse(stdout);
+  } finally {
+    await rm(tempDir, { recursive: true, force: true });
   }
 }
 
-const corpus = await loadExistingCorpus(options.outputPath);
-const update = buildTiebaCorpusUpdate(corpus, run);
-if (update.changed) {
-  await writeJsonCorpus(options.outputPath, update.corpus);
-} else {
-  console.log('No new Tieba comments; corpus unchanged.');
+export async function buildTiebaRuntimeCorpusUpdate({
+  corpus,
+  run,
+  options = {},
+  buildJsCorpusUpdate = buildTiebaCorpusUpdate,
+  runPythonCorpusUpdate = runPythonTiebaCorpusUpdate,
+} = {}) {
+  if (options.usePythonCorpusUpdate) {
+    return runPythonCorpusUpdate({ corpus, run });
+  }
+  return buildJsCorpusUpdate(corpus, run);
 }
-console.log(`Tieba comments in corpus: ${update.corpus.comments.length}`);
-clearTimeout(hardStop);
+
+async function main() {
+  const options = parseArgs();
+  const planArgs = parsePlanArgs();
+  if (planArgs.planJson) {
+    const payload = await readPlanPayload(planArgs.payloadPath);
+    console.log(JSON.stringify(buildTiebaKeywordPlan(payload), null, 2));
+    return 0;
+  }
+  const hardStopMs = computeTiebaScrapeHardStopMs(options);
+  const hardStop = setTimeout(() => {
+    console.error(`Tieba keyword scrape hard-stopped after ${hardStopMs}ms.`);
+    process.exit(124);
+  }, hardStopMs);
+  if (typeof hardStop.unref === 'function') hardStop.unref();
+
+  if (options.queries.length === 0 && options.threadUrls.length === 0) {
+    options.queries = await queriesFromActions(options.actionFile, options.maxQueries);
+  }
+  options.queries = options.queries.slice(0, options.maxQueries);
+
+  if (options.queries.length === 0 && options.threadUrls.length === 0) {
+    console.log('No Tieba queries or thread URLs were provided and no coverage actions were available.');
+    clearTimeout(hardStop);
+    return 0;
+  }
+
+  console.log('Tieba keyword corpus scrape');
+  console.log(`Queries: ${options.queries.length}`);
+  console.log(`Thread URLs: ${options.threadUrls.length}`);
+  console.log(`Limits: forumPages=${options.forumPages}, threadLimit=${options.threadLimit}, threadPages=${options.threadPages}`);
+  console.log(`Pacing: minDelay=${options.minDelayMs}ms, jitter=${options.jitterMs}ms, blockCooldown=${options.blockCooldownMs}ms`);
+  console.log(`Request timeout: ${options.requestTimeoutMs}ms`);
+  console.log(`Overall per-step timeout: ${options.overallTimeoutMs}ms`);
+  console.log(`Discovery mode: ${options.discoveryMode}`);
+  console.log(`Discovery title fallback: ${options.includeDiscoveryTitles ? 'enabled' : 'disabled'}`);
+  console.log(`Discovery titles only: ${options.discoveryTitlesOnly ? 'enabled' : 'disabled'}`);
+  console.log(`Output: ${options.outputPath}`);
+
+  const run = {
+    at: new Date().toISOString(),
+    queries: options.queries,
+    threadUrls: options.threadUrls,
+    results: [],
+    warnings: [],
+  };
+
+  if (options.threadUrls.length > 0) {
+    console.log('- explicit Tieba thread URLs');
+    const result = await scrapeTiebaThreadUrls(options.threadUrls, {
+      threadPages: options.threadPages,
+      pages: options.threadPages,
+      minDelayMs: options.minDelayMs,
+      jitterMs: options.jitterMs,
+      blockCooldownMs: options.blockCooldownMs,
+      requestTimeoutMs: options.requestTimeoutMs,
+      overallTimeoutMs: options.overallTimeoutMs,
+      discoveryMode: options.discoveryMode,
+      includeDiscoveryTitles: options.includeDiscoveryTitles,
+      discoveryTitlesOnly: options.discoveryTitlesOnly,
+    });
+    console.log(`  threads=${result.threads.length} comments=${result.comments.length} warnings=${result.warnings.length}`);
+    run.results.push({
+      query: 'explicit Tieba thread URLs',
+      ok: result.ok,
+      threads: result.threads,
+      comments: result.comments,
+      warnings: result.warnings,
+    });
+    run.warnings.push(...result.warnings.map((warning) => `explicit Tieba thread URLs: ${warning}`));
+  }
+
+  for (const query of options.queries) {
+    console.log(`- ${query}`);
+    const result = await scrapeTiebaKeyword(query, {
+      forumPages: options.forumPages,
+      threadLimit: options.threadLimit,
+      threadPages: options.threadPages,
+      minDelayMs: options.minDelayMs,
+      jitterMs: options.jitterMs,
+      blockCooldownMs: options.blockCooldownMs,
+      requestTimeoutMs: options.requestTimeoutMs,
+      overallTimeoutMs: options.overallTimeoutMs,
+      discoveryMode: options.discoveryMode,
+      includeDiscoveryTitles: options.includeDiscoveryTitles,
+      discoveryTitlesOnly: options.discoveryTitlesOnly,
+    });
+    console.log(`  threads=${result.threads.length} comments=${result.comments.length} warnings=${result.warnings.length}`);
+    run.results.push({
+      query,
+      ok: result.ok,
+      threads: result.threads,
+      comments: result.comments,
+      warnings: result.warnings,
+    });
+    run.warnings.push(...result.warnings.map((warning) => `${query}: ${warning}`));
+
+    if (options.train && result.commentText.trim()) {
+      const { trainKeywordDictionary } = await import('../services/deepseekKeywordTrainer.js');
+      const training = await trainKeywordDictionary({
+        uid: `tieba:${query}`,
+        text: result.commentText,
+        fullText: result.commentText,
+        source: `Tieba public thread scan: ${result.threads.map((thread) => thread.sourceUrl).join(', ')}`,
+        existingTermsOnly: options.existingTermsOnly,
+        multiagent: true,
+      });
+      console.log(`  dictionary entries accepted=${training.entries?.length || 0}`);
+    }
+  }
+
+  const corpus = await loadExistingCorpus(options.outputPath);
+  const update = await buildTiebaRuntimeCorpusUpdate({ corpus, run, options });
+  if (update.changed) {
+    await writeJsonCorpus(options.outputPath, update.corpus);
+  } else {
+    console.log('No new Tieba comments; corpus unchanged.');
+  }
+  console.log(`Tieba comments in corpus: ${update.corpus.comments.length}`);
+  clearTimeout(hardStop);
+  return 0;
+}
+
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  main().then((code) => {
+    process.exitCode = code;
+  }).catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  });
+}

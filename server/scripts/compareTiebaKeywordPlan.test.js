@@ -50,3 +50,19 @@ test('compareTiebaKeywordPlan compares JS and Python dry-run option plans', asyn
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
 });
+
+test('compareTiebaKeywordPlan covers Python corpus update env option', async () => {
+  const result = await compareTiebaKeywordPlan({
+    payload: {
+      env: {
+        TIEBA_USE_PYTHON_CORPUS_UPDATE: '1',
+      },
+      argv: ['--query=doge'],
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.equal(result.js.options.usePythonCorpusUpdate, true);
+  assert.equal(result.python.options.usePythonCorpusUpdate, true);
+});
