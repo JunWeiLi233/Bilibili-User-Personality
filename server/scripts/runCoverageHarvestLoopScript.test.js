@@ -4,6 +4,7 @@ import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { compareCoverageHarvestLoopCommand } from './compareCoverageHarvestLoopCommand.js';
 import { compareCoverageHarvestLoopPlanObjects } from './compareCoverageHarvestLoopPlan.js';
 
 test('runCoverageHarvestLoop.js forces auto coverage to DeepSeek v4 flash max effort', () => {
@@ -199,4 +200,14 @@ test('compareCoverageHarvestLoopPlanObjects reports matching dry-run plans', () 
   assert.deepEqual(result.mismatches, []);
   assert.equal(result.python.ignored, undefined);
   assert.equal(result.js.ignored, undefined);
+});
+
+test('compareCoverageHarvestLoopCommand validates complete and weak no-live fixtures', async () => {
+  const result = await compareCoverageHarvestLoopCommand();
+
+  assert.equal(result.ok, true);
+  assert.equal(result.results.length, 2);
+  assert.deepEqual(result.results.map((item) => item.fixture), ['complete-empty-dictionary', 'weak-cycle-limit']);
+  assert.deepEqual(result.results.map((item) => item.python.stopReason), ['coverage_gate_passed', 'cycle_limit']);
+  assert.deepEqual(result.results.map((item) => item.python.finalAudit.coverage.weakTerms), [0, 1]);
 });

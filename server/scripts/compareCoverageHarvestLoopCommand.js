@@ -26,6 +26,28 @@ export const DEFAULT_DICTIONARY = {
   entries: [],
 };
 
+export const WEAK_DICTIONARY = {
+  version: 1,
+  updatedAt: '2026-01-01T00:00:00.000Z',
+  entries: [
+    {
+      term: '百分百',
+      family: 'absolutes',
+      meaning: '缺少限定条件的强断言',
+      risk: 'medium',
+      confidence: 0.85,
+      evidenceCount: 0,
+      evidenceSamples: [],
+      evidenceSources: [],
+    },
+  ],
+};
+
+const DEFAULT_FIXTURES = [
+  { name: 'complete-empty-dictionary', dictionary: DEFAULT_DICTIONARY },
+  { name: 'weak-cycle-limit', dictionary: WEAK_DICTIONARY },
+];
+
 function summarize(report = {}) {
   const coverage = report.finalAudit?.coverage || {};
   return {
@@ -96,28 +118,45 @@ async function runPythonCoverageLoopCommand({ dictionaryPath, statePath, reportP
 
 export async function compareCoverageHarvestLoopCommand({
   dictionary = DEFAULT_DICTIONARY,
+  fixtures = null,
   runJs = runJsCoverageLoopCommand,
   runPython = runPythonCoverageLoopCommand,
 } = {}) {
   const tempDir = await mkdtemp(join(tmpdir(), 'coverage-loop-command-compare-'));
   try {
-    const jsDictionaryPath = join(tempDir, 'dictionary-js.json');
-    const pythonDictionaryPath = join(tempDir, 'dictionary-python.json');
-    const jsStatePath = join(tempDir, 'state-js.json');
-    const pythonStatePath = join(tempDir, 'state-python.json');
-    const jsReportPath = join(tempDir, 'report-js.json');
-    const pythonReportPath = join(tempDir, 'report-python.json');
-    await writeFile(jsDictionaryPath, JSON.stringify(dictionary, null, 2), 'utf8');
-    await writeFile(pythonDictionaryPath, JSON.stringify(dictionary, null, 2), 'utf8');
-    const js = await runJs({ dictionaryPath: jsDictionaryPath, statePath: jsStatePath, reportPath: jsReportPath });
-    const python = await runPython({ dictionaryPath: pythonDictionaryPath, statePath: pythonStatePath, reportPath: pythonReportPath });
-    const comparison = compareCoverageHarvestLoopCommandObjects(python, js);
+    const fixtureList = Array.isArray(fixtures) ? fixtures : dictionary === DEFAULT_DICTIONARY ? DEFAULT_FIXTURES : [{ name: 'custom', dictionary }];
+    const results = [];
+    for (const [index, fixture] of fixtureList.entries()) {
+      const fixtureName = String(fixture?.name || `fixture-${index + 1}`);
+      const fixtureDictionary = fixture?.dictionary || DEFAULT_DICTIONARY;
+      const jsDictionaryPath = join(tempDir, `${fixtureName}-dictionary-js.json`);
+      const pythonDictionaryPath = join(tempDir, `${fixtureName}-dictionary-python.json`);
+      const jsStatePath = join(tempDir, `${fixtureName}-state-js.json`);
+      const pythonStatePath = join(tempDir, `${fixtureName}-state-python.json`);
+      const jsReportPath = join(tempDir, `${fixtureName}-report-js.json`);
+      const pythonReportPath = join(tempDir, `${fixtureName}-report-python.json`);
+      await writeFile(jsDictionaryPath, JSON.stringify(fixtureDictionary, null, 2), 'utf8');
+      await writeFile(pythonDictionaryPath, JSON.stringify(fixtureDictionary, null, 2), 'utf8');
+      const js = await runJs({ dictionaryPath: jsDictionaryPath, statePath: jsStatePath, reportPath: jsReportPath });
+      const python = await runPython({ dictionaryPath: pythonDictionaryPath, statePath: pythonStatePath, reportPath: pythonReportPath });
+      const comparison = compareCoverageHarvestLoopCommandObjects(python, js);
+      results.push({
+        ok: comparison.ok,
+        fixture: fixtureName,
+        js,
+        python,
+        mismatches: comparison.mismatches,
+      });
+    }
+    const first = results[0] || {};
+    const mismatches = results.flatMap((result) => result.mismatches.map((mismatch) => ({ fixture: result.fixture, ...mismatch })));
     return {
-      ok: comparison.ok,
+      ok: results.every((result) => result.ok),
       fixture: { tempDir },
-      js,
-      python,
-      mismatches: comparison.mismatches,
+      js: first.js,
+      python: first.python,
+      results,
+      mismatches,
     };
   } finally {
     await rm(tempDir, { recursive: true, force: true });

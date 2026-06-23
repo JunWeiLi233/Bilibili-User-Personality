@@ -147,6 +147,15 @@ class CoverageAuditActionSummaryContract:
 class CoverageAuditActionContract:
     """Build one JS-compatible coverage audit action payload."""
 
+    FAMILY_CONTEXT = {
+        "attack": "\u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4",
+        "absolutes": "\u7edd\u5bf9\u5316 \u8bc4\u8bba \u70ed\u8bc4",
+        "evidence": "\u8bc1\u636e \u6765\u6e90 \u8bc4\u8bba\u533a",
+        "evasion": "\u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4",
+        "cooperation": "\u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4",
+        "correction": "\u66f4\u6b63 \u8bc4\u8bba\u533a",
+    }
+
     def __init__(
         self,
         entry: dict[str, Any] | None = None,
@@ -177,9 +186,10 @@ class CoverageAuditActionContract:
             status = "covered"
             action = "none"
         term = str(self.entry.get("term") or "").strip()
+        family = str(self.entry.get("family") or "unknown")
         return {
             "term": term,
-            "family": self.entry.get("family") or "unknown",
+            "family": family,
             "status": status,
             "action": action,
             "evidenceCount": count,
@@ -193,7 +203,7 @@ class CoverageAuditActionContract:
             "duplicateAcceptedNoProgress": False,
             "currentCommentMisses": 0,
             "exhausted": False,
-            "nextQuery": f"{term} \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4" if action != "none" and term else "",
+            "nextQuery": f"{term} {self.FAMILY_CONTEXT.get(family, '\u8bc4\u8bba\u533a \u70ed\u8bc4')}" if action != "none" and term else "",
             "suggestedQueries": [],
             "lastQuery": "",
             "lastError": "",
