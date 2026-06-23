@@ -1,4 +1,8 @@
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join, resolve } from 'node:path';
 import { test } from 'node:test';
 
 import { compareBatchBilibiliPlan, compareBatchBilibiliPlanObjects } from './compareBatchBilibiliPlan.js';
@@ -81,4 +85,47 @@ test('compareBatchBilibiliPlan compares JS and Python dry-run plans', async () =
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('batchScrapeBilibili can delegate dry-run planning to Python', () => {
+  const tempDir = mkdtempSync(join(tmpdir(), 'batch-bilibili-python-plan-'));
+  try {
+    const payloadPath = join(tempDir, 'payload.json');
+    const fakeModuleDir = join(tempDir, 'python_backend', 'cli');
+    writeFileSync(
+      payloadPath,
+      JSON.stringify(
+        {
+          argv: ['--start=100000', '--end=100002'],
+          progress: { lastUid: 0, completed: 0, errors: [] },
+          database: { users: {} },
+        },
+        null,
+        2,
+      ),
+      'utf8',
+    );
+    mkdirSync(fakeModuleDir, { recursive: true });
+    writeFileSync(join(tempDir, 'python_backend', '__init__.py'), '', 'utf8');
+    writeFileSync(join(fakeModuleDir, '__init__.py'), '', 'utf8');
+    writeFileSync(join(fakeModuleDir, 'batch_bilibili_plan.py'), 'print(\'{"ok":true,"fromPythonBatchBilibiliPlan":true,"range":{"startUid":42,"endUid":42,"total":1}}\')\n', 'utf8');
+
+    const result = spawnSync('node', [resolve('server/scripts/batchScrapeBilibili.js'), '--plan-json', '--payload', payloadPath], {
+      cwd: tempDir,
+      encoding: 'utf8',
+      env: {
+        ...process.env,
+        BILIBILI_BATCH_USE_PYTHON_PLAN: '1',
+        PYTHONUTF8: '1',
+        PYTHONIOENCODING: 'utf-8',
+      },
+    });
+
+    assert.equal(result.status, 0, result.stderr);
+    const payload = JSON.parse(result.stdout);
+    assert.equal(payload.fromPythonBatchBilibiliPlan, true);
+    assert.equal(payload.range.startUid, 42);
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
+  }
 });

@@ -24105,6 +24105,16 @@ class CorpusContractTests(unittest.TestCase):
             {"path": "server/scripts/compareBatchBilibiliPlan.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
         )
+        self.assertEqual(
+            BackendMigrationInventoryScanner._validation_gates(
+                validation_script="python:batch-bilibili-compare",
+                validation_scope="dry_run_plan_fixture_and_js_python_plan_bridge",
+            ),
+            [
+                {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:batch-bilibili-compare"},
+                {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareBatchBilibiliPlan.test.js"},
+            ],
+        )
 
     def test_batch_popular_planner_matches_js_pages_and_resume_contract(self):
         planner = BatchPopularScrapePlanner()
