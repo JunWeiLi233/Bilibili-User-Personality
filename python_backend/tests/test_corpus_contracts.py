@@ -7199,6 +7199,17 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["comments"][0]["uid"], "BVprogress")
 
+    def test_local_corpus_flatten_runner_defaults_corrupt_input_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            input_path = Path(tmp) / "local.json"
+            input_path.write_text("{bad json", encoding="utf-8")
+
+            result = LocalCorpusFlattenRunner(input_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["count"], 0)
+        self.assertEqual(result["comments"], [])
+
     def test_local_corpus_flattener_owns_result_contract(self):
         result = LocalCorpusFlattener().flatten_to_result(
             {"_uidComments": {"42": [{"message": "alpha phrase appears here", "uname": "tester", "bvid": "BVprogress"}]}}
@@ -7739,6 +7750,17 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["count"], 1)
         self.assertEqual(result["entries"][0]["term"], "\u67e5\u67e5\u8d44\u6599")
         self.assertEqual(result["entries"][0]["evidenceSources"][0]["uid"], "BVpayload")
+
+    def test_local_corpus_evidence_json_payload_runner_defaults_corrupt_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "local-evidence.json"
+            payload_path.write_text("{bad json", encoding="utf-8")
+
+            result = LocalCorpusEvidenceJsonPayloadRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["count"], 0)
+        self.assertEqual(result["entries"], [])
 
     def test_local_corpus_evidence_request_compares_json_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:

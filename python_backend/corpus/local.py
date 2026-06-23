@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import json
 from pathlib import Path
 import re
 import unicodedata
@@ -10,7 +9,7 @@ from typing import Any
 from python_backend.analysis.comment_coverage import _is_contract_scalar
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
-from python_backend.runtime.json_contracts import safe_read_json_object
+from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 
 
 def clean_text(value: Any) -> str:
@@ -248,10 +247,10 @@ class LocalCorpusFlattenRunner:
     def __init__(self, input_path: str | Path):
         self.input_path = Path(input_path)
         self.flattener = LocalCorpusFlattener()
+        self.reader = JsonContractReader()
 
     def run(self) -> dict[str, Any]:
-        with self.input_path.open("r", encoding="utf-8-sig") as handle:
-            raw = json.load(handle)
+        raw = self.reader.read_value(self.input_path, {})
         return self.flattener.flatten_to_result(raw)
 
 
@@ -637,6 +636,7 @@ class LocalCorpusEvidenceRunner:
         self.target_terms = target_terms or []
         self.finder = LocalCorpusEvidenceFinder()
         self.flattener = LocalCorpusFlattener()
+        self.reader = JsonContractReader()
 
     def run(self) -> dict[str, Any]:
         loaded_dictionary = DictionaryLoader(self.dictionary_path).load()
@@ -658,10 +658,7 @@ class LocalCorpusEvidenceRunner:
         )
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
-        if not path.exists():
-            return fallback
-        with path.open("r", encoding="utf-8-sig") as handle:
-            return json.load(handle)
+        return self.reader.read_value(path, fallback)
 
     def _read_json_object(self, path: Path, fallback: dict[str, Any]) -> dict[str, Any]:
         payload = self._read_json(path, fallback)
@@ -675,6 +672,7 @@ class LocalCorpusEvidenceJsonPayloadRunner:
         self.payload_path = Path(payload_path)
         self.finder = LocalCorpusEvidenceFinder()
         self.flattener = LocalCorpusFlattener()
+        self.reader = JsonContractReader()
 
     def run(self) -> dict[str, Any]:
         payload = self._read_json_object(self.payload_path, {})
@@ -707,10 +705,7 @@ class LocalCorpusEvidenceJsonPayloadRunner:
         return {"corpus": {"comments": payload.get("comments") if isinstance(payload.get("comments"), list) else []}}
 
     def _read_json_object(self, path: Path, fallback: dict[str, Any]) -> dict[str, Any]:
-        if not path.exists():
-            return fallback
-        with path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
+        payload = self.reader.read_value(path, fallback)
         return payload if isinstance(payload, dict) else fallback
 
 
