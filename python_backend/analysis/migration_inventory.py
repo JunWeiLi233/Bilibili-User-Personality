@@ -77,6 +77,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:batch-scraper-launcher-compare": "dry_run_plan_default_custom_data_dir_fixtures_and_js_python_bridge",
     "python:batch-uid-scrape-compare": "dry_run_plan_populated_empty_malformed_stats_fixtures_and_js_python_bridge",
     "python:batch-uid-range-compare": "dry_run_plan_phase2_default_decimal_malformed_stats_fixtures_and_js_python_bridge",
+    "python:fast-pipeline-launcher-compare": "dry_run_plan_default_custom_data_dir_fixtures_and_js_python_bridge",
     "python:range-scraper-launcher-compare": "dry_run_plan_default_custom_data_dir_fixtures_and_js_python_bridge",
     "python:uid-discovery-compare": "dry_run_plan_analysis_resume_discovery_start_malformed_numeric_fixtures_and_js_python_bridge",
     "python:uid-pipeline-launcher-compare": "dry_run_plan_default_custom_data_dir_fixtures_and_js_python_bridge",

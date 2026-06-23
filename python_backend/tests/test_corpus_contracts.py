@@ -23855,6 +23855,10 @@ class CorpusContractTests(unittest.TestCase):
             {"path": "server/scripts/compareFastPipelineLauncherPlan.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
         )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:fast-pipeline-launcher-compare"],
+            "dry_run_plan_default_custom_data_dir_fixtures_and_js_python_bridge",
+        )
 
     def test_uid_fast_pipeline_has_js_python_validation_bridge(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
