@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
 
-from python_backend.runtime.json_contracts import safe_read_json_object
+from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 
 
 STAT_KEYS = ("success", "noComments", "noVideos", "noUser", "trainError", "blocked", "errors")
@@ -566,10 +566,7 @@ class UidPipelineMergeRunner:
         )
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
-        if not path.exists():
-            return fallback
-        with path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
+        payload = JsonContractReader().read_value(path, fallback)
         return payload if isinstance(payload, dict) else fallback
 
 
@@ -757,10 +754,7 @@ class UidPipelineStateRunner:
         return UidPipelineStateReporter().build_report(state, progress_by_file)
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
-        if not path.exists():
-            return fallback
-        with path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
+        payload = JsonContractReader().read_value(path, fallback)
         return payload if isinstance(payload, dict) else fallback
 
 
@@ -927,10 +921,7 @@ class UidPipelineProgressRunner:
         return int(match.group(1)), int(match.group(2))
 
     def _read_json(self, path: Path, fallback: Any) -> Any:
-        if not path.exists():
-            return fallback
-        with path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
+        payload = JsonContractReader().read_value(path, fallback)
         return payload if isinstance(payload, dict) else fallback
 
 

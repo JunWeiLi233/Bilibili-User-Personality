@@ -16951,6 +16951,21 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["totalProcessed", "stats"])
 
+    def test_uid_pipeline_merge_payload_runner_defaults_corrupt_json_contract_inputs(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "data"
+            data_dir.mkdir()
+            (data_dir / "uid-pipeline-1-1.json").write_text("{not-json", encoding="utf-8")
+            (data_dir / "scraped-users-db.json").write_text("{not-json", encoding="utf-8")
+
+            result = UidPipelineMergePayloadRunner(data_dir, total_start=1, total_end=1, workers=1, summary_only=True, now=lambda: "").run()
+
+        self.assertTrue(result["ok"])
+        self.assertNotIn("processed", result)
+        self.assertEqual(result["totalProcessed"], 0)
+        self.assertEqual(result["stats"], {"success": 0, "noComments": 0, "noUser": 0, "trainError": 0, "blocked": 0, "errors": 0})
+
     def test_uid_pipeline_merge_payload_comparator_defaults_corrupt_js_report(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -17430,6 +17445,23 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(comparison["ok"])
         self.assertEqual(comparison["mismatches"], [])
 
+    def test_uid_pipeline_state_payload_runner_defaults_corrupt_json_contract_inputs(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            (data_dir / "uid-pipeline-launcher.json").write_text(
+                json.dumps({"startedAt": "2026-06-20T00:00:00.000Z", "workers": [{"start": 7, "end": 8}]}),
+                encoding="utf-8",
+            )
+            (data_dir / "uid-pipeline-7-8.json").write_text("{not-json", encoding="utf-8")
+
+            result = UidPipelineStatePayloadRunner(data_dir).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["summary"], {"workers": 1, "completedWorkers": 0, "totalProcessed": 0, "totalExpected": 2, "completionRatio": 0})
+        self.assertEqual(result["stats"], {"success": 0, "noComments": 0, "noVideos": 0, "noUser": 0, "trainError": 0, "blocked": 0, "errors": 0})
+
     def test_uid_pipeline_state_payload_comparator_defaults_corrupt_js_report(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -17683,6 +17715,21 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["range"], {"start": 21, "end": 23, "total": 3})
         self.assertTrue(comparison["ok"])
         self.assertEqual(comparison["mismatches"], [])
+
+    def test_uid_pipeline_progress_payload_runner_defaults_corrupt_json_contract_inputs(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            progress_path = root / "uid-pipeline-21-23.json"
+            user_db_path = root / "scraped-users-db.json"
+            progress_path.write_text("{not-json", encoding="utf-8")
+            user_db_path.write_text("{not-json", encoding="utf-8")
+
+            result = UidPipelineProgressPayloadRunner(progress_path, user_db_path=user_db_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["range"], {"start": 21, "end": 23, "total": 3})
+        self.assertEqual(result["progress"], {"processed": 0, "remaining": 3, "completionRatio": 0})
+        self.assertEqual(result["userDb"], {"users": 0, "usersInRange": 0})
 
     def test_uid_pipeline_progress_payload_comparator_defaults_corrupt_js_report(self):
         with tempfile.TemporaryDirectory() as tmp:
