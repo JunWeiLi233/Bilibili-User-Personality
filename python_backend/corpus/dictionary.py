@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -131,8 +132,8 @@ class DictionaryLoader:
     @staticmethod
     def _file_list(value: Any) -> list[str]:
         if isinstance(value, list):
-            return [str(item) for item in value if item]
-        if value:
+            return [str(item) for item in value if isinstance(item, (str, os.PathLike)) and str(item).strip()]
+        if isinstance(value, (str, os.PathLike)) and str(value).strip():
             return [str(value)]
         return []
 

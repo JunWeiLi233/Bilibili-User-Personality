@@ -5697,6 +5697,36 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(dictionary.manifest["storage"], "split")
         self.assertEqual(dictionary.manifest["evidenceStorage"], None)
 
+    def test_dictionary_loader_filters_malformed_split_file_list_items(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "dict.entries").mkdir()
+            (root / "dict.evidence").mkdir()
+            (root / "dict.json").write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "storage": "split",
+                        "entryFiles": {"attack": [None, "", ["bad"], {"bad": True}, "dict.entries/attack-001.json"]},
+                        "evidenceFiles": {"attack": [None, "", ["bad"], {"bad": True}, "dict.evidence/attack-001.json"]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (root / "dict.entries" / "attack-001.json").write_text(
+                json.dumps({"entries": [{"term": "doge", "family": "attack", "evidenceCount": 1}]}),
+                encoding="utf-8",
+            )
+            (root / "dict.evidence" / "attack-001.json").write_text(
+                json.dumps({"evidence": [{"term": "doge", "evidenceSamples": ["doge"], "evidenceSources": [{"sample": "doge"}]}]}),
+                encoding="utf-8",
+            )
+
+            dictionary = DictionaryLoader(root / "dict.json").load()
+
+        self.assertEqual([entry["term"] for entry in dictionary.entries], ["doge"])
+        self.assertEqual(dictionary.entries[0]["evidenceSamples"], ["doge"])
+
     def test_dictionary_loader_matches_js_family_bucket_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
