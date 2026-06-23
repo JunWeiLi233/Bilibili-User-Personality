@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import { compareDirectProbeCommand, compareDirectProbeCommandObjects } from './compareDirectProbeCommand.js';
+import { compareDirectProbeCommand, compareDirectProbeCommandObjects, compareDirectProbeCommandSuite } from './compareDirectProbeCommand.js';
 
 const TERM = '\u67e5\u67e5\u8d44\u6599';
 const QUERY = `${TERM} B\u7ad9\u8bc4\u8bba`;
@@ -311,4 +311,14 @@ test('compareDirectProbeCommand compares Python full-runtime fixture transport',
   assert.deepEqual(result.mismatches, []);
   assert.deepEqual(result.python.comments.map((comment) => comment.message), [fullRuntimeMessage]);
   assert.deepEqual(result.python.scannedVideos.map((video) => video.key), ['bvid:BVfull']);
+});
+
+test('compareDirectProbeCommandSuite runs default command fixtures', async () => {
+  const result = await compareDirectProbeCommandSuite();
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.fixtures.map((fixture) => fixture.name), ['query', 'explicit-aid', 'explicit-aid-danmaku', 'write-mode']);
+  assert.deepEqual(result.fixtures.flatMap((fixture) => fixture.mismatches), []);
+  assert.deepEqual(result.fixtures.find((fixture) => fixture.name === 'explicit-aid').python.scannedVideos.map((video) => video.key), ['aid:999']);
+  assert.equal(result.fixtures.find((fixture) => fixture.name === 'write-mode').python.write, true);
 });

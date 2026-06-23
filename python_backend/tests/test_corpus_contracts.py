@@ -1386,7 +1386,7 @@ class CorpusContractTests(unittest.TestCase):
         result = BackendMigrationInventoryScanner(".").scan()
         gates = BackendMigrationInventoryScanner._validation_gates(
             validation_script="python:direct-probe-command-compare",
-            validation_scope="full_command",
+            validation_scope="full_command_query_aid_danmaku_write_fixture_matrix",
         )
 
         self.assertNotIn("server/scripts/probeBilibiliCommentEvidence.js", result["migrationCandidateFiles"]["scripts"])
@@ -1705,7 +1705,7 @@ class CorpusContractTests(unittest.TestCase):
                     "pythonCommand": "python -m python_backend.cli.direct_probe_command",
                     "validationScript": "python:direct-probe-command-compare",
                     "validationCommand": "node server/scripts/compareDirectProbeCommand.js",
-                    "validationScope": "full_command",
+                    "validationScope": "full_command_query_aid_danmaku_write_fixture_matrix",
                 },
                 {
                     "script": "aicu:scrape",
