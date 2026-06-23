@@ -62,7 +62,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:near-target-compare": "dry_run_plan_fixture",
     "python:coverage-loop-compare": "dry_run_plan_fixture",
     "python:tieba-keyword-compare": "dry_run_plan_fixture",
-    "python:direct-probe-compare": "dry_run_plan_fixture",
+    "python:direct-probe-compare": "dry_run_plan_and_corpus_update_fixture",
     "python:aicu-compare": "dry_run_plan_fixture",
     "python:aicu-batch-compare": "dry_run_plan_fixture",
     "python:huggingface-compare": "full_command",
@@ -426,6 +426,11 @@ class BackendMigrationInventoryScanner:
                 {"gate": "mock_runtime_command", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "multiagent_mock_runtime", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "live_api_command", "status": "missing", "source": "python:deepseek-live-gate"},
+            ]
+        if validation_script == "python:direct-probe-compare":
+            return [
+                {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:direct-probe-compare"},
+                {"gate": "corpus_update_fixture", "status": "covered", "source": "python:direct-probe-update-compare"},
             ]
         if validation_scope == "full_command":
             return [{"gate": "full_command", "status": "covered", "source": validation_script}]

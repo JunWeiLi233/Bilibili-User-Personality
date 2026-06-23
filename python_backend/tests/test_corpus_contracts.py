@@ -1320,6 +1320,21 @@ class CorpusContractTests(unittest.TestCase):
             result["retainedJsBackendFiles"],
         )
 
+    def test_backend_migration_inventory_reports_direct_probe_plan_and_corpus_gates(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+        action = result["nextOfflineMigrationAction"]
+
+        self.assertEqual(action["nodeScript"], "dictionary:probe-bilibili")
+        self.assertEqual(action["validationScope"], "dry_run_plan_and_corpus_update_fixture")
+        self.assertFalse(action["readyToReplace"])
+        self.assertEqual(
+            action["validationGates"],
+            [
+                {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:direct-probe-compare"},
+                {"gate": "corpus_update_fixture", "status": "covered", "source": "python:direct-probe-update-compare"},
+            ],
+        )
+
     def test_package_huggingface_dictionary_command_uses_python_after_full_contract_validation(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
         result = BackendMigrationInventoryScanner(".").scan()
@@ -1496,7 +1511,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:direct-probe-compare",
                     "validationCommand": "node server/scripts/compareDirectProbePlan.js",
-                    "validationScope": "dry_run_plan_fixture",
+                    "validationScope": "dry_run_plan_and_corpus_update_fixture",
                 },
                 {
                     "script": "aicu:scrape",
@@ -1669,7 +1684,7 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["nextOfflineMigrationAction"]["path"], "server/scripts/probeBilibiliCommentEvidence.js")
         self.assertEqual(result["nextOfflineMigrationAction"]["nodeScript"], "dictionary:probe-bilibili")
-        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "dry_run_plan_fixture")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "dry_run_plan_and_corpus_update_fixture")
         self.assertEqual(result["nextOfflineMigrationAction"]["offlineReason"], "skips_live_api_runtime")
 
     def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):
