@@ -4386,6 +4386,39 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(comparison["ok"])
         self.assertEqual(comparison["mismatches"][0]["key"], "summary")
 
+    def test_readme_stats_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "readme-stats.json"
+            js_report_path = root / "js-readme-stats.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "generatedAt": "2026-06-19T00:00:00.000Z",
+                        "sources": [
+                            {
+                                "name": "direct",
+                                "runs": [{"at": "2026-06-17T10:00:00.000Z", "commentsAdded": 2}],
+                                "comments": [
+                                    {"message": "\u8bc4\u8bba", "source": "comment"},
+                                    {"message": "\u5f39\u5e55", "source": "danmaku"},
+                                ],
+                            }
+                        ],
+                        "dictionary": {"entries": [{"term": "doge"}]},
+                        "coverage": {"coverageRatio": 0.5},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            comparison = ReadmeStatsPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+
     def test_readme_stats_cli_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
