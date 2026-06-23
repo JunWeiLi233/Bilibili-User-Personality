@@ -9602,9 +9602,12 @@ class CorpusContractTests(unittest.TestCase):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
 
         self.assertEqual(package["scripts"]["python:local-mine"], "python -m python_backend.cli.local_corpus_mine")
+        self.assertEqual(package["scripts"]["python:local-mine-compare"], "node server/scripts/compareLocalCorpusMine.js")
         inventory = PackageCommandMigrationInventory(package).scan()
         mapping = next(item for item in inventory["pythonBackedNodeScripts"] if item["script"] == "dictionary:mine-local")
         self.assertEqual(mapping["pythonScript"], "python:local-mine")
+        self.assertEqual(mapping["validationScript"], "python:local-mine-compare")
+        self.assertEqual(mapping["validationScope"], "dry_run_command")
         self.assertEqual(mapping["replacementScope"], "write_runtime_needs_full_command_compare")
         self.assertFalse(mapping["readyToReplace"])
 

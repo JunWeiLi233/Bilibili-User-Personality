@@ -36,6 +36,7 @@ DEFAULT_PACKAGE_COMMAND_EQUIVALENTS = {
 DEFAULT_PACKAGE_VALIDATION_EQUIVALENTS = {
     "deepseek:analyze": "python:deepseek-mock-runtime-compare",
     "dictionary:huggingface": "python:huggingface-compare",
+    "dictionary:mine-local": "python:local-mine-compare",
 }
 
 DEFAULT_PACKAGE_VALIDATION_SCOPES = {
@@ -45,6 +46,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:deepseek-analyze-fixture-compare": "full_command_fixture",
     "python:deepseek-mock-runtime-compare": "mocked_runtime",
     "python:huggingface-compare": "full_command",
+    "python:local-mine-compare": "dry_run_command",
 }
 
 DEFAULT_PACKAGE_REPLACEMENT_SCOPES = {
@@ -73,6 +75,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:deepseek-normalization-compare": "js_python_contract_bridge",
     "python:deepseek-analyze-fixture-compare": "js_python_contract_bridge",
     "python:deepseek-mock-runtime-compare": "js_python_contract_bridge",
+    "python:local-mine-compare": "js_python_contract_bridge",
 }
 
 RETAINED_JS_FILE_PREFIXES = {
@@ -88,6 +91,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareDeepSeekAnalysisNormalization.js": "js_python_contract_bridge",
     "server/scripts/compareDeepSeekAnalyzeFixture.js": "js_python_contract_bridge",
     "server/scripts/compareDeepSeekAnalyzeMockRuntime.js": "js_python_contract_bridge",
+    "server/scripts/compareLocalCorpusMine.js": "js_python_contract_bridge",
 }
 
 MIGRATION_PRIORITY_RULES = (

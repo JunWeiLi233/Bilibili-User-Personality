@@ -204,7 +204,7 @@ class LocalCorpusMineRunner:
                 "requireCommentBackedEvidence": self.require_comment_backed_evidence,
             },
         )
-        entries = [entry for entry in raw_entries if self._mergeable(entry)]
+        entries = [self._normalize_mined_entry(entry) for entry in raw_entries if self._mergeable(entry)]
         write_result = DictionaryMergeWriter(self.dictionary_path).merge_entries(entries) if self.write else None
         result = {
             "ok": True,
@@ -264,6 +264,22 @@ class LocalCorpusMineRunner:
         if not isinstance(entry, dict):
             return False
         return bool(entry.get("evidenceSources") or entry.get("evidenceSamples"))
+
+    @staticmethod
+    def _normalize_mined_entry(entry: dict[str, Any]) -> dict[str, Any]:
+        evidence_samples = entry.get("evidenceSamples") if isinstance(entry.get("evidenceSamples"), list) else []
+        evidence_sources = entry.get("evidenceSources") if isinstance(entry.get("evidenceSources"), list) else []
+        family = str(entry.get("family") or "attack").strip() or "attack"
+        return {
+            "term": str(entry.get("term") or "").strip(),
+            "family": family,
+            "meaning": str(entry.get("meaning") or "").strip(),
+            "risk": str(entry.get("risk") or "").strip() or ("positive" if family in {"cooperation", "correction"} else "medium"),
+            "confidence": float(entry.get("confidence") if entry.get("confidence") is not None else 0.68),
+            "evidenceCount": max(len(evidence_samples), len(evidence_sources), int(entry.get("evidenceCount") or 0)),
+            "evidenceSamples": evidence_samples[:5],
+            "evidenceSources": evidence_sources,
+        }
 
 
 class LocalCorpusMineCommandRequest:
