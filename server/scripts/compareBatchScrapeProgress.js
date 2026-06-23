@@ -32,6 +32,40 @@ export const DEFAULT_PAYLOAD = {
   },
 };
 
+export const BATCH_SCRAPE_PROGRESS_FIXTURES = {
+  'uid-range-default': DEFAULT_PAYLOAD,
+  'popular-progress': {
+    mode: 'popular',
+    progressFile: 'batch-scrape-popular-progress.json',
+    databaseFile: 'aicu-user-database.json',
+    pages: 5,
+    progress: {
+      scraped: 4,
+      videosScanned: 40,
+      pagesScanned: 2,
+      startTime: 'start',
+      endTime: 'end',
+    },
+    database: {
+      users: {
+        200: { comments: [{ message: 'x' }] },
+        201: { danmaku: [{ content: 'y' }, { content: 'z' }] },
+      },
+    },
+  },
+  'corrupt-inputs': {
+    mode: 'uid-range',
+    progressFile: 'batch-scrape-progress.json',
+    databaseFile: 'aicu-user-database.json',
+    startUid: 1,
+    endUid: 3,
+    progressRaw: '{"lastUid": ',
+    databaseRaw: '{"users": ',
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = Object.keys(BATCH_SCRAPE_PROGRESS_FIXTURES);
+
 function intOrZero(value) {
   const parsed = Number.parseInt(String(value ?? ''), 10);
   return Number.isFinite(parsed) ? parsed : 0;
@@ -118,7 +152,7 @@ async function runJsProgress({ dataDir, progressFile, databaseFile, mode, startU
     timestamps: {
       startTime: progressPayload.startTime || null,
       endTime: progressPayload.endTime || null,
-      lastUpdated: database.lastUpdated,
+      lastUpdated: database.lastUpdated || null,
     },
   };
 }
@@ -155,28 +189,44 @@ async function runPythonProgress({ dataDir, progressFile, databaseFile, mode, st
 
 async function writeFixture(dataDir, payload) {
   await mkdir(dataDir, { recursive: true });
-  await writeFile(join(dataDir, payload.progressFile || DEFAULT_PAYLOAD.progressFile), JSON.stringify(payload.progress || {}, null, 2), 'utf8');
-  await writeFile(join(dataDir, payload.databaseFile || DEFAULT_PAYLOAD.databaseFile), JSON.stringify(payload.database || { users: {} }, null, 2), 'utf8');
+  await writeFile(
+    join(dataDir, payload.progressFile || DEFAULT_PAYLOAD.progressFile),
+    'progressRaw' in payload ? String(payload.progressRaw ?? '') : JSON.stringify(payload.progress || {}, null, 2),
+    'utf8',
+  );
+  await writeFile(
+    join(dataDir, payload.databaseFile || DEFAULT_PAYLOAD.databaseFile),
+    'databaseRaw' in payload ? String(payload.databaseRaw ?? '') : JSON.stringify(payload.database || { users: {} }, null, 2),
+    'utf8',
+  );
 }
 
-export async function compareBatchScrapeProgress({ payload = DEFAULT_PAYLOAD, runJs = runJsProgress, runPython = runPythonProgress } = {}) {
+function resolvePayload({ payload, fixture } = {}) {
+  if (payload) return { name: fixture?.name || 'custom', payload };
+  const name = typeof fixture === 'string' ? fixture : fixture?.name || 'uid-range-default';
+  return { name, payload: BATCH_SCRAPE_PROGRESS_FIXTURES[name] || DEFAULT_PAYLOAD };
+}
+
+async function compareBatchScrapeProgressSingle({ payload, fixture, runJs = runJsProgress, runPython = runPythonProgress } = {}) {
+  const resolved = resolvePayload({ payload, fixture });
   const tempDir = await mkdtemp(join(tmpdir(), 'batch-scrape-progress-compare-'));
   try {
-    const dataDir = payload.dataDir || join(tempDir, 'data');
-    const progressFile = payload.progressFile || DEFAULT_PAYLOAD.progressFile;
-    const databaseFile = payload.databaseFile || DEFAULT_PAYLOAD.databaseFile;
-    const mode = payload.mode || DEFAULT_PAYLOAD.mode;
-    const startUid = Number.parseInt(String(payload.startUid ?? DEFAULT_PAYLOAD.startUid), 10) || DEFAULT_PAYLOAD.startUid;
-    const endUid = Number.parseInt(String(payload.endUid ?? DEFAULT_PAYLOAD.endUid), 10) || DEFAULT_PAYLOAD.endUid;
-    const pages = Number.parseInt(String(payload.pages ?? DEFAULT_PAYLOAD.pages), 10) || DEFAULT_PAYLOAD.pages;
-    if (!payload.dataDir) await writeFixture(dataDir, payload);
-    const context = { payload, dataDir, progressFile, databaseFile, mode, startUid, endUid, pages };
+    const fixturePayload = resolved.payload;
+    const dataDir = fixturePayload.dataDir || join(tempDir, 'data');
+    const progressFile = fixturePayload.progressFile || DEFAULT_PAYLOAD.progressFile;
+    const databaseFile = fixturePayload.databaseFile || DEFAULT_PAYLOAD.databaseFile;
+    const mode = fixturePayload.mode || DEFAULT_PAYLOAD.mode;
+    const startUid = Number.parseInt(String(fixturePayload.startUid ?? DEFAULT_PAYLOAD.startUid), 10) || DEFAULT_PAYLOAD.startUid;
+    const endUid = Number.parseInt(String(fixturePayload.endUid ?? DEFAULT_PAYLOAD.endUid), 10) || DEFAULT_PAYLOAD.endUid;
+    const pages = Number.parseInt(String(fixturePayload.pages ?? DEFAULT_PAYLOAD.pages), 10) || DEFAULT_PAYLOAD.pages;
+    if (!fixturePayload.dataDir) await writeFixture(dataDir, fixturePayload);
+    const context = { payload: fixturePayload, fixture: { name: resolved.name }, dataDir, progressFile, databaseFile, mode, startUid, endUid, pages };
     const js = await runJs(context);
     const python = await runPython(context);
     const comparison = compareBatchScrapeProgressObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { dataDir, progressFile, databaseFile, mode, startUid, endUid, pages },
+      fixture: { name: resolved.name, dataDir, progressFile, databaseFile, mode, startUid, endUid, pages },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -186,8 +236,20 @@ export async function compareBatchScrapeProgress({ payload = DEFAULT_PAYLOAD, ru
   }
 }
 
+export async function compareBatchScrapeProgress({ payload, fixture, fixtureNames, runJs = runJsProgress, runPython = runPythonProgress } = {}) {
+  if (fixtureNames) {
+    const results = [];
+    for (const name of fixtureNames.length ? fixtureNames : DEFAULT_FIXTURE_NAMES) {
+      results.push(await compareBatchScrapeProgressSingle({ fixture: name, runJs, runPython }));
+    }
+    const mismatches = results.flatMap((result) => result.mismatches.map((mismatch) => ({ ...mismatch, fixture: result.fixture.name })));
+    return { ok: mismatches.length === 0, fixtures: results.map((result) => result.fixture), results, mismatches };
+  }
+  return compareBatchScrapeProgressSingle({ payload, fixture, runJs, runPython });
+}
+
 async function main() {
-  const result = await compareBatchScrapeProgress();
+  const result = await compareBatchScrapeProgress({ fixtureNames: DEFAULT_FIXTURE_NAMES });
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import { compareBatchScrapeProgress, compareBatchScrapeProgressObjects } from './compareBatchScrapeProgress.js';
+import { BATCH_SCRAPE_PROGRESS_FIXTURES, compareBatchScrapeProgress, compareBatchScrapeProgressObjects } from './compareBatchScrapeProgress.js';
 
 const SUMMARY = {
   mode: 'uid-range',
@@ -42,5 +42,33 @@ test('compareBatchScrapeProgress compares JS-compatible and Python progress repo
   assert.deepEqual(calls, [
     { js: 100, end: 110, mode: 'uid-range' },
     { python: 100, end: 110, mode: 'uid-range' },
+  ]);
+});
+
+test('compareBatchScrapeProgress exports named file-backed fixtures', async () => {
+  assert.deepEqual(Object.keys(BATCH_SCRAPE_PROGRESS_FIXTURES), ['uid-range-default', 'popular-progress', 'corrupt-inputs']);
+
+  const calls = [];
+  const result = await compareBatchScrapeProgress({
+    fixtureNames: Object.keys(BATCH_SCRAPE_PROGRESS_FIXTURES),
+    runJs: async (context) => {
+      calls.push({ js: context.fixture.name, mode: context.mode, progressFile: context.progressFile });
+      return { ok: true, ...SUMMARY, mode: context.mode };
+    },
+    runPython: async (context) => {
+      calls.push({ python: context.fixture.name, mode: context.mode, progressFile: context.progressFile });
+      return { ok: true, ...SUMMARY, mode: context.mode };
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.deepEqual(calls, [
+    { js: 'uid-range-default', mode: 'uid-range', progressFile: 'batch-scrape-progress.json' },
+    { python: 'uid-range-default', mode: 'uid-range', progressFile: 'batch-scrape-progress.json' },
+    { js: 'popular-progress', mode: 'popular', progressFile: 'batch-scrape-popular-progress.json' },
+    { python: 'popular-progress', mode: 'popular', progressFile: 'batch-scrape-popular-progress.json' },
+    { js: 'corrupt-inputs', mode: 'uid-range', progressFile: 'batch-scrape-progress.json' },
+    { python: 'corrupt-inputs', mode: 'uid-range', progressFile: 'batch-scrape-progress.json' },
   ]);
 });

@@ -25359,6 +25359,10 @@ class CorpusContractTests(unittest.TestCase):
             {"path": "server/scripts/compareBatchScrapeProgress.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
         )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:batch-scrape-progress-compare"],
+            "file_backed_uid_range_popular_corrupt_inputs_fixtures_and_js_python_bridge",
+        )
 
     def test_batch_uid_progress_runner_summarizes_discovery_and_phase2_status(self):
         with tempfile.TemporaryDirectory() as tmp:
