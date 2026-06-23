@@ -6,7 +6,7 @@ import { readFile } from 'node:fs/promises';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 
-import { analyzeCommentsWithDeepSeek } from '../services/deepseekKeywordTrainer.js';
+import { analyzeCommentsWithDeepSeek, normalizeDeepSeekAnalysisResult } from '../services/deepseekKeywordTrainer.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -17,6 +17,9 @@ export function parseArgs(argv = process.argv.slice(2)) {
   let planJson = false;
   let usePythonPlan = false;
   let useJsPlan = false;
+  let fixtureAnalysis = '';
+  let usePythonFixture = false;
+  let useJsFixture = false;
 
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
@@ -28,6 +31,15 @@ export function parseArgs(argv = process.argv.slice(2)) {
       usePythonPlan = true;
     } else if (arg === '--js-plan') {
       useJsPlan = true;
+    } else if (arg.startsWith('--fixture-analysis=')) {
+      fixtureAnalysis = arg.slice('--fixture-analysis='.length);
+    } else if (arg === '--fixture-analysis') {
+      fixtureAnalysis = argv[index + 1] || '';
+      index += 1;
+    } else if (arg === '--python-fixture') {
+      usePythonFixture = true;
+    } else if (arg === '--js-fixture') {
+      useJsFixture = true;
     } else if (arg === '--multiagent' || arg === '--multi-agent') {
       payload.multiagent = true;
     } else if (arg.startsWith('--text=')) {
@@ -58,8 +70,11 @@ export function parseArgs(argv = process.argv.slice(2)) {
   if (planJson && !useJsPlan) {
     usePythonPlan = true;
   }
+  if (fixtureAnalysis && !useJsFixture) {
+    usePythonFixture = true;
+  }
 
-  return { payload, file, showHelp, planJson, usePythonPlan, useJsPlan };
+  return { payload, file, showHelp, planJson, usePythonPlan, useJsPlan, fixtureAnalysis, usePythonFixture, useJsFixture };
 }
 
 export function buildPlan({ payload = {}, file = '', showHelp = false } = {}, { stdinIsTTY = process.stdin.isTTY } = {}) {
@@ -103,6 +118,70 @@ export async function runPlanMode(
   return buildPlan(parsed, { stdinIsTTY });
 }
 
+export async function readAnalysisFixtureJson(path) {
+  const text = await readFile(path, 'utf8');
+  return JSON.parse(text.replace(/^\uFEFF/, ''));
+}
+
+async function runPythonFixtureAnalysis({ payload, analysis }) {
+  const tempDir = await mkdtemp(join(tmpdir(), 'deepseek-fixture-analysis-'));
+  try {
+    const payloadPath = join(tempDir, 'payload.json');
+    const analysisPath = join(tempDir, 'analysis.json');
+    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
+    await writeFile(analysisPath, JSON.stringify(analysis, null, 2), 'utf8');
+    const { stdout } = await execFileAsync(
+      'python',
+      [
+        '-m',
+        'python_backend.cli.deepseek_analysis_normalize',
+        '--payload',
+        payloadPath,
+        '--analysis',
+        analysisPath,
+        '--provider',
+        'deepseek',
+        '--model',
+        'deepseek-v4-flash',
+        '--reasoning-effort',
+        'max',
+        '--raw',
+        JSON.stringify(analysis),
+      ],
+      {
+        cwd: process.cwd(),
+        env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+        maxBuffer: 10 * 1024 * 1024,
+      },
+    );
+    return JSON.parse(stdout);
+  } finally {
+    await rm(tempDir, { recursive: true, force: true });
+  }
+}
+
+export async function runFixtureAnalysisMode(
+  parsed,
+  {
+    readAnalysis = readAnalysisFixtureJson,
+    runPythonFixture = runPythonFixtureAnalysis,
+    normalizeJs = normalizeDeepSeekAnalysisResult,
+  } = {},
+) {
+  const analysis = await readAnalysis(parsed.fixtureAnalysis);
+  if (parsed.usePythonFixture && !parsed.useJsFixture) {
+    return runPythonFixture({ payload: parsed.payload, analysis });
+  }
+  const parsedAnalysis = analysis?.parsed && typeof analysis.parsed === 'object' ? analysis.parsed : analysis;
+  return normalizeJs({
+    parsed: parsedAnalysis,
+    payload: parsed.payload,
+    config: { provider: 'deepseek', model: 'deepseek-v4-flash', reasoningEffort: 'max' },
+    raw: JSON.stringify(analysis),
+    retriedCompactPrompt: false,
+  });
+}
+
 function readStdin() {
   return new Promise((resolve, reject) => {
     let text = '';
@@ -125,6 +204,8 @@ Options:
   --multiagent        Run three specialist agents plus a merge quality-control agent.
   --text <text>       Analyze inline text.
   --file <path>       Analyze text from a UTF-8 file.
+  --fixture-analysis <path>
+                      Normalize a saved analysis JSON through the Python contract without calling DeepSeek.
   --uid <uid>         Optional user id context.
   --name <name>       Optional user name context.`);
 }
@@ -132,7 +213,7 @@ Options:
 async function main() {
   const argv = process.argv.slice(2);
   const parsed = parseArgs();
-  const { payload, file, showHelp, planJson } = parsed;
+  const { payload, file, showHelp, planJson, fixtureAnalysis } = parsed;
   if (showHelp) {
     printHelp();
     return;
@@ -147,6 +228,13 @@ async function main() {
     payload.text = await readFile(file, 'utf8');
   } else if (!payload.text && !process.stdin.isTTY) {
     payload.text = await readStdin();
+  }
+
+  if (fixtureAnalysis) {
+    const result = await runFixtureAnalysisMode(parsed);
+    console.log(JSON.stringify(result, null, 2));
+    if (!result.ok) process.exitCode = 1;
+    return;
   }
 
   const result = await analyzeCommentsWithDeepSeek(payload);

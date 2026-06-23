@@ -81,6 +81,7 @@
     "python:deepseek-cli-compare": "node server/scripts/compareDeepSeekAnalyzePlan.js",
     "python:deepseek-validation-compare": "node server/scripts/compareDeepSeekAnalysisValidation.js",
     "python:deepseek-normalization-compare": "node server/scripts/compareDeepSeekAnalysisNormalization.js",
+    "python:deepseek-analyze-fixture-compare": "node server/scripts/compareDeepSeekAnalyzeFixture.js",
     "python:deepseek-validate": "python -m python_backend.cli.deepseek_analysis_validate",
     "python:keyword-evidence": "python -m python_backend.cli.keyword_evidence",
     "python:huggingface-plan": "python -m python_backend.cli.huggingface_corpus --plan-payload",
