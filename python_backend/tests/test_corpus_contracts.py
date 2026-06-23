@@ -1928,6 +1928,19 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(report.weak_terms, 1)
         self.assertEqual(report.next_queries(), ["bom query"])
 
+    def test_coverage_audit_report_load_defaults_corrupt_json_contracts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            audit_path = Path(tmp) / "audit.json"
+            audit_path.write_text("{bad json", encoding="utf-8")
+
+            report = CoverageAuditReport.load(audit_path)
+
+        self.assertFalse(report.ok)
+        self.assertEqual(report.target_evidence, 0)
+        self.assertEqual(report.terms, 0)
+        self.assertEqual(report.coverage_ratio, 0)
+        self.assertEqual(report.next_queries(), [])
+
     def test_coverage_audit_contract_summary_preserves_js_comparator_shape(self):
         summary = CoverageAuditContractSummary().summarize(
             {
