@@ -330,8 +330,8 @@ class BackendMigrationInventoryScanner:
         if script == "deepseek:analyze":
             blockers.append(
                 {
-                    "blocker": "js_fallback_selectors_still_owned_by_wrapper",
-                    "reason": "The JS wrapper still owns --js-plan, --js-fixture, and --js-runtime fallback selectors.",
+                    "blocker": "legacy_js_fallback_modes_not_ported",
+                    "reason": "The Python command rejects --js-plan, --js-fixture, and --js-runtime instead of silently running the wrong path, but those legacy JS fallback modes are not ported.",
                 }
             )
         return blockers

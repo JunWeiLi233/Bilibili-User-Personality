@@ -340,7 +340,9 @@ class DeepSeekAnalyzeCommandRequest:
         parser.add_argument("--python-plan", action="store_true", help=argparse.SUPPRESS)
         parser.add_argument("--js-plan", action="store_true", help=argparse.SUPPRESS)
         parser.add_argument("--python-runtime", action="store_true", help=argparse.SUPPRESS)
+        parser.add_argument("--js-runtime", action="store_true", help=argparse.SUPPRESS)
         parser.add_argument("--python-fixture", action="store_true", help=argparse.SUPPRESS)
+        parser.add_argument("--js-fixture", action="store_true", help=argparse.SUPPRESS)
         parser.add_argument("--text", default="")
         parser.add_argument("--file", default="")
         parser.add_argument("--uid", default="")
@@ -352,6 +354,9 @@ class DeepSeekAnalyzeCommandRequest:
 
     def run(self) -> dict[str, Any]:
         args = self.parser().parse_args(self._normalize_argv(self.argv))
+        legacy_selector = self._legacy_js_selector(args)
+        if legacy_selector:
+            return self._unsupported_legacy_js_selector(legacy_selector)
         if args.plan_json:
             return DeepSeekAnalyzeCliPlanner().build_plan(self._normalize_argv(self.argv) or [], stdin_is_tty=self.stdin_is_tty)
         payload = self._payload(args)
@@ -369,6 +374,26 @@ class DeepSeekAnalyzeCommandRequest:
             )
         return {
             **DeepSeekAnalyzeRuntime().run(payload),
+        }
+
+    @staticmethod
+    def _legacy_js_selector(args: argparse.Namespace) -> str:
+        if bool(getattr(args, "js_plan", False)):
+            return "js_plan"
+        if bool(getattr(args, "js_fixture", False)):
+            return "js_fixture"
+        if bool(getattr(args, "js_runtime", False)):
+            return "js_runtime"
+        return ""
+
+    @staticmethod
+    def _unsupported_legacy_js_selector(selector: str) -> dict[str, Any]:
+        return {
+            "ok": False,
+            "provider": "deepseek",
+            "error": "unsupported_legacy_js_selector",
+            "selector": selector,
+            "message": "The Python DeepSeek analyzer command cannot execute legacy JS fallback selector modes.",
         }
 
     def _run_mock_chat(self, payload: dict[str, Any], analysis_path: str | Path) -> dict[str, Any]:
