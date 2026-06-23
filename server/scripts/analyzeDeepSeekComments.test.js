@@ -24,8 +24,8 @@ test('analyzeDeepSeekComments dry-run plan marks stdin without consuming it', ()
   });
 });
 
-test('analyzeDeepSeekComments can delegate dry-run planning to Python', async () => {
-  const argv = ['--plan-json', '--python-plan', '--text=satire [doge]'];
+test('analyzeDeepSeekComments delegates dry-run planning to Python by default', async () => {
+  const argv = ['--plan-json', '--text=satire [doge]'];
   const parsed = parseArgs(argv);
   const calls = [];
 
@@ -43,7 +43,32 @@ test('analyzeDeepSeekComments can delegate dry-run planning to Python', async ()
   });
 
   assert.equal(parsed.usePythonPlan, true);
+  assert.equal(parsed.useJsPlan, false);
   assert.deepEqual(calls, [{ argv, stdinIsTTY: true }]);
+  assert.deepEqual(result, {
+    ok: true,
+    payload: { text: 'satire [doge]' },
+    input: { source: 'argv', file: '', readsStdin: false, showHelp: false },
+  });
+});
+
+test('analyzeDeepSeekComments keeps explicit JS dry-run planning fallback', async () => {
+  const argv = ['--plan-json', '--js-plan', '--text=satire [doge]'];
+  const parsed = parseArgs(argv);
+  const calls = [];
+
+  const result = await runPlanMode(parsed, {
+    argv,
+    stdinIsTTY: true,
+    runPythonPlan: async (payload) => {
+      calls.push(payload);
+      return { ok: false };
+    },
+  });
+
+  assert.equal(parsed.usePythonPlan, false);
+  assert.equal(parsed.useJsPlan, true);
+  assert.deepEqual(calls, []);
   assert.deepEqual(result, {
     ok: true,
     payload: { text: 'satire [doge]' },

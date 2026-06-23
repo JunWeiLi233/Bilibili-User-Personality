@@ -16,6 +16,7 @@ export function parseArgs(argv = process.argv.slice(2)) {
   let showHelp = false;
   let planJson = false;
   let usePythonPlan = false;
+  let useJsPlan = false;
 
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
@@ -25,6 +26,8 @@ export function parseArgs(argv = process.argv.slice(2)) {
       planJson = true;
     } else if (arg === '--python-plan') {
       usePythonPlan = true;
+    } else if (arg === '--js-plan') {
+      useJsPlan = true;
     } else if (arg === '--multiagent' || arg === '--multi-agent') {
       payload.multiagent = true;
     } else if (arg.startsWith('--text=')) {
@@ -52,7 +55,11 @@ export function parseArgs(argv = process.argv.slice(2)) {
     }
   }
 
-  return { payload, file, showHelp, planJson, usePythonPlan };
+  if (planJson && !useJsPlan) {
+    usePythonPlan = true;
+  }
+
+  return { payload, file, showHelp, planJson, usePythonPlan, useJsPlan };
 }
 
 export function buildPlan({ payload = {}, file = '', showHelp = false } = {}, { stdinIsTTY = process.stdin.isTTY } = {}) {
@@ -90,7 +97,7 @@ export async function runPlanMode(
   parsed,
   { argv = process.argv.slice(2), stdinIsTTY = process.stdin.isTTY, runPythonPlan = runPythonCliPlan } = {},
 ) {
-  if (parsed.usePythonPlan) {
+  if (parsed.usePythonPlan && !parsed.useJsPlan) {
     return runPythonPlan({ argv, stdinIsTTY });
   }
   return buildPlan(parsed, { stdinIsTTY });
