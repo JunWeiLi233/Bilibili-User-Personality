@@ -303,6 +303,13 @@ class BackendMigrationInventoryScanner:
         ):
             return "legacy_compatibility_after_python_replacement"
         if (
+            relative_path == "server/services/directBilibiliEvidenceProbe.js"
+            and package_scripts.get("python:direct-probe-command") == "python -m python_backend.cli.direct_probe_command"
+            and package_scripts.get("python:direct-probe-update") == "python -m python_backend.cli.direct_probe_corpus"
+            and package_scripts.get("python:direct-probe-live-fetch") == "python -m python_backend.cli.direct_probe_live_fetch"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
             relative_path == "server/scripts/mergeUidPipelineResults.js"
             and str(package_scripts.get("python:uid-pipeline-merge") or "").startswith("python -m python_backend.cli.uid_pipeline_merge")
         ):

@@ -1386,6 +1386,32 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_direct_bilibili_probe_service_is_legacy_after_python_contracts(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertNotIn("server/services/directBilibiliEvidenceProbe.js", result["migrationCandidateFiles"]["services"])
+        self.assertIn(
+            {"path": "server/services/directBilibiliEvidenceProbe.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {
+                "script": "python:direct-probe-command",
+                "command": "python -m python_backend.cli.direct_probe_command",
+                "pipeline": "direct_probe_command",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:direct-probe-update",
+                "command": "python -m python_backend.cli.direct_probe_corpus",
+                "pipeline": "direct_probe_corpus",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertFalse(result["nextOfflineMigrationAction"]["readyToReplace"])
+
     def test_package_huggingface_dictionary_command_uses_python_after_full_contract_validation(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
         result = BackendMigrationInventoryScanner(".").scan()
