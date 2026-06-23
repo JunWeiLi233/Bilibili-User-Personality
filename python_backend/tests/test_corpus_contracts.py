@@ -15317,6 +15317,18 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["summary"]["total"], 2)
         self.assertEqual(result["summary"]["byMode"], {"keyword": 1, "neutral": 1, "uncovered": 0})
 
+    def test_comment_coverage_json_payload_runner_defaults_corrupt_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "comment-coverage.json"
+            payload_path.write_text("{bad json", encoding="utf-8")
+
+            result = CommentCoverageJsonPayloadRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["summary"]["total"], 0)
+        self.assertEqual(result["summary"]["coverageRatio"], 1)
+        self.assertEqual(result["summary"]["byMode"], {"keyword": 0, "neutral": 0, "uncovered": 0})
+
     def test_comment_coverage_json_payload_runner_uses_loader_payload_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

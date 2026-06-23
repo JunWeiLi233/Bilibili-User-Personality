@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import json
 import re
 import unicodedata
 from dataclasses import dataclass
@@ -10,7 +9,7 @@ from typing import Any
 
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
-from python_backend.runtime.json_contracts import safe_read_json_object
+from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 
 
 def _clean_text(value: Any) -> str:
@@ -388,5 +387,4 @@ class CommentCoverageCommandRequest:
 
 
 def _read_json(path: Path) -> Any:
-    with path.open("r", encoding="utf-8-sig") as handle:
-        return json.load(handle)
+    return JsonContractReader().read_value(path, {})
