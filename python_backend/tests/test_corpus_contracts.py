@@ -1422,6 +1422,23 @@ class CorpusContractTests(unittest.TestCase):
             result["packageScripts"]["pythonOwnedDataScripts"],
         )
 
+    def test_scraper_monitor_script_is_legacy_after_python_monitor_contract(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertNotIn("server/scripts/monitorScrapers.js", result["migrationCandidateFiles"]["scripts"])
+        self.assertIn(
+            {"path": "server/scripts/monitorScrapers.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {
+                "script": "python:scraper-monitor",
+                "command": "python -m python_backend.cli.scraper_monitor",
+                "pipeline": "scraper_monitor",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+
     def test_package_command_migration_inventory_maps_node_commands_to_python_contracts(self):
         package = {
             "scripts": {
