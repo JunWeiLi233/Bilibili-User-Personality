@@ -4,7 +4,7 @@ import argparse
 from pathlib import Path
 from typing import Any
 
-from python_backend.analyzers.deepseek import DeepSeekAnalysisNormalizer
+from python_backend.analyzers.deepseek import DeepSeekAnalysisNormalizer, DeepSeekAnalyzerClient
 from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 
 
@@ -179,11 +179,14 @@ class DeepSeekAnalyzeCommandRequest:
         parser.add_argument("--name", default="")
         parser.add_argument("--multiagent", "--multi-agent", action="store_true", dest="multiagent")
         parser.add_argument("--fixture-analysis", default="")
+        parser.add_argument("--mock-chat-analysis", default="", help="Read a local analysis JSON after building the chat request contract.")
         return parser
 
     def run(self) -> dict[str, Any]:
         args = self.parser().parse_args(self._normalize_argv(self.argv))
         payload = self._payload(args)
+        if args.mock_chat_analysis:
+            return self._run_mock_chat(payload, args.mock_chat_analysis)
         if args.fixture_analysis:
             analysis = JsonContractReader().read_object(args.fixture_analysis)
             return self.normalizer.normalize(
@@ -201,6 +204,26 @@ class DeepSeekAnalyzeCommandRequest:
             "reasoningEffort": "max",
             "error": "Live DeepSeek execution is not enabled in the Python command yet; use --fixture-analysis for command parity checks.",
         }
+
+    def _run_mock_chat(self, payload: dict[str, Any], analysis_path: str | Path) -> dict[str, Any]:
+        client = DeepSeekAnalyzerClient()
+        request = client.build_request_from_payload(payload)
+        requests = client.build_request_plan(request)
+        analysis = JsonContractReader().read_object(analysis_path)
+        result = self.normalizer.normalize(
+            source_payload=payload,
+            analysis_payload=analysis,
+            provider="deepseek",
+            model=request.model,
+            reasoning_effort=request.effort,
+            raw=self._json_text(analysis.get("parsed") if isinstance(analysis.get("parsed"), dict) else analysis),
+        )
+        result["runtime"] = {
+            "mode": "mock_chat",
+            "requestCount": len(requests),
+            "multiagent": request.multiagent,
+        }
+        return result
 
     def _payload(self, args: argparse.Namespace) -> dict[str, Any]:
         payload: dict[str, Any] = {}
@@ -226,7 +249,7 @@ class DeepSeekAnalyzeCommandRequest:
             return None
         normalized: list[str] = []
         index = 0
-        value_options = {"--text", "--file", "--uid", "--name", "--fixture-analysis"}
+        value_options = {"--text", "--file", "--uid", "--name", "--fixture-analysis", "--mock-chat-analysis"}
         while index < len(argv):
             arg = str(argv[index])
             if arg in value_options and index + 1 < len(argv):

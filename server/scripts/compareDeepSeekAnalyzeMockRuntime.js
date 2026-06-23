@@ -45,30 +45,23 @@ async function runJsMockRuntime({ payload = DEFAULT_PAYLOAD, raw = DEFAULT_RAW }
   return { ...result, requests };
 }
 
-async function runPythonNormalization({ payload, analysis, raw = DEFAULT_RAW, config = DEFAULT_CONFIG }) {
+async function runPythonCommandRuntime({ payload, analysis }) {
   const tempDir = await mkdtemp(join(tmpdir(), 'deepseek-mock-runtime-python-'));
   try {
-    const payloadPath = join(tempDir, 'payload.json');
     const analysisPath = join(tempDir, 'analysis.json');
-    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
     await writeFile(analysisPath, JSON.stringify(analysis, null, 2), 'utf8');
     const { stdout } = await execFileAsync(
       'python',
       [
         '-m',
-        'python_backend.cli.deepseek_analysis_normalize',
-        '--payload',
-        payloadPath,
-        '--analysis',
+        'python_backend.cli.deepseek_analyze',
+        '--mock-chat-analysis',
         analysisPath,
-        '--provider',
-        config.provider,
-        '--model',
-        config.model,
-        '--reasoning-effort',
-        config.reasoningEffort,
-        '--raw',
-        raw,
+        '--text',
+        payload.text || '',
+        '--uid',
+        payload.uid || '',
+        ...(payload.multiagent ? ['--multiagent'] : []),
       ],
       {
         cwd: process.cwd(),
@@ -92,8 +85,10 @@ export async function compareDeepSeekAnalyzeMockRuntime({
   analysis = DEFAULT_ANALYSIS,
   raw = DEFAULT_RAW,
   runJsRuntime = runJsMockRuntime,
-  runPythonNormalization: runPython = runPythonNormalization,
+  runPythonNormalization,
+  runPythonCommand,
 } = {}) {
+  const runPython = runPythonCommand || runPythonNormalization || runPythonCommandRuntime;
   const jsRuntime = await runJsRuntime({ payload, analysis, raw });
   const python = await runPython({ payload, analysis, raw, config: DEFAULT_CONFIG });
   const js = stripRuntimeOnlyFields(jsRuntime);

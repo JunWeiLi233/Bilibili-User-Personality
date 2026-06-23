@@ -33,3 +33,22 @@ test('compareDeepSeekAnalyzeMockRuntime compares mocked service runtime to Pytho
   assert.deepEqual(result.python, NORMALIZED);
   assert.equal(calls.length, 2);
 });
+
+test('compareDeepSeekAnalyzeMockRuntime passes mock analysis through the Python command runtime', async () => {
+  const calls = [];
+  const result = await compareDeepSeekAnalyzeMockRuntime({
+    runJsRuntime: async (payload) => {
+      calls.push({ js: payload });
+      return NORMALIZED;
+    },
+    runPythonCommand: async (payload) => {
+      calls.push({ pythonCommand: payload });
+      return NORMALIZED;
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.equal(calls.length, 2);
+  assert.deepEqual(Object.keys(calls[1])[0], 'pythonCommand');
+});

@@ -6151,6 +6151,33 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["axes"][0]["axis"], "\u5bf9\u6297\u6027\u52a8\u673a")
         self.assertEqual(result["sentenceAnalyses"][0]["quote"], "\u53cd\u8bbd[doge]")
 
+    def test_deepseek_analyze_command_request_runs_mock_chat_runtime(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            analysis_path = root / "analysis.json"
+            analysis_path.write_text(
+                json.dumps(
+                    {
+                        "axes": [{"axis": "attack", "score": 72, "evidence": ["\u9634\u9633\u602a\u6c14[doge]"]}],
+                        "sentenceAnalyses": [{"quote": "\u9634\u9633\u602a\u6c14[doge]", "intent": "satire"}],
+                        "confidence": 0.88,
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = DeepSeekAnalyzeCommandRequest(
+                ["--mock-chat-analysis", analysis_path, "--text", "\u9634\u9633\u602a\u6c14[doge]", "--uid", "42"]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["provider"], "deepseek")
+        self.assertEqual(result["model"], "deepseek-v4-flash")
+        self.assertEqual(result["reasoningEffort"], "max")
+        self.assertEqual(result["runtime"]["mode"], "mock_chat")
+        self.assertEqual(result["runtime"]["requestCount"], 1)
+        self.assertEqual(result["axes"][0]["score"], 72)
+
     def test_deepseek_analyze_cli_runner_is_command_request_wrapper(self):
         self.assertTrue(issubclass(deepseek_analyze_cli.DeepSeekAnalyzeCliRunner, DeepSeekAnalyzeCommandRequest))
 
