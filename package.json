@@ -11,7 +11,7 @@
     "dictionary:coverage": "python -m python_backend.cli.coverage_audit --standalone --output server/data/keywordCoverageAudit.json --query-file server/data/keywordCoverageQueries.txt --action-file server/data/keywordCoverageActions.json --exit-zero",
     "dictionary:prune": "python -m python_backend.cli.dictionary_prune_summary --write",
     "dictionary:prune-exhausted": "python -m python_backend.cli.exhausted_terms_prune_plan",
-    "dictionary:resolve-near": "node server/scripts/resolveNearTargetTerms.js",
+    "dictionary:resolve-near": "python -m python_backend.cli.near_target_resolve_plan",
     "dictionary:auto": "node server/scripts/runCoverageHarvestLoop.js",
     "dictionary:tieba": "node server/scripts/runTiebaKeywordScrape.js",
     "dictionary:huggingface": "python -m python_backend.cli.huggingface_corpus",

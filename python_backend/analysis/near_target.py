@@ -292,6 +292,7 @@ class NearTargetResolvePlanCommandRequest:
         parser.add_argument("--batch", type=int, default=12)
         parser.add_argument("--videos-per-term", type=int, default=3)
         parser.add_argument("--pages", type=int, default=3)
+        parser.add_argument("--json", action="store_true", help="Accepted for JS CLI compatibility; output is always JSON.")
         parser.add_argument("--override-terms", default="", help="Comma/newline/pipe separated terms to plan even when not near target.")
         parser.add_argument("--compare-js-plan", default="", help="Optional JS-compatible near-target resolve plan to compare.")
         return parser
