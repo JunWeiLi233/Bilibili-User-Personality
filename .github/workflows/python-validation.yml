@@ -40,6 +40,9 @@ jobs:
       - name: Compare DeepSeek CLI dry-run contract
         run: npm run python:deepseek-cli-compare
 
+      - name: Verify DeepSeek Python-backed JS plan mode
+        run: npm run python:deepseek-cli-plan-js -- --text "satire [doge]" --uid 42 --multiagent
+
       - name: Verify random corpus sample
         run: npm run python:verify-random -- --sample-size=25 --seed=20260623
 

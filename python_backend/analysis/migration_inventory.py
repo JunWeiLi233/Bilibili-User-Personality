@@ -46,6 +46,7 @@ DEFAULT_RETAINED_NODE_COMMANDS = {
 
 DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:deepseek-cli-compare": "js_python_contract_bridge",
+    "python:deepseek-cli-plan-js": "js_python_contract_bridge",
 }
 
 RETAINED_JS_FILE_PREFIXES = {

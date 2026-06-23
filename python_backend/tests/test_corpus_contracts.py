@@ -1241,6 +1241,10 @@ class CorpusContractTests(unittest.TestCase):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
 
         self.assertEqual(package["scripts"]["python:deepseek-cli-compare"], "node server/scripts/compareDeepSeekAnalyzePlan.js")
+        self.assertEqual(
+            package["scripts"]["python:deepseek-cli-plan-js"],
+            "node server/scripts/analyzeDeepSeekComments.js --plan-json --python-plan",
+        )
 
     def test_package_command_migration_inventory_maps_node_commands_to_python_contracts(self):
         package = {
@@ -1251,6 +1255,7 @@ class CorpusContractTests(unittest.TestCase):
                 "aicu:test": "node server/scripts/testAicuApi.js",
                 "dev:full": "node server/index.js",
                 "python:deepseek-cli-compare": "node server/scripts/compareDeepSeekAnalyzePlan.js",
+                "python:deepseek-cli-plan-js": "node server/scripts/analyzeDeepSeekComments.js --plan-json --python-plan",
                 "python:coverage-standalone": "python -m python_backend.cli.coverage_audit --standalone",
                 "python:huggingface-import": "python -m python_backend.cli.huggingface_corpus",
                 "python:test": "python -m unittest discover python_backend/tests",
@@ -1259,7 +1264,7 @@ class CorpusContractTests(unittest.TestCase):
 
         result = PackageCommandMigrationInventory(package).scan()
 
-        self.assertEqual(result["nodeServerScripts"], 6)
+        self.assertEqual(result["nodeServerScripts"], 7)
         self.assertEqual(result["pythonBackendScripts"], 2)
         self.assertEqual(
             result["pythonBackedNodeScripts"],
@@ -1292,6 +1297,11 @@ class CorpusContractTests(unittest.TestCase):
                 {
                     "script": "python:deepseek-cli-compare",
                     "command": "node server/scripts/compareDeepSeekAnalyzePlan.js",
+                    "reason": "js_python_contract_bridge",
+                },
+                {
+                    "script": "python:deepseek-cli-plan-js",
+                    "command": "node server/scripts/analyzeDeepSeekComments.js --plan-json --python-plan",
                     "reason": "js_python_contract_bridge",
                 },
             ],
@@ -1349,6 +1359,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("npm run python:compare", workflow)
         self.assertIn("npm run python:coverage-compare", workflow)
         self.assertIn("npm run python:deepseek-cli-compare", workflow)
+        self.assertIn("npm run python:deepseek-cli-plan-js -- --text \"satire [doge]\" --uid 42 --multiagent", workflow)
         self.assertIn("npm run python:verify-random -- --sample-size=25 --seed=20260623", workflow)
         self.assertIn("npm test", workflow)
 
