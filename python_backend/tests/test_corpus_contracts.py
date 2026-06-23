@@ -23060,6 +23060,25 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["mismatches"], [])
         self.assertEqual(result["js"], {})
 
+    def test_video_keyword_discovery_report_runner_defaults_corrupt_json_contract_payloads(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_report_path = root / "js-report.json"
+            payload_path.write_text("{bad payload", encoding="utf-8")
+            js_report_path.write_text("{bad report", encoding="utf-8")
+
+            run_result = VideoKeywordDiscoveryReportPayloadRunner(payload_path).run()
+            compare_result = VideoKeywordDiscoveryReportPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(run_result["ok"])
+        self.assertEqual(run_result["mode"], "report")
+        self.assertEqual(run_result["report"]["statePath"], "")
+        self.assertEqual(run_result["priorityActionItems"], [])
+        self.assertTrue(compare_result["ok"])
+        self.assertEqual(compare_result["mismatches"], [])
+        self.assertEqual(compare_result["js"], {})
+
     def test_video_keyword_discovery_report_command_request_lives_with_analysis_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
