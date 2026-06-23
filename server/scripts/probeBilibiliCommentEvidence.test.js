@@ -73,3 +73,76 @@ test('probeBilibiliCommentEvidence exports an injectable no-write command runner
   assert.equal(result.merges, 0);
   assert.match(result.logs.join('\n'), /Dry run only/);
 });
+
+test('probeBilibiliCommentEvidence can delegate reply fetching to Python live-fetch bridge', async () => {
+  const script = String.raw`
+    const { runDirectProbeCommand } = await import('./server/scripts/probeBilibiliCommentEvidence.js');
+    const pythonCalls = [];
+    const term = '\u67e5\u67e5\u8d44\u6599';
+    const result = await runDirectProbeCommand({
+      argv: ['--query=' + term + ' bilibili comments', '--term=' + term, '--aid=456', '--reply-pages=1', '--reply-page-size=3', '--delay-ms=1000', '--jitter-ms=0'],
+      env: { BILIBILI_DIRECT_PROBE_USE_PYTHON_LIVE_FETCH: '1' },
+      readJson: async () => ({ nextActions: [] }),
+      readJsonCorpus: async () => ({ version: 1, comments: [], runs: [] }),
+      readKeywordDictionary: async () => ({
+        entries: [{
+          term,
+          family: 'evidence',
+          meaning: 'requires source',
+          evidenceCount: 0,
+          evidenceSamples: [],
+          evidenceSources: [],
+        }],
+      }),
+      pythonLiveFetchComments: async ({ video, options }) => {
+        pythonCalls.push({
+          video,
+          replyPages: options.replyPages,
+          replyPageSize: options.replyPageSize,
+          includeDanmaku: options.includeDanmaku,
+          hasCookie: Boolean(options.cookie),
+        });
+        return [{
+          message: term + ' python ' + video.aid,
+          source: 'Bilibili public direct comment probe: https://www.bilibili.com/video/av' + video.aid + '/',
+          uid: '99',
+        }];
+      },
+      fetchVideoComments: async () => {
+        throw new Error('JS reply fetch should not run when Python live fetch is enabled');
+      },
+      fetchVideoDanmaku: async () => {
+        throw new Error('danmaku should not run without include-danmaku');
+      },
+      discoverVideos: async () => {
+        throw new Error('explicit aid should avoid search discovery');
+      },
+      log: () => {},
+      makeCookie: () => 'synthetic=1',
+    });
+    console.log(JSON.stringify({
+      commentsCollected: result.commentsCollected,
+      comments: result.comments,
+      pythonCalls,
+      entries: result.entries.map((entry) => entry.term),
+    }));
+  `;
+  const { stdout } = await execFileAsync('node', ['--input-type=module', '--eval', script], {
+    cwd: process.cwd(),
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  const result = JSON.parse(stdout);
+
+  assert.equal(result.commentsCollected, 1);
+  assert.equal(result.comments[0].message, '\u67e5\u67e5\u8d44\u6599 python 456');
+  assert.deepEqual(result.entries, ['\u67e5\u67e5\u8d44\u6599']);
+  assert.deepEqual(result.pythonCalls, [
+    {
+      video: { aid: '456', title: 'explicit aid 456' },
+      replyPages: 1,
+      replyPageSize: 3,
+      includeDanmaku: false,
+      hasCookie: true,
+    },
+  ]);
+});

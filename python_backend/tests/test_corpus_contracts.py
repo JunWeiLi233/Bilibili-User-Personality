@@ -1335,6 +1335,7 @@ class CorpusContractTests(unittest.TestCase):
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:direct-probe-compare"},
                 {"gate": "corpus_update_js_runner_fixture", "status": "covered", "source": "python:direct-probe-update-compare"},
                 {"gate": "python_live_fetch_unit", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
+                {"gate": "js_opt_in_python_live_fetch_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
             ],
         )
         self.assertEqual(
@@ -1342,7 +1343,7 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {
                     "blocker": "live_bilibili_command_runtime_not_integrated",
-                    "reason": "Python has a unit-tested live reply/danmaku fetch adapter, but the dictionary:probe-bilibili command still runs the JS live orchestration path.",
+                    "reason": "Python has a unit-tested live reply/danmaku fetch adapter and an opt-in JS bridge, but dictionary:probe-bilibili still defaults to the JS live orchestration path.",
                 }
             ],
         )

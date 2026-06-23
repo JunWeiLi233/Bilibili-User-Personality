@@ -1,5 +1,9 @@
-import { readFile } from 'node:fs/promises';
+import { execFile } from 'node:child_process';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { promisify } from 'node:util';
 
 import { readKeywordDictionary, mergeEntriesIntoDictionary } from '../services/deepseekKeywordTrainer.js';
 import {
@@ -27,6 +31,7 @@ import { readJsonCorpus, writeJsonCorpus } from '../services/splitCorpusStorage.
 import { DEFAULT_COVERAGE_AUDIT_REPORT_PATH } from '../utils/paths.js';
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const execFileAsync = promisify(execFile);
 
 function boundedInt(value, fallback, min, max) {
   const number = Number(value);
@@ -55,6 +60,7 @@ function parseArgs(argv = process.argv.slice(2), env = process.env) {
     outputPath: env.BILIBILI_DIRECT_PROBE_OUTPUT || 'server/data/bilibiliDirectProbeCorpus.json',
     includeDanmaku: env.BILIBILI_DIRECT_PROBE_INCLUDE_DANMAKU === '1',
     rescanSourceVideos: env.BILIBILI_DIRECT_PROBE_RESCAN_SOURCE_VIDEOS === '1',
+    usePythonLiveFetch: env.BILIBILI_DIRECT_PROBE_USE_PYTHON_LIVE_FETCH === '1',
     write: env.BILIBILI_DIRECT_PROBE_WRITE === '1',
   };
   for (const arg of argv) {
@@ -100,6 +106,7 @@ function parseArgs(argv = process.argv.slice(2), env = process.env) {
     } else if (arg.startsWith('--output=')) options.outputPath = arg.slice('--output='.length).trim();
     else if (arg === '--include-danmaku') options.includeDanmaku = true;
     else if (arg === '--rescan-source-videos') options.rescanSourceVideos = true;
+    else if (arg === '--python-live-fetch') options.usePythonLiveFetch = true;
     else if (arg === '--write') options.write = true;
   }
   options.explicitQueries = options.explicitQueries
@@ -367,6 +374,37 @@ async function fetchVideoDanmaku(video, options) {
   return collectBilibiliDanmakuMessages(xml, { ...video, cid });
 }
 
+export async function runPythonDirectProbeLiveFetchComments({ video = {}, options = {} } = {}) {
+  const tempDir = await mkdtemp(join(tmpdir(), 'direct-probe-live-fetch-'));
+  try {
+    const payloadPath = join(tempDir, 'payload.json');
+    await writeFile(
+      payloadPath,
+      JSON.stringify(
+        {
+          video,
+          options: {
+            ...options,
+            includeDanmaku: false,
+          },
+        },
+        null,
+        2,
+      ),
+      'utf8',
+    );
+    const { stdout } = await execFileAsync('python', ['-m', 'python_backend.cli.direct_probe_live_fetch', '--payload', payloadPath], {
+      cwd: process.cwd(),
+      maxBuffer: 10 * 1024 * 1024,
+    });
+    const result = JSON.parse(stdout);
+    if (!result.ok) throw new Error(result.error || 'Python direct probe live fetch failed');
+    return Array.isArray(result.comments) ? result.comments : [];
+  } finally {
+    await rm(tempDir, { recursive: true, force: true });
+  }
+}
+
 export async function runDirectProbeCommand({
   argv = process.argv.slice(2),
   env = process.env,
@@ -378,6 +416,7 @@ export async function runDirectProbeCommand({
   discoverVideos: discover = discoverVideos,
   fetchVideoComments: fetchComments = fetchVideoComments,
   fetchVideoDanmaku: fetchDanmaku = fetchVideoDanmaku,
+  pythonLiveFetchComments = runPythonDirectProbeLiveFetchComments,
   log = console.log,
   now = () => new Date().toISOString(),
   makeCookie = makeSyntheticBilibiliCookie,
@@ -453,7 +492,9 @@ export async function runDirectProbeCommand({
         title: video.title,
       });
       try {
-        const comments = await fetchComments(video, { ...options, cookie });
+        const comments = options.usePythonLiveFetch
+          ? await pythonLiveFetchComments({ video, options: { ...options, cookie, includeDanmaku: false } })
+          : await fetchComments(video, { ...options, cookie });
         allComments.push(...comments);
         log(`  ${videoLabel}: ${comments.length} comment(s)`);
       } catch (error) {
@@ -597,7 +638,9 @@ for (const action of actions) {
       title: video.title,
     });
     try {
-      const comments = await fetchVideoComments(video, { ...options, cookie });
+      const comments = options.usePythonLiveFetch
+        ? await runPythonDirectProbeLiveFetchComments({ video, options: { ...options, cookie, includeDanmaku: false } })
+        : await fetchVideoComments(video, { ...options, cookie });
       allComments.push(...comments);
       console.log(`  ${videoLabel}: ${comments.length} comment(s)`);
     } catch (error) {
