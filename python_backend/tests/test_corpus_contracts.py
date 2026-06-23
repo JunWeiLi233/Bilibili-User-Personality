@@ -12603,6 +12603,17 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["mismatches"], [])
         self.assertEqual(result["js"], {})
 
+    def test_bilibili_parse_runner_defaults_corrupt_json_contract_payload(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "payload.json"
+            payload_path.write_text("{bad payload", encoding="utf-8")
+
+            result = BilibiliParsePayloadRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mode"], "danmaku")
+        self.assertEqual(result["comments"], [])
+
     def test_bilibili_parse_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
