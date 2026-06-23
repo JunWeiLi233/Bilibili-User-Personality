@@ -1681,7 +1681,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:coverage-loop-compare",
                     "validationCommand": "node server/scripts/compareCoverageHarvestLoopPlan.js",
-                    "validationScope": "dry_run_plan_fixture",
+                    "validationScope": "dry_run_plan_and_no_live_command_fixture",
                 },
                 {
                     "script": "dictionary:tieba",
@@ -1876,8 +1876,12 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["nextOfflineMigrationAction"]["path"], "server/scripts/runCoverageHarvestLoop.js")
         self.assertEqual(result["nextOfflineMigrationAction"]["nodeScript"], "dictionary:auto")
-        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "dry_run_plan_fixture")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "dry_run_plan_and_no_live_command_fixture")
         self.assertFalse(result["nextOfflineMigrationAction"]["readyToReplace"])
+        self.assertIn(
+            {"gate": "no_live_command_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
+            result["nextOfflineMigrationAction"]["validationGates"],
+        )
         self.assertEqual(result["nextOfflineMigrationAction"]["offlineReason"], "skips_live_api_runtime")
 
     def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):
@@ -27831,6 +27835,70 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(plan["harvestOptions"]["verbose"])
         self.assertTrue(plan["harvestOptions"]["expandTargetsFromComments"])
         self.assertEqual(plan["prune"], {"pruneExhaustedAfter": 7, "pruneIncludePartial": True})
+
+    def test_coverage_harvest_loop_command_writes_cycle_limit_report(self):
+        from python_backend.analysis import coverage_loop as coverage_loop_module
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            report_path = root / "loop-report.json"
+            state_path = root / "state.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "updatedAt": "2026-01-01T00:00:00.000Z",
+                        "entries": [
+                            {
+                                "term": "doge",
+                                "family": "meme",
+                                "meaning": "satirical doge cue",
+                                "evidence": ["doge"],
+                                "evidenceSources": [{"source": "fixture", "sample": "doge"}],
+                            }
+                        ],
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+
+            result = coverage_loop_module.CoverageHarvestLoopCommandRequest(
+                [
+                    "--dictionary",
+                    dictionary_path,
+                    "--state",
+                    state_path,
+                    "--report",
+                    report_path,
+                    "--max-cycles",
+                    "0",
+                    "--generated-at",
+                    "2026-06-23T00:00:00.000Z",
+                    "--exit-zero",
+                ]
+            ).run()
+
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(result["stopReason"], "cycle_limit")
+        self.assertFalse(result["finalOk"])
+        self.assertEqual(result["maxCycles"], 0)
+        self.assertEqual(result["roundsPerCycle"], 1)
+        self.assertEqual(result["cycles"], [])
+        self.assertEqual(result["generatedAt"], "2026-06-23T00:00:00.000Z")
+        self.assertEqual(report, result)
+        self.assertEqual(result["finalAudit"]["coverage"]["terms"], 1)
+        self.assertEqual(result["finalAudit"]["coverage"]["weakTerms"], 1)
+
+    def test_package_coverage_loop_command_compare_script_tracks_no_live_command_gate(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        workflow = Path(".github/workflows/python-validation.yml").read_text(encoding="utf-8")
+
+        self.assertEqual(package["scripts"]["python:coverage-loop-command"], "python -m python_backend.cli.coverage_loop_command")
+        self.assertEqual(package["scripts"]["python:coverage-loop-command-compare"], "node server/scripts/compareCoverageHarvestLoopCommand.js")
+        self.assertIn("npm run python:coverage-loop-command-compare", workflow)
 
     def test_coverage_harvest_loop_runner_reads_json_contracts_and_expands_priority_queries(self):
         with tempfile.TemporaryDirectory() as tmp:

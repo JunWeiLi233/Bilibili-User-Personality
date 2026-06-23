@@ -60,7 +60,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:dictionary-prune-compare": "summary_command_fixture",
     "python:exhausted-prune-compare": "dry_run_plan_fixture",
     "python:near-target-compare": "dry_run_plan_fixture",
-    "python:coverage-loop-compare": "dry_run_plan_fixture",
+    "python:coverage-loop-compare": "dry_run_plan_and_no_live_command_fixture",
     "python:tieba-keyword-compare": "dry_run_plan_fixture",
     "python:direct-probe-compare": "dry_run_plan_and_no_live_command_fixture",
     "python:direct-probe-command-compare": "full_command",
@@ -101,6 +101,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:exhausted-prune-compare": "js_python_contract_bridge",
     "python:near-target-compare": "js_python_contract_bridge",
     "python:coverage-loop-compare": "js_python_contract_bridge",
+    "python:coverage-loop-command-compare": "js_python_contract_bridge",
     "python:coverage-cli-options-compare": "js_python_contract_bridge",
     "python:coverage-progress-compare": "js_python_contract_bridge",
     "python:discovery-report-compare": "js_python_contract_bridge",
@@ -142,6 +143,7 @@ PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
     "agent_dictionary_merge": ("python_backend.cli.merge_agent_dictionaries_plan --write",),
     "scraper_monitor": ("python_backend.cli.scraper_monitor",),
     "coverage_progress": ("python_backend.cli.coverage_progress",),
+    "coverage_loop_command": ("python_backend.cli.coverage_loop_command",),
     "discovery_report": ("python_backend.cli.discovery_report",),
     "harvest_options": ("python_backend.cli.harvest_options",),
     "corpus_shard_writer": ("python_backend.cli.corpus_shard_writer",),
@@ -184,6 +186,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareLocalCorpusMine.js": "js_python_contract_bridge",
     "server/scripts/compareNearTargetResolvePlan.js": "js_python_contract_bridge",
     "server/scripts/compareCoverageHarvestLoopPlan.js": "js_python_contract_bridge",
+    "server/scripts/compareCoverageHarvestLoopCommand.js": "js_python_contract_bridge",
     "server/scripts/compareCoverageCliOptions.js": "js_python_contract_bridge",
     "server/scripts/compareCoverageProgress.js": "js_python_contract_bridge",
     "server/scripts/compareVideoKeywordDiscoveryReport.js": "js_python_contract_bridge",
@@ -628,6 +631,11 @@ class BackendMigrationInventoryScanner:
                 {"gate": "summary_command_fixture", "status": "covered", "source": "python:dictionary-prune-compare"},
                 {"gate": "python_write_mode_split_dictionary", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
                 {"gate": "js_python_write_mode_persisted_terms", "status": "covered", "source": "compareDictionaryPruneSummary.test.js"},
+            ]
+        if validation_script == "python:coverage-loop-compare":
+            return [
+                {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:coverage-loop-compare"},
+                {"gate": "no_live_command_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
             ]
         if validation_scope == "full_command":
             return [{"gate": "full_command", "status": "covered", "source": validation_script}]

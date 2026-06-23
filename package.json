@@ -37,6 +37,8 @@
     "python:coverage-artifacts": "python -m python_backend.cli.coverage_audit_artifacts",
     "python:coverage-loop-plan": "python -m python_backend.cli.coverage_loop_plan",
     "python:coverage-loop-compare": "node server/scripts/compareCoverageHarvestLoopPlan.js",
+    "python:coverage-loop-command": "python -m python_backend.cli.coverage_loop_command",
+    "python:coverage-loop-command-compare": "node server/scripts/compareCoverageHarvestLoopCommand.js",
     "python:coverage-cli-options-compare": "node server/scripts/compareCoverageCliOptions.js",
     "python:coverage-progress": "python -m python_backend.cli.coverage_progress",
     "python:coverage-progress-compare": "node server/scripts/compareCoverageProgress.js",

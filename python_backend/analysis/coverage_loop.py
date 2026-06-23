@@ -1,10 +1,13 @@
 from __future__ import annotations
 
 import argparse
+import json
 import re
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from python_backend.analysis.audit import CoverageAuditBuilder
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder
 from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 
@@ -303,3 +306,153 @@ class CoverageHarvestLoopPlanner:
         if isinstance(audit, dict) and audit.get("ok"):
             return "coverage_gate_passed"
         return "cycle_limit" if max_cycles == 0 else ""
+
+
+class CoverageHarvestLoopCommandRunner:
+    """Run the file-backed coverage harvest-loop command for validated no-live gates."""
+
+    def __init__(
+        self,
+        *,
+        dictionary_path: str | Path,
+        state_path: str | Path,
+        report_path: str | Path,
+        max_cycles: int = 3,
+        rounds_per_cycle: int = 1,
+        target_evidence: int = 3,
+        max_actions: int = 12,
+        min_coverage_ratio: float = 1,
+        require_complete: bool = True,
+        require_source_backed_evidence: bool = False,
+        require_comment_backed_evidence: bool = False,
+        generated_at: str | None = None,
+    ):
+        self.dictionary_path = Path(dictionary_path)
+        self.state_path = Path(state_path)
+        self.report_path = Path(report_path)
+        self.max_cycles = max(0, min(_non_negative_int(max_cycles, 3), 50))
+        self.rounds_per_cycle = max(1, min(_positive_int(rounds_per_cycle, 1), 20))
+        self.generated_at = generated_at or self._now()
+        self.audit_builder = CoverageAuditBuilder(
+            target_evidence=target_evidence,
+            max_actions=max_actions,
+            min_coverage_ratio=min_coverage_ratio,
+            require_complete=require_complete,
+            require_source_backed_evidence=require_source_backed_evidence,
+            require_comment_backed_evidence=require_comment_backed_evidence,
+        )
+
+    def run(self) -> dict[str, Any]:
+        dictionary = JsonContractReader({"version": 1, "entries": []}).read_object(self.dictionary_path)
+        audit = self.audit_builder.build(dictionary)
+        stop_reason = self._stop_reason(audit)
+        report = {
+            "generatedAt": self.generated_at,
+            "maxCycles": self.max_cycles,
+            "roundsPerCycle": self.rounds_per_cycle,
+            "stopReason": stop_reason,
+            "finalOk": audit.get("ok") is True,
+            "finalAudit": audit,
+            "cycles": [],
+        }
+        self._write_report(report)
+        return report
+
+    def _stop_reason(self, audit: dict[str, Any]) -> str:
+        if audit.get("ok") is True:
+            return "coverage_gate_passed"
+        if self.max_cycles == 0:
+            return "cycle_limit"
+        return "live_harvest_not_implemented"
+
+    def _write_report(self, report: dict[str, Any]) -> None:
+        self.report_path.parent.mkdir(parents=True, exist_ok=True)
+        self.report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+    @staticmethod
+    def _now() -> str:
+        return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+
+class CoverageHarvestLoopRequest:
+    """Analysis-layer request for the file-backed coverage harvest-loop command."""
+
+    def __init__(
+        self,
+        *,
+        dictionary_path: str | Path,
+        state_path: str | Path,
+        report_path: str | Path,
+        max_cycles: int = 3,
+        rounds_per_cycle: int = 1,
+        target_evidence: int = 3,
+        max_actions: int = 12,
+        min_coverage_ratio: float = 1,
+        require_complete: bool = True,
+        require_source_backed_evidence: bool = False,
+        require_comment_backed_evidence: bool = False,
+        generated_at: str | None = None,
+    ):
+        self.runner = CoverageHarvestLoopCommandRunner(
+            dictionary_path=dictionary_path,
+            state_path=state_path,
+            report_path=report_path,
+            max_cycles=max_cycles,
+            rounds_per_cycle=rounds_per_cycle,
+            target_evidence=target_evidence,
+            max_actions=max_actions,
+            min_coverage_ratio=min_coverage_ratio,
+            require_complete=require_complete,
+            require_source_backed_evidence=require_source_backed_evidence,
+            require_comment_backed_evidence=require_comment_backed_evidence,
+            generated_at=generated_at,
+        )
+
+    def run(self) -> dict[str, Any]:
+        return self.runner.run()
+
+
+class CoverageHarvestLoopCommandRequest:
+    """Argv parser for the file-backed coverage harvest-loop command."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return CoverageHarvestLoopRequest(
+            dictionary_path=args.dictionary,
+            state_path=args.state,
+            report_path=args.report,
+            max_cycles=args.max_cycles,
+            rounds_per_cycle=args.rounds_per_cycle,
+            target_evidence=args.target_evidence,
+            max_actions=args.max_actions,
+            min_coverage_ratio=args.min_coverage_ratio,
+            require_complete=not args.allow_incomplete,
+            require_source_backed_evidence=args.require_source_backed_evidence,
+            require_comment_backed_evidence=args.require_comment_backed_evidence,
+            generated_at=args.generated_at or None,
+        ).run()
+
+    def exit_zero(self) -> bool:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return bool(args.exit_zero)
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Run the Python coverage harvest-loop command.")
+        parser.add_argument("--dictionary", default="server/data/deepseekKeywordDictionary.json")
+        parser.add_argument("--state", default="server/data/keywordHarvestState.json")
+        parser.add_argument("--report", default="server/data/keywordCoverageLoopReport.json")
+        parser.add_argument("--max-cycles", type=int, default=3)
+        parser.add_argument("--rounds-per-cycle", type=int, default=1)
+        parser.add_argument("--target-evidence", type=int, default=3)
+        parser.add_argument("--max-actions", type=int, default=12)
+        parser.add_argument("--min-coverage-ratio", type=float, default=1)
+        parser.add_argument("--allow-incomplete", action="store_true")
+        parser.add_argument("--require-source-backed-evidence", action="store_true")
+        parser.add_argument("--require-comment-backed-evidence", action="store_true")
+        parser.add_argument("--generated-at", default="")
+        parser.add_argument("--exit-zero", action="store_true")
+        return parser
