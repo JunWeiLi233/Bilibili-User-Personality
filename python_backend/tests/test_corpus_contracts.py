@@ -81,7 +81,7 @@ from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetOverrideTermsParser, NearTargetResolvePlanCommandRequest, NearTargetResolvePlanContractComparator as NearTargetResolvePlanPayloadComparator, NearTargetResolvePlanRequest, NearTargetResolvePlanner, NearTargetResolvePlanRunner as NearTargetResolvePayloadPlanRunner
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsCommandRequest, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsPayloadContractComparator, ReadmeStatsRequest, ReadmeStatsRunner as ReadmeStatsPayloadRunner, ReadmeStatsSummary, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherCommandRequest, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRequest, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
-from python_backend.analysis.verification import RandomVerificationAnnotationContract, RandomVerificationCommandRequest, RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationPayloadContractComparator, RandomVerificationReportContract, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRunOptions, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerificationSampleContract, RandomVerificationSummaryContract, RandomVerifier, VerificationSummary, json_result_bytes as random_verification_payload_json_result_bytes
+from python_backend.analysis.verification import RandomVerificationAnnotationContract, RandomVerificationCommandRequest, RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationDictionaryTermsContract, RandomVerificationPayloadContractComparator, RandomVerificationReportContract, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRunOptions, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerificationSampleContract, RandomVerificationSummaryContract, RandomVerifier, VerificationSummary, json_result_bytes as random_verification_payload_json_result_bytes
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisInputBuilder, DeepSeekAnalysisPlanCommandRequest, DeepSeekAnalysisPlanContractComparator as DeepSeekAnalysisPayloadPlanContractComparator, DeepSeekAnalysisPlanRequest, DeepSeekAnalysisPlanRunner as DeepSeekAnalysisPayloadPlanRunner, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidateCommandRequest, DeepSeekAnalysisValidateContractComparator as DeepSeekAnalysisPayloadValidateContractComparator, DeepSeekAnalysisValidateRequest, DeepSeekAnalysisValidateRunner as DeepSeekAnalysisPayloadValidateRunner, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator, DeepSeekRequestOptionsContract
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCliPayloadPlanContractComparator, DeepSeekAnalyzeCliPlanCommandRequest, DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanRequest, DeepSeekAnalyzeCliPlanRunner as DeepSeekAnalyzeCliPayloadPlanRunner, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceCommandRequest, KeywordEvidenceContractComparator as KeywordEvidencePayloadComparator, KeywordEvidenceMatcher, KeywordEvidencePayloadContractComparator, KeywordEvidencePayloadRunner, KeywordEvidenceRequest, KeywordEvidenceSummary
@@ -1345,6 +1345,18 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(verifier.keyword_terms, [])
         self.assertEqual(summary.keyword_hits, 0)
         self.assertEqual([sample["matched_terms"] for sample in summary.samples], [[], [], []])
+
+    def test_random_verification_dictionary_terms_contract_flattens_js_entries(self):
+        contract = RandomVerificationDictionaryTermsContract(
+            [
+                {"term": "doge", "aliases": ["DOGE", "doge"], "examples": ["\u72d7\u5934"]},
+                "bad entry",
+                {"term": {"bad": "object"}, "aliases": [{"bad": "object"}], "examples": ["YYGQ", ""]},
+                {"term": "YYGQ"},
+            ]
+        )
+
+        self.assertEqual(contract.terms(), ["doge", "DOGE", "\u72d7\u5934", "YYGQ"])
 
     def test_random_verifier_ignores_malformed_dictionary_entry_records(self):
         verifier = RandomVerifier.from_dictionary_entries(["bad entry", {"term": "doge"}])

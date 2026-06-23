@@ -439,24 +439,16 @@ class RandomVerificationSummaryContract:
         )
 
 
-class RandomVerifier:
-    """Deterministically sample comments and classify lexical keyword coverage."""
+class RandomVerificationDictionaryTermsContract:
+    """Owns JS-compatible extraction of keyword terms from dictionary entries."""
 
-    def __init__(self, keyword_terms: list[str]):
-        self.annotation_contract = RandomVerificationAnnotationContract(keyword_terms)
-        self.keyword_terms = self.annotation_contract.keyword_terms
-        self._ascii_terms = self.annotation_contract.ascii_terms
+    def __init__(self, entries: list[dict[str, Any]] | None = None):
+        self.entries = entries if isinstance(entries, list) else []
 
-    @classmethod
-    def from_dictionary_entries(cls, entries: list[dict[str, Any]]) -> "RandomVerifier":
-        return cls(cls.keyword_terms_from_entries(entries))
-
-    @staticmethod
-    def keyword_terms_from_entries(entries: list[dict[str, Any]]) -> list[str]:
-        entries = entries if isinstance(entries, list) else []
+    def terms(self) -> list[str]:
         seen: set[str] = set()
         terms: list[str] = []
-        for entry in entries:
+        for entry in self.entries:
             if not isinstance(entry, dict):
                 continue
             values = [
@@ -473,6 +465,23 @@ class RandomVerifier:
                 seen.add(term)
                 terms.append(term)
         return terms
+
+
+class RandomVerifier:
+    """Deterministically sample comments and classify lexical keyword coverage."""
+
+    def __init__(self, keyword_terms: list[str]):
+        self.annotation_contract = RandomVerificationAnnotationContract(keyword_terms)
+        self.keyword_terms = self.annotation_contract.keyword_terms
+        self._ascii_terms = self.annotation_contract.ascii_terms
+
+    @classmethod
+    def from_dictionary_entries(cls, entries: list[dict[str, Any]]) -> "RandomVerifier":
+        return cls(cls.keyword_terms_from_entries(entries))
+
+    @staticmethod
+    def keyword_terms_from_entries(entries: list[dict[str, Any]]) -> list[str]:
+        return RandomVerificationDictionaryTermsContract(entries).terms()
 
     def verify(self, comments: list[Any], sample_size: int, seed: int) -> VerificationSummary:
         options = RandomVerificationRunOptions.from_values(sample_size=sample_size, seed=seed)
