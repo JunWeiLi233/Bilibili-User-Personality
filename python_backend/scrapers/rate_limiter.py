@@ -34,30 +34,56 @@ class RateLimitPolicy:
         return cls(min_delay_ms=min_delay_ms, jitter_ms=jitter_ms, block_cooldown_ms=block_cooldown_ms)
 
     def to_tieba_options(self) -> dict[str, int]:
-        return {
-            "minDelayMs": _bounded_ms(self.min_delay_ms, 5000, 0, 60000),
-            "jitterMs": _bounded_ms(self.jitter_ms, 3000, 0, 60000),
-            "blockCooldownMs": _bounded_ms(self.block_cooldown_ms, 120000, 0, 300000),
-        }
+        return RateLimitOptionsContract(self).options_for("tieba")
 
     def to_history_tag_options(self) -> dict[str, int]:
-        return {
-            "delayMs": _bounded_ms(self.min_delay_ms, 5000, 0, 120000),
-            "jitterMs": _bounded_ms(self.jitter_ms, 2500, 0, 120000),
-        }
+        return RateLimitOptionsContract(self).options_for("history-tags")
 
     def to_direct_probe_options(self) -> dict[str, int]:
-        return {
-            "delayMs": _bounded_ms(self.min_delay_ms, 3000, 1000, 60000),
-            "jitterMs": _bounded_ms(self.jitter_ms, 1500, 0, 60000),
-        }
+        return RateLimitOptionsContract(self).options_for("direct-probe")
 
     def to_bilibili_crawler_options(self) -> dict[str, int]:
+        return RateLimitOptionsContract(self).options_for("bilibili-crawler")
+
+
+class RateLimitOptionsContract:
+    """Build JS-compatible pacing option payloads for each scraper target."""
+
+    _TARGET_SPECS: dict[str, tuple[tuple[str, str, int, int, int], ...]] = {
+        "tieba": (
+            ("minDelayMs", "min_delay_ms", 5000, 0, 60000),
+            ("jitterMs", "jitter_ms", 3000, 0, 60000),
+            ("blockCooldownMs", "block_cooldown_ms", 120000, 0, 300000),
+        ),
+        "history-tags": (
+            ("delayMs", "min_delay_ms", 5000, 0, 120000),
+            ("jitterMs", "jitter_ms", 2500, 0, 120000),
+        ),
+        "direct-probe": (
+            ("delayMs", "min_delay_ms", 3000, 1000, 60000),
+            ("jitterMs", "jitter_ms", 1500, 0, 60000),
+        ),
+        "bilibili-crawler": (
+            ("minDelayMs", "min_delay_ms", 2500, 0, 60000),
+            ("jitterMs", "jitter_ms", 2000, 0, 60000),
+            ("blockCooldownMs", "block_cooldown_ms", 120000, 0, 300000),
+        ),
+    }
+
+    def __init__(self, policy: RateLimitPolicy):
+        self.policy = policy
+
+    def options_for(self, target: str) -> dict[str, int]:
+        spec = self._TARGET_SPECS.get(self._normalize_target(target))
+        if spec is None:
+            return {}
         return {
-            "minDelayMs": _bounded_ms(self.min_delay_ms, 2500, 0, 60000),
-            "jitterMs": _bounded_ms(self.jitter_ms, 2000, 0, 60000),
-            "blockCooldownMs": _bounded_ms(self.block_cooldown_ms, 120000, 0, 300000),
+            output_key: _bounded_ms(getattr(self.policy, source_attr), fallback, minimum, maximum)
+            for output_key, source_attr, fallback, minimum, maximum in spec
         }
+
+    def _normalize_target(self, target: str) -> str:
+        return str(target or "").strip().lower().replace("_", "-")
 
 
 class RateLimiter:

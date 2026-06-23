@@ -167,7 +167,7 @@ from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanCommand
 from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerCommandRequest, BilibiliCrawlerContractComparator as BilibiliCrawlerPayloadComparator, BilibiliCrawlerPayloadContractComparator, BilibiliCrawlerRequest, BilibiliCrawlerRunner as BilibiliCrawlerPayloadRunner, BilibiliCrawlerHelper, BilibiliCrawlerSummary
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanCommandRequest, BilibiliProbePlanContractComparator as BilibiliProbePlanPayloadComparator, BilibiliProbePlanPayloadContractComparator, BilibiliProbePlanRequest, BilibiliProbePlanRunner as BilibiliProbePayloadPlanRunner, BilibiliProbePlanSummary, BilibiliProbePlanner
 from python_backend.runtime.file_lock import FileLockStateCommandRequest, FileLockStateContractComparator as FileLockStatePayloadComparator, FileLockStateInspector, FileLockStateRequest, FileLockStateRunner as FileLockStatePayloadRunner, FileLockStateSummary
-from python_backend.scrapers.rate_limiter import RateLimitPolicy, RateLimiter
+from python_backend.scrapers.rate_limiter import RateLimitOptionsContract, RateLimitPolicy, RateLimiter
 from python_backend.runtime.json_contracts import JsonContractReader
 from python_backend.runtime.json_contract_scan import JsonContractScanner
 from python_backend.cli.aicu_scrape_plan import AicuScrapePlanContractComparator, AicuScrapePlanRunner
@@ -2340,6 +2340,15 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(limiter.delay_seconds, 0.0)
         self.assertEqual(sleeps, [])
+
+    def test_rate_limit_options_contract_owns_target_specific_bounds(self):
+        policy = RateLimitPolicy(min_delay_ms=-5, jitter_ms=999999, block_cooldown_ms="bad")
+        contract = RateLimitOptionsContract(policy)
+
+        self.assertEqual(contract.options_for("tieba"), {"minDelayMs": 0, "jitterMs": 60000, "blockCooldownMs": 120000})
+        self.assertEqual(contract.options_for("history-tags"), {"delayMs": 0, "jitterMs": 120000})
+        self.assertEqual(contract.options_for("direct-probe"), {"delayMs": 1000, "jitterMs": 60000})
+        self.assertEqual(contract.options_for("bilibili-crawler"), {"minDelayMs": 0, "jitterMs": 60000, "blockCooldownMs": 120000})
 
     def test_rate_limit_policy_normalizes_scraper_pacing_contract(self):
         policy = RateLimitPolicy(min_delay_ms=-10, jitter_ms=999999, block_cooldown_ms="bad")
