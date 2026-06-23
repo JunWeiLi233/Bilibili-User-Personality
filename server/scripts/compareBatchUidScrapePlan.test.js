@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { test } from 'node:test';
 
-import { compareBatchUidScrapePlan, compareBatchUidScrapePlanObjects } from './compareBatchUidScrapePlan.js';
+import { compareBatchUidScrapePlan, compareBatchUidScrapePlanObjects, compareBatchUidScrapePlanSuite } from './compareBatchUidScrapePlan.js';
 
 const PLAN = {
   discovery: {
@@ -66,6 +66,17 @@ test('compareBatchUidScrapePlan compares JS and Python dry-run plans', async () 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('compareBatchUidScrapePlanSuite covers populated, empty, and malformed stats fixtures', async () => {
+  const result = await compareBatchUidScrapePlanSuite();
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.fixtures.map((fixture) => fixture.name), ['populated-progress', 'empty-progress', 'malformed-stats']);
+  assert.deepEqual(result.fixtures.flatMap((fixture) => fixture.mismatches), []);
+  assert.equal(result.fixtures.find((fixture) => fixture.name === 'empty-progress').python.phase2.pending, 0);
+  assert.equal(result.fixtures.find((fixture) => fixture.name === 'malformed-stats').python.stats.videosScanned, 12);
+  assert.equal(result.fixtures.find((fixture) => fixture.name === 'malformed-stats').python.stats.errors, 5);
 });
 
 test('batchUidScrape can delegate dry-run planning to Python', () => {

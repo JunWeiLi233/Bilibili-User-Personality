@@ -25500,6 +25500,27 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["phase2"], {"processed": 1, "pending": 1, "skippableNoText": 1, "trainable": 0, "userDbUsers": 2})
         self.assertEqual(result["stats"], {"videosScanned": 3, "uidsFound": 2, "uidsAnalyzed": 1, "commentsCollected": 5, "errors": 1})
 
+    def test_batch_uid_scrape_planner_preserves_js_parse_int_prefix_stats(self):
+        result = BatchUidScrapePlanner.build_plan_from_payload(
+            {
+                "progress": {
+                    "scannedBvids": ["BV1"],
+                    "_uidComments": {"42": [{"message": "hit"}]},
+                    "processedUids": {},
+                    "stats": {
+                        "videosScanned": "12 videos",
+                        "uidsFound": "3.9x",
+                        "uidsAnalyzed": "not-a-number",
+                        "commentsCollected": "4 comments",
+                        "errors": "5x",
+                    },
+                },
+                "database": {"users": {}},
+            }
+        )
+
+        self.assertEqual(result["stats"], {"videosScanned": 12, "uidsFound": 3, "uidsAnalyzed": 0, "commentsCollected": 4, "errors": 5})
+
     def test_batch_uid_scrape_plan_runner_and_comparator_read_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -25727,7 +25748,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             BackendMigrationInventoryScanner._validation_gates(
                 validation_script="python:batch-uid-scrape-compare",
-                validation_scope="dry_run_plan_fixture_and_js_python_plan_bridge",
+                validation_scope="dry_run_plan_populated_empty_malformed_stats_fixtures_and_js_python_bridge",
             ),
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:batch-uid-scrape-compare"},
