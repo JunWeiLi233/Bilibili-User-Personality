@@ -18908,6 +18908,23 @@ class CorpusContractTests(unittest.TestCase):
             result["retainedJsBackendFiles"],
         )
 
+    def test_coverage_progress_utility_is_legacy_after_python_contract(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertNotIn("server/utils/coverageProgress.js", result["migrationCandidateFiles"]["utils"])
+        self.assertIn(
+            {"path": "server/utils/coverageProgress.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {
+                "script": "python:coverage-progress",
+                "command": "python -m python_backend.cli.coverage_progress",
+                "pipeline": "coverage_progress",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+
     def test_coverage_progress_tracker_selects_exhausted_terms_from_harvest_state(self):
         tracker = CoverageProgressTracker()
         dictionary = {

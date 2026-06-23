@@ -127,6 +127,7 @@ PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
     "uid_pipeline_merge": ("python_backend.cli.uid_pipeline_merge",),
     "agent_dictionary_merge": ("python_backend.cli.merge_agent_dictionaries_plan --write",),
     "scraper_monitor": ("python_backend.cli.scraper_monitor",),
+    "coverage_progress": ("python_backend.cli.coverage_progress",),
 }
 
 RETAINED_JS_FILE_PREFIXES = {
@@ -298,6 +299,12 @@ class BackendMigrationInventoryScanner:
             and package_scripts.get("aicu:test") == "node server/scripts/testAicuApi.js"
         ):
             return "external_api_smoke_test"
+        if (
+            relative_path == "server/utils/coverageProgress.js"
+            and package_scripts.get("python:coverage-progress") == "python -m python_backend.cli.coverage_progress"
+            and package_scripts.get("python:coverage-progress-compare") == "node server/scripts/compareCoverageProgress.js"
+        ):
+            return "legacy_compatibility_after_python_replacement"
         if relative_path in RETAINED_JS_FILES:
             return RETAINED_JS_FILES[relative_path]
         for prefix, reason in RETAINED_JS_FILE_PREFIXES.items():
