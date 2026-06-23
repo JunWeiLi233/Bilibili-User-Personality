@@ -316,8 +316,8 @@ class CoverageAuditContractComparator:
         mismatches.extend(self._optional_metric_mismatches(python_audit, js_audit, self.OPTIONAL_COVERAGE_METRIC_KEYS))
         warnings = self._metric_mismatches(python_audit, js_audit, self.WARNING_METRIC_KEYS)
         if "ok" in js_audit:
-            python_ok = bool(python_audit.get("ok"))
-            js_ok = bool(js_audit.get("ok"))
+            python_ok = _bool_or(python_audit.get("ok"), False)
+            js_ok = _bool_or(js_audit.get("ok"), False)
             if python_ok != js_ok:
                 mismatches.append({"key": "ok", "python": python_ok, "js": js_ok})
         if "failureReasons" in js_audit:
