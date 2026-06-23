@@ -87,6 +87,7 @@
     "python:batch-uid-scrape-compare": "node server/scripts/compareBatchUidScrapePlan.js",
     "python:batch-uid-range-plan": "python -m python_backend.cli.batch_uid_range_plan",
     "python:batch-uid-range-compare": "node server/scripts/compareBatchUidRangePlan.js",
+    "python:batch-scraper-launcher-compare": "node server/scripts/compareBatchScraperLauncherPlan.js",
     "python:uid-range-progress": "python -m python_backend.cli.uid_range_progress",
     "python:verify-random": "python -m python_backend.cli.random_verification --extra-corpus server/data/tiebaKeywordCorpus.json",
     "python:verify-random:write": "python -m python_backend.cli.random_verification --extra-corpus server/data/tiebaKeywordCorpus.json --output server/data/randomVerificationReport.json",

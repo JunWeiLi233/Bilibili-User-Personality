@@ -22561,6 +22561,36 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["summary"])
 
+    def test_batch_scraper_launcher_has_js_python_validation_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(
+            package["scripts"]["python:batch-scraper-launcher-compare"],
+            "node server/scripts/compareBatchScraperLauncherPlan.js",
+        )
+
+        result = BackendMigrationInventoryScanner(".").scan()
+        self.assertIn(
+            {
+                "script": "python:batch-scraper-launcher-compare",
+                "command": "node server/scripts/compareBatchScraperLauncherPlan.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:batch-scraper-launcher",
+                "command": "python -m python_backend.cli.batch_scraper_launcher",
+                "pipeline": "batch_scraper_launcher",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareBatchScraperLauncherPlan.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_batch_scraper_launcher_comparator_reports_worker_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
