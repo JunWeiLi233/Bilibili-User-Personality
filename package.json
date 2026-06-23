@@ -22,7 +22,7 @@
     "aicu:scrape": "node server/scripts/scrapeAicuUsers.js",
     "aicu:batch": "node server/scripts/batchScrapeAicu.js",
     "aicu:test": "node server/scripts/testAicuApi.js",
-    "stats:update": "node server/scripts/updateReadmeStatsGraph.js",
+    "stats:update": "python -m python_backend.cli.readme_stats",
     "python:test": "python -m unittest discover python_backend/tests",
     "python:validation:write": "npm run python:coverage-standalone:write && npm run python:verify-random:write && npm run python:compare:write-full",
     "python:migration-inventory": "python -m python_backend.cli.migration_inventory",

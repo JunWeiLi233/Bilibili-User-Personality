@@ -81,7 +81,7 @@ from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, 
 from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetOverrideTermsParser, NearTargetResolvePlanCommandRequest, NearTargetResolvePlanContractComparator as NearTargetResolvePlanPayloadComparator, NearTargetResolvePlanRequest, NearTargetResolvePlanner, NearTargetResolvePlanRunner as NearTargetResolvePayloadPlanRunner
 from python_backend.analysis.migration_inventory import BackendMigrationInventoryCommandRequest, BackendMigrationInventoryRunner, BackendMigrationInventoryScanner, PackageCommandMigrationInventory
-from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsCommandRequest, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsPayloadContractComparator, ReadmeStatsRequest, ReadmeStatsRunner as ReadmeStatsPayloadRunner, ReadmeStatsSummary, ReadmeStatsSvgRenderer
+from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsCommandRequest, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsPayloadContractComparator, ReadmeStatsRepositoryUpdater, ReadmeStatsRequest, ReadmeStatsRunner as ReadmeStatsPayloadRunner, ReadmeStatsSummary, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherCommandRequest, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRequest, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationAnnotationContract, RandomVerificationCommandContract, RandomVerificationCommandRequest, RandomVerificationComparisonOptionsContract, RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationCorpusReportBuilder, RandomVerificationDictionaryTermsContract, RandomVerificationExecutionContract, RandomVerificationJsonResultContract, RandomVerificationOutputWriter, RandomVerificationPayloadContractComparator, RandomVerificationReportBuilder, RandomVerificationReportContract, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRequestDispatcher, RandomVerificationRunOptions, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerificationSampleContract, RandomVerificationSummaryContract, RandomVerifier, VerificationSummary, json_result_bytes as random_verification_payload_json_result_bytes
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisInputBuilder, DeepSeekAnalysisPlanCommandRequest, DeepSeekAnalysisPlanContractComparator as DeepSeekAnalysisPayloadPlanContractComparator, DeepSeekAnalysisPlanRequest, DeepSeekAnalysisPlanRunner as DeepSeekAnalysisPayloadPlanRunner, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidateCommandRequest, DeepSeekAnalysisValidateContractComparator as DeepSeekAnalysisPayloadValidateContractComparator, DeepSeekAnalysisValidateRequest, DeepSeekAnalysisValidateRunner as DeepSeekAnalysisPayloadValidateRunner, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator, DeepSeekRequestOptionsContract
@@ -1261,6 +1261,20 @@ class CorpusContractTests(unittest.TestCase):
             {"path": "server/scripts/importHuggingFaceCorpus.js", "reason": "legacy_compatibility_after_python_replacement"},
             result["retainedJsBackendFiles"],
         )
+
+    def test_package_stats_update_uses_python_repository_updater(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+        result = BackendMigrationInventoryScanner(".").scan()
+        workflow = Path(".github/workflows/update-stats-graph.yml").read_text(encoding="utf-8")
+
+        self.assertEqual(package["scripts"]["stats:update"], "python -m python_backend.cli.readme_stats")
+        self.assertNotIn("server/scripts/updateReadmeStatsGraph.js", result["migrationCandidateFiles"]["scripts"])
+        self.assertIn(
+            {"path": "server/scripts/updateReadmeStatsGraph.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn("actions/setup-python@v5", workflow)
+        self.assertIn("npm run stats:update", workflow)
 
     def test_package_command_migration_inventory_maps_node_commands_to_python_contracts(self):
         package = {
@@ -5453,6 +5467,46 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["summary"], {"comments": 1, "danmaku": 1, "keywordTerms": 1, "timelinePoints": 1})
         self.assertIn("Corpus Growth Over Time", result["timelineSvg"])
+
+    def test_readme_stats_repository_updater_writes_action_artifacts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            (root / "README.md").write_text("title\n\n---\n", encoding="utf-8")
+            (data_dir / "bilibiliDirectProbeCorpus.json").write_text(
+                json.dumps(
+                    {
+                        "comments": [
+                            {"message": "\u8bc4\u8bba", "source": "Bilibili public direct comment probe"},
+                            {"message": "\u5f39\u5e55", "source": "Bilibili public direct danmaku probe"},
+                        ],
+                        "runs": [{"at": "2026-06-17T10:00:00.000Z", "commentsAdded": 2}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (data_dir / "huggingFaceKeywordCorpus.json").write_text(json.dumps({"comments": [], "runs": []}), encoding="utf-8")
+            (data_dir / "tiebaKeywordCorpus.json").write_text(json.dumps({"comments": [], "runs": []}), encoding="utf-8")
+            (data_dir / "deepseekKeywordDictionary.json").write_text(json.dumps({"entries": [{"term": "doge"}]}), encoding="utf-8")
+            (data_dir / "keywordCoverageAudit.json").write_text(
+                json.dumps({"coverage": {"coverageRatio": 0.5, "weakTerms": 1, "evidenceDeficit": 2}}),
+                encoding="utf-8",
+            )
+
+            result = ReadmeStatsRepositoryUpdater(root=root, now=lambda: "2026-06-19T00:00:00.000Z").run()
+            summary_svg_exists = (root / "docs" / "stats" / "corpus-keyword-stats.svg").exists()
+            timeline_json_exists = (root / "docs" / "stats" / "corpus-growth-timeline.json").exists()
+            readme_text = (root / "README.md").read_text(encoding="utf-8")
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["comments"], 1)
+        self.assertEqual(result["danmaku"], 1)
+        self.assertEqual(result["keywordTerms"], 1)
+        self.assertEqual(result["timelinePoints"], 1)
+        self.assertTrue(summary_svg_exists)
+        self.assertTrue(timeline_json_exists)
+        self.assertIn("stats-graph:start", readme_text)
 
     def test_readme_stats_svg_renderer_builds_summary_and_timeline_graphs(self):
         renderer = ReadmeStatsSvgRenderer()

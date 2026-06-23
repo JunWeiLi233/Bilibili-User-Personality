@@ -152,6 +152,11 @@ class BackendMigrationInventoryScanner:
             and package_scripts.get("dictionary:huggingface") == "python -m python_backend.cli.huggingface_corpus"
         ):
             return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/updateReadmeStatsGraph.js"
+            and package_scripts.get("stats:update") == "python -m python_backend.cli.readme_stats"
+        ):
+            return "legacy_compatibility_after_python_replacement"
         if relative_path in RETAINED_JS_FILES:
             return RETAINED_JS_FILES[relative_path]
         for prefix, reason in RETAINED_JS_FILE_PREFIXES.items():

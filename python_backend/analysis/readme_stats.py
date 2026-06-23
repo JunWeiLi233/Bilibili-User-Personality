@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import math
 import re
 import html
@@ -8,6 +9,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
 
+from python_backend.corpus.dictionary import DictionaryLoader
+from python_backend.corpus.loader import CorpusLoader
 from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 
 
@@ -353,13 +356,134 @@ class ReadmeStatsCommandRequest:
     @staticmethod
     def parser() -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(description="Build README stats and timeline JSON from a payload.")
-        parser.add_argument("--payload", required=True, help="Path to README stats payload JSON.")
+        parser.add_argument("--payload", default="", help="Path to README stats payload JSON. Omit to update repo stats artifacts.")
+        parser.add_argument("--root", default=".", help="Repository root for no-payload stats artifact updates.")
         parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible README stats report to compare.")
         return parser
 
     def run(self) -> dict[str, Any]:
         args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        if not args.payload:
+            if args.compare_js_report:
+                return {"ok": False, "error": "--compare-js-report requires --payload"}
+            return ReadmeStatsRepositoryUpdater(root=args.root).run()
         return ReadmeStatsRequest(args.payload, compare_js_report_path=args.compare_js_report or None).run()
+
+
+class ReadmeStatsRepositoryUpdater:
+    """Update README stats graph artifacts directly from repository JSON contracts."""
+
+    START_MARKER = "<!-- stats-graph:start -->"
+    END_MARKER = "<!-- stats-graph:end -->"
+
+    def __init__(self, root: str | Path = ".", now: Callable[[], str] | None = None):
+        self.root = Path(root)
+        self.builder = ReadmeStatsBuilder(now=now)
+        self.renderer = ReadmeStatsSvgRenderer()
+
+    def run(self) -> dict[str, Any]:
+        payload = self._payload()
+        built = self.builder.build_from_payload(payload)
+        stats = built["stats"]
+        timeline = stats["timeline"]
+        docs_dir = self.root / "docs" / "stats"
+        docs_dir.mkdir(parents=True, exist_ok=True)
+
+        summary_svg_path = docs_dir / "corpus-keyword-stats.svg"
+        summary_json_path = docs_dir / "corpus-keyword-stats.json"
+        timeline_svg_path = docs_dir / "corpus-growth-timeline.svg"
+        timeline_json_path = docs_dir / "corpus-growth-timeline.json"
+        self._write_text(summary_svg_path, built["svg"])
+        self._write_json(
+            summary_json_path,
+            {
+                **stats,
+                "timeline": {
+                    "pointCount": len(timeline["points"]),
+                    "finalComments": timeline["finalComments"],
+                    "finalDanmaku": timeline["finalDanmaku"],
+                    "finalTotal": timeline["finalTotal"],
+                },
+            },
+        )
+        self._write_text(timeline_svg_path, built["timelineSvg"])
+        self._write_json(timeline_json_path, timeline)
+        self._update_readme(stats)
+
+        return {
+            "ok": True,
+            "comments": stats["comments"],
+            "danmaku": stats["danmaku"],
+            "keywordTerms": stats["keywordTerms"],
+            "coverageRatio": stats["coverageRatioLabel"],
+            "timelinePoints": len(timeline["points"]),
+            "svg": str(summary_svg_path),
+            "json": str(summary_json_path),
+            "timelineSvg": str(timeline_svg_path),
+            "timelineJson": str(timeline_json_path),
+        }
+
+    def _payload(self) -> dict[str, Any]:
+        data_dir = self.root / "server" / "data"
+        direct = CorpusLoader(data_dir / "bilibiliDirectProbeCorpus.json", fallback={"comments": [], "runs": []}).load()
+        external = CorpusLoader(data_dir / "huggingFaceKeywordCorpus.json", fallback={"comments": [], "runs": []}).load()
+        tieba = CorpusLoader(data_dir / "tiebaKeywordCorpus.json", fallback={"comments": [], "runs": []}).load()
+        dictionary = DictionaryLoader(data_dir / "deepseekKeywordDictionary.json").load()
+        coverage = safe_read_json_object(data_dir / "keywordCoverageAudit.json")
+        return {
+            "sources": [
+                {"name": "Bilibili direct probe corpus", "comments": direct.comments, "runs": direct.runs},
+                {"name": "External Bilibili/Tieba corpus", "comments": external.comments, "runs": external.runs},
+                {"name": "Tieba corpus", "comments": tieba.comments, "runs": tieba.runs},
+            ],
+            "dictionary": dictionary.manifest,
+            "coverage": coverage,
+        }
+
+    def _readme_block(self, stats: dict[str, Any]) -> str:
+        timeline_points = len(stats["timeline"]["points"]) if isinstance(stats.get("timeline"), dict) else 0
+        return f"""{self.START_MARKER}
+## Data Growth / 数据增长
+
+![Corpus and keyword analysis stats](docs/stats/corpus-keyword-stats.svg)
+
+![Comment and danmaku growth over time](docs/stats/corpus-growth-timeline.svg)
+
+| Metric | Value |
+|---|---:|
+| Comments / replies | {self._format_number(stats.get("comments"))} |
+| Danmaku | {self._format_number(stats.get("danmaku"))} |
+| Keyword terms analyzed | {self._format_number(stats.get("keywordTerms"))} |
+| Coverage ratio | {stats.get("coverageRatioLabel") or "0.00%"} |
+| Weak terms | {self._format_number(stats.get("weakTerms"))} |
+| Timeline points | {self._format_number(timeline_points)} |
+
+This block is generated by `npm run stats:update` and refreshed by GitHub Actions.
+{self.END_MARKER}"""
+
+    def _update_readme(self, stats: dict[str, Any]) -> None:
+        readme_path = self.root / "README.md"
+        current = readme_path.read_text(encoding="utf-8") if readme_path.exists() else ""
+        block = self._readme_block(stats)
+        pattern = re.compile(f"{re.escape(self.START_MARKER)}[\\s\\S]*?{re.escape(self.END_MARKER)}")
+        if pattern.search(current):
+            next_text = pattern.sub(block, current)
+        elif re.search(r"\r?\n---\r?\n", current):
+            next_text = re.sub(r"\r?\n---\r?\n", f"\n---\n\n{block}\n\n---\n", current, count=1)
+        else:
+            next_text = f"{current.rstrip()}\n\n{block}\n" if current.strip() else f"{block}\n"
+        if next_text != current:
+            self._write_text(readme_path, next_text)
+
+    def _write_json(self, path: Path, payload: dict[str, Any]) -> None:
+        self._write_text(path, json.dumps(payload, ensure_ascii=False, indent=2) + "\n")
+
+    def _write_text(self, path: Path, text: str) -> None:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text, encoding="utf-8")
+
+    def _format_number(self, value: Any) -> str:
+        return f"{int(_number(value)):,}"
 
 
 class ReadmeStatsSvgRenderer:
