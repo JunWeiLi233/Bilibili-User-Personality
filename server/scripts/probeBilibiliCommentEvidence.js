@@ -383,10 +383,7 @@ export async function runPythonDirectProbeLiveFetchComments({ video = {}, option
       JSON.stringify(
         {
           video,
-          options: {
-            ...options,
-            includeDanmaku: false,
-          },
+          options: { ...options },
         },
         null,
         2,
@@ -493,7 +490,7 @@ export async function runDirectProbeCommand({
       });
       try {
         const comments = options.usePythonLiveFetch
-          ? await pythonLiveFetchComments({ video, options: { ...options, cookie, includeDanmaku: false } })
+          ? await pythonLiveFetchComments({ video, options: { ...options, cookie } })
           : await fetchComments(video, { ...options, cookie });
         allComments.push(...comments);
         log(`  ${videoLabel}: ${comments.length} comment(s)`);
@@ -501,7 +498,7 @@ export async function runDirectProbeCommand({
         warnings.push(`${action.query} ${videoLabel}: replies ${error.message}`);
         log(`  ${videoLabel}: replies failed: ${error.message}`);
       }
-      if (options.includeDanmaku || action.query.includes('寮瑰箷')) {
+      if (!options.usePythonLiveFetch && (options.includeDanmaku || action.query.includes('寮瑰箷'))) {
         try {
           const danmaku = await fetchDanmaku(video, { ...options, cookie });
           allComments.push(...danmaku);
@@ -639,7 +636,7 @@ for (const action of actions) {
     });
     try {
       const comments = options.usePythonLiveFetch
-        ? await runPythonDirectProbeLiveFetchComments({ video, options: { ...options, cookie, includeDanmaku: false } })
+        ? await runPythonDirectProbeLiveFetchComments({ video, options: { ...options, cookie } })
         : await fetchVideoComments(video, { ...options, cookie });
       allComments.push(...comments);
       console.log(`  ${videoLabel}: ${comments.length} comment(s)`);
@@ -647,7 +644,7 @@ for (const action of actions) {
       warnings.push(`${action.query} ${videoLabel}: replies ${error.message}`);
       console.log(`  ${videoLabel}: replies failed: ${error.message}`);
     }
-    if (options.includeDanmaku || action.query.includes('弹幕')) {
+    if (!options.usePythonLiveFetch && (options.includeDanmaku || action.query.includes('弹幕'))) {
       try {
         const danmaku = await fetchVideoDanmaku(video, { ...options, cookie });
         allComments.push(...danmaku);

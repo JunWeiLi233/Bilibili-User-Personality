@@ -146,3 +146,91 @@ test('probeBilibiliCommentEvidence can delegate reply fetching to Python live-fe
     },
   ]);
 });
+
+test('probeBilibiliCommentEvidence can delegate reply and danmaku fetching to Python live-fetch bridge', async () => {
+  const script = String.raw`
+    const { runDirectProbeCommand } = await import('./server/scripts/probeBilibiliCommentEvidence.js');
+    const pythonCalls = [];
+    const term = '\u5f39\u5e55\u68d2';
+    const result = await runDirectProbeCommand({
+      argv: ['--query=' + term + ' bilibili comments', '--term=' + term, '--aid=789', '--reply-pages=1', '--reply-page-size=3', '--include-danmaku', '--delay-ms=1000', '--jitter-ms=0'],
+      env: { BILIBILI_DIRECT_PROBE_USE_PYTHON_LIVE_FETCH: '1' },
+      readJson: async () => ({ nextActions: [] }),
+      readJsonCorpus: async () => ({ version: 1, comments: [], runs: [] }),
+      readKeywordDictionary: async () => ({
+        entries: [{
+          term,
+          family: 'evidence',
+          meaning: 'requires danmaku source',
+          evidenceCount: 0,
+          evidenceSamples: [],
+          evidenceSources: [],
+        }],
+      }),
+      pythonLiveFetchComments: async ({ video, options }) => {
+        pythonCalls.push({
+          video,
+          replyPages: options.replyPages,
+          replyPageSize: options.replyPageSize,
+          includeDanmaku: options.includeDanmaku,
+          hasCookie: Boolean(options.cookie),
+        });
+        return [
+          {
+            message: term + ' python reply ' + video.aid,
+            source: 'Bilibili public direct comment probe: https://www.bilibili.com/video/av' + video.aid + '/',
+            uid: '99',
+          },
+          {
+            message: term + ' python danmaku ' + video.aid,
+            source: 'Bilibili public direct danmaku probe: https://www.bilibili.com/video/av' + video.aid + '/',
+            uid: 'dm',
+          },
+        ];
+      },
+      fetchVideoComments: async () => {
+        throw new Error('JS reply fetch should not run when Python live fetch is enabled');
+      },
+      fetchVideoDanmaku: async () => {
+        throw new Error('JS danmaku fetch should not run when Python live fetch includes danmaku');
+      },
+      discoverVideos: async () => {
+        throw new Error('explicit aid should avoid search discovery');
+      },
+      log: () => {},
+      makeCookie: () => 'synthetic=1',
+    });
+    console.log(JSON.stringify({
+      commentsCollected: result.commentsCollected,
+      messages: result.comments.map((comment) => comment.message),
+      warnings: result.warnings,
+      pythonCalls,
+      entries: result.entries.map((entry) => entry.term),
+    }));
+  `;
+  const { stdout } = await execFileAsync('node', ['--input-type=module', '--eval', script], {
+    cwd: process.cwd(),
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  const result = JSON.parse(stdout);
+
+  assert.equal(result.commentsCollected, 2);
+  assert.deepEqual(result.messages, [
+    '\u5f39\u5e55\u68d2 python reply 789',
+    '\u5f39\u5e55\u68d2 python danmaku 789',
+  ]);
+  assert.equal(
+    result.warnings.some((warning) => warning.includes('JS danmaku fetch should not run')),
+    false,
+  );
+  assert.deepEqual(result.entries, ['\u5f39\u5e55\u68d2']);
+  assert.deepEqual(result.pythonCalls, [
+    {
+      video: { aid: '789', title: 'explicit aid 789' },
+      replyPages: 1,
+      replyPageSize: 3,
+      includeDanmaku: true,
+      hasCookie: true,
+    },
+  ]);
+});
