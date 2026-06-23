@@ -1432,7 +1432,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:deepseek-analyze-command-compare",
                     "validationCommand": "node server/scripts/compareDeepSeekAnalyzeCommand.js",
-                    "validationScope": "full_command_mock_runtime",
+                    "validationScope": "full_command_multiagent_mock_runtime",
                 },
             ],
         )
@@ -1473,7 +1473,7 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(result["nextMigrationAction"]["path"], "server/scripts/analyzeDeepSeekComments.js")
         self.assertEqual(result["nextMigrationAction"]["validationScript"], "python:deepseek-analyze-command-compare")
-        self.assertEqual(result["nextMigrationAction"]["validationScope"], "full_command_mock_runtime")
+        self.assertEqual(result["nextMigrationAction"]["validationScope"], "full_command_multiagent_mock_runtime")
         self.assertFalse(result["nextMigrationAction"]["readyToReplace"])
         self.assertEqual(result["nextMigrationAction"]["recommendation"], "expand_python_runtime_contract_before_replacing_js")
 
@@ -6177,6 +6177,48 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["runtime"]["mode"], "mock_chat")
         self.assertEqual(result["runtime"]["requestCount"], 1)
         self.assertEqual(result["axes"][0]["score"], 72)
+
+    def test_deepseek_analyze_command_request_mock_chat_multiagent_matches_js_summary(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            analysis_path = root / "analysis.json"
+            analysis_path.write_text(
+                json.dumps(
+                    {
+                        "axes": [{"axis": "attack", "score": 72, "evidence": ["\u9634\u9633\u602a\u6c14[doge]"]}],
+                        "sentenceAnalyses": [{"quote": "\u9634\u9633\u602a\u6c14[doge]", "intent": "satire"}],
+                        "confidence": 0.88,
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = DeepSeekAnalyzeCommandRequest(
+                [
+                    "--mock-chat-analysis",
+                    analysis_path,
+                    "--text",
+                    "\u9634\u9633\u602a\u6c14[doge]",
+                    "--uid",
+                    "42",
+                    "--multiagent",
+                ]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["runtime"], {"mode": "mock_chat", "requestCount": 3, "multiagent": True})
+        self.assertEqual(
+            result["multiagent"],
+            {
+                "enabled": True,
+                "mergeAgent": "quality-merge",
+                "agents": [
+                    {"id": "lexical-context", "name": "Lexical and emoji context analyst", "ok": True},
+                    {"id": "speech-act", "name": "Full sentence speech-act analyst", "ok": True},
+                    {"id": "skeptic", "name": "False-positive and quality skeptic", "ok": True},
+                ],
+            },
+        )
 
     def test_deepseek_analyze_runtime_fails_closed_without_api_key(self):
         result = DeepSeekAnalyzeRuntime(env={}).run({"text": "\u53cd\u8bbd[doge]"})

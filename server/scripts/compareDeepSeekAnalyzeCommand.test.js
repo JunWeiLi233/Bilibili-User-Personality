@@ -44,21 +44,21 @@ test('compareDeepSeekAnalyzeCommand compares JS and Python fixture commands', as
   assert.equal(calls.length, 2);
 });
 
-test('compareDeepSeekAnalyzeCommandSuite requires fixture command and mock runtime parity', async () => {
+test('compareDeepSeekAnalyzeCommandSuite requires fixture command, mock runtime, and multiagent runtime parity', async () => {
   const calls = [];
   const result = await compareDeepSeekAnalyzeCommandSuite({
     compareFixtureCommand: async () => {
       calls.push('fixtureCommand');
       return { ok: true, mismatches: [] };
     },
-    compareMockRuntime: async () => {
-      calls.push('mockRuntime');
+    compareMockRuntime: async (options) => {
+      calls.push({ mockRuntime: options?.payload?.multiagent || false });
       return { ok: true, mismatches: [] };
     },
   });
 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
-  assert.deepEqual(calls, ['fixtureCommand', 'mockRuntime']);
-  assert.deepEqual(Object.keys(result.checks), ['fixtureCommand', 'mockRuntime']);
+  assert.deepEqual(calls, ['fixtureCommand', { mockRuntime: false }, { mockRuntime: true }]);
+  assert.deepEqual(Object.keys(result.checks), ['fixtureCommand', 'mockRuntime', 'multiagentMockRuntime']);
 });

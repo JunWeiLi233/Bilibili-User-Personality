@@ -347,6 +347,15 @@ class DeepSeekAnalyzeCommandRequest:
             "requestCount": len(requests),
             "multiagent": request.multiagent,
         }
+        if request.multiagent:
+            result["multiagent"] = {
+                "enabled": True,
+                "mergeAgent": "quality-merge",
+                "agents": [
+                    {"id": str(agent.get("id") or ""), "name": str(agent.get("name") or ""), "ok": True}
+                    for agent in client.MULTIAGENTS
+                ],
+            }
         return result
 
     def _payload(self, args: argparse.Namespace) -> dict[str, Any]:

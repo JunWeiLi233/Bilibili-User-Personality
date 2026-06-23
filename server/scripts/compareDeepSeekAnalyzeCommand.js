@@ -102,13 +102,15 @@ export async function compareDeepSeekAnalyzeCommandSuite({
 } = {}) {
   const fixtureCommand = await compareFixtureCommand();
   const mockRuntime = await compareMockRuntime();
+  const multiagentMockRuntime = await compareMockRuntime({ payload: { ...DEFAULT_PAYLOAD, multiagent: true } });
   const mismatches = [
     ...prefixMismatches('fixtureCommand', fixtureCommand.mismatches || []),
     ...prefixMismatches('mockRuntime', mockRuntime.mismatches || []),
+    ...prefixMismatches('multiagentMockRuntime', multiagentMockRuntime.mismatches || []),
   ];
   return {
-    ok: Boolean(fixtureCommand.ok && mockRuntime.ok && mismatches.length === 0),
-    checks: { fixtureCommand, mockRuntime },
+    ok: Boolean(fixtureCommand.ok && mockRuntime.ok && multiagentMockRuntime.ok && mismatches.length === 0),
+    checks: { fixtureCommand, mockRuntime, multiagentMockRuntime },
     mismatches,
   };
 }
