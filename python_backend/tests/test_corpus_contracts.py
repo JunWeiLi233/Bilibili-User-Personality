@@ -17928,6 +17928,24 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_uid_fast_pipeline_plan_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "uid-fast-pipeline-plan.json"
+            js_report_path = root / "js-uid-fast-pipeline-plan.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--start=1", "--end=4"], "progress": {"processed": {"1": "success"}, "stats": {"success": 1}}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text('{"network": ', encoding="utf-8")
+
+            comparison = UidFastPipelinePlanPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["progress"], {"processed": 1, "remaining": 3, "completionRatio": 0.25})
+
     def test_uid_fast_pipeline_plan_cli_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -18291,6 +18309,23 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(comparison["ok"])
         self.assertEqual(comparison["js"]["worker"], result["worker"])
 
+    def test_uid_parallel_progress_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            js_report_path = root / "js-parallel-progress.json"
+            (data_dir / "uid-discovery-comments.json").write_text(json.dumps({"100": [{"message": "a"}], "101": [{"message": "b"}]}), encoding="utf-8")
+            (data_dir / "uid-parallel-1-progress.json").write_text(json.dumps({"processed": {"101": "success"}, "stats": {"success": 1}}), encoding="utf-8")
+            js_report_path.write_text('{"progress": ', encoding="utf-8")
+
+            comparison = UidParallelProgressPayloadContractComparator(data_dir, js_report_path, worker_id=1, total_workers=2).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["progress"], {"processed": 1, "remaining": 0, "completionRatio": 1.0})
+
     def test_uid_parallel_progress_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -18459,6 +18494,24 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "training", "python": {"multiagent": True, "existingTermsOnly": False, "commentTextLimit": 5000, "saveEvery": 20}, "js": {"multiagent": False}},
             ],
         )
+
+    def test_uid_parallel_plan_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "uid-parallel-plan.json"
+            js_report_path = root / "js-uid-parallel-plan.json"
+            payload_path.write_text(
+                json.dumps({"argv": ["--worker=0", "--workers=2"], "comments": {"100": [{"message": "a"}], "101": [{"message": "b"}]}, "progress": {}}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text('{"assignment": ', encoding="utf-8")
+
+            comparison = UidParallelPlanPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["worker"], {"id": 0, "totalWorkers": 2, "assigned": 1})
 
     def test_uid_parallel_plan_cli_runner_reads_json_contracts(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -19103,6 +19156,21 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["summary"], {"workers": 5, "totalStart": 1, "totalEnd": 100000, "totalUids": 100000, "launchDelaySeconds": 5})
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["summary"])
+
+    def test_fast_pipeline_launcher_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            data_dir = root / "server" / "data"
+            data_dir.mkdir(parents=True)
+            js_report_path = root / "js-fast-launcher.json"
+            js_report_path.write_text('{"summary": ', encoding="utf-8")
+
+            comparison = FastPipelineLauncherPayloadContractComparator(data_dir, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(comparison["js"], {})
+        self.assertEqual(comparison["python"]["summary"], {"workers": 5, "totalStart": 1, "totalEnd": 100000, "totalUids": 100000, "launchDelaySeconds": 5})
 
     def test_fast_pipeline_launcher_request_owns_cli_dispatch(self):
         with tempfile.TemporaryDirectory() as tmp:
