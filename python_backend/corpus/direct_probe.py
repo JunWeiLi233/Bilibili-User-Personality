@@ -550,6 +550,11 @@ class DirectProbeCommandRunner:
             "videosPerQuery": self.builder.bounded_probe_videos_per_query(raw.get("videosPerQuery"), 5),
             "searchPages": self.builder._bounded_int(raw.get("searchPages"), 1, 1, 10),
             "sourceVideosPerAction": self.builder._bounded_int(raw.get("sourceVideosPerAction"), 6, 0, 50),
+            "replyPages": self.builder._bounded_int(raw.get("replyPages"), 2, 1, 5),
+            "replyStartPage": self.builder._bounded_int(raw.get("replyStartPage"), 1, 1, 20),
+            "replyPageSize": self.builder._bounded_int(raw.get("replyPageSize"), 20, 1, 50),
+            "replyCursorSkipPages": self.builder.bounded_reply_cursor_skip_pages(raw.get("replyCursorSkipPages"), 0),
+            "replyMode": _clean_text(raw.get("replyMode")) or "cursor",
             "includeDanmaku": raw.get("includeDanmaku") is True,
             "usePythonLiveSearch": raw.get("usePythonLiveSearch") is True,
             "usePythonLiveFetch": raw.get("usePythonLiveFetch") is True,
@@ -605,7 +610,7 @@ class DirectProbeCommandRunner:
     def _search_videos(self, query: str) -> list[dict[str, Any]]:
         options = self._options()
         if options.get("usePythonLiveSearch"):
-            live_search = self.live_search or DirectProbeLiveSearcher(builder=self.builder)
+            live_search = self.live_search or self._payload_live_searcher()
             videos = live_search.discover_videos(query, options)
             return [video for video in videos if isinstance(video, dict)]
         search_videos = self.payload.get("searchVideos") if isinstance(self.payload.get("searchVideos"), dict) else {}
@@ -617,7 +622,7 @@ class DirectProbeCommandRunner:
         video_key = self.builder.probe_video_key(video)
         comments = [comment for comment in comments_by_video.get(video_key, []) if isinstance(comment, dict)]
         if options.get("usePythonLiveFetch") and (self.live_fetch is not None or not comments):
-            live_fetch = self.live_fetch or DirectProbeLiveFetcher(builder=self.builder)
+            live_fetch = self.live_fetch or self._payload_live_fetcher()
             return [comment for comment in live_fetch.fetch_video_comments(video, options) if isinstance(comment, dict)]
         if options.get("includeDanmaku") is True:
             danmaku_by_video = self.payload.get("videoDanmaku") if isinstance(self.payload.get("videoDanmaku"), dict) else {}
@@ -636,6 +641,40 @@ class DirectProbeCommandRunner:
             if len(videos) >= limit:
                 break
         return videos
+
+    def _payload_live_searcher(self) -> "DirectProbeLiveSearcher":
+        responses = self.payload.get("searchJsonResponses") if isinstance(self.payload.get("searchJsonResponses"), dict) else None
+        if responses is None:
+            return DirectProbeLiveSearcher(builder=self.builder)
+
+        def fixture_json(url: str, referer: str, options: dict[str, Any]) -> dict[str, Any]:
+            response = responses.get(url)
+            if not isinstance(response, dict):
+                raise ValueError(f"Missing fixture search response for {url}")
+            return response
+
+        return DirectProbeLiveSearcher(fetch_json=fixture_json, builder=self.builder)
+
+    def _payload_live_fetcher(self) -> "DirectProbeLiveFetcher":
+        json_responses = self.payload.get("liveFetchJsonResponses") if isinstance(self.payload.get("liveFetchJsonResponses"), dict) else None
+        text_responses = self.payload.get("liveFetchTextResponses") if isinstance(self.payload.get("liveFetchTextResponses"), dict) else None
+        if json_responses is None and text_responses is None:
+            return DirectProbeLiveFetcher(builder=self.builder)
+        json_responses = json_responses or {}
+        text_responses = text_responses or {}
+
+        def fixture_json(url: str, referer: str, options: dict[str, Any]) -> dict[str, Any]:
+            response = json_responses.get(url)
+            if not isinstance(response, dict):
+                raise ValueError(f"Missing fixture live-fetch JSON response for {url}")
+            return response
+
+        def fixture_text(url: str, referer: str, options: dict[str, Any]) -> str:
+            if url not in text_responses:
+                raise ValueError(f"Missing fixture live-fetch text response for {url}")
+            return str(text_responses.get(url) or "")
+
+        return DirectProbeLiveFetcher(fetch_json=fixture_json, fetch_text=fixture_text, builder=self.builder)
 
 
 class DirectProbeLiveSearcher:
@@ -786,7 +825,7 @@ class DirectProbeLiveFetcher:
 
     def _resolve_video(self, video: dict[str, Any] | None, options: dict[str, Any]) -> dict[str, Any]:
         target = dict(video) if isinstance(video, dict) else {}
-        if target.get("aid") and (target.get("cid") or not target.get("bvid")):
+        if target.get("aid") and (target.get("cid") or not target.get("bvid") or options.get("includeDanmaku") is not True):
             return target
         view_url = self.builder.build_bilibili_view_url(target)
         if not view_url:

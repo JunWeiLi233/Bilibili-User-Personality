@@ -608,6 +608,7 @@ class BackendMigrationInventoryScanner:
                 {"gate": "command_explicit_aid_fixture", "status": "covered", "source": "compareDirectProbeCommand.test.js"},
                 {"gate": "command_explicit_aid_danmaku_fixture", "status": "covered", "source": "compareDirectProbeCommand.test.js"},
                 {"gate": "command_write_mode_fixture", "status": "covered", "source": "compareDirectProbeCommand.test.js"},
+                {"gate": "command_full_python_runtime_fixture", "status": "covered", "source": "compareDirectProbeCommand.test.js"},
                 {"gate": "js_opt_in_python_command_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
                 {"gate": "js_opt_in_python_command_runtime", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
                 {"gate": "js_opt_in_python_live_fetch_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},

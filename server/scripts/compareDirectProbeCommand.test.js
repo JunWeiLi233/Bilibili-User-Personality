@@ -234,3 +234,81 @@ test('compareDirectProbeCommand compares write-mode corpus output', async () => 
   assert.equal(result.python.corpus.runs.length, 1);
   assert.equal(result.js.corpus.runs.length, 1);
 });
+
+test('compareDirectProbeCommand compares Python full-runtime fixture transport', async () => {
+  const fullRuntimeMessage = `${TERM}\u5168\u91cfPython\u8bc4\u8bba`;
+  const searchUrl = `https://api.bilibili.com/x/web-interface/search/type?${new URLSearchParams({
+    search_type: 'video',
+    keyword: QUERY,
+    page: '1',
+    page_size: '20',
+  }).toString()}`;
+  const replyUrl = 'https://api.bilibili.com/x/v2/reply/main?type=1&oid=778&mode=3&next=0&ps=3';
+  const result = await compareDirectProbeCommand({
+    payload: {
+      audit: { nextActions: [{ term: TERM, nextQuery: QUERY }] },
+      existingCorpus: { version: 1, comments: [], runs: [] },
+      dictionary: {
+        entries: [
+          {
+            term: TERM,
+            family: 'evidence',
+            meaning: 'full runtime fixture',
+            evidenceCount: 0,
+            evidenceSamples: [],
+            evidenceSources: [],
+          },
+        ],
+      },
+      options: {
+        maxActions: 1,
+        videosPerQuery: 1,
+        searchPages: 1,
+        sourceVideosPerAction: 0,
+        replyPages: 1,
+        replyPageSize: 3,
+        usePythonLiveSearch: true,
+        usePythonLiveFetch: true,
+        write: false,
+        cookie: 'fixture-cookie',
+        now: '2026-06-23T00:00:00.000Z',
+      },
+      searchJsonResponses: {
+        [searchUrl]: {
+          data: {
+            result: [{ bvid: 'BVfull', aid: 778, title: '\u5168\u91cfPython fixture', review: 3 }],
+          },
+        },
+      },
+      liveFetchJsonResponses: {
+        [replyUrl]: {
+          data: {
+            cursor: { is_end: true },
+            replies: [{ mid: 78, content: { message: fullRuntimeMessage } }],
+          },
+        },
+      },
+    },
+    runJs: async ({ payload }) => ({
+      ok: true,
+      actions: [{ term: TERM, query: QUERY }],
+      commentsCollected: 1,
+      comments: [
+        {
+          message: fullRuntimeMessage,
+          source: 'Bilibili public direct comment probe: https://www.bilibili.com/video/BVfull/',
+          uid: '78',
+        },
+      ],
+      scannedVideos: [{ key: 'bvid:BVfull' }],
+      warnings: [],
+      entries: [{ term: TERM }],
+      payloadObserved: payload.options.usePythonLiveSearch,
+    }),
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.deepEqual(result.python.comments.map((comment) => comment.message), [fullRuntimeMessage]);
+  assert.deepEqual(result.python.scannedVideos.map((video) => video.key), ['bvid:BVfull']);
+});
