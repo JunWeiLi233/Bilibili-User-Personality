@@ -14353,6 +14353,33 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["covered", "byMode.keyword"])
 
+    def test_comment_coverage_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dictionary_path = root / "dictionary.json"
+            comments_path = root / "comments.json"
+            js_report_path = root / "js-comment-coverage.json"
+            dictionary_path.write_text(json.dumps({"entries": [{"term": "\u7f51\u76d8\u89c1", "family": "evasion"}]}), encoding="utf-8")
+            comments_path.write_text(json.dumps({"comments": [{"message": "\u7f51\u76d8\u89c1"}, {"message": "\u666e\u901a\u8bc4\u8bba"}]}), encoding="utf-8")
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            comparison = CommentCoveragePayloadContractComparator(dictionary_path, comments_path, js_report_path).compare()
+
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+        self.assertEqual(
+            comparison["js"],
+            {
+                "summary": {
+                    "total": None,
+                    "covered": None,
+                    "uncovered": None,
+                    "coverageRatio": None,
+                    "byMode": {"keyword": None, "neutral": None, "uncovered": None},
+                }
+            },
+        )
+
     def test_comment_coverage_json_payload_runner_accepts_single_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "comment-coverage.json"
@@ -14461,6 +14488,39 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(exit_code, 1)
         self.assertFalse(result["ok"])
         self.assertEqual([item["key"] for item in result["mismatches"]], ["covered", "byMode.keyword"])
+
+    def test_comment_coverage_json_payload_comparator_defaults_corrupt_js_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "comment-coverage.json"
+            js_report_path = root / "js-comment-coverage.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "dictionary": {"entries": [{"term": "\u61c2\u7684\u90fd\u61c2", "family": "evasion"}]},
+                        "comments": [{"message": "\u8fd9\u4e8b\u61c2\u7684\u90fd\u61c2"}, {"message": "\u666e\u901a\u8bc4\u8bba"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text("{bad json", encoding="utf-8")
+
+            result = CommentCoverageJsonPayloadContractComparator(payload_path, js_report_path).compare()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["mismatches"], [])
+        self.assertEqual(
+            result["js"],
+            {
+                "summary": {
+                    "total": None,
+                    "covered": None,
+                    "uncovered": None,
+                    "coverageRatio": None,
+                    "byMode": {"keyword": None, "neutral": None, "uncovered": None},
+                }
+            },
+        )
 
     def test_comment_coverage_request_compares_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:

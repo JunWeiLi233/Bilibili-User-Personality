@@ -10,6 +10,7 @@ from typing import Any
 
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
+from python_backend.runtime.json_contracts import safe_read_json_object
 
 
 def _clean_text(value: Any) -> str:
@@ -301,8 +302,7 @@ class CommentCoveragePayloadContractComparator:
         return self.comparator.compare(python_report, js_report)
 
     def _read_js_report(self) -> dict[str, Any]:
-        payload = _read_json(self.js_report_path)
-        return payload if isinstance(payload, dict) else {}
+        return safe_read_json_object(self.js_report_path)
 
 
 class CommentCoverageJsonPayloadContractComparator:
@@ -320,8 +320,7 @@ class CommentCoverageJsonPayloadContractComparator:
         return self.comparator.compare(python_report, js_report)
 
     def _read_js_report(self) -> dict[str, Any]:
-        payload = _read_json(self.js_report_path)
-        return payload if isinstance(payload, dict) else {}
+        return safe_read_json_object(self.js_report_path)
 
 
 @dataclass(frozen=True)
