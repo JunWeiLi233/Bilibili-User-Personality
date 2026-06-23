@@ -13,6 +13,7 @@ from urllib.parse import urlencode, urlparse
 
 from python_backend.analysis.comment_coverage import _is_contract_scalar
 from python_backend.corpus.loader import CorpusLoader
+from python_backend.runtime.json_contracts import safe_read_json_object
 from python_backend.scrapers.rate_limiter import RateLimitPolicy
 
 
@@ -260,11 +261,7 @@ class DirectProbeCorpusPayloadContractComparator:
         return self.comparator.compare(python_result, js_result)
 
     def _read_js_report(self) -> dict[str, Any]:
-        if not self.js_report_path.exists():
-            return {}
-        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else {}
+        return safe_read_json_object(self.js_report_path)
 
 
 class DirectProbeCorpusJsonPayloadContractComparator:
@@ -282,11 +279,7 @@ class DirectProbeCorpusJsonPayloadContractComparator:
         return self.comparator.compare(python_result, js_result)
 
     def _read_js_report(self) -> dict[str, Any]:
-        if not self.js_report_path.exists():
-            return {}
-        with self.js_report_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else {}
+        return safe_read_json_object(self.js_report_path)
 
 
 class DirectProbeCorpusRequest:
@@ -429,9 +422,7 @@ class DirectProbePlanPayloadContractComparator:
         return self.comparator.compare(python_plan, js_plan)
 
     def _read_js_plan(self) -> dict[str, Any]:
-        with self.js_plan_path.open("r", encoding="utf-8-sig") as handle:
-            payload = json.load(handle)
-        return payload if isinstance(payload, dict) else {}
+        return safe_read_json_object(self.js_plan_path)
 
 
 class DirectProbePlanRequest:
