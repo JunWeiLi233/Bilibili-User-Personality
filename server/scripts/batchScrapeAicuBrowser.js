@@ -1,6 +1,7 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { execSync } from 'node:child_process';
 
 const DATA_DIR = join(process.cwd(), 'server', 'data');
@@ -9,8 +10,92 @@ const PROGRESS_PATH = join(DATA_DIR, 'batch-scrape-aicu-browser-progress.json');
 
 const DELAY_BETWEEN_UIDS = 5000;
 const MAX_PAGES = 3;
+const TIMEOUT_MS = 120000;
+const SAVE_EVERY_ATTEMPTS = 10;
+const BROWSER_COMMAND = 'browser-harness';
+const SCRIPT_PATH = 'server/scripts/browserScrapeAicu.py';
+const WRAPPER_PATH = 'server/data/_browser_aicu_tmp.py';
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+function parseIntOr(value, fallback) {
+  const parsed = Number.parseInt(value, 10);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function parseBatchPlanArgs(argv = []) {
+  const options = { start: 100000, end: 200000 };
+  for (const raw of argv) {
+    const arg = String(raw || '');
+    if (arg.startsWith('--start=')) options.start = parseIntOr(arg.split('=')[1], 100000);
+    if (arg.startsWith('--end=')) options.end = parseIntOr(arg.split('=')[1], 200000);
+  }
+  return options;
+}
+
+function countUsersInRange(users, start, end) {
+  return Object.keys(users).filter((uid) => {
+    const numericUid = parseIntOr(uid, -1);
+    return start <= numericUid && numericUid <= end;
+  }).length;
+}
+
+function sampleInvocation(uid) {
+  return {
+    uid,
+    wrapperArgv: uid ? ['browserScrapeAicu.py', uid, String(MAX_PAGES)] : [],
+    exec: `${BROWSER_COMMAND} -c "exec(open('${WRAPPER_PATH}').read())"`,
+  };
+}
+
+export function buildAicuBrowserBatchPlan(payload = {}) {
+  const planPayload = payload && typeof payload === 'object' ? payload : {};
+  const argv = Array.isArray(planPayload.argv) ? planPayload.argv : [];
+  const progress = planPayload.progress && typeof planPayload.progress === 'object' ? planPayload.progress : {};
+  const database = planPayload.database && typeof planPayload.database === 'object' ? planPayload.database : {};
+  const users = database.users && typeof database.users === 'object' ? database.users : {};
+  const { start: requestedStart, end } = parseBatchPlanArgs(argv);
+  const lastUid = parseIntOr(progress.lastUid, 0);
+  const effectiveStart = lastUid >= requestedStart ? lastUid + 1 : requestedStart;
+  const total = Math.max(0, end - effectiveStart + 1);
+  const sampleUid = total ? String(effectiveStart) : '';
+
+  return {
+    ok: true,
+    range: { requestedStart, effectiveStart, end, total },
+    progress: {
+      lastUid,
+      completed: parseIntOr(progress.completed, 0),
+      errors: Array.isArray(progress.errors) ? progress.errors.length : 0,
+    },
+    database: {
+      users: Object.keys(users).length,
+      existingInEffectiveRange: countUsersInRange(users, effectiveStart, end),
+    },
+    browser: {
+      command: BROWSER_COMMAND,
+      script: SCRIPT_PATH,
+      wrapper: WRAPPER_PATH,
+      timeoutMs: TIMEOUT_MS,
+      maxPages: MAX_PAGES,
+    },
+    pacing: {
+      delayBetweenUidsMs: DELAY_BETWEEN_UIDS,
+      saveEveryAttempts: SAVE_EVERY_ATTEMPTS,
+    },
+    sampleInvocation: sampleInvocation(sampleUid),
+  };
+}
+
+async function readPlanPayload(args) {
+  const payloadIndex = args.indexOf('--payload');
+  if (payloadIndex === -1 || !args[payloadIndex + 1]) return {};
+  try {
+    return JSON.parse(await readFile(args[payloadIndex + 1], 'utf8'));
+  } catch {
+    return {};
+  }
+}
 
 function scrapeViaBrowser(uid) {
   try {
@@ -20,7 +105,7 @@ function scrapeViaBrowser(uid) {
     writeFileSync(wrapperPath, wrapper);
     const output = execSync(`browser-harness -c "exec(open('${wrapperPath}').read())"`, {
       encoding: 'utf8',
-      timeout: 120000,
+      timeout: TIMEOUT_MS,
       cwd: process.cwd(),
     });
     // Find the JSON output (last line that starts with {)
@@ -60,6 +145,12 @@ async function saveProgress(progress) {
 
 async function main() {
   const args = process.argv.slice(2);
+  if (args.includes('--plan-json')) {
+    const payload = await readPlanPayload(args);
+    console.log(JSON.stringify(buildAicuBrowserBatchPlan(payload), null, 2));
+    return;
+  }
+
   let startUid = 100000;
   let endUid = 200000;
 
@@ -136,7 +227,7 @@ async function main() {
         }
       }
 
-      if ((scraped + errors) % 10 === 0) {
+      if ((scraped + errors) % SAVE_EVERY_ATTEMPTS === 0) {
         await saveDatabase(db);
         progress.lastUid = uid;
         progress.completed = scraped;
@@ -165,7 +256,9 @@ async function main() {
   console.log(`Total in database: ${Object.keys(db.users).length}`);
 }
 
-main().catch((err) => {
-  console.error('Fatal:', err.message);
-  process.exit(1);
-});
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  main().catch((err) => {
+    console.error('Fatal:', err.message);
+    process.exit(1);
+  });
+}

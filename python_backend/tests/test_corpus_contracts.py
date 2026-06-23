@@ -4625,6 +4625,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["range", "browser"])
 
+    def test_aicu_browser_batch_plan_has_js_python_validation_bridge(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertIn(
+            {
+                "script": "python:aicu-browser-compare",
+                "command": "node server/scripts/compareAicuBrowserBatchPlan.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:aicu-browser-plan",
+                "command": "python -m python_backend.cli.aicu_browser_batch_plan",
+                "pipeline": "aicu_browser_batch_plan",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareAicuBrowserBatchPlan.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+
     def test_video_link_direct_planner_matches_js_cli_mode_contract(self):
         planner = VideoLinkDirectPlanner()
 

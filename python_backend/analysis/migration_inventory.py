@@ -110,6 +110,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:direct-probe-update-compare": "js_python_contract_bridge",
     "python:aicu-compare": "js_python_contract_bridge",
     "python:aicu-batch-compare": "js_python_contract_bridge",
+    "python:aicu-browser-compare": "js_python_contract_bridge",
     "python:local-mine-compare": "js_python_contract_bridge",
 }
 
@@ -138,6 +139,7 @@ PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
     "semantic_matcher": ("python_backend.cli.semantic_matcher",),
     "comment_coverage": ("python_backend.cli.comment_coverage",),
     "history_tag_corpus": ("python_backend.cli.history_tag_corpus",),
+    "aicu_browser_batch_plan": ("python_backend.cli.aicu_browser_batch_plan",),
 }
 
 RETAINED_JS_FILE_PREFIXES = {
@@ -170,6 +172,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareDirectProbeCorpus.js": "js_python_contract_bridge",
     "server/scripts/compareAicuScrapePlan.js": "js_python_contract_bridge",
     "server/scripts/compareAicuBatchPlan.js": "js_python_contract_bridge",
+    "server/scripts/compareAicuBrowserBatchPlan.js": "js_python_contract_bridge",
 }
 
 MIGRATION_PRIORITY_RULES = (
