@@ -65,6 +65,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:dictionary-prune-compare": "summary_command_fixture",
     "python:exhausted-prune-compare": "dry_run_plan_fixture",
     "python:near-target-compare": "dry_run_plan_fixture",
+    "python:coverage-cli-options-compare": "coverage_runtime_default_env_fallback_strict_source_backed_fixtures_and_js_python_bridge",
     "python:coverage-loop-compare": "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_mock_write_file_backed_mock_harvest_js_python_command_and_deferred_live_contract",
     "python:coverage-loop-command-compare": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_and_deferred_live_contract",
     "python:coverage-progress-compare": "payload_default_action_progress_corrupt_payload_fixtures_and_js_python_bridge",

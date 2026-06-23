@@ -19,6 +19,26 @@ export const DEFAULT_PAYLOAD = {
   argv: ['--target-evidence', '2', '--max-actions=7', '--retry-before-unattempted', '4'],
 };
 
+export const COVERAGE_CLI_OPTIONS_FIXTURES = {
+  'default-runtime-options': DEFAULT_PAYLOAD,
+  'env-fallbacks': {
+    mode: 'coverage-runtime',
+    env: {
+      BILIBILI_HARVEST_TARGET_EVIDENCE: '5',
+      BILIBILI_COVERAGE_AUDIT_MAX_ACTIONS: '8',
+      BILIBILI_COVERAGE_AUDIT_RETRY_BEFORE_UNATTEMPTED: '2',
+    },
+    argv: [],
+  },
+  'strict-source-backed': {
+    mode: 'coverage-runtime',
+    env: {},
+    argv: ['--strict-source-backed', '--strict-comment-backed', '--target-evidence=4', '--max-actions', '6'],
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = Object.keys(COVERAGE_CLI_OPTIONS_FIXTURES);
+
 function summarize(result = {}) {
   return Object.fromEntries(RESULT_KEYS.filter((key) => key in result).map((key) => [key, result[key]]));
 }
@@ -55,22 +75,26 @@ async function runPythonOptions({ payloadPath }) {
   return JSON.parse(stdout);
 }
 
-export async function compareCoverageCliOptions({
-  payload = DEFAULT_PAYLOAD,
-  runJs = runJsOptions,
-  runPython = runPythonOptions,
-} = {}) {
+function resolvePayload({ payload, fixture } = {}) {
+  if (payload) return { name: fixture?.name || 'custom', payload };
+  const name = typeof fixture === 'string' ? fixture : fixture?.name || 'default-runtime-options';
+  return { name, payload: COVERAGE_CLI_OPTIONS_FIXTURES[name] || DEFAULT_PAYLOAD };
+}
+
+async function compareCoverageCliOptionsSingle({ payload, fixture, runJs = runJsOptions, runPython = runPythonOptions } = {}) {
+  const resolved = resolvePayload({ payload, fixture });
   const tempDir = await mkdtemp(join(tmpdir(), 'coverage-cli-options-compare-'));
   try {
     const payloadPath = join(tempDir, 'payload.json');
-    const normalizedPayload = { mode: 'coverage-runtime', ...payload };
+    const normalizedPayload = { mode: 'coverage-runtime', ...resolved.payload };
     await writeFile(payloadPath, JSON.stringify(normalizedPayload, null, 2), 'utf8');
-    const js = await runJs({ payload: normalizedPayload, payloadPath });
-    const python = await runPython({ payload: normalizedPayload, payloadPath });
+    const context = { payload: normalizedPayload, fixture: { name: resolved.name }, payloadPath };
+    const js = await runJs(context);
+    const python = await runPython(context);
     const comparison = compareCoverageCliOptionsObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { payloadPath },
+      fixture: { name: resolved.name, payloadPath },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -80,8 +104,20 @@ export async function compareCoverageCliOptions({
   }
 }
 
+export async function compareCoverageCliOptions({ payload, fixture, fixtureNames, runJs = runJsOptions, runPython = runPythonOptions } = {}) {
+  if (fixtureNames) {
+    const results = [];
+    for (const name of fixtureNames.length ? fixtureNames : DEFAULT_FIXTURE_NAMES) {
+      results.push(await compareCoverageCliOptionsSingle({ fixture: name, runJs, runPython }));
+    }
+    const mismatches = results.flatMap((result) => result.mismatches.map((mismatch) => ({ ...mismatch, fixture: result.fixture.name })));
+    return { ok: mismatches.length === 0, fixtures: results.map((result) => result.fixture), results, mismatches };
+  }
+  return compareCoverageCliOptionsSingle({ payload: payload || DEFAULT_PAYLOAD, fixture, runJs, runPython });
+}
+
 async function main() {
-  const result = await compareCoverageCliOptions();
+  const result = await compareCoverageCliOptions({ fixtureNames: DEFAULT_FIXTURE_NAMES });
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }

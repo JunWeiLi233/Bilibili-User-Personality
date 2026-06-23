@@ -28896,6 +28896,10 @@ class CorpusContractTests(unittest.TestCase):
             {"path": "server/scripts/compareCoverageCliOptions.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
         )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:coverage-cli-options-compare"],
+            "coverage_runtime_default_env_fallback_strict_source_backed_fixtures_and_js_python_bridge",
+        )
 
     def test_coverage_cli_options_utility_is_legacy_after_python_contract(self):
         result = BackendMigrationInventoryScanner(".").scan()
