@@ -130,6 +130,7 @@ PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
     "coverage_progress": ("python_backend.cli.coverage_progress",),
     "discovery_report": ("python_backend.cli.discovery_report",),
     "harvest_options": ("python_backend.cli.harvest_options",),
+    "corpus_shard_writer": ("python_backend.cli.corpus_shard_writer",),
 }
 
 RETAINED_JS_FILE_PREFIXES = {
@@ -323,6 +324,11 @@ class BackendMigrationInventoryScanner:
             relative_path == "server/utils/coverageCliOptions.js"
             and package_scripts.get("python:harvest-options") == "python -m python_backend.cli.harvest_options"
             and package_scripts.get("python:coverage-cli-options-compare") == "node server/scripts/compareCoverageCliOptions.js"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/services/splitCorpusStorage.js"
+            and package_scripts.get("python:corpus-write") == "python -m python_backend.cli.corpus_shard_writer"
         ):
             return "legacy_compatibility_after_python_replacement"
         if relative_path in RETAINED_JS_FILES:

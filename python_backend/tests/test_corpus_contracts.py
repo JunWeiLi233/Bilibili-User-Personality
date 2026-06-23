@@ -832,6 +832,23 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["runs"], 1)
         self.assertEqual([item["message"] for item in loaded.comments], ["alpha" * 20, "beta"])
 
+    def test_split_corpus_storage_service_is_legacy_after_python_shard_writer_contract(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertNotIn("server/services/splitCorpusStorage.js", result["migrationCandidateFiles"]["services"])
+        self.assertIn(
+            {"path": "server/services/splitCorpusStorage.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {
+                "script": "python:corpus-write",
+                "command": "python -m python_backend.cli.corpus_shard_writer",
+                "pipeline": "corpus_shard_writer",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+
     def test_compare_contracts_cli_accepts_argv_contract_paths(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
