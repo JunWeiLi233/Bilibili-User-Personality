@@ -6650,6 +6650,11 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(single_object_rows, [])
         self.assertEqual([row["message"] for row in nested_rows], ["\u5e94\u8be5\u88ab\u89e3\u6790"])
 
+    def test_huggingface_importer_uses_shared_json_text_reader(self):
+        source = Path("python_backend/corpus/huggingface.py").read_text(encoding="utf-8")
+
+        self.assertNotIn("json.loads", source)
+
     def test_huggingface_import_planner_matches_js_default_source_and_fetch_contract(self):
         planner = HuggingFaceImportPlanner(default_output="server/data/huggingFaceKeywordCorpus.json")
 

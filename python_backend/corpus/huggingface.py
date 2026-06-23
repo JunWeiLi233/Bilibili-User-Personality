@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 import csv
-import json
 import re
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -124,32 +123,27 @@ class HuggingFaceCorpusImporter:
             return self._parse_csv(raw)
         if re.search(r"\.jsonl$", file, re.IGNORECASE):
             return self._split_jsonl(raw)
-        try:
-            parsed = json.loads(str(raw or ""))
-            if isinstance(parsed, list):
-                return [row for row in parsed if isinstance(row, dict)]
-            if isinstance(parsed, dict):
-                rows: list[dict[str, Any]] = []
-                for value in parsed.values():
-                    if isinstance(value, list):
-                        rows.extend(row for row in value if isinstance(row, dict))
-                    elif isinstance(value, dict):
-                        rows.append(value)
-                return rows
-        except json.JSONDecodeError:
-            pass
+        parsed = JsonContractReader().read_text_value(raw, None)
+        if isinstance(parsed, list):
+            return [row for row in parsed if isinstance(row, dict)]
+        if isinstance(parsed, dict):
+            rows: list[dict[str, Any]] = []
+            for value in parsed.values():
+                if isinstance(value, list):
+                    rows.extend(row for row in value if isinstance(row, dict))
+                elif isinstance(value, dict):
+                    rows.append(value)
+            return rows
         return self._split_jsonl(raw)
 
     def _split_jsonl(self, raw: str) -> list[dict[str, Any]]:
         rows = []
+        reader = JsonContractReader()
         for line in str(raw or "").splitlines():
             line = line.strip()
             if not line:
                 continue
-            try:
-                parsed = json.loads(line)
-            except json.JSONDecodeError:
-                continue
+            parsed = reader.read_text_value(line, None)
             if isinstance(parsed, dict):
                 rows.append(parsed)
         return rows
