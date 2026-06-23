@@ -1,13 +1,21 @@
+import { execFile } from 'node:child_process';
+import { mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { readFile } from 'node:fs/promises';
+import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 
 import { analyzeCommentsWithDeepSeek } from '../services/deepseekKeywordTrainer.js';
+
+const execFileAsync = promisify(execFile);
 
 export function parseArgs(argv = process.argv.slice(2)) {
   const payload = {};
   let file = '';
   let showHelp = false;
   let planJson = false;
+  let usePythonPlan = false;
 
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
@@ -15,6 +23,8 @@ export function parseArgs(argv = process.argv.slice(2)) {
       showHelp = true;
     } else if (arg === '--plan-json') {
       planJson = true;
+    } else if (arg === '--python-plan') {
+      usePythonPlan = true;
     } else if (arg === '--multiagent' || arg === '--multi-agent') {
       payload.multiagent = true;
     } else if (arg.startsWith('--text=')) {
@@ -42,7 +52,7 @@ export function parseArgs(argv = process.argv.slice(2)) {
     }
   }
 
-  return { payload, file, showHelp, planJson };
+  return { payload, file, showHelp, planJson, usePythonPlan };
 }
 
 export function buildPlan({ payload = {}, file = '', showHelp = false } = {}, { stdinIsTTY = process.stdin.isTTY } = {}) {
@@ -58,6 +68,32 @@ export function buildPlan({ payload = {}, file = '', showHelp = false } = {}, { 
       showHelp,
     },
   };
+}
+
+async function runPythonCliPlan({ argv, stdinIsTTY }) {
+  const tempDir = await mkdtemp(join(tmpdir(), 'deepseek-cli-plan-'));
+  try {
+    const payloadPath = join(tempDir, 'payload.json');
+    await writeFile(payloadPath, JSON.stringify({ argv, stdinIsTTY }, null, 2), 'utf8');
+    const { stdout } = await execFileAsync(
+      'python',
+      ['-m', 'python_backend.cli.deepseek_analyze_cli_plan', '--payload', payloadPath],
+      { cwd: process.cwd(), maxBuffer: 10 * 1024 * 1024 },
+    );
+    return JSON.parse(stdout);
+  } finally {
+    await rm(tempDir, { recursive: true, force: true });
+  }
+}
+
+export async function runPlanMode(
+  parsed,
+  { argv = process.argv.slice(2), stdinIsTTY = process.stdin.isTTY, runPythonPlan = runPythonCliPlan } = {},
+) {
+  if (parsed.usePythonPlan) {
+    return runPythonPlan({ argv, stdinIsTTY });
+  }
+  return buildPlan(parsed, { stdinIsTTY });
 }
 
 function readStdin() {
@@ -87,6 +123,7 @@ Options:
 }
 
 async function main() {
+  const argv = process.argv.slice(2);
   const parsed = parseArgs();
   const { payload, file, showHelp, planJson } = parsed;
   if (showHelp) {
@@ -95,7 +132,7 @@ async function main() {
   }
 
   if (planJson) {
-    console.log(JSON.stringify(buildPlan(parsed), null, 2));
+    console.log(JSON.stringify(await runPlanMode(parsed, { argv }), null, 2));
     return;
   }
 
