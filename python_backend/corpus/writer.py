@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 from pathlib import Path
 from typing import Any
@@ -45,9 +46,10 @@ class CorpusShardWriter:
         from python_backend.corpus.loader import CorpusLoader
 
         payload = payload if isinstance(payload, dict) else {}
-        output_path = Path(str(payload.get("outputPath") or ""))
-        if not str(output_path):
+        raw_output_path = payload.get("outputPath")
+        if not (isinstance(raw_output_path, (str, os.PathLike)) and str(raw_output_path).strip()):
             raise ValueError("payload outputPath is required")
+        output_path = Path(raw_output_path)
         comments = payload.get("comments") if isinstance(payload.get("comments"), list) else []
         runs = payload.get("runs") if isinstance(payload.get("runs"), list) else []
         manifest = payload.get("manifest") if isinstance(payload.get("manifest"), dict) else {}

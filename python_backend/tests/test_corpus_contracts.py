@@ -625,6 +625,16 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(loaded.comments, [{"message": "payload comment"}])
         self.assertEqual(loaded.runs, [{"at": "payload-run"}])
 
+    def test_writer_payload_rejects_malformed_output_path(self):
+        with self.assertRaisesRegex(ValueError, "payload outputPath is required"):
+            CorpusShardWriter.write_from_payload(
+                {
+                    "outputPath": {"bad": True},
+                    "comments": [{"message": "ignored"}],
+                    "runs": [],
+                }
+            )
+
     def test_writer_shards_include_js_metadata_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
