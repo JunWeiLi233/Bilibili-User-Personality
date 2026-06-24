@@ -142,6 +142,7 @@ class CommentCoverageClassifier:
         return _clean_text(comment)
 
     def _lexical_hits(self, dictionary: dict[str, Any], message: str) -> list[dict[str, Any]]:
+        raw_message = _clean_text(message)
         clean_message = _clean_needle(message)
         hits = []
         for entry in dictionary.get("entries") or []:
@@ -151,13 +152,17 @@ class CommentCoverageClassifier:
             examples = entry.get("examples") if isinstance(entry.get("examples"), list) else []
             needles = [entry.get("term"), *aliases, *examples]
             normalized = []
+            raw_needles = []
             for needle in needles:
                 if not _is_contract_scalar(needle):
                     continue
+                needle_text = _clean_text(needle)
                 clean_needle = _clean_needle(needle)
                 if len(clean_needle) >= 2:
                     normalized.append(clean_needle)
-            if any(needle in clean_message for needle in normalized):
+                elif needle_text:
+                    raw_needles.append(needle_text)
+            if any(needle in clean_message for needle in normalized) or any(needle in raw_message for needle in raw_needles):
                 hits.append(
                     {
                         "term": _clean_text(entry.get("term")),

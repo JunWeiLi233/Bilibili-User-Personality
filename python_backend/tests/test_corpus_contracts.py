@@ -19918,6 +19918,22 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(emoticon["covered"])
         self.assertEqual(emoticon["mode"], "neutral")
 
+    def test_comment_coverage_classifier_matches_raw_emoji_dictionary_terms(self):
+        classifier = CommentCoverageClassifier()
+
+        result = classifier.classify(
+            {"entries": [{"term": "\U0001f602", "family": "evasion", "meaning": "sarcastic laughing marker"}]},
+            "\U0001f602\U0001f602",
+        )
+
+        self.assertTrue(result["covered"])
+        self.assertEqual(result["mode"], "keyword")
+        self.assertEqual(result["reason"], "dictionary term matched")
+        self.assertEqual(
+            result["hits"],
+            [{"term": "\U0001f602", "family": "evasion", "meaning": "sarcastic laughing marker"}],
+        )
+
     def test_comment_coverage_classifier_ignores_keywords_inside_reply_usernames(self):
         dictionary = {"entries": [{"term": "\u72d7\u5934", "family": "attack"}, {"term": "\u67e5\u8d44\u6599", "family": "evidence"}]}
         classifier = CommentCoverageClassifier()
