@@ -38,11 +38,36 @@ test('compareHarvestState compares JS-compatible and Python harvest state result
       calls.push({ python: context.payloadPath.endsWith('harvest-state.json') });
       return { ok: true, termAttempts: TERM_ATTEMPTS };
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.deepEqual(calls, [{ js: true }, { python: true }]);
+});
+
+test('compareHarvestState delegates saved JS state comparison to Python contract', async () => {
+  let compareContext;
+  const result = await compareHarvestState({
+    payload: { mode: 'default', planItem: { term: 'test-term', query: 'test-term comments' }, result: { ok: true } },
+    runJs: async () => ({ ok: true, termAttempts: TERM_ATTEMPTS }),
+    runPython: async () => ({ ok: true, termAttempts: TERM_ATTEMPTS }),
+    runCompare: async (context) => {
+      compareContext = context;
+      return {
+        ok: true,
+        mismatches: [],
+        python: { termAttempts: TERM_ATTEMPTS },
+        js: { termAttempts: TERM_ATTEMPTS },
+      };
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.equal(compareContext.jsStatePath.endsWith('js-state.json'), true);
+  assert.deepEqual(compareContext.jsState, { ok: true, termAttempts: TERM_ATTEMPTS });
+  assert.deepEqual(compareContext.pythonState, { ok: true, termAttempts: TERM_ATTEMPTS });
 });
 
 test('compareHarvestState exports named file-backed fixtures', async () => {
@@ -59,6 +84,7 @@ test('compareHarvestState exports named file-backed fixtures', async () => {
       calls.push({ python: context.fixture.name, hasPayloadPath: context.payloadPath.endsWith('harvest-state.json') });
       return { ok: true, termAttempts: TERM_ATTEMPTS };
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);

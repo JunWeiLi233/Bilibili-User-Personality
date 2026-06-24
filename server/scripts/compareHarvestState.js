@@ -173,6 +173,19 @@ async function runPythonHarvestState({ payloadPath }) {
   return JSON.parse(stdout);
 }
 
+async function runPythonHarvestStateComparison({ payloadPath, jsStatePath }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    ['-m', 'python_backend.cli.harvest_state', '--payload', payloadPath, '--compare-js-state', jsStatePath],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return JSON.parse(stdout);
+}
+
 async function writeFixture(payloadPath, payload) {
   await writeFile(payloadPath, 'payloadRaw' in payload ? String(payload.payloadRaw ?? '') : JSON.stringify(payload || {}, null, 2), 'utf8');
 }
@@ -183,7 +196,13 @@ function resolvePayload({ payload, fixture } = {}) {
   return { name, payload: HARVEST_STATE_FIXTURES[name] || DEFAULT_PAYLOAD };
 }
 
-async function compareHarvestStateSingle({ payload, fixture, runJs = runJsHarvestState, runPython = runPythonHarvestState } = {}) {
+async function compareHarvestStateSingle({
+  payload,
+  fixture,
+  runJs = runJsHarvestState,
+  runPython = runPythonHarvestState,
+  runCompare = runPythonHarvestStateComparison,
+} = {}) {
   const resolved = resolvePayload({ payload, fixture });
   const tempDir = await mkdtemp(join(tmpdir(), 'harvest-state-compare-'));
   try {
@@ -193,7 +212,9 @@ async function compareHarvestStateSingle({ payload, fixture, runJs = runJsHarves
     const context = { payload: fixturePayload, fixture: { name: resolved.name }, payloadPath };
     const js = await runJs(context);
     const python = await runPython(context);
-    const comparison = compareHarvestStateObjects(python, js);
+    const jsStatePath = join(tempDir, 'js-state.json');
+    await writeFile(jsStatePath, JSON.stringify(js, null, 2), 'utf8');
+    const comparison = await runCompare({ ...context, jsStatePath, js, python, jsState: js, pythonState: python });
     return {
       ok: comparison.ok,
       fixture: { name: resolved.name, payloadPath },
@@ -206,16 +227,23 @@ async function compareHarvestStateSingle({ payload, fixture, runJs = runJsHarves
   }
 }
 
-export async function compareHarvestState({ payload, fixture, fixtureNames, runJs = runJsHarvestState, runPython = runPythonHarvestState } = {}) {
+export async function compareHarvestState({
+  payload,
+  fixture,
+  fixtureNames,
+  runJs = runJsHarvestState,
+  runPython = runPythonHarvestState,
+  runCompare = runPythonHarvestStateComparison,
+} = {}) {
   if (fixtureNames) {
     const results = [];
     for (const name of fixtureNames.length ? fixtureNames : DEFAULT_FIXTURE_NAMES) {
-      results.push(await compareHarvestStateSingle({ fixture: name, runJs, runPython }));
+      results.push(await compareHarvestStateSingle({ fixture: name, runJs, runPython, runCompare }));
     }
     const mismatches = results.flatMap((result) => result.mismatches.map((mismatch) => ({ ...mismatch, fixture: result.fixture.name })));
     return { ok: mismatches.length === 0, fixtures: results.map((result) => result.fixture), results, mismatches };
   }
-  return compareHarvestStateSingle({ payload, fixture, runJs, runPython });
+  return compareHarvestStateSingle({ payload, fixture, runJs, runPython, runCompare });
 }
 
 async function main() {
