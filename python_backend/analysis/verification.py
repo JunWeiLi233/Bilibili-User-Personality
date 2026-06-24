@@ -229,6 +229,43 @@ class RandomVerificationSelectionReadinessContract:
         )
 
 
+class RandomVerificationSampleReadinessContract:
+    """Own readiness gates derived from random-verification sample results."""
+
+    REASONS = {
+        "randomVerificationSampled": "random verification sampled no comments",
+        "randomVerificationNoUncovered": "random verification still has uncovered samples",
+    }
+
+    def __init__(self, verification_summary: dict[str, Any] | None = None):
+        self.verification_summary = verification_summary if isinstance(verification_summary, dict) else {}
+
+    def gates(self) -> list[dict[str, Any]]:
+        return [
+            {"gate": "randomVerificationSampled", "ok": self._sampled()},
+            {"gate": "randomVerificationNoUncovered", "ok": self._uncovered() == 0},
+        ]
+
+    def blocker_reasons(self) -> dict[str, str]:
+        return self.REASONS
+
+    def blocker_details(self) -> list[dict[str, str]]:
+        return [
+            {
+                "gate": str(gate.get("gate") or ""),
+                "reason": self.REASONS.get(str(gate.get("gate") or ""), "readiness gate failed"),
+            }
+            for gate in self.gates()
+            if not gate.get("ok")
+        ]
+
+    def _sampled(self) -> bool:
+        return _non_negative_int(self.verification_summary.get("sampled"), 0) > 0
+
+    def _uncovered(self) -> int:
+        return _non_negative_int(self.verification_summary.get("uncovered"), 0)
+
+
 @dataclass(frozen=True)
 class RandomVerificationReadinessContract:
     """Merge coverage-audit and random-verification evidence into a replacement gate."""
@@ -239,11 +276,11 @@ class RandomVerificationReadinessContract:
     def to_json_contract(self) -> dict[str, Any]:
         coverage_summary = CoverageAuditContractSummary().summarize(self.coverage_audit)
         verification_summary = RandomVerificationReportSummary().summarize(self.verification_report)
+        sample_readiness = RandomVerificationSampleReadinessContract(verification_summary)
         selection_readiness = RandomVerificationSelectionReadinessContract(verification_summary)
         gates = [
             {"gate": "coverageAuditComplete", "ok": self._coverage_complete(coverage_summary)},
-            {"gate": "randomVerificationSampled", "ok": self._verification_sampled(verification_summary)},
-            {"gate": "randomVerificationNoUncovered", "ok": self._verification_uncovered(verification_summary) == 0},
+            *sample_readiness.gates(),
             *selection_readiness.gates(),
         ]
         blockers = [gate["gate"] for gate in gates if not gate["ok"]]
@@ -260,17 +297,10 @@ class RandomVerificationReadinessContract:
         coverage = coverage_summary.get("coverage") if isinstance(coverage_summary.get("coverage"), dict) else {}
         return bool(coverage_summary.get("ok")) and coverage.get("complete") is True
 
-    def _verification_sampled(self, verification_summary: dict[str, Any]) -> bool:
-        return _non_negative_int(verification_summary.get("sampled"), 0) > 0
-
-    def _verification_uncovered(self, verification_summary: dict[str, Any]) -> int:
-        return _non_negative_int(verification_summary.get("uncovered"), 0)
-
     def _blocker_details(self, gates: list[dict[str, Any]]) -> list[dict[str, str]]:
         reasons = {
             "coverageAuditComplete": "coverage audit is not complete",
-            "randomVerificationSampled": "random verification sampled no comments",
-            "randomVerificationNoUncovered": "random verification still has uncovered samples",
+            **RandomVerificationSampleReadinessContract.REASONS,
             **RandomVerificationSelectionReadinessContract.REASONS,
         }
         return [

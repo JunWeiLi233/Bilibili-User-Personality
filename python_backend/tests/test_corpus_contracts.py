@@ -3652,6 +3652,32 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_random_verification_sample_readiness_contract_owns_sample_gates_and_blockers(self):
+        readiness = verification_module.RandomVerificationSampleReadinessContract(
+            {"sampled": 0, "uncovered": 3}
+        )
+
+        self.assertEqual(
+            readiness.gates(),
+            [
+                {"gate": "randomVerificationSampled", "ok": False},
+                {"gate": "randomVerificationNoUncovered", "ok": False},
+            ],
+        )
+        self.assertEqual(
+            readiness.blocker_details(),
+            [
+                {
+                    "gate": "randomVerificationSampled",
+                    "reason": "random verification sampled no comments",
+                },
+                {
+                    "gate": "randomVerificationNoUncovered",
+                    "reason": "random verification still has uncovered samples",
+                },
+            ],
+        )
+
     def test_random_verification_readiness_contract_blocks_selection_summary_drift(self):
         readiness = RandomVerificationReadinessContract(
             coverage_audit={
