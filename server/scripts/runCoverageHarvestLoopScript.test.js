@@ -444,6 +444,59 @@ test('runCoverageHarvestLoop.js keeps no-queries stop parity in Python command b
   }
 });
 
+test('runCoverageHarvestLoop.js keeps adapter crash report parity in Python command bridge', () => {
+  const tempDir = mkdtempSync(join(tmpdir(), 'coverage-loop-python-adapter-crash-'));
+  try {
+    const dictionaryPath = join(tempDir, 'dictionary.json');
+    const reportPath = join(tempDir, 'report.json');
+    const statePath = join(tempDir, 'state.json');
+    const adapterPath = join(tempDir, 'adapter.mjs');
+    writeFileSync(
+      dictionaryPath,
+      JSON.stringify({
+        version: 1,
+        updatedAt: '2026-01-01T00:00:00.000Z',
+        entries: [{ term: 'doge', family: 'meme', evidenceCount: 0, evidenceSamples: [], evidenceSources: [] }],
+      }),
+      'utf8',
+    );
+    writeFileSync(
+      adapterPath,
+      [
+        "console.error('adapter boom');",
+        "process.exit(2);",
+      ].join('\n'),
+      'utf8',
+    );
+
+    const result = spawnSync('node', ['server/scripts/runCoverageHarvestLoop.js'], {
+      cwd: process.cwd(),
+      env: {
+        ...process.env,
+        BILIBILI_COVERAGE_LOOP_USE_PYTHON_COMMAND: '1',
+        BILIBILI_COVERAGE_LOOP_HARVEST_COMMAND_JSON: JSON.stringify(['node', adapterPath, '{payload}']),
+        DEEPSEEK_KEYWORD_DICTIONARY_PATH: dictionaryPath,
+        BILIBILI_HARVEST_STATE_PATH: statePath,
+        BILIBILI_COVERAGE_LOOP_REPORT_PATH: reportPath,
+        BILIBILI_COVERAGE_LOOP_MAX_CYCLES: '2',
+      },
+      encoding: 'utf8',
+    });
+
+    assert.equal(result.status, 0, result.stderr);
+    const stdoutReport = JSON.parse(result.stdout);
+    const fileReport = JSON.parse(readFileSync(reportPath, 'utf8'));
+    assert.equal(stdoutReport.runtimeMode, 'external_harvest_command');
+    assert.equal(stdoutReport.stopReason, 'cycle_1_crashed');
+    assert.equal(stdoutReport.cycles.length, 1);
+    assert.equal(stdoutReport.cycles[0].harvest.ok, false);
+    assert.match(stdoutReport.cycles[0].harvest.warnings[0], /adapter boom/);
+    assert.deepEqual(fileReport, stdoutReport);
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
+  }
+});
+
 test('compareCoverageHarvestLoopPlanObjects reports matching dry-run plans', () => {
   const plan = {
     deepseek: { model: 'deepseek-v4-flash' },

@@ -51,6 +51,15 @@ def _flag_value(value: Any, fallback: bool = False) -> bool:
     return str(value).strip().lower() in {"1", "true", "yes", "on"}
 
 
+def _exception_text(error: BaseException) -> str:
+    if isinstance(error, subprocess.CalledProcessError):
+        stderr = str(error.stderr or "").strip()
+        stdout = str(error.stdout or "").strip()
+        detail = stderr or stdout or str(error)
+        return detail
+    return str(error)
+
+
 def _parse_list(value: Any) -> list[str]:
     return [item.strip() for item in re.split(r"[\r\n,;|]+", str(value or "")) if item.strip()]
 
@@ -628,29 +637,51 @@ class CoverageHarvestLoopCommandRunner:
             if not priority_queries:
                 stop_reason = "no_recommended_queries"
                 break
-            response = self.harvest_adapter.run(
-                {
-                    "cycle": cycle,
-                    "dictionaryPath": str(self.dictionary_path),
-                    "statePath": str(self.state_path),
-                    "reportPath": str(self.report_path),
-                    "priorityQueries": priority_queries,
-                    "audit": current_audit,
-                    "options": {
-                        "rounds": self.rounds_per_cycle,
-                        "maxQueries": self.max_queries,
-                        "targetEvidence": self.target_evidence,
-                        "maxActions": self.max_actions,
-                        "minCoverageRatio": self.min_coverage_ratio,
-                        "requireComplete": self.require_complete,
-                        "requireSourceBackedEvidence": self.require_source_backed_evidence,
-                        "requireCommentBackedEvidence": self.require_comment_backed_evidence,
-                        "includeDanmaku": self.include_danmaku,
-                        "resetState": self.reset_state and cycle == 1,
-                        "skipSeen": self.skip_seen,
-                    },
-                }
-            )
+            try:
+                response = self.harvest_adapter.run(
+                    {
+                        "cycle": cycle,
+                        "dictionaryPath": str(self.dictionary_path),
+                        "statePath": str(self.state_path),
+                        "reportPath": str(self.report_path),
+                        "priorityQueries": priority_queries,
+                        "audit": current_audit,
+                        "options": {
+                            "rounds": self.rounds_per_cycle,
+                            "maxQueries": self.max_queries,
+                            "targetEvidence": self.target_evidence,
+                            "maxActions": self.max_actions,
+                            "minCoverageRatio": self.min_coverage_ratio,
+                            "requireComplete": self.require_complete,
+                            "requireSourceBackedEvidence": self.require_source_backed_evidence,
+                            "requireCommentBackedEvidence": self.require_comment_backed_evidence,
+                            "includeDanmaku": self.include_danmaku,
+                            "resetState": self.reset_state and cycle == 1,
+                            "skipSeen": self.skip_seen,
+                        },
+                    }
+                )
+            except Exception as error:
+                stop_reason = f"cycle_{cycle}_crashed"
+                cycles.append(
+                    {
+                        "cycle": cycle,
+                        "priorityQueries": [],
+                        "harvest": {
+                            "ok": False,
+                            "rounds": 0,
+                            "queries": [],
+                            "warnings": [_exception_text(error)],
+                            "coverageProgress": [],
+                            "trainingDiagnostics": [],
+                            "queryDiagnostics": [],
+                        },
+                        "coverageDelta": None,
+                        "coverageBefore": current_audit.get("coverage") if isinstance(current_audit.get("coverage"), dict) else {},
+                        "coverageAfter": current_audit.get("coverage") if isinstance(current_audit.get("coverage"), dict) else {},
+                    }
+                )
+                break
             next_dictionary = response.get("afterDictionary") if isinstance(response.get("afterDictionary"), dict) else current_dictionary
             next_audit = self.audit_builder.build(next_dictionary)
             cycle_report = report_builder.build(
