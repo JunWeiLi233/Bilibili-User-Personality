@@ -1231,6 +1231,10 @@ class CorpusContractTests(unittest.TestCase):
         command = package["scripts"]["python:verify-random-compare"]
 
         self.assertEqual(command, "node server/scripts/compareRandomVerification.js")
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:verify-random-compare"],
+            "emoji_keyword_emoji_alias_ascii_boundary_fixtures_and_js_python_bridge",
+        )
 
     def test_random_verification_compare_script_is_retained_bridge_not_migration_backlog(self):
         result = BackendMigrationInventoryScanner(".").scan()

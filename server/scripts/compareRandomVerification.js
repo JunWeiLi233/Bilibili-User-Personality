@@ -20,6 +20,15 @@ export const RANDOM_VERIFICATION_FIXTURES = {
     },
     jsReport: { sampleSize: 1, seed: 1, sampled: 1, keywordHits: 1, neutral: 0, uncovered: 0 },
   },
+  'emoji-alias-hit': {
+    payload: {
+      sampleSize: 1,
+      seed: 1,
+      corpus: { comments: [{ message: '反讽一下😂' }], runs: [] },
+      dictionary: { entries: [{ term: '狗头', aliases: ['😂'] }] },
+    },
+    jsReport: { sampleSize: 1, seed: 1, sampled: 1, keywordHits: 1, neutral: 0, uncovered: 0 },
+  },
   'ascii-boundary-neutral': {
     payload: {
       sampleSize: 1,

@@ -78,7 +78,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:coverage-loop-compare": "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_mock_write_file_backed_mock_harvest_js_python_command_and_deferred_live_contract",
     "python:coverage-loop-command-compare": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_discovery_options_advanced_harvest_controls_standalone_discovery_cli_controls_advanced_cli_bridge_controls_source_gap_retry_controls_js_adapter_live_bridge_cli_flag_bridge_no_progress_no_queries_crash_report_external_prune_commands_request_builder_deferred_live_contract",
     "python:coverage-progress-compare": "payload_default_action_progress_corrupt_payload_fixtures_and_js_python_bridge",
-    "python:verify-random-compare": "emoji_keyword_ascii_boundary_fixtures_and_js_python_bridge",
+    "python:verify-random-compare": "emoji_keyword_emoji_alias_ascii_boundary_fixtures_and_js_python_bridge",
     "python:comment-coverage-compare": "payload_keyword_neutral_uncovered_sample_limit_diagnostic_fixtures_and_js_python_bridge",
     "python:semantic-match-compare": "match_cache_evidence_precomputed_vector_fixtures_and_js_python_bridge",
     "python:harvest-options-compare": "video_keyword_default_priority_query_content_expanded_template_fixtures_and_js_python_bridge",

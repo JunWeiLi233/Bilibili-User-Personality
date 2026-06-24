@@ -74,6 +74,7 @@ test('compareRandomVerification delegates persisted report comparison to Python 
 test('compareRandomVerification exports named payload fixtures', async () => {
   assert.deepEqual(Object.keys(RANDOM_VERIFICATION_FIXTURES), [
     'emoji-keyword-hit',
+    'emoji-alias-hit',
     'ascii-boundary-neutral',
   ]);
 
@@ -95,6 +96,8 @@ test('compareRandomVerification exports named payload fixtures', async () => {
   assert.deepEqual(calls, [
     { js: 'emoji-keyword-hit', hasPayloadPath: true },
     { python: 'emoji-keyword-hit', hasJsReportPath: true },
+    { js: 'emoji-alias-hit', hasPayloadPath: true },
+    { python: 'emoji-alias-hit', hasJsReportPath: true },
     { js: 'ascii-boundary-neutral', hasPayloadPath: true },
     { python: 'ascii-boundary-neutral', hasJsReportPath: true },
   ]);
