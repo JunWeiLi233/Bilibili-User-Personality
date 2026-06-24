@@ -39,11 +39,36 @@ test('compareHarvestOptions compares injected JS and Python option runners', asy
     payload: { mode: 'video-keyword', env: { BILIBILI_HARVEST_MAX_QUERIES: '2' } },
     runJs: async () => ({ mode: 'video-keyword', options: { maxQueries: 2 } }),
     runPython: async () => ({ mode: 'video-keyword', options: { maxQueries: 2 } }),
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(result.fixture.payloadPath.endsWith('payload.json'), true);
+});
+
+test('compareHarvestOptions delegates saved JS report comparison to Python contract', async () => {
+  let compareContext;
+  const result = await compareHarvestOptions({
+    payload: { mode: 'video-keyword', env: { BILIBILI_HARVEST_MAX_QUERIES: '2' } },
+    runJs: async () => ({ mode: 'video-keyword', options: { maxQueries: 2 } }),
+    runPython: async () => ({ mode: 'video-keyword', options: { maxQueries: 2 } }),
+    runCompare: async (context) => {
+      compareContext = context;
+      return {
+        ok: true,
+        mismatches: [],
+        python: { mode: 'video-keyword', options: { maxQueries: 2 } },
+        js: { mode: 'video-keyword', options: { maxQueries: 2 } },
+      };
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.equal(compareContext.jsReportPath.endsWith('js-report.json'), true);
+  assert.deepEqual(compareContext.jsReport, { mode: 'video-keyword', options: { maxQueries: 2 } });
+  assert.deepEqual(compareContext.pythonReport, { mode: 'video-keyword', options: { maxQueries: 2 } });
 });
 
 test('compareHarvestOptions exports named option fixtures', async () => {
@@ -64,6 +89,7 @@ test('compareHarvestOptions exports named option fixtures', async () => {
       calls.push({ python: context.fixture.name, hasPayloadPath: context.payloadPath.endsWith('payload.json') });
       return { mode: 'video-keyword', options: { maxQueries: 2 } };
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
