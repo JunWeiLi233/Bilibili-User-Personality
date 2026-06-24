@@ -332,6 +332,27 @@ class CoverageAuditReadinessContract:
         return bool(self.coverage_summary.get("ok")) and coverage.get("complete") is True
 
 
+class RandomVerificationReadinessComponentsContract:
+    """Build the ordered readiness component collection for random-verification replacement."""
+
+    def __init__(
+        self,
+        coverage_summary: dict[str, Any] | None = None,
+        verification_summary: dict[str, Any] | None = None,
+    ):
+        self.coverage_summary = coverage_summary if isinstance(coverage_summary, dict) else {}
+        self.verification_summary = verification_summary if isinstance(verification_summary, dict) else {}
+
+    def to_component_collection(self) -> ReadinessComponentCollectionContract:
+        return ReadinessComponentCollectionContract(
+            [
+                CoverageAuditReadinessContract(self.coverage_summary),
+                RandomVerificationSampleReadinessContract(self.verification_summary),
+                RandomVerificationSelectionReadinessContract(self.verification_summary),
+            ]
+        )
+
+
 @dataclass(frozen=True)
 class RandomVerificationReadinessContract:
     """Merge coverage-audit and random-verification evidence into a replacement gate."""
@@ -342,12 +363,10 @@ class RandomVerificationReadinessContract:
     def to_json_contract(self) -> dict[str, Any]:
         coverage_summary = CoverageAuditContractSummary().summarize(self.coverage_audit)
         verification_summary = RandomVerificationReportSummary().summarize(self.verification_report)
-        coverage_readiness = CoverageAuditReadinessContract(coverage_summary)
-        sample_readiness = RandomVerificationSampleReadinessContract(verification_summary)
-        selection_readiness = RandomVerificationSelectionReadinessContract(verification_summary)
-        readiness_components = ReadinessComponentCollectionContract(
-            [coverage_readiness, sample_readiness, selection_readiness]
-        )
+        readiness_components = RandomVerificationReadinessComponentsContract(
+            coverage_summary=coverage_summary,
+            verification_summary=verification_summary,
+        ).to_component_collection()
         gate_contract = ReadinessGateContract(
             gates=readiness_components.gates(),
             reasons=readiness_components.blocker_reasons(),

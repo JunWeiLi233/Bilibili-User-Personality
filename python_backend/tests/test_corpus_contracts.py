@@ -3764,6 +3764,38 @@ class CorpusContractTests(unittest.TestCase):
             {"firstGate": "first reason", "secondGate": "second reason"},
         )
 
+    def test_random_verification_readiness_components_contract_builds_ordered_components(self):
+        collection = verification_module.RandomVerificationReadinessComponentsContract(
+            coverage_summary={"ok": True, "coverage": {"complete": True}},
+            verification_summary={
+                "sampleSize": 2,
+                "seed": 7,
+                "sampled": 2,
+                "uncovered": 0,
+                "selectionSummary": {
+                    "requestedSampleSize": 2,
+                    "eligibleComments": 2,
+                    "selectedComments": 2,
+                    "seed": 7,
+                },
+            },
+        ).to_component_collection()
+
+        self.assertEqual(
+            collection.gates(),
+            [
+                {"gate": "coverageAuditComplete", "ok": True},
+                {"gate": "randomVerificationSampled", "ok": True},
+                {"gate": "randomVerificationNoUncovered", "ok": True},
+                {"gate": "randomVerificationSelectionConsistent", "ok": True},
+                {"gate": "randomVerificationSelectionPossible", "ok": True},
+                {"gate": "randomVerificationSelectionOptionsMatch", "ok": True},
+            ],
+        )
+        self.assertIn("coverageAuditComplete", collection.blocker_reasons())
+        self.assertIn("randomVerificationSampled", collection.blocker_reasons())
+        self.assertIn("randomVerificationSelectionConsistent", collection.blocker_reasons())
+
     def test_random_verification_readiness_contract_blocks_selection_summary_drift(self):
         readiness = RandomVerificationReadinessContract(
             coverage_audit={
