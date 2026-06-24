@@ -414,6 +414,7 @@ class BackendMigrationInventoryScanner:
         manual_verification_actions = self._manual_verification_actions(
             *self._migration_actions(migration_priority_files, package_scripts)
         )
+        python_contract_gaps = self._python_contract_gaps(migration_priority_files, package_scripts)
         return {
             "ok": True,
             "root": str(root),
@@ -432,6 +433,8 @@ class BackendMigrationInventoryScanner:
             "nextMigrationAction": next_migration_action,
             "nextOfflineMigrationAction": next_offline_migration_action,
             "manualVerificationActions": manual_verification_actions,
+            "pythonContractGapCount": len(python_contract_gaps),
+            "pythonContractGaps": python_contract_gaps,
             "retainedJsBackendFiles": retained_files,
             "testFiles": backend_tests,
             "packageScripts": package_scripts,
@@ -514,6 +517,26 @@ class BackendMigrationInventoryScanner:
                     action["replacementBlockers"] = replacement_blockers
                 actions.append(action)
         return actions
+
+    @staticmethod
+    def _python_contract_gaps(priority_files: list[dict[str, Any]], package_scripts: dict[str, Any]) -> list[dict[str, Any]]:
+        gaps: list[dict[str, Any]] = []
+        mappings = [mapping for mapping in package_scripts.get("pythonBackedNodeScripts", []) if isinstance(mapping, dict)]
+        for priority_file in priority_files:
+            path = str(priority_file.get("path") or "")
+            if any(path and path in str(mapping.get("command") or "") for mapping in mappings):
+                continue
+            gaps.append(
+                {
+                    "path": path,
+                    "category": str(priority_file.get("category") or ""),
+                    "group": str(priority_file.get("group") or ""),
+                    "priority": int(priority_file.get("priority") or 0),
+                    "blocker": "missing_python_contract",
+                    "recommendation": "create_python_contract_then_compare_js",
+                }
+            )
+        return gaps
 
     @staticmethod
     def _category(relative_path: str) -> str:
