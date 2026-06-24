@@ -2202,6 +2202,16 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertIn(
             {
+                "path": "server/scripts/runVideoLinkDirect.js",
+                "nodeScript": "server/scripts/runVideoLinkDirect.js",
+                "blocker": "video_link_direct_live_runtime_not_verified",
+                "preflightCommand": "npm run python:video-link-direct-compare",
+                "liveVerificationCommand": "node server/scripts/runVideoLinkDirect.js --uid 1",
+            },
+            result["manualVerificationActions"],
+        )
+        self.assertIn(
+            {
                 "path": "server/scripts/scrapeAicuUsers.js",
                 "nodeScript": "aicu:scrape",
                 "blocker": "aicu_scrape_live_runtime_not_verified",
@@ -2250,7 +2260,7 @@ class CorpusContractTests(unittest.TestCase):
             },
             result["manualVerificationActions"],
         )
-        self.assertEqual(result["pythonContractGapCount"], 9)
+        self.assertEqual(result["pythonContractGapCount"], 8)
         self.assertNotIn(
             "server/services/tiebaScraper.js",
             {item["path"] for item in result["pythonContractGaps"]},
@@ -2281,6 +2291,10 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertNotIn(
             "server/scripts/launchUidPipeline.js",
+            {item["path"] for item in result["pythonContractGaps"]},
+        )
+        self.assertNotIn(
+            "server/scripts/runVideoLinkDirect.js",
             {item["path"] for item in result["pythonContractGaps"]},
         )
         self.assertIn(

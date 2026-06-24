@@ -210,6 +210,16 @@ DEFAULT_DIRECT_FILE_CONTRACTS = {
         "validationScope": "dry_run_plan_default_custom_data_dir_fixtures_js_python_bridge_and_cli_flag_bridge",
         "replacementScope": "dry_run_plan",
     },
+    "server/scripts/runVideoLinkDirect.js": {
+        "nodeScript": "server/scripts/runVideoLinkDirect.js",
+        "nodeCommand": "node server/scripts/runVideoLinkDirect.js",
+        "pythonScript": "python:video-link-direct-plan",
+        "pythonCommand": "python -m python_backend.cli.video_link_direct_plan",
+        "validationScript": "python:video-link-direct-compare",
+        "validationCommand": "node server/scripts/compareVideoLinkDirectPlan.js",
+        "validationScope": "dry_run_plan_video_favorite_uid_missing_target_fixtures_and_js_python_bridge",
+        "replacementScope": "dry_run_plan",
+    },
 }
 
 DEFAULT_RETAINED_NODE_COMMANDS = {
@@ -1084,6 +1094,16 @@ class BackendMigrationInventoryScanner:
                     "reason": "Python has a UID pipeline launcher dry-run plan, default/custom data-dir fixtures, and JS/Python CLI bridge coverage, but the JS launcher still needs verified live worker orchestration before replacement.",
                     "preflightCommand": "npm run python:uid-pipeline-launcher-compare",
                     "liveVerificationCommand": "node server/scripts/launchUidPipeline.js",
+                    "manualVerificationRequired": True,
+                }
+            )
+        elif script == "server/scripts/runVideoLinkDirect.js" and validation_scope != "full_command":
+            blockers.append(
+                {
+                    "blocker": "video_link_direct_live_runtime_not_verified",
+                    "reason": "Python has direct video, favorite, UID, and missing-target dry-run plan fixtures with JS/Python bridge coverage, but live Bilibili collection and DeepSeek dictionary training still need verification before replacing the JS command.",
+                    "preflightCommand": "npm run python:video-link-direct-compare",
+                    "liveVerificationCommand": "node server/scripts/runVideoLinkDirect.js --uid 1",
                     "manualVerificationRequired": True,
                 }
             )
