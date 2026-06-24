@@ -38153,6 +38153,26 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(fallback, RandomVerificationRunOptions(sample_size=25, seed=123))
         self.assertEqual(malformed, RandomVerificationRunOptions(sample_size=50, seed=1))
 
+    def test_random_compare_module_exports_comparator_and_options_contracts(self):
+        from python_backend.analysis.random_compare import (
+            RandomVerificationComparisonOptionsContract,
+            RandomVerificationContractComparator,
+        )
+
+        options = RandomVerificationComparisonOptionsContract(
+            sample_size=None,
+            seed=None,
+            js_report={"sampleSize": "3", "seed": "5"},
+        ).options()
+        result = RandomVerificationContractComparator().compare(
+            {"sampleSize": 3, "seed": 5, "sampled": 2, "keywordHits": 1, "neutral": 1, "uncovered": 0},
+            {"sampleSize": 3, "seed": 5, "sampled": 2, "keywordHits": 0, "neutral": 2, "uncovered": 0},
+        )
+
+        self.assertEqual(options, RandomVerificationRunOptions(sample_size=3, seed=5))
+        self.assertFalse(result["ok"])
+        self.assertEqual([item["key"] for item in result["mismatches"]], ["keywordHits", "neutral"])
+
     def test_random_verification_contract_comparator_reports_metric_mismatches(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
