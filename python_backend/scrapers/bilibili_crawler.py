@@ -5,6 +5,7 @@ import html
 import json
 import math
 import re
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 from urllib.parse import quote, urlparse
@@ -37,28 +38,66 @@ def _bounded_number(value: Any, fallback: float, minimum: float, maximum: float)
     return int(bounded) if float(bounded).is_integer() else bounded
 
 
+@dataclass(frozen=True)
+class BilibiliCrawlerRuntimePolicy:
+    """Standalone JS-compatible runtime policy for Bilibili crawler pacing."""
+
+    min_delay_ms: Any = 2500
+    jitter_ms: Any = 2000
+    block_cooldown_ms: Any = 120000
+    cache_ttl_ms: Any = 300000
+    long_pause_probability: Any = 0.15
+    long_pause_min_ms: Any = 3000
+    long_pause_max_ms: Any = 8000
+    page_pause_min_ms: Any = 1500
+    page_pause_max_ms: Any = 3000
+    object_pause_min_ms: Any = 2000
+    object_pause_max_ms: Any = 5000
+    request_timeout_ms: Any = 30000
+
+    @classmethod
+    def from_env(cls, env: dict[str, Any] | None = None) -> "BilibiliCrawlerRuntimePolicy":
+        env = env if isinstance(env, dict) else {}
+        return cls(
+            min_delay_ms=env.get("BILIBILI_CRAWLER_MIN_DELAY_MS", 2500),
+            jitter_ms=env.get("BILIBILI_CRAWLER_JITTER_MS", 2000),
+            block_cooldown_ms=env.get("BILIBILI_CRAWLER_BLOCK_COOLDOWN_MS", 120000),
+            cache_ttl_ms=env.get("BILIBILI_CRAWLER_CACHE_TTL_MS", 300000),
+            long_pause_probability=env.get("BILIBILI_CRAWLER_LONG_PAUSE_PROBABILITY", 0.15),
+            long_pause_min_ms=env.get("BILIBILI_CRAWLER_LONG_PAUSE_MIN_MS", 3000),
+            long_pause_max_ms=env.get("BILIBILI_CRAWLER_LONG_PAUSE_MAX_MS", 8000),
+            page_pause_min_ms=env.get("BILIBILI_CRAWLER_PAGE_PAUSE_MIN_MS", 1500),
+            page_pause_max_ms=env.get("BILIBILI_CRAWLER_PAGE_PAUSE_MAX_MS", 3000),
+            object_pause_min_ms=env.get("BILIBILI_CRAWLER_OBJECT_PAUSE_MIN_MS", 2000),
+            object_pause_max_ms=env.get("BILIBILI_CRAWLER_OBJECT_PAUSE_MAX_MS", 5000),
+            request_timeout_ms=env.get("BILIBILI_CRAWLER_REQUEST_TIMEOUT_MS", 30000),
+        )
+
+    def to_json_contract(self) -> dict[str, int | float]:
+        pacing = RateLimitPolicy(
+            min_delay_ms=self.min_delay_ms,
+            jitter_ms=self.jitter_ms,
+            block_cooldown_ms=self.block_cooldown_ms,
+        ).to_bilibili_crawler_options()
+        return {
+            **pacing,
+            "cacheTtlMs": _bounded_number(self.cache_ttl_ms, 300000, 0, 300000),
+            "longPauseProbability": _bounded_number(self.long_pause_probability, 0.15, 0, 1),
+            "longPauseMinMs": _bounded_number(self.long_pause_min_ms, 3000, 0, 60000),
+            "longPauseMaxMs": _bounded_number(self.long_pause_max_ms, 8000, 0, 60000),
+            "pagePauseMinMs": _bounded_number(self.page_pause_min_ms, 1500, 0, 60000),
+            "pagePauseMaxMs": _bounded_number(self.page_pause_max_ms, 3000, 0, 60000),
+            "objectPauseMinMs": _bounded_number(self.object_pause_min_ms, 2000, 0, 60000),
+            "objectPauseMaxMs": _bounded_number(self.object_pause_max_ms, 5000, 0, 60000),
+            "requestTimeoutMs": _bounded_number(self.request_timeout_ms, 30000, 0, 120000),
+        }
+
+
 class BilibiliCrawlerConfigBuilder:
     """Build JS-compatible Bilibili crawler runtime config from environment payloads."""
 
     def build(self, env: dict[str, Any] | None = None) -> dict[str, int | float]:
-        env = env if isinstance(env, dict) else {}
-        pacing = RateLimitPolicy(
-            min_delay_ms=env.get("BILIBILI_CRAWLER_MIN_DELAY_MS", 2500),
-            jitter_ms=env.get("BILIBILI_CRAWLER_JITTER_MS", 2000),
-            block_cooldown_ms=env.get("BILIBILI_CRAWLER_BLOCK_COOLDOWN_MS", 120000),
-        ).to_bilibili_crawler_options()
-        return {
-            **pacing,
-            "cacheTtlMs": _bounded_number(env.get("BILIBILI_CRAWLER_CACHE_TTL_MS", 300000), 300000, 0, 300000),
-            "longPauseProbability": _bounded_number(env.get("BILIBILI_CRAWLER_LONG_PAUSE_PROBABILITY", 0.15), 0.15, 0, 1),
-            "longPauseMinMs": _bounded_number(env.get("BILIBILI_CRAWLER_LONG_PAUSE_MIN_MS", 3000), 3000, 0, 60000),
-            "longPauseMaxMs": _bounded_number(env.get("BILIBILI_CRAWLER_LONG_PAUSE_MAX_MS", 8000), 8000, 0, 60000),
-            "pagePauseMinMs": _bounded_number(env.get("BILIBILI_CRAWLER_PAGE_PAUSE_MIN_MS", 1500), 1500, 0, 60000),
-            "pagePauseMaxMs": _bounded_number(env.get("BILIBILI_CRAWLER_PAGE_PAUSE_MAX_MS", 3000), 3000, 0, 60000),
-            "objectPauseMinMs": _bounded_number(env.get("BILIBILI_CRAWLER_OBJECT_PAUSE_MIN_MS", 2000), 2000, 0, 60000),
-            "objectPauseMaxMs": _bounded_number(env.get("BILIBILI_CRAWLER_OBJECT_PAUSE_MAX_MS", 5000), 5000, 0, 60000),
-            "requestTimeoutMs": _bounded_number(env.get("BILIBILI_CRAWLER_REQUEST_TIMEOUT_MS", 30000), 30000, 0, 120000),
-        }
+        return BilibiliCrawlerRuntimePolicy.from_env(env).to_json_contract()
 
 
 class BilibiliCrawlerSummary:

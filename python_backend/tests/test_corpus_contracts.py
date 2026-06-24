@@ -177,7 +177,7 @@ from python_backend.scrapers.aicu import AicuBatchPlanCommandRequest, AicuBatchP
 from python_backend.scrapers.aicu_browser import AicuBrowserBatchPlanCommandRequest, AicuBrowserBatchPlanContractComparator as AicuBrowserBatchPlanPayloadComparator, AicuBrowserBatchPlanPayloadContractComparator, AicuBrowserBatchPlanRequest, AicuBrowserBatchPlanRunner as AicuBrowserBatchPayloadPlanRunner, AicuBrowserBatchPlanSummary, AicuBrowserBatchPlanner
 from python_backend.scrapers import video_link_direct
 from python_backend.scrapers.video_link_direct import VideoLinkDirectPlanCommandRequest, VideoLinkDirectPlanContractComparator as VideoLinkDirectPlanPayloadComparator, VideoLinkDirectPlanner, VideoLinkDirectPlanRequest, VideoLinkDirectPlanRunner as VideoLinkDirectPayloadPlanRunner
-from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerCommandRequest, BilibiliCrawlerContractComparator as BilibiliCrawlerPayloadComparator, BilibiliCrawlerPayloadContractComparator, BilibiliCrawlerRequest, BilibiliCrawlerRunner as BilibiliCrawlerPayloadRunner, BilibiliCrawlerHelper, BilibiliCrawlerSummary
+from python_backend.scrapers.bilibili_crawler import BilibiliCrawlerCommandRequest, BilibiliCrawlerContractComparator as BilibiliCrawlerPayloadComparator, BilibiliCrawlerPayloadContractComparator, BilibiliCrawlerRequest, BilibiliCrawlerRunner as BilibiliCrawlerPayloadRunner, BilibiliCrawlerHelper, BilibiliCrawlerRuntimePolicy, BilibiliCrawlerSummary
 from python_backend.scrapers.bilibili_probe import BilibiliProbePlanCommandRequest, BilibiliProbePlanContractComparator as BilibiliProbePlanPayloadComparator, BilibiliProbePlanPayloadContractComparator, BilibiliProbePlanRequest, BilibiliProbePlanRunner as BilibiliProbePayloadPlanRunner, BilibiliProbePlanSummary, BilibiliProbePlanner
 from python_backend.runtime.file_lock import FileLockStateCommandRequest, FileLockStateContractComparator as FileLockStatePayloadComparator, FileLockStateInspector, FileLockStateRequest, FileLockStateRunner as FileLockStatePayloadRunner, FileLockStateSummary
 from python_backend.scrapers.rate_limiter import RateLimitOptionsContract, RateLimitPolicy, RateLimiter
@@ -18954,6 +18954,42 @@ class CorpusContractTests(unittest.TestCase):
                 "objectPauseMinMs": 500,
                 "objectPauseMaxMs": 7000,
                 "requestTimeoutMs": 0,
+            },
+        )
+
+    def test_bilibili_crawler_runtime_policy_emits_json_contract(self):
+        policy = BilibiliCrawlerRuntimePolicy.from_env(
+            {
+                "BILIBILI_CRAWLER_MIN_DELAY_MS": "750",
+                "BILIBILI_CRAWLER_JITTER_MS": "125",
+                "BILIBILI_CRAWLER_BLOCK_COOLDOWN_MS": "180000",
+                "BILIBILI_CRAWLER_CACHE_TTL_MS": "90000",
+                "BILIBILI_CRAWLER_LONG_PAUSE_PROBABILITY": "0.4",
+                "BILIBILI_CRAWLER_LONG_PAUSE_MIN_MS": "3500",
+                "BILIBILI_CRAWLER_LONG_PAUSE_MAX_MS": "9000",
+                "BILIBILI_CRAWLER_PAGE_PAUSE_MIN_MS": "150",
+                "BILIBILI_CRAWLER_PAGE_PAUSE_MAX_MS": "250",
+                "BILIBILI_CRAWLER_OBJECT_PAUSE_MIN_MS": "450",
+                "BILIBILI_CRAWLER_OBJECT_PAUSE_MAX_MS": "650",
+                "BILIBILI_CRAWLER_REQUEST_TIMEOUT_MS": "45000",
+            }
+        )
+
+        self.assertEqual(
+            policy.to_json_contract(),
+            {
+                "minDelayMs": 750,
+                "jitterMs": 125,
+                "blockCooldownMs": 180000,
+                "cacheTtlMs": 90000,
+                "longPauseProbability": 0.4,
+                "longPauseMinMs": 3500,
+                "longPauseMaxMs": 9000,
+                "pagePauseMinMs": 150,
+                "pagePauseMaxMs": 250,
+                "objectPauseMinMs": 450,
+                "objectPauseMaxMs": 650,
+                "requestTimeoutMs": 45000,
             },
         )
 
