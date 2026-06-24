@@ -5314,6 +5314,32 @@ class CorpusContractTests(unittest.TestCase):
             {"minDelayMs": 5000, "jitterMs": 60000, "blockCooldownMs": 120000},
         )
 
+    def test_scraper_adapter_accepts_nested_rate_limit_payload_contract(self):
+        scraper = ScraperAdapter(rate_limiter=RateLimiter(delay_seconds=0, sleep=lambda _: None))
+
+        result = scraper.build_metadata_request_from_payload(
+            {
+                "query": "history tags",
+                "source": "history_tags",
+                "limit": 2,
+                "rateLimit": {
+                    "delayMs": -5,
+                    "jitterMs": 999999,
+                    "blockCooldownMs": "ignored for history tags",
+                },
+            }
+        )
+
+        self.assertEqual(
+            result,
+            {
+                "source": "history-tags",
+                "query": "history tags",
+                "limit": 2,
+                "rateLimit": {"delayMs": 0, "jitterMs": 120000},
+            },
+        )
+
     def test_deepseek_analyzer_builds_standalone_sentence_request(self):
         sentence = "\u8fd9\u53ea\u662f\u5f15\u7528\u68d2\u7403\u672f\u8bed\uff0c\u4e0d\u662f\u5728\u9a82\u4eba\u3002"
         analyzer = DeepSeekAnalyzerClient()
