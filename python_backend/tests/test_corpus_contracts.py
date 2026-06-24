@@ -31169,6 +31169,12 @@ class CorpusContractTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "harvest command must be valid JSON"):
             coverage_loop_module.CoverageHarvestLoopExternalHarvestAdapter("[not-json")
 
+    def test_coverage_harvest_loop_external_adapter_rejects_nested_command_tokens(self):
+        from python_backend.analysis import coverage_loop as coverage_loop_module
+
+        with self.assertRaisesRegex(ValueError, "harvest command tokens must be strings, numbers, booleans, or null"):
+            coverage_loop_module.CoverageHarvestLoopExternalHarvestAdapter(["python", {"bad": "token"}])
+
     def test_coverage_harvest_loop_external_harvest_prunes_exhausted_terms(self):
         from python_backend.analysis import coverage_loop as coverage_loop_module
 
