@@ -5074,6 +5074,48 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result, {"source": "bilibili", "query": "弹幕", "limit": 1})
         self.assertEqual(sleeps, [0.5])
 
+    def test_scraper_adapter_includes_normalized_rate_limit_contract_from_payload(self):
+        scraper = ScraperAdapter(rate_limiter=RateLimiter(delay_seconds=0, sleep=lambda _: None))
+
+        result = scraper.build_metadata_request_from_payload(
+            {
+                "query": "direct probe",
+                "source": "direct_probe",
+                "limit": 2,
+                "delayMs": 0,
+                "jitterMs": 999999,
+            }
+        )
+
+        self.assertEqual(
+            result,
+            {
+                "source": "direct-probe",
+                "query": "direct probe",
+                "limit": 2,
+                "rateLimit": {"delayMs": 1000, "jitterMs": 60000},
+            },
+        )
+
+    def test_scraper_adapter_uses_source_specific_rate_limit_contract(self):
+        scraper = ScraperAdapter(rate_limiter=RateLimiter(delay_seconds=0, sleep=lambda _: None))
+
+        result = scraper.build_metadata_request_from_payload(
+            {
+                "query": "tieba history",
+                "source": "tieba",
+                "limit": 2,
+                "minDelayMs": "bad",
+                "jitterMs": 999999,
+                "blockCooldownMs": "bad",
+            }
+        )
+
+        self.assertEqual(
+            result["rateLimit"],
+            {"minDelayMs": 5000, "jitterMs": 60000, "blockCooldownMs": 120000},
+        )
+
     def test_deepseek_analyzer_builds_standalone_sentence_request(self):
         sentence = "\u8fd9\u53ea\u662f\u5f15\u7528\u68d2\u7403\u672f\u8bed\uff0c\u4e0d\u662f\u5728\u9a82\u4eba\u3002"
         analyzer = DeepSeekAnalyzerClient()
