@@ -38906,6 +38906,26 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(hits[0]["term"], "网盘见")
         self.assertEqual(hits[0]["count"], 2)
 
+    def test_video_comment_filter_context_sources_match_js_contract(self):
+        from python_backend.analysis.video_comment_filter import (
+            sample_videos_for_diagnostics,
+            video_context_source_urls,
+            video_context_sources,
+        )
+
+        v1 = {"bvid": "BV1", "sourceUrl": "url1", "title": "T1"}
+        v2 = {"bvid": "BV2", "sourceUrl": "url2", "title": "T2"}
+
+        ctx = video_context_sources([v1], [v1, v2])
+        self.assertEqual(len(ctx), 2)
+
+        urls = video_context_source_urls([v1], [v2])
+        self.assertEqual(urls, ["url1", "url2"])
+
+        samples = sample_videos_for_diagnostics([v1, v2, v1])
+        self.assertEqual(len(samples), 3)
+        self.assertEqual(samples[0]["bvid"], "BV1")
+
 
 if __name__ == "__main__":
     unittest.main()

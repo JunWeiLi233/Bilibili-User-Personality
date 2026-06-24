@@ -18,6 +18,8 @@ from python_backend.analysis.video_comment_filter import (
     filter_comments_by_dictionary_needles,
     relevance_score_for_video,
     target_text_hits_for_diagnostics,
+    video_context_source_urls,
+    video_context_sources,
 )
 
 JS_MODULE = Path(__file__).resolve().parent.parent.parent / "server" / "services" / "videoKeywordSearch.js"
@@ -115,6 +117,20 @@ class VideoFilterComparisonTests(unittest.TestCase):
         for p, j in zip(py, js):
             self.assertEqual(p["term"], j["term"])
             self.assertEqual(p["count"], j["count"])
+
+    def test_video_context_sources_matches_js(self):
+        v1 = {"bvid": "BV1", "sourceUrl": "url1", "title": "T1"}
+        v2 = {"bvid": "BV2", "sourceUrl": "url2", "title": "T2"}
+        py = video_context_sources([v1], [v1, v2])
+        js = _js_result("videoContextSources", [v1], [v1, v2])
+        self.assertEqual(len(py), len(js))
+
+    def test_video_context_source_urls_matches_js(self):
+        v1 = {"bvid": "BV1", "sourceUrl": "url1"}
+        v2 = {"bvid": "BV2", "sourceUrl": "url2"}
+        py = video_context_source_urls([v1], [v2])
+        js = _js_result("videoContextSourceUrls", [v1], [v2])
+        self.assertEqual(py, js)
 
 
 if __name__ == "__main__":

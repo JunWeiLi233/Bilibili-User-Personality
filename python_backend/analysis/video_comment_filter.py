@@ -133,3 +133,39 @@ def target_text_hits_for_diagnostics(
         if count > 0:
             results.append({"term": term, "count": count})
     return results
+
+
+def video_context_sources(
+    videos: list[dict[str, Any]] | None = None,
+    discovered_videos: list[dict[str, Any]] | None = None,
+) -> list[dict[str, Any]]:
+    """Deduplicate all videos across scanned + discovered, matching JS videoContextSources."""
+    all_videos = [v for v in ((videos or []) + (discovered_videos or [])) if v]
+    return unique_by_key(
+        all_videos,
+        lambda v: f"{v.get('bvid', '') or ''}\n{v.get('sourceUrl', '') or ''}\n{v.get('title', '') or ''}",
+    )
+
+
+def video_context_source_urls(
+    videos: list[dict[str, Any]] | None = None,
+    discovered_videos: list[dict[str, Any]] | None = None,
+) -> list[str]:
+    """Return deduplicated source URLs from all scanned + discovered videos."""
+    all_videos = [v for v in ((videos or []) + (discovered_videos or [])) if v]
+    urls = [str(v.get("sourceUrl", "") or "").strip() for v in all_videos]
+    return unique_by_key([u for u in urls if u])
+
+
+def sample_videos_for_diagnostics(videos: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
+    """Return the first 5 videos with bvid, title, and sourceUrl for diagnostics."""
+    result: list[dict[str, Any]] = []
+    for video in (videos or [])[:5]:
+        if not isinstance(video, dict):
+            continue
+        result.append({
+            "bvid": str(video.get("bvid", "") or "").strip(),
+            "title": " ".join(str(video.get("title", "") or "").split()).strip()[:120],
+            "sourceUrl": str(video.get("sourceUrl", "") or "").strip(),
+        })
+    return result
