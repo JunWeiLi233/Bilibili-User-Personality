@@ -77,22 +77,66 @@ async function runPythonValidation({ payload, analysis }) {
   }
 }
 
+async function runPythonValidationComparison({ payloadPath, analysisPath, jsReportPath }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    [
+      '-m',
+      'python_backend.cli.deepseek_analysis_validate',
+      '--payload',
+      payloadPath,
+      '--analysis',
+      analysisPath,
+      '--compare-js-report',
+      jsReportPath,
+    ],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return JSON.parse(stdout);
+}
+
 export async function compareDeepSeekAnalysisValidation({
   payload = DEFAULT_PAYLOAD,
   analysis = DEFAULT_ANALYSIS,
   runPythonValidation: runPython = runPythonValidation,
+  runCompare = runPythonValidationComparison,
 } = {}) {
   const js = validateDeepSeekAnalysisPayloads(payload, analysis);
   const python = await runPython({ payload, analysis });
-  const comparison = compareValidationObjects(python, js);
+  const tempDir = await mkdtemp(join(tmpdir(), 'deepseek-validation-compare-'));
+  try {
+    const payloadPath = join(tempDir, 'payload.json');
+    const analysisPath = join(tempDir, 'analysis.json');
+    const jsReportPath = join(tempDir, 'js-report.json');
+    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
+    await writeFile(analysisPath, JSON.stringify(analysis, null, 2), 'utf8');
+    await writeFile(jsReportPath, JSON.stringify(js || {}, null, 2), 'utf8');
+    const comparison = await runCompare({
+      payload,
+      analysis,
+      payloadPath,
+      analysisPath,
+      jsReportPath,
+      js,
+      python,
+      jsValidation: js,
+      pythonValidation: python,
+    });
 
-  return {
-    ok: comparison.ok,
-    fixture: { payload, analysis },
-    js,
-    python,
-    mismatches: comparison.mismatches,
-  };
+    return {
+      ok: comparison.ok,
+      fixture: { payload, analysis, payloadPath, analysisPath, jsReportPath },
+      js,
+      python,
+      mismatches: comparison.mismatches,
+    };
+  } finally {
+    await rm(tempDir, { recursive: true, force: true });
+  }
 }
 
 async function main() {

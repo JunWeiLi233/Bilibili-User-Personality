@@ -43,6 +43,40 @@ test('compareDeepSeekAnalysisValidation reports matching JS and Python validatio
   assert.deepEqual(result.python, DEFAULT_REPORT);
 });
 
+test('compareDeepSeekAnalysisValidation delegates persisted report comparison to Python contract', async () => {
+  const calls = [];
+  const result = await compareDeepSeekAnalysisValidation({
+    payload: DEFAULT_PAYLOAD,
+    analysis: DEFAULT_ANALYSIS,
+    runPythonValidation: async () => DEFAULT_REPORT,
+    runCompare: async (context) => {
+      calls.push({
+        pythonUnsupportedQuotes: context.pythonValidation.unsupportedQuotes.length,
+        jsUnsupportedQuotes: context.jsValidation.unsupportedQuotes.length,
+        hasPayloadPath: context.payloadPath.endsWith('payload.json'),
+        hasAnalysisPath: context.analysisPath.endsWith('analysis.json'),
+        hasJsReportPath: context.jsReportPath.endsWith('js-report.json'),
+      });
+      return {
+        ok: false,
+        mismatches: [{ key: 'delegated', python: 'python-contract', js: 'js-bridge' }],
+      };
+    },
+  });
+
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.mismatches, [{ key: 'delegated', python: 'python-contract', js: 'js-bridge' }]);
+  assert.deepEqual(calls, [
+    {
+      pythonUnsupportedQuotes: 0,
+      jsUnsupportedQuotes: 0,
+      hasPayloadPath: true,
+      hasAnalysisPath: true,
+      hasJsReportPath: true,
+    },
+  ]);
+});
+
 test('compareValidationObjects reports quote validation drift using Python/JS keys', () => {
   const result = compareValidationObjects(
     {
