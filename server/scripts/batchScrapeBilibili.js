@@ -39,20 +39,35 @@ function buildSampleRequests(uid) {
   };
 }
 
+function readRangeArgs(argv = [], defaults = {}) {
+  const range = {
+    startUid: defaults.startUid ?? 100000,
+    endUid: defaults.endUid ?? 200000,
+  };
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = String(argv[index] || '');
+    if (arg.startsWith('--start=')) {
+      range.startUid = parseIntOr(arg.split('=')[1], range.startUid);
+    } else if (arg === '--start' && index + 1 < argv.length) {
+      index += 1;
+      range.startUid = parseIntOr(argv[index], range.startUid);
+    } else if (arg.startsWith('--end=')) {
+      range.endUid = parseIntOr(arg.split('=')[1], range.endUid);
+    } else if (arg === '--end' && index + 1 < argv.length) {
+      index += 1;
+      range.endUid = parseIntOr(argv[index], range.endUid);
+    }
+  }
+  return range;
+}
+
 export function buildBatchBilibiliPlan(payload = {}) {
   const planPayload = payload && typeof payload === 'object' ? payload : {};
   const argv = Array.isArray(planPayload.argv) ? planPayload.argv : [];
   const progress = planPayload.progress && typeof planPayload.progress === 'object' ? planPayload.progress : {};
   const database = planPayload.database && typeof planPayload.database === 'object' ? planPayload.database : {};
   const users = database.users && typeof database.users === 'object' ? database.users : {};
-  let startUid = 100000;
-  let endUid = 200000;
-
-  for (const raw of argv) {
-    const arg = String(raw || '');
-    if (arg.startsWith('--start=')) startUid = parseIntOr(arg.split('=')[1], startUid);
-    if (arg.startsWith('--end=')) endUid = parseIntOr(arg.split('=')[1], endUid);
-  }
+  let { startUid, endUid } = readRangeArgs(argv);
   if (startUid <= 0) startUid = 100000;
   if (endUid <= 0) endUid = 200000;
 
@@ -257,10 +272,7 @@ async function main() {
   let startUid = 100000;
   let endUid = 200000;
 
-  for (const arg of args) {
-    if (arg.startsWith('--start=')) startUid = parseInt(arg.split('=')[1]);
-    if (arg.startsWith('--end=')) endUid = parseInt(arg.split('=')[1]);
-  }
+  ({ startUid, endUid } = readRangeArgs(args, { startUid, endUid }));
 
   const db = await loadDatabase();
   const progress = await loadProgress();

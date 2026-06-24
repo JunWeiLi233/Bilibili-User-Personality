@@ -58,12 +58,21 @@ class BatchBilibiliScrapePlanner:
         database = database or {}
         start_uid = 100000
         end_uid = 200000
-        for raw in argv:
+        index = 0
+        while index < len(argv):
+            raw = argv[index]
             arg = str(raw or "")
             if arg.startswith("--start="):
                 start_uid = _parse_int(arg.split("=", 1)[1], start_uid)
+            elif arg == "--start" and index + 1 < len(argv):
+                index += 1
+                start_uid = _parse_int(argv[index], start_uid)
             elif arg.startswith("--end="):
                 end_uid = _parse_int(arg.split("=", 1)[1], end_uid)
+            elif arg == "--end" and index + 1 < len(argv):
+                index += 1
+                end_uid = _parse_int(argv[index], end_uid)
+            index += 1
         if start_uid <= 0:
             start_uid = 100000
         if end_uid <= 0:

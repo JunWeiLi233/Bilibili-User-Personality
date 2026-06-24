@@ -131,6 +131,23 @@ test('compareBatchBilibiliPlan exports named compatibility fixtures', async () =
   assert.deepEqual(payloads, Object.values(BATCH_BILIBILI_PLAN_FIXTURES));
 });
 
+test('compareBatchBilibiliPlan keeps separated range flags compatible with Python', async () => {
+  const result = await compareBatchBilibiliPlan({
+    payload: {
+      argv: ['--start', '100010', '--end', '100012'],
+      progress: { lastUid: 0, completed: 0, errors: [] },
+      database: { users: {} },
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.deepEqual(result.js.input, { startUid: 100010, endUid: 100012 });
+  assert.deepEqual(result.python.input, { startUid: 100010, endUid: 100012 });
+  assert.deepEqual(result.js.range, { startUid: 100010, endUid: 100012, total: 3 });
+  assert.deepEqual(result.python.range, { startUid: 100010, endUid: 100012, total: 3 });
+});
+
 test('batchScrapeBilibili can delegate dry-run planning to Python', () => {
   const tempDir = mkdtempSync(join(tmpdir(), 'batch-bilibili-python-plan-'));
   try {
