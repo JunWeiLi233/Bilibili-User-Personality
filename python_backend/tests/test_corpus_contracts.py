@@ -7913,6 +7913,16 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(message, 'DeepSeek analyze failed with HTTP 429: {"error":"rate limited"}')
 
+    def test_deepseek_analyze_http_transport_formats_network_failures(self):
+        def failing_opener(request, timeout):
+            raise urllib.error.URLError("temporary dns failure")
+
+        with self.assertRaisesRegex(RuntimeError, "DeepSeek analyze network failure: temporary dns failure"):
+            DeepSeekAnalyzeHttpTransport(opener=failing_opener).send(
+                {"model": "deepseek-v4-flash"},
+                {"baseUrl": "https://deepseek.example", "apiKey": "secret"},
+            )
+
     def test_deepseek_analyze_http_request_builder_owns_url_headers_and_body(self):
         request = DeepSeekAnalyzeHttpRequestBuilder().build(
             {"model": "deepseek-v4-flash", "messages": [{"role": "user", "content": "\u53cd\u8bbd[doge]"}]},

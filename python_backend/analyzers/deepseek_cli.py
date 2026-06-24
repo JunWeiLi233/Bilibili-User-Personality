@@ -207,6 +207,9 @@ class DeepSeekAnalyzeHttpErrorFormatter:
         body = error.read().decode("utf-8", errors="replace")[:200]
         return f"DeepSeek analyze failed with HTTP {error.code}: {body}"
 
+    def format_network(self, error: urllib.error.URLError) -> str:
+        return f"DeepSeek analyze network failure: {error.reason}"
+
 
 class DeepSeekAnalyzeHttpRequestBuilder:
     """Build DeepSeek chat-completion HTTP requests from analyzer payloads."""
@@ -259,6 +262,8 @@ class DeepSeekAnalyzeHttpTransport:
                 payload = JsonContractReader().read_text_value(response.read().decode("utf-8"), {})
         except urllib.error.HTTPError as error:
             raise RuntimeError(self.error_formatter.format(error)) from error
+        except urllib.error.URLError as error:
+            raise RuntimeError(self.error_formatter.format_network(error)) from error
         return self.parser.parse(payload)
 
     @staticmethod
