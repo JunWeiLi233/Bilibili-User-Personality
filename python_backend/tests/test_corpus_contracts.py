@@ -3454,6 +3454,31 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(summary.uncovered, 0)
         self.assertEqual({sample["message"] for sample in summary.samples}, {"plain", "doge satire", "YYGQ reply"})
 
+    def test_random_execution_module_exports_execution_and_report_contracts(self):
+        from python_backend.analysis.random_execution import (
+            RandomVerificationAnnotationContract,
+            RandomVerificationExecutionContract,
+            RandomVerificationReportBuilder,
+        )
+
+        report = RandomVerificationReportBuilder(
+            comments=[{"message": "doge"}, {"message": "plain"}],
+            keyword_terms=["doge"],
+            corpus={"comments": 2, "runs": 0, "storage": "inline"},
+            sample_size=2,
+            seed=1,
+        ).build()
+        summary = RandomVerificationExecutionContract(
+            comments=[{"message": "YYGQ"}, {"message": "plain"}],
+            annotation_contract=RandomVerificationAnnotationContract(["YYGQ"]),
+            sample_size=2,
+            seed=1,
+        ).verify()
+
+        self.assertEqual(report["keywordHits"], 1)
+        self.assertEqual(report["dictionaryTerms"], 1)
+        self.assertEqual(summary.keyword_hits, 1)
+
     def test_random_verifier_skips_scrape_diagnostics(self):
         verifier = RandomVerifier(keyword_terms=["狗头"])
 
