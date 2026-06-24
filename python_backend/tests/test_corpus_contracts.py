@@ -1126,7 +1126,7 @@ class CorpusContractTests(unittest.TestCase):
                 encoding="utf-8",
             )
             audit_path.write_text(
-                json.dumps({"coverage": {"terms": 1, "weakTerms": 0, "coverageRatio": 1.0, "targetEvidence": 3}}),
+                json.dumps({"ok": True, "coverage": {"complete": True, "terms": 1, "weakTerms": 0, "coverageRatio": 1.0, "targetEvidence": 3}}),
                 encoding="utf-8",
             )
             dictionary_path.write_text(json.dumps({"version": 1, "entries": [{"term": "doge", "family": "evidence"}]}), encoding="utf-8")
@@ -1157,6 +1157,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["randomVerification"]["mismatches"], [])
         self.assertEqual(result["randomVerification"]["python"]["keywordHits"], 1)
+        self.assertTrue(result["replacementReadiness"]["ok"])
+        self.assertEqual(result["replacementReadiness"]["blockers"], [])
+        self.assertEqual(result["replacementReadiness"]["randomVerification"]["sampled"], 2)
 
     def test_compare_contracts_random_verification_includes_tieba_corpus(self):
         with tempfile.TemporaryDirectory() as tmp:

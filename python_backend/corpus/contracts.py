@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any
 
 from python_backend.analysis.audit import CoverageAuditReport
-from python_backend.analysis.verification import RandomVerificationPayloadContractComparator
+from python_backend.analysis.verification import RandomVerificationPayloadContractComparator, RandomVerificationReadinessContract
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.source_breakdown import SourceBreakdownContract
@@ -15,7 +15,7 @@ from python_backend.runtime.json_contracts import JsonResultBytesContract, safe_
 class CorpusContractSummary:
     """Shape corpus/audit/dictionary contract comparisons for stable JSON output."""
 
-    RESULT_KEYS = ("ok", "mismatches", "corpus", "audit", "dictionary", "tiebaCorpus", "randomVerification")
+    RESULT_KEYS = ("ok", "mismatches", "corpus", "audit", "dictionary", "tiebaCorpus", "randomVerification", "replacementReadiness")
 
     def summarize(self, result: dict[str, object] | None = None) -> dict[str, object]:
         result = result if isinstance(result, dict) else {}
@@ -135,6 +135,10 @@ class ContractComparator:
                 extra_corpus_paths=random_extra_corpus_paths,
             ).compare()
             result["randomVerification"] = random_comparison
+            result["replacementReadiness"] = RandomVerificationReadinessContract(
+                coverage_audit=safe_read_json_object(self.audit_path),
+                verification_report=safe_read_json_object(self.random_report_path),
+            ).to_json_contract()
             if not random_comparison.get("ok"):
                 mismatches.append({"key": "randomVerification", "python": random_comparison.get("python"), "js": random_comparison.get("js")})
         result["ok"] = bool(result["ok"]) and len(mismatches) == 0
