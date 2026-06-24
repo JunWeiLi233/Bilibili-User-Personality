@@ -749,7 +749,7 @@ class DeepSeekAnalysisPlanSummary:
             "mode": plan.get("mode"),
             "requestCount": len(requests),
             "requests": [
-                {key: request.get(key) for key in self.REQUEST_KEYS if isinstance(request, dict)}
+                self._summarize_request(request)
                 for request in requests
             ],
         }
@@ -759,10 +759,23 @@ class DeepSeekAnalysisPlanSummary:
         request_template = merge.get("requestTemplate") if isinstance(merge.get("requestTemplate"), dict) else {}
         if request_template:
             summary.setdefault("merge", {})["requestTemplate"] = {
-                key: request_template.get(key)
-                for key in self.REQUEST_KEYS
-                if key in request_template
+                key: value
+                for key, value in self._summarize_request(request_template).items()
+                if key in self.REQUEST_KEYS or key == "messageRoles"
             }
+        return summary
+
+    def _summarize_request(self, request: Any) -> dict[str, Any]:
+        if not isinstance(request, dict):
+            return {}
+        summary = {key: request.get(key) for key in self.REQUEST_KEYS if key in request}
+        messages = request.get("messages") if isinstance(request.get("messages"), list) else []
+        if messages:
+            summary["messageRoles"] = [
+                str(message.get("role") or "")
+                for message in messages
+                if isinstance(message, dict)
+            ]
         return summary
 
 
@@ -835,6 +848,11 @@ class DeepSeekAnalysisPlanContractComparator:
             for key in self.summary.REQUEST_KEYS:
                 if key in js_request and python_request.get(key) != js_request.get(key):
                     mismatches.append({"key": f"requests[{index}].{key}", "python": python_request.get(key), "js": js_request.get(key)})
+            if "messages" in js_request:
+                python_roles = self.summary._summarize_request(python_request).get("messageRoles", [])
+                js_roles = self.summary._summarize_request(js_request).get("messageRoles", [])
+                if python_roles != js_roles:
+                    mismatches.append({"key": f"requests[{index}].messageRoles", "python": python_roles, "js": js_roles})
         python_merge = python_plan.get("merge") if isinstance(python_plan.get("merge"), dict) else {}
         js_merge = js_plan.get("merge") if isinstance(js_plan.get("merge"), dict) else {}
         if "mergeAgent" in js_merge and python_merge.get("mergeAgent") != js_merge.get("mergeAgent"):
@@ -844,6 +862,11 @@ class DeepSeekAnalysisPlanContractComparator:
         for key in self.summary.REQUEST_KEYS:
             if key in js_template and python_template.get(key) != js_template.get(key):
                 mismatches.append({"key": f"merge.requestTemplate.{key}", "python": python_template.get(key), "js": js_template.get(key)})
+        if "messages" in js_template:
+            python_roles = self.summary._summarize_request(python_template).get("messageRoles", [])
+            js_roles = self.summary._summarize_request(js_template).get("messageRoles", [])
+            if python_roles != js_roles:
+                mismatches.append({"key": "merge.requestTemplate.messageRoles", "python": python_roles, "js": js_roles})
         return mismatches
 
 

@@ -7837,6 +7837,37 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_deepseek_analysis_plan_contract_comparator_reports_message_role_mismatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_plan_path = root / "js-plan.json"
+            payload_path.write_text(json.dumps({"text": "\u53cd\u8bbd[doge]"}), encoding="utf-8")
+            js_plan_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "single",
+                        "requests": [
+                            {
+                                "model": "deepseek-v4-flash",
+                                "messages": [{"role": "assistant", "content": "wrong role"}],
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = DeepSeekAnalysisPlanContractComparator(payload_path, js_plan_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [{"key": "requests[0].messageRoles", "python": ["system", "user"], "js": ["assistant"]}],
+        )
+        self.assertEqual(result["python"]["requests"][0]["messageRoles"], ["system", "user"])
+        self.assertEqual(result["js"]["requests"][0]["messageRoles"], ["assistant"])
+
     def test_deepseek_analysis_plan_contract_comparator_reports_merge_agent_mismatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
