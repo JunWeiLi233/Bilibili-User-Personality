@@ -37183,6 +37183,21 @@ class CorpusContractTests(unittest.TestCase):
             self.assertEqual(json.loads(output_path.read_text(encoding="utf-8")), audit)
             self.assertEqual(output_path.read_bytes(), CoverageAuditJsonResultContract(audit).to_bytes())
 
+    def test_coverage_audit_output_module_exports_json_and_writer_contracts(self):
+        from python_backend.analysis.coverage_audit_output import (
+            CoverageAuditJsonResultContract,
+            CoverageAuditOutputWriter,
+        )
+
+        with tempfile.TemporaryDirectory() as tmp:
+            output_path = Path(tmp) / "nested" / "audit.json"
+            audit = {"ok": True, "message": "emoji \U0001f602"}
+
+            result = CoverageAuditOutputWriter(output_path).write(audit)
+
+            self.assertEqual(result, audit)
+            self.assertEqual(output_path.read_bytes(), CoverageAuditJsonResultContract(audit).to_bytes())
+
     def test_coverage_audit_report_artifacts_writer_persists_full_js_sidecars(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
