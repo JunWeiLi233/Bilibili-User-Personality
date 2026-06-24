@@ -1228,6 +1228,23 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(command, "node server/scripts/compareRandomVerification.js")
 
+    def test_random_verification_compare_script_is_retained_bridge_not_migration_backlog(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertNotIn("server/scripts/compareRandomVerification.js", result["migrationCandidateFiles"]["scripts"])
+        self.assertIn(
+            {"path": "server/scripts/compareRandomVerification.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {
+                "script": "python:verify-random-compare",
+                "command": "node server/scripts/compareRandomVerification.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+
     def test_package_compare_write_script_persists_python_contract_report(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
         command = package["scripts"]["python:compare:write"]
