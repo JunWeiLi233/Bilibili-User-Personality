@@ -866,6 +866,16 @@ class BackendMigrationInventoryScanner:
                     "manualVerificationRequired": True,
                 }
             )
+        elif script == "aicu:scrape" and validation_scope != "full_command":
+            blockers.append(
+                {
+                    "blocker": "aicu_scrape_live_runtime_not_verified",
+                    "reason": "Python has a read-only UID request plan, inline/missing-file/page override fixtures, and JS/Python bridge coverage, but aicu:scrape still needs a verified live AICU scrape runtime before replacing the JS command.",
+                    "preflightCommand": "npm run python:aicu-compare",
+                    "liveVerificationCommand": "npm run aicu:scrape",
+                    "manualVerificationRequired": True,
+                }
+            )
         elif validation_scope != "full_command":
             blockers.append(
                 {
