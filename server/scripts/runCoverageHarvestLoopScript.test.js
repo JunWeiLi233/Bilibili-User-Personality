@@ -4,7 +4,11 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { COVERAGE_LOOP_COMMAND_FIXTURES, compareCoverageHarvestLoopCommand } from './compareCoverageHarvestLoopCommand.js';
+import {
+  COVERAGE_LOOP_COMMAND_FIXTURES,
+  FILE_BACKED_MOCK_HARVEST_PAYLOAD,
+  compareCoverageHarvestLoopCommand,
+} from './compareCoverageHarvestLoopCommand.js';
 import { runCoverageLoopJsHarvestAdapter } from './runCoverageHarvestLoopJsAdapter.js';
 import { compareCoverageHarvestLoopPlan, compareCoverageHarvestLoopPlanObjects } from './compareCoverageHarvestLoopPlan.js';
 import { buildPythonCoverageLoopCommandArgs } from './runCoverageHarvestLoop.js';
@@ -873,6 +877,7 @@ test('compareCoverageHarvestLoopCommand validates complete and weak no-live fixt
   assert.deepEqual(result.results[7].python.cycles[0].coverageDelta, result.results[7].js.cycles[0].coverageDelta);
   assert.deepEqual(result.results[7].python.cycles[0].harvest, result.results[7].js.cycles[0].harvest);
   assert.deepEqual(result.results[7].pythonReportFile, result.results[7].python);
+  assert.deepEqual(result.results[7].pythonDictionaryFile, FILE_BACKED_MOCK_HARVEST_PAYLOAD.afterDictionary);
   assert.equal(result.results[8].python.runtimeMode, 'external_harvest_command');
   assert.deepEqual(result.results[8].python.cycles[0].coverageDelta, result.results[8].js.cycles[0].coverageDelta);
   assert.deepEqual(result.results[8].python.cycles[0].harvest, result.results[8].js.cycles[0].harvest);

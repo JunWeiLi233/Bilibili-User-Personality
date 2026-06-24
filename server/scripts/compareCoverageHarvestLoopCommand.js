@@ -776,6 +776,7 @@ export async function compareCoverageHarvestLoopCommand({
           js,
           python,
           pythonReportFile: pythonRun.fileReport,
+          pythonDictionaryFile: JSON.parse(await readFile(pythonDictionaryPath, 'utf8')),
           mismatches: comparison.mismatches,
         });
         continue;
