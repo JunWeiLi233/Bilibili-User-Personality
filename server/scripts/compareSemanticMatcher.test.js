@@ -38,11 +38,53 @@ test('compareSemanticMatcher compares injected JS and Python semantic contracts'
       calls.push({ python: context.payloadPath.endsWith('semantic-matcher.json') });
       return MATCH_SUMMARY;
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.deepEqual(calls, [{ js: true }, { python: true }]);
+});
+
+test('compareSemanticMatcher delegates saved JS report comparison to Python contract', async () => {
+  const calls = [];
+  const result = await compareSemanticMatcher({
+    runJs: async (context) => {
+      calls.push({ js: context.payloadPath.endsWith('semantic-matcher.json') });
+      return { ...MATCH_SUMMARY, cosine: 0.8 };
+    },
+    runPython: async (context) => {
+      calls.push({ python: context.payloadPath.endsWith('semantic-matcher.json') });
+      return { ...MATCH_SUMMARY, cosine: 0.9 };
+    },
+    runCompare: async (context) => {
+      calls.push({
+        compare: context.payloadPath.endsWith('semantic-matcher.json'),
+        hasJsReportPath: context.jsReportPath.endsWith('js-report.json'),
+        jsCosine: context.jsReport.cosine,
+        pythonCosine: context.pythonReport.cosine,
+      });
+      return {
+        ok: false,
+        mismatches: [{ key: 'cosine', python: 0.9, js: 0.8 }],
+        python: { ...MATCH_SUMMARY, cosine: 0.9 },
+        js: { ...MATCH_SUMMARY, cosine: 0.8 },
+      };
+    },
+  });
+
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.mismatches, [{ key: 'cosine', python: 0.9, js: 0.8 }]);
+  assert.deepEqual(calls, [
+    { js: true },
+    { python: true },
+    {
+      compare: true,
+      hasJsReportPath: true,
+      jsCosine: 0.8,
+      pythonCosine: 0.9,
+    },
+  ]);
 });
 
 test('compareSemanticMatcher exports deterministic offline fixtures', async () => {
@@ -56,6 +98,7 @@ test('compareSemanticMatcher exports deterministic offline fixtures', async () =
     fixtureNames: Object.keys(SEMANTIC_MATCHER_FIXTURES),
     runJs: async ({ fixture }) => fixture.expected,
     runPython: async ({ fixture }) => fixture.expected,
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
