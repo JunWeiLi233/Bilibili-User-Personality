@@ -2623,11 +2623,13 @@ class CorpusContractTests(unittest.TestCase):
                     "gate": "noReplacementBlockers",
                     "reason": "replacement candidates still have blockers",
                     "count": 1,
+                    "paths": ["server/scripts/a.js"],
                 },
                 {
                     "gate": "allManualVerificationComplete",
                     "reason": "manual verification actions remain",
                     "count": 1,
+                    "paths": ["server/scripts/a.js"],
                 },
             ],
         )

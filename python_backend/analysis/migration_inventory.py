@@ -585,7 +585,7 @@ class BackendReplacementReadinessContract:
             "ok": not blockers,
             "gates": gates,
             "blockers": blockers,
-            "blockerDetails": self._blocker_details(gates, replacement_blocked, manual_blocker_counts),
+            "blockerDetails": self._blocker_details(gates, replacement_blocked, manual_blocker_counts, self.manual_verification_actions),
             "manualVerificationActionCount": len(self.manual_verification_actions),
             "replacementBlockedActionCount": len(replacement_blocked),
             "readyToReplaceActionCount": len(ready_to_replace),
@@ -610,6 +610,7 @@ class BackendReplacementReadinessContract:
         gates: list[dict[str, Any]],
         replacement_blocked: list[dict[str, Any]],
         manual_blocker_counts: dict[str, int],
+        manual_verification_actions: list[dict[str, str]],
     ) -> list[dict[str, Any]]:
         reasons = {
             "noPythonContractGaps": "Python compatibility contract gaps remain",
@@ -621,11 +622,17 @@ class BackendReplacementReadinessContract:
             "noReplacementBlockers": len(replacement_blocked),
             "allManualVerificationComplete": sum(manual_blocker_counts.values()),
         }
+        paths = {
+            "noPythonContractGaps": [str(gap.get("script") or gap.get("path") or "") for gap in self.python_contract_gaps if isinstance(gap, dict)],
+            "noReplacementBlockers": [str(action.get("path") or "") for action in replacement_blocked],
+            "allManualVerificationComplete": [str(action.get("path") or "") for action in manual_verification_actions if isinstance(action, dict)],
+        }
         return [
             {
                 "gate": gate_name,
                 "reason": reasons.get(gate_name, "readiness gate failed"),
                 "count": counts.get(gate_name, 0),
+                "paths": [path for path in paths.get(gate_name, []) if path],
             }
             for gate in gates
             for gate_name in [str(gate.get("gate") or "")]
