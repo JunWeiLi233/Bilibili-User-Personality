@@ -49,12 +49,52 @@ test('compareDeepSeekAnalysisNormalization reports matching JS and Python normal
     analysis: DEFAULT_ANALYSIS,
     runPythonNormalization: async () => DEFAULT_NORMALIZED,
     normalizeJs: () => DEFAULT_NORMALIZED,
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.deepEqual(result.js, DEFAULT_NORMALIZED);
   assert.deepEqual(result.python, DEFAULT_NORMALIZED);
+});
+
+test('compareDeepSeekAnalysisNormalization delegates persisted report comparison to Python contract', async () => {
+  const calls = [];
+  const result = await compareDeepSeekAnalysisNormalization({
+    payload: DEFAULT_PAYLOAD,
+    analysis: DEFAULT_ANALYSIS,
+    runPythonNormalization: async () => DEFAULT_NORMALIZED,
+    normalizeJs: () => DEFAULT_NORMALIZED,
+    runCompare: async (context) => {
+      calls.push({
+        model: context.config.model,
+        reasoningEffort: context.config.reasoningEffort,
+        jsConfidence: context.jsNormalization.confidence,
+        pythonConfidence: context.pythonNormalization.confidence,
+        hasPayloadPath: context.payloadPath.endsWith('payload.json'),
+        hasAnalysisPath: context.analysisPath.endsWith('analysis.json'),
+        hasJsReportPath: context.jsReportPath.endsWith('js-report.json'),
+      });
+      return {
+        ok: false,
+        mismatches: [{ key: 'delegated', python: 'python-contract', js: 'js-bridge' }],
+      };
+    },
+  });
+
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.mismatches, [{ key: 'delegated', python: 'python-contract', js: 'js-bridge' }]);
+  assert.deepEqual(calls, [
+    {
+      model: 'deepseek-v4-flash',
+      reasoningEffort: 'max',
+      jsConfidence: 0.92,
+      pythonConfidence: 0.92,
+      hasPayloadPath: true,
+      hasAnalysisPath: true,
+      hasJsReportPath: true,
+    },
+  ]);
 });
 
 test('compareNormalizationObjects reports normalized output drift by result key', () => {

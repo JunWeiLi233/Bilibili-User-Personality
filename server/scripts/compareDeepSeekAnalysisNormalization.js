@@ -108,6 +108,36 @@ async function runPythonNormalization({ payload, analysis, config, raw }) {
   }
 }
 
+async function runPythonNormalizationComparison({ payloadPath, analysisPath, jsReportPath, config, raw }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    [
+      '-m',
+      'python_backend.cli.deepseek_analysis_normalize',
+      '--payload',
+      payloadPath,
+      '--analysis',
+      analysisPath,
+      '--provider',
+      config.provider || 'deepseek',
+      '--model',
+      config.model || '',
+      '--reasoning-effort',
+      config.reasoningEffort || 'medium',
+      '--raw',
+      raw || '',
+      '--compare-js-report',
+      jsReportPath,
+    ],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return JSON.parse(stdout);
+}
+
 export async function compareDeepSeekAnalysisNormalization({
   payload = DEFAULT_PAYLOAD,
   analysis = DEFAULT_ANALYSIS,
@@ -115,19 +145,43 @@ export async function compareDeepSeekAnalysisNormalization({
   raw = '{}',
   runPythonNormalization: runPython = runPythonNormalization,
   normalizeJs = normalizeDeepSeekAnalysisResult,
+  runCompare = runPythonNormalizationComparison,
 } = {}) {
   const parsed = analysis?.parsed && typeof analysis.parsed === 'object' ? analysis.parsed : analysis;
   const js = normalizeJs({ parsed, payload, config, raw, retriedCompactPrompt: false });
   const python = await runPython({ payload, analysis, config, raw });
-  const comparison = compareNormalizationObjects(python, js);
+  const tempDir = await mkdtemp(join(tmpdir(), 'deepseek-normalization-compare-'));
+  try {
+    const payloadPath = join(tempDir, 'payload.json');
+    const analysisPath = join(tempDir, 'analysis.json');
+    const jsReportPath = join(tempDir, 'js-report.json');
+    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
+    await writeFile(analysisPath, JSON.stringify(analysis, null, 2), 'utf8');
+    await writeFile(jsReportPath, JSON.stringify(js || {}, null, 2), 'utf8');
+    const comparison = await runCompare({
+      payload,
+      analysis,
+      config,
+      raw,
+      payloadPath,
+      analysisPath,
+      jsReportPath,
+      js,
+      python,
+      jsNormalization: js,
+      pythonNormalization: python,
+    });
 
-  return {
-    ok: comparison.ok,
-    fixture: { payload, analysis },
-    js,
-    python,
-    mismatches: comparison.mismatches,
-  };
+    return {
+      ok: comparison.ok,
+      fixture: { payload, analysis, payloadPath, analysisPath, jsReportPath },
+      js,
+      python,
+      mismatches: comparison.mismatches,
+    };
+  } finally {
+    await rm(tempDir, { recursive: true, force: true });
+  }
 }
 
 async function main() {

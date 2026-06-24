@@ -1134,6 +1134,77 @@ class DeepSeekAnalysisNormalizeRunner:
         )
 
 
+class DeepSeekAnalysisNormalizationSummary:
+    """Summarize stable JS/Python DeepSeek normalization comparison keys."""
+
+    RESULT_KEYS = (
+        "ok",
+        "provider",
+        "model",
+        "reasoningEffort",
+        "retriedCompactPrompt",
+        "axes",
+        "sentenceAnalyses",
+        "overall",
+        "confidence",
+        "raw",
+        "multiagent",
+    )
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        source = result if isinstance(result, dict) else {}
+        return {key: source.get(key) for key in self.RESULT_KEYS if key in source}
+
+
+class DeepSeekAnalysisNormalizeContractComparator:
+    """Compare Python DeepSeek normalization output against a saved JS-compatible report."""
+
+    def __init__(
+        self,
+        payload_path: str | Path,
+        analysis_path: str | Path,
+        js_report_path: str | Path,
+        *,
+        provider: str = "deepseek",
+        model: str = "",
+        reasoning_effort: str = "medium",
+        raw: str = "",
+        retried_compact_prompt: bool = False,
+    ):
+        self.payload_path = Path(payload_path)
+        self.analysis_path = Path(analysis_path)
+        self.js_report_path = Path(js_report_path)
+        self.provider = provider
+        self.model = model
+        self.reasoning_effort = reasoning_effort
+        self.raw = raw
+        self.retried_compact_prompt = retried_compact_prompt
+        self.summary = DeepSeekAnalysisNormalizationSummary()
+
+    def compare(self) -> dict[str, Any]:
+        python_result = DeepSeekAnalysisNormalizeRunner(
+            self.payload_path,
+            self.analysis_path,
+            provider=self.provider,
+            model=self.model,
+            reasoning_effort=self.reasoning_effort,
+            raw=self.raw,
+            retried_compact_prompt=self.retried_compact_prompt,
+        ).run()
+        js_result = safe_read_json_object(self.js_report_path)
+        mismatches = [
+            {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
+            for key in self.summary.RESULT_KEYS
+            if key in js_result and python_result.get(key) != js_result.get(key)
+        ]
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": self.summary.summarize(python_result),
+            "js": self.summary.summarize(js_result),
+        }
+
+
 class DeepSeekAnalysisNormalizeCommandRequest:
     """Parse CLI argv for DeepSeek normalized-output JSON contracts."""
 
@@ -1150,10 +1221,22 @@ class DeepSeekAnalysisNormalizeCommandRequest:
         parser.add_argument("--reasoning-effort", default="medium")
         parser.add_argument("--raw", default="")
         parser.add_argument("--retried-compact-prompt", action="store_true")
+        parser.add_argument("--compare-js-report", default="", help="Optional JS-compatible normalized report to compare.")
         return parser
 
     def run(self) -> dict[str, Any]:
         args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        if args.compare_js_report:
+            return DeepSeekAnalysisNormalizeContractComparator(
+                payload_path=args.payload,
+                analysis_path=args.analysis,
+                js_report_path=args.compare_js_report,
+                provider=args.provider,
+                model=args.model,
+                reasoning_effort=args.reasoning_effort,
+                raw=args.raw,
+                retried_compact_prompt=args.retried_compact_prompt,
+            ).compare()
         return DeepSeekAnalysisNormalizeRunner(
             payload_path=args.payload,
             analysis_path=args.analysis,

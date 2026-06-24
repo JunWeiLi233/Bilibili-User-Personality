@@ -92,7 +92,7 @@ from python_backend.analysis.migration_inventory import BackendMigrationInventor
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsCommandRequest, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsPayloadContractComparator, ReadmeStatsRepositoryUpdater, ReadmeStatsRequest, ReadmeStatsRunner as ReadmeStatsPayloadRunner, ReadmeStatsSummary, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherCommandRequest, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRequest, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationAnnotationContract, RandomVerificationCommandContract, RandomVerificationCommandRequest, RandomVerificationCompareCommandRequest, RandomVerificationComparisonOptionsContract, RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationCorpus, RandomVerificationCorpusReportBuilder, RandomVerificationDictionaryTermsContract, RandomVerificationExecutionContract, RandomVerificationJsonResultContract, RandomVerificationOutputWriter, RandomVerificationPayloadContractComparator, RandomVerificationReportBuilder, RandomVerificationReportContract, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRequestDispatcher, RandomVerificationRunOptions, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerificationSampleContract, RandomVerificationSummaryContract, RandomVerifier, VerificationSummary, json_result_bytes as random_verification_payload_json_result_bytes
-from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisInputBuilder, DeepSeekAnalysisPlanCommandRequest, DeepSeekAnalysisPlanContractComparator as DeepSeekAnalysisPayloadPlanContractComparator, DeepSeekAnalysisPlanRequest, DeepSeekAnalysisPlanRunner as DeepSeekAnalysisPayloadPlanRunner, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidateCommandRequest, DeepSeekAnalysisValidateContractComparator as DeepSeekAnalysisPayloadValidateContractComparator, DeepSeekAnalysisValidateRequest, DeepSeekAnalysisValidateRunner as DeepSeekAnalysisPayloadValidateRunner, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator, DeepSeekRequestOptionsContract
+from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisInputBuilder, DeepSeekAnalysisNormalizeCommandRequest, DeepSeekAnalysisNormalizeContractComparator as DeepSeekAnalysisPayloadNormalizeContractComparator, DeepSeekAnalysisPlanCommandRequest, DeepSeekAnalysisPlanContractComparator as DeepSeekAnalysisPayloadPlanContractComparator, DeepSeekAnalysisPlanRequest, DeepSeekAnalysisPlanRunner as DeepSeekAnalysisPayloadPlanRunner, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidateCommandRequest, DeepSeekAnalysisValidateContractComparator as DeepSeekAnalysisPayloadValidateContractComparator, DeepSeekAnalysisValidateRequest, DeepSeekAnalysisValidateRunner as DeepSeekAnalysisPayloadValidateRunner, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator, DeepSeekRequestOptionsContract
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeAnalysisFileReader, DeepSeekAnalyzeArgvNormalizer, DeepSeekAnalyzeChatResponseParser, DeepSeekAnalyzeCommandRequest, DeepSeekAnalyzeCliPayloadPlanContractComparator, DeepSeekAnalyzeCliPlanCommandRequest, DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanRequest, DeepSeekAnalyzeCliPlanRunner as DeepSeekAnalyzeCliPayloadPlanRunner, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary, DeepSeekAnalyzeFixtureRunner, DeepSeekAnalyzeHttpErrorFormatter, DeepSeekAnalyzeHttpRequestBuilder, DeepSeekAnalyzeHttpTransport, DeepSeekAnalyzeLegacySelectorCompatibility, DeepSeekAnalyzeMockChatRunner, DeepSeekAnalyzePayloadBuilder, DeepSeekAnalyzeRuntime, DeepSeekAnalyzeRuntimeConfig, DeepSeekLiveValidationGate
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceCommandRequest, KeywordEvidenceContractComparator as KeywordEvidencePayloadComparator, KeywordEvidenceMatcher, KeywordEvidencePayloadContractComparator, KeywordEvidencePayloadRunner, KeywordEvidenceRequest, KeywordEvidenceSummary
 from python_backend.cli.comment_coverage import CommentCoverageContractComparator, CommentCoverageRunner
@@ -9599,6 +9599,75 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["sentenceAnalyses"][0]["axisImpacts"][0]["strength"], 1)
         self.assertEqual(len(result["sentenceAnalyses"]), 1)
         self.assertEqual(result["confidence"], 0.92)
+
+    def test_deepseek_analysis_normalize_contract_comparator_reports_js_drift(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            analysis_path = root / "analysis.json"
+            js_report_path = root / "js-normalized.json"
+            payload_path.write_text(json.dumps({"text": "鐙楀ご淇濆懡[doge]"}), encoding="utf-8")
+            analysis_path.write_text(
+                json.dumps(
+                    {
+                        "parsed": {
+                            "axes": [{"axis": "attack", "score": 100, "evidence": ["鐙楀ご淇濆懡[doge]"]}],
+                            "sentenceAnalyses": [{"quote": "鐙楀ご淇濆懡", "risk": "low"}],
+                            "overall": {"riskBand": "low", "summary": "emoji matters"},
+                            "confidence": 2,
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps(
+                    {
+                        "ok": True,
+                        "provider": "deepseek",
+                        "model": "deepseek-v4-flash",
+                        "reasoningEffort": "max",
+                        "retriedCompactPrompt": False,
+                        "axes": [],
+                        "sentenceAnalyses": [],
+                        "overall": {"riskBand": "low", "summary": "emoji matters"},
+                        "confidence": 0.5,
+                        "raw": "{}",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = DeepSeekAnalysisPayloadNormalizeContractComparator(
+                payload_path,
+                analysis_path,
+                js_report_path,
+                model="deepseek-v4-flash",
+                reasoning_effort="max",
+                raw="{}",
+            ).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            [mismatch["key"] for mismatch in result["mismatches"]],
+            ["axes", "sentenceAnalyses", "confidence"],
+        )
+        self.assertEqual(result["js"]["confidence"], 0.5)
+        self.assertEqual(result["python"]["confidence"], 0.92)
+
+    def test_deepseek_analysis_normalize_command_request_supports_js_report_comparison(self):
+        args = DeepSeekAnalysisNormalizeCommandRequest.parser().parse_args(
+            [
+                "--payload",
+                "payload.json",
+                "--analysis",
+                "analysis.json",
+                "--compare-js-report",
+                "js-normalized.json",
+            ]
+        )
+
+        self.assertEqual(args.compare_js_report, "js-normalized.json")
 
     def test_contract_comparator_checks_manifest_count_and_audit_terms(self):
         with tempfile.TemporaryDirectory() as tmp:
