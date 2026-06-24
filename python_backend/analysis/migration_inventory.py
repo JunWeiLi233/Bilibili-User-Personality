@@ -670,7 +670,14 @@ class BackendMigrationInventoryScanner:
                 commands["preflightCommands"].add(preflight_command)
             if live_verification_command:
                 commands["liveVerificationCommands"].add(live_verification_command)
+        gates = [
+            {"gate": "noPythonContractGaps", "ok": len(python_contract_gaps) == 0},
+            {"gate": "noReplacementBlockers", "ok": len(replacement_blocked) == 0},
+            {"gate": "allManualVerificationComplete", "ok": len(manual_verification_actions) == 0},
+        ]
         return {
+            "ok": all(gate["ok"] for gate in gates),
+            "gates": gates,
             "manualVerificationActionCount": len(manual_verification_actions),
             "replacementBlockedActionCount": len(replacement_blocked),
             "readyToReplaceActionCount": len(ready_to_replace),
