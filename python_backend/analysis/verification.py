@@ -210,9 +210,10 @@ class RandomVerificationReadinessContract:
         selection_summary = verification_summary.get("selectionSummary")
         if not isinstance(selection_summary, dict):
             return True
-        return _non_negative_int(selection_summary.get("selectedComments"), 0) <= _non_negative_int(
-            selection_summary.get("eligibleComments"),
-            0,
+        selected_comments = _non_negative_int(selection_summary.get("selectedComments"), 0)
+        return selected_comments <= min(
+            _non_negative_int(selection_summary.get("eligibleComments"), 0),
+            _non_negative_int(selection_summary.get("requestedSampleSize"), 0),
         )
 
     def _blocker_details(self, gates: list[dict[str, Any]]) -> list[dict[str, str]]:
@@ -221,7 +222,7 @@ class RandomVerificationReadinessContract:
             "randomVerificationSampled": "random verification sampled no comments",
             "randomVerificationNoUncovered": "random verification still has uncovered samples",
             "randomVerificationSelectionConsistent": "random verification selected count does not match sampled comments",
-            "randomVerificationSelectionPossible": "random verification selected more comments than were eligible",
+            "randomVerificationSelectionPossible": "random verification selected more comments than requested or eligible",
         }
         return [
             {"gate": str(gate_name), "reason": reasons.get(str(gate_name), "readiness gate failed")}
