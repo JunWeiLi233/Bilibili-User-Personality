@@ -31,6 +31,25 @@ test('compareTiebaTiming compares JS timing with Python timing', async () => {
   assert.deepEqual(calls, [{ js: 2 }, { python: 2 }]);
 });
 
+test('compareTiebaTiming delegates final report comparison to Python', async () => {
+  let compareContext;
+  const result = await compareTiebaTiming({
+    payload: { maxQueries: 2, overallTimeoutMs: 4000, blockCooldownMs: 500 },
+    runJs: async () => ({ hardStopMs: 19000 }),
+    runPython: async () => ({ ok: true, hardStopMs: 19000 }),
+    runCompare: async (context) => {
+      compareContext = context;
+      return { ok: true, mismatches: [], python: { hardStopMs: 19000 }, js: { hardStopMs: 19000 } };
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.equal(compareContext.jsReportPath.endsWith('js-report.json'), true);
+  assert.deepEqual(compareContext.jsReport, { hardStopMs: 19000 });
+  assert.deepEqual(compareContext.pythonReport, { ok: true, hardStopMs: 19000 });
+});
+
 test('compareTiebaTiming exports named timing fixtures', async () => {
   assert.deepEqual(Object.keys(TIEBA_TIMING_FIXTURES), [
     'default-budget',

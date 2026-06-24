@@ -70,12 +70,26 @@ async function runPythonTiming({ payloadPath }) {
   return JSON.parse(stdout);
 }
 
+async function runPythonTimingComparison({ payloadPath, jsReportPath }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    ['-m', 'python_backend.cli.tieba_timing', '--payload', payloadPath, '--compare-js-report', jsReportPath],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return JSON.parse(stdout);
+}
+
 export async function compareTiebaTiming({
   payload,
   fixture,
   fixtureNames,
   runJs = runJsTiming,
   runPython = runPythonTiming,
+  runCompare = runPythonTimingComparison,
 } = {}) {
   if (fixtureNames) {
     const results = [];
@@ -100,7 +114,9 @@ export async function compareTiebaTiming({
     };
     const js = await runJs(context);
     const python = await runPython(context);
-    const comparison = compareTiebaTimingObjects(python, js);
+    const jsReportPath = join(tempDir, 'js-report.json');
+    await writeFile(jsReportPath, JSON.stringify(js, null, 2), 'utf8');
+    const comparison = await runCompare({ ...context, jsReportPath, js, python, jsReport: js, pythonReport: python });
     return {
       ok: comparison.ok,
       fixture: { name: resolvedName, payloadPath },
