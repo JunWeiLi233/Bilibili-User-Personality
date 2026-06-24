@@ -7066,6 +7066,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(file_plan["input"], {"source": "file", "file": "comments.txt", "readsStdin": False, "showHelp": False})
         self.assertTrue(file_plan["payload"]["multiagent"])
 
+    def test_deepseek_analyze_cli_planner_consumes_selector_value_arguments_like_js(self):
+        planner = DeepSeekAnalyzeCliPlanner()
+
+        mock_plan = planner.build_plan(["--plan-json", "--text", "\u53cd\u8bbd[doge]", "--mock-chat-analysis", "analysis.json"])
+        fixture_plan = planner.build_plan(["--plan-json", "--text", "\u53cd\u8bbd[doge]", "--fixture-analysis=analysis.json"])
+
+        self.assertEqual(mock_plan["payload"], {"text": "\u53cd\u8bbd[doge]"})
+        self.assertEqual(fixture_plan["payload"], {"text": "\u53cd\u8bbd[doge]"})
+
     def test_deepseek_analyze_cli_runner_defaults_non_object_payload_root(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "deepseek-cli.json"

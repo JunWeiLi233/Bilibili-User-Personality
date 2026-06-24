@@ -23,6 +23,10 @@ class DeepSeekAnalyzeCliPlanner:
             arg = str(argv[index] or "")
             if arg in ("--help", "-h"):
                 show_help = True
+            elif arg.startswith("--fixture-analysis=") or arg.startswith("--mock-chat-analysis="):
+                pass
+            elif arg in ("--fixture-analysis", "--mock-chat-analysis"):
+                index += 1
             elif arg in ("--multiagent", "--multi-agent"):
                 payload["multiagent"] = True
             elif arg.startswith("--text="):
