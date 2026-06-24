@@ -31175,6 +31175,12 @@ class CorpusContractTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "harvest command tokens must be strings, numbers, booleans, or null"):
             coverage_loop_module.CoverageHarvestLoopExternalHarvestAdapter(["python", {"bad": "token"}])
 
+    def test_coverage_harvest_loop_external_adapter_rejects_blank_executable_token(self):
+        from python_backend.analysis import coverage_loop as coverage_loop_module
+
+        with self.assertRaisesRegex(ValueError, "harvest command executable must be non-empty"):
+            coverage_loop_module.CoverageHarvestLoopExternalHarvestAdapter(["  ", "-m", "adapter"])
+
     def test_coverage_harvest_loop_external_harvest_prunes_exhausted_terms(self):
         from python_backend.analysis import coverage_loop as coverage_loop_module
 

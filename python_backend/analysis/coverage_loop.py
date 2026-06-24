@@ -474,6 +474,8 @@ class CoverageHarvestLoopExternalHarvestAdapter:
             raise ValueError("harvest command must be a non-empty JSON array")
         if not all(isinstance(item, (str, int, float, bool)) or item is None for item in parsed):
             raise ValueError("harvest command tokens must be strings, numbers, booleans, or null")
+        if not str(parsed[0]).strip():
+            raise ValueError("harvest command executable must be non-empty")
         self.command = [str(item) for item in parsed]
 
     def run(self, request: dict[str, Any]) -> dict[str, Any]:
