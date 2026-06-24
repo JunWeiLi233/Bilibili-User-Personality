@@ -1,6 +1,6 @@
 # JS → Python Backend Migration Plan
 
-State as of 2026-06-24. Generated from `python -m python_backend.cli.migration_inventory`.
+Last updated: 2026-06-24 after commit `c575a487`. Run `python -m python_backend.cli.migration_inventory` for latest.
 
 ## Current Status
 
@@ -74,8 +74,8 @@ Python modules for the foundational pipelines, with JS↔Python comparison valid
 
 ### How to Verify Phase 1
 ```powershell
-python -m unittest python_backend.tests.test_corpus_contracts  # 1,523 tests
-python -m unittest python_backend.tests.test_video_filter_compare  # JS↔Python comparison
+python -m unittest python_backend.tests.test_corpus_contracts  # 1,519 tests
+python -m unittest python_backend.tests.test_video_filter_compare  # 7 JS↔Python comparisons
 npm test  # 1,303 JS tests
 python -m python_backend.cli.migration_inventory  # Reports migration progress
 ```
@@ -93,7 +93,7 @@ python -m python_backend.cli.migration_inventory  # Reports migration progress
 | File | Lines | Priority |
 |------|-------|----------|
 | `server/services/bilibiliCrawler.js` | 1,137 | High — last crawler module |
-| `server/services/videoKeywordSearch.js` | 1,286 | High — 10/18 exports remain |
+| `server/services/videoKeywordSearch.js` | 1,286 | High — 7/18 exports remain (11 ported) |
 | `server/services/keywordHarvest.js` | 3,540 | Medium |
 | `server/services/deepseekKeywordTrainer.js` | 4,662 | Medium |
 | `server/scripts/runCoverageHarvestLoop.js` | 695 | High — loop orchestration |
