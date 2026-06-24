@@ -2172,6 +2172,16 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertIn(
             {
+                "path": "server/scripts/batchUidScrape.js",
+                "nodeScript": "server/scripts/batchUidScrape.js",
+                "blocker": "batch_uid_scrape_live_runtime_not_verified",
+                "preflightCommand": "npm run python:batch-uid-scrape-compare",
+                "liveVerificationCommand": "node server/scripts/batchUidScrape.js",
+            },
+            result["manualVerificationActions"],
+        )
+        self.assertIn(
+            {
                 "path": "server/scripts/scrapeAicuUsers.js",
                 "nodeScript": "aicu:scrape",
                 "blocker": "aicu_scrape_live_runtime_not_verified",
@@ -2220,7 +2230,7 @@ class CorpusContractTests(unittest.TestCase):
             },
             result["manualVerificationActions"],
         )
-        self.assertEqual(result["pythonContractGapCount"], 12)
+        self.assertEqual(result["pythonContractGapCount"], 11)
         self.assertNotIn(
             "server/services/tiebaScraper.js",
             {item["path"] for item in result["pythonContractGaps"]},
@@ -2239,6 +2249,10 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertNotIn(
             "server/scripts/batchUidRange.js",
+            {item["path"] for item in result["pythonContractGaps"]},
+        )
+        self.assertNotIn(
+            "server/scripts/batchUidScrape.js",
             {item["path"] for item in result["pythonContractGaps"]},
         )
         self.assertIn(

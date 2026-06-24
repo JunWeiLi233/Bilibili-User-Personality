@@ -180,6 +180,16 @@ DEFAULT_DIRECT_FILE_CONTRACTS = {
         "validationScope": "dry_run_plan_phase2_default_decimal_malformed_stats_fixtures_js_python_bridge_and_cli_flag_bridge",
         "replacementScope": "dry_run_plan",
     },
+    "server/scripts/batchUidScrape.js": {
+        "nodeScript": "server/scripts/batchUidScrape.js",
+        "nodeCommand": "node server/scripts/batchUidScrape.js",
+        "pythonScript": "python:batch-uid-scrape-plan",
+        "pythonCommand": "python -m python_backend.cli.batch_uid_scrape_plan",
+        "validationScript": "python:batch-uid-scrape-compare",
+        "validationCommand": "node server/scripts/compareBatchUidScrapePlan.js",
+        "validationScope": "dry_run_plan_populated_empty_malformed_stats_fixtures_js_python_bridge_and_cli_flag_bridge",
+        "replacementScope": "dry_run_plan",
+    },
 }
 
 DEFAULT_RETAINED_NODE_COMMANDS = {
@@ -1024,6 +1034,16 @@ class BackendMigrationInventoryScanner:
                     "reason": "Python has a batch UID range dry-run plan, phase2/default/decimal/malformed stats fixtures, and JS/Python CLI bridge coverage, but the direct UID discovery and analyzer runtime still needs verified live Bilibili and DeepSeek behavior before replacing the JS script.",
                     "preflightCommand": "npm run python:batch-uid-range-compare",
                     "liveVerificationCommand": "node server/scripts/batchUidRange.js",
+                    "manualVerificationRequired": True,
+                }
+            )
+        elif script == "server/scripts/batchUidScrape.js" and validation_scope != "full_command":
+            blockers.append(
+                {
+                    "blocker": "batch_uid_scrape_live_runtime_not_verified",
+                    "reason": "Python has a batch UID scrape dry-run plan, populated/empty/malformed stats fixtures, and JS/Python CLI bridge coverage, but the direct UID discovery and DeepSeek training runtime still needs verified live behavior before replacing the JS script.",
+                    "preflightCommand": "npm run python:batch-uid-scrape-compare",
+                    "liveVerificationCommand": "node server/scripts/batchUidScrape.js",
                     "manualVerificationRequired": True,
                 }
             )
