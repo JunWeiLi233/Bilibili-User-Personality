@@ -446,6 +446,30 @@ class DeepSeekAnalyzeMockChatRunner:
         return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
 
 
+class DeepSeekAnalyzeFixtureRunner:
+    """Normalize checked-in fixture analysis through the analyzer output contract."""
+
+    def __init__(self, *, normalizer: DeepSeekAnalysisNormalizer | None = None):
+        self.normalizer = normalizer or DeepSeekAnalysisNormalizer()
+
+    def run(self, payload: dict[str, Any], analysis: Any) -> dict[str, Any]:
+        analysis_payload = analysis if isinstance(analysis, dict) else {}
+        return self.normalizer.normalize(
+            source_payload=payload,
+            analysis_payload=analysis_payload,
+            provider="deepseek",
+            model="deepseek-v4-flash",
+            reasoning_effort="max",
+            raw=self._json_text(analysis),
+        )
+
+    @staticmethod
+    def _json_text(value: Any) -> str:
+        import json
+
+        return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
+
+
 class DeepSeekAnalyzeCommandRequest:
     """Run Python-owned analyzeDeepSeekComments-compatible command modes."""
 
@@ -509,16 +533,8 @@ class DeepSeekAnalyzeCommandRequest:
             analysis, analysis_error = self._read_required_analysis_file(args.fixture_analysis)
             if analysis_error:
                 return self._with_legacy_selector_compatibility(analysis_error, legacy_selector)
-            analysis_payload = analysis if isinstance(analysis, dict) else {}
             return self._with_legacy_selector_compatibility(
-                self.normalizer.normalize(
-                    source_payload=payload,
-                    analysis_payload=analysis_payload,
-                    provider="deepseek",
-                    model="deepseek-v4-flash",
-                    reasoning_effort="max",
-                    raw=self._json_text(analysis),
-                ),
+                DeepSeekAnalyzeFixtureRunner(normalizer=self.normalizer).run(payload, analysis),
                 legacy_selector,
             )
         return self._with_legacy_selector_compatibility({**self.runtime_factory(env=self.env).run(payload)}, legacy_selector)
