@@ -190,6 +190,16 @@ DEFAULT_DIRECT_FILE_CONTRACTS = {
         "validationScope": "dry_run_plan_populated_empty_malformed_stats_fixtures_js_python_bridge_and_cli_flag_bridge",
         "replacementScope": "dry_run_plan",
     },
+    "server/scripts/launchAllScrapers.js": {
+        "nodeScript": "server/scripts/launchAllScrapers.js",
+        "nodeCommand": "node server/scripts/launchAllScrapers.js",
+        "pythonScript": "python:batch-scraper-launcher",
+        "pythonCommand": "python -m python_backend.cli.batch_scraper_launcher",
+        "validationScript": "python:batch-scraper-launcher-compare",
+        "validationCommand": "node server/scripts/compareBatchScraperLauncherPlan.js",
+        "validationScope": "dry_run_plan_default_custom_data_dir_fixtures_js_python_bridge_and_cli_flag_bridge",
+        "replacementScope": "dry_run_plan",
+    },
 }
 
 DEFAULT_RETAINED_NODE_COMMANDS = {
@@ -1044,6 +1054,16 @@ class BackendMigrationInventoryScanner:
                     "reason": "Python has a batch UID scrape dry-run plan, populated/empty/malformed stats fixtures, and JS/Python CLI bridge coverage, but the direct UID discovery and DeepSeek training runtime still needs verified live behavior before replacing the JS script.",
                     "preflightCommand": "npm run python:batch-uid-scrape-compare",
                     "liveVerificationCommand": "node server/scripts/batchUidScrape.js",
+                    "manualVerificationRequired": True,
+                }
+            )
+        elif script == "server/scripts/launchAllScrapers.js" and validation_scope != "full_command":
+            blockers.append(
+                {
+                    "blocker": "batch_scraper_launcher_live_runtime_not_verified",
+                    "reason": "Python has a batch scraper launcher dry-run plan, default/custom data-dir fixtures, and JS/Python CLI bridge coverage, but the JS launcher still needs verified live child-process orchestration before replacement.",
+                    "preflightCommand": "npm run python:batch-scraper-launcher-compare",
+                    "liveVerificationCommand": "node server/scripts/launchAllScrapers.js",
                     "manualVerificationRequired": True,
                 }
             )
