@@ -31,6 +31,13 @@ function buildHarvestOptions(request = {}) {
     includeDanmaku: boolValue(options.includeDanmaku, false),
     resetState: boolValue(options.resetState, false),
     skipSeen: boolValue(options.skipSeen, true),
+    seedQueries: Array.isArray(options.seedQueries) ? options.seedQueries : [],
+    controversyQueries: Array.isArray(options.controversyQueries) ? options.controversyQueries : [],
+    discoveryMode: String(options.discoveryMode || 'controversial').trim().toLowerCase(),
+    includeGenericPopular: boolValue(options.includeGenericPopular, false),
+    pages: positiveNumber(options.pages, 2),
+    perQueryTimeoutMs: positiveNumber(options.perQueryTimeoutMs, 180000),
+    expandTargetsFromComments: boolValue(options.expandTargetsFromComments, false),
   };
 }
 

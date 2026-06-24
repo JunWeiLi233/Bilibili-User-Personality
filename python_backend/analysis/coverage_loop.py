@@ -669,6 +669,17 @@ class CoverageHarvestLoopCommandRunner:
             "model": os.environ.get("BILIBILI_HARVEST_MODEL") or "deepseek-v4-flash",
             "reasoningEffort": os.environ.get("BILIBILI_HARVEST_REASONING_EFFORT") or "max",
         }
+        self.discovery_options = {
+            "seedQueries": _parse_list(os.environ.get("BILIBILI_VIDEO_SEARCH_QUERIES") or os.environ.get("BILIBILI_VIDEO_SEARCH_QUERY")),
+            "controversyQueries": _parse_list(
+                os.environ.get("BILIBILI_CONTROVERSY_SEARCH_QUERIES") or os.environ.get("BILIBILI_CONTROVERSY_SEARCH_QUERY")
+            ),
+            "discoveryMode": str(os.environ.get("BILIBILI_VIDEO_DISCOVERY_MODE") or "controversial").strip().lower(),
+            "includeGenericPopular": _flag_value(os.environ.get("BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR"), False),
+            "pages": _positive_int(os.environ.get("BILIBILI_VIDEO_COMMENT_PAGES"), 2, 20),
+            "perQueryTimeoutMs": _positive_int(os.environ.get("BILIBILI_HARVEST_QUERY_TIMEOUT_MS"), 180000, 30 * 60 * 1000),
+            "expandTargetsFromComments": _flag_value(os.environ.get("BILIBILI_HARVEST_EXPAND_TARGETS_FROM_COMMENTS"), False),
+        }
         self.runtime_gate = CoverageHarvestLoopRuntimeGate()
         self.harvest_adapter = CoverageHarvestLoopExternalHarvestAdapter(harvest_command_json) if harvest_command_json else None
         self.audit_builder = CoverageAuditBuilder(
@@ -738,6 +749,7 @@ class CoverageHarvestLoopCommandRunner:
                             "includeDanmaku": self.include_danmaku,
                             "resetState": self.reset_state and cycle == 1,
                             "skipSeen": self.skip_seen,
+                            **self.discovery_options,
                         },
                     }
                 )

@@ -1803,7 +1803,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:coverage-loop-command-compare",
                     "validationCommand": "node server/scripts/compareCoverageHarvestLoopCommand.js",
-                    "validationScope": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_js_adapter_live_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract",
+                    "validationScope": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_discovery_options_js_adapter_live_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract",
                 },
                 {
                     "script": "dictionary:tieba",
@@ -2011,7 +2011,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["nextOfflineMigrationAction"]["pythonCommand"], "python -m python_backend.cli.coverage_loop_command")
         self.assertEqual(result["nextOfflineMigrationAction"]["validationScript"], "python:coverage-loop-command-compare")
         self.assertEqual(result["nextOfflineMigrationAction"]["validationCommand"], "node server/scripts/compareCoverageHarvestLoopCommand.js")
-        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_js_adapter_live_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_discovery_options_js_adapter_live_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract")
         self.assertFalse(result["nextOfflineMigrationAction"]["readyToReplace"])
         self.assertEqual(
             result["nextOfflineMigrationAction"]["replacementBlockers"],
@@ -2056,6 +2056,10 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertIn(
             {"gate": "external_harvest_deepseek_runtime_selection", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
+            result["nextOfflineMigrationAction"]["validationGates"],
+        )
+        self.assertIn(
+            {"gate": "external_harvest_discovery_options", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
             result["nextOfflineMigrationAction"]["validationGates"],
         )
         self.assertIn(
@@ -31114,8 +31118,22 @@ class CorpusContractTests(unittest.TestCase):
 
             old_model = os.environ.get("BILIBILI_HARVEST_MODEL")
             old_effort = os.environ.get("BILIBILI_HARVEST_REASONING_EFFORT")
+            old_seed_queries = os.environ.get("BILIBILI_VIDEO_SEARCH_QUERIES")
+            old_controversy_queries = os.environ.get("BILIBILI_CONTROVERSY_SEARCH_QUERIES")
+            old_discovery_mode = os.environ.get("BILIBILI_VIDEO_DISCOVERY_MODE")
+            old_include_generic = os.environ.get("BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR")
+            old_pages = os.environ.get("BILIBILI_VIDEO_COMMENT_PAGES")
+            old_timeout = os.environ.get("BILIBILI_HARVEST_QUERY_TIMEOUT_MS")
+            old_expand = os.environ.get("BILIBILI_HARVEST_EXPAND_TARGETS_FROM_COMMENTS")
             os.environ["BILIBILI_HARVEST_MODEL"] = "deepseek-v4-pro"
             os.environ["BILIBILI_HARVEST_REASONING_EFFORT"] = "high"
+            os.environ["BILIBILI_VIDEO_SEARCH_QUERIES"] = "热评,翻车"
+            os.environ["BILIBILI_CONTROVERSY_SEARCH_QUERIES"] = "争议|开团"
+            os.environ["BILIBILI_VIDEO_DISCOVERY_MODE"] = "popular"
+            os.environ["BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR"] = "1"
+            os.environ["BILIBILI_VIDEO_COMMENT_PAGES"] = "4"
+            os.environ["BILIBILI_HARVEST_QUERY_TIMEOUT_MS"] = "90000"
+            os.environ["BILIBILI_HARVEST_EXPAND_TARGETS_FROM_COMMENTS"] = "1"
             try:
                 result = coverage_loop_module.CoverageHarvestLoopCommandRequest(
                     [
@@ -31157,6 +31175,34 @@ class CorpusContractTests(unittest.TestCase):
                     os.environ.pop("BILIBILI_HARVEST_REASONING_EFFORT", None)
                 else:
                     os.environ["BILIBILI_HARVEST_REASONING_EFFORT"] = old_effort
+                if old_seed_queries is None:
+                    os.environ.pop("BILIBILI_VIDEO_SEARCH_QUERIES", None)
+                else:
+                    os.environ["BILIBILI_VIDEO_SEARCH_QUERIES"] = old_seed_queries
+                if old_controversy_queries is None:
+                    os.environ.pop("BILIBILI_CONTROVERSY_SEARCH_QUERIES", None)
+                else:
+                    os.environ["BILIBILI_CONTROVERSY_SEARCH_QUERIES"] = old_controversy_queries
+                if old_discovery_mode is None:
+                    os.environ.pop("BILIBILI_VIDEO_DISCOVERY_MODE", None)
+                else:
+                    os.environ["BILIBILI_VIDEO_DISCOVERY_MODE"] = old_discovery_mode
+                if old_include_generic is None:
+                    os.environ.pop("BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR", None)
+                else:
+                    os.environ["BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR"] = old_include_generic
+                if old_pages is None:
+                    os.environ.pop("BILIBILI_VIDEO_COMMENT_PAGES", None)
+                else:
+                    os.environ["BILIBILI_VIDEO_COMMENT_PAGES"] = old_pages
+                if old_timeout is None:
+                    os.environ.pop("BILIBILI_HARVEST_QUERY_TIMEOUT_MS", None)
+                else:
+                    os.environ["BILIBILI_HARVEST_QUERY_TIMEOUT_MS"] = old_timeout
+                if old_expand is None:
+                    os.environ.pop("BILIBILI_HARVEST_EXPAND_TARGETS_FROM_COMMENTS", None)
+                else:
+                    os.environ["BILIBILI_HARVEST_EXPAND_TARGETS_FROM_COMMENTS"] = old_expand
 
             seen_request = json.loads(seen_path.read_text(encoding="utf-8"))
             report_file = json.loads(report_path.read_text(encoding="utf-8"))
@@ -31185,6 +31231,13 @@ class CorpusContractTests(unittest.TestCase):
                 "includeDanmaku": True,
                 "resetState": True,
                 "skipSeen": False,
+                "seedQueries": ["热评", "翻车"],
+                "controversyQueries": ["争议", "开团"],
+                "discoveryMode": "popular",
+                "includeGenericPopular": True,
+                "pages": 4,
+                "perQueryTimeoutMs": 90000,
+                "expandTargetsFromComments": True,
             },
         )
 
@@ -31650,7 +31703,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("npm run python:coverage-loop-command-compare", workflow)
         self.assertEqual(
             DEFAULT_PACKAGE_VALIDATION_SCOPES["python:coverage-loop-command-compare"],
-            "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_js_adapter_live_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract",
+            "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_discovery_options_js_adapter_live_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract",
         )
 
     def test_coverage_harvest_loop_runner_reads_json_contracts_and_expands_priority_queries(self):

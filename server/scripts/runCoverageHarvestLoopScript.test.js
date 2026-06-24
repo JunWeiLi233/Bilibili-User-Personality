@@ -308,6 +308,13 @@ test('runCoverageHarvestLoop.js passes live harvest adapter controls to Python c
       includeDanmaku: true,
       resetState: true,
       skipSeen: false,
+      seedQueries: [],
+      controversyQueries: [],
+      discoveryMode: 'controversial',
+      includeGenericPopular: false,
+      pages: 2,
+      perQueryTimeoutMs: 180000,
+      expandTargetsFromComments: false,
     });
   } finally {
     rmSync(tempDir, { recursive: true, force: true });
@@ -675,6 +682,13 @@ test('runCoverageHarvestLoopJsAdapter maps Python loop request to JS harvest con
         includeDanmaku: true,
         resetState: true,
         skipSeen: false,
+        seedQueries: ['热评', '翻车'],
+        controversyQueries: ['争议', '开团'],
+        discoveryMode: 'popular',
+        includeGenericPopular: true,
+        pages: 4,
+        perQueryTimeoutMs: 90000,
+        expandTargetsFromComments: true,
       },
     },
     {
@@ -702,5 +716,12 @@ test('runCoverageHarvestLoopJsAdapter maps Python loop request to JS harvest con
   assert.equal(calls[0].includeDanmaku, true);
   assert.equal(calls[0].resetState, true);
   assert.equal(calls[0].skipSeen, false);
+  assert.deepEqual(calls[0].seedQueries, ['热评', '翻车']);
+  assert.deepEqual(calls[0].controversyQueries, ['争议', '开团']);
+  assert.equal(calls[0].discoveryMode, 'popular');
+  assert.equal(calls[0].includeGenericPopular, true);
+  assert.equal(calls[0].pages, 4);
+  assert.equal(calls[0].perQueryTimeoutMs, 90000);
+  assert.equal(calls[0].expandTargetsFromComments, true);
   assert.deepEqual(calls[0].priorityQueries, [{ term: 'doge', query: 'doge 评论区 热评' }]);
 });
