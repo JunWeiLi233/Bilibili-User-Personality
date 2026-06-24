@@ -379,6 +379,71 @@ test('runCoverageHarvestLoop.js forwards no-progress stop gate to Python command
   }
 });
 
+test('runCoverageHarvestLoop.js keeps no-queries stop parity in Python command bridge', () => {
+  const tempDir = mkdtempSync(join(tmpdir(), 'coverage-loop-python-no-queries-'));
+  try {
+    const dictionaryPath = join(tempDir, 'dictionary.json');
+    const reportPath = join(tempDir, 'report.json');
+    const statePath = join(tempDir, 'state.json');
+    const seenPath = join(tempDir, 'seen-requests.json');
+    const adapterPath = join(tempDir, 'adapter.mjs');
+    const dictionary = {
+      version: 1,
+      updatedAt: '2026-01-01T00:00:00.000Z',
+      entries: [{ term: 'doge', family: 'meme', evidenceCount: 0, evidenceSamples: [], evidenceSources: [] }],
+    };
+    writeFileSync(dictionaryPath, JSON.stringify(dictionary), 'utf8');
+    writeFileSync(
+      adapterPath,
+      [
+        "import { existsSync, readFileSync, writeFileSync } from 'node:fs';",
+        "const request = JSON.parse(readFileSync(process.argv[2], 'utf8'));",
+        "const seenPath = process.argv[3];",
+        "const seen = existsSync(seenPath) ? JSON.parse(readFileSync(seenPath, 'utf8')) : [];",
+        "seen.push({ cycle: request.cycle, options: request.options });",
+        "writeFileSync(seenPath, JSON.stringify(seen, null, 2));",
+        "console.log(JSON.stringify({",
+        `  afterDictionary: ${JSON.stringify(dictionary)},`,
+        "  harvest: { ok: true, rounds: [{",
+        "    queries: [], warnings: ['all candidate queries skipped'],",
+        "    coverageProgress: { evidenceGained: 0 },",
+        "    trainingDiagnostics: { accepted: 0 },",
+        "    queryDiagnostics: []",
+        "  }] }",
+        "}));",
+      ].join('\n'),
+      'utf8',
+    );
+
+    const result = spawnSync('node', ['server/scripts/runCoverageHarvestLoop.js'], {
+      cwd: process.cwd(),
+      env: {
+        ...process.env,
+        BILIBILI_COVERAGE_LOOP_USE_PYTHON_COMMAND: '1',
+        BILIBILI_COVERAGE_LOOP_HARVEST_COMMAND_JSON: JSON.stringify(['node', adapterPath, '{payload}', seenPath]),
+        DEEPSEEK_KEYWORD_DICTIONARY_PATH: dictionaryPath,
+        BILIBILI_HARVEST_STATE_PATH: statePath,
+        BILIBILI_COVERAGE_LOOP_REPORT_PATH: reportPath,
+        BILIBILI_COVERAGE_LOOP_MAX_CYCLES: '2',
+      },
+      encoding: 'utf8',
+    });
+
+    assert.equal(result.status, 0, result.stderr);
+    const stdoutReport = JSON.parse(result.stdout);
+    const fileReport = JSON.parse(readFileSync(reportPath, 'utf8'));
+    const seenRequests = JSON.parse(readFileSync(seenPath, 'utf8'));
+    assert.equal(stdoutReport.runtimeMode, 'external_harvest_command');
+    assert.equal(stdoutReport.stopReason, 'no_queries_run');
+    assert.equal(stdoutReport.cycles.length, 1);
+    assert.deepEqual(stdoutReport.cycles[0].harvest.queries, []);
+    assert.deepEqual(seenRequests.map((item) => item.cycle), [1]);
+    assert.deepEqual(fileReport, stdoutReport);
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
+  }
+});
+
 test('compareCoverageHarvestLoopPlanObjects reports matching dry-run plans', () => {
   const plan = {
     deepseek: { model: 'deepseek-v4-flash' },

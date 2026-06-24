@@ -1699,7 +1699,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:coverage-loop-command-compare",
                     "validationCommand": "node server/scripts/compareCoverageHarvestLoopCommand.js",
-                    "validationScope": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_js_adapter_live_bridge_no_progress_commands_deferred_live_contract",
+                    "validationScope": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_js_adapter_live_bridge_no_progress_no_queries_commands_deferred_live_contract",
                 },
                 {
                     "script": "dictionary:tieba",
@@ -1904,7 +1904,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["nextOfflineMigrationAction"]["pythonCommand"], "python -m python_backend.cli.coverage_loop_command")
         self.assertEqual(result["nextOfflineMigrationAction"]["validationScript"], "python:coverage-loop-command-compare")
         self.assertEqual(result["nextOfflineMigrationAction"]["validationCommand"], "node server/scripts/compareCoverageHarvestLoopCommand.js")
-        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_js_adapter_live_bridge_no_progress_commands_deferred_live_contract")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_js_adapter_live_bridge_no_progress_no_queries_commands_deferred_live_contract")
         self.assertFalse(result["nextOfflineMigrationAction"]["readyToReplace"])
         self.assertEqual(
             result["nextOfflineMigrationAction"]["replacementBlockers"],
@@ -1965,6 +1965,10 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertIn(
             {"gate": "external_harvest_no_progress_stop_fixture", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
+            result["nextOfflineMigrationAction"]["validationGates"],
+        )
+        self.assertIn(
+            {"gate": "external_harvest_no_queries_stop_fixture", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
             result["nextOfflineMigrationAction"]["validationGates"],
         )
         self.assertIn(
@@ -29767,6 +29771,87 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual([item["cycle"] for item in seen_requests], [1])
         self.assertEqual(result["cycles"][0]["coverageDelta"]["totalEvidenceGained"], 0)
 
+    def test_coverage_harvest_loop_command_stops_external_loop_when_no_queries_run(self):
+        from python_backend.analysis import coverage_loop as coverage_loop_module
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+            dictionary_path = temp_path / "dictionary.json"
+            state_path = temp_path / "state.json"
+            report_path = temp_path / "report.json"
+            seen_path = temp_path / "seen-requests.json"
+            response_path = temp_path / "response.json"
+            harvest_script = temp_path / "harvest_adapter.py"
+            dictionary = {
+                "version": 1,
+                "entries": [
+                    {"term": "doge", "family": "meme", "evidenceCount": 0, "evidenceSamples": [], "evidenceSources": []}
+                ],
+            }
+            dictionary_path.write_text(json.dumps(dictionary), encoding="utf-8")
+            response_path.write_text(
+                json.dumps(
+                    {
+                        "afterDictionary": dictionary,
+                        "harvest": {
+                            "ok": True,
+                            "rounds": [
+                                {
+                                    "queries": [],
+                                    "warnings": ["all candidate queries skipped"],
+                                    "coverageProgress": {"evidenceGained": 0},
+                                    "trainingDiagnostics": {"accepted": 0},
+                                    "queryDiagnostics": [],
+                                }
+                            ],
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            harvest_script.write_text(
+                "\n".join(
+                    [
+                        "import json, sys",
+                        "from pathlib import Path",
+                        "request = json.loads(Path(sys.argv[1]).read_text(encoding='utf-8'))",
+                        "seen_path = Path(sys.argv[2])",
+                        "seen = json.loads(seen_path.read_text(encoding='utf-8')) if seen_path.exists() else []",
+                        "seen.append({'cycle': request.get('cycle'), 'options': request.get('options')})",
+                        "seen_path.write_text(json.dumps(seen, ensure_ascii=False), encoding='utf-8')",
+                        "print(Path(sys.argv[3]).read_text(encoding='utf-8'))",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            result = coverage_loop_module.CoverageHarvestLoopCommandRequest(
+                [
+                    "--dictionary",
+                    dictionary_path,
+                    "--state",
+                    state_path,
+                    "--report",
+                    report_path,
+                    "--max-cycles",
+                    "2",
+                    "--generated-at",
+                    "2026-06-23T00:00:00.000Z",
+                    "--harvest-command-json",
+                    json.dumps([sys.executable, str(harvest_script), "{payload}", str(seen_path), str(response_path)]),
+                    "--exit-zero",
+                ]
+            ).run()
+            seen_requests = json.loads(seen_path.read_text(encoding="utf-8"))
+            report_file = json.loads(report_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(report_file, result)
+        self.assertEqual(result["runtimeMode"], "external_harvest_command")
+        self.assertEqual(result["stopReason"], "no_queries_run")
+        self.assertEqual(len(result["cycles"]), 1)
+        self.assertEqual(result["cycles"][0]["harvest"]["queries"], [])
+        self.assertEqual([item["cycle"] for item in seen_requests], [1])
+
     def test_package_coverage_loop_command_compare_script_tracks_no_live_command_gate(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
         workflow = Path(".github/workflows/python-validation.yml").read_text(encoding="utf-8")
@@ -29776,7 +29861,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("npm run python:coverage-loop-command-compare", workflow)
         self.assertEqual(
             DEFAULT_PACKAGE_VALIDATION_SCOPES["python:coverage-loop-command-compare"],
-            "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_js_adapter_live_bridge_no_progress_commands_deferred_live_contract",
+            "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_js_adapter_live_bridge_no_progress_no_queries_commands_deferred_live_contract",
         )
 
     def test_coverage_harvest_loop_runner_reads_json_contracts_and_expands_priority_queries(self):

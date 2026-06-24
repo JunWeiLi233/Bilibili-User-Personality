@@ -663,6 +663,11 @@ class CoverageHarvestLoopCommandRunner:
             cycles.extend(cycle_report["cycles"])
             current_dictionary = next_dictionary
             current_audit = next_audit
+            latest_harvest = cycle_report["cycles"][0].get("harvest") if cycle_report["cycles"] else {}
+            executed_queries = latest_harvest.get("queries") if isinstance(latest_harvest, dict) else []
+            if isinstance(executed_queries, list) and not executed_queries:
+                stop_reason = "no_queries_run"
+                break
             if current_audit.get("ok") is True:
                 stop_reason = "coverage_gate_passed"
                 break
