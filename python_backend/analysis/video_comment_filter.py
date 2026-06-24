@@ -94,3 +94,42 @@ def build_video_context_text(videos: list[dict[str, Any]] | None = None) -> str:
             seen.add(item)
             lines.append(f"Bilibili video context: {item}")
     return "\n".join(lines)
+
+
+def unique_by_key(items: list[Any], key_fn: Any = None) -> list[Any]:
+    """Deduplicate items by key, keeping first occurrence (mirrors JS uniqueByKey)."""
+    if key_fn is None:
+        key_fn = lambda x: x
+    seen: dict[Any, Any] = {}
+    for item in items:
+        if not item:
+            continue
+        k = key_fn(item)
+        if k not in seen:
+            seen[k] = item
+    return list(seen.values())
+
+
+def target_text_hits_for_diagnostics(
+    training_text: str = "",
+    target_existing_terms: list[str] | None = None,
+) -> list[dict[str, Any]]:
+    """Count occurrences of each target term in the training text."""
+    haystack = clean_search_text(training_text)
+    if not haystack:
+        return []
+    terms = [str(t or "").strip() for t in (target_existing_terms or [])]
+    terms = [t for t in terms if t]
+    seen: set[str] = set()
+    results: list[dict[str, Any]] = []
+    for term in terms:
+        if term in seen:
+            continue
+        seen.add(term)
+        needle = clean_search_text(term)
+        if not needle or len(needle) < 2:
+            continue
+        count = haystack.count(needle)
+        if count > 0:
+            results.append({"term": term, "count": count})
+    return results

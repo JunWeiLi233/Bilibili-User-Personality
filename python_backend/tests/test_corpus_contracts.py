@@ -38886,6 +38886,26 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("Bilibili video context: Description one", context)
         self.assertIn("Bilibili video context: Video Two", context)
 
+    def test_video_comment_filter_target_text_hits_matches_js_contract(self):
+        from python_backend.analysis.video_comment_filter import (
+            target_text_hits_for_diagnostics,
+            unique_by_key,
+        )
+
+        # uniqueByKey deduplicates by key
+        items = [{"id": 1, "v": "a"}, {"id": 2, "v": "b"}, {"id": 1, "v": "c"}]
+        result = unique_by_key(items, lambda x: x["id"])
+        self.assertEqual(len(result), 2)
+        self.assertEqual(result[0]["v"], "a")
+
+        # targetTextHitsForDiagnostics counts term occurrences
+        hits = target_text_hits_for_diagnostics(
+            "网盘见网盘见测试内容中国宝宝体质", ["网盘见", "中国宝宝体质", "不存在的"]
+        )
+        self.assertEqual(len(hits), 2)
+        self.assertEqual(hits[0]["term"], "网盘见")
+        self.assertEqual(hits[0]["count"], 2)
+
 
 if __name__ == "__main__":
     unittest.main()

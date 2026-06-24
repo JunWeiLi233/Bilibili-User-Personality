@@ -17,6 +17,7 @@ from python_backend.analysis.video_comment_filter import (
     comment_matches_needle_set,
     filter_comments_by_dictionary_needles,
     relevance_score_for_video,
+    target_text_hits_for_diagnostics,
 )
 
 JS_MODULE = Path(__file__).resolve().parent.parent.parent / "server" / "services" / "videoKeywordSearch.js"
@@ -104,6 +105,16 @@ class VideoFilterComparisonTests(unittest.TestCase):
         py = build_video_context_text(videos)
         js = _js_result("buildVideoContextText", videos)
         self.assertEqual(py, js)
+
+    def test_target_text_hits_for_diagnostics_matches_js(self):
+        py = target_text_hits_for_diagnostics(
+            "网盘见网盘见测试内容中国宝宝体质", ["网盘见", "中国宝宝体质", "不存在的"]
+        )
+        js = _js_result("targetTextHitsForDiagnostics", "网盘见网盘见测试内容中国宝宝体质", ["网盘见", "中国宝宝体质", "不存在的"])
+        self.assertEqual(len(py), len(js))
+        for p, j in zip(py, js):
+            self.assertEqual(p["term"], j["term"])
+            self.assertEqual(p["count"], j["count"])
 
 
 if __name__ == "__main__":
