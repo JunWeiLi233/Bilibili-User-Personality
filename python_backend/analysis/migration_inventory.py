@@ -240,6 +240,16 @@ DEFAULT_DIRECT_FILE_CONTRACTS = {
         "validationScope": "dry_run_plan_default_range_parseint_prefix_fixtures_js_python_bridge_and_cli_flag_bridge",
         "replacementScope": "dry_run_plan",
     },
+    "server/scripts/uidPipelineFastWorker.js": {
+        "nodeScript": "server/scripts/uidPipelineFastWorker.js",
+        "nodeCommand": "node server/scripts/uidPipelineFastWorker.js",
+        "pythonScript": "python:uid-fast-worker-plan",
+        "pythonCommand": "python -m python_backend.cli.uid_fast_pipeline_worker_plan",
+        "validationScript": "python:uid-fast-worker-compare",
+        "validationCommand": "node server/scripts/compareUidFastPipelineWorkerPlan.js",
+        "validationScope": "dry_run_plan_default_worker_number_fallback_parseint_uids_fixtures_js_python_bridge_and_cli_flag_bridge",
+        "replacementScope": "dry_run_plan",
+    },
 }
 
 DEFAULT_RETAINED_NODE_COMMANDS = {
@@ -1144,6 +1154,16 @@ class BackendMigrationInventoryScanner:
                     "reason": "Python has a UID fast pipeline dry-run plan, default/range/parseint fixtures, and JS/Python bridge coverage, but live direct-fetch scraping, block backoff, dictionary locking, and DeepSeek training still need verification before replacing the JS script.",
                     "preflightCommand": "npm run python:uid-fast-pipeline-compare",
                     "liveVerificationCommand": "node server/scripts/uidPipelineFast.js --start=1 --end=1",
+                    "manualVerificationRequired": True,
+                }
+            )
+        elif script == "server/scripts/uidPipelineFastWorker.js" and validation_scope != "full_command":
+            blockers.append(
+                {
+                    "blocker": "uid_fast_worker_live_runtime_not_verified",
+                    "reason": "Python has a UID fast worker dry-run plan, default worker/number fallback/parseint UID fixtures, and JS/Python bridge coverage, but live direct-fetch scraping, worker persistence, and DeepSeek training still need verification before replacing the JS script.",
+                    "preflightCommand": "npm run python:uid-fast-worker-compare",
+                    "liveVerificationCommand": "node server/scripts/uidPipelineFastWorker.js --start=1 --end=1",
                     "manualVerificationRequired": True,
                 }
             )
