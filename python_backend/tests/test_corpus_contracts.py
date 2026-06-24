@@ -5435,6 +5435,16 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(nested.effort, "max")
         self.assertEqual(client.build_chat_request(top_level)["reasoning_effort"], "max")
 
+    def test_deepseek_analyzer_normalizes_user_facing_model_aliases(self):
+        client = DeepSeekAnalyzerClient()
+
+        flash = client.build_request_from_payload({"text": "\u53cd\u8bbd[doge]", "model": "DeepSeek V4 Flash"})
+        pro = client.build_request_from_payload({"text": "\u53cd\u8bbd[doge]", "options": {"model": "deepseek v4 pro"}})
+
+        self.assertEqual(flash.model, "deepseek-v4-flash")
+        self.assertEqual(pro.model, "deepseek-v4-pro")
+        self.assertEqual(client.build_chat_request(flash)["model"], "deepseek-v4-flash")
+
     def test_deepseek_analyzer_splits_chinese_terminal_punctuation_like_js(self):
         analyzer = DeepSeekAnalyzerClient()
 
@@ -7901,6 +7911,18 @@ class CorpusContractTests(unittest.TestCase):
         ).build(request)
 
         self.assertEqual(config["reasoningEffort"], "max")
+
+    def test_deepseek_analyze_runtime_config_normalizes_env_model_aliases(self):
+        request = DeepSeekAnalyzerClient().build_request_from_payload({"text": "\u53cd\u8bbd[doge]"})
+
+        config = DeepSeekAnalyzeRuntimeConfig(
+            env={
+                "DEEPSEEK_API_KEY": "secret",
+                "DEEPSEEK_MODEL": "deepseek v4 pro",
+            }
+        ).build(request)
+
+        self.assertEqual(config["model"], "deepseek-v4-pro")
 
     def test_deepseek_analyze_http_transport_owns_live_chat_request(self):
         calls = []

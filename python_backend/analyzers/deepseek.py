@@ -34,6 +34,25 @@ def normalize_reasoning_effort(value: Any) -> str:
     return "max"
 
 
+def normalize_deepseek_model(value: Any) -> str:
+    """Normalize human-facing DeepSeek model labels into the API contract."""
+    text = str(value or "").strip().lower().replace("_", "-")
+    compact = re.sub(r"[\s-]+", "", text)
+    aliases = {
+        "deepseekv4flash": "deepseek-v4-flash",
+        "v4flash": "deepseek-v4-flash",
+        "flash": "deepseek-v4-flash",
+        "deepseekv4pro": "deepseek-v4-pro",
+        "v4pro": "deepseek-v4-pro",
+        "pro": "deepseek-v4-pro",
+    }
+    if text in {"deepseek-v4-flash", "deepseek-v4-pro"}:
+        return text
+    if compact in aliases:
+        return aliases[compact]
+    return text or "deepseek-v4-flash"
+
+
 @dataclass(frozen=True)
 class AnalyzerRequest:
     comments: list[str]
@@ -54,7 +73,7 @@ class DeepSeekRequestOptionsContract:
 
     def build(self, messages: list[dict[str, str]], *, max_tokens: int) -> dict[str, object]:
         return {
-            "model": str(self.request.model or "deepseek-v4-flash"),
+            "model": normalize_deepseek_model(self.request.model),
             "reasoning_effort": normalize_reasoning_effort(self.request.effort),
             "messages": messages,
             "response_format": {"type": "json_object"},
@@ -160,7 +179,7 @@ class DeepSeekAnalyzerClient:
             source_comments=self._source_comments_from_payload(payload),
             uid=str(payload.get("uid") or "unknown"),
             name=str(payload.get("name") or "unknown"),
-            model=str(payload.get("model") or options.get("model") or "deepseek-v4-flash"),
+            model=normalize_deepseek_model(payload.get("model") or options.get("model")),
             effort=normalize_reasoning_effort(
                 payload.get("reasoningEffort")
                 or payload.get("reasoning_effort")
