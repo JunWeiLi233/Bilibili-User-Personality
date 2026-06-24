@@ -4155,6 +4155,52 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(policy.to_direct_probe_options(), {"delayMs": 1800, "jitterMs": 60000})
         self.assertEqual(policy.to_tieba_options(), {"minDelayMs": 1800, "jitterMs": 60000, "blockCooldownMs": 45000})
 
+    def test_rate_limit_options_cli_runner_builds_json_contract_from_payload(self):
+        from python_backend.cli.rate_limit_options import RateLimitOptionsCliRunner
+
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "payload.json"
+            payload_path.write_text(
+                json.dumps({"target": "tieba", "minDelayMs": -5, "jitterMs": 999999, "blockCooldownMs": "bad"}),
+                encoding="utf-8",
+            )
+
+            result = RateLimitOptionsCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertEqual(result["mode"], "rate-limit-options")
+        self.assertEqual(result["target"], "tieba")
+        self.assertEqual(result["options"], {"minDelayMs": 0, "jitterMs": 60000, "blockCooldownMs": 120000})
+
+    def test_package_rate_limit_options_compare_script_runs_js_python_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(package["scripts"]["python:rate-limit-options"], "python -m python_backend.cli.rate_limit_options")
+        self.assertEqual(package["scripts"]["python:rate-limit-options-compare"], "node server/scripts/compareRateLimitOptions.js")
+
+    def test_backend_migration_inventory_tracks_rate_limit_options_bridge(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertIn(
+            {"path": "server/scripts/compareRateLimitOptions.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {
+                "script": "python:rate-limit-options-compare",
+                "command": "node server/scripts/compareRateLimitOptions.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:rate-limit-options",
+                "command": "python -m python_backend.cli.rate_limit_options",
+                "pipeline": "rate_limit_options",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+
     def test_file_lock_state_inspector_reads_js_owner_contract_and_detects_stale_age(self):
         with tempfile.TemporaryDirectory() as tmp:
             lock_path = Path(tmp) / "deepseekKeywordDictionary.json.lock"

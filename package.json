@@ -42,6 +42,8 @@
     "python:coverage-loop-command": "python -m python_backend.cli.coverage_loop_command",
     "python:coverage-loop-command-compare": "node server/scripts/compareCoverageHarvestLoopCommand.js",
     "python:coverage-cli-options-compare": "node server/scripts/compareCoverageCliOptions.js",
+    "python:rate-limit-options": "python -m python_backend.cli.rate_limit_options",
+    "python:rate-limit-options-compare": "node server/scripts/compareRateLimitOptions.js",
     "python:coverage-progress": "python -m python_backend.cli.coverage_progress",
     "python:coverage-progress-compare": "node server/scripts/compareCoverageProgress.js",
     "python:exhausted-prune-plan": "python -m python_backend.cli.exhausted_terms_prune_plan",
