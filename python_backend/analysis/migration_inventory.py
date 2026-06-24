@@ -876,6 +876,16 @@ class BackendMigrationInventoryScanner:
                     "manualVerificationRequired": True,
                 }
             )
+        elif script == "uid:discovery" and validation_scope != "full_command":
+            blockers.append(
+                {
+                    "blocker": "uid_discovery_live_runtime_not_verified",
+                    "reason": "Python has a dry-run UID discovery plan with analysis resume, discovery start, malformed numeric fixtures, and JS/Python CLI bridge coverage, but uid:discovery still needs a verified live Bilibili discovery and analyzer runtime before replacing the JS command.",
+                    "preflightCommand": "npm run python:uid-discovery-compare",
+                    "liveVerificationCommand": "npm run uid:discovery",
+                    "manualVerificationRequired": True,
+                }
+            )
         elif validation_scope != "full_command":
             blockers.append(
                 {

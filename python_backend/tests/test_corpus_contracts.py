@@ -2141,6 +2141,16 @@ class CorpusContractTests(unittest.TestCase):
             result["manualVerificationActions"],
         )
         self.assertIn(
+            {
+                "path": "server/scripts/uidDiscoveryScrape.js",
+                "nodeScript": "uid:discovery",
+                "blocker": "uid_discovery_live_runtime_not_verified",
+                "preflightCommand": "npm run python:uid-discovery-compare",
+                "liveVerificationCommand": "npm run uid:discovery",
+            },
+            result["manualVerificationActions"],
+        )
+        self.assertIn(
             {"gate": "no_live_command_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
             result["nextOfflineMigrationAction"]["validationGates"],
         )
