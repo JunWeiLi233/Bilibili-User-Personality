@@ -563,6 +563,42 @@ class DeepSeekLiveValidationGate:
         }
 
 
+class DeepSeekLivePreflight:
+    """Describe the live DeepSeek runtime contract without calling the API."""
+
+    def __init__(self, *, env: dict[str, Any] | None = None, client: DeepSeekAnalyzerClient | None = None):
+        self.env = dict(os.environ) if env is None else dict(env)
+        self.client = client or DeepSeekAnalyzerClient()
+
+    def run(self, payload: dict[str, Any] | None = None) -> dict[str, Any]:
+        request = self.client.build_request_from_payload(payload if isinstance(payload, dict) else {})
+        config = DeepSeekAnalyzeRuntimeConfig(env=self.env).build(request)
+        request_count = len(self.client.build_request_plan(request)) + (1 if request.multiagent else 0)
+        status = "ready" if bool(config["apiKey"]) else "missing_api_key"
+        return {
+            "ok": True,
+            "provider": "deepseek",
+            "gate": "live_api_preflight",
+            "status": status,
+            "willCallApi": False,
+            "model": config["model"],
+            "reasoningEffort": config["reasoningEffort"],
+            "baseUrl": config["baseUrl"],
+            "apiKey": {"env": "DEEPSEEK_API_KEY", "configured": bool(config["apiKey"])},
+            "request": {
+                "multiagent": request.multiagent,
+                "requestCount": request_count,
+                "commentCount": len(request.comments),
+                "uid": request.uid,
+                "name": request.name,
+            },
+            "runtime": {
+                "mode": "live_multiagent_preflight" if request.multiagent else "live_chat_preflight",
+                "multiagent": request.multiagent,
+            },
+        }
+
+
 class DeepSeekAnalyzePayloadBuilder:
     """Build the analyzer payload for analyzeDeepSeekComments-compatible runtime modes."""
 
@@ -824,6 +860,7 @@ class DeepSeekAnalyzeCommandRequest:
         parser = argparse.ArgumentParser(description="Analyze comments with the Python DeepSeek analyzer command contract.")
         parser.add_argument("--plan-json", action="store_true", help="Emit the CLI input plan JSON contract without analyzing.")
         parser.add_argument("--live-validation-gate", action="store_true", help="Emit the live DeepSeek API validation-gate JSON contract.")
+        parser.add_argument("--live-preflight", action="store_true", help="Describe the live DeepSeek runtime contract without calling the API.")
         parser.add_argument("--python-plan", action="store_true", help=argparse.SUPPRESS)
         parser.add_argument("--js-plan", action="store_true", help=argparse.SUPPRESS)
         parser.add_argument("--python-runtime", action="store_true", help=argparse.SUPPRESS)
@@ -856,6 +893,8 @@ class DeepSeekAnalyzeCommandRequest:
         payload_error = payload.pop("_error", None)
         if isinstance(payload_error, dict):
             return compatibility.apply(payload_error)
+        if args.live_preflight:
+            return compatibility.apply(DeepSeekLivePreflight(env=self.env).run(payload))
         if args.live_validation_gate:
             return compatibility.apply(DeepSeekLiveValidationGate(env=self.env).run(payload))
         if args.mock_chat_analysis:

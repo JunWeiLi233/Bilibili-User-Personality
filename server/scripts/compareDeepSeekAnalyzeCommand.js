@@ -32,6 +32,7 @@ export function buildDeepSeekAnalyzeCommandArgs({ runtime = 'js', mode = 'fixtur
   if (mode === 'fixture') args.push('--fixture-analysis', analysisPath);
   if (mode === 'mock') args.push('--mock-chat-analysis', analysisPath);
   if (mode === 'live-gate') args.push('--live-validation-gate');
+  if (mode === 'live-preflight') args.push('--live-preflight');
   if (payload.filePath) args.push('--file', payload.filePath);
   else if (payload.text) args.push('--text', payload.text);
   if (payload.uid) args.push('--uid', payload.uid);
@@ -124,6 +125,21 @@ async function runPythonLiveGateCommand({ payload }) {
     env: {
       ...process.env,
       DEEPSEEK_API_KEY: '',
+      PYTHONUTF8: '1',
+      PYTHONIOENCODING: 'utf-8',
+    },
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  return JSON.parse(stdout);
+}
+
+async function runPythonLivePreflightCommand({ payload }) {
+  const args = buildDeepSeekAnalyzeCommandArgs({ runtime: 'python', mode: 'live-preflight', payload });
+  const { stdout } = await execFileAsync('python', args, {
+    cwd: process.cwd(),
+    env: {
+      ...process.env,
+      DEEPSEEK_API_KEY: 'configured-for-preflight',
       PYTHONUTF8: '1',
       PYTHONIOENCODING: 'utf-8',
     },
@@ -260,6 +276,41 @@ export async function compareDeepSeekAnalyzeLiveGate({
   };
 }
 
+export async function compareDeepSeekAnalyzeLivePreflight({
+  payload = { ...DEFAULT_PAYLOAD, uid: '42', multiagent: true },
+  runPythonCommand = runPythonLivePreflightCommand,
+} = {}) {
+  const python = await runPythonCommand({ payload });
+  const ok = Boolean(
+    python.ok &&
+      python.provider === 'deepseek' &&
+      python.gate === 'live_api_preflight' &&
+      python.willCallApi === false &&
+      python.apiKey?.env === 'DEEPSEEK_API_KEY' &&
+      python.request?.multiagent === true &&
+      python.runtime?.mode === 'live_multiagent_preflight',
+  );
+  return {
+    ok,
+    python,
+    mismatches: ok
+      ? []
+      : [
+          {
+            key: 'livePreflight',
+            python,
+            expected: {
+              ok: true,
+              provider: 'deepseek',
+              gate: 'live_api_preflight',
+              willCallApi: false,
+              runtime: { mode: 'live_multiagent_preflight' },
+            },
+          },
+        ],
+  };
+}
+
 function prefixMismatches(scope, mismatches = []) {
   return mismatches.map((mismatch) => ({
     ...mismatch,
@@ -273,6 +324,7 @@ export async function compareDeepSeekAnalyzeCommandSuite({
   compareCommandMockRuntime = compareDeepSeekAnalyzeCommandMockRuntime,
   compareMockRuntime = compareDeepSeekAnalyzeMockRuntime,
   compareEnvPythonRuntimeBridge = compareDeepSeekAnalyzeEnvPythonRuntimeBridge,
+  compareLivePreflight = compareDeepSeekAnalyzeLivePreflight,
   compareLiveGate = compareDeepSeekAnalyzeLiveGate,
 } = {}) {
   const fixtureCommand = await compareFixtureCommand();
@@ -280,6 +332,7 @@ export async function compareDeepSeekAnalyzeCommandSuite({
   const mockRuntime = await compareMockRuntime();
   const multiagentMockRuntime = await compareMockRuntime({ payload: { ...DEFAULT_PAYLOAD, multiagent: true } });
   const envPythonRuntimeBridge = await compareEnvPythonRuntimeBridge();
+  const livePreflight = await compareLivePreflight();
   const liveValidationGate = await compareLiveGate();
   const mismatches = [
     ...prefixMismatches('fixtureCommand', fixtureCommand.mismatches || []),
@@ -287,6 +340,7 @@ export async function compareDeepSeekAnalyzeCommandSuite({
     ...prefixMismatches('mockRuntime', mockRuntime.mismatches || []),
     ...prefixMismatches('multiagentMockRuntime', multiagentMockRuntime.mismatches || []),
     ...prefixMismatches('envPythonRuntimeBridge', envPythonRuntimeBridge.mismatches || []),
+    ...prefixMismatches('livePreflight', livePreflight.mismatches || []),
     ...prefixMismatches('liveValidationGate', liveValidationGate.mismatches || []),
   ];
   return {
@@ -296,10 +350,11 @@ export async function compareDeepSeekAnalyzeCommandSuite({
         mockRuntime.ok &&
         multiagentMockRuntime.ok &&
         envPythonRuntimeBridge.ok &&
+        livePreflight.ok &&
         liveValidationGate.ok &&
         mismatches.length === 0,
     ),
-    checks: { fixtureCommand, commandMockRuntime, mockRuntime, multiagentMockRuntime, envPythonRuntimeBridge, liveValidationGate },
+    checks: { fixtureCommand, commandMockRuntime, mockRuntime, multiagentMockRuntime, envPythonRuntimeBridge, livePreflight, liveValidationGate },
     mismatches,
   };
 }

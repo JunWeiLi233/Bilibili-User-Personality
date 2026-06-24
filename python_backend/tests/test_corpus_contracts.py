@@ -1991,7 +1991,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:deepseek-analyze-command-compare",
                     "validationCommand": "node server/scripts/compareDeepSeekAnalyzeCommand.js",
-                    "validationScope": "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_strict_payload_file_errors_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract",
+                    "validationScope": "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_strict_payload_file_errors_python_runtime_mock_multiagent_env_bridge_live_preflight_and_live_gate_contract",
                 },
             ],
         )
@@ -2032,7 +2032,7 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(result["nextMigrationAction"]["path"], "server/scripts/analyzeDeepSeekComments.js")
         self.assertEqual(result["nextMigrationAction"]["validationScript"], "python:deepseek-analyze-command-compare")
-        self.assertEqual(result["nextMigrationAction"]["validationScope"], "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_strict_payload_file_errors_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract")
+        self.assertEqual(result["nextMigrationAction"]["validationScope"], "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_strict_payload_file_errors_python_runtime_mock_multiagent_env_bridge_live_preflight_and_live_gate_contract")
         self.assertFalse(result["nextMigrationAction"]["readyToReplace"])
         self.assertEqual(result["nextMigrationAction"]["recommendation"], "expand_python_runtime_contract_before_replacing_js")
         self.assertEqual(
@@ -2047,6 +2047,7 @@ class CorpusContractTests(unittest.TestCase):
                 {"gate": "mock_runtime_command", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "multiagent_mock_runtime", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "js_env_python_runtime_bridge", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
+                {"gate": "live_api_preflight", "status": "covered_offline_skip_contract", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "live_api_command", "status": "covered_offline_skip_contract", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "legacy_selector_compatibility", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
             ],
@@ -2056,7 +2057,7 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {
                     "blocker": "credentialed_live_api_command_not_verified",
-                    "reason": "Validation covers command identity fields, file input, payload input, Python runtime mocks, multiagent mocks, and the offline live-gate skip contract, but no credentialed live API command run has been verified.",
+                    "reason": "Validation covers command identity fields, file input, payload input, Python runtime mocks, multiagent mocks, live preflight, and the offline live-gate skip contract, but no credentialed live API command run has been verified.",
                 },
             ],
         )
@@ -8820,6 +8821,37 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["gate"], "live_api_command")
         self.assertEqual(result["status"], "skipped")
         self.assertEqual(result["requires"], ["DEEPSEEK_API_KEY"])
+
+    def test_deepseek_analyze_command_request_exposes_live_preflight_without_calling_api(self):
+        result = DeepSeekAnalyzeCommandRequest(
+            [
+                "--live-preflight",
+                "--text",
+                "\u9634\u9633\u602a\u6c14[doge]",
+                "--uid",
+                "42",
+                "--name",
+                "tester",
+                "--model",
+                "v4 flash",
+                "--reasoning-effort",
+                "max effort",
+                "--multiagent",
+            ],
+            env={"DEEPSEEK_API_KEY": "secret-key", "DEEPSEEK_BASE_URL": "https://deepseek.example/"},
+        ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["provider"], "deepseek")
+        self.assertEqual(result["gate"], "live_api_preflight")
+        self.assertFalse(result["willCallApi"])
+        self.assertEqual(result["status"], "ready")
+        self.assertEqual(result["model"], "deepseek-v4-flash")
+        self.assertEqual(result["reasoningEffort"], "max")
+        self.assertEqual(result["baseUrl"], "https://deepseek.example")
+        self.assertEqual(result["apiKey"], {"env": "DEEPSEEK_API_KEY", "configured": True})
+        self.assertEqual(result["request"], {"multiagent": True, "requestCount": 4, "commentCount": 1, "uid": "42", "name": "tester"})
+        self.assertEqual(result["runtime"], {"mode": "live_multiagent_preflight", "multiagent": True})
 
     def test_deepseek_analyze_command_request_passes_env_to_live_runtime(self):
         calls = []

@@ -60,7 +60,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:deepseek-validation-compare": "analysis_validation",
     "python:deepseek-normalization-compare": "analysis_normalization",
     "python:deepseek-analyze-fixture-compare": "full_command_fixture",
-    "python:deepseek-analyze-command-compare": "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_strict_payload_file_errors_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract",
+    "python:deepseek-analyze-command-compare": "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_strict_payload_file_errors_python_runtime_mock_multiagent_env_bridge_live_preflight_and_live_gate_contract",
     "python:deepseek-mock-runtime-compare": "mocked_runtime",
     "python:deepseek-config-compare": "no_key_model_list_fallback_model_list_warning_fixtures_and_js_python_bridge",
     "python:corpus-write-compare": "split_comments_runs_empty_invalid_options_fixtures_and_js_python_bridge",
@@ -756,11 +756,12 @@ class BackendMigrationInventoryScanner:
             "full_command_identity_fields_file_payload_input_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract",
             "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract",
             "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_strict_payload_file_errors_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract",
+            "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_strict_payload_file_errors_python_runtime_mock_multiagent_env_bridge_live_preflight_and_live_gate_contract",
         }:
             blockers.append(
                 {
                     "blocker": "credentialed_live_api_command_not_verified",
-                    "reason": "Validation covers command identity fields, file input, payload input, Python runtime mocks, multiagent mocks, and the offline live-gate skip contract, but no credentialed live API command run has been verified.",
+                    "reason": "Validation covers command identity fields, file input, payload input, Python runtime mocks, multiagent mocks, live preflight, and the offline live-gate skip contract, but no credentialed live API command run has been verified.",
                 }
             )
         elif script == "dictionary:auto" and "deferred_live_contract" in validation_scope:
@@ -792,6 +793,7 @@ class BackendMigrationInventoryScanner:
                 {"gate": "mock_runtime_command", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "multiagent_mock_runtime", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "js_env_python_runtime_bridge", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
+                {"gate": "live_api_preflight", "status": "covered_offline_skip_contract", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "live_api_command", "status": "covered_offline_skip_contract", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "legacy_selector_compatibility", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
             ]

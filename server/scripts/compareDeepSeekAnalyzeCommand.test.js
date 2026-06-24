@@ -164,7 +164,7 @@ test('compareDeepSeekAnalyzeCommandMockRuntime compares JS command mock runtime 
   assert.equal(calls.length, 2);
 });
 
-test('compareDeepSeekAnalyzeCommandSuite requires fixture command, mock runtime, env bridge, multiagent runtime, and live gate contract parity', async () => {
+test('compareDeepSeekAnalyzeCommandSuite requires fixture command, mock runtime, env bridge, multiagent runtime, live preflight, and live gate contract parity', async () => {
   const calls = [];
   const result = await compareDeepSeekAnalyzeCommandSuite({
     compareFixtureCommand: async () => {
@@ -187,17 +187,30 @@ test('compareDeepSeekAnalyzeCommandSuite requires fixture command, mock runtime,
       calls.push('liveValidationGate');
       return { ok: true, mismatches: [], python: { status: 'skipped' } };
     },
+    compareLivePreflight: async () => {
+      calls.push('livePreflight');
+      return { ok: true, mismatches: [], python: { gate: 'live_api_preflight', willCallApi: false } };
+    },
   });
 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
-  assert.deepEqual(calls, ['fixtureCommand', 'commandMockRuntime', { mockRuntime: false }, { mockRuntime: true }, 'envPythonRuntimeBridge', 'liveValidationGate']);
+  assert.deepEqual(calls, [
+    'fixtureCommand',
+    'commandMockRuntime',
+    { mockRuntime: false },
+    { mockRuntime: true },
+    'envPythonRuntimeBridge',
+    'livePreflight',
+    'liveValidationGate',
+  ]);
   assert.deepEqual(Object.keys(result.checks), [
     'fixtureCommand',
     'commandMockRuntime',
     'mockRuntime',
     'multiagentMockRuntime',
     'envPythonRuntimeBridge',
+    'livePreflight',
     'liveValidationGate',
   ]);
 });
