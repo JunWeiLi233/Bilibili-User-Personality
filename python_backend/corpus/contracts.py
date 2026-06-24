@@ -40,6 +40,8 @@ class CompareContractsOutputWriter:
 class ContractComparator:
     """Compare Python-read JSON contracts against manifest/audit invariants."""
 
+    SOURCE_BREAKDOWN_LIMIT = 20
+
     def __init__(
         self,
         corpus_path: str | Path,
@@ -71,16 +73,20 @@ class ContractComparator:
             mismatches.append({"key": "manifestCommentCount", "python": len(corpus.comments), "js": manifest_comment_count})
         if manifest_run_count not in (None, len(corpus.runs)):
             mismatches.append({"key": "manifestRunCount", "python": len(corpus.runs), "js": manifest_run_count})
+        corpus_summary: dict[str, object] = {
+            "comments": len(corpus.comments),
+            "runs": len(corpus.runs),
+            "manifestCommentCount": manifest_comment_count,
+            "manifestRunCount": manifest_run_count,
+            "storage": corpus.manifest.get("storage", "monolith"),
+        }
+        corpus_source_breakdown = self._source_breakdown(corpus.comments, corpus.runs)
+        if corpus_source_breakdown:
+            corpus_summary["sourceBreakdown"] = corpus_source_breakdown
         result: dict[str, object] = {
             "ok": audit.terms > 0,
             "mismatches": mismatches,
-            "corpus": {
-                "comments": len(corpus.comments),
-                "runs": len(corpus.runs),
-                "manifestCommentCount": manifest_comment_count,
-                "manifestRunCount": manifest_run_count,
-                "storage": corpus.manifest.get("storage", "monolith"),
-            },
+            "corpus": corpus_summary,
             "audit": {
                 "terms": audit.terms,
                 "weakTerms": audit.weak_terms,
@@ -104,13 +110,17 @@ class ContractComparator:
             tieba_corpus = CorpusLoader(self.tieba_corpus_path).load()
             tieba_manifest_comment_count = tieba_corpus.manifest.get("commentCount")
             tieba_manifest_run_count = tieba_corpus.manifest.get("runCount")
-            result["tiebaCorpus"] = {
+            tieba_summary: dict[str, object] = {
                 "comments": len(tieba_corpus.comments),
                 "runs": len(tieba_corpus.runs),
                 "manifestCommentCount": tieba_manifest_comment_count,
                 "manifestRunCount": tieba_manifest_run_count,
                 "storage": tieba_corpus.manifest.get("storage", "monolith"),
             }
+            tieba_source_breakdown = self._source_breakdown(tieba_corpus.comments, tieba_corpus.runs)
+            if tieba_source_breakdown:
+                tieba_summary["sourceBreakdown"] = tieba_source_breakdown
+            result["tiebaCorpus"] = tieba_summary
             if tieba_manifest_comment_count not in (None, len(tieba_corpus.comments)):
                 mismatches.append({"key": "tiebaManifestCommentCount", "python": len(tieba_corpus.comments), "js": tieba_manifest_comment_count})
             if tieba_manifest_run_count not in (None, len(tieba_corpus.runs)):
@@ -130,6 +140,32 @@ class ContractComparator:
                 mismatches.append({"key": "randomVerification", "python": random_comparison.get("python"), "js": random_comparison.get("js")})
         result["ok"] = bool(result["ok"]) and len(mismatches) == 0
         return self.summary.summarize(result)
+
+    @classmethod
+    def _source_breakdown(cls, comments: list[dict[str, Any]], runs: list[dict[str, Any]]) -> dict[str, dict[str, int]]:
+        breakdown: dict[str, dict[str, int]] = {}
+        comment_counts = cls._source_counts(comments)
+        run_counts = cls._source_counts(runs)
+        if comment_counts:
+            breakdown["comments"] = comment_counts
+        if run_counts:
+            breakdown["runs"] = run_counts
+        return breakdown
+
+    @staticmethod
+    def _source_counts(items: list[dict[str, Any]]) -> dict[str, int]:
+        counts: dict[str, int] = {}
+        for item in items:
+            source = str(item.get("source") or item.get("platform") or "").strip()
+            if not source:
+                continue
+            counts[source] = counts.get(source, 0) + 1
+        if len(counts) <= ContractComparator.SOURCE_BREAKDOWN_LIMIT:
+            return dict(sorted(counts.items()))
+        sorted_counts = sorted(counts.items(), key=lambda item: (-item[1], item[0]))
+        visible = dict(sorted_counts[: ContractComparator.SOURCE_BREAKDOWN_LIMIT])
+        visible["__other__"] = sum(count for _, count in sorted_counts[ContractComparator.SOURCE_BREAKDOWN_LIMIT :])
+        return visible
 
 
 class CompareContractsRequest:

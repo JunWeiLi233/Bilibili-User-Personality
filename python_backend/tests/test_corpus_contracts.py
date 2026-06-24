@@ -8148,6 +8148,82 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["corpus"]["storage"], "monolith")
         self.assertEqual(result["audit"]["targetEvidence"], 3)
 
+    def test_contract_comparator_reports_corpus_source_breakdowns(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            tieba_corpus_path = root / "tieba-corpus.json"
+            audit_path = root / "audit.json"
+            corpus_path.write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "comments": [
+                            {"message": "doge satire", "source": "bilibili"},
+                            {"message": "emoji satire", "platform": "bilibili"},
+                            {"message": "tieba slang", "source": "tieba"},
+                            {"message": "empty source", "source": ""},
+                        ],
+                        "runs": [{"source": "bilibili"}, {"platform": "tieba"}, {"source": ""}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            tieba_corpus_path.write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "comments": [
+                            {"message": "tieba one", "source": "tieba"},
+                            {"message": "tieba two", "source": "tieba"},
+                        ],
+                        "runs": [{"source": "tieba"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            audit_path.write_text(
+                json.dumps({"ok": False, "targetEvidence": 3, "coverage": {"terms": 1, "coverageRatio": 1}}),
+                encoding="utf-8",
+            )
+
+            result = ContractComparator(corpus_path, audit_path, tieba_corpus_path=tieba_corpus_path).compare()
+
+        self.assertEqual(
+            result["corpus"]["sourceBreakdown"],
+            {"comments": {"bilibili": 2, "tieba": 1}, "runs": {"bilibili": 1, "tieba": 1}},
+        )
+        self.assertEqual(result["tiebaCorpus"]["sourceBreakdown"], {"comments": {"tieba": 2}, "runs": {"tieba": 1}})
+
+    def test_contract_comparator_caps_large_source_breakdowns(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            audit_path = root / "audit.json"
+            corpus_path.write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "comments": [
+                            {"message": f"comment {index}", "source": f"source-{index:02d}"}
+                            for index in range(25)
+                        ],
+                        "runs": [],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            audit_path.write_text(
+                json.dumps({"ok": False, "targetEvidence": 3, "coverage": {"terms": 1, "coverageRatio": 1}}),
+                encoding="utf-8",
+            )
+
+            result = ContractComparator(corpus_path, audit_path).compare()
+
+        self.assertEqual(len(result["corpus"]["sourceBreakdown"]["comments"]), 21)
+        self.assertEqual(result["corpus"]["sourceBreakdown"]["comments"]["__other__"], 5)
+        self.assertNotIn("source-24", result["corpus"]["sourceBreakdown"]["comments"])
+
     def test_compare_contracts_command_request_lives_with_corpus_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
