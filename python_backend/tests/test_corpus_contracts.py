@@ -1699,7 +1699,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:coverage-loop-command-compare",
                     "validationCommand": "node server/scripts/compareCoverageHarvestLoopCommand.js",
-                    "validationScope": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_js_adapter_commands_deferred_live_contract",
+                    "validationScope": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_js_adapter_live_bridge_commands_deferred_live_contract",
                 },
                 {
                     "script": "dictionary:tieba",
@@ -1904,7 +1904,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["nextOfflineMigrationAction"]["pythonCommand"], "python -m python_backend.cli.coverage_loop_command")
         self.assertEqual(result["nextOfflineMigrationAction"]["validationScript"], "python:coverage-loop-command-compare")
         self.assertEqual(result["nextOfflineMigrationAction"]["validationCommand"], "node server/scripts/compareCoverageHarvestLoopCommand.js")
-        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_js_adapter_commands_deferred_live_contract")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_js_adapter_live_bridge_commands_deferred_live_contract")
         self.assertFalse(result["nextOfflineMigrationAction"]["readyToReplace"])
         self.assertEqual(
             result["nextOfflineMigrationAction"]["replacementBlockers"],
@@ -1957,6 +1957,10 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertIn(
             {"gate": "js_opt_in_python_command_bridge", "status": "covered", "source": "runCoverageHarvestLoopScript.test.js"},
+            result["nextOfflineMigrationAction"]["validationGates"],
+        )
+        self.assertIn(
+            {"gate": "js_python_live_adapter_bridge_env_controls", "status": "covered", "source": "runCoverageHarvestLoopScript.test.js"},
             result["nextOfflineMigrationAction"]["validationGates"],
         )
         self.assertIn(
@@ -29634,6 +29638,9 @@ class CorpusContractTests(unittest.TestCase):
                     "5",
                     "--min-coverage-ratio",
                     "0.75",
+                    "--include-danmaku",
+                    "--reset-state",
+                    "--no-skip-seen",
                     "--allow-incomplete",
                     "--require-source-backed-evidence",
                     "--require-comment-backed-evidence",
@@ -29661,12 +29668,16 @@ class CorpusContractTests(unittest.TestCase):
             seen_request["options"],
             {
                 "rounds": 2,
+                "maxQueries": 5,
                 "targetEvidence": 4,
                 "maxActions": 5,
                 "minCoverageRatio": 0.75,
                 "requireComplete": False,
                 "requireSourceBackedEvidence": True,
                 "requireCommentBackedEvidence": True,
+                "includeDanmaku": True,
+                "resetState": True,
+                "skipSeen": False,
             },
         )
 
@@ -29679,7 +29690,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("npm run python:coverage-loop-command-compare", workflow)
         self.assertEqual(
             DEFAULT_PACKAGE_VALIDATION_SCOPES["python:coverage-loop-command-compare"],
-            "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_js_adapter_commands_deferred_live_contract",
+            "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_js_adapter_live_bridge_commands_deferred_live_contract",
         )
 
     def test_coverage_harvest_loop_runner_reads_json_contracts_and_expands_priority_queries(self):

@@ -550,12 +550,16 @@ class CoverageHarvestLoopCommandRunner:
         report_path: str | Path,
         max_cycles: int = 3,
         rounds_per_cycle: int = 1,
+        max_queries: int | None = None,
         target_evidence: int = 3,
         max_actions: int = 12,
         min_coverage_ratio: float = 1,
         require_complete: bool = True,
         require_source_backed_evidence: bool = False,
         require_comment_backed_evidence: bool = False,
+        include_danmaku: bool = False,
+        reset_state: bool = False,
+        skip_seen: bool = True,
         generated_at: str | None = None,
         harvest_command_json: str | None = None,
     ):
@@ -564,12 +568,16 @@ class CoverageHarvestLoopCommandRunner:
         self.report_path = Path(report_path)
         self.max_cycles = max(0, min(_non_negative_int(max_cycles, 3), 50))
         self.rounds_per_cycle = max(1, min(_positive_int(rounds_per_cycle, 1), 20))
+        self.max_queries = max(1, _positive_int(max_queries, _positive_int(max_actions, 12)))
         self.target_evidence = max(1, _positive_int(target_evidence, 3))
         self.max_actions = max(1, _positive_int(max_actions, 12))
         self.min_coverage_ratio = min(1, max(0, _float_or(min_coverage_ratio, 1)))
         self.require_complete = bool(require_complete)
         self.require_source_backed_evidence = bool(require_source_backed_evidence)
         self.require_comment_backed_evidence = bool(require_comment_backed_evidence)
+        self.include_danmaku = bool(include_danmaku)
+        self.reset_state = bool(reset_state)
+        self.skip_seen = bool(skip_seen)
         self.generated_at = generated_at or self._now()
         self.runtime_gate = CoverageHarvestLoopRuntimeGate()
         self.harvest_adapter = CoverageHarvestLoopExternalHarvestAdapter(harvest_command_json) if harvest_command_json else None
@@ -628,12 +636,16 @@ class CoverageHarvestLoopCommandRunner:
                     "audit": current_audit,
                     "options": {
                         "rounds": self.rounds_per_cycle,
+                        "maxQueries": self.max_queries,
                         "targetEvidence": self.target_evidence,
                         "maxActions": self.max_actions,
                         "minCoverageRatio": self.min_coverage_ratio,
                         "requireComplete": self.require_complete,
                         "requireSourceBackedEvidence": self.require_source_backed_evidence,
                         "requireCommentBackedEvidence": self.require_comment_backed_evidence,
+                        "includeDanmaku": self.include_danmaku,
+                        "resetState": self.reset_state and cycle == 1,
+                        "skipSeen": self.skip_seen,
                     },
                 }
             )
@@ -698,12 +710,16 @@ class CoverageHarvestLoopRequest:
         report_path: str | Path,
         max_cycles: int = 3,
         rounds_per_cycle: int = 1,
+        max_queries: int | None = None,
         target_evidence: int = 3,
         max_actions: int = 12,
         min_coverage_ratio: float = 1,
         require_complete: bool = True,
         require_source_backed_evidence: bool = False,
         require_comment_backed_evidence: bool = False,
+        include_danmaku: bool = False,
+        reset_state: bool = False,
+        skip_seen: bool = True,
         generated_at: str | None = None,
         harvest_command_json: str | None = None,
     ):
@@ -713,12 +729,16 @@ class CoverageHarvestLoopRequest:
             report_path=report_path,
             max_cycles=max_cycles,
             rounds_per_cycle=rounds_per_cycle,
+            max_queries=max_queries,
             target_evidence=target_evidence,
             max_actions=max_actions,
             min_coverage_ratio=min_coverage_ratio,
             require_complete=require_complete,
             require_source_backed_evidence=require_source_backed_evidence,
             require_comment_backed_evidence=require_comment_backed_evidence,
+            include_danmaku=include_danmaku,
+            reset_state=reset_state,
+            skip_seen=skip_seen,
             generated_at=generated_at,
             harvest_command_json=harvest_command_json,
         )
@@ -781,12 +801,16 @@ class CoverageHarvestLoopCommandRequest:
             report_path=args.report,
             max_cycles=args.max_cycles,
             rounds_per_cycle=args.rounds_per_cycle,
+            max_queries=args.max_queries,
             target_evidence=args.target_evidence,
             max_actions=args.max_actions,
             min_coverage_ratio=args.min_coverage_ratio,
             require_complete=not args.allow_incomplete,
             require_source_backed_evidence=args.require_source_backed_evidence,
             require_comment_backed_evidence=args.require_comment_backed_evidence,
+            include_danmaku=args.include_danmaku,
+            reset_state=args.reset_state,
+            skip_seen=not args.no_skip_seen,
             generated_at=args.generated_at or None,
             harvest_command_json=args.harvest_command_json or None,
         ).run()
@@ -803,12 +827,16 @@ class CoverageHarvestLoopCommandRequest:
         parser.add_argument("--report", default="server/data/keywordCoverageLoopReport.json")
         parser.add_argument("--max-cycles", type=int, default=3)
         parser.add_argument("--rounds-per-cycle", type=int, default=1)
+        parser.add_argument("--max-queries", type=int, default=None)
         parser.add_argument("--target-evidence", type=int, default=3)
         parser.add_argument("--max-actions", type=int, default=12)
         parser.add_argument("--min-coverage-ratio", type=float, default=1)
         parser.add_argument("--allow-incomplete", action="store_true")
         parser.add_argument("--require-source-backed-evidence", action="store_true")
         parser.add_argument("--require-comment-backed-evidence", action="store_true")
+        parser.add_argument("--include-danmaku", action="store_true")
+        parser.add_argument("--reset-state", action="store_true")
+        parser.add_argument("--no-skip-seen", action="store_true")
         parser.add_argument("--generated-at", default="")
         parser.add_argument("--mock-cycle-payload", default="", help="Build a one-cycle report from a JSON payload without live harvesting.")
         parser.add_argument("--mock-harvest-payload", default="", help="Build a file-backed harvest cycle report from a JSON payload without live network harvesting.")

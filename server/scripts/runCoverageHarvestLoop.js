@@ -263,6 +263,8 @@ async function runPythonCoverageLoopCommand(options = {}) {
     String(options.maxCycles),
     '--rounds-per-cycle',
     String(options.roundsPerCycle),
+    '--max-queries',
+    String(options.maxQueries),
     '--target-evidence',
     String(options.targetEvidence),
     '--max-actions',
@@ -273,6 +275,10 @@ async function runPythonCoverageLoopCommand(options = {}) {
   if (!options.requireComplete) args.push('--allow-incomplete');
   if (options.requireSourceBackedEvidence) args.push('--require-source-backed-evidence');
   if (options.requireCommentBackedEvidence) args.push('--require-comment-backed-evidence');
+  if (options.includeDanmaku) args.push('--include-danmaku');
+  if (options.resetState) args.push('--reset-state');
+  if (!options.skipSeen) args.push('--no-skip-seen');
+  if (options.harvestCommandJson) args.push('--harvest-command-json', options.harvestCommandJson);
   if (!options.strict) args.push('--exit-zero');
   const { stdout, stderr } = await execFileAsync('python', args, {
     cwd: process.cwd(),
@@ -413,12 +419,17 @@ if (process.env.BILIBILI_COVERAGE_LOOP_USE_PYTHON_COMMAND === '1') {
     reportPath,
     maxCycles,
     roundsPerCycle,
+    maxQueries,
     targetEvidence,
     maxActions,
     minCoverageRatio,
     requireComplete,
     requireSourceBackedEvidence,
     requireCommentBackedEvidence,
+    includeDanmaku,
+    resetState,
+    skipSeen,
+    harvestCommandJson: process.env.BILIBILI_COVERAGE_LOOP_HARVEST_COMMAND_JSON || '',
     strict,
   }));
   process.exit(0);
