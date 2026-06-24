@@ -1441,7 +1441,7 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(
             DEFAULT_PACKAGE_VALIDATION_SCOPES["python:deepseek-cli-plan-js"],
-            "dry_run_plan_argv_stdin_file_help_multiagent_fixtures_and_js_python_bridge",
+            "dry_run_plan_argv_stdin_file_payload_help_multiagent_fixtures_and_js_python_bridge",
         )
 
     def test_package_direct_probe_update_compare_script_runs_js_python_corpus_bridge(self):

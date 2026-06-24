@@ -56,6 +56,7 @@ test('compareDeepSeekAnalyzePlan exports named CLI route fixtures', async () => 
     'argv-text-multiagent',
     'stdin-pipe',
     'file-source',
+    'payload-source',
     'help-source',
   ]);
 
@@ -76,8 +77,10 @@ test('compareDeepSeekAnalyzePlan exports named CLI route fixtures', async () => 
       { fixture: 'argv-text-multiagent', stdinIsTTY: true },
       { fixture: 'stdin-pipe', stdinIsTTY: false },
       { fixture: 'file-source', stdinIsTTY: true },
+      { fixture: 'payload-source', stdinIsTTY: false },
       { fixture: 'help-source', stdinIsTTY: true },
     ],
   );
   assert.deepEqual(calls[0].argv, ['--plan-json', '--text=satire [doge]', '--uid', '42', '--multiagent', 'extra sentence']);
+  assert.deepEqual(calls[3].argv, ['--plan-json', '--payload', 'analysis-payload.json']);
 });

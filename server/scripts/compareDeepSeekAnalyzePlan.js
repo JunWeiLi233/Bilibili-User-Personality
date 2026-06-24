@@ -40,6 +40,15 @@ export const DEEPSEEK_ANALYZE_PLAN_FIXTURES = {
       input: { source: 'file', file: 'comments.txt', readsStdin: false, showHelp: false },
     },
   },
+  'payload-source': {
+    argv: ['--plan-json', '--payload', 'analysis-payload.json'],
+    stdinIsTTY: false,
+    expected: {
+      ok: true,
+      payload: {},
+      input: { source: 'payload', file: '', payloadPath: 'analysis-payload.json', readsStdin: false, showHelp: false },
+    },
+  },
   'help-source': {
     argv: ['--plan-json', '--help'],
     stdinIsTTY: true,
