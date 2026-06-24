@@ -897,6 +897,10 @@ class CorpusContractTests(unittest.TestCase):
             },
             result["packageScripts"]["pythonOwnedDataScripts"],
         )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:corpus-write-compare"],
+            "split_comments_runs_empty_invalid_options_fixtures_and_js_python_bridge",
+        )
 
     def test_compare_contracts_cli_accepts_argv_contract_paths(self):
         with tempfile.TemporaryDirectory() as tmp:
