@@ -4730,6 +4730,23 @@ class CorpusContractTests(unittest.TestCase):
             self.assertEqual(json.loads(output_path.read_text(encoding="utf-8")), report)
             self.assertEqual(output_path.read_bytes(), RandomVerificationJsonResultContract(report).to_bytes())
 
+    def test_random_output_module_owns_json_result_and_writer_contracts(self):
+        from python_backend.analysis.random_output import (
+            RandomVerificationJsonResultContract,
+            RandomVerificationOutputWriter,
+            json_result_bytes,
+        )
+
+        with tempfile.TemporaryDirectory() as tmp:
+            output_path = Path(tmp) / "nested" / "random-output.json"
+            report = {"ok": True, "samples": [{"message": "emoji \U0001f602"}]}
+
+            result = RandomVerificationOutputWriter(output_path).write(report)
+
+            self.assertEqual(result, report)
+            self.assertEqual(output_path.read_bytes(), json_result_bytes(report))
+            self.assertEqual(json_result_bytes(report), RandomVerificationJsonResultContract(report).to_bytes())
+
     def test_random_verification_cli_main_writes_output_contract(self):
         class BinaryStdout:
             def __init__(self):

@@ -14,6 +14,11 @@ from python_backend.analysis.random_compare import (
     RandomVerificationContractComparator,
 )
 from python_backend.analysis.random_corpus import RandomVerificationCorpus
+from python_backend.analysis.random_output import (
+    RandomVerificationJsonResultContract,
+    RandomVerificationOutputWriter,
+    json_result_bytes,
+)
 from python_backend.analysis.random_readiness import (
     CoverageAuditReadinessContract,
     RandomVerificationReadinessComponentsContract,
@@ -34,20 +39,12 @@ from python_backend.analysis.random_sampling import (
 )
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
-from python_backend.runtime.json_contracts import JsonContractReader, JsonResultBytesContract, safe_read_json_object
+from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 from python_backend.runtime.readiness import (
     ReadinessBlockerDetailsContract,
     ReadinessComponentCollectionContract,
     ReadinessGateContract,
 )
-
-
-class RandomVerificationJsonResultContract(JsonResultBytesContract):
-    """Serialize random-verification JSON output exactly as the CLI expects."""
-
-
-def json_result_bytes(result: dict[str, Any]) -> bytes:
-    return RandomVerificationJsonResultContract(result).to_bytes()
 
 
 @dataclass(frozen=True)
@@ -76,18 +73,6 @@ class RandomVerificationRequest:
         if self.output_path is not None and str(self.output_path).strip():
             return RandomVerificationOutputWriter(self.output_path).write(result)
         return result
-
-
-class RandomVerificationOutputWriter:
-    """Persist random-verification JSON output using the shared CLI result contract."""
-
-    def __init__(self, output_path: str | Path):
-        self.output_path = Path(output_path)
-
-    def write(self, report: dict[str, Any]) -> dict[str, Any]:
-        self.output_path.parent.mkdir(parents=True, exist_ok=True)
-        self.output_path.write_bytes(RandomVerificationJsonResultContract(report).to_bytes())
-        return report
 
 
 @dataclass(frozen=True)
