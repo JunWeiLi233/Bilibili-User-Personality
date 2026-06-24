@@ -853,6 +853,54 @@ test('compareCoverageHarvestLoopCommand validates complete and weak no-live fixt
   assert.deepEqual(result.results[9].pythonReportFile, result.results[9].python);
 });
 
+test('compareCoverageHarvestLoopCommand delegates persisted report comparison to Python contract', async () => {
+  const calls = [];
+  const result = await compareCoverageHarvestLoopCommand({
+    fixtures: [{ name: 'delegated-compare', dictionary: { version: 1, entries: [] } }],
+    runJs: async () => ({
+      maxCycles: 0,
+      roundsPerCycle: 1,
+      stopReason: 'coverage_gate_passed',
+      finalOk: true,
+      cycles: [],
+      finalAudit: { coverage: { terms: 0, weakTerms: 0, zeroEvidenceTerms: 0 }, recommendedQueries: [] },
+    }),
+    runPython: async () => ({
+      maxCycles: 0,
+      roundsPerCycle: 1,
+      stopReason: 'coverage_gate_passed',
+      finalOk: true,
+      cycles: [],
+      finalAudit: { coverage: { terms: 0, weakTerms: 0, zeroEvidenceTerms: 0 }, recommendedQueries: [] },
+    }),
+    runCompare: async (context) => {
+      calls.push({
+        fixture: context.fixtureName,
+        pythonStopReason: context.pythonReport.stopReason,
+        jsStopReason: context.jsReport.stopReason,
+        hasPythonReportPath: context.pythonReportPath.endsWith('report-python.json'),
+        hasJsReportPath: context.jsReportPath.endsWith('report-js.json'),
+      });
+      return {
+        ok: false,
+        mismatches: [{ key: 'delegated', python: 'python-contract', js: 'js-bridge' }],
+      };
+    },
+  });
+
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.mismatches, [{ fixture: 'delegated-compare', key: 'delegated', python: 'python-contract', js: 'js-bridge' }]);
+  assert.deepEqual(calls, [
+    {
+      fixture: 'delegated-compare',
+      pythonStopReason: 'coverage_gate_passed',
+      jsStopReason: 'coverage_gate_passed',
+      hasPythonReportPath: true,
+      hasJsReportPath: true,
+    },
+  ]);
+});
+
 test('runCoverageHarvestLoopJsAdapter maps Python loop request to JS harvest contract', async () => {
   const calls = [];
   const result = await runCoverageLoopJsHarvestAdapter(

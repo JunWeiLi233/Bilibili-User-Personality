@@ -396,6 +396,19 @@ async function runPythonCoverageLoopCommand({ dictionaryPath, statePath, reportP
   return JSON.parse(stdout);
 }
 
+async function runPythonCoverageLoopCommandComparison({ pythonReportPath, jsReportPath }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    ['-m', 'python_backend.cli.coverage_loop_command_compare', '--python-report', pythonReportPath, '--js-report', jsReportPath],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return JSON.parse(stdout);
+}
+
 function buildJsMockCycleReport(payload = {}) {
   if (Array.isArray(payload.cycles)) {
     const cycles = payload.cycles.map((cyclePayload, index) => buildJsMockCycle(cyclePayload, index + 1));
@@ -648,6 +661,7 @@ export async function compareCoverageHarvestLoopCommand({
   fixtures = null,
   runJs = runJsCoverageLoopCommand,
   runPython = runPythonCoverageLoopCommand,
+  runCompare = runPythonCoverageLoopCommandComparison,
 } = {}) {
   const tempDir = await mkdtemp(join(tmpdir(), 'coverage-loop-command-compare-'));
   try {
@@ -662,12 +676,25 @@ export async function compareCoverageHarvestLoopCommand({
       const pythonStatePath = join(tempDir, `${fixtureName}-state-python.json`);
       const jsReportPath = join(tempDir, `${fixtureName}-report-js.json`);
       const pythonReportPath = join(tempDir, `${fixtureName}-report-python.json`);
+      const compareReports = async ({ js, python }) => {
+        await writeFile(jsReportPath, JSON.stringify(js || {}, null, 2), 'utf8');
+        await writeFile(pythonReportPath, JSON.stringify(python || {}, null, 2), 'utf8');
+        return runCompare({
+          fixtureName,
+          js,
+          python,
+          jsReport: js,
+          pythonReport: python,
+          jsReportPath,
+          pythonReportPath,
+        });
+      };
       if (fixture?.mockCyclePayload) {
         const payloadPath = join(tempDir, `${fixtureName}-payload.json`);
         const js = buildJsMockCycleReport(fixture.mockCyclePayload);
         const pythonRun = await runPythonMockCycleReport({ payload: fixture.mockCyclePayload, payloadPath });
         const python = pythonRun.stdoutReport;
-        const comparison = compareCoverageHarvestLoopCommandObjects(python, js);
+        const comparison = await compareReports({ js, python });
         results.push({
           ok: comparison.ok,
           fixture: fixtureName,
@@ -696,7 +723,7 @@ export async function compareCoverageHarvestLoopCommand({
           payloadPath,
         });
         const python = pythonRun.stdoutReport;
-        const comparison = compareCoverageHarvestLoopCommandObjects(python, js);
+        const comparison = await compareReports({ js, python });
         results.push({
           ok: comparison.ok,
           fixture: fixtureName,
@@ -734,7 +761,7 @@ export async function compareCoverageHarvestLoopCommand({
           pruneIncludePartial: fixture.pruneIncludePartial === true,
         });
         const python = pythonRun.stdoutReport;
-        const comparison = compareCoverageHarvestLoopCommandObjects(python, js);
+        const comparison = await compareReports({ js, python });
         results.push({
           ok: comparison.ok,
           fixture: fixtureName,
@@ -760,7 +787,7 @@ export async function compareCoverageHarvestLoopCommand({
           mockResultPath,
         });
         const python = pythonRun.stdoutReport;
-        const comparison = compareCoverageHarvestLoopCommandObjects(python, js);
+        const comparison = await compareReports({ js, python });
         results.push({
           ok: comparison.ok,
           fixture: fixtureName,
@@ -789,7 +816,7 @@ export async function compareCoverageHarvestLoopCommand({
       }
       const js = await runJs({ dictionaryPath: jsDictionaryPath, statePath: jsStatePath, reportPath: jsReportPath });
       const python = await runPython({ dictionaryPath: pythonDictionaryPath, statePath: pythonStatePath, reportPath: pythonReportPath });
-      const comparison = compareCoverageHarvestLoopCommandObjects(python, js);
+      const comparison = await compareReports({ js, python });
       results.push({
         ok: comparison.ok,
         fixture: fixtureName,

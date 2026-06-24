@@ -31167,6 +31167,78 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["finalAudit"]["coverage"]["terms"], 1)
         self.assertEqual(result["finalAudit"]["coverage"]["weakTerms"], 1)
 
+    def test_coverage_harvest_loop_compare_command_request_compares_persisted_reports(self):
+        from python_backend.analysis import coverage_loop as coverage_loop_module
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            python_report_path = root / "python-coverage-loop.json"
+            js_report_path = root / "js-coverage-loop.json"
+            python_report_path.write_text(
+                json.dumps(
+                    {
+                        "maxCycles": 2,
+                        "roundsPerCycle": 1,
+                        "stopReason": "coverage_gate_passed",
+                        "finalOk": True,
+                        "cycles": [{"cycle": 1}, {"cycle": 2}],
+                        "finalAudit": {
+                            "coverage": {
+                                "terms": 4,
+                                "weakTerms": 0,
+                                "zeroEvidenceTerms": 0,
+                            },
+                            "recommendedQueries": ["doge source"],
+                        },
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps(
+                    {
+                        "maxCycles": 2,
+                        "roundsPerCycle": 1,
+                        "stopReason": "cycle_limit",
+                        "finalOk": False,
+                        "cycles": [{"cycle": 1}],
+                        "finalAudit": {
+                            "coverage": {
+                                "terms": 4,
+                                "weakTerms": 1,
+                                "zeroEvidenceTerms": 1,
+                            },
+                            "recommendedQueries": ["doge retry"],
+                        },
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+
+            result = coverage_loop_module.CoverageHarvestLoopCommandCompareCommandRequest(
+                [
+                    "--python-report",
+                    python_report_path,
+                    "--js-report",
+                    js_report_path,
+                ]
+            ).run()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "stopReason", "python": "coverage_gate_passed", "js": "cycle_limit"},
+                {"key": "finalOk", "python": True, "js": False},
+                {"key": "cyclesLength", "python": 2, "js": 1},
+                {"key": "weakTerms", "python": 0, "js": 1},
+                {"key": "zeroEvidenceTerms", "python": 0, "js": 1},
+                {"key": "recommendedQueries", "python": ["doge source"], "js": ["doge retry"]},
+            ],
+        )
+
     def test_coverage_harvest_loop_cycle_report_builder_matches_js_cycle_shape(self):
         from python_backend.analysis import coverage_loop as coverage_loop_module
 
