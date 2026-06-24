@@ -7828,6 +7828,30 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_deepseek_analyze_runtime_config_ignores_blank_env_overrides(self):
+        request = DeepSeekAnalyzerClient().build_request_from_payload(
+            {"model": "payload-model", "effort": "High"}
+        )
+
+        config = DeepSeekAnalyzeRuntimeConfig(
+            env={
+                "DEEPSEEK_BASE_URL": "   ",
+                "DEEPSEEK_API_KEY": "   ",
+                "DEEPSEEK_MODEL": "   ",
+                "DEEPSEEK_REASONING_EFFORT": "   ",
+            }
+        ).build(request)
+
+        self.assertEqual(
+            config,
+            {
+                "baseUrl": "https://api.deepseek.com",
+                "apiKey": "",
+                "model": "payload-model",
+                "reasoningEffort": "high",
+            },
+        )
+
     def test_deepseek_analyze_http_transport_owns_live_chat_request(self):
         calls = []
 

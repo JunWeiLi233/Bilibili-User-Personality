@@ -178,12 +178,24 @@ class DeepSeekAnalyzeRuntimeConfig:
         self.env = dict(os.environ) if env is None else dict(env)
 
     def build(self, request: Any) -> dict[str, str]:
+        base_url = self._text(self.env.get("DEEPSEEK_BASE_URL")) or "https://api.deepseek.com"
+        api_key = self._text(self.env.get("DEEPSEEK_API_KEY"))
+        model = self._text(self.env.get("DEEPSEEK_MODEL")) or self._text(getattr(request, "model", "")) or "deepseek-v4-flash"
+        effort = (
+            self._text(self.env.get("DEEPSEEK_REASONING_EFFORT"))
+            or self._text(getattr(request, "effort", ""))
+            or "max"
+        ).lower()
         return {
-            "baseUrl": str(self.env.get("DEEPSEEK_BASE_URL") or "https://api.deepseek.com").rstrip("/"),
-            "apiKey": str(self.env.get("DEEPSEEK_API_KEY") or ""),
-            "model": str(self.env.get("DEEPSEEK_MODEL") or request.model or "deepseek-v4-flash"),
-            "reasoningEffort": str(self.env.get("DEEPSEEK_REASONING_EFFORT") or request.effort or "max").strip().lower() or "max",
+            "baseUrl": base_url.rstrip("/"),
+            "apiKey": api_key,
+            "model": model,
+            "reasoningEffort": effort,
         }
+
+    @staticmethod
+    def _text(value: Any) -> str:
+        return str(value or "").strip()
 
 
 class DeepSeekAnalyzeChatResponseParser:
