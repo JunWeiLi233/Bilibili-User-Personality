@@ -1109,6 +1109,59 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["randomVerification"]["mismatches"], [])
         self.assertEqual(result["randomVerification"]["python"]["keywordHits"], 1)
 
+    def test_compare_contracts_random_verification_includes_tieba_corpus(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            audit_path = root / "audit.json"
+            dictionary_path = root / "dictionary.json"
+            tieba_path = root / "tiebaKeywordCorpus.json"
+            random_report_path = root / "js-random-verification.json"
+            corpus_path.write_text(
+                json.dumps({"comments": [{"message": "doge satire"}], "runs": [], "commentCount": 1, "runCount": 0}),
+                encoding="utf-8",
+            )
+            tieba_path.write_text(
+                json.dumps({"comments": [{"message": "tieba slang"}], "runs": [{"source": "tieba"}], "commentCount": 1, "runCount": 1}),
+                encoding="utf-8",
+            )
+            audit_path.write_text(
+                json.dumps({"coverage": {"terms": 2, "weakTerms": 0, "coverageRatio": 1.0, "targetEvidence": 3}}),
+                encoding="utf-8",
+            )
+            dictionary_path.write_text(
+                json.dumps({"version": 1, "entries": [{"term": "doge"}, {"term": "tieba"}]}),
+                encoding="utf-8",
+            )
+            random_report_path.write_text(
+                json.dumps({"sampleSize": 2, "seed": 1, "sampled": 2, "keywordHits": 2, "neutral": 0, "uncovered": 0}),
+                encoding="utf-8",
+            )
+
+            result = compare_contracts_cli.CompareContractsRunner(
+                [
+                    "--corpus",
+                    str(corpus_path),
+                    "--audit",
+                    str(audit_path),
+                    "--dictionary",
+                    str(dictionary_path),
+                    "--tieba-corpus",
+                    str(tieba_path),
+                    "--random-report",
+                    str(random_report_path),
+                    "--random-sample-size",
+                    "2",
+                    "--random-seed",
+                    "1",
+                ]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["randomVerification"]["mismatches"], [])
+        self.assertEqual(result["randomVerification"]["python"]["keywordHits"], 2)
+        self.assertEqual(result["randomVerification"]["python"]["sampled"], 2)
+
     def test_package_verify_random_script_includes_tieba_corpus(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
         command = package["scripts"]["python:verify-random"]

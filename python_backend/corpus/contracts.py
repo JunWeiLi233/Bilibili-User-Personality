@@ -116,12 +116,14 @@ class ContractComparator:
             if tieba_manifest_run_count not in (None, len(tieba_corpus.runs)):
                 mismatches.append({"key": "tiebaManifestRunCount", "python": len(tieba_corpus.runs), "js": tieba_manifest_run_count})
         if self.random_report_path and self.dictionary_path:
+            random_extra_corpus_paths = [self.tieba_corpus_path] if self.tieba_corpus_path else []
             random_comparison = RandomVerificationPayloadContractComparator(
                 self.corpus_path,
                 self.dictionary_path,
                 self.random_report_path,
                 sample_size=self.random_sample_size,
                 seed=self.random_seed,
+                extra_corpus_paths=random_extra_corpus_paths,
             ).compare()
             result["randomVerification"] = random_comparison
             if not random_comparison.get("ok"):
