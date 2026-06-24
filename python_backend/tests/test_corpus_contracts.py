@@ -3764,6 +3764,31 @@ class CorpusContractTests(unittest.TestCase):
             {"firstGate": "first reason", "secondGate": "second reason"},
         )
 
+    def test_runtime_readiness_contracts_export_shared_gate_helpers(self):
+        from python_backend.runtime.readiness import (
+            ReadinessBlockerDetailsContract,
+            ReadinessComponentCollectionContract,
+            ReadinessGateContract,
+        )
+
+        gate_contract = ReadinessGateContract(
+            gates=[{"gate": "blocked", "ok": False}],
+            reasons={"blocked": "blocked reason"},
+        ).to_json_contract()
+
+        self.assertEqual(gate_contract["blockers"], ["blocked"])
+        self.assertEqual(
+            gate_contract["blockerDetails"],
+            [{"gate": "blocked", "reason": "blocked reason"}],
+        )
+        self.assertEqual(
+            ReadinessBlockerDetailsContract({"blocked": "blocked reason"}).from_gates(
+                [{"gate": "blocked", "ok": False}]
+            ),
+            [{"gate": "blocked", "reason": "blocked reason"}],
+        )
+        self.assertEqual(ReadinessComponentCollectionContract([]).gates(), [])
+
     def test_random_verification_readiness_components_contract_builds_ordered_components(self):
         collection = verification_module.RandomVerificationReadinessComponentsContract(
             coverage_summary={"ok": True, "coverage": {"complete": True}},
