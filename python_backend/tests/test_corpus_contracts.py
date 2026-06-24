@@ -2559,6 +2559,21 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("coverage_loop_live_runtime_not_verified", readiness["manualVerificationBlockers"])
         self.assertEqual(readiness["manualVerificationBlockerCounts"]["credentialed_live_api_command_not_verified"], 2)
         self.assertEqual(readiness["manualVerificationBlockerCounts"]["coverage_loop_live_runtime_not_verified"], 1)
+        self.assertIn(
+            "npm run python:deepseek-live-preflight",
+            readiness["manualVerificationBlockerCommandMap"]["credentialed_live_api_command_not_verified"]["preflightCommands"],
+        )
+        self.assertIn(
+            "npm run python:deepseek-live-gate",
+            readiness["manualVerificationBlockerCommandMap"]["credentialed_live_api_command_not_verified"]["liveVerificationCommands"],
+        )
+        self.assertEqual(
+            readiness["manualVerificationBlockerCommandMap"]["coverage_loop_live_runtime_not_verified"],
+            {
+                "preflightCommands": ["npm run python:coverage-loop-command-preflight"],
+                "liveVerificationCommands": ["npm run dictionary:auto"],
+            },
+        )
 
     def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))

@@ -655,6 +655,7 @@ class BackendMigrationInventoryScanner:
             }
         )
         manual_blocker_counts: dict[str, int] = {}
+        manual_blocker_commands: dict[str, dict[str, set[str]]] = {}
         for action in manual_verification_actions:
             if not isinstance(action, dict):
                 continue
@@ -662,6 +663,13 @@ class BackendMigrationInventoryScanner:
             if not blocker:
                 continue
             manual_blocker_counts[blocker] = manual_blocker_counts.get(blocker, 0) + 1
+            commands = manual_blocker_commands.setdefault(blocker, {"preflightCommands": set(), "liveVerificationCommands": set()})
+            preflight_command = str(action.get("preflightCommand") or "").strip()
+            live_verification_command = str(action.get("liveVerificationCommand") or "").strip()
+            if preflight_command:
+                commands["preflightCommands"].add(preflight_command)
+            if live_verification_command:
+                commands["liveVerificationCommands"].add(live_verification_command)
         return {
             "manualVerificationActionCount": len(manual_verification_actions),
             "replacementBlockedActionCount": len(replacement_blocked),
@@ -670,6 +678,13 @@ class BackendMigrationInventoryScanner:
             "manualVerificationCommandCount": len(manual_commands),
             "manualVerificationBlockers": manual_blockers,
             "manualVerificationBlockerCounts": dict(sorted(manual_blocker_counts.items())),
+            "manualVerificationBlockerCommandMap": {
+                blocker: {
+                    "preflightCommands": sorted(commands["preflightCommands"]),
+                    "liveVerificationCommands": sorted(commands["liveVerificationCommands"]),
+                }
+                for blocker, commands in sorted(manual_blocker_commands.items())
+            },
         }
 
     @staticmethod
