@@ -26526,6 +26526,7 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:batch-bilibili-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareBatchBilibiliPlan.test.js"},
+                {"gate": "js_python_cli_flag_bridge", "status": "covered", "source": "compareBatchBilibiliPlan.test.js"},
             ],
         )
 
@@ -26814,6 +26815,7 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:batch-popular-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareBatchPopularPlan.test.js"},
+                {"gate": "js_python_cli_flag_bridge", "status": "covered", "source": "compareBatchPopularPlan.test.js"},
             ],
         )
 

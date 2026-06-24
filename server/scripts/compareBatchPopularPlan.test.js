@@ -143,3 +143,45 @@ test('batchScrapePopular can delegate dry-run planning to Python', () => {
     rmSync(tempDir, { recursive: true, force: true });
   }
 });
+
+test('batchScrapePopular accepts explicit python plan flag for dry-run planning', () => {
+  const tempDir = mkdtempSync(join(tmpdir(), 'batch-popular-python-plan-flag-'));
+  try {
+    const payloadPath = join(tempDir, 'payload.json');
+    const fakeModuleDir = join(tempDir, 'python_backend', 'cli');
+    writeFileSync(
+      payloadPath,
+      JSON.stringify({ argv: ['--pages=3'], progress: {}, database: { users: {} } }, null, 2),
+      'utf8',
+    );
+    mkdirSync(fakeModuleDir, { recursive: true });
+    writeFileSync(join(tempDir, 'python_backend', '__init__.py'), '', 'utf8');
+    writeFileSync(join(fakeModuleDir, '__init__.py'), '', 'utf8');
+    writeFileSync(
+      join(fakeModuleDir, 'batch_popular_plan.py'),
+      'print(\'{"ok":true,"fromExplicitPythonBatchPopularPlan":true,"range":{"startPage":77,"maxPages":77,"remainingPages":1}}\')\n',
+      'utf8',
+    );
+
+    const result = spawnSync(
+      'node',
+      [resolve('server/scripts/batchScrapePopular.js'), '--plan-json', '--python-plan', '--payload', payloadPath],
+      {
+        cwd: tempDir,
+        encoding: 'utf8',
+        env: {
+          ...process.env,
+          PYTHONUTF8: '1',
+          PYTHONIOENCODING: 'utf-8',
+        },
+      },
+    );
+
+    assert.equal(result.status, 0, result.stderr);
+    const payload = JSON.parse(result.stdout);
+    assert.equal(payload.fromExplicitPythonBatchPopularPlan, true);
+    assert.equal(payload.range.startPage, 77);
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
+  }
+});

@@ -83,8 +83,8 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:aicu-compare": "dry_run_plan_inline_missing_file_page_override_fixtures_and_js_python_bridge",
     "python:aicu-batch-compare": "dry_run_plan_resume_empty_range_malformed_payload_fixtures_js_python_bridge_and_cli_flag_bridge",
     "python:aicu-browser-compare": "dry_run_default_fresh_completed_range_fixtures_js_python_plan_bridge_and_cli_flag_bridge",
-    "python:batch-bilibili-compare": "dry_run_plan_resume_empty_parseint_prefix_fixtures_and_js_python_bridge",
-    "python:batch-popular-compare": "dry_run_plan_resume_empty_parseint_prefix_fixtures_and_js_python_bridge",
+    "python:batch-bilibili-compare": "dry_run_plan_resume_empty_parseint_prefix_fixtures_js_python_bridge_and_cli_flag_bridge",
+    "python:batch-popular-compare": "dry_run_plan_resume_empty_parseint_prefix_fixtures_js_python_bridge_and_cli_flag_bridge",
     "python:batch-scraper-launcher-compare": "dry_run_plan_default_custom_data_dir_fixtures_and_js_python_bridge",
     "python:batch-uid-scrape-compare": "dry_run_plan_populated_empty_malformed_stats_fixtures_and_js_python_bridge",
     "python:batch-uid-range-compare": "dry_run_plan_phase2_default_decimal_malformed_stats_fixtures_and_js_python_bridge",
@@ -845,11 +845,13 @@ class BackendMigrationInventoryScanner:
             return [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:batch-bilibili-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareBatchBilibiliPlan.test.js"},
+                {"gate": "js_python_cli_flag_bridge", "status": "covered", "source": "compareBatchBilibiliPlan.test.js"},
             ]
         if validation_script == "python:batch-popular-compare":
             return [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:batch-popular-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareBatchPopularPlan.test.js"},
+                {"gate": "js_python_cli_flag_bridge", "status": "covered", "source": "compareBatchPopularPlan.test.js"},
             ]
         if validation_script == "python:batch-scraper-launcher-compare":
             return [
