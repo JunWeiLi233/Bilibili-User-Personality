@@ -1856,7 +1856,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:coverage-loop-command-compare",
                     "validationCommand": "node server/scripts/compareCoverageHarvestLoopCommand.js",
-                    "validationScope": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_discovery_options_advanced_harvest_controls_standalone_discovery_cli_controls_advanced_cli_bridge_controls_source_gap_retry_controls_js_adapter_live_bridge_cli_flag_bridge_no_progress_no_queries_crash_report_external_prune_commands_request_builder_external_dictionary_persistence_external_state_persistence_deferred_live_contract",
+                    "validationScope": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_discovery_options_advanced_harvest_controls_standalone_discovery_cli_controls_advanced_cli_bridge_controls_source_gap_retry_controls_js_adapter_live_bridge_cli_flag_bridge_no_progress_no_queries_crash_report_external_prune_commands_request_builder_external_dictionary_persistence_external_state_persistence_external_preflight_contract_deferred_live_contract",
                 },
                 {
                     "script": "dictionary:tieba",
@@ -2066,7 +2066,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["nextOfflineMigrationAction"]["pythonCommand"], "python -m python_backend.cli.coverage_loop_command")
         self.assertEqual(result["nextOfflineMigrationAction"]["validationScript"], "python:coverage-loop-command-compare")
         self.assertEqual(result["nextOfflineMigrationAction"]["validationCommand"], "node server/scripts/compareCoverageHarvestLoopCommand.js")
-        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_discovery_options_advanced_harvest_controls_standalone_discovery_cli_controls_advanced_cli_bridge_controls_source_gap_retry_controls_js_adapter_live_bridge_cli_flag_bridge_no_progress_no_queries_crash_report_external_prune_commands_request_builder_external_dictionary_persistence_external_state_persistence_deferred_live_contract")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_discovery_options_advanced_harvest_controls_standalone_discovery_cli_controls_advanced_cli_bridge_controls_source_gap_retry_controls_js_adapter_live_bridge_cli_flag_bridge_no_progress_no_queries_crash_report_external_prune_commands_request_builder_external_dictionary_persistence_external_state_persistence_external_preflight_contract_deferred_live_contract")
         self.assertFalse(result["nextOfflineMigrationAction"]["readyToReplace"])
         self.assertEqual(
             result["nextOfflineMigrationAction"]["replacementBlockers"],
@@ -2183,6 +2183,10 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertIn(
             {"gate": "external_harvest_state_persistence", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
+            result["nextOfflineMigrationAction"]["validationGates"],
+        )
+        self.assertIn(
+            {"gate": "external_harvest_preflight_contract", "status": "covered", "source": "python:coverage-loop-command-compare"},
             result["nextOfflineMigrationAction"]["validationGates"],
         )
         self.assertIn(
@@ -32927,6 +32931,51 @@ class CorpusContractTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "harvest command executable must be non-empty"):
             coverage_loop_module.CoverageHarvestLoopExternalHarvestAdapter(["  ", "-m", "adapter"])
 
+    def test_coverage_harvest_loop_command_preflights_external_harvest_adapter_without_running_it(self):
+        from python_backend.analysis import coverage_loop as coverage_loop_module
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+            dictionary_path = temp_path / "dictionary.json"
+            state_path = temp_path / "state.json"
+            report_path = temp_path / "report.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "entries": [
+                            {"term": "doge", "family": "meme", "evidenceCount": 0, "evidenceSamples": [], "evidenceSources": []}
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = coverage_loop_module.CoverageHarvestLoopCommandRequest(
+                [
+                    "--dictionary",
+                    dictionary_path,
+                    "--state",
+                    state_path,
+                    "--report",
+                    report_path,
+                    "--harvest-command-json",
+                    json.dumps([sys.executable, "-m", "server.scripts.harvest", "{payload}", "--include-danmaku"]),
+                    "--harvest-command-preflight",
+                    "--exit-zero",
+                ]
+            ).run()
+
+        self.assertEqual(result["runtimeMode"], "external_harvest_preflight")
+        self.assertTrue(result["ok"])
+        self.assertFalse(result["willExecute"])
+        self.assertEqual(result["commandTemplate"], [sys.executable, "-m", "server.scripts.harvest", "{payload}", "--include-danmaku"])
+        self.assertEqual(result["commandPreview"], [sys.executable, "-m", "server.scripts.harvest", "<payload>", "--include-danmaku"])
+        self.assertEqual(result["payloadPlaceholder"], "{payload}")
+        self.assertEqual(result["environment"]["PYTHONUTF8"], "1")
+        self.assertEqual(result["environment"]["PYTHONIOENCODING"], "utf-8")
+        self.assertFalse(report_path.exists())
+
     def test_coverage_harvest_loop_external_request_builder_preserves_js_adapter_contract(self):
         from python_backend.analysis import coverage_loop as coverage_loop_module
 
@@ -33159,7 +33208,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("npm run python:coverage-loop-command-compare", workflow)
         self.assertEqual(
             DEFAULT_PACKAGE_VALIDATION_SCOPES["python:coverage-loop-command-compare"],
-            "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_discovery_options_advanced_harvest_controls_standalone_discovery_cli_controls_advanced_cli_bridge_controls_source_gap_retry_controls_js_adapter_live_bridge_cli_flag_bridge_no_progress_no_queries_crash_report_external_prune_commands_request_builder_external_dictionary_persistence_external_state_persistence_deferred_live_contract",
+            "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_discovery_options_advanced_harvest_controls_standalone_discovery_cli_controls_advanced_cli_bridge_controls_source_gap_retry_controls_js_adapter_live_bridge_cli_flag_bridge_no_progress_no_queries_crash_report_external_prune_commands_request_builder_external_dictionary_persistence_external_state_persistence_external_preflight_contract_deferred_live_contract",
         )
 
     def test_coverage_harvest_loop_runner_reads_json_contracts_and_expands_priority_queries(self):

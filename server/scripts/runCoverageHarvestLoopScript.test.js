@@ -820,12 +820,13 @@ test('compareCoverageHarvestLoopCommand validates complete and weak no-live fixt
     'external-harvest-command',
     'external-prune-command',
     'js-harvest-adapter-command',
+    'external-harvest-preflight-contract',
   ]);
 
   const result = await compareCoverageHarvestLoopCommand();
 
   assert.equal(result.ok, true);
-  assert.equal(result.results.length, 10);
+  assert.equal(result.results.length, 11);
   assert.deepEqual(result.results.map((item) => item.fixture), [
     'complete-empty-dictionary',
     'weak-cycle-limit',
@@ -837,6 +838,7 @@ test('compareCoverageHarvestLoopCommand validates complete and weak no-live fixt
     'external-harvest-command',
     'external-prune-command',
     'js-harvest-adapter-command',
+    'external-harvest-preflight-contract',
   ]);
   assert.deepEqual(result.results.map((item) => item.python.stopReason), [
     'coverage_gate_passed',
@@ -849,8 +851,9 @@ test('compareCoverageHarvestLoopCommand validates complete and weak no-live fixt
     'coverage_gate_passed',
     'coverage_gate_passed',
     'coverage_gate_passed',
+    undefined,
   ]);
-  assert.deepEqual(result.results.map((item) => item.python.finalAudit.coverage.weakTerms), [0, 1, 1, 0, 1, 0, 0, 0, 0, 0]);
+  assert.deepEqual(result.results.map((item) => item.python.finalAudit?.coverage?.weakTerms), [0, 1, 1, 0, 1, 0, 0, 0, 0, 0, undefined]);
   assert.equal(result.results[2].python.runtimeMode, 'deferred_live_harvest');
   assert.deepEqual(result.results[2].python.replacementBlockers.map((item) => item.blocker), ['live_harvest_runtime_not_integrated']);
   assert.deepEqual(result.results[3].python.cycles[0].coverageDelta, result.results[3].js.cycles[0].coverageDelta);
@@ -889,6 +892,10 @@ test('compareCoverageHarvestLoopCommand validates complete and weak no-live fixt
   assert.deepEqual(result.results[9].python.cycles[0].coverageDelta, result.results[9].js.cycles[0].coverageDelta);
   assert.deepEqual(result.results[9].python.cycles[0].harvest, result.results[9].js.cycles[0].harvest);
   assert.deepEqual(result.results[9].pythonReportFile, result.results[9].python);
+  assert.equal(result.results[10].python.runtimeMode, 'external_harvest_preflight');
+  assert.equal(result.results[10].python.willExecute, false);
+  assert.ok(result.results[10].python.commandPreview.includes('<payload>'));
+  assert.ok(result.results[10].python.commandPreview.includes('--mock-result'));
 });
 
 test('compareCoverageHarvestLoopCommand delegates persisted report comparison to Python contract', async () => {

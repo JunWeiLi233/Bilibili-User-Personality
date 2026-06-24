@@ -332,6 +332,7 @@ export const COVERAGE_LOOP_COMMAND_FIXTURES = [
     pruneExhaustedAfter: 2,
   },
   { name: 'js-harvest-adapter-command', dictionary: FILE_BACKED_MOCK_HARVEST_DICTIONARY, jsHarvestAdapterPayload: FILE_BACKED_MOCK_HARVEST_PAYLOAD },
+  { name: 'external-harvest-preflight-contract', dictionary: FILE_BACKED_MOCK_HARVEST_DICTIONARY, harvestPreflight: true },
 ];
 
 function summarize(report = {}) {
@@ -669,6 +670,32 @@ async function runPythonJsHarvestAdapterReport({ dictionaryPath, statePath, repo
   return { stdoutReport: JSON.parse(stdout), fileReport: JSON.parse(await readFile(reportPath, 'utf8')) };
 }
 
+async function runPythonHarvestPreflightReport({ dictionaryPath, statePath, reportPath, mockResultPath }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    [
+      '-m',
+      'python_backend.cli.coverage_loop_command',
+      '--dictionary',
+      dictionaryPath,
+      '--state',
+      statePath,
+      '--report',
+      reportPath,
+      '--harvest-command-json',
+      JSON.stringify(['node', 'server/scripts/runCoverageHarvestLoopJsAdapter.js', '{payload}', '--mock-result', mockResultPath]),
+      '--harvest-command-preflight',
+      '--exit-zero',
+    ],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return { stdoutReport: JSON.parse(stdout) };
+}
+
 export async function compareCoverageHarvestLoopCommand({
   dictionary = DEFAULT_DICTIONARY,
   fixtures = null,
@@ -811,6 +838,23 @@ export async function compareCoverageHarvestLoopCommand({
           python,
           pythonReportFile: pythonRun.fileReport,
           mismatches: comparison.mismatches,
+        });
+        continue;
+      }
+      if (fixture?.harvestPreflight) {
+        const mockResultPath = join(tempDir, `${fixtureName}-adapter-result.json`);
+        const pythonRun = await runPythonHarvestPreflightReport({
+          dictionaryPath: pythonDictionaryPath,
+          statePath: pythonStatePath,
+          reportPath: pythonReportPath,
+          mockResultPath,
+        });
+        results.push({
+          ok: pythonRun.stdoutReport.runtimeMode === 'external_harvest_preflight' && pythonRun.stdoutReport.willExecute === false,
+          fixture: fixtureName,
+          js: {},
+          python: pythonRun.stdoutReport,
+          mismatches: [],
         });
         continue;
       }

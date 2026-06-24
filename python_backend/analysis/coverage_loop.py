@@ -581,6 +581,20 @@ class CoverageHarvestLoopExternalHarvestAdapter:
             raise ValueError("harvest command executable must be non-empty")
         self.command = [str(item) for item in parsed]
 
+    def preflight(self) -> dict[str, Any]:
+        return {
+            "ok": True,
+            "runtimeMode": "external_harvest_preflight",
+            "willExecute": False,
+            "commandTemplate": list(self.command),
+            "commandPreview": [part.replace("{payload}", "<payload>") for part in self.command],
+            "payloadPlaceholder": "{payload}",
+            "environment": {
+                "PYTHONUTF8": "1",
+                "PYTHONIOENCODING": "utf-8",
+            },
+        }
+
     def run(self, request: dict[str, Any]) -> dict[str, Any]:
         with tempfile.TemporaryDirectory(prefix="coverage-loop-harvest-") as temp_dir:
             payload_path = Path(temp_dir) / "request.json"
@@ -1271,6 +1285,8 @@ class CoverageHarvestLoopCommandRequest:
 
     def run(self) -> dict[str, Any]:
         args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        if args.harvest_command_preflight:
+            return CoverageHarvestLoopExternalHarvestAdapter(args.harvest_command_json).preflight()
         if args.mock_cycle_payload:
             payload = JsonContractReader().read_value(args.mock_cycle_payload, {})
             payload = payload if isinstance(payload, dict) else {}
@@ -1425,5 +1441,6 @@ class CoverageHarvestLoopCommandRequest:
         parser.add_argument("--mock-cycle-payload", default="", help="Build a one-cycle report from a JSON payload without live harvesting.")
         parser.add_argument("--mock-harvest-payload", default="", help="Build a file-backed harvest cycle report from a JSON payload without live network harvesting.")
         parser.add_argument("--harvest-command-json", default="", help="JSON array command for an external harvest adapter. Use {payload} for the request path.")
+        parser.add_argument("--harvest-command-preflight", action="store_true", help="Describe the external harvest adapter command without executing it.")
         parser.add_argument("--exit-zero", action="store_true")
         return parser
