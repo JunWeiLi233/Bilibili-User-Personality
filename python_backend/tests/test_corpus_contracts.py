@@ -33290,6 +33290,20 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_coverage_audit_sample_contract_includes_capped_scalar_aliases(self):
+        entries = [
+            {
+                "term": "\u72d7\u5934\u4fdd\u547d",
+                "family": "evasion",
+                "aliases": ["\u72d7\u5934", "doge", {"bad": True}, "", "\u4fdd\u547d"],
+                "evidenceCount": 0,
+            }
+        ]
+
+        samples = CoverageAuditSampleContract(entries).samples()
+
+        self.assertEqual(samples[0].get("aliases"), ["\u72d7\u5934", "doge", "\u4fdd\u547d"])
+
     def test_coverage_audit_coverage_contract_builds_js_metric_payload(self):
         entries = [
             {

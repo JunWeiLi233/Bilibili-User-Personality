@@ -76,6 +76,10 @@ def _bool_or(value: Any, fallback: bool) -> bool:
     return value if isinstance(value, bool) else fallback
 
 
+def _is_contract_scalar(value: Any) -> bool:
+    return value is not None and not isinstance(value, (dict, list, tuple, set))
+
+
 class CoverageAuditMetricContract:
     """Normalize coverage-audit metric values from JS-compatible JSON reports."""
 
@@ -268,6 +272,9 @@ class CoverageAuditSampleContract:
                 "family": entry.get("family"),
                 "evidenceCount": self._profile(entry).evidence_count(),
             }
+            aliases = self._aliases(entry)
+            if aliases:
+                item["aliases"] = aliases
             if self.include_coverage:
                 item["coverageEvidenceCount"] = self._profile(entry).coverage_evidence_count()
             samples.append(item)
@@ -289,6 +296,22 @@ class CoverageAuditSampleContract:
             require_comment_backed_evidence=self.require_comment_backed_evidence,
             canonical_evidence_count_overrides=self.canonical_evidence_count_overrides,
         )
+
+    @staticmethod
+    def _aliases(entry: dict[str, Any]) -> list[str]:
+        aliases = entry.get("aliases")
+        if not isinstance(aliases, list):
+            return []
+        result: list[str] = []
+        for alias in aliases:
+            if not _is_contract_scalar(alias):
+                continue
+            value = str(alias or "").strip()
+            if value:
+                result.append(value)
+            if len(result) >= 3:
+                break
+        return result
 
 
 class CoverageAuditCoverageContract:
