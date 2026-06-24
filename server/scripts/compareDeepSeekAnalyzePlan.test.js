@@ -26,6 +26,42 @@ test('compareDeepSeekAnalyzePlan reports matching JS and Python dry-run plans', 
   assert.deepEqual(result.python, DEFAULT_PLAN);
 });
 
+test('compareDeepSeekAnalyzePlan delegates persisted report comparison to Python contract', async () => {
+  const calls = [];
+  const result = await compareDeepSeekAnalyzePlan({
+    argv: ['--plan-json', '--text=satire [doge]', '--uid', '42'],
+    stdinIsTTY: true,
+    runPythonPlan: async () => ({
+      ok: true,
+      payload: { text: 'satire [doge]', uid: '42' },
+      input: { source: 'argv', file: '', readsStdin: false, showHelp: false },
+    }),
+    runCompare: async (context) => {
+      calls.push({
+        pythonText: context.pythonPlan.payload.text,
+        jsText: context.jsPlan.payload.text,
+        hasPayloadPath: context.payloadPath.endsWith('payload.json'),
+        hasJsReportPath: context.jsReportPath.endsWith('js-report.json'),
+      });
+      return {
+        ok: false,
+        mismatches: [{ key: 'delegated', python: 'python-contract', js: 'js-bridge' }],
+      };
+    },
+  });
+
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.mismatches, [{ key: 'delegated', python: 'python-contract', js: 'js-bridge' }]);
+  assert.deepEqual(calls, [
+    {
+      pythonText: 'satire [doge]',
+      jsText: 'satire [doge]',
+      hasPayloadPath: true,
+      hasJsReportPath: true,
+    },
+  ]);
+});
+
 test('comparePlanObjects reports payload and input drift using Python/JS keys', () => {
   const result = comparePlanObjects(
     {

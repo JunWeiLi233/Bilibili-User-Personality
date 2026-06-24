@@ -97,17 +97,27 @@ async function runPythonCliPlan({ argv, stdinIsTTY }) {
   }
 }
 
+async function runPythonCliPlanComparison({ payloadPath, jsReportPath }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    ['-m', 'python_backend.cli.deepseek_analyze_cli_plan', '--payload', payloadPath, '--compare-js-report', jsReportPath],
+    { cwd: process.cwd(), maxBuffer: 10 * 1024 * 1024 },
+  );
+  return JSON.parse(stdout);
+}
+
 export async function compareDeepSeekAnalyzePlan({
   argv = DEFAULT_ARGV,
   stdinIsTTY = true,
   fixture,
   fixtureNames,
   runPythonPlan = runPythonCliPlan,
+  runCompare = runPythonCliPlanComparison,
 } = {}) {
   if (fixtureNames) {
     const results = [];
     for (const name of fixtureNames.length ? fixtureNames : DEFAULT_FIXTURE_NAMES) {
-      results.push(await compareDeepSeekAnalyzePlan({ fixture: name, runPythonPlan }));
+      results.push(await compareDeepSeekAnalyzePlan({ fixture: name, runPythonPlan, runCompare }));
     }
     const mismatches = results.flatMap((result) => result.mismatches.map((mismatch) => ({ ...mismatch, fixture: result.fixture.name })));
     return { ok: mismatches.length === 0, fixtures: results.map((result) => result.fixture), results, mismatches };
@@ -123,15 +133,34 @@ export async function compareDeepSeekAnalyzePlan({
     stdinIsTTY: resolvedStdinIsTTY,
     fixture: { name: resolvedName, expected: resolvedFixture?.expected },
   });
-  const comparison = comparePlanObjects(python, js);
+  const tempDir = await mkdtemp(join(tmpdir(), 'deepseek-cli-plan-compare-'));
+  try {
+    const payloadPath = join(tempDir, 'payload.json');
+    const jsReportPath = join(tempDir, 'js-report.json');
+    await writeFile(payloadPath, JSON.stringify({ argv: resolvedArgv, stdinIsTTY: resolvedStdinIsTTY }, null, 2), 'utf8');
+    await writeFile(jsReportPath, JSON.stringify(js || {}, null, 2), 'utf8');
+    const comparison = await runCompare({
+      argv: resolvedArgv,
+      stdinIsTTY: resolvedStdinIsTTY,
+      fixture: { name: resolvedName, expected: resolvedFixture?.expected },
+      payloadPath,
+      jsReportPath,
+      js,
+      python,
+      jsPlan: js,
+      pythonPlan: python,
+    });
 
-  return {
-    ok: comparison.ok,
-    fixture: { name: resolvedName, argv: resolvedArgv, stdinIsTTY: resolvedStdinIsTTY },
-    js,
-    python,
-    mismatches: comparison.mismatches,
-  };
+    return {
+      ok: comparison.ok,
+      fixture: { name: resolvedName, argv: resolvedArgv, stdinIsTTY: resolvedStdinIsTTY, payloadPath, jsReportPath },
+      js,
+      python,
+      mismatches: comparison.mismatches,
+    };
+  } finally {
+    await rm(tempDir, { recursive: true, force: true });
+  }
 }
 
 async function main() {
