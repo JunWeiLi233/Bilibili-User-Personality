@@ -357,6 +357,43 @@ class DeepSeekLiveValidationGate:
         }
 
 
+class DeepSeekAnalyzePayloadBuilder:
+    """Build the analyzer payload for analyzeDeepSeekComments-compatible runtime modes."""
+
+    def __init__(self, *, stdin_text: str = ""):
+        self.stdin_text = str(stdin_text or "")
+
+    def build(self, args: argparse.Namespace) -> dict[str, Any]:
+        payload: dict[str, Any] = {}
+        text = str(args.text or "")
+        positional_text = " ".join(str(item) for item in getattr(args, "text_fragments", []) if str(item))
+        if positional_text:
+            text = " ".join(item for item in (text, positional_text) if item)
+        if args.file:
+            try:
+                text = Path(args.file).read_text(encoding="utf-8-sig")
+            except OSError:
+                payload["_error"] = {
+                    "ok": False,
+                    "provider": "deepseek",
+                    "error": f"Could not read input file: {args.file}",
+                }
+                return payload
+        if not args.file and not text and self.stdin_text:
+            text = self.stdin_text
+        if text:
+            payload["text"] = text
+        if args.file:
+            payload["inputFile"] = str(args.file)
+        if args.uid:
+            payload["uid"] = str(args.uid)
+        if args.name:
+            payload["name"] = str(args.name)
+        if args.multiagent:
+            payload["multiagent"] = True
+        return payload
+
+
 class DeepSeekAnalyzeCommandRequest:
     """Run Python-owned analyzeDeepSeekComments-compatible command modes."""
 
@@ -511,34 +548,7 @@ class DeepSeekAnalyzeCommandRequest:
         return result
 
     def _payload(self, args: argparse.Namespace) -> dict[str, Any]:
-        payload: dict[str, Any] = {}
-        text = str(args.text or "")
-        positional_text = " ".join(str(item) for item in getattr(args, "text_fragments", []) if str(item))
-        if positional_text:
-            text = " ".join(item for item in (text, positional_text) if item)
-        if args.file:
-            try:
-                text = Path(args.file).read_text(encoding="utf-8-sig")
-            except OSError:
-                payload["_error"] = {
-                    "ok": False,
-                    "provider": "deepseek",
-                    "error": f"Could not read input file: {args.file}",
-                }
-                return payload
-        if not args.file and not text and self.stdin_text:
-            text = self.stdin_text
-        if text:
-            payload["text"] = text
-        if args.file:
-            payload["inputFile"] = str(args.file)
-        if args.uid:
-            payload["uid"] = str(args.uid)
-        if args.name:
-            payload["name"] = str(args.name)
-        if args.multiagent:
-            payload["multiagent"] = True
-        return payload
+        return DeepSeekAnalyzePayloadBuilder(stdin_text=self.stdin_text).build(args)
 
     @staticmethod
     def _normalize_argv(argv: list[str] | None) -> list[str] | None:

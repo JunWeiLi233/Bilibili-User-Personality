@@ -91,7 +91,7 @@ from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStats
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherCommandRequest, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRequest, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationAnnotationContract, RandomVerificationCommandContract, RandomVerificationCommandRequest, RandomVerificationComparisonOptionsContract, RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationCorpus, RandomVerificationCorpusReportBuilder, RandomVerificationDictionaryTermsContract, RandomVerificationExecutionContract, RandomVerificationJsonResultContract, RandomVerificationOutputWriter, RandomVerificationPayloadContractComparator, RandomVerificationReportBuilder, RandomVerificationReportContract, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRequestDispatcher, RandomVerificationRunOptions, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerificationSampleContract, RandomVerificationSummaryContract, RandomVerifier, VerificationSummary, json_result_bytes as random_verification_payload_json_result_bytes
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisInputBuilder, DeepSeekAnalysisPlanCommandRequest, DeepSeekAnalysisPlanContractComparator as DeepSeekAnalysisPayloadPlanContractComparator, DeepSeekAnalysisPlanRequest, DeepSeekAnalysisPlanRunner as DeepSeekAnalysisPayloadPlanRunner, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidateCommandRequest, DeepSeekAnalysisValidateContractComparator as DeepSeekAnalysisPayloadValidateContractComparator, DeepSeekAnalysisValidateRequest, DeepSeekAnalysisValidateRunner as DeepSeekAnalysisPayloadValidateRunner, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator, DeepSeekRequestOptionsContract
-from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCommandRequest, DeepSeekAnalyzeCliPayloadPlanContractComparator, DeepSeekAnalyzeCliPlanCommandRequest, DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanRequest, DeepSeekAnalyzeCliPlanRunner as DeepSeekAnalyzeCliPayloadPlanRunner, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary, DeepSeekAnalyzeRuntime, DeepSeekLiveValidationGate
+from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeCommandRequest, DeepSeekAnalyzeCliPayloadPlanContractComparator, DeepSeekAnalyzeCliPlanCommandRequest, DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanRequest, DeepSeekAnalyzeCliPlanRunner as DeepSeekAnalyzeCliPayloadPlanRunner, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary, DeepSeekAnalyzePayloadBuilder, DeepSeekAnalyzeRuntime, DeepSeekLiveValidationGate
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceCommandRequest, KeywordEvidenceContractComparator as KeywordEvidencePayloadComparator, KeywordEvidenceMatcher, KeywordEvidencePayloadContractComparator, KeywordEvidencePayloadRunner, KeywordEvidenceRequest, KeywordEvidenceSummary
 from python_backend.cli.comment_coverage import CommentCoverageContractComparator, CommentCoverageRunner
 from python_backend.cli.corpus_shard_writer import CorpusShardWriteContractComparator, CorpusShardWriteRunner
@@ -7468,6 +7468,38 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             RecordingRuntime.calls,
             [{"text": "\u6587\u4ef6\u8bc4\u8bba[doge]", "inputFile": str(input_path)}],
+        )
+
+    def test_deepseek_analyze_payload_builder_owns_file_backed_payload_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            input_path = Path(tmp) / "comments.txt"
+            input_path.write_text("\u6587\u4ef6\u8bc4\u8bba[doge]", encoding="utf-8")
+            args = DeepSeekAnalyzeCommandRequest.parser().parse_args(
+                [
+                    "--file",
+                    str(input_path),
+                    "--text",
+                    "\u884c\u5185\u8bc4\u8bba",
+                    "\u4f4d\u7f6e\u53c2\u6570",
+                    "--uid",
+                    "42",
+                    "--name",
+                    "\u6d4b\u8bd5",
+                    "--multiagent",
+                ]
+            )
+
+            payload = DeepSeekAnalyzePayloadBuilder(stdin_text="\u6807\u51c6\u8f93\u5165").build(args)
+
+        self.assertEqual(
+            payload,
+            {
+                "text": "\u6587\u4ef6\u8bc4\u8bba[doge]",
+                "inputFile": str(input_path),
+                "uid": "42",
+                "name": "\u6d4b\u8bd5",
+                "multiagent": True,
+            },
         )
 
     def test_deepseek_analyze_command_request_mock_chat_multiagent_matches_js_summary(self):
