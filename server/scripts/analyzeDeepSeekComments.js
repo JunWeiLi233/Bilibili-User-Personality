@@ -213,9 +213,10 @@ export async function runFixtureAnalysisMode(
   });
 }
 
-async function runPythonRuntimeAnalysis({ payload, mockChatAnalysis = '' }) {
+async function runPythonRuntimeAnalysis({ payload, file = '', mockChatAnalysis = '' }) {
   const args = ['-m', 'python_backend.cli.deepseek_analyze'];
-  if (payload.text) args.push('--text', payload.text);
+  if (file) args.push('--file', file);
+  else if (payload.text) args.push('--text', payload.text);
   if (payload.uid) args.push('--uid', payload.uid);
   if (payload.name) args.push('--name', payload.name);
   if (payload.multiagent) args.push('--multiagent');
@@ -233,7 +234,11 @@ export async function runLiveAnalysisMode(
   { runPythonRuntime = runPythonRuntimeAnalysis, analyzeJs = analyzeCommentsWithDeepSeek } = {},
 ) {
   if (parsed.usePythonRuntime && !parsed.useJsRuntime) {
-    return runPythonRuntime({ payload: parsed.payload, mockChatAnalysis: parsed.mockChatAnalysis || '' });
+    return runPythonRuntime({
+      payload: parsed.payload,
+      ...(parsed.file ? { file: parsed.file } : {}),
+      mockChatAnalysis: parsed.mockChatAnalysis || '',
+    });
   }
   return analyzeJs(parsed.payload);
 }

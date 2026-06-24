@@ -198,6 +198,37 @@ test('analyzeDeepSeekComments delegates mock chat runtime to Python by default',
   ]);
 });
 
+test('analyzeDeepSeekComments forwards file input to Python live runtime bridge', async () => {
+  const calls = [];
+
+  const result = await runLiveAnalysisMode(
+    {
+      payload: { multiagent: true },
+      file: 'comments.txt',
+      usePythonRuntime: true,
+      useJsRuntime: false,
+    },
+    {
+      runPythonRuntime: async (payload) => {
+        calls.push({ python: payload });
+        return { ok: true, runtime: { mode: 'live_file' } };
+      },
+      analyzeJs: async () => ({ ok: false }),
+    },
+  );
+
+  assert.deepEqual(result, { ok: true, runtime: { mode: 'live_file' } });
+  assert.deepEqual(calls, [
+    {
+      python: {
+        payload: { multiagent: true },
+        file: 'comments.txt',
+        mockChatAnalysis: '',
+      },
+    },
+  ]);
+});
+
 test('analyzeDeepSeekComments keeps explicit JS live runtime fallback', async () => {
   const calls = [];
 
