@@ -4377,6 +4377,20 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_random_assembly_module_exports_corpus_assembler_contract(self):
+        from python_backend.analysis.random_assembly import RandomVerificationCorpusAssembler
+
+        payload = {
+            "corpus": {"comments": [{"message": "base"}], "runs": [{"source": "base"}]},
+            "extraCorpora": [{"comments": [{"message": "extra"}], "runs": [{"source": "extra"}]}],
+        }
+
+        corpus = RandomVerificationCorpusAssembler.from_payload(payload).assemble()
+
+        self.assertEqual([comment["message"] for comment in corpus.comments], ["base", "extra"])
+        self.assertEqual(corpus.runs, [{"source": "base"}, {"source": "extra"}])
+        self.assertEqual(corpus.storage, "combined")
+
     def test_random_verification_cli_runner_accepts_payload_flag(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "random-verification.json"
