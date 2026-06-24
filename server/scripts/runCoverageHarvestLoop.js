@@ -298,8 +298,30 @@ export function buildPythonCoverageLoopCommandArgs(options = {}) {
   if (options.discoveryLimit) args.push('--discovery-limit', String(options.discoveryLimit));
   if (options.discoveryPages) args.push('--discovery-pages', String(options.discoveryPages));
   if (options.includeGenericPopular) args.push('--include-generic-popular');
+  if (options.maxHardMissedQueries != null) args.push('--max-hard-missed-queries', String(options.maxHardMissedQueries));
+  if (options.staleMissedDiscoveryLimit != null) {
+    args.push('--stale-missed-discovery-limit', String(options.staleMissedDiscoveryLimit));
+  }
+  if (options.staleMissedPages != null) args.push('--stale-missed-pages', String(options.staleMissedPages));
+  if (options.coverageMode) args.push('--coverage-mode', options.coverageMode);
+  if (options.commentPoolTargetTermsLimit != null) {
+    args.push('--comment-pool-target-limit', String(options.commentPoolTargetTermsLimit));
+  }
+  if (options.priorityCommentPoolTargets) args.push('--priority-comment-pool-targets');
+  if (options.preFilterCommentsToTargets) args.push('--pre-filter-comments-to-targets');
+  if (options.deepenReplyThreads) args.push('--deepen-reply-threads');
+  if (options.verbose === false) args.push('--quiet');
+  if (options.prioritizeNearTarget) args.push('--prioritize-near-target');
+  if (options.existingTermsOnly) args.push('--existing-terms-only');
+  if (options.controversialPopularQueryLimit != null) {
+    args.push('--controversial-popular-query-limit', String(options.controversialPopularQueryLimit));
+  }
+  if (options.controversialPopularSearchOrder) {
+    args.push('--controversial-popular-search-order', options.controversialPopularSearchOrder);
+  }
   if (options.pages) args.push('--pages', String(options.pages));
   if (options.perQueryTimeoutMs) args.push('--per-query-timeout-ms', String(options.perQueryTimeoutMs));
+  if (options.expandTargetsFromComments) args.push('--expand-targets-from-comments');
   if (!options.strict) args.push('--exit-zero');
   return args;
 }
@@ -471,8 +493,22 @@ if (planArgs.pythonCommand || process.env.BILIBILI_COVERAGE_LOOP_USE_PYTHON_COMM
     discoveryLimit,
     discoveryPages,
     includeGenericPopular,
+    maxHardMissedQueries,
+    staleMissedDiscoveryLimit,
+    staleMissedPages,
+    coverageMode,
+    commentPoolTargetTermsLimit,
+    priorityCommentPoolTargets,
+    preFilterCommentsToTargets,
+    deepenReplyThreads,
+    verbose,
+    prioritizeNearTarget,
+    existingTermsOnly,
+    controversialPopularQueryLimit,
+    controversialPopularSearchOrder,
     pages,
     perQueryTimeoutMs,
+    expandTargetsFromComments,
     strict,
   }));
   process.exit(0);

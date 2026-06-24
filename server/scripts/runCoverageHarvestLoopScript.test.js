@@ -283,8 +283,22 @@ test('runCoverageHarvestLoop.js builds standalone Python discovery CLI args', ()
     discoveryLimit: 9,
     discoveryPages: 2,
     includeGenericPopular: true,
+    maxHardMissedQueries: 8,
+    staleMissedDiscoveryLimit: 7,
+    staleMissedPages: 5,
+    coverageMode: 'missing-source',
+    commentPoolTargetTermsLimit: 41,
+    priorityCommentPoolTargets: true,
+    preFilterCommentsToTargets: true,
+    deepenReplyThreads: true,
+    verbose: false,
+    prioritizeNearTarget: true,
+    existingTermsOnly: true,
+    controversialPopularQueryLimit: 9,
+    controversialPopularSearchOrder: 'pubdate',
     pages: 4,
     perQueryTimeoutMs: 120000,
+    expandTargetsFromComments: true,
     strict: false,
   });
 
@@ -316,11 +330,46 @@ test('runCoverageHarvestLoop.js builds standalone Python discovery CLI args', ()
   assert.deepEqual(args.slice(args.indexOf('--discovery-limit'), args.indexOf('--discovery-limit') + 2), ['--discovery-limit', '9']);
   assert.deepEqual(args.slice(args.indexOf('--discovery-pages'), args.indexOf('--discovery-pages') + 2), ['--discovery-pages', '2']);
   assert.ok(args.includes('--include-generic-popular'));
+  assert.deepEqual(args.slice(args.indexOf('--max-hard-missed-queries'), args.indexOf('--max-hard-missed-queries') + 2), [
+    '--max-hard-missed-queries',
+    '8',
+  ]);
+  assert.deepEqual(
+    args.slice(args.indexOf('--stale-missed-discovery-limit'), args.indexOf('--stale-missed-discovery-limit') + 2),
+    ['--stale-missed-discovery-limit', '7'],
+  );
+  assert.deepEqual(args.slice(args.indexOf('--stale-missed-pages'), args.indexOf('--stale-missed-pages') + 2), [
+    '--stale-missed-pages',
+    '5',
+  ]);
+  assert.deepEqual(args.slice(args.indexOf('--coverage-mode'), args.indexOf('--coverage-mode') + 2), [
+    '--coverage-mode',
+    'missing-source',
+  ]);
+  assert.deepEqual(
+    args.slice(args.indexOf('--comment-pool-target-limit'), args.indexOf('--comment-pool-target-limit') + 2),
+    ['--comment-pool-target-limit', '41'],
+  );
+  assert.ok(args.includes('--priority-comment-pool-targets'));
+  assert.ok(args.includes('--pre-filter-comments-to-targets'));
+  assert.ok(args.includes('--deepen-reply-threads'));
+  assert.ok(args.includes('--quiet'));
+  assert.ok(args.includes('--prioritize-near-target'));
+  assert.ok(args.includes('--existing-terms-only'));
+  assert.deepEqual(
+    args.slice(args.indexOf('--controversial-popular-query-limit'), args.indexOf('--controversial-popular-query-limit') + 2),
+    ['--controversial-popular-query-limit', '9'],
+  );
+  assert.deepEqual(
+    args.slice(args.indexOf('--controversial-popular-search-order'), args.indexOf('--controversial-popular-search-order') + 2),
+    ['--controversial-popular-search-order', 'pubdate'],
+  );
   assert.deepEqual(args.slice(args.indexOf('--pages'), args.indexOf('--pages') + 2), ['--pages', '4']);
   assert.deepEqual(args.slice(args.indexOf('--per-query-timeout-ms'), args.indexOf('--per-query-timeout-ms') + 2), [
     '--per-query-timeout-ms',
     '120000',
   ]);
+  assert.ok(args.includes('--expand-targets-from-comments'));
 });
 
 test('runCoverageHarvestLoop.js passes live harvest adapter controls to Python command bridge', () => {
@@ -388,6 +437,20 @@ test('runCoverageHarvestLoop.js passes live harvest adapter controls to Python c
         BILIBILI_HARVEST_INCLUDE_DANMAKU: '1',
         BILIBILI_HARVEST_RESET: '1',
         BILIBILI_HARVEST_SKIP_SEEN: '0',
+        BILIBILI_HARVEST_MAX_HARD_MISSED_QUERIES: '8',
+        BILIBILI_HARVEST_STALE_MISSED_DISCOVERY_LIMIT: '7',
+        BILIBILI_HARVEST_STALE_MISSED_COMMENT_PAGES: '5',
+        BILIBILI_HARVEST_COVERAGE_MODE: 'missing-source',
+        BILIBILI_HARVEST_COMMENT_POOL_TARGET_LIMIT: '41',
+        BILIBILI_HARVEST_PRIORITY_COMMENT_POOL_TARGETS: '1',
+        BILIBILI_HARVEST_PREFILTER_COMMENTS: '1',
+        BILIBILI_HARVEST_DEEPEN_REPLIES: '1',
+        BILIBILI_HARVEST_VERBOSE: '0',
+        BILIBILI_HARVEST_PRIORITIZE_NEAR_TARGET: '1',
+        BILIBILI_HARVEST_EXISTING_TERMS_ONLY: '1',
+        BILIBILI_CONTROVERSIAL_POPULAR_QUERY_LIMIT: '9',
+        BILIBILI_CONTROVERSIAL_POPULAR_SEARCH_ORDER: 'pubdate',
+        BILIBILI_HARVEST_EXPAND_TARGETS_FROM_COMMENTS: '1',
       },
       encoding: 'utf8',
     });
@@ -420,25 +483,25 @@ test('runCoverageHarvestLoop.js passes live harvest adapter controls to Python c
       queryVariantsPerTerm: 2,
       extraQueryTemplates: [],
       exhaustedSuggestionTemplates: [],
-      maxHardMissedQueries: 3,
-      staleMissedDiscoveryLimit: 4,
-      staleMissedPages: 3,
-      coverageMode: 'all-weak',
-      commentPoolTargetTermsLimit: 24,
-      priorityCommentPoolTargets: false,
-      preFilterCommentsToTargets: false,
-      deepenReplyThreads: false,
-      verbose: true,
-      prioritizeNearTarget: false,
-      existingTermsOnly: false,
+      maxHardMissedQueries: 8,
+      staleMissedDiscoveryLimit: 7,
+      staleMissedPages: 5,
+      coverageMode: 'missing-source',
+      commentPoolTargetTermsLimit: 41,
+      priorityCommentPoolTargets: true,
+      preFilterCommentsToTargets: true,
+      deepenReplyThreads: true,
+      verbose: false,
+      prioritizeNearTarget: true,
+      existingTermsOnly: true,
       discoveryLimit: 6,
       discoveryPages: 1,
-      controversialPopularQueryLimit: 4,
-      controversialPopularSearchOrder: 'click',
+      controversialPopularQueryLimit: 9,
+      controversialPopularSearchOrder: 'pubdate',
       includeGenericPopular: false,
       pages: 2,
       perQueryTimeoutMs: 180000,
-      expandTargetsFromComments: false,
+      expandTargetsFromComments: true,
     });
   } finally {
     rmSync(tempDir, { recursive: true, force: true });
