@@ -207,6 +207,16 @@ class RandomVerificationSampleContract:
             if self.message(comment) and not _is_scrape_diagnostic(self.message(comment))
         ]
 
+    def selection_summary(self) -> dict[str, int]:
+        eligible_count = len(self.eligible_comments())
+        selected_count = min(max(0, self.options.sample_size), eligible_count)
+        return {
+            "requestedSampleSize": self.options.sample_size,
+            "eligibleComments": eligible_count,
+            "selectedComments": selected_count,
+            "seed": self.options.seed,
+        }
+
     def normalized_comments(self) -> list[dict[str, Any]]:
         return [self.normalize_comment(comment) for comment in self.comments]
 

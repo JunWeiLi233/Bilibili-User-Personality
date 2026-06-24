@@ -3235,6 +3235,27 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual([RandomVerificationSampleContract.message(item) for item in eligible], ["first", "second", "third"])
         self.assertEqual(eligible[1], {"message": "second"})
 
+    def test_random_verification_sample_contract_reports_selection_summary(self):
+        comments = [
+            {"message": "first"},
+            {"message": "discover: HTTP 403 from https://api.bilibili.com/x"},
+            "",
+            "second",
+            {"commentText": "third"},
+        ]
+
+        summary = RandomVerificationSampleContract(comments, sample_size=10, seed=5).selection_summary()
+
+        self.assertEqual(
+            summary,
+            {
+                "requestedSampleSize": 10,
+                "eligibleComments": 3,
+                "selectedComments": 3,
+                "seed": 5,
+            },
+        )
+
     def test_random_verification_sample_contract_reads_bilibili_reply_content_message(self):
         comment = {"content": {"message": "\u72d7\u5934\u4fdd\u547d[doge]"}}
 
