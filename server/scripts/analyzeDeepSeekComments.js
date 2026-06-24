@@ -21,6 +21,7 @@ export function parseArgs(argv = process.argv.slice(2), env = process.env) {
   let usePythonFixture = false;
   let useJsFixture = false;
   let mockChatAnalysis = '';
+  let payloadPath = '';
   let usePythonRuntime = false;
   let useJsRuntime = false;
 
@@ -51,6 +52,11 @@ export function parseArgs(argv = process.argv.slice(2), env = process.env) {
       mockChatAnalysis = arg.slice('--mock-chat-analysis='.length);
     } else if (arg === '--mock-chat-analysis') {
       mockChatAnalysis = argv[index + 1] || '';
+      index += 1;
+    } else if (arg.startsWith('--payload=')) {
+      payloadPath = arg.slice('--payload='.length);
+    } else if (arg === '--payload') {
+      payloadPath = argv[index + 1] || '';
       index += 1;
     } else if (arg.startsWith('--model=')) {
       payload.model = arg.slice('--model='.length);
@@ -120,6 +126,7 @@ export function parseArgs(argv = process.argv.slice(2), env = process.env) {
     usePythonPlan,
     useJsPlan,
     fixtureAnalysis,
+    payloadPath,
     usePythonFixture,
     useJsFixture,
     mockChatAnalysis,
@@ -128,15 +135,19 @@ export function parseArgs(argv = process.argv.slice(2), env = process.env) {
   };
 }
 
-export function buildPlan({ payload = {}, file = '', showHelp = false } = {}, { stdinIsTTY = process.stdin.isTTY } = {}) {
-  const readsStdin = !showHelp && !file && !payload.text && !stdinIsTTY;
-  const source = showHelp ? 'help' : file ? 'file' : readsStdin ? 'stdin' : 'argv';
+export function buildPlan(
+  { payload = {}, payloadPath = '', file = '', showHelp = false } = {},
+  { stdinIsTTY = process.stdin.isTTY } = {},
+) {
+  const readsStdin = !showHelp && !payloadPath && !file && !payload.text && !stdinIsTTY;
+  const source = showHelp ? 'help' : payloadPath ? 'payload' : file ? 'file' : readsStdin ? 'stdin' : 'argv';
   return {
     ok: true,
     payload,
     input: {
       source,
       file,
+      ...(payloadPath ? { payloadPath } : {}),
       readsStdin,
       showHelp,
     },
@@ -233,8 +244,9 @@ export async function runFixtureAnalysisMode(
   });
 }
 
-export function buildPythonRuntimeArgs({ payload = {}, file = '', mockChatAnalysis = '' } = {}) {
+export function buildPythonRuntimeArgs({ payload = {}, payloadPath = '', file = '', mockChatAnalysis = '' } = {}) {
   const args = ['-m', 'python_backend.cli.deepseek_analyze'];
+  if (payloadPath) args.push('--payload', payloadPath);
   if (file) args.push('--file', file);
   else if (payload.text) args.push('--text', payload.text);
   if (payload.uid) args.push('--uid', payload.uid);
@@ -252,8 +264,8 @@ export function buildPythonRuntimeArgs({ payload = {}, file = '', mockChatAnalys
   return args;
 }
 
-async function runPythonRuntimeAnalysis({ payload, file = '', mockChatAnalysis = '' }) {
-  const args = buildPythonRuntimeArgs({ payload, file, mockChatAnalysis });
+async function runPythonRuntimeAnalysis({ payload, payloadPath = '', file = '', mockChatAnalysis = '' }) {
+  const args = buildPythonRuntimeArgs({ payload, payloadPath, file, mockChatAnalysis });
   const { stdout } = await execFileAsync('python', args, {
     cwd: process.cwd(),
     env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
@@ -269,6 +281,7 @@ export async function runLiveAnalysisMode(
   if (parsed.usePythonRuntime && !parsed.useJsRuntime) {
     return runPythonRuntime({
       payload: parsed.payload,
+      ...(parsed.payloadPath ? { payloadPath: parsed.payloadPath } : {}),
       ...(parsed.file ? { file: parsed.file } : {}),
       mockChatAnalysis: parsed.mockChatAnalysis || '',
     });

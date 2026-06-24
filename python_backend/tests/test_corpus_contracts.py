@@ -7256,6 +7256,12 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_deepseek_analyze_cli_planner_treats_payload_file_as_explicit_input(self):
+        plan = DeepSeekAnalyzeCliPlanner().build_plan(["--plan-json", "--payload", "payload.json"], stdin_is_tty=False)
+
+        self.assertEqual(plan["payload"], {})
+        self.assertEqual(plan["input"], {"source": "payload", "file": "", "payloadPath": "payload.json", "readsStdin": False, "showHelp": False})
+
     def test_deepseek_analyze_cli_runner_defaults_non_object_payload_root(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "deepseek-cli.json"
@@ -7906,6 +7912,8 @@ class CorpusContractTests(unittest.TestCase):
             self.assertFalse(deepseek_analyze_cli.should_read_stdin(["--text", "\u5f39\u5e55"]))
             self.assertFalse(deepseek_analyze_cli.should_read_stdin(["--text=\u5f39\u5e55"]))
             self.assertFalse(deepseek_analyze_cli.should_read_stdin(["--file", "comments.txt"]))
+            self.assertFalse(deepseek_analyze_cli.should_read_stdin(["--payload", "payload.json"]))
+            self.assertFalse(deepseek_analyze_cli.should_read_stdin(["--payload=payload.json"]))
             self.assertFalse(deepseek_analyze_cli.should_read_stdin(["--help"]))
             self.assertFalse(deepseek_analyze_cli.should_read_stdin(["--plan-json"]))
             self.assertTrue(deepseek_analyze_cli.should_read_stdin(["--mock-chat-analysis", "analysis.json"]))
@@ -8054,6 +8062,49 @@ class CorpusContractTests(unittest.TestCase):
                 {
                     "corpusPath": "server/data/comments.json",
                     "dictionaryPath": "server/data/deepseekKeywordDictionary.json",
+                }
+            ],
+        )
+
+    def test_deepseek_analyze_command_reads_json_payload_file_and_allows_cli_overrides(self):
+        seen = []
+
+        class Runtime:
+            def __init__(self, *, env=None):
+                self.env = env
+
+            def run(self, payload):
+                seen.append(payload)
+                return {"ok": False, "provider": "deepseek", "error": "stop before live transport"}
+
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "comments": [{"message": "\u53cd\u8bbd[doge]", "source": "fixture"}],
+                        "keywordHints": [{"term": "\u53cd\u8bbd", "family": "attack"}],
+                        "uid": "from-json",
+                        "multiagent": True,
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+
+            DeepSeekAnalyzeCommandRequest(
+                ["--payload", str(payload_path), "--uid", "cli-uid"],
+                runtime_factory=Runtime,
+            ).run()
+
+        self.assertEqual(
+            seen,
+            [
+                {
+                    "comments": [{"message": "\u53cd\u8bbd[doge]", "source": "fixture"}],
+                    "keywordHints": [{"term": "\u53cd\u8bbd", "family": "attack"}],
+                    "uid": "cli-uid",
+                    "multiagent": True,
                 }
             ],
         )

@@ -19,6 +19,7 @@ class DeepSeekAnalyzeCliPlanner:
     def build_plan(self, argv: list[Any], *, stdin_is_tty: bool = True) -> dict[str, Any]:
         payload: dict[str, Any] = {}
         file_path = ""
+        payload_path = ""
         show_help = False
         index = 0
         while index < len(argv):
@@ -28,6 +29,11 @@ class DeepSeekAnalyzeCliPlanner:
             elif arg.startswith("--fixture-analysis=") or arg.startswith("--mock-chat-analysis="):
                 pass
             elif arg in ("--fixture-analysis", "--mock-chat-analysis"):
+                index += 1
+            elif arg.startswith("--payload="):
+                payload_path = arg[len("--payload=") :]
+            elif arg == "--payload":
+                payload_path = str(argv[index + 1] or "") if index + 1 < len(argv) else ""
                 index += 1
             elif arg.startswith("--model="):
                 payload["model"] = arg[len("--model=") :]
@@ -74,14 +80,15 @@ class DeepSeekAnalyzeCliPlanner:
             elif not arg.startswith("-"):
                 payload["text"] = " ".join(item for item in (str(payload.get("text") or ""), arg) if item)
             index += 1
-        reads_stdin = not show_help and not file_path and not payload.get("text") and not stdin_is_tty
-        source = "help" if show_help else "file" if file_path else "stdin" if reads_stdin else "argv"
+        reads_stdin = not show_help and not file_path and not payload_path and not payload.get("text") and not stdin_is_tty
+        source = "help" if show_help else "payload" if payload_path else "file" if file_path else "stdin" if reads_stdin else "argv"
         return {
             "ok": True,
             "payload": payload,
             "input": {
                 "source": source,
                 "file": file_path,
+                **({"payloadPath": payload_path} if payload_path else {}),
                 "readsStdin": reads_stdin,
                 "showHelp": show_help,
             },
@@ -483,6 +490,8 @@ class DeepSeekAnalyzePayloadBuilder:
 
     def build(self, args: argparse.Namespace) -> dict[str, Any]:
         payload: dict[str, Any] = {}
+        if getattr(args, "payload", ""):
+            payload.update(JsonContractReader().read_object(args.payload))
         text = str(args.text or "")
         positional_text = " ".join(str(item) for item in getattr(args, "text_fragments", []) if str(item))
         if positional_text:
@@ -704,6 +713,7 @@ class DeepSeekAnalyzeCommandRequest:
         parser.add_argument("--js-runtime", action="store_true", help=argparse.SUPPRESS)
         parser.add_argument("--python-fixture", action="store_true", help=argparse.SUPPRESS)
         parser.add_argument("--js-fixture", action="store_true", help=argparse.SUPPRESS)
+        parser.add_argument("--payload", default="")
         parser.add_argument("--text", default="")
         parser.add_argument("--file", default="")
         parser.add_argument("--uid", default="")

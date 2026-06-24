@@ -314,6 +314,34 @@ test('analyzeDeepSeekComments forwards corpus and dictionary paths to Python run
   );
 });
 
+test('analyzeDeepSeekComments forwards JSON payload file to Python runtime args', () => {
+  const parsed = parseArgs(['--python-runtime', '--payload', 'analysis-payload.json']);
+
+  assert.equal(parsed.payloadPath, 'analysis-payload.json');
+  assert.deepEqual(
+    buildPythonRuntimeArgs({
+      payloadPath: parsed.payloadPath,
+    }),
+    ['-m', 'python_backend.cli.deepseek_analyze', '--payload', 'analysis-payload.json'],
+  );
+});
+
+test('analyzeDeepSeekComments dry-run plan treats JSON payload file as explicit input', () => {
+  const parsed = parseArgs(['--js-plan', '--plan-json', '--payload', 'analysis-payload.json']);
+
+  assert.deepEqual(buildPlan(parsed, { stdinIsTTY: false }), {
+    ok: true,
+    payload: {},
+    input: {
+      source: 'payload',
+      file: '',
+      payloadPath: 'analysis-payload.json',
+      readsStdin: false,
+      showHelp: false,
+    },
+  });
+});
+
 test('analyzeDeepSeekComments does not pre-read file input for Python live runtime', async () => {
   const parsed = parseArgs(['--python-runtime', '--file', 'comments.txt', '--multiagent']);
   const calls = [];

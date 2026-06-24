@@ -22,9 +22,9 @@ def should_read_stdin(argv: list[str] | None = None) -> bool:
     if "--plan-json" in args:
         return False
     for index, arg in enumerate(args):
-        if arg.startswith("--text=") or arg.startswith("--file="):
+        if arg.startswith("--text=") or arg.startswith("--file=") or arg.startswith("--payload="):
             return False
-        if arg in ("--text", "--file") and index + 1 < len(args):
+        if arg in ("--text", "--file", "--payload") and index + 1 < len(args):
             return False
     return not sys.stdin.isatty()
 
