@@ -7221,6 +7221,23 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(mock_plan["payload"], {"text": "\u53cd\u8bbd[doge]"})
         self.assertEqual(fixture_plan["payload"], {"text": "\u53cd\u8bbd[doge]"})
 
+    def test_deepseek_analyze_cli_planner_preserves_model_and_reasoning_effort_like_js(self):
+        plan = DeepSeekAnalyzeCliPlanner().build_plan(
+            [
+                "--plan-json",
+                "--text",
+                "\u53cd\u8bbd[doge]",
+                "--model",
+                "deepseek-v4-pro",
+                "--reasoning-effort=high",
+            ]
+        )
+
+        self.assertEqual(
+            plan["payload"],
+            {"text": "\u53cd\u8bbd[doge]", "model": "deepseek-v4-pro", "reasoningEffort": "high"},
+        )
+
     def test_deepseek_analyze_cli_runner_defaults_non_object_payload_root(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "deepseek-cli.json"
@@ -7957,6 +7974,40 @@ class CorpusContractTests(unittest.TestCase):
         ).build(request)
 
         self.assertEqual(config["model"], "deepseek-v4-pro")
+
+    def test_deepseek_analyze_command_payload_preserves_model_and_reasoning_effort(self):
+        seen = []
+
+        class Runtime:
+            def __init__(self, *, env=None):
+                self.env = env
+
+            def run(self, payload):
+                seen.append(payload)
+                return {"ok": False, "provider": "deepseek", "error": "stop before live transport"}
+
+        DeepSeekAnalyzeCommandRequest(
+            [
+                "--text",
+                "\u53cd\u8bbd[doge]",
+                "--model",
+                "DeepSeek V4 Pro",
+                "--reasoning-effort",
+                "High Effort",
+            ],
+            runtime_factory=Runtime,
+        ).run()
+
+        self.assertEqual(
+            seen,
+            [
+                {
+                    "text": "\u53cd\u8bbd[doge]",
+                    "model": "DeepSeek V4 Pro",
+                    "reasoningEffort": "High Effort",
+                }
+            ],
+        )
 
     def test_deepseek_analyze_http_transport_owns_live_chat_request(self):
         calls = []

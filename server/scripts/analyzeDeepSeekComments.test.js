@@ -254,6 +254,39 @@ test('analyzeDeepSeekComments builds Python runtime args with file preferred ove
   );
 });
 
+test('analyzeDeepSeekComments forwards model and reasoning effort to Python runtime args', () => {
+  const parsed = parseArgs([
+    '--python-runtime',
+    '--text',
+    'satire [doge]',
+    '--model',
+    'deepseek-v4-pro',
+    '--reasoning-effort',
+    'high',
+  ]);
+
+  assert.deepEqual(parsed.payload, {
+    text: 'satire [doge]',
+    model: 'deepseek-v4-pro',
+    reasoningEffort: 'high',
+  });
+  assert.deepEqual(
+    buildPythonRuntimeArgs({
+      payload: parsed.payload,
+    }),
+    [
+      '-m',
+      'python_backend.cli.deepseek_analyze',
+      '--text',
+      'satire [doge]',
+      '--model',
+      'deepseek-v4-pro',
+      '--reasoning-effort',
+      'high',
+    ],
+  );
+});
+
 test('analyzeDeepSeekComments does not pre-read file input for Python live runtime', async () => {
   const parsed = parseArgs(['--python-runtime', '--file', 'comments.txt', '--multiagent']);
   const calls = [];

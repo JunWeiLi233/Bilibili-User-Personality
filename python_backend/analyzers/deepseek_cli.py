@@ -29,6 +29,16 @@ class DeepSeekAnalyzeCliPlanner:
                 pass
             elif arg in ("--fixture-analysis", "--mock-chat-analysis"):
                 index += 1
+            elif arg.startswith("--model="):
+                payload["model"] = arg[len("--model=") :]
+            elif arg == "--model":
+                payload["model"] = str(argv[index + 1] or "") if index + 1 < len(argv) else ""
+                index += 1
+            elif arg.startswith("--reasoning-effort="):
+                payload["reasoningEffort"] = arg[len("--reasoning-effort=") :]
+            elif arg in ("--reasoning-effort", "--reasoning_effort"):
+                payload["reasoningEffort"] = str(argv[index + 1] or "") if index + 1 < len(argv) else ""
+                index += 1
             elif arg in ("--multiagent", "--multi-agent"):
                 payload["multiagent"] = True
             elif arg.startswith("--text="):
@@ -487,6 +497,10 @@ class DeepSeekAnalyzePayloadBuilder:
             payload["uid"] = str(args.uid)
         if args.name:
             payload["name"] = str(args.name)
+        if getattr(args, "model", ""):
+            payload["model"] = str(args.model)
+        if getattr(args, "reasoning_effort", ""):
+            payload["reasoningEffort"] = str(args.reasoning_effort)
         if args.multiagent:
             payload["multiagent"] = True
         return payload
@@ -680,6 +694,8 @@ class DeepSeekAnalyzeCommandRequest:
         parser.add_argument("--file", default="")
         parser.add_argument("--uid", default="")
         parser.add_argument("--name", default="")
+        parser.add_argument("--model", default="")
+        parser.add_argument("--reasoning-effort", "--reasoning_effort", default="", dest="reasoning_effort")
         parser.add_argument("--multiagent", "--multi-agent", action="store_true", dest="multiagent")
         parser.add_argument("--fixture-analysis", default="")
         parser.add_argument("--mock-chat-analysis", default="", help="Read a local analysis JSON after building the chat request contract.")

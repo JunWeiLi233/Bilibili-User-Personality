@@ -52,6 +52,16 @@ export function parseArgs(argv = process.argv.slice(2), env = process.env) {
     } else if (arg === '--mock-chat-analysis') {
       mockChatAnalysis = argv[index + 1] || '';
       index += 1;
+    } else if (arg.startsWith('--model=')) {
+      payload.model = arg.slice('--model='.length);
+    } else if (arg === '--model') {
+      payload.model = argv[index + 1] || '';
+      index += 1;
+    } else if (arg.startsWith('--reasoning-effort=')) {
+      payload.reasoningEffort = arg.slice('--reasoning-effort='.length);
+    } else if (arg === '--reasoning-effort') {
+      payload.reasoningEffort = argv[index + 1] || '';
+      index += 1;
     } else if (arg === '--multiagent' || arg === '--multi-agent') {
       payload.multiagent = true;
     } else if (arg.startsWith('--text=')) {
@@ -219,6 +229,10 @@ export function buildPythonRuntimeArgs({ payload = {}, file = '', mockChatAnalys
   else if (payload.text) args.push('--text', payload.text);
   if (payload.uid) args.push('--uid', payload.uid);
   if (payload.name) args.push('--name', payload.name);
+  if (payload.model) args.push('--model', payload.model);
+  if (payload.reasoningEffort || payload.reasoning_effort) {
+    args.push('--reasoning-effort', payload.reasoningEffort || payload.reasoning_effort);
+  }
   if (payload.multiagent) args.push('--multiagent');
   if (mockChatAnalysis) args.push('--mock-chat-analysis', mockChatAnalysis);
   return args;
