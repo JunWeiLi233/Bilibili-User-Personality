@@ -8349,6 +8349,12 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["axes"][0]["score"], 33)
         self.assertEqual(result["sentenceAnalyses"][0]["quote"], "\u8fd9\u662f\u53cd\u8bdd[doge]")
 
+    def test_deepseek_analyze_chat_response_parser_rejects_invalid_content_json_like_js(self):
+        payload = {"choices": [{"message": {"content": '{"axes":[{"axis":"attack","score":70}'}}]}
+
+        with self.assertRaises(SyntaxError):
+            DeepSeekAnalyzeChatResponseParser().parse(payload)
+
     def test_deepseek_analyze_http_error_formatter_owns_status_and_body_message(self):
         error = urllib.error.HTTPError(
             "https://deepseek.example/chat/completions",

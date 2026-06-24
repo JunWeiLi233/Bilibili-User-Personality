@@ -4,6 +4,7 @@ import argparse
 import json
 import math
 import os
+import re
 import sys
 import urllib.error
 import urllib.request
@@ -237,8 +238,24 @@ class DeepSeekAnalyzeChatResponseParser:
             if isinstance(payload.get("choices"), list)
             else ""
         )
-        parsed = JsonContractReader().read_text_value(content, {})
+        try:
+            parsed = json.loads(self._extract_json_text(content))
+        except json.JSONDecodeError as error:
+            raise SyntaxError(str(error)) from error
         return parsed if isinstance(parsed, dict) else {}
+
+    def _extract_json_text(self, content: Any) -> str:
+        text = str(content or "").strip()
+        if not text:
+            return "{}"
+        fenced = re.search(r"```(?:json)?\s*([\s\S]*?)```", text, re.I)
+        if fenced:
+            return fenced.group(1)
+        start = text.find("{")
+        end = text.rfind("}")
+        if start >= 0 and end >= start:
+            return text[start : end + 1]
+        return text
 
 
 class DeepSeekAnalyzeHttpErrorFormatter:
