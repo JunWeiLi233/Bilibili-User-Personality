@@ -11601,6 +11601,10 @@ class CorpusContractTests(unittest.TestCase):
             package["scripts"]["python:tieba-timing-compare"],
             "node server/scripts/compareTiebaTiming.js",
         )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:tieba-timing-compare"],
+            "default_zero_query_string_negative_coercion_fixtures_and_js_python_bridge",
+        )
         self.assertNotIn("server/services/tiebaScrapeTiming.js", result["migrationCandidateFiles"]["services"])
         self.assertIn(
             {"path": "server/services/tiebaScrapeTiming.js", "reason": "legacy_compatibility_after_python_replacement"},

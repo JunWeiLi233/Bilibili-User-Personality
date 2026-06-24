@@ -105,6 +105,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:scraper-monitor-compare": "file_backed_default_parseint_stats_prefix_corrupt_progress_fixtures_and_js_python_bridge",
     "python:tieba-html-parse-compare": "threads_comments_discovery_fixtures_and_js_python_bridge",
     "python:tieba-corpus-compare": "merge_new_comments_unchanged_empty_run_dedupe_cap_runs_fixtures_and_js_python_bridge",
+    "python:tieba-timing-compare": "default_zero_query_string_negative_coercion_fixtures_and_js_python_bridge",
     "python:huggingface-compare": "full_command",
     "python:local-mine-compare": "full_command",
     "python:bilibili-parse-compare": "danmaku_xml_extract_bvid_bvid_pool_fixtures_and_js_python_bridge",
