@@ -1,4 +1,7 @@
 import assert from 'node:assert/strict';
+import { mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { test } from 'node:test';
 
 import { compareAicuScrapePlan, compareAicuScrapePlanObjects, compareAicuScrapePlanSuite } from './compareAicuScrapePlan.js';
@@ -79,4 +82,37 @@ test('compareAicuScrapePlanSuite covers inline, missing-file, and page override 
   assert.deepEqual(result.fixtures.find((fixture) => fixture.name === 'missing-file').python.uids, []);
   assert.equal(result.fixtures.find((fixture) => fixture.name === 'page-overrides').python.summary.commentPagesPerUid, 4);
   assert.equal(result.fixtures.find((fixture) => fixture.name === 'page-overrides').python.requests[0].commentsUrl.includes('ps=8'), true);
+});
+
+test('compareAicuScrapePlan keeps separated uid and file arguments compatible with Python', async () => {
+  const result = await compareAicuScrapePlan({
+    payload: {
+      argv: ['--uid', '123', '--file', 'server/data/does-not-exist-aicu-separated-uids.txt', 'https://space.bilibili.com/456'],
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.deepEqual(result.js.uids, ['123', '456']);
+  assert.deepEqual(result.python.uids, ['123', '456']);
+});
+
+test('compareAicuScrapePlan keeps whitespace and fullwidth file delimiters compatible with Python', async () => {
+  const tempDir = await mkdtemp(join(tmpdir(), 'aicu-delimiter-plan-'));
+  try {
+    const uidFilePath = join(tempDir, 'uids.txt');
+    await writeFile(uidFilePath, '123 456\uff0c789\uff1bhttps://space.bilibili.com/999', 'utf8');
+    const result = await compareAicuScrapePlan({
+      payload: {
+        argv: [`--file=${uidFilePath}`],
+      },
+    });
+
+    assert.equal(result.ok, true);
+    assert.deepEqual(result.mismatches, []);
+    assert.deepEqual(result.js.uids, ['123', '456', '789', '999']);
+    assert.deepEqual(result.python.uids, ['123', '456', '789', '999']);
+  } finally {
+    await rm(tempDir, { recursive: true, force: true });
+  }
 });

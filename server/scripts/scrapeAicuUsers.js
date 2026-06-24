@@ -117,6 +117,17 @@ function extractUidFromLink(link) {
   return null;
 }
 
+function uidTokensFromText(text) {
+  return String(text || '')
+    .split(/[\s,;\uFF0C\uFF1B]+/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function extractUidsFromText(text) {
+  return uidTokensFromText(text).map((token) => extractUidFromLink(token)).filter(Boolean);
+}
+
 function parsePlanArgs(argv = process.argv.slice(2)) {
   let planJson = false;
   let pythonPlan = false;
@@ -163,22 +174,33 @@ function dedupe(values) {
 
 async function collectPlanUids(argv = []) {
   const uids = [];
-  for (const raw of argv) {
+  for (let index = 0; index < argv.length; index += 1) {
+    const raw = argv[index];
     const arg = String(raw || '').trim();
     if (arg.startsWith('--uid=')) {
-      uids.push(extractUidFromLink(arg.split('=')[1].trim()));
+      uids.push(...extractUidsFromText(arg.split('=')[1].trim()));
+    } else if (arg === '--uid' && index + 1 < argv.length) {
+      index += 1;
+      uids.push(...extractUidsFromText(argv[index]));
     } else if (arg.startsWith('--file=')) {
       try {
         const filePath = arg.split('=')[1].trim();
         const content = await readFile(filePath, 'utf8');
-        for (const line of content.split(/[\n,;]+/).map((item) => item.trim()).filter(Boolean)) {
-          uids.push(extractUidFromLink(line));
-        }
+        uids.push(...extractUidsFromText(content));
+      } catch {
+        // Missing files produce an empty dry-run plan, matching the Python contract.
+      }
+    } else if (arg === '--file' && index + 1 < argv.length) {
+      index += 1;
+      try {
+        const filePath = String(argv[index] || '').trim();
+        const content = await readFile(filePath, 'utf8');
+        uids.push(...extractUidsFromText(content));
       } catch {
         // Missing files produce an empty dry-run plan, matching the Python contract.
       }
     } else if (!arg.startsWith('-')) {
-      uids.push(extractUidFromLink(arg));
+      uids.push(...extractUidsFromText(arg));
     }
   }
   return dedupe(uids);
@@ -233,20 +255,24 @@ async function main() {
 
   const uids = [];
 
-  for (const arg of args) {
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index];
     if (arg.startsWith('--uid=')) {
-      uids.push(arg.split('=')[1].trim());
+      uids.push(...extractUidsFromText(arg.split('=')[1].trim()));
+    } else if (arg === '--uid' && index + 1 < args.length) {
+      index += 1;
+      uids.push(...extractUidsFromText(args[index]));
     } else if (arg.startsWith('--file=')) {
       const filePath = arg.split('=')[1].trim();
       const content = await readFile(filePath, 'utf8');
-      const lines = content.split(/[\n,;]+/).map((l) => l.trim()).filter(Boolean);
-      for (const line of lines) {
-        const uid = extractUidFromLink(line);
-        if (uid) uids.push(uid);
-      }
+      uids.push(...extractUidsFromText(content));
+    } else if (arg === '--file' && index + 1 < args.length) {
+      index += 1;
+      const filePath = String(args[index] || '').trim();
+      const content = await readFile(filePath, 'utf8');
+      uids.push(...extractUidsFromText(content));
     } else {
-      const uid = extractUidFromLink(arg);
-      if (uid) uids.push(uid);
+      uids.push(...extractUidsFromText(arg));
     }
   }
 
