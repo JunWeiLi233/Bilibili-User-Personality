@@ -2300,7 +2300,17 @@ class CorpusContractTests(unittest.TestCase):
             },
             result["manualVerificationActions"],
         )
-        self.assertEqual(result["pythonContractGapCount"], 4)
+        self.assertIn(
+            {
+                "path": "server/services/bilibiliCrawler.js",
+                "nodeScript": "server/services/bilibiliCrawler.js",
+                "blocker": "bilibili_crawler_live_runtime_not_verified",
+                "preflightCommand": "npm run python:bilibili-crawler-compare",
+                "liveVerificationCommand": "npm run dictionary:probe-bilibili:js",
+            },
+            result["manualVerificationActions"],
+        )
+        self.assertEqual(result["pythonContractGapCount"], 3)
         self.assertNotIn(
             "server/services/tiebaScraper.js",
             {item["path"] for item in result["pythonContractGaps"]},
@@ -2351,6 +2361,10 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertNotIn(
             "server/scripts/uidPipelineWorker.js",
+            {item["path"] for item in result["pythonContractGaps"]},
+        )
+        self.assertNotIn(
+            "server/services/bilibiliCrawler.js",
             {item["path"] for item in result["pythonContractGaps"]},
         )
         self.assertIn(

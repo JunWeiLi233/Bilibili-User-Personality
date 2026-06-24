@@ -260,6 +260,16 @@ DEFAULT_DIRECT_FILE_CONTRACTS = {
         "validationScope": "dry_run_plan_default_worker_number_fallback_parseint_uids_fixtures_js_python_bridge_and_cli_flag_bridge",
         "replacementScope": "dry_run_plan",
     },
+    "server/services/bilibiliCrawler.js": {
+        "nodeScript": "server/services/bilibiliCrawler.js",
+        "nodeCommand": "service module",
+        "pythonScript": "python:bilibili-crawler",
+        "pythonCommand": "python -m python_backend.cli.bilibili_crawler",
+        "validationScript": "python:bilibili-crawler-compare",
+        "validationCommand": "node server/scripts/compareBilibiliCrawler.js",
+        "validationScope": "identity_block_cookie_objects_reply_danmaku_dynamics_fixtures_and_js_python_bridge",
+        "replacementScope": "fixture_contract",
+    },
 }
 
 DEFAULT_RETAINED_NODE_COMMANDS = {
@@ -1184,6 +1194,16 @@ class BackendMigrationInventoryScanner:
                     "reason": "Python has a UID pipeline worker dry-run plan, default/range/parseint fixtures, and JS/Python bridge coverage, but live Bilibili scraping, progress persistence, dictionary locking, and DeepSeek training still need verification before replacing the JS script.",
                     "preflightCommand": "npm run python:uid-pipeline-worker-compare",
                     "liveVerificationCommand": "node server/scripts/uidPipelineWorker.js --start=1 --end=1",
+                    "manualVerificationRequired": True,
+                }
+            )
+        elif script == "server/services/bilibiliCrawler.js" and validation_scope != "full_command":
+            blockers.append(
+                {
+                    "blocker": "bilibili_crawler_live_runtime_not_verified",
+                    "reason": "Python has fixture coverage for BVID parsing, block detection, cookie normalization, public object dedupe, UID reply collection, danmaku parsing, dynamic records, and JS/Python bridge comparison, but live Bilibili fetch behavior still needs JS probe verification before replacing the service module.",
+                    "preflightCommand": "npm run python:bilibili-crawler-compare",
+                    "liveVerificationCommand": "npm run dictionary:probe-bilibili:js",
                     "manualVerificationRequired": True,
                 }
             )
