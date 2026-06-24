@@ -112,3 +112,45 @@ test('launchUidPipeline can delegate dry-run launcher planning to Python', () =>
     rmSync(tempDir, { recursive: true, force: true });
   }
 });
+
+test('launchUidPipeline accepts explicit Python launcher plan flag', () => {
+  const tempDir = mkdtempSync(join(tmpdir(), 'uid-pipeline-launcher-explicit-python-plan-'));
+  try {
+    const fakeModuleDir = join(tempDir, 'python_backend', 'cli');
+    mkdirSync(fakeModuleDir, { recursive: true });
+    writeFileSync(join(tempDir, 'python_backend', '__init__.py'), '', 'utf8');
+    writeFileSync(join(fakeModuleDir, '__init__.py'), '', 'utf8');
+    writeFileSync(
+      join(fakeModuleDir, 'uid_pipeline_launcher.py'),
+      'print(\'{"ok":true,"fromExplicitPythonUidPipelineLauncher":true,"state":{"workers":[{"start":11,"end":12,"progressFile":"uid-pipeline-11-12.json"}]}}\')\n',
+      'utf8',
+    );
+
+    const result = spawnSync(
+      'node',
+      [
+        resolve('server/scripts/launchUidPipeline.js'),
+        '--plan-json',
+        '--python-plan',
+        '--data-dir',
+        join(tempDir, 'server', 'data'),
+      ],
+      {
+        cwd: tempDir,
+        encoding: 'utf8',
+        env: {
+          ...process.env,
+          PYTHONUTF8: '1',
+          PYTHONIOENCODING: 'utf-8',
+        },
+      },
+    );
+
+    assert.equal(result.status, 0, result.stderr);
+    const payload = JSON.parse(result.stdout);
+    assert.equal(payload.fromExplicitPythonUidPipelineLauncher, true);
+    assert.equal(payload.state.workers[0].start, 11);
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
+  }
+});

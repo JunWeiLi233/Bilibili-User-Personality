@@ -25133,16 +25133,17 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(
             DEFAULT_PACKAGE_VALIDATION_SCOPES["python:batch-scraper-launcher-compare"],
-            "dry_run_plan_default_custom_data_dir_fixtures_and_js_python_bridge",
+            "dry_run_plan_default_custom_data_dir_fixtures_js_python_bridge_and_cli_flag_bridge",
         )
         self.assertEqual(
             BackendMigrationInventoryScanner._validation_gates(
                 validation_script="python:batch-scraper-launcher-compare",
-                validation_scope="dry_run_plan_default_custom_data_dir_fixtures_and_js_python_bridge",
+                validation_scope="dry_run_plan_default_custom_data_dir_fixtures_js_python_bridge_and_cli_flag_bridge",
             ),
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:batch-scraper-launcher-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareBatchScraperLauncherPlan.test.js"},
+                {"gate": "js_python_cli_flag_bridge", "status": "covered", "source": "compareBatchScraperLauncherPlan.test.js"},
             ],
         )
 
@@ -25177,16 +25178,17 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(
             DEFAULT_PACKAGE_VALIDATION_SCOPES["python:uid-pipeline-launcher-compare"],
-            "dry_run_plan_default_custom_data_dir_fixtures_and_js_python_bridge",
+            "dry_run_plan_default_custom_data_dir_fixtures_js_python_bridge_and_cli_flag_bridge",
         )
         self.assertEqual(
             BackendMigrationInventoryScanner._validation_gates(
                 validation_script="python:uid-pipeline-launcher-compare",
-                validation_scope="dry_run_plan_default_custom_data_dir_fixtures_and_js_python_bridge",
+                validation_scope="dry_run_plan_default_custom_data_dir_fixtures_js_python_bridge_and_cli_flag_bridge",
             ),
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-pipeline-launcher-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidPipelineLauncherPlan.test.js"},
+                {"gate": "js_python_cli_flag_bridge", "status": "covered", "source": "compareUidPipelineLauncherPlan.test.js"},
             ],
         )
 
