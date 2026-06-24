@@ -32988,6 +32988,72 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_coverage_harvest_loop_command_normalizes_external_runtime_limits_like_js(self):
+        from python_backend.analysis import coverage_loop as coverage_loop_module
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+            dictionary_path = temp_path / "dictionary.json"
+            state_path = temp_path / "state.json"
+            report_path = temp_path / "report.json"
+            harvest_script = temp_path / "harvest_adapter.py"
+            captured_request_path = temp_path / "request.json"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "updatedAt": "2026-01-01T00:00:00.000Z",
+                        "entries": [
+                            {"term": "doge", "family": "meme", "evidenceCount": 0, "evidenceSamples": [], "evidenceSources": []}
+                        ],
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            harvest_script.write_text(
+                "\n".join(
+                    [
+                        "import json, sys",
+                        "from pathlib import Path",
+                        "request = json.loads(Path(sys.argv[1]).read_text(encoding='utf-8'))",
+                        f"Path({str(captured_request_path)!r}).write_text(json.dumps(request), encoding='utf-8')",
+                        "print(json.dumps({'ok': True, 'rounds': []}))",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            coverage_loop_module.CoverageHarvestLoopCommandRequest(
+                [
+                    "--dictionary",
+                    dictionary_path,
+                    "--state",
+                    state_path,
+                    "--report",
+                    report_path,
+                    "--max-cycles",
+                    "1",
+                    "--max-queries",
+                    "500",
+                    "--target-evidence",
+                    "5000",
+                    "--max-actions",
+                    "5000",
+                    "--min-coverage-ratio",
+                    "1.5",
+                    "--harvest-command-json",
+                    json.dumps([sys.executable, str(harvest_script), "{payload}"]),
+                    "--exit-zero",
+                ]
+            ).run()
+            request_options = json.loads(captured_request_path.read_text(encoding="utf-8"))["options"]
+
+        self.assertEqual(request_options["maxQueries"], 100)
+        self.assertEqual(request_options["targetEvidence"], 1000)
+        self.assertEqual(request_options["maxActions"], 1000)
+        self.assertEqual(request_options["minCoverageRatio"], 1.5)
+
     def test_coverage_harvest_loop_external_harvest_prunes_exhausted_terms(self):
         from python_backend.analysis import coverage_loop as coverage_loop_module
 
