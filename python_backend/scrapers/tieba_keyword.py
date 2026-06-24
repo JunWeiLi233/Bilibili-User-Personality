@@ -196,7 +196,7 @@ class TiebaKeywordScrapeFixtureRunner:
         payload = self._read_payload()
         keyword = str(payload.get("keyword") or "").strip()
         options = payload.get("options") if isinstance(payload.get("options"), dict) else {}
-        threads = self.parser.parse_threads(payload.get("discoveryHtml") or payload.get("html") or "", keyword)
+        threads = self._threads_from_payload(payload, keyword)
         comments = self._comments_for_threads(payload, threads, keyword, options)
         warnings = payload.get("warnings") if isinstance(payload.get("warnings"), list) else []
         return {
@@ -239,6 +239,23 @@ class TiebaKeywordScrapeFixtureRunner:
         if not comments and options.get("includeDiscoveryTitles") is True and threads:
             return self.parser.threads_to_discovery_comments(threads, keyword)
         return comments
+
+    def _threads_from_payload(self, payload: dict[str, Any], keyword: str) -> list[dict[str, Any]]:
+        threads = self.parser.parse_threads(payload.get("discoveryHtml") or payload.get("html") or "", keyword)
+        urls = payload.get("threadUrls") if isinstance(payload.get("threadUrls"), list) else []
+        for url in urls:
+            thread = self.parser.thread_from_url(url, keyword)
+            if thread:
+                threads.append(thread)
+        seen: set[str] = set()
+        result: list[dict[str, Any]] = []
+        for thread in threads:
+            thread_id = str(thread.get("id") or "")
+            if not thread_id or thread_id in seen:
+                continue
+            seen.add(thread_id)
+            result.append(thread)
+        return result
 
     @staticmethod
     def _confidence_hint(comment_count: int) -> str:

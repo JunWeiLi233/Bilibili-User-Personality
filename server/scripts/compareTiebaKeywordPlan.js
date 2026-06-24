@@ -5,7 +5,7 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 
-import { parseTiebaThreadComments, parseTiebaThreads, tiebaThreadsToDiscoveryComments } from '../services/tiebaScraper.js';
+import { parseTiebaThreadComments, parseTiebaThreads, threadFromTiebaUrl, tiebaThreadsToDiscoveryComments } from '../services/tiebaScraper.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -96,14 +96,27 @@ function summarizeScrape(result = {}) {
 function buildJsScrapeFixture(payload = {}) {
   const keyword = String(payload.keyword || '').trim();
   const options = payload.options && typeof payload.options === 'object' ? payload.options : {};
-  const threads = parseTiebaThreads(payload.discoveryHtml || payload.html || '', keyword);
+  const threads = [];
+  for (const thread of parseTiebaThreads(payload.discoveryHtml || payload.html || '', keyword)) {
+    threads.push(thread);
+  }
+  for (const url of Array.isArray(payload.threadUrls) ? payload.threadUrls : []) {
+    const thread = threadFromTiebaUrl(url, keyword);
+    if (thread) threads.push(thread);
+  }
+  const seenThreadIds = new Set();
+  const uniqueThreads = threads.filter((thread) => {
+    if (!thread?.id || seenThreadIds.has(thread.id)) return false;
+    seenThreadIds.add(thread.id);
+    return true;
+  });
   let comments = [];
   if (options.discoveryTitlesOnly === true) {
-    comments = tiebaThreadsToDiscoveryComments(threads, keyword);
+    comments = tiebaThreadsToDiscoveryComments(uniqueThreads, keyword);
   } else {
     const htmlById = payload.threadHtmlById && typeof payload.threadHtmlById === 'object' ? payload.threadHtmlById : {};
     const seen = new Set();
-    for (const thread of threads) {
+    for (const thread of uniqueThreads) {
       for (const comment of parseTiebaThreadComments(htmlById[thread.id] || '', thread)) {
         const key = `${comment.rpid || ''}\n${comment.message || ''}`;
         const textKey = comment.message || '';
@@ -114,13 +127,13 @@ function buildJsScrapeFixture(payload = {}) {
       }
     }
     if (comments.length === 0 && options.includeDiscoveryTitles === true && threads.length > 0) {
-      comments = tiebaThreadsToDiscoveryComments(threads, keyword);
+      comments = tiebaThreadsToDiscoveryComments(uniqueThreads, keyword);
     }
   }
   return {
-    ok: threads.length > 0 || comments.length > 0,
+    ok: uniqueThreads.length > 0 || comments.length > 0,
     keyword,
-    threads,
+    threads: uniqueThreads,
     comments,
     commentText: comments.map((comment) => comment.message).filter(Boolean).join('\n'),
     source: 'Tieba public thread scan',

@@ -66,3 +66,22 @@ test('compareTiebaKeywordPlan covers Python corpus update env option', async () 
   assert.equal(result.js.options.usePythonCorpusUpdate, true);
   assert.equal(result.python.options.usePythonCorpusUpdate, true);
 });
+
+test('compareTiebaKeywordPlan covers explicit thread URL scrape fixtures', async () => {
+  const result = await compareTiebaKeywordPlan({
+    scrapePayload: {
+      keyword: 'explicit',
+      threadUrls: ['https://c.tieba.baidu.com/p/10759170700?lp=home_main_thread_pb&mo_device=1'],
+      threadHtmlById: {
+        10759170700:
+          '<div class="l_post" data-field=\'{"content":{"post_id":"9"},"author":{"user_name":"carol"}}\'><div class="d_post_content">mobile explicit thread comment</div></div>',
+      },
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.scrape.ok, true);
+  assert.deepEqual(result.scrape.mismatches, []);
+  assert.deepEqual(result.scrape.python.threadIds, ['10759170700']);
+  assert.deepEqual(result.scrape.python.commentMessages, ['mobile explicit thread comment']);
+});

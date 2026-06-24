@@ -1814,7 +1814,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:tieba-keyword-compare",
                     "validationCommand": "node server/scripts/compareTiebaKeywordPlan.js",
-                    "validationScope": "dry_run_plan_fixture_scrape_fixture_and_js_python_plan_bridge",
+                    "validationScope": "dry_run_plan_fixture_scrape_fixture_explicit_thread_fixture_and_js_python_plan_bridge",
                 },
                 {
                     "script": "dictionary:probe-bilibili",
@@ -13148,6 +13148,21 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(comparison["ok"])
         self.assertEqual([item["key"] for item in comparison["mismatches"]], ["options"])
 
+    def test_tieba_keyword_inventory_validation_gates_cover_explicit_thread_fixture(self):
+        self.assertEqual(
+            BackendMigrationInventoryScanner._validation_gates(
+                validation_script="python:tieba-keyword-compare",
+                validation_scope="dry_run_plan_fixture_scrape_fixture_explicit_thread_fixture_and_js_python_plan_bridge",
+            ),
+            [
+                {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:tieba-keyword-compare"},
+                {"gate": "js_python_plan_bridge", "status": "covered", "source": "runTiebaKeywordScrape.test.js"},
+                {"gate": "fixture_keyword_scrape", "status": "covered", "source": "python:tieba-keyword-compare"},
+                {"gate": "explicit_thread_url_scrape_fixture", "status": "covered", "source": "compareTiebaKeywordPlan.test.js"},
+                {"gate": "python_corpus_update_bridge", "status": "covered", "source": "runTiebaKeywordScrape.test.js"},
+            ],
+        )
+
     def test_tieba_keyword_scrape_fixture_runner_builds_js_compatible_result(self):
         from python_backend.scrapers.tieba_keyword import TiebaKeywordScrapeFixtureRunner
 
@@ -13183,6 +13198,35 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["source"], "Tieba public thread scan")
         self.assertEqual(result["confidenceHint"], "small Tieba sample")
         self.assertEqual(result["warnings"], [])
+
+    def test_tieba_keyword_scrape_fixture_runner_handles_explicit_thread_urls(self):
+        from python_backend.scrapers.tieba_keyword import TiebaKeywordScrapeFixtureRunner
+
+        thread_html = (
+            '<div class="l_post" data-field=\'{"content":{"post_id":"9"},"author":{"user_name":"carol"}}\'>'
+            '<div class="d_post_content">mobile explicit thread comment</div>'
+            '</div>'
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "tieba-explicit-thread-scrape.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "keyword": "explicit",
+                        "threadUrls": ["https://c.tieba.baidu.com/p/10759170700?lp=home_main_thread_pb&mo_device=1"],
+                        "threadHtmlById": {"10759170700": thread_html},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = TiebaKeywordScrapeFixtureRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual([thread["id"] for thread in result["threads"]], ["10759170700"])
+        self.assertEqual(result["threads"][0]["fetchUrl"], "https://c.tieba.baidu.com/p/10759170700?lp=home_main_thread_pb&mo_device=1")
+        self.assertEqual([comment["message"] for comment in result["comments"]], ["mobile explicit thread comment"])
+        self.assertEqual(result["commentText"], "mobile explicit thread comment")
 
     def test_tieba_keyword_plan_summary_extracts_comparator_contract(self):
         summary = TiebaKeywordPlanSummary().summarize(
