@@ -200,6 +200,14 @@ class DeepSeekAnalyzeChatResponseParser:
         return parsed if isinstance(parsed, dict) else {}
 
 
+class DeepSeekAnalyzeHttpErrorFormatter:
+    """Format DeepSeek HTTP failures without coupling callers to urllib details."""
+
+    def format(self, error: urllib.error.HTTPError) -> str:
+        body = error.read().decode("utf-8", errors="replace")[:200]
+        return f"DeepSeek analyze failed with HTTP {error.code}: {body}"
+
+
 class DeepSeekAnalyzeHttpTransport:
     """Send DeepSeek chat completion requests through an injectable URL opener."""
 
@@ -207,6 +215,7 @@ class DeepSeekAnalyzeHttpTransport:
         self.opener = opener or urllib.request.urlopen
         self.timeout = timeout
         self.parser = DeepSeekAnalyzeChatResponseParser()
+        self.error_formatter = DeepSeekAnalyzeHttpErrorFormatter()
 
     def __call__(self, request_body: dict[str, Any], config: dict[str, str]) -> dict[str, Any]:
         return self.send(request_body, config)
@@ -226,8 +235,7 @@ class DeepSeekAnalyzeHttpTransport:
             with self.opener(request, timeout=self.timeout) as response:
                 payload = JsonContractReader().read_text_value(response.read().decode("utf-8"), {})
         except urllib.error.HTTPError as error:
-            body = error.read().decode("utf-8", errors="replace")[:200]
-            raise RuntimeError(f"DeepSeek analyze failed with HTTP {error.code}: {body}") from error
+            raise RuntimeError(self.error_formatter.format(error)) from error
         return self.parser.parse(payload)
 
     @staticmethod
