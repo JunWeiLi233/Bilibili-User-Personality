@@ -74,14 +74,42 @@ async function runPythonPlan({ payloadPath }) {
   return JSON.parse(stdout);
 }
 
-export async function compareHarvestPlan({ payload = DEFAULT_PAYLOAD, runJs = runJsPlan, runPython = runPythonPlan } = {}) {
+async function runPythonPlanComparison({ payloadPath, jsPlanPath }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    ['-m', 'python_backend.cli.harvest_plan', '--payload', payloadPath, '--compare-js-plan', jsPlanPath],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return JSON.parse(stdout);
+}
+
+export async function compareHarvestPlan({
+  payload = DEFAULT_PAYLOAD,
+  runJs = runJsPlan,
+  runPython = runPythonPlan,
+  runCompare = runPythonPlanComparison,
+} = {}) {
   const tempDir = await mkdtemp(join(tmpdir(), 'harvest-plan-compare-'));
   try {
     const payloadPath = join(tempDir, 'payload.json');
     await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
     const js = await runJs({ payload, payloadPath });
     const python = await runPython({ payload, payloadPath });
-    const comparison = compareHarvestPlanObjects(python, js);
+    const jsPlanPath = join(tempDir, 'js-plan.json');
+    await writeFile(jsPlanPath, JSON.stringify(js, null, 2), 'utf8');
+    const comparison = await runCompare({
+      payload,
+      payloadPath,
+      jsPlanPath,
+      js,
+      python,
+      jsPlan: js,
+      pythonPlan: python,
+    });
     return {
       ok: comparison.ok,
       fixture: { payloadPath },
