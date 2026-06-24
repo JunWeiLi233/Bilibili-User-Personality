@@ -185,6 +185,16 @@ class RandomVerificationSelectionReadinessContract:
     def blocker_reasons(self) -> dict[str, str]:
         return self.REASONS
 
+    def blocker_details(self) -> list[dict[str, str]]:
+        return [
+            {
+                "gate": str(gate.get("gate") or ""),
+                "reason": self.REASONS.get(str(gate.get("gate") or ""), "readiness gate failed"),
+            }
+            for gate in self.gates()
+            if not gate.get("ok")
+        ]
+
     def _selection_summary(self) -> dict[str, Any]:
         selection_summary = self.verification_summary.get("selectionSummary")
         return selection_summary if isinstance(selection_summary, dict) else {}

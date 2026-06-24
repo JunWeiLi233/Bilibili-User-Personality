@@ -3623,6 +3623,35 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_random_verification_selection_readiness_contract_owns_blocker_details(self):
+        details = verification_module.RandomVerificationSelectionReadinessContract(
+            {
+                "sampleSize": 2,
+                "seed": 7,
+                "sampled": 3,
+                "selectionSummary": {
+                    "requestedSampleSize": 2,
+                    "eligibleComments": 2,
+                    "selectedComments": 3,
+                    "seed": 8,
+                },
+            }
+        ).blocker_details()
+
+        self.assertEqual(
+            details,
+            [
+                {
+                    "gate": "randomVerificationSelectionPossible",
+                    "reason": "random verification selected more comments than requested or eligible",
+                },
+                {
+                    "gate": "randomVerificationSelectionOptionsMatch",
+                    "reason": "random verification selection options do not match report options",
+                },
+            ],
+        )
+
     def test_random_verification_readiness_contract_blocks_selection_summary_drift(self):
         readiness = RandomVerificationReadinessContract(
             coverage_audit={
