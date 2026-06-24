@@ -674,6 +674,8 @@ class BackendMigrationInventoryScanner:
             "manualVerificationActionCount": len(manual_verification_actions),
             "replacementBlockedActionCount": len(replacement_blocked),
             "readyToReplaceActionCount": len(ready_to_replace),
+            "replacementBlockedActionPaths": [str(action.get("path") or "") for action in replacement_blocked],
+            "readyToReplaceActionPaths": [str(action.get("path") or "") for action in ready_to_replace],
             "pythonContractGapCount": len(python_contract_gaps),
             "manualVerificationCommandCount": len(manual_commands),
             "manualVerificationBlockers": manual_blockers,
