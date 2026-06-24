@@ -168,6 +168,10 @@ class RandomVerificationReadinessContract:
             {"gate": "coverageAuditComplete", "ok": self._coverage_complete(coverage_summary)},
             {"gate": "randomVerificationSampled", "ok": self._verification_sampled(verification_summary)},
             {"gate": "randomVerificationNoUncovered", "ok": self._verification_uncovered(verification_summary) == 0},
+            {
+                "gate": "randomVerificationSelectionConsistent",
+                "ok": self._verification_selection_consistent(verification_summary),
+            },
         ]
         blockers = [gate["gate"] for gate in gates if not gate["ok"]]
         return {
@@ -189,11 +193,21 @@ class RandomVerificationReadinessContract:
     def _verification_uncovered(self, verification_summary: dict[str, Any]) -> int:
         return _non_negative_int(verification_summary.get("uncovered"), 0)
 
+    def _verification_selection_consistent(self, verification_summary: dict[str, Any]) -> bool:
+        selection_summary = verification_summary.get("selectionSummary")
+        if not isinstance(selection_summary, dict):
+            return True
+        return _non_negative_int(selection_summary.get("selectedComments"), 0) == _non_negative_int(
+            verification_summary.get("sampled"),
+            0,
+        )
+
     def _blocker_details(self, gates: list[dict[str, Any]]) -> list[dict[str, str]]:
         reasons = {
             "coverageAuditComplete": "coverage audit is not complete",
             "randomVerificationSampled": "random verification sampled no comments",
             "randomVerificationNoUncovered": "random verification still has uncovered samples",
+            "randomVerificationSelectionConsistent": "random verification selected count does not match sampled comments",
         }
         return [
             {"gate": str(gate_name), "reason": reasons.get(str(gate_name), "readiness gate failed")}

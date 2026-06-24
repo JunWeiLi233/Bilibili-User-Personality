@@ -3572,6 +3572,12 @@ class CorpusContractTests(unittest.TestCase):
                 "neutral": 1,
                 "uncovered": 0,
                 "corpus": {"comments": 2, "runs": 1, "storage": "combined"},
+                "selectionSummary": {
+                    "requestedSampleSize": 2,
+                    "eligibleComments": 2,
+                    "selectedComments": 2,
+                    "seed": 7,
+                },
             },
         ).to_json_contract()
 
@@ -3583,11 +3589,46 @@ class CorpusContractTests(unittest.TestCase):
                 {"gate": "coverageAuditComplete", "ok": True},
                 {"gate": "randomVerificationSampled", "ok": True},
                 {"gate": "randomVerificationNoUncovered", "ok": True},
+                {"gate": "randomVerificationSelectionConsistent", "ok": True},
             ],
         )
         self.assertEqual(readiness["coverage"]["coverage"]["complete"], True)
         self.assertEqual(readiness["randomVerification"]["sampled"], 2)
         self.assertEqual(readiness["randomVerification"]["corpus"]["storage"], "combined")
+        self.assertEqual(readiness["randomVerification"]["selectionSummary"]["selectedComments"], 2)
+
+    def test_random_verification_readiness_contract_blocks_selection_summary_drift(self):
+        readiness = RandomVerificationReadinessContract(
+            coverage_audit={
+                "ok": True,
+                "coverage": {"complete": True, "coverageRatio": 1, "terms": 2, "weakTerms": 0},
+                "failureReasons": [],
+            },
+            verification_report={
+                "sampleSize": 3,
+                "seed": 7,
+                "sampled": 2,
+                "keywordHits": 1,
+                "neutral": 1,
+                "uncovered": 0,
+                "selectionSummary": {
+                    "requestedSampleSize": 3,
+                    "eligibleComments": 3,
+                    "selectedComments": 3,
+                    "seed": 7,
+                },
+            },
+        ).to_json_contract()
+
+        self.assertFalse(readiness["ok"])
+        self.assertIn("randomVerificationSelectionConsistent", readiness["blockers"])
+        self.assertIn(
+            {
+                "gate": "randomVerificationSelectionConsistent",
+                "reason": "random verification selected count does not match sampled comments",
+            },
+            readiness["blockerDetails"],
+        )
 
     def test_random_verification_readiness_contract_reports_blocker_details(self):
         readiness = RandomVerificationReadinessContract(
