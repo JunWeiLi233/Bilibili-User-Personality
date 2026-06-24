@@ -1411,6 +1411,10 @@ class CorpusContractTests(unittest.TestCase):
             "identity_block_cookie_objects_reply_danmaku_dynamics_fixtures_and_js_python_bridge",
         )
         self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:video-relevance-compare"],
+            "alias_sort_ask_baidu_filter_strict_target_filter_fixtures_and_js_python_bridge",
+        )
+        self.assertEqual(
             result["migrationPriorityFiles"][:3],
             [
                 {"path": "server/scripts/importHuggingFaceCorpus.js", "category": "scripts", "priority": 10, "group": "corpus_analysis_pipeline"},

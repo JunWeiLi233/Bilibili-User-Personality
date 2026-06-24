@@ -171,6 +171,7 @@
     "python:video-comment-filter": "python -m python_backend.cli.video_comment_filter",
     "python:video-context": "python -m python_backend.cli.video_context",
     "python:video-relevance": "python -m python_backend.cli.video_relevance",
+    "python:video-relevance-compare": "node server/scripts/compareVideoRelevance.js",
     "python:tieba-update": "python -m python_backend.cli.tieba_corpus",
     "python:direct-probe-update": "python -m python_backend.cli.direct_probe_corpus",
     "python:direct-probe-command": "python -m python_backend.cli.direct_probe_command",

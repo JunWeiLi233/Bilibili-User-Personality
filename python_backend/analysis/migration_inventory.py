@@ -120,6 +120,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:local-mine-compare": "full_command",
     "python:bilibili-crawler-compare": "identity_block_cookie_objects_reply_danmaku_dynamics_fixtures_and_js_python_bridge",
     "python:bilibili-parse-compare": "danmaku_xml_extract_bvid_bvid_pool_fixtures_and_js_python_bridge",
+    "python:video-relevance-compare": "alias_sort_ask_baidu_filter_strict_target_filter_fixtures_and_js_python_bridge",
 }
 
 DEFAULT_PACKAGE_REPLACEMENT_SCOPES = {
@@ -208,6 +209,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:local-mine-compare": "js_python_contract_bridge",
     "python:bilibili-crawler-compare": "js_python_contract_bridge",
     "python:bilibili-parse-compare": "js_python_contract_bridge",
+    "python:video-relevance-compare": "js_python_contract_bridge",
 }
 
 PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
@@ -341,6 +343,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareUidRangeProgress.js": "js_python_contract_bridge",
     "server/scripts/compareBilibiliCrawler.js": "js_python_contract_bridge",
     "server/scripts/compareBilibiliParse.js": "js_python_contract_bridge",
+    "server/scripts/compareVideoRelevance.js": "js_python_contract_bridge",
 }
 
 MIGRATION_PRIORITY_RULES = (
