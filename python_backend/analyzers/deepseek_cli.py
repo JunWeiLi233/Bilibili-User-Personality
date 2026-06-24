@@ -389,6 +389,7 @@ class DeepSeekAnalyzeCommandRequest:
         parser.add_argument("--multiagent", "--multi-agent", action="store_true", dest="multiagent")
         parser.add_argument("--fixture-analysis", default="")
         parser.add_argument("--mock-chat-analysis", default="", help="Read a local analysis JSON after building the chat request contract.")
+        parser.add_argument("text_fragments", nargs="*")
         return parser
 
     def run(self) -> dict[str, Any]:
@@ -477,6 +478,9 @@ class DeepSeekAnalyzeCommandRequest:
     def _payload(self, args: argparse.Namespace) -> dict[str, Any]:
         payload: dict[str, Any] = {}
         text = str(args.text or "")
+        positional_text = " ".join(str(item) for item in getattr(args, "text_fragments", []) if str(item))
+        if positional_text:
+            text = " ".join(item for item in (text, positional_text) if item)
         if args.file and not text:
             try:
                 text = Path(args.file).read_text(encoding="utf-8-sig")
