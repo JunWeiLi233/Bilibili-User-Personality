@@ -678,11 +678,15 @@ class LocalCorpusEvidenceJsonPayloadRunner:
         payload = self._read_json_object(self.payload_path, {})
         loaded_dictionary = DictionaryLoader.load_from_payload(self._dictionary_payload(payload))
         dictionary = {**loaded_dictionary.manifest, "entries": loaded_dictionary.entries}
-        loaded_corpus = CorpusLoader.load_from_payload(self._corpus_payload(payload))
+        corpus_payload = self._corpus_payload(payload)
+        loaded_corpus = CorpusLoader.load_from_payload(corpus_payload)
         comments_payload = {**loaded_corpus.manifest, "comments": loaded_corpus.comments, "runs": loaded_corpus.runs}
         comments = loaded_corpus.comments
         if not isinstance(comments, list) or any(not isinstance(comment, dict) or "message" not in comment for comment in comments):
             comments = self.flattener.flatten(comments_payload)
+        if not comments:
+            inline_corpus = corpus_payload.get("corpus") if isinstance(corpus_payload.get("corpus"), dict) else corpus_payload
+            comments = self.flattener.flatten(inline_corpus)
         return self.finder.find_entries_result(
             dictionary,
             comments if isinstance(comments, list) else [],

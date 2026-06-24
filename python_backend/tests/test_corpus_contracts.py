@@ -10208,6 +10208,51 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["entries"][0]["term"], "\u67e5\u67e5\u8d44\u6599")
         self.assertEqual(result["entries"][0]["evidenceSources"][0]["uid"], "BVpayload-path")
 
+    def test_local_corpus_evidence_json_payload_runner_flattens_inline_uid_corpus(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "local-evidence.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "dictionary": {
+                            "entries": [
+                                {
+                                    "term": "flattened",
+                                    "family": "evidence",
+                                    "meaning": "flatten local corpus before evidence search",
+                                    "evidenceCount": 0,
+                                }
+                            ]
+                        },
+                        "corpus": {
+                            "_uidComments": {
+                                "42": [
+                                    {
+                                        "message": "flattened evidence from uid map",
+                                        "uname": "fixture-user",
+                                        "bvid": "BVflatEvidence",
+                                    }
+                                ]
+                            }
+                        },
+                        "targetEvidence": 3,
+                        "maxSamplesPerTerm": 1,
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = LocalCorpusEvidenceJsonPayloadRunner(payload_path).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["entries"][0]["term"], "flattened")
+        self.assertEqual(result["entries"][0]["evidence"], ["flattened evidence from uid map"])
+        self.assertEqual(
+            result["entries"][0]["evidenceSources"][0]["source"],
+            "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BVflatEvidence/",
+        )
+
     def test_local_corpus_evidence_cli_accepts_payload_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -27435,6 +27480,10 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             package["scripts"]["python:local-evidence-compare"],
             "node server/scripts/compareLocalCorpusEvidence.js",
+        )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:local-evidence-compare"],
+            "target_term_weak_term_ranking_source_backfill_flattened_payload_fixtures_and_js_python_bridge",
         )
         self.assertIn(
             {
