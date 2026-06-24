@@ -38926,6 +38926,29 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(len(samples), 3)
         self.assertEqual(samples[0]["bvid"], "BV1")
 
+    def test_video_comment_filter_search_relevance_matches_js_contract(self):
+        from python_backend.analysis.video_comment_filter import (
+            build_target_video_object_evidence_text,
+            search_needles_for_relevance,
+            sort_videos_by_relevance,
+        )
+
+        # searchNeedlesForRelevance builds priority needle list
+        needles = search_needles_for_relevance(["hello world"], ["hello"])
+        self.assertGreater(len(needles), 0)
+        self.assertIn("hello", needles)
+
+        # sortVideosByRelevance orders by relevance score
+        v1 = {"title": "Hello World", "desc": ""}
+        v2 = {"title": "Nothing", "desc": ""}
+        sorted_vids = sort_videos_by_relevance([v1, v2], ["hello"], ["hello"])
+        self.assertEqual(sorted_vids[0]["title"], "Hello World")
+
+        # buildTargetVideoObjectEvidenceText matches cleaned needles against raw titles (case-sensitive)
+        v3 = {"title": "hello world", "desc": ""}
+        text = build_target_video_object_evidence_text([v3], ["hello"], ["hello"])
+        self.assertIn("Bilibili public video title: hello world", text)
+
 
 if __name__ == "__main__":
     unittest.main()

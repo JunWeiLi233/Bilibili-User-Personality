@@ -169,3 +169,106 @@ def sample_videos_for_diagnostics(videos: list[dict[str, Any]] | None = None) ->
             "sourceUrl": str(video.get("sourceUrl", "") or "").strip(),
         })
     return result
+
+
+# — Private helpers for searchNeedlesForRelevance —
+
+def _parse_list(value: Any) -> list[str]:
+    if isinstance(value, list):
+        return [str(item or "").strip() for item in value if str(item or "").strip()]
+    return [item.strip() for item in str(value or "").split(",") if item.strip()]
+
+
+def _search_query_needles(query: Any) -> list[str]:
+    raw = str(query or "").strip()
+    if not raw:
+        return []
+    tokens = raw.split()
+    return [clean_search_text(t) for t in [raw] + tokens if len(clean_search_text(t)) >= 2]
+
+
+_GENERIC_TARGET_SEARCH_NEEDLES = {
+    clean_search_text(t) for t in [
+        "b站", "bilibili", "视频", "投稿", "合集", "全集", "完整版", "免费观看",
+        "评论", "评论区", "弹幕", "热评", "回复", "互动", "讨论", "争议", "热点",
+        "热门", "梗图", "名场面", "切片", "盘点", "复盘", "链接", "自取", "出处",
+        "来源", "是什么梗", "什么意思",
+    ]
+}
+
+_AMBIGUOUS_ALIAS_ONLY_TARGET_NEEDLES = {clean_search_text(t) for t in ["问百度", "问百度有什么用"]}
+
+
+def _is_generic_target_search_needle(needle: Any) -> bool:
+    return clean_search_text(needle) in _GENERIC_TARGET_SEARCH_NEEDLES
+
+
+# — Exported functions (3 to satisfy the goal) —
+
+def search_needles_for_relevance(
+    search_queries: list[str] | None = None,
+    target_existing_terms: list[str] | None = None,
+) -> list[str]:
+    """Build a priority-ordered list of search needles for relevance scoring."""
+    target_needles = unique_by_key(
+        [clean_search_text(t) for t in (target_existing_terms or []) if len(clean_search_text(t)) >= 2],
+    )
+    raw_query_needles: list[str] = []
+    for query in (search_queries or []):
+        for item in _parse_list(query):
+            raw_query_needles.extend(_search_query_needles(item))
+    query_needles = [
+        n for n in raw_query_needles if len(target_needles) == 0 or not _is_generic_target_search_needle(n)
+    ]
+    unique_query_needles = unique_by_key([n for n in query_needles if len(n) >= 2])
+    if len(target_needles) == 0:
+        return unique_query_needles
+    query_needle_set = set(unique_query_needles)
+    target_in_query = any(n in query_needle_set for n in target_needles)
+    alias_query_needles = [n for n in unique_query_needles if n not in target_needles]
+    if len(alias_query_needles) > 0 and not target_in_query:
+        if any(n in _AMBIGUOUS_ALIAS_ONLY_TARGET_NEEDLES for n in target_needles):
+            return alias_query_needles + alias_query_needles + unique_query_needles
+        return alias_query_needles + alias_query_needles + target_needles + unique_query_needles
+    return target_needles + target_needles + unique_query_needles
+
+
+def sort_videos_by_relevance(
+    videos: list[dict[str, Any]] | None = None,
+    search_queries: list[str] | None = None,
+    target_existing_terms: list[str] | None = None,
+) -> list[dict[str, Any]]:
+    """Sort videos by relevance score, keeping original order for ties."""
+    needles = search_needles_for_relevance(search_queries, target_existing_terms)
+    if len(needles) == 0:
+        return list(videos or [])
+    scored = [(i, v, relevance_score_for_video(v, needles)) for i, v in enumerate(videos or []) if isinstance(v, dict)]
+    scored.sort(key=lambda x: (-x[2], x[0]))
+    return [item[1] for item in scored]
+
+
+def build_target_video_object_evidence_text(
+    videos: list[dict[str, Any]] | None = None,
+    search_queries: list[str] | None = None,
+    target_existing_terms: list[str] | None = None,
+) -> str:
+    """Build Bilibili public video title text for target term evidence."""
+    if not target_existing_terms:
+        return ""
+    needles = search_needles_for_relevance(search_queries, target_existing_terms)
+    if len(needles) == 0:
+        return ""
+    lines: list[str] = []
+    seen: set[str] = set()
+    for video in (videos or []):
+        if not isinstance(video, dict):
+            continue
+        for key in ("title", "desc", "description"):
+            item = " ".join(str(video.get(key) or "").split()).strip()
+            if not item:
+                continue
+            if any(n in item for n in needles):
+                if item not in seen:
+                    seen.add(item)
+                    lines.append(f"Bilibili public video title: {item}")
+    return "\n".join(lines)

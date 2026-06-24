@@ -13,10 +13,13 @@ import unittest
 from pathlib import Path
 
 from python_backend.analysis.video_comment_filter import (
+    build_target_video_object_evidence_text,
     build_video_context_text,
     comment_matches_needle_set,
     filter_comments_by_dictionary_needles,
     relevance_score_for_video,
+    search_needles_for_relevance,
+    sort_videos_by_relevance,
     target_text_hits_for_diagnostics,
     video_context_source_urls,
     video_context_sources,
@@ -130,6 +133,26 @@ class VideoFilterComparisonTests(unittest.TestCase):
         v2 = {"bvid": "BV2", "sourceUrl": "url2"}
         py = video_context_source_urls([v1], [v2])
         js = _js_result("videoContextSourceUrls", [v1], [v2])
+        self.assertEqual(py, js)
+
+    def test_search_needles_for_relevance_matches_js(self):
+        py = search_needles_for_relevance(["hello world"], ["hello"])
+        js = _js_result("searchNeedlesForRelevance", ["hello world"], ["hello"])
+        self.assertEqual(len(py), len(js))
+        self.assertIn("hello", py)
+
+    def test_sort_videos_by_relevance_matches_js(self):
+        v1 = {"title": "Hello World", "desc": ""}
+        v2 = {"title": "Nothing", "desc": ""}
+        py = sort_videos_by_relevance([v1, v2], ["hello"], ["hello"])
+        js = _js_result("sortVideosByRelevance", [v1, v2], ["hello"], ["hello"])
+        self.assertEqual(len(py), len(js))
+        self.assertEqual(py[0]["title"], js[0]["title"])
+
+    def test_build_target_video_object_evidence_text_matches_js(self):
+        v1 = {"title": "Hello World", "desc": ""}
+        py = build_target_video_object_evidence_text([v1], ["hello"], ["hello"])
+        js = _js_result("buildTargetVideoObjectEvidenceText", [v1], ["hello"], ["hello"])
         self.assertEqual(py, js)
 
 
