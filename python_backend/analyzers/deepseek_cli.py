@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import urllib.error
 import urllib.request
@@ -459,12 +460,20 @@ class DeepSeekAnalyzeCommandRequest:
     @staticmethod
     def _required_analysis_file_error(path: str | Path) -> dict[str, Any]:
         try:
-            Path(path).read_text(encoding="utf-8-sig")
+            content = Path(path).read_text(encoding="utf-8-sig")
         except OSError:
             return {
                 "ok": False,
                 "provider": "deepseek",
                 "error": f"Could not read analysis file: {path}",
+            }
+        try:
+            json.loads(content)
+        except ValueError:
+            return {
+                "ok": False,
+                "provider": "deepseek",
+                "error": f"Could not parse analysis file: {path}",
             }
         return {}
 
