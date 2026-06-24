@@ -191,7 +191,7 @@ class CoverageAuditActionContract:
             action = "none"
         term = str(self.entry.get("term") or "").strip()
         family = str(self.entry.get("family") or "unknown")
-        return {
+        result = {
             "term": term,
             "family": family,
             "status": status,
@@ -212,6 +212,10 @@ class CoverageAuditActionContract:
             "lastQuery": "",
             "lastError": "",
         }
+        aliases = CoverageAuditSampleContract._aliases(self.entry)
+        if aliases:
+            result["aliases"] = aliases
+        return result
 
     def _profile(self) -> "CoverageEvidenceProfile":
         return CoverageEvidenceProfile(

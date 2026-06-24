@@ -33136,6 +33136,19 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual([item["term"] for item in audit["nextActions"]], ["zero", "weak"])
         self.assertIn("2 term(s) are below 3 evidence hit(s)", audit["failureReasons"])
 
+    def test_coverage_audit_action_contract_includes_capped_scalar_aliases(self):
+        action = CoverageAuditActionContract(
+            {
+                "term": "\u72d7\u5934\u4fdd\u547d",
+                "family": "evasion",
+                "aliases": ["\u72d7\u5934", "doge", {"bad": True}, "", "\u4fdd\u547d"],
+                "evidenceCount": 0,
+            },
+            target_evidence=3,
+        ).action()
+
+        self.assertEqual(action.get("aliases"), ["\u72d7\u5934", "doge", "\u4fdd\u547d"])
+
     def test_coverage_audit_builder_defaults_invalid_numeric_options(self):
         audit = CoverageAuditBuilder(
             target_evidence="bad",
