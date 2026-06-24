@@ -76,7 +76,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:coverage-progress-compare": "payload_default_action_progress_corrupt_payload_fixtures_and_js_python_bridge",
     "python:harvest-options-compare": "video_keyword_default_priority_query_content_expanded_template_fixtures_and_js_python_bridge",
     "python:discovery-report-compare": "report_fixture_rich_discovery_fixture_and_js_python_bridge",
-    "python:tieba-keyword-compare": "dry_run_plan_fixture_scrape_fixture_explicit_thread_fixture_and_js_python_plan_bridge",
+    "python:tieba-keyword-compare": "dry_run_plan_fixture_scrape_fixture_explicit_thread_fixture_provided_threads_fixture_and_js_python_plan_bridge",
     "python:video-link-direct-compare": "dry_run_plan_video_favorite_uid_missing_target_fixtures_and_js_python_bridge",
     "python:direct-probe-compare": "dry_run_plan_and_no_live_command_fixture",
     "python:direct-probe-command-compare": "full_command_query_aid_danmaku_write_fixture_matrix",
@@ -831,6 +831,7 @@ class BackendMigrationInventoryScanner:
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "runTiebaKeywordScrape.test.js"},
                 {"gate": "fixture_keyword_scrape", "status": "covered", "source": "python:tieba-keyword-compare"},
                 {"gate": "explicit_thread_url_scrape_fixture", "status": "covered", "source": "compareTiebaKeywordPlan.test.js"},
+                {"gate": "provided_threads_scrape_fixture", "status": "covered", "source": "compareTiebaKeywordPlan.test.js"},
                 {"gate": "python_corpus_update_bridge", "status": "covered", "source": "runTiebaKeywordScrape.test.js"},
             ]
         if validation_script == "python:aicu-compare":

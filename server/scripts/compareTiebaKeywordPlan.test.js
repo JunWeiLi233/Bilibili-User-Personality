@@ -85,3 +85,31 @@ test('compareTiebaKeywordPlan covers explicit thread URL scrape fixtures', async
   assert.deepEqual(result.scrape.python.threadIds, ['10759170700']);
   assert.deepEqual(result.scrape.python.commentMessages, ['mobile explicit thread comment']);
 });
+
+test('compareTiebaKeywordPlan covers provided thread scrape fixtures', async () => {
+  const result = await compareTiebaKeywordPlan({
+    scrapePayload: {
+      keyword: 'provided',
+      threads: [
+        {
+          id: '2222222222',
+          kind: 'tieba-thread',
+          title: 'Provided thread',
+          keyword: 'provided',
+          sourceUrl: 'https://tieba.baidu.com/p/2222222222',
+          fetchUrl: 'https://tieba.baidu.com/p/2222222222?pn=1',
+        },
+      ],
+      threadHtmlById: {
+        2222222222:
+          '<div class="l_post" data-field=\'{"content":{"post_id":"12"},"author":{"user_name":"dave"}}\'><div class="d_post_content">provided thread comment</div></div>',
+      },
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.scrape.ok, true);
+  assert.deepEqual(result.scrape.mismatches, []);
+  assert.deepEqual(result.scrape.python.threadIds, ['2222222222']);
+  assert.deepEqual(result.scrape.python.commentMessages, ['provided thread comment']);
+});

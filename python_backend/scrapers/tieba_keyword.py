@@ -241,7 +241,12 @@ class TiebaKeywordScrapeFixtureRunner:
         return comments
 
     def _threads_from_payload(self, payload: dict[str, Any], keyword: str) -> list[dict[str, Any]]:
-        threads = self.parser.parse_threads(payload.get("discoveryHtml") or payload.get("html") or "", keyword)
+        threads = [
+            dict(thread)
+            for thread in (payload.get("threads") if isinstance(payload.get("threads"), list) else [])
+            if isinstance(thread, dict) and str(thread.get("id") or "").strip()
+        ]
+        threads.extend(self.parser.parse_threads(payload.get("discoveryHtml") or payload.get("html") or "", keyword))
         urls = payload.get("threadUrls") if isinstance(payload.get("threadUrls"), list) else []
         for url in urls:
             thread = self.parser.thread_from_url(url, keyword)

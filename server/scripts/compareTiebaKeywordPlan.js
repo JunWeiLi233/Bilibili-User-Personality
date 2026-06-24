@@ -97,6 +97,9 @@ function buildJsScrapeFixture(payload = {}) {
   const keyword = String(payload.keyword || '').trim();
   const options = payload.options && typeof payload.options === 'object' ? payload.options : {};
   const threads = [];
+  for (const thread of Array.isArray(payload.threads) ? payload.threads : []) {
+    if (thread && typeof thread === 'object' && thread.id) threads.push({ ...thread });
+  }
   for (const thread of parseTiebaThreads(payload.discoveryHtml || payload.html || '', keyword)) {
     threads.push(thread);
   }
