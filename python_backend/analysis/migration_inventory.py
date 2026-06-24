@@ -693,6 +693,13 @@ class BackendMigrationInventoryScanner:
                     "reason": "Validation covers Python runtime mocks, multiagent mocks, and the offline live-gate skip contract, but no credentialed live API command run has been verified.",
                 }
             )
+        elif script == "dictionary:auto" and validation_scope == "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_mock_write_file_backed_mock_harvest_js_python_command_and_deferred_live_contract":
+            blockers.append(
+                {
+                    "blocker": "coverage_loop_live_runtime_not_verified",
+                    "reason": "Python has dry-run, no-live, mock cycle, mock harvest, file-backed mock harvest, and deferred live contracts, but dictionary:auto still needs a verified live harvest runtime before replacing the JS loop.",
+                }
+            )
         elif validation_scope != "full_command":
             blockers.append(
                 {

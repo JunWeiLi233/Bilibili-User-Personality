@@ -1895,6 +1895,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["nextOfflineMigrationAction"]["nodeScript"], "dictionary:auto")
         self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_mock_write_file_backed_mock_harvest_js_python_command_and_deferred_live_contract")
         self.assertFalse(result["nextOfflineMigrationAction"]["readyToReplace"])
+        self.assertEqual(
+            result["nextOfflineMigrationAction"]["replacementBlockers"],
+            [
+                {
+                    "blocker": "coverage_loop_live_runtime_not_verified",
+                    "reason": "Python has dry-run, no-live, mock cycle, mock harvest, file-backed mock harvest, and deferred live contracts, but dictionary:auto still needs a verified live harvest runtime before replacing the JS loop.",
+                },
+            ],
+        )
         self.assertIn(
             {"gate": "no_live_command_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
             result["nextOfflineMigrationAction"]["validationGates"],
