@@ -279,6 +279,8 @@ async function runPythonCoverageLoopCommand(options = {}) {
   if (options.resetState) args.push('--reset-state');
   if (!options.skipSeen) args.push('--no-skip-seen');
   if (options.stopOnNoProgress) args.push('--stop-on-no-progress');
+  if (options.pruneExhaustedAfter > 0) args.push('--prune-exhausted-after', String(options.pruneExhaustedAfter));
+  if (options.pruneIncludePartial) args.push('--prune-include-partial');
   if (options.harvestCommandJson) args.push('--harvest-command-json', options.harvestCommandJson);
   if (!options.strict) args.push('--exit-zero');
   const { stdout, stderr } = await execFileAsync('python', args, {
@@ -431,6 +433,8 @@ if (process.env.BILIBILI_COVERAGE_LOOP_USE_PYTHON_COMMAND === '1') {
     resetState,
     skipSeen,
     stopOnNoProgress: process.env.BILIBILI_COVERAGE_LOOP_STOP_ON_NO_PROGRESS === '1',
+    pruneExhaustedAfter,
+    pruneIncludePartial,
     harvestCommandJson: process.env.BILIBILI_COVERAGE_LOOP_HARVEST_COMMAND_JSON || '',
     strict,
   }));

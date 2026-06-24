@@ -548,6 +548,63 @@ class CoverageHarvestLoopMockHarvestRunner:
         return report
 
 
+class CoverageHarvestLoopExhaustedPruner:
+    """Apply the JS coverage-loop exhausted-term prune contract to a dictionary file."""
+
+    def __init__(
+        self,
+        *,
+        dictionary_path: str | Path,
+        state_path: str | Path,
+        target_evidence: int = 3,
+        attempt_threshold: int = 0,
+        include_partial: bool = False,
+        require_source_backed_evidence: bool = False,
+        require_comment_backed_evidence: bool = False,
+    ):
+        self.dictionary_path = Path(dictionary_path)
+        self.state_path = Path(state_path)
+        self.target_evidence = max(1, _positive_int(target_evidence, 3))
+        self.attempt_threshold = max(0, _non_negative_int(attempt_threshold, 0, 100000))
+        self.include_partial = bool(include_partial)
+        self.require_source_backed_evidence = bool(require_source_backed_evidence)
+        self.require_comment_backed_evidence = bool(require_comment_backed_evidence)
+        self.tracker = CoverageProgressTracker()
+
+    def run(self, dictionary: dict[str, Any] | None = None) -> dict[str, Any]:
+        dictionary = dictionary if isinstance(dictionary, dict) else JsonContractReader({"version": 1, "entries": []}).read_object(self.dictionary_path)
+        if self.attempt_threshold <= 0:
+            return {"ok": True, "pruned": 0, "dictionary": dictionary, "exhausted": []}
+        state = JsonContractReader({"termAttempts": {}}).read_object(self.state_path)
+        exhausted = self.tracker.select_exhausted_terms(
+            dictionary,
+            state,
+            {
+                "targetEvidence": self.target_evidence,
+                "attemptThreshold": self.attempt_threshold,
+                "requireZeroEvidence": not self.include_partial,
+                "requireSourceBackedEvidence": self.require_source_backed_evidence,
+                "requireCommentBackedEvidence": self.require_comment_backed_evidence,
+            },
+        )
+        if not exhausted:
+            return {"ok": True, "pruned": 0, "dictionary": dictionary, "exhausted": []}
+        remove_terms = {str(item.get("term") or "").strip() for item in exhausted if isinstance(item, dict)}
+        before_entries = dictionary.get("entries") if isinstance(dictionary.get("entries"), list) else []
+        after_entries = [
+            entry
+            for entry in before_entries
+            if not (isinstance(entry, dict) and str(entry.get("term") or "").strip() in remove_terms)
+        ]
+        pruned_dictionary = {**dictionary, "entries": after_entries}
+        self._write_dictionary(pruned_dictionary)
+        return {"ok": True, "pruned": len(before_entries) - len(after_entries), "dictionary": pruned_dictionary, "exhausted": exhausted}
+
+    def _write_dictionary(self, dictionary: dict[str, Any]) -> None:
+        self.dictionary_path.parent.mkdir(parents=True, exist_ok=True)
+        self.dictionary_path.write_text(json.dumps(dictionary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
 class CoverageHarvestLoopCommandRunner:
     """Run the file-backed coverage harvest-loop command for validated no-live gates."""
 
@@ -570,6 +627,8 @@ class CoverageHarvestLoopCommandRunner:
         reset_state: bool = False,
         skip_seen: bool = True,
         stop_on_no_progress: bool = False,
+        prune_exhausted_after: int = 0,
+        prune_include_partial: bool = False,
         generated_at: str | None = None,
         harvest_command_json: str | None = None,
     ):
@@ -589,6 +648,8 @@ class CoverageHarvestLoopCommandRunner:
         self.reset_state = bool(reset_state)
         self.skip_seen = bool(skip_seen)
         self.stop_on_no_progress = bool(stop_on_no_progress)
+        self.prune_exhausted_after = max(0, _non_negative_int(prune_exhausted_after, 0, 100000))
+        self.prune_include_partial = bool(prune_include_partial)
         self.generated_at = generated_at or self._now()
         self.runtime_gate = CoverageHarvestLoopRuntimeGate()
         self.harvest_adapter = CoverageHarvestLoopExternalHarvestAdapter(harvest_command_json) if harvest_command_json else None
@@ -696,6 +757,19 @@ class CoverageHarvestLoopCommandRunner:
             current_audit = next_audit
             latest_harvest = cycle_report["cycles"][0].get("harvest") if cycle_report["cycles"] else {}
             executed_queries = latest_harvest.get("queries") if isinstance(latest_harvest, dict) else []
+            if self.prune_exhausted_after > 0:
+                prune_result = CoverageHarvestLoopExhaustedPruner(
+                    dictionary_path=self.dictionary_path,
+                    state_path=self.state_path,
+                    target_evidence=self.target_evidence,
+                    attempt_threshold=self.prune_exhausted_after,
+                    include_partial=self.prune_include_partial,
+                    require_source_backed_evidence=self.require_source_backed_evidence,
+                    require_comment_backed_evidence=self.require_comment_backed_evidence,
+                ).run(current_dictionary)
+                if prune_result.get("pruned"):
+                    current_dictionary = prune_result["dictionary"]
+                    current_audit = self.audit_builder.build(current_dictionary)
             if isinstance(executed_queries, list) and not executed_queries:
                 stop_reason = "no_queries_run"
                 break
@@ -763,6 +837,8 @@ class CoverageHarvestLoopRequest:
         reset_state: bool = False,
         skip_seen: bool = True,
         stop_on_no_progress: bool = False,
+        prune_exhausted_after: int = 0,
+        prune_include_partial: bool = False,
         generated_at: str | None = None,
         harvest_command_json: str | None = None,
     ):
@@ -783,6 +859,8 @@ class CoverageHarvestLoopRequest:
             reset_state=reset_state,
             skip_seen=skip_seen,
             stop_on_no_progress=stop_on_no_progress,
+            prune_exhausted_after=prune_exhausted_after,
+            prune_include_partial=prune_include_partial,
             generated_at=generated_at,
             harvest_command_json=harvest_command_json,
         )
@@ -856,6 +934,8 @@ class CoverageHarvestLoopCommandRequest:
             reset_state=args.reset_state,
             skip_seen=not args.no_skip_seen,
             stop_on_no_progress=args.stop_on_no_progress,
+            prune_exhausted_after=args.prune_exhausted_after,
+            prune_include_partial=args.prune_include_partial,
             generated_at=args.generated_at or None,
             harvest_command_json=args.harvest_command_json or None,
         ).run()
@@ -883,6 +963,8 @@ class CoverageHarvestLoopCommandRequest:
         parser.add_argument("--reset-state", action="store_true")
         parser.add_argument("--no-skip-seen", action="store_true")
         parser.add_argument("--stop-on-no-progress", action="store_true")
+        parser.add_argument("--prune-exhausted-after", type=int, default=0)
+        parser.add_argument("--prune-include-partial", action="store_true")
         parser.add_argument("--generated-at", default="")
         parser.add_argument("--mock-cycle-payload", default="", help="Build a one-cycle report from a JSON payload without live harvesting.")
         parser.add_argument("--mock-harvest-payload", default="", help="Build a file-backed harvest cycle report from a JSON payload without live network harvesting.")
