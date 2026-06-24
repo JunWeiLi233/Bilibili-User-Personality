@@ -495,6 +495,30 @@ class DeepSeekAnalyzeAnalysisFileReader:
             }
 
 
+class DeepSeekAnalyzeArgvNormalizer:
+    """Normalize JS-compatible analyze command argv aliases before argparse handles them."""
+
+    VALUE_OPTIONS = {"--text", "--file", "--uid", "--name", "--fixture-analysis", "--mock-chat-analysis"}
+
+    def __init__(self, argv: list[Any] | None):
+        self.argv = [str(item) for item in argv] if argv is not None else None
+
+    def normalize(self) -> list[str] | None:
+        if self.argv is None:
+            return None
+        normalized: list[str] = []
+        index = 0
+        while index < len(self.argv):
+            arg = str(self.argv[index])
+            if arg in self.VALUE_OPTIONS and index + 1 < len(self.argv):
+                normalized.extend([arg, str(self.argv[index + 1])])
+                index += 2
+                continue
+            normalized.append("--multiagent" if arg == "--multi-agent" else arg)
+            index += 1
+        return normalized
+
+
 class DeepSeekAnalyzeCommandRequest:
     """Run Python-owned analyzeDeepSeekComments-compatible command modes."""
 
@@ -599,20 +623,7 @@ class DeepSeekAnalyzeCommandRequest:
 
     @staticmethod
     def _normalize_argv(argv: list[str] | None) -> list[str] | None:
-        if argv is None:
-            return None
-        normalized: list[str] = []
-        index = 0
-        value_options = {"--text", "--file", "--uid", "--name", "--fixture-analysis", "--mock-chat-analysis"}
-        while index < len(argv):
-            arg = str(argv[index])
-            if arg in value_options and index + 1 < len(argv):
-                normalized.extend([arg, str(argv[index + 1])])
-                index += 2
-                continue
-            normalized.append("--multiagent" if arg == "--multi-agent" else arg)
-            index += 1
-        return normalized
+        return DeepSeekAnalyzeArgvNormalizer(argv).normalize()
 
     @staticmethod
     def _json_text(value: Any) -> str:
