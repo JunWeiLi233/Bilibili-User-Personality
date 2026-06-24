@@ -658,6 +658,12 @@ class CoverageHarvestLoopCommandRunner:
         self.require_complete = bool(require_complete)
         self.require_source_backed_evidence = bool(require_source_backed_evidence)
         self.require_comment_backed_evidence = bool(require_comment_backed_evidence)
+        self.prioritize_source_gaps = self.require_comment_backed_evidence
+        self.retry_before_unattempted_limit = _non_negative_int(
+            os.environ.get("BILIBILI_HARVEST_RETRY_BEFORE_UNATTEMPTED_LIMIT"),
+            1 if self.require_comment_backed_evidence else 3,
+            20,
+        )
         self.include_danmaku = bool(include_danmaku)
         self.reset_state = bool(reset_state)
         self.skip_seen = bool(skip_seen)
@@ -767,6 +773,8 @@ class CoverageHarvestLoopCommandRunner:
                             "requireComplete": self.require_complete,
                             "requireSourceBackedEvidence": self.require_source_backed_evidence,
                             "requireCommentBackedEvidence": self.require_comment_backed_evidence,
+                            "prioritizeSourceGaps": self.prioritize_source_gaps,
+                            "retryBeforeUnattemptedLimit": self.retry_before_unattempted_limit,
                             "includeDanmaku": self.include_danmaku,
                             "resetState": self.reset_state and cycle == 1,
                             "skipSeen": self.skip_seen,

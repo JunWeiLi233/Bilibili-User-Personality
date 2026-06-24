@@ -8,6 +8,11 @@ function positiveNumber(value, fallback) {
   return Number.isFinite(number) && number > 0 ? Math.floor(number) : fallback;
 }
 
+function nonNegativeNumber(value, fallback) {
+  const number = Number(value);
+  return Number.isFinite(number) && number >= 0 ? Math.floor(number) : fallback;
+}
+
 function boolValue(value, fallback = false) {
   if (value == null || value === '') return fallback;
   if (typeof value === 'boolean') return value;
@@ -32,6 +37,11 @@ function buildHarvestOptions(request = {}) {
     requireComplete: boolValue(options.requireComplete, true),
     requireSourceBackedEvidence: boolValue(options.requireSourceBackedEvidence, false),
     requireCommentBackedEvidence: boolValue(options.requireCommentBackedEvidence, false),
+    prioritizeSourceGaps: boolValue(options.prioritizeSourceGaps, boolValue(options.requireCommentBackedEvidence, false)),
+    retryBeforeUnattemptedLimit: nonNegativeNumber(
+      options.retryBeforeUnattemptedLimit,
+      boolValue(options.requireCommentBackedEvidence, false) ? 1 : 3,
+    ),
     includeDanmaku: boolValue(options.includeDanmaku, false),
     resetState: boolValue(options.resetState, false),
     skipSeen: boolValue(options.skipSeen, true),

@@ -305,6 +305,8 @@ test('runCoverageHarvestLoop.js passes live harvest adapter controls to Python c
       requireComplete: false,
       requireSourceBackedEvidence: true,
       requireCommentBackedEvidence: true,
+      prioritizeSourceGaps: true,
+      retryBeforeUnattemptedLimit: 1,
       includeDanmaku: true,
       resetState: true,
       skipSeen: false,
@@ -698,6 +700,8 @@ test('runCoverageHarvestLoopJsAdapter maps Python loop request to JS harvest con
         targetEvidence: 4,
         requireSourceBackedEvidence: true,
         requireCommentBackedEvidence: true,
+        prioritizeSourceGaps: true,
+        retryBeforeUnattemptedLimit: 5,
         includeDanmaku: true,
         resetState: true,
         skipSeen: false,
@@ -751,6 +755,8 @@ test('runCoverageHarvestLoopJsAdapter maps Python loop request to JS harvest con
   assert.equal(calls[0].targetEvidence, 4);
   assert.equal(calls[0].requireSourceBackedEvidence, true);
   assert.equal(calls[0].requireCommentBackedEvidence, true);
+  assert.equal(calls[0].prioritizeSourceGaps, true);
+  assert.equal(calls[0].retryBeforeUnattemptedLimit, 5);
   assert.equal(calls[0].includeDanmaku, true);
   assert.equal(calls[0].resetState, true);
   assert.equal(calls[0].skipSeen, false);
