@@ -4196,6 +4196,35 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["target"], "tieba")
         self.assertEqual(result["options"], {"minDelayMs": 0, "jitterMs": 60000, "blockCooldownMs": 120000})
 
+    def test_rate_limit_options_cli_runner_compares_saved_js_report(self):
+        from python_backend.cli.rate_limit_options import RateLimitOptionsCliRunner
+
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "payload.json"
+            js_report_path = Path(tmp) / "js-report.json"
+            payload_path.write_text(
+                json.dumps({"target": "tieba", "minDelayMs": -5, "jitterMs": 999999, "blockCooldownMs": "bad"}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"mode": "rate-limit-options", "target": "tieba", "options": {"minDelayMs": 5000}}),
+                encoding="utf-8",
+            )
+
+            result = RateLimitOptionsCliRunner(["--payload", str(payload_path), "--compare-js-report", str(js_report_path)]).run()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {
+                    "key": "options",
+                    "python": {"minDelayMs": 0, "jitterMs": 60000, "blockCooldownMs": 120000},
+                    "js": {"minDelayMs": 5000},
+                }
+            ],
+        )
+
     def test_package_rate_limit_options_compare_script_runs_js_python_bridge(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
 
