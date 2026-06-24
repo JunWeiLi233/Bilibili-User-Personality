@@ -186,12 +186,27 @@ class DeepSeekAnalyzeRuntimeConfig:
         }
 
 
+class DeepSeekAnalyzeChatResponseParser:
+    """Extract analyzer JSON from a DeepSeek chat completion response."""
+
+    def parse(self, payload: Any) -> dict[str, Any]:
+        payload = payload if isinstance(payload, dict) else {}
+        content = (
+            payload.get("choices", [{}])[0].get("message", {}).get("content")
+            if isinstance(payload.get("choices"), list)
+            else ""
+        )
+        parsed = JsonContractReader().read_text_value(content, {})
+        return parsed if isinstance(parsed, dict) else {}
+
+
 class DeepSeekAnalyzeHttpTransport:
     """Send DeepSeek chat completion requests through an injectable URL opener."""
 
     def __init__(self, *, opener: Any = None, timeout: int = 60):
         self.opener = opener or urllib.request.urlopen
         self.timeout = timeout
+        self.parser = DeepSeekAnalyzeChatResponseParser()
 
     def __call__(self, request_body: dict[str, Any], config: dict[str, str]) -> dict[str, Any]:
         return self.send(request_body, config)
@@ -213,13 +228,7 @@ class DeepSeekAnalyzeHttpTransport:
         except urllib.error.HTTPError as error:
             body = error.read().decode("utf-8", errors="replace")[:200]
             raise RuntimeError(f"DeepSeek analyze failed with HTTP {error.code}: {body}") from error
-        content = (
-            payload.get("choices", [{}])[0].get("message", {}).get("content")
-            if isinstance(payload.get("choices"), list)
-            else ""
-        )
-        parsed = JsonContractReader().read_text_value(content, {})
-        return parsed if isinstance(parsed, dict) else {}
+        return self.parser.parse(payload)
 
     @staticmethod
     def _json_text(value: Any) -> str:
