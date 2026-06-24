@@ -2637,6 +2637,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(summary.samples[0]["matched_terms"], ["YYGQ", "doge"])
         self.assertEqual(summary.samples[0]["coverage"], "keyword")
 
+    def test_random_verifier_reports_normalized_message_for_bilibili_reply_content(self):
+        verifier = RandomVerifier(keyword_terms=["\u72d7\u5934"])
+
+        summary = verifier.verify([{"content": {"message": "\u72d7\u5934\u4fdd\u547d[doge]"}}], sample_size=1, seed=1)
+
+        self.assertEqual(summary.samples[0].get("message"), "\u72d7\u5934\u4fdd\u547d[doge]")
+        self.assertEqual(summary.samples[0]["matched_terms"], ["\u72d7\u5934"])
+        self.assertEqual(summary.samples[0]["coverage"], "keyword")
+
     def test_random_verifier_keeps_ascii_terms_out_of_longer_latin_words(self):
         verifier = RandomVerifier(keyword_terms=["md"])
 

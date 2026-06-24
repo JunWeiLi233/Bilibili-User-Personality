@@ -550,7 +550,7 @@ class RandomVerificationAnnotationContract:
             for term in self.keyword_terms
             if self._matches(term, folded_message, clean_message, attributable_message)
         ]
-        return {**comment, "matched_terms": matched, "coverage": "keyword" if matched else "neutral"}
+        return {**comment, "message": message, "matched_terms": matched, "coverage": "keyword" if matched else "neutral"}
 
     def _matches(self, term: str, folded_message: str, clean_message: str, attributable_message: str) -> bool:
         if term in self.ascii_terms:
