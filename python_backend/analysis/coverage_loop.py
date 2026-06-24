@@ -64,6 +64,15 @@ def _parse_list(value: Any) -> list[str]:
     return [item.strip() for item in re.split(r"[\r\n,;|]+", str(value or "")) if item.strip()]
 
 
+def _parse_many(values: list[Any] | None) -> list[str] | None:
+    if values is None:
+        return None
+    result: list[str] = []
+    for value in values:
+        result.extend(_parse_list(value))
+    return result
+
+
 class CoverageHarvestLoopPlanSummary:
     """Shape coverage-harvest loop plans into the JS/Python comparator summary contract."""
 
@@ -645,6 +654,18 @@ class CoverageHarvestLoopCommandRunner:
         prune_include_partial: bool = False,
         generated_at: str | None = None,
         harvest_command_json: str | None = None,
+        seed_queries: list[str] | None = None,
+        controversy_queries: list[str] | None = None,
+        discovery_mode: str | None = None,
+        terms_per_family: int | None = None,
+        query_variants_per_term: int | None = None,
+        extra_query_templates: list[str] | None = None,
+        exhausted_suggestion_templates: list[str] | None = None,
+        discovery_limit: int | None = None,
+        discovery_pages: int | None = None,
+        include_generic_popular: bool | None = None,
+        pages: int | None = None,
+        per_query_timeout_ms: int | None = None,
     ):
         self.dictionary_path = Path(dictionary_path)
         self.state_path = Path(state_path)
@@ -676,15 +697,31 @@ class CoverageHarvestLoopCommandRunner:
             "reasoningEffort": os.environ.get("BILIBILI_HARVEST_REASONING_EFFORT") or "max",
         }
         self.discovery_options = {
-            "seedQueries": _parse_list(os.environ.get("BILIBILI_VIDEO_SEARCH_QUERIES") or os.environ.get("BILIBILI_VIDEO_SEARCH_QUERY")),
-            "controversyQueries": _parse_list(
-                os.environ.get("BILIBILI_CONTROVERSY_SEARCH_QUERIES") or os.environ.get("BILIBILI_CONTROVERSY_SEARCH_QUERY")
+            "seedQueries": seed_queries
+            if seed_queries is not None
+            else _parse_list(os.environ.get("BILIBILI_VIDEO_SEARCH_QUERIES") or os.environ.get("BILIBILI_VIDEO_SEARCH_QUERY")),
+            "controversyQueries": controversy_queries
+            if controversy_queries is not None
+            else _parse_list(os.environ.get("BILIBILI_CONTROVERSY_SEARCH_QUERIES") or os.environ.get("BILIBILI_CONTROVERSY_SEARCH_QUERY")),
+            "discoveryMode": str(discovery_mode or os.environ.get("BILIBILI_VIDEO_DISCOVERY_MODE") or "controversial").strip().lower(),
+            "termsPerFamily": _positive_int(
+                terms_per_family if terms_per_family is not None else os.environ.get("BILIBILI_HARVEST_TERMS_PER_FAMILY"),
+                4,
+                20,
             ),
-            "discoveryMode": str(os.environ.get("BILIBILI_VIDEO_DISCOVERY_MODE") or "controversial").strip().lower(),
-            "termsPerFamily": _positive_int(os.environ.get("BILIBILI_HARVEST_TERMS_PER_FAMILY"), 4, 20),
-            "queryVariantsPerTerm": _positive_int(os.environ.get("BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM"), 2, 20),
-            "extraQueryTemplates": _parse_list(os.environ.get("BILIBILI_HARVEST_EXTRA_QUERY_TEMPLATES")),
-            "exhaustedSuggestionTemplates": _parse_list(os.environ.get("BILIBILI_HARVEST_EXHAUSTED_SUGGESTION_TEMPLATES")),
+            "queryVariantsPerTerm": _positive_int(
+                query_variants_per_term
+                if query_variants_per_term is not None
+                else os.environ.get("BILIBILI_HARVEST_QUERY_VARIANTS_PER_TERM"),
+                2,
+                20,
+            ),
+            "extraQueryTemplates": extra_query_templates
+            if extra_query_templates is not None
+            else _parse_list(os.environ.get("BILIBILI_HARVEST_EXTRA_QUERY_TEMPLATES")),
+            "exhaustedSuggestionTemplates": exhausted_suggestion_templates
+            if exhausted_suggestion_templates is not None
+            else _parse_list(os.environ.get("BILIBILI_HARVEST_EXHAUSTED_SUGGESTION_TEMPLATES")),
             "maxHardMissedQueries": _non_negative_int(
                 os.environ.get("BILIBILI_HARVEST_MAX_HARD_MISSED_QUERIES"), max(2, (self.max_queries + 1) // 2), 100
             ),
@@ -698,13 +735,27 @@ class CoverageHarvestLoopCommandRunner:
             "verbose": _flag_value(os.environ.get("BILIBILI_HARVEST_VERBOSE"), True),
             "prioritizeNearTarget": _flag_value(os.environ.get("BILIBILI_HARVEST_PRIORITIZE_NEAR_TARGET"), False),
             "existingTermsOnly": os.environ.get("BILIBILI_HARVEST_EXISTING_TERMS_ONLY") == "1",
-            "discoveryLimit": _positive_int(os.environ.get("BILIBILI_VIDEO_DISCOVERY_LIMIT"), 6, 20),
-            "discoveryPages": _positive_int(os.environ.get("BILIBILI_VIDEO_DISCOVERY_PAGES"), 1, 5),
+            "discoveryLimit": _positive_int(
+                discovery_limit if discovery_limit is not None else os.environ.get("BILIBILI_VIDEO_DISCOVERY_LIMIT"),
+                6,
+                20,
+            ),
+            "discoveryPages": _positive_int(
+                discovery_pages if discovery_pages is not None else os.environ.get("BILIBILI_VIDEO_DISCOVERY_PAGES"),
+                1,
+                5,
+            ),
             "controversialPopularQueryLimit": _non_negative_int(os.environ.get("BILIBILI_CONTROVERSIAL_POPULAR_QUERY_LIMIT"), 4, 20),
             "controversialPopularSearchOrder": str(os.environ.get("BILIBILI_CONTROVERSIAL_POPULAR_SEARCH_ORDER") or "click").strip().lower(),
-            "includeGenericPopular": _flag_value(os.environ.get("BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR"), False),
-            "pages": _positive_int(os.environ.get("BILIBILI_VIDEO_COMMENT_PAGES"), 2, 20),
-            "perQueryTimeoutMs": _positive_int(os.environ.get("BILIBILI_HARVEST_QUERY_TIMEOUT_MS"), 180000, 30 * 60 * 1000),
+            "includeGenericPopular": bool(include_generic_popular)
+            if include_generic_popular is not None
+            else _flag_value(os.environ.get("BILIBILI_CONTROVERSIAL_INCLUDE_GENERIC_POPULAR"), False),
+            "pages": _positive_int(pages if pages is not None else os.environ.get("BILIBILI_VIDEO_COMMENT_PAGES"), 2, 20),
+            "perQueryTimeoutMs": _positive_int(
+                per_query_timeout_ms if per_query_timeout_ms is not None else os.environ.get("BILIBILI_HARVEST_QUERY_TIMEOUT_MS"),
+                180000,
+                30 * 60 * 1000,
+            ),
             "expandTargetsFromComments": _flag_value(os.environ.get("BILIBILI_HARVEST_EXPAND_TARGETS_FROM_COMMENTS"), False),
         }
         self.runtime_gate = CoverageHarvestLoopRuntimeGate()
@@ -901,6 +952,18 @@ class CoverageHarvestLoopRequest:
         prune_include_partial: bool = False,
         generated_at: str | None = None,
         harvest_command_json: str | None = None,
+        seed_queries: list[str] | None = None,
+        controversy_queries: list[str] | None = None,
+        discovery_mode: str | None = None,
+        terms_per_family: int | None = None,
+        query_variants_per_term: int | None = None,
+        extra_query_templates: list[str] | None = None,
+        exhausted_suggestion_templates: list[str] | None = None,
+        discovery_limit: int | None = None,
+        discovery_pages: int | None = None,
+        include_generic_popular: bool | None = None,
+        pages: int | None = None,
+        per_query_timeout_ms: int | None = None,
     ):
         self.runner = CoverageHarvestLoopCommandRunner(
             dictionary_path=dictionary_path,
@@ -923,6 +986,18 @@ class CoverageHarvestLoopRequest:
             prune_include_partial=prune_include_partial,
             generated_at=generated_at,
             harvest_command_json=harvest_command_json,
+            seed_queries=seed_queries,
+            controversy_queries=controversy_queries,
+            discovery_mode=discovery_mode,
+            terms_per_family=terms_per_family,
+            query_variants_per_term=query_variants_per_term,
+            extra_query_templates=extra_query_templates,
+            exhausted_suggestion_templates=exhausted_suggestion_templates,
+            discovery_limit=discovery_limit,
+            discovery_pages=discovery_pages,
+            include_generic_popular=include_generic_popular,
+            pages=pages,
+            per_query_timeout_ms=per_query_timeout_ms,
         )
 
     def run(self) -> dict[str, Any]:
@@ -998,6 +1073,18 @@ class CoverageHarvestLoopCommandRequest:
             prune_include_partial=args.prune_include_partial,
             generated_at=args.generated_at or None,
             harvest_command_json=args.harvest_command_json or None,
+            seed_queries=_parse_many(args.seed_query),
+            controversy_queries=_parse_many(args.controversy_query),
+            discovery_mode=args.discovery_mode or None,
+            terms_per_family=args.terms_per_family,
+            query_variants_per_term=args.query_variants_per_term,
+            extra_query_templates=_parse_many(args.extra_query_template),
+            exhausted_suggestion_templates=_parse_many(args.exhausted_suggestion_template),
+            discovery_limit=args.discovery_limit,
+            discovery_pages=args.discovery_pages,
+            include_generic_popular=True if args.include_generic_popular else None,
+            pages=args.pages,
+            per_query_timeout_ms=args.per_query_timeout_ms,
         ).run()
 
     def exit_zero(self) -> bool:
@@ -1026,6 +1113,28 @@ class CoverageHarvestLoopCommandRequest:
         parser.add_argument("--prune-exhausted-after", type=int, default=0)
         parser.add_argument("--prune-include-partial", action="store_true")
         parser.add_argument("--generated-at", default="")
+        parser.add_argument("--seed-query", action="append", default=None, help="Seed query for external harvest adapters; repeat or comma-separate.")
+        parser.add_argument(
+            "--controversy-query",
+            action="append",
+            default=None,
+            help="Controversy query for external harvest adapters; repeat or comma-separate.",
+        )
+        parser.add_argument("--discovery-mode", default="")
+        parser.add_argument("--terms-per-family", type=int, default=None)
+        parser.add_argument("--query-variants-per-term", type=int, default=None)
+        parser.add_argument("--extra-query-template", action="append", default=None, help="Extra query template; repeat or comma-separate.")
+        parser.add_argument(
+            "--exhausted-suggestion-template",
+            action="append",
+            default=None,
+            help="Suggestion template for exhausted terms; repeat or comma-separate.",
+        )
+        parser.add_argument("--discovery-limit", type=int, default=None)
+        parser.add_argument("--discovery-pages", type=int, default=None)
+        parser.add_argument("--include-generic-popular", action="store_true")
+        parser.add_argument("--pages", type=int, default=None)
+        parser.add_argument("--per-query-timeout-ms", type=int, default=None)
         parser.add_argument("--mock-cycle-payload", default="", help="Build a one-cycle report from a JSON payload without live harvesting.")
         parser.add_argument("--mock-harvest-payload", default="", help="Build a file-backed harvest cycle report from a JSON payload without live network harvesting.")
         parser.add_argument("--harvest-command-json", default="", help="JSON array command for an external harvest adapter. Use {payload} for the request path.")

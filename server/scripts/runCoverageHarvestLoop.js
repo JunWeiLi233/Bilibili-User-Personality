@@ -3,6 +3,7 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { promisify } from 'node:util';
+import { fileURLToPath } from 'node:url';
 
 import { readKeywordDictionary, writeJsonFileAtomic, DEFAULT_DICTIONARY_PATH } from '../services/deepseekKeywordTrainer.js';
 import { coverageDeltaFromHarvest, hasCoverageDeltaProgress } from '../utils/coverageProgress.js';
@@ -252,7 +253,7 @@ async function runPythonCoverageLoopPlan(payloadPath) {
   return JSON.parse(stdout);
 }
 
-async function runPythonCoverageLoopCommand(options = {}) {
+export function buildPythonCoverageLoopCommandArgs(options = {}) {
   const args = [
     '-m',
     'python_backend.cli.coverage_loop_command',
@@ -285,7 +286,26 @@ async function runPythonCoverageLoopCommand(options = {}) {
   if (options.pruneExhaustedAfter > 0) args.push('--prune-exhausted-after', String(options.pruneExhaustedAfter));
   if (options.pruneIncludePartial) args.push('--prune-include-partial');
   if (options.harvestCommandJson) args.push('--harvest-command-json', options.harvestCommandJson);
+  for (const query of options.seedQueries || []) args.push('--seed-query', query);
+  for (const query of options.controversyQueries || []) args.push('--controversy-query', query);
+  if (options.discoveryMode) args.push('--discovery-mode', options.discoveryMode);
+  if (options.termsPerFamily) args.push('--terms-per-family', String(options.termsPerFamily));
+  if (options.queryVariantsPerTerm) args.push('--query-variants-per-term', String(options.queryVariantsPerTerm));
+  for (const template of options.extraQueryTemplates || []) args.push('--extra-query-template', template);
+  for (const template of options.exhaustedSuggestionTemplates || []) {
+    args.push('--exhausted-suggestion-template', template);
+  }
+  if (options.discoveryLimit) args.push('--discovery-limit', String(options.discoveryLimit));
+  if (options.discoveryPages) args.push('--discovery-pages', String(options.discoveryPages));
+  if (options.includeGenericPopular) args.push('--include-generic-popular');
+  if (options.pages) args.push('--pages', String(options.pages));
+  if (options.perQueryTimeoutMs) args.push('--per-query-timeout-ms', String(options.perQueryTimeoutMs));
   if (!options.strict) args.push('--exit-zero');
+  return args;
+}
+
+async function runPythonCoverageLoopCommand(options = {}) {
+  const args = buildPythonCoverageLoopCommandArgs(options);
   const { stdout, stderr } = await execFileAsync('python', args, {
     cwd: process.cwd(),
     env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
@@ -327,6 +347,8 @@ const statePath = process.env.BILIBILI_HARVEST_STATE_PATH || DEFAULT_HARVEST_STA
 import { DEFAULT_COVERAGE_LOOP_REPORT_PATH } from '../utils/paths.js';
 
 const execFileAsync = promisify(execFile);
+
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
 const reportPath = process.env.BILIBILI_COVERAGE_LOOP_REPORT_PATH || DEFAULT_COVERAGE_LOOP_REPORT_PATH;
 const maxCycles = nonNegativeIntFromEnv('BILIBILI_COVERAGE_LOOP_MAX_CYCLES', 3, 50);
 const roundsPerCycle = positiveIntFromEnv('BILIBILI_COVERAGE_LOOP_ROUNDS_PER_CYCLE', positiveIntFromEnv('BILIBILI_HARVEST_ROUNDS', 1), 20);
@@ -439,6 +461,18 @@ if (planArgs.pythonCommand || process.env.BILIBILI_COVERAGE_LOOP_USE_PYTHON_COMM
     pruneExhaustedAfter,
     pruneIncludePartial,
     harvestCommandJson: process.env.BILIBILI_COVERAGE_LOOP_HARVEST_COMMAND_JSON || '',
+    seedQueries,
+    controversyQueries,
+    discoveryMode,
+    termsPerFamily,
+    queryVariantsPerTerm,
+    extraQueryTemplates,
+    exhaustedSuggestionTemplates,
+    discoveryLimit,
+    discoveryPages,
+    includeGenericPopular,
+    pages,
+    perQueryTimeoutMs,
     strict,
   }));
   process.exit(0);
@@ -621,4 +655,5 @@ console.log(`Coverage loop report: ${reportPath}`);
 
 if (strict && !audit.ok) {
   process.exitCode = 1;
+}
 }

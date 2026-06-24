@@ -1803,7 +1803,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:coverage-loop-command-compare",
                     "validationCommand": "node server/scripts/compareCoverageHarvestLoopCommand.js",
-                    "validationScope": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_discovery_options_advanced_harvest_controls_source_gap_retry_controls_js_adapter_live_bridge_cli_flag_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract",
+                    "validationScope": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_discovery_options_advanced_harvest_controls_standalone_discovery_cli_controls_source_gap_retry_controls_js_adapter_live_bridge_cli_flag_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract",
                 },
                 {
                     "script": "dictionary:tieba",
@@ -2013,7 +2013,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["nextOfflineMigrationAction"]["pythonCommand"], "python -m python_backend.cli.coverage_loop_command")
         self.assertEqual(result["nextOfflineMigrationAction"]["validationScript"], "python:coverage-loop-command-compare")
         self.assertEqual(result["nextOfflineMigrationAction"]["validationCommand"], "node server/scripts/compareCoverageHarvestLoopCommand.js")
-        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_discovery_options_advanced_harvest_controls_source_gap_retry_controls_js_adapter_live_bridge_cli_flag_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_discovery_options_advanced_harvest_controls_standalone_discovery_cli_controls_source_gap_retry_controls_js_adapter_live_bridge_cli_flag_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract")
         self.assertFalse(result["nextOfflineMigrationAction"]["readyToReplace"])
         self.assertEqual(
             result["nextOfflineMigrationAction"]["replacementBlockers"],
@@ -2066,6 +2066,14 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertIn(
             {"gate": "external_harvest_advanced_controls", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
+            result["nextOfflineMigrationAction"]["validationGates"],
+        )
+        self.assertIn(
+            {
+                "gate": "external_harvest_standalone_discovery_cli_controls",
+                "status": "covered",
+                "source": "python_backend.tests.test_corpus_contracts",
+            },
             result["nextOfflineMigrationAction"]["validationGates"],
         )
         self.assertIn(
@@ -31535,6 +31543,106 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(seen_request["options"]["controversialPopularQueryLimit"], 10)
         self.assertEqual(seen_request["options"]["controversialPopularSearchOrder"], "pubdate")
 
+    def test_coverage_harvest_loop_command_accepts_standalone_discovery_cli_controls(self):
+        from python_backend.analysis import coverage_loop as coverage_loop_module
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+            dictionary_path = temp_path / "dictionary.json"
+            state_path = temp_path / "state.json"
+            report_path = temp_path / "report.json"
+            seen_path = temp_path / "seen-request.json"
+            harvest_script = temp_path / "harvest_adapter.py"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "entries": [
+                            {
+                                "term": "alpha",
+                                "family": "meme",
+                                "evidenceCount": 0,
+                                "evidenceSamples": [],
+                                "evidenceSources": [],
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            harvest_script.write_text(
+                "\n".join(
+                    [
+                        "import json, sys",
+                        "from pathlib import Path",
+                        "request = json.loads(Path(sys.argv[1]).read_text(encoding='utf-8'))",
+                        "Path(sys.argv[2]).write_text(json.dumps(request, ensure_ascii=False), encoding='utf-8')",
+                        "print(json.dumps({'afterDictionary': {'version': 1, 'entries': [{'term': 'alpha', 'family': 'meme', 'evidenceCount': 3, 'evidenceSamples': ['a', 'b', 'c'], 'evidenceSources': [{'source': 'Bilibili public video comment scan', 'sample': 'a'}, {'source': 'Bilibili public video comment scan', 'sample': 'b'}, {'source': 'Bilibili public video comment scan', 'sample': 'c'}]}]}, 'harvest': {'ok': True, 'rounds': [{'queries': ['alpha review'], 'warnings': [], 'coverageProgress': {'evidenceGained': 3}, 'trainingDiagnostics': {'accepted': 3}, 'queryDiagnostics': []}]}}, ensure_ascii=False))",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            coverage_loop_module.CoverageHarvestLoopCommandRequest(
+                [
+                    "--dictionary",
+                    dictionary_path,
+                    "--state",
+                    state_path,
+                    "--report",
+                    report_path,
+                    "--max-cycles",
+                    "1",
+                    "--target-evidence",
+                    "3",
+                    "--max-actions",
+                    "3",
+                    "--seed-query",
+                    "alpha seed",
+                    "--seed-query",
+                    "beta seed",
+                    "--controversy-query",
+                    "drama seed",
+                    "--discovery-mode",
+                    "popular",
+                    "--terms-per-family",
+                    "6",
+                    "--query-variants-per-term",
+                    "5",
+                    "--extra-query-template",
+                    "{term} review",
+                    "--exhausted-suggestion-template",
+                    "{term} retry",
+                    "--discovery-limit",
+                    "9",
+                    "--discovery-pages",
+                    "2",
+                    "--include-generic-popular",
+                    "--pages",
+                    "4",
+                    "--per-query-timeout-ms",
+                    "120000",
+                    "--harvest-command-json",
+                    json.dumps([sys.executable, str(harvest_script), "{payload}", str(seen_path)]),
+                    "--exit-zero",
+                ]
+            ).run()
+
+            seen_request = json.loads(seen_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(seen_request["options"]["seedQueries"], ["alpha seed", "beta seed"])
+        self.assertEqual(seen_request["options"]["controversyQueries"], ["drama seed"])
+        self.assertEqual(seen_request["options"]["discoveryMode"], "popular")
+        self.assertEqual(seen_request["options"]["termsPerFamily"], 6)
+        self.assertEqual(seen_request["options"]["queryVariantsPerTerm"], 5)
+        self.assertEqual(seen_request["options"]["extraQueryTemplates"], ["{term} review"])
+        self.assertEqual(seen_request["options"]["exhaustedSuggestionTemplates"], ["{term} retry"])
+        self.assertEqual(seen_request["options"]["discoveryLimit"], 9)
+        self.assertEqual(seen_request["options"]["discoveryPages"], 2)
+        self.assertTrue(seen_request["options"]["includeGenericPopular"])
+        self.assertEqual(seen_request["options"]["pages"], 4)
+        self.assertEqual(seen_request["options"]["perQueryTimeoutMs"], 120000)
+
     def test_coverage_harvest_loop_command_stops_external_loop_on_no_progress(self):
         from python_backend.analysis import coverage_loop as coverage_loop_module
 
@@ -31997,7 +32105,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("npm run python:coverage-loop-command-compare", workflow)
         self.assertEqual(
             DEFAULT_PACKAGE_VALIDATION_SCOPES["python:coverage-loop-command-compare"],
-            "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_discovery_options_advanced_harvest_controls_source_gap_retry_controls_js_adapter_live_bridge_cli_flag_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract",
+            "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_discovery_options_advanced_harvest_controls_standalone_discovery_cli_controls_source_gap_retry_controls_js_adapter_live_bridge_cli_flag_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract",
         )
 
     def test_coverage_harvest_loop_runner_reads_json_contracts_and_expands_priority_queries(self):

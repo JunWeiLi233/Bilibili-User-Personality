@@ -7,6 +7,7 @@ import { spawnSync } from 'node:child_process';
 import { COVERAGE_LOOP_COMMAND_FIXTURES, compareCoverageHarvestLoopCommand } from './compareCoverageHarvestLoopCommand.js';
 import { runCoverageLoopJsHarvestAdapter } from './runCoverageHarvestLoopJsAdapter.js';
 import { compareCoverageHarvestLoopPlanObjects } from './compareCoverageHarvestLoopPlan.js';
+import { buildPythonCoverageLoopCommandArgs } from './runCoverageHarvestLoop.js';
 
 test('runCoverageHarvestLoop.js forces auto coverage to DeepSeek v4 flash max effort', () => {
   const tempDir = mkdtempSync(join(tmpdir(), 'coverage-loop-script-'));
@@ -258,6 +259,68 @@ test('runCoverageHarvestLoop.js can delegate command runtime to Python with CLI 
   } finally {
     rmSync(tempDir, { recursive: true, force: true });
   }
+});
+
+test('runCoverageHarvestLoop.js builds standalone Python discovery CLI args', () => {
+  const args = buildPythonCoverageLoopCommandArgs({
+    dictionaryPath: 'dictionary.json',
+    statePath: 'state.json',
+    reportPath: 'report.json',
+    maxCycles: 1,
+    roundsPerCycle: 2,
+    maxQueries: 5,
+    targetEvidence: 4,
+    maxActions: 5,
+    minCoverageRatio: 0.75,
+    requireComplete: false,
+    seedQueries: ['alpha seed', 'beta seed'],
+    controversyQueries: ['drama seed'],
+    discoveryMode: 'popular',
+    termsPerFamily: 6,
+    queryVariantsPerTerm: 5,
+    extraQueryTemplates: ['{term} review'],
+    exhaustedSuggestionTemplates: ['{term} retry'],
+    discoveryLimit: 9,
+    discoveryPages: 2,
+    includeGenericPopular: true,
+    pages: 4,
+    perQueryTimeoutMs: 120000,
+    strict: false,
+  });
+
+  assert.deepEqual(args.slice(0, 2), ['-m', 'python_backend.cli.coverage_loop_command']);
+  assert.deepEqual(args.slice(args.indexOf('--seed-query'), args.indexOf('--seed-query') + 4), [
+    '--seed-query',
+    'alpha seed',
+    '--seed-query',
+    'beta seed',
+  ]);
+  assert.deepEqual(args.slice(args.indexOf('--controversy-query'), args.indexOf('--controversy-query') + 2), [
+    '--controversy-query',
+    'drama seed',
+  ]);
+  assert.deepEqual(args.slice(args.indexOf('--discovery-mode'), args.indexOf('--discovery-mode') + 2), ['--discovery-mode', 'popular']);
+  assert.deepEqual(args.slice(args.indexOf('--terms-per-family'), args.indexOf('--terms-per-family') + 2), ['--terms-per-family', '6']);
+  assert.deepEqual(args.slice(args.indexOf('--query-variants-per-term'), args.indexOf('--query-variants-per-term') + 2), [
+    '--query-variants-per-term',
+    '5',
+  ]);
+  assert.deepEqual(args.slice(args.indexOf('--extra-query-template'), args.indexOf('--extra-query-template') + 2), [
+    '--extra-query-template',
+    '{term} review',
+  ]);
+  assert.deepEqual(
+    args.slice(args.indexOf('--exhausted-suggestion-template'), args.indexOf('--exhausted-suggestion-template') + 2),
+    ['--exhausted-suggestion-template', '{term} retry'],
+  );
+  assert.deepEqual(args.slice(args.indexOf('--discovery-limit'), args.indexOf('--discovery-limit') + 2), ['--discovery-limit', '9']);
+  assert.deepEqual(args.slice(args.indexOf('--discovery-pages'), args.indexOf('--discovery-pages') + 2), ['--discovery-pages', '2']);
+  assert.ok(args.includes('--include-generic-popular'));
+  assert.deepEqual(args.slice(args.indexOf('--pages'), args.indexOf('--pages') + 2), ['--pages', '4']);
+  assert.deepEqual(args.slice(args.indexOf('--per-query-timeout-ms'), args.indexOf('--per-query-timeout-ms') + 2), [
+    '--per-query-timeout-ms',
+    '120000',
+  ]);
 });
 
 test('runCoverageHarvestLoop.js passes live harvest adapter controls to Python command bridge', () => {
