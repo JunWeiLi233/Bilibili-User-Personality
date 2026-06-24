@@ -77,6 +77,19 @@ async function runPythonPruneSummaryWrite({ dictionaryPath }) {
   return JSON.parse(stdout);
 }
 
+async function runPythonPruneSummaryComparison({ pythonDictionaryPath, jsReportPath }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    ['-m', 'python_backend.cli.dictionary_prune_summary', '--dictionary', pythonDictionaryPath, '--compare-js-report', jsReportPath],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return JSON.parse(stdout);
+}
+
 async function readJson(path, fallback = {}) {
   try {
     return JSON.parse(await readFile(path, 'utf8'));
@@ -112,16 +125,32 @@ export async function compareDictionaryPruneSummary({
   write = false,
   runJsSummary = runJsPruneSummary,
   runPythonSummary = runPythonPruneSummary,
+  runCompare = runPythonPruneSummaryComparison,
 } = {}) {
   const tempDir = await mkdtemp(join(tmpdir(), 'dictionary-prune-compare-'));
   try {
     const jsDictionaryPath = join(tempDir, 'dictionary.js.json');
     const pythonDictionaryPath = join(tempDir, 'dictionary.python.json');
+    const compareDictionaryPath = join(tempDir, 'dictionary.compare.json');
     await writeDictionaryFixture(jsDictionaryPath, dictionary);
     await writeDictionaryFixture(pythonDictionaryPath, dictionary);
+    await writeDictionaryFixture(compareDictionaryPath, dictionary);
     const js = await runJsSummary({ dictionaryPath: jsDictionaryPath, dictionary });
-    const python = await (write ? runPythonPruneSummaryWrite : runPythonSummary)({ dictionaryPath: pythonDictionaryPath, dictionary });
-    const comparison = compareDictionaryPruneSummaryObjects(python, js);
+    const jsReportPath = join(tempDir, 'js-report.json');
+    await writeFile(jsReportPath, JSON.stringify(js, null, 2), 'utf8');
+    const python = write
+      ? await runPythonPruneSummaryWrite({ dictionaryPath: pythonDictionaryPath, dictionary })
+      : await runPythonSummary({ dictionaryPath: pythonDictionaryPath, dictionary });
+    const comparison = await runCompare({
+      jsDictionaryPath,
+      pythonDictionaryPath: compareDictionaryPath,
+      jsReportPath,
+      dictionary,
+      js,
+      python,
+      jsReport: js,
+      pythonReport: python,
+    });
     const persisted = write
       ? {
         jsTerms: await persistedDictionaryTerms(jsDictionaryPath),

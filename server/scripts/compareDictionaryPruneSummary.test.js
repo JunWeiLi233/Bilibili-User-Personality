@@ -36,11 +36,43 @@ test('compareDictionaryPruneSummary compares JS and Python fixture summaries', a
       calls.push({ python: payload });
       return SUMMARY;
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('compareDictionaryPruneSummary delegates saved JS report comparison to Python contract', async () => {
+  let compareContext;
+  const result = await compareDictionaryPruneSummary({
+    runJsSummary: async () => SUMMARY,
+    runPythonSummary: async () => SUMMARY,
+    runCompare: async (context) => {
+      compareContext = context;
+      return {
+        ok: true,
+        mismatches: [],
+        python: {
+          entries: SUMMARY.entries,
+          asciiTerms: SUMMARY.asciiTerms,
+          summary: SUMMARY.summary,
+        },
+        js: {
+          entries: SUMMARY.entries,
+          asciiTerms: SUMMARY.asciiTerms,
+          summary: SUMMARY.summary,
+        },
+      };
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.equal(compareContext.jsReportPath.endsWith('js-report.json'), true);
+  assert.deepEqual(compareContext.jsReport, SUMMARY);
+  assert.deepEqual(compareContext.pythonReport, SUMMARY);
 });
 
 test('compareDictionaryPruneSummary compares write-mode persisted dictionary terms', async () => {
