@@ -2616,6 +2616,21 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertFalse(readiness["ok"])
         self.assertEqual(readiness["blockers"], ["noReplacementBlockers", "allManualVerificationComplete"])
+        self.assertEqual(
+            readiness["blockerDetails"],
+            [
+                {
+                    "gate": "noReplacementBlockers",
+                    "reason": "replacement candidates still have blockers",
+                    "count": 1,
+                },
+                {
+                    "gate": "allManualVerificationComplete",
+                    "reason": "manual verification actions remain",
+                    "count": 1,
+                },
+            ],
+        )
         self.assertEqual(readiness["replacementBlockedActionPaths"], ["server/scripts/a.js"])
         self.assertEqual(readiness["readyToReplaceActionPaths"], ["server/scripts/b.js"])
         self.assertEqual(readiness["manualVerificationBlockerCounts"], {"live_not_verified": 1})
@@ -2630,6 +2645,7 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertTrue(readiness["ok"])
         self.assertEqual(readiness["blockers"], [])
+        self.assertEqual(readiness["blockerDetails"], [])
         self.assertEqual(
             readiness["gates"],
             [

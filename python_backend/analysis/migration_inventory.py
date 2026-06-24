@@ -585,6 +585,7 @@ class BackendReplacementReadinessContract:
             "ok": not blockers,
             "gates": gates,
             "blockers": blockers,
+            "blockerDetails": self._blocker_details(gates, replacement_blocked, manual_blocker_counts),
             "manualVerificationActionCount": len(self.manual_verification_actions),
             "replacementBlockedActionCount": len(replacement_blocked),
             "readyToReplaceActionCount": len(ready_to_replace),
@@ -603,6 +604,33 @@ class BackendReplacementReadinessContract:
             },
             "nextManualVerificationAction": dict(self.manual_verification_actions[0]) if self.manual_verification_actions else {},
         }
+
+    def _blocker_details(
+        self,
+        gates: list[dict[str, Any]],
+        replacement_blocked: list[dict[str, Any]],
+        manual_blocker_counts: dict[str, int],
+    ) -> list[dict[str, Any]]:
+        reasons = {
+            "noPythonContractGaps": "Python compatibility contract gaps remain",
+            "noReplacementBlockers": "replacement candidates still have blockers",
+            "allManualVerificationComplete": "manual verification actions remain",
+        }
+        counts = {
+            "noPythonContractGaps": len(self.python_contract_gaps),
+            "noReplacementBlockers": len(replacement_blocked),
+            "allManualVerificationComplete": sum(manual_blocker_counts.values()),
+        }
+        return [
+            {
+                "gate": gate_name,
+                "reason": reasons.get(gate_name, "readiness gate failed"),
+                "count": counts.get(gate_name, 0),
+            }
+            for gate in gates
+            for gate_name in [str(gate.get("gate") or "")]
+            if not gate.get("ok")
+        ]
 
 
 @dataclass(frozen=True)
