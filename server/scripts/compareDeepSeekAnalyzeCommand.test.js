@@ -74,6 +74,46 @@ test('buildDeepSeekAnalyzeCommandArgs forwards command identity fields', () => {
   ]);
 });
 
+test('buildDeepSeekAnalyzeCommandArgs forwards file input before text input', () => {
+  const result = buildDeepSeekAnalyzeCommandArgs({
+    runtime: 'js',
+    mode: 'fixture',
+    analysisPath: 'tmp/analysis.json',
+    payload: {
+      filePath: 'tmp/input.txt',
+      text: 'ignored text',
+      uid: '42',
+      name: 'fixture-user',
+    },
+  });
+
+  assert.deepEqual(result, [
+    'server/scripts/analyzeDeepSeekComments.js',
+    '--fixture-analysis',
+    'tmp/analysis.json',
+    '--file',
+    'tmp/input.txt',
+    '--uid',
+    '42',
+    '--name',
+    'fixture-user',
+  ]);
+});
+
+test('compareDeepSeekAnalyzeCommand compares file input fixture commands', async () => {
+  const result = await compareDeepSeekAnalyzeCommand({
+    payload: {
+      fileText: '文件输入狗头保命[doge]',
+      uid: '42',
+      name: 'fixture-user',
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.equal(result.fixture.payload.fileText, '文件输入狗头保命[doge]');
+});
+
 test('compareDeepSeekAnalyzeCommandMockRuntime compares JS command mock runtime to Python command', async () => {
   const calls = [];
   const result = await compareDeepSeekAnalyzeCommandMockRuntime({

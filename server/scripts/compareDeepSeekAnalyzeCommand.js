@@ -32,7 +32,8 @@ export function buildDeepSeekAnalyzeCommandArgs({ runtime = 'js', mode = 'fixtur
   if (mode === 'fixture') args.push('--fixture-analysis', analysisPath);
   if (mode === 'mock') args.push('--mock-chat-analysis', analysisPath);
   if (mode === 'live-gate') args.push('--live-validation-gate');
-  if (payload.text) args.push('--text', payload.text);
+  if (payload.filePath) args.push('--file', payload.filePath);
+  else if (payload.text) args.push('--text', payload.text);
   if (payload.uid) args.push('--uid', payload.uid);
   if (payload.name) args.push('--name', payload.name);
   if (payload.multiagent) args.push('--multiagent');
@@ -136,12 +137,19 @@ export async function compareDeepSeekAnalyzeCommand({
   try {
     const analysisPath = join(tempDir, 'analysis.json');
     await writeFile(analysisPath, JSON.stringify(analysis, null, 2), 'utf8');
-    const js = await runJsCommand({ payload, analysis, analysisPath });
-    const python = await runPythonCommand({ payload, analysis, analysisPath });
+    const commandPayload = { ...payload };
+    if (typeof payload.fileText === 'string') {
+      const filePath = join(tempDir, 'input.txt');
+      await writeFile(filePath, payload.fileText, 'utf8');
+      commandPayload.filePath = filePath;
+      delete commandPayload.text;
+    }
+    const js = await runJsCommand({ payload: commandPayload, analysis, analysisPath });
+    const python = await runPythonCommand({ payload: commandPayload, analysis, analysisPath });
     const comparison = compareDeepSeekAnalyzeCommandObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { payload, analysisPath },
+      fixture: { payload, commandPayload, analysisPath },
       js,
       python,
       mismatches: comparison.mismatches,
