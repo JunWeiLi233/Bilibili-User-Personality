@@ -7297,6 +7297,18 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["runtime"]["requestCount"], 1)
         self.assertEqual(result["axes"][0]["score"], 72)
 
+    def test_deepseek_analyze_command_request_fails_closed_for_missing_mock_chat_analysis(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            missing_path = Path(tmp) / "missing-analysis.json"
+
+            result = DeepSeekAnalyzeCommandRequest(
+                ["--mock-chat-analysis", missing_path, "--text", "\u9634\u9633\u602a\u6c14[doge]"]
+            ).run()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["provider"], "deepseek")
+        self.assertEqual(result["error"], f"Could not read analysis file: {missing_path}")
+
     def test_deepseek_analyze_command_request_accepts_positional_text_like_js(self):
         with tempfile.TemporaryDirectory() as tmp:
             analysis_path = Path(tmp) / "analysis.json"

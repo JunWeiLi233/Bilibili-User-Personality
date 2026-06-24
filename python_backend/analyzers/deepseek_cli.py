@@ -411,8 +411,14 @@ class DeepSeekAnalyzeCommandRequest:
         if args.live_validation_gate:
             return self._with_legacy_selector_compatibility(DeepSeekLiveValidationGate(env=self.env).run(payload), legacy_selector)
         if args.mock_chat_analysis:
+            analysis_error = self._required_analysis_file_error(args.mock_chat_analysis)
+            if analysis_error:
+                return self._with_legacy_selector_compatibility(analysis_error, legacy_selector)
             return self._with_legacy_selector_compatibility(self._run_mock_chat(payload, args.mock_chat_analysis), legacy_selector)
         if args.fixture_analysis:
+            analysis_error = self._required_analysis_file_error(args.fixture_analysis)
+            if analysis_error:
+                return self._with_legacy_selector_compatibility(analysis_error, legacy_selector)
             analysis = JsonContractReader().read_object(args.fixture_analysis)
             return self._with_legacy_selector_compatibility(
                 self.normalizer.normalize(
@@ -449,6 +455,18 @@ class DeepSeekAnalyzeCommandRequest:
                 "reason": "Python command cannot execute legacy JS fallback internals; the equivalent Python contract path was used.",
             },
         }
+
+    @staticmethod
+    def _required_analysis_file_error(path: str | Path) -> dict[str, Any]:
+        try:
+            Path(path).read_text(encoding="utf-8-sig")
+        except OSError:
+            return {
+                "ok": False,
+                "provider": "deepseek",
+                "error": f"Could not read analysis file: {path}",
+            }
+        return {}
 
     def _run_mock_chat(self, payload: dict[str, Any], analysis_path: str | Path) -> dict[str, Any]:
         client = DeepSeekAnalyzerClient()
