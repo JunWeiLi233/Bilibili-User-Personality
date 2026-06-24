@@ -519,6 +519,35 @@ class DeepSeekAnalyzeArgvNormalizer:
         return normalized
 
 
+class DeepSeekAnalyzeLegacySelectorCompatibility:
+    """Attach legacy JS selector metadata when Python handles an old JS fallback flag."""
+
+    def __init__(self, selector: str = ""):
+        self.selector = str(selector or "")
+
+    @classmethod
+    def from_args(cls, args: argparse.Namespace) -> "DeepSeekAnalyzeLegacySelectorCompatibility":
+        if bool(getattr(args, "js_plan", False)):
+            return cls("js_plan")
+        if bool(getattr(args, "js_fixture", False)):
+            return cls("js_fixture")
+        if bool(getattr(args, "js_runtime", False)):
+            return cls("js_runtime")
+        return cls("")
+
+    def apply(self, result: dict[str, Any]) -> dict[str, Any]:
+        if not self.selector:
+            return result
+        return {
+            **result,
+            "compatibility": {
+                "legacyJsSelector": self.selector,
+                "behavior": "ignored_python_equivalent",
+                "reason": "Python command cannot execute legacy JS fallback internals; the equivalent Python contract path was used.",
+            },
+        }
+
+
 class DeepSeekAnalyzeCommandRequest:
     """Run Python-owned analyzeDeepSeekComments-compatible command modes."""
 
@@ -561,55 +590,38 @@ class DeepSeekAnalyzeCommandRequest:
 
     def run(self) -> dict[str, Any]:
         args = self.parser().parse_args(self._normalize_argv(self.argv))
-        legacy_selector = self._legacy_js_selector(args)
+        compatibility = DeepSeekAnalyzeLegacySelectorCompatibility.from_args(args)
         if args.plan_json:
-            return self._with_legacy_selector_compatibility(
+            return compatibility.apply(
                 DeepSeekAnalyzeCliPlanner().build_plan(self._normalize_argv(self.argv) or [], stdin_is_tty=self.stdin_is_tty),
-                legacy_selector,
             )
         payload = self._payload(args)
         payload_error = payload.pop("_error", None)
         if isinstance(payload_error, dict):
-            return self._with_legacy_selector_compatibility(payload_error, legacy_selector)
+            return compatibility.apply(payload_error)
         if args.live_validation_gate:
-            return self._with_legacy_selector_compatibility(DeepSeekLiveValidationGate(env=self.env).run(payload), legacy_selector)
+            return compatibility.apply(DeepSeekLiveValidationGate(env=self.env).run(payload))
         if args.mock_chat_analysis:
             analysis, analysis_error = self._read_required_analysis_file(args.mock_chat_analysis)
             if analysis_error:
-                return self._with_legacy_selector_compatibility(analysis_error, legacy_selector)
-            return self._with_legacy_selector_compatibility(self._run_mock_chat(payload, analysis), legacy_selector)
+                return compatibility.apply(analysis_error)
+            return compatibility.apply(self._run_mock_chat(payload, analysis))
         if args.fixture_analysis:
             analysis, analysis_error = self._read_required_analysis_file(args.fixture_analysis)
             if analysis_error:
-                return self._with_legacy_selector_compatibility(analysis_error, legacy_selector)
-            return self._with_legacy_selector_compatibility(
+                return compatibility.apply(analysis_error)
+            return compatibility.apply(
                 DeepSeekAnalyzeFixtureRunner(normalizer=self.normalizer).run(payload, analysis),
-                legacy_selector,
             )
-        return self._with_legacy_selector_compatibility({**self.runtime_factory(env=self.env).run(payload)}, legacy_selector)
+        return compatibility.apply({**self.runtime_factory(env=self.env).run(payload)})
 
     @staticmethod
     def _legacy_js_selector(args: argparse.Namespace) -> str:
-        if bool(getattr(args, "js_plan", False)):
-            return "js_plan"
-        if bool(getattr(args, "js_fixture", False)):
-            return "js_fixture"
-        if bool(getattr(args, "js_runtime", False)):
-            return "js_runtime"
-        return ""
+        return DeepSeekAnalyzeLegacySelectorCompatibility.from_args(args).selector
 
     @staticmethod
     def _with_legacy_selector_compatibility(result: dict[str, Any], selector: str) -> dict[str, Any]:
-        if not selector:
-            return result
-        return {
-            **result,
-            "compatibility": {
-                "legacyJsSelector": selector,
-                "behavior": "ignored_python_equivalent",
-                "reason": "Python command cannot execute legacy JS fallback internals; the equivalent Python contract path was used.",
-            },
-        }
+        return DeepSeekAnalyzeLegacySelectorCompatibility(selector).apply(result)
 
     @staticmethod
     def _read_required_analysis_file(path: str | Path) -> tuple[Any, dict[str, Any]]:
