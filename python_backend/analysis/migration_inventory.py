@@ -856,6 +856,16 @@ class BackendMigrationInventoryScanner:
                     "manualVerificationRequired": True,
                 }
             )
+        elif script == "aicu:batch" and validation_scope != "full_command":
+            blockers.append(
+                {
+                    "blocker": "aicu_batch_live_runtime_not_verified",
+                    "reason": "Python has a dry-run range plan, resume handling, malformed payload fixtures, and JS/Python CLI bridge coverage, but aicu:batch still needs a verified live AICU scrape runtime before replacing the JS command.",
+                    "preflightCommand": "npm run python:aicu-batch-compare",
+                    "liveVerificationCommand": "npm run aicu:batch",
+                    "manualVerificationRequired": True,
+                }
+            )
         elif validation_scope != "full_command":
             blockers.append(
                 {

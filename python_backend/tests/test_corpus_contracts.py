@@ -2121,6 +2121,16 @@ class CorpusContractTests(unittest.TestCase):
             result["manualVerificationActions"],
         )
         self.assertIn(
+            {
+                "path": "server/scripts/batchScrapeAicu.js",
+                "nodeScript": "aicu:batch",
+                "blocker": "aicu_batch_live_runtime_not_verified",
+                "preflightCommand": "npm run python:aicu-batch-compare",
+                "liveVerificationCommand": "npm run aicu:batch",
+            },
+            result["manualVerificationActions"],
+        )
+        self.assertIn(
             {"gate": "no_live_command_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
             result["nextOfflineMigrationAction"]["validationGates"],
         )
