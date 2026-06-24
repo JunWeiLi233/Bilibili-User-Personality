@@ -13,6 +13,7 @@ import unittest
 from pathlib import Path
 
 from python_backend.analysis.video_comment_filter import (
+    build_collection_diagnostics,
     build_target_video_object_evidence_text,
     build_video_context_text,
     comment_matches_needle_set,
@@ -154,6 +155,28 @@ class VideoFilterComparisonTests(unittest.TestCase):
         py = build_target_video_object_evidence_text([v1], ["hello"], ["hello"])
         js = _js_result("buildTargetVideoObjectEvidenceText", [v1], ["hello"], ["hello"])
         self.assertEqual(py, js)
+
+    def test_build_collection_diagnostics_matches_js(self):
+        py = build_collection_diagnostics(
+            discovered_videos=[{"bvid": "BV1"}],
+            videos=[{"bvid": "BV2"}],
+            comments=[{"rpid": "1"}],
+            training_text="test content",
+            target_existing_terms=["test"],
+            keyword_training={"entries": [{"term": "accepted"}], "evidenceRejected": 2},
+        )
+        js = _js_result("buildCollectionDiagnostics", {
+            "discoveredVideos": [{"bvid": "BV1"}],
+            "videos": [{"bvid": "BV2"}],
+            "comments": [{"rpid": "1"}],
+            "trainingText": "test content",
+            "targetExistingTerms": ["test"],
+            "keywordTraining": {"entries": [{"term": "accepted"}], "evidenceRejected": 2},
+        })
+        self.assertEqual(py["discoveredVideos"], js["discoveredVideos"])
+        self.assertEqual(py["scannedVideos"], js["scannedVideos"])
+        self.assertEqual(py["commentsCollected"], js["commentsCollected"])
+        self.assertEqual(py["evidenceRejected"], js["evidenceRejected"])
 
 
 if __name__ == "__main__":

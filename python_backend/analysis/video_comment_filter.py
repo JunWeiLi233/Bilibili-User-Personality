@@ -272,3 +272,34 @@ def build_target_video_object_evidence_text(
                     seen.add(item)
                     lines.append(f"Bilibili public video title: {item}")
     return "\n".join(lines)
+
+
+def build_collection_diagnostics(
+    discovered_videos: list[dict[str, Any]] | None = None,
+    discovery_context_videos: list[dict[str, Any]] | None = None,
+    videos: list[dict[str, Any]] | None = None,
+    comments: list[dict[str, Any]] | None = None,
+    training_text: str = "",
+    target_existing_terms: list[str] | None = None,
+    keyword_training: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Build collection diagnostics matching JS buildCollectionDiagnostics."""
+    dv = discovered_videos or []
+    dcv = discovery_context_videos or []
+    vids = videos or []
+    cmts = comments or []
+    kwt = keyword_training or {}
+    return {
+        "discoveredVideos": len(dv),
+        "discoveryContextVideos": len(dcv),
+        "scannedVideos": len(vids),
+        "commentsCollected": len(cmts),
+        "trainingTextChars": len(str(training_text or "")),
+        "targetExistingTerms": target_existing_terms,
+        "targetTextHits": target_text_hits_for_diagnostics(training_text, target_existing_terms),
+        "acceptedTerms": unique_by_key(
+            [str(e.get("term", "") or "").strip() for e in (kwt.get("entries") or []) + (kwt.get("dictionaryEvidenceEntries") or []) if str(e.get("term", "") or "").strip()]
+        ),
+        "evidenceRejected": max(0, int(kwt.get("evidenceRejected") or 0)),
+        "sampleVideos": sample_videos_for_diagnostics(vids if vids else dcv if dcv else dv),
+    }

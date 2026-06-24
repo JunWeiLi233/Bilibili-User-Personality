@@ -38949,6 +38949,25 @@ class CorpusContractTests(unittest.TestCase):
         text = build_target_video_object_evidence_text([v3], ["hello"], ["hello"])
         self.assertIn("Bilibili public video title: hello world", text)
 
+    def test_video_comment_filter_collection_diagnostics_matches_js_contract(self):
+        from python_backend.analysis.video_comment_filter import build_collection_diagnostics
+
+        result = build_collection_diagnostics(
+            discovered_videos=[{"bvid": "BV1"}],
+            videos=[{"bvid": "BV2"}],
+            comments=[{"rpid": "1"}],
+            training_text="test content",
+            target_existing_terms=["test"],
+            keyword_training={"entries": [{"term": "accepted"}], "evidenceRejected": 2},
+        )
+        self.assertEqual(result["discoveredVideos"], 1)
+        self.assertEqual(result["scannedVideos"], 1)
+        self.assertEqual(result["commentsCollected"], 1)
+        self.assertEqual(result["trainingTextChars"], 12)
+        self.assertIn("accepted", result["acceptedTerms"])
+        self.assertEqual(result["evidenceRejected"], 2)
+        self.assertEqual(len(result["sampleVideos"]), 1)
+
 
 if __name__ == "__main__":
     unittest.main()
