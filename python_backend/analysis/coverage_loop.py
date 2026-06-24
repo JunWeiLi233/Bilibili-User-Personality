@@ -1077,6 +1077,9 @@ class CoverageHarvestLoopCommandRunner:
                 self._write_dictionary(next_dictionary)
             else:
                 next_dictionary = current_dictionary
+            response_state = response.get("afterState")
+            if isinstance(response_state, dict):
+                self._write_state(response_state)
             next_audit = self.audit_builder.build(next_dictionary)
             cycle_report = report_builder.build(
                 cycle=cycle,
@@ -1139,6 +1142,9 @@ class CoverageHarvestLoopCommandRunner:
 
     def _write_dictionary(self, dictionary: dict[str, Any]) -> None:
         self.write_report_file(self.dictionary_path, dictionary)
+
+    def _write_state(self, state: dict[str, Any]) -> None:
+        self.write_report_file(self.state_path, state)
 
     @staticmethod
     def write_report_file(report_path: str | Path, report: dict[str, Any]) -> None:

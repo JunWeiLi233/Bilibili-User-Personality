@@ -878,6 +878,7 @@ test('compareCoverageHarvestLoopCommand validates complete and weak no-live fixt
   assert.deepEqual(result.results[7].python.cycles[0].harvest, result.results[7].js.cycles[0].harvest);
   assert.deepEqual(result.results[7].pythonReportFile, result.results[7].python);
   assert.deepEqual(result.results[7].pythonDictionaryFile, FILE_BACKED_MOCK_HARVEST_PAYLOAD.afterDictionary);
+  assert.deepEqual(result.results[7].pythonStateFile, FILE_BACKED_MOCK_HARVEST_PAYLOAD.afterState);
   assert.equal(result.results[8].python.runtimeMode, 'external_harvest_command');
   assert.deepEqual(result.results[8].python.cycles[0].coverageDelta, result.results[8].js.cycles[0].coverageDelta);
   assert.deepEqual(result.results[8].python.cycles[0].harvest, result.results[8].js.cycles[0].harvest);

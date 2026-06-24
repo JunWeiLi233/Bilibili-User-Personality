@@ -238,6 +238,12 @@ export const FILE_BACKED_MOCK_HARVEST_PAYLOAD = {
       },
     ],
   },
+  afterState: {
+    version: 1,
+    termAttempts: {
+      doge: { term: 'doge', attempts: 1, successfulAttempts: 1 },
+    },
+  },
   harvest: {
     ok: true,
     rounds: [
@@ -777,6 +783,7 @@ export async function compareCoverageHarvestLoopCommand({
           python,
           pythonReportFile: pythonRun.fileReport,
           pythonDictionaryFile: JSON.parse(await readFile(pythonDictionaryPath, 'utf8')),
+          pythonStateFile: JSON.parse(await readFile(pythonStatePath, 'utf8')),
           mismatches: comparison.mismatches,
         });
         continue;
