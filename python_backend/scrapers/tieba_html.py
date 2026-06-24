@@ -68,7 +68,7 @@ def _extract_data_field(block: str) -> str:
 class TiebaHtmlParseSummary:
     """Shape Tieba HTML parser output into the JS/Python comparator summary contract."""
 
-    RESULT_KEYS = ("mode", "threads", "comments")
+    RESULT_KEYS = ("mode", "threads", "comments", "blocked", "warnings")
 
     def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
         source = result if isinstance(result, dict) else {}
@@ -169,6 +169,15 @@ class TiebaHtmlParser:
         mode = str(payload.get("mode") or "threads").strip().lower()
         html_text = payload.get("html") or ""
         keyword = str(payload.get("keyword") or "")
+        if self.is_safety_verification_page(html_text):
+            return {
+                "ok": False,
+                "mode": mode,
+                "threads": [],
+                "comments": [],
+                "blocked": True,
+                "warnings": ["Tieba safety verification page returned"],
+            }
 
         if mode == "comments":
             comments = self.parse_thread_comments(html_text, payload.get("thread") if isinstance(payload.get("thread"), dict) else {})
@@ -182,6 +191,9 @@ class TiebaHtmlParser:
 
         threads = self.parse_threads(html_text, keyword)
         return {"ok": True, "mode": "threads", "threads": threads}
+
+    def is_safety_verification_page(self, html_text: Any) -> bool:
+        return bool(re.search(r"\u767e\u5ea6\u5b89\u5168\u9a8c\u8bc1|BIOC_OPTIONS|seccaptcha|tb_pc_frs_bfe", str(html_text or ""), flags=re.IGNORECASE))
 
     def thread_from_url(self, value: Any, keyword: str = "") -> dict[str, Any] | None:
         text = str(value or "").strip()

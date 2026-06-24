@@ -53,6 +53,7 @@ test('compareTiebaHtmlParse exports named parser fixtures', async () => {
     'threads-title-dedupe',
     'thread-comments-data-field',
     'discovery-comments-from-threads',
+    'safety-verification-page',
   ]);
 
   const calls = [];
@@ -77,5 +78,7 @@ test('compareTiebaHtmlParse exports named parser fixtures', async () => {
     { python: 'thread-comments-data-field', mode: 'comments' },
     { js: 'discovery-comments-from-threads', mode: 'discovery-comments' },
     { python: 'discovery-comments-from-threads', mode: 'discovery-comments' },
+    { js: 'safety-verification-page', mode: 'threads' },
+    { python: 'safety-verification-page', mode: 'threads' },
   ]);
 });

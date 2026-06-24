@@ -17384,6 +17384,21 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["mode"], "comments")
         self.assertEqual(result["comments"][0]["message"], "\u65b0\u8d34\u5427\u8bc4\u8bba")
 
+    def test_tieba_html_parser_classifies_baidu_safety_verification_pages(self):
+        result = TiebaHtmlParser().parse_from_payload(
+            {
+                "mode": "threads",
+                "html": "<html><title>\u767e\u5ea6\u5b89\u5168\u9a8c\u8bc1</title><script>var BIOC_OPTIONS = {};</script></html>",
+            }
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["mode"], "threads")
+        self.assertTrue(result["blocked"])
+        self.assertEqual(result["threads"], [])
+        self.assertEqual(result["comments"], [])
+        self.assertEqual(result["warnings"], ["Tieba safety verification page returned"])
+
     def test_tieba_html_parse_payload_runner_lives_with_scraper_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

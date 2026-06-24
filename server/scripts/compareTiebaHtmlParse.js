@@ -9,7 +9,7 @@ import { parseTiebaThreadComments, parseTiebaThreads, tiebaThreadsToDiscoveryCom
 
 const execFileAsync = promisify(execFile);
 
-const RESULT_KEYS = ['mode', 'threads', 'comments'];
+const RESULT_KEYS = ['mode', 'threads', 'comments', 'blocked', 'warnings'];
 
 export const DEFAULT_PAYLOAD = {
   mode: 'threads',
@@ -144,6 +144,21 @@ export const TIEBA_HTML_PARSE_FIXTURES = {
       ],
     },
   },
+  'safety-verification-page': {
+    payload: {
+      mode: 'threads',
+      keyword: 'sample',
+      html: '<html><title>百度安全验证</title><script>var BIOC_OPTIONS = {};</script></html>',
+    },
+    expected: {
+      ok: false,
+      mode: 'threads',
+      threads: [],
+      comments: [],
+      blocked: true,
+      warnings: ['Tieba safety verification page returned'],
+    },
+  },
 };
 
 const DEFAULT_FIXTURE_NAMES = Object.keys(TIEBA_HTML_PARSE_FIXTURES);
@@ -167,6 +182,16 @@ function parseJsPayload(payload = {}) {
   const mode = String(payload.mode || 'threads').trim().toLowerCase();
   const html = payload.html || '';
   const keyword = String(payload.keyword || '');
+  if (/百度安全验证|BIOC_OPTIONS|seccaptcha|tb_pc_frs_bfe/i.test(String(html || ''))) {
+    return {
+      ok: false,
+      mode,
+      threads: [],
+      comments: [],
+      blocked: true,
+      warnings: ['Tieba safety verification page returned'],
+    };
+  }
   if (mode === 'comments') {
     return {
       ok: true,
@@ -195,11 +220,17 @@ async function runJsParser({ payload }) {
 }
 
 async function runPythonParser({ payloadPath }) {
-  const { stdout } = await execFileAsync('python', ['-m', 'python_backend.cli.tieba_html_parse', '--payload', payloadPath], {
-    cwd: process.cwd(),
-    env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
-    maxBuffer: 10 * 1024 * 1024,
-  });
+  let stdout = '';
+  try {
+    ({ stdout } = await execFileAsync('python', ['-m', 'python_backend.cli.tieba_html_parse', '--payload', payloadPath], {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    }));
+  } catch (error) {
+    stdout = error?.stdout || '';
+    if (!stdout) throw error;
+  }
   return JSON.parse(stdout);
 }
 
