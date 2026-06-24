@@ -117,6 +117,7 @@
     "python:uid-range-progress-compare": "node server/scripts/compareUidRangeProgress.js",
     "python:verify-random": "python -m python_backend.cli.random_verification --extra-corpus server/data/tiebaKeywordCorpus.json",
     "python:verify-random:write": "python -m python_backend.cli.random_verification --extra-corpus server/data/tiebaKeywordCorpus.json --output server/data/randomVerificationReport.json",
+    "python:verify-random-compare": "node server/scripts/compareRandomVerification.js",
     "python:comment-coverage": "python -m python_backend.cli.comment_coverage",
     "python:semantic-match": "python -m python_backend.cli.semantic_matcher",
     "python:deepseek-plan": "python -m python_backend.cli.deepseek_analysis_plan",
