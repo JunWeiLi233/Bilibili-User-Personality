@@ -6991,6 +6991,14 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_deepseek_analyzer_reads_source_text_payload_like_js_validation(self):
+        request = DeepSeekAnalyzerClient().build_request_from_payload(
+            {"sourceText": "\u539f\u59cb\u5206\u6790\u6587\u672c[doge]"}
+        )
+
+        self.assertEqual(request.comments, ["\u539f\u59cb\u5206\u6790\u6587\u672c[doge]"])
+        self.assertEqual(request.source_comments, [{"text": "\u539f\u59cb\u5206\u6790\u6587\u672c[doge]"}])
+
     def test_deepseek_analyze_cli_planner_matches_js_argument_contract(self):
         planner = DeepSeekAnalyzeCliPlanner()
 
