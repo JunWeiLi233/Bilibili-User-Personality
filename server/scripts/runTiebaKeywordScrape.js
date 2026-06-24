@@ -85,6 +85,9 @@ function parsePlanArgs(argv = process.argv.slice(2)) {
   let planJson = false;
   let pythonPlan = false;
   let jsPlan = false;
+  let scrapeFixtureJson = false;
+  let pythonScrapeFixture = false;
+  let jsScrapeFixture = false;
   let payloadPath = '';
   for (let index = 0; index < argv.length; index += 1) {
     const arg = String(argv[index] || '');
@@ -94,6 +97,12 @@ function parsePlanArgs(argv = process.argv.slice(2)) {
       pythonPlan = true;
     } else if (arg === '--js-plan') {
       jsPlan = true;
+    } else if (arg === '--scrape-fixture-json') {
+      scrapeFixtureJson = true;
+    } else if (arg === '--python-scrape-fixture') {
+      pythonScrapeFixture = true;
+    } else if (arg === '--js-scrape-fixture') {
+      jsScrapeFixture = true;
     } else if (arg.startsWith('--payload=')) {
       payloadPath = arg.slice('--payload='.length);
     } else if (arg === '--payload') {
@@ -104,7 +113,10 @@ function parsePlanArgs(argv = process.argv.slice(2)) {
   if (process.env.TIEBA_USE_PYTHON_PLAN === '1' && !jsPlan) {
     pythonPlan = true;
   }
-  return { planJson, pythonPlan, jsPlan, payloadPath };
+  if (process.env.TIEBA_USE_PYTHON_SCRAPE_FIXTURE === '1' && !jsScrapeFixture) {
+    pythonScrapeFixture = true;
+  }
+  return { planJson, pythonPlan, jsPlan, scrapeFixtureJson, pythonScrapeFixture, jsScrapeFixture, payloadPath };
 }
 
 async function readPlanPayload(path) {
@@ -155,6 +167,15 @@ export function buildTiebaKeywordPlan(payload = {}) {
 
 async function runPythonTiebaKeywordPlan(payloadPath) {
   const { stdout } = await execFileAsync('python', ['-m', 'python_backend.cli.tieba_keyword_plan', '--payload', payloadPath], {
+    cwd: process.cwd(),
+    env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+    maxBuffer: 10 * 1024 * 1024,
+  });
+  return JSON.parse(stdout);
+}
+
+async function runPythonTiebaScrapeFixture(payloadPath) {
+  const { stdout } = await execFileAsync('python', ['-m', 'python_backend.cli.tieba_keyword_scrape', '--payload', payloadPath], {
     cwd: process.cwd(),
     env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
     maxBuffer: 10 * 1024 * 1024,
@@ -222,8 +243,17 @@ export async function buildTiebaRuntimeCorpusUpdate({
 }
 
 async function main() {
-  const options = parseArgs();
   const planArgs = parsePlanArgs();
+  if (planArgs.scrapeFixtureJson) {
+    const payload = await readPlanPayload(planArgs.payloadPath);
+    if (planArgs.pythonScrapeFixture && !planArgs.jsScrapeFixture) {
+      console.log(JSON.stringify(await runPythonTiebaScrapeFixture(planArgs.payloadPath), null, 2));
+      return 0;
+    }
+    const { buildJsScrapeFixture } = await import('./compareTiebaKeywordPlan.js');
+    console.log(JSON.stringify(buildJsScrapeFixture(payload), null, 2));
+    return 0;
+  }
   if (planArgs.planJson) {
     const payload = await readPlanPayload(planArgs.payloadPath);
     if (planArgs.pythonPlan && !planArgs.jsPlan) {
@@ -233,6 +263,7 @@ async function main() {
     console.log(JSON.stringify(buildTiebaKeywordPlan(payload), null, 2));
     return 0;
   }
+  const options = parseArgs();
   const hardStopMs = computeTiebaScrapeHardStopMs(options);
   const hardStop = setTimeout(() => {
     console.error(`Tieba keyword scrape hard-stopped after ${hardStopMs}ms.`);

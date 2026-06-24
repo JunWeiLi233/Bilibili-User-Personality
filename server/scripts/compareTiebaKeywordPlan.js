@@ -93,7 +93,7 @@ function summarizeScrape(result = {}) {
   };
 }
 
-function buildJsScrapeFixture(payload = {}) {
+export function buildJsScrapeFixture(payload = {}) {
   const keyword = String(payload.keyword || '').trim();
   const options = payload.options && typeof payload.options === 'object' ? payload.options : {};
   const threads = [];
