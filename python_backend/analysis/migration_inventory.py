@@ -92,16 +92,16 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:batch-uid-progress-compare": "file_backed_default_parseint_stats_prefix_corrupt_input_fixtures_and_js_python_bridge",
     "python:fast-pipeline-launcher-compare": "dry_run_plan_default_custom_data_dir_fixtures_and_js_python_bridge",
     "python:range-scraper-launcher-compare": "dry_run_plan_default_custom_data_dir_fixtures_and_js_python_bridge",
-    "python:uid-discovery-compare": "dry_run_plan_analysis_resume_discovery_start_malformed_numeric_fixtures_and_js_python_bridge",
-    "python:uid-fast-pipeline-compare": "dry_run_plan_default_range_parseint_prefix_fixtures_and_js_python_bridge",
-    "python:uid-fast-worker-compare": "dry_run_plan_default_worker_number_fallback_parseint_uids_fixtures_and_js_python_bridge",
-    "python:uid-parallel-compare": "dry_run_plan_default_worker_parseint_prefix_fixtures_and_js_python_bridge",
+    "python:uid-discovery-compare": "dry_run_plan_analysis_resume_discovery_start_malformed_numeric_fixtures_js_python_bridge_and_cli_flag_bridge",
+    "python:uid-fast-pipeline-compare": "dry_run_plan_default_range_parseint_prefix_fixtures_js_python_bridge_and_cli_flag_bridge",
+    "python:uid-fast-worker-compare": "dry_run_plan_default_worker_number_fallback_parseint_uids_fixtures_js_python_bridge_and_cli_flag_bridge",
+    "python:uid-parallel-compare": "dry_run_plan_default_worker_parseint_prefix_fixtures_js_python_bridge_and_cli_flag_bridge",
     "python:uid-parallel-progress-compare": "file_backed_default_corrupt_inputs_fixtures_and_js_python_bridge",
     "python:uid-pipeline-launcher-compare": "dry_run_plan_default_custom_data_dir_fixtures_js_python_bridge_and_cli_flag_bridge",
     "python:uid-pipeline-progress-compare": "file_backed_default_parseint_uid_prefix_corrupt_inputs_fixtures_and_js_python_bridge",
     "python:uid-pipeline-state-compare": "file_backed_default_parseint_worker_prefix_corrupt_progress_fixtures_and_js_python_bridge",
-    "python:uid-pipeline-worker-compare": "dry_run_plan_default_range_parseint_prefix_fixtures_and_js_python_bridge",
-    "python:uid-range-scrape-compare": "dry_run_plan_custom_progress_default_range_malformed_stats_fixtures_and_js_python_bridge",
+    "python:uid-pipeline-worker-compare": "dry_run_plan_default_range_parseint_prefix_fixtures_js_python_bridge_and_cli_flag_bridge",
+    "python:uid-range-scrape-compare": "dry_run_plan_custom_progress_default_range_malformed_stats_fixtures_js_python_bridge_and_cli_flag_bridge",
     "python:uid-range-progress-compare": "file_backed_default_parseint_stats_prefix_corrupt_input_fixtures_and_js_python_bridge",
     "python:uid-discovery-progress-compare": "file_backed_default_parseint_stats_prefix_corrupt_inputs_fixtures_and_js_python_bridge",
     "python:scraper-monitor-compare": "file_backed_default_parseint_stats_prefix_corrupt_progress_fixtures_and_js_python_bridge",
@@ -875,11 +875,13 @@ class BackendMigrationInventoryScanner:
             return [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-discovery-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidDiscoveryPlan.test.js"},
+                {"gate": "js_python_cli_flag_bridge", "status": "covered", "source": "compareUidDiscoveryPlan.test.js"},
             ]
         if validation_script == "python:uid-range-scrape-compare":
             return [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-range-scrape-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidRangeScrapePlan.test.js"},
+                {"gate": "js_python_cli_flag_bridge", "status": "covered", "source": "compareUidRangeScrapePlan.test.js"},
             ]
         if validation_script == "python:uid-pipeline-launcher-compare":
             return [
@@ -891,21 +893,25 @@ class BackendMigrationInventoryScanner:
             return [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-pipeline-worker-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidPipelineWorkerPlan.test.js"},
+                {"gate": "js_python_cli_flag_bridge", "status": "covered", "source": "compareUidPipelineWorkerPlan.test.js"},
             ]
         if validation_script == "python:uid-fast-pipeline-compare":
             return [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-fast-pipeline-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidFastPipelinePlan.test.js"},
+                {"gate": "js_python_cli_flag_bridge", "status": "covered", "source": "compareUidFastPipelinePlan.test.js"},
             ]
         if validation_script == "python:uid-fast-worker-compare":
             return [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-fast-worker-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidFastPipelineWorkerPlan.test.js"},
+                {"gate": "js_python_cli_flag_bridge", "status": "covered", "source": "compareUidFastPipelineWorkerPlan.test.js"},
             ]
         if validation_script == "python:uid-parallel-compare":
             return [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-parallel-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidParallelPlan.test.js"},
+                {"gate": "js_python_cli_flag_bridge", "status": "covered", "source": "compareUidParallelPlan.test.js"},
             ]
         if validation_scope == "full_command":
             return [{"gate": "full_command", "status": "covered", "source": validation_script}]

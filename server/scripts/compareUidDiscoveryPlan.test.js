@@ -138,3 +138,37 @@ test('uidDiscoveryScrape can delegate dry-run planning to Python', () => {
     rmSync(tempDir, { recursive: true, force: true });
   }
 });
+
+test('uidDiscoveryScrape accepts explicit python plan flag for dry-run planning', () => {
+  const tempDir = mkdtempSync(join(tmpdir(), 'uid-discovery-explicit-python-plan-'));
+  try {
+    const payloadPath = join(tempDir, 'payload.json');
+    const fakeModuleDir = join(tempDir, 'python_backend', 'cli');
+    writeFileSync(
+      payloadPath,
+      JSON.stringify({ progress: { phase: 'analysis', scannedBvids: [], processedUids: {}, stats: {} }, comments: {}, database: { users: {} } }, null, 2),
+      'utf8',
+    );
+    mkdirSync(fakeModuleDir, { recursive: true });
+    writeFileSync(join(tempDir, 'python_backend', '__init__.py'), '', 'utf8');
+    writeFileSync(join(fakeModuleDir, '__init__.py'), '', 'utf8');
+    writeFileSync(
+      join(fakeModuleDir, 'uid_discovery_plan.py'),
+      'print(\'{"ok":true,"fromExplicitPythonUidDiscoveryPlan":true,"analysis":{"pending":7}}\')\n',
+      'utf8',
+    );
+
+    const result = spawnSync('node', [resolve('server/scripts/uidDiscoveryScrape.js'), '--plan-json', '--python-plan', '--payload', payloadPath], {
+      cwd: tempDir,
+      encoding: 'utf8',
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+    });
+
+    assert.equal(result.status, 0, result.stderr);
+    const payload = JSON.parse(result.stdout);
+    assert.equal(payload.fromExplicitPythonUidDiscoveryPlan, true);
+    assert.equal(payload.analysis.pending, 7);
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
+  }
+});

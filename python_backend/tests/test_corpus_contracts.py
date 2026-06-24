@@ -24003,16 +24003,17 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             BackendMigrationInventoryScanner._validation_gates(
                 validation_script="python:uid-pipeline-worker-compare",
-                validation_scope="dry_run_plan_default_range_parseint_prefix_fixtures_and_js_python_bridge",
+                validation_scope="dry_run_plan_default_range_parseint_prefix_fixtures_js_python_bridge_and_cli_flag_bridge",
             ),
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-pipeline-worker-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidPipelineWorkerPlan.test.js"},
+                {"gate": "js_python_cli_flag_bridge", "status": "covered", "source": "compareUidPipelineWorkerPlan.test.js"},
             ],
         )
         self.assertEqual(
             DEFAULT_PACKAGE_VALIDATION_SCOPES["python:uid-pipeline-worker-compare"],
-            "dry_run_plan_default_range_parseint_prefix_fixtures_and_js_python_bridge",
+            "dry_run_plan_default_range_parseint_prefix_fixtures_js_python_bridge_and_cli_flag_bridge",
         )
 
     def test_uid_fast_pipeline_plan_matches_js_direct_fetch_and_backoff_contract(self):
@@ -24971,16 +24972,17 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             BackendMigrationInventoryScanner._validation_gates(
                 validation_script="python:uid-parallel-compare",
-                validation_scope="dry_run_plan_default_worker_parseint_prefix_fixtures_and_js_python_bridge",
+                validation_scope="dry_run_plan_default_worker_parseint_prefix_fixtures_js_python_bridge_and_cli_flag_bridge",
             ),
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-parallel-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidParallelPlan.test.js"},
+                {"gate": "js_python_cli_flag_bridge", "status": "covered", "source": "compareUidParallelPlan.test.js"},
             ],
         )
         self.assertEqual(
             DEFAULT_PACKAGE_VALIDATION_SCOPES["python:uid-parallel-compare"],
-            "dry_run_plan_default_worker_parseint_prefix_fixtures_and_js_python_bridge",
+            "dry_run_plan_default_worker_parseint_prefix_fixtures_js_python_bridge_and_cli_flag_bridge",
         )
 
     def test_batch_scraper_launcher_planner_builds_js_range_contract_without_filesystem(self):
@@ -25796,16 +25798,17 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             BackendMigrationInventoryScanner._validation_gates(
                 validation_script="python:uid-fast-pipeline-compare",
-                validation_scope="dry_run_plan_default_range_parseint_prefix_fixtures_and_js_python_bridge",
+                validation_scope="dry_run_plan_default_range_parseint_prefix_fixtures_js_python_bridge_and_cli_flag_bridge",
             ),
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-fast-pipeline-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidFastPipelinePlan.test.js"},
+                {"gate": "js_python_cli_flag_bridge", "status": "covered", "source": "compareUidFastPipelinePlan.test.js"},
             ],
         )
         self.assertEqual(
             DEFAULT_PACKAGE_VALIDATION_SCOPES["python:uid-fast-pipeline-compare"],
-            "dry_run_plan_default_range_parseint_prefix_fixtures_and_js_python_bridge",
+            "dry_run_plan_default_range_parseint_prefix_fixtures_js_python_bridge_and_cli_flag_bridge",
         )
 
     def test_uid_fast_pipeline_worker_plan_matches_js_worker_contract(self):
@@ -25886,16 +25889,17 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             BackendMigrationInventoryScanner._validation_gates(
                 validation_script="python:uid-fast-worker-compare",
-                validation_scope="dry_run_plan_default_worker_number_fallback_parseint_uids_fixtures_and_js_python_bridge",
+                validation_scope="dry_run_plan_default_worker_number_fallback_parseint_uids_fixtures_js_python_bridge_and_cli_flag_bridge",
             ),
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-fast-worker-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidFastPipelineWorkerPlan.test.js"},
+                {"gate": "js_python_cli_flag_bridge", "status": "covered", "source": "compareUidFastPipelineWorkerPlan.test.js"},
             ],
         )
         self.assertEqual(
             DEFAULT_PACKAGE_VALIDATION_SCOPES["python:uid-fast-worker-compare"],
-            "dry_run_plan_default_worker_number_fallback_parseint_uids_fixtures_and_js_python_bridge",
+            "dry_run_plan_default_worker_number_fallback_parseint_uids_fixtures_js_python_bridge_and_cli_flag_bridge",
         )
 
     def test_scraper_monitor_pipeline_payload_planner_builds_worker_progress_filenames(self):
@@ -28724,12 +28728,17 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             BackendMigrationInventoryScanner._validation_gates(
                 validation_script="python:uid-discovery-compare",
-                validation_scope="dry_run_plan_fixture_and_js_python_plan_bridge",
+                validation_scope="dry_run_plan_analysis_resume_discovery_start_malformed_numeric_fixtures_js_python_bridge_and_cli_flag_bridge",
             ),
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-discovery-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidDiscoveryPlan.test.js"},
+                {"gate": "js_python_cli_flag_bridge", "status": "covered", "source": "compareUidDiscoveryPlan.test.js"},
             ],
+        )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:uid-discovery-compare"],
+            "dry_run_plan_analysis_resume_discovery_start_malformed_numeric_fixtures_js_python_bridge_and_cli_flag_bridge",
         )
 
     def test_uid_range_progress_runner_summarizes_discovery_and_phase2_status(self):
@@ -29009,12 +29018,17 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             BackendMigrationInventoryScanner._validation_gates(
                 validation_script="python:uid-range-scrape-compare",
-                validation_scope="dry_run_plan_fixture_and_js_python_plan_bridge",
+                validation_scope="dry_run_plan_custom_progress_default_range_malformed_stats_fixtures_js_python_bridge_and_cli_flag_bridge",
             ),
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:uid-range-scrape-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareUidRangeScrapePlan.test.js"},
+                {"gate": "js_python_cli_flag_bridge", "status": "covered", "source": "compareUidRangeScrapePlan.test.js"},
             ],
+        )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:uid-range-scrape-compare"],
+            "dry_run_plan_custom_progress_default_range_malformed_stats_fixtures_js_python_bridge_and_cli_flag_bridge",
         )
 
     def test_uid_range_progress_summary_extracts_comparator_contract(self):

@@ -135,3 +135,37 @@ test('uidPipelineWorker can delegate dry-run planning to Python', () => {
     rmSync(tempDir, { recursive: true, force: true });
   }
 });
+
+test('uidPipelineWorker accepts explicit python plan flag for dry-run planning', () => {
+  const tempDir = mkdtempSync(join(tmpdir(), 'uid-pipeline-worker-explicit-python-plan-'));
+  try {
+    const payloadPath = join(tempDir, 'payload.json');
+    const fakeModuleDir = join(tempDir, 'python_backend', 'cli');
+    writeFileSync(
+      payloadPath,
+      JSON.stringify({ argv: ['--start=10', '--end=12'], progress: { processed: {}, stats: {} }, database: { users: {} } }, null, 2),
+      'utf8',
+    );
+    mkdirSync(fakeModuleDir, { recursive: true });
+    writeFileSync(join(tempDir, 'python_backend', '__init__.py'), '', 'utf8');
+    writeFileSync(join(fakeModuleDir, '__init__.py'), '', 'utf8');
+    writeFileSync(
+      join(fakeModuleDir, 'uid_pipeline_plan.py'),
+      'print(\'{"ok":true,"fromExplicitPythonUidPipelineWorkerPlan":true,"progress":{"remaining":12}}\')\n',
+      'utf8',
+    );
+
+    const result = spawnSync('node', [resolve('server/scripts/uidPipelineWorker.js'), '--plan-json', '--python-plan', `--payload=${payloadPath}`], {
+      cwd: tempDir,
+      encoding: 'utf8',
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+    });
+
+    assert.equal(result.status, 0, result.stderr);
+    const payload = JSON.parse(result.stdout);
+    assert.equal(payload.fromExplicitPythonUidPipelineWorkerPlan, true);
+    assert.equal(payload.progress.remaining, 12);
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
+  }
+});
