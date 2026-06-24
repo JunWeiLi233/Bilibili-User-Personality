@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import { compareTiebaHtmlParse, compareTiebaHtmlParseObjects } from './compareTiebaHtmlParse.js';
+import { TIEBA_HTML_PARSE_FIXTURES, compareTiebaHtmlParse, compareTiebaHtmlParseObjects } from './compareTiebaHtmlParse.js';
 
 const THREADS_RESULT = {
   ok: true,
@@ -46,4 +46,36 @@ test('compareTiebaHtmlParse compares JS parser output with Python parser output'
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.deepEqual(calls, [{ js: 'threads' }, { python: 'threads' }]);
+});
+
+test('compareTiebaHtmlParse exports named parser fixtures', async () => {
+  assert.deepEqual(Object.keys(TIEBA_HTML_PARSE_FIXTURES), [
+    'threads-title-dedupe',
+    'thread-comments-data-field',
+    'discovery-comments-from-threads',
+  ]);
+
+  const calls = [];
+  const result = await compareTiebaHtmlParse({
+    fixtureNames: Object.keys(TIEBA_HTML_PARSE_FIXTURES),
+    runJs: async (context) => {
+      calls.push({ js: context.fixture.name, mode: context.payload.mode });
+      return context.fixture.expected;
+    },
+    runPython: async (context) => {
+      calls.push({ python: context.fixture.name, mode: context.payload.mode });
+      return context.fixture.expected;
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.deepEqual(calls, [
+    { js: 'threads-title-dedupe', mode: 'threads' },
+    { python: 'threads-title-dedupe', mode: 'threads' },
+    { js: 'thread-comments-data-field', mode: 'comments' },
+    { python: 'thread-comments-data-field', mode: 'comments' },
+    { js: 'discovery-comments-from-threads', mode: 'discovery-comments' },
+    { python: 'discovery-comments-from-threads', mode: 'discovery-comments' },
+  ]);
 });

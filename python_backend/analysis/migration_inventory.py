@@ -103,6 +103,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:uid-range-progress-compare": "file_backed_default_parseint_stats_prefix_corrupt_input_fixtures_and_js_python_bridge",
     "python:uid-discovery-progress-compare": "file_backed_default_parseint_stats_prefix_corrupt_inputs_fixtures_and_js_python_bridge",
     "python:scraper-monitor-compare": "file_backed_default_parseint_stats_prefix_corrupt_progress_fixtures_and_js_python_bridge",
+    "python:tieba-html-parse-compare": "threads_comments_discovery_fixtures_and_js_python_bridge",
     "python:huggingface-compare": "full_command",
     "python:local-mine-compare": "full_command",
     "python:bilibili-parse-compare": "danmaku_xml_extract_bvid_bvid_pool_fixtures_and_js_python_bridge",

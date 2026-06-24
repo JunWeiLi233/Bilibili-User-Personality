@@ -15836,6 +15836,10 @@ class CorpusContractTests(unittest.TestCase):
             package["scripts"]["python:tieba-html-parse-compare"],
             "node server/scripts/compareTiebaHtmlParse.js",
         )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:tieba-html-parse-compare"],
+            "threads_comments_discovery_fixtures_and_js_python_bridge",
+        )
 
         result = BackendMigrationInventoryScanner(".").scan()
         self.assertIn(
