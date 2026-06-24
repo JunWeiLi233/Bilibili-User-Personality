@@ -20914,11 +20914,21 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(issubclass(comment_coverage_cli.CommentCoverageCliRunner, CommentCoverageCommandRequest))
 
     def test_comment_coverage_service_is_legacy_after_python_contract(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
         result = BackendMigrationInventoryScanner(".").scan()
 
+        self.assertEqual(package["scripts"]["python:comment-coverage-compare"], "node server/scripts/compareCommentCoverage.js")
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:comment-coverage-compare"],
+            "payload_keyword_neutral_uncovered_sample_limit_diagnostic_fixtures_and_js_python_bridge",
+        )
         self.assertNotIn("server/services/commentCoverage.js", result["migrationCandidateFiles"]["services"])
         self.assertIn(
             {"path": "server/services/commentCoverage.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareCommentCoverage.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
         )
         self.assertIn(
@@ -20928,6 +20938,18 @@ class CorpusContractTests(unittest.TestCase):
                 "pipeline": "comment_coverage",
             },
             result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertEqual(
+            BackendMigrationInventoryScanner._validation_gates(
+                validation_script="python:comment-coverage-compare",
+                validation_scope=DEFAULT_PACKAGE_VALIDATION_SCOPES["python:comment-coverage-compare"],
+            ),
+            [
+                {"gate": "payload_keyword_neutral_uncovered_fixture", "status": "covered", "source": "python:comment-coverage-compare"},
+                {"gate": "sample_size_limit_fixture", "status": "covered", "source": "compareCommentCoverage.test.js"},
+                {"gate": "scrape_diagnostic_neutral_fixture", "status": "covered", "source": "python:comment-coverage-compare"},
+                {"gate": "js_python_payload_bridge", "status": "covered", "source": "compareCommentCoverage.test.js"},
+            ],
         )
 
     def test_comment_coverage_summary_preserves_comparator_shape(self):
