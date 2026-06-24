@@ -3591,6 +3591,7 @@ class CorpusContractTests(unittest.TestCase):
                 {"gate": "randomVerificationNoUncovered", "ok": True},
                 {"gate": "randomVerificationSelectionConsistent", "ok": True},
                 {"gate": "randomVerificationSelectionPossible", "ok": True},
+                {"gate": "randomVerificationSelectionOptionsMatch", "ok": True},
             ],
         )
         self.assertEqual(readiness["coverage"]["coverage"]["complete"], True)
@@ -3693,6 +3694,39 @@ class CorpusContractTests(unittest.TestCase):
             {
                 "gate": "randomVerificationSelectionPossible",
                 "reason": "random verification selected more comments than requested or eligible",
+            },
+            readiness["blockerDetails"],
+        )
+
+    def test_random_verification_readiness_contract_blocks_selection_option_drift(self):
+        readiness = RandomVerificationReadinessContract(
+            coverage_audit={
+                "ok": True,
+                "coverage": {"complete": True, "coverageRatio": 1, "terms": 2, "weakTerms": 0},
+                "failureReasons": [],
+            },
+            verification_report={
+                "sampleSize": 2,
+                "seed": 7,
+                "sampled": 2,
+                "keywordHits": 1,
+                "neutral": 1,
+                "uncovered": 0,
+                "selectionSummary": {
+                    "requestedSampleSize": 3,
+                    "eligibleComments": 4,
+                    "selectedComments": 2,
+                    "seed": 8,
+                },
+            },
+        ).to_json_contract()
+
+        self.assertFalse(readiness["ok"])
+        self.assertIn("randomVerificationSelectionOptionsMatch", readiness["blockers"])
+        self.assertIn(
+            {
+                "gate": "randomVerificationSelectionOptionsMatch",
+                "reason": "random verification selection options do not match report options",
             },
             readiness["blockerDetails"],
         )
