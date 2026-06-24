@@ -1595,6 +1595,7 @@ class CorpusContractTests(unittest.TestCase):
                 "python:exhausted-prune-compare": "node server/scripts/compareExhaustedTermsPrunePlan.js",
                 "python:near-target-compare": "node server/scripts/compareNearTargetResolvePlan.js",
                 "python:coverage-loop-compare": "node server/scripts/compareCoverageHarvestLoopPlan.js",
+                "python:coverage-loop-command-compare": "node server/scripts/compareCoverageHarvestLoopCommand.js",
                 "python:tieba-keyword-compare": "node server/scripts/compareTiebaKeywordPlan.js",
                 "python:direct-probe-compare": "node server/scripts/compareDirectProbePlan.js",
                 "python:direct-probe-command-compare": "node server/scripts/compareDirectProbeCommand.js",
@@ -1609,6 +1610,7 @@ class CorpusContractTests(unittest.TestCase):
                 "python:exhausted-prune-plan": "python -m python_backend.cli.exhausted_terms_prune_plan",
                 "python:near-target-plan": "python -m python_backend.cli.near_target_resolve_plan",
                 "python:coverage-loop-plan": "python -m python_backend.cli.coverage_loop_plan",
+                "python:coverage-loop-command": "python -m python_backend.cli.coverage_loop_command",
                 "python:tieba-keyword-plan": "python -m python_backend.cli.tieba_keyword_plan",
                 "python:direct-probe-plan": "python -m python_backend.cli.direct_probe_plan",
                 "python:direct-probe-command": "python -m python_backend.cli.direct_probe_command",
@@ -1620,8 +1622,8 @@ class CorpusContractTests(unittest.TestCase):
 
         result = PackageCommandMigrationInventory(package).scan()
 
-        self.assertEqual(result["nodeServerScripts"], 32)
-        self.assertEqual(result["pythonBackendScripts"], 13)
+        self.assertEqual(result["nodeServerScripts"], 33)
+        self.assertEqual(result["pythonBackendScripts"], 14)
         self.assertEqual(
             result["pythonBackedNodeScripts"],
             [
@@ -1691,13 +1693,13 @@ class CorpusContractTests(unittest.TestCase):
                 {
                     "script": "dictionary:auto",
                     "command": "node server/scripts/runCoverageHarvestLoop.js",
-                    "pythonScript": "python:coverage-loop-plan",
-                    "pythonCommand": "python -m python_backend.cli.coverage_loop_plan",
+                    "pythonScript": "python:coverage-loop-command",
+                    "pythonCommand": "python -m python_backend.cli.coverage_loop_command",
                     "replacementScope": "dry_run_plan",
                     "readyToReplace": False,
-                    "validationScript": "python:coverage-loop-compare",
-                    "validationCommand": "node server/scripts/compareCoverageHarvestLoopPlan.js",
-                    "validationScope": "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_mock_write_file_backed_mock_harvest_js_python_command_and_deferred_live_contract",
+                    "validationScript": "python:coverage-loop-command-compare",
+                    "validationCommand": "node server/scripts/compareCoverageHarvestLoopCommand.js",
+                    "validationScope": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_and_deferred_live_contract",
                 },
                 {
                     "script": "dictionary:tieba",
@@ -1782,6 +1784,11 @@ class CorpusContractTests(unittest.TestCase):
                 {
                     "script": "python:deepseek-mock-runtime-compare",
                     "command": "node server/scripts/compareDeepSeekAnalyzeMockRuntime.js",
+                    "reason": "js_python_contract_bridge",
+                },
+                {
+                    "script": "python:coverage-loop-compare",
+                    "command": "node server/scripts/compareCoverageHarvestLoopPlan.js",
                     "reason": "js_python_contract_bridge",
                 },
                 {
@@ -1893,7 +1900,11 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["nextOfflineMigrationAction"]["path"], "server/scripts/runCoverageHarvestLoop.js")
         self.assertEqual(result["nextOfflineMigrationAction"]["nodeScript"], "dictionary:auto")
-        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_mock_write_file_backed_mock_harvest_js_python_command_and_deferred_live_contract")
+        self.assertEqual(result["nextOfflineMigrationAction"]["pythonScript"], "python:coverage-loop-command")
+        self.assertEqual(result["nextOfflineMigrationAction"]["pythonCommand"], "python -m python_backend.cli.coverage_loop_command")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationScript"], "python:coverage-loop-command-compare")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationCommand"], "node server/scripts/compareCoverageHarvestLoopCommand.js")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_and_deferred_live_contract")
         self.assertFalse(result["nextOfflineMigrationAction"]["readyToReplace"])
         self.assertEqual(
             result["nextOfflineMigrationAction"]["replacementBlockers"],

@@ -21,7 +21,7 @@ DEFAULT_PACKAGE_COMMAND_EQUIVALENTS = {
     "dictionary:prune": "python:dictionary-prune-summary",
     "dictionary:prune-exhausted": "python:exhausted-prune-plan",
     "dictionary:resolve-near": "python:near-target-plan",
-    "dictionary:auto": "python:coverage-loop-plan",
+    "dictionary:auto": "python:coverage-loop-command",
     "dictionary:tieba": "python:tieba-keyword-plan",
     "dictionary:huggingface": "python:huggingface-import",
     "dictionary:mine-local": "python:local-mine",
@@ -41,7 +41,7 @@ DEFAULT_PACKAGE_VALIDATION_EQUIVALENTS = {
     "dictionary:prune": "python:dictionary-prune-compare",
     "dictionary:prune-exhausted": "python:exhausted-prune-compare",
     "dictionary:resolve-near": "python:near-target-compare",
-    "dictionary:auto": "python:coverage-loop-compare",
+    "dictionary:auto": "python:coverage-loop-command-compare",
     "dictionary:tieba": "python:tieba-keyword-compare",
     "dictionary:probe-bilibili": "python:direct-probe-command-compare",
     "deepseek:analyze": "python:deepseek-analyze-command-compare",
@@ -693,7 +693,10 @@ class BackendMigrationInventoryScanner:
                     "reason": "Validation covers Python runtime mocks, multiagent mocks, and the offline live-gate skip contract, but no credentialed live API command run has been verified.",
                 }
             )
-        elif script == "dictionary:auto" and validation_scope == "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_mock_write_file_backed_mock_harvest_js_python_command_and_deferred_live_contract":
+        elif script == "dictionary:auto" and validation_scope in {
+            "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_mock_write_file_backed_mock_harvest_js_python_command_and_deferred_live_contract",
+            "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_and_deferred_live_contract",
+        }:
             blockers.append(
                 {
                     "blocker": "coverage_loop_live_runtime_not_verified",
@@ -744,7 +747,7 @@ class BackendMigrationInventoryScanner:
                 {"gate": "python_write_mode_split_dictionary", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
                 {"gate": "js_python_write_mode_persisted_terms", "status": "covered", "source": "compareDictionaryPruneSummary.test.js"},
             ]
-        if validation_script == "python:coverage-loop-compare":
+        if validation_script in {"python:coverage-loop-compare", "python:coverage-loop-command-compare"}:
             return [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:coverage-loop-compare"},
                 {"gate": "no_live_command_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
