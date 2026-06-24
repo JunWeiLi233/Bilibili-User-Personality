@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { COVERAGE_LOOP_COMMAND_FIXTURES, compareCoverageHarvestLoopCommand } from './compareCoverageHarvestLoopCommand.js';
 import { runCoverageLoopJsHarvestAdapter } from './runCoverageHarvestLoopJsAdapter.js';
-import { compareCoverageHarvestLoopPlanObjects } from './compareCoverageHarvestLoopPlan.js';
+import { compareCoverageHarvestLoopPlan, compareCoverageHarvestLoopPlanObjects } from './compareCoverageHarvestLoopPlan.js';
 import { buildPythonCoverageLoopCommandArgs } from './runCoverageHarvestLoop.js';
 
 test('runCoverageHarvestLoop.js forces auto coverage to DeepSeek v4 flash max effort', () => {
@@ -770,6 +770,38 @@ test('compareCoverageHarvestLoopPlanObjects reports matching dry-run plans', () 
   assert.deepEqual(result.mismatches, []);
   assert.equal(result.python.ignored, undefined);
   assert.equal(result.js.ignored, undefined);
+});
+
+test('compareCoverageHarvestLoopPlan delegates persisted plan comparison to Python contract', async () => {
+  const calls = [];
+  const result = await compareCoverageHarvestLoopPlan({
+    payload: { env: { BILIBILI_COVERAGE_LOOP_MAX_CYCLES: '0' }, audit: { ok: true } },
+    runJs: async () => ({ ok: true, loop: { maxCycles: 0 }, initialStopReason: 'coverage_gate_passed' }),
+    runPython: async () => ({ ok: true, loop: { maxCycles: 0 }, initialStopReason: 'coverage_gate_passed' }),
+    runCompare: async (context) => {
+      calls.push({
+        pythonStopReason: context.pythonPlan.initialStopReason,
+        jsStopReason: context.jsPlan.initialStopReason,
+        hasPayloadPath: context.payloadPath.endsWith('payload.json'),
+        hasJsPlanPath: context.jsPlanPath.endsWith('js-plan.json'),
+      });
+      return {
+        ok: false,
+        mismatches: [{ key: 'delegated', python: 'python-contract', js: 'js-bridge' }],
+      };
+    },
+  });
+
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.mismatches, [{ key: 'delegated', python: 'python-contract', js: 'js-bridge' }]);
+  assert.deepEqual(calls, [
+    {
+      pythonStopReason: 'coverage_gate_passed',
+      jsStopReason: 'coverage_gate_passed',
+      hasPayloadPath: true,
+      hasJsPlanPath: true,
+    },
+  ]);
 });
 
 test('compareCoverageHarvestLoopCommand validates complete and weak no-live fixtures', async () => {
