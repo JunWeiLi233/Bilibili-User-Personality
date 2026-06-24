@@ -106,6 +106,19 @@ async function runPythonProgress({ payloadPath }) {
   return JSON.parse(stdout);
 }
 
+async function runPythonProgressComparison({ payloadPath, jsReportPath }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    ['-m', 'python_backend.cli.coverage_progress', '--payload', payloadPath, '--compare-js-report', jsReportPath],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return JSON.parse(stdout);
+}
+
 function resolvePayload({ payload, fixture } = {}) {
   if (payload) return { name: fixture?.name || 'custom', payload };
   const name = typeof fixture === 'string' ? fixture : fixture?.name || 'default-progress';
@@ -116,7 +129,13 @@ async function writePayload(payloadPath, payload) {
   await writeFile(payloadPath, 'payloadRaw' in payload ? String(payload.payloadRaw ?? '') : JSON.stringify(payload || {}, null, 2), 'utf8');
 }
 
-async function compareCoverageProgressSingle({ payload, fixture, runJs = runJsProgress, runPython = runPythonProgress } = {}) {
+async function compareCoverageProgressSingle({
+  payload,
+  fixture,
+  runJs = runJsProgress,
+  runPython = runPythonProgress,
+  runCompare = runPythonProgressComparison,
+} = {}) {
   const resolved = resolvePayload({ payload, fixture });
   const tempDir = await mkdtemp(join(tmpdir(), 'coverage-progress-compare-'));
   try {
@@ -125,10 +144,12 @@ async function compareCoverageProgressSingle({ payload, fixture, runJs = runJsPr
     const context = { payload: resolved.payload, fixture: { name: resolved.name }, payloadPath };
     const js = await runJs(context);
     const python = await runPython(context);
-    const comparison = compareCoverageProgressObjects(python, js);
+    const jsReportPath = join(tempDir, 'js-report.json');
+    await writeFile(jsReportPath, JSON.stringify(js || {}, null, 2), 'utf8');
+    const comparison = await runCompare({ ...context, jsReportPath, js, python, jsReport: js, pythonReport: python });
     return {
       ok: comparison.ok,
-      fixture: { name: resolved.name, payloadPath },
+      fixture: { name: resolved.name, payloadPath, jsReportPath },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -138,16 +159,23 @@ async function compareCoverageProgressSingle({ payload, fixture, runJs = runJsPr
   }
 }
 
-export async function compareCoverageProgress({ payload, fixture, fixtureNames, runJs = runJsProgress, runPython = runPythonProgress } = {}) {
+export async function compareCoverageProgress({
+  payload,
+  fixture,
+  fixtureNames,
+  runJs = runJsProgress,
+  runPython = runPythonProgress,
+  runCompare = runPythonProgressComparison,
+} = {}) {
   if (fixtureNames) {
     const results = [];
     for (const name of fixtureNames.length ? fixtureNames : DEFAULT_FIXTURE_NAMES) {
-      results.push(await compareCoverageProgressSingle({ fixture: name, runJs, runPython }));
+      results.push(await compareCoverageProgressSingle({ fixture: name, runJs, runPython, runCompare }));
     }
     const mismatches = results.flatMap((result) => result.mismatches.map((mismatch) => ({ ...mismatch, fixture: result.fixture.name })));
     return { ok: mismatches.length === 0, fixtures: results.map((result) => result.fixture), results, mismatches };
   }
-  return compareCoverageProgressSingle({ payload: payload || DEFAULT_PAYLOAD, fixture, runJs, runPython });
+  return compareCoverageProgressSingle({ payload: payload || DEFAULT_PAYLOAD, fixture, runJs, runPython, runCompare });
 }
 
 async function main() {

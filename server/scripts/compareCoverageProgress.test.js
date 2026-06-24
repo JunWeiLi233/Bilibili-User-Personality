@@ -48,11 +48,59 @@ test('compareCoverageProgress compares injected JS and Python progress runners',
     },
     runJs: async () => ({ delta: { totalEvidenceGained: 2 }, hasGateProgress: false }),
     runPython: async () => ({ delta: { totalEvidenceGained: 2 }, hasGateProgress: false }),
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(result.fixture.payloadPath.endsWith('payload.json'), true);
+});
+
+test('compareCoverageProgress delegates saved JS report comparison to Python contract', async () => {
+  const calls = [];
+  const result = await compareCoverageProgress({
+    runJs: async (context) => {
+      calls.push({ js: context.payloadPath.endsWith('payload.json') });
+      return { delta: { totalEvidenceGained: 1 }, hasGateProgress: false };
+    },
+    runPython: async (context) => {
+      calls.push({ python: context.payloadPath.endsWith('payload.json') });
+      return { delta: { totalEvidenceGained: 2 }, hasGateProgress: true };
+    },
+    runCompare: async (context) => {
+      calls.push({
+        compare: context.payloadPath.endsWith('payload.json'),
+        hasJsReportPath: context.jsReportPath.endsWith('js-report.json'),
+        jsDelta: context.jsReport.delta.totalEvidenceGained,
+        pythonDelta: context.pythonReport.delta.totalEvidenceGained,
+      });
+      return {
+        ok: false,
+        mismatches: [
+          { key: 'delta', python: { totalEvidenceGained: 2 }, js: { totalEvidenceGained: 1 } },
+          { key: 'hasGateProgress', python: true, js: false },
+        ],
+        python: { delta: { totalEvidenceGained: 2 }, hasGateProgress: true },
+        js: { delta: { totalEvidenceGained: 1 }, hasGateProgress: false },
+      };
+    },
+  });
+
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.mismatches, [
+    { key: 'delta', python: { totalEvidenceGained: 2 }, js: { totalEvidenceGained: 1 } },
+    { key: 'hasGateProgress', python: true, js: false },
+  ]);
+  assert.deepEqual(calls, [
+    { js: true },
+    { python: true },
+    {
+      compare: true,
+      hasJsReportPath: true,
+      jsDelta: 1,
+      pythonDelta: 2,
+    },
+  ]);
 });
 
 test('compareCoverageProgress exports named payload fixtures', async () => {
@@ -73,6 +121,7 @@ test('compareCoverageProgress exports named payload fixtures', async () => {
       calls.push({ python: context.fixture.name, hasPayloadPath: context.payloadPath.endsWith('payload.json') });
       return { delta: { totalEvidenceGained: 2 }, hasGateProgress: true };
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
