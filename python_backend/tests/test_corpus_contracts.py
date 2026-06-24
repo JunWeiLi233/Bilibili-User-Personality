@@ -7913,6 +7913,57 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(message, 'DeepSeek analyze failed with HTTP 429: {"error":"rate limited"}')
 
+    def test_deepseek_analyze_http_transport_accepts_parser_and_error_formatter_dependencies(self):
+        calls = []
+
+        class Parser:
+            def parse(self, payload):
+                calls.append({"parserPayload": payload})
+                return {"parsedBy": "custom-parser"}
+
+        class ErrorFormatter:
+            def format(self, error):
+                calls.append({"errorCode": error.code})
+                return "custom formatted failure"
+
+        class Response:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, traceback):
+                return False
+
+            def read(self):
+                return b'{"choices":[]}'
+
+        def success_opener(request, timeout):
+            return Response()
+
+        result = DeepSeekAnalyzeHttpTransport(
+            opener=success_opener,
+            parser=Parser(),
+            error_formatter=ErrorFormatter(),
+        ).send({"model": "deepseek-v4-flash"}, {"baseUrl": "https://deepseek.example", "apiKey": "secret"})
+
+        def failing_opener(request, timeout):
+            raise urllib.error.HTTPError(
+                request.full_url,
+                503,
+                "Unavailable",
+                hdrs=None,
+                fp=io.BytesIO(b"down"),
+            )
+
+        with self.assertRaisesRegex(RuntimeError, "custom formatted failure"):
+            DeepSeekAnalyzeHttpTransport(
+                opener=failing_opener,
+                parser=Parser(),
+                error_formatter=ErrorFormatter(),
+            ).send({"model": "deepseek-v4-flash"}, {"baseUrl": "https://deepseek.example", "apiKey": "secret"})
+
+        self.assertEqual(result, {"parsedBy": "custom-parser"})
+        self.assertEqual(calls, [{"parserPayload": {"choices": []}}, {"errorCode": 503}])
+
     def test_deepseek_live_validation_gate_skips_without_api_key(self):
         result = DeepSeekLiveValidationGate(env={}).run({"text": "\u53cd\u8bbd[doge]"})
 

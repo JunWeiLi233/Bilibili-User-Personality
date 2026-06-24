@@ -211,11 +211,18 @@ class DeepSeekAnalyzeHttpErrorFormatter:
 class DeepSeekAnalyzeHttpTransport:
     """Send DeepSeek chat completion requests through an injectable URL opener."""
 
-    def __init__(self, *, opener: Any = None, timeout: int = 60):
+    def __init__(
+        self,
+        *,
+        opener: Any = None,
+        timeout: int = 60,
+        parser: Any = None,
+        error_formatter: Any = None,
+    ):
         self.opener = opener or urllib.request.urlopen
         self.timeout = timeout
-        self.parser = DeepSeekAnalyzeChatResponseParser()
-        self.error_formatter = DeepSeekAnalyzeHttpErrorFormatter()
+        self.parser = parser or DeepSeekAnalyzeChatResponseParser()
+        self.error_formatter = error_formatter or DeepSeekAnalyzeHttpErrorFormatter()
 
     def __call__(self, request_body: dict[str, Any], config: dict[str, str]) -> dict[str, Any]:
         return self.send(request_body, config)
