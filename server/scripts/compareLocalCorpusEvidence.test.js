@@ -39,6 +39,47 @@ test('compareLocalCorpusEvidence compares JS-compatible and Python evidence repo
   assert.deepEqual(calls, [{ js: true }, { python: true }]);
 });
 
+test('compareLocalCorpusEvidence delegates saved JS report comparison to Python contract', async () => {
+  const calls = [];
+  const result = await compareLocalCorpusEvidence({
+    runJs: async (context) => {
+      calls.push({ js: context.payloadPath.endsWith('local-evidence.json') });
+      return { ok: true, count: 1, entries: [{ term: 'alpha', evidenceSamples: ['alpha sample'] }] };
+    },
+    runPython: async (context) => {
+      calls.push({ python: context.payloadPath.endsWith('local-evidence.json') });
+      return { ok: true, count: 1, entries: [{ term: 'alpha', evidence: ['different sample'] }] };
+    },
+    runCompare: async (context) => {
+      calls.push({
+        compare: context.payloadPath.endsWith('local-evidence.json'),
+        hasJsReportPath: context.jsReportPath.endsWith('js-report.json'),
+        jsReport: context.jsReport.entries[0].evidenceSamples[0],
+        pythonReport: context.pythonReport.entries[0].evidence[0],
+      });
+      return {
+        ok: false,
+        mismatches: [{ key: 'evidence', python: { alpha: ['different sample'] }, js: { alpha: ['alpha sample'] } }],
+        python: { count: 1, terms: ['alpha'], evidence: { alpha: ['different sample'] } },
+        js: { count: 1, terms: ['alpha'], evidence: { alpha: ['alpha sample'] } },
+      };
+    },
+  });
+
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.mismatches, [{ key: 'evidence', python: { alpha: ['different sample'] }, js: { alpha: ['alpha sample'] } }]);
+  assert.deepEqual(calls, [
+    { js: true },
+    { python: true },
+    {
+      compare: true,
+      hasJsReportPath: true,
+      jsReport: 'alpha sample',
+      pythonReport: 'different sample',
+    },
+  ]);
+});
+
 test('compareLocalCorpusEvidence exports named local evidence shape fixtures', async () => {
   assert.deepEqual(Object.keys(LOCAL_CORPUS_EVIDENCE_FIXTURES), [
     'target-term-match',
@@ -58,6 +99,7 @@ test('compareLocalCorpusEvidence exports named local evidence shape fixtures', a
       calls.push({ python: context.fixture.name, hasPayloadPath: context.payloadPath.endsWith('local-evidence.json') });
       return context.fixture.expected;
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
