@@ -32544,6 +32544,74 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(seen_request["options"]["maxActions"], 3)
         self.assertEqual(len(seen_request["priorityQueries"]), 1)
 
+    def test_coverage_harvest_loop_command_caps_external_adapter_max_queries_like_js(self):
+        from python_backend.analysis import coverage_loop as coverage_loop_module
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+            dictionary_path = temp_path / "dictionary.json"
+            state_path = temp_path / "state.json"
+            report_path = temp_path / "report.json"
+            seen_path = temp_path / "seen-request.json"
+            harvest_script = temp_path / "harvest_adapter.py"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "entries": [
+                            {
+                                "term": f"term-{index:03d}",
+                                "family": "meme",
+                                "evidenceCount": 0,
+                                "evidenceSamples": [],
+                                "evidenceSources": [],
+                            }
+                            for index in range(120)
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            harvest_script.write_text(
+                "\n".join(
+                    [
+                        "import json, sys",
+                        "from pathlib import Path",
+                        "request = json.loads(Path(sys.argv[1]).read_text(encoding='utf-8'))",
+                        "Path(sys.argv[2]).write_text(json.dumps(request, ensure_ascii=False), encoding='utf-8')",
+                        "dictionary = json.loads(Path(request['dictionaryPath']).read_text(encoding='utf-8'))",
+                        "print(json.dumps({'afterDictionary': dictionary, 'harvest': {'ok': True, 'rounds': [{'queries': [], 'warnings': [], 'coverageProgress': {'evidenceGained': 0}, 'trainingDiagnostics': {}, 'queryDiagnostics': []}]}}))",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            coverage_loop_module.CoverageHarvestLoopCommandRequest(
+                [
+                    "--dictionary",
+                    dictionary_path,
+                    "--state",
+                    state_path,
+                    "--report",
+                    report_path,
+                    "--max-cycles",
+                    "1",
+                    "--max-queries",
+                    "500",
+                    "--max-actions",
+                    "120",
+                    "--generated-at",
+                    "2026-06-23T00:00:00.000Z",
+                    "--harvest-command-json",
+                    json.dumps([sys.executable, str(harvest_script), "{payload}", str(seen_path)]),
+                    "--exit-zero",
+                ]
+            ).run()
+            seen_request = json.loads(seen_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(seen_request["options"]["maxQueries"], 100)
+        self.assertEqual(len(seen_request["priorityQueries"]), 100)
+
     def test_coverage_harvest_loop_command_stops_external_loop_when_no_queries_run(self):
         from python_backend.analysis import coverage_loop as coverage_loop_module
 

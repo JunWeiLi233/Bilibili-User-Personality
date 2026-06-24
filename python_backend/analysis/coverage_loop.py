@@ -847,7 +847,7 @@ class CoverageHarvestLoopCommandRunner:
         self.report_path = Path(report_path)
         self.max_cycles = max(0, min(_non_negative_int(max_cycles, 3), 50))
         self.rounds_per_cycle = max(1, min(_positive_int(rounds_per_cycle, 1), 20))
-        self.max_queries = max(1, _positive_int(max_queries, _positive_int(max_actions, 12)))
+        self.max_queries = max(1, min(_positive_int(max_queries, _positive_int(max_actions, 12)), 100))
         self.target_evidence = max(1, _positive_int(target_evidence, 3))
         self.max_actions = max(1, _positive_int(max_actions, 12))
         self.min_coverage_ratio = min(1, max(0, _float_or(min_coverage_ratio, 1)))
