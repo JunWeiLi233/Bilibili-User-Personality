@@ -147,17 +147,31 @@ async function runPythonCommentCoverage({ payloadPath }) {
   return JSON.parse(stdout);
 }
 
+async function runPythonCommentCoverageComparison({ payloadPath, jsReportPath }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    ['-m', 'python_backend.cli.comment_coverage', '--payload', payloadPath, '--compare-js-report', jsReportPath],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return JSON.parse(stdout);
+}
+
 export async function compareCommentCoverage({
   payload,
   fixture,
   fixtureNames,
   runJs = runJsCommentCoverage,
   runPython = runPythonCommentCoverage,
+  runCompare = runPythonCommentCoverageComparison,
 } = {}) {
   if (fixtureNames) {
     const results = [];
     for (const name of fixtureNames.length ? fixtureNames : DEFAULT_FIXTURE_NAMES) {
-      results.push(await compareCommentCoverage({ fixture: name, runJs, runPython }));
+      results.push(await compareCommentCoverage({ fixture: name, runJs, runPython, runCompare }));
     }
     const mismatches = results.flatMap((result) => result.mismatches.map((mismatch) => ({ ...mismatch, fixture: result.fixture.name })));
     return { ok: mismatches.length === 0, fixtures: results.map((result) => result.fixture), results, mismatches };
@@ -177,10 +191,12 @@ export async function compareCommentCoverage({
     };
     const js = await runJs(context);
     const python = await runPython(context);
-    const comparison = compareCommentCoverageObjects(python, js);
+    const jsReportPath = join(tempDir, 'js-report.json');
+    await writeFile(jsReportPath, JSON.stringify(js || {}, null, 2), 'utf8');
+    const comparison = await runCompare({ ...context, jsReportPath, js, python, jsReport: js, pythonReport: python });
     return {
       ok: comparison.ok,
-      fixture: { name: resolvedName, payloadPath },
+      fixture: { name: resolvedName, payloadPath, jsReportPath },
       js,
       python,
       mismatches: comparison.mismatches,

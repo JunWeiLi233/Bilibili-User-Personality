@@ -38,6 +38,7 @@ test('compareCommentCoverage compares JS and Python payload coverage contracts',
       calls.push({ python: payload.comments.length, hasPayloadPath: payloadPath.endsWith('comment-coverage.json') });
       return { ok: true, summary: SUMMARY };
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
@@ -45,6 +46,47 @@ test('compareCommentCoverage compares JS and Python payload coverage contracts',
   assert.deepEqual(calls, [
     { js: 4, hasPayloadPath: true },
     { python: 4, hasPayloadPath: true },
+  ]);
+});
+
+test('compareCommentCoverage delegates saved JS report comparison to Python contract', async () => {
+  const calls = [];
+  const result = await compareCommentCoverage({
+    runJs: async ({ payloadPath }) => {
+      calls.push({ js: payloadPath.endsWith('comment-coverage.json') });
+      return { ok: true, summary: { ...SUMMARY, covered: 3 } };
+    },
+    runPython: async ({ payloadPath }) => {
+      calls.push({ python: payloadPath.endsWith('comment-coverage.json') });
+      return { ok: true, summary: { ...SUMMARY, covered: 2 } };
+    },
+    runCompare: async (context) => {
+      calls.push({
+        compare: context.payloadPath.endsWith('comment-coverage.json'),
+        hasJsReportPath: context.jsReportPath.endsWith('js-report.json'),
+        jsCovered: context.jsReport.summary.covered,
+        pythonCovered: context.pythonReport.summary.covered,
+      });
+      return {
+        ok: false,
+        mismatches: [{ key: 'covered', python: 2, js: 3 }],
+        python: { summary: { ...SUMMARY, covered: 2 } },
+        js: { summary: { ...SUMMARY, covered: 3 } },
+      };
+    },
+  });
+
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.mismatches, [{ key: 'covered', python: 2, js: 3 }]);
+  assert.deepEqual(calls, [
+    { js: true },
+    { python: true },
+    {
+      compare: true,
+      hasJsReportPath: true,
+      jsCovered: 3,
+      pythonCovered: 2,
+    },
   ]);
 });
 
@@ -59,6 +101,7 @@ test('compareCommentCoverage exports named coverage fixtures', async () => {
     fixtureNames: Object.keys(COMMENT_COVERAGE_FIXTURES),
     runJs: async ({ fixture }) => fixture.expected,
     runPython: async ({ fixture }) => fixture.expected,
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
