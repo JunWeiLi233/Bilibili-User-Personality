@@ -7902,6 +7902,31 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(calls[0]["authorization"], "Bearer secret")
         self.assertEqual(calls[0]["data"]["model"], "deepseek-v4-flash")
 
+    def test_deepseek_analyze_http_transport_defaults_invalid_timeout(self):
+        calls = []
+
+        class Response:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, traceback):
+                return False
+
+            def read(self):
+                return json.dumps({"choices": [{"message": {"content": '{"ok": true}'}}]}).encode("utf-8")
+
+        def opener(request, timeout):
+            calls.append(timeout)
+            return Response()
+
+        result = DeepSeekAnalyzeHttpTransport(opener=opener, timeout="bad").send(
+            {"model": "deepseek-v4-flash", "messages": [{"role": "user", "content": "\u53cd\u8bbd[doge]"}]},
+            {"baseUrl": "https://deepseek.example", "apiKey": "secret"},
+        )
+
+        self.assertEqual(result, {"ok": True})
+        self.assertEqual(calls, [60])
+
     def test_deepseek_analyze_chat_response_parser_owns_content_json_extraction(self):
         payload = {
             "choices": [

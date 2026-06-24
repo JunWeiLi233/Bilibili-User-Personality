@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import urllib.error
 import urllib.request
@@ -259,7 +260,7 @@ class DeepSeekAnalyzeHttpTransport:
         request_builder: Any = None,
     ):
         self.opener = opener or urllib.request.urlopen
-        self.timeout = timeout
+        self.timeout = self._timeout_or_default(timeout)
         self.parser = parser or DeepSeekAnalyzeChatResponseParser()
         self.error_formatter = error_formatter or DeepSeekAnalyzeHttpErrorFormatter()
         self.request_builder = request_builder or DeepSeekAnalyzeHttpRequestBuilder()
@@ -283,6 +284,16 @@ class DeepSeekAnalyzeHttpTransport:
         import json
 
         return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
+
+    @staticmethod
+    def _timeout_or_default(value: Any) -> int:
+        try:
+            timeout = float(value)
+        except (TypeError, ValueError):
+            return 60
+        if not math.isfinite(timeout) or timeout <= 0:
+            return 60
+        return int(timeout)
 
 
 class DeepSeekAnalyzeRuntime:
