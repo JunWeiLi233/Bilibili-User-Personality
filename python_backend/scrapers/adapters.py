@@ -38,9 +38,8 @@ class ScrapeRequest:
         source = str(payload.get("source", "bilibili")).strip().lower().replace("_", "-")
         limit = _coerce_limit(payload.get("limit", payload.get("pageSize", 20)))
         rate_limit = None
-        rate_limit_payload = payload.get("rateLimit") if isinstance(payload.get("rateLimit"), dict) else {}
-        if rate_limit_payload or any(key in payload for key in ("minDelayMs", "delayMs", "jitterMs", "blockCooldownMs", "cooldownMs")):
-            rate_limit = RateLimitOptionsContract(RateLimitPolicy.from_payload({**rate_limit_payload, **payload})).options_for(_rate_limit_target(source))
+        if isinstance(payload.get("rateLimit"), dict) or any(key in payload for key in ("minDelayMs", "delayMs", "jitterMs", "blockCooldownMs", "cooldownMs")):
+            rate_limit = RateLimitOptionsContract(RateLimitPolicy.from_payload(payload)).options_for(_rate_limit_target(source))
         return cls(query=query, limit=limit, source=source, rate_limit=rate_limit)
 
 

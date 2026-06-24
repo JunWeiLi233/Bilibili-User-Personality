@@ -4018,6 +4018,20 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(policy.to_bilibili_crawler_options(), {"minDelayMs": 750, "jitterMs": 2000, "blockCooldownMs": 300000})
         self.assertEqual(fallback_policy.to_direct_probe_options(), {"delayMs": 1200, "jitterMs": 3000})
 
+    def test_rate_limit_policy_builds_from_nested_js_json_payload_contract(self):
+        policy = RateLimitPolicy.from_payload(
+            {
+                "rateLimit": {
+                    "delayMs": 1800,
+                    "jitterMs": 999999,
+                    "cooldownMs": 45000,
+                }
+            }
+        )
+
+        self.assertEqual(policy.to_direct_probe_options(), {"delayMs": 1800, "jitterMs": 60000})
+        self.assertEqual(policy.to_tieba_options(), {"minDelayMs": 1800, "jitterMs": 60000, "blockCooldownMs": 45000})
+
     def test_file_lock_state_inspector_reads_js_owner_contract_and_detects_stale_age(self):
         with tempfile.TemporaryDirectory() as tmp:
             lock_path = Path(tmp) / "deepseekKeywordDictionary.json.lock"
