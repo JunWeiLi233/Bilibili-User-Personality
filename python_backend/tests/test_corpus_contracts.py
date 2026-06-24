@@ -2310,7 +2310,17 @@ class CorpusContractTests(unittest.TestCase):
             },
             result["manualVerificationActions"],
         )
-        self.assertEqual(result["pythonContractGapCount"], 3)
+        self.assertIn(
+            {
+                "path": "server/services/videoKeywordSearch.js",
+                "nodeScript": "server/services/videoKeywordSearch.js",
+                "blocker": "video_keyword_search_live_runtime_not_verified",
+                "preflightCommand": "npm run python:video-relevance-compare",
+                "liveVerificationCommand": "npm run video:keywords",
+            },
+            result["manualVerificationActions"],
+        )
+        self.assertEqual(result["pythonContractGapCount"], 2)
         self.assertNotIn(
             "server/services/tiebaScraper.js",
             {item["path"] for item in result["pythonContractGaps"]},
@@ -2365,6 +2375,10 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertNotIn(
             "server/services/bilibiliCrawler.js",
+            {item["path"] for item in result["pythonContractGaps"]},
+        )
+        self.assertNotIn(
+            "server/services/videoKeywordSearch.js",
             {item["path"] for item in result["pythonContractGaps"]},
         )
         self.assertIn(

@@ -270,6 +270,16 @@ DEFAULT_DIRECT_FILE_CONTRACTS = {
         "validationScope": "identity_block_cookie_objects_reply_danmaku_dynamics_fixtures_and_js_python_bridge",
         "replacementScope": "fixture_contract",
     },
+    "server/services/videoKeywordSearch.js": {
+        "nodeScript": "server/services/videoKeywordSearch.js",
+        "nodeCommand": "service module",
+        "pythonScript": "python:video-relevance",
+        "pythonCommand": "python -m python_backend.cli.video_relevance",
+        "validationScript": "python:video-relevance-compare",
+        "validationCommand": "node server/scripts/compareVideoRelevance.js",
+        "validationScope": "alias_sort_ask_baidu_filter_strict_target_filter_fixtures_and_js_python_bridge",
+        "replacementScope": "fixture_contract",
+    },
 }
 
 DEFAULT_RETAINED_NODE_COMMANDS = {
@@ -1204,6 +1214,16 @@ class BackendMigrationInventoryScanner:
                     "reason": "Python has fixture coverage for BVID parsing, block detection, cookie normalization, public object dedupe, UID reply collection, danmaku parsing, dynamic records, and JS/Python bridge comparison, but live Bilibili fetch behavior still needs JS probe verification before replacing the service module.",
                     "preflightCommand": "npm run python:bilibili-crawler-compare",
                     "liveVerificationCommand": "npm run dictionary:probe-bilibili:js",
+                    "manualVerificationRequired": True,
+                }
+            )
+        elif script == "server/services/videoKeywordSearch.js" and validation_scope != "full_command":
+            blockers.append(
+                {
+                    "blocker": "video_keyword_search_live_runtime_not_verified",
+                    "reason": "Python has fixture coverage for video relevance aliases, sorting, ask-Baidu filtering, strict target filtering, and JS/Python bridge comparison, but live video discovery plus comment-filter and context service behavior still need verification before replacing the JS service module.",
+                    "preflightCommand": "npm run python:video-relevance-compare",
+                    "liveVerificationCommand": "npm run video:keywords",
                     "manualVerificationRequired": True,
                 }
             )
