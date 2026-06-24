@@ -2161,6 +2161,26 @@ class CorpusContractTests(unittest.TestCase):
             result["manualVerificationActions"],
         )
         self.assertIn(
+            {
+                "path": "server/scripts/runVideoKeywordDiscovery.js",
+                "nodeScript": "video:keywords",
+                "blocker": "video_keyword_live_runtime_not_verified",
+                "preflightCommand": "npm run python:harvest-plan-compare",
+                "liveVerificationCommand": "npm run video:keywords",
+            },
+            result["manualVerificationActions"],
+        )
+        self.assertIn(
+            {
+                "path": "server/scripts/runVideoKeywordDiscovery.js",
+                "nodeScript": "dictionary:harvest",
+                "blocker": "dictionary_harvest_live_runtime_not_verified",
+                "preflightCommand": "npm run python:harvest-plan-compare",
+                "liveVerificationCommand": "npm run dictionary:harvest",
+            },
+            result["manualVerificationActions"],
+        )
+        self.assertIn(
             {"gate": "no_live_command_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
             result["nextOfflineMigrationAction"]["validationGates"],
         )

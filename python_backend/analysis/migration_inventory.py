@@ -513,7 +513,6 @@ class BackendMigrationInventoryScanner:
                 if replacement_blockers:
                     action["replacementBlockers"] = replacement_blockers
                 actions.append(action)
-                break
         return actions
 
     @staticmethod
@@ -893,6 +892,26 @@ class BackendMigrationInventoryScanner:
                     "reason": "Python has a dry-run UID range scrape plan with custom progress, default range, malformed stats fixtures, and JS/Python CLI bridge coverage, but uid:range still needs a verified live UID range scrape runtime before replacing the JS command.",
                     "preflightCommand": "npm run python:uid-range-scrape-compare",
                     "liveVerificationCommand": "npm run uid:range",
+                    "manualVerificationRequired": True,
+                }
+            )
+        elif script == "video:keywords" and validation_scope != "full_command":
+            blockers.append(
+                {
+                    "blocker": "video_keyword_live_runtime_not_verified",
+                    "reason": "Python has dry-run video keyword harvest planning and JS/Python plan bridge coverage, but video:keywords still needs a verified live video discovery runtime before replacing the JS command.",
+                    "preflightCommand": "npm run python:harvest-plan-compare",
+                    "liveVerificationCommand": "npm run video:keywords",
+                    "manualVerificationRequired": True,
+                }
+            )
+        elif script == "dictionary:harvest" and validation_scope != "full_command":
+            blockers.append(
+                {
+                    "blocker": "dictionary_harvest_live_runtime_not_verified",
+                    "reason": "Python has dry-run dictionary harvest planning and JS/Python plan bridge coverage, but dictionary:harvest still needs a verified live harvest runtime before replacing the JS command.",
+                    "preflightCommand": "npm run python:harvest-plan-compare",
+                    "liveVerificationCommand": "npm run dictionary:harvest",
                     "manualVerificationRequired": True,
                 }
             )
