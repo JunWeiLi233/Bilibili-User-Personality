@@ -196,9 +196,16 @@ class RandomVerificationSampleContract:
         self.options = RandomVerificationRunOptions.from_values(sample_size=sample_size, seed=seed)
 
     def sample(self) -> list[dict[str, Any]]:
-        eligible = [comment for comment in self.normalized_comments() if self.message(comment) and not _is_scrape_diagnostic(self.message(comment))]
+        eligible = self.eligible_comments()
         sample_count = min(max(0, self.options.sample_size), len(eligible))
         return random.Random(self.options.seed).sample(eligible, sample_count) if sample_count else []
+
+    def eligible_comments(self) -> list[dict[str, Any]]:
+        return [
+            comment
+            for comment in self.normalized_comments()
+            if self.message(comment) and not _is_scrape_diagnostic(self.message(comment))
+        ]
 
     def normalized_comments(self) -> list[dict[str, Any]]:
         return [self.normalize_comment(comment) for comment in self.comments]
