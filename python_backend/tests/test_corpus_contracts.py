@@ -6880,6 +6880,22 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(string_flag.multiagent)
         self.assertTrue(boolean_flag.multiagent)
 
+    def test_deepseek_analyzer_reads_nested_js_options_contract(self):
+        request = DeepSeekAnalyzerClient().build_request_from_payload(
+            {
+                "text": "\u9634\u9633\u602a\u6c14[doge]",
+                "options": {
+                    "model": "deepseek-v4-pro",
+                    "reasoningEffort": "max",
+                    "multiagent": True,
+                },
+            }
+        )
+
+        self.assertEqual(request.model, "deepseek-v4-pro")
+        self.assertEqual(request.effort, "max")
+        self.assertTrue(request.multiagent)
+
     def test_deepseek_analyzer_builds_keyword_hints_from_dictionary_payload(self):
         payload = DeepSeekAnalyzerClient().build_payload(
             DeepSeekAnalyzerClient().build_request_from_payload(

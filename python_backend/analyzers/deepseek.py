@@ -132,15 +132,24 @@ class DeepSeekAnalyzerClient:
 
     def build_request_from_payload(self, payload: dict[str, Any] | None = None) -> AnalyzerRequest:
         payload = payload if isinstance(payload, dict) else {}
+        options = self._options_from_payload(payload)
         return AnalyzerRequest(
             comments=self._comments_from_payload(payload),
             keyword_hints=self._keyword_hints_from_payload(payload),
             source_comments=self._source_comments_from_payload(payload),
             uid=str(payload.get("uid") or "unknown"),
             name=str(payload.get("name") or "unknown"),
-            model=str(payload.get("model") or "deepseek-v4-flash"),
-            effort=str(payload.get("reasoningEffort") or payload.get("reasoning_effort") or payload.get("effort") or "max"),
-            multiagent=payload.get("multiagent") is True or payload.get("multiAgent") is True,
+            model=str(payload.get("model") or options.get("model") or "deepseek-v4-flash"),
+            effort=str(
+                payload.get("reasoningEffort")
+                or payload.get("reasoning_effort")
+                or payload.get("effort")
+                or options.get("reasoningEffort")
+                or options.get("reasoning_effort")
+                or options.get("effort")
+                or "max"
+            ),
+            multiagent=self._uses_multiagent(payload, options),
         )
 
     def build_payload(self, request: AnalyzerRequest) -> dict[str, object]:
@@ -327,6 +336,18 @@ class DeepSeekAnalyzerClient:
                 seen.add(key)
                 hints.append(entry)
         return hints
+
+    def _options_from_payload(self, payload: dict[str, Any]) -> dict[str, Any]:
+        options = payload.get("options")
+        return options if isinstance(options, dict) else {}
+
+    def _uses_multiagent(self, payload: dict[str, Any], options: dict[str, Any]) -> bool:
+        return (
+            payload.get("multiagent") is True
+            or payload.get("multiAgent") is True
+            or options.get("multiagent") is True
+            or options.get("multiAgent") is True
+        )
 
     def _comments_from_payload(self, payload: dict[str, Any]) -> list[str]:
         if isinstance(payload.get("comments"), list):
