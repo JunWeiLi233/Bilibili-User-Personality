@@ -53,10 +53,16 @@ class BatchPopularScrapePlanner:
         progress = progress or {}
         database = database or {}
         max_pages = self.DEFAULT_MAX_PAGES
-        for raw in argv:
+        index = 0
+        while index < len(argv):
+            raw = argv[index]
             arg = str(raw or "")
             if arg.startswith("--pages="):
                 max_pages = _parse_int(arg.split("=", 1)[1], max_pages)
+            elif arg == "--pages" and index + 1 < len(argv):
+                index += 1
+                max_pages = _parse_int(argv[index], max_pages)
+            index += 1
         pages_scanned = _parse_int(progress.get("pagesScanned"), 0)
         videos_scanned = _parse_int(progress.get("videosScanned"), 0)
         scraped = _parse_int(progress.get("scraped"), 0)

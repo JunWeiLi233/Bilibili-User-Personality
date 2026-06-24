@@ -25,18 +25,27 @@ function parseIntOr(value, fallback) {
   return Number.isFinite(parsed) ? parsed : fallback;
 }
 
+function readPagesArg(argv = [], fallback = DEFAULT_MAX_PAGES) {
+  let maxPages = fallback;
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = String(argv[index] || '');
+    if (arg.startsWith('--pages=')) {
+      maxPages = parseIntOr(arg.split('=')[1], maxPages);
+    } else if (arg === '--pages' && index + 1 < argv.length) {
+      index += 1;
+      maxPages = parseIntOr(argv[index], maxPages);
+    }
+  }
+  return maxPages;
+}
+
 export function buildBatchPopularPlan(payload = {}) {
   const planPayload = payload && typeof payload === 'object' ? payload : {};
   const argv = Array.isArray(planPayload.argv) ? planPayload.argv : [];
   const progress = planPayload.progress && typeof planPayload.progress === 'object' ? planPayload.progress : {};
   const database = planPayload.database && typeof planPayload.database === 'object' ? planPayload.database : {};
   const users = database.users && typeof database.users === 'object' ? database.users : {};
-  let maxPages = DEFAULT_MAX_PAGES;
-
-  for (const raw of argv) {
-    const arg = String(raw || '');
-    if (arg.startsWith('--pages=')) maxPages = parseIntOr(arg.split('=')[1], maxPages);
-  }
+  const maxPages = readPagesArg(argv);
 
   const pagesScanned = parseIntOr(progress.pagesScanned, 0);
   const videosScanned = parseIntOr(progress.videosScanned, 0);
@@ -228,9 +237,7 @@ async function main() {
 
   let maxPages = DEFAULT_MAX_PAGES;
 
-  for (const arg of args) {
-    if (arg.startsWith('--pages=')) maxPages = parseInt(arg.split('=')[1]);
-  }
+  maxPages = readPagesArg(args, maxPages);
 
   const db = await loadDatabase();
   const progress = await loadProgress();

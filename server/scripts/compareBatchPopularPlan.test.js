@@ -123,6 +123,23 @@ test('compareBatchPopularPlan exports named compatibility fixtures', async () =>
   assert.deepEqual(payloads, Object.values(BATCH_POPULAR_PLAN_FIXTURES));
 });
 
+test('compareBatchPopularPlan keeps separated pages flag compatible with Python', async () => {
+  const result = await compareBatchPopularPlan({
+    payload: {
+      argv: ['--pages', '8'],
+      progress: { pagesScanned: 3, videosScanned: 20, scraped: 4 },
+      database: { users: {} },
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.deepEqual(result.js.input, { maxPages: 8 });
+  assert.deepEqual(result.python.input, { maxPages: 8 });
+  assert.deepEqual(result.js.range, { startPage: 4, maxPages: 8, remainingPages: 5 });
+  assert.deepEqual(result.python.range, { startPage: 4, maxPages: 8, remainingPages: 5 });
+});
+
 test('batchScrapePopular can delegate dry-run planning to Python', () => {
   const tempDir = mkdtempSync(join(tmpdir(), 'batch-popular-python-plan-'));
   try {
