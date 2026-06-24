@@ -1549,7 +1549,7 @@ class CorpusContractTests(unittest.TestCase):
         result = BackendMigrationInventoryScanner(".").scan()
         gates = BackendMigrationInventoryScanner._validation_gates(
             validation_script="python:direct-probe-command-compare",
-            validation_scope="full_command_query_aid_danmaku_write_fixture_matrix",
+            validation_scope="full_command_query_aid_danmaku_source_video_write_fixture_matrix",
         )
 
         self.assertNotIn("server/scripts/probeBilibiliCommentEvidence.js", result["migrationCandidateFiles"]["scripts"])
@@ -1563,6 +1563,7 @@ class CorpusContractTests(unittest.TestCase):
                 {"gate": "command_js_python_fixture", "status": "covered", "source": "python:direct-probe-command-compare"},
                 {"gate": "command_explicit_aid_fixture", "status": "covered", "source": "compareDirectProbeCommand.test.js"},
                 {"gate": "command_explicit_aid_danmaku_fixture", "status": "covered", "source": "compareDirectProbeCommand.test.js"},
+                {"gate": "command_source_video_fixture", "status": "covered", "source": "compareDirectProbeCommand.test.js"},
                 {"gate": "command_write_mode_fixture", "status": "covered", "source": "compareDirectProbeCommand.test.js"},
                 {"gate": "command_full_python_runtime_fixture", "status": "covered", "source": "compareDirectProbeCommand.test.js"},
                 {"gate": "js_opt_in_python_command_bridge", "status": "covered", "source": "probeBilibiliCommentEvidence.test.js"},
@@ -1875,7 +1876,7 @@ class CorpusContractTests(unittest.TestCase):
                     "pythonCommand": "python -m python_backend.cli.direct_probe_command",
                     "validationScript": "python:direct-probe-command-compare",
                     "validationCommand": "node server/scripts/compareDirectProbeCommand.js",
-                    "validationScope": "full_command_query_aid_danmaku_write_fixture_matrix",
+                    "validationScope": "full_command_query_aid_danmaku_source_video_write_fixture_matrix",
                 },
                 {
                     "script": "aicu:scrape",

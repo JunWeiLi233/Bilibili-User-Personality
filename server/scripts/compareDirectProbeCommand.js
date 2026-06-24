@@ -125,6 +125,57 @@ export const DIRECT_PROBE_COMMAND_FIXTURES = {
       ],
     },
   },
+  'source-video': {
+    audit: { nextActions: [{ term: TERM, nextQuery: QUERY }] },
+    existingCorpus: {
+      version: 1,
+      comments: [
+        {
+          message: `${TERM}旧来源样本`,
+          source: 'Bilibili public direct comment probe: https://www.bilibili.com/video/BVsourceProbe1/',
+          uid: '17',
+        },
+      ],
+      runs: [],
+    },
+    dictionary: {
+      entries: [
+        {
+          ...dictionaryEntry('source-video fixture'),
+          evidenceCount: 1,
+          evidenceSamples: [`${TERM}旧来源样本`],
+          evidenceSources: [
+            {
+              source: 'Bilibili public direct comment probe: https://www.bilibili.com/video/BVsourceProbe1/',
+              sample: `${TERM}旧来源样本`,
+            },
+          ],
+        },
+      ],
+    },
+    options: {
+      maxActions: 1,
+      videosPerQuery: 0,
+      sourceVideosPerAction: 1,
+      replyPages: 1,
+      replyPageSize: 3,
+      includeDanmaku: false,
+      write: false,
+      cookie: 'fixture-cookie',
+      now: '2026-06-23T00:00:00.000Z',
+      rescanSourceVideos: true,
+    },
+    searchVideos: {},
+    videoComments: {
+      'bvid:BVsourceProbe1': [
+        {
+          message: `${TERM}来源视频新评论`,
+          source: 'Bilibili public direct comment probe: https://www.bilibili.com/video/BVsourceProbe1/',
+          uid: '18',
+        },
+      ],
+    },
+  },
   'write-mode': {
     audit: { nextActions: [] },
     existingCorpus: {
@@ -167,7 +218,7 @@ export const DIRECT_PROBE_COMMAND_FIXTURES = {
   },
 };
 
-const DEFAULT_FIXTURE_NAMES = ['query', 'explicit-aid', 'explicit-aid-danmaku', 'write-mode'];
+const DEFAULT_FIXTURE_NAMES = ['query', 'explicit-aid', 'explicit-aid-danmaku', 'source-video', 'write-mode'];
 
 function resolvePayload({ fixture = 'query', payload } = {}) {
   if (payload) return { name: fixture || 'custom', payload };
@@ -234,15 +285,27 @@ async function runJsDirectProbeCommand({ payload }) {
     : [];
   const includeDanmaku = payload.options?.includeDanmaku === true;
   const write = payload.options?.write === true;
+  const sourceVideosPerAction = Number.isFinite(Number(payload.options?.sourceVideosPerAction))
+    ? Number(payload.options.sourceVideosPerAction)
+    : undefined;
+  const videosPerQuery = Number.isFinite(Number(payload.options?.videosPerQuery))
+    ? Number(payload.options.videosPerQuery)
+    : undefined;
+  const sharedArgs = [
+    ...(Number.isFinite(videosPerQuery) ? [`--videos=${videosPerQuery}`] : []),
+    ...(Number.isFinite(sourceVideosPerAction) ? [`--source-videos=${sourceVideosPerAction}`] : []),
+    ...(payload.options?.rescanSourceVideos === true ? ['--rescan-source-videos'] : []),
+    ...(includeDanmaku ? ['--include-danmaku'] : []),
+    ...(write ? ['--write'] : []),
+    '--delay-ms=1000',
+    '--jitter-ms=0',
+  ];
   const argv = explicitAids.length
     ? [
       ...explicitAids.map((aid) => `--aid=${aid}`),
-      ...(includeDanmaku ? ['--include-danmaku'] : []),
-      ...(write ? ['--write'] : []),
-      '--delay-ms=1000',
-      '--jitter-ms=0',
+      ...sharedArgs,
     ]
-    : [`--query=${query}`, `--term=${term}`, ...(includeDanmaku ? ['--include-danmaku'] : []), ...(write ? ['--write'] : []), '--delay-ms=1000', '--jitter-ms=0'];
+    : [`--query=${query}`, `--term=${term}`, ...sharedArgs];
   const searchVideos = payload.searchVideos || {};
   const videoComments = payload.videoComments || {};
   const videoDanmaku = payload.videoDanmaku || {};

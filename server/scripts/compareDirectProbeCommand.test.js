@@ -159,6 +159,17 @@ test('compareDirectProbeCommand compares explicit AID danmaku command input', as
   assert.deepEqual(result.js.comments.map((comment) => comment.message), [explicitMessage, danmakuMessage]);
 });
 
+test('compareDirectProbeCommand compares source video recovery input', async () => {
+  const result = await compareDirectProbeCommand({ fixture: 'source-video' });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.deepEqual(result.python.scannedVideos.map((video) => video.key), ['bvid:BVsourceProbe1']);
+  assert.deepEqual(result.js.scannedVideos.map((video) => video.key), ['bvid:BVsourceProbe1']);
+  assert.deepEqual(result.python.comments.map((comment) => comment.message), [`${TERM}来源视频新评论`]);
+  assert.deepEqual(result.js.comments.map((comment) => comment.message), [`${TERM}来源视频新评论`]);
+});
+
 test('compareDirectProbeCommand compares write-mode corpus output', async () => {
   const existingMessage = '\u65e7\u8bc4\u8bba';
   const explicitMessage = `${TERM}\u5199\u5165\u8bc4\u8bba`;
@@ -317,7 +328,7 @@ test('compareDirectProbeCommandSuite runs default command fixtures', async () =>
   const result = await compareDirectProbeCommandSuite();
 
   assert.equal(result.ok, true);
-  assert.deepEqual(result.fixtures.map((fixture) => fixture.name), ['query', 'explicit-aid', 'explicit-aid-danmaku', 'write-mode']);
+  assert.deepEqual(result.fixtures.map((fixture) => fixture.name), ['query', 'explicit-aid', 'explicit-aid-danmaku', 'source-video', 'write-mode']);
   assert.deepEqual(result.fixtures.flatMap((fixture) => fixture.mismatches), []);
   assert.deepEqual(result.fixtures.find((fixture) => fixture.name === 'explicit-aid').python.scannedVideos.map((video) => video.key), ['aid:999']);
   assert.equal(result.fixtures.find((fixture) => fixture.name === 'write-mode').python.write, true);
