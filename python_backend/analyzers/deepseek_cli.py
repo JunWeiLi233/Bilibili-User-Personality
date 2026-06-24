@@ -4,6 +4,7 @@ import argparse
 import json
 import math
 import os
+import sys
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -733,7 +734,7 @@ class DeepSeekAnalyzeCommandRequest:
         compatibility = DeepSeekAnalyzeLegacySelectorCompatibility.from_args(args)
         if args.plan_json:
             return compatibility.apply(
-                DeepSeekAnalyzeCliPlanner().build_plan(self._normalize_argv(self.argv) or [], stdin_is_tty=self.stdin_is_tty),
+                DeepSeekAnalyzeCliPlanner().build_plan(self._normalized_plan_argv(), stdin_is_tty=self.stdin_is_tty),
             )
         payload = self._payload(args)
         payload_error = payload.pop("_error", None)
@@ -776,6 +777,10 @@ class DeepSeekAnalyzeCommandRequest:
     @staticmethod
     def _normalize_argv(argv: list[str] | None) -> list[str] | None:
         return DeepSeekAnalyzeArgvNormalizer(argv).normalize()
+
+    def _normalized_plan_argv(self) -> list[str]:
+        argv = self.argv if self.argv is not None else sys.argv[1:]
+        return self._normalize_argv(argv) or []
 
     @staticmethod
     def _json_text(value: Any) -> str:

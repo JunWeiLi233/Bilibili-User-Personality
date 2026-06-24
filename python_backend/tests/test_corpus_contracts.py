@@ -1938,7 +1938,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:deepseek-analyze-command-compare",
                     "validationCommand": "node server/scripts/compareDeepSeekAnalyzeCommand.js",
-                    "validationScope": "full_command_identity_fields_file_payload_input_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract",
+                    "validationScope": "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract",
                 },
             ],
         )
@@ -1979,7 +1979,7 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(result["nextMigrationAction"]["path"], "server/scripts/analyzeDeepSeekComments.js")
         self.assertEqual(result["nextMigrationAction"]["validationScript"], "python:deepseek-analyze-command-compare")
-        self.assertEqual(result["nextMigrationAction"]["validationScope"], "full_command_identity_fields_file_payload_input_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract")
+        self.assertEqual(result["nextMigrationAction"]["validationScope"], "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract")
         self.assertFalse(result["nextMigrationAction"]["readyToReplace"])
         self.assertEqual(result["nextMigrationAction"]["recommendation"], "expand_python_runtime_contract_before_replacing_js")
         self.assertEqual(
@@ -1989,6 +1989,7 @@ class CorpusContractTests(unittest.TestCase):
                 {"gate": "command_identity_fields", "status": "covered", "source": "compareDeepSeekAnalyzeCommand.test.js"},
                 {"gate": "command_file_input", "status": "covered", "source": "compareDeepSeekAnalyzeCommand.test.js"},
                 {"gate": "command_payload_input", "status": "covered", "source": "analyzeDeepSeekComments.test.js"},
+                {"gate": "direct_cli_plan_process_argv", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
                 {"gate": "mock_runtime_command", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "multiagent_mock_runtime", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "js_env_python_runtime_bridge", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
@@ -7952,6 +7953,38 @@ class CorpusContractTests(unittest.TestCase):
                 "ok": True,
                 "payload": {},
                 "input": {"source": "stdin", "file": "", "readsStdin": True, "showHelp": False},
+            },
+        )
+
+    def test_deepseek_analyze_cli_plan_json_uses_process_argv_when_argv_is_none(self):
+        original_argv = deepseek_analyze_cli.sys.argv
+        output = io.StringIO()
+        try:
+            deepseek_analyze_cli.sys.argv = [
+                "deepseek_analyze.py",
+                "--plan-json",
+                "--payload",
+                "analysis-payload.json",
+            ]
+            with contextlib.redirect_stdout(output):
+                exit_code = deepseek_analyze_cli.main()
+        finally:
+            deepseek_analyze_cli.sys.argv = original_argv
+
+        result = json.loads(output.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(
+            result,
+            {
+                "ok": True,
+                "payload": {},
+                "input": {
+                    "source": "payload",
+                    "file": "",
+                    "payloadPath": "analysis-payload.json",
+                    "readsStdin": False,
+                    "showHelp": False,
+                },
             },
         )
 
