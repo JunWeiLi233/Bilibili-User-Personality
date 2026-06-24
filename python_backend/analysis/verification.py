@@ -374,6 +374,24 @@ class RandomVerificationReadinessOutputContract:
         }
 
 
+class RandomVerificationReadinessSummaryContract:
+    """Normalize raw coverage and random-verification inputs for readiness checks."""
+
+    def __init__(
+        self,
+        coverage_audit: dict[str, Any] | None = None,
+        verification_report: dict[str, Any] | None = None,
+    ):
+        self.coverage_audit = coverage_audit if isinstance(coverage_audit, dict) else {}
+        self.verification_report = verification_report if isinstance(verification_report, dict) else {}
+
+    def coverage_summary(self) -> dict[str, Any]:
+        return CoverageAuditContractSummary().summarize(self.coverage_audit)
+
+    def verification_summary(self) -> dict[str, Any]:
+        return RandomVerificationReportSummary().summarize(self.verification_report)
+
+
 @dataclass(frozen=True)
 class RandomVerificationReadinessContract:
     """Merge coverage-audit and random-verification evidence into a replacement gate."""
@@ -382,8 +400,12 @@ class RandomVerificationReadinessContract:
     verification_report: dict[str, Any]
 
     def to_json_contract(self) -> dict[str, Any]:
-        coverage_summary = CoverageAuditContractSummary().summarize(self.coverage_audit)
-        verification_summary = RandomVerificationReportSummary().summarize(self.verification_report)
+        summaries = RandomVerificationReadinessSummaryContract(
+            coverage_audit=self.coverage_audit,
+            verification_report=self.verification_report,
+        )
+        coverage_summary = summaries.coverage_summary()
+        verification_summary = summaries.verification_summary()
         readiness_components = RandomVerificationReadinessComponentsContract(
             coverage_summary=coverage_summary,
             verification_summary=verification_summary,

@@ -3820,6 +3820,33 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_random_verification_readiness_summary_contract_normalizes_inputs(self):
+        summaries = verification_module.RandomVerificationReadinessSummaryContract(
+            coverage_audit={
+                "ok": True,
+                "coverage": {"complete": True, "coverageRatio": 1, "terms": 2, "weakTerms": 0},
+                "failureReasons": [],
+            },
+            verification_report={
+                "sampleSize": 2,
+                "seed": 7,
+                "sampled": 2,
+                "keywordHits": 1,
+                "neutral": 1,
+                "uncovered": 0,
+                "selectionSummary": {
+                    "requestedSampleSize": 2,
+                    "eligibleComments": 2,
+                    "selectedComments": 2,
+                    "seed": 7,
+                },
+            },
+        )
+
+        self.assertEqual(summaries.coverage_summary()["coverage"]["complete"], True)
+        self.assertEqual(summaries.verification_summary()["sampleSize"], 2)
+        self.assertEqual(summaries.verification_summary()["selectionSummary"]["selectedComments"], 2)
+
     def test_random_verification_readiness_contract_blocks_selection_summary_drift(self):
         readiness = RandomVerificationReadinessContract(
             coverage_audit={
