@@ -10,13 +10,18 @@ from pathlib import Path
 from typing import Any
 
 from python_backend.analysis.comment_coverage import _clean_needle, _is_contract_scalar, _is_scrape_diagnostic, _strip_mention_scaffolding
-from python_backend.analysis.audit import CoverageAuditContractSummary
 from python_backend.analysis.random_readiness import (
     CoverageAuditReadinessContract,
     RandomVerificationReadinessComponentsContract,
     RandomVerificationSampleReadinessContract,
     RandomVerificationSelectionReadinessContract,
 )
+from python_backend.analysis.random_readiness_result import (
+    RandomVerificationReadinessContract,
+    RandomVerificationReadinessOutputContract,
+    RandomVerificationReadinessSummaryContract,
+)
+from python_backend.analysis.random_report import RandomVerificationReportSummary
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.source_breakdown import SourceBreakdownContract
@@ -110,127 +115,6 @@ class RandomVerificationJsonResultContract(JsonResultBytesContract):
 
 def json_result_bytes(result: dict[str, Any]) -> bytes:
     return RandomVerificationJsonResultContract(result).to_bytes()
-
-
-class RandomVerificationReportSummary:
-    """Shape random-verification reports into the JS/Python comparator summary contract."""
-
-    SUMMARY_KEYS = ("sampleSize", "seed", "sampled", "keywordHits", "neutral", "uncovered", "selectionSummary")
-    CORPUS_KEYS = ("comments", "runs", "storage", "sourceBreakdown")
-
-    def summarize(self, report: dict[str, Any] | None = None) -> dict[str, Any]:
-        report = report if isinstance(report, dict) else {}
-        summary: dict[str, Any] = {
-            "sampleSize": _non_negative_int(report.get("sampleSize"), 50),
-            "seed": _int_or(report.get("seed"), 1),
-            "sampled": _non_negative_int(report.get("sampled"), 0),
-            "keywordHits": _non_negative_int(report.get("keywordHits"), 0),
-            "neutral": _non_negative_int(report.get("neutral"), 0),
-            "uncovered": _non_negative_int(report.get("uncovered"), 0),
-        }
-        corpus = self._summarize_corpus(report.get("corpus"))
-        if corpus:
-            summary["corpus"] = corpus
-        selection_summary = self._summarize_selection_summary(report.get("selectionSummary"))
-        if selection_summary:
-            summary["selectionSummary"] = selection_summary
-        return summary
-
-    def _summarize_selection_summary(self, selection_summary: Any) -> dict[str, int]:
-        if not isinstance(selection_summary, dict):
-            return {}
-        return {
-            "requestedSampleSize": _non_negative_int(selection_summary.get("requestedSampleSize"), 0),
-            "eligibleComments": _non_negative_int(selection_summary.get("eligibleComments"), 0),
-            "selectedComments": _non_negative_int(selection_summary.get("selectedComments"), 0),
-            "seed": _int_or(selection_summary.get("seed"), 1),
-        }
-
-    def _summarize_corpus(self, corpus: Any) -> dict[str, Any]:
-        if not isinstance(corpus, dict):
-            return {}
-        result: dict[str, Any] = {}
-        if "comments" in corpus:
-            result["comments"] = _non_negative_int(corpus.get("comments"), 0)
-        if "runs" in corpus:
-            result["runs"] = _non_negative_int(corpus.get("runs"), 0)
-        if "storage" in corpus:
-            result["storage"] = str(corpus.get("storage") or "")
-        source_breakdown = self._normalize_source_breakdown(corpus.get("sourceBreakdown"))
-        if source_breakdown:
-            result["sourceBreakdown"] = source_breakdown
-        return result
-
-    def _normalize_source_breakdown(self, source_breakdown: Any) -> dict[str, dict[str, int]]:
-        return SourceBreakdownContract().from_source_breakdown(source_breakdown)
-
-
-class RandomVerificationReadinessOutputContract:
-    """Build the final random-verification readiness JSON compatibility payload."""
-
-    def __init__(
-        self,
-        gate_contract: dict[str, Any] | None = None,
-        coverage_summary: dict[str, Any] | None = None,
-        verification_summary: dict[str, Any] | None = None,
-    ):
-        self.gate_contract = gate_contract if isinstance(gate_contract, dict) else {}
-        self.coverage_summary = coverage_summary if isinstance(coverage_summary, dict) else {}
-        self.verification_summary = verification_summary if isinstance(verification_summary, dict) else {}
-
-    def to_json_contract(self) -> dict[str, Any]:
-        return {
-            **self.gate_contract,
-            "coverage": self.coverage_summary,
-            "randomVerification": self.verification_summary,
-        }
-
-
-class RandomVerificationReadinessSummaryContract:
-    """Normalize raw coverage and random-verification inputs for readiness checks."""
-
-    def __init__(
-        self,
-        coverage_audit: dict[str, Any] | None = None,
-        verification_report: dict[str, Any] | None = None,
-    ):
-        self.coverage_audit = coverage_audit if isinstance(coverage_audit, dict) else {}
-        self.verification_report = verification_report if isinstance(verification_report, dict) else {}
-
-    def coverage_summary(self) -> dict[str, Any]:
-        return CoverageAuditContractSummary().summarize(self.coverage_audit)
-
-    def verification_summary(self) -> dict[str, Any]:
-        return RandomVerificationReportSummary().summarize(self.verification_report)
-
-
-@dataclass(frozen=True)
-class RandomVerificationReadinessContract:
-    """Merge coverage-audit and random-verification evidence into a replacement gate."""
-
-    coverage_audit: dict[str, Any]
-    verification_report: dict[str, Any]
-
-    def to_json_contract(self) -> dict[str, Any]:
-        summaries = RandomVerificationReadinessSummaryContract(
-            coverage_audit=self.coverage_audit,
-            verification_report=self.verification_report,
-        )
-        coverage_summary = summaries.coverage_summary()
-        verification_summary = summaries.verification_summary()
-        readiness_components = RandomVerificationReadinessComponentsContract(
-            coverage_summary=coverage_summary,
-            verification_summary=verification_summary,
-        ).to_component_collection()
-        gate_contract = ReadinessGateContract(
-            gates=readiness_components.gates(),
-            reasons=readiness_components.blocker_reasons(),
-        )
-        return RandomVerificationReadinessOutputContract(
-            gate_contract=gate_contract.to_json_contract(),
-            coverage_summary=coverage_summary,
-            verification_summary=verification_summary,
-        ).to_json_contract()
 
 
 class RandomVerificationSampleContract:

@@ -3913,6 +3913,49 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(summaries.verification_summary()["sampleSize"], 2)
         self.assertEqual(summaries.verification_summary()["selectionSummary"]["selectedComments"], 2)
 
+    def test_random_readiness_result_module_exports_final_contracts(self):
+        from python_backend.analysis.random_readiness_result import (
+            RandomVerificationReadinessContract,
+            RandomVerificationReadinessOutputContract,
+            RandomVerificationReadinessSummaryContract,
+        )
+
+        summaries = RandomVerificationReadinessSummaryContract(
+            coverage_audit={
+                "ok": True,
+                "coverage": {"complete": True, "coverageRatio": 1, "terms": 2, "weakTerms": 0},
+            },
+            verification_report={
+                "sampleSize": 1,
+                "seed": 9,
+                "sampled": 1,
+                "keywordHits": 1,
+                "neutral": 0,
+                "uncovered": 0,
+                "selectionSummary": {
+                    "requestedSampleSize": 1,
+                    "eligibleComments": 1,
+                    "selectedComments": 1,
+                    "seed": 9,
+                },
+            },
+        )
+        readiness = RandomVerificationReadinessContract(
+            coverage_audit=summaries.coverage_summary(),
+            verification_report=summaries.verification_summary(),
+        ).to_json_contract()
+
+        self.assertTrue(readiness["ok"])
+        self.assertEqual(readiness["randomVerification"]["sampled"], 1)
+        self.assertEqual(
+            RandomVerificationReadinessOutputContract(
+                gate_contract={"ok": True, "gates": [], "blockers": [], "blockerDetails": []},
+                coverage_summary={"ok": True},
+                verification_summary={"sampled": 1},
+            ).to_json_contract()["randomVerification"],
+            {"sampled": 1},
+        )
+
     def test_random_verification_readiness_contract_blocks_selection_summary_drift(self):
         readiness = RandomVerificationReadinessContract(
             coverage_audit={
