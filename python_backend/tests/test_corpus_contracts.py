@@ -7802,6 +7802,41 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_deepseek_analysis_plan_contract_comparator_reports_response_format_mismatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_plan_path = root / "js-plan.json"
+            payload_path.write_text(json.dumps({"text": "\u53cd\u8bbd[doge]"}), encoding="utf-8")
+            js_plan_path.write_text(
+                json.dumps(
+                    {
+                        "mode": "single",
+                        "requests": [
+                            {
+                                "model": "deepseek-v4-flash",
+                                "reasoning_effort": "max",
+                                "response_format": {"type": "text"},
+                                "stream": True,
+                                "max_tokens": 2000,
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = DeepSeekAnalysisPlanContractComparator(payload_path, js_plan_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "requests[0].response_format", "python": {"type": "json_object"}, "js": {"type": "text"}},
+                {"key": "requests[0].stream", "python": False, "js": True},
+            ],
+        )
+
     def test_deepseek_analysis_plan_contract_comparator_reports_merge_agent_mismatch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

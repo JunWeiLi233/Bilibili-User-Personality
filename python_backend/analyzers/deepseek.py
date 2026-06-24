@@ -740,7 +740,7 @@ class DeepSeekAnalysisNormalizer:
 class DeepSeekAnalysisPlanSummary:
     """Shape DeepSeek request plans into the JS/Python comparator summary contract."""
 
-    REQUEST_KEYS = ("model", "reasoning_effort", "max_tokens")
+    REQUEST_KEYS = ("model", "reasoning_effort", "response_format", "stream", "max_tokens")
 
     def summarize(self, plan: dict[str, Any] | None = None) -> dict[str, Any]:
         plan = plan if isinstance(plan, dict) else {}
