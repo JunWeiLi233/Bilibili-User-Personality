@@ -38754,6 +38754,16 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(profile.coverage_evidence_count(), 5)
         self.assertFalse(profile.has_coverage_evidence_source())
 
+    def test_coverage_harvest_loop_runtime_module_exports_gate_and_pruner_contracts(self):
+        from python_backend.analysis.coverage_harvest_loop_runtime import (
+            CoverageHarvestLoopRuntimeGate,
+            CoverageHarvestLoopExhaustedPruner,
+        )
+
+        gate = CoverageHarvestLoopRuntimeGate()
+        result = gate.describe(audit={"ok": True})
+        self.assertEqual(result["runtimeMode"], "no_live_audit_gate")
+
 
 if __name__ == "__main__":
     unittest.main()
