@@ -186,6 +186,29 @@ class ReadinessGateContract:
         }
 
 
+class ReadinessComponentCollectionContract:
+    """Collect gates and blocker reasons from ordered readiness components."""
+
+    def __init__(self, components: list[Any] | None = None):
+        self.components = components if isinstance(components, list) else []
+
+    def gates(self) -> list[dict[str, Any]]:
+        result: list[dict[str, Any]] = []
+        for component in self.components:
+            gates = component.gates() if hasattr(component, "gates") else []
+            if isinstance(gates, list):
+                result.extend(gates)
+        return result
+
+    def blocker_reasons(self) -> dict[str, str]:
+        reasons: dict[str, str] = {}
+        for component in self.components:
+            component_reasons = component.blocker_reasons() if hasattr(component, "blocker_reasons") else {}
+            if isinstance(component_reasons, dict):
+                reasons.update(component_reasons)
+        return reasons
+
+
 class RandomVerificationSelectionReadinessContract:
     """Own readiness gates derived from random-verification selection metadata."""
 
@@ -322,23 +345,17 @@ class RandomVerificationReadinessContract:
         coverage_readiness = CoverageAuditReadinessContract(coverage_summary)
         sample_readiness = RandomVerificationSampleReadinessContract(verification_summary)
         selection_readiness = RandomVerificationSelectionReadinessContract(verification_summary)
-        gates = [
-            *coverage_readiness.gates(),
-            *sample_readiness.gates(),
-            *selection_readiness.gates(),
-        ]
-        gate_contract = ReadinessGateContract(gates=gates, reasons=self._blocker_reasons())
+        readiness_components = ReadinessComponentCollectionContract(
+            [coverage_readiness, sample_readiness, selection_readiness]
+        )
+        gate_contract = ReadinessGateContract(
+            gates=readiness_components.gates(),
+            reasons=readiness_components.blocker_reasons(),
+        )
         return {
             **gate_contract.to_json_contract(),
             "coverage": coverage_summary,
             "randomVerification": verification_summary,
-        }
-
-    def _blocker_reasons(self) -> dict[str, str]:
-        return {
-            **CoverageAuditReadinessContract.REASONS,
-            **RandomVerificationSampleReadinessContract.REASONS,
-            **RandomVerificationSelectionReadinessContract.REASONS,
         }
 
 

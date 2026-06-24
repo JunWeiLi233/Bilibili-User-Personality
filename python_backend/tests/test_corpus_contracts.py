@@ -3733,6 +3733,37 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_readiness_component_collection_contract_merges_gates_and_reasons(self):
+        class FirstReadiness:
+            def gates(self):
+                return [{"gate": "firstGate", "ok": True}]
+
+            def blocker_reasons(self):
+                return {"firstGate": "first reason"}
+
+        class SecondReadiness:
+            def gates(self):
+                return [{"gate": "secondGate", "ok": False}]
+
+            def blocker_reasons(self):
+                return {"secondGate": "second reason"}
+
+        collection = verification_module.ReadinessComponentCollectionContract(
+            [FirstReadiness(), SecondReadiness()]
+        )
+
+        self.assertEqual(
+            collection.gates(),
+            [
+                {"gate": "firstGate", "ok": True},
+                {"gate": "secondGate", "ok": False},
+            ],
+        )
+        self.assertEqual(
+            collection.blocker_reasons(),
+            {"firstGate": "first reason", "secondGate": "second reason"},
+        )
+
     def test_random_verification_readiness_contract_blocks_selection_summary_drift(self):
         readiness = RandomVerificationReadinessContract(
             coverage_audit={
