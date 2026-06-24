@@ -38727,6 +38727,23 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(comparison["ok"])
         self.assertEqual(comparison["mismatches"], [])
 
+    def test_coverage_harvest_loop_plan_module_exports_summary_and_comparator_contracts(self):
+        from python_backend.analysis.coverage_harvest_loop_plan import (
+            CoverageHarvestLoopPlanSummary,
+            CoverageHarvestLoopPlanContractComparator,
+        )
+
+        summary = CoverageHarvestLoopPlanSummary()
+        result = summary.summarize({"deepseek": "config", "paths": {"dict": "path"}, "loop": {"cycles": 3}})
+
+        self.assertEqual(result["deepseek"], "config")
+        self.assertEqual(result["paths"], {"dict": "path"})
+
+        comparator = CoverageHarvestLoopPlanContractComparator(summary)
+        comparison = comparator.compare(result, result)
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+
 
 if __name__ == "__main__":
     unittest.main()
