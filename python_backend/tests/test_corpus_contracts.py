@@ -7270,6 +7270,18 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["axes"][0]["axis"], "\u5bf9\u6297\u6027\u52a8\u673a")
         self.assertEqual(result["sentenceAnalyses"][0]["quote"], "\u53cd\u8bbd[doge]")
 
+    def test_deepseek_analyze_command_request_preserves_non_object_fixture_raw_json(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            analysis_path = Path(tmp) / "analysis.json"
+            analysis_path.write_text("[]", encoding="utf-8")
+
+            result = DeepSeekAnalyzeCommandRequest(
+                ["--fixture-analysis", analysis_path, "--text", "\u53cd\u8bbd[doge]"]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["raw"], "[]")
+
     def test_deepseek_analyze_command_request_runs_mock_chat_runtime(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

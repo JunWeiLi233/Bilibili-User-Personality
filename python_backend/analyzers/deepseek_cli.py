@@ -412,19 +412,19 @@ class DeepSeekAnalyzeCommandRequest:
         if args.live_validation_gate:
             return self._with_legacy_selector_compatibility(DeepSeekLiveValidationGate(env=self.env).run(payload), legacy_selector)
         if args.mock_chat_analysis:
-            analysis_error = self._required_analysis_file_error(args.mock_chat_analysis)
+            analysis, analysis_error = self._read_required_analysis_file(args.mock_chat_analysis)
             if analysis_error:
                 return self._with_legacy_selector_compatibility(analysis_error, legacy_selector)
-            return self._with_legacy_selector_compatibility(self._run_mock_chat(payload, args.mock_chat_analysis), legacy_selector)
+            return self._with_legacy_selector_compatibility(self._run_mock_chat(payload, analysis), legacy_selector)
         if args.fixture_analysis:
-            analysis_error = self._required_analysis_file_error(args.fixture_analysis)
+            analysis, analysis_error = self._read_required_analysis_file(args.fixture_analysis)
             if analysis_error:
                 return self._with_legacy_selector_compatibility(analysis_error, legacy_selector)
-            analysis = JsonContractReader().read_object(args.fixture_analysis)
+            analysis_payload = analysis if isinstance(analysis, dict) else {}
             return self._with_legacy_selector_compatibility(
                 self.normalizer.normalize(
                     source_payload=payload,
-                    analysis_payload=analysis,
+                    analysis_payload=analysis_payload,
                     provider="deepseek",
                     model="deepseek-v4-flash",
                     reasoning_effort="max",
@@ -458,37 +458,41 @@ class DeepSeekAnalyzeCommandRequest:
         }
 
     @staticmethod
-    def _required_analysis_file_error(path: str | Path) -> dict[str, Any]:
+    def _read_required_analysis_file(path: str | Path) -> tuple[Any, dict[str, Any]]:
         try:
             content = Path(path).read_text(encoding="utf-8-sig")
         except OSError:
-            return {
+            return {}, {
                 "ok": False,
                 "provider": "deepseek",
                 "error": f"Could not read analysis file: {path}",
             }
         try:
-            json.loads(content)
+            return json.loads(content), {}
         except ValueError:
-            return {
+            return {}, {
                 "ok": False,
                 "provider": "deepseek",
                 "error": f"Could not parse analysis file: {path}",
             }
-        return {}
 
-    def _run_mock_chat(self, payload: dict[str, Any], analysis_path: str | Path) -> dict[str, Any]:
+    def _run_mock_chat(self, payload: dict[str, Any], analysis: Any) -> dict[str, Any]:
         client = DeepSeekAnalyzerClient()
         request = client.build_request_from_payload(payload)
         requests = client.build_request_plan(request)
-        analysis = JsonContractReader().read_object(analysis_path)
+        analysis_payload = analysis if isinstance(analysis, dict) else {}
+        raw_payload = (
+            analysis_payload.get("parsed")
+            if isinstance(analysis_payload.get("parsed"), dict)
+            else analysis
+        )
         result = self.normalizer.normalize(
             source_payload=payload,
-            analysis_payload=analysis,
+            analysis_payload=analysis_payload,
             provider="deepseek",
             model=request.model,
             reasoning_effort=request.effort,
-            raw=self._json_text(analysis.get("parsed") if isinstance(analysis.get("parsed"), dict) else analysis),
+            raw=self._json_text(raw_payload),
         )
         result["runtime"] = {
             "mode": "mock_chat",
