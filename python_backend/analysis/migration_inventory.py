@@ -581,11 +581,13 @@ class BackendReplacementReadinessContract:
             {"gate": "allManualVerificationComplete", "ok": len(self.manual_verification_actions) == 0},
         ]
         blockers = [str(gate["gate"]) for gate in gates if not gate["ok"]]
+        blocker_details = self._blocker_details(gates, replacement_blocked, manual_blocker_counts, self.manual_verification_actions)
         return {
             "ok": not blockers,
             "gates": gates,
             "blockers": blockers,
-            "blockerDetails": self._blocker_details(gates, replacement_blocked, manual_blocker_counts, self.manual_verification_actions),
+            "blockerDetails": blocker_details,
+            "nextReadinessBlocker": dict(blocker_details[0]) if blocker_details else {},
             "manualVerificationActionCount": len(self.manual_verification_actions),
             "replacementBlockedActionCount": len(replacement_blocked),
             "readyToReplaceActionCount": len(ready_to_replace),
