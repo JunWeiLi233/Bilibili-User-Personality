@@ -159,6 +159,7 @@ class RandomVerificationReadinessContract:
             "ok": not blockers,
             "gates": gates,
             "blockers": blockers,
+            "blockerDetails": self._blocker_details(gates),
             "coverage": coverage_summary,
             "randomVerification": verification_summary,
         }
@@ -172,6 +173,19 @@ class RandomVerificationReadinessContract:
 
     def _verification_uncovered(self, verification_summary: dict[str, Any]) -> int:
         return _non_negative_int(verification_summary.get("uncovered"), 0)
+
+    def _blocker_details(self, gates: list[dict[str, Any]]) -> list[dict[str, str]]:
+        reasons = {
+            "coverageAuditComplete": "coverage audit is not complete",
+            "randomVerificationSampled": "random verification sampled no comments",
+            "randomVerificationNoUncovered": "random verification still has uncovered samples",
+        }
+        return [
+            {"gate": str(gate_name), "reason": reasons.get(str(gate_name), "readiness gate failed")}
+            for gate in gates
+            for gate_name in [gate.get("gate") or ""]
+            if not gate.get("ok")
+        ]
 
 
 class RandomVerificationSampleContract:

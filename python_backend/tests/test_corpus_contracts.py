@@ -3407,6 +3407,37 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(readiness["randomVerification"]["sampled"], 2)
         self.assertEqual(readiness["randomVerification"]["corpus"]["storage"], "combined")
 
+    def test_random_verification_readiness_contract_reports_blocker_details(self):
+        readiness = RandomVerificationReadinessContract(
+            coverage_audit={
+                "ok": False,
+                "coverage": {"complete": False, "coverageRatio": 0.75, "terms": 4, "weakTerms": 1},
+                "failureReasons": ["coverage incomplete"],
+            },
+            verification_report={
+                "sampleSize": 2,
+                "seed": 7,
+                "sampled": 0,
+                "keywordHits": 0,
+                "neutral": 0,
+                "uncovered": 1,
+            },
+        ).to_json_contract()
+
+        self.assertFalse(readiness["ok"])
+        self.assertEqual(
+            readiness["blockers"],
+            ["coverageAuditComplete", "randomVerificationSampled", "randomVerificationNoUncovered"],
+        )
+        self.assertEqual(
+            readiness["blockerDetails"],
+            [
+                {"gate": "coverageAuditComplete", "reason": "coverage audit is not complete"},
+                {"gate": "randomVerificationSampled", "reason": "random verification sampled no comments"},
+                {"gate": "randomVerificationNoUncovered", "reason": "random verification still has uncovered samples"},
+            ],
+        )
+
     def test_random_verification_payload_runner_accepts_inline_json_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "random-verification.json"
