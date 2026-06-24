@@ -154,6 +154,71 @@ class RandomVerificationReportSummary:
         return SourceBreakdownContract().from_source_breakdown(source_breakdown)
 
 
+class RandomVerificationSelectionReadinessContract:
+    """Own readiness gates derived from random-verification selection metadata."""
+
+    REASONS = {
+        "randomVerificationSelectionConsistent": "random verification selected count does not match sampled comments",
+        "randomVerificationSelectionPossible": "random verification selected more comments than requested or eligible",
+        "randomVerificationSelectionOptionsMatch": "random verification selection options do not match report options",
+    }
+
+    def __init__(self, verification_summary: dict[str, Any] | None = None):
+        self.verification_summary = verification_summary if isinstance(verification_summary, dict) else {}
+
+    def gates(self) -> list[dict[str, Any]]:
+        return [
+            {
+                "gate": "randomVerificationSelectionConsistent",
+                "ok": self._selection_consistent(),
+            },
+            {
+                "gate": "randomVerificationSelectionPossible",
+                "ok": self._selection_possible(),
+            },
+            {
+                "gate": "randomVerificationSelectionOptionsMatch",
+                "ok": self._selection_options_match(),
+            },
+        ]
+
+    def blocker_reasons(self) -> dict[str, str]:
+        return self.REASONS
+
+    def _selection_summary(self) -> dict[str, Any]:
+        selection_summary = self.verification_summary.get("selectionSummary")
+        return selection_summary if isinstance(selection_summary, dict) else {}
+
+    def _selection_consistent(self) -> bool:
+        selection_summary = self._selection_summary()
+        if not selection_summary:
+            return True
+        return _non_negative_int(selection_summary.get("selectedComments"), 0) == _non_negative_int(
+            self.verification_summary.get("sampled"),
+            0,
+        )
+
+    def _selection_possible(self) -> bool:
+        selection_summary = self._selection_summary()
+        if not selection_summary:
+            return True
+        selected_comments = _non_negative_int(selection_summary.get("selectedComments"), 0)
+        return selected_comments <= min(
+            _non_negative_int(selection_summary.get("eligibleComments"), 0),
+            _non_negative_int(selection_summary.get("requestedSampleSize"), 0),
+        )
+
+    def _selection_options_match(self) -> bool:
+        selection_summary = self._selection_summary()
+        if not selection_summary:
+            return True
+        return (
+            _non_negative_int(selection_summary.get("requestedSampleSize"), 0)
+            == _non_negative_int(self.verification_summary.get("sampleSize"), 50)
+            and _int_or(selection_summary.get("seed"), 1) == _int_or(self.verification_summary.get("seed"), 1)
+        )
+
+
 @dataclass(frozen=True)
 class RandomVerificationReadinessContract:
     """Merge coverage-audit and random-verification evidence into a replacement gate."""
@@ -164,22 +229,12 @@ class RandomVerificationReadinessContract:
     def to_json_contract(self) -> dict[str, Any]:
         coverage_summary = CoverageAuditContractSummary().summarize(self.coverage_audit)
         verification_summary = RandomVerificationReportSummary().summarize(self.verification_report)
+        selection_readiness = RandomVerificationSelectionReadinessContract(verification_summary)
         gates = [
             {"gate": "coverageAuditComplete", "ok": self._coverage_complete(coverage_summary)},
             {"gate": "randomVerificationSampled", "ok": self._verification_sampled(verification_summary)},
             {"gate": "randomVerificationNoUncovered", "ok": self._verification_uncovered(verification_summary) == 0},
-            {
-                "gate": "randomVerificationSelectionConsistent",
-                "ok": self._verification_selection_consistent(verification_summary),
-            },
-            {
-                "gate": "randomVerificationSelectionPossible",
-                "ok": self._verification_selection_possible(verification_summary),
-            },
-            {
-                "gate": "randomVerificationSelectionOptionsMatch",
-                "ok": self._verification_selection_options_match(verification_summary),
-            },
+            *selection_readiness.gates(),
         ]
         blockers = [gate["gate"] for gate in gates if not gate["ok"]]
         return {
@@ -201,43 +256,12 @@ class RandomVerificationReadinessContract:
     def _verification_uncovered(self, verification_summary: dict[str, Any]) -> int:
         return _non_negative_int(verification_summary.get("uncovered"), 0)
 
-    def _verification_selection_consistent(self, verification_summary: dict[str, Any]) -> bool:
-        selection_summary = verification_summary.get("selectionSummary")
-        if not isinstance(selection_summary, dict):
-            return True
-        return _non_negative_int(selection_summary.get("selectedComments"), 0) == _non_negative_int(
-            verification_summary.get("sampled"),
-            0,
-        )
-
-    def _verification_selection_possible(self, verification_summary: dict[str, Any]) -> bool:
-        selection_summary = verification_summary.get("selectionSummary")
-        if not isinstance(selection_summary, dict):
-            return True
-        selected_comments = _non_negative_int(selection_summary.get("selectedComments"), 0)
-        return selected_comments <= min(
-            _non_negative_int(selection_summary.get("eligibleComments"), 0),
-            _non_negative_int(selection_summary.get("requestedSampleSize"), 0),
-        )
-
-    def _verification_selection_options_match(self, verification_summary: dict[str, Any]) -> bool:
-        selection_summary = verification_summary.get("selectionSummary")
-        if not isinstance(selection_summary, dict):
-            return True
-        return (
-            _non_negative_int(selection_summary.get("requestedSampleSize"), 0)
-            == _non_negative_int(verification_summary.get("sampleSize"), 50)
-            and _int_or(selection_summary.get("seed"), 1) == _int_or(verification_summary.get("seed"), 1)
-        )
-
     def _blocker_details(self, gates: list[dict[str, Any]]) -> list[dict[str, str]]:
         reasons = {
             "coverageAuditComplete": "coverage audit is not complete",
             "randomVerificationSampled": "random verification sampled no comments",
             "randomVerificationNoUncovered": "random verification still has uncovered samples",
-            "randomVerificationSelectionConsistent": "random verification selected count does not match sampled comments",
-            "randomVerificationSelectionPossible": "random verification selected more comments than requested or eligible",
-            "randomVerificationSelectionOptionsMatch": "random verification selection options do not match report options",
+            **RandomVerificationSelectionReadinessContract.REASONS,
         }
         return [
             {"gate": str(gate_name), "reason": reasons.get(str(gate_name), "readiness gate failed")}

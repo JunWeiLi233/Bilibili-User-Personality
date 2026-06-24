@@ -3599,6 +3599,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(readiness["randomVerification"]["corpus"]["storage"], "combined")
         self.assertEqual(readiness["randomVerification"]["selectionSummary"]["selectedComments"], 2)
 
+    def test_random_verification_selection_readiness_contract_owns_selection_gates(self):
+        gates = verification_module.RandomVerificationSelectionReadinessContract(
+            {
+                "sampleSize": 2,
+                "seed": 7,
+                "sampled": 2,
+                "selectionSummary": {
+                    "requestedSampleSize": 2,
+                    "eligibleComments": 2,
+                    "selectedComments": 2,
+                    "seed": 7,
+                },
+            }
+        ).gates()
+
+        self.assertEqual(
+            gates,
+            [
+                {"gate": "randomVerificationSelectionConsistent", "ok": True},
+                {"gate": "randomVerificationSelectionPossible", "ok": True},
+                {"gate": "randomVerificationSelectionOptionsMatch", "ok": True},
+            ],
+        )
+
     def test_random_verification_readiness_contract_blocks_selection_summary_drift(self):
         readiness = RandomVerificationReadinessContract(
             coverage_audit={
