@@ -4485,6 +4485,22 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(request.payload_path, None)
         self.assertEqual(request.compare_js_report_path, "js-report.json")
 
+    def test_random_request_module_exports_request_and_command_contracts(self):
+        from python_backend.analysis.random_request import (
+            RandomVerificationCommandContract,
+            RandomVerificationRequest,
+        )
+
+        request = RandomVerificationCommandContract(
+            ["--corpus", "corpus.json", "--dictionary", "dictionary.json", "--sample-size", "2", "--seed", "3"]
+        ).request()
+
+        self.assertIsInstance(request, RandomVerificationRequest)
+        self.assertEqual(request.corpus_path, "corpus.json")
+        self.assertEqual(request.dictionary_path, "dictionary.json")
+        self.assertEqual(request.sample_size, 2)
+        self.assertEqual(request.seed, 3)
+
     def test_random_verification_cli_runner_combines_extra_corpus(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
