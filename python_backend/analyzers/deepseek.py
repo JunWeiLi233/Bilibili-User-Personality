@@ -406,7 +406,7 @@ class DeepSeekAnalyzerClient:
                     source_comments.append(source_comment)
             return source_comments
         text = str(payload.get("text") or payload.get("fullText") or payload.get("sourceText") or "").strip()
-        return [{"text": text}] if text else []
+        return [self._text_source_comment(text, payload)] if text else []
 
     def _source_comment(self, item: Any) -> dict[str, str]:
         text = self._comment_text(item)
@@ -418,6 +418,7 @@ class DeepSeekAnalyzerClient:
         for source_key in (
             "source",
             "platform",
+            "inputFile",
             "uid",
             "mid",
             "aid",
@@ -435,6 +436,13 @@ class DeepSeekAnalyzerClient:
             value = str(item.get(source_key) or "").strip()
             if value:
                 result[source_key] = value
+        return result
+
+    def _text_source_comment(self, text: str, payload: dict[str, Any]) -> dict[str, str]:
+        result = {"text": text}
+        input_file = str(payload.get("inputFile") or "").strip()
+        if input_file:
+            result["inputFile"] = input_file
         return result
 
     def _comment_text(self, item: Any) -> str:

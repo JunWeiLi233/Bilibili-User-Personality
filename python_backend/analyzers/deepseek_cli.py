@@ -530,6 +530,8 @@ class DeepSeekAnalyzeCommandRequest:
             text = self.stdin_text
         if text:
             payload["text"] = text
+        if args.file:
+            payload["inputFile"] = str(args.file)
         if args.uid:
             payload["uid"] = str(args.uid)
         if args.name:

@@ -7093,6 +7093,16 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(request.comments, ["\u539f\u59cb\u5206\u6790\u6587\u672c[doge]"])
         self.assertEqual(request.source_comments, [{"text": "\u539f\u59cb\u5206\u6790\u6587\u672c[doge]"}])
 
+    def test_deepseek_analyzer_preserves_input_file_for_text_payload_source(self):
+        request = DeepSeekAnalyzerClient().build_request_from_payload(
+            {"text": "\u6587\u4ef6\u8bc4\u8bba[doge]", "inputFile": "comments.txt"}
+        )
+
+        self.assertEqual(
+            request.source_comments,
+            [{"text": "\u6587\u4ef6\u8bc4\u8bba[doge]", "inputFile": "comments.txt"}],
+        )
+
     def test_deepseek_analyze_cli_planner_matches_js_argument_contract(self):
         planner = DeepSeekAnalyzeCliPlanner()
 
@@ -7433,6 +7443,32 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertTrue(result["ok"])
         self.assertEqual([item["quote"] for item in result["sentenceAnalyses"]], ["\u6587\u4ef6\u8bc4\u8bba[doge]"])
+
+    def test_deepseek_analyze_command_request_preserves_file_origin_in_runtime_payload(self):
+        class RecordingRuntime:
+            calls = []
+
+            def __init__(self, *, env):
+                self.env = env
+
+            def run(self, payload):
+                self.calls.append(payload)
+                return {"ok": True, "provider": "deepseek"}
+
+        with tempfile.TemporaryDirectory() as tmp:
+            input_path = Path(tmp) / "comments.txt"
+            input_path.write_text("\u6587\u4ef6\u8bc4\u8bba[doge]", encoding="utf-8")
+
+            result = DeepSeekAnalyzeCommandRequest(
+                ["--file", input_path],
+                runtime_factory=RecordingRuntime,
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(
+            RecordingRuntime.calls,
+            [{"text": "\u6587\u4ef6\u8bc4\u8bba[doge]", "inputFile": str(input_path)}],
+        )
 
     def test_deepseek_analyze_command_request_mock_chat_multiagent_matches_js_summary(self):
         with tempfile.TemporaryDirectory() as tmp:
