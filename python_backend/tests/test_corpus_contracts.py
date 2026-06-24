@@ -36683,6 +36683,38 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_random_verification_compare_command_request_accepts_compare_js_report_alias(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            python_report_path = root / "python-random-verification.json"
+            js_report_path = root / "js-random-verification.json"
+            python_report_path.write_text(
+                json.dumps({"sampleSize": 1, "seed": 1, "sampled": 1, "keywordHits": 1, "neutral": 0, "uncovered": 0}),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps({"sampleSize": 1, "seed": 1, "sampled": 1, "keywordHits": 0, "neutral": 1, "uncovered": 0}),
+                encoding="utf-8",
+            )
+
+            result = RandomVerificationCompareCommandRequest(
+                [
+                    "--python-report",
+                    str(python_report_path),
+                    "--compare-js-report",
+                    str(js_report_path),
+                ]
+            ).run()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "keywordHits", "python": 1, "js": 0},
+                {"key": "neutral", "python": 0, "js": 1},
+            ],
+        )
+
     def test_random_verification_payload_comparator_defaults_malformed_metrics_before_compare(self):
         result = RandomVerificationPayloadComparator().compare(
             {

@@ -55,6 +55,7 @@ test('compareRandomVerification delegates persisted report comparison to Python 
         jsReport: context.jsReport.keywordHits,
         hasPythonReportPath: context.pythonReportPath.endsWith('python-report.json'),
         hasJsReportPath: context.jsReportPath.endsWith('js-report.json'),
+        hasCompareJsReportPath: context.compareJsReportPath.endsWith('js-report.json'),
       });
       return {
         ok: false,
@@ -66,7 +67,7 @@ test('compareRandomVerification delegates persisted report comparison to Python 
   assert.equal(result.ok, false);
   assert.deepEqual(result.mismatches, [{ key: 'delegated', python: 'python-contract', js: 'js-bridge' }]);
   assert.deepEqual(calls, [
-    { pythonReport: 1, jsReport: 1, hasPythonReportPath: true, hasJsReportPath: true },
+    { pythonReport: 1, jsReport: 1, hasPythonReportPath: true, hasJsReportPath: true, hasCompareJsReportPath: true },
   ]);
 });
 

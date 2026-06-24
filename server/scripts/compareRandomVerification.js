@@ -116,10 +116,17 @@ async function runPythonRandomVerification({ payloadPath }) {
   return JSON.parse(stdout);
 }
 
-async function runPythonRandomVerificationComparison({ pythonReportPath, jsReportPath }) {
+async function runPythonRandomVerificationComparison({ pythonReportPath, compareJsReportPath, jsReportPath }) {
   const { stdout } = await execFileAsync(
     'python',
-    ['-m', 'python_backend.cli.random_verification_compare', '--python-report', pythonReportPath, '--js-report', jsReportPath],
+    [
+      '-m',
+      'python_backend.cli.random_verification_compare',
+      '--python-report',
+      pythonReportPath,
+      '--compare-js-report',
+      compareJsReportPath || jsReportPath,
+    ],
     {
       cwd: process.cwd(),
       env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
@@ -168,6 +175,7 @@ async function compareRandomVerificationSingle({
       python,
       jsReport: js,
       pythonReport: python,
+      compareJsReportPath: jsReportPath,
     });
     return {
       ok: comparison.ok,
