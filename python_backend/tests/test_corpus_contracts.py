@@ -6885,6 +6885,32 @@ class CorpusContractTests(unittest.TestCase):
             [{"text": "\u8d34\u5427\u9634\u9633\u602a\u6c14[doge]", "platform": "tieba", "threadId": "tid-9"}],
         )
 
+    def test_deepseek_analysis_input_builder_preserves_direct_text_metadata(self):
+        request = DeepSeekAnalyzerClient().build_request_from_payload(
+            {
+                "text": "\u76f4\u63a5\u6587\u672c[doge]",
+                "source": "bilibili",
+                "uid": "42",
+                "videoId": "BVdirect",
+                "inputFile": "comments.txt",
+            }
+        )
+
+        prompt_input = DeepSeekAnalysisInputBuilder().build(request)
+
+        self.assertEqual(
+            prompt_input["sourceComments"],
+            [
+                {
+                    "text": "\u76f4\u63a5\u6587\u672c[doge]",
+                    "source": "bilibili",
+                    "uid": "42",
+                    "videoId": "BVdirect",
+                    "inputFile": "comments.txt",
+                }
+            ],
+        )
+
     def test_deepseek_analyzer_merges_js_standalone_hint_arrays(self):
         request = DeepSeekAnalyzerClient().build_request_from_payload(
             {

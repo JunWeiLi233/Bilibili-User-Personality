@@ -139,6 +139,25 @@ class DeepSeekAnalysisInputBuilder:
 class DeepSeekAnalyzerClient:
     """Build JS-compatible DeepSeek analyzer request contracts."""
 
+    SOURCE_COMMENT_KEYS = (
+        "source",
+        "platform",
+        "inputFile",
+        "uid",
+        "mid",
+        "aid",
+        "oid",
+        "cid",
+        "rpid",
+        "videoId",
+        "bvid",
+        "threadId",
+        "postId",
+        "author",
+        "authorName",
+        "url",
+    )
+
     MULTIAGENTS = (
         {
             "id": "lexical-context",
@@ -454,24 +473,7 @@ class DeepSeekAnalyzerClient:
         if not isinstance(item, dict):
             return {"text": text}
         result = {"text": text}
-        for source_key in (
-            "source",
-            "platform",
-            "inputFile",
-            "uid",
-            "mid",
-            "aid",
-            "oid",
-            "cid",
-            "rpid",
-            "videoId",
-            "bvid",
-            "threadId",
-            "postId",
-            "author",
-            "authorName",
-            "url",
-        ):
+        for source_key in self.SOURCE_COMMENT_KEYS:
             value = str(item.get(source_key) or "").strip()
             if value:
                 result[source_key] = value
@@ -479,9 +481,10 @@ class DeepSeekAnalyzerClient:
 
     def _text_source_comment(self, text: str, payload: dict[str, Any]) -> dict[str, str]:
         result = {"text": text}
-        input_file = str(payload.get("inputFile") or "").strip()
-        if input_file:
-            result["inputFile"] = input_file
+        for source_key in self.SOURCE_COMMENT_KEYS:
+            value = str(payload.get(source_key) or "").strip()
+            if value:
+                result[source_key] = value
         return result
 
     def _comment_text(self, item: Any) -> str:
