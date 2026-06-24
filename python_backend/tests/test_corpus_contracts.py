@@ -2623,6 +2623,11 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(len(first), 3)
         self.assertEqual({RandomVerificationSampleContract.message(item) for item in first}, {"first", "second", "third"})
 
+    def test_random_verification_sample_contract_reads_bilibili_reply_content_message(self):
+        comment = {"content": {"message": "\u72d7\u5934\u4fdd\u547d[doge]"}}
+
+        self.assertEqual(RandomVerificationSampleContract.message(comment), "\u72d7\u5934\u4fdd\u547d[doge]")
+
     def test_random_verifier_matches_ascii_terms_case_insensitively(self):
         verifier = RandomVerifier(keyword_terms=["YYGQ", "doge"])
 

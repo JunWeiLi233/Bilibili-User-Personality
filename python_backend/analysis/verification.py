@@ -161,9 +161,15 @@ class RandomVerificationSampleContract:
             or comment.get("msg")
             or comment.get("commentText")
             or comment.get("combinedText")
-            or comment.get("content")
+            or RandomVerificationSampleContract._content_message(comment.get("content"))
             or ""
         ).strip()
+
+    @staticmethod
+    def _content_message(content: Any) -> Any:
+        if isinstance(content, dict):
+            return content.get("message")
+        return content
 
     @classmethod
     def normalize_comment(cls, comment: Any) -> dict[str, Any]:
