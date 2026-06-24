@@ -118,6 +118,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:huggingface-compare": "full_command",
     "python:history-tags-compare": "merge_plan_fixtures_and_js_python_bridge",
     "python:local-mine-compare": "full_command",
+    "python:bilibili-crawler-compare": "identity_block_cookie_objects_reply_danmaku_dynamics_fixtures_and_js_python_bridge",
     "python:bilibili-parse-compare": "danmaku_xml_extract_bvid_bvid_pool_fixtures_and_js_python_bridge",
 }
 
@@ -205,6 +206,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:batch-uid-progress-compare": "js_python_contract_bridge",
     "python:uid-range-progress-compare": "js_python_contract_bridge",
     "python:local-mine-compare": "js_python_contract_bridge",
+    "python:bilibili-crawler-compare": "js_python_contract_bridge",
     "python:bilibili-parse-compare": "js_python_contract_bridge",
 }
 
@@ -337,6 +339,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareBatchScrapeProgress.js": "js_python_contract_bridge",
     "server/scripts/compareBatchUidProgress.js": "js_python_contract_bridge",
     "server/scripts/compareUidRangeProgress.js": "js_python_contract_bridge",
+    "server/scripts/compareBilibiliCrawler.js": "js_python_contract_bridge",
     "server/scripts/compareBilibiliParse.js": "js_python_contract_bridge",
 }
 
