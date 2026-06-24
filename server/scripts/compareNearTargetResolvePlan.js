@@ -88,11 +88,36 @@ async function runPythonPlan({ dictionaryPath, statePath }) {
   return JSON.parse(stdout);
 }
 
+async function runPythonPlanComparison({ dictionaryPath, statePath, jsPlanPath }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    [
+      '-m',
+      'python_backend.cli.near_target_resolve_plan',
+      '--dictionary',
+      dictionaryPath,
+      '--state',
+      statePath,
+      '--override-terms',
+      '差一条',
+      '--compare-js-plan',
+      jsPlanPath,
+    ],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return JSON.parse(stdout);
+}
+
 export async function compareNearTargetResolvePlan({
   dictionary = DEFAULT_DICTIONARY,
   state = DEFAULT_STATE,
   runJsPlan: runJs = runJsPlan,
   runPythonPlan: runPython = runPythonPlan,
+  runCompare = runPythonPlanComparison,
 } = {}) {
   const tempDir = await mkdtemp(join(tmpdir(), 'near-target-compare-'));
   try {
@@ -106,7 +131,19 @@ export async function compareNearTargetResolvePlan({
     await writeJson(pythonStatePath, state);
     const js = await runJs({ dictionaryPath: jsDictionaryPath, statePath: jsStatePath, dictionary, state });
     const python = await runPython({ dictionaryPath: pythonDictionaryPath, statePath: pythonStatePath, dictionary, state });
-    const comparison = compareNearTargetResolvePlanObjects(python, js);
+    const jsPlanPath = join(tempDir, 'js-plan.json');
+    await writeJson(jsPlanPath, js);
+    const comparison = await runCompare({
+      dictionaryPath: pythonDictionaryPath,
+      statePath: pythonStatePath,
+      jsPlanPath,
+      dictionary,
+      state,
+      js,
+      python,
+      jsPlan: js,
+      pythonPlan: python,
+    });
     return {
       ok: comparison.ok,
       fixture: { jsDictionaryPath, pythonDictionaryPath, jsStatePath, pythonStatePath },

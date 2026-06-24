@@ -53,9 +53,49 @@ test('compareNearTargetResolvePlan compares JS and Python fixture plans', async 
       calls.push({ python: payload });
       return PLAN;
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('compareNearTargetResolvePlan delegates saved JS plan comparison to Python contract', async () => {
+  let compareContext;
+  const result = await compareNearTargetResolvePlan({
+    runJsPlan: async () => PLAN,
+    runPythonPlan: async () => PLAN,
+    runCompare: async (context) => {
+      compareContext = context;
+      return {
+        ok: true,
+        mismatches: [],
+        python: {
+          candidateCount: PLAN.candidateCount,
+          candidateTerms: PLAN.candidateTerms,
+          plannedCount: PLAN.plannedCount,
+          videosPlanned: PLAN.videosPlanned,
+          plans: PLAN.plans,
+          skipped: PLAN.skipped,
+          summary: PLAN.summary,
+        },
+        js: {
+          candidateCount: PLAN.candidateCount,
+          candidateTerms: PLAN.candidateTerms,
+          plannedCount: PLAN.plannedCount,
+          videosPlanned: PLAN.videosPlanned,
+          plans: PLAN.plans,
+          skipped: PLAN.skipped,
+          summary: PLAN.summary,
+        },
+      };
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.equal(compareContext.jsPlanPath.endsWith('js-plan.json'), true);
+  assert.deepEqual(compareContext.jsPlan, PLAN);
+  assert.deepEqual(compareContext.pythonPlan, PLAN);
 });
