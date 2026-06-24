@@ -69,11 +69,32 @@ test('compareAicuBatchPlan compares JS and Python dry-run batch plans', async ()
       calls.push({ python: payload });
       return { ok: true, ...PLAN };
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('compareAicuBatchPlan delegates saved JS report comparison to Python contract', async () => {
+  let compareContext;
+  const jsReport = { ok: true, ...PLAN };
+  const pythonReport = { ok: true, ...PLAN };
+  const result = await compareAicuBatchPlan({
+    runJs: async () => jsReport,
+    runPython: async () => pythonReport,
+    runCompare: async (context) => {
+      compareContext = context;
+      return { ok: true, mismatches: [], python: PLAN, js: PLAN };
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.equal(compareContext.jsReportPath.endsWith('js-report.json'), true);
+  assert.deepEqual(compareContext.jsReport, jsReport);
+  assert.deepEqual(compareContext.pythonReport, pythonReport);
 });
 
 test('compareAicuBatchPlanSuite covers resume, empty range, and malformed payload fixtures', async () => {
