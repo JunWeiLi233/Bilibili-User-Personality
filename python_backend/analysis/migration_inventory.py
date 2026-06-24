@@ -290,6 +290,16 @@ DEFAULT_DIRECT_FILE_CONTRACTS = {
         "validationScope": "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_strict_payload_file_errors_python_runtime_mock_multiagent_env_bridge_live_preflight_and_live_gate_contract",
         "replacementScope": "live_api_runtime",
     },
+    "server/services/keywordHarvest.js": {
+        "nodeScript": "server/services/keywordHarvest.js",
+        "nodeCommand": "service module",
+        "pythonScript": "python:harvest-plan",
+        "pythonCommand": "python -m python_backend.cli.harvest_plan",
+        "validationScript": "python:harvest-plan-compare",
+        "validationCommand": "node server/scripts/compareHarvestPlan.js",
+        "validationScope": "dry_run_plan_fixture_and_js_python_plan_bridge",
+        "replacementScope": "dry_run_plan",
+    },
 }
 
 DEFAULT_RETAINED_NODE_COMMANDS = {
@@ -1249,6 +1259,16 @@ class BackendMigrationInventoryScanner:
                     "reason": "Python has fixture coverage for video relevance aliases, sorting, ask-Baidu filtering, strict target filtering, and JS/Python bridge comparison, but live video discovery plus comment-filter and context service behavior still need verification before replacing the JS service module.",
                     "preflightCommand": "npm run python:video-relevance-compare",
                     "liveVerificationCommand": "npm run video:keywords",
+                    "manualVerificationRequired": True,
+                }
+            )
+        elif script == "server/services/keywordHarvest.js" and validation_scope != "full_command":
+            blockers.append(
+                {
+                    "blocker": "keyword_harvest_live_runtime_not_verified",
+                    "reason": "Python has dry-run keyword harvest query planning fixtures and JS/Python plan bridge coverage, but live dictionary harvesting, state persistence, and video discovery integration still need verification before replacing the JS service module.",
+                    "preflightCommand": "npm run python:harvest-plan-compare",
+                    "liveVerificationCommand": "npm run dictionary:harvest",
                     "manualVerificationRequired": True,
                 }
             )

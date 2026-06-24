@@ -2330,7 +2330,17 @@ class CorpusContractTests(unittest.TestCase):
             },
             result["manualVerificationActions"],
         )
-        self.assertEqual(result["pythonContractGapCount"], 1)
+        self.assertIn(
+            {
+                "path": "server/services/keywordHarvest.js",
+                "nodeScript": "server/services/keywordHarvest.js",
+                "blocker": "keyword_harvest_live_runtime_not_verified",
+                "preflightCommand": "npm run python:harvest-plan-compare",
+                "liveVerificationCommand": "npm run dictionary:harvest",
+            },
+            result["manualVerificationActions"],
+        )
+        self.assertEqual(result["pythonContractGapCount"], 0)
         self.assertNotIn(
             "server/services/tiebaScraper.js",
             {item["path"] for item in result["pythonContractGaps"]},
@@ -2393,6 +2403,10 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertNotIn(
             "server/services/deepseekKeywordTrainer.js",
+            {item["path"] for item in result["pythonContractGaps"]},
+        )
+        self.assertNotIn(
+            "server/services/keywordHarvest.js",
             {item["path"] for item in result["pythonContractGaps"]},
         )
         self.assertIn(
