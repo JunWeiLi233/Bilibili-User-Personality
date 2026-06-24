@@ -3711,6 +3711,28 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_readiness_gate_contract_summarizes_ok_blockers_and_details(self):
+        summary = verification_module.ReadinessGateContract(
+            gates=[
+                {"gate": "readyGate", "ok": True},
+                {"gate": "blockedGate", "ok": False},
+            ],
+            reasons={"blockedGate": "blocked reason"},
+        ).to_json_contract()
+
+        self.assertEqual(
+            summary,
+            {
+                "ok": False,
+                "gates": [
+                    {"gate": "readyGate", "ok": True},
+                    {"gate": "blockedGate", "ok": False},
+                ],
+                "blockers": ["blockedGate"],
+                "blockerDetails": [{"gate": "blockedGate", "reason": "blocked reason"}],
+            },
+        )
+
     def test_random_verification_readiness_contract_blocks_selection_summary_drift(self):
         readiness = RandomVerificationReadinessContract(
             coverage_audit={

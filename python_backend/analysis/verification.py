@@ -169,6 +169,23 @@ class ReadinessBlockerDetailsContract:
         ]
 
 
+class ReadinessGateContract:
+    """Summarize readiness gates into the stable replacement-gate JSON shape."""
+
+    def __init__(self, gates: list[dict[str, Any]] | None = None, reasons: dict[str, str] | None = None):
+        self.gates = gates if isinstance(gates, list) else []
+        self.reasons = reasons if isinstance(reasons, dict) else {}
+
+    def to_json_contract(self) -> dict[str, Any]:
+        blockers = [gate.get("gate") for gate in self.gates if not gate.get("ok")]
+        return {
+            "ok": not blockers,
+            "gates": self.gates,
+            "blockers": blockers,
+            "blockerDetails": ReadinessBlockerDetailsContract(self.reasons).from_gates(self.gates),
+        }
+
+
 class RandomVerificationSelectionReadinessContract:
     """Own readiness gates derived from random-verification selection metadata."""
 
@@ -310,23 +327,19 @@ class RandomVerificationReadinessContract:
             *sample_readiness.gates(),
             *selection_readiness.gates(),
         ]
-        blockers = [gate["gate"] for gate in gates if not gate["ok"]]
+        gate_contract = ReadinessGateContract(gates=gates, reasons=self._blocker_reasons())
         return {
-            "ok": not blockers,
-            "gates": gates,
-            "blockers": blockers,
-            "blockerDetails": self._blocker_details(gates),
+            **gate_contract.to_json_contract(),
             "coverage": coverage_summary,
             "randomVerification": verification_summary,
         }
 
-    def _blocker_details(self, gates: list[dict[str, Any]]) -> list[dict[str, str]]:
-        reasons = {
+    def _blocker_reasons(self) -> dict[str, str]:
+        return {
             **CoverageAuditReadinessContract.REASONS,
             **RandomVerificationSampleReadinessContract.REASONS,
             **RandomVerificationSelectionReadinessContract.REASONS,
         }
-        return ReadinessBlockerDetailsContract(reasons).from_gates(gates)
 
 
 class RandomVerificationSampleContract:
