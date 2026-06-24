@@ -7353,6 +7353,20 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["sentenceAnalyses"][0]["quote"], "\u5f39\u5e55\u592a\u9634\u9633\u4e86[doge]")
 
+    def test_deepseek_analyze_command_request_fails_closed_for_unreadable_file(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            missing_path = Path(tmp) / "missing-comments.txt"
+            analysis_path = Path(tmp) / "analysis.json"
+            analysis_path.write_text(json.dumps({"axes": [], "sentenceAnalyses": [], "confidence": 0.5}), encoding="utf-8")
+
+            result = DeepSeekAnalyzeCommandRequest(
+                ["--mock-chat-analysis", analysis_path, "--file", missing_path],
+            ).run()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["provider"], "deepseek")
+        self.assertEqual(result["error"], f"Could not read input file: {missing_path}")
+
     def test_deepseek_analyze_command_request_accepts_python_selector_flags(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

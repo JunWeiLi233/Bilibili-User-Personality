@@ -400,6 +400,9 @@ class DeepSeekAnalyzeCommandRequest:
                 legacy_selector,
             )
         payload = self._payload(args)
+        payload_error = payload.pop("_error", None)
+        if isinstance(payload_error, dict):
+            return self._with_legacy_selector_compatibility(payload_error, legacy_selector)
         if args.live_validation_gate:
             return self._with_legacy_selector_compatibility(DeepSeekLiveValidationGate(env=self.env).run(payload), legacy_selector)
         if args.mock_chat_analysis:
@@ -478,7 +481,12 @@ class DeepSeekAnalyzeCommandRequest:
             try:
                 text = Path(args.file).read_text(encoding="utf-8-sig")
             except OSError:
-                text = ""
+                payload["_error"] = {
+                    "ok": False,
+                    "provider": "deepseek",
+                    "error": f"Could not read input file: {args.file}",
+                }
+                return payload
         if not args.file and not text and self.stdin_text:
             text = self.stdin_text
         if text:
