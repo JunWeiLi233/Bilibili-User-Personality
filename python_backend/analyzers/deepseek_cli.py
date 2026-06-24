@@ -213,8 +213,9 @@ class DeepSeekAnalyzeHttpRequestBuilder:
 
     def build(self, request_body: dict[str, Any], config: dict[str, str]) -> urllib.request.Request:
         data = self._json_text(request_body).encode("utf-8")
+        base_url = str(config["baseUrl"]).rstrip("/")
         return urllib.request.Request(
-            f"{config['baseUrl']}/chat/completions",
+            f"{base_url}/chat/completions",
             data=data,
             headers={
                 "content-type": "application/json",

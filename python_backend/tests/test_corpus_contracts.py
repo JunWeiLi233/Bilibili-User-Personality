@@ -7928,6 +7928,14 @@ class CorpusContractTests(unittest.TestCase):
             {"model": "deepseek-v4-flash", "messages": [{"role": "user", "content": "\u53cd\u8bbd[doge]"}]},
         )
 
+    def test_deepseek_analyze_http_request_builder_normalizes_trailing_base_url_slash(self):
+        request = DeepSeekAnalyzeHttpRequestBuilder().build(
+            {"model": "deepseek-v4-flash"},
+            {"baseUrl": "https://deepseek.example/", "apiKey": "secret"},
+        )
+
+        self.assertEqual(request.full_url, "https://deepseek.example/chat/completions")
+
     def test_deepseek_analyze_http_transport_accepts_parser_and_error_formatter_dependencies(self):
         calls = []
 
