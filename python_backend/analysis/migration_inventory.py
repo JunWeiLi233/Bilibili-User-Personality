@@ -411,6 +411,10 @@ class BackendMigrationInventoryScanner:
             skip_replacement_scopes=("live_api_runtime",),
             offline_reason="skips_live_api_runtime",
         )
+        manual_verification_actions = self._manual_verification_actions(
+            next_migration_action,
+            next_offline_migration_action,
+        )
         return {
             "ok": True,
             "root": str(root),
@@ -428,6 +432,7 @@ class BackendMigrationInventoryScanner:
             "migrationPriorityFiles": migration_priority_files,
             "nextMigrationAction": next_migration_action,
             "nextOfflineMigrationAction": next_offline_migration_action,
+            "manualVerificationActions": manual_verification_actions,
             "retainedJsBackendFiles": retained_files,
             "testFiles": backend_tests,
             "packageScripts": package_scripts,
@@ -449,6 +454,30 @@ class BackendMigrationInventoryScanner:
             "pythonOwnedDataScripts": len(package_scripts.get("pythonOwnedDataScripts", [])),
             "pythonBackedNodeScripts": len(package_scripts.get("pythonBackedNodeScripts", [])),
         }
+
+    @staticmethod
+    def _manual_verification_actions(*actions: dict[str, Any]) -> list[dict[str, str]]:
+        manual_actions: list[dict[str, str]] = []
+        seen: set[tuple[str, str, str]] = set()
+        for action in actions:
+            if not action:
+                continue
+            for blocker in action.get("replacementBlockers", []):
+                if not isinstance(blocker, dict) or not blocker.get("manualVerificationRequired"):
+                    continue
+                manual_action = {
+                    "path": str(action.get("path") or ""),
+                    "nodeScript": str(action.get("nodeScript") or ""),
+                    "blocker": str(blocker.get("blocker") or ""),
+                    "preflightCommand": str(blocker.get("preflightCommand") or ""),
+                    "liveVerificationCommand": str(blocker.get("liveVerificationCommand") or ""),
+                }
+                key = (manual_action["path"], manual_action["nodeScript"], manual_action["blocker"])
+                if key in seen:
+                    continue
+                seen.add(key)
+                manual_actions.append(manual_action)
+        return manual_actions
 
     @staticmethod
     def _category(relative_path: str) -> str:

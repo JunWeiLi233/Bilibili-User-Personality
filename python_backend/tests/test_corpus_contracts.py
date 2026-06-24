@@ -2070,6 +2070,16 @@ class CorpusContractTests(unittest.TestCase):
                 },
             ],
         )
+        self.assertIn(
+            {
+                "path": "server/scripts/analyzeDeepSeekComments.js",
+                "nodeScript": "deepseek:analyze",
+                "blocker": "credentialed_live_api_command_not_verified",
+                "preflightCommand": "npm run python:deepseek-live-preflight",
+                "liveVerificationCommand": "npm run python:deepseek-live-gate",
+            },
+            result["manualVerificationActions"],
+        )
         self.assertEqual(result["nextOfflineMigrationAction"]["path"], "server/scripts/runCoverageHarvestLoop.js")
         self.assertEqual(result["nextOfflineMigrationAction"]["nodeScript"], "dictionary:auto")
         self.assertEqual(result["nextOfflineMigrationAction"]["pythonScript"], "python:coverage-loop-command")
@@ -2089,6 +2099,16 @@ class CorpusContractTests(unittest.TestCase):
                     "manualVerificationRequired": True,
                 },
             ],
+        )
+        self.assertIn(
+            {
+                "path": "server/scripts/runCoverageHarvestLoop.js",
+                "nodeScript": "dictionary:auto",
+                "blocker": "coverage_loop_live_runtime_not_verified",
+                "preflightCommand": "npm run python:coverage-loop-command-preflight",
+                "liveVerificationCommand": "npm run dictionary:auto",
+            },
+            result["manualVerificationActions"],
         )
         self.assertIn(
             {"gate": "no_live_command_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
