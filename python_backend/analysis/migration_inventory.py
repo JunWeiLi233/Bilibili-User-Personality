@@ -86,8 +86,8 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:batch-bilibili-compare": "dry_run_plan_resume_empty_parseint_prefix_fixtures_js_python_bridge_and_cli_flag_bridge",
     "python:batch-popular-compare": "dry_run_plan_resume_empty_parseint_prefix_fixtures_js_python_bridge_and_cli_flag_bridge",
     "python:batch-scraper-launcher-compare": "dry_run_plan_default_custom_data_dir_fixtures_and_js_python_bridge",
-    "python:batch-uid-scrape-compare": "dry_run_plan_populated_empty_malformed_stats_fixtures_and_js_python_bridge",
-    "python:batch-uid-range-compare": "dry_run_plan_phase2_default_decimal_malformed_stats_fixtures_and_js_python_bridge",
+    "python:batch-uid-scrape-compare": "dry_run_plan_populated_empty_malformed_stats_fixtures_js_python_bridge_and_cli_flag_bridge",
+    "python:batch-uid-range-compare": "dry_run_plan_phase2_default_decimal_malformed_stats_fixtures_js_python_bridge_and_cli_flag_bridge",
     "python:batch-scrape-progress-compare": "file_backed_uid_range_popular_corrupt_inputs_fixtures_and_js_python_bridge",
     "python:batch-uid-progress-compare": "file_backed_default_parseint_stats_prefix_corrupt_input_fixtures_and_js_python_bridge",
     "python:fast-pipeline-launcher-compare": "dry_run_plan_default_custom_data_dir_fixtures_and_js_python_bridge",
@@ -862,11 +862,13 @@ class BackendMigrationInventoryScanner:
             return [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:batch-uid-scrape-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareBatchUidScrapePlan.test.js"},
+                {"gate": "js_python_cli_flag_bridge", "status": "covered", "source": "compareBatchUidScrapePlan.test.js"},
             ]
         if validation_script == "python:batch-uid-range-compare":
             return [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:batch-uid-range-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareBatchUidRangePlan.test.js"},
+                {"gate": "js_python_cli_flag_bridge", "status": "covered", "source": "compareBatchUidRangePlan.test.js"},
             ]
         if validation_script == "python:uid-discovery-compare":
             return [

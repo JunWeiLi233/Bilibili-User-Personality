@@ -27772,6 +27772,7 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:batch-uid-scrape-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareBatchUidScrapePlan.test.js"},
+                {"gate": "js_python_cli_flag_bridge", "status": "covered", "source": "compareBatchUidScrapePlan.test.js"},
             ],
         )
 
@@ -28098,6 +28099,7 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:batch-uid-range-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareBatchUidRangePlan.test.js"},
+                {"gate": "js_python_cli_flag_bridge", "status": "covered", "source": "compareBatchUidRangePlan.test.js"},
             ],
         )
 
