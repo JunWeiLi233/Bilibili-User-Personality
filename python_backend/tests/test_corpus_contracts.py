@@ -31163,6 +31163,12 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(result["cycles"][0]["harvest"]["ok"])
         self.assertIn("external harvest command returned invalid JSON", result["cycles"][0]["harvest"]["warnings"][0])
 
+    def test_coverage_harvest_loop_external_adapter_rejects_invalid_command_json(self):
+        from python_backend.analysis import coverage_loop as coverage_loop_module
+
+        with self.assertRaisesRegex(ValueError, "harvest command must be valid JSON"):
+            coverage_loop_module.CoverageHarvestLoopExternalHarvestAdapter("[not-json")
+
     def test_coverage_harvest_loop_external_harvest_prunes_exhausted_terms(self):
         from python_backend.analysis import coverage_loop as coverage_loop_module
 

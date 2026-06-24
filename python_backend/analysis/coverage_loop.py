@@ -464,7 +464,10 @@ class CoverageHarvestLoopExternalHarvestAdapter:
 
     def __init__(self, command: list[Any] | str):
         if isinstance(command, str):
-            parsed = json.loads(command)
+            try:
+                parsed = json.loads(command)
+            except json.JSONDecodeError as error:
+                raise ValueError(f"harvest command must be valid JSON: {error}") from error
         else:
             parsed = command
         if not isinstance(parsed, list) or not parsed:
