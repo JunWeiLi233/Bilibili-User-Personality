@@ -6,6 +6,7 @@ import { test } from 'node:test';
 
 import {
   buildPlan,
+  buildPythonRuntimeArgs,
   parseArgs,
   readAnalysisFixtureJson,
   runFixtureAnalysisMode,
@@ -227,6 +228,29 @@ test('analyzeDeepSeekComments forwards file input to Python live runtime bridge'
       },
     },
   ]);
+});
+
+test('analyzeDeepSeekComments builds Python runtime args with file preferred over text', () => {
+  assert.deepEqual(
+    buildPythonRuntimeArgs({
+      payload: { text: 'inline text', uid: '42', name: 'alice', multiagent: true },
+      file: 'comments.txt',
+      mockChatAnalysis: 'analysis.json',
+    }),
+    [
+      '-m',
+      'python_backend.cli.deepseek_analyze',
+      '--file',
+      'comments.txt',
+      '--uid',
+      '42',
+      '--name',
+      'alice',
+      '--multiagent',
+      '--mock-chat-analysis',
+      'analysis.json',
+    ],
+  );
 });
 
 test('analyzeDeepSeekComments keeps explicit JS live runtime fallback', async () => {

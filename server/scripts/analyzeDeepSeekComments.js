@@ -213,7 +213,7 @@ export async function runFixtureAnalysisMode(
   });
 }
 
-async function runPythonRuntimeAnalysis({ payload, file = '', mockChatAnalysis = '' }) {
+export function buildPythonRuntimeArgs({ payload = {}, file = '', mockChatAnalysis = '' } = {}) {
   const args = ['-m', 'python_backend.cli.deepseek_analyze'];
   if (file) args.push('--file', file);
   else if (payload.text) args.push('--text', payload.text);
@@ -221,6 +221,11 @@ async function runPythonRuntimeAnalysis({ payload, file = '', mockChatAnalysis =
   if (payload.name) args.push('--name', payload.name);
   if (payload.multiagent) args.push('--multiagent');
   if (mockChatAnalysis) args.push('--mock-chat-analysis', mockChatAnalysis);
+  return args;
+}
+
+async function runPythonRuntimeAnalysis({ payload, file = '', mockChatAnalysis = '' }) {
+  const args = buildPythonRuntimeArgs({ payload, file, mockChatAnalysis });
   const { stdout } = await execFileAsync('python', args, {
     cwd: process.cwd(),
     env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
