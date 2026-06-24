@@ -210,6 +210,16 @@ DEFAULT_DIRECT_FILE_CONTRACTS = {
         "validationScope": "dry_run_plan_default_custom_data_dir_fixtures_js_python_bridge_and_cli_flag_bridge",
         "replacementScope": "dry_run_plan",
     },
+    "server/scripts/uidPipelineWorker.js": {
+        "nodeScript": "server/scripts/uidPipelineWorker.js",
+        "nodeCommand": "node server/scripts/uidPipelineWorker.js",
+        "pythonScript": "python:uid-pipeline-plan",
+        "pythonCommand": "python -m python_backend.cli.uid_pipeline_plan",
+        "validationScript": "python:uid-pipeline-worker-compare",
+        "validationCommand": "node server/scripts/compareUidPipelineWorkerPlan.js",
+        "validationScope": "dry_run_plan_default_range_parseint_prefix_fixtures_js_python_bridge_and_cli_flag_bridge",
+        "replacementScope": "dry_run_plan",
+    },
     "server/scripts/runVideoLinkDirect.js": {
         "nodeScript": "server/scripts/runVideoLinkDirect.js",
         "nodeCommand": "node server/scripts/runVideoLinkDirect.js",
@@ -1164,6 +1174,16 @@ class BackendMigrationInventoryScanner:
                     "reason": "Python has a UID fast worker dry-run plan, default worker/number fallback/parseint UID fixtures, and JS/Python bridge coverage, but live direct-fetch scraping, worker persistence, and DeepSeek training still need verification before replacing the JS script.",
                     "preflightCommand": "npm run python:uid-fast-worker-compare",
                     "liveVerificationCommand": "node server/scripts/uidPipelineFastWorker.js --start=1 --end=1",
+                    "manualVerificationRequired": True,
+                }
+            )
+        elif script == "server/scripts/uidPipelineWorker.js" and validation_scope != "full_command":
+            blockers.append(
+                {
+                    "blocker": "uid_pipeline_worker_live_runtime_not_verified",
+                    "reason": "Python has a UID pipeline worker dry-run plan, default/range/parseint fixtures, and JS/Python bridge coverage, but live Bilibili scraping, progress persistence, dictionary locking, and DeepSeek training still need verification before replacing the JS script.",
+                    "preflightCommand": "npm run python:uid-pipeline-worker-compare",
+                    "liveVerificationCommand": "node server/scripts/uidPipelineWorker.js --start=1 --end=1",
                     "manualVerificationRequired": True,
                 }
             )
