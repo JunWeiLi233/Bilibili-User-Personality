@@ -280,6 +280,16 @@ DEFAULT_DIRECT_FILE_CONTRACTS = {
         "validationScope": "alias_sort_ask_baidu_filter_strict_target_filter_fixtures_and_js_python_bridge",
         "replacementScope": "fixture_contract",
     },
+    "server/services/deepseekKeywordTrainer.js": {
+        "nodeScript": "server/services/deepseekKeywordTrainer.js",
+        "nodeCommand": "service module",
+        "pythonScript": "python:deepseek-analyze",
+        "pythonCommand": "python -m python_backend.cli.deepseek_analyze",
+        "validationScript": "python:deepseek-analyze-command-compare",
+        "validationCommand": "node server/scripts/compareDeepSeekAnalyzeCommand.js",
+        "validationScope": "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_strict_payload_file_errors_python_runtime_mock_multiagent_env_bridge_live_preflight_and_live_gate_contract",
+        "replacementScope": "live_api_runtime",
+    },
 }
 
 DEFAULT_RETAINED_NODE_COMMANDS = {
@@ -1042,6 +1052,21 @@ class BackendMigrationInventoryScanner:
                 {
                     "blocker": "credentialed_live_api_command_not_verified",
                     "reason": "Validation covers command identity fields, file input, payload input, Python runtime mocks, multiagent mocks, live preflight, and the offline live-gate skip contract, but no credentialed live API command run has been verified.",
+                    "preflightCommand": "npm run python:deepseek-live-preflight",
+                    "liveVerificationCommand": "npm run python:deepseek-live-gate",
+                    "manualVerificationRequired": True,
+                }
+            )
+        elif script == "server/services/deepseekKeywordTrainer.js" and validation_scope in {
+            "full_command_identity_fields_file_payload_input_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract",
+            "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract",
+            "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_strict_payload_file_errors_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract",
+            "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_strict_payload_file_errors_python_runtime_mock_multiagent_env_bridge_live_preflight_and_live_gate_contract",
+        }:
+            blockers.append(
+                {
+                    "blocker": "credentialed_live_api_command_not_verified",
+                    "reason": "Validation covers DeepSeek service-equivalent command identity fields, file input, payload input, Python runtime mocks, multiagent mocks, live preflight, and the offline live-gate skip contract, but no credentialed live API command run has been verified before replacing the JS service module.",
                     "preflightCommand": "npm run python:deepseek-live-preflight",
                     "liveVerificationCommand": "npm run python:deepseek-live-gate",
                     "manualVerificationRequired": True,

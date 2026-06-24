@@ -2320,7 +2320,17 @@ class CorpusContractTests(unittest.TestCase):
             },
             result["manualVerificationActions"],
         )
-        self.assertEqual(result["pythonContractGapCount"], 2)
+        self.assertIn(
+            {
+                "path": "server/services/deepseekKeywordTrainer.js",
+                "nodeScript": "server/services/deepseekKeywordTrainer.js",
+                "blocker": "credentialed_live_api_command_not_verified",
+                "preflightCommand": "npm run python:deepseek-live-preflight",
+                "liveVerificationCommand": "npm run python:deepseek-live-gate",
+            },
+            result["manualVerificationActions"],
+        )
+        self.assertEqual(result["pythonContractGapCount"], 1)
         self.assertNotIn(
             "server/services/tiebaScraper.js",
             {item["path"] for item in result["pythonContractGaps"]},
@@ -2379,6 +2389,10 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertNotIn(
             "server/services/videoKeywordSearch.js",
+            {item["path"] for item in result["pythonContractGaps"]},
+        )
+        self.assertNotIn(
+            "server/services/deepseekKeywordTrainer.js",
             {item["path"] for item in result["pythonContractGaps"]},
         )
         self.assertIn(
