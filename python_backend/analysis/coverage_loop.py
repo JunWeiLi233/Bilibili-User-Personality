@@ -24,6 +24,13 @@ from python_backend.analysis.coverage_harvest_loop_command import (
     CoverageHarvestLoopCommandRunner,
     CoverageHarvestLoopRequest,
 )
+from python_backend.analysis.coverage_harvest_loop_runtime import (
+    CoverageHarvestLoopExhaustedPruner,
+    CoverageHarvestLoopExternalHarvestAdapter,
+    CoverageHarvestLoopExternalHarvestRequestBuilder,
+    CoverageHarvestLoopMockHarvestRunner,
+    CoverageHarvestLoopRuntimeGate,
+)
 from python_backend.analysis.coverage_progress import CoverageProgressTracker
 from python_backend.analysis.harvest_options import CoverageRuntimeOptionsBuilder
 

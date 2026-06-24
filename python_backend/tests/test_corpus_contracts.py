@@ -38773,6 +38773,51 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(issubclass(CoverageHarvestLoopCommandRequest, object))
         self.assertTrue(issubclass(CoverageHarvestLoopRequest, object))
 
+    def test_coverage_cli_options_matches_js_build_coverage_runtime_options(self):
+        from python_backend.analysis.coverage_cli_options import build_coverage_runtime_options
+
+        # JS: buildCoverageRuntimeOptions honors strict comment CLI flags
+        result = build_coverage_runtime_options(
+            argv=["--strict-comment-backed", "--target-evidence", "2", "--max-actions", "7"],
+            env={},
+        )
+        self.assertEqual(result["requireCommentBackedEvidence"], True)
+        self.assertEqual(result["requireSourceBackedEvidence"], True)
+        self.assertEqual(result["prioritizeSourceGaps"], True)
+        self.assertEqual(result["targetEvidence"], 2)
+        self.assertEqual(result["maxActions"], 7)
+
+        # JS: lets CLI flags override environment values
+        result = build_coverage_runtime_options(
+            argv=["--target-evidence=2", "--max-actions=5", "--min-ratio=0.75"],
+            env={
+                "BILIBILI_HARVEST_TARGET_EVIDENCE": "3",
+                "BILIBILI_COVERAGE_AUDIT_MAX_ACTIONS": "12",
+                "BILIBILI_COVERAGE_AUDIT_MIN_RATIO": "1",
+            },
+        )
+        self.assertEqual(result["targetEvidence"], 2)
+        self.assertEqual(result["maxActions"], 5)
+        self.assertEqual(result["minCoverageRatio"], 0.75)
+
+        # JS: broadens strict comment coverage after one comment miss by default
+        result = build_coverage_runtime_options(argv=["--strict-comment-backed"], env={})
+        self.assertEqual(result["retryBeforeUnattemptedLimit"], 1)
+
+        # JS: lets retry CLI flag override strict comment default
+        result = build_coverage_runtime_options(
+            argv=["--strict-comment-backed", "--retry-before-unattempted", "4"], env={}
+        )
+        self.assertEqual(result["retryBeforeUnattemptedLimit"], 4)
+
+        # JS: defaults
+        result = build_coverage_runtime_options(argv=[], env={})
+        self.assertEqual(result["targetEvidence"], 3)
+        self.assertEqual(result["maxActions"], 20)
+        self.assertEqual(result["requireComplete"], True)
+        self.assertEqual(result["requireCommentBackedEvidence"], False)
+        self.assertEqual(result["strict"], False)
+
 
 if __name__ == "__main__":
     unittest.main()
