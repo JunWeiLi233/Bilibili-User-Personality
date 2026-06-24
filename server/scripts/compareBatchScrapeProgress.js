@@ -187,6 +187,38 @@ async function runPythonProgress({ dataDir, progressFile, databaseFile, mode, st
   return JSON.parse(stdout);
 }
 
+async function runPythonProgressComparison({ dataDir, progressFile, databaseFile, mode, startUid, endUid, pages, jsReportPath }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    [
+      '-m',
+      'python_backend.cli.batch_scrape_progress',
+      '--data-dir',
+      dataDir,
+      '--progress-file',
+      progressFile,
+      '--database-file',
+      databaseFile,
+      '--mode',
+      mode,
+      '--start-uid',
+      String(startUid),
+      '--end-uid',
+      String(endUid),
+      '--pages',
+      String(pages),
+      '--compare-js-report',
+      jsReportPath,
+    ],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return JSON.parse(stdout);
+}
+
 async function writeFixture(dataDir, payload) {
   await mkdir(dataDir, { recursive: true });
   await writeFile(
@@ -207,7 +239,13 @@ function resolvePayload({ payload, fixture } = {}) {
   return { name, payload: BATCH_SCRAPE_PROGRESS_FIXTURES[name] || DEFAULT_PAYLOAD };
 }
 
-async function compareBatchScrapeProgressSingle({ payload, fixture, runJs = runJsProgress, runPython = runPythonProgress } = {}) {
+async function compareBatchScrapeProgressSingle({
+  payload,
+  fixture,
+  runJs = runJsProgress,
+  runPython = runPythonProgress,
+  runCompare = runPythonProgressComparison,
+} = {}) {
   const resolved = resolvePayload({ payload, fixture });
   const tempDir = await mkdtemp(join(tmpdir(), 'batch-scrape-progress-compare-'));
   try {
@@ -223,10 +261,12 @@ async function compareBatchScrapeProgressSingle({ payload, fixture, runJs = runJ
     const context = { payload: fixturePayload, fixture: { name: resolved.name }, dataDir, progressFile, databaseFile, mode, startUid, endUid, pages };
     const js = await runJs(context);
     const python = await runPython(context);
-    const comparison = compareBatchScrapeProgressObjects(python, js);
+    const jsReportPath = join(tempDir, 'js-report.json');
+    await writeFile(jsReportPath, JSON.stringify(js || {}, null, 2), 'utf8');
+    const comparison = await runCompare({ ...context, jsReportPath, js, python, jsReport: js, pythonReport: python });
     return {
       ok: comparison.ok,
-      fixture: { name: resolved.name, dataDir, progressFile, databaseFile, mode, startUid, endUid, pages },
+      fixture: { name: resolved.name, dataDir, progressFile, databaseFile, mode, startUid, endUid, pages, jsReportPath },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -236,16 +276,23 @@ async function compareBatchScrapeProgressSingle({ payload, fixture, runJs = runJ
   }
 }
 
-export async function compareBatchScrapeProgress({ payload, fixture, fixtureNames, runJs = runJsProgress, runPython = runPythonProgress } = {}) {
+export async function compareBatchScrapeProgress({
+  payload,
+  fixture,
+  fixtureNames,
+  runJs = runJsProgress,
+  runPython = runPythonProgress,
+  runCompare = runPythonProgressComparison,
+} = {}) {
   if (fixtureNames) {
     const results = [];
     for (const name of fixtureNames.length ? fixtureNames : DEFAULT_FIXTURE_NAMES) {
-      results.push(await compareBatchScrapeProgressSingle({ fixture: name, runJs, runPython }));
+      results.push(await compareBatchScrapeProgressSingle({ fixture: name, runJs, runPython, runCompare }));
     }
     const mismatches = results.flatMap((result) => result.mismatches.map((mismatch) => ({ ...mismatch, fixture: result.fixture.name })));
     return { ok: mismatches.length === 0, fixtures: results.map((result) => result.fixture), results, mismatches };
   }
-  return compareBatchScrapeProgressSingle({ payload, fixture, runJs, runPython });
+  return compareBatchScrapeProgressSingle({ payload, fixture, runJs, runPython, runCompare });
 }
 
 async function main() {

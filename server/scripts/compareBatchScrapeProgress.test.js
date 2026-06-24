@@ -35,6 +35,7 @@ test('compareBatchScrapeProgress compares JS-compatible and Python progress repo
       calls.push({ python: context.startUid, end: context.endUid, mode: context.mode });
       return { ok: true, ...SUMMARY };
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
@@ -43,6 +44,26 @@ test('compareBatchScrapeProgress compares JS-compatible and Python progress repo
     { js: 100, end: 110, mode: 'uid-range' },
     { python: 100, end: 110, mode: 'uid-range' },
   ]);
+});
+
+test('compareBatchScrapeProgress delegates saved JS report comparison to Python contract', async () => {
+  let compareContext;
+  const jsReport = { ok: true, ...SUMMARY };
+  const pythonReport = { ok: true, ...SUMMARY };
+  const result = await compareBatchScrapeProgress({
+    runJs: async () => jsReport,
+    runPython: async () => pythonReport,
+    runCompare: async (context) => {
+      compareContext = context;
+      return { ok: true, mismatches: [], python: SUMMARY, js: SUMMARY };
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.equal(compareContext.jsReportPath.endsWith('js-report.json'), true);
+  assert.deepEqual(compareContext.jsReport, jsReport);
+  assert.deepEqual(compareContext.pythonReport, pythonReport);
 });
 
 test('compareBatchScrapeProgress exports named file-backed fixtures', async () => {
@@ -59,6 +80,7 @@ test('compareBatchScrapeProgress exports named file-backed fixtures', async () =
       calls.push({ python: context.fixture.name, mode: context.mode, progressFile: context.progressFile });
       return { ok: true, ...SUMMARY, mode: context.mode };
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
