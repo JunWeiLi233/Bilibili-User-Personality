@@ -260,6 +260,23 @@ function readStdin() {
   });
 }
 
+export async function prepareAnalysisInput(
+  parsed,
+  {
+    stdinIsTTY = process.stdin.isTTY,
+    readTextFile = readFile,
+    readStandardInput = readStdin,
+  } = {},
+) {
+  const deferFileToPythonRuntime = parsed.usePythonRuntime && !parsed.useJsRuntime && !parsed.fixtureAnalysis;
+  if (parsed.file && !deferFileToPythonRuntime) {
+    parsed.payload.text = await readTextFile(parsed.file, 'utf8');
+  } else if (!parsed.payload.text && !parsed.file && !stdinIsTTY) {
+    parsed.payload.text = await readStandardInput();
+  }
+  return parsed;
+}
+
 function printHelp() {
   console.log(`Usage:
   npm run deepseek:analyze -- --text "comment text" [--multiagent]
@@ -283,7 +300,7 @@ Options:
 async function main() {
   const argv = process.argv.slice(2);
   const parsed = parseArgs();
-  const { payload, file, showHelp, planJson, fixtureAnalysis } = parsed;
+  const { showHelp, planJson, fixtureAnalysis } = parsed;
   if (showHelp) {
     printHelp();
     return;
@@ -294,11 +311,7 @@ async function main() {
     return;
   }
 
-  if (file) {
-    payload.text = await readFile(file, 'utf8');
-  } else if (!payload.text && !process.stdin.isTTY) {
-    payload.text = await readStdin();
-  }
+  await prepareAnalysisInput(parsed);
 
   if (fixtureAnalysis) {
     const result = await runFixtureAnalysisMode(parsed);

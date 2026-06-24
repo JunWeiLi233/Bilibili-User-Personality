@@ -8,6 +8,7 @@ import {
   buildPlan,
   buildPythonRuntimeArgs,
   parseArgs,
+  prepareAnalysisInput,
   readAnalysisFixtureJson,
   runFixtureAnalysisMode,
   runLiveAnalysisMode,
@@ -251,6 +252,41 @@ test('analyzeDeepSeekComments builds Python runtime args with file preferred ove
       'analysis.json',
     ],
   );
+});
+
+test('analyzeDeepSeekComments does not pre-read file input for Python live runtime', async () => {
+  const parsed = parseArgs(['--python-runtime', '--file', 'comments.txt', '--multiagent']);
+  const calls = [];
+
+  const result = await prepareAnalysisInput(parsed, {
+    stdinIsTTY: true,
+    readTextFile: async (path) => {
+      calls.push(path);
+      throw new Error('JS should not read Python-runtime file input');
+    },
+  });
+
+  assert.equal(result, parsed);
+  assert.deepEqual(calls, []);
+  assert.deepEqual(parsed.payload, { multiagent: true });
+  assert.equal(parsed.file, 'comments.txt');
+});
+
+test('analyzeDeepSeekComments keeps JS runtime file reading behavior', async () => {
+  const parsed = parseArgs(['--js-runtime', '--file', 'comments.txt']);
+  const calls = [];
+
+  const result = await prepareAnalysisInput(parsed, {
+    stdinIsTTY: true,
+    readTextFile: async (path, encoding) => {
+      calls.push({ path, encoding });
+      return 'satire [doge]';
+    },
+  });
+
+  assert.equal(result, parsed);
+  assert.deepEqual(calls, [{ path: 'comments.txt', encoding: 'utf8' }]);
+  assert.deepEqual(parsed.payload, { text: 'satire [doge]' });
 });
 
 test('analyzeDeepSeekComments keeps explicit JS live runtime fallback', async () => {
