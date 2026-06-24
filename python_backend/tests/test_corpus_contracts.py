@@ -2615,10 +2615,31 @@ class CorpusContractTests(unittest.TestCase):
         ).to_json_contract()
 
         self.assertFalse(readiness["ok"])
+        self.assertEqual(readiness["blockers"], ["noReplacementBlockers", "allManualVerificationComplete"])
         self.assertEqual(readiness["replacementBlockedActionPaths"], ["server/scripts/a.js"])
         self.assertEqual(readiness["readyToReplaceActionPaths"], ["server/scripts/b.js"])
         self.assertEqual(readiness["manualVerificationBlockerCounts"], {"live_not_verified": 1})
         self.assertEqual(readiness["nextManualVerificationAction"]["liveVerificationCommand"], "npm run live:a")
+
+    def test_backend_replacement_readiness_contract_reports_clear_gate_state(self):
+        readiness = BackendReplacementReadinessContract(
+            migration_actions=[{"path": "server/scripts/ready.js", "readyToReplace": True}],
+            manual_verification_actions=[],
+            python_contract_gaps=[],
+        ).to_json_contract()
+
+        self.assertTrue(readiness["ok"])
+        self.assertEqual(readiness["blockers"], [])
+        self.assertEqual(
+            readiness["gates"],
+            [
+                {"gate": "noPythonContractGaps", "ok": True},
+                {"gate": "noReplacementBlockers", "ok": True},
+                {"gate": "allManualVerificationComplete", "ok": True},
+            ],
+        )
+        self.assertEqual(readiness["readyToReplaceActionPaths"], ["server/scripts/ready.js"])
+        self.assertEqual(readiness["nextManualVerificationAction"], {})
 
     def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
