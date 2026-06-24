@@ -27465,6 +27465,10 @@ class CorpusContractTests(unittest.TestCase):
             package["scripts"]["python:flatten-local-compare"],
             "node server/scripts/compareLocalCorpusFlatten.js",
         )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:flatten-local-compare"],
+            "uid_map_top_level_tieba_runs_user_history_fixtures_and_js_python_bridge",
+        )
         self.assertIn(
             {
                 "script": "python:flatten-local-compare",

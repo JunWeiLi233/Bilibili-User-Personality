@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import { compareLocalCorpusFlatten, compareLocalCorpusFlattenObjects } from './compareLocalCorpusFlatten.js';
+import { LOCAL_CORPUS_FLATTEN_FIXTURES, compareLocalCorpusFlatten, compareLocalCorpusFlattenObjects } from './compareLocalCorpusFlatten.js';
 
 const COMMENTS = [
   {
@@ -38,4 +38,39 @@ test('compareLocalCorpusFlatten compares JS-compatible and Python flattened comm
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.deepEqual(calls, [{ js: true }, { python: true }]);
+});
+
+test('compareLocalCorpusFlatten exports named local corpus shape fixtures', async () => {
+  assert.deepEqual(Object.keys(LOCAL_CORPUS_FLATTEN_FIXTURES), [
+    'uid-comment-map',
+    'top-level-comments',
+    'tieba-run-comments',
+    'user-history-comments',
+  ]);
+
+  const calls = [];
+  const result = await compareLocalCorpusFlatten({
+    fixtureNames: Object.keys(LOCAL_CORPUS_FLATTEN_FIXTURES),
+    runJs: async (context) => {
+      calls.push({ js: context.fixture.name, hasPayloadPath: context.payloadPath.endsWith('local-flatten.json') });
+      return context.fixture.expected;
+    },
+    runPython: async (context) => {
+      calls.push({ python: context.fixture.name, hasPayloadPath: context.payloadPath.endsWith('local-flatten.json') });
+      return context.fixture.expected;
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.deepEqual(calls, [
+    { js: 'uid-comment-map', hasPayloadPath: true },
+    { python: 'uid-comment-map', hasPayloadPath: true },
+    { js: 'top-level-comments', hasPayloadPath: true },
+    { python: 'top-level-comments', hasPayloadPath: true },
+    { js: 'tieba-run-comments', hasPayloadPath: true },
+    { python: 'tieba-run-comments', hasPayloadPath: true },
+    { js: 'user-history-comments', hasPayloadPath: true },
+    { python: 'user-history-comments', hasPayloadPath: true },
+  ]);
 });

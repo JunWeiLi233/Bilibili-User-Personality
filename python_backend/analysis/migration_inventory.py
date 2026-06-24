@@ -66,6 +66,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:harvest-state-compare": "file_backed_default_miss_successful_hit_corrupt_payload_fixtures_and_js_python_bridge",
     "python:file-lock-state-compare": "file_backed_stale_missing_corrupt_owner_fixtures_and_js_python_bridge",
     "python:dictionary-prune-compare": "summary_command_fixture",
+    "python:flatten-local-compare": "uid_map_top_level_tieba_runs_user_history_fixtures_and_js_python_bridge",
     "python:exhausted-prune-compare": "dry_run_plan_fixture",
     "python:near-target-compare": "dry_run_plan_fixture",
     "python:coverage-cli-options-compare": "coverage_runtime_default_env_fallback_strict_source_backed_fixtures_and_js_python_bridge",
