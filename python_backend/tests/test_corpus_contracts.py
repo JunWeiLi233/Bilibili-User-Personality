@@ -1851,7 +1851,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:coverage-loop-command-compare",
                     "validationCommand": "node server/scripts/compareCoverageHarvestLoopCommand.js",
-                    "validationScope": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_discovery_options_advanced_harvest_controls_standalone_discovery_cli_controls_advanced_cli_bridge_controls_source_gap_retry_controls_js_adapter_live_bridge_cli_flag_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract",
+                    "validationScope": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_discovery_options_advanced_harvest_controls_standalone_discovery_cli_controls_advanced_cli_bridge_controls_source_gap_retry_controls_js_adapter_live_bridge_cli_flag_bridge_no_progress_no_queries_crash_report_external_prune_commands_request_builder_deferred_live_contract",
                 },
                 {
                     "script": "dictionary:tieba",
@@ -2061,7 +2061,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["nextOfflineMigrationAction"]["pythonCommand"], "python -m python_backend.cli.coverage_loop_command")
         self.assertEqual(result["nextOfflineMigrationAction"]["validationScript"], "python:coverage-loop-command-compare")
         self.assertEqual(result["nextOfflineMigrationAction"]["validationCommand"], "node server/scripts/compareCoverageHarvestLoopCommand.js")
-        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_discovery_options_advanced_harvest_controls_standalone_discovery_cli_controls_advanced_cli_bridge_controls_source_gap_retry_controls_js_adapter_live_bridge_cli_flag_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_discovery_options_advanced_harvest_controls_standalone_discovery_cli_controls_advanced_cli_bridge_controls_source_gap_retry_controls_js_adapter_live_bridge_cli_flag_bridge_no_progress_no_queries_crash_report_external_prune_commands_request_builder_deferred_live_contract")
         self.assertFalse(result["nextOfflineMigrationAction"]["readyToReplace"])
         self.assertEqual(
             result["nextOfflineMigrationAction"]["replacementBlockers"],
@@ -32432,6 +32432,87 @@ class CorpusContractTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "harvest command executable must be non-empty"):
             coverage_loop_module.CoverageHarvestLoopExternalHarvestAdapter(["  ", "-m", "adapter"])
 
+    def test_coverage_harvest_loop_external_request_builder_preserves_js_adapter_contract(self):
+        from python_backend.analysis import coverage_loop as coverage_loop_module
+
+        builder = coverage_loop_module.CoverageHarvestLoopExternalHarvestRequestBuilder(
+            dictionary_path="server/data/dictionary.json",
+            state_path="server/data/state.json",
+            report_path="server/data/report.json",
+            deepseek={"model": "deepseek-v4-flash", "reasoningEffort": "max"},
+            rounds_per_cycle=2,
+            max_queries=5,
+            target_evidence=4,
+            max_actions=3,
+            min_coverage_ratio=0.75,
+            require_complete=False,
+            require_source_backed_evidence=True,
+            require_comment_backed_evidence=True,
+            prioritize_source_gaps=True,
+            retry_before_unattempted_limit=1,
+            include_danmaku=True,
+            reset_state=True,
+            skip_seen=False,
+            discovery_options={
+                "seedQueries": ["seed"],
+                "controversyQueries": ["controversy"],
+                "discoveryMode": "mixed",
+                "termsPerFamily": 6,
+                "queryVariantsPerTerm": 3,
+                "extraQueryTemplates": ["{term} 弹幕"],
+                "exhaustedSuggestionTemplates": ["{term} 争议"],
+                "discoveryLimit": 7,
+                "discoveryPages": 2,
+                "includeGenericPopular": True,
+                "coverageMode": "all-weak",
+                "expandTargetsFromComments": True,
+            },
+        )
+
+        request = builder.build(
+            cycle=2,
+            audit={"nextActions": [{"term": "doge", "nextQuery": "doge 热评"}]},
+            priority_queries=[{"term": "doge", "query": "doge 热评"}],
+        )
+
+        self.assertEqual(request["cycle"], 2)
+        self.assertEqual(request["dictionaryPath"], str(Path("server/data/dictionary.json")))
+        self.assertEqual(request["statePath"], str(Path("server/data/state.json")))
+        self.assertEqual(request["reportPath"], str(Path("server/data/report.json")))
+        self.assertEqual(request["deepseek"], {"model": "deepseek-v4-flash", "reasoningEffort": "max"})
+        self.assertEqual(request["priorityQueries"], [{"term": "doge", "query": "doge 热评"}])
+        self.assertEqual(request["audit"]["nextActions"][0]["nextQuery"], "doge 热评")
+        self.assertEqual(
+            request["options"],
+            {
+                "rounds": 2,
+                "maxQueries": 5,
+                "targetEvidence": 4,
+                "maxActions": 3,
+                "minCoverageRatio": 0.75,
+                "requireComplete": False,
+                "requireSourceBackedEvidence": True,
+                "requireCommentBackedEvidence": True,
+                "prioritizeSourceGaps": True,
+                "retryBeforeUnattemptedLimit": 1,
+                "includeDanmaku": True,
+                "resetState": False,
+                "skipSeen": False,
+                "seedQueries": ["seed"],
+                "controversyQueries": ["controversy"],
+                "discoveryMode": "mixed",
+                "termsPerFamily": 6,
+                "queryVariantsPerTerm": 3,
+                "extraQueryTemplates": ["{term} 弹幕"],
+                "exhaustedSuggestionTemplates": ["{term} 争议"],
+                "discoveryLimit": 7,
+                "discoveryPages": 2,
+                "includeGenericPopular": True,
+                "coverageMode": "all-weak",
+                "expandTargetsFromComments": True,
+            },
+        )
+
     def test_coverage_harvest_loop_external_harvest_prunes_exhausted_terms(self):
         from python_backend.analysis import coverage_loop as coverage_loop_module
 
@@ -32517,7 +32598,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("npm run python:coverage-loop-command-compare", workflow)
         self.assertEqual(
             DEFAULT_PACKAGE_VALIDATION_SCOPES["python:coverage-loop-command-compare"],
-            "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_discovery_options_advanced_harvest_controls_standalone_discovery_cli_controls_advanced_cli_bridge_controls_source_gap_retry_controls_js_adapter_live_bridge_cli_flag_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract",
+            "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_discovery_options_advanced_harvest_controls_standalone_discovery_cli_controls_advanced_cli_bridge_controls_source_gap_retry_controls_js_adapter_live_bridge_cli_flag_bridge_no_progress_no_queries_crash_report_external_prune_commands_request_builder_deferred_live_contract",
         )
 
     def test_coverage_harvest_loop_runner_reads_json_contracts_and_expands_priority_queries(self):

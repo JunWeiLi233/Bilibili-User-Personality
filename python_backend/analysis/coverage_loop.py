@@ -511,6 +511,73 @@ class CoverageHarvestLoopExternalHarvestAdapter:
         return output
 
 
+class CoverageHarvestLoopExternalHarvestRequestBuilder:
+    """Build the JSON request passed from Python loop orchestration to harvest adapters."""
+
+    def __init__(
+        self,
+        *,
+        dictionary_path: str | Path,
+        state_path: str | Path,
+        report_path: str | Path,
+        deepseek: dict[str, Any] | None = None,
+        rounds_per_cycle: int = 1,
+        max_queries: int = 12,
+        target_evidence: int = 3,
+        max_actions: int = 12,
+        min_coverage_ratio: float = 1,
+        require_complete: bool = True,
+        require_source_backed_evidence: bool = False,
+        require_comment_backed_evidence: bool = False,
+        prioritize_source_gaps: bool = False,
+        retry_before_unattempted_limit: int = 3,
+        include_danmaku: bool = False,
+        reset_state: bool = False,
+        skip_seen: bool = True,
+        discovery_options: dict[str, Any] | None = None,
+    ):
+        self.dictionary_path = Path(dictionary_path)
+        self.state_path = Path(state_path)
+        self.report_path = Path(report_path)
+        self.deepseek = deepseek if isinstance(deepseek, dict) else {}
+        self.options = {
+            "rounds": rounds_per_cycle,
+            "maxQueries": max_queries,
+            "targetEvidence": target_evidence,
+            "maxActions": max_actions,
+            "minCoverageRatio": min_coverage_ratio,
+            "requireComplete": bool(require_complete),
+            "requireSourceBackedEvidence": bool(require_source_backed_evidence),
+            "requireCommentBackedEvidence": bool(require_comment_backed_evidence),
+            "prioritizeSourceGaps": bool(prioritize_source_gaps),
+            "retryBeforeUnattemptedLimit": retry_before_unattempted_limit,
+            "includeDanmaku": bool(include_danmaku),
+            "resetState": bool(reset_state),
+            "skipSeen": bool(skip_seen),
+            **(discovery_options if isinstance(discovery_options, dict) else {}),
+        }
+
+    def build(
+        self,
+        *,
+        cycle: int,
+        audit: dict[str, Any] | None,
+        priority_queries: list[dict[str, Any]] | None,
+    ) -> dict[str, Any]:
+        options = dict(self.options)
+        options["resetState"] = bool(options.get("resetState")) and _positive_int(cycle, 1) == 1
+        return {
+            "cycle": _positive_int(cycle, 1),
+            "dictionaryPath": str(self.dictionary_path),
+            "statePath": str(self.state_path),
+            "reportPath": str(self.report_path),
+            "deepseek": dict(self.deepseek),
+            "priorityQueries": priority_queries if isinstance(priority_queries, list) else [],
+            "audit": audit if isinstance(audit, dict) else {},
+            "options": options,
+        }
+
+
 class CoverageHarvestLoopMockHarvestRunner:
     """Run a file-backed coverage loop cycle using a JSON harvest payload."""
 
@@ -855,6 +922,26 @@ class CoverageHarvestLoopCommandRunner:
             rounds_per_cycle=self.rounds_per_cycle,
         )
         planner = CoverageHarvestLoopPlanner()
+        request_builder = CoverageHarvestLoopExternalHarvestRequestBuilder(
+            dictionary_path=self.dictionary_path,
+            state_path=self.state_path,
+            report_path=self.report_path,
+            deepseek=self.deepseek,
+            rounds_per_cycle=self.rounds_per_cycle,
+            max_queries=self.max_queries,
+            target_evidence=self.target_evidence,
+            max_actions=self.max_actions,
+            min_coverage_ratio=self.min_coverage_ratio,
+            require_complete=self.require_complete,
+            require_source_backed_evidence=self.require_source_backed_evidence,
+            require_comment_backed_evidence=self.require_comment_backed_evidence,
+            prioritize_source_gaps=self.prioritize_source_gaps,
+            retry_before_unattempted_limit=self.retry_before_unattempted_limit,
+            include_danmaku=self.include_danmaku,
+            reset_state=self.reset_state,
+            skip_seen=self.skip_seen,
+            discovery_options=self.discovery_options,
+        )
 
         for cycle in range(1, self.max_cycles + 1):
             priority_queries = planner.priority_query_items_from_audit(current_audit, self.max_actions)
@@ -863,31 +950,7 @@ class CoverageHarvestLoopCommandRunner:
                 break
             try:
                 response = self.harvest_adapter.run(
-                    {
-                        "cycle": cycle,
-                        "dictionaryPath": str(self.dictionary_path),
-                        "statePath": str(self.state_path),
-                        "reportPath": str(self.report_path),
-                        "deepseek": self.deepseek,
-                        "priorityQueries": priority_queries,
-                        "audit": current_audit,
-                        "options": {
-                            "rounds": self.rounds_per_cycle,
-                            "maxQueries": self.max_queries,
-                            "targetEvidence": self.target_evidence,
-                            "maxActions": self.max_actions,
-                            "minCoverageRatio": self.min_coverage_ratio,
-                            "requireComplete": self.require_complete,
-                            "requireSourceBackedEvidence": self.require_source_backed_evidence,
-                            "requireCommentBackedEvidence": self.require_comment_backed_evidence,
-                            "prioritizeSourceGaps": self.prioritize_source_gaps,
-                            "retryBeforeUnattemptedLimit": self.retry_before_unattempted_limit,
-                            "includeDanmaku": self.include_danmaku,
-                            "resetState": self.reset_state and cycle == 1,
-                            "skipSeen": self.skip_seen,
-                            **self.discovery_options,
-                        },
-                    }
+                    request_builder.build(cycle=cycle, audit=current_audit, priority_queries=priority_queries)
                 )
             except Exception as error:
                 stop_reason = f"cycle_{cycle}_crashed"
