@@ -38744,6 +38744,16 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(comparison["ok"])
         self.assertEqual(comparison["mismatches"], [])
 
+    def test_coverage_evidence_profile_module_exports_evidence_normalization(self):
+        from python_backend.analysis.coverage_evidence_profile import CoverageEvidenceProfile
+
+        entry = {"term": "test", "family": "attack", "evidenceCount": 5}
+        profile = CoverageEvidenceProfile(entry)
+
+        self.assertEqual(profile.evidence_count(), 5)
+        self.assertEqual(profile.coverage_evidence_count(), 5)
+        self.assertFalse(profile.has_coverage_evidence_source())
+
 
 if __name__ == "__main__":
     unittest.main()
