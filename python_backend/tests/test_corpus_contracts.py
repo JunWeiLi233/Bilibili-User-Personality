@@ -5374,6 +5374,8 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("STANDALONE full-sentence psychologist/speech-act analyzer", user_prompt)
         self.assertIn("Keyword hints are optional, non-binding context only", user_prompt)
         self.assertIn("Do not assign radar/personality scores from keyword hits alone", user_prompt)
+        self.assertIn("Axes:", user_prompt)
+        self.assertIn("Return this exact JSON shape:", user_prompt)
         self.assertIn(sentence, user_prompt)
         self.assertIn("\u653b\u51fb\u6027\u8bcd\u9762", user_prompt)
         self.assertEqual(user_prompt.count(sentence), 1)

@@ -214,9 +214,31 @@ class DeepSeekAnalyzerClient:
                     "- Emoji, Bilibili bracket emotes, ASCII emoticons, and repeated punctuation are part of sentence tone, not decoration and not standalone proof of hostility.\n"
                     "- If a hostile-looking word is a meme, quote, copypasta, title, self-reference, or playful marker, keep risk neutral/low unless the full sentence attacks a concrete target.\n"
                     "- If evidence is insufficient for an axis, use a neutral 40-60 score and say evidence is insufficient.\n\n"
+                    "Axes:\n"
+                    "1. 瀵规姉鎬у姩鏈? movement from discussing claims toward attacking person, identity, faction, motive, or status.\n"
+                    "2. 璁ょ煡闂悎: absolutist claims, all-or-nothing framing, refusal of nuance.\n"
+                    "3. 璇佹嵁鏁忔劅: use/request of verifiable sources, data, evidence, or burden-of-proof handling.\n"
+                    "4. 閫昏緫涓€鑷? causal consistency, avoiding strawman, category errors, overgeneralization, or self-contradiction.\n"
+                    "5. 鍚堜綔璁ㄨ: clarification, qualification, restating the other view, willingness to discuss.\n"
+                    "6. 淇鎰忔効: admission, correction, softening, updating claims, accepting correction.\n\n"
                     "Input JSON:\n"
                     f"{json.dumps(input_payload, ensure_ascii=False, indent=2)}\n\n"
-                    "Return JSON with axes, sentenceAnalyses, overall, and confidence. "
+                    "Return this exact JSON shape:\n"
+                    "{\n"
+                    '  "axes": [\n'
+                    '    {"axis": "瀵规姉鎬у姩鏈?, "score": 0, "evidence": ["鍘熸枃 quote"], "reasoning": "sentence-level reason"},\n'
+                    '    {"axis": "璁ょ煡闂悎", "score": 0, "evidence": ["鍘熸枃 quote"], "reasoning": "sentence-level reason"},\n'
+                    '    {"axis": "璇佹嵁鏁忔劅", "score": 0, "evidence": ["鍘熸枃 quote"], "reasoning": "sentence-level reason"},\n'
+                    '    {"axis": "閫昏緫涓€鑷?, "score": 0, "evidence": ["鍘熸枃 quote"], "reasoning": "sentence-level reason"},\n'
+                    '    {"axis": "鍚堜綔璁ㄨ", "score": 0, "evidence": ["鍘熸枃 quote"], "reasoning": "sentence-level reason"},\n'
+                    '    {"axis": "淇鎰忔効", "score": 0, "evidence": ["鍘熸枃 quote"], "reasoning": "sentence-level reason"}\n'
+                    "  ],\n"
+                    '  "sentenceAnalyses": [\n'
+                    '    {"quote": "瀹屾暣鍘熷彞", "speechAct": "璇濊琛屼负", "target": "瀵硅薄/鍛介", "stance": "绔嬪満璇皵", "contextRole": "涓婁笅鏂囦綔鐢?, "risk": "high|medium|low|positive|neutral", "axisImpacts": [{"axis": "瀵规姉鎬у姩鏈簗璁ょ煡闂悎|璇佹嵁鏁忔劅|閫昏緫涓€鑷磡鍚堜綔璁ㄨ|淇鎰忔効", "direction": "risk|positive", "strength": 0.0, "reasoning": "full sentence reason"}], "reasoning": "why keyword-only judgment would be wrong"}\n'
+                    "  ],\n"
+                    '  "overall": {"riskBand": "楂橀闄╁鎶楀瀷|娣峰悎浜夎京鍨媩浣庨闄╄璁哄瀷", "summary": "summary"},\n'
+                    '  "confidence": 0.0\n'
+                    "}\n"
                     "sentenceAnalyses.quote and axis evidence must be exact original quotes."
                 ),
             },
