@@ -1042,7 +1042,7 @@ class CoverageHarvestLoopCommandRunner:
         )
 
         for cycle in range(1, self.max_cycles + 1):
-            priority_queries = planner.priority_query_items_from_audit(current_audit, self.max_actions)
+            priority_queries = planner.priority_query_items_from_audit(current_audit, self.max_queries)
             if not priority_queries:
                 stop_reason = "no_recommended_queries"
                 break
