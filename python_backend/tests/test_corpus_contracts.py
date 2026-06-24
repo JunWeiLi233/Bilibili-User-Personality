@@ -3500,6 +3500,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(report["keywordHits"], 2)
         self.assertEqual(report["neutral"], 1)
         self.assertEqual(report["uncovered"], 0)
+        self.assertEqual(
+            report["selectionSummary"],
+            {
+                "requestedSampleSize": 3,
+                "eligibleComments": 3,
+                "selectedComments": 3,
+                "seed": 1,
+            },
+        )
 
     def test_random_verification_corpus_report_builder_owns_corpus_dictionary_contract(self):
         corpus = verification_module.RandomVerificationCorpus(

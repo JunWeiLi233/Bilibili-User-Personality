@@ -76,6 +76,7 @@ class RandomVerificationReportContract:
     corpus: dict[str, Any]
     dictionary_terms: int
     options: RandomVerificationRunOptions
+    selection_summary: dict[str, int] | None = None
 
     def build(self, summary: VerificationSummary) -> dict[str, Any]:
         return {
@@ -83,6 +84,7 @@ class RandomVerificationReportContract:
             "corpus": self.corpus if isinstance(self.corpus, dict) else {},
             "dictionaryTerms": self.dictionary_terms,
             **self.options.as_report_fields(),
+            "selectionSummary": self.selection_summary if isinstance(self.selection_summary, dict) else {},
             "sampled": summary.sampled,
             "keywordHits": summary.keyword_hits,
             "neutral": summary.neutral,
@@ -752,6 +754,11 @@ class RandomVerificationReportBuilder:
         self.options = RandomVerificationRunOptions.from_values(sample_size=sample_size, seed=seed)
 
     def build(self) -> dict[str, Any]:
+        sample_contract = RandomVerificationSampleContract(
+            self.comments,
+            sample_size=self.options.sample_size,
+            seed=self.options.seed,
+        )
         summary = RandomVerificationExecutionContract(
             comments=self.comments,
             annotation_contract=self.annotation_contract,
@@ -762,6 +769,7 @@ class RandomVerificationReportBuilder:
             corpus=self.corpus,
             dictionary_terms=len(self.keyword_terms),
             options=self.options,
+            selection_summary=sample_contract.selection_summary(),
         ).build(summary)
 
 
