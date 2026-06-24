@@ -2,6 +2,7 @@ import contextlib
 import io
 import importlib
 import json
+import os
 import sys
 import tempfile
 import unittest
@@ -1802,7 +1803,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:coverage-loop-command-compare",
                     "validationCommand": "node server/scripts/compareCoverageHarvestLoopCommand.js",
-                    "validationScope": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_js_adapter_live_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract",
+                    "validationScope": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_js_adapter_live_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract",
                 },
                 {
                     "script": "dictionary:tieba",
@@ -2010,7 +2011,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["nextOfflineMigrationAction"]["pythonCommand"], "python -m python_backend.cli.coverage_loop_command")
         self.assertEqual(result["nextOfflineMigrationAction"]["validationScript"], "python:coverage-loop-command-compare")
         self.assertEqual(result["nextOfflineMigrationAction"]["validationCommand"], "node server/scripts/compareCoverageHarvestLoopCommand.js")
-        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_js_adapter_live_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_js_adapter_live_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract")
         self.assertFalse(result["nextOfflineMigrationAction"]["readyToReplace"])
         self.assertEqual(
             result["nextOfflineMigrationAction"]["replacementBlockers"],
@@ -2051,6 +2052,10 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertIn(
             {"gate": "external_harvest_runtime_options_fixture", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
+            result["nextOfflineMigrationAction"]["validationGates"],
+        )
+        self.assertIn(
+            {"gate": "external_harvest_deepseek_runtime_selection", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
             result["nextOfflineMigrationAction"]["validationGates"],
         )
         self.assertIn(
@@ -31107,37 +31112,51 @@ class CorpusContractTests(unittest.TestCase):
                 encoding="utf-8",
             )
 
-            result = coverage_loop_module.CoverageHarvestLoopCommandRequest(
-                [
-                    "--dictionary",
-                    dictionary_path,
-                    "--state",
-                    state_path,
-                    "--report",
-                    report_path,
-                    "--max-cycles",
-                    "1",
-                    "--rounds-per-cycle",
-                    "2",
-                    "--target-evidence",
-                    "4",
-                    "--max-actions",
-                    "5",
-                    "--min-coverage-ratio",
-                    "0.75",
-                    "--include-danmaku",
-                    "--reset-state",
-                    "--no-skip-seen",
-                    "--allow-incomplete",
-                    "--require-source-backed-evidence",
-                    "--require-comment-backed-evidence",
-                    "--generated-at",
-                    "2026-06-23T00:00:00.000Z",
-                    "--harvest-command-json",
-                    json.dumps([sys.executable, str(harvest_script), "{payload}", str(seen_path)]),
-                    "--exit-zero",
-                ]
-            ).run()
+            old_model = os.environ.get("BILIBILI_HARVEST_MODEL")
+            old_effort = os.environ.get("BILIBILI_HARVEST_REASONING_EFFORT")
+            os.environ["BILIBILI_HARVEST_MODEL"] = "deepseek-v4-pro"
+            os.environ["BILIBILI_HARVEST_REASONING_EFFORT"] = "high"
+            try:
+                result = coverage_loop_module.CoverageHarvestLoopCommandRequest(
+                    [
+                        "--dictionary",
+                        dictionary_path,
+                        "--state",
+                        state_path,
+                        "--report",
+                        report_path,
+                        "--max-cycles",
+                        "1",
+                        "--rounds-per-cycle",
+                        "2",
+                        "--target-evidence",
+                        "4",
+                        "--max-actions",
+                        "5",
+                        "--min-coverage-ratio",
+                        "0.75",
+                        "--include-danmaku",
+                        "--reset-state",
+                        "--no-skip-seen",
+                        "--allow-incomplete",
+                        "--require-source-backed-evidence",
+                        "--require-comment-backed-evidence",
+                        "--generated-at",
+                        "2026-06-23T00:00:00.000Z",
+                        "--harvest-command-json",
+                        json.dumps([sys.executable, str(harvest_script), "{payload}", str(seen_path)]),
+                        "--exit-zero",
+                    ]
+                ).run()
+            finally:
+                if old_model is None:
+                    os.environ.pop("BILIBILI_HARVEST_MODEL", None)
+                else:
+                    os.environ["BILIBILI_HARVEST_MODEL"] = old_model
+                if old_effort is None:
+                    os.environ.pop("BILIBILI_HARVEST_REASONING_EFFORT", None)
+                else:
+                    os.environ["BILIBILI_HARVEST_REASONING_EFFORT"] = old_effort
 
             seen_request = json.loads(seen_path.read_text(encoding="utf-8"))
             report_file = json.loads(report_path.read_text(encoding="utf-8"))
@@ -31150,6 +31169,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["cycles"][0]["harvest"]["queries"], ["doge 评论区 热评"])
         self.assertEqual(result["cycles"][0]["coverageDelta"]["totalEvidenceGained"], 4)
         self.assertEqual(seen_request["cycle"], 1)
+        self.assertEqual(seen_request["deepseek"], {"model": "deepseek-v4-pro", "reasoningEffort": "high"})
         self.assertEqual(seen_request["priorityQueries"][0]["term"], "doge")
         self.assertEqual(
             seen_request["options"],
@@ -31630,7 +31650,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("npm run python:coverage-loop-command-compare", workflow)
         self.assertEqual(
             DEFAULT_PACKAGE_VALIDATION_SCOPES["python:coverage-loop-command-compare"],
-            "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_js_adapter_live_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract",
+            "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_js_adapter_live_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract",
         )
 
     def test_coverage_harvest_loop_runner_reads_json_contracts_and_expands_priority_queries(self):

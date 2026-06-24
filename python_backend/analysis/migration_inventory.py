@@ -72,7 +72,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:near-target-compare": "dry_run_plan_fixture",
     "python:coverage-cli-options-compare": "coverage_runtime_default_env_fallback_strict_source_backed_fixtures_and_js_python_bridge",
     "python:coverage-loop-compare": "dry_run_plan_no_live_mock_cycle_no_progress_multi_cycle_mock_write_file_backed_mock_harvest_js_python_command_and_deferred_live_contract",
-    "python:coverage-loop-command-compare": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_js_adapter_live_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract",
+    "python:coverage-loop-command-compare": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_js_adapter_live_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract",
     "python:coverage-progress-compare": "payload_default_action_progress_corrupt_payload_fixtures_and_js_python_bridge",
     "python:harvest-options-compare": "video_keyword_default_priority_query_content_expanded_template_fixtures_and_js_python_bridge",
     "python:discovery-report-compare": "report_fixture_rich_discovery_fixture_and_js_python_bridge",
@@ -732,6 +732,7 @@ class BackendMigrationInventoryScanner:
             "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_js_adapter_live_bridge_no_progress_no_queries_commands_deferred_live_contract",
             "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_js_adapter_live_bridge_no_progress_no_queries_crash_report_commands_deferred_live_contract",
             "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_js_adapter_live_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract",
+            "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_options_deepseek_runtime_js_adapter_live_bridge_no_progress_no_queries_crash_report_external_prune_commands_deferred_live_contract",
         }:
             blockers.append(
                 {
@@ -797,6 +798,7 @@ class BackendMigrationInventoryScanner:
                 {"gate": "file_backed_mock_harvest_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
                 {"gate": "external_harvest_command_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
                 {"gate": "external_harvest_runtime_options_fixture", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
+                {"gate": "external_harvest_deepseek_runtime_selection", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
                 {"gate": "js_harvest_adapter_command_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
                 {"gate": "js_opt_in_python_command_bridge", "status": "covered", "source": "runCoverageHarvestLoopScript.test.js"},
                 {"gate": "js_python_live_adapter_bridge_env_controls", "status": "covered", "source": "runCoverageHarvestLoopScript.test.js"},

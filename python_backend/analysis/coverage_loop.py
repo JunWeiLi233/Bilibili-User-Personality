@@ -665,6 +665,10 @@ class CoverageHarvestLoopCommandRunner:
         self.prune_exhausted_after = max(0, _non_negative_int(prune_exhausted_after, 0, 100000))
         self.prune_include_partial = bool(prune_include_partial)
         self.generated_at = generated_at or self._now()
+        self.deepseek = {
+            "model": os.environ.get("BILIBILI_HARVEST_MODEL") or "deepseek-v4-flash",
+            "reasoningEffort": os.environ.get("BILIBILI_HARVEST_REASONING_EFFORT") or "max",
+        }
         self.runtime_gate = CoverageHarvestLoopRuntimeGate()
         self.harvest_adapter = CoverageHarvestLoopExternalHarvestAdapter(harvest_command_json) if harvest_command_json else None
         self.audit_builder = CoverageAuditBuilder(
@@ -719,6 +723,7 @@ class CoverageHarvestLoopCommandRunner:
                         "dictionaryPath": str(self.dictionary_path),
                         "statePath": str(self.state_path),
                         "reportPath": str(self.report_path),
+                        "deepseek": self.deepseek,
                         "priorityQueries": priority_queries,
                         "audit": current_audit,
                         "options": {
