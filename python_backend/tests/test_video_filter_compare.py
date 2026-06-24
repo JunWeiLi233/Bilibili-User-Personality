@@ -18,6 +18,7 @@ from python_backend.analysis.video_comment_filter import (
     build_video_context_text,
     comment_matches_needle_set,
     filter_comments_by_dictionary_needles,
+    filter_relevant_videos,
     relevance_score_for_video,
     search_needles_for_relevance,
     sort_videos_by_relevance,
@@ -177,6 +178,15 @@ class VideoFilterComparisonTests(unittest.TestCase):
         self.assertEqual(py["scannedVideos"], js["scannedVideos"])
         self.assertEqual(py["commentsCollected"], js["commentsCollected"])
         self.assertEqual(py["evidenceRejected"], js["evidenceRejected"])
+
+    def test_filter_relevant_videos_matches_js(self):
+        v1 = {"title": "hello world", "desc": ""}
+        v2 = {"title": "nothing", "desc": ""}
+        py = filter_relevant_videos([v1, v2], ["hello"], ["hello"])
+        js = _js_result("filterRelevantVideos", [v1, v2], ["hello"], ["hello"])
+        self.assertEqual(len(py), len(js))
+        if py:
+            self.assertEqual(py[0]["title"], js[0]["title"])
 
 
 if __name__ == "__main__":

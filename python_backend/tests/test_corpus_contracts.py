@@ -38968,6 +38968,19 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["evidenceRejected"], 2)
         self.assertEqual(len(result["sampleVideos"]), 1)
 
+    def test_video_comment_filter_relevant_videos_matches_js_contract(self):
+        from python_backend.analysis.video_comment_filter import filter_relevant_videos
+
+        v1 = {"title": "hello world", "desc": ""}
+        v2 = {"title": "nothing", "desc": ""}
+        result = filter_relevant_videos([v1, v2], ["hello"], ["hello"])
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0]["title"], "hello world")
+
+        # Empty needles -> all pass through
+        result = filter_relevant_videos([v1, v2], [], [])
+        self.assertEqual(len(result), 2)
+
 
 if __name__ == "__main__":
     unittest.main()
