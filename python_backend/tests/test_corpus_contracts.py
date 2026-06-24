@@ -2111,6 +2111,16 @@ class CorpusContractTests(unittest.TestCase):
             result["manualVerificationActions"],
         )
         self.assertIn(
+            {
+                "path": "server/scripts/runTiebaKeywordScrape.js",
+                "nodeScript": "dictionary:tieba",
+                "blocker": "tieba_live_runtime_not_verified",
+                "preflightCommand": "npm run python:tieba-keyword-compare",
+                "liveVerificationCommand": "npm run dictionary:tieba",
+            },
+            result["manualVerificationActions"],
+        )
+        self.assertIn(
             {"gate": "no_live_command_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
             result["nextOfflineMigrationAction"]["validationGates"],
         )

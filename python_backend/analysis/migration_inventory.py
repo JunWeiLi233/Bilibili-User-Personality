@@ -412,8 +412,7 @@ class BackendMigrationInventoryScanner:
             offline_reason="skips_live_api_runtime",
         )
         manual_verification_actions = self._manual_verification_actions(
-            next_migration_action,
-            next_offline_migration_action,
+            *self._migration_actions(migration_priority_files, package_scripts)
         )
         return {
             "ok": True,
@@ -478,6 +477,44 @@ class BackendMigrationInventoryScanner:
                 seen.add(key)
                 manual_actions.append(manual_action)
         return manual_actions
+
+    @staticmethod
+    def _migration_actions(priority_files: list[dict[str, Any]], package_scripts: dict[str, Any]) -> list[dict[str, Any]]:
+        actions: list[dict[str, Any]] = []
+        for priority_file in priority_files:
+            first = dict(priority_file)
+            for mapping in package_scripts.get("pythonBackedNodeScripts", []):
+                if not isinstance(mapping, dict):
+                    continue
+                command = str(mapping.get("command") or "")
+                if first["path"] not in command:
+                    continue
+                validation_script = str(mapping.get("validationScript") or "")
+                validation_command = str(mapping.get("validationCommand") or "")
+                validation_scope = str(mapping.get("validationScope") or "")
+                ready_to_replace = bool(validation_script and validation_command and validation_scope == "full_command")
+                replacement_blockers = BackendMigrationInventoryScanner._replacement_blockers(
+                    script=str(mapping.get("script") or ""),
+                    validation_scope=validation_scope,
+                    ready_to_replace=ready_to_replace,
+                )
+                action = {
+                    **first,
+                    "nodeScript": str(mapping.get("script") or ""),
+                    "nodeCommand": command,
+                    "pythonScript": str(mapping.get("pythonScript") or ""),
+                    "pythonCommand": str(mapping.get("pythonCommand") or ""),
+                    "validationScript": validation_script,
+                    "validationCommand": validation_command,
+                    "validationScope": validation_scope,
+                    "readyToReplace": ready_to_replace,
+                    "recommendation": "compare_python_contract_before_replacing_js" if ready_to_replace else "expand_python_runtime_contract_before_replacing_js",
+                }
+                if replacement_blockers:
+                    action["replacementBlockers"] = replacement_blockers
+                actions.append(action)
+                break
+        return actions
 
     @staticmethod
     def _category(relative_path: str) -> str:
@@ -806,6 +843,16 @@ class BackendMigrationInventoryScanner:
                     "reason": "Python has dry-run, no-live, mock cycle, mock harvest, file-backed mock harvest, external harvest adapter, external exhausted-term pruning, checked-in JS harvest adapter command, and deferred live contracts, but dictionary:auto still needs a verified live Bilibili/Tieba harvest runtime before replacing the JS loop.",
                     "preflightCommand": "npm run python:coverage-loop-command-preflight",
                     "liveVerificationCommand": "npm run dictionary:auto",
+                    "manualVerificationRequired": True,
+                }
+            )
+        elif script == "dictionary:tieba" and validation_scope != "full_command":
+            blockers.append(
+                {
+                    "blocker": "tieba_live_runtime_not_verified",
+                    "reason": "Python has dry-run option planning, fixture scrape parsing, corpus update bridges, and JS/Python comparison fixtures, but dictionary:tieba still needs a verified live Tieba scrape runtime before replacing the JS command.",
+                    "preflightCommand": "npm run python:tieba-keyword-compare",
+                    "liveVerificationCommand": "npm run dictionary:tieba",
                     "manualVerificationRequired": True,
                 }
             )
