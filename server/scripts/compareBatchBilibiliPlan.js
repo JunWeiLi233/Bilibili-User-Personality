@@ -88,25 +88,42 @@ async function runPythonPlan({ payloadPath }) {
   return JSON.parse(stdout);
 }
 
+async function runPythonPlanComparison({ payloadPath, jsReportPath }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    ['-m', 'python_backend.cli.batch_bilibili_plan', '--payload', payloadPath, '--compare-js-report', jsReportPath],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return JSON.parse(stdout);
+}
+
 export async function compareBatchBilibiliPlan({
   fixture = 'resume-progress',
   fixtureNames,
   payload,
   runJs = runJsPlan,
   runPython = runPythonPlan,
+  runCompare = runPythonPlanComparison,
 } = {}) {
-  if (fixtureNames) return compareBatchBilibiliPlanSuite({ fixtures: fixtureNames, runJs, runPython });
+  if (fixtureNames) return compareBatchBilibiliPlanSuite({ fixtures: fixtureNames, runJs, runPython, runCompare });
   const resolved = resolvePayload({ fixture, payload });
   const tempDir = await mkdtemp(join(tmpdir(), 'batch-bilibili-plan-compare-'));
   try {
     const payloadPath = join(tempDir, 'payload.json');
     await writeFile(payloadPath, JSON.stringify(resolved.payload, null, 2), 'utf8');
-    const js = await runJs({ payload: resolved.payload, payloadPath });
-    const python = await runPython({ payload: resolved.payload, payloadPath });
-    const comparison = compareBatchBilibiliPlanObjects(python, js);
+    const context = { payload: resolved.payload, fixture: { name: resolved.name }, payloadPath };
+    const js = await runJs(context);
+    const python = await runPython(context);
+    const jsReportPath = join(tempDir, 'js-report.json');
+    await writeFile(jsReportPath, JSON.stringify(js || {}, null, 2), 'utf8');
+    const comparison = await runCompare({ ...context, jsReportPath, js, python, jsReport: js, pythonReport: python });
     return {
       ok: comparison.ok,
-      fixture: { name: resolved.name, payloadPath },
+      fixture: { name: resolved.name, payloadPath, jsReportPath },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -116,10 +133,15 @@ export async function compareBatchBilibiliPlan({
   }
 }
 
-export async function compareBatchBilibiliPlanSuite({ fixtures = DEFAULT_FIXTURE_NAMES, runJs = runJsPlan, runPython = runPythonPlan } = {}) {
+export async function compareBatchBilibiliPlanSuite({
+  fixtures = DEFAULT_FIXTURE_NAMES,
+  runJs = runJsPlan,
+  runPython = runPythonPlan,
+  runCompare = runPythonPlanComparison,
+} = {}) {
   const results = [];
   for (const fixture of fixtures) {
-    results.push(await compareBatchBilibiliPlan({ fixture, runJs, runPython }));
+    results.push(await compareBatchBilibiliPlan({ fixture, runJs, runPython, runCompare }));
   }
   return {
     ok: results.every((result) => result.ok),
