@@ -170,6 +170,16 @@ DEFAULT_DIRECT_FILE_CONTRACTS = {
         "validationScope": "dry_run_plan_resume_empty_parseint_prefix_fixtures_js_python_bridge_and_cli_flag_bridge",
         "replacementScope": "dry_run_plan",
     },
+    "server/scripts/batchUidRange.js": {
+        "nodeScript": "server/scripts/batchUidRange.js",
+        "nodeCommand": "node server/scripts/batchUidRange.js",
+        "pythonScript": "python:batch-uid-range-plan",
+        "pythonCommand": "python -m python_backend.cli.batch_uid_range_plan",
+        "validationScript": "python:batch-uid-range-compare",
+        "validationCommand": "node server/scripts/compareBatchUidRangePlan.js",
+        "validationScope": "dry_run_plan_phase2_default_decimal_malformed_stats_fixtures_js_python_bridge_and_cli_flag_bridge",
+        "replacementScope": "dry_run_plan",
+    },
 }
 
 DEFAULT_RETAINED_NODE_COMMANDS = {
@@ -1004,6 +1014,16 @@ class BackendMigrationInventoryScanner:
                     "reason": "Python has a batch Popular dry-run plan, resume/empty/parseint fixtures, and JS/Python CLI bridge coverage, but the direct Bilibili popular-video scrape still needs a verified live runtime before replacing the JS script.",
                     "preflightCommand": "npm run python:batch-popular-compare",
                     "liveVerificationCommand": "node server/scripts/batchScrapePopular.js",
+                    "manualVerificationRequired": True,
+                }
+            )
+        elif script == "server/scripts/batchUidRange.js" and validation_scope != "full_command":
+            blockers.append(
+                {
+                    "blocker": "batch_uid_range_live_runtime_not_verified",
+                    "reason": "Python has a batch UID range dry-run plan, phase2/default/decimal/malformed stats fixtures, and JS/Python CLI bridge coverage, but the direct UID discovery and analyzer runtime still needs verified live Bilibili and DeepSeek behavior before replacing the JS script.",
+                    "preflightCommand": "npm run python:batch-uid-range-compare",
+                    "liveVerificationCommand": "node server/scripts/batchUidRange.js",
                     "manualVerificationRequired": True,
                 }
             )
