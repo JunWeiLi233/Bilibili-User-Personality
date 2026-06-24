@@ -169,6 +169,7 @@
     "python:local-mine-compare": "node server/scripts/compareLocalCorpusMine.js",
     "python:local-mine-plan": "python -m python_backend.cli.local_corpus_mine_plan",
     "python:video-comment-filter": "python -m python_backend.cli.video_comment_filter",
+    "python:video-comment-filter-compare": "node server/scripts/compareVideoCommentFilter.js",
     "python:video-context": "python -m python_backend.cli.video_context",
     "python:video-relevance": "python -m python_backend.cli.video_relevance",
     "python:video-relevance-compare": "node server/scripts/compareVideoRelevance.js",
