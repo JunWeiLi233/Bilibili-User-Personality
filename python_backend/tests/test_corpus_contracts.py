@@ -37437,6 +37437,60 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["python"]["sampled"], 1)
         self.assertEqual(result["python"]["keywordHits"], 1)
 
+    def test_random_verification_payload_comparator_reports_selection_summary_drift(self):
+        result = RandomVerificationPayloadComparator().compare(
+            {
+                "sampleSize": 3,
+                "seed": 1,
+                "sampled": 2,
+                "keywordHits": 1,
+                "neutral": 1,
+                "uncovered": 0,
+                "selectionSummary": {
+                    "requestedSampleSize": 3,
+                    "eligibleComments": 2,
+                    "selectedComments": 2,
+                    "seed": 1,
+                },
+            },
+            {
+                "sampleSize": 3,
+                "seed": 1,
+                "sampled": 2,
+                "keywordHits": 1,
+                "neutral": 1,
+                "uncovered": 0,
+                "selectionSummary": {
+                    "requestedSampleSize": 3,
+                    "eligibleComments": 3,
+                    "selectedComments": 2,
+                    "seed": 1,
+                },
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {
+                    "key": "selectionSummary",
+                    "python": {
+                        "requestedSampleSize": 3,
+                        "eligibleComments": 2,
+                        "selectedComments": 2,
+                        "seed": 1,
+                    },
+                    "js": {
+                        "requestedSampleSize": 3,
+                        "eligibleComments": 3,
+                        "selectedComments": 2,
+                        "seed": 1,
+                    },
+                }
+            ],
+        )
+
     def test_random_verification_request_dispatcher_owns_payload_compare_mode(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
