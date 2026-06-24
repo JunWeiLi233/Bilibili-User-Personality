@@ -3256,6 +3256,36 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_random_sampling_module_exports_sample_and_report_contracts(self):
+        from python_backend.analysis.random_sampling import (
+            RandomVerificationReportContract,
+            RandomVerificationRunOptions,
+            RandomVerificationSampleContract,
+            VerificationSummary,
+        )
+
+        comments = [{"message": "first"}, {"text": "second"}, {"msg": ""}]
+        sample_contract = RandomVerificationSampleContract(comments, sample_size=5, seed=11)
+        options = RandomVerificationRunOptions.from_payload({"sampleSize": "2", "seed": "11"})
+        report = RandomVerificationReportContract(
+            corpus={"comments": 2, "runs": 0},
+            dictionary_terms=1,
+            options=options,
+            selection_summary=sample_contract.selection_summary(),
+        ).build(
+            VerificationSummary(
+                sampled=2,
+                keyword_hits=1,
+                neutral=1,
+                uncovered=0,
+                samples=sample_contract.eligible_comments(),
+            )
+        )
+
+        self.assertEqual([RandomVerificationSampleContract.message(item) for item in sample_contract.sample()], ["second", "first"])
+        self.assertEqual(report["sampleSize"], 2)
+        self.assertEqual(report["selectionSummary"]["eligibleComments"], 2)
+
     def test_random_verification_sample_contract_reads_bilibili_reply_content_message(self):
         comment = {"content": {"message": "\u72d7\u5934\u4fdd\u547d[doge]"}}
 
