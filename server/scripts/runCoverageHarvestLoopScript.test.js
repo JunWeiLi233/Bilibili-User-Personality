@@ -220,6 +220,46 @@ test('runCoverageHarvestLoop.js can delegate no-live command runtime to Python',
   }
 });
 
+test('runCoverageHarvestLoop.js can delegate command runtime to Python with CLI flag', () => {
+  const tempDir = mkdtempSync(join(tmpdir(), 'coverage-loop-python-command-flag-'));
+  try {
+    const dictionaryPath = join(tempDir, 'dictionary.json');
+    const reportPath = join(tempDir, 'report.json');
+    writeFileSync(
+      dictionaryPath,
+      JSON.stringify({
+        version: 1,
+        updatedAt: '2026-01-01T00:00:00.000Z',
+        entries: [],
+      }),
+      'utf8',
+    );
+
+    const result = spawnSync('node', ['server/scripts/runCoverageHarvestLoop.js', '--python-command'], {
+      cwd: process.cwd(),
+      env: {
+        ...process.env,
+        DEEPSEEK_KEYWORD_DICTIONARY_PATH: dictionaryPath,
+        BILIBILI_HARVEST_STATE_PATH: join(tempDir, 'state.json'),
+        BILIBILI_COVERAGE_LOOP_REPORT_PATH: reportPath,
+        BILIBILI_COVERAGE_LOOP_MAX_CYCLES: '0',
+      },
+      encoding: 'utf8',
+    });
+
+    assert.equal(result.status, 0, result.stderr);
+    const stdoutReport = JSON.parse(result.stdout);
+    const fileReport = JSON.parse(readFileSync(reportPath, 'utf8'));
+    assert.equal(stdoutReport.runtimeMode, 'no_live_audit_gate');
+    assert.equal(stdoutReport.stopReason, 'coverage_gate_passed');
+    assert.equal(stdoutReport.finalOk, true);
+    assert.deepEqual(fileReport, stdoutReport);
+    assert.deepEqual(stdoutReport.cycles, []);
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
+  }
+});
+
 test('runCoverageHarvestLoop.js passes live harvest adapter controls to Python command bridge', () => {
   const tempDir = mkdtempSync(join(tmpdir(), 'coverage-loop-python-live-bridge-'));
   try {

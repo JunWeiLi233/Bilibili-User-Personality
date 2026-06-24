@@ -64,6 +64,7 @@ function parsePlanArgs(argv = process.argv.slice(2)) {
   let planJson = false;
   let pythonPlan = false;
   let coverageProgressJson = false;
+  let pythonCommand = false;
   let payloadPath = '';
   for (let index = 0; index < argv.length; index += 1) {
     const arg = String(argv[index] || '');
@@ -73,6 +74,8 @@ function parsePlanArgs(argv = process.argv.slice(2)) {
       pythonPlan = true;
     } else if (arg === '--coverage-progress-json') {
       coverageProgressJson = true;
+    } else if (arg === '--python-command') {
+      pythonCommand = true;
     } else if (arg.startsWith('--payload=')) {
       payloadPath = arg.slice('--payload='.length);
     } else if (arg === '--payload') {
@@ -80,7 +83,7 @@ function parsePlanArgs(argv = process.argv.slice(2)) {
       index += 1;
     }
   }
-  return { planJson, pythonPlan, coverageProgressJson, payloadPath };
+  return { planJson, pythonPlan, coverageProgressJson, pythonCommand, payloadPath };
 }
 
 async function readPlanPayload(path) {
@@ -415,7 +418,7 @@ if (planArgs.coverageProgressJson) {
   console.log(JSON.stringify(progress, null, 2));
   process.exit(0);
 }
-if (process.env.BILIBILI_COVERAGE_LOOP_USE_PYTHON_COMMAND === '1') {
+if (planArgs.pythonCommand || process.env.BILIBILI_COVERAGE_LOOP_USE_PYTHON_COMMAND === '1') {
   process.stdout.write(await runPythonCoverageLoopCommand({
     dictionaryPath,
     statePath,
