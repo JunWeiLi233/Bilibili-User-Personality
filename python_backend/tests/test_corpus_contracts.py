@@ -38707,6 +38707,26 @@ class CorpusContractTests(unittest.TestCase):
             self.assertEqual(result["recommendedQueries"], ["test query"])
             self.assertEqual(query_path.read_text(encoding="utf-8"), "test query\n")
 
+    def test_coverage_audit_comparison_module_exports_summary_and_comparator_contracts(self):
+        from python_backend.analysis.coverage_audit_comparison import (
+            CoverageAuditContractSummary,
+            CoverageAuditContractComparator,
+        )
+
+        summary = CoverageAuditContractSummary()
+        audit = {"ok": True, "targetEvidence": 3, "coverage": {"terms": 2, "weakTerms": 0, "zeroEvidenceTerms": 0}}
+        result = summary.summarize(audit)
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["targetEvidence"], 3)
+        self.assertIn("terms", result["coverage"])
+        self.assertEqual(result["coverage"]["terms"], 2)
+
+        comparator = CoverageAuditContractComparator()
+        comparison = comparator.compare(audit, audit)
+        self.assertTrue(comparison["ok"])
+        self.assertEqual(comparison["mismatches"], [])
+
 
 if __name__ == "__main__":
     unittest.main()
