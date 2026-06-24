@@ -94,24 +94,14 @@ async function runPythonRequestPlan({ payload }) {
   }
 }
 
-async function runPythonNormalizationComparison({ payloadPath, analysisPath, jsReportPath, config = DEFAULT_CONFIG, raw = DEFAULT_RAW }) {
+async function runPythonCommandReportComparison({ pythonReportPath, jsReportPath }) {
   const { stdout } = await execFileAsync(
     'python',
     [
       '-m',
-      'python_backend.cli.deepseek_analysis_normalize',
-      '--payload',
-      payloadPath,
-      '--analysis',
-      analysisPath,
-      '--provider',
-      config.provider,
-      '--model',
-      config.model,
-      '--reasoning-effort',
-      config.reasoningEffort,
-      '--raw',
-      raw || '',
+      'python_backend.cli.deepseek_analyze_command_compare',
+      '--python-report',
+      pythonReportPath,
       '--compare-js-report',
       jsReportPath,
     ],
@@ -179,7 +169,7 @@ export async function compareDeepSeekAnalyzeMockRuntime({
   runPythonNormalization,
   runPythonCommand,
   runPythonPlan = runPythonRequestPlan,
-  runCompare = runPythonNormalizationComparison,
+  runCompare = runPythonCommandReportComparison,
 } = {}) {
   const runPython = runPythonCommand || runPythonNormalization || runPythonCommandRuntime;
   const jsRuntime = await runJsRuntime({ payload, analysis, raw });
@@ -190,13 +180,16 @@ export async function compareDeepSeekAnalyzeMockRuntime({
   let payloadPath;
   let analysisPath;
   let jsReportPath;
+  let pythonReportPath;
   try {
     payloadPath = join(tempDir, 'payload.json');
     analysisPath = join(tempDir, 'analysis.json');
     jsReportPath = join(tempDir, 'js-report.json');
+    pythonReportPath = join(tempDir, 'python-report.json');
     await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
     await writeFile(analysisPath, JSON.stringify(analysis, null, 2), 'utf8');
     await writeFile(jsReportPath, JSON.stringify(js || {}, null, 2), 'utf8');
+    await writeFile(pythonReportPath, JSON.stringify(python || {}, null, 2), 'utf8');
     comparison = await runCompare({
       payload,
       analysis,
@@ -205,6 +198,7 @@ export async function compareDeepSeekAnalyzeMockRuntime({
       payloadPath,
       analysisPath,
       jsReportPath,
+      pythonReportPath,
       js,
       python,
       jsRuntimeContract: js,

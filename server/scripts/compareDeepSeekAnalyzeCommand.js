@@ -77,6 +77,26 @@ async function runPythonFixtureCommand({ payload, analysisPath }) {
   return JSON.parse(stdout);
 }
 
+async function runPythonCommandReportComparison({ pythonReportPath, jsReportPath }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    [
+      '-m',
+      'python_backend.cli.deepseek_analyze_command_compare',
+      '--python-report',
+      pythonReportPath,
+      '--compare-js-report',
+      jsReportPath,
+    ],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return JSON.parse(stdout);
+}
+
 async function runJsMockRuntimeCommand({ payload, analysisPath }) {
   const args = buildDeepSeekAnalyzeCommandArgs({ runtime: 'js', mode: 'mock', analysisPath, payload });
   const { stdout } = await execFileAsync('node', args, {
@@ -132,10 +152,13 @@ export async function compareDeepSeekAnalyzeCommand({
   analysis = DEFAULT_ANALYSIS,
   runJsCommand = runJsFixtureCommand,
   runPythonCommand = runPythonFixtureCommand,
+  runCompare = runPythonCommandReportComparison,
 } = {}) {
   const tempDir = await mkdtemp(join(tmpdir(), 'deepseek-command-compare-'));
   try {
     const analysisPath = join(tempDir, 'analysis.json');
+    const pythonReportPath = join(tempDir, 'python-report.json');
+    const jsReportPath = join(tempDir, 'js-report.json');
     await writeFile(analysisPath, JSON.stringify(analysis, null, 2), 'utf8');
     const commandPayload = { ...payload };
     if (typeof payload.fileText === 'string') {
@@ -146,10 +169,23 @@ export async function compareDeepSeekAnalyzeCommand({
     }
     const js = await runJsCommand({ payload: commandPayload, analysis, analysisPath });
     const python = await runPythonCommand({ payload: commandPayload, analysis, analysisPath });
-    const comparison = compareDeepSeekAnalyzeCommandObjects(python, js);
+    await writeFile(pythonReportPath, JSON.stringify(python || {}, null, 2), 'utf8');
+    await writeFile(jsReportPath, JSON.stringify(js || {}, null, 2), 'utf8');
+    const comparison = await runCompare({
+      payload,
+      commandPayload,
+      analysis,
+      analysisPath,
+      pythonReportPath,
+      jsReportPath,
+      js,
+      python,
+      jsCommand: js,
+      pythonCommand: python,
+    });
     return {
       ok: comparison.ok,
-      fixture: { payload, commandPayload, analysisPath },
+      fixture: { payload, commandPayload, analysisPath, pythonReportPath, jsReportPath },
       js,
       python,
       mismatches: comparison.mismatches,

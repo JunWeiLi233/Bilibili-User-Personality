@@ -39,11 +39,43 @@ test('compareDeepSeekAnalyzeCommand compares JS and Python fixture commands', as
       calls.push({ python: payload });
       return NORMALIZED;
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('compareDeepSeekAnalyzeCommand delegates saved command report comparison to Python contract', async () => {
+  const calls = [];
+  const result = await compareDeepSeekAnalyzeCommand({
+    runJsCommand: async () => NORMALIZED,
+    runPythonCommand: async () => NORMALIZED,
+    runCompare: async (context) => {
+      calls.push({
+        jsConfidence: context.jsCommand.confidence,
+        pythonConfidence: context.pythonCommand.confidence,
+        hasPythonReportPath: context.pythonReportPath.endsWith('python-report.json'),
+        hasJsReportPath: context.jsReportPath.endsWith('js-report.json'),
+      });
+      return {
+        ok: false,
+        mismatches: [{ key: 'delegated', python: 'python-contract', js: 'js-command' }],
+      };
+    },
+  });
+
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.mismatches, [{ key: 'delegated', python: 'python-contract', js: 'js-command' }]);
+  assert.deepEqual(calls, [
+    {
+      jsConfidence: 0.92,
+      pythonConfidence: 0.92,
+      hasPythonReportPath: true,
+      hasJsReportPath: true,
+    },
+  ]);
 });
 
 test('buildDeepSeekAnalyzeCommandArgs forwards command identity fields', () => {

@@ -93,7 +93,7 @@ from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStats
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherCommandRequest, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRequest, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationAnnotationContract, RandomVerificationCommandContract, RandomVerificationCommandRequest, RandomVerificationCompareCommandRequest, RandomVerificationComparisonOptionsContract, RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationCorpus, RandomVerificationCorpusReportBuilder, RandomVerificationDictionaryTermsContract, RandomVerificationExecutionContract, RandomVerificationJsonResultContract, RandomVerificationOutputWriter, RandomVerificationPayloadContractComparator, RandomVerificationReportBuilder, RandomVerificationReportContract, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRequestDispatcher, RandomVerificationRunOptions, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerificationSampleContract, RandomVerificationSummaryContract, RandomVerifier, VerificationSummary, json_result_bytes as random_verification_payload_json_result_bytes
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisInputBuilder, DeepSeekAnalysisNormalizeCommandRequest, DeepSeekAnalysisNormalizeContractComparator as DeepSeekAnalysisPayloadNormalizeContractComparator, DeepSeekAnalysisPlanCommandRequest, DeepSeekAnalysisPlanContractComparator as DeepSeekAnalysisPayloadPlanContractComparator, DeepSeekAnalysisPlanRequest, DeepSeekAnalysisPlanRunner as DeepSeekAnalysisPayloadPlanRunner, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidateCommandRequest, DeepSeekAnalysisValidateContractComparator as DeepSeekAnalysisPayloadValidateContractComparator, DeepSeekAnalysisValidateRequest, DeepSeekAnalysisValidateRunner as DeepSeekAnalysisPayloadValidateRunner, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator, DeepSeekRequestOptionsContract
-from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeAnalysisFileReader, DeepSeekAnalyzeArgvNormalizer, DeepSeekAnalyzeChatResponseParser, DeepSeekAnalyzeCommandRequest, DeepSeekAnalyzeCliPayloadPlanContractComparator, DeepSeekAnalyzeCliPlanCommandRequest, DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanRequest, DeepSeekAnalyzeCliPlanRunner as DeepSeekAnalyzeCliPayloadPlanRunner, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary, DeepSeekAnalyzeFixtureRunner, DeepSeekAnalyzeHttpErrorFormatter, DeepSeekAnalyzeHttpRequestBuilder, DeepSeekAnalyzeHttpTransport, DeepSeekAnalyzeLegacySelectorCompatibility, DeepSeekAnalyzeMockChatRunner, DeepSeekAnalyzePayloadBuilder, DeepSeekAnalyzeRuntime, DeepSeekAnalyzeRuntimeConfig, DeepSeekLiveValidationGate
+from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeAnalysisFileReader, DeepSeekAnalyzeArgvNormalizer, DeepSeekAnalyzeChatResponseParser, DeepSeekAnalyzeCommandReportComparator, DeepSeekAnalyzeCommandReportCompareCommandRequest, DeepSeekAnalyzeCommandRequest, DeepSeekAnalyzeCliPayloadPlanContractComparator, DeepSeekAnalyzeCliPlanCommandRequest, DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanRequest, DeepSeekAnalyzeCliPlanRunner as DeepSeekAnalyzeCliPayloadPlanRunner, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary, DeepSeekAnalyzeFixtureRunner, DeepSeekAnalyzeHttpErrorFormatter, DeepSeekAnalyzeHttpRequestBuilder, DeepSeekAnalyzeHttpTransport, DeepSeekAnalyzeLegacySelectorCompatibility, DeepSeekAnalyzeMockChatRunner, DeepSeekAnalyzePayloadBuilder, DeepSeekAnalyzeRuntime, DeepSeekAnalyzeRuntimeConfig, DeepSeekLiveValidationGate
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceCommandRequest, KeywordEvidenceContractComparator as KeywordEvidencePayloadComparator, KeywordEvidenceMatcher, KeywordEvidencePayloadContractComparator, KeywordEvidencePayloadRunner, KeywordEvidenceRequest, KeywordEvidenceSummary
 from python_backend.cli.comment_coverage import CommentCoverageContractComparator, CommentCoverageRunner
 from python_backend.cli.corpus_shard_writer import CorpusShardWriteContractComparator, CorpusShardWriteRunner
@@ -7626,6 +7626,65 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "input", "python": {"source": "argv", "file": "", "readsStdin": False, "showHelp": False}, "js": {"source": "stdin"}},
             ],
         )
+
+    def test_deepseek_analyze_command_report_comparator_reads_saved_command_outputs(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            python_report_path = root / "python-command.json"
+            js_report_path = root / "js-command.json"
+            python_report_path.write_text(
+                json.dumps(
+                    {
+                        "ok": True,
+                        "provider": "deepseek",
+                        "model": "deepseek-v4-flash",
+                        "reasoningEffort": "max",
+                        "axes": [],
+                        "sentenceAnalyses": [],
+                        "confidence": 0.92,
+                        "runtime": {"mode": "mock_chat"},
+                        "ignored": "python-only",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps(
+                    {
+                        "ok": True,
+                        "provider": "deepseek",
+                        "model": "deepseek-v4-pro",
+                        "reasoningEffort": "max",
+                        "axes": [],
+                        "sentenceAnalyses": [],
+                        "confidence": 0.5,
+                        "runtime": {"mode": "mock_chat"},
+                        "ignored": "js-only",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = DeepSeekAnalyzeCommandReportComparator(python_report_path, js_report_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "model", "python": "deepseek-v4-flash", "js": "deepseek-v4-pro"},
+                {"key": "confidence", "python": 0.92, "js": 0.5},
+            ],
+        )
+        self.assertNotIn("ignored", result["python"])
+        self.assertNotIn("ignored", result["js"])
+
+    def test_deepseek_analyze_command_report_compare_request_owns_parser(self):
+        args = DeepSeekAnalyzeCommandReportCompareCommandRequest.parser().parse_args(
+            ["--python-report", "python-command.json", "--compare-js-report", "js-command.json"]
+        )
+
+        self.assertEqual(args.python_report, "python-command.json")
+        self.assertEqual(args.compare_js_report, "js-command.json")
 
     def test_deepseek_analyze_command_request_normalizes_fixture_analysis(self):
         with tempfile.TemporaryDirectory() as tmp:

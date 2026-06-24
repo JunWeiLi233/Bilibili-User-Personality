@@ -201,6 +201,69 @@ class DeepSeekAnalyzeCliPlanCommandRequest:
         ).run()
 
 
+class DeepSeekAnalyzeCommandReportSummary:
+    """Summarize stable DeepSeek analyze command output keys for JS/Python comparison."""
+
+    RESULT_KEYS = (
+        "ok",
+        "provider",
+        "model",
+        "reasoningEffort",
+        "axes",
+        "sentenceAnalyses",
+        "confidence",
+        "fallback",
+        "retriedCompactPrompt",
+        "runtime",
+    )
+
+    def summarize(self, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        source = result if isinstance(result, dict) else {}
+        return {key: source.get(key) for key in self.RESULT_KEYS if key in source}
+
+
+class DeepSeekAnalyzeCommandReportComparator:
+    """Compare saved Python and JS DeepSeek analyze command JSON reports."""
+
+    def __init__(self, python_report_path: str | Path, js_report_path: str | Path):
+        self.python_report_path = Path(python_report_path)
+        self.js_report_path = Path(js_report_path)
+        self.summary = DeepSeekAnalyzeCommandReportSummary()
+
+    def compare(self) -> dict[str, Any]:
+        python_result = safe_read_json_object(self.python_report_path)
+        js_result = safe_read_json_object(self.js_report_path)
+        mismatches = [
+            {"key": key, "python": python_result.get(key), "js": js_result.get(key)}
+            for key in self.summary.RESULT_KEYS
+            if key in js_result and python_result.get(key) != js_result.get(key)
+        ]
+        return {
+            "ok": not mismatches,
+            "mismatches": mismatches,
+            "python": self.summary.summarize(python_result),
+            "js": self.summary.summarize(js_result),
+        }
+
+
+class DeepSeekAnalyzeCommandReportCompareCommandRequest:
+    """Parse CLI argv for saved DeepSeek analyze command report comparison."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Compare saved DeepSeek analyze command JSON reports.")
+        parser.add_argument("--python-report", required=True)
+        parser.add_argument("--compare-js-report", required=True)
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return DeepSeekAnalyzeCommandReportComparator(args.python_report, args.compare_js_report).compare()
+
+
 class DeepSeekAnalyzeRuntimeConfig:
     """Resolve DeepSeek runtime config from env with request-level fallbacks."""
 
