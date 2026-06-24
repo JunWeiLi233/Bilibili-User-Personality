@@ -5425,6 +5425,16 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_deepseek_analyzer_normalizes_user_facing_max_effort_aliases(self):
+        client = DeepSeekAnalyzerClient()
+
+        top_level = client.build_request_from_payload({"text": "\u53cd\u8bbd[doge]", "reasoningEffort": "max effort"})
+        nested = client.build_request_from_payload({"text": "\u53cd\u8bbd[doge]", "options": {"effort": "maximum"}})
+
+        self.assertEqual(top_level.effort, "max")
+        self.assertEqual(nested.effort, "max")
+        self.assertEqual(client.build_chat_request(top_level)["reasoning_effort"], "max")
+
     def test_deepseek_analyzer_splits_chinese_terminal_punctuation_like_js(self):
         analyzer = DeepSeekAnalyzerClient()
 
@@ -7879,6 +7889,18 @@ class CorpusContractTests(unittest.TestCase):
                 "reasoningEffort": "high",
             },
         )
+
+    def test_deepseek_analyze_runtime_config_normalizes_env_effort_aliases(self):
+        request = DeepSeekAnalyzerClient().build_request_from_payload({"text": "\u53cd\u8bbd[doge]"})
+
+        config = DeepSeekAnalyzeRuntimeConfig(
+            env={
+                "DEEPSEEK_API_KEY": "secret",
+                "DEEPSEEK_REASONING_EFFORT": "MAX EFFORT",
+            }
+        ).build(request)
+
+        self.assertEqual(config["reasoningEffort"], "max")
 
     def test_deepseek_analyze_http_transport_owns_live_chat_request(self):
         calls = []

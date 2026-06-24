@@ -9,7 +9,7 @@ import urllib.request
 from pathlib import Path
 from typing import Any
 
-from python_backend.analyzers.deepseek import DeepSeekAnalysisNormalizer, DeepSeekAnalyzerClient
+from python_backend.analyzers.deepseek import DeepSeekAnalysisNormalizer, DeepSeekAnalyzerClient, normalize_reasoning_effort
 from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 
 
@@ -182,16 +182,16 @@ class DeepSeekAnalyzeRuntimeConfig:
         base_url = self._text(self.env.get("DEEPSEEK_BASE_URL")) or "https://api.deepseek.com"
         api_key = self._text(self.env.get("DEEPSEEK_API_KEY"))
         model = self._text(self.env.get("DEEPSEEK_MODEL")) or self._text(getattr(request, "model", "")) or "deepseek-v4-flash"
-        effort = (
+        raw_effort = (
             self._text(self.env.get("DEEPSEEK_REASONING_EFFORT"))
             or self._text(getattr(request, "effort", ""))
             or "max"
-        ).lower()
+        )
         return {
             "baseUrl": base_url.rstrip("/"),
             "apiKey": api_key,
             "model": model,
-            "reasoningEffort": effort,
+            "reasoningEffort": normalize_reasoning_effort(raw_effort),
         }
 
     @staticmethod

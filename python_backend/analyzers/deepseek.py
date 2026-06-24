@@ -13,6 +13,27 @@ from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 
 
+def normalize_reasoning_effort(value: Any) -> str:
+    """Normalize human-facing DeepSeek effort labels into the API contract."""
+    text = str(value or "").strip().lower().replace("_", "-")
+    compact = re.sub(r"[\s-]+", "", text)
+    aliases = {
+        "maxeffort": "max",
+        "maximum": "max",
+        "high-effort": "high",
+        "higheffort": "high",
+        "medium-effort": "medium",
+        "mediumeffort": "medium",
+        "low-effort": "low",
+        "loweffort": "low",
+    }
+    if text in {"max", "high", "medium", "low"}:
+        return text
+    if compact in aliases:
+        return aliases[compact]
+    return "max"
+
+
 @dataclass(frozen=True)
 class AnalyzerRequest:
     comments: list[str]
@@ -34,7 +55,7 @@ class DeepSeekRequestOptionsContract:
     def build(self, messages: list[dict[str, str]], *, max_tokens: int) -> dict[str, object]:
         return {
             "model": str(self.request.model or "deepseek-v4-flash"),
-            "reasoning_effort": str(self.request.effort or "max"),
+            "reasoning_effort": normalize_reasoning_effort(self.request.effort),
             "messages": messages,
             "response_format": {"type": "json_object"},
             "stream": False,
@@ -140,14 +161,13 @@ class DeepSeekAnalyzerClient:
             uid=str(payload.get("uid") or "unknown"),
             name=str(payload.get("name") or "unknown"),
             model=str(payload.get("model") or options.get("model") or "deepseek-v4-flash"),
-            effort=str(
+            effort=normalize_reasoning_effort(
                 payload.get("reasoningEffort")
                 or payload.get("reasoning_effort")
                 or payload.get("effort")
                 or options.get("reasoningEffort")
                 or options.get("reasoning_effort")
                 or options.get("effort")
-                or "max"
             ),
             multiagent=self._uses_multiagent(payload, options),
         )
