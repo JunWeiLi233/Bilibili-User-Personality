@@ -14,6 +14,10 @@ function boolValue(value, fallback = false) {
   return ['1', 'true', 'yes', 'on'].includes(String(value).trim().toLowerCase());
 }
 
+function arrayValue(value) {
+  return Array.isArray(value) ? value : [];
+}
+
 function buildHarvestOptions(request = {}) {
   const options = request.options && typeof request.options === 'object' ? request.options : {};
   return {
@@ -31,9 +35,30 @@ function buildHarvestOptions(request = {}) {
     includeDanmaku: boolValue(options.includeDanmaku, false),
     resetState: boolValue(options.resetState, false),
     skipSeen: boolValue(options.skipSeen, true),
-    seedQueries: Array.isArray(options.seedQueries) ? options.seedQueries : [],
-    controversyQueries: Array.isArray(options.controversyQueries) ? options.controversyQueries : [],
+    seedQueries: arrayValue(options.seedQueries),
+    controversyQueries: arrayValue(options.controversyQueries),
     discoveryMode: String(options.discoveryMode || 'controversial').trim().toLowerCase(),
+    termsPerFamily: positiveNumber(options.termsPerFamily, 4),
+    queryVariantsPerTerm: positiveNumber(options.queryVariantsPerTerm, 2),
+    extraQueryTemplates: arrayValue(options.extraQueryTemplates),
+    exhaustedSuggestionTemplates: arrayValue(options.exhaustedSuggestionTemplates),
+    maxHardMissedQueries: positiveNumber(options.maxHardMissedQueries, Math.max(2, Math.ceil(positiveNumber(options.maxQueries, 12) / 2))),
+    staleMissedDiscoveryLimit: positiveNumber(options.staleMissedDiscoveryLimit, 4),
+    staleMissedPages: positiveNumber(options.staleMissedPages, 3),
+    coverageMode: String(options.coverageMode || 'all-weak').trim().toLowerCase(),
+    commentPoolTargetTermsLimit: positiveNumber(options.commentPoolTargetTermsLimit, 24),
+    priorityCommentPoolTargets: boolValue(options.priorityCommentPoolTargets, false),
+    preFilterCommentsToTargets: boolValue(options.preFilterCommentsToTargets, false),
+    deepenReplyThreads: boolValue(options.deepenReplyThreads, false),
+    verbose: boolValue(options.verbose, true),
+    prioritizeNearTarget: boolValue(options.prioritizeNearTarget, false),
+    existingTermsOnly: boolValue(options.existingTermsOnly, false),
+    discoveryLimit: positiveNumber(options.discoveryLimit, 6),
+    discoveryPages: positiveNumber(options.discoveryPages, 1),
+    controversialPopularQueryLimit: Number.isFinite(Number(options.controversialPopularQueryLimit))
+      ? Math.max(0, Math.floor(Number(options.controversialPopularQueryLimit)))
+      : 4,
+    controversialPopularSearchOrder: String(options.controversialPopularSearchOrder || 'click').trim().toLowerCase(),
     includeGenericPopular: boolValue(options.includeGenericPopular, false),
     pages: positiveNumber(options.pages, 2),
     perQueryTimeoutMs: positiveNumber(options.perQueryTimeoutMs, 180000),

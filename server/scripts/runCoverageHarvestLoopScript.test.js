@@ -311,6 +311,25 @@ test('runCoverageHarvestLoop.js passes live harvest adapter controls to Python c
       seedQueries: [],
       controversyQueries: [],
       discoveryMode: 'controversial',
+      termsPerFamily: 4,
+      queryVariantsPerTerm: 2,
+      extraQueryTemplates: [],
+      exhaustedSuggestionTemplates: [],
+      maxHardMissedQueries: 3,
+      staleMissedDiscoveryLimit: 4,
+      staleMissedPages: 3,
+      coverageMode: 'all-weak',
+      commentPoolTargetTermsLimit: 24,
+      priorityCommentPoolTargets: false,
+      preFilterCommentsToTargets: false,
+      deepenReplyThreads: false,
+      verbose: true,
+      prioritizeNearTarget: false,
+      existingTermsOnly: false,
+      discoveryLimit: 6,
+      discoveryPages: 1,
+      controversialPopularQueryLimit: 4,
+      controversialPopularSearchOrder: 'click',
       includeGenericPopular: false,
       pages: 2,
       perQueryTimeoutMs: 180000,
@@ -689,6 +708,25 @@ test('runCoverageHarvestLoopJsAdapter maps Python loop request to JS harvest con
         pages: 4,
         perQueryTimeoutMs: 90000,
         expandTargetsFromComments: true,
+        termsPerFamily: 7,
+        queryVariantsPerTerm: 6,
+        extraQueryTemplates: ['{term} review', '{term} danmaku'],
+        exhaustedSuggestionTemplates: ['{term} retry', '{term} archive'],
+        maxHardMissedQueries: 9,
+        staleMissedDiscoveryLimit: 8,
+        staleMissedPages: 5,
+        coverageMode: 'missing-source',
+        commentPoolTargetTermsLimit: 42,
+        priorityCommentPoolTargets: true,
+        preFilterCommentsToTargets: true,
+        deepenReplyThreads: true,
+        verbose: false,
+        prioritizeNearTarget: true,
+        existingTermsOnly: true,
+        discoveryLimit: 11,
+        discoveryPages: 3,
+        controversialPopularQueryLimit: 10,
+        controversialPopularSearchOrder: 'pubdate',
       },
     },
     {
@@ -723,5 +761,24 @@ test('runCoverageHarvestLoopJsAdapter maps Python loop request to JS harvest con
   assert.equal(calls[0].pages, 4);
   assert.equal(calls[0].perQueryTimeoutMs, 90000);
   assert.equal(calls[0].expandTargetsFromComments, true);
+  assert.equal(calls[0].termsPerFamily, 7);
+  assert.equal(calls[0].queryVariantsPerTerm, 6);
+  assert.deepEqual(calls[0].extraQueryTemplates, ['{term} review', '{term} danmaku']);
+  assert.deepEqual(calls[0].exhaustedSuggestionTemplates, ['{term} retry', '{term} archive']);
+  assert.equal(calls[0].maxHardMissedQueries, 9);
+  assert.equal(calls[0].staleMissedDiscoveryLimit, 8);
+  assert.equal(calls[0].staleMissedPages, 5);
+  assert.equal(calls[0].coverageMode, 'missing-source');
+  assert.equal(calls[0].commentPoolTargetTermsLimit, 42);
+  assert.equal(calls[0].priorityCommentPoolTargets, true);
+  assert.equal(calls[0].preFilterCommentsToTargets, true);
+  assert.equal(calls[0].deepenReplyThreads, true);
+  assert.equal(calls[0].verbose, false);
+  assert.equal(calls[0].prioritizeNearTarget, true);
+  assert.equal(calls[0].existingTermsOnly, true);
+  assert.equal(calls[0].discoveryLimit, 11);
+  assert.equal(calls[0].discoveryPages, 3);
+  assert.equal(calls[0].controversialPopularQueryLimit, 10);
+  assert.equal(calls[0].controversialPopularSearchOrder, 'pubdate');
   assert.deepEqual(calls[0].priorityQueries, [{ term: 'doge', query: 'doge 评论区 热评' }]);
 });
