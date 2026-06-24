@@ -230,6 +230,16 @@ DEFAULT_DIRECT_FILE_CONTRACTS = {
         "validationScope": "dry_run_plan_default_worker_parseint_prefix_fixtures_js_python_bridge_and_cli_flag_bridge",
         "replacementScope": "dry_run_plan",
     },
+    "server/scripts/uidPipelineFast.js": {
+        "nodeScript": "server/scripts/uidPipelineFast.js",
+        "nodeCommand": "node server/scripts/uidPipelineFast.js",
+        "pythonScript": "python:uid-fast-pipeline-plan",
+        "pythonCommand": "python -m python_backend.cli.uid_fast_pipeline_plan",
+        "validationScript": "python:uid-fast-pipeline-compare",
+        "validationCommand": "node server/scripts/compareUidFastPipelinePlan.js",
+        "validationScope": "dry_run_plan_default_range_parseint_prefix_fixtures_js_python_bridge_and_cli_flag_bridge",
+        "replacementScope": "dry_run_plan",
+    },
 }
 
 DEFAULT_RETAINED_NODE_COMMANDS = {
@@ -1124,6 +1134,16 @@ class BackendMigrationInventoryScanner:
                     "reason": "Python has a UID parallel dry-run assignment plan, default/worker/parseint fixtures, progress reporting contracts, and JS/Python bridge coverage, but live DeepSeek training, dictionary locking, and worker progress persistence still need verification before replacing the JS script.",
                     "preflightCommand": "npm run python:uid-parallel-compare",
                     "liveVerificationCommand": "node server/scripts/uidParallelAnalyzer.js --worker=0 --workers=1",
+                    "manualVerificationRequired": True,
+                }
+            )
+        elif script == "server/scripts/uidPipelineFast.js" and validation_scope != "full_command":
+            blockers.append(
+                {
+                    "blocker": "uid_fast_pipeline_live_runtime_not_verified",
+                    "reason": "Python has a UID fast pipeline dry-run plan, default/range/parseint fixtures, and JS/Python bridge coverage, but live direct-fetch scraping, block backoff, dictionary locking, and DeepSeek training still need verification before replacing the JS script.",
+                    "preflightCommand": "npm run python:uid-fast-pipeline-compare",
+                    "liveVerificationCommand": "node server/scripts/uidPipelineFast.js --start=1 --end=1",
                     "manualVerificationRequired": True,
                 }
             )
