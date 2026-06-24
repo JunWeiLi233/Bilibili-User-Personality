@@ -2816,6 +2816,32 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(report["keywordHits"], 2)
         self.assertEqual(report["neutral"], 1)
 
+    def test_random_verification_corpus_report_includes_source_breakdown(self):
+        corpus = verification_module.RandomVerificationCorpus(
+            comments=[
+                {"message": "doge satire", "source": "bilibili"},
+                {"message": "tieba slang", "source": "tieba"},
+                {"message": "history tag", "source": "history-tags"},
+            ],
+            runs=[{"source": "bilibili"}, {"source": "tieba"}, {"source": "tieba"}],
+            storage="combined",
+        )
+
+        report = RandomVerificationCorpusReportBuilder(
+            corpus=corpus,
+            dictionary_entries=[{"term": "doge"}, {"term": "tieba"}],
+            sample_size=3,
+            seed=1,
+        ).build()
+
+        self.assertEqual(
+            report["corpus"]["sourceBreakdown"],
+            {
+                "comments": {"bilibili": 1, "history-tags": 1, "tieba": 1},
+                "runs": {"bilibili": 1, "tieba": 2},
+            },
+        )
+
     def test_random_verification_payload_runner_accepts_inline_json_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "random-verification.json"
@@ -2909,7 +2935,15 @@ class CorpusContractTests(unittest.TestCase):
 
             result = verification_module.RandomVerificationPayloadRunner(payload_path).run()
 
-        self.assertEqual(result["corpus"], {"comments": 2, "runs": 2, "storage": "combined"})
+        self.assertEqual(
+            result["corpus"],
+            {
+                "comments": 2,
+                "runs": 2,
+                "storage": "combined",
+                "sourceBreakdown": {"runs": {"bilibili": 1, "tieba": 1}},
+            },
+        )
         self.assertEqual(result["sampled"], 2)
         self.assertEqual(result["keywordHits"], 1)
 
@@ -2937,7 +2971,15 @@ class CorpusContractTests(unittest.TestCase):
 
             result = verification_module.RandomVerificationPayloadRunner(payload_path).run()
 
-        self.assertEqual(result["corpus"], {"comments": 2, "runs": 2, "storage": "combined"})
+        self.assertEqual(
+            result["corpus"],
+            {
+                "comments": 2,
+                "runs": 2,
+                "storage": "combined",
+                "sourceBreakdown": {"runs": {"bilibili": 1, "tieba": 1}},
+            },
+        )
         self.assertEqual(result["keywordHits"], 1)
 
     def test_random_verification_payload_runner_combines_inline_extra_corpora(self):
@@ -2962,7 +3004,15 @@ class CorpusContractTests(unittest.TestCase):
 
             result = verification_module.RandomVerificationPayloadRunner(payload_path).run()
 
-        self.assertEqual(result["corpus"], {"comments": 3, "runs": 3, "storage": "combined"})
+        self.assertEqual(
+            result["corpus"],
+            {
+                "comments": 3,
+                "runs": 3,
+                "storage": "combined",
+                "sourceBreakdown": {"runs": {"bilibili": 1, "history-tags": 1, "tieba": 1}},
+            },
+        )
         self.assertEqual(result["sampled"], 3)
         self.assertEqual(result["keywordHits"], 2)
 
@@ -2988,7 +3038,15 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual([comment["message"] for comment in assembled.comments], ["bilibili text", "tieba text"])
         self.assertEqual(assembled.runs, [{"source": "bilibili"}, {"source": "tieba"}])
         self.assertEqual(assembled.storage, "combined")
-        self.assertEqual(assembled.as_report_corpus(), {"comments": 2, "runs": 2, "storage": "combined"})
+        self.assertEqual(
+            assembled.as_report_corpus(),
+            {
+                "comments": 2,
+                "runs": 2,
+                "storage": "combined",
+                "sourceBreakdown": {"runs": {"bilibili": 1, "tieba": 1}},
+            },
+        )
 
     def test_random_verification_cli_runner_accepts_payload_flag(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -3104,7 +3162,15 @@ class CorpusContractTests(unittest.TestCase):
                 ]
             ).run()
 
-        self.assertEqual(result["corpus"], {"comments": 3, "runs": 2, "storage": "combined"})
+        self.assertEqual(
+            result["corpus"],
+            {
+                "comments": 3,
+                "runs": 2,
+                "storage": "combined",
+                "sourceBreakdown": {"runs": {"bilibili": 1, "tieba": 1}},
+            },
+        )
         self.assertEqual(result["sampled"], 3)
         self.assertEqual(result["keywordHits"], 1)
         self.assertEqual(result["neutral"], 2)
@@ -3127,7 +3193,15 @@ class CorpusContractTests(unittest.TestCase):
                 extra_corpus_paths=[tieba_path],
             ).run()
 
-        self.assertEqual(result["corpus"], {"comments": 2, "runs": 2, "storage": "combined"})
+        self.assertEqual(
+            result["corpus"],
+            {
+                "comments": 2,
+                "runs": 2,
+                "storage": "combined",
+                "sourceBreakdown": {"runs": {"bilibili": 1, "tieba": 1}},
+            },
+        )
         self.assertEqual(result["sampled"], 2)
         self.assertEqual(result["keywordHits"], 1)
         self.assertEqual(result["neutral"], 1)
@@ -3148,7 +3222,15 @@ class CorpusContractTests(unittest.TestCase):
                 extra_corpus_paths="tiebaKeywordCorpus.json",
             ).run()
 
-        self.assertEqual(result["corpus"], {"comments": 1, "runs": 1, "storage": "monolith"})
+        self.assertEqual(
+            result["corpus"],
+            {
+                "comments": 1,
+                "runs": 1,
+                "storage": "monolith",
+                "sourceBreakdown": {"runs": {"bilibili": 1}},
+            },
+        )
         self.assertEqual(result["sampled"], 1)
         self.assertEqual(result["keywordHits"], 0)
 
@@ -3177,7 +3259,15 @@ class CorpusContractTests(unittest.TestCase):
                 ]
             ).run()
 
-        self.assertEqual(result["corpus"], {"comments": 2, "runs": 2, "storage": "combined"})
+        self.assertEqual(
+            result["corpus"],
+            {
+                "comments": 2,
+                "runs": 2,
+                "storage": "combined",
+                "sourceBreakdown": {"runs": {"bilibili": 1, "tieba": 1}},
+            },
+        )
         self.assertEqual(result["sampled"], 2)
         self.assertEqual(result["keywordHits"], 1)
 

@@ -33,11 +33,37 @@ class RandomVerificationCorpus:
     storage: str
 
     def as_report_corpus(self) -> dict[str, Any]:
-        return {
+        result: dict[str, Any] = {
             "comments": len(self.comments),
             "runs": len(self.runs),
             "storage": self.storage,
         }
+        source_breakdown = self._source_breakdown()
+        if source_breakdown:
+            result["sourceBreakdown"] = source_breakdown
+        return result
+
+    def _source_breakdown(self) -> dict[str, dict[str, int]]:
+        comments = self._source_counts(self.comments)
+        runs = self._source_counts(self.runs)
+        result: dict[str, dict[str, int]] = {}
+        if comments:
+            result["comments"] = comments
+        if runs:
+            result["runs"] = runs
+        return result
+
+    @staticmethod
+    def _source_counts(items: list[dict[str, Any]]) -> dict[str, int]:
+        counts: dict[str, int] = {}
+        for item in items if isinstance(items, list) else []:
+            if not isinstance(item, dict):
+                continue
+            source = str(item.get("source") or item.get("platform") or "").strip()
+            if not source:
+                continue
+            counts[source] = counts.get(source, 0) + 1
+        return dict(sorted(counts.items()))
 
 
 @dataclass(frozen=True)
