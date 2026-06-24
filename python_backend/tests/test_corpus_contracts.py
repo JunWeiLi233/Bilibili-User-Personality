@@ -88,7 +88,7 @@ from python_backend.analysis.harvest_plan import DEFAULT_SEED_QUERIES, KeywordHa
 from python_backend.analysis.harvest_state import HarvestCoverageActionBuilder, HarvestStateCommandRequest, HarvestStateContractComparator as HarvestStatePayloadComparator, HarvestStatePayloadContractComparator, HarvestStateFinalizer, HarvestStatePayloadProcessor, HarvestStateRequest, HarvestStateRunner as HarvestStatePayloadRunner, HarvestStateSummary, HarvestTermAttemptSummarizer, HarvestTermAttemptUpdater, term_attempt_key
 from python_backend.analysis import near_target
 from python_backend.analysis.near_target import NearTargetOverrideTermsParser, NearTargetResolvePlanCommandRequest, NearTargetResolvePlanContractComparator as NearTargetResolvePlanPayloadComparator, NearTargetResolvePlanRequest, NearTargetResolvePlanner, NearTargetResolvePlanRunner as NearTargetResolvePayloadPlanRunner
-from python_backend.analysis.migration_inventory import BackendMigrationInventoryCommandRequest, BackendMigrationInventoryRunner, BackendMigrationInventoryScanner, DEFAULT_PACKAGE_VALIDATION_SCOPES, PackageCommandMigrationInventory
+from python_backend.analysis.migration_inventory import BackendMigrationInventoryCommandRequest, BackendMigrationInventoryRunner, BackendMigrationInventoryScanner, BackendReplacementReadinessContract, DEFAULT_PACKAGE_VALIDATION_SCOPES, PackageCommandMigrationInventory
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsCommandRequest, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsPayloadContractComparator, ReadmeStatsRepositoryUpdater, ReadmeStatsRequest, ReadmeStatsRunner as ReadmeStatsPayloadRunner, ReadmeStatsSummary, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherCommandRequest, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRequest, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationAnnotationContract, RandomVerificationCommandContract, RandomVerificationCommandRequest, RandomVerificationCompareCommandRequest, RandomVerificationComparisonOptionsContract, RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationCorpus, RandomVerificationCorpusReportBuilder, RandomVerificationDictionaryTermsContract, RandomVerificationExecutionContract, RandomVerificationJsonResultContract, RandomVerificationOutputWriter, RandomVerificationPayloadContractComparator, RandomVerificationReadinessContract, RandomVerificationReportBuilder, RandomVerificationReportContract, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRequestDispatcher, RandomVerificationRunOptions, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerificationSampleContract, RandomVerificationSummaryContract, RandomVerifier, VerificationSummary, json_result_bytes as random_verification_payload_json_result_bytes
@@ -2591,6 +2591,34 @@ class CorpusContractTests(unittest.TestCase):
                 "liveVerificationCommand": "npm run python:deepseek-live-gate",
             },
         )
+
+    def test_backend_replacement_readiness_contract_summarizes_actions(self):
+        readiness = BackendReplacementReadinessContract(
+            migration_actions=[
+                {
+                    "path": "server/scripts/a.js",
+                    "readyToReplace": False,
+                    "replacementBlockers": [{"blocker": "live_not_verified"}],
+                },
+                {"path": "server/scripts/b.js", "readyToReplace": True},
+            ],
+            manual_verification_actions=[
+                {
+                    "path": "server/scripts/a.js",
+                    "nodeScript": "script:a",
+                    "blocker": "live_not_verified",
+                    "preflightCommand": "npm run compare:a",
+                    "liveVerificationCommand": "npm run live:a",
+                }
+            ],
+            python_contract_gaps=[],
+        ).to_json_contract()
+
+        self.assertFalse(readiness["ok"])
+        self.assertEqual(readiness["replacementBlockedActionPaths"], ["server/scripts/a.js"])
+        self.assertEqual(readiness["readyToReplaceActionPaths"], ["server/scripts/b.js"])
+        self.assertEqual(readiness["manualVerificationBlockerCounts"], {"live_not_verified": 1})
+        self.assertEqual(readiness["nextManualVerificationAction"]["liveVerificationCommand"], "npm run live:a")
 
     def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))

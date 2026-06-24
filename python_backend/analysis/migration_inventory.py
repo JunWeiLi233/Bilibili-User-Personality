@@ -529,6 +529,81 @@ MIGRATION_PRIORITY_RULES = (
 
 
 @dataclass(frozen=True)
+class BackendReplacementReadinessContract:
+    """Build the JS/Python replacement readiness JSON contract."""
+
+    migration_actions: list[dict[str, Any]]
+    manual_verification_actions: list[dict[str, str]]
+    python_contract_gaps: list[dict[str, Any]]
+
+    def to_json_contract(self) -> dict[str, Any]:
+        replacement_blocked = [
+            action
+            for action in self.migration_actions
+            if isinstance(action, dict) and action.get("replacementBlockers")
+        ]
+        ready_to_replace = [
+            action
+            for action in self.migration_actions
+            if isinstance(action, dict) and action.get("readyToReplace") and not action.get("replacementBlockers")
+        ]
+        manual_commands = [
+            action.get("liveVerificationCommand") or action.get("preflightCommand")
+            for action in self.manual_verification_actions
+            if isinstance(action, dict) and (action.get("liveVerificationCommand") or action.get("preflightCommand"))
+        ]
+        manual_blockers = sorted(
+            {
+                str(action.get("blocker") or "")
+                for action in self.manual_verification_actions
+                if isinstance(action, dict) and str(action.get("blocker") or "").strip()
+            }
+        )
+        manual_blocker_counts: dict[str, int] = {}
+        manual_blocker_commands: dict[str, dict[str, set[str]]] = {}
+        for action in self.manual_verification_actions:
+            if not isinstance(action, dict):
+                continue
+            blocker = str(action.get("blocker") or "").strip()
+            if not blocker:
+                continue
+            manual_blocker_counts[blocker] = manual_blocker_counts.get(blocker, 0) + 1
+            commands = manual_blocker_commands.setdefault(blocker, {"preflightCommands": set(), "liveVerificationCommands": set()})
+            preflight_command = str(action.get("preflightCommand") or "").strip()
+            live_verification_command = str(action.get("liveVerificationCommand") or "").strip()
+            if preflight_command:
+                commands["preflightCommands"].add(preflight_command)
+            if live_verification_command:
+                commands["liveVerificationCommands"].add(live_verification_command)
+        gates = [
+            {"gate": "noPythonContractGaps", "ok": len(self.python_contract_gaps) == 0},
+            {"gate": "noReplacementBlockers", "ok": len(replacement_blocked) == 0},
+            {"gate": "allManualVerificationComplete", "ok": len(self.manual_verification_actions) == 0},
+        ]
+        return {
+            "ok": all(gate["ok"] for gate in gates),
+            "gates": gates,
+            "manualVerificationActionCount": len(self.manual_verification_actions),
+            "replacementBlockedActionCount": len(replacement_blocked),
+            "readyToReplaceActionCount": len(ready_to_replace),
+            "replacementBlockedActionPaths": [str(action.get("path") or "") for action in replacement_blocked],
+            "readyToReplaceActionPaths": [str(action.get("path") or "") for action in ready_to_replace],
+            "pythonContractGapCount": len(self.python_contract_gaps),
+            "manualVerificationCommandCount": len(manual_commands),
+            "manualVerificationBlockers": manual_blockers,
+            "manualVerificationBlockerCounts": dict(sorted(manual_blocker_counts.items())),
+            "manualVerificationBlockerCommandMap": {
+                blocker: {
+                    "preflightCommands": sorted(commands["preflightCommands"]),
+                    "liveVerificationCommands": sorted(commands["liveVerificationCommands"]),
+                }
+                for blocker, commands in sorted(manual_blocker_commands.items())
+            },
+            "nextManualVerificationAction": dict(self.manual_verification_actions[0]) if self.manual_verification_actions else {},
+        }
+
+
+@dataclass(frozen=True)
 class BackendMigrationInventoryScanner:
     """Count remaining JS backend files that still need Python migration coverage."""
 
@@ -632,70 +707,11 @@ class BackendMigrationInventoryScanner:
         manual_verification_actions: list[dict[str, str]],
         python_contract_gaps: list[dict[str, Any]],
     ) -> dict[str, Any]:
-        replacement_blocked = [
-            action
-            for action in migration_actions
-            if isinstance(action, dict) and action.get("replacementBlockers")
-        ]
-        ready_to_replace = [
-            action
-            for action in migration_actions
-            if isinstance(action, dict) and action.get("readyToReplace") and not action.get("replacementBlockers")
-        ]
-        manual_commands = [
-            action.get("liveVerificationCommand") or action.get("preflightCommand")
-            for action in manual_verification_actions
-            if isinstance(action, dict) and (action.get("liveVerificationCommand") or action.get("preflightCommand"))
-        ]
-        manual_blockers = sorted(
-            {
-                str(action.get("blocker") or "")
-                for action in manual_verification_actions
-                if isinstance(action, dict) and str(action.get("blocker") or "").strip()
-            }
-        )
-        manual_blocker_counts: dict[str, int] = {}
-        manual_blocker_commands: dict[str, dict[str, set[str]]] = {}
-        for action in manual_verification_actions:
-            if not isinstance(action, dict):
-                continue
-            blocker = str(action.get("blocker") or "").strip()
-            if not blocker:
-                continue
-            manual_blocker_counts[blocker] = manual_blocker_counts.get(blocker, 0) + 1
-            commands = manual_blocker_commands.setdefault(blocker, {"preflightCommands": set(), "liveVerificationCommands": set()})
-            preflight_command = str(action.get("preflightCommand") or "").strip()
-            live_verification_command = str(action.get("liveVerificationCommand") or "").strip()
-            if preflight_command:
-                commands["preflightCommands"].add(preflight_command)
-            if live_verification_command:
-                commands["liveVerificationCommands"].add(live_verification_command)
-        gates = [
-            {"gate": "noPythonContractGaps", "ok": len(python_contract_gaps) == 0},
-            {"gate": "noReplacementBlockers", "ok": len(replacement_blocked) == 0},
-            {"gate": "allManualVerificationComplete", "ok": len(manual_verification_actions) == 0},
-        ]
-        return {
-            "ok": all(gate["ok"] for gate in gates),
-            "gates": gates,
-            "manualVerificationActionCount": len(manual_verification_actions),
-            "replacementBlockedActionCount": len(replacement_blocked),
-            "readyToReplaceActionCount": len(ready_to_replace),
-            "replacementBlockedActionPaths": [str(action.get("path") or "") for action in replacement_blocked],
-            "readyToReplaceActionPaths": [str(action.get("path") or "") for action in ready_to_replace],
-            "pythonContractGapCount": len(python_contract_gaps),
-            "manualVerificationCommandCount": len(manual_commands),
-            "manualVerificationBlockers": manual_blockers,
-            "manualVerificationBlockerCounts": dict(sorted(manual_blocker_counts.items())),
-            "manualVerificationBlockerCommandMap": {
-                blocker: {
-                    "preflightCommands": sorted(commands["preflightCommands"]),
-                    "liveVerificationCommands": sorted(commands["liveVerificationCommands"]),
-                }
-                for blocker, commands in sorted(manual_blocker_commands.items())
-            },
-            "nextManualVerificationAction": dict(manual_verification_actions[0]) if manual_verification_actions else {},
-        }
+        return BackendReplacementReadinessContract(
+            migration_actions=migration_actions,
+            manual_verification_actions=manual_verification_actions,
+            python_contract_gaps=python_contract_gaps,
+        ).to_json_contract()
 
     @staticmethod
     def _manual_verification_actions(*actions: dict[str, Any]) -> list[dict[str, str]]:
