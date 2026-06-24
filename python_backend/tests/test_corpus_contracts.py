@@ -38764,6 +38764,15 @@ class CorpusContractTests(unittest.TestCase):
         result = gate.describe(audit={"ok": True})
         self.assertEqual(result["runtimeMode"], "no_live_audit_gate")
 
+    def test_coverage_harvest_loop_command_module_exports_runner_and_request_contracts(self):
+        from python_backend.analysis.coverage_harvest_loop_command import (
+            CoverageHarvestLoopRequest,
+            CoverageHarvestLoopCommandRequest,
+        )
+
+        self.assertTrue(issubclass(CoverageHarvestLoopCommandRequest, object))
+        self.assertTrue(issubclass(CoverageHarvestLoopRequest, object))
+
 
 if __name__ == "__main__":
     unittest.main()
