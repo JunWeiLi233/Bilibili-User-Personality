@@ -353,6 +353,27 @@ class RandomVerificationReadinessComponentsContract:
         )
 
 
+class RandomVerificationReadinessOutputContract:
+    """Build the final random-verification readiness JSON compatibility payload."""
+
+    def __init__(
+        self,
+        gate_contract: dict[str, Any] | None = None,
+        coverage_summary: dict[str, Any] | None = None,
+        verification_summary: dict[str, Any] | None = None,
+    ):
+        self.gate_contract = gate_contract if isinstance(gate_contract, dict) else {}
+        self.coverage_summary = coverage_summary if isinstance(coverage_summary, dict) else {}
+        self.verification_summary = verification_summary if isinstance(verification_summary, dict) else {}
+
+    def to_json_contract(self) -> dict[str, Any]:
+        return {
+            **self.gate_contract,
+            "coverage": self.coverage_summary,
+            "randomVerification": self.verification_summary,
+        }
+
+
 @dataclass(frozen=True)
 class RandomVerificationReadinessContract:
     """Merge coverage-audit and random-verification evidence into a replacement gate."""
@@ -371,11 +392,11 @@ class RandomVerificationReadinessContract:
             gates=readiness_components.gates(),
             reasons=readiness_components.blocker_reasons(),
         )
-        return {
-            **gate_contract.to_json_contract(),
-            "coverage": coverage_summary,
-            "randomVerification": verification_summary,
-        }
+        return RandomVerificationReadinessOutputContract(
+            gate_contract=gate_contract.to_json_contract(),
+            coverage_summary=coverage_summary,
+            verification_summary=verification_summary,
+        ).to_json_contract()
 
 
 class RandomVerificationSampleContract:

@@ -3796,6 +3796,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("randomVerificationSampled", collection.blocker_reasons())
         self.assertIn("randomVerificationSelectionConsistent", collection.blocker_reasons())
 
+    def test_random_verification_readiness_output_contract_merges_gate_and_summaries(self):
+        output = verification_module.RandomVerificationReadinessOutputContract(
+            gate_contract={
+                "ok": True,
+                "gates": [{"gate": "coverageAuditComplete", "ok": True}],
+                "blockers": [],
+                "blockerDetails": [],
+            },
+            coverage_summary={"ok": True, "coverage": {"complete": True}},
+            verification_summary={"sampled": 2, "uncovered": 0},
+        ).to_json_contract()
+
+        self.assertEqual(
+            output,
+            {
+                "ok": True,
+                "gates": [{"gate": "coverageAuditComplete", "ok": True}],
+                "blockers": [],
+                "blockerDetails": [],
+                "coverage": {"ok": True, "coverage": {"complete": True}},
+                "randomVerification": {"sampled": 2, "uncovered": 0},
+            },
+        )
+
     def test_random_verification_readiness_contract_blocks_selection_summary_drift(self):
         readiness = RandomVerificationReadinessContract(
             coverage_audit={
