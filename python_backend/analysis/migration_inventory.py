@@ -654,6 +654,14 @@ class BackendMigrationInventoryScanner:
                 if isinstance(action, dict) and str(action.get("blocker") or "").strip()
             }
         )
+        manual_blocker_counts: dict[str, int] = {}
+        for action in manual_verification_actions:
+            if not isinstance(action, dict):
+                continue
+            blocker = str(action.get("blocker") or "").strip()
+            if not blocker:
+                continue
+            manual_blocker_counts[blocker] = manual_blocker_counts.get(blocker, 0) + 1
         return {
             "manualVerificationActionCount": len(manual_verification_actions),
             "replacementBlockedActionCount": len(replacement_blocked),
@@ -661,6 +669,7 @@ class BackendMigrationInventoryScanner:
             "pythonContractGapCount": len(python_contract_gaps),
             "manualVerificationCommandCount": len(manual_commands),
             "manualVerificationBlockers": manual_blockers,
+            "manualVerificationBlockerCounts": dict(sorted(manual_blocker_counts.items())),
         }
 
     @staticmethod
