@@ -220,6 +220,16 @@ DEFAULT_DIRECT_FILE_CONTRACTS = {
         "validationScope": "dry_run_plan_video_favorite_uid_missing_target_fixtures_and_js_python_bridge",
         "replacementScope": "dry_run_plan",
     },
+    "server/scripts/uidParallelAnalyzer.js": {
+        "nodeScript": "server/scripts/uidParallelAnalyzer.js",
+        "nodeCommand": "node server/scripts/uidParallelAnalyzer.js",
+        "pythonScript": "python:uid-parallel-plan",
+        "pythonCommand": "python -m python_backend.cli.uid_parallel_plan",
+        "validationScript": "python:uid-parallel-compare",
+        "validationCommand": "node server/scripts/compareUidParallelPlan.js",
+        "validationScope": "dry_run_plan_default_worker_parseint_prefix_fixtures_js_python_bridge_and_cli_flag_bridge",
+        "replacementScope": "dry_run_plan",
+    },
 }
 
 DEFAULT_RETAINED_NODE_COMMANDS = {
@@ -1104,6 +1114,16 @@ class BackendMigrationInventoryScanner:
                     "reason": "Python has direct video, favorite, UID, and missing-target dry-run plan fixtures with JS/Python bridge coverage, but live Bilibili collection and DeepSeek dictionary training still need verification before replacing the JS command.",
                     "preflightCommand": "npm run python:video-link-direct-compare",
                     "liveVerificationCommand": "node server/scripts/runVideoLinkDirect.js --uid 1",
+                    "manualVerificationRequired": True,
+                }
+            )
+        elif script == "server/scripts/uidParallelAnalyzer.js" and validation_scope != "full_command":
+            blockers.append(
+                {
+                    "blocker": "uid_parallel_live_runtime_not_verified",
+                    "reason": "Python has a UID parallel dry-run assignment plan, default/worker/parseint fixtures, progress reporting contracts, and JS/Python bridge coverage, but live DeepSeek training, dictionary locking, and worker progress persistence still need verification before replacing the JS script.",
+                    "preflightCommand": "npm run python:uid-parallel-compare",
+                    "liveVerificationCommand": "node server/scripts/uidParallelAnalyzer.js --worker=0 --workers=1",
                     "manualVerificationRequired": True,
                 }
             )
