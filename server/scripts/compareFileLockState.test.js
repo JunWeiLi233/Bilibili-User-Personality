@@ -36,6 +36,30 @@ test('compareFileLockState compares JS-compatible and Python lock reports', asyn
   assert.deepEqual(calls, [{ js: true }, { python: true }]);
 });
 
+test('compareFileLockState delegates saved JS report comparison to Python contract', async () => {
+  let compareContext;
+  const result = await compareFileLockState({
+    owner: SUMMARY.owner,
+    runJs: async () => ({ ok: true, ...SUMMARY }),
+    runPython: async () => ({ ok: true, ...SUMMARY }),
+    runCompare: async (context) => {
+      compareContext = context;
+      return {
+        ok: true,
+        mismatches: [],
+        python: SUMMARY,
+        js: SUMMARY,
+      };
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.equal(compareContext.jsReportPath.endsWith('js-report.json'), true);
+  assert.deepEqual(compareContext.jsReport, { ok: true, ...SUMMARY });
+  assert.deepEqual(compareContext.pythonReport, { ok: true, ...SUMMARY });
+});
+
 test('compareFileLockState exports named file-backed fixtures', async () => {
   assert.deepEqual(Object.keys(FILE_LOCK_STATE_FIXTURES), ['stale-owner', 'missing-owner', 'corrupt-owner']);
 
@@ -50,6 +74,7 @@ test('compareFileLockState exports named file-backed fixtures', async () => {
       calls.push({ python: context.fixture.name, hasLockPath: context.lockPath.endsWith('.fixture.lock') });
       return { ok: true, ...SUMMARY };
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
