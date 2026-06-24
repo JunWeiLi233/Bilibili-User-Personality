@@ -871,6 +871,9 @@ class CoverageHarvestLoopCommandRunner:
             "model": os.environ.get("BILIBILI_HARVEST_MODEL") or "deepseek-v4-flash",
             "reasoningEffort": os.environ.get("BILIBILI_HARVEST_REASONING_EFFORT") or "max",
         }
+        existing_terms_only_value = (
+            bool(existing_terms_only) if existing_terms_only is not None else os.environ.get("BILIBILI_HARVEST_EXISTING_TERMS_ONLY") == "1"
+        )
         self.discovery_options = {
             "seedQueries": seed_queries
             if seed_queries is not None
@@ -937,9 +940,7 @@ class CoverageHarvestLoopCommandRunner:
             "prioritizeNearTarget": bool(prioritize_near_target)
             if prioritize_near_target is not None
             else _flag_value(os.environ.get("BILIBILI_HARVEST_PRIORITIZE_NEAR_TARGET"), False),
-            "existingTermsOnly": bool(existing_terms_only)
-            if existing_terms_only is not None
-            else os.environ.get("BILIBILI_HARVEST_EXISTING_TERMS_ONLY") == "1",
+            "existingTermsOnly": existing_terms_only_value,
             "discoveryLimit": _positive_int(
                 discovery_limit if discovery_limit is not None else os.environ.get("BILIBILI_VIDEO_DISCOVERY_LIMIT"),
                 6,
@@ -973,7 +974,10 @@ class CoverageHarvestLoopCommandRunner:
             ),
             "expandTargetsFromComments": bool(expand_targets_from_comments)
             if expand_targets_from_comments is not None
-            else _flag_value(os.environ.get("BILIBILI_HARVEST_EXPAND_TARGETS_FROM_COMMENTS"), False),
+            else _flag_value(
+                os.environ.get("BILIBILI_HARVEST_EXPAND_TARGETS_FROM_COMMENTS"),
+                existing_terms_only_value and self.require_comment_backed_evidence,
+            ),
         }
         self.runtime_gate = CoverageHarvestLoopRuntimeGate()
         self.harvest_adapter = CoverageHarvestLoopExternalHarvestAdapter(harvest_command_json) if harvest_command_json else None
