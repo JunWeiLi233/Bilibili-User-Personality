@@ -75,11 +75,36 @@ async function runPythonPlan({ dictionaryPath, statePath }) {
   return JSON.parse(stdout);
 }
 
+async function runPythonPlanComparison({ dictionaryPath, statePath, jsReportPath }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    [
+      '-m',
+      'python_backend.cli.exhausted_terms_prune_plan',
+      '--dictionary',
+      dictionaryPath,
+      '--state',
+      statePath,
+      '--attempt-threshold',
+      '10',
+      '--compare-js-report',
+      jsReportPath,
+    ],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return JSON.parse(stdout);
+}
+
 export async function compareExhaustedTermsPrunePlan({
   dictionary = DEFAULT_DICTIONARY,
   state = DEFAULT_STATE,
   runJsPlan: runJs = runJsPlan,
   runPythonPlan: runPython = runPythonPlan,
+  runCompare = runPythonPlanComparison,
 } = {}) {
   const tempDir = await mkdtemp(join(tmpdir(), 'exhausted-prune-compare-'));
   try {
@@ -93,7 +118,19 @@ export async function compareExhaustedTermsPrunePlan({
     await writeJson(pythonStatePath, state);
     const js = await runJs({ dictionaryPath: jsDictionaryPath, statePath: jsStatePath, dictionary, state });
     const python = await runPython({ dictionaryPath: pythonDictionaryPath, statePath: pythonStatePath, dictionary, state });
-    const comparison = compareExhaustedTermsPrunePlanObjects(python, js);
+    const jsReportPath = join(tempDir, 'js-report.json');
+    await writeJson(jsReportPath, js);
+    const comparison = await runCompare({
+      dictionaryPath: pythonDictionaryPath,
+      statePath: pythonStatePath,
+      jsReportPath,
+      dictionary,
+      state,
+      js,
+      python,
+      jsReport: js,
+      pythonReport: python,
+    });
     return {
       ok: comparison.ok,
       fixture: { jsDictionaryPath, pythonDictionaryPath, jsStatePath, pythonStatePath },

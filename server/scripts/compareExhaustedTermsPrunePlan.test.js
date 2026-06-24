@@ -36,9 +36,41 @@ test('compareExhaustedTermsPrunePlan compares JS and Python fixture plans', asyn
       calls.push({ python: payload });
       return PLAN;
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('compareExhaustedTermsPrunePlan delegates saved JS report comparison to Python contract', async () => {
+  let compareContext;
+  const result = await compareExhaustedTermsPrunePlan({
+    runJsPlan: async () => PLAN,
+    runPythonPlan: async () => PLAN,
+    runCompare: async (context) => {
+      compareContext = context;
+      return {
+        ok: true,
+        mismatches: [],
+        python: {
+          count: PLAN.count,
+          candidates: PLAN.candidates,
+          summary: PLAN.summary,
+        },
+        js: {
+          count: PLAN.count,
+          candidates: PLAN.candidates,
+          summary: PLAN.summary,
+        },
+      };
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.equal(compareContext.jsReportPath.endsWith('js-report.json'), true);
+  assert.deepEqual(compareContext.jsReport, PLAN);
+  assert.deepEqual(compareContext.pythonReport, PLAN);
 });
