@@ -7483,6 +7483,34 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["status"], "skipped")
         self.assertEqual(result["requires"], ["DEEPSEEK_API_KEY"])
 
+    def test_deepseek_analyze_command_request_passes_env_to_live_runtime(self):
+        calls = []
+
+        class Runtime:
+            def __init__(self, *, env=None):
+                calls.append({"env": env})
+
+            def run(self, payload):
+                calls.append({"payload": payload})
+                return {
+                    "ok": False,
+                    "provider": "deepseek",
+                    "model": "deepseek-v4-pro",
+                    "reasoningEffort": "max",
+                    "error": "stubbed",
+                }
+
+        result = DeepSeekAnalyzeCommandRequest(
+            ["--text", "\u53cd\u8bbd[doge]"],
+            env={"DEEPSEEK_API_KEY": "test-key", "DEEPSEEK_MODEL": "deepseek-v4-pro"},
+            runtime_factory=Runtime,
+        ).run()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(calls[0]["env"]["DEEPSEEK_API_KEY"], "test-key")
+        self.assertEqual(calls[0]["env"]["DEEPSEEK_MODEL"], "deepseek-v4-pro")
+        self.assertEqual(calls[1]["payload"], {"text": "\u53cd\u8bbd[doge]"})
+
     def test_deepseek_analyze_runtime_uses_injected_transport_and_normalizes_response(self):
         calls = []
 

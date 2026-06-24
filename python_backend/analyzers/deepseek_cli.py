@@ -355,11 +355,20 @@ class DeepSeekLiveValidationGate:
 class DeepSeekAnalyzeCommandRequest:
     """Run Python-owned analyzeDeepSeekComments-compatible command modes."""
 
-    def __init__(self, argv: list[Any] | None = None, *, stdin_text: str = "", stdin_is_tty: bool | None = None, env: dict[str, Any] | None = None):
+    def __init__(
+        self,
+        argv: list[Any] | None = None,
+        *,
+        stdin_text: str = "",
+        stdin_is_tty: bool | None = None,
+        env: dict[str, Any] | None = None,
+        runtime_factory: Any = None,
+    ):
         self.argv = [str(item) for item in argv] if argv is not None else None
         self.stdin_text = str(stdin_text or "")
         self.stdin_is_tty = bool(stdin_is_tty) if stdin_is_tty is not None else not bool(self.stdin_text)
         self.env = dict(os.environ) if env is None else dict(env)
+        self.runtime_factory = runtime_factory or DeepSeekAnalyzeRuntime
         self.normalizer = DeepSeekAnalysisNormalizer()
 
     @staticmethod
@@ -408,7 +417,7 @@ class DeepSeekAnalyzeCommandRequest:
                 ),
                 legacy_selector,
             )
-        return self._with_legacy_selector_compatibility({**DeepSeekAnalyzeRuntime().run(payload)}, legacy_selector)
+        return self._with_legacy_selector_compatibility({**self.runtime_factory(env=self.env).run(payload)}, legacy_selector)
 
     @staticmethod
     def _legacy_js_selector(args: argparse.Namespace) -> str:
