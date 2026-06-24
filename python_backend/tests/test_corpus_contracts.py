@@ -6818,6 +6818,22 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_deepseek_analysis_input_builder_preserves_platform_metadata(self):
+        request = DeepSeekAnalyzerClient().build_request_from_payload(
+            {
+                "comments": [
+                    {"message": "\u8d34\u5427\u9634\u9633\u602a\u6c14[doge]", "platform": "tieba", "threadId": "tid-9"},
+                ]
+            }
+        )
+
+        prompt_input = DeepSeekAnalysisInputBuilder().build(request)
+
+        self.assertEqual(
+            prompt_input["sourceComments"],
+            [{"text": "\u8d34\u5427\u9634\u9633\u602a\u6c14[doge]", "platform": "tieba", "threadId": "tid-9"}],
+        )
+
     def test_deepseek_analysis_plan_cli_main_emits_utf8_emoji_json_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "deepseek-plan.json"

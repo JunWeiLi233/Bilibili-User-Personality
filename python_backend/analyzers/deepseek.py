@@ -389,7 +389,7 @@ class DeepSeekAnalyzerClient:
         if not isinstance(item, dict):
             return {"text": text}
         result = {"text": text}
-        for source_key in ("source", "uid", "mid", "videoId", "bvid", "threadId", "postId", "url"):
+        for source_key in ("source", "platform", "uid", "mid", "videoId", "bvid", "threadId", "postId", "url"):
             value = str(item.get(source_key) or "").strip()
             if value:
                 result[source_key] = value
