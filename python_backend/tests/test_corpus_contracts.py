@@ -5445,6 +5445,14 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(pro.model, "deepseek-v4-pro")
         self.assertEqual(client.build_chat_request(flash)["model"], "deepseek-v4-flash")
 
+    def test_deepseek_analyzer_build_payload_normalizes_request_model_and_effort(self):
+        payload = DeepSeekAnalyzerClient().build_payload(
+            AnalyzerRequest(comments=["\u53cd\u8bbd[doge]"], model="DeepSeek V4 Pro", effort="max effort")
+        )
+
+        self.assertEqual(payload["model"], "deepseek-v4-pro")
+        self.assertEqual(payload["effort"], "max")
+
     def test_deepseek_analyzer_splits_chinese_terminal_punctuation_like_js(self):
         analyzer = DeepSeekAnalyzerClient()
 

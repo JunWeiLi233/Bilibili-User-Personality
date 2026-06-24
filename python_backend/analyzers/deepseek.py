@@ -212,8 +212,8 @@ class DeepSeekAnalyzerClient:
 
     def build_payload(self, request: AnalyzerRequest) -> dict[str, object]:
         return {
-            "model": request.model,
-            "effort": request.effort,
+            "model": normalize_deepseek_model(request.model),
+            "effort": normalize_reasoning_effort(request.effort),
             "uid": request.uid or "unknown",
             "name": request.name or "unknown",
             "comments": self._split_sentences("\n".join(request.comments)),
