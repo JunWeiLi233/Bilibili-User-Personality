@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { COVERAGE_LOOP_COMMAND_FIXTURES, compareCoverageHarvestLoopCommand } from './compareCoverageHarvestLoopCommand.js';
+import { runCoverageLoopJsHarvestAdapter } from './runCoverageHarvestLoopJsAdapter.js';
 import { compareCoverageHarvestLoopPlanObjects } from './compareCoverageHarvestLoopPlan.js';
 
 test('runCoverageHarvestLoop.js forces auto coverage to DeepSeek v4 flash max effort', () => {
@@ -252,12 +253,13 @@ test('compareCoverageHarvestLoopCommand validates complete and weak no-live fixt
     'mock-multi-cycle-report',
     'file-backed-mock-harvest',
     'external-harvest-command',
+    'js-harvest-adapter-command',
   ]);
 
   const result = await compareCoverageHarvestLoopCommand();
 
   assert.equal(result.ok, true);
-  assert.equal(result.results.length, 8);
+  assert.equal(result.results.length, 9);
   assert.deepEqual(result.results.map((item) => item.fixture), [
     'complete-empty-dictionary',
     'weak-cycle-limit',
@@ -267,6 +269,7 @@ test('compareCoverageHarvestLoopCommand validates complete and weak no-live fixt
     'mock-multi-cycle-report',
     'file-backed-mock-harvest',
     'external-harvest-command',
+    'js-harvest-adapter-command',
   ]);
   assert.deepEqual(result.results.map((item) => item.python.stopReason), [
     'coverage_gate_passed',
@@ -277,8 +280,9 @@ test('compareCoverageHarvestLoopCommand validates complete and weak no-live fixt
     'coverage_gate_passed',
     'coverage_gate_passed',
     'coverage_gate_passed',
+    'coverage_gate_passed',
   ]);
-  assert.deepEqual(result.results.map((item) => item.python.finalAudit.coverage.weakTerms), [0, 1, 1, 0, 1, 0, 0, 0]);
+  assert.deepEqual(result.results.map((item) => item.python.finalAudit.coverage.weakTerms), [0, 1, 1, 0, 1, 0, 0, 0, 0]);
   assert.equal(result.results[2].python.runtimeMode, 'deferred_live_harvest');
   assert.deepEqual(result.results[2].python.replacementBlockers.map((item) => item.blocker), ['live_harvest_runtime_not_integrated']);
   assert.deepEqual(result.results[3].python.cycles[0].coverageDelta, result.results[3].js.cycles[0].coverageDelta);
@@ -305,4 +309,54 @@ test('compareCoverageHarvestLoopCommand validates complete and weak no-live fixt
   assert.deepEqual(result.results[7].python.cycles[0].coverageDelta, result.results[7].js.cycles[0].coverageDelta);
   assert.deepEqual(result.results[7].python.cycles[0].harvest, result.results[7].js.cycles[0].harvest);
   assert.deepEqual(result.results[7].pythonReportFile, result.results[7].python);
+  assert.equal(result.results[8].python.runtimeMode, 'external_harvest_command');
+  assert.deepEqual(result.results[8].python.cycles[0].coverageDelta, result.results[8].js.cycles[0].coverageDelta);
+  assert.deepEqual(result.results[8].python.cycles[0].harvest, result.results[8].js.cycles[0].harvest);
+  assert.deepEqual(result.results[8].pythonReportFile, result.results[8].python);
+});
+
+test('runCoverageHarvestLoopJsAdapter maps Python loop request to JS harvest contract', async () => {
+  const calls = [];
+  const result = await runCoverageLoopJsHarvestAdapter(
+    {
+      dictionaryPath: 'tmp/dictionary.json',
+      statePath: 'tmp/state.json',
+      priorityQueries: [{ term: 'doge', query: 'doge 评论区 热评' }],
+      options: {
+        rounds: 2,
+        maxQueries: 3,
+        targetEvidence: 4,
+        requireSourceBackedEvidence: true,
+        requireCommentBackedEvidence: true,
+        includeDanmaku: true,
+        resetState: true,
+        skipSeen: false,
+      },
+    },
+    {
+      harvestKeywordDictionaryRounds: async (options) => {
+        calls.push(options);
+        return {
+          ok: true,
+          rounds: [{ queries: ['doge 评论区 热评'], warnings: [], coverageProgress: { evidenceGained: 4 } }],
+          dictionary: { version: 1, entries: [{ term: 'doge', family: 'meme', evidenceCount: 4 }] },
+        };
+      },
+    },
+  );
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.afterDictionary.entries.map((entry) => entry.term), ['doge']);
+  assert.deepEqual(result.harvest.rounds[0].queries, ['doge 评论区 热评']);
+  assert.equal(calls[0].dictionaryPath, 'tmp/dictionary.json');
+  assert.equal(calls[0].statePath, 'tmp/state.json');
+  assert.equal(calls[0].rounds, 2);
+  assert.equal(calls[0].maxQueries, 3);
+  assert.equal(calls[0].targetEvidence, 4);
+  assert.equal(calls[0].requireSourceBackedEvidence, true);
+  assert.equal(calls[0].requireCommentBackedEvidence, true);
+  assert.equal(calls[0].includeDanmaku, true);
+  assert.equal(calls[0].resetState, true);
+  assert.equal(calls[0].skipSeen, false);
+  assert.deepEqual(calls[0].priorityQueries, [{ term: 'doge', query: 'doge 评论区 热评' }]);
 });

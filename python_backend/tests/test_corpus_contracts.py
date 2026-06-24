@@ -1699,7 +1699,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:coverage-loop-command-compare",
                     "validationCommand": "node server/scripts/compareCoverageHarvestLoopCommand.js",
-                    "validationScope": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_command_and_deferred_live_contract",
+                    "validationScope": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_and_js_adapter_commands_deferred_live_contract",
                 },
                 {
                     "script": "dictionary:tieba",
@@ -1904,14 +1904,14 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["nextOfflineMigrationAction"]["pythonCommand"], "python -m python_backend.cli.coverage_loop_command")
         self.assertEqual(result["nextOfflineMigrationAction"]["validationScript"], "python:coverage-loop-command-compare")
         self.assertEqual(result["nextOfflineMigrationAction"]["validationCommand"], "node server/scripts/compareCoverageHarvestLoopCommand.js")
-        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_command_and_deferred_live_contract")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_and_js_adapter_commands_deferred_live_contract")
         self.assertFalse(result["nextOfflineMigrationAction"]["readyToReplace"])
         self.assertEqual(
             result["nextOfflineMigrationAction"]["replacementBlockers"],
             [
                 {
                     "blocker": "coverage_loop_live_runtime_not_verified",
-                    "reason": "Python has dry-run, no-live, mock cycle, mock harvest, file-backed mock harvest, external harvest adapter, and deferred live contracts, but dictionary:auto still needs a verified live Bilibili/Tieba harvest runtime before replacing the JS loop.",
+                    "reason": "Python has dry-run, no-live, mock cycle, mock harvest, file-backed mock harvest, external harvest adapter, checked-in JS harvest adapter command, and deferred live contracts, but dictionary:auto still needs a verified live Bilibili/Tieba harvest runtime before replacing the JS loop.",
                 },
             ],
         )
@@ -1942,6 +1942,14 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn(
             {"gate": "external_harvest_command_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
             result["nextOfflineMigrationAction"]["validationGates"],
+        )
+        self.assertIn(
+            {"gate": "js_harvest_adapter_command_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
+            result["nextOfflineMigrationAction"]["validationGates"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/runCoverageHarvestLoopJsAdapter.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
         )
         self.assertIn(
             {"gate": "js_opt_in_python_command_bridge", "status": "covered", "source": "runCoverageHarvestLoopScript.test.js"},
@@ -29639,7 +29647,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("npm run python:coverage-loop-command-compare", workflow)
         self.assertEqual(
             DEFAULT_PACKAGE_VALIDATION_SCOPES["python:coverage-loop-command-compare"],
-            "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_command_and_deferred_live_contract",
+            "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_and_js_adapter_commands_deferred_live_contract",
         )
 
     def test_coverage_harvest_loop_runner_reads_json_contracts_and_expands_priority_queries(self):

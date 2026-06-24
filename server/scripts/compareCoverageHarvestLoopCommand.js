@@ -275,6 +275,7 @@ export const COVERAGE_LOOP_COMMAND_FIXTURES = [
   { name: 'mock-multi-cycle-report', mockCyclePayload: MOCK_MULTI_CYCLE_PAYLOAD },
   { name: 'file-backed-mock-harvest', dictionary: FILE_BACKED_MOCK_HARVEST_DICTIONARY, mockHarvestPayload: FILE_BACKED_MOCK_HARVEST_PAYLOAD },
   { name: 'external-harvest-command', dictionary: FILE_BACKED_MOCK_HARVEST_DICTIONARY, externalHarvestPayload: FILE_BACKED_MOCK_HARVEST_PAYLOAD },
+  { name: 'js-harvest-adapter-command', dictionary: FILE_BACKED_MOCK_HARVEST_DICTIONARY, jsHarvestAdapterPayload: FILE_BACKED_MOCK_HARVEST_PAYLOAD },
 ];
 
 function summarize(report = {}) {
@@ -517,6 +518,40 @@ async function runPythonExternalHarvestReport({ dictionaryPath, statePath, repor
   return { stdoutReport: JSON.parse(stdout), fileReport: JSON.parse(await readFile(reportPath, 'utf8')) };
 }
 
+async function runPythonJsHarvestAdapterReport({ dictionaryPath, statePath, reportPath, payload, mockResultPath }) {
+  await writeFile(mockResultPath, JSON.stringify({
+    ok: true,
+    afterDictionary: payload.afterDictionary,
+    harvest: payload.harvest,
+  }, null, 2), 'utf8');
+  const { stdout } = await execFileAsync(
+    'python',
+    [
+      '-m',
+      'python_backend.cli.coverage_loop_command',
+      '--dictionary',
+      dictionaryPath,
+      '--state',
+      statePath,
+      '--report',
+      reportPath,
+      '--max-cycles',
+      '1',
+      '--generated-at',
+      GENERATED_AT,
+      '--harvest-command-json',
+      JSON.stringify(['node', 'server/scripts/runCoverageHarvestLoopJsAdapter.js', '{payload}', '--mock-result', mockResultPath]),
+      '--exit-zero',
+    ],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return { stdoutReport: JSON.parse(stdout), fileReport: JSON.parse(await readFile(reportPath, 'utf8')) };
+}
+
 export async function compareCoverageHarvestLoopCommand({
   dictionary = DEFAULT_DICTIONARY,
   fixtures = null,
@@ -592,6 +627,32 @@ export async function compareCoverageHarvestLoopCommand({
           reportPath: pythonReportPath,
           payload: fixture.externalHarvestPayload,
           adapterPath,
+        });
+        const python = pythonRun.stdoutReport;
+        const comparison = compareCoverageHarvestLoopCommandObjects(python, js);
+        results.push({
+          ok: comparison.ok,
+          fixture: fixtureName,
+          js,
+          python,
+          pythonReportFile: pythonRun.fileReport,
+          mismatches: comparison.mismatches,
+        });
+        continue;
+      }
+      if (fixture?.jsHarvestAdapterPayload) {
+        const mockResultPath = join(tempDir, `${fixtureName}-adapter-result.json`);
+        const js = buildJsFileBackedMockHarvestReport({
+          dictionary: fixtureDictionary,
+          payload: fixture.jsHarvestAdapterPayload,
+          maxCycles: fixture.maxCycles || 1,
+        });
+        const pythonRun = await runPythonJsHarvestAdapterReport({
+          dictionaryPath: pythonDictionaryPath,
+          statePath: pythonStatePath,
+          reportPath: pythonReportPath,
+          payload: fixture.jsHarvestAdapterPayload,
+          mockResultPath,
         });
         const python = pythonRun.stdoutReport;
         const comparison = compareCoverageHarvestLoopCommandObjects(python, js);
