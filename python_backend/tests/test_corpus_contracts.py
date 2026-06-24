@@ -1931,7 +1931,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:deepseek-analyze-command-compare",
                     "validationCommand": "node server/scripts/compareDeepSeekAnalyzeCommand.js",
-                    "validationScope": "full_command_identity_fields_file_input_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract",
+                    "validationScope": "full_command_identity_fields_file_payload_input_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract",
                 },
             ],
         )
@@ -1972,7 +1972,7 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(result["nextMigrationAction"]["path"], "server/scripts/analyzeDeepSeekComments.js")
         self.assertEqual(result["nextMigrationAction"]["validationScript"], "python:deepseek-analyze-command-compare")
-        self.assertEqual(result["nextMigrationAction"]["validationScope"], "full_command_identity_fields_file_input_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract")
+        self.assertEqual(result["nextMigrationAction"]["validationScope"], "full_command_identity_fields_file_payload_input_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract")
         self.assertFalse(result["nextMigrationAction"]["readyToReplace"])
         self.assertEqual(result["nextMigrationAction"]["recommendation"], "expand_python_runtime_contract_before_replacing_js")
         self.assertEqual(
@@ -1981,6 +1981,7 @@ class CorpusContractTests(unittest.TestCase):
                 {"gate": "fixture_command", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "command_identity_fields", "status": "covered", "source": "compareDeepSeekAnalyzeCommand.test.js"},
                 {"gate": "command_file_input", "status": "covered", "source": "compareDeepSeekAnalyzeCommand.test.js"},
+                {"gate": "command_payload_input", "status": "covered", "source": "analyzeDeepSeekComments.test.js"},
                 {"gate": "mock_runtime_command", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "multiagent_mock_runtime", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "js_env_python_runtime_bridge", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
@@ -1993,7 +1994,7 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {
                     "blocker": "credentialed_live_api_command_not_verified",
-                    "reason": "Validation covers command identity fields, file input, Python runtime mocks, multiagent mocks, and the offline live-gate skip contract, but no credentialed live API command run has been verified.",
+                    "reason": "Validation covers command identity fields, file input, payload input, Python runtime mocks, multiagent mocks, and the offline live-gate skip contract, but no credentialed live API command run has been verified.",
                 },
             ],
         )
