@@ -574,10 +574,14 @@ class BackendMigrationInventoryScanner:
             skip_replacement_scopes=("live_api_runtime",),
             offline_reason="skips_live_api_runtime",
         )
-        manual_verification_actions = self._manual_verification_actions(
-            *self._migration_actions(migration_priority_files, package_scripts)
-        )
+        migration_actions = self._migration_actions(migration_priority_files, package_scripts)
+        manual_verification_actions = self._manual_verification_actions(*migration_actions)
         python_contract_gaps = self._python_contract_gaps(migration_priority_files, package_scripts)
+        replacement_readiness = self._replacement_readiness(
+            migration_actions=migration_actions,
+            manual_verification_actions=manual_verification_actions,
+            python_contract_gaps=python_contract_gaps,
+        )
         return {
             "ok": True,
             "root": str(root),
@@ -596,6 +600,7 @@ class BackendMigrationInventoryScanner:
             "nextMigrationAction": next_migration_action,
             "nextOfflineMigrationAction": next_offline_migration_action,
             "manualVerificationActions": manual_verification_actions,
+            "replacementReadiness": replacement_readiness,
             "pythonContractGapCount": len(python_contract_gaps),
             "pythonContractGaps": python_contract_gaps,
             "retainedJsBackendFiles": retained_files,
@@ -618,6 +623,30 @@ class BackendMigrationInventoryScanner:
             "retainedJsBackendFiles": len(retained_files),
             "pythonOwnedDataScripts": len(package_scripts.get("pythonOwnedDataScripts", [])),
             "pythonBackedNodeScripts": len(package_scripts.get("pythonBackedNodeScripts", [])),
+        }
+
+    @staticmethod
+    def _replacement_readiness(
+        *,
+        migration_actions: list[dict[str, Any]],
+        manual_verification_actions: list[dict[str, str]],
+        python_contract_gaps: list[dict[str, Any]],
+    ) -> dict[str, int]:
+        replacement_blocked = [
+            action
+            for action in migration_actions
+            if isinstance(action, dict) and action.get("replacementBlockers")
+        ]
+        ready_to_replace = [
+            action
+            for action in migration_actions
+            if isinstance(action, dict) and action.get("readyToReplace") and not action.get("replacementBlockers")
+        ]
+        return {
+            "manualVerificationActionCount": len(manual_verification_actions),
+            "replacementBlockedActionCount": len(replacement_blocked),
+            "readyToReplaceActionCount": len(ready_to_replace),
+            "pythonContractGapCount": len(python_contract_gaps),
         }
 
     @staticmethod

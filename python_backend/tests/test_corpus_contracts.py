@@ -2534,6 +2534,7 @@ class CorpusContractTests(unittest.TestCase):
     def test_backend_migration_inventory_reports_progress_summary_counts(self):
         result = BackendMigrationInventoryScanner(".").scan()
         progress = result["migrationProgress"]
+        readiness = result["replacementReadiness"]
 
         self.assertEqual(progress["totalJsBackendFiles"], result["remainingJsBackendFiles"])
         self.assertEqual(progress["migrationCandidateJsBackendFiles"], result["migrationCandidateJsBackendFiles"])
@@ -2544,6 +2545,12 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(progress["pythonOwnedDataScripts"], len(result["packageScripts"]["pythonOwnedDataScripts"]))
         self.assertEqual(progress["pythonBackedNodeScripts"], len(result["packageScripts"]["pythonBackedNodeScripts"]))
+        self.assertEqual(readiness["manualVerificationActionCount"], len(result["manualVerificationActions"]))
+        self.assertEqual(readiness["manualVerificationActionCount"], 25)
+        self.assertEqual(readiness["replacementBlockedActionCount"], 25)
+        self.assertEqual(readiness["readyToReplaceActionCount"], 0)
+        self.assertEqual(readiness["pythonContractGapCount"], result["pythonContractGapCount"])
+        self.assertEqual(readiness["pythonContractGapCount"], 0)
 
     def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
