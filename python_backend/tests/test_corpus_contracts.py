@@ -38818,6 +38818,47 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["requireCommentBackedEvidence"], False)
         self.assertEqual(result["strict"], False)
 
+    def test_video_comment_filter_matches_js_needle_set_contract(self):
+        from python_backend.analysis.video_comment_filter import (
+            clean_search_text,
+            comment_matches_needle_set,
+            filter_comments_by_dictionary_needles,
+        )
+
+        # cleanSearchText normalizes text
+        self.assertEqual(clean_search_text("网 盘 见"), "网盘见")
+        self.assertEqual(clean_search_text("Hello World!"), "helloworld")
+
+        # commentMatchesNeedleSet matches dictionary needles inside noisy comment text
+        needles = {"网盘见", "中国宝宝体质"}
+        self.assertEqual(comment_matches_needle_set("哈哈哈 网盘见！", needles), True)
+        self.assertEqual(comment_matches_needle_set("这就是中国宝宝体质了", needles), True)
+        self.assertEqual(comment_matches_needle_set("网 盘 见", needles), True)
+        self.assertEqual(comment_matches_needle_set("完全无关的评论", needles), False)
+        self.assertEqual(comment_matches_needle_set("", needles), False)
+        self.assertEqual(comment_matches_needle_set("网盘见", set()), False)
+
+        # filterCommentsByDictionaryNeedles routes only term-bearing comments and falls back when empty
+        comments = [
+            {"rpid": "1", "message": "网盘见，懂的都懂"},
+            {"rpid": "2", "message": "路过随便看看"},
+            {"rpid": "3", "message": "这不就是典型的中国宝宝体质"},
+        ]
+        result = filter_comments_by_dictionary_needles(comments, {"网盘见"}, ["中国宝宝体质"])
+        self.assertEqual(result["applied"], True)
+        self.assertEqual(result["matched"], 2)
+        self.assertEqual([c["rpid"] for c in result["comments"]], ["1", "3"])
+
+        # No needle matches -> fall back
+        fallback = filter_comments_by_dictionary_needles(comments, {"完全不存在的词"})
+        self.assertEqual(fallback["applied"], False)
+        self.assertEqual(len(fallback["comments"]), 3)
+
+        # Empty needle set -> no filtering applied
+        no_needles = filter_comments_by_dictionary_needles(comments, set())
+        self.assertEqual(no_needles["applied"], False)
+        self.assertEqual(len(no_needles["comments"]), 3)
+
 
 if __name__ == "__main__":
     unittest.main()
