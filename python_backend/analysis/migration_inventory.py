@@ -611,6 +611,7 @@ class BackendReplacementReadinessContract:
                 next_manual_action.get("liveVerificationCommand") or next_manual_action.get("preflightCommand") or ""
             ),
             "manualVerificationCommandQueue": manual_command_queue,
+            "manualVerificationCommandSummary": self._manual_verification_command_summary(manual_command_queue),
         }
 
     def _manual_verification_command_queue(self, manual_verification_actions: list[dict[str, str]]) -> list[dict[str, str]]:
@@ -630,6 +631,11 @@ class BackendReplacementReadinessContract:
             if live_verification_command:
                 queue.append({**base, "kind": "live", "command": live_verification_command})
         return queue
+
+    def _manual_verification_command_summary(self, manual_command_queue: list[dict[str, str]]) -> dict[str, int]:
+        preflight_count = sum(1 for command in manual_command_queue if command.get("kind") == "preflight")
+        live_count = sum(1 for command in manual_command_queue if command.get("kind") == "live")
+        return {"total": len(manual_command_queue), "preflight": preflight_count, "live": live_count}
 
     def _blocker_details(
         self,

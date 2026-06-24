@@ -2666,6 +2666,10 @@ class CorpusContractTests(unittest.TestCase):
                 },
             ],
         )
+        self.assertEqual(
+            readiness["manualVerificationCommandSummary"],
+            {"total": 2, "preflight": 1, "live": 1},
+        )
 
     def test_backend_replacement_readiness_contract_reports_clear_gate_state(self):
         readiness = BackendReplacementReadinessContract(
@@ -2690,6 +2694,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(readiness["nextManualVerificationAction"], {})
         self.assertEqual(readiness["nextManualVerificationCommand"], "")
         self.assertEqual(readiness["manualVerificationCommandQueue"], [])
+        self.assertEqual(readiness["manualVerificationCommandSummary"], {"total": 0, "preflight": 0, "live": 0})
 
     def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
