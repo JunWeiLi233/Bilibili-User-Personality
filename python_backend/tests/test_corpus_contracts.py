@@ -34064,6 +34064,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(report_corpus["sourceBreakdown"]["comments"]["__other__"], 5)
         self.assertNotIn("source-24", report_corpus["sourceBreakdown"]["comments"])
 
+    def test_random_verification_report_summary_caps_large_source_breakdowns(self):
+        summary = RandomVerificationReportSummary().summarize(
+            {
+                "sampleSize": 1,
+                "seed": 1,
+                "sampled": 1,
+                "keywordHits": 0,
+                "neutral": 1,
+                "uncovered": 0,
+                "corpus": {
+                    "comments": 25,
+                    "runs": 0,
+                    "storage": "combined",
+                    "sourceBreakdown": {
+                        "comments": {f"source-{index:02d}": 1 for index in range(25)}
+                    },
+                },
+            }
+        )
+
+        self.assertEqual(len(summary["corpus"]["sourceBreakdown"]["comments"]), 21)
+        self.assertEqual(summary["corpus"]["sourceBreakdown"]["comments"]["__other__"], 5)
+        self.assertNotIn("source-24", summary["corpus"]["sourceBreakdown"]["comments"])
+
     def test_random_verification_comparator_detects_corpus_source_breakdown_mismatch(self):
         result = RandomVerificationPayloadComparator().compare(
             {

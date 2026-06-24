@@ -128,6 +128,7 @@ class RandomVerificationReportSummary:
 
     SUMMARY_KEYS = ("sampleSize", "seed", "sampled", "keywordHits", "neutral", "uncovered")
     CORPUS_KEYS = ("comments", "runs", "storage", "sourceBreakdown")
+    SOURCE_BREAKDOWN_LIMIT = 20
 
     def summarize(self, report: dict[str, Any] | None = None) -> dict[str, Any]:
         report = report if isinstance(report, dict) else {}
@@ -174,8 +175,16 @@ class RandomVerificationReportSummary:
                     continue
                 counts[source_key] = _non_negative_int(count, 0)
             if counts:
-                result[bucket] = dict(sorted(counts.items()))
+                result[bucket] = self._cap_source_counts(counts)
         return result
+
+    def _cap_source_counts(self, counts: dict[str, int]) -> dict[str, int]:
+        if len(counts) <= self.SOURCE_BREAKDOWN_LIMIT:
+            return dict(sorted(counts.items()))
+        sorted_counts = sorted(counts.items(), key=lambda item: (-item[1], item[0]))
+        visible = dict(sorted_counts[: self.SOURCE_BREAKDOWN_LIMIT])
+        visible["__other__"] = sum(count for _, count in sorted_counts[self.SOURCE_BREAKDOWN_LIMIT :])
+        return visible
 
 
 class RandomVerificationSampleContract:
