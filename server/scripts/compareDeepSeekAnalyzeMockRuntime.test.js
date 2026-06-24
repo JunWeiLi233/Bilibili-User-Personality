@@ -25,6 +25,7 @@ test('compareDeepSeekAnalyzeMockRuntime compares mocked service runtime to Pytho
       calls.push({ python: payload });
       return NORMALIZED;
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
@@ -45,6 +46,7 @@ test('compareDeepSeekAnalyzeMockRuntime passes mock analysis through the Python 
       calls.push({ pythonCommand: payload });
       return NORMALIZED;
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
@@ -68,6 +70,7 @@ test('compareDeepSeekAnalyzeMockRuntime reports request plan drift', async () =>
       ],
     }),
     runPythonCommand: async () => NORMALIZED,
+    runCompare: async () => ({ ok: true, mismatches: [] }),
     runPythonPlan: async () => ({
       ok: true,
       mode: 'single',
@@ -87,6 +90,46 @@ test('compareDeepSeekAnalyzeMockRuntime reports request plan drift', async () =>
       key: 'requestPlan.requests[0].max_tokens',
       python: 2000,
       js: 999,
+    },
+  ]);
+});
+
+test('compareDeepSeekAnalyzeMockRuntime delegates normalized report comparison to Python contract', async () => {
+  const calls = [];
+  const result = await compareDeepSeekAnalyzeMockRuntime({
+    runJsRuntime: async () => ({ ...NORMALIZED, requests: [] }),
+    runPythonCommand: async () => NORMALIZED,
+    runPythonPlan: async () => ({ ok: true, mode: 'single', requests: [] }),
+    runCompare: async (context) => {
+      calls.push({
+        model: context.config.model,
+        reasoningEffort: context.config.reasoningEffort,
+        hasRaw: typeof context.raw === 'string' && context.raw.length > 0,
+        jsConfidence: context.jsRuntimeContract.confidence,
+        pythonConfidence: context.pythonNormalization.confidence,
+        hasPayloadPath: context.payloadPath.endsWith('payload.json'),
+        hasAnalysisPath: context.analysisPath.endsWith('analysis.json'),
+        hasJsReportPath: context.jsReportPath.endsWith('js-report.json'),
+      });
+      return {
+        ok: false,
+        mismatches: [{ key: 'delegated', python: 'python-contract', js: 'js-mock-runtime' }],
+      };
+    },
+  });
+
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.mismatches, [{ key: 'delegated', python: 'python-contract', js: 'js-mock-runtime' }]);
+  assert.deepEqual(calls, [
+    {
+      model: 'deepseek-v4-flash',
+      reasoningEffort: 'max',
+      hasRaw: true,
+      jsConfidence: 0.92,
+      pythonConfidence: 0.92,
+      hasPayloadPath: true,
+      hasAnalysisPath: true,
+      hasJsReportPath: true,
     },
   ]);
 });

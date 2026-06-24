@@ -9,7 +9,6 @@ import { analyzeCommentsWithDeepSeek } from '../services/deepseekKeywordTrainer.
 import {
   DEFAULT_ANALYSIS,
   DEFAULT_PAYLOAD,
-  compareNormalizationObjects,
 } from './compareDeepSeekAnalysisNormalization.js';
 
 const execFileAsync = promisify(execFile);
@@ -95,6 +94,36 @@ async function runPythonRequestPlan({ payload }) {
   }
 }
 
+async function runPythonNormalizationComparison({ payloadPath, analysisPath, jsReportPath, config = DEFAULT_CONFIG, raw = DEFAULT_RAW }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    [
+      '-m',
+      'python_backend.cli.deepseek_analysis_normalize',
+      '--payload',
+      payloadPath,
+      '--analysis',
+      analysisPath,
+      '--provider',
+      config.provider,
+      '--model',
+      config.model,
+      '--reasoning-effort',
+      config.reasoningEffort,
+      '--raw',
+      raw || '',
+      '--compare-js-report',
+      jsReportPath,
+    ],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return JSON.parse(stdout);
+}
+
 function stripRuntimeOnlyFields(result = {}) {
   const { requests: _requests, ...contract } = result;
   return contract;
@@ -150,18 +179,46 @@ export async function compareDeepSeekAnalyzeMockRuntime({
   runPythonNormalization,
   runPythonCommand,
   runPythonPlan = runPythonRequestPlan,
+  runCompare = runPythonNormalizationComparison,
 } = {}) {
   const runPython = runPythonCommand || runPythonNormalization || runPythonCommandRuntime;
   const jsRuntime = await runJsRuntime({ payload, analysis, raw });
   const python = await runPython({ payload, analysis, raw, config: DEFAULT_CONFIG });
   const js = stripRuntimeOnlyFields(jsRuntime);
-  const comparison = compareNormalizationObjects(python, js);
+  const tempDir = await mkdtemp(join(tmpdir(), 'deepseek-mock-runtime-compare-'));
+  let comparison;
+  let payloadPath;
+  let analysisPath;
+  let jsReportPath;
+  try {
+    payloadPath = join(tempDir, 'payload.json');
+    analysisPath = join(tempDir, 'analysis.json');
+    jsReportPath = join(tempDir, 'js-report.json');
+    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
+    await writeFile(analysisPath, JSON.stringify(analysis, null, 2), 'utf8');
+    await writeFile(jsReportPath, JSON.stringify(js || {}, null, 2), 'utf8');
+    comparison = await runCompare({
+      payload,
+      analysis,
+      raw,
+      config: DEFAULT_CONFIG,
+      payloadPath,
+      analysisPath,
+      jsReportPath,
+      js,
+      python,
+      jsRuntimeContract: js,
+      pythonNormalization: python,
+    });
+  } finally {
+    await rm(tempDir, { recursive: true, force: true });
+  }
   const requestPlan = await runPythonPlan({ payload, analysis, raw, config: DEFAULT_CONFIG });
   const requestComparison = compareRequestPlans(requestPlan, jsRuntime.requests || []);
   const mismatches = [...comparison.mismatches, ...requestComparison.mismatches];
   return {
     ok: comparison.ok && requestComparison.ok,
-    fixture: { payload, analysis },
+    fixture: { payload, analysis, payloadPath, analysisPath, jsReportPath },
     js,
     python,
     requestPlan: {
