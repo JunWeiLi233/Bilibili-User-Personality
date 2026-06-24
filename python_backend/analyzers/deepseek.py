@@ -756,6 +756,13 @@ class DeepSeekAnalysisPlanSummary:
         merge = plan.get("merge") if isinstance(plan.get("merge"), dict) else {}
         if "mergeAgent" in merge:
             summary["merge"] = {"mergeAgent": merge.get("mergeAgent")}
+        request_template = merge.get("requestTemplate") if isinstance(merge.get("requestTemplate"), dict) else {}
+        if request_template:
+            summary.setdefault("merge", {})["requestTemplate"] = {
+                key: request_template.get(key)
+                for key in self.REQUEST_KEYS
+                if key in request_template
+            }
         return summary
 
 
@@ -832,6 +839,11 @@ class DeepSeekAnalysisPlanContractComparator:
         js_merge = js_plan.get("merge") if isinstance(js_plan.get("merge"), dict) else {}
         if "mergeAgent" in js_merge and python_merge.get("mergeAgent") != js_merge.get("mergeAgent"):
             mismatches.append({"key": "merge.mergeAgent", "python": python_merge.get("mergeAgent"), "js": js_merge.get("mergeAgent")})
+        python_template = python_merge.get("requestTemplate") if isinstance(python_merge.get("requestTemplate"), dict) else {}
+        js_template = js_merge.get("requestTemplate") if isinstance(js_merge.get("requestTemplate"), dict) else {}
+        for key in self.summary.REQUEST_KEYS:
+            if key in js_template and python_template.get(key) != js_template.get(key):
+                mismatches.append({"key": f"merge.requestTemplate.{key}", "python": python_template.get(key), "js": js_template.get(key)})
         return mismatches
 
 
