@@ -2574,6 +2574,16 @@ class CorpusContractTests(unittest.TestCase):
                 "liveVerificationCommands": ["npm run dictionary:auto"],
             },
         )
+        self.assertEqual(
+            readiness["nextManualVerificationAction"],
+            {
+                "path": "server/scripts/analyzeDeepSeekComments.js",
+                "nodeScript": "deepseek:analyze",
+                "blocker": "credentialed_live_api_command_not_verified",
+                "preflightCommand": "npm run python:deepseek-live-preflight",
+                "liveVerificationCommand": "npm run python:deepseek-live-gate",
+            },
+        )
 
     def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))

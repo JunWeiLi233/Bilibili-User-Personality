@@ -685,6 +685,7 @@ class BackendMigrationInventoryScanner:
                 }
                 for blocker, commands in sorted(manual_blocker_commands.items())
             },
+            "nextManualVerificationAction": dict(manual_verification_actions[0]) if manual_verification_actions else {},
         }
 
     @staticmethod
