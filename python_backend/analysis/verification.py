@@ -398,6 +398,39 @@ class RandomVerificationJsonPayloadContractComparator:
         return self.comparator.compare(python_report, js_report)
 
 
+class RandomVerificationReportFileComparator:
+    """Compare persisted Python and JS random-verification reports."""
+
+    def __init__(self, python_report_path: str | Path, js_report_path: str | Path):
+        self.python_report_path = Path(python_report_path)
+        self.js_report_path = Path(js_report_path)
+        self.comparator = RandomVerificationContractComparator(RandomVerificationReportSummary())
+
+    def compare(self) -> dict[str, Any]:
+        return self.comparator.compare(
+            safe_read_json_object(self.python_report_path),
+            safe_read_json_object(self.js_report_path),
+        )
+
+
+class RandomVerificationCompareCommandRequest:
+    """Parse persisted-report compare argv while keeping comparison ownership in Python."""
+
+    def __init__(self, argv: list[Any] | None = None):
+        self.argv = argv
+
+    @staticmethod
+    def parser() -> argparse.ArgumentParser:
+        parser = argparse.ArgumentParser(description="Compare persisted Python and JS random-verification JSON reports.")
+        parser.add_argument("--python-report", required=True)
+        parser.add_argument("--js-report", required=True)
+        return parser
+
+    def run(self) -> dict[str, Any]:
+        args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
+        return RandomVerificationReportFileComparator(args.python_report, args.js_report).compare()
+
+
 class RandomVerificationPayloadContractComparator:
     """Compare Python random verification against a persisted JS-compatible report."""
 

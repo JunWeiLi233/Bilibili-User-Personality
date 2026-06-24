@@ -38,6 +38,38 @@ test('compareRandomVerification compares injected JS and Python runners', async 
   assert.equal(result.fixture.jsReportPath.endsWith('js-report.json'), true);
 });
 
+test('compareRandomVerification delegates persisted report comparison to Python contract', async () => {
+  const calls = [];
+  const result = await compareRandomVerification({
+    payload: {
+      sampleSize: 1,
+      seed: 1,
+      corpus: { comments: [{ message: 'doge' }] },
+      dictionary: { entries: [{ term: 'doge' }] },
+    },
+    runJs: async () => ({ sampleSize: 1, seed: 1, sampled: 1, keywordHits: 1, neutral: 0, uncovered: 0 }),
+    runPython: async () => ({ sampleSize: 1, seed: 1, sampled: 1, keywordHits: 1, neutral: 0, uncovered: 0 }),
+    runCompare: async (context) => {
+      calls.push({
+        pythonReport: context.pythonReport.keywordHits,
+        jsReport: context.jsReport.keywordHits,
+        hasPythonReportPath: context.pythonReportPath.endsWith('python-report.json'),
+        hasJsReportPath: context.jsReportPath.endsWith('js-report.json'),
+      });
+      return {
+        ok: false,
+        mismatches: [{ key: 'delegated', python: 'python-contract', js: 'js-bridge' }],
+      };
+    },
+  });
+
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.mismatches, [{ key: 'delegated', python: 'python-contract', js: 'js-bridge' }]);
+  assert.deepEqual(calls, [
+    { pythonReport: 1, jsReport: 1, hasPythonReportPath: true, hasJsReportPath: true },
+  ]);
+});
+
 test('compareRandomVerification exports named payload fixtures', async () => {
   assert.deepEqual(Object.keys(RANDOM_VERIFICATION_FIXTURES), [
     'emoji-keyword-hit',

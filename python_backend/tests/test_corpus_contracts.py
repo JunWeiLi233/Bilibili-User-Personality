@@ -91,7 +91,7 @@ from python_backend.analysis.near_target import NearTargetOverrideTermsParser, N
 from python_backend.analysis.migration_inventory import BackendMigrationInventoryCommandRequest, BackendMigrationInventoryRunner, BackendMigrationInventoryScanner, DEFAULT_PACKAGE_VALIDATION_SCOPES, PackageCommandMigrationInventory
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsCommandRequest, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsPayloadContractComparator, ReadmeStatsRepositoryUpdater, ReadmeStatsRequest, ReadmeStatsRunner as ReadmeStatsPayloadRunner, ReadmeStatsSummary, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherCommandRequest, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRequest, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
-from python_backend.analysis.verification import RandomVerificationAnnotationContract, RandomVerificationCommandContract, RandomVerificationCommandRequest, RandomVerificationComparisonOptionsContract, RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationCorpus, RandomVerificationCorpusReportBuilder, RandomVerificationDictionaryTermsContract, RandomVerificationExecutionContract, RandomVerificationJsonResultContract, RandomVerificationOutputWriter, RandomVerificationPayloadContractComparator, RandomVerificationReportBuilder, RandomVerificationReportContract, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRequestDispatcher, RandomVerificationRunOptions, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerificationSampleContract, RandomVerificationSummaryContract, RandomVerifier, VerificationSummary, json_result_bytes as random_verification_payload_json_result_bytes
+from python_backend.analysis.verification import RandomVerificationAnnotationContract, RandomVerificationCommandContract, RandomVerificationCommandRequest, RandomVerificationCompareCommandRequest, RandomVerificationComparisonOptionsContract, RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationCorpus, RandomVerificationCorpusReportBuilder, RandomVerificationDictionaryTermsContract, RandomVerificationExecutionContract, RandomVerificationJsonResultContract, RandomVerificationOutputWriter, RandomVerificationPayloadContractComparator, RandomVerificationReportBuilder, RandomVerificationReportContract, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRequestDispatcher, RandomVerificationRunOptions, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerificationSampleContract, RandomVerificationSummaryContract, RandomVerifier, VerificationSummary, json_result_bytes as random_verification_payload_json_result_bytes
 from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisInputBuilder, DeepSeekAnalysisPlanCommandRequest, DeepSeekAnalysisPlanContractComparator as DeepSeekAnalysisPayloadPlanContractComparator, DeepSeekAnalysisPlanRequest, DeepSeekAnalysisPlanRunner as DeepSeekAnalysisPayloadPlanRunner, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidateCommandRequest, DeepSeekAnalysisValidateContractComparator as DeepSeekAnalysisPayloadValidateContractComparator, DeepSeekAnalysisValidateRequest, DeepSeekAnalysisValidateRunner as DeepSeekAnalysisPayloadValidateRunner, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator, DeepSeekRequestOptionsContract
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeAnalysisFileReader, DeepSeekAnalyzeArgvNormalizer, DeepSeekAnalyzeChatResponseParser, DeepSeekAnalyzeCommandRequest, DeepSeekAnalyzeCliPayloadPlanContractComparator, DeepSeekAnalyzeCliPlanCommandRequest, DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanRequest, DeepSeekAnalyzeCliPlanRunner as DeepSeekAnalyzeCliPayloadPlanRunner, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary, DeepSeekAnalyzeFixtureRunner, DeepSeekAnalyzeHttpErrorFormatter, DeepSeekAnalyzeHttpRequestBuilder, DeepSeekAnalyzeHttpTransport, DeepSeekAnalyzeLegacySelectorCompatibility, DeepSeekAnalyzeMockChatRunner, DeepSeekAnalyzePayloadBuilder, DeepSeekAnalyzeRuntime, DeepSeekAnalyzeRuntimeConfig, DeepSeekLiveValidationGate
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceCommandRequest, KeywordEvidenceContractComparator as KeywordEvidencePayloadComparator, KeywordEvidenceMatcher, KeywordEvidencePayloadContractComparator, KeywordEvidencePayloadRunner, KeywordEvidenceRequest, KeywordEvidenceSummary
@@ -36355,6 +36355,56 @@ class CorpusContractTests(unittest.TestCase):
                 "neutral": 7,
                 "uncovered": 0,
             },
+        )
+
+    def test_random_verification_compare_command_request_compares_persisted_reports(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            python_report_path = root / "python-random-verification.json"
+            js_report_path = root / "js-random-verification.json"
+            python_report_path.write_text(
+                json.dumps(
+                    {
+                        "sampleSize": 2,
+                        "seed": 1,
+                        "sampled": 2,
+                        "keywordHits": 2,
+                        "neutral": 0,
+                        "uncovered": 0,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps(
+                    {
+                        "sampleSize": 2,
+                        "seed": 1,
+                        "sampled": 2,
+                        "keywordHits": 1,
+                        "neutral": 1,
+                        "uncovered": 0,
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = RandomVerificationCompareCommandRequest(
+                [
+                    "--python-report",
+                    str(python_report_path),
+                    "--js-report",
+                    str(js_report_path),
+                ]
+            ).run()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [
+                {"key": "keywordHits", "python": 2, "js": 1},
+                {"key": "neutral", "python": 0, "js": 1},
+            ],
         )
 
     def test_random_verification_payload_comparator_defaults_malformed_metrics_before_compare(self):
