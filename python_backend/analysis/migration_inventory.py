@@ -150,6 +150,16 @@ DEFAULT_DIRECT_FILE_CONTRACTS = {
         "validationScope": "dry_run_default_fresh_completed_range_fixtures_js_python_plan_bridge_and_cli_flag_bridge",
         "replacementScope": "dry_run_plan",
     },
+    "server/scripts/batchScrapeBilibili.js": {
+        "nodeScript": "server/scripts/batchScrapeBilibili.js",
+        "nodeCommand": "node server/scripts/batchScrapeBilibili.js",
+        "pythonScript": "python:batch-bilibili-plan",
+        "pythonCommand": "python -m python_backend.cli.batch_bilibili_plan",
+        "validationScript": "python:batch-bilibili-compare",
+        "validationCommand": "node server/scripts/compareBatchBilibiliPlan.js",
+        "validationScope": "dry_run_plan_resume_empty_parseint_prefix_fixtures_js_python_bridge_and_cli_flag_bridge",
+        "replacementScope": "dry_run_plan",
+    },
 }
 
 DEFAULT_RETAINED_NODE_COMMANDS = {
@@ -964,6 +974,16 @@ class BackendMigrationInventoryScanner:
                     "reason": "Python has a browser batch dry-run plan, default/fresh/completed range fixtures, and JS/Python CLI bridge coverage, but the direct browser-backed AICU scrape still needs a verified live browser runtime before replacing the JS script.",
                     "preflightCommand": "npm run python:aicu-browser-compare",
                     "liveVerificationCommand": "node server/scripts/batchScrapeAicuBrowser.js",
+                    "manualVerificationRequired": True,
+                }
+            )
+        elif script == "server/scripts/batchScrapeBilibili.js" and validation_scope != "full_command":
+            blockers.append(
+                {
+                    "blocker": "batch_bilibili_live_runtime_not_verified",
+                    "reason": "Python has a batch Bilibili dry-run plan, resume/empty/parseint fixtures, and JS/Python CLI bridge coverage, but the direct Bilibili API and browser-backed scrape still needs a verified live runtime before replacing the JS script.",
+                    "preflightCommand": "npm run python:batch-bilibili-compare",
+                    "liveVerificationCommand": "node server/scripts/batchScrapeBilibili.js",
                     "manualVerificationRequired": True,
                 }
             )
