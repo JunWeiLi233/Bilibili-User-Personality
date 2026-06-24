@@ -1282,6 +1282,7 @@ class CorpusContractTests(unittest.TestCase):
                 "python:verify-random:write": "python -m python_backend.cli.random_verification --extra-corpus server/data/tiebaKeywordCorpus.json --output server/data/randomVerificationReport.json",
                 "python:compare:write-full": "python -m python_backend.cli.compare_contracts --random-report server/data/randomVerificationReport.json --output server/data/pythonContractComparison.json",
                 "python:deepseek-cli-compare": "node server/scripts/compareDeepSeekAnalyzePlan.js",
+                "python:deepseek-live-preflight": "python -m python_backend.cli.deepseek_analyze --live-preflight --text \"鐙楀ご淇濆懡[doge]\" --multiagent",
                 "python:deepseek-live-gate": "python -m python_backend.cli.deepseek_analyze --live-validation-gate --text \"狗头保命[doge]\" --multiagent",
                 "python:direct-probe-update": "python -m python_backend.cli.direct_probe_corpus",
             }
@@ -1311,6 +1312,11 @@ class CorpusContractTests(unittest.TestCase):
                     "script": "python:compare:write-full",
                     "command": "python -m python_backend.cli.compare_contracts --random-report server/data/randomVerificationReport.json --output server/data/pythonContractComparison.json",
                     "pipeline": "contract_comparison",
+                },
+                {
+                    "script": "python:deepseek-live-preflight",
+                    "command": "python -m python_backend.cli.deepseek_analyze --live-preflight --text \"鐙楀ご淇濆懡[doge]\" --multiagent",
+                    "pipeline": "analyzer_validation",
                 },
                 {
                     "script": "python:deepseek-live-gate",
@@ -2436,6 +2442,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("npm run python:deepseek-normalization-compare", workflow)
         self.assertIn("npm run python:deepseek-analyze-fixture-compare", workflow)
         self.assertIn("npm run python:deepseek-mock-runtime-compare", workflow)
+        self.assertIn("npm run python:deepseek-live-preflight", workflow)
         self.assertIn("npm run python:deepseek-live-gate", workflow)
         self.assertIn("npm run python:deepseek-cli-plan-js -- --text \"satire [doge]\" --uid 42 --multiagent", workflow)
         self.assertIn("npm run python:verify-random -- --sample-size=25 --seed=20260623", workflow)
@@ -8995,6 +9002,10 @@ class CorpusContractTests(unittest.TestCase):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
 
         self.assertEqual(package["scripts"]["python:deepseek-analyze"], "python -m python_backend.cli.deepseek_analyze")
+        self.assertEqual(
+            package["scripts"]["python:deepseek-live-preflight"],
+            "python -m python_backend.cli.deepseek_analyze --live-preflight --text \"狗头保命[doge]\" --multiagent",
+        )
         self.assertEqual(
             package["scripts"]["python:deepseek-live-gate"],
             "python -m python_backend.cli.deepseek_analyze --live-validation-gate --text \"狗头保命[doge]\" --multiagent",

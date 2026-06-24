@@ -55,6 +55,9 @@ jobs:
       - name: Compare DeepSeek mocked runtime command
         run: npm run python:deepseek-mock-runtime-compare
 
+      - name: Verify DeepSeek live preflight
+        run: npm run python:deepseek-live-preflight
+
       - name: Verify DeepSeek live validation gate
         run: npm run python:deepseek-live-gate
 

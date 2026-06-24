@@ -225,7 +225,10 @@ PYTHON_OWNED_DATA_PIPELINE_COMMANDS = {
     "near_target_resolve": ("python_backend.cli.near_target_resolve_plan",),
     "random_verification": ("python_backend.cli.random_verification",),
     "contract_comparison": ("python_backend.cli.compare_contracts",),
-    "analyzer_validation": ("python_backend.cli.deepseek_analyze --live-validation-gate",),
+    "analyzer_validation": (
+        "python_backend.cli.deepseek_analyze --live-preflight",
+        "python_backend.cli.deepseek_analyze --live-validation-gate",
+    ),
     "analyzer_config": ("python_backend.cli.deepseek_config",),
     "keyword_evidence": ("python_backend.cli.keyword_evidence",),
     "direct_probe_corpus": ("python_backend.cli.direct_probe_corpus",),
