@@ -33247,7 +33247,12 @@ class CorpusContractTests(unittest.TestCase):
         workflow = Path(".github/workflows/python-validation.yml").read_text(encoding="utf-8")
 
         self.assertEqual(package["scripts"]["python:coverage-loop-command"], "python -m python_backend.cli.coverage_loop_command")
+        self.assertEqual(
+            package["scripts"]["python:coverage-loop-command-preflight"],
+            'python -m python_backend.cli.coverage_loop_command --harvest-command-json "[\\"node\\",\\"server/scripts/runCoverageHarvestLoopJsAdapter.js\\",\\"{payload}\\"]" --harvest-command-preflight --exit-zero',
+        )
         self.assertEqual(package["scripts"]["python:coverage-loop-command-compare"], "node server/scripts/compareCoverageHarvestLoopCommand.js")
+        self.assertIn("npm run python:coverage-loop-command-preflight", workflow)
         self.assertIn("npm run python:coverage-loop-command-compare", workflow)
         self.assertEqual(
             DEFAULT_PACKAGE_VALIDATION_SCOPES["python:coverage-loop-command-compare"],

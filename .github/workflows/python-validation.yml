@@ -37,6 +37,9 @@ jobs:
       - name: Compare coverage audit contract
         run: npm run python:coverage-compare
 
+      - name: Verify coverage loop harvest preflight
+        run: npm run python:coverage-loop-command-preflight
+
       - name: Compare coverage loop command contract
         run: npm run python:coverage-loop-command-compare
 

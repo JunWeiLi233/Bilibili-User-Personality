@@ -41,6 +41,7 @@
     "python:coverage-loop-plan": "python -m python_backend.cli.coverage_loop_plan",
     "python:coverage-loop-compare": "node server/scripts/compareCoverageHarvestLoopPlan.js",
     "python:coverage-loop-command": "python -m python_backend.cli.coverage_loop_command",
+    "python:coverage-loop-command-preflight": "python -m python_backend.cli.coverage_loop_command --harvest-command-json \"[\\\"node\\\",\\\"server/scripts/runCoverageHarvestLoopJsAdapter.js\\\",\\\"{payload}\\\"]\" --harvest-command-preflight --exit-zero",
     "python:coverage-loop-command-compare": "node server/scripts/compareCoverageHarvestLoopCommand.js",
     "python:coverage-cli-options-compare": "node server/scripts/compareCoverageCliOptions.js",
     "python:rate-limit-options": "python -m python_backend.cli.rate_limit_options",
