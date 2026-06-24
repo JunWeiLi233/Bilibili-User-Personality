@@ -38859,6 +38859,33 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(no_needles["applied"], False)
         self.assertEqual(len(no_needles["comments"]), 3)
 
+    def test_video_comment_filter_matches_js_video_relevance_and_context_contract(self):
+        from python_backend.analysis.video_comment_filter import (
+            build_video_context_text,
+            relevance_score_for_video,
+            video_search_text,
+        )
+
+        # videoSearchText combines video fields
+        video = {"title": "Test Title", "desc": "Description text", "dynamic": "Dynamic content"}
+        text = video_search_text(video)
+        self.assertIn("testtitle", text)
+        self.assertIn("descriptiontext", text)
+
+        # relevanceScoreForVideo scores relevance
+        score = relevance_score_for_video(video, ["test", "title", "nomatch"])
+        self.assertGreater(score, 0)
+
+        # buildVideoContextText builds context lines
+        videos = [
+            {"title": "Video One", "desc": "Description one"},
+            {"title": "Video Two"},
+        ]
+        context = build_video_context_text(videos)
+        self.assertIn("Bilibili video context: Video One", context)
+        self.assertIn("Bilibili video context: Description one", context)
+        self.assertIn("Bilibili video context: Video Two", context)
+
 
 if __name__ == "__main__":
     unittest.main()
