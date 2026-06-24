@@ -765,6 +765,9 @@ class BackendMigrationInventoryScanner:
                 {
                     "blocker": "credentialed_live_api_command_not_verified",
                     "reason": "Validation covers command identity fields, file input, payload input, Python runtime mocks, multiagent mocks, live preflight, and the offline live-gate skip contract, but no credentialed live API command run has been verified.",
+                    "preflightCommand": "npm run python:deepseek-live-preflight",
+                    "liveVerificationCommand": "npm run python:deepseek-live-gate",
+                    "manualVerificationRequired": True,
                 }
             )
         elif script == "dictionary:auto" and "deferred_live_contract" in validation_scope:
@@ -772,6 +775,9 @@ class BackendMigrationInventoryScanner:
                 {
                     "blocker": "coverage_loop_live_runtime_not_verified",
                     "reason": "Python has dry-run, no-live, mock cycle, mock harvest, file-backed mock harvest, external harvest adapter, external exhausted-term pruning, checked-in JS harvest adapter command, and deferred live contracts, but dictionary:auto still needs a verified live Bilibili/Tieba harvest runtime before replacing the JS loop.",
+                    "preflightCommand": "npm run python:coverage-loop-command-preflight",
+                    "liveVerificationCommand": "npm run dictionary:auto",
+                    "manualVerificationRequired": True,
                 }
             )
         elif validation_scope != "full_command":
