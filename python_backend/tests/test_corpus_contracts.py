@@ -2647,6 +2647,25 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(readiness["manualVerificationBlockerCounts"], {"live_not_verified": 1})
         self.assertEqual(readiness["nextManualVerificationAction"]["liveVerificationCommand"], "npm run live:a")
         self.assertEqual(readiness["nextManualVerificationCommand"], "npm run live:a")
+        self.assertEqual(
+            readiness["manualVerificationCommandQueue"],
+            [
+                {
+                    "path": "server/scripts/a.js",
+                    "nodeScript": "script:a",
+                    "blocker": "live_not_verified",
+                    "kind": "preflight",
+                    "command": "npm run compare:a",
+                },
+                {
+                    "path": "server/scripts/a.js",
+                    "nodeScript": "script:a",
+                    "blocker": "live_not_verified",
+                    "kind": "live",
+                    "command": "npm run live:a",
+                },
+            ],
+        )
 
     def test_backend_replacement_readiness_contract_reports_clear_gate_state(self):
         readiness = BackendReplacementReadinessContract(
@@ -2670,6 +2689,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(readiness["readyToReplaceActionPaths"], ["server/scripts/ready.js"])
         self.assertEqual(readiness["nextManualVerificationAction"], {})
         self.assertEqual(readiness["nextManualVerificationCommand"], "")
+        self.assertEqual(readiness["manualVerificationCommandQueue"], [])
 
     def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))

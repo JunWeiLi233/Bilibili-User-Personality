@@ -583,6 +583,7 @@ class BackendReplacementReadinessContract:
         blockers = [str(gate["gate"]) for gate in gates if not gate["ok"]]
         blocker_details = self._blocker_details(gates, replacement_blocked, manual_blocker_counts, self.manual_verification_actions)
         next_manual_action = dict(self.manual_verification_actions[0]) if self.manual_verification_actions else {}
+        manual_command_queue = self._manual_verification_command_queue(self.manual_verification_actions)
         return {
             "ok": not blockers,
             "gates": gates,
@@ -609,7 +610,26 @@ class BackendReplacementReadinessContract:
             "nextManualVerificationCommand": str(
                 next_manual_action.get("liveVerificationCommand") or next_manual_action.get("preflightCommand") or ""
             ),
+            "manualVerificationCommandQueue": manual_command_queue,
         }
+
+    def _manual_verification_command_queue(self, manual_verification_actions: list[dict[str, str]]) -> list[dict[str, str]]:
+        queue: list[dict[str, str]] = []
+        for action in manual_verification_actions:
+            if not isinstance(action, dict):
+                continue
+            base = {
+                "path": str(action.get("path") or ""),
+                "nodeScript": str(action.get("nodeScript") or ""),
+                "blocker": str(action.get("blocker") or ""),
+            }
+            preflight_command = str(action.get("preflightCommand") or "").strip()
+            live_verification_command = str(action.get("liveVerificationCommand") or "").strip()
+            if preflight_command:
+                queue.append({**base, "kind": "preflight", "command": preflight_command})
+            if live_verification_command:
+                queue.append({**base, "kind": "live", "command": live_verification_command})
+        return queue
 
     def _blocker_details(
         self,
