@@ -470,6 +470,31 @@ class DeepSeekAnalyzeFixtureRunner:
         return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
 
 
+class DeepSeekAnalyzeAnalysisFileReader:
+    """Read fixture/mock analysis JSON files with the JS-compatible error contract."""
+
+    def __init__(self, path: str | Path):
+        self.path = Path(path)
+
+    def read_required(self) -> tuple[Any, dict[str, Any]]:
+        try:
+            content = self.path.read_text(encoding="utf-8-sig")
+        except OSError:
+            return {}, {
+                "ok": False,
+                "provider": "deepseek",
+                "error": f"Could not read analysis file: {self.path}",
+            }
+        try:
+            return json.loads(content), {}
+        except ValueError:
+            return {}, {
+                "ok": False,
+                "provider": "deepseek",
+                "error": f"Could not parse analysis file: {self.path}",
+            }
+
+
 class DeepSeekAnalyzeCommandRequest:
     """Run Python-owned analyzeDeepSeekComments-compatible command modes."""
 
@@ -564,22 +589,7 @@ class DeepSeekAnalyzeCommandRequest:
 
     @staticmethod
     def _read_required_analysis_file(path: str | Path) -> tuple[Any, dict[str, Any]]:
-        try:
-            content = Path(path).read_text(encoding="utf-8-sig")
-        except OSError:
-            return {}, {
-                "ok": False,
-                "provider": "deepseek",
-                "error": f"Could not read analysis file: {path}",
-            }
-        try:
-            return json.loads(content), {}
-        except ValueError:
-            return {}, {
-                "ok": False,
-                "provider": "deepseek",
-                "error": f"Could not parse analysis file: {path}",
-            }
+        return DeepSeekAnalyzeAnalysisFileReader(path).read_required()
 
     def _run_mock_chat(self, payload: dict[str, Any], analysis: Any) -> dict[str, Any]:
         return DeepSeekAnalyzeMockChatRunner(normalizer=self.normalizer).run(payload, analysis)
