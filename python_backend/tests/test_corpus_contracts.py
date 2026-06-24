@@ -7007,6 +7007,59 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(request.comments, ["\u72d7\u5934\u4fdd\u547d[doge]", "\u5efa\u8bae\u67e5\u67e5\u8d44\u6599"])
 
+    def test_deepseek_analyzer_preserves_source_identity_from_corpus_payload(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            corpus_path.write_text(
+                json.dumps(
+                    {
+                        "comments": [
+                            {
+                                "message": "\u5f39\u5e55\u8868\u60c5[doge]",
+                                "source": "bilibili",
+                                "aid": "114514",
+                                "cid": "1919810",
+                                "rpid": "2333",
+                                "authorName": "\u5f39\u5e55\u7528\u6237",
+                            },
+                            {
+                                "commentText": "\u8d34\u5427\u8bed\u5883\u8981\u4fdd\u7559",
+                                "source": "tieba",
+                                "threadId": "thread-42",
+                                "postId": "post-7",
+                                "author": "\u8d34\u5427\u7528\u6237",
+                            },
+                        ],
+                        "runs": [],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            request = DeepSeekAnalyzerClient().build_request_from_payload({"corpusPath": str(corpus_path)})
+
+        self.assertEqual(
+            request.source_comments,
+            [
+                {
+                    "text": "\u5f39\u5e55\u8868\u60c5[doge]",
+                    "source": "bilibili",
+                    "aid": "114514",
+                    "cid": "1919810",
+                    "rpid": "2333",
+                    "authorName": "\u5f39\u5e55\u7528\u6237",
+                },
+                {
+                    "text": "\u8d34\u5427\u8bed\u5883\u8981\u4fdd\u7559",
+                    "source": "tieba",
+                    "threadId": "thread-42",
+                    "postId": "post-7",
+                    "author": "\u8d34\u5427\u7528\u6237",
+                },
+            ],
+        )
+
     def test_deepseek_analyzer_extracts_text_from_comment_object_payloads(self):
         request = DeepSeekAnalyzerClient().build_request_from_payload(
             {
