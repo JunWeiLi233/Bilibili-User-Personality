@@ -357,6 +357,12 @@ class BackendMigrationInventoryScanner:
         migration_candidate_categories = {key: len(value) for key, value in migration_candidate_files.items()}
         migration_priority_files = self._priority_files(migration_candidate_files)
         package_scripts = package_inventory.scan()
+        migration_progress = self._migration_progress(
+            total_files=sum(categories.values()),
+            migration_candidate_files=sum(migration_candidate_categories.values()),
+            retained_files=retained_files,
+            package_scripts=package_scripts,
+        )
         next_migration_action = self._next_migration_action(migration_priority_files, package_scripts)
         next_offline_migration_action = self._next_migration_action(
             migration_priority_files,
@@ -370,6 +376,7 @@ class BackendMigrationInventoryScanner:
             "remainingJsBackendFiles": sum(categories.values()),
             "migrationCandidateJsBackendFiles": sum(migration_candidate_categories.values()),
             "backendJsTests": len(backend_tests),
+            "migrationProgress": migration_progress,
             "categories": categories,
             "files": backend_files,
             "migrationCandidateCategories": migration_candidate_categories,
@@ -380,6 +387,23 @@ class BackendMigrationInventoryScanner:
             "retainedJsBackendFiles": retained_files,
             "testFiles": backend_tests,
             "packageScripts": package_scripts,
+        }
+
+    @staticmethod
+    def _migration_progress(
+        *,
+        total_files: int,
+        migration_candidate_files: int,
+        retained_files: list[dict[str, str]],
+        package_scripts: dict[str, Any],
+    ) -> dict[str, int]:
+        return {
+            "totalJsBackendFiles": total_files,
+            "migrationCandidateJsBackendFiles": migration_candidate_files,
+            "nonCandidateJsBackendFiles": max(0, total_files - migration_candidate_files),
+            "retainedJsBackendFiles": len(retained_files),
+            "pythonOwnedDataScripts": len(package_scripts.get("pythonOwnedDataScripts", [])),
+            "pythonBackedNodeScripts": len(package_scripts.get("pythonBackedNodeScripts", [])),
         }
 
     @staticmethod

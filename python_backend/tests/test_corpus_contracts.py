@@ -2084,6 +2084,20 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["nextOfflineMigrationAction"]["offlineReason"], "skips_live_api_runtime")
 
+    def test_backend_migration_inventory_reports_progress_summary_counts(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+        progress = result["migrationProgress"]
+
+        self.assertEqual(progress["totalJsBackendFiles"], result["remainingJsBackendFiles"])
+        self.assertEqual(progress["migrationCandidateJsBackendFiles"], result["migrationCandidateJsBackendFiles"])
+        self.assertEqual(progress["retainedJsBackendFiles"], len(result["retainedJsBackendFiles"]))
+        self.assertEqual(
+            progress["nonCandidateJsBackendFiles"],
+            progress["totalJsBackendFiles"] - progress["migrationCandidateJsBackendFiles"],
+        )
+        self.assertEqual(progress["pythonOwnedDataScripts"], len(result["packageScripts"]["pythonOwnedDataScripts"]))
+        self.assertEqual(progress["pythonBackedNodeScripts"], len(result["packageScripts"]["pythonBackedNodeScripts"]))
+
     def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
         command = package["scripts"]["python:coverage-standalone"]
