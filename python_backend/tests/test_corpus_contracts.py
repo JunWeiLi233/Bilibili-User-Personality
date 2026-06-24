@@ -1372,6 +1372,12 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(result["migrationCandidateFiles"]["scripts"], ["server/scripts/importHuggingFaceCorpus.js", "server/scripts/scrape.js"])
         self.assertEqual(result["migrationCandidateFiles"]["services"], ["server/services/corpus.js", "server/services/huggingFaceCorpus.js"])
+        self.assertEqual(result["activeTransformationBacklogJsBackendFiles"], 5)
+        self.assertEqual(result["activeTransformationBacklogCategories"], {"scripts": 2, "services": 2, "routes": 0, "utils": 1, "root": 0})
+        self.assertEqual(
+            result["activeTransformationBacklogFiles"]["utils"],
+            ["server/utils/coverageProgress.js"],
+        )
         self.assertEqual(
             DEFAULT_PACKAGE_VALIDATION_SCOPES["python:bilibili-parse-compare"],
             "danmaku_xml_extract_bvid_bvid_pool_fixtures_and_js_python_bridge",
