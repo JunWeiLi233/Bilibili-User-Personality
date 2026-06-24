@@ -1845,7 +1845,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:aicu-batch-compare",
                     "validationCommand": "node server/scripts/compareAicuBatchPlan.js",
-                    "validationScope": "dry_run_plan_resume_empty_range_malformed_payload_fixtures_and_js_python_bridge",
+                    "validationScope": "dry_run_plan_resume_empty_range_malformed_payload_fixtures_js_python_bridge_and_cli_flag_bridge",
                 },
             ],
         )
