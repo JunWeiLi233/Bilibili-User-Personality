@@ -7802,6 +7802,30 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_deepseek_analysis_plan_contract_comparator_reports_merge_agent_mismatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload_path = root / "payload.json"
+            js_plan_path = root / "js-plan.json"
+            payload_path.write_text(
+                json.dumps({"text": "\u53cd\u8bbd[doge]", "multiagent": True}),
+                encoding="utf-8",
+            )
+            js_plan_path.write_text(
+                json.dumps({"mode": "multiagent", "merge": {"mergeAgent": "legacy-merge"}}),
+                encoding="utf-8",
+            )
+
+            result = DeepSeekAnalysisPlanContractComparator(payload_path, js_plan_path).compare()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(
+            result["mismatches"],
+            [{"key": "merge.mergeAgent", "python": "quality-merge", "js": "legacy-merge"}],
+        )
+        self.assertEqual(result["python"]["merge"], {"mergeAgent": "quality-merge"})
+        self.assertEqual(result["js"]["merge"], {"mergeAgent": "legacy-merge"})
+
     def test_deepseek_analysis_plan_comparator_uses_backend_summary_contract_keys(self):
         self.assertTrue(hasattr(DeepSeekAnalysisPlanContractComparator(Path("payload.json"), Path("js-plan.json")), "summary"))
         self.assertFalse(hasattr(DeepSeekAnalysisPlanContractComparator, "REQUEST_KEYS"))

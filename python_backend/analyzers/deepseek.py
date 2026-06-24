@@ -745,7 +745,7 @@ class DeepSeekAnalysisPlanSummary:
     def summarize(self, plan: dict[str, Any] | None = None) -> dict[str, Any]:
         plan = plan if isinstance(plan, dict) else {}
         requests = plan.get("requests") if isinstance(plan.get("requests"), list) else []
-        return {
+        summary = {
             "mode": plan.get("mode"),
             "requestCount": len(requests),
             "requests": [
@@ -753,6 +753,10 @@ class DeepSeekAnalysisPlanSummary:
                 for request in requests
             ],
         }
+        merge = plan.get("merge") if isinstance(plan.get("merge"), dict) else {}
+        if "mergeAgent" in merge:
+            summary["merge"] = {"mergeAgent": merge.get("mergeAgent")}
+        return summary
 
 
 class DeepSeekAnalysisPlanRunner:
@@ -824,6 +828,10 @@ class DeepSeekAnalysisPlanContractComparator:
             for key in self.summary.REQUEST_KEYS:
                 if key in js_request and python_request.get(key) != js_request.get(key):
                     mismatches.append({"key": f"requests[{index}].{key}", "python": python_request.get(key), "js": js_request.get(key)})
+        python_merge = python_plan.get("merge") if isinstance(python_plan.get("merge"), dict) else {}
+        js_merge = js_plan.get("merge") if isinstance(js_plan.get("merge"), dict) else {}
+        if "mergeAgent" in js_merge and python_merge.get("mergeAgent") != js_merge.get("mergeAgent"):
+            mismatches.append({"key": "merge.mergeAgent", "python": python_merge.get("mergeAgent"), "js": js_merge.get("mergeAgent")})
         return mismatches
 
 
