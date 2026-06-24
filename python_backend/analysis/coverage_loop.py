@@ -231,12 +231,16 @@ class CoverageHarvestLoopCommandCompareCommandRequest:
     def parser() -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(description="Compare persisted Python and JS coverage-loop command reports.")
         parser.add_argument("--python-report", required=True)
-        parser.add_argument("--js-report", required=True)
+        parser.add_argument("--js-report", default="")
+        parser.add_argument("--compare-js-report", default="")
         return parser
 
     def run(self) -> dict[str, Any]:
         args = self.parser().parse_args([str(item) for item in self.argv] if self.argv is not None else None)
-        return CoverageHarvestLoopCommandReportFileComparator(args.python_report, args.js_report).compare()
+        js_report_path = args.compare_js_report or args.js_report
+        if not js_report_path:
+            return {"ok": False, "error": "--js-report or --compare-js-report is required"}
+        return CoverageHarvestLoopCommandReportFileComparator(args.python_report, js_report_path).compare()
 
 
 class CoverageHarvestLoopPlanRequest:

@@ -912,6 +912,7 @@ test('compareCoverageHarvestLoopCommand delegates persisted report comparison to
         jsStopReason: context.jsReport.stopReason,
         hasPythonReportPath: context.pythonReportPath.endsWith('report-python.json'),
         hasJsReportPath: context.jsReportPath.endsWith('report-js.json'),
+        hasCompareJsReportPath: context.compareJsReportPath.endsWith('report-js.json'),
       });
       return {
         ok: false,
@@ -929,6 +930,7 @@ test('compareCoverageHarvestLoopCommand delegates persisted report comparison to
       jsStopReason: 'coverage_gate_passed',
       hasPythonReportPath: true,
       hasJsReportPath: true,
+      hasCompareJsReportPath: true,
     },
   ]);
 });

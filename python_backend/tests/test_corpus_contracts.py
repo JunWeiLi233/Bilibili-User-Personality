@@ -31396,6 +31396,53 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_coverage_harvest_loop_command_compare_accepts_compare_js_report_alias(self):
+        from python_backend.analysis import coverage_loop as coverage_loop_module
+
+        with tempfile.TemporaryDirectory() as tmp:
+            python_report_path = Path(tmp) / "python-report.json"
+            js_report_path = Path(tmp) / "js-report.json"
+            python_report_path.write_text(
+                json.dumps(
+                    {
+                        "maxCycles": 1,
+                        "roundsPerCycle": 1,
+                        "stopReason": "coverage_gate_passed",
+                        "finalOk": True,
+                        "cycles": [],
+                        "finalAudit": {"coverage": {"terms": 0, "weakTerms": 0, "zeroEvidenceTerms": 0}, "recommendedQueries": []},
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            js_report_path.write_text(
+                json.dumps(
+                    {
+                        "maxCycles": 1,
+                        "roundsPerCycle": 1,
+                        "stopReason": "cycle_limit",
+                        "finalOk": False,
+                        "cycles": [],
+                        "finalAudit": {"coverage": {"terms": 0, "weakTerms": 0, "zeroEvidenceTerms": 0}, "recommendedQueries": []},
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+
+            result = coverage_loop_module.CoverageHarvestLoopCommandCompareCommandRequest(
+                [
+                    "--python-report",
+                    python_report_path,
+                    "--compare-js-report",
+                    js_report_path,
+                ]
+            ).run()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["mismatches"], [{"key": "stopReason", "python": "coverage_gate_passed", "js": "cycle_limit"}, {"key": "finalOk", "python": True, "js": False}])
+
     def test_coverage_harvest_loop_cycle_report_builder_matches_js_cycle_shape(self):
         from python_backend.analysis import coverage_loop as coverage_loop_module
 

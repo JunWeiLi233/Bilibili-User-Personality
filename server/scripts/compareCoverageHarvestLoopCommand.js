@@ -396,10 +396,17 @@ async function runPythonCoverageLoopCommand({ dictionaryPath, statePath, reportP
   return JSON.parse(stdout);
 }
 
-async function runPythonCoverageLoopCommandComparison({ pythonReportPath, jsReportPath }) {
+async function runPythonCoverageLoopCommandComparison({ pythonReportPath, compareJsReportPath, jsReportPath }) {
   const { stdout } = await execFileAsync(
     'python',
-    ['-m', 'python_backend.cli.coverage_loop_command_compare', '--python-report', pythonReportPath, '--js-report', jsReportPath],
+    [
+      '-m',
+      'python_backend.cli.coverage_loop_command_compare',
+      '--python-report',
+      pythonReportPath,
+      '--compare-js-report',
+      compareJsReportPath || jsReportPath,
+    ],
     {
       cwd: process.cwd(),
       env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
@@ -686,6 +693,7 @@ export async function compareCoverageHarvestLoopCommand({
           jsReport: js,
           pythonReport: python,
           jsReportPath,
+          compareJsReportPath: jsReportPath,
           pythonReportPath,
         });
       };
