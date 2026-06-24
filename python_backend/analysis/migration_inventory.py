@@ -160,6 +160,16 @@ DEFAULT_DIRECT_FILE_CONTRACTS = {
         "validationScope": "dry_run_plan_resume_empty_parseint_prefix_fixtures_js_python_bridge_and_cli_flag_bridge",
         "replacementScope": "dry_run_plan",
     },
+    "server/scripts/batchScrapePopular.js": {
+        "nodeScript": "server/scripts/batchScrapePopular.js",
+        "nodeCommand": "node server/scripts/batchScrapePopular.js",
+        "pythonScript": "python:batch-popular-plan",
+        "pythonCommand": "python -m python_backend.cli.batch_popular_plan",
+        "validationScript": "python:batch-popular-compare",
+        "validationCommand": "node server/scripts/compareBatchPopularPlan.js",
+        "validationScope": "dry_run_plan_resume_empty_parseint_prefix_fixtures_js_python_bridge_and_cli_flag_bridge",
+        "replacementScope": "dry_run_plan",
+    },
 }
 
 DEFAULT_RETAINED_NODE_COMMANDS = {
@@ -984,6 +994,16 @@ class BackendMigrationInventoryScanner:
                     "reason": "Python has a batch Bilibili dry-run plan, resume/empty/parseint fixtures, and JS/Python CLI bridge coverage, but the direct Bilibili API and browser-backed scrape still needs a verified live runtime before replacing the JS script.",
                     "preflightCommand": "npm run python:batch-bilibili-compare",
                     "liveVerificationCommand": "node server/scripts/batchScrapeBilibili.js",
+                    "manualVerificationRequired": True,
+                }
+            )
+        elif script == "server/scripts/batchScrapePopular.js" and validation_scope != "full_command":
+            blockers.append(
+                {
+                    "blocker": "batch_popular_live_runtime_not_verified",
+                    "reason": "Python has a batch Popular dry-run plan, resume/empty/parseint fixtures, and JS/Python CLI bridge coverage, but the direct Bilibili popular-video scrape still needs a verified live runtime before replacing the JS script.",
+                    "preflightCommand": "npm run python:batch-popular-compare",
+                    "liveVerificationCommand": "node server/scripts/batchScrapePopular.js",
                     "manualVerificationRequired": True,
                 }
             )
