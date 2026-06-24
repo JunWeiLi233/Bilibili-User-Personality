@@ -886,6 +886,16 @@ class BackendMigrationInventoryScanner:
                     "manualVerificationRequired": True,
                 }
             )
+        elif script == "uid:range" and validation_scope != "full_command":
+            blockers.append(
+                {
+                    "blocker": "uid_range_live_runtime_not_verified",
+                    "reason": "Python has a dry-run UID range scrape plan with custom progress, default range, malformed stats fixtures, and JS/Python CLI bridge coverage, but uid:range still needs a verified live UID range scrape runtime before replacing the JS command.",
+                    "preflightCommand": "npm run python:uid-range-scrape-compare",
+                    "liveVerificationCommand": "npm run uid:range",
+                    "manualVerificationRequired": True,
+                }
+            )
         elif validation_scope != "full_command":
             blockers.append(
                 {

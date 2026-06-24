@@ -2151,6 +2151,16 @@ class CorpusContractTests(unittest.TestCase):
             result["manualVerificationActions"],
         )
         self.assertIn(
+            {
+                "path": "server/scripts/uidRangeScrape.js",
+                "nodeScript": "uid:range",
+                "blocker": "uid_range_live_runtime_not_verified",
+                "preflightCommand": "npm run python:uid-range-scrape-compare",
+                "liveVerificationCommand": "npm run uid:range",
+            },
+            result["manualVerificationActions"],
+        )
+        self.assertIn(
             {"gate": "no_live_command_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
             result["nextOfflineMigrationAction"]["validationGates"],
         )
