@@ -104,3 +104,8 @@ class RateLimiter:
     def wait(self) -> None:
         if self.delay_seconds > 0:
             self._sleep(self.delay_seconds)
+
+    def wait_ms(self, value: object, *, maximum_ms: int = 300000) -> None:
+        delay_ms = _bounded_ms(value, 0, 0, maximum_ms)
+        if delay_ms > 0:
+            self._sleep(delay_ms / 1000)

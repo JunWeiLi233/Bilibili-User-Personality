@@ -62,3 +62,8 @@ class ScraperAdapter:
     def build_metadata_request_from_payload(self, payload: dict[str, Any] | None = None) -> dict[str, object]:
         self.rate_limiter.wait()
         return self.build_metadata_request(ScrapeRequest.from_payload(payload))
+
+    def wait_after_block_from_payload(self, payload: dict[str, Any] | None = None) -> None:
+        request = ScrapeRequest.from_payload(payload)
+        if request.rate_limit and "blockCooldownMs" in request.rate_limit:
+            self.rate_limiter.wait_ms(request.rate_limit["blockCooldownMs"])

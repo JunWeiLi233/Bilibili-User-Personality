@@ -3999,6 +3999,17 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(limiter.delay_seconds, 0.0)
         self.assertEqual(sleeps, [])
 
+    def test_rate_limiter_waits_js_millisecond_cooldown_contract(self):
+        sleeps = []
+        limiter = RateLimiter(delay_seconds=0, sleep=sleeps.append)
+
+        limiter.wait_ms("120000", maximum_ms=300000)
+        limiter.wait_ms(-5)
+        limiter.wait_ms("NaN")
+        limiter.wait_ms(999999, maximum_ms=300000)
+
+        self.assertEqual(sleeps, [120.0, 300.0])
+
     def test_rate_limit_options_contract_owns_target_specific_bounds(self):
         policy = RateLimitPolicy(min_delay_ms=-5, jitter_ms=999999, block_cooldown_ms="bad")
         contract = RateLimitOptionsContract(policy)
@@ -5338,6 +5349,16 @@ class CorpusContractTests(unittest.TestCase):
                 "rateLimit": {"delayMs": 1000, "jitterMs": 60000},
             },
         )
+
+    def test_scraper_adapter_waits_normalized_block_cooldown_from_payload(self):
+        sleeps = []
+        scraper = ScraperAdapter(rate_limiter=RateLimiter(delay_seconds=0, sleep=sleeps.append))
+
+        scraper.wait_after_block_from_payload({"source": "tieba", "blockCooldownMs": "120000"})
+        scraper.wait_after_block_from_payload({"source": "history-tags", "blockCooldownMs": "120000"})
+        scraper.wait_after_block_from_payload({"source": "bilibili", "rateLimit": {"cooldownMs": 999999}})
+
+        self.assertEqual(sleeps, [120.0, 300.0])
 
     def test_scraper_adapter_uses_source_specific_rate_limit_contract(self):
         scraper = ScraperAdapter(rate_limiter=RateLimiter(delay_seconds=0, sleep=lambda _: None))
