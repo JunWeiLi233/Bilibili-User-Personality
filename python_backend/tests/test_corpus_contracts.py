@@ -30717,7 +30717,7 @@ class CorpusContractTests(unittest.TestCase):
     def test_discovery_report_compare_scope_tracks_rich_fixture_gate(self):
         self.assertEqual(
             DEFAULT_PACKAGE_VALIDATION_SCOPES["python:discovery-report-compare"],
-            "report_fixture_rich_discovery_fixture_and_js_python_bridge",
+            "report_fixture_rich_discovery_danmaku_fixture_and_js_python_bridge",
         )
 
     def test_discovery_report_utility_is_legacy_after_python_contract(self):

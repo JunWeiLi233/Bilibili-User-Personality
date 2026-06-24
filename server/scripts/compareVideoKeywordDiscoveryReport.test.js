@@ -66,10 +66,22 @@ test('compareVideoKeywordDiscoveryReport runs the rich discovery fixture through
   assert.deepEqual(result.python.priorityActionItems.map((item) => item.query), ['doge hot 评论区', 'doge hot 弹幕']);
 });
 
+test('compareVideoKeywordDiscoveryReport runs the danmaku discovery fixture through Python', async () => {
+  const result = await compareVideoKeywordDiscoveryReport({ fixture: 'danmaku-discovery' });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.fixture.name, 'danmaku-discovery');
+  assert.deepEqual(result.mismatches, []);
+  assert.equal(result.python.report.rounds[0].results[0].videos[0].bvid, 'BV1Danmaku11');
+  assert.equal(result.python.report.rounds[0].results[0].comments, 1);
+  assert.equal(result.python.report.rounds[0].results[0].acceptedEvidenceCount, 1);
+  assert.equal(result.python.report.rounds[0].results[0].existingDictionaryEvidence[0].evidenceSources[0].source, 'Bilibili public video danmaku scan');
+});
+
 test('compareVideoKeywordDiscoveryReportSuite runs default and rich fixtures', async () => {
   const result = await compareVideoKeywordDiscoveryReportSuite();
 
   assert.equal(result.ok, true);
-  assert.deepEqual(result.fixtures.map((fixture) => fixture.name), ['default', 'rich-discovery']);
+  assert.deepEqual(result.fixtures.map((fixture) => fixture.name), ['default', 'rich-discovery', 'danmaku-discovery']);
   assert.deepEqual(result.fixtures.flatMap((fixture) => fixture.mismatches), []);
 });

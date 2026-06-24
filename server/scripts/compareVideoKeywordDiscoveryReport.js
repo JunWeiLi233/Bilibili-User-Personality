@@ -136,12 +136,95 @@ export const RICH_DISCOVERY_PAYLOAD = {
   },
 };
 
+export const DANMAKU_DISCOVERY_PAYLOAD = {
+  generatedAt: '2026-06-23T00:00:00.000Z',
+  statePath: 'server/data/coverageHarvestState.json',
+  reportPath: 'server/data/videoKeywordDiscoveryReport.json',
+  result: {
+    requestedRounds: 1,
+    growth: { before: 2, after: 3 },
+    coverage: { evidenceDeficit: 1, coverageRatio: 0.5 },
+    coverageActions: [{ term: '狗头', action: 'retry', nextQuery: '狗头 弹幕' }],
+    state: { searchedQueries: ['狗头 弹幕'] },
+    rounds: [
+      {
+        queries: ['狗头 弹幕'],
+        candidateQueries: ['狗头 弹幕'],
+        growth: { before: 2, after: 3 },
+        coverage: { evidenceDeficit: 1 },
+        coverageProgress: { evidenceGained: 1, evidenceDeficitReduced: 1 },
+        acceptedEvidenceCount: 1,
+        coverageIncreasingAcceptedEvidenceCount: 1,
+        termAttemptSummary: { attemptedTerms: 1, successfulTerms: 1 },
+        trainingDiagnostics: {
+          deepseekCalls: 1,
+          fallbackCalls: 0,
+          evidenceRejected: 0,
+          dictionaryEvidenceTerms: 1,
+          dictionaryEvidenceCount: 1,
+          generatedTerms: 0,
+        },
+        queryDiagnostics: [
+          {
+            query: '狗头 弹幕',
+            ok: true,
+            commentsCollected: 1,
+            trainingTextChars: 32,
+            targetExistingTerms: ['狗头'],
+            acceptedTerms: ['狗头'],
+            evidenceRejected: 0,
+          },
+        ],
+        warnings: [],
+        plan: [{ query: '狗头 弹幕', source: 'priorityCoverageActions', term: '狗头', includeDanmaku: true }],
+        results: [
+          {
+            query: '狗头 弹幕',
+            result: {
+              ok: true,
+              videos: [
+                {
+                  bvid: 'BV1Danmaku11',
+                  title: '狗头弹幕 fixture',
+                  sourceUrl: 'https://www.bilibili.com/video/BV1Danmaku11/',
+                },
+              ],
+              comments: [{ text: '狗头保命', source: 'danmaku' }],
+              keywordTraining: {
+                evidenceRejected: 0,
+                dictionaryEvidenceEntries: [
+                  {
+                    term: '狗头',
+                    evidenceCount: 1,
+                    evidenceSamples: ['狗头保命'],
+                    evidenceSources: [
+                      { source: 'Bilibili public video danmaku scan', sample: '狗头保命' },
+                    ],
+                  },
+                ],
+              },
+              collectionDiagnostics: {
+                discoveredVideos: 1,
+                scannedVideos: 1,
+                commentsCollected: 1,
+                trainingTextChars: 32,
+              },
+              entries: [{ term: '狗头', family: 'meme', evidenceCount: 1 }],
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+
 const FIXTURES = {
   default: DEFAULT_PAYLOAD,
   'rich-discovery': RICH_DISCOVERY_PAYLOAD,
+  'danmaku-discovery': DANMAKU_DISCOVERY_PAYLOAD,
 };
 
-const DEFAULT_FIXTURE_NAMES = ['default', 'rich-discovery'];
+const DEFAULT_FIXTURE_NAMES = ['default', 'rich-discovery', 'danmaku-discovery'];
 
 function resolvePayload({ fixture = 'default', payload } = {}) {
   if (payload) return { name: fixture || 'custom', payload };

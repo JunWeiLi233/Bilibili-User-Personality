@@ -82,7 +82,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:comment-coverage-compare": "payload_keyword_neutral_uncovered_sample_limit_diagnostic_fixtures_and_js_python_bridge",
     "python:semantic-match-compare": "match_cache_evidence_precomputed_vector_fixtures_and_js_python_bridge",
     "python:harvest-options-compare": "video_keyword_default_priority_query_content_expanded_template_fixtures_and_js_python_bridge",
-    "python:discovery-report-compare": "report_fixture_rich_discovery_fixture_and_js_python_bridge",
+    "python:discovery-report-compare": "report_fixture_rich_discovery_danmaku_fixture_and_js_python_bridge",
     "python:tieba-keyword-compare": "dry_run_plan_fixture_scrape_fixture_explicit_thread_fixture_provided_threads_fixture_python_scrape_fixture_bridge_python_corpus_update_default_bridge_and_js_python_plan_bridge",
     "python:video-link-direct-compare": "dry_run_plan_video_favorite_uid_missing_target_fixtures_and_js_python_bridge",
     "python:direct-probe-compare": "dry_run_plan_and_no_live_command_fixture",
