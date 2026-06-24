@@ -108,6 +108,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:tieba-html-parse-compare": "threads_comments_discovery_fixtures_and_js_python_bridge",
     "python:tieba-corpus-compare": "merge_new_comments_unchanged_empty_run_dedupe_cap_runs_fixtures_and_js_python_bridge",
     "python:tieba-timing-compare": "default_zero_query_string_negative_coercion_fixtures_and_js_python_bridge",
+    "python:direct-probe-update-compare": "dedupe_empty_existing_multi_video_run_fixtures_and_js_python_bridge",
     "python:huggingface-compare": "full_command",
     "python:local-mine-compare": "full_command",
     "python:bilibili-parse-compare": "danmaku_xml_extract_bvid_bvid_pool_fixtures_and_js_python_bridge",

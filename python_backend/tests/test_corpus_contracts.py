@@ -1357,6 +1357,10 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(package["scripts"]["python:direct-probe-live-fetch"], "python -m python_backend.cli.direct_probe_live_fetch")
         self.assertEqual(package["scripts"]["python:direct-probe-command-compare"], "node server/scripts/compareDirectProbeCommand.js")
         self.assertEqual(package["scripts"]["python:direct-probe-update-compare"], "node server/scripts/compareDirectProbeCorpus.js")
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:direct-probe-update-compare"],
+            "dedupe_empty_existing_multi_video_run_fixtures_and_js_python_bridge",
+        )
         self.assertEqual(package["scripts"]["dictionary:probe-bilibili"], "python -m python_backend.cli.direct_probe_command")
         self.assertEqual(package["scripts"]["dictionary:probe-bilibili:js"], "node server/scripts/probeBilibiliCommentEvidence.js")
         self.assertIn("npm run python:direct-probe-command-compare", workflow)
