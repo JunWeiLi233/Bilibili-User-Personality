@@ -8,6 +8,7 @@ from python_backend.analysis.audit import CoverageAuditReport
 from python_backend.analysis.verification import RandomVerificationPayloadContractComparator
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
+from python_backend.corpus.source_breakdown import SourceBreakdownContract
 from python_backend.runtime.json_contracts import JsonResultBytesContract, safe_read_json_object
 
 
@@ -39,8 +40,6 @@ class CompareContractsOutputWriter:
 
 class ContractComparator:
     """Compare Python-read JSON contracts against manifest/audit invariants."""
-
-    SOURCE_BREAKDOWN_LIMIT = 20
 
     def __init__(
         self,
@@ -143,29 +142,7 @@ class ContractComparator:
 
     @classmethod
     def _source_breakdown(cls, comments: list[dict[str, Any]], runs: list[dict[str, Any]]) -> dict[str, dict[str, int]]:
-        breakdown: dict[str, dict[str, int]] = {}
-        comment_counts = cls._source_counts(comments)
-        run_counts = cls._source_counts(runs)
-        if comment_counts:
-            breakdown["comments"] = comment_counts
-        if run_counts:
-            breakdown["runs"] = run_counts
-        return breakdown
-
-    @staticmethod
-    def _source_counts(items: list[dict[str, Any]]) -> dict[str, int]:
-        counts: dict[str, int] = {}
-        for item in items:
-            source = str(item.get("source") or item.get("platform") or "").strip()
-            if not source:
-                continue
-            counts[source] = counts.get(source, 0) + 1
-        if len(counts) <= ContractComparator.SOURCE_BREAKDOWN_LIMIT:
-            return dict(sorted(counts.items()))
-        sorted_counts = sorted(counts.items(), key=lambda item: (-item[1], item[0]))
-        visible = dict(sorted_counts[: ContractComparator.SOURCE_BREAKDOWN_LIMIT])
-        visible["__other__"] = sum(count for _, count in sorted_counts[ContractComparator.SOURCE_BREAKDOWN_LIMIT :])
-        return visible
+        return SourceBreakdownContract().from_items(comments=comments, runs=runs)
 
 
 class CompareContractsRequest:

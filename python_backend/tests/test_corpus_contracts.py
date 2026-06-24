@@ -167,6 +167,7 @@ from python_backend.analysis.video_filter import VideoCommentFilter, VideoCommen
 from python_backend.corpus.dictionary import DictionaryLoader, DictionaryManifestContract, DictionaryMergeWriter, DictionaryPayloadContract
 from python_backend.corpus.dictionary_prune import ExhaustedTermsPrunePlanner
 from python_backend.corpus.loader import CorpusLoader, CorpusPayloadContract
+from python_backend.corpus.source_breakdown import SourceBreakdownContract
 from python_backend.corpus.writer import CorpusShardPlanner, CorpusShardWriteCommandRequest, CorpusShardWriteContractComparator as CorpusShardWritePayloadComparator, CorpusShardWritePayloadContract, CorpusShardWritePayloadContractComparator, CorpusShardWriteRequest, CorpusShardWriteRunner as CorpusShardWritePayloadRunner, CorpusShardWriteSummary, CorpusShardWriter
 from python_backend.scrapers.adapters import ScrapeRequest, ScraperAdapter
 from python_backend.scrapers.bilibili import BilibiliParseCommandRequest, BilibiliParseContractComparator as BilibiliParsePayloadComparator, BilibiliParsePayloadContractComparator, BilibiliParseRequest, BilibiliParseRunner as BilibiliParsePayloadRunner, BilibiliParseSummary, BilibiliPublicParser
@@ -203,6 +204,34 @@ from python_backend.scrapers.uid_fast_pipeline import FastPipelineLauncherComman
 
 
 class CorpusContractTests(unittest.TestCase):
+    def test_source_breakdown_contract_counts_and_caps_sources(self):
+        contract = SourceBreakdownContract(limit=2)
+
+        from_items = contract.from_items(
+            comments=[
+                {"message": "one", "source": "bilibili"},
+                {"message": "two", "platform": "bilibili"},
+                {"message": "three", "source": "tieba"},
+                {"message": "empty", "source": ""},
+            ],
+            runs=[
+                {"source": "bilibili"},
+                {"platform": "tieba"},
+                {"source": "history"},
+            ],
+        )
+        from_counts = contract.from_source_breakdown(
+            {
+                "comments": {"bilibili": 2, "tieba": 1, "history": 1, "": 5},
+                "runs": {"tieba": 3, "bilibili": 2, "history": 1},
+            }
+        )
+
+        self.assertEqual(from_items["comments"], {"bilibili": 2, "tieba": 1})
+        self.assertEqual(from_items["runs"], {"bilibili": 1, "history": 1, "__other__": 1})
+        self.assertEqual(from_counts["comments"], {"bilibili": 2, "history": 1, "__other__": 1})
+        self.assertEqual(from_counts["runs"], {"tieba": 3, "bilibili": 2, "__other__": 1})
+
     def test_loader_hydrates_split_corpus_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

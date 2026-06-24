@@ -12,6 +12,7 @@ from typing import Any
 from python_backend.analysis.comment_coverage import _clean_needle, _is_contract_scalar, _is_scrape_diagnostic, _strip_mention_scaffolding
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
+from python_backend.corpus.source_breakdown import SourceBreakdownContract
 from python_backend.runtime.json_contracts import JsonContractReader, JsonResultBytesContract, safe_read_json_object
 
 
@@ -27,8 +28,6 @@ class VerificationSummary:
 @dataclass(frozen=True)
 class RandomVerificationCorpus:
     """Loaded corpus bundle used by random verification reports."""
-
-    SOURCE_BREAKDOWN_LIMIT = 20
 
     comments: list[dict[str, Any]]
     runs: list[dict[str, Any]]
@@ -46,31 +45,7 @@ class RandomVerificationCorpus:
         return result
 
     def _source_breakdown(self) -> dict[str, dict[str, int]]:
-        comments = self._source_counts(self.comments)
-        runs = self._source_counts(self.runs)
-        result: dict[str, dict[str, int]] = {}
-        if comments:
-            result["comments"] = comments
-        if runs:
-            result["runs"] = runs
-        return result
-
-    @staticmethod
-    def _source_counts(items: list[dict[str, Any]]) -> dict[str, int]:
-        counts: dict[str, int] = {}
-        for item in items if isinstance(items, list) else []:
-            if not isinstance(item, dict):
-                continue
-            source = str(item.get("source") or item.get("platform") or "").strip()
-            if not source:
-                continue
-            counts[source] = counts.get(source, 0) + 1
-        if len(counts) > RandomVerificationCorpus.SOURCE_BREAKDOWN_LIMIT:
-            sorted_counts = sorted(counts.items(), key=lambda item: (-item[1], item[0]))
-            visible = dict(sorted_counts[: RandomVerificationCorpus.SOURCE_BREAKDOWN_LIMIT])
-            visible["__other__"] = sum(count for _, count in sorted_counts[RandomVerificationCorpus.SOURCE_BREAKDOWN_LIMIT :])
-            return visible
-        return dict(sorted(counts.items()))
+        return SourceBreakdownContract().from_items(comments=self.comments, runs=self.runs)
 
 
 @dataclass(frozen=True)
@@ -128,7 +103,6 @@ class RandomVerificationReportSummary:
 
     SUMMARY_KEYS = ("sampleSize", "seed", "sampled", "keywordHits", "neutral", "uncovered")
     CORPUS_KEYS = ("comments", "runs", "storage", "sourceBreakdown")
-    SOURCE_BREAKDOWN_LIMIT = 20
 
     def summarize(self, report: dict[str, Any] | None = None) -> dict[str, Any]:
         report = report if isinstance(report, dict) else {}
@@ -161,30 +135,7 @@ class RandomVerificationReportSummary:
         return result
 
     def _normalize_source_breakdown(self, source_breakdown: Any) -> dict[str, dict[str, int]]:
-        if not isinstance(source_breakdown, dict):
-            return {}
-        result: dict[str, dict[str, int]] = {}
-        for bucket in ("comments", "runs"):
-            raw_counts = source_breakdown.get(bucket)
-            if not isinstance(raw_counts, dict):
-                continue
-            counts: dict[str, int] = {}
-            for source, count in raw_counts.items():
-                source_key = str(source or "").strip()
-                if not source_key:
-                    continue
-                counts[source_key] = _non_negative_int(count, 0)
-            if counts:
-                result[bucket] = self._cap_source_counts(counts)
-        return result
-
-    def _cap_source_counts(self, counts: dict[str, int]) -> dict[str, int]:
-        if len(counts) <= self.SOURCE_BREAKDOWN_LIMIT:
-            return dict(sorted(counts.items()))
-        sorted_counts = sorted(counts.items(), key=lambda item: (-item[1], item[0]))
-        visible = dict(sorted_counts[: self.SOURCE_BREAKDOWN_LIMIT])
-        visible["__other__"] = sum(count for _, count in sorted_counts[self.SOURCE_BREAKDOWN_LIMIT :])
-        return visible
+        return SourceBreakdownContract().from_source_breakdown(source_breakdown)
 
 
 class RandomVerificationSampleContract:
