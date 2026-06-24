@@ -33972,6 +33972,60 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_random_verification_comparator_detects_corpus_source_breakdown_mismatch(self):
+        result = RandomVerificationPayloadComparator().compare(
+            {
+                "ok": True,
+                "sampleSize": 2,
+                "seed": 1,
+                "sampled": 2,
+                "keywordHits": 2,
+                "neutral": 0,
+                "uncovered": 0,
+                "corpus": {
+                    "comments": 2,
+                    "runs": 2,
+                    "storage": "combined",
+                    "sourceBreakdown": {"runs": {"bilibili": 1, "tieba": 1}},
+                },
+            },
+            {
+                "ok": True,
+                "sampleSize": 2,
+                "seed": 1,
+                "sampled": 2,
+                "keywordHits": 2,
+                "neutral": 0,
+                "uncovered": 0,
+                "corpus": {
+                    "comments": 2,
+                    "runs": 2,
+                    "storage": "combined",
+                    "sourceBreakdown": {"runs": {"bilibili": 2}},
+                },
+            },
+        )
+
+        self.assertFalse(result["ok"])
+        self.assertIn(
+            {
+                "key": "corpus",
+                "python": {
+                    "comments": 2,
+                    "runs": 2,
+                    "storage": "combined",
+                    "sourceBreakdown": {"runs": {"bilibili": 1, "tieba": 1}},
+                },
+                "js": {
+                    "comments": 2,
+                    "runs": 2,
+                    "storage": "combined",
+                    "sourceBreakdown": {"runs": {"bilibili": 2}},
+                },
+            },
+            result["mismatches"],
+        )
+
     def test_random_verification_report_summary_defaults_malformed_metrics(self):
         summary = RandomVerificationReportSummary().summarize(
             {

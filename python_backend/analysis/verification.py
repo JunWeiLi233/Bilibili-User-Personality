@@ -120,10 +120,11 @@ class RandomVerificationReportSummary:
     """Shape random-verification reports into the JS/Python comparator summary contract."""
 
     SUMMARY_KEYS = ("sampleSize", "seed", "sampled", "keywordHits", "neutral", "uncovered")
+    CORPUS_KEYS = ("comments", "runs", "storage", "sourceBreakdown")
 
     def summarize(self, report: dict[str, Any] | None = None) -> dict[str, Any]:
         report = report if isinstance(report, dict) else {}
-        return {
+        summary: dict[str, Any] = {
             "sampleSize": _non_negative_int(report.get("sampleSize"), 50),
             "seed": _int_or(report.get("seed"), 1),
             "sampled": _non_negative_int(report.get("sampled"), 0),
@@ -131,6 +132,43 @@ class RandomVerificationReportSummary:
             "neutral": _non_negative_int(report.get("neutral"), 0),
             "uncovered": _non_negative_int(report.get("uncovered"), 0),
         }
+        corpus = self._summarize_corpus(report.get("corpus"))
+        if corpus:
+            summary["corpus"] = corpus
+        return summary
+
+    def _summarize_corpus(self, corpus: Any) -> dict[str, Any]:
+        if not isinstance(corpus, dict):
+            return {}
+        result: dict[str, Any] = {}
+        if "comments" in corpus:
+            result["comments"] = _non_negative_int(corpus.get("comments"), 0)
+        if "runs" in corpus:
+            result["runs"] = _non_negative_int(corpus.get("runs"), 0)
+        if "storage" in corpus:
+            result["storage"] = str(corpus.get("storage") or "")
+        source_breakdown = self._normalize_source_breakdown(corpus.get("sourceBreakdown"))
+        if source_breakdown:
+            result["sourceBreakdown"] = source_breakdown
+        return result
+
+    def _normalize_source_breakdown(self, source_breakdown: Any) -> dict[str, dict[str, int]]:
+        if not isinstance(source_breakdown, dict):
+            return {}
+        result: dict[str, dict[str, int]] = {}
+        for bucket in ("comments", "runs"):
+            raw_counts = source_breakdown.get(bucket)
+            if not isinstance(raw_counts, dict):
+                continue
+            counts: dict[str, int] = {}
+            for source, count in raw_counts.items():
+                source_key = str(source or "").strip()
+                if not source_key:
+                    continue
+                counts[source_key] = _non_negative_int(count, 0)
+            if counts:
+                result[bucket] = dict(sorted(counts.items()))
+        return result
 
 
 class RandomVerificationSampleContract:
@@ -184,6 +222,8 @@ class RandomVerificationContractComparator:
             for key in metric_keys
             if key in js_report and python_summary.get(key) != js_summary.get(key)
         ]
+        if "corpus" in js_report and python_summary.get("corpus") != js_summary.get("corpus"):
+            mismatches.append({"key": "corpus", "python": python_summary.get("corpus"), "js": js_summary.get("corpus")})
         return {
             "ok": not mismatches,
             "mismatches": mismatches,
