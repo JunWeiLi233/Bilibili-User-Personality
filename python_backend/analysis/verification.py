@@ -435,12 +435,24 @@ def _path_list(value: Any) -> list[Path]:
     return paths
 
 
+def _payload_list(value: Any) -> list[dict[str, Any]]:
+    if not isinstance(value, list):
+        return []
+    return [item for item in value if isinstance(item, dict)]
+
+
 class RandomVerificationCorpusAssembler:
     """Assemble the base and optional extra corpora for random verification."""
 
-    def __init__(self, base_corpus: Any, extra_corpus_paths: list[str | Path] | None = None):
+    def __init__(
+        self,
+        base_corpus: Any,
+        extra_corpus_paths: list[str | Path] | None = None,
+        extra_corpus_payloads: list[dict[str, Any]] | None = None,
+    ):
         self.base_corpus = base_corpus
         self.extra_corpus_paths = _path_list(extra_corpus_paths)
+        self.extra_corpus_payloads = extra_corpus_payloads if isinstance(extra_corpus_payloads, list) else []
 
     @classmethod
     def from_path(cls, corpus_path: str | Path, extra_corpus_paths: list[str | Path] | None = None) -> "RandomVerificationCorpusAssembler":
@@ -449,7 +461,11 @@ class RandomVerificationCorpusAssembler:
     @classmethod
     def from_payload(cls, payload: dict[str, Any] | None = None) -> "RandomVerificationCorpusAssembler":
         payload = payload if isinstance(payload, dict) else {}
-        return cls(CorpusLoader.load_from_payload(payload), _path_list(payload.get("extraCorpusPaths")))
+        return cls(
+            CorpusLoader.load_from_payload(payload),
+            _path_list(payload.get("extraCorpusPaths")),
+            _payload_list(payload.get("extraCorpora")),
+        )
 
     def assemble(self) -> RandomVerificationCorpus:
         base = self._load_base()
@@ -460,7 +476,11 @@ class RandomVerificationCorpusAssembler:
             extra_corpus = CorpusLoader(extra_path).load()
             comments.extend(extra_corpus.comments)
             runs.extend(extra_corpus.runs)
-        if self.extra_corpus_paths:
+        for extra_payload in self.extra_corpus_payloads:
+            extra_corpus = CorpusLoader.load_from_payload({"corpus": extra_payload})
+            comments.extend(extra_corpus.comments)
+            runs.extend(extra_corpus.runs)
+        if self.extra_corpus_paths or self.extra_corpus_payloads:
             storage = "combined"
         return RandomVerificationCorpus(comments=comments, runs=runs, storage=storage)
 

@@ -2887,6 +2887,32 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["corpus"], {"comments": 2, "runs": 2, "storage": "combined"})
         self.assertEqual(result["keywordHits"], 1)
 
+    def test_random_verification_payload_runner_combines_inline_extra_corpora(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "random-verification.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "sampleSize": 10,
+                        "seed": 1,
+                        "corpus": {"comments": [{"message": "plain bilibili"}], "runs": [{"source": "bilibili"}]},
+                        "extraCorpora": [
+                            {"comments": [{"message": "tieba slang"}], "runs": [{"source": "tieba"}]},
+                            {"comments": ["history tag slang"], "runs": [{"source": "history-tags"}]},
+                            {"bad": True},
+                        ],
+                        "dictionary": {"entries": [{"term": "tieba"}, {"term": "history tag"}]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = verification_module.RandomVerificationPayloadRunner(payload_path).run()
+
+        self.assertEqual(result["corpus"], {"comments": 3, "runs": 3, "storage": "combined"})
+        self.assertEqual(result["sampled"], 3)
+        self.assertEqual(result["keywordHits"], 2)
+
     def test_random_verification_corpus_assembler_combines_payload_and_extra_corpora(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
