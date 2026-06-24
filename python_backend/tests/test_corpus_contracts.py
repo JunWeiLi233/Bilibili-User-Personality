@@ -2551,6 +2551,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(readiness["readyToReplaceActionCount"], 0)
         self.assertEqual(readiness["pythonContractGapCount"], result["pythonContractGapCount"])
         self.assertEqual(readiness["pythonContractGapCount"], 0)
+        self.assertEqual(readiness["manualVerificationCommandCount"], 25)
+        self.assertIn("credentialed_live_api_command_not_verified", readiness["manualVerificationBlockers"])
+        self.assertIn("coverage_loop_live_runtime_not_verified", readiness["manualVerificationBlockers"])
 
     def test_package_python_coverage_standalone_script_uses_python_audit_mode(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))

@@ -631,7 +631,7 @@ class BackendMigrationInventoryScanner:
         migration_actions: list[dict[str, Any]],
         manual_verification_actions: list[dict[str, str]],
         python_contract_gaps: list[dict[str, Any]],
-    ) -> dict[str, int]:
+    ) -> dict[str, Any]:
         replacement_blocked = [
             action
             for action in migration_actions
@@ -642,11 +642,25 @@ class BackendMigrationInventoryScanner:
             for action in migration_actions
             if isinstance(action, dict) and action.get("readyToReplace") and not action.get("replacementBlockers")
         ]
+        manual_commands = [
+            action.get("liveVerificationCommand") or action.get("preflightCommand")
+            for action in manual_verification_actions
+            if isinstance(action, dict) and (action.get("liveVerificationCommand") or action.get("preflightCommand"))
+        ]
+        manual_blockers = sorted(
+            {
+                str(action.get("blocker") or "")
+                for action in manual_verification_actions
+                if isinstance(action, dict) and str(action.get("blocker") or "").strip()
+            }
+        )
         return {
             "manualVerificationActionCount": len(manual_verification_actions),
             "replacementBlockedActionCount": len(replacement_blocked),
             "readyToReplaceActionCount": len(ready_to_replace),
             "pythonContractGapCount": len(python_contract_gaps),
+            "manualVerificationCommandCount": len(manual_commands),
+            "manualVerificationBlockers": manual_blockers,
         }
 
     @staticmethod
