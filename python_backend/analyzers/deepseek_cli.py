@@ -394,6 +394,58 @@ class DeepSeekAnalyzePayloadBuilder:
         return payload
 
 
+class DeepSeekAnalyzeMockChatRunner:
+    """Build mock-chat analyzer results without invoking the live DeepSeek transport."""
+
+    def __init__(
+        self,
+        *,
+        client: DeepSeekAnalyzerClient | None = None,
+        normalizer: DeepSeekAnalysisNormalizer | None = None,
+    ):
+        self.client = client or DeepSeekAnalyzerClient()
+        self.normalizer = normalizer or DeepSeekAnalysisNormalizer()
+
+    def run(self, payload: dict[str, Any], analysis: Any) -> dict[str, Any]:
+        request = self.client.build_request_from_payload(payload)
+        requests = self.client.build_request_plan(request)
+        analysis_payload = analysis if isinstance(analysis, dict) else {}
+        raw_payload = (
+            analysis_payload.get("parsed")
+            if isinstance(analysis_payload.get("parsed"), dict)
+            else analysis
+        )
+        result = self.normalizer.normalize(
+            source_payload=payload,
+            analysis_payload=analysis_payload,
+            provider="deepseek",
+            model=request.model,
+            reasoning_effort=request.effort,
+            raw=self._json_text(raw_payload),
+        )
+        result["runtime"] = {
+            "mode": "mock_chat",
+            "requestCount": len(requests),
+            "multiagent": request.multiagent,
+        }
+        if request.multiagent:
+            result["multiagent"] = {
+                "enabled": True,
+                "mergeAgent": "quality-merge",
+                "agents": [
+                    {"id": str(agent.get("id") or ""), "name": str(agent.get("name") or ""), "ok": True}
+                    for agent in self.client.MULTIAGENTS
+                ],
+            }
+        return result
+
+    @staticmethod
+    def _json_text(value: Any) -> str:
+        import json
+
+        return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
+
+
 class DeepSeekAnalyzeCommandRequest:
     """Run Python-owned analyzeDeepSeekComments-compatible command modes."""
 
@@ -514,38 +566,7 @@ class DeepSeekAnalyzeCommandRequest:
             }
 
     def _run_mock_chat(self, payload: dict[str, Any], analysis: Any) -> dict[str, Any]:
-        client = DeepSeekAnalyzerClient()
-        request = client.build_request_from_payload(payload)
-        requests = client.build_request_plan(request)
-        analysis_payload = analysis if isinstance(analysis, dict) else {}
-        raw_payload = (
-            analysis_payload.get("parsed")
-            if isinstance(analysis_payload.get("parsed"), dict)
-            else analysis
-        )
-        result = self.normalizer.normalize(
-            source_payload=payload,
-            analysis_payload=analysis_payload,
-            provider="deepseek",
-            model=request.model,
-            reasoning_effort=request.effort,
-            raw=self._json_text(raw_payload),
-        )
-        result["runtime"] = {
-            "mode": "mock_chat",
-            "requestCount": len(requests),
-            "multiagent": request.multiagent,
-        }
-        if request.multiagent:
-            result["multiagent"] = {
-                "enabled": True,
-                "mergeAgent": "quality-merge",
-                "agents": [
-                    {"id": str(agent.get("id") or ""), "name": str(agent.get("name") or ""), "ok": True}
-                    for agent in client.MULTIAGENTS
-                ],
-            }
-        return result
+        return DeepSeekAnalyzeMockChatRunner(normalizer=self.normalizer).run(payload, analysis)
 
     def _payload(self, args: argparse.Namespace) -> dict[str, Any]:
         return DeepSeekAnalyzePayloadBuilder(stdin_text=self.stdin_text).build(args)
