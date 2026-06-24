@@ -3587,6 +3587,28 @@ class CorpusContractTests(unittest.TestCase):
             },
         )
 
+    def test_random_corpus_module_exports_report_corpus_contract(self):
+        from python_backend.analysis.random_corpus import RandomVerificationCorpus
+
+        corpus = RandomVerificationCorpus(
+            comments=[
+                {"message": "doge satire", "source": "bilibili"},
+                {"message": "tieba slang", "source": "tieba"},
+            ],
+            runs=[{"source": "bilibili"}],
+            storage="combined",
+        )
+
+        self.assertEqual(
+            corpus.as_report_corpus(),
+            {
+                "comments": 2,
+                "runs": 1,
+                "storage": "combined",
+                "sourceBreakdown": {"comments": {"bilibili": 1, "tieba": 1}, "runs": {"bilibili": 1}},
+            },
+        )
+
     def test_random_verification_readiness_contract_merges_coverage_and_sample_gates(self):
         readiness = RandomVerificationReadinessContract(
             coverage_audit={
