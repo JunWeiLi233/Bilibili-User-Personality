@@ -40,11 +40,43 @@ test('compareKeywordEvidence compares JS-compatible and Python keyword evidence 
       calls.push({ python: context.payloadPath.endsWith('keyword-evidence.json') });
       return { ok: true, mode: 'entries', count: 1, entries: ENTRIES };
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.deepEqual(calls, [{ js: true }, { python: true }]);
+});
+
+test('compareKeywordEvidence delegates saved JS report comparison to Python contract', async () => {
+  const calls = [];
+  const result = await compareKeywordEvidence({
+    runJs: async () => ({ ok: true, mode: 'entries', count: 1, entries: ENTRIES }),
+    runPython: async () => ({ ok: true, mode: 'entries', count: 1, entries: ENTRIES }),
+    runCompare: async (context) => {
+      calls.push({
+        jsCount: context.jsReport.count,
+        pythonCount: context.pythonReport.count,
+        hasPayloadPath: context.payloadPath.endsWith('keyword-evidence.json'),
+        hasJsReportPath: context.jsReportPath.endsWith('js-report.json'),
+      });
+      return {
+        ok: false,
+        mismatches: [{ key: 'delegated', python: 'python-contract', js: 'js-keyword-evidence' }],
+      };
+    },
+  });
+
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.mismatches, [{ key: 'delegated', python: 'python-contract', js: 'js-keyword-evidence' }]);
+  assert.deepEqual(calls, [
+    {
+      jsCount: 1,
+      pythonCount: 1,
+      hasPayloadPath: true,
+      hasJsReportPath: true,
+    },
+  ]);
 });
 
 test('compareKeywordEvidence exports named entry and dictionary fixtures', async () => {
@@ -65,6 +97,7 @@ test('compareKeywordEvidence exports named entry and dictionary fixtures', async
       calls.push({ python: context.fixture.name, mode: context.payload.mode || 'entries' });
       return context.fixture.expected;
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
