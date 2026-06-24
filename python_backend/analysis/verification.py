@@ -154,6 +154,21 @@ class RandomVerificationReportSummary:
         return SourceBreakdownContract().from_source_breakdown(source_breakdown)
 
 
+class ReadinessBlockerDetailsContract:
+    """Render stable blocker detail objects for failed readiness gates."""
+
+    def __init__(self, reasons: dict[str, str] | None = None):
+        self.reasons = reasons if isinstance(reasons, dict) else {}
+
+    def from_gates(self, gates: list[dict[str, Any]]) -> list[dict[str, str]]:
+        return [
+            {"gate": str(gate_name), "reason": self.reasons.get(str(gate_name), "readiness gate failed")}
+            for gate in gates
+            for gate_name in [gate.get("gate") or ""]
+            if not gate.get("ok")
+        ]
+
+
 class RandomVerificationSelectionReadinessContract:
     """Own readiness gates derived from random-verification selection metadata."""
 
@@ -186,14 +201,7 @@ class RandomVerificationSelectionReadinessContract:
         return self.REASONS
 
     def blocker_details(self) -> list[dict[str, str]]:
-        return [
-            {
-                "gate": str(gate.get("gate") or ""),
-                "reason": self.REASONS.get(str(gate.get("gate") or ""), "readiness gate failed"),
-            }
-            for gate in self.gates()
-            if not gate.get("ok")
-        ]
+        return ReadinessBlockerDetailsContract(self.REASONS).from_gates(self.gates())
 
     def _selection_summary(self) -> dict[str, Any]:
         selection_summary = self.verification_summary.get("selectionSummary")
@@ -250,14 +258,7 @@ class RandomVerificationSampleReadinessContract:
         return self.REASONS
 
     def blocker_details(self) -> list[dict[str, str]]:
-        return [
-            {
-                "gate": str(gate.get("gate") or ""),
-                "reason": self.REASONS.get(str(gate.get("gate") or ""), "readiness gate failed"),
-            }
-            for gate in self.gates()
-            if not gate.get("ok")
-        ]
+        return ReadinessBlockerDetailsContract(self.REASONS).from_gates(self.gates())
 
     def _sampled(self) -> bool:
         return _non_negative_int(self.verification_summary.get("sampled"), 0) > 0
@@ -283,14 +284,7 @@ class CoverageAuditReadinessContract:
         return self.REASONS
 
     def blocker_details(self) -> list[dict[str, str]]:
-        return [
-            {
-                "gate": str(gate.get("gate") or ""),
-                "reason": self.REASONS.get(str(gate.get("gate") or ""), "readiness gate failed"),
-            }
-            for gate in self.gates()
-            if not gate.get("ok")
-        ]
+        return ReadinessBlockerDetailsContract(self.REASONS).from_gates(self.gates())
 
     def _coverage_complete(self) -> bool:
         coverage = self.coverage_summary.get("coverage")
@@ -332,12 +326,7 @@ class RandomVerificationReadinessContract:
             **RandomVerificationSampleReadinessContract.REASONS,
             **RandomVerificationSelectionReadinessContract.REASONS,
         }
-        return [
-            {"gate": str(gate_name), "reason": reasons.get(str(gate_name), "readiness gate failed")}
-            for gate in gates
-            for gate_name in [gate.get("gate") or ""]
-            if not gate.get("ok")
-        ]
+        return ReadinessBlockerDetailsContract(reasons).from_gates(gates)
 
 
 class RandomVerificationSampleContract:

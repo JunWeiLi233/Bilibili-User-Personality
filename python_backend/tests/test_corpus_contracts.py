@@ -3692,6 +3692,25 @@ class CorpusContractTests(unittest.TestCase):
             [{"gate": "coverageAuditComplete", "reason": "coverage audit is not complete"}],
         )
 
+    def test_readiness_blocker_details_contract_renders_failed_gates(self):
+        details = verification_module.ReadinessBlockerDetailsContract(
+            reasons={"knownGate": "known reason"},
+        ).from_gates(
+            [
+                {"gate": "knownGate", "ok": False},
+                {"gate": "passingGate", "ok": True},
+                {"gate": "unknownGate", "ok": False},
+            ]
+        )
+
+        self.assertEqual(
+            details,
+            [
+                {"gate": "knownGate", "reason": "known reason"},
+                {"gate": "unknownGate", "reason": "readiness gate failed"},
+            ],
+        )
+
     def test_random_verification_readiness_contract_blocks_selection_summary_drift(self):
         readiness = RandomVerificationReadinessContract(
             coverage_audit={
