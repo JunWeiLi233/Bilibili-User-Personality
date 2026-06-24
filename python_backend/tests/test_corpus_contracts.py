@@ -2180,17 +2180,14 @@ class CorpusContractTests(unittest.TestCase):
             },
             result["manualVerificationActions"],
         )
-        self.assertEqual(result["pythonContractGapCount"], 17)
-        self.assertEqual(
-            result["pythonContractGaps"][0],
-            {
-                "path": "server/services/tiebaScraper.js",
-                "category": "services",
-                "group": "corpus_analysis_pipeline",
-                "priority": 10,
-                "blocker": "missing_python_contract",
-                "recommendation": "create_python_contract_then_compare_js",
-            },
+        self.assertEqual(result["pythonContractGapCount"], 16)
+        self.assertNotIn(
+            "server/services/tiebaScraper.js",
+            {item["path"] for item in result["pythonContractGaps"]},
+        )
+        self.assertIn(
+            {"path": "server/services/tiebaScraper.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
         )
         self.assertIn(
             {"gate": "no_live_command_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
