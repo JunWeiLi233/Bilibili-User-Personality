@@ -266,6 +266,38 @@ class RandomVerificationSampleReadinessContract:
         return _non_negative_int(self.verification_summary.get("uncovered"), 0)
 
 
+class CoverageAuditReadinessContract:
+    """Own readiness gates derived from coverage-audit results."""
+
+    REASONS = {
+        "coverageAuditComplete": "coverage audit is not complete",
+    }
+
+    def __init__(self, coverage_summary: dict[str, Any] | None = None):
+        self.coverage_summary = coverage_summary if isinstance(coverage_summary, dict) else {}
+
+    def gates(self) -> list[dict[str, Any]]:
+        return [{"gate": "coverageAuditComplete", "ok": self._coverage_complete()}]
+
+    def blocker_reasons(self) -> dict[str, str]:
+        return self.REASONS
+
+    def blocker_details(self) -> list[dict[str, str]]:
+        return [
+            {
+                "gate": str(gate.get("gate") or ""),
+                "reason": self.REASONS.get(str(gate.get("gate") or ""), "readiness gate failed"),
+            }
+            for gate in self.gates()
+            if not gate.get("ok")
+        ]
+
+    def _coverage_complete(self) -> bool:
+        coverage = self.coverage_summary.get("coverage")
+        coverage = coverage if isinstance(coverage, dict) else {}
+        return bool(self.coverage_summary.get("ok")) and coverage.get("complete") is True
+
+
 @dataclass(frozen=True)
 class RandomVerificationReadinessContract:
     """Merge coverage-audit and random-verification evidence into a replacement gate."""
@@ -276,10 +308,11 @@ class RandomVerificationReadinessContract:
     def to_json_contract(self) -> dict[str, Any]:
         coverage_summary = CoverageAuditContractSummary().summarize(self.coverage_audit)
         verification_summary = RandomVerificationReportSummary().summarize(self.verification_report)
+        coverage_readiness = CoverageAuditReadinessContract(coverage_summary)
         sample_readiness = RandomVerificationSampleReadinessContract(verification_summary)
         selection_readiness = RandomVerificationSelectionReadinessContract(verification_summary)
         gates = [
-            {"gate": "coverageAuditComplete", "ok": self._coverage_complete(coverage_summary)},
+            *coverage_readiness.gates(),
             *sample_readiness.gates(),
             *selection_readiness.gates(),
         ]
@@ -293,13 +326,9 @@ class RandomVerificationReadinessContract:
             "randomVerification": verification_summary,
         }
 
-    def _coverage_complete(self, coverage_summary: dict[str, Any]) -> bool:
-        coverage = coverage_summary.get("coverage") if isinstance(coverage_summary.get("coverage"), dict) else {}
-        return bool(coverage_summary.get("ok")) and coverage.get("complete") is True
-
     def _blocker_details(self, gates: list[dict[str, Any]]) -> list[dict[str, str]]:
         reasons = {
-            "coverageAuditComplete": "coverage audit is not complete",
+            **CoverageAuditReadinessContract.REASONS,
             **RandomVerificationSampleReadinessContract.REASONS,
             **RandomVerificationSelectionReadinessContract.REASONS,
         }

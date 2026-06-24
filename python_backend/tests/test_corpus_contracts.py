@@ -3678,6 +3678,20 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_coverage_audit_readiness_contract_owns_coverage_gate_and_blocker(self):
+        readiness = verification_module.CoverageAuditReadinessContract(
+            {"ok": False, "coverage": {"complete": False}}
+        )
+
+        self.assertEqual(
+            readiness.gates(),
+            [{"gate": "coverageAuditComplete", "ok": False}],
+        )
+        self.assertEqual(
+            readiness.blocker_details(),
+            [{"gate": "coverageAuditComplete", "reason": "coverage audit is not complete"}],
+        )
+
     def test_random_verification_readiness_contract_blocks_selection_summary_drift(self):
         readiness = RandomVerificationReadinessContract(
             coverage_audit={
