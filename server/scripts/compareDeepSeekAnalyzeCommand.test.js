@@ -6,6 +6,7 @@ import {
   compareDeepSeekAnalyzeCommandMockRuntime,
   compareDeepSeekAnalyzeCommandSuite,
   compareDeepSeekAnalyzeCommandObjects,
+  buildDeepSeekAnalyzeCommandArgs,
 } from './compareDeepSeekAnalyzeCommand.js';
 
 const NORMALIZED = {
@@ -43,6 +44,34 @@ test('compareDeepSeekAnalyzeCommand compares JS and Python fixture commands', as
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('buildDeepSeekAnalyzeCommandArgs forwards command identity fields', () => {
+  const result = buildDeepSeekAnalyzeCommandArgs({
+    runtime: 'python',
+    mode: 'fixture',
+    analysisPath: 'tmp/analysis.json',
+    payload: {
+      text: '狗头保命[doge]',
+      uid: '42',
+      name: 'fixture-user',
+      multiagent: true,
+    },
+  });
+
+  assert.deepEqual(result, [
+    '-m',
+    'python_backend.cli.deepseek_analyze',
+    '--fixture-analysis',
+    'tmp/analysis.json',
+    '--text',
+    '狗头保命[doge]',
+    '--uid',
+    '42',
+    '--name',
+    'fixture-user',
+    '--multiagent',
+  ]);
 });
 
 test('compareDeepSeekAnalyzeCommandMockRuntime compares JS command mock runtime to Python command', async () => {

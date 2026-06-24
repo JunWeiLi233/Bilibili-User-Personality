@@ -27,6 +27,18 @@ function summarize(result = {}) {
   return Object.fromEntries(RESULT_KEYS.filter((key) => key in result).map((key) => [key, result[key]]));
 }
 
+export function buildDeepSeekAnalyzeCommandArgs({ runtime = 'js', mode = 'fixture', analysisPath = '', payload = {} } = {}) {
+  const args = runtime === 'python' ? ['-m', 'python_backend.cli.deepseek_analyze'] : ['server/scripts/analyzeDeepSeekComments.js'];
+  if (mode === 'fixture') args.push('--fixture-analysis', analysisPath);
+  if (mode === 'mock') args.push('--mock-chat-analysis', analysisPath);
+  if (mode === 'live-gate') args.push('--live-validation-gate');
+  if (payload.text) args.push('--text', payload.text);
+  if (payload.uid) args.push('--uid', payload.uid);
+  if (payload.name) args.push('--name', payload.name);
+  if (payload.multiagent) args.push('--multiagent');
+  return args;
+}
+
 export function compareDeepSeekAnalyzeCommandObjects(pythonResult = {}, jsResult = {}) {
   const python = summarize(pythonResult);
   const js = summarize(jsResult);
@@ -41,7 +53,7 @@ export function compareDeepSeekAnalyzeCommandObjects(pythonResult = {}, jsResult
 async function runJsFixtureCommand({ payload, analysisPath }) {
   const { stdout } = await execFileAsync(
     'node',
-    ['server/scripts/analyzeDeepSeekComments.js', '--fixture-analysis', analysisPath, '--text', payload.text || '', '--uid', payload.uid || ''],
+    buildDeepSeekAnalyzeCommandArgs({ runtime: 'js', mode: 'fixture', analysisPath, payload }),
     {
       cwd: process.cwd(),
       env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
@@ -54,7 +66,7 @@ async function runJsFixtureCommand({ payload, analysisPath }) {
 async function runPythonFixtureCommand({ payload, analysisPath }) {
   const { stdout } = await execFileAsync(
     'python',
-    ['-m', 'python_backend.cli.deepseek_analyze', '--fixture-analysis', analysisPath, '--text', payload.text || '', '--uid', payload.uid || ''],
+    buildDeepSeekAnalyzeCommandArgs({ runtime: 'python', mode: 'fixture', analysisPath, payload }),
     {
       cwd: process.cwd(),
       env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
@@ -65,16 +77,7 @@ async function runPythonFixtureCommand({ payload, analysisPath }) {
 }
 
 async function runJsMockRuntimeCommand({ payload, analysisPath }) {
-  const args = [
-    'server/scripts/analyzeDeepSeekComments.js',
-    '--mock-chat-analysis',
-    analysisPath,
-    '--text',
-    payload.text || '',
-    '--uid',
-    payload.uid || '',
-  ];
-  if (payload.multiagent) args.push('--multiagent');
+  const args = buildDeepSeekAnalyzeCommandArgs({ runtime: 'js', mode: 'mock', analysisPath, payload });
   const { stdout } = await execFileAsync('node', args, {
     cwd: process.cwd(),
     env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
@@ -84,17 +87,7 @@ async function runJsMockRuntimeCommand({ payload, analysisPath }) {
 }
 
 async function runPythonMockRuntimeCommand({ payload, analysisPath }) {
-  const args = [
-    '-m',
-    'python_backend.cli.deepseek_analyze',
-    '--mock-chat-analysis',
-    analysisPath,
-    '--text',
-    payload.text || '',
-    '--uid',
-    payload.uid || '',
-  ];
-  if (payload.multiagent) args.push('--multiagent');
+  const args = buildDeepSeekAnalyzeCommandArgs({ runtime: 'python', mode: 'mock', analysisPath, payload });
   const { stdout } = await execFileAsync('python', args, {
     cwd: process.cwd(),
     env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
@@ -104,16 +97,7 @@ async function runPythonMockRuntimeCommand({ payload, analysisPath }) {
 }
 
 async function runPythonLiveGateCommand({ payload }) {
-  const args = [
-    '-m',
-    'python_backend.cli.deepseek_analyze',
-    '--live-validation-gate',
-    '--text',
-    payload.text || '',
-    '--uid',
-    payload.uid || '',
-  ];
-  if (payload.multiagent) args.push('--multiagent');
+  const args = buildDeepSeekAnalyzeCommandArgs({ runtime: 'python', mode: 'live-gate', payload });
   const { stdout } = await execFileAsync('python', args, {
     cwd: process.cwd(),
     env: {
@@ -128,16 +112,7 @@ async function runPythonLiveGateCommand({ payload }) {
 }
 
 async function runJsEnvPythonRuntimeBridgeCommand({ payload, analysisPath }) {
-  const args = [
-    'server/scripts/analyzeDeepSeekComments.js',
-    '--mock-chat-analysis',
-    analysisPath,
-    '--text',
-    payload.text || '',
-    '--uid',
-    payload.uid || '',
-  ];
-  if (payload.multiagent) args.push('--multiagent');
+  const args = buildDeepSeekAnalyzeCommandArgs({ runtime: 'js', mode: 'mock', analysisPath, payload });
   const { stdout } = await execFileAsync('node', args, {
     cwd: process.cwd(),
     env: {
