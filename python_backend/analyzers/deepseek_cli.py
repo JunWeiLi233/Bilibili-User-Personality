@@ -208,6 +208,28 @@ class DeepSeekAnalyzeHttpErrorFormatter:
         return f"DeepSeek analyze failed with HTTP {error.code}: {body}"
 
 
+class DeepSeekAnalyzeHttpRequestBuilder:
+    """Build DeepSeek chat-completion HTTP requests from analyzer payloads."""
+
+    def build(self, request_body: dict[str, Any], config: dict[str, str]) -> urllib.request.Request:
+        data = self._json_text(request_body).encode("utf-8")
+        return urllib.request.Request(
+            f"{config['baseUrl']}/chat/completions",
+            data=data,
+            headers={
+                "content-type": "application/json",
+                "authorization": f"Bearer {config['apiKey']}",
+            },
+            method="POST",
+        )
+
+    @staticmethod
+    def _json_text(value: Any) -> str:
+        import json
+
+        return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
+
+
 class DeepSeekAnalyzeHttpTransport:
     """Send DeepSeek chat completion requests through an injectable URL opener."""
 
@@ -218,26 +240,19 @@ class DeepSeekAnalyzeHttpTransport:
         timeout: int = 60,
         parser: Any = None,
         error_formatter: Any = None,
+        request_builder: Any = None,
     ):
         self.opener = opener or urllib.request.urlopen
         self.timeout = timeout
         self.parser = parser or DeepSeekAnalyzeChatResponseParser()
         self.error_formatter = error_formatter or DeepSeekAnalyzeHttpErrorFormatter()
+        self.request_builder = request_builder or DeepSeekAnalyzeHttpRequestBuilder()
 
     def __call__(self, request_body: dict[str, Any], config: dict[str, str]) -> dict[str, Any]:
         return self.send(request_body, config)
 
     def send(self, request_body: dict[str, Any], config: dict[str, str]) -> dict[str, Any]:
-        data = self._json_text(request_body).encode("utf-8")
-        request = urllib.request.Request(
-            f"{config['baseUrl']}/chat/completions",
-            data=data,
-            headers={
-                "content-type": "application/json",
-                "authorization": f"Bearer {config['apiKey']}",
-            },
-            method="POST",
-        )
+        request = self.request_builder.build(request_body, config)
         try:
             with self.opener(request, timeout=self.timeout) as response:
                 payload = JsonContractReader().read_text_value(response.read().decode("utf-8"), {})
