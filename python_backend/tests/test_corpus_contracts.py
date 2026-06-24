@@ -3789,6 +3789,47 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertEqual(ReadinessComponentCollectionContract([]).gates(), [])
 
+    def test_random_readiness_module_exports_component_contracts(self):
+        from python_backend.analysis.random_readiness import (
+            RandomVerificationReadinessComponentsContract,
+            RandomVerificationSampleReadinessContract,
+            RandomVerificationSelectionReadinessContract,
+        )
+
+        sample_readiness = RandomVerificationSampleReadinessContract({"sampled": 1, "uncovered": 0})
+        selection_readiness = RandomVerificationSelectionReadinessContract(
+            {
+                "sampleSize": 1,
+                "seed": 9,
+                "sampled": 1,
+                "selectionSummary": {
+                    "requestedSampleSize": 1,
+                    "eligibleComments": 2,
+                    "selectedComments": 1,
+                    "seed": 9,
+                },
+            }
+        )
+        collection = RandomVerificationReadinessComponentsContract(
+            coverage_summary={"ok": True, "coverage": {"complete": True}},
+            verification_summary={
+                "sampleSize": 1,
+                "seed": 9,
+                "sampled": 1,
+                "uncovered": 0,
+                "selectionSummary": {
+                    "requestedSampleSize": 1,
+                    "eligibleComments": 2,
+                    "selectedComments": 1,
+                    "seed": 9,
+                },
+            },
+        ).to_component_collection()
+
+        self.assertEqual(sample_readiness.gates()[0], {"gate": "randomVerificationSampled", "ok": True})
+        self.assertEqual(selection_readiness.gates()[0], {"gate": "randomVerificationSelectionConsistent", "ok": True})
+        self.assertEqual(collection.gates()[0], {"gate": "coverageAuditComplete", "ok": True})
+
     def test_random_verification_readiness_components_contract_builds_ordered_components(self):
         collection = verification_module.RandomVerificationReadinessComponentsContract(
             coverage_summary={"ok": True, "coverage": {"complete": True}},
