@@ -486,7 +486,10 @@ class CoverageHarvestLoopExternalHarvestAdapter:
             )
         if not completed.stdout.strip():
             raise ValueError("external harvest command produced no JSON output")
-        output = json.loads(completed.stdout)
+        try:
+            output = json.loads(completed.stdout)
+        except json.JSONDecodeError as error:
+            raise ValueError(f"external harvest command returned invalid JSON: {error}") from error
         if not isinstance(output, dict):
             raise ValueError("external harvest command must return a JSON object")
         return output

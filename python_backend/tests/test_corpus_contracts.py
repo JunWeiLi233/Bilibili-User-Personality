@@ -31118,6 +31118,51 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(result["cycles"][0]["harvest"]["ok"])
         self.assertIn("external harvest command produced no JSON output", result["cycles"][0]["harvest"]["warnings"][0])
 
+    def test_coverage_harvest_loop_external_adapter_rejects_invalid_json_stdout(self):
+        from python_backend.analysis import coverage_loop as coverage_loop_module
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+            dictionary_path = temp_path / "dictionary.json"
+            state_path = temp_path / "state.json"
+            report_path = temp_path / "report.json"
+            harvest_script = temp_path / "harvest_adapter.py"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "entries": [
+                            {"term": "doge", "family": "meme", "evidenceCount": 0, "evidenceSamples": [], "evidenceSources": []}
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            harvest_script.write_text("print('not-json')\n", encoding="utf-8")
+
+            result = coverage_loop_module.CoverageHarvestLoopCommandRequest(
+                [
+                    "--dictionary",
+                    dictionary_path,
+                    "--state",
+                    state_path,
+                    "--report",
+                    report_path,
+                    "--max-cycles",
+                    "1",
+                    "--generated-at",
+                    "2026-06-23T00:00:00.000Z",
+                    "--harvest-command-json",
+                    json.dumps([sys.executable, str(harvest_script), "{payload}"]),
+                    "--exit-zero",
+                ]
+            ).run()
+
+        self.assertEqual(result["stopReason"], "cycle_1_crashed")
+        self.assertEqual(result["runtimeMode"], "external_harvest_command")
+        self.assertFalse(result["cycles"][0]["harvest"]["ok"])
+        self.assertIn("external harvest command returned invalid JSON", result["cycles"][0]["harvest"]["warnings"][0])
+
     def test_coverage_harvest_loop_external_harvest_prunes_exhausted_terms(self):
         from python_backend.analysis import coverage_loop as coverage_loop_module
 
