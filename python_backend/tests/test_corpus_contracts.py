@@ -1699,7 +1699,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:coverage-loop-command-compare",
                     "validationCommand": "node server/scripts/compareCoverageHarvestLoopCommand.js",
-                    "validationScope": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_and_deferred_live_contract",
+                    "validationScope": "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_command_and_deferred_live_contract",
                 },
                 {
                     "script": "dictionary:tieba",
@@ -1904,14 +1904,14 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["nextOfflineMigrationAction"]["pythonCommand"], "python -m python_backend.cli.coverage_loop_command")
         self.assertEqual(result["nextOfflineMigrationAction"]["validationScript"], "python:coverage-loop-command-compare")
         self.assertEqual(result["nextOfflineMigrationAction"]["validationCommand"], "node server/scripts/compareCoverageHarvestLoopCommand.js")
-        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_and_deferred_live_contract")
+        self.assertEqual(result["nextOfflineMigrationAction"]["validationScope"], "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_command_and_deferred_live_contract")
         self.assertFalse(result["nextOfflineMigrationAction"]["readyToReplace"])
         self.assertEqual(
             result["nextOfflineMigrationAction"]["replacementBlockers"],
             [
                 {
                     "blocker": "coverage_loop_live_runtime_not_verified",
-                    "reason": "Python has dry-run, no-live, mock cycle, mock harvest, file-backed mock harvest, and deferred live contracts, but dictionary:auto still needs a verified live harvest runtime before replacing the JS loop.",
+                    "reason": "Python has dry-run, no-live, mock cycle, mock harvest, file-backed mock harvest, external harvest adapter, and deferred live contracts, but dictionary:auto still needs a verified live Bilibili/Tieba harvest runtime before replacing the JS loop.",
                 },
             ],
         )
@@ -1937,6 +1937,10 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertIn(
             {"gate": "file_backed_mock_harvest_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
+            result["nextOfflineMigrationAction"]["validationGates"],
+        )
+        self.assertIn(
+            {"gate": "external_harvest_command_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
             result["nextOfflineMigrationAction"]["validationGates"],
         )
         self.assertIn(
@@ -29542,6 +29546,90 @@ class CorpusContractTests(unittest.TestCase):
             ],
         )
 
+    def test_coverage_harvest_loop_command_runs_external_harvest_command_contract(self):
+        from python_backend.analysis import coverage_loop as coverage_loop_module
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+            dictionary_path = temp_path / "dictionary.json"
+            state_path = temp_path / "state.json"
+            report_path = temp_path / "report.json"
+            seen_path = temp_path / "seen-request.json"
+            harvest_script = temp_path / "harvest_adapter.py"
+            dictionary_path.write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "entries": [
+                            {
+                                "term": "doge",
+                                "family": "meme",
+                                "evidenceCount": 0,
+                                "evidenceSamples": [],
+                                "evidenceSources": [],
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            harvest_script.write_text(
+                "\n".join(
+                    [
+                        "import json, sys",
+                        "from pathlib import Path",
+                        "request = json.loads(Path(sys.argv[1]).read_text(encoding='utf-8'))",
+                        "Path(sys.argv[2]).write_text(json.dumps(request, ensure_ascii=False), encoding='utf-8')",
+                        "print(json.dumps({",
+                        "  'afterDictionary': {'version': 1, 'entries': [{",
+                        "    'term': 'doge', 'family': 'meme', 'evidenceCount': 3,",
+                        "    'evidenceSamples': ['doge hot', 'doge reply', 'doge source'],",
+                        "    'evidenceSources': ['Bilibili comments']",
+                        "  }]},",
+                        "  'harvest': {'ok': True, 'rounds': [{",
+                        "    'queries': ['doge 评论区 热评'],",
+                        "    'warnings': [],",
+                        "    'coverageProgress': {'evidenceGained': 3, 'zeroEvidenceResolved': 1, 'weakTermsResolved': 1},",
+                        "    'trainingDiagnostics': {'accepted': 3},",
+                        "    'queryDiagnostics': [{'query': 'doge 评论区 热评', 'videos': 1}]",
+                        "  }]}",
+                        "}, ensure_ascii=False))",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            result = coverage_loop_module.CoverageHarvestLoopCommandRequest(
+                [
+                    "--dictionary",
+                    dictionary_path,
+                    "--state",
+                    state_path,
+                    "--report",
+                    report_path,
+                    "--max-cycles",
+                    "1",
+                    "--generated-at",
+                    "2026-06-23T00:00:00.000Z",
+                    "--harvest-command-json",
+                    json.dumps([sys.executable, str(harvest_script), "{payload}", str(seen_path)]),
+                    "--exit-zero",
+                ]
+            ).run()
+
+            seen_request = json.loads(seen_path.read_text(encoding="utf-8"))
+            report_file = json.loads(report_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(report_file, result)
+        self.assertTrue(result["finalOk"])
+        self.assertEqual(result["runtimeMode"], "external_harvest_command")
+        self.assertEqual(result["stopReason"], "coverage_gate_passed")
+        self.assertEqual(result["cycles"][0]["priorityQueries"][0]["term"], "doge")
+        self.assertEqual(result["cycles"][0]["harvest"]["queries"], ["doge 评论区 热评"])
+        self.assertEqual(result["cycles"][0]["coverageDelta"]["totalEvidenceGained"], 3)
+        self.assertEqual(seen_request["cycle"], 1)
+        self.assertEqual(seen_request["priorityQueries"][0]["term"], "doge")
+
     def test_package_coverage_loop_command_compare_script_tracks_no_live_command_gate(self):
         package = json.loads(Path("package.json").read_text(encoding="utf-8"))
         workflow = Path(".github/workflows/python-validation.yml").read_text(encoding="utf-8")
@@ -29551,7 +29639,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("npm run python:coverage-loop-command-compare", workflow)
         self.assertEqual(
             DEFAULT_PACKAGE_VALIDATION_SCOPES["python:coverage-loop-command-compare"],
-            "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_and_deferred_live_contract",
+            "no_live_mock_cycle_no_progress_multi_cycle_report_write_file_backed_mock_harvest_external_command_and_deferred_live_contract",
         )
 
     def test_coverage_harvest_loop_runner_reads_json_contracts_and_expands_priority_queries(self):

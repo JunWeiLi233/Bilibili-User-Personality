@@ -274,6 +274,7 @@ export const COVERAGE_LOOP_COMMAND_FIXTURES = [
   { name: 'mock-no-progress-cycle', mockCyclePayload: MOCK_NO_PROGRESS_CYCLE_PAYLOAD },
   { name: 'mock-multi-cycle-report', mockCyclePayload: MOCK_MULTI_CYCLE_PAYLOAD },
   { name: 'file-backed-mock-harvest', dictionary: FILE_BACKED_MOCK_HARVEST_DICTIONARY, mockHarvestPayload: FILE_BACKED_MOCK_HARVEST_PAYLOAD },
+  { name: 'external-harvest-command', dictionary: FILE_BACKED_MOCK_HARVEST_DICTIONARY, externalHarvestPayload: FILE_BACKED_MOCK_HARVEST_PAYLOAD },
 ];
 
 function summarize(report = {}) {
@@ -475,6 +476,47 @@ async function runPythonMockHarvestReport({ dictionaryPath, reportPath, payload,
   return { stdoutReport: JSON.parse(stdout), fileReport: JSON.parse(await readFile(reportPath, 'utf8')) };
 }
 
+async function runPythonExternalHarvestReport({ dictionaryPath, statePath, reportPath, payload, adapterPath }) {
+  await writeFile(adapterPath, [
+    'import json, sys',
+    'from pathlib import Path',
+    'request = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))',
+    'response_path = Path(sys.argv[2])',
+    'response = json.loads(response_path.read_text(encoding="utf-8"))',
+    'response["requestCycle"] = request.get("cycle")',
+    'print(json.dumps(response, ensure_ascii=False))',
+    '',
+  ].join('\n'), 'utf8');
+  const responsePath = adapterPath.replace(/\.py$/, '-response.json');
+  await writeFile(responsePath, JSON.stringify(payload, null, 2), 'utf8');
+  const { stdout } = await execFileAsync(
+    'python',
+    [
+      '-m',
+      'python_backend.cli.coverage_loop_command',
+      '--dictionary',
+      dictionaryPath,
+      '--state',
+      statePath,
+      '--report',
+      reportPath,
+      '--max-cycles',
+      '1',
+      '--generated-at',
+      GENERATED_AT,
+      '--harvest-command-json',
+      JSON.stringify(['python', adapterPath, '{payload}', responsePath]),
+      '--exit-zero',
+    ],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return { stdoutReport: JSON.parse(stdout), fileReport: JSON.parse(await readFile(reportPath, 'utf8')) };
+}
+
 export async function compareCoverageHarvestLoopCommand({
   dictionary = DEFAULT_DICTIONARY,
   fixtures = null,
@@ -524,6 +566,32 @@ export async function compareCoverageHarvestLoopCommand({
           reportPath: pythonReportPath,
           payload: fixture.mockHarvestPayload,
           payloadPath,
+        });
+        const python = pythonRun.stdoutReport;
+        const comparison = compareCoverageHarvestLoopCommandObjects(python, js);
+        results.push({
+          ok: comparison.ok,
+          fixture: fixtureName,
+          js,
+          python,
+          pythonReportFile: pythonRun.fileReport,
+          mismatches: comparison.mismatches,
+        });
+        continue;
+      }
+      if (fixture?.externalHarvestPayload) {
+        const adapterPath = join(tempDir, `${fixtureName}-adapter.py`);
+        const js = buildJsFileBackedMockHarvestReport({
+          dictionary: fixtureDictionary,
+          payload: fixture.externalHarvestPayload,
+          maxCycles: fixture.maxCycles || 1,
+        });
+        const pythonRun = await runPythonExternalHarvestReport({
+          dictionaryPath: pythonDictionaryPath,
+          statePath: pythonStatePath,
+          reportPath: pythonReportPath,
+          payload: fixture.externalHarvestPayload,
+          adapterPath,
         });
         const python = pythonRun.stdoutReport;
         const comparison = compareCoverageHarvestLoopCommandObjects(python, js);

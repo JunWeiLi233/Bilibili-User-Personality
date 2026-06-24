@@ -2,7 +2,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
+import subprocess
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -440,6 +443,35 @@ class CoverageHarvestLoopRuntimeGate:
         return {"runtimeMode": "deferred_live_harvest", "replacementBlockers": [dict(self.LIVE_HARVEST_BLOCKER)]}
 
 
+class CoverageHarvestLoopExternalHarvestAdapter:
+    """Execute an external JSON harvest command for Python-owned loop orchestration."""
+
+    def __init__(self, command: list[Any] | str):
+        if isinstance(command, str):
+            parsed = json.loads(command)
+        else:
+            parsed = command
+        if not isinstance(parsed, list) or not parsed:
+            raise ValueError("harvest command must be a non-empty JSON array")
+        self.command = [str(item) for item in parsed]
+
+    def run(self, request: dict[str, Any]) -> dict[str, Any]:
+        with tempfile.TemporaryDirectory(prefix="coverage-loop-harvest-") as temp_dir:
+            payload_path = Path(temp_dir) / "request.json"
+            payload_path.write_text(json.dumps(request, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            command = [part.replace("{payload}", str(payload_path)) for part in self.command]
+            completed = subprocess.run(
+                command,
+                check=True,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                env={**os.environ, "PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8"},
+            )
+        output = json.loads(completed.stdout or "{}")
+        return output if isinstance(output, dict) else {}
+
+
 class CoverageHarvestLoopMockHarvestRunner:
     """Run a file-backed coverage loop cycle using a JSON harvest payload."""
 
@@ -518,14 +550,17 @@ class CoverageHarvestLoopCommandRunner:
         require_source_backed_evidence: bool = False,
         require_comment_backed_evidence: bool = False,
         generated_at: str | None = None,
+        harvest_command_json: str | None = None,
     ):
         self.dictionary_path = Path(dictionary_path)
         self.state_path = Path(state_path)
         self.report_path = Path(report_path)
         self.max_cycles = max(0, min(_non_negative_int(max_cycles, 3), 50))
         self.rounds_per_cycle = max(1, min(_positive_int(rounds_per_cycle, 1), 20))
+        self.max_actions = max(1, _positive_int(max_actions, 12))
         self.generated_at = generated_at or self._now()
         self.runtime_gate = CoverageHarvestLoopRuntimeGate()
+        self.harvest_adapter = CoverageHarvestLoopExternalHarvestAdapter(harvest_command_json) if harvest_command_json else None
         self.audit_builder = CoverageAuditBuilder(
             target_evidence=target_evidence,
             max_actions=max_actions,
@@ -538,6 +573,8 @@ class CoverageHarvestLoopCommandRunner:
     def run(self) -> dict[str, Any]:
         dictionary = JsonContractReader({"version": 1, "entries": []}).read_object(self.dictionary_path)
         audit = self.audit_builder.build(dictionary)
+        if self.harvest_adapter and audit.get("ok") is not True and self.max_cycles > 0:
+            return self._run_external_harvest_loop(dictionary=dictionary, audit=audit)
         stop_reason = self._stop_reason(audit)
         report = {
             "generatedAt": self.generated_at,
@@ -548,6 +585,62 @@ class CoverageHarvestLoopCommandRunner:
             "finalAudit": audit,
             "cycles": [],
             **self.runtime_gate.describe(audit=audit, max_cycles=self.max_cycles),
+        }
+        self._write_report(report)
+        return report
+
+    def _run_external_harvest_loop(self, *, dictionary: dict[str, Any], audit: dict[str, Any]) -> dict[str, Any]:
+        cycles: list[dict[str, Any]] = []
+        current_dictionary = dictionary
+        current_audit = audit
+        stop_reason = "cycle_limit"
+        report_builder = CoverageHarvestLoopCycleReportBuilder(
+            generated_at=self.generated_at,
+            max_cycles=self.max_cycles,
+            rounds_per_cycle=self.rounds_per_cycle,
+        )
+        planner = CoverageHarvestLoopPlanner()
+
+        for cycle in range(1, self.max_cycles + 1):
+            priority_queries = planner.priority_query_items_from_audit(current_audit, self.max_actions)
+            if not priority_queries:
+                stop_reason = "no_recommended_queries"
+                break
+            response = self.harvest_adapter.run(
+                {
+                    "cycle": cycle,
+                    "dictionaryPath": str(self.dictionary_path),
+                    "statePath": str(self.state_path),
+                    "reportPath": str(self.report_path),
+                    "priorityQueries": priority_queries,
+                    "audit": current_audit,
+                }
+            )
+            next_dictionary = response.get("afterDictionary") if isinstance(response.get("afterDictionary"), dict) else current_dictionary
+            next_audit = self.audit_builder.build(next_dictionary)
+            cycle_report = report_builder.build(
+                cycle=cycle,
+                priority_queries=priority_queries,
+                harvest=response.get("harvest") if isinstance(response.get("harvest"), dict) else {},
+                before_audit=current_audit,
+                after_audit=next_audit,
+            )
+            cycles.extend(cycle_report["cycles"])
+            current_dictionary = next_dictionary
+            current_audit = next_audit
+            if current_audit.get("ok") is True:
+                stop_reason = "coverage_gate_passed"
+                break
+
+        report = {
+            "generatedAt": self.generated_at,
+            "maxCycles": self.max_cycles,
+            "roundsPerCycle": self.rounds_per_cycle,
+            "stopReason": stop_reason,
+            "finalOk": current_audit.get("ok") is True,
+            "finalAudit": current_audit,
+            "cycles": cycles,
+            "runtimeMode": "external_harvest_command",
         }
         self._write_report(report)
         return report
@@ -591,6 +684,7 @@ class CoverageHarvestLoopRequest:
         require_source_backed_evidence: bool = False,
         require_comment_backed_evidence: bool = False,
         generated_at: str | None = None,
+        harvest_command_json: str | None = None,
     ):
         self.runner = CoverageHarvestLoopCommandRunner(
             dictionary_path=dictionary_path,
@@ -605,6 +699,7 @@ class CoverageHarvestLoopRequest:
             require_source_backed_evidence=require_source_backed_evidence,
             require_comment_backed_evidence=require_comment_backed_evidence,
             generated_at=generated_at,
+            harvest_command_json=harvest_command_json,
         )
 
     def run(self) -> dict[str, Any]:
@@ -672,6 +767,7 @@ class CoverageHarvestLoopCommandRequest:
             require_source_backed_evidence=args.require_source_backed_evidence,
             require_comment_backed_evidence=args.require_comment_backed_evidence,
             generated_at=args.generated_at or None,
+            harvest_command_json=args.harvest_command_json or None,
         ).run()
 
     def exit_zero(self) -> bool:
@@ -695,5 +791,6 @@ class CoverageHarvestLoopCommandRequest:
         parser.add_argument("--generated-at", default="")
         parser.add_argument("--mock-cycle-payload", default="", help="Build a one-cycle report from a JSON payload without live harvesting.")
         parser.add_argument("--mock-harvest-payload", default="", help="Build a file-backed harvest cycle report from a JSON payload without live network harvesting.")
+        parser.add_argument("--harvest-command-json", default="", help="JSON array command for an external harvest adapter. Use {payload} for the request path.")
         parser.add_argument("--exit-zero", action="store_true")
         return parser
