@@ -6295,11 +6295,21 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(issubclass(SemanticMatcherCliRunner, SemanticMatcherCommandRequest))
 
     def test_semantic_matcher_service_is_legacy_after_python_contract(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
         result = BackendMigrationInventoryScanner(".").scan()
 
+        self.assertEqual(package["scripts"]["python:semantic-match-compare"], "node server/scripts/compareSemanticMatcher.js")
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:semantic-match-compare"],
+            "match_cache_evidence_precomputed_vector_fixtures_and_js_python_bridge",
+        )
         self.assertNotIn("server/services/semanticMatcher.js", result["migrationCandidateFiles"]["services"])
         self.assertIn(
             {"path": "server/services/semanticMatcher.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareSemanticMatcher.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
         )
         self.assertIn(
@@ -6309,6 +6319,18 @@ class CorpusContractTests(unittest.TestCase):
                 "pipeline": "semantic_matcher",
             },
             result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertEqual(
+            BackendMigrationInventoryScanner._validation_gates(
+                validation_script="python:semantic-match-compare",
+                validation_scope=DEFAULT_PACKAGE_VALIDATION_SCOPES["python:semantic-match-compare"],
+            ),
+            [
+                {"gate": "match_precomputed_vectors_fixture", "status": "covered", "source": "python:semantic-match-compare"},
+                {"gate": "cache_payload_fixture", "status": "covered", "source": "python:semantic-match-compare"},
+                {"gate": "evidence_weak_terms_fixture", "status": "covered", "source": "python:semantic-match-compare"},
+                {"gate": "js_python_payload_bridge", "status": "covered", "source": "compareSemanticMatcher.test.js"},
+            ],
         )
 
     def test_semantic_matcher_contract_comparator_reports_match_mismatches(self):

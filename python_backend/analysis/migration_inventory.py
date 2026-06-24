@@ -79,6 +79,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:coverage-progress-compare": "payload_default_action_progress_corrupt_payload_fixtures_and_js_python_bridge",
     "python:verify-random-compare": "emoji_keyword_ascii_boundary_fixtures_and_js_python_bridge",
     "python:comment-coverage-compare": "payload_keyword_neutral_uncovered_sample_limit_diagnostic_fixtures_and_js_python_bridge",
+    "python:semantic-match-compare": "match_cache_evidence_precomputed_vector_fixtures_and_js_python_bridge",
     "python:harvest-options-compare": "video_keyword_default_priority_query_content_expanded_template_fixtures_and_js_python_bridge",
     "python:discovery-report-compare": "report_fixture_rich_discovery_fixture_and_js_python_bridge",
     "python:tieba-keyword-compare": "dry_run_plan_fixture_scrape_fixture_explicit_thread_fixture_provided_threads_fixture_python_scrape_fixture_bridge_python_corpus_update_default_bridge_and_js_python_plan_bridge",
@@ -167,6 +168,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:coverage-progress-compare": "js_python_contract_bridge",
     "python:verify-random-compare": "js_python_contract_bridge",
     "python:comment-coverage-compare": "js_python_contract_bridge",
+    "python:semantic-match-compare": "js_python_contract_bridge",
     "python:discovery-report-compare": "js_python_contract_bridge",
     "python:video-link-direct-compare": "js_python_contract_bridge",
     "python:harvest-options-compare": "js_python_contract_bridge",
@@ -299,6 +301,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareCoverageProgress.js": "js_python_contract_bridge",
     "server/scripts/compareRandomVerification.js": "js_python_contract_bridge",
     "server/scripts/compareCommentCoverage.js": "js_python_contract_bridge",
+    "server/scripts/compareSemanticMatcher.js": "js_python_contract_bridge",
     "server/scripts/compareVideoKeywordDiscoveryReport.js": "js_python_contract_bridge",
     "server/scripts/compareVideoLinkDirectPlan.js": "js_python_contract_bridge",
     "server/scripts/compareHarvestOptions.js": "js_python_contract_bridge",
@@ -807,6 +810,13 @@ class BackendMigrationInventoryScanner:
                 {"gate": "sample_size_limit_fixture", "status": "covered", "source": "compareCommentCoverage.test.js"},
                 {"gate": "scrape_diagnostic_neutral_fixture", "status": "covered", "source": "python:comment-coverage-compare"},
                 {"gate": "js_python_payload_bridge", "status": "covered", "source": "compareCommentCoverage.test.js"},
+            ]
+        if validation_script == "python:semantic-match-compare":
+            return [
+                {"gate": "match_precomputed_vectors_fixture", "status": "covered", "source": "python:semantic-match-compare"},
+                {"gate": "cache_payload_fixture", "status": "covered", "source": "python:semantic-match-compare"},
+                {"gate": "evidence_weak_terms_fixture", "status": "covered", "source": "python:semantic-match-compare"},
+                {"gate": "js_python_payload_bridge", "status": "covered", "source": "compareSemanticMatcher.test.js"},
             ]
         if validation_script == "python:history-tags-compare":
             return [

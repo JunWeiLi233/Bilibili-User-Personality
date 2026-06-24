@@ -123,6 +123,7 @@
     "python:comment-coverage": "python -m python_backend.cli.comment_coverage",
     "python:comment-coverage-compare": "node server/scripts/compareCommentCoverage.js",
     "python:semantic-match": "python -m python_backend.cli.semantic_matcher",
+    "python:semantic-match-compare": "node server/scripts/compareSemanticMatcher.js",
     "python:deepseek-plan": "python -m python_backend.cli.deepseek_analysis_plan",
     "python:deepseek-analyze": "python -m python_backend.cli.deepseek_analyze",
     "python:deepseek-live-gate": "python -m python_backend.cli.deepseek_analyze --live-validation-gate --text \"狗头保命[doge]\" --multiagent",
