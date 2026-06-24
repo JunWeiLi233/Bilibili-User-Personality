@@ -8213,6 +8213,109 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(config["model"], "deepseek-v4-pro")
 
+    def test_deepseek_config_status_builder_matches_js_no_key_contract(self):
+        from python_backend.analyzers.deepseek_config import DeepSeekConfigStatusBuilder
+
+        result = DeepSeekConfigStatusBuilder(
+            env={
+                "DEEPSEEK_BASE_URL": "https://deepseek.example/",
+                "DEEPSEEK_MODEL": "deepseek-v4-flash",
+                "DEEPSEEK_REASONING_EFFORT": "invalid",
+            }
+        ).build()
+
+        self.assertEqual(
+            result,
+            {
+                "ok": False,
+                "provider": "deepseek",
+                "baseUrl": "https://deepseek.example",
+                "model": "deepseek-v4-flash",
+                "reasoningEffort": "max",
+                "available": False,
+                "keyConfigured": False,
+                "models": ["deepseek-v4-flash", "deepseek-v4-pro"],
+                "error": "DEEPSEEK_API_KEY is not configured.",
+            },
+        )
+
+    def test_deepseek_config_status_builder_selects_available_fallback_model(self):
+        from python_backend.analyzers.deepseek_config import DeepSeekConfigStatusBuilder
+
+        result = DeepSeekConfigStatusBuilder(
+            env={
+                "DEEPSEEK_API_KEY": "secret",
+                "DEEPSEEK_MODEL": "missing-model",
+                "DEEPSEEK_REASONING_EFFORT": "xhigh",
+            },
+            models=["deepseek-v4-flash", "deepseek-v4-pro"],
+        ).build()
+
+        self.assertEqual(result["ok"], True)
+        self.assertEqual(result["model"], "deepseek-v4-pro")
+        self.assertEqual(result["configuredModel"], "missing-model")
+        self.assertEqual(result["reasoningEffort"], "xhigh")
+        self.assertEqual(result["available"], True)
+        self.assertEqual(result["keyConfigured"], True)
+        self.assertEqual(result["models"], ["deepseek-v4-flash", "deepseek-v4-pro"])
+
+    def test_deepseek_config_cli_runner_builds_json_contract_from_payload(self):
+        from python_backend.cli.deepseek_config import DeepSeekConfigCliRunner
+
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "payload.json"
+            payload_path.write_text(
+                json.dumps(
+                    {
+                        "env": {
+                            "DEEPSEEK_API_KEY": "secret",
+                            "DEEPSEEK_MODEL": "custom-model",
+                        },
+                        "modelListError": "HTTP 503",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = DeepSeekConfigCliRunner(["--payload", str(payload_path)]).run()
+
+        self.assertEqual(result["ok"], True)
+        self.assertEqual(result["provider"], "deepseek")
+        self.assertEqual(result["model"], "custom-model")
+        self.assertEqual(result["configuredModel"], "custom-model")
+        self.assertEqual(result["models"], ["deepseek-v4-flash", "deepseek-v4-pro"])
+        self.assertEqual(result["warning"], "Could not list models: HTTP 503")
+
+    def test_package_deepseek_config_compare_script_runs_js_python_bridge(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(package["scripts"]["python:deepseek-config"], "python -m python_backend.cli.deepseek_config")
+        self.assertEqual(package["scripts"]["python:deepseek-config-compare"], "node server/scripts/compareDeepSeekConfig.js")
+
+    def test_backend_migration_inventory_tracks_deepseek_config_bridge(self):
+        result = BackendMigrationInventoryScanner(".").scan()
+
+        self.assertIn(
+            {"path": "server/scripts/compareDeepSeekConfig.js", "reason": "js_python_contract_bridge"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {
+                "script": "python:deepseek-config-compare",
+                "command": "node server/scripts/compareDeepSeekConfig.js",
+                "reason": "js_python_contract_bridge",
+            },
+            result["packageScripts"]["bridgeNodeScripts"],
+        )
+        self.assertIn(
+            {
+                "script": "python:deepseek-config",
+                "command": "python -m python_backend.cli.deepseek_config",
+                "pipeline": "analyzer_config",
+            },
+            result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+
     def test_deepseek_analyze_command_payload_preserves_model_and_reasoning_effort(self):
         seen = []
 

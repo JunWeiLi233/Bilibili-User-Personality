@@ -125,6 +125,8 @@
     "python:deepseek-plan": "python -m python_backend.cli.deepseek_analysis_plan",
     "python:deepseek-analyze": "python -m python_backend.cli.deepseek_analyze",
     "python:deepseek-live-gate": "python -m python_backend.cli.deepseek_analyze --live-validation-gate --text \"狗头保命[doge]\" --multiagent",
+    "python:deepseek-config": "python -m python_backend.cli.deepseek_config",
+    "python:deepseek-config-compare": "node server/scripts/compareDeepSeekConfig.js",
     "python:deepseek-cli-plan": "python -m python_backend.cli.deepseek_analyze_cli_plan",
     "python:deepseek-cli-plan-js": "node server/scripts/analyzeDeepSeekComments.js --plan-json --python-plan",
     "python:deepseek-cli-compare": "node server/scripts/compareDeepSeekAnalyzePlan.js",
