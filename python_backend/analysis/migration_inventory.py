@@ -121,6 +121,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:bilibili-crawler-compare": "identity_block_cookie_objects_reply_danmaku_dynamics_fixtures_and_js_python_bridge",
     "python:bilibili-parse-compare": "danmaku_xml_extract_bvid_bvid_pool_fixtures_and_js_python_bridge",
     "python:video-comment-filter-compare": "needle_filter_dictionary_prefilter_fallback_fixtures_and_js_python_bridge",
+    "python:video-context-compare": "context_text_object_evidence_diagnostics_fixtures_and_js_python_bridge",
     "python:video-relevance-compare": "alias_sort_ask_baidu_filter_strict_target_filter_fixtures_and_js_python_bridge",
 }
 
@@ -211,6 +212,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:bilibili-crawler-compare": "js_python_contract_bridge",
     "python:bilibili-parse-compare": "js_python_contract_bridge",
     "python:video-comment-filter-compare": "js_python_contract_bridge",
+    "python:video-context-compare": "js_python_contract_bridge",
     "python:video-relevance-compare": "js_python_contract_bridge",
 }
 
@@ -346,6 +348,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareBilibiliCrawler.js": "js_python_contract_bridge",
     "server/scripts/compareBilibiliParse.js": "js_python_contract_bridge",
     "server/scripts/compareVideoCommentFilter.js": "js_python_contract_bridge",
+    "server/scripts/compareVideoContext.js": "js_python_contract_bridge",
     "server/scripts/compareVideoRelevance.js": "js_python_contract_bridge",
 }
 

@@ -1419,6 +1419,10 @@ class CorpusContractTests(unittest.TestCase):
             "needle_filter_dictionary_prefilter_fallback_fixtures_and_js_python_bridge",
         )
         self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:video-context-compare"],
+            "context_text_object_evidence_diagnostics_fixtures_and_js_python_bridge",
+        )
+        self.assertEqual(
             result["migrationPriorityFiles"][:3],
             [
                 {"path": "server/scripts/importHuggingFaceCorpus.js", "category": "scripts", "priority": 10, "group": "corpus_analysis_pipeline"},
