@@ -33,9 +33,33 @@ test('compareDirectProbePlan compares JS and Python dry-run plan payloads', asyn
       calls.push({ python: payload });
       return { ok: true, ...PLAN };
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('compareDirectProbePlan delegates saved JS plan comparison to Python contract', async () => {
+  let compareContext;
+  const result = await compareDirectProbePlan({
+    runJs: async () => ({ ok: true, ...PLAN }),
+    runPython: async () => ({ ok: true, ...PLAN }),
+    runCompare: async (context) => {
+      compareContext = context;
+      return {
+        ok: true,
+        mismatches: [],
+        python: PLAN,
+        js: PLAN,
+      };
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.equal(compareContext.jsPlanPath.endsWith('js-plan.json'), true);
+  assert.deepEqual(compareContext.jsPlan, { ok: true, ...PLAN });
+  assert.deepEqual(compareContext.pythonPlan, { ok: true, ...PLAN });
 });
