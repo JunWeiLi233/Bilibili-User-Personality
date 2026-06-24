@@ -186,12 +186,54 @@ class DeepSeekAnalyzeRuntimeConfig:
         }
 
 
+class DeepSeekAnalyzeHttpTransport:
+    """Send DeepSeek chat completion requests through an injectable URL opener."""
+
+    def __init__(self, *, opener: Any = None, timeout: int = 60):
+        self.opener = opener or urllib.request.urlopen
+        self.timeout = timeout
+
+    def __call__(self, request_body: dict[str, Any], config: dict[str, str]) -> dict[str, Any]:
+        return self.send(request_body, config)
+
+    def send(self, request_body: dict[str, Any], config: dict[str, str]) -> dict[str, Any]:
+        data = self._json_text(request_body).encode("utf-8")
+        request = urllib.request.Request(
+            f"{config['baseUrl']}/chat/completions",
+            data=data,
+            headers={
+                "content-type": "application/json",
+                "authorization": f"Bearer {config['apiKey']}",
+            },
+            method="POST",
+        )
+        try:
+            with self.opener(request, timeout=self.timeout) as response:
+                payload = JsonContractReader().read_text_value(response.read().decode("utf-8"), {})
+        except urllib.error.HTTPError as error:
+            body = error.read().decode("utf-8", errors="replace")[:200]
+            raise RuntimeError(f"DeepSeek analyze failed with HTTP {error.code}: {body}") from error
+        content = (
+            payload.get("choices", [{}])[0].get("message", {}).get("content")
+            if isinstance(payload.get("choices"), list)
+            else ""
+        )
+        parsed = JsonContractReader().read_text_value(content, {})
+        return parsed if isinstance(parsed, dict) else {}
+
+    @staticmethod
+    def _json_text(value: Any) -> str:
+        import json
+
+        return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
+
+
 class DeepSeekAnalyzeRuntime:
     """Execute the Python DeepSeek analyze chat runtime through an injectable transport."""
 
     def __init__(self, *, env: dict[str, Any] | None = None, transport: Any = None):
         self.env = dict(os.environ) if env is None else dict(env)
-        self.transport = transport or self._http_transport
+        self.transport = transport or DeepSeekAnalyzeHttpTransport()
         self.client = DeepSeekAnalyzerClient()
         self.normalizer = DeepSeekAnalysisNormalizer()
 
@@ -308,29 +350,7 @@ class DeepSeekAnalyzeRuntime:
         return DeepSeekAnalyzeRuntimeConfig(env=self.env).build(request)
 
     def _http_transport(self, request_body: dict[str, Any], config: dict[str, str]) -> dict[str, Any]:
-        data = self._json_text(request_body).encode("utf-8")
-        request = urllib.request.Request(
-            f"{config['baseUrl']}/chat/completions",
-            data=data,
-            headers={
-                "content-type": "application/json",
-                "authorization": f"Bearer {config['apiKey']}",
-            },
-            method="POST",
-        )
-        try:
-            with urllib.request.urlopen(request, timeout=60) as response:
-                payload = JsonContractReader().read_text_value(response.read().decode("utf-8"), {})
-        except urllib.error.HTTPError as error:
-            body = error.read().decode("utf-8", errors="replace")[:200]
-            raise RuntimeError(f"DeepSeek analyze failed with HTTP {error.code}: {body}") from error
-        content = (
-            payload.get("choices", [{}])[0].get("message", {}).get("content")
-            if isinstance(payload.get("choices"), list)
-            else ""
-        )
-        parsed = JsonContractReader().read_text_value(content, {})
-        return parsed if isinstance(parsed, dict) else {}
+        return DeepSeekAnalyzeHttpTransport().send(request_body, config)
 
     @staticmethod
     def _json_text(value: Any) -> str:
