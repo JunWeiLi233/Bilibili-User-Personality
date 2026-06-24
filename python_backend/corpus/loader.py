@@ -75,6 +75,8 @@ class CorpusLoader:
         if isinstance(manifest, list):
             comments = self._normalize_comments(manifest)
             return Corpus(manifest={"version": 1, "storage": "array", "comments": comments, "runs": []}, comments=comments, runs=[])
+        if not isinstance(manifest, dict):
+            manifest = fallback_manifest
         if manifest.get("storage") != "split":
             return Corpus(
                 manifest=manifest,
