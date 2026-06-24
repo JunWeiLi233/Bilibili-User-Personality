@@ -28,6 +28,8 @@ class VerificationSummary:
 class RandomVerificationCorpus:
     """Loaded corpus bundle used by random verification reports."""
 
+    SOURCE_BREAKDOWN_LIMIT = 20
+
     comments: list[dict[str, Any]]
     runs: list[dict[str, Any]]
     storage: str
@@ -63,6 +65,11 @@ class RandomVerificationCorpus:
             if not source:
                 continue
             counts[source] = counts.get(source, 0) + 1
+        if len(counts) > RandomVerificationCorpus.SOURCE_BREAKDOWN_LIMIT:
+            sorted_counts = sorted(counts.items(), key=lambda item: (-item[1], item[0]))
+            visible = dict(sorted_counts[: RandomVerificationCorpus.SOURCE_BREAKDOWN_LIMIT])
+            visible["__other__"] = sum(count for _, count in sorted_counts[RandomVerificationCorpus.SOURCE_BREAKDOWN_LIMIT :])
+            return visible
         return dict(sorted(counts.items()))
 
 
