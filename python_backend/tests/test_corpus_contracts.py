@@ -6836,6 +6836,29 @@ class CorpusContractTests(unittest.TestCase):
             [{"text": "\u8d34\u5427\u9634\u9633\u602a\u6c14[doge]", "platform": "tieba", "threadId": "tid-9"}],
         )
 
+    def test_deepseek_analyzer_merges_js_standalone_hint_arrays(self):
+        request = DeepSeekAnalyzerClient().build_request_from_payload(
+            {
+                "text": "\u8fd9\u53e5\u8bdd\u8981\u770b\u6574\u53e5[doge]",
+                "keywordHints": [{"term": "\u72d7\u5934", "family": "satire"}],
+                "dictionaryHints": [{"keyword": "yygq", "axis": "attack"}],
+                "coverageHits": [{"text": "\u8bc1\u636e\u4e0d\u8db3", "description": "coverage hit"}],
+                "keywordHits": ["\u770b\u6574\u53e5"],
+            }
+        )
+
+        prompt_input = DeepSeekAnalysisInputBuilder().build(request)
+
+        self.assertEqual(
+            prompt_input["keywordHints"],
+            [
+                {"term": "\u72d7\u5934", "family": "satire", "meaning": ""},
+                {"term": "yygq", "family": "attack", "meaning": ""},
+                {"term": "\u8bc1\u636e\u4e0d\u8db3", "family": "", "meaning": "coverage hit"},
+                {"term": "\u770b\u6574\u53e5", "family": "", "meaning": ""},
+            ],
+        )
+
     def test_deepseek_analysis_plan_cli_main_emits_utf8_emoji_json_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "deepseek-plan.json"

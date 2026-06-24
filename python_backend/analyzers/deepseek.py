@@ -334,9 +334,13 @@ class DeepSeekAnalyzerClient:
         return normalized
 
     def _keyword_hints_from_payload(self, payload: dict[str, Any]) -> list[Any]:
-        explicit_hints = payload.get("keywordHints") or payload.get("keyword_hints")
-        if isinstance(explicit_hints, list):
-            return list(explicit_hints)
+        explicit_hints: list[Any] = []
+        for key in ("keywordHints", "keyword_hints", "dictionaryHints", "coverageHits", "keywordHits"):
+            value = payload.get(key)
+            if isinstance(value, list):
+                explicit_hints.extend(value)
+        if explicit_hints:
+            return explicit_hints
         dictionary = payload.get("dictionary")
         if isinstance(dictionary, dict) and isinstance(dictionary.get("entries"), list):
             return self._dictionary_entries_to_hints(dictionary["entries"])
