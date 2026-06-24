@@ -7311,6 +7311,30 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["sentenceAnalyses"][0]["quote"], "\u53cd\u8bbd[doge] extra")
 
+    def test_deepseek_analyze_command_request_file_input_overrides_positional_text_like_js(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            input_path = root / "comments.txt"
+            analysis_path = root / "analysis.json"
+            input_path.write_text("\u6587\u4ef6\u8bc4\u8bba[doge]", encoding="utf-8")
+            analysis_path.write_text(
+                json.dumps(
+                    {
+                        "axes": [],
+                        "sentenceAnalyses": [{"quote": "\u6587\u4ef6\u8bc4\u8bba[doge]", "intent": "satire"}],
+                        "confidence": 0.5,
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            result = DeepSeekAnalyzeCommandRequest(
+                ["--mock-chat-analysis", analysis_path, "--file", input_path, "\u4f4d\u7f6e\u53c2\u6570\u8bc4\u8bba"]
+            ).run()
+
+        self.assertTrue(result["ok"])
+        self.assertEqual([item["quote"] for item in result["sentenceAnalyses"]], ["\u6587\u4ef6\u8bc4\u8bba[doge]"])
+
     def test_deepseek_analyze_command_request_mock_chat_multiagent_matches_js_summary(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

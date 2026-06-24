@@ -481,7 +481,7 @@ class DeepSeekAnalyzeCommandRequest:
         positional_text = " ".join(str(item) for item in getattr(args, "text_fragments", []) if str(item))
         if positional_text:
             text = " ".join(item for item in (text, positional_text) if item)
-        if args.file and not text:
+        if args.file:
             try:
                 text = Path(args.file).read_text(encoding="utf-8-sig")
             except OSError:
