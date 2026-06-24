@@ -136,6 +136,36 @@ class DeepSeekAnalysisInputBuilder:
         return values
 
 
+@dataclass(frozen=True)
+class DeepSeekAnalyzerRequestPlan:
+    """Standalone JSON contract for planned DeepSeek analyzer chat requests."""
+
+    request: AnalyzerRequest
+    compact: bool = False
+    client: "DeepSeekAnalyzerClient" = field(default_factory=lambda: DeepSeekAnalyzerClient())
+
+    @classmethod
+    def from_request(
+        cls,
+        request: AnalyzerRequest,
+        *,
+        compact: bool = False,
+        client: "DeepSeekAnalyzerClient | None" = None,
+    ) -> "DeepSeekAnalyzerRequestPlan":
+        return cls(request=request, compact=compact, client=client or DeepSeekAnalyzerClient())
+
+    def to_json_contract(self) -> dict[str, object]:
+        requests = self.client.build_request_plan(self.request, compact=self.compact)
+        agents = [agent["id"] for agent in self.client.MULTIAGENTS] if self.request.multiagent else []
+        return {
+            "mode": "multiagent" if self.request.multiagent else "single",
+            "requestCount": len(requests),
+            "mergeRequired": bool(self.request.multiagent),
+            "agents": agents,
+            "requests": requests,
+        }
+
+
 class DeepSeekAnalyzerClient:
     """Build JS-compatible DeepSeek analyzer request contracts."""
 

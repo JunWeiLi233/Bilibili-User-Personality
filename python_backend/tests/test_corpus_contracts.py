@@ -92,7 +92,7 @@ from python_backend.analysis.migration_inventory import BackendMigrationInventor
 from python_backend.analysis.readme_stats import ReadmeStatsBuilder, ReadmeStatsCommandRequest, ReadmeStatsContractComparator as ReadmeStatsPayloadComparator, ReadmeStatsPayloadContractComparator, ReadmeStatsRepositoryUpdater, ReadmeStatsRequest, ReadmeStatsRunner as ReadmeStatsPayloadRunner, ReadmeStatsSummary, ReadmeStatsSvgRenderer
 from python_backend.analysis.semantic_matcher import SemanticEvidenceBuilder, SemanticEmbeddingCache, SemanticMatcherCommandRequest, SemanticMatcherContractComparator as SemanticMatcherPayloadComparator, SemanticMatcherHelper, SemanticMatcherRequest, SemanticMatcherRunner as SemanticMatcherPayloadRunner, SemanticMatcherPayloadContractComparator, SemanticMatcherSummary
 from python_backend.analysis.verification import RandomVerificationAnnotationContract, RandomVerificationCommandContract, RandomVerificationCommandRequest, RandomVerificationCompareCommandRequest, RandomVerificationComparisonOptionsContract, RandomVerificationContractComparator as RandomVerificationPayloadComparator, RandomVerificationCorpus, RandomVerificationCorpusReportBuilder, RandomVerificationDictionaryTermsContract, RandomVerificationExecutionContract, RandomVerificationJsonResultContract, RandomVerificationOutputWriter, RandomVerificationPayloadContractComparator, RandomVerificationReportBuilder, RandomVerificationReportContract, RandomVerificationReportSummary, RandomVerificationRequest, RandomVerificationRequestDispatcher, RandomVerificationRunOptions, RandomVerificationRunner as RandomVerificationPayloadRunner, RandomVerificationSampleContract, RandomVerificationSummaryContract, RandomVerifier, VerificationSummary, json_result_bytes as random_verification_payload_json_result_bytes
-from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalysisInputBuilder, DeepSeekAnalysisNormalizeCommandRequest, DeepSeekAnalysisNormalizeContractComparator as DeepSeekAnalysisPayloadNormalizeContractComparator, DeepSeekAnalysisPlanCommandRequest, DeepSeekAnalysisPlanContractComparator as DeepSeekAnalysisPayloadPlanContractComparator, DeepSeekAnalysisPlanRequest, DeepSeekAnalysisPlanRunner as DeepSeekAnalysisPayloadPlanRunner, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidateCommandRequest, DeepSeekAnalysisValidateContractComparator as DeepSeekAnalysisPayloadValidateContractComparator, DeepSeekAnalysisValidateRequest, DeepSeekAnalysisValidateRunner as DeepSeekAnalysisPayloadValidateRunner, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator, DeepSeekRequestOptionsContract
+from python_backend.analyzers.deepseek import AnalyzerRequest, DeepSeekAnalyzerClient, DeepSeekAnalyzerRequestPlan, DeepSeekAnalysisInputBuilder, DeepSeekAnalysisNormalizeCommandRequest, DeepSeekAnalysisNormalizeContractComparator as DeepSeekAnalysisPayloadNormalizeContractComparator, DeepSeekAnalysisPlanCommandRequest, DeepSeekAnalysisPlanContractComparator as DeepSeekAnalysisPayloadPlanContractComparator, DeepSeekAnalysisPlanRequest, DeepSeekAnalysisPlanRunner as DeepSeekAnalysisPayloadPlanRunner, DeepSeekAnalysisPlanSummary, DeepSeekAnalysisValidateCommandRequest, DeepSeekAnalysisValidateContractComparator as DeepSeekAnalysisPayloadValidateContractComparator, DeepSeekAnalysisValidateRequest, DeepSeekAnalysisValidateRunner as DeepSeekAnalysisPayloadValidateRunner, DeepSeekAnalysisValidationSummary, DeepSeekAnalysisValidator, DeepSeekRequestOptionsContract
 from python_backend.analyzers.deepseek_cli import DeepSeekAnalyzeAnalysisFileReader, DeepSeekAnalyzeArgvNormalizer, DeepSeekAnalyzeChatResponseParser, DeepSeekAnalyzeCommandReportComparator, DeepSeekAnalyzeCommandReportCompareCommandRequest, DeepSeekAnalyzeCommandRequest, DeepSeekAnalyzeCliPayloadPlanContractComparator, DeepSeekAnalyzeCliPlanCommandRequest, DeepSeekAnalyzeCliPlanContractComparator as DeepSeekAnalyzeCliPlanPayloadComparator, DeepSeekAnalyzeCliPlanRequest, DeepSeekAnalyzeCliPlanRunner as DeepSeekAnalyzeCliPayloadPlanRunner, DeepSeekAnalyzeCliPlanner, DeepSeekAnalyzeCliPlanSummary, DeepSeekAnalyzeFixtureRunner, DeepSeekAnalyzeHttpErrorFormatter, DeepSeekAnalyzeHttpRequestBuilder, DeepSeekAnalyzeHttpTransport, DeepSeekAnalyzeLegacySelectorCompatibility, DeepSeekAnalyzeMockChatRunner, DeepSeekAnalyzePayloadBuilder, DeepSeekAnalyzeRuntime, DeepSeekAnalyzeRuntimeConfig, DeepSeekLiveValidationGate
 from python_backend.analyzers.keyword_evidence import KeywordEvidenceCommandRequest, KeywordEvidenceContractComparator as KeywordEvidencePayloadComparator, KeywordEvidenceMatcher, KeywordEvidencePayloadContractComparator, KeywordEvidencePayloadRunner, KeywordEvidenceRequest, KeywordEvidenceSummary
 from python_backend.cli.comment_coverage import CommentCoverageContractComparator, CommentCoverageRunner
@@ -7414,6 +7414,27 @@ class CorpusContractTests(unittest.TestCase):
         self.assertIn("Merge the specialist agent outputs", merge_request["messages"][1]["content"])
         self.assertIn("quality-control agent", merge_request["messages"][0]["content"])
         self.assertIn("lexical-context", merge_request["messages"][1]["content"])
+
+    def test_deepseek_analyzer_request_plan_emits_standalone_json_contract(self):
+        request = AnalyzerRequest(
+            comments=["\u8fd9\u662f\u53cd\u8bbd[doge]\uff0c\u8981\u770b\u6574\u53e5\u3002"],
+            keyword_hints=["\u53cd\u8bbd"],
+            multiagent=True,
+        )
+
+        plan = DeepSeekAnalyzerRequestPlan.from_request(request).to_json_contract()
+
+        self.assertEqual(plan["mode"], "multiagent")
+        self.assertEqual(plan["requestCount"], 3)
+        self.assertTrue(plan["mergeRequired"])
+        self.assertEqual(
+            plan["agents"],
+            ["lexical-context", "speech-act", "skeptic"],
+        )
+        self.assertEqual(len(plan["requests"]), 3)
+        self.assertEqual(plan["requests"][0]["model"], "deepseek-v4-flash")
+        self.assertEqual(plan["requests"][0]["reasoning_effort"], "max")
+        self.assertIn("Agent role: Lexical and emoji context analyst", plan["requests"][0]["messages"][1]["content"])
 
     def test_deepseek_analysis_input_builder_owns_prompt_input_contract(self):
         request = AnalyzerRequest(
