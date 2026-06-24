@@ -582,6 +582,7 @@ class BackendReplacementReadinessContract:
         ]
         blockers = [str(gate["gate"]) for gate in gates if not gate["ok"]]
         blocker_details = self._blocker_details(gates, replacement_blocked, manual_blocker_counts, self.manual_verification_actions)
+        next_manual_action = dict(self.manual_verification_actions[0]) if self.manual_verification_actions else {}
         return {
             "ok": not blockers,
             "gates": gates,
@@ -604,7 +605,10 @@ class BackendReplacementReadinessContract:
                 }
                 for blocker, commands in sorted(manual_blocker_commands.items())
             },
-            "nextManualVerificationAction": dict(self.manual_verification_actions[0]) if self.manual_verification_actions else {},
+            "nextManualVerificationAction": next_manual_action,
+            "nextManualVerificationCommand": str(
+                next_manual_action.get("liveVerificationCommand") or next_manual_action.get("preflightCommand") or ""
+            ),
         }
 
     def _blocker_details(
