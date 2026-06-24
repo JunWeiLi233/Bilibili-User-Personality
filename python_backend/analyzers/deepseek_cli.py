@@ -171,6 +171,21 @@ class DeepSeekAnalyzeCliPlanCommandRequest:
         ).run()
 
 
+class DeepSeekAnalyzeRuntimeConfig:
+    """Resolve DeepSeek runtime config from env with request-level fallbacks."""
+
+    def __init__(self, *, env: dict[str, Any] | None = None):
+        self.env = dict(os.environ) if env is None else dict(env)
+
+    def build(self, request: Any) -> dict[str, str]:
+        return {
+            "baseUrl": str(self.env.get("DEEPSEEK_BASE_URL") or "https://api.deepseek.com").rstrip("/"),
+            "apiKey": str(self.env.get("DEEPSEEK_API_KEY") or ""),
+            "model": str(self.env.get("DEEPSEEK_MODEL") or request.model or "deepseek-v4-flash"),
+            "reasoningEffort": str(self.env.get("DEEPSEEK_REASONING_EFFORT") or request.effort or "max").strip().lower() or "max",
+        }
+
+
 class DeepSeekAnalyzeRuntime:
     """Execute the Python DeepSeek analyze chat runtime through an injectable transport."""
 
@@ -290,12 +305,7 @@ class DeepSeekAnalyzeRuntime:
         return agent_results, len(request_bodies) + 1, merged
 
     def _config(self, request: Any) -> dict[str, str]:
-        return {
-            "baseUrl": str(self.env.get("DEEPSEEK_BASE_URL") or "https://api.deepseek.com").rstrip("/"),
-            "apiKey": str(self.env.get("DEEPSEEK_API_KEY") or ""),
-            "model": str(self.env.get("DEEPSEEK_MODEL") or request.model or "deepseek-v4-flash"),
-            "reasoningEffort": str(self.env.get("DEEPSEEK_REASONING_EFFORT") or request.effort or "max").strip().lower() or "max",
-        }
+        return DeepSeekAnalyzeRuntimeConfig(env=self.env).build(request)
 
     def _http_transport(self, request_body: dict[str, Any], config: dict[str, str]) -> dict[str, Any]:
         data = self._json_text(request_body).encode("utf-8")
