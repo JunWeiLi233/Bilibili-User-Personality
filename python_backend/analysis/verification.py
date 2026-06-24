@@ -158,6 +158,7 @@ class RandomVerificationSampleContract:
         return str(
             comment.get("message")
             or comment.get("text")
+            or comment.get("msg")
             or comment.get("commentText")
             or comment.get("combinedText")
             or comment.get("content")

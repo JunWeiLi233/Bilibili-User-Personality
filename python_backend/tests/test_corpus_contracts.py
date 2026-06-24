@@ -35013,6 +35013,34 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["keywordHits"], 2)
         self.assertEqual(result["neutral"], 0)
 
+    def test_random_verification_runner_reads_bilibili_danmaku_msg_fields(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus_path = root / "corpus.json"
+            dictionary_path = root / "dictionary.json"
+            corpus_path.write_text(
+                json.dumps(
+                    {
+                        "comments": [
+                            {"msg": "\u72d7\u5934\u4fdd\u547d[doge]", "source": "bilibili-danmaku"},
+                            {"message": "\u666e\u901a\u8bc4\u8bba", "source": "bilibili-comment"},
+                        ],
+                        "runs": [],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            dictionary_path.write_text(
+                json.dumps({"entries": [{"term": "\u72d7\u5934"}]}),
+                encoding="utf-8",
+            )
+
+            result = RandomVerificationRunner(corpus_path, dictionary_path, sample_size=2, seed=1).run()
+
+        self.assertEqual(result["sampled"], 2)
+        self.assertEqual(result["keywordHits"], 1)
+        self.assertEqual(result["neutral"], 1)
+
     def test_random_verification_payload_runner_lives_with_analysis_logic(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
