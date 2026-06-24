@@ -1976,7 +1976,7 @@ class CorpusContractTests(unittest.TestCase):
             result["nextOfflineMigrationAction"]["validationGates"],
         )
         self.assertIn(
-            {"gate": "external_harvest_prune_fixture", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
+            {"gate": "external_harvest_prune_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
             result["nextOfflineMigrationAction"]["validationGates"],
         )
         self.assertIn(

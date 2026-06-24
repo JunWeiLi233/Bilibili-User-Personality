@@ -773,7 +773,7 @@ class BackendMigrationInventoryScanner:
                 {"gate": "external_harvest_no_progress_stop_fixture", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
                 {"gate": "external_harvest_no_queries_stop_fixture", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
                 {"gate": "external_harvest_crash_report_fixture", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
-                {"gate": "external_harvest_prune_fixture", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
+                {"gate": "external_harvest_prune_fixture", "status": "covered", "source": "python:coverage-loop-command-compare"},
                 {"gate": "deferred_live_runtime_contract", "status": "covered", "source": "python:coverage-loop-command-compare"},
             ]
         if validation_script == "python:harvest-plan-compare":

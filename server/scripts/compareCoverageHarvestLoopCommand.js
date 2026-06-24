@@ -5,7 +5,7 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import { coverageDeltaFromHarvest } from '../utils/coverageProgress.js';
-import { buildDictionaryCoverageAudit } from '../services/keywordHarvest.js';
+import { buildDictionaryCoverageAudit, selectExhaustedTerms } from '../services/keywordHarvest.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -266,6 +266,49 @@ export const FILE_BACKED_MOCK_HARVEST_DICTIONARY = {
   ],
 };
 
+export const EXTERNAL_PRUNE_DICTIONARY = {
+  version: 1,
+  updatedAt: '2026-01-01T00:00:00.000Z',
+  entries: [
+    {
+      term: 'doge',
+      family: 'meme',
+      evidenceCount: 0,
+      evidenceSamples: [],
+      evidenceSources: [],
+    },
+    {
+      term: 'keep',
+      family: 'meme',
+      evidenceCount: 3,
+      evidenceSamples: ['a', 'b', 'c'],
+      evidenceSources: ['Bilibili comments'],
+    },
+  ],
+};
+
+export const EXTERNAL_PRUNE_STATE = {
+  termAttempts: {
+    doge: { attempts: 2 },
+  },
+};
+
+export const EXTERNAL_PRUNE_PAYLOAD = {
+  afterDictionary: EXTERNAL_PRUNE_DICTIONARY,
+  harvest: {
+    ok: true,
+    rounds: [
+      {
+        queries: ['doge retry'],
+        warnings: [],
+        coverageProgress: { evidenceGained: 0 },
+        trainingDiagnostics: { accepted: 0 },
+        queryDiagnostics: [{ query: 'doge retry', videos: 0 }],
+      },
+    ],
+  },
+};
+
 export const COVERAGE_LOOP_COMMAND_FIXTURES = [
   { name: 'complete-empty-dictionary', dictionary: DEFAULT_DICTIONARY },
   { name: 'weak-cycle-limit', dictionary: WEAK_DICTIONARY },
@@ -275,6 +318,13 @@ export const COVERAGE_LOOP_COMMAND_FIXTURES = [
   { name: 'mock-multi-cycle-report', mockCyclePayload: MOCK_MULTI_CYCLE_PAYLOAD },
   { name: 'file-backed-mock-harvest', dictionary: FILE_BACKED_MOCK_HARVEST_DICTIONARY, mockHarvestPayload: FILE_BACKED_MOCK_HARVEST_PAYLOAD },
   { name: 'external-harvest-command', dictionary: FILE_BACKED_MOCK_HARVEST_DICTIONARY, externalHarvestPayload: FILE_BACKED_MOCK_HARVEST_PAYLOAD },
+  {
+    name: 'external-prune-command',
+    dictionary: EXTERNAL_PRUNE_DICTIONARY,
+    state: EXTERNAL_PRUNE_STATE,
+    externalHarvestPayload: EXTERNAL_PRUNE_PAYLOAD,
+    pruneExhaustedAfter: 2,
+  },
   { name: 'js-harvest-adapter-command', dictionary: FILE_BACKED_MOCK_HARVEST_DICTIONARY, jsHarvestAdapterPayload: FILE_BACKED_MOCK_HARVEST_PAYLOAD },
 ];
 
@@ -434,6 +484,37 @@ function buildJsFileBackedMockHarvestReport({ dictionary = DEFAULT_DICTIONARY, p
   };
 }
 
+function buildJsExternalPruneHarvestReport({
+  dictionary = DEFAULT_DICTIONARY,
+  state = {},
+  payload = {},
+  maxCycles = 1,
+  pruneExhaustedAfter = 0,
+  pruneIncludePartial = false,
+} = {}) {
+  const report = buildJsFileBackedMockHarvestReport({ dictionary, payload, maxCycles });
+  if (pruneExhaustedAfter <= 0) return report;
+  const afterDictionary = payload.afterDictionary && typeof payload.afterDictionary === 'object' ? payload.afterDictionary : dictionary;
+  const exhausted = selectExhaustedTerms(afterDictionary, state, {
+    targetEvidence: 3,
+    attemptThreshold: pruneExhaustedAfter,
+    requireZeroEvidence: !pruneIncludePartial,
+  });
+  if (!exhausted.length) return report;
+  const remove = new Set(exhausted.map((item) => item.term));
+  const prunedDictionary = {
+    ...afterDictionary,
+    entries: (Array.isArray(afterDictionary.entries) ? afterDictionary.entries : []).filter((entry) => !remove.has(String(entry?.term || '').trim())),
+  };
+  const finalAudit = buildDictionaryCoverageAudit(prunedDictionary);
+  return {
+    ...report,
+    stopReason: finalAudit.ok === true ? 'coverage_gate_passed' : report.stopReason,
+    finalOk: finalAudit.ok === true,
+    finalAudit,
+  };
+}
+
 async function runPythonMockCycleReport({ payload, payloadPath }) {
   await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
   const reportPath = payloadPath.replace(/-payload\.json$/, '-report-python.json');
@@ -477,7 +558,15 @@ async function runPythonMockHarvestReport({ dictionaryPath, reportPath, payload,
   return { stdoutReport: JSON.parse(stdout), fileReport: JSON.parse(await readFile(reportPath, 'utf8')) };
 }
 
-async function runPythonExternalHarvestReport({ dictionaryPath, statePath, reportPath, payload, adapterPath }) {
+async function runPythonExternalHarvestReport({
+  dictionaryPath,
+  statePath,
+  reportPath,
+  payload,
+  adapterPath,
+  pruneExhaustedAfter = 0,
+  pruneIncludePartial = false,
+}) {
   await writeFile(adapterPath, [
     'import json, sys',
     'from pathlib import Path',
@@ -507,6 +596,8 @@ async function runPythonExternalHarvestReport({ dictionaryPath, statePath, repor
       GENERATED_AT,
       '--harvest-command-json',
       JSON.stringify(['python', adapterPath, '{payload}', responsePath]),
+      ...(pruneExhaustedAfter > 0 ? ['--prune-exhausted-after', String(pruneExhaustedAfter)] : []),
+      ...(pruneIncludePartial ? ['--prune-include-partial'] : []),
       '--exit-zero',
     ],
     {
@@ -589,6 +680,8 @@ export async function compareCoverageHarvestLoopCommand({
       }
       await writeFile(jsDictionaryPath, JSON.stringify(fixtureDictionary, null, 2), 'utf8');
       await writeFile(pythonDictionaryPath, JSON.stringify(fixtureDictionary, null, 2), 'utf8');
+      await writeFile(jsStatePath, JSON.stringify(fixture?.state || {}, null, 2), 'utf8');
+      await writeFile(pythonStatePath, JSON.stringify(fixture?.state || {}, null, 2), 'utf8');
       if (fixture?.mockHarvestPayload) {
         const payloadPath = join(tempDir, `${fixtureName}-payload.json`);
         const js = buildJsFileBackedMockHarvestReport({
@@ -616,17 +709,29 @@ export async function compareCoverageHarvestLoopCommand({
       }
       if (fixture?.externalHarvestPayload) {
         const adapterPath = join(tempDir, `${fixtureName}-adapter.py`);
-        const js = buildJsFileBackedMockHarvestReport({
-          dictionary: fixtureDictionary,
-          payload: fixture.externalHarvestPayload,
-          maxCycles: fixture.maxCycles || 1,
-        });
+        const js =
+          fixture.pruneExhaustedAfter > 0
+            ? buildJsExternalPruneHarvestReport({
+                dictionary: fixtureDictionary,
+                state: fixture.state || {},
+                payload: fixture.externalHarvestPayload,
+                maxCycles: fixture.maxCycles || 1,
+                pruneExhaustedAfter: fixture.pruneExhaustedAfter,
+                pruneIncludePartial: fixture.pruneIncludePartial === true,
+              })
+            : buildJsFileBackedMockHarvestReport({
+                dictionary: fixtureDictionary,
+                payload: fixture.externalHarvestPayload,
+                maxCycles: fixture.maxCycles || 1,
+              });
         const pythonRun = await runPythonExternalHarvestReport({
           dictionaryPath: pythonDictionaryPath,
           statePath: pythonStatePath,
           reportPath: pythonReportPath,
           payload: fixture.externalHarvestPayload,
           adapterPath,
+          pruneExhaustedAfter: fixture.pruneExhaustedAfter || 0,
+          pruneIncludePartial: fixture.pruneIncludePartial === true,
         });
         const python = pythonRun.stdoutReport;
         const comparison = compareCoverageHarvestLoopCommandObjects(python, js);
