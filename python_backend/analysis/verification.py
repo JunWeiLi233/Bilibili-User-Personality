@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any
 
 from python_backend.analysis.comment_coverage import _clean_needle, _is_contract_scalar, _is_scrape_diagnostic, _strip_mention_scaffolding
+from python_backend.analysis.audit import CoverageAuditContractSummary
 from python_backend.corpus.dictionary import DictionaryLoader
 from python_backend.corpus.loader import CorpusLoader
 from python_backend.corpus.source_breakdown import SourceBreakdownContract
@@ -136,6 +137,41 @@ class RandomVerificationReportSummary:
 
     def _normalize_source_breakdown(self, source_breakdown: Any) -> dict[str, dict[str, int]]:
         return SourceBreakdownContract().from_source_breakdown(source_breakdown)
+
+
+@dataclass(frozen=True)
+class RandomVerificationReadinessContract:
+    """Merge coverage-audit and random-verification evidence into a replacement gate."""
+
+    coverage_audit: dict[str, Any]
+    verification_report: dict[str, Any]
+
+    def to_json_contract(self) -> dict[str, Any]:
+        coverage_summary = CoverageAuditContractSummary().summarize(self.coverage_audit)
+        verification_summary = RandomVerificationReportSummary().summarize(self.verification_report)
+        gates = [
+            {"gate": "coverageAuditComplete", "ok": self._coverage_complete(coverage_summary)},
+            {"gate": "randomVerificationSampled", "ok": self._verification_sampled(verification_summary)},
+            {"gate": "randomVerificationNoUncovered", "ok": self._verification_uncovered(verification_summary) == 0},
+        ]
+        blockers = [gate["gate"] for gate in gates if not gate["ok"]]
+        return {
+            "ok": not blockers,
+            "gates": gates,
+            "blockers": blockers,
+            "coverage": coverage_summary,
+            "randomVerification": verification_summary,
+        }
+
+    def _coverage_complete(self, coverage_summary: dict[str, Any]) -> bool:
+        coverage = coverage_summary.get("coverage") if isinstance(coverage_summary.get("coverage"), dict) else {}
+        return bool(coverage_summary.get("ok")) and coverage.get("complete") is True
+
+    def _verification_sampled(self, verification_summary: dict[str, Any]) -> bool:
+        return _non_negative_int(verification_summary.get("sampled"), 0) > 0
+
+    def _verification_uncovered(self, verification_summary: dict[str, Any]) -> int:
+        return _non_negative_int(verification_summary.get("uncovered"), 0)
 
 
 class RandomVerificationSampleContract:
