@@ -65,11 +65,32 @@ test('compareAicuBrowserBatchPlan compares JS and Python dry-run browser batch p
       calls.push({ python: payload });
       return { ok: true, ...PLAN };
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('compareAicuBrowserBatchPlan delegates saved JS report comparison to Python contract', async () => {
+  let compareContext;
+  const jsReport = { ok: true, ...PLAN };
+  const pythonReport = { ok: true, ...PLAN };
+  const result = await compareAicuBrowserBatchPlan({
+    runJs: async () => jsReport,
+    runPython: async () => pythonReport,
+    runCompare: async (context) => {
+      compareContext = context;
+      return { ok: true, mismatches: [], python: PLAN, js: PLAN };
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.equal(compareContext.jsReportPath.endsWith('js-report.json'), true);
+  assert.deepEqual(compareContext.jsReport, jsReport);
+  assert.deepEqual(compareContext.pythonReport, pythonReport);
 });
 
 test('compareAicuBrowserBatchPlan exports named payload fixtures', async () => {
@@ -90,6 +111,7 @@ test('compareAicuBrowserBatchPlan exports named payload fixtures', async () => {
       calls.push({ python: context.fixture.name, hasPayloadPath: context.payloadPath.endsWith('payload.json') });
       return { ok: true, ...PLAN };
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
