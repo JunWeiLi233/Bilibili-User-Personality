@@ -139,6 +139,19 @@ DEFAULT_PACKAGE_REPLACEMENT_SCOPES = {
     "uid:range": "dry_run_plan",
 }
 
+DEFAULT_DIRECT_FILE_CONTRACTS = {
+    "server/scripts/batchScrapeAicuBrowser.js": {
+        "nodeScript": "server/scripts/batchScrapeAicuBrowser.js",
+        "nodeCommand": "node server/scripts/batchScrapeAicuBrowser.js",
+        "pythonScript": "python:aicu-browser-plan",
+        "pythonCommand": "python -m python_backend.cli.aicu_browser_batch_plan",
+        "validationScript": "python:aicu-browser-compare",
+        "validationCommand": "node server/scripts/compareAicuBrowserBatchPlan.js",
+        "validationScope": "dry_run_default_fresh_completed_range_fixtures_js_python_plan_bridge_and_cli_flag_bridge",
+        "replacementScope": "dry_run_plan",
+    },
+}
+
 DEFAULT_RETAINED_NODE_COMMANDS = {
     "server": "app_api_orchestration",
     "dev:full": "app_api_orchestration",
@@ -484,8 +497,28 @@ class BackendMigrationInventoryScanner:
     @staticmethod
     def _migration_actions(priority_files: list[dict[str, Any]], package_scripts: dict[str, Any]) -> list[dict[str, Any]]:
         actions: list[dict[str, Any]] = []
+        direct_contracts = BackendMigrationInventoryScanner._direct_file_contracts(package_scripts)
         for priority_file in priority_files:
             first = dict(priority_file)
+            direct_contract = direct_contracts.get(str(first.get("path") or ""))
+            if direct_contract:
+                validation_script = str(direct_contract.get("validationScript") or "")
+                validation_scope = str(direct_contract.get("validationScope") or "")
+                ready_to_replace = bool(validation_script and direct_contract.get("validationCommand") and validation_scope == "full_command")
+                replacement_blockers = BackendMigrationInventoryScanner._replacement_blockers(
+                    script=str(direct_contract.get("nodeScript") or ""),
+                    validation_scope=validation_scope,
+                    ready_to_replace=ready_to_replace,
+                )
+                action = {
+                    **first,
+                    **direct_contract,
+                    "readyToReplace": ready_to_replace,
+                    "recommendation": "compare_python_contract_before_replacing_js" if ready_to_replace else "expand_python_runtime_contract_before_replacing_js",
+                }
+                if replacement_blockers:
+                    action["replacementBlockers"] = replacement_blockers
+                actions.append(action)
             for mapping in package_scripts.get("pythonBackedNodeScripts", []):
                 if not isinstance(mapping, dict):
                     continue
@@ -522,8 +555,11 @@ class BackendMigrationInventoryScanner:
     def _python_contract_gaps(priority_files: list[dict[str, Any]], package_scripts: dict[str, Any]) -> list[dict[str, Any]]:
         gaps: list[dict[str, Any]] = []
         mappings = [mapping for mapping in package_scripts.get("pythonBackedNodeScripts", []) if isinstance(mapping, dict)]
+        direct_contracts = BackendMigrationInventoryScanner._direct_file_contracts(package_scripts)
         for priority_file in priority_files:
             path = str(priority_file.get("path") or "")
+            if path in direct_contracts:
+                continue
             if any(path and path in str(mapping.get("command") or "") for mapping in mappings):
                 continue
             gaps.append(
@@ -537,6 +573,23 @@ class BackendMigrationInventoryScanner:
                 }
             )
         return gaps
+
+    @staticmethod
+    def _direct_file_contracts(package_scripts: dict[str, Any]) -> dict[str, dict[str, str]]:
+        node_scripts = package_scripts.get("nodeServerScriptCommands")
+        python_scripts = package_scripts.get("pythonBackendScriptCommands")
+        node_scripts = node_scripts if isinstance(node_scripts, dict) else {}
+        python_scripts = python_scripts if isinstance(python_scripts, dict) else {}
+        contracts: dict[str, dict[str, str]] = {}
+        for path, contract in DEFAULT_DIRECT_FILE_CONTRACTS.items():
+            python_script = str(contract.get("pythonScript") or "")
+            validation_script = str(contract.get("validationScript") or "")
+            if python_scripts.get(python_script) != contract.get("pythonCommand"):
+                continue
+            if node_scripts.get(validation_script) != contract.get("validationCommand"):
+                continue
+            contracts[path] = {key: str(value) for key, value in contract.items()}
+        return contracts
 
     @staticmethod
     def _category(relative_path: str) -> str:
@@ -904,6 +957,16 @@ class BackendMigrationInventoryScanner:
                     "manualVerificationRequired": True,
                 }
             )
+        elif script == "server/scripts/batchScrapeAicuBrowser.js" and validation_scope != "full_command":
+            blockers.append(
+                {
+                    "blocker": "aicu_browser_live_runtime_not_verified",
+                    "reason": "Python has a browser batch dry-run plan, default/fresh/completed range fixtures, and JS/Python CLI bridge coverage, but the direct browser-backed AICU scrape still needs a verified live browser runtime before replacing the JS script.",
+                    "preflightCommand": "npm run python:aicu-browser-compare",
+                    "liveVerificationCommand": "node server/scripts/batchScrapeAicuBrowser.js",
+                    "manualVerificationRequired": True,
+                }
+            )
         elif script == "uid:discovery" and validation_scope != "full_command":
             blockers.append(
                 {
@@ -1233,6 +1296,8 @@ class PackageCommandMigrationInventory:
         return {
             "nodeServerScripts": len(node_scripts),
             "pythonBackendScripts": len(python_scripts),
+            "nodeServerScriptCommands": node_scripts,
+            "pythonBackendScriptCommands": python_scripts,
             "pythonBackedNodeScripts": python_backed,
             "retainedNodeScripts": retained,
             "bridgeNodeScripts": bridge,
