@@ -62,6 +62,16 @@ export function parseArgs(argv = process.argv.slice(2), env = process.env) {
     } else if (arg === '--reasoning-effort') {
       payload.reasoningEffort = argv[index + 1] || '';
       index += 1;
+    } else if (arg.startsWith('--corpus-path=')) {
+      payload.corpusPath = arg.slice('--corpus-path='.length);
+    } else if (arg === '--corpus-path') {
+      payload.corpusPath = argv[index + 1] || '';
+      index += 1;
+    } else if (arg.startsWith('--dictionary-path=')) {
+      payload.dictionaryPath = arg.slice('--dictionary-path='.length);
+    } else if (arg === '--dictionary-path') {
+      payload.dictionaryPath = argv[index + 1] || '';
+      index += 1;
     } else if (arg === '--multiagent' || arg === '--multi-agent') {
       payload.multiagent = true;
     } else if (arg.startsWith('--text=')) {
@@ -232,6 +242,10 @@ export function buildPythonRuntimeArgs({ payload = {}, file = '', mockChatAnalys
   if (payload.model) args.push('--model', payload.model);
   if (payload.reasoningEffort || payload.reasoning_effort) {
     args.push('--reasoning-effort', payload.reasoningEffort || payload.reasoning_effort);
+  }
+  if (payload.corpusPath || payload.corpus_path) args.push('--corpus-path', payload.corpusPath || payload.corpus_path);
+  if (payload.dictionaryPath || payload.dictionary_path) {
+    args.push('--dictionary-path', payload.dictionaryPath || payload.dictionary_path);
   }
   if (payload.multiagent) args.push('--multiagent');
   if (mockChatAnalysis) args.push('--mock-chat-analysis', mockChatAnalysis);

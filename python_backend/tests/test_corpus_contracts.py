@@ -7238,6 +7238,24 @@ class CorpusContractTests(unittest.TestCase):
             {"text": "\u53cd\u8bbd[doge]", "model": "deepseek-v4-pro", "reasoningEffort": "high"},
         )
 
+    def test_deepseek_analyze_cli_planner_preserves_corpus_and_dictionary_paths_like_js(self):
+        plan = DeepSeekAnalyzeCliPlanner().build_plan(
+            [
+                "--plan-json",
+                "--corpus-path",
+                "server/data/comments.json",
+                "--dictionary-path=server/data/deepseekKeywordDictionary.json",
+            ]
+        )
+
+        self.assertEqual(
+            plan["payload"],
+            {
+                "corpusPath": "server/data/comments.json",
+                "dictionaryPath": "server/data/deepseekKeywordDictionary.json",
+            },
+        )
+
     def test_deepseek_analyze_cli_runner_defaults_non_object_payload_root(self):
         with tempfile.TemporaryDirectory() as tmp:
             payload_path = Path(tmp) / "deepseek-cli.json"
@@ -8005,6 +8023,37 @@ class CorpusContractTests(unittest.TestCase):
                     "text": "\u53cd\u8bbd[doge]",
                     "model": "DeepSeek V4 Pro",
                     "reasoningEffort": "High Effort",
+                }
+            ],
+        )
+
+    def test_deepseek_analyze_command_payload_preserves_corpus_and_dictionary_paths(self):
+        seen = []
+
+        class Runtime:
+            def __init__(self, *, env=None):
+                self.env = env
+
+            def run(self, payload):
+                seen.append(payload)
+                return {"ok": False, "provider": "deepseek", "error": "stop before live transport"}
+
+        DeepSeekAnalyzeCommandRequest(
+            [
+                "--corpus-path",
+                "server/data/comments.json",
+                "--dictionary-path",
+                "server/data/deepseekKeywordDictionary.json",
+            ],
+            runtime_factory=Runtime,
+        ).run()
+
+        self.assertEqual(
+            seen,
+            [
+                {
+                    "corpusPath": "server/data/comments.json",
+                    "dictionaryPath": "server/data/deepseekKeywordDictionary.json",
                 }
             ],
         )

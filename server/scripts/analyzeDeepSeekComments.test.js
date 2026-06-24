@@ -287,6 +287,33 @@ test('analyzeDeepSeekComments forwards model and reasoning effort to Python runt
   );
 });
 
+test('analyzeDeepSeekComments forwards corpus and dictionary paths to Python runtime args', () => {
+  const parsed = parseArgs([
+    '--python-runtime',
+    '--corpus-path',
+    'server/data/comments.json',
+    '--dictionary-path=server/data/deepseekKeywordDictionary.json',
+  ]);
+
+  assert.deepEqual(parsed.payload, {
+    corpusPath: 'server/data/comments.json',
+    dictionaryPath: 'server/data/deepseekKeywordDictionary.json',
+  });
+  assert.deepEqual(
+    buildPythonRuntimeArgs({
+      payload: parsed.payload,
+    }),
+    [
+      '-m',
+      'python_backend.cli.deepseek_analyze',
+      '--corpus-path',
+      'server/data/comments.json',
+      '--dictionary-path',
+      'server/data/deepseekKeywordDictionary.json',
+    ],
+  );
+});
+
 test('analyzeDeepSeekComments does not pre-read file input for Python live runtime', async () => {
   const parsed = parseArgs(['--python-runtime', '--file', 'comments.txt', '--multiagent']);
   const calls = [];

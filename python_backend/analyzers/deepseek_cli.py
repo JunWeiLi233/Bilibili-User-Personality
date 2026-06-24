@@ -39,6 +39,16 @@ class DeepSeekAnalyzeCliPlanner:
             elif arg in ("--reasoning-effort", "--reasoning_effort"):
                 payload["reasoningEffort"] = str(argv[index + 1] or "") if index + 1 < len(argv) else ""
                 index += 1
+            elif arg.startswith("--corpus-path="):
+                payload["corpusPath"] = arg[len("--corpus-path=") :]
+            elif arg in ("--corpus-path", "--corpus_path"):
+                payload["corpusPath"] = str(argv[index + 1] or "") if index + 1 < len(argv) else ""
+                index += 1
+            elif arg.startswith("--dictionary-path="):
+                payload["dictionaryPath"] = arg[len("--dictionary-path=") :]
+            elif arg in ("--dictionary-path", "--dictionary_path"):
+                payload["dictionaryPath"] = str(argv[index + 1] or "") if index + 1 < len(argv) else ""
+                index += 1
             elif arg in ("--multiagent", "--multi-agent"):
                 payload["multiagent"] = True
             elif arg.startswith("--text="):
@@ -501,6 +511,10 @@ class DeepSeekAnalyzePayloadBuilder:
             payload["model"] = str(args.model)
         if getattr(args, "reasoning_effort", ""):
             payload["reasoningEffort"] = str(args.reasoning_effort)
+        if getattr(args, "corpus_path", ""):
+            payload["corpusPath"] = str(args.corpus_path)
+        if getattr(args, "dictionary_path", ""):
+            payload["dictionaryPath"] = str(args.dictionary_path)
         if args.multiagent:
             payload["multiagent"] = True
         return payload
@@ -696,6 +710,8 @@ class DeepSeekAnalyzeCommandRequest:
         parser.add_argument("--name", default="")
         parser.add_argument("--model", default="")
         parser.add_argument("--reasoning-effort", "--reasoning_effort", default="", dest="reasoning_effort")
+        parser.add_argument("--corpus-path", "--corpus_path", default="", dest="corpus_path")
+        parser.add_argument("--dictionary-path", "--dictionary_path", default="", dest="dictionary_path")
         parser.add_argument("--multiagent", "--multi-agent", action="store_true", dest="multiagent")
         parser.add_argument("--fixture-analysis", default="")
         parser.add_argument("--mock-chat-analysis", default="", help="Read a local analysis JSON after building the chat request contract.")
