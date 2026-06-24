@@ -5113,11 +5113,12 @@ class CorpusContractTests(unittest.TestCase):
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:aicu-browser-compare"},
                 {"gate": "js_python_plan_bridge", "status": "covered", "source": "compareAicuBrowserBatchPlan.test.js"},
+                {"gate": "js_python_cli_flag_bridge", "status": "covered", "source": "compareAicuBrowserBatchPlan.test.js"},
             ],
         )
         self.assertEqual(
             DEFAULT_PACKAGE_VALIDATION_SCOPES["python:aicu-browser-compare"],
-            "dry_run_default_fresh_completed_range_fixtures_and_js_python_plan_bridge",
+            "dry_run_default_fresh_completed_range_fixtures_js_python_plan_bridge_and_cli_flag_bridge",
         )
 
     def test_video_link_direct_planner_matches_js_cli_mode_contract(self):
