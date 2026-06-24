@@ -152,6 +152,30 @@ async function runPythonProgress({ progressPath, start, end }) {
   return JSON.parse(stdout);
 }
 
+async function runPythonProgressComparison({ progressPath, start, end, jsReportPath }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    [
+      '-m',
+      'python_backend.cli.uid_range_progress',
+      '--progress',
+      progressPath,
+      '--start',
+      String(start),
+      '--end',
+      String(end),
+      '--compare-js-report',
+      jsReportPath,
+    ],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return JSON.parse(stdout);
+}
+
 async function writeFixture(progressPath, payload) {
   await mkdir(dirname(progressPath), { recursive: true });
   await writeFile(progressPath, 'progressRaw' in payload ? String(payload.progressRaw ?? '') : JSON.stringify(payload.progress || {}, null, 2), 'utf8');
@@ -163,7 +187,13 @@ function resolvePayload({ payload, fixture } = {}) {
   return { name, payload: UID_RANGE_PROGRESS_FIXTURES[name] || DEFAULT_PAYLOAD };
 }
 
-async function compareUidRangeProgressSingle({ payload, fixture, runJs = runJsProgress, runPython = runPythonProgress } = {}) {
+async function compareUidRangeProgressSingle({
+  payload,
+  fixture,
+  runJs = runJsProgress,
+  runPython = runPythonProgress,
+  runCompare = runPythonProgressComparison,
+} = {}) {
   const resolved = resolvePayload({ payload, fixture });
   const tempDir = await mkdtemp(join(tmpdir(), 'uid-range-progress-compare-'));
   try {
@@ -176,10 +206,12 @@ async function compareUidRangeProgressSingle({ payload, fixture, runJs = runJsPr
     const context = { payload: fixturePayload, fixture: { name: resolved.name }, progressPath, progressFile, start, end };
     const js = await runJs(context);
     const python = await runPython(context);
-    const comparison = compareUidRangeProgressObjects(python, js);
+    const jsReportPath = join(tempDir, 'js-report.json');
+    await writeFile(jsReportPath, JSON.stringify(js || {}, null, 2), 'utf8');
+    const comparison = await runCompare({ ...context, jsReportPath, js, python, jsReport: js, pythonReport: python });
     return {
       ok: comparison.ok,
-      fixture: { name: resolved.name, progressPath, start, end },
+      fixture: { name: resolved.name, progressPath, start, end, jsReportPath },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -189,16 +221,23 @@ async function compareUidRangeProgressSingle({ payload, fixture, runJs = runJsPr
   }
 }
 
-export async function compareUidRangeProgress({ payload, fixture, fixtureNames, runJs = runJsProgress, runPython = runPythonProgress } = {}) {
+export async function compareUidRangeProgress({
+  payload,
+  fixture,
+  fixtureNames,
+  runJs = runJsProgress,
+  runPython = runPythonProgress,
+  runCompare = runPythonProgressComparison,
+} = {}) {
   if (fixtureNames) {
     const results = [];
     for (const name of fixtureNames.length ? fixtureNames : DEFAULT_FIXTURE_NAMES) {
-      results.push(await compareUidRangeProgressSingle({ fixture: name, runJs, runPython }));
+      results.push(await compareUidRangeProgressSingle({ fixture: name, runJs, runPython, runCompare }));
     }
     const mismatches = results.flatMap((result) => result.mismatches.map((mismatch) => ({ ...mismatch, fixture: result.fixture.name })));
     return { ok: mismatches.length === 0, fixtures: results.map((result) => result.fixture), results, mismatches };
   }
-  return compareUidRangeProgressSingle({ payload, fixture, runJs, runPython });
+  return compareUidRangeProgressSingle({ payload, fixture, runJs, runPython, runCompare });
 }
 
 async function main() {

@@ -31,11 +31,32 @@ test('compareUidRangeProgress compares JS-compatible and Python progress reports
       calls.push({ python: context.start, end: context.end });
       return { ok: true, ...SUMMARY };
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.deepEqual(calls, [{ js: 200000, end: 300000 }, { python: 200000, end: 300000 }]);
+});
+
+test('compareUidRangeProgress delegates saved JS report comparison to Python contract', async () => {
+  let compareContext;
+  const jsReport = { ok: true, ...SUMMARY };
+  const pythonReport = { ok: true, ...SUMMARY };
+  const result = await compareUidRangeProgress({
+    runJs: async () => jsReport,
+    runPython: async () => pythonReport,
+    runCompare: async (context) => {
+      compareContext = context;
+      return { ok: true, mismatches: [], python: SUMMARY, js: SUMMARY };
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.equal(compareContext.jsReportPath.endsWith('js-report.json'), true);
+  assert.deepEqual(compareContext.jsReport, jsReport);
+  assert.deepEqual(compareContext.pythonReport, pythonReport);
 });
 
 test('compareUidRangeProgress exports named file-backed fixtures', async () => {
@@ -52,6 +73,7 @@ test('compareUidRangeProgress exports named file-backed fixtures', async () => {
       calls.push({ python: context.fixture.name, start: context.start, end: context.end });
       return { ok: true, ...SUMMARY, range: { start: context.start, end: context.end } };
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
