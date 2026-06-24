@@ -47,6 +47,7 @@ DEFAULT_PACKAGE_VALIDATION_EQUIVALENTS = {
     "deepseek:analyze": "python:deepseek-analyze-command-compare",
     "dictionary:huggingface": "python:huggingface-compare",
     "dictionary:mine-local": "python:local-mine-compare",
+    "dictionary:history-tags": "python:history-tags-compare",
     "aicu:scrape": "python:aicu-compare",
     "aicu:batch": "python:aicu-batch-compare",
     "uid:discovery": "python:uid-discovery-compare",
@@ -113,6 +114,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:tieba-timing-compare": "default_zero_query_string_negative_coercion_fixtures_and_js_python_bridge",
     "python:direct-probe-update-compare": "dedupe_empty_existing_multi_video_run_fixtures_and_js_python_bridge",
     "python:huggingface-compare": "full_command",
+    "python:history-tags-compare": "merge_plan_fixtures_and_js_python_bridge",
     "python:local-mine-compare": "full_command",
     "python:bilibili-parse-compare": "danmaku_xml_extract_bvid_bvid_pool_fixtures_and_js_python_bridge",
 }
@@ -148,6 +150,7 @@ DEFAULT_BRIDGE_NODE_COMMANDS = {
     "python:deepseek-config-compare": "js_python_contract_bridge",
     "python:keyword-evidence-compare": "js_python_contract_bridge",
     "python:huggingface-compare": "js_python_contract_bridge",
+    "python:history-tags-compare": "js_python_contract_bridge",
     "python:harvest-plan-compare": "js_python_contract_bridge",
     "python:harvest-state-compare": "js_python_contract_bridge",
     "python:file-lock-state-compare": "js_python_contract_bridge",
@@ -276,6 +279,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareDeepSeekConfig.js": "js_python_contract_bridge",
     "server/scripts/compareKeywordEvidence.js": "js_python_contract_bridge",
     "server/scripts/compareHuggingFaceCorpus.js": "js_python_contract_bridge",
+    "server/scripts/compareBilibiliHistoryTags.js": "js_python_contract_bridge",
     "server/scripts/compareHarvestPlan.js": "js_python_contract_bridge",
     "server/scripts/compareHarvestState.js": "js_python_contract_bridge",
     "server/scripts/compareFileLockState.js": "js_python_contract_bridge",
@@ -793,6 +797,13 @@ class BackendMigrationInventoryScanner:
                 {"gate": "summary_command_fixture", "status": "covered", "source": "python:dictionary-prune-compare"},
                 {"gate": "python_write_mode_split_dictionary", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
                 {"gate": "js_python_write_mode_persisted_terms", "status": "covered", "source": "compareDictionaryPruneSummary.test.js"},
+            ]
+        if validation_script == "python:history-tags-compare":
+            return [
+                {"gate": "corpus_merge_fixture", "status": "covered", "source": "python:history-tags-compare"},
+                {"gate": "scrape_plan_fixture", "status": "covered", "source": "python:history-tags-compare"},
+                {"gate": "seed_file_plan_fixture", "status": "covered", "source": "compareBilibiliHistoryTags.test.js"},
+                {"gate": "no_comment_danmaku_collection", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
             ]
         if validation_script in {"python:coverage-loop-compare", "python:coverage-loop-command-compare"}:
             return [

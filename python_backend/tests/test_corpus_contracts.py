@@ -15290,11 +15290,21 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(result["corpus"]["videos"][0]["title"], "\u5386\u53f2\u89c6\u9891")
 
     def test_bilibili_history_tags_service_is_legacy_after_python_contract(self):
+        package = json.loads(Path("package.json").read_text(encoding="utf-8"))
         result = BackendMigrationInventoryScanner(".").scan()
 
+        self.assertEqual(package["scripts"]["python:history-tags-compare"], "node server/scripts/compareBilibiliHistoryTags.js")
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:history-tags-compare"],
+            "merge_plan_fixtures_and_js_python_bridge",
+        )
         self.assertNotIn("server/services/bilibiliHistoryTags.js", result["migrationCandidateFiles"]["services"])
         self.assertIn(
             {"path": "server/services/bilibiliHistoryTags.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareBilibiliHistoryTags.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
         )
         self.assertIn(
@@ -15304,6 +15314,18 @@ class CorpusContractTests(unittest.TestCase):
                 "pipeline": "history_tag_corpus",
             },
             result["packageScripts"]["pythonOwnedDataScripts"],
+        )
+        self.assertEqual(
+            BackendMigrationInventoryScanner._validation_gates(
+                validation_script="python:history-tags-compare",
+                validation_scope=DEFAULT_PACKAGE_VALIDATION_SCOPES["python:history-tags-compare"],
+            ),
+            [
+                {"gate": "corpus_merge_fixture", "status": "covered", "source": "python:history-tags-compare"},
+                {"gate": "scrape_plan_fixture", "status": "covered", "source": "python:history-tags-compare"},
+                {"gate": "seed_file_plan_fixture", "status": "covered", "source": "compareBilibiliHistoryTags.test.js"},
+                {"gate": "no_comment_danmaku_collection", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
+            ],
         )
 
     def test_history_tag_corpus_runner_reads_json_contracts(self):

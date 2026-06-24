@@ -143,6 +143,7 @@
     "python:huggingface-compare": "node server/scripts/compareHuggingFaceCorpus.js",
     "python:history-tags": "python -m python_backend.cli.history_tag_corpus",
     "python:history-tags-plan": "python -m python_backend.cli.history_tag_corpus --plan-payload",
+    "python:history-tags-compare": "node server/scripts/compareBilibiliHistoryTags.js",
     "python:bilibili-crawler": "python -m python_backend.cli.bilibili_crawler",
     "python:bilibili-parse": "python -m python_backend.cli.bilibili_parse",
     "python:bilibili-parse-compare": "node server/scripts/compareBilibiliParse.js",
