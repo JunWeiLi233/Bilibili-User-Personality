@@ -560,6 +560,7 @@ class CoverageHarvestLoopCommandRunner:
         include_danmaku: bool = False,
         reset_state: bool = False,
         skip_seen: bool = True,
+        stop_on_no_progress: bool = False,
         generated_at: str | None = None,
         harvest_command_json: str | None = None,
     ):
@@ -578,6 +579,7 @@ class CoverageHarvestLoopCommandRunner:
         self.include_danmaku = bool(include_danmaku)
         self.reset_state = bool(reset_state)
         self.skip_seen = bool(skip_seen)
+        self.stop_on_no_progress = bool(stop_on_no_progress)
         self.generated_at = generated_at or self._now()
         self.runtime_gate = CoverageHarvestLoopRuntimeGate()
         self.harvest_adapter = CoverageHarvestLoopExternalHarvestAdapter(harvest_command_json) if harvest_command_json else None
@@ -664,6 +666,10 @@ class CoverageHarvestLoopCommandRunner:
             if current_audit.get("ok") is True:
                 stop_reason = "coverage_gate_passed"
                 break
+            latest_delta = cycle_report["cycles"][0].get("coverageDelta") if cycle_report["cycles"] else {}
+            if self.stop_on_no_progress and not report_builder.progress_tracker.has_coverage_delta_progress(latest_delta):
+                stop_reason = "no_coverage_progress"
+                break
 
         report = {
             "generatedAt": self.generated_at,
@@ -720,6 +726,7 @@ class CoverageHarvestLoopRequest:
         include_danmaku: bool = False,
         reset_state: bool = False,
         skip_seen: bool = True,
+        stop_on_no_progress: bool = False,
         generated_at: str | None = None,
         harvest_command_json: str | None = None,
     ):
@@ -739,6 +746,7 @@ class CoverageHarvestLoopRequest:
             include_danmaku=include_danmaku,
             reset_state=reset_state,
             skip_seen=skip_seen,
+            stop_on_no_progress=stop_on_no_progress,
             generated_at=generated_at,
             harvest_command_json=harvest_command_json,
         )
@@ -811,6 +819,7 @@ class CoverageHarvestLoopCommandRequest:
             include_danmaku=args.include_danmaku,
             reset_state=args.reset_state,
             skip_seen=not args.no_skip_seen,
+            stop_on_no_progress=args.stop_on_no_progress,
             generated_at=args.generated_at or None,
             harvest_command_json=args.harvest_command_json or None,
         ).run()
@@ -837,6 +846,7 @@ class CoverageHarvestLoopCommandRequest:
         parser.add_argument("--include-danmaku", action="store_true")
         parser.add_argument("--reset-state", action="store_true")
         parser.add_argument("--no-skip-seen", action="store_true")
+        parser.add_argument("--stop-on-no-progress", action="store_true")
         parser.add_argument("--generated-at", default="")
         parser.add_argument("--mock-cycle-payload", default="", help="Build a one-cycle report from a JSON payload without live harvesting.")
         parser.add_argument("--mock-harvest-payload", default="", help="Build a file-backed harvest cycle report from a JSON payload without live network harvesting.")
