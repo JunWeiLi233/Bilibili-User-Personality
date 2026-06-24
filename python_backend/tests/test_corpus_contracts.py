@@ -11256,6 +11256,10 @@ class CorpusContractTests(unittest.TestCase):
             package["scripts"]["python:tieba-corpus-compare"],
             "node server/scripts/compareTiebaCorpusUpdate.js",
         )
+        self.assertEqual(
+            DEFAULT_PACKAGE_VALIDATION_SCOPES["python:tieba-corpus-compare"],
+            "merge_new_comments_unchanged_empty_run_dedupe_cap_runs_fixtures_and_js_python_bridge",
+        )
 
         result = BackendMigrationInventoryScanner(".").scan()
         self.assertIn(

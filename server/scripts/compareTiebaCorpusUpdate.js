@@ -39,6 +39,74 @@ export const DEFAULT_PAYLOAD = {
   generatedAt: GENERATED_AT,
 };
 
+const LONG_RUN_HISTORY = Array.from({ length: 55 }, (_, index) => ({ at: `old-${index}` }));
+
+export const TIEBA_CORPUS_UPDATE_FIXTURES = {
+  'merge-new-comments': {
+    payload: DEFAULT_PAYLOAD,
+    expected: {
+      changed: true,
+      newCommentMessages: [EXISTING_MESSAGE, NEW_MESSAGE],
+      corpusCommentMessages: [EXISTING_MESSAGE, NEW_MESSAGE],
+      corpusRunAts: ['old-run', GENERATED_AT],
+    },
+  },
+  'unchanged-empty-run': {
+    payload: {
+      existing: {
+        version: 1,
+        updatedAt: '2026-06-22T00:00:00.000Z',
+        runs: [{ at: 'old-run' }],
+        comments: [{ message: EXISTING_MESSAGE, sourceUrl: 'https://tieba.baidu.com/p/1', rpid: 'tieba-1' }],
+      },
+      run: {
+        at: GENERATED_AT,
+        queries: ['blocked query'],
+        results: [{ query: 'blocked query', comments: [], warnings: ['Tieba safety verification page returned'] }],
+        warnings: ['blocked'],
+      },
+      generatedAt: GENERATED_AT,
+    },
+    expected: {
+      changed: false,
+      newCommentMessages: [],
+      corpusCommentMessages: [EXISTING_MESSAGE],
+      corpusRunAts: ['old-run'],
+    },
+  },
+  'dedupe-and-cap-runs': {
+    payload: {
+      existing: {
+        version: 1,
+        updatedAt: '2026-06-22T00:00:00.000Z',
+        runs: LONG_RUN_HISTORY,
+        comments: [{ message: EXISTING_MESSAGE, sourceUrl: 'https://tieba.baidu.com/p/1', rpid: 'tieba-1' }],
+      },
+      run: {
+        at: GENERATED_AT,
+        results: [
+          {
+            comments: [
+              { message: EXISTING_MESSAGE, sourceUrl: 'https://tieba.baidu.com/p/1', rpid: 'tieba-1' },
+              { message: NEW_MESSAGE, sourceUrl: 'https://tieba.baidu.com/p/2', rpid: 'tieba-2' },
+              { message: '', sourceUrl: 'https://tieba.baidu.com/p/empty', rpid: 'tieba-empty' },
+            ],
+          },
+        ],
+      },
+      generatedAt: GENERATED_AT,
+    },
+    expected: {
+      changed: true,
+      newCommentMessages: [EXISTING_MESSAGE, NEW_MESSAGE],
+      corpusCommentMessages: [EXISTING_MESSAGE, NEW_MESSAGE],
+      corpusRunAts: [...LONG_RUN_HISTORY.slice(-49).map((run) => run.at), GENERATED_AT],
+    },
+  },
+};
+
+const DEFAULT_FIXTURE_NAMES = Object.keys(TIEBA_CORPUS_UPDATE_FIXTURES);
+
 function summarize(result = {}) {
   if (
     typeof result.changed === 'boolean'
@@ -90,20 +158,39 @@ async function runPythonUpdate({ payloadPath }) {
 }
 
 export async function compareTiebaCorpusUpdate({
-  payload = DEFAULT_PAYLOAD,
+  payload,
+  fixture,
+  fixtureNames,
   runJs = runJsUpdate,
   runPython = runPythonUpdate,
 } = {}) {
+  if (fixtureNames) {
+    const results = [];
+    for (const name of fixtureNames.length ? fixtureNames : DEFAULT_FIXTURE_NAMES) {
+      results.push(await compareTiebaCorpusUpdate({ fixture: name, runJs, runPython }));
+    }
+    const mismatches = results.flatMap((result) => result.mismatches.map((mismatch) => ({ ...mismatch, fixture: result.fixture.name })));
+    return { ok: mismatches.length === 0, fixtures: results.map((result) => result.fixture), results, mismatches };
+  }
+
+  const resolvedFixture = typeof fixture === 'string' ? TIEBA_CORPUS_UPDATE_FIXTURES[fixture] : fixture;
+  const resolvedName = typeof fixture === 'string' ? fixture : fixture?.name || 'custom';
+  const resolvedPayload = payload || resolvedFixture?.payload || DEFAULT_PAYLOAD;
   const tempDir = await mkdtemp(join(tmpdir(), 'tieba-corpus-update-compare-'));
   try {
     const payloadPath = join(tempDir, 'payload.json');
-    await writeFile(payloadPath, JSON.stringify(payload, null, 2), 'utf8');
-    const js = await runJs({ payload, payloadPath });
-    const python = await runPython({ payload, payloadPath });
+    await writeFile(payloadPath, JSON.stringify(resolvedPayload, null, 2), 'utf8');
+    const context = {
+      payload: resolvedPayload,
+      payloadPath,
+      fixture: { name: resolvedName, expected: resolvedFixture?.expected },
+    };
+    const js = await runJs(context);
+    const python = await runPython(context);
     const comparison = compareTiebaCorpusUpdateObjects(python, js);
     return {
       ok: comparison.ok,
-      fixture: { payloadPath },
+      fixture: { name: resolvedName, payloadPath },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -114,7 +201,7 @@ export async function compareTiebaCorpusUpdate({
 }
 
 async function main() {
-  const result = await compareTiebaCorpusUpdate();
+  const result = await compareTiebaCorpusUpdate({ fixtureNames: DEFAULT_FIXTURE_NAMES });
   console.log(JSON.stringify(result, null, 2));
   if (!result.ok) process.exitCode = 1;
 }
