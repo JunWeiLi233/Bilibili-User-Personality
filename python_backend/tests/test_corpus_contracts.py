@@ -1581,9 +1581,14 @@ class CorpusContractTests(unittest.TestCase):
         result = BackendMigrationInventoryScanner(".").scan()
 
         self.assertEqual(package["scripts"]["dictionary:huggingface"], "python -m python_backend.cli.huggingface_corpus")
+        self.assertEqual(package["scripts"]["python:huggingface-compare"], "node server/scripts/compareHuggingFaceCorpus.js")
         self.assertNotIn("server/scripts/importHuggingFaceCorpus.js", result["migrationCandidateFiles"]["scripts"])
         self.assertIn(
             {"path": "server/scripts/importHuggingFaceCorpus.js", "reason": "legacy_compatibility_after_python_replacement"},
+            result["retainedJsBackendFiles"],
+        )
+        self.assertIn(
+            {"path": "server/scripts/compareHuggingFaceCorpus.js", "reason": "js_python_contract_bridge"},
             result["retainedJsBackendFiles"],
         )
 

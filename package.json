@@ -140,6 +140,7 @@
     "python:keyword-evidence-compare": "node server/scripts/compareKeywordEvidence.js",
     "python:huggingface-plan": "python -m python_backend.cli.huggingface_corpus --plan-payload",
     "python:huggingface-import": "python -m python_backend.cli.huggingface_corpus",
+    "python:huggingface-compare": "node server/scripts/compareHuggingFaceCorpus.js",
     "python:history-tags": "python -m python_backend.cli.history_tag_corpus",
     "python:history-tags-plan": "python -m python_backend.cli.history_tag_corpus --plan-payload",
     "python:bilibili-crawler": "python -m python_backend.cli.bilibili_crawler",
