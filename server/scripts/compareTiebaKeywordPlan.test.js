@@ -44,11 +44,63 @@ test('compareTiebaKeywordPlan compares JS and Python dry-run option plans', asyn
       calls.push({ python: payload });
       return { ok: true, options: OPTIONS };
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.equal(calls.length, 2);
+});
+
+test('compareTiebaKeywordPlan delegates saved JS option plan comparison to Python contract', async () => {
+  const calls = [];
+  const result = await compareTiebaKeywordPlan({
+    runJs: async (context) => {
+      calls.push({ js: context.payloadPath.endsWith('payload.json') });
+      return { ok: true, options: { queries: ['stale'], maxQueries: 1 } };
+    },
+    runPython: async (context) => {
+      calls.push({ python: context.payloadPath.endsWith('payload.json') });
+      return { ok: true, options: { queries: ['doge'], maxQueries: 3 } };
+    },
+    runCompare: async (context) => {
+      calls.push({
+        compare: context.payloadPath.endsWith('payload.json'),
+        hasJsReportPath: context.jsReportPath.endsWith('js-report.json'),
+        jsQueries: context.jsReport.options.queries,
+        pythonQueries: context.pythonReport.options.queries,
+      });
+      return {
+        ok: false,
+        mismatches: [
+          {
+            key: 'options',
+            python: { queries: ['doge'], maxQueries: 3 },
+            js: { queries: ['stale'], maxQueries: 1 },
+          },
+        ],
+      };
+    },
+  });
+
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.mismatches, [
+    {
+      key: 'options',
+      python: { queries: ['doge'], maxQueries: 3 },
+      js: { queries: ['stale'], maxQueries: 1 },
+    },
+  ]);
+  assert.deepEqual(calls, [
+    { js: true },
+    { python: true },
+    {
+      compare: true,
+      hasJsReportPath: true,
+      jsQueries: ['stale'],
+      pythonQueries: ['doge'],
+    },
+  ]);
 });
 
 test('compareTiebaKeywordPlan covers Python corpus update env option', async () => {

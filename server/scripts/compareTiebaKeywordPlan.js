@@ -79,6 +79,19 @@ async function runPythonPlan({ payloadPath }) {
   return JSON.parse(stdout);
 }
 
+async function runPythonPlanComparison({ payloadPath, jsReportPath }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    ['-m', 'python_backend.cli.tieba_keyword_plan', '--payload', payloadPath, '--compare-js-report', jsReportPath],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return JSON.parse(stdout);
+}
+
 function summarizeScrape(result = {}) {
   const threads = Array.isArray(result.threads) ? result.threads : [];
   const comments = Array.isArray(result.comments) ? result.comments : [];
@@ -159,6 +172,7 @@ export async function compareTiebaKeywordPlan({
   scrapePayload = DEFAULT_SCRAPE_PAYLOAD,
   runJs = runJsPlan,
   runPython = runPythonPlan,
+  runCompare = runPythonPlanComparison,
   runJsScrape = async ({ payload: input }) => buildJsScrapeFixture(input),
   runPythonScrape = runPythonScrapeFixture,
 } = {}) {
@@ -170,7 +184,9 @@ export async function compareTiebaKeywordPlan({
     await writeFile(scrapePayloadPath, JSON.stringify(scrapePayload, null, 2), 'utf8');
     const js = await runJs({ payload, payloadPath });
     const python = await runPython({ payload, payloadPath });
-    const comparison = compareTiebaKeywordPlanObjects(python, js);
+    const jsReportPath = join(tempDir, 'js-report.json');
+    await writeFile(jsReportPath, JSON.stringify(js || {}, null, 2), 'utf8');
+    const comparison = await runCompare({ payload, payloadPath, jsReportPath, js, python, jsReport: js, pythonReport: python });
     const jsScrape = await runJsScrape({ payload: scrapePayload, payloadPath: scrapePayloadPath });
     const pythonScrape = await runPythonScrape({ payload: scrapePayload, payloadPath: scrapePayloadPath });
     const scrapeJs = summarizeScrape(jsScrape);
@@ -180,7 +196,7 @@ export async function compareTiebaKeywordPlan({
       .map((key) => ({ key, python: scrapePython[key], js: scrapeJs[key] }));
     return {
       ok: comparison.ok && scrapeMismatches.length === 0,
-      fixture: { payloadPath },
+      fixture: { payloadPath, jsReportPath },
       js,
       python,
       mismatches: comparison.mismatches,
