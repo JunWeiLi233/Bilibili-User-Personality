@@ -484,7 +484,9 @@ class CoverageHarvestLoopExternalHarvestAdapter:
                 encoding="utf-8",
                 env={**os.environ, "PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8"},
             )
-        output = json.loads(completed.stdout or "{}")
+        if not completed.stdout.strip():
+            raise ValueError("external harvest command produced no JSON output")
+        output = json.loads(completed.stdout)
         if not isinstance(output, dict):
             raise ValueError("external harvest command must return a JSON object")
         return output
