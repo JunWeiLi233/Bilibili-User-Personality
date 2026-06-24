@@ -38,6 +38,13 @@ def _non_negative_int(value: Any, fallback: int, maximum: int | None = None) -> 
     return min(result, maximum) if maximum is not None else result
 
 
+def _float_or(value: Any, fallback: float) -> float:
+    try:
+        return float(value if value is not None else fallback)
+    except (TypeError, ValueError):
+        return fallback
+
+
 def _flag_value(value: Any, fallback: bool = False) -> bool:
     if value is None or value == "":
         return fallback
@@ -557,17 +564,22 @@ class CoverageHarvestLoopCommandRunner:
         self.report_path = Path(report_path)
         self.max_cycles = max(0, min(_non_negative_int(max_cycles, 3), 50))
         self.rounds_per_cycle = max(1, min(_positive_int(rounds_per_cycle, 1), 20))
+        self.target_evidence = max(1, _positive_int(target_evidence, 3))
         self.max_actions = max(1, _positive_int(max_actions, 12))
+        self.min_coverage_ratio = min(1, max(0, _float_or(min_coverage_ratio, 1)))
+        self.require_complete = bool(require_complete)
+        self.require_source_backed_evidence = bool(require_source_backed_evidence)
+        self.require_comment_backed_evidence = bool(require_comment_backed_evidence)
         self.generated_at = generated_at or self._now()
         self.runtime_gate = CoverageHarvestLoopRuntimeGate()
         self.harvest_adapter = CoverageHarvestLoopExternalHarvestAdapter(harvest_command_json) if harvest_command_json else None
         self.audit_builder = CoverageAuditBuilder(
-            target_evidence=target_evidence,
-            max_actions=max_actions,
-            min_coverage_ratio=min_coverage_ratio,
-            require_complete=require_complete,
-            require_source_backed_evidence=require_source_backed_evidence,
-            require_comment_backed_evidence=require_comment_backed_evidence,
+            target_evidence=self.target_evidence,
+            max_actions=self.max_actions,
+            min_coverage_ratio=self.min_coverage_ratio,
+            require_complete=self.require_complete,
+            require_source_backed_evidence=self.require_source_backed_evidence,
+            require_comment_backed_evidence=self.require_comment_backed_evidence,
         )
 
     def run(self) -> dict[str, Any]:
@@ -614,6 +626,15 @@ class CoverageHarvestLoopCommandRunner:
                     "reportPath": str(self.report_path),
                     "priorityQueries": priority_queries,
                     "audit": current_audit,
+                    "options": {
+                        "rounds": self.rounds_per_cycle,
+                        "targetEvidence": self.target_evidence,
+                        "maxActions": self.max_actions,
+                        "minCoverageRatio": self.min_coverage_ratio,
+                        "requireComplete": self.require_complete,
+                        "requireSourceBackedEvidence": self.require_source_backed_evidence,
+                        "requireCommentBackedEvidence": self.require_comment_backed_evidence,
+                    },
                 }
             )
             next_dictionary = response.get("afterDictionary") if isinstance(response.get("afterDictionary"), dict) else current_dictionary
