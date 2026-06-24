@@ -1938,7 +1938,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:deepseek-analyze-command-compare",
                     "validationCommand": "node server/scripts/compareDeepSeekAnalyzeCommand.js",
-                    "validationScope": "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract",
+                    "validationScope": "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_strict_payload_file_errors_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract",
                 },
             ],
         )
@@ -1979,7 +1979,7 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(result["nextMigrationAction"]["path"], "server/scripts/analyzeDeepSeekComments.js")
         self.assertEqual(result["nextMigrationAction"]["validationScript"], "python:deepseek-analyze-command-compare")
-        self.assertEqual(result["nextMigrationAction"]["validationScope"], "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract")
+        self.assertEqual(result["nextMigrationAction"]["validationScope"], "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_strict_payload_file_errors_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract")
         self.assertFalse(result["nextMigrationAction"]["readyToReplace"])
         self.assertEqual(result["nextMigrationAction"]["recommendation"], "expand_python_runtime_contract_before_replacing_js")
         self.assertEqual(
@@ -1990,6 +1990,7 @@ class CorpusContractTests(unittest.TestCase):
                 {"gate": "command_file_input", "status": "covered", "source": "compareDeepSeekAnalyzeCommand.test.js"},
                 {"gate": "command_payload_input", "status": "covered", "source": "analyzeDeepSeekComments.test.js"},
                 {"gate": "direct_cli_plan_process_argv", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
+                {"gate": "strict_payload_file_errors", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
                 {"gate": "mock_runtime_command", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "multiagent_mock_runtime", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "js_env_python_runtime_bridge", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
@@ -7830,6 +7831,35 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(result["ok"])
         self.assertEqual(result["provider"], "deepseek")
         self.assertEqual(result["error"], f"Could not read input file: {missing_path}")
+
+    def test_deepseek_analyze_command_request_fails_closed_for_missing_payload_file(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            missing_payload_path = Path(tmp) / "missing-payload.json"
+            analysis_path = Path(tmp) / "analysis.json"
+            analysis_path.write_text(json.dumps({"axes": [], "sentenceAnalyses": [], "confidence": 0.5}), encoding="utf-8")
+
+            result = DeepSeekAnalyzeCommandRequest(
+                ["--mock-chat-analysis", analysis_path, "--payload", missing_payload_path],
+            ).run()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["provider"], "deepseek")
+        self.assertEqual(result["error"], f"Could not read payload file: {missing_payload_path}")
+
+    def test_deepseek_analyze_command_request_fails_closed_for_malformed_payload_file(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload_path = Path(tmp) / "payload.json"
+            analysis_path = Path(tmp) / "analysis.json"
+            payload_path.write_text("{bad payload", encoding="utf-8")
+            analysis_path.write_text(json.dumps({"axes": [], "sentenceAnalyses": [], "confidence": 0.5}), encoding="utf-8")
+
+            result = DeepSeekAnalyzeCommandRequest(
+                ["--mock-chat-analysis", analysis_path, "--payload", payload_path],
+            ).run()
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["provider"], "deepseek")
+        self.assertEqual(result["error"], f"Could not parse payload file: {payload_path}")
 
     def test_deepseek_analyze_command_request_accepts_python_selector_flags(self):
         with tempfile.TemporaryDirectory() as tmp:

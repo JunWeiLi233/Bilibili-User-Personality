@@ -59,7 +59,7 @@ DEFAULT_PACKAGE_VALIDATION_SCOPES = {
     "python:deepseek-validation-compare": "analysis_validation",
     "python:deepseek-normalization-compare": "analysis_normalization",
     "python:deepseek-analyze-fixture-compare": "full_command_fixture",
-    "python:deepseek-analyze-command-compare": "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract",
+    "python:deepseek-analyze-command-compare": "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_strict_payload_file_errors_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract",
     "python:deepseek-mock-runtime-compare": "mocked_runtime",
     "python:keyword-evidence-compare": "entries_dictionary_filtered_empty_evidence_fixtures_and_js_python_bridge",
     "python:harvest-plan-compare": "dry_run_plan_fixture_and_js_python_plan_bridge",
@@ -717,6 +717,7 @@ class BackendMigrationInventoryScanner:
         elif script == "deepseek:analyze" and validation_scope in {
             "full_command_identity_fields_file_payload_input_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract",
             "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract",
+            "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_strict_payload_file_errors_python_runtime_mock_multiagent_env_bridge_and_live_gate_contract",
         }:
             blockers.append(
                 {
@@ -763,6 +764,7 @@ class BackendMigrationInventoryScanner:
                 {"gate": "command_file_input", "status": "covered", "source": "compareDeepSeekAnalyzeCommand.test.js"},
                 {"gate": "command_payload_input", "status": "covered", "source": "analyzeDeepSeekComments.test.js"},
                 {"gate": "direct_cli_plan_process_argv", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
+                {"gate": "strict_payload_file_errors", "status": "covered", "source": "python_backend.tests.test_corpus_contracts"},
                 {"gate": "mock_runtime_command", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "multiagent_mock_runtime", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},
                 {"gate": "js_env_python_runtime_bridge", "status": "covered", "source": "compareDeepSeekAnalyzeCommandSuite"},

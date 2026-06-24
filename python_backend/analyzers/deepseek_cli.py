@@ -492,7 +492,11 @@ class DeepSeekAnalyzePayloadBuilder:
     def build(self, args: argparse.Namespace) -> dict[str, Any]:
         payload: dict[str, Any] = {}
         if getattr(args, "payload", ""):
-            payload.update(JsonContractReader().read_object(args.payload))
+            payload_content, payload_error = DeepSeekAnalyzePayloadFileReader(args.payload).read_required()
+            if payload_error:
+                payload["_error"] = payload_error
+                return payload
+            payload.update(payload_content)
         text = str(args.text or "")
         positional_text = " ".join(str(item) for item in getattr(args, "text_fragments", []) if str(item))
         if positional_text:
@@ -528,6 +532,38 @@ class DeepSeekAnalyzePayloadBuilder:
         if args.multiagent:
             payload["multiagent"] = True
         return payload
+
+
+class DeepSeekAnalyzePayloadFileReader:
+    """Read required runtime payload JSON files without silently dropping bad contracts."""
+
+    def __init__(self, path: str | Path):
+        self.path = Path(path)
+
+    def read_required(self) -> tuple[dict[str, Any], dict[str, Any]]:
+        try:
+            content = self.path.read_text(encoding="utf-8-sig")
+        except OSError:
+            return {}, {
+                "ok": False,
+                "provider": "deepseek",
+                "error": f"Could not read payload file: {self.path}",
+            }
+        try:
+            payload = json.loads(content)
+        except ValueError:
+            return {}, {
+                "ok": False,
+                "provider": "deepseek",
+                "error": f"Could not parse payload file: {self.path}",
+            }
+        if not isinstance(payload, dict):
+            return {}, {
+                "ok": False,
+                "provider": "deepseek",
+                "error": f"Payload file must contain a JSON object: {self.path}",
+            }
+        return payload, {}
 
 
 class DeepSeekAnalyzeMockChatRunner:
