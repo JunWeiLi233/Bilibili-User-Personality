@@ -141,6 +141,19 @@ async function runPythonProgress({ dataDir }) {
   return JSON.parse(stdout);
 }
 
+async function runPythonProgressComparison({ dataDir, jsReportPath }) {
+  const { stdout } = await execFileAsync(
+    'python',
+    ['-m', 'python_backend.cli.uid_discovery_progress', '--data-dir', dataDir, '--compare-js-report', jsReportPath],
+    {
+      cwd: process.cwd(),
+      env: { ...process.env, PYTHONUTF8: '1', PYTHONIOENCODING: 'utf-8' },
+      maxBuffer: 10 * 1024 * 1024,
+    },
+  );
+  return JSON.parse(stdout);
+}
+
 async function writeFixture(dataDir, payload) {
   await mkdir(dataDir, { recursive: true });
   await writeFile(
@@ -166,7 +179,13 @@ function resolvePayload({ payload, fixture } = {}) {
   return { name, payload: UID_DISCOVERY_PROGRESS_FIXTURES[name] || DEFAULT_PAYLOAD };
 }
 
-async function compareUidDiscoveryProgressSingle({ payload, fixture, runJs = runJsProgress, runPython = runPythonProgress } = {}) {
+async function compareUidDiscoveryProgressSingle({
+  payload,
+  fixture,
+  runJs = runJsProgress,
+  runPython = runPythonProgress,
+  runCompare = runPythonProgressComparison,
+} = {}) {
   const resolved = resolvePayload({ payload, fixture });
   const tempDir = await mkdtemp(join(tmpdir(), 'uid-discovery-progress-compare-'));
   try {
@@ -176,10 +195,12 @@ async function compareUidDiscoveryProgressSingle({ payload, fixture, runJs = run
     const context = { payload: fixturePayload, fixture: { name: resolved.name }, dataDir };
     const js = await runJs(context);
     const python = await runPython(context);
-    const comparison = compareUidDiscoveryProgressObjects(python, js);
+    const jsReportPath = join(tempDir, 'js-report.json');
+    await writeFile(jsReportPath, JSON.stringify(js || {}, null, 2), 'utf8');
+    const comparison = await runCompare({ ...context, jsReportPath, js, python, jsReport: js, pythonReport: python });
     return {
       ok: comparison.ok,
-      fixture: { name: resolved.name, dataDir },
+      fixture: { name: resolved.name, dataDir, jsReportPath },
       js,
       python,
       mismatches: comparison.mismatches,
@@ -189,16 +210,23 @@ async function compareUidDiscoveryProgressSingle({ payload, fixture, runJs = run
   }
 }
 
-export async function compareUidDiscoveryProgress({ payload, fixture, fixtureNames, runJs = runJsProgress, runPython = runPythonProgress } = {}) {
+export async function compareUidDiscoveryProgress({
+  payload,
+  fixture,
+  fixtureNames,
+  runJs = runJsProgress,
+  runPython = runPythonProgress,
+  runCompare = runPythonProgressComparison,
+} = {}) {
   if (fixtureNames) {
     const results = [];
     for (const name of fixtureNames.length ? fixtureNames : DEFAULT_FIXTURE_NAMES) {
-      results.push(await compareUidDiscoveryProgressSingle({ fixture: name, runJs, runPython }));
+      results.push(await compareUidDiscoveryProgressSingle({ fixture: name, runJs, runPython, runCompare }));
     }
     const mismatches = results.flatMap((result) => result.mismatches.map((mismatch) => ({ ...mismatch, fixture: result.fixture.name })));
     return { ok: mismatches.length === 0, fixtures: results.map((result) => result.fixture), results, mismatches };
   }
-  return compareUidDiscoveryProgressSingle({ payload, fixture, runJs, runPython });
+  return compareUidDiscoveryProgressSingle({ payload, fixture, runJs, runPython, runCompare });
 }
 
 async function main() {

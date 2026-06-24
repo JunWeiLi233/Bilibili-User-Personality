@@ -33,11 +33,32 @@ test('compareUidDiscoveryProgress compares JS-compatible and Python discovery pr
       calls.push({ python: context.dataDir.endsWith('data') });
       return { ok: true, ...SUMMARY };
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
   assert.deepEqual(result.mismatches, []);
   assert.deepEqual(calls, [{ js: true }, { python: true }]);
+});
+
+test('compareUidDiscoveryProgress delegates saved JS report comparison to Python contract', async () => {
+  let compareContext;
+  const jsReport = { ok: true, ...SUMMARY };
+  const pythonReport = { ok: true, ...SUMMARY };
+  const result = await compareUidDiscoveryProgress({
+    runJs: async () => jsReport,
+    runPython: async () => pythonReport,
+    runCompare: async (context) => {
+      compareContext = context;
+      return { ok: true, mismatches: [], python: SUMMARY, js: SUMMARY };
+    },
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.mismatches, []);
+  assert.equal(compareContext.jsReportPath.endsWith('js-report.json'), true);
+  assert.deepEqual(compareContext.jsReport, jsReport);
+  assert.deepEqual(compareContext.pythonReport, pythonReport);
 });
 
 test('compareUidDiscoveryProgress exports named file-backed fixtures', async () => {
@@ -54,6 +75,7 @@ test('compareUidDiscoveryProgress exports named file-backed fixtures', async () 
       calls.push({ python: context.fixture.name, hasDataDir: context.dataDir.endsWith('data') });
       return { ok: true, ...SUMMARY };
     },
+    runCompare: async () => ({ ok: true, mismatches: [] }),
   });
 
   assert.equal(result.ok, true);
