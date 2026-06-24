@@ -36113,6 +36113,22 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(relaxed_gate.ok())
         self.assertEqual(relaxed_gate.failure_reasons(), [])
 
+    def test_coverage_audit_metrics_module_exports_metric_gate_and_action_summary_contracts(self):
+        from python_backend.analysis.coverage_audit_metrics import (
+            CoverageAuditActionSummaryContract,
+            CoverageAuditGateContract,
+            CoverageAuditMetricContract,
+        )
+
+        coverage = {"complete": False, "coverageRatio": "0.25", "weakTerms": "2", "unsourcedEvidenceTerms": 1}
+
+        self.assertEqual(CoverageAuditMetricContract(coverage).value("coverageRatio"), 0.25)
+        self.assertFalse(CoverageAuditGateContract(coverage, require_source_backed_evidence=True).ok())
+        self.assertEqual(
+            CoverageAuditActionSummaryContract([{"action": "harvest"}, {"action": ""}, {"term": "missing"}]).summary(),
+            {"harvest": 1, "none": 2},
+        )
+
     def test_coverage_audit_action_summary_contract_counts_js_action_keys(self):
         summary = CoverageAuditActionSummaryContract(
             [
