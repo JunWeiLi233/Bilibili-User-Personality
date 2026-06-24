@@ -200,6 +200,16 @@ DEFAULT_DIRECT_FILE_CONTRACTS = {
         "validationScope": "dry_run_plan_default_custom_data_dir_fixtures_js_python_bridge_and_cli_flag_bridge",
         "replacementScope": "dry_run_plan",
     },
+    "server/scripts/launchUidPipeline.js": {
+        "nodeScript": "server/scripts/launchUidPipeline.js",
+        "nodeCommand": "node server/scripts/launchUidPipeline.js",
+        "pythonScript": "python:uid-pipeline-launcher",
+        "pythonCommand": "python -m python_backend.cli.uid_pipeline_launcher",
+        "validationScript": "python:uid-pipeline-launcher-compare",
+        "validationCommand": "node server/scripts/compareUidPipelineLauncherPlan.js",
+        "validationScope": "dry_run_plan_default_custom_data_dir_fixtures_js_python_bridge_and_cli_flag_bridge",
+        "replacementScope": "dry_run_plan",
+    },
 }
 
 DEFAULT_RETAINED_NODE_COMMANDS = {
@@ -1064,6 +1074,16 @@ class BackendMigrationInventoryScanner:
                     "reason": "Python has a batch scraper launcher dry-run plan, default/custom data-dir fixtures, and JS/Python CLI bridge coverage, but the JS launcher still needs verified live child-process orchestration before replacement.",
                     "preflightCommand": "npm run python:batch-scraper-launcher-compare",
                     "liveVerificationCommand": "node server/scripts/launchAllScrapers.js",
+                    "manualVerificationRequired": True,
+                }
+            )
+        elif script == "server/scripts/launchUidPipeline.js" and validation_scope != "full_command":
+            blockers.append(
+                {
+                    "blocker": "uid_pipeline_launcher_live_runtime_not_verified",
+                    "reason": "Python has a UID pipeline launcher dry-run plan, default/custom data-dir fixtures, and JS/Python CLI bridge coverage, but the JS launcher still needs verified live worker orchestration before replacement.",
+                    "preflightCommand": "npm run python:uid-pipeline-launcher-compare",
+                    "liveVerificationCommand": "node server/scripts/launchUidPipeline.js",
                     "manualVerificationRequired": True,
                 }
             )

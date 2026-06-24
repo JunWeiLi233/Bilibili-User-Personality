@@ -2192,6 +2192,16 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertIn(
             {
+                "path": "server/scripts/launchUidPipeline.js",
+                "nodeScript": "server/scripts/launchUidPipeline.js",
+                "blocker": "uid_pipeline_launcher_live_runtime_not_verified",
+                "preflightCommand": "npm run python:uid-pipeline-launcher-compare",
+                "liveVerificationCommand": "node server/scripts/launchUidPipeline.js",
+            },
+            result["manualVerificationActions"],
+        )
+        self.assertIn(
+            {
                 "path": "server/scripts/scrapeAicuUsers.js",
                 "nodeScript": "aicu:scrape",
                 "blocker": "aicu_scrape_live_runtime_not_verified",
@@ -2240,7 +2250,7 @@ class CorpusContractTests(unittest.TestCase):
             },
             result["manualVerificationActions"],
         )
-        self.assertEqual(result["pythonContractGapCount"], 10)
+        self.assertEqual(result["pythonContractGapCount"], 9)
         self.assertNotIn(
             "server/services/tiebaScraper.js",
             {item["path"] for item in result["pythonContractGaps"]},
@@ -2267,6 +2277,10 @@ class CorpusContractTests(unittest.TestCase):
         )
         self.assertNotIn(
             "server/scripts/launchAllScrapers.js",
+            {item["path"] for item in result["pythonContractGaps"]},
+        )
+        self.assertNotIn(
+            "server/scripts/launchUidPipeline.js",
             {item["path"] for item in result["pythonContractGaps"]},
         )
         self.assertIn(
