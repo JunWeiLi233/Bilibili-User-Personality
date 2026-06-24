@@ -38686,6 +38686,27 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(encoded.endswith(b"\n"))
         self.assertIn("emoji \U0001f602".encode("utf-8"), encoded)
 
+    def test_coverage_audit_artifacts_module_exports_class_and_writer_contracts(self):
+        from python_backend.analysis.coverage_audit_artifacts import (
+            CoverageAuditArtifactContract,
+            CoverageAuditArtifactWriter,
+        )
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            query_path = root / "queries.txt"
+            action_path = root / "actions.json"
+            audit = {
+                "recommendedQueries": ["test query"],
+                "nextActions": [{"term": "test", "nextQuery": "test query"}],
+            }
+
+            result = CoverageAuditArtifactWriter().write(audit, query_path, action_path)
+
+            self.assertTrue(result["ok"])
+            self.assertEqual(result["recommendedQueries"], ["test query"])
+            self.assertEqual(query_path.read_text(encoding="utf-8"), "test query\n")
+
 
 if __name__ == "__main__":
     unittest.main()
