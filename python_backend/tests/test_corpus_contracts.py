@@ -1814,7 +1814,7 @@ class CorpusContractTests(unittest.TestCase):
                     "readyToReplace": False,
                     "validationScript": "python:tieba-keyword-compare",
                     "validationCommand": "node server/scripts/compareTiebaKeywordPlan.js",
-                    "validationScope": "dry_run_plan_fixture_scrape_fixture_explicit_thread_fixture_provided_threads_fixture_python_scrape_fixture_bridge_and_js_python_plan_bridge",
+                    "validationScope": "dry_run_plan_fixture_scrape_fixture_explicit_thread_fixture_provided_threads_fixture_python_scrape_fixture_bridge_python_corpus_update_default_bridge_and_js_python_plan_bridge",
                 },
                 {
                     "script": "dictionary:probe-bilibili",
@@ -13164,7 +13164,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(
             BackendMigrationInventoryScanner._validation_gates(
                 validation_script="python:tieba-keyword-compare",
-                validation_scope="dry_run_plan_fixture_scrape_fixture_explicit_thread_fixture_provided_threads_fixture_python_scrape_fixture_bridge_and_js_python_plan_bridge",
+                validation_scope="dry_run_plan_fixture_scrape_fixture_explicit_thread_fixture_provided_threads_fixture_python_scrape_fixture_bridge_python_corpus_update_default_bridge_and_js_python_plan_bridge",
             ),
             [
                 {"gate": "dry_run_plan_fixture", "status": "covered", "source": "python:tieba-keyword-compare"},
@@ -13173,6 +13173,7 @@ class CorpusContractTests(unittest.TestCase):
                 {"gate": "explicit_thread_url_scrape_fixture", "status": "covered", "source": "compareTiebaKeywordPlan.test.js"},
                 {"gate": "provided_threads_scrape_fixture", "status": "covered", "source": "compareTiebaKeywordPlan.test.js"},
                 {"gate": "js_opt_in_python_scrape_fixture_bridge", "status": "covered", "source": "runTiebaKeywordScrape.test.js"},
+                {"gate": "python_corpus_update_default_bridge", "status": "covered", "source": "runTiebaKeywordScrape.test.js"},
                 {"gate": "python_corpus_update_bridge", "status": "covered", "source": "runTiebaKeywordScrape.test.js"},
             ],
         )

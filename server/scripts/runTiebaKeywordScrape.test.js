@@ -13,7 +13,7 @@ const RUN = {
   results: [{ comments: [{ message: 'new tieba comment', sourceUrl: 'https://tieba.baidu.com/p/1' }] }],
 };
 
-test('runTiebaKeywordScrape uses JS corpus update by default', async () => {
+test('runTiebaKeywordScrape keeps explicit JS corpus update fallback', async () => {
   const calls = [];
   const result = await buildTiebaRuntimeCorpusUpdate({
     corpus: { version: 1, comments: [], runs: [] },
@@ -30,6 +30,31 @@ test('runTiebaKeywordScrape uses JS corpus update by default', async () => {
 
   assert.equal(result.changed, true);
   assert.deepEqual(calls, [{ runner: 'js', comments: 1 }]);
+});
+
+test('runTiebaKeywordScrape uses Python corpus update when no fallback is requested', async () => {
+  const calls = [];
+  const result = await buildTiebaRuntimeCorpusUpdate({
+    corpus: { version: 1, comments: [], runs: [] },
+    run: RUN,
+    options: {},
+    buildJsCorpusUpdate: () => {
+      throw new Error('JS corpus update should not run by default');
+    },
+    runPythonCorpusUpdate: async ({ corpus, run }) => {
+      calls.push({ runner: 'python', comments: run.results[0].comments.length });
+      return {
+        ok: true,
+        changed: true,
+        corpus: { ...corpus, comments: run.results[0].comments, runs: [run] },
+        newComments: run.results[0].comments,
+      };
+    },
+  });
+
+  assert.equal(result.changed, true);
+  assert.deepEqual(result.corpus.comments.map((comment) => comment.message), ['new tieba comment']);
+  assert.deepEqual(calls, [{ runner: 'python', comments: 1 }]);
 });
 
 test('runTiebaKeywordScrape can opt into Python corpus update', async () => {

@@ -94,7 +94,7 @@ class TiebaKeywordScrapeOptionsPlanner:
             "discoveryTitlesOnly": env.get("TIEBA_DISCOVERY_TITLES_ONLY") == "1",
             "train": env.get("TIEBA_TRAIN_DICTIONARY") == "1",
             "existingTermsOnly": env.get("TIEBA_EXISTING_TERMS_ONLY") != "0",
-            "usePythonCorpusUpdate": env.get("TIEBA_USE_PYTHON_CORPUS_UPDATE") == "1",
+            "usePythonCorpusUpdate": False if env.get("TIEBA_USE_JS_CORPUS_UPDATE") == "1" else env.get("TIEBA_USE_PYTHON_CORPUS_UPDATE") != "0",
         }
 
         for raw in argv:
@@ -142,6 +142,8 @@ class TiebaKeywordScrapeOptionsPlanner:
                 options["existingTermsOnly"] = False
             elif arg == "--python-corpus-update":
                 options["usePythonCorpusUpdate"] = True
+            elif arg == "--js-corpus-update":
+                options["usePythonCorpusUpdate"] = False
             elif arg and not arg.startswith("--"):
                 options["queries"].append(arg.strip())
 

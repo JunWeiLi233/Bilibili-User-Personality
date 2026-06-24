@@ -33,7 +33,7 @@ function parseArgs(argv = process.argv.slice(2)) {
     discoveryTitlesOnly: process.env.TIEBA_DISCOVERY_TITLES_ONLY === '1',
     train: process.env.TIEBA_TRAIN_DICTIONARY === '1',
     existingTermsOnly: process.env.TIEBA_EXISTING_TERMS_ONLY !== '0',
-    usePythonCorpusUpdate: process.env.TIEBA_USE_PYTHON_CORPUS_UPDATE === '1',
+    usePythonCorpusUpdate: process.env.TIEBA_USE_JS_CORPUS_UPDATE === '1' ? false : process.env.TIEBA_USE_PYTHON_CORPUS_UPDATE !== '0',
   };
 
   for (const arg of argv) {
@@ -63,6 +63,7 @@ function parseArgs(argv = process.argv.slice(2)) {
     else if (arg === '--train') options.train = true;
     else if (arg === '--new-terms') options.existingTermsOnly = false;
     else if (arg === '--python-corpus-update') options.usePythonCorpusUpdate = true;
+    else if (arg === '--js-corpus-update') options.usePythonCorpusUpdate = false;
     else if (arg && !arg.startsWith('--')) options.queries.push(arg.trim());
   }
 
@@ -149,6 +150,7 @@ export function buildTiebaKeywordPlan(payload = {}) {
     'TIEBA_TRAIN_DICTIONARY',
     'TIEBA_EXISTING_TERMS_ONLY',
     'TIEBA_USE_PYTHON_CORPUS_UPDATE',
+    'TIEBA_USE_JS_CORPUS_UPDATE',
   ];
   for (const key of envKeys) {
     previousEnv[key] = process.env[key];
@@ -236,7 +238,7 @@ export async function buildTiebaRuntimeCorpusUpdate({
   buildJsCorpusUpdate = buildTiebaCorpusUpdate,
   runPythonCorpusUpdate = runPythonTiebaCorpusUpdate,
 } = {}) {
-  if (options.usePythonCorpusUpdate) {
+  if (options.usePythonCorpusUpdate !== false) {
     return runPythonCorpusUpdate({ corpus, run });
   }
   return buildJsCorpusUpdate(corpus, run);
