@@ -3590,6 +3590,7 @@ class CorpusContractTests(unittest.TestCase):
                 {"gate": "randomVerificationSampled", "ok": True},
                 {"gate": "randomVerificationNoUncovered", "ok": True},
                 {"gate": "randomVerificationSelectionConsistent", "ok": True},
+                {"gate": "randomVerificationSelectionPossible", "ok": True},
             ],
         )
         self.assertEqual(readiness["coverage"]["coverage"]["complete"], True)
@@ -3626,6 +3627,39 @@ class CorpusContractTests(unittest.TestCase):
             {
                 "gate": "randomVerificationSelectionConsistent",
                 "reason": "random verification selected count does not match sampled comments",
+            },
+            readiness["blockerDetails"],
+        )
+
+    def test_random_verification_readiness_contract_blocks_impossible_selection_summary(self):
+        readiness = RandomVerificationReadinessContract(
+            coverage_audit={
+                "ok": True,
+                "coverage": {"complete": True, "coverageRatio": 1, "terms": 2, "weakTerms": 0},
+                "failureReasons": [],
+            },
+            verification_report={
+                "sampleSize": 4,
+                "seed": 7,
+                "sampled": 3,
+                "keywordHits": 1,
+                "neutral": 2,
+                "uncovered": 0,
+                "selectionSummary": {
+                    "requestedSampleSize": 4,
+                    "eligibleComments": 2,
+                    "selectedComments": 3,
+                    "seed": 7,
+                },
+            },
+        ).to_json_contract()
+
+        self.assertFalse(readiness["ok"])
+        self.assertIn("randomVerificationSelectionPossible", readiness["blockers"])
+        self.assertIn(
+            {
+                "gate": "randomVerificationSelectionPossible",
+                "reason": "random verification selected more comments than were eligible",
             },
             readiness["blockerDetails"],
         )
