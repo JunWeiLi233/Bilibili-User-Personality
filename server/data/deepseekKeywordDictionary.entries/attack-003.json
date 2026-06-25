@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-19T07:00:18.453Z",
+  "updatedAt": "2026-06-25T06:10:17.168Z",
   "family": "attack",
   "shard": 3,
   "shardCount": 5,
@@ -11,8 +11,8 @@
       "meaning": "质疑评论区或点赞为水军购买，暗示虚假互动",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "买的评论",
@@ -20,8 +20,8 @@
       "meaning": "质疑评论区或点赞为水军购买，暗示虚假互动",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "卖票",
@@ -47,8 +47,8 @@
       "meaning": "骂湖南卫视/芒果TV的贬称",
       "risk": "high",
       "confidence": 0.95,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "盲女兔兔",
@@ -83,8 +83,8 @@
       "meaning": "以缺少黑丝为由给出差评，是对内容或着装的不满表达，常见于跳舞类视频的调侃或嘲讽",
       "risk": "medium",
       "confidence": 0.85,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "没黑丝差评",
@@ -92,8 +92,8 @@
       "meaning": "以缺少黑丝为由给出差评，是对内容或着装的不满表达，常见于跳舞类视频的调侃或嘲讽",
       "risk": "medium",
       "confidence": 0.85,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "没灵魂",
@@ -111,7 +111,7 @@
       "risk": "high",
       "confidence": 0.8,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-02T12:06:09.853Z"
+      "updatedAt": "2026-06-23T14:11:47.756Z"
     },
     {
       "term": "没想到吧",
@@ -129,7 +129,7 @@
       "risk": "medium",
       "confidence": 0.85,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "没有文化",
@@ -165,7 +165,7 @@
       "risk": "high",
       "confidence": 0.85,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-23T15:09:15.125Z"
     },
     {
       "term": "美哉",
@@ -219,7 +219,7 @@
       "risk": "medium",
       "confidence": 0.7,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-02T11:37:25.890Z"
+      "updatedAt": "2026-06-23T15:03:26.562Z"
     },
     {
       "term": "谜语人",
@@ -228,7 +228,7 @@
       "risk": "medium",
       "confidence": 0.85,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "米哈游",
@@ -237,7 +237,7 @@
       "risk": "medium",
       "confidence": 0.7,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-02T12:02:17.110Z"
+      "updatedAt": "2026-06-23T15:06:21.629Z"
     },
     {
       "term": "妙界夺舍",
@@ -273,7 +273,7 @@
       "risk": "high",
       "confidence": 0.85,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-23T15:06:21.629Z"
     },
     {
       "term": "魔怔了",
@@ -282,7 +282,7 @@
       "risk": "high",
       "confidence": 0.85,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-23T15:06:21.629Z"
     },
     {
       "term": "魔怔人",
@@ -291,7 +291,7 @@
       "risk": "high",
       "confidence": 0.75,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-23T15:06:21.629Z"
     },
     {
       "term": "莫须有",
@@ -309,7 +309,7 @@
       "risk": "medium",
       "confidence": 0.75,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "哪根葱",
@@ -326,8 +326,8 @@
       "meaning": "反问式敷衍或嘲讽，带有不屑态度",
       "risk": "high",
       "confidence": 0.85,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-02T12:17:26.480Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-23T15:03:26.562Z"
     },
     {
       "term": "奶龙",
@@ -354,7 +354,7 @@
       "risk": "medium",
       "confidence": 0.7,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-02T12:02:17.110Z"
+      "updatedAt": "2026-06-23T15:03:26.562Z"
     },
     {
       "term": "南通",
@@ -363,7 +363,7 @@
       "risk": "high",
       "confidence": 0.8,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-23T15:03:26.562Z"
     },
     {
       "term": "难绷",
@@ -371,8 +371,8 @@
       "meaning": "网络用语，表示难以忍受、感到好笑或无奈，常用于表达对荒谬情况的讽刺",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-19T07:00:18.453Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-23T15:03:26.562Z"
     },
     {
       "term": "脑残粉",
@@ -390,7 +390,7 @@
       "risk": "medium",
       "confidence": 0.75,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "闹麻了",
@@ -399,7 +399,7 @@
       "risk": "medium",
       "confidence": 0.85,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "内耗",
@@ -461,8 +461,8 @@
       "meaning": "反讽句式，表面称赞实则表达不满或调侃",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "你干嘛",
@@ -470,8 +470,8 @@
       "meaning": "蔡徐坤梗中的经典台词，常用于调侃或玩梗",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-23T14:11:47.756Z"
     },
     {
       "term": "你干嘛啊哎哟",
@@ -479,8 +479,8 @@
       "meaning": "蔡徐坤梗中的经典台词，常用于调侃或玩梗",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-23T14:11:47.756Z"
     },
     {
       "term": "你国",
@@ -498,7 +498,7 @@
       "risk": "medium",
       "confidence": 0.85,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "你们好自为之",
@@ -588,7 +588,7 @@
       "risk": "medium",
       "confidence": 0.9,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "逆天改命",
@@ -596,8 +596,8 @@
       "meaning": "表示震惊、吐槽或讽刺，常用于指出不合理或搞笑的情况",
       "risk": "medium",
       "confidence": 0.85,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "逆天ip",
@@ -606,7 +606,7 @@
       "risk": "medium",
       "confidence": 0.85,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "涅槃打野",
@@ -633,7 +633,7 @@
       "risk": "medium",
       "confidence": 0.7,
       "evidenceCount": 7,
-      "updatedAt": "2026-05-31T20:41:35.754Z"
+      "updatedAt": "2026-06-23T13:54:21.534Z"
     },
     {
       "term": "女孩",
@@ -641,8 +641,8 @@
       "meaning": "网络暗语，指中国女孩，多用于贬义",
       "risk": "high",
       "confidence": 0.6,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-02T12:29:45.885Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-23T15:09:15.125Z"
     },
     {
       "term": "女拳",
@@ -650,8 +650,8 @@
       "meaning": "侮辱性称呼，指极端女权阵营",
       "risk": "high",
       "confidence": 0.9,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-02T12:06:09.853Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-23T14:34:58.085Z"
     },
     {
       "term": "欧润吉",
@@ -678,7 +678,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-23T15:09:15.125Z"
     },
     {
       "term": "盘外招",
@@ -705,7 +705,7 @@
       "risk": "high",
       "confidence": 0.8,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-02T10:28:57.961Z"
+      "updatedAt": "2026-06-23T15:06:21.629Z"
     },
     {
       "term": "胖头鱼",
@@ -768,7 +768,7 @@
       "risk": "medium",
       "confidence": 0.93,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "破防了",
@@ -777,7 +777,7 @@
       "risk": "high",
       "confidence": 0.93,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "破站",
@@ -786,7 +786,7 @@
       "risk": "high",
       "confidence": 0.85,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-02T11:41:47.569Z"
+      "updatedAt": "2026-06-23T15:09:15.125Z"
     },
     {
       "term": "乞丐",
@@ -813,7 +813,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-17T06:10:13.852Z"
+      "updatedAt": "2026-06-23T15:03:26.562Z"
     },
     {
       "term": "恰烂钱",
@@ -839,8 +839,8 @@
       "meaning": "讽刺对方要求证据结果自打脸",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 3,
-      "updatedAt": "2026-05-31T04:29:51.080Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-23T14:02:42.573Z"
     },
     {
       "term": "蛐蛐",
@@ -867,7 +867,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-02T09:19:55.626Z"
+      "updatedAt": "2026-06-23T13:49:24.099Z"
     },
     {
       "term": "去工业化情愫",
@@ -884,8 +884,8 @@
       "meaning": "指圈钱，贬义形容利用粉丝赚钱",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-23T14:11:47.756Z"
     },
     {
       "term": "圈米不赖",
@@ -893,8 +893,8 @@
       "meaning": "指圈钱，贬义形容利用粉丝赚钱",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-23T14:11:47.756Z"
     },
     {
       "term": "全都是谜语人",
@@ -903,7 +903,7 @@
       "risk": "medium",
       "confidence": 0.85,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "全是繁体字",
@@ -938,8 +938,8 @@
       "meaning": "利用水军帽子进行阵营攻击",
       "risk": "high",
       "confidence": 0.88,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-01T13:10:14.781Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-23T15:03:26.562Z"
     },
     {
       "term": "全是幼态审美",
@@ -1001,8 +1001,8 @@
       "meaning": "嘲讽对方像机器人，缺乏人性",
       "risk": "high",
       "confidence": 0.9,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "人机感",
@@ -1010,8 +1010,8 @@
       "meaning": "形容行为机械、不自然，像机器人一样",
       "risk": "medium",
       "confidence": 0.7,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "人机自动发的",
@@ -1082,8 +1082,8 @@
       "meaning": "与‘那咋了’类似，用反问表达敷衍、轻视",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "如何呢又能怎",
@@ -1091,8 +1091,8 @@
       "meaning": "与‘那咋了’类似，用反问表达敷衍、轻视",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "乳追",
@@ -1119,7 +1119,7 @@
       "risk": "high",
       "confidence": 0.85,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "入关学",
@@ -1128,7 +1128,7 @@
       "risk": "high",
       "confidence": 0.85,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "入口即化",
@@ -1244,8 +1244,8 @@
       "meaning": "网络粗话，指傻逼，用于辱骂或贬低",
       "risk": "high",
       "confidence": 0.95,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "沙雕行为",
@@ -1254,7 +1254,7 @@
       "risk": "high",
       "confidence": 0.9,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "山地佬",
@@ -1308,7 +1308,7 @@
       "risk": "medium",
       "confidence": 0.75,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-02T12:02:17.110Z"
+      "updatedAt": "2026-06-23T15:03:26.562Z"
     },
     {
       "term": "社达",
@@ -1353,7 +1353,7 @@
       "risk": "high",
       "confidence": 0.83,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "神烦",
@@ -1397,8 +1397,8 @@
       "meaning": "反讽感叹，表面惊叹实则嘲讽对方的言论愚蠢或自大",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-23T15:09:15.125Z"
     },
     {
       "term": "神人",
@@ -1406,8 +1406,8 @@
       "meaning": "讽刺性称呼，指行为离谱或令人无语的人",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-17T06:10:13.852Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-23T15:09:15.125Z"
     },
     {
       "term": "神神",
@@ -1461,7 +1461,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-23T15:06:21.629Z"
     },
     {
       "term": "盛世白莲",
@@ -1470,7 +1470,7 @@
       "risk": "medium",
       "confidence": 0.85,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "失踪人口",
@@ -1497,7 +1497,7 @@
       "risk": "high",
       "confidence": 0.95,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "石砸狗叫请勿对号入座",
@@ -1506,7 +1506,7 @@
       "risk": "high",
       "confidence": 0.95,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "时髦小设定",
@@ -1551,7 +1551,7 @@
       "risk": "medium",
       "confidence": 0.85,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "手残",
@@ -1623,7 +1623,7 @@
       "risk": "medium",
       "confidence": 0.7,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-02T11:41:47.569Z"
+      "updatedAt": "2026-06-23T15:09:15.125Z"
     },
     {
       "term": "甩锅",
@@ -1640,8 +1640,8 @@
       "meaning": "指责对方双重标准，暗示不公平，用于攻击对方的言行矛盾",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-02T12:17:26.480Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-23T14:50:10.951Z"
     },
     {
       "term": "双赢了",
@@ -1703,8 +1703,8 @@
       "meaning": "私生饭的缩写，用于粉丝圈内攻击或资格审查",
       "risk": "high",
       "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-01T22:06:39.019Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-23T14:34:58.085Z"
     },
     {
       "term": "死了",
@@ -1713,7 +1713,7 @@
       "risk": "high",
       "confidence": 0.9,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-02T12:29:45.885Z"
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "死芒果",
@@ -1721,8 +1721,8 @@
       "meaning": "骂湖南卫视/芒果TV的贬称",
       "risk": "high",
       "confidence": 0.95,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "似了",
@@ -1731,7 +1731,7 @@
       "risk": "medium",
       "confidence": 0.9,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-02T01:12:40.930Z"
+      "updatedAt": "2026-06-23T15:03:26.562Z"
     },
     {
       "term": "送走",
@@ -1767,7 +1767,7 @@
       "risk": "medium",
       "confidence": 0.78,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "虽迟但到",
@@ -1785,7 +1785,7 @@
       "risk": "medium",
       "confidence": 0.75,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-02T12:06:09.853Z"
+      "updatedAt": "2026-06-23T15:03:26.562Z"
     },
     {
       "term": "岁月神偷",
@@ -1901,8 +1901,8 @@
       "meaning": "表示极度离谱、夸张，常用于讽刺或表达不满",
       "risk": "medium",
       "confidence": 0.85,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-17T06:10:13.852Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-23T15:09:15.125Z"
     },
     {
       "term": "太神了",
@@ -1910,8 +1910,8 @@
       "meaning": "反讽感叹，表面惊叹实则嘲讽对方的言论愚蠢或自大",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-23T15:09:15.125Z"
     },
     {
       "term": "太生草了",
@@ -1920,7 +1920,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "updatedAt": "2026-06-23T15:06:21.629Z"
     },
     {
       "term": "太唐",
@@ -2037,7 +2037,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-02T11:54:48.634Z"
+      "updatedAt": "2026-06-23T14:55:15.253Z"
     },
     {
       "term": "条形码",
@@ -2054,8 +2054,8 @@
       "meaning": "讽刺某人自我美化、夸大其词",
       "risk": "medium",
       "confidence": 0.85,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-25T06:10:17.168Z"
     },
     {
       "term": "贴牌货",
@@ -2090,8 +2090,8 @@
       "meaning": "指责对方逻辑错误，转移话题",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-02T12:10:11.165Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-23T15:09:15.125Z"
     },
     {
       "term": "偷文化",
@@ -2100,7 +2100,7 @@
       "risk": "high",
       "confidence": 0.85,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-02T12:13:40.931Z"
+      "updatedAt": "2026-06-23T14:50:10.951Z"
     },
     {
       "term": "头铁",
@@ -2135,8 +2135,8 @@
       "meaning": "讽刺对方在讨论中最终暴露真实意图或攻击目的",
       "risk": "high",
       "confidence": 0.78,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-02T11:50:38.468Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-23T14:11:47.756Z"
     },
     {
       "term": "兔兔",

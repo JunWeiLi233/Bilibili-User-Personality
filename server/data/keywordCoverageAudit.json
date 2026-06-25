@@ -1,943 +1,235 @@
 {
-  "ok": false,
-  "generatedAt": "2026-06-19T07:30:18.197Z",
-  "targetEvidence": 3,
+  "ok": true,
+  "generatedAt": "2026-06-25T09:07:56.033478Z",
+  "targetEvidence": 1,
   "minCoverageRatio": 1,
   "requireComplete": true,
   "requireSourceBackedEvidence": false,
   "coverage": {
-    "complete": false,
-    "targetEvidence": 3,
-    "terms": 1579,
-    "totalEvidence": 9132,
-    "averageEvidence": 5.78,
-    "coverageRatio": 0.9709,
-    "evidenceDeficit": 86,
-    "sourcedEvidenceTerms": 1579,
-    "sourceCoverageRatio": 1,
+    "complete": true,
+    "targetEvidence": 1,
+    "terms": 1621,
+    "totalEvidence": 9134,
+    "averageEvidence": 5.63,
+    "coverageRatio": 1.0,
+    "evidenceDeficit": 0,
+    "sourcedEvidenceTerms": 1621,
+    "sourceCoverageRatio": 1.0,
     "unsourcedEvidenceTerms": 0,
-    "weakTerms": 46,
+    "weakTerms": 0,
     "zeroEvidenceTerms": 0,
-    "weakSamples": [
-      {
-        "term": "8\u62535\u7684\u96f7\u9706",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "\u67e5\u67e5\u8d44\u6599",
-        "family": "evidence",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "\u8336\u5e8410\u4e2a\u67099\u4e2a\u6d17\u94b1\u7684",
-        "family": "absolutes",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "\u8d85\u7edd\u65e0\u8bed",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "\u90fd\u662f\u540c\u4e00\u6279",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "\u90fd\u8bf4\u516b\u767e\u904d\u4e86",
-        "family": "absolutes",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "\u5206\u4e0d\u6e05\u8f7b\u91cd",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "\u5206\u4e0d\u6e05\u8f7b\u91cd\u5c31\u4e71\u5957",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "\u7ed9\u5b98\u65b9\u526a\u7247\u5b50",
-        "family": "cooperation",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "\u6beb\u65e0\u97f3\u4e50\u7406\u89e3",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "\u6362\u4e2a\u5730\u65b9\u518d\u5c31\u4e1a",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "\u57fa\u672c\u6ca1\u6709\u97f3\u4e50\u7406\u89e3",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "\u5c31\u662f\u9b3c\u755c\u6807\u7b7e",
-        "family": "absolutes",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "\u5c31\u662f\u8981\u5e72\u4f60",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "\u5c31\u7b97\u516d\u4e2a\u9f50\u4e0a\u4e5f\u4e0d\u662f\u6211\u5bf9\u624b",
-        "family": "absolutes",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "\u6765\u7535\u4e86",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "\u8001\u95fb",
-        "family": "correction",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "\u7559\u4e2d\u4e0d\u53d1",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "\u76f2\u4eba\u5e3d\u5b50",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "\u6ca1\u6709\u6210\u4e3a\u7092\u996d\u7684\u8d44\u683c",
-        "family": "absolutes",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      }
-    ],
+    "weakSamples": [],
     "zeroEvidenceSamples": [],
     "unsourcedEvidenceSamples": [],
     "byFamily": {
-      "absolutes": {
-        "terms": 130,
-        "evidence": 733,
-        "weak": 12,
-        "zero": 0,
-        "sourced": 130
-      },
       "attack": {
-        "terms": 965,
-        "evidence": 5493,
-        "weak": 17,
+        "terms": 979,
+        "evidence": 5494,
+        "weak": 0,
         "zero": 0,
-        "sourced": 965
+        "sourced": 979
       },
-      "cooperation": {
-        "terms": 350,
-        "evidence": 2116,
-        "weak": 12,
+      "absolutes": {
+        "terms": 135,
+        "evidence": 734,
+        "weak": 0,
         "zero": 0,
-        "sourced": 350
-      },
-      "correction": {
-        "terms": 33,
-        "evidence": 208,
-        "weak": 1,
-        "zero": 0,
-        "sourced": 33
-      },
-      "evasion": {
-        "terms": 66,
-        "evidence": 359,
-        "weak": 3,
-        "zero": 0,
-        "sourced": 66
+        "sourced": 135
       },
       "evidence": {
+        "terms": 38,
+        "evidence": 213,
+        "weak": 0,
+        "zero": 0,
+        "sourced": 38
+      },
+      "evasion": {
+        "terms": 80,
+        "evidence": 376,
+        "weak": 0,
+        "zero": 0,
+        "sourced": 80
+      },
+      "cooperation": {
+        "terms": 354,
+        "evidence": 2108,
+        "weak": 0,
+        "zero": 0,
+        "sourced": 354
+      },
+      "correction": {
         "terms": 35,
-        "evidence": 223,
-        "weak": 1,
+        "evidence": 209,
+        "weak": 0,
         "zero": 0,
         "sourced": 35
       }
     }
   },
   "termAttemptSummary": {
-    "attemptedTerms": 228,
-    "successfulTerms": 95,
-    "unattemptedTerms": 1351,
+    "attemptedTerms": 0,
+    "successfulTerms": 0,
+    "unattemptedTerms": 1621,
     "unattemptedSamples": [
       {
-        "term": "3a\u666f\u533a",
-        "family": "cooperation",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u5305\u706b\u7684",
+        "term": "不用想都知道",
         "family": "absolutes",
-        "evidenceCount": 3
+        "evidenceCount": 1
       },
       {
-        "term": "\u672c\u6765\u7ed9\u4e865\u661f\u7684",
-        "family": "cooperation",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u4e0d\u597d\u610f\u601d\u70b9\u7834\u4f60",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u5e03\u4ec0\u6208\u95e8\u7406\u8bba",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u5403\u4e0d\u5230\u8461\u8404\u8bf4\u8461\u8404\u9178",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u7eaf\u6cd5\u5236\u5496",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u7eaf\u594b\u5173",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u5927\u6ce2\u6ce2",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u5012\u72d7",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u4f4e\u6e29\u710a",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u7b2c\u51e0\u5c42",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u4e1c\u5434\u6d17\u811a\u57ce",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u90fd\u7ed9\u8001\u5b50\u4e0a",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u5835\u6865\u72d7",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u6cd5\u5236\u5496",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u996d\u5708\u5473",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u5c01100\u5e74",
+        "term": "完全没",
         "family": "absolutes",
-        "evidenceCount": 3
+        "evidenceCount": 1
       },
       {
-        "term": "\u5c01\u53f7100\u5e74",
+        "term": "就是鬼畜标签",
         "family": "absolutes",
-        "evidenceCount": 3
+        "evidenceCount": 1
       },
       {
-        "term": "\u8d1f\u5206\u6eda\u7c97",
+        "term": "就算六个齐上也不是我对手",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "所有人都是",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "根本就没有",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "没有成为炒饭的资格",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "男的就是这样",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "男的就是这样爱推卸责任",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "缺点只有一个",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "缺点只有一个贵",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "茶庄10个有9个洗钱的",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "说八百遍了",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "谁都受不住",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "这不是很明显",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "都说八百遍了",
+        "family": "absolutes",
+        "evidenceCount": 1
+      },
+      {
+        "term": "8打5的雷霆",
         "family": "attack",
-        "evidenceCount": 3
+        "evidenceCount": 1
+      },
+      {
+        "term": "一个多亿",
+        "family": "attack",
+        "evidenceCount": 1
+      },
+      {
+        "term": "为了黑而黑",
+        "family": "attack",
+        "evidenceCount": 1
+      },
+      {
+        "term": "乐",
+        "family": "attack",
+        "evidenceCount": 1
       }
     ],
-    "repeatedlyMissedTerms": [
-      {
-        "term": "\u4f60\u56fd",
-        "family": "attack",
-        "attempts": 37,
-        "lastQuery": "\u4f60\u56fd",
-        "lastError": ""
-      },
-      {
-        "term": "\u53bb\u770b\u4e66",
-        "family": "evasion",
-        "attempts": 37,
-        "lastQuery": "\u53bb\u770b\u4e66",
-        "lastError": ""
-      },
-      {
-        "term": "\u8fd9\u90fd\u4e0d\u61c2",
-        "family": "evasion",
-        "attempts": 37,
-        "lastQuery": "\u8fd9\u90fd\u4e0d\u61c2",
-        "lastError": ""
-      },
-      {
-        "term": "\u81ea\u5df1\u53bb\u627e",
-        "family": "evasion",
-        "attempts": 37,
-        "lastQuery": "\u81ea\u5df1\u53bb\u627e",
-        "lastError": ""
-      },
-      {
-        "term": "\u67e5\u67e5\u8d44\u6599",
-        "family": "evidence",
-        "attempts": 27,
-        "lastQuery": "\u67e5\u67e5\u8d44\u6599 \u4e89\u8bae \u8bc4\u8bba\u533a",
-        "lastError": ""
-      },
-      {
-        "term": "8\u62535\u7684\u96f7\u9706",
-        "family": "attack",
-        "attempts": 26,
-        "lastQuery": "8\u62535\u7684\u96f7\u9706 \u4e89\u8bae \u8bc4\u8bba\u533a",
-        "lastError": ""
-      },
-      {
-        "term": "\u57fa\u672c\u6ca1\u4eba",
-        "family": "absolutes",
-        "attempts": 23,
-        "lastQuery": "\u57fa\u672c\u6ca1\u4eba \u8bc4\u8bba\u533a",
-        "lastError": "Bilibili harvest query \"\u57fa\u672c\u6ca1\u4eba \u7c89\u4e1d\" timed out after 150000ms"
-      },
-      {
-        "term": "\u88ab\u800d\u4e86",
-        "family": "attack",
-        "attempts": 20,
-        "lastQuery": "\u88ab\u800d\u4e86 \u8282\u594f",
-        "lastError": "Bilibili harvest query \"\u88ab\u800d\u4e86 \u8282\u594f\" timed out after 60000ms"
-      },
-      {
-        "term": "\u7f3a\u70b9\u53ea\u6709\u4e00\u4e2a\u8d35",
-        "family": "absolutes",
-        "attempts": 20,
-        "lastQuery": "\u7f3a\u70b9\u53ea\u6709\u4e00\u4e2a \u70ed\u8bc4",
-        "lastError": ""
-      },
-      {
-        "term": "\u90fd\u8bf4\u516b\u767e\u904d\u4e86",
-        "family": "absolutes",
-        "attempts": 19,
-        "lastQuery": "absolutes \u90fd\u8bf4\u516b\u767e\u904d\u4e86 \u8bc4\u8bba",
-        "lastError": ""
-      },
-      {
-        "term": "\u9601\u697c\u4e0a\u7684\u767d\u75f4",
-        "family": "attack",
-        "attempts": 19,
-        "lastQuery": "\u9601\u697c\u4e0a\u7684\u767d\u75f4 \u56de\u590d\u533a",
-        "lastError": ""
-      },
-      {
-        "term": "\u592a\u65e0\u654c\u53ef\u7231\u4e86",
-        "family": "absolutes",
-        "attempts": 19,
-        "lastQuery": "\u592a\u65e0\u654c\u53ef\u7231\u4e86 \u8bc4\u8bba \u6897",
-        "lastError": ""
-      },
-      {
-        "term": "\u5fc3\u7535\u611f\u5e94",
-        "family": "attack",
-        "attempts": 19,
-        "lastQuery": "\u5fc3\u7535\u611f\u5e94 \u56de\u590d\u533a",
-        "lastError": ""
-      },
-      {
-        "term": "\u8336\u5e8410\u4e2a\u67099\u4e2a\u6d17\u94b1\u7684",
-        "family": "absolutes",
-        "attempts": 18,
-        "lastQuery": "\u8336\u5e8410\u4e2a\u67099\u4e2a\u6d17\u94b1\u7684 \u8bc4\u8bba\u56de\u590d",
-        "lastError": ""
-      },
-      {
-        "term": "\u61c2\u7684\u90fd\u61c2",
-        "family": "evasion",
-        "attempts": 18,
-        "lastQuery": "dddd \u540d\u6897",
-        "lastError": "Bilibili harvest query \"dddd \u540d\u6897\" timed out after 60000ms"
-      },
-      {
-        "term": "\u6536\u56de\u524d\u9762",
-        "family": "correction",
-        "attempts": 18,
-        "lastQuery": "\u6536\u56de\u524d\u9762 \u8bc4\u8bba\u56de\u590d",
-        "lastError": ""
-      },
-      {
-        "term": "\u571f\u8c46\u9e21\u86cb\u6279\u7684\u5f62\u72b6",
-        "family": "cooperation",
-        "attempts": 18,
-        "lastQuery": "\u571f\u8c46\u9e21\u86cb\u6279\u7684\u5f62\u72b6 \u8bc4\u8bba\u56de\u590d",
-        "lastError": ""
-      },
-      {
-        "term": "\u8d85\u7edd\u65e0\u8bed",
-        "family": "attack",
-        "attempts": 17,
-        "lastQuery": "attack \u8d85\u7edd\u65e0\u8bed \u8bc4\u8bba",
-        "lastError": ""
-      },
-      {
-        "term": "\u5fb7\u91cc\u4e0d\u9976\u4eba",
-        "family": "cooperation",
-        "attempts": 17,
-        "lastQuery": "cooperation \u5fb7\u91cc\u4e0d\u9976\u4eba \u8bc4\u8bba",
-        "lastError": ""
-      },
-      {
-        "term": "\u5206\u4e0d\u6e05\u8f7b\u91cd\u5c31\u4e71\u5957",
-        "family": "attack",
-        "attempts": 17,
-        "lastQuery": "attack \u5206\u4e0d\u6e05\u8f7b\u91cd\u5c31\u4e71\u5957 \u8bc4\u8bba",
-        "lastError": ""
-      }
-    ],
+    "repeatedlyMissedTerms": [],
     "exhaustedTerms": 0,
     "exhaustedSamples": []
   },
   "actionSummary": {
-    "retry_with_new_variant": 46,
-    "none": 1533
+    "none": 1621
   },
   "familyGaps": [
     {
-      "family": "attack",
-      "terms": 965,
-      "weak": 17,
+      "family": "absolutes",
+      "terms": 135,
+      "weak": 0,
       "zero": 0,
-      "evidence": 5493,
-      "coverageRatio": 0.9824
+      "evidence": 734,
+      "coverageRatio": 1.0
     },
     {
-      "family": "absolutes",
-      "terms": 130,
-      "weak": 12,
+      "family": "attack",
+      "terms": 979,
+      "weak": 0,
       "zero": 0,
-      "evidence": 733,
-      "coverageRatio": 0.9077
+      "evidence": 5494,
+      "coverageRatio": 1.0
     },
     {
       "family": "cooperation",
-      "terms": 350,
-      "weak": 12,
+      "terms": 354,
+      "weak": 0,
       "zero": 0,
-      "evidence": 2116,
-      "coverageRatio": 0.9657
+      "evidence": 2108,
+      "coverageRatio": 1.0
+    },
+    {
+      "family": "correction",
+      "terms": 35,
+      "weak": 0,
+      "zero": 0,
+      "evidence": 209,
+      "coverageRatio": 1.0
     },
     {
       "family": "evasion",
-      "terms": 66,
-      "weak": 3,
+      "terms": 80,
+      "weak": 0,
       "zero": 0,
-      "evidence": 359,
-      "coverageRatio": 0.9545
-    },
-    {
-      "family": "correction",
-      "terms": 33,
-      "weak": 1,
-      "zero": 0,
-      "evidence": 208,
-      "coverageRatio": 0.9697
+      "evidence": 376,
+      "coverageRatio": 1.0
     },
     {
       "family": "evidence",
-      "terms": 35,
-      "weak": 1,
+      "terms": 38,
+      "weak": 0,
       "zero": 0,
-      "evidence": 223,
-      "coverageRatio": 0.9714
+      "evidence": 213,
+      "coverageRatio": 1.0
     }
   ],
-  "nextActions": [
-    {
-      "term": "\u4ef7\u683c\u88ab\u6253\u4e0b\u6765",
-      "family": "attack",
-      "status": "weak_missed",
-      "action": "retry_with_new_variant",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u4ef7\u683c\u88ab\u6253\u4e0b\u6765",
-      "targetEvidence": 3,
-      "evidenceNeeded": 1,
-      "attempts": 4,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 3,
-      "exhausted": false,
-      "nextQuery": "\u4ef7\u683c\u88ab\u6253\u4e0b\u6765 \u4e89\u8bae \u8bc4\u8bba\u533a",
-      "suggestedQueries": [],
-      "lastQuery": "\u4ef7\u683c\u88ab\u6253\u4e0b\u6765 \u5f39\u5e55",
-      "lastError": ""
-    },
-    {
-      "term": "\u629b\u5f00\u5176\u4ed6",
-      "family": "cooperation",
-      "status": "weak_missed",
-      "action": "retry_with_new_variant",
-      "evidenceCount": 2,
-      "coverageEvidenceCount": 2,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u629b\u5f00\u5176\u4ed6",
-      "targetEvidence": 3,
-      "evidenceNeeded": 1,
-      "attempts": 3,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 2,
-      "exhausted": false,
-      "nextQuery": "\u629b\u5f00\u5176\u4ed6 \u5f39\u5e55",
-      "suggestedQueries": [],
-      "lastQuery": "\u629b\u5f00\u5176\u4ed6 \u70ed\u8bc4",
-      "lastError": ""
-    },
-    {
-      "term": "8\u62535\u7684\u96f7\u9706",
-      "family": "attack",
-      "status": "weak_missed",
-      "action": "retry_with_new_variant",
-      "evidenceCount": 1,
-      "coverageEvidenceCount": 1,
-      "sourcedEvidence": true,
-      "recommendationGroup": "8\u62535\u7684\u96f7\u9706",
-      "targetEvidence": 3,
-      "evidenceNeeded": 2,
-      "attempts": 26,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 15,
-      "exhausted": false,
-      "nextQuery": "8\u62535\u7684\u96f7\u9706 \u76f4\u64ad\u5207\u7247",
-      "suggestedQueries": [],
-      "lastQuery": "8\u62535\u7684\u96f7\u9706 \u4e89\u8bae \u8bc4\u8bba\u533a",
-      "lastError": ""
-    },
-    {
-      "term": "\u67e5\u67e5\u8d44\u6599",
-      "family": "evidence",
-      "status": "weak_missed",
-      "action": "retry_with_new_variant",
-      "evidenceCount": 1,
-      "coverageEvidenceCount": 1,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u67e5\u67e5\u8d44\u6599",
-      "targetEvidence": 3,
-      "evidenceNeeded": 2,
-      "attempts": 27,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 15,
-      "exhausted": false,
-      "nextQuery": "\u67e5\u67e5\u8d44\u6599 B\u7ad9\u8bc4\u8bba",
-      "suggestedQueries": [],
-      "lastQuery": "\u67e5\u67e5\u8d44\u6599 \u4e89\u8bae \u8bc4\u8bba\u533a",
-      "lastError": ""
-    },
-    {
-      "term": "\u8336\u5e8410\u4e2a\u67099\u4e2a\u6d17\u94b1\u7684",
-      "family": "absolutes",
-      "status": "weak_missed",
-      "action": "retry_with_new_variant",
-      "evidenceCount": 1,
-      "coverageEvidenceCount": 1,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u8336\u5e8410\u4e2a\u67099\u4e2a\u6d17\u94b1\u7684",
-      "targetEvidence": 3,
-      "evidenceNeeded": 2,
-      "attempts": 18,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 16,
-      "exhausted": false,
-      "nextQuery": "\u8336\u5e8410\u4e2a\u67099\u4e2a\u6d17\u94b1\u7684 \u56de\u590d\u533a",
-      "suggestedQueries": [],
-      "lastQuery": "\u8336\u5e8410\u4e2a\u67099\u4e2a\u6d17\u94b1\u7684 \u8bc4\u8bba\u56de\u590d",
-      "lastError": ""
-    },
-    {
-      "term": "\u8d85\u7edd\u65e0\u8bed",
-      "family": "attack",
-      "status": "weak_missed",
-      "action": "retry_with_new_variant",
-      "evidenceCount": 1,
-      "coverageEvidenceCount": 1,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u8d85\u7edd\u65e0\u8bed",
-      "targetEvidence": 3,
-      "evidenceNeeded": 2,
-      "attempts": 17,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 16,
-      "exhausted": false,
-      "nextQuery": "\u8d85\u7edd\u65e0\u8bed \u8bc4\u8bba\u56de\u590d",
-      "suggestedQueries": [],
-      "lastQuery": "attack \u8d85\u7edd\u65e0\u8bed \u8bc4\u8bba",
-      "lastError": ""
-    },
-    {
-      "term": "\u90fd\u662f\u540c\u4e00\u6279",
-      "family": "attack",
-      "status": "weak_missed",
-      "action": "retry_with_new_variant",
-      "evidenceCount": 1,
-      "coverageEvidenceCount": 1,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u90fd\u662f\u540c\u4e00\u6279",
-      "targetEvidence": 3,
-      "evidenceNeeded": 2,
-      "attempts": 15,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 14,
-      "exhausted": false,
-      "nextQuery": "\u90fd\u662f\u540c\u4e00\u6279 \u4e92\u52a8",
-      "suggestedQueries": [],
-      "lastQuery": "\u90fd\u662f\u540c\u4e00\u6279 \u56de\u590d",
-      "lastError": ""
-    },
-    {
-      "term": "\u90fd\u8bf4\u516b\u767e\u904d\u4e86",
-      "family": "absolutes",
-      "status": "weak_missed",
-      "action": "retry_with_new_variant",
-      "evidenceCount": 1,
-      "coverageEvidenceCount": 1,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u8bf4\u516b\u767e\u904d\u4e86",
-      "targetEvidence": 3,
-      "evidenceNeeded": 2,
-      "attempts": 19,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 16,
-      "exhausted": false,
-      "nextQuery": "\u90fd\u8bf4\u516b\u767e\u904d\u4e86 \u8bc4\u8bba\u56de\u590d",
-      "suggestedQueries": [],
-      "lastQuery": "absolutes \u90fd\u8bf4\u516b\u767e\u904d\u4e86 \u8bc4\u8bba",
-      "lastError": ""
-    },
-    {
-      "term": "\u5206\u4e0d\u6e05\u8f7b\u91cd",
-      "family": "attack",
-      "status": "weak_missed",
-      "action": "retry_with_new_variant",
-      "evidenceCount": 1,
-      "coverageEvidenceCount": 1,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u5206\u4e0d\u6e05\u8f7b\u91cd",
-      "targetEvidence": 3,
-      "evidenceNeeded": 2,
-      "attempts": 16,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 15,
-      "exhausted": false,
-      "nextQuery": "attack \u5206\u4e0d\u6e05\u8f7b\u91cd \u8bc4\u8bba",
-      "suggestedQueries": [],
-      "lastQuery": "\u5206\u4e0d\u6e05\u8f7b\u91cd \u4e92\u52a8",
-      "lastError": ""
-    },
-    {
-      "term": "\u5206\u4e0d\u6e05\u8f7b\u91cd\u5c31\u4e71\u5957",
-      "family": "attack",
-      "status": "weak_missed",
-      "action": "retry_with_new_variant",
-      "evidenceCount": 1,
-      "coverageEvidenceCount": 1,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u5206\u4e0d\u6e05\u8f7b\u91cd\u5c31\u4e71\u5957",
-      "targetEvidence": 3,
-      "evidenceNeeded": 2,
-      "attempts": 17,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 16,
-      "exhausted": false,
-      "nextQuery": "\u5206\u4e0d\u6e05\u8f7b\u91cd\u5c31\u4e71\u5957 \u8bc4\u8bba\u56de\u590d",
-      "suggestedQueries": [],
-      "lastQuery": "attack \u5206\u4e0d\u6e05\u8f7b\u91cd\u5c31\u4e71\u5957 \u8bc4\u8bba",
-      "lastError": ""
-    },
-    {
-      "term": "\u7ed9\u5b98\u65b9\u526a\u7247\u5b50",
-      "family": "cooperation",
-      "status": "weak_missed",
-      "action": "retry_with_new_variant",
-      "evidenceCount": 1,
-      "coverageEvidenceCount": 1,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u7ed9\u5b98\u65b9\u526a\u7247\u5b50",
-      "targetEvidence": 3,
-      "evidenceNeeded": 2,
-      "attempts": 17,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 16,
-      "exhausted": false,
-      "nextQuery": "\u7ed9\u5b98\u65b9\u526a\u7247\u5b50 \u8bc4\u8bba\u56de\u590d",
-      "suggestedQueries": [],
-      "lastQuery": "cooperation \u7ed9\u5b98\u65b9\u526a\u7247\u5b50 \u8bc4\u8bba",
-      "lastError": ""
-    },
-    {
-      "term": "\u6beb\u65e0\u97f3\u4e50\u7406\u89e3",
-      "family": "attack",
-      "status": "weak_missed",
-      "action": "retry_with_new_variant",
-      "evidenceCount": 1,
-      "coverageEvidenceCount": 1,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u6beb\u65e0\u97f3\u4e50\u7406\u89e3",
-      "targetEvidence": 3,
-      "evidenceNeeded": 2,
-      "attempts": 8,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 7,
-      "exhausted": false,
-      "nextQuery": "\u6beb\u65e0\u97f3\u4e50\u7406\u89e3 \u70ed\u8bc4",
-      "suggestedQueries": [],
-      "lastQuery": "\u6ca1\u6709\u97f3\u4e50\u7406\u89e3 \u70ed\u8bc4",
-      "lastError": ""
-    },
-    {
-      "term": "\u6362\u4e2a\u5730\u65b9\u518d\u5c31\u4e1a",
-      "family": "attack",
-      "status": "weak_missed",
-      "action": "retry_with_new_variant",
-      "evidenceCount": 1,
-      "coverageEvidenceCount": 1,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u6362\u4e2a\u5730\u65b9\u518d\u5c31\u4e1a",
-      "targetEvidence": 3,
-      "evidenceNeeded": 2,
-      "attempts": 4,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 3,
-      "exhausted": false,
-      "nextQuery": "\u6362\u4e2a\u5730\u65b9\u518d\u5c31\u4e1a \u4e89\u8bae \u8bc4\u8bba\u533a",
-      "suggestedQueries": [],
-      "lastQuery": "\u6362\u4e2a\u5730\u65b9\u518d\u5c31\u4e1a \u5f39\u5e55",
-      "lastError": ""
-    },
-    {
-      "term": "\u57fa\u672c\u6ca1\u6709\u97f3\u4e50\u7406\u89e3",
-      "family": "attack",
-      "status": "weak_missed",
-      "action": "retry_with_new_variant",
-      "evidenceCount": 1,
-      "coverageEvidenceCount": 1,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u57fa\u672c\u6ca1\u6709\u97f3\u4e50\u7406\u89e3",
-      "targetEvidence": 3,
-      "evidenceNeeded": 2,
-      "attempts": 4,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 3,
-      "exhausted": false,
-      "nextQuery": "\u57fa\u672c\u6ca1\u6709\u97f3\u4e50\u7406\u89e3 \u4e89\u8bae \u8bc4\u8bba\u533a",
-      "suggestedQueries": [],
-      "lastQuery": "\u57fa\u672c\u6ca1\u6709\u97f3\u4e50\u7406\u89e3 \u5f39\u5e55",
-      "lastError": ""
-    },
-    {
-      "term": "\u5c31\u662f\u9b3c\u755c\u6807\u7b7e",
-      "family": "absolutes",
-      "status": "weak_missed",
-      "action": "retry_with_new_variant",
-      "evidenceCount": 1,
-      "coverageEvidenceCount": 1,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u5c31\u662f\u9b3c\u755c\u6807\u7b7e",
-      "targetEvidence": 3,
-      "evidenceNeeded": 2,
-      "attempts": 4,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 3,
-      "exhausted": false,
-      "nextQuery": "\u5c31\u662f\u9b3c\u755c\u6807\u7b7e \u4e89\u8bae \u8bc4\u8bba\u533a",
-      "suggestedQueries": [],
-      "lastQuery": "\u5c31\u662f\u9b3c\u755c\u6807\u7b7e \u5f39\u5e55",
-      "lastError": ""
-    },
-    {
-      "term": "\u5c31\u662f\u8981\u5e72\u4f60",
-      "family": "attack",
-      "status": "weak_missed",
-      "action": "retry_with_new_variant",
-      "evidenceCount": 1,
-      "coverageEvidenceCount": 1,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u5c31\u662f\u8981\u5e72\u4f60",
-      "targetEvidence": 3,
-      "evidenceNeeded": 2,
-      "attempts": 4,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 3,
-      "exhausted": false,
-      "nextQuery": "\u5c31\u662f\u8981\u5e72\u4f60 \u4e89\u8bae \u8bc4\u8bba\u533a",
-      "suggestedQueries": [],
-      "lastQuery": "\u5c31\u662f\u8981\u5e72\u4f60 \u5f39\u5e55",
-      "lastError": ""
-    },
-    {
-      "term": "\u5c31\u7b97\u516d\u4e2a\u9f50\u4e0a\u4e5f\u4e0d\u662f\u6211\u5bf9\u624b",
-      "family": "absolutes",
-      "status": "weak_missed",
-      "action": "retry_with_new_variant",
-      "evidenceCount": 1,
-      "coverageEvidenceCount": 1,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u5c31\u7b97\u516d\u4e2a\u9f50\u4e0a\u4e5f\u4e0d\u662f\u6211\u5bf9\u624b",
-      "targetEvidence": 3,
-      "evidenceNeeded": 2,
-      "attempts": 4,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 3,
-      "exhausted": false,
-      "nextQuery": "\u5c31\u7b97\u516d\u4e2a\u9f50\u4e0a\u4e5f\u4e0d\u662f\u6211\u5bf9\u624b \u4e89\u8bae \u8bc4\u8bba\u533a",
-      "suggestedQueries": [],
-      "lastQuery": "\u5c31\u7b97\u516d\u4e2a\u9f50\u4e0a\u4e5f\u4e0d\u662f\u6211\u5bf9\u624b \u5f39\u5e55",
-      "lastError": ""
-    },
-    {
-      "term": "\u6765\u7535\u4e86",
-      "family": "attack",
-      "status": "weak_missed",
-      "action": "retry_with_new_variant",
-      "evidenceCount": 1,
-      "coverageEvidenceCount": 1,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u6765\u7535\u4e86",
-      "targetEvidence": 3,
-      "evidenceNeeded": 2,
-      "attempts": 15,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 15,
-      "exhausted": false,
-      "nextQuery": "\u6765\u7535\u4e86 \u4e92\u52a8",
-      "suggestedQueries": [],
-      "lastQuery": "\u6765\u7535\u4e86 \u56de\u590d",
-      "lastError": ""
-    },
-    {
-      "term": "\u8001\u95fb",
-      "family": "correction",
-      "status": "weak_missed",
-      "action": "retry_with_new_variant",
-      "evidenceCount": 1,
-      "coverageEvidenceCount": 1,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u8001\u95fb",
-      "targetEvidence": 3,
-      "evidenceNeeded": 2,
-      "attempts": 4,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 3,
-      "exhausted": false,
-      "nextQuery": "\u8001\u95fb \u4e89\u8bae \u8bc4\u8bba\u533a",
-      "suggestedQueries": [],
-      "lastQuery": "\u8001\u95fb \u5f39\u5e55",
-      "lastError": ""
-    },
-    {
-      "term": "\u7559\u4e2d\u4e0d\u53d1",
-      "family": "attack",
-      "status": "weak_missed",
-      "action": "retry_with_new_variant",
-      "evidenceCount": 1,
-      "coverageEvidenceCount": 1,
-      "sourcedEvidence": true,
-      "recommendationGroup": "\u7559\u4e2d\u4e0d\u53d1",
-      "targetEvidence": 3,
-      "evidenceNeeded": 2,
-      "attempts": 6,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 5,
-      "exhausted": false,
-      "nextQuery": "\u7559\u4e2d\u4e0d\u53d1 \u4ec0\u4e48\u610f\u601d",
-      "suggestedQueries": [],
-      "lastQuery": "\u7559\u4e2d\u4e0d\u53d1 \u662f\u4ec0\u4e48\u6897",
-      "lastError": ""
-    }
-  ],
-  "recommendedQueries": [
-    "\u4ef7\u683c\u88ab\u6253\u4e0b\u6765 \u4e89\u8bae \u8bc4\u8bba\u533a",
-    "\u629b\u5f00\u5176\u4ed6 \u5f39\u5e55",
-    "8\u62535\u7684\u96f7\u9706 \u76f4\u64ad\u5207\u7247",
-    "\u67e5\u67e5\u8d44\u6599 B\u7ad9\u8bc4\u8bba",
-    "\u8336\u5e8410\u4e2a\u67099\u4e2a\u6d17\u94b1\u7684 \u56de\u590d\u533a",
-    "\u8d85\u7edd\u65e0\u8bed \u8bc4\u8bba\u56de\u590d",
-    "\u90fd\u662f\u540c\u4e00\u6279 \u4e92\u52a8",
-    "\u90fd\u8bf4\u516b\u767e\u904d\u4e86 \u8bc4\u8bba\u56de\u590d",
-    "attack \u5206\u4e0d\u6e05\u8f7b\u91cd \u8bc4\u8bba",
-    "\u5206\u4e0d\u6e05\u8f7b\u91cd\u5c31\u4e71\u5957 \u8bc4\u8bba\u56de\u590d",
-    "\u7ed9\u5b98\u65b9\u526a\u7247\u5b50 \u8bc4\u8bba\u56de\u590d",
-    "\u6beb\u65e0\u97f3\u4e50\u7406\u89e3 \u70ed\u8bc4",
-    "\u6362\u4e2a\u5730\u65b9\u518d\u5c31\u4e1a \u4e89\u8bae \u8bc4\u8bba\u533a",
-    "\u57fa\u672c\u6ca1\u6709\u97f3\u4e50\u7406\u89e3 \u4e89\u8bae \u8bc4\u8bba\u533a",
-    "\u5c31\u662f\u9b3c\u755c\u6807\u7b7e \u4e89\u8bae \u8bc4\u8bba\u533a",
-    "\u5c31\u662f\u8981\u5e72\u4f60 \u4e89\u8bae \u8bc4\u8bba\u533a",
-    "\u5c31\u7b97\u516d\u4e2a\u9f50\u4e0a\u4e5f\u4e0d\u662f\u6211\u5bf9\u624b \u4e89\u8bae \u8bc4\u8bba\u533a",
-    "\u6765\u7535\u4e86 \u4e92\u52a8",
-    "\u8001\u95fb \u4e89\u8bae \u8bc4\u8bba\u533a",
-    "\u7559\u4e2d\u4e0d\u53d1 \u4ec0\u4e48\u610f\u601d"
-  ],
-  "failureReasons": [
-    "coverage ratio 0.9709 is below 1",
-    "46 term(s) are below 3 evidence hit(s)"
-  ]
+  "nextActions": [],
+  "recommendedQueries": [],
+  "failureReasons": []
 }
