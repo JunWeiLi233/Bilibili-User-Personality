@@ -1,6 +1,6 @@
 # JS → Python Backend Migration Plan
 
-Last updated: 2026-06-25. Run `python -m python_backend.cli.migration_inventory` for latest.
+Last updated: 2026-06-24 after commit `0a2d315a`. Run `python -m python_backend.cli.migration_inventory` for latest.
 
 ## Current Status
 
@@ -97,20 +97,22 @@ python -m python_backend.cli.migration_inventory  # Reports migration progress
 | `server/services/bilibiliCrawler.js` | 1,137 | High — last crawler module |
 | `server/services/videoKeywordSearch.js` | 1,286 | High — 18/18 exports ported: `searchVideoKeywords` config resolution extracted as `resolve_search_video_keywords_config`; async orchestration stays JS |
 | `server/services/keywordHarvest.js` | 3,540 | Medium |
-| `server/services/deepseekKeywordTrainer.js` | 4,662 | Medium |
+| `server/services/deepseekKeywordTrainer.js` | 4,662 | Medium — 9 helpers ported to `keyword_evidence.py`: `_normalize_family`, `_clean_term`, `_clean_keyword_term`, `_looks_like_mojibake_chinese`, `_is_recovered_placeholder_meaning`, `_recovered_meaning_for_term`, `_canonical_meaning_for_term`, `_is_ascii_suffix_fragment_of`, `_is_noisy_evidence_sample`; `normalizeDeepSeekAnalysisResult` already ported as `DeepSeekAnalysisNormalizer.normalize()`; `extractJsonObject` already ported as `_extract_json_text`; remaining: `normalizeKeywordEntries` + additional helpers |
 | `server/scripts/runCoverageHarvestLoop.js` | 695 | High — loop orchestration |
 | `server/scripts/runTiebaKeywordScrape.js` | 390 | Medium |
 | 18 more scripts | ~3,500 total | Low — CLI wrappers |
 
 ## Phase 3: Analyzer Clients (IN PROGRESS)
 
-- `analyzers/deepseek.py` — DeepSeek analysis config + planning (1,278 lines)
+- `analyzers/deepseek.py` — DeepSeek analysis config + planning + normalization (1,278 lines)
 - `analyzers/deepseek_cli.py` — CLI dispatch (944 lines)
 - `analyzers/deepseek_config.py` — Configuration contracts (189 lines)
-- `analyzers/keyword_evidence.py` — Keyword evidence analysis (289 lines)
+- `analyzers/keyword_evidence.py` — Keyword evidence analysis + dictionary entry normalization helpers (451 lines)
+- `analyzers/dictionary_entries.py` — (planned) `normalize_keyword_entries` target module
 - Tests: `python_backend/tests/test_analyzers.py` (70 tests covering normalize, config, validation, normalization, keyword evidence)
 - JS↔Python comparison: 28 DeepSeek comparison tests pass (config, normalization, validation, fixture, mock runtime, plan, command)
-- Remaining: full DeepSeek runtime contract expansion, live API validation tests
+- `normalizeDeepSeekAnalysisResult` ported as `DeepSeekAnalysisNormalizer.normalize()` (line 656)
+- 9 `normalizeKeywordEntries` helper functions ported to `keyword_evidence.py`; main function pending
 
 ## Phase 4: Replace JS Commands (FUTURE)
 
