@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-06-25T17:31:24.855Z",
-  "maxCycles": 1,
+  "generatedAt": "2026-06-25T21:37:46.955Z",
+  "maxCycles": 5,
   "roundsPerCycle": 1,
   "stopReason": "no_recommended_queries",
   "finalOk": false,
   "finalAudit": {
     "ok": false,
-    "generatedAt": "2026-06-25T17:31:24.855Z",
+    "generatedAt": "2026-06-25T21:37:46.954Z",
     "targetEvidence": 3,
     "minCoverageRatio": 1,
     "requireComplete": true,
@@ -15,12 +15,12 @@
     "coverage": {
       "complete": true,
       "targetEvidence": 3,
-      "terms": 1568,
-      "totalEvidence": 8276,
-      "averageEvidence": 5.28,
+      "terms": 1576,
+      "totalEvidence": 8494,
+      "averageEvidence": 5.39,
       "coverageRatio": 1,
       "evidenceDeficit": 0,
-      "sourcedEvidenceTerms": 1568,
+      "sourcedEvidenceTerms": 1576,
       "sourceCoverageRatio": 1,
       "unsourcedEvidenceTerms": 0,
       "weakTerms": 0,
@@ -30,43 +30,43 @@
       "unsourcedEvidenceSamples": [],
       "byFamily": {
         "absolutes": {
-          "terms": 122,
-          "evidence": 661,
+          "terms": 123,
+          "evidence": 680,
           "weak": 0,
           "zero": 0,
-          "sourced": 122
+          "sourced": 123
         },
         "attack": {
-          "terms": 962,
-          "evidence": 5046,
+          "terms": 966,
+          "evidence": 5161,
           "weak": 0,
           "zero": 0,
-          "sourced": 962
+          "sourced": 966
         },
         "cooperation": {
-          "terms": 344,
-          "evidence": 1838,
+          "terms": 346,
+          "evidence": 1909,
           "weak": 0,
           "zero": 0,
-          "sourced": 344
+          "sourced": 346
         },
         "correction": {
           "terms": 34,
-          "evidence": 187,
+          "evidence": 191,
           "weak": 0,
           "zero": 0,
           "sourced": 34
         },
         "evasion": {
-          "terms": 70,
-          "evidence": 351,
+          "terms": 71,
+          "evidence": 356,
           "weak": 0,
           "zero": 0,
-          "sourced": 70
+          "sourced": 71
         },
         "evidence": {
           "terms": 36,
-          "evidence": 193,
+          "evidence": 197,
           "weak": 0,
           "zero": 0,
           "sourced": 36
@@ -76,7 +76,7 @@
     "termAttemptSummary": {
       "attemptedTerms": 182,
       "successfulTerms": 95,
-      "unattemptedTerms": 1386,
+      "unattemptedTerms": 1394,
       "unattemptedSamples": [
         {
           "term": "3a\u666f\u533a",
@@ -89,6 +89,11 @@
           "evidenceCount": 3
         },
         {
+          "term": "\u5305\u88c5\u7684",
+          "family": "absolutes",
+          "evidenceCount": 3
+        },
+        {
           "term": "\u672c\u6765\u7ed9\u4e865\u661f\u7684",
           "family": "cooperation",
           "evidenceCount": 3
@@ -96,6 +101,11 @@
         {
           "term": "\u522b\u6025",
           "family": "attack",
+          "evidenceCount": 3
+        },
+        {
+          "term": "\u522b\u95ee\u6211",
+          "family": "evasion",
           "evidenceCount": 3
         },
         {
@@ -166,16 +176,6 @@
         {
           "term": "\u996d\u5708\u5473",
           "family": "attack",
-          "evidenceCount": 3
-        },
-        {
-          "term": "\u5c01100\u5e74",
-          "family": "absolutes",
-          "evidenceCount": 3
-        },
-        {
-          "term": "\u5c01\u53f7100\u5e74",
-          "family": "absolutes",
           "evidenceCount": 3
         }
       ],
@@ -456,31 +456,31 @@
       ]
     },
     "actionSummary": {
-      "none": 1568
+      "none": 1576
     },
     "familyGaps": [
       {
         "family": "absolutes",
-        "terms": 122,
+        "terms": 123,
         "weak": 0,
         "zero": 0,
-        "evidence": 661,
+        "evidence": 680,
         "coverageRatio": 1
       },
       {
         "family": "attack",
-        "terms": 962,
+        "terms": 966,
         "weak": 0,
         "zero": 0,
-        "evidence": 5046,
+        "evidence": 5161,
         "coverageRatio": 1
       },
       {
         "family": "cooperation",
-        "terms": 344,
+        "terms": 346,
         "weak": 0,
         "zero": 0,
-        "evidence": 1838,
+        "evidence": 1909,
         "coverageRatio": 1
       },
       {
@@ -488,15 +488,15 @@
         "terms": 34,
         "weak": 0,
         "zero": 0,
-        "evidence": 187,
+        "evidence": 191,
         "coverageRatio": 1
       },
       {
         "family": "evasion",
-        "terms": 70,
+        "terms": 71,
         "weak": 0,
         "zero": 0,
-        "evidence": 351,
+        "evidence": 356,
         "coverageRatio": 1
       },
       {
@@ -504,7 +504,7 @@
         "terms": 36,
         "weak": 0,
         "zero": 0,
-        "evidence": 193,
+        "evidence": 197,
         "coverageRatio": 1
       }
     ],
