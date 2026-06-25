@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:30:21.000Z",
+  "updatedAt": "2026-06-25T17:44:42.000Z",
   "family": "absolutes",
   "shard": 1,
   "shardCount": 1,
@@ -1106,6 +1106,15 @@
       "confidence": 0.9,
       "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "包装的",
+      "family": "absolutes",
+      "meaning": "Bilibili 绝对化表达",
+      "risk": "medium",
+      "confidence": "medium",
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-25T17:44:42.000Z"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:28:36.790353Z",
+  "updatedAt": "2026-06-25T17:44:42.000Z",
   "family": "absolutes",
   "shard": 56,
   "shardCount": 56,
@@ -106,6 +106,23 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Pf42197m2/, https://www.bilibili.com/video/BV14nFfeeEKT/, https://www.bilibili.com/video/BV1HK3SzQEue/, https://www.bilibili.com/video/BV1UM411d7TN/, https://www.bilibili.com/video/BV14C9oYEEWu/, https://www.bilibili.com/video/BV1iM4m1C74Z/, http://www.bilibili.com/video/av1205578402, http://www.bilibili.com/video/av114797932714196, http://www.bilibili.com/video/av1304528259, http://www.bilibili.com/video/av115628136472017, http://www.bilibili.com/video/av1605790577, http://www.bilibili.com/video/av114302920955576, http://www.bilibili.com/video/av116243054988868, http://www.bilibili.com/video/av481182120, http://www.bilibili.com/video/av209427280, http://www.bilibili.com/video/av113423962604328, http://www.bilibili.com/video/av115806730000147, http://www.bilibili.com/video/av115708583220829, http://www.bilibili.com/video/av113624735548164, http://www.bilibili.com/video/av113928285787208, http://www.bilibili.com/video/av536870396, http://www.bilibili.com/video/av1256051833, http://www.bilibili.com/video/av113933167892206, http://www.bilibili.com/video/av116569489279679, http://www.bilibili.com/video/av114789980310096, http://www.bilibili.com/video/av113906374676927, http://www.bilibili.com/video/av904520897, http://www.bilibili.com/video/av113915266601891, http://www.bilibili.com/video/av115144684210304, http://www.bilibili.com/video/av116662384725876, http://www.bilibili.com/video/av116659448847224, http://www.bilibili.com/video/av115458451706103, http://www.bilibili.com/video/av113989539468874, http://www.bilibili.com/video/av113888976705438, http://www.bilibili.com/video/av116668357414909, http://www.bilibili.com/video/av115144600526826, http://www.bilibili.com/video/av114110452731500, http://www.bilibili.com/video/av833802348, http://www.bilibili.com/video/av113860858088965",
           "uid": "BV1Pf42197m2,BV14nFfeeEKT,BV1HK3SzQEue,BV1UM411d7TN,BV14C9oYEEWu,BV1iM4m1C74Z",
           "sample": "事实上，最大的雷区就是根本无法交流，而根本无法交流的人去哪都踩雷，只要可以交流，什么话都可以讲，蛮横一点，粗俗一点，没礼貌一点，只要逻辑通什么都行"
+        }
+      ]
+    },
+    {
+      "term": "包装的",
+      "evidenceCount": 5,
+      "evidenceSamples": [
+        "我还挺喜欢原包装的抽象图案",
+        "感觉可能他没有对这个火锅底料进行一些调整，就是原版包装的味道",
+        "？一个是鸭肉包装的肉，一个是鼠肉冒充鸭肉",
+        "五金包装的，付点费用就好，所以家了坏了水龙头，都是让五金店给换，各种都可以修",
+        "可惜了在微信直播上买了茶叶就被骗了，来的是树叶，包装的那么好有什么用"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili corpus pool harvest",
+          "sample": "我还挺喜欢原包装的抽象图案"
         }
       ]
     }

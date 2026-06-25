@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:28:36.790353Z",
+  "updatedAt": "2026-06-25T17:44:42.000Z",
   "family": "cooperation",
   "shard": 149,
   "shardCount": 149,
@@ -131,6 +131,40 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV14YhAzjEwd/, https://www.bilibili.com/video/BV1LVA6eMEVY/, https://www.bilibili.com/video/BV19Q1jBDEXX/, http://www.bilibili.com/video/av114941327643881, http://www.bilibili.com/video/av114029922222341, http://www.bilibili.com/video/av115473534420354",
           "uid": "BV14YhAzjEwd,BV1LVA6eMEVY,BV19Q1jBDEXX",
           "sample": "xhs上不管哪家 只要一出卡全是神卡[笑哭]还看到吹这次流水持久鱼推很满意的[辣眼睛]"
+        }
+      ]
+    },
+    {
+      "term": "是这样的",
+      "evidenceCount": 5,
+      "evidenceSamples": [
+        "是这样的",
+        "是这样的，确实不好，那别来就行",
+        "大盾：是这样的",
+        "whys是这样的",
+        "是这样的，现在编剧开始就要有"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili corpus pool harvest",
+          "sample": "是这样的"
+        }
+      ]
+    },
+    {
+      "term": "说的好",
+      "evidenceCount": 5,
+      "evidenceSamples": [
+        "说的好",
+        "UP说的好",
+        "说的好 把这视频顶起来",
+        "说的好，女人去哪里领？",
+        "回复 @我为你而回头official :说的好，奖励你2pl12＋2pl8，pl5eII放研发件[doge]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili corpus pool harvest",
+          "sample": "说的好"
         }
       ]
     }

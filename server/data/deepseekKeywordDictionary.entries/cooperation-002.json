@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:29:23.000Z",
+  "updatedAt": "2026-06-25T17:44:42.000Z",
   "family": "cooperation",
   "shard": 2,
   "shardCount": 2,
@@ -1122,6 +1122,24 @@
       "confidence": 0.5,
       "evidenceCount": 3,
       "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "是这样的",
+      "family": "cooperation",
+      "meaning": "Bilibili 合作性表达",
+      "risk": "low",
+      "confidence": "medium",
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-25T17:44:42.000Z"
+    },
+    {
+      "term": "说的好",
+      "family": "cooperation",
+      "meaning": "Bilibili 合作性表达",
+      "risk": "low",
+      "confidence": "medium",
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-25T17:44:42.000Z"
     }
   ]
 }

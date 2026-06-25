@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-25T17:30:22.831367Z",
+  "generatedAt": "2026-06-25T17:44:49.802406Z",
   "targetEvidence": 3,
   "minCoverageRatio": 1,
   "requireComplete": true,
@@ -8,12 +8,12 @@
   "coverage": {
     "complete": true,
     "targetEvidence": 3,
-    "terms": 1568,
-    "totalEvidence": 7541,
-    "averageEvidence": 4.81,
+    "terms": 1582,
+    "totalEvidence": 7583,
+    "averageEvidence": 4.79,
     "coverageRatio": 1.0,
     "evidenceDeficit": 0,
-    "sourcedEvidenceTerms": 1568,
+    "sourcedEvidenceTerms": 1582,
     "sourceCoverageRatio": 1.0,
     "unsourcedEvidenceTerms": 0,
     "weakTerms": 0,
@@ -23,18 +23,18 @@
     "unsourcedEvidenceSamples": [],
     "byFamily": {
       "attack": {
-        "terms": 962,
-        "evidence": 4539,
+        "terms": 971,
+        "evidence": 4566,
         "weak": 0,
         "zero": 0,
-        "sourced": 962
+        "sourced": 971
       },
       "absolutes": {
-        "terms": 122,
-        "evidence": 655,
+        "terms": 123,
+        "evidence": 658,
         "weak": 0,
         "zero": 0,
-        "sourced": 122
+        "sourced": 123
       },
       "evidence": {
         "terms": 36,
@@ -44,18 +44,18 @@
         "sourced": 36
       },
       "evasion": {
-        "terms": 70,
-        "evidence": 357,
+        "terms": 72,
+        "evidence": 363,
         "weak": 0,
         "zero": 0,
-        "sourced": 70
+        "sourced": 72
       },
       "cooperation": {
-        "terms": 344,
-        "evidence": 1666,
+        "terms": 346,
+        "evidence": 1672,
         "weak": 0,
         "zero": 0,
-        "sourced": 344
+        "sourced": 346
       },
       "correction": {
         "terms": 34,
@@ -69,7 +69,7 @@
   "termAttemptSummary": {
     "attemptedTerms": 0,
     "successfulTerms": 0,
-    "unattemptedTerms": 1568,
+    "unattemptedTerms": 1582,
     "unattemptedSamples": [
       {
         "term": "dna觉醒",
@@ -93,6 +93,11 @@
       },
       {
         "term": "包火的",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "包装的",
         "family": "absolutes",
         "evidenceCount": 3
       },
@@ -165,11 +170,6 @@
         "term": "三观警察",
         "family": "attack",
         "evidenceCount": 3
-      },
-      {
-        "term": "三角斩",
-        "family": "attack",
-        "evidenceCount": 3
       }
     ],
     "repeatedlyMissedTerms": [],
@@ -177,31 +177,31 @@
     "exhaustedSamples": []
   },
   "actionSummary": {
-    "none": 1568
+    "none": 1582
   },
   "familyGaps": [
     {
       "family": "absolutes",
-      "terms": 122,
+      "terms": 123,
       "weak": 0,
       "zero": 0,
-      "evidence": 655,
+      "evidence": 658,
       "coverageRatio": 1.0
     },
     {
       "family": "attack",
-      "terms": 962,
+      "terms": 971,
       "weak": 0,
       "zero": 0,
-      "evidence": 4539,
+      "evidence": 4566,
       "coverageRatio": 1.0
     },
     {
       "family": "cooperation",
-      "terms": 344,
+      "terms": 346,
       "weak": 0,
       "zero": 0,
-      "evidence": 1666,
+      "evidence": 1672,
       "coverageRatio": 1.0
     },
     {
@@ -214,10 +214,10 @@
     },
     {
       "family": "evasion",
-      "terms": 70,
+      "terms": 72,
       "weak": 0,
       "zero": 0,
-      "evidence": 357,
+      "evidence": 363,
       "coverageRatio": 1.0
     },
     {
