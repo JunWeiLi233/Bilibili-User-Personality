@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:29:00.000Z",
   "family": "cooperation",
   "shard": 30,
   "shardCount": 149,
@@ -44,24 +44,6 @@
           "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV13uQrYzEMW/",
           "uid": "BV13uQrYzEMW",
           "sample": "原来你也是艾尔登之王"
-        }
-      ]
-    },
-    {
-      "term": "原来芙宁娜也爱看",
-      "evidenceSamples": [
-        "原来芙宁娜也爱看"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Popular video comments UID 6835866 (1 comments from 1 videos)",
-          "uid": "6835866",
-          "sample": "原来芙宁娜也爱看"
-        },
-        {
-          "source": "Bilibili local scraped user corpus: https://www.bilibili.com/video/BV1ZjVE6nEZi/",
-          "uid": "6835866",
-          "sample": "原来芙宁娜也爱看"
         }
       ]
     },

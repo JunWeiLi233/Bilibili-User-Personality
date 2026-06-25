@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:29:00.000Z",
   "family": "cooperation",
   "shard": 82,
   "shardCount": 149,
@@ -106,55 +106,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1cmVN6XE86/, https://www.bilibili.com/video/BV1jG4y1Y7e6/, https://www.bilibili.com/video/BV1hfNSz9EBD/, https://www.bilibili.com/video/BV1vZKxzcE5Y/, http://www.bilibili.com/video/av116641060882254, http://www.bilibili.com/video/av814240730, http://www.bilibili.com/video/av114724851160416, http://www.bilibili.com/video/av114730085651975",
           "uid": "BV1cmVN6XE86,BV1jG4y1Y7e6,BV1hfNSz9EBD,BV1vZKxzcE5Y",
           "sample": "互关吧 点赞 投币啦up"
-        }
-      ]
-    },
-    {
-      "term": "抛开其他",
-      "evidenceSamples": [
-        "抛开其他，做游戏视频还是有质量的",
-        "最近重新看第一季，发现第一季张远活泼太多了。东北真的太冷了，抛开其他因素，体寒的张远这季远没有第一季放得开。"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Popular video comments UID 735128 (1 comments from 1 videos)",
-          "uid": "735128",
-          "sample": "抛开其他，做游戏视频还是有质量的"
-        },
-        {
-          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/BV1e24y1h76v/",
-          "uid": "35336581",
-          "sample": "最近重新看第一季，发现第一季张远活泼太多了。东北真的太冷了，抛开其他因素，体寒的张远这季远没有第一季放得开。"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full",
-          "sample": "抛开其他，做游戏视频还是有质量的"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v2",
-          "sample": "抛开其他，做游戏视频还是有质量的"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v3",
-          "sample": "抛开其他，做游戏视频还是有质量的"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v4",
-          "sample": "抛开其他，做游戏视频还是有质量的"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v6",
-          "sample": "抛开其他，做游戏视频还是有质量的"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-5k",
-          "sample": "抛开其他，做游戏视频还是有质量的"
         }
       ]
     }

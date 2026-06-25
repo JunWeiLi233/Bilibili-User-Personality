@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:29:33.000Z",
   "family": "attack",
   "shard": 264,
   "shardCount": 340,
@@ -54,19 +54,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1qS4y1R7U7/, https://www.bilibili.com/video/BV1BFLe6NEYc/, https://www.bilibili.com/video/BV1NzUhYtEnb/, https://www.bilibili.com/video/BV1DJ4JzsEE7/, https://www.bilibili.com/video/BV1GBL26ZEEP/, https://www.bilibili.com/video/BV163Gd6xEER/, http://www.bilibili.com/video/av721438900, http://www.bilibili.com/video/av115349534023298, http://www.bilibili.com/video/av1900655699, http://www.bilibili.com/video/av114612024385327, http://www.bilibili.com/video/av426971673, http://www.bilibili.com/video/av114787061145475, http://www.bilibili.com/video/av518500594, http://www.bilibili.com/video/av114805381796614, http://www.bilibili.com/video/av113292865505805, http://www.bilibili.com/video/av114085303681073, http://www.bilibili.com/video/av114549982306297, http://www.bilibili.com/video/av116197001596501, http://www.bilibili.com/video/av1902702673, http://www.bilibili.com/video/av974283121, http://www.bilibili.com/video/av427211716, http://www.bilibili.com/video/av248233411, http://www.bilibili.com/video/av844819552, http://www.bilibili.com/video/av397658516, http://www.bilibili.com/video/av378513423, http://www.bilibili.com/video/av116615861505990, http://www.bilibili.com/video/av116605342324963, http://www.bilibili.com/video/av116634215777350, http://www.bilibili.com/video/av114686951430322, http://www.bilibili.com/video/av113490266162603, http://www.bilibili.com/video/av116367021902453, http://www.bilibili.com/video/av115546330764720, http://www.bilibili.com/video/av113068117920727, http://www.bilibili.com/video/av219002500, http://www.bilibili.com/video/av115876590389427, http://www.bilibili.com/video/av116430339180410, http://www.bilibili.com/video/av114078626355796, http://www.bilibili.com/video/av114528171919445, http://www.bilibili.com/video/av113855908809077, http://www.bilibili.com/video/av924444046",
           "uid": "BV1qS4y1R7U7,BV1BFLe6NEYc,BV1NzUhYtEnb,BV1DJ4JzsEE7,BV1GBL26ZEEP,BV163Gd6xEER",
           "sample": "也够店家[doge]洗地的也是"
-        }
-      ]
-    },
-    {
-      "term": "翻车了吧",
-      "evidenceSamples": [
-        "又翻车了吧",
-        "早就说会翻车了吧"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili danmaku harvest from video BV1uw411Z7jE",
-          "sample": "Bilibili danmaku/corpus usage: 翻车了吧"
         }
       ]
     },

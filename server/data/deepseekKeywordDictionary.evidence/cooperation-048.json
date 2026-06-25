@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:30:21.000Z",
   "family": "cooperation",
   "shard": 48,
   "shardCount": 149,
@@ -106,19 +106,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV12m4y1K7CG/, https://www.bilibili.com/video/BV1Sr7Kz8E6E/, https://www.bilibili.com/video/BV1Sah9ezEbo/, http://www.bilibili.com/video/av56911203, http://www.bilibili.com/video/av703299279, http://www.bilibili.com/video/av113824887742457, http://www.bilibili.com/video/av1104618485, http://www.bilibili.com/video/av114603082121579, http://www.bilibili.com/video/av112746163145844",
           "uid": "BV12m4y1K7CG,BV1Sr7Kz8E6E,BV1Sah9ezEbo",
           "sample": "回复 @漫步v云端 :[无语][辣眼睛][疑惑][尴尬][疼]"
-        }
-      ]
-    },
-    {
-      "term": "字字珠玑",
-      "evidenceSamples": [
-        "这条评论字字珠玑",
-        "说得真好字字珠玑"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili danmaku harvest 2026-06-25",
-          "sample": "Bilibili danmaku usage: 字字珠玑"
         }
       ]
     },

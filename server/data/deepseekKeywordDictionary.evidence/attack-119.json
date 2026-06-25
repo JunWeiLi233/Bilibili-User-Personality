@@ -1,42 +1,10 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:30:11.000Z",
   "family": "attack",
   "shard": 119,
   "shardCount": 340,
   "evidence": [
-    {
-      "term": "尬吹",
-      "evidenceSamples": [
-        "弹幕全是尬吹",
-        "尬吹的我都替他们尴尬",
-        "感觉有点尬吹······",
-        "尬吹···",
-        "666尬吹",
-        "这就叫尬吹",
-        "？尬吹呀",
-        "这种尬吹的 最恶心",
-        "天呐…谁在尬吹她"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili danmaku harvest from video BV1uw411Z7jE",
-          "sample": "Bilibili danmaku/corpus usage: 尬吹"
-        },
-        {
-          "source": "Bilibili corpus match: Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114980871472440/",
-          "sample": "感觉有点尬吹······"
-        },
-        {
-          "source": "Bilibili corpus match: Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1juYLzMEHc/",
-          "sample": "？尬吹呀"
-        },
-        {
-          "source": "Bilibili corpus match: Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1dbGt6gERo/",
-          "sample": "天呐…谁在尬吹她"
-        }
-      ]
-    },
     {
       "term": "尬黑",
       "evidenceSamples": [
@@ -138,48 +106,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1apxEecERE/, https://www.bilibili.com/video/BV1x4GKzGEtm/, https://www.bilibili.com/video/BV1sTGd6FEFf/, https://www.bilibili.com/video/BV1wnqeBtE8Z/, https://www.bilibili.com/video/BV1s5Gt6DE4x/, https://www.bilibili.com/video/BV1xdG868ERF/, http://www.bilibili.com/video/av113203946194467, http://www.bilibili.com/video/av115731031197041, http://www.bilibili.com/video/av115820520806516, http://www.bilibili.com/video/av113275182258690, http://www.bilibili.com/video/av116407018788163, http://www.bilibili.com/video/av485951094, http://www.bilibili.com/video/av115494673717113, http://www.bilibili.com/video/av116618579411550, http://www.bilibili.com/video/av114288609988692, http://www.bilibili.com/video/av113841883060266, http://www.bilibili.com/video/av113695753503480, http://www.bilibili.com/video/av114436081714470, http://www.bilibili.com/video/av114046833527243, http://www.bilibili.com/video/av114090336917894, http://www.bilibili.com/video/av114713425875055, http://www.bilibili.com/video/av114573738843794, http://www.bilibili.com/video/av114651350241934, http://www.bilibili.com/video/av115014862180886, http://www.bilibili.com/video/av826548662, http://www.bilibili.com/video/av571240468, http://www.bilibili.com/video/av114825866774219, http://www.bilibili.com/video/av116617606468766, http://www.bilibili.com/video/av116611717532563, http://www.bilibili.com/video/av116633695820398, http://www.bilibili.com/video/av116615744066664, http://www.bilibili.com/video/av116628964514450, http://www.bilibili.com/video/av116619116286309, http://www.bilibili.com/video/av116629786598348, http://www.bilibili.com/video/av116626968020015, http://www.bilibili.com/video/av116629534934747, http://www.bilibili.com/video/av116617690224075, http://www.bilibili.com/video/av116628125784683, http://www.bilibili.com/video/av116629904104096, http://www.bilibili.com/video/av114589157039572, http://www.bilibili.com/video/av116193360878464, http://www.bilibili.com/video/av116600762014631, http://www.bilibili.com/video/av115432665252135, http://www.bilibili.com/video/av411057792, http://www.bilibili.com/video/av114393551472899, http://www.bilibili.com/video/av996960367, http://www.bilibili.com/video/av114155717658026, http://www.bilibili.com/video/av114708459819979, http://www.bilibili.com/video/av116634534678930, http://www.bilibili.com/video/av116618260650709, http://www.bilibili.com/video/av116308284803711, http://www.bilibili.com/video/av116635776125858",
           "uid": "BV1apxEecERE,BV1x4GKzGEtm,BV1sTGd6FEFf,BV1wnqeBtE8Z,BV1s5Gt6DE4x,BV1xdG868ERF",
           "sample": "这个问题其实很现实，即便经纪人一样结果也是类似。因为全世界都推崇天赋，拉菲是勤奋的代表，一年半之前他是巴萨本地土著投票最多卖出的换钱的球员，去年四月前数据在欧冠第一，亨利评价说：如果给拉菲以后金球是对于那些努力球员的鼓励和启示。自古足球都是..."
-        }
-      ]
-    },
-    {
-      "term": "就是要干你",
-      "evidenceSamples": [
-        "总之一句话，就是要干你[doge]"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Popular video comments UID 5661453 (1 comments from 1 videos)",
-          "uid": "5661453",
-          "sample": "总之一句话，就是要干你[doge]"
-        },
-        {
-          "source": "Bilibili public reply detail probe: https://www.bilibili.com/video/av116656630139855/?reply=301238079025",
-          "uid": "5661453",
-          "sample": "总之一句话，就是要干你[doge]"
-        },
-        {
-          "source": "Bilibili direct probe corpus match: Bilibili public reply detail probe: https://www.bilibili.com/video/av116656630139855/?reply=301238079025"
-        }
-      ]
-    },
-    {
-      "term": "就硬黑",
-      "evidenceSamples": [
-        "有些就硬黑汪苏泷，这场打肿他们脸",
-        "就硬黑"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili danmaku harvest from video BV1uw411Z7jE",
-          "sample": "Bilibili danmaku/corpus usage: 就硬黑"
-        },
-        {
-          "source": "Bilibili corpus match: Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1405870673/",
-          "sample": "有些就硬黑汪苏泷，这场打肿他们脸"
-        },
-        {
-          "source": "Bilibili corpus match: Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1J142187tz/",
-          "sample": "就硬黑"
         }
       ]
     },

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:30:21.000Z",
   "family": "evidence",
   "shard": 1,
   "shardCount": 1,
@@ -11,7 +11,7 @@
       "meaning": "“10万”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -29,7 +29,7 @@
       "meaning": "“12300工信部投诉”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 4,
       "updatedAt": "2026-05-30T03:34:03.898Z"
     },
     {
@@ -47,7 +47,7 @@
       "meaning": "“cd4细胞”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 6,
+      "evidenceCount": 3,
       "updatedAt": "2026-05-30T03:34:03.898Z"
     },
     {
@@ -56,7 +56,7 @@
       "meaning": "要求或提供可核验证据",
       "risk": "medium",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-23T15:09:15.125Z"
     },
     {
@@ -65,7 +65,7 @@
       "meaning": "“为什么”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -83,19 +83,8 @@
       "meaning": "要求或提供可核验证据",
       "risk": "medium",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "出处在哪里",
-      "addedFrom": "danmaku-harvest",
-      "addedAt": "2026-06-25T09:02:01.000Z",
-      "evidenceCount": 2,
-      "family": "evidence",
-      "meaning": "互联网中文表达模式 - 证据性表达",
-      "risk": "low",
-      "confidence": "medium",
-      "updatedAt": "2026-06-25T17:02:25.000Z"
     },
     {
       "term": "卡bug",
@@ -103,7 +92,7 @@
       "meaning": "“卡bug”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -121,7 +110,7 @@
       "meaning": "要求或提供可核验证据",
       "risk": "medium",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -130,7 +119,7 @@
       "meaning": "“发图”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -139,7 +128,7 @@
       "meaning": "要求或提供可核验证据",
       "risk": "medium",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-23T15:03:26.562Z"
     },
     {
@@ -157,7 +146,7 @@
       "meaning": "要求或提供可核验证据",
       "risk": "medium",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -166,7 +155,7 @@
       "meaning": "要求或提供可核验证据",
       "risk": "medium",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -175,7 +164,7 @@
       "meaning": "“截图造谣”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -184,7 +173,7 @@
       "meaning": "“拉表”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -193,7 +182,7 @@
       "meaning": "“挖为什么”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -202,7 +191,7 @@
       "meaning": "“曼德拉效应”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 7,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -211,28 +200,8 @@
       "meaning": "“有bug”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "有证据吗",
-      "addedFrom": "danmaku-harvest",
-      "addedAt": "2026-06-25T09:02:01.000Z",
-      "evidenceCount": 3,
-      "family": "evidence",
-      "meaning": "互联网中文表达模式 - 证据性表达",
-      "risk": "low",
-      "confidence": "medium",
-      "updatedAt": "2026-06-25T17:02:25.000Z"
-    },
-    {
-      "term": "查查资料",
-      "family": "evidence",
-      "meaning": "要求或提供可核验证据",
-      "risk": "medium",
-      "confidence": 0.5,
-      "evidenceCount": 2,
-      "updatedAt": "2026-06-25T17:02:25.000Z"
     },
     {
       "term": "水军",
@@ -240,7 +209,7 @@
       "meaning": "“水军”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -249,7 +218,7 @@
       "meaning": "“水军公司”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -258,7 +227,7 @@
       "meaning": "“油管”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-23T15:03:26.562Z"
     },
     {
@@ -267,7 +236,7 @@
       "meaning": "“热知识”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -285,7 +254,7 @@
       "meaning": "“百度百科”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -294,7 +263,7 @@
       "meaning": "“百科”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -303,7 +272,7 @@
       "meaning": "“石锤”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -312,7 +281,7 @@
       "meaning": "“老厮”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-05-31T04:46:04.019Z"
     },
     {
@@ -321,7 +290,7 @@
       "meaning": "“话术”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -330,7 +299,7 @@
       "meaning": "“路人盘”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 7,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -339,7 +308,7 @@
       "meaning": "“软文”用于质疑内容是付费宣传、带节奏或影响证据可信度的稿件",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 6,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-01T02:31:58.969Z"
     },
     {
@@ -348,7 +317,7 @@
       "meaning": "要求或提供可核验证据",
       "risk": "medium",
       "confidence": 0.5,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-23T15:03:26.562Z"
     },
     {

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:29:00.000Z",
   "family": "attack",
   "shard": 314,
   "shardCount": 340,
@@ -228,34 +228,6 @@
           "source": "Bilibili public existing evidence-source video comment scan: https://www.bilibili.com/video/BV1UDf5YGEYT/, https://www.bilibili.com/video/BV183411g7Nx/, https://www.bilibili.com/video/BV1LM4y1176i/, https://www.bilibili.com/video/BV1Aw411Z7g8/, https://www.bilibili.com/video/BV1MT411W7uw/, https://www.bilibili.com/video/BV12z4y1R7Ka/, https://www.bilibili.com/video/BV13E421j7Ep/, https://www.bilibili.com/video/BV1ga411V7cT/, https://www.bilibili.com/video/BV1Q8GH6LExc/, https://www.bilibili.com/video/BV1jfG961Exp/, https://www.bilibili.com/video/BV1FoLh68ENE/, https://www.bilibili.com/video/BV15fGJ6mE3Q/",
           "uid": "BV1UDf5YGEYT,BV183411g7Nx,BV1LM4y1176i,BV1Aw411Z7g8,BV1MT411W7uw,BV12z4y1R7Ka,BV13E421j7Ep,BV1ga411V7cT,BV1Q8GH6LExc,BV1jfG961Exp,BV1FoLh68ENE",
           "sample": "你别提这些了，官方动态前面几个评论都是机器人，那还说啥了"
-        }
-      ]
-    },
-    {
-      "term": "都是同一批",
-      "evidenceSamples": [
-        "其实都是同一批，换个地方再就业。"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Popular video comments UID 1429580 (1 comments from 1 videos)",
-          "uid": "1429580",
-          "sample": "其实都是同一批，换个地方再就业。"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v6",
-          "sample": "其实都是同一批，换个地方再就业。"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-5k",
-          "sample": "其实都是同一批，换个地方再就业。"
-        },
-        {
-          "source": "Bilibili local scraped user corpus: https://www.bilibili.com/video/BV1AaVh6fETy/",
-          "uid": "1429580",
-          "sample": "其实都是同一批，换个地方再就业。"
         }
       ]
     }

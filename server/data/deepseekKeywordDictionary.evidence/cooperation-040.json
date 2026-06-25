@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:29:00.000Z",
   "family": "cooperation",
   "shard": 40,
   "shardCount": 149,
@@ -54,29 +54,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1fALs63EwH/, https://www.bilibili.com/video/BV1V6Lt6CEvr/, https://www.bilibili.com/video/BV1MyUmBBEH3/, https://www.bilibili.com/video/BV1W7oWBEE7S/, http://www.bilibili.com/video/av116261828758748, http://www.bilibili.com/video/av116608781518958, http://www.bilibili.com/video/av116610761230091, http://www.bilibili.com/video/av115608423238334, http://www.bilibili.com/video/av116446629857821, http://www.bilibili.com/video/av116629417629851",
           "uid": "BV1fALs63EwH,BV1V6Lt6CEvr,BV1MyUmBBEH3,BV1W7oWBEE7S",
           "sample": "回复 @__-吉普莉尔-__ :灵感菇里找灵感，哈基米里找哈基"
-        }
-      ]
-    },
-    {
-      "term": "喂啥我就吃啥",
-      "evidenceSamples": [
-        "回复 @陆灯Light :看来我已经是一个完整的土豆鸡蛋批的形状了。。他俩喂啥我就吃啥从来不挑食也不点菜（"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Popular video comments UID 3754074 (2 comments from 1 videos)",
-          "uid": "3754074",
-          "sample": "回复 @陆灯Light :看来我已经是一个完整的土豆鸡蛋批的形状了。。他俩喂啥我就吃啥从来不挑食也不点菜（"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v6",
-          "sample": "回复 @陆灯Light :看来我已经是一个完整的土豆鸡蛋批的形状了。。他俩喂啥我就吃啥从来不挑食也不点菜（"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV16WVV63EB8/",
-          "uid": "BV16WVV63EB8",
-          "sample": "回复 @陆灯Light :看来我已经是一个完整的土豆鸡蛋批的形状了。。他俩喂啥我就吃啥从来不挑食也不点菜（"
         }
       ]
     },

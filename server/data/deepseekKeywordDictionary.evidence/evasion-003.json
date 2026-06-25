@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:30:21.000Z",
   "family": "evasion",
   "shard": 3,
   "shardCount": 23,
@@ -106,78 +106,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1VF411u7SB/, https://www.bilibili.com/video/BV1BS411c76T/, https://www.bilibili.com/video/BV1od4y1t7JW/, https://www.bilibili.com/video/BV1jDX8BLEHH/, http://www.bilibili.com/video/av298505882, http://www.bilibili.com/video/av1906063842, http://www.bilibili.com/video/av390582978, http://www.bilibili.com/video/av116298252094212",
           "uid": "BV1VF411u7SB,BV1BS411c76T,BV1od4y1t7JW,BV1jDX8BLEHH",
           "sample": "↑飞机能飞就是没弄明白，自己搜去"
-        }
-      ]
-    },
-    {
-      "term": "你觉得呢",
-      "evidenceSamples": [
-        "你觉得呢？",
-        "这还用我说吗你觉得呢"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili danmaku harvest from video BV1uw411Z7jE",
-          "sample": "Bilibili danmaku/corpus usage: 你觉得呢"
-        }
-      ]
-    },
-    {
-      "term": "你说呢",
-      "evidenceSamples": [
-        "你说呢？",
-        "这不明摆着你说呢",
-        "专注做茶事本身就好了，那些奇奇怪怪的声音就别搭理了，你说呢？",
-        "michael是流行音乐之王 你说呢？前面的",
-        "你说呢",
-        "意识形态的对立，你说呢",
-        "光辉天天去下你说呢",
-        "印度就卡中国你说呢",
-        "因为猫狗刻板印象就是女主人多异宠刻板男主人多呗，挑刺的本来也是男的多那这里怎么可能挑刺捏你说呢",
-        "我们医院妇产科现在就剩妇科了，你说呢",
-        "狗子都没被束缚住，你说呢？[呲牙]",
-        "66你说呢哈哈哈"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili danmaku harvest from video BV1uw411Z7jE",
-          "sample": "Bilibili danmaku/corpus usage: 你说呢"
-        },
-        {
-          "source": "Bilibili corpus match: Bilibili public direct comment probe: https://www.bilibili.com/video/BV1Aa4y1a7PN/",
-          "sample": "专注做茶事本身就好了，那些奇奇怪怪的声音就别搭理了，你说呢？"
-        },
-        {
-          "source": "Bilibili corpus match: Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1yyjN6vE9i/",
-          "sample": "michael是流行音乐之王 你说呢？前面的"
-        },
-        {
-          "source": "Bilibili corpus match: Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1201603992/",
-          "sample": "你说呢"
-        },
-        {
-          "source": "Bilibili corpus match: Bilibili public direct danmaku probe: https://www.bilibili.com/video/av876720416/",
-          "sample": "光辉天天去下你说呢"
-        },
-        {
-          "source": "Bilibili corpus match: Bilibili public direct danmaku probe: https://www.bilibili.com/video/av113153581058007/",
-          "sample": "印度就卡中国你说呢"
-        },
-        {
-          "source": "Bilibili corpus match: Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663559131570/",
-          "sample": "因为猫狗刻板印象就是女主人多异宠刻板男主人多呗，挑刺的本来也是男的多那这里怎么可能挑刺捏你说呢"
-        },
-        {
-          "source": "Bilibili corpus match: Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1U6Vn6kE39/",
-          "sample": "我们医院妇产科现在就剩妇科了，你说呢"
-        },
-        {
-          "source": "Bilibili corpus match: Bilibili public direct comment probe: https://www.bilibili.com/video/BV1gs1TBJEdN/",
-          "sample": "狗子都没被束缚住，你说呢？[呲牙]"
-        },
-        {
-          "source": "Bilibili corpus match: Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1aaEb6UEvh/",
-          "sample": "66你说呢哈哈哈"
         }
       ]
     },

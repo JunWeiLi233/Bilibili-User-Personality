@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:29:23.000Z",
   "family": "attack",
   "shard": 5,
   "shardCount": 5,
@@ -11,7 +11,7 @@
       "meaning": "指令人无语或负面的操作，常用于批评",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-17T22:47:28.441Z"
     },
     {
@@ -20,7 +20,7 @@
       "meaning": "指令人无语或负面的操作，常用于批评",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-17T22:47:28.441Z"
     },
     {
@@ -29,7 +29,7 @@
       "meaning": "指代Dota2和龙珠相关的带节奏刷屏内容",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-17T22:47:28.441Z"
     },
     {
@@ -56,7 +56,7 @@
       "meaning": "用‘高情商’开头反衬低情商真话，讽刺对方话术或实际表现",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -65,7 +65,7 @@
       "meaning": "表面夸赞实则讽刺，阴阳怪气的话术",
       "risk": "high",
       "confidence": 0.85,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -74,7 +74,7 @@
       "meaning": "恐怖或恶心图片，用于攻击破坏社区氛围",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-02T10:22:22.463Z"
     },
     {
@@ -83,7 +83,7 @@
       "meaning": "指日本人，玩梗调侃，带讽刺",
       "risk": "high",
       "confidence": 0.72,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -92,7 +92,7 @@
       "meaning": "形容网络言论过度偏执、失去理智，批评对方极端",
       "risk": "high",
       "confidence": 0.85,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -101,7 +101,7 @@
       "meaning": "形容网络言论过度偏执、失去理智，批评对方极端",
       "risk": "high",
       "confidence": 0.85,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -110,7 +110,7 @@
       "meaning": "贬称极端偏执的粉丝或网友，侮辱性强",
       "risk": "high",
       "confidence": 0.75,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -119,7 +119,7 @@
       "meaning": "调侃男性年龄大却无性经验的梗",
       "risk": "medium",
       "confidence": 0.85,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -128,7 +128,7 @@
       "meaning": "形容人狡猾、耍小聪明，含贬义",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 6,
+      "evidenceCount": 4,
       "updatedAt": "2026-05-30T03:34:03.898Z"
     },
     {
@@ -137,7 +137,7 @@
       "meaning": "哥哥谐音，特指蔡徐坤，嘲讽其公关话术",
       "risk": "high",
       "confidence": 0.9,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -146,7 +146,7 @@
       "meaning": "制造并散布涉及性的谣言，人身攻击",
       "risk": "high",
       "confidence": 0.9,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-23T15:06:21.629Z"
     },
     {
@@ -164,7 +164,7 @@
       "meaning": "对历史人物种族化改编的讽刺，带有政治正确批评",
       "risk": "high",
       "confidence": 0.85,
-      "evidenceCount": 4,
+      "evidenceCount": 3,
       "updatedAt": "2026-05-30T09:17:55.382Z"
     },
     {
@@ -173,7 +173,7 @@
       "meaning": "指恶意批评或对立的用户，常用于贬低对方阵营",
       "risk": "medium",
       "confidence": 0.85,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -191,7 +191,7 @@
       "meaning": "黑流量，指利用负面事件吸引流量的手段",
       "risk": "medium",
       "confidence": 0.7,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -200,7 +200,7 @@
       "meaning": "指联想黑胶CPU问题，是一种谴责或讽刺的梗",
       "risk": "high",
       "confidence": 0.7,
-      "evidenceCount": 6,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -209,7 +209,7 @@
       "meaning": "网络自嘲或贬低他人的梗，指底层或失败者",
       "risk": "medium",
       "confidence": 0.85,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -218,7 +218,7 @@
       "meaning": "讽刺角色设定过于强大且无脑",
       "risk": "medium",
       "confidence": 0.7,
-      "evidenceCount": 6,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-23T14:34:58.085Z"
     },
     {
@@ -227,7 +227,7 @@
       "meaning": "调侃极度喜爱龙系宝可梦的玩家，带轻微嘲讽",
       "risk": "medium",
       "confidence": 0.6,
-      "evidenceCount": 5,
+      "evidenceCount": 4,
       "updatedAt": "2026-05-30T03:34:03.898Z"
     },
     {
@@ -236,7 +236,7 @@
       "meaning": "侮辱性称呼，指男性接盘侠（接受非亲生或有过往的伴侣）",
       "risk": "high",
       "confidence": 0.85,
-      "evidenceCount": 8,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     }
   ]

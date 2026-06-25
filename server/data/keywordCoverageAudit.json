@@ -1,19 +1,19 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-25T17:17:50.061034Z",
-  "targetEvidence": 1,
+  "generatedAt": "2026-06-25T17:30:22.831367Z",
+  "targetEvidence": 3,
   "minCoverageRatio": 1,
   "requireComplete": true,
   "requireSourceBackedEvidence": false,
   "coverage": {
     "complete": true,
-    "targetEvidence": 1,
-    "terms": 1636,
-    "totalEvidence": 9541,
-    "averageEvidence": 5.83,
+    "targetEvidence": 3,
+    "terms": 1568,
+    "totalEvidence": 7541,
+    "averageEvidence": 4.81,
     "coverageRatio": 1.0,
     "evidenceDeficit": 0,
-    "sourcedEvidenceTerms": 1636,
+    "sourcedEvidenceTerms": 1568,
     "sourceCoverageRatio": 1.0,
     "unsourcedEvidenceTerms": 0,
     "weakTerms": 0,
@@ -23,153 +23,153 @@
     "unsourcedEvidenceSamples": [],
     "byFamily": {
       "attack": {
-        "terms": 986,
-        "evidence": 5623,
+        "terms": 962,
+        "evidence": 4539,
         "weak": 0,
         "zero": 0,
-        "sourced": 986
+        "sourced": 962
       },
       "absolutes": {
-        "terms": 135,
-        "evidence": 840,
+        "terms": 122,
+        "evidence": 655,
         "weak": 0,
         "zero": 0,
-        "sourced": 135
+        "sourced": 122
       },
       "evidence": {
-        "terms": 39,
-        "evidence": 221,
+        "terms": 36,
+        "evidence": 166,
         "weak": 0,
         "zero": 0,
-        "sourced": 39
+        "sourced": 36
       },
       "evasion": {
-        "terms": 82,
-        "evidence": 497,
+        "terms": 70,
+        "evidence": 357,
         "weak": 0,
         "zero": 0,
-        "sourced": 82
+        "sourced": 70
       },
       "cooperation": {
-        "terms": 359,
-        "evidence": 2146,
+        "terms": 344,
+        "evidence": 1666,
         "weak": 0,
         "zero": 0,
-        "sourced": 359
+        "sourced": 344
       },
       "correction": {
-        "terms": 35,
-        "evidence": 214,
+        "terms": 34,
+        "evidence": 158,
         "weak": 0,
         "zero": 0,
-        "sourced": 35
+        "sourced": 34
       }
     }
   },
   "termAttemptSummary": {
     "attemptedTerms": 0,
     "successfulTerms": 0,
-    "unattemptedTerms": 1636,
+    "unattemptedTerms": 1568,
     "unattemptedSamples": [
       {
-        "term": "来电了",
+        "term": "dna觉醒",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "一眼丁真",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "一钓开天门",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "从古至今",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "包火的",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "基本没人",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "封100年",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "封号100年",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "永不取关",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "神仙下凡",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "绝对显化",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "ex人",
         "family": "attack",
-        "evidenceCount": 1
+        "evidenceCount": 3
       },
       {
-        "term": "毫无音乐理解",
+        "term": "flop到地心",
         "family": "attack",
-        "evidenceCount": 1
+        "evidenceCount": 3
       },
       {
-        "term": "留中不发",
+        "term": "gay达",
         "family": "attack",
-        "evidenceCount": 1
+        "evidenceCount": 3
       },
       {
-        "term": "盲人帽子",
+        "term": "giegie",
         "family": "attack",
-        "evidenceCount": 1
+        "evidenceCount": 3
       },
       {
-        "term": "超绝无语",
+        "term": "kda大帝",
         "family": "attack",
-        "evidenceCount": 1
+        "evidenceCount": 3
       },
       {
-        "term": "都是同一批",
+        "term": "pv诈骗",
         "family": "attack",
-        "evidenceCount": 1
+        "evidenceCount": 3
       },
       {
-        "term": "众漂",
-        "family": "cooperation",
-        "evidenceCount": 1
+        "term": "wb升堂",
+        "family": "attack",
+        "evidenceCount": 3
       },
       {
-        "term": "卧寻思也妹有口音哈",
-        "family": "cooperation",
-        "evidenceCount": 1
+        "term": "三观警察",
+        "family": "attack",
+        "evidenceCount": 3
       },
       {
-        "term": "原来芙宁娜也爱看",
-        "family": "cooperation",
-        "evidenceCount": 1
-      },
-      {
-        "term": "喂啥我就吃啥",
-        "family": "cooperation",
-        "evidenceCount": 1
-      },
-      {
-        "term": "土豆鸡蛋批",
-        "family": "cooperation",
-        "evidenceCount": 1
-      },
-      {
-        "term": "土豆鸡蛋批的形状",
-        "family": "cooperation",
-        "evidenceCount": 1
-      },
-      {
-        "term": "我猜一手",
-        "family": "cooperation",
-        "evidenceCount": 1
-      },
-      {
-        "term": "米哈游你干得好啊",
-        "family": "cooperation",
-        "evidenceCount": 1
-      },
-      {
-        "term": "给官方剪片子",
-        "family": "cooperation",
-        "evidenceCount": 1
-      },
-      {
-        "term": "胖揍平",
-        "family": "cooperation",
-        "evidenceCount": 1
-      },
-      {
-        "term": "老闻",
-        "family": "correction",
-        "evidenceCount": 1
-      },
-      {
-        "term": "你也难绷",
-        "family": "evasion",
-        "evidenceCount": 1
-      },
-      {
-        "term": "去问老师因为课上老师",
-        "family": "evasion",
-        "evidenceCount": 1
-      },
-      {
-        "term": "查查资料",
-        "family": "evidence",
-        "evidenceCount": 1
+        "term": "三角斩",
+        "family": "attack",
+        "evidenceCount": 3
       }
     ],
     "repeatedlyMissedTerms": [],
@@ -177,55 +177,55 @@
     "exhaustedSamples": []
   },
   "actionSummary": {
-    "none": 1636
+    "none": 1568
   },
   "familyGaps": [
     {
       "family": "absolutes",
-      "terms": 135,
+      "terms": 122,
       "weak": 0,
       "zero": 0,
-      "evidence": 840,
+      "evidence": 655,
       "coverageRatio": 1.0
     },
     {
       "family": "attack",
-      "terms": 986,
+      "terms": 962,
       "weak": 0,
       "zero": 0,
-      "evidence": 5623,
+      "evidence": 4539,
       "coverageRatio": 1.0
     },
     {
       "family": "cooperation",
-      "terms": 359,
+      "terms": 344,
       "weak": 0,
       "zero": 0,
-      "evidence": 2146,
+      "evidence": 1666,
       "coverageRatio": 1.0
     },
     {
       "family": "correction",
-      "terms": 35,
+      "terms": 34,
       "weak": 0,
       "zero": 0,
-      "evidence": 214,
+      "evidence": 158,
       "coverageRatio": 1.0
     },
     {
       "family": "evasion",
-      "terms": 82,
+      "terms": 70,
       "weak": 0,
       "zero": 0,
-      "evidence": 497,
+      "evidence": 357,
       "coverageRatio": 1.0
     },
     {
       "family": "evidence",
-      "terms": 39,
+      "terms": 36,
       "weak": 0,
       "zero": 0,
-      "evidence": 221,
+      "evidence": 166,
       "coverageRatio": 1.0
     }
   ],

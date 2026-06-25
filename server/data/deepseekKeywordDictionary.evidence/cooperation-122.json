@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:29:00.000Z",
   "family": "cooperation",
   "shard": 122,
   "shardCount": 149,
@@ -89,39 +89,6 @@
       ]
     },
     {
-      "term": "米哈游你干得好啊",
-      "evidenceSamples": [
-        "米哈游你干得好啊，hanser现在戴个眼镜就敢出镜了"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Popular video comments UID 671635 (1 comments from 1 videos)",
-          "uid": "671635",
-          "sample": "米哈游你干得好啊，hanser现在戴个眼镜就敢出镜了"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v4",
-          "sample": "米哈游你干得好啊，hanser现在戴个眼镜就敢出镜了"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v6",
-          "sample": "米哈游你干得好啊，hanser现在戴个眼镜就敢出镜了"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-5k",
-          "sample": "米哈游你干得好啊，hanser现在戴个眼镜就敢出镜了"
-        },
-        {
-          "source": "Bilibili local scraped user corpus: https://www.bilibili.com/video/BV1agVQ6eEh1/",
-          "uid": "671635",
-          "sample": "米哈游你干得好啊，hanser现在戴个眼镜就敢出镜了"
-        }
-      ]
-    },
-    {
       "term": "纯路人",
       "evidenceSamples": [
         "蛮奇怪的，这么强的通天代路人王，怎么感觉没什么人认识啊[笑哭]",
@@ -170,34 +137,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1LhJCzSEiV/, https://www.bilibili.com/video/BV1RG7N6nEUz/, https://www.bilibili.com/video/BV1gs421M7b7/, https://www.bilibili.com/video/BV11o97YKE6T/, https://www.bilibili.com/video/BV1APFFzDEFx/, https://www.bilibili.com/video/BV1KW4y1K7mU/, https://www.bilibili.com/video/BV1otEd6KEiZ/, https://www.bilibili.com/video/BV11TQpBqEUy/, https://www.bilibili.com/video/BV1uo4y1v7xJ/, https://www.bilibili.com/video/BV1YK421h7fv/, https://www.bilibili.com/video/BV1YQj46gEnz/, https://www.bilibili.com/video/BV1Nf4y1N7PD/, http://www.bilibili.com/video/av115252897254572, http://www.bilibili.com/video/av114102835872214, http://www.bilibili.com/video/av116725869709465, http://www.bilibili.com/video/av1702695911, http://www.bilibili.com/video/av1450443212, http://www.bilibili.com/video/av114605917474686, http://www.bilibili.com/video/av114897941694615, http://www.bilibili.com/video/av231943601, http://www.bilibili.com/video/av115639779924942, http://www.bilibili.com/video/av82574092, http://www.bilibili.com/video/av1051516672, http://www.bilibili.com/video/av116295785782682, http://www.bilibili.com/video/av329745535, http://www.bilibili.com/video/av273522895, http://www.bilibili.com/video/av494500953, http://www.bilibili.com/video/av115709925398131, http://www.bilibili.com/video/av114583234682722, http://www.bilibili.com/video/av113501053912583, http://www.bilibili.com/video/av589067314, http://www.bilibili.com/video/av114342297209833, http://www.bilibili.com/video/av116793850986971, http://www.bilibili.com/video/av116012653548214, http://www.bilibili.com/video/av116410172836874, http://www.bilibili.com/video/av116785563046213, http://www.bilibili.com/video/av116799119100721, http://www.bilibili.com/video/av116783180814059, http://www.bilibili.com/video/av116739224374597, http://www.bilibili.com/video/av116649063614595, http://www.bilibili.com/video/av114758657249190, http://www.bilibili.com/video/av116544675776496, http://www.bilibili.com/video/av116714712927492, http://www.bilibili.com/video/av114442540942755, http://www.bilibili.com/video/av114953658829417, http://www.bilibili.com/video/av329606796, http://www.bilibili.com/video/av511126745, http://www.bilibili.com/video/av874556641, http://www.bilibili.com/video/av113195624701492, http://www.bilibili.com/video/av274663731, http://www.bilibili.com/video/av116771335964003, http://www.bilibili.com/video/av116168648163776, http://www.bilibili.com/video/av116794572411141, http://www.bilibili.com/video/av114565182392046, http://www.bilibili.com/video/av762061630, http://www.bilibili.com/video/av113578245884033, http://www.bilibili.com/video/av916905691, http://www.bilibili.com/video/av1756374304, http://www.bilibili.com/video/av400968647, http://www.bilibili.com/video/av115064841442065, http://www.bilibili.com/video/av262004500, http://www.bilibili.com/video/av113159067147482, http://www.bilibili.com/video/av116798145959501, http://www.bilibili.com/video/av116753854236766, http://www.bilibili.com/video/av116114558296053, http://www.bilibili.com/video/av115710177121428, http://www.bilibili.com/video/av531304100, http://www.bilibili.com/video/av413285567, http://www.bilibili.com/video/av116793096018692, http://www.bilibili.com/video/av116782425840315, http://www.bilibili.com/video/av619420176, http://www.bilibili.com/video/av338320855, http://www.bilibili.com/video/av113226880648964, http://www.bilibili.com/video/av242596879, http://www.bilibili.com/video/av314791354, http://www.bilibili.com/video/av115405486035062, http://www.bilibili.com/video/av115888367864144, http://www.bilibili.com/video/av116799387474723, http://www.bilibili.com/video/av877868235, http://www.bilibili.com/video/av1950887377, http://www.bilibili.com/video/av1855893482, http://www.bilibili.com/video/av946727656, http://www.bilibili.com/video/av394693626, http://www.bilibili.com/video/av377609566, http://www.bilibili.com/video/av818131027, http://www.bilibili.com/video/av904168427, http://www.bilibili.com/video/av678514498, http://www.bilibili.com/video/av47843287",
           "uid": "BV1LhJCzSEiV,BV1RG7N6nEUz,BV1gs421M7b7,BV11o97YKE6T,BV1APFFzDEFx,BV1KW4y1K7mU,BV1otEd6KEiZ,BV11TQpBqEUy,BV1uo4y1v7xJ,BV1YK421h7fv,BV1YQj46gEnz,BV1Nf4y1N7PD",
           "sample": "我可不可以觉得你不专业，你可以不喜欢他，请你不要造谣侯明昊。他上歌手这个舞台是自己面试上的，是他十多年的梦想，想让全国观众知道他喜欢唱歌，他也是歌手，他的流量和路人缘观众完全可以支撑他开万人演唱会，他吃饱了没事干，跑歌手上面去修音，毁自己口..."
-        }
-      ]
-    },
-    {
-      "term": "给官方剪片子",
-      "evidenceSamples": [
-        "你应该去给官方剪片子真的"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Popular video comments UID 1478371 (1 comments from 1 videos)",
-          "uid": "1478371",
-          "sample": "你应该去给官方剪片子真的"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v6",
-          "sample": "你应该去给官方剪片子真的"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-5k",
-          "sample": "你应该去给官方剪片子真的"
-        },
-        {
-          "source": "Bilibili local AICU corpus: https://www.bilibili.com/video/av116655690683648/",
-          "uid": "1478371",
-          "sample": "你应该去给官方剪片子真的"
         }
       ]
     }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:30:11.000Z",
   "family": "attack",
   "shard": 54,
   "shardCount": 340,
@@ -54,50 +54,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1JAWseHEHk/, https://www.bilibili.com/video/BV1tt4y1i7vs/, http://www.bilibili.com/video/av115987403773226, http://www.bilibili.com/video/av626553951, http://www.bilibili.com/video/av112994767930004, http://www.bilibili.com/video/av1103801760, http://www.bilibili.com/video/av116614083120908, http://www.bilibili.com/video/av627543803",
           "uid": "BV1JAWseHEHk,BV1tt4y1i7vs",
           "sample": "预言家，刀了"
-        }
-      ]
-    },
-    {
-      "term": "分不清轻重",
-      "evidenceSamples": [
-        "回复 @阿堡V5 :送死和和亲是两码事吧，分不清轻重就乱套",
-        "送死和和亲是两码事吧，分不清轻重就乱套"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Popular video comments UID 6612243 (1 comments from 1 videos)",
-          "uid": "6612243",
-          "sample": "回复 @阿堡V5 :送死和和亲是两码事吧，分不清轻重就乱套"
-        },
-        {
-          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/av116662133131390/",
-          "uid": "6612243",
-          "sample": "回复 @阿堡V5 :送死和和亲是两码事吧，分不清轻重就乱套"
-        },
-        {
-          "source": "Bilibili direct probe corpus match: Bilibili public direct comment probe: https://www.bilibili.com/video/av116662133131390/"
-        }
-      ]
-    },
-    {
-      "term": "分不清轻重就乱套",
-      "evidenceSamples": [
-        "回复 @阿堡V5 :送死和和亲是两码事吧，分不清轻重就乱套",
-        "送死和和亲是两码事吧，分不清轻重就乱套"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Popular video comments UID 6612243 (1 comments from 1 videos)",
-          "uid": "6612243",
-          "sample": "回复 @阿堡V5 :送死和和亲是两码事吧，分不清轻重就乱套"
-        },
-        {
-          "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/av116662133131390/",
-          "uid": "6612243",
-          "sample": "回复 @阿堡V5 :送死和和亲是两码事吧，分不清轻重就乱套"
-        },
-        {
-          "source": "Bilibili direct probe corpus match: Bilibili public direct comment probe: https://www.bilibili.com/video/av116662133131390/"
         }
       ]
     },

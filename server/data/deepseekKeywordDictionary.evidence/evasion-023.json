@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:30:21.000Z",
   "family": "evasion",
   "shard": 23,
   "shardCount": 23,
@@ -79,19 +79,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1WpGC68EPz/, https://www.bilibili.com/video/BV1RAVK6rE7d/, https://b23.tv/BV1WpGC68EPz, https://b23.tv/BV1RAVK6rE7d",
           "uid": "BV1WpGC68EPz,BV1RAVK6rE7d",
           "sample": "白天小熊软糖晚上野熊硬糖"
-        }
-      ]
-    },
-    {
-      "term": "随便你",
-      "evidenceSamples": [
-        "随便你怎么想",
-        "随便你，我不在乎"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili danmaku harvest from video BV1uw411Z7jE",
-          "sample": "Bilibili danmaku/corpus usage: 随便你"
         }
       ]
     },

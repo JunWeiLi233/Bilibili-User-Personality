@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:30:11.000Z",
   "family": "attack",
   "shard": 37,
   "shardCount": 340,
@@ -195,28 +195,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV13XG16mE3c/, https://www.bilibili.com/video/BV1JgGy6tEox/, https://www.bilibili.com/video/BV1eCVK65EAN/, https://www.bilibili.com/video/BV1GPVP6PEdj/, https://www.bilibili.com/video/BV1yVVw6EEBE/, https://www.bilibili.com/video/BV1d2Go6nEnj/, https://b23.tv/BV13XG16mE3c, https://b23.tv/BV1JgGy6tEox, https://b23.tv/BV1eCVK65EAN, https://b23.tv/BV1GPVP6PEdj, https://b23.tv/BV1yVVw6EEBE, https://b23.tv/BV1d2Go6nEnj, https://b23.tv/BV1CUG26uE2S, https://b23.tv/BV19eGU64EBq",
           "uid": "BV13XG16mE3c,BV1JgGy6tEox,BV1eCVK65EAN,BV1GPVP6PEdj,BV1yVVw6EEBE,BV1d2Go6nEnj",
           "sample": "装啥呀，一看就低段"
-        }
-      ]
-    },
-    {
-      "term": "侮辱乐手",
-      "evidenceSamples": [
-        "同意。弹幕里就为了做心电感应竟然整出来“哎呀鼓手是乌克兰人所以他懂”这种话，我觉得这就基本没有音乐理解，也挺侮辱乐手",
-        "弹幕里就为了做心电感应竟然整出那种话，我觉得这就基本没有音乐理解，也挺侮辱乐手"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Popular video comments UID 7586866 (1 comments from 1 videos)",
-          "uid": "7586866",
-          "sample": "同意。弹幕里就为了做心电感应竟然整出来“哎呀鼓手是乌克兰人所以他懂”这种话，我觉得这就基本没有音乐理解，也挺侮辱乐手"
-        },
-        {
-          "source": "Bilibili public reply detail probe: https://www.bilibili.com/video/av116663206810944/?reply=301191666833",
-          "uid": "7586866",
-          "sample": "同意。弹幕里就为了做心电感应竟然整出来“哎呀鼓手是乌克兰人所以他懂”这种话，我觉得这就基本没有音乐理解，也挺侮辱乐手"
-        },
-        {
-          "source": "Bilibili direct probe corpus match: Bilibili public reply detail probe: https://www.bilibili.com/video/av116663206810944/?reply=301191666833"
         }
       ]
     },

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:29:00.000Z",
   "family": "absolutes",
   "shard": 21,
   "shardCount": 56,
@@ -374,61 +374,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Bt5J6dEAJ/, https://www.bilibili.com/video/BV1chQ7B2Eph/, https://www.bilibili.com/video/BV14suJzgEcB/, https://www.bilibili.com/video/BV1vg5T6SEBm/, http://www.bilibili.com/video/av116551067960622",
           "uid": "BV1Bt5J6dEAJ,BV1chQ7B2Eph,BV14suJzgEcB,BV1vg5T6SEBm",
           "sample": "但我知道，卡bug的国际服都封100年"
-        }
-      ]
-    },
-    {
-      "term": "就是鬼畜标签",
-      "evidenceSamples": [
-        "火花这张脸就是鬼畜标签[doge]"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Popular video comments UID 783639 (1 comments from 1 videos)",
-          "uid": "783639",
-          "sample": "火花这张脸就是鬼畜标签[doge]"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v6",
-          "sample": "火花这张脸就是鬼畜标签[doge]"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-5k",
-          "sample": "火花这张脸就是鬼畜标签[doge]"
-        },
-        {
-          "source": "Bilibili local scraped user corpus: https://www.bilibili.com/video/BV1REGk6VEy1/",
-          "uid": "783639",
-          "sample": "火花这张脸就是鬼畜标签[doge]"
-        },
-        {
-          "source": "Bilibili direct probe corpus match: Bilibili public reply detail probe: https://www.bilibili.com/video/av116642939929213/?reply=304241197088"
-        }
-      ]
-    },
-    {
-      "term": "就算六个齐上也不是我对手",
-      "evidenceSamples": [
-        "回复 @太己道 : 就算六个齐上 也不是我对手",
-        "就这六个一起上也不是我对手好吧"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Popular video comments UID 1543352 (1 comments from 1 videos)",
-          "uid": "1543352",
-          "sample": "回复 @太己道 : 就算六个齐上 也不是我对手"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v6",
-          "sample": "回复 @太己道 : 就算六个齐上 也不是我对手"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-5k",
-          "sample": "回复 @太己道 : 就算六个齐上 也不是我对手"
         }
       ]
     },

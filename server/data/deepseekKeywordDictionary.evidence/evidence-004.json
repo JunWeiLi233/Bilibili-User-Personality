@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:30:21.000Z",
   "family": "evidence",
   "shard": 4,
   "shardCount": 13,
@@ -54,19 +54,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1hv4y1e7B3/, https://www.bilibili.com/video/BV1Hr4y1k7NS/, https://www.bilibili.com/video/BV1sN5m6LE8C/, https://www.bilibili.com/video/BV1tUVe6yEp7/, https://www.bilibili.com/video/BV1upVY6CEby/, https://www.bilibili.com/video/BV1NhUfYqEHn/, https://www.bilibili.com/video/BV1qu41137Vc/, https://www.bilibili.com/video/BV17ZM9zQEER/, https://www.bilibili.com/video/BV1sSVa6KEMD/, https://www.bilibili.com/video/BV1eRwaeVEMd/, https://www.bilibili.com/video/BV12xdmYdE1m/, https://www.bilibili.com/video/BV1RbVa6SEMZ/, http://www.bilibili.com/video/av567475606, http://www.bilibili.com/video/av764305237, http://www.bilibili.com/video/av116567962557791, http://www.bilibili.com/video/av116658911843386, http://www.bilibili.com/video/av116657972321196, http://www.bilibili.com/video/av113509073426609, http://www.bilibili.com/video/av533956240, http://www.bilibili.com/video/av114839959641766, http://www.bilibili.com/video/av116658140087466, http://www.bilibili.com/video/av113866361085881, http://www.bilibili.com/video/av114317500356193, http://www.bilibili.com/video/av116658291148295",
           "uid": "BV1hv4y1e7B3,BV1Hr4y1k7NS,BV1sN5m6LE8C,BV1tUVe6yEp7,BV1upVY6CEby,BV1NhUfYqEHn,BV1qu41137Vc,BV17ZM9zQEER,BV1sSVa6KEMD,BV1eRwaeVEMd,BV12xdmYdE1m,BV1RbVa6SEMZ",
           "sample": "哈哈这本来是我们原神的梗都火出圈了up记得标注一下出处"
-        }
-      ]
-    },
-    {
-      "term": "出处在哪里",
-      "evidenceSamples": [
-        "出处在哪里？给个链接",
-        "这数据的出处在哪里"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili danmaku harvest from video BV1uw411Z7jE",
-          "sample": "Bilibili danmaku/corpus usage: 出处在哪里"
         }
       ]
     },

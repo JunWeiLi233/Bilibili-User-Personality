@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:29:00.000Z",
   "family": "cooperation",
   "shard": 21,
   "shardCount": 149,
@@ -176,24 +176,6 @@
         {
           "source": "Bilibili danmaku real match",
           "sample": "三层大游艇确实伏笔很深"
-        }
-      ]
-    },
-    {
-      "term": "众漂",
-      "evidenceSamples": [
-        "那年新春会，人人都说战斗剪辑拉，这一世生日会，用尽全力，只为夺回属于战斗爽的一切，让众漂高呼：就是这个，战！斗！爽！！！！"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Popular video comments UID 5673737 (1 comments from 1 videos)",
-          "uid": "5673737",
-          "sample": "那年新春会，人人都说战斗剪辑拉，这一世生日会，用尽全力，只为夺回属于战斗爽的一切，让众漂高呼：就是这个，战！斗！爽！！！！"
-        },
-        {
-          "source": "Bilibili local scraped user corpus: https://www.bilibili.com/video/BV1dkVb6VESD/",
-          "uid": "5673737",
-          "sample": "那年新春会，人人都说战斗剪辑拉，这一世生日会，用尽全力，只为夺回属于战斗爽的一切，让众漂高呼：就是这个，战！斗！爽！！！！"
         }
       ]
     }

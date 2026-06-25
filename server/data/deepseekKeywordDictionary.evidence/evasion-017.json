@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:29:00.000Z",
   "family": "evasion",
   "shard": 17,
   "shardCount": 23,
@@ -54,55 +54,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1YV4y1K7HR/, https://www.bilibili.com/video/BV1LqAaeUEjb/, https://www.bilibili.com/video/BV1q44y1z7mn/, https://www.bilibili.com/video/BV11V4y1d7g5/, https://www.bilibili.com/video/BV1n4421S79Y/, https://www.bilibili.com/video/BV1h64y1k7mM/, https://www.bilibili.com/video/BV12nQMBaEp9/, https://www.bilibili.com/video/BV1aCZTBJEVQ/, https://www.bilibili.com/video/BV1ty4y1E7HR/, https://www.bilibili.com/video/BV1grVizMEZ7/, https://www.bilibili.com/video/BV1Rs411y71z/, http://www.bilibili.com/video/av858292044, http://www.bilibili.com/video/av973353051, http://www.bilibili.com/video/av760850751, http://www.bilibili.com/video/av802144120, http://www.bilibili.com/video/av112861204449643, http://www.bilibili.com/video/av972105242, http://www.bilibili.com/video/av802182411, http://www.bilibili.com/video/av19794929, http://www.bilibili.com/video/av114023966181067, http://www.bilibili.com/video/av868219641, http://www.bilibili.com/video/av116384587648071, http://www.bilibili.com/video/av114452657610706, http://www.bilibili.com/video/av1756336291, http://www.bilibili.com/video/av115212380345518, http://www.bilibili.com/video/av113215103046858, http://www.bilibili.com/video/av115381981219537, http://www.bilibili.com/video/av116663122922051, http://www.bilibili.com/video/av115684658907032, http://www.bilibili.com/video/av648408015, http://www.bilibili.com/video/av112756514622194, http://www.bilibili.com/video/av116079477200675, http://www.bilibili.com/video/av116619116286309, http://www.bilibili.com/video/av918055647, http://www.bilibili.com/video/av116667266897755, http://www.bilibili.com/video/av15855092, http://www.bilibili.com/video/av113995696570757, http://www.bilibili.com/video/av879260636, http://www.bilibili.com/video/av114862558551690, http://www.bilibili.com/video/av114521595251392, http://www.bilibili.com/video/av833975594, http://www.bilibili.com/video/av113259881500819, http://www.bilibili.com/video/av116651026551962, http://www.bilibili.com/video/av116595930242527, http://www.bilibili.com/video/av116231042501704, http://www.bilibili.com/video/av116611549895631, http://www.bilibili.com/video/av116549088183661, http://www.bilibili.com/video/av116376484185121, http://www.bilibili.com/video/av116635038058196, http://www.bilibili.com/video/av116543685986891, http://www.bilibili.com/video/av116583733137886, http://www.bilibili.com/video/av116606516661188, http://www.bilibili.com/video/av116179838435647, http://www.bilibili.com/video/av5395729, http://www.bilibili.com/video/av113036794790982, http://www.bilibili.com/video/av1854878645, http://www.bilibili.com/video/av115274757963926",
           "uid": "BV1YV4y1K7HR,BV1LqAaeUEjb,BV1q44y1z7mn,BV11V4y1d7g5,BV1n4421S79Y,BV1h64y1k7mM,BV12nQMBaEp9,BV1aCZTBJEVQ,BV1ty4y1E7HR,BV1grVizMEZ7,BV1Rs411y71z",
           "sample": "Terry过激，我觉得我这个年纪已经不喜欢带节奏了，爱咋咋地，只要二位内容质量保持我就继续看[doge]，无所谓互相拉黑也不碍着我"
-        }
-      ]
-    },
-    {
-      "term": "狗去哪里了",
-      "evidenceSamples": [
-        "买了这个价位宠物还一直养着的基本不会跟你讲不值得。你去采访一个能花一百万买一只猫的，采访下来也是一顿吹，缺点只有一个，贵。至于繁育宠物的人，狗舍那个就是什么有赚头做什么，应该问问之前繁育的德牧什么的不做了，狗去哪里了[doge_金箍]",
-        "宠物繁殖 有什么好的 现在太多宠物繁殖了 今天流行这个就卖这个 明天不流行了 那些狗去哪里呢"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Popular video comments UID 389910 (1 comments from 1 videos)",
-          "uid": "389910",
-          "sample": "买了这个价位宠物还一直养着的基本不会跟你讲不值得。你去采访一个能花一百万买一只猫的，采访下来也是一顿吹，缺点只有一个，贵。至于繁育宠物的人，狗舍那个就是什么有赚头做什么，应该问问之前繁育的德牧什么的不做了，狗去哪里了[doge_金箍]"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663559131570/",
-          "uid": "38724765203",
-          "sample": "宠物繁殖 有什么好的 现在太多宠物繁殖了 今天流行这个就卖这个 明天不流行了 那些狗去哪里呢"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v2",
-          "sample": "买了这个价位宠物还一直养着的基本不会跟你讲不值得。你去采访一个能花一百万买一只猫的，采访下来也是一顿吹，缺点只有一个，贵。至于繁育宠物的人，狗舍那个就是什么有赚头做什么，应该问问之前繁育的德牧什么的不做了，狗去哪里了[doge_金箍]"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v3",
-          "sample": "买了这个价位宠物还一直养着的基本不会跟你讲不值得。你去采访一个能花一百万买一只猫的，采访下来也是一顿吹，缺点只有一个，贵。至于繁育宠物的人，狗舍那个就是什么有赚头做什么，应该问问之前繁育的德牧什么的不做了，狗去哪里了[doge_金箍]"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v4",
-          "sample": "买了这个价位宠物还一直养着的基本不会跟你讲不值得。你去采访一个能花一百万买一只猫的，采访下来也是一顿吹，缺点只有一个，贵。至于繁育宠物的人，狗舍那个就是什么有赚头做什么，应该问问之前繁育的德牧什么的不做了，狗去哪里了[doge_金箍]"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v6",
-          "sample": "买了这个价位宠物还一直养着的基本不会跟你讲不值得。你去采访一个能花一百万买一只猫的，采访下来也是一顿吹，缺点只有一个，贵。至于繁育宠物的人，狗舍那个就是什么有赚头做什么，应该问问之前繁育的德牧什么的不做了，狗去哪里了[doge_金箍]"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-5k",
-          "sample": "买了这个价位宠物还一直养着的基本不会跟你讲不值得。你去采访一个能花一百万买一只猫的，采访下来也是一顿吹，缺点只有一个，贵。至于繁育宠物的人，狗舍那个就是什么有赚头做什么，应该问问之前繁育的德牧什么的不做了，狗去哪里了[doge_金箍]"
-        },
-        {
-          "source": "Bilibili local scraped user corpus: https://www.bilibili.com/video/BV1FuV566EcT/",
-          "uid": "389910",
-          "sample": "买了这个价位宠物还一直养着的基本不会跟你讲不值得。你去采访一个能花一百万买一只猫的，采访下来也是一顿吹，缺点只有一个，贵。至于繁育宠物的人，狗舍那个就是什么有赚头做什么，应该问问之前繁育的德牧什么的不做了，狗去哪里了[doge_金箍]"
         }
       ]
     },

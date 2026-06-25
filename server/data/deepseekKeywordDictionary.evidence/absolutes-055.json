@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:29:00.000Z",
   "family": "absolutes",
   "shard": 55,
   "shardCount": 56,
@@ -54,32 +54,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1V6421Z7dM/, https://www.bilibili.com/video/BV1Qj23BPEj4/, https://www.bilibili.com/video/BV1p14y1S7X2/, https://www.bilibili.com/video/BV1BV2SBSEgw/, https://www.bilibili.com/video/BV1Qc411d7zb/, https://www.bilibili.com/video/BV1CPSLBzE62/, https://www.bilibili.com/video/BV1hv411s7K3/, https://www.bilibili.com/video/BV1LvexeyEeH/, https://www.bilibili.com/video/BV1y64y1U7zr/, https://www.bilibili.com/video/BV1nCRYBeE14/, https://www.bilibili.com/video/BV1ah4y1H7pz/, https://www.bilibili.com/video/BV14GVs6EE1g/, http://www.bilibili.com/video/av1405900595, http://www.bilibili.com/video/av784726696, http://www.bilibili.com/video/av115625166962976, http://www.bilibili.com/video/av112963444803640, http://www.bilibili.com/video/av612631005, http://www.bilibili.com/video/av116251695254653, http://www.bilibili.com/video/av114664990182164, http://www.bilibili.com/video/av115075394308087, http://www.bilibili.com/video/av1003967732, http://www.bilibili.com/video/av234129260, http://www.bilibili.com/video/av460854277, http://www.bilibili.com/video/av116196951261773, http://www.bilibili.com/video/av1154622542, http://www.bilibili.com/video/av113530615372830, http://www.bilibili.com/video/av891199235, http://www.bilibili.com/video/av1054061388, http://www.bilibili.com/video/av116504393684797, http://www.bilibili.com/video/av115201055658530, http://www.bilibili.com/video/av920321550, http://www.bilibili.com/video/av278938911, http://www.bilibili.com/video/av115507793559769, http://www.bilibili.com/video/av115687880137553, http://www.bilibili.com/video/av280455323, http://www.bilibili.com/video/av757344035, http://www.bilibili.com/video/av116652603677217, http://www.bilibili.com/video/av114497905754526, http://www.bilibili.com/video/av114839540206511, http://www.bilibili.com/video/av661229167, http://www.bilibili.com/video/av115254054885948, http://www.bilibili.com/video/av785260609, http://www.bilibili.com/video/av886863939, http://www.bilibili.com/video/av115865148261059, http://www.bilibili.com/video/av116619116286309, http://www.bilibili.com/video/av1905317073, http://www.bilibili.com/video/av116514158020273, http://www.bilibili.com/video/av115395839134769, http://www.bilibili.com/video/av280563089, http://www.bilibili.com/video/av115766313623505, http://www.bilibili.com/video/av115797334820249, http://www.bilibili.com/video/av1702578751, http://www.bilibili.com/video/av828532143, http://www.bilibili.com/video/av535428185, http://www.bilibili.com/video/av113224095696751, http://www.bilibili.com/video/av116135781668860, http://www.bilibili.com/video/av116481845239484, http://www.bilibili.com/video/av509143963, http://www.bilibili.com/video/av113486776569693, http://www.bilibili.com/video/av1853300603, http://www.bilibili.com/video/av1402388547, http://www.bilibili.com/video/av1253979580, http://www.bilibili.com/video/av1203875054, http://www.bilibili.com/video/av1053418493, http://www.bilibili.com/video/av750875353, http://www.bilibili.com/video/av516811561, http://www.bilibili.com/video/av411057792, http://www.bilibili.com/video/av360069540, http://www.bilibili.com/video/av246372516, http://www.bilibili.com/video/av115324234043521, http://www.bilibili.com/video/av570423808, http://www.bilibili.com/video/av1800084819, http://www.bilibili.com/video/av963804527",
           "uid": "BV1V6421Z7dM,BV1Qj23BPEj4,BV1p14y1S7X2,BV1BV2SBSEgw,BV1Qc411d7zb,BV1CPSLBzE62,BV1hv411s7K3,BV1LvexeyEeH,BV1y64y1U7zr,BV1nCRYBeE14,BV1ah4y1H7pz,BV14GVs6EE1g",
           "sample": "回复 @不回家的我们 :本来就是，大部分都是假的，都是演的。"
-        }
-      ]
-    },
-    {
-      "term": "都说八百遍了",
-      "evidenceSamples": [
-        "回复 @冰心雨丝 :都说八百遍了，现在还没退休，没有退休金怎么买，等老了有退休金才有钱买。"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Popular video comments UID 2394514 (1 comments from 1 videos)",
-          "uid": "2394514",
-          "sample": "回复 @冰心雨丝 :都说八百遍了，现在还没退休，没有退休金怎么买，等老了有退休金才有钱买。"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v6",
-          "sample": "回复 @冰心雨丝 :都说八百遍了，现在还没退休，没有退休金怎么买，等老了有退休金才有钱买。"
-        },
-        {
-          "source": "Bilibili local scraped user corpus: https://www.bilibili.com/video/BV1VKVK66E8K/",
-          "uid": "2394514",
-          "sample": "回复 @冰心雨丝 :都说八百遍了，现在还没退休，没有退休金怎么买，等老了有退休金才有钱买。"
-        },
-        {
-          "source": "Bilibili direct probe corpus match: Bilibili public direct comment probe: https://www.bilibili.com/video/av116640591189695/"
         }
       ]
     },

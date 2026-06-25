@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:29:00.000Z",
   "family": "absolutes",
   "shard": 51,
   "shardCount": 56,
@@ -58,32 +58,6 @@
       ]
     },
     {
-      "term": "茶庄10个有9个洗钱的",
-      "evidenceSamples": [
-        "他可能是为了过审吧，茶庄10个有9个洗钱的"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Popular video comments UID 2990379 (1 comments from 1 videos)",
-          "uid": "2990379",
-          "sample": "他可能是为了过审吧，茶庄10个有9个洗钱的"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v6",
-          "sample": "他可能是为了过审吧，茶庄10个有9个洗钱的"
-        },
-        {
-          "source": "Bilibili local scraped user corpus: https://www.bilibili.com/video/BV1SEVH62EZP/",
-          "uid": "2990379",
-          "sample": "他可能是为了过审吧，茶庄10个有9个洗钱的"
-        },
-        {
-          "source": "Bilibili direct probe corpus match: Popular video comments UID 2990379 (1 comments from 1 videos)"
-        }
-      ]
-    },
-    {
       "term": "西方伪史",
       "evidenceSamples": [
         "非洲假说是为了西方伪史提供服务的，他们圣经上的起源地就是埃及，然后埃及运粮食给希腊罗马，希腊罗马历史又服务与殖民，掩盖从明末偷来的文明果实，然后到现在",
@@ -126,32 +100,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV126421c77P/, https://www.bilibili.com/video/BV1uh536QE3f/, https://www.bilibili.com/video/BV1qG6kB1EJJ/, https://www.bilibili.com/video/BV1pa41197cn/, https://www.bilibili.com/video/BV1r2oPBdE9X/, https://www.bilibili.com/video/BV19e41127pK/, https://www.bilibili.com/video/BV1rK1cYoEn8/, https://www.bilibili.com/video/BV1LhcWzVEA3/, https://www.bilibili.com/video/BV18J4m1M75w/, https://www.bilibili.com/video/BV1yvG669Ewo/, https://www.bilibili.com/video/BV1tHf3YeEgS/, https://www.bilibili.com/video/BV1xs4y1K7r7/, http://www.bilibili.com/video/av1351726513, http://www.bilibili.com/video/av258192301, http://www.bilibili.com/video/av238706097, http://www.bilibili.com/video/av1256186153, http://www.bilibili.com/video/av952305582, http://www.bilibili.com/video/av396765934, http://www.bilibili.com/video/av112954720651425, http://www.bilibili.com/video/av831110470, http://www.bilibili.com/video/av115625016099942, http://www.bilibili.com/video/av116003878995738, http://www.bilibili.com/video/av523299973, http://www.bilibili.com/video/av115127722450541, http://www.bilibili.com/video/av116397170558887, http://www.bilibili.com/video/av1406342177, http://www.bilibili.com/video/av114634120042481, http://www.bilibili.com/video/av115437664735028, http://www.bilibili.com/video/av116631665643776, http://www.bilibili.com/video/av512391628, http://www.bilibili.com/video/av116428107678445, http://www.bilibili.com/video/av1256313473, http://www.bilibili.com/video/av115156008836581, http://www.bilibili.com/video/av71359400, http://www.bilibili.com/video/av292957831, http://www.bilibili.com/video/av1005780168, http://www.bilibili.com/video/av114201351691456, http://www.bilibili.com/video/av115751532960722, http://www.bilibili.com/video/av116206631651841, http://www.bilibili.com/video/av114822846878734, http://www.bilibili.com/video/av115087810041138, http://www.bilibili.com/video/av538365492, http://www.bilibili.com/video/av996841995, http://www.bilibili.com/video/av782316274, http://www.bilibili.com/video/av116343835728895, http://www.bilibili.com/video/av116562459623760, http://www.bilibili.com/video/av116435154108992, http://www.bilibili.com/video/av113357843596550, http://www.bilibili.com/video/av116624468217612, http://www.bilibili.com/video/av115115206642198, http://www.bilibili.com/video/av116656965683378, http://www.bilibili.com/video/av116663542420717, http://www.bilibili.com/video/av115630233688604, http://www.bilibili.com/video/av116663408132756, http://www.bilibili.com/video/av116232200199653, http://www.bilibili.com/video/av116634148673449, http://www.bilibili.com/video/av441978760, http://www.bilibili.com/video/av116639567708855, http://www.bilibili.com/video/av116607640671890, http://www.bilibili.com/video/av116607355460227, http://www.bilibili.com/video/av116660136581844, http://www.bilibili.com/video/av116659448847224, http://www.bilibili.com/video/av116663206872887, http://www.bilibili.com/video/av116630038319477, http://www.bilibili.com/video/av116660807668057, http://www.bilibili.com/video/av116661982075115, http://www.bilibili.com/video/av116385141228607, http://www.bilibili.com/video/av116619116286309, http://www.bilibili.com/video/av116186817828569, http://www.bilibili.com/video/av116657334848375, http://www.bilibili.com/video/av116658190419493, http://www.bilibili.com/video/av116496944662161, http://www.bilibili.com/video/av116657116878563, http://www.bilibili.com/video/av116659918475148, http://www.bilibili.com/video/av116652435835063, http://www.bilibili.com/video/av116595510804956, http://www.bilibili.com/video/av116639165060801, http://www.bilibili.com/video/av116440506047247, http://www.bilibili.com/video/av116536790482964, http://www.bilibili.com/video/av116606516661188, http://www.bilibili.com/video/av116655925498183, http://www.bilibili.com/video/av115899138836531, http://www.bilibili.com/video/av116425104558820, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116615844796155, http://www.bilibili.com/video/av116657133460067, http://www.bilibili.com/video/av116481627002677, http://www.bilibili.com/video/av951683372, http://www.bilibili.com/video/av115264607885278, http://www.bilibili.com/video/av114404926428457, http://www.bilibili.com/video/av115987403773226, http://www.bilibili.com/video/av116066642564742, http://www.bilibili.com/video/av114271144904195, http://www.bilibili.com/video/av112954754269818, http://www.bilibili.com/video/av948460388, http://www.bilibili.com/video/av508143259, http://www.bilibili.com/video/av378196403, http://www.bilibili.com/video/av1906314680",
           "uid": "BV126421c77P,BV1uh536QE3f,BV1qG6kB1EJJ,BV1pa41197cn,BV1r2oPBdE9X,BV19e41127pK,BV1rK1cYoEn8,BV1LhcWzVEA3,BV18J4m1M75w,BV1yvG669Ewo,BV1tHf3YeEgS,BV1xs4y1K7r7",
           "sample": "西方伪史，铜斧"
-        }
-      ]
-    },
-    {
-      "term": "说八百遍了",
-      "evidenceSamples": [
-        "回复 @冰心雨丝 :都说八百遍了，现在还没退休，没有退休金怎么买，等老了有退休金才有钱买。"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Popular video comments UID 2394514 (1 comments from 1 videos)",
-          "uid": "2394514",
-          "sample": "回复 @冰心雨丝 :都说八百遍了，现在还没退休，没有退休金怎么买，等老了有退休金才有钱买。"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v6",
-          "sample": "回复 @冰心雨丝 :都说八百遍了，现在还没退休，没有退休金怎么买，等老了有退休金才有钱买。"
-        },
-        {
-          "source": "Bilibili local scraped user corpus: https://www.bilibili.com/video/BV1VKVK66E8K/",
-          "uid": "2394514",
-          "sample": "回复 @冰心雨丝 :都说八百遍了，现在还没退休，没有退休金怎么买，等老了有退休金才有钱买。"
-        },
-        {
-          "source": "Bilibili direct probe corpus match: Bilibili public direct comment probe: https://www.bilibili.com/video/av116640591189695/"
         }
       ]
     }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:29:00.000Z",
   "family": "cooperation",
   "shard": 41,
   "shardCount": 149,
@@ -142,52 +142,6 @@
           "source": "Popular video comments for UID 305222394 (1 comments from 1 videos)",
           "uid": "305222394",
           "sample": "第一种是开户点菜流，查id之后立刻用手机登小号查看这个人的KD等数据，要是低KD唐人直接追杀高KD大佬就躲着走，要是没关游戏记录的同时跟固排一起玩还有概率推测出剩下两个角色是什么"
-        }
-      ]
-    },
-    {
-      "term": "土豆鸡蛋批",
-      "evidenceSamples": [
-        "回复 @陆灯Light :看来我已经是一个完整的土豆鸡蛋批的形状了。。他俩喂啥我就吃啥从来不挑食也不点菜（"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Popular video comments UID 3754074 (2 comments from 1 videos)",
-          "uid": "3754074",
-          "sample": "回复 @陆灯Light :看来我已经是一个完整的土豆鸡蛋批的形状了。。他俩喂啥我就吃啥从来不挑食也不点菜（"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v6",
-          "sample": "回复 @陆灯Light :看来我已经是一个完整的土豆鸡蛋批的形状了。。他俩喂啥我就吃啥从来不挑食也不点菜（"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV16WVV63EB8/",
-          "uid": "BV16WVV63EB8",
-          "sample": "回复 @陆灯Light :看来我已经是一个完整的土豆鸡蛋批的形状了。。他俩喂啥我就吃啥从来不挑食也不点菜（"
-        }
-      ]
-    },
-    {
-      "term": "土豆鸡蛋批的形状",
-      "evidenceSamples": [
-        "回复 @陆灯Light :看来我已经是一个完整的土豆鸡蛋批的形状了。。他俩喂啥我就吃啥从来不挑食也不点菜（"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Popular video comments UID 3754074 (2 comments from 1 videos)",
-          "uid": "3754074",
-          "sample": "回复 @陆灯Light :看来我已经是一个完整的土豆鸡蛋批的形状了。。他俩喂啥我就吃啥从来不挑食也不点菜（"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v6",
-          "sample": "回复 @陆灯Light :看来我已经是一个完整的土豆鸡蛋批的形状了。。他俩喂啥我就吃啥从来不挑食也不点菜（"
-        },
-        {
-          "source": "Bilibili local UID discovery corpus: https://www.bilibili.com/video/BV16WVV63EB8/",
-          "uid": "BV16WVV63EB8",
-          "sample": "回复 @陆灯Light :看来我已经是一个完整的土豆鸡蛋批的形状了。。他俩喂啥我就吃啥从来不挑食也不点菜（"
         }
       ]
     }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:29:00.000Z",
   "family": "attack",
   "shard": 184,
   "shardCount": 340,
@@ -106,55 +106,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1TjV9zEEeY/, https://www.bilibili.com/video/BV1gmXyBCEnM/, https://www.bilibili.com/video/BV1ze5NzvE5m/, https://www.bilibili.com/video/BV1727A6nEmY/, https://www.bilibili.com/video/BV1EQjW6CE7q/, https://www.bilibili.com/video/BV1arwFzGEQu/, https://www.bilibili.com/video/BV13KtReiEPw/, https://www.bilibili.com/video/BV113Z7YrEL1/, https://www.bilibili.com/video/BV1Xn4HzaEjS/, https://www.bilibili.com/video/BV13K4y1t7SV/, https://www.bilibili.com/video/BV1Pci7BVEgT/, https://www.bilibili.com/video/BV1yu4m137qP/, http://www.bilibili.com/video/av114480625225469, http://www.bilibili.com/video/av114470860885865, http://www.bilibili.com/video/av116211060906050, http://www.bilibili.com/video/av114236869056393, http://www.bilibili.com/video/av115835385484296, http://www.bilibili.com/video/av114249703626341, http://www.bilibili.com/video/av116046157584007, http://www.bilibili.com/video/av113638291542892, http://www.bilibili.com/video/av115347889854691, http://www.bilibili.com/video/av262498085, http://www.bilibili.com/video/av116308486131283, http://www.bilibili.com/video/av116792911600475, http://www.bilibili.com/video/av116785378559437, http://www.bilibili.com/video/av115350356105071, http://www.bilibili.com/video/av1301469723, http://www.bilibili.com/video/av116724611484967, http://www.bilibili.com/video/av113164872191605, http://www.bilibili.com/video/av116634098337740, http://www.bilibili.com/video/av747371420, http://www.bilibili.com/video/av116787727374048, http://www.bilibili.com/video/av869109095, http://www.bilibili.com/video/av113780881103660, http://www.bilibili.com/video/av116797055439926, http://www.bilibili.com/video/av555993209, http://www.bilibili.com/video/av114629791457270, http://www.bilibili.com/video/av883205034, http://www.bilibili.com/video/av114585617046444, http://www.bilibili.com/video/av116381148253375, http://www.bilibili.com/video/av116678943840239, http://www.bilibili.com/video/av116799622352185, http://www.bilibili.com/video/av116796887732372, http://www.bilibili.com/video/av116456343734024, http://www.bilibili.com/video/av116799739859091, http://www.bilibili.com/video/av116789103168116, http://www.bilibili.com/video/av116798649277219, http://www.bilibili.com/video/av116793934879235, http://www.bilibili.com/video/av116777040219894, http://www.bilibili.com/video/av116799337207476, http://www.bilibili.com/video/av112914237293788, http://www.bilibili.com/video/av116758870562471, http://www.bilibili.com/video/av116798632561310, http://www.bilibili.com/video/av1905551573, http://www.bilibili.com/video/av1504408416, http://www.bilibili.com/video/av115015113774520, http://www.bilibili.com/video/av116763719174658, http://www.bilibili.com/video/av116797860744470, http://www.bilibili.com/video/av116722447156942, http://www.bilibili.com/video/av114946125860693, http://www.bilibili.com/video/av114121458582375, http://www.bilibili.com/video/av446114147, http://www.bilibili.com/video/av116590846674788",
           "uid": "BV1TjV9zEEeY,BV1gmXyBCEnM,BV1ze5NzvE5m,BV1727A6nEmY,BV1EQjW6CE7q,BV1arwFzGEQu,BV13KtReiEPw,BV113Z7YrEL1,BV1Xn4HzaEjS,BV13K4y1t7SV,BV1Pci7BVEgT,BV1yu4m137qP",
           "sample": "早晚有紫女的退路"
-        }
-      ]
-    },
-    {
-      "term": "时髦小设定",
-      "evidenceSamples": [
-        "我在想这玩意怎么收，你告诉我这是精神分析，合着只是时髦小设定来的",
-        "看完了，怎么说呢。 我感觉整部游戏就是一种经典而老旧的发癫game，远不及开局2分50秒给我带来的震撼，甚至伏笔都没收的很清楚。 你知道我听到33轻描淡写的说出“人类遇到火星人，为了表示友好把自己的脸送出去，自己变成了狗”这个设定时的震撼吗（ 太恐怖了朋友们。 我在想这玩意怎么收，你告诉我这是精神分析，合着只是时髦小设定来的"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Popular video comments UID 761774 (2 comments from 1 videos)",
-          "uid": "761774",
-          "sample": "我在想这玩意怎么收，你告诉我这是精神分析，合着只是时髦小设定来的"
-        },
-        {
-          "source": "Bilibili local AICU corpus: oid 116657301294055",
-          "uid": "761774",
-          "sample": "看完了，怎么说呢。 我感觉整部游戏就是一种经典而老旧的发癫game，远不及开局2分50秒给我带来的震撼，甚至伏笔都没收的很清楚。 你知道我听到33轻描淡写的说出“人类遇到火星人，为了表示友好把自己的脸送出去，自己变成了狗”这个设定时的震撼吗（ 太恐怖了朋友们。 我在想这玩意怎么收，你告诉我这是精神分析，合着只是时髦小设定来的"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v2",
-          "sample": "我在想这玩意怎么收，你告诉我这是精神分析，合着只是时髦小设定来的"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v3",
-          "sample": "我在想这玩意怎么收，你告诉我这是精神分析，合着只是时髦小设定来的"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v4",
-          "sample": "我在想这玩意怎么收，你告诉我这是精神分析，合着只是时髦小设定来的"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v6",
-          "sample": "我在想这玩意怎么收，你告诉我这是精神分析，合着只是时髦小设定来的"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-5k",
-          "sample": "我在想这玩意怎么收，你告诉我这是精神分析，合着只是时髦小设定来的"
-        },
-        {
-          "source": "Bilibili local AICU corpus: https://www.bilibili.com/video/av116657301294055/",
-          "uid": "761774",
-          "sample": "看完了，怎么说呢。 我感觉整部游戏就是一种经典而老旧的发癫game，远不及开局2分50秒给我带来的震撼，甚至伏笔都没收的很清楚。 你知道我听到33轻描淡写的说出“人类遇到火星人，为了表示友好把自己的脸送出去，自己变成了狗”这个设定时的震撼吗（ 太恐怖了朋友们。 我在想这玩意怎么收，你告诉我这是精神分析，合着只是时髦小设定来的"
         }
       ]
     },

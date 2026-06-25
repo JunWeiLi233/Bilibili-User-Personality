@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:30:11.000Z",
   "family": "cooperation",
   "shard": 95,
   "shardCount": 149,
@@ -54,20 +54,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Fi4y197S4/, https://www.bilibili.com/video/BV1diVw6YEKd/, https://www.bilibili.com/video/BV1X84y197Q9/, https://www.bilibili.com/video/BV1RM4m1d7EU/, https://www.bilibili.com/video/BV1SiGd6uECH/, https://www.bilibili.com/video/BV1sm411d77K/, https://www.bilibili.com/video/BV1shV2zRE5S/, https://www.bilibili.com/video/BV1cWoWB5EJ4/, https://www.bilibili.com/video/BV1FC4y177gh/, https://www.bilibili.com/video/BV1E1Vc6BETT/, https://www.bilibili.com/video/BV1ckVc66Evt/, https://www.bilibili.com/video/BV1auVK6BExB/, http://www.bilibili.com/video/av550382449, http://www.bilibili.com/video/av116638930243969",
           "uid": "BV1Fi4y197S4,BV1diVw6YEKd,BV1X84y197Q9,BV1RM4m1d7EU,BV1SiGd6uECH,BV1sm411d77K,BV1shV2zRE5S,BV1cWoWB5EJ4,BV1FC4y177gh,BV1E1Vc6BETT,BV1ckVc66Evt,BV1auVK6BExB",
           "sample": "我觉得王女士说的有道理，不应该怪她"
-        }
-      ]
-    },
-    {
-      "term": "有道理的",
-      "evidenceSamples": [
-        "有道理的",
-        "我觉得蛮有道理的",
-        "至少挺有道理的..."
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili danmaku harvest: video BV1uw411Z7jE",
-          "sample": "有道理的"
         }
       ]
     },

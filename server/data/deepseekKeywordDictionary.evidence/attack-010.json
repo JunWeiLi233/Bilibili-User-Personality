@@ -1,57 +1,10 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:17:37.105808Z",
+  "updatedAt": "2026-06-25T17:30:11.000Z",
   "family": "attack",
   "shard": 10,
   "shardCount": 340,
   "evidence": [
-    {
-      "term": "一个多亿",
-      "evidenceSamples": [
-        "[笑哭][笑哭][笑哭][笑哭]举国之力 [笑哭][笑哭][笑哭][笑哭]一个多亿[笑哭][笑哭][笑哭][笑哭]",
-        "据说这个项目投资一个多亿，结果做成这样"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Popular video comments UID 744878 (1 comments from 1 videos)",
-          "uid": "744878",
-          "sample": "[笑哭][笑哭][笑哭][笑哭]举国之力 [笑哭][笑哭][笑哭][笑哭]一个多亿[笑哭][笑哭][笑哭][笑哭]"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v2",
-          "sample": "[笑哭][笑哭][笑哭][笑哭]举国之力 [笑哭][笑哭][笑哭][笑哭]一个多亿[笑哭][笑哭][笑哭][笑哭]"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v3",
-          "sample": "[笑哭][笑哭][笑哭][笑哭]举国之力 [笑哭][笑哭][笑哭][笑哭]一个多亿[笑哭][笑哭][笑哭][笑哭]"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v4",
-          "sample": "[笑哭][笑哭][笑哭][笑哭]举国之力 [笑哭][笑哭][笑哭][笑哭]一个多亿[笑哭][笑哭][笑哭][笑哭]"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v6",
-          "sample": "[笑哭][笑哭][笑哭][笑哭]举国之力 [笑哭][笑哭][笑哭][笑哭]一个多亿[笑哭][笑哭][笑哭][笑哭]"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-5k",
-          "sample": "[笑哭][笑哭][笑哭][笑哭]举国之力 [笑哭][笑哭][笑哭][笑哭]一个多亿[笑哭][笑哭][笑哭][笑哭]"
-        },
-        {
-          "source": "Bilibili local scraped user corpus: https://www.bilibili.com/video/BV1wDGy6cE2Q/",
-          "uid": "744878",
-          "sample": "[笑哭][笑哭][笑哭][笑哭]举国之力 [笑哭][笑哭][笑哭][笑哭]一个多亿[笑哭][笑哭][笑哭][笑哭]"
-        },
-        {
-          "source": "Bilibili direct probe corpus match: Popular video comments UID 744878 (1 comments from 1 videos)"
-        }
-      ]
-    },
     {
       "term": "一言难尽",
       "evidenceSamples": [
