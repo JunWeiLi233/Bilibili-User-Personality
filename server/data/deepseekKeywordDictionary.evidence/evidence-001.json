@@ -1,35 +1,10 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T06:10:17.168Z",
+  "updatedAt": "2026-06-25T17:17:37.105808Z",
   "family": "evidence",
   "shard": 1,
-  "shardCount": 16,
+  "shardCount": 13,
   "evidence": [
-    {
-      "term": "10年老粉",
-      "evidenceSamples": [
-        "回复 @南茶猫鸭 :[脱单doge]选我，我十年老粉",
-        "lala十年老粉来支持一下，真不错的",
-        "问啥啥不知道，但是十年老粉[吃瓜]"
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1kT4y1s7j4/, http://www.bilibili.com/video/av922910165",
-          "uid": "BV1kT4y1s7j4",
-          "sample": "回复 @南茶猫鸭 :[脱单doge]选我，我十年老粉"
-        },
-        {
-          "source": "Bilibili public existing evidence-source video comment scan: https://www.bilibili.com/video/BV1dWGd67E8w/, https://www.bilibili.com/video/BV1D7Gi6SELT/, https://www.bilibili.com/video/BV1aYGx6fEEX/, https://www.bilibili.com/video/BV1HdGW6KEKF/, https://www.bilibili.com/video/BV1zGGd6REYY/, https://www.bilibili.com/video/BV1NPGd6wEkL/, https://www.bilibili.com/video/BV1L4Gq6YEzX/, https://www.bilibili.com/video/BV17EGd6QEUX/, https://www.bilibili.com/video/BV1o2Gs6cEVT/, https://www.bilibili.com/video/BV1ZeGn6XES1/, https://www.bilibili.com/video/BV1mfGR6eEbp/, https://www.bilibili.com/video/BV1giGv6UEqy/",
-          "uid": "BV1dWGd67E8w",
-          "sample": "lala十年老粉来支持一下，真不错的"
-        },
-        {
-          "source": "Bilibili public existing evidence-source video comment scan: https://www.bilibili.com/video/BV1SPVPzVEr7/, https://www.bilibili.com/video/BV1ENLV63Eef/, https://www.bilibili.com/video/BV1KT421m7Pw/, https://www.bilibili.com/video/BV18VGR6KEng/, https://www.bilibili.com/video/BV1D7Gi6SELT/, https://www.bilibili.com/video/BV1aYGx6fEEX/, https://www.bilibili.com/video/BV1HdGW6KEKF/, https://www.bilibili.com/video/BV1zGGd6REYY/, https://www.bilibili.com/video/BV1NPGd6wEkL/, https://www.bilibili.com/video/BV1L4Gq6YEzX/, https://www.bilibili.com/video/BV17EGd6QEUX/, https://www.bilibili.com/video/BV1o2Gs6cEVT/",
-          "uid": "BV1SPVPzVEr7,BV1ENLV63Eef,BV1KT421m7Pw,BV18VGR6KEng",
-          "sample": "问啥啥不知道，但是十年老粉[吃瓜]"
-        }
-      ]
-    },
     {
       "term": "10万",
       "evidenceSamples": [
@@ -79,6 +54,31 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV19M411a72b/, https://www.bilibili.com/video/BV1vAC2YzEsx/, https://www.bilibili.com/video/BV1H39kBWER5/, https://www.bilibili.com/video/BV1784y1e7as/, https://www.bilibili.com/video/BV1TnF5zKEBm/, https://www.bilibili.com/video/BV1sKVu6TEjP/, https://www.bilibili.com/video/BV1iR4y1i7Qv/, https://www.bilibili.com/video/BV1ZbLtzcE2W/, https://www.bilibili.com/video/BV1cy421v7y2/, https://www.bilibili.com/video/BV1NWCWYoEZU/, https://www.bilibili.com/video/BV1b84y1j7W6/, https://www.bilibili.com/video/BV1CU4y197Fh/, http://www.bilibili.com/video/av522439981, http://www.bilibili.com/video/av607317761, http://www.bilibili.com/video/av351899217, http://www.bilibili.com/video/av113726371930016, http://www.bilibili.com/video/av684780973, http://www.bilibili.com/video/av350134500, http://www.bilibili.com/video/av523908292, http://www.bilibili.com/video/av116058136518007, http://www.bilibili.com/video/av115377602303025, http://www.bilibili.com/video/av307063498, http://www.bilibili.com/video/av273417491, http://www.bilibili.com/video/av114740051316889, http://www.bilibili.com/video/av113811684067526, http://www.bilibili.com/video/av114262991181016, http://www.bilibili.com/video/av1554743664, http://www.bilibili.com/video/av114421536000210, http://www.bilibili.com/video/av116633527914318, http://www.bilibili.com/video/av114167914759390, http://www.bilibili.com/video/av115783443157332, http://www.bilibili.com/video/av1604756872, http://www.bilibili.com/video/av821626289, http://www.bilibili.com/video/av115776195400877, http://www.bilibili.com/video/av115122504735449, http://www.bilibili.com/video/av116651127343716, http://www.bilibili.com/video/av116561922758239, http://www.bilibili.com/video/av984656194, http://www.bilibili.com/video/av114626301792909, http://www.bilibili.com/video/av116429785401338, http://www.bilibili.com/video/av116576586046323, http://www.bilibili.com/video/av862690559, http://www.bilibili.com/video/av116040453328842, http://www.bilibili.com/video/av116250671906875, http://www.bilibili.com/video/av1700979416, http://www.bilibili.com/video/av1205658841, http://www.bilibili.com/video/av1556021923, http://www.bilibili.com/video/av513828541, http://www.bilibili.com/video/av598943363, http://www.bilibili.com/video/av333913365, http://www.bilibili.com/video/av113327762051018, http://www.bilibili.com/video/av116005238020775, http://www.bilibili.com/video/av114386404381802, http://www.bilibili.com/video/av116482314868663, http://www.bilibili.com/video/av406287870, http://www.bilibili.com/video/av116481627002677, http://www.bilibili.com/video/av116621951703658, http://www.bilibili.com/video/av1906322891, http://www.bilibili.com/video/av113221746886164, http://www.bilibili.com/video/av1003535201, http://www.bilibili.com/video/av1852141864, http://www.bilibili.com/video/av1800046080, http://www.bilibili.com/video/av116659448847224, http://www.bilibili.com/video/av116655841610313, http://www.bilibili.com/video/av116652435835063, http://www.bilibili.com/video/av116659197057033, http://www.bilibili.com/video/av116639567708855, http://www.bilibili.com/video/av116660807668057, http://www.bilibili.com/video/av116496944662161, http://www.bilibili.com/video/av116661243875304, http://www.bilibili.com/video/av115783728365676, http://www.bilibili.com/video/av115834848613486, http://www.bilibili.com/video/av116661344535748, http://www.bilibili.com/video/av1801926837, http://www.bilibili.com/video/av116645439802320, http://www.bilibili.com/video/av115468065119789, http://www.bilibili.com/video/av855428230, http://www.bilibili.com/video/av116662216956703, http://www.bilibili.com/video/av116658240820861, http://www.bilibili.com/video/av116651026551962, http://www.bilibili.com/video/av116633980963598, http://www.bilibili.com/video/av116515466643255, http://www.bilibili.com/video/av116633494423385, http://www.bilibili.com/video/av116606516661188, http://www.bilibili.com/video/av114838634303333, http://www.bilibili.com/video/av1706073592, http://www.bilibili.com/video/av116504980883404, http://www.bilibili.com/video/av116231042501704, http://www.bilibili.com/video/av996960367, http://www.bilibili.com/video/av116635272747611, http://www.bilibili.com/video/av115338075178445, http://www.bilibili.com/video/av116660371459847, http://www.bilibili.com/video/av1551694964, http://www.bilibili.com/video/av608229670, http://www.bilibili.com/video/av113128381614598, http://www.bilibili.com/video/av308080103, http://www.bilibili.com/video/av114778269876313, http://www.bilibili.com/video/av566637338, http://www.bilibili.com/video/av116550732415265",
           "uid": "BV19M411a72b,BV1vAC2YzEsx,BV1H39kBWER5,BV1784y1e7as,BV1TnF5zKEBm,BV1sKVu6TEjP,BV1iR4y1i7Qv,BV1ZbLtzcE2W,BV1cy421v7y2,BV1NWCWYoEZU,BV1b84y1j7W6,BV1CU4y197Fh",
           "sample": "如果是Eileen来播，会不会破10万？"
+        }
+      ]
+    },
+    {
+      "term": "10年老粉",
+      "evidenceSamples": [
+        "回复 @南茶猫鸭 :[脱单doge]选我，我十年老粉",
+        "lala十年老粉来支持一下，真不错的",
+        "问啥啥不知道，但是十年老粉[吃瓜]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1kT4y1s7j4/, http://www.bilibili.com/video/av922910165",
+          "uid": "BV1kT4y1s7j4",
+          "sample": "回复 @南茶猫鸭 :[脱单doge]选我，我十年老粉"
+        },
+        {
+          "source": "Bilibili public existing evidence-source video comment scan: https://www.bilibili.com/video/BV1dWGd67E8w/, https://www.bilibili.com/video/BV1D7Gi6SELT/, https://www.bilibili.com/video/BV1aYGx6fEEX/, https://www.bilibili.com/video/BV1HdGW6KEKF/, https://www.bilibili.com/video/BV1zGGd6REYY/, https://www.bilibili.com/video/BV1NPGd6wEkL/, https://www.bilibili.com/video/BV1L4Gq6YEzX/, https://www.bilibili.com/video/BV17EGd6QEUX/, https://www.bilibili.com/video/BV1o2Gs6cEVT/, https://www.bilibili.com/video/BV1ZeGn6XES1/, https://www.bilibili.com/video/BV1mfGR6eEbp/, https://www.bilibili.com/video/BV1giGv6UEqy/",
+          "uid": "BV1dWGd67E8w",
+          "sample": "lala十年老粉来支持一下，真不错的"
+        },
+        {
+          "source": "Bilibili public existing evidence-source video comment scan: https://www.bilibili.com/video/BV1SPVPzVEr7/, https://www.bilibili.com/video/BV1ENLV63Eef/, https://www.bilibili.com/video/BV1KT421m7Pw/, https://www.bilibili.com/video/BV18VGR6KEng/, https://www.bilibili.com/video/BV1D7Gi6SELT/, https://www.bilibili.com/video/BV1aYGx6fEEX/, https://www.bilibili.com/video/BV1HdGW6KEKF/, https://www.bilibili.com/video/BV1zGGd6REYY/, https://www.bilibili.com/video/BV1NPGd6wEkL/, https://www.bilibili.com/video/BV1L4Gq6YEzX/, https://www.bilibili.com/video/BV17EGd6QEUX/, https://www.bilibili.com/video/BV1o2Gs6cEVT/",
+          "uid": "BV1SPVPzVEr7,BV1ENLV63Eef,BV1KT421m7Pw,BV18VGR6KEng",
+          "sample": "问啥啥不知道，但是十年老粉[吃瓜]"
         }
       ]
     },
@@ -167,6 +167,46 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV126421c77P/, https://www.bilibili.com/video/BV15eVV6eEaT/, https://www.bilibili.com/video/BV1QzV36pE5g/, https://www.bilibili.com/video/BV1pa41197cn/, https://www.bilibili.com/video/BV1rK1cYoEn8/, https://www.bilibili.com/video/BV1Bt42137XA/, https://www.bilibili.com/video/BV19e41127pK/, https://www.bilibili.com/video/BV1BsVa6pET5/, https://www.bilibili.com/video/BV1Fz4y1T7Vj/, https://www.bilibili.com/video/BV1Dp411f7JU/, https://www.bilibili.com/video/BV1uh536QE3f/, https://www.bilibili.com/video/BV1Bi421m7RW/, http://www.bilibili.com/video/av1351726513, http://www.bilibili.com/video/av258192301, http://www.bilibili.com/video/av238706097, http://www.bilibili.com/video/av23232370, http://www.bilibili.com/video/av1256186153, http://www.bilibili.com/video/av952305582, http://www.bilibili.com/video/av396765934, http://www.bilibili.com/video/av112954720651425, http://www.bilibili.com/video/av831110470, http://www.bilibili.com/video/av115625016099942, http://www.bilibili.com/video/av116003878995738, http://www.bilibili.com/video/av523299973, http://www.bilibili.com/video/av115293716226033, http://www.bilibili.com/video/av115127722450541, http://www.bilibili.com/video/av116397170558887, http://www.bilibili.com/video/av1406342177, http://www.bilibili.com/video/av114634120042481, http://www.bilibili.com/video/av115437664735028, http://www.bilibili.com/video/av116631665643776, http://www.bilibili.com/video/av512391628, http://www.bilibili.com/video/av116428107678445, http://www.bilibili.com/video/av113061742510480, http://www.bilibili.com/video/av1256313473, http://www.bilibili.com/video/av115156008836581, http://www.bilibili.com/video/av71359400, http://www.bilibili.com/video/av1806401875, http://www.bilibili.com/video/av292957831, http://www.bilibili.com/video/av1005780168, http://www.bilibili.com/video/av114201351691456, http://www.bilibili.com/video/av115751532960722, http://www.bilibili.com/video/av116206631651841, http://www.bilibili.com/video/av114822846878734, http://www.bilibili.com/video/av996841995, http://www.bilibili.com/video/av116343835728895, http://www.bilibili.com/video/av116260150971302, http://www.bilibili.com/video/av116260150976462, http://www.bilibili.com/video/av116260151102202, http://www.bilibili.com/video/av116663877898182, http://www.bilibili.com/video/av113357843596550, http://www.bilibili.com/video/av116658408527667, http://www.bilibili.com/video/av116562459623760, http://www.bilibili.com/video/av116662854620211, http://www.bilibili.com/video/av116663542420717, http://www.bilibili.com/video/av115115206642198, http://www.bilibili.com/video/av964075937, http://www.bilibili.com/video/av536811418, http://www.bilibili.com/video/av113344925278001, http://www.bilibili.com/video/av116664062447478, http://www.bilibili.com/video/av116659448711074, http://www.bilibili.com/video/av116664163111950, http://www.bilibili.com/video/av493787445, http://www.bilibili.com/video/av116655589951679, http://www.bilibili.com/video/av116640574409288, http://www.bilibili.com/video/av116607355460227, http://www.bilibili.com/video/av116655841610313, http://www.bilibili.com/video/av116661243875304, http://www.bilibili.com/video/av116664045669289, http://www.bilibili.com/video/av116662502167972, http://www.bilibili.com/video/av116664951641649, http://www.bilibili.com/video/av116662384725876, http://www.bilibili.com/video/av116639567708855, http://www.bilibili.com/video/av116645439802320, http://www.bilibili.com/video/av116656344926860, http://www.bilibili.com/video/av116664498657999, http://www.bilibili.com/video/av116664314172819, http://www.bilibili.com/video/av116306405821687, http://www.bilibili.com/video/av116660606339074, http://www.bilibili.com/video/av116633494423385, http://www.bilibili.com/video/av116599956707503, http://www.bilibili.com/video/av116611549895631, http://www.bilibili.com/video/av116651026551962, http://www.bilibili.com/video/av116635272747611, http://www.bilibili.com/video/av116515466643255, http://www.bilibili.com/video/av116531371449682, http://www.bilibili.com/video/av116613395253133, http://www.bilibili.com/video/av116633980963598, http://www.bilibili.com/video/av116617707001180, http://www.bilibili.com/video/av116656848307780, http://www.bilibili.com/video/av116662988833397, http://www.bilibili.com/video/av1802439702, http://www.bilibili.com/video/av575545601, http://www.bilibili.com/video/av1455198614, http://www.bilibili.com/video/av113922698908248, http://www.bilibili.com/video/av381414058, http://www.bilibili.com/video/av112953797970152, http://www.bilibili.com/video/av985672914, http://www.bilibili.com/video/av113163311844645, http://www.bilibili.com/video/av1255957522, http://www.bilibili.com/video/av116649936033272",
           "uid": "BV126421c77P,BV15eVV6eEaT,BV1QzV36pE5g,BV1pa41197cn,BV1rK1cYoEn8,BV1Bt42137XA,BV19e41127pK,BV1BsVa6pET5,BV1Fz4y1T7Vj,BV1Dp411f7JU,BV1uh536QE3f,BV1Bi421m7RW",
           "sample": "“2013年12月，澳洲市场营销师Jackson Palmer效仿比特币推出了“Dogecoin”（狗币），并把Doge的狗头像作为标志，狗币在两周内市值飙升到800万美元，曾成为全球第七大电子货币。”——引用自某百科"
+        }
+      ]
+    },
+    {
+      "term": "cd4细胞",
+      "evidenceSamples": [
+        "一名男性，HIV阳性， CD4 细胞计数＜ 100/uL，出现高烧。检查如视频",
+        "1.根据病情描述，这名CD4细胞计数＜100/uL的艾滋病患者出现高烧和拉塞格阳性反应，可能患有脑膜炎。脑膜炎是艾滋病患者常见的并发症之一，由于免疫系统受损，身体对细菌、病毒等病原体的抵抗力下降，易发生细菌性感染。脑膜炎是指脑膜（包括脑膜和...",
+        "回复 @Vcazer :又不是得了必死，你什么都不管免疫系统肯定就瘫痪了，你自己想想为什么它叫免疫系统缺陷综合征，病毒本身攻击的是CD4细胞，积极治疗随便活，抗逆转录病毒疗法把病毒控制在合理水平，免疫系统照样正常工作，跟你说的什么t、b细胞..."
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1d8NJeQE94/, https://www.bilibili.com/video/BV1oQ4y1H7iB/, https://www.bilibili.com/video/BV1n64y1a7gJ/, https://www.bilibili.com/video/BV1F34y1D7fK/, https://www.bilibili.com/video/BV1TU4y1A7Gs/, https://www.bilibili.com/video/BV15pD3YsEHR/, http://www.bilibili.com/video/av113955783574113, http://www.bilibili.com/video/av763090964, http://www.bilibili.com/video/av705387596, http://www.bilibili.com/video/av675592783, http://www.bilibili.com/video/av805637491, http://www.bilibili.com/video/av113433492070132",
+          "uid": "BV1d8NJeQE94,BV1oQ4y1H7iB,BV1n64y1a7gJ,BV1F34y1D7fK,BV1TU4y1A7Gs,BV15pD3YsEHR",
+          "sample": "一名男性，HIV阳性， CD4 细胞计数＜ 100/uL，出现高烧。检查如视频"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1d8NJeQE94/, https://www.bilibili.com/video/BV1oQ4y1H7iB/, https://www.bilibili.com/video/BV1n64y1a7gJ/, https://www.bilibili.com/video/BV1F34y1D7fK/, https://www.bilibili.com/video/BV1TU4y1A7Gs/, https://www.bilibili.com/video/BV15pD3YsEHR/, http://www.bilibili.com/video/av113955783574113, http://www.bilibili.com/video/av763090964, http://www.bilibili.com/video/av705387596, http://www.bilibili.com/video/av675592783, http://www.bilibili.com/video/av805637491, http://www.bilibili.com/video/av113433492070132",
+          "uid": "BV1d8NJeQE94,BV1oQ4y1H7iB,BV1n64y1a7gJ,BV1F34y1D7fK,BV1TU4y1A7Gs,BV15pD3YsEHR",
+          "sample": "1.根据病情描述，这名CD4细胞计数＜100/uL的艾滋病患者出现高烧和拉塞格阳性反应，可能患有脑膜炎。脑膜炎是艾滋病患者常见的并发症之一，由于免疫系统受损，身体对细菌、病毒等病原体的抵抗力下降，易发生细菌性感染。脑膜炎是指脑膜（包括脑膜和..."
+        },
+        {
+          "source": "Bilibili public existing evidence-source video comment scan: https://www.bilibili.com/video/BV1wz421y7H5/, https://www.bilibili.com/video/BV17M4HzrES2/, https://www.bilibili.com/video/BV1H44y1i7ey/, https://www.bilibili.com/video/BV1LY4y1k7oN/, https://www.bilibili.com/video/BV1K7kZBLEmW/, https://www.bilibili.com/video/BV1M7rhBqEdM/, https://www.bilibili.com/video/BV1Kk4y1i7fb/, https://www.bilibili.com/video/BV16WgMzNEmn/, https://www.bilibili.com/video/BV1AXGq61EHD/, https://www.bilibili.com/video/BV18i4zzLEcy/, https://www.bilibili.com/video/BV1n3oEYqEkw/, https://www.bilibili.com/video/BV16v4y1V7fF/, https://www.bilibili.com/video/BV1Ai4y1p7aG/, https://www.bilibili.com/video/BV1uh411F7mA/, https://www.bilibili.com/video/BV1jFUhBvEK3/, https://www.bilibili.com/video/BV1DJeYz7EhP/, https://www.bilibili.com/video/BV1p1dkYBEYw/, https://www.bilibili.com/video/BV1Zw4m1a7hQ/, https://www.bilibili.com/video/BV1Gatsz1Eh2/, https://www.bilibili.com/video/BV1DUGX6YEjy/",
+          "uid": "BV1wz421y7H5,BV17M4HzrES2,BV1H44y1i7ey,BV1LY4y1k7oN,BV1K7kZBLEmW,BV1M7rhBqEdM,BV1Kk4y1i7fb,BV16WgMzNEmn,BV1AXGq61EHD,BV18i4zzLEcy,BV1n3oEYqEkw,BV16v4y1V7fF,BV1Ai4y1p7aG,BV1uh411F7mA,BV1jFUhBvEK3,BV1DJeYz7EhP,BV1p1dkYBEYw",
+          "sample": "回复 @Vcazer :又不是得了必死，你什么都不管免疫系统肯定就瘫痪了，你自己想想为什么它叫免疫系统缺陷综合征，病毒本身攻击的是CD4细胞，积极治疗随便活，抗逆转录病毒疗法把病毒控制在合理水平，免疫系统照样正常工作，跟你说的什么t、b细胞..."
+        },
+        {
+          "source": "Bilibili public existing evidence-source video comment scan: https://www.bilibili.com/video/BV1wz421y7H5/, https://www.bilibili.com/video/BV17M4HzrES2/, https://www.bilibili.com/video/BV1H44y1i7ey/, https://www.bilibili.com/video/BV1LY4y1k7oN/, https://www.bilibili.com/video/BV1K7kZBLEmW/, https://www.bilibili.com/video/BV1M7rhBqEdM/, https://www.bilibili.com/video/BV1Kk4y1i7fb/, https://www.bilibili.com/video/BV16WgMzNEmn/, https://www.bilibili.com/video/BV1AXGq61EHD/, https://www.bilibili.com/video/BV18i4zzLEcy/, https://www.bilibili.com/video/BV1n3oEYqEkw/, https://www.bilibili.com/video/BV16v4y1V7fF/, https://www.bilibili.com/video/BV1Ai4y1p7aG/, https://www.bilibili.com/video/BV1uh411F7mA/, https://www.bilibili.com/video/BV1jFUhBvEK3/, https://www.bilibili.com/video/BV1DJeYz7EhP/, https://www.bilibili.com/video/BV1p1dkYBEYw/, https://www.bilibili.com/video/BV1Zw4m1a7hQ/, https://www.bilibili.com/video/BV1Gatsz1Eh2/, https://www.bilibili.com/video/BV1DUGX6YEjy/",
+          "uid": "BV1wz421y7H5,BV17M4HzrES2,BV1H44y1i7ey,BV1LY4y1k7oN,BV1K7kZBLEmW,BV1M7rhBqEdM,BV1Kk4y1i7fb,BV16WgMzNEmn,BV1AXGq61EHD,BV18i4zzLEcy,BV1n3oEYqEkw,BV16v4y1V7fF,BV1Ai4y1p7aG,BV1uh411F7mA,BV1jFUhBvEK3,BV1DJeYz7EhP",
+          "sample": "回复 @Vcazer :又不是得了必死，你什么都不管免疫系统肯定就瘫痪了，你自己想想为什么它叫免疫系统缺陷综合征，病毒本身攻击的是CD4细胞，积极治疗随便活，抗逆转录病毒疗法把病毒控制在合理水平，免疫系统照样正常工作，跟你说的什么t、b细胞..."
+        },
+        {
+          "source": "Bilibili public existing evidence-source video comment scan: https://www.bilibili.com/video/BV1wz421y7H5/, https://www.bilibili.com/video/BV17M4HzrES2/, https://www.bilibili.com/video/BV1H44y1i7ey/, https://www.bilibili.com/video/BV1LY4y1k7oN/, https://www.bilibili.com/video/BV1K7kZBLEmW/, https://www.bilibili.com/video/BV1M7rhBqEdM/, https://www.bilibili.com/video/BV1Kk4y1i7fb/, https://www.bilibili.com/video/BV16WgMzNEmn/, https://www.bilibili.com/video/BV1AXGq61EHD/, https://www.bilibili.com/video/BV18i4zzLEcy/, https://www.bilibili.com/video/BV1n3oEYqEkw/, https://www.bilibili.com/video/BV16v4y1V7fF/, https://www.bilibili.com/video/BV1Ai4y1p7aG/, https://www.bilibili.com/video/BV1uh411F7mA/, https://www.bilibili.com/video/BV1jFUhBvEK3/, https://www.bilibili.com/video/BV1DJeYz7EhP/, https://www.bilibili.com/video/BV1p1dkYBEYw/, https://www.bilibili.com/video/BV1Zw4m1a7hQ/, https://www.bilibili.com/video/BV1Gatsz1Eh2/, https://www.bilibili.com/video/BV1DUGX6YEjy/",
+          "uid": "BV1wz421y7H5,BV17M4HzrES2,BV1H44y1i7ey,BV1LY4y1k7oN,BV1K7kZBLEmW,BV1M7rhBqEdM,BV1Kk4y1i7fb,BV16WgMzNEmn,BV1AXGq61EHD,BV18i4zzLEcy,BV1n3oEYqEkw,BV16v4y1V7fF,BV1Ai4y1p7aG,BV1uh411F7mA,BV1jFUhBvEK3",
+          "sample": "回复 @Vcazer :又不是得了必死，你什么都不管免疫系统肯定就瘫痪了，你自己想想为什么它叫免疫系统缺陷综合征，病毒本身攻击的是CD4细胞，积极治疗随便活，抗逆转录病毒疗法把病毒控制在合理水平，免疫系统照样正常工作，跟你说的什么t、b细胞..."
+        },
+        {
+          "source": "Bilibili public existing evidence-source video comment scan: https://www.bilibili.com/video/BV1wz421y7H5/, https://www.bilibili.com/video/BV17M4HzrES2/, https://www.bilibili.com/video/BV1H44y1i7ey/, https://www.bilibili.com/video/BV1LY4y1k7oN/, https://www.bilibili.com/video/BV1K7kZBLEmW/, https://www.bilibili.com/video/BV1M7rhBqEdM/, https://www.bilibili.com/video/BV1Kk4y1i7fb/, https://www.bilibili.com/video/BV16WgMzNEmn/, https://www.bilibili.com/video/BV1AXGq61EHD/, https://www.bilibili.com/video/BV18i4zzLEcy/, https://www.bilibili.com/video/BV1n3oEYqEkw/, https://www.bilibili.com/video/BV16v4y1V7fF/",
+          "uid": "BV1wz421y7H5,BV17M4HzrES2,BV1H44y1i7ey,BV1LY4y1k7oN,BV1K7kZBLEmW,BV1M7rhBqEdM,BV1Kk4y1i7fb,BV16WgMzNEmn,BV1AXGq61EHD,BV18i4zzLEcy,BV1n3oEYqEkw,BV16v4y1V7fF",
+          "sample": "回复 @Vcazer :又不是得了必死，你什么都不管免疫系统肯定就瘫痪了，你自己想想为什么它叫免疫系统缺陷综合征，病毒本身攻击的是CD4细胞，积极治疗随便活，抗逆转录病毒疗法把病毒控制在合理水平，免疫系统照样正常工作，跟你说的什么t、b细胞..."
         }
       ]
     }
