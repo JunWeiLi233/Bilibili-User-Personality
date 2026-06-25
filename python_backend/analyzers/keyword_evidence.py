@@ -301,7 +301,7 @@ def _normalize_family(family: Any) -> str:
     return FAMILY_ALIASES.get(raw, "attack")
 
 
-def _clean_term(value: Any) -> str:
+def _deepseek_clean_term(value: Any) -> str:
     text = str(value or "")
     normalized = unicodedata.normalize("NFKC", text)
     cleaned = re.sub(r"[^一-鿿A-Za-z0-9]", "", normalized)
@@ -310,7 +310,7 @@ def _clean_term(value: Any) -> str:
     return cleaned.strip()
 
 
-def _clean_keyword_term(value: Any) -> str:
+def _deepseek_clean_keyword_term(value: Any) -> str:
     text = str(value or "").strip()
     if not text:
         return ""
@@ -449,3 +449,206 @@ def _is_noisy_evidence_sample(sample: Any) -> bool:
     ):
         return True
     return False
+
+
+def _is_video_context_sample(sample: Any) -> bool:
+    return bool(
+        re.match(
+            r"^(?:Bilibili video context|Bilibili public video title):",
+            str(sample or "").strip(),
+        )
+    )
+
+
+def _evidence_sample_sort_key(sample: Any) -> int:
+    return 1 if _is_video_context_sample(sample) else 0
+
+
+def _is_video_context_source(source: dict[str, Any] | None = None) -> bool:
+    if not isinstance(source, dict):
+        return False
+    sample = str(source.get("sample") or "").strip()
+    source_text = str(source.get("source") or "").strip()
+    return _is_video_context_sample(sample) or "search-discovered video context" in source_text
+
+
+def _has_video_context_only_evidence(
+    evidence_samples: list[Any] | None = None,
+    evidence_sources: list[Any] | None = None,
+) -> bool:
+    samples = _unique(
+        [
+            *(str(s or "").strip() for s in (evidence_samples or [])),
+            *(
+                str((s if isinstance(s, dict) else {}).get("sample") or "").strip()
+                for s in (evidence_sources or [])
+                if isinstance(s, dict)
+            ),
+        ]
+    )
+    samples = [s for s in samples if s]
+    return len(samples) > 0 and all(_is_video_context_sample(s) for s in samples)
+
+
+def _is_title_spliced_video_context_only_term(
+    term: Any,
+    evidence_samples: list[Any] | None = None,
+    evidence_sources: list[Any] | None = None,
+) -> bool:
+    clean = _deepseek_clean_term(term)
+    if not _has_video_context_only_evidence(evidence_samples, evidence_sources):
+        return False
+    if clean == "卡脖子":
+        return False
+    return bool(re.match(r"^卡[一-龥]{2,8}脖子$", clean))
+
+
+def _is_ask_baidu_song_video_context_only_term(
+    term: Any,
+    evidence_samples: list[Any] | None = None,
+    evidence_sources: list[Any] | None = None,
+) -> bool:
+    clean = _deepseek_clean_term(term)
+    if clean not in {"问百度", "问百度有什么用"}:
+        return False
+    if not _has_video_context_only_evidence(evidence_samples, evidence_sources):
+        return False
+    samples = _unique(
+        [
+            *(str(s or "").strip() for s in (evidence_samples or [])),
+            *(
+                str((s if isinstance(s, dict) else {}).get("sample") or "").strip()
+                for s in (evidence_sources or [])
+                if isinstance(s, dict)
+            ),
+        ]
+    )
+    samples = [s for s in samples if s]
+    return all(
+        bool(
+            re.search(r"《问百度》", re.sub(r"^Bilibili video context:\s*", "", s))
+            and re.search(
+                r"歌曲|演唱|原唱|翻唱|歌词|MV|陈瑞|请欣赏",
+                re.sub(r"^Bilibili video context:\s*", "", s),
+                re.IGNORECASE,
+            )
+        )
+        for s in samples
+    )
+
+
+def _is_misleading_car_army_video_context_only_term(
+    term: Any,
+    evidence_samples: list[Any] | None = None,
+    evidence_sources: list[Any] | None = None,
+) -> bool:
+    clean = _deepseek_clean_term(term)
+    if clean not in {"车家军", "没有车家军"}:
+        return False
+    if not _has_video_context_only_evidence(evidence_samples, evidence_sources):
+        return False
+    samples = _unique(
+        [
+            *(str(s or "").strip() for s in (evidence_samples or [])),
+            *(
+                str((s if isinstance(s, dict) else {}).get("sample") or "").strip()
+                for s in (evidence_sources or [])
+                if isinstance(s, dict)
+            ),
+        ]
+    )
+    samples = [s for s in samples if s]
+    acceptable = []
+    for s in samples:
+        text = re.sub(r"^Bilibili video context:\s*", "", s)
+        if re.search(r"航天车家军", text):
+            continue
+        if clean == "没有车家军" and not re.search(
+            r"没有车家军|哪有什么车家军|不是车家军", text
+        ):
+            continue
+        if clean == "车家军" and not re.search(r"车家军", text):
+            continue
+        if re.search(
+            r"小米|雷军|SU7|米粉|小米汽车|新能源车|车圈|车粉|控评|水军",
+            text,
+            re.IGNORECASE,
+        ):
+            acceptable.append(s)
+    return len(acceptable) == 0
+
+
+def _evidence_unit_count(
+    evidence_samples: list[Any] | None = None,
+    evidence_sources: list[Any] | None = None,
+) -> int:
+    units: set[str] = set()
+    for sample in evidence_samples or []:
+        clean = str(sample or "").strip()
+        if clean:
+            units.add(f"sample:{clean}")
+    for source in evidence_sources or []:
+        if not isinstance(source, dict):
+            continue
+        sample = str(source.get("sample") or "").strip()
+        if sample:
+            units.add(f"sample:{sample}")
+            continue
+        source_text = str(source.get("source") or "").strip()
+        uid = str(source.get("uid") or "").strip()
+        if source_text or uid:
+            units.add(f"source:{source_text}\n{uid}")
+    return len(units)
+
+
+def _is_short_negated_attack_mention(term: Any, sample: Any) -> bool:
+    clean_sample = _deepseek_clean_term(str(sample or "")).lower()
+    kw = _deepseek_clean_keyword_term(term)
+    if not clean_sample or len(clean_sample) > max(len(kw) + 4, 12):
+        return False
+    if re.match(r"^(?:没|没有|无|不是)", kw):
+        return False
+    soft_tails = re.compile(r"^(?:啊|呀|吧|呢|哦|哈|了|吗|啊啊|哈哈)?$")
+    needles = KeywordEvidenceMatcher().evidence_needles_for_term(term)
+    for needle in needles:
+        if not needle or len(needle) < 2:
+            continue
+        for prefix in ["没有", "没", "无", "不是"]:
+            if not clean_sample.startswith(f"{prefix}{needle}"):
+                continue
+            tail = clean_sample[len(prefix) + len(needle) :]
+            if soft_tails.match(tail):
+                return True
+    return False
+
+
+def _prune_suffix_only_fragments(entries: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return [
+        entry
+        for entry in entries
+        if not _is_pure_ascii_suffix_only_fragment(entry, entries)
+    ]
+
+
+def _is_pure_ascii_suffix_only_fragment(
+    entry: dict[str, Any], all_entries: list[dict[str, Any]]
+) -> bool:
+    term = _deepseek_clean_term(entry.get("term"))
+    if not re.match(r"^[A-Za-z]{4,}$", term):
+        return False
+    return any(
+        candidate is not entry
+        and candidate.get("family") == entry.get("family")
+        and _is_ascii_suffix_fragment_of(term, _deepseek_clean_term(candidate.get("term")))
+        and str(candidate.get("meaning") or "").strip()
+        == str(entry.get("meaning") or "").strip()
+        and (
+            len(candidate.get("evidenceSamples") or []) == 0
+            or len(entry.get("evidenceSamples") or []) == 0
+            or any(
+                s in (entry.get("evidenceSamples") or [])
+                for s in (candidate.get("evidenceSamples") or [])
+            )
+        )
+        for candidate in all_entries
+    )
