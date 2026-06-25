@@ -1,450 +1,17 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:44:42.000Z",
+  "updatedAt": "2026-06-25T17:55:02.000Z",
   "family": "evasion",
   "shard": 1,
   "shardCount": 1,
   "entries": [
     {
-      "term": "乐子",
-      "family": "evasion",
-      "meaning": "“乐子”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "人尽皆知",
-      "family": "evasion",
-      "meaning": "“人尽皆知”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "你们懂吧",
-      "family": "evasion",
-      "meaning": "“你们懂吧”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "你可以自己查",
-      "family": "evasion",
-      "meaning": "“你可以自己查”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "你在教我做事",
-      "addedFrom": "danmaku-harvest",
-      "addedAt": "2026-06-25T09:02:01.000Z",
-      "evidenceCount": 4,
-      "family": "evasion",
-      "meaning": "互联网中文表达模式 - 逃避性表达",
-      "risk": "low",
-      "confidence": "medium",
-      "updatedAt": "2026-06-25T17:02:25.000Z"
-    },
-    {
-      "term": "你没见过不代表没有",
-      "family": "evasion",
-      "meaning": "一种拒绝接受证据的说法，暗示未知可能性，回避直接举证",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-17T17:13:23.711Z"
-    },
-    {
-      "term": "你细品",
-      "family": "evasion",
-      "meaning": "“你细品”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "你自己搜",
-      "family": "evasion",
-      "meaning": "把举证责任转移给对方",
-      "risk": "medium",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "你赢了",
-      "family": "evasion",
-      "meaning": "“你赢了”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "免死金牌",
-      "family": "evasion",
-      "meaning": "“免死金牌”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "关你什么事",
-      "addedFrom": "danmaku-harvest",
-      "addedAt": "2026-06-25T09:02:01.000Z",
-      "evidenceCount": 3,
-      "family": "evasion",
-      "meaning": "互联网中文表达模式 - 逃避性表达",
-      "risk": "low",
-      "confidence": "medium",
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "别问了",
-      "addedFrom": "danmaku-harvest",
-      "addedAt": "2026-06-25T09:02:01.000Z",
-      "evidenceCount": 4,
-      "family": "evasion",
-      "meaning": "互联网中文表达模式 - 逃避性表达",
-      "risk": "low",
-      "confidence": "medium",
-      "updatedAt": "2026-06-25T17:02:25.000Z"
-    },
-    {
-      "term": "勾勾哒",
-      "family": "evasion",
-      "meaning": "“勾勾哒”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "危险发言",
-      "family": "evasion",
-      "meaning": "“危险发言”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 4,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "历史遗留问题",
-      "family": "evasion",
-      "meaning": "“历史遗留问题”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-23T15:03:26.562Z"
-    },
-    {
-      "term": "去搜",
-      "family": "evasion",
-      "meaning": "“去搜”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-23T14:57:33.795Z"
-    },
-    {
-      "term": "去百度",
-      "family": "evasion",
-      "meaning": "把举证责任转移给对方",
-      "risk": "medium",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-01T12:04:07.872Z"
-    },
-    {
-      "term": "去看书",
-      "family": "evasion",
-      "meaning": "把举证责任转移给对方",
-      "risk": "medium",
-      "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-17T03:27:13.342Z"
-    },
-    {
-      "term": "又开始了",
-      "family": "evasion",
-      "meaning": "Bilibili danmaku 逃避性表达",
-      "risk": "low",
-      "confidence": "medium",
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:02:25.000Z"
-    },
-    {
-      "term": "只可意会",
-      "family": "evasion",
-      "meaning": "“只可意会”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-23T14:25:59.367Z"
-    },
-    {
-      "term": "只可意会不可言传",
-      "family": "evasion",
-      "meaning": "“只可意会不可言传”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-23T14:25:59.367Z"
-    },
-    {
-      "term": "和谐",
-      "family": "evasion",
-      "meaning": "“和谐”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "嗑瓜子",
-      "family": "evasion",
-      "meaning": "“嗑瓜子”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-05-30T20:02:10.997Z"
-    },
-    {
-      "term": "多读书",
-      "family": "evasion",
-      "meaning": "把举证责任转移给对方",
-      "risk": "medium",
-      "confidence": 0.5,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:02:25.000Z"
-    },
-    {
-      "term": "大号没了",
-      "family": "evasion",
-      "meaning": "“大号没了”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-01T14:55:39.468Z"
-    },
-    {
-      "term": "小某书",
-      "family": "evasion",
-      "meaning": "“小某书”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-02T11:50:38.468Z"
-    },
-    {
-      "term": "常识",
-      "family": "evasion",
-      "meaning": "把举证责任转移给对方",
-      "risk": "medium",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "开始了",
-      "family": "evasion",
-      "meaning": "Bilibili danmaku 逃避性表达",
-      "risk": "low",
-      "confidence": "medium",
-      "evidenceCount": 40,
-      "updatedAt": "2026-06-25T17:02:25.000Z"
-    },
-    {
-      "term": "开精选",
-      "family": "evasion",
-      "meaning": "“开精选”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "怪我咯",
-      "family": "evasion",
-      "meaning": "俏皮地表示‘难道怪我吗’，用于推卸责任或缓解尴尬，带有撒娇或理直气壮的语气",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "懂了吧",
-      "family": "evasion",
-      "meaning": "“懂了吧”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-01T14:55:39.468Z"
-    },
-    {
-      "term": "懂得都懂",
-      "family": "evasion",
-      "meaning": "“懂得都懂”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "懂的",
-      "family": "evasion",
-      "meaning": "“懂的”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "懂的都懂",
-      "family": "evasion",
-      "meaning": "把举证责任转移给对方",
-      "risk": "medium",
-      "confidence": 0.68,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-17T16:10:37.143Z"
-    },
-    {
-      "term": "懒得解释",
-      "family": "evasion",
-      "meaning": "把举证责任转移给对方",
-      "risk": "medium",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "懒得说",
-      "addedFrom": "danmaku-harvest",
-      "addedAt": "2026-06-25T09:02:01.000Z",
-      "evidenceCount": 4,
-      "family": "evasion",
-      "meaning": "互联网中文表达模式 - 逃避性表达",
-      "risk": "low",
-      "confidence": "medium",
-      "updatedAt": "2026-06-25T17:02:25.000Z"
-    },
-    {
-      "term": "成都勾勾哒",
-      "family": "evasion",
-      "meaning": "“成都勾勾哒”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "我不说",
-      "family": "evasion",
-      "meaning": "“我不说”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "搅混水",
-      "family": "evasion",
-      "meaning": "“搅混水”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "搜呗",
-      "family": "evasion",
-      "meaning": "“搜呗”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-01T06:32:45.244Z"
-    },
-    {
-      "term": "摆烂",
-      "family": "evasion",
-      "meaning": "“摆烂”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "无所吊谓",
-      "family": "evasion",
-      "meaning": "“无所吊谓”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "无端联想",
-      "family": "evasion",
-      "meaning": "“无端联想”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-05-30T20:44:52.700Z"
-    },
-    {
-      "term": "最后一舞",
-      "family": "evasion",
-      "meaning": "“最后一舞”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "望周知",
-      "family": "evasion",
-      "meaning": "“望周知”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "模棱两可",
-      "family": "evasion",
-      "meaning": "“模棱两可”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "步兵",
-      "family": "evasion",
-      "meaning": "“步兵”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
       "term": "爱信不信",
-      "addedFrom": "danmaku-harvest",
-      "addedAt": "2026-06-25T09:02:01.000Z",
-      "evidenceCount": 4,
       "family": "evasion",
       "meaning": "互联网中文表达模式 - 逃避性表达",
       "risk": "low",
-      "confidence": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 4,
       "updatedAt": "2026-06-25T17:02:25.000Z"
     },
     {
@@ -466,81 +33,9 @@
       "updatedAt": "2026-06-17T03:18:09.279Z"
     },
     {
-      "term": "看破不说破",
+      "term": "摆烂",
       "family": "evasion",
-      "meaning": "“看破不说破”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-02T11:41:47.569Z"
-    },
-    {
-      "term": "真的吗我不信",
-      "family": "evasion",
-      "meaning": "用经典梗幽默表达怀疑，拒绝直接接受对方的说法，常用于回避进一步讨论",
-      "risk": "medium",
-      "confidence": 0.92,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-17T10:13:53.613Z"
-    },
-    {
-      "term": "精选",
-      "family": "evasion",
-      "meaning": "“精选”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "自己去找",
-      "family": "evasion",
-      "meaning": "把举证责任转移给对方",
-      "risk": "medium",
-      "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-18T12:04:32.144Z"
-    },
-    {
-      "term": "自己学",
-      "family": "evasion",
-      "meaning": "把举证责任转移给对方",
-      "risk": "medium",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "自己搜",
-      "family": "evasion",
-      "meaning": "“自己搜”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "自己查",
-      "family": "evasion",
-      "meaning": "把举证责任转移给对方",
-      "risk": "medium",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "自己查去",
-      "family": "evasion",
-      "meaning": "“自己查去”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "自己看",
-      "family": "evasion",
-      "meaning": "“自己看”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "meaning": "“摆烂”用于暗示、转移解释责任或以圈内默契代替直接说明",
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 5,
@@ -556,13 +51,319 @@
       "updatedAt": "2026-05-30T03:34:03.898Z"
     },
     {
-      "term": "认真你就输了",
+      "term": "避重就轻",
       "family": "evasion",
-      "meaning": "“认真你就输了”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "meaning": "“避重就轻”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "别问了",
+      "family": "evasion",
+      "meaning": "互联网中文表达模式 - 逃避性表达",
+      "risk": "low",
+      "confidence": 0.68,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-25T17:02:25.000Z"
+    },
+    {
+      "term": "别问我",
+      "family": "evasion",
+      "meaning": "Bilibili 逃避性表达",
+      "risk": "low",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-25T17:44:42.000Z"
+    },
+    {
+      "term": "步兵",
+      "family": "evasion",
+      "meaning": "“步兵”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "常识",
+      "family": "evasion",
+      "meaning": "把举证责任转移给对方",
+      "risk": "medium",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "车轱辘",
+      "family": "evasion",
+      "meaning": "“车轱辘”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-25T17:28:36.790353Z"
+    },
+    {
+      "term": "成都勾勾哒",
+      "family": "evasion",
+      "meaning": "“成都勾勾哒”用于暗示、转移解释责任或以圈内默契代替直接说明",
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 4,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "大号没了",
+      "family": "evasion",
+      "meaning": "“大号没了”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-01T14:55:39.468Z"
+    },
+    {
+      "term": "懂得都懂",
+      "family": "evasion",
+      "meaning": "“懂得都懂”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-25T17:49:50.909Z"
+    },
+    {
+      "term": "懂的",
+      "family": "evasion",
+      "meaning": "“懂的”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-25T17:49:50.909Z"
+    },
+    {
+      "term": "懂的都懂",
+      "family": "evasion",
+      "meaning": "把举证责任转移给对方",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-17T16:10:37.143Z"
+    },
+    {
+      "term": "懂了吧",
+      "family": "evasion",
+      "meaning": "“懂了吧”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-01T14:55:39.468Z"
+    },
+    {
+      "term": "勾勾哒",
+      "family": "evasion",
+      "meaning": "“勾勾哒”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "怪我咯",
+      "family": "evasion",
+      "meaning": "俏皮地表示‘难道怪我吗’，用于推卸责任或缓解尴尬，带有撒娇或理直气壮的语气",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "关你什么事",
+      "family": "evasion",
+      "meaning": "互联网中文表达模式 - 逃避性表达",
+      "risk": "low",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "和谐",
+      "family": "evasion",
+      "meaning": "“和谐”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "搅混水",
+      "family": "evasion",
+      "meaning": "“搅混水”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "精选",
+      "family": "evasion",
+      "meaning": "“精选”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-25T17:28:36.790353Z"
+    },
+    {
+      "term": "开精选",
+      "family": "evasion",
+      "meaning": "“开精选”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-25T17:28:36.790353Z"
+    },
+    {
+      "term": "开始了",
+      "family": "evasion",
+      "meaning": "Bilibili danmaku 逃避性表达",
+      "risk": "low",
+      "confidence": 0.68,
+      "evidenceCount": 10,
+      "updatedAt": "2026-06-25T17:28:36.790353Z"
+    },
+    {
+      "term": "看破不说破",
+      "family": "evasion",
+      "meaning": "“看破不说破”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-02T11:41:47.569Z"
+    },
+    {
+      "term": "嗑瓜子",
+      "family": "evasion",
+      "meaning": "“嗑瓜子”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-05-30T20:02:10.997Z"
+    },
+    {
+      "term": "懒得解释",
+      "family": "evasion",
+      "meaning": "把举证责任转移给对方",
+      "risk": "medium",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "懒得说",
+      "family": "evasion",
+      "meaning": "互联网中文表达模式 - 逃避性表达",
+      "risk": "low",
+      "confidence": 0.68,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-25T17:02:25.000Z"
+    },
+    {
+      "term": "乐子",
+      "family": "evasion",
+      "meaning": "“乐子”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "历史遗留问题",
+      "family": "evasion",
+      "meaning": "“历史遗留问题”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
       "updatedAt": "2026-06-23T15:03:26.562Z"
+    },
+    {
+      "term": "免死金牌",
+      "family": "evasion",
+      "meaning": "“免死金牌”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "模棱两可",
+      "family": "evasion",
+      "meaning": "“模棱两可”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "你可以自己查",
+      "family": "evasion",
+      "meaning": "“你可以自己查”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-25T17:49:50.909Z"
+    },
+    {
+      "term": "你没见过不代表没有",
+      "family": "evasion",
+      "meaning": "一种拒绝接受证据的说法，暗示未知可能性，回避直接举证",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-17T17:13:23.711Z"
+    },
+    {
+      "term": "你们懂吧",
+      "family": "evasion",
+      "meaning": "“你们懂吧”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "你细品",
+      "family": "evasion",
+      "meaning": "“你细品”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "你赢了",
+      "family": "evasion",
+      "meaning": "“你赢了”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "你在教我做事",
+      "family": "evasion",
+      "meaning": "互联网中文表达模式 - 逃避性表达",
+      "risk": "low",
+      "confidence": 0.68,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-25T17:02:25.000Z"
+    },
+    {
+      "term": "你自己搜",
+      "family": "evasion",
+      "meaning": "把举证责任转移给对方",
+      "risk": "medium",
+      "confidence": 0.5,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-25T17:49:50.909Z"
     },
     {
       "term": "跑路",
@@ -574,13 +375,166 @@
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
-      "term": "车轱辘",
+      "term": "骗炮",
       "family": "evasion",
-      "meaning": "“车轱辘”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "meaning": "“骗炮”用于暗示、转移解释责任或以圈内默契代替直接说明",
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "去百度",
+      "family": "evasion",
+      "meaning": "把举证责任转移给对方",
+      "risk": "medium",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-01T12:04:07.872Z"
+    },
+    {
+      "term": "去看书",
+      "family": "evasion",
+      "meaning": "把举证责任转移给对方",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-17T03:27:13.342Z"
+    },
+    {
+      "term": "去搜",
+      "family": "evasion",
+      "meaning": "“去搜”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-25T17:49:50.909Z"
+    },
+    {
+      "term": "人尽皆知",
+      "family": "evasion",
+      "meaning": "“人尽皆知”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "认真你就输了",
+      "family": "evasion",
+      "meaning": "“认真你就输了”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-23T15:03:26.562Z"
+    },
+    {
+      "term": "搜呗",
+      "family": "evasion",
+      "meaning": "“搜呗”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-01T06:32:45.244Z"
+    },
+    {
+      "term": "望周知",
+      "family": "evasion",
+      "meaning": "“望周知”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "危险发言",
+      "family": "evasion",
+      "meaning": "“危险发言”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 4,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "问就是",
+      "family": "evasion",
+      "meaning": "Bilibili 逃避性表达",
+      "risk": "low",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-25T17:44:42.000Z"
+    },
+    {
+      "term": "我不说",
+      "family": "evasion",
+      "meaning": "“我不说”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "无端联想",
+      "family": "evasion",
+      "meaning": "“无端联想”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-05-30T20:44:52.700Z"
+    },
+    {
+      "term": "无所吊谓",
+      "family": "evasion",
+      "meaning": "“无所吊谓”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "小某书",
+      "family": "evasion",
+      "meaning": "“小某书”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-02T11:50:38.468Z"
+    },
+    {
+      "term": "野熊",
+      "family": "evasion",
+      "meaning": "“野熊”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 3,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "逸一时误一世",
+      "family": "evasion",
+      "meaning": "“逸一时误一世”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 3,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "又开始了",
+      "family": "evasion",
+      "meaning": "Bilibili danmaku 逃避性表达",
+      "risk": "low",
+      "confidence": 0.68,
+      "evidenceCount": 10,
+      "updatedAt": "2026-06-25T17:28:36.790353Z"
+    },
+    {
+      "term": "这都不懂",
+      "family": "evasion",
+      "meaning": "把举证责任转移给对方",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-18T03:28:52.096Z"
     },
     {
       "term": "这还用说",
@@ -601,67 +555,94 @@
       "updatedAt": "2026-06-17T05:42:05.314Z"
     },
     {
-      "term": "这都不懂",
+      "term": "真的吗我不信",
+      "family": "evasion",
+      "meaning": "用经典梗幽默表达怀疑，拒绝直接接受对方的说法，常用于回避进一步讨论",
+      "risk": "medium",
+      "confidence": 0.92,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T10:13:53.613Z"
+    },
+    {
+      "term": "只可意会",
+      "family": "evasion",
+      "meaning": "“只可意会”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-23T14:25:59.367Z"
+    },
+    {
+      "term": "只可意会不可言传",
+      "family": "evasion",
+      "meaning": "“只可意会不可言传”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-23T14:25:59.367Z"
+    },
+    {
+      "term": "自己查",
+      "family": "evasion",
+      "meaning": "把举证责任转移给对方",
+      "risk": "medium",
+      "confidence": 0.5,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-25T17:49:50.909Z"
+    },
+    {
+      "term": "自己查去",
+      "family": "evasion",
+      "meaning": "“自己查去”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-25T17:28:36.790353Z"
+    },
+    {
+      "term": "自己看",
+      "family": "evasion",
+      "meaning": "“自己看”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "自己去找",
       "family": "evasion",
       "meaning": "把举证责任转移给对方",
       "risk": "medium",
       "confidence": 0.68,
       "evidenceCount": 3,
-      "updatedAt": "2026-06-18T03:28:52.096Z"
+      "updatedAt": "2026-06-18T12:04:32.144Z"
     },
     {
-      "term": "逸一时误一世",
+      "term": "自己搜",
       "family": "evasion",
-      "meaning": "“逸一时误一世”用于暗示、转移解释责任或以圈内默契代替直接说明",
+      "meaning": "“自己搜”用于暗示、转移解释责任或以圈内默契代替直接说明",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 3,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-25T17:49:50.909Z"
     },
     {
-      "term": "避重就轻",
+      "term": "自己学",
       "family": "evasion",
-      "meaning": "“避重就轻”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "野熊",
-      "family": "evasion",
-      "meaning": "“野熊”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 3,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "骗炮",
-      "family": "evasion",
-      "meaning": "“骗炮”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
+      "meaning": "把举证责任转移给对方",
+      "risk": "medium",
       "confidence": 0.5,
       "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
-      "term": "别问我",
+      "term": "最后一舞",
       "family": "evasion",
-      "meaning": "Bilibili 逃避性表达",
+      "meaning": "“最后一舞”用于暗示、转移解释责任或以圈内默契代替直接说明",
       "risk": "low",
-      "confidence": "medium",
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-25T17:44:42.000Z"
-    },
-    {
-      "term": "问就是",
-      "family": "evasion",
-      "meaning": "Bilibili 逃避性表达",
-      "risk": "low",
-      "confidence": "medium",
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-25T17:44:42.000Z"
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
     }
   ]
 }

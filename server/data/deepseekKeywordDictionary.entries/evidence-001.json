@@ -1,19 +1,10 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:30:21.000Z",
+  "updatedAt": "2026-06-25T17:49:50.909Z",
   "family": "evidence",
   "shard": 1,
   "shardCount": 1,
   "entries": [
-    {
-      "term": "10万",
-      "family": "evidence",
-      "meaning": "“10万”用于请求、补充或指向可核验的来源、证据或原始材料",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
     {
       "term": "10年老粉",
       "family": "evidence",
@@ -22,6 +13,15 @@
       "confidence": 0.5,
       "evidenceCount": 3,
       "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "10万",
+      "family": "evidence",
+      "meaning": "“10万”用于请求、补充或指向可核验的来源、证据或原始材料",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
       "term": "12300工信部投诉",
@@ -42,40 +42,22 @@
       "updatedAt": "2026-05-31T00:44:05.385Z"
     },
     {
-      "term": "cd4细胞",
+      "term": "百度百科",
       "family": "evidence",
-      "meaning": "“cd4细胞”用于请求、补充或指向可核验的来源、证据或原始材料",
+      "meaning": "“百度百科”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 3,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-25T17:28:36.790353Z"
     },
     {
-      "term": "上链接",
+      "term": "百科",
       "family": "evidence",
-      "meaning": "要求或提供可核验证据",
-      "risk": "medium",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-23T15:09:15.125Z"
-    },
-    {
-      "term": "为什么",
-      "family": "evidence",
-      "meaning": "“为什么”用于请求、补充或指向可核验的来源、证据或原始材料",
+      "meaning": "“百科”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "信源",
-      "family": "evidence",
-      "meaning": "要求或提供可核验证据",
-      "risk": "medium",
-      "confidence": 0.5,
-      "evidenceCount": 4,
-      "updatedAt": "2026-05-30T20:02:10.997Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-25T17:28:36.790353Z"
     },
     {
       "term": "出处",
@@ -87,13 +69,31 @@
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
-      "term": "卡bug",
+      "term": "发链接",
       "family": "evidence",
-      "meaning": "“卡bug”用于请求、补充或指向可核验的来源、证据或原始材料",
-      "risk": "low",
+      "meaning": "要求或提供可核验证据",
+      "risk": "medium",
       "confidence": 0.5,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "updatedAt": "2026-06-25T17:49:50.909Z"
+    },
+    {
+      "term": "发图",
+      "family": "evidence",
+      "meaning": "“发图”用于请求、补充或指向可核验的来源、证据或原始材料",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 10,
+      "updatedAt": "2026-06-25T17:28:36.790353Z"
+    },
+    {
+      "term": "话术",
+      "family": "evidence",
+      "meaning": "“话术”用于请求、补充或指向可核验的来源、证据或原始材料",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-25T17:49:50.909Z"
     },
     {
       "term": "即死",
@@ -105,63 +105,27 @@
       "updatedAt": "2026-05-30T03:34:03.898Z"
     },
     {
-      "term": "原文",
-      "family": "evidence",
-      "meaning": "要求或提供可核验证据",
-      "risk": "medium",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "发图",
-      "family": "evidence",
-      "meaning": "“发图”用于请求、补充或指向可核验的来源、证据或原始材料",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "发链接",
-      "family": "evidence",
-      "meaning": "要求或提供可核验证据",
-      "risk": "medium",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-23T15:03:26.562Z"
-    },
-    {
-      "term": "图呢",
-      "family": "evidence",
-      "meaning": "Bilibili danmaku 证据表达",
-      "risk": "low",
-      "confidence": "medium",
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-25T17:02:25.000Z"
-    },
-    {
-      "term": "引用",
-      "family": "evidence",
-      "meaning": "要求或提供可核验证据",
-      "risk": "medium",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
       "term": "截图",
       "family": "evidence",
       "meaning": "要求或提供可核验证据",
       "risk": "medium",
       "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-25T17:49:50.909Z"
     },
     {
       "term": "截图造谣",
       "family": "evidence",
       "meaning": "“截图造谣”用于请求、补充或指向可核验的来源、证据或原始材料",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-25T17:49:50.909Z"
+    },
+    {
+      "term": "卡bug",
+      "family": "evidence",
+      "meaning": "“卡bug”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 5,
@@ -177,9 +141,45 @@
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
-      "term": "挖为什么",
+      "term": "老厮",
       "family": "evidence",
-      "meaning": "“挖为什么”用于请求、补充或指向可核验的来源、证据或原始材料",
+      "meaning": "“老厮”用于请求、补充或指向可核验的来源、证据或原始材料",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-05-31T04:46:04.019Z"
+    },
+    {
+      "term": "链接",
+      "family": "evidence",
+      "meaning": "要求或提供可核验证据",
+      "risk": "medium",
+      "confidence": 0.5,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-25T17:49:50.909Z"
+    },
+    {
+      "term": "链接呢",
+      "family": "evidence",
+      "meaning": "互联网中文表达模式 - 证据性表达",
+      "risk": "low",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-25T17:02:25.000Z"
+    },
+    {
+      "term": "猎杀者",
+      "family": "evidence",
+      "meaning": "“猎杀者”用于请求、补充或指向可核验的来源、证据或原始材料",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 3,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "路人盘",
+      "family": "evidence",
+      "meaning": "“路人盘”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 5,
@@ -195,9 +195,36 @@
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
-      "term": "有bug",
+      "term": "热知识",
       "family": "evidence",
-      "meaning": "“有bug”用于请求、补充或指向可核验的来源、证据或原始材料",
+      "meaning": "“热知识”用于请求、补充或指向可核验的来源、证据或原始材料",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-25T17:49:50.909Z"
+    },
+    {
+      "term": "软文",
+      "family": "evidence",
+      "meaning": "“软文”用于质疑内容是付费宣传、带节奏或影响证据可信度的稿件",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-01T02:31:58.969Z"
+    },
+    {
+      "term": "上链接",
+      "family": "evidence",
+      "meaning": "要求或提供可核验证据",
+      "risk": "medium",
+      "confidence": 0.5,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-25T17:49:50.909Z"
+    },
+    {
+      "term": "石锤",
+      "family": "evidence",
+      "meaning": "“石锤”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 5,
@@ -209,14 +236,59 @@
       "meaning": "“水军”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-25T17:28:36.790353Z"
     },
     {
       "term": "水军公司",
       "family": "evidence",
       "meaning": "“水军公司”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-25T17:28:36.790353Z"
+    },
+    {
+      "term": "图呢",
+      "family": "evidence",
+      "meaning": "Bilibili danmaku 证据表达",
+      "risk": "low",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-25T17:02:25.000Z"
+    },
+    {
+      "term": "挖为什么",
+      "family": "evidence",
+      "meaning": "“挖为什么”用于请求、补充或指向可核验的来源、证据或原始材料",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-25T17:49:50.909Z"
+    },
+    {
+      "term": "为什么",
+      "family": "evidence",
+      "meaning": "“为什么”用于请求、补充或指向可核验的来源、证据或原始材料",
+      "risk": "low",
+      "confidence": 0.5,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-25T17:49:50.909Z"
+    },
+    {
+      "term": "信源",
+      "family": "evidence",
+      "meaning": "要求或提供可核验证据",
+      "risk": "medium",
+      "confidence": 0.5,
+      "evidenceCount": 4,
+      "updatedAt": "2026-05-30T20:02:10.997Z"
+    },
+    {
+      "term": "引用",
+      "family": "evidence",
+      "meaning": "要求或提供可核验证据",
+      "risk": "medium",
       "confidence": 0.5,
       "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
@@ -231,105 +303,31 @@
       "updatedAt": "2026-06-23T15:03:26.562Z"
     },
     {
-      "term": "热知识",
+      "term": "有bug",
       "family": "evidence",
-      "meaning": "“热知识”用于请求、补充或指向可核验的来源、证据或原始材料",
+      "meaning": "“有bug”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
-      "term": "猎杀者",
-      "family": "evidence",
-      "meaning": "“猎杀者”用于请求、补充或指向可核验的来源、证据或原始材料",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 3,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "百度百科",
-      "family": "evidence",
-      "meaning": "“百度百科”用于请求、补充或指向可核验的来源、证据或原始材料",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "百科",
-      "family": "evidence",
-      "meaning": "“百科”用于请求、补充或指向可核验的来源、证据或原始材料",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "石锤",
-      "family": "evidence",
-      "meaning": "“石锤”用于请求、补充或指向可核验的来源、证据或原始材料",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "老厮",
-      "family": "evidence",
-      "meaning": "“老厮”用于请求、补充或指向可核验的来源、证据或原始材料",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-05-31T04:46:04.019Z"
-    },
-    {
-      "term": "话术",
-      "family": "evidence",
-      "meaning": "“话术”用于请求、补充或指向可核验的来源、证据或原始材料",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "路人盘",
-      "family": "evidence",
-      "meaning": "“路人盘”用于请求、补充或指向可核验的来源、证据或原始材料",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "软文",
-      "family": "evidence",
-      "meaning": "“软文”用于质疑内容是付费宣传、带节奏或影响证据可信度的稿件",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-01T02:31:58.969Z"
-    },
-    {
-      "term": "链接",
+      "term": "原文",
       "family": "evidence",
       "meaning": "要求或提供可核验证据",
       "risk": "medium",
       "confidence": 0.5,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-23T15:03:26.562Z"
+      "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
-      "term": "链接呢",
-      "addedFrom": "danmaku-harvest",
-      "addedAt": "2026-06-25T09:02:01.000Z",
-      "evidenceCount": 3,
+      "term": "cd4细胞",
       "family": "evidence",
-      "meaning": "互联网中文表达模式 - 证据性表达",
+      "meaning": "“cd4细胞”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
-      "confidence": "medium",
-      "updatedAt": "2026-06-25T17:02:25.000Z"
+      "confidence": 0.5,
+      "evidenceCount": 3,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
     }
   ]
 }

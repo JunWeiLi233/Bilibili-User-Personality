@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-25T17:44:49.802406Z",
+  "generatedAt": "2026-06-25T17:55:13.688875Z",
   "targetEvidence": 3,
   "minCoverageRatio": 1,
   "requireComplete": true,
@@ -8,12 +8,12 @@
   "coverage": {
     "complete": true,
     "targetEvidence": 3,
-    "terms": 1582,
-    "totalEvidence": 7583,
-    "averageEvidence": 4.79,
+    "terms": 1576,
+    "totalEvidence": 8508,
+    "averageEvidence": 5.4,
     "coverageRatio": 1.0,
     "evidenceDeficit": 0,
-    "sourcedEvidenceTerms": 1582,
+    "sourcedEvidenceTerms": 1576,
     "sourceCoverageRatio": 1.0,
     "unsourcedEvidenceTerms": 0,
     "weakTerms": 0,
@@ -23,43 +23,43 @@
     "unsourcedEvidenceSamples": [],
     "byFamily": {
       "attack": {
-        "terms": 971,
-        "evidence": 4566,
+        "terms": 966,
+        "evidence": 5161,
         "weak": 0,
         "zero": 0,
-        "sourced": 971
+        "sourced": 966
       },
       "absolutes": {
         "terms": 123,
-        "evidence": 658,
+        "evidence": 683,
         "weak": 0,
         "zero": 0,
         "sourced": 123
       },
       "evidence": {
         "terms": 36,
-        "evidence": 166,
+        "evidence": 198,
         "weak": 0,
         "zero": 0,
         "sourced": 36
       },
       "evasion": {
-        "terms": 72,
-        "evidence": 363,
+        "terms": 71,
+        "evidence": 356,
         "weak": 0,
         "zero": 0,
-        "sourced": 72
+        "sourced": 71
       },
       "cooperation": {
         "terms": 346,
-        "evidence": 1672,
+        "evidence": 1919,
         "weak": 0,
         "zero": 0,
         "sourced": 346
       },
       "correction": {
         "terms": 34,
-        "evidence": 158,
+        "evidence": 191,
         "weak": 0,
         "zero": 0,
         "sourced": 34
@@ -69,7 +69,7 @@
   "termAttemptSummary": {
     "attemptedTerms": 0,
     "successfulTerms": 0,
-    "unattemptedTerms": 1582,
+    "unattemptedTerms": 1576,
     "unattemptedSamples": [
       {
         "term": "dna觉醒",
@@ -177,7 +177,7 @@
     "exhaustedSamples": []
   },
   "actionSummary": {
-    "none": 1582
+    "none": 1576
   },
   "familyGaps": [
     {
@@ -185,15 +185,15 @@
       "terms": 123,
       "weak": 0,
       "zero": 0,
-      "evidence": 658,
+      "evidence": 683,
       "coverageRatio": 1.0
     },
     {
       "family": "attack",
-      "terms": 971,
+      "terms": 966,
       "weak": 0,
       "zero": 0,
-      "evidence": 4566,
+      "evidence": 5161,
       "coverageRatio": 1.0
     },
     {
@@ -201,7 +201,7 @@
       "terms": 346,
       "weak": 0,
       "zero": 0,
-      "evidence": 1672,
+      "evidence": 1919,
       "coverageRatio": 1.0
     },
     {
@@ -209,15 +209,15 @@
       "terms": 34,
       "weak": 0,
       "zero": 0,
-      "evidence": 158,
+      "evidence": 191,
       "coverageRatio": 1.0
     },
     {
       "family": "evasion",
-      "terms": 72,
+      "terms": 71,
       "weak": 0,
       "zero": 0,
-      "evidence": 363,
+      "evidence": 356,
       "coverageRatio": 1.0
     },
     {
@@ -225,7 +225,7 @@
       "terms": 36,
       "weak": 0,
       "zero": 0,
-      "evidence": 166,
+      "evidence": 198,
       "coverageRatio": 1.0
     }
   ],
