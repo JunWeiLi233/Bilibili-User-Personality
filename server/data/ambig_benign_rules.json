@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "ruleCount": 133,
+  "ruleCount": 139,
   "rules": [
     {
       "terms": [
@@ -1644,6 +1644,35 @@
     },
     {
       "terms": [
+        "支持力"
+      ],
+      "family": "cooperation",
+      "conditions": [
+        {
+          "name": "_term_in_sample",
+          "type": "term_in_sample",
+          "term": "支持力"
+        }
+      ],
+      "returnTrue": "not _term_in_sample"
+    },
+    {
+      "terms": [
+        "支持一下up"
+      ],
+      "family": "cooperation",
+      "conditions": [
+        {
+          "name": "supportUpContext",
+          "pattern": "支持一下up|支持一下up主|支持up|支持up主",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "not supportUpContext"
+    },
+    {
+      "terms": [
         "学习了"
       ],
       "family": "cooperation",
@@ -2060,6 +2089,20 @@
     },
     {
       "terms": [
+        "不会真有人觉得这叫证据吧"
+      ],
+      "family": "attack",
+      "conditions": [
+        {
+          "name": "exactEvidenceMockContext",
+          "type": "includes",
+          "value": "不会真有人觉得这叫证据吧"
+        }
+      ],
+      "returnTrue": "not exactEvidenceMockContext"
+    },
+    {
+      "terms": [
         "小受"
       ],
       "family": "attack",
@@ -2090,6 +2133,11 @@
           "pattern": "(?:不懂就问|什么意思|是什么梗|你们说的).{0,80}小孩射|小孩射.{0,30}(?:什么意思|是什么梗)",
           "caseInsensitive": false,
           "target": "clean_sample"
+        },
+        {
+          "name": "noExactSurfaceContext",
+          "type": "not_includes",
+          "value": "小孩射"
         },
         {
           "name": "metaNicknameContext",
@@ -2376,6 +2424,49 @@
     },
     {
       "terms": [
+        "中系"
+      ],
+      "family": "cooperation",
+      "conditions": [
+        {
+          "name": "fandomClassificationContext",
+          "pattern": "(?:感觉.*中系|kangta系|司马男|两大分类|泰容|在玹)",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "fandomClassificationContext"
+    },
+    {
+      "terms": [
+        "不李姐",
+        "我不李姐"
+      ],
+      "family": "attack",
+      "conditions": [
+        {
+          "name": "literalUnderstandingContext",
+          "pattern": "(?:不理解|我不理解|不是不理解)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "mockContext",
+          "pattern": "(?:不理解|我不理解).*(?:这也能洗|这也能|离谱|荒唐|这种说法|什么逻辑|？)|(?:真的好笑|这就).*?(?:不理解|我不理解)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        },
+        {
+          "name": "suffixedTokenContext",
+          "pattern": "(?:单走(?:一个)?6|走一个6)[a-z]+",
+          "caseInsensitive": true,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "suffixedTokenContext"
+    },
+    {
+      "terms": [
         "up好牛"
       ],
       "family": "cooperation",
@@ -2394,6 +2485,21 @@
         }
       ],
       "returnTrue": "genericPraiseContext  and  not usefulCreatorContext"
+    },
+    {
+      "terms": [
+        "团灭复仇者联盟"
+      ],
+      "family": "cooperation",
+      "conditions": [
+        {
+          "name": "plotSummaryContext",
+          "pattern": "(?:复仇者|美队|宝石|正片|剧情|主要原因|贪于享乐|知道自己这边的情况)",
+          "caseInsensitive": false,
+          "target": "clean_sample"
+        }
+      ],
+      "returnTrue": "plotSummaryContext"
     },
     {
       "terms": [

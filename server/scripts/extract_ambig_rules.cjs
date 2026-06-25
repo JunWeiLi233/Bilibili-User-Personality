@@ -116,17 +116,87 @@ for (let i = 0; i < lines.length; i++) {
         .replace(/&&/g, ' and ')
         .replace(/\|\|/g, ' or ')
         .replace(/!/g, 'not ');
-      // This rule is complete — push it
       rules.push(currentRule);
       currentRule = null;
       continue;
     }
 
-    // } closing brace — rule may be complete
+    // Multi-line if (complex ||
+    //     expression) return true;
+    m = line.match(/^\s*if \(([^)]+)\)\s*$/);
+    if (m) {
+      currentRule._pendingIf = m[1];
+      continue;
+    }
+
+    // return true; after a pending if
+    if (line.trim() === 'return true;' && currentRule && currentRule._pendingIf) {
+      currentRule.returnTrue = currentRule._pendingIf
+        .replace(/&&/g, ' and ')
+        .replace(/\|\|/g, ' or ')
+        .replace(/!/g, 'not ');
+      delete currentRule._pendingIf;
+      rules.push(currentRule);
+      currentRule = null;
+      continue;
+    }
+
+    // return !name; — negated condition
+    m = line.match(/^\s*return !(\w+);\s*$/);
+    if (m && currentRule) {
+      currentRule.returnTrue = 'not ' + m[1];
+      rules.push(currentRule);
+      currentRule = null;
+      continue;
+    }
+
+    // return name; — direct condition (not true/false)
+    m = line.match(/^\s*return (\w+);\s*$/);
+    if (m && m[1] !== 'true' && m[1] !== 'false' && currentRule) {
+      currentRule.returnTrue = m[1];
+      rules.push(currentRule);
+      currentRule = null;
+      continue;
+    }
+
+    // return !cleanSample.includes('XXX');
+    m = line.match(/^\s*return !cleanSample\.includes\('(.+?)'\);\s*$/);
+    if (m && currentRule) {
+      currentRule.conditions.push({
+        name: '_term_in_sample',
+        type: 'term_in_sample',
+        term: decode(m[1]),
+      });
+      currentRule.returnTrue = 'not _term_in_sample';
+      rules.push(currentRule);
+      currentRule = null;
+      continue;
+    }
+
+    // const name = cleanSample.includes('XXX');
+    m = line.match(/^\s*const (\w+) = cleanSample\.includes\('(.+?)'\)\s*;?\s*$/);
+    if (m) {
+      currentRule.conditions.push({
+        name: m[1],
+        type: 'includes',
+        value: decode(m[2]),
+      });
+      continue;
+    }
+
+    // const name = !cleanSample.includes('XXX');
+    m = line.match(/^\s*const (\w+) = !cleanSample\.includes\('(.+?)'\)\s*;?\s*$/);
+    if (m) {
+      currentRule.conditions.push({
+        name: m[1],
+        type: 'not_includes',
+        value: decode(m[2]),
+      });
+      continue;
+    }
+
+    // } closing brace
     if (line.trim() === '}') {
-      // Check if we've been collecting a rule
-      // Some rules have the if()return true inside another block
-      // For now, only push if we have a returnTrue
       if (currentRule && currentRule.returnTrue) {
         rules.push(currentRule);
         currentRule = null;

@@ -892,12 +892,18 @@ def _get_ambig_rules() -> dict[str, list[dict[str, Any]]]:
 
 
 def _eval_rule_condition(cond: dict[str, Any], clean_sample: str, context_sample: str) -> bool:
-    """Evaluate a single rule condition (regex or equality test)."""
+    """Evaluate a single rule condition (regex, equality, includes, etc.)."""
     if "pattern" in cond:
         flags = re.IGNORECASE if cond.get("caseInsensitive") else 0
         return bool(re.search(cond["pattern"], clean_sample, flags))
     if cond.get("type") == "equals":
         return clean_sample == cond["value"]
+    if cond.get("type") == "includes":
+        return cond["value"] in clean_sample
+    if cond.get("type") == "not_includes":
+        return cond["value"] not in clean_sample
+    if cond.get("type") == "term_in_sample":
+        return cond["term"] in clean_sample
     return False
 
 
