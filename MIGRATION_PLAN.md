@@ -1,6 +1,6 @@
 # JS → Python Backend Migration Plan
 
-Last updated: 2026-06-24 after commit `0a2d315a`. Run `python -m python_backend.cli.migration_inventory` for latest.
+Last updated: 2026-06-25. Run `python -m python_backend.cli.migration_inventory` for latest.
 
 ## Current Status
 
@@ -97,7 +97,7 @@ python -m python_backend.cli.migration_inventory  # Reports migration progress
 | `server/services/bilibiliCrawler.js` | 1,137 | High — last crawler module |
 | `server/services/videoKeywordSearch.js` | 1,286 | High — 18/18 exports ported: `searchVideoKeywords` config resolution extracted as `resolve_search_video_keywords_config`; async orchestration stays JS |
 | `server/services/keywordHarvest.js` | 3,540 | Medium |
-| `server/services/deepseekKeywordTrainer.js` | 4,662 | **Data-driven rule engine** — `normalize_keyword_entries` ported (20+ helpers + 133 JSON rules); `normalizeDeepSeekAnalysisResult` already ported; `extractJsonObject` already ported; `keyword_evidence.py`: 289→1,090 lines; `ambig_benign_rules.json`: 133 extracted rules evaluated by Python; ~200 complex-format rules remain to be extracted by enhancing `extract_ambig_rules.cjs` |
+| `server/services/deepseekKeywordTrainer.js` | 4,662 | **Data-driven rule engine** — `normalize_keyword_entries` fully ported (20+ helpers + main function); `normalizeDeepSeekAnalysisResult` ported; `extractJsonObject` ported; `keyword_evidence.py`: ~1,188 lines; `ambig_benign_rules.json`: 165 extracted rules evaluated by Python (extractor enhanced to handle multi-line consts, inline regex, parenthesized OR, composite conditions); 8 remaining rules use patterns not yet handled by extractor |
 | `server/scripts/runCoverageHarvestLoop.js` | 695 | High — loop orchestration |
 | `server/scripts/runTiebaKeywordScrape.js` | 390 | Medium |
 | 18 more scripts | ~3,500 total | Low — CLI wrappers |
@@ -107,12 +107,12 @@ python -m python_backend.cli.migration_inventory  # Reports migration progress
 - `analyzers/deepseek.py` — DeepSeek analysis config + planning + normalization (1,278 lines)
 - `analyzers/deepseek_cli.py` — CLI dispatch (944 lines)
 - `analyzers/deepseek_config.py` — Configuration contracts (189 lines)
-- `analyzers/keyword_evidence.py` — Keyword evidence analysis + dictionary entry normalization helpers (451 lines)
-- `analyzers/dictionary_entries.py` — (planned) `normalize_keyword_entries` target module
+- `analyzers/keyword_evidence.py` — Keyword evidence analysis + dictionary entry normalization helpers + `normalize_keyword_entries` main function (1,188 lines, fully ported)
 - Tests: `python_backend/tests/test_analyzers.py` (70 tests covering normalize, config, validation, normalization, keyword evidence)
 - JS↔Python comparison: 28 DeepSeek comparison tests pass (config, normalization, validation, fixture, mock runtime, plan, command)
 - `normalizeDeepSeekAnalysisResult` ported as `DeepSeekAnalysisNormalizer.normalize()` (line 656)
-- 9 `normalizeKeywordEntries` helper functions ported to `keyword_evidence.py`; main function pending
+- `normalize_keyword_entries` fully ported to `keyword_evidence.py` (line 966) — main function + 20+ helper functions + 165 JSON rule evaluations
+- `_is_ambiguous_benign_evidence_sample` evaluates 165 extracted rules from `ambig_benign_rules.json` with composite condition support
 
 ## Phase 4: Replace JS Commands (FUTURE)
 
