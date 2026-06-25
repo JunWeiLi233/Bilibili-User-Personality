@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T08:00:00.000Z",
+  "updatedAt": "2026-06-25T16:57:00.000Z",
   "family": "correction",
   "shard": 1,
   "shardCount": 1,
@@ -323,6 +323,15 @@
       "risk": "low",
       "confidence": "medium",
       "updatedAt": "2026-06-25T08:00:00.000Z"
+    },
+    {
+      "term": "不是这样的吗",
+      "family": "correction",
+      "meaning": "Bilibili danmaku 纠正表达",
+      "risk": "low",
+      "confidence": "medium",
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-25T16:57:00.000Z"
     }
   ]
 }

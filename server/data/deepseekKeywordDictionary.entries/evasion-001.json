@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T08:00:00.000Z",
+  "updatedAt": "2026-06-25T16:57:00.000Z",
   "family": "evasion",
   "shard": 1,
   "shardCount": 1,
@@ -752,6 +752,33 @@
       "risk": "low",
       "confidence": "medium",
       "updatedAt": "2026-06-25T08:00:00.000Z"
+    },
+    {
+      "term": "这就开始了",
+      "family": "evasion",
+      "meaning": "Bilibili danmaku 逃避性表达",
+      "risk": "low",
+      "confidence": "medium",
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-25T16:57:00.000Z"
+    },
+    {
+      "term": "又开始了",
+      "family": "evasion",
+      "meaning": "Bilibili danmaku 逃避性表达",
+      "risk": "low",
+      "confidence": "medium",
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-25T16:57:00.000Z"
+    },
+    {
+      "term": "开始了",
+      "family": "evasion",
+      "meaning": "Bilibili danmaku 逃避性表达",
+      "risk": "low",
+      "confidence": "medium",
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-25T16:57:00.000Z"
     }
   ]
 }

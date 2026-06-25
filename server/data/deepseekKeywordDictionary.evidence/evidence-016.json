@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T09:05:54.000Z",
+  "updatedAt": "2026-06-25T16:57:00.000Z",
   "family": "evidence",
   "shard": 16,
   "shardCount": 16,
@@ -187,6 +187,32 @@
         }
       ],
       "evidenceCount": 1
+    },
+    {
+      "term": "图呢",
+      "evidenceCount": 1,
+      "evidenceSamples": [
+        "Bilibili danmaku usage: 图呢"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili danmaku harvest 2026-06-25",
+          "sample": "Bilibili danmaku usage: 图呢"
+        }
+      ]
+    },
+    {
+      "term": "等一个解答",
+      "evidenceCount": 1,
+      "evidenceSamples": [
+        "Bilibili danmaku usage: 等一个解答"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili danmaku harvest 2026-06-25",
+          "sample": "Bilibili danmaku usage: 等一个解答"
+        }
+      ]
     }
   ]
 }

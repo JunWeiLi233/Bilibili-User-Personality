@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T08:00:00.000Z",
+  "updatedAt": "2026-06-25T16:57:00.000Z",
   "family": "evidence",
   "shard": 1,
   "shardCount": 1,
@@ -352,6 +352,24 @@
       "risk": "low",
       "confidence": "medium",
       "updatedAt": "2026-06-25T08:00:00.000Z"
+    },
+    {
+      "term": "图呢",
+      "family": "evidence",
+      "meaning": "Bilibili danmaku 证据表达",
+      "risk": "low",
+      "confidence": "medium",
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-25T16:57:00.000Z"
+    },
+    {
+      "term": "等一个解答",
+      "family": "evidence",
+      "meaning": "Bilibili danmaku 证据表达",
+      "risk": "low",
+      "confidence": "medium",
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-25T16:57:00.000Z"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T09:05:54.000Z",
+  "updatedAt": "2026-06-25T16:57:00.000Z",
   "family": "correction",
   "shard": 12,
   "shardCount": 12,
@@ -76,6 +76,19 @@
         }
       ],
       "evidenceCount": 2
+    },
+    {
+      "term": "不是这样的吗",
+      "evidenceCount": 1,
+      "evidenceSamples": [
+        "Bilibili danmaku usage: 不是这样的吗"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili danmaku harvest 2026-06-25",
+          "sample": "Bilibili danmaku usage: 不是这样的吗"
+        }
+      ]
     }
   ]
 }

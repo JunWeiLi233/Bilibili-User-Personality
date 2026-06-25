@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T09:05:54.000Z",
+  "updatedAt": "2026-06-25T16:57:00.000Z",
   "family": "absolutes",
   "shard": 55,
   "shardCount": 55,
@@ -122,6 +122,32 @@
         }
       ],
       "evidenceCount": 1
+    },
+    {
+      "term": "一眼丁真",
+      "evidenceCount": 1,
+      "evidenceSamples": [
+        "Bilibili danmaku usage: 一眼丁真"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili danmaku harvest 2026-06-25",
+          "sample": "Bilibili danmaku usage: 一眼丁真"
+        }
+      ]
+    },
+    {
+      "term": "明摆着",
+      "evidenceCount": 1,
+      "evidenceSamples": [
+        "Bilibili danmaku usage: 明摆着"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili danmaku harvest 2026-06-25",
+          "sample": "Bilibili danmaku usage: 明摆着"
+        }
+      ]
     }
   ]
 }
