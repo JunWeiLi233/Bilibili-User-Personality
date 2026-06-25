@@ -861,28 +861,38 @@ def _merge_keyword_entry(
 def _is_ambiguous_benign_evidence_sample(
     term: Any, family: Any, sample: Any
 ) -> bool:
-    """Port of JS isAmbiguousBenignEvidenceSample — term-specific benign-evidence rules."""
-    clean_sample = _deepseek_clean_term(str(sample or "")).lower()
-    raw_context_sample = str(sample or "")
-    context_sample = f"{clean_sample}\n{raw_context_sample}"
+    """Check if an evidence sample is benign/ambiguous (should be filtered out).
+
+    Port of JS isAmbiguousBenignEvidenceSample. Generic attack-family rules
+    are active; ~300 term-specific rules (1,550 JS lines) remain in JS pending
+    mechanical conversion. Returning False for unmatched terms is conservative:
+    it preserves evidence at the cost of occasionally admitting weak samples.
+    """
     term_str = str(term or "").strip()
     family_str = str(family or "").strip()
+    sample_str = str(sample or "")
+
+    if not term_str or not sample_str:
+        return False
+
+    clean_sample = _deepseek_clean_term(sample_str).lower()
+    context_sample = clean_sample + "\n" + sample_str
 
     if family_str == "attack":
         if _is_short_negated_attack_mention(term, sample):
             return True
-        glossary_question = re.search(
+
+        if re.search(
             r"(?:不懂就问|都(?:是)?什么意思|是什么意思|是什么梗|从来不看)",
             context_sample,
-        ) and re.search(r"[、，,].*[、，,]", context_sample)
-        hostile_explanation = re.search(
-            r"(?:黑称|骂人|攻击|别拿|别复读|别乱用)", context_sample
-        )
-        if glossary_question and not hostile_explanation:
-            return True
+        ) and re.search(r"[、，,].*[、，,]", context_sample):
+            if not re.search(
+                r"(?:黑称|骂人|攻击|别拿|别复读|别乱用)", context_sample
+            ):
+                return True
 
-    # Remaining ~300 term-specific rules to be ported from JS.
-    # Currently delegates false (no benign filtering) for unported terms.
+    # ~300 term-specific rules not yet ported from JS.
+    # Returning False is conservative: evidence not filtered.
     return False
 
 
