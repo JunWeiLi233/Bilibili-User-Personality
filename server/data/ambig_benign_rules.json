@@ -1,12 +1,11 @@
 {
   "version": 2,
-  "ruleCount": 165,
+  "ruleCount": 167,
   "rules": [
     {
       "terms": [
         "7秒焦虑"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "negatedComfortContext",
@@ -21,14 +20,14 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "negatedComfortContext and not criticalAnxietyContext"
+      "returnTrue": "negatedComfortContext and not criticalAnxietyContext",
+      "family": "attack"
     },
     {
       "terms": [
         "爱咋咋地",
         "爱咋咋的"
       ],
-      "family": "evasion",
       "conditions": [
         {
           "name": "negatedDismissiveContext",
@@ -37,13 +36,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "negatedDismissiveContext"
+      "returnTrue": "negatedDismissiveContext",
+      "family": "evasion"
     },
     {
       "terms": [
         "恋丑癖"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "negatedTasteContext",
@@ -58,13 +57,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "negatedTasteContext and not directedTasteAttackContext"
+      "returnTrue": "negatedTasteContext and not directedTasteAttackContext",
+      "family": "attack"
     },
     {
       "terms": [
         "紧和"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "_in_0",
@@ -73,13 +72,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "_in_0"
+      "returnTrue": "_in_0",
+      "family": "attack"
     },
     {
       "terms": [
         "脱子"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "metaLabelQuestionContext",
@@ -94,13 +93,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "metaLabelQuestionContext and not directedNicknameAttackContext"
+      "returnTrue": "metaLabelQuestionContext and not directedNicknameAttackContext",
+      "family": "attack"
     },
     {
       "terms": [
         "桀桀桀"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "laughExplanationContext",
@@ -115,13 +114,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "laughExplanationContext and not hostileVillainLaughContext"
+      "returnTrue": "laughExplanationContext and not hostileVillainLaughContext",
+      "family": "attack"
     },
     {
       "terms": [
         "五毒俱全"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "gameMechanicContext",
@@ -136,14 +135,14 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "gameMechanicContext and not attackContext"
+      "returnTrue": "gameMechanicContext and not attackContext",
+      "family": "attack"
     },
     {
       "terms": [
         "100好评",
         "百分百好评率"
       ],
-      "family": "absolutes",
       "conditions": [
         {
           "name": "literalCommerceReviewContext",
@@ -158,13 +157,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "literalCommerceReviewContext and not absolutistArgumentContext"
+      "returnTrue": "literalCommerceReviewContext and not absolutistArgumentContext",
+      "family": "absolutes"
     },
     {
       "terms": [
         "差评连天"
       ],
-      "family": "evidence",
       "conditions": [
         {
           "name": "literalCommerceComplaintContext",
@@ -179,13 +178,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "literalCommerceComplaintContext and not evidenceContext"
+      "returnTrue": "literalCommerceComplaintContext and not evidenceContext",
+      "family": "evidence"
     },
     {
       "terms": [
         "并非偶遇"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "bareLabelContext",
@@ -200,13 +199,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "bareLabelContext and not targetedCoincidenceContext"
+      "returnTrue": "bareLabelContext and not targetedCoincidenceContext",
+      "family": "attack"
     },
     {
       "terms": [
         "奥利给"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "genericMemeOrNameContext",
@@ -221,13 +220,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "genericMemeOrNameContext and not hostileOrScatologicalContext"
+      "returnTrue": "genericMemeOrNameContext and not hostileOrScatologicalContext",
+      "family": "attack"
     },
     {
       "terms": [
         "梦男"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "selfOrNeutralFandomContext",
@@ -242,13 +241,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "selfOrNeutralFandomContext and not hostileFandomContext"
+      "returnTrue": "selfOrNeutralFandomContext and not hostileFandomContext",
+      "family": "attack"
     },
     {
       "terms": [
         "节奏狗"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "rhythmGameOrTitleContext",
@@ -263,13 +262,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "rhythmGameOrTitleContext and not hostileBandwagonContext"
+      "returnTrue": "rhythmGameOrTitleContext and not hostileBandwagonContext",
+      "family": "attack"
     },
     {
       "terms": [
         "坤巴"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "hostileSlurContext",
@@ -278,13 +277,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "usernameOrMentionContext and not hostileSlurContext"
+      "returnTrue": "usernameOrMentionContext and not hostileSlurContext",
+      "family": "attack"
     },
     {
       "terms": [
         "参考文献"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "literalCitationContext",
@@ -304,13 +303,13 @@
           "value": "参考文献"
         }
       ],
-      "returnTrue": "(_in_2 or literalCitationContext) and not plagiarismJokeContext"
+      "returnTrue": "(_in_2 or literalCitationContext) and not plagiarismJokeContext",
+      "family": "attack"
     },
     {
       "terms": [
         "布什戈门"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "literalTheoryContext",
@@ -330,13 +329,13 @@
           "value": "布什戈门"
         }
       ],
-      "returnTrue": "(_in_2 or literalTheoryContext) and not colloquialHomophoneContext"
+      "returnTrue": "(_in_2 or literalTheoryContext) and not colloquialHomophoneContext",
+      "family": "attack"
     },
     {
       "terms": [
         "猪鼻"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "literalAnimalContext",
@@ -351,14 +350,14 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "literalAnimalContext and not hostilePigNoseContext"
+      "returnTrue": "literalAnimalContext and not hostilePigNoseContext",
+      "family": "attack"
     },
     {
       "terms": [
         "蒜茄脑袋",
         "蒜茄脑瓜"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "glossaryOrEtymologyContext",
@@ -373,13 +372,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "glossaryOrEtymologyContext and not directedInsultContext"
+      "returnTrue": "glossaryOrEtymologyContext and not directedInsultContext",
+      "family": "attack"
     },
     {
       "terms": [
         "大魔法师"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "literalFantasyContext",
@@ -400,13 +399,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "(literalFantasyContext or mediaTitleContext) and not directedMockContext"
+      "returnTrue": "(literalFantasyContext or mediaTitleContext) and not directedMockContext",
+      "family": "attack"
     },
     {
       "terms": [
         "带沟"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "literalMedicalContext",
@@ -421,13 +420,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "literalMedicalContext and not rhetoricContext"
+      "returnTrue": "literalMedicalContext and not rhetoricContext",
+      "family": "attack"
     },
     {
       "terms": [
         "病弯钩"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "properNameRosterContext",
@@ -442,13 +441,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "properNameRosterContext and not hostileNicknameContext"
+      "returnTrue": "properNameRosterContext and not hostileNicknameContext",
+      "family": "attack"
     },
     {
       "terms": [
         "惨案"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "bareLabelContext",
@@ -468,13 +467,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "(bareLabelContext or literalTragedyContext) and not mockingBadOutcomeContext"
+      "returnTrue": "(bareLabelContext or literalTragedyContext) and not mockingBadOutcomeContext",
+      "family": "attack"
     },
     {
       "terms": [
         "典中典"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "bareOrMetaClassicContext",
@@ -489,13 +488,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "bareOrMetaClassicContext and not mockingPatternContext"
+      "returnTrue": "bareOrMetaClassicContext and not mockingPatternContext",
+      "family": "attack"
     },
     {
       "terms": [
         "传家宝了"
       ],
-      "family": "absolutes",
       "conditions": [
         {
           "name": "literalGameHeirloomContext",
@@ -521,13 +520,13 @@
           "value": "传家宝了"
         }
       ],
-      "returnTrue": "(_in_3 or literalGameHeirloomContext or misreadOrProperNounContext) and not metaphorContext"
+      "returnTrue": "(_in_3 or literalGameHeirloomContext or misreadOrProperNounContext) and not metaphorContext",
+      "family": "absolutes"
     },
     {
       "terms": [
         "为发烧而生"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "bareSloganContext",
@@ -541,13 +540,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "bareSloganContext and not usefulDesignContext"
+      "returnTrue": "bareSloganContext and not usefulDesignContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "彳于"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "titleOrCourseContext",
@@ -562,13 +561,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "titleOrCourseContext and not approvalContext"
+      "returnTrue": "titleOrCourseContext and not approvalContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "模棱两可"
       ],
-      "family": "evasion",
       "conditions": [
         {
           "name": "relationshipAmbiguityContext",
@@ -583,14 +582,14 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "relationshipAmbiguityContext and not discussionEvasionContext"
+      "returnTrue": "relationshipAmbiguityContext and not discussionEvasionContext",
+      "family": "evasion"
     },
     {
       "terms": [
         "奶凶",
         "奶凶奶凶"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "resourceOrLiteralCuteContext",
@@ -605,13 +604,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "resourceOrLiteralCuteContext and not softDiscussionContext"
+      "returnTrue": "resourceOrLiteralCuteContext and not softDiscussionContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "捏嫂"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "fandomDramaContext",
@@ -626,13 +625,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "fandomDramaContext and not collaborativeContext"
+      "returnTrue": "fandomDramaContext and not collaborativeContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "排长"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "rankOrQueueContext",
@@ -647,13 +646,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "rankOrQueueContext and not collaborativeContext"
+      "returnTrue": "rankOrQueueContext and not collaborativeContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "蒙鼓人"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "explanationContext",
@@ -668,13 +667,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "explanationContext and not thanksContext"
+      "returnTrue": "explanationContext and not thanksContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "这里有个老实人"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "explanationContext",
@@ -689,13 +688,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "explanationContext and not playfulCalloutContext"
+      "returnTrue": "explanationContext and not playfulCalloutContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "您配吗"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "memeOriginContext",
@@ -710,13 +709,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "memeOriginContext and not directChallengeContext"
+      "returnTrue": "memeOriginContext and not directChallengeContext",
+      "family": "attack"
     },
     {
       "terms": [
         "欧阳娜娜"
       ],
-      "family": "evidence",
       "conditions": [
         {
           "name": "celebrityMentionContext",
@@ -731,13 +730,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "celebrityMentionContext and not evidenceRequestContext"
+      "returnTrue": "celebrityMentionContext and not evidenceRequestContext",
+      "family": "evidence"
     },
     {
       "terms": [
         "doge金箍"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "_in_0",
@@ -752,22 +751,22 @@
           "target": "text_outside_emotes"
         }
       ],
-      "returnTrue": "_in_0 and not _in_1"
+      "returnTrue": "_in_0 and not _in_1",
+      "family": "cooperation"
     },
     {
       "terms": [
         "塔菲"
       ],
-      "family": "cooperation",
       "conditions": [],
-      "returnTrue": "emoteOnlyContext"
+      "returnTrue": "emoteOnlyContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "装什么",
         "你装什么"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "installSubstringContext",
@@ -782,13 +781,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "installSubstringContext and not posturingContext"
+      "returnTrue": "installSubstringContext and not posturingContext",
+      "family": "attack"
     },
     {
       "terms": [
         "阿黑颜"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "literalExpressionContext",
@@ -803,13 +802,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "literalExpressionContext and not hostileComparisonContext"
+      "returnTrue": "literalExpressionContext and not hostileComparisonContext",
+      "family": "attack"
     },
     {
       "terms": [
         "优雅"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "standaloneContext",
@@ -846,13 +845,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "(standaloneContext or emoteOnlyContext or hollowPraiseContext or literalMotionContext or literalFoodPraiseContext) and (not praiseContext or hollowPraiseContext or literalFoodPraiseContext)"
+      "returnTrue": "(standaloneContext or emoteOnlyContext or hollowPraiseContext or literalMotionContext or literalFoodPraiseContext) and (not praiseContext or hollowPraiseContext or literalFoodPraiseContext)",
+      "family": "cooperation"
     },
     {
       "terms": [
         "刷好感"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "gameAffinityContext",
@@ -867,13 +866,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "gameAffinityContext and not curryingFavorContext"
+      "returnTrue": "gameAffinityContext and not curryingFavorContext",
+      "family": "attack"
     },
     {
       "terms": [
         "硬擦"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "literalLacquerContext",
@@ -888,13 +887,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "literalLacquerContext and not forcedRhetoricContext"
+      "returnTrue": "literalLacquerContext and not forcedRhetoricContext",
+      "family": "attack"
     },
     {
       "terms": [
         "3pp大神"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "literalGameSettingContext",
@@ -915,13 +914,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "(literalGameSettingContext or fanPraiseContext) and not hostileContext"
+      "returnTrue": "(literalGameSettingContext or fanPraiseContext) and not hostileContext",
+      "family": "attack"
     },
     {
       "terms": [
         "没救了"
       ],
-      "family": "correction",
       "conditions": [
         {
           "name": "despairContext",
@@ -936,13 +935,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "despairContext and not correctionContext"
+      "returnTrue": "despairContext and not correctionContext",
+      "family": "correction"
     },
     {
       "terms": [
         "个签"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "profileSignatureContext",
@@ -963,13 +962,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "profileSignatureContext and (not discussionContext or negatedEvidenceContext)"
+      "returnTrue": "profileSignatureContext and (not discussionContext or negatedEvidenceContext)",
+      "family": "cooperation"
     },
     {
       "terms": [
         "给筛子里灌了铅"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "literalTitleContext",
@@ -984,13 +983,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "literalGameMechanicContext and not probabilityAttackContext"
+      "returnTrue": "literalGameMechanicContext and not probabilityAttackContext",
+      "family": "attack"
     },
     {
       "terms": [
         "指路"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "emptySignpostContext",
@@ -1011,13 +1010,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "(emptySignpostContext or literalNavigationContext) and not hasTargetContext"
+      "returnTrue": "(emptySignpostContext or literalNavigationContext) and not hasTargetContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "油管"
       ],
-      "family": "evidence",
       "conditions": [
         {
           "name": "platformComplaintContext",
@@ -1032,13 +1031,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "platformComplaintContext and not sourceContext"
+      "returnTrue": "platformComplaintContext and not sourceContext",
+      "family": "evidence"
     },
     {
       "terms": [
         "老厮"
       ],
-      "family": "evidence",
       "conditions": [
         {
           "name": "properNamePraiseContext",
@@ -1053,13 +1052,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "properNamePraiseContext and not sourceContext"
+      "returnTrue": "properNamePraiseContext and not sourceContext",
+      "family": "evidence"
     },
     {
       "terms": [
         "良作无人"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "standaloneLabelContext",
@@ -1073,13 +1072,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "standaloneLabelContext and not recommendationContext"
+      "returnTrue": "standaloneLabelContext and not recommendationContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "六六六"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "neutralPraiseContext",
@@ -1094,13 +1093,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "neutralPraiseContext and not sarcasticContext"
+      "returnTrue": "neutralPraiseContext and not sarcasticContext",
+      "family": "attack"
     },
     {
       "terms": [
         "对不起"
       ],
-      "family": "correction",
       "conditions": [
         {
           "name": "negatedApologyContext",
@@ -1115,13 +1114,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "negatedApologyContext and not correctionApologyContext"
+      "returnTrue": "negatedApologyContext and not correctionApologyContext",
+      "family": "correction"
     },
     {
       "terms": [
         "我错了"
       ],
-      "family": "correction",
       "conditions": [
         {
           "name": "refusalContext",
@@ -1130,13 +1129,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "refusalContext and not correctionContext"
+      "returnTrue": "refusalContext and not correctionContext",
+      "family": "correction"
     },
     {
       "terms": [
         "截图"
       ],
-      "family": "evidence",
       "conditions": [
         {
           "name": "collectionOnlyContext",
@@ -1157,13 +1156,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "(collectionOnlyContext or toolOnlyContext) and not evidenceContext"
+      "returnTrue": "(collectionOnlyContext or toolOnlyContext) and not evidenceContext",
+      "family": "evidence"
     },
     {
       "terms": [
         "浏览器搜"
       ],
-      "family": "evidence",
       "conditions": [
         {
           "name": "genericSearchToolContext",
@@ -1178,13 +1177,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "genericSearchToolContext and not evidenceSearchContext"
+      "returnTrue": "genericSearchToolContext and not evidenceSearchContext",
+      "family": "evidence"
     },
     {
       "terms": [
         "科学上网"
       ],
-      "family": "evasion",
       "conditions": [
         {
           "name": "toolHelpContext",
@@ -1199,13 +1198,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "toolHelpContext and not evidenceEvasionContext"
+      "returnTrue": "toolHelpContext and not evidenceEvasionContext",
+      "family": "evasion"
     },
     {
       "terms": [
         "可以贴"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "hostileDareContext",
@@ -1266,13 +1265,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "productLinkRequestContext or imagePostingHelpContext"
+      "returnTrue": "productLinkRequestContext or imagePostingHelpContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "笑点解析"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "explanationContext",
@@ -1281,13 +1280,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "weakJokeLabelContext and not explanationContext"
+      "returnTrue": "weakJokeLabelContext and not explanationContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "精选"
       ],
-      "family": "evasion",
       "conditions": [
         {
           "name": "platformModerationContext",
@@ -1302,13 +1301,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "platformModerationContext and not selectiveEvidenceContext"
+      "returnTrue": "platformModerationContext and not selectiveEvidenceContext",
+      "family": "evasion"
     },
     {
       "terms": [
         "绝对不够的"
       ],
-      "family": "absolutes",
       "conditions": [
         {
           "name": "foodAmountContext",
@@ -1323,13 +1322,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "foodAmountContext and not argumentativeContext"
+      "returnTrue": "foodAmountContext and not argumentativeContext",
+      "family": "absolutes"
     },
     {
       "terms": [
         "绝对正确"
       ],
-      "family": "absolutes",
       "conditions": [
         {
           "name": "conceptReflectionContext",
@@ -1344,13 +1343,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "conceptReflectionContext and not assertionContext"
+      "returnTrue": "conceptReflectionContext and not assertionContext",
+      "family": "absolutes"
     },
     {
       "terms": [
         "罗神伟大"
       ],
-      "family": "absolutes",
       "conditions": [
         {
           "name": "targetSpecificContext",
@@ -1365,22 +1364,35 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "genericGreatnessContext and not targetSpecificContext"
+      "returnTrue": "genericGreatnessContext and not targetSpecificContext",
+      "family": "absolutes"
     },
     {
       "terms": [
         "画饼",
         "男的都爱画饼"
       ],
-      "family": "attack",
-      "conditions": [],
-      "returnTrue": "rawSample.includes('@') and not textWithoutMentions.includes('\\u753b\\u997c')"
+      "conditions": [
+        {
+          "name": "_in_0",
+          "type": "includes",
+          "value": "@",
+          "target": "raw_sample"
+        },
+        {
+          "name": "_in_1",
+          "type": "includes",
+          "value": "画饼",
+          "target": "text_without_mentions"
+        }
+      ],
+      "returnTrue": "_in_0 and not _in_1",
+      "family": "attack"
     },
     {
       "terms": [
         "tv呕吐"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "_in_0",
@@ -1389,13 +1401,13 @@
           "target": "raw_sample"
         }
       ],
-      "returnTrue": "_in_0 and not textOutsideEmotes"
+      "returnTrue": "_in_0 and not textOutsideEmotes",
+      "family": "attack"
     },
     {
       "terms": [
         "已赞10请回下"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "bareEngagementContext",
@@ -1410,13 +1422,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "bareEngagementContext and not discussionRequestContext"
+      "returnTrue": "bareEngagementContext and not discussionRequestContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "上电视"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "bareReactionContext",
@@ -1431,13 +1443,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "bareReactionContext and not discussionContext"
+      "returnTrue": "bareReactionContext and not discussionContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "实名制"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "stanceContext",
@@ -1446,13 +1458,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "literalSystemContext and not stanceContext"
+      "returnTrue": "literalSystemContext and not stanceContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "我的问题"
       ],
-      "family": "correction",
       "conditions": [
         {
           "name": "gameDeathContext",
@@ -1479,13 +1491,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "negatedSelfFaultContext and not correctionContext"
+      "returnTrue": "negatedSelfFaultContext and not correctionContext",
+      "family": "correction"
     },
     {
       "terms": [
         "扭矩不详遇强则强"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "standaloneMemeContext",
@@ -1500,13 +1512,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "standaloneMemeContext and not usefulVehicleContext"
+      "returnTrue": "standaloneMemeContext and not usefulVehicleContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "小某书"
       ],
-      "family": "evasion",
       "conditions": [
         {
           "name": "platformAdOrTipContext",
@@ -1521,13 +1533,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "platformAdOrTipContext and not evidenceEvasionContext"
+      "returnTrue": "platformAdOrTipContext and not evidenceEvasionContext",
+      "family": "evasion"
     },
     {
       "terms": [
         "今日首绷了"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "bareReactionContext",
@@ -1542,13 +1554,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "bareReactionContext and not discussionContext"
+      "returnTrue": "bareReactionContext and not discussionContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "ai识片酱"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "bareBotMentionContext",
@@ -1562,13 +1574,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "bareBotMentionContext and not requestContext"
+      "returnTrue": "bareBotMentionContext and not requestContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "tv点赞"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "weakPraiseEmoteContext",
@@ -1583,13 +1595,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "weakPraiseEmoteContext and not usefulSupportContext"
+      "returnTrue": "weakPraiseEmoteContext and not usefulSupportContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "野排"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "literalQueueContext",
@@ -1604,13 +1616,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "literalQueueContext and not coordinationContext"
+      "returnTrue": "literalQueueContext and not coordinationContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "找个班上"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "genericEmploymentContext",
@@ -1625,13 +1637,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "genericEmploymentContext and not dismissiveEmploymentContext"
+      "returnTrue": "genericEmploymentContext and not dismissiveEmploymentContext",
+      "family": "attack"
     },
     {
       "terms": [
         "皮套"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "literalCostumeContext",
@@ -1646,13 +1658,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "literalCostumeContext and not cooperativeAssetContext"
+      "returnTrue": "literalCostumeContext and not cooperativeAssetContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "模组"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "literalGameModContext",
@@ -1673,13 +1685,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "(literalGameModContext or latestLiteralModContext) and not cooperativeModContext"
+      "returnTrue": "(literalGameModContext or latestLiteralModContext) and not cooperativeModContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "视频同款"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "ecommerceContext",
@@ -1694,13 +1706,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "ecommerceContext and not requestContext"
+      "returnTrue": "ecommerceContext and not requestContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "如果有"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "genericWishContext",
@@ -1715,13 +1727,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "genericWishContext and not evidenceOpennessContext"
+      "returnTrue": "genericWishContext and not evidenceOpennessContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "谁懂"
       ],
-      "family": "evasion",
       "conditions": [
         {
           "name": "audienceCountContext",
@@ -1742,13 +1754,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "(audienceCountContext or selfEmotionContext) and not evasionContext"
+      "returnTrue": "(audienceCountContext or selfEmotionContext) and not evasionContext",
+      "family": "evasion"
     },
     {
       "terms": [
         "链接"
       ],
-      "family": "evidence",
       "conditions": [
         {
           "name": "shoppingLinkContext",
@@ -1763,13 +1775,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "shoppingLinkContext and not evidenceLinkContext"
+      "returnTrue": "shoppingLinkContext and not evidenceLinkContext",
+      "family": "evidence"
     },
     {
       "terms": [
         "知识增加"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "emoteWrapperContext",
@@ -1781,15 +1793,21 @@
           "pattern": "(?:知识增加了|学到|科普|原来).*知识|知识增加.*(?:学到|科普)",
           "caseInsensitive": false,
           "target": "clean_sample"
+        },
+        {
+          "name": "_in_2",
+          "type": "includes",
+          "value": "知识增加",
+          "target": "text_outside_emotes"
         }
       ],
-      "returnTrue": "emoteWrapperContext and not textOutsideEmotes.includes('\\u77e5\\u8bc6\\u589e\\u52a0') and not learningContext"
+      "returnTrue": "emoteWrapperContext and not _in_2 and not learningContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "问老马本人"
       ],
-      "family": "evasion",
       "conditions": [
         {
           "name": "unrelatedMemeTitleContext",
@@ -1803,13 +1821,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "unrelatedMemeTitleContext and not dismissiveAskContext"
+      "returnTrue": "unrelatedMemeTitleContext and not dismissiveAskContext",
+      "family": "evasion"
     },
     {
       "terms": [
         "全都是对"
       ],
-      "family": "absolutes",
       "conditions": [
         {
           "name": "genericPraiseContext",
@@ -1830,13 +1848,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "(genericPraiseContext or gameTargetContext) and not closedJudgmentContext"
+      "returnTrue": "(genericPraiseContext or gameTargetContext) and not closedJudgmentContext",
+      "family": "absolutes"
     },
     {
       "terms": [
         "懂了吧"
       ],
-      "family": "evasion",
       "conditions": [
         {
           "name": "explanatoryVideoContext",
@@ -1857,13 +1875,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "(explanatoryVideoContext or shortReactionContext) and not dismissiveEvasionContext"
+      "returnTrue": "(explanatoryVideoContext or shortReactionContext) and not dismissiveEvasionContext",
+      "family": "evasion"
     },
     {
       "terms": [
         "贴吧"
       ],
-      "family": "evasion",
       "conditions": [
         {
           "name": "genericPlatformContext",
@@ -1878,13 +1896,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "genericPlatformContext and not evasionPlatformContext"
+      "returnTrue": "genericPlatformContext and not evasionPlatformContext",
+      "family": "evasion"
     },
     {
       "terms": [
         "自己看"
       ],
-      "family": "evasion",
       "conditions": [
         {
           "name": "narrationContext",
@@ -1899,13 +1917,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "narrationContext and not dismissiveContext"
+      "returnTrue": "narrationContext and not dismissiveContext",
+      "family": "evasion"
     },
     {
       "terms": [
         "没想到吧"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "playfulRevealContext",
@@ -1920,13 +1938,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "playfulRevealContext and not rebuttalRevealContext"
+      "returnTrue": "playfulRevealContext and not rebuttalRevealContext",
+      "family": "attack"
     },
     {
       "terms": [
         "脱单"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "emoteSuffixContext",
@@ -1947,13 +1965,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "(emoteSuffixContext or literalDatingToolContext) and not relationshipContext"
+      "returnTrue": "(emoteSuffixContext or literalDatingToolContext) and not relationshipContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "六扇门"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "literalOfficeContext",
@@ -1968,13 +1986,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "literalOfficeContext and not cooperativeReportContext"
+      "returnTrue": "literalOfficeContext and not cooperativeReportContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "怪我咯"
       ],
-      "family": "correction",
       "conditions": [
         {
           "name": "correctionContext",
@@ -1983,22 +2001,22 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "reactionOnlyContext and not correctionContext"
+      "returnTrue": "reactionOnlyContext and not correctionContext",
+      "family": "correction"
     },
     {
       "terms": [
         "妙啊",
         "无语"
       ],
-      "family": "cooperation",
       "conditions": [],
-      "returnTrue": "emoteOnlyContext and not discourseContext"
+      "returnTrue": "emoteOnlyContext and not discourseContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "卡bug"
       ],
-      "family": "evidence",
       "conditions": [
         {
           "name": "bareBugLabelContext",
@@ -2013,13 +2031,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "bareBugLabelContext and not evidenceBugContext"
+      "returnTrue": "bareBugLabelContext and not evidenceBugContext",
+      "family": "evidence"
     },
     {
       "terms": [
         "支持力"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "_term_in_sample",
@@ -2027,13 +2045,13 @@
           "term": "支持力"
         }
       ],
-      "returnTrue": "not _term_in_sample"
+      "returnTrue": "not _term_in_sample",
+      "family": "cooperation"
     },
     {
       "terms": [
         "支持一下up"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "supportUpContext",
@@ -2042,13 +2060,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "not supportUpContext"
+      "returnTrue": "not supportUpContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "学习了"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "futureStudyContext",
@@ -2075,13 +2093,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "literalCulturalLearningContext and not learnedFromContext"
+      "returnTrue": "literalCulturalLearningContext and not learnedFromContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "粥批"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "usernameOnlyContext",
@@ -2089,14 +2107,14 @@
           "rawExpr": "/@\\S*\\u7ca5\\u6279\\S*/u.test(String(sample || '')) && !String(sample || '').replace(/@\\S+/gu, '').includes('\\u7ca5\\u6279')"
         }
       ],
-      "returnTrue": "usernameOnlyContext"
+      "returnTrue": "usernameOnlyContext",
+      "family": "attack"
     },
     {
       "terms": [
         "美哉",
         "岂不美哉"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "bareRhetoricalPhrase",
@@ -2111,37 +2129,55 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "bareRhetoricalPhrase and not targetedSarcasmContext"
+      "returnTrue": "bareRhetoricalPhrase and not targetedSarcasmContext",
+      "family": "attack"
     },
     {
       "terms": [
         "赛寄"
       ],
-      "family": "attack",
-      "conditions": [],
-      "returnTrue": "isVideoContextSample(sample)"
+      "conditions": [
+        {
+          "name": "_is_video_context",
+          "type": "function_call",
+          "function": "isVideoContextSample"
+        }
+      ],
+      "returnTrue": "_is_video_context",
+      "family": "attack"
     },
     {
       "terms": [
         "暗门子"
       ],
-      "family": "attack",
-      "conditions": [],
-      "returnTrue": "isVideoContextSample(sample)"
+      "conditions": [
+        {
+          "name": "_is_video_context",
+          "type": "function_call",
+          "function": "isVideoContextSample"
+        }
+      ],
+      "returnTrue": "_is_video_context",
+      "family": "attack"
     },
     {
       "terms": [
         "梗out了"
       ],
-      "family": "absolutes",
-      "conditions": [],
-      "returnTrue": "isVideoContextSample(sample)"
+      "conditions": [
+        {
+          "name": "_is_video_context",
+          "type": "function_call",
+          "function": "isVideoContextSample"
+        }
+      ],
+      "returnTrue": "_is_video_context",
+      "family": "absolutes"
     },
     {
       "terms": [
         "搞错了"
       ],
-      "family": "correction",
       "conditions": [
         {
           "name": "rhetoricalAccusationContext",
@@ -2156,13 +2192,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "rhetoricalAccusationContext and not selfCorrectionContext"
+      "returnTrue": "rhetoricalAccusationContext and not selfCorrectionContext",
+      "family": "correction"
     },
     {
       "terms": [
         "避重就轻"
       ],
-      "family": "evasion",
       "conditions": [
         {
           "name": "metaQuestionContext",
@@ -2177,30 +2213,72 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "metaQuestionContext and not evasionAccusationContext"
+      "returnTrue": "metaQuestionContext and not evasionAccusationContext",
+      "family": "evasion"
     },
     {
       "terms": [
         "规训顾客",
         "好嘉伙"
       ],
-      "family": "attack",
-      "conditions": [],
-      "returnTrue": "isVideoContextSample(sample)"
+      "conditions": [
+        {
+          "name": "_is_video_context",
+          "type": "function_call",
+          "function": "isVideoContextSample"
+        }
+      ],
+      "returnTrue": "_is_video_context",
+      "family": "attack"
+    },
+    {
+      "terms": [
+        "毫无吊用",
+        "好言难劝想死的鬼"
+      ],
+      "conditions": [
+        {
+          "name": "_is_video_context",
+          "type": "function_call",
+          "function": "isVideoContextSample"
+        }
+      ],
+      "returnTrue": "_is_video_context",
+      "family": "absolutes"
+    },
+    {
+      "terms": [
+        "毫无吊用",
+        "好言难劝想死的鬼"
+      ],
+      "conditions": [
+        {
+          "name": "_is_video_context",
+          "type": "function_call",
+          "function": "isVideoContextSample"
+        }
+      ],
+      "returnTrue": "_is_video_context",
+      "family": "attack"
     },
     {
       "terms": [
         "好时代来临力"
       ],
-      "family": "cooperation",
-      "conditions": [],
-      "returnTrue": "isVideoContextSample(sample)"
+      "conditions": [
+        {
+          "name": "_is_video_context",
+          "type": "function_call",
+          "function": "isVideoContextSample"
+        }
+      ],
+      "returnTrue": "_is_video_context",
+      "family": "cooperation"
     },
     {
       "terms": [
         "荒野大迪客"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "standalonePunContext",
@@ -2214,13 +2292,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "standalonePunContext and not targetedCriticismContext"
+      "returnTrue": "standalonePunContext and not targetedCriticismContext",
+      "family": "attack"
     },
     {
       "terms": [
         "回字有四种写法"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "standaloneReferenceContext",
@@ -2229,13 +2307,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "standaloneReferenceContext"
+      "returnTrue": "standaloneReferenceContext",
+      "family": "attack"
     },
     {
       "terms": [
         "绷不住了"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "targetedMockContext",
@@ -2244,13 +2322,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "looseReactionContext and not targetedMockContext"
+      "returnTrue": "looseReactionContext and not targetedMockContext",
+      "family": "attack"
     },
     {
       "terms": [
         "川建国"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "metaNameDiscussionContext",
@@ -2277,13 +2355,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "(usernameMentionOnlyContext or metaNameDiscussionContext or creatorTrafficContext or neutralTrumpAliasContext or neutralTrumpQuestionContext or dialectChuanpuContext) and not satireContext"
+      "returnTrue": "(usernameMentionOnlyContext or metaNameDiscussionContext or creatorTrafficContext or neutralTrumpAliasContext or neutralTrumpQuestionContext or dialectChuanpuContext) and not satireContext",
+      "family": "attack"
     },
     {
       "terms": [
         "川普"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "creatorTrafficContext",
@@ -2304,13 +2382,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "(creatorTrafficContext or neutralTrumpAliasContext or neutralTrumpQuestionContext or dialectChuanpuContext) and not criticalTrumpContext"
+      "returnTrue": "(creatorTrafficContext or neutralTrumpAliasContext or neutralTrumpQuestionContext or dialectChuanpuContext) and not criticalTrumpContext",
+      "family": "attack"
     },
     {
       "terms": [
         "阿美莉卡"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "literalNameContext",
@@ -2325,13 +2403,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "literalNameContext and not americaMockContext"
+      "returnTrue": "literalNameContext and not americaMockContext",
+      "family": "attack"
     },
     {
       "terms": [
         "tv坏笑"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "emoteContext",
@@ -2357,13 +2435,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "(emoteContext or expressionContext or looseBadContext) and not attackEmoteContext"
+      "returnTrue": "(emoteContext or expressionContext or looseBadContext) and not attackEmoteContext",
+      "family": "attack"
     },
     {
       "terms": [
         "我活到头了"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "gameReactionContext",
@@ -2378,13 +2456,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "gameReactionContext and not cooperativeContext"
+      "returnTrue": "gameReactionContext and not cooperativeContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "全是粉丝"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "standaloneLabelContext",
@@ -2398,13 +2476,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "standaloneLabelContext and not factionAccusationContext"
+      "returnTrue": "standaloneLabelContext and not factionAccusationContext",
+      "family": "attack"
     },
     {
       "terms": [
         "地图炮"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "standaloneLabelContext",
@@ -2425,13 +2503,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "(standaloneLabelContext or gameMechanicContext) and not groupAttackContext"
+      "returnTrue": "(standaloneLabelContext or gameMechanicContext) and not groupAttackContext",
+      "family": "attack"
     },
     {
       "terms": [
         "行善积德"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "utilityQuestionContext",
@@ -2446,13 +2524,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "utilityQuestionContext or (genericMoralContext and not directedMoralAttackContext)"
+      "returnTrue": "utilityQuestionContext or (genericMoralContext and not directedMoralAttackContext)",
+      "family": "attack"
     },
     {
       "terms": [
         "神仙下凡"
       ],
-      "family": "absolutes",
       "conditions": [
         {
           "name": "negatedDelusionContext",
@@ -2473,13 +2551,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "(negatedDelusionContext or standaloneQuestionContext) and not praiseContext"
+      "returnTrue": "(negatedDelusionContext or standaloneQuestionContext) and not praiseContext",
+      "family": "absolutes"
     },
     {
       "terms": [
         "懂的都懂"
       ],
-      "family": "evasion",
       "conditions": [
         {
           "name": "exactOrShortFormContext",
@@ -2494,13 +2572,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "broadUnderstandSubstringContext and not exactEvasionContext"
+      "returnTrue": "broadUnderstandSubstringContext and not exactEvasionContext",
+      "family": "evasion"
     },
     {
       "terms": [
         "嗑瓜子"
       ],
-      "family": "evasion",
       "conditions": [
         {
           "name": "emoteSuffixContext",
@@ -2514,13 +2592,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "emoteSuffixContext and not spectatorContext"
+      "returnTrue": "emoteSuffixContext and not spectatorContext",
+      "family": "evasion"
     },
     {
       "terms": [
         "吊打"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "looseSynonymContext",
@@ -2534,13 +2612,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "looseSynonymContext and not comparisonContext"
+      "returnTrue": "looseSynonymContext and not comparisonContext",
+      "family": "attack"
     },
     {
       "terms": [
         "异议"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "looseStandaloneObjectionContext",
@@ -2567,13 +2645,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "neutralLegalOrPoliticalContext and not _in_3"
+      "returnTrue": "neutralLegalOrPoliticalContext and not _in_3",
+      "family": "attack"
     },
     {
       "terms": [
         "忏悔"
       ],
-      "family": "correction",
       "conditions": [
         {
           "name": "narrativeConfessionContext",
@@ -2588,13 +2666,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "narrativeConfessionContext and not selfCorrectionContext"
+      "returnTrue": "narrativeConfessionContext and not selfCorrectionContext",
+      "family": "correction"
     },
     {
       "terms": [
         "新闻学啊"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "courseScoreContext",
@@ -2609,21 +2687,21 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "courseScoreContext and not mediaSarcasmContext"
+      "returnTrue": "courseScoreContext and not mediaSarcasmContext",
+      "family": "attack"
     },
     {
       "terms": [
         "不会真有人觉得这叫证据吧"
       ],
-      "family": "attack",
       "conditions": [],
-      "returnTrue": "not exactEvidenceMockContext"
+      "returnTrue": "not exactEvidenceMockContext",
+      "family": "attack"
     },
     {
       "terms": [
         "小受"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "substringEducationContext",
@@ -2638,13 +2716,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "substringEducationContext and not derogatoryLabelContext"
+      "returnTrue": "substringEducationContext and not derogatoryLabelContext",
+      "family": "attack"
     },
     {
       "terms": [
         "小孩射"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "explanationListContext",
@@ -2676,14 +2754,14 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "metaNicknameContext and not directNicknameUseContext"
+      "returnTrue": "metaNicknameContext and not directNicknameUseContext",
+      "family": "attack"
     },
     {
       "terms": [
         "不是人了",
         "不是人了呗"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "bodyStateNarrativeContext",
@@ -2704,13 +2782,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "(bodyStateNarrativeContext or standaloneNotHumanContext) and not hostileNotHumanContext"
+      "returnTrue": "(bodyStateNarrativeContext or standaloneNotHumanContext) and not hostileNotHumanContext",
+      "family": "attack"
     },
     {
       "terms": [
         "想刀人"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "selfCrisisContext",
@@ -2725,13 +2803,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "selfCrisisContext and not targetedFrustrationContext"
+      "returnTrue": "selfCrisisContext and not targetedFrustrationContext",
+      "family": "attack"
     },
     {
       "terms": [
         "一条龙"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "literalPersonOrServiceContext",
@@ -2746,13 +2824,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "literalPersonOrServiceContext and not cooperativeWorkflowContext"
+      "returnTrue": "literalPersonOrServiceContext and not cooperativeWorkflowContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "主包"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "teasingAddressContext",
@@ -2767,28 +2845,34 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "teasingAddressContext and not requestContext"
+      "returnTrue": "teasingAddressContext and not requestContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "记错了"
       ],
-      "family": "correction",
       "conditions": [
         {
           "name": "selfCorrectionContext",
           "pattern": "(?:我|是我|自己|前面|刚才|之前).{0,8}记错了|记错了.{0,8}(?:收回|更正|改)",
           "caseInsensitive": false,
           "target": "clean_sample"
+        },
+        {
+          "name": "_in_1",
+          "type": "includes",
+          "value": "记错了",
+          "target": "clean_sample"
         }
       ],
-      "returnTrue": "cleanSample.includes('\\u8bb0\\u9519\\u4e86') and not selfCorrectionContext"
+      "returnTrue": "_in_1 and not selfCorrectionContext",
+      "family": "correction"
     },
     {
       "terms": [
         "炼铜"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "literalMetallurgyContext",
@@ -2803,22 +2887,22 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "literalMetallurgyContext and not predatorySlangContext"
+      "returnTrue": "literalMetallurgyContext and not predatorySlangContext",
+      "family": "attack"
     },
     {
       "terms": [
         "厉不厉害"
       ],
-      "family": "attack",
       "conditions": [],
-      "returnTrue": "usernameOnlyMentionContext"
+      "returnTrue": "usernameOnlyMentionContext",
+      "family": "attack"
     },
     {
       "terms": [
         "热乎",
         "热乎的"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "negatedFreshnessContext",
@@ -2833,13 +2917,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "negatedFreshnessContext and not cooperativeFreshContext"
+      "returnTrue": "negatedFreshnessContext and not cooperativeFreshContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "插个眼"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "bookmarkOnlyContext",
@@ -2854,13 +2938,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "bookmarkOnlyContext and not followupEvidenceContext"
+      "returnTrue": "bookmarkOnlyContext and not followupEvidenceContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "笑嘻了"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "scoreReactionContext",
@@ -2887,13 +2971,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "(scoreReactionContext or selfSabotageMockingContext or standaloneContext) and not positiveDiscussionContext"
+      "returnTrue": "(scoreReactionContext or selfSabotageMockingContext or standaloneContext) and not positiveDiscussionContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "开智了"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "neutralAwakeningContext",
@@ -2908,13 +2992,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "neutralAwakeningContext and not directedMockContext"
+      "returnTrue": "neutralAwakeningContext and not directedMockContext",
+      "family": "attack"
     },
     {
       "terms": [
         "扣了几次帽子"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "literalCountContext",
@@ -2929,13 +3013,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "literalCountContext and not labelingContext"
+      "returnTrue": "literalCountContext and not labelingContext",
+      "family": "attack"
     },
     {
       "terms": [
         "妙啊妙啊"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "emoteWrapperContext",
@@ -2962,13 +3046,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "playfulFictionContext and not _in_3"
+      "returnTrue": "playfulFictionContext and not _in_3",
+      "family": "attack"
     },
     {
       "terms": [
         "清一色"
       ],
-      "family": "absolutes",
       "conditions": [
         {
           "name": "properNameContext",
@@ -2983,13 +3067,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "properNameContext and not absoluteContext"
+      "returnTrue": "properNameContext and not absoluteContext",
+      "family": "absolutes"
     },
     {
       "terms": [
         "圈米不赖"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "lacksExactTerm",
@@ -3014,13 +3098,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "(lacksExactTerm and looseMonetizationContext) or (standaloneContext and not sarcasticContext)"
+      "returnTrue": "(lacksExactTerm and looseMonetizationContext) or (standaloneContext and not sarcasticContext)",
+      "family": "attack"
     },
     {
       "terms": [
         "龙哥的兄弟"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "listOrExplanationContext",
@@ -3035,13 +3119,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "listOrExplanationContext and not hostileNicknameContext"
+      "returnTrue": "listOrExplanationContext and not hostileNicknameContext",
+      "family": "attack"
     },
     {
       "terms": [
         "罗不泼"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "explanationOrOriginContext",
@@ -3056,13 +3140,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "explanationOrOriginContext and not hostileNicknameContext"
+      "returnTrue": "explanationOrOriginContext and not hostileNicknameContext",
+      "family": "attack"
     },
     {
       "terms": [
         "中系"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "fandomClassificationContext",
@@ -3071,13 +3155,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "fandomClassificationContext"
+      "returnTrue": "fandomClassificationContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "up好牛"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "genericPraiseContext",
@@ -3092,13 +3176,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "genericPraiseContext and not usefulCreatorContext"
+      "returnTrue": "genericPraiseContext and not usefulCreatorContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "团灭复仇者联盟"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "plotSummaryContext",
@@ -3107,14 +3191,14 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "plotSummaryContext"
+      "returnTrue": "plotSummaryContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "失踪人口回归",
         "失踪人口回归了"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "bareComebackContext",
@@ -3129,13 +3213,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "bareComebackContext and not warmComebackContext"
+      "returnTrue": "bareComebackContext and not warmComebackContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "掉小珍珠"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "bareCryContext",
@@ -3161,13 +3245,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "(bareCryContext or latestBareCryContext or outfitCryContext) and not targetedMockContext"
+      "returnTrue": "(bareCryContext or latestBareCryContext or outfitCryContext) and not targetedMockContext",
+      "family": "attack"
     },
     {
       "terms": [
         "不可抵抗力"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "literalForceMajeureContext",
@@ -3182,13 +3266,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "literalForceMajeureContext and not excuseMockContext"
+      "returnTrue": "literalForceMajeureContext and not excuseMockContext",
+      "family": "attack"
     },
     {
       "terms": [
         "笑麻了"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "bareLaughContext",
@@ -3203,14 +3287,14 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "bareLaughContext and not targetedMockContext"
+      "returnTrue": "bareLaughContext and not targetedMockContext",
+      "family": "attack"
     },
     {
       "terms": [
         "轻快绷住",
         "轻松绷住"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "synonymListContext",
@@ -3225,13 +3309,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "(synonymListContext or standaloneContext) and not cooperativeContext"
+      "returnTrue": "(synonymListContext or standaloneContext) and not cooperativeContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "意满离"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "standaloneContext",
@@ -3245,13 +3329,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "standaloneContext and not appreciationContext"
+      "returnTrue": "standaloneContext and not appreciationContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "下饭"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "standaloneContext",
@@ -3272,13 +3356,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "(literalFoodContext or standaloneContext) and not mediaContext"
+      "returnTrue": "(literalFoodContext or standaloneContext) and not mediaContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "情绪价值"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "hostileWorkValueContext",
@@ -3293,13 +3377,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "hostileWorkValueContext and not supportiveContext"
+      "returnTrue": "hostileWorkValueContext and not supportiveContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "神神"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "praiseNameContext",
@@ -3314,13 +3398,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "praiseNameContext and not hostileLabelContext"
+      "returnTrue": "praiseNameContext and not hostileLabelContext",
+      "family": "attack"
     },
     {
       "terms": [
         "周处"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "historicalOrMovieContext",
@@ -3335,13 +3419,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "historicalOrMovieContext and not hostileMemeContext"
+      "returnTrue": "historicalOrMovieContext and not hostileMemeContext",
+      "family": "attack"
     },
     {
       "terms": [
         "朱一龙"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "defenseOrPraiseContext",
@@ -3356,13 +3440,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "defenseOrPraiseContext and not fanWarAttackContext"
+      "returnTrue": "defenseOrPraiseContext and not fanWarAttackContext",
+      "family": "attack"
     },
     {
       "terms": [
         "get到"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "negatedGetContext",
@@ -3377,13 +3461,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "negatedGetContext and not positiveGetContext"
+      "returnTrue": "negatedGetContext and not positiveGetContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "联名款"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "productContext",
@@ -3398,13 +3482,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "productContext and not cooperationContext"
+      "returnTrue": "productContext and not cooperationContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "湿湿"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "literalWetContext",
@@ -3419,13 +3503,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "literalWetContext and not hostileHomophoneContext"
+      "returnTrue": "literalWetContext and not hostileHomophoneContext",
+      "family": "attack"
     },
     {
       "terms": [
         "亡灵法师"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "literalFantasyOrSourceContext",
@@ -3440,13 +3524,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "literalFantasyOrSourceContext and not resurrectionAttackContext"
+      "returnTrue": "literalFantasyOrSourceContext and not resurrectionAttackContext",
+      "family": "attack"
     },
     {
       "terms": [
         "无敌之人"
       ],
-      "family": "attack",
       "conditions": [
         {
           "name": "bareLabelContext",
@@ -3466,13 +3550,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "(bareLabelContext or positiveOrExplainerContext) and not directedAttackContext"
+      "returnTrue": "(bareLabelContext or positiveOrExplainerContext) and not directedAttackContext",
+      "family": "attack"
     },
     {
       "terms": [
         "空耳"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "clarificationRequestContext",
@@ -3481,13 +3565,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "weakNoteContext and not clarificationRequestContext"
+      "returnTrue": "weakNoteContext and not clarificationRequestContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "cos路易十六"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "directCosContext",
@@ -3496,13 +3580,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "not directCosContext"
+      "returnTrue": "not directCosContext",
+      "family": "cooperation"
     },
     {
       "terms": [
         "糯了"
       ],
-      "family": "correction",
       "conditions": [
         {
           "name": "cowardiceContext",
@@ -3517,13 +3601,13 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "cowardiceContext and not correctionContext"
+      "returnTrue": "cowardiceContext and not correctionContext",
+      "family": "correction"
     },
     {
       "terms": [
         "嘴替"
       ],
-      "family": "cooperation",
       "conditions": [
         {
           "name": "negatedContext",
@@ -3532,7 +3616,8 @@
           "target": "clean_sample"
         }
       ],
-      "returnTrue": "negatedContext"
+      "returnTrue": "negatedContext",
+      "family": "cooperation"
     }
   ]
 }

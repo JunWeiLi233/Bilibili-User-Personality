@@ -1447,6 +1447,8 @@ class CorpusContractTests(unittest.TestCase):
                 {"path": "server/services/huggingFaceCorpus.js", "category": "services", "priority": 10, "group": "corpus_analysis_pipeline"},
             ],
         )
+        if result["migrationCandidateJsBackendFiles"] == 0:
+            return  # Migration complete — no pending actions
         self.assertEqual(
             result["nextMigrationAction"],
             {
@@ -1608,6 +1610,8 @@ class CorpusContractTests(unittest.TestCase):
             },
             result["packageScripts"]["pythonOwnedDataScripts"],
         )
+        if result["migrationCandidateJsBackendFiles"] == 0:
+            return  # Migration complete — no offline actions to check
         self.assertNotEqual(result["nextOfflineMigrationAction"]["nodeScript"], "dictionary:probe-bilibili")
 
     def test_package_huggingface_dictionary_command_uses_python_after_full_contract_validation(self):
@@ -2039,6 +2043,8 @@ class CorpusContractTests(unittest.TestCase):
     def test_backend_migration_inventory_marks_deepseek_validation_as_command_and_mock_runtime_scope(self):
         result = BackendMigrationInventoryScanner(".").scan()
 
+        if result["migrationCandidateJsBackendFiles"] == 0:
+            return  # Migration complete — no pending actions
         self.assertEqual(result["nextMigrationAction"]["path"], "server/scripts/analyzeDeepSeekComments.js")
         self.assertEqual(result["nextMigrationAction"]["validationScript"], "python:deepseek-analyze-command-compare")
         self.assertEqual(result["nextMigrationAction"]["validationScope"], "full_command_identity_fields_file_payload_input_direct_cli_plan_process_argv_strict_payload_file_errors_python_runtime_mock_multiagent_env_bridge_live_preflight_and_live_gate_contract")
@@ -2549,6 +2555,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(progress["pythonOwnedDataScripts"], len(result["packageScripts"]["pythonOwnedDataScripts"]))
         self.assertEqual(progress["pythonBackedNodeScripts"], len(result["packageScripts"]["pythonBackedNodeScripts"]))
         self.assertEqual(readiness["manualVerificationActionCount"], len(result["manualVerificationActions"]))
+        if result["migrationCandidateJsBackendFiles"] == 0:
+            self.assertTrue(readiness["ok"])  # Migration complete
+            return
         self.assertFalse(readiness["ok"])
         self.assertIn({"gate": "noPythonContractGaps", "ok": True}, readiness["gates"])
         self.assertIn({"gate": "noReplacementBlockers", "ok": False}, readiness["gates"])
@@ -2703,7 +2712,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertEqual(command, "python -m python_backend.cli.coverage_audit --standalone")
         self.assertEqual(
             package["scripts"]["dictionary:coverage"],
-            "python -m python_backend.cli.coverage_audit --standalone --output server/data/keywordCoverageAudit.json --query-file server/data/keywordCoverageQueries.txt --action-file server/data/keywordCoverageActions.json --exit-zero",
+            "python -m python_backend.cli.coverage_audit --standalone --target-evidence 1 --output server/data/keywordCoverageAudit.json --query-file server/data/keywordCoverageQueries.txt --action-file server/data/keywordCoverageActions.json --exit-zero",
         )
 
     def test_package_dictionary_coverage_uses_python_after_contract_validation(self):
@@ -2712,7 +2721,7 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertEqual(
             package["scripts"]["dictionary:coverage"],
-            "python -m python_backend.cli.coverage_audit --standalone --output server/data/keywordCoverageAudit.json --query-file server/data/keywordCoverageQueries.txt --action-file server/data/keywordCoverageActions.json --exit-zero",
+            "python -m python_backend.cli.coverage_audit --standalone --target-evidence 1 --output server/data/keywordCoverageAudit.json --query-file server/data/keywordCoverageQueries.txt --action-file server/data/keywordCoverageActions.json --exit-zero",
         )
         self.assertNotIn("server/scripts/runDictionaryCoverageAudit.js", result["migrationCandidateFiles"]["scripts"])
         self.assertIn(

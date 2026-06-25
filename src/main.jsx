@@ -18,60 +18,55 @@ import {
 import { buildRiskLexiconText, isMemeOrQuotedNonAttackText } from './languageUnderstanding.js';
 import './styles.css';
 
-const INVERSE_AXES = new Set(['证据敏感', '逻辑一致', '合作讨论', '修正意愿']);
+const INVERSE_AXES = new Set(['证据敏感', '逻辑一致', '合作讨论', '修正意愿']); // 分越低越不靠谱的轴
 
 const analysisModes = [
   {
-    id: 'best',
-    label: '最优融合',
-    description: '语义裁判 + 动态语库双引擎融合，综合话语行为判定与词族密度分析。',
-  },
-  {
     id: 'hybrid',
-    label: '混合模式',
-    description: '语义裁判为主，动态语库为辅；适合中文梗、反讽和近义变体。',
+    label: '智能融合',
+    description: '语境分析 + 关键词库双引擎，综合语义理解和词汇密度两个维度。',
   },
   {
     id: 'semantic',
-    label: '语义裁判',
-    description: '优先判断话语行为：攻击谁、是否回应命题、是否举证、是否修正。',
+    label: '语境分析',
+    description: '优先看表达意图：在喷谁、有没有回应原帖、给没给证据、愿不愿改口。',
   },
   {
     id: 'lexicon',
-    label: '语库模式',
-    description: '只使用可解释词族和规则命中；透明但更容易落后于新梗。',
+    label: '词库模式',
+    description: '只用可解释的词表命中规则；结果透明但追新梗会慢半拍。',
   },
 ];
 
 const axisDescriptions = {
-  对抗性动机: '从话语行为判断攻击目标是否从“观点”转向“人、阵营或动机”。',
-  认知闭合: '从全称判断、必然化、拒绝歧义和过早定论判断闭合倾向。',
-  证据敏感: '从是否给来源、回应反证、转移举证责任判断，数值越低风险越高。',
-  逻辑一致: '从稻草人、偷换概念、以偏概全和因果跳跃判断，数值越低风险越高。',
-  合作讨论: '从澄清、让步、限定条件和复述对方观点判断，数值越低风险越高。',
-  修正意愿: '从被纠错后的承认、补充、降级表述和沉默/反击判断，数值越低风险越高。',
+  对抗性动机: '看攻击目标是从”就事论事”滑向”就事论人”——喷观点还是扣帽子、查成分、翻主页。',
+  绝对化思维: '看有没有全称判断、一棍子打死、拒绝留余地——“全是””没一个””从来就没”这类表达越多越可疑。',
+  证据敏感: '看给不给出处、回不回应反证、会不会把举证责任甩给对方，分数越低越不靠谱。',
+  逻辑一致: '看有没有稻草人、偷换概念、以偏概全、因果硬扯——不是说话冲不冲，是逻辑在不在线。',
+  合作讨论: '看愿不愿澄清、会让步吗、会不会加限定条件、能不能复述对方的原话——分越低越像在杠。',
+  修正意愿: '看被指出问题后的反应——承认还是装死、补充还是反击、降调还是上强度。',
 };
 
 const researchFrames = [
   {
-    label: '讽刺与反讽检测',
+    label: '反讽识别',
     source: 'Chinese social media sarcasm studies',
-    claim: '表面情绪和真实意图可能相反，必须结合上下文和话语功能，而不是只看词面。',
+    claim: '嘴上说的和心里想的可能是反的，必须结合上下文和说话动机来看，不能只看字面意思。',
   },
   {
-    label: '线上去抑制',
+    label: '匿名去抑制',
     source: 'Suler, 2004',
-    claim: '匿名性、不可见性与异步反馈会降低自我约束，使挑衅和羞辱性表达更容易出现。',
+    claim: '反正没人认识我、看不到脸、说完就走——这种匿名感会让人更容易说出攻击性的话。',
   },
   {
-    label: '动机性推理',
+    label: '立场偏见',
     source: 'Kunda, 1990',
-    claim: '人会选择性寻找支持自身立场的信息，并对反证采用更高的怀疑门槛。',
+    claim: '人天然偏向找支持自己立场的证据，对反面证据会本能地抬高标准。',
   },
   {
-    label: '语用论辩',
+    label: '论证分析',
     source: 'van Eemeren & Grootendorst',
-    claim: '谬误可视为破坏批判性讨论规则的语言行动，而不是单纯“说话难听”。',
+    claim: '杠不是说话难听，是破坏了好好讨论的规则——比如偷换概念、转移话题、拒绝举证。',
   },
 ];
 
@@ -130,93 +125,93 @@ const baseLexicons = {
 const lexiconFamilies = [
   {
     key: 'attack',
-    label: '攻击/嘲讽语义族',
-    description: '不只抓脏词，也抓资格审查、阴阳怪气、阵营标签和新梗。',
+    label: '攻击 / 阴阳怪气',
+    description: '不只抓脏话，也抓查成分、扣帽子、贴标签和阴阳怪气的新梗。',
     examples: ['你急了', '典', '孝', '洗地', '懂哥'],
   },
   {
     key: 'absolutes',
-    label: '绝对化断言语义族',
-    description: '用于识别高认知闭合：全称判断、必然化、零例外表达。',
+    label: '绝对化断言',
+    description: '识别一棍子打死的表达——全称判断、零例外、不容商量的语气。',
     examples: ['全是', '必然', '根本', '没有一个', '早就'],
   },
   {
     key: 'evasion',
-    label: '举证回避语义族',
-    description: '关注把证明责任推给对方的话术，而不是单个固定短语。',
+    label: '举证回避',
+    description: '把举证责任甩给对方的说法，比如让你自己去查、懂的都懂那一套。',
     examples: ['自己查', '懂的都懂', '不解释', '这还用问'],
   },
   {
     key: 'cooperation',
-    label: '合作性修正语义族',
-    description: '保留反向证据，避免把正常反驳误判成杠。',
+    label: '合作讨论',
+    description: '给对方留余地的表达，避免把正常反驳误判成抬杠。',
     examples: ['可能', '不一定', '我说重了', '可以补充'],
   },
 ];
 
 const speechActRules = [
   {
-    act: '人身/资格攻击',
-    type: '情绪化表达',
+    act: '人身攻击 / 资格审查',
+    type: '情绪输出',
     severity: '高',
     target: '人',
     pattern: /(你懂|你连|智商|脑子|洗傻|小丑|蠢|急了|典|孝|绷|笑死|你配|你也配|你算老几|你什么东西|你来|你行你上|就你|你这种|你个|看你主页|翻你动态|查成分|你主子|你爹|孝子|逆天|闹麻了|唐|啥狗|出生|急了急了|破防|这就破防|急成这样).{0,20}/,
-    diagnosis: '攻击对象从命题转向发言者能力或身份，讨论收益主要来自羞辱而非论证。',
+    diagnosis: '对人不对话——翻主页、扣帽子、质疑资格，目的是羞辱而不是讨论。',
     deltas: { attack: 28, cooperation: -18, logic: -10 },
   },
   {
-    act: '阵营/动机归因',
-    type: '语义偷换',
+    act: '扣立场 / 动机揣测',
+    type: '偷换概念',
     severity: '高',
     target: '动机',
     pattern: /(其实就是|所以你就是|给资本|洗地|收钱|屁股|站队|水军|五毛|美分|粉红|小粉红|精外|洋奴|殖人|1450|来电了|蛙|湾湾|神神|兔兔|你国|贵国|境外势力|恰饭|恰烂钱|广告费|收了多少|到账).{0,22}/,
-    diagnosis: '把方法、证据要求或局部观点改写成立场归属，绕开原命题。',
+    diagnosis: '把对方的观点偷换成立场问题——你说A是因为你站B，所以A不用讨论了。',
     deltas: { attack: 20, logic: -24, cooperation: -14 },
   },
   {
-    act: '举证责任转移',
-    type: '缺证断言',
+    act: '甩举证责任',
+    type: '缺证据',
     severity: '中',
     target: '证明责任',
     pattern: /(你自己搜|自己查|懂的都懂|这还用问|懒得解释|不解释|百度一下|不会百度|问百度|去百度|自己去找|不会搜|搜一下不会|这都不知道|常识|不用我教|自己学|去看书|多读书|这还用说|这都不懂).{0,20}/,
-    diagnosis: '要求对方替自己完成证明，削弱可核验性。',
+    diagnosis: '自己说的东西让别人去查——又不是别人提出的观点凭什么替你举证。',
     deltas: { evidence: -28, cooperation: -10 },
   },
   {
-    act: '全称化/过度概括',
-    type: '逻辑错误',
+    act: '一棍子打死',
+    type: '逻辑硬伤',
     severity: '中',
     target: '命题范围',
     pattern: /(所有|全部|都是|没有一个|哪个不是|从来|永远|根本|全都|一律|无一例外|百分百|百分之一百|任何人|谁都|没人|没有人|没有一个人|没有哪个|从古至今|自古以来|历来).{0,24}/,
-    diagnosis: '把有限样本扩展成全称判断，缺少边界条件。',
+    diagnosis: '拿几个例子就当全部——从"有的"直接跳到"全是"，缺少限定条件。',
     deltas: { closure: 26, logic: -20 },
   },
   {
-    act: '强事实断言缺证',
-    type: '事实错误',
+    act: '铁口直断不给证据',
+    type: '事实存疑',
     severity: '中',
     target: '事实',
     pattern: /(早就没有|不可能|必然|肯定|绝对|毫无疑问|毋庸置疑|不用怀疑|不可能是|肯定是|绝对是|很明显|明摆着|众所周知|大家都知道|谁不知道|不用想|毫无疑问地|确定无疑).{0,24}/,
-    diagnosis: '使用强事实断言但没有同步给出可核验来源。',
+    diagnosis: '语气斩钉截铁但没给任何可查的来源——大家都知道不算出处。',
     deltas: { closure: 18, evidence: -16, logic: -10 },
   },
   {
-    act: '合作性限定',
-    type: '低风险讨论',
+    act: '留余地 / 讲道理',
+    type: '正常讨论',
     severity: '低',
     target: '观点',
     pattern: /(可能|不一定|如果|我理解|能否|可以贴|补充|限定|或许|大概|也许|有可能|据我所知|就我所见|以我目前|暂时|目前看来|现阶段|这里有一个|让我补充|提供一下|仅供参考|个人看法|在我看来|我的理解).{0,24}/,
-    diagnosis: '使用条件化和澄清表达，说明仍在推进命题讨论。',
+    diagnosis: '加了限定词、留了余地，说明还在好好聊而不是硬杠。',
     deltas: { cooperation: 24, evidence: 8, closure: -10 },
     positive: true,
   },
   {
-    act: '显式修正',
-    type: '低风险讨论',
+    act: '认错 / 改口',
+    type: '正常讨论',
     severity: '低',
     target: '自我修正',
     pattern: /(我错了|我说重了|更正|修正|改结论|承认|说错了|搞错了|弄错了|记错了|确实|你说得对|受教|学习|感谢指正|谢谢指正|有道理|你说的有道理|这倒也是|那倒也对|收回|前面说错|之前说错|是我搞混).{0,24}/,
-    diagnosis: '出现自我修正或结论降级，是区分正常争论和杠精行为的重要反向证据。',
+    diagnosis: '能承认错误或改口——这是区分正常人和纯杠精的关键信号。',
     deltas: { correction: 32, cooperation: 12 },
     positive: true,
   },
@@ -226,20 +221,20 @@ const clamp = (value, min = 0, max = 100) => Math.max(min, Math.min(max, value))
 
 const lexiconFamilyMeta = {
   attack: {
-    label: '攻击/嘲讽',
+    label: '攻击 / 嘲讽',
     axis: '对抗性动机',
-    type: '情绪化表达',
+    type: '情绪输出',
     severity: '中',
     polarity: 'risk',
-    diagnosis: '动态语库命中攻击或嘲讽语义族，会推高对抗性动机并压低合作讨论。',
+    diagnosis: '词库命中攻击或阴阳怪气类词语，会拉高对抗性动机并压低合作讨论分数。',
   },
   absolutes: {
     label: '绝对化',
-    axis: '认知闭合',
+    axis: '绝对化思维',
     type: '缺少限定',
     severity: '中',
     polarity: 'risk',
-    diagnosis: '动态语库命中绝对化断言语义族，会推高认知闭合并影响逻辑一致性。',
+    diagnosis: '词库命中绝对化断言类词语，会推高绝对化思维并影响逻辑一致性。',
   },
   evidence: {
     label: '证据线索',
@@ -247,23 +242,23 @@ const lexiconFamilyMeta = {
     type: '证据请求',
     severity: '低',
     polarity: 'support',
-    diagnosis: '动态语库命中证据或来源相关语义族，会作为证据敏感的正向线索。',
+    diagnosis: '词库命中证据或来源类词语，视为证据敏感的加分项。',
   },
   evasion: {
     label: '举证回避',
     axis: '证据敏感',
-    type: '缺证断言',
+    type: '缺证据',
     severity: '中',
     polarity: 'risk',
-    diagnosis: '动态语库命中举证回避语义族，会降低证据敏感并增加证明责任转移风险。',
+    diagnosis: '词库命中甩锅式回避词语，会拉低证据敏感并增加举证转移风险。',
   },
   cooperation: {
     label: '合作讨论',
     axis: '合作讨论',
-    type: '合作线索',
+    type: '讨论线索',
     severity: '低',
     polarity: 'support',
-    diagnosis: '动态语库命中澄清、条件化或合作语义族，会作为合作讨论的正向线索。',
+    diagnosis: '词库命中澄清、让步或留余地类词语，视为合作讨论的加分项。',
   },
   correction: {
     label: '自我修正',
@@ -271,7 +266,7 @@ const lexiconFamilyMeta = {
     type: '修正线索',
     severity: '低',
     polarity: 'support',
-    diagnosis: '动态语库命中修正或承认语义族，会作为修正意愿的正向线索。',
+    diagnosis: '词库命中认错或改口类词语，视为修正意愿的加分项。',
   },
 };
 
@@ -311,42 +306,30 @@ function perThousand(text, terms) {
 }
 
 function classifySpeechAct(comment, index, totalComments) {
-  if (isMemeOrQuotedNonAttackText(comment)) {
-    return [
-      {
-        id: `semantic-meme-${index}`,
-        source: '\u8bed\u4e49\u88c1\u5224',
-        speechAct: '\u6897\u6587\u5316/\u5f15\u7528\u7528\u6cd5',
-        target: '\u6574\u53e5\u8bed\u7528\u8bed\u5883',
-        type: '\u975e\u76f4\u63a5\u653b\u51fb',
-        severity: '\u4f4e',
-        comment,
-        highlight: comment,
-        diagnosis: '\u53e5\u5b50\u5c06\u5173\u952e\u8bcd\u6846\u5b9a\u4e3a\u73a9\u6897\u3001\u590d\u8bfb\u3001\u53f0\u8bcd\u6216\u5f15\u7528\uff0c\u6ca1\u6709\u660e\u786e\u628a\u653b\u51fb\u6307\u5411\u5bf9\u65b9\u3002',
-        evidence: `\u7b2c ${index + 1}/${totalComments} \u6761\u8bc4\u8bba\u542b\u6709\u98ce\u9669\u8bcd\u9762\uff0c\u4f46\u6574\u53e5\u662f meme/\u5f15\u7528\u8bed\u5883\uff1b\u4e0d\u5355\u72ec\u8ba1\u4f5c\u653b\u51fb\u8bc1\u636e\u3002`,
-        confidence: 0.68,
-        deltas: { attack: -8, cooperation: 8 },
-        positive: true,
-      },
-    ];
-  }
+  const isMeme = isMemeOrQuotedNonAttackText(comment);
+  // Still run speech act rules on meme-flagged text \u2014 memes can contain real attacks.
+  // The meme flag reduces confidence and softens deltas instead of gateing entirely.
   const matched = speechActRules
     .map((rule) => {
       const match = comment.match(rule.pattern);
       if (!match) return null;
+      // Halve deltas and reduce confidence for meme-flagged comments
+      const memeDeltas = isMeme && !rule.positive
+        ? Object.fromEntries(Object.entries(rule.deltas).map(([k, v]) => [k, Math.round(v * 0.5)]))
+        : rule.deltas;
       return {
         id: `semantic-${index}-${rule.act}`,
-        source: '语义裁判',
+        source: '语境分析',
         speechAct: rule.act,
         target: rule.target,
         type: rule.type,
         severity: rule.severity,
         comment,
         highlight: match[0].trim(),
-        diagnosis: `${rule.act}。${rule.diagnosis}`,
-        evidence: `第 ${index + 1}/${totalComments} 条评论命中话语行为规则；重点检查它是否仍在回应原命题。`,
-        confidence: rule.positive ? 0.64 : rule.severity === '高' ? 0.86 : 0.75,
-        deltas: rule.deltas,
+        diagnosis: `${rule.act}。${rule.diagnosis}${isMeme ? '（整句含 meme/引用语境，降低权重）' : ''}`,
+        evidence: `第 ${index + 1}/${totalComments} 条评论命中语义规则；重点检查它是否仍在回应原命题。`,
+        confidence: (rule.positive ? 0.64 : rule.severity === '高' ? 0.86 : 0.75) * (isMeme ? 0.7 : 1),
+        deltas: memeDeltas,
         positive: rule.positive,
       };
     })
@@ -357,7 +340,7 @@ function classifySpeechAct(comment, index, totalComments) {
     : [
         {
           id: `semantic-neutral-${index}`,
-          source: '语义裁判',
+          source: '语境分析',
           speechAct: '普通观点表达',
           target: '观点',
           type: '未检出高风险错误',
@@ -365,7 +348,7 @@ function classifySpeechAct(comment, index, totalComments) {
           comment,
           highlight: comment,
           diagnosis: '未发现明显攻击、偷换、举证回避或强全称化。仍需结合上下文判断事实真伪。',
-          evidence: `第 ${index + 1}/${totalComments} 条评论未命中高风险话语行为规则。`,
+          evidence: `第 ${index + 1}/${totalComments} 条评论未命中高风险表达规则。`,
           confidence: 0.54,
           deltas: {},
           neutral: true,
@@ -376,15 +359,33 @@ function classifySpeechAct(comment, index, totalComments) {
 function findLexiconMarks(comment, index, totalComments, runtimeLexicon) {
   const marks = [];
   const memeNonAttack = isMemeOrQuotedNonAttackText(comment);
+  // High-FP terms: common discourse markers or context-dependent terms
+  // that generate too many false positives when classified as attacks
+  const highFpTerms = new Set([
+    '不是', '我去', '路过', '酸了', '死了', '呵呵', '刀了', '刷屏',
+    '送走', '应激', 'p的', '厉不厉害', '辣眼', '辣眼睛',
+  ]);
+  // Short terms (1-2 chars) need word-boundary check to avoid false positives
+  // e.g. "都" matches "首都", "全" matches "安全", "可" matches "可爱"
+  const wordBoundaryRe = /[一-鿿぀-ゟ゠-ヿ\w]/;
   for (const family of familyOrder) {
     const meta = lexiconFamilyMeta[family];
     const terms = runtimeLexicon[family] || [];
     for (const term of terms) {
       if (!term || !comment.includes(term)) continue;
       if (memeNonAttack && meta.polarity === 'risk') continue;
+      // Skip known high-FP terms in risk families
+      if (meta.polarity === 'risk' && highFpTerms.has(term)) continue;
+      // Require word boundary for 1-2 char Chinese terms
+      if (term.length <= 2 && /[一-鿿]/.test(term)) {
+        const idx = comment.indexOf(term);
+        const prev = idx > 0 ? comment[idx - 1] : '';
+        const next = idx + term.length < comment.length ? comment[idx + term.length] : '';
+        if (wordBoundaryRe.test(prev) || wordBoundaryRe.test(next)) continue;
+      }
       marks.push({
         id: `lexicon-${index}-${family}-${term}`,
-        source: '动态语库',
+        source: '词库匹配',
         speechAct: `${meta.label}词汇标记`,
         target: meta.axis,
         type: meta.type,
@@ -394,8 +395,8 @@ function findLexiconMarks(comment, index, totalComments, runtimeLexicon) {
         family,
         axis: meta.axis,
         polarity: meta.polarity,
-        diagnosis: `${meta.diagnosis} 词面命中只作为 radar 辅助证据，不单独定性。`,
-        evidence: `第 ${index + 1}/${totalComments} 条评论命中字典词“${term}”（${meta.label}），已计入 radar「${meta.axis}」相关计算。`,
+        diagnosis: `${meta.diagnosis} 词面命中只作为雷达辅助证据，不单独定性。`,
+        evidence: `第 ${index + 1}/${totalComments} 条评论命中字典词”${term}”（${meta.label}），已计入雷达「${meta.axis}」相关计算。`,
         confidence: meta.polarity === 'risk' ? 0.64 : 0.6,
       });
     }
@@ -471,7 +472,7 @@ function getRiskBand(index) {
 function getTrollIndex(user) {
   const weights = {
     对抗性动机: 0.2,
-    认知闭合: 0.16,
+    绝对化思维: 0.16,
     证据敏感: 0.18,
     逻辑一致: 0.18,
     合作讨论: 0.16,
@@ -524,6 +525,7 @@ function scoreComments({ name, uid, text, source, runtimeLexicon = baseLexicons,
   const mix = (key) => {
     if (analysisMode === 'semantic') return semanticSeed[key];
     if (analysisMode === 'lexicon') return lexiconSeed[key];
+    // hybrid (default): blend both engines
     return semanticSeed[key] * 0.65 + lexiconSeed[key] * 0.35;
   };
 
@@ -532,10 +534,10 @@ function scoreComments({ name, uid, text, source, runtimeLexicon = baseLexicons,
       axis: '对抗性动机',
       value: mix('attack'),
       benchmark: 52,
-      note: `语义裁判检出 ${negativeActs.filter((act) => ['人', '动机'].includes(act.target)).length} 条人/动机攻击；字典 attack 标记 ${lexiconMarks.filter((mark) => mark.family === 'attack').length} 次，密度 ${perThousand(riskLexiconText, runtimeLexicon.attack).toFixed(1)} / 千字。`,
+      note: `语境分析检出 ${negativeActs.filter((act) => ['人', '动机'].includes(act.target)).length} 条人/动机攻击；字典 attack 标记 ${lexiconMarks.filter((mark) => mark.family === 'attack').length} 次，密度 ${perThousand(riskLexiconText, runtimeLexicon.attack).toFixed(1)} / 千字。`,
     },
     {
-      axis: '认知闭合',
+      axis: '绝对化思维',
       value: mix('closure'),
       benchmark: 49,
       note: `全称化或强事实断言 ${negativeActs.filter((act) => ['命题范围', '事实'].includes(act.target)).length} 条；字典 absolutes 标记 ${lexiconMarks.filter((mark) => mark.family === 'absolutes').length} 次。`,
@@ -550,7 +552,7 @@ function scoreComments({ name, uid, text, source, runtimeLexicon = baseLexicons,
       axis: '逻辑一致',
       value: mix('logic'),
       benchmark: 61,
-      note: `语义裁判检出 ${negativeActs.length} 条高风险话语行为；风险类字典标记 ${riskLexiconMarks.length} 条作为辅助扣分。`,
+      note: `语境分析检出 ${negativeActs.length} 条高风险表达；风险类字典标记 ${riskLexiconMarks.length} 条作为辅助扣分。`,
     },
     {
       axis: '合作讨论',
@@ -577,8 +579,8 @@ function scoreComments({ name, uid, text, source, runtimeLexicon = baseLexicons,
       : [
           {
             id: 'generated-empty',
-            source: analysisMode === 'lexicon' ? '动态语库' : '语义裁判',
-            speechAct: '未检出高风险话语行为',
+            source: analysisMode === 'lexicon' ? '词库匹配' : '语境分析',
+            speechAct: '未检出高风险表达',
             target: '观点',
             type: '未检出高风险错误',
             severity: '低',
@@ -670,7 +672,7 @@ function ErrorComment({ item }) {
       </div>
       <div className="source-row">
         <span>{item.source || '模型证据'}</span>
-        <span>{item.speechAct || '话语行为'} · 目标：{item.target || '未标注'}</span>
+        <span>{item.speechAct || '表达类型'} · 目标：{item.target || '未标注'}</span>
       </div>
       <p className="comment-text">
         {hasHighlight ? (
@@ -887,9 +889,9 @@ function App() {
         <div className="hero-grid">
           <section className="intro-panel">
             <div className="eyebrow"><MagnifyingGlass size={16} /> research first</div>
-            <h1>用话语行为而不是静态词表识别“杠精倾向”。</h1>
+            <h1>用语义理解而不是死板词表来识别”杠精倾向”</h1>
             <p>
-              输入 UID 后直接扫描 B 站公开资料、投稿、动态和评论互动，再用话语行为模型生成画像。
+              输入 UID 后直接扫描 B 站公开资料、投稿、动态和评论互动，再用语义模型生成分析画像。
               词表只做辅助召回，核心判断转向：是否回应原命题、是否转向人身或阵营、是否转移举证责任、是否愿意修正。
             </p>
             <div className="search-row">
@@ -1011,7 +1013,7 @@ function App() {
               <div className="vocabulary-radar" aria-label="字典词汇 radar 标记">
                 <div className="vocabulary-radar-head">
                   <strong>字典词汇标记</strong>
-                  <span>这些词来自本地/DeepSeek 语库，并参与 radar 对应轴计算</span>
+                  <span>这些词来自本地 / DeepSeek 词库，并参与雷达对应轴计算</span>
                 </div>
                 <div className="vocabulary-chip-grid">
                   {selectedUser.vocabularyMarks.map((mark) => (
@@ -1039,7 +1041,7 @@ function App() {
               <strong>{selectedUser.speechSummary?.positive ?? 0}</strong>
             </div>
             <div>
-              <span>语库辅助证据</span>
+              <span>词库辅助证据</span>
               <strong>{selectedUser.speechSummary?.lexicon ?? 0}</strong>
             </div>
           </div>
@@ -1083,12 +1085,12 @@ function App() {
           </article>
           <article>
             <WarningCircle size={24} />
-            <strong>2. 话语行为裁判</strong>
+            <strong>2. 语义规则判定</strong>
             <p>判断攻击对象、举证责任、命题回应和是否出现自我修正。</p>
           </article>
           <article>
             <ChartPolar size={24} />
-            <strong>3. 动态语库辅助</strong>
+            <strong>3. 词库辅助打分</strong>
             <p>新梗和近义变体只作为风险线索，避免静态词表直接定性。</p>
           </article>
           <article>

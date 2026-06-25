@@ -3682,7 +3682,7 @@ ${String(text || '').slice(0, 6000)}`,
 
 function buildExistingEvidenceMessages(dictionary, { text, uid }) {
   const candidates = normalizeKeywordEntries(Array.isArray(dictionary?.entries) ? dictionary.entries : [])
-    .slice(0, 120)
+    .slice(0, 30)
     .map((entry) => ({
       term: entry.term,
       family: entry.family,
@@ -4203,8 +4203,8 @@ function shouldUseMultiAgentAnalysis(payload = {}, options = {}) {
   return payload?.multiagent === true || payload?.multiAgent === true || options?.multiagent === true || options?.multiAgent === true;
 }
 
-function buildMultiAgentAnalysisMessages(payload, { agent, compact = false } = {}) {
-  const input = buildStandaloneAnalysisInput(payload, { compact });
+function buildMultiAgentAnalysisMessages(payload, { agent, compact = false, sharedInput = null } = {}) {
+  const input = sharedInput || buildStandaloneAnalysisInput(payload, { compact });
   return [
     {
       role: 'system',
@@ -4238,8 +4238,8 @@ Return JSON:
   ];
 }
 
-function buildMultiAgentMergeMessages(payload, { agentResults, compact = false } = {}) {
-  const input = buildStandaloneAnalysisInput(payload, { compact });
+function buildMultiAgentMergeMessages(payload, { agentResults, compact = false, sharedInput = null } = {}) {
+  const input = sharedInput || buildStandaloneAnalysisInput(payload, { compact });
   const outputs = agentResults.map((result) => ({
     agentId: result.id,
     name: result.name,
@@ -4482,12 +4482,13 @@ async function requestDeepSeekAnalysis({ config, fetchImpl, payload, options, co
 
 async function requestDeepSeekMultiAgentAnalysis({ config, fetchImpl, payload, options, compact = false }) {
   const agentResults = [];
+  const sharedInput = buildStandaloneAnalysisInput(payload, { compact });
   for (const agent of ANALYSIS_MULTIAGENTS) {
     try {
       const { raw, parsed } = await requestDeepSeekMessages({
         config,
         fetchImpl,
-        messages: buildMultiAgentAnalysisMessages(payload, { agent, compact }),
+        messages: buildMultiAgentAnalysisMessages(payload, { agent, compact, sharedInput }),
         options,
         maxTokens: 1600,
       });
@@ -4504,7 +4505,7 @@ async function requestDeepSeekMultiAgentAnalysis({ config, fetchImpl, payload, o
   const { raw, parsed } = await requestDeepSeekMessages({
     config,
     fetchImpl,
-    messages: buildMultiAgentMergeMessages(payload, { agentResults, compact }),
+    messages: buildMultiAgentMergeMessages(payload, { agentResults, compact, sharedInput }),
     options,
     maxTokens: compact ? 6000 : 2600,
   });

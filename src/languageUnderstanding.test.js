@@ -23,7 +23,7 @@ test('buildSentenceRadarMarks maps full sentence impacts onto radar axes', () =>
         speechAct: '阵营泛化',
         target: '支持者群体',
         risk: 'high',
-        axisImpacts: [{ axis: '认知闭合', direction: 'risk', strength: 0.9, reasoning: '用所有和都一个样做全称判断。' }],
+        axisImpacts: [{ axis: '绝对化思维', direction: 'risk', strength: 0.9, reasoning: '用所有和都一个样做全称判断。' }],
       },
     ],
     { confidence: 0.82 },
@@ -53,7 +53,7 @@ test('buildSentenceRadarMarks maps full sentence impacts onto radar axes', () =>
         speechAct: '证据边界提醒',
       },
       {
-        axis: '认知闭合',
+        axis: '绝对化思维',
         direction: 'risk',
         strength: 0.9,
         quote: '所有支持这个观点的人都一个样，根本不是讨论问题。',
@@ -140,7 +140,7 @@ test('buildSentenceRadarMarks normalizes model axis aliases before rendering rad
   assert.deepEqual(
     marks.map((mark) => ({ axis: mark.axis, direction: mark.direction, strength: mark.strength })),
     [
-      { axis: '认知闭合', direction: 'risk', strength: 0.92 },
+      { axis: '绝对化思维', direction: 'risk', strength: 0.92 },
       { axis: '对抗性动机', direction: 'risk', strength: 0.66 },
     ],
   );

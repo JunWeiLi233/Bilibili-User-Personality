@@ -431,9 +431,9 @@ class CoverageAuditPayloadContract:
 class CoverageAuditStandaloneRunner:
     """Build a Python coverage-audit report directly from a dictionary JSON contract."""
 
-    def __init__(self, dictionary_path: str | Path, builder: CoverageAuditBuilder | None = None):
+    def __init__(self, dictionary_path: str | Path, builder: CoverageAuditBuilder | None = None, target_evidence: int = 3):
         self.dictionary_path = Path(dictionary_path)
-        self.builder = builder or CoverageAuditBuilder()
+        self.builder = builder or CoverageAuditBuilder(target_evidence=target_evidence)
 
     def run(self) -> dict[str, Any]:
         dictionary = DictionaryLoader(self.dictionary_path).load()
@@ -447,13 +447,14 @@ class CoverageAuditRequest:
     dictionary_path: str | Path = "server/data/deepseekKeywordDictionary.json"
     js_audit_path: str | Path | None = "server/data/keywordCoverageAudit.json"
     strict_total_evidence: bool = False
+    target_evidence: int = 3
     output_path: str | Path | None = None
     query_file_path: str | Path | None = None
     action_file_path: str | Path | None = None
 
     def run(self) -> dict[str, Any]:
         if self.js_audit_path is None or str(self.js_audit_path).strip() == "":
-            result = CoverageAuditStandaloneRunner(self.dictionary_path).run()
+            result = CoverageAuditStandaloneRunner(self.dictionary_path, target_evidence=self.target_evidence).run()
         else:
             result = CoverageAuditPayloadContractComparator(
                 self.dictionary_path,
@@ -479,6 +480,7 @@ class CoverageAuditCommandRequest:
             dictionary_path=args.dictionary,
             js_audit_path=None if args.standalone else args.js_audit,
             strict_total_evidence=args.strict_total_evidence,
+            target_evidence=args.target_evidence,
             output_path=args.output or None,
             query_file_path=args.query_file or None,
             action_file_path=args.action_file or None,
@@ -497,6 +499,7 @@ class CoverageAuditCommandRequest:
         parser.add_argument("--output", default="", help="Optional path to write the coverage-audit JSON result.")
         parser.add_argument("--query-file", default="", help="Optional path to write recommended coverage queries.")
         parser.add_argument("--action-file", default="", help="Optional path to write priority coverage action JSON.")
+        parser.add_argument("--target-evidence", type=int, default=3, help="Minimum evidence samples required per term (default: 3).")
         parser.add_argument("--strict-total-evidence", action="store_true")
         parser.add_argument("--exit-zero", action="store_true", help="Write the JSON result but return process exit code 0 even when the audit is incomplete.")
         return parser

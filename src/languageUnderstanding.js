@@ -1,4 +1,4 @@
-export const RADAR_AXES = ['对抗性动机', '认知闭合', '证据敏感', '逻辑一致', '合作讨论', '修正意愿'];
+export const RADAR_AXES = ['对抗性动机', '绝对化思维', '证据敏感', '逻辑一致', '合作讨论', '修正意愿'];
 
 const AXIS_ALIASES = new Map([
   ['attack', '对抗性动机'],
@@ -11,15 +11,15 @@ const AXIS_ALIASES = new Map([
   ['人身攻击', '对抗性动机'],
   ['阵营攻击', '对抗性动机'],
   ['动机揣测', '对抗性动机'],
-  ['closure', '认知闭合'],
-  ['cognitive_closure', '认知闭合'],
-  ['absolute', '认知闭合'],
-  ['absolutes', '认知闭合'],
-  ['generalization', '认知闭合'],
-  ['认知封闭', '认知闭合'],
-  ['绝对化', '认知闭合'],
-  ['全称判断', '认知闭合'],
-  ['泛化', '认知闭合'],
+  ['closure', '绝对化思维'],
+  ['cognitive_closure', '绝对化思维'],
+  ['absolute', '绝对化思维'],
+  ['absolutes', '绝对化思维'],
+  ['generalization', '绝对化思维'],
+  ['认知封闭', '绝对化思维'],
+  ['绝对化', '绝对化思维'],
+  ['全称判断', '绝对化思维'],
+  ['泛化', '绝对化思维'],
   ['evidence', '证据敏感'],
   ['evidence_sensitivity', '证据敏感'],
   ['source_checking', '证据敏感'],
@@ -176,7 +176,7 @@ function inferSentenceImpacts(sentence = {}) {
     addImpact(impacts, { axis: '逻辑一致', direction: defaultDirection, strength: 0.66, reasoning: '整句评价论证关系、因果链或逻辑一致性。' });
   }
   if (/所有|全部|全都|全是|根本|一定|必然|绝对|肯定|从来|永远|都一个样|没有一个|一律|百分百/.test(text)) {
-    addImpact(impacts, { axis: '认知闭合', direction: 'risk', strength: risk === 'high' ? 0.86 : 0.72, reasoning: '整句使用全称化、绝对化或封闭判断。' });
+    addImpact(impacts, { axis: '绝对化思维', direction: 'risk', strength: risk === 'high' ? 0.86 : 0.72, reasoning: '整句使用全称化、绝对化或封闭判断。' });
   }
   if (/扣帽子|急了|破防|滚粗|小丑|逆天|懂哥|杠精|精神.{0,4}人|孝|典中典|赢麻了|人身|阵营|动机|洗地|殖人|粉红|水军|别来沾边|复活赛|比兜/.test(text)) {
     addImpact(impacts, {

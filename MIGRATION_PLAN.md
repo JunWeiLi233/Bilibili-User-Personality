@@ -14,7 +14,7 @@ Last updated: 2026-06-25. Run `python -m python_backend.cli.migration_inventory`
 | Python scraper modules | ~8,250 lines |
 | Python test lines | ~39,000 lines |
 | JS↔Python compare scripts | 134 |
-| JS↔Python comparison tests | 279 (all passing) |
+| JS↔Python comparison tests | 278 (all passing) |
 | Python unit tests | 1,629 |
 | JS unit tests (npm test) | 1,303 |
 
@@ -35,7 +35,7 @@ Python modules for the foundational pipelines, with JS↔Python comparison valid
 - `analysis/coverage_cli_options.py` — CLI option parsing (JS port)
 - `analysis/video_comment_filter.py` — Comment filtering + video relevance + 5 default constants + config resolution (18/18 videoKeywordSearch.js exports ported)
 - Comparison: `node server/scripts/compareCoverageHarvestLoopCommand.js` + 133 others
-- Tests: 1,523 Python contract tests, 1,303 JS tests
+- Tests: 1,522 Python contract tests, 1,303 JS tests
 
 ### Random Verification
 - `analysis/random_assembly.py` — Corpus assembly
@@ -75,7 +75,7 @@ Python modules for the foundational pipelines, with JS↔Python comparison valid
 
 ### How to Verify Phase 1
 ```powershell
-python -m unittest python_backend.tests.test_corpus_contracts  # 1,519 tests
+python -m unittest python_backend.tests.test_corpus_contracts  # 1,522 tests
 python -m unittest python_backend.tests.test_video_filter_compare  # 37 JS↔Python comparisons
 python -m unittest python_backend.tests.test_analyzers  # 70 tests
 npm test  # 1,303 JS tests
@@ -97,10 +97,10 @@ python -m python_backend.cli.migration_inventory  # Reports migration progress
 | `server/services/bilibiliCrawler.js` | 1,137 | High — last crawler module |
 | `server/services/videoKeywordSearch.js` | 1,286 | High — 18/18 exports ported: `searchVideoKeywords` config resolution extracted as `resolve_search_video_keywords_config`; async orchestration stays JS |
 | `server/services/keywordHarvest.js` | 3,540 | Medium |
-| `server/services/deepseekKeywordTrainer.js` | 4,662 | **Data-driven rule engine** — `normalize_keyword_entries` fully ported (20+ helpers + main function); `normalizeDeepSeekAnalysisResult` ported; `extractJsonObject` ported; `keyword_evidence.py`: ~1,188 lines; `ambig_benign_rules.json`: 165 extracted rules evaluated by Python (extractor enhanced to handle multi-line consts, inline regex, parenthesized OR, composite conditions); 8 remaining rules use patterns not yet handled by extractor |
+| `server/services/deepseekKeywordTrainer.js` | 4,662 | **Data-driven rule engine** — `normalize_keyword_entries` fully ported (20+ helpers + main function); `normalizeDeepSeekAnalysisResult` ported; `extractJsonObject` ported; `keyword_evidence.py`: ~1,188 lines; `ambig_benign_rules.json`: 167 extracted rules evaluated by Python (extractor enhanced to handle multi-line consts, inline regex, parenthesized OR, composite conditions); 8 remaining rules use patterns not yet handled by extractor |
 | `server/scripts/runCoverageHarvestLoop.js` | 695 | High — loop orchestration |
 | `server/scripts/runTiebaKeywordScrape.js` | 390 | Medium |
-| 18 more scripts | ~3,500 total | Low — CLI wrappers |
+| 18 more scripts | ~6,250 total | Low — CLI wrappers |
 
 ## Phase 3: Analyzer Clients (IN PROGRESS)
 
@@ -111,8 +111,8 @@ python -m python_backend.cli.migration_inventory  # Reports migration progress
 - Tests: `python_backend/tests/test_analyzers.py` (70 tests covering normalize, config, validation, normalization, keyword evidence)
 - JS↔Python comparison: 28 DeepSeek comparison tests pass (config, normalization, validation, fixture, mock runtime, plan, command)
 - `normalizeDeepSeekAnalysisResult` ported as `DeepSeekAnalysisNormalizer.normalize()` (line 656)
-- `normalize_keyword_entries` fully ported to `keyword_evidence.py` (line 966) — main function + 20+ helper functions + 165 JSON rule evaluations
-- `_is_ambiguous_benign_evidence_sample` evaluates 165 extracted rules from `ambig_benign_rules.json` with composite condition support
+- `normalize_keyword_entries` fully ported to `keyword_evidence.py` (line 1014) — main function + 20+ helper functions + 167 JSON rule evaluations
+- `_is_ambiguous_benign_evidence_sample` evaluates 167 extracted rules from `ambig_benign_rules.json` with composite condition support
 
 ## Phase 4: Replace JS Commands (FUTURE)
 

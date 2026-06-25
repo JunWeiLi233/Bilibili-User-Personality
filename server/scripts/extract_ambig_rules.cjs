@@ -103,6 +103,23 @@ function normalizeInlineExpressions(conditions, returnTrue) {
     result = result.replace(m[0], condName);
   }
 
+  // Replace var.includes('XXX') patterns (single-pass to avoid exec/lastIndex issues)
+  result = result.replace(/(\w+)\.includes\('(.+?)'\)/g, (match, varName, value) => {
+    const condName = '_in_' + (inlineIdx++);
+    conditions.push({
+      name: condName,
+      type: 'includes',
+      value: decode(value),
+      target: varName === 'cleanSample' ? 'clean_sample' :
+              varName === 'rawContextSample' ? 'raw_context_sample' :
+              varName === 'rawSample' ? 'raw_sample' :
+              varName === 'textOutsideEmotes' ? 'text_outside_emotes' :
+              varName === 'contextSample' ? 'context_sample' :
+              varName === 'textWithoutMentions' ? 'text_without_mentions' : varName,
+    });
+    return condName;
+  });
+
   return { conditions, returnTrue: result };
 }
 
@@ -225,6 +242,23 @@ function extractRule(blockLines) {
     }
 
     // --- Return patterns ---
+
+    // if (isVideoContextSample(sample)) return true;
+    m = line.match(/^\s*if \(isVideoContextSample\(sample\)\)\s+return true;\s*$/);
+    if (m) {
+      conditions.push({name: '_is_video_context', type: 'function_call', function: 'isVideoContextSample'});
+      returnTrue = '_is_video_context';
+      break;
+    }
+
+    // if (cleanSample.includes('XXX')) return true;
+    m = line.match(/^\s*if \(cleanSample\.includes\('(.+?)'\)\)\s+return true;\s*$/);
+    if (m) {
+      const condName = '_term_in_sample';
+      conditions.push({name: condName, type: 'includes', value: decode(m[1])});
+      returnTrue = condName;
+      break;
+    }
 
     // if (expr) return true;  — with balanced paren matching
     m = line.match(/^\s*if (\(.+\))\s+return true;\s*$/);
@@ -355,6 +389,18 @@ for (let i = 0; i < lines.length; i++) {
     continue;
   }
 
+  // Multi-term + multi-family header: if (['X','Y'].includes(term) && (family === 'A' || family === 'B')) {
+  m = line.match(/^\s*if \(\[(.+?)\]\.includes\(term\) && \(family === '(.+?)' \|\| family === '(.+?)'\)\) \{/);
+  if (m) {
+    if (currentRule && !currentRule._hasReturn) {
+      // ignored
+    }
+    const terms = m[1].split(',').map(t => decode(t.trim().replace(/^'|'$/g, '')));
+    currentRule = { terms, family: m[2], _multiFamily: m[3], blockLines: [] };
+    ruleDepth = 1;
+    continue;
+  }
+
   if (currentRule) {
     currentRule.blockLines.push(line);
 
@@ -369,12 +415,16 @@ for (let i = 0; i < lines.length; i++) {
       let { conditions, returnTrue } = extractRule(currentRule.blockLines);
       if (returnTrue) {
         const normalized = normalizeInlineExpressions(conditions, returnTrue);
-        rules.push({
+        const baseRule = {
           terms: currentRule.terms,
-          family: currentRule.family,
           conditions: normalized.conditions,
           returnTrue: normalized.returnTrue,
-        });
+        };
+        rules.push({ ...baseRule, family: currentRule.family });
+        // Emit a second rule for multi-family headers
+        if (currentRule._multiFamily) {
+          rules.push({ ...baseRule, family: currentRule._multiFamily });
+        }
       }
       currentRule = null;
     }

@@ -36,6 +36,15 @@ def _unique(items: list[Any]) -> list[Any]:
     return result
 
 
+# High-FP terms: common discourse markers or context-dependent terms
+# that generate too many false positives in risk families.
+# Verified against real user data (UID 693664018, 87 comments).
+_HIGH_FP_RISK_TERMS: frozenset[str] = frozenset({
+    "不是", "我去", "路过", "酸了", "死了", "呵呵", "刀了", "刷屏",
+    "送走", "应激", "p的",  # gaming/medical context FPs verified on 50 comments
+    "厉不厉害", "辣眼", "辣眼睛",  # self-deprecating/emote usage, context-dependent
+})
+
 TERM_EVIDENCE_ALIASES = {
     "问百度": ["不会百度", "自己百度", "你不会百度吗", "不会自己百度吗"],
     "问百度有什么用": ["不会百度", "自己百度", "你不会百度吗", "问百度"],
@@ -199,9 +208,13 @@ class KeywordEvidenceMatcher:
         matched: list[dict[str, Any]] = []
         for raw_entry in entries if isinstance(entries, list) else []:
             entry = self._normalize_entry(raw_entry)
-            if not entry.get("term"):
+            term = entry.get("term")
+            if not term:
                 continue
-            evidence = self.evidence_for_term(entry["term"], text, family=entry.get("family", ""), source=source, uid=uid)
+            # Skip known high-FP terms in risk families
+            if term in _HIGH_FP_RISK_TERMS and entry.get("family") in ("attack",):
+                continue
+            evidence = self.evidence_for_term(term, text, family=entry.get("family", ""), source=source, uid=uid)
             if evidence["evidenceCount"] <= 0:
                 continue
             matched.append({**entry, **evidence})
@@ -919,7 +932,16 @@ def _eval_rule_condition(
     if cond_type == "equals_raw":
         return raw_context_sample == cond["value"]
     if cond_type == "includes":
-        return cond["value"] in clean_sample
+        sample_map = {
+            "clean_sample": clean_sample,
+            "context_sample": context_sample,
+            "raw_context_sample": raw_context_sample,
+            "raw_sample": raw_context_sample,
+            "text_outside_emotes": text_outside_emotes,
+            "text_without_mentions": raw_context_sample,
+        }
+        test_sample = sample_map.get(target, clean_sample)
+        return cond["value"] in test_sample
     if cond_type == "not_includes":
         return cond["value"] not in clean_sample
     if cond_type == "term_in_sample":
@@ -932,6 +954,11 @@ def _eval_rule_condition(
         if operator == "or":
             return any(r for r in parts)  # evaluated via results dict later
         return all(r for r in parts)  # evaluated via results dict later
+    if cond_type == "function_call":
+        func_name = cond.get("function", "")
+        if func_name == "isVideoContextSample":
+            return _is_video_context_sample(raw_context_sample)
+        return False
 
     return False
 

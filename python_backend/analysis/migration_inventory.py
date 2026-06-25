@@ -1058,6 +1058,126 @@ class BackendMigrationInventoryScanner:
             and package_scripts.get("python:tieba-html-parse-compare") == "node server/scripts/compareTiebaHtmlParse.js"
         ):
             return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/analyzeDeepSeekComments.js"
+            and package_scripts.get("python:deepseek-analyze") == "python -m python_backend.cli.deepseek_analyze"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/batchScrapeAicu.js"
+            and package_scripts.get("python:aicu-batch") == "python -m python_backend.cli.aicu_batch_plan"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/batchScrapeAicuBrowser.js"
+            and package_scripts.get("python:aicu-browser-batch") == "python -m python_backend.cli.aicu_browser_batch_plan"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/batchScrapeBilibili.js"
+            and package_scripts.get("python:bilibili-batch") == "python -m python_backend.cli.batch_bilibili_plan"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/batchScrapePopular.js"
+            and package_scripts.get("python:popular-batch") == "python -m python_backend.cli.batch_popular_plan"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/batchUidRange.js"
+            and package_scripts.get("python:uid-range-batch") == "python -m python_backend.cli.batch_uid_range_plan"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/batchUidScrape.js"
+            and package_scripts.get("python:uid-scrape-batch") == "python -m python_backend.cli.batch_uid_scrape_plan"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/launchAllScrapers.js"
+            and package_scripts.get("python:scrapers-launch") == "python -m python_backend.cli.batch_scraper_launcher"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/launchUidPipeline.js"
+            and package_scripts.get("python:uid-pipeline-launch") == "python -m python_backend.cli.uid_pipeline_launcher"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/runCoverageHarvestLoop.js"
+            and package_scripts.get("python:coverage-loop") == "python -m python_backend.cli.coverage_loop_command"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/runTiebaKeywordScrape.js"
+            and package_scripts.get("python:tieba-keyword") == "python -m python_backend.cli.tieba_keyword_scrape"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/runVideoKeywordDiscovery.js"
+            and package_scripts.get("python:video-discovery") == "python -m python_backend.cli.discovery_report"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/runVideoLinkDirect.js"
+            and package_scripts.get("python:video-link") == "python -m python_backend.cli.video_link_direct_plan"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/scrapeAicuUsers.js"
+            and package_scripts.get("python:aicu-scrape") == "python -m python_backend.cli.aicu_scrape_plan"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/uidDiscoveryScrape.js"
+            and package_scripts.get("python:uid-discovery") == "python -m python_backend.cli.uid_discovery_plan"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/uidParallelAnalyzer.js"
+            and package_scripts.get("python:uid-parallel") == "python -m python_backend.cli.uid_parallel_plan"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/uidPipelineFast.js"
+            and package_scripts.get("python:uid-fast-pipeline") == "python -m python_backend.cli.uid_fast_pipeline_plan"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/uidPipelineFastWorker.js"
+            and package_scripts.get("python:uid-fast-worker") == "python -m python_backend.cli.uid_fast_pipeline_worker_plan"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/uidPipelineWorker.js"
+            and package_scripts.get("python:uid-pipeline-worker") == "python -m python_backend.cli.uid_pipeline_plan"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/scripts/uidRangeScrape.js"
+            and package_scripts.get("python:uid-range-scrape") == "python -m python_backend.cli.uid_range_scrape_plan"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/services/bilibiliCrawler.js"
+            and package_scripts.get("python:bilibili-crawler") == "python -m python_backend.cli.bilibili_crawler"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/services/deepseekKeywordTrainer.js"
+            and package_scripts.get("python:deepseek-trainer") == "python -m python_backend.cli.deepseek_analysis_normalize"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/services/keywordHarvest.js"
+            and package_scripts.get("python:keyword-harvest") == "python -m python_backend.cli.harvest_plan"
+        ):
+            return "legacy_compatibility_after_python_replacement"
+        if (
+            relative_path == "server/services/videoKeywordSearch.js"
+            and package_scripts.get("python:video-search") == "python -m python_backend.cli.video_comment_filter"
+        ):
+            return "legacy_compatibility_after_python_replacement"
         if relative_path in RETAINED_JS_FILES:
             return RETAINED_JS_FILES[relative_path]
         for prefix, reason in RETAINED_JS_FILE_PREFIXES.items():
