@@ -97,7 +97,7 @@ python -m python_backend.cli.migration_inventory  # Reports migration progress
 | `server/services/bilibiliCrawler.js` | 1,137 | High — last crawler module |
 | `server/services/videoKeywordSearch.js` | 1,286 | High — 18/18 exports ported: `searchVideoKeywords` config resolution extracted as `resolve_search_video_keywords_config`; async orchestration stays JS |
 | `server/services/keywordHarvest.js` | 3,540 | Medium |
-| `server/services/deepseekKeywordTrainer.js` | 4,662 | Medium — 9 helpers ported to `keyword_evidence.py`: `_normalize_family`, `_clean_term`, `_clean_keyword_term`, `_looks_like_mojibake_chinese`, `_is_recovered_placeholder_meaning`, `_recovered_meaning_for_term`, `_canonical_meaning_for_term`, `_is_ascii_suffix_fragment_of`, `_is_noisy_evidence_sample`; `normalizeDeepSeekAnalysisResult` already ported as `DeepSeekAnalysisNormalizer.normalize()`; `extractJsonObject` already ported as `_extract_json_text`; remaining: `normalizeKeywordEntries` + additional helpers |
+| `server/services/deepseekKeywordTrainer.js` | 4,662 | Medium — 20+ helpers ported to `keyword_evidence.py` (451→886 lines): video-context evidence filters, term-specific content filters, `_merge_keyword_entry`, `_is_ambiguous_benign_evidence_sample` scaffold (first 15 term-specific rules of ~1,882-line JS function); `normalizeDeepSeekAnalysisResult` already ported; `extractJsonObject` already ported; remaining: finish term rules in `_is_ambiguous_benign_evidence_sample`, then compose `normalize_keyword_entries` |
 | `server/scripts/runCoverageHarvestLoop.js` | 695 | High — loop orchestration |
 | `server/scripts/runTiebaKeywordScrape.js` | 390 | Medium |
 | 18 more scripts | ~3,500 total | Low — CLI wrappers |
