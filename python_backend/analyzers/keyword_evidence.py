@@ -2,11 +2,13 @@ from __future__ import annotations
 
 import argparse
 import re
+import unicodedata
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 from python_backend.corpus.dictionary import DictionaryLoader
+from python_backend.corpus.dictionary_prune import FAMILY_ALIASES, SUPPORTED_FAMILIES
 from python_backend.runtime.json_contracts import JsonContractReader, safe_read_json_object
 
 
@@ -287,3 +289,163 @@ class KeywordEvidenceMatcher:
             seen.add(key)
             normalized.append(item)
         return normalized
+
+
+# — Ported helpers from deepseekKeywordTrainer.js for normalize_keyword_entries —
+
+
+def _normalize_family(family: Any) -> str:
+    raw = str(family or "").strip()
+    if raw in SUPPORTED_FAMILIES:
+        return raw
+    return FAMILY_ALIASES.get(raw, "attack")
+
+
+def _clean_term(value: Any) -> str:
+    text = str(value or "")
+    normalized = unicodedata.normalize("NFKC", text)
+    cleaned = re.sub(r"[^一-鿿A-Za-z0-9]", "", normalized)
+    cleaned = re.sub(r"^\d+(?=百分百$)", "", cleaned)
+    cleaned = re.sub(r"(?<=一-鿿)[A-Za-z]$", "", cleaned)
+    return cleaned.strip()
+
+
+def _clean_keyword_term(value: Any) -> str:
+    text = str(value or "").strip()
+    if not text:
+        return ""
+    if _looks_like_mojibake_chinese(text):
+        return ""
+    normalized = unicodedata.normalize("NFKC", text)
+    cleaned = re.sub(r"[^一-鿿A-Za-z0-9]", "", normalized)
+    cleaned = re.sub(r"[A-Za-z0-9]+", lambda m: m.group(0).lower(), cleaned)
+    cleaned = re.sub(r"^热词系列", "", cleaned).strip()
+    if re.search(r"[一-鿿]", cleaned) and cleaned.lower().endswith("doge") and len(cleaned) > 4:
+        cleaned = cleaned[:-4]
+    return cleaned.strip()
+
+
+def _looks_like_mojibake_chinese(term: Any) -> bool:
+    text = str(term or "").strip()
+    if not text or not re.search(r"[一-鿿]", text):
+        return False
+    mojibake_prefixes = [
+        "锻",
+        "鏂",
+        "閿",
+        "閼",
+        "闂",
+        "闃",
+        "闄",
+        "闅",
+        "閲",
+        "闈",
+        "闉",
+        "闋",
+        "闌",
+        "闍",
+        "闎",
+        "闏",
+    ]
+    if any(text.startswith(prefix) and len(text) > len(prefix) for prefix in mojibake_prefixes):
+        return True
+    if re.search(r"[-�]", text):
+        return True
+    if re.search(r"[�]|\?{2,}", text):
+        return True
+    chars = list(text)
+    marker_chars = {"锟", "斤", "拷", "娴", "铡", "闇", "鍋", "傳", "噹", "鏃", "鍋"}
+    marker_count = sum(1 for char in chars if char in marker_chars)
+    return marker_count >= 2 and marker_count / len(chars) >= 0.5
+
+
+def _is_recovered_placeholder_meaning(meaning: Any) -> bool:
+    return bool(
+        re.search(
+            r"Recovered term metadata after an interrupted local dictionary write",
+            str(meaning or ""),
+            re.IGNORECASE,
+        )
+    )
+
+
+def _recovered_meaning_for_term(term: Any, family: Any) -> str:
+    clean_term = str(term or "").strip()
+    meanings = {
+        "attack": (
+            f"“{clean_term}”"
+            "用于嘲讽、贬低或对某人、"
+            "群体、动机、说法作敌意评价"
+        ),
+        "absolutes": (
+            f"“{clean_term}”"
+            "用于缺少限定的强断言、"
+            "全称化或绝对化表达"
+        ),
+        "evidence": (
+            f"“{clean_term}”"
+            "用于请求、补充或指向可核验的"
+            "来源、证据或原始材料"
+        ),
+        "evasion": (
+            f"“{clean_term}”"
+            "用于暗示、转移解释责任或以"
+            "圈内默契代替直接说明"
+        ),
+        "cooperation": (
+            f"“{clean_term}”"
+            "用于表示支持、补充、轻松互动"
+            "或合作式讨论"
+        ),
+        "correction": (
+            f"“{clean_term}”"
+            "用于承认信息不准、修正说法或"
+            "降低原先结论强度"
+        ),
+    }
+    return meanings.get(
+        str(family or "").strip(),
+        f"“{clean_term}”的中文互联网语用义，"
+        "需结合完整发言上下文判断",
+    )
+
+
+def _canonical_meaning_for_term(term: Any, family: Any, meaning: Any) -> str:
+    if str(term or "").strip() == "软文" and str(family or "").strip() == "evidence":
+        return (
+            "“软文”"
+            "用于质疑内容是付费宣传、"
+            "带节奏或影响证据可信度的稿件"
+        )
+    return str(meaning or "")
+
+
+def _is_ascii_suffix_fragment_of(fragment: Any, term: Any) -> bool:
+    frag = str(fragment or "")
+    t = str(term or "")
+    return bool(
+        re.match(r"^[A-Za-z]{4,}$", frag)
+        and re.match(r"^[A-Za-z]{6,}$", t)
+        and len(t) >= len(frag) + 3
+        and t.lower().endswith(frag.lower())
+    )
+
+
+def _is_noisy_evidence_sample(sample: Any) -> bool:
+    text = str(sample or "").strip()
+    if not text:
+        return True
+    if re.match(
+        r"^异议(?:[!！。\s]|\[doge\]|（幻听）)*$",
+        text,
+    ):
+        return True
+    if text == "掉小珍珠了，呜呜":
+        return True
+    if re.search(
+        r"百度网盘分享的文件|通过百度网盘分享|超级会员v?\d+",
+        text,
+        re.IGNORECASE,
+    ):
+        return True
+    return False
