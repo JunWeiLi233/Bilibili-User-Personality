@@ -1,15 +1,14 @@
 #!/usr/bin/env node
 // Stop hook: deterministic coverage-goal checker.
-// Only activates when a GOAL_MODE env-var or session goal marker exists.
-// Reads keywordCoverageAudit.json and checks targetEvidence=3 criteria.
-// Returns clean JSON — no LLM hallucination risk.
+// Replaces /goal's LLM-based JSON evaluator with direct file reads.
+// Validated against Claude Code hook output schema.
 
 const fs = require('node:fs');
 const path = require('node:path');
 
 function emit(result) {
-  // Claude Code reads stdout for hook decisions
   process.stdout.write(JSON.stringify(result) + '\n');
+  // Exit 0 = hook ran successfully (decision carried), 2 = error
   process.exit(result.decision === 'block' ? 2 : 0);
 }
 
@@ -22,27 +21,37 @@ function main() {
     const buf = fs.readFileSync(0, 'utf8');
     event = JSON.parse(buf || '{}');
   } catch {
-    // no stdin → running standalone, nothing to do
-    emit({ decision: 'allow', reason: 'no_event', goal_active: false });
+    emit({
+      decision: 'approve',
+      reason: 'no_event',
+      hookSpecificOutput: { hookEventName: 'Stop', additionalContext: '' },
+    });
     return;
   }
 
   // Only handle Stop events
-  if (!event.event || (event.event !== 'stop' && event.hook_event_name !== 'Stop')) {
-    emit({ decision: 'allow', reason: 'not_stop_event', goal_active: false });
+  if (event.hook_event_name !== 'Stop' && event.event !== 'stop') {
+    emit({
+      decision: 'approve',
+      reason: 'not_stop_event',
+      hookSpecificOutput: { hookEventName: 'Stop', additionalContext: '' },
+    });
     return;
   }
 
-  // Check if a /goal is active: look for goal condition in the stop hook data
+  // Check if a /goal session is active
   const hasActiveGoal = !!(event.stop_hook_active || event.stopHookActive);
 
   if (!hasActiveGoal) {
-    // No active goal — this hook is just an informational supplement
-    emit({ decision: 'allow', reason: 'no_active_goal', goal_active: false });
+    emit({
+      decision: 'approve',
+      reason: 'no_active_goal',
+      hookSpecificOutput: { hookEventName: 'Stop', additionalContext: '' },
+    });
     return;
   }
 
-  // Active goal detected — evaluate the coverage condition deterministically
+  // Active goal — evaluate coverage deterministically
   const auditPath = path.join(cwd, 'server', 'data', 'keywordCoverageAudit.json');
 
   let audit;
@@ -51,9 +60,12 @@ function main() {
   } catch (e) {
     emit({
       decision: 'block',
-      reason: `Cannot read coverage audit at ${auditPath}: ${e.message}. Run npm run dictionary:coverage first.`,
+      reason: `Coverage audit not found at ${auditPath}: ${e.message}. Run npm run dictionary:coverage first.`,
       stopReason: 'coverage_audit_missing',
-      goal_met: false,
+      hookSpecificOutput: {
+        hookEventName: 'Stop',
+        additionalContext: `Coverage audit file is missing. Run: npm run dictionary:coverage`,
+      },
     });
     return;
   }
@@ -62,9 +74,12 @@ function main() {
   if (!coverage) {
     emit({
       decision: 'block',
-      reason: 'Coverage audit is missing "coverage" key.',
+      reason: 'Coverage audit has no "coverage" key.',
       stopReason: 'coverage_audit_invalid',
-      goal_met: false,
+      hookSpecificOutput: {
+        hookEventName: 'Stop',
+        additionalContext: 'Coverage audit JSON is malformed. Regenerate with: npm run dictionary:coverage',
+      },
     });
     return;
   }
@@ -76,35 +91,40 @@ function main() {
   const complete = coverage.complete === true;
   const terms = coverage.terms || 0;
   const totalEvidence = coverage.totalEvidence || 0;
+  const avgEvidence = coverage.averageEvidence || 0;
 
   if (complete && ratio >= 1.0 && weak === 0 && zero === 0) {
+    const msg = `Goal complete: ${terms} terms at targetEvidence=${targetEvidence}, ${totalEvidence} total evidence (avg ${avgEvidence}/term), ratio=${(ratio * 100).toFixed(1)}%, weak=${weak}, zero=${zero}.`;
     emit({
-      decision: 'allow',
-      reason: [
-        'Goal complete:',
-        `${terms} terms at targetEvidence=${targetEvidence},`,
-        `${totalEvidence} total evidence,`,
-        `ratio=${(ratio * 100).toFixed(1)}%,`,
-        `weak=${weak}, zero=${zero}`,
-      ].join(' '),
+      decision: 'approve',
+      reason: msg,
       stopReason: 'goal_complete',
-      goal_met: true,
+      hookSpecificOutput: {
+        hookEventName: 'Stop',
+        additionalContext: msg,
+      },
     });
     return;
   }
 
+  // Goal not met — block stop
+  const msg = [
+    `Goal not yet met: targetEvidence=${targetEvidence},`,
+    `ratio=${(ratio * 100).toFixed(1)}%,`,
+    `complete=${complete},`,
+    `weak=${weak}, zero=${zero},`,
+    `terms=${terms}, totalEvidence=${totalEvidence}.`,
+    'Continue the harvest loop or fix coverage gaps.',
+  ].join(' ');
+
   emit({
     decision: 'block',
-    reason: [
-      'Goal not yet met:',
-      `targetEvidence=${targetEvidence},`,
-      `ratio=${(ratio * 100).toFixed(1)}%,`,
-      `complete=${complete},`,
-      `weak=${weak}, zero=${zero}.`,
-      'Continue the harvest loop or fix coverage gaps.',
-    ].join(' '),
+    reason: msg,
     stopReason: 'goal_not_met',
-    goal_met: false,
+    hookSpecificOutput: {
+      hookEventName: 'Stop',
+      additionalContext: msg,
+    },
   });
 }
 
