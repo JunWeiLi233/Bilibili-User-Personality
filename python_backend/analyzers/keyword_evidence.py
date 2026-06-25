@@ -652,3 +652,235 @@ def _is_pure_ascii_suffix_only_fragment(
         )
         for candidate in all_entries
     )
+
+
+# — Remaining glue helpers for merge_keyword_entry and normalize_keyword_entries —
+
+
+def _evidence_source_sort_key(source: dict[str, Any] | None = None) -> int:
+    return 1 if _is_video_context_source(source) else 0
+
+
+def _stable_json(value: Any) -> str:
+    import json as _json
+
+    if isinstance(value, list):
+        return "[" + ",".join(_stable_json(item) for item in value) + "]"
+    if isinstance(value, dict):
+        return (
+            "{"
+            + ",".join(
+                f"{_json.dumps(k)}:{_stable_json(value[k])}"
+                for k in sorted(value.keys())
+            )
+            + "}"
+        )
+    return _json.dumps(value)
+
+
+def _without_updated_at(value: Any) -> Any:
+    if isinstance(value, list):
+        return [_without_updated_at(item) for item in value]
+    if isinstance(value, dict):
+        return {
+            k: _without_updated_at(v)
+            for k, v in value.items()
+            if k not in ("updatedAt", "storage", "entryFiles")
+        }
+    return value
+
+
+def _semantically_equal_ignoring_updated_at(left: Any, right: Any) -> bool:
+    return _stable_json(_without_updated_at(left)) == _stable_json(
+        _without_updated_at(right)
+    )
+
+
+def _prioritize_evidence_sources_for_samples(
+    evidence_sources: list[dict[str, Any]] | None = None,
+    evidence_samples: list[Any] | None = None,
+    limit: int = 8,
+) -> list[dict[str, Any]]:
+    evidence_samples = evidence_samples or []
+    evidence_sources = evidence_sources or []
+
+    sample_order = {
+        str(s or "").strip(): idx for idx, s in enumerate(evidence_samples)
+    }
+
+    def _sort_key(source: dict[str, Any]):
+        context_delta = _evidence_source_sort_key(source)
+        sample = str(source.get("sample") or "").strip()
+        sample_rank = sample_order.get(sample, float("inf"))
+        return (context_delta, sample_rank)
+
+    sorted_sources = sorted(evidence_sources, key=_sort_key)
+
+    preferred = []
+    seen_preferred_samples: set[str] = set()
+    for source in sorted_sources:
+        sample = str(source.get("sample") or "").strip()
+        if (
+            not sample
+            or sample not in sample_order
+            or _is_video_context_source(source)
+            or sample in seen_preferred_samples
+        ):
+            continue
+        preferred.append(source)
+        seen_preferred_samples.add(sample)
+
+    def _source_key(source: dict[str, Any]) -> str:
+        return f"{source.get('source') or ''}\n{source.get('uid') or ''}\n{source.get('sample') or ''}"
+
+    seen_keys: set[str] = set()
+    result = []
+    for source in preferred + sorted_sources:
+        key = _source_key(source)
+        if key in seen_keys:
+            continue
+        seen_keys.add(key)
+        result.append(source)
+        if len(result) >= limit:
+            break
+    return result
+
+
+def _merge_keyword_entry(
+    existing: dict[str, Any] | None,
+    incoming: dict[str, Any],
+    now: str = "",
+) -> dict[str, Any]:
+    from datetime import datetime, timezone
+
+    if not now:
+        now = datetime.now(timezone.utc).isoformat()
+    if not existing:
+        return {**incoming, "updatedAt": incoming.get("updatedAt") or now}
+
+    existing_conf = float(existing.get("confidence") or 0)
+    incoming_conf = float(incoming.get("confidence") or 0)
+    should_replace_family = (
+        existing.get("family") != incoming.get("family")
+        and incoming_conf >= existing_conf + 0.15
+    )
+    should_replace_details = (
+        should_replace_family
+        or existing.get("family") == incoming.get("family")
+        or not existing.get("meaning")
+    )
+    base = incoming if should_replace_family else existing
+    details = incoming if should_replace_details else {}
+    target_family = (
+        incoming.get("family") if should_replace_family else existing.get("family")
+    )
+
+    existing_sample_set = {
+        str(s or "").strip()
+        for s in (existing.get("evidenceSamples") or [])
+        if str(s or "").strip()
+    }
+    incoming_sample_set = {
+        str(s or "").strip()
+        for s in (incoming.get("evidenceSamples") or [])
+        if str(s or "").strip()
+    }
+
+    merged_evidence_samples = _unique(
+        list(existing.get("evidenceSamples") or [])
+        + list(incoming.get("evidenceSamples") or [])
+    )
+    filtered_evidence_samples = [
+        s
+        for s in merged_evidence_samples
+        if not _is_ambiguous_benign_evidence_sample(
+            incoming.get("term"),
+            target_family,
+            s,
+        )
+    ]
+    has_sample_cap_pressure = len(filtered_evidence_samples) > 5
+
+    def _sample_sort_key(sample: Any) -> tuple[int, int, int]:
+        delta = _evidence_sample_sort_key(sample)
+        clean = str(sample or "").strip()
+        fresh_incoming = 1 if (clean in incoming_sample_set and clean not in existing_sample_set) else 0
+        return (delta, -fresh_incoming if has_sample_cap_pressure else 0, 0)
+
+    evidence_samples = sorted(filtered_evidence_samples, key=_sample_sort_key)[:5]
+
+    merged_evidence_sources = list(existing.get("evidenceSources") or []) + list(
+        incoming.get("evidenceSources") or []
+    )
+    filtered_evidence_sources = [
+        s
+        for s in merged_evidence_sources
+        if not _is_ambiguous_benign_evidence_sample(
+            incoming.get("term"),
+            target_family,
+            (s if isinstance(s, dict) else {}).get("sample"),
+        )
+    ]
+    evidence_sources = _prioritize_evidence_sources_for_samples(
+        filtered_evidence_sources, evidence_samples, 8
+    )
+
+    existing_ec = max(0, int(float(existing.get("evidenceCount") or 0)))
+    incoming_ec = max(0, int(float(incoming.get("evidenceCount") or 0)))
+    ambiguous_filtered = len(evidence_samples) < min(
+        len(merged_evidence_samples), 5
+    ) or len(evidence_sources) < min(len(merged_evidence_sources), 8)
+    sample_backed = _evidence_unit_count(evidence_samples, evidence_sources)
+
+    def _evidence_count() -> int:
+        if sample_backed > 0:
+            return sample_backed
+        if ambiguous_filtered:
+            return max(len(evidence_samples), len(evidence_sources))
+        return existing_ec + incoming_ec
+
+    merged = {
+        **base,
+        **details,
+        "term": incoming.get("term"),
+        "family": incoming.get("family") if should_replace_family else existing.get("family"),
+        "meaning": details.get("meaning") or existing.get("meaning") or incoming.get("meaning"),
+        "risk": details.get("risk") or existing.get("risk") or incoming.get("risk"),
+        "confidence": max(existing_conf, incoming_conf),
+        "evidenceCount": _evidence_count(),
+        "evidenceSamples": evidence_samples,
+        "evidenceSources": evidence_sources,
+        "updatedAt": now,
+    }
+
+    if _semantically_equal_ignoring_updated_at(existing, merged):
+        return {**merged, "updatedAt": existing.get("updatedAt") or None}
+    return merged
+
+
+def _is_ambiguous_benign_evidence_sample(
+    term: Any, family: Any, sample: Any
+) -> bool:
+    """Port of JS isAmbiguousBenignEvidenceSample — term-specific benign-evidence rules."""
+    clean_sample = _deepseek_clean_term(str(sample or "")).lower()
+    raw_context_sample = str(sample or "")
+    context_sample = f"{clean_sample}\n{raw_context_sample}"
+    term_str = str(term or "").strip()
+    family_str = str(family or "").strip()
+
+    if family_str == "attack":
+        if _is_short_negated_attack_mention(term, sample):
+            return True
+        glossary_question = re.search(
+            r"(?:不懂就问|都(?:是)?什么意思|是什么意思|是什么梗|从来不看)",
+            context_sample,
+        ) and re.search(r"[、，,].*[、，,]", context_sample)
+        hostile_explanation = re.search(
+            r"(?:黑称|骂人|攻击|别拿|别复读|别乱用)", context_sample
+        )
+        if glossary_question and not hostile_explanation:
+            return True
+
+    # Stub: the full JS function is ~1,881 lines of per-term rules.
+    # Remaining rules will be added incrementally in follow-up commits.
+    return False
