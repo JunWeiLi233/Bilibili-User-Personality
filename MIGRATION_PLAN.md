@@ -97,7 +97,7 @@ python -m python_backend.cli.migration_inventory  # Reports migration progress
 | `server/services/bilibiliCrawler.js` | 1,137 | High — last crawler module |
 | `server/services/videoKeywordSearch.js` | 1,286 | High — 18/18 exports ported: `searchVideoKeywords` config resolution extracted as `resolve_search_video_keywords_config`; async orchestration stays JS |
 | `server/services/keywordHarvest.js` | 3,540 | Medium |
-| `server/services/deepseekKeywordTrainer.js` | 4,662 | **Near complete** — `normalize_keyword_entries` ported (composes 20+ helpers into full 100-line entry normalization pipeline); `normalizeDeepSeekAnalysisResult` already ported; `extractJsonObject` already ported; `keyword_evidence.py`: 289→1,043 lines; remaining: ~300 term-specific regex rules in `_is_ambiguous_benign_evidence_sample` (generic attack-family filter active; per-term rules are mechanical, ~1,550 JS lines to convert) |
+| `server/services/deepseekKeywordTrainer.js` | 4,662 | **Data-driven rule engine** — `normalize_keyword_entries` ported (20+ helpers + 133 JSON rules); `normalizeDeepSeekAnalysisResult` already ported; `extractJsonObject` already ported; `keyword_evidence.py`: 289→1,090 lines; `ambig_benign_rules.json`: 133 extracted rules evaluated by Python; ~200 complex-format rules remain to be extracted by enhancing `extract_ambig_rules.cjs` |
 | `server/scripts/runCoverageHarvestLoop.js` | 695 | High — loop orchestration |
 | `server/scripts/runTiebaKeywordScrape.js` | 390 | Medium |
 | 18 more scripts | ~3,500 total | Low — CLI wrappers |
