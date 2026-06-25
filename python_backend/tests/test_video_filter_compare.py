@@ -17,11 +17,20 @@ from python_backend.analysis.video_comment_filter import (
     build_target_video_object_evidence_text,
     build_video_context_text,
     comment_matches_needle_set,
+    dictionary_entry_needles,
+    dictionary_needle_set,
+    discovery_queries_for_search,
+    env_flag,
     filter_comments_by_dictionary_needles,
     filter_relevant_videos,
+    is_blocked_discovery_warning,
+    parse_set,
     relevance_score_for_video,
+    resolve_search_video_keywords_config,
+    round_robin_unique,
     search_needles_for_relevance,
     sort_videos_by_relevance,
+    target_evidence_count,
     target_text_hits_for_diagnostics,
     video_context_source_urls,
     video_context_sources,
@@ -188,6 +197,154 @@ class VideoFilterComparisonTests(unittest.TestCase):
         if py:
             self.assertEqual(py[0]["title"], js[0]["title"])
 
+
+    # — Tests for newly ported helper functions —
+
+    def test_parse_set_parses_comma_list(self):
+        result = parse_set("a, b, c")
+        self.assertEqual(result, {"a", "b", "c"})
+
+    def test_parse_set_parses_array(self):
+        result = parse_set(["x", "y"])
+        self.assertEqual(result, {"x", "y"})
+
+    def test_parse_set_empty(self):
+        self.assertEqual(parse_set(""), set())
+        self.assertEqual(parse_set([]), set())
+
+    def test_env_flag_true_values(self):
+        for v in ["1", "true", "yes", "on", "TRUE", "YES"]:
+            with self.subTest(value=v):
+                self.assertTrue(env_flag(v))
+
+    def test_env_flag_false_values(self):
+        for v in [None, "", "0", "false", "no", "off"]:
+            with self.subTest(value=v):
+                self.assertFalse(env_flag(v))
+
+    def test_env_flag_fallback(self):
+        self.assertTrue(env_flag(None, fallback=True))
+        self.assertFalse(env_flag("", fallback=False))
+
+    def test_round_robin_unique_interleaves_groups(self):
+        g1 = [{"bvid": "BV1"}, {"bvid": "BV2"}]
+        g2 = [{"bvid": "BV3"}]
+        result = round_robin_unique([g1, g2], 10, key_fn=lambda v: v["bvid"])
+        self.assertEqual([v["bvid"] for v in result], ["BV1", "BV3", "BV2"])
+
+    def test_round_robin_unique_respects_limit(self):
+        g1 = [{"bvid": "BV1"}, {"bvid": "BV2"}]
+        g2 = [{"bvid": "BV3"}, {"bvid": "BV4"}]
+        result = round_robin_unique([g1, g2], 2, key_fn=lambda v: v["bvid"])
+        self.assertEqual(len(result), 2)
+        self.assertEqual([v["bvid"] for v in result], ["BV1", "BV3"])
+
+    def test_round_robin_unique_deduplicates(self):
+        g1 = [{"bvid": "BV1"}]
+        g2 = [{"bvid": "BV1"}, {"bvid": "BV2"}]
+        result = round_robin_unique([g1, g2], 10, key_fn=lambda v: v["bvid"])
+        self.assertEqual([v["bvid"] for v in result], ["BV1", "BV2"])
+
+    def test_is_blocked_discovery_warning_matches_http_blocks(self):
+        self.assertTrue(is_blocked_discovery_warning("HTTP 403 Forbidden"))
+        self.assertTrue(is_blocked_discovery_warning("got HTTP 412"))
+        self.assertTrue(is_blocked_discovery_warning("HTTP 429 Too Many Requests"))
+
+    def test_is_blocked_discovery_warning_no_match(self):
+        self.assertFalse(is_blocked_discovery_warning("timeout"))
+        self.assertFalse(is_blocked_discovery_warning("HTTP 200 OK"))
+        self.assertFalse(is_blocked_discovery_warning(""))
+
+    def test_discovery_queries_for_search_strips_generic_tokens(self):
+        result = discovery_queries_for_search(
+            ["时政 热评 评论区", "国际政治 热评 评论区"],
+            ["问百度"],
+        )
+        self.assertTrue(len(result) > 0)
+        for query in result:
+            self.assertNotIn("评论区", query.split())
+
+    def test_discovery_queries_for_search_empty_targets(self):
+        queries = ["hello world", "test query"]
+        result = discovery_queries_for_search(queries, [])
+        self.assertEqual(result, queries)
+
+    def test_dictionary_entry_needles_extracts_term_aliases_examples(self):
+        entry = {"term": "测试词", "aliases": ["别名1"], "examples": ["例子1"]}
+        result = dictionary_entry_needles(entry)
+        self.assertIn("测试词", result)
+        self.assertIn("别名1", result)
+        self.assertIn("例子1", result)
+
+    def test_dictionary_entry_needles_none(self):
+        self.assertEqual(dictionary_entry_needles(None), [])
+
+    def test_dictionary_needle_set_builds_from_dictionary(self):
+        d = {"entries": [{"term": "hello"}, {"term": "world", "aliases": ["earth"]}]}
+        result = dictionary_needle_set(d)
+        self.assertIn("hello", result)
+        self.assertIn("world", result)
+        self.assertIn("earth", result)
+
+    def test_dictionary_needle_set_empty(self):
+        self.assertEqual(dictionary_needle_set(None), set())
+        self.assertEqual(dictionary_needle_set({}), set())
+
+    def test_target_evidence_count_from_fields(self):
+        self.assertEqual(target_evidence_count({"evidenceCount": 5}), 5)
+        self.assertEqual(target_evidence_count({"coverageEvidenceCount": 3}), 3)
+        self.assertEqual(target_evidence_count({"evidence": ["a", "b", "c"]}), 3)
+        self.assertEqual(target_evidence_count(None), 0)
+
+    def test_resolve_search_video_keywords_config_defaults(self):
+        config = resolve_search_video_keywords_config({}, {}, {})
+        self.assertIn("videoLinks", config)
+        self.assertIn("discoveryMode", config)
+        self.assertEqual(config["discoveryMode"], "controversial")
+        self.assertIn("discoveryLimit", config)
+        self.assertGreaterEqual(config["discoveryLimit"], 1)
+
+    def test_resolve_search_video_keywords_config_explicit_video_links(self):
+        config = resolve_search_video_keywords_config(
+            {"videoLinks": ["BV123", "BV456"]}, {}, {}
+        )
+        self.assertEqual(config["videoLinks"], ["BV123", "BV456"])
+
+    def test_resolve_search_video_keywords_config_search_mode(self):
+        config = resolve_search_video_keywords_config(
+            {"discoveryMode": "search"}, {}, {}
+        )
+        self.assertEqual(config["discoveryMode"], "search")
+
+    def test_resolve_search_video_keywords_config_existing_terms(self):
+        config = resolve_search_video_keywords_config(
+            {"existingTermsOnly": True, "targetExistingTerms": ["test"]}, {}, {}
+        )
+        self.assertTrue(config["existingTermsOnly"])
+        self.assertEqual(config["targetExistingTerms"], ["test"])
+
+    def test_resolve_search_video_keywords_config_deps_override(self):
+        config = resolve_search_video_keywords_config(
+            {},
+            {"defaultSearchQueries": ["deps query"], "existingTermsOnly": True},
+            {},
+        )
+        self.assertEqual(config["searchQueries"], ["deps query"])
+        self.assertTrue(config["existingTermsOnly"])
+
+    def test_resolve_search_video_keywords_config_env_override(self):
+        config = resolve_search_video_keywords_config(
+            {}, {},
+            {"BILIBILI_VIDEO_DISCOVERY_MODE": "popular", "BILIBILI_HARVEST_EXISTING_TERMS_ONLY": "1"},
+        )
+        self.assertEqual(config["discoveryMode"], "popular")
+        self.assertTrue(config["existingTermsOnly"])
+
+    def test_resolve_search_video_keywords_config_exclude_bvids(self):
+        config = resolve_search_video_keywords_config(
+            {"excludeBvids": ["BV1", "BV2"]}, {}, {}
+        )
+        self.assertEqual(config["excludeBvids"], {"BV1", "BV2"})
 
 if __name__ == "__main__":
     unittest.main()

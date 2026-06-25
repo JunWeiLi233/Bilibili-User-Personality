@@ -1,6 +1,6 @@
 # JS → Python Backend Migration Plan
 
-Last updated: 2026-06-24 after commit `c575a487`. Run `python -m python_backend.cli.migration_inventory` for latest.
+Last updated: 2026-06-25. Run `python -m python_backend.cli.migration_inventory` for latest.
 
 ## Current Status
 
@@ -14,7 +14,8 @@ Last updated: 2026-06-24 after commit `c575a487`. Run `python -m python_backend.
 | Python scraper modules | ~8,250 lines |
 | Python test lines | ~39,000 lines |
 | JS↔Python compare scripts | 134 |
-| Python unit tests | 1,523 |
+| JS↔Python comparison tests | 279 (all passing) |
+| Python unit tests | 1,629 |
 | JS unit tests (npm test) | 1,303 |
 
 ## Phase 1: Core Python Contracts (COMPLETE)
@@ -32,7 +33,7 @@ Python modules for the foundational pipelines, with JS↔Python comparison valid
 - `analysis/coverage_harvest_loop_runtime.py` — Runtime adapters/gates
 - `analysis/coverage_harvest_loop_command.py` — Command runner + CLI
 - `analysis/coverage_cli_options.py` — CLI option parsing (JS port)
-- `analysis/video_comment_filter.py` — Comment filtering + video relevance (JS port)
+- `analysis/video_comment_filter.py` — Comment filtering + video relevance + 5 default constants + config resolution (18/18 videoKeywordSearch.js exports ported)
 - Comparison: `node server/scripts/compareCoverageHarvestLoopCommand.js` + 133 others
 - Tests: 1,523 Python contract tests, 1,303 JS tests
 
@@ -75,7 +76,8 @@ Python modules for the foundational pipelines, with JS↔Python comparison valid
 ### How to Verify Phase 1
 ```powershell
 python -m unittest python_backend.tests.test_corpus_contracts  # 1,519 tests
-python -m unittest python_backend.tests.test_video_filter_compare  # 7 JS↔Python comparisons
+python -m unittest python_backend.tests.test_video_filter_compare  # 37 JS↔Python comparisons
+python -m unittest python_backend.tests.test_analyzers  # 70 tests
 npm test  # 1,303 JS tests
 python -m python_backend.cli.migration_inventory  # Reports migration progress
 ```
@@ -87,26 +89,28 @@ python -m python_backend.cli.migration_inventory  # Reports migration progress
 - `scrapers/adapters.py` — Scraper adapters
 - `scrapers/tieba_timing.py` — Tieba scrape timing
 - `scrapers/scraper_monitor.py` — Scraper monitoring
-- `scrapers/bilibili_crawler.py` — Bilibili crawler (partial)
+- `scrapers/bilibili_crawler.py` — Bilibili crawler helpers: cookie forge, request scheduling, reply collection, danmaku parsing, UID analysis, dynamic records (1,437 lines, all helper functions ported; comparison tests pass)
 
 ### Remaining Migration Candidates
 | File | Lines | Priority |
 |------|-------|----------|
 | `server/services/bilibiliCrawler.js` | 1,137 | High — last crawler module |
-| `server/services/videoKeywordSearch.js` | 1,286 | High — 7/18 exports remain (11 ported) |
+| `server/services/videoKeywordSearch.js` | 1,286 | High — 18/18 exports ported: `searchVideoKeywords` config resolution extracted as `resolve_search_video_keywords_config`; async orchestration stays JS |
 | `server/services/keywordHarvest.js` | 3,540 | Medium |
 | `server/services/deepseekKeywordTrainer.js` | 4,662 | Medium |
 | `server/scripts/runCoverageHarvestLoop.js` | 695 | High — loop orchestration |
 | `server/scripts/runTiebaKeywordScrape.js` | 390 | Medium |
 | 18 more scripts | ~3,500 total | Low — CLI wrappers |
 
-## Phase 3: Analyzer Clients (PLANNED)
+## Phase 3: Analyzer Clients (IN PROGRESS)
 
 - `analyzers/deepseek.py` — DeepSeek analysis config + planning (1,278 lines)
 - `analyzers/deepseek_cli.py` — CLI dispatch (944 lines)
-- `analyzers/deepseek_config.py` — Configuration contracts
-- `analyzers/keyword_evidence.py` — Keyword evidence analysis
-- Remaining: full DeepSeek runtime contract expansion
+- `analyzers/deepseek_config.py` — Configuration contracts (189 lines)
+- `analyzers/keyword_evidence.py` — Keyword evidence analysis (289 lines)
+- Tests: `python_backend/tests/test_analyzers.py` (70 tests covering normalize, config, validation, normalization, keyword evidence)
+- JS↔Python comparison: 28 DeepSeek comparison tests pass (config, normalization, validation, fixture, mock runtime, plan, command)
+- Remaining: full DeepSeek runtime contract expansion, live API validation tests
 
 ## Phase 4: Replace JS Commands (FUTURE)
 
