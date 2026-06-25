@@ -891,19 +891,48 @@ def _get_ambig_rules() -> dict[str, list[dict[str, Any]]]:
     return _AMBG_RULES
 
 
-def _eval_rule_condition(cond: dict[str, Any], clean_sample: str, context_sample: str) -> bool:
+def _eval_rule_condition(
+    cond: dict[str, Any],
+    clean_sample: str,
+    context_sample: str,
+    raw_context_sample: str = "",
+    text_outside_emotes: str = "",
+) -> bool:
     """Evaluate a single rule condition (regex, equality, includes, etc.)."""
+    cond_type = cond.get("type", "")
+    target = cond.get("target", "clean_sample")
+
     if "pattern" in cond:
         flags = re.IGNORECASE if cond.get("caseInsensitive") else 0
-        return bool(re.search(cond["pattern"], clean_sample, flags))
-    if cond.get("type") == "equals":
+        sample_map = {
+            "clean_sample": clean_sample,
+            "context_sample": context_sample,
+            "raw_context_sample": raw_context_sample,
+            "raw_sample": raw_context_sample,
+            "text_outside_emotes": text_outside_emotes,
+        }
+        test_sample = sample_map.get(target, clean_sample)
+        return bool(re.search(cond["pattern"], test_sample, flags))
+
+    if cond_type == "equals":
         return clean_sample == cond["value"]
-    if cond.get("type") == "includes":
+    if cond_type == "equals_raw":
+        return raw_context_sample == cond["value"]
+    if cond_type == "includes":
         return cond["value"] in clean_sample
-    if cond.get("type") == "not_includes":
+    if cond_type == "not_includes":
         return cond["value"] not in clean_sample
-    if cond.get("type") == "term_in_sample":
+    if cond_type == "term_in_sample":
         return cond["term"] in clean_sample
+    if cond_type == "term_in_raw_sample":
+        return cond["term"] in raw_context_sample
+    if cond_type == "composite":
+        parts = cond.get("parts", [])
+        operator = cond.get("operator", "or")
+        if operator == "or":
+            return any(r for r in parts)  # evaluated via results dict later
+        return all(r for r in parts)  # evaluated via results dict later
+
     return False
 
 
@@ -924,7 +953,10 @@ def _is_ambiguous_benign_evidence_sample(
         return False
 
     clean_sample = _deepseek_clean_term(sample_str).lower()
+    raw_context_sample = sample_str
     context_sample = clean_sample + "\n" + sample_str
+    # Remove bracket emotes like [doge], [tv_doge] for text_outside_emotes
+    text_outside_emotes = re.sub(r"\[[^\]]+\]", "", raw_context_sample or "")
 
     # Generic attack-family rules
     if family_str == "attack":
@@ -944,10 +976,26 @@ def _is_ambiguous_benign_evidence_sample(
     key = f"{term_str}|{family_str}"
     rules = _get_ambig_rules().get(key, [])
     for rule in rules:
-        results = {
-            c["name"]: _eval_rule_condition(c, clean_sample, context_sample)
-            for c in rule.get("conditions", [])
-        }
+        results: dict[str, bool] = {}
+
+        # First pass: evaluate non-composite conditions
+        for c in rule.get("conditions", []):
+            if c.get("type") == "composite":
+                continue
+            results[c["name"]] = _eval_rule_condition(
+                c, clean_sample, context_sample,
+                raw_context_sample, text_outside_emotes,
+            )
+
+        # Second pass: evaluate composite conditions
+        for c in rule.get("conditions", []):
+            if c.get("type") != "composite":
+                continue
+            parts = c.get("parts", [])
+            operator = c.get("operator", "or")
+            part_results = [results.get(p, False) for p in parts]
+            results[c["name"]] = any(part_results) if operator == "or" else all(part_results)
+
         return_expr = rule.get("returnTrue", "")
         if not return_expr:
             continue
