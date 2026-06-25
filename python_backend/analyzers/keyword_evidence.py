@@ -881,6 +881,186 @@ def _is_ambiguous_benign_evidence_sample(
         if glossary_question and not hostile_explanation:
             return True
 
-    # Stub: the full JS function is ~1,881 lines of per-term rules.
-    # Remaining rules will be added incrementally in follow-up commits.
+    # Remaining ~300 term-specific rules to be ported from JS.
+    # Currently delegates false (no benign filtering) for unported terms.
     return False
+
+
+# — main entry normalization —
+
+
+def normalize_keyword_entries(raw_entries: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
+    """Port of JS normalizeKeywordEntries — normalizes raw DeepSeek dictionary entries."""
+    from datetime import datetime, timezone
+    from python_backend.corpus.dictionary_prune import DictionaryPrunePlanner
+
+    raw_entries = raw_entries if isinstance(raw_entries, list) else []
+    planner = DictionaryPrunePlanner()
+    evidence_matcher = KeywordEvidenceMatcher()
+    entries: list[dict[str, Any]] = []
+
+    for item in raw_entries:
+        if not isinstance(item, dict):
+            continue
+        family = _normalize_family(item.get("family"))
+        variants = item.get("variants") if isinstance(item.get("variants"), list) else []
+        cleaned_terms = _unique(
+            [_deepseek_clean_keyword_term(item.get("term"))]
+            + [_deepseek_clean_keyword_term(v) for v in variants]
+        )
+        cleaned_terms = [
+            t for t in cleaned_terms if t and 2 <= len(t) <= 12
+        ]
+        terms = [
+            t
+            for t in cleaned_terms
+            if not any(
+                c != t and _is_ascii_suffix_fragment_of(t, c)
+                for c in cleaned_terms
+            )
+        ]
+        raw_meaning = str(item.get("meaning") or item.get("reason") or "").strip()
+        meaning = (
+            _recovered_meaning_for_term(terms[0] if terms else item.get("term"), family)
+            if _is_recovered_placeholder_meaning(raw_meaning)
+            else raw_meaning
+        )
+        if not meaning or re.search(
+            r"中文含义|语用功能|^含义$|^解释$", meaning
+        ):
+            continue
+        raw_evidence_samples = (
+            _unique(
+                [
+                    str(s or "").strip()
+                    for s in item.get("evidenceSamples", [])
+                    if str(s or "").strip()
+                ]
+            )
+            if isinstance(item.get("evidenceSamples"), list)
+            else []
+        )
+        evidence_samples = [
+            s
+            for s in raw_evidence_samples
+            if not _is_noisy_evidence_sample(s)
+        ][:5]
+        evidence_sources = [
+            s
+            for s in evidence_matcher._normalize_evidence_sources(
+                item.get("evidenceSources") or []
+            )
+            if not _is_noisy_evidence_sample(
+                (s if isinstance(s, dict) else {}).get("sample")
+            )
+        ]
+        raw_evidence_count = max(0, int(float(item.get("evidenceCount") or 0)))
+        if (
+            raw_evidence_count > 0
+            and len(raw_evidence_samples) > 0
+            and len(evidence_samples) == 0
+        ):
+            continue
+
+        for term in terms:
+            if planner._is_noisy_term(term):
+                continue
+            candidate_evidence_samples = (
+                [
+                    s
+                    for s in raw_evidence_samples
+                    if not _is_noisy_evidence_sample(s)
+                ]
+                if term == "可以贴" and family == "cooperation"
+                else evidence_samples
+            )
+            term_evidence_samples = [
+                s
+                for s in candidate_evidence_samples
+                if not _is_ambiguous_benign_evidence_sample(term, family, s)
+            ][:5]
+            term_evidence_sources = [
+                s
+                for s in evidence_sources
+                if not _is_ambiguous_benign_evidence_sample(
+                    term,
+                    family,
+                    (s if isinstance(s, dict) else {}).get("sample"),
+                )
+            ]
+            if _is_title_spliced_video_context_only_term(
+                term, term_evidence_samples, term_evidence_sources
+            ):
+                continue
+            if _is_ask_baidu_song_video_context_only_term(
+                term, term_evidence_samples, term_evidence_sources
+            ):
+                continue
+            if _is_misleading_car_army_video_context_only_term(
+                term, term_evidence_samples, term_evidence_sources
+            ):
+                continue
+            sample_backed = _evidence_unit_count(
+                term_evidence_samples, term_evidence_sources
+            )
+            if (
+                term == "欧阳娜娜"
+                and family == "evidence"
+                and sample_backed == 0
+            ):
+                continue
+            evidence_count = (
+                min(raw_evidence_count or sample_backed, sample_backed)
+                if sample_backed > 0
+                else (
+                    max(
+                        len(term_evidence_samples),
+                        len(term_evidence_sources),
+                    )
+                    if raw_evidence_count > 0
+                    and (
+                        len(term_evidence_samples) != len(evidence_samples)
+                        or len(term_evidence_sources) != len(evidence_sources)
+                    )
+                    else raw_evidence_count
+                )
+            )
+            risk = str(item.get("risk") or "").strip()
+            entries.append(
+                {
+                    "term": term,
+                    "family": family,
+                    "meaning": _canonical_meaning_for_term(
+                        term, family, meaning
+                    ),
+                    "risk": risk
+                    or (
+                        "positive"
+                        if family in ("cooperation", "correction")
+                        else "medium"
+                    ),
+                    "confidence": (
+                        max(0, min(1, float(item.get("confidence"))))
+                        if isinstance(item.get("confidence"), (int, float))
+                        and str(item.get("confidence")).replace(".", "").replace("-", "").isdigit()
+                        else 0.68
+                    ),
+                    "evidenceCount": evidence_count,
+                    "evidenceSamples": term_evidence_samples,
+                    "evidenceSources": term_evidence_sources,
+                }
+            )
+
+    now = datetime.now(timezone.utc).isoformat()
+    entry_map: dict[str, dict[str, Any]] = {}
+    for entry in entries:
+        term_key = str(entry.get("term") or "")
+        entry_map[term_key] = _merge_keyword_entry(
+            entry_map.get(term_key), entry, now
+        )
+
+    result = _prune_suffix_only_fragments(list(entry_map.values()))
+    return [
+        {k: v for k, v in e.items() if k != "updatedAt"}
+        for e in result
+    ]
