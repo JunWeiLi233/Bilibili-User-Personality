@@ -858,15 +858,57 @@ def _merge_keyword_entry(
     return merged
 
 
+def _load_ambig_rules() -> dict[str, list[dict[str, Any]]]:
+    """Load the extracted benign-evidence rule database."""
+    import json as _json
+
+    rules_path = (
+        Path(__file__).resolve().parent.parent.parent
+        / "server"
+        / "data"
+        / "ambig_benign_rules.json"
+    )
+    try:
+        with open(rules_path, "r", encoding="utf-8") as f:
+            data = _json.load(f)
+    except (FileNotFoundError, _json.JSONDecodeError):
+        return {}
+    by_term: dict[str, list[dict[str, Any]]] = {}
+    for rule in data.get("rules", []):
+        for t in rule.get("terms", []):
+            key = f"{t}|{rule.get('family', '')}"
+            by_term.setdefault(key, []).append(rule)
+    return by_term
+
+
+_AMBG_RULES: dict[str, list[dict[str, Any]]] | None = None
+
+
+def _get_ambig_rules() -> dict[str, list[dict[str, Any]]]:
+    global _AMBG_RULES
+    if _AMBG_RULES is None:
+        _AMBG_RULES = _load_ambig_rules()
+    return _AMBG_RULES
+
+
+def _eval_rule_condition(cond: dict[str, Any], clean_sample: str, context_sample: str) -> bool:
+    """Evaluate a single rule condition (regex or equality test)."""
+    if "pattern" in cond:
+        flags = re.IGNORECASE if cond.get("caseInsensitive") else 0
+        return bool(re.search(cond["pattern"], clean_sample, flags))
+    if cond.get("type") == "equals":
+        return clean_sample == cond["value"]
+    return False
+
+
 def _is_ambiguous_benign_evidence_sample(
     term: Any, family: Any, sample: Any
 ) -> bool:
     """Check if an evidence sample is benign/ambiguous (should be filtered out).
 
-    Port of JS isAmbiguousBenignEvidenceSample. Generic attack-family rules
-    are active; ~300 term-specific rules (1,550 JS lines) remain in JS pending
-    mechanical conversion. Returning False for unmatched terms is conservative:
-    it preserves evidence at the cost of occasionally admitting weak samples.
+    Uses a rule database extracted from JS isAmbiguousBenignEvidenceSample.
+    Generic attack-family rules are handled inline; term-specific rules are
+    evaluated from the JSON rule database.
     """
     term_str = str(term or "").strip()
     family_str = str(family or "").strip()
@@ -878,6 +920,7 @@ def _is_ambiguous_benign_evidence_sample(
     clean_sample = _deepseek_clean_term(sample_str).lower()
     context_sample = clean_sample + "\n" + sample_str
 
+    # Generic attack-family rules
     if family_str == "attack":
         if _is_short_negated_attack_mention(term, sample):
             return True
@@ -891,8 +934,23 @@ def _is_ambiguous_benign_evidence_sample(
             ):
                 return True
 
-    # ~300 term-specific rules not yet ported from JS.
-    # Returning False is conservative: evidence not filtered.
+    # Evaluate term-specific rules from JSON database
+    key = f"{term_str}|{family_str}"
+    rules = _get_ambig_rules().get(key, [])
+    for rule in rules:
+        results = {
+            c["name"]: _eval_rule_condition(c, clean_sample, context_sample)
+            for c in rule.get("conditions", [])
+        }
+        return_expr = rule.get("returnTrue", "")
+        if not return_expr:
+            continue
+        try:
+            if eval(return_expr, {"__builtins__": {}}, results):
+                return True
+        except Exception:
+            continue
+
     return False
 
 
