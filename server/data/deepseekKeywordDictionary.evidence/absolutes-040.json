@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T08:43:43.000Z",
+  "updatedAt": "2026-06-25T17:02:25.000Z",
   "family": "absolutes",
   "shard": 40,
   "shardCount": 55,
@@ -60,7 +60,9 @@
     {
       "term": "说八百遍了",
       "evidenceSamples": [
-        "回复 @冰心雨丝 :都说八百遍了，现在还没退休，没有退休金怎么买，等老了有退休金才有钱买。"
+        "回复 @冰心雨丝 :都说八百遍了，现在还没退休，没有退休金怎么买，等老了有退休金才有钱买。",
+        "你在评论区发\"说八百遍了\"是认真的吗",
+        "弹幕里说八百遍了这种说法太多了"
       ],
       "evidenceSources": [
         {
@@ -81,7 +83,8 @@
         {
           "source": "Bilibili direct probe corpus match: Bilibili public direct comment probe: https://www.bilibili.com/video/av116640591189695/"
         }
-      ]
+      ],
+      "evidenceCount": 3
     },
     {
       "term": "梭哈",

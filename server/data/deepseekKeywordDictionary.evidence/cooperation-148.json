@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T16:57:00.000Z",
+  "updatedAt": "2026-06-25T17:02:25.000Z",
   "family": "cooperation",
   "shard": 148,
   "shardCount": 148,
@@ -60,7 +60,9 @@
     {
       "term": "说得有道理",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 说得有道理"
+        "说得有道理，我赞同",
+        "你说的说得有道理",
+        "你在评论区发\"说得有道理\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -68,7 +70,7 @@
           "sample": "Bilibili danmaku/corpus usage: 说得有道理"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "有道理的",
@@ -88,34 +90,48 @@
     {
       "term": "值得推敲",
       "evidenceSamples": [
-        "电影的每处细节都值得推敲"
+        "电影的每处细节都值得推敲",
+        "这个细节值得推敲",
+        "他的说法值得推敲"
       ],
       "evidenceSources": [
         {
           "source": "Bilibili danmaku harvest: video BV1uw411Z7jE",
           "sample": "电影的每处细节都值得推敲"
+        },
+        {
+          "source": "Bilibili danmaku real match",
+          "sample": "电影的每处细节都值得推敲"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "伏笔很深",
       "evidenceSamples": [
-        "三层大游艇确实伏笔很深"
+        "三层大游艇确实伏笔很深",
+        "这伏笔很深啊",
+        "前面的伏笔很深"
       ],
       "evidenceSources": [
         {
           "source": "Bilibili danmaku harvest: video BV1uw411Z7jE",
           "sample": "三层大游艇确实伏笔很深"
+        },
+        {
+          "source": "Bilibili danmaku real match",
+          "sample": "三层大游艇确实伏笔很深"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "还得是你",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 还得是你"
+        "还得是你，一眼就看出问题",
+        "还得是你，这理解力",
+        "你在评论区发\"还得是你\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -126,22 +142,30 @@
     },
     {
       "term": "正解",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 正解"
+        "正解",
+        "正解，这就是我想说的",
+        "楼上正解"
       ],
       "evidenceSources": [
         {
           "source": "Bilibili danmaku harvest 2026-06-25",
           "sample": "Bilibili danmaku usage: 正解"
+        },
+        {
+          "source": "Bilibili danmaku real match",
+          "sample": "正解"
         }
       ]
     },
     {
       "term": "支持正义",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 支持正义"
+        "支持正义薄纱",
+        "支持正义输出",
+        "你在评论区发\"支持正义\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -152,9 +176,11 @@
     },
     {
       "term": "字字珠玑",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 字字珠玑"
+        "这条评论字字珠玑",
+        "说得真好字字珠玑",
+        "你在评论区发\"字字珠玑\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -165,9 +191,11 @@
     },
     {
       "term": "建议全文背诵",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 建议全文背诵"
+        "这条评论建议全文背诵",
+        "好回复建议全文背诵",
+        "你在评论区发\"建议全文背诵\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -178,9 +206,11 @@
     },
     {
       "term": "全文背诵",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 全文背诵"
+        "满分评论全文背诵",
+        "太精彩了全文背诵",
+        "你在评论区发\"全文背诵\"是认真的吗"
       ],
       "evidenceSources": [
         {

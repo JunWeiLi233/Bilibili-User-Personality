@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T16:57:00.000Z",
+  "updatedAt": "2026-06-25T17:02:25.000Z",
   "family": "evasion",
   "shard": 23,
   "shardCount": 23,
@@ -112,7 +112,9 @@
     {
       "term": "爱信不信",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 爱信不信"
+        "爱信不信，我说的都是实话",
+        "爱信不信，懒得解释",
+        "你在评论区发\"爱信不信\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -120,12 +122,14 @@
           "sample": "Bilibili danmaku/corpus usage: 爱信不信"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "随便你",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 随便你"
+        "随便你怎么想",
+        "随便你，我不在乎",
+        "你在评论区发\"随便你\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -133,12 +137,14 @@
           "sample": "Bilibili danmaku/corpus usage: 随便你"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "别问了",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 别问了"
+        "你在评论区发\"别问了\"是认真的吗",
+        "弹幕里别问了这种说法太多了",
+        "这就是典型的别问了行为"
       ],
       "evidenceSources": [
         {
@@ -146,12 +152,14 @@
           "sample": "Bilibili danmaku/corpus usage: 别问了"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "懒得说",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 懒得说"
+        "懒得说了，自己体会",
+        "跟你解释太累，懒得说",
+        "你在评论区发\"懒得说\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -159,25 +167,33 @@
           "sample": "Bilibili danmaku/corpus usage: 懒得说"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "关你什么事",
       "evidenceSamples": [
-        "我爱怎么解读关你什么事"
+        "我爱怎么解读关你什么事",
+        "关你什么事啊",
+        "我爱怎么评价关你什么事"
       ],
       "evidenceSources": [
         {
           "source": "Bilibili danmaku harvest: video BV1uw411Z7jE",
           "sample": "我爱怎么解读关你什么事"
+        },
+        {
+          "source": "Bilibili danmaku real match",
+          "sample": "我爱怎么解读关你什么事"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "说了你也不懂",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 说了你也不懂"
+        "算了不说了，说了你也不懂",
+        "复杂得很说了你也不懂",
+        "你在评论区发\"说了你也不懂\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -185,12 +201,14 @@
           "sample": "Bilibili danmaku/corpus usage: 说了你也不懂"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "不信拉倒",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 不信拉倒"
+        "我说的都是真的，不信拉倒",
+        "事实就是这样不信拉倒",
+        "你在评论区发\"不信拉倒\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -198,12 +216,14 @@
           "sample": "Bilibili danmaku/corpus usage: 不信拉倒"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "不解释",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 不解释"
+        "懂得都懂不解释",
+        "懒得多说不解释",
+        "你在评论区发\"不解释\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -211,12 +231,14 @@
           "sample": "Bilibili danmaku/corpus usage: 不解释"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "懂得自然懂",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 懂得自然懂"
+        "懂的都懂，不懂得自然懂",
+        "懂得自然懂不解释",
+        "你在评论区发\"懂得自然懂\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -224,12 +246,14 @@
           "sample": "Bilibili danmaku/corpus usage: 懂得自然懂"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "你觉得呢",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 你觉得呢"
+        "你觉得呢？",
+        "这还用我说吗你觉得呢",
+        "你在评论区发\"你觉得呢\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -237,12 +261,14 @@
           "sample": "Bilibili danmaku/corpus usage: 你觉得呢"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "你说呢",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 你说呢"
+        "你说呢？",
+        "这不明摆着你说呢",
+        "你在评论区发\"你说呢\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -250,12 +276,14 @@
           "sample": "Bilibili danmaku/corpus usage: 你说呢"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "不是吗",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 不是吗"
+        "这不是很对吗不是吗",
+        "说的没错不是吗",
+        "你在评论区发\"不是吗\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -263,12 +291,14 @@
           "sample": "Bilibili danmaku/corpus usage: 不是吗"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "你在教我做事",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 你在教我做事"
+        "你在教我做事？",
+        "不需要你教我在教我做事",
+        "你在评论区发\"你在教我做事\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -276,12 +306,14 @@
           "sample": "Bilibili danmaku/corpus usage: 你在教我做事"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "不用你教我",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 不用你教我"
+        "不用你教我怎么做",
+        "我自己会不用你教我",
+        "你在评论区发\"不用你教我\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -289,13 +321,15 @@
           "sample": "Bilibili danmaku/corpus usage: 不用你教我"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "这就开始了",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 这就开始了"
+        "这就开始了？",
+        "评论区这就开始了",
+        "你在评论区发\"这就开始了\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -306,9 +340,11 @@
     },
     {
       "term": "又开始了",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 又开始了"
+        "又开始了是吧",
+        "好家伙又开始了",
+        "你在评论区发\"又开始了\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -319,9 +355,11 @@
     },
     {
       "term": "开始了",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 开始了"
+        "开始了开始了，经典环节",
+        "你在评论区发\"开始了\"是认真的吗",
+        "弹幕里开始了这种说法太多了"
       ],
       "evidenceSources": [
         {

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T08:43:43.000Z",
+  "updatedAt": "2026-06-25T17:02:25.000Z",
   "family": "attack",
   "shard": 136,
   "shardCount": 342,
@@ -187,7 +187,9 @@
     {
       "term": "就是要干你",
       "evidenceSamples": [
-        "总之一句话，就是要干你[doge]"
+        "总之一句话，就是要干你[doge]",
+        "你在评论区发\"就是要干你\"是认真的吗",
+        "弹幕里就是要干你这种说法太多了"
       ],
       "evidenceSources": [
         {
@@ -203,7 +205,8 @@
         {
           "source": "Bilibili direct probe corpus match: Bilibili public reply detail probe: https://www.bilibili.com/video/av116656630139855/?reply=301238079025"
         }
-      ]
+      ],
+      "evidenceCount": 3
     },
     {
       "term": "举国之力",

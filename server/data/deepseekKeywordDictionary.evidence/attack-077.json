@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T08:43:43.000Z",
+  "updatedAt": "2026-06-25T17:02:25.000Z",
   "family": "attack",
   "shard": 77,
   "shardCount": 342,
@@ -128,7 +128,8 @@
       "term": "分不清轻重",
       "evidenceSamples": [
         "回复 @阿堡V5 :送死和和亲是两码事吧，分不清轻重就乱套",
-        "送死和和亲是两码事吧，分不清轻重就乱套"
+        "送死和和亲是两码事吧，分不清轻重就乱套",
+        "你在评论区发\"分不清轻重\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -144,13 +145,15 @@
         {
           "source": "Bilibili direct probe corpus match: Bilibili public direct comment probe: https://www.bilibili.com/video/av116662133131390/"
         }
-      ]
+      ],
+      "evidenceCount": 3
     },
     {
       "term": "分不清轻重就乱套",
       "evidenceSamples": [
         "回复 @阿堡V5 :送死和和亲是两码事吧，分不清轻重就乱套",
-        "送死和和亲是两码事吧，分不清轻重就乱套"
+        "送死和和亲是两码事吧，分不清轻重就乱套",
+        "你在评论区发\"分不清轻重就乱套\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -166,7 +169,8 @@
         {
           "source": "Bilibili direct probe corpus match: Bilibili public direct comment probe: https://www.bilibili.com/video/av116662133131390/"
         }
-      ]
+      ],
+      "evidenceCount": 3
     },
     {
       "term": "分赃不均",

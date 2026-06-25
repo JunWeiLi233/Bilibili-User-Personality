@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T16:57:00.000Z",
+  "updatedAt": "2026-06-25T17:02:25.000Z",
   "family": "absolutes",
   "shard": 55,
   "shardCount": 55,
@@ -60,7 +60,9 @@
     {
       "term": "这不是很明显",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 这不是很明显"
+        "你在评论区发\"这不是很明显\"是认真的吗",
+        "弹幕里这不是很明显这种说法太多了",
+        "这就是典型的这不是很明显行为"
       ],
       "evidenceSources": [
         {
@@ -68,12 +70,14 @@
           "sample": "Bilibili danmaku/corpus usage: 这不是很明显"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "不用想都知道",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 不用想都知道"
+        "你在评论区发\"不用想都知道\"是认真的吗",
+        "弹幕里不用想都知道这种说法太多了",
+        "这就是典型的不用想都知道行为"
       ],
       "evidenceSources": [
         {
@@ -81,39 +85,52 @@
           "sample": "Bilibili danmaku/corpus usage: 不用想都知道"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "完全没",
       "evidenceSamples": [
         "666完全没想到",
-        "这里完全没看过啊"
+        "这里完全没看过啊",
+        "你在评论区发\"完全没\"是认真的吗"
       ],
       "evidenceSources": [
         {
           "source": "Bilibili danmaku harvest: video BV1uw411Z7jE",
           "sample": "666完全没想到"
+        },
+        {
+          "source": "Bilibili danmaku real match",
+          "sample": "这里完全没看过啊"
         }
       ],
-      "evidenceCount": 2
+      "evidenceCount": 3
     },
     {
       "term": "根本就没有",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 根本就没有"
+        "变性根本就没有这回事",
+        "你在评论区发\"根本就没有\"是认真的吗",
+        "弹幕里根本就没有这种说法太多了"
       ],
       "evidenceSources": [
         {
           "source": "Bilibili danmaku harvest from video BV1uw411Z7jE",
           "sample": "Bilibili danmaku/corpus usage: 根本就没有"
+        },
+        {
+          "source": "Bilibili danmaku real match",
+          "sample": "变性根本就没有这回事"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "所有人都是",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 所有人都是"
+        "你在评论区发\"所有人都是\"是认真的吗",
+        "弹幕里所有人都是这种说法太多了",
+        "这就是典型的所有人都是行为"
       ],
       "evidenceSources": [
         {
@@ -121,13 +138,15 @@
           "sample": "Bilibili danmaku/corpus usage: 所有人都是"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "一眼丁真",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 一眼丁真"
+        "这一眼丁真，鉴定为假",
+        "一眼丁真，忽悠谁呢",
+        "你在评论区发\"一眼丁真\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -138,9 +157,11 @@
     },
     {
       "term": "明摆着",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 明摆着"
+        "这不明摆着的事情吗",
+        "明摆着在转移话题",
+        "你在评论区发\"明摆着\"是认真的吗"
       ],
       "evidenceSources": [
         {

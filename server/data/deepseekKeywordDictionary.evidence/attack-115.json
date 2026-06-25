@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T08:43:43.000Z",
+  "updatedAt": "2026-06-25T17:02:25.000Z",
   "family": "attack",
   "shard": 115,
   "shardCount": 342,
@@ -164,7 +164,9 @@
     {
       "term": "换个地方再就业",
       "evidenceSamples": [
-        "其实都是同一批，换个地方再就业。"
+        "其实都是同一批，换个地方再就业。",
+        "你在评论区发\"换个地方再就业\"是认真的吗",
+        "弹幕里换个地方再就业这种说法太多了"
       ],
       "evidenceSources": [
         {
@@ -190,7 +192,8 @@
         {
           "source": "Bilibili direct probe corpus match: Bilibili public reply detail probe: https://www.bilibili.com/video/av116656764361310/?reply=301093136481"
         }
-      ]
+      ],
+      "evidenceCount": 3
     }
   ]
 }

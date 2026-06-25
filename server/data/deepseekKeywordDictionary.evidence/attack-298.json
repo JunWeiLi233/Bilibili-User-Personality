@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T08:43:43.000Z",
+  "updatedAt": "2026-06-25T17:02:25.000Z",
   "family": "attack",
   "shard": 298,
   "shardCount": 342,
@@ -231,7 +231,8 @@
       "term": "一个多亿",
       "evidenceSamples": [
         "[笑哭][笑哭][笑哭][笑哭]举国之力 [笑哭][笑哭][笑哭][笑哭]一个多亿[笑哭][笑哭][笑哭][笑哭]",
-        "据说这个项目投资一个多亿，结果做成这样"
+        "据说这个项目投资一个多亿，结果做成这样",
+        "你在评论区发\"一个多亿\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -272,7 +273,8 @@
         {
           "source": "Bilibili direct probe corpus match: Popular video comments UID 744878 (1 comments from 1 videos)"
         }
-      ]
+      ],
+      "evidenceCount": 3
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T06:10:17.168Z",
+  "updatedAt": "2026-06-25T17:02:25.000Z",
   "family": "cooperation",
   "shard": 80,
   "shardCount": 148,
@@ -101,7 +101,9 @@
     {
       "term": "米哈游你干得好啊",
       "evidenceSamples": [
-        "米哈游你干得好啊，hanser现在戴个眼镜就敢出镜了"
+        "米哈游你干得好啊，hanser现在戴个眼镜就敢出镜了",
+        "你在评论区发\"米哈游你干得好啊\"是认真的吗",
+        "弹幕里米哈游你干得好啊这种说法太多了"
       ],
       "evidenceSources": [
         {
@@ -129,7 +131,8 @@
           "uid": "671635",
           "sample": "米哈游你干得好啊，hanser现在戴个眼镜就敢出镜了"
         }
-      ]
+      ],
+      "evidenceCount": 3
     },
     {
       "term": "模组",

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T08:43:43.000Z",
+  "updatedAt": "2026-06-25T17:02:25.000Z",
   "family": "absolutes",
   "shard": 15,
   "shardCount": 55,
@@ -60,7 +60,9 @@
     {
       "term": "就是鬼畜标签",
       "evidenceSamples": [
-        "火花这张脸就是鬼畜标签[doge]"
+        "火花这张脸就是鬼畜标签[doge]",
+        "你在评论区发\"就是鬼畜标签\"是认真的吗",
+        "弹幕里就是鬼畜标签这种说法太多了"
       ],
       "evidenceSources": [
         {
@@ -86,13 +88,15 @@
         {
           "source": "Bilibili direct probe corpus match: Bilibili public reply detail probe: https://www.bilibili.com/video/av116642939929213/?reply=304241197088"
         }
-      ]
+      ],
+      "evidenceCount": 3
     },
     {
       "term": "就算六个齐上也不是我对手",
       "evidenceSamples": [
         "回复 @太己道 : 就算六个齐上 也不是我对手",
-        "就这六个一起上也不是我对手好吧"
+        "就这六个一起上也不是我对手好吧",
+        "你在评论区发\"就算六个齐上也不是我对手\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -110,7 +114,8 @@
           "uid": "batch-5k",
           "sample": "回复 @太己道 : 就算六个齐上 也不是我对手"
         }
-      ]
+      ],
+      "evidenceCount": 3
     },
     {
       "term": "卷生卷死",

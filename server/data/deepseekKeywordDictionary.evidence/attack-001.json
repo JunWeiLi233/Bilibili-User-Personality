@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T08:43:43.000Z",
+  "updatedAt": "2026-06-25T17:02:25.000Z",
   "family": "attack",
   "shard": 1,
   "shardCount": 342,
@@ -113,7 +113,8 @@
       "term": "8打5的雷霆",
       "evidenceSamples": [
         "我还是更讨厌8打5的雷霆",
-        "8打5的雷霆确实恶心，裁判硬保"
+        "8打5的雷霆确实恶心，裁判硬保",
+        "你在评论区发\"8打5的雷霆\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -129,7 +130,8 @@
         {
           "source": "Bilibili direct probe corpus match: Popular video comments UID 8640304 (1 comments from 1 videos)"
         }
-      ]
+      ],
+      "evidenceCount": 3
     }
   ]
 }

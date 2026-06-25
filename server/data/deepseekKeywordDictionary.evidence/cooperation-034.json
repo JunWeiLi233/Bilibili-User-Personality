@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T06:10:17.168Z",
+  "updatedAt": "2026-06-25T17:02:25.000Z",
   "family": "cooperation",
   "shard": 34,
   "shardCount": 148,
@@ -60,7 +60,9 @@
     {
       "term": "给官方剪片子",
       "evidenceSamples": [
-        "你应该去给官方剪片子真的"
+        "你应该去给官方剪片子真的",
+        "你在评论区发\"给官方剪片子\"是认真的吗",
+        "弹幕里给官方剪片子这种说法太多了"
       ],
       "evidenceSources": [
         {
@@ -83,7 +85,8 @@
           "uid": "1478371",
           "sample": "你应该去给官方剪片子真的"
         }
-      ]
+      ],
+      "evidenceCount": 3
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T06:10:17.168Z",
+  "updatedAt": "2026-06-25T17:02:25.000Z",
   "family": "attack",
   "shard": 151,
   "shardCount": 342,
@@ -60,7 +60,9 @@
     {
       "term": "来电了",
       "evidenceSamples": [
-        "来电了来电了来电了！"
+        "来电了来电了来电了！",
+        "你在评论区发\"来电了\"是认真的吗",
+        "弹幕里来电了这种说法太多了"
       ],
       "evidenceSources": [
         {
@@ -68,7 +70,8 @@
           "uid": "BV18XN3z5EEy,BV151421Q7ak,BV1WKSEYxEDC,BV1iB4y1U7Xs,BV1QrRHYdEd5,BV1c3411n7rJ,BV1cm4y1d7hW,BV1FE421F7uZ,BV13owkzwEQB,BV1fc411f7ns,BV1MT411W7dK,BV1fc411Z7r6",
           "sample": "来电了来电了来电了！"
         }
-      ]
+      ],
+      "evidenceCount": 3
     },
     {
       "term": "蓝公主",

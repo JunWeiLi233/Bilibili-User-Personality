@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T16:57:00.000Z",
+  "updatedAt": "2026-06-25T17:02:25.000Z",
   "family": "evidence",
   "shard": 16,
   "shardCount": 16,
@@ -152,7 +152,9 @@
     {
       "term": "有证据吗",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 有证据吗"
+        "有证据吗？空口无凭",
+        "你说这些有证据吗",
+        "你在评论区发\"有证据吗\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -160,12 +162,14 @@
           "sample": "Bilibili danmaku/corpus usage: 有证据吗"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "链接呢",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 链接呢"
+        "链接呢？发一下",
+        "说了半天链接呢",
+        "你在评论区发\"链接呢\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -173,12 +177,14 @@
           "sample": "Bilibili danmaku/corpus usage: 链接呢"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "出处在哪里",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 出处在哪里"
+        "出处在哪里？给个链接",
+        "这数据的出处在哪里",
+        "你在评论区发\"出处在哪里\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -186,13 +192,15 @@
           "sample": "Bilibili danmaku/corpus usage: 出处在哪里"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "图呢",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 图呢"
+        "图呢？没图你说啥",
+        "所以图呢？",
+        "你在评论区发\"图呢\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -203,9 +211,11 @@
     },
     {
       "term": "等一个解答",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 等一个解答"
+        "等一个解答，我也想知道",
+        "同问，等一个解答",
+        "你在评论区发\"等一个解答\"是认真的吗"
       ],
       "evidenceSources": [
         {

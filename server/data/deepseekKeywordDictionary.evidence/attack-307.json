@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T08:43:43.000Z",
+  "updatedAt": "2026-06-25T17:02:25.000Z",
   "family": "attack",
   "shard": 307,
   "shardCount": 342,
@@ -165,7 +165,8 @@
       "term": "有什么值得炫耀的",
       "evidenceSamples": [
         "我不懂啊，三角洲弄个古董进去有什么值得炫耀的。。。。对面燕云摊位全是字画，房间里全是古董[doge][doge][doge]怎么说",
-        "我不懂啊，三角洲弄个古董进去有什么值得炫耀的。。。对面燕云摊位全是字画，房间里全是古董"
+        "我不懂啊，三角洲弄个古董进去有什么值得炫耀的。。。对面燕云摊位全是字画，房间里全是古董",
+        "你在评论区发\"有什么值得炫耀的\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -186,7 +187,8 @@
         {
           "source": "Bilibili direct probe corpus match: Popular video comments UID 2335630 (1 comments from 1 videos)"
         }
-      ]
+      ],
+      "evidenceCount": 3
     }
   ]
 }

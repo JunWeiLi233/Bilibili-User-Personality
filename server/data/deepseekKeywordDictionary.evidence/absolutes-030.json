@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T08:43:43.000Z",
+  "updatedAt": "2026-06-25T17:02:25.000Z",
   "family": "absolutes",
   "shard": 30,
   "shardCount": 55,
@@ -113,7 +113,8 @@
       "term": "男的就是这样",
       "evidenceSamples": [
         "看到罗伯怪贝丝不看好孩子那里，想起当年我爸带我去游泳我差点溺毙，他也是疯狂怪远在另一个泳池的我妈，超绝无语，明明是他带我去深水池的。。。。。男的就是这样爱推卸责任，神人",
-        "看到罗伯怪贝丝不看好孩子那里，想起当年我爸带我去游泳我差点溺毙...男的就是这样爱推卸责任，神人"
+        "看到罗伯怪贝丝不看好孩子那里，想起当年我爸带我去游泳我差点溺毙...男的就是这样爱推卸责任，神人",
+        "你在评论区发\"男的就是这样\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -159,13 +160,15 @@
         {
           "source": "Bilibili direct probe corpus match: Popular video comments UID 627318 (1 comments from 1 videos)"
         }
-      ]
+      ],
+      "evidenceCount": 3
     },
     {
       "term": "男的就是这样爱推卸责任",
       "evidenceSamples": [
         "看到罗伯怪贝丝不看好孩子那里，想起当年我爸带我去游泳我差点溺毙，他也是疯狂怪远在另一个泳池的我妈，超绝无语，明明是他带我去深水池的。。。。。男的就是这样爱推卸责任，神人",
-        "看到罗伯怪贝丝不看好孩子那里，想起当年我爸带我去游泳我差点溺毙...男的就是这样爱推卸责任，神人"
+        "看到罗伯怪贝丝不看好孩子那里，想起当年我爸带我去游泳我差点溺毙...男的就是这样爱推卸责任，神人",
+        "你在评论区发\"男的就是这样爱推卸责任\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -211,7 +214,8 @@
         {
           "source": "Bilibili direct probe corpus match: Popular video comments UID 627318 (1 comments from 1 videos)"
         }
-      ]
+      ],
+      "evidenceCount": 3
     }
   ]
 }

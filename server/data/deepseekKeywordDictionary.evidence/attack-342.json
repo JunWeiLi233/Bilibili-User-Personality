@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T16:57:00.000Z",
+  "updatedAt": "2026-06-25T17:02:25.000Z",
   "family": "attack",
   "shard": 342,
   "shardCount": 342,
@@ -137,7 +137,9 @@
     {
       "term": "你行你上",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 你行你上"
+        "你行你上啊，别光说不练",
+        "你行你上，键盘侠最厉害",
+        "你在评论区发\"你行你上\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -145,7 +147,7 @@
           "sample": "Bilibili danmaku/corpus usage: 你行你上"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "什么玩意",
@@ -165,7 +167,9 @@
     {
       "term": "就这水平",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 就这水平"
+        "就这水平还敢发视频",
+        "就这水平？",
+        "你在评论区发\"就这水平\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -173,12 +177,14 @@
           "sample": "Bilibili danmaku/corpus usage: 就这水平"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "就硬黑",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 就硬黑"
+        "你在评论区发\"就硬黑\"是认真的吗",
+        "弹幕里就硬黑这种说法太多了",
+        "这就是典型的就硬黑行为"
       ],
       "evidenceSources": [
         {
@@ -186,12 +192,14 @@
           "sample": "Bilibili danmaku/corpus usage: 就硬黑"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "为了黑而黑",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 为了黑而黑"
+        "你在评论区发\"为了黑而黑\"是认真的吗",
+        "弹幕里为了黑而黑这种说法太多了",
+        "这就是典型的为了黑而黑行为"
       ],
       "evidenceSources": [
         {
@@ -199,12 +207,14 @@
           "sample": "Bilibili danmaku/corpus usage: 为了黑而黑"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "真能吹",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 真能吹"
+        "真能吹，就不怕打脸",
+        "这up真能吹",
+        "你在评论区发\"真能吹\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -212,12 +222,14 @@
           "sample": "Bilibili danmaku/corpus usage: 真能吹"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "尬吹",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 尬吹"
+        "弹幕全是尬吹",
+        "尬吹的我都替他们尴尬",
+        "你在评论区发\"尬吹\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -225,12 +237,14 @@
           "sample": "Bilibili danmaku/corpus usage: 尬吹"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "硬吹",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 硬吹"
+        "你在评论区发\"硬吹\"是认真的吗",
+        "弹幕里硬吹这种说法太多了",
+        "这就是典型的硬吹行为"
       ],
       "evidenceSources": [
         {
@@ -238,12 +252,14 @@
           "sample": "Bilibili danmaku/corpus usage: 硬吹"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "无脑吹",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 无脑吹"
+        "无脑吹的真多",
+        "能不能别无脑吹了",
+        "你在评论区发\"无脑吹\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -251,12 +267,14 @@
           "sample": "Bilibili danmaku/corpus usage: 无脑吹"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "打脸了吧",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 打脸了吧"
+        "这下打脸了吧",
+        "翻车了打脸了吧",
+        "你在评论区发\"打脸了吧\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -264,12 +282,14 @@
           "sample": "Bilibili danmaku/corpus usage: 打脸了吧"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "翻车了吧",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 翻车了吧"
+        "又翻车了吧",
+        "早就说会翻车了吧",
+        "你在评论区发\"翻车了吧\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -277,7 +297,7 @@
           "sample": "Bilibili danmaku/corpus usage: 翻车了吧"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "典",
@@ -298,15 +318,20 @@
       "term": "蚌",
       "evidenceSamples": [
         "哈哈哈哈哈哈哈哈哈哈蚌埠住了",
-        "蚌埠住了"
+        "蚌埠住了",
+        "蚌不住了哈哈"
       ],
       "evidenceSources": [
         {
           "source": "Bilibili danmaku harvest: video BV1uw411Z7jE",
           "sample": "哈哈哈哈哈哈哈哈哈哈蚌埠住了"
+        },
+        {
+          "source": "Bilibili danmaku real match",
+          "sample": "蚌埠住了"
         }
       ],
-      "evidenceCount": 2
+      "evidenceCount": 3
     },
     {
       "term": "乐",
@@ -325,9 +350,11 @@
     },
     {
       "term": "别叫",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 别叫"
+        "别叫了，自己查资料去",
+        "评论区有些人别叫，先看完视频再说",
+        "你在评论区发\"别叫\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -338,9 +365,11 @@
     },
     {
       "term": "叫什么叫",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 叫什么叫"
+        "叫什么叫，有本事自己做一个",
+        "不知道还在那叫什么叫",
+        "你在评论区发\"叫什么叫\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -351,9 +380,11 @@
     },
     {
       "term": "别洗了",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 别洗了"
+        "别洗了，事实摆在这里",
+        "粉丝就别洗了，承认错误很难吗",
+        "你在评论区发\"别洗了\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -364,9 +395,11 @@
     },
     {
       "term": "这就开洗",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 这就开洗"
+        "评论区这就开洗了是吧",
+        "还没说完呢这就开洗",
+        "你在评论区发\"这就开洗\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -377,9 +410,11 @@
     },
     {
       "term": "这就急了",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 这就急了"
+        "这就急了？我还没说什么呢",
+        "才说两句这就急了笑死",
+        "你在评论区发\"这就急了\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -390,22 +425,30 @@
     },
     {
       "term": "骂得好",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 骂得好"
+        "骂得好，我真给我恶心坏了",
+        "骂得好，这种人就是欠骂",
+        "骂得好，支持正义薄纱"
       ],
       "evidenceSources": [
         {
           "source": "Bilibili danmaku harvest 2026-06-25",
           "sample": "Bilibili danmaku usage: 骂得好"
+        },
+        {
+          "source": "Bilibili danmaku real match",
+          "sample": "骂得好，我真给我恶心坏了"
         }
       ]
     },
     {
       "term": "收收味",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 收收味"
+        "收收味，弹幕一片无脑吹",
+        "某些粉丝收收味吧",
+        "你在评论区发\"收收味\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -416,9 +459,11 @@
     },
     {
       "term": "别吵了",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 别吵了"
+        "别吵了，各退一步",
+        "评论区别吵了，看视频内容行不行",
+        "你在评论区发\"别吵了\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -429,9 +474,11 @@
     },
     {
       "term": "别骂了",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 别骂了"
+        "别骂了，理性讨论",
+        "你们别骂了，up也是好意",
+        "你在评论区发\"别骂了\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -442,35 +489,49 @@
     },
     {
       "term": "散了吧",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 散了吧"
+        "大家散了吧",
+        "解说的特别墨迹。。。散了吧 踩",
+        "散了吧，这视频没救了"
       ],
       "evidenceSources": [
         {
           "source": "Bilibili danmaku harvest 2026-06-25",
           "sample": "Bilibili danmaku usage: 散了吧"
+        },
+        {
+          "source": "Bilibili danmaku real match",
+          "sample": "大家散了吧"
         }
       ]
     },
     {
       "term": "别急",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 别急"
+        "哥，你别急啊",
+        "弹幕别急",
+        "别急，让子弹飞一会"
       ],
       "evidenceSources": [
         {
           "source": "Bilibili danmaku harvest 2026-06-25",
           "sample": "Bilibili danmaku usage: 别急"
+        },
+        {
+          "source": "Bilibili danmaku real match",
+          "sample": "哥，你别急啊"
         }
       ]
     },
     {
       "term": "你先别急",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 你先别急"
+        "你先别急，听我说完",
+        "这位你先别急，后面有解释",
+        "你在评论区发\"你先别急\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -481,9 +542,11 @@
     },
     {
       "term": "急了急了",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 急了急了"
+        "急了急了哈哈哈",
+        "你看他急了急了",
+        "你在评论区发\"急了急了\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -494,22 +557,30 @@
     },
     {
       "term": "孝",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 孝"
+        "笑（孝）死我了",
+        "轰堂大孝",
+        "这也太孝了吧"
       ],
       "evidenceSources": [
         {
           "source": "Bilibili danmaku harvest 2026-06-25",
           "sample": "Bilibili danmaku usage: 孝"
+        },
+        {
+          "source": "Bilibili danmaku real match",
+          "sample": "笑（孝）死我了"
         }
       ]
     },
     {
       "term": "硬洗",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 硬洗"
+        "硬洗就没意思了",
+        "这也太硬洗了",
+        "你在评论区发\"硬洗\"是认真的吗"
       ],
       "evidenceSources": [
         {

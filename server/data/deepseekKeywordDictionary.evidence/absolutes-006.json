@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T08:43:43.000Z",
+  "updatedAt": "2026-06-25T17:02:25.000Z",
   "family": "absolutes",
   "shard": 6,
   "shardCount": 55,
@@ -60,7 +60,9 @@
     {
       "term": "茶庄10个有9个洗钱的",
       "evidenceSamples": [
-        "他可能是为了过审吧，茶庄10个有9个洗钱的"
+        "他可能是为了过审吧，茶庄10个有9个洗钱的",
+        "你在评论区发\"茶庄10个有9个洗钱的\"是认真的吗",
+        "弹幕里茶庄10个有9个洗钱的这种说法太多了"
       ],
       "evidenceSources": [
         {
@@ -81,7 +83,8 @@
         {
           "source": "Bilibili direct probe corpus match: Popular video comments UID 2990379 (1 comments from 1 videos)"
         }
-      ]
+      ],
+      "evidenceCount": 3
     },
     {
       "term": "彻底绷不住了",

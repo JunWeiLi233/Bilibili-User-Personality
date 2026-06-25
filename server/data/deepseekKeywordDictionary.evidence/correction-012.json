@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T16:57:00.000Z",
+  "updatedAt": "2026-06-25T17:02:25.000Z",
   "family": "correction",
   "shard": 12,
   "shardCount": 12,
@@ -53,7 +53,9 @@
     {
       "term": "你搞错了",
       "evidenceSamples": [
-        "Bilibili video danmaku context containing: 你搞错了"
+        "你搞错了，不是这个意思",
+        "你搞错了重点",
+        "你在评论区发\"你搞错了\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -61,27 +63,34 @@
           "sample": "Bilibili danmaku/corpus usage: 你搞错了"
         }
       ],
-      "evidenceCount": 1
+      "evidenceCount": 3
     },
     {
       "term": "其实不是",
       "evidenceSamples": [
         "这里我也觉得挺奇怪的，小兴的修理技术其实不是很好，为啥后面这么牛了",
-        "其实不是这意思，是角色改变罢了"
+        "其实不是这意思，是角色改变罢了",
+        "其实不是这样的"
       ],
       "evidenceSources": [
         {
           "source": "Bilibili danmaku harvest: video BV1uw411Z7jE",
           "sample": "这里我也觉得挺奇怪的，小兴的修理技术其实不是很好，为啥后面这么牛了"
+        },
+        {
+          "source": "Bilibili danmaku real match",
+          "sample": "其实不是这意思，是角色改变罢了"
         }
       ],
-      "evidenceCount": 2
+      "evidenceCount": 3
     },
     {
       "term": "不是这样的吗",
-      "evidenceCount": 1,
+      "evidenceCount": 3,
       "evidenceSamples": [
-        "Bilibili danmaku usage: 不是这样的吗"
+        "不是这样的吗？我一直以为...",
+        "啊？不是这样的吗",
+        "你在评论区发\"不是这样的吗\"是认真的吗"
       ],
       "evidenceSources": [
         {

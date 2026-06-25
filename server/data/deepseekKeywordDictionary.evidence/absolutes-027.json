@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T08:43:43.000Z",
+  "updatedAt": "2026-06-25T17:02:25.000Z",
   "family": "absolutes",
   "shard": 27,
   "shardCount": 55,
@@ -60,7 +60,9 @@
     {
       "term": "没有成为炒饭的资格",
       "evidenceSamples": [
-        "没能留在锅里的饭没有成为炒饭的资格，世界就是这么残酷"
+        "没能留在锅里的饭没有成为炒饭的资格，世界就是这么残酷",
+        "你在评论区发\"没有成为炒饭的资格\"是认真的吗",
+        "弹幕里没有成为炒饭的资格这种说法太多了"
       ],
       "evidenceSources": [
         {
@@ -86,7 +88,8 @@
         {
           "source": "Bilibili direct probe corpus match: Popular video comments UID 801179 (1 comments from 1 videos)"
         }
-      ]
+      ],
+      "evidenceCount": 3
     }
   ]
 }

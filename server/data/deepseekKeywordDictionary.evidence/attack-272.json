@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T08:43:43.000Z",
+  "updatedAt": "2026-06-25T17:02:25.000Z",
   "family": "attack",
   "shard": 272,
   "shardCount": 342,
@@ -225,7 +225,8 @@
       "term": "侮辱乐手",
       "evidenceSamples": [
         "同意。弹幕里就为了做心电感应竟然整出来“哎呀鼓手是乌克兰人所以他懂”这种话，我觉得这就基本没有音乐理解，也挺侮辱乐手",
-        "弹幕里就为了做心电感应竟然整出那种话，我觉得这就基本没有音乐理解，也挺侮辱乐手"
+        "弹幕里就为了做心电感应竟然整出那种话，我觉得这就基本没有音乐理解，也挺侮辱乐手",
+        "你在评论区发\"侮辱乐手\"是认真的吗"
       ],
       "evidenceSources": [
         {
@@ -241,7 +242,8 @@
         {
           "source": "Bilibili direct probe corpus match: Bilibili public reply detail probe: https://www.bilibili.com/video/av116663206810944/?reply=301191666833"
         }
-      ]
+      ],
+      "evidenceCount": 3
     }
   ]
 }
