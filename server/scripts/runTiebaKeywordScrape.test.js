@@ -109,8 +109,14 @@ test('runTiebaKeywordScrape can delegate dry-run option planning to Python', () 
     assert.equal(result.status, 0, result.stderr);
     const payload = JSON.parse(result.stdout);
     assert.equal(payload.ok, true);
-    assert.equal(payload.options.actionFile, 'D:\\tieba-python-plan-root\\server\\data\\keywordCoverageActions.json');
-    assert.equal(payload.options.outputPath, 'D:\\tieba-python-plan-root\\server\\data\\tiebaKeywordCorpus.json');
+    assert.ok(
+      payload.options.actionFile.replace(/\\/g, '/').endsWith('tieba-python-plan-root/server/data/keywordCoverageActions.json'),
+      `actionFile=${payload.options.actionFile}`,
+    );
+    assert.ok(
+      payload.options.outputPath.replace(/\\/g, '/').endsWith('tieba-python-plan-root/server/data/tiebaKeywordCorpus.json'),
+      `outputPath=${payload.options.outputPath}`,
+    );
   } finally {
     rmSync(tempDir, { recursive: true, force: true });
   }
