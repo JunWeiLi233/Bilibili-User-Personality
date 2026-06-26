@@ -299,8 +299,8 @@ function cleanLocalEvidenceSampleScore(match = {}, entry = {}) {
   if (sample.length >= 8 && sample.length <= 160) score += 2;
   if (/[\u201c\u2018\u300a\u3010\u300c\u300e\uff08(]\s*[^\u201d\u2019\u300b\u3011\u300d\u300f\uff09)]{0,12}\s*[\u201d\u2019\u300b\u3011\u300d\u300f\uff09)]/.test(sample)) score += 1;
   if (/\[[^\]]{1,40}\]|[\u{1f300}-\u{1f64f}\u{1f680}-\u{1f6ff}\u2600-\u27bf]/u.test(sample)) score += 1;
-  if (/\u5f39\u5e55|\u8bc4\u8bba\u533a|\u8bc4\u8bba|\u56de\u590d|\u9510\u8bc4|\u6307\u70b9|\u61c2\u54e5|\u5012\u6253\u4e00\u8019|\u9006\u5929|\u7b11\u6b7b|\u7ef7|\u795e\u4eba|\u4ec0\u4e48/u.test(sample)) score += 3;
-  if (/\u4e0d\u662f.*\u610f\u601d|\u4ec0\u4e48\u610f\u601d|\u600e\u4e48\u8bf4|\u8c01\u61c2|\u6709\u6ca1\u6709\u61c2/u.test(sample)) score += 1;
+  if (/\u5f39\u5e55|\u8bc4\u8bba\u533a|\u8bc4\u8bba|\u56de\u590d|\u9510\u8bc4|\u6307\u70b9|\u61c2\u54e5|\u6559.*\u505a|\u4e00\u5806|\u9006\u5929|\u7b11\u6b7b|\u7ef7|\u795e\u4eba|\u4ec0\u4e48/u.test(sample)) score += 3;
+  if (/\u4e0d\u662f.*\u610f\u601d|\u4ec0\u4e48\u6897|\u600e\u4e48\u8bf4|\u8c01\u61c2|\u6709\u6ca1\u6709\u61c2/u.test(sample)) score += 1;
   if (/^\s*[\p{P}\p{S}\dA-Za-z\s]{0,8}\s*$/u.test(sample)) score -= 3;
   return score;
 }

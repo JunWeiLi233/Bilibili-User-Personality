@@ -7,6 +7,8 @@ const AICU_DANMAKU_API = 'https://api.aicu.cc/api/v3/search/getvideodm';
 const DATA_DIR = join(process.cwd(), 'server', 'data');
 const USER_DB_PATH = join(DATA_DIR, 'aicu-user-database.json');
 const DELAY_MS = 1500;
+const MAX_CONSECUTIVE_RETRIES = 5;
+const RETRY_BASE_MS = 10000;
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -30,6 +32,7 @@ async function fetchAicuDanmaku(uid, page = 1, pageSize = 20) {
 
 async function scrapeUserComments(uid, maxPages = 10) {
   const allComments = [];
+  let consecutiveRetries = 0;
   for (let page = 1; page <= maxPages; page++) {
     try {
       const data = await fetchAicuComments(uid, page);
@@ -37,9 +40,12 @@ async function scrapeUserComments(uid, maxPages = 10) {
       allComments.push(...data.data.replies);
       if (data.data.cursor?.is_end) break;
       if (page < maxPages) await wait(DELAY_MS);
+      consecutiveRetries = 0;
     } catch (err) {
       if (err.message.includes('429')) {
-        await wait(10000);
+        consecutiveRetries += 1;
+        if (consecutiveRetries > MAX_CONSECUTIVE_RETRIES) break;
+        await wait(RETRY_BASE_MS * consecutiveRetries);
         page--;
         continue;
       }
@@ -51,6 +57,7 @@ async function scrapeUserComments(uid, maxPages = 10) {
 
 async function scrapeUserDanmaku(uid, maxPages = 10) {
   const allDanmaku = [];
+  let consecutiveRetries = 0;
   for (let page = 1; page <= maxPages; page++) {
     try {
       const data = await fetchAicuDanmaku(uid, page);
@@ -58,9 +65,12 @@ async function scrapeUserDanmaku(uid, maxPages = 10) {
       allDanmaku.push(...data.data.videodmlist);
       if (data.data.cursor?.is_end) break;
       if (page < maxPages) await wait(DELAY_MS);
+      consecutiveRetries = 0;
     } catch (err) {
       if (err.message.includes('429')) {
-        await wait(10000);
+        consecutiveRetries += 1;
+        if (consecutiveRetries > MAX_CONSECUTIVE_RETRIES) break;
+        await wait(RETRY_BASE_MS * consecutiveRetries);
         page--;
         continue;
       }
