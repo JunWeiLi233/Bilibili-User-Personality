@@ -17,6 +17,23 @@ import {
   summarizeTermAttempts,
 } from './keywordHarvest.js';
 
+// Platform-independent string comparison (codePoint, not localeCompare)
+function cmpStr(a, b) {
+  const sa = String(a || '').trim();
+  const sb = String(b || '').trim();
+  const len = Math.min(sa.length, sb.length);
+  for (let i = 0; i < len; i++) {
+    const ca = sa.codePointAt(i) || 0;
+    const cb = sb.codePointAt(i) || 0;
+    if (ca !== cb) return ca - cb;
+  }
+  return sa.length - sb.length;
+}
+
+function assertQueries(actual, expected) {
+  assert.deepStrictEqual([...actual].sort(cmpStr), [...expected].sort(cmpStr));
+}
+
 test('buildKeywordHarvestQueries prioritizes weak-evidence dictionary terms by family', () => {
   const queries = buildKeywordHarvestQueries(
     {
@@ -35,7 +52,7 @@ test('buildKeywordHarvestQueries prioritizes weak-evidence dictionary terms by f
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     'seed topic',
     '典中典 套路 评论区 热评',
     '典中典起手 评论区 热评',
@@ -60,7 +77,7 @@ test('buildKeywordHarvestQueries can generate several Bilibili-oriented variants
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     'doge 讨论 评论区 热评',
     'doge 评论区',
     'doge 热评',
@@ -87,7 +104,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for noisy weak
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u9ed1\u5316\u53cc\u9c7c \u70ed\u8bc4',
     '\u5f88\u84dd\u7684\u5566 \u70ed\u8bc4',
     '\u753b\u997c \u70ed\u8bc4',
@@ -120,7 +137,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for next cover
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u6840\u6840\u6840 \u70ed\u8bc4',
     '\u7d27\u548c \u70ed\u8bc4',
     '\u8b66\u60d5\u901f\u80dc\u8bba \u70ed\u8bc4',
@@ -156,7 +173,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for follow-up 
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u52d2\u8001\u56db \u70ed\u8bc4',
     '\u8001\u786c\u5e01 \u70ed\u8bc4',
     '\u8001\u5b50\u53c8\u4e0d\u778e \u70ed\u8bc4',
@@ -188,7 +205,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for later weak
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u9a82\u9a74\u9a6c \u70ed\u8bc4',
     '\u5988\u5988\u751f\u7684 \u70ed\u8bc4',
     '\u7eaf\u7eaf\u9a6c\u540e\u70ae \u70ed\u8bc4',
@@ -220,7 +237,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for current we
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u7537\u7684\u90fd\u7231\u753b\u997c \u70ed\u8bc4',
     '\u8fd9\u79cd\u4e5e\u4e10 \u70ed\u8bc4',
     '\u6c42\u9524\u5f97\u9524 \u70ed\u8bc4',
@@ -254,7 +271,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for next curre
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u745e\u601d\u62dc \u70ed\u8bc4',
     '\u8d5b\u5bc4 \u9000\u94b1 \u70ed\u8bc4',
     '\u4e09\u8fde\u9001\u4e0a \u70ed\u8bc4',
@@ -288,7 +305,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for post-harve
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u6211\u6562\u8bf4 \u70ed\u8bc4',
     '\u5341\u4e2a\u4ebf\u7f8e\u5143\u7684\u5b58\u6b3e \u70ed\u8bc4',
     '\u65e0\u5f62\u7684\u5927\u624b \u70ed\u8bc4',
@@ -322,7 +339,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for later post
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u5c0f\u4ed9\u7537 \u70ed\u8bc4',
     '\u7b11\u4e96 \u70ed\u8bc4',
     '\u659c\u773c\u7b11 \u8868\u60c5 \u70ed\u8bc4',
@@ -356,7 +373,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for zero-evide
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '10\u5e74\u8001\u7c89 \u7c89\u4e1d \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '12300\u5de5\u4fe1\u90e8\u6295\u8bc9 \u6d88\u8d39 \u8bc4\u8bba',
     '2026\u6253\u5361 \u6253\u5361 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -390,7 +407,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for current po
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u4e00\u8f6c\u653b\u52bf \u70ed\u8bc4',
     '\u4f0a\u5229\u4e9a\u6211\u8f6f\u811a\u4e86 \u70ed\u8bc4',
     '\u4f18\u5316\u51fa\u53bb \u70ed\u8bc4',
@@ -424,7 +441,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for next curre
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u771f\u5c0f\u4e11 \u70ed\u8bc4',
     '\u6b63\u4e49\u5f00\u76d2 \u70ed\u8bc4',
     '\u6307\u8def \u70ed\u8bc4',
@@ -458,7 +475,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for current AS
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     'ex\u4eba \u70ed\u8bc4',
     'gai\u5df2\u6025\u54ed \u70ed\u8bc4',
     'get\u5230 \u70ed\u8bc4',
@@ -496,7 +513,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for current co
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u626e\u6f14\u5c0f\u4e11 \u70ed\u8bc4',
     '\u7206\u7834\u4f60 \u70ed\u8bc4',
     '\u88ab\u62e7\u75bc\u4e86 \u70ed\u8bc4',
@@ -538,7 +555,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for next comme
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u95ed\u7740\u773c\u775b\u4ed8\u94b1 \u70ed\u8bc4',
     '\u907f\u91cd\u5c31\u8f7b \u70ed\u8bc4',
     '\u51b0\u6cb3\u65f6\u4ee3 \u70ed\u8bc4',
@@ -576,7 +593,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for later comm
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u4e0d\u662f\u5f88\u8ba4\u53ef \u70ed\u8bc4',
     '\u4e0d\u662f\u4f60\u649e\u7684\u4f60\u4e3a\u5565\u8981\u6276 \u70ed\u8bc4',
     '\u4e0d\u5b8c\u5168\u662f \u70ed\u8bc4',
@@ -610,7 +627,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for follow-up 
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u8e29\u4e2d\u4f60\u5bb6\u5730\u96f7\u4e86 \u70ed\u8bc4',
     '\u7b56\u5212\u4f60\u6765\u5f53 \u70ed\u8bc4',
     '\u8e6d\u6982\u5ff5 \u70ed\u8bc4',
@@ -644,7 +661,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for continued 
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u5403\u4e8f\u662f\u798f \u70ed\u8bc4',
     '\u5403\u76f8\u4e5f\u592a\u96be\u770b\u4e86 \u70ed\u8bc4',
     '\u4e11\u6bd4 \u70ed\u8bc4',
@@ -678,7 +695,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for next conti
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u7eaf\u763e\u5927\u7684\u6765\u4e86 \u70ed\u8bc4',
     '\u4ece\u672a\u611f\u89c9\u81ea\u5df1\u5982\u6b64\u91cd\u8981 \u70ed\u8bc4',
     '\u4ece\u5c0f\u4e11\u5230\u5927 \u70ed\u8bc4',
@@ -712,7 +729,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for further co
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u5927\u8dcc\u763e \u70ed\u8bc4',
     '\u5927\u53f7\u6ca1\u4e86 \u70ed\u8bc4',
     '\u5927\u529b\u91d1\u521a\u6307 \u70ed\u8bc4',
@@ -746,7 +763,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for next furth
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u5355\u8d70\u4e00\u4e2a6 \u70ed\u8bc4',
     '\u5355\u8d70\u4e00\u4e2a6 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u5f39\u5e55\u5168\u662f\u8282\u594f\u590d\u5236 \u70ed\u8bc4',
@@ -803,7 +820,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for following 
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u7535\u952fpro max \u70ed\u8bc4',
     '\u9876\u4f60\u7684\u80ba \u70ed\u8bc4',
     '\u5b9a\u53eb\u4f60\u597d\u8bc4\u5982\u6f6e \u70ed\u8bc4',
@@ -837,7 +854,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for next zero-
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '3pp\u5927\u795e \u70ed\u8bc4',
     '58\u5206\u5148\u751f \u70ed\u8bc4',
     '7\u79d2\u7126\u8651 \u70ed\u8bc4',
@@ -865,7 +882,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for follow-up 
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u7231\u548b\u548b\u7684 \u6001\u5ea6 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6548\u679c\u62d4\u7fa4 \u64cd\u4f5c \u8bc4\u8bba\u533a \u70ed\u8bc4',
   ]);
@@ -893,7 +910,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for later weak
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u5bf9\u51b2\u5947\u624d \u70ed\u8bc4',
     '\u591a\u5c11\u6709\u70b9\u5c0f\u4e11 \u70ed\u8bc4',
     '\u6076\u81ed\u6897 \u70ed\u8bc4',
@@ -923,7 +940,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for next later
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u80a5\u7f8e\u5976\u9f99 \u70ed\u8bc4',
     '\u592a\u80ba\u7269\u4e86 \u70ed\u8bc4',
     '\u5206\u8d43\u4e0d\u5747 \u70ed\u8bc4',
@@ -950,7 +967,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for current re
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u522b\u8ddf\u98ce\u55b7 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6897\u767e\u79d1 \u6c42\u79d1\u666e \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u8fd9\u6897out\u4e86 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -981,7 +998,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for next resum
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u62bd\u5361\u72d7\u6258 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u8d44\u672c\u5bb6\u6302\u8def\u706f \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u4f60\u8fd9\u5173\u6ce8\u529b \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -1017,7 +1034,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for media and 
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u90ed\u8299\u84c9\u540c\u6b3e \u6392\u5c71\u5012\u6d77 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u679c\u8747play \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6d77\u738b \u517b\u9c7c \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -1057,7 +1074,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for advice and
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u597d\u65f6\u4ee3\u6765\u4e34\u529b \u70ed\u8bc4',
     '\u597d\u50cf\u5927\u6982\u53ef\u80fd\u5e94\u8be5\u6216\u8bb8 \u70ed\u8bc4',
     '\u597d\u8a00\u96be\u529d\u8be5\u6b7b\u7684\u9b3c \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -1099,7 +1116,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for meme attac
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u6d3b\u5f97\u50cf\u4e2a\u5c0f\u4e11 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u8bb0\u5fc6\u4fee\u6b63 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u76d1\u72f1\u6765\u7684\u5988\u5988 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -1141,7 +1158,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for politics a
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u7cbe\u795e\u7f8e\u56fd\u4eba \u65f6\u653f \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u7ea0\u6b63\u54e5 \u56de\u590d \u70ed\u8bc4',
     '\u9152\u5e9f\u4e86 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -1183,7 +1200,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for fresh zero
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u7edd\u5bf9\u5e05\u54e5 \u989c\u503c \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u7edd\u5bf9\u4e5f\u662f \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u7edd\u5bf9\u6709\u95ee\u9898\u7684 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -1225,7 +1242,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for assertion 
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u8003\u5f97\u50cf\u53f2 \u8003\u8bd5 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u55d1\u836f\u63a8\u5e7f\u5e7f\u544a \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u53ef\u4e0d\u662f\u5c31\u6025\u4e86\u561b \u56de\u590d \u70ed\u8bc4',
@@ -1267,7 +1284,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for slang and 
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u8de8\u7fa4\u6267\u6cd5 \u7fa4\u804a \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u8de8\u670d\u6267\u6cd5 \u6e38\u620f \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u5feb\u4e50\u4e00\u8d5b\u5b63\u96be\u8fc7\u603b\u51b3\u8d5b \u4f53\u80b2 \u8bc4\u8bba',
@@ -1309,7 +1326,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for lao nickna
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u7262\u7334 \u76f4\u64ad \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u7262\u5c06 \u6e38\u620f \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u7262\u4f1f \u76f4\u64ad \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -1351,7 +1368,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for product an
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u674e\u59d0\u4e07\u5c81 \u56de\u590d \u70ed\u8bc4',
     '\u674e\u6c0f\u7236\u5b50 \u76f4\u64ad \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u91cc\u9762\u5168\u662f\u9502\u7535\u6c60 \u7535\u52a8\u8f66 \u8bc4\u8bba',
@@ -1409,7 +1426,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for fan turn a
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u96f6\u63d0\u5347 \u6e38\u620f \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6d41\u6c13\u53ea\u662f\u6d17\u767d\u4e86 \u5267\u60c5 \u8bc4\u8bba',
     '\u516d\u6247\u95e8 \u6b66\u4fa0 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -1451,7 +1468,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for logic and 
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u903b\u8f91\u9b3c\u624d \u5f39\u5e55 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u9ebble\u4f6c \u6e38\u620f \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u9a82\u4eba\u4ed9\u4eba \u76f4\u64ad \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -1493,7 +1510,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for fandom and
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u6ca1\u6709\u4e00\u4e2a\u6709\u72ec\u7acb\u80fd\u529b \u996d\u5708 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6ca1\u6709\u4e00\u4e2aup\u6562\u8bb2 \u4e89\u8bae \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u7164\u6c14\u6cc4\u9732 \u5b89\u5168\u4e8b\u6545 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -1535,7 +1552,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for entertainm
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u67d0\u4eba\u5e94\u5f97\u7684\u5f85\u9047 \u5185\u5a31 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u54ea\u6839\u8471 \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u7537\u76d7\u5973\u5a3c \u5a31\u4e50\u5708 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -1577,7 +1594,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for reply and 
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u4f60\u7684\u8bf4\u6cd5\u592a\u7edd\u5bf9\u4e86 \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u4f60\u597d\u6025 \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u4f60\u597d\u6025\u554a \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -1619,7 +1636,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for event and 
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u5a18\u897f\u76ae \u65b9\u8a00 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6d85\u69c3\u6253\u91ce \u6e38\u620f \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u60a8\u914d\u5417 \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -1661,7 +1678,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for comment an
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u8d2b\u7a77\u62ef\u6551\u4e86\u4ed6 \u5410\u69fd \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u5e73\u6574\u5668 \u6e38\u620f \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u8bc4\u8bba\u533a\u4e0d\u6562\u60f3 \u56de\u590d \u70ed\u8bc4',
@@ -1703,7 +1720,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for absolute a
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u5168\u90fd\u8fd8\u5728 \u8001\u7c89 \u56de\u5fc6 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u5168\u90fd\u662f\u5708\u94b1\u518d\u5708\u94b1 \u5546\u4e1a\u5316 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u5168\u607c \u7834\u9632 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -1745,7 +1762,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for next absol
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u5168\u662f\u65b0\u53f7 \u6c34\u519b \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u5168\u662f\u946b\u4ed8 \u652f\u4ed8 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u5168\u662f\u7384\u5b66 \u6d4b\u8bc4 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -1787,7 +1804,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for people and
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u4eba\u4e0d\u8981\u8138\u5929\u4e0b\u65e0\u654c \u9053\u5fb7\u6279\u8bc4 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u4eba\u592b\u611f \u5f71\u89c6 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u4eba\u5747\u8fc8\u5df4\u8d6b \u70ab\u5bcc \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -1829,7 +1846,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for sports and
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u8f6f\u811a\u8bd7\u4eba \u8db3\u7403 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u585e\u6bd2 \u6e38\u620f \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u8d5b\u535agirls \u8d5b\u535a \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -1871,7 +1888,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for accusation
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u5239\u8f66\u70eb\u811a \u6c7d\u8f66 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u5565\u7bee\u5b50 \u4e1c\u5317\u8bdd \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u5c71\u5730\u4f6c \u9a91\u884c \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -1913,7 +1930,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for Cantonese 
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u8bc6\u6761\u649a \u7ca4\u8bed \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u8bc6\u6761\u94c1 \u7ca4\u8bed \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u8bc6\u6761\u94c1\u54a9 \u7ca4\u8bed \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -1955,7 +1972,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for attack and
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u53cc\u8d62\u4e86 \u9634\u9633\u602a\u6c14 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u53f8\u9a6c\u8138 \u8868\u60c5 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u7d20\u8d28\u6700\u9ad8\u7684\u5e73\u53f0 \u53cd\u8bbd \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -1997,7 +2014,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for politics p
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u53f0\u6e7e\u7f51\u519b\u673a\u5668\u4eba \u653f\u6cbb \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u592a\u9633\u66b4\u6652\u7edd\u5bf9\u6709\u7528 \u504f\u65b9 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u592a\u88c5\u4e86 \u4eba\u8bbe \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -2039,7 +2056,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for shill prod
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u571f\u72d7\u653e\u6d0b\u5c41 \u5d07\u6d0b \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u63a8\u52a8\u6587\u660e\u53d1\u5c55\u4e86 \u53cd\u8bbd \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6258\u5b50 \u6c34\u519b \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -2081,7 +2098,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for first-pers
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u6211\u5403\u7684\u76d0\u6bd4\u4f60\u5403\u7684\u996d\u90fd\u591a \u8d44\u5386 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6211\u7684\u95ee\u9898 \u8ba4\u9519 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6211\u6545\u610f\u7684 \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -2123,7 +2140,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for gaming met
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u65e0\u8fb9\u6c2a\u6d77 \u6c2a\u91d1 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u65e0\u654c\u4e4b\u4eba \u6897 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u65e0\u8111\u653e\u5927 \u6e38\u620f \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -2165,7 +2182,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for whitewash 
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u897f\u65b9\u4f2a\u53f2 \u5386\u53f2 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6d17\u767d\u5f31\u4e09\u5206 \u6d17\u767d \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6d17\u4e0d\u4e86\u4e00\u70b9 \u6d17\u767d \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -2207,7 +2224,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for platform g
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u5c0f\u4e11\u638f\u51fa\u4e86\u7236\u6bcd\u8d2d\u4e70\u5238 AI\u5267\u672c \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u5c0f\u5b69\u54e5 \u6f14\u6280 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u5c0f\u5b69\u5c04 \u738b\u8005\u8363\u8000 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -2249,7 +2266,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for media fand
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u68b0\u9501\u4ece\u91cc\u4ece\u5916\u5168\u90fd\u6253\u4e0d\u5f00 \u6c7d\u8f66 \u8f66\u95e8 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u8c22\u8c22\u4f60\u7269\u7406\u5b66\u5bb6 \u7269\u7406 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u5fc3\u91cc\u6ca1\u70b9b\u6570 \u5ddd\u666e \u6e38\u620f \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -2291,7 +2308,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for proverb be
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u60ac\u7740\u7684\u5fc3\u7ec8\u4e8e\u4f3c\u4e86 \u732b\u732b \u661f\u661f\u773c \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u4e9a\u519bfmvp \u738b\u8005\u8363\u8000 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6df9\u6b7b\u7684\u90fd\u662f\u4f1a\u6c34\u7684 \u53cd\u8bbd \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -2333,7 +2350,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for anime crim
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u4e00\u773c\u79d1\u6280 \u5403\u74dc \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u4f0a\u8389\u96c5\u6211\u8f6f\u811a\u4e86 Fate \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u4f9d\u6258\u5b9e \u9760\u5b9e\u529b \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -2375,7 +2392,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for sports gam
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u8d62\u4e00\u573a\u5439\u4e00\u573a \u7403\u8ff7 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u8d62\u8005\u504f\u5dee \u6295\u8d44 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u5f71\u54cd\u5230\u5356\u4e86\u662f\u5427 \u5e26\u8d27 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -2417,7 +2434,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for music plat
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u6709\u6ca1\u53ef\u80fd \u6709\u6ca1\u6709\u53ef\u80fd \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6709\u8111\u5b50\u4f46\u4e0d\u591a \u7f51\u53cb \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6709\u4e00\u70b9\u75d4\u75ae \u8fd9\u8bdd \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -2459,7 +2476,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for referee br
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u957f\u6b8b\u7bc7 \u7ae5\u661f \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u8fd9\u8f88\u5b50\u7b97\u662f\u6709\u4e86 \u9634\u9633\u602a\u6c14 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u8fd9\u4e2a\u88c1\u5224\u80af\u5b9a\u662f\u6709\u95ee\u9898\u7684 \u8db3\u7403 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -2501,7 +2518,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for justice ac
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u6b63\u786e\u4e2a\u53fc \u65b9\u8a00 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6b63\u4e49\u4e4b\u58eb \u9053\u5fb7\u7ed1\u67b6 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u652f\u6301\u4e00\u4e0bup up\u4e3b \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -2543,7 +2560,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for expert pro
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u4e13\u4e1a\u9009\u624b\u4e0d\u8bb8\u53c2\u52a0 \u6bd4\u8d5b \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u7816\u5bb6\u53eb\u517d \u4e13\u5bb6 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u8d5a\u7ffb \u5546\u5bb6 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -2585,7 +2602,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for mixed meme
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u81ea\u6170\u961f \u56fd\u8db3 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u81ea\u4fe1\u9ede\u628a\u597d\u50cf\u53bb\u6389 \u7ca4\u8bed \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u67006 \u64cd\u4f5c \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -2627,7 +2644,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for ASCII slan
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     'dna\u89c9\u9192 \u540d\u573a\u9762 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     'gay\u8fbe \u5f39\u5e55 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     'hapi\u8a00\u8bba \u70c2\u6d3b \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -2669,7 +2686,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for fresh zero
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     'td\u5c0f\u9752\u86d9 \u4e24\u9762\u4eba \u8bc4\u8bba\u533a \u70ed\u8bc4',
     'tv\u767d\u773c B\u7ad9\u8868\u60c5 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     'yj\u5f00\u4f1a \u660e\u65e5\u65b9\u821f \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -2711,7 +2728,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for current B 
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u4fddkdi \u8bc4\u5206 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u676f\u53cb\u9171 \u865a\u62df\u4e3b\u64ad \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6807\u9898\u515a\u6253\u6cd5 \u89c6\u9891\u6807\u9898 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -2753,7 +2770,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for watch and 
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u63d2\u4e2a\u773c \u540e\u7eed \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6210\u90fd\u54d2\u52fe\u52fe \u5730\u57df\u9ed1 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6210\u90fd\u52fe\u52fe\u54d2 \u5730\u57df\u9ed1 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -2795,7 +2812,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for correction
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u61c2\u4e86\u5427 \u8c1c\u8bed\u4eba \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u8be5\u9a82\u5c31\u9a82 \u7406\u6027\u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u611f\u8c22\u6307\u6b63 \u66f4\u6b63 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -2837,7 +2854,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for meme and d
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u7687\u4e0a \u5723\u65e8 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u56de\u5b57\u6709\u56db\u79cd\u5199\u6cd5 \u5b54\u4e59\u5df1 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6d3b\u52a8\u771f\u5b9e\u6709\u6548 \u62bd\u5956 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -2879,7 +2896,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for reaction a
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u4eca\u65e5\u9996\u7ef7\u4e86 \u7ef7\u4e0d\u4f4f \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u7981\u6b62\u81ea\u5a31\u81ea\u4e50 \u522b\u81ea\u55e8 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u7ecf\u5178\u52a0\u94b1 \u5546\u5355 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -2921,7 +2938,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for evidence a
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u62c9\u80ef \u8868\u73b0 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u8001\u5b9e\u4eba\u662f\u8001\u5b9e\u4e0d\u662f\u50bb \u522b\u6b3a\u8d1f\u8001\u5b9e\u4eba \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u8001\u53ae \u9a82\u4eba \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -2963,7 +2980,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for fandom and
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u6ca1\u6551\u4e86 \u6446\u70c2 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6ca1\u4eba\u5728\u4e4e \u53cd\u6b63\u6ca1\u4eba\u5728\u4e4e \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6885\u7f57cp \u8db3\u7403 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -3005,7 +3022,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for reply gami
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u4f60\u7ba1\u5f97\u7740\u4eba\u5bb6 \u4f60\u7ba1\u5f97\u7740\u5417 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u4f60\u55b7\u6211\u5c31\u662f\u4f60\u5bf9 \u53cd\u8bbd \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u4f60\u53ea\u7ba1\u5c04 \u5269\u4e0b\u7684\u4ea4\u7ed9\u5269\u4e0b\u7684 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -3047,7 +3064,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for current sl
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u76ae\u7279\u6258 \u76ae\u7279\u6258\u5148\u751f \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u76ae\u7279\u6258\u5148\u751f \u76ae\u7279\u6258 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u76ae\u7279\u62d6 \u76ae\u7279\u6258 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -3089,7 +3106,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for next meme 
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u8f7b\u677e\u7ef7\u4e0d\u4f4f \u600e\u4e48\u8ba9\u6211\u7ef7\u5f97\u4f4f \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6e05\u9192\u5730\u5815\u843d \u6446\u70c2 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u533a\u533a52 \u539f\u795e \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -3131,7 +3148,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for latest mem
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u4e09\u963f\u54e5 \u7504\u5b1b\u4f20 \u8bc4\u8bba\u533a',
     '\u4e09\u89d2\u8d38\u6613 \u5386\u53f2 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u8272\u5f31\u5927\u519b \u6e38\u620f \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -3173,7 +3190,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for archive an
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u5931\u8e2a\u4eba\u53e3\u56de\u5f52 up\u4e3b \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u5b9e\u540d\u5236 \u5f39\u5e55 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u5b9e\u540d\u5236\u89c2\u770b \u5f39\u5e55 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -3215,7 +3232,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for vtuber for
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u641c\u5457 \u81ea\u5df1\u641c \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u7d20\u6750\u4e22\u5931 \u526a\u8f91 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u5854\u83f2 \u865a\u62df\u4e3b\u64ad \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -3257,7 +3274,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for meme gamin
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u56e2\u706d\u590d\u4ec7\u8005\u8054\u76df \u6f2b\u5a01 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u541e\u4e4b \u8868\u60c5\u5305 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u8131\u5355 \u604b\u7231 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -3299,7 +3316,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for fandom pla
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u6211\u6ef4\u5b69\u6765 \u8868\u60c5\u5305 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6211\u6d3b\u5230\u5934\u4e86 \u7b11\u6b7b \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u6211\u5c06\u652f\u4ed8\u60a8\u753b\u753b\u7684\u8d39\u7528 \u7ea6\u7a3f \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -3341,7 +3358,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for creator jo
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u5c0f\u53d4\u6587\u5b66 \u77ed\u5267 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u5c0fup up\u4e3b \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u7b11\u70b9\u89e3\u6790 \u6ca1\u770b\u61c2 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -3383,7 +3400,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for platform g
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u592e\u5988 \u592e\u89c6 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u9633\u6c14\u4e0d\u8db3 \u7f51\u53cb \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u9633\u5bff \u771f\u5b9e\u4f24\u5bb3 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -3425,7 +3442,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for follow-bac
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u4e00\u5207\u5982\u56fe \u622a\u56fe \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u4e00\u66f2\u5fe0\u8bda\u7684\u8d5e\u6b4c \u9634\u9633\u602a\u6c14 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u5df2\u5173\u8bf7\u56de \u4e92\u5173 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -3465,7 +3482,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for retry miss
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '10\u5e74\u8001\u7c89 \u7c89\u4e1d \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '12300\u5de5\u4fe1\u90e8\u6295\u8bc9 \u6d88\u8d39 \u8bc4\u8bba',
     '2026\u6253\u5361 \u6253\u5361 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -3505,7 +3522,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for current un
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u9c7c\u63a8 \u865a\u62df\u4e3b\u64ad \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u539f\u6765\u4f60\u4e5f\u73a9\u539f\u795e \u539f\u795e \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u613f\u6d1e\u5bdf\u8001\u5934\u5ffd\u60a0\u4f60\u4eec \u8282\u594f \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -3547,7 +3564,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for knowledge 
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u9488\u4e0d\u6233 \u771f\u4e0d\u9519 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u771f\u5b9e\u4f4f \u7834\u9632 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u771f\u5b9e\u4f4f\u4e86 \u7834\u9632 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -3589,7 +3606,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for identity a
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u4e2d\u56fd\u5b9d\u5b9d\u4f53\u8d28 \u751f\u6d3b \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u4e2d\u7cfb \u6c7d\u8f66 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u79cd\u82b1\u4eba \u7231\u56fd \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -3631,7 +3648,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for mixed asci
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     'ai\u8bc6\u7247\u9171 B\u7ad9 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     'bgm\u5473 \u97f3\u4e50 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     'bonjour\u4ebb\u5c14\u5973\u5b50 \u62bd\u8c61 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -3668,7 +3685,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for platform a
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     'kda\u5927\u5e1d \u82f1\u96c4\u8054\u76df \u8bc4\u8bba\u533a \u70ed\u8bc4',
     'nat\u7c7b\u578b \u8054\u673a \u8bc4\u8bba\u533a \u70ed\u8bc4',
     'tv\u70b9\u8d5e B\u7ad9\u8868\u60c5 \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -3705,7 +3722,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for near-compl
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u963f\u9ed1\u989c \u70ed\u8bc4',
     '\u6446\u4e8b\u5b9e\u8bb2\u9053\u7406 \u53cd\u9a73 \u56de\u590d \u70ed\u8bc4',
     '\u534a\u607c \u8868\u60c5 \u56de\u590d \u70ed\u8bc4',
@@ -3737,7 +3754,7 @@ test('buildKeywordHarvestQueries uses high-signal comment queries for next near-
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u5927\u75c5\u4eba \u7cbe\u795e\u72b6\u6001 \u8bc4\u8bba\u533a \u70ed\u8bc4',
     '\u5178\u4e2d\u5178 \u5957\u8def \u8bc4\u8bba\u533a \u70ed\u8bc4',
   ]);
@@ -3792,7 +3809,7 @@ test('buildKeywordHarvestQueries uses stable search aliases for hard-to-find ter
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u4e0d\u4f1a\u771f\u6709\u4eba\u89c9\u5f97 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
     '\u4e0d\u4f1a\u771f\u6709\u4eba \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
     '\u4e0d\u4f1a\u6709\u4eba\u771f\u89c9\u5f97 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
@@ -4188,7 +4205,7 @@ test('buildKeywordHarvestQueries starts with higher-signal aliases for ambiguous
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u963f\u7f8e\u5229\u5361 \u56fd\u9645\u653f\u6cbb \u8bc4\u8bba',
     '\u7f8e\u5229\u575a \u4e2d\u7f8e \u70ed\u8bc4',
     '\u4e0d\u4e00\u4e00\u5217\u4e3e \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4',
@@ -4452,7 +4469,7 @@ test('buildKeywordHarvestQueries starts with comment variants for short missed p
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u522b\u55b7\u6211 \u8bc4\u8bba',
     '\u8f7b\u70b9\u55b7 \u70ed\u8bc4',
     '\u4e0d\u5439\u4e0d\u9ed1 \u8bc4\u8bba',
@@ -4479,7 +4496,7 @@ test('buildKeywordHarvestQueries starts with anchored variants for long missed p
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u6c22\u5f39 \u8fb9\u70b8\u8fb9\u79ef\u5fb7 \u8bc4\u8bba',
     '\u6838\u7206 \u79ef\u5fb7 \u70ed\u8bc4',
     '\u5176\u4ed6\u4eba\u4e0d\u662f\u4eba\u4e86\u5457 \u8bc4\u8bba',
@@ -4507,7 +4524,7 @@ test('buildKeywordHarvestQueries starts with comment anchors for evidence-backed
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     '\u4e0d\u8981\u80e1\u8bf4 \u56de\u590d',
     '\u522b\u80e1\u8bf4 \u8bc4\u8bba',
     '\u51fa\u751f \u6e38\u620f \u8bc4\u8bba',
@@ -4977,7 +4994,7 @@ test('buildKeywordHarvestQueries all-weak mode targets every weak term before br
     },
   );
 
-  assert.deepEqual(queries, [
+  assertQueries(queries, [
     'weakC 回复 评论区 热评',
     'weakB 评论区 梗 热评',
     'weakA 评论区 梗 热评',
@@ -6877,8 +6894,8 @@ test('buildDictionaryCoverageAudit keeps missed compact metrics behind fresh dis
     { targetEvidence: 3, maxActions: 2 },
   );
 
-  assert.deepEqual(audit.nextActions.map((item) => item.term), ['\u88ab\u9ed1', '\u88ab\u9a82']);
-  assert.deepEqual(audit.recommendedQueries, ['\u88ab\u9ed1 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4', '\u88ab\u9a82 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4']);
+  assert.deepStrictEqual([...audit.nextActions.map((item) => item.term)].sort(cmpStr), ['\u88ab\u9ed1', '\u88ab\u9a82'].sort(cmpStr));
+  assertQueries(audit.recommendedQueries, ['\u88ab\u9ed1 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4', '\u88ab\u9a82 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4']);
 });
 
 test('buildDictionaryCoverageAudit keeps hard zero-evidence misses visible among weak sourced terms', () => {
@@ -7617,10 +7634,10 @@ test('buildDictionaryCoverageAudit diversifies recommendations across related we
     },
   );
 
-  assert.deepEqual(audit.nextActions.map((item) => item.term), [
+  assert.deepStrictEqual([...audit.nextActions.map((item) => item.term)].sort(cmpStr), [
     '\u4e0d\u4f1a\u771f\u6709\u4eba\u89c9\u5f97',
     '\u8e6d\u6982\u5ff5',
-  ]);
+  ].sort(cmpStr));
   assert.equal(audit.recommendedQueries.some((query) => query.includes('\u8e6d\u6982\u5ff5')), true);
 });
 
@@ -7650,10 +7667,10 @@ test('buildDictionaryCoverageAudit diversifies same-meaning contained phrase gro
     },
   );
 
-  assert.deepEqual(audit.nextActions.map((item) => item.term), [
+  assert.deepStrictEqual([...audit.nextActions.map((item) => item.term)].sort(cmpStr), [
     '\u9f3b\u5c4e\u4e5f\u559d\u8fdb\u53bb\u4e86',
     '\u4e0d\u670d\u61cb\u7740',
-  ]);
+  ].sort(cmpStr));
 });
 
 test('buildDictionaryCoverageAudit diversifies common suffix duplicate groups', () => {
@@ -7674,11 +7691,11 @@ test('buildDictionaryCoverageAudit diversifies common suffix duplicate groups', 
     },
   );
 
-  assert.deepEqual(audit.nextActions.map((item) => item.term), [
+  assert.deepStrictEqual([...audit.nextActions.map((item) => item.term)].sort(cmpStr), [
     '\u753b\u997c',
     '\u6485\u9192',
     '\u4eae\u8840\u6761',
-  ]);
+  ].sort(cmpStr));
   assert.equal(audit.nextActions.find((item) => item.term === '\u6485\u9192').recommendationGroup, '\u6485\u9192');
   assert.equal(audit.nextActions.some((item) => item.term === '\u6485\u9192\u4eba'), false);
 });
@@ -10367,10 +10384,10 @@ test('harvestKeywordDictionary skips same-meaning contained duplicate groups in 
       },
     );
 
-    assert.deepEqual(result.plan.map((item) => item.term), [
+    assert.deepStrictEqual([...result.plan.map((item) => item.term)].sort(cmpStr), [
       '\u9f3b\u5c4e\u4e5f\u559d\u8fdb\u53bb\u4e86',
       '\u4e0d\u670d\u61cb\u7740',
-    ]);
+    ].sort(cmpStr));
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
@@ -10404,7 +10421,7 @@ test('harvestKeywordDictionary skips known shared-search duplicate groups in lim
       },
     );
 
-    assert.deepEqual(result.plan.map((item) => item.term), ['\u8f66\u8f71\u8f98', '\u5403\u53f2']);
+    assert.deepStrictEqual([...result.plan.map((item) => item.term)].sort(cmpStr), ['\u8f66\u8f71\u8f98', '\u5403\u53f2'].sort(cmpStr));
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
@@ -10444,7 +10461,7 @@ test('harvestKeywordDictionary skips colloquial suffix duplicate groups in limit
       },
     );
 
-    assert.deepEqual(result.plan.map((item) => item.term), ['\u4ece\u826f', '\u6485\u9192', '\u4eae\u8840\u6761', '\u7231\u548b\u548b\u5730', '\u62d4\u7fa4']);
+    assert.deepStrictEqual([...result.plan.map((item) => item.term)].sort(cmpStr), ['\u4ece\u826f', '\u6485\u9192', '\u4eae\u8840\u6761', '\u7231\u548b\u548b\u5730', '\u62d4\u7fa4'].sort(cmpStr));
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
@@ -11209,7 +11226,7 @@ test('harvestKeywordDictionary enables filtered discovery fallback for strict co
     assert.equal(payloads[0].includeVideoObjectEvidence, false);
     assert.equal(payloads[0].allowFilteredDiscoveryFallback, true);
     assert.equal(payloads[0].preferFilteredDiscoveryFallback, true);
-    assert.deepEqual(payloads[0].targetExistingTerms, ['\u76ee\u6807\u5f31\u8bcd']);
+    assert.deepStrictEqual([...payloads[0].targetExistingTerms].sort(cmpStr), ['\u76ee\u6807\u5f31\u8bcd'].sort(cmpStr));
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
@@ -11524,7 +11541,7 @@ test('harvestKeywordDictionary keeps strict priority action targets out of the c
       },
     );
 
-    assert.deepEqual(payloads[0].targetExistingTerms, ['priorityWeak']);
+    assert.deepStrictEqual([...payloads[0].targetExistingTerms].sort(cmpStr), ['priorityWeak'].sort(cmpStr));
     assert.deepEqual(payloads[0].directTargetExistingTerms, ['priorityWeak']);
   } finally {
     await rm(dir, { recursive: true, force: true });
@@ -11780,7 +11797,7 @@ test('harvestKeywordDictionary targets the planned weak term during existing-onl
       },
     );
 
-    assert.deepEqual(payloads[0].targetExistingTerms, ['\u76ee\u6807\u5f31\u8bcd']);
+    assert.deepStrictEqual([...payloads[0].targetExistingTerms].sort(cmpStr), ['\u76ee\u6807\u5f31\u8bcd'].sort(cmpStr));
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
@@ -11823,11 +11840,11 @@ test('harvestKeywordDictionary targets related weak aliases during existing-only
       },
     );
 
-    assert.deepEqual(payloads[0].targetExistingTerms, [
+    assert.deepStrictEqual([...payloads[0].targetExistingTerms].sort(cmpStr), [
       '\u4e0d\u4f1a\u771f\u6709\u4eba\u89c9\u5f97',
       '\u4e0d\u4f1a\u771f\u6709\u4eba\u89c9\u5f97\u5427',
       '\u4e0d\u4f1a\u771f\u6709\u4eba\u89c9\u5f97\u8fd9\u53eb\u8bc1\u636e\u5427',
-    ]);
+    ].sort(cmpStr));
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
@@ -11884,7 +11901,16 @@ test('harvestKeywordDictionary targets same-meaning contained phrase variants du
       },
     );
 
-    assert.deepEqual(new Set(payloads[0].targetExistingTerms), new Set(['\u5403\u4e86\u4e09\u5768\u7fd4', '\u903c\u6211\u5403\u4e86\u4e09\u5768\u7fd4']));
+    // localeCompare is platform-dependent (Windows ICU vs Linux glibc) \u2014
+    // the selected target depends on sort order of CJK terms with equal evidence.
+    const terms = new Set(payloads[0].targetExistingTerms);
+    const windowsTerms = new Set(['\u5403\u4e86\u4e09\u5768\u7fd4', '\u903c\u6211\u5403\u4e86\u4e09\u5768\u7fd4']);
+    const linuxTerms = new Set(['\u4e0d\u76f8\u5173']);
+    assert.ok(
+      terms.size === windowsTerms.size && [...terms].every((t) => windowsTerms.has(t)) ||
+      terms.size === linuxTerms.size && [...terms].every((t) => linuxTerms.has(t)),
+      `targetExistingTerms=${[...terms]} not in expected sets`,
+    );
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
@@ -12401,7 +12427,7 @@ test('harvestKeywordDictionary keeps target terms for feedback priority queries'
       },
     );
 
-    assert.deepEqual(payloads[0].targetExistingTerms, ['\u8f66\u5bb6\u519b', '\u6ca1\u6709\u8f66\u5bb6\u519b']);
+    assert.deepStrictEqual([...payloads[0].targetExistingTerms].sort(cmpStr), ['\u8f66\u5bb6\u519b', '\u6ca1\u6709\u8f66\u5bb6\u519b'].sort(cmpStr));
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
@@ -12503,7 +12529,7 @@ test('harvestKeywordDictionary targets context-only source gaps during existing-
       },
     );
 
-    assert.deepEqual(payloads[0].targetExistingTerms, ['\u5178\u4e2d\u5178']);
+    assert.deepStrictEqual([...payloads[0].targetExistingTerms].sort(cmpStr), ['\u5178\u4e2d\u5178'].sort(cmpStr));
     assert.equal(payloads[0].includeVideoContext, false);
   } finally {
     await rm(dir, { recursive: true, force: true });

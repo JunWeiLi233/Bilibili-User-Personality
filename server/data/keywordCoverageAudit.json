@@ -1,21 +1,20 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-26T11:49:54.133Z",
+  "generatedAt": "2026-06-26T12:40:44.263855Z",
   "targetEvidence": 3,
   "minCoverageRatio": 1,
   "requireComplete": true,
   "requireSourceBackedEvidence": false,
-  "requireCommentBackedEvidence": false,
   "coverage": {
     "complete": true,
     "targetEvidence": 3,
     "terms": 1576,
-    "totalEvidence": 8890,
-    "averageEvidence": 5.64,
-    "coverageRatio": 1,
+    "totalEvidence": 8897,
+    "averageEvidence": 5.65,
+    "coverageRatio": 1.0,
     "evidenceDeficit": 0,
     "sourcedEvidenceTerms": 1576,
-    "sourceCoverageRatio": 1,
+    "sourceCoverageRatio": 1.0,
     "unsourcedEvidenceTerms": 0,
     "weakTerms": 0,
     "zeroEvidenceTerms": 0,
@@ -23,23 +22,37 @@
     "zeroEvidenceSamples": [],
     "unsourcedEvidenceSamples": [],
     "byFamily": {
-      "absolutes": {
-        "terms": 123,
-        "evidence": 713,
-        "weak": 0,
-        "zero": 0,
-        "sourced": 123
-      },
       "attack": {
         "terms": 966,
-        "evidence": 5374,
+        "evidence": 5371,
         "weak": 0,
         "zero": 0,
         "sourced": 966
       },
+      "absolutes": {
+        "terms": 123,
+        "evidence": 714,
+        "weak": 0,
+        "zero": 0,
+        "sourced": 123
+      },
+      "evidence": {
+        "terms": 36,
+        "evidence": 208,
+        "weak": 0,
+        "zero": 0,
+        "sourced": 36
+      },
+      "evasion": {
+        "terms": 71,
+        "evidence": 397,
+        "weak": 0,
+        "zero": 0,
+        "sourced": 71
+      },
       "cooperation": {
         "terms": 346,
-        "evidence": 1989,
+        "evidence": 1998,
         "weak": 0,
         "zero": 0,
         "sourced": 346
@@ -50,271 +63,116 @@
         "weak": 0,
         "zero": 0,
         "sourced": 34
-      },
-      "evasion": {
-        "terms": 71,
-        "evidence": 397,
-        "weak": 0,
-        "zero": 0,
-        "sourced": 71
-      },
-      "evidence": {
-        "terms": 36,
-        "evidence": 208,
-        "weak": 0,
-        "zero": 0,
-        "sourced": 36
       }
     }
   },
   "termAttemptSummary": {
-    "attemptedTerms": 182,
-    "successfulTerms": 95,
-    "unattemptedTerms": 1394,
+    "attemptedTerms": 0,
+    "successfulTerms": 0,
+    "unattemptedTerms": 1576,
     "unattemptedSamples": [
       {
-        "term": "3a\u666f\u533a",
-        "family": "cooperation",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u5305\u706b\u7684",
+        "term": "dna觉醒",
         "family": "absolutes",
         "evidenceCount": 3
       },
       {
-        "term": "\u672c\u6765\u7ed9\u4e865\u661f\u7684",
-        "family": "cooperation",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u4e0d\u597d\u610f\u601d\u70b9\u7834\u4f60",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u5e03\u4ec0\u6208\u95e8\u7406\u8bba",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u5403\u4e0d\u5230\u8461\u8404\u8bf4\u8461\u8404\u9178",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u7eaf\u594b\u5173",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u5012\u72d7",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u4f4e\u6e29\u710a",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u7b2c\u51e0\u5c42",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u4e1c\u5434\u6d17\u811a\u57ce",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u90fd\u7ed9\u8001\u5b50\u4e0a",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u5835\u6865\u72d7",
-        "family": "attack",
-        "evidenceCount": 3
-      },
-      {
-        "term": "\u5c01100\u5e74",
+        "term": "一眼丁真",
         "family": "absolutes",
         "evidenceCount": 3
       },
       {
-        "term": "\u5c01\u53f7100\u5e74",
+        "term": "一钓开天门",
         "family": "absolutes",
         "evidenceCount": 3
       },
       {
-        "term": "\u4f0f\u7b14\u5f88\u6df1",
-        "family": "cooperation",
+        "term": "包火的",
+        "family": "absolutes",
         "evidenceCount": 3
       },
       {
-        "term": "\u611f\u8c22\u5b87\u5b99",
-        "family": "cooperation",
+        "term": "封100年",
+        "family": "absolutes",
         "evidenceCount": 3
       },
       {
-        "term": "\u5173\u4f60\u4ec0\u4e48\u4e8b",
-        "family": "evasion",
+        "term": "封号100年",
+        "family": "absolutes",
         "evidenceCount": 3
       },
       {
-        "term": "\u9ed1\u4eba\u8273\u540e",
+        "term": "永不取关",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "绝对显化",
+        "family": "absolutes",
+        "evidenceCount": 3
+      },
+      {
+        "term": "ex人",
         "family": "attack",
         "evidenceCount": 3
       },
       {
-        "term": "\u9ed1\u5fc3\u83b2",
+        "term": "flop到地心",
+        "family": "attack",
+        "evidenceCount": 3
+      },
+      {
+        "term": "gay达",
+        "family": "attack",
+        "evidenceCount": 3
+      },
+      {
+        "term": "kda大帝",
+        "family": "attack",
+        "evidenceCount": 3
+      },
+      {
+        "term": "pv诈骗",
+        "family": "attack",
+        "evidenceCount": 3
+      },
+      {
+        "term": "wb升堂",
+        "family": "attack",
+        "evidenceCount": 3
+      },
+      {
+        "term": "三观警察",
+        "family": "attack",
+        "evidenceCount": 3
+      },
+      {
+        "term": "三角斩",
+        "family": "attack",
+        "evidenceCount": 3
+      },
+      {
+        "term": "不好意思点破你",
+        "family": "attack",
+        "evidenceCount": 3
+      },
+      {
+        "term": "东吴洗脚城",
+        "family": "attack",
+        "evidenceCount": 3
+      },
+      {
+        "term": "人人有关入",
+        "family": "attack",
+        "evidenceCount": 3
+      },
+      {
+        "term": "会赢吗",
         "family": "attack",
         "evidenceCount": 3
       }
     ],
-    "repeatedlyMissedTerms": [
-      {
-        "term": "\u4f60\u56fd",
-        "family": "attack",
-        "attempts": 37,
-        "lastQuery": "\u4f60\u56fd",
-        "lastError": ""
-      },
-      {
-        "term": "\u53bb\u770b\u4e66",
-        "family": "evasion",
-        "attempts": 37,
-        "lastQuery": "\u53bb\u770b\u4e66",
-        "lastError": ""
-      },
-      {
-        "term": "\u8fd9\u90fd\u4e0d\u61c2",
-        "family": "evasion",
-        "attempts": 37,
-        "lastQuery": "\u8fd9\u90fd\u4e0d\u61c2",
-        "lastError": ""
-      },
-      {
-        "term": "\u81ea\u5df1\u53bb\u627e",
-        "family": "evasion",
-        "attempts": 37,
-        "lastQuery": "\u81ea\u5df1\u53bb\u627e",
-        "lastError": ""
-      },
-      {
-        "term": "\u67e5\u67e5\u8d44\u6599",
-        "family": "evidence",
-        "attempts": 33,
-        "lastQuery": "\u67e5\u67e5\u8d44\u6599 \u5207\u7247 \u8bc4\u8bba",
-        "lastError": ""
-      },
-      {
-        "term": "8\u62535\u7684\u96f7\u9706",
-        "family": "attack",
-        "attempts": 29,
-        "lastQuery": "8\u62535\u7684\u96f7\u9706 \u51fa\u5904",
-        "lastError": ""
-      },
-      {
-        "term": "\u57fa\u672c\u6ca1\u4eba",
-        "family": "absolutes",
-        "attempts": 27,
-        "lastQuery": "\u57fa\u672c\u6ca1\u4eba \u662f\u4ec0\u4e48\u6897",
-        "lastError": "Bilibili harvest query \"\u57fa\u672c\u6ca1\u4eba \u7c89\u4e1d\" timed out after 150000ms"
-      },
-      {
-        "term": "\u88ab\u800d\u4e86",
-        "family": "attack",
-        "attempts": 20,
-        "lastQuery": "\u88ab\u800d\u4e86 \u8282\u594f",
-        "lastError": "Bilibili harvest query \"\u88ab\u800d\u4e86 \u8282\u594f\" timed out after 60000ms"
-      },
-      {
-        "term": "\u7f3a\u70b9\u53ea\u6709\u4e00\u4e2a\u8d35",
-        "family": "absolutes",
-        "attempts": 20,
-        "lastQuery": "\u7f3a\u70b9\u53ea\u6709\u4e00\u4e2a \u70ed\u8bc4",
-        "lastError": ""
-      },
-      {
-        "term": "\u90fd\u8bf4\u516b\u767e\u904d\u4e86",
-        "family": "absolutes",
-        "attempts": 19,
-        "lastQuery": "absolutes \u90fd\u8bf4\u516b\u767e\u904d\u4e86 \u8bc4\u8bba",
-        "lastError": ""
-      },
-      {
-        "term": "\u9601\u697c\u4e0a\u7684\u767d\u75f4",
-        "family": "attack",
-        "attempts": 19,
-        "lastQuery": "\u9601\u697c\u4e0a\u7684\u767d\u75f4 \u56de\u590d\u533a",
-        "lastError": ""
-      },
-      {
-        "term": "\u592a\u65e0\u654c\u53ef\u7231\u4e86",
-        "family": "absolutes",
-        "attempts": 19,
-        "lastQuery": "\u592a\u65e0\u654c\u53ef\u7231\u4e86 \u8bc4\u8bba \u6897",
-        "lastError": ""
-      },
-      {
-        "term": "\u5fc3\u7535\u611f\u5e94",
-        "family": "attack",
-        "attempts": 19,
-        "lastQuery": "\u5fc3\u7535\u611f\u5e94 \u56de\u590d\u533a",
-        "lastError": ""
-      },
-      {
-        "term": "\u8336\u5e8410\u4e2a\u67099\u4e2a\u6d17\u94b1\u7684",
-        "family": "absolutes",
-        "attempts": 18,
-        "lastQuery": "\u8336\u5e8410\u4e2a\u67099\u4e2a\u6d17\u94b1\u7684 \u8bc4\u8bba\u56de\u590d",
-        "lastError": ""
-      },
-      {
-        "term": "\u61c2\u7684\u90fd\u61c2",
-        "family": "evasion",
-        "attempts": 18,
-        "lastQuery": "dddd \u540d\u6897",
-        "lastError": "Bilibili harvest query \"dddd \u540d\u6897\" timed out after 60000ms"
-      },
-      {
-        "term": "\u6536\u56de\u524d\u9762",
-        "family": "correction",
-        "attempts": 18,
-        "lastQuery": "\u6536\u56de\u524d\u9762 \u8bc4\u8bba\u56de\u590d",
-        "lastError": ""
-      },
-      {
-        "term": "\u571f\u8c46\u9e21\u86cb\u6279\u7684\u5f62\u72b6",
-        "family": "cooperation",
-        "attempts": 18,
-        "lastQuery": "\u571f\u8c46\u9e21\u86cb\u6279\u7684\u5f62\u72b6 \u8bc4\u8bba\u56de\u590d",
-        "lastError": ""
-      },
-      {
-        "term": "\u8d85\u7edd\u65e0\u8bed",
-        "family": "attack",
-        "attempts": 17,
-        "lastQuery": "attack \u8d85\u7edd\u65e0\u8bed \u8bc4\u8bba",
-        "lastError": ""
-      },
-      {
-        "term": "\u5fb7\u91cc\u4e0d\u9976\u4eba",
-        "family": "cooperation",
-        "attempts": 17,
-        "lastQuery": "cooperation \u5fb7\u91cc\u4e0d\u9976\u4eba \u8bc4\u8bba",
-        "lastError": ""
-      },
-      {
-        "term": "\u5206\u4e0d\u6e05\u8f7b\u91cd\u5c31\u4e71\u5957",
-        "family": "attack",
-        "attempts": 17,
-        "lastQuery": "attack \u5206\u4e0d\u6e05\u8f7b\u91cd\u5c31\u4e71\u5957 \u8bc4\u8bba",
-        "lastError": ""
-      }
-    ],
+    "repeatedlyMissedTerms": [],
     "exhaustedTerms": 0,
     "exhaustedSamples": []
   },
@@ -327,24 +185,24 @@
       "terms": 123,
       "weak": 0,
       "zero": 0,
-      "evidence": 713,
-      "coverageRatio": 1
+      "evidence": 714,
+      "coverageRatio": 1.0
     },
     {
       "family": "attack",
       "terms": 966,
       "weak": 0,
       "zero": 0,
-      "evidence": 5374,
-      "coverageRatio": 1
+      "evidence": 5371,
+      "coverageRatio": 1.0
     },
     {
       "family": "cooperation",
       "terms": 346,
       "weak": 0,
       "zero": 0,
-      "evidence": 1989,
-      "coverageRatio": 1
+      "evidence": 1998,
+      "coverageRatio": 1.0
     },
     {
       "family": "correction",
@@ -352,7 +210,7 @@
       "weak": 0,
       "zero": 0,
       "evidence": 209,
-      "coverageRatio": 1
+      "coverageRatio": 1.0
     },
     {
       "family": "evasion",
@@ -360,7 +218,7 @@
       "weak": 0,
       "zero": 0,
       "evidence": 397,
-      "coverageRatio": 1
+      "coverageRatio": 1.0
     },
     {
       "family": "evidence",
@@ -368,7 +226,7 @@
       "weak": 0,
       "zero": 0,
       "evidence": 208,
-      "coverageRatio": 1
+      "coverageRatio": 1.0
     }
   ],
   "nextActions": [],
