@@ -34,6 +34,9 @@ jobs:
       - name: Compare Python and JS corpus contracts
         run: npm run python:compare
 
+      - name: Regenerate JS coverage audit (same platform as comparison)
+        run: npm run dictionary:coverage
+
       - name: Compare coverage audit contract
         run: npm run python:coverage-compare
 
