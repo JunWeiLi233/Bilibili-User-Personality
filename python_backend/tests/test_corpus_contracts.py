@@ -10097,8 +10097,8 @@ class CorpusContractTests(unittest.TestCase):
 
         self.assertTrue(result["ok"])
         self.assertEqual(len(calls), 2)
-        self.assertEqual(calls[0]["request"]["max_tokens"], 2000)
-        self.assertEqual(calls[1]["request"]["max_tokens"], 6000)
+        self.assertEqual(calls[0]["request"]["max_tokens"], 8192)
+        self.assertEqual(calls[1]["request"]["max_tokens"], 8192)
         self.assertTrue(result["retriedCompactPrompt"])
         self.assertEqual(result["runtime"], {"mode": "live_chat", "requestCount": 2, "multiagent": False})
         self.assertEqual(result["axes"][0]["score"], 61)
@@ -10153,7 +10153,7 @@ class CorpusContractTests(unittest.TestCase):
         ).run({"text": "\u9634\u9633\u602a\u6c14[doge]", "multiagent": True})
 
         self.assertTrue(result["ok"])
-        self.assertEqual([call["request"]["max_tokens"] for call in calls], [1600, 1600, 1600, 1600, 6000])
+        self.assertEqual([call["request"]["max_tokens"] for call in calls], [4000, 4000, 4000, 4000, 8000])
         self.assertTrue(result["retriedCompactPrompt"])
         self.assertEqual(result["runtime"], {"mode": "live_multiagent", "requestCount": 5, "multiagent": True})
         self.assertEqual(result["multiagent"]["agentCount"], 3)
@@ -10291,7 +10291,7 @@ class CorpusContractTests(unittest.TestCase):
         self.assertTrue(result["ok"])
         self.assertEqual(result["mode"], "multiagent")
         self.assertEqual(len(result["requests"]), 3)
-        self.assertEqual(result["requests"][0]["max_tokens"], 1600)
+        self.assertEqual(result["requests"][0]["max_tokens"], 4000)
 
     def test_deepseek_analysis_plan_command_request_owns_parser_factory(self):
         args = DeepSeekAnalysisPlanCommandRequest.parser().parse_args(
@@ -10343,7 +10343,7 @@ class CorpusContractTests(unittest.TestCase):
                 {"key": "mode", "python": "multiagent", "js": "single"},
                 {"key": "requestCount", "python": 3, "js": 1},
                 {"key": "requests[0].model", "python": "deepseek-v4-flash", "js": "deepseek-v4-pro"},
-                {"key": "requests[0].max_tokens", "python": 1600, "js": 2000},
+                {"key": "requests[0].max_tokens", "python": 4000, "js": 2000},
             ],
         )
 
@@ -10363,7 +10363,7 @@ class CorpusContractTests(unittest.TestCase):
                                 "reasoning_effort": "max",
                                 "response_format": {"type": "text"},
                                 "stream": True,
-                                "max_tokens": 2000,
+                                "max_tokens": 8192,
                             }
                         ],
                     }
@@ -10464,9 +10464,9 @@ class CorpusContractTests(unittest.TestCase):
         self.assertFalse(result["ok"])
         self.assertEqual(
             result["mismatches"],
-            [{"key": "merge.requestTemplate.max_tokens", "python": 2600, "js": 999}],
+            [{"key": "merge.requestTemplate.max_tokens", "python": 12000, "js": 999}],
         )
-        self.assertEqual(result["python"]["merge"]["requestTemplate"]["max_tokens"], 2600)
+        self.assertEqual(result["python"]["merge"]["requestTemplate"]["max_tokens"], 12000)
         self.assertEqual(result["js"]["merge"]["requestTemplate"]["max_tokens"], 999)
 
     def test_deepseek_analysis_plan_comparator_uses_backend_summary_contract_keys(self):

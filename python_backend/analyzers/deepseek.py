@@ -256,7 +256,11 @@ class DeepSeekAnalyzerClient:
         return self._chat_body(
             request,
             self._standalone_messages(request, compact=compact),
-            max_tokens=6000 if compact else 2000,
+            # Match JS requestDeepSeekAnalysis — DeepSeek V4 reasoning models
+            # consume tokens for reasoning_content, leaving less budget for actual
+            # content. Cap at API limit (8192) and let the compact retry handle
+            # truncation cases.
+            max_tokens=8192,
         )
 
     def build_request_plan(self, request: AnalyzerRequest, *, compact: bool = False) -> list[dict[str, object]]:
@@ -266,7 +270,7 @@ class DeepSeekAnalyzerClient:
             self._chat_body(
                 request,
                 self._multiagent_messages(request, agent=agent, compact=compact),
-                max_tokens=1600,
+                max_tokens=4000,
             )
             for agent in self.MULTIAGENTS
         ]
@@ -275,7 +279,7 @@ class DeepSeekAnalyzerClient:
         return self._chat_body(
             request,
             self._merge_messages(request, agent_results, compact=compact),
-            max_tokens=6000 if compact else 2600,
+            max_tokens=8000 if compact else 12000,
         )
 
     def _chat_body(self, request: AnalyzerRequest, messages: list[dict[str, str]], *, max_tokens: int) -> dict[str, object]:
