@@ -1,0 +1,104 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  js-tests:
+    name: JS Tests + Coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run JS tests
+        run: npm test
+
+      - name: Run dictionary coverage audit
+        run: npm run dictionary:coverage
+
+      - name: Verify coverage ratio
+        run: |
+          COVERAGE=$(node -e "const a=require('./server/data/keywordCoverageAudit.json'); console.log((a.coverage?.coverageRatio||0).toFixed(4))")
+          echo "Coverage ratio: $COVERAGE"
+          if [ "$(echo "$COVERAGE < 1.0" | bc)" = "1" ]; then
+            echo "::warning::Coverage ratio is below 100%: $COVERAGE"
+          else
+            echo "::notice::Coverage ratio: 100%"
+          fi
+
+  python-tests:
+    name: Python Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Python tests
+        run: npm run python:test
+
+  js-python-parity:
+    name: JS/Python Contract Parity
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Compare JS and Python corpus contracts
+        run: npm run python:compare
+
+      - name: Verify random corpus sample
+        run: npm run python:verify-random -- --sample-size=25 --seed=20260623
