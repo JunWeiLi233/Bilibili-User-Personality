@@ -14,7 +14,7 @@
   <rect class="bg" width="920" height="430" rx="24"/>
   <rect class="panel" x="18" y="18" width="884" height="394" rx="20"/>
   <text x="40" y="62" class="title">Corpus Collection + Keyword Analysis</text>
-  <text x="40" y="88" class="sub">auto-generated from repo data on 2026-06-25</text>
+  <text x="40" y="88" class="sub">auto-generated from repo data on 2026-06-26</text>
   <g>
     <rect x="40" y="112" width="250" height="82" rx="16" fill="#eadfca" stroke="#27231c"/>
     <text x="62" y="146" class="small">comments / replies</text>
@@ -24,7 +24,7 @@
     <text x="340" y="177" class="metric">153,875</text>
     <rect x="596" y="112" width="250" height="82" rx="16" fill="#e5d7bc" stroke="#27231c"/>
     <text x="618" y="146" class="small">keyword terms analyzed</text>
-    <text x="618" y="177" class="metric">1,568</text>
+    <text x="618" y="177" class="metric">1,576</text>
   </g>
   <g>
     
@@ -40,8 +40,8 @@
     
     <text x="40" y="338" class="label">Keywords</text>
     <rect x="220" y="320" width="440" height="24" rx="12" fill="#e8e1d2"/>
-    <rect x="220" y="320" width="4" height="24" rx="12" fill="#b98522"/>
-    <text x="680" y="338" class="value">1,568</text>
+    <rect x="220" y="320" width="5" height="24" rx="12" fill="#b98522"/>
+    <text x="680" y="338" class="value">1,576</text>
   </g>
   <text x="40" y="382" class="small">Coverage: 100.00% | Weak terms: 0 | Evidence deficit: 0</text>
 </svg>
