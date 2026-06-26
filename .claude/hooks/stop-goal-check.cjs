@@ -1,6 +1,16 @@
 #!/usr/bin/env node
-// Stop hook: deterministic coverage + scrape-goal checker.
-// Outputs minimal JSON to avoid Claude Code schema validation issues.
+/**
+ * Stop hook: checks keyword coverage audit + all active task progress files.
+ * Blocks exit until coverage is complete AND all active tasks are done.
+ *
+ * Scans .claude/tasks/*.json for active tasks, reads each task's progress
+ * file, determines if the task is complete. A task is "complete" when:
+ *   - bilibili-seed-scrape: all rounds marked done + harvest done (or no harvest)
+ *   - bilibili-keyword-search: keyword_search_done flag set
+ *   - bilibili-danmaku-deep: danmaku_deep_done flag set
+ *   - tieba-keyword-scrape: progress shows all items done
+ *   - Custom: any progress with "done": true at top level
+ */
 
 const fs = require('node:fs');
 const path = require('node:path');
@@ -11,17 +21,97 @@ function emit(result) {
   process.exit(out.decision === 'block' ? 2 : 0);
 }
 
+function loadJson(fp) {
+  try { return JSON.parse(fs.readFileSync(fp, 'utf8')); }
+  catch { return null; }
+}
+
+function isTaskComplete(cfg, cwd) {
+  const progressFile = cfg.progressFile;
+  if (!progressFile) return true; // no progress tracking = assume complete
+
+  const pp = path.join(cwd, progressFile);
+  const progress = loadJson(pp);
+  if (!progress) return false; // no progress file = not started
+
+  // Generic "done" flag
+  if (progress.done === true) return true;
+
+  // bilibili-seed-scrape: all rounds done + harvest done
+  if (cfg.type === 'bilibili-seed-scrape') {
+    const rounds = cfg.rounds || [];
+    const scrapeRounds = rounds.filter(r => r.type !== 'harvest');
+    const harvestRound = rounds.find(r => r.type === 'harvest');
+
+    const allScrapeDone = scrapeRounds.every(r => progress[`round_${r.id}_done`] === true);
+    const harvestDone = !harvestRound || progress.harvest_done === true;
+    return allScrapeDone && harvestDone;
+  }
+
+  // bilibili-keyword-search: keyword_search_done flag
+  if (cfg.type === 'bilibili-keyword-search') {
+    return progress.keyword_search_done === true;
+  }
+
+  // bilibili-danmaku-deep: danmaku_deep_done flag
+  if (cfg.type === 'bilibili-danmaku-deep') {
+    return progress.danmaku_deep_done === true;
+  }
+
+  // tieba-keyword-scrape: items-based
+  if (cfg.type === 'tieba-keyword-scrape') {
+    const total = cfg.totalItems || 0;
+    const done = (progress.completed || []).length + (progress.blocked || []).length;
+    return total > 0 && done >= total;
+  }
+
+  // Fallback: check if completed + blocked >= totalItems
+  const total = cfg.totalItems || 0;
+  if (total > 0) {
+    const done = (progress.completed || []).length + (progress.blocked || []).length;
+    return done >= total;
+  }
+
+  return false; // can't determine = assume incomplete
+}
+
+function taskStatusLine(cfg, cwd) {
+  const pp = path.join(cwd, cfg.progressFile || '');
+  const progress = loadJson(pp);
+  const complete = isTaskComplete(cfg, cwd);
+
+  let detail = '';
+  if (!progress) {
+    detail = 'NOT STARTED';
+  } else if (complete) {
+    detail = 'DONE';
+  } else {
+    const done = (progress.completed || []).length;
+    const blocked = (progress.blocked || []).length;
+    const total = cfg.totalItems || '?';
+    // Round status indicators (seed-scrape tasks only)
+    const roundInfo = [];
+    for (const r of cfg.rounds || []) {
+      if (r.type === 'harvest') continue;
+      if (progress[`round_${r.id}_done`]) roundInfo.push(`R${r.id}✓`);
+      else roundInfo.push(`R${r.id}…`);
+    }
+    detail = roundInfo.length > 0 ? roundInfo.join(' ') : `${done}/${total}`;
+  }
+
+  return `${complete ? '✅' : '🔄'} ${cfg.name}: ${detail}`;
+}
+
 function main() {
   const cwd = process.env.CLAUDE_CODE_PROJECT_DIR || process.cwd();
 
-  // Read hook input from stdin
+  // Read hook input
   let event = {};
   try {
     const buf = fs.readFileSync(0, 'utf8');
     if (buf && buf.trim()) event = JSON.parse(buf);
-  } catch { /* empty stdin is ok */ }
+  } catch { /* empty stdin */ }
 
-  // Only handle Stop events with an active /goal
   const isStop = event.hook_event_name === 'Stop' || event.event === 'stop';
   const hasGoal = !!(event.stop_hook_active || event.stopHookActive);
 
@@ -30,106 +120,62 @@ function main() {
     return;
   }
 
+  const issues = [];
+
   // --- Check 1: Keyword coverage audit ---
   const auditPath = path.join(cwd, 'server', 'data', 'keywordCoverageAudit.json');
   let coverageOk = false;
-  try {
-    const audit = JSON.parse(fs.readFileSync(auditPath, 'utf8'));
+  const audit = loadJson(auditPath);
+  if (audit?.coverage) {
     const cov = audit.coverage;
-    if (cov) {
-      const targetEvidence = audit.targetEvidence || 3;
-      const ratio = cov.coverageRatio || 0;
-      const weak = cov.weakTerms || 0;
-      const zero = cov.zeroEvidenceTerms || 0;
-      const complete = cov.complete === true;
-      if (complete && ratio >= 1.0 && weak === 0 && zero === 0) {
-        coverageOk = true;
-      }
-    }
-  } catch { /* audit unreadable — will check scrape progress instead */ }
-
-  // --- Check 2: Deep scrape round completion ---
-  const planFile = path.join(cwd, '.claude', 'multi_round_deep_scrape_plan.md');
-  const planExists = fs.existsSync(planFile);
-
-  if (!planExists) {
-    // No scrape plan active — rely on coverage alone
-    if (coverageOk) {
-      emit({ decision: 'approve', reason: 'coverage complete, no scrape plan active' });
+    const ratio = cov.coverageRatio || 0;
+    const weak = cov.weakTerms || 0;
+    const zero = cov.zeroEvidenceTerms || 0;
+    const complete = cov.complete === true;
+    if (complete && ratio >= 1.0 && weak === 0 && zero === 0) {
+      coverageOk = true;
     } else {
-      emit({ decision: 'block', reason: 'coverage incomplete, no scrape plan active' });
+      issues.push(`coverage: ratio=${(ratio*100).toFixed(0)}% weak=${weak} zero=${zero}`);
     }
-    return;
+  } else {
+    issues.push('coverage: audit unreadable');
   }
 
-  // Check progress of the 4 scrape rounds
-  const progressDirs = [
-    { round: 1, file: '.claude/scrape_progress_deep.json', label: 'R1: deepen top-5 (pages=5)' },
-    { round: 2, file: '.claude/scrape_progress_batch2.json', label: 'R2: videos 6-10 (pages=3)' },
-    { round: 3, file: '.claude/scrape_progress_batch3.json', label: 'R3: videos 11-15 (pages=2)' },
-  ];
-
-  const TARGET_SEEDS = 196;
-  const roundStatus = [];
-
-  for (const rd of progressDirs) {
-    const fp = path.join(cwd, rd.file);
-    if (!fs.existsSync(fp)) {
-      roundStatus.push(`${rd.label}: NOT STARTED`);
-      continue;
-    }
-    try {
-      const p = JSON.parse(fs.readFileSync(fp, 'utf8'));
-      const completed = (p.completed || []).length;
-      const blocked = (p.blocked || []).length;
-      const pct = Math.round((completed / TARGET_SEEDS) * 100);
-      if (completed + blocked >= TARGET_SEEDS) {
-        roundStatus.push(`${rd.label}: DONE (${completed} seeds, ${blocked} blocked)`);
-      } else {
-        roundStatus.push(`${rd.label}: ${pct}% (${completed}/${TARGET_SEEDS})`);
-      }
-    } catch {
-      roundStatus.push(`${rd.label}: CORRUPT`);
-    }
-  }
-
-  // Check R4 — evidence harvest
-  const harvestReportPath = path.join(cwd, 'server', 'data', 'seedCorpusHarvestReport.json');
-  let r4Done = false;
+  // --- Check 2: Active task configs ---
+  const tasksDir = path.join(cwd, '.claude', 'tasks');
+  let activeTasks = [];
   try {
-    const hr = JSON.parse(fs.readFileSync(harvestReportPath, 'utf8'));
-    // If the report was updated after the plan file, consider R4 done
-    const planStat = fs.statSync(planFile);
-    const hrStat = fs.statSync(harvestReportPath);
-    if (hrStat.mtimeMs > planStat.mtimeMs) {
-      r4Done = true;
-      roundStatus.push('R4: harvest DONE');
-    } else {
-      roundStatus.push('R4: harvest STALE (needs re-run)');
+    for (const fn of fs.readdirSync(tasksDir)) {
+      if (!fn.endsWith('.json')) continue;
+      const cfg = loadJson(path.join(tasksDir, fn));
+      if (cfg && cfg.type && cfg.active !== false) activeTasks.push(cfg);
     }
-  } catch {
-    roundStatus.push('R4: harvest NOT RUN');
-  }
+  } catch { /* no tasks dir */ }
 
-  const allRoundsDone = roundStatus.every(s => s.includes('DONE') || s.includes('NOT STARTED') === false);
+  const taskLines = [];
+  let allTasksDone = true;
+  for (const cfg of activeTasks) {
+    const done = isTaskComplete(cfg, cwd);
+    taskLines.push(taskStatusLine(cfg, cwd));
+    if (!done) {
+      allTasksDone = false;
+      issues.push(`${cfg.name}: incomplete`);
+    }
+  }
 
   // --- Decision ---
-  if (coverageOk && allRoundsDone) {
-    emit({
-      decision: 'approve',
-      reason: `All goals met: coverage complete + 4-round scrape done. ${roundStatus.join(' | ')}`,
-    });
+  if (coverageOk && allTasksDone) {
+    const parts = [`${audit?.coverage?.terms || '?'} terms, ${(audit?.coverage?.coverageRatio*100).toFixed(0)}% coverage`];
+    if (taskLines.length > 0) parts.push(`${taskLines.length} tasks done`);
+    emit({ decision: 'approve', reason: parts.join(' | ') });
     return;
   }
 
-  const reasons = [];
-  if (!coverageOk) reasons.push('coverage incomplete');
-  if (!allRoundsDone) reasons.push('scrape rounds pending');
+  const reasonParts = [];
+  if (issues.length > 0) reasonParts.push(issues.join('; '));
+  if (taskLines.length > 0) reasonParts.push(taskLines.join(' | '));
 
-  emit({
-    decision: 'block',
-    reason: reasons.join('; ') + '. ' + roundStatus.join(' | '),
-  });
+  emit({ decision: 'block', reason: reasonParts.join(' | ') });
 }
 
 main();

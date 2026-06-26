@@ -790,10 +790,112 @@ curl -X POST http://127.0.0.1:8787/api/bilibili/video-keywords \
 
 ```powershell
 node server/mergeAgentDictionaries.js .claude/worktrees/resolver-1 .claude/worktrees/resolver-2 .claude/worktrees/resolver-3
+npm run dictionary:coverage
 ```
 
-然后运行覆盖审计测量改进：
+---
+
+## Multi-Round Corpus Mining / 多轮语料挖掘
+
+Task-agnostic mining system for running long-duration (multi-hour to multi-day) corpus expansion jobs that survive session restarts. Each mining vector is a JSON task config; one generic runner handles all types; the Stop hook checks all active tasks.
+
+任务无关的挖掘系统，用于运行长时间（数小时到数天）的语料扩展任务，支持会话重启后恢复。每个挖掘向量是一个 JSON 任务配置；一个通用运行器处理所有类型；Stop 钩子检查所有活跃任务。
+
+### Architecture / 架构
+
+```
+.claude/tasks/<name>.json          ← Task config (type, rounds, batch size, output dirs)
+.claude/resume_task.js             ← Generic runner (dispatches by task type)
+.claude/hooks/stop-goal-check.cjs  ← Stop hook (scans all active task progress)
+```
+
+### Available Task Configs / 可用任务配置
+
+| Task | Type | Items | Description |
+|---|---|---|---|
+| `deep-scrape` | bilibili-seed-scrape | 196 seeds | 4-round deep scrape of history seeds (pages 5/3/2 + harvest) / 历史种子四轮深度抓取 |
+| `new-domains` | bilibili-seed-scrape | 60 seeds | Expand into gaming, tech, social domains / 扩展到游戏、科技、社会领域 |
+| `keyword-search` | bilibili-keyword-search | 1,576 terms | Search Bilibili by each dictionary term / 按词典术语搜索B站 |
+| `danmaku-deep` | bilibili-danmaku-deep | 500 videos | Fetch ALL danmaku (up to 5000/video) from top corpus videos / 抓取顶部视频全部弹幕 |
+| `tieba-scrape` | tieba-keyword-scrape | 1,576 terms | Cross-platform Tieba forum scrape / 跨平台贴吧抓取 |
+
+### Activation / 激活
+
+Only one task should be active at a time. Edit the task config:
+
+一次只应激活一个任务。编辑任务配置：
+
+```json
+{
+  "name": "new-domains",
+  "active": true,
+  "..."
+}
+```
+
+Deactivate the current task first:
+
+先停用当前任务：
 
 ```powershell
-npm run dictionary:coverage
+# Edit .claude/tasks/deep_scrape.json → "active": false
+# Edit .claude/tasks/new-domains.json → "active": true
+```
+
+### Running / 运行
+
+Single-line goal prompt / 单行目标提示：
+
+```
+/goal Run node .claude/resume_task.js each turn — auto-detect active task, scrape batch, checkpoint per item, continue until done. Rate limits: 900ms delay, 700ms jitter, 45s cooldown on block.
+```
+
+CLI flags / 命令行参数:
+
+| Flag | Effect / 效果 |
+|---|---|
+| `node .claude/resume_task.js` | Auto-pick first active task / 自动选择第一个活跃任务 |
+| `node .claude/resume_task.js new-domains` | Run specific task / 运行指定任务 |
+| `--batch=10` | Override items per turn (default from config) / 覆盖每轮条目数 |
+| `--round=2` | Force a specific round (seed-scrape only) / 强制指定轮次 |
+
+### Resumption / 断点续传
+
+Every item is checkpointed immediately after scraping. Interruption (rate-limit, session end, manual stop) loses zero progress. Next turn, the runner reads the progress file and skips completed items.
+
+每个条目抓取后立即保存进度。中断（限速、会话结束、手动停止）不会丢失进度。下一轮运行器读取进度文件并跳过已完成条目。
+
+### Stop Hook Behavior / Stop 钩子行为
+
+The Stop hook (`stop-goal-check.cjs`) blocks session exit until:
+
+1. **Coverage audit** shows 100% ratio with 0 weak/zero terms, AND
+2. **All active tasks** have their round/harvest flags marked done in their progress files
+
+Inactive tasks (`"active": false`) are ignored. To release the hook, either complete the active task or set `"active": false`.
+
+Stop 钩子在以下条件满足前阻止会话退出：
+
+1. **覆盖审计**显示 100% 覆盖率且无弱/零证据术语，且
+2. **所有活跃任务**在其进度文件中标记为完成
+
+非活跃任务（`"active": false`）被忽略。要释放钩子，请完成活跃任务或将 `"active": false`。
+
+### Task Lifecycle Example / 任务生命周期示例
+
+```powershell
+# 1. Activate a task
+#    Edit .claude/tasks/new-domains.json → "active": true
+#    Edit .claude/tasks/deep_scrape.json → "active": false
+
+# 2. Run via goal prompt
+#    /goal Run node .claude/resume_task.js each turn...
+
+# 3. Runner auto-detects round, scrapes batch, checkpoints
+
+# 4. When all rounds done → harvest evidence → coverage improves
+
+# 5. Stop hook sees: coverage OK + active task done → approves exit
+
+# 6. Deactivate, activate next task, repeat
 ```

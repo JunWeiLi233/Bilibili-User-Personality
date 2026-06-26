@@ -1,0 +1,22 @@
+{
+  "name": "tieba-scrape",
+  "description": "Cross-platform Tieba forum scrape — search dictionary terms on Baidu Tieba, harvest forum threads and replies for evidence",
+  "type": "tieba-keyword-scrape",
+  "active": false,
+  "progressFile": ".claude/tasks/tieba_scrape_progress.json",
+  "totalItems": 0,
+  "batchSize": 8,
+  "config": {
+    "querySource": "dictionary-terms",
+    "maxQueries": 8,
+    "forumPages": 2,
+    "threadLimit": 5,
+    "threadPages": 2,
+    "minDelayMs": 5000,
+    "jitterMs": 3000,
+    "blockCooldownMs": 120000,
+    "outputDir": ".claude/tieba_results",
+    "harvestAfter": true
+  },
+  "note": "totalItems is auto-set at runtime from dictionary term count. Set TIEBA_TRAIN_DICTIONARY=1 to auto-merge evidence."
+}
