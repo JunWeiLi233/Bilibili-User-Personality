@@ -1,0 +1,57 @@
+{
+  "name": "new-domains",
+  "description": "Expand seed corpus beyond history into gaming, tech, and social domains — scrape new seeds, then run 3-round deep scrape on the new videos",
+  "type": "bilibili-seed-scrape",
+  "active": false,
+  "progressFile": ".claude/tasks/new_domains_progress.json",
+  "totalItems": 60,
+  "batchSize": 10,
+  "seeds": {
+    "gaming": ["原神", "王者荣耀", "崩坏星穹铁道", "明日方舟", "电竞", "游戏评测", "氪金", "策划", "LOL", "DOTA2", "CSGO", "艾尔登法环", "黑神话悟空", "手游", "二次元游戏", "米哈游", "游戏攻略", "抽卡", "Steam", "独立游戏"],
+    "tech": ["AI", "大模型", "芯片", "华为", "小米", "iPhone", "自动驾驶", "程序员", "人工智能", "GPU", "Linux", "开源", "前端", "后端", "面试", "互联网", "996", "裁员", "创业", "产品经理"],
+    "social": ["房价", "教育", "考研", "考公", "就业", "结婚", "彩礼", "生育", "医疗", "股市", "基金", "比特币", "直播", "短视频", "外卖", "网约车", "学历", "内卷", "躺平", "润"]
+  },
+  "rounds": [
+    {
+      "id": 1,
+      "label": "R1: scrape top-20 per new seed (pages=1, metadata only)",
+      "outputDir": ".claude/seed_results_newdomain",
+      "videoSource": { "type": "search-api", "pages": 1, "pageSize": 20 },
+      "videoCount": 20,
+      "pages": 1,
+      "danmakuCap": 0,
+      "metadataOnly": true
+    },
+    {
+      "id": 2,
+      "label": "R2: deep scrape top-5 (pages=5, danmaku=1000)",
+      "outputDir": ".claude/seed_results_newdomain_deep",
+      "videoSource": { "type": "prior-round", "roundId": 1, "topN": 5 },
+      "videoCount": 5,
+      "pages": 5,
+      "danmakuCap": 1000,
+      "deepenMatch": true,
+      "deepenRootLimit": 10,
+      "deepenPages": 3
+    },
+    {
+      "id": 3,
+      "label": "R3: scrape videos 6-15 (pages=3, danmaku=500)",
+      "outputDir": ".claude/seed_results_newdomain_batch2",
+      "videoSource": { "type": "prior-round", "roundId": 1, "topN": 15, "skipN": 5 },
+      "videoCount": 10,
+      "pages": 3,
+      "danmakuCap": 500
+    },
+    {
+      "id": 4,
+      "label": "R4: harvest new-domain evidence",
+      "type": "harvest",
+      "sourceDirs": [
+        ".claude/seed_results_newdomain",
+        ".claude/seed_results_newdomain_deep",
+        ".claude/seed_results_newdomain_batch2"
+      ]
+    }
+  ]
+}
