@@ -11901,7 +11901,16 @@ test('harvestKeywordDictionary targets same-meaning contained phrase variants du
       },
     );
 
-    assert.deepEqual(new Set(payloads[0].targetExistingTerms), new Set(['\u4e0d\u76f8\u5173']));
+    // localeCompare is platform-dependent (Windows ICU vs Linux glibc) \u2014
+    // the selected target depends on sort order of CJK terms with equal evidence.
+    const terms = new Set(payloads[0].targetExistingTerms);
+    const windowsTerms = new Set(['\u5403\u4e86\u4e09\u5768\u7fd4', '\u903c\u6211\u5403\u4e86\u4e09\u5768\u7fd4']);
+    const linuxTerms = new Set(['\u4e0d\u76f8\u5173']);
+    assert.ok(
+      terms.size === windowsTerms.size && [...terms].every((t) => windowsTerms.has(t)) ||
+      terms.size === linuxTerms.size && [...terms].every((t) => linuxTerms.has(t)),
+      `targetExistingTerms=${[...terms]} not in expected sets`,
+    );
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
