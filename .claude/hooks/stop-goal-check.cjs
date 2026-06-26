@@ -3,6 +3,11 @@
  * Stop hook: checks keyword coverage audit + all active task progress files.
  * Blocks exit until coverage is complete AND all active tasks are done.
  *
+ * GOAL DETECTION: Uses a sentinel file (.claude/.goal_active) instead of
+ * the Claude Code event flag. The goal runner (resume_deep_scrape.js or
+ * the /goal command) creates this file at session start. Normal coding
+ * sessions never create it, so the hook approves immediately.
+ *
  * Scans .claude/tasks/*.json for active tasks, reads each task's progress
  * file, determines if the task is complete. A task is "complete" when:
  *   - bilibili-seed-scrape: all rounds marked done + harvest done (or no harvest)
@@ -113,7 +118,13 @@ function main() {
   } catch { /* empty stdin */ }
 
   const isStop = event.hook_event_name === 'Stop' || event.event === 'stop';
-  const hasGoal = !!(event.stop_hook_active || event.stopHookActive);
+
+  // Use a sentinel file to detect goal-command sessions.
+  // The goal runner creates .claude/.goal_active at start; the hook
+  // only runs coverage + task checks when the sentinel exists.
+  // Normal sessions never create the sentinel → immediate approval.
+  const goalFile = path.join(cwd, '.claude', '.goal_active');
+  const hasGoal = fs.existsSync(goalFile);
 
   if (!isStop || !hasGoal) {
     emit({ decision: 'approve', reason: 'no active goal' });

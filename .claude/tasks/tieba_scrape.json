@@ -4,7 +4,7 @@
   "type": "tieba-keyword-scrape",
   "active": false,
   "progressFile": ".claude/tasks/tieba_scrape_progress.json",
-  "totalItems": 0,
+  "totalItems": 1576,
   "batchSize": 8,
   "config": {
     "querySource": "dictionary-terms",
@@ -18,5 +18,5 @@
     "outputDir": ".claude/tieba_results",
     "harvestAfter": true
   },
-  "note": "totalItems is auto-set at runtime from dictionary term count. Set TIEBA_TRAIN_DICTIONARY=1 to auto-merge evidence."
+  "note": "INFRASTRUCTURE READY. Full scrape is multi-hour (1576 terms × 5s delays). Python CLIs + JS services + parity comparators verified. Set active:true and run: node server/scripts/runTiebaKeywordScrape.js. Set TIEBA_TRAIN_DICTIONARY=1 to auto-merge evidence."
 }

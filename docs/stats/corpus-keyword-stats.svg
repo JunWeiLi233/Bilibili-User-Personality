@@ -18,20 +18,20 @@
   <g>
     <rect x="40" y="112" width="250" height="82" rx="16" fill="#eadfca" stroke="#27231c"/>
     <text x="62" y="146" class="small">comments / replies</text>
-    <text x="62" y="177" class="metric">25,737</text>
+    <text x="62" y="177" class="metric">25,753</text>
     <rect x="318" y="112" width="250" height="82" rx="16" fill="#dbe8df" stroke="#27231c"/>
     <text x="340" y="146" class="small">danmaku</text>
     <text x="340" y="177" class="metric">153,875</text>
     <rect x="596" y="112" width="250" height="82" rx="16" fill="#e5d7bc" stroke="#27231c"/>
     <text x="618" y="146" class="small">keyword terms analyzed</text>
-    <text x="618" y="177" class="metric">1,576</text>
+    <text x="618" y="177" class="metric">1,636</text>
   </g>
   <g>
     
     <text x="40" y="246" class="label">Comments</text>
     <rect x="220" y="228" width="440" height="24" rx="12" fill="#e8e1d2"/>
     <rect x="220" y="228" width="74" height="24" rx="12" fill="#8c5f32"/>
-    <text x="680" y="246" class="value">25,737</text>
+    <text x="680" y="246" class="value">25,753</text>
     
     <text x="40" y="292" class="label">Danmaku</text>
     <rect x="220" y="274" width="440" height="24" rx="12" fill="#e8e1d2"/>
@@ -41,7 +41,7 @@
     <text x="40" y="338" class="label">Keywords</text>
     <rect x="220" y="320" width="440" height="24" rx="12" fill="#e8e1d2"/>
     <rect x="220" y="320" width="5" height="24" rx="12" fill="#b98522"/>
-    <text x="680" y="338" class="value">1,576</text>
+    <text x="680" y="338" class="value">1,636</text>
   </g>
-  <text x="40" y="382" class="small">Coverage: 100.00% | Weak terms: 0 | Evidence deficit: 0</text>
+  <text x="40" y="382" class="small">Coverage: 96.33% | Weak terms: 60 | Evidence deficit: 180</text>
 </svg>
