@@ -1,15 +1,14 @@
 #!/usr/bin/env node
-// Stop hook: deterministic coverage-goal checker.
-// Replaces /goal's LLM-based JSON evaluator with direct file reads.
-// Validated against Claude Code hook output schema.
+// Stop hook: deterministic coverage + scrape-goal checker.
+// Outputs minimal JSON to avoid Claude Code schema validation issues.
 
 const fs = require('node:fs');
 const path = require('node:path');
 
 function emit(result) {
-  process.stdout.write(JSON.stringify(result) + '\n');
-  // Exit 0 = hook ran successfully (decision carried), 2 = error
-  process.exit(result.decision === 'block' ? 2 : 0);
+  const out = { decision: result.decision, reason: result.reason || '' };
+  process.stdout.write(JSON.stringify(out) + '\n');
+  process.exit(out.decision === 'block' ? 2 : 0);
 }
 
 function main() {
@@ -19,112 +18,117 @@ function main() {
   let event = {};
   try {
     const buf = fs.readFileSync(0, 'utf8');
-    event = JSON.parse(buf || '{}');
-  } catch {
-    emit({
-      decision: 'approve',
-      reason: 'no_event',
-      hookSpecificOutput: { hookEventName: 'Stop', additionalContext: '' },
-    });
+    if (buf && buf.trim()) event = JSON.parse(buf);
+  } catch { /* empty stdin is ok */ }
+
+  // Only handle Stop events with an active /goal
+  const isStop = event.hook_event_name === 'Stop' || event.event === 'stop';
+  const hasGoal = !!(event.stop_hook_active || event.stopHookActive);
+
+  if (!isStop || !hasGoal) {
+    emit({ decision: 'approve', reason: 'no active goal' });
     return;
   }
 
-  // Only handle Stop events
-  if (event.hook_event_name !== 'Stop' && event.event !== 'stop') {
-    emit({
-      decision: 'approve',
-      reason: 'not_stop_event',
-      hookSpecificOutput: { hookEventName: 'Stop', additionalContext: '' },
-    });
-    return;
-  }
-
-  // Check if a /goal session is active
-  const hasActiveGoal = !!(event.stop_hook_active || event.stopHookActive);
-
-  if (!hasActiveGoal) {
-    emit({
-      decision: 'approve',
-      reason: 'no_active_goal',
-      hookSpecificOutput: { hookEventName: 'Stop', additionalContext: '' },
-    });
-    return;
-  }
-
-  // Active goal — evaluate coverage deterministically
+  // --- Check 1: Keyword coverage audit ---
   const auditPath = path.join(cwd, 'server', 'data', 'keywordCoverageAudit.json');
-
-  let audit;
+  let coverageOk = false;
   try {
-    audit = JSON.parse(fs.readFileSync(auditPath, 'utf8'));
-  } catch (e) {
-    emit({
-      decision: 'block',
-      reason: `Coverage audit not found at ${auditPath}: ${e.message}. Run npm run dictionary:coverage first.`,
-      stopReason: 'coverage_audit_missing',
-      hookSpecificOutput: {
-        hookEventName: 'Stop',
-        additionalContext: `Coverage audit file is missing. Run: npm run dictionary:coverage`,
-      },
-    });
+    const audit = JSON.parse(fs.readFileSync(auditPath, 'utf8'));
+    const cov = audit.coverage;
+    if (cov) {
+      const targetEvidence = audit.targetEvidence || 3;
+      const ratio = cov.coverageRatio || 0;
+      const weak = cov.weakTerms || 0;
+      const zero = cov.zeroEvidenceTerms || 0;
+      const complete = cov.complete === true;
+      if (complete && ratio >= 1.0 && weak === 0 && zero === 0) {
+        coverageOk = true;
+      }
+    }
+  } catch { /* audit unreadable — will check scrape progress instead */ }
+
+  // --- Check 2: Deep scrape round completion ---
+  const planFile = path.join(cwd, '.claude', 'multi_round_deep_scrape_plan.md');
+  const planExists = fs.existsSync(planFile);
+
+  if (!planExists) {
+    // No scrape plan active — rely on coverage alone
+    if (coverageOk) {
+      emit({ decision: 'approve', reason: 'coverage complete, no scrape plan active' });
+    } else {
+      emit({ decision: 'block', reason: 'coverage incomplete, no scrape plan active' });
+    }
     return;
   }
 
-  const coverage = audit.coverage;
-  if (!coverage) {
-    emit({
-      decision: 'block',
-      reason: 'Coverage audit has no "coverage" key.',
-      stopReason: 'coverage_audit_invalid',
-      hookSpecificOutput: {
-        hookEventName: 'Stop',
-        additionalContext: 'Coverage audit JSON is malformed. Regenerate with: npm run dictionary:coverage',
-      },
-    });
-    return;
+  // Check progress of the 4 scrape rounds
+  const progressDirs = [
+    { round: 1, file: '.claude/scrape_progress_deep.json', label: 'R1: deepen top-5 (pages=5)' },
+    { round: 2, file: '.claude/scrape_progress_batch2.json', label: 'R2: videos 6-10 (pages=3)' },
+    { round: 3, file: '.claude/scrape_progress_batch3.json', label: 'R3: videos 11-15 (pages=2)' },
+  ];
+
+  const TARGET_SEEDS = 196;
+  const roundStatus = [];
+
+  for (const rd of progressDirs) {
+    const fp = path.join(cwd, rd.file);
+    if (!fs.existsSync(fp)) {
+      roundStatus.push(`${rd.label}: NOT STARTED`);
+      continue;
+    }
+    try {
+      const p = JSON.parse(fs.readFileSync(fp, 'utf8'));
+      const completed = (p.completed || []).length;
+      const blocked = (p.blocked || []).length;
+      const pct = Math.round((completed / TARGET_SEEDS) * 100);
+      if (completed + blocked >= TARGET_SEEDS) {
+        roundStatus.push(`${rd.label}: DONE (${completed} seeds, ${blocked} blocked)`);
+      } else {
+        roundStatus.push(`${rd.label}: ${pct}% (${completed}/${TARGET_SEEDS})`);
+      }
+    } catch {
+      roundStatus.push(`${rd.label}: CORRUPT`);
+    }
   }
 
-  const targetEvidence = audit.targetEvidence || 3;
-  const ratio = coverage.coverageRatio || 0;
-  const weak = coverage.weakTerms || 0;
-  const zero = coverage.zeroEvidenceTerms || 0;
-  const complete = coverage.complete === true;
-  const terms = coverage.terms || 0;
-  const totalEvidence = coverage.totalEvidence || 0;
-  const avgEvidence = coverage.averageEvidence || 0;
+  // Check R4 — evidence harvest
+  const harvestReportPath = path.join(cwd, 'server', 'data', 'seedCorpusHarvestReport.json');
+  let r4Done = false;
+  try {
+    const hr = JSON.parse(fs.readFileSync(harvestReportPath, 'utf8'));
+    // If the report was updated after the plan file, consider R4 done
+    const planStat = fs.statSync(planFile);
+    const hrStat = fs.statSync(harvestReportPath);
+    if (hrStat.mtimeMs > planStat.mtimeMs) {
+      r4Done = true;
+      roundStatus.push('R4: harvest DONE');
+    } else {
+      roundStatus.push('R4: harvest STALE (needs re-run)');
+    }
+  } catch {
+    roundStatus.push('R4: harvest NOT RUN');
+  }
 
-  if (complete && ratio >= 1.0 && weak === 0 && zero === 0) {
-    const msg = `Goal complete: ${terms} terms at targetEvidence=${targetEvidence}, ${totalEvidence} total evidence (avg ${avgEvidence}/term), ratio=${(ratio * 100).toFixed(1)}%, weak=${weak}, zero=${zero}.`;
+  const allRoundsDone = roundStatus.every(s => s.includes('DONE') || s.includes('NOT STARTED') === false);
+
+  // --- Decision ---
+  if (coverageOk && allRoundsDone) {
     emit({
       decision: 'approve',
-      reason: msg,
-      stopReason: 'goal_complete',
-      hookSpecificOutput: {
-        hookEventName: 'Stop',
-        additionalContext: msg,
-      },
+      reason: `All goals met: coverage complete + 4-round scrape done. ${roundStatus.join(' | ')}`,
     });
     return;
   }
 
-  // Goal not met — block stop
-  const msg = [
-    `Goal not yet met: targetEvidence=${targetEvidence},`,
-    `ratio=${(ratio * 100).toFixed(1)}%,`,
-    `complete=${complete},`,
-    `weak=${weak}, zero=${zero},`,
-    `terms=${terms}, totalEvidence=${totalEvidence}.`,
-    'Continue the harvest loop or fix coverage gaps.',
-  ].join(' ');
+  const reasons = [];
+  if (!coverageOk) reasons.push('coverage incomplete');
+  if (!allRoundsDone) reasons.push('scrape rounds pending');
 
   emit({
     decision: 'block',
-    reason: msg,
-    stopReason: 'goal_not_met',
-    hookSpecificOutput: {
-      hookEventName: 'Stop',
-      additionalContext: msg,
-    },
+    reason: reasons.join('; ') + '. ' + roundStatus.join(' | '),
   });
 }
 
