@@ -1990,12 +1990,24 @@ function selectHarvestPlan(candidatePlan, options = {}) {
   return selected;
 }
 
+function compareTerms(a, b) {
+  const sa = String(a || '').trim();
+  const sb = String(b || '').trim();
+  const len = Math.min(sa.length, sb.length);
+  for (let i = 0; i < len; i++) {
+    const ca = sa.codePointAt(i) || 0;
+    const cb = sb.codePointAt(i) || 0;
+    if (ca !== cb) return ca - cb;
+  }
+  return sa.length - sb.length;
+}
+
 function sortEntriesForCoverage(entries) {
   return [...entries].sort(
     (a, b) =>
       coveragePriorityPenalty(a) - coveragePriorityPenalty(b) ||
       evidenceCount(a) - evidenceCount(b) ||
-      String(a.term || '').localeCompare(String(b.term || '')),
+      compareTerms(a.term, b.term),
   );
 }
 
@@ -2352,7 +2364,7 @@ export function buildKeywordHarvestQueryPlan(dictionary, options = {}) {
               actionSortRank(actionA, options) - actionSortRank(actionB, options) ||
               Math.max(0, targetEvidence - coverageEvidenceCount(a, options)) - Math.max(0, targetEvidence - coverageEvidenceCount(b, options)) ||
               sameRecommendationGroupSort(actionA, actionB) ||
-              String(a.term || '').localeCompare(String(b.term || ''))
+              compareTerms(a.term, b.term)
             );
           })
       : allEntries;
@@ -2561,7 +2573,7 @@ export function summarizeTermAttempts(state = {}, dictionary = {}, options = {})
     }));
   const repeatedlyMissedTerms = attemptedTerms
     .filter((item) => effectiveSuccessfulAttempts(item) === 0)
-    .sort((a, b) => Number(b.attempts) - Number(a.attempts) || String(a.term || '').localeCompare(String(b.term || '')))
+    .sort((a, b) => Number(b.attempts) - Number(a.attempts) || compareTerms(a.term, b.term))
     .slice(0, 20)
     .map((item) => ({
       term: item.term,
@@ -2578,7 +2590,7 @@ export function summarizeTermAttempts(state = {}, dictionary = {}, options = {})
       return { entry, attempt, term, family };
     })
     .filter((item) => item.term && isTermAttemptExhausted(item.term, item.family, item.attempt, options))
-    .sort((a, b) => evidenceCount(a.entry) - evidenceCount(b.entry) || String(a.term).localeCompare(String(b.term)))
+    .sort((a, b) => evidenceCount(a.entry) - evidenceCount(b.entry) || compareTerms(a.term, b.term))
     .slice(0, 20)
     .map((item) => ({
       term: item.term,
@@ -2806,7 +2818,7 @@ export function buildDictionaryCoverageAudit(dictionary = {}, state = {}, option
           actionSortRank(b, { ...options, prioritizeHardZeroEvidence: true, prioritizeSourceGaps: true }) ||
         a.evidenceNeeded - b.evidenceNeeded ||
         sameRecommendationGroupSort(a, b) ||
-        String(a.term || '').localeCompare(String(b.term || ''))
+        compareTerms(a.term, b.term)
       );
     });
   const nextActions = diversifyCoverageActions(sortedActions, maxActions);
@@ -2822,7 +2834,7 @@ export function buildDictionaryCoverageAudit(dictionary = {}, state = {}, option
       evidence: item.evidence,
       coverageRatio: item.terms ? Number(((item.terms - item.weak) / item.terms).toFixed(4)) : 1,
     }))
-    .sort((a, b) => b.weak - a.weak || b.zero - a.zero || a.family.localeCompare(b.family));
+    .sort((a, b) => b.weak - a.weak || b.zero - a.zero || compareTerms(a.family, b.family));
   const failureReasons = [];
   if (coverage.coverageRatio < minCoverageRatio) {
     failureReasons.push(`coverage ratio ${coverage.coverageRatio} is below ${minCoverageRatio}`);

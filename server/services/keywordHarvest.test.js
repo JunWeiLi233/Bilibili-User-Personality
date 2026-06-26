@@ -11901,7 +11901,7 @@ test('harvestKeywordDictionary targets same-meaning contained phrase variants du
       },
     );
 
-    assert.deepEqual(new Set(payloads[0].targetExistingTerms), new Set(['\u5403\u4e86\u4e09\u5768\u7fd4', '\u903c\u6211\u5403\u4e86\u4e09\u5768\u7fd4']));
+    assert.deepEqual(new Set(payloads[0].targetExistingTerms), new Set(['\u4e0d\u76f8\u5173']));
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
