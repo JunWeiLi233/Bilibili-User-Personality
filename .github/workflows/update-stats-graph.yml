@@ -33,7 +33,7 @@ jobs:
         run: npm run stats:update
 
       - name: Commit updated stats
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: Refresh README stats graph
           file_pattern: README.md docs/stats/corpus-keyword-stats.svg docs/stats/corpus-keyword-stats.json docs/stats/corpus-growth-timeline.svg docs/stats/corpus-growth-timeline.json
