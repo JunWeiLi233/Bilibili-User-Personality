@@ -215,11 +215,11 @@
   "dependencies": {
     "@hono/node-server": "^2.0.4",
     "@phosphor-icons/react": "^2.1.10",
-    "@vitejs/plugin-react": "^5.1.1",
+    "@vitejs/plugin-react": "^6.0.3",
     "@xenova/transformers": "^2.17.2",
     "hono": "^4.12.23",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "vite": "^7.2.4"
+    "vite": "^8.1.0"
   }
 }
