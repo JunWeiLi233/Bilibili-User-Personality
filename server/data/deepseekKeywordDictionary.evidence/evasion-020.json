@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T23:25:48.247Z",
+  "updatedAt": "2026-06-26T11:49:44.186Z",
   "family": "evasion",
   "shard": 20,
   "shardCount": 21,
@@ -60,11 +60,28 @@
     {
       "term": "自己去找",
       "evidenceSamples": [
+        "水银央视有解说过的，可以自己去找去看。",
+        "骁勇:指骗守将自己去找救兵 带着老婆孩子逃出晋阳城",
+        "自己去找吃的",
         "有一说一，那些提前把星声换成金球的我是真搞不懂什么脑回路，正常人会一发工资就去把工资换成代金券的吗？没有任何人逼你怂恿你去把一个高级货币换成次级固定货币，都是成年人了人要为自己的行为负责不懂吗？一出事就找人兜底？你觉得不合理了自己被背刺了也...",
-        "回复 @司机团团长 :例子举给你听了，你也可以自己去找个家政公司或者工地打听打听价格，一味输出不满情绪，别人告诉你的你都不信，你自己有讲不出个道道，你有本事倒是全上海找出一个一小时9块的工地给我看看？找不出你可以不用回[脱单doge]",
-        "我知道现在大女主崛起，但是人家明着写cp都写到这了出来招笑。爱看大女主的自己去找别在嗑cp这里显。唐的要命"
+        "回复 @司机团团长 :例子举给你听了，你也可以自己去找个家政公司或者工地打听打听价格，一味输出不满情绪，别人告诉你的你都不信，你自己有讲不出个道道，你有本事倒是全上海找出一个一小时9块的工地给我看看？找不出你可以不用回[脱单doge]"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili history-tag harvest (multi-round): https://www.bilibili.com/video/BV1pVzHBhEXs/ (seed: 秦始皇陵)",
+          "uid": "BV1pVzHBhEXs",
+          "sample": "水银央视有解说过的，可以自己去找去看。"
+        },
+        {
+          "source": "Bilibili history-tag harvest (multi-round): https://www.bilibili.com/video/BV1Yu411t7by/ (seed: 贞观之治)",
+          "uid": "BV1Yu411t7by",
+          "sample": "骁勇:指骗守将自己去找救兵 带着老婆孩子逃出晋阳城"
+        },
+        {
+          "source": "Bilibili history-tag harvest (multi-round): https://www.bilibili.com/video/BV1MD4y1N7En/ (seed: 拿破仑)",
+          "uid": "BV1MD4y1N7En",
+          "sample": "自己去找吃的"
+        },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1fa411N7Uh/, https://www.bilibili.com/video/BV1JTYKzUEn9/, https://www.bilibili.com/video/BV18YRBYTEtR/, https://www.bilibili.com/video/BV1xsaQe8EMM/, https://www.bilibili.com/video/BV14pS9YhEXe/, https://www.bilibili.com/video/BV1aEVd6yEb2/, http://www.bilibili.com/video/av216638555, http://www.bilibili.com/video/av114290270995716, http://www.bilibili.com/video/av113405658664764, http://www.bilibili.com/video/av115931384715944, http://www.bilibili.com/video/av1301926105, http://www.bilibili.com/video/av314351282, http://www.bilibili.com/video/av1906478271, http://www.bilibili.com/video/av114962399763321, http://www.bilibili.com/video/av115848253544226, http://www.bilibili.com/video/av115841374884353, http://www.bilibili.com/video/av114436400547089, http://www.bilibili.com/video/av606983901, http://www.bilibili.com/video/av115887596177972, http://www.bilibili.com/video/av114969211442344, http://www.bilibili.com/video/av115893417808936, http://www.bilibili.com/video/av909655241, http://www.bilibili.com/video/av116097109983684, http://www.bilibili.com/video/av115157502139691, http://www.bilibili.com/video/av112922021858623, http://www.bilibili.com/video/av116673440913122, http://www.bilibili.com/video/av116656110044726, http://www.bilibili.com/video/av116663039100932, http://www.bilibili.com/video/av116669297002613, http://www.bilibili.com/video/av116669951253076, http://www.bilibili.com/video/av115728799765928, http://www.bilibili.com/video/av116668810529525, http://www.bilibili.com/video/av116669062185568, http://www.bilibili.com/video/av116639567708855, http://www.bilibili.com/video/av116671897474182, http://www.bilibili.com/video/av116645439802320, http://www.bilibili.com/video/av116660807668057, http://www.bilibili.com/video/av116664163111950, http://www.bilibili.com/video/av116668726511820, http://www.bilibili.com/video/av116613395253133, http://www.bilibili.com/video/av411057792, http://www.bilibili.com/video/av1053418493, http://www.bilibili.com/video/av116635038058196, http://www.bilibili.com/video/av114838634303333, http://www.bilibili.com/video/av116254127954813, http://www.bilibili.com/video/av116666394482866, http://www.bilibili.com/video/av116673256359788, http://www.bilibili.com/video/av741283214",
           "uid": "BV1fa411N7Uh,BV1JTYKzUEn9,BV18YRBYTEtR,BV1xsaQe8EMM,BV14pS9YhEXe,BV1aEVd6yEb2",
@@ -76,27 +93,37 @@
           "sample": "回复 @司机团团长 :例子举给你听了，你也可以自己去找个家政公司或者工地打听打听价格，一味输出不满情绪，别人告诉你的你都不信，你自己有讲不出个道道，你有本事倒是全上海找出一个一小时9块的工地给我看看？找不出你可以不用回[脱单doge]"
         },
         {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1ZRGdzKEnp/",
-          "uid": "BV1ZRGdzKEnp",
-          "sample": "我知道现在大女主崛起，但是人家明着写cp都写到这了出来招笑。爱看大女主的自己去找别在嗑cp这里显。唐的要命"
-        },
-        {
           "source": "Bilibili local AICU corpus: https://www.bilibili.com/video/av908164140/",
           "uid": "100113",
           "sample": "回复 @司机团团长 :例子举给你听了，你也可以自己去找个家政公司或者工地打听打听价格，一味输出不满情绪，别人告诉你的你都不信，你自己有讲不出个道道，你有本事倒是全上海找出一个一小时9块的工地给我看看？找不出你可以不用回[脱单doge]"
+        },
+        {
+          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1ZRGdzKEnp/",
+          "uid": "BV1ZRGdzKEnp",
+          "sample": "我知道现在大女主崛起，但是人家明着写cp都写到这了出来招笑。爱看大女主的自己去找别在嗑cp这里显。唐的要命"
         }
       ]
     },
     {
       "term": "自己搜",
       "evidenceSamples": [
+        "有人说 神友 的事情，自己搜索吗，别让我看笑话，哈哈哈(ಡωಡ)hiahiahia。非的说针对原神，心真大呀[热]",
+        "太几把智慧了，真有人信这种博主啊？不行咱上上网自己查呢[吃瓜]",
         "搞半天还要我自己搜来看",
         "还真是，我现在已经习惯问豆包而不是自己查了",
-        "以前讲过的吧 你自己搜一下",
-        "临战将不顾兵者斩其将朱祁镇单纯就是蠢，被人忽悠于谦要拥立藩王，都不晓得自己查证下，然后被人当刀使，生生背上历史前五的恶名",
-        "有人说 神友 的事情，自己搜索吗，别让我看笑话，哈哈哈(ಡωಡ)hiahiahia。非的说针对原神，心真大呀[热]"
+        "以前讲过的吧 你自己搜一下"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1PW4y187va/, https://www.bilibili.com/video/BV14rjU64Em1/, https://www.bilibili.com/video/BV1PXE96GEP7/, https://www.bilibili.com/video/BV11R3vzQEgi/, https://www.bilibili.com/video/BV12R4y1g7Ja/, https://www.bilibili.com/video/BV1vh4y1k7k4/, https://www.bilibili.com/video/BV1h7jgzzEn6/, https://www.bilibili.com/video/BV1Nz421k7AB/, https://www.bilibili.com/video/BV1gKQmBLEsr/, https://www.bilibili.com/video/BV1s14y1q7iU/, https://www.bilibili.com/video/BV1aMAGzjEmV/, https://www.bilibili.com/video/BV1QTEj67EGv/, http://www.bilibili.com/video/av942296672, http://www.bilibili.com/video/av114806589756780, http://www.bilibili.com/video/av659050255, http://www.bilibili.com/video/av116289142005155, http://www.bilibili.com/video/av116799806903915, http://www.bilibili.com/video/av338140634, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av787111910, http://www.bilibili.com/video/av116718823345441, http://www.bilibili.com/video/av114194204591345, http://www.bilibili.com/video/av115004594457151, http://www.bilibili.com/video/av115100426046508, http://www.bilibili.com/video/av116797676265054, http://www.bilibili.com/video/av116775698240580, http://www.bilibili.com/video/av116799286812569, http://www.bilibili.com/video/av116799236474833, http://www.bilibili.com/video/av116796887732372, http://www.bilibili.com/video/av116792357881965, http://www.bilibili.com/video/av116799286811585, http://www.bilibili.com/video/av116790025853625, http://www.bilibili.com/video/av116799622352185, http://www.bilibili.com/video/av116797323941441, http://www.bilibili.com/video/av116777023506262, http://www.bilibili.com/video/av116793213456115, http://www.bilibili.com/video/av116797609090966, http://www.bilibili.com/video/av116798800266624, http://www.bilibili.com/video/av116794589190774, http://www.bilibili.com/video/av116797625867194, http://www.bilibili.com/video/av116793834216360, http://www.bilibili.com/video/av116793398006896, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116793096018692, http://www.bilibili.com/video/av116317730444323, http://www.bilibili.com/video/av1153134635, http://www.bilibili.com/video/av114425428188358, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116782425840315, http://www.bilibili.com/video/av431186764, http://www.bilibili.com/video/av115043215609120, http://www.bilibili.com/video/av116735768267328, http://www.bilibili.com/video/av515099651, http://www.bilibili.com/video/av114634505916179, http://www.bilibili.com/video/av116724829587138, http://www.bilibili.com/video/av1353325876, http://www.bilibili.com/video/av116272582887630, http://www.bilibili.com/video/av292981411, http://www.bilibili.com/video/av112941919635529, http://www.bilibili.com/video/av976676595, http://www.bilibili.com/video/av114059215183687, http://www.bilibili.com/video/av643109235, http://www.bilibili.com/video/av675878480",
+          "uid": "BV1PW4y187va,BV14rjU64Em1,BV1PXE96GEP7,BV11R3vzQEgi,BV12R4y1g7Ja,BV1vh4y1k7k4,BV1h7jgzzEn6,BV1Nz421k7AB,BV1gKQmBLEsr,BV1s14y1q7iU,BV1aMAGzjEmV,BV1QTEj67EGv",
+          "sample": "有人说 神友 的事情，自己搜索吗，别让我看笑话，哈哈哈(ಡωಡ)hiahiahia。非的说针对原神，心真大呀[热]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1sTGd6FEFf/, https://www.bilibili.com/video/BV1g4VA6bELA/, https://www.bilibili.com/video/BV1w8Go6AEnw/, https://www.bilibili.com/video/BV16N5C6fECD/, http://www.bilibili.com/video/av116634534678930, http://www.bilibili.com/video/av116640456906922, http://www.bilibili.com/video/av116635574734625, http://www.bilibili.com/video/av116566016459122",
+          "uid": "BV1sTGd6FEFf,BV1g4VA6bELA,BV1w8Go6AEnw,BV16N5C6fECD",
+          "sample": "太几把智慧了，真有人信这种博主啊？不行咱上上网自己查呢[吃瓜]"
+        },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1xTUsBvEUP/, https://www.bilibili.com/video/BV1Em421j7oc/, https://www.bilibili.com/video/BV1nT421D7Xk/, https://www.bilibili.com/video/BV1UdbEzZEq5/, http://www.bilibili.com/video/av115592870823925, http://www.bilibili.com/video/av1603161636, http://www.bilibili.com/video/av1704571620, http://www.bilibili.com/video/av115030985018857",
           "uid": "BV1xTUsBvEUP,BV1Em421j7oc,BV1nT421D7Xk,BV1UdbEzZEq5",
@@ -116,16 +143,6 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1bEGm6UEJW/, https://www.bilibili.com/video/BV1ksVP6UEBE/, https://www.bilibili.com/video/BV1E1Vc6BEVw/, https://www.bilibili.com/video/BV14X4y167fH/, https://www.bilibili.com/video/BV1DQGR6uEP5/, https://www.bilibili.com/video/BV1i54y1Z76t/, http://www.bilibili.com/video/av116646094047958",
           "uid": "BV1bEGm6UEJW,BV1ksVP6UEBE,BV1E1Vc6BEVw,BV14X4y167fH,BV1DQGR6uEP5,BV1i54y1Z76t",
           "sample": "临战将不顾兵者斩其将朱祁镇单纯就是蠢，被人忽悠于谦要拥立藩王，都不晓得自己查证下，然后被人当刀使，生生背上历史前五的恶名"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1PW4y187va/, https://www.bilibili.com/video/BV14rjU64Em1/, https://www.bilibili.com/video/BV1PXE96GEP7/, https://www.bilibili.com/video/BV11R3vzQEgi/, https://www.bilibili.com/video/BV12R4y1g7Ja/, https://www.bilibili.com/video/BV1vh4y1k7k4/, https://www.bilibili.com/video/BV1h7jgzzEn6/, https://www.bilibili.com/video/BV1Nz421k7AB/, https://www.bilibili.com/video/BV1gKQmBLEsr/, https://www.bilibili.com/video/BV1s14y1q7iU/, https://www.bilibili.com/video/BV1aMAGzjEmV/, https://www.bilibili.com/video/BV1QTEj67EGv/, http://www.bilibili.com/video/av942296672, http://www.bilibili.com/video/av114806589756780, http://www.bilibili.com/video/av659050255, http://www.bilibili.com/video/av116289142005155, http://www.bilibili.com/video/av116799806903915, http://www.bilibili.com/video/av338140634, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av787111910, http://www.bilibili.com/video/av116718823345441, http://www.bilibili.com/video/av114194204591345, http://www.bilibili.com/video/av115004594457151, http://www.bilibili.com/video/av115100426046508, http://www.bilibili.com/video/av116797676265054, http://www.bilibili.com/video/av116775698240580, http://www.bilibili.com/video/av116799286812569, http://www.bilibili.com/video/av116799236474833, http://www.bilibili.com/video/av116796887732372, http://www.bilibili.com/video/av116792357881965, http://www.bilibili.com/video/av116799286811585, http://www.bilibili.com/video/av116790025853625, http://www.bilibili.com/video/av116799622352185, http://www.bilibili.com/video/av116797323941441, http://www.bilibili.com/video/av116777023506262, http://www.bilibili.com/video/av116793213456115, http://www.bilibili.com/video/av116797609090966, http://www.bilibili.com/video/av116798800266624, http://www.bilibili.com/video/av116794589190774, http://www.bilibili.com/video/av116797625867194, http://www.bilibili.com/video/av116793834216360, http://www.bilibili.com/video/av116793398006896, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116793096018692, http://www.bilibili.com/video/av116317730444323, http://www.bilibili.com/video/av1153134635, http://www.bilibili.com/video/av114425428188358, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116782425840315, http://www.bilibili.com/video/av431186764, http://www.bilibili.com/video/av115043215609120, http://www.bilibili.com/video/av116735768267328, http://www.bilibili.com/video/av515099651, http://www.bilibili.com/video/av114634505916179, http://www.bilibili.com/video/av116724829587138, http://www.bilibili.com/video/av1353325876, http://www.bilibili.com/video/av116272582887630, http://www.bilibili.com/video/av292981411, http://www.bilibili.com/video/av112941919635529, http://www.bilibili.com/video/av976676595, http://www.bilibili.com/video/av114059215183687, http://www.bilibili.com/video/av643109235, http://www.bilibili.com/video/av675878480",
-          "uid": "BV1PW4y187va,BV14rjU64Em1,BV1PXE96GEP7,BV11R3vzQEgi,BV12R4y1g7Ja,BV1vh4y1k7k4,BV1h7jgzzEn6,BV1Nz421k7AB,BV1gKQmBLEsr,BV1s14y1q7iU,BV1aMAGzjEmV,BV1QTEj67EGv",
-          "sample": "有人说 神友 的事情，自己搜索吗，别让我看笑话，哈哈哈(ಡωಡ)hiahiahia。非的说针对原神，心真大呀[热]"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1sTGd6FEFf/, https://www.bilibili.com/video/BV1g4VA6bELA/, https://www.bilibili.com/video/BV1w8Go6AEnw/, https://www.bilibili.com/video/BV16N5C6fECD/, http://www.bilibili.com/video/av116634534678930, http://www.bilibili.com/video/av116640456906922, http://www.bilibili.com/video/av116635574734625, http://www.bilibili.com/video/av116566016459122",
-          "uid": "BV1sTGd6FEFf,BV1g4VA6bELA,BV1w8Go6AEnw,BV16N5C6fECD",
-          "sample": "太几把智慧了，真有人信这种博主啊？不行咱上上网自己查呢[吃瓜]"
         },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1PW4y187va/, https://www.bilibili.com/video/BV14rjU64Em1/, https://www.bilibili.com/video/BV1PXE96GEP7/, https://www.bilibili.com/video/BV11R3vzQEgi/, https://www.bilibili.com/video/BV12R4y1g7Ja/, https://www.bilibili.com/video/BV1vh4y1k7k4/, https://www.bilibili.com/video/BV1h7jgzzEn6/, https://www.bilibili.com/video/BV1Nz421k7AB/, https://www.bilibili.com/video/BV1gKQmBLEsr/, https://www.bilibili.com/video/BV1s14y1q7iU/, https://www.bilibili.com/video/BV1aMAGzjEmV/, https://www.bilibili.com/video/BV1QTEj67EGv/, http://www.bilibili.com/video/av942296672, http://www.bilibili.com/video/av114806589756780, http://www.bilibili.com/video/av659050255, http://www.bilibili.com/video/av116289142005155, http://www.bilibili.com/video/av116799806903915, http://www.bilibili.com/video/av338140634, http://www.bilibili.com/video/av114567917142268, http://www.bilibili.com/video/av787111910, http://www.bilibili.com/video/av116718823345441, http://www.bilibili.com/video/av114194204591345, http://www.bilibili.com/video/av115004594457151, http://www.bilibili.com/video/av115100426046508, http://www.bilibili.com/video/av116797676265054, http://www.bilibili.com/video/av116775698240580, http://www.bilibili.com/video/av116799286812569, http://www.bilibili.com/video/av116799236474833, http://www.bilibili.com/video/av116796887732372, http://www.bilibili.com/video/av116792357881965, http://www.bilibili.com/video/av116799286811585, http://www.bilibili.com/video/av116790025853625, http://www.bilibili.com/video/av116799622352185, http://www.bilibili.com/video/av116797323941441, http://www.bilibili.com/video/av116777023506262, http://www.bilibili.com/video/av116793213456115, http://www.bilibili.com/video/av116797609090966, http://www.bilibili.com/video/av116798800266624, http://www.bilibili.com/video/av116794589190774, http://www.bilibili.com/video/av116797625867194, http://www.bilibili.com/video/av116793834216360, http://www.bilibili.com/video/av116793398006896, http://www.bilibili.com/video/av116799723020232, http://www.bilibili.com/video/av116793096018692, http://www.bilibili.com/video/av116317730444323, http://www.bilibili.com/video/av1153134635, http://www.bilibili.com/video/av114425428188358, http://www.bilibili.com/video/av116787861522230, http://www.bilibili.com/video/av116782425840315, http://www.bilibili.com/video/av431186764, http://www.bilibili.com/video/av115043215609120, http://www.bilibili.com/video/av116735768267328, http://www.bilibili.com/video/av515099651, http://www.bilibili.com/video/av114634505916179, http://www.bilibili.com/video/av116724829587138, http://www.bilibili.com/video/av1353325876, http://www.bilibili.com/video/av116272582887630, http://www.bilibili.com/video/av292981411, http://www.bilibili.com/video/av112941919635529, http://www.bilibili.com/video/av976676595, http://www.bilibili.com/video/av114059215183687, http://www.bilibili.com/video/av643109235, http://www.bilibili.com/video/av675878480",

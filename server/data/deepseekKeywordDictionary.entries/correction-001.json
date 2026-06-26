@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T23:25:48.247Z",
+  "updatedAt": "2026-06-26T11:49:44.186Z",
   "family": "correction",
   "shard": 1,
   "shardCount": 1,
@@ -9,10 +9,10 @@
       "term": "蚌埠住的",
       "family": "correction",
       "meaning": "“蚌埠住的”用于承认信息不准、修正说法或降低原先结论强度",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 4,
-      "updatedAt": "2026-05-30T06:37:37.375Z"
+      "risk": "positive",
+      "confidence": 0.68,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "抱歉",
@@ -21,7 +21,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "不要胡说",
@@ -39,7 +39,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "从良",
@@ -75,7 +75,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "服了",
@@ -144,19 +144,19 @@
       "term": "你搞错了",
       "family": "correction",
       "meaning": "互联网中文表达模式 - 纠正性表达",
-      "risk": "low",
+      "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-25T17:02:25.000Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "你说的有道理",
       "family": "correction",
       "meaning": "自我修正或结论降级",
       "risk": "positive",
-      "confidence": 0.5,
-      "evidenceCount": 3,
-      "updatedAt": "2026-05-30T09:18:48.004Z"
+      "confidence": 0.68,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "糯了",
@@ -180,10 +180,10 @@
       "term": "其实不是",
       "family": "correction",
       "meaning": "互联网中文表达模式 - 纠正性表达",
-      "risk": "low",
+      "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "前面说重了",
@@ -219,7 +219,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "说错了",
@@ -228,7 +228,7 @@
       "risk": "positive",
       "confidence": 0.5,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "说错了是",
@@ -237,7 +237,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "我忏悔",
@@ -246,7 +246,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "我错了",
@@ -306,10 +306,10 @@
       "term": "准确说",
       "family": "correction",
       "meaning": "用于更正或细化之前的说法",
-      "risk": "neutral",
+      "risk": "positive",
       "confidence": 0.9,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-01T15:52:21.044Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     }
   ]
 }

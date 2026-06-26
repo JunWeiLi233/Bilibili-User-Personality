@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T23:25:48.247Z",
+  "updatedAt": "2026-06-26T11:49:44.186Z",
   "family": "evidence",
   "shard": 1,
   "shardCount": 1,
@@ -9,10 +9,10 @@
       "term": "10年老粉",
       "family": "evidence",
       "meaning": "“10年老粉”用于请求、补充或指向可核验的来源、证据或原始材料",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 3,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "10万",
@@ -83,8 +83,8 @@
       "meaning": "“发图”用于请求、补充或指向可核验的来源、证据或原始材料",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 10,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "话术",
@@ -99,10 +99,10 @@
       "term": "即死",
       "family": "evidence",
       "meaning": "“即死”用于请求、补充或指向可核验的来源、证据或原始材料",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 3,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "截图",
@@ -111,7 +111,7 @@
       "risk": "medium",
       "confidence": 0.5,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "截图造谣",
@@ -120,7 +120,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "卡bug",
@@ -252,10 +252,10 @@
       "term": "图呢",
       "family": "evidence",
       "meaning": "Bilibili danmaku 证据表达",
-      "risk": "low",
+      "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-25T17:02:25.000Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "挖为什么",
@@ -280,9 +280,9 @@
       "family": "evidence",
       "meaning": "要求或提供可核验证据",
       "risk": "medium",
-      "confidence": 0.5,
-      "evidenceCount": 4,
-      "updatedAt": "2026-05-30T20:02:10.997Z"
+      "confidence": 0.68,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "引用",

@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T23:25:48.247Z",
+  "updatedAt": "2026-06-26T11:49:44.186Z",
   "family": "absolutes",
   "shard": 2,
-  "shardCount": 54,
+  "shardCount": 52,
   "evidence": [
     {
       "term": "包有",
@@ -60,13 +60,38 @@
     {
       "term": "包装的",
       "evidenceSamples": [
-        "我还挺喜欢原包装的抽象图案",
-        "感觉可能他没有对这个火锅底料进行一些调整，就是原版包装的味道",
-        "？一个是鸭肉包装的肉，一个是鼠肉冒充鸭肉",
-        "五金包装的，付点费用就好，所以家了坏了水龙头，都是让五金店给换，各种都可以修",
-        "可惜了在微信直播上买了茶叶就被骗了，来的是树叶，包装的那么好有什么用"
+        "这不是过度包装的产品？",
+        "精力有限为啥两个包装的国学研究的那么透彻",
+        "emmm这皮肤表面看起来像真空包装的鸭腿",
+        "这就是成功人士给自己包装的证明自己合法性的故事，听起来越玄乎就有一些人深信不疑",
+        "冷冻蔬菜就是工厂化清洗切割到冷冻包装的工业商品，发达国家都是这种，我们国内只买新鲜的菜肉"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1Yv4y1u7XP/ (seed: 梦华录)",
+          "uid": "BV1Yv4y1u7XP",
+          "sample": "这不是过度包装的产品？"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1WW4y1v71B/ (seed: 金沙)",
+          "uid": "BV1WW4y1v71B",
+          "sample": "精力有限为啥两个包装的国学研究的那么透彻"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV12x411K7xi/ (seed: 马王堆)",
+          "uid": "BV12x411K7xi",
+          "sample": "emmm这皮肤表面看起来像真空包装的鸭腿"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1a55q6bEGs/ (seed: 洪秀全)",
+          "uid": "BV1a55q6bEGs",
+          "sample": "这就是成功人士给自己包装的证明自己合法性的故事，听起来越玄乎就有一些人深信不疑"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1vR7N6QExz/ (seed: 日本)",
+          "uid": "BV1vR7N6QExz",
+          "sample": "冷冻蔬菜就是工厂化清洗切割到冷冻包装的工业商品，发达国家都是这种，我们国内只买新鲜的菜肉"
+        },
         {
           "source": "Bilibili corpus pool harvest",
           "uid": "",

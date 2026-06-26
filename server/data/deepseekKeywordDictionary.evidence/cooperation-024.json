@@ -1,20 +1,25 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T23:25:48.247Z",
+  "updatedAt": "2026-06-26T11:49:44.186Z",
   "family": "cooperation",
   "shard": 24,
-  "shardCount": 143,
+  "shardCount": 144,
   "evidence": [
     {
       "term": "单走一个6",
       "evidenceSamples": [
+        "织田信长；单走一个6",
         "单走一个6",
         "单走一个6，伞兵",
         "回复 @一粒蛋怒瘋 : 但走一个6，只要按一下键盘，完全可以表达敷衍的意思，但是你甚至要切成数字键盘打出一个很麻烦的0.6，那就是纯纯的无语，“我必须用这种‘强烈的、郑重的’表达方式来表达我的不满”的感觉。[滑稽]",
-        "学费了，送走一个6级队[捂脸]本想一个不死的",
-        "Bilibili video context: 单走一个6 伞兵！！！"
+        "学费了，送走一个6级队[捂脸]本想一个不死的"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1S9pRz5EVq/ (seed: 织田信长)",
+          "uid": "BV1S9pRz5EVq",
+          "sample": "织田信长；单走一个6"
+        },
         {
           "source": "Bilibili public search-discovered video comment scan plus video context: https://www.bilibili.com/video/BV1pP4y1S7Lp/",
           "uid": "BV1pP4y1S7Lp",
@@ -48,11 +53,6 @@
         {
           "source": "Bilibili public existing evidence-source video comment scan: https://www.bilibili.com/video/BV1pP4y1S7Lp/, https://www.bilibili.com/video/BV19yGa61Ee6/, https://www.bilibili.com/video/BV1ZPFEzaEZh/, https://www.bilibili.com/video/BV1qqf6BxEcR/, https://www.bilibili.com/video/BV1nmRvBzEx2/, https://www.bilibili.com/video/BV1cK4y1P7xF/, https://www.bilibili.com/video/BV1Ui4y197a3/, https://www.bilibili.com/video/BV1aZ6TYUEBj/, https://www.bilibili.com/video/BV1hdGo6LE66/, https://www.bilibili.com/video/BV15fGJ6mE3Q/, https://www.bilibili.com/video/BV1rqGB6yEZN/, https://www.bilibili.com/video/BV1utLm6sE8E/",
           "uid": "BV1pP4y1S7Lp,BV19yGa61Ee6,BV1ZPFEzaEZh,BV1qqf6BxEcR,BV1nmRvBzEx2,BV1cK4y1P7xF,BV1Ui4y197a3,BV1aZ6TYUEBj,BV1hdGo6LE66",
-          "sample": "单走一个6"
-        },
-        {
-          "source": "Bilibili public existing evidence-source video comment scan: https://www.bilibili.com/video/BV1ZHG26oEte/, https://www.bilibili.com/video/BV1Ze411P7JJ/, https://www.bilibili.com/video/BV1qm411D79r/, https://www.bilibili.com/video/BV1iL411d7o6/, https://www.bilibili.com/video/BV14ac6z2E9H/, https://www.bilibili.com/video/BV1pP4y1S7Lp/, https://www.bilibili.com/video/BV19yGa61Ee6/, https://www.bilibili.com/video/BV1ZPFEzaEZh/, https://www.bilibili.com/video/BV1qqf6BxEcR/, https://www.bilibili.com/video/BV1nmRvBzEx2/, https://www.bilibili.com/video/BV1cK4y1P7xF/, https://www.bilibili.com/video/BV15fGJ6mE3Q/",
-          "uid": "BV1ZHG26oEte,BV1Ze411P7JJ,BV1qm411D79r,BV1iL411d7o6,BV14ac6z2E9H,BV1pP4y1S7Lp,BV19yGa61Ee6,BV1ZPFEzaEZh,BV1qqf6BxEcR,BV1nmRvBzEx2,BV1cK4y1P7xF",
           "sample": "单走一个6"
         }
       ]

@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T23:25:48.247Z",
+  "updatedAt": "2026-06-26T11:49:44.186Z",
   "family": "evidence",
   "shard": 3,
-  "shardCount": 14,
+  "shardCount": 15,
   "evidence": [
     {
       "term": "发链接",
@@ -60,13 +60,38 @@
     {
       "term": "发图",
       "evidenceSamples": [
-        "图呢？没图你说啥",
-        "所以图呢？",
-        "骗子，图呢",
-        "回复 @云起万象 :发图不就行了，抽免费100半价是在的吧，截图呢",
-        "没有这句话的证据呢？判决原文放出来啊？他放出来不就行了吗？说几十分钟不如放图一张"
+        "那你为什么没有图呢？",
+        "自己看？看什么？你图呢？",
+        "前文那片雨可是刻着河图呢",
+        "夏朝 四川都还不属于中国版图呢",
+        "哥伦布本来就是拿着图去找的，谁画的图呢？"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1Ujp3zDEii/ (seed: 考古)",
+          "uid": "BV1Ujp3zDEii",
+          "sample": "那你为什么没有图呢？"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1iGjd68EvP/ (seed: 国际形势)",
+          "uid": "BV1iGjd68EvP",
+          "sample": "自己看？看什么？你图呢？"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1kU4y167dK/ (seed: 良渚文化)",
+          "uid": "BV1kU4y167dK",
+          "sample": "前文那片雨可是刻着河图呢"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV11SE96VEqu/ (seed: 夏朝)",
+          "uid": "BV11SE96VEqu",
+          "sample": "夏朝 四川都还不属于中国版图呢"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1Ujp3zDEii/ (seed: 考古)",
+          "uid": "BV1Ujp3zDEii",
+          "sample": "哥伦布本来就是拿着图去找的，谁画的图呢？"
+        },
         {
           "source": "Bilibili corpus match: Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1u7PrzoE8T/",
           "uid": "",
@@ -81,31 +106,6 @@
           "source": "Bilibili public existing evidence-source video comment scan: https://www.bilibili.com/video/BV1sG4y1g7jr/, https://www.bilibili.com/video/BV1qCH9efEj7/, https://www.bilibili.com/video/BV15y5Z6bEFv/, https://www.bilibili.com/video/BV13WGb6YEHe/",
           "uid": "BV1sG4y1g7jr,BV1qCH9efEj7,BV15y5Z6bEFv,BV13WGb6YEHe",
           "sample": "没有这句话的证据呢？判决原文放出来啊？他放出来不就行了吗？说几十分钟不如放图一张"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1DUGX6YEjy/, https://www.bilibili.com/video/BV1cSsFzjEnc/, https://www.bilibili.com/video/BV1C4AGzPEhj/, https://www.bilibili.com/video/BV1bg5Y61EAT/, https://www.bilibili.com/video/BV19y98BGEbM/, https://www.bilibili.com/video/BV169Lh6hEcU/, http://www.bilibili.com/video/av116650875558692, http://www.bilibili.com/video/av115399228134134, http://www.bilibili.com/video/av419691667, http://www.bilibili.com/video/av116272381628063, http://www.bilibili.com/video/av116577089422846, http://www.bilibili.com/video/av116491978540859, http://www.bilibili.com/video/av116612875159054",
-          "uid": "BV1DUGX6YEjy,BV1cSsFzjEnc,BV1C4AGzPEhj,BV1bg5Y61EAT,BV19y98BGEbM,BV169Lh6hEcU",
-          "sample": "谁问你了？谁要你发图片了？"
-        },
-        {
-          "source": "Bilibili public existing evidence-source video comment scan: https://www.bilibili.com/video/BV1DS4y1W7xV/, https://www.bilibili.com/video/BV1ve4y1r7op/, https://www.bilibili.com/video/BV1RLJgzDEQL/, https://www.bilibili.com/video/BV1jbGq6wEtr/",
-          "uid": "BV1DS4y1W7xV,BV1ve4y1r7op,BV1RLJgzDEQL,BV1jbGq6wEtr",
-          "sample": "实际上图二力矩不平衡"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Hs4y1f74K/, https://www.bilibili.com/video/BV1eT411j7uZ/, https://www.bilibili.com/video/BV1e44y1d7UP/, https://www.bilibili.com/video/BV1yUG26uEUg/, https://www.bilibili.com/video/BV1yZGX64EWQ/, http://www.bilibili.com/video/av989576037, http://www.bilibili.com/video/av992650621, http://www.bilibili.com/video/av471426573",
-          "uid": "BV1Hs4y1f74K,BV1eT411j7uZ,BV1e44y1d7UP,BV1yUG26uEUg,BV1yZGX64EWQ",
-          "sample": "搁着做魔兽rpg地图和星际大厅地图呢"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1rBHXzXEF6/, https://www.bilibili.com/video/BV1ctSqBYErC/, https://www.bilibili.com/video/BV1WzGJ6hE8s/, https://www.bilibili.com/video/BV1dxokB9E1m/, https://www.bilibili.com/video/BV1ZcKVe3E9U/, https://www.bilibili.com/video/BV1nc5r69ESm/, https://www.bilibili.com/video/BV1jw1wYJEMu/, https://www.bilibili.com/video/BV1mAYWz5Erb/, https://www.bilibili.com/video/BV1ct421b7K5/, https://www.bilibili.com/video/BV1uLxazXEEU/, https://www.bilibili.com/video/BV1VB1hBoEBX/, https://www.bilibili.com/video/BV1ywDgB8Ejf/, http://www.bilibili.com/video/av115179362719476, http://www.bilibili.com/video/av115639041656277, http://www.bilibili.com/video/av116629232946061, http://www.bilibili.com/video/av116475318765461, http://www.bilibili.com/video/av113988549480292, http://www.bilibili.com/video/av116582407741397, http://www.bilibili.com/video/av113357239620522, http://www.bilibili.com/video/av115047812635071, http://www.bilibili.com/video/av1801434853, http://www.bilibili.com/video/av115319435697364, http://www.bilibili.com/video/av115484020181834, http://www.bilibili.com/video/av116346587383382",
-          "uid": "BV1rBHXzXEF6,BV1ctSqBYErC,BV1WzGJ6hE8s,BV1dxokB9E1m,BV1ZcKVe3E9U,BV1nc5r69ESm,BV1jw1wYJEMu,BV1mAYWz5Erb,BV1ct421b7K5,BV1uLxazXEEU,BV1VB1hBoEBX,BV1ywDgB8Ejf",
-          "sample": "求图"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1ZK41167wc/, https://www.bilibili.com/video/BV19b546MEhA/, https://www.bilibili.com/video/BV1QYG26JEhr/, https://www.bilibili.com/video/BV1wFLP69E5W/, https://www.bilibili.com/video/BV18z5P6AEa5/, https://www.bilibili.com/video/BV1bXNFz1E7U/, https://www.bilibili.com/video/BV1AVnfz3EcR/, https://www.bilibili.com/video/BV12UUUY5EsQ/, http://www.bilibili.com/video/av476213014, http://www.bilibili.com/video/av116555127982724, http://www.bilibili.com/video/av116646664471119, http://www.bilibili.com/video/av116596165116336, http://www.bilibili.com/video/av116558651199579, http://www.bilibili.com/video/av116204031312274, http://www.bilibili.com/video/av115282492263640, http://www.bilibili.com/video/av113519743731181, http://www.bilibili.com/video/av115905061194216",
-          "uid": "BV1ZK41167wc,BV19b546MEhA,BV1QYG26JEhr,BV1wFLP69E5W,BV18z5P6AEa5,BV1bXNFz1E7U,BV1AVnfz3EcR,BV12UUUY5EsQ",
-          "sample": "别老放图啊！！！！！"
         }
       ]
     }

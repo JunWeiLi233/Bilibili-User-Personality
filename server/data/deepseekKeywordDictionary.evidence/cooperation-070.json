@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T23:25:48.247Z",
+  "updatedAt": "2026-06-26T11:49:44.186Z",
   "family": "cooperation",
   "shard": 70,
-  "shardCount": 143,
+  "shardCount": 144,
   "evidence": [
     {
       "term": "冷知识",
@@ -126,11 +126,23 @@
     {
       "term": "良作无人",
       "evidenceSamples": [
+        "禁止白嫖，良作无人岂能白嫖",
+        "良作无人啊",
         "？？？良作无人OAO",
         "良作无人是别人说的，自己说的那叫什么[笑哭]",
         "良作无人是别人评的不是自己chui的"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili history-tag harvest (multi-round): https://www.bilibili.com/video/BV1eqVBzUEBe/ (seed: 辛亥革命)",
+          "uid": "BV1eqVBzUEBe",
+          "sample": "禁止白嫖，良作无人岂能白嫖"
+        },
+        {
+          "source": "Bilibili history-tag harvest (multi-round): https://www.bilibili.com/video/BV1eqVBzUEBe/ (seed: 辛亥革命)",
+          "uid": "BV1eqVBzUEBe",
+          "sample": "良作无人啊"
+        },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1iu9fBfESN/, https://www.bilibili.com/video/BV1ysR4BpEka/, https://www.bilibili.com/video/BV1jBRiBvExR/, https://www.bilibili.com/video/BV1kp4y1P7H6/, http://www.bilibili.com/video/av116510483810226, http://www.bilibili.com/video/av116527160428478, http://www.bilibili.com/video/av116447904859698, http://www.bilibili.com/video/av116629853703956, http://www.bilibili.com/video/av116516607559556, http://www.bilibili.com/video/av960268246",
           "uid": "BV1iu9fBfESN,BV1ysR4BpEka,BV1jBRiBvExR,BV1kp4y1P7H6",
@@ -160,16 +172,58 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Uy1KB1ECK/, https://www.bilibili.com/video/BV1ZX4y1o7Jq/, https://www.bilibili.com/video/BV1WF3LzZEEz/, https://www.bilibili.com/video/BV1KicQzCE1k/, https://www.bilibili.com/video/BV1wZynBgEHc/, https://www.bilibili.com/video/BV12x4y1x7KA/, http://www.bilibili.com/video/av115467293295149, http://www.bilibili.com/video/av116205625016802, http://www.bilibili.com/video/av1006224464, http://www.bilibili.com/video/av113243188103346, http://www.bilibili.com/video/av779090062, http://www.bilibili.com/video/av114726411503138, http://www.bilibili.com/video/av113531387124957, http://www.bilibili.com/video/av114516209763949, http://www.bilibili.com/video/av115530828617779, http://www.bilibili.com/video/av115542606221407, http://www.bilibili.com/video/av470301034, http://www.bilibili.com/video/av322963847, http://www.bilibili.com/video/av1555291281, http://www.bilibili.com/video/av613099733, http://www.bilibili.com/video/av114068962743095, http://www.bilibili.com/video/av113938352050541, http://www.bilibili.com/video/av116281558698905, http://www.bilibili.com/video/av113809570140431, http://www.bilibili.com/video/av114386286941502, http://www.bilibili.com/video/av112880766748928, http://www.bilibili.com/video/av353717409, http://www.bilibili.com/video/av115575422459648, http://www.bilibili.com/video/av114793553861005, http://www.bilibili.com/video/av1305877268, http://www.bilibili.com/video/av113537796414398, http://www.bilibili.com/video/av116635323139922, http://www.bilibili.com/video/av115694775634693, http://www.bilibili.com/video/av114870024408840, http://www.bilibili.com/video/av114599777012319, http://www.bilibili.com/video/av116633796412620, http://www.bilibili.com/video/av116567761229851, http://www.bilibili.com/video/av114884972973392, http://www.bilibili.com/video/av114119931856439, http://www.bilibili.com/video/av116532344588202",
           "uid": "BV1Uy1KB1ECK,BV1ZX4y1o7Jq,BV1WF3LzZEEz,BV1KicQzCE1k,BV1wZynBgEHc,BV12x4y1x7KA",
           "sample": "？？？良作无人OAO"
+        }
+      ]
+    },
+    {
+      "term": "零氪",
+      "evidenceSamples": [
+        "如果我是零氪玩家怎么办？",
+        "这个呼吸都要钱的游戏，零氪实在是毫无体验[吃瓜][吃瓜]",
+        "UP，请问零氪先只玩一个号，推荐什么职业起号[doge_金箍]",
+        "新开服零氪三天内能搞到2千到3千之内元宝不？",
+        "至于对PVP有什么影响，我觉得明日现在零氪玩对战的应该很少了"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1JgzLBuENv/, https://www.bilibili.com/video/BV1R8411S7zQ/, https://www.bilibili.com/video/BV1TYLS6ZEDu/, https://www.bilibili.com/video/BV1NJm5YVEf6/, https://www.bilibili.com/video/BV1657VzwEj4/, https://www.bilibili.com/video/BV1A7Lq6nE4s/, http://www.bilibili.com/video/av115932777160067, http://www.bilibili.com/video/av230690889, http://www.bilibili.com/video/av116607791666628, http://www.bilibili.com/video/av113305247025126, http://www.bilibili.com/video/av114590197227293, http://www.bilibili.com/video/av116600812340867",
+          "uid": "BV1JgzLBuENv,BV1R8411S7zQ,BV1TYLS6ZEDu,BV1NJm5YVEf6,BV1657VzwEj4,BV1A7Lq6nE4s",
+          "sample": "如果我是零氪玩家怎么办？"
         },
         {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1rXo6BtESo/, https://www.bilibili.com/video/BV1UGVP6oE34/, https://www.bilibili.com/video/BV1bS5y6mEXd/, https://www.bilibili.com/video/BV1CoGU6rETk/, https://www.bilibili.com/video/BV1tJVb6FEPX/, https://www.bilibili.com/video/BV1aQVb6MEtd/, https://www.bilibili.com/video/BV1rUVt6nEGM/, https://www.bilibili.com/video/BV1jFVh6DEmb/, https://www.bilibili.com/video/BV1WSV86tEAi/, https://www.bilibili.com/video/BV1Ao5K68EFL/, https://www.bilibili.com/video/BV1v3Vv6fEyq/, https://www.bilibili.com/video/BV1D8GH6LEas/, http://www.bilibili.com/video/av116474194690660, http://www.bilibili.com/video/av116640020698647, http://www.bilibili.com/video/av116567023028767, http://www.bilibili.com/video/av116647167791596, http://www.bilibili.com/video/av116656344996492, http://www.bilibili.com/video/av116656059849355, http://www.bilibili.com/video/av116656412101323, http://www.bilibili.com/video/av116657452224299, http://www.bilibili.com/video/av116657234123006, http://www.bilibili.com/video/av116559087541736, http://www.bilibili.com/video/av116658995792793, http://www.bilibili.com/video/av116629904098833",
-          "uid": "BV1rXo6BtESo,BV1UGVP6oE34,BV1bS5y6mEXd,BV1CoGU6rETk,BV1tJVb6FEPX,BV1aQVb6MEtd,BV1rUVt6nEGM,BV1jFVh6DEmb,BV1WSV86tEAi,BV1Ao5K68EFL,BV1v3Vv6fEyq,BV1D8GH6LEas",
-          "sample": "？？？良作无人OAO"
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1LTGi6tE16/, https://www.bilibili.com/video/BV1eNf9BREj6/, https://www.bilibili.com/video/BV1tT9ZBGEx1/, https://www.bilibili.com/video/BV1tgtbzjE4G/, https://www.bilibili.com/video/BV1KB6cBmEt4/, https://www.bilibili.com/video/BV1Mv6mYdEXU/, http://www.bilibili.com/video/av116623176438936, http://www.bilibili.com/video/av116010204007576, http://www.bilibili.com/video/av116509292697769, http://www.bilibili.com/video/av114998303005127, http://www.bilibili.com/video/av115979015227307, http://www.bilibili.com/video/av113763080470838",
+          "uid": "BV1LTGi6tE16,BV1eNf9BREj6,BV1tT9ZBGEx1,BV1tgtbzjE4G,BV1KB6cBmEt4,BV1Mv6mYdEXU",
+          "sample": "这个呼吸都要钱的游戏，零氪实在是毫无体验[吃瓜][吃瓜]"
         },
         {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1bU19BEERh/, https://www.bilibili.com/video/BV1tyVu63Ees/, https://www.bilibili.com/video/BV1hky3BbEVN/, https://www.bilibili.com/video/BV1q44YemEwG/, https://www.bilibili.com/video/BV19NQbBAEJQ/, https://www.bilibili.com/video/BV1pH4y1u7CZ/, http://www.bilibili.com/video/av115514303056395, http://www.bilibili.com/video/av113113416339387, http://www.bilibili.com/video/av543925175, http://www.bilibili.com/video/av33110949, http://www.bilibili.com/video/av114829490716811, http://www.bilibili.com/video/av60788884, http://www.bilibili.com/video/av115946366701699, http://www.bilibili.com/video/av45124929, http://www.bilibili.com/video/av877055439, http://www.bilibili.com/video/av114974647194845, http://www.bilibili.com/video/av113205389107162, http://www.bilibili.com/video/av40856753, http://www.bilibili.com/video/av529587647, http://www.bilibili.com/video/av68023289, http://www.bilibili.com/video/av114501579965969, http://www.bilibili.com/video/av46048249, http://www.bilibili.com/video/av884056163, http://www.bilibili.com/video/av368387569, http://www.bilibili.com/video/av67520240, http://www.bilibili.com/video/av237543731, http://www.bilibili.com/video/av116661898254333, http://www.bilibili.com/video/av116397405372611, http://www.bilibili.com/video/av54526657, http://www.bilibili.com/video/av114079498770542, http://www.bilibili.com/video/av642085008, http://www.bilibili.com/video/av201058751, http://www.bilibili.com/video/av116662686717105, http://www.bilibili.com/video/av116570781125283, http://www.bilibili.com/video/av116055099838792, http://www.bilibili.com/video/av115977840757199, http://www.bilibili.com/video/av115571093937892, http://www.bilibili.com/video/av115490429279498, http://www.bilibili.com/video/av116533200165810, http://www.bilibili.com/video/av116652335174807, http://www.bilibili.com/video/av115976515355784, http://www.bilibili.com/video/av116646077337894, http://www.bilibili.com/video/av116661982075115, http://www.bilibili.com/video/av116661948580922, http://www.bilibili.com/video/av1053418493, http://www.bilibili.com/video/av116633980963598, http://www.bilibili.com/video/av116340245398528, http://www.bilibili.com/video/av114420764122522, http://www.bilibili.com/video/av411057792, http://www.bilibili.com/video/av467183054, http://www.bilibili.com/video/av1054754615, http://www.bilibili.com/video/av878500159, http://www.bilibili.com/video/av734424480, http://www.bilibili.com/video/av115654627693430, http://www.bilibili.com/video/av933871086",
-          "uid": "BV1bU19BEERh,BV1tyVu63Ees,BV1hky3BbEVN,BV1q44YemEwG,BV19NQbBAEJQ,BV1pH4y1u7CZ",
-          "sample": "？？？良作无人OAO"
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1LTGi6tE16/, https://www.bilibili.com/video/BV1eNf9BREj6/, https://www.bilibili.com/video/BV1tT9ZBGEx1/, https://www.bilibili.com/video/BV1tgtbzjE4G/, https://www.bilibili.com/video/BV1KB6cBmEt4/, https://www.bilibili.com/video/BV1Mv6mYdEXU/, http://www.bilibili.com/video/av116623176438936, http://www.bilibili.com/video/av116010204007576, http://www.bilibili.com/video/av116509292697769, http://www.bilibili.com/video/av114998303005127, http://www.bilibili.com/video/av115979015227307, http://www.bilibili.com/video/av113763080470838",
+          "uid": "BV1LTGi6tE16,BV1eNf9BREj6,BV1tT9ZBGEx1,BV1tgtbzjE4G,BV1KB6cBmEt4,BV1Mv6mYdEXU",
+          "sample": "UP，请问零氪先只玩一个号，推荐什么职业起号[doge_金箍]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1LTGi6tE16/, https://www.bilibili.com/video/BV1eNf9BREj6/, https://www.bilibili.com/video/BV1tT9ZBGEx1/, https://www.bilibili.com/video/BV1tgtbzjE4G/, https://www.bilibili.com/video/BV1KB6cBmEt4/, https://www.bilibili.com/video/BV1Mv6mYdEXU/, http://www.bilibili.com/video/av116623176438936, http://www.bilibili.com/video/av116010204007576, http://www.bilibili.com/video/av116509292697769, http://www.bilibili.com/video/av114998303005127, http://www.bilibili.com/video/av115979015227307, http://www.bilibili.com/video/av113763080470838",
+          "uid": "BV1LTGi6tE16,BV1eNf9BREj6,BV1tT9ZBGEx1,BV1tgtbzjE4G,BV1KB6cBmEt4,BV1Mv6mYdEXU",
+          "sample": "新开服零氪三天内能搞到2千到3千之内元宝不？"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1c2fbY3EYt/, https://www.bilibili.com/video/BV1rFG76JEVW/, https://www.bilibili.com/video/BV1EQGJ6pEP2/, https://www.bilibili.com/video/BV166GB6kEsa/, https://www.bilibili.com/video/BV1ERLM6aETu/, https://www.bilibili.com/video/BV16MGH68Ehd/, http://www.bilibili.com/video/av113871293517596, http://www.bilibili.com/video/av116628561857306, http://www.bilibili.com/video/av116628830291798, http://www.bilibili.com/video/av116623914567256, http://www.bilibili.com/video/av116599386279764, http://www.bilibili.com/video/av116630206025725",
+          "uid": "BV1c2fbY3EYt,BV1rFG76JEVW,BV1EQGJ6pEP2,BV166GB6kEsa,BV1ERLM6aETu,BV16MGH68Ehd",
+          "sample": "至于对PVP有什么影响，我觉得明日现在零氪玩对战的应该很少了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1pF5u6NEFS/, https://www.bilibili.com/video/BV1rFG76JEVW/, https://www.bilibili.com/video/BV15cGn6jERp/, https://www.bilibili.com/video/BV1mdGn6BE9i/, https://www.bilibili.com/video/BV1rNGH6aEfd/, https://www.bilibili.com/video/BV1U39jBtEaq/, http://www.bilibili.com/video/av116562040194411, http://www.bilibili.com/video/av116628561857306, http://www.bilibili.com/video/av116628796741243, http://www.bilibili.com/video/av116630608680016, http://www.bilibili.com/video/av116630172471123, http://www.bilibili.com/video/av116329004733685",
+          "uid": "BV1pF5u6NEFS,BV1rFG76JEVW,BV15cGn6jERp,BV1mdGn6BE9i,BV1rNGH6aEfd,BV1U39jBtEaq",
+          "sample": "至于对PVP有什么影响，我觉得明日现在零氪玩对战的应该很少了"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1m24y1A7Pb/, https://www.bilibili.com/video/BV14suJzgEcB/, https://www.bilibili.com/video/BV1bS4y1m77c/, https://www.bilibili.com/video/BV1uLKHz5EXc/, https://www.bilibili.com/video/BV1eDGL6qE1a/, https://www.bilibili.com/video/BV1kK411N7B5/, http://www.bilibili.com/video/av784193535, http://www.bilibili.com/video/av725283200, http://www.bilibili.com/video/av499409287, http://www.bilibili.com/video/av116329273105893, http://www.bilibili.com/video/av18833735, http://www.bilibili.com/video/av116551067960622, http://www.bilibili.com/video/av116550363383895, http://www.bilibili.com/video/av114743037791256, http://www.bilibili.com/video/av116551470618173, http://www.bilibili.com/video/av679343916, http://www.bilibili.com/video/av835493384, http://www.bilibili.com/video/av116137744400451, http://www.bilibili.com/video/av114856132871660, http://www.bilibili.com/video/av116619502164179, http://www.bilibili.com/video/av114743641705544, http://www.bilibili.com/video/av116627169413264, http://www.bilibili.com/video/av116290886831963, http://www.bilibili.com/video/av116629702710389, http://www.bilibili.com/video/av116629115508045, http://www.bilibili.com/video/av116590326651085, http://www.bilibili.com/video/av116634266179355, http://www.bilibili.com/video/av116635037864302, http://www.bilibili.com/video/av116106740108543, http://www.bilibili.com/video/av114924030266831, http://www.bilibili.com/video/av116629904104096, http://www.bilibili.com/video/av116626145936932, http://www.bilibili.com/video/av114975687380263, http://www.bilibili.com/video/av116553299269847, http://www.bilibili.com/video/av114875057643483, http://www.bilibili.com/video/av499495764, http://www.bilibili.com/video/av1053418493, http://www.bilibili.com/video/av277044709, http://www.bilibili.com/video/av453516772, http://www.bilibili.com/video/av116526589943508, http://www.bilibili.com/video/av115295863704202, http://www.bilibili.com/video/av116260855682667, http://www.bilibili.com/video/av116629048460907",
+          "uid": "BV1m24y1A7Pb,BV14suJzgEcB,BV1bS4y1m77c,BV1uLKHz5EXc,BV1eDGL6qE1a,BV1kK411N7B5",
+          "sample": "零氪玩家表示，开服就玩关服就散，主打一个陪伴[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV18XbNzWEsx/, https://www.bilibili.com/video/BV1JgzLBuENv/, https://www.bilibili.com/video/BV15SVh67EPd/, https://www.bilibili.com/video/BV1FKgnzKEsM/, https://www.bilibili.com/video/BV1657VzwEj4/, https://www.bilibili.com/video/BV1NJm5YVEf6/, https://www.bilibili.com/video/BV1R8411S7zQ/, https://www.bilibili.com/video/BV1tN411r7sJ/, https://www.bilibili.com/video/BV1MwVVziEjX/, https://www.bilibili.com/video/BV1CaUYBnEsm/, https://www.bilibili.com/video/BV1GmTvzXEYH/, https://www.bilibili.com/video/BV14L2DBMEqr/, http://www.bilibili.com/video/av115005198507614, http://www.bilibili.com/video/av115932777160067, http://www.bilibili.com/video/av116656915415781, http://www.bilibili.com/video/av114895190232083, http://www.bilibili.com/video/av114590197227293, http://www.bilibili.com/video/av113305247025126, http://www.bilibili.com/video/av230690889, http://www.bilibili.com/video/av487502852, http://www.bilibili.com/video/av114437658773808, http://www.bilibili.com/video/av115615604019469, http://www.bilibili.com/video/av114653732541190, http://www.bilibili.com/video/av115689088158291",
+          "uid": "BV18XbNzWEsx,BV1JgzLBuENv,BV15SVh67EPd,BV1FKgnzKEsM,BV1657VzwEj4,BV1NJm5YVEf6,BV1R8411S7zQ,BV1tN411r7sJ,BV1MwVVziEjX,BV1CaUYBnEsm,BV1GmTvzXEYH,BV14L2DBMEqr",
+          "sample": "如果我是零氪玩家怎么办？"
         }
       ]
     }

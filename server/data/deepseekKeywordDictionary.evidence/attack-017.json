@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T23:25:48.247Z",
+  "updatedAt": "2026-06-26T11:49:44.186Z",
   "family": "attack",
   "shard": 17,
-  "shardCount": 336,
+  "shardCount": 334,
   "evidence": [
     {
       "term": "被骂",
@@ -105,6 +105,7 @@
         "你知道b站首页的搜索框天天默认你们的名字，一搜索结果发现还是2个月前的视频吗？那种视频我都看完，天天推送，结果进去被耍了感觉，没更新喊我进来看啥，温故知新每天看一次么[无语]",
         "你知道b站首页的搜索框天天默认你们的名字，一搜索结果发现还是2个月前的视频吗？那种视频我都看完，天天推送，结果进去被耍了感觉，没更新喊我进来看啥，温故知新每天看一次么[无语] 已经令我有点烦了，要不跟阿B说说已关注的up就别在搜索框推荐了，有点败好感了",
         "感觉在感情上被耍了，想哭 难受，我只是一个18岁的阴湿宅女",
+        "2333被耍了吧！？日本人坑起人来真是没底线。",
         "Bilibili video context: “人间魔法师”高雨田，因敦煌飞天魔术引争议，网友：被耍了"
       ],
       "evidenceSources": [
@@ -122,6 +123,11 @@
           "source": "Hugging Face dataset: Orphanage/Baidu_Tieba_SunXiaochuan/train.jsonl",
           "uid": "",
           "sample": "感觉在感情上被耍了，想哭 难受，我只是一个18岁的阴湿宅女"
+        },
+        {
+          "source": "Bilibili history-tag harvest (multi-round): https://www.bilibili.com/video/BV1tb411s78y/ (seed: 会津战争)",
+          "uid": "BV1tb411s78y",
+          "sample": "2333被耍了吧！？日本人坑起人来真是没底线。"
         },
         {
           "source": "batch-scrape",

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T23:25:48.247Z",
+  "updatedAt": "2026-06-26T11:49:44.186Z",
   "family": "attack",
   "shard": 2,
   "shardCount": 5,
@@ -38,8 +38,8 @@
       "meaning": "固定格式言‘你搁这搁这呢’，讽刺对方说话绕弯子、重复或无意义",
       "risk": "medium",
       "confidence": 0.85,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-02T12:06:09.853Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "搁这呢",
@@ -234,10 +234,10 @@
       "term": "挂路灯",
       "family": "attack",
       "meaning": "极端讽刺梗，指被处决，用于批评或调侃某种行为方式",
-      "risk": "high",
+      "risk": "medium",
       "confidence": 0.75,
       "evidenceCount": 5,
-      "updatedAt": "2026-05-31T02:27:26.619Z"
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "关了吧",
@@ -246,7 +246,7 @@
       "risk": "medium",
       "confidence": 0.75,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "关了吧没意思",
@@ -254,8 +254,8 @@
       "meaning": "阴阳怪气评价对方操作或内容无趣、作弊，含讽刺",
       "risk": "medium",
       "confidence": 0.78,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "关系户",
@@ -390,7 +390,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "还是太超前了",
@@ -398,8 +398,8 @@
       "meaning": "反讽某观点或作品过于超前而不被理解",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "海王",
@@ -477,10 +477,10 @@
       "term": "好骂",
       "family": "attack",
       "meaning": "赞扬他人骂得好，常用于支持攻击某一方",
-      "risk": "positive",
+      "risk": "medium",
       "confidence": 0.88,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "evidenceCount": 10,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "好死",
@@ -605,8 +605,8 @@
       "meaning": "配合doge使用，阴阳怪气讽刺对方自以为很懂",
       "risk": "medium",
       "confidence": 0.78,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "很懂嘛老铁",
@@ -614,8 +614,8 @@
       "meaning": "配合doge使用，阴阳怪气讽刺对方自以为很懂",
       "risk": "medium",
       "confidence": 0.78,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "很难绷",
@@ -803,8 +803,8 @@
       "meaning": "形容人狡猾、耍小聪明，含贬义",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 4,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "积德",
@@ -813,7 +813,7 @@
       "risk": "high",
       "confidence": 0.8,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "基本盘",
@@ -857,8 +857,8 @@
       "meaning": "Bilibili danmaku 攻击性表达",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-25T17:02:25.000Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "急死了",
@@ -1008,10 +1008,10 @@
       "term": "搅屎棍",
       "family": "attack",
       "meaning": "网络用语，比喻扰乱局面、制造麻烦的人，用于贬低姆巴佩",
-      "risk": "high",
+      "risk": "medium",
       "confidence": 0.95,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-01T01:19:12.898Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "叫爸爸",
@@ -1028,8 +1028,8 @@
       "meaning": "Bilibili danmaku 攻击性表达",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-25T17:02:25.000Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "接盘",
@@ -1173,7 +1173,7 @@
       "risk": "high",
       "confidence": 0.83,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "精神小伙",
@@ -1217,8 +1217,8 @@
       "meaning": "互联网中文表达模式 - 攻击性表达",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-25T17:02:25.000Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "举国之力",
@@ -1226,8 +1226,8 @@
       "meaning": "用夸张的严肃词汇搭配哭笑表情，讽刺投入巨大但效果不佳",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-17T18:52:11.014Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "巨婴",
@@ -1244,8 +1244,8 @@
       "meaning": "借用官方宣传歌曲名进行讽刺，暗示场合可能需要表态唱此类歌曲",
       "risk": "medium",
       "confidence": 0.85,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-01T03:15:38.851Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "撅醒",
@@ -1371,7 +1371,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "柯哀党",
@@ -1494,10 +1494,10 @@
       "term": "坤巴",
       "family": "attack",
       "meaning": "‘几把’的谐音粗口，用于表达强烈不满或贬低",
-      "risk": "high",
+      "risk": "medium",
       "confidence": 0.85,
-      "evidenceCount": 4,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "坤哥",
@@ -1623,7 +1623,7 @@
       "risk": "medium",
       "confidence": 0.75,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "烂梗王",
@@ -1899,10 +1899,10 @@
       "term": "两元店",
       "family": "attack",
       "meaning": "用街边廉价店铺的叫卖声作为比喻，讽刺或调侃声音低质、廉价",
-      "risk": "neutral",
-      "confidence": 0.6,
-      "evidenceCount": 3,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "亮血条",
@@ -2117,8 +2117,8 @@
       "meaning": "指游戏中的卡牌名称，但在样本中被用来调侃为‘最大的小丑’，带有贬低角色实用性或嘲讽玩家选择的意味",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "玛丽苏",
@@ -2135,8 +2135,8 @@
       "meaning": "Bilibili danmaku 攻击性表达",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "买的",
@@ -2145,7 +2145,7 @@
       "risk": "medium",
       "confidence": 0.75,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "买的评论",
@@ -2154,7 +2154,7 @@
       "risk": "medium",
       "confidence": 0.75,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "卖票",
@@ -2181,7 +2181,7 @@
       "risk": "high",
       "confidence": 0.95,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "盲女兔兔",

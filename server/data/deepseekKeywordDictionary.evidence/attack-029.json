@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T23:25:48.247Z",
+  "updatedAt": "2026-06-26T11:49:44.186Z",
   "family": "attack",
   "shard": 29,
-  "shardCount": 336,
+  "shardCount": 334,
   "evidence": [
     {
       "term": "不是人了呗",
@@ -63,13 +63,24 @@
         "[笑哭]不要侮辱狗，这种拟人玩意怎么比得上狗啊，狗可是很忠心的",
         "不要侮辱狗！",
         "狗重要 请不要侮辱狗子",
-        "不要侮辱狗"
+        "不要侮辱狗",
+        "请不要侮辱狗"
       ],
       "evidenceSources": [
         {
           "source": "Popular video comments UID 354745 (1 comments from 1 videos)",
           "uid": "354745",
           "sample": "[笑哭]不要侮辱狗，这种拟人玩意怎么比得上狗啊，狗可是很忠心的"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1Fx411b7NR/ (seed: 抗日战争)",
+          "uid": "BV1Fx411b7NR",
+          "sample": "不要侮辱狗"
+        },
+        {
+          "source": "Bilibili history-tag harvest (multi-round): https://www.bilibili.com/video/BV1Sy4y1T7sv/ (seed: 中国近代史)",
+          "uid": "BV1Sy4y1T7sv",
+          "sample": "请不要侮辱狗"
         },
         {
           "source": "batch-scrape",
@@ -95,16 +106,48 @@
           "source": "batch-scrape",
           "uid": "batch-full-v6",
           "sample": "[笑哭]不要侮辱狗，这种拟人玩意怎么比得上狗啊，狗可是很忠心的"
+        }
+      ]
+    },
+    {
+      "term": "不主动不拒绝",
+      "evidenceSamples": [
+        "谈恋爱 就是互相了解的阶段，行就结婚，不行就散，又没结婚 有什么责任？不主动 不拒绝 可能是不太满意 先接触看看吧，婚姻就是交易，一个图钱 一个图涩，共同完成一个养儿防老的项目。交易非得说成感情，但谈感情的前提是条件得达标。",
+        "不主动不拒绝不负责",
+        "你的三不原则已经过时了，现在新的三不原则是不“不检查”、“不追溯”、“不承担”[doge]",
+        "AI课代表总结：“追女生要遵循‘三不’原则：不拒绝与其他女性交往；不接受对方设置的各种考验；不解释自己的一举一动。这些原则强调自我尊重与独立，在情感中建立平等关系的重要性。通过实例讲解，视频展示了如何运用‘三不’策略，帮助一位追求女生的男士...",
+        "回复 @叶思甜 :不闹腾，不拆家，不听使唤......怎么那么像渣男，不主动，不拒绝，不负责[喜极而泣][喜极而泣][喜极而泣]"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1JcoyYgErY/, https://www.bilibili.com/video/BV1gjoXBrE3F/, https://www.bilibili.com/video/BV1hh4y1M7hv/, https://www.bilibili.com/video/BV1fuRvBvEyL/, https://www.bilibili.com/video/BV1Am4y1C7sV/, https://www.bilibili.com/video/BV1L4fRB8E8z/, http://www.bilibili.com/video/av114216988057031, http://www.bilibili.com/video/av116464497460893, http://www.bilibili.com/video/av615367037, http://www.bilibili.com/video/av116515634481770, http://www.bilibili.com/video/av698122082, http://www.bilibili.com/video/av116011193927175",
+          "uid": "BV1JcoyYgErY,BV1gjoXBrE3F,BV1hh4y1M7hv,BV1fuRvBvEyL,BV1Am4y1C7sV,BV1L4fRB8E8z",
+          "sample": "谈恋爱 就是互相了解的阶段，行就结婚，不行就散，又没结婚 有什么责任？不主动 不拒绝 可能是不太满意 先接触看看吧，婚姻就是交易，一个图钱 一个图涩，共同完成一个养儿防老的项目。交易非得说成感情，但谈感情的前提是条件得达标。"
         },
         {
-          "source": "batch-scrape",
-          "uid": "batch-5k",
-          "sample": "[笑哭]不要侮辱狗，这种拟人玩意怎么比得上狗啊，狗可是很忠心的"
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1E5drBnEKp/, https://www.bilibili.com/video/BV1eq1rYZEKB/, https://www.bilibili.com/video/BV1QHJAe3ExF/, https://www.bilibili.com/video/BV13TtJztEog/, https://www.bilibili.com/video/BV1tKc4emEwm/, https://www.bilibili.com/video/BV1Vh4118797/, http://www.bilibili.com/video/av116436865520673, http://www.bilibili.com/video/av113262851003646, http://www.bilibili.com/video/av112415533498369, http://www.bilibili.com/video/av114974244541327, http://www.bilibili.com/video/av113807305278757, http://www.bilibili.com/video/av208806606",
+          "uid": "BV1E5drBnEKp,BV1eq1rYZEKB,BV1QHJAe3ExF,BV13TtJztEog,BV1tKc4emEwm,BV1Vh4118797",
+          "sample": "不主动不拒绝不负责"
         },
         {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV12Z421T7c6/, https://www.bilibili.com/video/BV1zFVd6oE92/, https://www.bilibili.com/video/BV1naV76HE2j/, https://www.bilibili.com/video/BV1FZ421q78e/, https://www.bilibili.com/video/BV1NFVD6pECL/, https://www.bilibili.com/video/BV1rLX4BrE89/, https://www.bilibili.com/video/BV1YSMezxEGj/, https://www.bilibili.com/video/BV1p1VD6QEBt/, https://www.bilibili.com/video/BV1PFV562EJL/, https://www.bilibili.com/video/BV1b44y1B7Z4/, https://www.bilibili.com/video/BV1DKVf6nEFT/, https://www.bilibili.com/video/BV1ry421q76y/, http://www.bilibili.com/video/av1156258870, http://www.bilibili.com/video/av1152848552, http://www.bilibili.com/video/av114691665823755, http://www.bilibili.com/video/av973690713, http://www.bilibili.com/video/av799145100, http://www.bilibili.com/video/av490260376, http://www.bilibili.com/video/av629233613, http://www.bilibili.com/video/av113949911548456, http://www.bilibili.com/video/av116318854455112, http://www.bilibili.com/video/av347800972, http://www.bilibili.com/video/av114482135175960, http://www.bilibili.com/video/av508923023, http://www.bilibili.com/video/av1403830248, http://www.bilibili.com/video/av113113215010687, http://www.bilibili.com/video/av116184351513867, http://www.bilibili.com/video/av115381343623009, http://www.bilibili.com/video/av115926603202915, http://www.bilibili.com/video/av113282614564910, http://www.bilibili.com/video/av113335295085394, http://www.bilibili.com/video/av116673642235582, http://www.bilibili.com/video/av116670488119244, http://www.bilibili.com/video/av116669917825118, http://www.bilibili.com/video/av116674028242448, http://www.bilibili.com/video/av116658844796803, http://www.bilibili.com/video/av116672249796438, http://www.bilibili.com/video/av116672333615434, http://www.bilibili.com/video/av116672954369653, http://www.bilibili.com/video/av116668659472525, http://www.bilibili.com/video/av116670739846785, http://www.bilibili.com/video/av116655740947025, http://www.bilibili.com/video/av116672585269909, http://www.bilibili.com/video/av116669951253076, http://www.bilibili.com/video/av116668273659875, http://www.bilibili.com/video/av116619116286309, http://www.bilibili.com/video/av116670622339436, http://www.bilibili.com/video/av115701620871526, http://www.bilibili.com/video/av116673927451933, http://www.bilibili.com/video/av116639567708855, http://www.bilibili.com/video/av116644886086802, http://www.bilibili.com/video/av116668424652648, http://www.bilibili.com/video/av116669649261806, http://www.bilibili.com/video/av116312462335898, http://www.bilibili.com/video/av116669062185568, http://www.bilibili.com/video/av116660807668057, http://www.bilibili.com/video/av116669330492066, http://www.bilibili.com/video/av116669515110923, http://www.bilibili.com/video/av116669766763621, http://www.bilibili.com/video/av116653459244959, http://www.bilibili.com/video/av114331324912237, http://www.bilibili.com/video/av116613395253133, http://www.bilibili.com/video/av411057792, http://www.bilibili.com/video/av114341659543878, http://www.bilibili.com/video/av115477594639550, http://www.bilibili.com/video/av116606348824917, http://www.bilibili.com/video/av116336252421268, http://www.bilibili.com/video/av116673021543492, http://www.bilibili.com/video/av951683372, http://www.bilibili.com/video/av1153134635, http://www.bilibili.com/video/av1053418493, http://www.bilibili.com/video/av116317730444323, http://www.bilibili.com/video/av116665371073393, http://www.bilibili.com/video/av116296305875661, http://www.bilibili.com/video/av116663592685998, http://www.bilibili.com/video/av1551165514, http://www.bilibili.com/video/av812288551, http://www.bilibili.com/video/av115764065475841, http://www.bilibili.com/video/av382358500, http://www.bilibili.com/video/av115478903136157, http://www.bilibili.com/video/av116562962944390, http://www.bilibili.com/video/av115127705665872, http://www.bilibili.com/video/av116103267227447, http://www.bilibili.com/video/av116604251673845",
-          "uid": "BV12Z421T7c6,BV1zFVd6oE92,BV1naV76HE2j,BV1FZ421q78e,BV1NFVD6pECL,BV1rLX4BrE89,BV1YSMezxEGj,BV1p1VD6QEBt,BV1PFV562EJL,BV1b44y1B7Z4,BV1DKVf6nEFT,BV1ry421q76y",
-          "sample": "[笑哭]不要侮辱狗，这种拟人玩意怎么比得上狗啊，狗可是很忠心的"
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Kt41187Ds/, https://www.bilibili.com/video/BV1ni421y7wd/, https://www.bilibili.com/video/BV1UBGqzNE4y/, https://www.bilibili.com/video/BV1iwAGznEQy/, http://www.bilibili.com/video/av1454065881, http://www.bilibili.com/video/av114432390725784, http://www.bilibili.com/video/av116272650002224, http://www.bilibili.com/video/av113167657078936, http://www.bilibili.com/video/av214730465, http://www.bilibili.com/video/av116615173642401, http://www.bilibili.com/video/av41174681, http://www.bilibili.com/video/av115974552487594, http://www.bilibili.com/video/av114908863729531, http://www.bilibili.com/video/av379381172",
+          "uid": "BV1Kt41187Ds,BV1ni421y7wd,BV1UBGqzNE4y,BV1iwAGznEQy",
+          "sample": "你的三不原则已经过时了，现在新的三不原则是不“不检查”、“不追溯”、“不承担”[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Kt41187Ds/, https://www.bilibili.com/video/BV1ni421y7wd/, https://www.bilibili.com/video/BV1UBGqzNE4y/, https://www.bilibili.com/video/BV1iwAGznEQy/, http://www.bilibili.com/video/av1454065881, http://www.bilibili.com/video/av114432390725784, http://www.bilibili.com/video/av116272650002224, http://www.bilibili.com/video/av113167657078936, http://www.bilibili.com/video/av214730465, http://www.bilibili.com/video/av116615173642401, http://www.bilibili.com/video/av41174681, http://www.bilibili.com/video/av115974552487594, http://www.bilibili.com/video/av114908863729531, http://www.bilibili.com/video/av379381172",
+          "uid": "BV1Kt41187Ds,BV1ni421y7wd,BV1UBGqzNE4y,BV1iwAGznEQy",
+          "sample": "AI课代表总结：“追女生要遵循‘三不’原则：不拒绝与其他女性交往；不接受对方设置的各种考验；不解释自己的一举一动。这些原则强调自我尊重与独立，在情感中建立平等关系的重要性。通过实例讲解，视频展示了如何运用‘三不’策略，帮助一位追求女生的男士..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV19tqjBZEMe/, https://www.bilibili.com/video/BV1ymLY6VEEG/, https://www.bilibili.com/video/BV1Uw4m1R7A2/, https://www.bilibili.com/video/BV1EadbBJETX/, https://www.bilibili.com/video/BV1dvGX6GEmL/, https://www.bilibili.com/video/BV1vf421X7gj/, https://www.bilibili.com/video/BV1oq4y1i7gz/, https://www.bilibili.com/video/BV1Y5VH6JEUt/, https://www.bilibili.com/video/BV1b1cqz3EfS/, https://www.bilibili.com/video/BV1QZ421u7Hz/, https://www.bilibili.com/video/BV1z5V86HEaq/, http://www.bilibili.com/video/av115735661647082, http://www.bilibili.com/video/av116412538426722, http://www.bilibili.com/video/av594743013, http://www.bilibili.com/video/av1155647395, http://www.bilibili.com/video/av113740766843482, http://www.bilibili.com/video/av113141602059841, http://www.bilibili.com/video/av312910216, http://www.bilibili.com/video/av833887824, http://www.bilibili.com/video/av902851562, http://www.bilibili.com/video/av1304132087, http://www.bilibili.com/video/av114245660378716, http://www.bilibili.com/video/av114591606508646, http://www.bilibili.com/video/av114481212427085, http://www.bilibili.com/video/av116400693713918, http://www.bilibili.com/video/av98861042, http://www.bilibili.com/video/av114846687305712, http://www.bilibili.com/video/av113436662960303, http://www.bilibili.com/video/av572742197, http://www.bilibili.com/video/av272672208, http://www.bilibili.com/video/av116278975073179, http://www.bilibili.com/video/av116251141670583, http://www.bilibili.com/video/av114505237468343, http://www.bilibili.com/video/av266098349, http://www.bilibili.com/video/av1654316716, http://www.bilibili.com/video/av113837336432952, http://www.bilibili.com/video/av114193919378681, http://www.bilibili.com/video/av114159308054109, http://www.bilibili.com/video/av113623125004070, http://www.bilibili.com/video/av115423152510810, http://www.bilibili.com/video/av114464871420913, http://www.bilibili.com/video/av114560451220285, http://www.bilibili.com/video/av114976844943376, http://www.bilibili.com/video/av113833125417682, http://www.bilibili.com/video/av116615727288207, http://www.bilibili.com/video/av116651294984104, http://www.bilibili.com/video/av116652133848354, http://www.bilibili.com/video/av116655740947025, http://www.bilibili.com/video/av116650590341025, http://www.bilibili.com/video/av114012188581128, http://www.bilibili.com/video/av116656948975023, http://www.bilibili.com/video/av116640389797289, http://www.bilibili.com/video/av116652452678160, http://www.bilibili.com/video/av720783904, http://www.bilibili.com/video/av116658844796803, http://www.bilibili.com/video/av116652352018090, http://www.bilibili.com/video/av116639567708855, http://www.bilibili.com/video/av116664247064134, http://www.bilibili.com/video/av116664163111950, http://www.bilibili.com/video/av116662971930209, http://www.bilibili.com/video/av116664498657993, http://www.bilibili.com/video/av115008939753693, http://www.bilibili.com/video/av116103837714027, http://www.bilibili.com/video/av116644886086802, http://www.bilibili.com/video/av114534866028238, http://www.bilibili.com/video/av723518469, http://www.bilibili.com/video/av116667552108353, http://www.bilibili.com/video/av115411894934970, http://www.bilibili.com/video/av116662384725876, http://www.bilibili.com/video/av116659448847224, http://www.bilibili.com/video/av116670622339436, http://www.bilibili.com/video/av116668424652648, http://www.bilibili.com/video/av116657351563517, http://www.bilibili.com/video/av112476520647168, http://www.bilibili.com/video/av114838634303333, http://www.bilibili.com/video/av116532881457367, http://www.bilibili.com/video/av116336252421268, http://www.bilibili.com/video/av114331324912237, http://www.bilibili.com/video/av996960367, http://www.bilibili.com/video/av116265284998817, http://www.bilibili.com/video/av116652570116610, http://www.bilibili.com/video/av114243798048543, http://www.bilibili.com/video/av113859633551591, http://www.bilibili.com/video/av116317730444323, http://www.bilibili.com/video/av115477846163801, http://www.bilibili.com/video/av1102012356, http://www.bilibili.com/video/av1205478047, http://www.bilibili.com/video/av116057616548249, http://www.bilibili.com/video/av116531153405528, http://www.bilibili.com/video/av113656612265833, http://www.bilibili.com/video/av116639987274048, http://www.bilibili.com/video/av948255626, http://www.bilibili.com/video/av114731679490019, http://www.bilibili.com/video/av574224046, http://www.bilibili.com/video/av116667652774700, http://www.bilibili.com/video/av114809660052231, http://www.bilibili.com/video/av116621767285361",
+          "uid": "BV19tqjBZEMe,BV1ymLY6VEEG,BV1Uw4m1R7A2,BV1EadbBJETX,BV1dvGX6GEmL,BV1vf421X7gj,BV1oq4y1i7gz,BV1Y5VH6JEUt,BV1b1cqz3EfS,BV1QZ421u7Hz,BV1z5V86HEaq",
+          "sample": "回复 @叶思甜 :不闹腾，不拆家，不听使唤......怎么那么像渣男，不主动，不拒绝，不负责[喜极而泣][喜极而泣][喜极而泣]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1ABfxBtE8t/, https://www.bilibili.com/video/BV1zjPueZEcs/, https://www.bilibili.com/video/BV1m5tXeHEF4/, https://www.bilibili.com/video/BV1ZFKdzHEhB/, https://www.bilibili.com/video/BV1kioaBTEkq/, https://www.bilibili.com/video/BV1tT2VYzENg/, https://www.bilibili.com/video/BV1AmrHY1EmE/, https://www.bilibili.com/video/BV1q7421R7mh/, https://www.bilibili.com/video/BV1EZWXzoEFj/, https://www.bilibili.com/video/BV1w8CZYDECE/, https://www.bilibili.com/video/BV1qLduBbEhc/, https://www.bilibili.com/video/BV1mW4y1E7At/, http://www.bilibili.com/video/av116130379466714, http://www.bilibili.com/video/av114747852721794, http://www.bilibili.com/video/av113768935720721, http://www.bilibili.com/video/av115412045925003, http://www.bilibili.com/video/av944451386, http://www.bilibili.com/video/av114886231199911, http://www.bilibili.com/video/av116063203297121, http://www.bilibili.com/video/av114603954536795, http://www.bilibili.com/video/av115242428275247, http://www.bilibili.com/video/av114567245995682, http://www.bilibili.com/video/av114898126244850, http://www.bilibili.com/video/av1205972521, http://www.bilibili.com/video/av114906246487892, http://www.bilibili.com/video/av113327426576088, http://www.bilibili.com/video/av114325217871348, http://www.bilibili.com/video/av114840228071974, http://www.bilibili.com/video/av428037257, http://www.bilibili.com/video/av113005136251063, http://www.bilibili.com/video/av787087971, http://www.bilibili.com/video/av114551240593644, http://www.bilibili.com/video/av114083827289160, http://www.bilibili.com/video/av782880091, http://www.bilibili.com/video/av115710663662534, http://www.bilibili.com/video/av115710680373920, http://www.bilibili.com/video/av115710680435254, http://www.bilibili.com/video/av443420256, http://www.bilibili.com/video/av114047806736721, http://www.bilibili.com/video/av116451713228225, http://www.bilibili.com/video/av1655518793, http://www.bilibili.com/video/av113335278243597, http://www.bilibili.com/video/av113164217815041, http://www.bilibili.com/video/av328726496, http://www.bilibili.com/video/av807942842, http://www.bilibili.com/video/av1052483359, http://www.bilibili.com/video/av605064389, http://www.bilibili.com/video/av116659180274776, http://www.bilibili.com/video/av114543338460505, http://www.bilibili.com/video/av113439833850225, http://www.bilibili.com/video/av803755178, http://www.bilibili.com/video/av115033216450947, http://www.bilibili.com/video/av840830642, http://www.bilibili.com/video/av115305275722864, http://www.bilibili.com/video/av116645490066958, http://www.bilibili.com/video/av1652237424, http://www.bilibili.com/video/av116536924702230, http://www.bilibili.com/video/av116667988378800, http://www.bilibili.com/video/av114589157039572, http://www.bilibili.com/video/av116669330492066, http://www.bilibili.com/video/av115746801719085, http://www.bilibili.com/video/av116678457297823, http://www.bilibili.com/video/av116679749141200, http://www.bilibili.com/video/av116673357027114, http://www.bilibili.com/video/av116679732369569, http://www.bilibili.com/video/av116660807668057, http://www.bilibili.com/video/av116675772946492, http://www.bilibili.com/video/av116636162004176, http://www.bilibili.com/video/av116633376922254, http://www.bilibili.com/video/av114335317756298, http://www.bilibili.com/video/av1156282989, http://www.bilibili.com/video/av113283973650787, http://www.bilibili.com/video/av116654566545186",
+          "uid": "BV1ABfxBtE8t,BV1zjPueZEcs,BV1m5tXeHEF4,BV1ZFKdzHEhB,BV1kioaBTEkq,BV1tT2VYzENg,BV1AmrHY1EmE,BV1q7421R7mh,BV1EZWXzoEFj,BV1w8CZYDECE,BV1qLduBbEhc,BV1mW4y1E7At",
+          "sample": "三不原则"
         }
       ]
     }

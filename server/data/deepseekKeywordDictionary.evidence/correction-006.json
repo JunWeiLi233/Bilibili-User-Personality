@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T23:25:48.247Z",
+  "updatedAt": "2026-06-26T11:49:44.186Z",
   "family": "correction",
   "shard": 6,
-  "shardCount": 12,
+  "shardCount": 11,
   "evidence": [
     {
       "term": "没救了",
@@ -60,12 +60,33 @@
     {
       "term": "你搞错了",
       "evidenceSamples": [
-        "你搞错了，不是这个意思",
-        "你搞错了重点",
-        "前奏不就是张晓松老师吹的口琴吗 你搞错了吧",
-        "你搞错了，首页就是新鲜信息，两个月都太久了。如果首页都是一两年前的东西，这个视频app/网站就死了，只是一个死得资料库而不是活得手机app"
+        "这是两个同名的王浚，前面的你搞错了",
+        "刘邦它是汉王，汉中王是刘备你搞错了",
+        "你搞错了 武侠可是模仿日本武士 去看看电影发展史",
+        "你搞错了，是先有爹后有儿，你说爹像儿属于本末倒置",
+        "你搞错了，不是这个意思"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV17X4y1X7qT/ (seed: 晋朝)",
+          "uid": "BV17X4y1X7qT",
+          "sample": "这是两个同名的王浚，前面的你搞错了"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV13swWz3ETt/ (seed: 赵匡胤)",
+          "uid": "BV13swWz3ETt",
+          "sample": "刘邦它是汉王，汉中王是刘备你搞错了"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1T64y1V7Hp/ (seed: 新选组)",
+          "uid": "BV1T64y1V7Hp",
+          "sample": "你搞错了 武侠可是模仿日本武士 去看看电影发展史"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV11j421d7Pw/ (seed: 晚唐)",
+          "uid": "BV11j421d7Pw",
+          "sample": "你搞错了，是先有爹后有儿，你说爹像儿属于本末倒置"
+        },
         {
           "source": "Bilibili danmaku harvest from video BV1uw411Z7jE",
           "uid": "",
@@ -88,7 +109,8 @@
       "evidenceSamples": [
         "你说的有道理，但我吐槽的是那一个故意挑衅山地圈，破坏圈子和睦的事情[鸭科夫_流汗鸭]",
         "回复 @-_-布袋猪-_- :功是功，过是过。不过你说的有道理，我说话激进了",
-        "碧蓝老登:(捂头沉思,抬头)\"你说的有道理\""
+        "碧蓝老登:(捂头沉思,抬头)\"你说的有道理\"",
+        "也就是说 你反对他的时候 他总能比你说的有道理···"
       ],
       "evidenceSources": [
         {
@@ -105,6 +127,11 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1jQ4y177v5/, https://www.bilibili.com/video/BV1adieBzEJL/, https://www.bilibili.com/video/BV1ZyoXBHEHR/, https://www.bilibili.com/video/BV1uP411m7zL/, https://www.bilibili.com/video/BV1Pa4y1w7zn/, https://www.bilibili.com/video/BV1jwr3YiELe/, https://www.bilibili.com/video/BV1FedgBKEUV/, https://www.bilibili.com/video/BV1Ap6CBZEnt/, http://www.bilibili.com/video/av708144113, http://www.bilibili.com/video/av313226116, http://www.bilibili.com/video/av657933627, http://www.bilibili.com/video/av113778481955300, http://www.bilibili.com/video/av116538216553000, http://www.bilibili.com/video/av115988578178676, http://www.bilibili.com/video/av115830922679602, http://www.bilibili.com/video/av116466410066996",
           "uid": "BV1jQ4y177v5,BV1adieBzEJL,BV1ZyoXBHEHR,BV1uP411m7zL,BV1Pa4y1w7zn,BV1jwr3YiELe,BV1FedgBKEUV,BV1Ap6CBZEnt",
           "sample": "碧蓝老登:(捂头沉思,抬头)\"你说的有道理\""
+        },
+        {
+          "source": "Bilibili history-tag harvest (multi-round): https://www.bilibili.com/video/BV1h6FreoEmb/ (seed: 周朝)",
+          "uid": "BV1h6FreoEmb",
+          "sample": "也就是说 你反对他的时候 他总能比你说的有道理···"
         }
       ]
     },

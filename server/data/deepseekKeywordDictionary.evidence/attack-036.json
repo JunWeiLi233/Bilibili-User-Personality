@@ -1,19 +1,25 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T23:25:48.247Z",
+  "updatedAt": "2026-06-26T11:49:44.186Z",
   "family": "attack",
   "shard": 36,
-  "shardCount": 336,
+  "shardCount": 334,
   "evidence": [
     {
       "term": "阐述你的梦",
       "evidenceSamples": [
+        "阐述你的梦",
         "没我快，开局给队友带了两个六甲，一个6头，一把满改M250，一个红甲修外加200多发5级弹，开局不到2分钟就被桥上的堵桥狗抽死了，堵桥的cs，我阐述你的梦[呲牙]",
         "BYD Build your dream 我阐述你的梦[doge][doge][doge]",
-        "我阐述你的梦",
-        "能不能好心人翻译一下“扯碎你的翅膀，阐述你的梦是啥空耳”"
+        "王猛表示:byd的不听劝告，我阐述你的梦想[doge]",
+        "发展：我阐述你的梦"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1GY4y1L7bX/ (seed: 人文历史档案馆)",
+          "uid": "BV1GY4y1L7bX",
+          "sample": "阐述你的梦"
+        },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1dYg6zEESA/, https://www.bilibili.com/video/BV17AdLYpEXx/, https://www.bilibili.com/video/BV1SSLz6KExg/, https://www.bilibili.com/video/BV1aNGR6rE8q/, https://www.bilibili.com/video/BV1Wd5K6FExe/, http://www.bilibili.com/video/av114770485254384, http://www.bilibili.com/video/av114314480518480, http://www.bilibili.com/video/av116601298880447, http://www.bilibili.com/video/av116634937264793, http://www.bilibili.com/video/av116613495982110, http://www.bilibili.com/video/av116559037077244",
           "uid": "BV1dYg6zEESA,BV17AdLYpEXx,BV1SSLz6KExg,BV1aNGR6rE8q,BV1Wd5K6FExe",
@@ -25,14 +31,14 @@
           "sample": "BYD Build your dream 我阐述你的梦[doge][doge][doge]"
         },
         {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Em421j7oc/, https://www.bilibili.com/video/BV1Cy4y1w7LN/, https://www.bilibili.com/video/BV1q8411X7LR/, https://www.bilibili.com/video/BV1aw596rEuB/, http://www.bilibili.com/video/av1603161636, http://www.bilibili.com/video/av714903102, http://www.bilibili.com/video/av116630457682054, http://www.bilibili.com/video/av116621565762092, http://www.bilibili.com/video/av116579773777554, http://www.bilibili.com/video/av116584639105601, http://www.bilibili.com/video/av790190184, http://www.bilibili.com/video/av232270504, http://www.bilibili.com/video/av116289058179613, http://www.bilibili.com/video/av116572442074544",
-          "uid": "BV1Em421j7oc,BV1Cy4y1w7LN,BV1q8411X7LR,BV1aw596rEuB",
-          "sample": "我阐述你的梦"
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1F5v5eWEb2/ (seed: 晋朝)",
+          "uid": "BV1F5v5eWEb2",
+          "sample": "王猛表示:byd的不听劝告，我阐述你的梦想[doge]"
         },
         {
-          "source": "UID 12086489 (哈密瓜喷喷) - 2 comments from 1 videos",
-          "uid": "12086489",
-          "sample": "能不能好心人翻译一下“扯碎你的翅膀，阐述你的梦是啥空耳”"
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1R5411M7un/ (seed: 七下历史)",
+          "uid": "BV1R5411M7un",
+          "sample": "发展：我阐述你的梦"
         },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1jhGj6gEnX/, https://www.bilibili.com/video/BV1j81bBsEZo/, https://www.bilibili.com/video/BV1heBZYJE9r/, https://www.bilibili.com/video/BV1T441177S1/, https://www.bilibili.com/video/BV1GES3BCENe/, https://www.bilibili.com/video/BV1dYg6zEESA/, http://www.bilibili.com/video/av116627068753968, http://www.bilibili.com/video/av115498314373228, http://www.bilibili.com/video/av113557794461355, http://www.bilibili.com/video/av53214347, http://www.bilibili.com/video/av115623606618584, http://www.bilibili.com/video/av114770485254384",
@@ -43,6 +49,11 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Em421j7oc/, https://www.bilibili.com/video/BV1NuGx6jEQr/, https://www.bilibili.com/video/BV1GX4y1g7u3/, https://www.bilibili.com/video/BV1mhNue3ENz/, https://www.bilibili.com/video/BV1e54y1A7hq/, https://www.bilibili.com/video/BV1cQe6ecE2r/, http://www.bilibili.com/video/av1603161636, http://www.bilibili.com/video/av116633947411643, http://www.bilibili.com/video/av714903102, http://www.bilibili.com/video/av113966839766883, http://www.bilibili.com/video/av864308631, http://www.bilibili.com/video/av112853084407869",
           "uid": "BV1Em421j7oc,BV1NuGx6jEQr,BV1GX4y1g7u3,BV1mhNue3ENz,BV1e54y1A7hq,BV1cQe6ecE2r",
           "sample": "BYD Build your dream 我阐述你的梦[doge][doge][doge]"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV164421Z73z/ (seed: 战争史)",
+          "uid": "BV164421Z73z",
+          "sample": "巴勒斯坦：我阐述你的梦"
         }
       ]
     },

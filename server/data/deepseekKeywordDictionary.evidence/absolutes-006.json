@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T23:25:48.247Z",
+  "updatedAt": "2026-06-26T11:49:44.186Z",
   "family": "absolutes",
   "shard": 6,
-  "shardCount": 54,
+  "shardCount": 52,
   "evidence": [
     {
       "term": "不削能玩",
@@ -60,13 +60,28 @@
     {
       "term": "彻底绷不住了",
       "evidenceSamples": [
-        "回复 @得灬舍 :兄弟，到你这彻底绷不住了[笑哭]",
-        "看到你这，彻底绷不住了",
-        "跑这两步彻底绷不住了",
         "彻底绷不住了",
-        "完了彻底绷不住了"
+        "不行，我彻底绷不住了",
+        "脸上的笑容彻底绷不住了",
+        "回复 @得灬舍 :兄弟，到你这彻底绷不住了[笑哭]",
+        "看到你这，彻底绷不住了"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili history-tag harvest (multi-round): https://www.bilibili.com/video/BV1YP7h6XE6U/ (seed: 日本)",
+          "uid": "BV1YP7h6XE6U",
+          "sample": "彻底绷不住了"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1T8Vc6UEnD/ (seed: 楚汉)",
+          "uid": "BV1T8Vc6UEnD",
+          "sample": "不行，我彻底绷不住了"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV154bhzTEtR/ (seed: 黄袍加身)",
+          "uid": "BV154bhzTEtR",
+          "sample": "脸上的笑容彻底绷不住了"
+        },
         {
           "source": "Popular video comments UID 783943 (1 comments from 1 videos)",
           "uid": "783943",
@@ -76,16 +91,6 @@
           "source": "Bilibili public direct comment probe: https://www.bilibili.com/video/av116645708170282/",
           "uid": "1021976489",
           "sample": "看到你这，彻底绷不住了"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1SEGm6UEFb/",
-          "uid": "BV1SEGm6UEFb",
-          "sample": "彻底绷不住了"
-        },
-        {
-          "source": "Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1SEGm6UEFb/",
-          "uid": "BV1SEGm6UEFb",
-          "sample": "完了彻底绷不住了"
         },
         {
           "source": "batch-scrape",
@@ -100,11 +105,6 @@
         {
           "source": "batch-scrape",
           "uid": "batch-full-v3",
-          "sample": "回复 @得灬舍 :兄弟，到你这彻底绷不住了[笑哭]"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full-v4",
           "sample": "回复 @得灬舍 :兄弟，到你这彻底绷不住了[笑哭]"
         }
       ]

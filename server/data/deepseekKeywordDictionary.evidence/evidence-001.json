@@ -1,16 +1,18 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T23:25:48.247Z",
+  "updatedAt": "2026-06-26T11:49:44.186Z",
   "family": "evidence",
   "shard": 1,
-  "shardCount": 14,
+  "shardCount": 15,
   "evidence": [
     {
       "term": "10年老粉",
       "evidenceSamples": [
         "回复 @南茶猫鸭 :[脱单doge]选我，我十年老粉",
         "lala十年老粉来支持一下，真不错的",
-        "问啥啥不知道，但是十年老粉[吃瓜]"
+        "问啥啥不知道，但是十年老粉[吃瓜]",
+        "渤海小吏的史料来源基本上是够硬的，这一点就已经远超那些榨菜历史up了 但最大的问题还是对史料的加工实在是太严重了，以至于从根本上就变成了“借着历史事件输出价值观”。如果讲的东西是你想听的，你就会觉得他讲的很有道理，相反如果你不喜欢听，就会骂一句“讲的嘛玩意！” 魔法师就基本上没有这个问题，或者说正相反，魔法师几乎不会带有价值观，对史料的加工也仅仅止于翻译成大白话外加一些十年老粉能会心一笑的梗，这",
+        "渤海小吏的史料来源基本上是够硬的，这一点就已经远超那些榨菜历史up了 但最大的问题还是对史料的加工实在是太严重了，以至于从根本上就变成了“借着历史事件输出价值观”。如果讲的东西是你想听的，你就会觉得他讲的很有道理，相反如果你不喜欢听，就会骂一句“讲的嘛玩意！” 魔法师就基本上没有这个问题，或者说正相反，魔法师几乎不会带有价值观，对史料的加工也仅仅止于翻译成大白话外加一些十年老粉能会心一笑的梗，这就让懂和不懂这段历史的人都能或多或少看得下去"
       ],
       "evidenceSources": [
         {
@@ -27,6 +29,16 @@
           "source": "Bilibili public existing evidence-source video comment scan: https://www.bilibili.com/video/BV1SPVPzVEr7/, https://www.bilibili.com/video/BV1ENLV63Eef/, https://www.bilibili.com/video/BV1KT421m7Pw/, https://www.bilibili.com/video/BV18VGR6KEng/, https://www.bilibili.com/video/BV1D7Gi6SELT/, https://www.bilibili.com/video/BV1aYGx6fEEX/, https://www.bilibili.com/video/BV1HdGW6KEKF/, https://www.bilibili.com/video/BV1zGGd6REYY/, https://www.bilibili.com/video/BV1NPGd6wEkL/, https://www.bilibili.com/video/BV1L4Gq6YEzX/, https://www.bilibili.com/video/BV17EGd6QEUX/, https://www.bilibili.com/video/BV1o2Gs6cEVT/",
           "uid": "BV1SPVPzVEr7,BV1ENLV63Eef,BV1KT421m7Pw,BV18VGR6KEng",
           "sample": "问啥啥不知道，但是十年老粉[吃瓜]"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1P9c4e1EtN/ (seed: 历史知识)",
+          "uid": "BV1P9c4e1EtN",
+          "sample": "渤海小吏的史料来源基本上是够硬的，这一点就已经远超那些榨菜历史up了 但最大的问题还是对史料的加工实在是太严重了，以至于从根本上就变成了“借着历史事件输出价值观”。如果讲的东西是你想听的，你就会觉得他讲的很有道理，相反如果你不喜欢听，就会骂一句“讲的嘛玩意！” 魔法师就基本上没有这个问题，或者说正相反，魔法师几乎不会带有价值观，对史料的加工也仅仅止于翻译成大白话外加一些十年老粉能会心一笑的梗，这"
+        },
+        {
+          "source": "Bilibili history-tag harvest (multi-round): https://www.bilibili.com/video/BV1P9c4e1EtN/ (seed: 历史知识)",
+          "uid": "BV1P9c4e1EtN",
+          "sample": "渤海小吏的史料来源基本上是够硬的，这一点就已经远超那些榨菜历史up了 但最大的问题还是对史料的加工实在是太严重了，以至于从根本上就变成了“借着历史事件输出价值观”。如果讲的东西是你想听的，你就会觉得他讲的很有道理，相反如果你不喜欢听，就会骂一句“讲的嘛玩意！” 魔法师就基本上没有这个问题，或者说正相反，魔法师几乎不会带有价值观，对史料的加工也仅仅止于翻译成大白话外加一些十年老粉能会心一笑的梗，这就让懂和不懂这段历史的人都能或多或少看得下去"
         }
       ]
     },

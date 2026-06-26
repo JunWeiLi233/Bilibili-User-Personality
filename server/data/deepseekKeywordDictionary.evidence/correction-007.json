@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T23:25:48.247Z",
+  "updatedAt": "2026-06-26T11:49:44.186Z",
   "family": "correction",
   "shard": 7,
-  "shardCount": 12,
+  "shardCount": 11,
   "evidence": [
     {
       "term": "骗你的",
@@ -60,11 +60,38 @@
     {
       "term": "其实不是",
       "evidenceSamples": [
-        "这里我也觉得挺奇怪的，小兴的修理技术其实不是很好，为啥后面这么牛了",
-        "其实不是这意思，是角色改变罢了",
-        "其实不是这样的"
+        "民国其实不是什么大师辈出的时代，是群魔乱舞",
+        "我记得司马迁其实不是什么好人。他的史记记载得属实，但会有故意的残缺，有部分是故意抹黑的历史人物",
+        "其实不是灭而是汉化为主，唐朝有多少“光荣汉人”啊",
+        "很多“日式”其实不是日本的，是我们的，是日本让人“觉得它日式”",
+        "宋朝其实不是大一统啊"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1jC7y6YEFH/ (seed: 历史)",
+          "uid": "BV1jC7y6YEFH",
+          "sample": "民国其实不是什么大师辈出的时代，是群魔乱舞"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1iE411u7j6/ (seed: 世界历史)",
+          "uid": "BV1iE411u7j6",
+          "sample": "我记得司马迁其实不是什么好人。他的史记记载得属实，但会有故意的残缺，有部分是故意抹黑的历史人物"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1Hs41187sa/ (seed: 中国历代疆域变化)",
+          "uid": "BV1Hs41187sa",
+          "sample": "其实不是灭而是汉化为主，唐朝有多少“光荣汉人”啊"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1yV4y1f7pk/ (seed: 博物馆)",
+          "uid": "BV1yV4y1f7pk",
+          "sample": "很多“日式”其实不是日本的，是我们的，是日本让人“觉得它日式”"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV14p4y1u7cM/ (seed: 宋史)",
+          "uid": "BV14p4y1u7cM",
+          "sample": "宋朝其实不是大一统啊"
+        },
         {
           "source": "Bilibili danmaku harvest: video BV1uw411Z7jE",
           "uid": "",

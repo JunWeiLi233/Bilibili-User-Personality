@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T23:25:48.247Z",
+  "updatedAt": "2026-06-26T11:49:44.186Z",
   "family": "cooperation",
   "shard": 75,
-  "shardCount": 143,
+  "shardCount": 144,
   "evidence": [
     {
       "term": "路人",
@@ -60,12 +60,28 @@
     {
       "term": "马萨卡",
       "evidenceSamples": [
+        "纳尼…马萨卡...",
+        "马，马萨卡，要你命3000？",
+        "马萨卡",
         "马萨卡……来打の联动，要来了？[doge]",
-        "马萨卡…",
-        "马……马萨卡……",
-        "在这之前，我一直把「痛苦到扭曲」误当成一种形容心态的精神维度概念，马萨卡。。。。。[哦呼] 哈哈哈"
+        "马萨卡…"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV15t411p7NQ/ (seed: 鸟羽伏见之战)",
+          "uid": "BV15t411p7NQ",
+          "sample": "纳尼…马萨卡..."
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1xo4y1X7pg/ (seed: 科技考古)",
+          "uid": "BV1xo4y1X7pg",
+          "sample": "马，马萨卡，要你命3000？"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1ajj76VEMM/ (seed: 俄乌战争)",
+          "uid": "BV1ajj76VEMM",
+          "sample": "马萨卡"
+        },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1a2LE6mEZd/, https://www.bilibili.com/video/BV11HL86eE1i/, https://www.bilibili.com/video/BV1b6421f7eQ/, https://www.bilibili.com/video/BV1hTRoBjEkb/, https://www.bilibili.com/video/BV1YbLM6JEKr/, https://www.bilibili.com/video/BV1PBLP6ZEqQ/, http://www.bilibili.com/video/av116588682419481, http://www.bilibili.com/video/av116611734378232, http://www.bilibili.com/video/av1406114383, http://www.bilibili.com/video/av116546705822837, http://www.bilibili.com/video/av116599738603047, http://www.bilibili.com/video/av116595477320801",
           "uid": "BV1a2LE6mEZd,BV11HL86eE1i,BV1b6421f7eQ,BV1hTRoBjEkb,BV1YbLM6JEKr,BV1PBLP6ZEqQ",

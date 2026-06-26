@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T23:25:48.247Z",
+  "updatedAt": "2026-06-26T11:49:44.186Z",
   "family": "cooperation",
   "shard": 77,
-  "shardCount": 143,
+  "shardCount": 144,
   "evidence": [
     {
       "term": "没毛病啊",
@@ -112,12 +112,33 @@
     {
       "term": "没人在乎",
       "evidenceSamples": [
-        "没人在乎这个....",
-        "你们爱放不放，没人在乎",
-        "没关系，因为没人在乎",
-        "回复 @-宮商角徵羽- :可见没人在乎是面还是粉"
+        "《都没人在乎我》",
+        "我知道我肯定是个累赘，都没人在乎。",
+        "觉得不好看的不用说出来，没人在乎昂",
+        "《我只知道我肯定是个累赘，都没人在乎我》",
+        "没人在乎这个...."
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1VFDrBwE4T/ (seed: 春秋)",
+          "uid": "BV1VFDrBwE4T",
+          "sample": "《都没人在乎我》"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1VFDrBwE4T/ (seed: 春秋)",
+          "uid": "BV1VFDrBwE4T",
+          "sample": "我知道我肯定是个累赘，都没人在乎。"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV11j421d7Pw/ (seed: 晚唐)",
+          "uid": "BV11j421d7Pw",
+          "sample": "觉得不好看的不用说出来，没人在乎昂"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1VFDrBwE4T/ (seed: 春秋)",
+          "uid": "BV1VFDrBwE4T",
+          "sample": "《我只知道我肯定是个累赘，都没人在乎我》"
+        },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1bG41157AF/, https://www.bilibili.com/video/BV1jM41127hF/, https://www.bilibili.com/video/BV1yE41187Qx/, https://www.bilibili.com/video/BV1dz421D7z7/, https://www.bilibili.com/video/BV1bUdDYBEiJ/, https://www.bilibili.com/video/BV1A84y1F74Q/, https://www.bilibili.com/video/BV1Ei4y187P5/, https://www.bilibili.com/video/BV1K14y1c78P/, https://www.bilibili.com/video/BV1L6KbzgEfF/, https://www.bilibili.com/video/BV1bS4y1A7QW/, https://www.bilibili.com/video/BV1fsdNY4Emn/, https://www.bilibili.com/video/BV1Yt411r7hg/, http://www.bilibili.com/video/av1351410230, http://www.bilibili.com/video/av430053461, http://www.bilibili.com/video/av540187725, http://www.bilibili.com/video/av683314408, http://www.bilibili.com/video/av39212957, http://www.bilibili.com/video/av114181588126104, http://www.bilibili.com/video/av18254434, http://www.bilibili.com/video/av78464790, http://www.bilibili.com/video/av1504355317, http://www.bilibili.com/video/av212501305, http://www.bilibili.com/video/av901042266, http://www.bilibili.com/video/av19941170, http://www.bilibili.com/video/av114319580794898, http://www.bilibili.com/video/av779140461, http://www.bilibili.com/video/av114307652195439, http://www.bilibili.com/video/av54695958, http://www.bilibili.com/video/av115304386661425, http://www.bilibili.com/video/av1855649923, http://www.bilibili.com/video/av615150845, http://www.bilibili.com/video/av1850012031, http://www.bilibili.com/video/av451541110, http://www.bilibili.com/video/av116423946928165, http://www.bilibili.com/video/av27525560, http://www.bilibili.com/video/av18106037, http://www.bilibili.com/video/av10192364, http://www.bilibili.com/video/av113378798404702, http://www.bilibili.com/video/av625801202, http://www.bilibili.com/video/av53677641, http://www.bilibili.com/video/av390659868, http://www.bilibili.com/video/av431805015, http://www.bilibili.com/video/av18454317, http://www.bilibili.com/video/av115227278446290, http://www.bilibili.com/video/av115033182837038, http://www.bilibili.com/video/av925136563, http://www.bilibili.com/video/av521871183, http://www.bilibili.com/video/av630712169, http://www.bilibili.com/video/av114732266690013, http://www.bilibili.com/video/av116367575483501, http://www.bilibili.com/video/av74160122, http://www.bilibili.com/video/av115705563387873, http://www.bilibili.com/video/av115852196189580, http://www.bilibili.com/video/av115835469300116, http://www.bilibili.com/video/av115157636220795, http://www.bilibili.com/video/av116651580267143",
           "uid": "BV1bG41157AF,BV1jM41127hF,BV1yE41187Qx,BV1dz421D7z7,BV1bUdDYBEiJ,BV1A84y1F74Q,BV1Ei4y187P5,BV1K14y1c78P,BV1L6KbzgEfF,BV1bS4y1A7QW,BV1fsdNY4Emn,BV1Yt411r7hg",

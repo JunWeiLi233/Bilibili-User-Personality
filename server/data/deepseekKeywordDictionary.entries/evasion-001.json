@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T23:25:48.247Z",
+  "updatedAt": "2026-06-26T11:49:44.186Z",
   "family": "evasion",
   "shard": 1,
   "shardCount": 1,
@@ -9,10 +9,10 @@
       "term": "爱信不信",
       "family": "evasion",
       "meaning": "互联网中文表达模式 - 逃避性表达",
-      "risk": "low",
+      "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-25T17:02:25.000Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "爱咋咋地",
@@ -29,8 +29,8 @@
       "meaning": "把举证责任转移给对方",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-17T03:18:09.279Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "摆烂",
@@ -63,19 +63,19 @@
       "term": "别问了",
       "family": "evasion",
       "meaning": "互联网中文表达模式 - 逃避性表达",
-      "risk": "low",
+      "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-25T17:02:25.000Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "别问我",
       "family": "evasion",
       "meaning": "Bilibili 逃避性表达",
-      "risk": "low",
+      "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:44:42.000Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "步兵",
@@ -261,10 +261,10 @@
       "term": "懒得说",
       "family": "evasion",
       "meaning": "互联网中文表达模式 - 逃避性表达",
-      "risk": "low",
+      "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-25T17:02:25.000Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "乐子",
@@ -309,7 +309,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "你没见过不代表没有",
@@ -351,10 +351,10 @@
       "term": "你在教我做事",
       "family": "evasion",
       "meaning": "互联网中文表达模式 - 逃避性表达",
-      "risk": "low",
+      "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-25T17:02:25.000Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "你自己搜",
@@ -363,7 +363,7 @@
       "risk": "medium",
       "confidence": 0.5,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "跑路",
@@ -398,8 +398,8 @@
       "meaning": "把举证责任转移给对方",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-17T03:27:13.342Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "去搜",
@@ -423,10 +423,10 @@
       "term": "认真你就输了",
       "family": "evasion",
       "meaning": "“认真你就输了”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-23T15:03:26.562Z"
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "搜呗",
@@ -450,19 +450,19 @@
       "term": "危险发言",
       "family": "evasion",
       "meaning": "“危险发言”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 4,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "问就是",
       "family": "evasion",
       "meaning": "Bilibili 逃避性表达",
-      "risk": "low",
+      "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:44:42.000Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "我不说",
@@ -533,8 +533,8 @@
       "meaning": "把举证责任转移给对方",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-18T03:28:52.096Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "这还用说",
@@ -542,8 +542,8 @@
       "meaning": "把举证责任转移给对方",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-19T05:26:31.840Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "这还用问",
@@ -551,8 +551,8 @@
       "meaning": "把举证责任转移给对方",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-17T05:42:05.314Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "真的吗我不信",
@@ -567,10 +567,10 @@
       "term": "只可意会",
       "family": "evasion",
       "meaning": "“只可意会”用于暗示、转移解释责任或以圈内默契代替直接说明",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-23T14:25:59.367Z"
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "只可意会不可言传",
@@ -578,8 +578,8 @@
       "meaning": "“只可意会不可言传”用于暗示、转移解释责任或以圈内默契代替直接说明",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-23T14:25:59.367Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
       "term": "自己查",
@@ -588,7 +588,7 @@
       "risk": "medium",
       "confidence": 0.5,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "自己查去",
@@ -597,7 +597,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "自己看",
@@ -614,8 +614,8 @@
       "meaning": "把举证责任转移给对方",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-18T12:04:32.144Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "自己搜",
@@ -624,7 +624,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
       "term": "自己学",

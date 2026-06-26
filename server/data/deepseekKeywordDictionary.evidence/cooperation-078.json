@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T23:25:48.247Z",
+  "updatedAt": "2026-06-26T11:49:44.186Z",
   "family": "cooperation",
   "shard": 78,
-  "shardCount": 143,
+  "shardCount": 144,
   "evidence": [
     {
       "term": "没招了",
@@ -112,20 +112,26 @@
     {
       "term": "蒙鼓人",
       "evidenceSamples": [
+        "感谢蒙鼓人，不然我还以为那个是汉桑的腿呢[doge_金箍]",
+        "蒙鼓人",
         "谢谢你蒙鼓人，所以鸽子为什么这么大[doge]",
         "完全不懂日语的蒙鼓人发来感谢",
-        "关于我的同学一直是蒙鼓人的这件事是否要告诉他？↓",
-        "回复 @火豹之队 :不用谢，蒙鼓人"
+        "关于我的同学一直是蒙鼓人的这件事是否要告诉他？↓"
       ],
       "evidenceSources": [
         {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Hd4y1A7Yr/, https://www.bilibili.com/video/BV1zt4y1E7sh/, https://www.bilibili.com/video/BV1zXrTBsEXt/, https://www.bilibili.com/video/BV1snsVePE8A/, http://www.bilibili.com/video/av344859215, http://www.bilibili.com/video/av985005853, http://www.bilibili.com/video/av115866054170634, http://www.bilibili.com/video/av113043522521006, http://www.bilibili.com/video/av835906441, http://www.bilibili.com/video/av115370505538211, http://www.bilibili.com/video/av836554097, http://www.bilibili.com/video/av432243496",
-          "uid": "BV1Hd4y1A7Yr,BV1zt4y1E7sh,BV1zXrTBsEXt,BV1snsVePE8A",
-          "sample": "谢谢你蒙鼓人，所以鸽子为什么这么大[doge]"
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1ayVm6RETR/ (seed: 历史)",
+          "uid": "BV1ayVm6RETR",
+          "sample": "感谢蒙鼓人，不然我还以为那个是汉桑的腿呢[doge_金箍]"
         },
         {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Hd4y1A7Yr/, https://www.bilibili.com/video/BV1zt4y1E7sh/, https://www.bilibili.com/video/BV1kg4y1D7Hq/, http://www.bilibili.com/video/av344859215, http://www.bilibili.com/video/av985005853, http://www.bilibili.com/video/av835906441, http://www.bilibili.com/video/av113139588796223, http://www.bilibili.com/video/av581594264, http://www.bilibili.com/video/av115866054170634, http://www.bilibili.com/video/av367010945, http://www.bilibili.com/video/av690165232, http://www.bilibili.com/video/av114528171853100",
-          "uid": "BV1Hd4y1A7Yr,BV1zt4y1E7sh,BV1kg4y1D7Hq",
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV17f421272a/ (seed: 嘉靖)",
+          "uid": "BV17f421272a",
+          "sample": "蒙鼓人"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Hd4y1A7Yr/, https://www.bilibili.com/video/BV1zt4y1E7sh/, https://www.bilibili.com/video/BV1zXrTBsEXt/, https://www.bilibili.com/video/BV1snsVePE8A/, http://www.bilibili.com/video/av344859215, http://www.bilibili.com/video/av985005853, http://www.bilibili.com/video/av115866054170634, http://www.bilibili.com/video/av113043522521006, http://www.bilibili.com/video/av835906441, http://www.bilibili.com/video/av115370505538211, http://www.bilibili.com/video/av836554097, http://www.bilibili.com/video/av432243496",
+          "uid": "BV1Hd4y1A7Yr,BV1zt4y1E7sh,BV1zXrTBsEXt,BV1snsVePE8A",
           "sample": "谢谢你蒙鼓人，所以鸽子为什么这么大[doge]"
         },
         {
@@ -136,12 +142,17 @@
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1zt4y1E7sh/, https://www.bilibili.com/video/BV1Hd4y1A7Yr/, https://www.bilibili.com/video/BV1kg4y1D7Hq/, https://www.bilibili.com/video/BV1zXrTBsEXt/, https://www.bilibili.com/video/BV1pn42eFEKj/, https://www.bilibili.com/video/BV1f64y1A778/, http://www.bilibili.com/video/av985005853, http://www.bilibili.com/video/av344859215, http://www.bilibili.com/video/av835906441, http://www.bilibili.com/video/av115866054170634, http://www.bilibili.com/video/av113139588796223, http://www.bilibili.com/video/av581594264, http://www.bilibili.com/video/av367010945, http://www.bilibili.com/video/av690165232, http://www.bilibili.com/video/av788160930, http://www.bilibili.com/video/av115678233233885",
           "uid": "BV1zt4y1E7sh,BV1Hd4y1A7Yr,BV1kg4y1D7Hq,BV1zXrTBsEXt,BV1pn42eFEKj,BV1f64y1A778",
+          "sample": "关于我的同学一直是蒙鼓人的这件事是否要告诉他？↓"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Hd4y1A7Yr/, https://www.bilibili.com/video/BV1zt4y1E7sh/, https://www.bilibili.com/video/BV1kg4y1D7Hq/, http://www.bilibili.com/video/av344859215, http://www.bilibili.com/video/av985005853, http://www.bilibili.com/video/av835906441, http://www.bilibili.com/video/av113139588796223, http://www.bilibili.com/video/av581594264, http://www.bilibili.com/video/av115866054170634, http://www.bilibili.com/video/av367010945, http://www.bilibili.com/video/av690165232, http://www.bilibili.com/video/av114528171853100",
+          "uid": "BV1Hd4y1A7Yr,BV1zt4y1E7sh,BV1kg4y1D7Hq",
           "sample": "谢谢你蒙鼓人，所以鸽子为什么这么大[doge]"
         },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1zt4y1E7sh/, https://www.bilibili.com/video/BV1Hd4y1A7Yr/, https://www.bilibili.com/video/BV1kg4y1D7Hq/, https://www.bilibili.com/video/BV1zXrTBsEXt/, https://www.bilibili.com/video/BV1pn42eFEKj/, https://www.bilibili.com/video/BV1f64y1A778/, http://www.bilibili.com/video/av985005853, http://www.bilibili.com/video/av344859215, http://www.bilibili.com/video/av835906441, http://www.bilibili.com/video/av115866054170634, http://www.bilibili.com/video/av113139588796223, http://www.bilibili.com/video/av581594264, http://www.bilibili.com/video/av367010945, http://www.bilibili.com/video/av690165232, http://www.bilibili.com/video/av788160930, http://www.bilibili.com/video/av115678233233885",
           "uid": "BV1zt4y1E7sh,BV1Hd4y1A7Yr,BV1kg4y1D7Hq,BV1zXrTBsEXt,BV1pn42eFEKj,BV1f64y1A778",
-          "sample": "关于我的同学一直是蒙鼓人的这件事是否要告诉他？↓"
+          "sample": "谢谢你蒙鼓人，所以鸽子为什么这么大[doge]"
         },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1zt4y1E7sh/, https://www.bilibili.com/video/BV1Hd4y1A7Yr/, https://www.bilibili.com/video/BV1kg4y1D7Hq/, https://www.bilibili.com/video/BV1zXrTBsEXt/, https://www.bilibili.com/video/BV1pn42eFEKj/, https://www.bilibili.com/video/BV1f64y1A778/, http://www.bilibili.com/video/av985005853, http://www.bilibili.com/video/av344859215, http://www.bilibili.com/video/av835906441, http://www.bilibili.com/video/av115866054170634, http://www.bilibili.com/video/av113139588796223, http://www.bilibili.com/video/av581594264, http://www.bilibili.com/video/av367010945, http://www.bilibili.com/video/av690165232, http://www.bilibili.com/video/av788160930, http://www.bilibili.com/video/av115678233233885",

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T23:25:48.247Z",
+  "updatedAt": "2026-06-26T11:49:44.186Z",
   "family": "evasion",
   "shard": 8,
   "shardCount": 21,
@@ -100,14 +100,10 @@
         "懒得说了，自己体会",
         "跟你解释太累，懒得说",
         "图放这里了，我也懒得说了[辣眼睛]",
-        "《懒得说话》"
+        "《懒得说话》",
+        "抱歉，高中也没教，一个藩都懒得说"
       ],
       "evidenceSources": [
-        {
-          "source": "Bilibili danmaku harvest from video BV1uw411Z7jE",
-          "uid": "",
-          "sample": "Bilibili danmaku/corpus usage: 懒得说"
-        },
         {
           "source": "Bilibili corpus match: Bilibili public direct comment probe: https://www.bilibili.com/video/BV1XbsmzNEFz/",
           "uid": "",
@@ -117,6 +113,16 @@
           "source": "Bilibili corpus match: Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1E94y1J7xq/",
           "uid": "",
           "sample": "《懒得说话》"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1wB4y1M7Pr/ (seed: 鸟羽伏见之战)",
+          "uid": "BV1wB4y1M7Pr",
+          "sample": "抱歉，高中也没教，一个藩都懒得说"
+        },
+        {
+          "source": "Bilibili danmaku harvest from video BV1uw411Z7jE",
+          "uid": "",
+          "sample": "Bilibili danmaku/corpus usage: 懒得说"
         }
       ]
     }

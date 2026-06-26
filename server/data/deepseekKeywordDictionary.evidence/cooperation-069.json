@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T23:25:48.247Z",
+  "updatedAt": "2026-06-26T11:49:44.186Z",
   "family": "cooperation",
   "shard": 69,
-  "shardCount": 143,
+  "shardCount": 144,
   "evidence": [
     {
       "term": "泪目",
@@ -112,11 +112,28 @@
     {
       "term": "冷板凳",
       "evidenceSamples": [
+        "真厉害，12年冷板凳不失去志向",
+        "斗鱼异灵怂成狗，一开始一直坐冷板凳的",
+        "关键词：冷板凳",
         "之前比赛看得出操作是有的，有自己主意不一定就是坏事，打游戏没点自己想法那就只能泯然众人矣，刚好MRC也是个爱搞点小巧思的队伍，以前也听说他们不单全靠小迪指挥，像奈奈关键时候也是可以指挥的，说不定能碰撞出点什么奇妙的化学反应，性格就不用说了，...",
-        "天呐，时代变了，我现在觉得冷板凳真的挺好的。",
-        "没有坐冷板凳的耐心，就代表没有当骨干的能力"
+        "天呐，时代变了，我现在觉得冷板凳真的挺好的。"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV12K421e7b9/ (seed: 武则天)",
+          "uid": "BV12K421e7b9",
+          "sample": "真厉害，12年冷板凳不失去志向"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1NF411F796/ (seed: 历史事件)",
+          "uid": "BV1NF411F796",
+          "sample": "斗鱼异灵怂成狗，一开始一直坐冷板凳的"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1CX4y1t78F/ (seed: 考古专业)",
+          "uid": "BV1CX4y1t78F",
+          "sample": "关键词：冷板凳"
+        },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1K4G46XEsD/, http://www.bilibili.com/video/av252282198, http://www.bilibili.com/video/av116633813124233, http://www.bilibili.com/video/av116634601653892, http://www.bilibili.com/video/av116567962557791, http://www.bilibili.com/video/av116633158814218, http://www.bilibili.com/video/av112963310585044",
           "uid": "BV1K4G46XEsD",

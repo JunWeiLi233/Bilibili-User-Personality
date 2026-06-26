@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T23:25:48.247Z",
+  "updatedAt": "2026-06-26T11:49:44.186Z",
   "family": "attack",
   "shard": 56,
-  "shardCount": 336,
+  "shardCount": 334,
   "evidence": [
     {
       "term": "灯塔",
@@ -60,12 +60,33 @@
     {
       "term": "登子",
       "evidenceSamples": [
-        "确实，登子大儿子不光是白发人送黑发人的问题，还是登子苦心经营了一辈子的政治人脉资源的继承人一下子没了，这谁都受不住",
-        "有一说一就老头比登子看上去好太多了，心里不装事儿，没有内耗全是外耗，是真长命，我感觉登子大儿子对登子打击挺大的。[笑哭]",
-        "还在登子呢，现在该叫登哥了[doge]",
-        "登子是你叫的？叫登哥[doge]"
+        "1450 登子补贴！",
+        "登子，大巴黎的都没上",
+        "登子刚打完欧冠 休息一下",
+        "懂王表示，真是太阳底下没有新鲜事！登子在这等我呢",
+        "确实，登子大儿子不光是白发人送黑发人的问题，还是登子苦心经营了一辈子的政治人脉资源的继承人一下子没了，这谁都受不住"
       ],
       "evidenceSources": [
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1t94y1J7wB/ (seed: 大明王朝1566)",
+          "uid": "BV1t94y1J7wB",
+          "sample": "1450 登子补贴！"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1N6EP6TEm2/ (seed: 法国)",
+          "uid": "BV1N6EP6TEm2",
+          "sample": "登子，大巴黎的都没上"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1N6EP6TEm2/ (seed: 法国)",
+          "uid": "BV1N6EP6TEm2",
+          "sample": "登子刚打完欧冠 休息一下"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1CP411Y7hk/ (seed: 伯罗奔尼撒战争)",
+          "uid": "BV1CP411Y7hk",
+          "sample": "懂王表示，真是太阳底下没有新鲜事！登子在这等我呢"
+        },
         {
           "source": "Popular video comments UID 1615926 (1 comments from 1 videos)",
           "uid": "1615926",
