@@ -376,12 +376,26 @@ function findLexiconMarks(comment, index, totalComments, runtimeLexicon) {
       if (memeNonAttack && meta.polarity === 'risk') continue;
       // Skip known high-FP terms in risk families
       if (meta.polarity === 'risk' && highFpTerms.has(term)) continue;
-      // Require word boundary for 1-2 char Chinese terms
-      if (term.length <= 2 && /[一-鿿]/.test(term)) {
-        const idx = comment.indexOf(term);
-        const prev = idx > 0 ? comment[idx - 1] : '';
-        const next = idx + term.length < comment.length ? comment[idx + term.length] : '';
-        if (wordBoundaryRe.test(prev) || wordBoundaryRe.test(next)) continue;
+      // Require word boundary for 1-2 char Chinese terms,
+      // but exempt risk-polarity terms (attack, absolutes, evasion)
+      // where the cost of a false negative outweighs a false positive.
+      // Check ALL occurrences — a term is valid if at least one occurrence
+      // has clean word boundaries (not just the first indexOf hit).
+      if (term.length <= 2 && /[一-鿿]/.test(term) && meta.polarity !== 'risk') {
+        let allBadBoundary = true;
+        let searchFrom = 0;
+        while (searchFrom < comment.length) {
+          const idx = comment.indexOf(term, searchFrom);
+          if (idx === -1) break;
+          const prev = idx > 0 ? comment[idx - 1] : '';
+          const next = idx + term.length < comment.length ? comment[idx + term.length] : '';
+          if (!wordBoundaryRe.test(prev) && !wordBoundaryRe.test(next)) {
+            allBadBoundary = false;
+            break;
+          }
+          searchFrom = idx + 1;
+        }
+        if (allBadBoundary) continue;
       }
       marks.push({
         id: `lexicon-${index}-${family}-${term}`,
@@ -401,7 +415,7 @@ function findLexiconMarks(comment, index, totalComments, runtimeLexicon) {
       });
     }
   }
-  return [...new Map(marks.map((mark) => [`${mark.family}:${mark.highlight}`, mark])).values()].slice(0, 4);
+  return [...new Map(marks.map((mark) => [`${mark.family}:${mark.highlight}`, mark])).values()].slice(0, 6);
 }
 
 function summarizeVocabularyMarks(marks) {
@@ -483,8 +497,44 @@ function getTrollIndex(user) {
   );
 }
 
+/**
+ * Merge semantic similarity matches into the lexicon marks array.
+ * Each semanticMatch is [{term, family, score}, ...] per comment.
+ * Converts to the same shape as findLexiconMarks output.
+ */
+function mergeSemanticMatches(lexiconMarks, semanticMatches, comments, familyMeta) {
+  const existingKeys = new Set(lexiconMarks.map((m) => `${m.family}:${m.highlight}`));
+  const semanticMarks = [];
+  for (let i = 0; i < Math.min(semanticMatches.length, comments.length); i++) {
+    const matches = semanticMatches[i] || [];
+    for (const match of matches) {
+      const key = `${match.family}:${match.term}`;
+      if (existingKeys.has(key)) continue; // don't duplicate exact matches
+      existingKeys.add(key);
+      const meta = familyMeta[match.family] || {};
+      semanticMarks.push({
+        id: `semantic-${i}-${match.family}-${match.term}`,
+        source: '语义匹配',
+        speechAct: `${meta.label || match.family}语义标记`,
+        target: meta.axis || '语义相关',
+        type: meta.type || '语义线索',
+        severity: meta.severity || '低',
+        comment: comments[i] || '',
+        highlight: match.term,
+        family: match.family,
+        axis: meta.axis || '语义相关',
+        polarity: meta.polarity || 'support',
+        diagnosis: `语义相似匹配命中词"${match.term}"（相似度 ${(match.similarity || match.score || 0).toFixed(2)}），作为辅助语义证据。`,
+        evidence: `第 ${i + 1}/${comments.length} 条评论语义匹配到字典词"${match.term}"（${meta.label || match.family}）`,
+        confidence: (meta.polarity === 'risk' ? 0.58 : 0.54) * Math.min((match.similarity || match.score || 0.72), 1),
+      });
+    }
+  }
+  return [...lexiconMarks, ...semanticMarks];
+}
+
 let _scoreCounter = 0;
-function scoreComments({ name, uid, text, source, runtimeLexicon = baseLexicons, analysisMode = 'hybrid' }) {
+function scoreComments({ name, uid, text, source, runtimeLexicon = baseLexicons, analysisMode = 'hybrid', semanticMatches = null }) {
   const comments = splitComments(text);
   const joined = comments.join('\n');
   const riskLexiconText = buildRiskLexiconText(comments);
@@ -495,8 +545,12 @@ function scoreComments({ name, uid, text, source, runtimeLexicon = baseLexicons,
   const negativeActs = semanticActs.filter((act) => !act.positive && !act.neutral);
   const positiveActs = semanticActs.filter((act) => act.positive);
   const lexiconMarks = comments.flatMap((comment, index) => findLexiconMarks(comment, index, total, runtimeLexicon));
-  const riskLexiconMarks = lexiconMarks.filter((mark) => mark.polarity === 'risk');
-  const vocabularyMarks = summarizeVocabularyMarks(lexiconMarks);
+  // Merge semantic matches into lexicon marks when available
+  const allLexiconMarks = semanticMatches && semanticMatches.length
+    ? mergeSemanticMatches(lexiconMarks, semanticMatches, comments, lexiconFamilyMeta)
+    : lexiconMarks;
+  const riskLexiconMarks = allLexiconMarks.filter((mark) => mark.polarity === 'risk');
+  const vocabularyMarks = summarizeVocabularyMarks(allLexiconMarks);
 
   const semanticSeed = {
     attack: 26,
@@ -534,13 +588,13 @@ function scoreComments({ name, uid, text, source, runtimeLexicon = baseLexicons,
       axis: '对抗性动机',
       value: mix('attack'),
       benchmark: 52,
-      note: `语境分析检出 ${negativeActs.filter((act) => ['人', '动机'].includes(act.target)).length} 条人/动机攻击；字典 attack 标记 ${lexiconMarks.filter((mark) => mark.family === 'attack').length} 次，密度 ${perThousand(riskLexiconText, runtimeLexicon.attack).toFixed(1)} / 千字。`,
+      note: `语境分析检出 ${negativeActs.filter((act) => ['人', '动机'].includes(act.target)).length} 条人/动机攻击；字典 attack 标记 ${allLexiconMarks.filter((mark) => mark.family === 'attack').length} 次，密度 ${perThousand(riskLexiconText, runtimeLexicon.attack).toFixed(1)} / 千字。`,
     },
     {
       axis: '绝对化思维',
       value: mix('closure'),
       benchmark: 49,
-      note: `全称化或强事实断言 ${negativeActs.filter((act) => ['命题范围', '事实'].includes(act.target)).length} 条；字典 absolutes 标记 ${lexiconMarks.filter((mark) => mark.family === 'absolutes').length} 次。`,
+      note: `全称化或强事实断言 ${negativeActs.filter((act) => ['命题范围', '事实'].includes(act.target)).length} 条；字典 absolutes 标记 ${allLexiconMarks.filter((mark) => mark.family === 'absolutes').length} 次。`,
     },
     {
       axis: '证据敏感',
@@ -558,13 +612,13 @@ function scoreComments({ name, uid, text, source, runtimeLexicon = baseLexicons,
       axis: '合作讨论',
       value: mix('cooperation'),
       benchmark: 55,
-      note: `澄清、让步或条件化表达 ${countMatches(joined, runtimeLexicon.cooperation)} 次；cooperation 字典标记 ${lexiconMarks.filter((mark) => mark.family === 'cooperation').length} 次。`,
+      note: `澄清、让步或条件化表达 ${countMatches(joined, runtimeLexicon.cooperation)} 次；cooperation 字典标记 ${allLexiconMarks.filter((mark) => mark.family === 'cooperation').length} 次。`,
     },
     {
       axis: '修正意愿',
       value: mix('correction'),
       benchmark: 46,
-      note: `修正或承认表达 ${countMatches(joined, runtimeLexicon.correction)} 次；correction 字典标记 ${lexiconMarks.filter((mark) => mark.family === 'correction').length} 次。`,
+      note: `修正或承认表达 ${countMatches(joined, runtimeLexicon.correction)} 次；correction 字典标记 ${allLexiconMarks.filter((mark) => mark.family === 'correction').length} 次。`,
     },
   ].map((score) => ({ ...score, value: Math.round(clamp(score.value)) }));
 
@@ -719,7 +773,7 @@ function App() {
     message: '输入 UID 或视频链接后会直接扫描 B 站公开对象，并用 DeepSeek V4 Pro max 学习关键词。',
   });
   const [keywordResults, setKeywordResults] = React.useState([]);
-  const [analysisMode, setAnalysisMode] = React.useState('best');
+  const [analysisMode, setAnalysisMode] = React.useState('hybrid');
   const [customLexicon, setCustomLexicon] = React.useState(() => {
     try {
       return JSON.parse(window.localStorage.getItem('bili-argument-lexicon') || '{}');
@@ -781,13 +835,12 @@ function App() {
         );
       } catch (dictError) {
         console.warn('DeepSeek dictionary load failed:', dictError);
-        setFetchState((current) => (current.status === 'idle' ? { ...current, message: 'DeepSeek 连接失败，将使用内置词典分析。' } : current));
         if (!cancelled) {
           setFetchState((current) =>
             current.status === 'idle'
               ? {
                   ...current,
-                  message: 'DeepSeek 配置读取失败；请确认 npm run server 和 DEEPSEEK_API_KEY。',
+                  message: 'DeepSeek 连接失败，请确认 npm run server 和 DEEPSEEK_API_KEY。',
                 }
               : current,
           );
@@ -857,22 +910,44 @@ function App() {
           console.warn('Keyword training failed:', trainError);
         }
       }
-      if (user.commentCount > 0 || (user.danmakuCount || 0) > 0) {
+      const hasComments = user.commentCount > 0 || (user.danmakuCount || 0) > 0 || nextCommentText.trim().length > 0;
+      if (hasComments) {
         setFetchState({ status: 'loading', message: '正在生成分析画像...' });
         const effectiveMode = analysisMode === 'best' ? 'hybrid' : analysisMode;
+        // Fetch semantic matches from server for enhanced scoring
+        let semanticMatches = null;
+        try {
+          const commentLines = nextCommentText.split(/\r?\n/).filter(Boolean).slice(0, 50);
+          if (commentLines.length > 0) {
+            const semResponse = await fetch('/api/deepseek/semantic-match', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({ comments: commentLines }),
+            });
+            if (semResponse.ok) {
+              const semData = await semResponse.json();
+              if (semData.ok && semData.matches) {
+                semanticMatches = semData.matches;
+              }
+            }
+          }
+        } catch (semError) {
+          console.warn('Semantic matching unavailable, using exact match only:', semError.message);
+        }
         const generated = scoreComments({
           name: `UID ${user.uid}`,
           uid: `mid ${user.uid}`,
           text: nextCommentText,
           runtimeLexicon: learnedRuntimeLexicon,
           analysisMode: effectiveMode,
+          semanticMatches,
         });
         setProfiles([generated]);
         setSelectedId(generated.id);
         setActiveError('全部');
       }
       setFetchState({
-        status: user.commentCount > 0 ? 'ready' : 'empty',
+        status: hasComments ? 'ready' : 'empty',
         message: `${user.commentCount} 条评论 + ${user.danmakuCount || 0} 条弹幕 · ${data.cached ? '已缓存' : '新获取'} · ${learnedNote}`,
       });
       setAnalysisState('ready');

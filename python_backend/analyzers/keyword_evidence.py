@@ -278,7 +278,7 @@ class KeywordEvidenceMatcher:
         count = 0
         for needle in sorted([needle for needle in needles if needle], key=len, reverse=True):
             index = 0
-            while index <= len(remaining):
+            while index < len(remaining):
                 found = remaining.find(needle, index)
                 if found == -1:
                     break
@@ -319,7 +319,7 @@ def _deepseek_clean_term(value: Any) -> str:
     normalized = unicodedata.normalize("NFKC", text)
     cleaned = re.sub(r"[^一-鿿A-Za-z0-9]", "", normalized)
     cleaned = re.sub(r"^\d+(?=百分百$)", "", cleaned)
-    cleaned = re.sub(r"(?<=一-鿿)[A-Za-z]$", "", cleaned)
+    cleaned = re.sub(r"(?<=[一-鿿])[A-Za-z]$", "", cleaned)
     return cleaned.strip()
 
 
@@ -993,7 +993,7 @@ def _is_ambiguous_benign_evidence_sample(
         if re.search(
             r"(?:不懂就问|都(?:是)?什么意思|是什么意思|是什么梗|从来不看)",
             context_sample,
-        ) and re.search(r"[、，,].*[、，,]", context_sample):
+        ) and re.search(r"[、，,][^、，,]*[、，,]", context_sample):
             if not re.search(
                 r"(?:黑称|骂人|攻击|别拿|别复读|别乱用)", context_sample
             ):

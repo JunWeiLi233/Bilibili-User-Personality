@@ -207,7 +207,7 @@ export async function matchCommentToTerms(chunks, termEmbeddings, threshold = DE
  */
 export async function findDictionaryEntriesWithSemanticEvidence(dictionary, text, options = {}) {
   const enabled = options.semanticMatchEnabled === true
-    || String(options.env?.SEMANTIC_MATCH_ENABLED || process.env.SEMANTIC_MATCH_ENABLED || '0') === '1';
+    || String(options.env?.SEMANTIC_MATCH_ENABLED || process.env.SEMANTIC_MATCH_ENABLED || '1') === '1';
   if (!enabled) return [];
 
   const threshold = Number(options.semanticMatchThreshold

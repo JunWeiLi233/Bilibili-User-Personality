@@ -1026,7 +1026,37 @@ export function extractJsonObject(raw) {
   if (!text) return {};
   const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
   const jsonText = fenced?.[1] || text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1);
-  return JSON.parse(jsonText);
+  try {
+    return JSON.parse(jsonText);
+  } catch {
+    // DeepSeek reasoning models sometimes produce nearly-valid JSON with
+    // trailing commas, unescaped characters, or truncation. Attempt repair.
+    try {
+      let repaired = jsonText
+        .replace(/,(\s*[}\]])/g, '$1')       // remove trailing commas
+        .replace(/([{,]\s*)(\w+)(\s*:)/g, '$1"$2"$3'); // quote unquoted keys
+      // Try to close truncated JSON. Track bracket type on a stack so
+      // we emit the correct closing brackets in LIFO order.
+      if (!repaired.endsWith('}') && !repaired.endsWith(']')) {
+        const stack = [];
+        let inString = false;
+        let escaped = false;
+        for (const ch of repaired) {
+          if (escaped) { escaped = false; continue; }
+          if (ch === '\\') { escaped = true; continue; }
+          if (ch === '"') { inString = !inString; continue; }
+          if (inString) continue;
+          if (ch === '{') stack.push('}');
+          else if (ch === '[') stack.push(']');
+          else if ((ch === '}' || ch === ']') && stack.length > 0 && stack[stack.length - 1] === ch) stack.pop();
+        }
+        repaired += stack.reverse().join('');
+      }
+      return JSON.parse(repaired);
+    } catch {
+      return {};
+    }
+  }
 }
 
 function isRecoveredPlaceholderMeaning(meaning) {
@@ -1246,7 +1276,7 @@ function countOccurrences(haystack, needle) {
   if (!haystack || !needle) return 0;
   let count = 0;
   let index = 0;
-  while (index <= haystack.length) {
+  while (index < haystack.length) {
     const found = haystack.indexOf(needle, index);
     if (found === -1) break;
     count += 1;
@@ -1260,7 +1290,7 @@ function countNonOverlappingNeedleOccurrences(haystack, needles = []) {
   let count = 0;
   for (const needle of [...needles].sort((a, b) => b.length - a.length)) {
     let index = 0;
-    while (index <= remaining.length) {
+    while (index < remaining.length) {
       const found = remaining.indexOf(needle, index);
       if (found === -1) break;
       count += 1;
@@ -3505,6 +3535,19 @@ async function writeSplitDictionaryAtomic(dictionaryPath, dictionary) {
   await removeStaleSplitDictionaryFiles(dictionaryPath, entryFiles, evidenceFiles);
 }
 
+// Platform-independent string comparison (codePoint, not localeCompare)
+function compareTerms(a, b) {
+  const sa = String(a || '').trim();
+  const sb = String(b || '').trim();
+  const len = Math.min(sa.length, sb.length);
+  for (let i = 0; i < len; i++) {
+    const ca = sa.codePointAt(i) || 0;
+    const cb = sb.codePointAt(i) || 0;
+    if (ca !== cb) return ca - cb;
+  }
+  return sa.length - sb.length;
+}
+
 function buildCanonicalDictionarySnapshot(current, now = current?.updatedAt || new Date().toISOString()) {
   const normalizedCurrentEntries = normalizeKeywordEntries(
     (Array.isArray(current?.entries) ? current.entries : []).map(({ variants: _variants, ...entry }) => entry),
@@ -3518,7 +3561,7 @@ function buildCanonicalDictionarySnapshot(current, now = current?.updatedAt || n
     });
   }
   propagateAliasEvidence(entryMap, now);
-  const allEntries = pruneSuffixOnlyFragments([...entryMap.values()]).sort((a, b) => a.family.localeCompare(b.family) || a.term.localeCompare(b.term));
+  const allEntries = pruneSuffixOnlyFragments([...entryMap.values()]).sort((a, b) => compareTerms(a.family, b.family) || compareTerms(a.term, b.term));
   const families = Object.fromEntries(SUPPORTED_FAMILIES.map((family) => [family, []]));
   for (const entry of allEntries) {
     if (!families[entry.family]) families[entry.family] = [];
@@ -3552,7 +3595,7 @@ export async function mergeEntriesIntoDictionary(entries, options = {}) {
     }
     propagateAliasEvidence(entryMap, now);
 
-    const allEntries = pruneSuffixOnlyFragments([...entryMap.values()]).sort((a, b) => a.family.localeCompare(b.family) || a.term.localeCompare(b.term));
+    const allEntries = pruneSuffixOnlyFragments([...entryMap.values()]).sort((a, b) => compareTerms(a.family, b.family) || compareTerms(a.term, b.term));
     const families = Object.fromEntries(SUPPORTED_FAMILIES.map((family) => [family, []]));
     for (const entry of allEntries) {
       if (!families[entry.family]) families[entry.family] = [];
@@ -3623,7 +3666,7 @@ export async function getDeepSeekConfig(options = {}) {
     };
   } catch (error) {
     return {
-      ok: true,
+      ok: false,
       provider: 'deepseek',
       baseUrl,
       model: configuredModel,
@@ -3632,6 +3675,7 @@ export async function getDeepSeekConfig(options = {}) {
       available: true,
       keyConfigured: true,
       models: DEEPSEEK_V4_MODELS,
+      modelsVerified: false,
       warning: `Could not list models: ${error.message}`,
     };
   }
@@ -3771,8 +3815,13 @@ async function generateKeywordEntries(payload, config, options = {}) {
     return { entries: filterKeywordEntriesByEvidence(heuristicEntries, payload.text, evidenceOptions), usedFallback: true, evidenceRejected: 0, raw: '' };
   }
 
+  // DeepSeek V4 Pro's reasoning mode consumes 60-80% of max_tokens for
+  // reasoning_content. Override to v4-flash for keyword extraction so the
+  // full budget goes to content generation (same pattern as analyzeCommentsWithDeepSeek).
+  const keywordModel = config.model === 'deepseek-v4-pro' ? 'deepseek-v4-flash' : config.model;
+
   const requestBody = {
-    model: config.model,
+    model: keywordModel,
     messages: buildKeywordMessages(payload),
     response_format: { type: 'json_object' },
     stream: false,
@@ -4122,7 +4171,7 @@ function buildStandaloneAnalysisInput(payload = {}, { compact = false } = {}) {
   return {
     uid: payload.uid || 'unknown',
     name: payload.name || 'unknown',
-    comments: splitAnalysisSourceSentences(payload.text).slice(0, compact ? 40 : 80),
+    comments: splitAnalysisSourceSentences(payload.text).slice(0, compact ? 15 : 30),
     keywordHints: normalizeStandaloneAnalysisHints(payload),
   };
 }
@@ -4446,9 +4495,12 @@ export function normalizeDeepSeekAnalysisResult({
 }
 
 async function requestDeepSeekMessages({ config, fetchImpl, messages, options, maxTokens = 2000 }) {
+  // DeepSeek V4 reasoning models split output budget between reasoning_content
+  // and content. For structured JSON output, reasoning often consumes 60-80% of
+  // max_tokens, leaving insufficient room for the actual response. Omit
+  // reasoning_effort to keep the full budget for content generation.
   const requestBody = {
     model: config.model,
-    reasoning_effort: config.reasoningEffort,
     messages,
     response_format: { type: 'json_object' },
     stream: false,
@@ -4476,7 +4528,10 @@ async function requestDeepSeekAnalysis({ config, fetchImpl, payload, options, co
     fetchImpl,
     messages: buildStandaloneAnalysisMessages(payload, { compact }),
     options,
-    maxTokens: compact ? 6000 : 2000,
+    // DeepSeek V4 reasoning models consume tokens for reasoning_content,
+    // leaving less budget for actual content. Cap at API limit (8192) and
+    // let the compact retry handle truncation cases.
+    maxTokens: 8192,
   });
 }
 
@@ -4490,7 +4545,7 @@ async function requestDeepSeekMultiAgentAnalysis({ config, fetchImpl, payload, o
         fetchImpl,
         messages: buildMultiAgentAnalysisMessages(payload, { agent, compact, sharedInput }),
         options,
-        maxTokens: 1600,
+        maxTokens: 4000,
       });
       agentResults.push({ id: agent.id, name: agent.name, ok: true, raw, parsed });
     } catch (error) {
@@ -4507,7 +4562,7 @@ async function requestDeepSeekMultiAgentAnalysis({ config, fetchImpl, payload, o
     fetchImpl,
     messages: buildMultiAgentMergeMessages(payload, { agentResults, compact, sharedInput }),
     options,
-    maxTokens: compact ? 6000 : 2600,
+    maxTokens: compact ? 8000 : 12000,
   });
 
   return {
@@ -4530,7 +4585,15 @@ export async function analyzeCommentsWithDeepSeek(payload, options = {}) {
   const config = await getDeepSeekConfig(options);
   const fetchImpl = options.fetch || fetch;
 
-  if (!config.available || !config.keyConfigured || !config.model) {
+  // DeepSeek V4 Pro's reasoning mode consumes 60-80% of max_tokens for
+  // reasoning_content, leaving insufficient budget for the 6-axis + sentence
+  // analysis JSON output. Override to v4-flash (non-reasoning) for analysis
+  // calls; training still uses the configured model for quality.
+  const analysisConfig = config.model === 'deepseek-v4-pro'
+    ? { ...config, model: 'deepseek-v4-flash' }
+    : config;
+
+  if (!analysisConfig.available || !analysisConfig.keyConfigured || !analysisConfig.model) {
     return {
       ok: false,
       error: 'DeepSeek API is not configured. Set DEEPSEEK_API_KEY to enable direct analysis.',
@@ -4546,24 +4609,24 @@ export async function analyzeCommentsWithDeepSeek(payload, options = {}) {
     const useMultiagent = shouldUseMultiAgentAnalysis(payload, options);
     try {
       if (useMultiagent) {
-        ({ raw, parsed, meta: multiagent } = await requestDeepSeekMultiAgentAnalysis({ config, fetchImpl, payload, options }));
+        ({ raw, parsed, meta: multiagent } = await requestDeepSeekMultiAgentAnalysis({ config: analysisConfig, fetchImpl, payload, options }));
       } else {
-        ({ raw, parsed } = await requestDeepSeekAnalysis({ config, fetchImpl, payload, options }));
+        ({ raw, parsed } = await requestDeepSeekAnalysis({ config: analysisConfig, fetchImpl, payload, options }));
       }
     } catch (error) {
       if (!(error instanceof SyntaxError)) throw error;
       if (useMultiagent) {
-        ({ raw, parsed, meta: multiagent } = await requestDeepSeekMultiAgentAnalysis({ config, fetchImpl, payload, options, compact: true }));
+        ({ raw, parsed, meta: multiagent } = await requestDeepSeekMultiAgentAnalysis({ config: analysisConfig, fetchImpl, payload, options, compact: true }));
       } else {
-        ({ raw, parsed } = await requestDeepSeekAnalysis({ config, fetchImpl, payload, options, compact: true }));
+        ({ raw, parsed } = await requestDeepSeekAnalysis({ config: analysisConfig, fetchImpl, payload, options, compact: true }));
       }
       retriedCompactPrompt = true;
     }
     if (parsedAnalysisLooksGarbled(parsed, raw, payload?.text)) {
       if (useMultiagent) {
-        ({ raw, parsed, meta: multiagent } = await requestDeepSeekMultiAgentAnalysis({ config, fetchImpl, payload, options, compact: true }));
+        ({ raw, parsed, meta: multiagent } = await requestDeepSeekMultiAgentAnalysis({ config: analysisConfig, fetchImpl, payload, options, compact: true }));
       } else {
-        ({ raw, parsed } = await requestDeepSeekAnalysis({ config, fetchImpl, payload, options, compact: true }));
+        ({ raw, parsed } = await requestDeepSeekAnalysis({ config: analysisConfig, fetchImpl, payload, options, compact: true }));
       }
       retriedCompactPrompt = true;
     }
@@ -4574,85 +4637,11 @@ export async function analyzeCommentsWithDeepSeek(payload, options = {}) {
     return normalizeDeepSeekAnalysisResult({
       parsed,
       payload,
-      config,
+      config: analysisConfig,
       raw,
       retriedCompactPrompt,
       multiagent,
     });
-
-    const axes = (Array.isArray(parsed.axes) ? parsed.axes : []).map((axis) => {
-      const evidence = Array.isArray(axis.evidence) ? axis.evidence.slice(0, 5) : [];
-      const normalizedAxis = normalizeAnalysisAxisLabel(axis.axis);
-      if (!normalizedAxis) return null;
-      const hasEvidence = axisHasUsableEvidence({ ...axis, axis: normalizedAxis, evidence }, payload?.text);
-      const score = Math.max(0, Math.min(100, Number(axis.score) || 50));
-      const reasoning = String(axis.reasoning || '').slice(0, 500);
-      return {
-        axis: normalizedAxis,
-        score: hasEvidence ? score : 50,
-        evidence,
-        reasoning: hasEvidence || /证据不足/.test(reasoning) ? reasoning : `${reasoning}${reasoning ? ' ' : ''}证据不足，按中性分处理。`,
-      };
-    }).filter(Boolean);
-
-    const validAxes = [
-      { axis: '对抗性动机', score: 50, evidence: [], reasoning: '' },
-      { axis: '认知闭合', score: 50, evidence: [], reasoning: '' },
-      { axis: '证据敏感', score: 50, evidence: [], reasoning: '' },
-      { axis: '逻辑一致', score: 50, evidence: [], reasoning: '' },
-      { axis: '合作讨论', score: 50, evidence: [], reasoning: '' },
-      { axis: '修正意愿', score: 50, evidence: [], reasoning: '' },
-    ];
-
-    for (const item of validAxes) {
-      const found = axes.find((axis) => axis.axis === item.axis);
-      if (found) Object.assign(item, found);
-    }
-
-    const sourceSentences = splitAnalysisSourceSentences(payload?.text);
-    const sentenceAnalyses = removeDuplicateEmptySentenceAnalyses((Array.isArray(parsed.sentenceAnalyses) ? parsed.sentenceAnalyses : [])
-      .map((item) => ({
-        quote: groundSentenceQuote(item.quote, sourceSentences).slice(0, 300),
-        speechAct: String(item.speechAct || '').trim().slice(0, 80),
-        target: String(item.target || '').trim().slice(0, 120),
-        stance: String(item.stance || '').trim().slice(0, 120),
-        contextRole: String(item.contextRole || '').trim().slice(0, 180),
-        risk: String(item.risk || 'neutral').trim().slice(0, 20),
-        axisImpacts: (Array.isArray(item.axisImpacts) ? item.axisImpacts : [])
-          .map((impact) => {
-            const strength = Number(impact.strength);
-            const normalizedAxis = normalizeAnalysisAxisLabel(impact.axis);
-            return {
-              axis: normalizedAxis,
-              direction: String(impact.direction || '').trim().slice(0, 20),
-              strength: Number.isFinite(strength) ? Math.max(0, Math.min(1, strength)) : 0.5,
-              reasoning: String(impact.reasoning || '').trim().slice(0, 240),
-            };
-          })
-          .filter((impact) => impact.axis)
-          .slice(0, 3),
-        reasoning: String(item.reasoning || '').trim().slice(0, 500),
-      }))
-      .filter((item) => item.quote));
-
-    const overall = {
-      riskBand: String(parsed.overall?.riskBand || '混合争辩型').trim(),
-      summary: String(parsed.overall?.summary || '').trim(),
-    };
-
-    return {
-      ok: true,
-      provider: config.provider,
-      model: config.model || '',
-      reasoningEffort: config.reasoningEffort || 'medium',
-      retriedCompactPrompt,
-      axes: validAxes,
-      sentenceAnalyses,
-      overall,
-      confidence: Math.max(0.45, Math.min(0.92, Number(parsed.confidence) || 0.7)),
-      raw,
-      ...(multiagent ? { multiagent } : {}),
-    };
   } catch (error) {
     return {
       ok: false,
