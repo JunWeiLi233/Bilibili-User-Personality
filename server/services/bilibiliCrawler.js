@@ -26,6 +26,14 @@ let sessionUaPicked = false;
 let sessionUserAgent = USER_AGENTS[0];
 let sessionPlatform = 'Windows';
 let cookiesInitialized = false;
+let cachePruneGate = 0;
+
+function pruneExpiredCacheEntries(nowFn) {
+  const now = nowFn();
+  for (const [key, entry] of responseCache) {
+    if (entry.expiresAt <= now) responseCache.delete(key);
+  }
+}
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -311,6 +319,7 @@ export async function fetchJson(url, referer = 'https://www.bilibili.com', optio
   if (cached && config.cacheTtlMs > 0 && cached.expiresAt > nowFn()) {
     return cached.payload;
   }
+  if (cached) responseCache.delete(key);
 
   await scheduleBilibiliRequest({ ...options, config });
   const fetchImpl = options.fetchImpl || fetch;
@@ -340,6 +349,9 @@ export async function fetchJson(url, referer = 'https://www.bilibili.com', optio
         expiresAt: nowFn() + config.cacheTtlMs,
         payload,
       });
+      // Prune expired entries every 100th insert to prevent unbounded growth.
+      cachePruneGate = (cachePruneGate + 1) % 100;
+      if (cachePruneGate === 0) pruneExpiredCacheEntries(nowFn);
     }
   }
   return payload;
@@ -540,11 +552,12 @@ export async function discoverVideosByUid(uid, limit, deps = {}) {
 export async function discoverVideosByFavorite(mediaId, limit, deps = {}) {
   deps = depsWithBilibiliCookie(deps);
   const requestJson = deps.fetchJson || fetchJson;
-  const pageSize = Math.min(30, limit);
+  let effectiveLimit = limit;
+  const pageSize = Math.min(30, effectiveLimit);
   const objects = [];
   let totalFromApi = 0;
 
-  for (let pn = 1; objects.length < limit; pn += 1) {
+  for (let pn = 1; objects.length < effectiveLimit; pn += 1) {
     const url = `https://api.bilibili.com/x/v3/fav/resource/list?media_id=${encodeURIComponent(mediaId)}&pn=${pn}&ps=${pageSize}&platform=web`;
     let data;
     try {
@@ -556,14 +569,14 @@ export async function discoverVideosByFavorite(mediaId, limit, deps = {}) {
     if (!data || data.code !== 0) break;
     if (pn === 1 && data.data?.info?.cnt_info?.collect) {
       totalFromApi = Number(data.data.info.cnt_info.collect);
-      if (totalFromApi > 0 && totalFromApi < limit) {
-        limit = totalFromApi;
+      if (totalFromApi > 0 && totalFromApi < effectiveLimit) {
+        effectiveLimit = totalFromApi;
       }
     }
     const medias = data.data?.medias || [];
     if (medias.length === 0) break;
     for (const item of medias) {
-      if (objects.length >= limit) break;
+      if (objects.length >= effectiveLimit) break;
       if (item.type !== 2 || !item.bvid) continue;
       objects.push({
         id: `video-1-${item.id}`,

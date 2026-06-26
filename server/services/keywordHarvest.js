@@ -1707,6 +1707,41 @@ function coveragePriorityPenalty(item = {}) {
   return 0;
 }
 
+/**
+ * Generate semantically-informed search queries from a term's meaning field.
+ * Extracts key CJK phrases (2-8 chars) from the meaning description to create
+ * context-aware search queries that go beyond exact term templates.
+ */
+function semanticQueriesFromMeaning(term, meaning) {
+  if (!meaning || typeof meaning !== 'string') return [];
+  const cleaned = meaning.trim();
+  if (!cleaned) return [];
+  // Extract meaningful CJK phrases from the meaning text
+  const phrases = [];
+  const segments = cleaned.split(/[，,、。！？!?;；\s]+/).filter(Boolean);
+  for (const seg of segments) {
+    // Take the segment if it's a short, substantive phrase
+    const stripped = seg.replace(/[^一-鿿㐀-䶿A-Za-z0-9]/g, '').trim();
+    if (stripped.length >= 2 && stripped.length <= 12 && stripped !== term) {
+      phrases.push(stripped);
+    }
+  }
+  // Also extract 2-4 char CJK bigrams/trigrams as context windows
+  const cjkOnly = cleaned.replace(/[^一-鿿㐀-䶿]/g, '');
+  for (let i = 0; i + 3 <= cjkOnly.length; i += 1) {
+    const window = cjkOnly.slice(i, i + 3);
+    if (window !== term && !phrases.includes(window)) {
+      phrases.push(window);
+    }
+  }
+  const uniquePhrases = [...new Set(phrases)].slice(0, 8);
+  const termClean = String(term || '').trim();
+  return uniquePhrases.flatMap((phrase) => [
+    normalizeQueryText(`${termClean} ${phrase}`),
+    normalizeQueryText(`${phrase} ${termClean}`),
+  ]);
+}
+
 function contextualQueriesForTerm(term) {
   return unique(
     searchTermsForTerm(term).flatMap((searchTerm) => {
@@ -1990,12 +2025,25 @@ function selectHarvestPlan(candidatePlan, options = {}) {
   return selected;
 }
 
+// Platform-independent string comparison (codePoint, not localeCompare)
+function compareTerms(a, b) {
+  const sa = String(a || '').trim();
+  const sb = String(b || '').trim();
+  const len = Math.min(sa.length, sb.length);
+  for (let i = 0; i < len; i++) {
+    const ca = sa.codePointAt(i) || 0;
+    const cb = sb.codePointAt(i) || 0;
+    if (ca !== cb) return ca - cb;
+  }
+  return sa.length - sb.length;
+}
+
 function sortEntriesForCoverage(entries) {
   return [...entries].sort(
     (a, b) =>
       coveragePriorityPenalty(a) - coveragePriorityPenalty(b) ||
       evidenceCount(a) - evidenceCount(b) ||
-      String(a.term || '').localeCompare(String(b.term || '')),
+      compareTerms(a.term, b.term),
   );
 }
 
@@ -2352,7 +2400,7 @@ export function buildKeywordHarvestQueryPlan(dictionary, options = {}) {
               actionSortRank(actionA, options) - actionSortRank(actionB, options) ||
               Math.max(0, targetEvidence - coverageEvidenceCount(a, options)) - Math.max(0, targetEvidence - coverageEvidenceCount(b, options)) ||
               sameRecommendationGroupSort(actionA, actionB) ||
-              String(a.term || '').localeCompare(String(b.term || ''))
+              compareTerms(a.term, b.term)
             );
           })
       : allEntries;
@@ -2393,6 +2441,31 @@ export function buildKeywordHarvestQueryPlan(dictionary, options = {}) {
         builtInVariant: variant.builtIn,
         previouslyTried: triedQueries.has(variant.query),
       });
+    }
+    // Add semantically-expanded queries from the term's meaning field
+    // for terms with low evidence coverage
+    if (evidenceCount(entry) < targetEvidence) {
+      const meaning = String(entry.meaning || '').trim();
+      if (meaning) {
+        const semanticQueries = semanticQueriesFromMeaning(term, meaning);
+        for (const query of semanticQueries) {
+          if (!query) continue;
+          dictionaryPlan.push({
+            query,
+            source: 'semantic',
+            term,
+            family,
+            evidenceCount: evidenceCount(entry),
+            sourcedEvidence: hasCoverageEvidenceSource(entry, options),
+            recommendationGroup: actionMap.get(term)?.recommendationGroup || 'semantic_expansion',
+            priorAttempts: attempts,
+            priorSuccessfulAttempts: successfulAttempts,
+            variantIndex: -1,
+            builtInVariant: false,
+            previouslyTried: triedQueries.has(query),
+          });
+        }
+      }
     }
   }
 
@@ -2561,7 +2634,7 @@ export function summarizeTermAttempts(state = {}, dictionary = {}, options = {})
     }));
   const repeatedlyMissedTerms = attemptedTerms
     .filter((item) => effectiveSuccessfulAttempts(item) === 0)
-    .sort((a, b) => Number(b.attempts) - Number(a.attempts) || String(a.term || '').localeCompare(String(b.term || '')))
+    .sort((a, b) => Number(b.attempts) - Number(a.attempts) || compareTerms(a.term, b.term))
     .slice(0, 20)
     .map((item) => ({
       term: item.term,
@@ -2578,7 +2651,7 @@ export function summarizeTermAttempts(state = {}, dictionary = {}, options = {})
       return { entry, attempt, term, family };
     })
     .filter((item) => item.term && isTermAttemptExhausted(item.term, item.family, item.attempt, options))
-    .sort((a, b) => evidenceCount(a.entry) - evidenceCount(b.entry) || String(a.term).localeCompare(String(b.term)))
+    .sort((a, b) => evidenceCount(a.entry) - evidenceCount(b.entry) || compareTerms(a.term, b.term))
     .slice(0, 20)
     .map((item) => ({
       term: item.term,
@@ -2806,7 +2879,7 @@ export function buildDictionaryCoverageAudit(dictionary = {}, state = {}, option
           actionSortRank(b, { ...options, prioritizeHardZeroEvidence: true, prioritizeSourceGaps: true }) ||
         a.evidenceNeeded - b.evidenceNeeded ||
         sameRecommendationGroupSort(a, b) ||
-        String(a.term || '').localeCompare(String(b.term || ''))
+        compareTerms(a.term, b.term)
       );
     });
   const nextActions = diversifyCoverageActions(sortedActions, maxActions);
@@ -2822,7 +2895,7 @@ export function buildDictionaryCoverageAudit(dictionary = {}, state = {}, option
       evidence: item.evidence,
       coverageRatio: item.terms ? Number(((item.terms - item.weak) / item.terms).toFixed(4)) : 1,
     }))
-    .sort((a, b) => b.weak - a.weak || b.zero - a.zero || a.family.localeCompare(b.family));
+    .sort((a, b) => b.weak - a.weak || b.zero - a.zero || compareTerms(a.family, b.family));
   const failureReasons = [];
   if (coverage.coverageRatio < minCoverageRatio) {
     failureReasons.push(`coverage ratio ${coverage.coverageRatio} is below ${minCoverageRatio}`);

@@ -99,9 +99,11 @@ class HarvestTermAttemptSummarizer:
 
     def _effective_successful_attempts(self, attempt: dict[str, Any]) -> int:
         successful = _non_negative_int(attempt.get("successfulAttempts"))
-        if successful == 0 or "lastEvidenceCount" not in attempt:
+        if "lastEvidenceCount" not in attempt:
             return successful
-        return successful if _number(attempt.get("lastEvidenceCount")) != _number(attempt.get("evidenceAtPlanTime")) else 0
+        if _number(attempt.get("lastEvidenceCount")) != _number(attempt.get("evidenceAtPlanTime")):
+            return max(successful, 1)
+        return 0
 
     def _attempted_queries(self, attempt: dict[str, Any]) -> set[str]:
         return {
@@ -246,9 +248,11 @@ class HarvestCoverageActionBuilder:
 
     def _effective_successful_attempts(self, attempt: dict[str, Any]) -> int:
         successful = _non_negative_int(attempt.get("successfulAttempts"))
-        if successful == 0 or "lastEvidenceCount" not in attempt:
+        if "lastEvidenceCount" not in attempt:
             return successful
-        return successful if _number(attempt.get("lastEvidenceCount")) != _number(attempt.get("evidenceAtPlanTime")) else 0
+        if _number(attempt.get("lastEvidenceCount")) != _number(attempt.get("evidenceAtPlanTime")):
+            return max(successful, 1)
+        return 0
 
     def _attempted_queries(self, attempt: dict[str, Any]) -> set[str]:
         return {

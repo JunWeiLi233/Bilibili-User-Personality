@@ -128,7 +128,7 @@ class DeepSeekAnalysisInputBuilder:
         values = []
         seen = set()
         for line in re.split(r"[\r\n]+", str(text or "")):
-            for sentence in re.split(r"(?<=[。！？!?;；])", line):
+            for sentence in re.split(r"(?<=[。！？!?;；])(?![」』）\]】〕])", line):
                 sentence = sentence.strip()
                 if sentence and sentence not in seen:
                     seen.add(sentence)
@@ -530,7 +530,7 @@ class DeepSeekAnalyzerClient:
         values = []
         seen = set()
         for line in re.split(r"[\r\n]+", str(text or "")):
-            for sentence in re.split(r"(?<=[。！？!?;；])", line):
+            for sentence in re.split(r"(?<=[。！？!?;；])(?![」』）\]】〕])", line):
                 sentence = sentence.strip()
                 if sentence and sentence not in seen:
                     seen.add(sentence)

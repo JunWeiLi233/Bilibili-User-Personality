@@ -60,7 +60,8 @@ function clamp01(value, fallback = 0.5) {
 }
 
 export function normalizeRadarAxis(axis) {
-  const clean = String(axis || '').trim();
+  if (typeof axis !== 'string') return '';
+  const clean = axis.trim();
   if (!clean) return '';
   return AXIS_ALIASES.get(clean) || AXIS_ALIASES.get(clean.toLowerCase()) || '';
 }

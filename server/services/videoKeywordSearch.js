@@ -633,7 +633,7 @@ export async function searchVideoKeywords(payload = {}, deps = {}) {
       if (medialistMatch) return medialistMatch[1];
       return raw.replace(/^ml/i, '').match(/\d+/)?.[0] || '';
     })();
-    if (favId) {
+    if (favId !== '') {
       try {
         const favVideos = await discoverVideosByFavorite(favId, 200, deps);
         for (const v of favVideos) videoLinks.push(v.bvid);
