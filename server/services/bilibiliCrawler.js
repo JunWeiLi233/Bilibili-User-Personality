@@ -17,7 +17,7 @@ const ACCEPT_LANGUAGE = 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7';
 const SEC_CH_UA = '"Chromium";v="124", "Google Chrome";v="124", "Not.A/Brand";v="99"';
 const BLOCK_CODES = new Set([-101, -111, -352, -412, -509, -799]);
 const MAX_COOLDOWN_MULTIPLIER = 8;
-const responseCache = new Map();
+const CACHE_MAX_SIZE = 500;
 const cookieJar = new Map();
 let nextRequestAt = 0;
 let cooldownUntil = 0;
@@ -28,11 +28,55 @@ let sessionPlatform = 'Windows';
 let cookiesInitialized = false;
 let cachePruneGate = 0;
 
-function pruneExpiredCacheEntries(nowFn) {
-  const now = nowFn();
-  for (const [key, entry] of responseCache) {
-    if (entry.expiresAt <= now) responseCache.delete(key);
+// LRU cache with TTL-aware eviction. Bounded to CACHE_MAX_SIZE entries;
+// least-recently-used entries are evicted first when the cap is exceeded.
+// Expired TTL entries are pruned on access and periodically on insert.
+class LruCache {
+  #map = new Map();
+  #maxSize;
+
+  constructor(maxSize = 500) {
+    this.#maxSize = maxSize;
   }
+
+  get(key) {
+    const entry = this.#map.get(key);
+    if (entry === undefined) return undefined;
+    // Promote to most-recently-used
+    this.#map.delete(key);
+    this.#map.set(key, entry);
+    return entry;
+  }
+
+  set(key, value) {
+    if (this.#map.has(key)) {
+      this.#map.delete(key); // re-insert at MRU position
+    } else if (this.#map.size >= this.#maxSize) {
+      // Evict least-recently-used (first key in insertion order)
+      const lru = this.#map.keys().next().value;
+      this.#map.delete(lru);
+    }
+    this.#map.set(key, value);
+  }
+
+  delete(key) { return this.#map.delete(key); }
+
+  clear() { this.#map.clear(); }
+
+  get size() { return this.#map.size; }
+
+  // Scan and remove entries whose expiresAt <= now. Safe to call during iteration.
+  pruneExpired(now) {
+    for (const [key, entry] of this.#map) {
+      if (entry.expiresAt <= now) this.#map.delete(key);
+    }
+  }
+}
+
+const responseCache = new LruCache(CACHE_MAX_SIZE);
+
+function pruneExpiredCacheEntries(nowFn) {
+  responseCache.pruneExpired(nowFn());
 }
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
