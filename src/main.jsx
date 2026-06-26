@@ -752,6 +752,16 @@ function App() {
           fetch('/api/deepseek/config'),
           fetch('/api/deepseek/dictionary'),
         ]);
+        if (!configResponse.ok) {
+          console.warn('DeepSeek config fetch failed:', configResponse.status);
+          setFetchState((current) => (current.status === 'idle' ? { ...current, message: 'DeepSeek 配置加载失败，将使用本地规则。' } : current));
+          return;
+        }
+        if (!dictionaryResponse.ok) {
+          console.warn('Dictionary fetch failed:', dictionaryResponse.status);
+          setFetchState((current) => (current.status === 'idle' ? { ...current, message: '词典加载失败，将使用内置词典。' } : current));
+          return;
+        }
         const config = await configResponse.json();
         const dictionaryPayload = await dictionaryResponse.json();
         if (cancelled) return;
@@ -769,7 +779,9 @@ function App() {
               }
             : current,
         );
-      } catch {
+      } catch (dictError) {
+        console.warn('DeepSeek dictionary load failed:', dictError);
+        setFetchState((current) => (current.status === 'idle' ? { ...current, message: 'DeepSeek 连接失败，将使用内置词典分析。' } : current));
         if (!cancelled) {
           setFetchState((current) =>
             current.status === 'idle'
