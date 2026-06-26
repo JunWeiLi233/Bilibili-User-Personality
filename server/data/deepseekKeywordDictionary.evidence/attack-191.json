@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:49:50.909Z",
+  "updatedAt": "2026-06-25T23:25:48.247Z",
   "family": "attack",
   "shard": 191,
-  "shardCount": 338,
+  "shardCount": 336,
   "evidence": [
     {
       "term": "你有病啊",
@@ -153,23 +153,13 @@
     {
       "term": "拟人",
       "evidenceSamples": [
-        "拟人",
-        "这张脸太拟人了，重开吧",
-        "[笑哭]不要侮辱狗，这种拟人玩意怎么比得上狗啊，狗可是很忠心的",
         "回复 @mi森 :其实脑容量大小和褶皱复杂程度只适用于同物种里参考智商高低。 不同物种结构完全不同，没有参考性。不然各种鲸鱼 虎鲨 大象等等大型动物脑子又大褶皱又多，比人都得聪明了。猫实际在自然界是很靠前的，也就是比狗低一些，总体都算在高智...",
-        "那位拟人不是被一骑讨了吗[笑哭]法律审判枪毙和一骑讨可不是一回事啊喂"
+        "那位拟人不是被一骑讨了吗[笑哭]法律审判枪毙和一骑讨可不是一回事啊喂",
+        "这首没什么深刻意义我是不信的，（以下解析）曲中的雨衣与其说是“可爱党”不如说是“热度党”（在46秒处可爱对应掉下来的是点赞，说明雨衣宣传可爱只是为了热度），术力口MV圈外人无法理解，但是只要做发抖音开倍速这种快餐行为就会让许多人跟风跟跳，然...",
+        "拟人",
+        "这张脸太拟人了，重开吧"
       ],
       "evidenceSources": [
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1gM4m1C7Bz/, https://www.bilibili.com/video/BV1gVj46TEdW/, https://www.bilibili.com/video/BV13GE86HEP1/, https://www.bilibili.com/video/BV1aERYBDEfW/, https://www.bilibili.com/video/BV1zZ7a6vEKn/, https://www.bilibili.com/video/BV1AS7e6UEMZ/, http://www.bilibili.com/video/av1304481691, http://www.bilibili.com/video/av116514426456638, http://www.bilibili.com/video/av116097781079423, http://www.bilibili.com/video/av115428118567508, http://www.bilibili.com/video/av116377188899374, http://www.bilibili.com/video/av114297199921566, http://www.bilibili.com/video/av115914506901381, http://www.bilibili.com/video/av116454011704329, http://www.bilibili.com/video/av115967875095293, http://www.bilibili.com/video/av1301037679, http://www.bilibili.com/video/av485893597, http://www.bilibili.com/video/av113648475374138, http://www.bilibili.com/video/av113114322306258, http://www.bilibili.com/video/av113291875583522, http://www.bilibili.com/video/av904253717, http://www.bilibili.com/video/av114359946708511, http://www.bilibili.com/video/av113587607570846, http://www.bilibili.com/video/av115252964362911, http://www.bilibili.com/video/av114034519056120, http://www.bilibili.com/video/av114409724777935, http://www.bilibili.com/video/av116640658229084, http://www.bilibili.com/video/av116786250981048, http://www.bilibili.com/video/av116810913550691, http://www.bilibili.com/video/av116759524804472, http://www.bilibili.com/video/av116805276274015, http://www.bilibili.com/video/av116810242333394, http://www.bilibili.com/video/av114841872240003, http://www.bilibili.com/video/av116809168655429, http://www.bilibili.com/video/av116811567728119, http://www.bilibili.com/video/av116808732379349, http://www.bilibili.com/video/av116810795977376, http://www.bilibili.com/video/av787111910, http://www.bilibili.com/video/av116809185559372, http://www.bilibili.com/video/av116688691399347, http://www.bilibili.com/video/av116808094915256, http://www.bilibili.com/video/av116710233345555",
-          "uid": "BV1gM4m1C7Bz,BV1gVj46TEdW,BV13GE86HEP1,BV1aERYBDEfW,BV1zZ7a6vEKn,BV1AS7e6UEMZ",
-          "sample": "这张脸太拟人了，重开吧"
-        },
-        {
-          "source": "Popular video comments UID 354745 (1 comments from 1 videos)",
-          "uid": "354745",
-          "sample": "[笑哭]不要侮辱狗，这种拟人玩意怎么比得上狗啊，狗可是很忠心的"
-        },
         {
           "source": "batch-scrape",
           "uid": "batch",
@@ -179,6 +169,21 @@
           "source": "batch-scrape",
           "uid": "batch-full",
           "sample": "那位拟人不是被一骑讨了吗[笑哭]法律审判枪毙和一骑讨可不是一回事啊喂"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1gM4m1C7Bz/, https://www.bilibili.com/video/BV1gVj46TEdW/, https://www.bilibili.com/video/BV13GE86HEP1/, https://www.bilibili.com/video/BV1aERYBDEfW/, https://www.bilibili.com/video/BV1zZ7a6vEKn/, https://www.bilibili.com/video/BV1AS7e6UEMZ/, http://www.bilibili.com/video/av1304481691, http://www.bilibili.com/video/av116514426456638, http://www.bilibili.com/video/av116097781079423, http://www.bilibili.com/video/av115428118567508, http://www.bilibili.com/video/av116377188899374, http://www.bilibili.com/video/av114297199921566, http://www.bilibili.com/video/av115914506901381, http://www.bilibili.com/video/av116454011704329, http://www.bilibili.com/video/av115967875095293, http://www.bilibili.com/video/av1301037679, http://www.bilibili.com/video/av485893597, http://www.bilibili.com/video/av113648475374138, http://www.bilibili.com/video/av113114322306258, http://www.bilibili.com/video/av113291875583522, http://www.bilibili.com/video/av904253717, http://www.bilibili.com/video/av114359946708511, http://www.bilibili.com/video/av113587607570846, http://www.bilibili.com/video/av115252964362911, http://www.bilibili.com/video/av114034519056120, http://www.bilibili.com/video/av114409724777935, http://www.bilibili.com/video/av116640658229084, http://www.bilibili.com/video/av116786250981048, http://www.bilibili.com/video/av116810913550691, http://www.bilibili.com/video/av116759524804472, http://www.bilibili.com/video/av116805276274015, http://www.bilibili.com/video/av116810242333394, http://www.bilibili.com/video/av114841872240003, http://www.bilibili.com/video/av116809168655429, http://www.bilibili.com/video/av116811567728119, http://www.bilibili.com/video/av116808732379349, http://www.bilibili.com/video/av116810795977376, http://www.bilibili.com/video/av787111910, http://www.bilibili.com/video/av116809185559372, http://www.bilibili.com/video/av116688691399347, http://www.bilibili.com/video/av116808094915256, http://www.bilibili.com/video/av116710233345555",
+          "uid": "BV1gM4m1C7Bz,BV1gVj46TEdW,BV13GE86HEP1,BV1aERYBDEfW,BV1zZ7a6vEKn,BV1AS7e6UEMZ",
+          "sample": "这张脸太拟人了，重开吧"
+        },
+        {
+          "source": "batch-scrape",
+          "uid": "batch-full",
+          "sample": "回复 @mi森 :其实脑容量大小和褶皱复杂程度只适用于同物种里参考智商高低。 不同物种结构完全不同，没有参考性。不然各种鲸鱼 虎鲨 大象等等大型动物脑子又大褶皱又多，比人都得聪明了。猫实际在自然界是很靠前的，也就是比狗低一些，总体都算在高智..."
+        },
+        {
+          "source": "Popular video comments UID 354745 (1 comments from 1 videos)",
+          "uid": "354745",
+          "sample": "[笑哭]不要侮辱狗，这种拟人玩意怎么比得上狗啊，狗可是很忠心的"
         },
         {
           "source": "batch-scrape",
@@ -194,24 +199,24 @@
           "source": "batch-scrape",
           "uid": "batch-full-v2",
           "sample": "[笑哭]不要侮辱狗，这种拟人玩意怎么比得上狗啊，狗可是很忠心的"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full",
-          "sample": "回复 @mi森 :其实脑容量大小和褶皱复杂程度只适用于同物种里参考智商高低。 不同物种结构完全不同，没有参考性。不然各种鲸鱼 虎鲨 大象等等大型动物脑子又大褶皱又多，比人都得聪明了。猫实际在自然界是很靠前的，也就是比狗低一些，总体都算在高智..."
         }
       ]
     },
     {
       "term": "拟人玩意",
       "evidenceSamples": [
-        "这张脸太拟人了，重开吧",
-        "[笑哭]不要侮辱狗，这种拟人玩意怎么比得上狗啊，狗可是很忠心的",
-        "回复 @mi森 :其实脑容量大小和褶皱复杂程度只适用于同物种里参考智商高低。 不同物种结构完全不同，没有参考性。不然各种鲸鱼 虎鲨 大象等等大型动物脑子又大褶皱又多，比人都得聪明了。猫实际在自然界是很靠前的，也就是比狗低一些，总体都算在高智...",
         "那位拟人不是被一骑讨了吗[笑哭]法律审判枪毙和一骑讨可不是一回事啊喂",
-        "这首没什么深刻意义我是不信的，（以下解析）曲中的雨衣与其说是“可爱党”不如说是“热度党”（在46秒处可爱对应掉下来的是点赞，说明雨衣宣传可爱只是为了热度），术力口MV圈外人无法理解，但是只要做发抖音开倍速这种快餐行为就会让许多人跟风跟跳，然..."
+        "这首没什么深刻意义我是不信的，（以下解析）曲中的雨衣与其说是“可爱党”不如说是“热度党”（在46秒处可爱对应掉下来的是点赞，说明雨衣宣传可爱只是为了热度），术力口MV圈外人无法理解，但是只要做发抖音开倍速这种快餐行为就会让许多人跟风跟跳，然...",
+        "拟人",
+        "这张脸太拟人了，重开吧",
+        "[笑哭]不要侮辱狗，这种拟人玩意怎么比得上狗啊，狗可是很忠心的"
       ],
       "evidenceSources": [
+        {
+          "source": "batch-scrape",
+          "uid": "batch-full",
+          "sample": "那位拟人不是被一骑讨了吗[笑哭]法律审判枪毙和一骑讨可不是一回事啊喂"
+        },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1gM4m1C7Bz/, https://www.bilibili.com/video/BV1gVj46TEdW/, https://www.bilibili.com/video/BV13GE86HEP1/, https://www.bilibili.com/video/BV1aERYBDEfW/, https://www.bilibili.com/video/BV1zZ7a6vEKn/, https://www.bilibili.com/video/BV1AS7e6UEMZ/, http://www.bilibili.com/video/av1304481691, http://www.bilibili.com/video/av116514426456638, http://www.bilibili.com/video/av116097781079423, http://www.bilibili.com/video/av115428118567508, http://www.bilibili.com/video/av116377188899374, http://www.bilibili.com/video/av114297199921566, http://www.bilibili.com/video/av115914506901381, http://www.bilibili.com/video/av116454011704329, http://www.bilibili.com/video/av115967875095293, http://www.bilibili.com/video/av1301037679, http://www.bilibili.com/video/av485893597, http://www.bilibili.com/video/av113648475374138, http://www.bilibili.com/video/av113114322306258, http://www.bilibili.com/video/av113291875583522, http://www.bilibili.com/video/av904253717, http://www.bilibili.com/video/av114359946708511, http://www.bilibili.com/video/av113587607570846, http://www.bilibili.com/video/av115252964362911, http://www.bilibili.com/video/av114034519056120, http://www.bilibili.com/video/av114409724777935, http://www.bilibili.com/video/av116640658229084, http://www.bilibili.com/video/av116786250981048, http://www.bilibili.com/video/av116810913550691, http://www.bilibili.com/video/av116759524804472, http://www.bilibili.com/video/av116805276274015, http://www.bilibili.com/video/av116810242333394, http://www.bilibili.com/video/av114841872240003, http://www.bilibili.com/video/av116809168655429, http://www.bilibili.com/video/av116811567728119, http://www.bilibili.com/video/av116808732379349, http://www.bilibili.com/video/av116810795977376, http://www.bilibili.com/video/av787111910, http://www.bilibili.com/video/av116809185559372, http://www.bilibili.com/video/av116688691399347, http://www.bilibili.com/video/av116808094915256, http://www.bilibili.com/video/av116710233345555",
           "uid": "BV1gM4m1C7Bz,BV1gVj46TEdW,BV13GE86HEP1,BV1aERYBDEfW,BV1zZ7a6vEKn,BV1AS7e6UEMZ",
@@ -221,16 +226,6 @@
           "source": "Popular video comments UID 354745 (1 comments from 1 videos)",
           "uid": "354745",
           "sample": "[笑哭]不要侮辱狗，这种拟人玩意怎么比得上狗啊，狗可是很忠心的"
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch",
-          "sample": "回复 @mi森 :其实脑容量大小和褶皱复杂程度只适用于同物种里参考智商高低。 不同物种结构完全不同，没有参考性。不然各种鲸鱼 虎鲨 大象等等大型动物脑子又大褶皱又多，比人都得聪明了。猫实际在自然界是很靠前的，也就是比狗低一些，总体都算在高智..."
-        },
-        {
-          "source": "batch-scrape",
-          "uid": "batch-full",
-          "sample": "那位拟人不是被一骑讨了吗[笑哭]法律审判枪毙和一骑讨可不是一回事啊喂"
         },
         {
           "source": "batch-scrape",
@@ -246,6 +241,11 @@
           "source": "batch-scrape",
           "uid": "batch-full-v2",
           "sample": "[笑哭]不要侮辱狗，这种拟人玩意怎么比得上狗啊，狗可是很忠心的"
+        },
+        {
+          "source": "batch-scrape",
+          "uid": "batch",
+          "sample": "回复 @mi森 :其实脑容量大小和褶皱复杂程度只适用于同物种里参考智商高低。 不同物种结构完全不同，没有参考性。不然各种鲸鱼 虎鲨 大象等等大型动物脑子又大褶皱又多，比人都得聪明了。猫实际在自然界是很靠前的，也就是比狗低一些，总体都算在高智..."
         },
         {
           "source": "batch-scrape",

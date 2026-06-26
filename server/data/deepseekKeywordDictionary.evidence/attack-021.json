@@ -1,10 +1,62 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:49:50.909Z",
+  "updatedAt": "2026-06-25T23:25:48.247Z",
   "family": "attack",
   "shard": 21,
-  "shardCount": 338,
+  "shardCount": 336,
   "evidence": [
+    {
+      "term": "别吵了",
+      "evidenceSamples": [
+        "别吵了，各退一步",
+        "评论区别吵了，看视频内容行不行",
+        "别吵了炽天使也是烂尾的烂番",
+        "别吵了，实话重庆成都馆子抽烟太常见了",
+        "别吵了，是吴京"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili danmaku harvest 2026-06-25",
+          "uid": "",
+          "sample": "Bilibili danmaku usage: 别吵了"
+        },
+        {
+          "source": "Bilibili corpus match: Bilibili public direct danmaku probe: https://www.bilibili.com/video/av114482437162385/",
+          "uid": "",
+          "sample": "别吵了炽天使也是烂尾的烂番"
+        },
+        {
+          "source": "Bilibili corpus match: Bilibili public direct danmaku probe: https://www.bilibili.com/video/av1205801074/",
+          "uid": "",
+          "sample": "别吵了，实话重庆成都馆子抽烟太常见了"
+        },
+        {
+          "source": "Bilibili corpus match: Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116640591189695/",
+          "uid": "",
+          "sample": "别吵了，是吴京"
+        },
+        {
+          "source": "Bilibili corpus match: Bilibili public direct danmaku probe: https://www.bilibili.com/video/av116663206810944/",
+          "uid": "",
+          "sample": "别吵了 eq肯定是按最后边那段solo调"
+        },
+        {
+          "source": "Bilibili corpus match: Bilibili public direct comment probe: https://www.bilibili.com/video/BV1fa411N7Uh/",
+          "uid": "",
+          "sample": "新人声优倒没啥。天天找那几个老牌声优，人家也有一天要老去，总有从一二线退下来的日子，也总有一天要妥协于生活的其他琐碎的。新人没多少机会攀升，又嫌新人比不过资历老的，真没必要。 至于楠木灯嘛。都说什么声优偶像化，我说偶像化又如何。宏观上或许确实有问题随之诞生，但不代表这样体制下出现的都是劣质声优。偶像化的声优里，业务水平强劲的照样能找出一大把。其中也应该包括楠木灯。一千个人眼里有一千个mqm，你觉得对得上/对不上都是正常的。但是，人家声线也不单一，演技又不差；唱功优良，品格也很正直——转进到人身攻击的建议还是收收吧。 她第一次主役的《刀剑神域外传GGO》，就是一部索尼参与度很高的动画。看过这部动画的观众应该都很清楚，楠木主役的女主现实和游戏中是完全不同的两个声线，全片好像三四种声线吧，切换得很自然。索尼或许也正是看上了这一点才发掘她当主役。后面虹团的“学生会长”也是，《魔女之旅》第9话“人畜无害”的小女孩也是——这套“切换身份→切换声线→制造反差”的流程都快变成她的固有技能了。 像《电锯人》这样的IP，哪怕选个18线底边棒读声优，也很有可能是原作党照样边看边骂、路人观众没啥感觉。这次这种"
+        },
+        {
+          "source": "Bilibili corpus match: Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1D14y1M78q/",
+          "uid": "",
+          "sample": "别吵了，没看到某些人吗"
+        },
+        {
+          "source": "Bilibili corpus match: Bilibili public direct danmaku probe: https://www.bilibili.com/video/BV1VKVK66E8K/",
+          "uid": "",
+          "sample": "都别吵了其实那个视频作者一家子是顺风耳"
+        }
+      ]
+    },
     {
       "term": "别吹",
       "evidenceSamples": [

@@ -1,72 +1,18 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:49:50.909Z",
+  "updatedAt": "2026-06-25T23:25:48.247Z",
   "family": "attack",
   "shard": 5,
   "shardCount": 5,
   "entries": [
-    {
-      "term": "pv诈骗",
-      "family": "attack",
-      "meaning": "指游戏或视频宣传PV与实际内容严重不符，是一种批评和讽刺",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 3,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "tv白眼",
-      "family": "attack",
-      "meaning": "B站表情，表达无语、鄙视、看戏",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "tv抠鼻",
-      "family": "attack",
-      "meaning": "B站表情，表示不屑、嘲讽或嫌弃",
-      "risk": "medium",
-      "confidence": 0.78,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "tv呕吐",
-      "family": "attack",
-      "meaning": "弹幕表情，表达恶心、反感",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 5,
-      "updatedAt": "2026-05-31T20:58:50.101Z"
-    },
-    {
-      "term": "wb升堂",
-      "family": "attack",
-      "meaning": "在社交媒体上公开指责、审判，引导粉丝网暴，源于公堂诉讼隐喻",
-      "risk": "high",
-      "confidence": 0.85,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "wdnmd",
-      "family": "attack",
-      "meaning": "“我带你吗的”缩写，辱骂性攻击表达",
-      "risk": "high",
-      "confidence": 0.95,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
-    },
     {
       "term": "yygq",
       "family": "attack",
       "meaning": "中文互联网嘲讽或贬低性梗；猪鼻用于批评某人当下行为犯蠢",
       "risk": "medium",
       "confidence": 0.85,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-25T23:25:48.247Z"
     }
   ]
 }

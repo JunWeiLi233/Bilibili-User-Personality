@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:49:50.909Z",
+  "updatedAt": "2026-06-25T23:25:48.247Z",
   "family": "correction",
   "shard": 3,
   "shardCount": 12,
@@ -8,28 +8,13 @@
     {
       "term": "非常抱歉",
       "evidenceSamples": [
-        "生而为人我很抱歉",
-        "抱歉，你们这些老东西那时候我还没出生",
-        "抱歉，繁体字没问题，这火星文我就根本看不懂要换算",
         "抱歉我知道",
-        "[笑哭][笑哭][笑哭]抱歉，我没仔细看，自动生成的。"
+        "[笑哭][笑哭][笑哭]抱歉，我没仔细看，自动生成的。",
+        "很抱歉以这样的方式认识你",
+        "生而为人我很抱歉",
+        "抱歉，你们这些老东西那时候我还没出生"
       ],
       "evidenceSources": [
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1gM4m1C7Bz/, https://www.bilibili.com/video/BV1gVj46TEdW/, https://www.bilibili.com/video/BV13GE86HEP1/, https://www.bilibili.com/video/BV1aERYBDEfW/, https://www.bilibili.com/video/BV1zZ7a6vEKn/, https://www.bilibili.com/video/BV1AS7e6UEMZ/, http://www.bilibili.com/video/av1304481691, http://www.bilibili.com/video/av116514426456638, http://www.bilibili.com/video/av116097781079423, http://www.bilibili.com/video/av115428118567508, http://www.bilibili.com/video/av116377188899374, http://www.bilibili.com/video/av114297199921566, http://www.bilibili.com/video/av115914506901381, http://www.bilibili.com/video/av116454011704329, http://www.bilibili.com/video/av115967875095293, http://www.bilibili.com/video/av1301037679, http://www.bilibili.com/video/av485893597, http://www.bilibili.com/video/av113648475374138, http://www.bilibili.com/video/av113114322306258, http://www.bilibili.com/video/av113291875583522, http://www.bilibili.com/video/av904253717, http://www.bilibili.com/video/av114359946708511, http://www.bilibili.com/video/av113587607570846, http://www.bilibili.com/video/av115252964362911, http://www.bilibili.com/video/av114034519056120, http://www.bilibili.com/video/av114409724777935, http://www.bilibili.com/video/av116640658229084, http://www.bilibili.com/video/av116786250981048, http://www.bilibili.com/video/av116810913550691, http://www.bilibili.com/video/av116759524804472, http://www.bilibili.com/video/av116805276274015, http://www.bilibili.com/video/av116810242333394, http://www.bilibili.com/video/av114841872240003, http://www.bilibili.com/video/av116809168655429, http://www.bilibili.com/video/av116811567728119, http://www.bilibili.com/video/av116808732379349, http://www.bilibili.com/video/av116810795977376, http://www.bilibili.com/video/av787111910, http://www.bilibili.com/video/av116809185559372, http://www.bilibili.com/video/av116688691399347, http://www.bilibili.com/video/av116808094915256, http://www.bilibili.com/video/av116710233345555",
-          "uid": "BV1gM4m1C7Bz,BV1gVj46TEdW,BV13GE86HEP1,BV1aERYBDEfW,BV1zZ7a6vEKn,BV1AS7e6UEMZ",
-          "sample": "生而为人我很抱歉"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Da411j7hh/, https://www.bilibili.com/video/BV1Wypyz6EPy/, https://www.bilibili.com/video/BV1Si4y1H7UR/, https://www.bilibili.com/video/BV1vx4y1K76w/, http://www.bilibili.com/video/av214595557, http://www.bilibili.com/video/av115212782929324, http://www.bilibili.com/video/av539287464, http://www.bilibili.com/video/av993010267",
-          "uid": "BV1Da411j7hh,BV1Wypyz6EPy,BV1Si4y1H7UR,BV1vx4y1K76w",
-          "sample": "抱歉，你们这些老东西那时候我还没出生"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Da411j7hh/, https://www.bilibili.com/video/BV1Wypyz6EPy/, https://www.bilibili.com/video/BV1Si4y1H7UR/, https://www.bilibili.com/video/BV1vx4y1K76w/, http://www.bilibili.com/video/av214595557, http://www.bilibili.com/video/av115212782929324, http://www.bilibili.com/video/av539287464, http://www.bilibili.com/video/av993010267",
-          "uid": "BV1Da411j7hh,BV1Wypyz6EPy,BV1Si4y1H7UR,BV1vx4y1K76w",
-          "sample": "抱歉，繁体字没问题，这火星文我就根本看不懂要换算"
-        },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Da411j7hh/, https://www.bilibili.com/video/BV1Wypyz6EPy/, https://www.bilibili.com/video/BV1Si4y1H7UR/, https://www.bilibili.com/video/BV1vx4y1K76w/, http://www.bilibili.com/video/av214595557, http://www.bilibili.com/video/av115212782929324, http://www.bilibili.com/video/av539287464, http://www.bilibili.com/video/av993010267",
           "uid": "BV1Da411j7hh,BV1Wypyz6EPy,BV1Si4y1H7UR,BV1vx4y1K76w",
@@ -44,6 +29,21 @@
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1WjRRBaExk/, https://www.bilibili.com/video/BV1jj411c7XJ/, https://www.bilibili.com/video/BV15jG76zE4R/, https://www.bilibili.com/video/BV1s142117aj/, http://www.bilibili.com/video/av116546034730780, http://www.bilibili.com/video/av439717586",
           "uid": "BV1WjRRBaExk,BV1jj411c7XJ,BV15jG76zE4R,BV1s142117aj",
           "sample": "很抱歉以这样的方式认识你"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1gM4m1C7Bz/, https://www.bilibili.com/video/BV1gVj46TEdW/, https://www.bilibili.com/video/BV13GE86HEP1/, https://www.bilibili.com/video/BV1aERYBDEfW/, https://www.bilibili.com/video/BV1zZ7a6vEKn/, https://www.bilibili.com/video/BV1AS7e6UEMZ/, http://www.bilibili.com/video/av1304481691, http://www.bilibili.com/video/av116514426456638, http://www.bilibili.com/video/av116097781079423, http://www.bilibili.com/video/av115428118567508, http://www.bilibili.com/video/av116377188899374, http://www.bilibili.com/video/av114297199921566, http://www.bilibili.com/video/av115914506901381, http://www.bilibili.com/video/av116454011704329, http://www.bilibili.com/video/av115967875095293, http://www.bilibili.com/video/av1301037679, http://www.bilibili.com/video/av485893597, http://www.bilibili.com/video/av113648475374138, http://www.bilibili.com/video/av113114322306258, http://www.bilibili.com/video/av113291875583522, http://www.bilibili.com/video/av904253717, http://www.bilibili.com/video/av114359946708511, http://www.bilibili.com/video/av113587607570846, http://www.bilibili.com/video/av115252964362911, http://www.bilibili.com/video/av114034519056120, http://www.bilibili.com/video/av114409724777935, http://www.bilibili.com/video/av116640658229084, http://www.bilibili.com/video/av116786250981048, http://www.bilibili.com/video/av116810913550691, http://www.bilibili.com/video/av116759524804472, http://www.bilibili.com/video/av116805276274015, http://www.bilibili.com/video/av116810242333394, http://www.bilibili.com/video/av114841872240003, http://www.bilibili.com/video/av116809168655429, http://www.bilibili.com/video/av116811567728119, http://www.bilibili.com/video/av116808732379349, http://www.bilibili.com/video/av116810795977376, http://www.bilibili.com/video/av787111910, http://www.bilibili.com/video/av116809185559372, http://www.bilibili.com/video/av116688691399347, http://www.bilibili.com/video/av116808094915256, http://www.bilibili.com/video/av116710233345555",
+          "uid": "BV1gM4m1C7Bz,BV1gVj46TEdW,BV13GE86HEP1,BV1aERYBDEfW,BV1zZ7a6vEKn,BV1AS7e6UEMZ",
+          "sample": "生而为人我很抱歉"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Da411j7hh/, https://www.bilibili.com/video/BV1Wypyz6EPy/, https://www.bilibili.com/video/BV1Si4y1H7UR/, https://www.bilibili.com/video/BV1vx4y1K76w/, http://www.bilibili.com/video/av214595557, http://www.bilibili.com/video/av115212782929324, http://www.bilibili.com/video/av539287464, http://www.bilibili.com/video/av993010267",
+          "uid": "BV1Da411j7hh,BV1Wypyz6EPy,BV1Si4y1H7UR,BV1vx4y1K76w",
+          "sample": "抱歉，你们这些老东西那时候我还没出生"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1Da411j7hh/, https://www.bilibili.com/video/BV1Wypyz6EPy/, https://www.bilibili.com/video/BV1Si4y1H7UR/, https://www.bilibili.com/video/BV1vx4y1K76w/, http://www.bilibili.com/video/av214595557, http://www.bilibili.com/video/av115212782929324, http://www.bilibili.com/video/av539287464, http://www.bilibili.com/video/av993010267",
+          "uid": "BV1Da411j7hh,BV1Wypyz6EPy,BV1Si4y1H7UR,BV1vx4y1K76w",
+          "sample": "抱歉，繁体字没问题，这火星文我就根本看不懂要换算"
         },
         {
           "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1VF411u7SB/, https://www.bilibili.com/video/BV1BS411c76T/, https://www.bilibili.com/video/BV1od4y1t7JW/, https://www.bilibili.com/video/BV1jDX8BLEHH/, http://www.bilibili.com/video/av298505882, http://www.bilibili.com/video/av1906063842, http://www.bilibili.com/video/av390582978, http://www.bilibili.com/video/av116298252094212",

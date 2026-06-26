@@ -1,62 +1,10 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T17:49:50.909Z",
+  "updatedAt": "2026-06-25T23:25:48.247Z",
   "family": "attack",
   "shard": 259,
-  "shardCount": 338,
+  "shardCount": 336,
   "evidence": [
-    {
-      "term": "伪人类",
-      "evidenceSamples": [
-        "这是伪人吗",
-        "伪人文",
-        "不是辣眼睛，是有点惊悚，人群混进了伪人的惊悚",
-        "回复 @顺直伪人滚出地球 :都是因果",
-        "评论区又出现了那种什么都懂的恶意评论，一看就是根本没有看完整个视频，什么留学生啊，人家除了刚出生的一个月在坦桑尼亚，其余时间基本都在中国生活，就是土生土长的中国人，口齿清晰，讲中文和运用中文比很多中国人都好，(那种伪人根本不会关注视频本身的..."
-      ],
-      "evidenceSources": [
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1gM4m1C7Bz/, https://www.bilibili.com/video/BV1gVj46TEdW/, https://www.bilibili.com/video/BV13GE86HEP1/, https://www.bilibili.com/video/BV1aERYBDEfW/, https://www.bilibili.com/video/BV1zZ7a6vEKn/, https://www.bilibili.com/video/BV1AS7e6UEMZ/, http://www.bilibili.com/video/av1304481691, http://www.bilibili.com/video/av116514426456638, http://www.bilibili.com/video/av116097781079423, http://www.bilibili.com/video/av115428118567508, http://www.bilibili.com/video/av116377188899374, http://www.bilibili.com/video/av114297199921566, http://www.bilibili.com/video/av115914506901381, http://www.bilibili.com/video/av116454011704329, http://www.bilibili.com/video/av115967875095293, http://www.bilibili.com/video/av1301037679, http://www.bilibili.com/video/av485893597, http://www.bilibili.com/video/av113648475374138, http://www.bilibili.com/video/av113114322306258, http://www.bilibili.com/video/av113291875583522, http://www.bilibili.com/video/av904253717, http://www.bilibili.com/video/av114359946708511, http://www.bilibili.com/video/av113587607570846, http://www.bilibili.com/video/av115252964362911, http://www.bilibili.com/video/av114034519056120, http://www.bilibili.com/video/av114409724777935, http://www.bilibili.com/video/av116640658229084, http://www.bilibili.com/video/av116786250981048, http://www.bilibili.com/video/av116810913550691, http://www.bilibili.com/video/av116759524804472, http://www.bilibili.com/video/av116805276274015, http://www.bilibili.com/video/av116810242333394, http://www.bilibili.com/video/av114841872240003, http://www.bilibili.com/video/av116809168655429, http://www.bilibili.com/video/av116811567728119, http://www.bilibili.com/video/av116808732379349, http://www.bilibili.com/video/av116810795977376, http://www.bilibili.com/video/av787111910, http://www.bilibili.com/video/av116809185559372, http://www.bilibili.com/video/av116688691399347, http://www.bilibili.com/video/av116808094915256, http://www.bilibili.com/video/av116710233345555",
-          "uid": "BV1gM4m1C7Bz,BV1gVj46TEdW,BV13GE86HEP1,BV1aERYBDEfW,BV1zZ7a6vEKn,BV1AS7e6UEMZ",
-          "sample": "这是伪人吗"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1SXL86VEME/, https://www.bilibili.com/video/BV1PELz6tEba/, https://www.bilibili.com/video/BV1gmLz6BEiR/, https://www.bilibili.com/video/BV1UyGj68E7s/, http://www.bilibili.com/video/av116622639567280, http://www.bilibili.com/video/av116611650427086, http://www.bilibili.com/video/av116613277945825, http://www.bilibili.com/video/av116601634425732, http://www.bilibili.com/video/av116601248614376, http://www.bilibili.com/video/av116626649254557",
-          "uid": "BV1SXL86VEME,BV1PELz6tEba,BV1gmLz6BEiR,BV1UyGj68E7s",
-          "sample": "伪人文"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV18ZGe6yEcH/, https://www.bilibili.com/video/BV1M8qcBGEkG/, https://www.bilibili.com/video/BV13hc3eLEnr/, https://www.bilibili.com/video/BV1KjFvzbEdQ/, https://www.bilibili.com/video/BV1y2GW6GEuQ/, https://www.bilibili.com/video/BV1XYdPBrEXE/, http://www.bilibili.com/video/av116621985190240, http://www.bilibili.com/video/av115846089283741, http://www.bilibili.com/video/av113814804630223, http://www.bilibili.com/video/av116017921524797, http://www.bilibili.com/video/av116633041438723, http://www.bilibili.com/video/av116533300825175",
-          "uid": "BV18ZGe6yEcH,BV1M8qcBGEkG,BV13hc3eLEnr,BV1KjFvzbEdQ,BV1y2GW6GEuQ,BV1XYdPBrEXE",
-          "sample": "不是辣眼睛，是有点惊悚，人群混进了伪人的惊悚"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1ma4y1U7oW/, https://www.bilibili.com/video/BV1Dv411N7D1/, https://www.bilibili.com/video/BV1u7bnzYErv/, https://www.bilibili.com/video/BV11mcYzpEn9/, https://www.bilibili.com/video/BV18T411W7n8/, https://www.bilibili.com/video/BV1xmdwBsE5G/, http://www.bilibili.com/video/av663708278, http://www.bilibili.com/video/av250072009, http://www.bilibili.com/video/av115030095826909, http://www.bilibili.com/video/av116055921923751, http://www.bilibili.com/video/av484803354, http://www.bilibili.com/video/av116532579534663",
-          "uid": "BV1ma4y1U7oW,BV1Dv411N7D1,BV1u7bnzYErv,BV11mcYzpEn9,BV18T411W7n8,BV1xmdwBsE5G",
-          "sample": "回复 @顺直伪人滚出地球 :都是因果"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1YpVA6wE3L/, https://www.bilibili.com/video/BV1iUvbexECk/, https://www.bilibili.com/video/BV1LKR7ByEeD/, https://www.bilibili.com/video/BV1jts6zXEDb/, https://www.bilibili.com/video/BV1r8QXY9Ein/, https://www.bilibili.com/video/BV1jL6pYYEcU/, https://www.bilibili.com/video/BV19iGq64Ech/, https://www.bilibili.com/video/BV1Cqz5YHELG/, https://www.bilibili.com/video/BV1L9GQ63EdF/, https://www.bilibili.com/video/BV1JQVt6EEqb/, https://www.bilibili.com/video/BV1vcDFBJEbZ/, https://www.bilibili.com/video/BV1TX4y127wk/, http://www.bilibili.com/video/av116640507303046, http://www.bilibili.com/video/av112884608666410, http://www.bilibili.com/video/av116505081617892, http://www.bilibili.com/video/av115440164543141, http://www.bilibili.com/video/av114167881139497, http://www.bilibili.com/video/av113731539370434, http://www.bilibili.com/video/av116624283799859, http://www.bilibili.com/video/av113549405850105, http://www.bilibili.com/video/av116649600484555, http://www.bilibili.com/video/av116656445589083, http://www.bilibili.com/video/av116357190385915, http://www.bilibili.com/video/av355794922",
-          "uid": "BV1YpVA6wE3L,BV1iUvbexECk,BV1LKR7ByEeD,BV1jts6zXEDb,BV1r8QXY9Ein,BV1jL6pYYEcU,BV19iGq64Ech,BV1Cqz5YHELG,BV1L9GQ63EdF,BV1JQVt6EEqb,BV1vcDFBJEbZ,BV1TX4y127wk",
-          "sample": "评论区又出现了那种什么都懂的恶意评论，一看就是根本没有看完整个视频，什么留学生啊，人家除了刚出生的一个月在坦桑尼亚，其余时间基本都在中国生活，就是土生土长的中国人，口齿清晰，讲中文和运用中文比很多中国人都好，(那种伪人根本不会关注视频本身的..."
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1SFkMBCEea/, https://www.bilibili.com/video/BV154AszXEmj/, https://www.bilibili.com/video/BV18ZGe6yEcH/, https://www.bilibili.com/video/BV1S7Gi6SEVL/, https://www.bilibili.com/video/BV1KUQFB3Ept/, https://www.bilibili.com/video/BV1tGdnYDEMy/, http://www.bilibili.com/video/av115922056577138, http://www.bilibili.com/video/av116264697727511, http://www.bilibili.com/video/av116621985190240, http://www.bilibili.com/video/av116623260255850, http://www.bilibili.com/video/av116379000767564, http://www.bilibili.com/video/av114300286929908",
-          "uid": "BV1SFkMBCEea,BV154AszXEmj,BV18ZGe6yEcH,BV1S7Gi6SEVL,BV1KUQFB3Ept,BV1tGdnYDEMy",
-          "sample": "不是辣眼睛，是有点惊悚，人群混进了伪人的惊悚"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1HT421Q74M/, https://www.bilibili.com/video/BV1aNjm6AEvz/, https://www.bilibili.com/video/BV1R64y1D7Yu/, https://www.bilibili.com/video/BV1zG411W7Bk/, https://www.bilibili.com/video/BV1iFjm6iEn5/, https://www.bilibili.com/video/BV1wsjm6JE9F/, https://www.bilibili.com/video/BV13g411w7nT/, https://www.bilibili.com/video/BV1hd7c6vEu9/, https://www.bilibili.com/video/BV1BkfyBBEiR/, https://www.bilibili.com/video/BV13hE76DEtj/, https://www.bilibili.com/video/BV1x6j26JEYF/, http://www.bilibili.com/video/av1704243995, http://www.bilibili.com/video/av428206048, http://www.bilibili.com/video/av507259344, http://www.bilibili.com/video/av116719779645241, http://www.bilibili.com/video/av856820550, http://www.bilibili.com/video/av115166293335942, http://www.bilibili.com/video/av115423756424529, http://www.bilibili.com/video/av112920595792538, http://www.bilibili.com/video/av115088816145695, http://www.bilibili.com/video/av114325503088696, http://www.bilibili.com/video/av115616627366699, http://www.bilibili.com/video/av113271742924655, http://www.bilibili.com/video/av116568046438525, http://www.bilibili.com/video/av114690323652345, http://www.bilibili.com/video/av114567027892208, http://www.bilibili.com/video/av567618481, http://www.bilibili.com/video/av115252964362911, http://www.bilibili.com/video/av116798716448229, http://www.bilibili.com/video/av116798699674337, http://www.bilibili.com/video/av116791703510621, http://www.bilibili.com/video/av116798984820247, http://www.bilibili.com/video/av116786183936992, http://www.bilibili.com/video/av116785563046213, http://www.bilibili.com/video/av116799353917939, http://www.bilibili.com/video/av116695351959062, http://www.bilibili.com/video/av116788029296114, http://www.bilibili.com/video/av116751253637233, http://www.bilibili.com/video/av116737966082302, http://www.bilibili.com/video/av114466498807153, http://www.bilibili.com/video/av116792357881965, http://www.bilibili.com/video/av116798833826343, http://www.bilibili.com/video/av116799622352185, http://www.bilibili.com/video/av116799874080620, http://www.bilibili.com/video/av116796887732372, http://www.bilibili.com/video/av116799286811585, http://www.bilibili.com/video/av116798145959501, http://www.bilibili.com/video/av116799941117823, http://www.bilibili.com/video/av116798800266624, http://www.bilibili.com/video/av116798498279694, http://www.bilibili.com/video/av116797323941441, http://www.bilibili.com/video/av116797625867194, http://www.bilibili.com/video/av116790025853625, http://www.bilibili.com/video/av116793834216360, http://www.bilibili.com/video/av116783130351160, http://www.bilibili.com/video/av396779610, http://www.bilibili.com/video/av112912408511183, http://www.bilibili.com/video/av116719595029529, http://www.bilibili.com/video/av116759021557272, http://www.bilibili.com/video/av115025515645876, http://www.bilibili.com/video/av116617287571645, http://www.bilibili.com/video/av1355764750, http://www.bilibili.com/video/av115625888388944, http://www.bilibili.com/video/av116735768267328, http://www.bilibili.com/video/av116793096018692, http://www.bilibili.com/video/av116448659839560, http://www.bilibili.com/video/av116075568042041, http://www.bilibili.com/video/av116526422232189, http://www.bilibili.com/video/av785781284, http://www.bilibili.com/video/av115063969027106, http://www.bilibili.com/video/av116242350342162, http://www.bilibili.com/video/av849577511, http://www.bilibili.com/video/av757247726, http://www.bilibili.com/video/av116798431170067, http://www.bilibili.com/video/av116124960163476, http://www.bilibili.com/video/av504779076, http://www.bilibili.com/video/av116170376088522, http://www.bilibili.com/video/av259633945, http://www.bilibili.com/video/av116720467446765, http://www.bilibili.com/video/av390034319, http://www.bilibili.com/video/av113331973196338, http://www.bilibili.com/video/av115014526637543, http://www.bilibili.com/video/av348175446, http://www.bilibili.com/video/av116796921221200",
-          "uid": "BV1HT421Q74M,BV1aNjm6AEvz,BV1R64y1D7Yu,BV1zG411W7Bk,BV1iFjm6iEn5,BV1wsjm6JE9F,BV13g411w7nT,BV1hd7c6vEu9,BV1BkfyBBEiR,BV13hE76DEtj,BV1x6j26JEYF",
-          "sample": "伪人"
-        },
-        {
-          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1zFG463Emx/, https://www.bilibili.com/video/BV1sXGz6WEoi/, https://www.bilibili.com/video/BV1D8GH6LEGB/, http://www.bilibili.com/video/av116633393760910, http://www.bilibili.com/video/av116625206478042, http://www.bilibili.com/video/av116627672665027, http://www.bilibili.com/video/av116629635600252, http://www.bilibili.com/video/av116629904099922, http://www.bilibili.com/video/av116627471337489",
-          "uid": "BV1zFG463Emx,BV1sXGz6WEoi,BV1D8GH6LEGB",
-          "sample": "回复 @__不困 : 虽然我不太喜欢无敌破坏王2的剧情，但是有一句话我很认可。“在互联网最重要的事就是——别看评论区”。虽然不是真一点不看，不过有些伪人类就别放在心里了，气坏了自己没什么好处。（顺便许愿一下拉尔夫做志愿者）"
-        }
-      ]
-    },
     {
       "term": "温故知新",
       "evidenceSamples": [
