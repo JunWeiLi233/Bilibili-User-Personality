@@ -2,7 +2,7 @@
   "name": "tieba-scrape",
   "description": "Cross-platform Tieba forum scrape — search dictionary terms on Baidu Tieba, harvest forum threads and replies for evidence",
   "type": "tieba-keyword-scrape",
-  "active": true,
+  "active": false,
   "progressFile": ".claude/tasks/tieba_scrape_progress.json",
   "totalItems": 1636,
   "batchSize": 8,
@@ -19,5 +19,5 @@
     "harvestAfter": true,
     "discoveryMode": "mobile"
   },
-  "note": "Mobile mode works (desktop triggers CAPTCHA). Run: TIEBA_DISCOVERY_MODE=mobile TIEBA_TRAIN_DICTIONARY=1 node server/scripts/runTiebaKeywordScrape.js"
+  "note": "BLOCKED: Baidu CAPTCHA on all thread detail pages (desktop /p/<id>, mobile /mo/q/m?kz=<id>, CDN c.tieba.baidu.com). Thread discovery works via mobile seekcomposite (10 threads/query with titles/IDs) but comment extraction returns HTTP 403 with '百度安全验证' JS challenge. Requires Baidu auth cookies or CAPTCHA solver. Code fixes to tiebaScraper.js (mobile URL, regex, fetchUrl) are correct and committed."
 }

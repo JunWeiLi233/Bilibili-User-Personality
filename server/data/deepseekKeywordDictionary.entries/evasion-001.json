@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-27T01:21:56.279Z",
+  "updatedAt": "2026-06-27T03:36:36.235Z",
   "family": "evasion",
   "shard": 1,
   "shardCount": 1,
@@ -13,6 +13,24 @@
       "confidence": 0.65,
       "evidenceCount": 3,
       "updatedAt": "2026-06-27T00:32:31.911Z"
+    },
+    {
+      "term": "不会搜",
+      "family": "evasion",
+      "meaning": "把举证责任转移给对方",
+      "risk": "medium",
+      "confidence": 0.5,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-27T02:55:25.093Z"
+    },
+    {
+      "term": "不用我教",
+      "family": "evasion",
+      "meaning": "把举证责任转移给对方",
+      "risk": "medium",
+      "confidence": 0.5,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-27T03:20:30.779Z"
     },
     {
       "term": "不置可否",
@@ -38,8 +56,8 @@
       "meaning": "“乐子”用于暗示、转移解释责任或以圈内默契代替直接说明",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T01:16:39.218Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-27T02:29:25.239Z"
     },
     {
       "term": "人尽皆知",
@@ -66,7 +84,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-27T01:21:56.279Z"
+      "updatedAt": "2026-06-27T03:36:36.235Z"
     },
     {
       "term": "你在教我做事",
@@ -93,7 +111,7 @@
       "risk": "medium",
       "confidence": 0.69,
       "evidenceCount": 3,
-      "updatedAt": "2026-06-27T01:16:39.218Z"
+      "updatedAt": "2026-06-27T02:55:25.093Z"
     },
     {
       "term": "你细品",
@@ -111,7 +129,7 @@
       "risk": "medium",
       "confidence": 0.5,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-27T01:21:56.279Z"
+      "updatedAt": "2026-06-27T03:36:36.235Z"
     },
     {
       "term": "你赢了",
@@ -299,8 +317,8 @@
       "meaning": "把举证责任转移给对方",
       "risk": "medium",
       "confidence": 0.5,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T03:13:28.187Z"
     },
     {
       "term": "开始了",
@@ -327,7 +345,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-27T01:12:21.317Z"
+      "updatedAt": "2026-06-27T02:35:25.759Z"
     },
     {
       "term": "心照不宣",
@@ -335,8 +353,8 @@
       "meaning": "暗示“懂的人自然懂”而拒绝解释，制造知情门槛",
       "risk": "medium",
       "confidence": 0.64,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-26T23:55:00.000Z"
+      "evidenceCount": 2,
+      "updatedAt": "2026-06-27T03:22:32.864Z"
     },
     {
       "term": "怪我咯",
@@ -344,8 +362,8 @@
       "meaning": "俏皮地表示‘难道怪我吗’，用于推卸责任或缓解尴尬，带有撒娇或理直气壮的语气",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-27T03:25:01.871Z"
     },
     {
       "term": "懂了吧",
@@ -372,7 +390,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-27T00:58:05.457Z"
+      "updatedAt": "2026-06-27T02:29:25.239Z"
     },
     {
       "term": "懂的都懂",
@@ -560,8 +578,8 @@
       "meaning": "声称“只是开玩笑”来逃避言论责任，淡化潜在攻击性",
       "risk": "high",
       "confidence": 0.72,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-26T23:55:00.000Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-27T03:33:34.436Z"
     },
     {
       "term": "理性吃瓜",
@@ -624,7 +642,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-27T01:12:21.317Z"
+      "updatedAt": "2026-06-27T02:35:25.759Z"
     },
     {
       "term": "纯属娱乐",
@@ -641,8 +659,8 @@
       "meaning": "把举证责任转移给对方",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-27T03:18:14.401Z"
     },
     {
       "term": "自己学",
@@ -660,7 +678,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-27T01:21:56.279Z"
+      "updatedAt": "2026-06-27T03:36:36.235Z"
     },
     {
       "term": "自己查",
@@ -669,7 +687,7 @@
       "risk": "medium",
       "confidence": 0.5,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-27T01:21:56.279Z"
+      "updatedAt": "2026-06-27T03:36:36.235Z"
     },
     {
       "term": "自己查去",
@@ -678,7 +696,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-27T01:21:56.279Z"
+      "updatedAt": "2026-06-27T03:36:36.235Z"
     },
     {
       "term": "自己看",
@@ -714,7 +732,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-27T00:58:05.457Z"
+      "updatedAt": "2026-06-27T02:41:47.409Z"
     },
     {
       "term": "车轱辘",
@@ -749,8 +767,8 @@
       "meaning": "把举证责任转移给对方",
       "risk": "medium",
       "confidence": 0.68,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-27T02:34:01.923Z"
     },
     {
       "term": "逸一时误一世",

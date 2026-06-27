@@ -38,7 +38,7 @@ Research-driven prototype for evaluating whether a selected Bilibili user's publ
 |---|---:|
 | Comments / replies | 25,753 |
 | Danmaku | 153,875 |
-| Keyword terms analyzed | 1,636 |
+| Keyword terms analyzed | 1,638 |
 | Coverage ratio | 96.52% |
 | Weak terms | 57 |
 | Timeline points | 456 |
