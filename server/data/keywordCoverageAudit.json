@@ -1,6 +1,6 @@
 {
   "ok": false,
-  "generatedAt": "2026-06-27T01:22:28.055423Z",
+  "generatedAt": "2026-06-27T03:37:08.790181Z",
   "targetEvidence": 3,
   "minCoverageRatio": 1,
   "requireComplete": true,
@@ -8,16 +8,16 @@
   "coverage": {
     "complete": false,
     "targetEvidence": 3,
-    "terms": 1636,
-    "totalEvidence": 9398,
-    "averageEvidence": 5.74,
-    "coverageRatio": 0.9652,
-    "evidenceDeficit": 170,
-    "sourcedEvidenceTerms": 1580,
-    "sourceCoverageRatio": 0.9658,
+    "terms": 1638,
+    "totalEvidence": 9348,
+    "averageEvidence": 5.71,
+    "coverageRatio": 0.9646,
+    "evidenceDeficit": 165,
+    "sourcedEvidenceTerms": 1586,
+    "sourceCoverageRatio": 0.9683,
     "unsourcedEvidenceTerms": 0,
-    "weakTerms": 57,
-    "zeroEvidenceTerms": 56,
+    "weakTerms": 58,
+    "zeroEvidenceTerms": 52,
     "weakSamples": [
       {
         "term": "一时口误",
@@ -50,12 +50,6 @@
         "coverageEvidenceCount": 0
       },
       {
-        "term": "反应过来",
-        "family": "correction",
-        "evidenceCount": 0,
-        "coverageEvidenceCount": 0
-      },
-      {
         "term": "恕我眼瞎",
         "family": "correction",
         "evidenceCount": 0,
@@ -135,6 +129,12 @@
       },
       {
         "term": "不置可否",
+        "family": "evasion",
+        "evidenceCount": 0,
+        "coverageEvidenceCount": 0
+      },
+      {
+        "term": "不针对谁",
         "family": "evasion",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
@@ -167,11 +167,6 @@
         "evidenceCount": 0
       },
       {
-        "term": "反应过来",
-        "family": "correction",
-        "evidenceCount": 0
-      },
-      {
         "term": "恕我眼瞎",
         "family": "correction",
         "evidenceCount": 0
@@ -240,20 +235,25 @@
         "term": "不置可否",
         "family": "evasion",
         "evidenceCount": 0
+      },
+      {
+        "term": "不针对谁",
+        "family": "evasion",
+        "evidenceCount": 0
       }
     ],
     "unsourcedEvidenceSamples": [],
     "byFamily": {
       "attack": {
         "terms": 966,
-        "evidence": 5677,
+        "evidence": 5631,
         "weak": 0,
         "zero": 0,
         "sourced": 966
       },
       "absolutes": {
         "terms": 123,
-        "evidence": 733,
+        "evidence": 740,
         "weak": 0,
         "zero": 0,
         "sourced": 123
@@ -262,36 +262,36 @@
         "terms": 56,
         "evidence": 221,
         "weak": 19,
-        "zero": 19,
-        "sourced": 37
+        "zero": 18,
+        "sourced": 38
       },
       "evasion": {
-        "terms": 91,
-        "evidence": 432,
-        "weak": 18,
-        "zero": 18,
-        "sourced": 73
+        "terms": 93,
+        "evidence": 440,
+        "weak": 20,
+        "zero": 16,
+        "sourced": 77
       },
       "cooperation": {
         "terms": 346,
-        "evidence": 2114,
+        "evidence": 2091,
         "weak": 0,
         "zero": 0,
         "sourced": 346
       },
       "correction": {
         "terms": 54,
-        "evidence": 221,
-        "weak": 20,
-        "zero": 19,
-        "sourced": 35
+        "evidence": 225,
+        "weak": 19,
+        "zero": 18,
+        "sourced": 36
       }
     }
   },
   "termAttemptSummary": {
     "attemptedTerms": 0,
     "successfulTerms": 0,
-    "unattemptedTerms": 1636,
+    "unattemptedTerms": 1638,
     "unattemptedSamples": [
       {
         "term": "一时口误",
@@ -319,11 +319,6 @@
         "evidenceCount": 0
       },
       {
-        "term": "反应过来",
-        "family": "correction",
-        "evidenceCount": 0
-      },
-      {
         "term": "恕我眼瞎",
         "family": "correction",
         "evidenceCount": 0
@@ -392,6 +387,11 @@
         "term": "不置可否",
         "family": "evasion",
         "evidenceCount": 0
+      },
+      {
+        "term": "不针对谁",
+        "family": "evasion",
+        "evidenceCount": 0
       }
     ],
     "repeatedlyMissedTerms": [],
@@ -399,40 +399,40 @@
     "exhaustedSamples": []
   },
   "actionSummary": {
-    "harvest": 57,
-    "none": 1579
+    "harvest": 58,
+    "none": 1580
   },
   "familyGaps": [
     {
+      "family": "evasion",
+      "terms": 93,
+      "weak": 20,
+      "zero": 16,
+      "evidence": 440,
+      "coverageRatio": 0.7849
+    },
+    {
       "family": "correction",
       "terms": 54,
-      "weak": 20,
-      "zero": 19,
-      "evidence": 221,
-      "coverageRatio": 0.6296
+      "weak": 19,
+      "zero": 18,
+      "evidence": 225,
+      "coverageRatio": 0.6481
     },
     {
       "family": "evidence",
       "terms": 56,
       "weak": 19,
-      "zero": 19,
+      "zero": 18,
       "evidence": 221,
       "coverageRatio": 0.6607
-    },
-    {
-      "family": "evasion",
-      "terms": 91,
-      "weak": 18,
-      "zero": 18,
-      "evidence": 432,
-      "coverageRatio": 0.8022
     },
     {
       "family": "absolutes",
       "terms": 123,
       "weak": 0,
       "zero": 0,
-      "evidence": 733,
+      "evidence": 740,
       "coverageRatio": 1.0
     },
     {
@@ -440,7 +440,7 @@
       "terms": 966,
       "weak": 0,
       "zero": 0,
-      "evidence": 5677,
+      "evidence": 5631,
       "coverageRatio": 1.0
     },
     {
@@ -448,7 +448,7 @@
       "terms": 346,
       "weak": 0,
       "zero": 0,
-      "evidence": 2114,
+      "evidence": 2091,
       "coverageRatio": 1.0
     }
   ],
@@ -554,27 +554,6 @@
       "currentCommentMisses": 0,
       "exhausted": false,
       "nextQuery": "其实是这样的 更正 评论区",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
-    {
-      "term": "反应过来",
-      "family": "correction",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 0,
-      "coverageEvidenceCount": 0,
-      "sourcedEvidence": false,
-      "recommendationGroup": "反应过来",
-      "targetEvidence": 3,
-      "evidenceNeeded": 3,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "反应过来 更正 评论区",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
@@ -872,6 +851,27 @@
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
+    },
+    {
+      "term": "不针对谁",
+      "family": "evasion",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "不针对谁",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "不针对谁 回复 评论区 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
     }
   ],
   "recommendedQueries": [
@@ -880,7 +880,6 @@
     "之前没搞对 更正 评论区",
     "之前说错了 更正 评论区",
     "其实是这样的 更正 评论区",
-    "反应过来 更正 评论区",
     "恕我眼瞎 更正 评论区",
     "意思歪了 更正 评论区",
     "措辞不准 更正 评论区",
@@ -894,10 +893,11 @@
     "脑子短路 更正 评论区",
     "补充纠正 更正 评论区",
     "表达有误 更正 评论区",
-    "不置可否 回复 评论区 热评"
+    "不置可否 回复 评论区 热评",
+    "不针对谁 回复 评论区 热评"
   ],
   "failureReasons": [
-    "coverage ratio 0.9652 is below 1",
-    "57 term(s) are below 3 evidence hit(s)"
+    "coverage ratio 0.9646 is below 1",
+    "58 term(s) are below 3 evidence hit(s)"
   ]
 }

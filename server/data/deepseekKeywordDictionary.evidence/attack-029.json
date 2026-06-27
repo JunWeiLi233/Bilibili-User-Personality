@@ -1,10 +1,62 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-27T03:36:36.235Z",
+  "updatedAt": "2026-06-27T05:22:19.994Z",
   "family": "attack",
   "shard": 29,
-  "shardCount": 353,
+  "shardCount": 355,
   "evidence": [
+    {
+      "term": "五毛",
+      "evidenceSamples": [
+        "以前小学初中校门口有卖五毛钱一串炸猪肺，为了过个嘴瘾[笑哭]还有哪里有吃的，长大了这玩意见都见不到，餐馆也不会有，这玩意也不好吃",
+        "给你五毛，头像送我[doge]",
+        "“啊啊啊啊啊飞碟说小姐姐我喜欢你呀的”（五毛一条，括号删除）_(:з」∠)_",
+        "啊啊啊啊啊飞碟说小姐姐我喜欢你呀的 五毛一条，括号删除",
+        "3. 水军的薪水什么的，好像大家的印象都是“五毛水军”其实这是非常错误的一个想法。由于现在监管的严格，水军的成本也在上升，因此价格也在水涨船高，就由一条普通的评论来说吧，今年一条的评论价格就涨了两毛钱。(不要小看这两毛钱，一般一个刷评论的单..."
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1t8zeBMENk/, https://www.bilibili.com/video/BV1bjEuzMESy/, https://www.bilibili.com/video/BV1ZwVh6JEUo/, https://www.bilibili.com/video/BV1BBtYzCEEx/, https://www.bilibili.com/video/BV1gUV46aE5g/, https://www.bilibili.com/video/BV1jMz2YaEPR/, https://www.bilibili.com/video/BV1Eu18BZEPu/, https://www.bilibili.com/video/BV1RXopBeEo5/, https://www.bilibili.com/video/BV1iNVh67EoH/, https://www.bilibili.com/video/BV1bY5e6UEKX/, https://www.bilibili.com/video/BV1jSVH6xEGS/, https://www.bilibili.com/video/BV141Lqz3EeA/, http://www.bilibili.com/video/av115961885626652, http://www.bilibili.com/video/av114488225308032, http://www.bilibili.com/video/av116657368471438, http://www.bilibili.com/video/av115001876617946, http://www.bilibili.com/video/av116655254473405, http://www.bilibili.com/video/av113587154653070, http://www.bilibili.com/video/av115499824387250, http://www.bilibili.com/video/av116446898160779, http://www.bilibili.com/video/av116657401960244, http://www.bilibili.com/video/av116578129543596, http://www.bilibili.com/video/av116652083516459, http://www.bilibili.com/video/av114410177693702",
+          "uid": "BV1t8zeBMENk,BV1bjEuzMESy,BV1ZwVh6JEUo,BV1BBtYzCEEx,BV1gUV46aE5g,BV1jMz2YaEPR,BV1Eu18BZEPu,BV1RXopBeEo5,BV1iNVh67EoH,BV1bY5e6UEKX,BV1jSVH6xEGS,BV141Lqz3EeA",
+          "sample": "以前小学初中校门口有卖五毛钱一串炸猪肺，为了过个嘴瘾[笑哭]还有哪里有吃的，长大了这玩意见都见不到，餐馆也不会有，这玩意也不好吃"
+        },
+        {
+          "source": "Bilibili public multi-video comment scan plus video context: https://www.bilibili.com/video/BV1t8zeBMENk/, https://www.bilibili.com/video/BV1bjEuzMESy/, https://www.bilibili.com/video/BV1ZwVh6JEUo/, https://www.bilibili.com/video/BV1BBtYzCEEx/, https://www.bilibili.com/video/BV1gUV46aE5g/",
+          "uid": "BV1t8zeBMENk,BV1bjEuzMESy,BV1ZwVh6JEUo,BV1BBtYzCEEx,BV1gUV46aE5g",
+          "sample": "以前小学初中校门口有卖五毛钱一串炸猪肺，为了过个嘴瘾[笑哭]还有哪里有吃的，长大了这玩意见都见不到，餐馆也不会有，这玩意也不好吃"
+        },
+        {
+          "source": "Bilibili public multi-video comment scan plus video context: https://www.bilibili.com/video/BV1Qi5QzSEmQ/, https://www.bilibili.com/video/BV1yk34zZEKR/, https://www.bilibili.com/video/BV1ZeGR6DErZ/, https://www.bilibili.com/video/BV1NK4y1q7pM/, https://www.bilibili.com/video/BV17eLt6mESX/",
+          "uid": "BV1Qi5QzSEmQ,BV1yk34zZEKR,BV1ZeGR6DErZ,BV1NK4y1q7pM,BV17eLt6mESX",
+          "sample": "给你五毛，头像送我[doge]"
+        },
+        {
+          "source": "Bilibili public multi-video comment scan plus video context: https://www.bilibili.com/video/BV1Qi5QzSEmQ/, https://www.bilibili.com/video/BV1CaGL6SEdr/, https://www.bilibili.com/video/BV1NK4y1q7pM/, https://www.bilibili.com/video/BV17eLt6mESX/, https://www.bilibili.com/video/BV15TPrzeEXn/",
+          "uid": "BV1Qi5QzSEmQ,BV1CaGL6SEdr,BV1NK4y1q7pM,BV17eLt6mESX,BV15TPrzeEXn",
+          "sample": "给你五毛，头像送我[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1ryq3YAENk/, https://www.bilibili.com/video/BV1vx411J7pN/, https://www.bilibili.com/video/BV1oDPizZEBn/, https://www.bilibili.com/video/BV1aHGQ6AELv/, https://www.bilibili.com/video/BV1Ds411S7Dr/, https://www.bilibili.com/video/BV1ys41127HR/, https://www.bilibili.com/video/BV1c8411u7mg/, https://www.bilibili.com/video/BV1hx411D7fp/, http://www.bilibili.com/video/av13506698, http://www.bilibili.com/video/av116171634380345, http://www.bilibili.com/video/av116649952806839, http://www.bilibili.com/video/av113627235423016, http://www.bilibili.com/video/av2131453, http://www.bilibili.com/video/av3131728, http://www.bilibili.com/video/av223992329, http://www.bilibili.com/video/av9909419",
+          "uid": "BV1ryq3YAENk,BV1vx411J7pN,BV1oDPizZEBn,BV1aHGQ6AELv,BV1Ds411S7Dr,BV1ys41127HR,BV1c8411u7mg,BV1hx411D7fp",
+          "sample": "“啊啊啊啊啊飞碟说小姐姐我喜欢你呀的”（五毛一条，括号删除）_(:з」∠)_"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1ryq3YAENk/, https://www.bilibili.com/video/BV1vx411J7pN/, https://www.bilibili.com/video/BV1oDPizZEBn/, https://www.bilibili.com/video/BV1aHGQ6AELv/, https://www.bilibili.com/video/BV1Ds411S7Dr/, https://www.bilibili.com/video/BV1ys41127HR/, https://www.bilibili.com/video/BV1c8411u7mg/, https://www.bilibili.com/video/BV1hx411D7fp/, http://www.bilibili.com/video/av13506698, http://www.bilibili.com/video/av116171634380345, http://www.bilibili.com/video/av116649952806839, http://www.bilibili.com/video/av113627235423016, http://www.bilibili.com/video/av2131453, http://www.bilibili.com/video/av3131728, http://www.bilibili.com/video/av223992329, http://www.bilibili.com/video/av9909419",
+          "uid": "BV1ryq3YAENk,BV1vx411J7pN,BV1oDPizZEBn,BV1aHGQ6AELv,BV1Ds411S7Dr,BV1ys41127HR,BV1c8411u7mg,BV1hx411D7fp",
+          "sample": "啊啊啊啊啊飞碟说小姐姐我喜欢你呀的 五毛一条，括号删除"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1ryq3YAENk/, https://www.bilibili.com/video/BV1vx411J7pN/, https://www.bilibili.com/video/BV1oDPizZEBn/, https://www.bilibili.com/video/BV1aHGQ6AELv/, https://www.bilibili.com/video/BV1Ds411S7Dr/, https://www.bilibili.com/video/BV1ys41127HR/, https://www.bilibili.com/video/BV1c8411u7mg/, https://www.bilibili.com/video/BV1hx411D7fp/, http://www.bilibili.com/video/av13506698, http://www.bilibili.com/video/av116171634380345, http://www.bilibili.com/video/av116649952806839, http://www.bilibili.com/video/av113627235423016, http://www.bilibili.com/video/av2131453, http://www.bilibili.com/video/av3131728, http://www.bilibili.com/video/av223992329, http://www.bilibili.com/video/av9909419",
+          "uid": "BV1ryq3YAENk,BV1vx411J7pN,BV1oDPizZEBn,BV1aHGQ6AELv,BV1Ds411S7Dr,BV1ys41127HR,BV1c8411u7mg,BV1hx411D7fp",
+          "sample": "3. 水军的薪水什么的，好像大家的印象都是“五毛水军”其实这是非常错误的一个想法。由于现在监管的严格，水军的成本也在上升，因此价格也在水涨船高，就由一条普通的评论来说吧，今年一条的评论价格就涨了两毛钱。(不要小看这两毛钱，一般一个刷评论的单..."
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1M14y1b7jD/, https://www.bilibili.com/video/BV1Fq4y1k76a/, https://www.bilibili.com/video/BV1G4nrzBELA/, https://www.bilibili.com/video/BV18uV7z7EPy/, https://www.bilibili.com/video/BV1VocLzWEgp/, https://www.bilibili.com/video/BV1LFLT6nEtY/, https://www.bilibili.com/video/BV1DxCbBgEhB/, http://www.bilibili.com/video/av771827626, http://www.bilibili.com/video/av591535654, http://www.bilibili.com/video/av115289203152730, http://www.bilibili.com/video/av114441467272932, http://www.bilibili.com/video/av116062750313485, http://www.bilibili.com/video/av116598228655041, http://www.bilibili.com/video/av113627235423016, http://www.bilibili.com/video/av115542287523246",
+          "uid": "BV1M14y1b7jD,BV1Fq4y1k76a,BV1G4nrzBELA,BV18uV7z7EPy,BV1VocLzWEgp,BV1LFLT6nEtY,BV1DxCbBgEhB",
+          "sample": "五毛钱"
+        }
+      ]
+    },
     {
       "term": "亮血条",
       "evidenceSamples": [
