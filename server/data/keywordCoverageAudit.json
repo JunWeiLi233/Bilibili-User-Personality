@@ -1,6 +1,6 @@
 {
   "ok": false,
-  "generatedAt": "2026-06-27T05:49:28.358564Z",
+  "generatedAt": "2026-06-27T11:13:58.080278Z",
   "targetEvidence": 3,
   "minCoverageRatio": 1,
   "requireComplete": true,
@@ -9,15 +9,15 @@
     "complete": false,
     "targetEvidence": 3,
     "terms": 1639,
-    "totalEvidence": 9347,
-    "averageEvidence": 5.7,
-    "coverageRatio": 0.9646,
-    "evidenceDeficit": 164,
-    "sourcedEvidenceTerms": 1588,
-    "sourceCoverageRatio": 0.9689,
-    "unsourcedEvidenceTerms": 0,
-    "weakTerms": 58,
-    "zeroEvidenceTerms": 51,
+    "totalEvidence": 13609,
+    "averageEvidence": 8.3,
+    "coverageRatio": 0.9671,
+    "evidenceDeficit": 146,
+    "sourcedEvidenceTerms": 8,
+    "sourceCoverageRatio": 0.0049,
+    "unsourcedEvidenceTerms": 1590,
+    "weakTerms": 54,
+    "zeroEvidenceTerms": 41,
     "weakSamples": [
       {
         "term": "一时口误",
@@ -104,12 +104,6 @@
         "coverageEvidenceCount": 0
       },
       {
-        "term": "疏忽大意",
-        "family": "correction",
-        "evidenceCount": 0,
-        "coverageEvidenceCount": 0
-      },
-      {
         "term": "脑子短路",
         "family": "correction",
         "evidenceCount": 0,
@@ -128,13 +122,19 @@
         "coverageEvidenceCount": 0
       },
       {
-        "term": "不置可否",
+        "term": "不针对谁",
         "family": "evasion",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "不针对谁",
+        "term": "别较真",
+        "family": "evasion",
+        "evidenceCount": 0,
+        "coverageEvidenceCount": 0
+      },
+      {
+        "term": "我就看看",
         "family": "evasion",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
@@ -212,11 +212,6 @@
         "evidenceCount": 0
       },
       {
-        "term": "疏忽大意",
-        "family": "correction",
-        "evidenceCount": 0
-      },
-      {
         "term": "脑子短路",
         "family": "correction",
         "evidenceCount": 0
@@ -232,59 +227,185 @@
         "evidenceCount": 0
       },
       {
-        "term": "不置可否",
+        "term": "不针对谁",
         "family": "evasion",
         "evidenceCount": 0
       },
       {
-        "term": "不针对谁",
+        "term": "别较真",
+        "family": "evasion",
+        "evidenceCount": 0
+      },
+      {
+        "term": "我就看看",
         "family": "evasion",
         "evidenceCount": 0
       }
     ],
-    "unsourcedEvidenceSamples": [],
-    "byFamily": {
-      "attack": {
-        "terms": 966,
-        "evidence": 5608,
-        "weak": 0,
-        "zero": 0,
-        "sourced": 966
+    "unsourcedEvidenceSamples": [
+      {
+        "term": "不用我教",
+        "family": "evasion",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
       },
+      {
+        "term": "玩笑罢了",
+        "family": "evasion",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "有链接吗",
+        "family": "evidence",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "求证一下",
+        "family": "evidence",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "有证据吗",
+        "family": "evidence",
+        "evidenceCount": 2,
+        "coverageEvidenceCount": 2
+      },
+      {
+        "term": "dna觉醒",
+        "family": "absolutes",
+        "evidenceCount": 3,
+        "coverageEvidenceCount": 3
+      },
+      {
+        "term": "一钓开天门",
+        "family": "absolutes",
+        "evidenceCount": 3,
+        "coverageEvidenceCount": 3
+      },
+      {
+        "term": "包火的",
+        "family": "absolutes",
+        "evidenceCount": 3,
+        "coverageEvidenceCount": 3
+      },
+      {
+        "term": "永不取关",
+        "family": "absolutes",
+        "evidenceCount": 3,
+        "coverageEvidenceCount": 3
+      },
+      {
+        "term": "绝对显化",
+        "family": "absolutes",
+        "evidenceCount": 3,
+        "coverageEvidenceCount": 3
+      },
+      {
+        "term": "ex人",
+        "family": "attack",
+        "evidenceCount": 3,
+        "coverageEvidenceCount": 3
+      },
+      {
+        "term": "flop到地心",
+        "family": "attack",
+        "evidenceCount": 3,
+        "coverageEvidenceCount": 3
+      },
+      {
+        "term": "gay达",
+        "family": "attack",
+        "evidenceCount": 3,
+        "coverageEvidenceCount": 3
+      },
+      {
+        "term": "kda大帝",
+        "family": "attack",
+        "evidenceCount": 3,
+        "coverageEvidenceCount": 3
+      },
+      {
+        "term": "pv诈骗",
+        "family": "attack",
+        "evidenceCount": 3,
+        "coverageEvidenceCount": 3
+      },
+      {
+        "term": "三观警察",
+        "family": "attack",
+        "evidenceCount": 3,
+        "coverageEvidenceCount": 3
+      },
+      {
+        "term": "东吴洗脚城",
+        "family": "attack",
+        "evidenceCount": 3,
+        "coverageEvidenceCount": 3
+      },
+      {
+        "term": "人人有关入",
+        "family": "attack",
+        "evidenceCount": 3,
+        "coverageEvidenceCount": 3
+      },
+      {
+        "term": "会赢吗",
+        "family": "attack",
+        "evidenceCount": 3,
+        "coverageEvidenceCount": 3
+      },
+      {
+        "term": "低温焊",
+        "family": "attack",
+        "evidenceCount": 3,
+        "coverageEvidenceCount": 3
+      }
+    ],
+    "byFamily": {
       "absolutes": {
         "terms": 123,
-        "evidence": 757,
+        "evidence": 1055,
         "weak": 0,
         "zero": 0,
-        "sourced": 123
+        "sourced": 0
       },
-      "evidence": {
-        "terms": 57,
-        "evidence": 244,
-        "weak": 19,
-        "zero": 17,
-        "sourced": 40
-      },
-      "evasion": {
-        "terms": 93,
-        "evidence": 440,
-        "weak": 20,
-        "zero": 16,
-        "sourced": 77
+      "attack": {
+        "terms": 966,
+        "evidence": 8830,
+        "weak": 0,
+        "zero": 0,
+        "sourced": 0
       },
       "cooperation": {
         "terms": 346,
-        "evidence": 2072,
+        "evidence": 2601,
         "weak": 0,
         "zero": 0,
-        "sourced": 346
+        "sourced": 0
       },
       "correction": {
         "terms": 54,
-        "evidence": 226,
-        "weak": 19,
-        "zero": 18,
-        "sourced": 36
+        "evidence": 243,
+        "weak": 18,
+        "zero": 17,
+        "sourced": 1
+      },
+      "evasion": {
+        "terms": 93,
+        "evidence": 580,
+        "weak": 18,
+        "zero": 10,
+        "sourced": 6
+      },
+      "evidence": {
+        "terms": 57,
+        "evidence": 300,
+        "weak": 18,
+        "zero": 14,
+        "sourced": 1
       }
     }
   },
@@ -364,11 +485,6 @@
         "evidenceCount": 0
       },
       {
-        "term": "疏忽大意",
-        "family": "correction",
-        "evidenceCount": 0
-      },
-      {
         "term": "脑子短路",
         "family": "correction",
         "evidenceCount": 0
@@ -384,12 +500,17 @@
         "evidenceCount": 0
       },
       {
-        "term": "不置可否",
+        "term": "不针对谁",
         "family": "evasion",
         "evidenceCount": 0
       },
       {
-        "term": "不针对谁",
+        "term": "别较真",
+        "family": "evasion",
+        "evidenceCount": 0
+      },
+      {
+        "term": "我就看看",
         "family": "evasion",
         "evidenceCount": 0
       }
@@ -399,40 +520,40 @@
     "exhaustedSamples": []
   },
   "actionSummary": {
-    "harvest": 58,
-    "none": 1581
+    "harvest": 54,
+    "none": 1585
   },
   "familyGaps": [
     {
-      "family": "evasion",
-      "terms": 93,
-      "weak": 20,
-      "zero": 16,
-      "evidence": 440,
-      "coverageRatio": 0.7849
-    },
-    {
       "family": "correction",
       "terms": 54,
-      "weak": 19,
-      "zero": 18,
-      "evidence": 226,
-      "coverageRatio": 0.6481
+      "weak": 18,
+      "zero": 17,
+      "evidence": 243,
+      "coverageRatio": 0.6667
     },
     {
       "family": "evidence",
       "terms": 57,
-      "weak": 19,
-      "zero": 17,
-      "evidence": 244,
-      "coverageRatio": 0.6667
+      "weak": 18,
+      "zero": 14,
+      "evidence": 300,
+      "coverageRatio": 0.6842
+    },
+    {
+      "family": "evasion",
+      "terms": 93,
+      "weak": 18,
+      "zero": 10,
+      "evidence": 580,
+      "coverageRatio": 0.8065
     },
     {
       "family": "absolutes",
       "terms": 123,
       "weak": 0,
       "zero": 0,
-      "evidence": 757,
+      "evidence": 1055,
       "coverageRatio": 1.0
     },
     {
@@ -440,7 +561,7 @@
       "terms": 966,
       "weak": 0,
       "zero": 0,
-      "evidence": 5608,
+      "evidence": 8830,
       "coverageRatio": 1.0
     },
     {
@@ -448,7 +569,7 @@
       "terms": 346,
       "weak": 0,
       "zero": 0,
-      "evidence": 2072,
+      "evidence": 2601,
       "coverageRatio": 1.0
     }
   ],
@@ -748,27 +869,6 @@
       "lastError": ""
     },
     {
-      "term": "疏忽大意",
-      "family": "correction",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 0,
-      "coverageEvidenceCount": 0,
-      "sourcedEvidence": false,
-      "recommendationGroup": "疏忽大意",
-      "targetEvidence": 3,
-      "evidenceNeeded": 3,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "疏忽大意 更正 评论区",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
-    {
       "term": "脑子短路",
       "family": "correction",
       "status": "weak_unattempted",
@@ -832,27 +932,6 @@
       "lastError": ""
     },
     {
-      "term": "不置可否",
-      "family": "evasion",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 0,
-      "coverageEvidenceCount": 0,
-      "sourcedEvidence": false,
-      "recommendationGroup": "不置可否",
-      "targetEvidence": 3,
-      "evidenceNeeded": 3,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "不置可否 回复 评论区 热评",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
-    {
       "term": "不针对谁",
       "family": "evasion",
       "status": "weak_unattempted",
@@ -869,6 +948,48 @@
       "currentCommentMisses": 0,
       "exhausted": false,
       "nextQuery": "不针对谁 回复 评论区 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "别较真",
+      "family": "evasion",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "别较真",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "别较真 回复 评论区 热评",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "我就看看",
+      "family": "evasion",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "我就看看",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "我就看看 回复 评论区 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
@@ -889,15 +1010,15 @@
     "是我没说明白 更正 评论区",
     "没说清楚 更正 评论区",
     "理解错了 更正 评论区",
-    "疏忽大意 更正 评论区",
     "脑子短路 更正 评论区",
     "补充纠正 更正 评论区",
     "表达有误 更正 评论区",
-    "不置可否 回复 评论区 热评",
-    "不针对谁 回复 评论区 热评"
+    "不针对谁 回复 评论区 热评",
+    "别较真 回复 评论区 热评",
+    "我就看看 回复 评论区 热评"
   ],
   "failureReasons": [
-    "coverage ratio 0.9646 is below 1",
-    "58 term(s) are below 3 evidence hit(s)"
+    "coverage ratio 0.9671 is below 1",
+    "54 term(s) are below 3 evidence hit(s)"
   ]
 }
