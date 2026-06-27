@@ -30,9 +30,9 @@ test('semantic-match route returns empty matches for empty comments', async () =
     body: JSON.stringify({ comments: [] }),
   });
 
-  const res = await app.fetch(req);
+ const res = await app.fetch(req);
   assert.equal(res.status, 200);
-  const body = await res.json();
+ const body = await res.json();
   assert.equal(body.ok, true);
   assert.deepEqual(body.matches, []);
 });

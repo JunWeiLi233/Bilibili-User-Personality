@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-27T05:22:19.994Z",
+  "updatedAt": "2026-06-27T21:46:49.375Z",
   "family": "cooperation",
   "shard": 1,
   "shardCount": 2,
@@ -38,8 +38,8 @@
       "meaning": "“get到”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-27T21:25:58.906Z"
     },
     {
       "term": "k哥",
@@ -65,8 +65,8 @@
       "meaning": "“tv笑哭”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T08:48:25.036Z"
     },
     {
       "term": "up主",
@@ -74,8 +74,8 @@
       "meaning": "“up主”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-27T21:40:15.240Z"
     },
     {
       "term": "up主联名款",
@@ -83,8 +83,8 @@
       "meaning": "“up主联名款”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-27T10:09:26.684Z"
     },
     {
       "term": "up主觉得很赞",
@@ -93,7 +93,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "updatedAt": "2026-06-27T10:09:26.684Z"
     },
     {
       "term": "yyds",
@@ -102,7 +102,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-27T05:20:36.662Z"
+      "updatedAt": "2026-06-27T08:43:26.268Z"
     },
     {
       "term": "一方通行",
@@ -134,11 +134,11 @@
     {
       "term": "一针见血",
       "family": "cooperation",
-      "meaning": "“一针见血”用于表示支持、补充、轻松互动或合作式讨论",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "meaning": "表示对方观点精准到位，用于正面认可",
+      "risk": "positive",
+      "confidence": 0.8,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-27T21:35:46.716Z"
     },
     {
       "term": "一键三连",
@@ -147,7 +147,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "updatedAt": "2026-06-27T10:09:26.684Z"
     },
     {
       "term": "三角贸易",
@@ -164,8 +164,8 @@
       "meaning": "“三连”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-27T21:25:58.906Z"
     },
     {
       "term": "三连了",
@@ -174,7 +174,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:20:36.662Z"
+      "updatedAt": "2026-06-27T10:09:26.684Z"
     },
     {
       "term": "三连送上",
@@ -218,8 +218,8 @@
       "meaning": "合作讨论或条件化表达",
       "risk": "positive",
       "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:13:26.094Z"
+      "evidenceCount": 2,
+      "updatedAt": "2026-06-27T21:42:36.814Z"
     },
     {
       "term": "不喜",
@@ -227,8 +227,8 @@
       "meaning": "谐音'不是'，常用于否定或缓和语气，类似'开个玩笑'",
       "risk": "neutral",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:13:26.094Z"
+      "evidenceCount": 2,
+      "updatedAt": "2026-06-27T21:30:42.315Z"
     },
     {
       "term": "不完全是",
@@ -245,8 +245,8 @@
       "meaning": "反复强调不尴尬，用于否认尴尬气氛，常见于弹幕或评论中",
       "risk": "neutral",
       "confidence": 0.6,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "evidenceCount": 993480846,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "不尬不尬",
@@ -254,8 +254,17 @@
       "meaning": "反复强调不尴尬，用于否认尴尬气氛，常见于弹幕或评论中",
       "risk": "neutral",
       "confidence": 0.6,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "evidenceCount": 1607485776,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
+    },
+    {
+      "term": "不懂就问",
+      "family": "cooperation",
+      "meaning": "网络礼貌用语，表示虚心提问，常用于请求解释或表达好奇",
+      "risk": "positive",
+      "confidence": 0.75,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-27T21:33:08.843Z"
     },
     {
       "term": "不是杠",
@@ -281,8 +290,8 @@
       "meaning": "声称自己客观中立，常用来铺垫主观观点",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-27T21:30:42.315Z"
     },
     {
       "term": "不黑不吹不白不舔不黄不钓",
@@ -290,8 +299,8 @@
       "meaning": "声称自己客观中立，常用来铺垫主观观点",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-27T21:30:42.315Z"
     },
     {
       "term": "个人看法",
@@ -335,8 +344,8 @@
       "meaning": "用于形容某人因长期经历而变得擅长或懂得很多，常指散兵这个角色，属于经验分享式表达",
       "risk": "positive",
       "confidence": 0.75,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 496740423,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "乙游",
@@ -363,7 +372,7 @@
       "risk": "positive",
       "confidence": 0.5,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-27T05:08:21.783Z"
+      "updatedAt": "2026-06-27T08:44:23.182Z"
     },
     {
       "term": "事在人为",
@@ -381,7 +390,7 @@
       "risk": "positive",
       "confidence": 0.95,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "updatedAt": "2026-06-27T10:09:26.684Z"
     },
     {
       "term": "互关互粉",
@@ -389,8 +398,8 @@
       "meaning": "互相关注，B站涨粉常用话术",
       "risk": "positive",
       "confidence": 0.95,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 993480846,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "互粉",
@@ -398,8 +407,8 @@
       "meaning": "互相关注，B站涨粉常用话术",
       "risk": "positive",
       "confidence": 0.95,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 1607485776,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "些许风霜",
@@ -444,7 +453,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "updatedAt": "2026-06-27T08:44:57.061Z"
     },
     {
       "term": "估计",
@@ -452,8 +461,8 @@
       "meaning": "表示推测，降低断言强度，让讨论留有余地",
       "risk": "positive",
       "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:15:46.170Z"
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-27T21:40:15.240Z"
     },
     {
       "term": "你说得对",
@@ -506,8 +515,8 @@
       "meaning": "Bilibili danmaku 合作性表达",
       "risk": "low",
       "confidence": 0.68,
-      "evidenceCount": 12,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "evidenceCount": 1986961692,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "六神",
@@ -552,7 +561,7 @@
       "risk": "positive",
       "confidence": 0.9,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-27T05:17:18.269Z"
+      "updatedAt": "2026-06-27T08:44:23.182Z"
     },
     {
       "term": "初听不知曲中意",
@@ -560,8 +569,8 @@
       "meaning": "感慨最初不理解作品深意，后反躬自省，固定话术",
       "risk": "neutral",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 105,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "别喷",
@@ -578,8 +587,8 @@
       "meaning": "劝阻对方不要无脑抹黑，要求理性评价",
       "risk": "neutral",
       "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-27T21:40:15.240Z"
     },
     {
       "term": "别浪",
@@ -596,8 +605,8 @@
       "meaning": "“前排”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-27T21:30:42.315Z"
     },
     {
       "term": "前排前排",
@@ -605,8 +614,8 @@
       "meaning": "“前排前排”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-27T21:30:42.315Z"
     },
     {
       "term": "剧情杀",
@@ -624,7 +633,7 @@
       "risk": "positive",
       "confidence": 0.9,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-27T04:32:49.681Z"
+      "updatedAt": "2026-06-27T08:45:03.728Z"
     },
     {
       "term": "加油",
@@ -632,8 +641,8 @@
       "meaning": "鼓励、支持对方的表达",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 2,
+      "updatedAt": "2026-06-27T21:40:15.240Z"
     },
     {
       "term": "单走一个6",
@@ -641,8 +650,8 @@
       "meaning": "用数字梗表达佩服或调侃，语用上表示认可或玩梗",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-26T04:44:23.373Z"
+      "evidenceCount": 55762175811331200,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "卡成ppt",
@@ -650,8 +659,8 @@
       "meaning": "形容画面极其卡顿，像幻灯片一样",
       "risk": "low",
       "confidence": 0.78,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 496740423,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "卡成ppt了",
@@ -659,8 +668,8 @@
       "meaning": "形容画面极其卡顿，像幻灯片一样",
       "risk": "low",
       "confidence": 0.78,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 803742888,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "原来你也",
@@ -722,8 +731,8 @@
       "meaning": "合作讨论或条件化表达",
       "risk": "positive",
       "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T02:32:30.551Z"
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "可海星",
@@ -740,8 +749,8 @@
       "meaning": "形容某物可爱，语气亲切，捏为语气词",
       "risk": "positive",
       "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "可爱捏",
@@ -749,8 +758,8 @@
       "meaning": "形容某物可爱，语气亲切，捏为语气词",
       "risk": "positive",
       "confidence": 0.7,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "可能",
@@ -758,8 +767,8 @@
       "meaning": "合作讨论或条件化表达",
       "risk": "positive",
       "confidence": 0.95,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "可能是",
@@ -767,8 +776,8 @@
       "meaning": "表达不确定性，缓和语气，建议推测",
       "risk": "positive",
       "confidence": 0.75,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T21:44:27.937Z"
     },
     {
       "term": "吃瓜",
@@ -777,7 +786,7 @@
       "risk": "neutral",
       "confidence": 0.95,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "同求",
@@ -804,7 +813,7 @@
       "risk": "positive",
       "confidence": 0.8,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:17:18.269Z"
+      "updatedAt": "2026-06-27T08:44:16.471Z"
     },
     {
       "term": "哈哈",
@@ -812,8 +821,8 @@
       "meaning": "哈哈哈的缩写，表示笑声或缓和气氛",
       "risk": "positive",
       "confidence": 0.9,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-27T05:13:26.094Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "哈基米",
@@ -821,8 +830,8 @@
       "meaning": "谐音梗，结合‘哈基米’（可爱猫梗）与‘阿基米德’，用于调侃刀工或形容某种科学感",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T04:22:07.789Z"
+      "evidenceCount": 1159060987,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "哈基米德",
@@ -830,8 +839,8 @@
       "meaning": "谐音梗，结合‘哈基米’（可爱猫梗）与‘阿基米德’，用于调侃刀工或形容某种科学感",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T04:22:07.789Z"
+      "evidenceCount": 1875400072,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "嗑cp",
@@ -875,8 +884,8 @@
       "meaning": "合作讨论或条件化表达",
       "risk": "positive",
       "confidence": 0.5,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-27T05:15:46.170Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-27T08:45:17.044Z"
     },
     {
       "term": "塔圣",
@@ -902,8 +911,8 @@
       "meaning": "表示喜欢看到某类内容并希望获得更多，表达积极的观看意愿和合作态度",
       "risk": "positive",
       "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 827900705,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "多来点爱看",
@@ -911,8 +920,8 @@
       "meaning": "表示喜欢看到某类内容并希望获得更多，表达积极的观看意愿和合作态度",
       "risk": "positive",
       "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 1339571480,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "大佬",
@@ -956,8 +965,8 @@
       "meaning": "合作讨论或条件化表达",
       "risk": "positive",
       "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:18:50.366Z"
+      "evidenceCount": 2,
+      "updatedAt": "2026-06-27T21:40:15.240Z"
     },
     {
       "term": "天文阵营",
@@ -1019,8 +1028,8 @@
       "meaning": "表示惊讶或赞叹的固定感叹词，常用于调侃",
       "risk": "neutral",
       "confidence": 0.6,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-27T04:42:14.529Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-27T21:33:08.843Z"
     },
     {
       "term": "好无语",
@@ -1028,8 +1037,8 @@
       "meaning": "表达无奈、无力吐槽的情绪",
       "risk": "neutral",
       "confidence": 0.7,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "evidenceCount": 2,
+      "updatedAt": "2026-06-27T21:37:58.859Z"
     },
     {
       "term": "孤勇者",
@@ -1064,8 +1073,8 @@
       "meaning": "表示处理、搞定、回应的网络用语，常用于肯定回应",
       "risk": "positive",
       "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:05:42.367Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-27T21:25:58.906Z"
     },
     {
       "term": "安排啦",
@@ -1073,8 +1082,8 @@
       "meaning": "表示处理、搞定、回应的网络用语，常用于肯定回应",
       "risk": "positive",
       "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:05:42.367Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-27T21:25:58.906Z"
     },
     {
       "term": "完结撒花",
@@ -1118,8 +1127,8 @@
       "meaning": "表示大家是一伙的，粉丝之间套近乎",
       "risk": "positive",
       "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:13:26.094Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-27T08:44:57.061Z"
     },
     {
       "term": "对的对的",
@@ -1145,8 +1154,8 @@
       "meaning": "极度赞扬某事物，认为已达到巅峰",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-27T05:05:42.367Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-27T08:44:09.750Z"
     },
     {
       "term": "小姐姐",
@@ -1191,7 +1200,7 @@
       "risk": "positive",
       "confidence": 0.9,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "就是就是",
@@ -1200,7 +1209,7 @@
       "risk": "positive",
       "confidence": 0.9,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "屏蔽",
@@ -1208,8 +1217,8 @@
       "meaning": "“屏蔽”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T04:39:58.941Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-27T21:25:58.906Z"
     },
     {
       "term": "差一分",
@@ -1217,8 +1226,8 @@
       "meaning": "强调相差一分导致遗憾结果的囚徒事件，常用于调侃师徒相似经历",
       "risk": "neutral",
       "confidence": 0.7,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 662320564,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "差一分囚徒",
@@ -1226,8 +1235,8 @@
       "meaning": "强调相差一分导致遗憾结果的囚徒事件，常用于调侃师徒相似经历",
       "risk": "neutral",
       "confidence": 0.7,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 1071657184,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "已三连",
@@ -1235,8 +1244,8 @@
       "meaning": "“已三连”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-27T10:09:26.684Z"
     },
     {
       "term": "已关请回",
@@ -1262,8 +1271,8 @@
       "meaning": "称赞提供实质性内容的up主,表达对优质内容的认可",
       "risk": "positive",
       "confidence": 0.85,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "evidenceCount": 8186295265509896,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "干货up",
@@ -1271,8 +1280,8 @@
       "meaning": "称赞提供实质性内容的up主,表达对优质内容的认可",
       "risk": "positive",
       "confidence": 0.85,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "evidenceCount": 19763465055584650,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "应该",
@@ -1280,8 +1289,8 @@
       "meaning": "合作讨论或条件化表达",
       "risk": "positive",
       "confidence": 0.6,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-27T21:44:27.937Z"
     },
     {
       "term": "应该是",
@@ -1289,8 +1298,8 @@
       "meaning": "“应该是”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-27T21:44:27.937Z"
     },
     {
       "term": "应该是的",
@@ -1299,7 +1308,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "updatedAt": "2026-06-27T10:09:26.684Z"
     },
     {
       "term": "建议全文背诵",
@@ -1307,8 +1316,8 @@
       "meaning": "Bilibili danmaku 合作性表达",
       "risk": "low",
       "confidence": 0.68,
-      "evidenceCount": 12,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "evidenceCount": 3214971552,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "开了",
@@ -1316,8 +1325,8 @@
       "meaning": "游戏圈常用语，指开启修改器，有时也指作弊行为",
       "risk": "neutral",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:05:42.367Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-27T21:40:15.240Z"
     },
     {
       "term": "开幕雷击",
@@ -1352,8 +1361,8 @@
       "meaning": "“微博”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:20:36.662Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-27T21:28:19.308Z"
     },
     {
       "term": "德里不饶人",
@@ -1380,7 +1389,7 @@
       "risk": "positive",
       "confidence": 0.9,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-27T04:32:49.681Z"
+      "updatedAt": "2026-06-27T08:45:17.044Z"
     },
     {
       "term": "急头白脸",
@@ -1424,8 +1433,8 @@
       "meaning": "“想你了”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T10:09:26.684Z"
     },
     {
       "term": "想你了yyut",
@@ -1433,8 +1442,8 @@
       "meaning": "“想你了yyut”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T10:09:26.684Z"
     },
     {
       "term": "意难平",
@@ -1460,8 +1469,8 @@
       "meaning": "表示对方理解自己，常见的共鸣用语",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 827900705,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "懂我者",
@@ -1469,8 +1478,8 @@
       "meaning": "表示对方理解自己，常见的共鸣用语",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 1339571480,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "我寻思",
@@ -1487,8 +1496,8 @@
       "meaning": "“我感觉”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T05:13:26.094Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-27T21:35:46.716Z"
     },
     {
       "term": "我是觉得",
@@ -1533,7 +1542,7 @@
       "risk": "positive",
       "confidence": 0.5,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "updatedAt": "2026-06-27T10:09:26.684Z"
     },
     {
       "term": "我理解你的心情",
@@ -1542,7 +1551,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "updatedAt": "2026-06-27T10:09:26.684Z"
     },
     {
       "term": "我觉得",
@@ -1550,8 +1559,8 @@
       "meaning": "合作讨论或条件化表达",
       "risk": "positive",
       "confidence": 0.9,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T21:44:27.937Z"
     },
     {
       "term": "我觉得应该",
@@ -1560,7 +1569,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "updatedAt": "2026-06-27T10:09:26.684Z"
     },
     {
       "term": "我认为",
@@ -1569,7 +1578,7 @@
       "risk": "positive",
       "confidence": 0.5,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-27T03:15:49.629Z"
+      "updatedAt": "2026-06-27T08:44:16.471Z"
     },
     {
       "term": "我说白了",
@@ -1577,8 +1586,8 @@
       "meaning": "“我说白了”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-27T05:15:46.170Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-27T08:44:57.061Z"
     },
     {
       "term": "或许",
@@ -1586,8 +1595,8 @@
       "meaning": "合作讨论或条件化表达",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:15:46.170Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T08:45:17.044Z"
     },
     {
       "term": "战斗爽",
@@ -1613,8 +1622,8 @@
       "meaning": "用加油、欢呼表达支持，常用于为自己喜欢的事物助威",
       "risk": "positive",
       "confidence": 0.95,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-27T21:40:15.240Z"
     },
     {
       "term": "把把",
@@ -1622,8 +1631,8 @@
       "meaning": "每把都carry，表示表现优异",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T03:13:28.187Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-27T21:40:15.240Z"
     },
     {
       "term": "投币",
@@ -1641,7 +1650,7 @@
       "risk": "positive",
       "confidence": 0.8,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-01T05:13:45.115Z"
+      "updatedAt": "2026-06-27T08:45:03.728Z"
     },
     {
       "term": "拉磨",
@@ -1659,7 +1668,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "updatedAt": "2026-06-27T10:09:26.684Z"
     },
     {
       "term": "指路君",
@@ -1668,7 +1677,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "updatedAt": "2026-06-27T10:09:26.684Z"
     },
     {
       "term": "据我所知",
@@ -1703,8 +1712,8 @@
       "meaning": "“支持”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "支持一下up",
@@ -1757,8 +1766,8 @@
       "meaning": "“无语”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:20:36.662Z"
+      "evidenceCount": 2,
+      "updatedAt": "2026-06-27T21:37:58.859Z"
     },
     {
       "term": "既视感",
@@ -1776,7 +1785,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-27T05:17:18.269Z"
+      "updatedAt": "2026-06-27T21:42:36.814Z"
     },
     {
       "term": "是这样的",
@@ -1784,8 +1793,8 @@
       "meaning": "Bilibili 合作性表达",
       "risk": "low",
       "confidence": 0.68,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T04:50:48.392Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-27T21:42:36.814Z"
     },
     {
       "term": "智者不入爱河",
@@ -1802,8 +1811,8 @@
       "meaning": "预测或评价反着实现，常用于调侃他人或自己预测失误",
       "risk": "medium",
       "confidence": 0.85,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "evidenceCount": 993480846,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "最支持的一集",
@@ -1812,16 +1821,16 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "updatedAt": "2026-06-27T08:48:25.036Z"
     },
     {
       "term": "有一说一",
       "family": "cooperation",
       "meaning": "合作讨论或条件化表达",
       "risk": "positive",
-      "confidence": 0.5,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "confidence": 0.9,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-27T21:28:19.308Z"
     },
     {
       "term": "有可能是",
@@ -1829,8 +1838,8 @@
       "meaning": "合作讨论或条件化表达",
       "risk": "positive",
       "confidence": 0.5,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T21:44:27.937Z"
     },
     {
       "term": "有没可能",
@@ -1847,8 +1856,8 @@
       "meaning": "“有没有可能”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-27T09:04:17.991Z"
     },
     {
       "term": "有点东西",
@@ -1866,7 +1875,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-27T01:12:21.317Z"
+      "updatedAt": "2026-06-27T08:44:43.578Z"
     },
     {
       "term": "朋友费",
@@ -1901,8 +1910,8 @@
       "meaning": "圈内对假面骑士的简称，引用相关文化内容进行讨论",
       "risk": "neutral",
       "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T04:39:58.941Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-27T21:44:27.937Z"
     },
     {
       "term": "来点",
@@ -1911,7 +1920,7 @@
       "risk": "neutral",
       "confidence": 0.8,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-23T14:40:01.796Z"
+      "updatedAt": "2026-06-27T08:44:30.000Z"
     },
     {
       "term": "来都来了",
@@ -1955,8 +1964,8 @@
       "meaning": "预测或评价反着实现，常用于调侃他人或自己预测失误",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T23:25:48.247Z"
+      "evidenceCount": 1607485776,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "没人在乎",
@@ -1991,8 +2000,8 @@
       "meaning": "“没毛病”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T04:42:14.529Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-27T21:30:42.315Z"
     },
     {
       "term": "没毛病啊",
@@ -2000,8 +2009,8 @@
       "meaning": "“没毛病啊”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T04:42:14.529Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-27T21:30:42.315Z"
     },
     {
       "term": "没绷住",
@@ -2010,7 +2019,7 @@
       "risk": "low",
       "confidence": 0.5,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-27T05:20:36.662Z"
+      "updatedAt": "2026-06-27T10:09:26.684Z"
     },
     {
       "term": "法尔孔战舞",
@@ -2027,8 +2036,8 @@
       "meaning": "B站弹幕梗，表示感动、泪目，常用于反馈情感或调侃",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "evidenceCount": 1324641128,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "泪目了",
@@ -2036,8 +2045,8 @@
       "meaning": "B站弹幕梗，表示感动、泪目，常用于反馈情感或调侃",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "evidenceCount": 2143314368,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "流哥完全是久病成良医",
@@ -2045,8 +2054,8 @@
       "meaning": "用于形容某人因长期经历而变得擅长或懂得很多，常指散兵这个角色，属于经验分享式表达",
       "risk": "positive",
       "confidence": 0.75,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
+      "evidenceCount": 803742888,
+      "updatedAt": "2026-06-27T21:46:49.375Z"
     },
     {
       "term": "流弊",
@@ -2074,24 +2083,6 @@
       "confidence": 0.5,
       "evidenceCount": 3,
       "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "炸天",
-      "family": "cooperation",
-      "meaning": "“炸天”用于表示支持、补充、轻松互动或合作式讨论",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "点了",
-      "family": "cooperation",
-      "meaning": "表示赞同或支持，常用于回复他人观点",
-      "risk": "positive",
-      "confidence": 0.9,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-27T05:18:50.366Z"
     }
   ]
 }

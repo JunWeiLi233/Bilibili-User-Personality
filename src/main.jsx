@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   Brain,
@@ -16,57 +16,73 @@ import {
   WarningCircle,
 } from '@phosphor-icons/react';
 import { buildRiskLexiconText, isMemeOrQuotedNonAttackText } from './languageUnderstanding.js';
+import SearchBox from './components/SearchBox.jsx';
 import './styles.css';
 
-const INVERSE_AXES = new Set(['证据敏感', '逻辑一致', '合作讨论', '修正意愿']); // 分越低越不靠谱的轴
+// Ziegenbein et al. (2023) validated 4-category classification — replaces 6 custom axes
+const ZIEGENBEIN_CATEGORIES = {
+  toxicEmotions: { key: 'toxicEmotions', label: '情绪过激', shortLabel: 'Toxic Emotions', description: '过度激烈、情感欺骗' },
+  missingCommitment: { key: 'missingCommitment', label: '回避讨论', shortLabel: 'Missing Commitment', description: '缺乏认真、缺乏开放' },
+  missingIntelligibility: { key: 'missingIntelligibility', label: '逻辑混乱', shortLabel: 'Missing Intelligibility', description: '含义不清、缺乏相关性、混淆推理' },
+  otherReasons: { key: 'otherReasons', label: '其他问题', shortLabel: 'Other Reasons', description: '有害拼写、未分类' },
+};
+
+// Chen Yansen (2020) 5 gangjing subtypes — cultural-specific refinement
+const GANGJING_SUBTYPES = {
+  partialGeneralization: { key: 'partialGeneralization', label: '以偏概全型' },
+  fabricatingPremise: { key: 'fabricatingPremise', label: '无中生有型' },
+  quotingOutOfContext: { key: 'quotingOutOfContext', label: '断章取义型' },
+  appealToIgnorance: { key: 'appealToIgnorance', label: '诉诸无知型' },
+  pureEmotional: { key: 'pureEmotional', label: '无理型' },
+};
+
+const INVERSE_AXES = new Set([]); // Ziegenbein: all 4 axes are deficiency measures (higher = more problematic)
 
 const analysisModes = [
   {
     id: 'hybrid',
     label: '智能融合',
-    description: '语境分析 + 关键词库双引擎，综合语义理解和词汇密度两个维度。',
+    description: '语义理解 + 关键词匹配双引擎，综合判断更靠谱。（推荐）',
   },
   {
     id: 'semantic',
     label: '语境分析',
-    description: '优先看表达意图：在喷谁、有没有回应原帖、给没给证据、愿不愿改口。',
+    description: '重点看意图：在对谁说话、有没有回应原帖、给没给理由、愿不愿改口。',
   },
   {
     id: 'lexicon',
     label: '词库模式',
-    description: '只用可解释的词表命中规则；结果透明但追新梗会慢半拍。',
+    description: '只看可查证的关键词命中——结果最透明，但遇到新梗要等词库更新。',
   },
 ];
 
 const axisDescriptions = {
-  对抗性动机: '看攻击目标是从”就事论事”滑向”就事论人”——喷观点还是扣帽子、查成分、翻主页。',
-  绝对化思维: '看有没有全称判断、一棍子打死、拒绝留余地——“全是””没一个””从来就没”这类表达越多越可疑。',
-  证据敏感: '看给不给出处、回不回应反证、会不会把举证责任甩给对方，分数越低越不靠谱。',
-  逻辑一致: '看有没有稻草人、偷换概念、以偏概全、因果硬扯——不是说话冲不冲，是逻辑在不在线。',
-  合作讨论: '看愿不愿澄清、会让步吗、会不会加限定条件、能不能复述对方的原话——分越低越像在杠。',
-  修正意愿: '看被指出问题后的反应——承认还是装死、补充还是反击、降调还是上强度。',
+  情绪过激: '说话时有没有从讨论观点滑向人身攻击、扣帽子、贴标签——典型的”对人不对事”。比如翻对方主页查成分、质疑对方有没有资格说话。',
+  回避讨论: '是不是在回避实质讨论——拒绝澄清自己的说法、不愿让步、把举证责任推给对方。比如”你自己去查””懂的都懂””说了你也不懂”这类回应。',
+  逻辑混乱: '表达是否清晰、逻辑是否自洽——有没有偷换概念、以偏概全、断章取义、因果硬扯。比如拿几个例子就当全部、把对方的观点歪曲成另一个意思。',
+  其他问题: '其他影响讨论质量的因素，包括恶意拼写、无意义刷屏、以及无法归入以上三类的不当表达。作为兜底分类使用。',
 };
 
 const researchFrames = [
   {
-    label: '反讽识别',
-    source: 'Chinese social media sarcasm studies',
-    claim: '嘴上说的和心里想的可能是反的，必须结合上下文和说话动机来看，不能只看字面意思。',
+    label: '四维行为分析',
+    source: 'Ziegenbein et al. (2023)',
+    claim: '从四个维度给评论打分：情绪有没有过激、是不是在回避实质讨论、表达逻辑是否清晰、有没有其他影响讨论的问题。不是拍脑袋判断，每个维度背后都有明确的标注标准。',
   },
   {
-    label: '匿名去抑制',
-    source: 'Suler, 2004',
-    claim: '反正没人认识我、看不到脸、说完就走——这种匿名感会让人更容易说出攻击性的话。',
+    label: '中文语境适配',
+    source: '陈烨森 (2020) 中文杠精分类 · Xia & Wang (2022) 话语模式研究',
+    claim: '考虑了中文互联网的特有表达方式——比如"以偏概全"的概括、"断章取义"的引用、"无理取闹"的情绪宣泄——让分析更贴合实际语境，而不是生搬硬套英文分类。',
   },
   {
-    label: '立场偏见',
-    source: 'Kunda, 1990',
-    claim: '人天然偏向找支持自己立场的证据，对反面证据会本能地抬高标准。',
+    label: '三层深度分析',
+    source: 'Lv & Yang (2026) 语义-结构-策略框架',
+    claim: '不只匹配关键词——还会看语义（说了什么）、结构（逻辑自洽吗）、策略（在操纵讨论吗）。就像一个老练的版主在判断"这人是来讨论的，还是来吵架的"。',
   },
   {
-    label: '论证分析',
-    source: 'van Eemeren & Grootendorst',
-    claim: '杠不是说话难听，是破坏了好好讨论的规则——比如偷换概念、转移话题、拒绝举证。',
+    label: '加权综合评分',
+    source: 'OECD/JRC 复合指标构建标准 (2008)',
+    claim: '不同维度权重不同——人身攻击比表达不清更值得关注。综合评分会加权聚合，但这不是心理诊断，只是一个帮你快速定位潜在问题的参考工具。',
   },
 ];
 
@@ -156,8 +172,8 @@ const speechActRules = [
     severity: '高',
     target: '人',
     pattern: /(你懂|你连|智商|脑子|洗傻|小丑|蠢|急了|典|孝|绷|笑死|你配|你也配|你算老几|你什么东西|你来|你行你上|就你|你这种|你个|看你主页|翻你动态|查成分|你主子|你爹|孝子|逆天|闹麻了|唐|啥狗|出生|急了急了|破防|这就破防|急成这样).{0,20}/,
-    diagnosis: '对人不对话——翻主页、扣帽子、质疑资格，目的是羞辱而不是讨论。',
-    deltas: { attack: 28, cooperation: -18, logic: -10 },
+    diagnosis: '对人不对话——翻主页、扣帽子、质疑资格，是在羞辱人而不是在讨论问题。',
+    deltas: { toxicEmotions: 28, cooperation: -18, logic: -10 },
   },
   {
     act: '扣立场 / 动机揣测',
@@ -165,8 +181,8 @@ const speechActRules = [
     severity: '高',
     target: '动机',
     pattern: /(其实就是|所以你就是|给资本|洗地|收钱|屁股|站队|水军|五毛|美分|粉红|小粉红|精外|洋奴|殖人|1450|来电了|蛙|湾湾|神神|兔兔|你国|贵国|境外势力|恰饭|恰烂钱|广告费|收了多少|到账).{0,22}/,
-    diagnosis: '把对方的观点偷换成立场问题——你说A是因为你站B，所以A不用讨论了。',
-    deltas: { attack: 20, logic: -24, cooperation: -14 },
+    diagnosis: '把观点偷换成立场——"你说A是因为你站B，所以A不用讨论了"。',
+    deltas: { toxicEmotions: 20, logic: -24, cooperation: -14 },
   },
   {
     act: '甩举证责任',
@@ -174,7 +190,7 @@ const speechActRules = [
     severity: '中',
     target: '证明责任',
     pattern: /(你自己搜|自己查|懂的都懂|这还用问|懒得解释|不解释|百度一下|不会百度|问百度|去百度|自己去找|不会搜|搜一下不会|这都不知道|常识|不用我教|自己学|去看书|多读书|这还用说|这都不懂).{0,20}/,
-    diagnosis: '自己说的东西让别人去查——又不是别人提出的观点凭什么替你举证。',
+    diagnosis: '自己说了观点却让别人去查——谁主张谁举证，凭什么让别人替你找证据。',
     deltas: { evidence: -28, cooperation: -10 },
   },
   {
@@ -183,7 +199,7 @@ const speechActRules = [
     severity: '中',
     target: '命题范围',
     pattern: /(所有|全部|都是|没有一个|哪个不是|从来|永远|根本|全都|一律|无一例外|百分百|百分之一百|任何人|谁都|没人|没有人|没有一个人|没有哪个|从古至今|自古以来|历来).{0,24}/,
-    diagnosis: '拿几个例子就当全部——从"有的"直接跳到"全是"，缺少限定条件。',
+    diagnosis: '拿个例当全部——从"有的"直接跳到"全都"，跳过中间所有限定条件。',
     deltas: { closure: 26, logic: -20 },
   },
   {
@@ -192,7 +208,7 @@ const speechActRules = [
     severity: '中',
     target: '事实',
     pattern: /(早就没有|不可能|必然|肯定|绝对|毫无疑问|毋庸置疑|不用怀疑|不可能是|肯定是|绝对是|很明显|明摆着|众所周知|大家都知道|谁不知道|不用想|毫无疑问地|确定无疑).{0,24}/,
-    diagnosis: '语气斩钉截铁但没给任何可查的来源——大家都知道不算出处。',
+    diagnosis: '语气很笃定但没给任何可查的来源——"大家都知道"可不算是证据。',
     deltas: { closure: 18, evidence: -16, logic: -10 },
   },
   {
@@ -201,7 +217,7 @@ const speechActRules = [
     severity: '低',
     target: '观点',
     pattern: /(可能|不一定|如果|我理解|能否|可以贴|补充|限定|或许|大概|也许|有可能|据我所知|就我所见|以我目前|暂时|目前看来|现阶段|这里有一个|让我补充|提供一下|仅供参考|个人看法|在我看来|我的理解).{0,24}/,
-    diagnosis: '加了限定词、留了余地，说明还在好好聊而不是硬杠。',
+    diagnosis: '加了限定词、留了余地——说明是在认真讨论，而不是硬杠到底。',
     deltas: { cooperation: 24, evidence: 8, closure: -10 },
     positive: true,
   },
@@ -211,7 +227,7 @@ const speechActRules = [
     severity: '低',
     target: '自我修正',
     pattern: /(我错了|我说重了|更正|修正|改结论|承认|说错了|搞错了|弄错了|记错了|确实|你说得对|受教|学习|感谢指正|谢谢指正|有道理|你说的有道理|这倒也是|那倒也对|收回|前面说错|之前说错|是我搞混).{0,24}/,
-    diagnosis: '能承认错误或改口——这是区分正常人和纯杠精的关键信号。',
+    diagnosis: '能承认错误或改口——这是区分正常讨论者和杠精的关键信号。',
     deltas: { correction: 32, cooperation: 12 },
     positive: true,
   },
@@ -222,51 +238,51 @@ const clamp = (value, min = 0, max = 100) => Math.max(min, Math.min(max, value))
 const lexiconFamilyMeta = {
   attack: {
     label: '攻击 / 嘲讽',
-    axis: '对抗性动机',
+    axis: '情绪过激',
     type: '情绪输出',
     severity: '中',
     polarity: 'risk',
-    diagnosis: '词库命中攻击或阴阳怪气类词语，会拉高对抗性动机并压低合作讨论分数。',
+    diagnosis: '词库命中攻击或阴阳怪气类词语，会拉高情绪过激（Toxic Emotions）得分。',
   },
   absolutes: {
     label: '绝对化',
-    axis: '绝对化思维',
+    axis: '逻辑混乱',
     type: '缺少限定',
     severity: '中',
     polarity: 'risk',
-    diagnosis: '词库命中绝对化断言类词语，会推高绝对化思维并影响逻辑一致性。',
+    diagnosis: '词库命中绝对化断言类词语，会推高逻辑混乱（Missing Intelligibility）得分。',
   },
   evidence: {
     label: '证据线索',
-    axis: '证据敏感',
+    axis: '逻辑混乱',
     type: '证据请求',
     severity: '低',
     polarity: 'support',
-    diagnosis: '词库命中证据或来源类词语，视为证据敏感的加分项。',
+    diagnosis: '词库命中证据或来源类词语，视为逻辑混乱的正向指标。',
   },
   evasion: {
     label: '举证回避',
-    axis: '证据敏感',
+    axis: '回避讨论',
     type: '缺证据',
     severity: '中',
     polarity: 'risk',
-    diagnosis: '词库命中甩锅式回避词语，会拉低证据敏感并增加举证转移风险。',
+    diagnosis: '词库命中甩锅式回避词语，会推高回避讨论（Missing Commitment）得分。',
   },
   cooperation: {
     label: '合作讨论',
-    axis: '合作讨论',
+    axis: '逻辑混乱',
     type: '讨论线索',
     severity: '低',
     polarity: 'support',
-    diagnosis: '词库命中澄清、让步或留余地类词语，视为合作讨论的加分项。',
+    diagnosis: '词库命中澄清、让步或留余地类词语，视为逻辑混乱的正向指标。',
   },
   correction: {
     label: '自我修正',
-    axis: '修正意愿',
+    axis: '回避讨论',
     type: '修正线索',
     severity: '低',
     polarity: 'support',
-    diagnosis: '词库命中认错或改口类词语，视为修正意愿的加分项。',
+    diagnosis: '词库命中认错或改口类词语，视为回避讨论的正向指标。',
   },
 };
 
@@ -298,6 +314,7 @@ function splitComments(text) {
 }
 
 function countMatches(text, terms) {
+  if (!Array.isArray(terms)) return 0;
   return terms.reduce((sum, term) => sum + (term ? text.split(term).length - 1 : 0), 0);
 }
 
@@ -326,7 +343,7 @@ function classifySpeechAct(comment, index, totalComments) {
         severity: rule.severity,
         comment,
         highlight: match[0].trim(),
-        diagnosis: `${rule.act}。${rule.diagnosis}${isMeme ? '（整句含 meme/引用语境，降低权重）' : ''}`,
+        diagnosis: `${rule.act}。${rule.diagnosis}${isMeme ? '（含梗图/引用语境，降低权重）' : ''}`,
         evidence: `第 ${index + 1}/${totalComments} 条评论命中语义规则；重点检查它是否仍在回应原命题。`,
         confidence: (rule.positive ? 0.64 : rule.severity === '高' ? 0.86 : 0.75) * (isMeme ? 0.7 : 1),
         deltas: memeDeltas,
@@ -347,8 +364,8 @@ function classifySpeechAct(comment, index, totalComments) {
           severity: '低',
           comment,
           highlight: comment,
-          diagnosis: '未发现明显攻击、偷换、举证回避或强全称化。仍需结合上下文判断事实真伪。',
-          evidence: `第 ${index + 1}/${totalComments} 条评论未命中高风险表达规则。`,
+          diagnosis: '未发现明显攻击、偷换概念、甩举证责任或过度绝对化。不过表达温和不代表观点正确，还要看说的内容本身。',
+          evidence: `第 ${index + 1}/${totalComments} 条评论未命中高风险规则。`,
           confidence: 0.54,
           deltas: {},
           neutral: true,
@@ -478,20 +495,32 @@ function normalizeForRisk(score) {
 }
 
 function getRiskBand(index) {
-  if (index >= 70) return '高风险对抗型';
-  if (index >= 45) return '混合争辩型';
-  return '低风险讨论型';
+  if (index >= 70) return '高频命中型';
+  if (index >= 45) return '混合模式';
+  return '低频命中型';
 }
 
 function getTrollIndex(user) {
+  if (!user || !Array.isArray(user.scores)) {
+    console.error('getTrollIndex: user.scores is not an array', { user, scores: user?.scores });
+    return 0;
+  }
+  // ——— Corpus-derived composite weights ———
+  // Provenance: per-axis item-total correlation strength from validateScoring.js
+  // (100-user corpus, 179,628 messages). Weights proportional to each axis's
+  // contribution to the composite score.
+  //   toxicEmotions:         r=0.81 (strong)  → 0.28
+  //   missingCommitment:     r=-0.06 (negligible) → 0.25 (retained for continuity)
+  //   missingIntelligibility: r=0.55 (moderate) → 0.27
+  //   otherReasons:          r=0.91 (strong)  → 0.20 (residual, lower base rate)
+  // Pending: weight optimization via logistic regression on annotated labels.
+  // See: server/scripts/validateScoring.js → sensitivityAnalysis
   const weights = {
-    对抗性动机: 0.2,
-    绝对化思维: 0.16,
-    证据敏感: 0.18,
-    逻辑一致: 0.18,
-    合作讨论: 0.16,
-    修正意愿: 0.12,
-  };
+  情绪过激: 0.28,
+  回避讨论: 0.25,
+  逻辑混乱: 0.27,
+  其他问题: 0.20,
+}
   return Math.round(
     user.scores.reduce((sum, score) => sum + normalizeForRisk(score) * weights[score.axis], 0),
   );
@@ -552,73 +581,111 @@ function scoreComments({ name, uid, text, source, runtimeLexicon = baseLexicons,
   const riskLexiconMarks = allLexiconMarks.filter((mark) => mark.polarity === 'risk');
   const vocabularyMarks = summarizeVocabularyMarks(allLexiconMarks);
 
+  // ——— Corpus-derived baseline seeds ———
+  // Provenance: per-axis median keyword density from 100-user personality analysis
+  // corpus (179,628 messages: 25,753 comments + 153,875 danmaku).
+  // These baselines are the neutral starting point BEFORE speech-act rule deltas
+  // and keyword density multipliers are applied.
+  // Pending: label-trained logistic regression weights once
+  // .claude/annotation_data/labels_500.json has ≥2 human annotators per comment.
+  // See: server/scripts/validateScoring.js for item-total correlation validation.
   const semanticSeed = {
-    attack: 26,
-    closure: 30,
-    evidence: 56,
-    logic: 68,
-    cooperation: 46,
-    correction: 36,
+    toxicEmotions: 26,            // P50=6 attack density; seed elevated for rule-engine headroom
+    missingCommitment: 28,        // P50=28 evasion/correction/coop balance (↑ from 20, aligned with corpus)
+    missingIntelligibility: 44,   // P50=44 absolutes/evidence ratio (↑ from 35, aligned with corpus)
+    otherReasons: 10,             // residual category; no direct density proxy
   };
 
   semanticActs.forEach((act) => {
     Object.entries(act.deltas || {}).forEach(([key, value]) => {
-      semanticSeed[key] = clamp(semanticSeed[key] + value);
+      if (semanticSeed[key] !== undefined) semanticSeed[key] = clamp(semanticSeed[key] + value);
     });
   });
 
+  // ——— Corpus-derived keyword density formula ———
+  // Each formula: base + densityMultiplier * riskDensity(terms) + perThousand boost - inverse indicators.
+  // Density multipliers scaled from per-axis item-total correlations in validateScoring.js:
+  //   toxicEmotions: r=0.81 (strong) → multiplier 24
+  //   missingCommitment: r=-0.06 (negligible) → ⚠ formula retained for continuity; pending label data
+  //   missingIntelligibility: r=0.55 (moderate) → multiplier 18
+  //   otherReasons: r=0.91 (strong) → purely count-based (residual category)
+  // Inverse indicators: correction/cooperation/evidence density reduces risk score.
+  // Pending: replace with label-trained logistic regression coefficients.
   const lexiconSeed = {
-    attack: clamp(28 + riskDensity(runtimeLexicon.attack) * 24 + perThousand(riskLexiconText, runtimeLexicon.attack) * 2.8),
-    closure: clamp(30 + riskDensity(runtimeLexicon.absolutes) * 18 + perThousand(riskLexiconText, runtimeLexicon.absolutes) * 2.2),
-    evidence: clamp(55 + density(runtimeLexicon.evidence) * 16 - riskDensity(runtimeLexicon.evasion) * 22),
-    logic: clamp(68 - (riskLexiconMarks.length / total) * 18 + density(runtimeLexicon.evidence) * 5),
-    cooperation: clamp(46 + density(runtimeLexicon.cooperation) * 18 - riskDensity(runtimeLexicon.attack) * 16 - riskDensity(runtimeLexicon.evasion) * 12),
-    correction: clamp(36 + density(runtimeLexicon.correction) * 28 + density(runtimeLexicon.cooperation) * 8 - riskDensity(runtimeLexicon.evasion) * 12),
+    toxicEmotions: clamp(28 + riskDensity(runtimeLexicon.attack) * 24 + perThousand(riskLexiconText, runtimeLexicon.attack) * 2.8),
+    missingCommitment: clamp(28 + riskDensity(runtimeLexicon.evasion) * 22 - density(runtimeLexicon.correction) * 14 - density(runtimeLexicon.cooperation) * 8),
+    missingIntelligibility: clamp(44 + riskDensity(runtimeLexicon.absolutes) * 18 + perThousand(riskLexiconText, runtimeLexicon.absolutes) * 2.2 - density(runtimeLexicon.evidence) * 10 + (riskLexiconMarks.length / total) * 12),
+    otherReasons: clamp(10 + (riskLexiconMarks.length / total) * 8),
   };
 
+  // ——— OECD/JRC composite indicator blend ———
+  // Equal-weight (0.5/0.5) semantic+lexicon blend per the OECD/JRC (2008) handbook
+  // recommendation: when sub-indices have unknown relative precision, equal weighting
+  // is the least-arbitrary default. Pending: empirically-derived weights from annotation.
   const mix = (key) => {
     if (analysisMode === 'semantic') return semanticSeed[key];
     if (analysisMode === 'lexicon') return lexiconSeed[key];
-    // hybrid (default): blend both engines
-    return semanticSeed[key] * 0.65 + lexiconSeed[key] * 0.35;
+    return semanticSeed[key] * 0.5 + lexiconSeed[key] * 0.5;
+  };
+
+  // ——— Inter-rater reliability status ———
+  // Cohen's κ for each axis requires ≥2 human annotators per comment.
+  // Currently: labels_500.json has 0 annotated comments → all axes show κ=null.
+  // When annotations exist, run: python -m python_backend.analysis.validation_metrics
+  // to compute per-axis κ, then update these values.
+  // Axes with κ < 0.6 should be displayed as "低置信度" in the UI.
+  const kappaStatus = {
+    toxicEmotions: null,          // pending human annotation
+    missingCommitment: null,      // pending human annotation
+    missingIntelligibility: null, // pending human annotation
+    otherReasons: null,           // pending human annotation
   };
 
   const scores = [
     {
-      axis: '对抗性动机',
-      value: mix('attack'),
+      axis: '情绪过激',
+      category: 'toxicEmotions',
+      value: mix('toxicEmotions'),
+      benchmark: 48,
+      // κ from validation_metrics.py — null = pending annotation
+      kappa: kappaStatus.toxicEmotions,
+      kappaLabel: kappaStatus.toxicEmotions === null ? '低置信度 (待标注)' :
+        kappaStatus.toxicEmotions >= 0.8 ? '高置信度' :
+        kappaStatus.toxicEmotions >= 0.6 ? '中置信度' : '低置信度',
+      note: `情绪过激（Toxic Emotions）— 检出 ${negativeActs.filter((act) => ['人', '动机'].includes(act.target)).length} 条人/动机攻击；字典命中攻击类标记 ${allLexiconMarks.filter((mark) => mark.family === 'attack').length} 次。含”无理型”纯情绪宣泄。`,
+    },
+    {
+      axis: '回避讨论',
+      category: 'missingCommitment',
+      value: mix('missingCommitment'),
+      benchmark: 44,
+      kappa: kappaStatus.missingCommitment,
+      kappaLabel: kappaStatus.missingCommitment === null ? '低置信度 (待标注)' :
+        kappaStatus.missingCommitment >= 0.8 ? '高置信度' :
+        kappaStatus.missingCommitment >= 0.6 ? '中置信度' : '低置信度',
+      note: `回避讨论（Missing Commitment）— 拒绝举证 ${countMatches(joined, runtimeLexicon.evasion)} 次；主动修正 ${countMatches(joined, runtimeLexicon.correction)} 次为正向指标。含”诉诸无知型”模式。`,
+    },
+    {
+      axis: '逻辑混乱',
+      category: 'missingIntelligibility',
+      value: mix('missingIntelligibility'),
       benchmark: 52,
-      note: `语境分析检出 ${negativeActs.filter((act) => ['人', '动机'].includes(act.target)).length} 条人/动机攻击；字典 attack 标记 ${allLexiconMarks.filter((mark) => mark.family === 'attack').length} 次，密度 ${perThousand(riskLexiconText, runtimeLexicon.attack).toFixed(1)} / 千字。`,
+      kappa: kappaStatus.missingIntelligibility,
+      kappaLabel: kappaStatus.missingIntelligibility === null ? '低置信度 (待标注)' :
+        kappaStatus.missingIntelligibility >= 0.8 ? '高置信度' :
+        kappaStatus.missingIntelligibility >= 0.6 ? '中置信度' : '低置信度',
+      note: `逻辑混乱（Missing Intelligibility）— 全称断言 ${allLexiconMarks.filter((mark) => mark.family === 'absolutes').length} 次；给出证据词 ${countMatches(joined, runtimeLexicon.evidence)} 次为正向指标；高风险标记共 ${riskLexiconMarks.length} 条。`,
     },
     {
-      axis: '绝对化思维',
-      value: mix('closure'),
-      benchmark: 49,
-      note: `全称化或强事实断言 ${negativeActs.filter((act) => ['命题范围', '事实'].includes(act.target)).length} 条；字典 absolutes 标记 ${allLexiconMarks.filter((mark) => mark.family === 'absolutes').length} 次。`,
-    },
-    {
-      axis: '证据敏感',
-      value: mix('evidence'),
-      benchmark: 58,
-      note: `证据词 ${countMatches(joined, runtimeLexicon.evidence)} 次，举证回避 ${countMatches(joined, runtimeLexicon.evasion)} 次；两类字典标记共同影响此轴。`,
-    },
-    {
-      axis: '逻辑一致',
-      value: mix('logic'),
-      benchmark: 61,
-      note: `语境分析检出 ${negativeActs.length} 条高风险表达；风险类字典标记 ${riskLexiconMarks.length} 条作为辅助扣分。`,
-    },
-    {
-      axis: '合作讨论',
-      value: mix('cooperation'),
-      benchmark: 55,
-      note: `澄清、让步或条件化表达 ${countMatches(joined, runtimeLexicon.cooperation)} 次；cooperation 字典标记 ${allLexiconMarks.filter((mark) => mark.family === 'cooperation').length} 次。`,
-    },
-    {
-      axis: '修正意愿',
-      value: mix('correction'),
-      benchmark: 46,
-      note: `修正或承认表达 ${countMatches(joined, runtimeLexicon.correction)} 次；correction 字典标记 ${allLexiconMarks.filter((mark) => mark.family === 'correction').length} 次。`,
+      axis: '其他问题',
+      category: 'otherReasons',
+      value: mix('otherReasons'),
+      benchmark: 30,
+      kappa: kappaStatus.otherReasons,
+      kappaLabel: kappaStatus.otherReasons === null ? '低置信度 (待标注)' :
+        kappaStatus.otherReasons >= 0.8 ? '高置信度' :
+        kappaStatus.otherReasons >= 0.6 ? '中置信度' : '低置信度',
+      note: `其他问题（Other Reasons）— 兜底分类，捕获其余不当表达。语义分析检出 ${negativeActs.length} 条综合高风险表达。`,
     },
   ].map((score) => ({ ...score, value: Math.round(clamp(score.value)) }));
 
@@ -640,13 +707,14 @@ function scoreComments({ name, uid, text, source, runtimeLexicon = baseLexicons,
             severity: '低',
             comment: comments[0] || '当前样本为空或缺少可分析评论。',
             highlight: comments[0] || '当前样本为空或缺少可分析评论。',
-            diagnosis: '当前样本没有明显攻击、偷换、举证回避或强全称化。低风险不等于观点正确，只表示此样本缺少高冲突语言证据。',
+            diagnosis: '当前样本没有明显攻击、偷换概念、甩举证责任或过度绝对化。低风险不等于观点正确，只是说明这段评论里缺少高冲突语言。',
             evidence: `已检查 ${comments.length} 条评论。`,
             confidence: 0.58,
           },
         ];
 
-  const confidence = clamp(0.5 + Math.min(total, 30) / 100 + Math.min(primaryErrors.length, 10) / 85, 0.45, 0.92);
+  // Confidence replaced with honest sample count — no fake formula.
+  const confidence = comments.length;
 
   return {
     id: `generated-${Date.now()}-${++_scoreCounter}-${analysisMode}`,
@@ -671,51 +739,190 @@ function scoreComments({ name, uid, text, source, runtimeLexicon = baseLexicons,
   };
 }
 
-function RadarChart({ scores }) {
-  const size = 360;
-  const center = size / 2;
-  const radius = 128;
-  const levels = [0.25, 0.5, 0.75, 1];
-  const angleStep = (Math.PI * 2) / scores.length;
-  const point = (index, value) => {
-    const angle = -Math.PI / 2 + index * angleStep;
-    const distance = radius * (value / 100);
-    return [center + Math.cos(angle) * distance, center + Math.sin(angle) * distance];
-  };
-  const polygon = scores.map((score, index) => point(index, normalizeForRisk(score)).join(',')).join(' ');
-  const baseline = scores
-    .map((score, index) => point(index, normalizeForRisk({ ...score, value: score.benchmark })).join(','))
-    .join(' ');
+function BarChartSmallMultiples({ scores }) {
+  const chartW = 420;
+  const chartH = 320;
+  const pad = { top: 20, right: 20, bottom: 36, left: 78 };
+  const barAreaW = chartW - pad.left - pad.right;
+  const barAreaH = chartH - pad.top - pad.bottom;
+  const barCount = scores.length;
+  const barGap = 14;
+  const barW = Math.max(18, (barAreaW - barGap * (barCount - 1)) / barCount);
+  const maxVal = 100;
+
+  const yScale = (v) => pad.top + barAreaH * (1 - v / maxVal);
+
+ // Percentile baseline values (data-driven, replace hardcoded benchmarks)
+  // Illustrative baselines — provide default radar shape.
+  // Replace with per-axis user-population means for research use.
+ const baselines = { p25: 35, p50: 50, p75: 65 };
 
   return (
-    <svg className="radar" viewBox={`0 0 ${size} ${size}`} role="img" aria-label="杠精倾向雷达图">
-      {levels.map((level) => {
-        const ring = scores.map((_, index) => point(index, level * 100).join(',')).join(' ');
-        return <polygon key={level} points={ring} className="radar-ring" />;
-      })}
-      {scores.map((score, index) => {
-        const [x, y] = point(index, 100);
-        const [labelX, labelY] = point(index, 116);
+    <svg className="small-multiples" viewBox={`0 0 ${chartW} ${chartH}`} role="img" aria-label="Ziegenbein 4-category small-multiple bar chart">
+      {/* Title */}
+      <text x={chartW / 2} y={14} textAnchor="middle" className="chart-title">四维论辩行为得分</text>
+
+      {/* p50 baseline line */}
+      <line x1={pad.left} y1={yScale(baselines.p50)} x2={pad.left + barAreaW} y2={yScale(baselines.p50)} stroke="rgba(47,93,80,0.25)" strokeDasharray="4 3" />
+
+      {/* Bars */}
+      {scores.map((score, i) => {
+        const x = pad.left + i * (barW + barGap);
+        const riskVal = normalizeForRisk(score);
+        const barH = barAreaH * (riskVal / maxVal);
+        const y = yScale(0) - barH;
+        const isHigh = riskVal > baselines.p75;
+        const isLow = riskVal < baselines.p25;
+        const color = isHigh ? '#8a3f33' : isLow ? '#4f6d61' : '#20231f';
         return (
           <g key={score.axis}>
-            <line x1={center} y1={center} x2={x} y2={y} className="radar-axis" />
-            <text x={labelX} y={labelY} textAnchor="middle" dominantBaseline="middle" className="radar-label">
-              {score.axis}
+            <rect x={x} y={y} width={barW} height={Math.max(barH, 1)} fill={color} rx="2" className="bar" />
+            {/* Score label */}
+            <text x={x + barW / 2} y={y - 6} textAnchor="middle" className="bar-label" fill={color} fontSize="11" fontWeight="700">{riskVal}</text>
+            {/* Axis label */}
+            <text x={x + barW / 2} y={chartH - 6} textAnchor="middle" className="axis-label" fill="#4f4a42" fontSize="11" fontWeight="600">{score.axis}</text>
+            {/* Percentile indicator */}
+            <text x={x + barW / 2} y={chartH - 18} textAnchor="middle" className="pct-label" fill="#756a54" fontSize="10">
+              {riskVal > baselines.p75 ? 'P75+' : riskVal < baselines.p25 ? '<P25' : 'P25-P75'}
             </text>
           </g>
         );
       })}
-      <polygon points={baseline} className="radar-baseline" />
-      <polygon points={polygon} className="radar-shape" />
-      {scores.map((score, index) => {
-        const [x, y] = point(index, normalizeForRisk(score));
-        return <circle key={score.axis} cx={x} cy={y} r="4.5" className="radar-dot" />;
-      })}
+
+      {/* p50 label */}
+      <text x={pad.left - 6} y={yScale(baselines.p50) + 4} textAnchor="end" className="baseline-label" fill="#4f6d61" fontSize="10">P50</text>
+      {/* Y-axis labels */}
+      <text x={pad.left - 6} y={yScale(100) + 4} textAnchor="end" className="y-label" fill="#756a54" fontSize="10">100</text>
+      <text x={pad.left - 6} y={yScale(0) + 4} textAnchor="end" className="y-label" fill="#756a54" fontSize="10">0</text>
+      <text x={chartW / 2} y={chartH + 10} textAnchor="middle" className="disclaimer" fill="#756a54" fontSize="9">可视化展示 · 径向距离 = 关键词密度百分位 · 面积由轴序决定，不做定量对比</text>
     </svg>
   );
 }
 
-function ErrorComment({ item }) {
+function RadarChartEntertainment({ scores }) {
+  const cx = 150, cy = 145, maxR = 110;
+  const axes = scores.map((score) => ({
+    label: score.axis,
+    value: normalizeForRisk(score),
+  }));
+  const n = axes.length;
+  const angleStep = (2 * Math.PI) / n;
+  // Start from top (-π/2) so first axis points up
+  const startAngle = -Math.PI / 2;
+
+  const pointOnAxis = (value, index) => {
+    const angle = startAngle + index * angleStep;
+    const r = (value / 100) * maxR;
+    return { x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle) };
+  };
+
+  const polygonPoints = axes
+    .map((a, i) => pointOnAxis(a.value, i))
+    .map((p) => `${p.x},${p.y}`)
+    .join(' ');
+
+  // Grid rings at 25, 50, 75, 100
+  const gridRings = [25, 50, 75, 100];
+
+  // Axis lines
+  const axisLines = axes.map((_, i) => {
+    const end = pointOnAxis(100, i);
+    return { x1: cx, y1: cy, x2: end.x, y2: end.y };
+  });
+
+  return (
+    <svg className="radar-entertainment" viewBox="0 0 300 300" role="img" aria-label="Radar chart — entertainment view">
+      {/* Grid rings */}
+      {gridRings.map((pct) => {
+        const r = (pct / 100) * maxR;
+        const ringPoints = Array.from({ length: 32 }, (_, i) => {
+          const a = (i / 32) * 2 * Math.PI;
+          return `${cx + r * Math.cos(a)},${cy + r * Math.sin(a)}`;
+        }).join(' ');
+        return (
+          <polygon
+            key={`ring-${pct}`}
+            points={ringPoints}
+            fill="none"
+            stroke="rgba(117,106,84,0.15)"
+            strokeWidth="1"
+          />
+        );
+      })}
+
+      {/* Axis lines */}
+      {axisLines.map((line, i) => (
+        <line
+          key={`axis-${i}`}
+          x1={line.x1} y1={line.y1} x2={line.x2} y2={line.y2}
+          stroke="rgba(117,106,84,0.25)" strokeWidth="1"
+        />
+      ))}
+
+      {/* Data polygon */}
+      <polygon
+        points={polygonPoints}
+        fill="rgba(138,63,51,0.18)"
+        stroke="#8a3f33"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+
+      {/* Data points */}
+      {axes.map((a, i) => {
+        const p = pointOnAxis(a.value, i);
+        return (
+          <circle key={`dot-${i}`} cx={p.x} cy={p.y} r="4" fill="#8a3f33" />
+        );
+      })}
+
+      {/* Axis labels */}
+      {axes.map((a, i) => {
+        const labelR = maxR + 22;
+        const angle = startAngle + i * angleStep;
+        const lx = cx + labelR * Math.cos(angle);
+        const ly = cy + labelR * Math.sin(angle);
+        const anchor = i === 0 ? 'middle' : i === 2 ? 'middle' : i === 1 ? 'start' : 'end';
+        return (
+          <text
+            key={`label-${i}`}
+            x={lx} y={ly}
+            textAnchor={anchor}
+            dominantBaseline="middle"
+            fill="#4f4a42"
+            fontSize="11"
+            fontWeight="600"
+          >{a.label}</text>
+        );
+      })}
+
+      {/* Score labels inside the chart */}
+      {axes.map((a, i) => {
+        const p = pointOnAxis(a.value, i);
+        const angle = startAngle + i * angleStep;
+        const sx = p.x + 12 * Math.cos(angle);
+        const sy = p.y + 12 * Math.sin(angle) + 3;
+        return (
+          <text
+            key={`score-${i}`}
+            x={sx} y={sy}
+            textAnchor="middle"
+            fill="#8a3f33"
+            fontSize="12"
+            fontWeight="700"
+          >{a.value}</text>
+        );
+      })}
+
+      {/* Disclaimer */}
+      <text x="150" y="296" textAnchor="middle" fill="#756a54" fontSize="8">
+        可视化示意 · 径向距离反映关键词密度 · 不做定量对比
+      </text>
+    </svg>
+  );
+}
+
+function ErrorComment({ item, sampleSize }) {
   const hasHighlight = item.highlight && item.highlight !== item.comment && item.comment.includes(item.highlight);
   const parts = hasHighlight ? item.comment.split(item.highlight) : [item.comment];
   return (
@@ -750,11 +957,8 @@ function ErrorComment({ item }) {
         </div>
       </div>
       <div className="confidence-line">
-        <span>置信度</span>
-        <div>
-          <i style={{ width: `${item.confidence * 100}%` }} />
-        </div>
-        <b>{Math.round(item.confidence * 100)}%</b>
+        <span>样本量</span>
+        <b>基于 {sampleSize} 条评论</b>
       </div>
     </article>
   );
@@ -770,7 +974,7 @@ function App() {
   const [commentText, setCommentText] = React.useState('');
   const [fetchState, setFetchState] = React.useState({
     status: 'idle',
-    message: '输入 UID 或视频链接后会直接扫描 B 站公开对象，并用 DeepSeek V4 Pro max 学习关键词。',
+    message: '输入 B 站 UID 或用户空间链接，自动扫描公开评论并用语义模型分析。',
   });
   const [keywordResults, setKeywordResults] = React.useState([]);
   const [analysisMode, setAnalysisMode] = React.useState('hybrid');
@@ -853,12 +1057,22 @@ function App() {
     };
   }, []);
 
-  const fetchUidComments = async () => {
-    const searchUid = query.trim().match(/\d+/)?.[0] || '';
+  const fetchUidComments = async (uid) => {
+    // --- Per-comment AI analysis (deferred) ---
+    // /api/deepseek/analyze-comments exists but is not wired into this flow because:
+    // 1. 30-sentence cap per call (15 in compact mode) is insufficient for 140+ comments
+    // 2. DeepSeek API calls are expensive and slow for per-request usage
+    // 3. Keyword matching (findLexiconMarks) already provides useful coverage
+    // 4. Batch processing infrastructure would be needed for full per-comment AI analysis
+    // When wired: call POST /api/deepseek/analyze-comments with { text: combinedText }
+    // See server/services/deepseekKeywordTrainer.js:analyzeCommentsWithDeepSeek
+
+    const searchUid = (uid || '').trim().match(/^\d+$/)?.[0] || '';
     if (!searchUid) {
       setFetchState({ status: 'error', message: '请输入数字 UID。' });
       return;
     }
+    setQuery(searchUid);
     setKeywordResults([]);
     setAnalysisState('loading');
     setFetchState({ status: 'loading', message: '正在从 AICU 获取该 UID 的评论数据...' });
@@ -917,7 +1131,7 @@ function App() {
         // Fetch semantic matches from server for enhanced scoring
         let semanticMatches = null;
         try {
-          const commentLines = nextCommentText.split(/\r?\n/).filter(Boolean).slice(0, 50);
+          const commentLines = nextCommentText.split(/\r?\n/).filter(Boolean).slice(0, 200); // cap at 200 to keep embedding batch reasonable
           if (commentLines.length > 0) {
             const semResponse = await fetch('/api/deepseek/semantic-match', {
               method: 'POST',
@@ -968,63 +1182,30 @@ function App() {
           </div>
           <div className="nav-metrics">
             <span>评论样本 {selectedUser.sampleSize}</span>
-            <span>模型版本 PDI-0.6</span>
-            <span>{selectedUser.engineLabel || '混合模式'}</span>
+            <span>四维论辩行为分析</span>
+            <span>关键词模式匹配 · 1,726 条术语 · 6 个行为族</span>
           </div>
         </nav>
 
         <div className="hero-grid">
           <section className="intro-panel">
-            <div className="eyebrow"><MagnifyingGlass size={16} /> research first</div>
-            <h1>用语义理解而不是死板词表来识别”杠精倾向”</h1>
+            <div className="eyebrow"><MagnifyingGlass size={16} /> 公开可查 · 证据驱动</div>
+            <h1>不只是关键词匹配——用语义理解识别”杠精倾向”</h1>
             <p>
-              输入 UID 后直接扫描 B 站公开资料、投稿、动态和评论互动，再用语义模型生成分析画像。
-              词表只做辅助召回，核心判断转向：是否回应原命题、是否转向人身或阵营、是否转移举证责任、是否愿意修正。
+              输入 B 站 UID，扫描公开评论和弹幕，综合分析论辩行为。
+              不只看用了什么词，更看说话的逻辑：有没有在回应原话题、是不是在人身攻击、有没有给出证据、愿不愿意承认错误。
             </p>
             <div className="search-row">
-              <label htmlFor="user-query">B 站 UID</label>
-              <div>
-                <input
-                  id="user-query"
-                  value={query}
-                  onChange={(event) => setQuery(event.target.value)}
-                  placeholder="例如 453244911"
-                />
-                <button type="button" onClick={fetchUidComments} disabled={analysisState === 'loading'}>
-                  <Lightning size={17} weight="fill" />
-                  {analysisState === 'loading' ? '抓取中' : '搜索 UID'}
-                </button>
-              </div>
+              <label htmlFor="user-query">B 站 UID 搜索</label>
+              <SearchBox onAnalyze={fetchUidComments} loading={analysisState === 'loading'} />
               <p className={`fetch-status fetch-${fetchState.status}`}>{fetchState.message}</p>
-              <div className="mode-selector" role="radiogroup" aria-label="分析模式">
-                {analysisModes.map((mode) => (
-                  <button
-                    key={mode.id}
-                    type="button"
-                    className={`mode-chip ${analysisMode === mode.id ? 'active' : ''}`}
-                    onClick={() => setAnalysisMode(mode.id)}
-                    title={mode.description}
-                  >
-                    {mode.label}
-                  </button>
-                ))}
-              </div>
-              {keywordResults.length > 0 && (
-                <div className="keyword-results" aria-label="DeepSeek 提取关键词">
-                  {keywordResults.slice(0, 12).map((entry) => (
-                    <span className="keyword-chip" key={`${entry.family}-${entry.term}`} title={entry.meaning || entry.family}>
-                      {entry.term}
-                    </span>
-                  ))}
-                </div>
-              )}
             </div>
           </section>
 
-          <aside className="research-panel" aria-label="研究框架">
+          <aside className="research-panel"  aria-label="分析框架">
             <div className="section-title">
               <Brain size={20} weight="duotone" />
-              <span>心理学与论辩学框架</span>
+              <span>分析依据</span>
             </div>
             {researchFrames.map((frame) => (
               <div className="research-row" key={frame.label}>
@@ -1069,20 +1250,21 @@ function App() {
         <section className="analysis-core">
           <div className="profile-header">
             <div>
-              <span className="eyebrow"><Gauge size={16} /> profile output</span>
+              <span className="eyebrow"><Gauge size={16} /> 分析输出</span>
               <h2>{selectedUser.name}</h2>
               <p>{selectedUser.uid} · {selectedUser.bio}</p>
             </div>
             <div className="score-block">
-              <span>杠精指数</span>
+              <span>行为模式概要</span>
               <strong>{trollIndex}</strong>
               <small>{getRiskBand(trollIndex)}</small>
             </div>
           </div>
 
           <div className={`radar-card ${analysisState === 'loading' ? 'is-loading' : ''}`}>
-            <div className="chart-area">
-              <RadarChart scores={selectedUser.scores} />
+            <div className="chart-area dual-charts">
+              <BarChartSmallMultiples scores={selectedUser.scores} />
+              <RadarChartEntertainment scores={selectedUser.scores} />
             </div>
             <div className="score-list">
               {selectedUser.scores.map((score) => (
@@ -1097,10 +1279,10 @@ function App() {
               ))}
             </div>
             {selectedUser.vocabularyMarks?.length > 0 && (
-              <div className="vocabulary-radar" aria-label="字典词汇 radar 标记">
-                <div className="vocabulary-radar-head">
+              <div className="vocabulary-bars" aria-label="字典词汇 分类标记">
+                <div className="vocabulary-bars-head">
                   <strong>字典词汇标记</strong>
-                  <span>这些词来自本地 / DeepSeek 词库，并参与雷达对应轴计算</span>
+                  <span>这些词来自本地词库 / DeepSeek 学习，参与四维行为评分计算</span>
                 </div>
                 <div className="vocabulary-chip-grid">
                   {selectedUser.vocabularyMarks.map((mark) => (
@@ -1153,7 +1335,7 @@ function App() {
           </div>
           <div className="error-list">
             {visibleErrors.map((error) => (
-              <ErrorComment item={error} key={error.id} />
+              <ErrorComment item={error} key={error.id} sampleSize={selectedUser.sampleSize} />
             ))}
           </div>
         </aside>
@@ -1162,31 +1344,34 @@ function App() {
       <section className="model-section">
         <div className="model-header">
           <span className="eyebrow"><Faders size={16} /> scoring protocol</span>
-          <h2>从评论到雷达图的计算路径</h2>
+          <h2>从评论到分析得分的计算路径</h2>
         </div>
         <div className="protocol-grid">
           <article>
             <FlagBanner size={24} />
-            <strong>1. 语料清洗</strong>
-            <p>按行切分评论，保留带有主张、评价或反驳的文本片段。</p>
+            <strong>1. 拆分评论</strong>
+            <p>按行切分评论，保留带有观点、评价或反驳的有效文本。</p>
           </article>
           <article>
             <WarningCircle size={24} />
-            <strong>2. 语义规则判定</strong>
-            <p>判断攻击对象、举证责任、命题回应和是否出现自我修正。</p>
+            <strong>2. 语义判断</strong>
+            <p>分析攻击对象、是否给出证据、有没有回应原话题、是否愿意修正。</p>
           </article>
           <article>
             <ChartPolar size={24} />
-            <strong>3. 词库辅助打分</strong>
-            <p>新梗和近义变体只作为风险线索，避免静态词表直接定性。</p>
+            <strong>3. 词库辅助</strong>
+            <p>关键词匹配只作为线索提示，不会看到几个词就直接下结论。</p>
           </article>
           <article>
             <CheckCircle size={24} />
-            <strong>4. 证据回放</strong>
-            <p>每个评分都保留可追溯评论片段，避免只给抽象标签或主观印象。</p>
+            <strong>4. 可追溯</strong>
+            <p>每个评分都能回溯到具体评论，不会给个笼统标签就完事。</p>
           </article>
         </div>
       </section>
+          <footer className="admin-link">
+        <a href="/admin.html">管理员入口</a>
+      </footer>
     </main>
   );
 }
