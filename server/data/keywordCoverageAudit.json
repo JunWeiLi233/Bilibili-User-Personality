@@ -1,6 +1,6 @@
 {
   "ok": false,
-  "generatedAt": "2026-06-27T11:13:58.080278Z",
+  "generatedAt": "2026-06-27T11:32:15.880591Z",
   "targetEvidence": 3,
   "minCoverageRatio": 1,
   "requireComplete": true,
@@ -8,23 +8,17 @@
   "coverage": {
     "complete": false,
     "targetEvidence": 3,
-    "terms": 1639,
-    "totalEvidence": 13609,
-    "averageEvidence": 8.3,
-    "coverageRatio": 0.9671,
-    "evidenceDeficit": 146,
-    "sourcedEvidenceTerms": 8,
-    "sourceCoverageRatio": 0.0049,
-    "unsourcedEvidenceTerms": 1590,
-    "weakTerms": 54,
-    "zeroEvidenceTerms": 41,
+    "terms": 1726,
+    "totalEvidence": 9529,
+    "averageEvidence": 5.52,
+    "coverageRatio": 0.9316,
+    "evidenceDeficit": 321,
+    "sourcedEvidenceTerms": 37,
+    "sourceCoverageRatio": 0.0214,
+    "unsourcedEvidenceTerms": 1595,
+    "weakTerms": 118,
+    "zeroEvidenceTerms": 94,
     "weakSamples": [
-      {
-        "term": "一时口误",
-        "family": "correction",
-        "evidenceCount": 0,
-        "coverageEvidenceCount": 0
-      },
       {
         "term": "上条作废",
         "family": "correction",
@@ -44,7 +38,19 @@
         "coverageEvidenceCount": 0
       },
       {
+        "term": "修正观点",
+        "family": "correction",
+        "evidenceCount": 0,
+        "coverageEvidenceCount": 0
+      },
+      {
         "term": "其实是这样的",
+        "family": "correction",
+        "evidenceCount": 0,
+        "coverageEvidenceCount": 0
+      },
+      {
+        "term": "对不起我错了",
         "family": "correction",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
@@ -62,25 +68,55 @@
         "coverageEvidenceCount": 0
       },
       {
+        "term": "我嘴硬",
+        "family": "correction",
+        "evidenceCount": 0,
+        "coverageEvidenceCount": 0
+      },
+      {
+        "term": "我打脸",
+        "family": "correction",
+        "evidenceCount": 0,
+        "coverageEvidenceCount": 0
+      },
+      {
+        "term": "我承认我酸",
+        "family": "correction",
+        "evidenceCount": 0,
+        "coverageEvidenceCount": 0
+      },
+      {
+        "term": "我承认我错了",
+        "family": "correction",
+        "evidenceCount": 0,
+        "coverageEvidenceCount": 0
+      },
+      {
+        "term": "我瞎了",
+        "family": "correction",
+        "evidenceCount": 0,
+        "coverageEvidenceCount": 0
+      },
+      {
+        "term": "我错了别骂了",
+        "family": "correction",
+        "evidenceCount": 0,
+        "coverageEvidenceCount": 0
+      },
+      {
         "term": "措辞不准",
         "family": "correction",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "撤回一条",
+        "term": "撤回前言",
         "family": "correction",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "收回前言",
-        "family": "correction",
-        "evidenceCount": 0,
-        "coverageEvidenceCount": 0
-      },
-      {
-        "term": "是我嘴笨",
+        "term": "是我傻了",
         "family": "correction",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
@@ -92,19 +128,7 @@
         "coverageEvidenceCount": 0
       },
       {
-        "term": "没说清楚",
-        "family": "correction",
-        "evidenceCount": 0,
-        "coverageEvidenceCount": 0
-      },
-      {
-        "term": "理解错了",
-        "family": "correction",
-        "evidenceCount": 0,
-        "coverageEvidenceCount": 0
-      },
-      {
-        "term": "脑子短路",
+        "term": "自食其言",
         "family": "correction",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
@@ -112,41 +136,12 @@
       {
         "term": "补充纠正",
         "family": "correction",
-        "evidenceCount": 0,
-        "coverageEvidenceCount": 0
-      },
-      {
-        "term": "表达有误",
-        "family": "correction",
-        "evidenceCount": 0,
-        "coverageEvidenceCount": 0
-      },
-      {
-        "term": "不针对谁",
-        "family": "evasion",
-        "evidenceCount": 0,
-        "coverageEvidenceCount": 0
-      },
-      {
-        "term": "别较真",
-        "family": "evasion",
-        "evidenceCount": 0,
-        "coverageEvidenceCount": 0
-      },
-      {
-        "term": "我就看看",
-        "family": "evasion",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       }
     ],
     "zeroEvidenceSamples": [
       {
-        "term": "一时口误",
-        "family": "correction",
-        "evidenceCount": 0
-      },
-      {
         "term": "上条作废",
         "family": "correction",
         "evidenceCount": 0
@@ -162,7 +157,17 @@
         "evidenceCount": 0
       },
       {
+        "term": "修正观点",
+        "family": "correction",
+        "evidenceCount": 0
+      },
+      {
         "term": "其实是这样的",
+        "family": "correction",
+        "evidenceCount": 0
+      },
+      {
+        "term": "对不起我错了",
         "family": "correction",
         "evidenceCount": 0
       },
@@ -177,22 +182,47 @@
         "evidenceCount": 0
       },
       {
+        "term": "我嘴硬",
+        "family": "correction",
+        "evidenceCount": 0
+      },
+      {
+        "term": "我打脸",
+        "family": "correction",
+        "evidenceCount": 0
+      },
+      {
+        "term": "我承认我酸",
+        "family": "correction",
+        "evidenceCount": 0
+      },
+      {
+        "term": "我承认我错了",
+        "family": "correction",
+        "evidenceCount": 0
+      },
+      {
+        "term": "我瞎了",
+        "family": "correction",
+        "evidenceCount": 0
+      },
+      {
+        "term": "我错了别骂了",
+        "family": "correction",
+        "evidenceCount": 0
+      },
+      {
         "term": "措辞不准",
         "family": "correction",
         "evidenceCount": 0
       },
       {
-        "term": "撤回一条",
+        "term": "撤回前言",
         "family": "correction",
         "evidenceCount": 0
       },
       {
-        "term": "收回前言",
-        "family": "correction",
-        "evidenceCount": 0
-      },
-      {
-        "term": "是我嘴笨",
+        "term": "是我傻了",
         "family": "correction",
         "evidenceCount": 0
       },
@@ -202,43 +232,13 @@
         "evidenceCount": 0
       },
       {
-        "term": "没说清楚",
-        "family": "correction",
-        "evidenceCount": 0
-      },
-      {
-        "term": "理解错了",
-        "family": "correction",
-        "evidenceCount": 0
-      },
-      {
-        "term": "脑子短路",
+        "term": "自食其言",
         "family": "correction",
         "evidenceCount": 0
       },
       {
         "term": "补充纠正",
         "family": "correction",
-        "evidenceCount": 0
-      },
-      {
-        "term": "表达有误",
-        "family": "correction",
-        "evidenceCount": 0
-      },
-      {
-        "term": "不针对谁",
-        "family": "evasion",
-        "evidenceCount": 0
-      },
-      {
-        "term": "别较真",
-        "family": "evasion",
-        "evidenceCount": 0
-      },
-      {
-        "term": "我就看看",
-        "family": "evasion",
         "evidenceCount": 0
       }
     ],
@@ -250,8 +250,26 @@
         "coverageEvidenceCount": 1
       },
       {
+        "term": "开心就好",
+        "family": "evasion",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
         "term": "玩笑罢了",
         "family": "evasion",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "笑而不语",
+        "family": "evasion",
+        "evidenceCount": 1,
+        "coverageEvidenceCount": 1
+      },
+      {
+        "term": "数据在哪",
+        "family": "evidence",
         "evidenceCount": 1,
         "coverageEvidenceCount": 1
       },
@@ -266,6 +284,18 @@
         "family": "evidence",
         "evidenceCount": 1,
         "coverageEvidenceCount": 1
+      },
+      {
+        "term": "不置可否",
+        "family": "evasion",
+        "evidenceCount": 2,
+        "coverageEvidenceCount": 2
+      },
+      {
+        "term": "理解万岁",
+        "family": "evasion",
+        "evidenceCount": 2,
+        "coverageEvidenceCount": 2
       },
       {
         "term": "有证据吗",
@@ -287,6 +317,18 @@
       },
       {
         "term": "包火的",
+        "family": "absolutes",
+        "evidenceCount": 3,
+        "coverageEvidenceCount": 3
+      },
+      {
+        "term": "封100年",
+        "family": "absolutes",
+        "evidenceCount": 3,
+        "coverageEvidenceCount": 3
+      },
+      {
+        "term": "封号100年",
         "family": "absolutes",
         "evidenceCount": 3,
         "coverageEvidenceCount": 3
@@ -320,105 +362,58 @@
         "family": "attack",
         "evidenceCount": 3,
         "coverageEvidenceCount": 3
-      },
-      {
-        "term": "kda大帝",
-        "family": "attack",
-        "evidenceCount": 3,
-        "coverageEvidenceCount": 3
-      },
-      {
-        "term": "pv诈骗",
-        "family": "attack",
-        "evidenceCount": 3,
-        "coverageEvidenceCount": 3
-      },
-      {
-        "term": "三观警察",
-        "family": "attack",
-        "evidenceCount": 3,
-        "coverageEvidenceCount": 3
-      },
-      {
-        "term": "东吴洗脚城",
-        "family": "attack",
-        "evidenceCount": 3,
-        "coverageEvidenceCount": 3
-      },
-      {
-        "term": "人人有关入",
-        "family": "attack",
-        "evidenceCount": 3,
-        "coverageEvidenceCount": 3
-      },
-      {
-        "term": "会赢吗",
-        "family": "attack",
-        "evidenceCount": 3,
-        "coverageEvidenceCount": 3
-      },
-      {
-        "term": "低温焊",
-        "family": "attack",
-        "evidenceCount": 3,
-        "coverageEvidenceCount": 3
       }
     ],
     "byFamily": {
       "absolutes": {
         "terms": 123,
-        "evidence": 1055,
+        "evidence": 767,
         "weak": 0,
         "zero": 0,
         "sourced": 0
       },
       "attack": {
         "terms": 966,
-        "evidence": 8830,
+        "evidence": 5629,
         "weak": 0,
         "zero": 0,
         "sourced": 0
       },
       "cooperation": {
         "terms": 346,
-        "evidence": 2601,
+        "evidence": 2092,
         "weak": 0,
         "zero": 0,
         "sourced": 0
       },
       "correction": {
-        "terms": 54,
-        "evidence": 243,
-        "weak": 18,
-        "zero": 17,
-        "sourced": 1
+        "terms": 83,
+        "evidence": 316,
+        "weak": 30,
+        "zero": 20,
+        "sourced": 27
       },
       "evasion": {
-        "terms": 93,
-        "evidence": 580,
-        "weak": 18,
-        "zero": 10,
-        "sourced": 6
+        "terms": 121,
+        "evidence": 477,
+        "weak": 40,
+        "zero": 32,
+        "sourced": 8
       },
       "evidence": {
-        "terms": 57,
-        "evidence": 300,
-        "weak": 18,
-        "zero": 14,
-        "sourced": 1
+        "terms": 87,
+        "evidence": 248,
+        "weak": 48,
+        "zero": 42,
+        "sourced": 2
       }
     }
   },
   "termAttemptSummary": {
     "attemptedTerms": 0,
     "successfulTerms": 0,
-    "unattemptedTerms": 1639,
+    "unattemptedTerms": 1726,
     "unattemptedSamples": [
-      {
-        "term": "一时口误",
-        "family": "correction",
-        "evidenceCount": 0
-      },
       {
         "term": "上条作废",
         "family": "correction",
@@ -435,7 +430,17 @@
         "evidenceCount": 0
       },
       {
+        "term": "修正观点",
+        "family": "correction",
+        "evidenceCount": 0
+      },
+      {
         "term": "其实是这样的",
+        "family": "correction",
+        "evidenceCount": 0
+      },
+      {
+        "term": "对不起我错了",
         "family": "correction",
         "evidenceCount": 0
       },
@@ -450,22 +455,47 @@
         "evidenceCount": 0
       },
       {
+        "term": "我嘴硬",
+        "family": "correction",
+        "evidenceCount": 0
+      },
+      {
+        "term": "我打脸",
+        "family": "correction",
+        "evidenceCount": 0
+      },
+      {
+        "term": "我承认我酸",
+        "family": "correction",
+        "evidenceCount": 0
+      },
+      {
+        "term": "我承认我错了",
+        "family": "correction",
+        "evidenceCount": 0
+      },
+      {
+        "term": "我瞎了",
+        "family": "correction",
+        "evidenceCount": 0
+      },
+      {
+        "term": "我错了别骂了",
+        "family": "correction",
+        "evidenceCount": 0
+      },
+      {
         "term": "措辞不准",
         "family": "correction",
         "evidenceCount": 0
       },
       {
-        "term": "撤回一条",
+        "term": "撤回前言",
         "family": "correction",
         "evidenceCount": 0
       },
       {
-        "term": "收回前言",
-        "family": "correction",
-        "evidenceCount": 0
-      },
-      {
-        "term": "是我嘴笨",
+        "term": "是我傻了",
         "family": "correction",
         "evidenceCount": 0
       },
@@ -475,43 +505,13 @@
         "evidenceCount": 0
       },
       {
-        "term": "没说清楚",
-        "family": "correction",
-        "evidenceCount": 0
-      },
-      {
-        "term": "理解错了",
-        "family": "correction",
-        "evidenceCount": 0
-      },
-      {
-        "term": "脑子短路",
+        "term": "自食其言",
         "family": "correction",
         "evidenceCount": 0
       },
       {
         "term": "补充纠正",
         "family": "correction",
-        "evidenceCount": 0
-      },
-      {
-        "term": "表达有误",
-        "family": "correction",
-        "evidenceCount": 0
-      },
-      {
-        "term": "不针对谁",
-        "family": "evasion",
-        "evidenceCount": 0
-      },
-      {
-        "term": "别较真",
-        "family": "evasion",
-        "evidenceCount": 0
-      },
-      {
-        "term": "我就看看",
-        "family": "evasion",
         "evidenceCount": 0
       }
     ],
@@ -520,40 +520,40 @@
     "exhaustedSamples": []
   },
   "actionSummary": {
-    "harvest": 54,
-    "none": 1585
+    "harvest": 118,
+    "none": 1608
   },
   "familyGaps": [
     {
-      "family": "correction",
-      "terms": 54,
-      "weak": 18,
-      "zero": 17,
-      "evidence": 243,
-      "coverageRatio": 0.6667
-    },
-    {
       "family": "evidence",
-      "terms": 57,
-      "weak": 18,
-      "zero": 14,
-      "evidence": 300,
-      "coverageRatio": 0.6842
+      "terms": 87,
+      "weak": 48,
+      "zero": 42,
+      "evidence": 248,
+      "coverageRatio": 0.4483
     },
     {
       "family": "evasion",
-      "terms": 93,
-      "weak": 18,
-      "zero": 10,
-      "evidence": 580,
-      "coverageRatio": 0.8065
+      "terms": 121,
+      "weak": 40,
+      "zero": 32,
+      "evidence": 477,
+      "coverageRatio": 0.6694
+    },
+    {
+      "family": "correction",
+      "terms": 83,
+      "weak": 30,
+      "zero": 20,
+      "evidence": 316,
+      "coverageRatio": 0.6386
     },
     {
       "family": "absolutes",
       "terms": 123,
       "weak": 0,
       "zero": 0,
-      "evidence": 1055,
+      "evidence": 767,
       "coverageRatio": 1.0
     },
     {
@@ -561,7 +561,7 @@
       "terms": 966,
       "weak": 0,
       "zero": 0,
-      "evidence": 8830,
+      "evidence": 5629,
       "coverageRatio": 1.0
     },
     {
@@ -569,32 +569,11 @@
       "terms": 346,
       "weak": 0,
       "zero": 0,
-      "evidence": 2601,
+      "evidence": 2092,
       "coverageRatio": 1.0
     }
   ],
   "nextActions": [
-    {
-      "term": "一时口误",
-      "family": "correction",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 0,
-      "coverageEvidenceCount": 0,
-      "sourcedEvidence": false,
-      "recommendationGroup": "一时口误",
-      "targetEvidence": 3,
-      "evidenceNeeded": 3,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "一时口误 更正 评论区",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
     {
       "term": "上条作废",
       "family": "correction",
@@ -659,6 +638,27 @@
       "lastError": ""
     },
     {
+      "term": "修正观点",
+      "family": "correction",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "修正观点",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "修正观点 更正 评论区",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
       "term": "其实是这样的",
       "family": "correction",
       "status": "weak_unattempted",
@@ -675,6 +675,27 @@
       "currentCommentMisses": 0,
       "exhausted": false,
       "nextQuery": "其实是这样的 更正 评论区",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "对不起我错了",
+      "family": "correction",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "对不起我错了",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "对不起我错了 更正 评论区",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
@@ -722,6 +743,132 @@
       "lastError": ""
     },
     {
+      "term": "我嘴硬",
+      "family": "correction",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "我嘴硬",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "我嘴硬 更正 评论区",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "我打脸",
+      "family": "correction",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "我打脸",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "我打脸 更正 评论区",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "我承认我酸",
+      "family": "correction",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "我承认我酸",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "我承认我酸 更正 评论区",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "我承认我错了",
+      "family": "correction",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "我承认我错了",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "我承认我错了 更正 评论区",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "我瞎了",
+      "family": "correction",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "我瞎了",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "我瞎了 更正 评论区",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
+      "term": "我错了别骂了",
+      "family": "correction",
+      "status": "weak_unattempted",
+      "action": "harvest",
+      "evidenceCount": 0,
+      "coverageEvidenceCount": 0,
+      "sourcedEvidence": false,
+      "recommendationGroup": "我错了别骂了",
+      "targetEvidence": 3,
+      "evidenceNeeded": 3,
+      "attempts": 0,
+      "successfulAttempts": 0,
+      "duplicateAcceptedNoProgress": false,
+      "currentCommentMisses": 0,
+      "exhausted": false,
+      "nextQuery": "我错了别骂了 更正 评论区",
+      "suggestedQueries": [],
+      "lastQuery": "",
+      "lastError": ""
+    },
+    {
       "term": "措辞不准",
       "family": "correction",
       "status": "weak_unattempted",
@@ -743,14 +890,14 @@
       "lastError": ""
     },
     {
-      "term": "撤回一条",
+      "term": "撤回前言",
       "family": "correction",
       "status": "weak_unattempted",
       "action": "harvest",
       "evidenceCount": 0,
       "coverageEvidenceCount": 0,
       "sourcedEvidence": false,
-      "recommendationGroup": "撤回一条",
+      "recommendationGroup": "撤回前言",
       "targetEvidence": 3,
       "evidenceNeeded": 3,
       "attempts": 0,
@@ -758,20 +905,20 @@
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "撤回一条 更正 评论区",
+      "nextQuery": "撤回前言 更正 评论区",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "收回前言",
+      "term": "是我傻了",
       "family": "correction",
       "status": "weak_unattempted",
       "action": "harvest",
       "evidenceCount": 0,
       "coverageEvidenceCount": 0,
       "sourcedEvidence": false,
-      "recommendationGroup": "收回前言",
+      "recommendationGroup": "是我傻了",
       "targetEvidence": 3,
       "evidenceNeeded": 3,
       "attempts": 0,
@@ -779,28 +926,7 @@
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "收回前言 更正 评论区",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
-    {
-      "term": "是我嘴笨",
-      "family": "correction",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 0,
-      "coverageEvidenceCount": 0,
-      "sourcedEvidence": false,
-      "recommendationGroup": "是我嘴笨",
-      "targetEvidence": 3,
-      "evidenceNeeded": 3,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "是我嘴笨 更正 评论区",
+      "nextQuery": "是我傻了 更正 评论区",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
@@ -827,14 +953,14 @@
       "lastError": ""
     },
     {
-      "term": "没说清楚",
+      "term": "自食其言",
       "family": "correction",
       "status": "weak_unattempted",
       "action": "harvest",
       "evidenceCount": 0,
       "coverageEvidenceCount": 0,
       "sourcedEvidence": false,
-      "recommendationGroup": "没说清楚",
+      "recommendationGroup": "自食其言",
       "targetEvidence": 3,
       "evidenceNeeded": 3,
       "attempts": 0,
@@ -842,49 +968,7 @@
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "没说清楚 更正 评论区",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
-    {
-      "term": "理解错了",
-      "family": "correction",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 0,
-      "coverageEvidenceCount": 0,
-      "sourcedEvidence": false,
-      "recommendationGroup": "理解错了",
-      "targetEvidence": 3,
-      "evidenceNeeded": 3,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "理解错了 更正 评论区",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
-    {
-      "term": "脑子短路",
-      "family": "correction",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 0,
-      "coverageEvidenceCount": 0,
-      "sourcedEvidence": false,
-      "recommendationGroup": "脑子短路",
-      "targetEvidence": 3,
-      "evidenceNeeded": 3,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "脑子短路 更正 评论区",
+      "nextQuery": "自食其言 更正 评论区",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
@@ -909,116 +993,32 @@
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
-    },
-    {
-      "term": "表达有误",
-      "family": "correction",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 0,
-      "coverageEvidenceCount": 0,
-      "sourcedEvidence": false,
-      "recommendationGroup": "表达有误",
-      "targetEvidence": 3,
-      "evidenceNeeded": 3,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "表达有误 更正 评论区",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
-    {
-      "term": "不针对谁",
-      "family": "evasion",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 0,
-      "coverageEvidenceCount": 0,
-      "sourcedEvidence": false,
-      "recommendationGroup": "不针对谁",
-      "targetEvidence": 3,
-      "evidenceNeeded": 3,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "不针对谁 回复 评论区 热评",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
-    {
-      "term": "别较真",
-      "family": "evasion",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 0,
-      "coverageEvidenceCount": 0,
-      "sourcedEvidence": false,
-      "recommendationGroup": "别较真",
-      "targetEvidence": 3,
-      "evidenceNeeded": 3,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "别较真 回复 评论区 热评",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
-    },
-    {
-      "term": "我就看看",
-      "family": "evasion",
-      "status": "weak_unattempted",
-      "action": "harvest",
-      "evidenceCount": 0,
-      "coverageEvidenceCount": 0,
-      "sourcedEvidence": false,
-      "recommendationGroup": "我就看看",
-      "targetEvidence": 3,
-      "evidenceNeeded": 3,
-      "attempts": 0,
-      "successfulAttempts": 0,
-      "duplicateAcceptedNoProgress": false,
-      "currentCommentMisses": 0,
-      "exhausted": false,
-      "nextQuery": "我就看看 回复 评论区 热评",
-      "suggestedQueries": [],
-      "lastQuery": "",
-      "lastError": ""
     }
   ],
   "recommendedQueries": [
-    "一时口误 更正 评论区",
     "上条作废 更正 评论区",
     "之前没搞对 更正 评论区",
     "之前说错了 更正 评论区",
+    "修正观点 更正 评论区",
     "其实是这样的 更正 评论区",
+    "对不起我错了 更正 评论区",
     "恕我眼瞎 更正 评论区",
     "意思歪了 更正 评论区",
+    "我嘴硬 更正 评论区",
+    "我打脸 更正 评论区",
+    "我承认我酸 更正 评论区",
+    "我承认我错了 更正 评论区",
+    "我瞎了 更正 评论区",
+    "我错了别骂了 更正 评论区",
     "措辞不准 更正 评论区",
-    "撤回一条 更正 评论区",
-    "收回前言 更正 评论区",
-    "是我嘴笨 更正 评论区",
+    "撤回前言 更正 评论区",
+    "是我傻了 更正 评论区",
     "是我没说明白 更正 评论区",
-    "没说清楚 更正 评论区",
-    "理解错了 更正 评论区",
-    "脑子短路 更正 评论区",
-    "补充纠正 更正 评论区",
-    "表达有误 更正 评论区",
-    "不针对谁 回复 评论区 热评",
-    "别较真 回复 评论区 热评",
-    "我就看看 回复 评论区 热评"
+    "自食其言 更正 评论区",
+    "补充纠正 更正 评论区"
   ],
   "failureReasons": [
-    "coverage ratio 0.9671 is below 1",
-    "54 term(s) are below 3 evidence hit(s)"
+    "coverage ratio 0.9316 is below 1",
+    "118 term(s) are below 3 evidence hit(s)"
   ]
 }
