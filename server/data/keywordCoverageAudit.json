@@ -1,6 +1,6 @@
 {
   "ok": false,
-  "generatedAt": "2026-06-27T11:34:50.950568Z",
+  "generatedAt": "2026-06-27T11:56:42.687936Z",
   "targetEvidence": 3,
   "minCoverageRatio": 1,
   "requireComplete": true,
@@ -9,7 +9,7 @@
     "complete": false,
     "targetEvidence": 3,
     "terms": 1726,
-    "totalEvidence": 9596,
+    "totalEvidence": 9600,
     "averageEvidence": 5.56,
     "coverageRatio": 0.9403,
     "evidenceDeficit": 272,
@@ -388,14 +388,14 @@
       },
       "correction": {
         "terms": 83,
-        "evidence": 334,
+        "evidence": 337,
         "weak": 25,
         "zero": 17,
         "sourced": 30
       },
       "evasion": {
         "terms": 121,
-        "evidence": 521,
+        "evidence": 522,
         "weak": 32,
         "zero": 21,
         "sourced": 22
@@ -537,7 +537,7 @@
       "terms": 121,
       "weak": 32,
       "zero": 21,
-      "evidence": 521,
+      "evidence": 522,
       "coverageRatio": 0.7355
     },
     {
@@ -545,7 +545,7 @@
       "terms": 83,
       "weak": 25,
       "zero": 17,
-      "evidence": 334,
+      "evidence": 337,
       "coverageRatio": 0.6988
     },
     {
