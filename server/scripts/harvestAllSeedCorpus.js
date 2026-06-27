@@ -1,4 +1,11 @@
 /**
+ * DEPRECATED — JS path retired 2026-06-27.
+ * Replaced by python_backend/cli/harvest_all_seed_corpus.py (npm run python:harvest-all-seed).
+ * Structural parity verified via compareMigrationContracts.js (dry-run contract).
+ * Kept for reference and migration-audit traceability only.
+ * Live API validation pending BILIBILI_COOKIE.
+ */
+/**
  * Round 4: Re-harvest evidence from ALL accumulated seed result directories.
  *
  * Reads from:

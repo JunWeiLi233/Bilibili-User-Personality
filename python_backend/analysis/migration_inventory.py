@@ -308,7 +308,9 @@ DEFAULT_DIRECT_FILE_CONTRACTS = {
         "validationScript": "python:migration-compare",
         "validationCommand": "node server/scripts/compareMigrationContracts.js",
         "validationScope": "dry_run_plan",
-        "replacementScope": "dry_run_plan",
+        "replacementScope": "retired",
+        "retiredAt": "2026-06-27",
+        "note": "JS path retired. Structural parity verified (dry-run contract). Live API validation pending BILIBILI_COOKIE. Use python:harvest-all-seed npm script.",
     },
     "server/scripts/harvestSeedCorpusEvidence.js": {
         "nodeScript": "server/scripts/harvestSeedCorpusEvidence.js",
@@ -318,7 +320,9 @@ DEFAULT_DIRECT_FILE_CONTRACTS = {
         "validationScript": "python:migration-compare",
         "validationCommand": "node server/scripts/compareMigrationContracts.js",
         "validationScope": "dry_run_plan",
-        "replacementScope": "dry_run_plan",
+        "replacementScope": "retired",
+        "retiredAt": "2026-06-27",
+        "note": "JS path retired. Structural parity verified (dry-run contract). Live API validation pending BILIBILI_COOKIE. Use python:harvest-seed-evidence npm script.",
     },
     "server/scripts/probeCoverageHonesty.js": {
         "nodeScript": "server/scripts/probeCoverageHonesty.js",
@@ -340,7 +344,9 @@ DEFAULT_DIRECT_FILE_CONTRACTS = {
         "validationScript": "python:migration-compare",
         "validationCommand": "node server/scripts/compareMigrationContracts.js",
         "validationScope": "dry_run_plan",
-        "replacementScope": "live_api_runtime",
+        "replacementScope": "retired",
+        "retiredAt": "2026-06-27",
+        "note": "JS path retired. Structural parity verified (dry-run contract). Live API validation pending BILIBILI_COOKIE. Use python:deep-batch-scraper npm script.",
     },
 }
 

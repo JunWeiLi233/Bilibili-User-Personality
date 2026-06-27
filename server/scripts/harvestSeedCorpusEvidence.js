@@ -1,3 +1,10 @@
+/**
+ * DEPRECATED — JS path retired 2026-06-27.
+ * Replaced by python_backend/cli/harvest_seed_corpus_evidence.py (npm run python:harvest-seed-evidence).
+ * Structural parity verified via compareMigrationContracts.js (dry-run contract).
+ * Kept for reference and migration-audit traceability only.
+ * Live API validation pending BILIBILI_COOKIE.
+ */
 import { readFile, readdir, writeFile } from 'node:fs/promises';
 import { basename, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
