@@ -1,3 +1,9 @@
+/**
+ * DEPRECATED — JS path retired 2026-06-27.
+ * Replaced by python_backend/cli/coverage_honesty_probe.py (npm run python:coverage-honesty).
+ * Python passes full parity on ok/totalEntries/verdict/criticalIssues/minorIssues.
+ * Kept for reference and migration-audit traceability only.
+ */
 import { readKeywordDictionary } from '../services/deepseekKeywordTrainer.js';
 import { evidenceNeedlesForTerm } from '../services/deepseekKeywordTrainer.js';
 

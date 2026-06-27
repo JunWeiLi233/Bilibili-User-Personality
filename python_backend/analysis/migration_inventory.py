@@ -328,7 +328,9 @@ DEFAULT_DIRECT_FILE_CONTRACTS = {
         "validationScript": "python:migration-compare",
         "validationCommand": "node server/scripts/compareMigrationContracts.js",
         "validationScope": "full_command",
-        "replacementScope": "dry_run_plan",
+        "replacementScope": "retired",
+        "retiredAt": "2026-06-27",
+        "note": "JS path retired. Python coverage_honesty_probe passes full parity on ok/totalEntries/verdict/criticalIssues/minorIssues. Known gap: moderateIssues due to evidence_needles_for_term algorithm variance (546 vs 614). Use python:coverage-honesty npm script.",
     },
     "server/scripts/deepBatchScraper.js": {
         "nodeScript": "server/scripts/deepBatchScraper.js",
