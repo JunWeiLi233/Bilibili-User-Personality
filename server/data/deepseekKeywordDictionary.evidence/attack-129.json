@@ -1,10 +1,62 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-26T23:04:02.979785Z",
+  "updatedAt": "2026-06-27T01:21:56.279Z",
   "family": "attack",
   "shard": 129,
-  "shardCount": 334,
+  "shardCount": 343,
   "evidence": [
+    {
+      "term": "引蛇出洞",
+      "evidenceSamples": [
+        "百花齐放，引蛇出洞",
+        "百花齐放—引蛇出洞",
+        "这一招我熟——引蛇出洞",
+        "引蛇出洞，一击必杀，省了排兵布阵的麻烦",
+        "引蛇出洞"
+      ],
+      "evidenceSources": [
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1Mhjc6fEfn/ (seed: 南北朝)",
+          "uid": "BV1Mhjc6fEfn",
+          "sample": "百花齐放，引蛇出洞"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1vv4y177jr/ (seed: 曾国藩)",
+          "uid": "BV1vv4y177jr",
+          "sample": "百花齐放—引蛇出洞"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1uR1vBaEov/ (seed: 清史)",
+          "uid": "BV1uR1vBaEov",
+          "sample": "这一招我熟——引蛇出洞"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV18YDaYuEF5/ (seed: 玄武门之变)",
+          "uid": "BV18YDaYuEF5",
+          "sample": "引蛇出洞，一击必杀，省了排兵布阵的麻烦"
+        },
+        {
+          "source": "Bilibili history-tag harvest: https://www.bilibili.com/video/BV1UyHpeoEir/ (seed: 亚历山大大帝)",
+          "uid": "BV1UyHpeoEir",
+          "sample": "引蛇出洞"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1huf7BjEna/, https://www.bilibili.com/video/BV1tZRLBcEQm/, https://www.bilibili.com/video/BV1DfUGB3E2R/, https://www.bilibili.com/video/BV1ae4y1j7LQ/, https://www.bilibili.com/video/BV1BXkpBeEQ7/, https://www.bilibili.com/video/BV1gaQ7YiEtW/, http://www.bilibili.com/video/av116105884474772, http://www.bilibili.com/video/av649274175, http://www.bilibili.com/video/av114250861319640, http://www.bilibili.com/video/av114946125927444, http://www.bilibili.com/video/av116162557971626, http://www.bilibili.com/video/av115489086971169, http://www.bilibili.com/video/av113571652507897, http://www.bilibili.com/video/av738041377, http://www.bilibili.com/video/av114991424346443, http://www.bilibili.com/video/av232067303, http://www.bilibili.com/video/av113878239352528, http://www.bilibili.com/video/av116527479201310, http://www.bilibili.com/video/av612611133, http://www.bilibili.com/video/av116503689037517, http://www.bilibili.com/video/av115914506834346, http://www.bilibili.com/video/av114147228389630, http://www.bilibili.com/video/av114534295540482, http://www.bilibili.com/video/av114782111796744, http://www.bilibili.com/video/av321626963, http://www.bilibili.com/video/av116372927551647, http://www.bilibili.com/video/av115602333178504, http://www.bilibili.com/video/av114001216347415, http://www.bilibili.com/video/av116627840436818, http://www.bilibili.com/video/av113740800335815, http://www.bilibili.com/video/av116634282890816, http://www.bilibili.com/video/av115149298075411, http://www.bilibili.com/video/av114979848132573, http://www.bilibili.com/video/av114556407913751, http://www.bilibili.com/video/av74311849, http://www.bilibili.com/video/av115422867232199, http://www.bilibili.com/video/av264017079",
+          "uid": "BV1huf7BjEna,BV1tZRLBcEQm,BV1DfUGB3E2R,BV1ae4y1j7LQ,BV1BXkpBeEQ7,BV1gaQ7YiEtW",
+          "sample": "真正的专家早就被引蛇出洞了[doge]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1xT421y7Yt/, https://www.bilibili.com/video/BV14FfhYnEFh/, https://www.bilibili.com/video/BV1Lm411m7wQ/, https://www.bilibili.com/video/BV1mu411z72A/, http://www.bilibili.com/video/av1703416444, http://www.bilibili.com/video/av113870488208189, http://www.bilibili.com/video/av1903666697, http://www.bilibili.com/video/av511507446, http://www.bilibili.com/video/av115366428739070, http://www.bilibili.com/video/av114115704001463, http://www.bilibili.com/video/av116589051512698, http://www.bilibili.com/video/av1051974434, http://www.bilibili.com/video/av472860257, http://www.bilibili.com/video/av1403492892",
+          "uid": "BV1xT421y7Yt,BV14FfhYnEFh,BV1Lm411m7wQ,BV1mu411z72A",
+          "sample": "这视频也是引蛇出洞的一环吗？[大笑]"
+        },
+        {
+          "source": "Bilibili public search-discovered video comment scan: https://www.bilibili.com/video/BV1xT421y7Yt/, https://www.bilibili.com/video/BV14FfhYnEFh/, https://www.bilibili.com/video/BV1Lm411m7wQ/, https://www.bilibili.com/video/BV1mu411z72A/, http://www.bilibili.com/video/av1703416444, http://www.bilibili.com/video/av113870488208189, http://www.bilibili.com/video/av1903666697, http://www.bilibili.com/video/av511507446, http://www.bilibili.com/video/av115366428739070, http://www.bilibili.com/video/av114115704001463, http://www.bilibili.com/video/av116589051512698, http://www.bilibili.com/video/av1051974434, http://www.bilibili.com/video/av472860257, http://www.bilibili.com/video/av1403492892",
+          "uid": "BV1xT421y7Yt,BV14FfhYnEFh,BV1Lm411m7wQ,BV1mu411z72A",
+          "sample": "百花齐放，百家争鸣，引蛇出洞，一网打尽。"
+        }
+      ]
+    },
     {
       "term": "张口就来",
       "evidenceSamples": [
