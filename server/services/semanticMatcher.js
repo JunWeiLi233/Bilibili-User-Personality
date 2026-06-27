@@ -4,9 +4,9 @@ import { readFile, writeFile } from 'node:fs/promises';
 // Complements exact substring matching by accepting comments whose meaning
 // is similar to a term's definition, even when the term doesn't appear literally.
 
-const EMBEDDING_MODEL = 'Xenova/all-MiniLM-L6-v2';
+const EMBEDDING_MODEL = 'Xenova/multilingual-e5-small';
 const EMBEDDING_DIMS = 384;
-const DEFAULT_THRESHOLD = 0.72;
+const DEFAULT_THRESHOLD = 0.75;
 const DEFAULT_MAX_CHUNKS = 50;
 const MIN_CHUNK_LENGTH = 8;
 const CACHE_PATH_DEFAULT = 'server/semanticTermEmbeddings.json';
