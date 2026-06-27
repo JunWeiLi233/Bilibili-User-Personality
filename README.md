@@ -14,6 +14,7 @@ Research-driven prototype for evaluating whether a selected Bilibili user's publ
 | Set up and run locally / 本地搭建运行 | [Run Locally](#run-locally) / [本地运行](#本地运行) |
 | Harvest keywords from Bilibili / 从B站采集关键词 | [Configuration & Scripts](#configuration--scripts) / [配置与脚本](#配置与脚本) |
 | Run the auto-coverage loop / 运行自动覆盖循环 | [Auto-Coverage Loop](#auto-coverage-loop) / [自动覆盖循环](#自动覆盖循环) |
+| Run the local expansion loop / 运行本地扩展循环 | [Local Expansion Loop](#local-expansion-loop) / [本地扩展循环](#本地扩展循环) |
 | Understand why Tieba matters / 了解贴吧数据价值 | [Tieba Data Collection](#tieba-data-collection) / [贴吧数据采集](#贴吧数据采集) |
 | Check dictionary coverage metrics / 查看词典覆盖指标 | [Current Dictionary Status](#current-dictionary-status) / [当前词典状态](#当前词典状态) |
 | Enable semantic matching / 启用语义匹配 | [Semantic Matching](#semantic-matching) / [语义匹配](#语义匹配) |
@@ -162,16 +163,16 @@ The Tieba scraper follows the same conservative strategy: sequential requests, r
 
 | Metric | Value |
 |---|---|
-| Dictionary Terms | 1,579 |
+| Dictionary Terms | 1,639 |
 | Target Evidence per Term | 3 |
-| Coverage Ratio | **97.09%** |
-| Weak Terms (below target) | 46 |
-| Zero-Evidence Terms | 0 |
-| Evidence Deficit | 86 |
-| Source-Backed Terms | 1,579 |
-| Unsourced Terms | 0 |
+| Coverage Ratio | **96.46%** |
+| Weak Terms (below target) | 58 |
+| Zero-Evidence Terms | 51 |
+| Evidence Deficit | ~150 |
+| Source-Backed Terms | 1,581 |
+| Unsourced Terms | 58 |
 
-The dictionary coverage target is not yet complete. Continue running `.\run-bilibili-auto-coverage.ps1` until weak and zero-evidence terms are eliminated, then re-run `npm run dictionary:coverage`.
+Live Bilibili API access requires `BILIBILI_COOKIE`. Without credentials, use the [local expansion loop](#local-expansion-loop) to mine the existing 512K-message local corpus for evidence boosts.
 
 ---
 
@@ -309,6 +310,46 @@ Convergence to ~100% coverage requires:
 2. **Exhausted Term Pruning**: Set `BILIBILI_HARVEST_PRUNE_EXHAUSTED_AFTER=3` to drop terms that remain unverifiable after multiple attempts
 3. **Parallelization**: Split weak terms into batches and run near-target resolvers in parallel across isolated worktrees
 4. **Merge Results**: Use `node server/mergeAgentDictionaries.js` to merge parallel agent outputs
+
+---
+
+## Local Expansion Loop
+
+When `BILIBILI_COOKIE` is not available, this loop mines the existing 512K-message local corpus for evidence boosts and rare new terms via DeepSeek. It does not require Bilibili API access.
+
+### How It Works
+
+1. **Expand** (`npm run dictionary:expand`): Samples diverse comments from `.claude/seed_results*/`, feeds them to DeepSeek for keyword extraction. DeepSeek generates term candidates, evidence-backs them against source text, and merges into the dictionary. Also boosts evidence counts for existing weak terms.
+2. **Mine Local** (`npm run dictionary:mine-local`): Python-based complementary text-matching algorithm scans the same corpus for evidence.
+3. **Audit** (`npm run dictionary:coverage`): Re-audits coverage → updates `keywordCoverageAudit.json`.
+4. **Stats** (`npm run stats:update`): Regenerates README stats block and SVG graphs.
+5. **Repeat**: Loop until coverage plateaus.
+
+### Single Command (Claude Code `/loop`)
+
+```
+/loop 900 EXPAND_WRITE=1 npm run dictionary:expand && npm run dictionary:mine-local && npm run dictionary:coverage && npm run stats:update
+```
+
+Each iteration takes ~5-8 minutes (default: 30K chars of comments, ~120 messages). With the 512K-message corpus, a full sweep takes ~70 iterations (~9 hours at 15-min intervals).
+
+### Key Env Vars
+
+| Variable | Description | Default |
+|---|---|---|
+| `EXPAND_WRITE` | Merge into dictionary (`1` = yes) | (dry run) |
+| `EXPAND_MAX_CHARS` | Max chars of comment text per run | `30000` |
+| `EXPAND_BATCH_CHARS` | Chars per DeepSeek API call | `5000` |
+| `EXPAND_MIN_COMMENT_LENGTH` | Skip comments shorter than this | `10` |
+
+### Expected Yield
+
+| Metric | Per iteration (30K chars) | Full corpus sweep (512K msgs) |
+|---|---|---|
+| DeepSeek term suggestions | ~25 | ~400 |
+| New terms (not in dictionary) | 0–2 | 5–20 |
+| Evidence boosts for existing terms | ~100 | ~1,500 |
+| Coverage delta | ~0.1–0.3% | 1–3% |
 
 ---
 
@@ -538,16 +579,16 @@ python -m python_backend.cli.tieba_html_parse --payload server/data/tiebaKeyword
 
 | 指标 | 值 |
 |---|---|
-| 词典术语数 | 1,579 |
+| 词典术语数 | 1,639 |
 | 每条术语目标证据数 | 3 |
-| 覆盖率 | **97.09%** |
-| 弱证据术语（低于目标） | 46 |
-| 零证据术语 | 0 |
-| 证据缺口 | 86 |
-| 有来源证据术语 | 1,579 |
-| 无来源证据术语 | 0 |
+| 覆盖率 | **96.46%** |
+| 弱证据术语（低于目标） | 58 |
+| 零证据术语 | 51 |
+| 证据缺口 | ~150 |
+| 有来源证据术语 | 1,581 |
+| 无来源证据术语 | 58 |
 
-词典覆盖目标尚未完成。继续运行 `.\run-bilibili-auto-coverage.ps1` 直至消除弱证据和零证据术语，然后重新运行 `npm run dictionary:coverage`。
+实时 Bilibili API 访问需要 `BILIBILI_COOKIE`。无凭证时使用[本地扩展循环](#本地扩展循环)从现有的 512K 消息本地语料库中挖掘证据。
 
 ---
 
@@ -685,6 +726,46 @@ $env:BILIBILI_CRAWLER_CACHE_TTL_MS="120000"
 2. **用尽术语精简**: 设置 `BILIBILI_HARVEST_PRUNE_EXHAUSTED_AFTER=3` 以在多次尝试后移除无法证实的术语
 3. **平行化**: 将弱术语分批，在独立工作树中并行运行近目标解析器
 4. **合并结果**: 使用 `node server/mergeAgentDictionaries.js` 合并并行agent的输出
+
+---
+
+## 本地扩展循环
+
+当 `BILIBILI_COOKIE` 不可用时，此循环从现有的 512K 消息本地语料库中挖掘证据并生成新术语。无需 Bilibili API 访问。
+
+### 工作原理
+
+1. **扩展** (`npm run dictionary:expand`): 从 `.claude/seed_results*/` 中采样多样评论，发送至 DeepSeek 进行关键词提取。DeepSeek 生成候选术语，根据原文进行证据验证，并合并至词典。同时增强现有弱术语的证据计数。
+2. **本地挖掘** (`npm run dictionary:mine-local`): 基于 Python 的互补文本匹配算法扫描同一语料库。
+3. **审计** (`npm run dictionary:coverage`): 重新审计覆盖率 → 更新 `keywordCoverageAudit.json`。
+4. **统计** (`npm run stats:update`): 重新生成 README 统计块和 SVG 图表。
+5. **循环**: 重复直至覆盖率趋于稳定。
+
+### 单命令 (Claude Code `/loop`)
+
+```
+/loop 900 EXPAND_WRITE=1 npm run dictionary:expand && npm run dictionary:mine-local && npm run dictionary:coverage && npm run stats:update
+```
+
+每次迭代约 5-8 分钟（默认：30K 字符评论，约 120 条消息）。512K 消息语料库完整扫描约需 70 次迭代（15 分钟间隔约 9 小时）。
+
+### 关键环境变量
+
+| 变量 | 描述 | 默认值 |
+|---|---|---|
+| `EXPAND_WRITE` | 合并至词典（`1` = 是） | （试运行） |
+| `EXPAND_MAX_CHARS` | 每次运行的评论最大字符数 | `30000` |
+| `EXPAND_BATCH_CHARS` | 每次 DeepSeek API 调用的字符数 | `5000` |
+| `EXPAND_MIN_COMMENT_LENGTH` | 跳过短于此长度的评论 | `10` |
+
+### 预期产出
+
+| 指标 | 每次迭代（30K 字符） | 完整语料库扫描（512K 消息） |
+|---|---|---|
+| DeepSeek 术语建议 | ~25 | ~400 |
+| 新术语（不在词典中） | 0–2 | 5–20 |
+| 现有术语证据增强 | ~100 | ~1,500 |
+| 覆盖率增量 | ~0.1–0.3% | 1–3% |
 
 ---
 

@@ -1,6 +1,6 @@
 {
   "ok": false,
-  "generatedAt": "2026-06-27T03:37:08.790181Z",
+  "generatedAt": "2026-06-27T05:49:28.358564Z",
   "targetEvidence": 3,
   "minCoverageRatio": 1,
   "requireComplete": true,
@@ -8,16 +8,16 @@
   "coverage": {
     "complete": false,
     "targetEvidence": 3,
-    "terms": 1638,
-    "totalEvidence": 9348,
-    "averageEvidence": 5.71,
+    "terms": 1639,
+    "totalEvidence": 9347,
+    "averageEvidence": 5.7,
     "coverageRatio": 0.9646,
-    "evidenceDeficit": 165,
-    "sourcedEvidenceTerms": 1586,
-    "sourceCoverageRatio": 0.9683,
+    "evidenceDeficit": 164,
+    "sourcedEvidenceTerms": 1588,
+    "sourceCoverageRatio": 0.9689,
     "unsourcedEvidenceTerms": 0,
     "weakTerms": 58,
-    "zeroEvidenceTerms": 52,
+    "zeroEvidenceTerms": 51,
     "weakSamples": [
       {
         "term": "一时口误",
@@ -246,24 +246,24 @@
     "byFamily": {
       "attack": {
         "terms": 966,
-        "evidence": 5631,
+        "evidence": 5608,
         "weak": 0,
         "zero": 0,
         "sourced": 966
       },
       "absolutes": {
         "terms": 123,
-        "evidence": 740,
+        "evidence": 757,
         "weak": 0,
         "zero": 0,
         "sourced": 123
       },
       "evidence": {
-        "terms": 56,
-        "evidence": 221,
+        "terms": 57,
+        "evidence": 244,
         "weak": 19,
-        "zero": 18,
-        "sourced": 38
+        "zero": 17,
+        "sourced": 40
       },
       "evasion": {
         "terms": 93,
@@ -274,14 +274,14 @@
       },
       "cooperation": {
         "terms": 346,
-        "evidence": 2091,
+        "evidence": 2072,
         "weak": 0,
         "zero": 0,
         "sourced": 346
       },
       "correction": {
         "terms": 54,
-        "evidence": 225,
+        "evidence": 226,
         "weak": 19,
         "zero": 18,
         "sourced": 36
@@ -291,7 +291,7 @@
   "termAttemptSummary": {
     "attemptedTerms": 0,
     "successfulTerms": 0,
-    "unattemptedTerms": 1638,
+    "unattemptedTerms": 1639,
     "unattemptedSamples": [
       {
         "term": "一时口误",
@@ -400,7 +400,7 @@
   },
   "actionSummary": {
     "harvest": 58,
-    "none": 1580
+    "none": 1581
   },
   "familyGaps": [
     {
@@ -416,23 +416,23 @@
       "terms": 54,
       "weak": 19,
       "zero": 18,
-      "evidence": 225,
+      "evidence": 226,
       "coverageRatio": 0.6481
     },
     {
       "family": "evidence",
-      "terms": 56,
+      "terms": 57,
       "weak": 19,
-      "zero": 18,
-      "evidence": 221,
-      "coverageRatio": 0.6607
+      "zero": 17,
+      "evidence": 244,
+      "coverageRatio": 0.6667
     },
     {
       "family": "absolutes",
       "terms": 123,
       "weak": 0,
       "zero": 0,
-      "evidence": 740,
+      "evidence": 757,
       "coverageRatio": 1.0
     },
     {
@@ -440,7 +440,7 @@
       "terms": 966,
       "weak": 0,
       "zero": 0,
-      "evidence": 5631,
+      "evidence": 5608,
       "coverageRatio": 1.0
     },
     {
@@ -448,7 +448,7 @@
       "terms": 346,
       "weak": 0,
       "zero": 0,
-      "evidence": 2091,
+      "evidence": 2072,
       "coverageRatio": 1.0
     }
   ],
