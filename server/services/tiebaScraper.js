@@ -154,21 +154,28 @@ export function parseTiebaThreads(html, keyword = '') {
   const text = String(html || '');
   const threads = [];
   const seen = new Set();
-  const pattern = /<a\b[^>]*href=["'](?:https?:\/\/tieba\.baidu\.com)?\/p\/(\d+)[^"']*["'][^>]*>([\s\S]*?)<\/a>/gi;
+  // Match desktop /p/<id> and mobile kz=<id> format
+  // Mobile seekcomposite links: href="/mo/q/m?kz=10822776144&from_search=1&..."
+  const pattern = /<a\b[^>]*href=["'][^"']*(?:\/p\/(\d+)|kz=(\d+))[^"']*["'][^>]*>/gi;
   let match;
   while ((match = pattern.exec(text))) {
-    const id = String(match[1] || '').trim();
+    const id = String((match[1] || match[2] || '').trim());
     if (!id || seen.has(id)) continue;
     seen.add(id);
-    const tag = match[0];
-    const titleAttr = extractFirst(/\btitle=["']([^"']+)["']/i, tag);
-    const title = cleanTitle(titleAttr || match[2], `Tieba thread ${id}`);
+    const tagStart = match.index;
+    // Look for thread title in nearby se_thread_title span (mobile format)
+    const nearby = text.slice(tagStart, tagStart + 1200);
+    const mobileTitleMatch = nearby.match(/se_thread_title["'][^>]*>([\s\S]*?)<\/span>/i);
+    const title = cleanTitle(mobileTitleMatch ? mobileTitleMatch[1] : `Tieba thread ${id}`, `Tieba thread ${id}`);
+    const isMobile = match[2] !== undefined; // kz= capture group matched → mobile
     threads.push({
       id,
       kind: 'tieba-thread',
       title,
       keyword: String(keyword || ''),
       sourceUrl: absoluteTiebaThreadUrl(id),
+      // Mobile threads need mobile URL to avoid desktop CAPTCHA
+      fetchUrl: isMobile ? `${TIEBA_BASE}/mo/q/m?kz=${id}` : absoluteTiebaThreadUrl(id),
     });
   }
   return threads;
@@ -332,9 +339,11 @@ function buildTiebaDiscoveryUrl(query, page, mode = 'mobile') {
     url.searchParams.set('pn', String(page * 50));
     return url;
   }
-  const url = new URL(`${TIEBA_BASE}/mo/q/m`);
+  // Mobile mode: use seekcomposite endpoint which returns HTML with thread links
+  const url = new URL(`${TIEBA_BASE}/mo/q/seekcomposite`);
   url.searchParams.set('kw', query);
-  if (page > 0) url.searchParams.set('pn', String(page + 1));
+  url.searchParams.set('rn', '10');
+  url.searchParams.set('pn', String(page));
   return url;
 }
 

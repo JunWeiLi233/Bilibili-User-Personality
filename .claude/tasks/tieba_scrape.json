@@ -9,14 +9,15 @@
   "config": {
     "querySource": "dictionary-terms",
     "maxQueries": 8,
-    "forumPages": 2,
-    "threadLimit": 5,
-    "threadPages": 2,
+    "forumPages": 1,
+    "threadLimit": 4,
+    "threadPages": 1,
     "minDelayMs": 5000,
     "jitterMs": 3000,
     "blockCooldownMs": 120000,
     "outputDir": ".claude/tieba_results",
-    "harvestAfter": true
+    "harvestAfter": true,
+    "discoveryMode": "mobile"
   },
-  "note": "INFRASTRUCTURE READY. Full scrape is multi-hour (1576 terms × 5s delays). Python CLIs + JS services + parity comparators verified. Set active:true and run: node server/scripts/runTiebaKeywordScrape.js. Set TIEBA_TRAIN_DICTIONARY=1 to auto-merge evidence."
+  "note": "Mobile mode works (desktop triggers CAPTCHA). Run: TIEBA_DISCOVERY_MODE=mobile TIEBA_TRAIN_DICTIONARY=1 node server/scripts/runTiebaKeywordScrape.js"
 }
