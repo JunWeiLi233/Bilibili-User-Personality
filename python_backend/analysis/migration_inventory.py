@@ -300,6 +300,54 @@ DEFAULT_DIRECT_FILE_CONTRACTS = {
         "validationScope": "dry_run_plan_fixture_and_js_python_plan_bridge",
         "replacementScope": "dry_run_plan",
     },
+    "server/scripts/harvestAllSeedCorpus.js": {
+        "nodeScript": "server/scripts/harvestAllSeedCorpus.js",
+        "nodeCommand": "node server/scripts/harvestAllSeedCorpus.js",
+        "pythonScript": "python:harvest-all-seed",
+        "pythonCommand": "python -m python_backend.cli.harvest_all_seed_corpus",
+        "validationScript": "python:migration-compare",
+        "validationCommand": "node server/scripts/compareMigrationContracts.js",
+        "validationScope": "dry_run_plan",
+        "replacementScope": "retired",
+        "retiredAt": "2026-06-27",
+        "note": "JS path retired. Structural parity verified (dry-run contract). Live API validation pending BILIBILI_COOKIE. Use python:harvest-all-seed npm script.",
+    },
+    "server/scripts/harvestSeedCorpusEvidence.js": {
+        "nodeScript": "server/scripts/harvestSeedCorpusEvidence.js",
+        "nodeCommand": "node server/scripts/harvestSeedCorpusEvidence.js",
+        "pythonScript": "python:harvest-seed-evidence",
+        "pythonCommand": "python -m python_backend.cli.harvest_seed_corpus_evidence",
+        "validationScript": "python:migration-compare",
+        "validationCommand": "node server/scripts/compareMigrationContracts.js",
+        "validationScope": "dry_run_plan",
+        "replacementScope": "retired",
+        "retiredAt": "2026-06-27",
+        "note": "JS path retired. Structural parity verified (dry-run contract). Live API validation pending BILIBILI_COOKIE. Use python:harvest-seed-evidence npm script.",
+    },
+    "server/scripts/probeCoverageHonesty.js": {
+        "nodeScript": "server/scripts/probeCoverageHonesty.js",
+        "nodeCommand": "node server/scripts/probeCoverageHonesty.js",
+        "pythonScript": "python:coverage-honesty",
+        "pythonCommand": "python -m python_backend.cli.coverage_honesty_probe",
+        "validationScript": "python:migration-compare",
+        "validationCommand": "node server/scripts/compareMigrationContracts.js",
+        "validationScope": "full_command",
+        "replacementScope": "retired",
+        "retiredAt": "2026-06-27",
+        "note": "JS path retired. Python coverage_honesty_probe passes full parity on ok/totalEntries/verdict/criticalIssues/minorIssues. Known gap: moderateIssues due to evidence_needles_for_term algorithm variance (546 vs 614). Use python:coverage-honesty npm script.",
+    },
+    "server/scripts/deepBatchScraper.js": {
+        "nodeScript": "server/scripts/deepBatchScraper.js",
+        "nodeCommand": "node server/scripts/deepBatchScraper.js",
+        "pythonScript": "python:deep-batch-scraper",
+        "pythonCommand": "python -m python_backend.cli.deep_batch_scraper",
+        "validationScript": "python:migration-compare",
+        "validationCommand": "node server/scripts/compareMigrationContracts.js",
+        "validationScope": "dry_run_plan",
+        "replacementScope": "retired",
+        "retiredAt": "2026-06-27",
+        "note": "JS path retired. Structural parity verified (dry-run contract). Live API validation pending BILIBILI_COOKIE. Use python:deep-batch-scraper npm script.",
+    },
 }
 
 DEFAULT_RETAINED_NODE_COMMANDS = {
@@ -519,6 +567,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareVideoCommentFilter.js": "js_python_contract_bridge",
     "server/scripts/compareVideoContext.js": "js_python_contract_bridge",
     "server/scripts/compareVideoRelevance.js": "js_python_contract_bridge",
+    "server/scripts/expandDictionaryFromLocalCorpus.js": "new_native_js_script_not_migration_target",
 }
 
 MIGRATION_PRIORITY_RULES = (
@@ -898,7 +947,7 @@ class BackendMigrationInventoryScanner:
             validation_script = str(contract.get("validationScript") or "")
             if python_scripts.get(python_script) != contract.get("pythonCommand"):
                 continue
-            if node_scripts.get(validation_script) != contract.get("validationCommand"):
+            if validation_script and node_scripts.get(validation_script) != contract.get("validationCommand"):
                 continue
             contracts[path] = {key: str(value) for key, value in contract.items()}
         return contracts

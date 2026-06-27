@@ -1,3 +1,9 @@
+/**
+ * DEPRECATED — JS path retired 2026-06-27.
+ * Replaced by python_backend/cli/coverage_honesty_probe.py (npm run python:coverage-honesty).
+ * Python passes full parity on ok/totalEntries/verdict/criticalIssues/minorIssues.
+ * Kept for reference and migration-audit traceability only.
+ */
 import { readKeywordDictionary } from '../services/deepseekKeywordTrainer.js';
 import { evidenceNeedlesForTerm } from '../services/deepseekKeywordTrainer.js';
 
@@ -48,11 +54,15 @@ function isContextOnlySample(sample) {
 }
 
 async function main() {
-  console.log('=== Coverage Audit Honesty Probe ===\n');
+  const jsonMode = process.argv.includes('--json');
 
   const dict = await readKeywordDictionary();
   const entries = dict.entries || [];
-  console.log(`Total entries: ${entries.length}`);
+
+  if (!jsonMode) {
+    console.log('=== Coverage Audit Honesty Probe ===\n');
+    console.log(`Total entries: ${entries.length}`);
+  }
 
   // Target evidence threshold
   const TARGET = 3;
@@ -170,7 +180,125 @@ async function main() {
 
   // === RESULTS ===
 
+  if (!jsonMode) {
+    console.log('=== Summary Statistics ===');
+    console.log(`Total evidenceCount sum:  ${stats.totalEvidenceCount.toLocaleString()}`);
+    console.log(`Total unique samples:     ${stats.totalUniqueSamples.toLocaleString()}`);
+    console.log(`Total unique sources:     ${stats.totalUniqueSources.toLocaleString()}`);
+    console.log(`Avg evidenceCount/entry:  ${(stats.totalEvidenceCount / entries.length).toFixed(2)}`);
+    console.log(`Avg samples/entry:        ${(stats.totalUniqueSamples / entries.length).toFixed(2)}`);
+    console.log(`Source-backed entries:    ${stats.entriesWithSourceBacked}/${entries.length} (${(stats.entriesWithSourceBacked/entries.length*100).toFixed(1)}%)`);
+    console.log(`Comment-sample entries:   ${stats.entriesWithCommentSamples}/${entries.length} (${(stats.entriesWithCommentSamples/entries.length*100).toFixed(1)}%)`);
+
+    console.log('\n=== Issues Found ===');
+
+    const printIssue = (label, list, limit = 15) => {
+      console.log(`\n${label}: ${list.length} entries`);
+      if (list.length === 0) {
+        console.log('  ✓ None');
+        return;
+      }
+      for (const item of list.slice(0, limit)) {
+        console.log(`  - [${item.family}] ${item.term}: evidenceCount=${item.evidenceCount ?? '?'}, samples=${item.sampleCount ?? item.actualSamples ?? '?'}${item.gap ? ` (gap: ${item.gap})` : ''}${item.examples ? ` e.g. "${String(item.examples[0]).slice(0,60)}"` : ''}`);
+      }
+      if (list.length > limit) console.log(`  ... and ${list.length - limit} more`);
+    };
+
+    printIssue('evidenceCount > actual unique samples', issues.evidenceCountGtSamples);
+    printIssue('evidenceCount > 0 but zero samples', issues.evidenceCountZeroSamples);
+    printIssue('Has evidence but no source URLs', issues.noSourceBacked);
+    printIssue('All evidence is context-only (titles)', issues.contextOnly);
+    printIssue('Samples not containing the term', issues.termNotInSamples);
+    printIssue('evidenceCount differs from sample count', issues.samplesVsCountGap, 10);
+    printIssue('Weak evidence (< 3)', issues.weakEvidenceCount);
+    printIssue('Zero evidence', issues.zeroEvidence);
+  }
+
+  // Honesty grade
+  const criticalIssues = issues.evidenceCountZeroSamples.length + issues.contextOnly.length;
+  const moderateIssues = issues.noSourceBacked.length + issues.evidenceCountGtSamples.length + issues.termNotInSamples.length;
+  const minorIssues = issues.samplesVsCountGap.length;
+
+  const severityScores = {
+    evidenceCountZeroSamples: 5,
+    contextOnly: 4,
+    noSourceBacked: 3,
+    evidenceCountGtSamples: 2,
+    termNotInSamples: 2,
+    samplesVsCountGap: 1,
+  };
+
+  let totalSeverity = 0;
+  for (const [key, weight] of Object.entries(severityScores)) {
+    totalSeverity += (issues[key]?.length || 0) * weight;
+  }
+
+  const verdict = criticalIssues === 0 && moderateIssues === 0 ? 'HONEST'
+    : criticalIssues === 0 && moderateIssues <= 5 ? 'MOSTLY_HONEST'
+    : criticalIssues > 0 ? 'HAS_ISSUES'
+    : 'NEEDS_REVIEW';
+
+  // Evidence distribution
+  const evidenceDistribution = {};
+  for (const entry of entries) {
+    const ec = evidenceCount(entry);
+    const bucket = ec >= 10 ? '10+' : String(ec);
+    evidenceDistribution[bucket] = (evidenceDistribution[bucket] || 0) + 1;
+  }
+
+  if (jsonMode) {
+    const output = {
+      ok: true,
+      totalEntries: entries.length,
+      stats: {
+        totalEvidenceCount: stats.totalEvidenceCount,
+        totalUniqueSamples: stats.totalUniqueSamples,
+        totalUniqueSources: stats.totalUniqueSources,
+        entriesWithSourceBacked: stats.entriesWithSourceBacked,
+        entriesWithCommentSamples: stats.entriesWithCommentSamples,
+      },
+      targetEvidence: TARGET,
+      issues: {
+        evidenceCountGtSamples: issues.evidenceCountGtSamples.length,
+        evidenceCountZeroSamples: issues.evidenceCountZeroSamples.length,
+        noSourceBacked: issues.noSourceBacked.length,
+        contextOnly: issues.contextOnly.length,
+        termNotInSamples: issues.termNotInSamples.length,
+        weakEvidenceCount: issues.weakEvidenceCount.length,
+        zeroEvidence: issues.zeroEvidence.length,
+        samplesVsCountGap: issues.samplesVsCountGap.length,
+      },
+      issueDetails: {
+        termNotInSamples: issues.termNotInSamples.slice(0, 20).map(i => ({
+          term: i.term, family: i.family, mismatchCount: i.mismatchCount,
+          totalSamples: i.totalSamples, examples: (i.examples || []).slice(0, 3),
+        })),
+        weakEvidenceCount: issues.weakEvidenceCount.slice(0, 20).map(i => ({
+          term: i.term, family: i.family, evidenceCount: i.evidenceCount, sampleCount: i.sampleCount,
+        })),
+        zeroEvidence: issues.zeroEvidence.slice(0, 20).map(i => ({
+          term: i.term, family: i.family,
+        })),
+        samplesVsCountGap: issues.samplesVsCountGap.map(i => ({
+          term: i.term, family: i.family,
+          evidenceCount: i.evidenceCount, sampleCount: i.sampleCount, gap: i.gap,
+        })),
+      },
+      verdict,
+      criticalIssues,
+      moderateIssues,
+      minorIssues,
+      totalSeverity,
+      evidenceDistribution,
+    };
+    console.log(JSON.stringify(output, null, 2));
+    return;
+  }
+
+  // === Text output below (existing) ===
+
   console.log('=== Summary Statistics ===');
+
   console.log(`Total evidenceCount sum:  ${stats.totalEvidenceCount.toLocaleString()}`);
   console.log(`Total unique samples:     ${stats.totalUniqueSamples.toLocaleString()}`);
   console.log(`Total unique sources:     ${stats.totalUniqueSources.toLocaleString()}`);
@@ -179,49 +307,7 @@ async function main() {
   console.log(`Source-backed entries:    ${stats.entriesWithSourceBacked}/${entries.length} (${(stats.entriesWithSourceBacked/entries.length*100).toFixed(1)}%)`);
   console.log(`Comment-sample entries:   ${stats.entriesWithCommentSamples}/${entries.length} (${(stats.entriesWithCommentSamples/entries.length*100).toFixed(1)}%)`);
 
-  console.log('\n=== Issues Found ===');
-
-  const printIssue = (label, list, limit = 15) => {
-    console.log(`\n${label}: ${list.length} entries`);
-    if (list.length === 0) {
-      console.log('  ✓ None');
-      return;
-    }
-    for (const item of list.slice(0, limit)) {
-      console.log(`  - [${item.family}] ${item.term}: evidenceCount=${item.evidenceCount ?? '?'}, samples=${item.sampleCount ?? item.actualSamples ?? '?'}${item.gap ? ` (gap: ${item.gap})` : ''}${item.examples ? ` e.g. "${String(item.examples[0]).slice(0,60)}"` : ''}`);
-    }
-    if (list.length > limit) console.log(`  ... and ${list.length - limit} more`);
-  };
-
-  printIssue('evidenceCount > actual unique samples', issues.evidenceCountGtSamples);
-  printIssue('evidenceCount > 0 but zero samples', issues.evidenceCountZeroSamples);
-  printIssue('Has evidence but no source URLs', issues.noSourceBacked);
-  printIssue('All evidence is context-only (titles)', issues.contextOnly);
-  printIssue('Samples not containing the term', issues.termNotInSamples);
-  printIssue('evidenceCount differs from sample count', issues.samplesVsCountGap, 10);
-  printIssue('Weak evidence (< 3)', issues.weakEvidenceCount);
-  printIssue('Zero evidence', issues.zeroEvidence);
-
-  // Honesty grade
   console.log('\n=== Honesty Assessment ===');
-  const severityScores = {
-    evidenceCountZeroSamples: 5,    // Most severe: claims evidence but has none
-    contextOnly: 4,                  // Claims evidence but only context
-    noSourceBacked: 3,              // No source attribution
-    evidenceCountGtSamples: 2,      // Count inflated
-    termNotInSamples: 2,            // Weak evidence match
-    samplesVsCountGap: 1,           // Minor miscount
-  };
-
-  let totalSeverity = 0;
-  for (const [key, weight] of Object.entries(severityScores)) {
-    totalSeverity += (issues[key]?.length || 0) * weight;
-  }
-
-  const criticalIssues = issues.evidenceCountZeroSamples.length + issues.contextOnly.length;
-  const moderateIssues = issues.noSourceBacked.length + issues.evidenceCountGtSamples.length + issues.termNotInSamples.length;
-  const minorIssues = issues.samplesVsCountGap.length;
-
   console.log(`Critical issues (zero samples / context-only): ${criticalIssues}`);
   console.log(`Moderate issues (no source / inflated / weak match): ${moderateIssues}`);
   console.log(`Minor issues (count mismatch): ${minorIssues}`);

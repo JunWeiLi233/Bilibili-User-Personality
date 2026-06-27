@@ -1,0 +1,109 @@
+{
+  "version": "2.1.0",
+  "source": "debug",
+  "timestamp": "2026-05-31T02:39:00Z",
+  "status": "COMPLETE",
+  "results_tsv": "autoresearch/debug-260531-0239/results.tsv",
+  "config": {
+    "scope": "entire codebase",
+    "symptom": "hunt all bugs"
+  },
+  "findings": [
+    {
+      "severity": "critical",
+      "file": "server/services/videoKeywordSearch.js",
+      "line": "635",
+      "issue": "TDZ ReferenceError: `warnings` referenced before declaration",
+      "fixed": true
+    },
+    {
+      "severity": "critical",
+      "file": "server/index.js",
+      "line": "31-37",
+      "issue": "No SIGTERM/SIGINT handler; Vite child orphaned on signal kill",
+      "fixed": true
+    },
+    {
+      "severity": "high",
+      "file": "server/services/bilibiliCrawler.js",
+      "line": "451",
+      "issue": "`||` instead of `??` for replyCount misreports zero-reply videos",
+      "fixed": true
+    },
+    {
+      "severity": "high",
+      "file": "server/services/bilibiliCrawler.js",
+      "line": "543-544",
+      "issue": "Silent catch {} swallows all errors in discoverVideosByFavorite",
+      "fixed": true
+    },
+    {
+      "severity": "high",
+      "file": "server/index.js",
+      "line": "10",
+      "issue": "No PORT validation; NaN passed to serve()",
+      "fixed": true
+    },
+    {
+      "severity": "high",
+      "file": "server/index.js",
+      "line": "27-29",
+      "issue": "serve() return value discarded; EADDRINUSE uncaught; no hostname binding",
+      "fixed": true
+    },
+    {
+      "severity": "high",
+      "file": "server/index.js",
+      "line": "17-20",
+      "issue": "err.message leaked to client in 500 responses",
+      "fixed": true
+    },
+    {
+      "severity": "high",
+      "file": "src/main.jsx",
+      "line": "808",
+      "issue": "No response.ok check before response.json()",
+      "fixed": true
+    },
+    {
+      "severity": "high",
+      "file": "src/main.jsx",
+      "line": "838",
+      "issue": "Empty catch {} swallows keyword training errors",
+      "fixed": true
+    },
+    {
+      "severity": "medium",
+      "file": "src/main.jsx",
+      "line": "307",
+      "issue": "Empty string terms in lexicon cause inflated countMatches",
+      "fixed": true
+    },
+    {
+      "severity": "medium",
+      "file": "src/main.jsx",
+      "line": "663",
+      "issue": "Full comment highlighted when highlight equals comment",
+      "fixed": true
+    },
+    {
+      "severity": "medium",
+      "file": "server/routes/aicu.js",
+      "line": "108-109",
+      "issue": "HTTP 200 returned for 'no data found' error",
+      "fixed": true
+    },
+    {
+      "severity": "medium",
+      "file": "server/routes/aicu.js",
+      "line": "113",
+      "issue": "Variable `c` in .map() shadows Hono context parameter",
+      "fixed": true
+    }
+  ],
+  "total_hypotheses": 71,
+  "confirmed": 12,
+  "fixed": 13,
+  "disproven": 0,
+  "inconclusive": 59
+}

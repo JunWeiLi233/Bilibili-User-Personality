@@ -1,0 +1,25 @@
+{
+  "version": "2.1.0",
+  "source": "debug",
+  "timestamp": "2026-06-25T17:30:00Z",
+  "status": "COMPLETE",
+  "results_tsv": "autoresearch/debug-250625-1730/results.tsv",
+  "findings": [
+    {
+      "severity": "critical",
+      "description": "claude-mem@thedotmack Stop hook outputs non-JSON text causing 'JSON validation failed' on every Stop event",
+      "rootCause": "bun-runner.js uses opt-out pattern (===false check) instead of opt-in (===true), plus worker stdout=inherit pipes non-JSON summary text to Claude Code hook capture",
+      "file_line": [
+        "C:\\Users\\Junwei\\.claude\\plugins\\marketplaces\\thedotmack\\plugin\\scripts\\bun-runner.js:99-109 (isPluginDisabledInClaudeSettings)",
+        "C:\\Users\\Junwei\\.claude\\plugins\\marketplaces\\thedotmack\\plugin\\scripts\\bun-runner.js:172 (stdio:inherit)",
+        "C:\\Users\\Junwei\\.claude\\plugins\\marketplaces\\thedotmack\\plugin\\hooks\\hooks.json:73-83 (Stop hook definition)",
+        "C:\\Users\\Junwei\\.claude\\settings.json:27-30 (no explicit disable for claude-mem)"
+      ],
+      "fix": "Added hooks.Stop:[] to clear all Stop hooks + claude-mem@thedotmack:false in enabledPlugins"
+    }
+  ],
+  "config": {
+    "scope": "C:\\Users\\Junwei\\.claude\\settings.json, C:\\Users\\Junwei\\.claude\\plugins\\marketplaces\\thedotmack\\",
+    "symptom": "Stop hook error: JSON validation failed"
+  }
+}

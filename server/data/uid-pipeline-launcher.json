@@ -1,0 +1,30 @@
+{
+  "startedAt": "2026-05-31T15:11:18.618Z",
+  "workers": [
+    {
+      "start": 1,
+      "end": 20000,
+      "progressFile": "uid-pipeline-1-20000.json"
+    },
+    {
+      "start": 20001,
+      "end": 40000,
+      "progressFile": "uid-pipeline-20001-40000.json"
+    },
+    {
+      "start": 40001,
+      "end": 60000,
+      "progressFile": "uid-pipeline-40001-60000.json"
+    },
+    {
+      "start": 60001,
+      "end": 80000,
+      "progressFile": "uid-pipeline-60001-80000.json"
+    },
+    {
+      "start": 80001,
+      "end": 100000,
+      "progressFile": "uid-pipeline-80001-100000.json"
+    }
+  ]
+}

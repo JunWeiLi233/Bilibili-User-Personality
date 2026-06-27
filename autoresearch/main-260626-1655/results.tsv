@@ -1,0 +1,5 @@
+# metric_direction: higher_is_better
+iteration	timestamp	hypothesis	status	technique	evidence	file_line
+1	2026-06-26T16:55	LRU eviction for responseCache prevents unbounded growth and improves prune efficiency	confirmed	edit	Replaced raw Map with LruCache class (max 500 entries); LRU evicts on insert when cap exceeded; TTL-aware with bounded prune scan	bilibiliCrawler.js:20-77
+2	2026-06-26T16:57	Semantic-match endpoint telemetry tracks hit rate, latency, and term match counts	confirmed	edit	Added timing breakdown (dict load, embedding build, matching), hit rate, avg matches per comment; _telemetry field in response; console log on each request	routes/deepseek.js:35-95
+3	2026-06-26T16:59	Route validation tests verify request contract, edge cases, and chunk pipeline	confirmed	test	8 tests: route shape, empty comments guard, invalid JSON, POST-only, telemetry schema, chunkCommentText pipeline (CJK, empty, short)	routes/deepseek.test.js:1-109

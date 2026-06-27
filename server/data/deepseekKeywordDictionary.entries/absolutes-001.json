@@ -1,99 +1,135 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-26T11:49:44.186Z",
+  "updatedAt": "2026-06-27T05:22:19.994Z",
   "family": "absolutes",
   "shard": 1,
   "shardCount": 1,
   "entries": [
     {
-      "term": "百分百",
+      "term": "dna觉醒",
       "family": "absolutes",
-      "meaning": "缺少限定条件的强断言",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "百分百好评",
-      "family": "absolutes",
-      "meaning": "绝对化评价，表示没有任何差评，常用于闲鱼信誉label，实际难以达到",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "百分百好评绝对是刷的",
-      "family": "absolutes",
-      "meaning": "绝对化断言好评都是刷出来的，拒绝相信好评",
-      "risk": "high",
+      "meaning": "指记忆或基因中深藏的东西被唤醒，常用于强烈认同感，语气绝对",
+      "risk": "neutral",
       "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "包的",
-      "family": "absolutes",
-      "meaning": "表示绝对肯定或保证，类似‘必须的’",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
-    },
-    {
-      "term": "包火的",
-      "family": "absolutes",
-      "meaning": "肯定会火，强硬断言",
-      "risk": "medium",
-      "confidence": 0.6,
       "evidenceCount": 3,
       "updatedAt": "2026-05-30T03:34:03.898Z"
     },
     {
-      "term": "包有",
+      "term": "nb",
       "family": "absolutes",
-      "meaning": "肯定有，绝对有，口语化断言",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "包装的",
-      "family": "absolutes",
-      "meaning": "Bilibili 绝对化表达",
-      "risk": "medium",
-      "confidence": 0.68,
+      "meaning": "牛逼的缩写，夸张赞美或强调",
+      "risk": "positive",
+      "confidence": 0.85,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-26T04:44:23.373Z"
+      "updatedAt": "2026-06-27T05:18:50.366Z"
     },
     {
-      "term": "必然",
+      "term": "一个比一个",
+      "family": "absolutes",
+      "meaning": "绝对化比较，暗示极其糟糕",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-27T01:00:15.358Z"
+    },
+    {
+      "term": "一句话",
+      "family": "absolutes",
+      "meaning": "用于强调结论的绝对化表达，暗示不可反驳",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-27T05:05:42.367Z"
+    },
+    {
+      "term": "一定",
+      "family": "absolutes",
+      "meaning": "绝对化断言，表示毫无疑问",
+      "risk": "low",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "一律",
       "family": "absolutes",
       "meaning": "缺少限定条件的强断言",
       "risk": "medium",
+      "confidence": 0.78,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "一眼",
+      "family": "absolutes",
+      "meaning": "快速主观判断用语，表示一眼就能看出，常伴随绝对化断言",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-27T05:13:26.094Z"
+    },
+    {
+      "term": "一眼丁真",
+      "family": "absolutes",
+      "meaning": "Bilibili danmaku 绝对化表达",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-25T17:02:25.000Z"
+    },
+    {
+      "term": "一眼假",
+      "family": "absolutes",
+      "meaning": "一看就是假的，绝对化判断",
+      "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:28:36.790353Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
-      "term": "必然结果",
+      "term": "一钓开天门",
       "family": "absolutes",
-      "meaning": "强调没有其他选择，事情必然如此，是一种绝对化的断言",
-      "risk": "high",
-      "confidence": 0.85,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:28:36.790353Z"
+      "meaning": "夸张钓技或能力，绝对化表述，带调侃崇拜",
+      "risk": "positive",
+      "confidence": 0.7,
+      "evidenceCount": 3,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
     },
     {
-      "term": "别无他选的必然结果",
+      "term": "万般皆是命",
       "family": "absolutes",
-      "meaning": "强调没有其他选择，事情必然如此，是一种绝对化的断言",
-      "risk": "high",
+      "meaning": "宿命论断言，用于回避具体原因或责任，绝对化表达",
+      "risk": "medium",
       "confidence": 0.85,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "万般皆是命啊",
+      "family": "absolutes",
+      "meaning": "宿命论断言，用于回避具体原因或责任，绝对化表达",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "上位替代",
+      "family": "absolutes",
+      "meaning": "指某物完全优于另一物，无争议的替代品，常用于游戏讨论",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-01T14:55:39.468Z"
+    },
+    {
+      "term": "不削能玩",
+      "family": "absolutes",
+      "meaning": "常见游戏抱怨，质疑角色强度过高，要求削弱，语气绝对化",
+      "risk": "high",
+      "confidence": 0.9,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
       "term": "不可能",
@@ -102,7 +138,7 @@
       "risk": "medium",
       "confidence": 0.7,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "updatedAt": "2026-06-27T05:22:19.994Z"
     },
     {
       "term": "不可能的",
@@ -111,34 +147,16 @@
       "risk": "medium",
       "confidence": 0.7,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "updatedAt": "2026-06-27T05:22:19.994Z"
     },
     {
-      "term": "不削能玩",
+      "term": "中味必然存在",
       "family": "absolutes",
-      "meaning": "常见游戏抱怨，质疑角色强度过高，要求削弱，语气绝对化",
-      "risk": "high",
-      "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "彻底绷不住了",
-      "family": "absolutes",
-      "meaning": "表示极度好笑或无奈，强调情绪达到极致，常用调侃",
+      "meaning": "绝对化断言，强调中味不可避免，用于辩护或攻击",
       "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "传家宝",
-      "family": "absolutes",
-      "meaning": "夸张说法，表示事物成为传家宝，比喻永久或极端",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T04:16:09.013Z"
     },
     {
       "term": "从古至今",
@@ -150,454 +168,67 @@
       "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
-      "term": "都是",
+      "term": "伟大无需多言",
       "family": "absolutes",
-      "meaning": "全称肯定，强调全部都是",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "meaning": "表达对某人或某事物的极度赞美，暗示其伟大已不言自明，无需进一步解释或举证",
+      "risk": "positive",
+      "confidence": 0.95,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-27T04:56:58.215Z"
     },
     {
-      "term": "都是假的",
+      "term": "传家宝",
+      "family": "absolutes",
+      "meaning": "夸张说法，表示事物成为传家宝，比喻永久或极端",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T05:05:42.367Z"
+    },
+    {
+      "term": "伪命题",
+      "family": "absolutes",
+      "meaning": "绝对化否定，认为对方提出的问题或说法根本不成立",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-01T15:12:36.331Z"
+    },
+    {
+      "term": "全b站",
+      "family": "absolutes",
+      "meaning": "绝对化夸张，指整个B站范围",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-01T14:55:39.468Z"
+    },
+    {
+      "term": "全是",
+      "family": "absolutes",
+      "meaning": "缺少限定条件的强断言",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "全是假的",
       "family": "absolutes",
       "meaning": "全盘否定，不作例外",
       "risk": "high",
       "confidence": 0.75,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-05-31T20:41:35.754Z"
     },
     {
-      "term": "翻车",
+      "term": "全是夸的",
       "family": "absolutes",
-      "meaning": "表示事情失败、出丑或遭遇重大舆论反噬",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-23T14:40:01.796Z"
-    },
-    {
-      "term": "封100年",
-      "family": "absolutes",
-      "meaning": "夸张说法表示永久封禁，常用来讽刺处理过严",
-      "risk": "medium",
-      "confidence": 0.78,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "封号100年",
-      "family": "absolutes",
-      "meaning": "夸张说法表示永久封禁，常用来讽刺处理过严",
-      "risk": "medium",
-      "confidence": 0.78,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "根本就",
-      "family": "absolutes",
-      "meaning": "强否定表达，用于绝对化地否认某事实",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "根本就没有",
-      "family": "absolutes",
-      "meaning": "互联网中文表达模式 - 绝对化表达",
-      "risk": "medium",
-      "confidence": 0.68,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:02:25.000Z"
-    },
-    {
-      "term": "根本没有",
-      "family": "absolutes",
-      "meaning": "缺少限定条件的强断言",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "根本没有本人好看",
-      "family": "absolutes",
-      "meaning": "夸人时用绝对否定强调本人更美，常见彩虹屁话术",
+      "meaning": "表达对某事物的一致好评，相当于'全都在夸奖'",
       "risk": "positive",
-      "confidence": 0.9,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "根本没有机器价格合理",
-      "family": "absolutes",
-      "meaning": "绝对否定当前机器价格合理，表达强烈不满",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "毫无疑问",
-      "family": "absolutes",
-      "meaning": "缺少限定条件的强断言",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "基本没人",
-      "family": "absolutes",
-      "meaning": "表示几乎没有例外，强调普遍性",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "几乎全是",
-      "family": "absolutes",
-      "meaning": "绝对化表达，强调绝大部分，强断言",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "坚信",
-      "family": "absolutes",
-      "meaning": "绝对化断言，语气强硬不容置疑",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "金坷垃",
-      "family": "absolutes",
-      "meaning": "源自肥料广告的梗，后用于指代'检验神曲的唯一标准'等绝对化断言",
-      "risk": "neutral",
-      "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "卷生卷死",
-      "family": "absolutes",
-      "meaning": "形容极端内卷、竞争激烈的状态，常带夸张语气",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "绝对",
-      "family": "absolutes",
-      "meaning": "缺少限定条件的强断言",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
-    },
-    {
-      "term": "绝对不",
-      "family": "absolutes",
-      "meaning": "绝对化否定，强调毫无可能",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
-    },
-    {
-      "term": "绝对不会",
-      "family": "absolutes",
-      "meaning": "强断言，表达不容置疑的立场",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
-    },
-    {
-      "term": "绝对不可能",
-      "family": "absolutes",
-      "meaning": "绝对化否定，强调毫无可能",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
-    },
-    {
-      "term": "绝对不可能回到原来那样",
-      "family": "absolutes",
-      "meaning": "全称化强断言，表示某种状态无法恢复，常见于观点争论",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
-    },
-    {
-      "term": "绝对化",
-      "family": "absolutes",
-      "meaning": "表示无条件肯定，常出现在绝对化表述中",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-26T04:44:23.373Z"
-    },
-    {
-      "term": "绝对雷区",
-      "family": "absolutes",
-      "meaning": "强调完全不可触碰的禁区，没有商量余地",
-      "risk": "high",
-      "confidence": 0.9,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
-    },
-    {
-      "term": "绝对能",
-      "family": "absolutes",
-      "meaning": "表示没有例外的强断言，用于强化立场或夸张表达",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "绝对显化",
-      "family": "absolutes",
-      "meaning": "显化文化中的绝对化断言，表示愿望必然实现，带有强烈自我暗示",
-      "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 3,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "绝对正确",
-      "family": "absolutes",
-      "meaning": "强烈肯定，不容质疑，用于加强断言权威性",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-01T12:20:37.749Z"
-    },
-    {
-      "term": "绝绝子",
-      "family": "absolutes",
-      "meaning": "表示‘绝了’的极致赞美，含绝对化意味",
-      "risk": "positive",
-      "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "绝世网红",
-      "family": "absolutes",
-      "meaning": "形容某人非常红，绝对受欢迎，夸张强调",
-      "risk": "neutral",
-      "confidence": 0.7,
-      "evidenceCount": 4,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "看脸",
-      "family": "absolutes",
-      "meaning": "认为结果完全由运气决定，无法改变",
-      "risk": "neutral",
-      "confidence": 0.72,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "肯定",
-      "family": "absolutes",
-      "meaning": "绝对化断言，强调毋庸置疑，常缺乏依据",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "肯定是",
-      "family": "absolutes",
-      "meaning": "缺少限定条件的强断言",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "肯定是鱼总更能毒奶",
-      "family": "absolutes",
-      "meaning": "绝对化的断言，常用于强肯定或反讽",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "雷区",
-      "family": "absolutes",
-      "meaning": "强调完全不可触碰的禁区，没有商量余地",
-      "risk": "high",
-      "confidence": 0.9,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
-    },
-    {
-      "term": "凉了",
-      "family": "absolutes",
-      "meaning": "用来形容游戏热度低，已经没人玩了",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "罗神伟大无需多言",
-      "family": "absolutes",
-      "meaning": "绝对化赞美角色或人物，表达无条件崇拜",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "没内味了",
-      "family": "absolutes",
-      "meaning": "强调完全失去原有的味道或感觉",
-      "risk": "medium",
-      "confidence": 0.6,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "没人",
-      "family": "absolutes",
-      "meaning": "缺少限定条件的强断言",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
-    },
-    {
-      "term": "没谁了",
-      "family": "absolutes",
-      "meaning": "夸张表达无人能及，用于无奈或吐槽",
-      "risk": "medium",
-      "confidence": 0.65,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "没有",
-      "family": "absolutes",
-      "meaning": "全称否定，强调不存在某种情况",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "没有本人好看",
-      "family": "absolutes",
-      "meaning": "夸人时用绝对否定强调本人更美，常见彩虹屁话术",
-      "risk": "positive",
-      "confidence": 0.9,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "没有一个",
-      "family": "absolutes",
-      "meaning": "缺少限定条件的强断言",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "没有一个码克",
-      "family": "absolutes",
-      "meaning": "绝对化的断言，表示完全不存在'码克'（可能指某个UP主、事物或梗）",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "没有一个人",
-      "family": "absolutes",
-      "meaning": "绝对化表达，强调没有任何人做某事，常用于质疑或抱怨",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-01T09:05:39.621Z"
-    },
-    {
-      "term": "门清",
-      "family": "absolutes",
-      "meaning": "方言表示很清楚，常用来讽刺对方明知故犯或绝对化断言",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "门清的",
-      "family": "absolutes",
-      "meaning": "方言表示很清楚，常用来讽刺对方明知故犯或绝对化断言",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "秒杀",
-      "family": "absolutes",
-      "meaning": "瞬间击杀，强调绝对优势",
-      "risk": "low",
-      "confidence": 0.6,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "明摆着",
-      "family": "absolutes",
-      "meaning": "Bilibili danmaku 绝对化表达",
-      "risk": "medium",
-      "confidence": 0.68,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-26T04:44:23.373Z"
-    },
-    {
-      "term": "逆天了",
-      "family": "absolutes",
-      "meaning": "表达极度惊讶或事物超乎寻常，用于夸张感叹",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "匹配机制",
-      "family": "absolutes",
-      "meaning": "指系统或命运的安排，暗示结果由外部机制决定，带有绝对化色彩",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "清一色",
-      "family": "absolutes",
-      "meaning": "全部、毫无例外，用于绝对化断言",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 5,
-      "updatedAt": "2026-05-30T20:22:50.894Z"
+      "updatedAt": "2026-06-27T05:22:19.994Z"
     },
     {
       "term": "全都",
@@ -605,8 +236,26 @@
       "meaning": "缺少限定条件的强断言",
       "risk": "medium",
       "confidence": 0.85,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:28:36.790353Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "全都是",
+      "family": "absolutes",
+      "meaning": "绝对化表述，强调无一例外",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "全都是垃圾厂商",
+      "family": "absolutes",
+      "meaning": "绝对化指责所有厂商为垃圾，攻击性强",
+      "risk": "high",
+      "confidence": 0.7,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
     },
     {
       "term": "全都板",
@@ -632,62 +281,503 @@
       "meaning": "夸张说法，表示十分火爆、全部爆满",
       "risk": "low",
       "confidence": 0.75,
-      "evidenceCount": 5,
+      "evidenceCount": 8,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
-      "term": "全都是",
+      "term": "凉了",
       "family": "absolutes",
-      "meaning": "绝对化表述，强调无一例外",
+      "meaning": "用来形容游戏热度低，已经没人玩了",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-27T03:31:44.894Z"
+    },
+    {
+      "term": "几乎全是",
+      "family": "absolutes",
+      "meaning": "绝对化表达，强调绝大部分，强断言",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "别无他选的必然结果",
+      "family": "absolutes",
+      "meaning": "强调没有其他选择，事情必然如此，是一种绝对化的断言",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T04:16:09.013Z"
+    },
+    {
+      "term": "包有",
+      "family": "absolutes",
+      "meaning": "肯定有，绝对有，口语化断言",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
-      "term": "全都是垃圾厂商",
+      "term": "包火的",
       "family": "absolutes",
-      "meaning": "绝对化指责所有厂商为垃圾，攻击性强",
-      "risk": "high",
-      "confidence": 0.7,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "meaning": "肯定会火，强硬断言",
+      "risk": "medium",
+      "confidence": 0.6,
+      "evidenceCount": 3,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
     },
     {
-      "term": "全是",
+      "term": "包的",
+      "family": "absolutes",
+      "meaning": "表示绝对肯定或保证，类似‘必须的’",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-27T04:16:09.013Z"
+    },
+    {
+      "term": "包装的",
+      "family": "absolutes",
+      "meaning": "Bilibili 绝对化表达",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-27T04:45:21.094Z"
+    },
+    {
+      "term": "匹配机制",
+      "family": "absolutes",
+      "meaning": "指系统或命运的安排，暗示结果由外部机制决定，带有绝对化色彩",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "卷生卷死",
+      "family": "absolutes",
+      "meaning": "形容极端内卷、竞争激烈的状态，常带夸张语气",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-26T11:49:44.186Z"
+    },
+    {
+      "term": "原地踏步",
+      "family": "absolutes",
+      "meaning": "断言没有进步、毫无改进，常用来批评技术或发展停滞",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-01T22:45:54.493Z"
+    },
+    {
+      "term": "坚信",
+      "family": "absolutes",
+      "meaning": "绝对化断言，语气强硬不容置疑",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "基本没人",
+      "family": "absolutes",
+      "meaning": "表示几乎没有例外，强调普遍性",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-27T05:15:46.170Z"
+    },
+    {
+      "term": "天生",
+      "family": "absolutes",
+      "meaning": "绝对化断言某人本性如此",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T02:48:04.225Z"
+    },
+    {
+      "term": "天生的",
+      "family": "absolutes",
+      "meaning": "绝对化断言某人本性如此",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T02:46:05.636Z"
+    },
+    {
+      "term": "太无敌可爱了",
+      "family": "absolutes",
+      "meaning": "用绝对化程度副词'无敌'强调可爱程度极高，表达强烈赞美",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-26T11:49:44.186Z"
+    },
+    {
+      "term": "完全没",
+      "family": "absolutes",
+      "meaning": "互联网中文表达模式 - 绝对化表达",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-27T05:10:50.614Z"
+    },
+    {
+      "term": "封100年",
+      "family": "absolutes",
+      "meaning": "夸张说法表示永久封禁，常用来讽刺处理过严",
+      "risk": "medium",
+      "confidence": 0.78,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "封号100年",
+      "family": "absolutes",
+      "meaning": "夸张说法表示永久封禁，常用来讽刺处理过严",
+      "risk": "medium",
+      "confidence": 0.78,
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "彻底绷不住了",
+      "family": "absolutes",
+      "meaning": "表示极度好笑或无奈，强调情绪达到极致，常用调侃",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-26T11:49:44.186Z"
+    },
+    {
+      "term": "必然",
+      "family": "absolutes",
+      "meaning": "缺少限定条件的强断言",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T04:16:09.013Z"
+    },
+    {
+      "term": "必然结果",
+      "family": "absolutes",
+      "meaning": "强调没有其他选择，事情必然如此，是一种绝对化的断言",
+      "risk": "high",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T04:14:26.293Z"
+    },
+    {
+      "term": "总之",
+      "family": "absolutes",
+      "meaning": "用于强调结论的绝对化表达，暗示不可反驳",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-27T05:05:42.367Z"
+    },
+    {
+      "term": "总之一句话",
+      "family": "absolutes",
+      "meaning": "用于强调结论的绝对化表达，暗示不可反驳",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-27T05:05:42.367Z"
+    },
+    {
+      "term": "我不管",
+      "family": "absolutes",
+      "meaning": "表达拒绝接受反对意见或事实，主观坚持己见",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-27T04:27:20.237Z"
+    },
+    {
+      "term": "我乐意",
+      "family": "absolutes",
+      "meaning": "表达自我意志，对批评或要求不屑一顾，强调自己愿意",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
+    },
+    {
+      "term": "我坚信",
+      "family": "absolutes",
+      "meaning": "绝对化断言，语气强硬不容置疑",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "我敢说",
+      "family": "absolutes",
+      "meaning": "绝对化断言，强调主观确信，缺乏证据",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T05:20:36.662Z"
+    },
+    {
+      "term": "无敌可爱",
+      "family": "absolutes",
+      "meaning": "用绝对化程度副词'无敌'强调可爱程度极高，表达强烈赞美",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-26T11:49:44.186Z"
+    },
+    {
+      "term": "无需多言",
+      "family": "absolutes",
+      "meaning": "绝对化的断言，表示不需要解释，强调结论的不可置疑",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-27T05:08:21.783Z"
+    },
+    {
+      "term": "明摆着",
+      "family": "absolutes",
+      "meaning": "Bilibili danmaku 绝对化表达",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-26T04:44:23.373Z"
+    },
+    {
+      "term": "有生之年",
+      "family": "absolutes",
+      "meaning": "夸张表达，认为在可预见的未来无法实现",
+      "risk": "low",
+      "confidence": 0.6,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "根本就",
+      "family": "absolutes",
+      "meaning": "强否定表达，用于绝对化地否认某事实",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "根本就没有",
+      "family": "absolutes",
+      "meaning": "互联网中文表达模式 - 绝对化表达",
+      "risk": "medium",
+      "confidence": 0.68,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "根本没有",
       "family": "absolutes",
       "meaning": "缺少限定条件的强断言",
       "risk": "medium",
       "confidence": 0.85,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "updatedAt": "2026-06-27T05:22:19.994Z"
     },
     {
-      "term": "全是假的",
+      "term": "根本没有本人好看",
       "family": "absolutes",
-      "meaning": "全盘否定，不作例外",
-      "risk": "high",
-      "confidence": 0.75,
-      "evidenceCount": 5,
-      "updatedAt": "2026-05-31T20:41:35.754Z"
-    },
-    {
-      "term": "全是夸的",
-      "family": "absolutes",
-      "meaning": "表达对某事物的一致好评，相当于'全都在夸奖'",
+      "meaning": "夸人时用绝对否定强调本人更美，常见彩虹屁话术",
       "risk": "positive",
-      "confidence": 0.75,
-      "evidenceCount": 5,
+      "confidence": 0.9,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "根本没有机器价格合理",
+      "family": "absolutes",
+      "meaning": "绝对否定当前机器价格合理，表达强烈不满",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "梭哈",
+      "family": "absolutes",
+      "meaning": "赌博术语，指全部押上，网络用语表示彻底投入",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 7,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
-      "term": "全b站",
+      "term": "毋庸置疑",
       "family": "absolutes",
-      "meaning": "绝对化夸张，指整个B站范围",
+      "meaning": "缺少限定条件的强断言",
+      "risk": "medium",
+      "confidence": 0.5,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "毫无疑问",
+      "family": "absolutes",
+      "meaning": "缺少限定条件的强断言",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "永不取关",
+      "family": "absolutes",
+      "meaning": "绝对化承诺，表示不会取消关注",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 3,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "没人",
+      "family": "absolutes",
+      "meaning": "缺少限定条件的强断言",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-27T05:15:46.170Z"
+    },
+    {
+      "term": "没内味了",
+      "family": "absolutes",
+      "meaning": "强调完全失去原有的味道或感觉",
+      "risk": "medium",
+      "confidence": 0.6,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "没有",
+      "family": "absolutes",
+      "meaning": "全称否定，强调不存在某种情况",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "没有一个",
+      "family": "absolutes",
+      "meaning": "缺少限定条件的强断言",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "没有一个人",
+      "family": "absolutes",
+      "meaning": "绝对化表达，强调没有任何人做某事，常用于质疑或抱怨",
       "risk": "medium",
       "confidence": 0.7,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-01T14:55:39.468Z"
+      "updatedAt": "2026-06-01T09:05:39.621Z"
+    },
+    {
+      "term": "没有一个码克",
+      "family": "absolutes",
+      "meaning": "绝对化的断言，表示完全不存在'码克'（可能指某个UP主、事物或梗）",
+      "risk": "medium",
+      "confidence": 0.7,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "没有本人好看",
+      "family": "absolutes",
+      "meaning": "夸人时用绝对否定强调本人更美，常见彩虹屁话术",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "没谁了",
+      "family": "absolutes",
+      "meaning": "夸张表达无人能及，用于无奈或吐槽",
+      "risk": "medium",
+      "confidence": 0.65,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-27T00:51:12.607Z"
+    },
+    {
+      "term": "清一色",
+      "family": "absolutes",
+      "meaning": "全部、毫无例外，用于绝对化断言",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 5,
+      "updatedAt": "2026-05-30T20:22:50.894Z"
+    },
+    {
+      "term": "王朝",
+      "family": "absolutes",
+      "meaning": "表示某事物达到巅峰或成为版本答案，带有绝对化意味",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "王朝了",
+      "family": "absolutes",
+      "meaning": "表示某事物达到巅峰或成为版本答案，带有绝对化意味",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "百分百",
+      "family": "absolutes",
+      "meaning": "缺少限定条件的强断言",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T01:02:48.549Z"
+    },
+    {
+      "term": "百分百好评",
+      "family": "absolutes",
+      "meaning": "绝对化评价，表示没有任何差评，常用于闲鱼信誉label，实际难以达到",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "百分百好评绝对是刷的",
+      "family": "absolutes",
+      "meaning": "绝对化断言好评都是刷出来的，拒绝相信好评",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "看脸",
+      "family": "absolutes",
+      "meaning": "认为结果完全由运气决定，无法改变",
+      "risk": "neutral",
+      "confidence": 0.72,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
       "term": "确实不行",
@@ -695,8 +785,8 @@
       "meaning": "绝对化断言，完全否定某事物",
       "risk": "high",
       "confidence": 0.85,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-02T12:10:11.165Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-27T01:20:37.314Z"
     },
     {
       "term": "确实型",
@@ -717,31 +807,22 @@
       "updatedAt": "2026-06-25T17:49:50.909Z"
     },
     {
-      "term": "上位替代",
+      "term": "祖上三代",
       "family": "absolutes",
-      "meaning": "指某物完全优于另一物，无争议的替代品，常用于游戏讨论",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-01T14:55:39.468Z"
-    },
-    {
-      "term": "谁都",
-      "family": "absolutes",
-      "meaning": "缺少限定条件的强断言",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:28:36.790353Z"
-    },
-    {
-      "term": "谁都不爱",
-      "family": "absolutes",
-      "meaning": "表示没有例外，全称化表达",
+      "meaning": "强调家族或事物的长期状况，带有绝对化色彩，常用于加强陈述的可信度或夸张表达",
       "risk": "medium",
       "confidence": 0.7,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-26T23:03:41.768Z"
+    },
+    {
+      "term": "神中神",
+      "family": "absolutes",
+      "meaning": "绝对化顶级赞誉，强调无出其右",
+      "risk": "neutral",
+      "confidence": 0.8,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
       "term": "神仙下凡",
@@ -753,174 +834,174 @@
       "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
-      "term": "神中神",
+      "term": "秒杀",
       "family": "absolutes",
-      "meaning": "绝对化顶级赞誉，强调无出其右",
-      "risk": "neutral",
-      "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "梭哈",
-      "family": "absolutes",
-      "meaning": "赌博术语，指全部押上，网络用语表示彻底投入",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "太无敌可爱了",
-      "family": "absolutes",
-      "meaning": "用绝对化程度副词'无敌'强调可爱程度极高，表达强烈赞美",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "天生",
-      "family": "absolutes",
-      "meaning": "绝对化断言某人本性如此",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
-    },
-    {
-      "term": "天生的",
-      "family": "absolutes",
-      "meaning": "绝对化断言某人本性如此",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
-    },
-    {
-      "term": "完全没",
-      "family": "absolutes",
-      "meaning": "互联网中文表达模式 - 绝对化表达",
-      "risk": "medium",
-      "confidence": 0.68,
+      "meaning": "瞬间击杀，强调绝对优势",
+      "risk": "low",
+      "confidence": 0.6,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:02:25.000Z"
-    },
-    {
-      "term": "万般皆是命",
-      "family": "absolutes",
-      "meaning": "宿命论断言，用于回避具体原因或责任，绝对化表达",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "万般皆是命啊",
-      "family": "absolutes",
-      "meaning": "宿命论断言，用于回避具体原因或责任，绝对化表达",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-17T22:47:28.441Z"
-    },
-    {
-      "term": "王朝",
-      "family": "absolutes",
-      "meaning": "表示某事物达到巅峰或成为版本答案，带有绝对化意味",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:28:36.790353Z"
-    },
-    {
-      "term": "王朝了",
-      "family": "absolutes",
-      "meaning": "表示某事物达到巅峰或成为版本答案，带有绝对化意味",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:28:36.790353Z"
-    },
-    {
-      "term": "伟大无需多言",
-      "family": "absolutes",
-      "meaning": "表达对某人或某事物的极度赞美，暗示其伟大已不言自明，无需进一步解释或举证",
-      "risk": "positive",
-      "confidence": 0.95,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "伪命题",
-      "family": "absolutes",
-      "meaning": "绝对化否定，认为对方提出的问题或说法根本不成立",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-01T15:12:36.331Z"
-    },
-    {
-      "term": "我不管",
-      "family": "absolutes",
-      "meaning": "表达拒绝接受反对意见或事实，主观坚持己见",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 5,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
-      "term": "我敢说",
+      "term": "绝世网红",
       "family": "absolutes",
-      "meaning": "绝对化断言，强调主观确信，缺乏证据",
-      "risk": "medium",
-      "confidence": 0.75,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "我坚信",
-      "family": "absolutes",
-      "meaning": "绝对化断言，语气强硬不容置疑",
-      "risk": "medium",
+      "meaning": "形容某人非常红，绝对受欢迎，夸张强调",
+      "risk": "neutral",
       "confidence": 0.7,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
     },
     {
-      "term": "我乐意",
-      "family": "absolutes",
-      "meaning": "表达自我意志，对批评或要求不屑一顾，强调自己愿意",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-26T04:44:23.373Z"
-    },
-    {
-      "term": "无敌可爱",
-      "family": "absolutes",
-      "meaning": "用绝对化程度副词'无敌'强调可爱程度极高，表达强烈赞美",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "无需多言",
-      "family": "absolutes",
-      "meaning": "绝对化的断言，表示不需要解释，强调结论的不可置疑",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "毋庸置疑",
+      "term": "绝对",
       "family": "absolutes",
       "meaning": "缺少限定条件的强断言",
       "risk": "medium",
-      "confidence": 0.5,
+      "confidence": 0.85,
       "evidenceCount": 5,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "绝对不",
+      "family": "absolutes",
+      "meaning": "绝对化否定，强调毫无可能",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "绝对不会",
+      "family": "absolutes",
+      "meaning": "强断言，表达不容置疑的立场",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "绝对不可能",
+      "family": "absolutes",
+      "meaning": "绝对化否定，强调毫无可能",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "绝对不可能回到原来那样",
+      "family": "absolutes",
+      "meaning": "全称化强断言，表示某种状态无法恢复，常见于观点争论",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "绝对化",
+      "family": "absolutes",
+      "meaning": "表示无条件肯定，常出现在绝对化表述中",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-27T05:10:50.614Z"
+    },
+    {
+      "term": "绝对显化",
+      "family": "absolutes",
+      "meaning": "显化文化中的绝对化断言，表示愿望必然实现，带有强烈自我暗示",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 3,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
+    },
+    {
+      "term": "绝对正确",
+      "family": "absolutes",
+      "meaning": "强烈肯定，不容质疑，用于加强断言权威性",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-01T12:20:37.749Z"
+    },
+    {
+      "term": "绝对能",
+      "family": "absolutes",
+      "meaning": "表示没有例外的强断言，用于强化立场或夸张表达",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "绝对雷区",
+      "family": "absolutes",
+      "meaning": "强调完全不可触碰的禁区，没有商量余地",
+      "risk": "high",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-25T17:49:50.909Z"
+    },
+    {
+      "term": "绝绝子",
+      "family": "absolutes",
+      "meaning": "表示‘绝了’的极致赞美，含绝对化意味",
+      "risk": "positive",
+      "confidence": 0.9,
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
+    },
+    {
+      "term": "罗神伟大无需多言",
+      "family": "absolutes",
+      "meaning": "绝对化赞美角色或人物，表达无条件崇拜",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-27T04:56:58.215Z"
+    },
+    {
+      "term": "翻车",
+      "family": "absolutes",
+      "meaning": "表示事情失败、出丑或遭遇重大舆论反噬",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-27T04:50:48.392Z"
+    },
+    {
+      "term": "肯定",
+      "family": "absolutes",
+      "meaning": "绝对化断言，强调毋庸置疑，常缺乏依据",
+      "risk": "medium",
+      "confidence": 0.75,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "肯定是",
+      "family": "absolutes",
+      "meaning": "缺少限定条件的强断言",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-27T05:15:46.170Z"
+    },
+    {
+      "term": "肯定是鱼总更能毒奶",
+      "family": "absolutes",
+      "meaning": "绝对化的断言，常用于强肯定或反讽",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "自信点",
+      "family": "absolutes",
+      "meaning": "鼓励对方更极端地表达观点，消除限制",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 6,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
@@ -933,103 +1014,22 @@
       "updatedAt": "2026-06-26T04:44:23.373Z"
     },
     {
-      "term": "一钓开天门",
-      "family": "absolutes",
-      "meaning": "夸张钓技或能力，绝对化表述，带调侃崇拜",
-      "risk": "positive",
-      "confidence": 0.7,
-      "evidenceCount": 3,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "一定",
-      "family": "absolutes",
-      "meaning": "绝对化断言，表示毫无疑问",
-      "risk": "low",
-      "confidence": 0.9,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
-    },
-    {
-      "term": "一个比一个",
-      "family": "absolutes",
-      "meaning": "绝对化比较，暗示极其糟糕",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "一句话",
-      "family": "absolutes",
-      "meaning": "用于强调结论的绝对化表达，暗示不可反驳",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "一律",
+      "term": "谁都",
       "family": "absolutes",
       "meaning": "缺少限定条件的强断言",
       "risk": "medium",
-      "confidence": 0.78,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "一眼",
-      "family": "absolutes",
-      "meaning": "快速主观判断用语，表示一眼就能看出，常伴随绝对化断言",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
-    },
-    {
-      "term": "一眼丁真",
-      "family": "absolutes",
-      "meaning": "Bilibili danmaku 绝对化表达",
-      "risk": "medium",
-      "confidence": 0.68,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-25T17:02:25.000Z"
-    },
-    {
-      "term": "一眼假",
-      "family": "absolutes",
-      "meaning": "一看就是假的，绝对化判断",
-      "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "updatedAt": "2026-06-27T03:20:30.779Z"
     },
     {
-      "term": "永不取关",
+      "term": "谁都不爱",
       "family": "absolutes",
-      "meaning": "绝对化承诺，表示不会取消关注",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 3,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
-    },
-    {
-      "term": "有生之年",
-      "family": "absolutes",
-      "meaning": "夸张表达，认为在可预见的未来无法实现",
-      "risk": "low",
-      "confidence": 0.6,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "原地踏步",
-      "family": "absolutes",
-      "meaning": "断言没有进步、毫无改进，常用来批评技术或发展停滞",
+      "meaning": "表示没有例外，全称化表达",
       "risk": "medium",
       "confidence": 0.7,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-01T22:45:54.493Z"
+      "updatedAt": "2026-06-27T03:20:30.779Z"
     },
     {
       "term": "这就是",
@@ -1037,8 +1037,8 @@
       "meaning": "用于强调原因，表示对某种现象的解释，带有绝对化断言语气",
       "risk": "medium",
       "confidence": 0.7,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-27T05:15:46.170Z"
     },
     {
       "term": "这谁能绷得住",
@@ -1050,65 +1050,65 @@
       "updatedAt": "2026-06-26T11:49:44.186Z"
     },
     {
-      "term": "中味必然存在",
+      "term": "逆天了",
       "family": "absolutes",
-      "meaning": "绝对化断言，强调中味不可避免，用于辩护或攻击",
+      "meaning": "表达极度惊讶或事物超乎寻常，用于夸张感叹",
       "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
-    },
-    {
-      "term": "自信点",
-      "family": "absolutes",
-      "meaning": "鼓励对方更极端地表达观点，消除限制",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 5,
+      "confidence": 0.7,
+      "evidenceCount": 8,
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
-      "term": "总之",
+      "term": "都是",
       "family": "absolutes",
-      "meaning": "用于强调结论的绝对化表达，暗示不可反驳",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "总之一句话",
-      "family": "absolutes",
-      "meaning": "用于强调结论的绝对化表达，暗示不可反驳",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-26T11:49:44.186Z"
-    },
-    {
-      "term": "祖上三代",
-      "family": "absolutes",
-      "meaning": "强调家族或事物的长期状况，带有绝对化色彩，常用于加强陈述的可信度或夸张表达",
+      "meaning": "全称肯定，强调全部都是",
       "risk": "medium",
       "confidence": 0.7,
-      "evidenceCount": 4,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
     },
     {
-      "term": "dna觉醒",
+      "term": "都是假的",
       "family": "absolutes",
-      "meaning": "指记忆或基因中深藏的东西被唤醒，常用于强烈认同感，语气绝对",
+      "meaning": "全盘否定，不作例外",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-27T05:22:19.994Z"
+    },
+    {
+      "term": "金坷垃",
+      "family": "absolutes",
+      "meaning": "源自肥料广告的梗，后用于指代'检验神曲的唯一标准'等绝对化断言",
       "risk": "neutral",
-      "confidence": 0.9,
-      "evidenceCount": 3,
-      "updatedAt": "2026-05-30T03:34:03.898Z"
+      "confidence": 0.7,
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
-      "term": "nb",
+      "term": "门清",
       "family": "absolutes",
-      "meaning": "牛逼的缩写，夸张赞美或强调",
-      "risk": "positive",
-      "confidence": 0.85,
+      "meaning": "方言表示很清楚，常用来讽刺对方明知故犯或绝对化断言",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "门清的",
+      "family": "absolutes",
+      "meaning": "方言表示很清楚，常用来讽刺对方明知故犯或绝对化断言",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-17T22:47:28.441Z"
+    },
+    {
+      "term": "雷区",
+      "family": "absolutes",
+      "meaning": "强调完全不可触碰的禁区，没有商量余地",
+      "risk": "high",
+      "confidence": 0.9,
       "evidenceCount": 6,
       "updatedAt": "2026-06-25T17:49:50.909Z"
     }

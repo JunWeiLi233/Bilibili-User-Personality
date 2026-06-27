@@ -1,4 +1,11 @@
 /**
+ * DEPRECATED — JS path retired 2026-06-27.
+ * Replaced by python_backend/cli/deep_batch_scraper.py (npm run python:deep-batch-scraper).
+ * Structural parity verified via compareMigrationContracts.js (dry-run contract).
+ * Kept for reference and migration-audit traceability only.
+ * Live API validation pending BILIBILI_COOKIE.
+ */
+/**
  * Multi-round deep batch scraper for Bilibili history seed videos.
  *
  * Launched per-round with env vars or CLI args:

@@ -107,3 +107,10 @@ For parallel dictionary resolution, the project uses `.claude/worktrees/` with i
 node server/mergeAgentDictionaries.js .claude/worktrees/resolver-1 .claude/worktrees/resolver-2 .claude/worktrees/resolver-3
 npm run dictionary:coverage
 ```
+
+## Context Compaction
+
+If you see `<system-reminder>` mentioning "context has been summarized" or "continued from a previous conversation", check for:
+- `.claude/MASTER_PLAN.md` — overall plan and current phase
+- Any open `.claude/tasks/*.json` — active task state
+- `.claude/personality_analysis_report_100.md` — last analysis results
