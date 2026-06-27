@@ -300,6 +300,46 @@ DEFAULT_DIRECT_FILE_CONTRACTS = {
         "validationScope": "dry_run_plan_fixture_and_js_python_plan_bridge",
         "replacementScope": "dry_run_plan",
     },
+    "server/scripts/harvestAllSeedCorpus.js": {
+        "nodeScript": "server/scripts/harvestAllSeedCorpus.js",
+        "nodeCommand": "node server/scripts/harvestAllSeedCorpus.js",
+        "pythonScript": "python:harvest-all-seed",
+        "pythonCommand": "python -m python_backend.cli.harvest_all_seed_corpus",
+        "validationScript": "",
+        "validationCommand": "",
+        "validationScope": "dry_run_plan",
+        "replacementScope": "dry_run_plan",
+    },
+    "server/scripts/harvestSeedCorpusEvidence.js": {
+        "nodeScript": "server/scripts/harvestSeedCorpusEvidence.js",
+        "nodeCommand": "node server/scripts/harvestSeedCorpusEvidence.js",
+        "pythonScript": "python:harvest-seed-evidence",
+        "pythonCommand": "python -m python_backend.cli.harvest_seed_corpus_evidence",
+        "validationScript": "",
+        "validationCommand": "",
+        "validationScope": "dry_run_plan",
+        "replacementScope": "dry_run_plan",
+    },
+    "server/scripts/probeCoverageHonesty.js": {
+        "nodeScript": "server/scripts/probeCoverageHonesty.js",
+        "nodeCommand": "node server/scripts/probeCoverageHonesty.js",
+        "pythonScript": "python:coverage-honesty",
+        "pythonCommand": "python -m python_backend.cli.coverage_honesty_probe",
+        "validationScript": "",
+        "validationCommand": "",
+        "validationScope": "dry_run_plan",
+        "replacementScope": "dry_run_plan",
+    },
+    "server/scripts/deepBatchScraper.js": {
+        "nodeScript": "server/scripts/deepBatchScraper.js",
+        "nodeCommand": "node server/scripts/deepBatchScraper.js",
+        "pythonScript": "python:deep-batch-scraper",
+        "pythonCommand": "python -m python_backend.cli.deep_batch_scraper",
+        "validationScript": "",
+        "validationCommand": "",
+        "validationScope": "dry_run_plan",
+        "replacementScope": "live_api_runtime",
+    },
 }
 
 DEFAULT_RETAINED_NODE_COMMANDS = {
@@ -898,7 +938,7 @@ class BackendMigrationInventoryScanner:
             validation_script = str(contract.get("validationScript") or "")
             if python_scripts.get(python_script) != contract.get("pythonCommand"):
                 continue
-            if node_scripts.get(validation_script) != contract.get("validationCommand"):
+            if validation_script and node_scripts.get(validation_script) != contract.get("validationCommand"):
                 continue
             contracts[path] = {key: str(value) for key, value in contract.items()}
         return contracts

@@ -2,9 +2,9 @@
   "name": "tieba-scrape",
   "description": "Cross-platform Tieba forum scrape — search dictionary terms on Baidu Tieba, harvest forum threads and replies for evidence",
   "type": "tieba-keyword-scrape",
-  "active": false,
+  "active": true,
   "progressFile": ".claude/tasks/tieba_scrape_progress.json",
-  "totalItems": 1576,
+  "totalItems": 1636,
   "batchSize": 8,
   "config": {
     "querySource": "dictionary-terms",
