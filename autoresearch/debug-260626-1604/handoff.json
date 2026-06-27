@@ -1,0 +1,39 @@
+{
+  "version": "2.1.0",
+  "source": "debug",
+  "timestamp": "2026-06-26T08:35:00.000Z",
+  "status": "COMPLETE",
+  "results_tsv": "autoresearch/debug-260626-1604/results.tsv",
+  "findings": [
+    {
+      "severity": "medium",
+      "description": "commentCount/danmakuCount gate skips analysis for users with zero counts but non-empty commentText from API",
+      "file_line": "src/main.jsx:873-888",
+      "status": "fixed",
+      "fix": "Added `nextCommentText.trim().length > 0` to the `hasComments` check so analysis runs when text content exists despite zero metadata counts"
+    },
+    {
+      "severity": "low",
+      "description": "responseCache in bilibiliCrawler.js has no eviction of expired entries, causing unbounded memory growth",
+      "file_line": "server/services/bilibiliCrawler.js:20,338-343",
+      "status": "fixed",
+      "fix": "Added pruneExpiredCacheEntries() called every 100th insert + eager delete of expired entries on lookup miss"
+    }
+  ],
+  "notable_disproven": [
+    {
+      "bug": "extractJsonObject bracket repair conflates {} and []",
+      "file_line": "server/services/deepseekKeywordTrainer.js:1039-1053",
+      "status": "already_fixed_in_branch"
+    },
+    {
+      "bug": "countOccurrences off-by-one with <= instead of <",
+      "file_line": "server/services/deepseekKeywordTrainer.js:1276",
+      "status": "already_fixed_in_branch"
+    }
+  ],
+  "config": {
+    "scope": "entire codebase",
+    "symptom": "logic errors + algorithm error"
+  }
+}

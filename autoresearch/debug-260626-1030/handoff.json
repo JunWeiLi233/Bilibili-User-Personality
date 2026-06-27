@@ -1,0 +1,100 @@
+{
+  "version": "2.1.0",
+  "source": "debug",
+  "timestamp": "2026-06-26T10:45:00",
+  "status": "COMPLETE",
+  "results_tsv": "autoresearch/debug-260626-1030/results.tsv",
+  "config": {
+    "scope": "entire codebase",
+    "symptom": "logic errors + algorithm errors"
+  },
+  "findings": [
+    {
+      "severity": "HIGH",
+      "file": "python_backend/analyzers/keyword_evidence.py:322",
+      "bug": "Regex (?<=一-鿿) missing char class brackets — matches literal string not CJK range",
+      "fix": "Changed to (?<=[一-鿿])"
+    },
+    {
+      "severity": "HIGH",
+      "file": "src/main.jsx:380-384",
+      "bug": "Word boundary guard skips single-char attack terms (蠢,孝,典,etc.) when in compounds",
+      "fix": "Exempted risk-polarity terms from word-boundary check"
+    },
+    {
+      "severity": "HIGH",
+      "file": "server/services/keywordHarvest.js:1998,2355,2564,2581,2809,2825; deepseekKeywordTrainer.js:3543,3577",
+      "bug": "8 localeCompare calls produce platform-dependent sort order; commit 37d03f79 fix was incomplete",
+      "fix": "Implemented compareTerms using codePointAt and replaced all 8 localeCompare calls"
+    },
+    {
+      "severity": "MEDIUM",
+      "file": "server/services/deepseekKeywordTrainer.js:3647-3657",
+      "bug": "getDeepSeekConfig catch returns ok:true when /models API call fails",
+      "fix": "Set ok:false and added modelsVerified:false in catch block"
+    },
+    {
+      "severity": "MEDIUM",
+      "file": "server/services/bilibiliCrawler.js:559-560",
+      "bug": "Function parameter 'limit' mutated mid-loop",
+      "fix": "Introduced local effectiveLimit variable"
+    },
+    {
+      "severity": "MEDIUM",
+      "file": "src/main.jsx:404",
+      "bug": "findLexiconMarks 4-result slice drops cooperation/correction marks creating negative bias",
+      "fix": "Increased limit from 4 to 6 to cover all families"
+    },
+    {
+      "severity": "MEDIUM",
+      "file": "src/main.jsx:722",
+      "bug": "analysisMode default 'best' has no matching UI button",
+      "fix": "Changed default to 'hybrid'"
+    },
+    {
+      "severity": "LOW",
+      "file": "server/services/deepseekKeywordTrainer.js:1279,1293",
+      "bug": "Off-by-one: while (index <= length) wastes one iteration",
+      "fix": "Changed to while (index < length)"
+    },
+    {
+      "severity": "LOW",
+      "file": "python_backend/analyzers/keyword_evidence.py:281",
+      "bug": "Off-by-one: while index <= len(remaining) wastes one iteration",
+      "fix": "Changed to while index < len(remaining)"
+    },
+    {
+      "severity": "LOW",
+      "file": "server/services/videoKeywordSearch.js:636",
+      "bug": "Falsy coercion: if (favId) rejects string '0'",
+      "fix": "Changed to if (favId !== '')"
+    }
+  ],
+  "remaining_unfixed": [
+    {
+      "severity": "MEDIUM",
+      "file": "python_backend/analysis/harvest_state.py:100-104",
+      "bug": "harvest_state _effective_successful_attempts early return at successful==0 masks evidence progress"
+    },
+    {
+      "severity": "MEDIUM",
+      "file": "python_backend/analyzers/deepseek.py:532-533",
+      "bug": "Sentence splitting misplaces closing brackets/quotes to wrong fragment"
+    },
+    {
+      "severity": "LOW",
+      "file": "src/main.jsx:782-794",
+      "bug": "Double setFetchState in catch — first message always overwritten"
+    },
+    {
+      "severity": "LOW",
+      "file": "src/languageUnderstanding.js:62-66",
+      "bug": "normalizeRadarAxis: String(null) produces 'null' bypassing empty check"
+    },
+    {
+      "severity": "LOW",
+      "file": "python_backend/analyzers/keyword_evidence.py:996",
+      "bug": "Greedy .* in regex could cause O(n) backtracking on long text"
+    }
+  ]
+}

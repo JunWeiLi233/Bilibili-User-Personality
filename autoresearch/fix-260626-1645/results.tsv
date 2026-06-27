@@ -1,0 +1,5 @@
+# metric_direction: lower_is_better
+iteration	timestamp	error_type	error_fixed	commit	metric	delta	guard	status	description
+0	2026-06-26T16:45	baseline	-	-	2	-	-	-	2 bugs reported from debug-260626-1604 findings
+1	2026-06-26T16:45	logic	commentCount/danmakuCount gate	5d834f82	2	0	pass	already-fixed	Already fixed in commit 5d834f82 (semantic migration): added nextCommentText.trim().length > 0 fallback to hasComments check at main.jsx:913
+2	2026-06-26T16:45	logic	responseCache unbounded growth	5d834f82	2	0	pass	already-fixed	Already fixed in commit 5d834f82: added pruneExpiredCacheEntries() with 100-insert gate + stale entry deletion on cache hit at bilibiliCrawler.js:26-34,347-355

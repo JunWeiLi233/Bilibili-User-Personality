@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "parityVerified": true,
+  "generatedAt": "2026-06-27T04:01:29.731Z",
+  "contracts": [
+    {
+      "name": "harvestAllSeedCorpus",
+      "parity": true,
+      "error": null
+    },
+    {
+      "name": "harvestSeedCorpusEvidence",
+      "parity": true,
+      "error": null
+    },
+    {
+      "name": "probeCoverageHonesty",
+      "parity": true,
+      "error": null
+    },
+    {
+      "name": "deepBatchScraper",
+      "parity": true,
+      "error": null
+    }
+  ]
+}

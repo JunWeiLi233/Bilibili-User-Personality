@@ -1,0 +1,10 @@
+# metric_direction: higher_is_better
+iteration	timestamp	hypothesis	status	technique	evidence	file_line
+1	2026-06-26T00:12:00Z	Dead code after return: ~73 lines of unreachable normalization logic duplicate normalizeDeepSeekAnalysisResult	confirmed	trace	Lines 4646-4718 are unreachable after return at line 4637. Exact duplicate of normalizeDeepSeekAnalysisResult (4419-4468+) left behind after refactoring	deepseekKeywordTrainer.js:4646-4718
+2	2026-06-26T00:14:00Z	3552-line .bak backup file left in services directory	confirmed	pattern search	keywordHarvest.js.bak is a full duplicate (3552 lines) of keywordHarvest.js. Should be deleted or tracked by gitignore	keywordHarvest.js.bak
+3	2026-06-26T00:15:00Z	scraperWatchdog.js.disabled is dead config with empty SCRAPERS array	confirmed	pattern search	File has empty SCRAPERS array and comment "Scrapers paused". Either re-enable or remove	scraperWatchdog.js.disabled
+4	2026-06-26T00:16:00Z	Fix: delete 73 lines of dead code after return in analyzeCommentsWithDeepSeek	confirmed	trace	Removed duplicate normalizeDeepSeekAnalysisResult body left behind after refactoring. Tests: 1303 pass, 0 fail	deepseekKeywordTrainer.js:4646-4718
+5	2026-06-26T00:17:00Z	Fix: delete 3552-line keywordHarvest.js.bak backup file	confirmed	pattern search	Removed stale backup from services directory. Not tracked by git	keywordHarvest.js.bak
+6	2026-06-26T00:18:00Z	harvest_all_seed_corpus.py temp file leak: os.unlink outside try block, not reached on subprocess.TimeoutExpired	confirmed	trace	Lines 201-202 unlink only execute if subprocess.run succeeds. On TimeoutExpired, temp files leak. Should use try/finally	python_backend/cli/harvest_all_seed_corpus.py:201-202
+7	2026-06-26T00:19:00Z	Fix: wrap temp file cleanup in try/finally to prevent leak on TimeoutExpired	confirmed	trace	Moved os.unlink into finally block with its own OSError guard. Also removed unused exc variable	python_backend/cli/harvest_all_seed_corpus.py:201-210
+8	2026-06-26T00:20:00Z	Guard check: all JS+Python tests pass after tech debt fixes	confirmed	guard	1303 JS tests pass, 1814 Python tests pass, 0 failures	-

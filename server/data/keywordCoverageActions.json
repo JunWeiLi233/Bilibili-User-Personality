@@ -110,28 +110,6 @@
     "query": "\u5176\u5b9e\u662f\u8fd9\u6837\u7684 \u66f4\u6b63 \u8bc4\u8bba\u533a"
   },
   {
-    "term": "\u53cd\u5e94\u8fc7\u6765",
-    "family": "correction",
-    "status": "weak_unattempted",
-    "action": "harvest",
-    "evidenceCount": 0,
-    "coverageEvidenceCount": 0,
-    "sourcedEvidence": false,
-    "recommendationGroup": "\u53cd\u5e94\u8fc7\u6765",
-    "targetEvidence": 3,
-    "evidenceNeeded": 3,
-    "attempts": 0,
-    "successfulAttempts": 0,
-    "duplicateAcceptedNoProgress": false,
-    "currentCommentMisses": 0,
-    "exhausted": false,
-    "nextQuery": "\u53cd\u5e94\u8fc7\u6765 \u66f4\u6b63 \u8bc4\u8bba\u533a",
-    "suggestedQueries": [],
-    "lastQuery": "",
-    "lastError": "",
-    "query": "\u53cd\u5e94\u8fc7\u6765 \u66f4\u6b63 \u8bc4\u8bba\u533a"
-  },
-  {
     "term": "\u6055\u6211\u773c\u778e",
     "family": "correction",
     "status": "weak_unattempted",
@@ -438,5 +416,27 @@
     "lastQuery": "",
     "lastError": "",
     "query": "\u4e0d\u7f6e\u53ef\u5426 \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4"
+  },
+  {
+    "term": "\u4e0d\u9488\u5bf9\u8c01",
+    "family": "evasion",
+    "status": "weak_unattempted",
+    "action": "harvest",
+    "evidenceCount": 0,
+    "coverageEvidenceCount": 0,
+    "sourcedEvidence": false,
+    "recommendationGroup": "\u4e0d\u9488\u5bf9\u8c01",
+    "targetEvidence": 3,
+    "evidenceNeeded": 3,
+    "attempts": 0,
+    "successfulAttempts": 0,
+    "duplicateAcceptedNoProgress": false,
+    "currentCommentMisses": 0,
+    "exhausted": false,
+    "nextQuery": "\u4e0d\u9488\u5bf9\u8c01 \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4",
+    "suggestedQueries": [],
+    "lastQuery": "",
+    "lastError": "",
+    "query": "\u4e0d\u9488\u5bf9\u8c01 \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4"
   }
 ]

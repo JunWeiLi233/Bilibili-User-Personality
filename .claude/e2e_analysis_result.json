@@ -1,0 +1,491 @@
+{
+  "bvids": [
+    "BV1m54y1Q7eQ",
+    "BV1oT4y1671T",
+    "BV1zW411j7r6",
+    "BV1n441127jG",
+    "BV1cX4y1y7qR",
+    "BV1Ue4y1w7bk",
+    "BV1JK7N6xEtw",
+    "BV1PY4y147CS",
+    "BV1Z5411p7Ct",
+    "BV1cM41197ui"
+  ],
+  "inputComments": 90,
+  "inputChars": 3935,
+  "elapsedSeconds": 32.9,
+  "keywordMatches": {
+    "absolutes": 5,
+    "attack": 18,
+    "cooperation": 24
+  },
+  "analysis": {
+    "ok": true,
+    "provider": "deepseek",
+    "model": "deepseek-v4-flash",
+    "reasoningEffort": "max",
+    "retriedCompactPrompt": false,
+    "axes": [
+      {
+        "axis": "对抗性动机",
+        "score": 15,
+        "evidence": [
+          "一定要演下去自己的剧本",
+          "只有自杀才是弃演"
+        ],
+        "reasoning": "多数评论为中性或正面表达，无攻击个人、身份或派系的语句。少数表达如'一定要演下去自己的剧本'带有比喻性坚持，但无对抗目标。"
+      },
+      {
+        "axis": "认知闭合",
+        "score": 35,
+        "evidence": [
+          "只有自杀才是弃演",
+          "凡日月所照，皆为汉土"
+        ],
+        "reasoning": "部分评论使用绝对化表述，如'只有...才'、'凡...皆为'，但多为引用或修辞，非严格主张。"
+      },
+      {
+        "axis": "证据敏感",
+        "score": 50,
+        "evidence": [
+          "我看到官方的影视：楚国八百年",
+          "算是对春秋战国，秦朝，汉出五帝有一点了解吧"
+        ],
+        "reasoning": "用户提及了官方影视作品作为知识来源，但未引用具体数据或请求证据，整体中等。"
+      },
+      {
+        "axis": "逻辑一致",
+        "score": 55,
+        "evidence": [
+          "春秋是礼仪，战国是生存",
+          "到了后面秦国，秦始皇真的不算暴君，只是他有他的大志向"
+        ],
+        "reasoning": "部分评论逻辑自洽，如区分春秋战国；但也有简化历史的表述，但未明显矛盾。"
+      },
+      {
+        "axis": "合作讨论",
+        "score": 70,
+        "evidence": [
+          "回复 @旧友岩 :记忆深刻的一句话[打call]",
+          "回复 @无名小四 :以前看网文"
+        ],
+        "reasoning": "用户积极回复他人，分享个人经历，参与讨论历史话题，合作倾向明显。"
+      },
+      {
+        "axis": "修正意愿",
+        "score": 45,
+        "evidence": [
+          "以前看网文，把那里面的男主的三观加给自己，现在看以前觉得贼偏执[无语]",
+          "还是那句老话，步子大了容易扯着蛋[藏狐]"
+        ],
+        "reasoning": "有用户承认过去的偏执，表现出修正意愿，但整体以陈述观点为主，修正不强。"
+      }
+    ],
+    "sentenceAnalyses": [
+      {
+        "quote": "一定要演下去自己的剧本",
+        "speechAct": "表达决心",
+        "target": "自己/人生",
+        "stance": "坚定",
+        "contextRole": "主题引入：人生如戏",
+        "risk": "low",
+        "axisImpacts": [
+          {
+            "axis": "对抗性动机",
+            "direction": "risk",
+            "strength": 0.2,
+            "reasoning": "无攻击目标，仅为比喻性表达"
+          },
+          {
+            "axis": "认知闭合",
+            "direction": "risk",
+            "strength": 0.3,
+            "reasoning": "'一定要'略显绝对，但非主张"
+          }
+        ],
+        "reasoning": "关键词'剧本'无负面含义，整体为自勉语句。"
+      },
+      {
+        "quote": "只有自杀才是弃演，活着就还在舞台上，这真的是最低限度的要求了吧",
+        "speechAct": "提出观点",
+        "target": "人生比喻/生存要求",
+        "stance": "肯定",
+        "contextRole": "延续主题，强调坚持",
+        "risk": "low",
+        "axisImpacts": [
+          {
+            "axis": "认知闭合",
+            "direction": "risk",
+            "strength": 0.6,
+            "reasoning": "'只有自杀才是弃演'为绝对化表述"
+          },
+          {
+            "axis": "对抗性动机",
+            "direction": "risk",
+            "strength": 0.1,
+            "reasoning": "无攻击性"
+          }
+        ],
+        "reasoning": "关键词'自杀'在此为比喻，非真实威胁，整体为励志表达。"
+      },
+      {
+        "quote": "演到生命的尽头[加油]",
+        "speechAct": "鼓励/表态",
+        "target": "人生",
+        "stance": "积极",
+        "contextRole": "支持上述观点",
+        "risk": "neutral",
+        "axisImpacts": [],
+        "reasoning": "无负面含义，纯加油。"
+      },
+      {
+        "quote": "此后如没有炬火，我们便是唯一的光",
+        "speechAct": "引用/激昂",
+        "target": "社会/时代",
+        "stance": "豪迈",
+        "contextRole": "引用鲁迅名言，引发共鸣",
+        "risk": "neutral",
+        "axisImpacts": [],
+        "reasoning": "经典引用，无攻击性。"
+      },
+      {
+        "quote": "希望本无所谓有，也无所谓无，这就像地上的路，其实地上本没有路，走的人多了，也便成了路。",
+        "speechAct": "引用/哲理",
+        "target": "希望/行动",
+        "stance": "中立哲理",
+        "contextRole": "继续引用鲁迅",
+        "risk": "neutral",
+        "axisImpacts": [],
+        "reasoning": "纯引用，无风险。"
+      },
+      {
+        "quote": "回复 @旧友岩 :记忆深刻的一句话[打call]",
+        "speechAct": "回应/认同",
+        "target": "对方评论",
+        "stance": "友好",
+        "contextRole": "互动回应",
+        "risk": "positive",
+        "axisImpacts": [
+          {
+            "axis": "合作讨论",
+            "direction": "positive",
+            "strength": 0.8,
+            "reasoning": "积极回应，表明合作讨论意愿"
+          }
+        ],
+        "reasoning": "正面互动。"
+      },
+      {
+        "quote": "首页通知书[微笑]",
+        "speechAct": "感叹/自嘲",
+        "target": "B站推荐",
+        "stance": "轻松",
+        "contextRole": "提及被推荐到首页",
+        "risk": "neutral",
+        "axisImpacts": [],
+        "reasoning": "无风险。"
+      },
+      {
+        "quote": "这几天B站是铁了心要把我的三观矫正啊[微笑]",
+        "speechAct": "感叹/评价",
+        "target": "B站内容",
+        "stance": "调侃",
+        "contextRole": "表达对内容影响的感受",
+        "risk": "low",
+        "axisImpacts": [
+          {
+            "axis": "对抗性动机",
+            "direction": "risk",
+            "strength": 0.3,
+            "reasoning": "'铁了心'有拟人化对抗感，但为调侃语气"
+          }
+        ],
+        "reasoning": "关键词'矫正'、'三观'无恶意，微笑表情缓和。"
+      },
+      {
+        "quote": "[热词系列_吹爆][热词系列_爱了爱了][热词系列_三连]",
+        "speechAct": "表达喜爱",
+        "target": "视频",
+        "stance": "热情",
+        "contextRole": "观看后反应",
+        "risk": "positive",
+        "axisImpacts": [],
+        "reasoning": "纯正面网络用语。"
+      },
+      {
+        "quote": "反正我的三观是在b站正的，以前简直不堪回首……[捂脸]",
+        "speechAct": "分享个人经历",
+        "target": "自己三观变化",
+        "stance": "自嘲/反思",
+        "contextRole": "呼应之前评价",
+        "risk": "low",
+        "axisImpacts": [
+          {
+            "axis": "修正意愿",
+            "direction": "positive",
+            "strength": 0.6,
+            "reasoning": "承认过去不堪，暗示修正"
+          }
+        ],
+        "reasoning": "关键词'不堪回首'为自嘲，无攻击。"
+      },
+      {
+        "quote": "回复 @无名小四 :以前看网文，把那里面的男主的三观加给自己，现在看以前觉得贼偏执[无语]",
+        "speechAct": "回应/自我批评",
+        "target": "过去的自己/网文",
+        "stance": "反思",
+        "contextRole": "深入解释三观变化",
+        "risk": "low",
+        "axisImpacts": [
+          {
+            "axis": "修正意愿",
+            "direction": "positive",
+            "strength": 0.8,
+            "reasoning": "明确承认过去偏执，有修正意愿"
+          }
+        ],
+        "reasoning": "无语表情非攻击，反思立场。"
+      },
+      {
+        "quote": "寇可往，吾亦可往。",
+        "speechAct": "引用/豪言",
+        "target": "泛指行动",
+        "stance": "自信",
+        "contextRole": "引用历史典故",
+        "risk": "neutral",
+        "axisImpacts": [],
+        "reasoning": "经典引用，无风险。"
+      },
+      {
+        "quote": "封狼居胥，勒石燕然，饮马瀚海，梨庭扫雪。",
+        "speechAct": "引用/历史典故",
+        "target": "历史功绩",
+        "stance": "崇敬",
+        "contextRole": "列举历史壮举",
+        "risk": "neutral",
+        "axisImpacts": [],
+        "reasoning": "纯历史文化引用。"
+      },
+      {
+        "quote": "凡日月所照，皆为汉土。",
+        "speechAct": "引用/宣称",
+        "target": "汉朝疆域",
+        "stance": "自豪",
+        "contextRole": "历史讨论",
+        "risk": "low",
+        "axisImpacts": [
+          {
+            "axis": "认知闭合",
+            "direction": "risk",
+            "strength": 0.4,
+            "reasoning": "'皆为'绝对化，但为古诗引用"
+          }
+        ],
+        "reasoning": "引用古诗，非现实主张。"
+      },
+      {
+        "quote": "率土之滨，莫非王臣。",
+        "speechAct": "引用/古诗",
+        "target": "古代王权",
+        "stance": "中立",
+        "contextRole": "延续历史话题",
+        "risk": "neutral",
+        "axisImpacts": [],
+        "reasoning": "纯引用。"
+      },
+      {
+        "quote": "回复 @罗溢 :凡日月所照，江河所至，皆为汉土。",
+        "speechAct": "回复/引用",
+        "target": "对方",
+        "stance": "赞同",
+        "contextRole": "补充引用",
+        "risk": "low",
+        "axisImpacts": [
+          {
+            "axis": "合作讨论",
+            "direction": "positive",
+            "strength": 0.5,
+            "reasoning": "参与讨论，回应他人"
+          }
+        ],
+        "reasoning": "互动引用。"
+      },
+      {
+        "quote": "这也太棒了！",
+        "speechAct": "表达赞美",
+        "target": "视频",
+        "stance": "兴奋",
+        "contextRole": "观看感受",
+        "risk": "positive",
+        "axisImpacts": [],
+        "reasoning": "纯正面。"
+      },
+      {
+        "quote": "我看到官方的影视：楚国八百年，从秦始皇到汉武帝。",
+        "speechAct": "陈述信息来源",
+        "target": "视频/历史节目",
+        "stance": "中性",
+        "contextRole": "提供背景",
+        "risk": "neutral",
+        "axisImpacts": [
+          {
+            "axis": "证据敏感",
+            "direction": "positive",
+            "strength": 0.5,
+            "reasoning": "提及官方影视作为知识来源"
+          }
+        ],
+        "reasoning": "非争议话题。"
+      },
+      {
+        "quote": "算是对春秋战国，秦朝，汉出五帝有一点了解吧。",
+        "speechAct": "陈述效果",
+        "target": "自己的知识",
+        "stance": "谦逊",
+        "contextRole": "补充说明",
+        "risk": "neutral",
+        "axisImpacts": [],
+        "reasoning": "中立陈述。"
+      },
+      {
+        "quote": "春秋战国真的能人倍出，武将多的跟小说一样排名，文的方面更强，诸子百家。",
+        "speechAct": "评价/赞美",
+        "target": "春秋战国人才",
+        "stance": "赞扬",
+        "contextRole": "历史看法",
+        "risk": "neutral",
+        "axisImpacts": [],
+        "reasoning": "主观评价，无风险。"
+      },
+      {
+        "quote": "春秋是礼仪，战国是生存。",
+        "speechAct": "概括观点",
+        "target": "春秋战国区别",
+        "stance": "肯定",
+        "contextRole": "历史总结",
+        "risk": "neutral",
+        "axisImpacts": [
+          {
+            "axis": "认知闭合",
+            "direction": "risk",
+            "strength": 0.3,
+            "reasoning": "概括性表述，但常见观点"
+          }
+        ],
+        "reasoning": "无绝对化表达。"
+      },
+      {
+        "quote": "到了后面秦国，秦始皇真的不算暴君，只是他有他的大志向，六代完成的事，他一己之力就想完成。",
+        "speechAct": "提出观点/辩护",
+        "target": "秦始皇",
+        "stance": "辩护",
+        "contextRole": "历史讨论",
+        "risk": "low",
+        "axisImpacts": [
+          {
+            "axis": "认知闭合",
+            "direction": "risk",
+            "strength": 0.3,
+            "reasoning": "'真的不算'略显绝对，但为个人观点"
+          },
+          {
+            "axis": "逻辑一致",
+            "direction": "positive",
+            "strength": 0.4,
+            "reasoning": "有因果解释"
+          }
+        ],
+        "reasoning": "非攻击性，历史观点。"
+      },
+      {
+        "quote": "（彻底统一中国，不仅是文化，语言，领土，还有书籍，等等等，还要修城墙，最重要的是分封制，改郡县制。",
+        "speechAct": "列举/解释",
+        "target": "秦始皇举措",
+        "stance": "客观",
+        "contextRole": "补充说明秦始皇大志",
+        "risk": "neutral",
+        "axisImpacts": [],
+        "reasoning": "中立列举。"
+      },
+      {
+        "quote": "这一步很容易引起内乱。",
+        "speechAct": "推断",
+        "target": "政治举措",
+        "stance": "分析",
+        "contextRole": "理由",
+        "risk": "neutral",
+        "axisImpacts": [],
+        "reasoning": "无风险。"
+      },
+      {
+        "quote": "所以汉朝五帝真的个个牛逼，直到汉武帝彻底解决内部和外侵。",
+        "speechAct": "评价/结论",
+        "target": "汉朝五帝",
+        "stance": "赞美",
+        "contextRole": "历史观点",
+        "risk": "neutral",
+        "axisImpacts": [],
+        "reasoning": "主观评价。"
+      },
+      {
+        "quote": "注意，是一起解决。",
+        "speechAct": "强调",
+        "target": "汉武帝之功",
+        "stance": "强调",
+        "contextRole": "补充",
+        "risk": "neutral",
+        "axisImpacts": [],
+        "reasoning": "无风险。"
+      },
+      {
+        "quote": "也是没办法，始终有人舍不得诸侯地位）",
+        "speechAct": "解释原因",
+        "target": "内乱原因",
+        "stance": "中立",
+        "contextRole": "结尾理由",
+        "risk": "neutral",
+        "axisImpacts": [],
+        "reasoning": "无风险。"
+      },
+      {
+        "quote": "回复 @不甘平凡的路人1 :还是那句老话，步子大了容易扯着蛋[藏狐]",
+        "speechAct": "回复/引用俗语",
+        "target": "对方观点",
+        "stance": "赞同/幽默",
+        "contextRole": "互动回应",
+        "risk": "low",
+        "axisImpacts": [
+          {
+            "axis": "合作讨论",
+            "direction": "positive",
+            "strength": 0.6,
+            "reasoning": "参与讨论并使用俗语"
+          },
+          {
+            "axis": "逻辑一致",
+            "direction": "positive",
+            "strength": 0.3,
+            "reasoning": "用俗语支持观点，逻辑合理"
+          }
+        ],
+        "reasoning": "表情[藏狐]表示调侃，无攻击。"
+      },
+      {
+        "quote": "秦国真的是太多故事啦",
+        "speechAct": "感叹/评价",
+        "target": "秦国历史",
+        "stance": "兴趣",
+        "contextRole": "总结话题",
+        "risk": "neutral",
+        "axisImpacts": [],
+        "reasoning": "无风险。"
+      }
+    ],
+    "overall": {
+      "riskBand": "低风险讨论型",
+      "summary": "评论主体为对历史、文化、个人成长的中性至正面讨论，包含引用经典、自我反思和合作互动，无攻击或极端言论。少数绝对化表述属于修辞或引用，整体风险低。"
+    },
+    "confidence": 0.92,
+    "raw": "{\n  \"axes\": [\n    {\n      \"axis\": \"对抗性动机\",\n      \"score\": 15,\n      \"evidence\": [\"一定要演下去自己的剧本\", \"只有自杀才是弃演\"],\n      \"reasoning\": \"多数评论为中性或正面表达，无攻击个人、身份或派系的语句。少数表达如'一定要演下去自己的剧本'带有比喻性坚持，但无对抗目标。\"\n    },\n    {\n      \"axis\": \"认知闭合\",\n      \"score\": 35,\n      \"evidence\": [\"只有自杀才是弃演\", \"凡日月所照，皆为汉土\"],\n      \"reasoning\": \"部分评论使用绝对化表述，如'只有...才'、'凡...皆为'，但多为引用或修辞，非严格主张。\"\n    },\n    {\n      \"axis\": \"证据敏感\",\n      \"score\": 50,\n      \"evidence\": [\"我看到官方的影视：楚国八百年\", \"算是对春秋战国，秦朝，汉出五帝有一点了解吧\"],\n      \"reasoning\": \"用户提及了官方影视作品作为知识来源，但未引用具体数据或请求证据，整体中等。\"\n    },\n    {\n      \"axis\": \"逻辑一致\",\n      \"score\": 55,\n      \"evidence\": [\"春秋是礼仪，战国是生存\", \"到了后面秦国，秦始皇真的不算暴君，只是他有他的大志向\"],\n      \"reasoning\": \"部分评论逻辑自洽，如区分春秋战国；但也有简化历史的表述，但未明显矛盾。\"\n    },\n    {\n      \"axis\": \"合作讨论\",\n      \"score\": 70,\n      \"evidence\": [\"回复 @旧友岩 :记忆深刻的一句话[打call]\", \"回复 @无名小四 :以前看网文\"],\n      \"reasoning\": \"用户积极回复他人，分享个人经历，参与讨论历史话题，合作倾向明显。\"\n    },\n    {\n      \"axis\": \"修正意愿\",\n      \"score\": 45,\n      \"evidence\": [\"以前看网文，把那里面的男主的三观加给自己，现在看以前觉得贼偏执[无语]\", \"还是那句老话，步子大了容易扯着蛋[藏狐]\"],\n      \"reasoning\": \"有用户承认过去的偏执，表现出修正意愿，但整体以陈述观点为主，修正不强。\"\n    }\n  ],\n  \"sentenceAnalyses\": [\n    {\n      \"quote\": \"一定要演下去自己的剧本\",\n      \"speechAct\": \"表达决心\",\n      \"target\": \"自己/人生\",\n      \"stance\": \"坚定\",\n      \"contextRole\": \"主题引入：人生如戏\",\n      \"risk\": \"low\",\n      \"axisImpacts\": [\n        {\"axis\": \"对抗性动机\", \"direction\": \"risk\", \"strength\": 0.2, \"reasoning\": \"无攻击目标，仅为比喻性表达\"},\n        {\"axis\": \"认知闭合\", \"direction\": \"risk\", \"strength\": 0.3, \"reasoning\": \"'一定要'略显绝对，但非主张\"}\n      ],\n      \"reasoning\": \"关键词'剧本'无负面含义，整体为自勉语句。\"\n    },\n    {\n      \"quote\": \"只有自杀才是弃演，活着就还在舞台上，这真的是最低限度的要求了吧\",\n      \"speechAct\": \"提出观点\",\n      \"target\": \"人生比喻/生存要求\",\n      \"stance\": \"肯定\",\n      \"contextRole\": \"延续主题，强调坚持\",\n      \"risk\": \"low\",\n      \"axisImpacts\": [\n        {\"axis\": \"认知闭合\", \"direction\": \"risk\", \"strength\": 0.6, \"reasoning\": \"'只有自杀才是弃演'为绝对化表述\"},\n        {\"axis\": \"对抗性动机\", \"direction\": \"risk\", \"strength\": 0.1, \"reasoning\": \"无攻击性\"}\n      ],\n      \"reasoning\": \"关键词'自杀'在此为比喻，非真实威胁，整体为励志表达。\"\n    },\n    {\n      \"quote\": \"演到生命的尽头[加油]\",\n      \"speechAct\": \"鼓励/表态\",\n      \"target\": \"人生\",\n      \"stance\": \"积极\",\n      \"contextRole\": \"支持上述观点\",\n      \"risk\": \"neutral\",\n      \"axisImpacts\": [],\n      \"reasoning\": \"无负面含义，纯加油。\"\n    },\n    {\n      \"quote\": \"此后如没有炬火，我们便是唯一的光\",\n      \"speechAct\": \"引用/激昂\",\n      \"target\": \"社会/时代\",\n      \"stance\": \"豪迈\",\n      \"contextRole\": \"引用鲁迅名言，引发共鸣\",\n      \"risk\": \"neutral\",\n      \"axisImpacts\": [],\n      \"reasoning\": \"经典引用，无攻击性。\"\n    },\n    {\n      \"quote\": \"希望本无所谓有，也无所谓无，这就像地上的路，其实地上本没有路，走的人多了，也便成了路。\",\n      \"speechAct\": \"引用/哲理\",\n      \"target\": \"希望/行动\",\n      \"stance\": \"中立哲理\",\n      \"contextRole\": \"继续引用鲁迅\",\n      \"risk\": \"neutral\",\n      \"axisImpacts\": [],\n      \"reasoning\": \"纯引用，无风险。\"\n    },\n    {\n      \"quote\": \"回复 @旧友岩 :记忆深刻的一句话[打call]\",\n      \"speechAct\": \"回应/认同\",\n      \"target\": \"对方评论\",\n      \"stance\": \"友好\",\n      \"contextRole\": \"互动回应\",\n      \"risk\": \"positive\",\n      \"axisImpacts\": [\n        {\"axis\": \"合作讨论\", \"direction\": \"positive\", \"strength\": 0.8, \"reasoning\": \"积极回应，表明合作讨论意愿\"}\n      ],\n      \"reasoning\": \"正面互动。\"\n    },\n    {\n      \"quote\": \"首页通知书[微笑]\",\n      \"speechAct\": \"感叹/自嘲\",\n      \"target\": \"B站推荐\",\n      \"stance\": \"轻松\",\n      \"contextRole\": \"提及被推荐到首页\",\n      \"risk\": \"neutral\",\n      \"axisImpacts\": [],\n      \"reasoning\": \"无风险。\"\n    },\n    {\n      \"quote\": \"这几天B站是铁了心要把我的三观矫正啊[微笑]\",\n      \"speechAct\": \"感叹/评价\",\n      \"target\": \"B站内容\",\n      \"stance\": \"调侃\",\n      \"contextRole\": \"表达对内容影响的感受\",\n      \"risk\": \"low\",\n      \"axisImpacts\": [\n        {\"axis\": \"对抗性动机\", \"direction\": \"risk\", \"strength\": 0.3, \"reasoning\": \"'铁了心'有拟人化对抗感，但为调侃语气\"}\n      ],\n      \"reasoning\": \"关键词'矫正'、'三观'无恶意，微笑表情缓和。\"\n    },\n    {\n      \"quote\": \"[热词系列_吹爆][热词系列_爱了爱了][热词系列_三连]\",\n      \"speechAct\": \"表达喜爱\",\n      \"target\": \"视频\",\n      \"stance\": \"热情\",\n      \"contextRole\": \"观看后反应\",\n      \"risk\": \"positive\",\n      \"axisImpacts\": [],\n      \"reasoning\": \"纯正面网络用语。\"\n    },\n    {\n      \"quote\": \"反正我的三观是在b站正的，以前简直不堪回首……[捂脸]\",\n      \"speechAct\": \"分享个人经历\",\n      \"target\": \"自己三观变化\",\n      \"stance\": \"自嘲/反思\",\n      \"contextRole\": \"呼应之前评价\",\n      \"risk\": \"low\",\n      \"axisImpacts\": [\n        {\"axis\": \"修正意愿\", \"direction\": \"positive\", \"strength\": 0.6, \"reasoning\": \"承认过去不堪，暗示修正\"}\n      ],\n      \"reasoning\": \"关键词'不堪回首'为自嘲，无攻击。\"\n    },\n    {\n      \"quote\": \"回复 @无名小四 :以前看网文，把那里面的男主的三观加给自己，现在看以前觉得贼偏执[无语]\",\n      \"speechAct\": \"回应/自我批评\",\n      \"target\": \"过去的自己/网文\",\n      \"stance\": \"反思\",\n      \"contextRole\": \"深入解释三观变化\",\n      \"risk\": \"low\",\n      \"axisImpacts\": [\n        {\"axis\": \"修正意愿\", \"direction\": \"positive\", \"strength\": 0.8, \"reasoning\": \"明确承认过去偏执，有修正意愿\"}\n      ],\n      \"reasoning\": \"无语表情非攻击，反思立场。\"\n    },\n    {\n      \"quote\": \"寇可往，吾亦可往。\",\n      \"speechAct\": \"引用/豪言\",\n      \"target\": \"泛指行动\",\n      \"stance\": \"自信\",\n      \"contextRole\": \"引用历史典故\",\n      \"risk\": \"neutral\",\n      \"axisImpacts\": [],\n      \"reasoning\": \"经典引用，无风险。\"\n    },\n    {\n      \"quote\": \"封狼居胥，勒石燕然，饮马瀚海，梨庭扫雪。\",\n      \"speechAct\": \"引用/历史典故\",\n      \"target\": \"历史功绩\",\n      \"stance\": \"崇敬\",\n      \"contextRole\": \"列举历史壮举\",\n      \"risk\": \"neutral\",\n      \"axisImpacts\": [],\n      \"reasoning\": \"纯历史文化引用。\"\n    },\n    {\n      \"quote\": \"[打call]\",\n      \"speechAct\": \"表达支持\",\n      \"target\": \"视频内容\",\n      \"stance\": \"积极\",\n      \"contextRole\": \"互动\",\n      \"risk\": \"positive\",\n      \"axisImpacts\": [],\n      \"reasoning\": \"纯正面表情。\"\n    },\n    {\n      \"quote\": \"凡日月所照，皆为汉土。\",\n      \"speechAct\": \"引用/宣称\",\n      \"target\": \"汉朝疆域\",\n      \"stance\": \"自豪\",\n      \"contextRole\": \"历史讨论\",\n      \"risk\": \"low\",\n      \"axisImpacts\": [\n        {\"axis\": \"认知闭合\", \"direction\": \"risk\", \"strength\": 0.4, \"reasoning\": \"'皆为'绝对化，但为古诗引用\"}\n      ],\n      \"reasoning\": \"引用古诗，非现实主张。\"\n    },\n    {\n      \"quote\": \"率土之滨，莫非王臣。\",\n      \"speechAct\": \"引用/古诗\",\n      \"target\": \"古代王权\",\n      \"stance\": \"中立\",\n      \"contextRole\": \"延续历史话题\",\n      \"risk\": \"neutral\",\n      \"axisImpacts\": [],\n      \"reasoning\": \"纯引用。\"\n    },\n    {\n      \"quote\": \"回复 @罗溢 :凡日月所照，江河所至，皆为汉土。\",\n      \"speechAct\": \"回复/引用\",\n      \"target\": \"对方\",\n      \"stance\": \"赞同\",\n      \"contextRole\": \"补充引用\",\n      \"risk\": \"low\",\n      \"axisImpacts\": [\n        {\"axis\": \"合作讨论\", \"direction\": \"positive\", \"strength\": 0.5, \"reasoning\": \"参与讨论，回应他人\"}\n      ],\n      \"reasoning\": \"互动引用。\"\n    },\n    {\n      \"quote\": \"这也太棒了！\",\n      \"speechAct\": \"表达赞美\",\n      \"target\": \"视频\",\n      \"stance\": \"兴奋\",\n      \"contextRole\": \"观看感受\",\n      \"risk\": \"positive\",\n      \"axisImpacts\": [],\n      \"reasoning\": \"纯正面。\"\n    },\n    {\n      \"quote\": \"我看到官方的影视：楚国八百年，从秦始皇到汉武帝。\",\n      \"speechAct\": \"陈述信息来源\",\n      \"target\": \"视频/历史节目\",\n      \"stance\": \"中性\",\n      \"contextRole\": \"提供背景\",\n      \"risk\": \"neutral\",\n      \"axisImpacts\": [\n        {\"axis\": \"证据敏感\", \"direction\": \"positive\", \"strength\": 0.5, \"reasoning\": \"提及官方影视作为知识来源\"}\n      ],\n      \"reasoning\": \"非争议话题。\"\n    },\n    {\n      \"quote\": \"算是对春秋战国，秦朝，汉出五帝有一点了解吧。\",\n      \"speechAct\": \"陈述效果\",\n      \"target\": \"自己的知识\",\n      \"stance\": \"谦逊\",\n      \"contextRole\": \"补充说明\",\n      \"risk\": \"neutral\",\n      \"axisImpacts\": [],\n      \"reasoning\": \"中立陈述。\"\n    },\n    {\n      \"quote\": \"春秋战国真的能人倍出，武将多的跟小说一样排名，文的方面更强，诸子百家。\",\n      \"speechAct\": \"评价/赞美\",\n      \"target\": \"春秋战国人才\",\n      \"stance\": \"赞扬\",\n      \"contextRole\": \"历史看法\",\n      \"risk\": \"neutral\",\n      \"axisImpacts\": [],\n      \"reasoning\": \"主观评价，无风险。\"\n    },\n    {\n      \"quote\": \"春秋是礼仪，战国是生存。\",\n      \"speechAct\": \"概括观点\",\n      \"target\": \"春秋战国区别\",\n      \"stance\": \"肯定\",\n      \"contextRole\": \"历史总结\",\n      \"risk\": \"neutral\",\n      \"axisImpacts\": [\n        {\"axis\": \"认知闭合\", \"direction\": \"risk\", \"strength\": 0.3, \"reasoning\": \"概括性表述，但常见观点\"}\n      ],\n      \"reasoning\": \"无绝对化表达。\"\n    },\n    {\n      \"quote\": \"到了后面秦国，秦始皇真的不算暴君，只是他有他的大志向，六代完成的事，他一己之力就想完成。\",\n      \"speechAct\": \"提出观点/辩护\",\n      \"target\": \"秦始皇\",\n      \"stance\": \"辩护\",\n      \"contextRole\": \"历史讨论\",\n      \"risk\": \"low\",\n      \"axisImpacts\": [\n        {\"axis\": \"认知闭合\", \"direction\": \"risk\", \"strength\": 0.3, \"reasoning\": \"'真的不算'略显绝对，但为个人观点\"},\n        {\"axis\": \"逻辑一致\", \"direction\": \"positive\", \"strength\": 0.4, \"reasoning\": \"有因果解释\"}\n      ],\n      \"reasoning\": \"非攻击性，历史观点。\"\n    },\n    {\n      \"quote\": \"（彻底统一中国，不仅是文化，语言，领土，还有书籍，等等等，还要修城墙，最重要的是分封制，改郡县制。\",\n      \"speechAct\": \"列举/解释\",\n      \"target\": \"秦始皇举措\",\n      \"stance\": \"客观\",\n      \"contextRole\": \"补充说明秦始皇大志\",\n      \"risk\": \"neutral\",\n      \"axisImpacts\": [],\n      \"reasoning\": \"中立列举。\"\n    },\n    {\n      \"quote\": \"这一步很容易引起内乱。\",\n      \"speechAct\": \"推断\",\n      \"target\": \"政治举措\",\n      \"stance\": \"分析\",\n      \"contextRole\": \"理由\",\n      \"risk\": \"neutral\",\n      \"axisImpacts\": [],\n      \"reasoning\": \"无风险。\"\n    },\n    {\n      \"quote\": \"所以汉朝五帝真的个个牛逼，直到汉武帝彻底解决内部和外侵。\",\n      \"speechAct\": \"评价/结论\",\n      \"target\": \"汉朝五帝\",\n      \"stance\": \"赞美\",\n      \"contextRole\": \"历史观点\",\n      \"risk\": \"neutral\",\n      \"axisImpacts\": [],\n      \"reasoning\": \"主观评价。\"\n    },\n    {\n      \"quote\": \"注意，是一起解决。\",\n      \"speechAct\": \"强调\",\n      \"target\": \"汉武帝之功\",\n      \"stance\": \"强调\",\n      \"contextRole\": \"补充\",\n      \"risk\": \"neutral\",\n      \"axisImpacts\": [],\n      \"reasoning\": \"无风险。\"\n    },\n    {\n      \"quote\": \"也是没办法，始终有人舍不得诸侯地位）\",\n      \"speechAct\": \"解释原因\",\n      \"target\": \"内乱原因\",\n      \"stance\": \"中立\",\n      \"contextRole\": \"结尾理由\",\n      \"risk\": \"neutral\",\n      \"axisImpacts\": [],\n      \"reasoning\": \"无风险。\"\n    },\n    {\n      \"quote\": \"回复 @不甘平凡的路人1 :还是那句老话，步子大了容易扯着蛋[藏狐]\",\n      \"speechAct\": \"回复/引用俗语\",\n      \"target\": \"对方观点\",\n      \"stance\": \"赞同/幽默\",\n      \"contextRole\": \"互动回应\",\n      \"risk\": \"low\",\n      \"axisImpacts\": [\n        {\"axis\": \"合作讨论\", \"direction\": \"positive\", \"strength\": 0.6, \"reasoning\": \"参与讨论并使用俗语\"},\n        {\"axis\": \"逻辑一致\", \"direction\": \"positive\", \"strength\": 0.3, \"reasoning\": \"用俗语支持观点，逻辑合理\"}\n      ],\n      \"reasoning\": \"表情[藏狐]表示调侃，无攻击。\"\n    },\n    {\n      \"quote\": \"秦国真的是太多故事啦\",\n      \"speechAct\": \"感叹/评价\",\n      \"target\": \"秦国历史\",\n      \"stance\": \"兴趣\",\n      \"contextRole\": \"总结话题\",\n      \"risk\": \"neutral\",\n      \"axisImpacts\": [],\n      \"reasoning\": \"无风险。\"\n    }\n  ],\n  \"overall\": {\n    \"riskBand\": \"低风险讨论型\",\n    \"summary\": \"评论主体为对历史、文化、个人成长的中性至正面讨论，包含引用经典、自我反思和合作互动，无攻击或极端言论。少数绝对化表述属于修辞或引用，整体风险低。\"\n  },\n  \"confidence\": 0.95\n}"
+  }
+}
