@@ -166,7 +166,13 @@ export function parseTiebaThreads(html, keyword = '') {
     // Look for thread title in nearby se_thread_title span (mobile format)
     const nearby = text.slice(tagStart, tagStart + 1200);
     const mobileTitleMatch = nearby.match(/se_thread_title["'][^>]*>([\s\S]*?)<\/span>/i);
-    const title = cleanTitle(mobileTitleMatch ? mobileTitleMatch[1] : `Tieba thread ${id}`, `Tieba thread ${id}`);
+    // Fallback: extract title from <a> tag's title attribute (desktop format)
+    const fullTag = match[0] || '';
+    const attrTitleMatch = fullTag.match(/\btitle\s*=\s*["']([^"']*)["']/i);
+    const title = cleanTitle(
+      mobileTitleMatch ? mobileTitleMatch[1] : (attrTitleMatch ? attrTitleMatch[1] : ''),
+      `Tieba thread ${id}`,
+    );
     const isMobile = match[2] !== undefined; // kz= capture group matched → mobile
     threads.push({
       id,
@@ -313,6 +319,7 @@ async function defaultFetchText(url, referer, options = {}) {
       {
         ...(signal ? { signal } : {}),
         headers: {
+          ...(baiduCookieHeader() ? { cookie: baiduCookieHeader() } : {}),
           'user-agent': options.userAgent || (mobile ? MOBILE_USER_AGENT : DEFAULT_USER_AGENT),
           accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
           'accept-language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7',
@@ -345,6 +352,11 @@ function buildTiebaDiscoveryUrl(query, page, mode = 'mobile') {
   url.searchParams.set('rn', '10');
   url.searchParams.set('pn', String(page));
   return url;
+}
+
+
+function baiduCookieHeader() {
+  return (process.env.BAIDU_COOKIE || '').trim() || undefined;
 }
 
 async function scheduleRequest(config, deps = {}) {

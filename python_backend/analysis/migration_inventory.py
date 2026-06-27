@@ -567,6 +567,7 @@ RETAINED_JS_FILES = {
     "server/scripts/compareVideoCommentFilter.js": "js_python_contract_bridge",
     "server/scripts/compareVideoContext.js": "js_python_contract_bridge",
     "server/scripts/compareVideoRelevance.js": "js_python_contract_bridge",
+    "server/scripts/expandDictionaryFromLocalCorpus.js": "new_native_js_script_not_migration_target",
 }
 
 MIGRATION_PRIORITY_RULES = (

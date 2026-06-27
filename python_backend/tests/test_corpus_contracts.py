@@ -2049,6 +2049,7 @@ class CorpusContractTests(unittest.TestCase):
         next_ma = result["nextMigrationAction"]
         self.assertIn(next_ma["path"], [
             "server/scripts/analyzeDeepSeekComments.js",
+            "server/scripts/expandDictionaryFromLocalCorpus.js",
             "server/scripts/harvestAllSeedCorpus.js",
         ])
         self.assertFalse(next_ma["readyToReplace"])
@@ -2510,15 +2511,19 @@ class CorpusContractTests(unittest.TestCase):
             return
         self.assertFalse(readiness["ok"])
         self.assertIn({"gate": "noPythonContractGaps", "ok": False}, readiness["gates"])
-        self.assertIn({"gate": "noReplacementBlockers", "ok": True}, readiness["gates"])
+        self.assertIn({"gate": "noReplacementBlockers", "ok": False}, readiness["gates"])
         self.assertIn({"gate": "allManualVerificationComplete", "ok": True}, readiness["gates"])
         self.assertEqual(readiness["manualVerificationActionCount"], 0)
-        self.assertEqual(readiness["replacementBlockedActionCount"], 0)
-        self.assertEqual(readiness["readyToReplaceActionCount"], 0)
-        self.assertEqual(readiness["replacementBlockedActionPaths"], [])
-        self.assertEqual(readiness["readyToReplaceActionPaths"], [])
+        self.assertEqual(readiness["replacementBlockedActionCount"], 3)
+        self.assertEqual(readiness["readyToReplaceActionCount"], 1)
+        self.assertEqual(readiness["replacementBlockedActionPaths"], [
+            "server/scripts/harvestAllSeedCorpus.js",
+            "server/scripts/harvestSeedCorpusEvidence.js",
+            "server/scripts/deepBatchScraper.js",
+        ])
+        self.assertEqual(readiness["readyToReplaceActionPaths"], ["server/scripts/probeCoverageHonesty.js"])
         self.assertEqual(readiness["pythonContractGapCount"], result["pythonContractGapCount"])
-        self.assertEqual(readiness["pythonContractGapCount"], 4)
+        self.assertEqual(readiness["pythonContractGapCount"], 1)
         self.assertEqual(readiness["manualVerificationCommandCount"], 0)
         self.assertEqual(readiness["manualVerificationBlockers"], [])
         self.assertEqual(readiness["manualVerificationBlockerCounts"], {})

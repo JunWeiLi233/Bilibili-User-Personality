@@ -92,7 +92,7 @@ test('discoverTiebaThreads can use mobile discovery pages', async () => {
   });
 
   assert.equal(threads.length, 1);
-  assert.equal(new URL(seen[0]).pathname, '/mo/q/m');
+  assert.equal(new URL(seen[0]).pathname, '/mo/q/seekcomposite');
   assert.equal(new URL(seen[0]).searchParams.get('kw'), '表番');
 });
 
@@ -320,9 +320,12 @@ test('scrapeTiebaKeyword can keep discovery titles when thread pages are blocked
     {
       fetchText: async (url) => {
         const textUrl = String(url);
-        if (textUrl.includes('/f?') || textUrl.includes('/mo/q/m')) {
-          return '<a href="/p/1000" title="无敌可爱是什么梗">无敌可爱是什么梗</a>';
+        // Discovery URLs: desktop /f? or mobile /mo/q/seekcomposite
+        if (textUrl.includes('/f?') || textUrl.includes('/mo/q/seekcomposite')) {
+          return '<a href="/mo/q/m?kz=1000&from_search=1"><span class="se_thread_title">无敌可爱是什么梗</span></a>';
         }
+        // Thread page URLs: desktop /p/<id> or mobile /mo/q/m?kz=<id>
+        // Both get blocked → titles still appear via includeDiscoveryTitles
         const error = new Error('Tieba safety verification page returned');
         error.tiebaBlocked = true;
         throw error;
@@ -348,11 +351,12 @@ test('scrapeTiebaKeyword discoveryTitlesOnly avoids fetching thread pages', asyn
       minDelayMs: 0,
       jitterMs: 0,
       discoveryTitlesOnly: true,
+      discoveryMode: 'mobile',
     },
     {
       fetchText: async (url) => {
         seenUrls.push(String(url));
-        return '<a href="/p/1000" title="无敌可爱是什么梗">无敌可爱是什么梗</a>';
+        return '<a href="/mo/q/m?kz=1000&from_search=1"><span class="se_thread_title">无敌可爱是什么梗</span></a>';
       },
       waitFn: async () => {},
     },
@@ -361,5 +365,5 @@ test('scrapeTiebaKeyword discoveryTitlesOnly avoids fetching thread pages', asyn
   assert.equal(result.comments.length, 1);
   assert.equal(result.comments[0].sourceKind, 'tieba-discovery');
   assert.equal(seenUrls.length, 1);
-  assert.equal(seenUrls[0].includes('/f?'), true);
+  assert.equal(seenUrls[0].includes('/mo/q/seekcomposite'), true);
 });
