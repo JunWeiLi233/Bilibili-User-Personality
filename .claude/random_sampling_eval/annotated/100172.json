@@ -1,0 +1,45 @@
+{
+  "uid": "100172",
+  "annotatedAt": "2026-06-28T15:14:27.700Z",
+  "commentCount": 60,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "notes": "专注赛车游戏技术讨论，信息交流理性，无情绪化或回避行为。"
+  },
+  "A2": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "evidence": [],
+    "notes": "所有评论均为正常的游戏技术讨论、信息提供或简短回复，未发现任何情绪过激、回避讨论、逻辑混乱或其他违规行为的明确文字证据。"
+  },
+  "A3": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "resolution": "同意A1",
+    "notes": "所有评论均为技术性讨论，情绪平和，逻辑清晰，无回避或异常行为。"
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0
+  },
+  "binaryLabels": {
+    "toxicEmotions": false,
+    "missingCommitment": false,
+    "missingIntelligibility": false,
+    "otherReasons": false
+  }
+}

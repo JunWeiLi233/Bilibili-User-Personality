@@ -1,0 +1,49 @@
+{
+  "uid": "100203",
+  "annotatedAt": "2026-06-28T15:16:29.982Z",
+  "commentCount": 16,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": {
+    "toxicEmotions": 2,
+    "missingCommitment": 0,
+    "missingIntelligibility": 1,
+    "otherReasons": 0,
+    "notes": "频繁使用讽刺、扣帽子、人身攻击等情绪化表达，逻辑基本清晰但存在绝对化断言，未回避讨论且无其他问题。"
+  },
+  "A2": {
+    "toxicEmotions": 2,
+    "missingCommitment": 1,
+    "missingIntelligibility": 1,
+    "otherReasons": 1,
+    "evidence": [
+      "[10] '跳脚的样子堪比小丑' 人身攻击",
+      "[11] '真把自己给骗了' 情绪宣泄",
+      "[12] '我不要跟你扯现实' 回避讨论",
+      "[15] '你除了浪费空气食物和水，对这个世界没有任何意义' 绝对化断言",
+      "[16] 'Titan X ！！！Titan X ！！！ヽ(`Д´)ﾉ' 无意义刷屏"
+    ],
+    "notes": "存在明确人身攻击、情绪宣泄、回避讨论、绝对化断言和无意义刷屏，每个维度至少找到一条具体词句证据。"
+  },
+  "A3": {
+    "toxicEmotions": 2,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 2,
+    "missingCommitment": 0,
+    "missingIntelligibility": 1,
+    "otherReasons": 0
+  },
+  "binaryLabels": {
+    "toxicEmotions": true,
+    "missingCommitment": false,
+    "missingIntelligibility": true,
+    "otherReasons": false
+  }
+}

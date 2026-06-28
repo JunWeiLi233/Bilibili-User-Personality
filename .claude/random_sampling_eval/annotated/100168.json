@@ -1,0 +1,51 @@
+{
+  "uid": "100168",
+  "annotatedAt": "2026-06-28T15:14:01.137Z",
+  "commentCount": 60,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "notes": "技术讨论为主，理性平和，无不良行为"
+  },
+  "A2": {
+    "toxicEmotions": 2,
+    "missingCommitment": 0,
+    "missingIntelligibility": 2,
+    "otherReasons": 0,
+    "evidence": [
+      "[46] '我不会买这种弱智接口的显卡！' 中'弱智'是人身攻击",
+      "[42] '银欣这个机箱设计的真睿智' 中'睿智'是贬低",
+      "[8] '造谣的目的就是为了利益， 为了涨价罢了' 中'造谣'是扣帽子",
+      "[46] '这就是nv藉由市场地位打算逼大家换电源搞的一个垃圾接口' 是绝对化断言",
+      "[24] '做大了就是这样的,除了诅咒也别无他法了.' 是绝对化断言"
+    ],
+    "notes": "存在明确的人身攻击和扣帽子（toxicEmotions），以及多次绝对化断言（missingIntelligibility），但未发现回避讨论或恶意拼写/刷屏行为。"
+  },
+  "A3": {
+    "toxicEmotions": 1,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "resolution": "折中",
+    "notes": "用户整体以技术讨论为主，偶有情绪化表达（如对NV接口的吐槽），但远未达到频繁和明显程度；逻辑方面清晰，无混乱。A2评分偏严，A1评分偏宽，故折中为TE=1。"
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 1,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0
+  },
+  "binaryLabels": {
+    "toxicEmotions": true,
+    "missingCommitment": false,
+    "missingIntelligibility": false,
+    "otherReasons": false
+  }
+}

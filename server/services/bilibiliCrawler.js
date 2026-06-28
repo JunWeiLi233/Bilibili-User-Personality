@@ -1,4 +1,5 @@
 import { execFile } from 'node:child_process';
+import { existsSync, readFileSync } from 'node:fs';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -7,14 +8,28 @@ import { promisify } from 'node:util';
 const execFileAsync = promisify(execFile);
 
 const USER_AGENTS = [
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+  // Chrome 123-126 (5 variants: Windows + macOS)
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0',
-  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
+  // Firefox 124-126 (3 variants: Windows + macOS)
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0',
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0',
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:124.0) Gecko/20100101 Firefox/124.0',
+  // Edge 124-126 (3 variants)
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0',
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36 Edg/125.0.0.0',
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0',
+  // Safari 17.x mobile (2 variants)
+  'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1',
+  'Mozilla/5.0 (iPad; CPU OS 17_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Mobile/15E148 Safari/604.1',
+  // Safari 17.x desktop (2 variants)
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15',
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15',
 ];
 const ACCEPT_LANGUAGE = 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7';
-const SEC_CH_UA = '"Chromium";v="124", "Google Chrome";v="124", "Not.A/Brand";v="99"';
 const BLOCK_CODES = new Set([-101, -111, -352, -412, -509, -799]);
 const MAX_COOLDOWN_MULTIPLIER = 8;
 const CACHE_MAX_SIZE = 500;
@@ -22,11 +37,75 @@ const cookieJar = new Map();
 let nextRequestAt = 0;
 let cooldownUntil = 0;
 let consecutiveBlocks = 0;
-let sessionUaPicked = false;
-let sessionUserAgent = USER_AGENTS[0];
-let sessionPlatform = 'Windows';
 let cookiesInitialized = false;
 let cachePruneGate = 0;
+let sessionAuthenticated = null; // null=unchecked, true=valid, false=invalid
+let lastSessionCheck = 0;
+
+// ── SessionIdentity: per-session UA + platform + sec-ch-ua ──────────────────────
+// Replaces the old module-level globals (sessionUaPicked, sessionUserAgent,
+// sessionPlatform). Picks a fresh UA once per fetch cycle, rotates on block,
+// and resets cleanly for test isolation.
+
+class SessionIdentity {
+  #uaPicked = false;
+  #userAgent = USER_AGENTS[0];
+  #platform = 'Windows';
+
+  ensurePicked(randomFn) {
+    if (this.#uaPicked) return;
+    this.#uaPicked = true;
+    const envUa = String(process.env.BILIBILI_CRAWLER_UA || '').trim();
+    if (envUa) {
+      this.#userAgent = envUa;
+      this.#platform = SessionIdentity.#detectPlatform(envUa);
+      return;
+    }
+    const pick = Math.floor(randomFn() * USER_AGENTS.length);
+    const idx = ((pick % USER_AGENTS.length) + USER_AGENTS.length) % USER_AGENTS.length;
+    this.#userAgent = USER_AGENTS[idx] || USER_AGENTS[0];
+    this.#platform = SessionIdentity.#detectPlatform(this.#userAgent);
+  }
+
+  rotate(randomFn) {
+    const envUa = String(process.env.BILIBILI_CRAWLER_UA || '').trim();
+    if (envUa) return; // env override is pinned — rotation is a no-op
+    const pick = Math.floor(randomFn() * USER_AGENTS.length);
+    const idx = ((pick % USER_AGENTS.length) + USER_AGENTS.length) % USER_AGENTS.length;
+    this.#userAgent = USER_AGENTS[idx] || USER_AGENTS[0];
+    this.#platform = SessionIdentity.#detectPlatform(this.#userAgent);
+  }
+
+  reset() {
+    this.#uaPicked = false;
+    this.#userAgent = USER_AGENTS[0];
+    this.#platform = 'Windows';
+  }
+
+  get userAgent() { return this.#userAgent; }
+  get platform() { return this.#platform; }
+
+  get secChUa() {
+    const uaStr = this.#userAgent;
+    if (uaStr.includes('Edg/')) {
+      const m = uaStr.match(/Edg\/(\d+)/);
+      const v = m ? m[1] : '124';
+      return `"Chromium";v="${v}", "Microsoft Edge";v="${v}", "Not.A/Brand";v="99"`;
+    }
+    if (uaStr.includes('Chrome/')) {
+      const m = uaStr.match(/Chrome\/(\d+)/);
+      const v = m ? m[1] : '124';
+      return `"Chromium";v="${v}", "Google Chrome";v="${v}", "Not.A/Brand";v="99"`;
+    }
+    return ''; // Firefox and Safari don't send sec-ch-ua
+  }
+
+  static #detectPlatform(ua) {
+    return /Macintosh|iPhone|iPad/i.test(ua) ? 'macOS' : 'Windows';
+  }
+}
+
+const sessionIdentity = new SessionIdentity();
 
 // LRU cache with TTL-aware eviction. Bounded to CACHE_MAX_SIZE entries;
 // least-recently-used entries are evicted first when the cap is exceeded.
@@ -79,6 +158,243 @@ function pruneExpiredCacheEntries(nowFn) {
   responseCache.pruneExpired(nowFn());
 }
 
+// ── Token bucket rate limiter ─────────────────────────────────────────────────
+// Proactive throttling — tokens refill at sustainPerSec, never exceed burst cap.
+// Applied before every fetch() to prevent hitting Bilibili's rate-limit wall
+// in the first place, rather than reacting after a -412 block code.
+
+class TokenBucket {
+  #burst;
+  #sustainPerSec;
+  #tokens;
+  #lastRefill;
+  #nowFn;
+
+  constructor(burst, sustainPerSec, nowFn) {
+    this.#burst = Math.max(1, Number(burst) || 8);
+    this.#sustainPerSec = Math.max(0.1, Number(sustainPerSec) || 2);
+    this.#tokens = this.#burst;
+    this.#lastRefill = (nowFn || Date.now)();
+    this.#nowFn = nowFn || Date.now;
+  }
+
+  // Wait until a token is available, then consume it.
+  // Returns the wait time in ms (0 if token was immediately available).
+  async take(waitFn) {
+    this.#refill();
+    if (this.#tokens >= 1) {
+      this.#tokens -= 1;
+      return 0;
+    }
+    const deficit = 1 - this.#tokens;
+    const waitMs = Math.ceil((deficit / this.#sustainPerSec) * 1000);
+    if (waitFn && waitMs > 0) await waitFn(waitMs);
+    this.#lastRefill = this.#nowFn();
+    // After waiting for the deficit, exactly deficit tokens have been refilled.
+    // Consume 1 token — leave deficit − 1 (typically 0 for a 1-token deficit).
+    this.#tokens = Math.max(0, deficit - 1);
+    return waitMs;
+  }
+
+  #refill() {
+    const now = this.#nowFn();
+    const elapsed = Math.max(0, (now - this.#lastRefill) / 1000);
+    this.#tokens = Math.min(this.#burst, this.#tokens + elapsed * this.#sustainPerSec);
+    this.#lastRefill = now;
+  }
+
+  // Peek at available tokens without consuming
+  get available() {
+    this.#refill();
+    return this.#tokens;
+  }
+
+  reset() {
+    this.#tokens = this.#burst;
+    this.#lastRefill = this.#nowFn();
+  }
+}
+
+// Per-endpoint token buckets (lazily initialised).
+// Endpoint groups keyed by URL path prefix — search gets stricter limits
+// because Bilibili rate-limits search more aggressively than content reads.
+const endpointBuckets = new Map();
+
+const ENDPOINT_BUCKET_DEFAULTS = {
+  '/x/web-interface/search':     { burst: 5,  sustain: 1 },   // search: strict
+  '/x/web-interface/wbi/search': { burst: 5,  sustain: 1 },
+  '/x/v2/reply':                 { burst: 10, sustain: 3 },   // comments: moderate
+  '/x/v2/reply/main':            { burst: 10, sustain: 3 },
+  '/x/v2/reply/reply':           { burst: 10, sustain: 3 },
+  '/x/v2/reply/search':          { burst: 10, sustain: 3 },
+  '/x/web-interface/view':       { burst: 12, sustain: 4 },   // video info: loose
+  '/x/web-interface/card':       { burst: 12, sustain: 4 },   // user card: loose
+  '/x/space/arc/search':         { burst: 8,  sustain: 2 },   // space: normal
+  '/x/polymer/web-dynamic':      { burst: 8,  sustain: 2 },   // dynamics: normal
+  '/x/v1/dm/list.so':            { burst: 15, sustain: 5 },   // danmaku XML: loose
+  '/x/web-interface/popular':    { burst: 6,  sustain: 2 },   // popular: moderate
+  '/x/v3/fav/resource/list':     { burst: 6,  sustain: 2 },   // favorites: moderate
+};
+
+function getEndpointBucket(url, nowFn, env) {
+  const burstOverride = Number(env?.BILIBILI_RATE_BURST || 0);
+  const sustainOverride = Number(env?.BILIBILI_RATE_SUSTAIN || 0);
+
+  // Match the longest prefix
+  let bestKey = '/';  // default
+  for (const prefix of Object.keys(ENDPOINT_BUCKET_DEFAULTS)) {
+    if (String(url).includes(prefix) && prefix.length > bestKey.length) {
+      bestKey = prefix;
+    }
+  }
+
+  const cacheKey = `${bestKey}|${burstOverride}|${sustainOverride}`;
+  let bucket = endpointBuckets.get(cacheKey);
+  if (!bucket) {
+    const defaults = ENDPOINT_BUCKET_DEFAULTS[bestKey] || { burst: 8, sustain: 2 };
+    const burst = burstOverride > 0 ? burstOverride : defaults.burst;
+    const sustain = sustainOverride > 0 ? sustainOverride : defaults.sustain;
+    bucket = new TokenBucket(burst, sustain, nowFn);
+    endpointBuckets.set(cacheKey, bucket);
+  }
+  return bucket;
+}
+
+function resetAllBuckets() {
+  for (const bucket of endpointBuckets.values()) bucket.reset();
+}
+
+// ── WAF / endpoint exhaustion tracking ────────────────────────────────────────
+// Tracks WAF (Cloudflare 1015 / HTML challenge) per endpoint+proxy.
+// After 3 consecutive WAFs on the same endpoint → mark exhausted, skip.
+// After 5 total WAFs across all endpoints → abort run.
+
+const wafCounts = new Map();           // key: "endpoint|proxy" → count
+const exhaustedEndpoints = new Set();  // endpoints to skip
+let totalWafs = 0;
+
+const WAF_HTTP_CODES = new Set([403, 503]);
+const WAF_BLOCK_CODES = new Set([-101, -111]);
+
+function isWafResponse(status, payload) {
+  if (WAF_HTTP_CODES.has(status)) return true;
+  if (payload && WAF_BLOCK_CODES.has(Number(payload?.code))) return true;
+  return false;
+}
+
+function endpointKey(url) {
+  try {
+    const u = new URL(String(url));
+    return u.pathname;
+  } catch {
+    return String(url).split('?')[0] || String(url);
+  }
+}
+
+function recordWaf(url, proxy) {
+  const ep = endpointKey(url);
+  const key = proxy ? `${ep}|${proxy}` : ep;
+  const count = (wafCounts.get(key) || 0) + 1;
+  wafCounts.set(key, count);
+  totalWafs += 1;
+
+  if (count >= 3) {
+    exhaustedEndpoints.add(ep);
+    console.warn(`[bilibili-crawler] Endpoint exhausted after ${count} WAFs: ${ep}`);
+  }
+
+  if (totalWafs >= 5) {
+    throw new Error(
+      `Bilibili scraper aborted: ${totalWafs} total WAF detections across endpoints. ` +
+      `IP or proxy pool likely flagged. Exhausted endpoints: ${[...exhaustedEndpoints].join(', ')}`,
+    );
+  }
+
+  return count;
+}
+
+function isEndpointExhausted(url) {
+  return exhaustedEndpoints.has(endpointKey(url));
+}
+
+function resetWafState() {
+  wafCounts.clear();
+  exhaustedEndpoints.clear();
+  totalWafs = 0;
+}
+
+// ── Proxy rotation ────────────────────────────────────────────────────────────
+
+let proxyRotator = null;
+let proxyFetchAgent = null; // http.Agent for the current proxy
+
+function getProxyAgent(proxyUrl) {
+  if (!proxyUrl) return null;
+  // node:http Agent for proxied requests — we use the URL as a hint;
+  // actual proxy integration happens via fetchImpl override in production.
+  // For tests, this returns null so mock fetchImpl works unchanged.
+  return null;
+}
+
+function initProxyRotator(env) {
+  const raw = String(env?.BILIBILI_PROXY_LIST || '').trim();
+  if (!raw) {
+    proxyRotator = null;
+    return;
+  }
+  let list;
+  if (existsSync(raw)) {
+    list = readFileSync(raw, 'utf8').split('\n').map(s => s.trim()).filter(Boolean);
+  } else {
+    list = raw.split(',').map(s => s.trim()).filter(Boolean);
+  }
+  if (list.length > 0) {
+    proxyRotator = {
+      proxies: list,
+      index: 0,
+      consecutiveBlocks: Object.fromEntries(list.map(p => [p, 0])),
+      quarantinedUntil: Object.fromEntries(list.map(p => [p, 0])),
+      current() {
+        if (this.proxies.length === 0) return null;
+        return this.proxies[this.index];
+      },
+      rotate(now) {
+        if (this.proxies.length === 0) return null;
+        const t = now || Date.now();
+        const start = this.index;
+        do {
+          this.index = (this.index + 1) % this.proxies.length;
+          const p = this.proxies[this.index];
+          if ((this.quarantinedUntil[p] || 0) <= t) return p;
+        } while (this.index !== start);
+        return null; // all quarantined
+      },
+      markBlock(proxy, nowFn) {
+        if (!proxy) return 0;
+        const t = (nowFn || Date.now)();
+        const count = (this.consecutiveBlocks[proxy] || 0) + 1;
+        this.consecutiveBlocks[proxy] = count;
+        if (count >= 3) {
+          const mult = Math.min(8, 2 ** (count - 1));
+          this.quarantinedUntil[proxy] = t + 120000 * mult;
+        }
+        // Rotate away from the blocked proxy
+        this.rotate(t);
+        return count;
+      },
+      markSuccess(proxy) {
+        if (!proxy) return;
+        this.consecutiveBlocks[proxy] = 0;
+      },
+    };
+  }
+}
+
+function resetProxyState() {
+  proxyRotator = null;
+  proxyFetchAgent = null;
+}
+
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function readCrawlerConfig(env = process.env) {
@@ -111,8 +427,13 @@ export function resetBilibiliRequestState() {
   nextRequestAt = 0;
   cooldownUntil = 0;
   consecutiveBlocks = 0;
-  sessionUaPicked = false;
+  sessionIdentity.reset();
   cookiesInitialized = false;
+  sessionAuthenticated = null;
+  lastSessionCheck = 0;
+  resetAllBuckets();
+  resetWafState();
+  resetProxyState();
 }
 
 function cacheKey(url, referer) {
@@ -127,13 +448,23 @@ function randomHex(len, randomFn) {
   return out.toUpperCase();
 }
 
-function ensureSessionUserAgent(randomFn) {
-  if (sessionUaPicked) return;
-  sessionUaPicked = true;
-  const pick = Math.floor(randomFn() * USER_AGENTS.length);
-  const idx = ((pick % USER_AGENTS.length) + USER_AGENTS.length) % USER_AGENTS.length;
-  sessionUserAgent = USER_AGENTS[idx] || USER_AGENTS[0];
-  sessionPlatform = sessionUserAgent.includes('Macintosh') ? 'macOS' : 'Windows';
+// Dynamic sec-ch-ua matching a UA string. Kept as a standalone utility so
+// it can be called with an arbitrary UA (e.g. for logging / debugging).
+function buildSecChUa(ua) {
+  const uaStr = String(ua || sessionIdentity.userAgent);
+  if (uaStr.includes('Edg/')) {
+    const m = uaStr.match(/Edg\/(\d+)/);
+    const v = m ? m[1] : '124';
+    return `"Chromium";v="${v}", "Microsoft Edge";v="${v}", "Not.A/Brand";v="99"`;
+  }
+  if (uaStr.includes('Chrome/')) {
+    const m = uaStr.match(/Chrome\/(\d+)/);
+    const v = m ? m[1] : '124';
+    return `"Chromium";v="${v}", "Google Chrome";v="${v}", "Not.A/Brand";v="99"`;
+  }
+  if (uaStr.includes('Firefox/')) return ''; // Firefox doesn't send sec-ch-ua
+  // Safari
+  return '';
 }
 
 function ensureCookies(randomFn, nowFn) {
@@ -250,25 +581,30 @@ function siteRelation(url, referer) {
 }
 
 function buildHeaders(url, referer, randomFn, nowFn, requestCookie = '') {
-  ensureSessionUserAgent(randomFn);
+  sessionIdentity.ensurePicked(randomFn);
   ensureCookies(randomFn, nowFn);
   let origin = 'https://www.bilibili.com';
   try { origin = new URL(referer).origin; } catch {}
+  const ua = sessionIdentity.userAgent;
+  const dynamicSecChUa = buildSecChUa(ua);
+  const isMobile = /iPhone|iPad|Android.*Mobile/i.test(ua);
   const headers = {
-    'user-agent': sessionUserAgent,
+    'user-agent': ua,
     referer,
     origin,
     accept: 'application/json, text/plain, */*',
     'accept-language': ACCEPT_LANGUAGE,
     'cache-control': 'no-cache',
     pragma: 'no-cache',
-    'sec-ch-ua': SEC_CH_UA,
-    'sec-ch-ua-mobile': '?0',
-    'sec-ch-ua-platform': `"${sessionPlatform}"`,
     'sec-fetch-dest': 'empty',
     'sec-fetch-mode': 'cors',
     'sec-fetch-site': siteRelation(url, referer),
   };
+  if (dynamicSecChUa) {
+    headers['sec-ch-ua'] = dynamicSecChUa;
+    headers['sec-ch-ua-mobile'] = isMobile ? '?1' : '?0';
+    headers['sec-ch-ua-platform'] = isMobile && ua.includes('iPhone') ? '"iOS"' : `"${sessionIdentity.platform}"`;
+  }
   const cookies = cookieHeader(requestCookie);
   if (cookies) headers.cookie = cookies;
   return headers;
@@ -347,10 +683,23 @@ async function scheduleBilibiliRequest(options = {}) {
   return config;
 }
 
-function applyBlockCooldown(config, nowFn) {
+function applyBlockCooldown(config, nowFn, randomFn) {
   consecutiveBlocks += 1;
   const multiplier = Math.min(2 ** (consecutiveBlocks - 1), MAX_COOLDOWN_MULTIPLIER);
   cooldownUntil = nowFn() + config.blockCooldownMs * multiplier;
+  // Rotate UA and proxy on block
+  sessionIdentity.rotate(randomFn || Math.random);
+  if (proxyRotator) {
+    const current = proxyRotator.current();
+    proxyRotator.markBlock(current, nowFn);
+  }
+}
+
+function applyWafCooldown(url, config, nowFn, randomFn) {
+  const proxy = proxyRotator ? proxyRotator.current() : null;
+  recordWaf(url, proxy);
+  // WAF blocks also trigger normal block cooldown + UA rotation
+  applyBlockCooldown(config, nowFn, randomFn);
 }
 
 export async function fetchJson(url, referer = 'https://www.bilibili.com', options = {}) {
@@ -366,6 +715,14 @@ export async function fetchJson(url, referer = 'https://www.bilibili.com', optio
   if (cached) responseCache.delete(key);
 
   await scheduleBilibiliRequest({ ...options, config });
+  // WAF early-exit: skip exhausted endpoints.
+  if (isEndpointExhausted(url)) {
+    throw new Error(`Bilibili endpoint exhausted (WAF early-exit): ${endpointKey(url)}`);
+  }
+  // Token bucket: wait for rate-limit token before issuing the request.
+  const waitFn = options.waitFn || wait;
+  const bucket = getEndpointBucket(url, nowFn, options.env);
+  const tokenWaitMs = await bucket.take(waitFn);
   const fetchImpl = options.fetchImpl || fetch;
   const response = await fetchWithTimeout(
     fetchImpl,
@@ -377,17 +734,27 @@ export async function fetchJson(url, referer = 'https://www.bilibili.com', optio
     config,
   );
   if (!response.ok) {
-    if ([403, 412, 429, 503].includes(Number(response.status))) {
-      applyBlockCooldown(config, nowFn);
+    const status = Number(response.status);
+    if (isWafResponse(status)) {
+      applyWafCooldown(url, config, nowFn, randomFn);
+    } else if ([412, 429].includes(status)) {
+      applyBlockCooldown(config, nowFn, randomFn);
     }
     throw new Error(`HTTP ${response.status} from ${url}`);
   }
   captureSetCookies(response);
   const payload = await response.json();
   if (isBilibiliBlockResponse(payload)) {
-    applyBlockCooldown(config, nowFn);
+    // -101/-111 are WAF blocks; others are rate-limit blocks
+    if (isWafResponse(200, payload)) {
+      applyWafCooldown(url, config, nowFn, randomFn);
+    } else {
+      applyBlockCooldown(config, nowFn, randomFn);
+    }
   } else if (payload?.code === 0) {
     consecutiveBlocks = 0;
+    // Mark proxy as healthy on success
+    if (proxyRotator) proxyRotator.markSuccess(proxyRotator.current());
     if (key && config.cacheTtlMs > 0) {
       responseCache.set(key, {
         expiresAt: nowFn() + config.cacheTtlMs,
@@ -407,6 +774,14 @@ export async function fetchText(url, referer = 'https://www.bilibili.com', optio
   const randomFn = options.randomFn || Math.random;
   const requestCookie = normalizeBilibiliCookie(options.bilibiliCookie || options.cookie);
   await scheduleBilibiliRequest({ ...options, config });
+  // WAF early-exit: skip exhausted endpoints.
+  if (isEndpointExhausted(url)) {
+    throw new Error(`Bilibili endpoint exhausted (WAF early-exit): ${endpointKey(url)}`);
+  }
+  // Token bucket: wait for rate-limit token before issuing the request.
+  const waitFn = options.waitFn || wait;
+  const bucket = getEndpointBucket(url, nowFn, options.env);
+  const tokenWaitMs = await bucket.take(waitFn);
   const fetchImpl = options.fetchImpl || fetch;
   const response = await fetchWithTimeout(
     fetchImpl,
@@ -418,13 +793,17 @@ export async function fetchText(url, referer = 'https://www.bilibili.com', optio
     config,
   );
   if (!response.ok) {
-    if ([403, 412, 429, 503].includes(Number(response.status))) {
-      applyBlockCooldown(config, nowFn);
+    const status = Number(response.status);
+    if (isWafResponse(status)) {
+      applyWafCooldown(url, config, nowFn, randomFn);
+    } else if ([412, 429].includes(status)) {
+      applyBlockCooldown(config, nowFn, randomFn);
     }
     throw new Error(`HTTP ${response.status} from ${url}`);
   }
   captureSetCookies(response);
   consecutiveBlocks = 0;
+  if (proxyRotator) proxyRotator.markSuccess(proxyRotator.current());
   return response.text();
 }
 
@@ -582,9 +961,11 @@ export async function fetchUserCard(uid, deps = {}) {
 }
 
 export async function discoverVideosByUid(uid, limit, deps = {}) {
+  await maybeRevalidateSession(deps);
   deps = depsWithBilibiliCookie(deps, deps.bilibiliCookie || deps.cookie);
   const requestJson = deps.fetchJson || fetchJson;
   const url = `https://api.bilibili.com/x/space/arc/search?mid=${encodeURIComponent(uid)}&pn=1&ps=${limit}&order=pubdate`;
+  guardAuthEndpoint(url);
   const data = await requestJson(url, `https://space.bilibili.com/${uid}`);
   if (data.code !== 0) {
     throw new Error(data.message || `space video discovery failed with code ${data.code}`);
@@ -594,6 +975,8 @@ export async function discoverVideosByUid(uid, limit, deps = {}) {
 }
 
 export async function discoverVideosByFavorite(mediaId, limit, deps = {}) {
+  await maybeRevalidateSession(deps);
+  guardAuthEndpoint('/x/v3/fav/resource/list');
   deps = depsWithBilibiliCookie(deps);
   const requestJson = deps.fetchJson || fetchJson;
   let effectiveLimit = limit;
@@ -707,6 +1090,8 @@ export function extractDynamicRecords(items, uid) {
 }
 
 export async function discoverDynamicsByUid(uid, limit, deps = {}) {
+  await maybeRevalidateSession(deps);
+  guardAuthEndpoint('/x/polymer/web-dynamic/v1/feed/space');
   deps = depsWithBilibiliCookie(deps, deps.bilibiliCookie || deps.cookie);
   const requestJson = deps.fetchJson || fetchJson;
   const pageLimit = Math.max(1, Math.ceil(limit / 12));
@@ -1023,6 +1408,8 @@ export async function fetchRepliesForVideo(input, options = {}, deps = {}) {
 }
 
 export async function fetchUserPublicComments(mid, pages, deps = {}) {
+  await maybeRevalidateSession(deps);
+  guardAuthEndpoint('/x/v2/reply/search');
   deps = depsWithBilibiliCookie(deps, deps.bilibiliCookie || deps.cookie);
   const requestJson = deps.fetchJson || fetchJson;
   const pageCount = Math.max(1, Math.min(Number(pages || 2), 5));
@@ -1192,3 +1579,86 @@ export async function analyzeUid(payload, deps = {}) {
       statements.length >= 12 ? 'sample sufficient' : statements.length >= 5 ? 'low-medium confidence' : 'sample insufficient',
   };
 }
+
+// ── Session validation ────────────────────────────────────────────────────────
+// Checks whether the BILIBILI_COOKIE session is still valid by calling the
+// Bilibili /nav endpoint. Returns { isLogin, mid, uname } or null on error.
+
+export async function validateSession(deps = {}) {
+  const requestJson = deps.fetchJson || fetchJson;
+  try {
+    const data = await requestJson(
+      'https://api.bilibili.com/x/web-interface/nav',
+      'https://www.bilibili.com',
+      { bilibiliCookie: deps.bilibiliCookie || deps.cookie, config: { minDelayMs: 0, jitterMs: 0, cacheTtlMs: 0, longPauseProbability: 0 } },
+    );
+    if (data?.code === 0 && data?.data?.isLogin) {
+      sessionAuthenticated = true;
+      lastSessionCheck = Date.now();
+      const mid = String(data.data.mid || '');
+      const uname = data.data.uname || '';
+      console.log(`[bilibili-crawler] Session valid — logged in as ${uname} (mid=${mid})`);
+      return { isLogin: true, mid, uname };
+    }
+    sessionAuthenticated = false;
+    lastSessionCheck = Date.now();
+    console.warn('[bilibili-crawler] Session invalid — falling back to unauthenticated mode');
+    return { isLogin: false, mid: '', uname: '' };
+  } catch (error) {
+    console.warn(`[bilibili-crawler] Session check failed: ${error.message}`);
+    sessionAuthenticated = false;
+    lastSessionCheck = Date.now();
+    return null;
+  }
+}
+
+// Check session state, re-validating if the check interval has elapsed.
+// Auth-required endpoints: space arc search, favorites, dynamics, nav.
+// Returns true if authenticated, false otherwise.
+export function isSessionValid() {
+  return sessionAuthenticated === true;
+}
+
+export function isSessionChecked() {
+  return sessionAuthenticated !== null;
+}
+
+// Re-validate the session if the configured interval has elapsed since the last
+// check. No-op when the session was recently validated. Configurable via
+// BILIBILI_SESSION_CHECK_INTERVAL_MS (default 30 min).
+export async function maybeRevalidateSession(deps = {}) {
+  const intervalMs = Math.max(0, Number(process.env.BILIBILI_SESSION_CHECK_INTERVAL_MS || 1800000));
+  if (sessionAuthenticated !== null && (Date.now() - lastSessionCheck) < intervalMs) {
+    return; // recently validated — skip
+  }
+  await validateSession(deps);
+}
+
+// Auth-required endpoint paths (used by callers to skip when session is invalid)
+const AUTH_REQUIRED_PREFIXES = [
+  '/x/space/arc/search',
+  '/x/v3/fav/resource',
+  '/x/polymer/web-dynamic',
+  '/x/v2/reply/search',
+];
+
+export function isAuthRequiredEndpoint(url) {
+  const urlStr = String(url || '');
+  return AUTH_REQUIRED_PREFIXES.some((prefix) => urlStr.includes(prefix));
+}
+
+// Guard: throws if the session is known-invalid and the caller is about to hit
+// an auth-required endpoint. Call after maybeRevalidateSession() at the top of
+// each auth-gated function.
+export function guardAuthEndpoint(url) {
+  if (isSessionChecked() && !isSessionValid()) {
+    throw new Error(
+      `Bilibili session invalid — skipping auth-required endpoint: ${endpointKey(url)}. ` +
+      `Set a valid BILIBILI_COOKIE to enable auth-dependent features (space, favorites, dynamics, comment history).`,
+    );
+  }
+}
+
+// ── Public API: exporter for TokenBucket, proxy state, WAF state ─────────────
+
+export { TokenBucket, SessionIdentity, getEndpointBucket, initProxyRotator, resetWafState, isEndpointExhausted, isWafResponse, recordWaf, ENDPOINT_BUCKET_DEFAULTS, sessionIdentity, buildSecChUa, USER_AGENTS };

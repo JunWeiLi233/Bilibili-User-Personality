@@ -1,0 +1,45 @@
+{
+  "uid": "100151",
+  "annotatedAt": "2026-06-28T15:13:15.748Z",
+  "commentCount": 22,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "notes": "用户互动正常，以讨论游戏内容为主，无情绪过激、回避讨论或逻辑混乱表现。"
+  },
+  "A2": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "evidence": [],
+    "notes": "未发现明确证据支持任何维度，评论以正常游戏讨论和提问为主，批评性评论未涉及人身攻击或逻辑混乱。"
+  },
+  "A3": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "resolution": "同意A1/同意A2",
+    "notes": "评论以游戏讨论和友善交流为主，无过激情绪或逻辑问题，A1和A2评分一致合理。"
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0
+  },
+  "binaryLabels": {
+    "toxicEmotions": false,
+    "missingCommitment": false,
+    "missingIntelligibility": false,
+    "otherReasons": false
+  }
+}

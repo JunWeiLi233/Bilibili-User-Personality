@@ -1,0 +1,38 @@
+{
+  "uid": "100018",
+  "annotatedAt": "2026-06-28T15:08:09.234Z",
+  "commentCount": 60,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 1,
+    "notes": "整体表达平和，无明显情绪过激或逻辑混乱，偶有无意义表情或简短回复，但比例不高。"
+  },
+  "A2": null,
+  "A3": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "resolution": "同意A1",
+    "notes": "用户评论以表情和简短调侃为主，情绪平和，积极参与讨论，逻辑清晰，无其他显著问题。"
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 1
+  },
+  "binaryLabels": {
+    "toxicEmotions": false,
+    "missingCommitment": false,
+    "missingIntelligibility": false,
+    "otherReasons": true
+  }
+}

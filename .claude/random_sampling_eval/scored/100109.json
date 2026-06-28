@@ -1,0 +1,152 @@
+{
+  "uid": "100109",
+  "scoredAt": "2026-06-28T14:44:00.468Z",
+  "trollIndex": 31,
+  "sampleSize": 105,
+  "speechSummary": {
+    "negative": 3,
+    "positive": 2,
+    "lexicon": 32,
+    "mode": "hybrid"
+  },
+  "scores": [
+    {
+      "axis": "情绪过激",
+      "category": "toxicEmotions",
+      "value": 33,
+      "kappa": 0.84
+    },
+    {
+      "axis": "回避讨论",
+      "category": "missingCommitment",
+      "value": 26,
+      "kappa": 0.75
+    },
+    {
+      "axis": "逻辑混乱",
+      "category": "missingIntelligibility",
+      "value": 49,
+      "kappa": 0.69
+    },
+    {
+      "axis": "其他问题",
+      "category": "otherReasons",
+      "value": 10,
+      "kappa": 0.7
+    }
+  ],
+  "vocabularyMarks": [
+    {
+      "term": "打call",
+      "family": "cooperation",
+      "label": "合作讨论",
+      "axis": "逻辑混乱",
+      "polarity": "support",
+      "count": 10
+    },
+    {
+      "term": "笑哭",
+      "family": "cooperation",
+      "label": "合作讨论",
+      "axis": "逻辑混乱",
+      "polarity": "support",
+      "count": 4
+    },
+    {
+      "term": "星星眼",
+      "family": "cooperation",
+      "label": "合作讨论",
+      "axis": "逻辑混乱",
+      "polarity": "support",
+      "count": 3
+    },
+    {
+      "term": "没人",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 2
+    },
+    {
+      "term": "装",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "0级",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "团建",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "哈哈哈",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "都是",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "一定",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "全是",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "想你了",
+      "family": "cooperation",
+      "label": "合作讨论",
+      "axis": "逻辑混乱",
+      "polarity": "support",
+      "count": 1
+    },
+    {
+      "term": "应该是",
+      "family": "cooperation",
+      "label": "合作讨论",
+      "axis": "逻辑混乱",
+      "polarity": "support",
+      "count": 1
+    },
+    {
+      "term": "确实",
+      "family": "cooperation",
+      "label": "合作讨论",
+      "axis": "逻辑混乱",
+      "polarity": "support",
+      "count": 1
+    }
+  ]
+}

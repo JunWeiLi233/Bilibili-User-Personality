@@ -1,0 +1,45 @@
+{
+  "uid": "100637",
+  "annotatedAt": "2026-06-28T15:31:37.947Z",
+  "commentCount": 17,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "notes": "用户评论均为高质量游戏剧情讨论，逻辑清晰、论证详细，未发现任何情绪过激、回避讨论、逻辑混乱或其他问题。"
+  },
+  "A2": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "evidence": [],
+    "notes": "所有评论均为理性讨论、游戏分析或正常互动，无情绪过激、回避讨论、逻辑混乱或恶意表达的文字证据。"
+  },
+  "A3": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "resolution": "同意A1",
+    "notes": "评论内容均为理性分析与讨论，无任何违规行为。"
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0
+  },
+  "binaryLabels": {
+    "toxicEmotions": false,
+    "missingCommitment": false,
+    "missingIntelligibility": false,
+    "otherReasons": false
+  }
+}

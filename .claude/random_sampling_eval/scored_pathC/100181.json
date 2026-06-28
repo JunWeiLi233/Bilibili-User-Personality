@@ -1,0 +1,136 @@
+{
+  "uid": "100181",
+  "scoredAt": "2026-06-28T16:43:54.833Z",
+  "trollIndex": 12,
+  "sampleSize": 91,
+  "scores": [
+    {
+      "axis": "情绪过激",
+      "category": "toxicEmotions",
+      "value": 26,
+      "benchmark": 48,
+      "kappa": 0.84,
+      "kappaLabel": "评分者一致性: κ=0.84 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 63 → 26 (ρ=0.165)",
+      "calibratedValue": 26,
+      "rawValue": 63
+    },
+    {
+      "axis": "回避讨论",
+      "category": "missingCommitment",
+      "value": 3,
+      "benchmark": 44,
+      "kappa": 0.75,
+      "kappaLabel": "评分者一致性: κ=0.75 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 30 → 3 (ρ=0.016)",
+      "calibratedValue": 3,
+      "rawValue": 30
+    },
+    {
+      "axis": "逻辑混乱",
+      "category": "missingIntelligibility",
+      "value": 7,
+      "benchmark": 52,
+      "kappa": 0.69,
+      "kappaLabel": "评分者一致性: κ=0.69 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 55 → 7 (ρ=0.165)",
+      "calibratedValue": 7,
+      "rawValue": 55
+    },
+    {
+      "axis": "其他问题",
+      "category": "otherReasons",
+      "value": 9,
+      "benchmark": 30,
+      "kappa": 0.7,
+      "kappaLabel": "评分者一致性: κ=0.70 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 11 → 9 (ρ=-0.127)",
+      "calibratedValue": 9,
+      "rawValue": 11
+    }
+  ],
+  "rawScores": [
+    {
+      "axis": "情绪过激",
+      "category": "toxicEmotions",
+      "value": 63
+    },
+    {
+      "axis": "回避讨论",
+      "category": "missingCommitment",
+      "value": 30
+    },
+    {
+      "axis": "逻辑混乱",
+      "category": "missingIntelligibility",
+      "value": 55
+    },
+    {
+      "axis": "其他问题",
+      "category": "otherReasons",
+      "value": 11
+    }
+  ],
+  "vocabularyMarks": [
+    {
+      "term": "哈哈哈",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 4
+    },
+    {
+      "term": "硬币",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "智商",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "金坷垃",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "一定",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "笑而不语",
+      "family": "evasion",
+      "label": "举证回避",
+      "axis": "回避讨论",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "不解释",
+      "family": "evasion",
+      "label": "举证回避",
+      "axis": "回避讨论",
+      "polarity": "risk",
+      "count": 1
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "uid": "100113",
+  "scoredAt": "2026-06-28T16:45:09.622Z",
+  "trollIndex": 21,
+  "sampleSize": 106,
+  "scores": [
+    {
+      "axis": "情绪过激",
+      "category": "toxicEmotions",
+      "value": 71,
+      "kappa": 0.84
+    },
+    {
+      "axis": "回避讨论",
+      "category": "missingCommitment",
+      "value": 27,
+      "kappa": 0.75
+    },
+    {
+      "axis": "逻辑混乱",
+      "category": "missingIntelligibility",
+      "value": 59,
+      "kappa": 0.69
+    },
+    {
+      "axis": "其他问题",
+      "category": "otherReasons",
+      "value": 11,
+      "kappa": 0.7
+    }
+  ],
+  "vocabularyMarks": [
+    {
+      "term": "支持",
+      "family": "cooperation",
+      "label": "合作讨论",
+      "axis": "逻辑混乱",
+      "polarity": "support",
+      "count": 3
+    },
+    {
+      "term": "我觉得",
+      "family": "cooperation",
+      "label": "合作讨论",
+      "axis": "逻辑混乱",
+      "polarity": "support",
+      "count": 3
+    },
+    {
+      "term": "嘴臭",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "小丑",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "照你这么说",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "带节奏",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "节奏",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "哈哈哈",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "矮大紧",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "阿三",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "不可能",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "都是",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "肯定",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "一眼",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 1
+    }
+  ]
+}

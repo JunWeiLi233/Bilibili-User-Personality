@@ -1,1 +1,1 @@
-"""Analysis classes for Python-owned offline jobs."""
+﻿"""BiliArgument Analysis Package — validation and calibration tools."""

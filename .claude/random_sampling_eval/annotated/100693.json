@@ -1,0 +1,48 @@
+{
+  "uid": "100693",
+  "annotatedAt": "2026-06-28T15:35:08.917Z",
+  "commentCount": 60,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": {
+    "toxicEmotions": 1,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "notes": "用户虽有少量扣帽子言论（如套政治正确的帽子），但整体语气平和，多为游戏讨论和技术分析，逻辑清晰，无回避或恶意行为。"
+  },
+  "A2": {
+    "toxicEmotions": 2,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "evidence": [
+      "评论[35]: \"你们为了圈子规则吵起来真的很恶臭\"",
+      "评论[36]: \"当圈子警察要求别人干嘛？\""
+    ],
+    "notes": "在争议性话题中使用了'恶臭'、'圈子警察'等明确的人身攻击和扣帽子表达，符合情绪过激维度。其他维度未发现明确文字证据。"
+  },
+  "A3": {
+    "toxicEmotions": 1,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "resolution": "同意A1",
+    "notes": "用户评论虽有讽刺但整体理性，情绪表现不突出，无其他问题。"
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 1,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0
+  },
+  "binaryLabels": {
+    "toxicEmotions": true,
+    "missingCommitment": false,
+    "missingIntelligibility": false,
+    "otherReasons": false
+  }
+}

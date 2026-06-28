@@ -1,0 +1,87 @@
+{
+  "ok": true,
+  "learnedAt": "2026-06-28T12:38:19.754409+00:00",
+  "source": "D:\\Bilibili_User_Personality\\.claude\\annotation_data\\disambiguated_top50.json",
+  "n_samples": 50,
+  "axes": [
+    "toxicEmotions",
+    "missingCommitment",
+    "missingIntelligibility",
+    "otherReasons"
+  ],
+  "per_axis": {
+    "toxicEmotions": {
+      "weights": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "raw_coefficients": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "intercept": -0.002,
+      "training": {
+        "final_accuracy": 0.7,
+        "iterations": 1,
+        "n_positive": 15,
+        "n_samples": 50
+      }
+    },
+    "missingCommitment": {
+      "weights": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "intercept": 0.0,
+      "training": {
+        "final_accuracy": 1.0,
+        "n_positive": 0,
+        "n_samples": 50,
+        "note": "no positive samples; default weight assigned"
+      }
+    },
+    "missingIntelligibility": {
+      "weights": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "raw_coefficients": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "intercept": -0.0046,
+      "training": {
+        "final_accuracy": 0.96,
+        "iterations": 1,
+        "n_positive": 2,
+        "n_samples": 50
+      }
+    },
+    "otherReasons": {
+      "weights": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "intercept": 0.0,
+      "training": {
+        "final_accuracy": 1.0,
+        "n_positive": 0,
+        "n_samples": 50,
+        "note": "no positive samples; default weight assigned"
+      }
+    }
+  },
+  "provenance": "Logistic regression weights learned from keyword density features on 50 DeepSeek-annotated comments. Weights are normalized to sum to 1 per axis for UI display. Raw coefficients map keyword hit counts to log-odds of binary Ziegenbein axis presence (>=1)."
+}

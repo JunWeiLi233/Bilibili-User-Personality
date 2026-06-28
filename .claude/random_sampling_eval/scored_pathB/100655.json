@@ -1,0 +1,66 @@
+{
+  "uid": "100655",
+  "scoredAt": "2026-06-28T16:45:10.288Z",
+  "trollIndex": 4,
+  "sampleSize": 74,
+  "scores": [
+    {
+      "axis": "情绪过激",
+      "category": "toxicEmotions",
+      "value": 34,
+      "kappa": 0.84
+    },
+    {
+      "axis": "回避讨论",
+      "category": "missingCommitment",
+      "value": 28,
+      "kappa": 0.75
+    },
+    {
+      "axis": "逻辑混乱",
+      "category": "missingIntelligibility",
+      "value": 45,
+      "kappa": 0.69
+    },
+    {
+      "axis": "其他问题",
+      "category": "otherReasons",
+      "value": 10,
+      "kappa": 0.7
+    }
+  ],
+  "vocabularyMarks": [
+    {
+      "term": "没有",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 2
+    },
+    {
+      "term": "信仰",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "为什么",
+      "family": "evidence",
+      "label": "证据线索",
+      "axis": "逻辑混乱",
+      "polarity": "support",
+      "count": 1
+    },
+    {
+      "term": "标准结局",
+      "family": "cooperation",
+      "label": "合作讨论",
+      "axis": "逻辑混乱",
+      "polarity": "support",
+      "count": 1
+    }
+  ]
+}

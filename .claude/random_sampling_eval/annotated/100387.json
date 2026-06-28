@@ -1,0 +1,48 @@
+{
+  "uid": "100387",
+  "annotatedAt": "2026-06-28T15:25:54.836Z",
+  "commentCount": 40,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "notes": "评论多为简短互动、表情包、提问和感谢，无情绪过激、回避讨论、逻辑混乱或恶意行为。"
+  },
+  "A2": {
+    "toxicEmotions": 1,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 1,
+    "evidence": [
+      "评论[2]连续使用中指emoji，属于明显的人身攻击和情绪宣泄",
+      "评论[2]连续刷屏手指emoji，属于恶意表达/无意义刷屏"
+    ],
+    "notes": "toxicEmotions: 明确使用中指emoji攻击；otherReasons: 同一评论构成恶意表达和刷屏；其他维度无明确证据。"
+  },
+  "A3": {
+    "toxicEmotions": 1,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "resolution": "折中",
+    "notes": "存在竖中指和性暗示评论，但频率不高，未达到明显且频繁的程度，因此给1分。"
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 1,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0
+  },
+  "binaryLabels": {
+    "toxicEmotions": true,
+    "missingCommitment": false,
+    "missingIntelligibility": false,
+    "otherReasons": false
+  }
+}

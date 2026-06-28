@@ -1,0 +1,152 @@
+{
+  "uid": "100168",
+  "scoredAt": "2026-06-28T16:41:15.825Z",
+  "trollIndex": 7,
+  "sampleSize": 128,
+  "speechSummary": {
+    "negative": 7,
+    "positive": 5,
+    "lexicon": 23,
+    "mode": "hybrid"
+  },
+  "scores": [
+    {
+      "axis": "情绪过激",
+      "category": "toxicEmotions",
+      "value": 45,
+      "kappa": 0.84
+    },
+    {
+      "axis": "回避讨论",
+      "category": "missingCommitment",
+      "value": 26,
+      "kappa": 0.75
+    },
+    {
+      "axis": "逻辑混乱",
+      "category": "missingIntelligibility",
+      "value": 50,
+      "kappa": 0.69
+    },
+    {
+      "axis": "其他问题",
+      "category": "otherReasons",
+      "value": 11,
+      "kappa": 0.7
+    }
+  ],
+  "vocabularyMarks": [
+    {
+      "term": "典",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 2
+    },
+    {
+      "term": "确实",
+      "family": "cooperation",
+      "label": "合作讨论",
+      "axis": "逻辑混乱",
+      "polarity": "support",
+      "count": 2
+    },
+    {
+      "term": "确实",
+      "family": "correction",
+      "label": "自我修正",
+      "axis": "回避讨论",
+      "polarity": "support",
+      "count": 2
+    },
+    {
+      "term": "拉了",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "睿智",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "垃圾",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "阴谋论",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "节奏",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "脑补",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "全都",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "全都是",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "根本",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "没人",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "这就是",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 1
+    }
+  ]
+}

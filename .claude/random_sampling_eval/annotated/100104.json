@@ -1,0 +1,48 @@
+{
+  "uid": "100104",
+  "annotatedAt": "2026-06-28T15:11:40.333Z",
+  "commentCount": 21,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "notes": "所有评论均为正面表达喜爱、支持或求资源，无攻击性、无回避讨论、无逻辑混乱、无恶意行为。"
+  },
+  "A2": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "evidence": [
+      "太赞了！",
+      "顶一个 必看啊"
+    ],
+    "notes": "用户评论均为正面支持和资源请求，无任何负面或争议性表达。"
+  },
+  "A3": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "resolution": "同意A1",
+    "notes": "评论均为正面支持，无任何维度问题"
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0
+  },
+  "binaryLabels": {
+    "toxicEmotions": false,
+    "missingCommitment": false,
+    "missingIntelligibility": false,
+    "otherReasons": false
+  }
+}

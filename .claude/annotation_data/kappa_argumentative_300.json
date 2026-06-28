@@ -1,0 +1,156 @@
+{
+  "generatedAt": "2026-06-28T13:32:49.211838+00:00",
+  "source": "D:\\Bilibili_User_Personality\\.claude\\annotation_data\\argumentative_candidates.json",
+  "n_comments": 300,
+  "n_paired": 300,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "kappa": {
+    "pairwise": {
+      "A1-A2": {
+        "per_axis": {
+          "toxicEmotions": 0.5248,
+          "missingCommitment": 0.2359,
+          "missingIntelligibility": 0.2066,
+          "otherReasons": 0.1762
+        },
+        "overall": 0.4132
+      },
+      "A1-A3": {
+        "per_axis": {
+          "toxicEmotions": 0.6998,
+          "missingCommitment": 0.6866,
+          "missingIntelligibility": 0.5439,
+          "otherReasons": 0.4598
+        },
+        "overall": 0.6723
+      },
+      "A2-A3": {
+        "per_axis": {
+          "toxicEmotions": 0.8167,
+          "missingCommitment": 0.5705,
+          "missingIntelligibility": 0.5233,
+          "otherReasons": 0.6384
+        },
+        "overall": 0.7368
+      }
+    },
+    "average_pairwise": {
+      "per_axis": {
+        "toxicEmotions": 0.6804,
+        "missingCommitment": 0.4977,
+        "missingIntelligibility": 0.4246,
+        "otherReasons": 0.4248
+      },
+      "overall": 0.6074
+    },
+    "consensus": {
+      "A1": {
+        "per_axis": {
+          "toxicEmotions": 0.7089,
+          "missingCommitment": 0.6866,
+          "missingIntelligibility": 0.5439,
+          "otherReasons": 0.4598
+        },
+        "overall": 0.6769
+      },
+      "A2": {
+        "per_axis": {
+          "toxicEmotions": 0.8262,
+          "missingCommitment": 0.5705,
+          "missingIntelligibility": 0.5233,
+          "otherReasons": 0.6384
+        },
+        "overall": 0.7422
+      },
+      "A3": {
+        "per_axis": {
+          "toxicEmotions": 0.9908,
+          "missingCommitment": 1.0,
+          "missingIntelligibility": 1.0,
+          "otherReasons": 1.0
+        },
+        "overall": 0.9951
+      }
+    },
+    "average_consensus": {
+      "per_axis": {
+        "toxicEmotions": 0.842,
+        "missingCommitment": 0.7524,
+        "missingIntelligibility": 0.6891,
+        "otherReasons": 0.6994
+      },
+      "overall": 0.8047
+    }
+  },
+  "positives": {
+    "A1": {
+      "toxicEmotions": 63,
+      "missingCommitment": 32,
+      "missingIntelligibility": 16,
+      "otherReasons": 11
+    },
+    "A2": {
+      "toxicEmotions": 58,
+      "missingCommitment": 12,
+      "missingIntelligibility": 6,
+      "otherReasons": 9
+    },
+    "A3": {
+      "toxicEmotions": 66,
+      "missingCommitment": 27,
+      "missingIntelligibility": 9,
+      "otherReasons": 8
+    }
+  },
+  "gate": {
+    "n_above_06": 4,
+    "threshold": 3,
+    "passed": true,
+    "consensus_method": "majority",
+    "fallback_to_moderate": false
+  },
+  "calibration": {
+    "A1": {
+      "per_axis": {
+        "toxicEmotions": 0.8967,
+        "missingCommitment": 0.9433,
+        "missingIntelligibility": 0.9633,
+        "otherReasons": 0.9667
+      },
+      "overall": 0.9425,
+      "flagged": false,
+      "recommendation": "Calibration acceptable"
+    },
+    "A2": {
+      "per_axis": {
+        "toxicEmotions": 0.94,
+        "missingCommitment": 0.9467,
+        "missingIntelligibility": 0.9767,
+        "otherReasons": 0.98
+      },
+      "overall": 0.9608,
+      "flagged": false,
+      "recommendation": "Calibration acceptable"
+    },
+    "A3": {
+      "per_axis": {
+        "toxicEmotions": 0.9967,
+        "missingCommitment": 1.0,
+        "missingIntelligibility": 1.0,
+        "otherReasons": 1.0
+      },
+      "overall": 0.9992,
+      "flagged": false,
+      "recommendation": "Calibration acceptable"
+    }
+  },
+  "calibration_summary": {
+    "flagged_annotators": [],
+    "all_passed": true,
+    "threshold": 0.7
+  }
+}

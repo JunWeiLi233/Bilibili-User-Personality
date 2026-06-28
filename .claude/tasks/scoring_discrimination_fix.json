@@ -1,0 +1,87 @@
+{
+  "name": "scoring-discrimination-fix",
+  "active": false,
+  "type": "manual-implementation",
+  "description": "Fix keyword-density scoring noise floor (AUC 0.502 → ≥0.65). Three paths: A) filter high-frequency terms (>30% prevalence), B) fix misclassified terms (哈哈哈≠attack, support≠risk), C) IDF-weighted scoring. Runs in order A→B→C with re-evaluation after each.",
+  "steps": [
+    {
+      "id": 1,
+      "title": "Path A: Build term frequency table from eval corpus",
+      "method": "buildTermFrequencyTable",
+      "change": "Create server/scripts/buildTermFrequencyTable.js: scan .claude/random_sampling_eval/user_data/ for all 100 users, count per-term user prevalence, output server/data/termFrequency.json with {term, userCount, totalCount, userFraction} per term.",
+      "verify": "termFrequency.json exists with 300+ terms, '没有' has userFraction ≈ 0.72"
+    },
+    {
+      "id": 2,
+      "title": "Path A: Add frequency filter to scoring pipeline",
+      "method": "filterHighFrequencyTerms",
+      "change": "In src/languageUnderstanding.js: add MAX_USER_FRACTION=0.30 constant. Before computing axis scores, filter vocabularyMarks to exclude terms where termFrequency[term].userFraction > MAX_USER_FRACTION. Configurable via BILIBILI_TERM_FREQ_THRESHOLD env var.",
+      "verify": "Re-score user 100015 — '没有'(72% prevalence) should be absent from filtered marks. toxicEmotions drops from 60 → expected 35-45."
+    },
+    {
+      "id": 3,
+      "title": "Path A: Re-evaluate and compare",
+      "method": "rescoreAndEvaluate",
+      "change": "Re-run scoring on all 100 eval users with frequency filter. Run evaluation metrics. Write comparison table to .claude/random_sampling_eval/metrics_pathA.json. Confirm AUC moved up and noise floor dropped.",
+      "verify": "AUC > 0.50 (improved from 0.502). trollIndex separation > baseline 0.7pts."
+    },
+    {
+      "id": 4,
+      "title": "Path B: Fix misclassified terms in dictionary",
+      "method": "fixDictionaryEntries",
+      "change": "In server/data/deepseekKeywordDictionary.production.json entries: (a) remove or recategorize 哈哈哈 from attack/risk to neutral, (b) remove axis mapping from 笑哭/打call/吃瓜/我觉得 (keep support polarity, drop axis), (c) recategorize 为什么 from evidence/support→逻辑混乱 to neutral. Update .entries/ and .evidence/ subdirectories if they hold per-term files.",
+      "verify": "Dictionary loads without errors. 哈哈哈 not in attack family. 打call/笑哭 have no axis mapping."
+    },
+    {
+      "id": 5,
+      "title": "Path B: Support-polarity terms must not increase risk scores",
+      "method": "excludeSupportFromRisk",
+      "change": "In src/languageUnderstanding.js axis score computation: only terms with polarity='risk' contribute to axis scores. Support-polarity terms are excluded (or optionally subtract from risk).",
+      "verify": "User with many support terms (笑哭×32, 打call×20) gets lower or equal risk scores compared to before."
+    },
+    {
+      "id": 6,
+      "title": "Path B: Re-evaluate",
+      "method": "rescoreAndEvaluateB",
+      "change": "Re-score all 100 users. Re-run evaluation. Write to .claude/random_sampling_eval/metrics_pathB.json. Compare against metrics_pathA.json and original metrics.json.",
+      "verify": "AUC ≥ 0.55. F1 ≥ 0.55. No metrics regressed."
+    },
+    {
+      "id": 7,
+      "title": "Path C: Implement IDF-weighted axis scoring",
+      "method": "implementIdfScoring",
+      "change": "In src/languageUnderstanding.js: add computeIdfWeightedScores(vocabularyMarks, termFrequency, N=100). For each risk-polarity mark: weightedCount = count × log(N / userCount). Accumulate per axis. Normalize to 0-100 using per-axis max from reference corpus × 1.1 ceiling.",
+      "verify": "Without any blocklist, '没有'(df=72) gets idf=0.14× weight. '没文化'(df≈5) gets idf=1.3× weight. Unit test confirms weight ratio ≈ 9:1."
+    },
+    {
+      "id": 8,
+      "title": "Path C: Wire IDF scoring into pipeline and calibrate normalization",
+      "method": "wireIdfAndCalibrate",
+      "change": "Replace raw-count accumulation in scoring pipeline with computeIdfWeightedScores(). Compute per-axis max weighted scores from 100-user reference. Set normalization ceiling = max×1.1. Cap at 100.",
+      "verify": "All 100 users produce scores in 0-100 range. Score distribution has wider spread (std dev increases)."
+    },
+    {
+      "id": 9,
+      "title": "Path C: Final re-evaluation and report",
+      "method": "finalEvaluate",
+      "change": "Full evaluation of IDF-weighted model on 100 users. Write metrics.json (overwrite or to metrics_pathC.json). Generate before/after comparison with all 6 metrics. Update report if targets met.",
+      "verify": "AUC ≥ 0.65 OR significant improvement from baseline. F1 maintained or improved. Brier/ECE maintained (already good). trollIndex spread ≥ 30. ρ ≥ 0.25."
+    }
+  ],
+  "guard": "npm test && npm run python:test",
+  "scope": [
+    "src/languageUnderstanding.js",
+    "src/main.jsx",
+    "server/scripts/buildTermFrequencyTable.js",
+    "server/data/termFrequency.json",
+    "server/data/deepseekKeywordDictionary.production.json",
+    "server/data/deepseekKeywordDictionary.entries/",
+    "server/data/deepseekKeywordDictionary.evidence/"
+  ],
+  "targets": {
+    "aucRoc": { "current": 0.502, "target": 0.65, "afterA": 0.55, "afterB": 0.58, "afterC": 0.65 },
+    "f1": { "current": 0.54, "target": 0.60 },
+    "trollSpread": { "current": 21, "target": 40 },
+    "bestRho": { "current": 0.088, "target": 0.30 }
+  }
+}

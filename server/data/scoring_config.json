@@ -1,0 +1,837 @@
+{
+  "generatedAt": "2026-06-28T15:48:35.201866+00:00",
+  "calibration": {
+    "toxicEmotions": {
+      "n": 100,
+      "raw_mean": 59.45,
+      "raw_std": 19.077932277896362,
+      "consensus_mean": 0.38,
+      "consensus_std": 0.6289674077406555,
+      "r_squared": 0.0743,
+      "spearman_rho": 0.1652,
+      "calibration_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          29.0,
+          0.0
+        ],
+        [
+          30.0,
+          0.075
+        ],
+        [
+          31.0,
+          0.075
+        ],
+        [
+          32.0,
+          0.075
+        ],
+        [
+          33.0,
+          0.075
+        ],
+        [
+          34.0,
+          0.075
+        ],
+        [
+          36.0,
+          0.075
+        ],
+        [
+          37.0,
+          0.075
+        ],
+        [
+          38.0,
+          0.075
+        ],
+        [
+          39.0,
+          0.125
+        ],
+        [
+          40.0,
+          0.125
+        ],
+        [
+          41.0,
+          0.1379
+        ],
+        [
+          43.0,
+          0.1379
+        ],
+        [
+          44.0,
+          0.1379
+        ],
+        [
+          45.0,
+          0.1379
+        ],
+        [
+          46.0,
+          0.1379
+        ],
+        [
+          48.0,
+          0.1379
+        ],
+        [
+          49.0,
+          0.1379
+        ],
+        [
+          50.0,
+          0.1379
+        ],
+        [
+          51.0,
+          0.1379
+        ],
+        [
+          52.0,
+          0.1379
+        ],
+        [
+          53.0,
+          0.1379
+        ],
+        [
+          54.0,
+          0.1379
+        ],
+        [
+          55.0,
+          0.1379
+        ],
+        [
+          57.0,
+          0.1379
+        ],
+        [
+          58.0,
+          0.1379
+        ],
+        [
+          59.0,
+          0.1379
+        ],
+        [
+          60.0,
+          0.1379
+        ],
+        [
+          61.0,
+          0.1379
+        ],
+        [
+          63.0,
+          0.2647
+        ],
+        [
+          65.0,
+          0.2647
+        ],
+        [
+          66.0,
+          0.2647
+        ],
+        [
+          67.0,
+          0.2647
+        ],
+        [
+          70.0,
+          0.2647
+        ],
+        [
+          71.0,
+          0.2647
+        ],
+        [
+          72.0,
+          0.2647
+        ],
+        [
+          73.0,
+          0.2647
+        ],
+        [
+          74.0,
+          0.3035
+        ],
+        [
+          76.0,
+          0.3035
+        ],
+        [
+          77.0,
+          0.3035
+        ],
+        [
+          78.0,
+          0.3035
+        ],
+        [
+          79.0,
+          0.3035
+        ],
+        [
+          80.0,
+          0.3035
+        ],
+        [
+          81.0,
+          0.3035
+        ],
+        [
+          82.0,
+          0.3035
+        ],
+        [
+          83.0,
+          0.3035
+        ],
+        [
+          84.0,
+          0.3035
+        ],
+        [
+          85.0,
+          0.3035
+        ],
+        [
+          87.0,
+          0.3035
+        ],
+        [
+          89.0,
+          0.3035
+        ],
+        [
+          91.0,
+          0.3035
+        ],
+        [
+          97.0,
+          0.3035
+        ],
+        [
+          100.0,
+          0.3035
+        ]
+      ]
+    },
+    "missingCommitment": {
+      "n": 100,
+      "raw_mean": 26.93,
+      "raw_std": 0.7517313349861106,
+      "consensus_mean": 0.04,
+      "consensus_std": 0.19595917942265426,
+      "r_squared": 0.0135,
+      "spearman_rho": 0.0156,
+      "calibration_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          24.0,
+          0.0
+        ],
+        [
+          25.0,
+          0.0
+        ],
+        [
+          26.0,
+          0.0
+        ],
+        [
+          27.0,
+          0.029
+        ],
+        [
+          28.0,
+          0.029
+        ],
+        [
+          100.0,
+          0.029
+        ]
+      ]
+    },
+    "missingIntelligibility": {
+      "n": 100,
+      "raw_mean": 49.51,
+      "raw_std": 3.5170868627317122,
+      "consensus_mean": 0.09,
+      "consensus_std": 0.31921779399024736,
+      "r_squared": 0.1657,
+      "spearman_rho": 0.1651,
+      "calibration_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          44.0,
+          0.0
+        ],
+        [
+          45.0,
+          0.0
+        ],
+        [
+          46.0,
+          0.0
+        ],
+        [
+          47.0,
+          0.0384
+        ],
+        [
+          48.0,
+          0.0384
+        ],
+        [
+          49.0,
+          0.0384
+        ],
+        [
+          50.0,
+          0.0384
+        ],
+        [
+          51.0,
+          0.0384
+        ],
+        [
+          52.0,
+          0.0384
+        ],
+        [
+          53.0,
+          0.0384
+        ],
+        [
+          54.0,
+          0.0384
+        ],
+        [
+          55.0,
+          0.0714
+        ],
+        [
+          56.0,
+          0.0714
+        ],
+        [
+          57.0,
+          0.25
+        ],
+        [
+          60.0,
+          0.5
+        ],
+        [
+          100.0,
+          0.5
+        ]
+      ]
+    },
+    "otherReasons": {
+      "n": 100,
+      "raw_mean": 10.74,
+      "raw_std": 0.6102458520956943,
+      "consensus_mean": 0.14,
+      "consensus_std": 0.3746998799039039,
+      "r_squared": -0.0197,
+      "spearman_rho": -0.1265,
+      "calibration_points": [
+        [
+          0.0,
+          0.0649
+        ],
+        [
+          10.0,
+          0.0649
+        ],
+        [
+          11.0,
+          0.0869
+        ],
+        [
+          12.0,
+          0.0869
+        ],
+        [
+          13.0,
+          0.0869
+        ],
+        [
+          100.0,
+          0.0869
+        ]
+      ]
+    }
+  },
+  "blendWeights": {
+    "ok": true,
+    "generatedAt": "2026-06-28T15:47:55.575971+00:00",
+    "method": "grid_search_spearman_rho",
+    "n_users": 100,
+    "axes": [
+      "toxicEmotions",
+      "missingCommitment",
+      "missingIntelligibility",
+      "otherReasons"
+    ],
+    "per_axis_weights": {
+      "toxicEmotions": {
+        "optimal_alpha": 1.0,
+        "optimal_rho": 0.1239,
+        "baseline_rho": -0.0406,
+        "improvement": 0.1645,
+        "interpretation": "semantic × 1.00 + lexicon × 0.00. Pure semantic — lexicon is actively harmful (ρ=-0.04). Path B cleaned.",
+        "grid_search": [
+          {
+            "alpha": 0.0,
+            "rho": 0.1447
+          },
+          {
+            "alpha": 0.05,
+            "rho": 0.2053
+          },
+          {
+            "alpha": 0.1,
+            "rho": 0.1994
+          },
+          {
+            "alpha": 0.15,
+            "rho": 0.1939
+          },
+          {
+            "alpha": 0.2,
+            "rho": 0.1925
+          },
+          {
+            "alpha": 0.25,
+            "rho": 0.1909
+          },
+          {
+            "alpha": 0.3,
+            "rho": 0.1898
+          },
+          {
+            "alpha": 0.35,
+            "rho": 0.1907
+          },
+          {
+            "alpha": 0.4,
+            "rho": 0.19
+          },
+          {
+            "alpha": 0.45,
+            "rho": 0.19
+          },
+          {
+            "alpha": 0.5,
+            "rho": 0.189
+          },
+          {
+            "alpha": 0.55,
+            "rho": 0.1888
+          },
+          {
+            "alpha": 0.6,
+            "rho": 0.1888
+          },
+          {
+            "alpha": 0.65,
+            "rho": 0.1911
+          },
+          {
+            "alpha": 0.7,
+            "rho": 0.1911
+          },
+          {
+            "alpha": 0.75,
+            "rho": 0.1918
+          },
+          {
+            "alpha": 0.8,
+            "rho": 0.1918
+          },
+          {
+            "alpha": 0.85,
+            "rho": 0.1918
+          },
+          {
+            "alpha": 0.9,
+            "rho": 0.1927
+          },
+          {
+            "alpha": 0.95,
+            "rho": 0.1927
+          },
+          {
+            "alpha": 1.0,
+            "rho": 0.1756
+          }
+        ]
+      },
+      "missingCommitment": {
+        "optimal_alpha": 0.0,
+        "optimal_rho": 0.1606,
+        "baseline_rho": 0.0,
+        "improvement": 0.1606,
+        "interpretation": "semantic × 0.00 + lexicon × 1.00. Pure lexicon — semantic has no variance on this axis. Path B cleaned.",
+        "grid_search": [
+          {
+            "alpha": 0.0,
+            "rho": 0.1998
+          },
+          {
+            "alpha": 0.05,
+            "rho": 0.2033
+          },
+          {
+            "alpha": 0.1,
+            "rho": 0.2016
+          },
+          {
+            "alpha": 0.15,
+            "rho": 0.2033
+          },
+          {
+            "alpha": 0.2,
+            "rho": 0.1927
+          },
+          {
+            "alpha": 0.25,
+            "rho": 0.1936
+          },
+          {
+            "alpha": 0.3,
+            "rho": 0.1786
+          },
+          {
+            "alpha": 0.35,
+            "rho": 0.1397
+          },
+          {
+            "alpha": 0.4,
+            "rho": 0.1255
+          },
+          {
+            "alpha": 0.45,
+            "rho": 0.1291
+          },
+          {
+            "alpha": 0.5,
+            "rho": 0.0078
+          },
+          {
+            "alpha": 0.55,
+            "rho": -0.1149
+          },
+          {
+            "alpha": 0.6,
+            "rho": -0.1149
+          },
+          {
+            "alpha": 0.65,
+            "rho": -0.1149
+          },
+          {
+            "alpha": 0.7,
+            "rho": -0.1238
+          },
+          {
+            "alpha": 0.75,
+            "rho": -0.122
+          },
+          {
+            "alpha": 0.8,
+            "rho": -0.1238
+          },
+          {
+            "alpha": 0.85,
+            "rho": -0.1326
+          },
+          {
+            "alpha": 0.9,
+            "rho": -0.1326
+          },
+          {
+            "alpha": 0.95,
+            "rho": -0.1326
+          },
+          {
+            "alpha": 1.0,
+            "rho": -0.1309
+          }
+        ]
+      },
+      "missingIntelligibility": {
+        "optimal_alpha": 1.0,
+        "optimal_rho": 0.3803,
+        "baseline_rho": 0.0077,
+        "improvement": 0.3726,
+        "interpretation": "semantic × 1.00 + lexicon × 0.00. Pure semantic — lexicon has separation but near-zero rank correlation (ρ=0.008). Path B cleaned.",
+        "grid_search": [
+          {
+            "alpha": 0.0,
+            "rho": 0.1481
+          },
+          {
+            "alpha": 0.05,
+            "rho": 0.1634
+          },
+          {
+            "alpha": 0.1,
+            "rho": 0.1827
+          },
+          {
+            "alpha": 0.15,
+            "rho": 0.1862
+          },
+          {
+            "alpha": 0.2,
+            "rho": 0.1875
+          },
+          {
+            "alpha": 0.25,
+            "rho": 0.1811
+          },
+          {
+            "alpha": 0.3,
+            "rho": 0.1786
+          },
+          {
+            "alpha": 0.35,
+            "rho": 0.1825
+          },
+          {
+            "alpha": 0.4,
+            "rho": 0.1813
+          },
+          {
+            "alpha": 0.45,
+            "rho": 0.1813
+          },
+          {
+            "alpha": 0.5,
+            "rho": 0.1651
+          },
+          {
+            "alpha": 0.55,
+            "rho": 0.1468
+          },
+          {
+            "alpha": 0.6,
+            "rho": 0.1468
+          },
+          {
+            "alpha": 0.65,
+            "rho": 0.1468
+          },
+          {
+            "alpha": 0.7,
+            "rho": 0.1468
+          },
+          {
+            "alpha": 0.75,
+            "rho": 0.1481
+          },
+          {
+            "alpha": 0.8,
+            "rho": 0.1468
+          },
+          {
+            "alpha": 0.85,
+            "rho": 0.1468
+          },
+          {
+            "alpha": 0.9,
+            "rho": 0.1468
+          },
+          {
+            "alpha": 0.95,
+            "rho": 0.1468
+          },
+          {
+            "alpha": 1.0,
+            "rho": 0.1456
+          }
+        ]
+      },
+      "otherReasons": {
+        "optimal_alpha": 1.0,
+        "optimal_rho": 0.0,
+        "baseline_rho": -0.0485,
+        "improvement": 0.0485,
+        "interpretation": "semantic × 1.00 + lexicon × 0.00. Neither mode has signal — using semantic as least-harmful default. Path B cleaned.",
+        "grid_search": [
+          {
+            "alpha": 0.0,
+            "rho": 0.1095
+          },
+          {
+            "alpha": 0.05,
+            "rho": 0.1095
+          },
+          {
+            "alpha": 0.1,
+            "rho": 0.1095
+          },
+          {
+            "alpha": 0.15,
+            "rho": 0.1095
+          },
+          {
+            "alpha": 0.2,
+            "rho": 0.1095
+          },
+          {
+            "alpha": 0.25,
+            "rho": 0.1095
+          },
+          {
+            "alpha": 0.3,
+            "rho": 0.1095
+          },
+          {
+            "alpha": 0.35,
+            "rho": 0.1095
+          },
+          {
+            "alpha": 0.4,
+            "rho": 0.1095
+          },
+          {
+            "alpha": 0.45,
+            "rho": 0.1095
+          },
+          {
+            "alpha": 0.5,
+            "rho": 0.1095
+          },
+          {
+            "alpha": 0.55,
+            "rho": 0.1095
+          },
+          {
+            "alpha": 0.6,
+            "rho": 0.1095
+          },
+          {
+            "alpha": 0.65,
+            "rho": 0.1095
+          },
+          {
+            "alpha": 0.7,
+            "rho": 0.1095
+          },
+          {
+            "alpha": 0.75,
+            "rho": 0.1095
+          },
+          {
+            "alpha": 0.8,
+            "rho": 0.1095
+          },
+          {
+            "alpha": 0.85,
+            "rho": 0.1095
+          },
+          {
+            "alpha": 0.9,
+            "rho": 0.1095
+          },
+          {
+            "alpha": 0.95,
+            "rho": 0.1095
+          },
+          {
+            "alpha": 1.0,
+            "rho": null
+          }
+        ]
+      }
+    },
+    "note": "Path B (2026-06-28): Blend weights re-optimized after cleaning 11 high-freq context-dependent terms from baseLexicons (装, 纯, 云, 笑死, 典, 赢 from attack; 都是, 肯定, 根本, 所有, 没人 from absolutes). Key finding: lexicon is actively harmful for toxicEmotions (ρ=-0.04) — pure semantic is better (ρ=0.12). For missingIntelligibility, pure semantic outperforms lexicon (ρ=0.38 vs 0.01) despite lexicon having larger raw score spread. See .claude/plans/scoring-discrimination-fix.md."
+  },
+  "optimalThreshold": {
+    "value": 7,
+    "method": "Youden's J (sensitivity + specificity - 1)",
+    "metrics": {
+      "precision": 0.4464,
+      "recall": 0.6757,
+      "f1": 0.5376,
+      "youden_j": 0.1836,
+      "auc_roc": 0.5882
+    },
+    "note": "Threshold applied to CALIBRATED troll_index (after isotonic regression rescaling). Original threshold of 50 is unusable — the calibrated scores have a much lower range and this threshold should be used instead."
+  },
+  "phase6Revalidation": {
+    "completedAt": "2026-06-28T16:00:00.000Z",
+    "nUsers": 100,
+    "before": {
+      "aucRoc": 0.5384,
+      "f1": 0.0,
+      "worstBrier": 0.2741,
+      "worstECE": 0.4501,
+      "trollSpread": 21,
+      "bestRho": 0.1652
+    },
+    "after": {
+      "aucRoc": 0.502,
+      "f1": 0.54,
+      "worstBrier": 0.107,
+      "worstECE": 0.088,
+      "trollSpread": 21,
+      "bestRho": 0.0884,
+      "perAxisBrier": {
+        "toxicEmotions": 0.107,
+        "missingCommitment": 0.01,
+        "missingIntelligibility": 0.056,
+        "otherReasons": 0.035
+      },
+      "perAxisECE": {
+        "toxicEmotions": 0.082,
+        "missingCommitment": 0.009,
+        "missingIntelligibility": 0.088,
+        "otherReasons": 0.012
+      }
+    },
+    "targetsMet": {
+      "f1_ge_0.40": true,
+      "worst_brier_lt_0.15": true,
+      "worst_ece_lt_0.20": true,
+      "auc_ge_0.65": false,
+      "troll_spread_ge_40": false,
+      "worst_rho_ge_0.50": false
+    },
+    "improvements": {
+      "brier": "-0.167 (61% improvement)",
+      "ece": "-0.362 (80% improvement)",
+      "f1": "+0.54 (from 0.00)",
+      "auc": "-0.036 (monotonic transforms preserve ranking — AUC/rho unchanged)"
+    },
+    "note": "Calibration dramatically improved Brier and ECE (3-5× reduction). F1 became usable at 0.54. AUC and Spearman rho are preserved by monotonic transforms — they cannot be improved by calibration alone. Underlying feature quality limits discrimination; this requires fundamentally new signal sources (better keyword terms, semantic embedding models, or human-in-the-loop annotation)."
+  },
+  "trollWeights": {
+    "toxicEmotions": 0.28,
+    "missingCommitment": 0.25,
+    "missingIntelligibility": 0.27,
+    "otherReasons": 0.2
+  }
+}

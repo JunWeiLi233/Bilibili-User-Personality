@@ -1,0 +1,184 @@
+{
+  "uid": "100265",
+  "scoredAt": "2026-06-28T16:43:54.968Z",
+  "trollIndex": 23,
+  "sampleSize": 124,
+  "scores": [
+    {
+      "axis": "情绪过激",
+      "category": "toxicEmotions",
+      "value": 26,
+      "benchmark": 48,
+      "kappa": 0.84,
+      "kappaLabel": "评分者一致性: κ=0.84 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 71 → 26 (ρ=0.165)",
+      "calibratedValue": 26,
+      "rawValue": 71
+    },
+    {
+      "axis": "回避讨论",
+      "category": "missingCommitment",
+      "value": 3,
+      "benchmark": 44,
+      "kappa": 0.75,
+      "kappaLabel": "评分者一致性: κ=0.75 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 28 → 3 (ρ=0.016)",
+      "calibratedValue": 3,
+      "rawValue": 28
+    },
+    {
+      "axis": "逻辑混乱",
+      "category": "missingIntelligibility",
+      "value": 50,
+      "benchmark": 52,
+      "kappa": 0.69,
+      "kappaLabel": "评分者一致性: κ=0.69 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 60 → 50 (ρ=0.165)",
+      "calibratedValue": 50,
+      "rawValue": 60
+    },
+    {
+      "axis": "其他问题",
+      "category": "otherReasons",
+      "value": 9,
+      "benchmark": 30,
+      "kappa": 0.7,
+      "kappaLabel": "评分者一致性: κ=0.70 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 11 → 9 (ρ=-0.127)",
+      "calibratedValue": 9,
+      "rawValue": 11
+    }
+  ],
+  "rawScores": [
+    {
+      "axis": "情绪过激",
+      "category": "toxicEmotions",
+      "value": 71
+    },
+    {
+      "axis": "回避讨论",
+      "category": "missingCommitment",
+      "value": 28
+    },
+    {
+      "axis": "逻辑混乱",
+      "category": "missingIntelligibility",
+      "value": 60
+    },
+    {
+      "axis": "其他问题",
+      "category": "otherReasons",
+      "value": 11
+    }
+  ],
+  "vocabularyMarks": [
+    {
+      "term": "都是",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 3
+    },
+    {
+      "term": "没有",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 2
+    },
+    {
+      "term": "我觉得",
+      "family": "cooperation",
+      "label": "合作讨论",
+      "axis": "逻辑混乱",
+      "polarity": "support",
+      "count": 2
+    },
+    {
+      "term": "神烦",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "纯",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "赢",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "阿三",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "神tm",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "背刺",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "绝对",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "绝对不",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "翻车",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "你赢了",
+      "family": "evasion",
+      "label": "举证回避",
+      "axis": "回避讨论",
+      "polarity": "risk",
+      "count": 1
+    }
+  ]
+}

@@ -1,0 +1,1452 @@
+[
+  {
+    "comment_id": "disamb2_001",
+    "comment_text": "不是......打九克的都明说是卧底了,之前自爆不知道九克的词跟那个词有什么关系的那个不应该直接就出了吗? 为啥拖到这个点? 13:08 [笑哭][笑哭][辣眼睛][辣眼睛][辣眼睛][辣眼睛]那么明显的爱河。",
+    "source_uid": "488295095",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "cooperation": 2,
+      "attack": 3
+    },
+    "keyword_terms": [
+      "不是",
+      "应该",
+      "笑哭",
+      "辣眼",
+      "辣眼睛"
+    ],
+    "primary_axis": "toxicEmotions",
+    "distinct_terms": 5,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [
+          "情绪宣泄型"
+        ],
+        "notes": "评论带有表情符号和反问语气，情绪较为激动，但未到强烈攻击或侮辱程度，属于轻度情绪宣泄；逻辑清晰，讨论具体事件，未回避讨论或出现逻辑混乱。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_002",
+    "comment_text": "回复 @duanmusen25 :哈哈哈哈哈哈笑死了",
+    "source_uid": "100057",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "attack": 3,
+      "cooperation": 1
+    },
+    "keyword_terms": [
+      "哈哈",
+      "哈哈哈",
+      "笑死",
+      "笑死了"
+    ],
+    "primary_axis": "toxicEmotions",
+    "distinct_terms": 4,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 1,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [
+          "情绪宣泄型"
+        ],
+        "notes": "评论以笑声和情绪表达为主，缺乏实质性讨论内容，属于回避讨论；同时带有嘲讽意味，属于情绪宣泄型杠精行为。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_003",
+    "comment_text": "她根本就是黑,没看到她一直在带节奏吗?一直在**精分,你这样就中招了。",
+    "source_uid": "100131",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "cooperation": 1,
+      "absolutes": 1,
+      "attack": 2
+    },
+    "keyword_terms": [
+      "就是",
+      "带节奏",
+      "根本就",
+      "节奏"
+    ],
+    "primary_axis": "toxicEmotions",
+    "distinct_terms": 4,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 2,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [
+          "情绪宣泄型",
+          "人身攻击型"
+        ],
+        "notes": "该评论直接指责对方是'黑'并带节奏，使用'精分'等侮辱性词汇，有明显的人身攻击和情绪宣泄特征。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_004",
+    "comment_text": "回复 @eeveeevee :宣传片21年就有了,21年ai还只能生成抽象图,我又不是说她不是抄的,人家初始自带缝合能力不可以吗,你们好怪[tv_吐血]",
+    "source_uid": "100050",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "attack": 3
+    },
+    "keyword_terms": [
+      "不是",
+      "抽象",
+      "缝合"
+    ],
+    "primary_axis": "toxicEmotions",
+    "distinct_terms": 3,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [
+          "情绪宣泄型"
+        ],
+        "notes": "评论带有轻微嘲讽和不满情绪（‘你们好怪’、吐血表情），但未到强烈攻击；逻辑基本清晰，没有回避讨论或明显混乱；无广告等其它问题。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_005",
+    "comment_text": "策划阴间,原地圈钱都算是愿打愿挨,上次骂放池子双标一群人洗地以后一定,现在可好,高贵雀魂女玩家消瘦不起[呲牙]",
+    "source_uid": "100050",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "absolutes": 1,
+      "attack": 2
+    },
+    "keyword_terms": [
+      "一定",
+      "双标",
+      "洗地"
+    ],
+    "primary_axis": "toxicEmotions",
+    "distinct_terms": 3,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [
+          "情绪宣泄型"
+        ],
+        "notes": "评论带有讽刺和批评，如'策划阴间''高贵雀魂女玩家消瘦不起'，语气较激烈但未达人身攻击，属于情绪宣泄。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_006",
+    "comment_text": "弹幕和评论区的兄弟们 我20级哈斯卡 1200场卡尔 哈斯卡是一定打不过卡尔的 当然哈斯卡可以想办法互穷 但是我推荐进野 发育 卡尔是什么垃圾英雄 打不了塔送他了",
+    "source_uid": "100056",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "absolutes": 1,
+      "attack": 2
+    },
+    "keyword_terms": [
+      "0级",
+      "一定",
+      "垃圾"
+    ],
+    "primary_axis": "toxicEmotions",
+    "distinct_terms": 3,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 0,
+        "gangjing_subtypes": [
+          "情绪宣泄型"
+        ],
+        "notes": "评论中‘卡尔是什么垃圾英雄’带有情绪化贬低，同时前后矛盾（先称哈斯卡打不过卡尔，后骂卡尔垃圾），存在逻辑不一致，但未回避讨论或涉及其他问题。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_007",
+    "comment_text": "因为白化是特性不是毛色啊,猫没有白毛,没认真听课[笑哭]",
+    "source_uid": "100282",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "attack": 1,
+      "cooperation": 1,
+      "absolutes": 1
+    },
+    "keyword_terms": [
+      "不是",
+      "没有",
+      "笑哭"
+    ],
+    "primary_axis": "toxicEmotions",
+    "distinct_terms": 3,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [
+          "情绪宣泄型"
+        ],
+        "notes": "评论带有轻微嘲讽（如‘没认真听课’）和表情包，有一定情绪化表达，但未达到严重人身攻击程度。内容直接针对讨论话题，逻辑清晰，无回避或混乱。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_008",
+    "comment_text": "撞我笑死哈哈哈哈哈哈",
+    "source_uid": "100285",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "attack": 2,
+      "cooperation": 1
+    },
+    "keyword_terms": [
+      "哈哈",
+      "哈哈哈",
+      "笑死"
+    ],
+    "primary_axis": "toxicEmotions",
+    "distinct_terms": 3,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": null,
+        "missingCommitment": null,
+        "missingIntelligibility": null,
+        "otherReasons": null,
+        "gangjing_subtypes": [],
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_009",
+    "comment_text": "普通人真的很难对自己的日程进行有效规划,就算规划了也很难有效执行,因为毕竟不自信不是专业做这个的,想必规划出来的内容也是稀里糊涂,想必也就没有必须遵守的价值,于是自己在逻辑上完美的破坏了之前自己做好的规划。 所以人们大多是依照惯性在生活,规定自己每天在同样的时间去做同样的事。可能看上去比较古板,但至少长此以往形成的惯性会让人产生“肌肉记忆”,让身体先于大脑指令而执行,提高生活效率",
+    "source_uid": "100320",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "attack": 1,
+      "absolutes": 1,
+      "cooperation": 1
+    },
+    "keyword_terms": [
+      "不是",
+      "可能",
+      "没有"
+    ],
+    "primary_axis": "toxicEmotions",
+    "distinct_terms": 3,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论理性平和，逻辑清晰，讨论日常生活规律，无负面特征。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_010",
+    "comment_text": "这样说吧,安倍就是为了能以现在的首相的姿态来舔中国(当然他不是亲中,但他确实在自己任内等到天时有变),才会在13年以强硬的态度来***。不知道你是否理解其中的关系。另外对于13年钓鱼岛事件,可以看看别人对当时情况的复盘,以更加开阔,更加抽丝剥茧的思维来思考问题。",
+    "source_uid": "100320",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "attack": 2,
+      "cooperation": 1
+    },
+    "keyword_terms": [
+      "不是",
+      "硬的",
+      "确实"
+    ],
+    "primary_axis": "toxicEmotions",
+    "distinct_terms": 3,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [
+          "情绪宣泄型"
+        ],
+        "notes": "使用了‘舔中国’等情绪化词汇，但整体论述逻辑清晰，未回避讨论或出现明显逻辑问题。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_011",
+    "comment_text": "回复 @爆锤双标 :同意,小羊宝最多就是嘴碎,很多人都有些破毛病,只不过她吃这份活只能认。我期待几个月后翘嘴背刺把22/86搞投诉来开庭或者22/86再翻出几个月前的录音内斗",
+    "source_uid": "100357",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "cooperation": 1,
+      "attack": 2
+    },
+    "keyword_terms": [
+      "双标",
+      "就是",
+      "背刺"
+    ],
+    "primary_axis": "toxicEmotions",
+    "distinct_terms": 3,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论为回复并同意他人观点，语气平和，逻辑清晰，无过激情绪或回避讨论等问题。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_012",
+    "comment_text": "这名单看的浑身无力。感觉哪一个进世界赛都可能爆冷被暴打[辣眼睛]",
+    "source_uid": "100499",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "attack": 2,
+      "cooperation": 1
+    },
+    "keyword_terms": [
+      "可能",
+      "辣眼",
+      "辣眼睛"
+    ],
+    "primary_axis": "toxicEmotions",
+    "distinct_terms": 3,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "表达负面情绪但不激烈，没有回避讨论或逻辑混乱，也未构成杠精行为。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_013",
+    "comment_text": "打完比赛取关所有联盟 up ,不然 b 站没法玩[辣眼睛]",
+    "source_uid": "100499",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "attack": 3
+    },
+    "keyword_terms": [
+      "取关",
+      "辣眼",
+      "辣眼睛"
+    ],
+    "primary_axis": "toxicEmotions",
+    "distinct_terms": 3,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论表达个人决定，无明显情绪过激、回避讨论、逻辑混乱或其它问题，属于一般性表达。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_014",
+    "comment_text": "哥们说句实话看给阴阳怪气的[笑哭]",
+    "source_uid": "100499",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "cooperation": 1,
+      "attack": 2
+    },
+    "keyword_terms": [
+      "笑哭",
+      "阴阳",
+      "阴阳怪气"
+    ],
+    "primary_axis": "toxicEmotions",
+    "distinct_terms": 3,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "该评论是对对方阴阳怪气语气的回应，带有轻微的指责但伴随笑哭表情，情绪不过激，逻辑清晰，没有回避讨论或离题。未涉及明显的杠精类型。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_015",
+    "comment_text": "回复 @鲲鹏散士 :这种观点听听看就得了。观众或读者在乎的是人物情感刻画能不能唤起自己的共情,而不是真的把自己带入进角色。如果真的像他说的那样女观众代入不了优秀女性共情,那把女主人设弄普通点不就行了?事实上这种“霸道总裁爱上我”的类型也很火,但是耽美的兴起跟这种梦女型作品就不是一个路子。",
+    "source_uid": "100525",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "attack": 2,
+      "cooperation": 1
+    },
+    "keyword_terms": [
+      "不是",
+      "人设",
+      "梦女"
+    ],
+    "primary_axis": "toxicEmotions",
+    "distinct_terms": 3,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论有理有据，逻辑清晰，没有情绪过激或回避讨论，属于正常讨论观点。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_016",
+    "comment_text": "hi 谢谢你还记得我。优酷并没有删,只是好几年之前优酷调整了ugc政策(现在确实时代变了,视频平台调整ugc政策也很正常),这个政策调整我当时并没有意识到,是2022年我才注意到的。因为那次调整,优酷把之前的视频全都屏蔽到后台了(并没有删掉,我登录账号在后台可以看到),我需要重新上传一遍,才能让那些视频重见天日。但是说到底,毕竟时代变了,那些视频录播和评述性节目主要聚焦在2008-2012年之间的",
+    "source_uid": "100705",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "absolutes": 2,
+      "cooperation": 4,
+      "attack": 1
+    },
+    "keyword_terms": [
+      "全都",
+      "屏蔽",
+      "我觉得",
+      "没有",
+      "确实",
+      "经典",
+      "觉得"
+    ],
+    "primary_axis": "missingCommitment",
+    "distinct_terms": 7,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论内容为平和解释优酷视频隐藏原因，无情绪过激、回避讨论、逻辑混乱或其他问题，亦无引战行为。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_017",
+    "comment_text": "终于来了![星星眼] 自从昨晚一直在高强度看阿芙,没有阿芙要死了! 前半段想的都是你们快点结婚[打call]后半段则是你们为什么不结婚[委屈](奇迹哥大怒) 虽然漫画优势的定格表情特写在动画里表现没那么有冲击力,但动画整体完成度很高,浑然天成,尤其是海塔那一段让人眼前一亮,为本集增加了一个让人意外的闪光点。或许不是每个人都能理解青涩或深沉的爱情,但在日益增长的年龄中伪装出大人模样的感受确是所有人都",
+    "source_uid": "100050",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "cooperation": 3,
+      "evidence": 1,
+      "attack": 2
+    },
+    "keyword_terms": [
+      "列文虎克",
+      "或许",
+      "打call",
+      "星星眼",
+      "死了",
+      "破防"
+    ],
+    "primary_axis": "missingCommitment",
+    "distinct_terms": 6,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论内容为对动画的积极观后感，语气友好，无情绪过激、回避讨论、逻辑混乱或其他问题。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_018",
+    "comment_text": "看了一眼点赞已经一万六了哈哈哈哈,我也点了",
+    "source_uid": "100282",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "attack": 1,
+      "cooperation": 3,
+      "absolutes": 1
+    },
+    "keyword_terms": [
+      "一眼",
+      "哈哈",
+      "哈哈哈",
+      "点了",
+      "点赞"
+    ],
+    "primary_axis": "missingCommitment",
+    "distinct_terms": 5,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论区内容仅为描述点赞数量并表明自己也点赞，无情绪过激、回避讨论、逻辑混乱或其他问题。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_019",
+    "comment_text": "说下完整经过,我2700元买的官翻版的2723,回来发现是阴阳屏左绿右红,售后因为我开了公司发票不给7天无理由,只有个人发票才能无理由,这个规则就很奇怪 然后我就走售后,售后跟领导沟通过之后说这个不属于质量问题,领导最终答复是不给处理只能送我个蓝牙鼠标,我阴阳屏不解决要你的鼠标干啥,,,无语 我不接受这个结果,又重新联系了一遍售后,这次是另外的人重新处理,可以帮我把这个阴阳屏认定为质量问题,给我换",
+    "source_uid": "100405",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "cooperation": 3,
+      "attack": 2
+    },
+    "keyword_terms": [
+      "买的",
+      "小姐姐",
+      "开了",
+      "无语",
+      "阴阳"
+    ],
+    "primary_axis": "missingCommitment",
+    "distinct_terms": 5,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "用户理性叙述购买及售后经历，表达无奈但无情绪过激或逻辑混乱，无回避讨论或其他问题。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_020",
+    "comment_text": "打的时候,你真的觉得兰斯是个大傻xxxx,但是在关键时刻,又会被他那种乐子人的劲所吸引。。就感觉兰斯这人身上除了荷尔蒙就是肾上腺素。脑子全是h,最后能找出一点希露。",
+    "source_uid": "100704",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "cooperation": 2,
+      "absolutes": 1,
+      "attack": 1,
+      "evasion": 1
+    },
+    "keyword_terms": [
+      "乐子",
+      "乐子人",
+      "全是",
+      "就是",
+      "觉得"
+    ],
+    "primary_axis": "missingCommitment",
+    "distinct_terms": 5,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "该评论是对游戏角色兰斯的个人感受描述，语气中性，没有情绪过激、回避讨论、逻辑混乱或其他问题。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_021",
+    "comment_text": "我感觉亲说的这个太片面了,山寨一般是玩法也基本一样,这游戏能取得这么大成功是因为他不完全山寨,它缝但是很会缝,这是就是他的“创新性”。很多人觉得他满足了自己对宝可梦的期待侧面反映了市面上还没有这样的游戏。作为一个小厂,几作虽然都是缝但嗅觉很好,都能直击痛点,如果以后真的能一点点蜕变成原创大厂,那真是未来可期。",
+    "source_uid": "100050",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "absolutes": 1,
+      "cooperation": 3
+    },
+    "keyword_terms": [
+      "我感觉",
+      "真是",
+      "觉得",
+      "都是"
+    ],
+    "primary_axis": "missingCommitment",
+    "distinct_terms": 4,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论理性讨论游戏特点，逻辑清晰，无情绪过激、回避讨论、逻辑混乱或其他问题，亦无杠精行为。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_022",
+    "comment_text": "在外网看了好多遍[热词系列_妙啊]分享几个外网列文虎克的观点: 1漫画设计上肥伦和芙丽莲虽然都有镜莲华但造型不一样,肥伦是满开的,象征盛放或者终将到来的爱情,而芙丽莲的是个花苞,象征无望(也有人写两人无法在一起)但永恒存在的爱 2名场面前辛芙二人走在广场上面向钟楼,可以隐约看到表盘,或许是辛梅尔在卡点(当然也有可能是官方精益求精的小细节),同时回看第一集也是钟声下葬后有芙丽莲拿出戒指的场面 3芙丽",
+    "source_uid": "100050",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "cooperation": 3,
+      "evidence": 1
+    },
+    "keyword_terms": [
+      "列文虎克",
+      "可能是",
+      "或许",
+      "有可能是"
+    ],
+    "primary_axis": "missingCommitment",
+    "distinct_terms": 4,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "正常讨论动漫细节，无任何问题。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_023",
+    "comment_text": "补充一个前摇,该作者是小河去世之后开始活跃的几个账号之一,视频内容主要是“披露小河去世的阴谋”,表示当初听我的就好了,现在一切都是楼长等人的错。具体目的未知,可能是恰鳄鱼饭的,可能是本来就恨,或者再有什么进一步操作。前两天同伙被楼长点了,胡搅蛮缠高度对线中。[ok]",
+    "source_uid": "100050",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "cooperation": 3,
+      "attack": 1
+    },
+    "keyword_terms": [
+      "可能是",
+      "对线",
+      "点了",
+      "补充"
+    ],
+    "primary_axis": "missingCommitment",
+    "distinct_terms": 4,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论客观描述他人行为，无明显情绪过激、回避讨论或逻辑混乱，也未体现杠精特征。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_024",
+    "comment_text": "虽然不少洞穴救援起因确实是因为冒险者经验不足或者过度自信,但本视频的主人公是去测绘的好不好,这是工作啊老铁,怎么那么多云说人家作死添乱的[辣眼睛] 而且对未知的渴望本来就是人类进步的源泉,很多世纪大发现都是一次次“作死”中得来的。不要说视频主人公本身就是资深救援专家,就算没事上wb热搜的遇险驴友不也都是战士们全力救援的对象?远离危险没有错,但对这种先驱者至少有点尊敬吧[笑哭]",
+    "source_uid": "100050",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "cooperation": 2,
+      "attack": 2
+    },
+    "keyword_terms": [
+      "确实是",
+      "笑哭",
+      "辣眼",
+      "辣眼睛"
+    ],
+    "primary_axis": "missingCommitment",
+    "distinct_terms": 4,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论逻辑清晰，有理有据，没有情绪过激或回避讨论等行为，也没有明显的杠精特征。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_025",
+    "comment_text": "真是偶遇大喵,其实我觉得他们两个都没说到点子上,我认为解决这个问题根本问题在于法律,司法部门如果能真正维护正义公平的话,这个话题的争执能少掉一大半,虽然他们这个观点估计不敢说",
+    "source_uid": "100171",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "cooperation": 4
+    },
+    "keyword_terms": [
+      "估计",
+      "我觉得",
+      "我认为",
+      "真是"
+    ],
+    "primary_axis": "missingCommitment",
+    "distinct_terms": 4,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论提出了自己的观点，认为法律和司法是关键，没有明显的情绪过激或逻辑问题。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_026",
+    "comment_text": "回复 @妮娅最可爱啦w :当然不合情合理,你要明白这一点,他悔改不悔改是他自己的事,没人在乎,也不值得在乎。他可以选择不悔改,他可以整天负能量爆棚,他可以天天在心里咒骂,在个人博客上做个大喷子,只要他不碰枪。好吗?只要他不碰枪,没人能管得了他,没人有资格在身体和心理上管束他,但是他碰枪了,那他就是自绝于社会,社会会给他一个体面的交代。",
+    "source_uid": "100320",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "cooperation": 3,
+      "absolutes": 1
+    },
+    "keyword_terms": [
+      "可爱",
+      "就是",
+      "没人",
+      "没人在乎"
+    ],
+    "primary_axis": "missingCommitment",
+    "distinct_terms": 4,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论有一定情绪色彩，但未达到人身攻击或情绪宣泄的程度，主要是在阐述观点，逻辑清晰，没有回避讨论或其他问题。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_027",
+    "comment_text": "明显生4不用那么多性能,你觉得性能拉不满多来点东西画质全最高,大概就能吃满了,你126换146一样设置大概率一样跑不满",
+    "source_uid": "100357",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "cooperation": 4
+    },
+    "keyword_terms": [
+      "多来点",
+      "大概",
+      "来点",
+      "觉得"
+    ],
+    "primary_axis": "missingCommitment",
+    "distinct_terms": 4,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论讨论游戏性能，语气直接但无攻击，逻辑基本清晰，无明显杠精特征。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_028",
+    "comment_text": "u1s1,纯路人,up主拍的真不错[星星眼](",
+    "source_uid": "100443",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "cooperation": 4
+    },
+    "keyword_terms": [
+      "up主",
+      "星星眼",
+      "纯路人",
+      "路人"
+    ],
+    "primary_axis": "missingCommitment",
+    "distinct_terms": 4,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论为正面赞赏，无任何不良特征。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_029",
+    "comment_text": "t1总是会在你觉得他不行的时候支棱起来,都是老牌战队不能轻视,只能说edg打t1的时候还是不能急,不然出现还真不好说",
+    "source_uid": "100499",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "absolutes": 1,
+      "cooperation": 2,
+      "evasion": 1
+    },
+    "keyword_terms": [
+      "不好说",
+      "觉得",
+      "还真",
+      "都是"
+    ],
+    "primary_axis": "missingCommitment",
+    "distinct_terms": 4,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "该评论是客观理性的赛事分析，没有情绪过激、回避讨论、逻辑混乱或其他问题，也没有钢精特征。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_030",
+    "comment_text": "取所有圆锥的顶点都在球心的排布方法,那么这个问题简化为“在半径为a的球面上最多能紧密排布下多少个面积为b的圆”,这个数目x就是能挖出的圆锥的数目。当x<40时,有一篇经典文献总结了圆的直径(l = 2*sqrt(b/pi))与球半径a的比值和x的关系,\"the closest packing of equal circles on a sphere\" b. w. clare and d. l. k",
+    "source_uid": "100621",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "absolutes": 1,
+      "attack": 1,
+      "cooperation": 2
+    },
+    "keyword_terms": [
+      "up主",
+      "一定",
+      "不一定",
+      "经典"
+    ],
+    "primary_axis": "missingCommitment",
+    "distinct_terms": 4,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论内容为学术讨论，涉及几何问题与文献引用，逻辑清晰，无情绪化或回避讨论等不当行为。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_031",
+    "comment_text": "我持有裸容量超过200t的hdd,非常认同up的观点。hdd就是在走向死亡的,在存储密度和可靠性上与ssd完全没有可比性。归档能力又远差于磁带,只有最后成本的遮羞布,评论区中展现出来的消费市场偏好比起真实b端和oem的c端出货来说基本就是噪音的程度。hdd生态位逐渐消失是一种必然。",
+    "source_uid": "100443",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "absolutes": 3,
+      "attack": 1
+    },
+    "keyword_terms": [
+      "p的",
+      "完全没",
+      "必然",
+      "没有"
+    ],
+    "primary_axis": "missingIntelligibility",
+    "distinct_terms": 4,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论内容理性且基于技术讨论，没有情绪化、回避讨论、逻辑混乱或其他问题，也不符合任何杠精子类型。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_032",
+    "comment_text": "[笑哭]我觉得还行吧,骑的jh02,国碳轮模仿ac3纹路刹车边,黑王子刹车皮,曾经26 27过路口有台车直接从路口杀出来不带停的我都急刹下来了,差一米多撞上去没有翻车,不过说实话,这碳轮或者架子骑废了后换新车,我肯定选择碟刹架子了,毕竟大势所趋了,过剩制动力总比刚刚够用来的让人安心",
+    "source_uid": "100015",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "absolutes": 2,
+      "cooperation": 1
+    },
+    "keyword_terms": [
+      "没有",
+      "笑哭",
+      "翻车"
+    ],
+    "primary_axis": "missingIntelligibility",
+    "distinct_terms": 3,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "该评论是个人骑行经历的客观叙述，语气平和，逻辑清晰，没有情绪过激、回避讨论、逻辑混乱或其他问题，也不属于任何杠精类型。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_033",
+    "comment_text": "看得最难受的一集,之前虽然剧情过快,重复,但至少有那种脱缰野马的爽快和乐子。这一集像是世界线突然变了,穿越进伪人的世界了,所有人看起来都在做正常的事但我脑子跟我说这都是假的,一段大祥独白配上日常画面甚至给我看恶心了,从来没有一次那么后悔看mujica,是时候让我忘记一切了[mygo表情包_发送消息]",
+    "source_uid": "100050",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "absolutes": 1,
+      "attack": 1,
+      "evasion": 1
+    },
+    "keyword_terms": [
+      "乐子",
+      "伪人",
+      "都是假的"
+    ],
+    "primary_axis": "missingIntelligibility",
+    "distinct_terms": 3,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [
+          "情绪宣泄型"
+        ],
+        "notes": "评论表达强烈的负面情绪和失望，属于情绪宣泄，但未涉及人身攻击或逻辑混乱。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_034",
+    "comment_text": "我本来觉得人肉抄和ai抄都是抄,没什么可说的,但看评论举打ai大旗又多又集中。首先就是帕鲁的模21年就有了,那时候还没有ai;其次是ai的应用是不可避的,现在各大厂都暗搓搓的开始尝试使用ai替代部分环节了,甚至把ai辅助设计直接写计划了。只说美术设计方面,以前没有ai的时候其实也是纯人肉找借鉴,只不过如今ai对美术创意和风格复制冲击性太大+法律不完善,我觉得广泛推广为时过早,但ai就像是发明蒸汽机",
+    "source_uid": "100050",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "absolutes": 1,
+      "attack": 1,
+      "cooperation": 1
+    },
+    "keyword_terms": [
+      "复制",
+      "我觉得",
+      "没有"
+    ],
+    "primary_axis": "missingIntelligibility",
+    "distinct_terms": 3,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论理性讨论AI抄袭问题，没有情绪过激、回避讨论或逻辑混乱，属于正常表达观点。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_035",
+    "comment_text": "回复 @血雨之歾画藤和 :这种不可能做出来的,游戏必定会倾斜氪佬一定的优势,这么公平你的游戏赚不到钱也别谈发展了",
+    "source_uid": "100057",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "absolutes": 2,
+      "cooperation": 1
+    },
+    "keyword_terms": [
+      "一定",
+      "不可能",
+      "可能"
+    ],
+    "primary_axis": "missingIntelligibility",
+    "distinct_terms": 3,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论直接回应对方观点，逻辑清晰，无情绪过激、回避讨论或逻辑混乱，属于正常争论。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_036",
+    "comment_text": "七年前,当我还是一名高中生的时候,遇见了up主,惊为天人,默默收藏。从此每年听up的作品成了1111等日子的保留项目,七年过去,当年的高中生成了现在的研究生,依然没有女朋友...[小电视_哭泣]",
+    "source_uid": "100443",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "absolutes": 1,
+      "attack": 1,
+      "cooperation": 1
+    },
+    "keyword_terms": [
+      "p的",
+      "up主",
+      "没有"
+    ],
+    "primary_axis": "missingIntelligibility",
+    "distinct_terms": 3,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论为积极正面的个人回忆和感慨，无情绪过激、回避讨论、逻辑混乱或其他问题，亦无杠精特征。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_037",
+    "comment_text": "我虽然不喜欢他!说他技术粗的肯定是詹密",
+    "source_uid": "100513",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "absolutes": 2,
+      "cooperation": 1
+    },
+    "keyword_terms": [
+      "不喜",
+      "肯定",
+      "肯定是"
+    ],
+    "primary_axis": "missingIntelligibility",
+    "distinct_terms": 3,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 1,
+        "missingCommitment": 1,
+        "missingIntelligibility": 1,
+        "otherReasons": 0,
+        "gangjing_subtypes": [
+          "情绪宣泄型",
+          "人身攻击型"
+        ],
+        "notes": "评论者先表明不喜欢某球员，随后断言批评者一定是詹密，属于贴标签和情绪化论断，缺乏理性讨论，逻辑上存在简单归因谬误。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_038",
+    "comment_text": "去年也是国内人挤人,然后我去了趟日本乡下...好家伙,这种景色连人都没有,还免费!",
+    "source_uid": "100674",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "absolutes": 1,
+      "attack": 1,
+      "cooperation": 1
+    },
+    "keyword_terms": [
+      "好家伙",
+      "我去",
+      "没有"
+    ],
+    "primary_axis": "missingIntelligibility",
+    "distinct_terms": 3,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论内容仅为客观描述个人旅行经历，未出现情绪过激、回避讨论、逻辑混乱或其他问题。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_039",
+    "comment_text": "文艺复兴。话说有十年了?!总之感谢up主们和热爱金坷垃的每一位!",
+    "source_uid": "100678",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "absolutes": 2,
+      "cooperation": 1
+    },
+    "keyword_terms": [
+      "up主",
+      "总之",
+      "金坷垃"
+    ],
+    "primary_axis": "missingIntelligibility",
+    "distinct_terms": 3,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论表达感谢和怀旧，情绪积极，无任何负面特征。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_040",
+    "comment_text": "那份邮件肯定是说女孩吊着男孩的,然后人家明白了你说她吊着你。当然拉黑了?不拉黑难道还要说,是啊我就是吊着你不成?",
+    "source_uid": "100704",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "absolutes": 2,
+      "attack": 1
+    },
+    "keyword_terms": [
+      "女孩",
+      "肯定",
+      "肯定是"
+    ],
+    "primary_axis": "missingIntelligibility",
+    "distinct_terms": 3,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [
+          "情绪宣泄型"
+        ],
+        "notes": "评论带有讽刺和反问语气，略带情绪化，但未到人身攻击程度，逻辑清晰，没有回避讨论。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_041",
+    "comment_text": "不用迷信1400升油箱,新fh选tc发动机4x2超低油耗900升绝对够跑很久,当然想要780匹跑长途那是喝油如喝水,我倒是觉得偶尔去下加油站更有沉浸感,6x4加500匹tc发动机,600升油箱够跑1000多公里能玩",
+    "source_uid": "100015",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "absolutes": 1,
+      "cooperation": 1
+    },
+    "keyword_terms": [
+      "加油",
+      "绝对"
+    ],
+    "primary_axis": "missingIntelligibility",
+    "distinct_terms": 2,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论内容是关于卡车油箱和发动机配置的个人观点，语气平和，逻辑清晰，没有情绪过激、回避讨论、逻辑混乱或其他问题。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_042",
+    "comment_text": "预言下一集大祥老师的风评恐怕会更差,首先她要回应灯说的组乐队的事情,而且根据预告灯拿着褶皱的便利贴以及祥靠着墙滑落这种无力感来看恐怕是放狠话again,声优采访也说第六集还是大的,另外地铁广告新画面里有睦在疑似ring的地方抱着自己歇斯底里的镜头,还有丢书没有回收,想要重新振作包饺子至少要七八集[mygo表情包_发送消息]",
+    "source_uid": "100050",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "absolutes": 1,
+      "attack": 1
+    },
+    "keyword_terms": [
+      "包饺子",
+      "没有"
+    ],
+    "primary_axis": "missingIntelligibility",
+    "distinct_terms": 2,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "该评论是对动画剧情的正常预测和讨论，没有情绪过激、回避讨论、逻辑混乱或其他问题。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_043",
+    "comment_text": "散人推荐的游戏绝对不能玩www",
+    "source_uid": "100050",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "absolutes": 2
+    },
+    "keyword_terms": [
+      "绝对",
+      "绝对不"
+    ],
+    "primary_axis": "missingIntelligibility",
+    "distinct_terms": 2,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 1,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论为个人主观意见，包含绝对化断言（绝对不能玩），缺少论证，但无情绪过激或回避讨论，也未涉及反智或双标。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_044",
+    "comment_text": "暴利肯定是有的,但宠物医院成本也很高,房租设备人力物力都要算进去,高端的宠物医院更是全套进口。而且最关键的一点是观念不一样,有了“宠物”的属性主人多少钱都愿意给,往好了说是花钱买服务,往不好说就是看人下菜碟咯。",
+    "source_uid": "100050",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "absolutes": 1,
+      "evasion": 1
+    },
+    "keyword_terms": [
+      "不好说",
+      "肯定是"
+    ],
+    "primary_axis": "missingIntelligibility",
+    "distinct_terms": 2,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论客观分析宠物医院暴利与成本、观念的关系，未出现情绪化、逃避讨论、逻辑混乱或其他问题。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_045",
+    "comment_text": "最不可能的就是vg拿冠军。。",
+    "source_uid": "100056",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "absolutes": 2
+    },
+    "keyword_terms": [
+      "不可能",
+      "不可能的"
+    ],
+    "primary_axis": "missingIntelligibility",
+    "distinct_terms": 2,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "该评论仅为对VG战队夺冠可能性的否定性主观预测，未包含情绪过激、回避讨论、逻辑混乱或其他问题，属于正常的观点表达。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_046",
+    "comment_text": "回复 @心落の流年 :张口就来,tv版半成品还行,你把站里fa第22集tv和bd的对比视频扒来看看,看看有更改吗?另外bd修正的基本都是人物静态的绘柄,包括fa修正的基本也都是人物对话时的绘柄,像fa22这种张数极多,特效复杂的原画,你觉得可能修得起来?",
+    "source_uid": "100320",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "cooperation": 1,
+      "attack": 1,
+      "correction": 1,
+      "evidence": 1
+    },
+    "keyword_terms": [
+      "修正",
+      "可能",
+      "张口就来"
+    ],
+    "primary_axis": "otherReasons",
+    "distinct_terms": 3,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论开头'张口就来'带有情绪化指责，但整体内容围绕讨论展开，逻辑清晰，未回避讨论，也无其他问题。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_047",
+    "comment_text": "其实说错了一点,不是捞一分赚一分,而是你出钱低头了,我气消了",
+    "source_uid": "100357",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "correction": 2
+    },
+    "keyword_terms": [
+      "说错",
+      "说错了"
+    ],
+    "primary_axis": "otherReasons",
+    "distinct_terms": 2,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论中带有一定的情绪，但未达到过激程度；逻辑清晰，没有回避讨论或无意义内容。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_048",
+    "comment_text": "目前这个疑惑还未得到解答,更新一下断断续续的一些收获。26:35 开始的重排过程,是把【chi(d)先对r^2的质因数d求和,再对r^2求和】改为【chi(d)对小于r^2的d求和】,这里黎曼重排定理不适用,因为这一数列并不是条件收敛,而是一个发散的广义交错级数。因为我找不到使用3b1b这一证明方法的发表文献,没法追踪引用情况,在ytb和3b1b的讨论串中也并没有人给出详细的证明(油管页面给出的详",
+    "source_uid": "100621",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "evidence": 2
+    },
+    "keyword_terms": [
+      "引用",
+      "油管"
+    ],
+    "primary_axis": "otherReasons",
+    "distinct_terms": 2,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 0,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [],
+        "notes": "评论内容为正常的数学技术讨论，没有情绪过激、回避讨论、逻辑混乱或其他问题，属于建设性学术交流。"
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_049",
+    "comment_text": "回复 @睦夜丶:照这个逻辑来说,学生为什么想去好学校 考清华 北大?因为他们觉得以后能有好前途能赚钱,学校分数线就是趁着这个才高起来的,如果没那么多人报考好学校 分数线能上去吗,他们都赚了钱 我们普通学生呢?所以那些考试好学校的都应该矿难?",
+    "source_uid": "100748",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "evidence": 1,
+      "cooperation": 1
+    },
+    "keyword_terms": [
+      "为什么",
+      "觉得"
+    ],
+    "primary_axis": "otherReasons",
+    "distinct_terms": 2,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": null,
+        "missingCommitment": null,
+        "missingIntelligibility": null,
+        "otherReasons": null,
+        "gangjing_subtypes": [],
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "comment_id": "disamb2_050",
+    "comment_text": "为什么推开人自己不懂",
+    "source_uid": "100005",
+    "source_file": "stratified_candidates_after.json",
+    "keyword_families": {
+      "evidence": 1
+    },
+    "keyword_terms": [
+      "为什么"
+    ],
+    "primary_axis": "otherReasons",
+    "distinct_terms": 1,
+    "annotations": [
+      {
+        "annotator_id": "A1",
+        "toxicEmotions": 1,
+        "missingCommitment": 0,
+        "missingIntelligibility": 0,
+        "otherReasons": 0,
+        "gangjing_subtypes": [
+          "情绪宣泄型"
+        ],
+        "notes": "该评论带有轻微的讽刺和不满情绪，属于情绪宣泄型，但未达到强烈攻击或逻辑混乱的程度。"
+      }
+    ]
+  }
+]

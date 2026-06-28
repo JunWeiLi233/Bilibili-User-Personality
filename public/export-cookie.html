@@ -73,7 +73,7 @@
   console.log('%c=== COPY THE LINE BELOW ===', 'font-size:14px;color:#4ade80');
   console.log('%c' + result, 'font-size:13px;color:#fff;background:#1e293b;padding:8px 12px;border-radius:4px');
   console.log('');
-  console.log('%cPaste this into $InlineCookie in run-bilibili-video.links.ps1', 'color:#94a3b8');
+  console.log('%cPaste this into $env:BILIBILI_COOKIE in set-deepseek-env.ps1', 'color:#94a3b8');
   console.log('%cUID: ' + (dede || '?') + '  |  jct: ' + (jct ? 'yes' : 'no') + '  |  sessdata: ' + sess.length + ' chars',
     'color:#64748b');
 
@@ -91,7 +91,8 @@
   <div class="note">
     SESSDATA 是 <strong>HttpOnly</strong> 的（JS 无法读取），所以用弹窗让你手动粘贴。<br>
     bili_jct 和 DedeUserID 自动从 <code>document.cookie</code> 读取。<br>
-    结果自动复制到剪贴板，可直接粘贴到 <code>$InlineCookie</code>。
+    结果自动复制到剪贴板，可粘贴到 <code>set-deepseek-env.ps1</code> 中的 <code>$env:BILIBILI_COOKIE</code>.<br>
+    或使用 <code>python extract_bilibili_cookie.py</code> 自动读取 Chrome cookie 数据库（需关闭 Chrome）。
   </div>
 </div>
 

@@ -1,0 +1,49 @@
+{
+  "uid": "100058",
+  "annotatedAt": "2026-06-28T15:10:04.593Z",
+  "commentCount": 60,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": {
+    "toxicEmotions": 1,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "notes": "少量嘲讽性评论（如“一堆没见识的”、“配叫大战场？”），但未达频繁程度；其余多为正常讨论、提问或表情，无回避讨论、逻辑混乱或恶意行为。"
+  },
+  "A2": {
+    "toxicEmotions": 2,
+    "missingCommitment": 0,
+    "missingIntelligibility": 1,
+    "otherReasons": 0,
+    "evidence": [
+      "一堆没见识的",
+      "100来人也配叫大战场？见没见过行星边际啊[doge]",
+      "小思内科，你很狂"
+    ],
+    "notes": "存在明确的贬低他人、嘲讽、指责行为，属于情绪过激；同时有绝对化断言，如'一堆没见识的'，但未见回避讨论或恶意刷屏。"
+  },
+  "A3": {
+    "toxicEmotions": 1,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "resolution": "同意A1",
+    "notes": "用户评论以信息询问、游戏讨论和表情为主，仅个别语句带轻微嘲讽但无攻击性，整体情绪平和，逻辑清晰。"
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 1,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0
+  },
+  "binaryLabels": {
+    "toxicEmotions": true,
+    "missingCommitment": false,
+    "missingIntelligibility": false,
+    "otherReasons": false
+  }
+}

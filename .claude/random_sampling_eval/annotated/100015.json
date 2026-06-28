@@ -1,0 +1,45 @@
+{
+  "uid": "100015",
+  "annotatedAt": "2026-06-28T15:07:08.590Z",
+  "commentCount": 60,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "notes": "用户评论以技术讨论和经验分享为主，语气平和，逻辑清晰，未出现情绪过激、回避讨论、逻辑混乱或其他问题。"
+  },
+  "A2": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "evidence": [],
+    "notes": "所有评论均为技术性讨论、经验分享或调侃，无任何攻击性、回避讨论、逻辑混乱或恶意表达。"
+  },
+  "A3": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "resolution": "同意A1",
+    "notes": "评论内容以技术讨论和分享经验为主，语气平和，无情绪过激、回避讨论或逻辑混乱等行为。"
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0
+  },
+  "binaryLabels": {
+    "toxicEmotions": false,
+    "missingCommitment": false,
+    "missingIntelligibility": false,
+    "otherReasons": false
+  }
+}
