@@ -85,7 +85,7 @@ test("没有: absolute denial → confirm", () => {
   const r = disambiguateTerm("根本就没有这回事", "没有", "absolutes");
   assert.ok(r);
   assert.strictEqual(r.action, "confirm");
-  assert.strictEqual(r.reason, "absolute_denial");
+  assert.strictEqual(r.reason, "composite:comp-029");
 });
 
 test("哈哈哈: standalone laughter → suppress", () => {
@@ -106,7 +106,7 @@ test("哈哈哈: mockery → confirm", () => {
   const r = disambiguateTerm("哈哈哈你真是傻得可爱", "哈哈哈", "attack");
   assert.ok(r);
   assert.strictEqual(r.action, "confirm");
-  assert.strictEqual(r.reason, "mockery_laughter");
+  assert.strictEqual(r.reason, "composite:comp-035");
 });
 
 test("我觉得: opinion framing → suppress", () => {
