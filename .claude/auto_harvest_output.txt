@@ -1,0 +1,121 @@
+Coverage harvest loop
+DeepSeek model: deepseek-v4-flash
+DeepSeek reasoning effort: max
+Initial coverage: 94.07%, weak 98, zero 22
+
+Cycle 1/3
+Priority queries: 12
+- 有链接吗 证据 来源 评论区
+- 水一下 回复 评论区 热评
+- 不用我教 回复 评论区 热评
+- 有来源吗 证据 来源 评论区
+- 有考证吗 证据 来源 评论区
+- 上链接 证据 来源 评论区
+- 不置可否 回复 评论区 热评
+- 吃瓜 讨论 评论区 热评
+  [q 1/12] start: 有链接吗 证据 来源 评论区
+  [q 1/12] done 127.4s: ok=1 videos=6 comments=32 accepted=22
+  [q 2/12] start: 水一下 回复 评论区 热评
+  [q 2/12] done 153.2s: ok=1 videos=6 comments=35 accepted=33
+  [q 3/12] start: 不用我教 回复 评论区 热评
+  [q 3/12] done 170.8s: ok=1 videos=6 comments=43 accepted=34
+  [q 4/12] start: 有来源吗 证据 来源 评论区
+  [q 4/12] done 118.0s: ok=1 videos=6 comments=42 accepted=33
+  [q 5/12] start: 有考证吗 证据 来源 评论区
+  [q 5/12] done 144.1s: ok=1 videos=6 comments=39 accepted=36
+  [q 6/12] start: 上链接 证据 来源 评论区
+  [q 6/12] done 144.3s: ok=1 videos=6 comments=42 accepted=34
+  [q 7/12] start: 不置可否 回复 评论区 热评
+  [q 7/12] done 167.5s: ok=1 videos=6 comments=34 accepted=28
+  [q 8/12] start: 吃瓜 讨论 评论区 热评
+  [q 8/12] done 128.9s: ok=1 videos=6 comments=39 accepted=24
+  [q 9/12] start: 复制 评论区 梗 热评
+  [q 9/12] done 146.9s: ok=1 videos=6 comments=49 accepted=40
+  [q 10/12] start: 应该 讨论 评论区 热评
+  [q 10/12] done 175.8s: ok=1 videos=6 comments=34 accepted=27
+  [q 11/12] start: 我去 评论区 梗 热评
+  [q 11/12] done 147.5s: ok=1 videos=6 comments=44 accepted=24
+  [q 12/12] start: 我就看看 回复 评论区 热评
+  [q 12/12] done 130.2s: ok=1 videos=6 comments=47 accepted=32
+Coverage after cycle: 85.86%, weak 240, zero 23
+Delta: deficit -0, zero -0, weak -0, unsourced -145, evidence +9.383074822577649e+34, terms +45
+
+Cycle 2/3
+Priority queries: 12
+- 不置可否 评论区
+- 我就看看 评论区
+- 有链接吗 热评
+- 水一下 热评
+- 不用我教 评论区
+- 有来源吗 评论区
+- 有考证吗 热评
+- 20r点 评论区 梗 热评
+  [q 1/12] start: 不置可否 评论区
+  [q 1/12] done 178.2s: ok=1 videos=12 comments=78 accepted=67
+  [q 2/12] start: 我就看看 评论区
+  [q 2/12] done 131.9s: ok=1 videos=12 comments=91 accepted=55
+  [q 3/12] start: 有链接吗 热评
+  [q 3/12] FAILED 180.0s: Bilibili harvest query "有链接吗 热评" timed out after 180000ms
+  [q 4/12] start: 水一下 热评
+  [q 4/12] FAILED 180.2s: Bilibili harvest query "水一下 热评" timed out after 180000ms
+  [q 5/12] start: 不用我教 评论区
+  [q 5/12] done 174.7s: ok=1 videos=12 comments=80 accepted=53
+  [q 6/12] start: 有来源吗 评论区
+  [q 6/12] done 175.8s: ok=1 videos=12 comments=99 accepted=61
+  [q 7/12] start: 有考证吗 热评
+  [q 7/12] done 173.0s: ok=1 videos=12 comments=73 accepted=60
+  [q 8/12] start: 20r点 评论区 梗 热评
+  [q 8/12] done 139.2s: ok=1 videos=6 comments=43 accepted=28
+  [q 9/12] start: p图 评论区 梗 热评
+  [q 9/12] done 137.5s: ok=1 videos=6 comments=43 accepted=27
+  [q 10/12] start: 不可能 绝对化 评论 热评
+  [q 10/12] done 134.9s: ok=1 videos=6 comments=51 accepted=37
+  [q 11/12] start: 不可能的 绝对化 评论 热评
+  [q 11/12] done 148.9s: ok=1 videos=6 comments=35 accepted=25
+  [q 12/12] start: 乐子 讨论 评论区 热评
+  [q 12/12] done 143.3s: ok=1 videos=6 comments=32 accepted=37
+Coverage after cycle: 82.46%, weak 300, zero 23
+Delta: deficit -0, zero -0, weak -0, unsourced -82, evidence +3.446772607231625e+60, terms +13
+
+Cycle 3/3
+Priority queries: 12
+- 不置可否 热评
+- 我就看看 热评
+- p的 评论区 梗 热评
+- 下饭 游戏 评论区 热评
+- 不吹不黑 评论
+- 也许 讨论 评论区 热评
+- 买的 评论区 梗 热评
+- 买的评论 评论区 梗 热评
+  [q 1/12] start: 不置可否 热评
+  [q 1/12] FAILED 180.0s: Bilibili harvest query "不置可否 热评" timed out after 180000ms
+  [q 2/12] start: 我就看看 热评
+  [q 2/12] FAILED 180.0s: Bilibili harvest query "我就看看 热评" timed out after 180000ms
+  [q 3/12] start: p的 评论区 梗 热评
+  [q 3/12] done 160.3s: ok=1 videos=6 comments=39 accepted=41
+  [q 4/12] start: 下饭 游戏 评论区 热评
+  [q 4/12] done 140.5s: ok=1 videos=6 comments=41 accepted=41
+  [q 5/12] start: 不吹不黑 评论
+  [q 5/12] done 143.1s: ok=1 videos=6 comments=37 accepted=49
+  [q 6/12] start: 也许 讨论 评论区 热评
+  [q 6/12] done 146.5s: ok=1 videos=6 comments=43 accepted=35
+  [q 7/12] start: 买的 评论区 梗 热评
+  [q 7/12] done 158.0s: ok=1 videos=6 comments=50 accepted=38
+  [q 8/12] start: 买的评论 评论区 梗 热评
+  [q 8/12] done 132.1s: ok=1 videos=6 comments=37 accepted=43
+  [q 9/12] start: 人机 评论区 梗 热评
+  [q 9/12] done 136.4s: ok=1 videos=6 comments=49 accepted=33
+  [q 10/12] start: 偷文化 评论区 梗 热评
+  [q 10/12] done 141.6s: ok=1 videos=6 comments=40 accepted=37
+  [q 11/12] start: 全都 绝对化 评论 热评
+  [q 11/12] done 111.2s: ok=1 videos=6 comments=35 accepted=19
+  [q 12/12] start: 全都是 绝对化 评论 热评
+  [q 12/12] done 141.4s: ok=1 videos=6 comments=43 accepted=36
+Coverage after cycle: 89.10%, weak 182, zero 22
+Delta: deficit -199, zero -1, weak -118, unsourced -0, evidence +0, terms +0
+
+Final coverage: 89.10%
+Weak terms: 182
+Zero-evidence terms: 22
+Stop reason: cycle_limit
+Coverage loop report: D:\Bilibili_User_Personality\server\data\keywordCoverageLoopReport.json

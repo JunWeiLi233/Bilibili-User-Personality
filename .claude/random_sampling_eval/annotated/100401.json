@@ -1,0 +1,48 @@
+{
+  "uid": "100401",
+  "annotatedAt": "2026-06-28T15:26:16.461Z",
+  "commentCount": 60,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": {
+    "toxicEmotions": 1,
+    "missingCommitment": 0,
+    "missingIntelligibility": 1,
+    "otherReasons": 0,
+    "notes": "有少量情绪化表达和绝对化断言，但未频繁人身攻击或回避讨论，整体讨论行为正常。"
+  },
+  "A2": {
+    "toxicEmotions": 1,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "evidence": [
+      "就怕某些不会管孩子的fw家长在那投诉举报",
+      "汉奸死远点"
+    ],
+    "notes": "存在少量攻击性词汇（如'fw'、'汉奸'），但整体讨论以游戏内容为主，情绪化表达不突出；未发现回避讨论、逻辑混乱或其他问题。"
+  },
+  "A3": {
+    "toxicEmotions": 1,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "resolution": "同意A2",
+    "notes": "用户情绪略有表达但不过激，逻辑清晰，无回避或其他问题。"
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 1,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0
+  },
+  "binaryLabels": {
+    "toxicEmotions": true,
+    "missingCommitment": false,
+    "missingIntelligibility": false,
+    "otherReasons": false
+  }
+}

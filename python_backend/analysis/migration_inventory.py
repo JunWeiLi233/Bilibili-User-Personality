@@ -568,6 +568,16 @@ RETAINED_JS_FILES = {
     "server/scripts/compareVideoContext.js": "js_python_contract_bridge",
     "server/scripts/compareVideoRelevance.js": "js_python_contract_bridge",
     "server/scripts/expandDictionaryFromLocalCorpus.js": "new_native_js_script_not_migration_target",
+    "server/scripts/harvestAllSeedCorpus.js": "legacy_compatibility_after_python_replacement",
+    "server/scripts/harvestSeedCorpusEvidence.js": "legacy_compatibility_after_python_replacement",
+    "server/scripts/probeCoverageHonesty.js": "legacy_compatibility_after_python_replacement",
+    "server/scripts/deepBatchScraper.js": "legacy_compatibility_after_python_replacement",
+    "server/scripts/generateTermsForFamily.js": "new_native_js_script_not_migration_target",
+    "server/scripts/validateScoring.js": "new_native_js_script_not_migration_target",
+    "server/scripts/annotateLabelsWithDeepSeek.js": "new_native_js_script_not_migration_target",
+    "server/scripts/compareContextClassifier.js": "js_python_contract_bridge",
+    "server/scripts/compareMigrationContracts.js": "js_python_contract_bridge",
+    "server/services/contextClassifier.js": "legacy_compatibility_after_python_replacement",
 }
 
 MIGRATION_PRIORITY_RULES = (

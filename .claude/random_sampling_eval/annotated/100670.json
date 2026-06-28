@@ -1,0 +1,45 @@
+{
+  "uid": "100670",
+  "annotatedAt": "2026-06-28T15:33:26.484Z",
+  "commentCount": 60,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": null,
+  "A2": {
+    "toxicEmotions": 2,
+    "missingCommitment": 0,
+    "missingIntelligibility": 1,
+    "otherReasons": 1,
+    "evidence": [
+      "评论1: '666，臆想得不错，祝你早日从自己的世界里走出来，拥抱现实' 讽刺攻击",
+      "评论21: '14年入站的弟弟装你馬老观众呢' 人身攻击+脏话",
+      "评论20: '孝死我了' / '真正的中国人会舔这种日本人做的歪曲文化形象的东西？' 绝对化断言+讽刺",
+      "评论33: '反正就是有一帮人天生看不起多人生存游戏呗' 以偏概全绝对化",
+      "评论5: '？zsbd' / 评论9: '1' / 评论11: '2' / 评论40: '***' 无意义或低质刷屏"
+    ],
+    "notes": "存在多条情绪过激的人身攻击和讽刺，也有绝对化断言逻辑问题，以及少量无意义刷屏；未见回避讨论的证据。"
+  },
+  "A3": {
+    "toxicEmotions": 2,
+    "missingCommitment": 0,
+    "missingIntelligibility": 1,
+    "otherReasons": 1,
+    "resolution": "同意A2",
+    "notes": "用户评论中多次出现讽刺、辱骂和攻击性语言，情绪过激明显；积极回应讨论，未回避；部分评论逻辑稍显混乱，且包含重复链接等小问题，A2评分合理。"
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 2,
+    "missingCommitment": 0,
+    "missingIntelligibility": 1,
+    "otherReasons": 1
+  },
+  "binaryLabels": {
+    "toxicEmotions": true,
+    "missingCommitment": false,
+    "missingIntelligibility": true,
+    "otherReasons": true
+  }
+}

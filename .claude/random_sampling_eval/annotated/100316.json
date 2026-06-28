@@ -1,0 +1,48 @@
+{
+  "uid": "100316",
+  "annotatedAt": "2026-06-28T15:22:31.171Z",
+  "commentCount": 60,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": {
+    "toxicEmotions": 1,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "notes": "偶有情绪化用词（如粤语粗口），但整体讨论理性，无回避、逻辑混乱或其他问题"
+  },
+  "A2": {
+    "toxicEmotions": 2,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "evidence": [
+      "评论[23]: '点解你地哩啲哩班柒头咁双标'，使用脏话'柒头'进行人身攻击",
+      "评论[28]: '傻嗨嗨'、'食塞米'等情绪宣泄词汇"
+    ],
+    "notes": "用户有多次明确人身攻击和情绪宣泄语句，其他维度未找到明确证据。"
+  },
+  "A3": {
+    "toxicEmotions": 2,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "resolution": "同意A2",
+    "notes": "用户评论中出现多次粤语粗口（如“柒头”“傻嗨嗨”）和攻击性言辞，情绪过激特征明显且频繁，符合2分标准。"
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 2,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0
+  },
+  "binaryLabels": {
+    "toxicEmotions": true,
+    "missingCommitment": false,
+    "missingIntelligibility": false,
+    "otherReasons": false
+  }
+}

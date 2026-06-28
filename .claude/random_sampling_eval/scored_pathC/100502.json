@@ -1,0 +1,112 @@
+{
+  "uid": "100502",
+  "scoredAt": "2026-06-28T16:43:55.182Z",
+  "trollIndex": 10,
+  "sampleSize": 92,
+  "scores": [
+    {
+      "axis": "情绪过激",
+      "category": "toxicEmotions",
+      "value": 30,
+      "benchmark": 48,
+      "kappa": 0.84,
+      "kappaLabel": "评分者一致性: κ=0.84 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 86 → 30 (ρ=0.165)",
+      "calibratedValue": 30,
+      "rawValue": 86
+    },
+    {
+      "axis": "回避讨论",
+      "category": "missingCommitment",
+      "value": 0,
+      "benchmark": 44,
+      "kappa": 0.75,
+      "kappaLabel": "评分者一致性: κ=0.75 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 26 → 0 (ρ=0.016)",
+      "calibratedValue": 0,
+      "rawValue": 26
+    },
+    {
+      "axis": "逻辑混乱",
+      "category": "missingIntelligibility",
+      "value": 0,
+      "benchmark": 52,
+      "kappa": 0.69,
+      "kappaLabel": "评分者一致性: κ=0.69 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 44 → 0 (ρ=0.165)",
+      "calibratedValue": 0,
+      "rawValue": 44
+    },
+    {
+      "axis": "其他问题",
+      "category": "otherReasons",
+      "value": 6,
+      "benchmark": 30,
+      "kappa": 0.7,
+      "kappaLabel": "评分者一致性: κ=0.70 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 10 → 6 (ρ=-0.127)",
+      "calibratedValue": 6,
+      "rawValue": 10
+    }
+  ],
+  "rawScores": [
+    {
+      "axis": "情绪过激",
+      "category": "toxicEmotions",
+      "value": 86
+    },
+    {
+      "axis": "回避讨论",
+      "category": "missingCommitment",
+      "value": 26
+    },
+    {
+      "axis": "逻辑混乱",
+      "category": "missingIntelligibility",
+      "value": 44
+    },
+    {
+      "axis": "其他问题",
+      "category": "otherReasons",
+      "value": 10
+    }
+  ],
+  "vocabularyMarks": [
+    {
+      "term": "复制",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "0级",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "降维打击",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "打call",
+      "family": "cooperation",
+      "label": "合作讨论",
+      "axis": "逻辑混乱",
+      "polarity": "support",
+      "count": 1
+    }
+  ]
+}

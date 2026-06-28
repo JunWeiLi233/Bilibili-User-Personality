@@ -1,0 +1,50 @@
+{
+  "uid": "100090",
+  "annotatedAt": "2026-06-28T15:11:32.596Z",
+  "commentCount": 28,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": {
+    "toxicEmotions": 1,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 2,
+    "notes": "偶尔情绪化攻击（如评论1），但多数评论理性或玩梗；不回避讨论，逻辑清晰；频繁发布哲学梗和无意义刷屏评论（如评论11-27）"
+  },
+  "A2": {
+    "toxicEmotions": 2,
+    "missingCommitment": 1,
+    "missingIntelligibility": 0,
+    "otherReasons": 1,
+    "evidence": [
+      "评论[1]：您可真是蹭热度和盈利大手子，求求你不要再发这种垃圾玩意蹭热度了",
+      "评论[9]：看来这位大手子根本不会做视频，这样的行为很让人不齿",
+      "评论[19]：意会即可，加上解说这个视频还能活下来吗？",
+      "评论[3]：花 千 芳"
+    ],
+    "notes": "toxicEmotions：明确的人身攻击和情绪宣泄（辱骂、扣帽子）多条。missingCommitment：有回避解释的语句。missingIntelligibility：未发现逻辑混乱。otherReasons：有无意义刷屏表达。"
+  },
+  "A3": {
+    "toxicEmotions": 1,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 1,
+    "resolution": "折中",
+    "notes": "用户情绪偶有激烈但未持续，回避和逻辑问题不明显；其他问题如简短梗回复较多但非严重偏离。介于A1和A2之间。"
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 1,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 1
+  },
+  "binaryLabels": {
+    "toxicEmotions": true,
+    "missingCommitment": false,
+    "missingIntelligibility": false,
+    "otherReasons": true
+  }
+}

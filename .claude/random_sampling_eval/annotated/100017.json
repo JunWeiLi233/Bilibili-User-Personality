@@ -1,0 +1,43 @@
+{
+  "uid": "100017",
+  "annotatedAt": "2026-06-28T15:07:47.568Z",
+  "commentCount": 52,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": {
+    "toxicEmotions": 2,
+    "missingCommitment": 1,
+    "missingIntelligibility": 1,
+    "otherReasons": 0,
+    "notes": "用户频繁使用人身攻击、扣帽子和情绪宣泄（如‘nc’、‘没素质’、‘搞笑呢’），但能提供一定证据；部分绝对化断言但未持续逻辑混乱；无明显刷屏或恶意拼写。"
+  },
+  "A2": {
+    "toxicEmotions": 2,
+    "missingCommitment": 0,
+    "missingIntelligibility": 2,
+    "otherReasons": 0
+  },
+  "A3": {
+    "toxicEmotions": 2,
+    "missingCommitment": 0,
+    "missingIntelligibility": 1,
+    "otherReasons": 0,
+    "resolution": "折中",
+    "notes": "用户情绪过激明显，大量人身攻击和粗话；积极参与讨论，未回避；逻辑整体清晰但部分表述情绪化，未到混乱程度；无其他问题。"
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 2,
+    "missingCommitment": 0,
+    "missingIntelligibility": 1,
+    "otherReasons": 0
+  },
+  "binaryLabels": {
+    "toxicEmotions": true,
+    "missingCommitment": false,
+    "missingIntelligibility": true,
+    "otherReasons": false
+  }
+}

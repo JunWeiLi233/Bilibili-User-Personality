@@ -1423,6 +1423,11 @@ const TERM_NEGATIVE_FEEDBACK_QUERIES = {
   '\u8e6d\u6982\u5ff5': ['\u8c01\u662f\u8e6d\u6982\u5ff5 \u539f\u8bdd', '\u8c01\u662f\u8e6d\u6982\u5ff5 \u8bc4\u8bba', '\u8e6d\u6982\u5ff5\u662f\u8c01 \u539f\u8bdd'],
 };
 
+
+// Minimum floor for weak term selection per family, so sparse families
+// (evasion/evidence/correction) are not starved when attack dominates.
+const MINIMUM_TERMS_PER_FAMILY = 6;
+
 function asPositiveInt(value, fallback, max = Number.MAX_SAFE_INTEGER) {
   const number = Number(value);
   if (!Number.isFinite(number) || number <= 0) return fallback;
@@ -2413,7 +2418,7 @@ export function buildKeywordHarvestQueryPlan(dictionary, options = {}) {
     if (!term) continue;
     const family = String(entry.family || 'attack').trim();
     const count = familyCounts.get(family) || 0;
-    if (coverageMode !== 'all-weak' && count >= asPositiveInt(options.termsPerFamily, 4, 20)) continue;
+    const effectiveMax = Math.max(asPositiveInt(options.termsPerFamily, 4, 20), MINIMUM_TERMS_PER_FAMILY); if (coverageMode !== 'all-weak' && count >= effectiveMax) continue;
     familyCounts.set(family, count + 1);
     const attempt = getTermAttempt(termAttempts, term);
     const attempts = Math.max(0, Number(attempt?.attempts) || 0);

@@ -16,8 +16,6 @@
     },
     "danmakuCap": 5000,
     "usePythonParser": true,
-    "minDelayMs": 900,
-    "jitterMs": 700,
     "outputDir": ".claude/danmaku_deep",
     "harvestAfter": true,
     "harvestWeight": 2.0
