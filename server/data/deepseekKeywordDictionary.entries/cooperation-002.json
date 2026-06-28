@@ -1,46 +1,10 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-27T21:46:49.375Z",
+  "updatedAt": "2026-06-28T23:16:49.501Z",
   "family": "cooperation",
   "shard": 2,
   "shardCount": 2,
   "entries": [
-    {
-      "term": "炸天",
-      "family": "cooperation",
-      "meaning": "“炸天”用于表示支持、补充、轻松互动或合作式讨论",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "点了",
-      "family": "cooperation",
-      "meaning": "表示赞同或支持，常用于回复他人观点",
-      "risk": "positive",
-      "confidence": 0.9,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:35:46.716Z"
-    },
-    {
-      "term": "点击领取大额优惠券",
-      "family": "cooperation",
-      "meaning": "引导用户点击链接领取优惠券，常见电商推广话术",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
-    },
-    {
-      "term": "点赞",
-      "family": "cooperation",
-      "meaning": "表达支持或认同的固定话术",
-      "risk": "positive",
-      "confidence": 0.65,
-      "evidenceCount": 2,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
-    },
     {
       "term": "热乎",
       "family": "cooperation",
@@ -74,8 +38,8 @@
       "meaning": "“牛逼”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T08:45:03.728Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-28T23:04:41.122Z"
     },
     {
       "term": "牢玩家",
@@ -182,8 +146,8 @@
       "meaning": "表示同意或肯定，常用于附和",
       "risk": "positive",
       "confidence": 0.85,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-27T21:37:58.859Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-28T23:12:11.305Z"
     },
     {
       "term": "皮套",
@@ -191,8 +155,8 @@
       "meaning": "“皮套”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T00:36:55.995Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-28T23:04:59.252Z"
     },
     {
       "term": "皮特托",
@@ -227,8 +191,8 @@
       "meaning": "用于概括长内容或对话要点，节省他人阅读时间",
       "risk": "positive",
       "confidence": 0.9,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-27T04:22:07.789Z"
+      "evidenceCount": 2,
+      "updatedAt": "2026-06-28T23:10:55.993Z"
     },
     {
       "term": "省流侠",
@@ -245,8 +209,8 @@
       "meaning": "指恶搞或循环剪辑的视频，常用于提及搞笑内容",
       "risk": "positive",
       "confidence": 0.9,
-      "evidenceCount": 1324641128,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.5307761920074626e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "看满离",
@@ -254,8 +218,8 @@
       "meaning": "B站常见弹幕，表示看完视频离开",
       "risk": "neutral",
       "confidence": 0.9,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-23T14:16:23.159Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-28T23:10:55.993Z"
     },
     {
       "term": "真是",
@@ -263,8 +227,8 @@
       "meaning": "“真是”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "眼里有光",
@@ -290,8 +254,8 @@
       "meaning": "合作讨论或条件化表达",
       "risk": "positive",
       "confidence": 0.9,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "确实啊",
@@ -308,8 +272,8 @@
       "meaning": "“确实是”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "磕到了",
@@ -317,8 +281,8 @@
       "meaning": "表示喜欢或支持某对CP、互动，常用于表达兴奋和共鸣，正面用语",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 930234860,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.0749940844833825e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "磕到了磕到了",
@@ -326,8 +290,8 @@
       "meaning": "表示喜欢或支持某对CP、互动，常用于表达兴奋和共鸣，正面用语",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 1505151621,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.739376966399189e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "私服",
@@ -362,8 +326,8 @@
       "meaning": "指视频进度条直接跳到某一时间点，常见于B站评论引导",
       "risk": "low",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-27T03:02:30.886Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-28T23:16:03.677Z"
     },
     {
       "term": "笑哭",
@@ -371,8 +335,8 @@
       "meaning": "笑哭表情，用于表示哭笑不得、调侃或自嘲，缓和语气",
       "risk": "neutral",
       "confidence": 0.95,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "笑点解析",
@@ -398,8 +362,8 @@
       "meaning": "自称客观中立的表达，用于表明无预设立场",
       "risk": "neutral",
       "confidence": 0.7,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:37:58.859Z"
+      "evidenceCount": 2,
+      "updatedAt": "2026-06-28T23:10:55.993Z"
     },
     {
       "term": "给心心",
@@ -425,8 +389,8 @@
       "meaning": "表示忍不住笑或破防，常用于自嘲或调侃",
       "risk": "positive",
       "confidence": 0.95,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T04:32:49.681Z"
+      "evidenceCount": 2,
+      "updatedAt": "2026-06-28T23:12:11.305Z"
     },
     {
       "term": "绷住",
@@ -632,8 +596,8 @@
       "meaning": "表达个人看法，带有商量口吻，降低断言强度",
       "risk": "neutral",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-27T21:44:27.937Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "让三追四",
@@ -695,8 +659,8 @@
       "meaning": "“说白了”用于表示支持、补充、轻松互动或合作式讨论",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-28T23:16:03.677Z"
     },
     {
       "term": "说的好",
@@ -740,8 +704,8 @@
       "meaning": "自称客观中立的表达，用于表明无预设立场",
       "risk": "neutral",
       "confidence": 0.7,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:37:58.859Z"
+      "evidenceCount": 2,
+      "updatedAt": "2026-06-28T23:10:55.993Z"
     },
     {
       "term": "路过",
@@ -749,8 +713,8 @@
       "meaning": "表达支持或认同的固定话术",
       "risk": "positive",
       "confidence": 0.65,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:37:58.859Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-28T23:16:27.741Z"
     },
     {
       "term": "路过点赞",
@@ -758,8 +722,8 @@
       "meaning": "表达支持或认同的固定话术",
       "risk": "positive",
       "confidence": 0.65,
-      "evidenceCount": 2,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-28T23:16:27.741Z"
     },
     {
       "term": "蹲一个",
@@ -804,7 +768,7 @@
       "risk": "positive",
       "confidence": 0.65,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-27T21:37:58.859Z"
+      "updatedAt": "2026-06-28T23:10:55.993Z"
     },
     {
       "term": "迪奥",
@@ -893,8 +857,8 @@
       "meaning": "提醒其他用户视频画面左右翻转，是一种常见的弹幕提示行为",
       "risk": "neutral",
       "confidence": 0.85,
-      "evidenceCount": 827900705,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 9.567351200046639e+28,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "镜像画面",
@@ -902,8 +866,8 @@
       "meaning": "提醒其他用户视频画面左右翻转，是一种常见的弹幕提示行为",
       "risk": "neutral",
       "confidence": 0.85,
-      "evidenceCount": 1339571480,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.5480299423982556e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "问号",
@@ -1055,8 +1019,8 @@
       "meaning": "指恶搞或循环剪辑的视频，常用于提及搞笑内容",
       "risk": "positive",
       "confidence": 0.9,
-      "evidenceCount": 2143314368,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 2.4768479078372097e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "魔丸",

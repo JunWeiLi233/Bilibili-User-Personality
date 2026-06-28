@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": null,
+  "updatedAt": "2026-06-28T23:16:49.501Z",
   "family": "attack",
   "shard": 1,
   "shardCount": 5,
@@ -47,8 +47,8 @@
       "meaning": "狗头表情，用于调侃或说反话，此处暗讽“野心不小”可能是嘲讽",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T08:45:17.044Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-28T23:13:41.690Z"
     },
     {
       "term": "ex人",
@@ -83,8 +83,8 @@
       "meaning": "完全不能理解或感受其魅力，表示不认可",
       "risk": "medium",
       "confidence": 0.85,
-      "evidenceCount": 954392677,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.1029112390490928e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "giegie",
@@ -101,8 +101,8 @@
       "meaning": "讽刺根据IP属地判断对方立场或身份，带有地域攻击色彩",
       "risk": "high",
       "confidence": 0.88,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-23T13:44:11.934Z"
+      "evidenceCount": 2,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "ip正确藏狐",
@@ -137,8 +137,8 @@
       "meaning": "网络用语，通常指'脑瘫'，用于侮辱或贬低对手，语境中嘲讽队伍战术",
       "risk": "high",
       "confidence": 0.85,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:25:58.906Z"
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-28T23:14:40.938Z"
     },
     {
       "term": "play的一环",
@@ -155,8 +155,8 @@
       "meaning": "情感操控术语，常指精神打压或控制",
       "risk": "high",
       "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T04:13:03.992Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-28T23:10:24.200Z"
     },
     {
       "term": "pv诈骗",
@@ -182,8 +182,8 @@
       "meaning": "声称图片是伪造的，质疑真实性",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 4,
-      "updatedAt": "2026-06-27T21:42:36.814Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-28T23:13:55.635Z"
     },
     {
       "term": "tv呕吐",
@@ -218,8 +218,8 @@
       "meaning": "在社交媒体上公开指责、审判，引导粉丝网暴，源于公堂诉讼隐喻",
       "risk": "high",
       "confidence": 0.85,
-      "evidenceCount": 496740423,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 5.740410720027987e+28,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "wdnmd",
@@ -236,42 +236,8 @@
       "meaning": "中文互联网嘲讽或贬低性梗；猪鼻用于批评某人当下行为犯蠢",
       "risk": "medium",
       "confidence": 0.85,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:42:36.814Z"
-    },
-    {
-      "term": "一言难尽",
-      "senses": [
-        {
-          "id": "一言难尽-1",
-          "family": "attack",
-          "meaning": "用含糊表达暗示对方问题严重",
-          "risk": "low",
-          "contextHints": [
-            "你",
-            "你们",
-            "这"
-          ],
-          "contextAntiHints": [
-            "我",
-            "自己"
-          ],
-          "scenario": "taunting"
-        },
-        {
-          "id": "一言难尽-2",
-          "family": "evasion",
-          "meaning": "回避详细解释，用模糊表达搪塞",
-          "risk": "low",
-          "contextHints": [
-            "不好说",
-            "不方便"
-          ],
-          "contextAntiHints": [],
-          "scenario": "argument"
-        }
-      ],
-      "defaultSense": "一言难尽-1"
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-28T23:12:11.305Z"
     },
     {
       "term": "一转攻势",
@@ -297,8 +263,8 @@
       "meaning": "游戏《游戏王》中三张最强卡，引申为绝对实力或运气极好，常被用于炫耀或调侃",
       "risk": "medium",
       "confidence": 0.7,
-      "evidenceCount": 827900705,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 9.567351200046639e+28,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "三观警察",
@@ -315,8 +281,8 @@
       "meaning": "指创作手法单一、缺乏新意的批判性称呼",
       "risk": "medium",
       "confidence": 0.72,
-      "evidenceCount": 496740423,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 5.740410720027987e+28,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "三阿哥",
@@ -360,8 +326,8 @@
       "meaning": "用下流低俗的方式辱骂他人",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 993480846,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.1480821440055974e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "下三路辱骂",
@@ -369,8 +335,8 @@
       "meaning": "用下流低俗的方式辱骂他人",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 1607485776,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.857635930877908e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "下头",
@@ -391,44 +357,13 @@
       "updatedAt": "2026-06-23T15:09:15.125Z"
     },
     {
-      "term": "下次一定",
-      "senses": [
-        {
-          "id": "下次一定-1",
-          "family": "attack",
-          "meaning": "讽刺：永远不会兑现的承诺",
-          "risk": "medium",
-          "contextHints": [
-            "鸽",
-            "骗",
-            "信你"
-          ],
-          "contextAntiHints": [
-            "真的",
-            "保证"
-          ],
-          "scenario": "taunting"
-        },
-        {
-          "id": "下次一定-2",
-          "family": "evasion",
-          "meaning": "用模糊承诺回避当前要求",
-          "risk": "low",
-          "contextHints": [],
-          "contextAntiHints": [],
-          "scenario": "argument"
-        }
-      ],
-      "defaultSense": "下次一定-1"
-    },
-    {
       "term": "不主动不拒绝",
       "family": "attack",
       "meaning": "描述渣男/渣女恋爱策略，暗讽不负责任或玩弄感情",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 69206016,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 6.198106008766409e+22,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "不主动不拒绝不负责",
@@ -436,8 +371,8 @@
       "meaning": "指责对方玩弄感情、态度暧昧，常见于情感批判",
       "risk": "high",
       "confidence": 0.9,
-      "evidenceCount": 6291456,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.770887431076117e+21,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "不会真有人",
@@ -445,8 +380,8 @@
       "meaning": "用反问包装资格审查或嘲讽",
       "risk": "medium",
       "confidence": 0.5,
-      "evidenceCount": 686895955685,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.9515210535890844e+39,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "不会真有人觉得",
@@ -454,8 +389,8 @@
       "meaning": "用反问包装资格审查或嘲讽",
       "risk": "medium",
       "confidence": 0.5,
-      "evidenceCount": 1876634650445,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 5.331654670445724e+39,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "不会真有人觉得吧",
@@ -463,8 +398,8 @@
       "meaning": "用反问讽刺对方认知偏差",
       "risk": "high",
       "confidence": 0.85,
-      "evidenceCount": 3501847931345,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 9.949003059257671e+39,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "不可抵抗力",
@@ -481,8 +416,8 @@
       "meaning": "委婉指出对方问题，带讽刺意味",
       "risk": "low",
       "confidence": 0.7,
-      "evidenceCount": 496740423,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 5.740410720027987e+28,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "不愧是你",
@@ -499,8 +434,8 @@
       "meaning": "直接否定或反驳对方观点，表示不赞同",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "不是人",
@@ -508,8 +443,8 @@
       "meaning": "用‘不是人’嘲讽或辱骂对方，表示对方行为恶劣或非人类。",
       "risk": "high",
       "confidence": 0.9,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "不是人了",
@@ -517,8 +452,8 @@
       "meaning": "反问式人身攻击，暗示对方侮辱他人人格，常用于辩论中激化对立",
       "risk": "high",
       "confidence": 0.92,
-      "evidenceCount": 961654337959,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "不是人了呗",
@@ -526,8 +461,8 @@
       "meaning": "反问式人身攻击，暗示对方侮辱他人人格，常用于辩论中激化对立",
       "risk": "high",
       "confidence": 0.92,
-      "evidenceCount": 2627288510623,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "不是利刃你装什么",
@@ -535,8 +470,8 @@
       "meaning": "质疑对方身份或资格，带有讽刺和蔑视，常用于粉丝群体间的资格审查",
       "risk": "high",
       "confidence": 0.65,
-      "evidenceCount": 4.2069770748305876e+23,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 2.5252195006194326e+79,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "不是很认可",
@@ -553,8 +488,8 @@
       "meaning": "谐音‘我不理解’，表达对荒唐行为的讽刺与不认同",
       "risk": "medium",
       "confidence": 0.7,
-      "evidenceCount": 6139721449132422,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 3.424636338838639e+52,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "不要侮辱狗",
@@ -625,8 +560,8 @@
       "meaning": "指挑拨离间、带节奏的人",
       "risk": "high",
       "confidence": 0.88,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:28:19.308Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-28T23:13:55.635Z"
     },
     {
       "term": "举国之力",
@@ -679,8 +614,8 @@
       "meaning": "质疑评论区或点赞为水军购买，暗示虚假互动",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 827900705,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-28T23:15:30.384Z"
     },
     {
       "term": "买的评论",
@@ -688,8 +623,8 @@
       "meaning": "质疑评论区或点赞为水军购买，暗示虚假互动",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 1339571480,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-28T23:15:30.384Z"
     },
     {
       "term": "乳追",
@@ -724,8 +659,8 @@
       "meaning": "LOL战术梗，指打野针对下路，常用于嘲讽Uzi容易被抓",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 662320564,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 7.653880960037313e+28,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "二级抓下公式",
@@ -733,8 +668,8 @@
       "meaning": "LOL战术梗，指打野针对下路，常用于嘲讽Uzi容易被抓",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 1071657184,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.2384239539186049e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "云玩家",
@@ -760,8 +695,8 @@
       "meaning": "指间谍举报奖励，用来怀疑或指控对方是间谍、带节奏",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 1159060987,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.339429168006529e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "五毒俱全",
@@ -787,8 +722,8 @@
       "meaning": "游戏用语，转指开始对目标发起集体攻击",
       "risk": "high",
       "confidence": 0.75,
-      "evidenceCount": 1159060987,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.339429168006529e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "亮血条了",
@@ -796,8 +731,8 @@
       "meaning": "游戏用语，转指开始对目标发起集体攻击",
       "risk": "high",
       "confidence": 0.75,
-      "evidenceCount": 1875400072,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 2.167241919357557e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "人人有关入",
@@ -832,8 +767,8 @@
       "meaning": "嘲讽对方像机器人，缺乏人性",
       "risk": "high",
       "confidence": 0.9,
-      "evidenceCount": 3,
-      "updatedAt": "2026-06-27T21:40:15.240Z"
+      "evidenceCount": 4,
+      "updatedAt": "2026-06-28T23:16:27.741Z"
     },
     {
       "term": "人机感",
@@ -850,8 +785,8 @@
       "meaning": "指责对方评论是自动生成的水军，否定对方真实性",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 827900705,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 9.567351200046639e+28,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "什么成分",
@@ -895,8 +830,8 @@
       "meaning": "引用网红伏拉夫的夸张表演风格，讽刺刻意迎合某种文化认同叙事的解读行为",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 827900705,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 9.567351200046639e+28,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "伏拉夫式",
@@ -904,8 +839,8 @@
       "meaning": "引用网红伏拉夫的夸张表演风格，讽刺刻意迎合某种文化认同叙事的解读行为",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 1339571480,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.5480299423982556e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "伏拉夫式的",
@@ -976,8 +911,8 @@
       "meaning": "与‘高情商’配对，直接点破讽刺对象，直言难听话",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 5242880,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.475739525896764e+21,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "低温焊",
@@ -1012,8 +947,8 @@
       "meaning": "讽刺脱离实际、高高在上",
       "risk": "medium",
       "confidence": 0.78,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T03:13:28.187Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-28T23:14:55.573Z"
     },
     {
       "term": "你不对劲",
@@ -1048,8 +983,8 @@
       "meaning": "蔡徐坤梗中的经典台词，常用于调侃或玩梗",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 827900705,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 9.567351200046639e+28,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "你干嘛啊哎哟",
@@ -1057,8 +992,8 @@
       "meaning": "蔡徐坤梗中的经典台词，常用于调侃或玩梗",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 1339571480,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.5480299423982556e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "你干得好啊",
@@ -1066,8 +1001,8 @@
       "meaning": "反讽句式，表面称赞实则表达不满或调侃",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 993480846,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.1480821440055974e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "你急了",
@@ -1075,8 +1010,8 @@
       "meaning": "指责对方情绪激动，常用于辩论中否定对方",
       "risk": "medium",
       "confidence": 0.85,
-      "evidenceCount": 930234860,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.0749940844833825e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "你懂什么",
@@ -1138,8 +1073,8 @@
       "meaning": "质疑对方身份或资格，带有讽刺和蔑视，常用于粉丝群体间的资格审查",
       "risk": "high",
       "confidence": 0.65,
-      "evidenceCount": 7.600893288148775e+23,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 4.562402792302731e+79,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "信仰",
@@ -1147,8 +1082,8 @@
       "meaning": "名词，此处用作讽刺对方盲目相信（如品牌、观点）",
       "risk": "medium",
       "confidence": 0.7,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T08:44:57.061Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-28T23:10:24.200Z"
     },
     {
       "term": "信息茧房",
@@ -1201,8 +1136,8 @@
       "meaning": "用夸张讽刺形容某游戏发布导致单机区UP主水平大幅下降，暗指游戏素质低下",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 496740423,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 5.740410720027987e+28,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "假5g",
@@ -1318,8 +1253,8 @@
       "meaning": "中文互联网弹幕式嘲讽、阵营指称或戏谑表达",
       "risk": "medium",
       "confidence": 0.7,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-28T23:14:40.938Z"
     },
     {
       "term": "入关",
@@ -1327,8 +1262,8 @@
       "meaning": "网络历史梗，借明末清初入关事件隐喻扩张或民族主义言论，常带讽刺",
       "risk": "high",
       "confidence": 0.85,
-      "evidenceCount": 993480846,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.1480821440055974e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "入关学",
@@ -1336,8 +1271,8 @@
       "meaning": "网络历史梗，借明末清初入关事件隐喻扩张或民族主义言论，常带讽刺",
       "risk": "high",
       "confidence": 0.85,
-      "evidenceCount": 1607485776,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.857635930877908e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "入口即化",
@@ -1354,8 +1289,8 @@
       "meaning": "指创作手法单一、缺乏新意的批判性称呼",
       "risk": "medium",
       "confidence": 0.72,
-      "evidenceCount": 803742888,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 9.28817965438954e+28,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "全是中国",
@@ -1372,8 +1307,8 @@
       "meaning": "用动漫角色代指黑粉，阴阳怪气弹幕观众成分",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 827900705,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 9.567351200046639e+28,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "全是幼态审美",
@@ -1381,8 +1316,8 @@
       "meaning": "声称其他游戏角色设计均为幼态审美，含有贬低和绝对化的攻击",
       "risk": "high",
       "confidence": 0.75,
-      "evidenceCount": 662320564,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 7.653880960037313e+28,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "全是水军",
@@ -1399,8 +1334,8 @@
       "meaning": "指责UP主使用繁体字，暗示其非大陆用户或意图欺骗，常用作地域/身份攻击",
       "risk": "high",
       "confidence": 0.9,
-      "evidenceCount": 954392677,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.1029112390490928e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "全都是谜语人",
@@ -1417,8 +1352,8 @@
       "meaning": "指剧情套路化大团圆结局，含讽刺",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 993480846,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.1480821440055974e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "公路佬",
@@ -1475,47 +1410,6 @@
       "updatedAt": "2026-06-25T17:01:37.000Z"
     },
     {
-      "term": "典中典",
-      "senses": [
-        {
-          "id": "典中典-1",
-          "family": "attack",
-          "meaning": "讽刺：形容言论过于经典以至于成为笑柄",
-          "risk": "medium",
-          "contextHints": [
-            "笑",
-            "哈哈哈",
-            "绷不住",
-            "经典"
-          ],
-          "contextAntiHints": [
-            "教科书",
-            "案例",
-            "教材"
-          ],
-          "scenario": "taunting"
-        },
-        {
-          "id": "典中典-2",
-          "family": "evidence",
-          "meaning": "中性：指教科书级别的典型案例",
-          "risk": "low",
-          "contextHints": [
-            "教科书",
-            "案例",
-            "教材",
-            "典型"
-          ],
-          "contextAntiHints": [
-            "笑",
-            "哈哈哈"
-          ],
-          "scenario": "neutral_info"
-        }
-      ],
-      "defaultSense": "典中典-1"
-    },
-    {
       "term": "内耗",
       "family": "attack",
       "meaning": "内部消耗，用于讽刺对方团队或社会的不团结",
@@ -1548,8 +1442,8 @@
       "meaning": "侮辱性梗，暗指男同性恋与某种事物结合",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 1324641128,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.5307761920074626e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "冲si",
@@ -1584,8 +1478,8 @@
       "meaning": "表示剧情虐心或角色被伤害，常用于吐槽编剧",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 1159060987,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.339429168006529e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "刀了刀了",
@@ -1593,8 +1487,8 @@
       "meaning": "表示剧情虐心或角色被伤害，常用于吐槽编剧",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 1875400072,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 2.167241919357557e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "分赃不均",
@@ -1611,8 +1505,8 @@
       "meaning": "表示被剧情或内容强烈冲击，带有负面吐槽意味",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 827900705,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 9.567351200046639e+28,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "判决书",
@@ -1629,8 +1523,8 @@
       "meaning": "指代《明日方舟》玩家群体（源自该游戏内术语），有时含贬义或玩梗",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 993480846,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.1480821440055974e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "利刃出鞘",
@@ -1638,8 +1532,8 @@
       "meaning": "指代《明日方舟》玩家群体（源自该游戏内术语），有时含贬义或玩梗",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 1607485776,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.857635930877908e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "别叫",
@@ -1674,8 +1568,8 @@
       "meaning": "讽刺对方言论过于离谱，表达无语或调侃",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 993480846,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.1480821440055974e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "别太荒谬了",
@@ -1683,8 +1577,8 @@
       "meaning": "讽刺对方言论过于离谱，表达无语或调侃",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 1607485776,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.857635930877908e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "别急",
@@ -1746,8 +1640,8 @@
       "meaning": "指大量重复发布内容，用于指控对方控评或水军行为",
       "risk": "medium",
       "confidence": 0.7,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-27T05:22:19.994Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-28T23:13:01.346Z"
     },
     {
       "term": "刷波在一起",
@@ -1764,8 +1658,8 @@
       "meaning": "形容某人根深蒂固的负面特质（如娇妻），含贬义",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 993480846,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.1480821440055974e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "刻进dna的",
@@ -1773,8 +1667,8 @@
       "meaning": "形容某人根深蒂固的负面特质（如娇妻），含贬义",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 1607485776,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.857635930877908e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "割韭菜",
@@ -1818,8 +1712,8 @@
       "meaning": "贬低质量，负面评价",
       "risk": "medium",
       "confidence": 0.6,
-      "evidenceCount": 1324641128,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.5307761920074626e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "勒老四",
@@ -1827,8 +1721,8 @@
       "meaning": "对F1车手勒克莱尔的蔑称，讽刺其常获第四",
       "risk": "medium",
       "confidence": 0.7,
-      "evidenceCount": 1159060987,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.339429168006529e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "包子",
@@ -1845,8 +1739,8 @@
       "meaning": "指剧情套路化大团圆结局，含讽刺",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 1607485776,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.857635930877908e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "升堂",
@@ -1854,8 +1748,8 @@
       "meaning": "在社交媒体上公开指责、审判，引导粉丝网暴，源于公堂诉讼隐喻",
       "risk": "high",
       "confidence": 0.85,
-      "evidenceCount": 803742888,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 9.28817965438954e+28,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "半恼",
@@ -1872,8 +1766,8 @@
       "meaning": "用夸张讽刺形容某游戏发布导致单机区UP主水平大幅下降，暗指游戏素质低下",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 803742888,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 9.28817965438954e+28,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "单走",
@@ -1890,8 +1784,8 @@
       "meaning": "单独发送一个'6'，常用于弹幕中表示对内容的嘲讽或调侃，暗含'就这水平'的意味",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 16483173287949104,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 2.1210977639369134e+54,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "单车阜南",
@@ -1917,8 +1811,8 @@
       "meaning": "侮辱性梗，暗指男同性恋与某种事物结合",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 2143314368,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 2.4768479078372097e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "卡卡罗特",
@@ -1926,8 +1820,8 @@
       "meaning": "指代Dota2和龙珠相关的带节奏刷屏内容",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 541737760305,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.5391161296039823e+39,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "卡卡罗特和骨法绿头",
@@ -1935,8 +1829,8 @@
       "meaning": "指代Dota2和龙珠相关的带节奏刷屏内容",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 1480055085525,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 4.204943464826845e+39,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "历年最拉",
@@ -1944,8 +1838,8 @@
       "meaning": "指历年最差、最拉胯的表现，尖锐差评",
       "risk": "high",
       "confidence": 0.9,
-      "evidenceCount": 993480846,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.1480821440055974e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "厉不厉害",
@@ -1971,8 +1865,8 @@
       "meaning": "对极端粉丝的贬称，暗示其盲目攻击他人",
       "risk": "high",
       "confidence": 0.85,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T01:16:39.218Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-28T23:08:59.584Z"
     },
     {
       "term": "去工业化情愫",
@@ -1998,8 +1892,8 @@
       "meaning": "与‘那咋了’类似，用反问表达敷衍、轻视",
       "risk": "medium",
       "confidence": 0.75,
-      "evidenceCount": 961654337959,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 2.7321294750247196e+39,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "叉出去",
@@ -2007,8 +1901,8 @@
       "meaning": "命令将某物或某人排除出去，常用于驱逐讨厌的言论或用户",
       "risk": "high",
       "confidence": 0.6,
-      "evidenceCount": 827900705,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 9.567351200046639e+28,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "双标",
@@ -2034,8 +1928,8 @@
       "meaning": "反讽对方认为已获胜，实则否定其成就或言论",
       "risk": "high",
       "confidence": 0.92,
-      "evidenceCount": 247,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-28T23:04:41.122Z"
     },
     {
       "term": "反驳型",
@@ -2043,8 +1937,8 @@
       "meaning": "网络造词，指喜欢反驳他人的人，带贬义标签",
       "risk": "medium",
       "confidence": 0.85,
-      "evidenceCount": 1324641128,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.5307761920074626e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "反驳型人格",
@@ -2052,8 +1946,8 @@
       "meaning": "网络造词，指喜欢反驳他人的人，带贬义标签",
       "risk": "medium",
       "confidence": 0.85,
-      "evidenceCount": 2143314368,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 2.4768479078372097e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "反骨",
@@ -2106,8 +2000,8 @@
       "meaning": "指责UP主使用繁体字，暗示其非大陆用户或意图欺骗，常用作地域/身份攻击",
       "risk": "high",
       "confidence": 0.9,
-      "evidenceCount": 1544239790,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 1.7845478713556924e+29,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "取关",
@@ -2115,8 +2009,8 @@
       "meaning": "以取消关注作为抗议或惩罚的威胁",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:28:19.308Z"
+      "evidenceCount": 2,
+      "updatedAt": "2026-06-28T23:06:45.694Z"
     },
     {
       "term": "口嗨",
@@ -2216,6 +2110,15 @@
       "confidence": 0.75,
       "evidenceCount": 1,
       "updatedAt": "2026-06-27T21:40:15.240Z"
+    },
+    {
+      "term": "吸特乐",
+      "family": "attack",
+      "meaning": "谐音梗，指吸毒者或讽刺希特勒，带有侮辱性",
+      "risk": "high",
+      "confidence": 0.8,
+      "evidenceCount": 5,
+      "updatedAt": "2026-05-30T03:34:03.898Z"
     }
   ]
 }

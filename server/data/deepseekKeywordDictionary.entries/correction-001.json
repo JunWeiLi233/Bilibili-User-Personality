@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-27T21:46:49.375Z",
+  "updatedAt": "2026-06-28T23:16:49.501Z",
   "family": "correction",
   "shard": 1,
   "shardCount": 1,
@@ -110,8 +110,8 @@
       "meaning": "互联网中文表达模式 - 纠正性表达",
       "risk": "positive",
       "confidence": 0.68,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-27T04:53:06.220Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-28T23:07:41.160Z"
     },
     {
       "term": "其实是这样的",
@@ -137,8 +137,8 @@
       "meaning": "“前面说重了”用于承认信息不准、修正说法或降低原先结论强度",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 146,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 482,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "反应过来",
@@ -148,6 +148,15 @@
       "confidence": 0.68,
       "evidenceCount": 3,
       "updatedAt": "2026-06-27T02:32:30.551Z"
+    },
+    {
+      "term": "学习了",
+      "family": "correction",
+      "meaning": "自我修正或结论降级",
+      "risk": "positive",
+      "confidence": 0.5,
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "宫颈糜烂",
@@ -164,8 +173,8 @@
       "meaning": "“对不起”用于承认信息不准、修正说法或降低原先结论强度",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T08:44:30.000Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-28T23:12:11.305Z"
     },
     {
       "term": "忏悔",
@@ -227,8 +236,8 @@
       "meaning": "“抱歉”用于承认信息不准、修正说法或降低原先结论强度",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 2,
-      "updatedAt": "2026-06-27T21:37:58.859Z"
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-28T23:06:45.694Z"
     },
     {
       "term": "措辞不准",
@@ -272,8 +281,8 @@
       "meaning": "从绝对否定转为相对化表述，修正片面观点",
       "risk": "positive",
       "confidence": 0.85,
-      "evidenceCount": 496740423,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 5.740410720027987e+28,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "是我嘴笨",
@@ -308,8 +317,8 @@
       "meaning": "从绝对否定转为相对化表述，修正片面观点",
       "risk": "positive",
       "confidence": 0.85,
-      "evidenceCount": 803742888,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "evidenceCount": 9.28817965438954e+28,
+      "updatedAt": "2026-06-28T23:16:49.501Z"
     },
     {
       "term": "服了",
@@ -317,8 +326,8 @@
       "meaning": "“服了”用于承认信息不准、修正说法或降低原先结论强度",
       "risk": "low",
       "confidence": 0.5,
-      "evidenceCount": 2,
-      "updatedAt": "2026-06-27T21:37:58.859Z"
+      "evidenceCount": 3,
+      "updatedAt": "2026-06-28T23:16:03.677Z"
     },
     {
       "term": "没救了",
