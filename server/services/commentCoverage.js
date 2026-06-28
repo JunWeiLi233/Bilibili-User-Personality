@@ -1,6 +1,24 @@
+/**
+ * Comment coverage analysis — the central pipeline that classifies a single
+ * comment against the keyword dictionary.
+ *
+ * Pipeline stages (in order):
+ * 1. Text cleaning + mention stripping
+ * 2. Scrape-diagnostic filtering (exclude crawler error messages)
+ * 3. Emote semantic detection (Bilibili/Tieba emotes → attack/evasion/cooperation)
+ * 4. Supplemental semantics (platform-specific patterns not in the main dictionary)
+ * 5. Keyword text-evidence matching via {@link findDictionaryEntriesWithTextEvidence}
+ * 6. Context classification via {@link classifyScenario}
+ * 7. Polysemy disambiguation via {@link applyDisambiguation}
+ * 8. Relationship analysis via {@link analyzeRelationships}
+ *
+ * @module server/services/commentCoverage
+ */
+
 import { findDictionaryEntriesWithTextEvidence, buildSenseIndex, disambiguateSenseHits } from './deepseekKeywordTrainer.js';
 import { classifyScenario } from './contextClassifier.js';
 import { applyDisambiguation, suppressionStats } from './disambiguator.js';
+import { analyzeRelationships, applyRelationshipWeights } from './relationshipPipeline.js';
 
 function hasChinese(text) {
   return /[\p{Script=Han}]/u.test(String(text || ''));
@@ -94,6 +112,14 @@ const EMOTE_SEMANTICS = [
   },
 ];
 
+/**
+ * Detect emote-based semantic signals in a comment that indicate attack,
+ * evasion, or cooperation tone. Uses curated EMOTE_SEMANTICS patterns
+ * covering Bilibili/Tieba emotes, emoji, ASCII emoticons, and kaomoji.
+ *
+ * @param {string} comment — raw comment text
+ * @returns {Array<{term: string, family: string, meaning: string}>} matched semantic hits
+ */
 export function detectEmoteSemanticHits(comment) {
   const message = cleanComment(comment);
   if (!message) return [];
@@ -2780,6 +2806,18 @@ function exactDictionaryEntries(dictionary, message) {
   return hits;
 }
 
+/**
+ * Classify a single comment against the full keyword dictionary.
+ *
+ * Runs the complete pipeline: text cleaning → emote detection → keyword
+ * matching → context classification → polysemy disambiguation → relationship
+ * analysis. Returns a structured coverage result with all pipeline layers.
+ *
+ * @param {object} dictionary — keyword dictionary with entries array
+ * @param {string} comment — raw comment text
+ * @param {object} [options] — classifier options
+ * @returns {{covered: boolean, mode: string, hits: Array, ...}} coverage result
+ */
 export function classifyCommentCoverage(dictionary, comment, options = {}) {
   const message = cleanComment(comment);
   if (!message) {
@@ -2884,6 +2922,27 @@ export function classifyCommentCoverage(dictionary, comment, options = {}) {
     }
   }
 
+  // ── Relationship analysis (Tiers 1+2: composite patterns + co-occurrence) ──
+  // Analyzes how matched terms relate to each other (negation, intensification,
+  // target binding, contrast) and adjusts weights accordingly.
+  // Tier 1: composite regex patterns from disambiguation_rules.json
+  // Tier 2: statistical co-occurrence PMI model from termCooccurrence.js
+  let relationshipApplied = false;
+  let relationshipStatsResult = null;
+  const ENABLE_RELATIONSHIPS = process.env.BILIBILI_RELATIONSHIPS !== '0';
+  if (ENABLE_RELATIONSHIPS && lexicalHits.length >= 1) {
+    try {
+      const relResult = analyzeRelationships(attributableMessage, lexicalHits);
+      relationshipStatsResult = relResult.stats;
+      if (relResult.adjustedWeights.size > 0) {
+        lexicalHits = applyRelationshipWeights(lexicalHits, relResult.adjustedWeights);
+      }
+      relationshipApplied = true;
+    } catch (e) {
+      // Fallback: on error, keep all hits unchanged
+    }
+  }
+
   const emoteHits = detectEmoteSemanticHits(message);
   const supplementalHits = detectSupplementalSemanticHits(message);
   const hits = [...lexicalHits, ...emoteHits, ...supplementalHits];
@@ -2902,6 +2961,7 @@ export function classifyCommentCoverage(dictionary, comment, options = {}) {
     };
     if (disambiguationApplied) result.disambiguation = disambiguationStats;
     if (patternDisambApplied) result.patternDisamb = patternDisambStats;
+    if (relationshipApplied) result.relationships = relationshipStatsResult;
     return result;
   }
 
@@ -2915,6 +2975,7 @@ export function classifyCommentCoverage(dictionary, comment, options = {}) {
     };
     if (disambiguationApplied) result.disambiguation = disambiguationStats;
     if (patternDisambApplied) result.patternDisamb = patternDisambStats;
+    if (relationshipApplied) result.relationships = relationshipStatsResult;
     return result;
   }
 
@@ -2937,6 +2998,17 @@ export function classifyCommentCoverage(dictionary, comment, options = {}) {
   };
 }
 
+/**
+ * Batch-classify a sample of comments and aggregate coverage statistics.
+ *
+ * Calls {@link classifyCommentCoverage} for each comment up to sampleSize,
+ * then buckets results by mode (keyword / neutral / uncovered).
+ *
+ * @param {object} dictionary — keyword dictionary
+ * @param {string[]} comments — raw comment texts
+ * @param {{sampleSize?: number}} [options]
+ * @returns {{samples: Array, byMode: {keyword: number, neutral: number, uncovered: number}, ...}}
+ */
 export function sampleCommentCoverage(dictionary, comments = [], options = {}) {
   const sampleSize = Math.max(0, Number(options.sampleSize) || comments.length);
   const picked = comments.slice(0, sampleSize);

@@ -1,4 +1,16 @@
-﻿import { Hono } from 'hono';
+﻿/**
+ * DeepSeek API routes — mounted at `/api/deepseek`.
+ *
+ * Provides endpoints for AI-powered dictionary management: training keyword
+ * dictionaries from human annotations, analyzing comments with DeepSeek's
+ * speech-act classifier, and querying the current dictionary state.
+ *
+ * All routes accept JSON bodies and return `{ ok: boolean, error?: string, ...data }`.
+ *
+ * @module server/routes/deepseek
+ */
+
+import { Hono } from 'hono';
 
 import {
   analyzeCommentsWithDeepSeek,
@@ -10,36 +22,77 @@ import { findDictionaryEntriesWithSemanticEvidence } from '../services/semanticM
 
 const deepseek = new Hono();
 
+/**
+ * GET /api/deepseek/config
+ *
+ * Returns the current DeepSeek API configuration (model, base URL, reasoning
+ * effort). Does not expose the API key.
+ *
+ * Response: { ok: true, model: string, baseUrl: string, reasoningEffort: string }
+ */
 deepseek.get('/config', async (c) => {
   return c.json(await getDeepSeekConfig());
 });
 
+/**
+ * GET /api/deepseek/dictionary
+ *
+ * Returns the full keyword dictionary including all entries with their
+ * confidence scores, evidence counts, and family classifications.
+ *
+ * Response: { ok: true, dictionary: { entries: Array, version: number } }
+ */
 deepseek.get('/dictionary', async (c) => {
   return c.json({ ok: true, dictionary: await readKeywordDictionary() });
 });
 
-// Standalone per-comment AI speech-act analysis.
-// NOT wired into the main UID search flow (src/main.jsx:fetchUidComments).
-// See .claude/ANALYSIS_TRUNCATION_REPORT.md §5.4 for deferral rationale:
-// - Uses 6-axis system; UI uses 4-axis Ziegenbein classification
-// - 30-sentence hard cap in buildStandaloneAnalysisInput (L4174)
-// - Downgrades to v4-flash; synchronous client pipeline would need restructuring
-// - Cost/latency: 5-15s per call × batch size
-// Path forward: align axes → batch → progressive UI → cost budget.
+/**
+ * POST /api/deepseek/analyze-comments
+ *
+ * Standalone per-comment AI speech-act analysis.
+ *
+ * **Deferred from main UID search flow** (see .claude/ANALYSIS_TRUNCATION_REPORT.md §5.4):
+ * - Uses 6-axis system; UI uses 4-axis Ziegenbein classification
+ * - 30-sentence hard cap in buildStandaloneAnalysisInput
+ * - Downgrades to v4-flash; synchronous client pipeline would need restructuring
+ * - Cost/latency: 5–15s per call × batch size
+ *
+ * Path forward: align axes → batch → progressive UI → cost budget.
+ *
+ * Request body: { comments: string[] }
+ * Response: { ok: true, analysis: ... }
+ */
 deepseek.post('/analyze-comments', async (c) => {
   const payload = await c.req.json().catch(() => ({}));
   return c.json(await analyzeCommentsWithDeepSeek(payload));
 });
 
+/**
+ * POST /api/deepseek/train-keywords
+ *
+ * Trains or retrains the keyword dictionary from human-annotated data.
+ * Accepts labeled training examples and updates the dictionary entries.
+ *
+ * Request body: { trainingData?: Array, ... }
+ * Response: { ok: true, trained: ... }
+ */
 deepseek.post('/train-keywords', async (c) => {
   const payload = await c.req.json().catch(() => ({}));
   return c.json(await trainKeywordDictionary(payload));
 });
 
-// Semantic match endpoint — DISABLED (Phase 5, 2026-06-27).
-// Semantic matching was removed after A/B testing showed 0% unique hits beyond
-// exact substring matching. The @xenova/transformers dependency has been dropped.
-// This endpoint always returns empty matches with telemetry confirming disabled status.
+/**
+ * POST /api/deepseek/semantic-match
+ *
+ * Semantic match endpoint — **DISABLED** (Phase 5, 2026-06-27).
+ *
+ * Semantic matching was removed after A/B testing showed 0% unique hits beyond
+ * exact substring matching. The @xenova/transformers dependency has been dropped.
+ * This endpoint always returns empty matches with telemetry confirming disabled status.
+ *
+ * Request body: { comments: string[] }
+ * Response: { ok: true, _disabled: true, matches: [], _telemetry: {...} }
+ */
 deepseek.post('/semantic-match', async (c) => {
   const t0 = performance.now();
   const payload = await c.req.json().catch(() => ({}));

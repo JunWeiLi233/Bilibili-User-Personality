@@ -1,4 +1,22 @@
-﻿import { Hono } from 'hono';
+﻿/**
+ * Admin API routes — mounted at `/api/admin`.
+ *
+ * Provides endpoints for human-in-the-loop dictionary review: paginated term
+ * browsing, single-term inspection with evidence, review submission (confirm /
+ * dispute / flag), review listing, dashboard stats, and review export for
+ * downstream training.
+ *
+ * All routes require Bearer-token authentication via the {@link adminAuth}
+ * middleware. See `server/middleware/adminAuth.js` for the token check.
+ *
+ * Data contracts:
+ * - Dictionary: `server/data/deepseekKeywordDictionary.json`
+ * - Reviews:   `server/data/adminReviews.json`
+ *
+ * @module server/routes/admin
+ */
+
+import { Hono } from 'hono';
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -10,7 +28,13 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const DICT_PATH = join(__dirname, '..', 'data', 'deepseekKeywordDictionary.json');
 const REVIEWS_PATH = join(__dirname, '..', 'data', 'adminReviews.json');
 
-// BOM-safe JSON parse — strips UTF-8 BOM if present (0xEF 0xBB 0xBF)
+/**
+ * BOM-safe JSON read. Strips UTF-8 BOM (0xEF 0xBB 0xBF) if present before
+ * parsing — necessary because some editors/scripts emit BOM in project JSON.
+ *
+ * @param {string} filePath — absolute path to a JSON file
+ * @returns {object} parsed JSON
+ */
 function readJsonSafe(filePath) {
   const raw = readFileSync(filePath, 'utf-8');
   return JSON.parse(raw.charCodeAt(0) === 0xFEFF ? raw.slice(1) : raw);
@@ -21,12 +45,34 @@ const admin = new Hono();
 // All admin routes require auth
 admin.use('*', adminAuth);
 
-// POST /api/admin/login — validate token
+/**
+ * POST /api/admin/login
+ *
+ * Validates the admin token. The auth middleware already rejects invalid
+ * tokens, so this endpoint simply confirms the caller is authenticated.
+ *
+ * Response: { ok: true }
+ */
 admin.post('/login', (c) => {
   return c.json({ ok: true });
 });
 
-// GET /api/admin/dictionary — paginated term list with filters
+/**
+ * GET /api/admin/dictionary
+ *
+ * Returns a paginated, filterable, sortable view of the keyword dictionary.
+ *
+ * Query params:
+ * - `family`   — filter by term family (e.g. "persona", "toxic")
+ * - `reviewed` — filter by review status: "all" | "reviewed" | "unreviewed" | "disputed"
+ * - `search`   — free-text search across term name and meaning
+ * - `page`     — page number (1-based, default 1)
+ * - `perPage`  — items per page (10–100, default 50)
+ *
+ * Sorting: unreviewed first, then disputed, then by confidence ascending.
+ *
+ * Response: { ok: true, entries: Array, page, perPage, total, totalPages, stats }
+ */
 admin.get('/dictionary', async (c) => {
   const family = c.req.query('family') || '';
   const reviewed = c.req.query('reviewed') || ''; // 'all', 'reviewed', 'unreviewed', 'disputed'
@@ -113,7 +159,17 @@ admin.get('/dictionary', async (c) => {
   });
 });
 
-// GET /api/admin/term/:term — single term with evidence
+/**
+ * GET /api/admin/term/:term
+ *
+ * Returns a single dictionary term with its AI classification, any human
+ * review override, and up to 20 evidence samples from the evidence shards.
+ *
+ * URL param: `:term` — the dictionary term (URL-encoded)
+ *
+ * Response: { ok: true, term: {...entry, humanReviewed, adminOverride?, evidence, evidenceCount} }
+ *           { ok: false, error: "Term not found" } 404
+ */
 admin.get('/term/:term', async (c) => {
   const term = decodeURIComponent(c.req.param('term'));
   const dict = await readKeywordDictionary();
@@ -167,7 +223,21 @@ admin.get('/term/:term', async (c) => {
   });
 });
 
-// POST /api/admin/review — submit a review/dispute
+/**
+ * POST /api/admin/review
+ *
+ * Submit a human review for a dictionary term. Supports three actions:
+ * - `confirm` — accept the AI classification as-is
+ * - `dispute` — override with admin-chosen family + risk (requires adminFamily, adminRisk)
+ * - `flag`    — mark for later attention
+ *
+ * Request body: { term, aiFamily, aiRisk, aiConfidence, adminFamily?, adminRisk?, adminNote?, action }
+ *   - action: "confirm" | "dispute" | "flag"
+ *
+ * Side effects: writes to both adminReviews.json and deepseekKeywordDictionary.json
+ *
+ * Response: { ok: true, review }
+ */
 admin.post('/review', async (c) => {
   const payload = await c.req.json().catch(() => ({}));
   const { term, aiFamily, aiRisk, aiConfidence, adminFamily, adminRisk, adminNote, action } = payload;
@@ -235,7 +305,17 @@ admin.post('/review', async (c) => {
   return c.json({ ok: true, review });
 });
 
-// GET /api/admin/reviews — list reviews
+/**
+ * GET /api/admin/reviews
+ *
+ * List all human reviews, optionally filtered by status or family.
+ *
+ * Query params:
+ * - `status` — filter by action: "confirm" | "dispute" | "flag"
+ * - `family` — filter by AI-assigned term family
+ *
+ * Response: { ok: true, reviews: Array, total: number }
+ */
 admin.get('/reviews', (c) => {
   const status = c.req.query('status') || '';
   const family = c.req.query('family') || '';
@@ -253,7 +333,16 @@ admin.get('/reviews', (c) => {
   return c.json({ ok: true, reviews, total: reviews.length });
 });
 
-// GET /api/admin/stats — dashboard stats
+/**
+ * GET /api/admin/stats
+ *
+ * Dashboard aggregate statistics: total entries, review coverage, dispute
+ * rate, confidence distribution, and per-family term counts.
+ *
+ * Response: { ok: true, stats: { totalEntries, reviewed, disputed, confirmed,
+ *            unreviewed, disputeRate, lowConfidence, zeroEvidence, highConfidence,
+ *            familyCounts } }
+ */
 admin.get('/stats', async (c) => {
   const dict = await readKeywordDictionary();
   const entries = dict.entries || [];
@@ -296,7 +385,14 @@ admin.get('/stats', async (c) => {
   });
 });
 
-// POST /api/admin/export-reviews — export reviews for training
+/**
+ * GET /api/admin/export-reviews
+ *
+ * Exports all reviews in a flattened format suitable for downstream training
+ * pipelines (e.g., calibration or model retraining).
+ *
+ * Response: { ok: true, exports: Array<{term, aiFamily, aiRisk, adminFamily, adminRisk, action, note}>, total }
+ */
 admin.get('/export-reviews', (c) => {
   if (!existsSync(REVIEWS_PATH)) {
     return c.json({ ok: true, exports: [] });
