@@ -1103,5 +1103,664 @@
       ]
     }
   ],
+  "composites": [
+    {
+      "id": "comp-001",
+      "terms": ["不是", "就是"],
+      "description": "不是X就是Y — binary absolutist framing (不是傻就是蠢), confirm both terms",
+      "pattern": "不是[^，。！？…]{0,20}就是",
+      "action": "confirm",
+      "confidence": 0.85,
+      "applyTo": "all"
+    },
+    {
+      "id": "comp-002",
+      "terms": ["不是"],
+      "description": "不是X而是Y — corrective contrast (不是玩家的问题，而是策划), suppress 不是",
+      "pattern": "不是[^，。！？…]{0,25}而是",
+      "action": "suppress",
+      "confidence": 0.88,
+      "applyTo": ["不是"]
+    },
+    {
+      "id": "comp-003",
+      "terms": ["没有"],
+      "description": "没有X那么Y — comparative (没有那个好用), suppress 没有",
+      "pattern": "没有[^，。！？…]{0,15}那么",
+      "action": "suppress",
+      "confidence": 0.82,
+      "applyTo": ["没有"]
+    },
+    {
+      "id": "comp-004",
+      "terms": ["没有"],
+      "description": "没有X这么Y — comparative variant, suppress 没有",
+      "pattern": "没有[^，。！？…]{0,15}这么",
+      "action": "suppress",
+      "confidence": 0.82,
+      "applyTo": ["没有"]
+    },
+    {
+      "id": "comp-005",
+      "terms": ["可能"],
+      "description": "可能X完全Y — hedge disguising absolute assertion (可能是策划完全没考虑), confirm 可能",
+      "pattern": "可能[^，。！？…]{0,20}(?:完全|根本|绝对)",
+      "action": "confirm",
+      "confidence": 0.72,
+      "applyTo": ["可能"]
+    },
+    {
+      "id": "comp-006",
+      "terms": ["可能"],
+      "description": "可能X肯定Y — hedge + stronger absolute, confirm 可能",
+      "pattern": "可能[^，。！？…]{0,20}肯定",
+      "action": "confirm",
+      "confidence": 0.68,
+      "applyTo": ["可能"]
+    },
+    {
+      "id": "comp-007",
+      "terms": ["都是"],
+      "description": "都是X的错/的问题/害的/搞的 — blame attribution (都是策划的错), confirm 都是",
+      "pattern": "都是[^，。！？…]{0,15}(?:的错|的问题|害的|搞的|干的|弄的)",
+      "action": "confirm",
+      "confidence": 0.82,
+      "applyTo": ["都是"]
+    },
+    {
+      "id": "comp-008",
+      "terms": ["肯定"],
+      "description": "肯定X不/没 — negated certainty (肯定不是/肯定没有), suppress 肯定",
+      "pattern": "肯定[^，。！？…]{0,8}(?:不|没)",
+      "action": "suppress",
+      "confidence": 0.80,
+      "applyTo": ["肯定"]
+    },
+    {
+      "id": "comp-009",
+      "terms": ["为什么"],
+      "description": "为什么X不Y — rhetorical question with negation (为什么你不懂), confirm 为什么",
+      "pattern": "为什么(?:你|他|她|你们|他们|她们|这|那)[^，。！？…]{0,12}不",
+      "action": "confirm",
+      "confidence": 0.75,
+      "applyTo": ["为什么"]
+    },
+    {
+      "id": "comp-010",
+      "terms": ["为什么"],
+      "description": "为什么X没Y — rhetorical with 没 (为什么没人说), confirm 为什么",
+      "pattern": "为什么[^，。！？…]{0,10}没",
+      "action": "confirm",
+      "confidence": 0.70,
+      "applyTo": ["为什么"]
+    },
+    {
+      "id": "comp-011",
+      "terms": ["为什么"],
+      "description": "为什么X就 — rhetorical intensifier (为什么就没人), confirm 为什么",
+      "pattern": "为什么[^，。！？…]{0,10}就",
+      "action": "confirm",
+      "confidence": 0.72,
+      "applyTo": ["为什么"]
+    },
+    {
+      "id": "comp-012",
+      "terms": ["为什么"],
+      "description": "为什么X都 — rhetorical universal (为什么都不/为什么都这样), confirm 为什么",
+      "pattern": "为什么[^，。！？…]{0,8}都",
+      "action": "confirm",
+      "confidence": 0.70,
+      "applyTo": ["为什么"]
+    },
+    {
+      "id": "comp-013",
+      "terms": ["为什么"],
+      "description": "为什么X还 — accusatory rhetorical (为什么还这样), confirm 为什么",
+      "pattern": "为什么[^，。！？…]{0,8}还",
+      "action": "confirm",
+      "confidence": 0.65,
+      "applyTo": ["为什么"]
+    },
+    {
+      "id": "comp-014",
+      "terms": ["为什么"],
+      "description": "为什么X总/老是 — pattern accusation (为什么你总这样), confirm 为什么",
+      "pattern": "为什么(?:你|他|她)[^，。！？…]{0,8}(?:总[是]?|老是|一直|每次)",
+      "action": "confirm",
+      "confidence": 0.78,
+      "applyTo": ["为什么"]
+    },
+    {
+      "id": "comp-015",
+      "terms": ["确实"],
+      "description": "确实X典/绷/乐 — sarcastic confirmation with meme terms, confirm 确实",
+      "pattern": "确实[^，。！？…]{0,15}(?:典|绷|乐|破防|孝[了子]?)",
+      "action": "confirm",
+      "confidence": 0.76,
+      "applyTo": ["确实"]
+    },
+    {
+      "id": "comp-016",
+      "terms": ["笑死"],
+      "description": "笑死X你/他/她 — targeted mockery with pause (笑死，你这理解能力), confirm 笑死",
+      "pattern": "笑死[，,][^，。！？…]{0,15}(?:你|他|她|你们|他们|这[个人位]|那[个人位]|up|UP|博主|主播|层主)",
+      "action": "confirm",
+      "confidence": 0.78,
+      "applyTo": ["笑死"]
+    },
+    {
+      "id": "comp-017",
+      "terms": ["笑死"],
+      "description": "笑死X傻/蠢/笨/菜/垃圾 — mockery with insult terms (check BEFORE single-term self-directed), confirm 笑死",
+      "pattern": "笑死[^，。！？…]{0,15}(?:傻|蠢|笨|菜|垃圾|废物|脑残|智商|脑子|不懂|不会|不行|不对|错了)",
+      "action": "confirm",
+      "confidence": 0.75,
+      "applyTo": ["笑死"]
+    },
+    {
+      "id": "comp-018",
+      "terms": ["一句话"],
+      "description": "一句话X就 — conclusive assertion (一句话，策划就不配), confirm 一句话",
+      "pattern": "一句话[，,:：]?[^，。！？…]{0,25}就",
+      "action": "confirm",
+      "confidence": 0.72,
+      "applyTo": ["一句话"]
+    },
+    {
+      "id": "comp-019-n",
+      "terms": ["觉得"],
+      "description": "我觉得你/他+根本不/完全不 — targeted attack embedded in opinion framing (我觉得你根本就不懂), confirm 觉得. Fires BEFORE hedged-opinion composite.",
+      "pattern": "我觉得(?:你|他|她|你们|他们|她们|这人|那人|层主|up|UP|博主|主播)[^，。！？…]{0,10}(?:根本|完全|绝对|简直|从来)[^，。！？…]{0,5}(?:不|没)",
+      "action": "confirm",
+      "confidence": 0.78,
+      "applyTo": ["觉得"]
+    },
+    {
+      "id": "comp-019",
+      "terms": ["觉得"],
+      "description": "觉得X不Y — negated opinion (觉得不太合理), suppress 觉得",
+      "pattern": "觉得[^，。！？…]{0,15}不",
+      "action": "suppress",
+      "confidence": 0.72,
+      "applyTo": ["觉得"]
+    },
+    {
+      "id": "comp-020",
+      "terms": ["觉得"],
+      "description": "我/个人觉得X吧 — hedged personal opinion, suppress 觉得",
+      "pattern": "(?:我|个人|咱|本人)[^，。！？…]{0,3}觉得.{4,}吧",
+      "action": "suppress",
+      "confidence": 0.78,
+      "applyTo": ["觉得"]
+    },
+    {
+      "id": "comp-021-n",
+      "terms": ["一定"],
+      "description": "你/他+一定+是+没/不 — accusatory assertion about another's experience (你一定是没玩过才这么说), confirm 一定. Fires BEFORE negated-certainty composite.",
+      "pattern": "(?:你|他|她|你们|他们|她们|这人|那人|层主)[^，。！？…]{0,8}一定是[^，。！？…]{0,4}(?:没|不)",
+      "action": "confirm",
+      "confidence": 0.78,
+      "applyTo": ["一定"]
+    },
+    {
+      "id": "comp-021",
+      "terms": ["一定"],
+      "description": "一定X不/没 — negated absolute (一定不会/一定没有), suppress 一定",
+      "pattern": "一定[^，。！？…]{0,6}(?:不|没)",
+      "action": "suppress",
+      "confidence": 0.82,
+      "applyTo": ["一定"]
+    },
+    {
+      "id": "comp-022",
+      "terms": ["根本就"],
+      "description": "根本不/根本就没有 — negated emphatic (根本就不懂/根本就没有), neutral",
+      "pattern": "根本就(?:不|没有|没)",
+      "action": "neutral",
+      "confidence": 0.65,
+      "applyTo": ["根本就"]
+    },
+    {
+      "id": "comp-023",
+      "terms": ["根本就"],
+      "description": "根本就是X垃圾/智商税/骗 — dogmatic negative labeling, confirm 根本就",
+      "pattern": "根本就是[^，。！？…]{0,10}(?:垃圾|废物|智商税|骗钱|水军|黑子|孝子|喷子|杠精|脑残|傻|蠢|笨|菜|恶心|离谱|不对|不行|不好|差|烂)",
+      "action": "confirm",
+      "confidence": 0.82,
+      "applyTo": ["根本就"]
+    },
+    {
+      "id": "comp-024",
+      "terms": ["没有"],
+      "description": "没有X什么 — existential negation (没有什么证据), suppress 没有",
+      "pattern": "没有[^，。！？…]{0,8}什么",
+      "action": "suppress",
+      "confidence": 0.80,
+      "applyTo": ["没有"]
+    },
+    {
+      "id": "comp-025",
+      "terms": ["就是"],
+      "description": "不是X就是Y — corrective/contrastive use of 就是 (不是优化的问题，就是…), suppress 就是",
+      "pattern": "不是[^，。！？…]{1,20}就是",
+      "action": "suppress",
+      "confidence": 0.78,
+      "applyTo": ["就是"]
+    },
+    {
+      "id": "comp-026",
+      "terms": ["就是"],
+      "description": "就是X割韭菜/智商税/骗 — absolute negative labeling, confirm 就是",
+      "pattern": "就是[^，。！？…]{0,12}(?:割韭菜|智商税|骗钱|洗脑|[Pp][Uu][Aa]|双标|水军|黑子|孝子|脑残|喷子|杠精|垃圾|废物)",
+      "action": "confirm",
+      "confidence": 0.78,
+      "applyTo": ["就是"]
+    },
+    {
+      "id": "comp-027",
+      "terms": ["这就是"],
+      "description": "这就是X垃圾/水军/双标 — absolute negative categorization, confirm 这就是",
+      "pattern": "这就是[^，。！？…]{0,10}(?:垃圾|废物|水军|黑子|孝子|双标|网暴|道德绑架|[Pp][Uu][Aa]|洗脑|割韭菜|智商税|骗钱|喷子|杠精|脑残)",
+      "action": "confirm",
+      "confidence": 0.80,
+      "applyTo": ["这就是"]
+    },
+    {
+      "id": "comp-028",
+      "terms": ["全都"],
+      "description": "全都是X水军/黑子/脑残 — absolutist negative generalization, confirm 全都",
+      "pattern": "全都是[^，。！？…]{0,10}(?:水军|黑子|孝子|脑残|傻|蠢|笨|垃圾|废物|喷子|杠精|谜语人|机器人)",
+      "action": "confirm",
+      "confidence": 0.82,
+      "applyTo": ["全都"]
+    },
+    {
+      "id": "comp-029",
+      "terms": ["没有"],
+      "description": "完全没有/根本没有/一点都没有 — emphatic absolute negation, confirm 没有",
+      "pattern": "(?:完全|根本|一点|丝毫|绝对|彻底|从来|压根)[^，。！？…]{0,3}没有",
+      "action": "confirm",
+      "confidence": 0.85,
+      "applyTo": ["没有"]
+    },
+    {
+      "id": "comp-030",
+      "terms": ["肯定"],
+      "description": "肯定X在逼/骗/坑/害 — coercion/blame attribution, confirm 肯定",
+      "pattern": "肯定[^，。！？…]{0,10}(?:在逼|在骗|在坑|在害|是[在]?(?:逼|骗|坑|害)|偷懒|敷衍|划水|摸鱼)",
+      "action": "confirm",
+      "confidence": 0.80,
+      "applyTo": ["肯定"]
+    },
+    {
+      "id": "comp-031",
+      "terms": ["一定"],
+      "description": "一定X偷懒/敷衍/逼/骗 — blame + absolute (一定是程序员偷懒), confirm 一定",
+      "pattern": "一定[^，。！？…]{0,10}(?:偷懒|敷衍|逼[着]?|骗|坑|害|划水|摸鱼|瞎[搞改弄]|乱[搞改弄]|垃圾|废物|傻|蠢|笨)",
+      "action": "confirm",
+      "confidence": 0.78,
+      "applyTo": ["一定"]
+    },
+    {
+      "id": "comp-032",
+      "terms": ["不是"],
+      "description": "不是X只是Y — corrective contrast variant (不是不好，只是…), suppress 不是",
+      "pattern": "不是[^，。！？…]{0,20}只是",
+      "action": "suppress",
+      "confidence": 0.80,
+      "applyTo": ["不是"]
+    },
+    {
+      "id": "comp-033",
+      "terms": ["不是"],
+      "description": "不是X应该是Y — corrective with 应该 (不是这样，应该是…), suppress 不是",
+      "pattern": "不是[^，。！？…]{0,20}应该是",
+      "action": "suppress",
+      "confidence": 0.80,
+      "applyTo": ["不是"]
+    },
+    {
+      "id": "comp-034",
+      "terms": ["肯定"],
+      "description": "应该肯定/我觉得肯定/可能肯定 — hedged certainty, suppress 肯定",
+      "pattern": "(?:应该|我觉得|我感觉|可能|也许|大概|估计)[^，。！？…]{0,4}肯定",
+      "action": "suppress",
+      "confidence": 0.78,
+      "applyTo": ["肯定"]
+    },
+    {
+      "id": "comp-035",
+      "terms": ["哈哈哈"],
+      "description": "哈哈哈X傻/蠢/笨/菜/垃圾 — directed mockery with insult, confirm 哈哈哈",
+      "pattern": "哈哈+[^，。！？…]{0,12}(?:傻|蠢|笨|菜|垃圾|废物|脑残|恶心|离谱|就这|急了|典|乐|绷|你[真可]?行)",
+      "action": "confirm",
+      "confidence": 0.82,
+      "applyTo": ["哈哈哈"]
+    },
+    {
+      "id": "comp-036",
+      "terms": ["哈哈"],
+      "description": "哈哈X傻/蠢/笨/菜 — directed mockery with insult (short laugh), confirm 哈哈",
+      "pattern": "哈哈[^，。！？…]{0,10}(?:傻|蠢|笨|菜|垃圾|废物|脑残|恶心|离谱|就这|急了|典|乐|绷)",
+      "action": "confirm",
+      "confidence": 0.78,
+      "applyTo": ["哈哈"]
+    },
+    {
+      "id": "comp-037",
+      "terms": ["确实"],
+      "description": "确实X但/但是/不过/然而 — concessive agreement (确实有道理，但是…), suppress 确实",
+      "pattern": "确实[^，。！？…]{0,20}(?:但|但是|不过|然而|可是|只是|问题是|关键是)",
+      "action": "suppress",
+      "confidence": 0.80,
+      "applyTo": ["确实"]
+    },
+    {
+      "id": "comp-038",
+      "terms": ["可能"],
+      "description": "可能X吧/啊 — explicit hedge particle, suppress 可能",
+      "pattern": "可能.{3,}吧",
+      "action": "suppress",
+      "confidence": 0.82,
+      "applyTo": ["可能"]
+    },
+    {
+      "id": "comp-039",
+      "terms": ["应该"],
+      "description": "应该X吧/啊 — hedged suggestion, suppress 应该",
+      "pattern": "应该.{3,}吧",
+      "action": "suppress",
+      "confidence": 0.82,
+      "applyTo": ["应该"]
+    },
+    {
+      "id": "comp-040",
+      "terms": ["没有"],
+      "description": "不是没有/并非没有 — double negation, partial agreement, suppress 没有",
+      "pattern": "(?:不是|并非|并不是|并不是说|不是说|不能说是)[^，。！？…]{0,3}没有",
+      "action": "suppress",
+      "confidence": 0.82,
+      "applyTo": ["没有"]
+    },
+    {
+      "id": "comp-041",
+      "terms": ["都是"],
+      "description": "大家都是/这些都是/那些都是 — inclusive/demonstrative, suppress 都是",
+      "pattern": "(?:大家|这|那)[些个]?都是",
+      "action": "suppress",
+      "confidence": 0.85,
+      "applyTo": ["都是"]
+    },
+    {
+      "id": "comp-042",
+      "terms": ["全都"],
+      "description": "全都X不/没 — negated universal (全都不行/全都没用), suppress 全都",
+      "pattern": "全都[^，。！？…]{0,6}(?:不|没)",
+      "action": "suppress",
+      "confidence": 0.72,
+      "applyTo": ["全都"]
+    },
+    {
+      "id": "comp-043",
+      "terms": ["就这"],
+      "description": "就这X还敢/也敢/也好意思 — contemptuous dismissal, confirm 就这",
+      "pattern": "就这[^，。！？…]{0,8}(?:还敢|也敢|也好意思|还敢|也想|还要|也能)",
+      "action": "confirm",
+      "confidence": 0.80,
+      "applyTo": ["就这"]
+    },
+    {
+      "id": "comp-044",
+      "terms": ["急了"],
+      "description": "你/他/她X急了 — direct accusation, confirm 急了",
+      "pattern": "(?:你|他|她|你们|他们|她们|层主|这[人位]|那[人位])[^，。！？…]{0,4}急了",
+      "action": "confirm",
+      "confidence": 0.82,
+      "applyTo": ["急了"]
+    },
+    {
+      "id": "comp-045",
+      "terms": ["急了"],
+      "description": "我/自己X急了 — self-admission, suppress 急了",
+      "pattern": "(?:我|自己|咱|本人)[^，。！？…]{0,4}急了",
+      "action": "suppress",
+      "confidence": 0.88,
+      "applyTo": ["急了"]
+    },
+    {
+      "id": "comp-046",
+      "terms": ["不是"],
+      "description": "不是X吗？ — yes/no question, suppress 不是",
+      "pattern": "不是[^，。！？…]{0,12}吗[？?]",
+      "action": "suppress",
+      "confidence": 0.85,
+      "applyTo": ["不是"]
+    },
+    {
+      "id": "comp-047",
+      "terms": ["不是"],
+      "description": "不是我说X — idiomatic criticism opener (不是我说，这也太), confirm 不是",
+      "pattern": "不是我说[，,]?[^。！？…]{0,15}(?:这也|那也|也太|这也太|真|好|很|太|非常|有点|实在|简直)",
+      "action": "confirm",
+      "confidence": 0.75,
+      "applyTo": ["不是"]
+    },
+    {
+      "id": "comp-048-n",
+      "terms": ["不是"],
+      "description": "不是X，是Y — comma-separated corrective contrast (不是他傻，是策划有问题), suppress 不是. Fires BEFORE personal-attack composite to prevent false confirm.",
+      "pattern": "不是[^，。！？…]{1,15}，是",
+      "action": "suppress",
+      "confidence": 0.82,
+      "applyTo": ["不是"]
+    },
+    {
+      "id": "comp-048",
+      "terms": ["不是"],
+      "description": "不是X傻/蠢/笨/菜/垃圾 — negation with personal attack, confirm 不是",
+      "pattern": "不是[^，。！？…]{0,10}(?:傻|蠢|笨|菜|垃圾|废物|脑残|恶心|离谱|脑血栓|脑子进水|没脑子)",
+      "action": "confirm",
+      "confidence": 0.78,
+      "applyTo": ["不是"]
+    },
+    {
+      "id": "comp-049",
+      "terms": ["没有"],
+      "description": "没有X更Y — comparative (没有更好的了), suppress 没有",
+      "pattern": "没有[^，。！？…]{0,10}更",
+      "action": "suppress",
+      "confidence": 0.75,
+      "applyTo": ["没有"]
+    },
+    {
+      "id": "comp-050",
+      "terms": ["笑死"],
+      "description": "笑死我了/笑死自己/笑死个人 — self-directed laughter, suppress 笑死",
+      "pattern": "笑死(?:我了|自己|咱|本人|[我咱本人]|个人|[个各][人位])",
+      "action": "suppress",
+      "confidence": 0.88,
+      "applyTo": ["笑死"]
+    },
+    {
+      "id": "comp-051",
+      "terms": ["不是"],
+      "description": "并不是/并不是说 — soft negation prefix, not attack (并不是你说的那样), suppress 不是",
+      "pattern": "(?:并不是|并不是说)",
+      "action": "suppress",
+      "confidence": 0.86,
+      "applyTo": ["不是"]
+    },
+    {
+      "id": "comp-052",
+      "terms": ["不是"],
+      "description": "绝不是/倒不是/反倒不是/这倒不是 — soft negation variant (绝不是/倒不是重点), suppress 不是",
+      "pattern": "(?:绝|倒|反倒|这倒)不是",
+      "action": "suppress",
+      "confidence": 0.82,
+      "applyTo": ["不是"]
+    },
+    {
+      "id": "comp-053",
+      "terms": ["不是"],
+      "description": "不是X难道是 — rhetorical negation = attack (不是他们的问题难道是我的), confirm 不是",
+      "pattern": "不是[^，。！？…]{1,20}难道是",
+      "action": "confirm",
+      "confidence": 0.75,
+      "applyTo": ["不是"]
+    },
+    {
+      "id": "comp-054",
+      "terms": ["没有"],
+      "description": "并没有/从来没有/从未 — soft negation of existence, not absolute denial (并没有说过), suppress 没有",
+      "pattern": "(?:并没有|从来没有|从未|从不曾)",
+      "action": "suppress",
+      "confidence": 0.85,
+      "applyTo": ["没有"]
+    },
+    {
+      "id": "comp-055",
+      "terms": ["没有"],
+      "description": "没有X以前/以后/之前/之后/的时候 — temporal framing, not absolute (没有确认之前), suppress 没有",
+      "pattern": "没有[^，。！？…]{0,12}(?:以前|以后|之前|之后|的时候)",
+      "action": "suppress",
+      "confidence": 0.78,
+      "applyTo": ["没有"]
+    },
+    {
+      "id": "comp-056",
+      "terms": ["为什么"],
+      "description": "为什么X还不是因为 — rhetorical explanation, not genuine question (为什么都不还不是因为), confirm 为什么",
+      "pattern": "为什么[^，。！？…]{0,20}还不是因为",
+      "action": "confirm",
+      "confidence": 0.75,
+      "applyTo": ["为什么"]
+    },
+    {
+      "id": "comp-057",
+      "terms": ["为什么"],
+      "description": "为什么X哪有/哪来的 — rhetorical challenge (为什么哪有这种道理), confirm 为什么",
+      "pattern": "为什么[^，。！？…]{0,10}(?:哪有|哪来的|凭什么|何曾)",
+      "action": "confirm",
+      "confidence": 0.72,
+      "applyTo": ["为什么"]
+    },
+    {
+      "id": "comp-058",
+      "terms": ["可能"],
+      "description": "可能X都不/全都/谁也 — disguised absolute with universal (可能都不考虑玩家), confirm 可能",
+      "pattern": "可能[^，。！？…]{0,15}(?:都不|全都|谁也不|没人|没有人)",
+      "action": "confirm",
+      "confidence": 0.72,
+      "applyTo": ["可能"]
+    },
+    {
+      "id": "comp-059",
+      "terms": ["可能"],
+      "description": "可能X绝对/必定/必然 — disguised absolute (可能是完全没有考虑), confirm 可能",
+      "pattern": "可能[^，。！？…]{0,15}(?:绝对|必定|必然|一定|肯定)",
+      "action": "confirm",
+      "confidence": 0.72,
+      "applyTo": ["可能"]
+    },
+    {
+      "id": "comp-060",
+      "terms": ["就是"],
+      "description": "纯粹就是/其实就是/完全就是/根本就是/本来就是 — emphatic negative labeling, confirm 就是",
+      "pattern": "(?:纯粹|其实|完全|根本|本来)[^，。！？…]{0,2}就是[^，。！？…]{0,8}(?:垃圾|废物|骗|坑|害|割韭菜|智商税|水军|黑子|孝子|脑残|喷子|杠精|傻|蠢|菜|恶心|离谱)",
+      "action": "confirm",
+      "confidence": 0.80,
+      "applyTo": ["就是"]
+    },
+    {
+      "id": "comp-061",
+      "terms": ["都是"],
+      "description": "不都是/并不都是/并非都是/可不都是 — negated universal (不都是这样), suppress 都是",
+      "pattern": "(?:不|并不|并非|可不)[^，。！？…]{0,3}(?:都是|全是)",
+      "action": "suppress",
+      "confidence": 0.80,
+      "applyTo": ["都是"]
+    },
+    {
+      "id": "comp-062",
+      "terms": ["全都"],
+      "description": "并不全都/不全都/不是全都 — negated universal qualifier (不全都一样), suppress 全都",
+      "pattern": "(?:并不|不|不是|并非)[^，。！？…]{0,3}全都",
+      "action": "suppress",
+      "confidence": 0.78,
+      "applyTo": ["全都"]
+    },
+    {
+      "id": "comp-063",
+      "terms": ["笑死"],
+      "description": "差点笑死/快笑死/差点没笑死 — near-miss amusement, not mockery (差点笑死我了), suppress 笑死",
+      "pattern": "(?:差点|快|差点没|快没|几乎)[^，。！？…]{0,3}笑死",
+      "action": "suppress",
+      "confidence": 0.80,
+      "applyTo": ["笑死"]
+    },
+    {
+      "id": "comp-064",
+      "terms": ["一定"],
+      "description": "一定X必定/必然/绝对/肯定 — compound absolute assertion (一定是必定有原因), confirm 一定",
+      "pattern": "一定[^，。！？…]{0,10}(?:必定|必然|绝对|肯定)",
+      "action": "confirm",
+      "confidence": 0.75,
+      "applyTo": ["一定"]
+    },
+    {
+      "id": "comp-065",
+      "terms": ["肯定"],
+      "description": "肯定X绝对/必定/必然 — compound absolute assertion (肯定是绝对不行), confirm 肯定",
+      "pattern": "肯定[^，。！？…]{0,10}(?:绝对|必定|必然|一定)",
+      "action": "confirm",
+      "confidence": 0.75,
+      "applyTo": ["肯定"]
+    },
+    {
+      "id": "comp-066",
+      "terms": ["确实"],
+      "description": "确实X而已/罢了/就是了/就对了 — minimizing agreement, not dismissive (确实只是意见而已), suppress 确实",
+      "pattern": "确实[^，。！？…]{0,15}(?:而已|罢了|就是了|就对了)",
+      "action": "suppress",
+      "confidence": 0.76,
+      "applyTo": ["确实"]
+    },
+    {
+      "id": "comp-067",
+      "terms": ["觉得"],
+      "description": "并不觉得/并不是说觉得/其实不觉得 — negated opinion (并不觉得有什么问题), suppress 觉得",
+      "pattern": "(?:并不|并不是说|其实不)[^，。！？…]{0,3}觉得",
+      "action": "suppress",
+      "confidence": 0.80,
+      "applyTo": ["觉得"]
+    },
+    {
+      "id": "comp-068",
+      "terms": ["都是"],
+      "description": "都是X不/没 — negated universal (都是不熟悉规则的人), suppress 都是",
+      "pattern": "都是[^，。！？…]{0,6}(?:不|没)",
+      "action": "suppress",
+      "confidence": 0.72,
+      "applyTo": ["都是"]
+    },
+    {
+      "id": "comp-069",
+      "terms": ["没有"],
+      "description": "没有X任何 — universal quantifier denial (没有任何证据), confirm 没有",
+      "pattern": "没有[^，。！？…]{0,6}任何",
+      "action": "confirm",
+      "confidence": 0.78,
+      "applyTo": ["没有"]
+    },
+    {
+      "id": "comp-070",
+      "terms": ["就是"],
+      "description": "就是X而已/罢了 — minimizing/hedged equation, not absolute (就是随便说说而已), suppress 就是",
+      "pattern": "就是[^，。！？…]{0,8}(?:而已|罢了)",
+      "action": "suppress",
+      "confidence": 0.80,
+      "applyTo": ["就是"]
+    }
+  ],
   "provenance": "Hand-authored context-disambiguation rules targeting the top-20 most ambiguous Chinese terms in the Bilibili keyword dictionary. Each rule checks the surrounding context (±10 chars or full sentence) to distinguish argumentative usage from neutral/positive usage. Rules were designed based on: (1) analysis of common Bilibili comment patterns, (2) syntactic roles of Chinese function words, and (3) the mismatch between dictionary meanings and actual Bilibili discourse norms."
 }
