@@ -9,6 +9,13 @@
       "dictionaryMeaning": "直接否定或反驳对方观点，表示不赞同",
       "rules": [
         {
+          "type": "idiomatic_criticism_opener",
+          "description": "不是我说 + criticism — idiomatic critical opener disguised as self-deprecation",
+          "pattern": "^不是我说[，,]?[^。！？…]{0,15}(?:这也|那也|也太|这也太|那也太|真|好|很|太|非常|有点|比较|实在|简直)",
+          "action": "confirm",
+          "confidence": 0.72
+        },
+        {
           "type": "yes_no_question",
           "description": "是不是/不是...吗 as yes/no question — not argumentative",
           "pattern": "是不是|不是[^，。！？…\\n]{0,10}吗[？?]?",
@@ -23,11 +30,39 @@
           "confidence": 0.75
         },
         {
-          "type": "not_x_but_y",
-          "description": "不是...而是/就是... — corrective contrast, not attack",
-          "pattern": "不是[^，。！？…]{1,15}(而是|就是|应该是|其实是|本来是)",
+          "type": "not_x_comma_shi_y",
+          "description": "不是X，是Y — corrective contrast via comma, not attack (check BEFORE negation_with_personal_attack)",
+          "pattern": "不是[^，。！？…]{1,15}[，,][^，。！？…]{0,3}是",
           "action": "suppress",
           "confidence": 0.80
+        },
+        {
+          "type": "not_x_but_y_corrective",
+          "description": "不是...而是/应该是/其实是... — corrective contrast with explicit contrast marker",
+          "pattern": "不是[^，。！？…]{1,15}(而是|应该是|其实是|本来是)",
+          "action": "suppress",
+          "confidence": 0.82
+        },
+        {
+          "type": "self_negation_hen",
+          "description": "不是很 + verb/adj — self-negation, humble expression, not attack",
+          "pattern": "不是(?:很|太|特别|那么|非常|怎么|十分)[^，。！？…]{0,6}",
+          "action": "suppress",
+          "confidence": 0.82
+        },
+        {
+          "type": "negation_with_personal_attack",
+          "description": "不是 followed by personal/judgment terms — likely argumentative negation",
+          "pattern": "不是[^，。！？…]{0,10}(傻|蠢|笨|菜|垃圾|废物|脑|病|错|瞎|疯|狗|猪|恶心|离谱|搞笑|无语)",
+          "action": "confirm",
+          "confidence": 0.78
+        },
+        {
+          "type": "not_x_jiushi_y_attack",
+          "description": "不是X就是Y — attack formula, not corrective contrast",
+          "pattern": "不是[^，。！？…]{1,10}就是",
+          "action": "confirm",
+          "confidence": 0.75
         },
         {
           "type": "factual_correction",
@@ -42,13 +77,6 @@
           "pattern": "(?:^|[。！？…\\n])\\s*不是[，,]?[^，。！？…\\n]{5,}",
           "action": "confirm",
           "confidence": 0.72
-        },
-        {
-          "type": "negation_with_personal_attack",
-          "description": "不是 followed by personal/judgment terms — likely argumentative negation",
-          "pattern": "不是[^，。！？…]{0,10}(傻|蠢|笨|菜|垃圾|废物|脑|病|错|瞎|疯|狗|猪|恶心|离谱|搞笑|无语)",
-          "action": "confirm",
-          "confidence": 0.78
         }
       ]
     },
@@ -57,6 +85,13 @@
       "family": "absolutes",
       "dictionaryMeaning": "全称否定",
       "rules": [
+        {
+          "type": "double_negation",
+          "description": "不是没有/并非没有 — double negation, partial agreement, not dogmatic denial",
+          "pattern": "(?:不是|并非|并不是|并不是说|不是说|不能说是)[^，。！？…]{0,3}没有",
+          "action": "suppress",
+          "confidence": 0.80
+        },
         {
           "type": "simple_lack",
           "description": "没有 + concrete noun (钱/时间/人/东西/办法) — simple statement of lack, not absolute denial",
@@ -70,6 +105,13 @@
           "pattern": "没有(看|听|说|想|做|玩|吃|买|用|学|见|去|来|拿|给|发|写|读|找|得|出|进|过|到|上|下|开|关)",
           "action": "suppress",
           "confidence": 0.80
+        },
+        {
+          "type": "comparative_with_np",
+          "description": "没有 + noun phrase + adjective — comparative, not absolute (check BEFORE comparative_lack)",
+          "pattern": "没有(?:这个|那个|哪个|什么|啥|别的|其他的|别的什么)[^，。！？…]{0,8}(?:好|差|快|慢|大|小|多|少|高|低|强|弱|贵|便宜|难|容易|有意思|有趣|无聊)",
+          "action": "suppress",
+          "confidence": 0.78
         },
         {
           "type": "comparative_lack",
@@ -91,6 +133,13 @@
           "pattern": "没有(?:一个|任何|[人谁哪]|什么|啥|半[点个])",
           "action": "confirm",
           "confidence": 0.75
+        },
+        {
+          "type": "hyperbolic_mockery",
+          "description": "没有 + hyperbole + 想不出/做不出 — hyperbolic mockery, not simple lack",
+          "pattern": "没有[^，。！？…]{0,15}(?:想不出|做不出|干不出|说不出|写不出|画不出|整不出|弄不出)",
+          "action": "confirm",
+          "confidence": 0.70
         }
       ]
     },
@@ -114,6 +163,20 @@
           "confidence": 0.85
         },
         {
+          "type": "negated_absolute",
+          "description": "不一定/并不一定/不一定就 — explicitly non-absolute, hedged (check BEFORE dogmatic)",
+          "pattern": "(?:不|并不|可不|未必|不见得)[^，。！？…]{0,2}一定",
+          "action": "suppress",
+          "confidence": 0.88
+        },
+        {
+          "type": "has_some_degree",
+          "description": "有一定/有一定的 — 'has some degree of', descriptive not dogmatic (check BEFORE dogmatic)",
+          "pattern": "有一定(?:的|之|程度|影响|作用|帮助|关系|关联|道理|意义|必要|价值|参考)",
+          "action": "suppress",
+          "confidence": 0.85
+        },
+        {
           "type": "dogmatic_assertion",
           "description": "一定是/一定不/一定没 — absolute claim about correctness or impossibility",
           "pattern": "一定(?:是|不是|不会|没有|不可能|得|要[^加油坚持努力开心幸福好好注意记得小心支持])",
@@ -126,20 +189,6 @@
           "pattern": "(?:你|他|她|它|你们|他们|她们)[^，。！？…]{0,3}一定",
           "action": "confirm",
           "confidence": 0.65
-        },
-        {
-          "type": "negated_absolute",
-          "description": "不一定/并不一定/不一定就 — explicitly non-absolute, hedged",
-          "pattern": "(?:不|并不|可不|未必|不见得)[^，。！？…]{0,2}一定",
-          "action": "suppress",
-          "confidence": 0.88
-        },
-        {
-          "type": "has_some_degree",
-          "description": "有一定/有一定的 — 'has some degree of', descriptive not dogmatic",
-          "pattern": "有一定(?:的|之|程度|影响|作用|帮助|关系|关联|道理|意义|必要|价值|参考)",
-          "action": "suppress",
-          "confidence": 0.85
         }
       ]
     },
@@ -373,11 +422,25 @@
       "dictionaryMeaning": "绝对化表述",
       "rules": [
         {
-          "type": "descriptive_attribution",
-          "description": "都是...的 — descriptive attribution, not absolute generalization",
-          "pattern": "都是[^，。！？…]{0,15}的",
+          "type": "demonstrative_identification",
+          "description": "这些都是/那些都是/全都是/大家都是 + NP — demonstrative/inclusive identification, not overgeneralization",
+          "pattern": "(?:大家|这|那|哪|某)[些个]?都是|全都是[^，。！？…]{0,8}(?:人|的|东西|事情|问题|情况|操作|现象|例子|案例|原因|结果|办法|方法|思路)",
           "action": "suppress",
-          "confidence": 0.72
+          "confidence": 0.82
+        },
+        {
+          "type": "overgeneralization_blame",
+          "description": "都是 + blame attribution — overgeneralizing blame (check BEFORE descriptive_attribution)",
+          "pattern": "都是(?:你|他|她|你们|他们|她们|up|UP|博主|官方|策划|运营|资本)[^，。！？…]{0,6}(?:的错|的问题|搞的|害的|干的|弄的|不对|不好|不行|傻|蠢|笨|垃圾)",
+          "action": "confirm",
+          "confidence": 0.75
+        },
+        {
+          "type": "absolutist_labeling",
+          "description": "都是 + negative group label — absolutist group labeling (check BEFORE descriptive_attribution)",
+          "pattern": "都是[^，。！？…]{0,8}(?:水军|黑子|孝子|脑残|喷子|杠精|谜语人|机器人|云玩家|云[^，。！？…]{0,4})",
+          "action": "confirm",
+          "confidence": 0.80
         },
         {
           "type": "simple_identification",
@@ -395,24 +458,17 @@
         },
         {
           "type": "normalizing_statement",
-          "description": "都是...的/都是...一样/都是...差不多 — normalizing comparison, not dogmatic",
+          "description": "都是...一样/都是...差不多 — normalizing comparison, not dogmatic",
           "pattern": "都是[^，。！？…]{0,10}(?:一样|差不多|类似|相同|相似|这样|那样|这么|那么)",
           "action": "suppress",
           "confidence": 0.78
         },
         {
-          "type": "overgeneralization_blame",
-          "description": "都是 + blame attribution — overgeneralizing blame",
-          "pattern": "都是(?:你|他|她|你们|他们|她们|up|UP|博主|官方|策划|运营|资本)[^，。！？…]{0,6}(?:的错|的问题|搞的|害的|干的|弄的|不对|不好|不行|傻|蠢|笨|垃圾)",
-          "action": "confirm",
-          "confidence": 0.75
-        },
-        {
-          "type": "absolutist_labeling",
-          "description": "都是 + negative group label — absolutist group labeling",
-          "pattern": "都是[^，。！？…]{0,8}(?:水军|黑子|孝子|脑残|喷子|杠精|谜语人|机器人|云玩家|云[^，。！？…]{0,4})",
-          "action": "confirm",
-          "confidence": 0.80
+          "type": "descriptive_attribution",
+          "description": "都是...的 — descriptive attribution (last resort: only if blame/labeling/simple-id didn't match)",
+          "pattern": "都是[^，。！？…]{0,15}的",
+          "action": "suppress",
+          "confidence": 0.72
         }
       ]
     },
@@ -423,10 +479,17 @@
       "rules": [
         {
           "type": "transition_phrase",
-          "description": "一句话 + summarizing — transitional summary, not dogmatic assertion",
-          "pattern": "一句话[，,]?(?:总结|概括|来说|就是|[，,])",
+          "description": "一句话总结/概括/来说/就是 — explicit summary transition, not dogmatic (check FIRST)",
+          "pattern": "一句话[，,:：]?(?:总结|概括|来说|就是|概括一下|总结一下)",
           "action": "suppress",
-          "confidence": 0.82
+          "confidence": 0.85
+        },
+        {
+          "type": "conclusive_assertion",
+          "description": "一句话 as standalone conclusive opener — assertive judgment (only after summary markers ruled out)",
+          "pattern": "(?:^|[。！？…\\n])\\s*一句话[，,]?[^，。！？…]{6,}",
+          "action": "confirm",
+          "confidence": 0.68
         },
         {
           "type": "request_for_summary",
@@ -434,13 +497,6 @@
           "pattern": "一句话[^，。！？…]{0,8}[？?]",
           "action": "suppress",
           "confidence": 0.78
-        },
-        {
-          "type": "conclusive_assertion",
-          "description": "一句话 as standalone conclusive opener — could be assertive",
-          "pattern": "(?:^|[。！？…\\n])\\s*一句话[，,]?[^，。！？…]{6,}",
-          "action": "confirm",
-          "confidence": 0.68
         }
       ]
     },
@@ -462,6 +518,20 @@
           "pattern": "(?:想知道|好奇|不懂|不明白|不理解|不清楚|不知道|问问|问一下|请教|求问|请问)[^，。！？…]{0,4}为什么",
           "action": "suppress",
           "confidence": 0.85
+        },
+        {
+          "type": "neutral_inquiry_followup",
+          "description": "为什么 + neutral topic + 还是/要么 — genuine disjunctive question",
+          "pattern": "为什么[^。！？…]{0,25}?(?:还是|要么|或者|抑或)[^。！？…]{0,10}[？?]",
+          "action": "suppress",
+          "confidence": 0.75
+        },
+        {
+          "type": "rhetorical_universal",
+          "description": "为什么 + 就没人/都没人 — accusatory rhetorical with universal quantifier (check BEFORE rhetorical_attack)",
+          "pattern": "为什么[^，。！？…]{0,10}(?:就没人|就没[有人]|一个人都|谁都|都没人|没有任何人|没有人|没人)",
+          "action": "confirm",
+          "confidence": 0.72
         },
         {
           "type": "rhetorical_attack",
@@ -513,6 +583,13 @@
       "dictionaryMeaning": "全称肯定",
       "rules": [
         {
+          "type": "intensified_negative",
+          "description": "就是 + colloquial intensifier + negative label — absolute negative categorization (check BEFORE clarification)",
+          "pattern": "就是[^。！？…]{0,15}(?:割韭菜|智商税|骗钱|洗脑|PUA|pua|双标|水军|黑子|孝子|脑残|喷子|杠精|垃圾|废物|傻|蠢|笨|菜|恶心|离谱|不行|不好|差|烂|不对)",
+          "action": "confirm",
+          "confidence": 0.72
+        },
+        {
           "type": "filler_emphasis",
           "description": "就是 + filler/hedge — conversational filler, not absolute assertion",
           "pattern": "就是[说觉得认为想]?[，,]?(?:吧|啊|呀|哦|呢|啦|嘛|哈|嗯)",
@@ -555,6 +632,20 @@
       "dictionaryMeaning": "绝对化强调",
       "rules": [
         {
+          "type": "explanatory_identification",
+          "description": "根本就 + neutral noun — explanatory identification, not dogmatic (check BEFORE emphatic_negation)",
+          "pattern": "根本就(?:个|一[个些]?)?[^，。！？…]{0,8}(?:误会|问题|原因|道理|情况|事实|例子|案例|方法|办法|思路)",
+          "action": "suppress",
+          "confidence": 0.78
+        },
+        {
+          "type": "dogmatic_labeling",
+          "description": "根本就 + negative label — dogmatic negative categorization (check BEFORE emphatic_negation)",
+          "pattern": "根本就[^，。！？…]{0,10}(?:智商税|骗钱|垃圾|废物|水军|黑子|孝子|喷子|杠精|脑残|傻|蠢|笨|菜|恶心|离谱|不对|不行|不好|差|烂)",
+          "action": "confirm",
+          "confidence": 0.80
+        },
+        {
           "type": "emphatic_negation",
           "description": "根本就不/根本就没有 — emphatic negation, could be either",
           "pattern": "根本就(?:不|没有|没)[^，。！？…]{0,6}(?:是|有|会|能|可以|知道|懂|明白|想|打算|准备|考虑|需要)",
@@ -578,6 +669,27 @@
       ]
     },
     {
+      "term": "根本就是",
+      "family": "absolutes",
+      "dictionaryMeaning": "绝对化强调 — 根本就是",
+      "rules": [
+        {
+          "type": "explanatory_clarification",
+          "description": "根本就是 + neutral noun — explanatory clarification, not dogmatic",
+          "pattern": "根本就是(?:个|一[个些]?)?[^，。！？…]{0,8}(?:误会|问题|原因|道理|情况|事实|例子|案例|方法|办法|思路)",
+          "action": "suppress",
+          "confidence": 0.80
+        },
+        {
+          "type": "negative_equation",
+          "description": "根本就是 + negative label — dogmatic negative categorization",
+          "pattern": "根本就是[^，。！？…]{0,10}(?:智商税|骗钱|垃圾|废物|水军|黑子|孝子|喷子|杠精|脑残|傻|蠢|笨|菜|恶心|离谱|不对|不行|不好|差|烂)",
+          "action": "confirm",
+          "confidence": 0.80
+        }
+      ]
+    },
+    {
       "term": "你行你上",
       "family": "attack",
       "dictionaryMeaning": "互联网中文表达模式 - 攻击性表达",
@@ -588,6 +700,13 @@
           "pattern": "你行你上[^，。！？…]{0,6}(?:[😂🤣😆💀👍]|哈哈+|笑|狗头|doge)",
           "action": "suppress",
           "confidence": 0.78
+        },
+        {
+          "type": "dismissive_challenge",
+          "description": "你行你上 + follow-up dismissal — hostile challenge with qualifying clause",
+          "pattern": "你行你上[，,]?[^。！？…]{0,15}(?:别|少|不要|少在|别在|指指点点|说三道四|废话|逼逼|bb|BB|装|叫|在这)",
+          "action": "confirm",
+          "confidence": 0.72
         },
         {
           "type": "defensive_dismissal",
@@ -604,9 +723,16 @@
       "dictionaryMeaning": "讽刺对方水平低，表示轻蔑",
       "rules": [
         {
+          "type": "dismissive_contempt",
+          "description": "就这 + NP + 还敢/也敢/也好意思 — contemptuous dismissal (check BEFORE self_deprecating)",
+          "pattern": "就这[^，。！？…]{0,8}(?:还敢|也敢|也好意思|还敢|也想|还要|也能|还敢教|也好意思说)",
+          "action": "confirm",
+          "confidence": 0.75
+        },
+        {
           "type": "self_deprecating",
-          "description": "就这 + self-reference — self-deprecating, not attacking",
-          "pattern": "就这[^，。！？…]{0,6}(?:我|自己|咱|本人|水平|能力|实力|技术)",
+          "description": "就这？ + self-reference — self-deprecating, not attacking (allows ？ before self-ref)",
+          "pattern": "就这[？?]?[^，。！…]{0,8}(?:我|自己|咱|本人)",
           "action": "suppress",
           "confidence": 0.78
         },
@@ -619,7 +745,7 @@
         },
         {
           "type": "dismissive_attack",
-          "description": "就这？ targeting others' work — dismissive mockery",
+          "description": "就这？ targeting others' work — dismissive mockery (check AFTER self_deprecating)",
           "pattern": "就这[？?]?[^，。！？…]{0,10}(?:水平|能力|实力|技术|也好意思|也敢|还敢|就敢|[你他她])",
           "action": "confirm",
           "confidence": 0.75
@@ -674,6 +800,13 @@
           "confidence": 0.85
         },
         {
+          "type": "mockery_with_commentary",
+          "description": "典中典 + follow-up commentary about speech/behavior — mockery, not standalone meme",
+          "pattern": "典(?:中典)?[，,]?[^，。！？…]{0,20}(?:话术|发言|评论|言论|观点|看法|说法|操作|行为|表现|这种人|这种|这类|这[个人位]|那[个人位])",
+          "action": "confirm",
+          "confidence": 0.72
+        },
+        {
           "type": "mockery_label",
           "description": "典 + targeted judgment — labeling someone's argument as cliché",
           "pattern": "典(?:中典)?[^，。！？…]{0,10}(?:发言|评论|话术|话|言论|观点|看法|想法|操作|行为|表现|这人|这人|这[个人位]|那[个人位]|你|他|她)",
@@ -702,18 +835,18 @@
           "confidence": 0.80
         },
         {
+          "type": "negative_judgment",
+          "description": "觉得 + negative judgment about others — potentially argumentative (check BEFORE self_directed)",
+          "pattern": "觉得[^，。！？…]{0,15}(?:你|他|她|你们|他们|up|UP|博主|主播|层主)[^，。！？…]{0,10}(?:不对|错了|有问题|不行|不好|不懂|不会|不能|傻|蠢|笨|菜|垃圾|恶心|离谱|双标)",
+          "action": "confirm",
+          "confidence": 0.72
+        },
+        {
           "type": "self_directed",
           "description": "我觉得/自己觉得/个人觉得 — self-directed, hedged assertion",
           "pattern": "(?:我|自己|个人|咱|本人)[^，。！？…]{0,3}觉得",
           "action": "suppress",
           "confidence": 0.75
-        },
-        {
-          "type": "negative_judgment",
-          "description": "觉得 + negative judgment about others — potentially argumentative",
-          "pattern": "觉得[^，。！？…]{0,15}(?:你|他|她|你们|他们|up|UP|博主|主播|层主)[^，。！？…]{0,10}(?:不对|错了|有问题|不行|不好|不懂|不会|不能|傻|蠢|笨|菜|垃圾|恶心|离谱|双标)",
-          "action": "confirm",
-          "confidence": 0.72
         }
       ]
     },
@@ -766,8 +899,8 @@
         },
         {
           "type": "self_directed_laughter",
-          "description": "笑死我了/笑死自己 — self-directed laughter, not mockery of others",
-          "pattern": "笑死(?:我了|自己|咱|本人|[我咱本人])",
+          "description": "笑死我了/笑死自己/笑死个人 — self-directed laughter, not mockery of others",
+          "pattern": "笑死(?:我了|自己|咱|本人|[我咱本人]|个人|[个各][人位])",
           "action": "suppress",
           "confidence": 0.85
         },
@@ -777,6 +910,13 @@
           "pattern": "(?:哈哈+|草|艹|卧槽|nm|tnnd|md)[^，。！？…]{0,3}笑死",
           "action": "neutral",
           "confidence": 0.68
+        },
+        {
+          "type": "standalone_then_target",
+          "description": "笑死, + targeted person — mockery with comma pause (check BEFORE targeted_mockery)",
+          "pattern": "笑死[，,][^，。！？…]{0,15}(?:你|他|她|你们|他们|这[个人位]|那[个人位]|up|UP|博主|主播|层主)",
+          "action": "confirm",
+          "confidence": 0.72
         },
         {
           "type": "targeted_mockery",
@@ -800,18 +940,18 @@
           "confidence": 0.85
         },
         {
+          "type": "absolutist_with_maybe",
+          "description": "可能 + absolute claim — using hedge to disguise absolute assertion (check BEFORE uncertainty_expression)",
+          "pattern": "可能[^，。！？…]{0,15}(?:一定|肯定|绝对|必然|完全|根本|全都|全部|所有|任何|永远|从不|从来)",
+          "action": "confirm",
+          "confidence": 0.68
+        },
+        {
           "type": "uncertainty_expression",
           "description": "可能/有可能/可能是/不可能的/很可能 — probability language, not absolute",
           "pattern": "(?:有|很|不|没|也|都|就|还是|还是[有很])?可能(?:是|有|会|能|的|性|不|也)",
           "action": "suppress",
           "confidence": 0.82
-        },
-        {
-          "type": "absolutist_with_maybe",
-          "description": "可能 + absolute claim — using hedge to disguise absolute assertion",
-          "pattern": "可能[^，。！？…]{0,15}(?:一定|肯定|绝对|必然|完全|根本|全都|全部|所有|任何|永远|从不|从来)",
-          "action": "confirm",
-          "confidence": 0.68
         }
       ]
     },
@@ -822,8 +962,8 @@
       "rules": [
         {
           "type": "hedged_suggestion",
-          "description": "应该 + 吧/啊 — hedged suggestion, not absolute",
-          "pattern": "应该(?:吧|啊|呀|哦|呢|啦|嘛|的|是|有)",
+          "description": "应该 + 吧/啊/没/不 — hedged suggestion, not absolute",
+          "pattern": "应该(?:吧|啊|呀|哦|呢|啦|嘛|的|是|有|没|不)",
           "action": "suppress",
           "confidence": 0.82
         },
@@ -870,6 +1010,13 @@
           "confidence": 0.60
         },
         {
+          "type": "dismissive_with_pause",
+          "description": "确实, + meme/negative term — sarcastic confirmation with pause",
+          "pattern": "确实[，,][^，。！？…]{0,15}(?:典|乐|绷|急了|破防|孝[子子女]|脑残|傻|蠢|笨|离谱|搞笑|无语)",
+          "action": "confirm",
+          "confidence": 0.72
+        },
+        {
           "type": "dismissive_confirmation",
           "description": "确实 + sarcastic/negative follow-up — dismissive",
           "pattern": "确实[^，。！？…]{0,10}(?:典|乐|绷|急了|破防|孝[子子女]|脑残|傻|蠢|笨)",
@@ -883,6 +1030,13 @@
       "family": "attack",
       "dictionaryMeaning": "极端程度修饰",
       "rules": [
+        {
+          "type": "suicide_reference",
+          "description": "去死/想死/要死 + continuation — self-harm or threat reference, not intensifier (check BEFORE intensifier)",
+          "pattern": "(?:去|想|要|该)[死][了啦啊哦呢]?(?:算[了啦]|吧|好[了啦]|就|才|得|吧)",
+          "action": "confirm",
+          "confidence": 0.75
+        },
         {
           "type": "intensifier",
           "description": "adj/verb + 死了 — degree intensifier, common colloquial usage",
@@ -926,18 +1080,25 @@
           "confidence": 0.80
         },
         {
+          "type": "absolutist_negative",
+          "description": "全都 + negative label — absolutist categorization (check BEFORE descriptive_neutral)",
+          "pattern": "全都[^，。！？…]{0,10}(?:水军|黑子|孝子|脑残|傻|蠢|笨|垃圾|废物|狗|猪|喷子|杠精|谜语人|机器人|假的|骗人|不行|不好|差|烂)",
+          "action": "confirm",
+          "confidence": 0.80
+        },
+        {
+          "type": "descriptive_neutral",
+          "description": "全都 + neutral descriptive verb — describing general behavior, not absolutist",
+          "pattern": "全都[^，。！？…]{0,8}(?:在|正|都|也|还|就|会|能|要|可以|是|有|讨论|说|讲|想|看|知道|明白|喜欢|讨厌)",
+          "action": "suppress",
+          "confidence": 0.78
+        },
+        {
           "type": "descriptive_exclamation_short",
           "description": "全都 + exclamation — descriptive, not dogmatic",
           "pattern": "全都[^，。！？…]{0,6}(?:了|啊|呀|哦|呢|吧|…|！|？)",
           "action": "neutral",
           "confidence": 0.65
-        },
-        {
-          "type": "absolutist_negative",
-          "description": "全都 + negative label — absolutist categorization",
-          "pattern": "全都[^，。！？…]{0,10}(?:水军|黑子|孝子|脑残|傻|蠢|笨|垃圾|废物|狗|猪|喷子|杠精|谜语人|机器人|假的|骗人|不行|不好|差|烂)",
-          "action": "confirm",
-          "confidence": 0.80
         }
       ]
     }

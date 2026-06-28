@@ -1,5 +1,6 @@
 import { findDictionaryEntriesWithTextEvidence, buildSenseIndex, disambiguateSenseHits } from './deepseekKeywordTrainer.js';
 import { classifyScenario } from './contextClassifier.js';
+import { applyDisambiguation, suppressionStats } from './disambiguator.js';
 
 function hasChinese(text) {
   return /[\p{Script=Han}]/u.test(String(text || ''));
@@ -2850,6 +2851,39 @@ export function classifyCommentCoverage(dictionary, comment, options = {}) {
       lexicalHits = lexicalHitsRaw;
     }
   }
+
+  // ── Pattern-based disambiguation (complementary to sense-index hook) ──
+  // Also filters false positives that the sense-index approach doesn't catch,
+  // e.g. standalone laughter (哈哈哈哈), hedging (可能吧), etc.
+  // Feature-flagged via BILIBILI_DISAMBIGUATION (default on).
+  let patternDisambApplied = false;
+  let patternDisambStats = null;
+  const ENABLE_PATTERN_DISAMBIGUATION = process.env.BILIBILI_DISAMBIGUATION !== '0';
+  if (ENABLE_PATTERN_DISAMBIGUATION && lexicalHits.length > 0) {
+    try {
+      const matchesWithWeight = lexicalHits.map(h => ({ term: h.term, family: h.family, weight: h.weight || 1 }));
+      const filtered = applyDisambiguation(attributableMessage, matchesWithWeight);
+      const disambActions = filtered.map(f => ({ action: f.action || 'neutral' }));
+      patternDisambStats = suppressionStats(disambActions);
+
+      // Build suppressed term set
+      const suppressedTerms = new Set();
+      for (const m of matchesWithWeight) {
+        if (!filtered.some(f => f.term === m.term)) {
+          suppressedTerms.add(m.term);
+        }
+      }
+
+      // Remove suppressed terms from lexical hits
+      if (suppressedTerms.size > 0) {
+        lexicalHits = lexicalHits.filter(h => !suppressedTerms.has(h.term));
+      }
+      patternDisambApplied = true;
+    } catch (e) {
+      // Fallback: on error, keep all hits unchanged
+    }
+  }
+
   const emoteHits = detectEmoteSemanticHits(message);
   const supplementalHits = detectSupplementalSemanticHits(message);
   const hits = [...lexicalHits, ...emoteHits, ...supplementalHits];
@@ -2867,6 +2901,7 @@ export function classifyCommentCoverage(dictionary, comment, options = {}) {
       comment: message,
     };
     if (disambiguationApplied) result.disambiguation = disambiguationStats;
+    if (patternDisambApplied) result.patternDisamb = patternDisambStats;
     return result;
   }
 
@@ -2879,6 +2914,7 @@ export function classifyCommentCoverage(dictionary, comment, options = {}) {
       comment: message,
     };
     if (disambiguationApplied) result.disambiguation = disambiguationStats;
+    if (patternDisambApplied) result.patternDisamb = patternDisambStats;
     return result;
   }
 
