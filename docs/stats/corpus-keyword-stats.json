@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-06-28T13:57:04.007Z",
-  "comments": 25713,
+  "generatedAt": "2026-06-28T07:11:48.919Z",
+  "comments": 25753,
   "danmaku": 153875,
-  "keywordTerms": 1669,
-  "coverageRatio": 0.8844,
-  "coverageRatioLabel": "88.44%",
-  "weakTerms": 193,
-  "evidenceDeficit": 386,
+  "keywordTerms": 1726,
+  "coverageRatio": 0.9403,
+  "coverageRatioLabel": "94.03%",
+  "weakTerms": 103,
+  "evidenceDeficit": 272,
   "sources": [
     {
       "name": "Bilibili direct probe corpus",
@@ -19,12 +19,18 @@
       "total": 16741,
       "comments": 16741,
       "danmaku": 0
+    },
+    {
+      "name": "Tieba corpus",
+      "total": 40,
+      "comments": 40,
+      "danmaku": 0
     }
   ],
   "timeline": {
     "pointCount": 456,
-    "finalComments": 25713,
+    "finalComments": 25753,
     "finalDanmaku": 153875,
-    "finalTotal": 179588
+    "finalTotal": 179628
   }
 }
