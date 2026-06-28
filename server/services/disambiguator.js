@@ -272,3 +272,88 @@ export function suppressionStats(results) {
     suppressionRate: total > 0 ? Math.round((suppressed / total) * 10000) / 100 : 0,
   };
 }
+
+// ─── Scenario-aware disambiguation ──────────────────────────────────────────
+
+import { classifyScenario } from './contextClassifier.js';
+
+/**
+ * Bias disambiguation confidence by scenario context.
+ * @param {object} result - disambiguation result { action, confidence }
+ * @param {object} scenario - classifyScenario output { scenario, confidence }
+ * @returns {object} result with adjusted confidence
+ * @internal
+ */
+function biasConfidenceByScenario(result, scenario) {
+  let adjustedConfidence = result.confidence;
+
+  // Taunting → boost confirm confidence (arg-focused terms are more likely real)
+  if (scenario.scenario === 'taunting' && result.action === 'confirm') {
+    adjustedConfidence = Math.min(1, result.confidence + 0.1 * scenario.confidence);
+  }
+  // Praise/self_deprecation → boost suppress confidence
+  if ((scenario.scenario === 'praise' || scenario.scenario === 'self_deprecation') && result.action === 'suppress') {
+    adjustedConfidence = Math.min(1, result.confidence + 0.08 * scenario.confidence);
+  }
+  // Reassurance → slightly boost suppress
+  if (scenario.scenario === 'reassurance' && result.action === 'suppress') {
+    adjustedConfidence = Math.min(1, result.confidence + 0.05 * scenario.confidence);
+  }
+
+  return { ...result, confidence: Math.round(adjustedConfidence * 100) / 100, scenario: scenario.scenario };
+}
+
+/**
+ * Context-aware disambiguation — combines pattern-based disambiguation with
+ * scenario classification to bias confidence scores.
+ *
+ * Calls classifyScenario from the context classifier, then adjusts
+ * disambiguation confidence based on the comment's scenario:
+ *   - Taunting → boost confirm confidence (arg-focused terms are more likely real)
+ *   - Praise → boost suppress confidence (positive terms are less likely attacks)
+ *   - Self-deprecation → boost suppress confidence
+ *
+ * @param {string} commentText - the full comment text
+ * @param {Array<{term: string, family?: string, weight?: number}>} keywordMatches
+ * @returns {{ filtered: Array, stats: object, scenario: object }}
+ */
+export function contextAwareDisambiguate(commentText, keywordMatches) {
+  const scenario = classifyScenario(commentText);
+  const results = disambiguate(commentText, keywordMatches);
+
+  // Build term→action lookup, biased by scenario
+  const termActions = new Map();
+  for (const r of results) {
+    const existing = termActions.get(r.term);
+    const adjusted = biasConfidenceByScenario(r, scenario);
+    const severity = { confirm: 2, neutral: 1, suppress: 0 };
+    if (!existing || severity[adjusted.action] > severity[existing.action]) {
+      termActions.set(r.term, adjusted);
+    }
+  }
+
+  // Filter and adjust
+  const filtered = [];
+  for (const match of keywordMatches) {
+    const term = match.term || '';
+    const baseWeight = match.weight || 1;
+
+    const disamb = termActions.get(term);
+    if (!disamb) {
+      filtered.push({ ...match, weight: baseWeight, action: 'neutral', reason: 'no_rules' });
+      continue;
+    }
+
+    if (disamb.action === 'suppress') continue;
+
+    const weight = disamb.action === 'confirm'
+      ? baseWeight * (1 + 0.2 * disamb.confidence)
+      : baseWeight;
+
+    filtered.push({ ...match, family: match.family || 'unknown', weight, action: disamb.action, reason: disamb.reason });
+  }
+
+  const stats = suppressionStats(results.map(r => ({ action: r.action })));
+
+  return { filtered, stats, scenario };
+}

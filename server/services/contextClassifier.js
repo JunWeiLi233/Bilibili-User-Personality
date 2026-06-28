@@ -29,6 +29,7 @@ export const SCENARIOS = [
 const SIGNALS = {
   taunting: {
     strong: [
+      // Existing
       /哈哈哈+/u,
       /笑死[我了]?/u,
       /乐死/u,
@@ -39,14 +40,51 @@ const SIGNALS = {
       /就这\?/u,
       /不会真的?有人/u,
       /🤣|😂|😅|😏|🙃/u,
+      // NEW: Blame and accusation patterns
+      /[你他她它这那].{0,4}(?:垃圾|废物|脑残|智障|sb|SB|傻逼|傻叉)/u,
+      // Standalone insults (傻/蠢/笨 +垃圾 etc. — almost always insults in Bilibili)
+      /[真就是]?(?:傻|蠢|笨)(?:[逼叉瓜蛋子了]|[得要]?很|[得要]?命|透了|[得]?要?死)?/u,
+      /(?:^|[\s，。！？…、]|[这那就]是)(?:垃圾|废物|脑残|智障|傻逼|傻叉)/u,
+      /(?:策划|官方|运营|资本|节目组|程序员).{0,4}(?:傻|蠢|笨|垃圾|恶心|离谱|脑残|不要脸|偷懒|敷衍|划水|摸鱼)/u,
+      /(?:的错|的问题|害的|搞的|干的|弄的)[!！。？…]*$/u,
+      // NEW: Dismissive memes and mockery
+      /[你他她]?.{0,2}(?:配吗|也配|就这|急了|绷不住了|孝了|典了)/u,
+      /(?:别[扯洗]|[在硬]?洗[地白了]?|硬洗|尬吹|无脑吹)/u,
+      /(?:甩锅|背锅|扣帽子|双标|道德绑架)/u,
+      // NEW: Exaggerated mockery (removed end-of-string anchor to catch mid-sentence)
+      /[你他她]?(?:真[有会]?意思|可真?行|挺会|好一个|好意思)/u,
+      /(?:[你他她]|这[也真]|[那也]?).{0,4}(?:不懂|不会|不能|不行|不好|不对|错了)/u,
+      // NEW: Coercion/force patterns
+      /(?:逼[着迫]?|强迫|强制|硬[是要]?[逼要]?).{0,6}(?:氪[金]?|花钱|付费|充[值钱]|买|掏钱)/u,
+      // NEW: Blame attribution ("肯定是X的错/问题")
+      /(?:肯定|一定|明显|摆明了|分明|绝对|[这那]就).{0,6}(?:在|是).{0,6}(?:逼|骗|坑|害|搞|弄|偷懒|敷衍|划水|摸鱼)/u,
+      // NEW: Laziness/negligence blame
+      /(?:偷懒|偷工减料|敷衍[了]?事|糊弄|应付|划水|摸鱼)/u,
+      /(?:瞎[搞改弄整写做说扯]|乱[搞改弄整写做说扯])/u,
+      // NEW: Hyperbolic mockery and slang (polysemy-02)
+      /(?:割韭菜|智商税|骗钱[的]?玩意|忽悠人|圈钱|坑钱|坑爹)/u,
+      /(?:带节奏|水军|杠精|喷子|键盘侠|孝子[贤孙]?)/u,
+      /没[有]?.{0,6}(?:脑血栓|脑子|智商|脑[子子]?).{0,6}(?:想[不]?出|干[得]?出|做[得]?出)/u,
+      /(?:不配|也配)[^，。！？…]{0,4}(?:玩|做|说|评论|评价|当|当人)/u,
+      /(?:恶心[人]?|不要脸|没良心|没安好心|居心不良)/u,
+      /(?:脑子进水|脑子有[病坑问题]|没脑子|不长脑子|不长[点心眼]|缺心眼)/u,
+      /(?:骗[人子]|没诚意|没[点个]?诚意|忽[悠人]|唬[弄人])/u,
+      /为什么.{0,4}(?:没[人有]|就[没不]|还不|都不)/u,  // rhetorical "为什么没人/就没人"
     ],
     weak: [
+      // Existing
       /[你您][真可]?行/u,
       /[真可]?牛[逼批啤]?/u,
       /赢[麻嘛]了/u,
       /不愧是你/u,
       /你说得对/u,  // often sarcastic in context
       /确实[是]?[的]?$/u,
+      // NEW: Mild negative assessments
+      /(?:不太行|不太对|不太合理|不太合适|不怎么样|不咋地)/u,
+      /(?:差评|劝退|失望|无语|离谱|搞笑[呢吧]?)/u,
+      /(?:就硬|硬要|非要|偏要).{0,4}(?:是吧|吗|么)/u,
+      // NEW: Mild criticism with directed tone
+      /[你他她这那]?(?:真是?|也太?|有点?太?)(?:菜|弱|坑|水|混|差|烂)/u,
     ],
   },
 
@@ -81,7 +119,7 @@ const SIGNALS = {
       /厉害/u,
       /太[强棒牛]了/u,
       /牛逼/u,
-      /[真太]?[好棒赞]/u,
+      /(?<![不没])[真太]?[好棒赞](?![说得地话意思了])/u,
       /[👍👏🔥💯]/u,
       /支持/u,
       /加油/u,
@@ -157,17 +195,69 @@ const SIGNALS = {
   },
 };
 
-// ── public API ──
+// ── Step 3 helper: Chinese negation pre-filter ──
+
+const NEGATION_SCOPES = [
+  /不(?:是|会|能|可以|行|对|好|懂|知道|明白|理解|同意|赞成|支持)[^，。！？…]{0,8}/gu,
+  /没(?:有|什么|啥|多|那么|这么)[^，。！？…]{0,8}/gu,
+];
 
 /**
- * Classify a comment into the most likely scenario.
- *
- * @param {string} text - comment text
- * @returns {{ scenario: string, confidence: number, scores: Record<string, number> }}
- *   scenario — the top scenario (or 'neutral_info' as default)
- *   confidence — 0..1, how strongly the classifier believes in the top scenario
- *   scores — all scenario scores (for debugging)
+ * Check if the text contains any negation scope that could falsely boost
+ * positive-signal scores (praise, argument).
  */
+function hasNegationScope(text) {
+  for (const re of NEGATION_SCOPES) {
+    const copy = new RegExp(re.source, 'gu');
+    if (copy.test(text)) return true;
+  }
+  return false;
+}
+
+// ── Step 3.5 helper: Self-directed detection ──
+
+const SELF_DIRECTED_PATTERNS = [
+  /笑死[我自]|笑死个人|笑死自己/u,
+  /笑死了[^，。！？…]{0,4}(?:好|有|太|真|很)/u,  // "笑死了这个好有趣" → positive context
+  /我.{0,4}急了|我急了/u,
+  /我.{0,4}就这[？?]/u,
+  /[我自].{0,4}(?:菜[了得]?|垃圾|废物)[！!。，,？?]?$/u,
+  /我就[是会]?[一个]?(?:菜|垃圾|废物)/u,
+  /[我自].{0,6}(?:就这|也[这样]|经常|老是这样)/u,  // "就这？我自己也经常这样"
+];
+
+/**
+ * Check if taunting/apparent-attack signals are actually self-directed
+ * (laughing at oneself, admitting one's own frustration, etc.).
+ */
+function isSelfDirected(text) {
+  for (const re of SELF_DIRECTED_PATTERNS) {
+    if (re.test(text)) return true;
+  }
+  return false;
+}
+
+// ── Step 3.6 helper: Yes/no question detection ──
+
+const YES_NO_QUESTION = /是不是.{0,10}(?:[？?吗啊]|怎么|什么)/u;
+
+function isYesNoQuestion(text) {
+  return YES_NO_QUESTION.test(text);
+}
+
+// ── Step 3.7 helper: Standalone laughter ──
+
+/**
+ * Check if text is pure laughter with no substantive words.
+ * "哈哈哈哈" → true; "哈哈哈好活" → false.
+ */
+function isPureLaughter(text) {
+  const stripped = text.replace(/[哈呵嘻嘿嘿呵呵啊呀哦喽~！!？?…。，,\s]/g, '');
+  return stripped.length === 0;
+}
+
+// ── public API ──
+
 export function classifyScenario(text) {
   const clean = String(text || '').trim();
   if (!clean) {
@@ -187,6 +277,61 @@ export function classifyScenario(text) {
     }
 
     scores[scenario] = score;
+  }
+
+  // ── Step 2.5: Self-directed suppression ──
+  // When taunting signals are self-directed (laughing at oneself,
+  // admitting frustration, self-deprecating with mockery terms),
+  // reduce taunting score and boost self_deprecation.
+  if (isSelfDirected(clean)) {
+    scores.taunting = Math.max(0, scores.taunting - 3);
+    scores.self_deprecation += 2;
+  }
+
+  // ── Step 2.6: Yes/no question detection ──
+  // "是不是...?" patterns are yes/no questions, not argument openers.
+  // Suppress argument signals when the text is clearly a question.
+  if (isYesNoQuestion(clean)) {
+    scores.argument = Math.max(0, scores.argument - 3);
+    scores.neutral_info += 1;
+  }
+
+  // ── Step 2.7: Standalone laughter suppression ──
+  // Pure laughter without substantive words should not be classified
+  // as taunting — it's genuine amusement, a Bilibili norm.
+  if (isPureLaughter(clean) && scores.taunting > 0) {
+    scores.taunting = Math.floor(scores.taunting * 0.5);
+    scores.neutral_info += 1;
+  }
+
+  // ── Step 3: Negation-aware reduction ──
+  // If the text contains a negation scope (不是/没有), halve the weight
+  // of praise and argument signals inside them.  This is a 50% reduction
+  // (not flat -1) so that even multi-signal argument/praise gets suppressed
+  // when negation is present.
+  if (hasNegationScope(clean)) {
+    scores.praise = Math.floor(scores.praise * 0.5);
+    scores.argument = Math.floor(scores.argument * 0.5);
+  }
+
+  // ── Step 2: Cross-scenario suppression ──
+  // Strong taunting signals should suppress praise and argument scores
+  // because attack/insult tone is incompatible with genuine praise or
+  // evidence-based debate.
+  if (scores.taunting >= 3) {
+    scores.praise = Math.floor(scores.praise * 0.5);
+  }
+  if (scores.taunting >= 4 && scores.argument >= 2) {
+    scores.argument = Math.max(0, scores.argument - 2);
+  }
+
+  // ── Step 4: Argument-vs-taunting tiebreaker ──
+  // When taunting and argument scores are close (within 2 points),
+  // prefer taunting — Bilibili discourse is more often attack/insult
+  // than evidence-based reasoned argument.
+  if (scores.taunting > 0 && scores.argument > 0 &&
+      Math.abs(scores.taunting - scores.argument) <= 2) {
+    scores.argument -= 1;
   }
 
   // Pick the scenario with the highest score
