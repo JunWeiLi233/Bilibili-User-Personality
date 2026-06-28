@@ -26,9 +26,9 @@ class CoverageEvidenceProfile:
         if override_count is not None:
             return override_count
         unit_count = self.evidence_unit_count()
-        if raw_count > 0 and unit_count > 0:
+        if unit_count > 0:
             return min(raw_count, unit_count)
-        return raw_count
+        return 0
 
     def coverage_evidence_count(self) -> int:
         override_count = self._canonical_coverage_count_override()
