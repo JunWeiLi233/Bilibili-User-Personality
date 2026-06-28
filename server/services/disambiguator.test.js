@@ -18,6 +18,7 @@ import {
   applyDisambiguation,
   getContext,
   suppressionStats,
+  contextAwareDisambiguate,
 } from "../services/disambiguator.js";
 
 // ─── Rule loading ───
@@ -330,4 +331,125 @@ test("disambiguate handles empty keywordMatches", () => {
 test("applyDisambiguation handles empty keywordMatches", () => {
   const results = applyDisambiguation("some text", []);
   assert.deepStrictEqual(results, []);
+});
+
+// ─── Integration smoke tests ─────────────────────────────────────────────────
+
+test('applyDisambiguation reduces keyword count for known false positives', () => {
+  const comment = '哈哈哈哈哈哈哈哈';
+  const matches = [{ term: '哈哈哈', family: 'attack', weight: 1 }];
+  const filtered = applyDisambiguation(comment, matches);
+  // Standalone laughter should be suppressed
+  assert.strictEqual(filtered.length, 0);
+});
+
+test('applyDisambiguation preserves genuine attack matches', () => {
+  const comment = '哈哈哈就这？你行你上啊傻逼';
+  const matches = [
+    { term: '哈哈哈', family: 'attack', weight: 1 },
+    { term: '就这', family: 'attack', weight: 1 },
+  ];
+  const filtered = applyDisambiguation(comment, matches);
+  // Both should survive — mockery context
+  assert.strictEqual(filtered.length, 2);
+});
+
+test('applyDisambiguation suppresses 不是 in "是不是今天更新"', () => {
+  const comment = '是不是今天更新啊？';
+  const matches = [{ term: '不是', family: 'attack', weight: 1 }];
+  const filtered = applyDisambiguation(comment, matches);
+  assert.strictEqual(filtered.length, 0);
+});
+
+test('applyDisambiguation confirms 不是 in "不是，你这逻辑太离谱"', () => {
+  const comment = '不是，你这逻辑也太离谱了吧？你懂不懂啊';
+  const matches = [{ term: '不是', family: 'attack', weight: 1 }];
+  const filtered = applyDisambiguation(comment, matches);
+  assert.strictEqual(filtered.length, 1);
+  assert.strictEqual(filtered[0].action, 'confirm');
+});
+
+// ─── Snapshot: all 24 term groups have rules ──────────────────────────────────
+
+test('all 24 disambiguation terms have at least 2 rules (suppress + confirm)', () => {
+  const rules = loadRules();
+  const expectedTerms = [
+    '不是', '没有', '一定', '肯定', '笑死了', '哈哈哈', '懂的都懂',
+    '我觉得', '全都是', '都是', '一句话', '为什么', '这就是', '就是',
+    '根本就', '你行你上', '就这', '急了', '典', '觉得', '哈哈',
+    '笑死', '可能', '应该', '确实', '死了', '全都',
+  ];
+  const ruleTerms = new Set(rules.map(r => r.term));
+  for (const term of expectedTerms) {
+    assert.ok(ruleTerms.has(term), `Expected rule group for term: "${term}"`);
+  }
+});
+
+test('all rule groups have at least one suppress and one confirm rule', () => {
+  const rules = loadRules();
+  for (const group of rules) {
+    const actions = new Set(group.rules.map(r => r.action));
+    assert.ok(
+      actions.has('suppress') || actions.has('confirm'),
+      `Rule group "${group.term}" should have suppress or confirm rules, got: ${[...actions].join(',')}`,
+    );
+  }
+});
+
+test('all rule patterns compile as valid regex', () => {
+  const rules = loadRules();
+  for (const group of rules) {
+    for (const rule of group.rules) {
+      try {
+        new RegExp(rule.pattern, 'u');
+      } catch (e) {
+        assert.fail(`Invalid regex for term "${group.term}", rule "${rule.type}": ${e.message}`);
+      }
+    }
+  }
+  assert.ok(true, 'all patterns are valid regex');
+});
+
+// ─── contextAwareDisambiguate tests ──────────────────────────────────────────
+
+test('contextAwareDisambiguate returns filtered, stats, and scenario', () => {
+  const comment = '哈哈哈哈真的好搞笑啊';
+  const matches = [{ term: '哈哈哈', family: 'attack', weight: 1 }];
+  const result = contextAwareDisambiguate(comment, matches);
+  assert.ok(result.filtered, 'should have filtered array');
+  assert.ok(result.stats, 'should have stats');
+  assert.ok(result.scenario, 'should have scenario');
+  assert.ok(result.scenario.scenario, 'should have scenario name');
+});
+
+test('contextAwareDisambiguate suppresses standalone laughter in praise context', () => {
+  const comment = '哈哈哈哈好活当赏，UP主太有才了👏';
+  const matches = [{ term: '哈哈哈', family: 'attack', weight: 1 }];
+  const result = contextAwareDisambiguate(comment, matches);
+  // In a praise context, standalone laughter should be suppressed
+  assert.strictEqual(result.filtered.length, 0);
+});
+
+// ─── suppressionStats tests ──────────────────────────────────────────────────
+
+test('suppressionStats computes correct rates', () => {
+  const results = [
+    { action: 'suppress' },
+    { action: 'suppress' },
+    { action: 'confirm' },
+    { action: 'neutral' },
+    { action: 'confirm' },
+  ];
+  const stats = suppressionStats(results);
+  assert.strictEqual(stats.total, 5);
+  assert.strictEqual(stats.suppressed, 2);
+  assert.strictEqual(stats.confirmed, 2);
+  assert.strictEqual(stats.neutral, 1);
+  assert.strictEqual(stats.suppressionRate, 40);
+});
+
+test('suppressionStats handles empty results', () => {
+  const stats = suppressionStats([]);
+  assert.strictEqual(stats.total, 0);
+  assert.strictEqual(stats.suppressionRate, 0);
 });
