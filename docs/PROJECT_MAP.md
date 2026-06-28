@@ -20,12 +20,12 @@ This document records the detailed architecture for future agents. Keep session-
 - `server/routes/bilibili.js`: Bilibili-facing API routes for UID/video/comment flows.
 - `server/routes/deepseek.js`: DeepSeek configuration, dictionary, analysis, and training routes.
 - `server/routes/aicu.js`: AICU-related route surface kept separate from direct Bilibili flows.
-- `server/services/`: JS runtime services for crawling, keyword harvest, DeepSeek keyword training, semantic matching, local corpus evidence, Hugging Face corpus import, history tags, and split corpus storage. (Tieba scraper removed — 49 files deleted.)
+- `server/services/`: JS runtime services for crawling, keyword harvest, DeepSeek keyword training, semantic matching, local corpus evidence, Hugging Face corpus import, history tags, split corpus storage, polysemy disambiguation (`disambiguator.js`), context classification (`contextClassifier.js`), comment coverage pipeline (`commentCoverage.js`), relationship analysis pipeline (`relationshipPipeline.js`), statistical co-occurrence (`termCooccurrence.js`), LLM-based relation analysis (`llmRelationAnalysis.js`), and unified scraper configuration (`scraperConfig.js`). (Tieba scraper removed — 49 files deleted.)
 - `server/scripts/`: CLI wrappers, data tools, migration bridges, and JS/Python parity comparators. Files named `compare*.js` usually verify Python output against current JS behavior.
 - `server/utils/`: shared JS utilities for paths, coverage CLI/progress handling, file locks, and discovery reports/options.
 - `server/data/`: generated JSON state, dictionaries, corpus shards, coverage reports, and comparison artifacts. Treat this as generated unless a task explicitly asks to update harvested data.
 - `python_backend/cli/`: Python command entrypoints invoked by `package.json` scripts and JS bridge code.
-- `python_backend/analysis/`: coverage audits, coverage-loop planning, migration inventory, README stats, random verification, semantic matching, and reporting logic.
+- `python_backend/analysis/`: coverage audits, coverage-loop planning, migration inventory, README stats, random verification, semantic matching, reporting logic, context classification (`context_classifier.py`), polysemy audit (`polysemy_audit.py`), calibration (`calibration.py`), validation metrics (`validation_metrics.py`), and metrics pipeline (`compute_metrics_pipeline.py`).
 - `python_backend/analyzers/`: DeepSeek analyzer planning, runtime validation, keyword evidence, and analyzer compatibility logic.
 - `python_backend/corpus/`: corpus loaders/writers, dictionary operations, local/Hugging Face/history-tag/direct-probe corpus transformations, and merge-agent dictionary planning. (Tieba corpus modules removed.)
 - `python_backend/runtime/`: JSON contract and file-lock helpers shared by Python commands.
@@ -47,6 +47,7 @@ This document records the detailed architecture for future agents. Keep session-
 - Hugging Face/local corpus flow: `npm run dictionary:huggingface`, `npm run dictionary:mine-local`, and related `python:local-*` commands use Python corpus modules to import or mine external/local text sources.
 - Stats flow: `npm run stats:update` calls `python_backend.cli.readme_stats`, updates the README stats block and `docs/stats/*.svg`/JSON outputs. GitHub Actions refresh this automatically.
 - Migration flow: JS scripts remain the compatibility oracle until a Python CLI reaches parity. `server/scripts/compare*.js` commands compare JS and Python outputs, while `npm run python:migration-inventory` reports migration scope and gates.
+- Polysemy disambiguation flow: `server/services/commentCoverage.js` → `server/services/disambiguator.js` (rule-based composite patterns from `server/data/disambiguation_rules.json`) → `server/services/contextClassifier.js` (scenario classification for sense biasing) → `server/services/relationshipPipeline.js` (3-tier: composites → co-occurrence → LLM). Evaluation via `server/scripts/evalPolysemy.js`. Python equivalent for context classifier at `python_backend/analysis/context_classifier.py`.
 
 ## 4. Local Commands
 

@@ -31,6 +31,7 @@ const PROJECT_ROOT = join(__dirname, '..');
 // ─── Rule loading ───
 
 let _rulesCache = null;
+let _compositesCache = null;
 
 /**
  * Load disambiguation rules from the JSON file.
@@ -55,10 +56,34 @@ export function loadRules(rulesPath) {
 }
 
 /**
+ * Load composite disambiguation rules from the JSON file.
+ * Composite rules match multiple terms simultaneously and take
+ * precedence over single-term rules (Tier 1 of hybrid cascade).
+ *
+ * @param {string} [rulesPath] - override path to rules JSON
+ * @returns {Array<{id: string, terms: string[], pattern: string, action: string, confidence: number, applyTo: string|string[], description: string}>}
+ */
+export function loadComposites(rulesPath) {
+  if (_compositesCache !== null) return _compositesCache;
+
+  const path = rulesPath || join(PROJECT_ROOT, 'data', 'disambiguation_rules.json');
+  try {
+    const raw = readFileSync(path, 'utf8');
+    const data = JSON.parse(raw);
+    _compositesCache = data.composites || [];
+  } catch (e) {
+    console.error(`[disambiguator] Failed to load composites from ${path}: ${e.message}`);
+    _compositesCache = [];
+  }
+  return _compositesCache;
+}
+
+/**
  * Clear the rules cache (useful for testing with different rule sets).
  */
 export function clearRulesCache() {
   _rulesCache = null;
+  _compositesCache = null;
 }
 
 // ─── Core disambiguation ───
@@ -75,6 +100,42 @@ export function clearRulesCache() {
  * @returns {{ term: string, family: string, action: string, reason: string, confidence: number } | null}
  */
 export function disambiguateTerm(text, term, family) {
+  const clean = String(text || '');
+  if (!clean) return null;
+
+  // ── Tier 1: Check composite patterns FIRST (cross-term relationships) ──
+  const composites = loadComposites();
+  for (const comp of composites) {
+    if (!comp.terms.includes(term)) continue;
+    try {
+      const re = new RegExp(comp.pattern, 'u');
+      if (re.test(clean)) {
+        // Determine action for this specific term
+        let action;
+        if (comp.applyTo === 'all') {
+          action = comp.action;
+        } else if (Array.isArray(comp.applyTo)) {
+          action = comp.applyTo.includes(term) ? comp.action : 'neutral';
+        } else {
+          action = comp.applyTo === term ? comp.action : 'neutral';
+        }
+        return {
+          term,
+          family: family || 'unknown',
+          action,
+          reason: `composite:${comp.id}`,
+          confidence: comp.confidence,
+          description: comp.description,
+          _composite: comp.id,
+        };
+      }
+    } catch (e) {
+      // Skip invalid regex patterns
+      console.error(`[disambiguator] Invalid composite pattern "${comp.id}": ${e.message}`);
+    }
+  }
+
+  // ── Tier 2: Single-term rules ──
   const allRules = loadRules();
 
   // Find the rule group for this term
@@ -82,9 +143,6 @@ export function disambiguateTerm(text, term, family) {
     (r) => r.term === term || r.term === term.toLowerCase()
   );
   if (!ruleGroup) return null;
-
-  const clean = String(text || '');
-  if (!clean) return null;
 
   // Try each rule in order; first match wins
   for (const rule of ruleGroup.rules) {
@@ -264,12 +322,15 @@ export function suppressionStats(results) {
   const suppressed = results.filter((r) => r.action === 'suppress').length;
   const confirmed = results.filter((r) => r.action === 'confirm').length;
   const neutral = results.filter((r) => r.action === 'neutral').length;
+  const compositeCount = results.filter((r) => r._composite).length;
   return {
     total,
     suppressed,
     confirmed,
     neutral,
+    compositeCount,
     suppressionRate: total > 0 ? Math.round((suppressed / total) * 10000) / 100 : 0,
+    compositeRate: total > 0 ? Math.round((compositeCount / total) * 10000) / 100 : 0,
   };
 }
 

@@ -1,4 +1,20 @@
-﻿import React from 'react';
+﻿/**
+ * Bilibili User Personality — React SPA entry point.
+ *
+ * Provides a single-page dashboard for analyzing Bilibili user comment/reply
+ * behavior through a multi-axis risk scoring system.
+ *
+ * Architecture:
+ * - Classification: Ziegenbein et al. (2023) 4-category framework (toxic emotions,
+ *   missing commitment, missing intelligibility, other reasons)
+ * - Cultural adaptation: Chen Yansen (2020) gangjing subtypes for Chinese context
+ * - Three analysis modes: hybrid (semantic + keyword), semantic-only, lexicon-only
+ * - Visualization: radar chart + bar chart + per-comment evidence list
+ *
+ * @module src/main
+ */
+
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   Brain,
@@ -19,7 +35,11 @@ import { buildRiskLexiconText, isMemeOrQuotedNonAttackText } from './languageUnd
 import SearchBox from './components/SearchBox.jsx';
 import './styles.css';
 
-// Ziegenbein et al. (2023) validated 4-category classification — replaces 6 custom axes
+/**
+ * Ziegenbein et al. (2023) validated 4-category classification.
+ * Replaces the earlier 6 custom axes. All four axes are deficiency measures
+ * (higher = more problematic).
+ */
 const ZIEGENBEIN_CATEGORIES = {
   toxicEmotions: { key: 'toxicEmotions', label: '情绪过激', shortLabel: 'Toxic Emotions', description: '过度激烈、情感欺骗' },
   missingCommitment: { key: 'missingCommitment', label: '回避讨论', shortLabel: 'Missing Commitment', description: '缺乏认真、缺乏开放' },
@@ -574,6 +594,25 @@ function mergeSemanticMatches(lexiconMarks, semanticMatches, comments, familyMet
 }
 
 let _scoreCounter = 0;
+
+/**
+ * Score a user's comments through the selected analysis pipeline.
+ *
+ * Splits input text into individual comments, runs lexicon matching
+ * and/or semantic classification (depending on analysisMode), computes
+ * per-axis scores normalized to 0–100, and returns a structured result
+ * suitable for radar/bar chart rendering.
+ *
+ * @param {object} params
+ * @param {string} params.name — display name
+ * @param {string} params.uid — Bilibili user mid
+ * @param {string} params.text — raw comment text (newline-separated)
+ * @param {string} params.source — data source label
+ * @param {object} [params.runtimeLexicon] — keyword lexicon for matching
+ * @param {'hybrid'|'semantic'|'lexicon'} [params.analysisMode] — analysis pipeline
+ * @param {Array|null} [params.semanticMatches] — pre-computed semantic matches
+ * @returns {{ name, uid, text, source, scores: object, comments: Array, ... }}
+ */
 function scoreComments({ name, uid, text, source, runtimeLexicon = baseLexicons, analysisMode = 'hybrid', semanticMatches = null }) {
   const comments = splitComments(text);
   const joined = comments.join('\n');
@@ -1061,6 +1100,13 @@ function ErrorComment({ item, sampleSize }) {
   );
 }
 
+/**
+ * Root application component.
+ *
+ * Manages state for: user profiles (search results), analysis scores,
+ * radar/bar chart hover interactions, analysis mode selection, and
+ * the search box input. Renders the full single-page dashboard.
+ */
 function App() {
   const [profiles, setProfiles] = React.useState([]);
   const [selectedId, setSelectedId] = React.useState(null);

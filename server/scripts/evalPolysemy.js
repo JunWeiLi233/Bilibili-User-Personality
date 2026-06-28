@@ -605,6 +605,257 @@ const TEST_CASES = [
   },
 ];
 
+// ─── Tier 1 Composite Pattern Test Cases ──────────────────────────────────────
+// These test cross-term composite pattern matching (Phase 1 of hybrid cascade).
+// Each case verifies that a composite pattern fires correctly when multiple
+// terms appear in a specific syntactic relationship.
+
+const COMPOSITE_TEST_CASES = [
+  // ═══ 不是X就是Y — binary absolutist framing ═══
+  {
+    label: 'comp-001',
+    term: '不是', family: 'attack',
+    text: '不是傻就是蠢，你自己选一个',
+    expected: 'confirm',
+    explanation: '不是X就是Y binary framing → composite confirms 不是',
+    compositeId: 'comp-001',
+  },
+  // ═══ 不是X而是Y — corrective contrast ═══
+  {
+    label: 'comp-002',
+    term: '不是', family: 'attack',
+    text: '不是玩家的问题，而是策划根本没测试',
+    expected: 'suppress',
+    explanation: '不是X而是Y corrective contrast → composite suppresses 不是',
+    compositeId: 'comp-002',
+  },
+  // ═══ 没有X那么Y — comparative ═══
+  {
+    label: 'comp-003',
+    term: '没有', family: 'absolutes',
+    text: '我觉得这个没有那个好用，手感差很多',
+    expected: 'suppress',
+    explanation: '没有X那么Y comparative → composite suppresses 没有',
+    compositeId: 'comp-003',
+  },
+  // ═══ 可能X完全Y — hedge disguising absolute ═══
+  {
+    label: 'comp-004',
+    term: '可能', family: 'absolutes',
+    text: '这可能是策划完全没考虑过玩家的感受，根本就瞎改',
+    expected: 'confirm',
+    explanation: '可能X完全Y → composite confirms 可能 as disguised absolute',
+    compositeId: 'comp-005',
+  },
+  // ═══ 都是X的错 — blame attribution ═══
+  {
+    label: 'comp-005',
+    term: '都是', family: 'absolutes',
+    text: '都是策划的错，这种垃圾活动也好意思放出来',
+    expected: 'confirm',
+    explanation: '都是X的错 blame attribution → composite confirms 都是',
+    compositeId: 'comp-007',
+  },
+  // ═══ 肯定X不 — negated certainty ═══
+  {
+    label: 'comp-006',
+    term: '肯定', family: 'absolutes',
+    text: '肯定不是你说的那样，别瞎猜了',
+    expected: 'suppress',
+    explanation: '肯定X不 negated certainty → composite suppresses 肯定',
+    compositeId: 'comp-008',
+  },
+  // ═══ 为什么X不 — rhetorical question with negation ═══
+  {
+    label: 'comp-007',
+    term: '为什么', family: 'attack',
+    text: '为什么你每次都不理解呢，明明这么简单',
+    expected: 'confirm',
+    explanation: '为什么你X不 accusatory rhetorical → composite confirms 为什么',
+    compositeId: 'comp-009',
+  },
+  // ═══ 确实X典 — sarcastic confirmation ═══
+  {
+    label: 'comp-008',
+    term: '确实', family: 'attack',
+    text: '确实，典中典发言，绷不住了',
+    expected: 'confirm',
+    explanation: '确实X典 sarcastic confirmation → composite confirms 确实',
+    compositeId: 'comp-015',
+  },
+  // ═══ 全都是X水军 — absolutist labeling ═══
+  {
+    label: 'comp-009',
+    term: '全都', family: 'absolutes',
+    text: '全都是水军在带节奏，没一个正常评论',
+    expected: 'confirm',
+    explanation: '全都是X水军 absolutist labeling → composite confirms 全都',
+    compositeId: 'comp-028',
+  },
+  // ═══ 不是没有X — double negation ═══
+  {
+    label: 'comp-010',
+    term: '没有', family: 'absolutes',
+    text: '不是没有道理，但也不全对',
+    expected: 'suppress',
+    explanation: '不是没有 double negation → composite suppresses 没有',
+    compositeId: 'comp-040',
+  },
+  // ═══ 肯定X在逼 — coercion attribution ═══
+  {
+    label: 'comp-011',
+    term: '肯定', family: 'absolutes',
+    text: '这次更新肯定是在逼玩家氪金，策划没安好心',
+    expected: 'confirm',
+    explanation: '肯定X在逼 coercion attribution → composite confirms 肯定',
+    compositeId: 'comp-030',
+  },
+  // ═══ 你X急了 — direct accusation ═══
+  {
+    label: 'comp-012',
+    term: '急了', family: 'attack',
+    text: '你急了？说两句就破防了是吧，笑死',
+    expected: 'confirm',
+    explanation: '你X急了 direct accusation → composite confirms 急了',
+    compositeId: 'comp-044',
+  },
+  // ═══ 并不是/并不是说 — soft negation (new composites comp-051–070) ═══
+  {
+    label: 'comp-013',
+    term: '不是', family: 'attack',
+    text: '并不是你说的那样我只是提出建议',
+    expected: 'suppress',
+    explanation: '并不是 soft negation → composite suppresses 不是',
+    compositeId: 'comp-051',
+  },
+  // ═══ 绝不是/倒不是 — soft negation variant ═══
+  {
+    label: 'comp-014',
+    term: '不是', family: 'attack',
+    text: '这倒不是最重要的问题但有影响',
+    expected: 'suppress',
+    explanation: '倒不是 soft negation variant → composite suppresses 不是',
+    compositeId: 'comp-052',
+  },
+  // ═══ 不是...难道是 — rhetorical negation = attack ═══
+  {
+    label: 'comp-015',
+    term: '不是', family: 'attack',
+    text: '不是他们的问题难道是我的问题',
+    expected: 'confirm',
+    explanation: '不是X难道是 rhetorical negation → composite confirms 不是',
+    compositeId: 'comp-053',
+  },
+  // ═══ 并没有 — soft negation of existence ═══
+  {
+    label: 'comp-016',
+    term: '没有', family: 'absolutes',
+    text: '我并没有说过这样的话你别乱说',
+    expected: 'suppress',
+    explanation: '并没有 soft negation of existence → composite suppresses 没有',
+    compositeId: 'comp-054',
+  },
+  // ═══ 没有...之前 — temporal framing ═══
+  {
+    label: 'comp-017',
+    term: '没有', family: 'absolutes',
+    text: '没有确认之前不要随意下结论',
+    expected: 'suppress',
+    explanation: '没有X之前 temporal framing → composite suppresses 没有',
+    compositeId: 'comp-055',
+  },
+  // ═══ 为什么...还不是因为 — rhetorical explanation ═══
+  {
+    label: 'comp-018',
+    term: '为什么', family: 'attack',
+    text: '为什么大家都不满意还不是因为策划乱改',
+    expected: 'confirm',
+    explanation: '为什么X还不是因为 rhetorical → composite confirms 为什么',
+    compositeId: 'comp-056',
+  },
+  // ═══ 为什么...哪有 — rhetorical challenge ═══
+  {
+    label: 'comp-019',
+    term: '为什么', family: 'attack',
+    text: '为什么哪有这种道理简直荒谬',
+    expected: 'confirm',
+    explanation: '为什么X哪有 rhetorical challenge → composite confirms 为什么',
+    compositeId: 'comp-057',
+  },
+  // ═══ 可能...都不 — disguised absolute ═══
+  {
+    label: 'comp-020',
+    term: '可能', family: 'absolutes',
+    text: '这可能就是策划完全都不考虑玩家的结果',
+    expected: 'confirm',
+    explanation: '可能X都不 disguised absolute → composite confirms 可能',
+    compositeId: 'comp-058',
+  },
+  // ═══ 其实就是 — emphatic labeling ═══
+  {
+    label: 'comp-021',
+    term: '就是', family: 'absolutes',
+    text: '其实就是割韭菜骗一波钱就跑',
+    expected: 'confirm',
+    explanation: '其实就是 emphatic labeling → composite confirms 就是',
+    compositeId: 'comp-060',
+  },
+  // ═══ 不都是 — negated universal ═══
+  {
+    label: 'comp-022',
+    term: '都是', family: 'absolutes',
+    text: '不都是这样的也有好的例子',
+    expected: 'suppress',
+    explanation: '不都是 negated universal → composite suppresses 都是',
+    compositeId: 'comp-061',
+  },
+  // ═══ 差点笑死 — near-miss amusement ═══
+  {
+    label: 'comp-023',
+    term: '笑死', family: 'attack',
+    text: '差点笑死我这个视频太搞笑了',
+    expected: 'suppress',
+    explanation: '差点笑死 near-miss amusement → composite suppresses 笑死',
+    compositeId: 'comp-063',
+  },
+  // ═══ 一定...必定 — compound absolute ═══
+  {
+    label: 'comp-024',
+    term: '一定', family: 'absolutes',
+    text: '这个方案一定可行必定有效',
+    expected: 'confirm',
+    explanation: '一定X必定 compound absolute → composite confirms 一定',
+    compositeId: 'comp-064',
+  },
+  // ═══ 肯定...绝对 — compound absolute ═══
+  {
+    label: 'comp-025',
+    term: '肯定', family: 'absolutes',
+    text: '我肯定这个方案绝对可行',
+    expected: 'confirm',
+    explanation: '肯定X绝对 compound absolute → composite confirms 肯定',
+    compositeId: 'comp-065',
+  },
+  // ═══ 并不觉得 — negated opinion ═══
+  {
+    label: 'comp-026',
+    term: '觉得', family: 'attack',
+    text: '我并不觉得有什么问题挺好的',
+    expected: 'suppress',
+    explanation: '并不觉得 negated opinion → composite suppresses 觉得',
+    compositeId: 'comp-067',
+  },
+  // ═══ 都是...不 — negated universal ═══
+  {
+    label: 'comp-027',
+    term: '都是', family: 'absolutes',
+    text: '都是不熟悉规则的人才会这么说',
+    expected: 'suppress',
+    explanation: '都是X不 negated universal → composite suppresses 都是',
+    compositeId: 'comp-068',
+  },
+];
+
 // ─── Classifier expected scenarios ───
 // Keyed by label. Only filled for clear cases; null means "no strong expectation"
 // (the classifier is free to pick any scenario without penalty).
@@ -783,6 +1034,7 @@ for (const tc of TEST_CASES) {
     scenario: scenario.scenario,
     scenarioConf: scenario.confidence,
     explanation: tc.explanation,
+    composite: disamb?._composite || null,
   });
 
   // Console output
@@ -965,5 +1217,78 @@ for (const s of SCENARIOS) {
   }
 }
 
-console.log();
-console.log('='.repeat(80));
+
+	// ─── Tier 1 Composite Pattern Evaluation ──────────────────────────────────────
+	console.log();
+	console.log('='.repeat(80));
+	console.log('TIER 1 COMPOSITE PATTERN EVALUATION');
+	console.log('='.repeat(80));
+
+	// Count composite firings across all standard test cases
+	const compFired = results.filter(r => r.composite).length;
+	const compRate = ((compFired / results.length) * 100).toFixed(1);
+	console.log('Standard cases with composite match: ' + compFired + '/' + results.length + ' (' + compRate + '%))');
+
+	if (compFired > 0) {
+	  console.log();
+	  console.log('Composite matches detail:');
+	  const byComp = {};
+	  for (const r of results) {
+	    if (r.composite) {
+	      if (!byComp[r.composite]) byComp[r.composite] = [];
+	      byComp[r.composite].push(r);
+	    }
+	  }
+	  for (const [compId, matches] of Object.entries(byComp)) {
+	    console.log('  ' + compId + ': ' + matches.length + ' case(s) \u2014 ' + matches.map(r => '[' + r.label + '] ' + r.term).join(', '));
+	  }
+	}
+
+	// Run composite-specific test cases
+	console.log();
+	console.log('COMPOSITE-SPECIFIC TEST CASES:');
+	let compCorrect = 0;
+	let compTotal = 0;
+	const compResultsArr = [];
+
+	for (const tc of COMPOSITE_TEST_CASES) {
+	  compTotal++;
+	  const disamb = disambiguateTerm(tc.text, tc.term, tc.family);
+	  const disambAction = disamb ? disamb.action : 'none';
+	  const disambReason = disamb ? disamb.reason : 'N/A';
+	  const compositeMatch = disamb && disamb._composite ? disamb._composite : null;
+
+	  let compVerdict;
+	  if (disambAction === tc.expected) {
+	    compVerdict = '\u2713 CORRECT';
+	    compCorrect++;
+	  } else if (disambAction === 'neutral' && tc.expected !== 'neutral') {
+	    compVerdict = '\u26a0 PARTIAL';
+	  } else {
+	    compVerdict = '\u2717 WRONG';
+	  }
+
+	  const compFiredOk = compositeMatch === tc.compositeId;
+	  const compMarker = compFiredOk ? ' [comp \u2713]' : (compositeMatch ? ' [comp \u2717 got ' + compositeMatch + ']' : ' [comp \u2717 none]');
+
+	  compResultsArr.push({ expected: tc.expected, actual: disambAction, verdict: compVerdict, compositeMatch, compFiredOk });
+
+	  const V = compVerdict.startsWith('\u2713') ? '\u2713' : compVerdict.startsWith('\u26a0') ? '\u26a0' : '\u2717';
+	  console.log('[' + tc.label + '] ' + V + ' "' + tc.term + '"' + compMarker);
+	  console.log('  "' + tc.text.slice(0, 55) + (tc.text.length > 55 ? '...' : '') + '"');
+	  console.log('  Expected: ' + tc.expected + ' | Actual: ' + disambAction + ' | Reason: ' + disambReason);
+	  console.log('  Composite expected: ' + tc.compositeId + ' | Fired: ' + (compositeMatch || 'none'));
+	  console.log('  ' + tc.explanation);
+	  console.log();
+	}
+
+	const compAccuracy = ((compCorrect / compTotal) * 100).toFixed(1);
+	const compFiredCorrectly = compResultsArr.filter(r => r.compFiredOk).length;
+	console.log('Composite case accuracy: ' + compCorrect + '/' + compTotal + ' (' + compAccuracy + '%))');
+	console.log('Composite pattern matched correctly: ' + compFiredCorrectly + '/' + compTotal + ' (' + ((compFiredCorrectly/compTotal)*100).toFixed(1) + '%))');
+	console.log('Overall composite firing rate (standard cases): ' + compRate + '% (target: \u226530%)');
+
+	const compTargetMet = parseFloat(compRate) >= 30;
+	console.log('Composite firing target: ' + (compTargetMet ? '\u2705 MET' : '\u274c NOT MET') + ' (need \u226530%)');
+
+
