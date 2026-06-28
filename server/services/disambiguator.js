@@ -48,11 +48,9 @@ export function loadRules(rulesPath) {
     const raw = readFileSync(path, 'utf8');
     const data = JSON.parse(raw);
     _rulesCache = data.rules || [];
-    _compositesCache = data.composites || [];
   } catch (e) {
     console.error(`[disambiguator] Failed to load rules from ${path}: ${e.message}`);
     _rulesCache = [];
-    _compositesCache = [];
   }
   return _rulesCache;
 }
