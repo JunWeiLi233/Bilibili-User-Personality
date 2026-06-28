@@ -776,7 +776,7 @@ function mergeKeywordEntry(existing, incoming, now) {
         ? sampleBackedEvidenceCount
         : ambiguousEvidenceWasFiltered
           ? Math.max(evidenceSamples.length, evidenceSources.length)
-          : existingEvidenceCount + incomingEvidenceCount,
+          : sampleBackedEvidenceCount,
     evidenceSamples,
     evidenceSources,
     updatedAt: now,
@@ -1124,9 +1124,7 @@ export function normalizeKeywordEntries(rawEntries = []) {
       const evidenceCount =
         sampleBackedEvidenceCount > 0
           ? Math.min(rawEvidenceCount || sampleBackedEvidenceCount, sampleBackedEvidenceCount)
-          : rawEvidenceCount > 0 && (termEvidenceSamples.length !== evidenceSamples.length || termEvidenceSources.length !== evidenceSources.length)
-          ? Math.max(termEvidenceSamples.length, termEvidenceSources.length)
-          : rawEvidenceCount;
+          : Math.max(termEvidenceSamples.length, termEvidenceSources.length);
       entries.push({
         term,
         family,
