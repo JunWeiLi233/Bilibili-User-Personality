@@ -2943,6 +2943,7 @@ export function classifyCommentCoverage(dictionary, comment, options = {}) {
     }
   }
 
+
   const emoteHits = detectEmoteSemanticHits(message);
   const supplementalHits = detectSupplementalSemanticHits(message);
   const hits = [...lexicalHits, ...emoteHits, ...supplementalHits];
