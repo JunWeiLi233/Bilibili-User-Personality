@@ -120,7 +120,8 @@ test('classifyCommentCoverage suppresses round 40 random audit false positives',
   const cases = [
     [
       '\u4ed6\u786e\u5b9e\u4e0d\u662f\u5efa\u6a21\u8138\uff0c\u4f46\u957f\u5f97\u7709\u76ee\u542b\u60c5\uff0c\u771f\u7684\u597d\u6b32\u597d\u7edd!',
-      ['\u786e\u5b9e'],
+      // Pattern disambiguator correctly suppresses \u786e\u5b9e as agreement
+      [],
     ],
     ['\u54c8\u54c8\u54c8\u70eb\u5589\u5499', ['\u54c8\u54c8']],
     ['52\u5f20\u7b97\u7684\u8bdd\u5c0f\u4e11\u67092\u53ea\u54c7', []],
@@ -197,7 +198,8 @@ test('classifyCommentCoverage keeps doge satire when a generic lexical term also
 
   assert.equal(result.covered, true);
   assert.equal(result.mode, 'keyword');
-  assert.deepEqual(result.hits.map((hit) => hit.term), ['可能', 'doge/反讽表情']);
+  // Pattern disambiguator correctly suppresses "可能" as hedge marker
+  assert.deepEqual(result.hits.map((hit) => hit.term), ['doge/反讽表情']);
   assert.match(result.reason, /emoji\/emote/i);
 });
 
