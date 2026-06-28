@@ -427,14 +427,12 @@ class ReadmeStatsRepositoryUpdater:
         data_dir = self.root / "server" / "data"
         direct = CorpusLoader(data_dir / "bilibiliDirectProbeCorpus.json", fallback={"comments": [], "runs": []}).load()
         external = CorpusLoader(data_dir / "huggingFaceKeywordCorpus.json", fallback={"comments": [], "runs": []}).load()
-        tieba = CorpusLoader(data_dir / "tiebaKeywordCorpus.json", fallback={"comments": [], "runs": []}).load()
         dictionary = DictionaryLoader(data_dir / "deepseekKeywordDictionary.json").load()
         coverage = safe_read_json_object(data_dir / "keywordCoverageAudit.json")
         return {
             "sources": [
                 {"name": "Bilibili direct probe corpus", "comments": direct.comments, "runs": direct.runs},
                 {"name": "External Bilibili/Tieba corpus", "comments": external.comments, "runs": external.runs},
-                {"name": "Tieba corpus", "comments": tieba.comments, "runs": tieba.runs},
             ],
             "dictionary": dictionary.manifest,
             "coverage": coverage,
@@ -490,11 +488,14 @@ class ReadmeStatsSvgRenderer:
     """Render README stats SVGs from Python-built stats JSON contracts."""
 
     def render_summary_svg(self, stats: dict[str, Any]) -> str:
-        max_value = max(int(_number(stats.get("comments"))), int(_number(stats.get("danmaku"))), int(_number(stats.get("keywordTerms"))), 1)
         updated = self._date_label(stats.get("generatedAt"))
+        coverage_ratio = max(0.0, min(1.0, _number(stats.get("coverageRatio"))))
+        coverage_label = stats.get("coverageRatioLabel") or f"{coverage_ratio * 100:.2f}%"
+        weak_terms = int(_number(stats.get("weakTerms")))
+        evidence_deficit = int(_number(stats.get("evidenceDeficit")))
         return f"""<svg xmlns="http://www.w3.org/2000/svg" width="920" height="430" viewBox="0 0 920 430" role="img" aria-labelledby="title desc">
   <title id="title">Bilibili User Personality data collection and keyword analysis stats</title>
-  <desc id="desc">Current counts for collected comments, danmaku, and analyzed dictionary keywords.</desc>
+  <desc id="desc">Current counts for collected comments, danmaku, analyzed dictionary keywords, and coverage metrics.</desc>
   <style>
     .bg {{ fill: #f7f0df; }}
     .panel {{ fill: #fffaf0; stroke: #27231c; stroke-width: 2; }}
@@ -504,79 +505,142 @@ class ReadmeStatsSvgRenderer:
     .value {{ font: 700 18px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; text-anchor: start; }}
     .small {{ font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #5d5548; }}
     .metric {{ font: 700 26px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }}
+    .tile-label {{ font: 700 15px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }}
+    .tile-value {{ font: 700 34px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }}
+    .stat-icon {{ font: 18px sans-serif; }}
+    .stat-num {{ font: 700 16px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #27231c; }}
+    .stat-label {{ font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }}
   </style>
   <rect class="bg" width="920" height="430" rx="24"/>
   <rect class="panel" x="18" y="18" width="884" height="394" rx="20"/>
   <text x="40" y="62" class="title">Corpus Collection + Keyword Analysis</text>
   <text x="40" y="88" class="sub">auto-generated from repo data on {self._escape(updated)}</text>
+  <!-- Coverage donut gauge -->
   <g>
-    <rect x="40" y="112" width="250" height="82" rx="16" fill="#eadfca" stroke="#27231c"/>
-    <text x="62" y="146" class="small">comments / replies</text>
-    <text x="62" y="177" class="metric">{self._format_number(stats.get("comments"))}</text>
-    <rect x="318" y="112" width="250" height="82" rx="16" fill="#dbe8df" stroke="#27231c"/>
-    <text x="340" y="146" class="small">danmaku</text>
-    <text x="340" y="177" class="metric">{self._format_number(stats.get("danmaku"))}</text>
-    <rect x="596" y="112" width="250" height="82" rx="16" fill="#e5d7bc" stroke="#27231c"/>
-    <text x="618" y="146" class="small">keyword terms analyzed</text>
-    <text x="618" y="177" class="metric">{self._format_number(stats.get("keywordTerms"))}</text>
+    {self._donut_gauge(190, 252, 78, coverage_ratio, coverage_label, "#3f7558", "coverage")}
+  </g>
+  <!-- Metric tiles -->
+  <g>
+    <rect x="400" y="170" width="220" height="90" rx="16" fill="#eadfca" stroke="#27231c"/>
+    <text x="510" y="200" text-anchor="middle" class="tile-label">weak terms</text>
+    <text x="510" y="240" text-anchor="middle" class="tile-value">{self._format_number(weak_terms)}</text>
+    <text x="510" y="253" text-anchor="middle" class="small">&#8595; target: 0</text>
   </g>
   <g>
-    {self._bar_row("Comments", stats.get("comments"), "#8c5f32", 246, max_value)}
-    {self._bar_row("Danmaku", stats.get("danmaku"), "#3f7558", 292, max_value)}
-    {self._bar_row("Keywords", stats.get("keywordTerms"), "#b98522", 338, max_value)}
+    <rect x="640" y="170" width="220" height="90" rx="16" fill="#dbe8df" stroke="#27231c"/>
+    <text x="750" y="200" text-anchor="middle" class="tile-label">evidence deficit</text>
+    <text x="750" y="240" text-anchor="middle" class="tile-value">{self._format_number(evidence_deficit)}</text>
+    <text x="750" y="253" text-anchor="middle" class="small">gap to close</text>
   </g>
-  <text x="40" y="382" class="small">Coverage: {self._escape(stats.get("coverageRatioLabel") or "0.00%")} | Weak terms: {self._format_number(stats.get("weakTerms"))} | Evidence deficit: {self._format_number(stats.get("evidenceDeficit"))}</text>
+  <!-- Compact stat row -->
+  <g>
+    <line x1="40" y1="335" x2="880" y2="335" stroke="#d7ccb8" stroke-width="1"/>
+    <text x="140" y="372" text-anchor="middle" class="stat-icon">&#128172;</text>
+    <text x="140" y="395" text-anchor="middle" class="stat-num">{self._format_number(stats.get("comments"))}</text>
+    <text x="140" y="412" text-anchor="middle" class="stat-label">comments / replies</text>
+    <text x="380" y="372" text-anchor="middle" class="stat-icon">&#127916;</text>
+    <text x="380" y="395" text-anchor="middle" class="stat-num">{self._format_number(stats.get("danmaku"))}</text>
+    <text x="380" y="412" text-anchor="middle" class="stat-label">danmaku</text>
+    <text x="620" y="372" text-anchor="middle" class="stat-icon">&#128218;</text>
+    <text x="620" y="395" text-anchor="middle" class="stat-num">{self._format_number(stats.get("keywordTerms"))}</text>
+    <text x="620" y="412" text-anchor="middle" class="stat-label">keyword terms</text>
+  </g>
 </svg>
 """
 
     def render_timeline_svg(self, timeline: dict[str, Any], generated_at: Any) -> str:
         points = timeline.get("points") if isinstance(timeline.get("points"), list) else []
-        observed_max = max([_number(point.get("total")) for point in points if isinstance(point, dict)] + [_number(timeline.get("finalTotal")), 1])
-        max_value = self.padded_timeline_max(observed_max)
-        x0, y0, width, height = 72, 126, 748, 196
+        # Downsample to ~50 points for clean rendering
+        sampled = self._downsample_points(points, target=50)
+        # Dual Y-axis: left = danmaku, right = comments
+        danmaku_max_raw = max([_number(p.get("danmaku")) for p in sampled if isinstance(p, dict)] + [_number(timeline.get("finalDanmaku")), 1])
+        danmaku_max = self.padded_timeline_max(danmaku_max_raw)
+        comments_max_raw = max([_number(p.get("comments")) for p in sampled if isinstance(p, dict)] + [_number(timeline.get("finalComments")), 1])
+        comments_max = self.padded_timeline_max(comments_max_raw)
+        x0, y0, width, height = 72, 110, 696, 196
         updated = self._date_label(generated_at)
-        first_date = self._timeline_date(points[0].get("date")) if points else "n/a"
-        last_date = self._timeline_date(points[-1].get("date")) if points else "n/a"
-        grid_rows = "\n".join(
-            self._grid_row(ratio, max_value, x0, y0, width, height)
+        first_date = self._timeline_date(sampled[0].get("date")) if sampled else "n/a"
+        last_date = self._timeline_date(sampled[-1].get("date")) if sampled else "n/a"
+        # Left Y-axis grid (danmaku scale, K-format)
+        left_grid = "\n".join(
+            self._grid_row_k(ratio, danmaku_max, x0, y0, width, height)
             for ratio in (0, 0.25, 0.5, 0.75, 1)
+        )
+        # Right Y-axis grid (comments scale, K-format, dashed)
+        right_grid = "\n".join(
+            self._grid_row_k_right(ratio, comments_max, x0, y0, width, height)
+            for ratio in (0, 0.5, 1)
         )
         return f"""<svg xmlns="http://www.w3.org/2000/svg" width="920" height="430" viewBox="0 0 920 430" role="img" aria-labelledby="timeline-title timeline-desc">
   <title id="timeline-title">Comment and danmaku collection growth over time</title>
-  <desc id="timeline-desc">Cumulative growth lines for total corpus records, comments, and danmaku across recorded harvest runs.</desc>
+  <desc id="timeline-desc">Cumulative growth lines for danmaku (left scale) and comments (right scale) across recorded harvest runs.</desc>
   <style>
     .bg {{ fill: #f3ead8; }}
     .panel {{ fill: #fffaf0; stroke: #27231c; stroke-width: 2; }}
     .title {{ font: 700 28px Georgia, 'Times New Roman', serif; fill: #27231c; }}
     .sub {{ font: 14px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }}
     .axis {{ font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #6c6355; }}
+    .axis-right {{ font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #8c5f32; }}
     .label {{ font: 13px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #5d5548; }}
+    .legend-text {{ font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #5d5548; }}
   </style>
   <rect class="bg" width="920" height="430" rx="24"/>
   <rect class="panel" x="18" y="18" width="884" height="394" rx="20"/>
   <text x="40" y="62" class="title">Corpus Growth Over Time</text>
-  <text x="40" y="88" class="sub">auto-generated from corpus run history on {self._escape(updated)}</text>
+  <text x="40" y="88" class="sub">auto-generated from corpus run history on {self._escape(updated)} | {self._format_number(len(sampled))} points shown (of {self._format_number(len(points))} total)</text>
   <g>
-{grid_rows}
+{left_grid}
+{right_grid}
+    <!-- Chart frame -->
     <line x1="{x0}" y1="{y0 + height}" x2="{x0 + width}" y2="{y0 + height}" stroke="#27231c" stroke-width="2"/>
     <line x1="{x0}" y1="{y0}" x2="{x0}" y2="{y0 + height}" stroke="#27231c" stroke-width="2"/>
-    <polyline points="{self._polyline(points, "total", max_value, x0, y0, width, height)}" fill="none" stroke="#27231c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-    <polyline points="{self._polyline(points, "comments", max_value, x0, y0, width, height)}" fill="none" stroke="#8c5f32" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-    <polyline points="{self._polyline(points, "danmaku", max_value, x0, y0, width, height)}" fill="none" stroke="#3f7558" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Right axis -->
+    <line x1="{x0 + width}" y1="{y0}" x2="{x0 + width}" y2="{y0 + height}" stroke="#8c5f32" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <!-- Danmaku line (left scale) -->
+    <polyline points="{self._polyline(sampled, "danmaku", danmaku_max, x0, y0, width, height)}" fill="none" stroke="#3f7558" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Comments line (right scale) -->
+    <polyline points="{self._polyline(sampled, "comments", comments_max, x0, y0, width, height)}" fill="none" stroke="#8c5f32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8,3"/>
     <text x="{x0}" y="{y0 + height + 26}" class="axis">{self._escape(first_date)}</text>
     <text x="{x0 + width}" y="{y0 + height + 26}" class="axis" text-anchor="end">{self._escape(last_date)}</text>
+    <!-- Left axis label -->
+    <text x="{x0 - 20}" y="{y0 - 6}" class="axis" transform="rotate(-90 {x0 - 20} {y0 - 6})" text-anchor="middle">Danmaku (K)</text>
   </g>
+  <!-- Legend -->
   <g>
-    <rect x="72" y="360" width="16" height="16" rx="3" fill="#27231c"/><text x="96" y="373" class="label">Total {self._format_number(timeline.get("finalTotal"))}</text>
-    <rect x="254" y="360" width="16" height="16" rx="3" fill="#8c5f32"/><text x="278" y="373" class="label">Comments {self._format_number(timeline.get("finalComments"))}</text>
-    <rect x="476" y="360" width="16" height="16" rx="3" fill="#3f7558"/><text x="500" y="373" class="label">Danmaku {self._format_number(timeline.get("finalDanmaku"))}</text>
-    <text x="720" y="373" class="label">Runs: {self._format_number(len(points))}</text>
+    <rect x="72" y="360" width="16" height="16" rx="3" fill="#3f7558"/><text x="96" y="373" class="legend-text">Danmaku {self._format_number(timeline.get("finalDanmaku"))} (left scale)</text>
+    <rect x="340" y="360" width="16" height="16" rx="3" fill="#8c5f32"/><text x="364" y="373" class="legend-text">Comments {self._format_number(timeline.get("finalComments"))} (right scale 0–{self._format_k(comments_max)})</text>
+    <text x="720" y="373" class="legend-text">Runs: {self._format_number(len(points))}</text>
   </g>
 </svg>
 """
 
     def padded_timeline_max(self, value: Any) -> int | float:
         return ReadmeStatsBuilder().padded_timeline_max(value)
+
+    def _donut_gauge(self, cx: int, cy: int, r: int, ratio: float, label: str, color: str, sublabel: str) -> str:
+        circumference = 2 * math.pi * r
+        dash = max(0.0, min(1.0, ratio)) * circumference
+        return f"""<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="#e8e1d2" stroke-width="24"/>
+    <circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{color}" stroke-width="24"
+      stroke-dasharray="{dash:.1f} {circumference - dash:.1f}" stroke-linecap="round"
+      transform="rotate(-90 {cx} {cy})"/>
+    <text x="{cx}" y="{cy - 8}" text-anchor="middle" class="metric" font-size="32">{self._escape(label)}</text>
+    <text x="{cx}" y="{cy + 18}" text-anchor="middle" class="small">{self._escape(sublabel)}</text>"""
+
+    def _downsample_points(self, points: list[dict[str, Any]], target: int = 50) -> list[dict[str, Any]]:
+        if len(points) <= target:
+            return list(points)
+        step = max(1, len(points) // target)
+        result = points[::step]
+        if result[-1] != points[-1]:
+            result.append(points[-1])
+        return result
+
+    def _format_k(self, value: Any) -> str:
+        n = int(_number(value))
+        if n >= 1000:
+            return f"{n // 1000}K"
+        return str(n)
 
     def _bar_row(self, label: str, value: Any, color: str, y: int, max_value: int) -> str:
         number = int(_number(value))
@@ -591,6 +655,16 @@ class ReadmeStatsSvgRenderer:
         y = y0 + height - (ratio * height)
         return f"""    <line x1="{x0}" y1="{y:.1f}" x2="{x0 + width}" y2="{y:.1f}" stroke="#d7ccb8" stroke-width="1"/>
     <text x="58" y="{y + 4:.1f}" class="axis" text-anchor="end">{self._format_number(round(_number(max_value) * ratio))}</text>"""
+
+    def _grid_row_k(self, ratio: float, max_value: Any, x0: int, y0: int, width: int, height: int) -> str:
+        y = y0 + height - (ratio * height)
+        return f"""    <line x1="{x0}" y1="{y:.1f}" x2="{x0 + width}" y2="{y:.1f}" stroke="#d7ccb8" stroke-width="1"/>
+    <text x="58" y="{y + 4:.1f}" class="axis" text-anchor="end">{self._format_k(round(_number(max_value) * ratio))}</text>"""
+
+    def _grid_row_k_right(self, ratio: float, max_value: Any, x0: int, y0: int, width: int, height: int) -> str:
+        y = y0 + height - (ratio * height)
+        return f"""    <line x1="{x0}" y1="{y:.1f}" x2="{x0 + width}" y2="{y:.1f}" stroke="#d7ccb8" stroke-width="1" stroke-dasharray="4,4"/>
+    <text x="{x0 + width + 6}" y="{y + 4:.1f}" class="axis" text-anchor="start">{self._format_k(round(_number(max_value) * ratio))}</text>"""
 
     def _polyline(self, points: list[dict[str, Any]], value_key: str, max_value: Any, x0: int, y0: int, width: int, height: int) -> str:
         if not points:

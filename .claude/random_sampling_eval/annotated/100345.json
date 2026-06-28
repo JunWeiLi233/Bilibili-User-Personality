@@ -1,0 +1,49 @@
+{
+  "uid": "100345",
+  "annotatedAt": "2026-06-28T15:24:01.194Z",
+  "commentCount": 60,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": {
+    "toxicEmotions": 1,
+    "missingCommitment": 1,
+    "missingIntelligibility": 0,
+    "otherReasons": 1,
+    "notes": "偶有轻度攻击性言论，部分评论回避实质讨论，无逻辑混乱，个别无意义表达"
+  },
+  "A2": {
+    "toxicEmotions": 2,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "evidence": [
+      "4v都这么笨的吗",
+      "看标题就知道是新玩家",
+      "大专[doge]"
+    ],
+    "notes": "存在明确的人身攻击（'笨'）和资格质疑（'新玩家'），以及讽刺性学历攻击（'大专'），但无回避讨论、逻辑混乱或恶意刷屏的证据。"
+  },
+  "A3": {
+    "toxicEmotions": 1,
+    "missingCommitment": 1,
+    "missingIntelligibility": 0,
+    "otherReasons": 1,
+    "resolution": "同意A1",
+    "notes": "用户评论有少量情绪化表达但不过激，存在简短无意义评论，且主动参与回复未回避讨论，整体符合A1判断。"
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 1,
+    "missingCommitment": 1,
+    "missingIntelligibility": 0,
+    "otherReasons": 1
+  },
+  "binaryLabels": {
+    "toxicEmotions": true,
+    "missingCommitment": true,
+    "missingIntelligibility": false,
+    "otherReasons": true
+  }
+}

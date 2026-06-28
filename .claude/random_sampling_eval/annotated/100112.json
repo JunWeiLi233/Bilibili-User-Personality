@@ -1,0 +1,38 @@
+{
+  "uid": "100112",
+  "annotatedAt": "2026-06-28T15:12:15.097Z",
+  "commentCount": 60,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": {
+    "toxicEmotions": 2,
+    "missingCommitment": 1,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "notes": "频繁人身攻击、扣帽子、情绪宣泄，但多数情况下能提供论据讨论，逻辑较清晰，无明显其他问题。"
+  },
+  "A2": null,
+  "A3": {
+    "toxicEmotions": 2,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "resolution": "折中",
+    "notes": "用户情绪过激明显，但积极辩论不回避，逻辑清晰，无其他问题。A2解析错误，故在A1基础上微调missingCommitment为0。"
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 2,
+    "missingCommitment": 1,
+    "missingIntelligibility": 0,
+    "otherReasons": 0
+  },
+  "binaryLabels": {
+    "toxicEmotions": true,
+    "missingCommitment": true,
+    "missingIntelligibility": false,
+    "otherReasons": false
+  }
+}

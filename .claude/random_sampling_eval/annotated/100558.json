@@ -1,0 +1,49 @@
+{
+  "uid": "100558",
+  "annotatedAt": "2026-06-28T15:28:52.171Z",
+  "commentCount": 39,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 1,
+    "notes": "用户多为游戏、音乐类正常讨论，偶有抽奖重复评论，无情绪过激或逻辑混乱。"
+  },
+  "A2": {
+    "toxicEmotions": 1,
+    "missingCommitment": 0,
+    "missingIntelligibility": 1,
+    "otherReasons": 2,
+    "evidence": [
+      "[3]中“挂狗”、“让人反胃”属于人身攻击和情绪宣泄",
+      "[16]中“唯一缺点”属于绝对化断言",
+      "[19]-[28]的“分母”系列重复刷屏，构成无意义表达"
+    ],
+    "notes": "找到明确证据：1条情绪过激、1条逻辑混乱、多条刷屏无意义。回避讨论未发现证据。"
+  },
+  "A3": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "resolution": "折中",
+    "notes": "用户评论多为正常提问、分享、表情和抽奖，无明显情绪过激、回避讨论或逻辑混乱；A2评分过严，故取A1的0分并降低其他分数。"
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 1
+  },
+  "binaryLabels": {
+    "toxicEmotions": false,
+    "missingCommitment": false,
+    "missingIntelligibility": false,
+    "otherReasons": true
+  }
+}

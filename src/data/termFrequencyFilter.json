@@ -1,0 +1,42 @@
+{
+  "没有": {
+    "totalCount": 221,
+    "userCount": 72,
+    "family": "absolutes",
+    "axis": "逻辑混乱",
+    "polarity": "risk",
+    "userFraction": 0.72
+  },
+  "装": {
+    "totalCount": 106,
+    "userCount": 49,
+    "family": "attack",
+    "axis": "情绪过激",
+    "polarity": "risk",
+    "userFraction": 0.49
+  },
+  "都是": {
+    "totalCount": 131,
+    "userCount": 46,
+    "family": "absolutes",
+    "axis": "逻辑混乱",
+    "polarity": "risk",
+    "userFraction": 0.46
+  },
+  "哈哈哈": {
+    "totalCount": 156,
+    "userCount": 43,
+    "family": "attack",
+    "axis": "情绪过激",
+    "polarity": "risk",
+    "userFraction": 0.43
+  },
+  "笑哭": {
+    "totalCount": 154,
+    "userCount": 32,
+    "family": "cooperation",
+    "axis": "逻辑混乱",
+    "polarity": "support",
+    "userFraction": 0.32
+  }
+}

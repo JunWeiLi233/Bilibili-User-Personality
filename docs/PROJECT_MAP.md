@@ -20,16 +20,16 @@ This document records the detailed architecture for future agents. Keep session-
 - `server/routes/bilibili.js`: Bilibili-facing API routes for UID/video/comment flows.
 - `server/routes/deepseek.js`: DeepSeek configuration, dictionary, analysis, and training routes.
 - `server/routes/aicu.js`: AICU-related route surface kept separate from direct Bilibili flows.
-- `server/services/`: JS runtime services for crawling, keyword harvest, DeepSeek keyword training, semantic matching, local corpus evidence, Tieba scraping/corpus handling, Hugging Face corpus import, history tags, and split corpus storage.
+- `server/services/`: JS runtime services for crawling, keyword harvest, DeepSeek keyword training, semantic matching, local corpus evidence, Hugging Face corpus import, history tags, and split corpus storage. (Tieba scraper removed — 49 files deleted.)
 - `server/scripts/`: CLI wrappers, data tools, migration bridges, and JS/Python parity comparators. Files named `compare*.js` usually verify Python output against current JS behavior.
 - `server/utils/`: shared JS utilities for paths, coverage CLI/progress handling, file locks, and discovery reports/options.
 - `server/data/`: generated JSON state, dictionaries, corpus shards, coverage reports, and comparison artifacts. Treat this as generated unless a task explicitly asks to update harvested data.
 - `python_backend/cli/`: Python command entrypoints invoked by `package.json` scripts and JS bridge code.
 - `python_backend/analysis/`: coverage audits, coverage-loop planning, migration inventory, README stats, random verification, semantic matching, and reporting logic.
 - `python_backend/analyzers/`: DeepSeek analyzer planning, runtime validation, keyword evidence, and analyzer compatibility logic.
-- `python_backend/corpus/`: corpus loaders/writers, dictionary operations, local/Hugging Face/Tieba/history-tag/direct-probe corpus transformations, and merge-agent dictionary planning.
+- `python_backend/corpus/`: corpus loaders/writers, dictionary operations, local/Hugging Face/history-tag/direct-probe corpus transformations, and merge-agent dictionary planning. (Tieba corpus modules removed.)
 - `python_backend/runtime/`: JSON contract and file-lock helpers shared by Python commands.
-- `python_backend/scrapers/`: Python scraper planners/adapters for Bilibili, Tieba, AICU, UID/range/batch pipelines, browser-driven helpers, rate limiting, and scraper monitoring.
+- `python_backend/scrapers/`: Python scraper planners/adapters for Bilibili, AICU, UID/range/batch pipelines, browser-driven helpers, rate limiting, and scraper monitoring. (Tieba scraper modules removed.)
 - `python_backend/tests/`: Python contract tests. `python_backend/tests/test_corpus_contracts.py` is the main migration contract test file.
 - `docs/stats/`: generated README graph assets and stats data updated by `npm run stats:update`.
 - `.github/workflows/update-stats-graph.yml`: automatic README stats graph refresh.
@@ -43,7 +43,7 @@ This document records the detailed architecture for future agents. Keep session-
 - DeepSeek flow: `server/routes/deepseek.js` and `server/scripts/analyzeDeepSeekComments.js` provide the JS-facing analyzer surface. Python equivalents live under `python_backend/analyzers/` and `python_backend/cli/deepseek_*`.
 - Coverage flow: `npm run dictionary:coverage` calls `python_backend.cli.coverage_audit`, writes audit/query/action artifacts under `server/data/`, and supports standalone coverage auditing.
 - Coverage loop bridge: `npm run dictionary:auto` calls `server/scripts/runCoverageHarvestLoop.js`; migration parity is checked by commands such as `npm run python:coverage-loop-command-compare`.
-- Tieba flow: `npm run dictionary:tieba` calls `server/scripts/runTiebaKeywordScrape.js`. Current direction is Python-owned corpus updates by default, with JS fallback controlled by explicit flags/env. Python planner/corpus logic lives in `python_backend/scrapers/tieba_keyword.py` and `python_backend/corpus/tieba.py`.
+- Tieba flow: REMOVED. The Tieba scraper (49 files: JS services, Python CLI, corpus, scrapers) was deleted. 68 Python tests are skipped with `@unittest.skip("Tieba scraper removed")`. The `.claude/tasks/tieba_scrape.json` task config is defunct.
 - Hugging Face/local corpus flow: `npm run dictionary:huggingface`, `npm run dictionary:mine-local`, and related `python:local-*` commands use Python corpus modules to import or mine external/local text sources.
 - Stats flow: `npm run stats:update` calls `python_backend.cli.readme_stats`, updates the README stats block and `docs/stats/*.svg`/JSON outputs. GitHub Actions refresh this automatically.
 - Migration flow: JS scripts remain the compatibility oracle until a Python CLI reaches parity. `server/scripts/compare*.js` commands compare JS and Python outputs, while `npm run python:migration-inventory` reports migration scope and gates.

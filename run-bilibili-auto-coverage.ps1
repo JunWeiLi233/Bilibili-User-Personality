@@ -18,6 +18,7 @@ param(
   [int]$StaleMissedDiscoveryLimit = 4,
   [int]$StaleMissedCommentPages = 3,
   [int]$TargetEvidence = 3,
+  [double]$MinCoverageRatio = 1.0,
   [ValidateSet("balanced", "all-weak")]
   [string]$CoverageMode = "all-weak",
   [ValidateSet("search", "popular", "mixed", "controversial")]
@@ -166,6 +167,8 @@ $env:BILIBILI_HARVEST_STALE_MISSED_DISCOVERY_LIMIT = [string]$StaleMissedDiscove
 $env:BILIBILI_HARVEST_STALE_MISSED_COMMENT_PAGES = [string]$StaleMissedCommentPages
 $env:BILIBILI_HARVEST_TARGET_EVIDENCE = [string]$TargetEvidence
 $env:BILIBILI_HARVEST_COVERAGE_MODE = $CoverageMode
+
+$env:BILIBILI_COVERAGE_AUDIT_MIN_RATIO = [string]$MinCoverageRatio
 $env:BILIBILI_VIDEO_DISCOVERY_MODE = $DiscoveryMode
 
 if ($AllowNewTerms) {
@@ -210,6 +213,7 @@ Write-Host "Retry-before-unattempted limit: $RetryBeforeUnattemptedLimit"
 Write-Host "Max hard missed queries: $(if ($MaxHardMissedQueries -gt 0) { $MaxHardMissedQueries } else { 'auto' })"
 Write-Host "Stale missed discovery limit: $StaleMissedDiscoveryLimit"
 Write-Host "Stale missed comment pages: $StaleMissedCommentPages"
+Write-Host "Min coverage ratio: $MinCoverageRatio"
 Write-Host "Target evidence per term: $TargetEvidence"
 Write-Host "Coverage mode: $CoverageMode"
 Write-Host "Discovery mode: $DiscoveryMode"

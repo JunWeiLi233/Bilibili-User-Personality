@@ -1,0 +1,69 @@
+{
+  "name": "random-sampling-eval",
+  "active": false,
+  "type": "manual-evaluation",
+  "description": "Evaluate the personality analysis model's accuracy by scoring N=100 random Bilibili users and comparing against DeepSeek annotator consensus. Produces AUC-ROC, per-axis calibration, and stratified breakdowns.",
+  "sample_size": 100,
+  "uid_range": [1, 700000000],
+  "min_comments_per_user": 10,
+  "steps": [
+    {
+      "id": 1,
+      "title": "Generate and validate random UID sample",
+      "method": "generateSample",
+      "change": "Generate 100 random UIDs in range 1–700M. Use AICU API or bilibiliCrawler to check each UID has ≥10 public comments. Replace UIDs with <10 comments by resampling. Output: .claude/random_sampling_eval/sample_uids.json",
+      "verify": "File sample_uids.json exists with 100 UIDs, each validated to have ≥10 comments"
+    },
+    {
+      "id": 2,
+      "title": "Scrape full comment history for each sampled UID",
+      "method": "scrapeBatch",
+      "change": "For each UID in sample, fetch comments + danmaku via POST /api/aicu/scrape (up to 10 pages each). Checkpoint after each UID so interruption loses zero progress. Output: .claude/random_sampling_eval/user_data/{uid}.json per user",
+      "verify": "100 JSON files exist in user_data/, each with comments[] and danmaku[] arrays"
+    },
+    {
+      "id": 3,
+      "title": "Run headless scoring pipeline on each user",
+      "method": "scoreBatch",
+      "change": "Extract scoreComments() from src/main.jsx into a headless scoring module OR call via API endpoint. For each user: load keyword dictionary → findLexiconMarks → classifySpeechAct → blend hybrid scores → output troll_index + 4-axis radar. Output: .claude/random_sampling_eval/scored/{uid}.json per user",
+      "verify": "100 JSON files in scored/ with troll_index (0-100) and axis scores (toxicEmotions, missingCommitment, missingIntelligibility, otherReasons)"
+    },
+    {
+      "id": 4,
+      "title": "Annotate user profiles with DeepSeek A1/A2/A3 consensus",
+      "method": "annotateBatch",
+      "change": "For each user, run annotateLabelsWithDeepSeek.js with A1 (balanced), A2 (strict), A3 (consensus) personas on the user's full comment set. Each annotator rates the 4 Ziegenbein axes (0-2). Compute majority-vote consensus label per axis. Derive binary ground-truth: consensus_avg ≥ 1.0 → argumentative. Output: .claude/random_sampling_eval/annotated/{uid}.json per user",
+      "verify": "100 JSON files in annotated/ with A1/A2/A3 ratings, consensus per axis, and binary label"
+    },
+    {
+      "id": 5,
+      "title": "Compute evaluation metrics",
+      "method": "evaluate",
+      "change": "Load all 100 scored + annotated results. Compute: (a) AUC-ROC for troll_index vs binary label, (b) precision/recall/F1 at threshold 50, (c) per-axis Brier score and ECE (via calibration.py), (d) bootstrap 95% CIs on all metrics (N=1000 resamples), (e) stratified breakdowns by comment volume tercile. Reuse python_backend/analysis/validation_metrics.py and calibration.py where possible. Output: .claude/random_sampling_eval/metrics.json",
+      "verify": "All metrics computed without errors. AUC-ROC > 0.5 (better than random). Bootstrap CIs are finite."
+    },
+    {
+      "id": 6,
+      "title": "Generate evaluation report",
+      "method": "report",
+      "change": "Write .claude/random_sampling_eval/report.md with: executive summary (is the model useful?), per-axis reliability table (AUC, Brier, F1), calibration chart descriptions, stratified breakdown by comment volume, limitations (DeepSeek-as-ground-truth circularity risk, no human labels for whole-user profiles), and recommendations for threshold tuning or weight adjustment.",
+      "verify": "report.md exists with all sections and actionable recommendations"
+    }
+  ],
+  "guard": "npm test && npm run python:test",
+  "scope": [
+    "server/scripts/runRandomSamplingEval.js",
+    "server/routes/aicu.js",
+    "server/services/deepseekKeywordTrainer.js",
+    "server/scripts/annotateLabelsWithDeepSeek.js",
+    "src/main.jsx:scoreComments",
+    "python_backend/analysis/calibration.py",
+    "python_backend/analysis/validation_metrics.py"
+  ],
+  "output_dir": ".claude/random_sampling_eval",
+  "notes": {
+    "ground_truth_gap": "No human-labeled whole-user profiles exist. DeepSeek A1/A2/A3 annotator consensus serves as proxy ground truth. This introduces circularity risk (DeepSeek is both the scoring model AND the annotator). Mitigation: use different prompt personas for annotation vs scoring, and treat results as IRR validation rather than external accuracy.",
+    "statistical_power": "N=100 users provides ~80% power to detect AUC ≥ 0.65 vs null hypothesis of 0.5 (α=0.05, two-sided). For per-axis calibration, 100 users with 4 axes = 400 observation points.",
+    "rate_limiting": "AICU API has no documented rate limit but scraping 100 users × 10 pages is ~1000 HTTP requests. Budget ~30 minutes with conservative pacing (2s delay between requests)."
+  }
+}

@@ -4,7 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Facts
 
-- Purpose: research prototype for analyzing public Bilibili/Tieba comments, replies, and danmaku for bounded argumentative-behavior risk, not clinical diagnosis. See `README.md`.
+- Purpose: research prototype for analyzing public Bilibili comments, replies, and danmaku for bounded argumentative-behavior risk, not clinical diagnosis. See `README.md`.
+- Note: Tieba (贴吧) scraper was fully removed (49 files, 68 skipped tests remaining as historical markers). Do not attempt to use Tieba scraping — it no longer exists.
 - Stack: React 19 + Vite frontend in `src/`, Hono Node backend in `server/`, Python migration/backend utilities in `python_backend/`, JSON data contracts in `server/data/`.
 - JS runtime: ESM (`"type": "module"` in `package.json`). Tests use Node's built-in `node --test` runner (not Jest/Mocha).
 - Architecture direction: hybrid JS + Python. JavaScript keeps app/API orchestration; Python should own data-heavy corpus, coverage, scraping-plan, verification, and analyzer compatibility work once parity is proven.
@@ -47,7 +48,7 @@ npm run build               # Vite production build
 npm test                    # All JS tests (node --test)
 node --test server/services/bilibiliCrawler.test.js   # Single JS test file
 node --test --test-name-pattern="should handle rate limit" server/services/bilibiliCrawler.test.js
-npm run python:test         # All Python tests
+npm run python:test         # All Python tests (68 skipped — Tieba scraper removed)
 python -m unittest python_backend.tests.test_corpus_contracts.TestClass.test_method  # Single Python test
 
 # Dictionary & coverage
@@ -55,7 +56,6 @@ npm run dictionary:coverage          # Coverage audit → server/data/keywordCov
 npm run dictionary:auto              # Full auto-coverage harvest loop
 npm run dictionary:prune             # General dictionary cleanup
 npm run dictionary:prune-exhausted   # Prune terms with exhausted discovery
-npm run dictionary:tieba             # Tieba keyword scrape
 npm run dictionary:huggingface       # Hugging Face corpus import
 npm run stats:update                 # Update README stats block + SVG graphs
 
@@ -73,9 +73,11 @@ Migration follows a strict compare-before-replace pattern. Python CLIs must prod
 
 - Frontend: `src/main.jsx` (SPA entry, UI, scoring, radar wiring), `src/languageUnderstanding.js` (axis normalization, meme/quote handling)
 - Backend API: `server/index.js` (Hono bootstrap), `server/routes/bilibili.js`, `server/routes/deepseek.js`, `server/routes/aicu.js`
-- JS services: `server/services/` (crawler, keyword harvest, DeepSeek training, semantic matching, Tieba, Hugging Face, local corpus)
+- JS services: `server/services/` (crawler, keyword harvest, DeepSeek training, semantic matching, Hugging Face, local corpus)
 - JS scripts/CLI: `server/scripts/` (discovery, coverage loops, merge tools, parity comparators)
 - Python CLI: `python_backend/cli/` (coverage, corpus, scraping plans, analyzers, migration)
+- Annotation pipeline: `.claude/annotation_data/` (κ labels, stratified candidates, reports), `server/scripts/extractStratifiedCandidates.js`
+- Calibration: `python_backend/analysis/calibration.py` (learn_weights_from_labels, logistic regression over labeled data)
 - Full directory map: `docs/PROJECT_MAP.md`
 
 ## Workflow Rules
@@ -108,9 +110,27 @@ node server/mergeAgentDictionaries.js .claude/worktrees/resolver-1 .claude/workt
 npm run dictionary:coverage
 ```
 
+## Task Mining System
+
+Long-running corpus mining jobs are defined in `.claude/tasks/*.json` and executed by `node .claude/resume_task.js`. Each task checkpoints progress per-item — interruption (rate-limit, session end, manual stop) loses zero progress. The Stop hook (`.claude/hooks/stop-hub.cjs`) blocks session exit until active tasks are marked done or deactivated.
+
+Only one task should be active at a time. Edit the task config (`"active": true/false`) to switch. Available task types: `bilibili-seed-scrape`, `bilibili-keyword-search`, `bilibili-danmaku-deep`, `tieba-keyword-scrape` (Tieba scraper removed — tieba task is defunct). See README.md "Multi-Round Corpus Mining" for full operational details.
+
 ## Context Compaction
 
-If you see `<system-reminder>` mentioning "context has been summarized" or "continued from a previous conversation", check for:
+### Compaction Failure Auto-Retry
+
+This project follows the **global compaction-failure recovery protocol** defined
+in `~/.claude/CLAUDE.md` (Compaction Failure Recovery section). When you detect
+an empty or unusable response after compaction, respond with exactly `/compact`
+and nothing else. Max 3 retries before surfacing to the user.
+
+### Recovery on Resume
+
+If you see `<system-reminder>` mentioning "context has been summarized" or
+"continued from a previous conversation", and the context is usable, check for:
+- `.claude/.compact_state.md` — auto-compact checkpoint (read FIRST)
+- `.claude/.compact_state.json` — machine-readable state
 - `.claude/MASTER_PLAN.md` — overall plan and current phase
 - Any open `.claude/tasks/*.json` — active task state
 - `.claude/personality_analysis_report_100.md` — last analysis results

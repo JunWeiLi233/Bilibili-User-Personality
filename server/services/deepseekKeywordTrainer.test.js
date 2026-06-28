@@ -13,6 +13,10 @@ import {
   analyzeCommentsWithDeepSeek,
   getDeepSeekConfig,
   mergeEntriesIntoDictionary,
+  normalizeEntryToMultiSense,
+  entryToWireFormat,
+  buildSenseIndex,
+  disambiguateSenseHits,
   normalizeKeywordEntries,
   readKeywordDictionary,
   trainKeywordDictionary,
@@ -12594,4 +12598,394 @@ test('retries DeepSeek keyword generation when JSON mode returns empty content',
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
+});
+
+// ── Multi-sense disambiguation: Phase 1 schema & backward compat ──
+
+test('normalizeEntryToMultiSense auto-wraps single-sense entries', () => {
+  const entry = {
+    term: '急了',
+    family: 'attack',
+    meaning: '嘲讽对方情绪失控',
+    risk: 'medium',
+    confidence: 0.85,
+    evidenceCount: 3,
+  };
+  const result = normalizeEntryToMultiSense(entry);
+
+  assert.equal(result.term, '急了');
+  assert.equal(result.family, 'attack');
+  assert.equal(result.meaning, '嘲讽对方情绪失控');
+  assert.equal(result.risk, 'medium');
+  assert.equal(result.confidence, 0.85);
+  assert.equal(result.evidenceCount, 3);
+  // Multi-sense wrapper
+  assert.equal(result._singleSense, true);
+  assert.equal(result.contextRequired, false);
+  assert.equal(result.defaultSense, '急了-1');
+  assert.ok(Array.isArray(result.senses));
+  assert.equal(result.senses.length, 1);
+  assert.equal(result.senses[0].id, '急了-1');
+  assert.equal(result.senses[0].family, 'attack');
+  assert.equal(result.senses[0].contextHints.length, 0);
+  assert.equal(result.senses[0].contextAntiHints.length, 0);
+  assert.equal(result.senses[0].scenario, null);
+});
+
+test('normalizeEntryToMultiSense validates multi-sense entries', () => {
+  const entry = {
+    term: '急了',
+    senses: [
+      {
+        id: '急了-1',
+        family: 'attack',
+        meaning: '嘲讽用法',
+        risk: 'medium',
+        contextHints: ['你', '哈哈哈'],
+        contextAntiHints: ['别', '慢慢'],
+        scenario: 'taunting',
+      },
+      {
+        id: '急了-2',
+        family: 'cooperation',
+        meaning: '中性安抚',
+        risk: 'positive',
+        contextHints: ['别急', '慢慢来'],
+        scenario: 'reassurance',
+      },
+    ],
+    defaultSense: '急了-1',
+  };
+  const result = normalizeEntryToMultiSense(entry);
+
+  assert.equal(result.term, '急了');
+  assert.equal(result.defaultSense, '急了-1');
+  assert.equal(result._singleSense, false);
+  assert.equal(result.contextRequired, true);
+  assert.equal(result.senses.length, 2);
+
+  // Sense 1
+  assert.equal(result.senses[0].id, '急了-1');
+  assert.equal(result.senses[0].family, 'attack');
+  assert.deepEqual(result.senses[0].contextHints, ['你', '哈哈哈']);
+  assert.deepEqual(result.senses[0].contextAntiHints, ['别', '慢慢']);
+  assert.equal(result.senses[0].scenario, 'taunting');
+
+  // Sense 2
+  assert.equal(result.senses[1].id, '急了-2');
+  assert.equal(result.senses[1].family, 'cooperation');
+  assert.equal(result.senses[1].scenario, 'reassurance');
+
+  // Backward compat: top-level fields mirror default sense
+  assert.equal(result.family, 'attack');
+  assert.equal(result.meaning, '嘲讽用法');
+  assert.equal(result.risk, 'medium');
+});
+
+test('normalizeEntryToMultiSense rejects unknown scenarios', () => {
+  const entry = {
+    term: '测试',
+    senses: [{
+      id: '测试-1',
+      family: 'attack',
+      meaning: '测试含义',
+      scenario: 'not_a_real_scenario',
+    }],
+  };
+  const result = normalizeEntryToMultiSense(entry);
+  assert.equal(result.senses[0].scenario, null);
+});
+
+test('normalizeEntryToMultiSense auto-generates sense IDs when missing', () => {
+  const entry = {
+    term: '逆天',
+    senses: [
+      { family: 'attack', meaning: '贬义用法' },
+      { family: 'cooperation', meaning: '褒义赞美' },
+    ],
+  };
+  const result = normalizeEntryToMultiSense(entry);
+  assert.equal(result.senses[0].id, '逆天-1');
+  assert.equal(result.senses[1].id, '逆天-2');
+  assert.equal(result.defaultSense, '逆天-1');
+});
+
+test('normalizeEntryToMultiSense defaults risk for cooperation/correction', () => {
+  const entry = { term: '学习了', family: 'cooperation', meaning: '虚心接受' };
+  const result = normalizeEntryToMultiSense(entry);
+  assert.equal(result.risk, 'positive');
+  assert.equal(result.senses[0].risk, 'positive');
+});
+
+test('normalizeEntryToMultiSense passes through null/empty', () => {
+  assert.equal(normalizeEntryToMultiSense(null), null);
+  assert.equal(normalizeEntryToMultiSense(undefined), undefined);
+  assert.deepEqual(normalizeEntryToMultiSense({}), {});
+});
+
+test('entryToWireFormat strips wrapper from single-sense entries', () => {
+  const entry = {
+    term: '急了',
+    family: 'attack',
+    meaning: '嘲讽',
+    risk: 'medium',
+    confidence: 0.85,
+    senses: [{ id: '急了-1', family: 'attack', meaning: '嘲讽', risk: 'medium', contextHints: [], contextAntiHints: [], scenario: null }],
+    defaultSense: '急了-1',
+    contextRequired: false,
+    _singleSense: true,
+  };
+  const result = entryToWireFormat(entry);
+  assert.equal(result.term, '急了');
+  assert.equal(result.family, 'attack');
+  assert.equal(result.confidence, 0.85);
+  // Wrapper fields stripped
+  assert.equal('senses' in result, false);
+  assert.equal('defaultSense' in result, false);
+  assert.equal('contextRequired' in result, false);
+  assert.equal('_singleSense' in result, false);
+});
+
+test('entryToWireFormat preserves senses on multi-sense entries', () => {
+  const entry = {
+    term: '急了',
+    senses: [
+      { id: '急了-1', family: 'attack', meaning: '嘲讽', risk: 'medium', contextHints: ['你'], contextAntiHints: [], scenario: 'taunting' },
+      { id: '急了-2', family: 'cooperation', meaning: '安抚', risk: 'positive', contextHints: ['别'], contextAntiHints: [], scenario: 'reassurance' },
+    ],
+    defaultSense: '急了-1',
+    contextRequired: true,
+    _singleSense: false,
+    evidenceCount: 5,
+  };
+  const result = entryToWireFormat(entry);
+  assert.equal(result.term, '急了');
+  assert.ok(Array.isArray(result.senses));
+  assert.equal(result.senses.length, 2);
+  assert.equal(result.defaultSense, '急了-1');
+  assert.equal(result.evidenceCount, 5);
+  // Internal markers stripped
+  assert.equal('_singleSense' in result, false);
+  // contextRequired is a runtime optimization, stripped in wire format
+  // (the presence of multiple senses already implies context is required)
+});
+
+test('normalizeEntryToMultiSense round-trip preserves all user fields', () => {
+  const original = {
+    term: '典中典',
+    family: 'attack',
+    meaning: '讽刺经典言论',
+    risk: 'medium',
+    confidence: 0.9,
+    evidenceCount: 12,
+    evidenceSamples: ['这波操作典中典'],
+    evidenceSources: [{ source: 'test', uid: '123', sample: '这波操作典中典' }],
+  };
+  const wrapped = normalizeEntryToMultiSense(original);
+  const unwrapped = entryToWireFormat(wrapped);
+
+  // After strip, should match original (modulo updatedAt)
+  assert.equal(unwrapped.term, original.term);
+  assert.equal(unwrapped.family, original.family);
+  assert.equal(unwrapped.meaning, original.meaning);
+  assert.equal(unwrapped.risk, original.risk);
+  assert.equal(unwrapped.confidence, original.confidence);
+  assert.equal(unwrapped.evidenceCount, original.evidenceCount);
+  assert.deepEqual(unwrapped.evidenceSamples, original.evidenceSamples);
+});
+
+// ── Phase 2: buildSenseIndex ──
+
+test("buildSenseIndex indexes single-sense dictionary entries", () => {
+  const dict = {
+    entries: [
+      { term: "急了", family: "attack", meaning: "嘲讽", risk: "medium",
+        senses: [{ id: "急了-1", family: "attack", meaning: "嘲讽", risk: "medium", contextHints: [], contextAntiHints: [], scenario: null }],
+        defaultSense: "急了-1", _singleSense: true },
+      { term: "学习了", family: "cooperation", meaning: "虚心接受", risk: "positive",
+        senses: [{ id: "学习了-1", family: "cooperation", meaning: "虚心接受", risk: "positive", contextHints: [], contextAntiHints: [], scenario: null }],
+        defaultSense: "学习了-1", _singleSense: true },
+    ],
+  };
+  const { byTerm, bySenseId } = buildSenseIndex(dict);
+  assert.equal(byTerm.size, 2);
+  assert.equal(bySenseId.size, 2);
+  assert.ok(byTerm.has("急了"));
+  assert.ok(bySenseId.has("急了-1"));
+  assert.equal(bySenseId.get("急了-1").family, "attack");
+  assert.equal(bySenseId.get("急了-1").risk, "medium");
+});
+
+test("buildSenseIndex handles multi-sense entries", () => {
+  const dict = {
+    entries: [
+      {
+        term: "急了",
+        senses: [
+          { id: "急了-1", family: "attack", meaning: "嘲讽用法", risk: "medium", contextHints: ["你", "哈哈哈"], contextAntiHints: ["别"], scenario: "taunting" },
+          { id: "急了-2", family: "cooperation", meaning: "中性安抚", risk: "positive", contextHints: ["别急", "马上"], contextAntiHints: [], scenario: "reassurance" },
+        ],
+        defaultSense: "急了-1",
+        _singleSense: false,
+      },
+    ],
+  };
+  const { byTerm, bySenseId } = buildSenseIndex(dict);
+  assert.equal(byTerm.size, 1);
+  assert.equal(bySenseId.size, 2);
+  assert.equal(byTerm.get("急了").length, 2);
+  assert.equal(byTerm.get("急了")[0].senseId, "急了-1");
+  assert.equal(byTerm.get("急了")[1].senseId, "急了-2");
+  assert.equal(bySenseId.get("急了-1").scenario, "taunting");
+  assert.deepEqual(bySenseId.get("急了-1").contextHints, ["你", "哈哈哈"]);
+  assert.deepEqual(bySenseId.get("急了-1").contextAntiHints, ["别"]);
+  assert.equal(bySenseId.get("急了-2").scenario, "reassurance");
+  assert.deepEqual(bySenseId.get("急了-2").contextHints, ["别急", "马上"]);
+});
+
+test("buildSenseIndex handles entries without senses array (fallback)", () => {
+  const dict = {
+    entries: [
+      { term: "典中典", family: "attack", meaning: "讽刺经典", risk: "medium" },
+    ],
+  };
+  const { byTerm, bySenseId } = buildSenseIndex(dict);
+  assert.equal(byTerm.size, 1);
+  assert.equal(bySenseId.size, 1);
+  assert.equal(byTerm.get("典中典")[0].senseId, "典中典-1");
+  assert.equal(bySenseId.get("典中典-1").family, "attack");
+});
+
+test("buildSenseIndex empty dictionary returns empty maps", () => {
+  const { byTerm, bySenseId } = buildSenseIndex({ entries: [] });
+  assert.equal(byTerm.size, 0);
+  assert.equal(bySenseId.size, 0);
+});
+// ── Phase 3: disambiguateSenseHits ──
+
+test("disambiguateSenseHits returns hits unchanged for single-sense terms", () => {
+  const dict = {
+    entries: [
+      { term: "不是", family: "evasion", meaning: "否定", risk: "medium",
+        senses: [{ id: "不是-1", family: "evasion", meaning: "否定", risk: "medium", contextHints: [], contextAntiHints: [], scenario: null }],
+        _singleSense: true },
+    ],
+  };
+  const { byTerm } = buildSenseIndex(dict);
+  const hits = [{ term: "不是", family: "evasion", meaning: "否定" }];
+  const result = disambiguateSenseHits(hits, "这并非事实", { byTerm });
+  assert.equal(result.length, 1);
+  assert.equal(result[0].term, "不是");
+  assert.equal(result[0].disambiguatedSense, "不是-1");
+  assert.equal(result[0].disambiguatedFamily, "evasion");
+});
+
+test("disambiguateSenseHits selects correct sense based on context hints", () => {
+  const dict = {
+    entries: [
+      {
+        term: "急了",
+        senses: [
+          { id: "急了-1", family: "attack", meaning: "嘲讽用法", risk: "medium", contextHints: ["你", "哈哈哈"], contextAntiHints: ["别"], scenario: "taunting" },
+          { id: "急了-2", family: "cooperation", meaning: "中性安抚", risk: "positive", contextHints: ["别急", "马上"], contextAntiHints: [], scenario: "reassurance" },
+        ],
+        _singleSense: false,
+      },
+    ],
+  };
+  const { byTerm } = buildSenseIndex(dict);
+
+  // Taunting context: "你" and "哈哈哈" match attack sense hints
+  const tauntingHits = [{ term: "急了", family: "attack", meaning: "急了" }];
+  const tauntingResult = disambiguateSenseHits(tauntingHits, "你急了哈哈哈笑死我了", { byTerm });
+  assert.equal(tauntingResult[0].disambiguatedSense, "急了-1", "should select attack sense for taunting context");
+  assert.equal(tauntingResult[0].disambiguatedFamily, "attack");
+
+  // Reassurance context: "别急" and "马上" match cooperation sense hints
+  const reassuranceHits = [{ term: "急了", family: "attack", meaning: "急了" }];
+  const reassuranceResult = disambiguateSenseHits(reassuranceHits, "别急了我马上到", { byTerm });
+  assert.equal(reassuranceResult[0].disambiguatedSense, "急了-2", "should select cooperation sense for reassurance context");
+  assert.equal(reassuranceResult[0].disambiguatedFamily, "cooperation");
+});
+
+test("disambiguateSenseHits applies anti-hint penalty", () => {
+  const dict = {
+    entries: [
+      {
+        term: "逆天",
+        senses: [
+          { id: "逆天-1", family: "attack", meaning: "贬义逆天", risk: "medium", contextHints: ["垃圾"], contextAntiHints: ["操作", "强"], scenario: "taunting" },
+          { id: "逆天-2", family: "cooperation", meaning: "褒义赞美", risk: "positive", contextHints: ["操作", "强", "牛"], contextAntiHints: ["垃圾"], scenario: "praise" },
+        ],
+        _singleSense: false,
+      },
+    ],
+  };
+  const { byTerm } = buildSenseIndex(dict);
+
+  // "这操作逆天" → should favor praise sense ("操作" is a hint)
+  const praiseHits = [{ term: "逆天", family: "attack", meaning: "逆天" }];
+  const praiseResult = disambiguateSenseHits(praiseHits, "这操作逆天太强了", { byTerm });
+  assert.equal(praiseResult[0].disambiguatedSense, "逆天-2", "should select praise sense");
+  assert.equal(praiseResult[0].disambiguatedFamily, "cooperation");
+
+  // "垃圾游戏真逆天" → "垃圾" is anti-hint for praise, hint for attack
+  const attackHits = [{ term: "逆天", family: "attack", meaning: "逆天" }];
+  const attackResult = disambiguateSenseHits(attackHits, "垃圾游戏真逆天", { byTerm });
+  assert.equal(attackResult[0].disambiguatedSense, "逆天-1", "should select attack sense");
+  assert.equal(attackResult[0].disambiguatedFamily, "attack");
+});
+
+test("disambiguateSenseHits handles empty hits array", () => {
+  const result = disambiguateSenseHits([], "some comment", { byTerm: new Map() });
+  assert.deepEqual(result, []);
+});
+
+test("disambiguateSenseHits handles null/undefined gracefully", () => {
+  assert.deepEqual(disambiguateSenseHits(null, "text", null), []);
+  assert.deepEqual(disambiguateSenseHits(undefined, "text", null), []);
+});
+
+test("disambiguateSenseHits preserves original hit properties", () => {
+  const dict = {
+    entries: [
+      { term: "典中典", family: "attack", meaning: "经典讽刺", risk: "medium",
+        senses: [{ id: "典中典-1", family: "attack", meaning: "经典讽刺", risk: "medium", contextHints: [], contextAntiHints: [], scenario: null }],
+        _singleSense: true },
+    ],
+  };
+  const { byTerm } = buildSenseIndex(dict);
+  const hits = [{ term: "典中典", family: "attack", meaning: "经典讽刺", extra: "keep-me" }];
+  const result = disambiguateSenseHits(hits, "这波操作典中典", { byTerm });
+  assert.equal(result[0].extra, "keep-me", "should preserve extra properties");
+  assert.equal(result[0].term, "典中典");
+  assert.equal(result[0].family, "attack");
+});
+
+test("disambiguateSenseHits applies scenario match bonus", () => {
+  const dict = {
+    entries: [
+      {
+        term: "急了",
+        senses: [
+          { id: "急了-1", family: "attack", meaning: "嘲讽用法", risk: "medium", contextHints: [], contextAntiHints: [], scenario: "taunting" },
+          { id: "急了-2", family: "cooperation", meaning: "中性安抚", risk: "positive", contextHints: [], contextAntiHints: [], scenario: "reassurance" },
+        ],
+        _singleSense: false,
+      },
+    ],
+  };
+  const { byTerm } = buildSenseIndex(dict);
+
+  // Without context hints but WITH scenario classifier:
+  // Comment classified as "taunting" should favor the taunting sense
+  const hits = [{ term: "急了", family: "attack", meaning: "急了" }];
+  const result = disambiguateSenseHits(hits, "急了", { byTerm }, { scenario: "taunting" });
+  assert.equal(result[0].disambiguatedSense, "急了-1");
+  assert.equal(result[0].disambiguatedFamily, "attack");
+
+  // If comment classified as "reassurance":
+  const result2 = disambiguateSenseHits(hits, "急了", { byTerm }, { scenario: "reassurance" });
+  assert.equal(result2[0].disambiguatedSense, "急了-2");
+  assert.equal(result2[0].disambiguatedFamily, "cooperation");
 });

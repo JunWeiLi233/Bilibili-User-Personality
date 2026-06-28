@@ -1,0 +1,48 @@
+{
+  "uid": "100235",
+  "annotatedAt": "2026-06-28T15:18:25.456Z",
+  "commentCount": 60,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 1,
+    "notes": "无情绪攻击和逻辑混乱，但频繁重复相同无意义模板及简短刷屏，存在其他行为问题。"
+  },
+  "A2": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 2,
+    "evidence": [
+      "多次重复相同内容如“他，毛虫进化，霸气外露，人气，100分。他，调停双傻，击碎流星，性格，100分。他，画龙点睛，负于电网，话题，100分。马噶宝可梦综合排行榜第一名，马噶裂空座，综合得分，100分。”出现在评论1、5、8、11、13、14、21等",
+      "重复短句如“最标题”“最帝利”等无实质内容"
+    ],
+    "notes": "用户大量复制相同评论，构成刷屏行为，但未发现情绪过激、回避讨论或逻辑混乱的明确证据。"
+  },
+  "A3": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 1,
+    "resolution": "同意A1",
+    "notes": "用户有重复评论行为，但无明显情绪过激或回避讨论，逻辑清晰，重复刷屏特征不突出。"
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 1
+  },
+  "binaryLabels": {
+    "toxicEmotions": false,
+    "missingCommitment": false,
+    "missingIntelligibility": false,
+    "otherReasons": true
+  }
+}

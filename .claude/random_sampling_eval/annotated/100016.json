@@ -1,0 +1,50 @@
+{
+  "uid": "100016",
+  "annotatedAt": "2026-06-28T15:07:22.494Z",
+  "commentCount": 60,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "notes": "用户评论主要为游戏相关讨论、简短回应和表情符号，未发现情绪过激、回避讨论、逻辑混乱或其他问题行为。"
+  },
+  "A2": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "evidence": [
+      "评论中有'我靠'、'卧槽'等轻微口语，但无针对他人的人身攻击或情绪宣泄",
+      "用户回复内容均为正常讨论游戏，未发现回避举证或转移话题",
+      "评论内容逻辑清晰，无绝对化断言或偷换概念",
+      "无恶意拼写、刷屏或无意义表达"
+    ],
+    "notes": "所有维度均未找到明确的文字证据，评分为0。"
+  },
+  "A3": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "resolution": "同意A1",
+    "notes": "用户评论内容以游戏讨论为主，语气平和，无情绪过激、回避讨论或逻辑混乱现象，均评0分合理。"
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0
+  },
+  "binaryLabels": {
+    "toxicEmotions": false,
+    "missingCommitment": false,
+    "missingIntelligibility": false,
+    "otherReasons": false
+  }
+}
