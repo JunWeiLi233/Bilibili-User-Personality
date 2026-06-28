@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-27T21:46:49.375Z",
+  "updatedAt": null,
   "family": "attack",
   "shard": 1,
   "shardCount": 5,
@@ -241,12 +241,37 @@
     },
     {
       "term": "一言难尽",
-      "family": "attack",
-      "meaning": "表示对某事不满或无奈，委婉批评",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:35:46.716Z"
+      "senses": [
+        {
+          "id": "一言难尽-1",
+          "family": "attack",
+          "meaning": "用含糊表达暗示对方问题严重",
+          "risk": "low",
+          "contextHints": [
+            "你",
+            "你们",
+            "这"
+          ],
+          "contextAntiHints": [
+            "我",
+            "自己"
+          ],
+          "scenario": "taunting"
+        },
+        {
+          "id": "一言难尽-2",
+          "family": "evasion",
+          "meaning": "回避详细解释，用模糊表达搪塞",
+          "risk": "low",
+          "contextHints": [
+            "不好说",
+            "不方便"
+          ],
+          "contextAntiHints": [],
+          "scenario": "argument"
+        }
+      ],
+      "defaultSense": "一言难尽-1"
     },
     {
       "term": "一转攻势",
@@ -367,12 +392,34 @@
     },
     {
       "term": "下次一定",
-      "family": "attack",
-      "meaning": "B站经典调侃用语，表示假装支持但实际不会行动，常含讽刺",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "senses": [
+        {
+          "id": "下次一定-1",
+          "family": "attack",
+          "meaning": "讽刺：永远不会兑现的承诺",
+          "risk": "medium",
+          "contextHints": [
+            "鸽",
+            "骗",
+            "信你"
+          ],
+          "contextAntiHints": [
+            "真的",
+            "保证"
+          ],
+          "scenario": "taunting"
+        },
+        {
+          "id": "下次一定-2",
+          "family": "evasion",
+          "meaning": "用模糊承诺回避当前要求",
+          "risk": "low",
+          "contextHints": [],
+          "contextAntiHints": [],
+          "scenario": "argument"
+        }
+      ],
+      "defaultSense": "下次一定-1"
     },
     {
       "term": "不主动不拒绝",
@@ -1429,12 +1476,44 @@
     },
     {
       "term": "典中典",
-      "family": "attack",
-      "meaning": "中文互联网嘲讽或贬低性梗；猪鼻用于批评某人当下行为犯蠢",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "senses": [
+        {
+          "id": "典中典-1",
+          "family": "attack",
+          "meaning": "讽刺：形容言论过于经典以至于成为笑柄",
+          "risk": "medium",
+          "contextHints": [
+            "笑",
+            "哈哈哈",
+            "绷不住",
+            "经典"
+          ],
+          "contextAntiHints": [
+            "教科书",
+            "案例",
+            "教材"
+          ],
+          "scenario": "taunting"
+        },
+        {
+          "id": "典中典-2",
+          "family": "evidence",
+          "meaning": "中性：指教科书级别的典型案例",
+          "risk": "low",
+          "contextHints": [
+            "教科书",
+            "案例",
+            "教材",
+            "典型"
+          ],
+          "contextAntiHints": [
+            "笑",
+            "哈哈哈"
+          ],
+          "scenario": "neutral_info"
+        }
+      ],
+      "defaultSense": "典中典-1"
     },
     {
       "term": "内耗",

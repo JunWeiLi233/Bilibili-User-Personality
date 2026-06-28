@@ -1,19 +1,10 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-27T23:19:19.619Z",
+  "updatedAt": null,
   "family": "evasion",
   "shard": "evasion-002",
   "shardCount": 2,
   "entries": [
-    {
-      "term": "啊对对对",
-      "family": "evasion",
-      "meaning": "敷衍认同对方，表示不想再争论，常用于结束对话，带有无奈或嘲讽意味。",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-27T23:19:19.618Z"
-    },
     {
       "term": "别杠，杠就是你对",
       "family": "evasion",
@@ -27,24 +18,6 @@
       "term": "狗头保命",
       "family": "evasion",
       "meaning": "在评论后加狗头表情或文字，表示前述内容为玩笑或反讽，用以免责并规避被攻击的风险。",
-      "risk": "low",
-      "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-27T23:19:19.618Z"
-    },
-    {
-      "term": "下次一定",
-      "family": "evasion",
-      "meaning": "B站经典梗，承诺未来会做某事（如三连），实则敷衍拖延，回避当下付出或讨论。",
-      "risk": "low",
-      "confidence": 0.95,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-27T23:19:19.618Z"
-    },
-    {
-      "term": "一言难尽",
-      "family": "evasion",
-      "meaning": "用事情复杂、难以说清为由，拒绝详细解释，避免展开敏感或不想谈的话题。",
       "risk": "low",
       "confidence": 0.8,
       "evidenceCount": 0,
@@ -123,15 +96,6 @@
       "updatedAt": "2026-06-27T23:19:19.618Z"
     },
     {
-      "term": "插眼",
-      "family": "evasion",
-      "meaning": "游戏术语引申，表示标记地点等待后续信息，常用于只围观不参与讨论的回避行为。",
-      "risk": "low",
-      "confidence": 0.9,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-27T23:19:19.618Z"
-    },
-    {
       "term": "你说是就是吧",
       "family": "evasion",
       "meaning": "放弃争辩，表面顺从，实则表达无奈和拒绝继续讨论的态度。",
@@ -159,29 +123,11 @@
       "updatedAt": "2026-06-27T23:19:19.618Z"
     },
     {
-      "term": "谜语人",
-      "family": "evasion",
-      "meaning": "主动承认自己说话像谜语，故意不点明，以此为由拒绝进一步解释。",
-      "risk": "medium",
-      "confidence": 0.7,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-27T23:19:19.618Z"
-    },
-    {
       "term": "不解释",
       "family": "evasion",
       "meaning": "直接拒绝说明理由，停止沟通，将对话掐断。",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-27T23:19:19.618Z"
-    },
-    {
-      "term": "对对对",
-      "family": "evasion",
-      "meaning": "重复肯定实则敷衍，以假意认同快速结束话题，避免纠缠。",
-      "risk": "low",
-      "confidence": 0.8,
       "evidenceCount": 0,
       "updatedAt": "2026-06-27T23:19:19.618Z"
     },

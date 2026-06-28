@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-27T21:46:49.375Z",
+  "updatedAt": null,
   "family": "attack",
   "shard": 2,
   "shardCount": 5,
@@ -106,12 +106,39 @@
     },
     {
       "term": "啊对对对",
-      "family": "attack",
-      "meaning": "阴阳怪气地敷衍赞同，表示不耐烦或嘲讽",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-27T11:34:45.447Z"
+      "senses": [
+        {
+          "id": "啊对对对-1",
+          "family": "attack",
+          "meaning": "敷衍式嘲讽回应，表示不屑争辩",
+          "risk": "medium",
+          "contextHints": [
+            "你",
+            "懒得",
+            "对对对"
+          ],
+          "contextAntiHints": [
+            "赞同",
+            "同意",
+            "确实"
+          ],
+          "scenario": "taunting"
+        },
+        {
+          "id": "啊对对对-2",
+          "family": "evasion",
+          "meaning": "回避争论，用敷衍态度退出讨论",
+          "risk": "low",
+          "contextHints": [
+            "懒得",
+            "不想",
+            "行了吧"
+          ],
+          "contextAntiHints": [],
+          "scenario": "argument"
+        }
+      ],
+      "defaultSense": "啊对对对-1"
     },
     {
       "term": "喜欢我",
@@ -853,12 +880,34 @@
     },
     {
       "term": "对对对",
-      "family": "attack",
-      "meaning": "表面附和实则讽刺，常用于表达不耐烦或反讽",
-      "risk": "medium",
-      "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-27T05:03:46.206Z"
+      "senses": [
+        {
+          "id": "对对对-1",
+          "family": "attack",
+          "meaning": "敷衍式嘲讽：用重复对对对表达不耐烦",
+          "risk": "medium",
+          "contextHints": [
+            "你",
+            "行了吧"
+          ],
+          "contextAntiHints": [
+            "赞同",
+            "同意",
+            "支持"
+          ],
+          "scenario": "taunting"
+        },
+        {
+          "id": "对对对-2",
+          "family": "evasion",
+          "meaning": "用敷衍态度回避深入讨论",
+          "risk": "low",
+          "contextHints": [],
+          "contextAntiHints": [],
+          "scenario": "argument"
+        }
+      ],
+      "defaultSense": "对对对-1"
     },
     {
       "term": "对线",
@@ -1393,12 +1442,38 @@
     },
     {
       "term": "张口就来",
-      "family": "attack",
-      "meaning": "指责对方不负责任、无证据地乱说话",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 930234860,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "senses": [
+        {
+          "id": "张口就来-1",
+          "family": "attack",
+          "meaning": "指责对方不经思考就发言",
+          "risk": "medium",
+          "contextHints": [
+            "胡",
+            "瞎",
+            "乱"
+          ],
+          "contextAntiHints": [],
+          "scenario": "argument"
+        },
+        {
+          "id": "张口就来-2",
+          "family": "evidence",
+          "meaning": "质疑对方缺乏证据的断言",
+          "risk": "medium",
+          "contextHints": [
+            "证据",
+            "数据",
+            "来源"
+          ],
+          "contextAntiHints": [
+            "胡",
+            "瞎"
+          ],
+          "scenario": "argument"
+        }
+      ],
+      "defaultSense": "张口就来-1"
     },
     {
       "term": "张口就来的",
@@ -1564,12 +1639,45 @@
     },
     {
       "term": "急了",
-      "family": "attack",
-      "meaning": "中文互联网嘲讽或贬低性梗；猪鼻用于批评某人当下行为犯蠢",
-      "risk": "medium",
-      "confidence": 0.95,
-      "evidenceCount": 1,
-      "updatedAt": "2026-06-27T21:25:58.906Z"
+      "senses": [
+        {
+          "id": "急了-1",
+          "family": "attack",
+          "meaning": "嘲讽对方情绪失控，攻击性用法",
+          "risk": "medium",
+          "contextHints": [
+            "你",
+            "哈哈哈",
+            "破防",
+            "急眼",
+            "典"
+          ],
+          "contextAntiHints": [
+            "别",
+            "慢慢",
+            "马上",
+            "市场",
+            "不急"
+          ],
+          "scenario": "taunting"
+        },
+        {
+          "id": "急了-2",
+          "family": "cooperation",
+          "meaning": "中性或关心的催促/安抚",
+          "risk": "positive",
+          "contextHints": [
+            "别",
+            "慢慢来",
+            "不急",
+            "马上到",
+            "没事"
+          ],
+          "contextAntiHints": [],
+          "scenario": "reassurance"
+        }
+      ],
+      "defaultSense": "急了-1"
     },
     {
       "term": "急了急了",

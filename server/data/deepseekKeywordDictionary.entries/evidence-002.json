@@ -1,19 +1,10 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-27T23:20:53.764Z",
+  "updatedAt": null,
   "family": "evidence",
   "shard": "evidence-002",
   "shardCount": 2,
   "entries": [
-    {
-      "term": "张口就来",
-      "family": "evidence",
-      "meaning": "指责对方没有依据信口开河，常用于评论区质疑言论真实性，要求提供证据",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-27T23:20:53.764Z"
-    },
     {
       "term": "瞎编的",
       "family": "evidence",
@@ -132,27 +123,9 @@
       "updatedAt": "2026-06-27T23:20:53.764Z"
     },
     {
-      "term": "反转了",
-      "family": "evidence",
-      "meaning": "表示事件出现颠覆性的新证据，常用于评论中提醒剧情变化或事实更新",
-      "risk": "low",
-      "confidence": 0.95,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-27T23:20:53.764Z"
-    },
-    {
       "term": "传送门呢",
       "family": "evidence",
       "meaning": "要求提供超链接直接跳转到证据页面，便于快速查看原始出处",
-      "risk": "low",
-      "confidence": 0.9,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-27T23:20:53.764Z"
-    },
-    {
-      "term": "指路",
-      "family": "evidence",
-      "meaning": "请求别人指明信息来源的具体位置，如视频时间点或文章段落，属于温和的出处索求",
       "risk": "low",
       "confidence": 0.9,
       "evidenceCount": 0,

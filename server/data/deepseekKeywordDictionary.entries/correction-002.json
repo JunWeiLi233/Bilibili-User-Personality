@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-27T23:21:40.372Z",
+  "updatedAt": null,
   "family": "correction",
   "shard": "correction-002",
   "shardCount": 2,
@@ -204,24 +204,6 @@
       "updatedAt": "2026-06-27T23:21:40.372Z"
     },
     {
-      "term": "学习了",
-      "family": "correction",
-      "meaning": "被指出错误后表示受教，承认自己知识不足并接受正确信息，有感谢和修正双重含义。",
-      "risk": "low",
-      "confidence": 0.96,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-27T23:21:40.372Z"
-    },
-    {
-      "term": "受教了",
-      "family": "correction",
-      "meaning": "类似“学习了”，更谦逊，表示对方的指正让自己获益，暗含对之前自身浅见的否定。",
-      "risk": "low",
-      "confidence": 0.93,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-27T23:21:40.372Z"
-    },
-    {
       "term": "谢谢大佬指正",
       "family": "correction",
       "meaning": "B站特色尊称结合感谢，用于技术或科普视频下承认错误，姿态较低且具有社群认同感。",
@@ -268,12 +250,35 @@
     },
     {
       "term": "反转了",
-      "family": "correction",
-      "meaning": "表示事态发展与自己之前想的不同，常用于报道或剧情讨论中修正预期，隐晦承认误判。",
-      "risk": "low",
-      "confidence": 0.94,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-27T23:21:40.372Z"
+      "senses": [
+        {
+          "id": "反转了-1",
+          "family": "correction",
+          "meaning": "指出事件出现了新变化/反转",
+          "risk": "positive",
+          "contextHints": [
+            "真相",
+            "实际",
+            "后续"
+          ],
+          "contextAntiHints": [],
+          "scenario": "neutral_info"
+        },
+        {
+          "id": "反转了-2",
+          "family": "evidence",
+          "meaning": "用'反转'主张原信息不实，需新证据",
+          "risk": "medium",
+          "contextHints": [
+            "证据",
+            "打脸",
+            "错了"
+          ],
+          "contextAntiHints": [],
+          "scenario": "argument"
+        }
+      ],
+      "defaultSense": "反转了-1"
     }
   ]
 }

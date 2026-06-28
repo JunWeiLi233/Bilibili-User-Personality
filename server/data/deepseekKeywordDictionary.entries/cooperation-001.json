@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-27T21:46:49.375Z",
+  "updatedAt": null,
   "family": "cooperation",
   "shard": 1,
   "shardCount": 2,
@@ -709,12 +709,40 @@
     },
     {
       "term": "受教了",
-      "family": "cooperation",
-      "meaning": "“受教了”用于表示支持、补充、轻松互动或合作式讨论",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-25T17:49:50.909Z"
+      "senses": [
+        {
+          "id": "受教了-1",
+          "family": "cooperation",
+          "meaning": "真诚感谢对方的教导",
+          "risk": "positive",
+          "contextHints": [
+            "谢谢",
+            "感谢",
+            "学到了"
+          ],
+          "contextAntiHints": [
+            "呵呵",
+            "行吧"
+          ],
+          "scenario": "praise"
+        },
+        {
+          "id": "受教了-2",
+          "family": "correction",
+          "meaning": "承认错误并接受纠正",
+          "risk": "positive",
+          "contextHints": [
+            "原来",
+            "确实",
+            "我的错"
+          ],
+          "contextAntiHints": [
+            "呵呵"
+          ],
+          "scenario": "neutral_info"
+        }
+      ],
+      "defaultSense": "受教了-1"
     },
     {
       "term": "叠甲",
@@ -1051,12 +1079,39 @@
     },
     {
       "term": "学习了",
-      "family": "cooperation",
-      "meaning": "“学习了”用于表示支持、补充、轻松互动或合作式讨论",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-25T17:01:37.000Z"
+      "senses": [
+        {
+          "id": "学习了-1",
+          "family": "cooperation",
+          "meaning": "真诚表示学到了新知识",
+          "risk": "positive",
+          "contextHints": [
+            "谢谢",
+            "厉害",
+            "有用"
+          ],
+          "contextAntiHints": [
+            "呵呵",
+            "哦"
+          ],
+          "scenario": "praise"
+        },
+        {
+          "id": "学习了-2",
+          "family": "correction",
+          "meaning": "接受纠正并表示学到了正确信息",
+          "risk": "positive",
+          "contextHints": [
+            "原来",
+            "确实"
+          ],
+          "contextAntiHints": [
+            "呵呵"
+          ],
+          "scenario": "neutral_info"
+        }
+      ],
+      "defaultSense": "学习了-1"
     },
     {
       "term": "安利",
@@ -1663,12 +1718,36 @@
     },
     {
       "term": "指路",
-      "family": "cooperation",
-      "meaning": "“指路”用于表示支持、补充、轻松互动或合作式讨论",
-      "risk": "low",
-      "confidence": 0.5,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-27T10:09:26.684Z"
+      "senses": [
+        {
+          "id": "指路-1",
+          "family": "cooperation",
+          "meaning": "友善地提供链接或方向指引",
+          "risk": "positive",
+          "contextHints": [
+            "这里",
+            "链接",
+            "看",
+            "https"
+          ],
+          "contextAntiHints": [],
+          "scenario": "praise"
+        },
+        {
+          "id": "指路-2",
+          "family": "evidence",
+          "meaning": "提供信息源作为证据支持",
+          "risk": "low",
+          "contextHints": [
+            "证据",
+            "来源",
+            "数据"
+          ],
+          "contextAntiHints": [],
+          "scenario": "neutral_info"
+        }
+      ],
+      "defaultSense": "指路-1"
     },
     {
       "term": "指路君",
@@ -1699,12 +1778,34 @@
     },
     {
       "term": "插眼",
-      "family": "cooperation",
-      "meaning": "在视频评论中标记位置，便于后续回顾，常用于攻略视频互动",
-      "risk": "positive",
-      "confidence": 0.9,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-27T00:58:05.457Z"
+      "senses": [
+        {
+          "id": "插眼-1",
+          "family": "cooperation",
+          "meaning": "标记帖子以便后续查看",
+          "risk": "positive",
+          "contextHints": [
+            "收藏",
+            "回头看",
+            "mark"
+          ],
+          "contextAntiHints": [],
+          "scenario": "neutral_info"
+        },
+        {
+          "id": "插眼-2",
+          "family": "evasion",
+          "meaning": "用'插眼'回避直接回应问题",
+          "risk": "low",
+          "contextHints": [],
+          "contextAntiHints": [
+            "回头看",
+            "收藏"
+          ],
+          "scenario": "argument"
+        }
+      ],
+      "defaultSense": "插眼-1"
     },
     {
       "term": "支持",

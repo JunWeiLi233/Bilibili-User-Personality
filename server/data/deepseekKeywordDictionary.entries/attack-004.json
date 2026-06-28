@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-27T21:46:49.375Z",
+  "updatedAt": null,
   "family": "attack",
   "shard": 4,
   "shardCount": 5,
@@ -1123,12 +1123,36 @@
     },
     {
       "term": "谜语人",
-      "family": "attack",
-      "meaning": "指责对方说话含糊、不直接，用谜语暗示",
-      "risk": "medium",
-      "confidence": 0.85,
-      "evidenceCount": 1875400072,
-      "updatedAt": "2026-06-27T21:46:49.375Z"
+      "senses": [
+        {
+          "id": "谜语人-1",
+          "family": "attack",
+          "meaning": "讽刺说话含糊不清、故弄玄虚",
+          "risk": "medium",
+          "contextHints": [
+            "装",
+            "懂",
+            "秀"
+          ],
+          "contextAntiHints": [],
+          "scenario": "taunting"
+        },
+        {
+          "id": "谜语人-2",
+          "family": "evasion",
+          "meaning": "指责对方不直接回答问题",
+          "risk": "low",
+          "contextHints": [
+            "说清楚",
+            "直接"
+          ],
+          "contextAntiHints": [
+            "装"
+          ],
+          "scenario": "argument"
+        }
+      ],
+      "defaultSense": "谜语人-1"
     },
     {
       "term": "豪到我了",
@@ -1609,12 +1633,47 @@
     },
     {
       "term": "逆天",
-      "family": "attack",
-      "meaning": "中文互联网嘲讽或贬低性梗；猪鼻用于批评某人当下行为犯蠢",
-      "risk": "medium",
-      "confidence": 0.9,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-27T08:45:23.468Z"
+      "senses": [
+        {
+          "id": "逆天-1",
+          "family": "attack",
+          "meaning": "贬义：形容事物超出常理到令人不满的地步",
+          "risk": "medium",
+          "contextHints": [
+            "垃圾",
+            "恶心",
+            "无语",
+            "离谱"
+          ],
+          "contextAntiHints": [
+            "操作",
+            "强",
+            "秀",
+            "牛",
+            "太强"
+          ],
+          "scenario": "taunting"
+        },
+        {
+          "id": "逆天-2",
+          "family": "cooperation",
+          "meaning": "褒义：形容操作或表现极其出色",
+          "risk": "positive",
+          "contextHints": [
+            "操作",
+            "强",
+            "牛",
+            "太强了",
+            "秀"
+          ],
+          "contextAntiHints": [
+            "垃圾",
+            "恶心"
+          ],
+          "scenario": "praise"
+        }
+      ],
+      "defaultSense": "逆天-1"
     },
     {
       "term": "逆天ip",
