@@ -1,27 +1,24 @@
 /**
- * Build a PMI-based term co-occurrence model from scored comment data.
+ * Build a PMI (Pointwise Mutual Information) co-occurrence model from the
+ * annotation corpus produced by transformAnnotationsToCorpus.js.
  *
- * Processes a synthetic corpus (or real annotation data if available),
- * computes Pointwise Mutual Information for term pairs in high-risk
- * vs. low-risk contexts, and outputs the model to
- * server/data/termCooccurrence.json.
+ * Computes:
+ *   - Term-term PMI: how much more likely two terms appear together vs chance
+ *   - Term-family PMI: which families a term tends to co-occur with
+ *   - Family-family PMI: cross-family co-occurrence patterns
+ *   - Argumentative association: which terms are markers of argumentative context
+ *
+ * PMI(x, y) = ln( P(x,y) / (P(x) * P(y)) )
+ *           = ln( N * count(x,y) / (count(x) * count(y)) )
+ *
+ * NPMI(x, y) = PMI(x, y) / -ln(P(x,y))   (normalized to [-1, 1])
  *
  * Usage:
- *   node server/scripts/buildCooccurrenceModel.js [--corpus=<path>] [--output=<path>]
+ *   node server/scripts/buildCooccurrenceModel.js [--corpus <path>] [--output <path>]
  *
- * Flags:
- *   --corpus   Path to a JSON array of scored comments (optional)
- *   --output   Output path (default: server/data/termCooccurrence.json)
- *
- * Corpus format (JSON array):
- *   [{
- *     "comment_text": "...",
- *     "risk_score": 0.0-1.0,
- *     "keyword_terms": [{ "term": "...", "family": "..." }]
- *   }]
- *
- * If no --corpus is given, an embedded synthetic corpus of ~50 Chinese
- * comments is used for demonstration and testing.
+ * With no flags, reads from server/data/annotationCorpus.json and outputs
+ * to server/data/termCooccurrence.json. Falls back to synthetic corpus if
+ * annotation corpus is unavailable.
  */
 
 import { readFileSync, existsSync, writeFileSync, mkdirSync } from 'node:fs';
@@ -31,23 +28,189 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT = join(__dirname, '..', '..');
 
-// ─── Configuration ───────────────────────────────────────────────────────────
+// ── Config ────────────────────────────────────────────────────────────────────
 
-const CONFIG = {
-  windowSize: 25,        // char distance threshold for co-occurrence
-  minCooccurrences: 3,   // minimum pair count to include in model
-  deltaThreshold: 0.3,   // minimum |deltaPMI| for meaningful signal
-  highRiskThreshold: 0.5,// risk_score >= this → high-risk context
-};
+const DEFAULT_CORPUS_PATH = join(PROJECT, 'server', 'data', 'annotationCorpus.json');
+const DEFAULT_OUTPUT_PATH = join(PROJECT, 'server', 'data', 'termCooccurrence.json');
 
-// ─── Term position finder ────────────────────────────────────────────────────
+// ── PMI computation ───────────────────────────────────────────────────────────
 
-/**
- * Find all occurrences of each term in the text, returning position info.
- * @param {string} text
- * @param {string[]} terms
- * @returns {Array<{term: string, position: number}>}
- */
+function computePMI(jointCount, countX, countY, totalDocs) {
+  if (jointCount === 0) {
+    return { pmi: null, npmi: -1, joint: 0, expected: 0, ratio: 0 };
+  }
+  const N = totalDocs;
+  const pJoint = jointCount / N;
+  const pX = countX / N;
+  const pY = countY / N;
+  const expected = (countX * countY) / N;
+  const pmi = Math.log(pJoint / (pX * pY));
+  const npmi = pmi / (-Math.log(pJoint));
+  const ratio = jointCount / Math.max(1, expected);
+  return {
+    pmi: Math.round(pmi * 10000) / 10000,
+    npmi: Math.round(npmi * 10000) / 10000,
+    joint: jointCount,
+    expected: Math.round(expected * 100) / 100,
+    ratio: Math.round(ratio * 100) / 100,
+  };
+}
+
+function computeArgumentativeAssociation(termInArg, termTotal, argTotal, totalDocs) {
+  if (termInArg === 0 || termTotal === 0) {
+    return { pmi: null, npmi: -1, oddsRatio: 0, precision: 0 };
+  }
+  const N = totalDocs;
+  const pJoint = termInArg / N;
+  const pTerm = termTotal / N;
+  const pArg = argTotal / N;
+  const pmi = Math.log(pJoint / (pTerm * pArg));
+  const npmi = pmi / (-Math.log(pJoint));
+  const termNotArg = termTotal - termInArg;
+  const notTermInArg = argTotal - termInArg;
+  const notTermNotArg = N - termTotal - notTermInArg;
+  const oddsRatio = termNotArg > 0 && notTermNotArg > 0
+    ? (termInArg / termNotArg) / (notTermInArg / notTermNotArg)
+    : Infinity;
+  const precision = termInArg / termTotal;
+  return {
+    pmi: Math.round(pmi * 10000) / 10000,
+    npmi: Math.round(npmi * 10000) / 10000,
+    oddsRatio: Number.isFinite(oddsRatio) ? Math.round(oddsRatio * 100) / 100 : null,
+    precision: Math.round(precision * 10000) / 10000,
+  };
+}
+
+// ── Build from annotation corpus ──────────────────────────────────────────────
+
+function buildFromAnnotationCorpus(corpus) {
+  const { meta, documents, termFreq, cooccurrence, familyFreq } = corpus;
+  const N = meta.totalComments;
+  const distinctTerms = meta.distinctTerms;
+
+  console.log('[buildPMI] Building from annotation corpus: ' + N + ' documents, ' + distinctTerms.length + ' terms');
+
+  // Term-term PMI
+  const termPMI = {};
+  for (const [pairKey, jointCount] of Object.entries(cooccurrence)) {
+    const [termA, termB] = pairKey.split('||');
+    const countA = termFreq[termA] || 0;
+    const countB = termFreq[termB] || 0;
+    termPMI[pairKey] = computePMI(jointCount, countA, countB, N);
+  }
+
+  // Also compute PMI for frequent non-co-occurring pairs (negative associations)
+  const topTerms = Object.entries(termFreq)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 30)
+    .map(([t]) => t);
+
+  for (let i = 0; i < topTerms.length; i++) {
+    for (let j = i + 1; j < topTerms.length; j++) {
+      const key = topTerms[i] + '||' + topTerms[j];
+      if (termPMI[key]) continue;
+      const jointCount = cooccurrence[key] || 0;
+      const countA = termFreq[topTerms[i]] || 0;
+      const countB = termFreq[topTerms[j]] || 0;
+      if (countA >= 3 || countB >= 3) {
+        termPMI[key] = computePMI(jointCount, countA, countB, N);
+      }
+    }
+  }
+
+  const sortedTermPMI = Object.fromEntries(
+    Object.entries(termPMI)
+      .filter(([, v]) => v.npmi > -1)
+      .sort((a, b) => b[1].npmi - a[1].npmi)
+  );
+
+  // Term-family association
+  const termFamilyAssoc = {};
+  for (const term of distinctTerms) {
+    const termCount = termFreq[term] || 0;
+    if (termCount < 2) continue;
+    const assoc = {};
+    const docsWithTerm = documents.filter(d => d.terms.includes(term));
+    const familyCounts = {};
+    for (const doc of docsWithTerm) {
+      for (const fam of Object.keys(doc.families)) {
+        familyCounts[fam] = (familyCounts[fam] || 0) + 1;
+      }
+    }
+    for (const fam of meta.families) {
+      const jointCount = familyCounts[fam] || 0;
+      const famCount = familyFreq[fam] || 0;
+      assoc[fam] = computePMI(jointCount, termCount, famCount, N).npmi;
+    }
+    termFamilyAssoc[term] = assoc;
+  }
+
+  // Family-family PMI
+  const familyPMI = {};
+  const families = meta.families;
+  for (let i = 0; i < families.length; i++) {
+    for (let j = i + 1; j < families.length; j++) {
+      const famA = families[i];
+      const famB = families[j];
+      let jointCount = 0;
+      for (const doc of documents) {
+        if (doc.families[famA] && doc.families[famB]) {
+          jointCount++;
+        }
+      }
+      const countA = familyFreq[famA] || 0;
+      const countB = familyFreq[famB] || 0;
+      const key = famA + '||' + famB;
+      familyPMI[key] = computePMI(jointCount, countA, countB, N);
+    }
+  }
+
+  // Argumentative markers
+  const argTotal = documents.filter(d => d.consensus.isArgumentative).length;
+  const argumentativeMarkers = [];
+  for (const term of distinctTerms) {
+    const termTotal = termFreq[term] || 0;
+    if (termTotal < 2) continue;
+    const termInArg = documents.filter(
+      d => d.terms.includes(term) && d.consensus.isArgumentative
+    ).length;
+    const assoc = computeArgumentativeAssociation(termInArg, termTotal, argTotal, N);
+    argumentativeMarkers.push({
+      term,
+      pmi: assoc.pmi,
+      npmi: assoc.npmi,
+      oddsRatio: assoc.oddsRatio,
+      precision: assoc.precision,
+      count: termTotal,
+      inArg: termInArg,
+    });
+  }
+  argumentativeMarkers.sort((a, b) => {
+    const aOr = a.oddsRatio === null ? 0 : a.oddsRatio;
+    const bOr = b.oddsRatio === null ? 0 : b.oddsRatio;
+    return bOr - aOr;
+  });
+
+  return {
+    meta: {
+      totalComments: N,
+      distinctTerms: distinctTerms.length,
+      termPairs: Object.keys(sortedTermPMI).length,
+      argumentativeDocs: argTotal,
+      argumentativeRate: Math.round((argTotal / N) * 10000) / 10000,
+      families,
+      source: 'annotation_corpus',
+      generated: new Date().toISOString(),
+    },
+    termPMI: sortedTermPMI,
+    termFamilyAssoc,
+    familyPMI,
+    argumentativeMarkers: argumentativeMarkers.slice(0, 50),
+  };
+}
+
+// ── Build from scored comments (legacy support) ──────────────────────────────
+
 function findTermPositions(text, terms) {
   const positions = [];
   for (const term of terms) {
@@ -55,83 +218,13 @@ function findTermPositions(text, terms) {
     let idx = 0;
     while ((idx = text.indexOf(term, idx)) !== -1) {
       positions.push({ term, position: idx });
-      idx += 1; // shift by 1 so overlapping matches are found
+      idx += 1;
     }
   }
   return positions;
 }
 
-/**
- * Count individual term occurrences and co-occurrences within the window.
- *
- * @param {string} text
- * @param {string[]} terms
- * @returns {{ counts: Record<string,number>, pairs: Record<string,number> }}
- */
-function countCommentCooccurrences(text, terms) {
-  const positions = findTermPositions(text, terms);
-  const counts = {};
-  const pairs = {};
-
-  for (let i = 0; i < positions.length; i++) {
-    const ti = positions[i].term;
-    counts[ti] = (counts[ti] || 0) + 1;
-
-    for (let j = i + 1; j < positions.length; j++) {
-      const dist = Math.abs(positions[i].position - positions[j].position);
-      if (dist > CONFIG.windowSize) continue;
-
-      // Skip self-pairs (same term co-occurring with itself is meaningless for PMI)
-      if (positions[i].term === positions[j].term) continue;
-
-      // Build sorted pair key
-      const pairKey = [positions[i].term, positions[j].term].sort().join('::');
-      pairs[pairKey] = (pairs[pairKey] || 0) + 1;
-    }
-  }
-
-  return { counts, pairs };
-}
-
-// ─── PMI computation ─────────────────────────────────────────────────────────
-
-/**
- * Compute PMI scores for all term pairs in a given context.
- *
- * PMI(a,b) = log(P(a,b) / (P(a) * P(b)))
- *          = log(count[a,b] * total / (count[a] * count[b]))
- *
- * @param {Record<string,number>} pairCounts - co-occurrence counts per pair
- * @param {Record<string,number>} termCounts - individual term occurrence counts
- * @returns {Record<string,{pmi: number, count: number}>}
- */
-function computePMI(pairCounts, termCounts) {
-  const total = Object.values(termCounts).reduce((s, v) => s + v, 0);
-  if (total === 0) return {};
-
-  const results = {};
-  for (const [pairKey, count] of Object.entries(pairCounts)) {
-    const [a, b] = pairKey.split('::');
-    const countA = termCounts[a] || 0;
-    const countB = termCounts[b] || 0;
-    if (countA === 0 || countB === 0) continue;
-
-    // PMI = log(count[a,b] * total / (count[a] * count[b]))
-    const pmi = Math.log((count * total) / (countA * countB));
-    results[pairKey] = { pmi, count };
-  }
-
-  return results;
-}
-
-/**
- * Build the co-occurrence model from a scored corpus.
- *
- * @param {Array<{comment_text: string, risk_score: number, keyword_terms: Array<{term: string, family?: string}>}>} corpus
- * @returns {Object} model object
- */
-function buildModel(corpus) {
-  // Separate high-risk and low-risk contexts
+function buildFromScoredCorpus(corpus, config) {
   const highTermCounts = {};
   const lowTermCounts = {};
   const highPairCounts = {};
@@ -145,9 +238,22 @@ function buildModel(corpus) {
 
     if (terms.length < 1) continue;
 
-    const { counts, pairs } = countCommentCooccurrences(text, terms);
-    const isHighRisk = comment.risk_score >= CONFIG.highRiskThreshold;
+    const positions = findTermPositions(text, terms);
+    const counts = {};
+    const pairs = {};
 
+    for (let i = 0; i < positions.length; i++) {
+      counts[positions[i].term] = (counts[positions[i].term] || 0) + 1;
+      for (let j = i + 1; j < positions.length; j++) {
+        const dist = Math.abs(positions[i].position - positions[j].position);
+        if (dist > (config.windowSize || 25)) continue;
+        if (positions[i].term === positions[j].term) continue;
+        const pairKey = [positions[i].term, positions[j].term].sort().join('::');
+        pairs[pairKey] = (pairs[pairKey] || 0) + 1;
+      }
+    }
+
+    const isHighRisk = comment.risk_score >= (config.highRiskThreshold || 0.5);
     const targetTermCounts = isHighRisk ? highTermCounts : lowTermCounts;
     const targetPairCounts = isHighRisk ? highPairCounts : lowPairCounts;
 
@@ -159,40 +265,40 @@ function buildModel(corpus) {
     }
   }
 
-  // Compute PMI for each context
-  const highPMI = computePMI(highPairCounts, highTermCounts);
-  const lowPMI = computePMI(lowPairCounts, lowTermCounts);
+  // Compute PMI for high and low contexts
+  function calcPMI(pairCounts, termCounts) {
+    const total = Object.values(termCounts).reduce((s, v) => s + v, 0);
+    if (total === 0) return {};
+    const results = {};
+    for (const [pairKey, count] of Object.entries(pairCounts)) {
+      const [a, b] = pairKey.split('::');
+      const countA = termCounts[a] || 0;
+      const countB = termCounts[b] || 0;
+      if (countA === 0 || countB === 0) continue;
+      const pmi = Math.log((count * total) / (countA * countB));
+      results[pairKey] = { pmi: Math.round(pmi * 10000) / 10000, count };
+    }
+    return results;
+  }
 
-  // Merge into final pair list
-  const allPairKeys = new Set([
-    ...Object.keys(highPMI),
-    ...Object.keys(lowPMI),
-  ]);
+  const highPMI = calcPMI(highPairCounts, highTermCounts);
+  const lowPMI = calcPMI(lowPairCounts, lowTermCounts);
 
+  const allPairKeys = new Set([...Object.keys(highPMI), ...Object.keys(lowPMI)]);
   const pairs = {};
   for (const key of allPairKeys) {
     const h = highPMI[key];
     const l = lowPMI[key];
-    const highRiskPMI = h ? h.pmi : null;
-    const lowRiskPMI = l ? l.pmi : null;
-    const totalCount = (h?.count || 0) + (l?.count || 0);
-
-    // Filter: only keep pairs with ≥ minCooccurrences
-    if (totalCount < CONFIG.minCooccurrences) continue;
-
-    // Compute deltaPMI. When PMI is missing in one context, treat as -∞ (large negative)
-    // For practical purposes, we approximate missing PMI as -2.0
-    const highVal = highRiskPMI !== null ? highRiskPMI : -2.0;
-    const lowVal = lowRiskPMI !== null ? lowRiskPMI : -2.0;
+    const totalCount = (h ? h.count : 0) + (l ? l.count : 0);
+    if (totalCount < (config.minCooccurrences || 3)) continue;
+    const highVal = h ? h.pmi : -2.0;
+    const lowVal = l ? l.pmi : -2.0;
     const deltaPMI = highVal - lowVal;
-
-    // Only include pairs with meaningful delta
-    if (Math.abs(deltaPMI) < CONFIG.deltaThreshold) continue;
-
+    if (Math.abs(deltaPMI) < (config.deltaThreshold || 0.3)) continue;
     pairs[key] = {
-      highRiskPMI: highRiskPMI !== null ? parseFloat(highRiskPMI.toFixed(4)) : null,
-      lowRiskPMI: lowRiskPMI !== null ? parseFloat(lowRiskPMI.toFixed(4)) : null,
-      deltaPMI: parseFloat(deltaPMI.toFixed(4)),
+      highRiskPMI: h ? h.pmi : null,
+      lowRiskPMI: l ? l.pmi : null,
+      deltaPMI: Math.round(deltaPMI * 10000) / 10000,
       count: totalCount,
     };
   }
@@ -200,7 +306,6 @@ function buildModel(corpus) {
   return {
     version: 1,
     builtAt: new Date().toISOString(),
-    config: { ...CONFIG },
     pairs,
     stats: {
       corpusSize: corpus.length,
@@ -210,136 +315,7 @@ function buildModel(corpus) {
   };
 }
 
-// ─── Synthetic corpus ────────────────────────────────────────────────────────
-
-/**
- * Synthetic corpus of ~50 Chinese Bilibili-like comments with known term pairs
- * and risk scores, sufficient to demonstrate PMI calculation.
- *
- * High-risk pairs (attack + absolutes):
- *   你根本::所有, 脑子::从来, 智商::永远, 你懂::全部, 蠢::全都,
- *   急了::没有一个, 纯::必然, 云::从来, 孝::全部, 绷::全都
- *
- * Low-risk pairs (cooperation + correction):
- *   可能::确实, 我理解::你说得对, 大概::有道理, 或许::承认,
- *   不一定::数据, 如果::指正, 据我所知::可能, 暂时::感谢指正,
- *   我理解::确实, 目前看来::或许
- */
-function buildSyntheticCorpus() {
-  const high = (text, terms) => ({
-    comment_text: text,
-    risk_score: 0.75 + Math.random() * 0.15,
-    keyword_terms: terms.map(t =>
-      typeof t === 'string' ? { term: t } : t
-    ),
-  });
-
-  const low = (text, terms) => ({
-    comment_text: text,
-    risk_score: 0.15 + Math.random() * 0.2,
-    keyword_terms: terms.map(t =>
-      typeof t === 'string' ? { term: t } : t
-    ),
-  });
-
-  // High-risk comments with attack + absolutes co-occurrence
-  const highRisk = [
-    // 你根本 + 所有 / 全部 co-occurrences
-    high('你根本不懂，所有这些都是错的', ['你根本', '所有']),
-    high('你根本就是故意的，所有人都在看', ['你根本', '所有']),
-    high('你根本不想讨论，所有解释都是借口', ['你根本', '所有']),
-    high('你根本不知道全部真相', ['你根本', '全部']),
-    high('你根本不在乎，所有人都看出来了', ['你根本', '所有']),
-
-    // 脑子 + 从来 co-occurrences
-    high('你脑子有问题吧？从来就没对过', ['脑子', '从来']),
-    high('有脑子的人从来不会这么说', ['脑子', '从来']),
-    high('你脑子从来就没正常过', ['脑子', '从来']),
-
-    // 智商 + 永远 co-occurrences
-    high('就你这智商？永远都搞不明白', ['智商', '永远']),
-    high('智商堪忧，永远都理解不了', ['智商', '永远']),
-    high('这智商永远没救了', ['智商', '永远']),
-
-    // 你懂 + 全部 co-occurrences
-    high('你懂什么？全部都是瞎扯', ['你懂', '全部']),
-    high('你懂个啥，全部都说错了', ['你懂', '全部']),
-    high('你懂的话全部都应该知道', ['你懂', '全部']),
-
-    // 蠢 + 全都 co-occurrences
-    high('太蠢了，全都是胡说八道', ['蠢', '全都']),
-    high('蠢得可以，全部常识都没有', ['蠢', '全部']),
-
-    // 急了 + 没有一个
-    high('急什么？没有一个能打的', ['急了', '没有一个']),
-    high('急了急了，没有一个说对了', ['急了', '没有一个']),
-
-    // 纯 + 必然
-    high('纯属搞事，必然是这个结果', ['纯', '必然']),
-    high('纯纯的智商税，必然没人买', ['纯', '必然']),
-
-    // 云 + 从来
-    high('云玩家从来不看攻略', ['云', '从来']),
-    high('云的很，从来都是瞎说', ['云', '从来']),
-
-    // 所有 + 从来 (absolutes clustering)
-    high('所有问题从来就没解决过', ['所有', '从来']),
-    high('所有观点从来都不考虑事实', ['所有', '从来']),
-    high('所有人从来都不说实话', ['所有', '从来']),
-  ];
-
-  // Low-risk comments with cooperation + correction co-occurrence
-  const lowRisk = [
-    // 可能 + 确实 co-occurrences
-    low('可能我理解错了，确实你说得对', ['可能', '确实', '你说得对']),
-    low('可能确实是我的问题', ['可能', '确实']),
-    low('这可能确实不太好说', ['可能', '确实']),
-    low('可能确实需要再考虑一下', ['可能', '确实']),
-
-    // 我理解 + 你说得对 co-occurrences
-    low('我理解你的观点，你说得对', ['我理解', '你说得对']),
-    low('我理解你说的，确实有道理', ['我理解', '确实', '有道理']),
-    low('我理解你的意思，你说得对', ['我理解', '你说得对']),
-
-    // 大概 + 有道理 co-occurrences
-    low('大概是我的问题，你说的有道理', ['大概', '有道理']),
-    low('大概你是对的，有道理', ['大概', '有道理']),
-
-    // 或许 + 承认 (correction) co-occurrences
-    low('或许吧，我承认你说的有道理', ['或许', '有道理']),
-    low('或许你说得对，我承认错了', ['或许', '你说得对']),
-
-    // 据我所知 + 可能 co-occurrences
-    low('据我所知，可能不是这样', ['据我所知', '可能']),
-    low('据我所知，可能还有其他原因', ['据我所知', '可能']),
-
-    // 如果 + 指正 co-occurrences
-    low('如果我说错了，请指正', ['如果', '指正']),
-    low('如果有问题，感谢指正', ['如果', '指正']),
-
-    // 暂时 + 感谢指正 co-occurrences
-    low('暂时保留意见，感谢指正', ['暂时', '感谢指正']),
-    low('暂时先这样，感谢指正', ['暂时', '感谢指正']),
-
-    // 不一定 + 数据
-    low('不一定对，让我补充数据', ['不一定', '数据']),
-    low('不一定准确，需要更多数据', ['不一定', '数据']),
-
-    // 目前看来 + 或许
-    low('目前看来，或许你说得对', ['目前看来', '或许']),
-    low('目前看来，或许可以再等等', ['目前看来', '或许']),
-
-    // Cooperation-only context (single terms, dilutes high-risk signal)
-    low('这是我的个人看法', ['个人看法']),
-    low('仅供参考', ['仅供参考']),
-    low('在我看来可能不是这样', ['可能', '在我看来']),
-    low('据我所知这不一定对', ['据我所知', '不一定']),
-  ];
-
-  return [...highRisk, ...lowRisk];
-}
-
-// ─── Main ────────────────────────────────────────────────────────────────────
+// ── Main ──────────────────────────────────────────────────────────────────────
 
 function parseArgs(argv) {
   const args = { corpus: '', output: '' };
@@ -352,55 +328,103 @@ function parseArgs(argv) {
 
 function main() {
   const args = parseArgs(process.argv.slice(2));
-  const outputPath = args.output || join(PROJECT, 'server', 'data', 'termCooccurrence.json');
+  const outputPath = args.output || DEFAULT_OUTPUT_PATH;
 
-  let corpus;
-  if (args.corpus && existsSync(args.corpus)) {
+  let model;
+
+  // Try annotation corpus first (preferred)
+  const corpusPath = args.corpus || DEFAULT_CORPUS_PATH;
+  if (existsSync(corpusPath)) {
     try {
-      corpus = JSON.parse(readFileSync(args.corpus, 'utf8'));
-      console.log(`Loaded ${corpus.length} comments from ${args.corpus}`);
+      const corpus = JSON.parse(readFileSync(corpusPath, 'utf8'));
+      if (corpus.meta && corpus.documents && corpus.termFreq) {
+        // This is an annotation corpus
+        model = buildFromAnnotationCorpus(corpus);
+      } else if (Array.isArray(corpus)) {
+        // Legacy scored-comment array
+        model = buildFromScoredCorpus(corpus, {
+          windowSize: 25,
+          minCooccurrences: 3,
+          deltaThreshold: 0.3,
+          highRiskThreshold: 0.5,
+        });
+      } else {
+        console.error('Unknown corpus format in ' + corpusPath);
+        process.exit(1);
+      }
     } catch (e) {
-      console.error(`Failed to load corpus from ${args.corpus}: ${e.message}`);
+      console.error('Failed to load corpus: ' + e.message);
       process.exit(1);
     }
-  } else if (args.corpus) {
-    console.error(`Corpus file not found: ${args.corpus}`);
-    process.exit(1);
   } else {
-    corpus = buildSyntheticCorpus();
-    console.log(`Using synthetic corpus: ${corpus.length} comments`);
+    console.log('No corpus found at ' + corpusPath);
+    console.log('Run: node server/scripts/transformAnnotationsToCorpus.js first');
+    process.exit(1);
   }
-
-  const model = buildModel(corpus);
 
   // Ensure output directory exists
   mkdirSync(dirname(outputPath), { recursive: true });
   writeFileSync(outputPath, JSON.stringify(model, null, 2), 'utf8');
 
-  console.log(`\nCo-occurrence model built:`);
-  console.log(`  Corpus:           ${model.stats.corpusSize} comments`);
-  console.log(`  Unique terms:     ${model.stats.uniqueTerms}`);
-  console.log(`  Unique pairs:     ${model.stats.uniquePairs}`);
-  console.log(`  Window size:      ${model.config.windowSize} chars`);
-  console.log(`  Min co-occur:     ${model.config.minCooccurrences}`);
-  console.log(`  Delta threshold:  ${model.config.deltaThreshold}`);
+  // ── Summary ──
+  console.log();
+  console.log('='.repeat(60));
+  console.log('PMI MODEL SUMMARY');
+  console.log('='.repeat(60));
 
-  // Show top pairs by |deltaPMI|
-  const sorted = Object.entries(model.pairs)
-    .sort((a, b) => Math.abs(b[1].deltaPMI) - Math.abs(a[1].deltaPMI))
-    .slice(0, 15);
+  if (model.meta) {
+    // Annotation corpus output
+    console.log('Total comments:             ' + model.meta.totalComments);
+    console.log('Distinct terms:             ' + model.meta.distinctTerms);
+    console.log('Term pairs with PMI:        ' + model.meta.termPairs);
+    console.log('Argumentative docs:         ' + model.meta.argumentativeDocs + ' (' + (model.meta.argumentativeRate * 100).toFixed(1) + '%)');
+    console.log('Families:                   ' + model.meta.families.join(', '));
 
-  if (sorted.length > 0) {
-    console.log(`\nTop pairs by |deltaPMI|:`);
-    for (const [key, val] of sorted) {
-      const trend = val.deltaPMI > 0 ? 'BOOST (arg.)' : 'SUPPRESS (neut.)';
-      console.log(`  ${key.padEnd(20)} Δ=${val.deltaPMI.toFixed(2)}  count=${val.count}  ${trend}`);
+    console.log();
+    console.log('Top 10 strongest positive term associations (NPMI):');
+    const topPositive = Object.entries(model.termPMI)
+      .filter(([, v]) => v.npmi > 0 && v.joint >= 2)
+      .slice(0, 10);
+    for (const [pair, stats] of topPositive) {
+      const [a, b] = pair.split('||');
+      console.log('  ' + a.padEnd(12) + ' + ' + b.padEnd(12) + ' -> NPMI=' + String(stats.npmi).padEnd(8) + ' joint=' + stats.joint);
+    }
+
+    console.log();
+    console.log('Family-family NPMI:');
+    for (const [pair, stats] of Object.entries(model.familyPMI)) {
+      const [a, b] = pair.split('||');
+      console.log('  ' + a.padEnd(12) + ' + ' + b.padEnd(12) + ' -> NPMI=' + stats.npmi + ' (joint=' + stats.joint + ')');
+    }
+
+    console.log();
+    console.log('Top 10 argumentative markers (by odds ratio):');
+    const topMarkers = model.argumentativeMarkers.slice(0, 10);
+    for (const m of topMarkers) {
+      console.log('  ' + m.term.padEnd(12) + ' -> OR=' + String(m.oddsRatio).padEnd(10) + ' (' + m.inArg + '/' + m.count + ' in arg)');
     }
   } else {
-    console.log(`\nNo pairs met the thresholds.`);
+    // Legacy deltaPMI output
+    console.log('  Corpus:           ' + model.stats.corpusSize + ' comments');
+    console.log('  Unique terms:     ' + model.stats.uniqueTerms);
+    console.log('  Unique pairs:     ' + model.stats.uniquePairs);
+
+    const sorted = Object.entries(model.pairs)
+      .sort((a, b) => Math.abs(b[1].deltaPMI) - Math.abs(a[1].deltaPMI))
+      .slice(0, 15);
+    if (sorted.length > 0) {
+      console.log();
+      console.log('Top pairs by |deltaPMI|:');
+      for (const [key, val] of sorted) {
+        const trend = val.deltaPMI > 0 ? 'BOOST (arg.)' : 'SUPPRESS (neut.)';
+        console.log('  ' + key.padEnd(20) + ' d=' + val.deltaPMI.toFixed(2) + '  count=' + val.count + '  ' + trend);
+      }
+    }
   }
 
-  console.log(`\nOutput: ${outputPath}`);
+  console.log();
+  console.log('Output: ' + outputPath);
+  console.log('Done.');
 }
 
 try {
