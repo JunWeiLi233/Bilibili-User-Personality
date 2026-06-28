@@ -1,0 +1,219 @@
+{
+  "uid": "100017",
+  "scoredAt": "2026-06-28T15:55:30.711Z",
+  "trollIndex": 20,
+  "sampleSize": 123,
+  "speechSummary": {
+    "negative": 24,
+    "positive": 2,
+    "lexicon": 42,
+    "mode": "hybrid"
+  },
+  "scores": [
+    {
+      "axis": "情绪过激",
+      "category": "toxicEmotions",
+      "value": 14,
+      "benchmark": 48,
+      "kappa": 0.84,
+      "kappaLabel": "评分者一致性: κ=0.84 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 49 → 14 (ρ=0.165)",
+      "calibratedValue": 14,
+      "rawValue": 49
+    },
+    {
+      "axis": "回避讨论",
+      "category": "missingCommitment",
+      "value": 3,
+      "benchmark": 44,
+      "kappa": 0.75,
+      "kappaLabel": "评分者一致性: κ=0.75 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 27 → 3 (ρ=0.016)",
+      "calibratedValue": 3,
+      "rawValue": 27
+    },
+    {
+      "axis": "逻辑混乱",
+      "category": "missingIntelligibility",
+      "value": 50,
+      "benchmark": 52,
+      "kappa": 0.69,
+      "kappaLabel": "评分者一致性: κ=0.69 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 60 → 50 (ρ=0.165)",
+      "calibratedValue": 50,
+      "rawValue": 60
+    },
+    {
+      "axis": "其他问题",
+      "category": "otherReasons",
+      "value": 9,
+      "benchmark": 30,
+      "kappa": 0.7,
+      "kappaLabel": "评分者一致性: κ=0.70 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 12 → 9 (ρ=-0.127)",
+      "calibratedValue": 9,
+      "rawValue": 12
+    }
+  ],
+  "rawScores": [
+    {
+      "axis": "情绪过激",
+      "category": "toxicEmotions",
+      "value": 49,
+      "benchmark": 48,
+      "kappa": 0.84,
+      "kappaLabel": "评分者一致性: κ=0.84 (可信)",
+      "kappaVariant": "trusted",
+      "note": ""
+    },
+    {
+      "axis": "回避讨论",
+      "category": "missingCommitment",
+      "value": 27,
+      "benchmark": 44,
+      "kappa": 0.75,
+      "kappaLabel": "评分者一致性: κ=0.75 (可信)",
+      "kappaVariant": "trusted",
+      "note": ""
+    },
+    {
+      "axis": "逻辑混乱",
+      "category": "missingIntelligibility",
+      "value": 60,
+      "benchmark": 52,
+      "kappa": 0.69,
+      "kappaLabel": "评分者一致性: κ=0.69 (可信)",
+      "kappaVariant": "trusted",
+      "note": ""
+    },
+    {
+      "axis": "其他问题",
+      "category": "otherReasons",
+      "value": 12,
+      "benchmark": 30,
+      "kappa": 0.7,
+      "kappaLabel": "评分者一致性: κ=0.70 (可信)",
+      "kappaVariant": "trusted",
+      "note": ""
+    }
+  ],
+  "vocabularyMarks": [
+    {
+      "term": "没有",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 7
+    },
+    {
+      "term": "都是",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 4
+    },
+    {
+      "term": "根本",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 4
+    },
+    {
+      "term": "智商",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 2
+    },
+    {
+      "term": "为什么",
+      "family": "evidence",
+      "label": "证据线索",
+      "axis": "逻辑混乱",
+      "polarity": "support",
+      "count": 2
+    },
+    {
+      "term": "百度一下",
+      "family": "evasion",
+      "label": "举证回避",
+      "axis": "回避讨论",
+      "polarity": "risk",
+      "count": 2
+    },
+    {
+      "term": "就是",
+      "family": "cooperation",
+      "label": "合作讨论",
+      "axis": "逻辑混乱",
+      "polarity": "support",
+      "count": 2
+    },
+    {
+      "term": "脑子",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "倒打一耙",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "硬黑",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "挑拨离间",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "厨子",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "装",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "没文化",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    }
+  ],
+  "calibrated": true
+}

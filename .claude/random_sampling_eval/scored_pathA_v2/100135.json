@@ -1,0 +1,160 @@
+{
+  "uid": "100135",
+  "scoredAt": "2026-06-28T16:41:54.540Z",
+  "trollIndex": 7,
+  "sampleSize": 120,
+  "scores": [
+    {
+      "axis": "情绪过激",
+      "category": "toxicEmotions",
+      "value": 14,
+      "benchmark": 48,
+      "kappa": 0.84,
+      "kappaLabel": "评分者一致性: κ=0.84 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 41 → 14 (ρ=0.165)",
+      "calibratedValue": 14,
+      "rawValue": 41
+    },
+    {
+      "axis": "回避讨论",
+      "category": "missingCommitment",
+      "value": 3,
+      "benchmark": 44,
+      "kappa": 0.75,
+      "kappaLabel": "评分者一致性: κ=0.75 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 27 → 3 (ρ=0.016)",
+      "calibratedValue": 3,
+      "rawValue": 27
+    },
+    {
+      "axis": "逻辑混乱",
+      "category": "missingIntelligibility",
+      "value": 4,
+      "benchmark": 52,
+      "kappa": 0.69,
+      "kappaLabel": "评分者一致性: κ=0.69 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 51 → 4 (ρ=0.165)",
+      "calibratedValue": 4,
+      "rawValue": 51
+    },
+    {
+      "axis": "其他问题",
+      "category": "otherReasons",
+      "value": 6,
+      "benchmark": 30,
+      "kappa": 0.7,
+      "kappaLabel": "评分者一致性: κ=0.70 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 10 → 6 (ρ=-0.127)",
+      "calibratedValue": 6,
+      "rawValue": 10
+    }
+  ],
+  "rawScores": [
+    {
+      "axis": "情绪过激",
+      "category": "toxicEmotions",
+      "value": 41
+    },
+    {
+      "axis": "回避讨论",
+      "category": "missingCommitment",
+      "value": 27
+    },
+    {
+      "axis": "逻辑混乱",
+      "category": "missingIntelligibility",
+      "value": 51
+    },
+    {
+      "axis": "其他问题",
+      "category": "otherReasons",
+      "value": 10
+    }
+  ],
+  "vocabularyMarks": [
+    {
+      "term": "一定",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 2
+    },
+    {
+      "term": "为什么",
+      "family": "evidence",
+      "label": "证据线索",
+      "axis": "逻辑混乱",
+      "polarity": "support",
+      "count": 2
+    },
+    {
+      "term": "搞笑",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "纯",
+      "family": "attack",
+      "label": "攻击 / 嘲讽",
+      "axis": "情绪过激",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "不可能",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "肯定",
+      "family": "absolutes",
+      "label": "绝对化",
+      "axis": "逻辑混乱",
+      "polarity": "risk",
+      "count": 1
+    },
+    {
+      "term": "绝了",
+      "family": "cooperation",
+      "label": "合作讨论",
+      "axis": "逻辑混乱",
+      "polarity": "support",
+      "count": 1
+    },
+    {
+      "term": "干货",
+      "family": "cooperation",
+      "label": "合作讨论",
+      "axis": "逻辑混乱",
+      "polarity": "support",
+      "count": 1
+    },
+    {
+      "term": "我理解",
+      "family": "cooperation",
+      "label": "合作讨论",
+      "axis": "逻辑混乱",
+      "polarity": "support",
+      "count": 1
+    },
+    {
+      "term": "应该是",
+      "family": "cooperation",
+      "label": "合作讨论",
+      "axis": "逻辑混乱",
+      "polarity": "support",
+      "count": 1
+    }
+  ]
+}

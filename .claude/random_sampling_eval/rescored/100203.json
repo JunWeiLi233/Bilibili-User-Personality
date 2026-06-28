@@ -1,0 +1,123 @@
+{
+  "uid": "100203",
+  "scoredAt": "2026-06-28T15:55:30.890Z",
+  "trollIndex": 3,
+  "sampleSize": 17,
+  "speechSummary": {
+    "negative": 7,
+    "positive": 1,
+    "lexicon": 2,
+    "mode": "hybrid"
+  },
+  "scores": [
+    {
+      "axis": "情绪过激",
+      "category": "toxicEmotions",
+      "value": 8,
+      "benchmark": 48,
+      "kappa": 0.84,
+      "kappaLabel": "评分者一致性: κ=0.84 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 31 → 8 (ρ=0.165)",
+      "calibratedValue": 8,
+      "rawValue": 31
+    },
+    {
+      "axis": "回避讨论",
+      "category": "missingCommitment",
+      "value": 0,
+      "benchmark": 44,
+      "kappa": 0.75,
+      "kappaLabel": "评分者一致性: κ=0.75 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 25 → 0 (ρ=0.016)",
+      "calibratedValue": 0,
+      "rawValue": 25
+    },
+    {
+      "axis": "逻辑混乱",
+      "category": "missingIntelligibility",
+      "value": 0,
+      "benchmark": 52,
+      "kappa": 0.69,
+      "kappaLabel": "评分者一致性: κ=0.69 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 44 → 0 (ρ=0.165)",
+      "calibratedValue": 0,
+      "rawValue": 44
+    },
+    {
+      "axis": "其他问题",
+      "category": "otherReasons",
+      "value": 6,
+      "benchmark": 30,
+      "kappa": 0.7,
+      "kappaLabel": "评分者一致性: κ=0.70 (可信)",
+      "kappaVariant": "trusted",
+      "note": "calibrated: 10 → 6 (ρ=-0.127)",
+      "calibratedValue": 6,
+      "rawValue": 10
+    }
+  ],
+  "rawScores": [
+    {
+      "axis": "情绪过激",
+      "category": "toxicEmotions",
+      "value": 31,
+      "benchmark": 48,
+      "kappa": 0.84,
+      "kappaLabel": "评分者一致性: κ=0.84 (可信)",
+      "kappaVariant": "trusted",
+      "note": ""
+    },
+    {
+      "axis": "回避讨论",
+      "category": "missingCommitment",
+      "value": 25,
+      "benchmark": 44,
+      "kappa": 0.75,
+      "kappaLabel": "评分者一致性: κ=0.75 (可信)",
+      "kappaVariant": "trusted",
+      "note": ""
+    },
+    {
+      "axis": "逻辑混乱",
+      "category": "missingIntelligibility",
+      "value": 44,
+      "benchmark": 52,
+      "kappa": 0.69,
+      "kappaLabel": "评分者一致性: κ=0.69 (可信)",
+      "kappaVariant": "trusted",
+      "note": ""
+    },
+    {
+      "axis": "其他问题",
+      "category": "otherReasons",
+      "value": 10,
+      "benchmark": 30,
+      "kappa": 0.7,
+      "kappaLabel": "评分者一致性: κ=0.70 (可信)",
+      "kappaVariant": "trusted",
+      "note": ""
+    }
+  ],
+  "vocabularyMarks": [
+    {
+      "term": "吃瓜",
+      "family": "cooperation",
+      "label": "合作讨论",
+      "axis": "逻辑混乱",
+      "polarity": "support",
+      "count": 1
+    },
+    {
+      "term": "笑哭",
+      "family": "cooperation",
+      "label": "合作讨论",
+      "axis": "逻辑混乱",
+      "polarity": "support",
+      "count": 1
+    }
+  ],
+  "calibrated": true
+}

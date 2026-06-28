@@ -1,0 +1,387 @@
+{
+  "ok": true,
+  "generatedAt": "2026-06-28T15:47:55.575971+00:00",
+  "method": "grid_search_spearman_rho",
+  "n_users": 100,
+  "axes": [
+    "toxicEmotions",
+    "missingCommitment",
+    "missingIntelligibility",
+    "otherReasons"
+  ],
+  "per_axis_weights": {
+    "toxicEmotions": {
+      "optimal_alpha": 0.05,
+      "optimal_rho": 0.2053,
+      "baseline_rho": 0.1652,
+      "improvement": 0.0401,
+      "interpretation": "semantic × 0.05 + lexicon × 0.95. Lexicon-heavy blend.",
+      "grid_search": [
+        {
+          "alpha": 0.0,
+          "rho": 0.1447
+        },
+        {
+          "alpha": 0.05,
+          "rho": 0.2053
+        },
+        {
+          "alpha": 0.1,
+          "rho": 0.1994
+        },
+        {
+          "alpha": 0.15,
+          "rho": 0.1939
+        },
+        {
+          "alpha": 0.2,
+          "rho": 0.1925
+        },
+        {
+          "alpha": 0.25,
+          "rho": 0.1909
+        },
+        {
+          "alpha": 0.3,
+          "rho": 0.1898
+        },
+        {
+          "alpha": 0.35,
+          "rho": 0.1907
+        },
+        {
+          "alpha": 0.4,
+          "rho": 0.19
+        },
+        {
+          "alpha": 0.45,
+          "rho": 0.19
+        },
+        {
+          "alpha": 0.5,
+          "rho": 0.189
+        },
+        {
+          "alpha": 0.55,
+          "rho": 0.1888
+        },
+        {
+          "alpha": 0.6,
+          "rho": 0.1888
+        },
+        {
+          "alpha": 0.65,
+          "rho": 0.1911
+        },
+        {
+          "alpha": 0.7,
+          "rho": 0.1911
+        },
+        {
+          "alpha": 0.75,
+          "rho": 0.1918
+        },
+        {
+          "alpha": 0.8,
+          "rho": 0.1918
+        },
+        {
+          "alpha": 0.85,
+          "rho": 0.1918
+        },
+        {
+          "alpha": 0.9,
+          "rho": 0.1927
+        },
+        {
+          "alpha": 0.95,
+          "rho": 0.1927
+        },
+        {
+          "alpha": 1.0,
+          "rho": 0.1756
+        }
+      ]
+    },
+    "missingCommitment": {
+      "optimal_alpha": 0.05,
+      "optimal_rho": 0.2033,
+      "baseline_rho": 0.0156,
+      "improvement": 0.1877,
+      "interpretation": "semantic × 0.05 + lexicon × 0.95. Lexicon-heavy blend.",
+      "grid_search": [
+        {
+          "alpha": 0.0,
+          "rho": 0.1998
+        },
+        {
+          "alpha": 0.05,
+          "rho": 0.2033
+        },
+        {
+          "alpha": 0.1,
+          "rho": 0.2016
+        },
+        {
+          "alpha": 0.15,
+          "rho": 0.2033
+        },
+        {
+          "alpha": 0.2,
+          "rho": 0.1927
+        },
+        {
+          "alpha": 0.25,
+          "rho": 0.1936
+        },
+        {
+          "alpha": 0.3,
+          "rho": 0.1786
+        },
+        {
+          "alpha": 0.35,
+          "rho": 0.1397
+        },
+        {
+          "alpha": 0.4,
+          "rho": 0.1255
+        },
+        {
+          "alpha": 0.45,
+          "rho": 0.1291
+        },
+        {
+          "alpha": 0.5,
+          "rho": 0.0078
+        },
+        {
+          "alpha": 0.55,
+          "rho": -0.1149
+        },
+        {
+          "alpha": 0.6,
+          "rho": -0.1149
+        },
+        {
+          "alpha": 0.65,
+          "rho": -0.1149
+        },
+        {
+          "alpha": 0.7,
+          "rho": -0.1238
+        },
+        {
+          "alpha": 0.75,
+          "rho": -0.122
+        },
+        {
+          "alpha": 0.8,
+          "rho": -0.1238
+        },
+        {
+          "alpha": 0.85,
+          "rho": -0.1326
+        },
+        {
+          "alpha": 0.9,
+          "rho": -0.1326
+        },
+        {
+          "alpha": 0.95,
+          "rho": -0.1326
+        },
+        {
+          "alpha": 1.0,
+          "rho": -0.1309
+        }
+      ]
+    },
+    "missingIntelligibility": {
+      "optimal_alpha": 0.2,
+      "optimal_rho": 0.1875,
+      "baseline_rho": 0.1651,
+      "improvement": 0.0224,
+      "interpretation": "semantic × 0.20 + lexicon × 0.80. Lexicon-heavy blend.",
+      "grid_search": [
+        {
+          "alpha": 0.0,
+          "rho": 0.1481
+        },
+        {
+          "alpha": 0.05,
+          "rho": 0.1634
+        },
+        {
+          "alpha": 0.1,
+          "rho": 0.1827
+        },
+        {
+          "alpha": 0.15,
+          "rho": 0.1862
+        },
+        {
+          "alpha": 0.2,
+          "rho": 0.1875
+        },
+        {
+          "alpha": 0.25,
+          "rho": 0.1811
+        },
+        {
+          "alpha": 0.3,
+          "rho": 0.1786
+        },
+        {
+          "alpha": 0.35,
+          "rho": 0.1825
+        },
+        {
+          "alpha": 0.4,
+          "rho": 0.1813
+        },
+        {
+          "alpha": 0.45,
+          "rho": 0.1813
+        },
+        {
+          "alpha": 0.5,
+          "rho": 0.1651
+        },
+        {
+          "alpha": 0.55,
+          "rho": 0.1468
+        },
+        {
+          "alpha": 0.6,
+          "rho": 0.1468
+        },
+        {
+          "alpha": 0.65,
+          "rho": 0.1468
+        },
+        {
+          "alpha": 0.7,
+          "rho": 0.1468
+        },
+        {
+          "alpha": 0.75,
+          "rho": 0.1481
+        },
+        {
+          "alpha": 0.8,
+          "rho": 0.1468
+        },
+        {
+          "alpha": 0.85,
+          "rho": 0.1468
+        },
+        {
+          "alpha": 0.9,
+          "rho": 0.1468
+        },
+        {
+          "alpha": 0.95,
+          "rho": 0.1468
+        },
+        {
+          "alpha": 1.0,
+          "rho": 0.1456
+        }
+      ]
+    },
+    "otherReasons": {
+      "optimal_alpha": 0.0,
+      "optimal_rho": 0.1095,
+      "baseline_rho": -0.1265,
+      "improvement": 0.2359,
+      "interpretation": "semantic × 0.00 + lexicon × 1.00. Lexicon-heavy blend.",
+      "grid_search": [
+        {
+          "alpha": 0.0,
+          "rho": 0.1095
+        },
+        {
+          "alpha": 0.05,
+          "rho": 0.1095
+        },
+        {
+          "alpha": 0.1,
+          "rho": 0.1095
+        },
+        {
+          "alpha": 0.15,
+          "rho": 0.1095
+        },
+        {
+          "alpha": 0.2,
+          "rho": 0.1095
+        },
+        {
+          "alpha": 0.25,
+          "rho": 0.1095
+        },
+        {
+          "alpha": 0.3,
+          "rho": 0.1095
+        },
+        {
+          "alpha": 0.35,
+          "rho": 0.1095
+        },
+        {
+          "alpha": 0.4,
+          "rho": 0.1095
+        },
+        {
+          "alpha": 0.45,
+          "rho": 0.1095
+        },
+        {
+          "alpha": 0.5,
+          "rho": 0.1095
+        },
+        {
+          "alpha": 0.55,
+          "rho": 0.1095
+        },
+        {
+          "alpha": 0.6,
+          "rho": 0.1095
+        },
+        {
+          "alpha": 0.65,
+          "rho": 0.1095
+        },
+        {
+          "alpha": 0.7,
+          "rho": 0.1095
+        },
+        {
+          "alpha": 0.75,
+          "rho": 0.1095
+        },
+        {
+          "alpha": 0.8,
+          "rho": 0.1095
+        },
+        {
+          "alpha": 0.85,
+          "rho": 0.1095
+        },
+        {
+          "alpha": 0.9,
+          "rho": 0.1095
+        },
+        {
+          "alpha": 0.95,
+          "rho": 0.1095
+        },
+        {
+          "alpha": 1.0,
+          "rho": null
+        }
+      ]
+    }
+  },
+  "note": "These blend weights optimize correlation between the blended score and DeepSeek annotator consensus. α > 0.5 means semantic pattern matching is more correlated with annotator judgment for that axis. α < 0.5 means keyword lexicon density is more correlated."
+}

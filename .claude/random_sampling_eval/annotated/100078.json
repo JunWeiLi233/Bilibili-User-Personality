@@ -1,0 +1,43 @@
+{
+  "uid": "100078",
+  "annotatedAt": "2026-06-28T15:11:04.623Z",
+  "commentCount": 60,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": null,
+  "A2": {
+    "toxicEmotions": 2,
+    "missingCommitment": 0,
+    "missingIntelligibility": 1,
+    "otherReasons": 0,
+    "evidence": [
+      "就是情商低，没格局，小肚鸡肠。这种人在哪里都混不开。",
+      "顽皮狗在那一刻就已经死了，皮囊之下只剩下DEI和SB这样的蛆虫还在啃食残存的骨肉。",
+      "提问的屁股很歪啊"
+    ],
+    "notes": "存在明确的人身攻击和情绪宣泄（如'情商低''蛆虫''SB'），同时有绝对化断言（'就是''很歪'），但未发现回避讨论、逻辑跳跃或刷屏等证据。"
+  },
+  "A3": {
+    "toxicEmotions": 2,
+    "missingCommitment": 0,
+    "missingIntelligibility": 1,
+    "otherReasons": 0,
+    "resolution": "同意A2",
+    "notes": "样本中多次出现辱骂性词汇和人身攻击，情绪过激明显；用户积极参与讨论，无回避；部分评论逻辑清晰但有少量跳跃，故给1分；无其他显著问题。"
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 2,
+    "missingCommitment": 0,
+    "missingIntelligibility": 1,
+    "otherReasons": 0
+  },
+  "binaryLabels": {
+    "toxicEmotions": true,
+    "missingCommitment": false,
+    "missingIntelligibility": true,
+    "otherReasons": false
+  }
+}

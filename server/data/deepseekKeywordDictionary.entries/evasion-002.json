@@ -1,0 +1,198 @@
+{
+  "version": 1,
+  "updatedAt": null,
+  "family": "evasion",
+  "shard": "evasion-002",
+  "shardCount": 2,
+  "entries": [
+    {
+      "term": "别杠，杠就是你对",
+      "family": "evasion",
+      "meaning": "先发制人中止辩论，表面认输实则拒绝继续讨论，避免陷入无休止争执。",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-27T23:19:19.618Z"
+    },
+    {
+      "term": "狗头保命",
+      "family": "evasion",
+      "meaning": "在评论后加狗头表情或文字，表示前述内容为玩笑或反讽，用以免责并规避被攻击的风险。",
+      "risk": "low",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-27T23:19:19.618Z"
+    },
+    {
+      "term": "希腊奶",
+      "family": "evasion",
+      "meaning": "日语「知らない」谐音，意为不知情，用外来语俏皮地装傻推脱，回避回答问题。",
+      "risk": "low",
+      "confidence": 0.7,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-27T23:19:19.618Z"
+    },
+    {
+      "term": "我不到啊",
+      "family": "evasion",
+      "meaning": "方言梗，模仿东北口音说“我不知道”，以幽默方式表示自己不了解，推卸回答责任。",
+      "risk": "low",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-27T23:19:19.618Z"
+    },
+    {
+      "term": "自己琢磨",
+      "family": "evasion",
+      "meaning": "要求对方自行思考，拒绝提供直接解释，将举证负担转移给提问者。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-27T23:19:19.618Z"
+    },
+    {
+      "term": "去外网看看",
+      "family": "evasion",
+      "meaning": "暗示信息在境外网络，诱导对方自行寻找，既回避直接回答又可能涉及敏感内容，风险较高。",
+      "risk": "high",
+      "confidence": 0.7,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-27T23:19:19.618Z"
+    },
+    {
+      "term": "别回我",
+      "family": "evasion",
+      "meaning": "明确要求停止交流，终止对话，避免进一步卷入争论或被追责。",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-27T23:19:19.618Z"
+    },
+    {
+      "term": "懒得和你讲",
+      "family": "evasion",
+      "meaning": "以缺乏耐心为由拒绝解释，表达不屑于继续讨论，带有居高临下的态度。",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-27T23:19:19.618Z"
+    },
+    {
+      "term": "不好说",
+      "family": "evasion",
+      "meaning": "用模糊回答回避明确表态，留出解释余地，避免因正面回答而陷入麻烦。",
+      "risk": "low",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-27T23:19:19.618Z"
+    },
+    {
+      "term": "看简介",
+      "family": "evasion",
+      "meaning": "让提问者自己去看视频简介或动态，避免口头重复解释，将解答责任转嫁给对方。",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-27T23:19:19.618Z"
+    },
+    {
+      "term": "你说是就是吧",
+      "family": "evasion",
+      "meaning": "放弃争辩，表面顺从，实则表达无奈和拒绝继续讨论的态度。",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-27T23:19:19.618Z"
+    },
+    {
+      "term": "再说吧",
+      "family": "evasion",
+      "meaning": "拖延话术，模糊答应却无实际行动，规避当下的承诺或解释。",
+      "risk": "low",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-27T23:19:19.618Z"
+    },
+    {
+      "term": "无内鬼",
+      "family": "evasion",
+      "meaning": "暗示有敏感或加密内容但不明说，用圈内暗号吸引同好，同时规避不适宜的公开讨论。",
+      "risk": "high",
+      "confidence": 0.75,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-27T23:19:19.618Z"
+    },
+    {
+      "term": "不解释",
+      "family": "evasion",
+      "meaning": "直接拒绝说明理由，停止沟通，将对话掐断。",
+      "risk": "medium",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-27T23:19:19.618Z"
+    },
+    {
+      "term": "佛曰不可说",
+      "family": "evasion",
+      "meaning": "借用宗教用语营造神秘感，表示内容不可言明，以此回避解释敏感或难言之事。",
+      "risk": "low",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-27T23:19:19.618Z"
+    },
+    {
+      "term": "经验+3",
+      "family": "evasion",
+      "meaning": "纯粹水评论刷经验，对原内容无任何实质性回应，典型规避讨论的刷屏话术。",
+      "risk": "low",
+      "confidence": 0.9,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-27T23:19:19.618Z"
+    },
+    {
+      "term": "随你",
+      "family": "evasion",
+      "meaning": "放弃说服，表示任由对方决定，其实是中断讨论的消极回应。",
+      "risk": "low",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-27T23:19:19.618Z"
+    },
+    {
+      "term": "缓缓再说",
+      "family": "evasion",
+      "meaning": "拖延回应，用“缓一缓”来搁置话题，避免即时表态。",
+      "risk": "low",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-27T23:19:19.618Z"
+    },
+    {
+      "term": "某度一下",
+      "family": "evasion",
+      "meaning": "委婉指示对方用百度搜索，变相要求自行查找信息，规避亲身解答。",
+      "risk": "medium",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-27T23:19:19.618Z"
+    },
+    {
+      "term": "拉黑不谢",
+      "family": "evasion",
+      "meaning": "威胁将对方拉黑并附带不谢，单方面结束对话，拒绝继续沟通。",
+      "risk": "medium",
+      "confidence": 0.85,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-27T23:19:19.618Z"
+    },
+    {
+      "term": "去搜关键字",
+      "family": "evasion",
+      "meaning": "提供搜索关键词而不直接给链接或答案，让他人自行检索，转移解释责任。",
+      "risk": "low",
+      "confidence": 0.8,
+      "evidenceCount": 0,
+      "updatedAt": "2026-06-27T23:19:19.618Z"
+    }
+  ]
+}

@@ -1,4 +1,5 @@
-import { findDictionaryEntriesWithTextEvidence } from './deepseekKeywordTrainer.js';
+import { findDictionaryEntriesWithTextEvidence, buildSenseIndex, disambiguateSenseHits } from './deepseekKeywordTrainer.js';
+import { classifyScenario } from './contextClassifier.js';
 
 function hasChinese(text) {
   return /[\p{Script=Han}]/u.test(String(text || ''));
@@ -2699,6 +2700,26 @@ function isRound69SuppressedContext(entry, message) {
   return false;
 }
 
+/**
+ * Central suppression router for ad-hoc context-dependent false-positive reduction.
+ *
+ * AUDIT (2026-06-28, Step 2 polysemy disambiguation integration):
+ *   47 isSuppressed* functions cover 76 terms with general context-suppression
+ *   heuristics (不是→question particle, 没有→simple lack, 就是→neutral metaphor, etc.).
+ *   None of these 47 functions target any of the 14 polysemous terms (急了, 逆天,
+ *   典中典, 啊对对对, 插眼, 对对对, 反转了, 谜语人, 受教了, 下次一定, 学习了,
+ *   一言难尽, 张口就来, 指路) now handled by multi-sense disambiguation.
+ *
+ *   Deprecation report: { total: 47, deprecated: 0, retained: 47, reason:
+ *     "Zero overlap — isSuppressed* targets 76 non-polysemous terms with
+ *     context heuristics; multi-sense disambiguation targets 14 polysemous
+ *     terms with structured sense resolution. The two layers are complementary
+ *     and mutually non-redundant." }
+ *
+ * See also: classifyCommentCoverage (disambiguateBeforeClassify hook),
+ *           deepseekKeywordTrainer.disambiguateSenseHits,
+ *           contextClassifier.classifyScenario
+ */
 function isSuppressedLexicalHit(entry, message) {
   return isSelfReferentialNoviceHit(entry, message)
     || isLiteralYinYangContext(entry, message)
@@ -2787,13 +2808,54 @@ export function classifyCommentCoverage(dictionary, comment, options = {}) {
     ? evidenceEntries
     : exactDictionaryEntries(dictionary, attributableMessage)
       .filter((entry) => !isSuppressedLexicalHit(entry, attributableMessage));
-  const lexicalHits = lexicalEntries.map(summarizeHit);
+  const lexicalHitsRaw = lexicalEntries.map(summarizeHit);
+
+  // ── Polysemy disambiguation hook (Step 2 — multi-sense context resolution) ──
+  // Resolves polysemous terms (急了, 逆天, etc.) to their most likely sense
+  // given the comment context.  Hits that resolve to low-risk / positive senses
+  // (e.g. 逆天 as praise, 急了 as reassurance) are suppressed before they flow
+  // into coverage decisions.
+  let disambiguationApplied = false;
+  let disambiguationStats = null;
+  let lexicalHits = lexicalHitsRaw;
+  if (options.disambiguate) {
+    try {
+      const senseIndex = buildSenseIndex(dictionary);
+      const scenario = classifyScenario(message).scenario;
+      const disambiguated = disambiguateSenseHits(lexicalHitsRaw, attributableMessage, senseIndex, { scenario });
+
+      let suppressedCount = 0;
+      lexicalHits = [];
+      for (const hit of disambiguated) {
+        if (hit.disambiguatedSense && senseIndex.byTerm?.has(hit.term)) {
+          const senses = senseIndex.byTerm.get(hit.term);
+          const resolvedSense = senses.find((s) => s.senseId === hit.disambiguatedSense);
+          if (resolvedSense && (resolvedSense.risk === 'positive' || resolvedSense.risk === 'low')) {
+            suppressedCount++;
+            continue; // Suppress: low-risk / positive sense resolved — not argumentative
+          }
+        }
+        lexicalHits.push(hit);
+      }
+
+      disambiguationApplied = true;
+      disambiguationStats = {
+        total: disambiguated.length,
+        suppressed: suppressedCount,
+        retained: lexicalHits.length,
+        scenario,
+      };
+    } catch (e) {
+      // Fallback: if disambiguation errors, use raw hits unchanged
+      lexicalHits = lexicalHitsRaw;
+    }
+  }
   const emoteHits = detectEmoteSemanticHits(message);
   const supplementalHits = detectSupplementalSemanticHits(message);
   const hits = [...lexicalHits, ...emoteHits, ...supplementalHits];
 
   if (hits.length > 0) {
-    return {
+    const result = {
       covered: true,
       mode: 'keyword',
       reason: [
@@ -2804,16 +2866,20 @@ export function classifyCommentCoverage(dictionary, comment, options = {}) {
       hits,
       comment: message,
     };
+    if (disambiguationApplied) result.disambiguation = disambiguationStats;
+    return result;
   }
 
   if (hasChinese(message)) {
-    return {
+    const result = {
       covered: true,
       mode: 'neutral',
       reason: 'no dictionary risk term matched; comment remains analyzable as neutral/no-keyword speech',
       hits: [],
       comment: message,
     };
+    if (disambiguationApplied) result.disambiguation = disambiguationStats;
+    return result;
   }
 
   if (/^(?:[\p{Emoji_Presentation}\p{Extended_Pictographic}\p{Punctuation}\p{Symbol}\s]|[()（）<>≧≦=^_^・ω3])+$/u.test(message)) {

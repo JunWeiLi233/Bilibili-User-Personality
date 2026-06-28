@@ -1,0 +1,38 @@
+{
+  "generatedAt": "2026-06-28T10:58:08.748344+00:00",
+  "source": "D:\\Bilibili_User_Personality\\.claude\\annotation_data\\labels_stratified.json",
+  "n_comments": 182,
+  "n_paired": 182,
+  "kappa": {
+    "per_axis": {
+      "toxicEmotions": 0.2787,
+      "missingCommitment": 0.0959,
+      "missingIntelligibility": -0.0159,
+      "otherReasons": 0.2303
+    },
+    "overall": 0.2365
+  },
+  "positives": {
+    "toxicEmotions": {
+      "A1_positive": 39,
+      "A2_positive": 20
+    },
+    "missingCommitment": {
+      "A1_positive": 18,
+      "A2_positive": 5
+    },
+    "missingIntelligibility": {
+      "A1_positive": 4,
+      "A2_positive": 3
+    },
+    "otherReasons": {
+      "A1_positive": 8,
+      "A2_positive": 4
+    }
+  },
+  "gate": {
+    "n_above_06": 0,
+    "threshold": 3,
+    "passed": false
+  }
+}

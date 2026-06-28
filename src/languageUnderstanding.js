@@ -106,6 +106,53 @@ function hasExplicitNonAttackFrame(text) {
   return /(?:\u4e0d\u662f\u9a82|\u4e0d\u662f\u653b\u51fb|\u6ca1\u6709\u9a82|\u6ca1\u6709\u653b\u51fb|\u4e0d\u662f\u4eba\u8eab|\u6ca1\u6709\u4eba\u8eab|\u53ea\u662f|\u4ec5\u4ec5|\u7528\u6765\u8c03\u4f83|\u5f00\u73a9\u7b11|\u8c03\u4f83|\u73a9\u7b11|not attacking|not an attack|not insulting|not ad hominem|just a meme|only a meme|as a joke|joking)/i.test(text);
 }
 
+// \u2500\u2500 New filters from N=100 audit (2026-06-28) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+
+function hasBilibiliEmoteFrame(text) {
+  // Bilibili-style emotes like [\u7b11\u54ed], [doge], [\u62a0\u9f3b], [\u6253call], [\u5c0f\u7535\u89c6_\u8d5e]
+  return /\[[\u4e00-\u9fff\w_]+?\]/.test(text);
+}
+
+function hasReplyQuoteFrame(text) {
+  // "\u56de\u590d @" is quoting someone else \u2014 the flagged terms are in the quoted text
+  return /\u56de\u590d\s*@/.test(text);
+}
+
+function hasCommonDiscourseFrame(text) {
+  // Opinion markers \u2014 the speaker is expressing a personal view, not attacking
+  return /(?:\u6211\u89c9\u5f97|\u6211\u611f\u89c9|\u6211\u4e2a\u4eba|\u6211\u8ba4\u4e3a|\u6211\u731c|\u6211\u4f30\u8ba1|\u4e2a\u4eba\u89c2\u70b9|\u4e2a\u4eba\u770b\u6cd5|\u6211\u7684\u7406\u89e3|\u6211\u89c9\u5f97\u8fd8\u884c|\u6211\u89c9\u5f97\u4e0d\u9519|\u6211\u89c9\u5f97\u633a\u597d)/.test(text);
+}
+
+function hasGamingMemeContext(text) {
+  // Gaming/community slang used descriptively, not as attacks
+  // "\u5178" = classic/typical (neutral gaming term), "\u9006\u5929" = ridiculous (expressive not aggressive)
+  // "\u62bd\u8c61" = abstract/weird (descriptive), "\u79bb\u8c31" = outrageous (expressive)
+  const gamingMemeWords = /\u5178(\u4e2d\u5178)?$|^\u5178\u4e86|\u7ecf\u5178|\u62bd\u8c61|\u79bb\u8c31|\u9006\u5929|\u7eb0\u4e0d\u4f4f|\u6ca1\u7eb0\u4f4f|\u597d\u5bb6\u4f19|\u539f\u6c41\u539f\u5473|\u540d\u573a\u9762|\u592a\u5178\u4e86|\u786e\u5b9e|\u771f\u5b9e|\u597d\u4e86|666|\u725b\u903c|\u725b\u6279|\u6211\u53bb|\u5367\u69fd|\u597d\u8036|\u8def\u8fc7|\u524d\u6392|\u6253\u5361|\u9644\u8bae|\u7edd\u4e86|\u8212\u670d\u4e86|\u723d\u4e86|\u8d77\u98de|\u539f\u6765\u5982\u6b64/;
+  // Only flag as meme when these appear without hostile targets
+  return gamingMemeWords.test(text) && !hasDirectHostileTarget(text);
+}
+
+function hasTechnicalContext(text) {
+  // "\u88c5" in technical/gaming contexts means "install" not "pretend/act"
+  // e.g., \u88c5\u8f66, \u52a0\u88c5, \u88c5\u4e0a\u53bb, \u88c5\u4e86XX
+  return /(?:\u88c5\u8f66|\u88c5\u4e0a|\u88c5\u5230|\u52a0\u88c5|\u6362\u88c5|\u5b89\u88c5|\u91cd\u88c5|\u88c5\u4e86|\u88c5\u4e2a|\u88c5\u7684|\u4e00\u4f53|\u5957\u4ef6|\u914d\u4ef6|\u5239\u8f66|\u8f6e\u7ec4|\u524d\u53c9|\u540e\u62e8|\u53d8\u901f)/.test(text);
+}
+
+function hasSelfDeprecationContext(text) {
+  // Self-directed humor \u2014 the speaker is joking about themselves
+  return /(?:\u6211\u81ea\u5df1|\u6211\u5c31\u662f|\u662f\u6211\u4e86|\u6211\u4e5f\u4e00\u6837|\u6211\u627f\u8ba4|\u662f\u6211\u7684\u95ee\u9898|\u6211\u641e\u6df7|\u6211\u8bb0\u9519|\u6211\u5f04\u9519|\u6211\u641e\u9519|\u4e22\u4eba\u4e86|\u5c34\u5c2c\u4e86|\u793e\u6b7b|sorry|my bad|my fault|\u662f\u6211\u4e86|\u5c31\u662f\u6211|\u539f\u6765\u662f\u6211|\u539f\u6765\u662f\u6211\u81ea\u5df1|\u6211\u80a4\u6d45\u4e86)/i.test(text);
+}
+
+function stripReplyPrefix(text) {
+  // Remove "\u56de\u590d @username :" prefix from text before analysis
+  return text.replace(/^\u56de\u590d\s*@\S+\s*[:\uff1a]?\s*/, '').trim();
+}
+
+function stripBilibiliEmotes(text) {
+  // Remove Bilibili-style [xxx] emotes
+  return text.replace(/\[[\u4e00-\u9fff\w_]+?\]/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
 function hasMemeDiscussionFrame(text) {
   return /(?:\u8fd9\u4e2a|\u8fd9\u53e5|\u8fd9\u6bb5|\u8fd9\u4e2a\u8bcd).{0,16}(?:\u6897|\u53f0\u8bcd|\u540d\u573a\u9762|\u539f\u53e5|\u7f51\u7edc\u7528\u8bed|\u6d41\u884c\u8bed|\u62bd\u8c61|\u6574\u6d3b)|(?:\u6897|\u53f0\u8bcd|\u540d\u573a\u9762|\u539f\u53e5|\u5f39\u5e55|\u590d\u8bfb|\u8282\u76ee\u6548\u679c|\u7f51\u7edc\u7528\u8bed|\u6d41\u884c\u8bed|\u62bd\u8c61|\u6574\u6d3b).{0,20}(?:\u592a\u597d\u7b11|\u597d\u7b11|\u590d\u8bfb|\u51fa\u5904|\u5f39\u5e55|\u5237\u5c4f|\u8282\u76ee\u6548\u679c|\u8bf4\u6cd5|meme|quote|catchphrase)/i.test(text);
 }
@@ -120,11 +167,49 @@ function hasDirectHostileTarget(text) {
 
 export function isMemeOrQuotedNonAttackText(text = '') {
   text = String(text || '');
+
+  // Fast-path: reply quotes are almost never attacks
+  if (hasReplyQuoteFrame(text)) {
+    // Strip the reply prefix and re-check the actual comment
+    const stripped = stripReplyPrefix(text);
+    if (stripped.length < 4) return true; // bare reply is not an attack
+    // Recurse on the stripped content
+    return isMemeOrQuotedNonAttackText(stripped);
+  }
+
+  // Fast-path: Bilibili emotes indicate casual/meme context
+  const hasEmotes = hasBilibiliEmoteFrame(text);
+
+  // Fast-path: self-deprecation cancels attack intent
+  if (hasSelfDeprecationContext(text) && !hasDirectHostileTarget(text)) return true;
+
+  // Fast-path: common discourse markers → personal opinion, not attack
+  if (hasCommonDiscourseFrame(text) && !hasDirectHostileTarget(text)) return true;
+
+  // Technical context: "装" in bike/gaming = "install", not "pretend"
+  if (hasTechnicalContext(text) && !hasDirectHostileTarget(text)) return true;
+
+  // Gaming meme context without hostile target
+  if (hasGamingMemeContext(text)) return true;
+
+  // Self-directed meme catchphrase ("小丑竟是我自己")
   if (hasSelfDirectedMemeCatchphrase(text) && !hasDirectHostileTarget(text)) return true;
-  if (!hasMemeFrame(text)) return false;
-  if (hasExplicitNonAttackFrame(text)) return true;
-  if (hasMemeDiscussionFrame(text)) return true;
-  return hasQuoteFrame(text) && !hasDirectHostileTarget(stripQuotedSegments(text));
+
+  // Original meme frame checks (with lower threshold when emotes present)
+  if (hasMemeFrame(text)) {
+    if (hasExplicitNonAttackFrame(text)) return true;
+    if (hasMemeDiscussionFrame(text)) return true;
+    // Emotes lower the threshold for meme classification
+    if (hasEmotes && !hasDirectHostileTarget(text)) return true;
+  }
+
+  // Quote frames (when emotes are present, more lenient)
+  if (hasQuoteFrame(text) && !hasDirectHostileTarget(stripQuotedSegments(text))) return true;
+
+  // Emotes alone without hostile target indicate casual/meme context
+  if (hasEmotes && !hasDirectHostileTarget(text)) return true;
+
+  return false;
 }
 
 export function buildRiskLexiconText(comments = []) {

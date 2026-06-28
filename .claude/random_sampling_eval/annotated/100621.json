@@ -1,0 +1,47 @@
+{
+  "uid": "100621",
+  "annotatedAt": "2026-06-28T15:31:06.624Z",
+  "commentCount": 12,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "notes": "用户评论内容均为理性、建设性的科学讨论，包含详细论证、引用和提问，无情绪过激、回避讨论、逻辑混乱或恶意行为。"
+  },
+  "A2": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 1,
+    "evidence": [
+      "评论4：'我进行一个沙发的占' 为无意义表达"
+    ],
+    "notes": "用户评论多为理性讨论和科普，仅有一条无意义占楼。"
+  },
+  "A3": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "resolution": "同意A1",
+    "notes": "用户评论理性专业，偶有轻松表达但属正常互动，未发现明显问题维度。"
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0
+  },
+  "binaryLabels": {
+    "toxicEmotions": false,
+    "missingCommitment": false,
+    "missingIntelligibility": false,
+    "otherReasons": false
+  }
+}

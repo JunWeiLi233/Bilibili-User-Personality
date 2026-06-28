@@ -21,4 +21,7 @@ server/data/keywordCoverageActions.python.json
 server/data/.keyword-harvest.lock/
 server/data/*.json.lock/
 set-deepseek-env.ps1
+.env
 run-bilibili-video.links.ps1
+
+.claude/agent-locks/

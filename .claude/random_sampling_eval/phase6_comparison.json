@@ -1,0 +1,98 @@
+{
+  "generatedAt": "2026-06-28T15:55:31.348Z",
+  "nUsers": 100,
+  "before": {
+    "aucRoc": 0.5384,
+    "f1": 0,
+    "precision": 0,
+    "recall": 0,
+    "threshold": 50,
+    "trollRange": {
+      "min": 29,
+      "max": 50,
+      "spread": 21
+    },
+    "perAxis": {
+      "toxicEmotions": {
+        "n": 100,
+        "brier": 0.2741,
+        "ece": 0.4045
+      },
+      "missingCommitment": {
+        "n": 100,
+        "brier": 0.0718,
+        "ece": 0.2493
+      },
+      "missingIntelligibility": {
+        "n": 100,
+        "brier": 0.2271,
+        "ece": 0.4501
+      },
+      "otherReasons": {
+        "n": 100,
+        "brier": 0.0369,
+        "ece": 0.0374
+      }
+    },
+    "spearmanRho": {
+      "toxicEmotions": 0.1652,
+      "missingCommitment": 0.0156,
+      "missingIntelligibility": 0.1651,
+      "otherReasons": -0.1265
+    }
+  },
+  "after": {
+    "aucRoc": 0.5024,
+    "f1": 0.5401,
+    "precision": 0.37,
+    "recall": 1,
+    "threshold": 1,
+    "trollRange": {
+      "min": 3,
+      "max": 24,
+      "spread": 21
+    },
+    "perAxis": {
+      "toxicEmotions": {
+        "n": 100,
+        "brier": 0.1073,
+        "ece": 0.0816
+      },
+      "missingCommitment": {
+        "n": 100,
+        "brier": 0.0097,
+        "ece": 0.0095
+      },
+      "missingIntelligibility": {
+        "n": 100,
+        "brier": 0.0564,
+        "ece": 0.0879
+      },
+      "otherReasons": {
+        "n": 100,
+        "brier": 0.0355,
+        "ece": 0.0122
+      }
+    },
+    "spearmanRho": {
+      "toxicEmotions": -0.0894,
+      "missingCommitment": 0.0642,
+      "missingIntelligibility": 0.0884,
+      "otherReasons": 0.019
+    }
+  },
+  "targets": {
+    "auc >= 0.65": false,
+    "f1 >= 0.40": true,
+    "troll_spread >= 40": false,
+    "worst_brier < 0.15": true,
+    "worst_ece < 0.20": true,
+    "worst_rho >= 0.50": false
+  },
+  "improvements": {
+    "aucRoc_delta": -0.036,
+    "f1_delta": 0.5401,
+    "brier_best_improvement": 0.1668,
+    "rho_best_improvement": -0.0768
+  }
+}

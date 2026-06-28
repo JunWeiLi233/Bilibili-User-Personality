@@ -1,0 +1,47 @@
+{
+  "uid": "100716",
+  "annotatedAt": "2026-06-28T15:35:51.667Z",
+  "commentCount": 60,
+  "annotators": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "A1": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "notes": "评论以简短调笑、表情、分享信息为主，无攻击性、回避讨论、逻辑混乱或恶意行为。"
+  },
+  "A2": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "evidence": [
+      "未发现明确的违规文字证据"
+    ],
+    "notes": "用户评论多为表情符号、简短调侃或中性表达，无情绪过激、回避讨论、逻辑混乱或其他问题。"
+  },
+  "A3": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0,
+    "resolution": "同意A1和A2",
+    "notes": "用户评论均为简短网络用语、表情或回复，无情绪过激、回避讨论、逻辑混乱或其他问题，符合正常交流行为。"
+  },
+  "perAxisConsensus": {
+    "toxicEmotions": 0,
+    "missingCommitment": 0,
+    "missingIntelligibility": 0,
+    "otherReasons": 0
+  },
+  "binaryLabels": {
+    "toxicEmotions": false,
+    "missingCommitment": false,
+    "missingIntelligibility": false,
+    "otherReasons": false
+  }
+}

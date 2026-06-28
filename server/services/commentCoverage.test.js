@@ -2518,3 +2518,134 @@ test('classifyCommentCoverage handles round 98 validated UTF-8 audit cues', () =
     assert.deepEqual(neutral.hits, []);
   }
 });
+
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+// Step 2 \u2014 Polysemy disambiguation integration tests
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+
+const polysemyDictionary = {
+  entries: [
+    {
+      term: '\u6025\u4e86',
+      senses: [
+        {
+          id: '\u6025\u4e86-1',
+          family: 'attack',
+          meaning: '\u5632\u8bbd\u5bf9\u65b9\u60c5\u7eea\u5931\u63a7\uff0c\u653b\u51fb\u6027\u7528\u6cd5',
+          risk: 'medium',
+          contextHints: ['\u4f60', '\u54c8\u54c8\u54c8', '\u7834\u9632', '\u6025\u773c', '\u5178'],
+          contextAntiHints: ['\u522b', '\u6162\u6162', '\u9a6c\u4e0a', '\u5e02\u573a', '\u4e0d\u6025'],
+          scenario: 'taunting',
+        },
+        {
+          id: '\u6025\u4e86-2',
+          family: 'cooperation',
+          meaning: '\u4e2d\u6027\u6216\u5173\u5fc3\u7684\u50ac\u4fc3/\u5b89\u629a',
+          risk: 'positive',
+          contextHints: ['\u522b', '\u6162\u6162\u6765', '\u4e0d\u6025', '\u9a6c\u4e0a\u5230', '\u6ca1\u4e8b'],
+          contextAntiHints: [],
+          scenario: 'reassurance',
+        },
+      ],
+      defaultSense: '\u6025\u4e86-1',
+    },
+    {
+      term: '\u9006\u5929',
+      senses: [
+        {
+          id: '\u9006\u5929-1',
+          family: 'attack',
+          meaning: '\u8d2c\u4e49\uff1a\u5f62\u5bb9\u4e8b\u7269\u8d85\u51fa\u5e38\u7406\u5230\u4ee4\u4eba\u4e0d\u6ee1\u7684\u5730\u6b65',
+          risk: 'medium',
+          contextHints: ['\u5783\u573e', '\u6076\u5fc3', '\u65e0\u8bed', '\u79bb\u8c31'],
+          contextAntiHints: ['\u64cd\u4f5c', '\u5f3a', '\u79c0', '\u725b', '\u592a\u5f3a'],
+          scenario: 'taunting',
+        },
+        {
+          id: '\u9006\u5929-2',
+          family: 'cooperation',
+          meaning: '\u8912\u4e49\uff1a\u5f62\u5bb9\u64cd\u4f5c\u6216\u8868\u73b0\u6781\u5176\u51fa\u8272',
+          risk: 'positive',
+          contextHints: ['\u64cd\u4f5c', '\u5f3a', '\u725b', '\u592a\u5f3a\u4e86', '\u79c0'],
+          contextAntiHints: ['\u5783\u573e', '\u6076\u5fc3'],
+          scenario: 'praise',
+        },
+      ],
+      defaultSense: '\u9006\u5929-1',
+    },
+    {
+      term: '\u79bb\u8c31',
+      family: 'attack',
+      meaning: '\u5f62\u5bb9\u4e8b\u7269\u8d85\u51fa\u5e38\u7406\uff0c\u5e26\u6709\u8d1f\u9762\u8bc4\u4ef7',
+      risk: 'medium',
+    },
+  ],
+};
+
+test('Step 2: \u6025\u4e86 in reassuring context \u2192 NOT classified as attack (disambiguated)', () => {
+  const result = classifyCommentCoverage(polysemyDictionary, '\u522b\u6025\uff0c\u6162\u6162\u6765\uff0c\u5e02\u573a\u4f1a\u597d\u7684', { disambiguate: true });
+
+  if (result.mode === 'keyword') {
+    const jiLeHits = result.hits.filter((h) => h.term === '\u6025\u4e86');
+    assert.equal(jiLeHits.length, 0, '\u6025\u4e86 should be suppressed in reassuring context');
+  }
+  assert.ok(result.disambiguation, 'disambiguation stats should be present');
+});
+
+test('Step 2: \u6025\u4e86 in taunting context \u2192 classified as attack (disambiguated)', () => {
+  const result = classifyCommentCoverage(polysemyDictionary, '\u54c8\u54c8\u54c8\u4f60\u6025\u4e86\u7834\u9632\u4e86\u5427', { disambiguate: true });
+
+  assert.equal(result.mode, 'keyword');
+  const jiLeHits = result.hits.filter((h) => h.term === '\u6025\u4e86');
+  assert.ok(jiLeHits.length > 0, '\u6025\u4e86 should be retained in taunting context');
+  for (const hit of jiLeHits) {
+    assert.equal(hit.disambiguatedFamily || hit.family, 'attack',
+      '\u6025\u4e86 in taunting context should resolve to attack family');
+  }
+});
+
+test('Step 2: \u9006\u5929 in praise context \u2192 NOT classified as attack (disambiguated)', () => {
+  const result = classifyCommentCoverage(polysemyDictionary, '\u8fd9\u64cd\u4f5c\u592a\u9006\u5929\u4e86\uff0c\u5f3a\u554a', { disambiguate: true });
+
+  if (result.mode === 'keyword') {
+    const niTianHits = result.hits.filter((h) => h.term === '\u9006\u5929');
+    assert.equal(niTianHits.length, 0, '\u9006\u5929 should be suppressed in praise context');
+  }
+  assert.ok(result.disambiguation, 'disambiguation stats should be present');
+});
+
+test('Step 2: \u9006\u5929 in taunting context \u2192 classified as attack (disambiguated)', () => {
+  const result = classifyCommentCoverage(polysemyDictionary, '\u8fd9\u6e38\u620f\u505a\u5f97\u4e5f\u592a\u9006\u5929\u4e86\uff0c\u7eaf\u5783\u573e', { disambiguate: true });
+
+  assert.equal(result.mode, 'keyword');
+  const niTianHits = result.hits.filter((h) => h.term === '\u9006\u5929');
+  assert.ok(niTianHits.length > 0, '\u9006\u5929 should be retained in taunting context');
+  for (const hit of niTianHits) {
+    assert.equal(hit.disambiguatedFamily || hit.family, 'attack',
+      '\u9006\u5929 in taunting context should resolve to attack family');
+  }
+});
+
+test('Step 2: single-sense terms pass through disambiguation unchanged', () => {
+  const result = classifyCommentCoverage(polysemyDictionary, '\u8fd9\u4e5f\u592a\u79bb\u8c31\u4e86\u5427', { disambiguate: true });
+
+  assert.equal(result.mode, 'keyword');
+  const liPuHits = result.hits.filter((h) => h.term === '\u79bb\u8c31');
+  assert.ok(liPuHits.length > 0, 'single-sense term should pass through unchanged');
+  assert.equal(liPuHits[0].family, 'attack');
+});
+
+test('Step 2: no disambiguation when options.disambiguate is false (default)', () => {
+  const result = classifyCommentCoverage(polysemyDictionary, '\u522b\u6025\u6162\u6162\u6765');
+
+  assert.equal(result.disambiguation, undefined,
+    'disambiguation should not be applied when flag is off');
+});
+
+test('Step 2: existing coverage tests still pass with disambiguation off', () => {
+  const result = classifyCommentCoverage(dictionary, '\u8fd9\u4e8b\u61c2\u7684\u90fd\u61c2\uff0c\u4e0d\u5c55\u5f00\u4e86');
+  assert.equal(result.covered, true);
+  assert.equal(result.mode, 'keyword');
+  assert.ok(result.hits.some((hit) => hit.term === '\u61c2\u7684\u90fd\u61c2'));
+  assert.equal(result.disambiguation, undefined);
+});

@@ -5,6 +5,14 @@ import { withFileLock } from '../utils/fileLock.js';
 import { findDictionaryEntriesWithSemanticEvidence } from './semanticMatcher.js';
 
 const SUPPORTED_FAMILIES = ['attack', 'absolutes', 'evidence', 'evasion', 'cooperation', 'correction'];
+const SUPPORTED_SCENARIOS = new Set([
+  'taunting',
+  'argument',
+  'praise',
+  'neutral_info',
+  'reassurance',
+  'self_deprecation',
+]);
 const SPLIT_DICTIONARY_MAX_SHARD_BYTES = 64 * 1024;
 const DEEPSEEK_V4_MODELS = ['deepseek-v4-flash', 'deepseek-v4-pro'];
 const REASONING_EFFORTS = new Set(['low', 'medium', 'high', 'xhigh', 'max']);
@@ -1139,10 +1147,247 @@ export function normalizeKeywordEntries(rawEntries = []) {
   return pruneSuffixOnlyFragments([...entryMap.values()]).map(({ updatedAt, ...entry }) => entry);
 }
 
+/**
+ * Normalize a keyword entry to the multi-sense runtime shape.
+ *
+ * Single-sense entries (the 95%+ unambiguous case) are auto-wrapped so every
+ * entry has a `senses[]` array at runtime.  Multi-sense entries (those already
+ * carrying a `senses` array in the JSON) are validated and normalized.
+ *
+ * Backward compat: top-level `family`, `meaning`, `risk` mirror the default
+ * sense so existing consumers (commentCoverage, semanticMatcher, main.jsx)
+ * continue to work without modification.
+ */
+export function normalizeEntryToMultiSense(entry) {
+  if (!entry || !entry.term) return entry;
+
+  // -- already multi-sense: validate & normalize --
+  if (Array.isArray(entry.senses) && entry.senses.length > 0) {
+    const senses = entry.senses.map((s, i) => ({
+      id: String(s.id || `${entry.term}-${i + 1}`).trim(),
+      family: normalizeFamily(s.family || entry.family),
+      meaning: String(s.meaning || '').trim(),
+      risk: String(s.risk || '').trim() || 'medium',
+      contextHints: Array.isArray(s.contextHints)
+        ? s.contextHints.map((h) => String(h || '').trim()).filter(Boolean)
+        : [],
+      contextAntiHints: Array.isArray(s.contextAntiHints)
+        ? s.contextAntiHints.map((h) => String(h || '').trim()).filter(Boolean)
+        : [],
+      scenario: s.scenario && SUPPORTED_SCENARIOS.has(s.scenario) ? s.scenario : null,
+    }));
+
+    const defaultSenseId = String(entry.defaultSense || senses[0].id).trim();
+    const defaultSense = senses.find((s) => s.id === defaultSenseId) || senses[0];
+
+    return {
+      ...entry,
+      senses,
+      defaultSense: defaultSense.id,
+      // Backward compat: expose default-sense fields at top level
+      family: defaultSense.family,
+      meaning: defaultSense.meaning,
+      risk: defaultSense.risk,
+      contextRequired: senses.length > 1,
+      _singleSense: false,
+    };
+  }
+
+  // -- single-sense: auto-wrap --
+  const senseId = `${entry.term}-1`;
+  const family = normalizeFamily(entry.family);
+  const meaning = String(entry.meaning || '').trim();
+  const risk =
+    String(entry.risk || '').trim() ||
+    (family === 'cooperation' || family === 'correction' ? 'positive' : 'medium');
+
+  return {
+    ...entry,
+    // Override with normalized values (backward compat)
+    family,
+    meaning,
+    risk,
+    senses: [
+      {
+        id: senseId,
+        family,
+        meaning,
+        risk,
+        contextHints: [],
+        contextAntiHints: [],
+        scenario: null,
+      },
+    ],
+    defaultSense: senseId,
+    contextRequired: false,
+    _singleSense: true,
+  };
+}
+
+/**
+ * Reverse of normalizeEntryToMultiSense: strip runtime wrapper fields for
+ * persistence.  Single-sense entries revert to their original shape.
+ * Multi-sense entries keep `senses[]` and `defaultSense` but drop internal
+ * markers.
+ */
+export function entryToWireFormat(entry) {
+  if (!entry || !entry.term) return entry;
+  if (entry._singleSense) {
+    // Strip wrapper fields added by normalizeEntryToMultiSense
+    const { senses: _s, defaultSense: _d, contextRequired: _c, _singleSense: _ss, ...clean } = entry;
+    return clean;
+  }
+  // Multi-sense: keep senses, drop internal markers
+  const { _singleSense: _ss, contextRequired: _c, ...rest } = entry;
+  return rest;
+}
+
 function cleanEvidenceText(text) {
   return cleanTerm(text).toLowerCase();
 }
 
+
+/**
+ * Build a lightweight sense metadata index from a dictionary.
+ *
+ * Returns two maps:
+ *   byTerm:    term -> Array<{senseId, family, risk, contextHints, contextAntiHints, scenario}>
+ *   bySenseId: senseId -> {term, family, risk, contextHints, contextAntiHints, scenario}
+ *
+ * Used by the context-weighted disambiguation layer (Phase 3) to resolve which
+ * sense of a polysemous term is most likely given surrounding comment text.
+ * No ML embeddings — pure data structure.
+ */
+export function buildSenseIndex(dictionary) {
+  const byTerm = new Map();
+  const bySenseId = new Map();
+
+  const entries = Array.isArray(dictionary?.entries) ? dictionary.entries : [];
+  for (const entry of entries) {
+    const senses = Array.isArray(entry.senses) ? entry.senses : [];
+    if (senses.length === 0) {
+      // Fallback: create implicit sense from top-level fields
+      const meta = {
+        senseId: entry.term + "-1",
+        term: entry.term,
+        family: entry.family || "attack",
+        risk: entry.risk || "medium",
+        contextHints: [],
+        contextAntiHints: [],
+        scenario: null,
+      };
+      bySenseId.set(meta.senseId, meta);
+      if (!byTerm.has(entry.term)) byTerm.set(entry.term, []);
+      byTerm.get(entry.term).push(meta);
+      continue;
+    }
+
+    const termSenses = [];
+    for (const sense of senses) {
+      const meta = {
+        senseId: sense.id || entry.term + "-" + (termSenses.length + 1),
+        term: entry.term,
+        family: sense.family || entry.family || "attack",
+        risk: sense.risk || entry.risk || "medium",
+        contextHints: Array.isArray(sense.contextHints) ? sense.contextHints : [],
+        contextAntiHints: Array.isArray(sense.contextAntiHints) ? sense.contextAntiHints : [],
+        scenario: sense.scenario || null,
+      };
+      bySenseId.set(meta.senseId, meta);
+      termSenses.push(meta);
+    }
+    byTerm.set(entry.term, termSenses);
+  }
+
+  return { byTerm, bySenseId };
+}
+
+/**
+ * Context-weighted sense disambiguation for matched keyword hits.
+ *
+ * For each hit whose term has multiple senses with context hints, scores each
+ * sense against the surrounding comment text and returns the most likely sense.
+ * Single-sense terms and terms without context hints pass through unchanged.
+ *
+ * Scoring:
+ *   base = 1.0 (exact substring match)
+ *   + count(contextHints ∩ comment words) × 0.05
+ *   − count(contextAntiHints ∩ comment words) × 0.10
+ *
+ * @param {Array<{term: string}>} hits - keyword hits from classifyCommentCoverage
+ * @param {string} commentText - the full comment text for context analysis
+ * @param {object} senseIndex - from buildSenseIndex()
+ * @returns {Array} hits annotated with disambiguatedSense and disambiguatedFamily
+ */
+export function disambiguateSenseHits(hits, commentText, senseIndex, options = {}) {
+  if (!Array.isArray(hits) || hits.length === 0) return hits || [];
+  if (!senseIndex || !senseIndex.byTerm) return hits;
+
+  const { byTerm } = senseIndex;
+  const cleanText = String(commentText || "").trim();
+  const classifiedScenario = (options && options.scenario) || null;
+
+  return hits.map((hit) => {
+    const term = String(hit.term || "").trim();
+    if (!term) return hit;
+
+    const senses = byTerm.get(term);
+    if (!senses || senses.length <= 1) {
+      // Single sense — no disambiguation needed
+      return {
+        ...hit,
+        disambiguatedSense: senses?.[0]?.senseId || null,
+        disambiguatedFamily: senses?.[0]?.family || hit.family,
+      };
+    }
+
+    // Check if any sense actually has context hints (skip if all are bare)
+    const hasContextHints = senses.some(
+      (s) => s.contextHints.length > 0 || s.contextAntiHints.length > 0
+    );
+    if (!hasContextHints && !senses.some((s) => s.scenario)) {
+      return {
+        ...hit,
+        disambiguatedSense: senses[0].senseId,
+        disambiguatedFamily: senses[0].family,
+      };
+    }
+
+    // Context-weighted scoring
+    let bestSense = senses[0];
+    let bestScore = -Infinity;
+
+    for (const sense of senses) {
+      let score = 1.0; // base: exact substring match
+
+      // Context hints: bonus for each hint found in comment
+      for (const hint of sense.contextHints) {
+        if (cleanText.includes(hint)) score += 0.05;
+      }
+
+      // Context anti-hints: penalty (stronger weight)
+      for (const antiHint of sense.contextAntiHints) {
+        if (cleanText.includes(antiHint)) score -= 0.10;
+      }
+
+      // Scenario match bonus (Phase 4): +0.08 if comment scenario matches sense scenario
+      if (classifiedScenario && sense.scenario === classifiedScenario) {
+        score += 0.08;
+      }
+      if (score > bestScore) {
+        bestScore = score;
+        bestSense = sense;
+      }
+    }
+
+    return {
+      ...hit,
+      disambiguatedSense: bestSense.senseId,
+      disambiguatedFamily: bestSense.family,
+      disambiguationScore: Math.round(bestScore * 1000) / 1000,
+    };
+  });
+}
 function generatedEvidenceAliasesForTerm(term) {
   const raw = String(term || '').trim();
   const clean = cleanTerm(term);
@@ -3492,7 +3737,8 @@ async function removeStaleSplitDictionaryFiles(dictionaryPath, entryFiles, evide
 
 async function writeSplitDictionaryAtomic(dictionaryPath, dictionary) {
   const entriesByFamily = new Map(SUPPORTED_FAMILIES.map((family) => [family, []]));
-  for (const entry of Array.isArray(dictionary?.entries) ? dictionary.entries : []) {
+  for (const rawEntry of Array.isArray(dictionary?.entries) ? dictionary.entries : []) {
+    const entry = entryToWireFormat(rawEntry);
     const family = SUPPORTED_FAMILIES.includes(entry.family) ? entry.family : 'attack';
     entriesByFamily.get(family).push(entry);
   }
@@ -3561,7 +3807,9 @@ function buildCanonicalDictionarySnapshot(current, now = current?.updatedAt || n
     });
   }
   propagateAliasEvidence(entryMap, now);
-  const allEntries = pruneSuffixOnlyFragments([...entryMap.values()]).sort((a, b) => compareTerms(a.family, b.family) || compareTerms(a.term, b.term));
+  const allEntries = pruneSuffixOnlyFragments([...entryMap.values()])
+    .map((entry) => normalizeEntryToMultiSense(entry))
+    .sort((a, b) => compareTerms(a.family, b.family) || compareTerms(a.term, b.term));
   const families = Object.fromEntries(SUPPORTED_FAMILIES.map((family) => [family, []]));
   for (const entry of allEntries) {
     if (!families[entry.family]) families[entry.family] = [];
@@ -3588,14 +3836,16 @@ export async function mergeEntriesIntoDictionary(entries, options = {}) {
     const now = new Date().toISOString();
     const entryMap = new Map();
     for (const entry of canonicalCurrent.entries) {
-      entryMap.set(entry.term, { ...entry });
+      entryMap.set(entry.term, { ...entryToWireFormat(entry) });
     }
     for (const entry of mergeableEntries) {
       entryMap.set(entry.term, mergeKeywordEntry(entryMap.get(entry.term), entry, now));
     }
     propagateAliasEvidence(entryMap, now);
 
-    const allEntries = pruneSuffixOnlyFragments([...entryMap.values()]).sort((a, b) => compareTerms(a.family, b.family) || compareTerms(a.term, b.term));
+    const allEntries = pruneSuffixOnlyFragments([...entryMap.values()])
+      .map((entry) => normalizeEntryToMultiSense(entry))
+      .sort((a, b) => compareTerms(a.family, b.family) || compareTerms(a.term, b.term));
     const families = Object.fromEntries(SUPPORTED_FAMILIES.map((family) => [family, []]));
     for (const entry of allEntries) {
       if (!families[entry.family]) families[entry.family] = [];
@@ -3615,7 +3865,8 @@ export async function mergeEntriesIntoDictionary(entries, options = {}) {
       && current.shardMaxBytes === SPLIT_DICTIONARY_MAX_SHARD_BYTES
       && current.evidenceStorage === 'split'
     ) {
-      return current;
+      // Return the normalized snapshot so callers always see multi-sense entries
+      return canonicalCurrent;
     }
     await writeSplitDictionaryAtomic(dictionaryPath, next);
     return next;

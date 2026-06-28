@@ -1,4 +1,4 @@
-import { serve } from '@hono/node-server';
+﻿import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { spawn } from 'node:child_process';
@@ -6,6 +6,7 @@ import { spawn } from 'node:child_process';
 import bilibili from './routes/bilibili.js';
 import deepseek from './routes/deepseek.js';
 import aicu from './routes/aicu.js';
+import admin from './routes/admin.js';
 
 const PORT = Number(process.env.PORT || 8787);
 const VITE_PORT = Number(process.env.VITE_PORT || 5191);
@@ -27,6 +28,7 @@ app.onError((err, c) => {
 app.route('/api/bilibili', bilibili);
 app.route('/api/deepseek', deepseek);
 app.route('/api/aicu', aicu);
+app.route('/api/admin', admin);
 app.get('/api/health', (c) => c.json({ ok: true }));
 
 const server = serve({ fetch: app.fetch, port: PORT, hostname: '127.0.0.1' }, () => {
