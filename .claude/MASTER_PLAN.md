@@ -142,19 +142,6 @@ python -m unittest python_backend.tests.test_corpus_contracts.TestClass.test_met
 
 **Risk:** Parity bugs. Preserve JS behavior during migration. Always run comparators before retiring JS.
 
-### 3b. Tieba Cross-Platform Scrape
-
-**Goal:** Harvest evidence from Baidu Tieba (贴吧) forums — a second platform with more debate-heavy discourse.
-
-**To start:**
-1. Edit `.claude/tasks/tieba_scrape.json` → set `"active": true`
-2. Run: `node server/scripts/runTiebaKeywordScrape.js`
-3. Set `TIEBA_TRAIN_DICTIONARY=1` to auto-merge evidence
-4. After completion: `npm run dictionary:coverage` + `npm run stats:update`
-
-**Estimated runtime:** ~2–3 hours (1,576 terms × conservative 5s delays)
-**Risk:** Baidu Tieba anti-scraping — CAPTCHAs, IP blocks.
-
 ---
 
 ## Quick Reference

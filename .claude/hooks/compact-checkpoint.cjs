@@ -89,7 +89,6 @@ function main() {
   // Key data files
   const keyFiles = [
     ['keywordCoverageAudit.json', 'server/data/keywordCoverageAudit.json'],
-    ['tiebaKeywordCorpus.json', 'server/data/tiebaKeywordCorpus.json'],
   ];
   for (const [label, fp] of keyFiles) {
     if (fs.existsSync(path.join(cwd, fp))) {

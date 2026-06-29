@@ -7,7 +7,6 @@ import {
   DATA_DIR,
   DEFAULT_COVERAGE_AUDIT_REPORT_PATH,
   DEFAULT_HUGGINGFACE_CORPUS_PATH,
-  DEFAULT_TIEBA_CORPUS_PATH,
 } from '../utils/paths.js';
 
 const OUTPUT_DIR = join(process.cwd(), 'docs', 'stats');
@@ -354,14 +353,12 @@ async function updateReadme(stats) {
 export async function main() {
   const direct = await readJsonCorpus(join(DATA_DIR, 'bilibiliDirectProbeCorpus.json'), { comments: [], runs: [] });
   const external = await readJsonCorpus(DEFAULT_HUGGINGFACE_CORPUS_PATH, { comments: [], runs: [] });
-  const tieba = await readJsonCorpus(DEFAULT_TIEBA_CORPUS_PATH, { comments: [], runs: [] });
   const dictionary = await readKeywordDictionary();
   const coverage = await readOptionalJson(DEFAULT_COVERAGE_AUDIT_REPORT_PATH, {});
 
   const rawSources = [
     { name: 'Bilibili direct probe corpus', comments: direct.comments || [], runs: direct.runs || [] },
-    { name: 'External Bilibili/Tieba corpus', comments: external.comments || [], runs: external.runs || [] },
-    { name: 'Tieba corpus', comments: tieba.comments || [], runs: tieba.runs || [] },
+    { name: 'External Bilibili corpus', comments: external.comments || [], runs: external.runs || [] },
   ];
   const sources = rawSources.map((source) => summarizeCorpus(source.name, source.comments));
   const timeline = buildCollectionTimeline(rawSources);
