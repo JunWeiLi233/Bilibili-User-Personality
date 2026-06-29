@@ -1,4 +1,0 @@
-# metric_direction: lower_is_better
-iteration	timestamp	error_type	error_fixed	commit	metric	delta	guard	status	description
-0	2026-06-29T00:15:00Z	-	-	-	0	0	pass	baseline	1523/1524 tests pass, 0 fail. Adding spinner animation to run-bilibili-video.ps1 link processing loop.
-1	2026-06-29T00:20:00Z	enhancement	spinner-animation	ede3de6d	0	0	pass	keep	Replaced blocking `node $nodeArgs` call with Start-Process + spinner loop. Spins |/-\ at 250ms while node runs, prints captured stdout/stderr on completion, surfaces non-zero exit codes, cleans up temp files. Guard: 1523/1524 pass.

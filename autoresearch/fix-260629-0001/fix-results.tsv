@@ -1,5 +1,0 @@
-# metric_direction: lower_is_better
-iteration	timestamp	error_type	error_fixed	commit	metric	delta	guard	status	description
-0	2026-06-29T00:05:00Z	-	-	-	66	0	pass	baseline	66 Tieba references across 7 files + 2 orphaned data dirs
-1	2026-06-29T00:10:00Z	tieba-docs	~46 refs in README	ff455a8e	20	-46	pass	keep	Removed ~120 lines: EN Tieba Data Collection section, CN 贴吧数据采集 section, nav link, task table row
-2	2026-06-29T00:15:00Z	tieba-code	6 source files + 3 data dirs	deccf4af	0	-20	pass	keep	Removed: set-deepseek-env BAIDU_COOKIE, paths.js DEFAULT_TIEBA_CORPUS_PATH, stop-hub tieba task check, compact-checkpoint tieba path, MASTER_PLAN §3b, commentCoverage.js Tieba references, updateReadmeStatsGraph.js Tieba import. Deleted: .claude/tieba_scrape/ (20 files, 96KB), server/data/tiebaKeywordCorpus.*/ (2 files, 32KB). Guard: 151/151 relevant tests pass.

@@ -1,9 +1,0 @@
-# metric_direction: higher_is_better
-iteration	timestamp	hypothesis	status	technique	evidence	metric_value	file_line
-1	2026-06-26T10:52	Enable SEMANTIC_MATCH_ENABLED=1 by default	confirmed	edit	Changed default from '0' to '1'; semantic matching now active for all training runs	semanticCoverageRatio=1.0	semanticMatcher.js:210
-2	2026-06-26T10:54	Add POST /api/deepseek/semantic-match endpoint for bulk comment matching	confirmed	edit	New endpoint accepts {comments:[], threshold?}, loads cached embeddings, returns matches per comment	API functional	routes/deepseek.js:34-57
-3	2026-06-26T10:56	Add mergeSemanticMatches to convert server semantic matches to frontend mark format	confirmed	edit	mergeSemanticMatches deduplicates against exact matches, converts similarity scores to confidence	marks merged	main.jsx:500-535
-4	2026-06-26T10:57	Integrate semantic match API call into fetchUidComments flow	confirmed	edit	fetchUidComments now calls /api/deepseek/semantic-match before scoreComments; passes semanticMatches to scoring	pipeline complete	main.jsx:917-931
-5	2026-06-26T11:00	Add semanticQueriesFromMeaning to harvest planner — extracts context phrases from term.meaning for richer search queries	confirmed	edit	semanticQueriesFromMeaning extracts 2-12 char CJK phrases from meaning field, generates context-aware queries	query expansion active	keywordHarvest.js:1710-1745
-6	2026-06-26T11:02	Integrate semantic queries into buildKeywordHarvestQueryPlan for low-evidence terms	confirmed	edit	Added semantic expansion block after variant loop; terms with evidence < targetEvidence get meaning-based queries	harvest enhanced	keywordHarvest.js:2469-2497
-7	2026-06-26T11:04	Full test suite: JS 1303/1303, Python 1814/1814, semantic parity 16/16, Vite build success	confirmed	test	All guard checks pass; no regressions	coverage preserved	all
