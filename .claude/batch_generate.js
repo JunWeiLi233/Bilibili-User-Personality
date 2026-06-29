@@ -15,7 +15,7 @@ const POWERSHELL = 'powershell';
 const EXECUTOR = 'C:\Users\Junwei\.claude\tools\deepseek-executor.mjs';
 const BRIEF_DIR = '.deepseek';
 const OUT_DIR = join('.deepseek', 'batches');
-const MODEL = 'deepseek-v4-pro';
+const MODEL = process.env.DEEPSEEK_MODEL || 'deepseek-v4-flash';
 
 const BATCH_CONFIGS = [
   { name: 'attack1', families: 'attack', count: 200, prompt: 'Generate 200 unique Chinese internet ATTACK/SARCASM terms. Focus on: personal insults, gatekeeping phrases, faction labels, mockery of intelligence, rhetorical attacks, gaming community insults, anime community attacks. Each term must be 2-12 Chinese characters found in Bilibili/Douyin comments. Include dialect variations, homophone insults, and emerging 2024-2026 slang. Output as JSON array with term, family:"attack", meaning, risk, confidence fields.' },

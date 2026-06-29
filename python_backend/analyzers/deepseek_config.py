@@ -30,7 +30,7 @@ class DeepSeekConfigStatusBuilder:
 
     def build(self) -> dict[str, Any]:
         base_url = str(self.env.get("DEEPSEEK_BASE_URL") or "https://api.deepseek.com").rstrip("/")
-        configured_model = str(self.env.get("DEEPSEEK_MODEL") or MODELS["V4_PRO"])
+        configured_model = str(self.env.get("DEEPSEEK_MODEL") or MODELS["V4_FLASH"])
         configured_effort = str(self.env.get("DEEPSEEK_REASONING_EFFORT") or "max").strip().lower()
         reasoning_effort = configured_effort if configured_effort in REASONING_EFFORTS else "max"
         api_key = str(self.env.get("DEEPSEEK_API_KEY") or "")
