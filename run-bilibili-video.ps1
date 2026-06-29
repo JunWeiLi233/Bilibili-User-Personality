@@ -281,7 +281,31 @@ if ($allLinks.Count -gt 0) {
     if ($InlineCookie) { $nodeArgs += "--cookie"; $nodeArgs += $InlineCookie }
     if ($BilibiliCookie) { $nodeArgs += "--cookie"; $nodeArgs += $BilibiliCookie }
     if ($CommentPages) { $nodeArgs += "--pages"; $nodeArgs += $CommentPages }
-    node $nodeArgs
+
+    # ── Spinner animation while node processes the link ──────────────────────
+    $tmpOut = New-TemporaryFile
+    $tmpErr = New-TemporaryFile
+    $proc = Start-Process -FilePath "node" -ArgumentList $nodeArgs -NoNewWindow -PassThru -RedirectStandardOutput $tmpOut -RedirectStandardError $tmpErr
+
+    $spin  = @('|', '/', '-', '\')
+    $frame = 0
+    while (-not $proc.HasExited) {
+        Write-Host "`r  Processing... $($spin[$frame % 4])" -NoNewline
+        Start-Sleep -Milliseconds 250
+        $frame++
+    }
+    $proc.WaitForExit()
+    Write-Host "`r  Done.                   "
+
+    # Print captured output
+    if ((Get-Item $tmpOut).Length -gt 0) { Get-Content $tmpOut | ForEach-Object { Write-Host $_ } }
+    if ((Get-Item $tmpErr).Length -gt 0) { Get-Content $tmpErr | ForEach-Object { Write-Host $_ } }
+
+    # Surface non-zero exit
+    if ($proc.ExitCode -ne 0) { Write-Warning "node exited with code $($proc.ExitCode)" }
+
+    # Cleanup temp files
+    Remove-Item $tmpOut, $tmpErr -ErrorAction SilentlyContinue
     Write-Host ""
   }
 } else {
