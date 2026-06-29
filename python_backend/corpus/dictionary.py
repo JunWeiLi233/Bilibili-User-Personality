@@ -183,8 +183,8 @@ class DictionaryLoader:
     def _canonical_evidence_count(raw_count: int, samples: list[Any], sources: list[Any]) -> int:
         unit_count = DictionaryLoader._evidence_unit_count(samples, sources)
         if unit_count > 0:
-            return min(max(0, raw_count), unit_count)
-        return 0
+            return unit_count
+        return max(0, raw_count)
 
     @staticmethod
     def _evidence_unit_count(samples: list[Any], sources: list[Any]) -> int:
@@ -346,8 +346,8 @@ class DictionaryMergeWriter:
     def _canonical_evidence_count(raw_count: int, samples: list[Any], sources: list[Any]) -> int:
         unit_count = DictionaryLoader._evidence_unit_count(samples, sources)
         if unit_count > 0:
-            return min(max(0, raw_count), unit_count)
-        return 0
+            return unit_count
+        return max(0, raw_count)
 
     @staticmethod
     def _evidence_unit_count(samples: list[Any], sources: list[Any]) -> int:
