@@ -956,21 +956,23 @@ export async function discoverVideosByKeyword(query, limit = 6, deps = {}) {
   const videos = [];
   const seen = new Set();
   for (let page = 1; page <= searchPages && videos.length < pageSize; page += 1) {
-    const url = new URL('https://api.bilibili.com/x/web-interface/search/type');
-    url.searchParams.set('search_type', 'video');
+    const url = new URL('https://api.bilibili.com/x/web-interface/search/all/v2');
     url.searchParams.set('keyword', keyword);
     url.searchParams.set('page', String(page));
-    url.searchParams.set('page_size', String(pageSize));
     if (order) url.searchParams.set('order', order);
     const data = await requestJson(url.toString(), `https://search.bilibili.com/all?keyword=${encodeURIComponent(keyword)}`);
     if (data.code !== 0) {
       throw new Error(data.message || `video search failed with code ${data.code}`);
     }
-    for (const item of data.data?.result || []) {
-      if (!item?.bvid || seen.has(item.bvid)) continue;
-      seen.add(item.bvid);
-      videos.push(videoObjectFromSearchItem(item));
-      if (videos.length >= pageSize) break;
+    const groups = Array.isArray(data.data?.result) ? data.data.result : [];
+    for (const group of groups) {
+      if (group.result_type !== 'video') continue;
+      for (const item of group.data || []) {
+        if (!item?.bvid || seen.has(item.bvid)) continue;
+        seen.add(item.bvid);
+        videos.push(videoObjectFromSearchItem(item));
+        if (videos.length >= pageSize) break;
+      }
     }
   }
   return videos;
