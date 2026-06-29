@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-29T14:38:16.293Z",
+  "updatedAt": "2026-06-29T14:44:40.775Z",
   "family": "attack",
   "shard": 1,
   "shardCount": 3,
@@ -101,8 +101,8 @@
       "meaning": "嘲讽操作太差，让人看得想吃饭（饿）",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:30:37.163Z"
+      "evidenceCount": 2,
+      "updatedAt": "2026-06-29T14:41:40.079Z"
     },
     {
       "term": "下饭操作",
@@ -389,8 +389,8 @@
       "meaning": "质疑对方的立场和身份背景，暗示其发言背后有不可告人的动机",
       "risk": "high",
       "confidence": 0.93,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-29T14:19:23.170Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "什么玩意",
@@ -939,7 +939,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 1,
-      "updatedAt": "2026-06-29T14:15:08.401Z"
+      "updatedAt": "2026-06-29T14:41:40.079Z"
     },
     {
       "term": "别破防",
@@ -1416,7 +1416,7 @@
       "risk": "high",
       "confidence": 0.8,
       "evidenceCount": 1,
-      "updatedAt": "2026-06-29T06:03:59.574Z"
+      "updatedAt": "2026-06-29T14:41:40.079Z"
     },
     {
       "term": "坤坤",
@@ -1433,8 +1433,8 @@
       "meaning": "直接侮辱对方或事物",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:30:59.566Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-29T14:41:40.079Z"
     },
     {
       "term": "塌房",
@@ -1767,7 +1767,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-29T14:15:08.401Z"
+      "updatedAt": "2026-06-29T14:41:40.079Z"
     },
     {
       "term": "封号",
@@ -1920,7 +1920,7 @@
       "risk": "medium",
       "confidence": 0.94,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:41:40.079Z"
     },
     {
       "term": "就这水平",

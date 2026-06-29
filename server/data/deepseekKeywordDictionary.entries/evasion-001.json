@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-29T14:38:16.293Z",
+  "updatedAt": "2026-06-29T14:44:40.775Z",
   "family": "evasion",
   "shard": 1,
   "shardCount": 4,
@@ -381,7 +381,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 1,
-      "updatedAt": "2026-06-29T14:33:48.382Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "不正面回答",
@@ -407,8 +407,8 @@
       "meaning": "直接拒绝提供信息",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "不置可否",

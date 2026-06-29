@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-29T14:38:16.293Z",
+  "updatedAt": "2026-06-29T14:44:40.775Z",
   "family": "absolutes",
   "shard": 3,
   "shardCount": 4,
@@ -29,8 +29,8 @@
       "meaning": "最高级评价，绝对最优选。",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T14:41:40.079Z"
     },
     {
       "term": "最差",
@@ -147,7 +147,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 2,
-      "updatedAt": "2026-06-29T14:30:59.566Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "板上钉钉",
@@ -201,7 +201,7 @@
       "risk": "high",
       "confidence": 0.92,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "根本上",
@@ -300,7 +300,7 @@
       "risk": "medium",
       "confidence": 0.95,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "概莫能外",
@@ -417,7 +417,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-29T14:19:23.170Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "每个人",
@@ -426,7 +426,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-29T14:19:23.170Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "每个人都知道",
@@ -560,8 +560,8 @@
       "meaning": "完全否定某属性的存在，以绝对化的零程度进行表述",
       "risk": "high",
       "confidence": 0.93,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "毫无争议",
@@ -614,8 +614,8 @@
       "meaning": "彻底否定关联性",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "毫无办法",
@@ -749,8 +749,8 @@
       "meaning": "绝对无问题，表示一切顺利，无需担心",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:30:59.566Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "永不",
@@ -812,8 +812,8 @@
       "meaning": "将时间范围绝对化，声称某种状态会无限延续永不改变",
       "risk": "high",
       "confidence": 0.94,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "永远不",
@@ -1073,8 +1073,8 @@
       "meaning": "时间上无穷，强调持续。",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "永远都不会",
@@ -1091,8 +1091,8 @@
       "meaning": "将时间无限延伸加绝对肯定，构建最极端的肯定性断言",
       "risk": "high",
       "confidence": 0.94,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "永远铭记",
@@ -1127,8 +1127,8 @@
       "meaning": "缺少限定条件的强断言",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-29T14:30:59.566Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T14:41:40.079Z"
     },
     {
       "term": "没人会",
@@ -1442,8 +1442,8 @@
       "meaning": "数字叠加肯定，加强绝对确信的语气。",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "百分百",
@@ -1452,7 +1452,7 @@
       "risk": "medium",
       "confidence": 0.93,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "百分百同意",
@@ -1497,7 +1497,7 @@
       "risk": "high",
       "confidence": 0.8,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "的的确确",
@@ -1740,7 +1740,7 @@
       "risk": "positive",
       "confidence": 0.8,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:30:59.566Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "终归",
@@ -1785,7 +1785,7 @@
       "risk": "high",
       "confidence": 0.8,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "绝不原谅",
@@ -1803,7 +1803,7 @@
       "risk": "high",
       "confidence": 0.94,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "绝了",
@@ -1830,7 +1830,7 @@
       "risk": "medium",
       "confidence": 0.95,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "绝对一样",
@@ -1848,7 +1848,7 @@
       "risk": "high",
       "confidence": 0.8,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "绝对不买",
@@ -1911,7 +1911,7 @@
       "risk": "high",
       "confidence": 0.8,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "绝对不可能是",
@@ -1947,7 +1947,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "绝对不该",
@@ -2046,7 +2046,7 @@
       "risk": "high",
       "confidence": 0.8,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "绝对压制",

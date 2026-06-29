@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-29T14:38:16.293Z",
+  "updatedAt": "2026-06-29T14:44:40.775Z",
   "family": "absolutes",
   "shard": 1,
   "shardCount": 4,
@@ -146,8 +146,8 @@
       "meaning": "表达对所陈述内容的极高确定性，常模糊主观判断与客观事实",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "一定不",
@@ -155,8 +155,8 @@
       "meaning": "表示必然否定。",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "一定不会",
@@ -164,8 +164,8 @@
       "meaning": "确定性否定，保证不发生",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "一定会",
@@ -173,8 +173,8 @@
       "meaning": "确定性肯定，保证发生",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "一定可以",
@@ -200,8 +200,8 @@
       "meaning": "断定唯一性，排除其他可能性，容易显得武断。",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "一定没错",
@@ -344,8 +344,8 @@
       "meaning": "持续",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "一直如此",
@@ -561,7 +561,7 @@
       "risk": "high",
       "confidence": 0.93,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "不可能是假",
@@ -623,8 +623,8 @@
       "meaning": "表示无奈但必须执行，强调无选择余地。",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-29T14:33:48.382Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-29T14:41:40.079Z"
     },
     {
       "term": "不打折扣",
@@ -723,7 +723,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:24:07.816Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "事事",
@@ -912,7 +912,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 1,
-      "updatedAt": "2026-06-29T14:17:29.003Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "从无例外",
@@ -956,8 +956,8 @@
       "meaning": "以绝对时间跨度概括整体历史，否定任何例外情况的可能性",
       "risk": "high",
       "confidence": 0.93,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "从来不",
@@ -965,8 +965,8 @@
       "meaning": "从绝对的时间维度否定某行为或现象的存在，否定历史中的例外",
       "risk": "high",
       "confidence": 0.93,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "从来不买",
@@ -1055,8 +1055,8 @@
       "meaning": "过去否定",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "从来没见过",
@@ -1082,8 +1082,8 @@
       "meaning": "频率夸张，表示从过去到现在一直如此，用于概括",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "从来都是",
@@ -1182,7 +1182,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-29T14:30:59.566Z"
+      "updatedAt": "2026-06-29T14:41:40.079Z"
     },
     {
       "term": "但凡有",
@@ -1254,7 +1254,7 @@
       "risk": "medium",
       "confidence": 0.93,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "全是假的",
@@ -1263,7 +1263,7 @@
       "risk": "high",
       "confidence": 0.8,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "全是瞎扯",
@@ -1424,8 +1424,8 @@
       "meaning": "缺少限定条件的强断言",
       "risk": "medium",
       "confidence": 0.94,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-29T14:41:40.079Z"
     },
     {
       "term": "全都一样",
@@ -1460,8 +1460,8 @@
       "meaning": "全称量化",
       "risk": "high",
       "confidence": 0.85,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "全面",
@@ -1487,8 +1487,8 @@
       "meaning": "将复杂现象归结为单一简单原因，拒绝承认其他因素的存在",
       "risk": "medium",
       "confidence": 0.88,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:05:59.687Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T14:41:40.079Z"
     },
     {
       "term": "再也没有",
@@ -1497,7 +1497,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 2,
-      "updatedAt": "2026-06-29T14:30:59.566Z"
+      "updatedAt": "2026-06-29T14:41:40.079Z"
     },
     {
       "term": "再怎么",
@@ -1812,7 +1812,7 @@
       "risk": "high",
       "confidence": 0.8,
       "evidenceCount": 2,
-      "updatedAt": "2026-06-29T14:17:29.003Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "压根儿",
@@ -1856,8 +1856,8 @@
       "meaning": "表示只有一种可能，排除其他，常用来限制对方。",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-29T14:41:40.079Z"
     },
     {
       "term": "史上最强",
@@ -1911,7 +1911,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-29T14:36:42.040Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "唯一出路",
@@ -2055,7 +2055,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:27:58.158Z"
+      "updatedAt": "2026-06-29T14:41:40.079Z"
     },
     {
       "term": "天底下",
@@ -2144,8 +2144,8 @@
       "meaning": "强调程度和范围的绝对性，排斥任何部分或有限的可能性",
       "risk": "medium",
       "confidence": 0.9,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "完全一样",
@@ -2217,7 +2217,7 @@
       "risk": "positive",
       "confidence": 0.8,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "完全同意",

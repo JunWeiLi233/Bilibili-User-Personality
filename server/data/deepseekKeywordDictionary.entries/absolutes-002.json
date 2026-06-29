@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-29T14:38:16.293Z",
+  "updatedAt": "2026-06-29T14:44:40.775Z",
   "family": "absolutes",
   "shard": 2,
   "shardCount": 4,
@@ -21,7 +21,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "完全正确",
@@ -38,8 +38,8 @@
       "meaning": "全称否定，表示一点都没有",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-29T14:41:40.079Z"
     },
     {
       "term": "完全没有",
@@ -47,8 +47,8 @@
       "meaning": "全称否定，彻底否认存在任何情况",
       "risk": "high",
       "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-29T14:41:40.079Z"
     },
     {
       "term": "完全没有问题",
@@ -137,8 +137,8 @@
       "meaning": "推断性绝对，带武断。",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "定死了",
@@ -182,8 +182,8 @@
       "meaning": "肯定断言",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 7,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 8,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "就是不改",
@@ -263,8 +263,8 @@
       "meaning": "表示理所当然，缺乏论证，常用于反驳前铺垫。",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:30:59.566Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-29T14:41:40.079Z"
     },
     {
       "term": "彻头彻尾",
@@ -389,8 +389,8 @@
       "meaning": "断言某事的发生是必然结果，表达对未来预测的极端自信",
       "risk": "high",
       "confidence": 0.93,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "必定会",
@@ -435,7 +435,7 @@
       "risk": "high",
       "confidence": 0.8,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "必属精品",
@@ -615,7 +615,7 @@
       "risk": "medium",
       "confidence": 0.9,
       "evidenceCount": 1,
-      "updatedAt": "2026-06-29T14:30:59.566Z"
+      "updatedAt": "2026-06-29T14:41:40.079Z"
     },
     {
       "term": "总是",
@@ -1173,7 +1173,7 @@
       "risk": "high",
       "confidence": 0.8,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "我话放这儿",
@@ -1218,7 +1218,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "所有一切",
@@ -1245,7 +1245,7 @@
       "risk": "high",
       "confidence": 0.8,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "所有人都",
@@ -1254,7 +1254,7 @@
       "risk": "high",
       "confidence": 0.8,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "所有人都会",
@@ -1623,7 +1623,7 @@
       "risk": "positive",
       "confidence": 0.8,
       "evidenceCount": 4,
-      "updatedAt": "2026-06-29T14:19:23.170Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "无敌了",

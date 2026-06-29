@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-29T14:38:16.293Z",
+  "updatedAt": "2026-06-29T14:44:40.775Z",
   "family": "cooperation",
   "shard": 4,
   "shardCount": 4,
@@ -21,7 +21,7 @@
       "risk": "positive",
       "confidence": 0.85,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:33:48.382Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "虽然但是",
@@ -48,7 +48,7 @@
       "risk": "medium",
       "confidence": 0.8,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:33:48.382Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "虽说",
@@ -65,8 +65,8 @@
       "meaning": "添加信息，不冲突。",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "补充一下",
@@ -74,8 +74,8 @@
       "meaning": "合作讨论或条件化表达",
       "risk": "positive",
       "confidence": 0.93,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "evidenceCount": 6,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "补充一点",
@@ -111,7 +111,7 @@
       "risk": "positive",
       "confidence": 0.8,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-29T14:36:42.040Z"
+      "updatedAt": "2026-06-29T14:41:40.079Z"
     },
     {
       "term": "要是说",
@@ -146,8 +146,8 @@
       "meaning": "看法不同",
       "risk": "medium",
       "confidence": 0.8,
-      "evidenceCount": 0,
-      "updatedAt": "2026-06-29T04:36:14.010Z"
+      "evidenceCount": 1,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "见谅",
@@ -317,8 +317,8 @@
       "meaning": "话题引入标记，开启新讨论，吸引合作注意。",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:33:48.382Z"
+      "evidenceCount": 5,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "话说回来",
@@ -489,7 +489,7 @@
       "risk": "positive",
       "confidence": 0.8,
       "evidenceCount": 6,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "说错了别喷",
@@ -561,7 +561,7 @@
       "risk": "positive",
       "confidence": 0.8,
       "evidenceCount": 1,
-      "updatedAt": "2026-06-29T14:33:48.382Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "请让我说完",
@@ -633,7 +633,7 @@
       "risk": "positive",
       "confidence": 0.8,
       "evidenceCount": 7,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "这不是抬杠",
@@ -695,8 +695,8 @@
       "meaning": "换种解释，帮助对方理解，显示合作意图",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 5,
-      "updatedAt": "2026-06-29T14:30:59.566Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-29T14:41:40.079Z"
     },
     {
       "term": "这只是我个人的观点",
@@ -804,7 +804,7 @@
       "risk": "positive",
       "confidence": 0.8,
       "evidenceCount": 5,
-      "updatedAt": "2026-06-29T14:38:16.293Z"
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "那倒未必",
@@ -929,8 +929,8 @@
       "meaning": "限定词，排除某些情况。",
       "risk": "positive",
       "confidence": 0.8,
-      "evidenceCount": 8,
-      "updatedAt": "2026-06-29T14:33:48.382Z"
+      "evidenceCount": 7,
+      "updatedAt": "2026-06-29T14:44:40.775Z"
     },
     {
       "term": "除了这个",

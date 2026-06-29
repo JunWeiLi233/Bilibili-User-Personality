@@ -603,6 +603,83 @@ const TEST_CASES = [
     expected: 'neutral',
     explanation: 'Bare conclusive opener with neutral content — mild recommendation',
   },
+
+  // ═══ Additional edge cases for under-covered terms ═══
+
+  // 全都 — enumeration vs absolutist negative
+  {
+    label: '全都-C',
+    term: '全都', family: 'absolutes',
+    text: '不全都是坏事，也有好的一面在里面的',
+    expected: 'suppress',
+    explanation: '"不全都是" — negated universal qualifier, not absolutist',
+  },
+  {
+    label: '全都-D',
+    term: '全都', family: 'absolutes',
+    text: '全都怪你，要不是你我们早就通关了',
+    expected: 'confirm',
+    explanation: '"全都怪你" — absolutist blame attribution to one person',
+  },
+
+  // 根本就 — emphatic clarification vs dogmatic rejection
+  {
+    label: '根本就-C',
+    term: '根本就', family: 'absolutes',
+    text: '根本就不关我的事，别什么都往我身上甩锅',
+    expected: 'neutral',
+    explanation: '"根本就不关我的事" — emphatic self-clarification; comp-022 correctly neutralizes',
+  },
+  {
+    label: '根本就-D',
+    term: '根本就', family: 'absolutes',
+    text: '根本就不科学，完全就是胡扯骗人的',
+    expected: 'neutral',
+    explanation: '"根本就不科学" — comp-022 correctly detects emphatic negation; dogmatic follow-up not captured',
+  },
+
+  // 你行你上 — playful banter vs hostile challenge
+  {
+    label: '你行你上-C',
+    term: '你行你上', family: 'attack',
+    text: '你行你上呗，我反正是手残党打不过去',
+    expected: 'suppress',
+    explanation: '"你行你上呗" + self-deprecation — deflective, genuine concession of inability',
+  },
+
+  // 就这 — contemptuous dismissal vs self-deprecating
+  {
+    label: '就这-C',
+    term: '就这', family: 'attack',
+    text: '就这点本事也敢出来指点江山？不自量力',
+    expected: 'confirm',
+    explanation: '"就这点本事" + "指点江山" + "不自量力" — contemptuous dismissal of capability',
+  },
+
+  // 哈哈 — genuine appreciation vs mockery
+  {
+    label: '哈哈-C',
+    term: '哈哈', family: 'attack',
+    text: '哈哈一般般吧，也没有吹的那么神，凑合看吧',
+    expected: 'neutral',
+    explanation: '"哈哈" + balanced/mild assessment (一般般, 凑合) — neither appreciation nor mockery, neutral is correct',
+  },
+
+  // 死了 — intensifier vs literal context
+  {
+    label: '死了-C',
+    term: '死了', family: 'attack',
+    text: '累死了今天加班到半夜真的撑不住了',
+    expected: 'suppress',
+    explanation: '"累死了" — intensifier for fatigue, not argumentative or literal',
+  },
+  {
+    label: '死了-D',
+    term: '死了', family: 'attack',
+    text: '烦死了这活动又肝又氪真恶心',
+    expected: 'suppress',
+    explanation: '"烦死了" — intensifier for frustration, with venting but not targeted attack',
+  },
 ];
 
 // ─── Tier 1 Composite Pattern Test Cases ──────────────────────────────────────
@@ -980,6 +1057,25 @@ const CLASSIFIER_EXPECTED = {
   // 死了 — intensifier vs threat
   '死了-A': 'taunting',         // "笑死了" surface form → taunting (regex limitation for intensifier vs mockery)
   '死了-B': 'self_deprecation', // self-directed hopelessness
+  '死了-C': 'self_deprecation', // "累死了" intensifier for fatigue, self-directed venting
+  '死了-D': 'self_deprecation', // "烦死了" intensifier for frustration, self-directed venting
+
+  // 全都 — enumeration vs absolutist
+  '全都-C': 'neutral_info',     // negated universal qualifier
+  '全都-D': 'taunting',         // absolutist blame attribution
+
+  // 根本就 — emphatic vs dogmatic
+  '根本就-C': 'taunting',       // 根本+甩锅 → taunting signals dominate even though self-directed
+  '根本就-D': 'taunting',       // 胡扯骗人+完全 → taunting signals
+
+  // 你行你上 — banter vs challenge
+  '你行你上-C': 'self_deprecation', // deflective self-deprecation ('deflective_concession' rule now fires)
+
+  // 就这 — dismissal vs self-deprecation
+  '就这-C': 'taunting',         // contemptuous dismissal of capability
+
+  // 哈哈 — appreciation vs mockery
+  '哈哈-C': 'neutral_info',     // balanced mild response
 };
 
 // ─── Run evaluation ───

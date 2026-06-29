@@ -709,6 +709,13 @@
           "confidence": 0.72
         },
         {
+          "type": "deflective_concession",
+          "description": "你行你上呗 + self-deprecation — deflective concession of inability, not hostile",
+          "pattern": "你行你上[呗吧嘛啊][^。！？…]{0,6}(?:我|咱|本人|自己)[^。！？…]{0,8}(?:不[行会能]|做不到|菜|手残|垃圾|废物|弱|差|烂|不行|不会|不能)",
+          "action": "suppress",
+          "confidence": 0.75
+        },
+        {
           "type": "defensive_dismissal",
           "description": "你行你上 as standalone — defensive dismissal of criticism",
           "pattern": "你行你上[啊呀哦呢吧]?[!！。？…]*$",
@@ -1078,6 +1085,13 @@
           "pattern": "全都[^，。！？…]{0,20}(?:和|与|、|还有|以及)",
           "action": "suppress",
           "confidence": 0.8
+        },
+        {
+          "type": "absolutist_blame",
+          "description": "全都怪/赖/怨 — absolutist blame attribution (check BEFORE absolutist_negative)",
+          "pattern": "全都[^，。！？…]{0,4}(?:怪|赖|怨)",
+          "action": "confirm",
+          "confidence": 0.78
         },
         {
           "type": "absolutist_negative",
