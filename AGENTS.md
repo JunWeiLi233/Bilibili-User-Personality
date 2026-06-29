@@ -163,9 +163,63 @@ class TestCoverageAudit(unittest.TestCase):
 
 ---
 
-## 4. Git Rules (MANDATORY)
+## 4. Secrets & API Keys (CRITICAL — NEVER EXPOSE)
 
-### 4.1 NEVER Stage These
+### 4.1 The One Rule
+
+**NEVER put a real API key, token, or secret in source code.** Not as a literal.
+Not as a default argument. Not in a Python/JS/PS1 file. Not in a comment. Not anywhere
+that gets committed to git.
+
+```py
+# WRONG — hardcoded fallback IS exposure
+API_KEY = os.environ.get("DEEPSEEK_API_KEY", "sk-real-key-here")
+
+# CORRECT — empty string or error-out
+API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
+# or
+API_KEY = os.environ["DEEPSEEK_API_KEY"]  # throws if missing, no fallback
+```
+
+```js
+// WRONG — default value with real key
+const apiKey = process.env.DEEPSEEK_API_KEY || 'sk-real-key-here';
+
+// CORRECT
+const apiKey = process.env.DEEPSEEK_API_KEY || '';
+```
+
+### 4.2 If You Generate a Script That Needs an API Key
+
+1. **Read from env var only.** Never provide a default value that looks like a real key.
+2. **Use `""` or throw** if the env var is missing. Do not guess.
+3. **If the file contains ANY secret-like string** (`sk-*`, `Bearer *`, `token=*`, etc.),
+   add it to `.gitignore` IMMEDIATELY before the first commit.
+4. **If a sample is needed for the public repo**, create a separate `.example` file
+   with placeholder text like `"put-your-api-key-here"`. Reference it in `README.md`.
+
+### 4.3 What Counts as a Secret
+
+- DeepSeek API key (`sk-...`)
+- Bilibili cookie (`SESSDATA=...`, `bili_jct=...`)
+- Baidu/Tieba cookie (`BDUSS=...`)
+- Any `Authorization: Bearer ...` header value
+- Admin tokens, JWT secrets, encryption keys
+- Any string that grants access to an external service
+
+### 4.4 Before Committing ANY New File
+
+Run this mental checklist:
+1. Does this file contain a string that looks like `sk-*`, `Bearer *`, `token=*`, or a cookie?
+2. If yes → STOP. Replace with `""` or env-var lookup only.
+3. Is this file listed in `.gitignore`? If it needs secrets at runtime but must stay local, gitignore it.
+4. If this file is a template for others → name it `*.example.*` and use `"put-your-key-here"` placeholders.
+
+---
+
+## 5. Git Rules (MANDATORY)
+
+### 5.1 NEVER Stage These
 
 ```
 # Generated dictionary/coverage data (only stage when task explicitly says "commit harvested data")
@@ -214,7 +268,7 @@ Types: `feat`, `fix`, `migration`, `refactor`, `test`, `docs`, `chore`.
 
 ---
 
-## 5. JS/Python Parity Convention (CRITICAL)
+## 6. JS/Python Parity Convention (CRITICAL)
 
 Python CLIs must produce IDENTICAL JSON outputs to their JS counterparts before
 the JS path is retired. This is the single most important rule in the codebase.
@@ -233,7 +287,7 @@ the JS path is retired. This is the single most important rule in the codebase.
 
 ---
 
-## 6. Workflow Rules (MANDATORY)
+## 7. Workflow Rules (MANDATORY)
 
 ### 6.1 Before Modifying Any Code
 
@@ -261,7 +315,7 @@ the JS path is retired. This is the single most important rule in the codebase.
 
 ---
 
-## 7. Scraping & Rate Limiting (NEVER DISABLE)
+## 8. Scraping & Rate Limiting (NEVER DISABLE)
 
 The Bilibili crawler is intentionally conservative. Do NOT add bypass logic, increase
 concurrency, or reduce delays without explicit instruction.
@@ -279,7 +333,7 @@ BILIBILI_CRAWLER_CACHE_TTL_MS=120000
 
 ---
 
-## 8. Annotation Rules (for Behavioral Labeling Tasks)
+## 9. Annotation Rules (for Behavioral Labeling Tasks)
 
 When creating or reviewing behavioral labels:
 
@@ -308,7 +362,7 @@ When creating or reviewing behavioral labels:
 
 ---
 
-## 9. Environment Setup (First Run)
+## 10. Environment Setup (First Run)
 
 ```powershell
 # 1. Copy and edit the DeepSeek env template
@@ -331,7 +385,7 @@ Required env vars: `DEEPSEEK_API_KEY`, `DEEPSEEK_BASE_URL` (default `https://api
 
 ---
 
-## 10. Quality Gate Checklist
+## 11. Quality Gate Checklist
 
 Before considering work "done," verify:
 
@@ -339,14 +393,15 @@ Before considering work "done," verify:
 - [ ] `npm run python:test` 鈥?all Python tests pass
 - [ ] `npm run build` 鈥?frontend builds without error
 - [ ] No generated files staged (unless task explicitly requires it)
-- [ ] No secrets committed
+- [ ] No secrets committed — run: `git diff --cached | grep -E 'sk-[a-zA-Z0-9]{20,}|SESSDATA=|bili_jct=|BDUSS=|Bearer [A-Za-z0-9_\-]{20,}'` must return empty
+- [ ] New files that reference API keys use env vars ONLY, with `""` fallback (never a real key)
 - [ ] Comparator passes if migration code changed (`npm run python:compare`)
 - [ ] Chinese text encoding verified if Chinese strings were edited
 - [ ] Crawler rate limits respected if scraper code was touched
 
 ---
 
-## 11. Key Entry Points (Quick Reference)
+## 12. Key Entry Points (Quick Reference)
 
 | What | Where |
 |------|-------|

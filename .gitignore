@@ -23,6 +23,14 @@ server/data/.keyword-harvest.lock/
 server/data/*.json.lock/
 set-deepseek-env.ps1
 .env
+*.env.local
+*.env.private
 run-bilibili-video.links.ps1
+
+# Catch agent-generated scripts that might accidentally hardcode secrets
+# Pattern: any file under .claude/ that has "key" or "secret" in its name
+# (expand_sparse_axes.py exposure — June 2026; file now cleaned but pattern kept)
+.claude/*secret*
+.claude/*credential*
 
 .claude/agent-locks/
