@@ -369,6 +369,20 @@ if ($allLinks.Count -gt 0) {
 
     # Cleanup temp files
     Remove-Item $tmpOut, $tmpErr -ErrorAction SilentlyContinue
+
+    # Inter-UID delay: rate-limit recovery between UID/space processes
+    if ($isSpace -or $isUid) {
+      $delaySec = Get-Random -Minimum 30 -Maximum 60
+      Write-Host "Cooling down $delaySec seconds between UID processes..."
+      $delayFrames = [Math]::Floor($delaySec / 0.25)
+      $spin2 = @('|', '/', '-', '\')
+      for ($f = 0; $f -lt $delayFrames; $f++) {
+        Write-Host "`r  Waiting... $($spin2[$f % 4])" -NoNewline
+        Start-Sleep -Milliseconds 250
+      }
+      Write-Host "`r  Cool-down complete.$( ' ' * 20 )"
+    }
+
     Write-Host ""
   }
 

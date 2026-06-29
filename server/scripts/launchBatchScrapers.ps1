@@ -11,7 +11,10 @@ $ranges = @(
 )
 
 $delay = 0
+$rangeCount = $ranges.Length
+$rangeIndex = 0
 foreach ($range in $ranges) {
+    $rangeIndex++
     $logFile = Join-Path $logDir ("scraper-log-" + $range.Start + "-" + $range.End + ".txt")
     $scriptPath = Join-Path $scriptDir "batchUidScrape.js"
 
@@ -20,7 +23,13 @@ foreach ($range in $ranges) {
     Start-Process -FilePath "node" -ArgumentList $nodeArgs -WorkingDirectory $projectDir -RedirectStandardOutput $logFile -RedirectStandardError ($logFile -replace '\.txt$', '-stderr.txt') -WindowStyle Hidden -PassThru | Select-Object Id, ProcessName | Format-Table -AutoSize
 
     Write-Host "Launched scraper: $($range.Start)-$($range.End) -> $logFile"
-    Start-Sleep -Seconds 5
+
+    # Inter-process delay to avoid -799 rate limiting
+    if ($rangeIndex -lt $rangeCount) {
+      $delaySec = Get-Random -Minimum 30 -Maximum 60
+      Write-Host "Cool-down: $delaySec seconds before next scraper..."
+      Start-Sleep -Seconds $delaySec
+    }
 }
 
 Write-Host "`nAll 5 scrapers launched. Check logs in: $logDir"

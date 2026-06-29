@@ -17,7 +17,11 @@ foreach ($range in $ranges) {
 
     $proc = Start-Process -FilePath "node" -ArgumentList $nodeArgs -WorkingDirectory $projectDir -RedirectStandardOutput $logFile -RedirectStandardError ($logFile -replace '\.log$', '-stderr.log') -WindowStyle Hidden -PassThru
     Write-Host "Launched: UID $($range.Start)-$($range.End) (PID $($proc.Id)) -> $logFile"
-    Start-Sleep -Seconds 3
+
+    # Inter-process delay to avoid -799 rate limiting
+    $delaySec = Get-Random -Minimum 30 -Maximum 60
+    Write-Host "Cool-down: $delaySec seconds before next range scraper..."
+    Start-Sleep -Seconds $delaySec
 }
 
 Write-Host "`nAll 5 range scrapers launched. Logs in: $logDir"
