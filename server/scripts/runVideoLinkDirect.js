@@ -143,6 +143,20 @@ async function runCollection({
     const text = result.commentText || '';
     log(`Comment text length: ${text.length} chars`);
 
+    // Surface rate-limit warnings so -799 blocks are visible in the output
+    if (result.warnings?.length > 0) {
+      const rateLimited = result.warnings.filter(w => w.includes('-799') || w.includes('rate limit'));
+      if (rateLimited.length > 0) {
+        log(`⚠ RATE LIMITED: ${rateLimited.length} warning(s) — Bilibili returned -799`);
+        for (const w of rateLimited) log(`  ⚠ ${w}`);
+      }
+      const otherWarnings = result.warnings.filter(w => !w.includes('-799') && !w.includes('rate limit'));
+      if (otherWarnings.length > 0) {
+        log(`Warnings (${otherWarnings.length}):`);
+        for (const w of otherWarnings) log(`  ${w}`);
+      }
+    }
+
     if (text) {
       const trainResult = await trainKeywordDictionaryRunner({
         source: `Bilibili UID ${params.uid}`,
@@ -156,6 +170,18 @@ async function runCollection({
         log(`Dictionary trained: ${trainResult.entries?.length || 0} keywords`);
       }
     }
+
+    // Write discovered commenter UIDs for friendship crawl downstream
+    const uidOutputPath = process.env.FRIENDSHIP_OUTPUT_UID_FILE;
+    if (uidOutputPath && result.commenterUids?.length > 0) {
+      await writeFile(uidOutputPath, JSON.stringify({
+        seedUid: params.uid,
+        commenterUids: result.commenterUids,
+        generatedAt: new Date().toISOString(),
+      }, null, 2), 'utf8');
+      log(`Commenter UIDs exported (${result.commenterUids.length}) to ${uidOutputPath}`);
+    }
+
     log(`Done in ${((Date.now() - start) / 1000).toFixed(1)}s`);
     return { exitCode: 0, collected };
   } else if (params.videoLink) {
