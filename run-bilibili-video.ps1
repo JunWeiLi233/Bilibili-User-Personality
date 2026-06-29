@@ -501,7 +501,7 @@ if ($allLinks.Count -gt 0) {
       $harnessOut = New-TemporaryFile
       $harnessExit = 0
       try {
-        browser-harness --silent -c "exec(open(r'D:/Bilibili_User_Personality/.claude/friendship_scraper.py').read())" *>&1 | Tee-Object -FilePath $harnessOut.FullName
+        browser-harness --silent -c "exec(open(r'D:/Bilibili_User_Personality/.claude/friendship_scraper.py', encoding='utf-8').read()); main()" *>&1 | Tee-Object -FilePath $harnessOut.FullName
         $harnessExit = $LASTEXITCODE
       } catch {
         Write-Host "    browser-harness failed: $_"
