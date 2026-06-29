@@ -5166,9 +5166,9 @@ test('buildKeywordHarvestQueryPlan rotates repeated comment misses behind unatte
           attempts: 3,
           successfulAttempts: 0,
           queries: [
-            { query: 'commentMissed \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4', strategyVersion: 7, ok: true, hit: false, comments: 12 },
-            { query: 'commentMissed \u8bc4\u8bba\u533a', strategyVersion: 7, ok: true, hit: false, comments: 8 },
-            { query: 'commentMissed \u70ed\u8bc4', strategyVersion: 7, ok: true, hit: false, comments: 10 },
+            { query: 'commentMissed \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4', strategyVersion: 8, ok: true, hit: false, comments: 12 },
+            { query: 'commentMissed \u8bc4\u8bba\u533a', strategyVersion: 8, ok: true, hit: false, comments: 8 },
+            { query: 'commentMissed \u70ed\u8bc4', strategyVersion: 8, ok: true, hit: false, comments: 10 },
           ],
         },
       },
@@ -5372,7 +5372,9 @@ test('buildKeywordHarvestQueryPlan automatically uses exhausted fallback templat
     },
   );
 
-  assert.equal(plan[0].query, 'doge \u56de\u590d');
+  // First untried exhausted fallback: {term} {context} \u8bc4\u8bba \u2192 "doge \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4 \u8bc4\u8bba"
+  // ({term} {context} and {term} {context} \u70ed\u8bc4 both normalize to the already-tried template-0 query)
+  assert.equal(plan[0].query, 'doge \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4 \u8bc4\u8bba');
   assert.equal(plan[0].builtInVariant, false);
   assert.equal(plan[0].previouslyTried, false);
 });
@@ -5417,7 +5419,8 @@ test('buildKeywordHarvestQueryPlan keeps broadening after first exhausted fallba
     },
   );
 
-  assert.equal(plan[0].query, 'doge \u8bc4\u8bba\u56de\u590d');
+  // First exhausted fallback not yet tried: {term} {context} \u8bc4\u8bba \u2192 "doge \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4 \u8bc4\u8bba"
+  assert.equal(plan[0].query, 'doge \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4 \u8bc4\u8bba');
 });
 
 test('buildKeywordHarvestQueryPlan can reopen exhausted terms with extra runtime templates', () => {
@@ -5936,7 +5939,7 @@ test('buildCoverageActions tries own variants before related contained terms aft
       ],
     },
     {
-      harvestStrategyVersion: 7,
+      harvestStrategyVersion: 8,
       searchedQueries: ['\u5927\u6bd4\u515c \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4'],
       termAttempts: {
         [Buffer.from('\u6bd4\u515c', 'utf8').toString('base64url')]: {
@@ -5962,7 +5965,7 @@ test('buildCoverageActions retries alias comment queries earlier after scaffold 
       entries: [{ term: '\u4fdd\u62a4\u6211\u65b9', family: 'cooperation', evidenceCount: 2, evidenceSources: [{ source: 'Bilibili public comment', sample: '\u4fdd\u62a4\u6211\u65b9' }] }],
     },
     {
-      harvestStrategyVersion: 7,
+      harvestStrategyVersion: 8,
       termAttempts: {
         [Buffer.from('\u4fdd\u62a4\u6211\u65b9', 'utf8').toString('base64url')]: {
           term: '\u4fdd\u62a4\u6211\u65b9',
@@ -6150,9 +6153,9 @@ test('buildDictionaryCoverageAudit rotates repeated comment misses after unattem
           attempts: 3,
           successfulAttempts: 0,
           queries: [
-            { query: 'commentMissed \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4', strategyVersion: 7, ok: true, hit: false, comments: 12 },
-            { query: 'commentMissed \u8bc4\u8bba\u533a', strategyVersion: 7, ok: true, hit: false, comments: 8 },
-            { query: 'commentMissed \u70ed\u8bc4', strategyVersion: 7, ok: true, hit: false, comments: 10 },
+            { query: 'commentMissed \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4', strategyVersion: 8, ok: true, hit: false, comments: 12 },
+            { query: 'commentMissed \u8bc4\u8bba\u533a', strategyVersion: 8, ok: true, hit: false, comments: 8 },
+            { query: 'commentMissed \u70ed\u8bc4', strategyVersion: 8, ok: true, hit: false, comments: 10 },
           ],
         },
       },
@@ -6190,9 +6193,9 @@ test('buildDictionaryCoverageAudit defers backed strict comment misses after rep
           successfulAttempts: 0,
           lastEvidenceCount: 0,
           queries: [
-            { query: 'backedCommentMissed \u8bc4\u8bba\u533a', strategyVersion: 7, ok: true, hit: false, comments: 240 },
-            { query: 'backedCommentMissed \u70ed\u8bc4', strategyVersion: 7, ok: true, hit: false, comments: 180 },
-            { query: 'backedCommentMissed \u56de\u590d', strategyVersion: 7, ok: true, hit: false, comments: 220 },
+            { query: 'backedCommentMissed \u8bc4\u8bba\u533a', strategyVersion: 8, ok: true, hit: false, comments: 240 },
+            { query: 'backedCommentMissed \u70ed\u8bc4', strategyVersion: 8, ok: true, hit: false, comments: 180 },
+            { query: 'backedCommentMissed \u56de\u590d', strategyVersion: 8, ok: true, hit: false, comments: 220 },
           ],
         },
       },
@@ -6229,7 +6232,7 @@ test('buildDictionaryCoverageAudit rotates backed strict comment misses after on
           attempts: 1,
           successfulAttempts: 1,
           lastEvidenceCount: 2,
-          queries: [{ query: 'partialHit \u8bc4\u8bba\u533a', strategyVersion: 7, ok: true, hit: true, comments: 80 }],
+          queries: [{ query: 'partialHit \u8bc4\u8bba\u533a', strategyVersion: 8, ok: true, hit: true, comments: 80 }],
         },
         backedOnceMissed: {
           term: 'backedOnceMissed',
@@ -6238,7 +6241,7 @@ test('buildDictionaryCoverageAudit rotates backed strict comment misses after on
           attempts: 1,
           successfulAttempts: 0,
           lastEvidenceCount: 0,
-          queries: [{ query: 'backedOnceMissed \u8bc4\u8bba\u533a', strategyVersion: 7, ok: true, hit: false, comments: 64 }],
+          queries: [{ query: 'backedOnceMissed \u8bc4\u8bba\u533a', strategyVersion: 8, ok: true, hit: false, comments: 64 }],
         },
       },
     },
@@ -6273,7 +6276,7 @@ test('buildDictionaryCoverageAudit lets zero-evidence retries pass already-backe
           evidenceAtPlanTime: 2,
           attempts: 1,
           successfulAttempts: 0,
-          queries: [{ query: 'backedMiss \u8bc4\u8bba\u533a', strategyVersion: 7, ok: true, hit: false, comments: 24 }],
+          queries: [{ query: 'backedMiss \u8bc4\u8bba\u533a', strategyVersion: 8, ok: true, hit: false, comments: 24 }],
           lastQuery: 'backedMiss \u8bc4\u8bba\u533a',
         },
         zeroMiss: {
@@ -6282,7 +6285,7 @@ test('buildDictionaryCoverageAudit lets zero-evidence retries pass already-backe
           evidenceAtPlanTime: 0,
           attempts: 1,
           successfulAttempts: 0,
-          queries: [{ query: 'zeroMiss \u8bc4\u8bba\u533a', strategyVersion: 7, ok: true, hit: false, comments: 20 }],
+          queries: [{ query: 'zeroMiss \u8bc4\u8bba\u533a', strategyVersion: 8, ok: true, hit: false, comments: 20 }],
           lastQuery: 'zeroMiss \u8bc4\u8bba\u533a',
         },
       },
@@ -6313,7 +6316,7 @@ test('buildDictionaryCoverageAudit rotates no-video discovery misses after retry
           queries: [
             {
               query: 'noVideoMiss \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
-              strategyVersion: 7,
+              strategyVersion: 8,
               ok: false,
               hit: false,
               videos: 0,
@@ -6353,7 +6356,7 @@ test('buildDictionaryCoverageAudit rotates timeout-heavy retries behind partial 
           queries: [
             {
               query: 'timeoutHeavy \u8bc4\u8bba\u533a',
-              strategyVersion: 7,
+              strategyVersion: 8,
               ok: false,
               hit: false,
               videos: 0,
@@ -6371,7 +6374,7 @@ test('buildDictionaryCoverageAudit rotates timeout-heavy retries behind partial 
           attempts: 1,
           successfulAttempts: 1,
           lastEvidenceCount: 1,
-          queries: [{ query: 'partialEvidence \u8bc4\u8bba\u533a', strategyVersion: 7, ok: true, hit: true, videos: 1, comments: 24 }],
+          queries: [{ query: 'partialEvidence \u8bc4\u8bba\u533a', strategyVersion: 8, ok: true, hit: true, videos: 1, comments: 24 }],
           lastQuery: 'partialEvidence \u8bc4\u8bba\u533a',
           lastError: '',
         },
@@ -6403,7 +6406,7 @@ test('buildDictionaryCoverageAudit rotates timeout retries behind ordinary weak 
           queries: [
             {
               query: 'timeoutBeforeLimit \u8bc4\u8bba\u533a',
-              strategyVersion: 7,
+              strategyVersion: 8,
               ok: false,
               hit: false,
               videos: 0,
@@ -6420,7 +6423,7 @@ test('buildDictionaryCoverageAudit rotates timeout retries behind ordinary weak 
           evidenceAtPlanTime: 2,
           attempts: 1,
           successfulAttempts: 0,
-          queries: [{ query: 'ordinaryMiss \u8bc4\u8bba\u533a', strategyVersion: 7, ok: true, hit: false, videos: 1, comments: 12 }],
+          queries: [{ query: 'ordinaryMiss \u8bc4\u8bba\u533a', strategyVersion: 8, ok: true, hit: false, videos: 1, comments: 12 }],
           lastQuery: 'ordinaryMiss \u8bc4\u8bba\u533a',
           lastError: '',
         },
@@ -6452,7 +6455,7 @@ test('buildDictionaryCoverageAudit rotates repeated no-video zero-evidence misse
           queries: [
             {
               query: 'repeatedNoVideo \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
-              strategyVersion: 7,
+              strategyVersion: 8,
               ok: false,
               hit: false,
               videos: 0,
@@ -6461,7 +6464,7 @@ test('buildDictionaryCoverageAudit rotates repeated no-video zero-evidence misse
             },
             {
               query: 'repeatedNoVideo \u8bc4\u8bba\u533a',
-              strategyVersion: 7,
+              strategyVersion: 8,
               ok: false,
               hit: false,
               videos: 0,
@@ -6501,7 +6504,7 @@ test('buildDictionaryCoverageAudit rotates hard zero-evidence comment misses beh
           queries: [
             {
               query: 'commentScannedNoHit \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
-              strategyVersion: 7,
+              strategyVersion: 8,
               ok: true,
               hit: false,
               videos: 6,
@@ -6540,9 +6543,9 @@ test('buildDictionaryCoverageAudit demotes saturated zero-evidence comment misse
           successfulAttempts: 0,
           lastEvidenceCount: 0,
           queries: [
-            { query: 'saturatedCommentMiss \u8bc4\u8bba\u533a', strategyVersion: 7, ok: true, hit: false, comments: 80 },
-            { query: 'saturatedCommentMiss \u70ed\u8bc4', strategyVersion: 7, ok: true, hit: false, comments: 90 },
-            { query: 'saturatedCommentMiss \u56de\u590d', strategyVersion: 7, ok: true, hit: false, comments: 70 },
+            { query: 'saturatedCommentMiss \u8bc4\u8bba\u533a', strategyVersion: 8, ok: true, hit: false, comments: 80 },
+            { query: 'saturatedCommentMiss \u70ed\u8bc4', strategyVersion: 8, ok: true, hit: false, comments: 90 },
+            { query: 'saturatedCommentMiss \u56de\u590d', strategyVersion: 8, ok: true, hit: false, comments: 70 },
           ],
           lastQuery: 'saturatedCommentMiss \u56de\u590d',
         },
@@ -6554,8 +6557,8 @@ test('buildDictionaryCoverageAudit demotes saturated zero-evidence comment misse
           successfulAttempts: 0,
           lastEvidenceCount: 0,
           queries: [
-            { query: 'fresherCommentMiss \u8bc4\u8bba\u533a', strategyVersion: 7, ok: true, hit: false, comments: 32 },
-            { query: 'fresherCommentMiss \u70ed\u8bc4', strategyVersion: 7, ok: true, hit: false, comments: 24 },
+            { query: 'fresherCommentMiss \u8bc4\u8bba\u533a', strategyVersion: 8, ok: true, hit: false, comments: 32 },
+            { query: 'fresherCommentMiss \u70ed\u8bc4', strategyVersion: 8, ok: true, hit: false, comments: 24 },
           ],
           lastQuery: 'fresherCommentMiss \u70ed\u8bc4',
         },
@@ -6587,8 +6590,8 @@ test('buildDictionaryCoverageAudit rotates strict zero-evidence terms after two 
           successfulAttempts: 0,
           lastEvidenceCount: 0,
           queries: [
-            { query: 'twoCommentMisses \u8bc4\u8bba\u533a', strategyVersion: 7, ok: true, hit: false, comments: 120 },
-            { query: 'twoCommentMisses \u70ed\u8bc4', strategyVersion: 7, ok: true, hit: false, comments: 96 },
+            { query: 'twoCommentMisses \u8bc4\u8bba\u533a', strategyVersion: 8, ok: true, hit: false, comments: 120 },
+            { query: 'twoCommentMisses \u70ed\u8bc4', strategyVersion: 8, ok: true, hit: false, comments: 96 },
           ],
           lastQuery: 'twoCommentMisses \u70ed\u8bc4',
         },
@@ -6599,7 +6602,7 @@ test('buildDictionaryCoverageAudit rotates strict zero-evidence terms after two 
           attempts: 1,
           successfulAttempts: 0,
           lastEvidenceCount: 0,
-          queries: [{ query: 'freshZeroMiss \u8bc4\u8bba\u533a', strategyVersion: 7, ok: true, hit: false, comments: 16 }],
+          queries: [{ query: 'freshZeroMiss \u8bc4\u8bba\u533a', strategyVersion: 8, ok: true, hit: false, comments: 16 }],
           lastQuery: 'freshZeroMiss \u8bc4\u8bba\u533a',
         },
       },
@@ -6627,7 +6630,7 @@ test('buildDictionaryCoverageAudit treats stale duplicate-evidence successes as 
           queries: [
             {
               query: 'duplicateHit \u70ed\u8bc4',
-              strategyVersion: 7,
+              strategyVersion: 8,
               ok: true,
               hit: true,
               videos: 10,
@@ -6669,7 +6672,7 @@ test('buildDictionaryCoverageAudit defers duplicate accepted no-progress retries
           queries: [
             {
               query: 'duplicateAccepted \u70ed\u8bc4',
-              strategyVersion: 7,
+              strategyVersion: 8,
               ok: true,
               hit: false,
               videos: 8,
@@ -6706,7 +6709,7 @@ test('buildCoverageActions ignores unversioned run feedback after a strategy bum
   const [action] = buildCoverageActions(
     { entries: [{ term, family: 'attack', evidenceCount: 1 }] },
     {
-      harvestStrategyVersion: 7,
+      harvestStrategyVersion: 8,
       termAttempts: {
         [Buffer.from(term, 'utf8').toString('base64url')]: {
           term,
@@ -6756,8 +6759,8 @@ test('buildDictionaryCoverageAudit defers duplicate partial refreshes behind har
           successfulAttempts: 0,
           lastEvidenceCount: 0,
           queries: [
-            { query: 'partialDuplicateAccepted \u8bc4\u8bba\u533a', strategyVersion: 7, ok: true, hit: false, comments: 120 },
-            { query: 'partialDuplicateAccepted \u70ed\u8bc4', strategyVersion: 7, ok: true, hit: false, comments: 90 },
+            { query: 'partialDuplicateAccepted \u8bc4\u8bba\u533a', strategyVersion: 8, ok: true, hit: false, comments: 120 },
+            { query: 'partialDuplicateAccepted \u70ed\u8bc4', strategyVersion: 8, ok: true, hit: false, comments: 90 },
           ],
         },
         [zeroTerm]: {
@@ -6766,8 +6769,8 @@ test('buildDictionaryCoverageAudit defers duplicate partial refreshes behind har
           attempts: 2,
           successfulAttempts: 0,
           queries: [
-            { query: 'hardZeroRetry \u8bc4\u8bba\u533a', strategyVersion: 7, ok: true, hit: false, comments: 30 },
-            { query: 'hardZeroRetry \u70ed\u8bc4', strategyVersion: 7, ok: true, hit: false, comments: 20 },
+            { query: 'hardZeroRetry \u8bc4\u8bba\u533a', strategyVersion: 8, ok: true, hit: false, comments: 30 },
+            { query: 'hardZeroRetry \u70ed\u8bc4', strategyVersion: 8, ok: true, hit: false, comments: 20 },
           ],
         },
       },
@@ -6814,13 +6817,13 @@ test('buildDictionaryCoverageAudit defers crawler-blocked retries behind harvest
           queries: [
             {
               query: 'blockedSearchTerm \u8bc4\u8bba\u533a',
-              strategyVersion: 7,
+              strategyVersion: 8,
               ok: false,
               error: 'HTTP 412 from https://api.bilibili.com/x/web-interface/search/type',
             },
             {
               query: 'blockedSearchTerm \u70ed\u8bc4',
-              strategyVersion: 7,
+              strategyVersion: 8,
               ok: false,
               error: 'HTTP 412 from https://api.bilibili.com/x/web-interface/search/type',
             },
@@ -6831,7 +6834,7 @@ test('buildDictionaryCoverageAudit defers crawler-blocked retries behind harvest
           family: 'attack',
           attempts: 1,
           successfulAttempts: 0,
-          queries: [{ query: 'harvestableSearchTerm \u8bc4\u8bba\u533a', strategyVersion: 7, ok: true, hit: false, comments: 20 }],
+          queries: [{ query: 'harvestableSearchTerm \u8bc4\u8bba\u533a', strategyVersion: 8, ok: true, hit: false, comments: 20 }],
         },
       },
     },
@@ -6954,7 +6957,7 @@ test('buildDictionaryCoverageAudit rotates very stale hard zero misses behind fr
           successfulAttempts: 0,
           queries: Array.from({ length: 13 }, (_, index) => ({
             query: `veryStaleZeroMiss variant ${index + 1}`,
-            strategyVersion: 7,
+            strategyVersion: 8,
             ok: true,
             hit: false,
             videos: 4,
@@ -7337,14 +7340,14 @@ test('buildDictionaryCoverageAudit keeps comment-missed source gaps ahead of ord
           family: 'attack',
           attempts: 1,
           successfulAttempts: 0,
-          queries: [{ query: '\u8f66\u5bb6\u519b \u8bc4\u8bba\u533a', strategyVersion: 7, ok: true, hit: false, videos: 4, comments: 20 }],
+          queries: [{ query: '\u8f66\u5bb6\u519b \u8bc4\u8bba\u533a', strategyVersion: 8, ok: true, hit: false, videos: 4, comments: 20 }],
         },
         [Buffer.from('\u95ee\u767e\u5ea6', 'utf8').toString('base64url')]: {
           term: '\u95ee\u767e\u5ea6',
           family: 'evasion',
           attempts: 1,
           successfulAttempts: 0,
-          queries: [{ query: '\u95ee\u767e\u5ea6 \u8bc4\u8bba\u533a', strategyVersion: 7, ok: true, hit: false, videos: 2, comments: 7 }],
+          queries: [{ query: '\u95ee\u767e\u5ea6 \u8bc4\u8bba\u533a', strategyVersion: 8, ok: true, hit: false, videos: 2, comments: 7 }],
         },
       },
     },
@@ -7529,7 +7532,7 @@ test('buildDictionaryCoverageAudit rotates source gaps behind fresh weak terms a
           queries: [
             {
               query: 'contextOnly \u8bc4\u8bba\u533a',
-              strategyVersion: 7,
+              strategyVersion: 8,
               ok: true,
               hit: false,
               comments: 18,
@@ -7580,7 +7583,7 @@ test('buildDictionaryCoverageAudit rotates comment-missed source gaps by default
           queries: [
             {
               query: 'contextOnly \u8bc4\u8bba\u533a',
-              strategyVersion: 7,
+              strategyVersion: 8,
               ok: true,
               hit: false,
               videos: 3,
@@ -7595,7 +7598,7 @@ test('buildDictionaryCoverageAudit rotates comment-missed source gaps by default
           queries: [
             {
               query: 'weakMiss \u8bc4\u8bba\u533a',
-              strategyVersion: 7,
+              strategyVersion: 8,
               ok: true,
               hit: false,
               videos: 3,
@@ -7771,14 +7774,14 @@ test('buildDictionaryCoverageAudit avoids medical vocal-cord searches for daigou
       ],
     },
     {
-      harvestStrategyVersion: 7,
+      harvestStrategyVersion: 8,
       termAttempts: {
         [Buffer.from('\u5e26\u6c9f', 'utf8').toString('base64url')]: {
           term: '\u5e26\u6c9f',
           family: 'attack',
           attempts: 1,
           successfulAttempts: 0,
-          queries: [{ query: '\u5e26\u6c9f \u70ed\u8bc4', strategyVersion: 7, ok: true, hit: false, comments: 7 }],
+          queries: [{ query: '\u5e26\u6c9f \u70ed\u8bc4', strategyVersion: 8, ok: true, hit: false, comments: 7 }],
           lastQuery: '\u5e26\u6c9f \u70ed\u8bc4',
         },
       },
@@ -8085,11 +8088,11 @@ test('buildDictionaryCoverageAudit avoids broad Baidu product retries after ask-
           successfulAttempts: 0,
           lastEvidenceCount: 1,
           queries: [
-            { query: '\u4e0d\u4f1a\u767e\u5ea6 \u8bc4\u8bba\u533a', strategyVersion: 7 },
-            { query: '\u4e0d\u4f1a\u767e\u5ea6 \u70ed\u8bc4', strategyVersion: 7 },
-            { query: '\u4e0d\u4f1a\u767e\u5ea6 \u56de\u590d', strategyVersion: 7 },
-            { query: '\u4e0d\u4f1a\u767e\u5ea6', strategyVersion: 7 },
-            { query: '\u767e\u5ea6\u4e00\u4e0b \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4', strategyVersion: 7 },
+            { query: '\u4e0d\u4f1a\u767e\u5ea6 \u8bc4\u8bba\u533a', strategyVersion: 8 },
+            { query: '\u4e0d\u4f1a\u767e\u5ea6 \u70ed\u8bc4', strategyVersion: 8 },
+            { query: '\u4e0d\u4f1a\u767e\u5ea6 \u56de\u590d', strategyVersion: 8 },
+            { query: '\u4e0d\u4f1a\u767e\u5ea6', strategyVersion: 8 },
+            { query: '\u767e\u5ea6\u4e00\u4e0b \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4', strategyVersion: 8 },
           ],
           lastQuery: '\u767e\u5ea6\u4e00\u4e0b \u56de\u590d \u8bc4\u8bba\u533a \u70ed\u8bc4',
         },
@@ -8217,8 +8220,8 @@ test('buildDictionaryCoverageAudit treats filtered search-context misses as irre
           successfulAttempts: 0,
           lastEvidenceCount: 1,
           queries: [
-            { query: `${term} \u8bc4\u8bba\u533a`, strategyVersion: 7, ok: false, hit: false },
-            { query: `${term} \u70ed\u8bc4`, strategyVersion: 7, ok: false, hit: false },
+            { query: `${term} \u8bc4\u8bba\u533a`, strategyVersion: 8, ok: false, hit: false },
+            { query: `${term} \u70ed\u8bc4`, strategyVersion: 8, ok: false, hit: false },
           ],
           lastQuery: `${term} \u70ed\u8bc4`,
         },
@@ -8268,8 +8271,8 @@ test('buildDictionaryCoverageAudit keeps priority aliases after filtered misses 
           successfulAttempts: 0,
           lastEvidenceCount: 0,
           queries: [
-            { query: `${term} \u8bc4\u8bba\u533a`, strategyVersion: 7, ok: true, hit: false },
-            { query: `${term} \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4`, strategyVersion: 7, ok: true, hit: false },
+            { query: `${term} \u8bc4\u8bba\u533a`, strategyVersion: 8, ok: true, hit: false },
+            { query: `${term} \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4`, strategyVersion: 8, ok: true, hit: false },
           ],
           lastQuery: `${term} \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4`,
         },
@@ -8332,7 +8335,7 @@ test('buildDictionaryCoverageAudit keeps high-signal follow-up priority aliases 
       attempts: 1,
       successfulAttempts: 0,
       lastEvidenceCount: 0,
-      queries: [{ query: item.triedQuery, strategyVersion: 7, ok: true, hit: false }],
+      queries: [{ query: item.triedQuery, strategyVersion: 8, ok: true, hit: false }],
       lastQuery: item.triedQuery,
     };
     state.runs[0].queryDiagnostics.push([
@@ -8416,7 +8419,7 @@ test('buildDictionaryCoverageAudit keeps high-signal follow-up aliases for curre
       evidenceAtPlanTime: 0,
       attempts: 1,
       successfulAttempts: 0,
-      queries: [{ query: item.triedQuery, strategyVersion: 7, ok: true, hit: false, comments: 20 }],
+      queries: [{ query: item.triedQuery, strategyVersion: 8, ok: true, hit: false, comments: 20 }],
       lastQuery: item.triedQuery,
     };
     state.runs[0].queryDiagnostics.push([
@@ -8528,7 +8531,7 @@ test('buildDictionaryCoverageAudit keeps high-signal follow-up aliases for next 
       evidenceAtPlanTime: 0,
       attempts: 1,
       successfulAttempts: 0,
-      queries: [{ query: item.triedQuery, strategyVersion: 7, ok: true, hit: false, comments: 20 }],
+      queries: [{ query: item.triedQuery, strategyVersion: 8, ok: true, hit: false, comments: 20 }],
       lastQuery: item.triedQuery,
     };
     state.runs[0].queryDiagnostics.push([
@@ -8574,7 +8577,7 @@ test('buildDictionaryCoverageAudit keeps strict comment retries comment-scoped a
         evidenceAtPlanTime: 0,
         attempts: triedQueries.length,
         successfulAttempts: 0,
-        queries: triedQueries.map((query) => ({ query, strategyVersion: 7, ok: true, hit: false, comments: 20 })),
+        queries: triedQueries.map((query) => ({ query, strategyVersion: 8, ok: true, hit: false, comments: 20 })),
         lastQuery: triedQueries.at(-1),
       },
     },
@@ -8638,7 +8641,7 @@ test('buildDictionaryCoverageAudit upgrades sparse strict comment retries to com
       evidenceAtPlanTime: 0,
       attempts: 1,
       successfulAttempts: 0,
-      queries: [{ query: item.triedQuery, strategyVersion: 7, ok: true, hit: false, comments: 20 }],
+      queries: [{ query: item.triedQuery, strategyVersion: 8, ok: true, hit: false, comments: 20 }],
       lastQuery: item.triedQuery,
     };
     state.runs[0].queryDiagnostics.push([
@@ -8682,7 +8685,7 @@ test('buildDictionaryCoverageAudit avoids definition-only templates in strict co
         family: 'cooperation',
         attempts: tried.length,
         successfulAttempts: 0,
-        queries: tried.map((query) => ({ query, strategyVersion: 7, ok: true, hit: false, comments: 12 })),
+        queries: tried.map((query) => ({ query, strategyVersion: 8, ok: true, hit: false, comments: 12 })),
         lastQuery: tried.at(-1),
       },
     },
@@ -9161,7 +9164,7 @@ test('buildDictionaryCoverageAudit prefers semantic aliases over generic comment
       evidenceAtPlanTime: 0,
       attempts: 1,
       successfulAttempts: 0,
-      queries: [{ query: item.triedQuery, strategyVersion: 7, ok: true, hit: false, comments: 20 }],
+      queries: [{ query: item.triedQuery, strategyVersion: 8, ok: true, hit: false, comments: 20 }],
       lastQuery: item.triedQuery,
     };
     state.runs[0].queryDiagnostics.push([
@@ -9203,7 +9206,7 @@ test('buildDictionaryCoverageAudit does not fall back to bare queries when stric
         evidenceAtPlanTime: 0,
         attempts: 2,
         successfulAttempts: 0,
-        queries: triedQueries.map((query) => ({ query, strategyVersion: 7, ok: true, hit: false, comments: 20 })),
+        queries: triedQueries.map((query) => ({ query, strategyVersion: 8, ok: true, hit: false, comments: 20 })),
         lastQuery: triedQueries.at(-1),
       },
     },
@@ -9235,8 +9238,8 @@ test('buildDictionaryCoverageAudit tries bare aliases after scaffolded search re
           successfulAttempts: 0,
           lastEvidenceCount: 1,
           queries: [
-            { query: '\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4', strategyVersion: 7, ok: false, hit: false },
-            { query: '\u4f60\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4', strategyVersion: 7, ok: false, hit: false },
+            { query: '\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4', strategyVersion: 8, ok: false, hit: false },
+            { query: '\u4f60\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4', strategyVersion: 8, ok: false, hit: false },
           ],
           lastQuery: '\u4f60\u88c5\u4ec0\u4e48 \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
         },
@@ -9503,7 +9506,7 @@ test('harvestKeywordDictionary report actions respect retry-before-unattempted l
       statePath,
       JSON.stringify({
         version: 1,
-        harvestStrategyVersion: 7,
+        harvestStrategyVersion: 8,
         updatedAt: '2026-01-01T00:00:00.000Z',
         searchedQueries: [],
         scannedBvids: [],
@@ -9517,7 +9520,7 @@ test('harvestKeywordDictionary report actions respect retry-before-unattempted l
             queries: [
               {
                 query: 'noVideoMiss \u8bc4\u8bba\u533a \u6897 \u70ed\u8bc4',
-                strategyVersion: 7,
+                strategyVersion: 8,
                 ok: false,
                 hit: false,
                 videos: 0,
@@ -9610,6 +9613,7 @@ test('harvestKeywordDictionary reports DeepSeek training diagnostics per run', a
       dictionaryEvidenceTerms: 1,
       dictionaryEvidenceCount: 1,
       generatedTerms: 0,
+      warnings: [],
     });
     const persisted = JSON.parse(await readFile(statePath, 'utf8'));
     assert.deepEqual(persisted.runs[0].trainingDiagnostics, result.trainingDiagnostics);
@@ -9830,7 +9834,7 @@ test('harvestKeywordDictionary deepens scans for repeatedly missed terms', async
     const searched = [];
     const state = {
       version: 1,
-      harvestStrategyVersion: 7,
+      harvestStrategyVersion: 8,
       updatedAt: null,
       searchedQueries: [],
       scannedBvids: ['BVprevious'],
@@ -9893,7 +9897,7 @@ test('harvestKeywordDictionary deepens scans after a current comment miss', asyn
     const searched = [];
     const state = {
       version: 1,
-      harvestStrategyVersion: 7,
+      harvestStrategyVersion: 8,
       updatedAt: null,
       searchedQueries: [],
       scannedBvids: ['BVprevious'],
@@ -9906,7 +9910,7 @@ test('harvestKeywordDictionary deepens scans after a current comment miss', asyn
           queries: [
             {
               query: 'doge \u8ba8\u8bba \u8bc4\u8bba\u533a \u70ed\u8bc4',
-              strategyVersion: 7,
+              strategyVersion: 8,
               ok: true,
               hit: false,
               comments: 12,
@@ -9960,7 +9964,7 @@ test('harvestKeywordDictionary deepens scans after current videos have no commen
     const searched = [];
     const state = {
       version: 1,
-      harvestStrategyVersion: 7,
+      harvestStrategyVersion: 8,
       updatedAt: null,
       searchedQueries: [],
       scannedBvids: ['BVempty1', 'BVempty2'],
@@ -9973,7 +9977,7 @@ test('harvestKeywordDictionary deepens scans after current videos have no commen
           queries: [
             {
               query: 'doge',
-              strategyVersion: 7,
+              strategyVersion: 8,
               ok: true,
               hit: false,
               videos: 2,
@@ -10028,7 +10032,7 @@ test('harvestKeywordDictionary escalates zero-evidence repeatedly missed scans',
     const searched = [];
     const state = {
       version: 1,
-      harvestStrategyVersion: 7,
+      harvestStrategyVersion: 8,
       updatedAt: null,
       searchedQueries: [],
       scannedBvids: ['BVprevious'],
@@ -10094,7 +10098,7 @@ test('harvestKeywordDictionary caps hard zero-evidence scans per run', async () 
     const searched = [];
     const state = {
       version: 1,
-      harvestStrategyVersion: 7,
+      harvestStrategyVersion: 8,
       updatedAt: null,
       searchedQueries: [],
       scannedBvids: [],
@@ -10182,7 +10186,7 @@ test('harvestKeywordDictionary lets strict comment runs fill with hard zero retr
       statePath,
       JSON.stringify({
         version: 1,
-        harvestStrategyVersion: 7,
+        harvestStrategyVersion: 8,
         updatedAt: null,
         searchedQueries: [],
         scannedBvids: [],
@@ -10278,7 +10282,7 @@ test('harvestKeywordDictionary fills limited runs with distinct term groups befo
       statePath,
       JSON.stringify({
         version: 1,
-        harvestStrategyVersion: 7,
+        harvestStrategyVersion: 8,
         updatedAt: null,
         searchedQueries: [],
         scannedBvids: [],
@@ -10672,7 +10676,7 @@ test('harvestKeywordDictionary backfills searched audit queries into term attemp
       statePath,
       JSON.stringify({
         version: 1,
-        harvestStrategyVersion: 7,
+        harvestStrategyVersion: 8,
         updatedAt: '2026-01-01T00:00:00.000Z',
         searchedQueries: ['weak 评论区 梗 热评'],
         scannedBvids: [],
@@ -10728,7 +10732,7 @@ test('harvestKeywordDictionary keeps popular fallback exclusions during deep ret
       statePath,
       JSON.stringify({
         version: 1,
-        harvestStrategyVersion: 7,
+        harvestStrategyVersion: 8,
         updatedAt: null,
         searchedQueries: [],
         scannedBvids: ['BVprevious'],
@@ -10739,8 +10743,8 @@ test('harvestKeywordDictionary keeps popular fallback exclusions during deep ret
             attempts: 2,
             successfulAttempts: 0,
             queries: [
-              { query: 'deepMiss \u8bc4\u8bba\u533a', strategyVersion: 7, ok: true, hit: false, comments: 12 },
-              { query: 'deepMiss \u70ed\u8bc4', strategyVersion: 7, ok: true, hit: false, comments: 8 },
+              { query: 'deepMiss \u8bc4\u8bba\u533a', strategyVersion: 8, ok: true, hit: false, comments: 12 },
+              { query: 'deepMiss \u70ed\u8bc4', strategyVersion: 8, ok: true, hit: false, comments: 8 },
             ],
           },
         },
@@ -10886,10 +10890,10 @@ test('harvestKeywordDictionary ignores scanned video exclusions from stale strat
     assert.deepEqual(payloads[0].popularFallbackExcludeBvids, undefined);
     const state = await readKeywordHarvestState(statePath);
     assert.deepEqual(state.scannedBvids, ['BVfreshscan']);
-    assert.equal(state.harvestStrategyVersion, 7);
+    assert.equal(state.harvestStrategyVersion, 8);
     assert.equal(state.runs.length, 1);
     assert.equal(state.runs[0].queries, 1);
-    assert.equal(state.runs[0].strategyVersion, 7);
+    assert.equal(state.runs[0].strategyVersion, 8);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
@@ -11020,14 +11024,14 @@ test('harvestKeywordDictionary enables danmaku after a current comment miss', as
       statePath,
       JSON.stringify({
         version: 1,
-        harvestStrategyVersion: 7,
+        harvestStrategyVersion: 8,
         termAttempts: {
           [term]: {
             term,
             family: 'attack',
             attempts: 1,
             successfulAttempts: 0,
-            queries: [{ query: `${term} \u8bc4\u8bba\u533a`, strategyVersion: 7, ok: true, hit: false, videos: 1, comments: 10 }],
+            queries: [{ query: `${term} \u8bc4\u8bba\u533a`, strategyVersion: 8, ok: true, hit: false, videos: 1, comments: 10 }],
           },
         },
       }),
@@ -11279,7 +11283,7 @@ test('harvestKeywordDictionary broadens strict comment discovery after a comment
     await writeFile(
       statePath,
       JSON.stringify({
-        harvestStrategyVersion: 7,
+        harvestStrategyVersion: 8,
         termAttempts: {
           '\u76ee\u6807\u5f31\u8bcd': {
             term: '\u76ee\u6807\u5f31\u8bcd',
@@ -11289,7 +11293,7 @@ test('harvestKeywordDictionary broadens strict comment discovery after a comment
             queries: [
               {
                 query: '\u76ee\u6807\u5f31\u8bcd \u8bc4\u8bba\u533a',
-                strategyVersion: 7,
+                strategyVersion: 8,
                 ok: true,
                 hit: false,
                 videos: 4,
@@ -11346,7 +11350,7 @@ test('harvestKeywordDictionary broadens strict comment discovery after a no-vide
     await writeFile(
       statePath,
       JSON.stringify({
-        harvestStrategyVersion: 7,
+        harvestStrategyVersion: 8,
         termAttempts: {
           '\u65e0\u89c6\u9891\u5f31\u8bcd': {
             term: '\u65e0\u89c6\u9891\u5f31\u8bcd',
@@ -11356,7 +11360,7 @@ test('harvestKeywordDictionary broadens strict comment discovery after a no-vide
             queries: [
               {
                 query: '\u65e0\u89c6\u9891\u5f31\u8bcd \u8bc4\u8bba\u533a',
-                strategyVersion: 7,
+                strategyVersion: 8,
                 ok: false,
                 hit: false,
                 videos: 0,
@@ -11413,14 +11417,14 @@ test('harvestKeywordDictionary still expands strict comment retries when stale l
     await writeFile(
       statePath,
       JSON.stringify({
-        harvestStrategyVersion: 7,
+        harvestStrategyVersion: 8,
         termAttempts: {
           '\u76ee\u6807\u5f31\u8bcd': {
             term: '\u76ee\u6807\u5f31\u8bcd',
             family: 'attack',
             attempts: 1,
             successfulAttempts: 0,
-            queries: [{ query: '\u76ee\u6807\u5f31\u8bcd \u8bc4\u8bba\u533a', strategyVersion: 7, ok: true, hit: false, videos: 4, comments: 20 }],
+            queries: [{ query: '\u76ee\u6807\u5f31\u8bcd \u8bc4\u8bba\u533a', strategyVersion: 8, ok: true, hit: false, videos: 4, comments: 20 }],
           },
         },
       }),
@@ -12222,7 +12226,7 @@ test('harvestKeywordDictionary preserves prior successful attempts after a dupli
       statePath,
       JSON.stringify({
         version: 1,
-        harvestStrategyVersion: 7,
+        harvestStrategyVersion: 8,
         updatedAt: '2026-01-01T00:00:00.000Z',
         searchedQueries: [],
         scannedBvids: [],
@@ -12236,7 +12240,7 @@ test('harvestKeywordDictionary preserves prior successful attempts after a dupli
             attempts: 1,
             successfulAttempts: 1,
             lastQuery: `${term} \u8bc4\u8bba\u533a`,
-            queries: [{ query: `${term} \u8bc4\u8bba\u533a`, hit: true, strategyVersion: 7 }],
+            queries: [{ query: `${term} \u8bc4\u8bba\u533a`, hit: true, strategyVersion: 8 }],
           },
         },
         runs: [],
@@ -12301,7 +12305,7 @@ test('harvestKeywordDictionary backfills shorter-anchor searched queries for rel
       statePath,
       JSON.stringify({
         version: 1,
-        harvestStrategyVersion: 7,
+        harvestStrategyVersion: 8,
         updatedAt: '2026-01-01T00:00:00.000Z',
         searchedQueries: ['\u5927\u8c61\u611f\u5192\u4e86 \u70ed\u8bc4'],
         scannedBvids: [],
@@ -12727,7 +12731,7 @@ test('harvestKeywordDictionary skips evidence-source fallback after duplicate ac
       statePath,
       JSON.stringify({
         version: 1,
-        harvestStrategyVersion: 7,
+        harvestStrategyVersion: 8,
         termAttempts: {
           [term]: {
             term,
@@ -12736,7 +12740,7 @@ test('harvestKeywordDictionary skips evidence-source fallback after duplicate ac
             attempts: 2,
             successfulAttempts: 0,
             lastEvidenceCount: 0,
-            queries: [{ query: `${term} \u70ed\u8bc4`, strategyVersion: 7, ok: true, hit: false, videos: 6, comments: 80 }],
+            queries: [{ query: `${term} \u70ed\u8bc4`, strategyVersion: 8, ok: true, hit: false, videos: 6, comments: 80 }],
           },
         },
         runs: [

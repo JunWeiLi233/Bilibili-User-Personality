@@ -1,0 +1,1852 @@
+{
+  "generatedAt": "2026-06-29T04:30:08.976Z",
+  "totalTerms": 263,
+  "byFamily": {
+    "absolutes": 134,
+    "attack": 55,
+    "evasion": 74
+  },
+  "terms": [
+    {
+      "term": "绝对是",
+      "family": "absolutes",
+      "meaning": "极端肯定，不留余地，常引发争议或强化立场。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "必然是",
+      "family": "absolutes",
+      "meaning": "逻辑推导上的绝对必然，常用来声称结果无可避免。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "一定是",
+      "family": "absolutes",
+      "meaning": "断定唯一性，排除其他可能性，容易显得武断。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "百分之百",
+      "family": "absolutes",
+      "meaning": "强调完全确定，常用于承诺或保证，不承认例外。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "毫无疑义",
+      "family": "absolutes",
+      "meaning": "声称没有任何疑问，强行关闭讨论空间。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "无可置疑",
+      "family": "absolutes",
+      "meaning": "强调事实确凿，不容对方质疑，容易激化矛盾。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "彻头彻尾",
+      "family": "absolutes",
+      "meaning": "形容完全彻底，常用于负面评价，不留余地。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "不折不扣",
+      "family": "absolutes",
+      "meaning": "表示十足、完全，用于强调某种属性毫无折扣。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "完完全全",
+      "family": "absolutes",
+      "meaning": "全面覆盖，没有遗漏，常用来增强语气。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "所有一切",
+      "family": "absolutes",
+      "meaning": "涵盖全部范围，强调无遗漏，用于全面性断言。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "凡是",
+      "family": "absolutes",
+      "meaning": "表示无条件包括全部，常作为全称量词使用，易被反例击破。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "任何",
+      "family": "absolutes",
+      "meaning": "无差别包含所有个体，常用于否定或肯定句，强化普遍性。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "一切",
+      "family": "absolutes",
+      "meaning": "概括所有事物，常见于绝对化表述，缺乏例外。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "都是",
+      "family": "absolutes",
+      "meaning": "表示无一例外，常用来指责或归类，容易引发争议。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "统统",
+      "family": "absolutes",
+      "meaning": "表示全部包含，语气强烈，多用于命令或否定。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "一概",
+      "family": "absolutes",
+      "meaning": "不加区分地全部处理，常用于政策或态度表达。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "务必",
+      "family": "absolutes",
+      "meaning": "强烈要求必须做到，不容商量，常用于告诫。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "坚决",
+      "family": "absolutes",
+      "meaning": "态度坚定不动摇，常用于表达立场，不留妥协空间。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对不",
+      "family": "absolutes",
+      "meaning": "完全否定，语气强硬，常用于拒绝或反对。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝不",
+      "family": "absolutes",
+      "meaning": "同“绝对不”，更简练，用于断然否定。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "从不",
+      "family": "absolutes",
+      "meaning": "表示从未发生过，全称时间否定，易被反例驳斥。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "总是",
+      "family": "absolutes",
+      "meaning": "表示每一次都如此，频率上的绝对化，易被例外反驳。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "始终",
+      "family": "absolutes",
+      "meaning": "强调从开始到结束的一致性，无变化，常用于评价。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "压根儿",
+      "family": "absolutes",
+      "meaning": "表示从根本上否定，语气口语化，常用于反驳。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "根本上",
+      "family": "absolutes",
+      "meaning": "从根源层面断言，强调本质绝对性。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "骨子里",
+      "family": "absolutes",
+      "meaning": "形容内心深处固有的特质，不容改变，绝对化归因。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "本质上",
+      "family": "absolutes",
+      "meaning": "从事物本质角度下结论，常忽视表象例外。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "实质上",
+      "family": "absolutes",
+      "meaning": "强调实际层面，与表面相对，常用于揭露性断言。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "明明",
+      "family": "absolutes",
+      "meaning": "表示显而易见，不容否认，常带有责备语气。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "显然",
+      "family": "absolutes",
+      "meaning": "强调十分明显，无需证明，容易忽视不同观点。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "当然",
+      "family": "absolutes",
+      "meaning": "表示理所当然，缺乏论证，常用于反驳前铺垫。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "自然",
+      "family": "absolutes",
+      "meaning": "表示合乎规律，不存在例外，常用来增强说服力。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "肯定地",
+      "family": "absolutes",
+      "meaning": "表示确定性，常用于回应或确认，语气肯定。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对真理",
+      "family": "absolutes",
+      "meaning": "自认为无可辩驳的真理，排除任何质疑的可能。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "终极真理",
+      "family": "absolutes",
+      "meaning": "声称是最终、最高的真理，不容发展或修正。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "断然",
+      "family": "absolutes",
+      "meaning": "表示决断、毫无犹豫，常用于拒绝或行动。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "定论",
+      "family": "absolutes",
+      "meaning": "已经确定的结论，不再接受质疑，学术或日常使用。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "不二法门",
+      "family": "absolutes",
+      "meaning": "指唯一的方法，排斥其他路径，常用于强调。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "唯一",
+      "family": "absolutes",
+      "meaning": "表示只有一个，没有替代，常用于强化选择。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "仅有",
+      "family": "absolutes",
+      "meaning": "表示只有这些，数量上绝对化，排除其他。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "唯有",
+      "family": "absolutes",
+      "meaning": "表示只有某个条件或事物，常用于强调必要性。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "只得",
+      "family": "absolutes",
+      "meaning": "表示别无选择，只能如此，强调被迫唯一性。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "只能",
+      "family": "absolutes",
+      "meaning": "表示只有一种可能，排除其他，常用来限制对方。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "必须得",
+      "family": "absolutes",
+      "meaning": "同“必须”，口语化强调，不容商量。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "不得不",
+      "family": "absolutes",
+      "meaning": "表示无奈但必须执行，强调无选择余地。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "别无选择",
+      "family": "absolutes",
+      "meaning": "没有任何其他选项，绝对化处境，常用来说明必要性。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "没有余地",
+      "family": "absolutes",
+      "meaning": "完全不留协商或改变的空间，语气强硬。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "毫无余地",
+      "family": "absolutes",
+      "meaning": "同“没有余地”，更强调绝对性。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "一刀切",
+      "family": "absolutes",
+      "meaning": "用统一标准处理所有情况，忽视个体差异，易被批评。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "一锅端",
+      "family": "absolutes",
+      "meaning": "全部消灭或处理，无差别对待，常用于负面。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "一竿子打死",
+      "family": "absolutes",
+      "meaning": "全面否定，不给任何机会，比喻极端绝对化。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "全部否定",
+      "family": "absolutes",
+      "meaning": "完全拒绝或否认，不留肯定之处，常用于争论。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "完全正确",
+      "family": "absolutes",
+      "meaning": "绝对肯定正确，不接受修改，易引发自以为是之感。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "完全错误",
+      "family": "absolutes",
+      "meaning": "绝对否定，全盘推翻，不留任何合理成分。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对正确",
+      "family": "absolutes",
+      "meaning": "声称自己观点无误，排除异议，常被视为自负。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对错误",
+      "family": "absolutes",
+      "meaning": "断定对方完全不对，不留缓冲，容易激化冲突。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "毫无保留",
+      "family": "absolutes",
+      "meaning": "全部给出或接受，没有隐瞒，常用于表达态度。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "不打折扣",
+      "family": "absolutes",
+      "meaning": "完全执行，没有任何减少或变通，强调彻底。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "说一不二",
+      "family": "absolutes",
+      "meaning": "说话算数，绝不改变，常用来标榜信誉。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "一言九鼎",
+      "family": "absolutes",
+      "meaning": "承诺极其重要，必须遵守，古代成语的绝对化使用。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "说到做到",
+      "family": "absolutes",
+      "meaning": "承诺后必然执行，强调绝对信用。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "指定",
+      "family": "absolutes",
+      "meaning": "明确指定，没有其他可能，常用于事件安排。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "注定",
+      "family": "absolutes",
+      "meaning": "命运决定的绝对结果，常用于消极或宿命论。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "必得",
+      "family": "absolutes",
+      "meaning": "必须得到或达到，强调不可避免。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "势必",
+      "family": "absolutes",
+      "meaning": "根据趋势必然导致，逻辑上的绝对化推论。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "手残",
+      "family": "attack",
+      "meaning": "嘲讽对方操作笨拙，反应慢，常与菜鸡连用",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "氪金母猪",
+      "family": "attack",
+      "meaning": "讽刺过度花钱充值游戏，没有理性消费观念的玩家",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "白嫖怪",
+      "family": "attack",
+      "meaning": "贬低不充钱只享用免费内容的玩家，带鄙视意味",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "农批",
+      "family": "attack",
+      "meaning": "侮辱王者荣耀玩家群体，视其为低端游戏的拥趸",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "撸狗",
+      "family": "attack",
+      "meaning": "侮辱英雄联盟玩家，贬低其游戏品味或水平",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "刀斯林",
+      "family": "attack",
+      "meaning": "侮辱Dota2玩家，将其类比为极端宗教信徒",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "母人",
+      "family": "attack",
+      "meaning": "贬低女性玩家，带有强烈性别歧视和侮辱性",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "直男癌",
+      "family": "attack",
+      "meaning": "指责有性别歧视或大男子主义思想的男性",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "女拳",
+      "family": "attack",
+      "meaning": "嘲讽激进女权主义者，视其为无理取闹",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "屌丝",
+      "family": "attack",
+      "meaning": "贬低无作为、条件差的底层男性，自我嘲讽也可用",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "喷子",
+      "family": "attack",
+      "meaning": "指责无端攻击他人，专门挑刺骂人的网络用户",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "玻璃心",
+      "family": "attack",
+      "meaning": "嘲讽心理脆弱，无法接受批评或玩笑的人",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "引战",
+      "family": "attack",
+      "meaning": "指责故意挑起不同群体间的争端和对立",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "钓鱼",
+      "family": "attack",
+      "meaning": "指责故意设下言论陷阱，诱导他人上钩的行为",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "挂人",
+      "family": "attack",
+      "meaning": "指责公开曝光他人隐私或言论，引发网暴",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "网暴",
+      "family": "attack",
+      "meaning": "指责群体恶意攻击、辱骂特定个人或群体",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "人肉",
+      "family": "attack",
+      "meaning": "指责搜索并曝光他人私人信息的行为",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "开盒",
+      "family": "attack",
+      "meaning": "指责获取并公开个人隐私（如家庭住址）的行为",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "祖安",
+      "family": "attack",
+      "meaning": "指代游戏内粗口骂战文化，或形容玩家暴躁",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "嘴臭",
+      "family": "attack",
+      "meaning": "指责说话难听、习惯性辱骂他人的行为",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "孤儿",
+      "family": "attack",
+      "meaning": "侮辱对方缺乏教养，极其恶毒的骂人词汇",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "跳梁小丑",
+      "family": "attack",
+      "meaning": "嘲讽自以为是、上蹿下跳但实际无能的人",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "心态爆炸",
+      "family": "attack",
+      "meaning": "描述情绪完全失控，进入暴躁或沮丧状态",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "脑瘫",
+      "family": "attack",
+      "meaning": "侮辱对方智力有问题，极其不尊重",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "智障",
+      "family": "attack",
+      "meaning": "直接辱骂对方智商低下，恶意攻击",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "弱智",
+      "family": "attack",
+      "meaning": "贬低对方智商，类似智障但语气稍轻",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "FW",
+      "family": "attack",
+      "meaning": "废物英文缩写，直接辱骂对方无用",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "彩笔",
+      "family": "attack",
+      "meaning": "谐音菜B，嘲讽技术差、操作烂",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "四肢不协调",
+      "family": "attack",
+      "meaning": "嘲讽对方操作笨拙，像肢体障碍",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "手残党",
+      "family": "attack",
+      "meaning": "嘲笑操作不灵活的人，常为自我解嘲",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "眼瞎",
+      "family": "attack",
+      "meaning": "骂人看不见明显东西，常见于游戏失误",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "耳朵聋",
+      "family": "attack",
+      "meaning": "骂人听不见声音，常用于配合类游戏",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "脑回路清奇",
+      "family": "attack",
+      "meaning": "讽刺对方思维奇特、异于常人，带贬义",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "迷惑行为",
+      "family": "attack",
+      "meaning": "指责对方行为令人费解、不可理喻",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "神操作",
+      "family": "attack",
+      "meaning": "反讽糟糕的操作，表面夸实则骂",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "下饭",
+      "family": "attack",
+      "meaning": "嘲讽操作太差，让人看得想吃饭（饿）",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "下饭操作",
+      "family": "attack",
+      "meaning": "同上，特指某个操作拙劣到引人发笑",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "喂饭",
+      "family": "attack",
+      "meaning": "嘲讽送人头行为，像给对面送助攻",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "铁憨憨",
+      "family": "attack",
+      "meaning": "骂人傻乎乎、耿直到愚蠢",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "愣头青",
+      "family": "attack",
+      "meaning": "嘲讽冲动无脑、不思考后果的人",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "莽夫",
+      "family": "attack",
+      "meaning": "嘲讽不加思考、只知道硬冲的人",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "送人头",
+      "family": "attack",
+      "meaning": "指责故意或愚蠢地死亡，让对手得分",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "送分",
+      "family": "attack",
+      "meaning": "嘲讽送分给对手，等于白给",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "演员玩家",
+      "family": "attack",
+      "meaning": "同上，特指具有演员行为的玩家",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "摆烂",
+      "family": "attack",
+      "meaning": "指责放弃游戏、故意不打好的人",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "开摆",
+      "family": "attack",
+      "meaning": "动作化表示开始摆烂，放弃努力",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "摆烂仔",
+      "family": "attack",
+      "meaning": "贬称喜欢摆烂的玩家",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "毒瘤",
+      "family": "attack",
+      "meaning": "指责团队中的祸害，破坏游戏体验",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "混子",
+      "family": "attack",
+      "meaning": "指责不认真玩、混分混经验的人",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "混分巨兽",
+      "family": "attack",
+      "meaning": "夸张讽刺专门混分的玩家",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "躺赢狗",
+      "family": "attack",
+      "meaning": "嘲讽躺着赢的玩家，实力不行全靠队友",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "躺输狗",
+      "family": "attack",
+      "meaning": "嘲讽躺着输的玩家，虽努力但效果差",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "菜不自知",
+      "family": "attack",
+      "meaning": "讽刺明明很菜却不承认，还嘴硬",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "又菜又爱玩",
+      "family": "attack",
+      "meaning": "嘲讽技术差但热情高的玩家矛盾状态",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "键盘王者",
+      "family": "attack",
+      "meaning": "同嘴强王者，强调键盘上牛逼",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对不可能",
+      "family": "absolutes",
+      "meaning": "用于彻底否定观点，强调事情没有其他可能性",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "必然如此",
+      "family": "absolutes",
+      "meaning": "认为结果必然发生，拒绝考虑其他可能",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "所有专家都认为",
+      "family": "absolutes",
+      "meaning": "借用权威做绝对结论，实际常为伪造或片面",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "科学已经证明",
+      "family": "absolutes",
+      "meaning": "将个人观点等同于科学定论，忽略争议",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "历史反复告诉我们",
+      "family": "absolutes",
+      "meaning": "用历史规律做绝对断言，忽视复杂条件",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "从无例外",
+      "family": "absolutes",
+      "meaning": "强调规则绝对适用，拒绝任何反例",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "每次都是这样",
+      "family": "absolutes",
+      "meaning": "将个别案例泛化为固定模式",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "永远正确",
+      "family": "absolutes",
+      "meaning": "声称某人或理论永不出错",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "无人质疑",
+      "family": "absolutes",
+      "meaning": "暗示观点普遍接受，实则压制异议",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "普遍规律",
+      "family": "absolutes",
+      "meaning": "将局部现象夸大为普遍法则",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "无法辩驳",
+      "family": "absolutes",
+      "meaning": "声称论点无懈可击，实际未必",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "必然趋势",
+      "family": "absolutes",
+      "meaning": "将推测的方向说成必然发生",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "所有人都会",
+      "family": "absolutes",
+      "meaning": "将个体行为泛化为所有人一致",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "从来没人",
+      "family": "absolutes",
+      "meaning": "绝对否定任何实例，常为虚张声势",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对不允许",
+      "family": "absolutes",
+      "meaning": "用绝对禁令排除任何变通",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "必须这样",
+      "family": "absolutes",
+      "meaning": "强制要求某行为，缺乏灵活性",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "不可接受",
+      "family": "absolutes",
+      "meaning": "对异议或事实进行彻底否定",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "彻底颠覆",
+      "family": "absolutes",
+      "meaning": "声称某发现推翻一切旧认知",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "唯一选择",
+      "family": "absolutes",
+      "meaning": "排除所有其他选项，制造紧迫感",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对优势",
+      "family": "absolutes",
+      "meaning": "夸大己方或贬低对方实力",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "必然胜利",
+      "family": "absolutes",
+      "meaning": "预测结果时过度自信",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对安全",
+      "family": "absolutes",
+      "meaning": "宣称某事物无风险，忽视潜在危害",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对无效",
+      "family": "absolutes",
+      "meaning": "彻底否定某方法或药物的效果",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "人人皆知",
+      "family": "absolutes",
+      "meaning": "把己方知识默认为常识",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "千真万确",
+      "family": "absolutes",
+      "meaning": "强调真实性到绝对程度",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "一劳永逸",
+      "family": "absolutes",
+      "meaning": "声称解决方案能永久生效",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "永不过时",
+      "family": "absolutes",
+      "meaning": "宣称理论或产品永远适用",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对必要",
+      "family": "absolutes",
+      "meaning": "强调某条件是必须的，不容妥协",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "唯一出路",
+      "family": "absolutes",
+      "meaning": "排除其他可能性，制造焦虑",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "彻底解决",
+      "family": "absolutes",
+      "meaning": "夸大问题可被完全消除",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "一切问题",
+      "family": "absolutes",
+      "meaning": "过度概括问题的范围",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对服从",
+      "family": "absolutes",
+      "meaning": "要求无条件遵守，缺乏理性",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "完全同意",
+      "family": "absolutes",
+      "meaning": "过度表达赞同，实则可能敷衍",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "全面否定",
+      "family": "absolutes",
+      "meaning": "彻底反对，不留余地",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "必须遵守",
+      "family": "absolutes",
+      "meaning": "强制要求服从规则",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "永不改变",
+      "family": "absolutes",
+      "meaning": "强调事物恒久不变",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对第一",
+      "family": "absolutes",
+      "meaning": "声称某物无可匹敌",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "完全不符合",
+      "family": "absolutes",
+      "meaning": "彻底否定事实或逻辑",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "没有任何证据",
+      "family": "absolutes",
+      "meaning": "声称对方无依据，忽略已有证据",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "所有数据表明",
+      "family": "absolutes",
+      "meaning": "虚构或夸大数据支持",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "百分之百确定",
+      "family": "absolutes",
+      "meaning": "绝对确认，不留怀疑空间",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对公平",
+      "family": "absolutes",
+      "meaning": "宣称某过程完全公正",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "永远不变",
+      "family": "absolutes",
+      "meaning": "断言事物永恒静止",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "一旦……就……",
+      "family": "absolutes",
+      "meaning": "用条件句做绝对因果预测",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "必定成功",
+      "family": "absolutes",
+      "meaning": "过度乐观预测结果",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对禁止",
+      "family": "absolutes",
+      "meaning": "发出无条件禁令",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "毫无根据",
+      "family": "absolutes",
+      "meaning": "完全否定对方的依据",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "彻底改变",
+      "family": "absolutes",
+      "meaning": "夸大变化程度",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "永远铭记",
+      "family": "absolutes",
+      "meaning": "要求长期记忆，情感绑架",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "全部推翻",
+      "family": "absolutes",
+      "meaning": "彻底否定原有体系",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对信任",
+      "family": "absolutes",
+      "meaning": "要求无条件信任",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "必然结果",
+      "family": "absolutes",
+      "meaning": "用因果关系做绝对断言",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对权威",
+      "family": "absolutes",
+      "meaning": "自称或宣称某权威无可挑战",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "完全一致",
+      "family": "absolutes",
+      "meaning": "夸大共识或统一性",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "永远有效",
+      "family": "absolutes",
+      "meaning": "声称某事物持续有效",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "必须具备",
+      "family": "absolutes",
+      "meaning": "宣称条件是必需的",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对清楚",
+      "family": "absolutes",
+      "meaning": "声称某事不言自明，拒绝解释",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "从不失手",
+      "family": "absolutes",
+      "meaning": "断言经验成功率为100%",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "全部都知道",
+      "family": "absolutes",
+      "meaning": "夸大认知范围",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对负责",
+      "family": "absolutes",
+      "meaning": "承诺完全担当责任，有时空话",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "永远支持",
+      "family": "absolutes",
+      "meaning": "表态无条件拥护",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "彻底失败",
+      "family": "absolutes",
+      "meaning": "对结果完全否定",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对自由",
+      "family": "absolutes",
+      "meaning": "宣称完全不受限制",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "毫无争议的",
+      "family": "absolutes",
+      "meaning": "与毫无争议类似",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对优先",
+      "family": "absolutes",
+      "meaning": "要求某事项排在所有其他之前",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "永远记住",
+      "family": "absolutes",
+      "meaning": "强调记忆持续",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "人人都能做到",
+      "family": "absolutes",
+      "meaning": "低估难度，强迫他人",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对不能",
+      "family": "absolutes",
+      "meaning": "强烈否定可能性或许可",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对不该",
+      "family": "absolutes",
+      "meaning": "道德或规范上的绝对判断",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "百度一下",
+      "family": "evasion",
+      "meaning": "要求对方自行搜索，转移回答责任",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "谷歌一下",
+      "family": "evasion",
+      "meaning": "建议对方使用另一搜索引擎，回避直接回答",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "自己搜",
+      "family": "evasion",
+      "meaning": "直接拒绝提供信息，让对方自行查找",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "查资料",
+      "family": "evasion",
+      "meaning": "含糊建议对方查阅，不具体指出来源",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "不会自己查吗",
+      "family": "evasion",
+      "meaning": "带有指责意味，拒绝提供答案",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "搜一下",
+      "family": "evasion",
+      "meaning": "简单粗暴要求搜索，回避论证",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查百度",
+      "family": "evasion",
+      "meaning": "指定百度作为查证工具，转移举证",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "问度娘",
+      "family": "evasion",
+      "meaning": "用昵称指代百度，幽默化回避",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "上网查",
+      "family": "evasion",
+      "meaning": "泛指网络查询，不提供具体链接",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "百度去",
+      "family": "evasion",
+      "meaning": "命令式语气，直接推卸责任",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "谷歌去",
+      "family": "evasion",
+      "meaning": "同百度去，但用谷歌",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "查一下",
+      "family": "evasion",
+      "meaning": "模糊建议，逃避深入讨论",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "搜一搜",
+      "family": "evasion",
+      "meaning": "建议简单搜索，不作解释",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "自己动手查",
+      "family": "evasion",
+      "meaning": "强调主动查证，转移责任",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查资料吧",
+      "family": "evasion",
+      "meaning": "带语气词建议，仍不提供具体内容",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "搜索一下",
+      "family": "evasion",
+      "meaning": "通用建议，回避直接回答",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查知乎",
+      "family": "evasion",
+      "meaning": "指定平台，转移举证义务",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查维基",
+      "family": "evasion",
+      "meaning": "建议查维基百科，回避直接回答",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "自己查一下",
+      "family": "evasion",
+      "meaning": "委婉但仍是转移责任",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查来源",
+      "family": "evasion",
+      "meaning": "要求对方核实，但自己不提供",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查出处",
+      "family": "evasion",
+      "meaning": "追问来源，但自己不负责查找",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "找找证据",
+      "family": "evasion",
+      "meaning": "要求对方举证，自己旁观",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查数据",
+      "family": "evasion",
+      "meaning": "建议查数据，回避观点交锋",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查文献",
+      "family": "evasion",
+      "meaning": "学术化推诿，要求对方查论文",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "自己搜索",
+      "family": "evasion",
+      "meaning": "命令式，完全拒绝参与",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "搜一下不难",
+      "family": "evasion",
+      "meaning": "带有讽刺，认为对方懒",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "动手查查",
+      "family": "evasion",
+      "meaning": "强调行动，转移举证",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查再说",
+      "family": "evasion",
+      "meaning": "要求查清再讨论，暂停对话",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查证一下",
+      "family": "evasion",
+      "meaning": "正式请求，但仍是转移",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "百度搜搜",
+      "family": "evasion",
+      "meaning": "重复强调用百度",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "谷歌搜搜",
+      "family": "evasion",
+      "meaning": "同百度搜索但用谷歌",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "必应一下",
+      "family": "evasion",
+      "meaning": "用必应搜索，转移责任",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "搜狗一下",
+      "family": "evasion",
+      "meaning": "用搜狗搜索，转移",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "自己找找",
+      "family": "evasion",
+      "meaning": "委婉命令查找",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "问谷歌",
+      "family": "evasion",
+      "meaning": "同问百度，用谷歌",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "百度一搜",
+      "family": "evasion",
+      "meaning": "描述动作，暗示对方做",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "查字典",
+      "family": "evasion",
+      "meaning": "建议查词典，回避争议",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "查词典",
+      "family": "evasion",
+      "meaning": "同查字典，回归定义",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "自己查证",
+      "family": "evasion",
+      "meaning": "正式要求，完全转移",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查新闻",
+      "family": "evasion",
+      "meaning": "建议查新闻，不直接告知",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查报道",
+      "family": "evasion",
+      "meaning": "同查新闻",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查论文",
+      "family": "evasion",
+      "meaning": "学术推诿",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查百科",
+      "family": "evasion",
+      "meaning": "建议查百科全书",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "自己查资料",
+      "family": "evasion",
+      "meaning": "明确要求对方承担查证工作",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查官方",
+      "family": "evasion",
+      "meaning": "建议查官方信息，避免主观解释",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查权威",
+      "family": "evasion",
+      "meaning": "要求查权威来源",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "核实去",
+      "family": "evasion",
+      "meaning": "命令式，推卸责任",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "自己核实",
+      "family": "evasion",
+      "meaning": "要求自行确认",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "搜一下去",
+      "family": "evasion",
+      "meaning": "命令式躲避",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "百度一下不就知道",
+      "family": "evasion",
+      "meaning": "反问式，认为对方应该会查",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "问度娘去",
+      "family": "evasion",
+      "meaning": "俏皮话，仍转移",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "查百度百科",
+      "family": "evasion",
+      "meaning": "指定百科，推脱",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "查维基百科",
+      "family": "evasion",
+      "meaning": "国际版百科推脱",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "找度娘",
+      "family": "evasion",
+      "meaning": "同问度娘",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "上网查查",
+      "family": "evasion",
+      "meaning": "通用建议",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "自己查去",
+      "family": "evasion",
+      "meaning": "不耐烦命令",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "自己百度",
+      "family": "evasion",
+      "meaning": "动词化百度，要求对方",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "自己谷歌",
+      "family": "evasion",
+      "meaning": "同自己百度",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查数据库",
+      "family": "evasion",
+      "meaning": "专业推诿",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查报告",
+      "family": "evasion",
+      "meaning": "建议查报告，不提供",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查统计",
+      "family": "evasion",
+      "meaning": "要求查统计数据",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查案例",
+      "family": "evasion",
+      "meaning": "要求查案例，回避直接回答",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查法律",
+      "family": "evasion",
+      "meaning": "建议查法律条文",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查规定",
+      "family": "evasion",
+      "meaning": "同查法律",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查政策",
+      "family": "evasion",
+      "meaning": "建议查政策文件",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查合同",
+      "family": "evasion",
+      "meaning": "建议查合同细节",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "查查记录",
+      "family": "evasion",
+      "meaning": "要求查历史记录",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "翻翻书",
+      "family": "evasion",
+      "meaning": "建议翻书本，回避网络争论",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "翻翻教材",
+      "family": "evasion",
+      "meaning": "同翻书，更正式",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "上课去",
+      "family": "evasion",
+      "meaning": "讽刺对方缺乏知识，推脱教育责任",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "回去学习",
+      "family": "evasion",
+      "meaning": "要求对方先学习，转移话题",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "补补课",
+      "family": "evasion",
+      "meaning": "建议补充知识，回避争论",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "先考证",
+      "family": "evasion",
+      "meaning": "要求核实，暂停辩论",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "先查再说",
+      "family": "evasion",
+      "meaning": "先查证再发言，转移当前责任",
+      "risk": "medium",
+      "confidence": 0.8
+    }
+  ]
+}

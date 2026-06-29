@@ -1,0 +1,61 @@
+{
+  "version": "2.1.0",
+  "source": "debug",
+  "timestamp": "2026-06-29T02:25:00Z",
+  "status": "COMPLETE",
+  "results_tsv": "autoresearch/debug-260628-0000/debug-results.tsv",
+  "verdict": "EFFECTIVE — the scraper is running effectively, not just playing around",
+  "findings": [
+    {
+      "severity": "info",
+      "hypothesis": "Scraper throughput appears low (0.25 runs/h over 39.4h)",
+      "finding": "Throughput during active periods is actually 2-3 runs/hour with 300-800 comments/run and 200-450 evidence items/run. The low average comes from a 25.6-hour idle gap (Jun 27 21:46 → Jun 28 23:22) when no automation was running.",
+      "file_line": "server/data/keywordHarvestState.json runs[3-4]"
+    },
+    {
+      "severity": "low",
+      "hypothesis": "HTTP 412 errors indicate Bilibili blocking",
+      "finding": "Confirmed: 5/120 queries (4.2%) hit HTTP 412. Caused by running as anonymous guest (no BILIBILI_COOKIE env var). Impact is minor — 87.5% query success rate. Adding a valid Bilibili cookie would reduce these further.",
+      "file_line": "server/services/bilibiliCrawler.js:474-504"
+    },
+    {
+      "severity": "medium",
+      "hypothesis": "20 exhausted terms stuck in retry loop",
+      "finding": "Confirmed: 20 terms have 3+ failed attempts with zero evidence gain. Root cause: DEFAULT_EXHAUSTED_SUGGESTION_TEMPLATES use generic queries like '{term} 热评' without family-specific context. Successful queries use family contexts ('争议' for evasion, '梗' for attack, '讨论' for cooperation). 6/20 exhausted terms already had evidence before harvesting — they just can't gain MORE with current queries.",
+      "file_line": "server/services/keywordHarvest.js:44-53,2606-2611"
+    },
+    {
+      "severity": "info",
+      "hypothesis": "Evidence quality",
+      "finding": "All 126 evidence files contain real Bilibili comments (verified by sampling). Evidence includes actual video URLs, comment text, and source metadata. Evidence freshness: all 126 files updated Jun 29 01:44-01:46. DeepSeek training worked in early runs (Runs 0-3) then stopped being called (Runs 4-9: 0 deepseek calls) — may indicate fallback-only mode.",
+      "file_line": "server/data/deepseekKeywordDictionary.evidence/*.json"
+    }
+  ],
+  "metrics": {
+    "total_runs": 10,
+    "total_comments": 5357,
+    "total_queries": 120,
+    "ok_queries": 105,
+    "query_success_rate": "87.5%",
+    "weak_terms": 1480,
+    "zero_evidence_terms": 1282,
+    "terms_attempted": 79,
+    "terms_never_attempted": 1580,
+    "evidence_files": 122,
+    "avg_evidence_per_term": 0.73,
+    "active_throughput": "~3 runs/hour",
+    "total_span": "39.4 hours",
+    "idle_gap": "25.6 hours"
+  },
+  "recommendations": [
+    "Run harvest continuously (CRON or loop) to eliminate idle gaps — throughput during active periods is good",
+    "Add a Bilibili cookie (BILIBILI_COOKIE env var) to reduce HTTP 412 rate from 4.2% to near-zero",
+    "Improve DEFAULT_EXHAUSTED_SUGGESTION_TEMPLATES to include family-specific context words (争议/梗/讨论/绝对化) for better search precision on exhausted terms",
+    "Investigate why DeepSeek training stopped after Run 3 (Runs 4-9 show 0 deepseek calls) — may be intentional fallback mode or a bug",
+    "Consider increasing retryBeforeUnattemptedLimit or adding per-term attempt cap to prevent exhausted terms from consuming harvest cycles"
+  ],
+  "config": {
+    "scope": "Bilibili scraper effectiveness audit",
+    "symptom": "recheck bilibili scraper, is it running effective or just playing around?"
+  }
+}

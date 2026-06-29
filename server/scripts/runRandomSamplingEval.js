@@ -20,6 +20,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { existsSync } from 'node:fs';
 import { spawn } from 'node:child_process';
+import { MODELS } from '../services/deepseekRouter.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..', '..');
@@ -358,7 +359,7 @@ async function step3_scoreBatch() {
 // ---------------------------------------------------------------------------
 
 const DEEPSEEK_API_BASE = process.env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com';
-const DEEPSEEK_MODEL = 'deepseek-v4-flash'; // flash = no reasoning overhead, faster + cheaper for structured output
+const DEEPSEEK_MODEL = MODELS.V4_FLASH; // flash = no reasoning overhead, faster + cheaper for structured output
 
 function authHeaders() {
   return {

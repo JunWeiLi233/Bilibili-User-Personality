@@ -1,0 +1,3 @@
+# metric_direction: higher_is_better
+iteration	timestamp	hypothesis	status	technique	evidence	file_line
+1	2026-06-28T00:00:00Z	stop-hub.cjs taskLines includes ALL tasks (complete + incomplete) in block reason, causing completed tasks to appear in display alongside active ones	confirmed	trace	Line 181 pushes taskStatusLine for every active task regardless of done status. Line 196 joins ALL taskLines into reasonParts. Block reason becomes "✅ done-task: DONE | 🔄 active-task: 150/500" — completed tasks clutter the block message.	.claude/hooks/stop-hub.cjs:181,196

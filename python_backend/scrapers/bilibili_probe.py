@@ -222,7 +222,8 @@ class BilibiliProbePlanner:
             return None
         next_page = max(0, _bounded_number(page, 0, -10_000, 10_000))
         size = _bounded_number(page_size, 20, 1, 50)
-        return f"https://api.bilibili.com/x/v2/reply/main?type=1&oid={quote_plus(_clean_text(video.get('aid')))}&mode=3&next={next_page}&ps={size}"
+        # /x/v2/reply/main is blocked; use /x/v2/reply with page-based pagination
+        return f"https://api.bilibili.com/x/v2/reply?type=1&oid={quote_plus(_clean_text(video.get('aid')))}&pn={max(1, next_page)}&ps={size}&sort=2"
 
     def build_reply_page_url(self, video: dict[str, Any] | None = None, page: Any = 1, page_size: Any = 20) -> str | None:
         video = video or {}

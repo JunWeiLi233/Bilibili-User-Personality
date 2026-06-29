@@ -1,0 +1,645 @@
+{
+  "batch": 34,
+  "generatedAt": "2026-06-29T06:06:52.699Z",
+  "totalTerms": 90,
+  "byFamily": {
+    "attack": 12,
+    "absolutes": 20,
+    "evidence": 13,
+    "evasion": 12,
+    "cooperation": 14,
+    "correction": 19
+  },
+  "terms": [
+    {
+      "term": "围攻",
+      "family": "attack",
+      "meaning": "多人联合攻击一人。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "素质三连",
+      "family": "attack",
+      "meaning": "连续素质三连骂，通常为攻击。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "疯狂输出",
+      "family": "attack",
+      "meaning": "连续不断发表攻击性言论。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "碾压",
+      "family": "attack",
+      "meaning": "实力碾压，同时有嘲讽意味。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "屠杀",
+      "family": "attack",
+      "meaning": "一方被彻底击败，带有侮辱性。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "杀疯了",
+      "family": "attack",
+      "meaning": "指某人攻击性极强，势不可挡。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "乱杀",
+      "family": "attack",
+      "meaning": "无差别攻击所有人。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "鞭尸",
+      "family": "attack",
+      "meaning": "事后反复嘲讽失败方。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "嘲讽",
+      "family": "attack",
+      "meaning": "用语言挖苦嘲笑对方。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "冷嘲热讽",
+      "family": "attack",
+      "meaning": "尖刻的讽刺和嘲笑。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "含沙射影",
+      "family": "attack",
+      "meaning": "暗中攻击，不直接明说。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "带爹",
+      "family": "attack",
+      "meaning": "自称对方爹，占便宜攻击。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "直接秒杀",
+      "family": "absolutes",
+      "meaning": "宣称瞬间碾压对手，毫无悬念的绝对胜利。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对稳了",
+      "family": "absolutes",
+      "meaning": "强调局势完全在掌控中，无翻车风险。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "零概率",
+      "family": "absolutes",
+      "meaning": "绝对化否定，声称事件发生概率为零。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "每一次",
+      "family": "absolutes",
+      "meaning": "夸张频率，强调动作在全部情况下发生。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "无人能敌",
+      "family": "absolutes",
+      "meaning": "宣称没有对手可以匹敌，绝对统治力。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "毫无意外",
+      "family": "absolutes",
+      "meaning": "强调结果完全符合预期，排除意外因素。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "稳如老狗",
+      "family": "absolutes",
+      "meaning": "比喻极其稳定，绝无失控可能，略带夸张。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对躺赢",
+      "family": "absolutes",
+      "meaning": "不努力也能赢，完全无风险的胜利断言。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "直接封神",
+      "family": "absolutes",
+      "meaning": "瞬间封神，绝对认可其至高无上。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "全世界",
+      "family": "absolutes",
+      "meaning": "全称量化范围，用世界作为整体断言。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "永远不行",
+      "family": "absolutes",
+      "meaning": "断言永久无能，扼杀一切进步可能。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对拉胯",
+      "family": "absolutes",
+      "meaning": "用绝对修饰拉胯，强调表现极差无例外。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "直接炸裂",
+      "family": "absolutes",
+      "meaning": "形容效果震撼到极致，无可超越。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "稳到不行",
+      "family": "absolutes",
+      "meaning": "稳定到了极限，无法更稳的断言。",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "必杀",
+      "family": "absolutes",
+      "meaning": "必定击杀，强调结果不可回避。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对压制",
+      "family": "absolutes",
+      "meaning": "力量悬殊下的完全控制，无反抗。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "毫无还手之力",
+      "family": "absolutes",
+      "meaning": "对方完全不能反击，单方面碾压。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "直接劝退",
+      "family": "absolutes",
+      "meaning": "断言糟糕到让人立刻放弃，无挽回。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "绝对王者",
+      "family": "absolutes",
+      "meaning": "无可争议的最强者，绝对统治地位。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "必赢",
+      "family": "absolutes",
+      "meaning": "断言必然胜利，无失败可能性。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "求锤",
+      "family": "evidence",
+      "meaning": "主动要求对方拿出实锤。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "蹲反转",
+      "family": "evidence",
+      "meaning": "等待事件后续出现相反证据。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "等石锤",
+      "family": "evidence",
+      "meaning": "等待确凿证据出现。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "链接发来",
+      "family": "evidence",
+      "meaning": "要求发送相关链接作为证据。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "检测一下",
+      "family": "evidence",
+      "meaning": "建议对信息进行核实。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "张嘴就造谣",
+      "family": "evidence",
+      "meaning": "指责对方随口造谣。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "没图说个啥",
+      "family": "evidence",
+      "meaning": "没有图片证据就不要发言。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "无源无真相",
+      "family": "evidence",
+      "meaning": "没有来源就没有真相。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "权威性存疑",
+      "family": "evidence",
+      "meaning": "质疑信息来源的权威性。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "学术造假",
+      "family": "evidence",
+      "meaning": "指控学术研究造假。",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "幸存者偏差",
+      "family": "evidence",
+      "meaning": "指出逻辑错误，忽略失败样本。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "硬伤",
+      "family": "evidence",
+      "meaning": "指出论证中的明显错误。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "说服力不足",
+      "family": "evidence",
+      "meaning": "认为论证缺乏说服力。",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "别问，问就是",
+      "family": "evasion",
+      "meaning": "拒绝解释，用固定句式敷衍回答，逃避具体说明",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "口嗨",
+      "family": "evasion",
+      "meaning": "承认只是随口一说，不负责任地否认内容严肃性",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我不听我不听",
+      "family": "evasion",
+      "meaning": "拒绝听取任何解释，用情绪化表达回避沟通",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "不关我的事",
+      "family": "evasion",
+      "meaning": "直接推卸责任，声称与自己无关",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "这事不赖我",
+      "family": "evasion",
+      "meaning": "明确推卸责任，否认自己的过错",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "都是命",
+      "family": "evasion",
+      "meaning": "将责任归因于命运，推卸个人因素",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "那不是重点",
+      "family": "evasion",
+      "meaning": "转移话题焦点，避开核心问题",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "你跑题了",
+      "family": "evasion",
+      "meaning": "反向指责对方转移话题，实为自己回避",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "你先冷静",
+      "family": "evasion",
+      "meaning": "要求对方冷静，避免直接回应问题",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "这很难评",
+      "family": "evasion",
+      "meaning": "拒绝给出明确评价，以难以判断为由回避",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "不想引战",
+      "family": "evasion",
+      "meaning": "表面和平但回避正面对话，暗示但不说明",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "我保持沉默",
+      "family": "evasion",
+      "meaning": "拒绝解释，以沉默回避所有回应",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "且慢",
+      "family": "cooperation",
+      "meaning": "打断对方要求暂停，以插入观点或澄清",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "稍等",
+      "family": "cooperation",
+      "meaning": "请求短暂停顿，以便思考或准备回应",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "等一下",
+      "family": "cooperation",
+      "meaning": "口语化打断，要求对方等待或重新考虑",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "我同意但是",
+      "family": "cooperation",
+      "meaning": "先肯定再转折，表示部分认同后提出异议",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "慢着",
+      "family": "cooperation",
+      "meaning": "突然打断，表示发现矛盾或需要澄清",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "这样吧",
+      "family": "cooperation",
+      "meaning": "提出建议或折中方案，推动共识",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "确切地说",
+      "family": "cooperation",
+      "meaning": "修正或精确化表达，避免误解",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "反过来说",
+      "family": "cooperation",
+      "meaning": "从对立面论述，平衡讨论角度",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "既然",
+      "family": "cooperation",
+      "meaning": "基于已知事实引出后续推论或建议",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "基于以上",
+      "family": "cooperation",
+      "meaning": "总结前文，引出后续结论或建议",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "综合来看",
+      "family": "cooperation",
+      "meaning": "全面考虑各方因素后给出总体看法",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "权衡利弊",
+      "family": "cooperation",
+      "meaning": "分析优缺点，为决策或协商提供依据",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "妥协方案",
+      "family": "cooperation",
+      "meaning": "提出双方让步后的折中解决办法",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "折中",
+      "family": "cooperation",
+      "meaning": "简略表示采取中间立场或调和意见",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "误操作",
+      "family": "correction",
+      "meaning": "因操作失误导致错误发布，解释并修正",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "理解错误",
+      "family": "correction",
+      "meaning": "承认对信息理解有偏差，重新阐述正确观点",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "道歉声明",
+      "family": "correction",
+      "meaning": "正式发布道歉公告，承认错误并请求原谅",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "认错态度",
+      "family": "correction",
+      "meaning": "展示承认错误并愿意改正的姿态",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "悔过",
+      "family": "correction",
+      "meaning": "表达对之前错误言论或行为的后悔和反省",
+      "risk": "positive",
+      "confidence": 0.8
+    },
+    {
+      "term": "推翻",
+      "family": "correction",
+      "meaning": "完全否定自己之前的观点或结论",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "否定自己",
+      "family": "correction",
+      "meaning": "公开承认之前所说是错误的，进行自我批判",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "道歉了",
+      "family": "correction",
+      "meaning": "已经进行过道歉，表达悔意",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "乱说",
+      "family": "correction",
+      "meaning": "承认自己说话不经思考，错误百出",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "打嘴炮",
+      "family": "correction",
+      "meaning": "形容只说不做或说错话，事后承认错误",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "立正挨打",
+      "family": "correction",
+      "meaning": "在网络争论中承认错误并接受批评的姿态",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "投降输一半",
+      "family": "correction",
+      "meaning": "及时认错减少损失，源自游戏梗",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "光速滑跪",
+      "family": "correction",
+      "meaning": "以极快速度道歉认错，强调反应迅速",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "秒删",
+      "family": "correction",
+      "meaning": "发现错误后立即删除不当言论以消除影响",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "编辑记录",
+      "family": "correction",
+      "meaning": "通过修改原内容来更正错误，留下编辑痕迹",
+      "risk": "low",
+      "confidence": 0.8
+    },
+    {
+      "term": "刚发就删",
+      "family": "correction",
+      "meaning": "发布后瞬间意识到错误并删除，避免传播",
+      "risk": "high",
+      "confidence": 0.8
+    },
+    {
+      "term": "吞回",
+      "family": "correction",
+      "meaning": "比喻收回刚说出口的话，如同咽回去",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "咽回去",
+      "family": "correction",
+      "meaning": "将即将说出口的错误言论强行收回",
+      "risk": "medium",
+      "confidence": 0.8
+    },
+    {
+      "term": "算我输",
+      "family": "correction",
+      "meaning": "在争论中认输，承认对方正确",
+      "risk": "medium",
+      "confidence": 0.8
+    }
+  ]
+}

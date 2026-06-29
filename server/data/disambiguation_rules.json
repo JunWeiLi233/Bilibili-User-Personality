@@ -1122,11 +1122,50 @@
         "不是"
       ],
       "description": "不是X而是Y — corrective contrast (不是玩家的问题，而是策划), suppress 不是",
-      "pattern": "不是[^，。！？…]{0,25}而是",
+      "pattern": "不是[^。！？…]{0,25}而是",
       "action": "suppress",
       "confidence": 0.88,
       "applyTo": [
         "不是"
+      ]
+    },
+    {
+      "id": "comp-054",
+      "terms": [
+        "没有"
+      ],
+      "description": "并没有/从来没有/从未 — soft negation of existence, not absolute denial (并没有说过), suppress 没有",
+      "pattern": "(?:并没有|从来没有|从未|从不曾)",
+      "action": "suppress",
+      "confidence": 0.85,
+      "applyTo": [
+        "没有"
+      ]
+    },
+    {
+      "id": "comp-069",
+      "terms": [
+        "没有"
+      ],
+      "description": "没有X任何 — universal quantifier denial (没有任何证据), confirm 没有",
+      "pattern": "没有[^，。！？…]{0,6}任何",
+      "action": "confirm",
+      "confidence": 0.78,
+      "applyTo": [
+        "没有"
+      ]
+    },
+    {
+      "id": "comp-029",
+      "terms": [
+        "没有"
+      ],
+      "description": "完全没有/根本没有/一点都没有 — emphatic absolute negation, confirm 没有",
+      "pattern": "(?:完全|根本|一点|丝毫|绝对|彻底|从来|压根)[^，。！？…]{0,3}没有",
+      "action": "confirm",
+      "confidence": 0.85,
+      "applyTo": [
+        "没有"
       ]
     },
     {
@@ -1135,7 +1174,7 @@
         "没有"
       ],
       "description": "没有X那么Y — comparative (没有那个好用), suppress 没有",
-      "pattern": "没有[^，。！？…]{0,15}那么",
+      "pattern": "没有[^。！？…]{0,15}那么",
       "action": "suppress",
       "confidence": 0.82,
       "applyTo": [
@@ -1148,7 +1187,20 @@
         "没有"
       ],
       "description": "没有X这么Y — comparative variant, suppress 没有",
-      "pattern": "没有[^，。！？…]{0,15}这么",
+      "pattern": "没有[^。！？…]{0,15}这么",
+      "action": "suppress",
+      "confidence": 0.82,
+      "applyTo": [
+        "没有"
+      ]
+    },
+    {
+      "id": "comp-049-n",
+      "terms": [
+        "没有"
+      ],
+      "description": "没有X那个/这个/哪种+ADJ — demonstrative comparative (没有那个好用), suppress 没有",
+      "pattern": "没有[^。！？…]{0,8}(?:那个|这个|哪个|哪种|那种)(?:好|差|快|慢|大|小|多|少|高|低|强|弱|贵|便宜|难|容易|有趣|无聊|有意思|对|行|错|香|妙|神|绝|棒|一样|合理|合适|好[用看听吃玩玩]?)",
       "action": "suppress",
       "confidence": 0.82,
       "applyTo": [
@@ -1260,6 +1312,19 @@
       ]
     },
     {
+      "id": "comp-056",
+      "terms": [
+        "为什么"
+      ],
+      "description": "为什么X还不是因为 — rhetorical explanation, not genuine question (为什么都不还不是因为), confirm 为什么",
+      "pattern": "为什么[^，。！？…]{0,20}还不是因为",
+      "action": "confirm",
+      "confidence": 0.75,
+      "applyTo": [
+        "为什么"
+      ]
+    },
+    {
       "id": "comp-012",
       "terms": [
         "为什么"
@@ -1304,7 +1369,7 @@
         "确实"
       ],
       "description": "确实X典/绷/乐 — sarcastic confirmation with meme terms, confirm 确实",
-      "pattern": "确实[^，。！？…]{0,15}(?:典|绷|乐|破防|孝[了子]?)",
+      "pattern": "确实[^。！？…]{0,15}(?:典|绷|乐|破防|孝[了子]?)",
       "action": "confirm",
       "confidence": 0.76,
       "applyTo": [
@@ -1533,19 +1598,6 @@
       ]
     },
     {
-      "id": "comp-029",
-      "terms": [
-        "没有"
-      ],
-      "description": "完全没有/根本没有/一点都没有 — emphatic absolute negation, confirm 没有",
-      "pattern": "(?:完全|根本|一点|丝毫|绝对|彻底|从来|压根)[^，。！？…]{0,3}没有",
-      "action": "confirm",
-      "confidence": 0.85,
-      "applyTo": [
-        "没有"
-      ]
-    },
-    {
       "id": "comp-030",
       "terms": [
         "肯定"
@@ -1569,6 +1621,19 @@
       "confidence": 0.78,
       "applyTo": [
         "一定"
+      ]
+    },
+    {
+      "id": "comp-051",
+      "terms": [
+        "不是"
+      ],
+      "description": "并不是/并不是说 — soft negation prefix, not attack (并不是你说的那样), suppress 不是",
+      "pattern": "(?:并不是|并不是说)",
+      "action": "suppress",
+      "confidence": 0.86,
+      "applyTo": [
+        "不是"
       ]
     },
     {
@@ -1845,19 +1910,6 @@
       ]
     },
     {
-      "id": "comp-051",
-      "terms": [
-        "不是"
-      ],
-      "description": "并不是/并不是说 — soft negation prefix, not attack (并不是你说的那样), suppress 不是",
-      "pattern": "(?:并不是|并不是说)",
-      "action": "suppress",
-      "confidence": 0.86,
-      "applyTo": [
-        "不是"
-      ]
-    },
-    {
       "id": "comp-052",
       "terms": [
         "不是"
@@ -1884,19 +1936,6 @@
       ]
     },
     {
-      "id": "comp-054",
-      "terms": [
-        "没有"
-      ],
-      "description": "并没有/从来没有/从未 — soft negation of existence, not absolute denial (并没有说过), suppress 没有",
-      "pattern": "(?:并没有|从来没有|从未|从不曾)",
-      "action": "suppress",
-      "confidence": 0.85,
-      "applyTo": [
-        "没有"
-      ]
-    },
-    {
       "id": "comp-055",
       "terms": [
         "没有"
@@ -1907,19 +1946,6 @@
       "confidence": 0.78,
       "applyTo": [
         "没有"
-      ]
-    },
-    {
-      "id": "comp-056",
-      "terms": [
-        "为什么"
-      ],
-      "description": "为什么X还不是因为 — rhetorical explanation, not genuine question (为什么都不还不是因为), confirm 为什么",
-      "pattern": "为什么[^，。！？…]{0,20}还不是因为",
-      "action": "confirm",
-      "confidence": 0.75,
-      "applyTo": [
-        "为什么"
       ]
     },
     {
@@ -2037,19 +2063,6 @@
       "confidence": 0.72,
       "applyTo": [
         "都是"
-      ]
-    },
-    {
-      "id": "comp-069",
-      "terms": [
-        "没有"
-      ],
-      "description": "没有X任何 — universal quantifier denial (没有任何证据), confirm 没有",
-      "pattern": "没有[^，。！？…]{0,6}任何",
-      "action": "confirm",
-      "confidence": 0.78,
-      "applyTo": [
-        "没有"
       ]
     },
     {

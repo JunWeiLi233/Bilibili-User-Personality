@@ -635,8 +635,8 @@ const COMPOSITE_TEST_CASES = [
     term: '没有', family: 'absolutes',
     text: '我觉得这个没有那个好用，手感差很多',
     expected: 'suppress',
-    explanation: '没有X那么Y comparative → composite suppresses 没有',
-    compositeId: 'comp-003',
+    explanation: '没有X那个/这个+ADJ demonstrative comparative → composite suppresses 没有',
+    compositeId: 'comp-049-n',
   },
   // ═══ 可能X完全Y — hedge disguising absolute ═══
   {

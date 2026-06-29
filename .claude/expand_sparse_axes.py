@@ -4,9 +4,12 @@
 import json, os, re, sys, time
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from python_backend.analyzers.deepseek_router import MODELS, resolve_model
+
 API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
 BASE_URL = os.environ.get("DEEPSEEK_BASE_URL", "https://api.deepseek.com")
-MODEL = os.environ.get("DEEPSEEK_MODEL", "deepseek-v4-pro")
+MODEL = resolve_model("generate")
 
 ENTRIES_DIR = Path("server/data/deepseekKeywordDictionary.entries")
 OUTPUT_FILE = Path(".claude/expanded_sparse_terms.json")

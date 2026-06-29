@@ -16,10 +16,12 @@ import {
   selectExhaustedTerms,
 } from '../services/keywordHarvest.js';
 
+import { MODELS } from '../services/deepseekRouter.js';
+
 // Default to flash/max for the auto-coverage loop, but allow an explicit opt-in
-// override (deepseek-v4-pro validation) via a dedicated env var. A stray DEEPSEEK_MODEL
+// override (pro-model validation) via a dedicated env var. A stray DEEPSEEK_MODEL
 // in the environment is still ignored, preserving the default-flash contract.
-process.env.DEEPSEEK_MODEL = process.env.BILIBILI_HARVEST_MODEL || 'deepseek-v4-flash';
+process.env.DEEPSEEK_MODEL = process.env.BILIBILI_HARVEST_MODEL || MODELS.V4_FLASH;
 process.env.DEEPSEEK_REASONING_EFFORT = process.env.BILIBILI_HARVEST_REASONING_EFFORT || 'max';
 
 process.on('unhandledRejection', (reason) => {
@@ -190,7 +192,7 @@ export function buildCoverageHarvestLoopPlan(payload = {}) {
   return {
     ok: true,
     deepseek: {
-      model: env.BILIBILI_HARVEST_MODEL || 'deepseek-v4-flash',
+      model: env.BILIBILI_HARVEST_MODEL || MODELS.V4_FLASH,
       reasoningEffort: env.BILIBILI_HARVEST_REASONING_EFFORT || 'max',
     },
     paths: {

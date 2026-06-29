@@ -4,7 +4,7 @@ import { dirname, join } from 'node:path';
 import { readKeywordDictionary as defaultReadKeywordDictionary } from './deepseekKeywordTrainer.js';
 import { searchVideoKeywords as defaultSearchVideoKeywords } from './videoKeywordSearch.js';
 
-const HARVEST_STRATEGY_VERSION = 7;
+const HARVEST_STRATEGY_VERSION = 8;
 const DEFAULT_SEED_QUERIES = [
   '\u4e2d\u6587\u4e92\u8054\u7f51 \u6897 \u8bc4\u8bba\u533a',
   '\u8bc4\u8bba\u533a \u70ed\u8bc4 \u6897',
@@ -42,6 +42,9 @@ const TERM_QUERY_TEMPLATES = [
   (term) => term,
 ];
 const DEFAULT_EXHAUSTED_SUGGESTION_TEMPLATES = [
+  '{term} {context}',
+  '{term} {context} \u70ed\u8bc4',
+  '{term} {context} \u8bc4\u8bba',
   '{term} \u70ed\u8bc4',
   '{term} \u56de\u590d',
   '{term} \u4e92\u52a8',
@@ -1541,7 +1544,13 @@ function normalizeQueryText(query) {
 }
 
 function renderQueryTemplate(template, term, family) {
-  return normalizeQueryText(String(template || '').replaceAll('{term}', term).replaceAll('{family}', family));
+  const context = FAMILY_CONTEXT[family] || '评论区 热评';
+  return normalizeQueryText(
+    String(template || '')
+      .replaceAll('{term}', term)
+      .replaceAll('{family}', family)
+      .replaceAll('{context}', context),
+  );
 }
 
 function queryTemplatesFromOptions(options = {}) {
@@ -3076,11 +3085,18 @@ function summarizeTrainingDiagnostics(results = []) {
     dictionaryEvidenceTerms: 0,
     dictionaryEvidenceCount: 0,
     generatedTerms: 0,
+    warnings: [],
   };
   for (const item of results) {
     const training = item?.result?.keywordTraining;
     if (!training) continue;
-    if (training.available && training.keyConfigured) diagnostics.deepseekCalls += 1;
+    if (training.available && training.keyConfigured) {
+      diagnostics.deepseekCalls += 1;
+    } else if (!training.keyConfigured) {
+      diagnostics.warnings.push('DEEPSEEK_API_KEY not configured — training skipped');
+    } else if (!training.available) {
+      diagnostics.warnings.push(`DeepSeek model "${training.model || 'unknown'}" not available — training skipped`);
+    }
     if (training.usedFallback) diagnostics.fallbackCalls += 1;
     diagnostics.evidenceRejected += Math.max(0, Number(training.evidenceRejected) || 0);
     const dictionaryEvidenceEntries = Array.isArray(training.dictionaryEvidenceEntries) ? training.dictionaryEvidenceEntries : [];
@@ -3092,6 +3108,8 @@ function summarizeTrainingDiagnostics(results = []) {
         ? item.result.entries.length
         : 0;
   }
+  // Deduplicate warnings
+  diagnostics.warnings = [...new Set(diagnostics.warnings)];
   return diagnostics;
 }
 

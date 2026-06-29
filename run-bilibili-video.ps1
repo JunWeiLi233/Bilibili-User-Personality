@@ -32,7 +32,9 @@ param(
   [switch]$NoDanmaku,
   [switch]$IncludeGenericPopular,
   [switch]$SkipPriorityActionRefresh,
-  [switch]$ResetHarvestState
+  [switch]$ResetHarvestState,
+  [switch]$Force,
+  [switch]$ResetMemory
 )
 
 # Runs dictionary-seeded backend video discovery and keyword training without manually entering Bilibili video links.
@@ -247,6 +249,18 @@ if ($VideoLink) { $allLinks += $VideoLink }
 if ($FavoriteLink) { $allLinks += $FavoriteLink }
 
 if ($allLinks.Count -gt 0) {
+  # ── Scraper link memory: skip already-analyzed links unless -Force ──────
+  $memoryFile = ".\server\data\scraper_link_memory.json"
+  if ($ResetMemory -and (Test-Path $memoryFile)) {
+    Remove-Item $memoryFile
+    Write-Host "Memory reset."
+  }
+  $memory = if ((-not $Force) -and (Test-Path $memoryFile)) {
+    Get-Content $memoryFile -Raw | ConvertFrom-Json
+  } else {
+    $null
+  }
+
   foreach ($link in $allLinks) {
     # Normalize: strip leading/trailing whitespace
     $normalized = $link.Trim()
@@ -256,9 +270,42 @@ if ($allLinks.Count -gt 0) {
     $isSpace  = $normalized -match "space\.bilibili\.com/(\d+)"
     $isB23    = $normalized -match "b23\.tv/"
     # A raw numeric UID: the entire string is digits (optionally starting with "UID:" or "mid:")
-    $isUid    = $normalized -match "^(?:UID\s*[:：]?\s*)?(?:mid\s*[:：]?\s*)?(\d{4,})$"
+    $isUid    = $normalized -match "^(?:UID\s*(?::|\uFF1A)?\s*)?(?:mid\s*(?::|\uFF1A)?\s*)?(\d{4,})$"
     $uidMatch = if ($isUid) { $matches[1] } else { "" }
     $spaceUid = if ($isSpace) { $matches[1] } else { "" }
+
+    # ── Memory check: skip if already analyzed ──────────────────────────
+    if ($memory) {
+      $memType = ""
+      $memId   = ""
+      if ($isFav) {
+        $memType = "favorite"
+        $favFidMatch = $normalized -match "[?&]fid=(\d+)"
+        $memId = if ($favFidMatch) { $matches[1] } else { $normalized }
+      } elseif ($isUid) {
+        $memType = "uid"
+        $memId   = $uidMatch
+      } elseif ($isSpace) {
+        $memType = "uid"
+        $memId   = $spaceUid
+      } elseif ($isB23) {
+        $memType = "video"
+        $memId   = $normalized
+      } else {
+        $memType = "video"
+        $bvidMatch = $normalized -match "BV[a-zA-Z0-9]{10}"
+        $memId = if ($bvidMatch) { $matches[0] } else { $normalized }
+      }
+
+      $memKey = "${memType}:${memId}"
+      if ($memory.entries.PSObject.Properties.Name -contains $memKey) {
+        $entry = $memory.entries.$memKey
+        Write-Host "Direct link: $normalized"
+        Write-Host "  -> Already analyzed on $($entry.processedAt), skipping (use -Force to re-process)"
+        Write-Host ""
+        continue
+      }
+    }
 
     Write-Host "Direct link: $normalized"
     $nodeArgs = @(".\server\scripts\runVideoLinkDirect.js")
@@ -307,6 +354,66 @@ if ($allLinks.Count -gt 0) {
     # Cleanup temp files
     Remove-Item $tmpOut, $tmpErr -ErrorAction SilentlyContinue
     Write-Host ""
+  }
+
+  # ── Auto-remove successfully processed links from the links file ──────
+  $linksFile = ".\run-bilibili-video.links.ps1"
+  if (Test-Path $linksFile) {
+    # Re-read memory (node may have updated it after successful processing)
+    $updatedMemory = if (Test-Path $memoryFile) {
+      Get-Content $memoryFile -Raw | ConvertFrom-Json
+    } else { $null }
+
+    # Build set of normalized links whose memory entries exist
+    $processedNormalized = @{}
+    foreach ($link in $allLinks) {
+      $n = $link.Trim()
+      $isFav2    = $n -match "(medialist|favlist|collectId)"
+      $isSpace2  = $n -match "space\.bilibili\.com/(\d+)"
+      $isB232    = $n -match "b23\.tv/"
+      $isUid2    = $n -match "^(?:UID\s*(?::|\uFF1A)?\s*)?(?:mid\s*(?::|\uFF1A)?\s*)?(\d{4,})$"
+      $uidMatch2 = if ($isUid2) { $matches[1] } else { "" }
+      $spaceUid2 = if ($isSpace2) { $matches[1] } else { "" }
+
+      $memType2 = ""
+      $memId2   = ""
+      if ($isFav2) {
+        $memType2 = "favorite"
+        $favFidMatch2 = $n -match "[?&]fid=(\d+)"
+        $memId2 = if ($favFidMatch2) { $matches[1] } else { $n }
+      } elseif ($isUid2) {
+        $memType2 = "uid"
+        $memId2   = $uidMatch2
+      } elseif ($isSpace2) {
+        $memType2 = "uid"
+        $memId2   = $spaceUid2
+      } elseif ($isB232) {
+        $memType2 = "video"
+        $memId2   = $n
+      } else {
+        $memType2 = "video"
+        $bvidMatch2 = $n -match "BV[a-zA-Z0-9]{10}"
+        $memId2 = if ($bvidMatch2) { $matches[0] } else { $n }
+      }
+
+      $memKey2 = "${memType2}:${memId2}"
+      if ($updatedMemory -and $updatedMemory.entries.PSObject.Properties.Name -contains $memKey2) {
+        $processedNormalized[$n] = $true
+      }
+    }
+
+    if ($processedNormalized.Count -gt 0) {
+      $linksContent = Get-Content $linksFile -Raw
+      foreach ($pl in $processedNormalized.Keys) {
+        $escaped = [Regex]::Escape($pl)
+        $linksContent = $linksContent -replace "(?m)^[ \t]*`"$escaped`",?[ \t]*\r?\n", ""
+      }
+      # Collapse triple+ blank lines to double
+      $linksContent = $linksContent -replace "\r?\n\r?\n\r?\n+", "`r`n`r`n"
+      $linksContent = $linksContent.TrimEnd() + "`r`n"
+      Set-Content $linksFile -Value $linksContent -NoNewline
+      Write-Host "Removed $($processedNormalized.Count) processed link(s) from run-bilibili-video.links.ps1"
+    }
   }
 } else {
   Write-Host "Harvesting dictionary-seeded Bilibili videos, scanning comments, and training the local keyword dictionary..."

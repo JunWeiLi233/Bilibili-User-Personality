@@ -69,15 +69,16 @@ test('fetchRepliesForVideo deepens reply threads only for term-bearing root comm
         if (String(url).includes('/x/web-interface/view')) {
           return { code: 0, data: { aid: 123, title: 'v', owner: { mid: 9 }, stat: { reply: 5 } } };
         }
-        if (String(url).includes('/x/v2/reply/main')) {
+        // Primary endpoint: /x/v2/reply (main is deprecated)
+        if (String(url).includes('/x/v2/reply?') && !String(url).includes('/x/v2/reply/reply')) {
           return {
             code: 0,
             data: {
+              page: { count: 2, size: 20, num: 1 },
               replies: [
                 { rpid: 100, mid: 1, member: { mid: '1', uname: 'root' }, content: { message: '网盘见' }, rcount: 5, replies: [] },
                 { rpid: 200, mid: 2, member: { mid: '2', uname: 'other' }, content: { message: '无关评论' }, rcount: 0, replies: [] },
               ],
-              cursor: { is_end: true, next: 0 },
             },
           };
         }
@@ -117,10 +118,11 @@ test('fetchRepliesForVideo skips deepening when no deepenMatch is provided', asy
         if (String(url).includes('/x/web-interface/view')) {
           return { code: 0, data: { aid: 123, title: 'v', owner: { mid: 9 }, stat: { reply: 5 } } };
         }
-        if (String(url).includes('/x/v2/reply/main')) {
+        // Primary endpoint is now /x/v2/reply (main is deprecated)
+        if (String(url).includes('/x/v2/reply?') && !String(url).includes('/x/v2/reply/reply')) {
           return {
             code: 0,
-            data: { replies: [{ rpid: 100, mid: 1, member: { mid: '1', uname: 'root' }, content: { message: '网盘见' }, rcount: 5, replies: [] }], cursor: { is_end: true, next: 0 } },
+            data: { page: { count: 1, size: 20, num: 1 }, replies: [{ rpid: 100, mid: 1, member: { mid: '1', uname: 'root' }, content: { message: '网盘见' }, rcount: 5, replies: [] }] },
           };
         }
         return { code: 0, data: {} };
@@ -853,6 +855,10 @@ test('fetchRepliesForVideo can include public danmaku as interaction text', asyn
         }
         return { code: 0, data: { replies: [], cursor: { is_end: true, next: 0 } } };
       },
+      fetchBuffer: async () => {
+        // Return empty buffer to trigger XML fallback
+        return new ArrayBuffer(0);
+      },
       fetchText: async (url) => {
         assert.equal(String(url), 'https://api.bilibili.com/x/v1/dm/list.so?oid=456');
         return '<i><d p="1,1,25,16777215,1710000000,0,12345,0">轻点喷</d></i>';
@@ -914,6 +920,10 @@ test('fetchRepliesForVideo can opt into Python danmaku parsing', async () => {
         }
         return { code: 0, data: { replies: [], cursor: { is_end: true, next: 0 } } };
       },
+      fetchBuffer: async () => {
+        // Return empty buffer to trigger XML fallback
+        return new ArrayBuffer(0);
+      },
       fetchText: async () => '<i><d p="1,1,25,16777215,1710000000,0,12345,0">js would parse this</d></i>',
     },
   );
@@ -925,7 +935,7 @@ test('fetchRepliesForVideo can opt into Python danmaku parsing', async () => {
   assert.equal(parseCalls[0].video.cid, '456');
 });
 
-test('fetchRepliesForVideo falls back to legacy reply pages when main cursor API is blocked', async () => {
+test('fetchRepliesForVideo falls back to main cursor API when page-based reply is blocked', async () => {
   const seen = [];
   const result = await fetchRepliesForVideo(
     'BV19yGa61Ee6',
@@ -944,25 +954,29 @@ test('fetchRepliesForVideo falls back to legacy reply pages when main cursor API
             },
           };
         }
-        if (String(url).includes('/x/v2/reply/main')) {
+        // Primary: /x/v2/reply is now the default; /x/v2/reply/main is the fallback
+        if (String(url).includes('/x/v2/reply?') && !String(url).includes('/x/v2/reply/reply')) {
           return { code: -352, message: '-352' };
         }
-        return {
-          code: 0,
-          data: {
-            replies: [
-              {
-                rpid: 10,
-                mid: 100,
-                member: { mid: '100', uname: 'alice' },
-                content: { message: '典中典，自己查' },
-                like: 2,
-                ctime: 1710000000,
-              },
-            ],
-            page: { count: 1, size: 20, num: 1 },
-          },
-        };
+        if (String(url).includes('/x/v2/reply/main')) {
+          return {
+            code: 0,
+            data: {
+              replies: [
+                {
+                  rpid: 10,
+                  mid: 100,
+                  member: { mid: '100', uname: 'alice' },
+                  content: { message: '典中典，自己查' },
+                  like: 2,
+                  ctime: 1710000000,
+                },
+              ],
+              cursor: { is_end: true, next: 0 },
+            },
+          };
+        }
+        return { code: 0, data: { replies: [], cursor: { is_end: true, next: 0 } } };
       },
     },
   );
@@ -970,7 +984,7 @@ test('fetchRepliesForVideo falls back to legacy reply pages when main cursor API
   assert.equal(result.ok, true);
   assert.equal(result.comments.length, 1);
   assert.equal(result.commentText.includes('典中典'), true);
-  assert.equal(seen.some((url) => url.includes('/x/v2/reply?')), true);
+  assert.equal(seen.some((url) => url.includes('/x/v2/reply/main')), true);
 });
 
 // ── Problem 1: TokenBucket tests ──────────────────────────────────────────────

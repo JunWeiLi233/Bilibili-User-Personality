@@ -1,0 +1,12 @@
+# metric_direction: higher_is_better
+iteration	timestamp	file_documented	validation_status	issues_found	issues_fixed	description
+1	2026-06-28T17:00:00Z	server/routes/bilibili.js	pass	0	0	Added module JSDoc + route handler JSDoc with request/response shapes
+2	2026-06-28T17:00:00Z	server/routes/deepseek.js	pass	0	0	Added module JSDoc + route handler JSDoc for all 5 endpoints
+3	2026-06-28T17:00:00Z	server/routes/admin.js	pass	1	1	Added module JSDoc + route handler JSDoc for 7 endpoints; fixed duplicate code from edit
+4	2026-06-28T17:00:00Z	server/index.js	pass	0	0	Added module JSDoc + bootstrap flow docs + shutdown handler docs
+5	2026-06-28T17:00:00Z	server/services/commentCoverage.js	pass	0	0	Added module JSDoc + 3 export function docs (classifyCommentCoverage, sampleCommentCoverage, detectEmoteSemanticHits) + helper docs
+6	2026-06-28T17:00:00Z	src/main.jsx	pass	0	0	Added module JSDoc + App component docs + scoreComments docs + Ziegenbein comment
+7	2026-06-28T17:00:00Z	server/services/relationshipPipeline.js	pass	0	0	Enhanced existing module docs with export function JSDoc for analyzeRelationships
+8	2026-06-28T17:00:00Z	server/services/termCooccurrence.js	pass	0	0	Already well-documented; verified all exports have JSDoc
+9	2026-06-28T17:00:00Z	python_backend/analysis/context_classifier.py	pass	0	0	Already well-documented with docstrings on all 7 functions
+10	2026-06-28T17:00:00Z	docs/PROJECT_MAP.md	pass	0	0	Added new services (disambiguator, contextClassifier, relationshipPipeline, termCooccurrence, llmRelationAnalysis, scraperConfig) + polysemy pipeline flow + Python analysis modules

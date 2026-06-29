@@ -916,11 +916,13 @@ class DirectProbeLiveFetcher:
         self,
         fetch_json: Callable[[str, str, dict[str, Any]], dict[str, Any]] | None = None,
         fetch_text: Callable[[str, str, dict[str, Any]], str] | None = None,
+        fetch_buffer: Callable[[str, str, dict[str, Any]], bytes] | None = None,
         builder: "DirectProbeCorpusBuilder" | None = None,
     ):
         self.builder = builder or DirectProbeCorpusBuilder()
         self.fetch_json = fetch_json or self._fetch_json
         self.fetch_text = fetch_text or self._fetch_text
+        self.fetch_buffer = fetch_buffer or self._fetch_buffer
 
     def fetch_video_comments(self, video: dict[str, Any] | None, options: dict[str, Any] | None = None) -> list[dict[str, str]]:
         options = options if isinstance(options, dict) else {}
@@ -981,6 +983,16 @@ class DirectProbeLiveFetcher:
         cid = _clean_text(target.get("cid"))
         if not cid:
             return []
+        # Try new protobuf endpoint first
+        try:
+            buf_url = f"https://api.bilibili.com/x/v2/dm/web/view?oid={quote(str(cid), safe='')}&type=1"
+            buf = self.fetch_buffer(buf_url, self._video_referer(target), options)
+            items = self.builder.collect_danmaku_from_protobuf(buf, target)
+            if items:
+                return items
+        except Exception:
+            pass
+        # Legacy XML fallback
         url = f"https://api.bilibili.com/x/v1/dm/list.so?{urlencode({'oid': cid})}"
         xml = self.fetch_text(url, self._video_referer(target), options)
         return self.builder.collect_danmaku_messages(xml, target)
@@ -1038,6 +1050,22 @@ class DirectProbeLiveFetcher:
             if status < 200 or status >= 300:
                 raise ValueError(f"HTTP {status}")
             return response.read().decode("utf-8", errors="replace")
+
+    def _fetch_buffer(self, url: str, referer: str, options: dict[str, Any]) -> bytes:
+        timeout = max(1.0, _number(options.get("requestTimeoutMs") or 12000) / 1000)
+        headers = self.builder.build_bilibili_web_headers(
+            referer,
+            {
+                "cookie": options.get("cookie"),
+                "userAgent": options.get("userAgent"),
+            },
+        )
+        request = Request(url, headers=headers)
+        with urlopen(request, timeout=timeout) as response:
+            status = getattr(response, "status", 200)
+            if status < 200 or status >= 300:
+                raise ValueError(f"HTTP {status}")
+            return response.read()
 
 
 class DirectProbeLiveFetchPayloadRunner:
@@ -1540,6 +1568,31 @@ class DirectProbeCorpusBuilder:
             if not message:
                 continue
             comments.append({"message": message, "uid": uid, "source": self._source_for_video(video, "danmaku")})
+        return comments
+
+    def collect_danmaku_from_protobuf(self, buffer: bytes, video: dict[str, Any] | None = None) -> list[dict[str, str]]:
+        """Extract danmaku messages from protobuf-encoded response (/x/v2/dm/web/view)."""
+        video = video or {}
+        comments = []
+        if not isinstance(buffer, (bytes, bytearray)):
+            return comments
+        try:
+            text = buffer.decode("utf-8", errors="replace")
+        except Exception:
+            return comments
+        uid = _clean_text(video.get("bvid") or video.get("cid") or video.get("aid"))
+        current = ""
+        for ch in text:
+            cp = ord(ch) if len(ch) == 1 else 0
+            is_cjk = (0x4E00 <= cp <= 0x9FFF) or (0x3400 <= cp <= 0x4DBF) or (0x3000 <= cp <= 0x303F) or (0xFF00 <= cp <= 0xFFEF)
+            is_printable = 0x20 <= cp <= 0x7E
+            if is_cjk or is_printable:
+                current += ch
+            else:
+                if 2 <= len(current) < 120 and re.search(r"[一-鿿]", current) and not current.startswith("{") and not current.startswith("http"):
+                    if not re.match(r"开启后|全站视频|弹幕|^\d", current):
+                        comments.append({"message": current.strip(), "uid": uid, "source": self._source_for_video(video, "danmaku")})
+                current = ""
         return comments
 
     def build_fresh_evidence_entries(self, dictionary: dict[str, Any] | None, comments: list[Any] | None, options: dict[str, Any] | None = None) -> list[dict[str, Any]]:

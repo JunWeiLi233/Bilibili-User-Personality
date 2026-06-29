@@ -7,6 +7,7 @@ import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 
 import { analyzeCommentsWithDeepSeek, normalizeDeepSeekAnalysisResult } from '../services/deepseekKeywordTrainer.js';
+import { MODELS } from '../services/deepseekRouter.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -204,7 +205,7 @@ async function runPythonFixtureAnalysis({ payload, analysis }) {
         '--provider',
         'deepseek',
         '--model',
-        'deepseek-v4-flash',
+        MODELS.V4_FLASH,
         '--reasoning-effort',
         'max',
         '--raw',
@@ -238,7 +239,7 @@ export async function runFixtureAnalysisMode(
   return normalizeJs({
     parsed: parsedAnalysis,
     payload: parsed.payload,
-    config: { provider: 'deepseek', model: 'deepseek-v4-flash', reasoningEffort: 'max' },
+    config: { provider: 'deepseek', model: MODELS.V4_FLASH, reasoningEffort: 'max' },
     raw: JSON.stringify(analysis),
     retriedCompactPrompt: false,
   });

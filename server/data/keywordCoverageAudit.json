@@ -1,6 +1,6 @@
 {
   "ok": false,
-  "generatedAt": "2026-06-29T00:49:33.883774Z",
+  "generatedAt": "2026-06-29T13:57:50.829488Z",
   "targetEvidence": 3,
   "minCoverageRatio": 1,
   "requireComplete": true,
@@ -8,133 +8,133 @@
   "coverage": {
     "complete": false,
     "targetEvidence": 3,
-    "terms": 1657,
-    "totalEvidence": 7943,
-    "averageEvidence": 4.79,
-    "coverageRatio": 0.6807,
-    "evidenceDeficit": 1303,
-    "sourcedEvidenceTerms": 265,
-    "sourceCoverageRatio": 0.1599,
-    "unsourcedEvidenceTerms": 1086,
-    "weakTerms": 529,
-    "zeroEvidenceTerms": 306,
+    "terms": 4954,
+    "totalEvidence": 1318,
+    "averageEvidence": 0.27,
+    "coverageRatio": 0.0379,
+    "evidenceDeficit": 14048,
+    "sourcedEvidenceTerms": 389,
+    "sourceCoverageRatio": 0.0785,
+    "unsourcedEvidenceTerms": 0,
+    "weakTerms": 4766,
+    "zeroEvidenceTerms": 4565,
     "weakSamples": [
       {
-        "term": "万般皆是命",
+        "term": "100赞同",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "万般皆是命啊",
+        "term": "yyds",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "全都板",
+        "term": "一丁点",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "全都板了",
+        "term": "一丁点都不",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "别无他选的必然结果",
+        "term": "一丝",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "坚信",
+        "term": "一共",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "太无敌可爱了",
+        "term": "一刀切",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "封100年",
+        "term": "一切尽在掌握",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "封号100年",
+        "term": "一切都",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "必然结果",
+        "term": "一切问题",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "我坚信",
+        "term": "一刻不停",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "无敌可爱",
+        "term": "一劳永逸",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "根本没有本人好看",
+        "term": "一向",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "没有本人好看",
+        "term": "一向如此",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "王朝",
+        "term": "一定可以",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "王朝了",
+        "term": "一定就是",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "确实型",
+        "term": "一定是",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "确实型人格",
+        "term": "一定没错",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "绝对雷区",
+        "term": "一定行",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
       },
       {
-        "term": "门清",
+        "term": "一应俱全",
         "family": "absolutes",
         "evidenceCount": 0,
         "coverageEvidenceCount": 0
@@ -142,375 +142,254 @@
     ],
     "zeroEvidenceSamples": [
       {
-        "term": "万般皆是命",
+        "term": "100赞同",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "万般皆是命啊",
+        "term": "yyds",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "全都板",
+        "term": "一丁点",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "全都板了",
+        "term": "一丁点都不",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "别无他选的必然结果",
+        "term": "一丝",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "坚信",
+        "term": "一共",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "太无敌可爱了",
+        "term": "一刀切",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "封100年",
+        "term": "一切尽在掌握",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "封号100年",
+        "term": "一切都",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "必然结果",
+        "term": "一切问题",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "我坚信",
+        "term": "一刻不停",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "无敌可爱",
+        "term": "一劳永逸",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "根本没有本人好看",
+        "term": "一向",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "没有本人好看",
+        "term": "一向如此",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "王朝",
+        "term": "一定可以",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "王朝了",
+        "term": "一定就是",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "确实型",
+        "term": "一定是",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "确实型人格",
+        "term": "一定没错",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "绝对雷区",
+        "term": "一定行",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "门清",
+        "term": "一应俱全",
         "family": "absolutes",
         "evidenceCount": 0
       }
     ],
-    "unsourcedEvidenceSamples": [
-      {
-        "term": "片姐",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "狗屁不通",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "狗屁不通的",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "玩烂梗",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "生草",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "白嫖",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "破防",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "硬币",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "神了",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "离谱",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "纯恨",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "纯恨么",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "经典拉踩",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "绝对有人赌球",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "绝对有人赌球了",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "绿茶",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "老够",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "老装糊涂",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "虚空索敌",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      },
-      {
-        "term": "被骂",
-        "family": "attack",
-        "evidenceCount": 1,
-        "coverageEvidenceCount": 1
-      }
-    ],
+    "unsourcedEvidenceSamples": [],
     "byFamily": {
       "attack": {
-        "terms": 976,
-        "evidence": 3629,
-        "weak": 354,
-        "zero": 230,
-        "sourced": 119
+        "terms": 642,
+        "evidence": 263,
+        "weak": 604,
+        "zero": 555,
+        "sourced": 87
       },
       "absolutes": {
-        "terms": 130,
-        "evidence": 619,
-        "weak": 31,
-        "zero": 22,
-        "sourced": 36
+        "terms": 841,
+        "evidence": 482,
+        "weak": 773,
+        "zero": 723,
+        "sourced": 118
       },
       "evidence": {
-        "terms": 57,
-        "evidence": 203,
-        "weak": 23,
-        "zero": 12,
-        "sourced": 16
+        "terms": 860,
+        "evidence": 89,
+        "weak": 848,
+        "zero": 821,
+        "sourced": 39
       },
       "evasion": {
-        "terms": 93,
-        "evidence": 811,
-        "weak": 26,
-        "zero": 6,
-        "sourced": 15
+        "terms": 931,
+        "evidence": 46,
+        "weak": 927,
+        "zero": 906,
+        "sourced": 25
       },
       "cooperation": {
-        "terms": 346,
-        "evidence": 1975,
-        "weak": 77,
-        "zero": 27,
-        "sourced": 69
+        "terms": 868,
+        "evidence": 390,
+        "weak": 809,
+        "zero": 770,
+        "sourced": 98
       },
       "correction": {
-        "terms": 55,
-        "evidence": 706,
-        "weak": 18,
-        "zero": 9,
-        "sourced": 10
+        "terms": 812,
+        "evidence": 48,
+        "weak": 805,
+        "zero": 790,
+        "sourced": 22
       }
     }
   },
   "termAttemptSummary": {
     "attemptedTerms": 0,
     "successfulTerms": 0,
-    "unattemptedTerms": 1657,
+    "unattemptedTerms": 4954,
     "unattemptedSamples": [
       {
-        "term": "万般皆是命",
+        "term": "100赞同",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "万般皆是命啊",
+        "term": "yyds",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "全都板",
+        "term": "一丁点",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "全都板了",
+        "term": "一丁点都不",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "别无他选的必然结果",
+        "term": "一丝",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "坚信",
+        "term": "一共",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "太无敌可爱了",
+        "term": "一刀切",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "封100年",
+        "term": "一切尽在掌握",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "封号100年",
+        "term": "一切都",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "必然结果",
+        "term": "一切问题",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "我坚信",
+        "term": "一刻不停",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "无敌可爱",
+        "term": "一劳永逸",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "根本没有本人好看",
+        "term": "一向",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "没有本人好看",
+        "term": "一向如此",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "王朝",
+        "term": "一定可以",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "王朝了",
+        "term": "一定就是",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "确实型",
+        "term": "一定是",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "确实型人格",
+        "term": "一定没错",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "绝对雷区",
+        "term": "一定行",
         "family": "absolutes",
         "evidenceCount": 0
       },
       {
-        "term": "门清",
+        "term": "一应俱全",
         "family": "absolutes",
         "evidenceCount": 0
       }
@@ -520,69 +399,69 @@
     "exhaustedSamples": []
   },
   "actionSummary": {
-    "harvest": 529,
-    "none": 1128
+    "harvest": 4766,
+    "none": 188
   },
   "familyGaps": [
     {
-      "family": "attack",
-      "terms": 976,
-      "weak": 354,
-      "zero": 230,
-      "evidence": 3629,
-      "coverageRatio": 0.6373
-    },
-    {
-      "family": "cooperation",
-      "terms": 346,
-      "weak": 77,
-      "zero": 27,
-      "evidence": 1975,
-      "coverageRatio": 0.7775
-    },
-    {
-      "family": "absolutes",
-      "terms": 130,
-      "weak": 31,
-      "zero": 22,
-      "evidence": 619,
-      "coverageRatio": 0.7615
-    },
-    {
       "family": "evasion",
-      "terms": 93,
-      "weak": 26,
-      "zero": 6,
-      "evidence": 811,
-      "coverageRatio": 0.7204
+      "terms": 931,
+      "weak": 927,
+      "zero": 906,
+      "evidence": 46,
+      "coverageRatio": 0.0043
     },
     {
       "family": "evidence",
-      "terms": 57,
-      "weak": 23,
-      "zero": 12,
-      "evidence": 203,
-      "coverageRatio": 0.5965
+      "terms": 860,
+      "weak": 848,
+      "zero": 821,
+      "evidence": 89,
+      "coverageRatio": 0.014
+    },
+    {
+      "family": "cooperation",
+      "terms": 868,
+      "weak": 809,
+      "zero": 770,
+      "evidence": 390,
+      "coverageRatio": 0.068
     },
     {
       "family": "correction",
-      "terms": 55,
-      "weak": 18,
-      "zero": 9,
-      "evidence": 706,
-      "coverageRatio": 0.6727
+      "terms": 812,
+      "weak": 805,
+      "zero": 790,
+      "evidence": 48,
+      "coverageRatio": 0.0086
+    },
+    {
+      "family": "absolutes",
+      "terms": 841,
+      "weak": 773,
+      "zero": 723,
+      "evidence": 482,
+      "coverageRatio": 0.0809
+    },
+    {
+      "family": "attack",
+      "terms": 642,
+      "weak": 604,
+      "zero": 555,
+      "evidence": 263,
+      "coverageRatio": 0.0592
     }
   ],
   "nextActions": [
     {
-      "term": "万般皆是命",
+      "term": "100赞同",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
       "evidenceCount": 0,
       "coverageEvidenceCount": 0,
       "sourcedEvidence": false,
-      "recommendationGroup": "万般皆是命",
+      "recommendationGroup": "100赞同",
       "targetEvidence": 3,
       "evidenceNeeded": 3,
       "attempts": 0,
@@ -590,20 +469,20 @@
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "万般皆是命 绝对化 评论 热评",
+      "nextQuery": "100赞同 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "万般皆是命啊",
+      "term": "yyds",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
       "evidenceCount": 0,
       "coverageEvidenceCount": 0,
       "sourcedEvidence": false,
-      "recommendationGroup": "万般皆是命啊",
+      "recommendationGroup": "yyds",
       "targetEvidence": 3,
       "evidenceNeeded": 3,
       "attempts": 0,
@@ -611,20 +490,20 @@
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "万般皆是命啊 绝对化 评论 热评",
+      "nextQuery": "yyds 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "全都板",
+      "term": "一丁点",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
       "evidenceCount": 0,
       "coverageEvidenceCount": 0,
       "sourcedEvidence": false,
-      "recommendationGroup": "全都板",
+      "recommendationGroup": "一丁点",
       "targetEvidence": 3,
       "evidenceNeeded": 3,
       "attempts": 0,
@@ -632,20 +511,20 @@
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "全都板 绝对化 评论 热评",
+      "nextQuery": "一丁点 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "全都板了",
+      "term": "一丁点都不",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
       "evidenceCount": 0,
       "coverageEvidenceCount": 0,
       "sourcedEvidence": false,
-      "recommendationGroup": "全都板了",
+      "recommendationGroup": "一丁点都不",
       "targetEvidence": 3,
       "evidenceNeeded": 3,
       "attempts": 0,
@@ -653,20 +532,20 @@
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "全都板了 绝对化 评论 热评",
+      "nextQuery": "一丁点都不 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "别无他选的必然结果",
+      "term": "一丝",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
       "evidenceCount": 0,
       "coverageEvidenceCount": 0,
       "sourcedEvidence": false,
-      "recommendationGroup": "别无他选的必然结果",
+      "recommendationGroup": "一丝",
       "targetEvidence": 3,
       "evidenceNeeded": 3,
       "attempts": 0,
@@ -674,20 +553,20 @@
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "别无他选的必然结果 绝对化 评论 热评",
+      "nextQuery": "一丝 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "坚信",
+      "term": "一共",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
       "evidenceCount": 0,
       "coverageEvidenceCount": 0,
       "sourcedEvidence": false,
-      "recommendationGroup": "坚信",
+      "recommendationGroup": "一共",
       "targetEvidence": 3,
       "evidenceNeeded": 3,
       "attempts": 0,
@@ -695,20 +574,20 @@
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "坚信 绝对化 评论 热评",
+      "nextQuery": "一共 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "太无敌可爱了",
+      "term": "一刀切",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
       "evidenceCount": 0,
       "coverageEvidenceCount": 0,
       "sourcedEvidence": false,
-      "recommendationGroup": "太无敌可爱了",
+      "recommendationGroup": "一刀切",
       "targetEvidence": 3,
       "evidenceNeeded": 3,
       "attempts": 0,
@@ -716,20 +595,20 @@
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "太无敌可爱了 绝对化 评论 热评",
+      "nextQuery": "一刀切 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "封100年",
+      "term": "一切尽在掌握",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
       "evidenceCount": 0,
       "coverageEvidenceCount": 0,
       "sourcedEvidence": false,
-      "recommendationGroup": "封100年",
+      "recommendationGroup": "一切尽在掌握",
       "targetEvidence": 3,
       "evidenceNeeded": 3,
       "attempts": 0,
@@ -737,20 +616,20 @@
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "封100年 绝对化 评论 热评",
+      "nextQuery": "一切尽在掌握 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "封号100年",
+      "term": "一切都",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
       "evidenceCount": 0,
       "coverageEvidenceCount": 0,
       "sourcedEvidence": false,
-      "recommendationGroup": "封号100年",
+      "recommendationGroup": "一切都",
       "targetEvidence": 3,
       "evidenceNeeded": 3,
       "attempts": 0,
@@ -758,20 +637,20 @@
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "封号100年 绝对化 评论 热评",
+      "nextQuery": "一切都 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "必然结果",
+      "term": "一切问题",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
       "evidenceCount": 0,
       "coverageEvidenceCount": 0,
       "sourcedEvidence": false,
-      "recommendationGroup": "必然结果",
+      "recommendationGroup": "一切问题",
       "targetEvidence": 3,
       "evidenceNeeded": 3,
       "attempts": 0,
@@ -779,20 +658,20 @@
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "必然结果 绝对化 评论 热评",
+      "nextQuery": "一切问题 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "我坚信",
+      "term": "一刻不停",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
       "evidenceCount": 0,
       "coverageEvidenceCount": 0,
       "sourcedEvidence": false,
-      "recommendationGroup": "我坚信",
+      "recommendationGroup": "一刻不停",
       "targetEvidence": 3,
       "evidenceNeeded": 3,
       "attempts": 0,
@@ -800,20 +679,20 @@
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "我坚信 绝对化 评论 热评",
+      "nextQuery": "一刻不停 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "无敌可爱",
+      "term": "一劳永逸",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
       "evidenceCount": 0,
       "coverageEvidenceCount": 0,
       "sourcedEvidence": false,
-      "recommendationGroup": "无敌可爱",
+      "recommendationGroup": "一劳永逸",
       "targetEvidence": 3,
       "evidenceNeeded": 3,
       "attempts": 0,
@@ -821,20 +700,20 @@
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "无敌可爱 绝对化 评论 热评",
+      "nextQuery": "一劳永逸 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "根本没有本人好看",
+      "term": "一向",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
       "evidenceCount": 0,
       "coverageEvidenceCount": 0,
       "sourcedEvidence": false,
-      "recommendationGroup": "根本没有本人好看",
+      "recommendationGroup": "一向",
       "targetEvidence": 3,
       "evidenceNeeded": 3,
       "attempts": 0,
@@ -842,20 +721,20 @@
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "根本没有本人好看 绝对化 评论 热评",
+      "nextQuery": "一向 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "没有本人好看",
+      "term": "一向如此",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
       "evidenceCount": 0,
       "coverageEvidenceCount": 0,
       "sourcedEvidence": false,
-      "recommendationGroup": "没有本人好看",
+      "recommendationGroup": "一向如此",
       "targetEvidence": 3,
       "evidenceNeeded": 3,
       "attempts": 0,
@@ -863,20 +742,20 @@
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "没有本人好看 绝对化 评论 热评",
+      "nextQuery": "一向如此 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "王朝",
+      "term": "一定可以",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
       "evidenceCount": 0,
       "coverageEvidenceCount": 0,
       "sourcedEvidence": false,
-      "recommendationGroup": "王朝",
+      "recommendationGroup": "一定可以",
       "targetEvidence": 3,
       "evidenceNeeded": 3,
       "attempts": 0,
@@ -884,20 +763,20 @@
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "王朝 绝对化 评论 热评",
+      "nextQuery": "一定可以 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "王朝了",
+      "term": "一定就是",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
       "evidenceCount": 0,
       "coverageEvidenceCount": 0,
       "sourcedEvidence": false,
-      "recommendationGroup": "王朝了",
+      "recommendationGroup": "一定就是",
       "targetEvidence": 3,
       "evidenceNeeded": 3,
       "attempts": 0,
@@ -905,20 +784,20 @@
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "王朝了 绝对化 评论 热评",
+      "nextQuery": "一定就是 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "确实型",
+      "term": "一定是",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
       "evidenceCount": 0,
       "coverageEvidenceCount": 0,
       "sourcedEvidence": false,
-      "recommendationGroup": "确实型",
+      "recommendationGroup": "一定是",
       "targetEvidence": 3,
       "evidenceNeeded": 3,
       "attempts": 0,
@@ -926,20 +805,20 @@
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "确实型 绝对化 评论 热评",
+      "nextQuery": "一定是 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "确实型人格",
+      "term": "一定没错",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
       "evidenceCount": 0,
       "coverageEvidenceCount": 0,
       "sourcedEvidence": false,
-      "recommendationGroup": "确实型人格",
+      "recommendationGroup": "一定没错",
       "targetEvidence": 3,
       "evidenceNeeded": 3,
       "attempts": 0,
@@ -947,20 +826,20 @@
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "确实型人格 绝对化 评论 热评",
+      "nextQuery": "一定没错 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "绝对雷区",
+      "term": "一定行",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
       "evidenceCount": 0,
       "coverageEvidenceCount": 0,
       "sourcedEvidence": false,
-      "recommendationGroup": "绝对雷区",
+      "recommendationGroup": "一定行",
       "targetEvidence": 3,
       "evidenceNeeded": 3,
       "attempts": 0,
@@ -968,20 +847,20 @@
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "绝对雷区 绝对化 评论 热评",
+      "nextQuery": "一定行 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     },
     {
-      "term": "门清",
+      "term": "一应俱全",
       "family": "absolutes",
       "status": "weak_unattempted",
       "action": "harvest",
       "evidenceCount": 0,
       "coverageEvidenceCount": 0,
       "sourcedEvidence": false,
-      "recommendationGroup": "门清",
+      "recommendationGroup": "一应俱全",
       "targetEvidence": 3,
       "evidenceNeeded": 3,
       "attempts": 0,
@@ -989,36 +868,36 @@
       "duplicateAcceptedNoProgress": false,
       "currentCommentMisses": 0,
       "exhausted": false,
-      "nextQuery": "门清 绝对化 评论 热评",
+      "nextQuery": "一应俱全 绝对化 评论 热评",
       "suggestedQueries": [],
       "lastQuery": "",
       "lastError": ""
     }
   ],
   "recommendedQueries": [
-    "万般皆是命 绝对化 评论 热评",
-    "万般皆是命啊 绝对化 评论 热评",
-    "全都板 绝对化 评论 热评",
-    "全都板了 绝对化 评论 热评",
-    "别无他选的必然结果 绝对化 评论 热评",
-    "坚信 绝对化 评论 热评",
-    "太无敌可爱了 绝对化 评论 热评",
-    "封100年 绝对化 评论 热评",
-    "封号100年 绝对化 评论 热评",
-    "必然结果 绝对化 评论 热评",
-    "我坚信 绝对化 评论 热评",
-    "无敌可爱 绝对化 评论 热评",
-    "根本没有本人好看 绝对化 评论 热评",
-    "没有本人好看 绝对化 评论 热评",
-    "王朝 绝对化 评论 热评",
-    "王朝了 绝对化 评论 热评",
-    "确实型 绝对化 评论 热评",
-    "确实型人格 绝对化 评论 热评",
-    "绝对雷区 绝对化 评论 热评",
-    "门清 绝对化 评论 热评"
+    "100赞同 绝对化 评论 热评",
+    "yyds 绝对化 评论 热评",
+    "一丁点 绝对化 评论 热评",
+    "一丁点都不 绝对化 评论 热评",
+    "一丝 绝对化 评论 热评",
+    "一共 绝对化 评论 热评",
+    "一刀切 绝对化 评论 热评",
+    "一切尽在掌握 绝对化 评论 热评",
+    "一切都 绝对化 评论 热评",
+    "一切问题 绝对化 评论 热评",
+    "一刻不停 绝对化 评论 热评",
+    "一劳永逸 绝对化 评论 热评",
+    "一向 绝对化 评论 热评",
+    "一向如此 绝对化 评论 热评",
+    "一定可以 绝对化 评论 热评",
+    "一定就是 绝对化 评论 热评",
+    "一定是 绝对化 评论 热评",
+    "一定没错 绝对化 评论 热评",
+    "一定行 绝对化 评论 热评",
+    "一应俱全 绝对化 评论 热评"
   ],
   "failureReasons": [
-    "coverage ratio 0.6807 is below 1",
-    "529 term(s) are below 3 evidence hit(s)"
+    "coverage ratio 0.0379 is below 1",
+    "4766 term(s) are below 3 evidence hit(s)"
   ]
 }
