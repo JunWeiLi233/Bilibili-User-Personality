@@ -1058,9 +1058,8 @@ class BilibiliCrawlerHelper:
         root = quote(str(root_rpid or ""), safe="")
         thread_page_value = quote(str(thread_page), safe="")
         return {
-            # Primary: /x/v2/reply (main is blocked/deprecated)
-            "mainUrl": f"https://api.bilibili.com/x/v2/reply?type={reply_type}&oid={oid}&pn={legacy_page_value}&ps=20&sort=2",
-            "legacyUrl": f"https://api.bilibili.com/x/v2/reply/main?type={reply_type}&oid={oid}&mode=3&next={next_value}&ps=20",
+            "mainUrl": f"https://api.bilibili.com/x/v2/reply/main?type={reply_type}&oid={oid}&mode=3&next={next_value}&ps=20",
+            "legacyUrl": f"https://api.bilibili.com/x/v2/reply?type={reply_type}&oid={oid}&pn={legacy_page_value}&ps=20&sort=2",
             "threadUrl": f"https://api.bilibili.com/x/v2/reply/reply?type={reply_type}&oid={oid}&root={root}&pn={thread_page_value}&ps=20",
         }
 

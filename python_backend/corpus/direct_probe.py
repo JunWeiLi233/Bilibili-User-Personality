@@ -1117,7 +1117,11 @@ class DirectProbeLiveFetchPayloadRunner:
                 request_log.append(self._request_log_entry("text", url, referer, options))
                 return base_fetcher._fetch_text(url, referer, options)
 
-            return DirectProbeLiveFetcher(fetch_json=live_json, fetch_text=live_text, builder=base_fetcher.builder)
+            def live_buffer(url: str, referer: str, options: dict[str, Any]) -> bytes:
+                request_log.append(self._request_log_entry("buffer", url, referer, options))
+                return base_fetcher._fetch_buffer(url, referer, options)
+
+            return DirectProbeLiveFetcher(fetch_json=live_json, fetch_text=live_text, fetch_buffer=live_buffer, builder=base_fetcher.builder)
 
         json_responses = json_responses or {}
         text_responses = text_responses or {}
@@ -1135,7 +1139,11 @@ class DirectProbeLiveFetchPayloadRunner:
                 raise ValueError(f"Missing fixture text response for {url}")
             return str(text_responses.get(url) or "")
 
-        return DirectProbeLiveFetcher(fetch_json=fixture_json, fetch_text=fixture_text)
+        def fixture_buffer(url: str, referer: str, options: dict[str, Any]) -> bytes:
+            request_log.append(self._request_log_entry("buffer", url, referer, options))
+            raise ValueError(f"Fixture buffer not configured for {url}")
+
+        return DirectProbeLiveFetcher(fetch_json=fixture_json, fetch_text=fixture_text, fetch_buffer=fixture_buffer)
 
     def _request_log_entry(self, kind: str, url: str, referer: str, options: dict[str, Any]) -> dict[str, Any]:
         return {
