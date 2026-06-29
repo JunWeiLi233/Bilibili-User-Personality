@@ -230,19 +230,14 @@ test('discoverPopularVideos reads public popular videos and normalizes video obj
       return {
         code: 0,
         data: {
-          result: [
+          list: [
             {
-              result_type: 'video',
-              data: [
-                {
-                  aid: 456,
-                  bvid: 'BV1pageTwo',
-                  title: 'page two result',
-                  mid: 9,
-                  arcurl: 'https://www.bilibili.com/video/BV1pageTwo/',
-                  review: 3,
-                },
-              ],
+              aid: 456,
+              bvid: 'BV1xx411c7mD',
+              title: 'popular sample',
+              owner: { mid: 9 },
+              stat: { reply: 22 },
+              short_link_v2: 'https://www.bilibili.com/video/BV1xx411c7mD/',
             },
           ],
         },
