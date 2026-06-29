@@ -1,0 +1,1288 @@
+{
+  "meta": {
+    "totalComments": 300,
+    "distinctTerms": 81,
+    "termPairs": 72,
+    "argumentativeDocs": 66,
+    "argumentativeRate": 0.22,
+    "families": [
+      "attack",
+      "absolutes",
+      "cooperation",
+      "evidence",
+      "evasion"
+    ],
+    "source": "annotation_corpus",
+    "generated": "2026-06-29T01:58:34.348Z"
+  },
+  "termPMI": {
+    "辣眼||辣眼睛": {
+      "pmi": 4.6052,
+      "npmi": 1,
+      "joint": 3,
+      "expected": 0.03,
+      "ratio": 3
+    },
+    "骚操||骚操作": {
+      "pmi": 5.0106,
+      "npmi": 1,
+      "joint": 2,
+      "expected": 0.01,
+      "ratio": 2
+    },
+    "复制||大师球": {
+      "pmi": 5.7038,
+      "npmi": 1,
+      "joint": 1,
+      "expected": 0,
+      "ratio": 1
+    },
+    "整活||没招了": {
+      "pmi": 5.7038,
+      "npmi": 1,
+      "joint": 1,
+      "expected": 0,
+      "ratio": 1
+    },
+    "人设||梦女": {
+      "pmi": 5.7038,
+      "npmi": 1,
+      "joint": 1,
+      "expected": 0,
+      "ratio": 1
+    },
+    "团建||点了": {
+      "pmi": 5.7038,
+      "npmi": 1,
+      "joint": 1,
+      "expected": 0,
+      "ratio": 1
+    },
+    "带节奏||根本就": {
+      "pmi": 5.7038,
+      "npmi": 1,
+      "joint": 1,
+      "expected": 0,
+      "ratio": 1
+    },
+    "不可能||不可能的": {
+      "pmi": 5.7038,
+      "npmi": 1,
+      "joint": 1,
+      "expected": 0,
+      "ratio": 1
+    },
+    "死了||笑死了": {
+      "pmi": 3.7579,
+      "npmi": 0.9606,
+      "joint": 6,
+      "expected": 0.14,
+      "ratio": 6
+    },
+    "笑死||笑死了": {
+      "pmi": 3.2189,
+      "npmi": 0.8228,
+      "joint": 6,
+      "expected": 0.24,
+      "ratio": 6
+    },
+    "死了||笑死": {
+      "pmi": 3.0647,
+      "npmi": 0.7834,
+      "joint": 6,
+      "expected": 0.28,
+      "ratio": 6
+    },
+    "可爱||可爱捏": {
+      "pmi": 3.912,
+      "npmi": 0.7807,
+      "joint": 2,
+      "expected": 0.04,
+      "ratio": 2
+    },
+    "哈哈||哈哈哈": {
+      "pmi": 2.7081,
+      "npmi": 0.7723,
+      "joint": 9,
+      "expected": 0.6,
+      "ratio": 9
+    },
+    "肯定||肯定是": {
+      "pmi": 3.4012,
+      "npmi": 0.6788,
+      "joint": 2,
+      "expected": 0.07,
+      "ratio": 2
+    },
+    "死了||的确": {
+      "pmi": 3.7579,
+      "npmi": 0.6588,
+      "joint": 1,
+      "expected": 0.02,
+      "ratio": 1
+    },
+    "我觉得||觉得": {
+      "pmi": 2.8706,
+      "npmi": 0.6233,
+      "joint": 3,
+      "expected": 0.17,
+      "ratio": 3
+    },
+    "网暴||肯定": {
+      "pmi": 3.4012,
+      "npmi": 0.5963,
+      "joint": 1,
+      "expected": 0.03,
+      "ratio": 1
+    },
+    "up主||加油": {
+      "pmi": 3.4012,
+      "npmi": 0.5963,
+      "joint": 1,
+      "expected": 0.03,
+      "ratio": 1
+    },
+    "p的||up主": {
+      "pmi": 2.9957,
+      "npmi": 0.5252,
+      "joint": 1,
+      "expected": 0.05,
+      "ratio": 1
+    },
+    "真是||笑死了": {
+      "pmi": 2.5257,
+      "npmi": 0.4428,
+      "joint": 1,
+      "expected": 0.08,
+      "ratio": 1
+    },
+    "应该||辣眼": {
+      "pmi": 2.5257,
+      "npmi": 0.4428,
+      "joint": 1,
+      "expected": 0.08,
+      "ratio": 1
+    },
+    "应该||辣眼睛": {
+      "pmi": 2.5257,
+      "npmi": 0.4428,
+      "joint": 1,
+      "expected": 0.08,
+      "ratio": 1
+    },
+    "死了||真是": {
+      "pmi": 2.3716,
+      "npmi": 0.4158,
+      "joint": 1,
+      "expected": 0.09,
+      "ratio": 1
+    },
+    "一定||就是": {
+      "pmi": 1.8971,
+      "npmi": 0.3786,
+      "joint": 2,
+      "expected": 0.3,
+      "ratio": 2
+    },
+    "就是||这就是": {
+      "pmi": 1.8971,
+      "npmi": 0.3786,
+      "joint": 2,
+      "expected": 0.3,
+      "ratio": 2
+    },
+    "笑哭||辣眼": {
+      "pmi": 2.1203,
+      "npmi": 0.3717,
+      "joint": 1,
+      "expected": 0.12,
+      "ratio": 1
+    },
+    "笑哭||辣眼睛": {
+      "pmi": 2.1203,
+      "npmi": 0.3717,
+      "joint": 1,
+      "expected": 0.12,
+      "ratio": 1
+    },
+    "改邪归正||没有": {
+      "pmi": 1.9902,
+      "npmi": 0.3489,
+      "joint": 1,
+      "expected": 0.14,
+      "ratio": 1
+    },
+    "根本没有||没有": {
+      "pmi": 1.9902,
+      "npmi": 0.3489,
+      "joint": 1,
+      "expected": 0.14,
+      "ratio": 1
+    },
+    "不是||复制": {
+      "pmi": 1.9426,
+      "npmi": 0.3406,
+      "joint": 1,
+      "expected": 0.14,
+      "ratio": 1
+    },
+    "不是||大师球": {
+      "pmi": 1.9426,
+      "npmi": 0.3406,
+      "joint": 1,
+      "expected": 0.14,
+      "ratio": 1
+    },
+    "不是||人设": {
+      "pmi": 1.9426,
+      "npmi": 0.3406,
+      "joint": 1,
+      "expected": 0.14,
+      "ratio": 1
+    },
+    "不是||梦女": {
+      "pmi": 1.9426,
+      "npmi": 0.3406,
+      "joint": 1,
+      "expected": 0.14,
+      "ratio": 1
+    },
+    "就是||整活": {
+      "pmi": 1.8971,
+      "npmi": 0.3326,
+      "joint": 1,
+      "expected": 0.15,
+      "ratio": 1
+    },
+    "就是||没招了": {
+      "pmi": 1.8971,
+      "npmi": 0.3326,
+      "joint": 1,
+      "expected": 0.15,
+      "ratio": 1
+    },
+    "一律||就是": {
+      "pmi": 1.8971,
+      "npmi": 0.3326,
+      "joint": 1,
+      "expected": 0.15,
+      "ratio": 1
+    },
+    "就是||带节奏": {
+      "pmi": 1.8971,
+      "npmi": 0.3326,
+      "joint": 1,
+      "expected": 0.15,
+      "ratio": 1
+    },
+    "就是||根本就": {
+      "pmi": 1.8971,
+      "npmi": 0.3326,
+      "joint": 1,
+      "expected": 0.15,
+      "ratio": 1
+    },
+    "真是||笑死": {
+      "pmi": 1.8326,
+      "npmi": 0.3213,
+      "joint": 1,
+      "expected": 0.16,
+      "ratio": 1
+    },
+    "p的||没有": {
+      "pmi": 1.5847,
+      "npmi": 0.3163,
+      "joint": 2,
+      "expected": 0.41,
+      "ratio": 2
+    },
+    "哈哈||笑死": {
+      "pmi": 1.4271,
+      "npmi": 0.3099,
+      "joint": 3,
+      "expected": 0.72,
+      "ratio": 3
+    },
+    "为什么||可能": {
+      "pmi": 1.7525,
+      "npmi": 0.3073,
+      "joint": 1,
+      "expected": 0.17,
+      "ratio": 1
+    },
+    "不是||辣眼": {
+      "pmi": 1.5371,
+      "npmi": 0.3068,
+      "joint": 2,
+      "expected": 0.43,
+      "ratio": 2
+    },
+    "不是||辣眼睛": {
+      "pmi": 1.5371,
+      "npmi": 0.3068,
+      "joint": 2,
+      "expected": 0.43,
+      "ratio": 2
+    },
+    "为什么||就是": {
+      "pmi": 1.204,
+      "npmi": 0.2403,
+      "joint": 2,
+      "expected": 0.6,
+      "ratio": 2
+    },
+    "一定||不是": {
+      "pmi": 1.2494,
+      "npmi": 0.2191,
+      "joint": 1,
+      "expected": 0.29,
+      "ratio": 1
+    },
+    "就是||抄袭": {
+      "pmi": 1.204,
+      "npmi": 0.2111,
+      "joint": 1,
+      "expected": 0.3,
+      "ratio": 1
+    },
+    "应该||笑哭": {
+      "pmi": 1.1394,
+      "npmi": 0.1998,
+      "joint": 1,
+      "expected": 0.32,
+      "ratio": 1
+    },
+    "哈哈||笑死了": {
+      "pmi": 1.0217,
+      "npmi": 0.1791,
+      "joint": 1,
+      "expected": 0.36,
+      "ratio": 1
+    },
+    "哈哈哈||笑死": {
+      "pmi": 0.9163,
+      "npmi": 0.1606,
+      "joint": 1,
+      "expected": 0.4,
+      "ratio": 1
+    },
+    "哈哈||死了": {
+      "pmi": 0.8675,
+      "npmi": 0.1521,
+      "joint": 1,
+      "expected": 0.42,
+      "ratio": 1
+    },
+    "应该||没有": {
+      "pmi": 0.6039,
+      "npmi": 0.1205,
+      "joint": 2,
+      "expected": 1.09,
+      "ratio": 1.83
+    },
+    "不是||应该": {
+      "pmi": 0.5563,
+      "npmi": 0.111,
+      "joint": 2,
+      "expected": 1.15,
+      "ratio": 1.74
+    },
+    "笑哭||觉得": {
+      "pmi": 0.3857,
+      "npmi": 0.0676,
+      "joint": 1,
+      "expected": 0.68,
+      "ratio": 1
+    },
+    "up主||没有": {
+      "pmi": 0.3808,
+      "npmi": 0.0668,
+      "joint": 1,
+      "expected": 0.68,
+      "ratio": 1
+    },
+    "觉得||都是": {
+      "pmi": 0.3056,
+      "npmi": 0.061,
+      "joint": 2,
+      "expected": 1.47,
+      "ratio": 1.36
+    },
+    "可能||觉得": {
+      "pmi": 0.3056,
+      "npmi": 0.0536,
+      "joint": 1,
+      "expected": 0.74,
+      "ratio": 1
+    },
+    "没有||笑哭": {
+      "pmi": 0.1985,
+      "npmi": 0.0396,
+      "joint": 2,
+      "expected": 1.64,
+      "ratio": 1.22
+    },
+    "可能||都是": {
+      "pmi": -0.1193,
+      "npmi": -0.0209,
+      "joint": 1,
+      "expected": 1.13,
+      "ratio": 0.89
+    },
+    "就是||应该": {
+      "pmi": -0.1823,
+      "npmi": -0.032,
+      "joint": 1,
+      "expected": 1.2,
+      "ratio": 0.83
+    },
+    "哈哈||都是": {
+      "pmi": -0.4447,
+      "npmi": -0.078,
+      "joint": 1,
+      "expected": 1.56,
+      "ratio": 0.64
+    },
+    "不是||笑哭": {
+      "pmi": -0.5423,
+      "npmi": -0.0951,
+      "joint": 1,
+      "expected": 1.72,
+      "ratio": 0.58
+    },
+    "可能||没有": {
+      "pmi": -0.5747,
+      "npmi": -0.1008,
+      "joint": 1,
+      "expected": 1.78,
+      "ratio": 0.56
+    },
+    "不是||可能": {
+      "pmi": -0.6224,
+      "npmi": -0.1091,
+      "joint": 1,
+      "expected": 1.86,
+      "ratio": 0.54
+    },
+    "没有||都是": {
+      "pmi": -0.5747,
+      "npmi": -0.1147,
+      "joint": 2,
+      "expected": 3.55,
+      "ratio": 0.56
+    },
+    "可能||就是": {
+      "pmi": -0.6678,
+      "npmi": -0.1171,
+      "joint": 1,
+      "expected": 1.95,
+      "ratio": 0.51
+    },
+    "就是||都是": {
+      "pmi": -0.6678,
+      "npmi": -0.1333,
+      "joint": 2,
+      "expected": 3.9,
+      "ratio": 0.51
+    },
+    "没有||觉得": {
+      "pmi": -0.843,
+      "npmi": -0.1478,
+      "joint": 1,
+      "expected": 2.32,
+      "ratio": 0.43
+    },
+    "就是||觉得": {
+      "pmi": -0.9361,
+      "npmi": -0.1641,
+      "joint": 1,
+      "expected": 2.55,
+      "ratio": 0.39
+    },
+    "不是||没有": {
+      "pmi": -1.0778,
+      "npmi": -0.2151,
+      "joint": 2,
+      "expected": 5.88,
+      "ratio": 0.34
+    },
+    "不是||都是": {
+      "pmi": -1.3155,
+      "npmi": -0.2306,
+      "joint": 1,
+      "expected": 3.73,
+      "ratio": 0.27
+    },
+    "不是||就是": {
+      "pmi": -1.8641,
+      "npmi": -0.3268,
+      "joint": 1,
+      "expected": 6.45,
+      "ratio": 0.16
+    }
+  },
+  "termFamilyAssoc": {
+    "p的": {
+      "attack": 0.259,
+      "absolutes": 0.1507,
+      "cooperation": -0.0791,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "up主": {
+      "attack": -0.073,
+      "absolutes": -0.0787,
+      "cooperation": 0.1582,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "一定": {
+      "attack": 0.0876,
+      "absolutes": 0.2316,
+      "cooperation": 0.1292,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "三连": {
+      "attack": -1,
+      "absolutes": -1,
+      "cooperation": 0.1292,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "不是": {
+      "attack": 0.6141,
+      "absolutes": -0.2813,
+      "cooperation": -0.3379,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "为什么": {
+      "attack": -1,
+      "absolutes": -1,
+      "cooperation": -0.0091,
+      "evidence": 1,
+      "evasion": -1
+    },
+    "买的": {
+      "attack": 0.259,
+      "absolutes": -1,
+      "cooperation": -1,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "全都": {
+      "attack": -1,
+      "absolutes": 0.2316,
+      "cooperation": -1,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "加油": {
+      "attack": -1,
+      "absolutes": -1,
+      "cooperation": 0.1292,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "可爱": {
+      "attack": -1,
+      "absolutes": -1,
+      "cooperation": 0.15,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "可爱捏": {
+      "attack": -1,
+      "absolutes": -1,
+      "cooperation": 0.1406,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "可能": {
+      "attack": -0.2405,
+      "absolutes": -0.142,
+      "cooperation": 0.2063,
+      "evidence": 0.3073,
+      "evasion": -1
+    },
+    "吃瓜": {
+      "attack": -1,
+      "absolutes": -1,
+      "cooperation": 0.1582,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "哈哈": {
+      "attack": 0.2119,
+      "absolutes": -0.3033,
+      "cooperation": 0.2302,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "哈哈哈": {
+      "attack": 0.3507,
+      "absolutes": -1,
+      "cooperation": 0.1546,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "家人": {
+      "attack": -1,
+      "absolutes": -1,
+      "cooperation": 0.1292,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "就是": {
+      "attack": -0.329,
+      "absolutes": -0.1564,
+      "cooperation": 0.3413,
+      "evidence": 0.2403,
+      "evasion": -1
+    },
+    "应该": {
+      "attack": -0.0386,
+      "absolutes": -0.0451,
+      "cooperation": 0.1787,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "我觉得": {
+      "attack": -1,
+      "absolutes": -1,
+      "cooperation": 0.1406,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "抄袭": {
+      "attack": 0.2381,
+      "absolutes": -1,
+      "cooperation": -0.008,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "支持": {
+      "attack": -1,
+      "absolutes": -1,
+      "cooperation": 0.1292,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "星星眼": {
+      "attack": -1,
+      "absolutes": -1,
+      "cooperation": 0.1292,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "有生之年": {
+      "attack": -1,
+      "absolutes": 0.2316,
+      "cooperation": -1,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "死了": {
+      "attack": 0.3174,
+      "absolutes": -1,
+      "cooperation": -0.0434,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "没人": {
+      "attack": -1,
+      "absolutes": 0.2688,
+      "cooperation": -1,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "没有": {
+      "attack": -0.2627,
+      "absolutes": 0.5831,
+      "cooperation": -0.2981,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "真是": {
+      "attack": -0.0339,
+      "absolutes": -1,
+      "cooperation": 0.15,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "确实": {
+      "attack": -1,
+      "absolutes": -1,
+      "cooperation": 0.15,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "笑哭": {
+      "attack": -0.2265,
+      "absolutes": -0.126,
+      "cooperation": 0.2012,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "笑死": {
+      "attack": 0.3706,
+      "absolutes": -1,
+      "cooperation": -0.1045,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "笑死了": {
+      "attack": 0.3049,
+      "absolutes": -1,
+      "cooperation": -0.09,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "绝对": {
+      "attack": -1,
+      "absolutes": 0.252,
+      "cooperation": -1,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "肯定": {
+      "attack": -0.1945,
+      "absolutes": 0.3412,
+      "cooperation": -1,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "肯定是": {
+      "attack": -1,
+      "absolutes": 0.2316,
+      "cooperation": -1,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "芒果": {
+      "attack": 0.2381,
+      "absolutes": -1,
+      "cooperation": -1,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "觉得": {
+      "attack": -1,
+      "absolutes": -0.1247,
+      "cooperation": 0.2256,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "路过": {
+      "attack": -1,
+      "absolutes": -1,
+      "cooperation": 0.15,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "辣眼": {
+      "attack": 0.259,
+      "absolutes": -1,
+      "cooperation": -0.0791,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "辣眼睛": {
+      "attack": 0.259,
+      "absolutes": -1,
+      "cooperation": -0.0791,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "这就是": {
+      "attack": -1,
+      "absolutes": 0.2316,
+      "cooperation": 0.1292,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "都是": {
+      "attack": -0.3621,
+      "absolutes": 0.4745,
+      "cooperation": -0.2445,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "骚操": {
+      "attack": 0.2381,
+      "absolutes": -1,
+      "cooperation": -1,
+      "evidence": -1,
+      "evasion": -1
+    },
+    "骚操作": {
+      "attack": 0.2381,
+      "absolutes": -1,
+      "cooperation": -1,
+      "evidence": -1,
+      "evasion": -1
+    }
+  },
+  "familyPMI": {
+    "attack||absolutes": {
+      "pmi": -1.2709,
+      "npmi": -0.3507,
+      "joint": 8,
+      "expected": 28.51,
+      "ratio": 0.28
+    },
+    "attack||cooperation": {
+      "pmi": -0.7278,
+      "npmi": -0.2834,
+      "joint": 23,
+      "expected": 47.62,
+      "ratio": 0.48
+    },
+    "attack||evidence": {
+      "pmi": null,
+      "npmi": -1,
+      "joint": 0,
+      "expected": 0,
+      "ratio": 0
+    },
+    "attack||evasion": {
+      "pmi": null,
+      "npmi": -1,
+      "joint": 0,
+      "expected": 0,
+      "ratio": 0
+    },
+    "absolutes||cooperation": {
+      "pmi": -1.0054,
+      "npmi": -0.3574,
+      "joint": 18,
+      "expected": 49.19,
+      "ratio": 0.37
+    },
+    "absolutes||evidence": {
+      "pmi": null,
+      "npmi": -1,
+      "joint": 0,
+      "expected": 0,
+      "ratio": 0
+    },
+    "absolutes||evasion": {
+      "pmi": null,
+      "npmi": -1,
+      "joint": 0,
+      "expected": 0,
+      "ratio": 0
+    },
+    "cooperation||evidence": {
+      "pmi": -0.0456,
+      "npmi": -0.0091,
+      "joint": 2,
+      "expected": 2.09,
+      "ratio": 0.96
+    },
+    "cooperation||evasion": {
+      "pmi": null,
+      "npmi": -1,
+      "joint": 0,
+      "expected": 0,
+      "ratio": 0
+    },
+    "evidence||evasion": {
+      "pmi": null,
+      "npmi": -1,
+      "joint": 0,
+      "expected": 0,
+      "ratio": 0
+    }
+  },
+  "argumentativeMarkers": [
+    {
+      "term": "笑死",
+      "pmi": 0.821,
+      "npmi": 0.2099,
+      "oddsRatio": 3.8,
+      "precision": 0.5,
+      "count": 12,
+      "inArg": 6
+    },
+    {
+      "term": "应该",
+      "pmi": 0.821,
+      "npmi": 0.1902,
+      "oddsRatio": 3.71,
+      "precision": 0.5,
+      "count": 8,
+      "inArg": 4
+    },
+    {
+      "term": "笑死了",
+      "pmi": 0.821,
+      "npmi": 0.1783,
+      "oddsRatio": 3.67,
+      "precision": 0.5,
+      "count": 6,
+      "inArg": 3
+    },
+    {
+      "term": "为什么",
+      "pmi": 0.821,
+      "npmi": 0.1638,
+      "oddsRatio": 3.63,
+      "precision": 0.5,
+      "count": 4,
+      "inArg": 2
+    },
+    {
+      "term": "真是",
+      "pmi": 0.821,
+      "npmi": 0.1638,
+      "oddsRatio": 3.63,
+      "precision": 0.5,
+      "count": 4,
+      "inArg": 2
+    },
+    {
+      "term": "全都",
+      "pmi": 0.821,
+      "npmi": 0.1439,
+      "oddsRatio": 3.58,
+      "precision": 0.5,
+      "count": 2,
+      "inArg": 1
+    },
+    {
+      "term": "家人",
+      "pmi": 0.821,
+      "npmi": 0.1439,
+      "oddsRatio": 3.58,
+      "precision": 0.5,
+      "count": 2,
+      "inArg": 1
+    },
+    {
+      "term": "芒果",
+      "pmi": 0.821,
+      "npmi": 0.1439,
+      "oddsRatio": 3.58,
+      "precision": 0.5,
+      "count": 2,
+      "inArg": 1
+    },
+    {
+      "term": "这就是",
+      "pmi": 0.821,
+      "npmi": 0.1439,
+      "oddsRatio": 3.58,
+      "precision": 0.5,
+      "count": 2,
+      "inArg": 1
+    },
+    {
+      "term": "死了",
+      "pmi": 0.6668,
+      "npmi": 0.1448,
+      "oddsRatio": 2.74,
+      "precision": 0.4286,
+      "count": 7,
+      "inArg": 3
+    },
+    {
+      "term": "肯定",
+      "pmi": 0.5978,
+      "npmi": 0.1385,
+      "oddsRatio": 2.45,
+      "precision": 0.4,
+      "count": 10,
+      "inArg": 4
+    },
+    {
+      "term": "觉得",
+      "pmi": 0.4727,
+      "npmi": 0.1208,
+      "oddsRatio": 2.03,
+      "precision": 0.3529,
+      "count": 17,
+      "inArg": 6
+    },
+    {
+      "term": "辣眼",
+      "pmi": 0.4155,
+      "npmi": 0.0728,
+      "oddsRatio": 1.78,
+      "precision": 0.3333,
+      "count": 3,
+      "inArg": 1
+    },
+    {
+      "term": "辣眼睛",
+      "pmi": 0.4155,
+      "npmi": 0.0728,
+      "oddsRatio": 1.78,
+      "precision": 0.3333,
+      "count": 3,
+      "inArg": 1
+    },
+    {
+      "term": "就是",
+      "pmi": 0.2724,
+      "npmi": 0.0868,
+      "oddsRatio": 1.55,
+      "precision": 0.2889,
+      "count": 45,
+      "inArg": 13
+    },
+    {
+      "term": "笑哭",
+      "pmi": 0.1278,
+      "npmi": 0.0278,
+      "oddsRatio": 1.19,
+      "precision": 0.25,
+      "count": 12,
+      "inArg": 3
+    },
+    {
+      "term": "没人",
+      "pmi": 0.1278,
+      "npmi": 0.0224,
+      "oddsRatio": 1.18,
+      "precision": 0.25,
+      "count": 4,
+      "inArg": 1
+    },
+    {
+      "term": "路过",
+      "pmi": 0.1278,
+      "npmi": 0.0224,
+      "oddsRatio": 1.18,
+      "precision": 0.25,
+      "count": 4,
+      "inArg": 1
+    },
+    {
+      "term": "没有",
+      "pmi": -0.0022,
+      "npmi": -0.0006,
+      "oddsRatio": 1,
+      "precision": 0.2195,
+      "count": 41,
+      "inArg": 9
+    },
+    {
+      "term": "哈哈哈",
+      "pmi": -0.0953,
+      "npmi": -0.019,
+      "oddsRatio": 0.88,
+      "precision": 0.2,
+      "count": 10,
+      "inArg": 2
+    },
+    {
+      "term": "都是",
+      "pmi": -0.1345,
+      "npmi": -0.0329,
+      "oddsRatio": 0.83,
+      "precision": 0.1923,
+      "count": 26,
+      "inArg": 5
+    },
+    {
+      "term": "不是",
+      "pmi": -0.1676,
+      "npmi": -0.0463,
+      "oddsRatio": 0.78,
+      "precision": 0.186,
+      "count": 43,
+      "inArg": 8
+    },
+    {
+      "term": "可能",
+      "pmi": -1.0508,
+      "npmi": -0.1842,
+      "oddsRatio": 0.28,
+      "precision": 0.0769,
+      "count": 13,
+      "inArg": 1
+    },
+    {
+      "term": "哈哈",
+      "pmi": -1.3762,
+      "npmi": -0.2413,
+      "oddsRatio": 0.2,
+      "precision": 0.0556,
+      "count": 18,
+      "inArg": 1
+    },
+    {
+      "term": "p的",
+      "pmi": null,
+      "npmi": -1,
+      "oddsRatio": 0,
+      "precision": 0,
+      "count": 3,
+      "inArg": 0
+    },
+    {
+      "term": "up主",
+      "pmi": null,
+      "npmi": -1,
+      "oddsRatio": 0,
+      "precision": 0,
+      "count": 5,
+      "inArg": 0
+    },
+    {
+      "term": "一定",
+      "pmi": null,
+      "npmi": -1,
+      "oddsRatio": 0,
+      "precision": 0,
+      "count": 2,
+      "inArg": 0
+    },
+    {
+      "term": "三连",
+      "pmi": null,
+      "npmi": -1,
+      "oddsRatio": 0,
+      "precision": 0,
+      "count": 2,
+      "inArg": 0
+    },
+    {
+      "term": "买的",
+      "pmi": null,
+      "npmi": -1,
+      "oddsRatio": 0,
+      "precision": 0,
+      "count": 3,
+      "inArg": 0
+    },
+    {
+      "term": "加油",
+      "pmi": null,
+      "npmi": -1,
+      "oddsRatio": 0,
+      "precision": 0,
+      "count": 2,
+      "inArg": 0
+    },
+    {
+      "term": "可爱",
+      "pmi": null,
+      "npmi": -1,
+      "oddsRatio": 0,
+      "precision": 0,
+      "count": 4,
+      "inArg": 0
+    },
+    {
+      "term": "可爱捏",
+      "pmi": null,
+      "npmi": -1,
+      "oddsRatio": 0,
+      "precision": 0,
+      "count": 3,
+      "inArg": 0
+    },
+    {
+      "term": "吃瓜",
+      "pmi": null,
+      "npmi": -1,
+      "oddsRatio": 0,
+      "precision": 0,
+      "count": 5,
+      "inArg": 0
+    },
+    {
+      "term": "我觉得",
+      "pmi": null,
+      "npmi": -1,
+      "oddsRatio": 0,
+      "precision": 0,
+      "count": 3,
+      "inArg": 0
+    },
+    {
+      "term": "抄袭",
+      "pmi": null,
+      "npmi": -1,
+      "oddsRatio": 0,
+      "precision": 0,
+      "count": 2,
+      "inArg": 0
+    },
+    {
+      "term": "支持",
+      "pmi": null,
+      "npmi": -1,
+      "oddsRatio": 0,
+      "precision": 0,
+      "count": 2,
+      "inArg": 0
+    },
+    {
+      "term": "星星眼",
+      "pmi": null,
+      "npmi": -1,
+      "oddsRatio": 0,
+      "precision": 0,
+      "count": 2,
+      "inArg": 0
+    },
+    {
+      "term": "有生之年",
+      "pmi": null,
+      "npmi": -1,
+      "oddsRatio": 0,
+      "precision": 0,
+      "count": 2,
+      "inArg": 0
+    },
+    {
+      "term": "确实",
+      "pmi": null,
+      "npmi": -1,
+      "oddsRatio": 0,
+      "precision": 0,
+      "count": 4,
+      "inArg": 0
+    },
+    {
+      "term": "绝对",
+      "pmi": 1.5141,
+      "npmi": 0.3288,
+      "oddsRatio": null,
+      "precision": 1,
+      "count": 3,
+      "inArg": 3
+    },
+    {
+      "term": "肯定是",
+      "pmi": 1.5141,
+      "npmi": 0.3022,
+      "oddsRatio": null,
+      "precision": 1,
+      "count": 2,
+      "inArg": 2
+    },
+    {
+      "term": "骚操",
+      "pmi": null,
+      "npmi": -1,
+      "oddsRatio": 0,
+      "precision": 0,
+      "count": 2,
+      "inArg": 0
+    },
+    {
+      "term": "骚操作",
+      "pmi": null,
+      "npmi": -1,
+      "oddsRatio": 0,
+      "precision": 0,
+      "count": 2,
+      "inArg": 0
+    }
+  ]
+}

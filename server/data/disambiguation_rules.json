@@ -1156,6 +1156,19 @@
       ]
     },
     {
+      "id": "comp-058",
+      "terms": [
+        "可能"
+      ],
+      "description": "可能X都不/全都/谁也 — disguised absolute with universal (可能都不考虑玩家), confirm 可能",
+      "pattern": "可能[^，。！？…]{0,15}(?:都不|全都|谁也不|没人|没有人)",
+      "action": "confirm",
+      "confidence": 0.72,
+      "applyTo": [
+        "可能"
+      ]
+    },
+    {
       "id": "comp-005",
       "terms": [
         "可能"
@@ -1463,6 +1476,19 @@
       "pattern": "不是[^，。！？…]{1,20}就是",
       "action": "suppress",
       "confidence": 0.78,
+      "applyTo": [
+        "就是"
+      ]
+    },
+    {
+      "id": "comp-060",
+      "terms": [
+        "就是"
+      ],
+      "description": "纯粹就是/其实就是/完全就是/根本就是/本来就是 — emphatic negative labeling, confirm 就是",
+      "pattern": "(?:纯粹|其实|完全|根本|本来)[^，。！？…]{0,2}就是[^，。！？…]{0,8}(?:垃圾|废物|骗|坑|害|割韭菜|智商税|水军|黑子|孝子|脑残|喷子|杠精|傻|蠢|菜|恶心|离谱)",
+      "action": "confirm",
+      "confidence": 0.8,
       "applyTo": [
         "就是"
       ]
@@ -1793,6 +1819,19 @@
       ]
     },
     {
+      "id": "comp-063",
+      "terms": [
+        "笑死"
+      ],
+      "description": "差点笑死/快笑死/差点没笑死 — near-miss amusement, not mockery (差点笑死我了), suppress 笑死",
+      "pattern": "(?:差点|快|差点没|快没|几乎)[^，。！？…]{0,3}笑死",
+      "action": "suppress",
+      "confidence": 0.8,
+      "applyTo": [
+        "笑死"
+      ]
+    },
+    {
       "id": "comp-050",
       "terms": [
         "笑死"
@@ -1897,19 +1936,6 @@
       ]
     },
     {
-      "id": "comp-058",
-      "terms": [
-        "可能"
-      ],
-      "description": "可能X都不/全都/谁也 — disguised absolute with universal (可能都不考虑玩家), confirm 可能",
-      "pattern": "可能[^，。！？…]{0,15}(?:都不|全都|谁也不|没人|没有人)",
-      "action": "confirm",
-      "confidence": 0.72,
-      "applyTo": [
-        "可能"
-      ]
-    },
-    {
       "id": "comp-059",
       "terms": [
         "可能"
@@ -1920,19 +1946,6 @@
       "confidence": 0.72,
       "applyTo": [
         "可能"
-      ]
-    },
-    {
-      "id": "comp-060",
-      "terms": [
-        "就是"
-      ],
-      "description": "纯粹就是/其实就是/完全就是/根本就是/本来就是 — emphatic negative labeling, confirm 就是",
-      "pattern": "(?:纯粹|其实|完全|根本|本来)[^，。！？…]{0,2}就是[^，。！？…]{0,8}(?:垃圾|废物|骗|坑|害|割韭菜|智商税|水军|黑子|孝子|脑残|喷子|杠精|傻|蠢|菜|恶心|离谱)",
-      "action": "confirm",
-      "confidence": 0.8,
-      "applyTo": [
-        "就是"
       ]
     },
     {
@@ -1959,19 +1972,6 @@
       "confidence": 0.78,
       "applyTo": [
         "全都"
-      ]
-    },
-    {
-      "id": "comp-063",
-      "terms": [
-        "笑死"
-      ],
-      "description": "差点笑死/快笑死/差点没笑死 — near-miss amusement, not mockery (差点笑死我了), suppress 笑死",
-      "pattern": "(?:差点|快|差点没|快没|几乎)[^，。！？…]{0,3}笑死",
-      "action": "suppress",
-      "confidence": 0.8,
-      "applyTo": [
-        "笑死"
       ]
     },
     {
